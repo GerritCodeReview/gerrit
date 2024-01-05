@@ -297,7 +297,6 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     assertThat(sender)
         .sent("newchange", sc)
         .to(reviewer)
-        .cc(sc.reviewer)
         .cc(StagedUsers.REVIEWER_BY_EMAIL, StagedUsers.CC_BY_EMAIL)
         .noOneElse();
     assertThat(sender).didNotSend();
@@ -328,7 +327,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     addReviewer(singly(), sc.changeId, sc.owner, reviewer.email());
 
     // No BY_EMAIL cc's.
-    assertThat(sender).sent("newchange", sc).to(reviewer).cc(sc.reviewer).noOneElse();
+    assertThat(sender).sent("newchange", sc).to(reviewer).noOneElse();
     assertThat(sender).didNotSend();
   }
 
@@ -340,7 +339,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     assertThat(sender)
         .sent("newchange", sc)
         .to(reviewer)
-        .cc(sc.owner, sc.reviewer)
+        .cc(sc.owner)
         .cc(StagedUsers.REVIEWER_BY_EMAIL, StagedUsers.CC_BY_EMAIL)
         .noOneElse();
     assertThat(sender).didNotSend();
@@ -365,7 +364,6 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     assertThat(sender)
         .sent("newchange", sc)
         .to(reviewer)
-        .cc(sc.owner, sc.reviewer)
         .cc(StagedUsers.REVIEWER_BY_EMAIL, StagedUsers.CC_BY_EMAIL)
         .noOneElse();
     assertThat(sender).didNotSend();
@@ -390,7 +388,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     assertThat(sender)
         .sent("newchange", sc)
         .to(reviewer)
-        .cc(sc.owner, sc.reviewer, other)
+        .cc(other)
         .cc(StagedUsers.REVIEWER_BY_EMAIL, StagedUsers.CC_BY_EMAIL)
         .noOneElse();
     assertThat(sender).didNotSend();
@@ -414,7 +412,6 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     assertThat(sender)
         .sent("newchange", sc)
         .to(email)
-        .cc(sc.reviewer)
         .cc(StagedUsers.REVIEWER_BY_EMAIL, StagedUsers.CC_BY_EMAIL)
         .noOneElse();
     assertThat(sender).didNotSend();
@@ -470,7 +467,6 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     assertThat(sender)
         .sent("newchange", sc)
         .to(reviewer)
-        .cc(sc.reviewer)
         .cc(StagedUsers.REVIEWER_BY_EMAIL, StagedUsers.CC_BY_EMAIL)
         .noOneElse();
   }
@@ -483,7 +479,6 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     assertThat(sender)
         .sent("newchange", sc)
         .to(reviewer)
-        .cc(sc.reviewer)
         .cc(StagedUsers.REVIEWER_BY_EMAIL, StagedUsers.CC_BY_EMAIL)
         .noOneElse();
     assertThat(sender).didNotSend();
@@ -507,7 +502,6 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     assertThat(sender)
         .sent("newchange", sc)
         .to(reviewer)
-        .cc(sc.reviewer)
         .cc(StagedUsers.REVIEWER_BY_EMAIL, StagedUsers.CC_BY_EMAIL)
         .noOneElse();
     assertThat(sender).didNotSend();
@@ -565,7 +559,6 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     assertThat(sender)
         .sent("newchange", sc)
         .to("nonexistent@example.com")
-        .cc(sc.reviewer)
         .cc(StagedUsers.CC_BY_EMAIL, StagedUsers.REVIEWER_BY_EMAIL)
         .noOneElse();
     assertThat(sender).didNotSend();
@@ -587,7 +580,6 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     assertThat(sender)
         .sent("newchange", sc)
         .cc("nonexistent@example.com")
-        .cc(sc.reviewer)
         .cc(StagedUsers.CC_BY_EMAIL, StagedUsers.REVIEWER_BY_EMAIL)
         .noOneElse();
     assertThat(sender).didNotSend();
@@ -1034,7 +1026,6 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     assertThat(sender)
         .sent("newchange", sc)
         .to(other)
-        .cc(sc.reviewer)
         .cc(StagedUsers.REVIEWER_BY_EMAIL, StagedUsers.CC_BY_EMAIL)
         .noOneElse();
     assertThat(sender).didNotSend();

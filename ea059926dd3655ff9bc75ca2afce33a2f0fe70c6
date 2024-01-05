@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56252b2e_c49a90d5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-05T11:40:29Z",
+      "side": 1,
+      "message": "I would like to see a validation test for this scenario, which seems very easy to reproduce looking at your issue.\n\nI am quite surprised that we never realised that WorkQueue had that problem, I am wondering what are the E2E implications for the Gerrit use-cases that are using the WorkQueue with the scheduling at fixed rates.\n\nCan you mention at least one in your ticket?",
+      "revId": "ea059926dd3655ff9bc75ca2afce33a2f0fe70c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

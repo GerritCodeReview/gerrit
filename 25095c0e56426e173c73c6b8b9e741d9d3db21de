@@ -122,6 +122,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "16488cb7_acb034ab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-05T11:40:29Z",
+      "side": 1,
+      "message": "\u003e I have raised an issue https://issues.gerritcodereview.com/317985672.\n\nI believe your issue has clear and simple instructions on how to reproduce the issue: can you also add one test as a separate change showing the breakage?\nYou can then show that this is fixing it, as the build would become green again.",
+      "parentUuid": "82ce3ecb_41d69add",
+      "range": {
+        "startLine": 10,
+        "startChar": 67,
+        "endLine": 12,
+        "endChar": 43
+      },
+      "revId": "25095c0e56426e173c73c6b8b9e741d9d3db21de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cb23676f_58efe17c",
         "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
         "patchSetId": 2

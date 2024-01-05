@@ -27,4 +27,6 @@ public class CommitMessageInput {
   @Nullable public NotifyHandling notify;
 
   public Map<RecipientType, NotifyInfo> notifyDetails;
+
+  public String committerEmail;
 }

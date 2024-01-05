@@ -142,7 +142,8 @@ public class PutMessage implements RestModifyView<ChangeResource, CommitMessageI
 
           PatchSet.Id psId = ChangeUtil.nextPatchSetId(repository, ps.id());
           ObjectId newCommit =
-              createCommit(objectInserter, patchSetCommit, sanitizedCommitMessage, ts);
+              createCommit(
+                  objectInserter, patchSetCommit, sanitizedCommitMessage, ts, input.committerEmail);
           PatchSetInserter inserter =
               psInserterFactory.create(resource.getNotes(), psId, newCommit);
           inserter.setMessage(
@@ -171,20 +172,35 @@ public class PutMessage implements RestModifyView<ChangeResource, CommitMessageI
       ObjectInserter objectInserter,
       RevCommit basePatchSetCommit,
       String commitMessage,
-      Instant timestamp)
-      throws IOException {
+      Instant timestamp,
+      String committerEmail)
+      throws IOException, BadRequestException, ResourceConflictException {
     CommitBuilder builder = new CommitBuilder();
     builder.setTreeId(basePatchSetCommit.getTree());
     builder.setParentIds(basePatchSetCommit.getParents());
     builder.setAuthor(basePatchSetCommit.getAuthorIdent());
     IdentifiedUser user = userProvider.get().asIdentifiedUser();
-    PersonIdent committer =
-        Optional.ofNullable(basePatchSetCommit.getCommitterIdent())
-            .map(
-                ident ->
-                    user.newCommitterIdent(ident.getEmailAddress(), timestamp, zoneId)
-                        .orElseGet(() -> user.newCommitterIdent(timestamp, zoneId)))
-            .orElseGet(() -> user.newCommitterIdent(timestamp, zoneId));
+    PersonIdent committer;
+    if (committerEmail == null) {
+      committer =
+          Optional.ofNullable(basePatchSetCommit.getCommitterIdent())
+              .map(
+                  ident ->
+                      user.newCommitterIdent(ident.getEmailAddress(), timestamp, zoneId)
+                          .orElseGet(() -> user.newCommitterIdent(timestamp, zoneId)))
+              .orElseGet(() -> user.newCommitterIdent(timestamp, zoneId));
+    } else {
+      committer =
+          user.newCommitterIdent(committerEmail, timestamp, zoneId)
+              .orElseThrow(
+                  () ->
+                      new BadRequestException(
+                          String.format(
+                              "Cannot set commit message using committer email %s, "
+                                  + "as it is not among the registered emails of account %s",
+                              committerEmail, user.getAccountId().get())));
+    }
+
     builder.setCommitter(committer);
     builder.setMessage(commitMessage);
     ObjectId newCommitId = objectInserter.insert(builder);

@@ -23,6 +23,7 @@ import com.google.common.util.concurrent.AtomicLongMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
+import com.google.gerrit.acceptance.WaitUtil;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.PatchSet;
@@ -39,6 +40,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import java.io.IOException;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
@@ -48,6 +50,7 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.junit.Test;
 
 public class CopyApprovalsIT extends AbstractDaemonTest {
+  private static final Duration WAIT_FOR_REF_UPDATE_EVENT = Duration.ofSeconds(2);
   @Inject private ProjectOperations projectOperations;
   @Inject private RecursiveApprovalCopier recursiveApprovalCopier;
 
@@ -269,7 +272,7 @@ public class CopyApprovalsIT extends AbstractDaemonTest {
     assertThat(vote1._accountId).isEqualTo(admin.id().get());
 
     CopyApprovalsReferenceUpdateListener testListener = testListener();
-    assertThat(testListener.refUpdateFor(metaId)).isTrue();
+    WaitUtil.waitUntil(() -> testListener.refUpdateFor(metaId), WAIT_FOR_REF_UPDATE_EVENT);
   }
 
   @Test

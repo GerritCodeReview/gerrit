@@ -52,6 +52,24 @@
       "parentUuid": "da72e1f6_8b6d45dd",
       "revId": "468979ab9d2bc76d120d539188bd2be82c59980e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91a759a2_6b376043",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-01-05T12:56:14Z",
+      "side": 1,
+      "message": "Hmm, looking more into b/204154755 which was fixed by that change, it seems the assumption that a simple retry works, it not true.",
+      "parentUuid": "370716be_121e9a1e",
+      "revId": "468979ab9d2bc76d120d539188bd2be82c59980e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

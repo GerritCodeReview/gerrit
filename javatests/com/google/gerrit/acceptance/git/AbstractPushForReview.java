@@ -221,6 +221,34 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
+  public void pushMergeForMaster() throws Exception {
+    RevCommit initialHead =
+        testRepo.getRevWalk().parseCommit(testRepo.getRepository().resolve("HEAD"));
+
+    // Create a stable branch.
+    BranchInput in = new BranchInput();
+    in.revision = projectOperations.project(project).getHead("master").name();
+    gApi.projects().name(project.get()).branch("stable").create(in);
+
+    // Create a change on the stable branch and submit it.
+    PushOneCommit.Result r = pushTo("refs/for/stable");
+    r.assertOkStatus();
+    gApi.changes().id(r.getChangeId()).current().review(ReviewInput.approve());
+    gApi.changes().id(r.getChangeId()).current().submit();
+
+    testRepo.reset(initialHead);
+
+    // Merge stable back into master and push for review.
+    r =
+        pushFactory
+            .create(admin.newIdent(), testRepo)
+            .setParents(ImmutableList.of(initialHead, r.getCommit()))
+            .to("refs/for/master");
+    r.assertOkStatus();
+    r.assertChange(Change.Status.NEW, null);
+  }
+
+  @Test
   @TestProjectInput(createEmptyCommit = false)
   public void pushInitialCommitForMasterBranch() throws Exception {
     RevCommit c = testRepo.commit().message("Initial commit").insertChangeId().create();

@@ -16,6 +16,24 @@
       "message": "It seems this change undo the fix made in [1] - e.g. in [1] the test was updated to ensure that an auto-merge ref is not created. Can this change resurrect the problem fixed in [1]?\n\n\n[1] https://gerrit-review.git.corp.google.com/c/gerrit/+/334765",
       "revId": "468979ab9d2bc76d120d539188bd2be82c59980e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da72e1f6_8b6d45dd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-01-05T12:21:01Z",
+      "side": 1,
+      "message": "Thanks, I wasn\u0027t aware of that change!\n\nYes, I guess this will resurrect the problem that has been fixed there, but I wonder if maybe it\u0027s less bad then the MissingObjectExceptions that we are trying to fix here.\n\nIf there are 2 parallel ref updates for creating the auto-merge ref, one succeeds and the other fails with LOCK_FAILURE. This means if you retry the push, the auto-merge ref should be already present and then the push should go through. This seems to be less severe than failing pushes due to MissingObjectExceptions that don\u0027t go away on a retry.",
+      "parentUuid": "e0a7653b_7485b921",
+      "revId": "468979ab9d2bc76d120d539188bd2be82c59980e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

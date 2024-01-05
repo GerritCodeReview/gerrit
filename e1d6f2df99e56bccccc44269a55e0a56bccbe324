@@ -141,6 +141,24 @@
       "parentUuid": "72e33ed4_a0d23b8c",
       "revId": "e1d6f2df99e56bccccc44269a55e0a56bccbe324",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3bf22f98_59d9e25e",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 673,
+      "author": {
+        "id": 3228522
+      },
+      "writtenOn": "2024-01-05T07:30:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f2f96f8_7f5793d0",
+      "revId": "e1d6f2df99e56bccccc44269a55e0a56bccbe324",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

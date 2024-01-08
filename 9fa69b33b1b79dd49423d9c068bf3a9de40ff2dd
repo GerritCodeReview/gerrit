@@ -69,6 +69,24 @@
       "parentUuid": "9574a434_8aee56a9",
       "revId": "9fa69b33b1b79dd49423d9c068bf3a9de40ff2dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "749bbc97_a379e9f2",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-01-08T18:31:20Z",
+      "side": 1,
+      "message": "\u003e Optional: we could also save time and just remember the last valid starting point at L270 and restart from there rather than zero.\n\nAddressed in I5e159d12",
+      "parentUuid": "0d96c13a_1093aab5",
+      "revId": "9fa69b33b1b79dd49423d9c068bf3a9de40ff2dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -52,6 +52,7 @@ import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.approval.ApprovalCopier;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.update.RepoView;
 import com.google.gerrit.truth.ListSubject;
 import com.google.gerrit.truth.NullAwareCorrespondence;
 import com.google.inject.Inject;
@@ -59,6 +60,7 @@ import java.io.IOException;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Before;
@@ -122,10 +124,11 @@ public class ApprovalCopierIT extends AbstractDaemonTest {
   public void forInitialPatchSet_noApprovals() throws Exception {
     ChangeData changeData = createChange().getChange();
     try (Repository repo = repoManager.openRepository(project);
-        RevWalk revWalk = new RevWalk(repo)) {
+        ObjectInserter ins = repo.newObjectInserter();
+        RevWalk revWalk = new RevWalk(ins.newReader())) {
       ApprovalCopier.Result approvalCopierResult =
           approvalCopier.forPatchSet(
-              changeData.notes(), changeData.currentPatchSet(), revWalk, repo.getConfig());
+              changeData.notes(), changeData.currentPatchSet(), new RepoView(repo, revWalk, ins));
       assertThat(approvalCopierResult.copiedApprovals()).isEmpty();
       assertThat(approvalCopierResult.outdatedApprovals()).isEmpty();
     }
@@ -453,9 +456,10 @@ public class ApprovalCopierIT extends AbstractDaemonTest {
     ChangeData changeData = changeDataFactory.create(project, changeId);
     assertThat(changeData.currentPatchSet().id().get()).isEqualTo(expectedCurrentPatchSetNum);
     try (Repository repo = repoManager.openRepository(project);
-        RevWalk revWalk = new RevWalk(repo)) {
+        ObjectInserter ins = repo.newObjectInserter();
+        RevWalk revWalk = new RevWalk(ins.newReader())) {
       return approvalCopier.forPatchSet(
-          changeData.notes(), changeData.currentPatchSet(), revWalk, repo.getConfig());
+          changeData.notes(), changeData.currentPatchSet(), new RepoView(repo, revWalk, ins));
     }
   }
 

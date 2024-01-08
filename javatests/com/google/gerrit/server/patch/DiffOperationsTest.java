@@ -26,6 +26,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.DiffOperationsTest.FileEntity.FileType;
 import com.google.gerrit.server.patch.filediff.FileDiffOutput;
 import com.google.gerrit.server.patch.gitdiff.ModifiedFile;
+import com.google.gerrit.server.update.RepoView;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.InMemoryModule;
 import com.google.inject.Guice;
@@ -136,7 +137,6 @@ public class DiffOperationsTest {
         ObjectReader objectReader = repository.newObjectReader();
         RevWalk rw = new RevWalk(objectReader)) {
       StoredConfig repoConfig = repository.getConfig();
-
       // This call loads modified files directly without going through the diff cache.
       Map<String, ModifiedFile> modifiedFiles =
           diffOperations.loadModifiedFiles(
@@ -197,14 +197,16 @@ public class DiffOperationsTest {
     ObjectId newCommitId = createCommit(repo, oldCommitId, newFiles);
 
     try (Repository repository = repoManager.openRepository(testProjectName);
-        ObjectReader objectReader = repository.newObjectReader();
-        RevWalk rw = new RevWalk(objectReader)) {
-      StoredConfig repoConfig = repository.getConfig();
-
+        ObjectInserter ins = repository.newObjectInserter();
+        RevWalk rw = new RevWalk(ins.newReader())) {
       // This call loads modified files directly without going through the diff cache.
       Map<String, ModifiedFile> modifiedFiles =
           diffOperations.loadModifiedFilesAgainstParent(
-              testProjectName, newCommitId, /* parentNum=*/ 0, rw, repoConfig);
+              testProjectName,
+              newCommitId,
+              /* parentNum=*/ 0,
+              new RepoView(repository, rw, ins),
+              ins);
 
       assertThat(modifiedFiles)
           .containsExactly(

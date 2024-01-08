@@ -30,6 +30,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.diff.ModifiedFilesCache;
 import com.google.gerrit.server.patch.diff.ModifiedFilesCacheImpl;
 import com.google.gerrit.server.patch.diff.ModifiedFilesCacheKey;
@@ -42,6 +43,7 @@ import com.google.gerrit.server.patch.gitdiff.GitModifiedFilesCacheImpl;
 import com.google.gerrit.server.patch.gitdiff.ModifiedFile;
 import com.google.gerrit.server.patch.gitfilediff.GitFileDiffCacheImpl;
 import com.google.gerrit.server.patch.gitfilediff.GitFileDiffCacheImpl.DiffAlgorithm;
+import com.google.gerrit.server.update.RepoView;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
@@ -52,6 +54,8 @@ import java.util.Map;
 import java.util.function.Function;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
@@ -68,6 +72,7 @@ public class DiffOperationsImpl implements DiffOperations {
       DiffAlgorithm.HISTOGRAM_WITH_FALLBACK_MYERS;
   private static final Whitespace DEFAULT_WHITESPACE = Whitespace.IGNORE_NONE;
 
+  private final GitRepositoryManager repoManager;
   private final ModifiedFilesCache modifiedFilesCache;
   private final ModifiedFilesLoader.Factory modifiedFilesLoaderFactory;
   private final FileDiffCache fileDiffCache;
@@ -88,10 +93,12 @@ public class DiffOperationsImpl implements DiffOperations {
 
   @Inject
   public DiffOperationsImpl(
+      GitRepositoryManager repoManager,
       ModifiedFilesCache modifiedFilesCache,
       ModifiedFilesLoader.Factory modifiedFilesLoaderFactory,
       FileDiffCache fileDiffCache,
       BaseCommitUtil baseCommit) {
+    this.repoManager = repoManager;
     this.modifiedFilesCache = modifiedFilesCache;
     this.modifiedFilesLoaderFactory = modifiedFilesLoaderFactory;
     this.fileDiffCache = fileDiffCache;
@@ -102,8 +109,11 @@ public class DiffOperationsImpl implements DiffOperations {
   public Map<String, FileDiffOutput> listModifiedFilesAgainstParent(
       Project.NameKey project, ObjectId newCommit, int parent, DiffOptions diffOptions)
       throws DiffNotAvailableException {
-    try {
-      DiffParameters diffParams = computeDiffParameters(project, newCommit, parent);
+    try (Repository repo = repoManager.openRepository(project);
+        ObjectInserter ins = repo.newObjectInserter();
+        RevWalk revWalk = new RevWalk(ins.newReader())) {
+      DiffParameters diffParams =
+          computeDiffParameters(project, newCommit, parent, new RepoView(repo, revWalk, ins), ins);
       return getModifiedFiles(diffParams, diffOptions);
     } catch (IOException e) {
       throw new DiffNotAvailableException(
@@ -116,12 +126,14 @@ public class DiffOperationsImpl implements DiffOperations {
       Project.NameKey project,
       ObjectId newCommit,
       int parentNum,
-      RevWalk revWalk,
-      Config repoConfig)
+      RepoView repoView,
+      ObjectInserter ins)
       throws DiffNotAvailableException {
     try {
-      DiffParameters diffParams = computeDiffParameters(project, newCommit, parentNum);
-      return loadModifiedFilesWithoutCache(project, diffParams, revWalk, repoConfig);
+      DiffParameters diffParams =
+          computeDiffParameters(project, newCommit, parentNum, repoView, ins);
+      return loadModifiedFilesWithoutCache(
+          project, diffParams, repoView.getRevWalk(), repoView.getConfig());
     } catch (IOException e) {
       throw new DiffNotAvailableException(
           String.format(
@@ -171,8 +183,11 @@ public class DiffOperationsImpl implements DiffOperations {
       String fileName,
       @Nullable DiffPreferencesInfo.Whitespace whitespace)
       throws DiffNotAvailableException {
-    try {
-      DiffParameters diffParams = computeDiffParameters(project, newCommit, parent);
+    try (Repository repo = repoManager.openRepository(project);
+        ObjectInserter ins = repo.newObjectInserter();
+        RevWalk revWalk = new RevWalk(ins.newReader())) {
+      DiffParameters diffParams =
+          computeDiffParameters(project, newCommit, parent, new RepoView(repo, revWalk, ins), ins);
       FileDiffCacheKey key =
           createFileDiffCacheKey(
               project,
@@ -432,11 +447,16 @@ public class DiffOperationsImpl implements DiffOperations {
 
   /** Compute Diff parameters - the base commit and the comparison type - using the input args. */
   private DiffParameters computeDiffParameters(
-      Project.NameKey project, ObjectId newCommit, Integer parent) throws IOException {
+      Project.NameKey project,
+      ObjectId newCommit,
+      Integer parent,
+      RepoView repoView,
+      ObjectInserter ins)
+      throws IOException {
     DiffParameters.Builder result =
         DiffParameters.builder().project(project).newCommit(newCommit).parent(parent);
     if (parent > 0) {
-      RevCommit baseCommit = baseCommitUtil.getBaseCommit(project, newCommit, parent);
+      RevCommit baseCommit = baseCommitUtil.getBaseCommit(repoView, ins, newCommit, parent);
       if (baseCommit == null) {
         // The specified parent doesn't exist or is not supported, fall back to comparing against
         // the root.
@@ -456,7 +476,7 @@ public class DiffOperationsImpl implements DiffOperations {
       return result.build();
     }
     if (numParents == 1) {
-      result.baseCommit(baseCommitUtil.getBaseCommit(project, newCommit, parent));
+      result.baseCommit(baseCommitUtil.getBaseCommit(repoView, ins, newCommit, parent));
       result.comparisonType(ComparisonType.againstParent(1));
       return result.build();
     }
@@ -466,11 +486,12 @@ public class DiffOperationsImpl implements DiffOperations {
               + "with more than two parents is not supported. Commit %s has %d parents."
               + " Falling back to the diff against the first parent.",
           newCommit, numParents);
-      result.baseCommit(baseCommitUtil.getBaseCommit(project, newCommit, 1).getId());
+      result.baseCommit(baseCommitUtil.getBaseCommit(repoView, ins, newCommit, 1).getId());
       result.comparisonType(ComparisonType.againstParent(1));
       result.skipFiles(true);
     } else {
-      result.baseCommit(baseCommitUtil.getBaseCommit(project, newCommit, null));
+      result.baseCommit(
+          baseCommitUtil.getBaseCommit(repoView, ins, newCommit, /* parentNum= */ null));
       result.comparisonType(ComparisonType.againstAutoMerge());
     }
     return result.build();

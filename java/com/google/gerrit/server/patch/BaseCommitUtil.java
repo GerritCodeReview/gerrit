@@ -52,20 +52,6 @@ class BaseCommitUtil {
     this.repoManager = repoManager;
   }
 
-  @Nullable
-  RevCommit getBaseCommit(Project.NameKey project, ObjectId newCommit, @Nullable Integer parentNum)
-      throws IOException {
-    try (Repository repo = repoManager.openRepository(project);
-        ObjectInserter ins = newInserter(repo);
-        ObjectReader reader = ins.newReader();
-        RevWalk rw = new RevWalk(reader)) {
-      logger.atFine().log(
-          "Opened repo %s to compute base commit for %s (inserter: %s)",
-          project, newCommit.name(), ins);
-      return getParentCommit(repo, ins, rw, parentNum, newCommit);
-    }
-  }
-
   /**
    * Returns the number of parent commits of the commit represented by the commitId parameter.
    *
@@ -84,29 +70,24 @@ class BaseCommitUtil {
   }
 
   /**
-   * Returns the parent commit Object of the commit represented by the commitId parameter.
+   * Returns the base commit for the provided commit.
    *
-   * @param repo a git repository.
+   * @param repoView repo view
    * @param ins a git object inserter in the database.
-   * @param rw a {@link RevWalk} object of the repository.
+   * @param commitId 20 bytes commitId SHA-1 hash.
    * @param parentNum used to identify the parent number for merge commits. If parentNum is null and
    *     {@code commitId} has two parents, the auto-merge commit will be returned. If {@code
    *     commitId} has a single parent, it will be returned.
-   * @param commitId 20 bytes commitId SHA-1 hash.
    * @return Returns the parent commit of the commit represented by the commitId parameter. Note
    *     that auto-merge is not supported for commits having more than two parents. If the commit
    *     has no parents (initial commit) or more than 2 parents {@code null} is returned as the
    *     parent commit.
    */
   @Nullable
-  RevCommit getParentCommit(
-      Repository repo,
-      ObjectInserter ins,
-      RevWalk rw,
-      @Nullable Integer parentNum,
-      ObjectId commitId)
+  RevCommit getBaseCommit(
+      RepoView repoView, ObjectInserter ins, ObjectId commitId, @Nullable Integer parentNum)
       throws IOException {
-    RevCommit current = rw.parseCommit(commitId);
+    RevCommit current = repoView.getRevWalk().parseCommit(commitId);
     switch (current.getParentCount()) {
       case 0:
         return null;
@@ -115,7 +96,7 @@ class BaseCommitUtil {
       default:
         if (parentNum != null) {
           RevCommit r = current.getParent(parentNum - 1);
-          rw.parseBody(r);
+          repoView.getRevWalk().parseBody(r);
           return r;
         }
         // Only support auto-merge for 2 parents, not octopus merges
@@ -125,7 +106,7 @@ class BaseCommitUtil {
                 "diff against auto-merge commits is only supported if 'change.cacheAutomerge' config is set to true.");
           }
           // TODO(ghareeb): Avoid persisting auto-merge commits.
-          return getAutoMergeFromGitOrCreate(repo, ins, rw, current);
+          return getAutoMergeFromGitOrCreate(repoView, ins, current);
         }
         return null;
     }
@@ -138,20 +119,18 @@ class BaseCommitUtil {
    * @return the auto-merge {@link RevCommit}
    */
   private RevCommit getAutoMergeFromGitOrCreate(
-      Repository repo, ObjectInserter ins, RevWalk rw, RevCommit mergeCommit) throws IOException {
+      RepoView repoView, ObjectInserter ins, RevCommit mergeCommit) throws IOException {
     String refName = RefNames.refsCacheAutomerge(mergeCommit.name());
-    Optional<RevCommit> autoMergeCommit = autoMerger.lookupCommit(repo, rw, refName);
+    Optional<RevCommit> autoMergeCommit = autoMerger.lookupCommit(repoView, refName);
     if (autoMergeCommit.isPresent()) {
       return autoMergeCommit.get();
     }
-    ObjectId autoMergeId =
-        autoMerger.createAutoMergeCommit(new RepoView(repo, rw, ins), rw, ins, mergeCommit);
+    if (!saveAutomerge && !(ins instanceof InMemoryInserter)) {
+      ins = new InMemoryInserter(repoView.getRevWalk().getObjectReader());
+    }
+    ObjectId autoMergeId = autoMerger.createAutoMergeCommit(repoView, ins, mergeCommit);
     logger.atFine().log("flushing inserter %s", ins);
     ins.flush();
-    return rw.parseCommit(autoMergeId);
-  }
-
-  private ObjectInserter newInserter(Repository repo) {
-    return saveAutomerge ? repo.newObjectInserter() : new InMemoryInserter(repo);
+    return repoView.getRevWalk().parseCommit(autoMergeId);
   }
 }

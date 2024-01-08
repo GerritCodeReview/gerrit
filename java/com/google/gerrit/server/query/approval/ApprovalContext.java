@@ -22,8 +22,7 @@ import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.revwalk.RevWalk;
+import com.google.gerrit.server.update.RepoView;
 
 /** Entity representing all required information to match predicates for copying approvals. */
 @AutoValue
@@ -53,11 +52,7 @@ public abstract class ApprovalContext {
   /** Whether the new patch set is a merge commit. */
   public abstract boolean isMerge();
 
-  /** {@link RevWalk} of the repository for the current commit. */
-  public abstract RevWalk revWalk();
-
-  /** {@link RevWalk} of the repository for the current commit. */
-  public abstract Config repoConfig();
+  public abstract RepoView repoView();
 
   public static ApprovalContext create(
       ChangeNotes changeNotes,
@@ -68,8 +63,7 @@ public abstract class ApprovalContext {
       PatchSet targetPatchSet,
       ChangeKind changeKind,
       boolean isMerge,
-      RevWalk revWalk,
-      Config repoConfig) {
+      RepoView repoView) {
     checkState(
         sourcePatchSetId.changeId().equals(targetPatchSet.id().changeId()),
         "approval and target must be the same change. got: %s, %s",
@@ -90,7 +84,6 @@ public abstract class ApprovalContext {
         changeNotes,
         changeKind,
         isMerge,
-        revWalk,
-        repoConfig);
+        repoView);
   }
 }

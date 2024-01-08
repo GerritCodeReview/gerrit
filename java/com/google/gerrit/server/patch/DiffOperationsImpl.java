@@ -116,7 +116,6 @@ public class DiffOperationsImpl implements DiffOperations {
       Project.NameKey project,
       ObjectId newCommit,
       int parentNum,
-      DiffOptions diffOptions,
       RevWalk revWalk,
       Config repoConfig)
       throws DiffNotAvailableException {
@@ -151,7 +150,6 @@ public class DiffOperationsImpl implements DiffOperations {
       Project.NameKey project,
       ObjectId oldCommit,
       ObjectId newCommit,
-      DiffOptions diffOptions,
       RevWalk revWalk,
       Config repoConfig)
       throws DiffNotAvailableException {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e150af3_4e0cb782",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-08T18:43:29Z",
+      "side": 1,
+      "message": "Shouldn\u0027t `lastMatch` be updated at L272 when we are sure that there was actually a match?",
+      "revId": "68488fae71f2faed248d3c80c34b4dc6ef2b2e43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

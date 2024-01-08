@@ -14,13 +14,9 @@
 
 package com.google.gerrit.server.patch.gitdiff;
 
-import static com.google.common.collect.ImmutableList.toImmutableList;
-
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-import com.google.gerrit.entities.Patch;
 import com.google.gerrit.proto.Protos;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.proto.Cache.ModifiedFilesProto;
@@ -33,33 +29,14 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.ExecutionException;
-import org.eclipse.jgit.diff.DiffEntry;
-import org.eclipse.jgit.diff.DiffEntry.ChangeType;
-import org.eclipse.jgit.diff.DiffFormatter;
-import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.util.io.DisabledOutputStream;
 
 /** Implementation of the {@link GitModifiedFilesCache} */
 @Singleton
 public class GitModifiedFilesCacheImpl implements GitModifiedFilesCache {
   private static final String GIT_MODIFIED_FILES = "git_modified_files";
-  private static final ImmutableMap<ChangeType, Patch.ChangeType> changeTypeMap =
-      ImmutableMap.of(
-          DiffEntry.ChangeType.ADD,
-          Patch.ChangeType.ADDED,
-          DiffEntry.ChangeType.MODIFY,
-          Patch.ChangeType.MODIFIED,
-          DiffEntry.ChangeType.DELETE,
-          Patch.ChangeType.DELETED,
-          DiffEntry.ChangeType.RENAME,
-          Patch.ChangeType.RENAMED,
-          DiffEntry.ChangeType.COPY,
-          Patch.ChangeType.COPIED);
 
   private LoadingCache<GitModifiedFilesCacheKey, ImmutableList<ModifiedFile>> cache;
 
@@ -117,44 +94,12 @@ public class GitModifiedFilesCacheImpl implements GitModifiedFilesCache {
     public ImmutableList<ModifiedFile> load(GitModifiedFilesCacheKey key) throws IOException {
       try (Repository repo = repoManager.openRepository(key.project());
           ObjectReader reader = repo.newObjectReader()) {
-        List<DiffEntry> entries = getGitTreeDiff(repo, reader, key);
-
-        return entries.stream().map(Loader::toModifiedFile).collect(toImmutableList());
-      }
-    }
-
-    private List<DiffEntry> getGitTreeDiff(
-        Repository repo, ObjectReader reader, GitModifiedFilesCacheKey key) throws IOException {
-      try (DiffFormatter df = new DiffFormatter(DisabledOutputStream.INSTANCE)) {
-        df.setReader(reader, repo.getConfig());
+        GitModifiedFilesLoader loader = new GitModifiedFilesLoader();
         if (key.renameDetection()) {
-          df.setDetectRenames(true);
-          df.getRenameDetector().setRenameScore(key.renameScore());
-
-          // Skip detecting content renames for binary files.
-          df.getRenameDetector().setSkipContentRenamesForBinaryFiles(true);
+          loader.withRenameDetection(key.renameScore());
         }
-        // The scan method only returns the file paths that are different. Callers may choose to
-        // format these paths themselves.
-        return df.scan(key.aTree().equals(ObjectId.zeroId()) ? null : key.aTree(), key.bTree());
+        return loader.load(repo.getConfig(), reader, key.aTree(), key.bTree());
       }
-    }
-
-    private static ModifiedFile toModifiedFile(DiffEntry entry) {
-      String oldPath = entry.getOldPath();
-      String newPath = entry.getNewPath();
-      return ModifiedFile.builder()
-          .changeType(toChangeType(entry.getChangeType()))
-          .oldPath(oldPath.equals(DiffEntry.DEV_NULL) ? Optional.empty() : Optional.of(oldPath))
-          .newPath(newPath.equals(DiffEntry.DEV_NULL) ? Optional.empty() : Optional.of(newPath))
-          .build();
-    }
-
-    private static Patch.ChangeType toChangeType(DiffEntry.ChangeType changeType) {
-      if (!changeTypeMap.containsKey(changeType)) {
-        throw new IllegalArgumentException("Unsupported type " + changeType);
-      }
-      return changeTypeMap.get(changeType);
     }
   }
 

@@ -52,6 +52,24 @@
       "parentUuid": "72c0c2d7_3d7306b4",
       "revId": "6417b42739da738dff9b6eda04aeee2ca0cad9cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1286727_e8de2c16",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-01-08T12:22:01Z",
+      "side": 1,
+      "message": "current master (ec7412fc437f) builds successfully for me on MacOS 14.2 using Xcode 15.1 Build version 15C65 and gcc version Apple clang version 15.0.0 (clang-1500.1.0.2.5) Target: arm64-apple-darwin23.2.0",
+      "parentUuid": "7d271f68_02efbec2",
+      "revId": "6417b42739da738dff9b6eda04aeee2ca0cad9cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56eb875c_a59f6c90",
+        "filename": "java/com/google/gerrit/httpd/plugins/HttpAutoRegisterModuleGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2024-01-08T09:11:33Z",
+      "side": 1,
+      "message": "Is it possible to use immutable types for these fields and remove the \"SuppressWarnings\" annotation?",
+      "range": {
+        "startLine": 35,
+        "startChar": 2,
+        "endLine": 36,
+        "endChar": 95
+      },
+      "revId": "d3b99eb086427e76a5ada4887e31f2d0122683ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

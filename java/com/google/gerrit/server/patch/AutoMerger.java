@@ -188,7 +188,7 @@ public class AutoMerger {
     return Optional.of(
         new ReceiveCommand(
             ObjectId.zeroId(),
-            createAutoMergeCommit(repoView, rw, ins, maybeMergeCommit),
+            createAutoMergeCommit(repoView.getConfig(), rw, ins, maybeMergeCommit),
             automergeRef));
   }
 
@@ -200,12 +200,10 @@ public class AutoMerger {
    * @return An auto-merge commit. Headers of the returned RevCommit are parsed.
    */
   ObjectId createAutoMergeCommit(
-      RepoView repoView, RevWalk rw, ObjectInserter ins, RevCommit mergeCommit) throws IOException {
+      Config repoConfig, RevWalk rw, ObjectInserter ins, RevCommit mergeCommit) throws IOException {
     ObjectId autoMerge;
     try (Timer1.Context<OperationType> ignored = latency.start(OperationType.ON_DISK_WRITE)) {
-      autoMerge =
-          createAutoMergeCommit(
-              repoView.getConfig(), rw, ins, mergeCommit, configuredMergeStrategy);
+      autoMerge = createAutoMergeCommit(repoConfig, rw, ins, mergeCommit, configuredMergeStrategy);
     }
     counter.increment(OperationType.ON_DISK_WRITE);
     logger.atFine().log("Added %s AutoMerge ref update for commit", autoMerge.name());

@@ -21,7 +21,6 @@ import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.InMemoryInserter;
-import com.google.gerrit.server.update.RepoView;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -144,8 +143,7 @@ class BaseCommitUtil {
     if (autoMergeCommit.isPresent()) {
       return autoMergeCommit.get();
     }
-    ObjectId autoMergeId =
-        autoMerger.createAutoMergeCommit(new RepoView(repo, rw, ins), rw, ins, mergeCommit);
+    ObjectId autoMergeId = autoMerger.createAutoMergeCommit(repo.getConfig(), rw, ins, mergeCommit);
     logger.atFine().log("flushing inserter %s", ins);
     ins.flush();
     return rw.parseCommit(autoMergeId);

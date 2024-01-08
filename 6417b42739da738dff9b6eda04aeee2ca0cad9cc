@@ -70,6 +70,24 @@
       "parentUuid": "7d271f68_02efbec2",
       "revId": "6417b42739da738dff9b6eda04aeee2ca0cad9cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63410e20_55df371e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-08T18:46:26Z",
+      "side": 1,
+      "message": "Anyone with a x86? My platform is different from Matthias\u0027 one.",
+      "parentUuid": "c1286727_e8de2c16",
+      "revId": "6417b42739da738dff9b6eda04aeee2ca0cad9cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

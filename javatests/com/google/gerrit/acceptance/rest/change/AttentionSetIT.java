@@ -1835,7 +1835,8 @@ public class AttentionSetIT extends AbstractDaemonTest {
     setEmailStrategyForUser(EmailStrategy.ATTENTION_SET_ONLY);
 
     // Ensure emails that don't relate to changes are still sent.
-    gApi.accounts().id(user.id().get()).generateHttpPassword();
+    @SuppressWarnings("unused")
+    var unused = gApi.accounts().id(user.id().get()).generateHttpPassword();
     assertThat(sender.getMessages()).isNotEmpty();
   }
 

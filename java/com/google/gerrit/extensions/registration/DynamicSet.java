@@ -20,6 +20,7 @@ import static java.util.Comparator.naturalOrder;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedSet;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.inject.Binder;
 import com.google.inject.Key;
@@ -249,6 +250,7 @@ public class DynamicSet<T> implements Iterable<T> {
    * @param item the item to add to the collection. Must not be null.
    * @return handle to remove the item at a later point in time.
    */
+  @CanIgnoreReturnValue
   public RegistrationHandle add(String pluginName, T item) {
     return add(pluginName, Providers.of(item));
   }
@@ -259,6 +261,7 @@ public class DynamicSet<T> implements Iterable<T> {
    * @param item the item to add to the collection. Must not be null.
    * @return handle to remove the item at a later point in time.
    */
+  @CanIgnoreReturnValue
   public RegistrationHandle add(String pluginName, Provider<T> item) {
     final AtomicReference<Extension<T>> ref =
         new AtomicReference<>(new Extension<>(pluginName, item));
@@ -281,6 +284,7 @@ public class DynamicSet<T> implements Iterable<T> {
    * @return a handle that can remove this item later, or hot-swap the item without it ever leaving
    *     the collection.
    */
+  @CanIgnoreReturnValue
   public ReloadableRegistrationHandle<T> add(String pluginName, Key<T> key, Provider<T> item) {
     AtomicReference<Extension<T>> ref = new AtomicReference<>(new Extension<>(pluginName, item));
     items.add(ref);

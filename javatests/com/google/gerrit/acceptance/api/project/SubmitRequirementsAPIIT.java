@@ -58,7 +58,7 @@ public class SubmitRequirementsAPIIT extends AbstractDaemonTest {
     input.name = "code-review";
     input.applicabilityExpression = "topic:foo";
     input.submittabilityExpression = "label:code-review=+2";
-    gApi.projects().name(project.get()).submitRequirement("code-review").create(input).get();
+    gApi.projects().name(project.get()).submitRequirement("code-review").create(input);
 
     SubmitRequirementInfo info =
         gApi.projects().name(project.get()).submitRequirement("code-review").get();
@@ -74,7 +74,7 @@ public class SubmitRequirementsAPIIT extends AbstractDaemonTest {
     input.name = "code-review";
     input.applicabilityExpression = "topic:foo";
     input.submittabilityExpression = "label:code-review=+2";
-    gApi.projects().name(project.get()).submitRequirement("code-review").create(input).get();
+    gApi.projects().name(project.get()).submitRequirement("code-review").create(input);
 
     input.submittabilityExpression = "label:code-review=+1";
     SubmitRequirementInfo info =
@@ -88,7 +88,7 @@ public class SubmitRequirementsAPIIT extends AbstractDaemonTest {
     input.name = "code-review";
     input.applicabilityExpression = "topic:foo";
     input.submittabilityExpression = "label:code-review=+2";
-    gApi.projects().name(project.get()).submitRequirement("code-review").create(input).get();
+    gApi.projects().name(project.get()).submitRequirement("code-review").create(input);
 
     input.applicabilityExpression = null;
     SubmitRequirementInfo info =
@@ -102,7 +102,7 @@ public class SubmitRequirementsAPIIT extends AbstractDaemonTest {
     input.name = "code-review";
     input.overrideExpression = "topic:foo";
     input.submittabilityExpression = "label:code-review=+2";
-    gApi.projects().name(project.get()).submitRequirement("code-review").create(input).get();
+    gApi.projects().name(project.get()).submitRequirement("code-review").create(input);
 
     input.overrideExpression = null;
     SubmitRequirementInfo info =
@@ -115,7 +115,7 @@ public class SubmitRequirementsAPIIT extends AbstractDaemonTest {
     SubmitRequirementInput input = new SubmitRequirementInput();
     input.name = "code-review";
     input.submittabilityExpression = "label:code-review=+2";
-    gApi.projects().name(project.get()).submitRequirement("code-review").create(input).get();
+    gApi.projects().name(project.get()).submitRequirement("code-review").create(input);
 
     input.overrideExpression = "topic:foo";
     SubmitRequirementInfo info =
@@ -129,7 +129,7 @@ public class SubmitRequirementsAPIIT extends AbstractDaemonTest {
     input.name = "code-review";
     input.submittabilityExpression = "label:code-review=+2";
 
-    gApi.projects().name(project.get()).submitRequirement("code-review").create(input).get();
+    gApi.projects().name(project.get()).submitRequirement("code-review").create(input);
     input.submittabilityExpression = "label:code-review=+1";
     requestScopeOperations.setApiUserAnonymous();
     AuthException thrown =
@@ -166,7 +166,7 @@ public class SubmitRequirementsAPIIT extends AbstractDaemonTest {
     input.name = "code-review";
     input.submittabilityExpression = "project:foo AND branch:refs/heads/main";
 
-    gApi.projects().name(project.get()).submitRequirement("code-review").create(input).get();
+    gApi.projects().name(project.get()).submitRequirement("code-review").create(input);
     input.submittabilityExpression = null;
     BadRequestException thrown =
         assertThrows(
@@ -183,7 +183,7 @@ public class SubmitRequirementsAPIIT extends AbstractDaemonTest {
     input.name = "code-review";
     input.submittabilityExpression = "project:foo AND branch:refs/heads/main";
 
-    gApi.projects().name(project.get()).submitRequirement("code-review").create(input).get();
+    gApi.projects().name(project.get()).submitRequirement("code-review").create(input);
     input.submittabilityExpression = "invalid_field:invalid_value";
     BadRequestException thrown =
         assertThrows(
@@ -207,7 +207,7 @@ public class SubmitRequirementsAPIIT extends AbstractDaemonTest {
     input.name = "code-review";
     input.submittabilityExpression = "project:foo AND branch:refs/heads/main";
 
-    gApi.projects().name(project.get()).submitRequirement("code-review").create(input).get();
+    gApi.projects().name(project.get()).submitRequirement("code-review").create(input);
     input.overrideExpression = "invalid_field:invalid_value";
     BadRequestException thrown =
         assertThrows(
@@ -231,7 +231,7 @@ public class SubmitRequirementsAPIIT extends AbstractDaemonTest {
     input.name = "code-review";
     input.submittabilityExpression = "project:foo AND branch:refs/heads/main";
 
-    gApi.projects().name(project.get()).submitRequirement("code-review").create(input).get();
+    gApi.projects().name(project.get()).submitRequirement("code-review").create(input);
     input.applicabilityExpression = "invalid_field:invalid_value";
     BadRequestException thrown =
         assertThrows(
@@ -531,8 +531,11 @@ public class SubmitRequirementsAPIIT extends AbstractDaemonTest {
         .forUpdate()
         .add(allow(Permission.READ).ref("refs/meta/config").group(REGISTERED_USERS))
         .update();
+
     requestScopeOperations.setApiUser(user.id());
-    gApi.projects().name(project.get()).submitRequirements().get();
+
+    @SuppressWarnings("unused")
+    var unused = gApi.projects().name(project.get()).submitRequirements().get();
   }
 
   @Test
@@ -547,8 +550,12 @@ public class SubmitRequirementsAPIIT extends AbstractDaemonTest {
         .forUpdate()
         .add(block(Permission.READ).ref("refs/meta/config").group(REGISTERED_USERS))
         .update();
+
     requestScopeOperations.setApiUser(user.id());
-    gApi.projects().name(project.get()).submitRequirements().withInherited(false).get();
+
+    @SuppressWarnings("unused")
+    var unused =
+        gApi.projects().name(project.get()).submitRequirements().withInherited(false).get();
   }
 
   @Test

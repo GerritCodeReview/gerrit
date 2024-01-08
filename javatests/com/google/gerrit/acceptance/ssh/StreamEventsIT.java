@@ -194,7 +194,7 @@ public class StreamEventsIT extends AbstractDaemonTest {
     draftInput.message = reviewMessage;
     draftInput.path = path;
     ChangeApi changeApi = gApi.changes().id(change.getId().get());
-    changeApi.current().createDraft(draftInput).get();
+    changeApi.current().createDraft(draftInput);
   }
 
   private void publishDraftReviews() throws Exception {

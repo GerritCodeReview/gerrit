@@ -7,5 +7,6 @@ java_library(
     deps = [
         "//java/com/google/gerrit/entities",
         "//lib:jgit",
+        "//lib/errorprone:annotations",
     ],
 )

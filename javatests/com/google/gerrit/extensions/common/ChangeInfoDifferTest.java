@@ -584,7 +584,8 @@ public final class ChangeInfoDifferTest {
 
   @Test
   public void getDiff_assertCanConstructAllChangeInfoReferences() throws Exception {
-    buildObjectWithFullFields(ChangeInfo.class);
+    @SuppressWarnings("unused")
+    var unused = buildObjectWithFullFields(ChangeInfo.class);
   }
 
   @Test

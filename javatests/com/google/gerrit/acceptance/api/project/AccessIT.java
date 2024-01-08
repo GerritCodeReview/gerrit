@@ -244,7 +244,8 @@ public class AccessIT extends AbstractDaemonTest {
       testRefAction(() -> assertThat(u.delete()).isEqualTo(Result.FORCED));
 
       // This should not crash.
-      pApi().access();
+      @SuppressWarnings("unused")
+      var unused = pApi().access();
     }
   }
 
@@ -465,9 +466,11 @@ public class AccessIT extends AbstractDaemonTest {
         .forUpdate()
         .add(allow(Permission.READ).ref(RefNames.REFS_CONFIG).group(REGISTERED_USERS))
         .update();
+
     // User can see the branch
     requestScopeOperations.setApiUser(user.id());
-    pApi().branch("refs/heads/master").get();
+    @SuppressWarnings("unused")
+    var unused = pApi().branch("refs/heads/master").get();
 
     ProjectAccessInput accessInput = newProjectAccessInput();
 
@@ -516,7 +519,7 @@ public class AccessIT extends AbstractDaemonTest {
 
     // Now it works again.
     requestScopeOperations.setApiUser(user.id());
-    pApi().branch("refs/heads/master").get();
+    unused = pApi().branch("refs/heads/master").get();
   }
 
   @Test

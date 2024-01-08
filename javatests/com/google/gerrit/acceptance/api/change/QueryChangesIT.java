@@ -160,8 +160,8 @@ public class QueryChangesIT extends AbstractDaemonTest {
   @SuppressWarnings("unchecked")
   public void withPagedResults() throws Exception {
     // Create 4 visible changes.
-    createChange(testRepo).getChange().getId().get();
-    createChange(testRepo).getChange().getId().get();
+    createChange(testRepo);
+    createChange(testRepo);
     int changeId3 = createChange(testRepo).getChange().getId().get();
     int changeId4 = createChange(testRepo).getChange().getId().get();
 

@@ -16,6 +16,7 @@ package com.google.gerrit.entities;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 import java.util.Optional;
@@ -203,6 +204,7 @@ public abstract class SubmitRequirementExpressionResult {
 
       public abstract Builder status(boolean value);
 
+      @CanIgnoreReturnValue
       public Builder addChildPredicateResult(PredicateResult result) {
         childPredicateResultsBuilder().add(result);
         return this;

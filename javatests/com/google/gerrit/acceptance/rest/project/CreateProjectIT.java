@@ -351,7 +351,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
   @GerritConfig(name = "gerrit.defaultBranch", value = "main")
   public void createProject_WhenDefaultBranchIsSet() throws Exception {
     String newProjectName = name("newProject");
-    gApi.projects().create(newProjectName).get();
+    gApi.projects().create(newProjectName);
     ImmutableMap<String, BranchInfo> branches = getProjectBranches(newProjectName);
     // HEAD symbolic ref is set to the default, but the actual ref is not created.
     assertThat(branches.keySet()).containsExactly("HEAD", "refs/meta/config");

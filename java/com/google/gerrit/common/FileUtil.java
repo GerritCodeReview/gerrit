@@ -14,6 +14,7 @@
 
 package com.google.gerrit.common;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -84,6 +85,7 @@ public class FileUtil {
     }
   }
 
+  @CanIgnoreReturnValue
   public static Path mkdirsOrDie(Path p, String errMsg) {
     try {
       if (!Files.isDirectory(p)) {

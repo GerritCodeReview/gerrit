@@ -79,7 +79,8 @@ public class SubmitTypeRuleIT extends AbstractDaemonTest {
       TestSubmitRuleInput in = new TestSubmitRuleInput();
       in.rule = rule;
       try {
-        gApi.changes().id(testChangeId.get()).current().testSubmitType(in);
+        @SuppressWarnings("unused")
+        var unused = gApi.changes().id(testChangeId.get()).current().testSubmitType(in);
       } catch (RestApiException e) {
         throw new ConfigInvalidException("Invalid submit type rule", e);
       }

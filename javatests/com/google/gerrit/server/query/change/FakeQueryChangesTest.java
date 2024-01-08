@@ -85,7 +85,10 @@ public abstract class FakeQueryChangesTest extends AbstractQueryChangesTest {
 
     AbstractFakeIndex<?, ?, ?> idx =
         (AbstractFakeIndex<?, ?, ?>) changeIndexCollection.getSearchIndex();
-    newQuery("status:new").withLimit(5).get();
+
+    @SuppressWarnings("unused")
+    var unused = newQuery("status:new").withLimit(5).get();
+
     assertThatSearchQueryWasNotPaginated(idx.getQueryCount());
   }
 
@@ -114,7 +117,9 @@ public abstract class FakeQueryChangesTest extends AbstractQueryChangesTest {
     // 2 index searches are expected. The first index search will run with size 3 (i.e.
     // the configured query-limit+1), and then we will paginate to get the remaining
     // changes with the second index search.
-    newQuery("status:new").withNoLimit().get();
+    @SuppressWarnings("unused")
+    var unused = newQuery("status:new").withNoLimit().get();
+
     assertThatSearchQueryWasPaginated(idx.getQueryCount(), 2);
   }
 
@@ -122,8 +127,12 @@ public abstract class FakeQueryChangesTest extends AbstractQueryChangesTest {
   @UseClockStep
   public void noLimitQueryDoesNotPaginatesWithNonePaginationType() throws Exception {
     assumeTrue(PaginationType.NONE == getCurrentPaginationType());
+
     AbstractFakeIndex<?, ?, ?> idx = setupRepoWithFourChanges();
-    newQuery("status:new").withNoLimit().get();
+
+    @SuppressWarnings("unused")
+    var unused = newQuery("status:new").withNoLimit().get();
+
     assertThatSearchQueryWasNotPaginated(idx.getQueryCount());
   }
 

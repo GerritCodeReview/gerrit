@@ -41,7 +41,11 @@ public class ObjectIdsTest {
 
   @Test
   public void abbreviateNameDefaultLength() throws Exception {
-    assertRuntimeException(() -> abbreviateName(null));
+    assertRuntimeException(
+        () -> {
+          @SuppressWarnings("unused")
+          var unused = abbreviateName(null);
+        });
     assertThat(abbreviateName(ID)).isEqualTo("0000000");
     assertThat(abbreviateName(AMBIGUOUS_BLOB_ID)).isEqualTo(abbreviateName(ID));
     assertThat(abbreviateName(AMBIGUOUS_TREE_ID)).isEqualTo(abbreviateName(ID));
@@ -49,17 +53,37 @@ public class ObjectIdsTest {
 
   @Test
   public void abbreviateNameCustomLength() throws Exception {
-    assertRuntimeException(() -> abbreviateName(null, 1));
-    assertRuntimeException(() -> abbreviateName(ID, -1));
-    assertRuntimeException(() -> abbreviateName(ID, 0));
-    assertRuntimeException(() -> abbreviateName(ID, 41));
+    assertRuntimeException(
+        () -> {
+          @SuppressWarnings("unused")
+          var unused = abbreviateName(null, 1);
+        });
+    assertRuntimeException(
+        () -> {
+          @SuppressWarnings("unused")
+          var unused = abbreviateName(ID, -1);
+        });
+    assertRuntimeException(
+        () -> {
+          @SuppressWarnings("unused")
+          var unused = abbreviateName(ID, 0);
+        });
+    assertRuntimeException(
+        () -> {
+          @SuppressWarnings("unused")
+          var unused = abbreviateName(ID, 41);
+        });
     assertThat(abbreviateName(ID, 5)).isEqualTo("00000");
     assertThat(abbreviateName(ID, 40)).isEqualTo(ID.name());
   }
 
   @Test
   public void abbreviateNameDefaultLengthWithReader() throws Exception {
-    assertRuntimeException(() -> abbreviateName(ID, null));
+    assertRuntimeException(
+        () -> {
+          @SuppressWarnings("unused")
+          var unused = abbreviateName(ID, null);
+        });
 
     ObjectReader reader = newReaderWithAmbiguousIds();
     assertThat(abbreviateName(ID, reader)).isEqualTo("00000000001");
@@ -68,10 +92,26 @@ public class ObjectIdsTest {
   @Test
   public void abbreviateNameCustomLengthWithReader() throws Exception {
     ObjectReader reader = newReaderWithAmbiguousIds();
-    assertRuntimeException(() -> abbreviateName(ID, -1, reader));
-    assertRuntimeException(() -> abbreviateName(ID, 0, reader));
-    assertRuntimeException(() -> abbreviateName(ID, 41, reader));
-    assertRuntimeException(() -> abbreviateName(ID, 5, null));
+    assertRuntimeException(
+        () -> {
+          @SuppressWarnings("unused")
+          var unused = abbreviateName(ID, -1, reader);
+        });
+    assertRuntimeException(
+        () -> {
+          @SuppressWarnings("unused")
+          var unused = abbreviateName(ID, 0, reader);
+        });
+    assertRuntimeException(
+        () -> {
+          @SuppressWarnings("unused")
+          var unused = abbreviateName(ID, 41, reader);
+        });
+    assertRuntimeException(
+        () -> {
+          @SuppressWarnings("unused")
+          var unused = abbreviateName(ID, 5, null);
+        });
 
     String shortest = "00000000001";
     assertThat(abbreviateName(ID, 1, reader)).isEqualTo(shortest);

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.api.accounts;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
@@ -44,18 +45,22 @@ public interface AccountApi {
 
   GeneralPreferencesInfo getPreferences() throws RestApiException;
 
+  @CanIgnoreReturnValue
   GeneralPreferencesInfo setPreferences(GeneralPreferencesInfo in) throws RestApiException;
 
   DiffPreferencesInfo getDiffPreferences() throws RestApiException;
 
+  @CanIgnoreReturnValue
   DiffPreferencesInfo setDiffPreferences(DiffPreferencesInfo in) throws RestApiException;
 
   EditPreferencesInfo getEditPreferences() throws RestApiException;
 
+  @CanIgnoreReturnValue
   EditPreferencesInfo setEditPreferences(EditPreferencesInfo in) throws RestApiException;
 
   List<ProjectWatchInfo> getWatchedProjects() throws RestApiException;
 
+  @CanIgnoreReturnValue
   List<ProjectWatchInfo> setWatchedProjects(List<ProjectWatchInfo> in) throws RestApiException;
 
   void deleteWatchedProjects(List<ProjectWatchInfo> in) throws RestApiException;
@@ -72,6 +77,7 @@ public interface AccountApi {
 
   void deleteEmail(String email) throws RestApiException;
 
+  @CanIgnoreReturnValue
   EmailApi createEmail(EmailInput emailInput) throws RestApiException;
 
   EmailApi email(String email) throws RestApiException;
@@ -82,12 +88,14 @@ public interface AccountApi {
 
   List<SshKeyInfo> listSshKeys() throws RestApiException;
 
+  @CanIgnoreReturnValue
   SshKeyInfo addSshKey(String key) throws RestApiException;
 
   void deleteSshKey(int seq) throws RestApiException;
 
   Map<String, GpgKeyInfo> listGpgKeys() throws RestApiException;
 
+  @CanIgnoreReturnValue
   Map<String, GpgKeyInfo> putGpgKeys(List<String> add, List<String> remove) throws RestApiException;
 
   GpgKeyApi gpgKey(String id) throws RestApiException;
@@ -102,6 +110,7 @@ public interface AccountApi {
 
   void deleteExternalIds(List<String> externalIds) throws RestApiException;
 
+  @CanIgnoreReturnValue
   List<DeletedDraftCommentInfo> deleteDraftComments(DeleteDraftCommentsInput input)
       throws RestApiException;
 
@@ -122,6 +131,7 @@ public interface AccountApi {
    * @param httpPassword the new password, {@code null} to remove the password.
    * @return the new password, {@code null} if the password was removed.
    */
+  @CanIgnoreReturnValue
   String setHttpPassword(String httpPassword) throws RestApiException;
 
   void delete() throws RestApiException;

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.api.groups;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.extensions.client.ListGroupsOption;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
@@ -42,9 +43,11 @@ public interface Groups {
   GroupApi id(String id) throws RestApiException;
 
   /** Create a new group with the given name and default options. */
+  @CanIgnoreReturnValue
   GroupApi create(String name) throws RestApiException;
 
   /** Create a new group. */
+  @CanIgnoreReturnValue
   GroupApi create(GroupInput input) throws RestApiException;
 
   /** Returns new request for listing groups. */

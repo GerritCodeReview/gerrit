@@ -20,6 +20,7 @@ import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -51,12 +52,14 @@ public abstract class SubscribeSection {
 
     abstract ImmutableList.Builder<RefSpec> multiMatchRefSpecsBuilder();
 
+    @CanIgnoreReturnValue
     public Builder addMatchingRefSpec(String matchingRefSpec) {
       matchingRefSpecsBuilder()
           .add(new RefSpec(matchingRefSpec, RefSpec.WildcardMode.REQUIRE_MATCH));
       return this;
     }
 
+    @CanIgnoreReturnValue
     public Builder addMultiMatchRefSpec(String multiMatchRefSpec) {
       multiMatchRefSpecsBuilder()
           .add(new RefSpec(multiMatchRefSpec, RefSpec.WildcardMode.ALLOW_MISMATCH));

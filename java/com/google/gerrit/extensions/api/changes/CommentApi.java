@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.api.changes;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -30,6 +31,7 @@ public interface CommentApi {
    *
    * @return the comment with its message updated.
    */
+  @CanIgnoreReturnValue
   CommentInfo delete(DeleteCommentInput input) throws RestApiException;
 
   /**

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "338df60e_c7148c0e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2024-01-08T09:21:15Z",
+      "side": 1,
+      "message": "\u003e //javatests/com/google/gerrit/server/query/change:LuceneQueryChangesPreviousIndexVersionTest FAILED TO BUILD\n\nThat seems related. Otherwise LGTM",
+      "revId": "19af090e25957460c78ad086cbb579eb98cba730",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

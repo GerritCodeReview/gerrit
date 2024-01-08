@@ -1,4 +1,6 @@
 load("//tools/bzl:maven_jar.bzl", "maven_jar")
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+load("@bazel_tools//tools/build_defs/repo:utils.bzl", "maybe")
 
 GUAVA_VERSION = "32.1.2-jre"
 
@@ -8,6 +10,42 @@ GUAVA_TESTLIB_BIN_SHA1 = "c7a8a2c91b6809ff46373b1bc06185241801f6b5"
 
 GUAVA_DOC_URL = "https://google.github.io/guava/releases/" + GUAVA_VERSION + "/api/docs/"
 
+def archive_dependencies():
+    return [
+        {
+            "name": "com_google_protobuf",
+            "sha256": "75be42bd736f4df6d702a0e4e4d30de9ee40eac024c4b845d17ae4cc831fe4ae",
+            "strip_prefix": "protobuf-21.7",
+            "urls": [
+                "https://github.com/protocolbuffers/protobuf/archive/v21.7.tar.gz",
+            ],
+        },
+        {
+            "name": "platforms",
+            "urls": [
+                "https://mirror.bazel.build/github.com/bazelbuild/platforms/releases/download/0.0.7/platforms-0.0.7.tar.gz",
+                "https://github.com/bazelbuild/platforms/releases/download/0.0.7/platforms-0.0.7.tar.gz",
+            ],
+            "sha256": "3a561c99e7bdbe9173aa653fd579fe849f1d8d67395780ab4770b1f381431d51",
+        },
+        {
+            "name": "rules_java",
+            "urls": [
+                "https://github.com/bazelbuild/rules_java/releases/download/7.3.1/rules_java-7.3.1.tar.gz",
+            ],
+            "sha256": "4018e97c93f97680f1650ffd2a7530245b864ac543fd24fae8c02ba447cb2864",
+        },
+        {
+            "name": "ubuntu2204_jdk17",
+            "strip_prefix": "rbe_autoconfig-5.1.0",
+            "urls": [
+                "https://gerrit-bazel.storage.googleapis.com/rbe_autoconfig/v5.1.0.tar.gz",
+                "https://github.com/davido/rbe_autoconfig/releases/download/v5.1.0/v5.1.0.tar.gz",
+            ],
+            "sha256": "8ea82b81c9707e535ff93ef5349d11e55b2a23c62bcc3b0faaec052144aed87d",
+        },
+    ]
+
 def declare_nongoogle_deps():
     """loads dependencies that are not used at Google.
 
@@ -15,6 +53,11 @@ def declare_nongoogle_deps():
     dependencies must pass through library compliance review. This is
     enforced by //lib:nongoogle_test.
     """
+
+    for dependency in archive_dependencies():
+        params = {}
+        params.update(**dependency)
+        maybe(http_archive, params.pop("name"), **params)
 
     maven_jar(
         name = "log4j",

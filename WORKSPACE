@@ -26,50 +26,9 @@ workspace(
 
 load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive", "http_file")
-load("//tools/bzl:maven_jar.bzl", "GERRIT", "MAVEN_LOCAL", "maven_jar")
 load("//plugins:external_plugin_deps.bzl", "external_plugin_deps")
 load("//tools:nongoogle.bzl", "declare_nongoogle_deps")
 load("//tools:deps.bzl", "CAFFEINE_VERS", "java_dependencies")
-
-http_archive(
-    name = "rules_java",
-    sha256 = "4018e97c93f97680f1650ffd2a7530245b864ac543fd24fae8c02ba447cb2864",
-    urls = [
-        "https://github.com/bazelbuild/rules_java/releases/download/7.3.1/rules_java-7.3.1.tar.gz",
-    ],
-)
-
-http_archive(
-    name = "platforms",
-    sha256 = "3a561c99e7bdbe9173aa653fd579fe849f1d8d67395780ab4770b1f381431d51",
-    urls = [
-        "https://mirror.bazel.build/github.com/bazelbuild/platforms/releases/download/0.0.7/platforms-0.0.7.tar.gz",
-        "https://github.com/bazelbuild/platforms/releases/download/0.0.7/platforms-0.0.7.tar.gz",
-    ],
-)
-
-http_archive(
-    name = "ubuntu2204_jdk17",
-    sha256 = "8ea82b81c9707e535ff93ef5349d11e55b2a23c62bcc3b0faaec052144aed87d",
-    strip_prefix = "rbe_autoconfig-5.1.0",
-    urls = [
-        "https://gerrit-bazel.storage.googleapis.com/rbe_autoconfig/v5.1.0.tar.gz",
-        "https://github.com/davido/rbe_autoconfig/releases/download/v5.1.0/v5.1.0.tar.gz",
-    ],
-)
-
-http_archive(
-    name = "com_google_protobuf",
-    sha256 = "75be42bd736f4df6d702a0e4e4d30de9ee40eac024c4b845d17ae4cc831fe4ae",
-    strip_prefix = "protobuf-21.7",
-    urls = [
-        "https://github.com/protocolbuffers/protobuf/archive/v21.7.tar.gz",
-    ],
-)
-
-load("@com_google_protobuf//:protobuf_deps.bzl", "protobuf_deps")
-
-protobuf_deps()
 
 http_archive(
     name = "rules_nodejs",
@@ -115,11 +74,11 @@ browser_repositories(
     firefox = True,
 )
 
-register_toolchains("//tools:error_prone_warnings_toolchain_java11_definition")
+declare_nongoogle_deps()
 
-register_toolchains("//tools:error_prone_warnings_toolchain_java17_definition")
+load("//tools:defs.bzl", "gerrit_init")
 
-register_toolchains("//tools:error_prone_warnings_toolchain_java21_definition")
+gerrit_init()
 
 # Java-Prettify external repository consumed from git submodule
 local_repository(
@@ -154,8 +113,6 @@ http_file(
         ".jar",
     ],
 )
-
-declare_nongoogle_deps()
 
 load("@build_bazel_rules_nodejs//:index.bzl", "node_repositories", "yarn_install")
 

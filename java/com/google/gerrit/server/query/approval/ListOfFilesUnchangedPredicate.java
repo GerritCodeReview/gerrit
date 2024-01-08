@@ -23,7 +23,6 @@ import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.gerrit.server.patch.DiffOperations;
-import com.google.gerrit.server.patch.DiffOptions;
 import com.google.gerrit.server.patch.gitdiff.ModifiedFile;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -63,7 +62,6 @@ public class ListOfFilesUnchangedPredicate extends ApprovalPredicate {
               ctx.changeNotes().getProjectName(),
               targetPatchSet.commitId(),
               parentNum,
-              DiffOptions.DEFAULTS,
               ctx.revWalk(),
               ctx.repoConfig());
       Map<String, ModifiedFile> baseVsPrior =
@@ -71,7 +69,6 @@ public class ListOfFilesUnchangedPredicate extends ApprovalPredicate {
               ctx.changeNotes().getProjectName(),
               sourcePatchSet.commitId(),
               parentNum,
-              DiffOptions.DEFAULTS,
               ctx.revWalk(),
               ctx.repoConfig());
       Map<String, ModifiedFile> priorVsCurrent =
@@ -79,7 +76,6 @@ public class ListOfFilesUnchangedPredicate extends ApprovalPredicate {
               ctx.changeNotes().getProjectName(),
               sourcePatchSet.commitId(),
               targetPatchSet.commitId(),
-              DiffOptions.DEFAULTS,
               ctx.revWalk(),
               ctx.repoConfig());
       return match(baseVsCurrent, baseVsPrior, priorVsCurrent);

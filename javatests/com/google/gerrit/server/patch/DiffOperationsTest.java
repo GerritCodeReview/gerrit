@@ -139,8 +139,7 @@ public class DiffOperationsTest {
 
     // This call loads modified files directly without going through the diff cache.
     Map<String, ModifiedFile> modifiedFiles =
-        diffOperations.loadModifiedFiles(
-            testProjectName, newCommitId, oldCommitId, DiffOptions.DEFAULTS, rw, repoConfig);
+        diffOperations.loadModifiedFiles(testProjectName, newCommitId, oldCommitId, rw, repoConfig);
 
     assertThat(modifiedFiles)
         .containsExactly(
@@ -171,7 +170,6 @@ public class DiffOperationsTest {
             testProjectName,
             newCommitId,
             oldCommitId,
-            DiffOptions.DEFAULTS,
             new RevWalk(objectReader),
             repository.getConfig());
 
@@ -206,7 +204,7 @@ public class DiffOperationsTest {
     // This call loads modified files directly without going through the diff cache.
     Map<String, ModifiedFile> modifiedFiles =
         diffOperations.loadModifiedFilesAgainstParent(
-            testProjectName, newCommitId, /* parentNum=*/ 0, DiffOptions.DEFAULTS, rw, repoConfig);
+            testProjectName, newCommitId, /* parentNum=*/ 0, rw, repoConfig);
 
     assertThat(modifiedFiles)
         .containsExactly(

@@ -140,15 +140,18 @@ public abstract class MetricMaker {
    * @param trigger trigger to connect
    * @return registration handle
    */
+  @CanIgnoreReturnValue
   public RegistrationHandle newTrigger(CallbackMetric<?> metric1, Runnable trigger) {
     return newTrigger(ImmutableSet.of(metric1), trigger);
   }
 
+  @CanIgnoreReturnValue
   public RegistrationHandle newTrigger(
       CallbackMetric<?> metric1, CallbackMetric<?> metric2, Runnable trigger) {
     return newTrigger(ImmutableSet.of(metric1, metric2), trigger);
   }
 
+  @CanIgnoreReturnValue
   public RegistrationHandle newTrigger(
       CallbackMetric<?> metric1,
       CallbackMetric<?> metric2,
@@ -157,6 +160,7 @@ public abstract class MetricMaker {
     return newTrigger(ImmutableSet.of(metric1, metric2, metric3), trigger);
   }
 
+  @CanIgnoreReturnValue
   public abstract RegistrationHandle newTrigger(Set<CallbackMetric<?>> metrics, Runnable trigger);
 
   /**

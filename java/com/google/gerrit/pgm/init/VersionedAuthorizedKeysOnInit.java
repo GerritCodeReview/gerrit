@@ -17,6 +17,7 @@ package com.google.gerrit.pgm.init;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.base.Strings;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.pgm.init.api.AllUsersNameOnInitProvider;
@@ -63,6 +64,7 @@ public class VersionedAuthorizedKeysOnInit extends VersionedMetaDataOnInit {
     keys = AuthorizedKeys.parse(accountId, readUTF8(AuthorizedKeys.FILE_NAME));
   }
 
+  @CanIgnoreReturnValue
   public AccountSshKey addKey(String pub) {
     checkState(keys != null, "SSH keys not loaded yet");
     int seq = keys.isEmpty() ? 1 : keys.size() + 1;

@@ -9,6 +9,7 @@ java_library(
     deps = [
         "//java/com/google/gerrit/prettify:server",
         "//lib:guava",
+        "//lib/errorprone:annotations",
         "//lib/truth",
     ],
 )

@@ -85,9 +85,13 @@ public class DropWizardMetricMakerTest {
   public void shouldRequestForReservoirForNewTimer() throws Exception {
     when(reservoirConfigMock.reservoirType()).thenReturn(ReservoirType.ExponentiallyDecaying);
 
-    metrics.newTimer(
-        "foo",
-        new Description("foo description").setCumulative().setUnit(Description.Units.MILLISECONDS));
+    @SuppressWarnings("unused")
+    var unused =
+        metrics.newTimer(
+            "foo",
+            new Description("foo description")
+                .setCumulative()
+                .setUnit(Description.Units.MILLISECONDS));
 
     verify(reservoirConfigMock).reservoirType();
   }

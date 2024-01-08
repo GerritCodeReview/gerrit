@@ -100,7 +100,8 @@ public class PostWatchedProjects
 
       if (!Strings.isNullOrEmpty(info.filter)) {
         try {
-          QueryParser.parse(info.filter);
+          @SuppressWarnings("unused")
+          var unused = QueryParser.parse(info.filter);
         } catch (QueryParseException e) {
           throw new BadRequestException(
               String.format(

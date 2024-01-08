@@ -175,7 +175,8 @@ public class CreateLabel
 
     if (input.copyCondition != null) {
       try {
-        approvalQueryBuilder.parse(input.copyCondition);
+        @SuppressWarnings("unused")
+        var unused = approvalQueryBuilder.parse(input.copyCondition);
       } catch (QueryParseException e) {
         throw new BadRequestException(
             "unable to parse copy condition. got: " + input.copyCondition + ". " + e.getMessage(),

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.metrics;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
+
 abstract class TimerContext implements AutoCloseable {
   private final long startNanos;
   private boolean stopped;
@@ -40,6 +42,7 @@ abstract class TimerContext implements AutoCloseable {
    * @return the elapsed time in nanoseconds.
    * @throws IllegalStateException if the timer is already stopped.
    */
+  @CanIgnoreReturnValue
   public long stop() {
     if (!stopped) {
       stopped = true;

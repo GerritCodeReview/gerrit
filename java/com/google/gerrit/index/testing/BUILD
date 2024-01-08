@@ -16,6 +16,7 @@ java_library(
         "//lib:guava",
         "//lib:jgit",
         "//lib:protobuf",
+        "//lib/errorprone:annotations",
         "//lib/flogger:api",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",

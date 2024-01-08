@@ -6,5 +6,6 @@ java_library(
     visibility = ["//visibility:public"],
     deps = [
         "//lib:protobuf",
+        "//lib/errorprone:annotations",
     ],
 )

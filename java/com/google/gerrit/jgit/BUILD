@@ -9,5 +9,6 @@ java_library(
     deps = [
         "//lib:gson",
         "//lib:jgit",
+        "//lib/errorprone:annotations",
     ],
 )

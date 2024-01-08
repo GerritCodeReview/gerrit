@@ -6,4 +6,7 @@ java_library(
     name = "launcher",
     srcs = ["GerritLauncher.java"],
     visibility = ["//visibility:public"],
+    deps = [
+        "//lib/errorprone:annotations",
+    ],
 )

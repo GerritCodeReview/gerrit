@@ -10,6 +10,7 @@ java_library(
         "//java/com/google/gerrit/index",
         "//java/com/google/gerrit/index:query_exception",
         "//lib:guava",
+        "//lib/errorprone:annotations",
         "//lib/lucene:lucene-core",
     ],
 )
@@ -35,6 +36,7 @@ java_library(
         "//lib:guava",
         "//lib:jgit",
         "//lib:protobuf",
+        "//lib/errorprone:annotations",
         "//lib/flogger:api",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",

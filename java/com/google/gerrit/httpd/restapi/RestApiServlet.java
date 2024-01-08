@@ -51,6 +51,7 @@ import com.google.common.io.BaseEncoding;
 import com.google.common.io.CountingOutputStream;
 import com.google.common.math.IntMath;
 import com.google.common.net.HttpHeaders;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.entities.Project;
@@ -1306,6 +1307,7 @@ public class RestApiServlet extends HttpServlet {
    * @param result the object that should be formatted as JSON
    * @return the length of the response
    */
+  @CanIgnoreReturnValue
   public static long replyJson(
       @Nullable HttpServletRequest req,
       HttpServletResponse res,
@@ -1397,6 +1399,7 @@ public class RestApiServlet extends HttpServlet {
   }
 
   @SuppressWarnings("resource")
+  @CanIgnoreReturnValue
   static long replyBinaryResult(
       @Nullable HttpServletRequest req, HttpServletResponse res, BinaryResult bin)
       throws IOException {
@@ -1840,6 +1843,7 @@ public class RestApiServlet extends HttpServlet {
     return uri;
   }
 
+  @CanIgnoreReturnValue
   public static long replyError(
       HttpServletRequest req,
       HttpServletResponse res,
@@ -1850,6 +1854,7 @@ public class RestApiServlet extends HttpServlet {
     return replyError(req, res, statusCode, msg, CacheControl.NONE, err);
   }
 
+  @CanIgnoreReturnValue
   public static long replyError(
       HttpServletRequest req,
       HttpServletResponse res,
@@ -1878,6 +1883,7 @@ public class RestApiServlet extends HttpServlet {
    * @param text the text reply
    * @return the length of the response
    */
+  @CanIgnoreReturnValue
   static long replyText(
       @Nullable HttpServletRequest req, HttpServletResponse res, boolean allowTracing, String text)
       throws IOException {

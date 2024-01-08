@@ -25,6 +25,7 @@ java_library(
         "//lib:guava",
         "//lib:jgit",
         "//lib/commons:validator",
+        "//lib/errorprone:annotations",
         "//lib/flogger:api",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",

@@ -9,6 +9,7 @@ java_library(
         "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/server",
+        "//lib/errorprone:annotations",
         "//lib/flogger:api",
         "//lib/guice",
     ],

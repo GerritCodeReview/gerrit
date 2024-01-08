@@ -26,6 +26,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.SchemaFieldDefs.SchemaField;
@@ -48,11 +49,13 @@ public class Schema<T> {
 
     private Optional<Integer> version = Optional.empty();
 
+    @CanIgnoreReturnValue
     public Builder<T> version(int version) {
       this.version = Optional.of(version);
       return this;
     }
 
+    @CanIgnoreReturnValue
     public Builder<T> add(Schema<T> schema) {
       this.indexedFields.addAll(schema.getIndexFields().values());
       this.searchFields.addAll(schema.getSchemaFields().values());
@@ -63,10 +66,12 @@ public class Schema<T> {
     }
 
     @SafeVarargs
+    @CanIgnoreReturnValue
     public final Builder<T> addSearchSpecs(IndexedField<T, ?>.SearchSpec... searchSpecs) {
       return addSearchSpecs(ImmutableList.copyOf(searchSpecs));
     }
 
+    @CanIgnoreReturnValue
     public Builder<T> addSearchSpecs(ImmutableList<IndexedField<T, ?>.SearchSpec> searchSpecs) {
       for (IndexedField<T, ?>.SearchSpec searchSpec : searchSpecs) {
         checkArgument(
@@ -80,22 +85,26 @@ public class Schema<T> {
     }
 
     @SafeVarargs
+    @CanIgnoreReturnValue
     public final Builder<T> addIndexedFields(IndexedField<T, ?>... fields) {
       return addIndexedFields(ImmutableList.copyOf(fields));
     }
 
+    @CanIgnoreReturnValue
     public Builder<T> addIndexedFields(ImmutableList<IndexedField<T, ?>> indexedFields) {
       this.indexedFields.addAll(indexedFields);
       return this;
     }
 
     @SafeVarargs
+    @CanIgnoreReturnValue
     public final Builder<T> remove(IndexedField<T, ?>.SearchSpec... searchSpecs) {
       this.searchFields.removeAll(Arrays.asList(searchSpecs));
       return this;
     }
 
     @SafeVarargs
+    @CanIgnoreReturnValue
     public final Builder<T> remove(IndexedField<T, ?>... indexedFields) {
       for (IndexedField<T, ?> field : indexedFields) {
         ImmutableMap<String, ? extends IndexedField<T, ?>.SearchSpec> searchSpecs =
@@ -134,6 +143,7 @@ public class Schema<T> {
     }
   }
 
+  @CanIgnoreReturnValue
   private static <T> SchemaField<T, ?> checkSame(SchemaField<T, ?> f1, SchemaField<T, ?> f2) {
     checkState(f1 == f2, "Mismatched %s fields: %s != %s", f1.getName(), f1, f2);
     return f1;

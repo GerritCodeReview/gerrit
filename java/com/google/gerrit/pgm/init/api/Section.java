@@ -14,6 +14,7 @@
 
 package com.google.gerrit.pgm.init.api;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.securestore.SecureStore;
@@ -100,10 +101,12 @@ public class Section {
     set(name, (String) null);
   }
 
+  @CanIgnoreReturnValue
   public String string(String title, String name, String dv) {
     return string(title, name, dv, false);
   }
 
+  @CanIgnoreReturnValue
   public String string(final String title, String name, String dv, boolean nullIfDefault) {
     final String ov = get(name);
     String nv = ui.readString(ov != null ? ov : dv, "%s", title);
@@ -120,11 +123,13 @@ public class Section {
     return site.resolve(string(title, name, defValue));
   }
 
+  @CanIgnoreReturnValue
   public <T extends Enum<?>, E extends EnumSet<? extends T>> T select(
       String title, String name, T defValue) {
     return select(title, name, defValue, false);
   }
 
+  @CanIgnoreReturnValue
   public <T extends Enum<?>, E extends EnumSet<? extends T>> T select(
       String title, String name, T defValue, boolean nullIfDefault) {
     @SuppressWarnings("rawtypes")
@@ -134,11 +139,13 @@ public class Section {
     return select(title, name, defValue, allowedValues, nullIfDefault);
   }
 
+  @CanIgnoreReturnValue
   public <T extends Enum<?>, E extends EnumSet<? extends T>> T select(
       String title, String name, T defValue, E allowedValues) {
     return select(title, name, defValue, allowedValues, false);
   }
 
+  @CanIgnoreReturnValue
   public <T extends Enum<?>, A extends EnumSet<? extends T>> T select(
       String title, String name, T defValue, A allowedValues, boolean nullIfDefault) {
     final boolean set = get(name) != null;
@@ -167,6 +174,7 @@ public class Section {
   }
 
   @Nullable
+  @CanIgnoreReturnValue
   public String password(String username, String password) {
     final String ov = getSecure(password);
 
@@ -196,6 +204,7 @@ public class Section {
     return nv;
   }
 
+  @CanIgnoreReturnValue
   public String passwordForKey(String prompt, String passwordKey) {
     String ov = getSecure(passwordKey);
     if (ov != null) {

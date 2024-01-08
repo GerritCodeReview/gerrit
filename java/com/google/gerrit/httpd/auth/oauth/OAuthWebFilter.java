@@ -102,7 +102,9 @@ class OAuthWebFilter implements Filter {
         service = findService(provider);
       }
       oauthSession.setServiceProvider(service);
-      oauthSession.login(httpRequest, httpResponse, service);
+
+      @SuppressWarnings("unused")
+      var unused = oauthSession.login(httpRequest, httpResponse, service);
     } else {
       chain.doFilter(httpRequest, response);
     }

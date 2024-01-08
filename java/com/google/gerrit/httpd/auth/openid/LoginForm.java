@@ -174,7 +174,9 @@ class LoginForm extends HttpServlet {
       if ((isGerritLogin(req) || oauthSession.isOAuthFinal(req))) {
         oauthSession.setServiceProvider(oauthProvider);
         oauthSession.setLinkMode(link);
-        oauthSession.login(req, res, oauthProvider);
+
+        @SuppressWarnings("unused")
+        var unused = oauthSession.login(req, res, oauthProvider);
       }
     }
   }

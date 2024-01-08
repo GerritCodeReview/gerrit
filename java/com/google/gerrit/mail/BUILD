@@ -10,6 +10,7 @@ java_library(
         "//lib:guava",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
+        "//lib/errorprone:annotations",
         "//lib/flogger:api",
         "//lib/jsoup",
         "//lib/mime4j:core",

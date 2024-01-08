@@ -12,6 +12,7 @@ java_library(
         "//antlr3:query_parser",
         "//lib:guava",
         "//lib/antlr:java-runtime",
+        "//lib/errorprone:annotations",
         "//lib/truth",
     ],
 )

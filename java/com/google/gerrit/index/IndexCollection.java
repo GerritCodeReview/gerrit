@@ -16,6 +16,7 @@ package com.google.gerrit.index;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Lists;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import java.util.Collection;
 import java.util.Collections;
@@ -53,6 +54,7 @@ public abstract class IndexCollection<K, V, I extends Index<K, V>> implements Li
     return Collections.unmodifiableCollection(writeIndexes);
   }
 
+  @CanIgnoreReturnValue
   public synchronized I addWriteIndex(I index) {
     int version = index.getSchema().getVersion();
     for (int i = 0; i < writeIndexes.size(); i++) {

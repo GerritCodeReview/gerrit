@@ -70,7 +70,7 @@ public abstract class AllRequestFilter implements Filter {
      * Initializes a filter if needed
      *
      * @param filter The filter that should get initialized
-     * @return {@code true} iff filter is now initialized
+     * @return {@code true} if filter is now initialized
      * @throws ServletException if filter itself fails to init
      */
     private synchronized boolean initFilterIfNeeded(AllRequestFilter filter)
@@ -150,7 +150,8 @@ public abstract class AllRequestFilter implements Filter {
       filterConfig = config;
 
       for (AllRequestFilter f : filters) {
-        initFilterIfNeeded(f);
+        @SuppressWarnings("unused")
+        var unused = initFilterIfNeeded(f);
       }
     }
 

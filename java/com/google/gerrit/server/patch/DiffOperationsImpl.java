@@ -16,6 +16,7 @@ package com.google.gerrit.server.patch;
 
 import static com.google.gerrit.entities.Patch.COMMIT_MSG;
 import static com.google.gerrit.entities.Patch.MERGE_LIST;
+import static java.util.stream.Collectors.toMap;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableCollection;
@@ -32,6 +33,7 @@ import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.patch.diff.ModifiedFilesCache;
 import com.google.gerrit.server.patch.diff.ModifiedFilesCacheImpl;
 import com.google.gerrit.server.patch.diff.ModifiedFilesCacheKey;
+import com.google.gerrit.server.patch.diff.ModifiedFilesLoader;
 import com.google.gerrit.server.patch.filediff.FileDiffCache;
 import com.google.gerrit.server.patch.filediff.FileDiffCacheImpl;
 import com.google.gerrit.server.patch.filediff.FileDiffCacheKey;
@@ -47,17 +49,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.function.Function;
-import java.util.stream.Collectors;
-import org.eclipse.jgit.diff.DiffEntry;
-import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.util.io.DisabledOutputStream;
 
 /**
  * Provides different file diff operations. Uses the underlying Git/Gerrit caches to speed up the
@@ -67,25 +63,13 @@ import org.eclipse.jgit.util.io.DisabledOutputStream;
 public class DiffOperationsImpl implements DiffOperations {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private static final ImmutableMap<DiffEntry.ChangeType, Patch.ChangeType> changeTypeMap =
-      ImmutableMap.of(
-          DiffEntry.ChangeType.ADD,
-          Patch.ChangeType.ADDED,
-          DiffEntry.ChangeType.MODIFY,
-          Patch.ChangeType.MODIFIED,
-          DiffEntry.ChangeType.DELETE,
-          Patch.ChangeType.DELETED,
-          DiffEntry.ChangeType.RENAME,
-          Patch.ChangeType.RENAMED,
-          DiffEntry.ChangeType.COPY,
-          Patch.ChangeType.COPIED);
-
   private static final int RENAME_SCORE = 60;
   private static final DiffAlgorithm DEFAULT_DIFF_ALGORITHM =
       DiffAlgorithm.HISTOGRAM_WITH_FALLBACK_MYERS;
   private static final Whitespace DEFAULT_WHITESPACE = Whitespace.IGNORE_NONE;
 
   private final ModifiedFilesCache modifiedFilesCache;
+  private final ModifiedFilesLoader.Factory modifiedFilesLoaderFactory;
   private final FileDiffCache fileDiffCache;
   private final BaseCommitUtil baseCommitUtil;
 
@@ -105,9 +89,11 @@ public class DiffOperationsImpl implements DiffOperations {
   @Inject
   public DiffOperationsImpl(
       ModifiedFilesCache modifiedFilesCache,
+      ModifiedFilesLoader.Factory modifiedFilesLoaderFactory,
       FileDiffCache fileDiffCache,
       BaseCommitUtil baseCommit) {
     this.modifiedFilesCache = modifiedFilesCache;
+    this.modifiedFilesLoaderFactory = modifiedFilesLoaderFactory;
     this.fileDiffCache = fileDiffCache;
     this.baseCommitUtil = baseCommit;
   }
@@ -391,50 +377,13 @@ public class DiffOperationsImpl implements DiffOperations {
   }
 
   /** Loads the modified file paths between two commits without inspecting the diff cache. */
-  private static Map<String, ModifiedFile> loadModifiedFilesWithoutCache(
+  private Map<String, ModifiedFile> loadModifiedFilesWithoutCache(
       Project.NameKey project, DiffParameters diffParams, RevWalk revWalk, Config repoConfig)
       throws DiffNotAvailableException {
-    ObjectId newCommit = diffParams.newCommit();
-    ObjectId oldCommit = diffParams.baseCommit();
-    try {
-      ObjectReader reader = revWalk.getObjectReader();
-      List<DiffEntry> diffEntries;
-      try (DiffFormatter df = new DiffFormatter(DisabledOutputStream.INSTANCE)) {
-        df.setReader(reader, repoConfig);
-        df.setDetectRenames(false);
-        diffEntries = df.scan(oldCommit.equals(ObjectId.zeroId()) ? null : oldCommit, newCommit);
-      }
-      List<ModifiedFile> modifiedFiles =
-          diffEntries.stream()
-              .map(
-                  entry ->
-                      ModifiedFile.builder()
-                          .changeType(toChangeType(entry.getChangeType()))
-                          .oldPath(getGitPath(entry.getOldPath()))
-                          .newPath(getGitPath(entry.getNewPath()))
-                          .build())
-              .collect(Collectors.toList());
-      return DiffUtil.mergeRewrittenModifiedFiles(modifiedFiles).stream()
-          .collect(ImmutableMap.toImmutableMap(ModifiedFile::getDefaultPath, Function.identity()));
-    } catch (IOException e) {
-      throw new DiffNotAvailableException(
-          String.format(
-              "Failed to compute the modified files for project '%s',"
-                  + " old commit '%s', new commit '%s'.",
-              project, oldCommit.name(), newCommit.name()),
-          e);
-    }
-  }
-
-  private static Optional<String> getGitPath(String path) {
-    return path.equals(DiffEntry.DEV_NULL) ? Optional.empty() : Optional.of(path);
-  }
-
-  private static Patch.ChangeType toChangeType(DiffEntry.ChangeType changeType) {
-    if (!changeTypeMap.containsKey(changeType)) {
-      throw new IllegalArgumentException("Unsupported type " + changeType);
-    }
-    return changeTypeMap.get(changeType);
+    return modifiedFilesLoaderFactory.create()
+        .load(project, repoConfig, revWalk, diffParams.baseCommit(), diffParams.newCommit())
+        .stream()
+        .collect(toMap(ModifiedFile::getDefaultPath, Function.identity()));
   }
 
   @AutoValue

@@ -32,7 +32,10 @@ import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.query.approval.ApprovalContext;
 import com.google.gerrit.server.query.approval.ApprovalQueryBuilder;
+import com.google.gerrit.server.update.RepoView;
 import com.google.inject.Inject;
+import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Test;
@@ -298,7 +301,9 @@ public class ApprovalQueryIT extends AbstractDaemonTest {
         changeKindCache.getChangeKind(
             changeNotes.getChange(), changeNotes.getPatchSets().get(newPsId));
     try (Repository repo = repoManager.openRepository(project);
-        RevWalk rw = new RevWalk(repo.newObjectReader())) {
+        ObjectInserter ins = repo.newObjectInserter();
+        ObjectReader reader = ins.newReader();
+        RevWalk rw = new RevWalk(reader)) {
       return ApprovalContext.create(
           changeNotes,
           psId,
@@ -308,8 +313,7 @@ public class ApprovalQueryIT extends AbstractDaemonTest {
           changeNotes.getPatchSets().get(newPsId),
           changeKind,
           /* isMerge= */ false,
-          rw,
-          repo.getConfig());
+          new RepoView(repo, rw, ins));
     }
   }
 }

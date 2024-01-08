@@ -20,11 +20,14 @@ import com.google.gerrit.entities.Patch.ChangeType;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
+import com.google.gerrit.server.git.InMemoryInserter;
 import com.google.gerrit.server.patch.filediff.FileDiffOutput;
 import com.google.gerrit.server.patch.gitdiff.ModifiedFile;
+import com.google.gerrit.server.update.RepoView;
 import java.util.Map;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 /**
@@ -68,12 +71,15 @@ public interface DiffOperations {
    * DiffOptions)} but loads the modified files directly instead of retrieving them from the diff
    * cache.
    *
-   * <p>A RevWalk and repoConfig are also supplied and are used to look up the commit IDs. This is
-   * useful in case one the commits is currently being created, that's why the {@code revWalk}
-   * parameter is needed.
+   * <p>Commits are looked up from the provided {@link RepoView}. This way this method can also read
+   * new commits which are being created by the current request.
    *
    * <p>Note that rename detection is disabled for this method.
    *
+   * @param repoView view to the repo from which commits IDs are looked up
+   * @param ins {@link ObjectInserter} to be used to create the auto-merge if the diff is done for a
+   *     merge commit against the auto-merge and the auto-merge ref doesn't exist yet. This may be
+   *     an {@link InMemoryInserter}.
    * @return a map of file paths to {@link ModifiedFile}. The {@link ModifiedFile} contains the
    *     old/new file paths and the change type (added, deleted, etc...).
    */
@@ -81,8 +87,8 @@ public interface DiffOperations {
       Project.NameKey project,
       ObjectId newCommit,
       int parentNum,
-      RevWalk revWalk,
-      Config repoConfig)
+      RepoView repoView,
+      ObjectInserter ins)
       throws DiffNotAvailableException;
 
   /**

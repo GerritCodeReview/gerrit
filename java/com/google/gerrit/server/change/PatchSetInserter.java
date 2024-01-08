@@ -269,10 +269,7 @@ public class PatchSetInserter implements BatchUpdateOp {
 
     Optional<ReceiveCommand> autoMerge =
         autoMerger.createAutoMergeCommitIfNecessary(
-            ctx.getRepoView(),
-            ctx.getRevWalk(),
-            ctx.getInserter(),
-            ctx.getRevWalk().parseCommit(commitId));
+            ctx.getRepoView(), ctx.getInserter(), ctx.getRevWalk().parseCommit(commitId));
     if (autoMerge.isPresent()) {
       ctx.addRefUpdate(autoMerge.get());
     }
@@ -333,7 +330,7 @@ public class PatchSetInserter implements BatchUpdateOp {
     if (storeCopiedVotes) {
       approvalCopierResult =
           approvalsUtil.copyApprovalsToNewPatchSet(
-              ctx.getNotes(), patchSet, ctx.getRevWalk(), ctx.getRepoView().getConfig(), update);
+              ctx.getNotes(), patchSet, ctx.getRepoView(), update);
     }
 
     mailMessage = insertChangeMessage(update, ctx);

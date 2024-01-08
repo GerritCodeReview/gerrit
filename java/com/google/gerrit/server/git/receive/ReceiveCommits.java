@@ -3230,7 +3230,6 @@ class ReceiveCommits {
                 Optional<ReceiveCommand> autoMerge =
                     autoMerger.createAutoMergeCommitIfNecessary(
                         ctx.getRepoView(),
-                        ctx.getRevWalk(),
                         ctx.getInserter(),
                         ctx.getRevWalk().parseCommit(newCommitId));
                 if (autoMerge.isPresent()) {

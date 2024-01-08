@@ -46,6 +46,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.approval.ApprovalContext;
 import com.google.gerrit.server.query.approval.ApprovalQueryBuilder;
+import com.google.gerrit.server.update.RepoView;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
@@ -54,7 +55,8 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Optional;
-import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 
@@ -208,7 +210,7 @@ public class ApprovalCopier {
    * </ul>
    */
   @VisibleForTesting
-  public Result forPatchSet(ChangeNotes notes, PatchSet ps, RevWalk rw, Config repoConfig) {
+  public Result forPatchSet(ChangeNotes notes, PatchSet ps, RepoView repoView) {
     ProjectState project;
     try (TraceTimer traceTimer =
         TraceContext.newTimer(
@@ -221,7 +223,7 @@ public class ApprovalCopier {
           projectCache
               .get(notes.getProjectName())
               .orElseThrow(illegalState(notes.getProjectName()));
-      return computeForPatchSet(project.getLabelTypes(), notes, ps, rw, repoConfig);
+      return computeForPatchSet(project.getLabelTypes(), notes, ps, repoView);
     }
   }
 
@@ -267,7 +269,9 @@ public class ApprovalCopier {
     }
 
     try (Repository repo = repoManager.openRepository(changeNotes.getProjectName());
-        RevWalk revWalk = new RevWalk(repo)) {
+        ObjectInserter ins = repo.newObjectInserter();
+        ObjectReader reader = ins.newReader();
+        RevWalk revWalk = new RevWalk(reader)) {
       ImmutableList<PatchSet.Id> followUpPatchSets =
           changeNotes.getPatchSets().keySet().stream()
               .filter(psId -> psId.get() > sourcePatchSet.id().get())
@@ -296,8 +300,7 @@ public class ApprovalCopier {
                 approvalValue,
                 changeKind,
                 isMerge,
-                revWalk,
-                repo.getConfig())
+                new RepoView(repo, revWalk, ins))
             .canCopy()) {
           targetPatchSetsBuilder.add(followUpPatchSetId);
         } else {
@@ -328,8 +331,7 @@ public class ApprovalCopier {
       short approvalValue,
       ChangeKind changeKind,
       boolean isMerge,
-      RevWalk revWalk,
-      Config repoConfig) {
+      RepoView repoView) {
     if (!labelType.getCopyCondition().isPresent()) {
       return ApprovalCopyResult.createForMissingCopyCondition();
     }
@@ -343,8 +345,7 @@ public class ApprovalCopier {
             targetPatchSet,
             changeKind,
             isMerge,
-            revWalk,
-            repoConfig);
+            repoView);
     try {
       // Use a request context to run checks as an internal user with expanded visibility. This is
       // so that the output of the copy condition does not depend on who is running the current
@@ -382,11 +383,7 @@ public class ApprovalCopier {
   }
 
   private Result computeForPatchSet(
-      LabelTypes labelTypes,
-      ChangeNotes notes,
-      PatchSet targetPatchSet,
-      RevWalk rw,
-      Config repoConfig) {
+      LabelTypes labelTypes, ChangeNotes notes, PatchSet targetPatchSet, RepoView repoView) {
     Project.NameKey projectName = notes.getProjectName();
     PatchSet.Id targetPsId = targetPatchSet.id();
 
@@ -420,11 +417,11 @@ public class ApprovalCopier {
     ChangeKind changeKind =
         changeKindCache.getChangeKind(
             projectName,
-            rw,
-            repoConfig,
+            repoView.getRevWalk(),
+            repoView.getConfig(),
             priorPatchSet.getValue().commitId(),
             targetPatchSet.commitId());
-    boolean isMerge = isMerge(projectName, rw, targetPatchSet);
+    boolean isMerge = isMerge(projectName, repoView.getRevWalk(), targetPatchSet);
     logger.atFine().log(
         "change kind for patch set %d of change %d against prior patch set %s is %s",
         targetPatchSet.id().get(),
@@ -464,8 +461,7 @@ public class ApprovalCopier {
               priorPsa.value(),
               changeKind,
               isMerge,
-              rw,
-              repoConfig);
+              repoView);
       if (approvalCopyResult.canCopy()) {
         if (!currentApprovalsByUser.contains(priorPsa.label(), priorPsa.accountId())) {
           PatchSetApproval copiedApproval = priorPsa.copyWithPatchSet(targetPatchSet.id());

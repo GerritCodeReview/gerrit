@@ -451,10 +451,7 @@ public class ChangeInserter implements InsertChangeOp {
     ctx.addRefUpdate(cmd);
     Optional<ReceiveCommand> autoMerge =
         autoMerger.createAutoMergeCommitIfNecessary(
-            ctx.getRepoView(),
-            ctx.getRevWalk(),
-            ctx.getInserter(),
-            ctx.getRevWalk().parseCommit(commitId));
+            ctx.getRepoView(), ctx.getInserter(), ctx.getRevWalk().parseCommit(commitId));
     if (autoMerge.isPresent()) {
       ctx.addRefUpdate(autoMerge.get());
     }

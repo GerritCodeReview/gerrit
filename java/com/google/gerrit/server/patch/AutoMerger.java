@@ -43,7 +43,6 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.merge.ResolveMerger;
 import org.eclipse.jgit.merge.ThreeWayMergeStrategy;
@@ -143,7 +142,7 @@ public class AutoMerger {
       Repository repo, RevWalk rw, InMemoryInserter ins, RevCommit merge) throws IOException {
     checkArgument(rw.getObjectReader().getCreatedFromInserter() == ins);
     Optional<RevCommit> existingCommit =
-        lookupCommit(repo, rw, RefNames.refsCacheAutomerge(merge.name()));
+        lookupCommit(new RepoView(repo, rw, ins), RefNames.refsCacheAutomerge(merge.name()));
     if (existingCommit.isPresent()) {
       counter.increment(OperationType.CACHE_LOAD);
       return existingCommit.get();
@@ -167,8 +166,7 @@ public class AutoMerger {
    *     auto merge commit.
    */
   public Optional<ReceiveCommand> createAutoMergeCommitIfNecessary(
-      RepoView repoView, RevWalk rw, ObjectInserter ins, RevCommit maybeMergeCommit)
-      throws IOException {
+      RepoView repoView, ObjectInserter ins, RevCommit maybeMergeCommit) throws IOException {
     if (maybeMergeCommit.getParentCount() != 2) {
       logger.atFine().log("AutoMerge not required");
       return Optional.empty();
@@ -188,7 +186,7 @@ public class AutoMerger {
     return Optional.of(
         new ReceiveCommand(
             ObjectId.zeroId(),
-            createAutoMergeCommit(repoView, rw, ins, maybeMergeCommit),
+            createAutoMergeCommit(repoView, ins, maybeMergeCommit),
             automergeRef));
   }
 
@@ -199,23 +197,27 @@ public class AutoMerger {
    *
    * @return An auto-merge commit. Headers of the returned RevCommit are parsed.
    */
-  ObjectId createAutoMergeCommit(
-      RepoView repoView, RevWalk rw, ObjectInserter ins, RevCommit mergeCommit) throws IOException {
+  ObjectId createAutoMergeCommit(RepoView repoView, ObjectInserter ins, RevCommit mergeCommit)
+      throws IOException {
     ObjectId autoMerge;
     try (Timer1.Context<OperationType> ignored = latency.start(OperationType.ON_DISK_WRITE)) {
       autoMerge =
           createAutoMergeCommit(
-              repoView.getConfig(), rw, ins, mergeCommit, configuredMergeStrategy);
+              repoView.getConfig(),
+              repoView.getRevWalk(),
+              ins,
+              mergeCommit,
+              configuredMergeStrategy);
     }
     counter.increment(OperationType.ON_DISK_WRITE);
     logger.atFine().log("Added %s AutoMerge ref update for commit", autoMerge.name());
     return autoMerge;
   }
 
-  Optional<RevCommit> lookupCommit(Repository repo, RevWalk rw, String refName) throws IOException {
-    Ref ref = repo.getRefDatabase().exactRef(refName);
-    if (ref != null && ref.getObjectId() != null) {
-      RevObject obj = rw.parseAny(ref.getObjectId());
+  Optional<RevCommit> lookupCommit(RepoView repoView, String refName) throws IOException {
+    Optional<ObjectId> commit = repoView.getRef(refName);
+    if (commit.isPresent()) {
+      RevObject obj = repoView.getRevWalk().parseAny(commit.get());
       if (obj instanceof RevCommit) {
         return Optional.of((RevCommit) obj);
       }

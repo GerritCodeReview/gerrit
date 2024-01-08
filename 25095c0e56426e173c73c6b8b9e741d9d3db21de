@@ -146,6 +146,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cb3d0c6b_c32bf5a4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1148165
+      },
+      "writtenOn": "2024-01-08T02:12:58Z",
+      "side": 1,
+      "message": "Frankly speaking. I don\u0027t think there is a good way to reproduce it.\nFor us, it can be reproduced if we just put a 3 second sleep inside task. But it highly depends on CPU frequency and scheduler. I\u0027m not sure if there is a 100% chance way to make thread B preempt between step 5.b and 6",
+      "parentUuid": "16488cb7_acb034ab",
+      "range": {
+        "startLine": 10,
+        "startChar": 67,
+        "endLine": 12,
+        "endChar": 43
+      },
+      "revId": "25095c0e56426e173c73c6b8b9e741d9d3db21de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cb23676f_58efe17c",
         "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
         "patchSetId": 2

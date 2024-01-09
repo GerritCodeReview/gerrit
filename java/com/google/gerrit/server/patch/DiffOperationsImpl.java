@@ -20,6 +20,7 @@ import static com.google.gerrit.entities.Patch.MERGE_LIST;
 import static java.util.Comparator.naturalOrder;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -69,7 +70,8 @@ import org.eclipse.jgit.revwalk.RevWalk;
 public class DiffOperationsImpl implements DiffOperations {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private static final int RENAME_SCORE = 60;
+  @VisibleForTesting static final int RENAME_SCORE = 60;
+
   private static final DiffAlgorithm DEFAULT_DIFF_ALGORITHM =
       DiffAlgorithm.HISTOGRAM_WITH_FALLBACK_MYERS;
   private static final Whitespace DEFAULT_WHITESPACE = Whitespace.IGNORE_NONE;
@@ -133,13 +135,14 @@ public class DiffOperationsImpl implements DiffOperations {
       ObjectId newCommit,
       int parentNum,
       RepoView repoView,
-      ObjectInserter ins)
+      ObjectInserter ins,
+      boolean enableRenameDetection)
       throws DiffNotAvailableException {
     try {
       DiffParameters diffParams =
           computeDiffParameters(project, newCommit, parentNum, repoView, ins);
       return loadModifiedFilesWithoutCache(
-          project, diffParams, repoView.getRevWalk(), repoView.getConfig());
+          project, diffParams, repoView.getRevWalk(), repoView.getConfig(), enableRenameDetection);
     } catch (IOException e) {
       throw new DiffNotAvailableException(
           String.format(
@@ -169,7 +172,8 @@ public class DiffOperationsImpl implements DiffOperations {
       ObjectId oldCommit,
       ObjectId newCommit,
       RevWalk revWalk,
-      Config repoConfig)
+      Config repoConfig,
+      boolean enableRenameDetection)
       throws DiffNotAvailableException {
     DiffParameters params =
         DiffParameters.builder()
@@ -178,7 +182,8 @@ public class DiffOperationsImpl implements DiffOperations {
             .baseCommit(oldCommit)
             .comparisonType(ComparisonType.againstOtherPatchSet())
             .build();
-    return loadModifiedFilesWithoutCache(project, params, revWalk, repoConfig);
+    return loadModifiedFilesWithoutCache(
+        project, params, revWalk, repoConfig, enableRenameDetection);
   }
 
   @Override
@@ -404,23 +409,37 @@ public class DiffOperationsImpl implements DiffOperations {
    * <p>The results will be stored in the {@link ModifiedFilesCache}.
    */
   private Map<String, ModifiedFile> loadModifiedFilesWithoutCache(
-      Project.NameKey project, DiffParameters diffParams, RevWalk revWalk, Config repoConfig)
+      Project.NameKey project,
+      DiffParameters diffParams,
+      RevWalk revWalk,
+      Config repoConfig,
+      boolean enableRenameDetection)
       throws DiffNotAvailableException {
+    ModifiedFilesLoader modifiedFilesLoader = modifiedFilesLoaderFactory.create();
+    if (enableRenameDetection) {
+      modifiedFilesLoader.withRenameDetection(RENAME_SCORE);
+    }
     Map<String, ModifiedFile> modifiedFiles =
-        modifiedFilesLoaderFactory.create()
+        modifiedFilesLoader
             .load(project, repoConfig, revWalk, diffParams.baseCommit(), diffParams.newCommit())
             .stream()
             .collect(
                 toImmutableSortedMap(
                     naturalOrder(), ModifiedFile::getDefaultPath, Function.identity()));
-    ModifiedFilesCacheKey cacheKey =
+
+    // Store the result in the cache.
+    ModifiedFilesCacheKey.Builder cacheKeyBuilder =
         ModifiedFilesCacheKey.builder()
             .project(project)
             .aCommit(diffParams.baseCommit())
-            .bCommit(diffParams.newCommit())
-            .disableRenameDetection()
-            .build();
-    modifiedFilesCacheImpl.put(cacheKey, ImmutableList.copyOf(modifiedFiles.values()));
+            .bCommit(diffParams.newCommit());
+    if (enableRenameDetection) {
+      cacheKeyBuilder.renameScore(RENAME_SCORE);
+    } else {
+      cacheKeyBuilder.disableRenameDetection();
+    }
+    modifiedFilesCacheImpl.put(
+        cacheKeyBuilder.build(), ImmutableList.copyOf(modifiedFiles.values()));
     return modifiedFiles;
   }
 

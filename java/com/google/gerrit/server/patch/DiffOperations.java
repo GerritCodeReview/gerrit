@@ -74,12 +74,11 @@ public interface DiffOperations {
    * <p>Commits are looked up from the provided {@link RepoView}. This way this method can also read
    * new commits which are being created by the current request.
    *
-   * <p>Note that rename detection is disabled for this method.
-   *
    * @param repoView view to the repo from which commits IDs are looked up
    * @param ins {@link ObjectInserter} to be used to create the auto-merge if the diff is done for a
    *     merge commit against the auto-merge and the auto-merge ref doesn't exist yet. This may be
    *     an {@link InMemoryInserter}.
+   * @param enableRenameDetection whether rename detection should be enabled
    * @return a map of file paths to {@link ModifiedFile}. The {@link ModifiedFile} contains the
    *     old/new file paths and the change type (added, deleted, etc...).
    */
@@ -88,7 +87,8 @@ public interface DiffOperations {
       ObjectId newCommit,
       int parentNum,
       RepoView repoView,
-      ObjectInserter ins)
+      ObjectInserter ins,
+      boolean enableRenameDetection)
       throws DiffNotAvailableException;
 
   /**
@@ -117,8 +117,7 @@ public interface DiffOperations {
    * useful in case one the commits is currently being created, that's why the {@code revWalk}
    * parameter is needed.
    *
-   * <p>Note that rename detection is disabled for this method.
-   *
+   * @param enableRenameDetection whether rename detection should be enabled
    * @return a map of file paths to {@link ModifiedFile}. The {@link ModifiedFile} contains the
    *     old/new file paths and the change type (added, deleted, etc...).
    */
@@ -127,7 +126,8 @@ public interface DiffOperations {
       ObjectId oldCommit,
       ObjectId newCommit,
       RevWalk revWalk,
-      Config repoConfig)
+      Config repoConfig,
+      boolean enableRenameDetection)
       throws DiffNotAvailableException;
 
   /**

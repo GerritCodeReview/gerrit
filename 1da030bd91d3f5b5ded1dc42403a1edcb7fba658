@@ -34,6 +34,24 @@
       "parentUuid": "8c56c5bd_82242d75",
       "revId": "1da030bd91d3f5b5ded1dc42403a1edcb7fba658",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1320b34_b4e7c4f6",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 1075,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2024-01-09T17:21:02Z",
+      "side": 1,
+      "message": "I have no clue about how to fix this, but I can tell you we upgraded our prod server from 3.5 to 3.8 a few days ago, and at the same day I got complains from at least 2 users about the reload issue (they\u0027re used to open Changes -\u003e Open, and repeat it occasionally). As a workaround, I told them to use Shift-R, but this doesn\u0027t cover all the cases.\n\nFor instance, if you open Changes -\u003e Open, then open a change and vote on it, then open Changes -\u003e Open again - it still shows the previous view, without your vote, or any other updates.",
+      "parentUuid": "dce02f78_53978259",
+      "revId": "1da030bd91d3f5b5ded1dc42403a1edcb7fba658",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

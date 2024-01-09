@@ -816,6 +816,7 @@ export const EDIT = 'edit' as EditPatchSet;
 export type ParentPatchSet = BrandType<'PARENT', '_patchSet'>;
 
 export const PARENT = 'PARENT' as ParentPatchSet;
+export const FIRST_PARENT = -1 as PatchSetNumber;
 
 export type PatchSetNum = PatchSetNumber | ParentPatchSet | EditPatchSet;
 

@@ -195,6 +195,10 @@ export class ShortcutsService implements Finalizable {
       from = e.currentTarget.tagName;
     }
     this.reporting?.reportInteraction('shortcut-triggered', {key, from});
+    // Do not reset immediately, otherwise other shortcut might be triggered.
+    setTimeout(() => {
+      this.comboKeyLastPressed = {};
+    });
   }
 
   createTitle(shortcutName: Shortcut, section: ShortcutSection) {

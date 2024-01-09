@@ -65,21 +65,24 @@ public class ListOfFilesUnchangedPredicate extends ApprovalPredicate {
               targetPatchSet.commitId(),
               parentNum,
               ctx.repoView(),
-              ins);
+              ins,
+              /* enableRenameDetection= */ false);
       Map<String, ModifiedFile> baseVsPrior =
           diffOperations.loadModifiedFilesAgainstParent(
               ctx.changeNotes().getProjectName(),
               sourcePatchSet.commitId(),
               parentNum,
               ctx.repoView(),
-              ins);
+              ins,
+              /* enableRenameDetection= */ false);
       Map<String, ModifiedFile> priorVsCurrent =
           diffOperations.loadModifiedFiles(
               ctx.changeNotes().getProjectName(),
               sourcePatchSet.commitId(),
               targetPatchSet.commitId(),
               ctx.repoView().getRevWalk(),
-              ctx.repoView().getConfig());
+              ctx.repoView().getConfig(),
+              /* enableRenameDetection= */ false);
       return match(baseVsCurrent, baseVsPrior, priorVsCurrent);
     } catch (DiffNotAvailableException ex) {
       throw new StorageException(

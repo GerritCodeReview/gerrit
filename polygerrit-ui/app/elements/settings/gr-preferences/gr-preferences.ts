@@ -19,6 +19,7 @@ import {userModelToken} from '../../../models/user/user-model';
 import {
   AppTheme,
   DateFormat,
+  DefaultBase,
   DiffViewMode,
   EmailFormat,
   EmailStrategy,
@@ -522,32 +523,26 @@ export class GrPreferences extends LitElement {
   // When this is fixed and can be re-enabled, move this back to render()
   // and remove function.
   private renderDefaultBaseForMerges() {
-    if (!this.prefs?.default_base_for_merges) return nothing;
-    return nothing;
-    // TODO: Re-enable respecting the default_base_for_merges preference.
-    // See corresponding TODO in change-model.
-    // return html`
-    //   <section>
-    //     <span class="title">Default Base For Merges</span>
-    //     <span class="value">
-    //       <gr-select
-    //         .bindValue=${convertToString(
-    //           this.prefs?.default_base_for_merges
-    //         )}
-    //         @change=${() => {
-    //           this.prefs!.default_base_for_merges = this
-    //             .defaultBaseForMergesSelect.value as DefaultBase;
-    //           this.requestUpdate();
-    //         }}
-    //       >
-    //         <select id="defaultBaseForMergesSelect">
-    //           <option value="AUTO_MERGE">Auto Merge</option>
-    //           <option value="FIRST_PARENT">First Parent</option>
-    //         </select>
-    //       </gr-select>
-    //     </span>
-    //   </section>
-    // `;
+    return html`
+      <section>
+        <span class="title">Default Base For Merges</span>
+        <span class="value">
+          <gr-select
+            .bindValue=${convertToString(this.prefs?.default_base_for_merges)}
+            @change=${() => {
+              this.prefs!.default_base_for_merges = this
+                .defaultBaseForMergesSelect.value as DefaultBase;
+              this.requestUpdate();
+            }}
+          >
+            <select id="defaultBaseForMergesSelect">
+              <option value="AUTO_MERGE">Auto Merge</option>
+              <option value="FIRST_PARENT">First Parent</option>
+            </select>
+          </gr-select>
+        </span>
+      </section>
+    `;
   }
 
   // private but used in test

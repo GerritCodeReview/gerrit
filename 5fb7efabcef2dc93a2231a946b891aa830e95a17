@@ -118,6 +118,30 @@
       },
       "revId": "5fb7efabcef2dc93a2231a946b891aa830e95a17",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a171f138_efe2f07a",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2024-01-09T12:02:32Z",
+      "side": 0,
+      "message": "1. The same claim holds also for FIRST_PARENT in the current implementation. There is no URL for FIRST_PARENT against latest patch set, and I agree the URLs are a bit confusing, but this is already the case before my change.\n2. This is right, but only for the main change URL. If you share a file link, it always contains PS info.\n\nI see that there were reported bugs in the past when this feature broke in PG. See https://issues.gerritcodereview.com/issues/40008165 and https://issues.gerritcodereview.com/issues/40008170.\n\nI\u0027m in charge of merges in my project, and I care much more about the diff against first parent than the diff with auto-merge in the review process.\n\nSo when I click a change from the list, or from the review email, I don\u0027t want to choose Parent 1 every time. And when there are new comments and I reload the page, I also need to choose Parent 1. This is very annoying.",
+      "parentUuid": "6db0ccde_6330bffa",
+      "range": {
+        "startLine": 166,
+        "startChar": 71,
+        "endLine": 171,
+        "endChar": 39
+      },
+      "revId": "5fb7efabcef2dc93a2231a946b891aa830e95a17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -34,6 +34,24 @@
       "parentUuid": "1ab8c5a0_f76f7413",
       "revId": "853569790b2b59ff0f913c8e6ffe9e0562c5a644",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b82f1cb2_5e7f98b3",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2024-01-09T12:02:32Z",
+      "side": 1,
+      "message": "Ok, I\u0027ll change to Class.",
+      "parentUuid": "d4ae3f96_c21eca53",
+      "revId": "853569790b2b59ff0f913c8e6ffe9e0562c5a644",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

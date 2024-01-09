@@ -16,6 +16,24 @@
       "message": "Why did you change these? Doesn\u0027t it reintroduce https://issues.gerritcodereview.com/issues/40015454? According to https://gerrit-review.googlesource.com/c/gerrit/+/367496 offset should be undefined to trigger reload if I understand it correctly.",
       "revId": "1da030bd91d3f5b5ded1dc42403a1edcb7fba658",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dce02f78_53978259",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 1075,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-01-09T17:07:07Z",
+      "side": 1,
+      "message": "I am not sure.\n\nI don\u0027t consider it a bug, if you step through various change of a search result page that we don\u0027t reload the search results. I think you can argue both ways.\n\nI am also not sure whether `offset \u003d\u003d\u003d undefined` is a good way to trigger reloading. I would prefer something less magical, if we decide that we do want to trigger a reload.\n\nI don\u0027t think this issue has priority for us at the moment.",
+      "parentUuid": "8c56c5bd_82242d75",
+      "revId": "1da030bd91d3f5b5ded1dc42403a1edcb7fba658",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

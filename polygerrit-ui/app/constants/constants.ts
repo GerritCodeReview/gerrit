@@ -271,7 +271,7 @@ export function createDefaultPreferences(): PreferencesInfo {
     time_format: TimeFormat.HHMM_12,
     change_table: [],
     email_strategy: EmailStrategy.ATTENTION_SET_ONLY,
-    default_base_for_merges: DefaultBase.AUTO_MERGE,
+    default_base_for_merges: DefaultBase.FIRST_PARENT,
     allow_browser_notifications: false,
   };
 }

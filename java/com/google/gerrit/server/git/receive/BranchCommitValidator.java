@@ -32,17 +32,22 @@ import com.google.gerrit.server.git.validators.CommitValidationMessage;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
+import com.google.gerrit.server.patch.DiffNotAvailableException;
+import com.google.gerrit.server.patch.DiffOperations;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.ssh.SshInfo;
+import com.google.gerrit.server.update.RepoView;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
 /** Validates single commits for a branch. */
@@ -55,6 +60,7 @@ public class BranchCommitValidator {
   private final Project project;
   private final BranchNameKey branch;
   private final SshInfo sshInfo;
+  private final DiffOperations diffOperations;
 
   interface Factory {
     BranchCommitValidator create(
@@ -83,10 +89,12 @@ public class BranchCommitValidator {
       CommitValidators.Factory commitValidatorsFactory,
       PermissionBackend permissionBackend,
       SshInfo sshInfo,
+      DiffOperations diffOperations,
       @Assisted ProjectState projectState,
       @Assisted BranchNameKey branch,
       @Assisted IdentifiedUser user) {
     this.sshInfo = sshInfo;
+    this.diffOperations = diffOperations;
     this.user = user;
     this.branch = branch;
     this.commitValidatorsFactory = commitValidatorsFactory;
@@ -98,7 +106,9 @@ public class BranchCommitValidator {
    * Validates a single commit. If the commit does not validate, the command is rejected.
    *
    * @param repository the repository
-   * @param objectReader the object reader to use.
+   * @param revWalk the {@link RevWalk} to be used for reading
+   * @param ins inserter to be used for writing (e.g. to insert the auto-merge commit for merge
+   *     commits if it is missing)
    * @param cmd the ReceiveCommand executing the push.
    * @param commit the commit being validated.
    * @param isMerged whether this is a merge commit created by magicBranch --merge option
@@ -107,23 +117,26 @@ public class BranchCommitValidator {
    */
   Result validateCommit(
       Repository repository,
-      ObjectReader objectReader,
+      RevWalk revWalk,
+      ObjectInserter ins,
       ReceiveCommand cmd,
       RevCommit commit,
       ImmutableListMultimap<String, String> pushOptions,
       boolean isMerged,
       NoteMap rejectCommits,
       @Nullable Change change)
-      throws IOException {
+      throws IOException, DiffNotAvailableException {
     return validateCommit(
-        repository, objectReader, cmd, commit, pushOptions, isMerged, rejectCommits, change, false);
+        repository, revWalk, ins, cmd, commit, pushOptions, isMerged, rejectCommits, change, false);
   }
 
   /**
    * Validates a single commit. If the commit does not validate, the command is rejected.
    *
    * @param repository the repository
-   * @param objectReader the object reader to use.
+   * @param revWalk the {@link RevWalk} to be used for reading
+   * @param ins inserter to be used for writing (e.g. to insert the auto-merge commit for merge
+   *     commits if it is missing)
    * @param cmd the ReceiveCommand executing the push.
    * @param commit the commit being validated.
    * @param isMerged whether this is a merge commit created by magicBranch --merge option
@@ -133,7 +146,8 @@ public class BranchCommitValidator {
    */
   Result validateCommit(
       Repository repository,
-      ObjectReader objectReader,
+      RevWalk revWalk,
+      ObjectInserter ins,
       ReceiveCommand cmd,
       RevCommit commit,
       ImmutableListMultimap<String, String> pushOptions,
@@ -141,7 +155,7 @@ public class BranchCommitValidator {
       NoteMap rejectCommits,
       @Nullable Change change,
       boolean skipValidation)
-      throws IOException {
+      throws IOException, DiffNotAvailableException {
     try (TraceTimer traceTimer = TraceContext.newTimer("BranchCommitValidator#validateCommit")) {
       ImmutableList.Builder<CommitValidationMessage> messages = new ImmutableList.Builder<>();
       try (CommitReceivedEvent receiveEvent =
@@ -150,8 +164,15 @@ public class BranchCommitValidator {
               project,
               branch.branch(),
               pushOptions,
+              diffOperations.loadModifiedFilesAgainstParent(
+                  project.getNameKey(),
+                  commit,
+                  /* parentNum= */ 0,
+                  new RepoView(repository, revWalk, ins),
+                  ins,
+                  /* enableRenameDetection= */ true),
               new Config(repository.getConfig()),
-              objectReader,
+              revWalk.getObjectReader(),
               commit,
               user)) {
         CommitValidators validators;
@@ -175,7 +196,8 @@ public class BranchCommitValidator {
         for (CommitValidationMessage m : validators.validate(receiveEvent)) {
           messages.add(
               new CommitValidationMessage(
-                  messageForCommit(commit, m.getMessage(), objectReader), m.getType()));
+                  messageForCommit(commit, m.getMessage(), revWalk.getObjectReader()),
+                  m.getType()));
         }
       } catch (CommitValidationException e) {
         logger.atFine().log("Commit validation failed on %s", commit.name());
@@ -184,10 +206,12 @@ public class BranchCommitValidator {
           // fatal error, so have to preserve all messages.
           messages.add(
               new CommitValidationMessage(
-                  messageForCommit(commit, m.getMessage(), objectReader), m.getType()));
+                  messageForCommit(commit, m.getMessage(), revWalk.getObjectReader()),
+                  m.getType()));
         }
         cmd.setResult(
-            REJECTED_OTHER_REASON, messageForCommit(commit, e.getMessage(), objectReader));
+            REJECTED_OTHER_REASON,
+            messageForCommit(commit, e.getMessage(), revWalk.getObjectReader()));
         return Result.create(false, messages.build());
       }
       return Result.create(true, messages.build());

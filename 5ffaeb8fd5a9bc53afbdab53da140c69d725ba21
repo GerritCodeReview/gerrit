@@ -16,6 +16,24 @@
       "message": "Move this to line 178 and add `if (shortcut.combo) {...}`",
       "revId": "5ffaeb8fd5a9bc53afbdab53da140c69d725ba21",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "67f38e95_843cb012",
+        "filename": "polygerrit-ui/app/services/shortcuts/shortcuts-service.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2024-01-09T17:22:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6d318fe_0c742816",
+      "revId": "5ffaeb8fd5a9bc53afbdab53da140c69d725ba21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

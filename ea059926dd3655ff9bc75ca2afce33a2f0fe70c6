@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7114bef5_f89647bd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3228522
+      },
+      "writtenOn": "2024-01-09T02:43:35Z",
+      "side": 1,
+      "message": "I\u0027d like to inquire about how to build test cases. I couldn\u0027t find the package for testing `WorkQueue`.\n\nFor example, in the following code.\n```\ntestScheduledThreadPool \u003d (ScheduledThreadPoolExecutor)queue.createQueue(8, \"Test-Schedule-Queue\");\n    ScheduledFuture\u003c?\u003e unusedFuture \u003d testScheduledThreadPool.scheduleAtFixedRate(new Runnable() {\n      @Override\n      public void run() {\n        num++;\n        try {\n          Thread.sleep(2000);\n        } catch (InterruptedException e) {\n          throw new RuntimeException(e);\n        }\n      }\n\n      @Override\n      public String toString() {\n        return String.format(\"scheduleAtFixedRate test num: %d\", num);\n      }\n    }, 0, 1, TimeUnit.SECONDS);\n```\nAfter running about 10 minutes, this task\u0027s status is \u0027sleeping\u0027 with command `ssh show-queue`.",
+      "parentUuid": "56252b2e_c49a90d5",
+      "revId": "ea059926dd3655ff9bc75ca2afce33a2f0fe70c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "299c49a6_daf11daf",
         "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
         "patchSetId": 14

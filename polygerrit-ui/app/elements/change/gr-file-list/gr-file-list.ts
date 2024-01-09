@@ -2300,6 +2300,7 @@ export class GrFileList extends LitElement {
       this.getViewModel().diffUrl({
         diffView: {path: diff.path},
         patchNum: this.patchNum,
+        basePatchNum: this.basePatchNum,
       })
     );
   }
@@ -2319,6 +2320,7 @@ export class GrFileList extends LitElement {
       this.getViewModel().diffUrl({
         diffView: {path: this.files[this.fileCursor.index].__path},
         patchNum: this.patchNum,
+        basePatchNum: this.basePatchNum,
       })
     );
   }
@@ -2351,6 +2353,7 @@ export class GrFileList extends LitElement {
     return this.getViewModel().diffUrl({
       diffView: {path},
       patchNum: this.patchNum,
+      basePatchNum: this.basePatchNum,
     });
   }
 

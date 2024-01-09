@@ -26,6 +26,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.Subject;
 import com.google.common.truth.Truth;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Address;
@@ -109,14 +110,14 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
       fakeEmailSender = target;
     }
 
-    public FakeEmailSenderSubject didNotSend() {
+    public void didNotSend() {
       Message message = fakeEmailSender.peekMessage();
       if (message != null) {
         failWithoutActual(fact("expected no message", message));
       }
-      return this;
     }
 
+    @CanIgnoreReturnValue
     public FakeEmailSenderSubject sent(String messageType, StagedUsers users) {
       message = fakeEmailSender.nextMessage();
       if (message == null) {
@@ -183,18 +184,22 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
       return addrList.getAddressList().stream().map(Address::email).collect(toList());
     }
 
+    @CanIgnoreReturnValue
     public FakeEmailSenderSubject to(String... emails) {
       return rcpt(users.supportReviewersByEmail ? TO : null, emails);
     }
 
+    @CanIgnoreReturnValue
     public FakeEmailSenderSubject cc(String... emails) {
       return rcpt(users.supportReviewersByEmail ? CC : null, emails);
     }
 
+    @CanIgnoreReturnValue
     public FakeEmailSenderSubject bcc(String... emails) {
       return rcpt(users.supportReviewersByEmail ? BCC : null, emails);
     }
 
+    @CanIgnoreReturnValue
     public FakeEmailSenderSubject title(String expectedEmailTitle) {
       if (!emailTitle.equals(expectedEmailTitle)) {
         failWithoutActual(
@@ -204,6 +209,7 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
       return this;
     }
 
+    @CanIgnoreReturnValue
     private FakeEmailSenderSubject rcpt(@Nullable RecipientType type, String[] emails) {
       for (String email : emails) {
         rcpt(type, email);
@@ -230,6 +236,7 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
       }
     }
 
+    @CanIgnoreReturnValue
     public FakeEmailSenderSubject noOneElse() {
       for (Map.Entry<NotifyType, TestAccount> watchEntry : users.watchers.entrySet()) {
         if (!accountedFor.contains(watchEntry.getValue().email())) {
@@ -257,22 +264,27 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
       return this;
     }
 
+    @CanIgnoreReturnValue
     public FakeEmailSenderSubject notTo(String... emails) {
       return rcpt(null, emails);
     }
 
+    @CanIgnoreReturnValue
     public FakeEmailSenderSubject to(TestAccount... accounts) {
       return rcpt(TO, accounts);
     }
 
+    @CanIgnoreReturnValue
     public FakeEmailSenderSubject cc(TestAccount... accounts) {
       return rcpt(CC, accounts);
     }
 
+    @CanIgnoreReturnValue
     public FakeEmailSenderSubject bcc(TestAccount... accounts) {
       return rcpt(BCC, accounts);
     }
 
+    @CanIgnoreReturnValue
     public FakeEmailSenderSubject notTo(TestAccount... accounts) {
       return rcpt(null, accounts);
     }
@@ -288,18 +300,22 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
       rcpt(type, account.email());
     }
 
+    @CanIgnoreReturnValue
     public FakeEmailSenderSubject to(NotifyType... watches) {
       return rcpt(TO, watches);
     }
 
+    @CanIgnoreReturnValue
     public FakeEmailSenderSubject cc(NotifyType... watches) {
       return rcpt(CC, watches);
     }
 
+    @CanIgnoreReturnValue
     public FakeEmailSenderSubject bcc(NotifyType... watches) {
       return rcpt(BCC, watches);
     }
 
+    @CanIgnoreReturnValue
     public FakeEmailSenderSubject notTo(NotifyType... watches) {
       return rcpt(null, watches);
     }
@@ -491,10 +507,12 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
     }
   }
 
+  @CanIgnoreReturnValue
   protected StagedPreChange stagePreChange(String ref) throws Exception {
     return new StagedPreChange(ref);
   }
 
+  @CanIgnoreReturnValue
   protected StagedPreChange stagePreChange(
       String ref, @Nullable PushOptionGenerator pushOptionGenerator) throws Exception {
     return new StagedPreChange(ref, pushOptionGenerator);

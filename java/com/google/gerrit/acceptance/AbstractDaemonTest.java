@@ -49,6 +49,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.primitives.Chars;
 import com.google.common.testing.FakeTicker;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.config.ConfigAnnotationParser;
@@ -776,6 +777,7 @@ public abstract class AbstractDaemonTest {
     return resourcePrefix + name;
   }
 
+  @CanIgnoreReturnValue
   protected Project.NameKey createProjectOverAPI(
       String nameSuffix,
       @Nullable Project.NameKey parent,
@@ -925,10 +927,12 @@ public abstract class AbstractDaemonTest {
     return b;
   }
 
+  @CanIgnoreReturnValue
   protected PushOneCommit.Result createChange() throws Exception {
     return createChange("refs/for/master");
   }
 
+  @CanIgnoreReturnValue
   protected PushOneCommit.Result createChange(String ref) throws Exception {
     PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
     PushOneCommit.Result result = push.to(ref);
@@ -936,6 +940,7 @@ public abstract class AbstractDaemonTest {
     return result;
   }
 
+  @CanIgnoreReturnValue
   protected PushOneCommit.Result createChange(TestRepository<InMemoryRepository> repo)
       throws Exception {
     PushOneCommit push = pushFactory.create(admin.newIdent(), repo);
@@ -944,10 +949,12 @@ public abstract class AbstractDaemonTest {
     return result;
   }
 
+  @CanIgnoreReturnValue
   protected PushOneCommit.Result createMergeCommitChange(String ref) throws Exception {
     return createMergeCommitChange(ref, "foo");
   }
 
+  @CanIgnoreReturnValue
   protected PushOneCommit.Result createMergeCommitChange(String ref, String file) throws Exception {
     ObjectId initial = repo().exactRef(HEAD).getLeaf().getObjectId();
 
@@ -981,6 +988,7 @@ public abstract class AbstractDaemonTest {
     return result;
   }
 
+  @CanIgnoreReturnValue
   protected PushOneCommit.Result createNParentsMergeCommitChange(String ref, List<String> fileNames)
       throws Exception {
     // This method creates n different commits and creates a merge commit pointing to all n parents.
@@ -1032,6 +1040,7 @@ public abstract class AbstractDaemonTest {
     return result;
   }
 
+  @CanIgnoreReturnValue
   protected PushOneCommit.Result createCommitAndPush(
       TestRepository<InMemoryRepository> repo,
       String ref,
@@ -1045,6 +1054,7 @@ public abstract class AbstractDaemonTest {
     return result;
   }
 
+  @CanIgnoreReturnValue
   protected PushOneCommit.Result createChangeWithTopic(
       TestRepository<InMemoryRepository> repo,
       String topic,
@@ -1057,12 +1067,14 @@ public abstract class AbstractDaemonTest {
         repo, "refs/for/master%topic=" + name(topic), commitMsg, fileName, content);
   }
 
+  @CanIgnoreReturnValue
   protected PushOneCommit.Result createChange(String subject, String fileName, String content)
       throws Exception {
     PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo, subject, fileName, content);
     return push.to("refs/for/master");
   }
 
+  @CanIgnoreReturnValue
   protected PushOneCommit.Result createChange(
       TestRepository<?> repo,
       String branch,
@@ -1076,6 +1088,7 @@ public abstract class AbstractDaemonTest {
         "refs/for/" + branch + (Strings.isNullOrEmpty(topic) ? "" : "%topic=" + name(topic)));
   }
 
+  @CanIgnoreReturnValue
   protected BranchApi createBranch(BranchNameKey branch) throws Exception {
     return gApi.projects()
         .name(branch.project().get())
@@ -1083,6 +1096,7 @@ public abstract class AbstractDaemonTest {
         .create(new BranchInput());
   }
 
+  @CanIgnoreReturnValue
   protected BranchApi createBranchWithRevision(BranchNameKey branch, String revision)
       throws Exception {
     BranchInput in = new BranchInput();
@@ -1093,6 +1107,7 @@ public abstract class AbstractDaemonTest {
   private static final List<Character> RANDOM =
       Chars.asList('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h');
 
+  @CanIgnoreReturnValue
   protected PushOneCommit.Result amendChangeWithUploader(
       PushOneCommit.Result change, Project.NameKey projectName, TestAccount account)
       throws Exception {
@@ -1111,10 +1126,12 @@ public abstract class AbstractDaemonTest {
     return result;
   }
 
+  @CanIgnoreReturnValue
   protected PushOneCommit.Result amendChange(String changeId) throws Exception {
     return amendChange(changeId, "refs/for/master", admin, testRepo);
   }
 
+  @CanIgnoreReturnValue
   protected PushOneCommit.Result amendChange(
       String changeId, String ref, TestAccount testAccount, TestRepository<?> repo)
       throws Exception {
@@ -1129,11 +1146,13 @@ public abstract class AbstractDaemonTest {
         new String(Chars.toArray(RANDOM)));
   }
 
+  @CanIgnoreReturnValue
   protected PushOneCommit.Result amendChange(
       String changeId, String subject, String fileName, String content) throws Exception {
     return amendChange(changeId, "refs/for/master", admin, testRepo, subject, fileName, content);
   }
 
+  @CanIgnoreReturnValue
   protected PushOneCommit.Result amendChange(
       String changeId,
       String ref,
@@ -1259,6 +1278,7 @@ public abstract class AbstractDaemonTest {
         .update();
   }
 
+  @CanIgnoreReturnValue
   protected PushOneCommit.Result pushTo(String ref) throws Exception {
     PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
     return push.to(ref);
@@ -1755,6 +1775,7 @@ public abstract class AbstractDaemonTest {
     assertThat(res).isEqualTo(expectedContent);
   }
 
+  @CanIgnoreReturnValue
   protected RevCommit createNewCommitWithoutChangeId(String branch, String file, String content)
       throws Exception {
     try (Repository repo = repoManager.openRepository(project);
@@ -1971,12 +1992,14 @@ public abstract class AbstractDaemonTest {
     }
 
     /** Switches to system ticker */
+    @CanIgnoreReturnValue
     public Ticker useDefaultTicker() {
       this.actualTicker = Ticker.systemTicker();
       return actualTicker;
     }
 
     /** Switches to {@link FakeTicker} */
+    @CanIgnoreReturnValue
     public FakeTicker useFakeTicker() {
       if (!(this.actualTicker instanceof FakeTicker)) {
         this.actualTicker = new FakeTicker();

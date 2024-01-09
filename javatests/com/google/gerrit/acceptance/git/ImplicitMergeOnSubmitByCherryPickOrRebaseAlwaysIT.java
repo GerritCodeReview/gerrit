@@ -67,8 +67,7 @@ public class ImplicitMergeOnSubmitByCherryPickOrRebaseAlwaysIT extends AbstractI
     RevCommit masterBranchTip =
         pushTo("refs/heads/master", ImmutableMap.of("master-content", "master-first-line\n"), base)
             .getCommit();
-    pushTo("refs/heads/stable", ImmutableMap.of("stable-content", "stable-first-line\n"), base)
-        .getCommit();
+    pushTo("refs/heads/stable", ImmutableMap.of("stable-content", "stable-first-line\n"), base);
     implicitMergeChangeId =
         pushTo(
                 "refs/for/stable",

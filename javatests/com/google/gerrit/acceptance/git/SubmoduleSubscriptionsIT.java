@@ -418,7 +418,6 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
     Project.NameKey config2Key =
         projectOperations.newProject().parent(configKey).submitType(getSubmitType()).create();
     grantPush(config2Key);
-    cloneProject(config2Key);
 
     subKey = projectOperations.newProject().parent(config2Key).submitType(getSubmitType()).create();
     grantPush(subKey);

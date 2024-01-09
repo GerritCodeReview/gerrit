@@ -97,7 +97,7 @@ public class QueryChangesIT extends AbstractDaemonTest {
   public void moreChangesIndicatorDoesNotWronglyCopyToUnrelatedChanges() throws Exception {
     String queryWithMoreChanges = "is:wip limit:1 repo:" + project.get();
     String queryWithNoMoreChanges = "is:open limit:10 repo:" + project.get();
-    createChange().getChangeId();
+    createChange();
     String cId2 = createChange().getChangeId();
     String cId3 = createChange().getChangeId();
     gApi.changes().id(cId2).setWorkInProgress();
@@ -311,7 +311,7 @@ public class QueryChangesIT extends AbstractDaemonTest {
   @Test
   @SuppressWarnings("unchecked")
   public void skipVisibility_noReadPermission() throws Exception {
-    createChange().getChangeId();
+    createChange();
     requestScopeOperations.setApiUser(admin.id());
     QueryChanges queryChanges = queryChangesProvider.get();
 

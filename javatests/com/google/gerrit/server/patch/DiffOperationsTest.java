@@ -152,7 +152,12 @@ public class DiffOperationsTest {
       // This call loads modified files directly without going through the diff cache.
       Map<String, ModifiedFile> modifiedFiles =
           diffOperations.loadModifiedFiles(
-              testProjectName, oldCommitId, newCommitId, rw, repoConfig);
+              testProjectName,
+              oldCommitId,
+              newCommitId,
+              rw,
+              repoConfig,
+              /* enableRenameDetection= */ false);
 
       ModifiedFile expectedModifiedFile =
           ModifiedFile.builder()
@@ -163,6 +168,84 @@ public class DiffOperationsTest {
       assertThat(modifiedFiles).containsExactly(fileName2, expectedModifiedFile);
       assertThat(modifiedFilesCacheImpl.getIfPresent(cacheKey))
           .containsExactly(expectedModifiedFile);
+    }
+  }
+
+  @Test
+  public void loadModifiedFiles_withRename() throws Exception {
+    ImmutableList<FileEntity> oldFiles = ImmutableList.of(new FileEntity(fileName1, fileContent1));
+    ObjectId oldCommitId = createCommit(repo, null, oldFiles);
+
+    ImmutableList<FileEntity> newFiles = ImmutableList.of(new FileEntity(fileName2, fileContent1));
+    ObjectId newCommitId = createCommit(repo, oldCommitId, newFiles);
+
+    try (Repository repository = repoManager.openRepository(testProjectName);
+        ObjectReader objectReader = repository.newObjectReader();
+        RevWalk rw = new RevWalk(objectReader)) {
+      StoredConfig repoConfig = repository.getConfig();
+
+      // load modified files without rename detection
+      ModifiedFilesCacheKey cacheKey =
+          ModifiedFilesCacheKey.builder()
+              .project(testProjectName)
+              .aCommit(oldCommitId)
+              .bCommit(newCommitId)
+              .disableRenameDetection()
+              .build();
+      assertThat(modifiedFilesCacheImpl.getIfPresent(cacheKey)).isNull();
+
+      Map<String, ModifiedFile> modifiedFiles =
+          diffOperations.loadModifiedFiles(
+              testProjectName,
+              oldCommitId,
+              newCommitId,
+              rw,
+              repoConfig,
+              /* enableRenameDetection= */ false);
+
+      ModifiedFile expectedDeletedFile =
+          ModifiedFile.builder()
+              .changeType(ChangeType.DELETED)
+              .oldPath(Optional.of(fileName1))
+              .build();
+      ModifiedFile expectedAddedFile =
+          ModifiedFile.builder()
+              .changeType(ChangeType.ADDED)
+              .newPath(Optional.of(fileName2))
+              .build();
+      assertThat(modifiedFiles)
+          .containsExactly(fileName1, expectedDeletedFile, fileName2, expectedAddedFile);
+      assertThat(modifiedFilesCacheImpl.getIfPresent(cacheKey))
+          .containsExactly(expectedDeletedFile, expectedAddedFile);
+
+      // load modified files with rename detection
+      cacheKey =
+          ModifiedFilesCacheKey.builder()
+              .project(testProjectName)
+              .aCommit(oldCommitId)
+              .bCommit(newCommitId)
+              .renameScore(DiffOperationsImpl.RENAME_SCORE)
+              .build();
+      assertThat(modifiedFilesCacheImpl.getIfPresent(cacheKey)).isNull();
+
+      modifiedFiles =
+          diffOperations.loadModifiedFiles(
+              testProjectName,
+              oldCommitId,
+              newCommitId,
+              rw,
+              repoConfig,
+              /* enableRenameDetection= */ true);
+
+      ModifiedFile expectedRenamedFile =
+          ModifiedFile.builder()
+              .changeType(ChangeType.RENAMED)
+              .oldPath(Optional.of(fileName1))
+              .newPath(Optional.of(fileName2))
+              .build();
+      assertThat(modifiedFiles).containsExactly(fileName2, expectedRenamedFile);
+      assertThat(modifiedFilesCacheImpl.getIfPresent(cacheKey))
+          .containsExactly(expectedRenamedFile);
     }
   }
 
@@ -183,7 +266,12 @@ public class DiffOperationsTest {
 
       Map<String, ModifiedFile> modifiedFiles =
           diffOperations.loadModifiedFiles(
-              testProjectName, newCommitId, oldCommitId, rw, repository.getConfig());
+              testProjectName,
+              newCommitId,
+              oldCommitId,
+              rw,
+              repository.getConfig(),
+              /* enableRenameDetection= */ false);
 
       assertThat(modifiedFiles)
           .containsExactly(
@@ -229,7 +317,8 @@ public class DiffOperationsTest {
               newCommitId,
               /* parentNum=*/ 0,
               new RepoView(repository, rw, ins),
-              ins);
+              ins,
+              /* enableRenameDetection= */ false);
 
       ModifiedFile expectedModifiedFile =
           ModifiedFile.builder()
@@ -240,6 +329,83 @@ public class DiffOperationsTest {
       assertThat(modifiedFiles).containsExactly(fileName2, expectedModifiedFile);
       assertThat(modifiedFilesCacheImpl.getIfPresent(cacheKey))
           .containsExactly(expectedModifiedFile);
+    }
+  }
+
+  @Test
+  public void loadModifiedFilesAgainstParent_withRename() throws Exception {
+    ImmutableList<FileEntity> oldFiles = ImmutableList.of(new FileEntity(fileName1, fileContent1));
+    ObjectId oldCommitId = createCommit(repo, null, oldFiles);
+
+    ImmutableList<FileEntity> newFiles = ImmutableList.of(new FileEntity(fileName2, fileContent1));
+    ObjectId newCommitId = createCommit(repo, oldCommitId, newFiles);
+
+    try (Repository repository = repoManager.openRepository(testProjectName);
+        ObjectInserter ins = repository.newObjectInserter();
+        ObjectReader reader = ins.newReader();
+        RevWalk rw = new RevWalk(reader)) {
+      // load modified files without rename detection
+      ModifiedFilesCacheKey cacheKey =
+          ModifiedFilesCacheKey.builder()
+              .project(testProjectName)
+              .aCommit(oldCommitId)
+              .bCommit(newCommitId)
+              .disableRenameDetection()
+              .build();
+      assertThat(modifiedFilesCacheImpl.getIfPresent(cacheKey)).isNull();
+
+      Map<String, ModifiedFile> modifiedFiles =
+          diffOperations.loadModifiedFilesAgainstParent(
+              testProjectName,
+              newCommitId,
+              /* parentNum=*/ 0,
+              new RepoView(repository, rw, ins),
+              ins,
+              /* enableRenameDetection= */ false);
+
+      ModifiedFile expectedDeletedFile =
+          ModifiedFile.builder()
+              .changeType(ChangeType.DELETED)
+              .oldPath(Optional.of(fileName1))
+              .build();
+      ModifiedFile expectedAddedFile =
+          ModifiedFile.builder()
+              .changeType(ChangeType.ADDED)
+              .newPath(Optional.of(fileName2))
+              .build();
+      assertThat(modifiedFiles)
+          .containsExactly(fileName1, expectedDeletedFile, fileName2, expectedAddedFile);
+      assertThat(modifiedFilesCacheImpl.getIfPresent(cacheKey))
+          .containsExactly(expectedDeletedFile, expectedAddedFile);
+
+      // load modified files with rename detection
+      cacheKey =
+          ModifiedFilesCacheKey.builder()
+              .project(testProjectName)
+              .aCommit(oldCommitId)
+              .bCommit(newCommitId)
+              .renameScore(DiffOperationsImpl.RENAME_SCORE)
+              .build();
+      assertThat(modifiedFilesCacheImpl.getIfPresent(cacheKey)).isNull();
+
+      modifiedFiles =
+          diffOperations.loadModifiedFilesAgainstParent(
+              testProjectName,
+              newCommitId,
+              /* parentNum=*/ 0,
+              new RepoView(repository, rw, ins),
+              ins,
+              /* enableRenameDetection= */ true);
+
+      ModifiedFile expectedRenamedFile =
+          ModifiedFile.builder()
+              .changeType(ChangeType.RENAMED)
+              .oldPath(Optional.of(fileName1))
+              .newPath(Optional.of(fileName2))
+              .build();
+      assertThat(modifiedFiles).containsExactly(fileName2, expectedRenamedFile);
+      assertThat(modifiedFilesCacheImpl.getIfPresent(cacheKey))
+          .containsExactly(expectedRenamedFile);
     }
   }
 

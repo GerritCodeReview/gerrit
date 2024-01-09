@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb029ee0_f362e2a3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2024-01-09T16:18:23Z",
+      "side": 1,
+      "message": "This isn\u0027t perfect, since you can still press an invalid combo followed by a valid key (like g,n,m) and it will be considered valid (g+m on this case), but it\u0027s better than the current state.",
+      "revId": "a76005579ac2f39e58a4e318d3b8399020b30682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

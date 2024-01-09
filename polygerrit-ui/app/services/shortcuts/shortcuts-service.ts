@@ -175,6 +175,12 @@ export class ShortcutsService implements Finalizable {
       if (optPreventDefault) e.preventDefault();
       if (optPreventDefault) e.stopPropagation();
       this.reportTriggered(e);
+      if (shortcut.combo) {
+        // Do not reset immediately, otherwise other shortcut might be triggered.
+        setTimeout(() => {
+          this.comboKeyLastPressed = {};
+        });
+      }
       listener(e);
     };
     element.addEventListener('keydown', wrappedListener);

@@ -22,6 +22,30 @@
       },
       "revId": "19bcd6a3dee4f04c373625c7b1a73469b0ab77ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8999e3db_24988266",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-01-09T09:00:05Z",
+      "side": 1,
+      "message": "It\u0027s the ChangeInserter that is used in ReceiveCommits that is creating the auto-merge for new changes (for new patch sets of existing changes it\u0027s ReceiveCommits itself that creates the auto-merge since ReceiveCommits doesn\u0027t use PatchSetInserter that would otherwise take care of the auto-merge creation).\n\nThe point is that inserting the change / patch set (and hence the auto-merge creation) happens only after the validators are invoked (which currently create the auto-merge in a competing inserter).\n\nThe idea here is to create the auto-merge commit in ReceiveCommits with the main inserter (or an in-memory inserter) before the validators are invoked (and before the change / patch set is created).\n\n\u003e Using edit or apply patch for example could also be used to create a new merge commit.\n\nApply patch and editing via change edits likely has the same issue, but fixing the issue for git push has priority.",
+      "parentUuid": "5479d291_1a150c61",
+      "range": {
+        "startLine": 56,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 43
+      },
+      "revId": "19bcd6a3dee4f04c373625c7b1a73469b0ab77ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

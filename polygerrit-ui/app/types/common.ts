@@ -86,6 +86,7 @@ import {
   NumericChangeId,
   ParentCommitInfo,
   PARENT,
+  FIRST_PARENT,
   PatchSetNum,
   PatchSetNumber,
   PluginConfigInfo,
@@ -214,7 +215,7 @@ export type {
   VotingRangeInfo,
   WebLinkInfo,
 };
-export {EDIT, PARENT, isDetailedLabelInfo, isQuickLabelInfo};
+export {EDIT, PARENT, FIRST_PARENT, isDetailedLabelInfo, isQuickLabelInfo};
 
 /*
  * In T, make a set of properties whose keys are in the union K required

@@ -868,32 +868,28 @@ export class GrSettingsView extends LitElement {
   }
 
   private renderDefaultBaseForMerges() {
-    if (!this.localPrefs.default_base_for_merges) return nothing;
-    return nothing;
-    // TODO: Re-enable respecting the default_base_for_merges preference.
-    // See corresponding TODO in change-model.
-    // return html`
-    //   <section>
-    //     <span class="title">Default Base For Merges</span>
-    //     <span class="value">
-    //       <gr-select
-    //         .bindValue=${this.convertToString(
-    //           this.localPrefs.default_base_for_merges
-    //         )}
-    //         @change=${() => {
-    //           this.localPrefs.default_base_for_merges = this
-    //             .defaultBaseForMergesSelect.value as DefaultBase;
-    //           this.prefsChanged = true;
-    //         }}
-    //       >
-    //         <select id="defaultBaseForMergesSelect">
-    //           <option value="AUTO_MERGE">Auto Merge</option>
-    //           <option value="FIRST_PARENT">First Parent</option>
-    //         </select>
-    //       </gr-select>
-    //     </span>
-    //   </section>
-    // `;
+    return html`
+      <section>
+        <span class="title">Default Base For Merges</span>
+        <span class="value">
+          <gr-select
+            .bindValue=${this.convertToString(
+              this.localPrefs.default_base_for_merges
+            )}
+            @change=${() => {
+              this.localPrefs.default_base_for_merges = this
+                .defaultBaseForMergesSelect.value as DefaultBase;
+              this.prefsChanged = true;
+            }}
+          >
+            <select id="defaultBaseForMergesSelect">
+              <option value="AUTO_MERGE">Auto Merge</option>
+              <option value="FIRST_PARENT">First Parent</option>
+            </select>
+          </gr-select>
+        </span>
+      </section>
+    `;
   }
 
   private renderRelativeDateInChangeTable() {

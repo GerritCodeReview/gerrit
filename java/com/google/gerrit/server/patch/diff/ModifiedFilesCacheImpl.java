@@ -92,6 +92,10 @@ public class ModifiedFilesCacheImpl implements ModifiedFilesCache {
     }
   }
 
+  public void put(ModifiedFilesCacheKey key, ImmutableList<ModifiedFile> modifiedFiles) {
+    cache.put(key, modifiedFiles);
+  }
+
   static class Loader extends CacheLoader<ModifiedFilesCacheKey, ImmutableList<ModifiedFile>> {
     private final GitRepositoryManager repoManager;
     private final ModifiedFilesLoader.Factory modifiedFilesLoaderFactory;

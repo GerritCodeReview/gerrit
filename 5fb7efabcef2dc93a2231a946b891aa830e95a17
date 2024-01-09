@@ -70,6 +70,30 @@
       },
       "revId": "5fb7efabcef2dc93a2231a946b891aa830e95a17",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f23d3977_aff1bbf7",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2024-01-09T09:20:51Z",
+      "side": 0,
+      "message": "What should I check? When I set First Parent as the default, opening the change without the PS part (https://server/c/project/+/22038) shows First Parent, and if I choose Auto Merge, the URL is changed to https://server/c/project/+/22038/1 (1 is the PS number) and it works.\n\nIf the default is Auto Merge then the URL without PS uses Auto Merge, and if I choose First Parent it changes to https://server/c/project/+/22038/-1..1 and it works.\n\nIs that what you meant, or should I test something else?",
+      "parentUuid": "fcb474f7_0144581b",
+      "range": {
+        "startLine": 166,
+        "startChar": 71,
+        "endLine": 171,
+        "endChar": 39
+      },
+      "revId": "5fb7efabcef2dc93a2231a946b891aa830e95a17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

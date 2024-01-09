@@ -92,6 +92,19 @@ public class ModifiedFilesCacheImpl implements ModifiedFilesCache {
     }
   }
 
+  public ImmutableList<ModifiedFile> getIfPresent(ModifiedFilesCacheKey key)
+      throws DiffNotAvailableException {
+    try {
+      return cache.getIfPresent(key);
+    } catch (Exception e) {
+      throw new DiffNotAvailableException(e);
+    }
+  }
+
+  public void put(ModifiedFilesCacheKey key, ImmutableList<ModifiedFile> modifiedFiles) {
+    cache.put(key, modifiedFiles);
+  }
+
   static class Loader extends CacheLoader<ModifiedFilesCacheKey, ImmutableList<ModifiedFile>> {
     private final GitRepositoryManager repoManager;
     private final ModifiedFilesLoader.Factory modifiedFilesLoaderFactory;

@@ -22,6 +22,30 @@
       },
       "revId": "d3b99eb086427e76a5ada4887e31f2d0122683ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c50b8555_3f9f413c",
+        "filename": "java/com/google/gerrit/httpd/plugins/HttpAutoRegisterModuleGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-01-09T07:12:12Z",
+      "side": 1,
+      "message": "No, this module is for auto registering plugin extensions during runtime (e.g. an admin can just drop the plugin.jar into Gerrit\u0027s jar folder and then the plugin is loaded and its extensions get registered). So it\u0027s expected that the entries in these maps change when this happens.\n\nFWIW at Google we do not support loading plugins at runtime, but we define the set of available plugins at compile time, so at Google we should not use auto registering.",
+      "parentUuid": "56eb875c_a59f6c90",
+      "range": {
+        "startLine": 35,
+        "startChar": 2,
+        "endLine": 36,
+        "endChar": 95
+      },
+      "revId": "d3b99eb086427e76a5ada4887e31f2d0122683ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

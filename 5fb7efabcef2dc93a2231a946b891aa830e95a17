@@ -22,6 +22,30 @@
       },
       "revId": "5fb7efabcef2dc93a2231a946b891aa830e95a17",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f600b01b_bb477b60",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2024-01-09T09:11:15Z",
+      "side": 0,
+      "message": "If I understand this concern correctly, it is fixed by removing the extra condition in line 155.",
+      "parentUuid": "35051964_c3be69b8",
+      "range": {
+        "startLine": 166,
+        "startChar": 71,
+        "endLine": 171,
+        "endChar": 39
+      },
+      "revId": "5fb7efabcef2dc93a2231a946b891aa830e95a17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

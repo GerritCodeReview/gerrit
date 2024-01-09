@@ -17,6 +17,7 @@ import {userModelToken} from '../../../models/user/user-model';
 import {
   AppTheme,
   DateFormat,
+  DefaultBase,
   DiffViewMode,
   EmailFormat,
   EmailStrategy,
@@ -550,37 +551,29 @@ export class GrPreferences extends LitElement {
     `;
   }
 
-  // When this is fixed and can be re-enabled, move this back to render()
-  // and remove function.
   private renderDefaultBaseForMerges() {
-    if (!this.prefs?.default_base_for_merges) return nothing;
-    return nothing;
-    // TODO: Re-enable respecting the default_base_for_merges preference.
-    // See corresponding TODO in change-model.
-    // return html`
-    //   <section>
-    //     <span class="title">Default Base For Merges</span>
-    //     <span class="value">
-    //       <md-outlined-select
-    //         .value=${convertToString(
-    //            this.prefs?.default_base_for_merges
-    //          )}
-    //         @change=${(e: Event) => {
-    //           const select = e.target as HTMLSelectElement;
-    //           this.prefs!.default_base_for_merges = select.value as DefaultBase;
-    //           this.requestUpdate();
-    //         }}
-    //       >
-    //         <md-select-option value="AUTO_MERGE">
-    //           <div slot="headline">Auto Merge</div>
-    //         </md-select-option>
-    //         <md-select-option value="FIRST_PARENT">
-    //           <div slot="headline">First Parent</div>
-    //         </md-select-option>
-    //       </md-outlined-select>
-    //     </span>
-    //   </section>
-    // `;
+    return html`
+      <section>
+        <span class="title">Default Base For Merges</span>
+        <span class="value">
+          <md-outlined-select
+            .value=${convertToString(this.prefs?.default_base_for_merges)}
+            @change=${(e: Event) => {
+              const select = e.target as HTMLSelectElement;
+              this.prefs!.default_base_for_merges = select.value as DefaultBase;
+              this.requestUpdate();
+            }}
+          >
+            <md-select-option value="AUTO_MERGE">
+              <div slot="headline">Auto Merge</div>
+            </md-select-option>
+            <md-select-option value="FIRST_PARENT">
+              <div slot="headline">First Parent</div>
+            </md-select-option>
+          </md-outlined-select>
+        </span>
+      </section>
+    `;
   }
 
   // private but used in test

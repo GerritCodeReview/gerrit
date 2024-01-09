@@ -251,6 +251,28 @@ suite('gr-preferences tests', () => {
               </span>
             </section>
             <section>
+              <span class="title">Default Base For Merges</span>
+              <span class="value">
+                <md-outlined-select>
+                  <md-select-option
+                    md-menu-item=""
+                    tabindex="0"
+                    value="AUTO_MERGE"
+                  >
+                    <div slot="headline">Auto Merge</div>
+                  </md-select-option>
+                  <md-select-option
+                    data-aria-selected="true"
+                    md-menu-item=""
+                    tabindex="-1"
+                    value="FIRST_PARENT"
+                  >
+                    <div slot="headline">First Parent</div>
+                  </md-select-option>
+                </md-outlined-select>
+              </span>
+            </section>
+            <section>
               <label class="title" for="relativeDateInChangeTable">
                 Show Relative Dates In Changes Table
               </label>

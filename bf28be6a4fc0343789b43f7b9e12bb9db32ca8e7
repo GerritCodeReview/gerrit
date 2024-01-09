@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2751bb66_0443eb3f",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/CommitIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 563,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-01-09T21:12:49Z",
+      "side": 1,
+      "message": "nit: it\u0027s a better practice to use `example.com` or `example.org`\n\nhttps://en.wikipedia.org/wiki/Example.com",
+      "range": {
+        "startLine": 563,
+        "startChar": 39,
+        "endLine": 563,
+        "endChar": 49
+      },
+      "revId": "bf28be6a4fc0343789b43f7b9e12bb9db32ca8e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

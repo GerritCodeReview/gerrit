@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fde09edb_fbe76aab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-01-09T09:15:56Z",
+      "side": 1,
+      "message": "If we can get this to work, then we should actually first try this on master. Only if we are really sure that this doing what we want it to do, then we can consider picking this into stable older release branches. At the moment this still looks too fragile and complex to me.",
+      "parentUuid": "70d2b49e_aa3843ba",
+      "revId": "2d23afdef3b565e103aeeb7002735192982fef80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "320bb76a_802b35b5",
         "filename": "polygerrit-ui/app/constants/constants.ts",
         "patchSetId": 3

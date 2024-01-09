@@ -11,6 +11,7 @@ import {
   EDIT,
   EditInfo,
   FileInfo,
+  FIRST_PARENT,
   ListChangesOption,
   NumericChangeId,
   PARENT,
@@ -78,6 +79,7 @@ import {ReportingService} from '../../services/gr-reporting/gr-reporting';
 import {Timing} from '../../constants/reporting';
 import {GrReviewerUpdatesParser} from '../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {throttleWrap} from '../../utils/async-util';
+import {RevisionInfo as RevisionInfoClass} from '../../elements/shared/revision-info/revision-info';
 
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 
@@ -311,7 +313,7 @@ function computeBase(
   change: ParsedChangeInfo | undefined,
   preferences: PreferencesInfo
 ): BasePatchSetNum {
-  if (viewModelBasePatchNum && viewModelBasePatchNum !== PARENT) {
+  if (viewModelBasePatchNum) {
     return viewModelBasePatchNum;
   }
   if (!change || !patchNum) return PARENT;
@@ -320,19 +322,9 @@ function computeBase(
     preferences.default_base_for_merges === DefaultBase.FIRST_PARENT;
   if (!preferFirst) return PARENT;
 
-  // TODO: Re-enable respecting the default_base_for_merges preference.
-  // For the Polygerrit UI this was originally implemented in change 214432,
-  // but we are not sure whether this was ever 100% working correctly. A
-  // major challenge is being able to select PARENT explicitly even if your
-  // preference for the default choice is FIRST_PARENT. <gr-file-list-header>
-  // just uses `navigation.setUrl()` and the view model does not have any
-  // way of forcing the basePatchSetNum to stick to PARENT without being
-  // altered back to FIRST_PARENT here.
-  // See also corresponding TODO in gr-settings-view.
-  return PARENT;
-  // const revisionInfo = new RevisionInfo(change);
-  // const isMergeCommit = revisionInfo.isMergeCommit(patchNum);
-  // return isMergeCommit ? (-1 as PatchSetNumber) : PARENT;
+  const revisionInfo = new RevisionInfoClass(change);
+  const isMergeCommit = revisionInfo.isMergeCommit(patchNum);
+  return isMergeCommit ? FIRST_PARENT : PARENT;
 }
 
 // TODO: Figure out how to best enforce immutability of all states. Use Immer?

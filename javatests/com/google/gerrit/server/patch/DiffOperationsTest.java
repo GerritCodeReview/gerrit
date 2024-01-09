@@ -15,6 +15,7 @@
 package com.google.gerrit.server.patch;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth8.assertThat;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.ImmutableList;
@@ -24,6 +25,8 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.DiffOperationsTest.FileEntity.FileType;
+import com.google.gerrit.server.patch.diff.ModifiedFilesCacheImpl;
+import com.google.gerrit.server.patch.diff.ModifiedFilesCacheKey;
 import com.google.gerrit.server.patch.filediff.FileDiffOutput;
 import com.google.gerrit.server.patch.gitdiff.ModifiedFile;
 import com.google.gerrit.server.update.RepoView;
@@ -53,6 +56,7 @@ import org.junit.Test;
 public class DiffOperationsTest {
   @Inject private GitRepositoryManager repoManager;
   @Inject private DiffOperations diffOperations;
+  @Inject private ModifiedFilesCacheImpl modifiedFilesCacheImpl;
 
   private static final Project.NameKey testProjectName = Project.nameKey("test-project");
   private Repository repo;
@@ -137,19 +141,29 @@ public class DiffOperationsTest {
         ObjectReader objectReader = repository.newObjectReader();
         RevWalk rw = new RevWalk(objectReader)) {
       StoredConfig repoConfig = repository.getConfig();
+      ModifiedFilesCacheKey cacheKey =
+          ModifiedFilesCacheKey.builder()
+              .project(testProjectName)
+              .aCommit(oldCommitId)
+              .bCommit(newCommitId)
+              .disableRenameDetection()
+              .build();
+      assertThat(modifiedFilesCacheImpl.getIfPresent(cacheKey)).isEmpty();
+
       // This call loads modified files directly without going through the diff cache.
       Map<String, ModifiedFile> modifiedFiles =
           diffOperations.loadModifiedFiles(
-              testProjectName, newCommitId, oldCommitId, rw, repoConfig);
+              testProjectName, oldCommitId, newCommitId, rw, repoConfig);
 
-      assertThat(modifiedFiles)
-          .containsExactly(
-              fileName2,
-              ModifiedFile.builder()
-                  .changeType(ChangeType.MODIFIED)
-                  .oldPath(Optional.of(fileName2))
-                  .newPath(Optional.of(fileName2))
-                  .build());
+      ModifiedFile expectedModifiedFile =
+          ModifiedFile.builder()
+              .changeType(ChangeType.MODIFIED)
+              .oldPath(Optional.of(fileName2))
+              .newPath(Optional.of(fileName2))
+              .build();
+      assertThat(modifiedFiles).containsExactly(fileName2, expectedModifiedFile);
+      assertThat(modifiedFilesCacheImpl.getIfPresent(cacheKey))
+          .hasValue(ImmutableList.of(expectedModifiedFile));
     }
   }
 
@@ -200,6 +214,15 @@ public class DiffOperationsTest {
         ObjectInserter ins = repository.newObjectInserter();
         ObjectReader reader = ins.newReader();
         RevWalk rw = new RevWalk(reader)) {
+      ModifiedFilesCacheKey cacheKey =
+          ModifiedFilesCacheKey.builder()
+              .project(testProjectName)
+              .aCommit(oldCommitId)
+              .bCommit(newCommitId)
+              .disableRenameDetection()
+              .build();
+      assertThat(modifiedFilesCacheImpl.getIfPresent(cacheKey)).isEmpty();
+
       // This call loads modified files directly without going through the diff cache.
       Map<String, ModifiedFile> modifiedFiles =
           diffOperations.loadModifiedFilesAgainstParent(
@@ -209,14 +232,15 @@ public class DiffOperationsTest {
               new RepoView(repository, rw, ins),
               ins);
 
-      assertThat(modifiedFiles)
-          .containsExactly(
-              fileName2,
-              ModifiedFile.builder()
-                  .changeType(ChangeType.MODIFIED)
-                  .oldPath(Optional.of(fileName2))
-                  .newPath(Optional.of(fileName2))
-                  .build());
+      ModifiedFile expectedModifiedFile =
+          ModifiedFile.builder()
+              .changeType(ChangeType.MODIFIED)
+              .oldPath(Optional.of(fileName2))
+              .newPath(Optional.of(fileName2))
+              .build();
+      assertThat(modifiedFiles).containsExactly(fileName2, expectedModifiedFile);
+      assertThat(modifiedFilesCacheImpl.getIfPresent(cacheKey))
+          .hasValue(ImmutableList.of(expectedModifiedFile));
     }
   }
 

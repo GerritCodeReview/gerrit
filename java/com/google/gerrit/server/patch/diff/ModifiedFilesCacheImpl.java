@@ -30,6 +30,7 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import java.io.IOException;
+import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -90,6 +91,19 @@ public class ModifiedFilesCacheImpl implements ModifiedFilesCache {
     } catch (Exception e) {
       throw new DiffNotAvailableException(e);
     }
+  }
+
+  public Optional<ImmutableList<ModifiedFile>> getIfPresent(ModifiedFilesCacheKey key)
+      throws DiffNotAvailableException {
+    try {
+      return Optional.ofNullable(cache.getIfPresent(key));
+    } catch (Exception e) {
+      throw new DiffNotAvailableException(e);
+    }
+  }
+
+  public void put(ModifiedFilesCacheKey key, ImmutableList<ModifiedFile> modifiedFiles) {
+    cache.put(key, modifiedFiles);
   }
 
   static class Loader extends CacheLoader<ModifiedFilesCacheKey, ImmutableList<ModifiedFile>> {

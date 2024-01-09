@@ -75,6 +75,7 @@ public class DiffOperationsImpl implements DiffOperations {
 
   private final GitRepositoryManager repoManager;
   private final ModifiedFilesCache modifiedFilesCache;
+  private final ModifiedFilesCacheImpl modifiedFilesCacheImpl;
   private final ModifiedFilesLoader.Factory modifiedFilesLoaderFactory;
   private final FileDiffCache fileDiffCache;
   private final BaseCommitUtil baseCommitUtil;
@@ -96,11 +97,13 @@ public class DiffOperationsImpl implements DiffOperations {
   public DiffOperationsImpl(
       GitRepositoryManager repoManager,
       ModifiedFilesCache modifiedFilesCache,
+      ModifiedFilesCacheImpl modifiedFilesCacheImpl,
       ModifiedFilesLoader.Factory modifiedFilesLoaderFactory,
       FileDiffCache fileDiffCache,
       BaseCommitUtil baseCommit) {
     this.repoManager = repoManager;
     this.modifiedFilesCache = modifiedFilesCache;
+    this.modifiedFilesCacheImpl = modifiedFilesCacheImpl;
     this.modifiedFilesLoaderFactory = modifiedFilesLoaderFactory;
     this.fileDiffCache = fileDiffCache;
     this.baseCommitUtil = baseCommit;
@@ -394,14 +397,28 @@ public class DiffOperationsImpl implements DiffOperations {
         .build();
   }
 
-  /** Loads the modified file paths between two commits without inspecting the diff cache. */
+  /**
+   * Loads the modified file paths between two commits without inspecting the diff cache.
+   *
+   * <p>The results will be stored in the {@link ModifiedFilesCache}.
+   */
   private Map<String, ModifiedFile> loadModifiedFilesWithoutCache(
       Project.NameKey project, DiffParameters diffParams, RevWalk revWalk, Config repoConfig)
       throws DiffNotAvailableException {
-    return modifiedFilesLoaderFactory.create()
-        .load(project, repoConfig, revWalk, diffParams.baseCommit(), diffParams.newCommit())
-        .stream()
-        .collect(toMap(ModifiedFile::getDefaultPath, Function.identity()));
+    Map<String, ModifiedFile> modifiedFiles =
+        modifiedFilesLoaderFactory.create()
+            .load(project, repoConfig, revWalk, diffParams.baseCommit(), diffParams.newCommit())
+            .stream()
+            .collect(toMap(ModifiedFile::getDefaultPath, Function.identity()));
+    ModifiedFilesCacheKey cacheKey =
+        ModifiedFilesCacheKey.builder()
+            .project(project)
+            .aCommit(diffParams.baseCommit())
+            .bCommit(diffParams.newCommit())
+            .disableRenameDetection()
+            .build();
+    modifiedFilesCacheImpl.put(cacheKey, ImmutableList.copyOf(modifiedFiles.values()));
+    return modifiedFiles;
   }
 
   @AutoValue

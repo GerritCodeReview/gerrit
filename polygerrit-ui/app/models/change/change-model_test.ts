@@ -5,7 +5,11 @@
  */
 import * as sinon from 'sinon';
 import {Subject} from 'rxjs';
-import {ChangeStatus} from '../../constants/constants';
+import {
+  ChangeStatus,
+  createDefaultPreferences,
+  DefaultBase,
+} from '../../constants/constants';
 import '../../test/common-test-setup';
 import {
   createChange,
@@ -31,6 +35,7 @@ import {
   ChangeInfo,
   CommitId,
   EDIT,
+  FIRST_PARENT,
   NumericChangeId,
   PARENT,
   PatchSetNum,
@@ -763,6 +768,87 @@ suite('change model tests', () => {
 
       changeViewModel.updateState({basePatchNum: AUTO_MERGE});
       await waitUntilObserved(changeModel.basePatchNum$, x => x === PARENT);
+    });
+  });
+
+  suite('default base for merges', () => {
+    const ps1 = 1 as PatchSetNumber;
+    let mergeChange: ParsedChangeInfo;
+
+    setup(() => {
+      const revision = createRevision(1);
+      mergeChange = {
+        ...createParsedChange(),
+        revisions: {
+          sha1: {
+            ...revision,
+            commit: {
+              ...revision.commit!,
+              parents: [
+                {commit: 'p1' as CommitId, subject: 'parent 1'},
+                {commit: 'p2' as CommitId, subject: 'parent 2'},
+              ],
+            },
+          },
+        },
+      };
+      testResolver(userModelToken).setPreferences({
+        ...createDefaultPreferences(),
+        default_base_for_merges: DefaultBase.FIRST_PARENT,
+      });
+      // `basePatchNum$` only emits while the view model and the change agree on
+      // the change number.
+      changeViewModel.setState({
+        ...createChangeViewState(),
+        changeNum: mergeChange._number,
+        basePatchNum: PARENT,
+        patchNum: ps1,
+      });
+    });
+
+    test('basePatchNum$ applies the preference for merges', async () => {
+      changeViewModel.updateState({basePatchNum: undefined});
+      changeModel.updateStateChange(mergeChange);
+      await waitUntilObserved(
+        changeModel.basePatchNum$,
+        x => x === FIRST_PARENT
+      );
+    });
+
+    test('basePatchNum$ keeps an explicitly chosen PARENT', async () => {
+      changeModel.updateStateChange(mergeChange);
+      await waitUntilObserved(changeModel.basePatchNum$, x => x === PARENT);
+    });
+
+    test('urlBasePatchNum encodes PARENT as AUTO_MERGE for merges', () => {
+      changeModel.updateStateChange(mergeChange);
+      assert.equal(changeModel.urlBasePatchNum(PARENT, ps1), AUTO_MERGE);
+      // Other bases are never overridden, so they are not affected.
+      assert.equal(
+        changeModel.urlBasePatchNum(FIRST_PARENT, ps1),
+        FIRST_PARENT
+      );
+      assert.equal(
+        changeModel.urlBasePatchNum(2 as BasePatchSetNum, ps1),
+        2 as BasePatchSetNum
+      );
+    });
+
+    test('urlBasePatchNum keeps PARENT for non-merges', () => {
+      changeModel.updateStateChange(createParsedChange());
+      assert.equal(changeModel.urlBasePatchNum(PARENT, ps1), PARENT);
+    });
+
+    // A lone `0` says "auto merge against the latest patchset", so the patchset
+    // does not have to be pinned for the base to survive a page load.
+    test('changeUrl encodes an auto-merge base as 0', () => {
+      changeModel.updateStateChange(mergeChange);
+      assert.equal(changeModel.changeUrl(), '/c/test-project/+/42/0');
+    });
+
+    test('changeUrl omits the base for non-merges', () => {
+      changeModel.updateStateChange(createParsedChange());
+      assert.equal(changeModel.changeUrl(), '/c/test-project/+/42');
     });
   });
 

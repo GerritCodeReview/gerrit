@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "320bb76a_802b35b5",
+        "filename": "polygerrit-ui/app/constants/constants.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-01-09T08:13:59Z",
+      "side": 1,
+      "message": "I think we should not change the default behavior here. `AUTO_MERGE` is what users typically want.",
+      "revId": "2d23afdef3b565e103aeeb7002735192982fef80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

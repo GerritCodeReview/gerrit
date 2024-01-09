@@ -43,7 +43,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jgit.lib.Constants;
 
 class UrlModule extends ServletModule {
-  private AuthConfig authConfig;
+  private final AuthConfig authConfig;
 
   UrlModule(AuthConfig authConfig) {
     this.authConfig = authConfig;

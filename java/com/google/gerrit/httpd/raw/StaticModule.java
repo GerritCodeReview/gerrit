@@ -88,19 +88,17 @@ public class StaticModule extends ServletModule {
   private static final String ROBOTS_TXT_SERVLET = "RobotsTxtServlet";
 
   private final GerritOptions options;
-  private Paths paths;
+  private final Paths paths;
 
   @Inject
   public StaticModule(GerritOptions options) {
     this.options = options;
+    this.paths = new Paths(options);
   }
 
   @Provides
   @Singleton
   private Paths getPaths() {
-    if (paths == null) {
-      paths = new Paths(options);
-    }
     return paths;
   }
 

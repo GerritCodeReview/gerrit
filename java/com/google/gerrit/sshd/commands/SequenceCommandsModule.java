@@ -20,6 +20,9 @@ import com.google.gerrit.sshd.Commands;
 import com.google.gerrit.sshd.DispatchCommandProvider;
 
 public class SequenceCommandsModule extends CommandModule {
+  public SequenceCommandsModule() {
+    super(/* slaveMode= */ false);
+  }
 
   @Override
   protected void configure() {

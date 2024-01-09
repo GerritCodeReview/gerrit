@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServlet;
 
+@SuppressWarnings("MutableGuiceModule")
 class HttpAutoRegisterModuleGenerator extends ServletModule implements ModuleGenerator {
   private final Map<String, Class<HttpServlet>> serve = new HashMap<>();
   private final ListMultimap<TypeLiteral<?>, Class<?>> listeners = LinkedListMultimap.create();

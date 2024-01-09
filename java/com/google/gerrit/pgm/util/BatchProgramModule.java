@@ -114,7 +114,7 @@ import org.eclipse.jgit.lib.Config;
 
 /** Module for programs that perform batch operations on a site. */
 public class BatchProgramModule extends FactoryModule {
-  private Injector parentInjector;
+  private final Injector parentInjector;
 
   public BatchProgramModule(Injector parentInjector) {
     this.parentInjector = parentInjector;

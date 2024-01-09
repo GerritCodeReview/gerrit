@@ -31,6 +31,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.apache.sshd.server.command.Command;
 
+@SuppressWarnings("MutableGuiceModule")
 class SshAutoRegisterModuleGenerator extends AbstractModule implements ModuleGenerator {
   private final Map<String, Class<Command>> commands = new HashMap<>();
   private final ListMultimap<TypeLiteral<?>, Class<?>> listeners = LinkedListMultimap.create();

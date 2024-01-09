@@ -41,6 +41,7 @@ public class LfsPluginAuthCommand extends SshCommand {
 
     @Inject
     LfsPluginAuthCommandModule(@GerritServerConfig Config cfg) {
+      super(/* slaveMode= */ false);
       pluginProvided = cfg.getString("lfs", null, "plugin") != null;
     }
 

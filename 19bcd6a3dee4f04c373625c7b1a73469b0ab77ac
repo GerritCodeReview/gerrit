@@ -46,6 +46,30 @@
       },
       "revId": "19bcd6a3dee4f04c373625c7b1a73469b0ab77ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bece014b_61e5fb48",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-01-09T09:19:49Z",
+      "side": 1,
+      "message": "Also see https://gerrit-review.googlesource.com/c/gerrit/+/401379 which implements the next step and details out the plan.",
+      "parentUuid": "8999e3db_24988266",
+      "range": {
+        "startLine": 56,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 43
+      },
+      "revId": "19bcd6a3dee4f04c373625c7b1a73469b0ab77ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

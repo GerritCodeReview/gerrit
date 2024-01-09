@@ -142,6 +142,30 @@
       },
       "revId": "5fb7efabcef2dc93a2231a946b891aa830e95a17",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b61f5dd6_fc6bdb6a",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-01-09T17:32:13Z",
+      "side": 0,
+      "message": "I understand that my review may be a bit frustrating, but I don\u0027t really see a good way around substantially revising how we encode the base patchset in the URL.\n\nFile URLs can also have a `.../1/...` indicating that the right hand patchset is 1 and left side is the default parent.\n\nIf \"First Parent\" is your default, then `.../1/...` should show you the first parent on the left, but it shows you \"Auto Merge\". But if we switch that to actually showing you the first parent, then there is no way to show auto merge. We would have to explicitly have to establish `0` (or something else) to mean \"auto merge\".\n\nAnd I am not sure whether we have considered it all in our current conversation. So this needs more design considerations, more tests and more reviews than just uploading another slightly modified patchset, unfortunately. Sorry. :-/\n\nI have also discussed this with other team members. They have brought up another good point: This preference has been broken for 5 years, so it might be very surprising for users with a \"FIRST PARENT\" preference, because they may not remember setting that, and they will suddenly get a different behavior.",
+      "parentUuid": "a171f138_efe2f07a",
+      "range": {
+        "startLine": 166,
+        "startChar": 71,
+        "endLine": 171,
+        "endChar": 39
+      },
+      "revId": "5fb7efabcef2dc93a2231a946b891aa830e95a17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

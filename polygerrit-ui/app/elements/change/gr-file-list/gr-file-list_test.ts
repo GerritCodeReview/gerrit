@@ -22,6 +22,7 @@ import {
   BasePatchSetNum,
   CommitId,
   EDIT,
+  FIRST_PARENT,
   NumericChangeId,
   PARENT,
   RepoName,
@@ -1827,6 +1828,17 @@ suite('gr-file-list tests', () => {
       assert.equal(
         element.computeDiffURL(path),
         '/c/gerrit/+/42/1//COMMIT_MSG'
+      );
+    });
+
+    test('diff url keeps first parent base', () => {
+      const path = 'index.php';
+      element.basePatchNum = FIRST_PARENT;
+      element.patchNum = 1 as RevisionPatchSetNum;
+      element.editMode = false;
+      assert.equal(
+        element.computeDiffURL(path),
+        '/c/gerrit/+/42/-1..1/index.php'
       );
     });
 

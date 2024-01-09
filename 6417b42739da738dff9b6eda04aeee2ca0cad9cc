@@ -88,6 +88,24 @@
       "parentUuid": "c1286727_e8de2c16",
       "revId": "6417b42739da738dff9b6eda04aeee2ca0cad9cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95a07e3b_afc2fc6f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-01-09T13:56:08Z",
+      "side": 1,
+      "message": "Did you try using XCode 15.1 ?\nhttps://developer.apple.com/documentation/xcode-release-notes/xcode-15_1-release-notes",
+      "parentUuid": "63410e20_55df371e",
+      "revId": "6417b42739da738dff9b6eda04aeee2ca0cad9cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

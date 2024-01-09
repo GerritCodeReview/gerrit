@@ -72,6 +72,8 @@ import com.google.gerrit.server.mail.send.OutgoingEmail;
 import com.google.gerrit.server.mail.send.StartReviewChangeEmailDecorator;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.AutoMerger;
+import com.google.gerrit.server.patch.DiffNotAvailableException;
+import com.google.gerrit.server.patch.DiffOperations;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -125,6 +127,7 @@ public class ChangeInserter implements InsertChangeOp {
   private final MessageIdGenerator messageIdGenerator;
   private final AutoMerger autoMerger;
   private final ChangeUtil changeUtil;
+  private final DiffOperations diffOperations;
 
   private final Change.Id changeId;
   private final PatchSet.Id psId;
@@ -179,6 +182,7 @@ public class ChangeInserter implements InsertChangeOp {
       MessageIdGenerator messageIdGenerator,
       AutoMerger autoMerger,
       ChangeUtil changeUtil,
+      DiffOperations diffOperations,
       @Assisted Change.Id changeId,
       @Assisted ObjectId commitId,
       @Assisted String refName) {
@@ -198,6 +202,7 @@ public class ChangeInserter implements InsertChangeOp {
     this.messageIdGenerator = messageIdGenerator;
     this.autoMerger = autoMerger;
     this.changeUtil = changeUtil;
+    this.diffOperations = diffOperations;
 
     this.changeId = changeId;
     this.psId = PatchSet.id(changeId, INITIAL_PATCH_SET_ID);
@@ -441,7 +446,8 @@ public class ChangeInserter implements InsertChangeOp {
   }
 
   @Override
-  public void updateRepo(RepoContext ctx) throws ResourceConflictException, IOException {
+  public void updateRepo(RepoContext ctx)
+      throws ResourceConflictException, DiffNotAvailableException, IOException {
     cmd = new ReceiveCommand(ObjectId.zeroId(), commitId, psId.toRefName());
     projectState = projectCache.get(ctx.getProject()).orElseThrow(illegalState(ctx.getProject()));
     validate(ctx);
@@ -634,7 +640,8 @@ public class ChangeInserter implements InsertChangeOp {
     }
   }
 
-  private void validate(RepoContext ctx) throws IOException, ResourceConflictException {
+  private void validate(RepoContext ctx)
+      throws IOException, DiffNotAvailableException, ResourceConflictException {
     if (!validate) {
       return;
     }
@@ -646,6 +653,13 @@ public class ChangeInserter implements InsertChangeOp {
               projectState.getProject(),
               change.getDest().branch(),
               validationOptions,
+              diffOperations.loadModifiedFilesAgainstParent(
+                  projectState.getProject().getNameKey(),
+                  commitId,
+                  /* parentNum= */ 0,
+                  ctx.getRepoView(),
+                  ctx.getInserter(),
+                  /* enableRenameDetection= */ true),
               ctx.getRepoView().getConfig(),
               ctx.getRevWalk().getObjectReader(),
               commitId,

@@ -48,6 +48,8 @@ import com.google.gerrit.server.git.validators.TopicValidator;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.AutoMerger;
+import com.google.gerrit.server.patch.DiffNotAvailableException;
+import com.google.gerrit.server.patch.DiffOperations;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -87,6 +89,7 @@ public class PatchSetInserter implements BatchUpdateOp {
   private final WorkInProgressStateChanged wipStateChanged;
   private final AutoMerger autoMerger;
   private final TopicValidator topicValidator;
+  private final DiffOperations diffOperations;
 
   // Assisted-injected fields.
   private final PatchSet.Id psId;
@@ -136,6 +139,7 @@ public class PatchSetInserter implements BatchUpdateOp {
       WorkInProgressStateChanged wipStateChanged,
       AutoMerger autoMerger,
       TopicValidator topicValidator,
+      DiffOperations diffOperations,
       @Assisted ChangeNotes notes,
       @Assisted PatchSet.Id psId,
       @Assisted ObjectId commitId) {
@@ -152,6 +156,7 @@ public class PatchSetInserter implements BatchUpdateOp {
     this.wipStateChanged = wipStateChanged;
     this.autoMerger = autoMerger;
     this.topicValidator = topicValidator;
+    this.diffOperations = diffOperations;
 
     this.origNotes = notes;
     this.psId = psId;
@@ -255,7 +260,8 @@ public class PatchSetInserter implements BatchUpdateOp {
 
   @Override
   public void updateRepo(RepoContext ctx)
-      throws AuthException, ResourceConflictException, IOException, PermissionBackendException {
+      throws AuthException, ResourceConflictException, IOException, PermissionBackendException,
+          DiffNotAvailableException {
     validate(ctx);
     ctx.addRefUpdate(ObjectId.zeroId(), commitId, getPatchSetId().toRefName());
 
@@ -403,7 +409,8 @@ public class PatchSetInserter implements BatchUpdateOp {
   }
 
   private void validate(RepoContext ctx)
-      throws AuthException, ResourceConflictException, IOException, PermissionBackendException {
+      throws AuthException, ResourceConflictException, IOException, PermissionBackendException,
+          DiffNotAvailableException {
     // Not allowed to create a new patch set if the current patch set is locked.
     psUtil.checkPatchSetNotLocked(origNotes);
 
@@ -431,6 +438,13 @@ public class PatchSetInserter implements BatchUpdateOp {
                 .getProject(),
             origNotes.getChange().getDest().branch(),
             validationOptions,
+            diffOperations.loadModifiedFilesAgainstParent(
+                origNotes.getProjectName(),
+                commitId,
+                /* parentNum= */ 0,
+                ctx.getRepoView(),
+                ctx.getInserter(),
+                /* enableRenameDetection= */ true),
             ctx.getRepoView().getConfig(),
             ctx.getRevWalk().getObjectReader(),
             commitId,

@@ -17,7 +17,9 @@ package com.google.gerrit.server.events;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.patch.gitdiff.ModifiedFile;
 import java.io.IOException;
+import java.util.Map;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -31,6 +33,14 @@ public class CommitReceivedEvent extends RefEvent implements AutoCloseable {
   public Project project;
   public String refName;
   public ImmutableListMultimap<String, String> pushOptions;
+
+  /**
+   * Files that have been modified between the received commit and its (default) parent (the only
+   * parent for non-merge commits, the auto-merge commit for merge commits, no parent for initial
+   * commits).
+   */
+  public Map<String, ModifiedFile> modifiedFilesAgainstParent;
+
   public Config repoConfig;
   public RevWalk revWalk;
   public RevCommit commit;
@@ -45,6 +55,7 @@ public class CommitReceivedEvent extends RefEvent implements AutoCloseable {
       Project project,
       String refName,
       ImmutableListMultimap<String, String> pushOptions,
+      Map<String, ModifiedFile> modifiedFilesAgainstParent,
       Config repoConfig,
       ObjectReader reader,
       ObjectId commitId,
@@ -55,6 +66,7 @@ public class CommitReceivedEvent extends RefEvent implements AutoCloseable {
     this.project = project;
     this.refName = refName;
     this.pushOptions = pushOptions;
+    this.modifiedFilesAgainstParent = modifiedFilesAgainstParent;
     this.repoConfig = repoConfig;
     this.revWalk = new RevWalk(reader);
     this.commit = revWalk.parseCommit(commitId);

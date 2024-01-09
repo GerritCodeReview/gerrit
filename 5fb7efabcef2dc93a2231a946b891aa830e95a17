@@ -94,6 +94,30 @@
       },
       "revId": "5fb7efabcef2dc93a2231a946b891aa830e95a17",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6db0ccde_6330bffa",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-01-09T11:39:55Z",
+      "side": 0,
+      "message": "Yeah, so it works somewhat, but it is still a bit weird:\n\n1. If FIRST_PARENT is your chosen default, then there is no URL for showing you the *latest* patchset against AUTO_MERGE. And for ...22038 the chose parent is FIRST_PARENT, but for ...222038/1 the chosen parent is AUTO_MERGE, which is very confusing.\n\n2. You cannot share URLs with other users and expect them to see the same thing.\n\nI think there is no way around somehow encoding AUTO_MERGE in the URL, *if* we want to support this feature.\n\nI would actually like to take a step back and discuss whether we need this feature at all. We have not had the feature for more than two years, and at Google nobody really complained about it. So I would like to remove the feature entirely and thus reduce the complexity of our system.\n\nWhy would users need a different default choice for which parent to see? What is the benefit?",
+      "parentUuid": "f23d3977_aff1bbf7",
+      "range": {
+        "startLine": 166,
+        "startChar": 71,
+        "endLine": 171,
+        "endChar": 39
+      },
+      "revId": "5fb7efabcef2dc93a2231a946b891aa830e95a17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

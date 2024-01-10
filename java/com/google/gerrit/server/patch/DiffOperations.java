@@ -81,7 +81,6 @@ public interface DiffOperations {
       Project.NameKey project,
       ObjectId newCommit,
       int parentNum,
-      DiffOptions diffOptions,
       RevWalk revWalk,
       Config repoConfig)
       throws DiffNotAvailableException;
@@ -121,7 +120,6 @@ public interface DiffOperations {
       Project.NameKey project,
       ObjectId oldCommit,
       ObjectId newCommit,
-      DiffOptions diffOptions,
       RevWalk revWalk,
       Config repoConfig)
       throws DiffNotAvailableException;

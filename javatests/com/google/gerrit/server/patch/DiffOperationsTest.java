@@ -132,24 +132,25 @@ public class DiffOperationsTest {
             new FileEntity(fileName2, fileContent2 + "\nnew line here"));
     ObjectId newCommitId = createCommit(repo, oldCommitId, newFiles);
 
-    Repository repository = repoManager.openRepository(testProjectName);
-    ObjectReader objectReader = repository.newObjectReader();
-    RevWalk rw = new RevWalk(objectReader);
-    StoredConfig repoConfig = repository.getConfig();
+    try (Repository repository = repoManager.openRepository(testProjectName);
+        ObjectReader objectReader = repository.newObjectReader();
+        RevWalk rw = new RevWalk(objectReader)) {
+      StoredConfig repoConfig = repository.getConfig();
 
-    // This call loads modified files directly without going through the diff cache.
-    Map<String, ModifiedFile> modifiedFiles =
-        diffOperations.loadModifiedFiles(
-            testProjectName, newCommitId, oldCommitId, DiffOptions.DEFAULTS, rw, repoConfig);
+      // This call loads modified files directly without going through the diff cache.
+      Map<String, ModifiedFile> modifiedFiles =
+          diffOperations.loadModifiedFiles(
+              testProjectName, newCommitId, oldCommitId, rw, repoConfig);
 
-    assertThat(modifiedFiles)
-        .containsExactly(
-            fileName2,
-            ModifiedFile.builder()
-                .changeType(ChangeType.MODIFIED)
-                .oldPath(Optional.of(fileName2))
-                .newPath(Optional.of(fileName2))
-                .build());
+      assertThat(modifiedFiles)
+          .containsExactly(
+              fileName2,
+              ModifiedFile.builder()
+                  .changeType(ChangeType.MODIFIED)
+                  .oldPath(Optional.of(fileName2))
+                  .newPath(Optional.of(fileName2))
+                  .build());
+    }
   }
 
   @Test
@@ -163,26 +164,23 @@ public class DiffOperationsTest {
         ImmutableList.of(new FileEntity(fileName1, "target", FileType.SYMLINK));
     ObjectId newCommitId = createCommit(repo, oldCommitId, newFiles);
 
-    Repository repository = repoManager.openRepository(testProjectName);
-    ObjectReader objectReader = repository.newObjectReader();
+    try (Repository repository = repoManager.openRepository(testProjectName);
+        ObjectReader objectReader = repository.newObjectReader();
+        RevWalk rw = new RevWalk(objectReader)) {
 
-    Map<String, ModifiedFile> modifiedFiles =
-        diffOperations.loadModifiedFiles(
-            testProjectName,
-            newCommitId,
-            oldCommitId,
-            DiffOptions.DEFAULTS,
-            new RevWalk(objectReader),
-            repository.getConfig());
+      Map<String, ModifiedFile> modifiedFiles =
+          diffOperations.loadModifiedFiles(
+              testProjectName, newCommitId, oldCommitId, rw, repository.getConfig());
 
-    assertThat(modifiedFiles)
-        .containsExactly(
-            fileName1,
-            ModifiedFile.builder()
-                .changeType(ChangeType.REWRITE)
-                .oldPath(Optional.empty())
-                .newPath(Optional.of(fileName1))
-                .build());
+      assertThat(modifiedFiles)
+          .containsExactly(
+              fileName1,
+              ModifiedFile.builder()
+                  .changeType(ChangeType.REWRITE)
+                  .oldPath(Optional.empty())
+                  .newPath(Optional.of(fileName1))
+                  .build());
+    }
   }
 
   @Test
@@ -198,24 +196,25 @@ public class DiffOperationsTest {
             new FileEntity(fileName2, fileContent2 + "\nnew line here"));
     ObjectId newCommitId = createCommit(repo, oldCommitId, newFiles);
 
-    Repository repository = repoManager.openRepository(testProjectName);
-    ObjectReader objectReader = repository.newObjectReader();
-    RevWalk rw = new RevWalk(objectReader);
-    StoredConfig repoConfig = repository.getConfig();
+    try (Repository repository = repoManager.openRepository(testProjectName);
+        ObjectReader objectReader = repository.newObjectReader();
+        RevWalk rw = new RevWalk(objectReader)) {
+      StoredConfig repoConfig = repository.getConfig();
 
-    // This call loads modified files directly without going through the diff cache.
-    Map<String, ModifiedFile> modifiedFiles =
-        diffOperations.loadModifiedFilesAgainstParent(
-            testProjectName, newCommitId, /* parentNum=*/ 0, DiffOptions.DEFAULTS, rw, repoConfig);
+      // This call loads modified files directly without going through the diff cache.
+      Map<String, ModifiedFile> modifiedFiles =
+          diffOperations.loadModifiedFilesAgainstParent(
+              testProjectName, newCommitId, /* parentNum=*/ 0, rw, repoConfig);
 
-    assertThat(modifiedFiles)
-        .containsExactly(
-            fileName2,
-            ModifiedFile.builder()
-                .changeType(ChangeType.MODIFIED)
-                .oldPath(Optional.of(fileName2))
-                .newPath(Optional.of(fileName2))
-                .build());
+      assertThat(modifiedFiles)
+          .containsExactly(
+              fileName2,
+              ModifiedFile.builder()
+                  .changeType(ChangeType.MODIFIED)
+                  .oldPath(Optional.of(fileName2))
+                  .newPath(Optional.of(fileName2))
+                  .build());
+    }
   }
 
   static class FileEntity {

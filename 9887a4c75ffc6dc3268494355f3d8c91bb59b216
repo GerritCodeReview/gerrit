@@ -16,6 +16,23 @@
       "message": "Need to make further changes to this.",
       "revId": "9887a4c75ffc6dc3268494355f3d8c91bb59b216",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "14825deb_3919b2c5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-01-10T15:12:00Z",
+      "side": 1,
+      "message": "Blocking as this needs more work.",
+      "revId": "9887a4c75ffc6dc3268494355f3d8c91bb59b216",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

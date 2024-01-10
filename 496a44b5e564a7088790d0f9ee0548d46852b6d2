@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "903bfd80_f76f61d7",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 700,
+      "author": {
+        "id": 1148165
+      },
+      "writtenOn": "2024-01-10T04:13:49Z",
+      "side": 1,
+      "message": "shall we pass `this` to submit method?",
+      "revId": "496a44b5e564a7088790d0f9ee0548d46852b6d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

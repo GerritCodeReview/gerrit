@@ -33,6 +33,29 @@
       "message": "Blocking as this needs more work.",
       "revId": "9887a4c75ffc6dc3268494355f3d8c91bb59b216",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc97c62f_753bdd3e",
+        "filename": "java/com/google/gerrit/server/events/CommitReceivedEvent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-01-10T16:52:52Z",
+      "side": 1,
+      "message": "Instead of forcing all callers to provide this, could you lazy load it in this class? I think that would solve the issue of multiple validators independently loading it and would hopefully have less code duplication.",
+      "range": {
+        "startLine": 58,
+        "startChar": 6,
+        "endLine": 58,
+        "endChar": 59
+      },
+      "revId": "9887a4c75ffc6dc3268494355f3d8c91bb59b216",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -751,6 +751,7 @@ suite('gr-rest-api-service-impl tests', () => {
     element._projectLookup = {1: Promise.resolve('test' as RepoName)};
     const change_num = 1 as NumericChangeId;
     const message = 'this is a commit message';
+    const committer_email = 'test@example.com';
     const sendStub = sinon
       .stub(element._restApiHelper, 'send')
       .resolves([change_num, message] as unknown as ParsedJSON);
@@ -761,12 +762,13 @@ suite('gr-rest-api-service-impl tests', () => {
       `/changes/${change_num}/message`,
       {} as unknown as ParsedJSON
     );
-    await element.putChangeCommitMessage(change_num, message);
+    await element.putChangeCommitMessage(change_num, message, committer_email);
     assert.isTrue(sendStub.calledOnce);
     assert.equal(sendStub.lastCall.args[0].method, HttpMethod.PUT);
     assert.equal(sendStub.lastCall.args[0].url, '/changes/test~1/message');
     assert.deepEqual(sendStub.lastCall.args[0].body, {
       message,
+      committer_email,
     });
   });
 

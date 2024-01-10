@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5cdb5a2_8c90ec37",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbDraftCommentsModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-01-10T11:42:16Z",
+      "side": 1,
+      "message": "nit: missing license header",
+      "revId": "9b66d78b90f4f840bd76037ab6505e6028a9a982",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa0e3751_a6233b42",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbStarredChangesModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-01-10T11:42:16Z",
+      "side": 1,
+      "message": "nit: missing license header",
+      "revId": "9b66d78b90f4f840bd76037ab6505e6028a9a982",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -23,7 +23,7 @@ link:https://www.gerritcodereview.com/design-docs/ci-reboot.html[design doc].
 
 Here are some examples of open source plugins that make use of the Checks API:
 
-* link:https://gerrit.googlesource.com/plugins/checks/+/master/gr-checks/plugin.js[Gerrit Checks Plugin]
+* link:https://gerrit.googlesource.com/plugins/checks/+/master/web/plugin.ts[Gerrit Checks Plugin]
 * link:https://chromium.googlesource.com/infra/gerrit-plugins/buildbucket/+/main/web/plugin.ts[Chromium Buildbucket Plugin]
 * link:https://chromium.googlesource.com/infra/gerrit-plugins/code-coverage/+/main/web/plugin.ts[Chromium Coverage Plugin]
 

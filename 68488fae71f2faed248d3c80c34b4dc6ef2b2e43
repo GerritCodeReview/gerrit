@@ -16,6 +16,24 @@
       "message": "Shouldn\u0027t `lastMatch` be updated at L272 when we are sure that there was actually a match?",
       "revId": "68488fae71f2faed248d3c80c34b4dc6ef2b2e43",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f639a30c_a89f1dca",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-01-10T19:04:48Z",
+      "side": 1,
+      "message": "I believe it is the same.\nWe will never `lastMatch \u003d cmItr` al L267 if `cmtr \u003e\u003d sortedChangeMessages.size()` because the while exit condition would stop the code from doing that.\n\nI recogn it should be possible to rewrite the code in a better way. \n\nI am happy to move the assignment after L272 if it is clearer.",
+      "parentUuid": "1e150af3_4e0cb782",
+      "revId": "68488fae71f2faed248d3c80c34b4dc6ef2b2e43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

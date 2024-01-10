@@ -7,7 +7,7 @@ import '../../../embed/diff/gr-diff/gr-diff';
 import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {getAppContext} from '../../../services/app-context';
-import {Comment} from '../../../types/common';
+import {Comment, EDIT, BasePatchSetNum, RepoName} from '../../../types/common';
 import {anyLineTooLong} from '../../../utils/diff-util';
 import {
   DiffLayer,
@@ -26,8 +26,10 @@ import {FilePreview} from '../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog';
 import {userModelToken} from '../../../models/user/user-model';
 import {createUserFixSuggestion} from '../../../utils/comment-util';
 import {commentModelToken} from '../gr-comment-model/gr-comment-model';
+import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {fire} from '../../../utils/event-util';
 import {Interaction, Timing} from '../../../constants/reporting';
+import {createChangeUrl} from '../../../models/views/change';
 
 declare global {
   interface HTMLElementEventMap {
@@ -64,6 +66,8 @@ export class GrSuggestionDiffPreview extends LitElement {
   @state()
   previewLoadedFor?: string;
 
+  @state() repo?: RepoName;
+
   @state()
   changeNum?: NumericChangeId;
 
@@ -89,6 +93,8 @@ export class GrSuggestionDiffPreview extends LitElement {
   private readonly getUserModel = resolve(this, userModelToken);
 
   private readonly getCommentModel = resolve(this, commentModelToken);
+
+  private readonly getNavigation = resolve(this, navigationToken);
 
   private readonly syntaxLayer = new GrSyntaxLayerWorker(
     resolve(this, highlightServiceToken),
@@ -120,6 +126,11 @@ export class GrSuggestionDiffPreview extends LitElement {
       this,
       () => this.getCommentModel().commentedText$,
       commentedText => (this.commentedText = commentedText)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().repo$,
+      x => (this.repo = x)
     );
   }
 
@@ -231,6 +242,42 @@ export class GrSuggestionDiffPreview extends LitElement {
     }
 
     return res;
+  }
+
+  // Used in gr-user-suggestion-fix
+  public async applyFix() {
+    if (
+      !this.changeNum ||
+      !this.comment?.patch_set ||
+      !this.suggestion ||
+      !this.commentedText
+    )
+      return;
+    const changeNum = this.changeNum;
+    const basePatchNum = this.comment?.patch_set as BasePatchSetNum;
+    const fixSuggestions = createUserFixSuggestion(
+      this.comment,
+      this.commentedText,
+      this.suggestion
+    );
+    this.reporting.time(Timing.APPLY_FIX_LOAD);
+    const res = await this.restApiService.applyFixSuggestion(
+      this.changeNum,
+      this.comment?.patch_set,
+      fixSuggestions[0].replacements
+    );
+    this.reporting.timeEnd(Timing.APPLY_FIX_LOAD);
+    if (res?.ok) {
+      this.getNavigation().setUrl(
+        createChangeUrl({
+          changeNum,
+          repo: this.repo!,
+          patchNum: EDIT,
+          basePatchNum,
+        })
+      );
+      fire(this, 'apply-user-suggestion', {});
+    }
   }
 
   private overridePartialDiffPrefs() {

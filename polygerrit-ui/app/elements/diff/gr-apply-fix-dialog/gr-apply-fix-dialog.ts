@@ -421,7 +421,7 @@ export class GrApplyFixDialog extends LitElement {
         this.currentFix.fix_id
       );
     }
-    if (res && res.ok) {
+    if (res?.ok) {
       this.getNavigation().setUrl(
         createChangeUrl({
           change,

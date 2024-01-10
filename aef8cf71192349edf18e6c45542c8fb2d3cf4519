@@ -22,6 +22,30 @@
       },
       "revId": "aef8cf71192349edf18e6c45542c8fb2d3cf4519",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d32ed9c_ab6028a9",
+        "filename": "java/com/google/gerrit/sshd/CommandModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-01-10T09:19:50Z",
+      "side": 1,
+      "message": "It\u0027s the nature of plugins that they depend on Gerrit internal, hence it\u0027s expected that they may break when Gerrit core is changes. See [1] where this is documented:\n\n\"Plugins built against this API are expected to break at the source code level between every major.minor Gerrit release.\"\n\nSince this is not a core plugin, it\u0027s the responsibility of the plugin owner to do necessary adoptions.\n\n[1] https://gerrit-review.googlesource.com/Documentation/dev-plugins.html#API",
+      "parentUuid": "ddac6aed_f42b5c85",
+      "range": {
+        "startLine": 26,
+        "startChar": 2,
+        "endLine": 28,
+        "endChar": 3
+      },
+      "revId": "aef8cf71192349edf18e6c45542c8fb2d3cf4519",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

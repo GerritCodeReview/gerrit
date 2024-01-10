@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "79d10ff4_e4f2742d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2024-01-10T06:03:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3cf9a50c_62fbf9b6",
+      "revId": "bf28be6a4fc0343789b43f7b9e12bb9db32ca8e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2751bb66_0443eb3f",
@@ -31,6 +49,30 @@
       "writtenOn": "2024-01-09T21:12:49Z",
       "side": 1,
       "message": "nit: it\u0027s a better practice to use `example.com` or `example.org`\n\nhttps://en.wikipedia.org/wiki/Example.com",
+      "range": {
+        "startLine": 563,
+        "startChar": 39,
+        "endLine": 563,
+        "endChar": 49
+      },
+      "revId": "bf28be6a4fc0343789b43f7b9e12bb9db32ca8e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "24b398f5_63968df4",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/CommitIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 563,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2024-01-10T06:03:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2751bb66_0443eb3f",
       "range": {
         "startLine": 563,
         "startChar": 39,

@@ -7649,6 +7649,9 @@ the commit message of a change.
 |=============================
 |Field Name      ||Description
 |`message`       ||New commit message.
+|`committer_email`|optional|
+New message is committed using this email address. Only the
+registered emails of the calling user are considered valid.
 |`notify`        |optional|
 Notify handling that defines to whom email notifications should be sent
 after the commit message was updated. +

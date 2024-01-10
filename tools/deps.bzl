@@ -21,7 +21,7 @@ BC_VERS = "1.72"
 HTTPCOMP_VERS = "4.5.2"
 JETTY_VERS = "9.4.53.v20231009"
 BYTE_BUDDY_VERSION = "1.14.9"
-ROARING_BITMAP_VERSION = "0.9.44"
+ROARING_BITMAP_VERSION = "1.0.1"
 
 def java_dependencies():
     maven_jar(
@@ -568,11 +568,5 @@ def java_dependencies():
     maven_jar(
         name = "roaringbitmap",
         artifact = "org.roaringbitmap:RoaringBitmap:" + ROARING_BITMAP_VERSION,
-        sha1 = "d25b4bcb67193d587f6e0617da2c6f84e2d02a9c",
-    )
-
-    maven_jar(
-        name = "roaringbitmap-shims",
-        artifact = "org.roaringbitmap:shims:" + ROARING_BITMAP_VERSION,
-        sha1 = "e22be0d690a99c046bf9f57106065a77edad1eda",
+        sha1 = "38a624e6de72679f1fbcb6f35652d529a28c5269",
     )

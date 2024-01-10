@@ -304,7 +304,6 @@ java_library(
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
     exports = [
-        "@roaringbitmap-shims//jar",
         "@roaringbitmap//jar",
     ],
 )

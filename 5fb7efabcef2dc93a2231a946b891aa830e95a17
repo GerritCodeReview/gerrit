@@ -190,6 +190,30 @@
       },
       "revId": "5fb7efabcef2dc93a2231a946b891aa830e95a17",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2266a827_33afe767",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-01-10T07:51:02Z",
+      "side": 0,
+      "message": "Yeah, I have also thought about that, but redirecting has its own set of issues: 1. You can only redirect when the change is loaded. 2. If you choose \"auto merge\" explicitly, then how do we know that we don\u0027t have to redirect? We cannot encode \"auto merge\" in the URL.\n\nI don\u0027t think that there is a solution to this problem without being able to encode \"auto merge\" as `0` (or something else) in the URL. And touching that and rolling the change out would probably cost me about half a week. So I am hesitant to invest into this, although I understand that this feature is desirable for you and a small subset of other Gerrit users. Also, coaching someone else (outside of the Gerrit dev team) and reviewing their code would probably be a similar amount of work. So in this case I don\u0027t see a good way forward at the moment.\n\nAgain, apologies for not having a better suggestion and making this frustrating for you. :-/",
+      "parentUuid": "567e1842_2e0a1eb5",
+      "range": {
+        "startLine": 166,
+        "startChar": 71,
+        "endLine": 171,
+        "endChar": 39
+      },
+      "revId": "5fb7efabcef2dc93a2231a946b891aa830e95a17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

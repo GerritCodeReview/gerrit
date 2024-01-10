@@ -819,7 +819,8 @@ export interface RestApiService extends Finalizable {
 
   putChangeCommitMessage(
     changeNum: NumericChangeId,
-    message: string
+    message: string,
+    committerEmail: string | null
   ): Promise<Response>;
 
   updateIdentityInChangeEdit(

@@ -1649,6 +1649,7 @@ export class GrChangeView extends LitElement {
     if (!this.commitMessageEditor || this.commitMessageEditor.disabled) return;
     // Trim trailing whitespace from each line.
     const message = e.detail.content.replace(TRAILING_WHITESPACE_REGEX, '');
+    const committerEmail = e.detail.committerEmail;
 
     this.getPluginLoader().jsApiService.handleCommitMessage(
       this.change,
@@ -1657,7 +1658,7 @@ export class GrChangeView extends LitElement {
 
     this.commitMessageEditor.disabled = true;
     this.restApiService
-      .putChangeCommitMessage(this.changeNum, message)
+      .putChangeCommitMessage(this.changeNum, message, committerEmail)
       .then(resp => {
         assertIsDefined(this.commitMessageEditor);
         this.commitMessageEditor.disabled = false;

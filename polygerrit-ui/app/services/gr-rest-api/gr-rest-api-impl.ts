@@ -2325,12 +2325,16 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     });
   }
 
-  putChangeCommitMessage(changeNum: NumericChangeId, message: string) {
+  putChangeCommitMessage(
+    changeNum: NumericChangeId,
+    message: string,
+    committerEmail: string | null
+  ) {
     return this._getChangeURLAndSend({
       changeNum,
       method: HttpMethod.PUT,
       endpoint: '/message',
-      body: {message},
+      body: {message, committer_email: committerEmail},
       reportEndpointAsIs: true,
     });
   }

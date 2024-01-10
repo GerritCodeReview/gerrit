@@ -1193,17 +1193,24 @@ suite('gr-change-view tests', () => {
       Promise.resolve(new Response(null, {status: 500}))
     );
     await element.updateComplete;
-    const mockEvent = (content: string) =>
-      new CustomEvent('', {detail: {content}});
+    const committerEmail = 'test@example.org';
+    const mockEvent = (content: string, committerEmail: string) =>
+      new CustomEvent('', {
+        detail: {content, committerEmail},
+      });
 
     assertIsDefined(element.commitMessageEditor);
-    element.handleCommitMessageSave(mockEvent('test \n  test '));
+    element.handleCommitMessageSave(
+      mockEvent('test \n  test ', committerEmail)
+    );
     assert.equal(putStub.lastCall.args[1], 'test\n  test');
     element.commitMessageEditor.disabled = false;
-    element.handleCommitMessageSave(mockEvent('  test\ntest'));
+    element.handleCommitMessageSave(mockEvent('  test\ntest', committerEmail));
     assert.equal(putStub.lastCall.args[1], '  test\ntest');
     element.commitMessageEditor.disabled = false;
-    element.handleCommitMessageSave(mockEvent('\n\n\n\n\n\n\n\n'));
+    element.handleCommitMessageSave(
+      mockEvent('\n\n\n\n\n\n\n\n', committerEmail)
+    );
     assert.equal(putStub.lastCall.args[1], '\n\n\n\n\n\n\n\n');
   });
 

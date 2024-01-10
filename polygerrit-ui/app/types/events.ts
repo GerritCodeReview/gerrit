@@ -118,6 +118,7 @@ export type DropEvent = DragEvent;
 
 export interface EditableContentSaveEventDetail {
   content: string;
+  committerEmail: string | null;
 }
 export type EditableContentSaveEvent =
   CustomEvent<EditableContentSaveEventDetail>;

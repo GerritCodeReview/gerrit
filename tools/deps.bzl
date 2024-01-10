@@ -13,7 +13,7 @@ AUTO_VALUE_VERSION = "1.7.4"
 AUTO_VALUE_GSON_VERSION = "1.3.1"
 PROLOG_VERS = "1.4.4"
 PROLOG_REPO = GERRIT
-GITILES_VERS = "1.3.0"
+GITILES_VERS = "1.4.0"
 GITILES_REPO = GERRIT
 
 # When updating Bouncy Castle, also update it in bazlets.
@@ -391,14 +391,14 @@ def java_dependencies():
         artifact = "com.google.gitiles:blame-cache:" + GITILES_VERS,
         attach_source = False,
         repository = GITILES_REPO,
-        sha1 = "d0f5c98207648503b225501e84f529fa88651ebe",
+        sha1 = "005e9a8cfcfc15f232c796dbf1c8fb5499abff9c",
     )
 
     maven_jar(
         name = "gitiles-servlet",
         artifact = "com.google.gitiles:gitiles-servlet:" + GITILES_VERS,
         repository = GITILES_REPO,
-        sha1 = "b4ce5bc26e6a2674728d0d3c72c21e0b3443666d",
+        sha1 = "6fa0fe70154d09799ff7dc616727fec7342bb755",
     )
 
     maven_jar(

@@ -69,6 +69,24 @@
       "message": "I am concerned that adding this without a delay will result in full CPU \"spinning\" for thread B if there are no other tasks to be executed while thread A is blocked (say sleeping). In this scenario, I picture that thread B is basically in a fast loop of:\n\n1) get next task from queue, \n2) task is still running, so\n3) add task back into queue\n\nThus I think it is important to ensure that it has some delay which is no larger than the original task\u0027s \"interval\" when resubmitting the task to the queue.",
       "revId": "ea059926dd3655ff9bc75ca2afce33a2f0fe70c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "234f7cee_f0db0e6c",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 692,
+      "author": {
+        "id": 1148165
+      },
+      "writtenOn": "2024-01-10T04:13:12Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "299c49a6_daf11daf",
+      "revId": "ea059926dd3655ff9bc75ca2afce33a2f0fe70c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

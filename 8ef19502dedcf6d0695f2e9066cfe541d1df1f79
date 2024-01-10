@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a17e0b7e_0df748ca",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 3228522
+      },
+      "writtenOn": "2024-01-10T07:11:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6afd97b0_d049856b",
+      "revId": "8ef19502dedcf6d0695f2e9066cfe541d1df1f79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fddb4d4b_3846a89f",
@@ -49,6 +67,24 @@
       "side": 1,
       "message": "@mogulguy12@gmail.com\nIt seems that we cannot get the original delay. Task.getDelay only return the exact timestamp where the task should be executed. There is no way for us to get intervals inside WorkQueue.Task.run",
       "parentUuid": "fddb4d4b_3846a89f",
+      "revId": "8ef19502dedcf6d0695f2e9066cfe541d1df1f79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "754bd6f8_f32a392e",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 700,
+      "author": {
+        "id": 3228522
+      },
+      "writtenOn": "2024-01-10T07:11:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12ff332f_e58fe6f7",
       "revId": "8ef19502dedcf6d0695f2e9066cfe541d1df1f79",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

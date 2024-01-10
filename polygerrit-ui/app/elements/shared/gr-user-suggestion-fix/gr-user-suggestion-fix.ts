@@ -8,12 +8,16 @@ import '../../shared/gr-icon/gr-icon';
 import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
 import '../gr-suggestion-diff-preview/gr-suggestion-diff-preview';
 import {css, html, LitElement, nothing} from 'lit';
-import {customElement, state} from 'lit/decorators.js';
+import {customElement, state, query} from 'lit/decorators.js';
 import {fire} from '../../../utils/event-util';
 import {getDocUrl} from '../../../utils/url-util';
 import {subscribe} from '../../lit/subscription-controller';
 import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
+import {GrSuggestionDiffPreview} from '../gr-suggestion-diff-preview/gr-suggestion-diff-preview';
+import {changeModelToken} from '../../../models/change/change-model';
+import {Comment, PatchSetNumber} from '../../../types/common';
+import {commentModelToken} from '../gr-comment-model/gr-comment-model';
 
 declare global {
   interface HTMLElementEventMap {
@@ -29,9 +33,22 @@ export interface OpenUserSuggestionPreviewEventDetail {
 
 @customElement('gr-user-suggestion-fix')
 export class GrUserSuggestionsFix extends LitElement {
+  @query('gr-suggestion-diff-preview')
+  suggestionDiffPreview?: GrSuggestionDiffPreview;
+
   @state() private docsBaseUrl = '';
 
+  @state() private applyingFix = false;
+
+  @state() latestPatchNum?: PatchSetNumber;
+
+  @state() comment?: Comment;
+
   private readonly getConfigModel = resolve(this, configModelToken);
+
+  private readonly getChangeModel = resolve(this, changeModelToken);
+
+  private readonly getCommentModel = resolve(this, commentModelToken);
 
   constructor() {
     super();
@@ -39,6 +56,16 @@ export class GrUserSuggestionsFix extends LitElement {
       this,
       () => this.getConfigModel().docsBaseUrl$,
       docsBaseUrl => (this.docsBaseUrl = docsBaseUrl)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().latestPatchNum$,
+      x => (this.latestPatchNum = x)
+    );
+    subscribe(
+      this,
+      () => this.getCommentModel().comment$,
+      comment => (this.comment = comment)
     );
   }
 
@@ -94,6 +121,17 @@ export class GrUserSuggestionsFix extends LitElement {
           >
             Show edit
           </gr-button>
+          <gr-button
+            secondary
+            flatten
+            .loading=${this.applyingFix}
+            .disabled=${this.isApplyEditDisabled()}
+            class="action show-fix"
+            @click=${this.handleApplyFix}
+            .title=${this.computeApplyEditTooltip()}
+          >
+            Apply edit
+          </gr-button>
         </div>
       </div>
       <gr-suggestion-diff-preview
@@ -104,6 +142,25 @@ export class GrUserSuggestionsFix extends LitElement {
   handleShowFix() {
     if (!this.textContent) return;
     fire(this, 'open-user-suggest-preview', {code: this.textContent});
+  }
+
+  async handleApplyFix() {
+    if (!this.textContent) return;
+    this.applyingFix = true;
+    await this.suggestionDiffPreview?.applyFix();
+    this.applyingFix = false;
+  }
+
+  private isApplyEditDisabled() {
+    if (this.comment?.patch_set === undefined) return true;
+    return this.comment.patch_set !== this.latestPatchNum;
+  }
+
+  private computeApplyEditTooltip() {
+    if (this.comment?.patch_set === undefined) return '';
+    return this.comment.patch_set !== this.latestPatchNum
+      ? 'You cannot apply this fix because it is from a previous patchset'
+      : '';
   }
 }
 

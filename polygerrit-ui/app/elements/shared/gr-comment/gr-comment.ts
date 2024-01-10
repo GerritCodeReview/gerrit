@@ -94,6 +94,7 @@ declare global {
     'comment-unresolved-changed': ValueChangedEvent<boolean>;
     'comment-text-changed': ValueChangedEvent<string>;
     'comment-anchor-tap': CustomEvent<CommentAnchorTapEventDetail>;
+    'apply-user-suggestion': CustomEvent;
   }
 }
 
@@ -316,6 +317,9 @@ export class GrComment extends LitElement {
         this.save();
       });
     }
+    this.addEventListener('apply-user-suggestion', () => {
+      this.handleAppliedFix();
+    });
     this.addEventListener('open-user-suggest-preview', e => {
       this.handleShowFix(e.detail.code);
     });

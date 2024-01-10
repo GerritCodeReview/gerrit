@@ -67,6 +67,16 @@ suite('gr-user-suggestion-fix tests', () => {
               tabindex="0"
               flatten=""
               >Show edit</gr-button
+            ><gr-button
+              aria-disabled="true"
+              disabled=""
+              class="action show-fix"
+              secondary=""
+              role="button"
+              tabindex="-1"
+              flatten=""
+              title="You cannot apply this fix because it is from a previous patchset"
+              >Apply edit</gr-button
             >
           </div>
         </div>

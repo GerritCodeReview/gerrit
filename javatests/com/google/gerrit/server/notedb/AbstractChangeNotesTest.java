@@ -186,6 +186,8 @@ public abstract class AbstractChangeNotesTest {
             install(new GitModule());
 
             install(new DefaultUrlFormatterModule());
+            install(new NoteDbDraftCommentsModule());
+            install(new NoteDbStarredChangesModule());
             install(NoteDbModule.forTest());
             install(new DefaultRefLogIdentityProvider.Module());
             bind(AllUsersName.class).toProvider(AllUsersNameProvider.class);

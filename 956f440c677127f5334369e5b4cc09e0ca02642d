@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7c2ea7b_f3baba09",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-01-10T21:51:10Z",
+      "side": 1,
+      "message": "Created https://issues.gerritcodereview.com/issues/319451097 for LC+1",
+      "revId": "956f440c677127f5334369e5b4cc09e0ca02642d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

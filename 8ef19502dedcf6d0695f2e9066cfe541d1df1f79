@@ -33,6 +33,24 @@
       "message": "As Martin said. We should use schedule rather than submit.\nMaybe we can use one-third of the original delay?",
       "revId": "8ef19502dedcf6d0695f2e9066cfe541d1df1f79",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12ff332f_e58fe6f7",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 700,
+      "author": {
+        "id": 1148165
+      },
+      "writtenOn": "2024-01-10T06:39:15Z",
+      "side": 1,
+      "message": "@mogulguy12@gmail.com\nIt seems that we cannot get the original delay. Task.getDelay only return the exact timestamp where the task should be executed. There is no way for us to get intervals inside WorkQueue.Task.run",
+      "parentUuid": "fddb4d4b_3846a89f",
+      "revId": "8ef19502dedcf6d0695f2e9066cfe541d1df1f79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "dde51274_df99757d",
         "filename": "/COMMIT_MSG",
@@ -20,10 +21,10 @@
         "endChar": 47
       },
       "revId": "3531d2f33b29d6d84fb529d8a6005851121a8ea1",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "2e4ce017_18674bff",
         "filename": "/COMMIT_MSG",
@@ -44,10 +45,10 @@
         "endChar": 47
       },
       "revId": "3531d2f33b29d6d84fb529d8a6005851121a8ea1",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": false
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "e4eb1806_c0f40492",
         "filename": "java/com/google/gerrit/index/Schema.java",
@@ -67,8 +68,31 @@
         "endChar": 16
       },
       "revId": "3531d2f33b29d6d84fb529d8a6005851121a8ea1",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "146fe2c0_5b355c50",
+        "filename": "java/com/google/gerrit/index/Schema.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2024-01-10T13:35:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4eb1806_c0f40492",
+      "range": {
+        "startLine": 193,
+        "startChar": 14,
+        "endLine": 217,
+        "endChar": 16
+      },
+      "revId": "3531d2f33b29d6d84fb529d8a6005851121a8ea1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

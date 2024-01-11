@@ -193,6 +193,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b9faefbe_63fd0d59",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 631,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-01-11T15:28:26Z",
+      "side": 0,
+      "message": "I prefer to keep things together, in case something gets reverted then you don\u0027t end up with a broken codebase and a need to find the second part of that commit.\n\nBut if that\u0027s the only way to get this merge, I can split it 😄",
+      "parentUuid": "8e6a8a08_dfa9ca34",
+      "range": {
+        "startLine": 628,
+        "startChar": 0,
+        "endLine": 631,
+        "endChar": 7
+      },
+      "revId": "18408fb7e2366695660f685a9016fe783203073d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6607df33_ced70ec7",
         "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesTest.java",
         "patchSetId": 1

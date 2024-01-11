@@ -3,6 +3,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "de7d1b0c_62280c28",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2024-01-11T13:52:20Z",
+      "side": 1,
+      "message": "Can you please elaborate on why not?\n\nAre you importing the cache state as well to save the recompute?\n\nIf the change notes are parsed and the cache state is constructed, we should do the right thing.",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 38
+      },
+      "revId": "733c33d6c7aee1f1cad720e0527c52c3301599fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf99cca7_74316433",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2024-01-11T13:52:20Z",
+      "side": 1,
+      "message": "subtle",
+      "range": {
+        "startLine": 22,
+        "startChar": 21,
+        "endLine": 22,
+        "endChar": 27
+      },
+      "revId": "733c33d6c7aee1f1cad720e0527c52c3301599fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8a39421a_7a7ba709",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a83de0cc_31836db7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-01-11T15:08:08Z",
+      "side": 1,
+      "message": "Let\u0027s step back and rethink what we\u0027re trying to achieve here.\n\nFirst of all, this is a fix for a pending bug. Let\u0027s focus on getting that fixed and refrain from solving other _potential_ problems with caches/mapping/importing.\n\nSecondly, more \"mutations\" of data would not fix this problem, it will just make the diff bigger when bugs like this one occur.\n\nI do see two \"general\" solutions:\n1. Don\u0027t use cached values when writing data back to `meta` branch\n2. \"Migrate\" the data when they are imported, create a proper commit that would store \"previous server ID\" and \"previous account id\" in a list, then override those with current server data.\n\nHappy to discuss those separately.",
+      "parentUuid": "78868493_37f70444",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 38
+      },
+      "revId": "733c33d6c7aee1f1cad720e0527c52c3301599fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cf99cca7_74316433",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

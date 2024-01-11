@@ -35,7 +35,7 @@ import org.eclipse.jgit.util.GitDateFormatter.Format;
 @Singleton
 public class NoteDbUtil {
 
-  private final String serverId;
+  final String serverId;
   private final ExternalIdCache externalIdCache;
 
   @Inject

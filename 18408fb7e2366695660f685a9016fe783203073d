@@ -98,6 +98,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "650da869_a4ce75ba",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-11T15:05:07Z",
+      "side": 0,
+      "message": "\u003e \u003e Gotcha. Because of the L407, the loader may have not been called at all if the key was already present in the cache.\n\u003e \n\u003e Exactly, this gives such a small window for this \"performance\" improvement to work that I don\u0027t think it\u0027s worth it.\n\nSure, if that was reused across invocations, then yes. I would analyse the discussion on the review that introduced it in the first place.\n\n\u003e \u003e Could we consider this a bug in the way we adapted the mapping of the account-ids?\n\u003e \n\u003e I wouldn\u0027t call that a \"bug\", but rather an \"unforeseen consequence\".\n\nI believe it was a bug, as we created in memory an invalid `HumanComment` (see https://gerrit-review.googlesource.com/c/gerrit/+/376516/comment/eea9984a_401f2e38/).\n\n\u003e \u003e The concept of a cache is that if data hasn\u0027t changed, the cached value and the persistent value read should be the same, which wasn\u0027t the case here.\n\u003e \n\u003e That depends on the cache contract. One can argue, that git data and `external-ids` do not change, then the cache value is still valid.\n\u003e \n\u003e But this is changing the \"cache contract\", as instead of being _the cache of changes data in git_ it becomes a _**computed** value of change git data and external user IDs_.\n\nTrue, this cache is doing too much, agreed. One thing is caching the value, another one is parsing and mapping its ids.\n\n\u003e I do believe that the current approach with account external ID mapping is the way to go. As we have a single place where we do the mapping, we do that mapping once and everywhere in the code (apart from saving data back to the meta branch) we only care about the current instance account ID. Sure we can potentially split this into two caches, one for the Git data and another for the computed value, but IMO that would be overkill.\n\nSure, I tend to agree.\n\n\u003e Additionally, the way how `ChangeNotesCache.Value.revisionNoteMap` is implemented do not add that much performance. And as we learned is error-prone.\n\nCould that be addressed on master with a local refactoring?\n\n[...]\n\n\u003e \u003e Sure, in this case the cached data was different from the underlying stored data, that\u0027s why it broke.\n\u003e \n\u003e It\u0027s a bit more complicated, as the main reason here is not that the data were different. But that the data were evicted from the cache, AND loaded by `ChangeUpdate`, giving us modified `revisionNoteMap`. As long as we don\u0027t encounter cache miss when `ChangeUpdate` accesses the cache, we are fine.\n\nLet me give another look, there is still something fishy in that code. Honestly a Loader that load the data and generates a stateful side-effect looks very fishy. That\u0027s why I was interested in the review of that change, as it should have been highlighted years ago.\n\n\u003e \u003e Well, you are not removing the cache as it is used still at L385. So I don\u0027t believe you are introducing any performance regression either.\n\u003e \n\u003e Agree, also the \"window of opportunity\" for that performance improvement is so small that we probably won\u0027t even notice it gone.\n\nTrue, have you tried before and after with some E2E use-case?\n\n\u003e \u003e Maybe could be that the culprit of this inconsistency?\n\u003e \n\u003e This problem is so nuanced it\u0027s hard for me to name a single factor as a \"culprit\". For sure having a \"computed\" (or \"mutated\") values in the cache has its part, but without `ChangeNotesCache.Value.revisionNoteMap` being set by `Loader` and then used in `ChangeUpdate.getRevisionNoteMap()` this won\u0027t happen.\n\nSure, as it always happen in these cases, it\u0027s not a single event but the combination of multiple conditions together.",
+      "parentUuid": "4b85532b_96ddf545",
+      "range": {
+        "startLine": 379,
+        "startChar": 6,
+        "endLine": 379,
+        "endChar": 52
+      },
+      "revId": "18408fb7e2366695660f685a9016fe783203073d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "84bf5079_bf07c5c2",
         "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
         "patchSetId": 1

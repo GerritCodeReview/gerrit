@@ -17,6 +17,13 @@ package com.google.gerrit.extensions.api.projects;
 import java.util.List;
 
 public class ConfigValue {
+
+  public ConfigValue() {}
+
+  public ConfigValue(String value) {
+    this.value = value;
+  }
+
   public String value;
   public List<String> values;
 }

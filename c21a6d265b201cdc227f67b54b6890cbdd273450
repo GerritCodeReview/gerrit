@@ -152,6 +152,30 @@
       },
       "revId": "c21a6d265b201cdc227f67b54b6890cbdd273450",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32986b5e_ead7c4d0",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 896,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-11T23:53:53Z",
+      "side": 1,
+      "message": "The completion of this fix is done with I5904dc46, then we\u0027ll need to:\n- Fix the inconsistency on how ChangeNotes are stored re-reading the comments\n- Trigger the rewrite of change notes, remapping the foreign identities (if known)\n\nWith the two above follow-ups, we\u0027ll be able to effectively *convert* the change /meta so that the remapping isn\u0027t needed anymore at runtime as the data is migrated on disk.",
+      "parentUuid": "cfb765ca_e82251a9",
+      "range": {
+        "startLine": 896,
+        "startChar": 29,
+        "endLine": 896,
+        "endChar": 64
+      },
+      "revId": "c21a6d265b201cdc227f67b54b6890cbdd273450",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

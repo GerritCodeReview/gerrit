@@ -736,7 +736,9 @@ class ReceiveCommits {
       return;
     }
 
-    try (RevWalk globalRevWalk = new RevWalk(repo)) {
+    try (ObjectInserter ins = repo.newObjectInserter();
+        ObjectReader reader = ins.newReader();
+        RevWalk globalRevWalk = new RevWalk(reader)) {
       globalRevWalk.setRetainBody(false);
 
       List<ReceiveCommand> magicCommands = new ArrayList<>();
@@ -774,7 +776,7 @@ class ReceiveCommits {
           }
 
           if (!regularCommands.isEmpty()) {
-            handleRegularCommands(globalRevWalk, regularCommands, progress);
+            handleRegularCommands(globalRevWalk, ins, regularCommands, progress);
             return;
           }
         }
@@ -809,7 +811,7 @@ class ReceiveCommits {
         // deprecated feature.
         warnAboutMissingChangeId(globalRevWalk, newChanges);
         preparePatchSetsForReplace(globalRevWalk, newChanges);
-        insertChangesAndPatchSets(globalRevWalk, newChanges, replaceProgress);
+        insertChangesAndPatchSets(globalRevWalk, ins, newChanges, replaceProgress);
       } finally {
         newProgress.end();
         replaceProgress.end();
@@ -844,7 +846,10 @@ class ReceiveCommits {
   }
 
   private void handleRegularCommands(
-      RevWalk globalRevWalk, List<ReceiveCommand> cmds, MultiProgressMonitor progress)
+      RevWalk globalRevWalk,
+      ObjectInserter ins,
+      List<ReceiveCommand> cmds,
+      MultiProgressMonitor progress)
       throws PermissionBackendException, IOException, NoSuchProjectException {
     try (TraceTimer traceTimer =
         newTimer("handleRegularCommands", Metadata.builder().resourceCount(cmds.size()))) {
@@ -857,7 +862,6 @@ class ReceiveCommits {
       try (BatchUpdate bu =
               batchUpdateFactory.create(
                   project.getNameKey(), user.materializedCopy(), TimeUtil.now());
-          ObjectInserter ins = repo.newObjectInserter();
           ObjectReader reader = ins.newReader();
           RevWalk rw = new RevWalk(reader);
           MergeOpRepoManager orm = ormProvider.get()) {
@@ -901,7 +905,7 @@ class ReceiveCommits {
                     Task closeProgress = progress.beginSubTask("closed", UNKNOWN);
                     try (RefUpdateContext ctx =
                         RefUpdateContext.open(RefUpdateType.AUTO_CLOSE_CHANGES)) {
-                      autoCloseChanges(globalRevWalk, c, closeProgress);
+                      autoCloseChanges(globalRevWalk, ins, c, closeProgress);
                     }
                     closeProgress.end();
                     break;
@@ -1030,7 +1034,10 @@ class ReceiveCommits {
   }
 
   private void insertChangesAndPatchSets(
-      RevWalk globalRevWalk, ImmutableList<CreateRequest> newChanges, Task replaceProgress) {
+      RevWalk globalRevWalk,
+      ObjectInserter ins,
+      ImmutableList<CreateRequest> newChanges,
+      Task replaceProgress) {
     try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
       try (TraceTimer traceTimer =
           newTimer(
@@ -1049,7 +1056,8 @@ class ReceiveCommits {
             // TODO: Retry lock failures on new change insertions. The retry will
             //  likely have to move to a higher layer to be able to achieve that
             //  due to state that needs to be reset with each retry attempt.
-            insertChangesAndPatchSets(globalRevWalk, magicBranchCmd, newChanges, replaceProgress);
+            insertChangesAndPatchSets(
+                globalRevWalk, ins, magicBranchCmd, newChanges, replaceProgress);
           } else {
             @SuppressWarnings("unused")
             var unused =
@@ -1058,7 +1066,7 @@ class ReceiveCommits {
                         "insertPatchSets",
                         updateFactory -> {
                           insertChangesAndPatchSets(
-                              globalRevWalk, magicBranchCmd, newChanges, replaceProgress);
+                              globalRevWalk, ins, magicBranchCmd, newChanges, replaceProgress);
                           return null;
                         })
                     .defaultTimeoutMultiplier(5)
@@ -1096,6 +1104,7 @@ class ReceiveCommits {
 
   private void insertChangesAndPatchSets(
       RevWalk globalRevWalk,
+      ObjectInserter ins,
       ReceiveCommand magicBranchCmd,
       List<CreateRequest> newChanges,
       Task replaceProgress)
@@ -1103,7 +1112,6 @@ class ReceiveCommits {
     try (BatchUpdate bu =
             batchUpdateFactory.create(
                 project.getNameKey(), user.materializedCopy(), TimeUtil.now());
-        ObjectInserter ins = repo.newObjectInserter();
         ObjectReader reader = ins.newReader();
         RevWalk rw = new RevWalk(reader)) {
       bu.setRepository(repo, rw, ins);
@@ -3457,7 +3465,8 @@ class ReceiveCommits {
     }
   }
 
-  private void autoCloseChanges(RevWalk globalRevWalk, ReceiveCommand cmd, Task progress) {
+  private void autoCloseChanges(
+      RevWalk globalRevWalk, ObjectInserter ins, ReceiveCommand cmd, Task progress) {
     try (TraceTimer traceTimer = newTimer("autoCloseChanges")) {
       logger.atFine().log("Starting auto-closing of changes");
       String refName = cmd.getRefName();
@@ -3475,7 +3484,6 @@ class ReceiveCommits {
                       try (BatchUpdate bu =
                               updateFactory.create(
                                   projectState.getNameKey(), user, TimeUtil.now());
-                          ObjectInserter ins = repo.newObjectInserter();
                           ObjectReader reader = ins.newReader();
                           RevWalk rw = new RevWalk(reader)) {
                         if (ObjectId.zeroId().equals(cmd.getOldId())) {

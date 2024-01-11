@@ -39,6 +39,12 @@ import org.eclipse.jgit.revwalk.RevWalk;
  *   <li>The detailed file diff for a single file path.
  *   <li>The Intra-line diffs for a single file path (TODO:ghareeb).
  * </ul>
+ *
+ * <p>Do not use this class from commit validators (classes that implement {@link
+ * com.google.gerrit.server.git.validators.CommitValidationListener}), but use {@link
+ * DiffOperationsForCommitValidation} that is provided in {@link
+ * com.google.gerrit.server.events.CommitReceivedEvent#diffOperations} instead (see javadoc of
+ * {@link DiffOperationsForCommitValidation} for the context).
  */
 public interface DiffOperations {
 

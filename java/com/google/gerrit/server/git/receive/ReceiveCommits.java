@@ -161,6 +161,7 @@ import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.mail.MailUtil.MailRecipients;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.AutoMerger;
+import com.google.gerrit.server.patch.DiffOperationsForCommitValidation;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.GlobalPermission;
@@ -187,6 +188,7 @@ import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.gerrit.server.update.RepoContext;
 import com.google.gerrit.server.update.RepoOnlyOp;
+import com.google.gerrit.server.update.RepoView;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.SubmissionExecutor;
 import com.google.gerrit.server.update.SubmissionListener;
@@ -380,6 +382,7 @@ class ReceiveCommits {
   private final CreateGroupPermissionSyncer createGroupPermissionSyncer;
   private final CreateRefControl createRefControl;
   private final DeadlineChecker.Factory deadlineCheckerFactory;
+  private final DiffOperationsForCommitValidation.Factory diffOperationsForCommitValidationFactory;
   private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
   private final DynamicSet<PluginPushOption> pluginPushOptions;
   private final PluginSetContext<ReceivePackInitializer> initializers;
@@ -467,6 +470,7 @@ class ReceiveCommits {
       CreateGroupPermissionSyncer createGroupPermissionSyncer,
       CreateRefControl createRefControl,
       DeadlineChecker.Factory deadlineCheckerFactory,
+      DiffOperationsForCommitValidation.Factory diffOperationsForCommitValidationFactory,
       DynamicMap<ProjectConfigEntry> pluginConfigEntries,
       DynamicSet<PluginPushOption> pluginPushOptions,
       PluginSetContext<ReceivePackInitializer> initializers,
@@ -519,6 +523,7 @@ class ReceiveCommits {
     this.createRefControl = createRefControl;
     this.createGroupPermissionSyncer = createGroupPermissionSyncer;
     this.deadlineCheckerFactory = deadlineCheckerFactory;
+    this.diffOperationsForCommitValidationFactory = diffOperationsForCommitValidationFactory;
     this.editUtil = editUtil;
     this.hashtagsFactory = hashtagsFactory;
     this.setTopicFactory = setTopicFactory;
@@ -801,7 +806,8 @@ class ReceiveCommits {
       try {
         if (magicBranch != null && magicBranch.cmd.getResult() == NOT_ATTEMPTED) {
           try {
-            newChanges = selectNewAndReplacedChangesFromMagicBranch(globalRevWalk, newProgress);
+            newChanges =
+                selectNewAndReplacedChangesFromMagicBranch(globalRevWalk, ins, newProgress);
           } catch (IOException e) {
             throw new StorageException("Failed to select new changes in " + project.getName(), e);
           }
@@ -855,7 +861,7 @@ class ReceiveCommits {
         newTimer("handleRegularCommands", Metadata.builder().resourceCount(cmds.size()))) {
       result.magicPush(false);
       for (ReceiveCommand cmd : cmds) {
-        parseRegularCommand(globalRevWalk, cmd);
+        parseRegularCommand(globalRevWalk, ins, cmd);
       }
 
       Map<BranchNameKey, ReceiveCommand> branches;
@@ -1276,7 +1282,7 @@ class ReceiveCommits {
   /*
    * Interpret a normal push.
    */
-  private void parseRegularCommand(RevWalk globalRevWalk, ReceiveCommand cmd)
+  private void parseRegularCommand(RevWalk globalRevWalk, ObjectInserter ins, ReceiveCommand cmd)
       throws PermissionBackendException, NoSuchProjectException, IOException {
     try (TraceTimer traceTimer = newTimer("parseRegularCommand")) {
       if (cmd.getResult() != NOT_ATTEMPTED) {
@@ -1318,11 +1324,11 @@ class ReceiveCommits {
 
       switch (cmd.getType()) {
         case CREATE:
-          parseCreate(globalRevWalk, cmd);
+          parseCreate(globalRevWalk, ins, cmd);
           break;
 
         case UPDATE:
-          parseUpdate(globalRevWalk, cmd);
+          parseUpdate(globalRevWalk, ins, cmd);
           break;
 
         case DELETE:
@@ -1330,7 +1336,7 @@ class ReceiveCommits {
           break;
 
         case UPDATE_NONFASTFORWARD:
-          parseRewind(globalRevWalk, cmd);
+          parseRewind(globalRevWalk, ins, cmd);
           break;
 
         default:
@@ -1478,7 +1484,7 @@ class ReceiveCommits {
     }
   }
 
-  private void parseCreate(RevWalk globalRevWalk, ReceiveCommand cmd)
+  private void parseCreate(RevWalk globalRevWalk, ObjectInserter ins, ReceiveCommand cmd)
       throws PermissionBackendException, NoSuchProjectException, IOException {
     try (TraceTimer traceTimer = newTimer("parseCreate")) {
       if (repo.resolve(cmd.getRefName()) != null) {
@@ -1518,12 +1524,12 @@ class ReceiveCommits {
 
       if (validRefOperation(cmd)) {
         validateRegularPushCommits(
-            globalRevWalk, BranchNameKey.create(project.getNameKey(), cmd.getRefName()), cmd);
+            globalRevWalk, ins, BranchNameKey.create(project.getNameKey(), cmd.getRefName()), cmd);
       }
     }
   }
 
-  private void parseUpdate(RevWalk globalRevWalk, ReceiveCommand cmd)
+  private void parseUpdate(RevWalk globalRevWalk, ObjectInserter ins, ReceiveCommand cmd)
       throws PermissionBackendException {
     try (TraceTimer traceTimer = TraceContext.newTimer("parseUpdate")) {
       logger.atFine().log("Updating %s", cmd);
@@ -1535,7 +1541,10 @@ class ReceiveCommits {
         }
         if (validRefOperation(cmd)) {
           validateRegularPushCommits(
-              globalRevWalk, BranchNameKey.create(project.getNameKey(), cmd.getRefName()), cmd);
+              globalRevWalk,
+              ins,
+              BranchNameKey.create(project.getNameKey(), cmd.getRefName()),
+              cmd);
         }
       } else {
         rejectProhibited(cmd, err.get());
@@ -1582,7 +1591,7 @@ class ReceiveCommits {
     }
   }
 
-  private void parseRewind(RevWalk globalRevWalk, ReceiveCommand cmd)
+  private void parseRewind(RevWalk globalRevWalk, ObjectInserter ins, ReceiveCommand cmd)
       throws PermissionBackendException {
     try (TraceTimer traceTimer = newTimer("parseRewind")) {
       try {
@@ -1599,7 +1608,7 @@ class ReceiveCommits {
         return;
       }
       validateRegularPushCommits(
-          globalRevWalk, BranchNameKey.create(project.getNameKey(), cmd.getRefName()), cmd);
+          globalRevWalk, ins, BranchNameKey.create(project.getNameKey(), cmd.getRefName()), cmd);
       if (cmd.getResult() != NOT_ATTEMPTED) {
         return;
       }
@@ -2337,7 +2346,7 @@ class ReceiveCommits {
   }
 
   private ImmutableList<CreateRequest> selectNewAndReplacedChangesFromMagicBranch(
-      RevWalk globalRevWalk, Task newProgress) throws IOException {
+      RevWalk globalRevWalk, ObjectInserter ins, Task newProgress) throws IOException {
     try (TraceTimer traceTimer = newTimer("selectNewAndReplacedChangesFromMagicBranch")) {
       logger.atFine().log("Finding new and replaced changes");
       List<CreateRequest> newChanges = new ArrayList<>();
@@ -2437,6 +2446,8 @@ class ReceiveCommits {
               validator.validateCommit(
                   repo,
                   globalRevWalk.getObjectReader(),
+                  diffOperationsForCommitValidationFactory.create(
+                      new RepoView(repo, globalRevWalk, ins), ins),
                   magicBranch.cmd,
                   c,
                   ImmutableListMultimap.copyOf(pushOptions),
@@ -3386,7 +3397,7 @@ class ReceiveCommits {
    * <p>On validation failure, the command is rejected.
    */
   private void validateRegularPushCommits(
-      RevWalk globalRevWalk, BranchNameKey branch, ReceiveCommand cmd)
+      RevWalk globalRevWalk, ObjectInserter ins, BranchNameKey branch, ReceiveCommand cmd)
       throws PermissionBackendException {
     try (TraceTimer traceTimer =
         newTimer("validateRegularPushCommits", Metadata.builder().branchName(branch.branch()))) {
@@ -3444,6 +3455,8 @@ class ReceiveCommits {
               validator.validateCommit(
                   repo,
                   globalRevWalk.getObjectReader(),
+                  diffOperationsForCommitValidationFactory.create(
+                      new RepoView(repo, globalRevWalk, ins), ins),
                   cmd,
                   c,
                   ImmutableListMultimap.copyOf(pushOptions),

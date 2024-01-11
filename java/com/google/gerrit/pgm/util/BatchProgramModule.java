@@ -76,6 +76,7 @@ import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.notedb.ChangeDraftNotesUpdate;
 import com.google.gerrit.server.notedb.NoteDbModule;
 import com.google.gerrit.server.patch.DiffExecutorModule;
+import com.google.gerrit.server.patch.DiffOperationsForCommitValidation;
 import com.google.gerrit.server.patch.DiffOperationsImpl;
 import com.google.gerrit.server.patch.PatchListCacheImpl;
 import com.google.gerrit.server.permissions.DefaultPermissionBackendModule;
@@ -164,6 +165,7 @@ public class BatchProgramModule extends FactoryModule {
     bind(CurrentUser.class).to(InternalUser.class);
     factory(PatchSetInserter.Factory.class);
     factory(RebaseChangeOp.Factory.class);
+    factory(DiffOperationsForCommitValidation.Factory.class);
 
     bind(new TypeLiteral<ImmutableSet<GroupReference>>() {})
         .annotatedWith(AdministrateServerGroups.class)

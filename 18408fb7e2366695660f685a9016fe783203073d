@@ -73,6 +73,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7cc53392_8cbc079a",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 631,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-01-11T12:21:48Z",
+      "side": 0,
+      "message": "Yes, exactly that\u0027s the culprit. The rest of the change in the PS is just a cleanup of the code that is not needed anymore after this is removed.\n\nI will verify the simplified patch and get back to you.",
+      "parentUuid": "84bf5079_bf07c5c2",
+      "range": {
+        "startLine": 628,
+        "startChar": 0,
+        "endLine": 631,
+        "endChar": 7
+      },
+      "revId": "18408fb7e2366695660f685a9016fe783203073d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6607df33_ced70ec7",
         "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesTest.java",
         "patchSetId": 1
@@ -84,6 +108,24 @@
       "writtenOn": "2024-01-11T11:55:54Z",
       "side": 0,
       "message": "Why do we need also to change the test? Was this added for triggering a side-effect in the way the change notes are loaded?",
+      "revId": "18408fb7e2366695660f685a9016fe783203073d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dfdbd2ab_f28ed9b2",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1968,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-01-11T12:21:48Z",
+      "side": 0,
+      "message": "even before this change this was a \"dead code\", as the return value for `readNote` was never used. Sure it read the data from cache (that this change is removing now), but it wasn\u0027t testing anything.\n\nWe can\u0027t keep this code as with the other changes we\u0027ll get a compilation error in L3947, as the `notes.revisionNoteMap` is now removed.\n\nYes, we need this change in order to accommodate the code clean up after the fix.",
+      "parentUuid": "6607df33_ced70ec7",
       "revId": "18408fb7e2366695660f685a9016fe783203073d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

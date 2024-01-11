@@ -33,6 +33,24 @@
       "message": "Apart from the implications with the imported changes, I am concerned on the other side effects that this bug may have had with other parts of Gerrit. \n\nI see that the notes map was stored as instance variable in the cache loader and then reused 😮",
       "revId": "733c33d6c7aee1f1cad720e0527c52c3301599fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9404afa0_b8433313",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-01-11T12:21:48Z",
+      "side": 1,
+      "message": "I\u0027m not that much concerned, as this was the only usage of the \"mutable loader property\" so other parts should not be affected by this.\n\nUnless the same pattern was used in other places, then yes, we\u0027d still have similar issues.\n\nThis is self-contained and does not affect other parts of Gerrit.",
+      "parentUuid": "a5d56cbb_0bf0abad",
+      "revId": "733c33d6c7aee1f1cad720e0527c52c3301599fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "78868493_37f70444",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-11T14:56:36Z",
+      "side": 1,
+      "message": "I believe there is a bug in the way we parse the change notes, because we end up with the account-id in the _home_ serverId but we leave the original `serverId` in `HumanComment`. See https://gerrit-review.googlesource.com/c/gerrit/+/376516/comment/eea9984a_401f2e38/",
+      "parentUuid": "2b6b39eb_f9bfd3ab",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 38
+      },
+      "revId": "733c33d6c7aee1f1cad720e0527c52c3301599fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cf99cca7_74316433",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

@@ -149,6 +149,7 @@ import {BaseScheduler, Scheduler} from '../scheduler/scheduler';
 import {MaxInFlightScheduler} from '../scheduler/max-in-flight-scheduler';
 import {escapeAndWrapSearchOperatorValue} from '../../utils/string-util';
 import {FlagsService, KnownExperimentId} from '../flags/flags';
+import { RetryScheduler } from '../scheduler/retry-scheduler';
 
 const MAX_PROJECT_RESULTS = 25;
 
@@ -268,11 +269,20 @@ export function testOnlyResetGrRestApiSharedObjects(authService: AuthService) {
 }
 
 function createReadScheduler() {
-  return new MaxInFlightScheduler<Response>(new BaseScheduler<Response>(), 10);
+  return new RetryScheduler<Response>(
+    new MaxInFlightScheduler<Response>(new BaseScheduler<Response>(), 10),
+    3 /* maxRetry */,
+    50 /* backoffIntervalMs */
+  );
 }
 
 function createWriteScheduler() {
-  return new MaxInFlightScheduler<Response>(new BaseScheduler<Response>(), 5);
+  return new RetryScheduler<Response>(
+    new MaxInFlightScheduler<Response>(new BaseScheduler<Response>(), 5),
+    3 /* maxRetry */,
+    50 /* backoffIntervalMs */
+  );
+
 }
 
 function createSerializingScheduler() {

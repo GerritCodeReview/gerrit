@@ -104,6 +104,30 @@
       },
       "revId": "c21a6d265b201cdc227f67b54b6890cbdd273450",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "220cf893_029cfc4f",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 896,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-01-11T15:43:32Z",
+      "side": 1,
+      "message": "The repository import from another instance is a manual process, why not add another step, a site program that would create one commit with mapping IDs in the meta branches?\n\nThis way we won\u0027t need any mapping in the server, won\u0027t lose any CPU cycles or memory in the runtime and also prevent similar types of issues from happening again.\n\nThaw will also give us an audit trail of when and from where the project was moved.",
+      "parentUuid": "4cecbe80_81d9aaf2",
+      "range": {
+        "startLine": 896,
+        "startChar": 29,
+        "endLine": 896,
+        "endChar": 64
+      },
+      "revId": "c21a6d265b201cdc227f67b54b6890cbdd273450",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

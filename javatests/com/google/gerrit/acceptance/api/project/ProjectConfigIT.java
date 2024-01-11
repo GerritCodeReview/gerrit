@@ -16,32 +16,48 @@ package com.google.gerrit.acceptance.api.project;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.fetch;
+import static com.google.gerrit.server.project.ProjectConfig.PROJECT_CONFIG;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.ExtensionRegistry;
+import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.entities.LabelFunction;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.extensions.api.changes.PublishChangeEditInput;
+import com.google.gerrit.extensions.api.projects.ConfigInfo;
+import com.google.gerrit.extensions.api.projects.ConfigInput;
+import com.google.gerrit.extensions.api.projects.ConfigValue;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.git.ObjectIds;
+import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.GroupList;
 import com.google.gerrit.server.project.LabelConfigValidator;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.inject.Inject;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Test;
 
 public class ProjectConfigIT extends AbstractDaemonTest {
@@ -51,6 +67,7 @@ public class ProjectConfigIT extends AbstractDaemonTest {
           + "  copyAllScoresOnTrivialRebase = true";
 
   @Inject private ProjectOperations projectOperations;
+  @Inject private ExtensionRegistry extensionRegistry;
 
   @Test
   public void noLabelValidationForNonRefsMetaConfigChange() throws Exception {
@@ -512,6 +529,45 @@ public class ProjectConfigIT extends AbstractDaemonTest {
             "ERROR: commit %s:   project.config: multiple definitions of description"
                 + " for submit requirement 'foo'",
             abbreviateName(r.getCommit())));
+  }
+
+  @Test
+  public void pluginConfigs_neverWriteDefaultValueToConfigFile() throws Exception {
+    String projectConfigBeforeUpdate = readProjectConfig(project).get();
+    assertThat(projectConfigBeforeUpdate).doesNotContain("myPlugin");
+
+    ProjectConfigEntry entry = new ProjectConfigEntry("enabled", "true");
+    try (Registration ignored =
+        extensionRegistry.newRegistration().add(entry, "test-config-entry")) {
+      // Default value is populated in API response
+      ConfigInfo configInfo = gApi.projects().name(project.get()).config();
+      assertThat(configInfo.pluginConfig.get("myPlugin").get("test-config-entry").value)
+          .isEqualTo("true");
+
+      // Set an unrelated parameter
+      ConfigInput input = new ConfigInput();
+      input.description = "New description";
+
+      gApi.projects().name(project.get()).config(input);
+
+      // The project config does not contain a section for the plugin
+      projectConfigBeforeUpdate = readProjectConfig(project).get();
+      assertThat(projectConfigBeforeUpdate).doesNotContain("myPlugin");
+      assertThat(projectConfigBeforeUpdate).contains("New description");
+
+      // Set the plugin config to the default value. Set an unrelated setting on the side.
+      Map<String, ConfigValue> val = new HashMap<>();
+      input.pluginConfigValues = new HashMap<>();
+      input.pluginConfigValues.put("myPlugin", val);
+      val.put("test-config-entry", new ConfigValue("true"));
+      input.description = "New description2";
+      gApi.projects().name(project.get()).config(input);
+
+      // The project config does not contain a section for the plugin
+      projectConfigBeforeUpdate = readProjectConfig(project).get();
+      assertThat(projectConfigBeforeUpdate).doesNotContain("myPlugin");
+      assertThat(projectConfigBeforeUpdate).contains("New description2");
+    }
   }
 
   @Test
@@ -1101,5 +1157,20 @@ public class ProjectConfigIT extends AbstractDaemonTest {
 
   private String abbreviateName(AnyObjectId id) throws Exception {
     return ObjectIds.abbreviateName(id, testRepo.getRevWalk().getObjectReader());
+  }
+
+  private Optional<String> readProjectConfig(Project.NameKey project) throws Exception {
+    try (Repository repo = repoManager.openRepository(project);
+        TestRepository<Repository> tr = new TestRepository<>(repo)) {
+      RevWalk rw = tr.getRevWalk();
+      Ref ref = repo.exactRef(RefNames.REFS_CONFIG);
+      if (ref == null) {
+        return Optional.empty();
+      }
+      ObjectLoader obj =
+          rw.getObjectReader()
+              .open(tr.get(rw.parseTree(ref.getObjectId()), PROJECT_CONFIG), Constants.OBJ_BLOB);
+      return Optional.of(new String(obj.getCachedBytes(Integer.MAX_VALUE), UTF_8));
+    }
   }
 }

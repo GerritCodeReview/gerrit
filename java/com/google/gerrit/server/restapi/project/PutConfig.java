@@ -221,7 +221,15 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
             oldValue = Joiner.on("\n").join(l);
             value = Joiner.on("\n").join(v.getValue().values);
           }
-          if (Strings.emptyToNull(value) != null) {
+
+          if (projectConfigEntry.getDefaultValue().equals(value)) {
+            // If the value is equal to the default, unset in case it existed.
+            if (oldValue != null) {
+              validateProjectConfigEntryIsEditable(
+                  projectConfigEntry, projectState, v.getKey(), pluginName);
+              projectConfig.updatePluginConfig(pluginName, cfg -> cfg.unset(v.getKey()));
+            }
+          } else if (Strings.emptyToNull(value) != null) {
             if (!value.equals(oldValue)) {
               validateProjectConfigEntryIsEditable(
                   projectConfigEntry, projectState, v.getKey(), pluginName);

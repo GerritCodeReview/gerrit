@@ -53,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b482e648_24a0eca2",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectConfigIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 535,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2024-01-11T15:26:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10ceab84_d0a93772",
+      "revId": "d0980a6883218ca96c907d8e3dc4d22c675ee53b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b0cfeca7_8593a204",

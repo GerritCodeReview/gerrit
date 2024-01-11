@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4b85532b_96ddf545",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-01-11T13:34:27Z",
+      "side": 0,
+      "message": "\u003e Gotcha. Because of the L407, the loader may have not been called at all if the key was already present in the cache.\n\nExactly, this gives such a small window for this \"performance\" improvement to work that I don\u0027t think it\u0027s worth it.\n\n\u003e Could we consider this a bug in the way we adapted the mapping of the account-ids?\n\nI wouldn\u0027t call that a \"bug\", but rather an \"unforeseen consequence\".\n\n\u003e The concept of a cache is that if data hasn\u0027t changed, the cached value and the persistent value read should be the same, which wasn\u0027t the case here.\n\nThat depends on the cache contract. One can argue, that git data and `external-ids` do not change, then the cache value is still valid.\n\nBut this is changing the \"cache contract\", as instead of being _the cache of changes data in git_ it becomes a _**computed** value of change git data and external user IDs_.\n\nI do believe that the current approach with account external ID mapping is the way to go. As we have a single place where we do the mapping, we do that mapping once and everywhere in the code (apart from saving data back to the meta branch) we only care about the current instance account ID. Sure we can potentially split this into two caches, one for the Git data and another for the computed value, but IMO that would be overkill.\n\nAdditionally, the way how `ChangeNotesCache.Value.revisionNoteMap` is implemented do not add that much performance. And as we learned is error-prone.\n\nFinally, reverting back to the \"old cache\" contract would require more work, will probably be less performant and we still could hit similar problems when we\u0027re not careful about the data that is put into it.\n\n\u003e Sure, in this case the cached data was different from the underlying stored data, that\u0027s why it broke.\n\nIt\u0027s a bit more complicated, as the main reason here is not that the data were different. But that the data were evicted from the cache, AND loaded by `ChangeUpdate`, giving us modified `revisionNoteMap`. As long as we don\u0027t encounter cache miss when `ChangeUpdate` accesses the cache, we are fine.\n\n\u003e Well, you are not removing the cache as it is used still at L385. So I don\u0027t believe you are introducing any performance regression either.\n\nAgree, also the \"window of opportunity\" for that performance improvement is so small that we probably won\u0027t even notice it gone.\n\n\u003e Maybe could be that the culprit of this inconsistency?\n\nThis problem is so nuanced it\u0027s hard for me to name a single factor as a \"culprit\". For sure having a \"computed\" (or \"mutated\") values in the cache has its part, but without `ChangeNotesCache.Value.revisionNoteMap` being set by `Loader` and then used in `ChangeUpdate.getRevisionNoteMap()` this won\u0027t happen.",
+      "parentUuid": "e933ca41_c298f49a",
+      "range": {
+        "startLine": 379,
+        "startChar": 6,
+        "endLine": 379,
+        "endChar": 52
+      },
+      "revId": "18408fb7e2366695660f685a9016fe783203073d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "84bf5079_bf07c5c2",
         "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
         "patchSetId": 1

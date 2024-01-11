@@ -169,6 +169,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8e6a8a08_dfa9ca34",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 631,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-11T15:09:11Z",
+      "side": 0,
+      "message": "I would separate this change in two parts:\n1. Removing this low-level optimisation on change updates on `stable-3.7`, just verify with Gating that we are not introducing any performance penalty\n2. Cleaning up the code on `master`.\n\nI would still address [1] also on stable-3.7 as a separate change, because the parsing was incorrect IMHO.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/376516/comment/eea9984a_401f2e38/",
+      "parentUuid": "7cc53392_8cbc079a",
+      "range": {
+        "startLine": 628,
+        "startChar": 0,
+        "endLine": 631,
+        "endChar": 7
+      },
+      "revId": "18408fb7e2366695660f685a9016fe783203073d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6607df33_ced70ec7",
         "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesTest.java",
         "patchSetId": 1

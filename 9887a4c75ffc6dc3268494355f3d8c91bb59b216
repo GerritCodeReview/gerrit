@@ -56,6 +56,30 @@
       },
       "revId": "9887a4c75ffc6dc3268494355f3d8c91bb59b216",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "532280f2_8ac97c96",
+        "filename": "java/com/google/gerrit/server/events/CommitReceivedEvent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-01-11T06:34:14Z",
+      "side": 1,
+      "message": "Yes, that\u0027s actually my new plan since yesterday. The reason is that some validators need modified files against different parents. Pre-populating this only works if all validators would need the modified files against the same parent (e.g. the default parent).\n\nThe reason why I thought pre-populating would be better was to avoid confusion for the commit validator whether they should use loadModifiedFiles vs listModifiedFiles (the first is save, the latter isn\u0027t).",
+      "parentUuid": "bc97c62f_753bdd3e",
+      "range": {
+        "startLine": 58,
+        "startChar": 6,
+        "endLine": 58,
+        "endChar": 59
+      },
+      "revId": "9887a4c75ffc6dc3268494355f3d8c91bb59b216",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

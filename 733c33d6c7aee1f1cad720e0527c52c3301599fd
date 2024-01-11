@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2b6b39eb_f9bfd3ab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-01-11T14:27:03Z",
+      "side": 1,
+      "message": "\u003e Can you please elaborate on why not?\n\nSure, let\u0027s follow the code starting from `ChangeNoteCache.Loder` class and the `call` method. We use here the `ChangeNotesParser#parseAll()`, which is then calling the private `parseNotes()` method. Here in lines 894-896, we use `NoteDbUtil.pasrseIndent` to map the comment author ID using the `external-ids` cache. This is to link comments created on the other server instance, that used different account IDs to the current server instance account IDs. This means that we not only \"read and parse\" the data, but also compute _some_ of the values.\n\nThat mapping was introduced in change 376516, to facilitate importing projects (including review data) from other Gerrit instances.\n\nThe cache contract stays the same for the projects that were always hosted on that server instance. But, as we\u0027re right now dealing with the imported projects (after JGit and EGit projects code review was moved to eclipse.gerrithub.io) the contract is broken for them. This is nuanced and has multiple preconditions that need to be met before it occurs.\n\n\u003e Are you importing the cache state as well to save the recompute?\n\nSorry, I don\u0027t get what you mean, could you please elaborate?\n\n\u003e If the change notes are parsed and the cache state is constructed, we should do the right thing.\n\nI agree with this statement and do think that we are doing the _right thing_ right now, which is to map the comment author ID and store the mapped value in the cache. With this approach, we save a lot of code like \"is this my account id? if not, remap it to mine\".\n\nThe problem here is that in a very special case, we have used the cached (computed) value as a base for the `meta` branch update. Which leads to data corruption. This change removes that special case and always reads the base data for the `meta` update from the same branch.",
+      "parentUuid": "de7d1b0c_62280c28",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 38
+      },
+      "revId": "733c33d6c7aee1f1cad720e0527c52c3301599fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cf99cca7_74316433",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -37,6 +61,30 @@
       "writtenOn": "2024-01-11T13:52:20Z",
       "side": 1,
       "message": "subtle",
+      "range": {
+        "startLine": 22,
+        "startChar": 21,
+        "endLine": 22,
+        "endChar": 27
+      },
+      "revId": "733c33d6c7aee1f1cad720e0527c52c3301599fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e69352a4_7cd9f9c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-01-11T14:27:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf99cca7_74316433",
       "range": {
         "startLine": 22,
         "startChar": 21,

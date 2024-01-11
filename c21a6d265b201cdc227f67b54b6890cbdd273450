@@ -80,6 +80,30 @@
       },
       "revId": "c21a6d265b201cdc227f67b54b6890cbdd273450",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4cecbe80_81d9aaf2",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 896,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-11T15:38:38Z",
+      "side": 1,
+      "message": "Also true.\n\nCould it be that we just added the translation to the remapped account-id too deep in the stack? The only place were we wanted to expose is to end-user REST-API, not to the rest of Gerrit that uses `HumanComment`.",
+      "parentUuid": "02297527_e1ffbaf4",
+      "range": {
+        "startLine": 896,
+        "startChar": 29,
+        "endLine": 896,
+        "endChar": 64
+      },
+      "revId": "c21a6d265b201cdc227f67b54b6890cbdd273450",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

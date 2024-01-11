@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a39421a_7a7ba709",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-11T11:55:54Z",
+      "side": 1,
+      "message": "Missing `Release-Notes` footer",
+      "revId": "733c33d6c7aee1f1cad720e0527c52c3301599fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5d56cbb_0bf0abad",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-11T11:55:54Z",
+      "side": 1,
+      "message": "Apart from the implications with the imported changes, I am concerned on the other side effects that this bug may have had with other parts of Gerrit. \n\nI see that the notes map was stored as instance variable in the cache loader and then reused 😮",
+      "revId": "733c33d6c7aee1f1cad720e0527c52c3301599fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

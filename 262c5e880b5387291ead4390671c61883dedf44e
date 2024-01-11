@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "603accea_4cbd1ab8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-suggestion-diff-preview/gr-suggestion-diff-preview.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-01-11T12:07:39Z",
+      "side": 1,
+      "message": "It\u0027s a public method, can we have a documentation comment, explaining what it does? \n\nAlso, I would\u0027ve expected that this logic was already present somewhere else, but I don\u0027t see it being removed from anywhere in this CL. Is there a code duplication somewhere with this CL. Should we add a TODO to reconcile (remove or deduplicate)?",
+      "range": {
+        "startLine": 247,
+        "startChar": 2,
+        "endLine": 281,
+        "endChar": 3
+      },
+      "revId": "262c5e880b5387291ead4390671c61883dedf44e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

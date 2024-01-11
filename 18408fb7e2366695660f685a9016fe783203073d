@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "508f689b_392d9ea1",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-01-11T12:13:50Z",
+      "side": 0,
+      "message": "the `revisionNoteMap` is explicitly marked as _mutable and non-threadsafe_ in it\u0027s javadoc L345.\n\nAlso, the `Loader` _is not_ shared between threads, it is created in L406, and then immutable `ChangeNotesCache.Value` was used. Theoretically, it was all good... till 3.7 and external server account IDs ;)\n\nI can see this being a performance optimization, as we already read and loaded everything into memory, we can \"just\" reuse it, as it **was** the same as the data in the git repo.\n\nI can\u0027t tell how much of the performance boost that gave in the past. It seems that it is doubtful that `ChangUpdate` will populate the cache. At least in my testing, the cache was populated upfront.\n\nThe contract of cache mirroring git data is broken now, so we can\u0027t use this approach.",
+      "parentUuid": "83cbaad4_f961efe5",
+      "range": {
+        "startLine": 379,
+        "startChar": 6,
+        "endLine": 379,
+        "endChar": 52
+      },
+      "revId": "18408fb7e2366695660f685a9016fe783203073d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "84bf5079_bf07c5c2",
         "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
         "patchSetId": 1

@@ -128,6 +128,30 @@
       },
       "revId": "c21a6d265b201cdc227f67b54b6890cbdd273450",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cfb765ca_e82251a9",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 896,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-11T20:53:40Z",
+      "side": 1,
+      "message": "\u003e The repository import from another instance is a manual process, why not add another step, a site program that would create one commit with mapping IDs in the meta branches?\n\nTrue, but that needs to be done in a smooth way. Also bear in mind that the mapping may not be known at the time of the migration but just later on.\nThe ChangeNotes are a mutable object in memory across Gerrit and they are exposed as-is to the REST-API.\n\nSo, thinking aloud, @syntonyze@gmail.com\u0027s change was right, just incomplete.\n\nThe first edit of a `HumanComment` would then cause the migration you mentioned. We could also implement a NOOP action on the change that would just trigger the rewrite of all comments with the remapped identities.\n\n\u003e This way we won\u0027t need any mapping in the server, won\u0027t lose any CPU cycles or memory in the runtime and also prevent similar types of issues from happening again.\n\nGood idea, so the Issue 318745940 happened only because we did not update the `serverId` field, otherwise it would have performed exactly the migration step that you mentioned, converting the author account ids (the ones that have a matching identity) once and for all, avoiding further CPU cycles and memory in the future.\n\n\u003e Thaw will also give us an audit trail of when and from where the project was moved.\n\nCorrect, I believe it makes sense.",
+      "parentUuid": "220cf893_029cfc4f",
+      "range": {
+        "startLine": 896,
+        "startChar": 29,
+        "endLine": 896,
+        "endChar": 64
+      },
+      "revId": "c21a6d265b201cdc227f67b54b6890cbdd273450",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

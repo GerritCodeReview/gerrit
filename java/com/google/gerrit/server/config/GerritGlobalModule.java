@@ -176,6 +176,7 @@ import com.google.gerrit.server.notedb.DeleteZombieCommentsRefs;
 import com.google.gerrit.server.notedb.NoteDbModule;
 import com.google.gerrit.server.notedb.StoreSubmitRequirementsOp;
 import com.google.gerrit.server.patch.DiffFileSizeValidator;
+import com.google.gerrit.server.patch.DiffOperationsForCommitValidation;
 import com.google.gerrit.server.patch.DiffOperationsImpl;
 import com.google.gerrit.server.patch.DiffValidator;
 import com.google.gerrit.server.patch.PatchListCacheImpl;
@@ -318,6 +319,7 @@ public class GerritGlobalModule extends FactoryModule {
     factory(ProjectOwnerGroupsProvider.Factory.class);
     factory(SubmitRuleEvaluator.Factory.class);
     factory(DeleteZombieCommentsRefs.Factory.class);
+    factory(DiffOperationsForCommitValidation.Factory.class);
 
     bind(AuthBackend.class).to(UniversalAuthBackend.class).in(SINGLETON);
     DynamicSet.setOf(binder(), AuthBackend.class);

@@ -17,6 +17,7 @@ package com.google.gerrit.server.events;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.patch.DiffOperationsForCommitValidation;
 import java.io.IOException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
@@ -36,6 +37,13 @@ public class CommitReceivedEvent extends RefEvent implements AutoCloseable {
   public RevCommit commit;
   public IdentifiedUser user;
 
+  /**
+   * Use this for computing the modified files of the received commits. Using {@link
+   * com.google.gerrit.server.patch.DiffOperations} from commit validators is not safe, see javadoc
+   * on {@link DiffOperationsForCommitValidation}.
+   */
+  public DiffOperationsForCommitValidation diffOperations;
+
   public CommitReceivedEvent() {
     super(TYPE);
   }
@@ -48,7 +56,8 @@ public class CommitReceivedEvent extends RefEvent implements AutoCloseable {
       Config repoConfig,
       ObjectReader reader,
       ObjectId commitId,
-      IdentifiedUser user)
+      IdentifiedUser user,
+      DiffOperationsForCommitValidation diffOperations)
       throws IOException {
     this();
     this.command = command;
@@ -59,6 +68,7 @@ public class CommitReceivedEvent extends RefEvent implements AutoCloseable {
     this.revWalk = new RevWalk(reader);
     this.commit = revWalk.parseCommit(commitId);
     this.user = user;
+    this.diffOperations = diffOperations;
     revWalk.parseBody(commit);
   }
 

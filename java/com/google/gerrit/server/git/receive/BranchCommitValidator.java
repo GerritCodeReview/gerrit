@@ -32,6 +32,7 @@ import com.google.gerrit.server.git.validators.CommitValidationMessage;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
+import com.google.gerrit.server.patch.DiffOperationsForCommitValidation;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.ssh.SshInfo;
@@ -108,6 +109,7 @@ public class BranchCommitValidator {
   Result validateCommit(
       Repository repository,
       ObjectReader objectReader,
+      DiffOperationsForCommitValidation diffOperationsForCommitValidation,
       ReceiveCommand cmd,
       RevCommit commit,
       ImmutableListMultimap<String, String> pushOptions,
@@ -116,7 +118,16 @@ public class BranchCommitValidator {
       @Nullable Change change)
       throws IOException {
     return validateCommit(
-        repository, objectReader, cmd, commit, pushOptions, isMerged, rejectCommits, change, false);
+        repository,
+        objectReader,
+        diffOperationsForCommitValidation,
+        cmd,
+        commit,
+        pushOptions,
+        isMerged,
+        rejectCommits,
+        change,
+        false);
   }
 
   /**
@@ -134,6 +145,7 @@ public class BranchCommitValidator {
   Result validateCommit(
       Repository repository,
       ObjectReader objectReader,
+      DiffOperationsForCommitValidation diffOperationsForCommitValidation,
       ReceiveCommand cmd,
       RevCommit commit,
       ImmutableListMultimap<String, String> pushOptions,
@@ -153,7 +165,8 @@ public class BranchCommitValidator {
               new Config(repository.getConfig()),
               objectReader,
               commit,
-              user)) {
+              user,
+              diffOperationsForCommitValidation)) {
         CommitValidators validators;
         if (isMerged) {
           validators =

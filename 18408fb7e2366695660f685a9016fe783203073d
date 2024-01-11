@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e933ca41_c298f49a",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-11T12:59:42Z",
+      "side": 0,
+      "message": "\u003e the `revisionNoteMap` is explicitly marked as _mutable and non-threadsafe_ in it\u0027s javadoc L345.\n\u003e \n\u003e Also, the `Loader` _is not_ shared between threads, it is created in L406, and then immutable `ChangeNotesCache.Value` was used. Theoretically, it was all good... till 3.7 and external server account IDs ;)\n\nGotcha. Because of the L407, the loader may have not been called *at all* if the key was already present in the cache.\n\nCould we consider this a bug in the way we adapted the mapping of the account-ids? The concept of a cache is that if data hasn\u0027t changed, the cached value and the persistent value read should be the same, which wasn\u0027t the case here.\n\n\u003e I can see this being a performance optimization, as we already read and loaded everything into memory, we can \"just\" reuse it, as it **was** the same as the data in the git repo.\n\nSure, in this case the cached data was different from the underlying stored data, that\u0027s why it broke.\n\n\u003e I can\u0027t tell how much of the performance boost that gave in the past. It seems that it is doubtful that `ChangUpdate` will populate the cache. At least in my testing, the cache was populated upfront.\n\nWell, you are not removing the cache as it is used still at L385. So I don\u0027t believe you are introducing any performance regression either.\n\n\u003e The contract of cache mirroring git data is broken now, so we can\u0027t use this approach.\n\nMaybe could be that the culprit of this inconsistency?",
+      "parentUuid": "508f689b_392d9ea1",
+      "range": {
+        "startLine": 379,
+        "startChar": 6,
+        "endLine": 379,
+        "endChar": 52
+      },
+      "revId": "18408fb7e2366695660f685a9016fe783203073d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "84bf5079_bf07c5c2",
         "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
         "patchSetId": 1

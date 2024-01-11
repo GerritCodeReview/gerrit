@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "05088e26_561bb965",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectConfigIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 535,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2024-01-11T15:26:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10ceab84_d0a93772",
+      "revId": "d0980a6883218ca96c907d8e3dc4d22c675ee53b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b0cfeca7_8593a204",
@@ -48,6 +66,30 @@
       "writtenOn": "2024-01-11T09:49:24Z",
       "side": 1,
       "message": "Could you just use\n\n  projectOperations.project(project).getConfig().toText() \n  \ninstead?",
+      "range": {
+        "startLine": 536,
+        "startChar": 39,
+        "endLine": 536,
+        "endChar": 71
+      },
+      "revId": "d0980a6883218ca96c907d8e3dc4d22c675ee53b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d33570a2_9f759a45",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectConfigIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2024-01-11T15:26:01Z",
+      "side": 1,
+      "message": "Oh yeah, nice.",
+      "parentUuid": "b0cfeca7_8593a204",
       "range": {
         "startLine": 536,
         "startChar": 39,

@@ -25,9 +25,7 @@ import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REMOVED;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
-import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Comparator.comparing;
-import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
@@ -1965,7 +1963,6 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-    readNote(notes, commit);
 
     Map<PatchSet.Id, PatchSet> patchSets = notes.getPatchSets();
     assertThat(patchSets.get(psId1).pushCertificate()).isEmpty();
@@ -3941,11 +3938,6 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.setGroups(ImmutableList.of(commit.name()));
     update.commit();
     assertThat(newNotes(c).getChange().currentPatchSetId().get()).isEqualTo(2);
-  }
-
-  private String readNote(ChangeNotes notes, ObjectId noteId) throws Exception {
-    ObjectId dataId = notes.revisionNoteMap.noteMap.getNote(noteId).getData();
-    return new String(rw.getObjectReader().open(dataId, OBJ_BLOB).getCachedBytes(), UTF_8);
   }
 
   private ObjectId exactRefAllUsers(String refName) throws Exception {

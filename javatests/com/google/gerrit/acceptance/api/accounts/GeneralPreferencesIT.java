@@ -84,6 +84,7 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
     i.muteCommonPathPrefixes ^= true;
     i.signedOffBy ^= true;
     i.allowBrowserNotifications ^= false;
+    i.allowSuggestCodeWhileCommenting ^= false;
     i.diffPageSidebar = "plugin-insight";
     i.diffView = DiffView.UNIFIED_DIFF;
     i.my = new ArrayList<>();
@@ -97,6 +98,7 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
     assertThat(o.changeTable).containsExactlyElementsIn(i.changeTable);
     assertThat(o.theme).isEqualTo(i.theme);
     assertThat(o.allowBrowserNotifications).isEqualTo(i.allowBrowserNotifications);
+    assertThat(o.allowSuggestCodeWhileCommenting).isEqualTo(i.allowSuggestCodeWhileCommenting);
     assertThat(o.diffPageSidebar).isEqualTo(i.diffPageSidebar);
     assertThat(o.disableKeyboardShortcuts).isEqualTo(i.disableKeyboardShortcuts);
   }

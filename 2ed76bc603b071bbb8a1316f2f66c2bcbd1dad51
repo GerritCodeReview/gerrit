@@ -112,6 +112,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ae868f44_4771dcf5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-01-12T17:53:14Z",
+      "side": 1,
+      "message": "No, I don\u0027t agree that\u0027s the bug. The bug is that data has leaked to the `/meta` branch, and caused data corruption.\n\nWhen both `comment.account.id` and `comment.serverId` are modified **in the memory**, the bug is still there. Albeit it won\u0027t cause data corruption.\n\nThe but here is that unintended data ended up in the `/meta` branch when a comment was added.\n\nI do agree that the latest change in `stable-3.7` reduces the severity of this bug, as it won\u0027t result in data corruption. But the problem is still there, as we can **not** say when `comment.author.id` and `comment.serverId` will be changed in `/meta` branch. That modification relies on cache eviction and loading.\n\nMy point here is that each commit to the `/meta` branch should be atomic and intentional (similarly like we split bug fixes from intended refactorings in code). Right now that _atomicness_ and _intentinalism_ is broken as changes to `comment.autor.id` and `comment.serverId` will sneak in when comments are added. Which IMO is a bug.",
+      "parentUuid": "c1712c00_7e3148aa",
+      "range": {
+        "startLine": 30,
+        "startChar": 62,
+        "endLine": 32,
+        "endChar": 45
+      },
+      "revId": "2ed76bc603b071bbb8a1316f2f66c2bcbd1dad51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "712fa43e_2daa80c2",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -123,6 +147,30 @@
       "writtenOn": "2024-01-12T17:22:07Z",
       "side": 1,
       "message": "Now that the `serverId` inconsistency has been fixed on stable-3.7, I would rephrase this as the removal of the design inconsistency that had very little benefit in performance, as you mentioned how hard was to end up on that code path.\n\nAlso, this refactoring should be directed to the master branch only IMHO.",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 23
+      },
+      "revId": "2ed76bc603b071bbb8a1316f2f66c2bcbd1dad51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c8a785e_8f362fab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-01-12T17:53:14Z",
+      "side": 1,
+      "message": "\u003e Now that the serverId inconsistency has been fixed on stable-3.7, I would rephrase this as the removal of the design inconsistency that had very little benefit in performance, as you mentioned how hard was to end up on that code path.\n\nAs described above, the last fix will prevent data inconsistency, but unintended changes to the `/meta` branch can still sneak it \"randomly\". Which IMO is still a bug that needs to be fixed on `stable-3.7`.\n\n\u003e Also, this refactoring should be directed to the master branch only IMHO.\n\nI wouldn\u0027t call this a refactoring. When you remove the last constant usage while fixing a bug, will you keep that constant or remove it in a separate change?\n\nIMO, it is better to clean the code as it is not used than split that into separate changes.",
+      "parentUuid": "712fa43e_2daa80c2",
       "range": {
         "startLine": 38,
         "startChar": 0,

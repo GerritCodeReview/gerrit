@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e873b896_e86cb359",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-12T17:22:07Z",
+      "side": 1,
+      "message": "I would suggest to explain the context here:\n\n- ChangeNotesCache breaks the encapsulation of the cache loader: it stores the low-level deserialised revisionNoteMap in its instance variable\n- Normally that information isn\u0027t used, with the exception of the ChanteNotesUpdates that relied on the side-effect of the loader loading the data\n\nThe above performance optimisation was consistent when there was no difference between the lower-level loaded data and the cached data.\n\nHowever, since the introduction of I4b0fe6689 and I5904dc461, the cached data may have the HumanComments\u0027 authors remapped to the local identities associated with the serverId of the instance, which may be different from the lower-level ones stored in the loader instance variable.\n\nThe break of the cache contract and encapsulation of the loader (accessing its state rather than its loaded output) made the ChangeNotesUpdates behaviour unpredictable, depending on the loader being called (and therefore its internal state updated) or not.",
+      "revId": "2ed76bc603b071bbb8a1316f2f66c2bcbd1dad51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ace7719c_79e443de",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-12T17:22:07Z",
+      "side": 1,
+      "message": "revisionNoteMap in the cache loader",
+      "range": {
+        "startLine": 9,
+        "startChar": 60,
+        "endLine": 10,
+        "endChar": 18
+      },
+      "revId": "2ed76bc603b071bbb8a1316f2f66c2bcbd1dad51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ae4d1ff_a60e319d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-12T17:22:07Z",
+      "side": 1,
+      "message": "Well, based on my and your tests, this optimisation was quite short-sighted, because it actually did not hit the cache very often: it was quite hard for us to reproduce this issue.\n\nIt would be interesting to actually see *IF* and *HOW OFTEN* and *HOW MUCH* was saved with this performance optimisation.\n\nIf the case happens 1% (or less) of the times, is it worth to break the encapsulation of the loader, making the code more difficult to understand and potentially more fragile?\n\nI. believe we need to measure first and then assess if that was a good choice or not.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 58
+      },
+      "revId": "2ed76bc603b071bbb8a1316f2f66c2bcbd1dad51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f88a7466_f9a17731",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-12T17:22:07Z",
+      "side": 1,
+      "message": "That\u0027s a very rare situation: you should mention also how you managed to reproduce it and how likely is this to happen in real life.\n(we saw it only once on GerritHub.io)\n\nBottom line: removing that code path is a good thing IMHO.\n\nAnyway, I would prefer to keep the refactoring for master and minimise the impact of this change.",
+      "range": {
+        "startLine": 24,
+        "startChar": 18,
+        "endLine": 25,
+        "endChar": 44
+      },
+      "revId": "2ed76bc603b071bbb8a1316f2f66c2bcbd1dad51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1712c00_7e3148aa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-12T17:22:07Z",
+      "side": 1,
+      "message": "This is actually the bug: the data was incomplete because the `serverId` of the `HumanComment` had not been updated during remapping.",
+      "range": {
+        "startLine": 30,
+        "startChar": 62,
+        "endLine": 32,
+        "endChar": 45
+      },
+      "revId": "2ed76bc603b071bbb8a1316f2f66c2bcbd1dad51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "712fa43e_2daa80c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-12T17:22:07Z",
+      "side": 1,
+      "message": "Now that the `serverId` inconsistency has been fixed on stable-3.7, I would rephrase this as the removal of the design inconsistency that had very little benefit in performance, as you mentioned how hard was to end up on that code path.\n\nAlso, this refactoring should be directed to the master branch only IMHO.",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 23
+      },
+      "revId": "2ed76bc603b071bbb8a1316f2f66c2bcbd1dad51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "777b2e01_410ab954",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-12T17:22:07Z",
+      "side": 1,
+      "message": "Should this be moved to master?",
+      "revId": "2ed76bc603b071bbb8a1316f2f66c2bcbd1dad51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

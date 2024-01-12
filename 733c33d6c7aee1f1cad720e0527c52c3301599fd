@@ -122,6 +122,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "336dca2f_31715f2f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-12T17:22:07Z",
+      "side": 1,
+      "message": "Now that I\u0027ve re-read and debugged the issue a lot more, I believe the problem is relying on the internal intermediate state of the loader rather than its results.\n\nSo @hiesel@google.com is right, in a regular caching scenario. But in a regular cache you don\u0027t rely on the internal intermediate state of the loader that loaded the value, but rather on its loaded result.",
+      "parentUuid": "bf04cb88_95b5f486",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 38
+      },
+      "revId": "733c33d6c7aee1f1cad720e0527c52c3301599fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cf99cca7_74316433",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

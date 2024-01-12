@@ -2554,6 +2554,11 @@ NoteDb, Gerrit will not be able to use that instance of NoteDb. The serverId
 used to create the NoteDb will show in the resulting exception message in case
 the value differs.
 
+[[gerrit.stopTimeout]]gerrit.stopTimeout::
++
+Time, in seconds, to wait before forcefully killing gerrit.
+This is added to the highest value between either sshd or httpd gracefulStopTimeout.
+
 [[gitweb]]
 === Section gitweb
 

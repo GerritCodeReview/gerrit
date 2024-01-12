@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b8e8cb16_d15e0da0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148165
+      },
+      "writtenOn": "2024-01-12T03:08:29Z",
+      "side": 1,
+      "message": "pin",
+      "parentUuid": "d9619953_8977969f",
+      "revId": "ea059926dd3655ff9bc75ca2afce33a2f0fe70c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "299c49a6_daf11daf",
         "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
         "patchSetId": 14

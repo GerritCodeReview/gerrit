@@ -16,6 +16,23 @@
       "message": "I have cherry-picked it to the local env and reproduced the steps that lead to the `author.id` remapping and as a result observed the expected behaviour (accounts were remapped together with `serverId`):\n```\ndiff --git a/a3f9b409e574910b58b1ccb41c0990de681925a1 b/a3f9b409e574910b58b1ccb41c0990de681925a1\nindex 37eca57..2e01474 100644\n--- a/a3f9b409e574910b58b1ccb41c0990de681925a1\n+++ b/a3f9b409e574910b58b1ccb41c0990de681925a1\n@@ -9,7 +9,7 @@\n       },\n       \"lineNbr\": 2,\n       \"author\": {\n-        \"id\": 1000002\n+        \"id\": 1000004\n       },\n       \"writtenOn\": \"2024-01-09T07:47:18Z\",\n       \"side\": 1,\n@@ -21,7 +21,7 @@\n         \"endChar\": 6\n       },\n       \"revId\": \"a3f9b409e574910b58b1ccb41c0990de681925a1\",\n-      \"serverId\": \"1ff9df67-0c27-450a-bc00-6a265fdba9a0\"\n+      \"serverId\": \"f9c23836-e2bb-4e57-b52e-b907245b09d7\"\n     },\n     {\n       \"unresolved\": true,\n@@ -45,7 +45,7 @@\n         \"endChar\": 6\n       },\n       \"revId\": \"a3f9b409e574910b58b1ccb41c0990de681925a1\",\n-      \"serverId\": \"1ff9df67-0c27-450a-bc00-6a265fdba9a0\"\n+      \"serverId\": \"f9c23836-e2bb-4e57-b52e-b907245b09d7\"\n     },\n```\n\nNote that in the second case user has the same account-id in the two servers (`Administrator`) hence only `serverId` changes 👍",
       "revId": "e2e7d68c093fd790c60b976736a05d8962a6fe98",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "736dcd1c_71a12505",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-01-12T07:19:13Z",
+      "side": 1,
+      "message": "thanks for fixing this @luca.milanesio@gmail.com @dariusz.luksza@gmail.com and @geminica.programs@gmail.com. This makes complete sense, sorry for not having spotted this earlier.",
+      "revId": "e2e7d68c093fd790c60b976736a05d8962a6fe98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad726970_26c0e5e1",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2560,
+      "author": {
+        "id": 1155610
+      },
+      "writtenOn": "2024-01-12T23:50:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e9a72e1e_17801011",
+      "range": {
+        "startLine": 2560,
+        "startChar": 50,
+        "endLine": 2560,
+        "endChar": 83
+      },
+      "revId": "962812399e82da74b86c3adec2f770de964994b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5ae86055_e61649d5",
@@ -41,6 +65,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad729e35_e305fa40",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2561,
+      "author": {
+        "id": 1155610
+      },
+      "writtenOn": "2024-01-12T23:50:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ae86055_e61649d5",
+      "revId": "962812399e82da74b86c3adec2f770de964994b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "68416059_a9b55418",
@@ -54,6 +96,30 @@
       "writtenOn": "2024-01-12T23:38:48Z",
       "side": 1,
       "message": "It would be best located under `container`, similarly to the https://gerrit-documentation.storage.googleapis.com/Documentation/3.9.1/config-gerrit.html#container.startupTimeout.\n\nMaybe should this be called `container.shutdownTimeout`? (for consistency with the `startup` parameter",
+      "range": {
+        "startLine": 356,
+        "startChar": 59,
+        "endLine": 356,
+        "endChar": 65
+      },
+      "revId": "962812399e82da74b86c3adec2f770de964994b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4540250e_9530fd54",
+        "filename": "resources/com/google/gerrit/pgm/init/gerrit.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1155610
+      },
+      "writtenOn": "2024-01-12T23:50:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68416059_a9b55418",
       "range": {
         "startLine": 356,
         "startChar": 59,

@@ -125,7 +125,7 @@ public class DiffOperationsTest {
   }
 
   @Test
-  public void loadModifiedFiles() throws Exception {
+  public void loadModifiedFilesIfNecessary() throws Exception {
     ImmutableList<FileEntity> oldFiles =
         ImmutableList.of(
             new FileEntity(fileName1, fileContent1), new FileEntity(fileName2, fileContent2));
@@ -152,7 +152,7 @@ public class DiffOperationsTest {
 
       // This call loads modified files directly without going through the diff cache.
       Map<String, ModifiedFile> modifiedFiles =
-          diffOperations.loadModifiedFiles(
+          diffOperations.loadModifiedFilesIfNecessary(
               testProjectName,
               oldCommitId,
               newCommitId,
@@ -169,11 +169,23 @@ public class DiffOperationsTest {
       assertThat(modifiedFiles).containsExactly(fileName2, expectedModifiedFile);
       assertThat(modifiedFilesCacheImpl.getIfPresent(cacheKey))
           .hasValue(ImmutableList.of(expectedModifiedFile));
+
+      // Check that calling loadModifiedFilesIfNecessary again retrieves the modified files from the
+      // cache, rather then loading them again.
+      Map<String, ModifiedFile> cachedModifiedFiles =
+          diffOperations.loadModifiedFilesIfNecessary(
+              testProjectName,
+              oldCommitId,
+              newCommitId,
+              /* revWalk= */ null, // makes the loading fail if attempted
+              repoConfig,
+              /* enableRenameDetection= */ false);
+      assertThat(cachedModifiedFiles).isEqualTo(modifiedFiles);
     }
   }
 
   @Test
-  public void loadModifiedFiles_withRename() throws Exception {
+  public void loadModifiedFilesIfNecessary_withRename() throws Exception {
     ImmutableList<FileEntity> oldFiles = ImmutableList.of(new FileEntity(fileName1, fileContent1));
     ObjectId oldCommitId = createCommit(repo, null, oldFiles);
 
@@ -196,7 +208,7 @@ public class DiffOperationsTest {
       assertThat(modifiedFilesCacheImpl.getIfPresent(cacheKey)).isEmpty();
 
       Map<String, ModifiedFile> modifiedFiles =
-          diffOperations.loadModifiedFiles(
+          diffOperations.loadModifiedFilesIfNecessary(
               testProjectName,
               oldCommitId,
               newCommitId,
@@ -230,7 +242,7 @@ public class DiffOperationsTest {
       assertThat(modifiedFilesCacheImpl.getIfPresent(cacheKey)).isEmpty();
 
       modifiedFiles =
-          diffOperations.loadModifiedFiles(
+          diffOperations.loadModifiedFilesIfNecessary(
               testProjectName,
               oldCommitId,
               newCommitId,
@@ -251,7 +263,7 @@ public class DiffOperationsTest {
   }
 
   @Test
-  public void loadModifiedFiles_withSymlinkConvertedToRegularFile() throws Exception {
+  public void loadModifiedFilesIfNecessary_withSymlinkConvertedToRegularFile() throws Exception {
     // Commit 1: Create a regular fileName1 with fileContent1
     ImmutableList<FileEntity> oldFiles = ImmutableList.of(new FileEntity(fileName1, fileContent1));
     ObjectId oldCommitId = createCommit(repo, null, oldFiles);
@@ -266,7 +278,7 @@ public class DiffOperationsTest {
         RevWalk rw = new RevWalk(objectReader)) {
 
       Map<String, ModifiedFile> modifiedFiles =
-          diffOperations.loadModifiedFiles(
+          diffOperations.loadModifiedFilesIfNecessary(
               testProjectName,
               newCommitId,
               oldCommitId,
@@ -286,7 +298,7 @@ public class DiffOperationsTest {
   }
 
   @Test
-  public void loadModifiedFilesAgainstParent() throws Exception {
+  public void loadModifiedFilesAgainstParentIfNecessary() throws Exception {
     ImmutableList<FileEntity> oldFiles =
         ImmutableList.of(
             new FileEntity(fileName1, fileContent1), new FileEntity(fileName2, fileContent2));
@@ -313,7 +325,7 @@ public class DiffOperationsTest {
 
       // This call loads modified files directly without going through the diff cache.
       Map<String, ModifiedFile> modifiedFiles =
-          diffOperations.loadModifiedFilesAgainstParent(
+          diffOperations.loadModifiedFilesAgainstParentIfNecessary(
               testProjectName,
               newCommitId,
               /* parentNum=*/ 0,
@@ -334,7 +346,7 @@ public class DiffOperationsTest {
   }
 
   @Test
-  public void loadModifiedFilesAgainstParent_withRename() throws Exception {
+  public void loadModifiedFilesAgainstParentIfNecessary_withRename() throws Exception {
     ImmutableList<FileEntity> oldFiles = ImmutableList.of(new FileEntity(fileName1, fileContent1));
     ObjectId oldCommitId = createCommit(repo, null, oldFiles);
 
@@ -356,7 +368,7 @@ public class DiffOperationsTest {
       assertThat(modifiedFilesCacheImpl.getIfPresent(cacheKey)).isEmpty();
 
       Map<String, ModifiedFile> modifiedFiles =
-          diffOperations.loadModifiedFilesAgainstParent(
+          diffOperations.loadModifiedFilesAgainstParentIfNecessary(
               testProjectName,
               newCommitId,
               /* parentNum=*/ 0,
@@ -390,7 +402,7 @@ public class DiffOperationsTest {
       assertThat(modifiedFilesCacheImpl.getIfPresent(cacheKey)).isEmpty();
 
       modifiedFiles =
-          diffOperations.loadModifiedFilesAgainstParent(
+          diffOperations.loadModifiedFilesAgainstParentIfNecessary(
               testProjectName,
               newCommitId,
               /* parentNum=*/ 0,

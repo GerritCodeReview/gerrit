@@ -60,7 +60,7 @@ public class ListOfFilesUnchangedPredicate extends ApprovalPredicate {
         isInitialCommit(ctx.changeNotes().getProjectName(), targetPatchSet.commitId()) ? 0 : 1;
     try (ObjectInserter ins = new InMemoryInserter(ctx.repoView().getRevWalk().getObjectReader())) {
       Map<String, ModifiedFile> baseVsCurrent =
-          diffOperations.loadModifiedFilesAgainstParent(
+          diffOperations.loadModifiedFilesAgainstParentIfNecessary(
               ctx.changeNotes().getProjectName(),
               targetPatchSet.commitId(),
               parentNum,
@@ -68,7 +68,7 @@ public class ListOfFilesUnchangedPredicate extends ApprovalPredicate {
               ins,
               /* enableRenameDetection= */ false);
       Map<String, ModifiedFile> baseVsPrior =
-          diffOperations.loadModifiedFilesAgainstParent(
+          diffOperations.loadModifiedFilesAgainstParentIfNecessary(
               ctx.changeNotes().getProjectName(),
               sourcePatchSet.commitId(),
               parentNum,
@@ -76,7 +76,7 @@ public class ListOfFilesUnchangedPredicate extends ApprovalPredicate {
               ins,
               /* enableRenameDetection= */ false);
       Map<String, ModifiedFile> priorVsCurrent =
-          diffOperations.loadModifiedFiles(
+          diffOperations.loadModifiedFilesIfNecessary(
               ctx.changeNotes().getProjectName(),
               sourcePatchSet.commitId(),
               targetPatchSet.commitId(),

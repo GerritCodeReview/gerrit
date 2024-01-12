@@ -68,8 +68,8 @@ public interface DiffOperations {
 
   /**
    * This method is similar to {@link #listModifiedFilesAgainstParent(NameKey, ObjectId, int,
-   * DiffOptions)} but loads the modified files directly instead of retrieving them from the diff
-   * cache.
+   * DiffOptions)} but it loads the modified files directly if the modified files are not cached yet
+   * (instead of loading them via the diff cache).
    *
    * <p>Commits are looked up from the provided {@link RepoView}. This way this method can also read
    * new commits which are being created by the current request.
@@ -82,7 +82,7 @@ public interface DiffOperations {
    * @return a map of file paths to {@link ModifiedFile}. The {@link ModifiedFile} contains the
    *     old/new file paths and the change type (added, deleted, etc...).
    */
-  Map<String, ModifiedFile> loadModifiedFilesAgainstParent(
+  Map<String, ModifiedFile> loadModifiedFilesAgainstParentIfNecessary(
       Project.NameKey project,
       ObjectId newCommit,
       int parentNum,
@@ -110,8 +110,8 @@ public interface DiffOperations {
 
   /**
    * This method is similar to {@link #listModifiedFilesAgainstParent(NameKey, ObjectId, int,
-   * DiffOptions)} but loads the modified files directly instead of retrieving them from the diff
-   * cache.
+   * DiffOptions)} but it loads the modified files directly if the modified files are not cached yet
+   * (instead of loading them via the diff cache).
    *
    * <p>A RevWalk and repoConfig are also supplied and are used to look up the commit IDs. This is
    * useful in case one the commits is currently being created, that's why the {@code revWalk}
@@ -121,7 +121,7 @@ public interface DiffOperations {
    * @return a map of file paths to {@link ModifiedFile}. The {@link ModifiedFile} contains the
    *     old/new file paths and the change type (added, deleted, etc...).
    */
-  Map<String, ModifiedFile> loadModifiedFiles(
+  Map<String, ModifiedFile> loadModifiedFilesIfNecessary(
       Project.NameKey project,
       ObjectId oldCommit,
       ObjectId newCommit,

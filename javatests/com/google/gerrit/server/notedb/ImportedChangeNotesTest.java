@@ -133,6 +133,7 @@ public class ImportedChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(comments).hasSize(1);
     HumanComment gotComment = comments.entries().asList().get(0).getValue();
     assertThat(gotComment.author.getId()).isEqualTo(otherUser.getAccountId());
+    assertThat(gotComment.serverId).isEqualTo(LOCAL_SERVER_ID);
   }
 
   @Test

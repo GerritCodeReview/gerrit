@@ -2089,7 +2089,7 @@ suite('gr-repo-detail-list', () => {
       });
     });
 
-    suite('list with less then 25 branches', () => {
+    suite('list with less than 25 branches', () => {
       setup(async () => {
         branches = createBranchesList(25);
         stubRestApi('getRepoBranches').returns(Promise.resolve(branches));
@@ -2226,7 +2226,7 @@ suite('gr-repo-detail-list', () => {
       });
     });
 
-    suite('list with less then 25 tags', () => {
+    suite('list with less than 25 tags', () => {
       setup(async () => {
         tags = createTagsList(25);
         stubRestApi('getRepoTags').returns(Promise.resolve(tags));

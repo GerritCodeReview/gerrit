@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9a72e1e_17801011",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2560,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-12T23:38:48Z",
+      "side": 1,
+      "message": "Make it consistent with the other references to config settings.\n\n\n```suggestion\nThis is added to the highest value between `sshd.gracefulStopTimeout` and `httpd.gracefulStopTimeout`.\n```",
+      "range": {
+        "startLine": 2560,
+        "startChar": 50,
+        "endLine": 2560,
+        "endChar": 83
+      },
+      "revId": "962812399e82da74b86c3adec2f770de964994b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ae86055_e61649d5",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2561,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-12T23:38:48Z",
+      "side": 1,
+      "message": "Add\n```\n+\nDefaults to 30.\n```",
+      "revId": "962812399e82da74b86c3adec2f770de964994b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68416059_a9b55418",
+        "filename": "resources/com/google/gerrit/pgm/init/gerrit.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-12T23:38:48Z",
+      "side": 1,
+      "message": "It would be best located under `container`, similarly to the https://gerrit-documentation.storage.googleapis.com/Documentation/3.9.1/config-gerrit.html#container.startupTimeout.\n\nMaybe should this be called `container.shutdownTimeout`? (for consistency with the `startup` parameter",
+      "range": {
+        "startLine": 356,
+        "startChar": 59,
+        "endLine": 356,
+        "endChar": 65
+      },
+      "revId": "962812399e82da74b86c3adec2f770de964994b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

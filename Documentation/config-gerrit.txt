@@ -1889,6 +1889,13 @@ The maximum time (in seconds) to wait for a gerrit.sh start command
 to run a new Gerrit daemon successfully.  If not set, defaults to
 90 seconds.
 
+[[container.shutdownTimeout]]container.shutdownTimeout::
++
+The maximum time (in seconds) to wait for a gerrit.sh stop command.
+This is added to the highest value between either 'sshd.gracefulStopTimeout'
+or 'httpd.gracefulStopTimeout'. If not set, defaults to
+30 seconds
+
 [[container.user]]container.user::
 +
 Login name (or UID) of the operating system user the Gerrit JVM

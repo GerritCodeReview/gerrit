@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eda3ea46_545daaab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-01-12T10:56:48Z",
+      "side": 1,
+      "message": "Besides addressing the comment I also change getIfPresent in ModifiedFilesCacheImpl to return an optional rather than null.",
+      "revId": "92f8350590f0d73294a28a3bd4693621ad13d88b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -22,6 +22,30 @@
       },
       "revId": "43fd2d10b7882483c5f776dd6f4992a8cae09def",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1132e985_89653145",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperationsImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-01-12T10:56:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7282e5b_3a993699",
+      "range": {
+        "startLine": 400,
+        "startChar": 89,
+        "endLine": 400,
+        "endChar": 93
+      },
+      "revId": "43fd2d10b7882483c5f776dd6f4992a8cae09def",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

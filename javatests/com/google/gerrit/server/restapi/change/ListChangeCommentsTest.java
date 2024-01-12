@@ -126,7 +126,7 @@ public class ListChangeCommentsTest {
   }
 
   @Test
-  public void commentsLinkedToCorrectAccountsIaUserNotMatched() {
+  public void commentsLinkedToCorrectAccountsIfUserNotMatched() {
 
     String tsCm0 = "10";
     String tsCm1 = "11";

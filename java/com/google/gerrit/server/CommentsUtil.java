@@ -262,7 +262,7 @@ public class CommentsUtil {
       if (cmItr < changeMessages.size()) {
         comment.changeMessageId = sortedChangeMessages.get(cmItr).getKey().uuid();
       } else {
-        // In case of no match "cmItr" will never be less than "changeMessages" size, hance the
+        // In case of no match "cmItr" will never be less than "changeMessages" size, hence the
         // changeMessageId won't be set for any comment.
         //
         // Reset the search from the beginning, since we can't assume there will always be a match

@@ -464,7 +464,7 @@ suite('gr-repo-list tests', () => {
     });
   });
 
-  suite('list with less then 25 repos', () => {
+  suite('list with less than 25 repos', () => {
     setup(async () => {
       repos = createRepoList('test', 25);
       stubRestApi('getRepos').returns(Promise.resolve(repos));

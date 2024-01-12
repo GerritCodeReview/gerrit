@@ -377,6 +377,19 @@ export class GrComment extends LitElement {
           this.generateSuggestEdit();
         }
       );
+      subscribe(
+        this,
+        () => this.getUserModel().preferences$,
+        prefs => {
+          if (
+            this.generateSuggestion !==
+              prefs.allow_suggest_code_while_commenting &&
+            prefs.allow_suggest_code_while_commenting !== undefined
+          ) {
+            this.generateSuggestion = prefs.allow_suggest_code_while_commenting;
+          }
+        }
+      );
     }
   }
 

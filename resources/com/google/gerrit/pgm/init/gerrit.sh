@@ -353,7 +353,7 @@ ulimit -x >/dev/null 2>&1 && ulimit -x unlimited  ; # file locks
 #####################################################
 # Configure the maximum wait time for shutdown
 #####################################################
-EXTRA_STOP_TIMEOUT=30
+EXTRA_STOP_TIMEOUT=$(get_time_unit_sec "$(get_config --get container.shutdownTimeout || echo 30)")
 HTTPD_STOP_TIMEOUT=$(get_time_unit_sec "$(get_config --get httpd.gracefulStopTimeout || echo 0)")
 SSHD_STOP_TIMEOUT=$(get_time_unit_sec "$(get_config --get sshd.gracefulStopTimeout || echo 0)")
 

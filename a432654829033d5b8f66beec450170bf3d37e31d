@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e50e00a_4cadbe4a",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1896,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-12T23:59:27Z",
+      "side": 1,
+      "message": "remove this duplicate\n\n\n```suggestion\nor `httpd.gracefulStopTimeout`. If not set, defaults to\n```",
+      "range": {
+        "startLine": 1896,
+        "startChar": 31,
+        "endLine": 1896,
+        "endChar": 50
+      },
+      "revId": "a432654829033d5b8f66beec450170bf3d37e31d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -241,6 +241,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "36111395_23e53a8b",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 631,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-12T17:26:21Z",
+      "side": 0,
+      "message": "\u003e \u003e\u003e Could we reduce this change to only this bit and still get the fix working?\n\u003e \u003e\n\u003e \u003e I will verify the simplified patch and get back to you.\n\u003e \n\u003e Yes, that\u0027s the only change needed for the fix, the rest is the code cleanup.\n\nCan we reduce the fix to this part only? That would simplify the merge-ups and have a lot less impact on the current code.\n\n\u003e Personally, I\u0027d prefer to merge the fix and clean-up in one change, as that makes it atomic. But if splitting it is the only way to go, I\u0027ll split it ;)\n\nI believe the removal of the access to the private field of the loader makes sense regardless of this fix. It was breaking the encapsulation of the cache loading mechanism and its benefits were very questionable, having seen that it was such a rare condition to happen.\n\nMost of the times (I reckon over 99.9% of the times) the code was going to the L633-L637 code path, which was always working and wasn\u0027t using the optimisation at all.\n\nThe refactoring makes sense also as standalone change and it should be done on master IMHO.",
+      "parentUuid": "60fe5ccc_6eac0548",
+      "range": {
+        "startLine": 628,
+        "startChar": 0,
+        "endLine": 631,
+        "endChar": 7
+      },
+      "revId": "18408fb7e2366695660f685a9016fe783203073d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6607df33_ced70ec7",
         "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesTest.java",
         "patchSetId": 1

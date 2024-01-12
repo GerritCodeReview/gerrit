@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b949abc_71cb8378",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2024-01-12T07:41:10Z",
+      "side": 1,
+      "message": "This change can only get merged after the jGit version is updated to ef53cb8a9 or later.",
+      "revId": "b06f282b18fa8212a83c00e1450591770fe28e3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

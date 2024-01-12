@@ -14,9 +14,10 @@
 
 package com.google.gerrit.server.patch;
 
+import static com.google.common.collect.ImmutableSortedMap.toImmutableSortedMap;
 import static com.google.gerrit.entities.Patch.COMMIT_MSG;
 import static com.google.gerrit.entities.Patch.MERGE_LIST;
-import static java.util.stream.Collectors.toMap;
+import static java.util.Comparator.naturalOrder;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableCollection;
@@ -409,7 +410,9 @@ public class DiffOperationsImpl implements DiffOperations {
         modifiedFilesLoaderFactory.create()
             .load(project, repoConfig, revWalk, diffParams.baseCommit(), diffParams.newCommit())
             .stream()
-            .collect(toMap(ModifiedFile::getDefaultPath, Function.identity()));
+            .collect(
+                toImmutableSortedMap(
+                    naturalOrder(), ModifiedFile::getDefaultPath, Function.identity()));
     ModifiedFilesCacheKey cacheKey =
         ModifiedFilesCacheKey.builder()
             .project(project)

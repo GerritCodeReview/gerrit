@@ -16,6 +16,7 @@ package com.google.gerrit.server.patch.diff;
 
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
+import static java.util.Comparator.comparing;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -147,7 +148,11 @@ public class ModifiedFilesLoader {
       ObjectId newTree = DiffUtil.getTreeId(revWalk, newCommit);
       ImmutableList<ModifiedFile> modifiedFiles =
           DiffUtil.mergeRewrittenModifiedFiles(
-              getModifiedFiles(project, repoConfig, revWalk.getObjectReader(), baseTree, newTree));
+                  getModifiedFiles(
+                      project, repoConfig, revWalk.getObjectReader(), baseTree, newTree))
+              .stream()
+              .sorted(comparing(f -> f.getDefaultPath()))
+              .collect(toImmutableList());
       if (baseCommit.equals(ObjectId.zeroId())) {
         return modifiedFiles;
       }

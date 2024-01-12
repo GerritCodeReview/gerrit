@@ -102,6 +102,8 @@ import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gerrit.server.index.group.GroupSchemaDefinitions;
 import com.google.gerrit.server.mail.EmailModule;
 import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier.SignedTokenEmailTokenVerifierModule;
+import com.google.gerrit.server.notedb.NoteDbDraftCommentsModule;
+import com.google.gerrit.server.notedb.NoteDbStarredChangesModule;
 import com.google.gerrit.server.notedb.RepoSequence.DisabledGitRefUpdatedRepoGroupsSequenceProvider;
 import com.google.gerrit.server.notedb.RepoSequence.RepoSequenceModule;
 import com.google.gerrit.server.patch.DiffExecutor;
@@ -204,6 +206,8 @@ public class InMemoryModule extends FactoryModule {
     install(new AccountNoteDbWriteStorageModule());
     install(new AccountNoteDbReadStorageModule());
     install(new RepoSequenceModule());
+    install(new NoteDbDraftCommentsModule());
+    install(new NoteDbStarredChangesModule());
 
     AuthConfig authConfig = cfgInjector.getInstance(AuthConfig.class);
     install(new AuthModule(authConfig));

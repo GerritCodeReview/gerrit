@@ -22,6 +22,30 @@
       },
       "revId": "262c5e880b5387291ead4390671c61883dedf44e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba3e3f3f_ff11f252",
+        "filename": "polygerrit-ui/app/elements/shared/gr-suggestion-diff-preview/gr-suggestion-diff-preview.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-01-12T09:25:27Z",
+      "side": 1,
+      "message": "- good idea, I added a documentation comment.\n- there is similar",
+      "parentUuid": "603accea_4cbd1ab8",
+      "range": {
+        "startLine": 247,
+        "startChar": 2,
+        "endLine": 281,
+        "endChar": 3
+      },
+      "revId": "262c5e880b5387291ead4390671c61883dedf44e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "072a6382_ab9db883",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2723,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2024-01-12T11:53:46Z",
+      "side": 1,
+      "message": "Please rename and update description as per our offline discussion.",
+      "revId": "ae9e93d3c2b9e089ceabc672d63539ac03a573b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "779cdc0c_30803a83",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2801,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2024-01-12T11:53:46Z",
+      "side": 1,
+      "message": "Ditto.",
+      "revId": "ae9e93d3c2b9e089ceabc672d63539ac03a573b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

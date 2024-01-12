@@ -605,12 +605,7 @@ public class ApplyPatchIT extends AbstractDaemonTest {
     ChangeInfo result = gApi.changes().id(originalChangeId).applyPatch(in);
 
     ChangeInfo info = get(result.changeId, CURRENT_REVISION, CURRENT_COMMIT);
-
-    // TODO: Fix the ApplyPatch REST endpoint so that this assertion passes. At the moment it fails
-    // because the commit message unexpectedly contains the Change-Id line twice.
-    // assertThat(info.revisions.get(info.currentRevision).commit.message).isEqualTo(in.commitMessage);
-    assertThat(info.revisions.get(info.currentRevision).commit.message)
-        .isEqualTo(in.commitMessage + "\nChange-Id: " + originalChangeId + "\n");
+    assertThat(info.revisions.get(info.currentRevision).commit.message).isEqualTo(in.commitMessage);
   }
 
   @Test

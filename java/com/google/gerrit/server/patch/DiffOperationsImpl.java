@@ -53,6 +53,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
@@ -130,7 +131,7 @@ public class DiffOperationsImpl implements DiffOperations {
   }
 
   @Override
-  public Map<String, ModifiedFile> loadModifiedFilesAgainstParent(
+  public Map<String, ModifiedFile> loadModifiedFilesAgainstParentIfNecessary(
       Project.NameKey project,
       ObjectId newCommit,
       int parentNum,
@@ -141,7 +142,7 @@ public class DiffOperationsImpl implements DiffOperations {
     try {
       DiffParameters diffParams =
           computeDiffParameters(project, newCommit, parentNum, repoView, ins);
-      return loadModifiedFilesWithoutCache(
+      return loadModifiedFilesWithoutCacheIfNecessary(
           project, diffParams, repoView.getRevWalk(), repoView.getConfig(), enableRenameDetection);
     } catch (IOException e) {
       throw new DiffNotAvailableException(
@@ -167,7 +168,7 @@ public class DiffOperationsImpl implements DiffOperations {
   }
 
   @Override
-  public Map<String, ModifiedFile> loadModifiedFiles(
+  public Map<String, ModifiedFile> loadModifiedFilesIfNecessary(
       Project.NameKey project,
       ObjectId oldCommit,
       ObjectId newCommit,
@@ -182,7 +183,7 @@ public class DiffOperationsImpl implements DiffOperations {
             .baseCommit(oldCommit)
             .comparisonType(ComparisonType.againstOtherPatchSet())
             .build();
-    return loadModifiedFilesWithoutCache(
+    return loadModifiedFilesWithoutCacheIfNecessary(
         project, params, revWalk, repoConfig, enableRenameDetection);
   }
 
@@ -404,30 +405,22 @@ public class DiffOperationsImpl implements DiffOperations {
   }
 
   /**
-   * Loads the modified file paths between two commits without inspecting the diff cache.
+   * Retrieves the modified files from the {@link ModifiedFilesCache} if they are already cached. If
+   * not, the modified files are loaded directly (using the provided {@link RevWalk}) rather than
+   * loading them via the {@link ModifiedFilesCache} (that would open a new {@link RevWalk}
+   * instance).
    *
-   * <p>The results will be stored in the {@link ModifiedFilesCache}.
+   * <p>The results will be stored in the {@link ModifiedFilesCache} so that calling this method
+   * multiple times loads the modified files only once (for the first call, for further calls the
+   * cached modified files are returned).
    */
-  private Map<String, ModifiedFile> loadModifiedFilesWithoutCache(
+  private Map<String, ModifiedFile> loadModifiedFilesWithoutCacheIfNecessary(
       Project.NameKey project,
       DiffParameters diffParams,
       RevWalk revWalk,
       Config repoConfig,
       boolean enableRenameDetection)
       throws DiffNotAvailableException {
-    ModifiedFilesLoader modifiedFilesLoader = modifiedFilesLoaderFactory.create();
-    if (enableRenameDetection) {
-      modifiedFilesLoader.withRenameDetection(RENAME_SCORE);
-    }
-    Map<String, ModifiedFile> modifiedFiles =
-        modifiedFilesLoader
-            .load(project, repoConfig, revWalk, diffParams.baseCommit(), diffParams.newCommit())
-            .stream()
-            .collect(
-                toImmutableSortedMap(
-                    naturalOrder(), ModifiedFile::getDefaultPath, Function.identity()));
-
-    // Store the result in the cache.
     ModifiedFilesCacheKey.Builder cacheKeyBuilder =
         ModifiedFilesCacheKey.builder()
             .project(project)
@@ -438,9 +431,33 @@ public class DiffOperationsImpl implements DiffOperations {
     } else {
       cacheKeyBuilder.disableRenameDetection();
     }
-    modifiedFilesCacheImpl.put(
-        cacheKeyBuilder.build(), ImmutableList.copyOf(modifiedFiles.values()));
+    ModifiedFilesCacheKey cacheKey = cacheKeyBuilder.build();
+
+    Optional<ImmutableList<ModifiedFile>> cachedModifiedFiles =
+        modifiedFilesCacheImpl.getIfPresent(cacheKey);
+    if (cachedModifiedFiles.isPresent()) {
+      return toMap(cachedModifiedFiles.get());
+    }
+
+    ModifiedFilesLoader modifiedFilesLoader = modifiedFilesLoaderFactory.create();
+    if (enableRenameDetection) {
+      modifiedFilesLoader.withRenameDetection(RENAME_SCORE);
+    }
+    Map<String, ModifiedFile> modifiedFiles =
+        toMap(
+            modifiedFilesLoader.load(
+                project, repoConfig, revWalk, diffParams.baseCommit(), diffParams.newCommit()));
+
+    // Store the result in the cache.
+    modifiedFilesCacheImpl.put(cacheKey, ImmutableList.copyOf(modifiedFiles.values()));
     return modifiedFiles;
+  }
+
+  private static Map<String, ModifiedFile> toMap(ImmutableList<ModifiedFile> modifiedFiles) {
+    return modifiedFiles.stream()
+        .collect(
+            toImmutableSortedMap(
+                naturalOrder(), ModifiedFile::getDefaultPath, Function.identity()));
   }
 
   @AutoValue

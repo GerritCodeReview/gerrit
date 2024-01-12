@@ -71,6 +71,8 @@ import {modalStyles} from '../../../styles/gr-modal-styles';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {getDocUrl, rootUrl} from '../../../utils/url-util';
 import {configModelToken} from '../../../models/config/config-model';
+import {SuggestionsProvider} from '../../../api/suggestions';
+import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 
 const HTTP_AUTH = ['HTTP', 'HTTP_LDAP'];
 
@@ -117,6 +119,9 @@ export class GrSettingsView extends LitElement {
 
   @query('#allowBrowserNotifications')
   allowBrowserNotifications?: HTMLInputElement;
+
+  @query('#allowMLSuggestions')
+  allowMLSuggestions?: HTMLInputElement;
 
   @query('#disableKeyboardShortcuts')
   disableKeyboardShortcuts!: HTMLInputElement;
@@ -196,6 +201,9 @@ export class GrSettingsView extends LitElement {
 
   @state() private docsBaseUrl = '';
 
+  @state()
+  suggestionsProvider?: SuggestionsProvider;
+
   // private but used in test
   public _testOnly_loadingPromise?: Promise<void>;
 
@@ -211,6 +219,8 @@ export class GrSettingsView extends LitElement {
   private readonly getNavigation = resolve(this, navigationToken);
 
   private readonly getConfigModel = resolve(this, configModelToken);
+
+  private readonly getPluginLoader = resolve(this, pluginLoaderToken);
 
   constructor() {
     super();
@@ -265,6 +275,14 @@ export class GrSettingsView extends LitElement {
     // we need to manually calling scrollIntoView when hash changed
     document.addEventListener('location-change', this.handleLocationChange);
     fireTitleChange('Settings');
+    this.getPluginLoader()
+      .awaitPluginsLoaded()
+      .then(() => {
+        const suggestionsPlugins =
+          this.getPluginLoader().pluginsModel.getState().suggestionsPlugins;
+        // We currently support results from only 1 provider.
+        this.suggestionsProvider = suggestionsPlugins?.[0]?.provider;
+      });
   }
 
   override firstUpdated() {
@@ -451,6 +469,7 @@ export class GrSettingsView extends LitElement {
             ${this.renderTheme()} ${this.renderChangesPerPages()}
             ${this.renderDateTimeFormat()} ${this.renderEmailNotification()}
             ${this.renderEmailFormat()} ${this.renderBrowserNotifications()}
+            ${this.renderGenerateSuggestionWhenCommenting()}
             ${this.renderDefaultBaseForMerges()}
             ${this.renderRelativeDateInChangeTable()} ${this.renderDiffView()}
             ${this.renderShowSizeBarsInFileList()}
@@ -859,6 +878,45 @@ export class GrSettingsView extends LitElement {
             @change=${() => {
               this.localPrefs.allow_browser_notifications =
                 this.allowBrowserNotifications!.checked;
+              this.prefsChanged = true;
+            }}
+          />
+        </span>
+      </section>
+    `;
+  }
+
+  private renderGenerateSuggestionWhenCommenting() {
+    if (
+      !this.flagsService.isEnabled(KnownExperimentId.ML_SUGGESTED_EDIT) ||
+      !this.suggestionsProvider
+    )
+      return nothing;
+    return html`
+      <section id="allowMLSuggestionsSection">
+        <div class="title">
+          <label for="allowMLSuggestions"
+            >Allow generating suggestions while commenting</label
+          >
+          <a
+            href=${getDocUrl(
+              this.docsBaseUrl,
+              'user-attention-set.html#_browser_notifications'
+            )}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <gr-icon icon="help" title="read documentation"></gr-icon>
+          </a>
+        </div>
+        <span class="value">
+          <input
+            id="allowMLSuggestions"
+            type="checkbox"
+            ?checked=${this.localPrefs.allow_ml_suggestions}
+            @change=${() => {
+              this.localPrefs.allow_ml_suggestions =
+                this.allowMLSuggestions!.checked;
               this.prefsChanged = true;
             }}
           />

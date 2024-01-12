@@ -33,6 +33,29 @@
       "message": "thanks for fixing this @luca.milanesio@gmail.com @dariusz.luksza@gmail.com and @geminica.programs@gmail.com. This makes complete sense, sorry for not having spotted this earlier.",
       "revId": "e2e7d68c093fd790c60b976736a05d8962a6fe98",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98f83a40_97d173d3",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 900,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-12T15:29:31Z",
+      "side": 1,
+      "message": "I am still thinking *IF* this would be best to be done in the `RevisionNoteMap\u003cChangeRevisionNote\u003e parse()` method.\n\nIt is quite strange that the identities are mapped only when you ask to parse the whole change notes but *NOT* when you\u0027re parsing only the `RevisionNoteMap`.\n\nI\u0027ll create an alternative implementation and push for review later today.",
+      "range": {
+        "startLine": 894,
+        "startChar": 0,
+        "endLine": 900,
+        "endChar": 19
+      },
+      "revId": "e2e7d68c093fd790c60b976736a05d8962a6fe98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

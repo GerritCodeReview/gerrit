@@ -30,10 +30,7 @@ import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.git.validators.CommitValidationMessage;
 import com.google.gerrit.server.git.validators.ValidationMessage;
 import com.google.gerrit.server.patch.DiffNotAvailableException;
-import com.google.gerrit.server.patch.DiffOperations;
-import com.google.gerrit.server.patch.DiffOptions;
-import com.google.gerrit.server.patch.filediff.FileDiffOutput;
-import com.google.inject.Inject;
+import com.google.gerrit.server.patch.gitdiff.ModifiedFile;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.List;
@@ -102,13 +99,6 @@ public class LabelConfigValidator implements CommitValidationListener {
               "changekind:" + ChangeKind.TRIVIAL_REBASE.name())
           .put(KEY_COPY_ALL_SCORES_IF_LIST_OF_FILES_DID_NOT_CHANGE, "has:unchanged-files")
           .build();
-
-  private final DiffOperations diffOperations;
-
-  @Inject
-  public LabelConfigValidator(DiffOperations diffOperations) {
-    this.diffOperations = diffOperations;
-  }
 
   @Override
   public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
@@ -251,7 +241,7 @@ public class LabelConfigValidator implements CommitValidationListener {
    */
   private boolean isFileChanged(CommitReceivedEvent receiveEvent, String fileName)
       throws DiffNotAvailableException {
-    Map<String, FileDiffOutput> fileDiffOutputs;
+    Map<String, ModifiedFile> fileDiffOutputs;
     if (receiveEvent.commit.getParentCount() > 0) {
       // normal commit with one parent: use listModifiedFilesAgainstParent with parentNum = 1 to
       // compare against the only parent (using parentNum = 0 to compare against the default parent
@@ -260,16 +250,19 @@ public class LabelConfigValidator implements CommitValidationListener {
       // = 1 to compare against the first parent (using parentNum = 0 would compare against the
       // auto-merge)
       fileDiffOutputs =
-          diffOperations.listModifiedFilesAgainstParent(
-              receiveEvent.getProjectNameKey(), receiveEvent.commit, 1, DiffOptions.DEFAULTS);
+          receiveEvent.diffOperations.loadModifiedFilesAgainstParentIfNecessary(
+              receiveEvent.getProjectNameKey(),
+              receiveEvent.commit,
+              1,
+              /* enableRenameDetection= */ true);
     } else {
       // initial commit: must use listModifiedFilesAgainstParent with parentNum = 0
       fileDiffOutputs =
-          diffOperations.listModifiedFilesAgainstParent(
+          receiveEvent.diffOperations.loadModifiedFilesAgainstParentIfNecessary(
               receiveEvent.getProjectNameKey(),
               receiveEvent.commit,
               /* parentNum=*/ 0,
-              DiffOptions.DEFAULTS);
+              /* enableRenameDetection= */ true);
     }
     return fileDiffOutputs.keySet().contains(fileName);
   }

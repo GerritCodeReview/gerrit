@@ -23,8 +23,6 @@ import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.git.validators.CommitValidationMessage;
 import com.google.gerrit.server.git.validators.ValidationMessage;
 import com.google.gerrit.server.patch.DiffNotAvailableException;
-import com.google.gerrit.server.patch.DiffOperations;
-import com.google.gerrit.server.patch.DiffOptions;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.List;
@@ -42,16 +40,13 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
  * {@link ProjectConfig} is cached in the project cache).
  */
 public class SubmitRequirementConfigValidator implements CommitValidationListener {
-  private final DiffOperations diffOperations;
   private final ProjectConfig.Factory projectConfigFactory;
   private final SubmitRequirementExpressionsValidator submitRequirementExpressionsValidator;
 
   @Inject
   SubmitRequirementConfigValidator(
-      DiffOperations diffOperations,
       ProjectConfig.Factory projectConfigFactory,
       SubmitRequirementExpressionsValidator submitRequirementExpressionsValidator) {
-    this.diffOperations = diffOperations;
     this.projectConfigFactory = projectConfigFactory;
     this.submitRequirementExpressionsValidator = submitRequirementExpressionsValidator;
   }
@@ -116,12 +111,12 @@ public class SubmitRequirementConfigValidator implements CommitValidationListene
    */
   private boolean isFileChanged(CommitReceivedEvent receiveEvent, String fileName)
       throws DiffNotAvailableException {
-    return diffOperations
-        .listModifiedFilesAgainstParent(
+    return receiveEvent.diffOperations
+        .loadModifiedFilesAgainstParentIfNecessary(
             receiveEvent.project.getNameKey(),
             receiveEvent.commit,
             /* parentNum=*/ 0,
-            DiffOptions.DEFAULTS)
+            /* enableRenameDetection= */ true)
         .keySet().stream()
         .anyMatch(fileName::equals);
   }

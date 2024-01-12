@@ -339,7 +339,7 @@ suite('gr-plugin-list tests', () => {
     });
   });
 
-  suite('list with less then 26 plugins', () => {
+  suite('list with less than 26 plugins', () => {
     setup(async () => {
       plugins = createPluginObjectList(25);
       stubRestApi('getPlugins').returns(Promise.resolve(plugins));

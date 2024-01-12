@@ -947,7 +947,11 @@ class ChangeNotesParser {
 
         noteDbUtil
             .parseIdent(String.format("%s@%s", c.author.getId(), c.serverId))
-            .ifPresent(id -> c.author = new Comment.Identity(id));
+            .ifPresent(
+                id -> {
+                  c.author = new Comment.Identity(id);
+                  c.serverId = noteDbUtil.serverId;
+                });
 
         humanComments.put(e.getKey(), c);
       }

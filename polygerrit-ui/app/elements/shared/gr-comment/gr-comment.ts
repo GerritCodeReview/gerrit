@@ -225,6 +225,9 @@ export class GrComment extends LitElement {
   suggestionsProvider?: SuggestionsProvider;
 
   @state()
+  allowSuggestCodeWhileCommenting = true;
+
+  @state()
   suggestionLoading = false;
 
   @property({type: Boolean, attribute: 'show-patchset'})
@@ -375,6 +378,20 @@ export class GrComment extends LitElement {
           ),
         () => {
           this.generateSuggestEdit();
+        }
+      );
+      subscribe(
+        this,
+        () => this.getUserModel().preferences$,
+        prefs => {
+          if (
+            this.allowSuggestCodeWhileCommenting !==
+              prefs.allow_suggest_code_while_commenting &&
+            prefs.allow_browser_notifications !== undefined
+          ) {
+            this.allowSuggestCodeWhileCommenting =
+              prefs.allow_browser_notifications;
+          }
         }
       );
     }
@@ -976,6 +993,7 @@ export class GrComment extends LitElement {
     return (
       this.flagsService.isEnabled(KnownExperimentId.ML_SUGGESTED_EDIT) &&
       this.suggestionsProvider &&
+      this.allowSuggestCodeWhileCommenting &&
       this.editing &&
       !this.permanentEditingMode &&
       this.comment &&

@@ -56,6 +56,30 @@
       },
       "revId": "e2e7d68c093fd790c60b976736a05d8962a6fe98",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbf69eb5_4947be23",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 900,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-12T16:53:14Z",
+      "side": 1,
+      "message": "I tried in moving this to the `RevisionNoteMap\u003cChangeRevisionNote\u003e parse()` method but, actually, it does not make so much sense to me.\n\nThe `RevisionNoteMap\u003cChangeRevisionNote\u003e parse()` is supposed the parse the data `as-is` and stores the associated results into an immutable in-memory list.\n\nBottom line: I believe this change is good as it is now.",
+      "parentUuid": "98f83a40_97d173d3",
+      "range": {
+        "startLine": 894,
+        "startChar": 0,
+        "endLine": 900,
+        "endChar": 19
+      },
+      "revId": "e2e7d68c093fd790c60b976736a05d8962a6fe98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,29 @@
       "message": "```\nExecuted 116 out of 200 tests: 200 tests pass.\nINFO: Build completed successfully, 402 total actions\n```",
       "revId": "4858d3daf77c3f8e9d8a12452289eb826af4deac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87bd2831_6d5596d3",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 666,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-13T11:55:44Z",
+      "side": 1,
+      "message": "Is this useful when no pruning is happening? At the moment Gerrit log is flooded with these logs even where there is no activity at all.\n\n```suggestion\n            logger.atFine().log(\n```",
+      "range": {
+        "startLine": 666,
+        "startChar": 19,
+        "endLine": 666,
+        "endChar": 25
+      },
+      "revId": "4858d3daf77c3f8e9d8a12452289eb826af4deac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

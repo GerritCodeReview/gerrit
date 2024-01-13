@@ -16,6 +16,69 @@
       "message": "Post-merge self -1 😞",
       "revId": "6644e1592712c58bd70696d5b93f29868c6f301a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "41c24800_b227524e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 37
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-13T20:46:05Z",
+      "side": 1,
+      "message": "Yet another post-merge -1 😭",
+      "revId": "6644e1592712c58bd70696d5b93f29868c6f301a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2544df7_bf454846",
+        "filename": "java/com/google/gerrit/server/plugins/PluginGuiceEnvironment.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-13T20:46:05Z",
+      "side": 1,
+      "message": "This would overwrite all the other `apiItems`, `apiSets` and `apiMaps` declared by the other `apiInjector` instance discovered on the other plugins.\n\nWe should rather *add* the one discovered now to the existing ones found in the other modules.",
+      "range": {
+        "startLine": 276,
+        "startChar": 0,
+        "endLine": 278,
+        "endChar": 45
+      },
+      "revId": "6644e1592712c58bd70696d5b93f29868c6f301a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bea958bc_ee8da6cc",
+        "filename": "java/com/google/gerrit/server/plugins/ServerPlugin.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-13T20:46:05Z",
+      "side": 1,
+      "message": "If we are chaining all the apiInjectors of all the plugins having apiModule, then this isn\u0027t necessary anymore.",
+      "range": {
+        "startLine": 294,
+        "startChar": 0,
+        "endLine": 298,
+        "endChar": 43
+      },
+      "revId": "6644e1592712c58bd70696d5b93f29868c6f301a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

@@ -54,7 +54,6 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.internal.UniqueAnnotations;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -90,7 +89,6 @@ public class PluginGuiceEnvironment {
   private Module sysModule;
   private Module sshModule;
   private Module httpModule;
-  private final List<Module> apiModules;
   private Injector apiInjector;
 
   private Provider<ModuleGenerator> sshGen;
@@ -138,7 +136,9 @@ public class PluginGuiceEnvironment {
     sysSets = dynamicSetsOf(sysInjector);
     sysMaps = dynamicMapsOf(sysInjector);
 
-    apiModules = new ArrayList<>();
+    apiSets = new HashMap<>();
+    apiItems = new HashMap<>();
+    apiMaps = new HashMap<>();
   }
 
   ServerInformation getServerInformation() {
@@ -271,12 +271,11 @@ public class PluginGuiceEnvironment {
       attachMap(httpMaps, plugin.getHttpInjector(), plugin);
 
       apiInjector = Optional.ofNullable(plugin.getApiInjector()).orElse(apiInjector);
-      plugin.getApiModule().ifPresent(apiModules::add);
 
       if (apiInjector != null) {
-        apiItems = dynamicItemsOf(apiInjector);
-        apiSets = dynamicSetsOf(apiInjector);
-        apiMaps = dynamicMapsOf(apiInjector);
+        apiItems.putAll(dynamicItemsOf(apiInjector));
+        apiSets.putAll(dynamicSetsOf(apiInjector));
+        apiMaps.putAll(dynamicMapsOf(apiInjector));
 
         List<Injector> allPluginInjectors =
             listOfInjectors(
@@ -285,8 +284,6 @@ public class PluginGuiceEnvironment {
         allPluginInjectors.forEach(i -> attachSet(apiSets, i, plugin));
         allPluginInjectors.forEach(i -> attachMap(apiMaps, i, plugin));
       }
-
-      plugin.getApiModule().ifPresent(apiModules::add);
     } finally {
       exit(oldContext);
     }
@@ -699,9 +696,5 @@ public class PluginGuiceEnvironment {
   @Nullable
   public Injector getApiInjector() {
     return apiInjector;
-  }
-
-  public List<Module> getApiModules() {
-    return ImmutableList.copyOf(apiModules);
   }
 }

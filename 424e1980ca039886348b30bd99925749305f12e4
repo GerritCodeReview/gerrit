@@ -16,6 +16,24 @@
       "message": "Missing `Release-Notes` footer. This new parameter is worth to be mentioned.",
       "revId": "424e1980ca039886348b30bd99925749305f12e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c72badc_68fc61eb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-13T00:12:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3314dade_85c377e5",
+      "revId": "424e1980ca039886348b30bd99925749305f12e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

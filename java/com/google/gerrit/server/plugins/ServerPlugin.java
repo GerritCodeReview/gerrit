@@ -34,7 +34,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
-import java.util.stream.Collectors;
 import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 
 public class ServerPlugin extends Plugin {
@@ -287,18 +286,12 @@ public class ServerPlugin extends Plugin {
 
   private Injector newRootInjectorWithApiModule(
       PluginGuiceEnvironment env, Class<? extends Module> apiModuleClass) {
-    Injector baseInjector = Guice.createInjector(env.getSysModule());
+    Optional<Injector> envApiInjector = Optional.ofNullable(env.getApiInjector());
+
+    Injector baseInjector =
+        envApiInjector.orElseGet(() -> Guice.createInjector(env.getSysModule()));
     apiModule = Optional.of(baseInjector.getInstance(apiModuleClass));
-
-    List<Module> modules = Lists.newArrayListWithCapacity(2);
-    List<Module> apiModulesNoDuplicates =
-        env.getApiModules().stream()
-            .filter(module -> !module.getClass().getName().equals(apiModuleClass.getName()))
-            .collect(Collectors.toList());
-    modules.addAll(apiModulesNoDuplicates);
-    apiModule.ifPresent(modules::add);
-
-    apiInjector = baseInjector.createChildInjector(modules);
+    apiInjector = baseInjector.createChildInjector(apiModule.get());
 
     return apiInjector.createChildInjector(
         new ServerPluginInfoModule(this, env.getServerMetrics()));

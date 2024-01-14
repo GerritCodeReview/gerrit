@@ -26,6 +26,7 @@ import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.changes.IncludedInInfo;
 import com.google.gerrit.extensions.config.ExternalIncludedIn;
+import com.google.gerrit.extensions.config.FilterIncludedIn;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -56,15 +57,18 @@ public class IncludedIn {
   private final GitRepositoryManager repoManager;
   private final PermissionBackend permissionBackend;
   private final PluginSetContext<ExternalIncludedIn> externalIncludedIn;
+  private final PluginSetContext<FilterIncludedIn> filterIncludedIn;
 
   @Inject
   IncludedIn(
       GitRepositoryManager repoManager,
       PermissionBackend permissionBackend,
-      PluginSetContext<ExternalIncludedIn> externalIncludedIn) {
+      PluginSetContext<ExternalIncludedIn> externalIncludedIn,
+      PluginSetContext<FilterIncludedIn> filterIncludedIn) {
     this.repoManager = repoManager;
     this.permissionBackend = permissionBackend;
     this.externalIncludedIn = externalIncludedIn;
+    this.filterIncludedIn = filterIncludedIn;
   }
 
   public IncludedInInfo apply(Project.NameKey project, String revisionId)
@@ -94,26 +98,44 @@ public class IncludedIn {
               .collect(Collectors.toSet());
 
       // Filter branches and tags according to their visbility by the user
-      ImmutableSortedSet<String> filteredBranches =
-          sortedShortNames(
-              filterReadableRefs(
-                  project, getMatchingRefNames(allMatchingTagsAndBranches, branches)));
-      ImmutableSortedSet<String> filteredTags =
-          sortedShortNames(
-              filterReadableRefs(project, getMatchingRefNames(allMatchingTagsAndBranches, tags)));
+      ImmutableSortedSet<String>[] filteredBranches =
+          new ImmutableSortedSet[] {
+            sortedShortNames(
+                filterReadableRefs(
+                    project, getMatchingRefNames(allMatchingTagsAndBranches, branches)))
+          };
+      ImmutableSortedSet<String>[] filteredTags =
+          new ImmutableSortedSet[] {
+            sortedShortNames(
+                filterReadableRefs(project, getMatchingRefNames(allMatchingTagsAndBranches, tags)))
+          };
+
+      filterIncludedIn.runEach(
+          filter -> {
+            ImmutableSortedSet<String> extFilteredBranches =
+                filter.filterBranches(project.get(), rev.name(), filteredBranches[0]);
+            if (extFilteredBranches != null) {
+              filteredBranches[0] = extFilteredBranches;
+            }
+            ImmutableSortedSet<String> extFilteredTags =
+                filter.filterTags(project.get(), rev.name(), filteredTags[0]);
+            if (extFilteredTags != null) {
+              filteredTags[0] = extFilteredTags;
+            }
+          });
 
       ListMultimap<String, String> external = MultimapBuilder.hashKeys().arrayListValues().build();
       externalIncludedIn.runEach(
           ext -> {
             ListMultimap<String, String> extIncludedIns =
-                ext.getIncludedIn(project.get(), rev.name(), filteredBranches, filteredTags);
+                ext.getIncludedIn(project.get(), rev.name(), filteredBranches[0], filteredTags[0]);
             if (extIncludedIns != null) {
               external.putAll(extIncludedIns);
             }
           });
 
       return new IncludedInInfo(
-          filteredBranches, filteredTags, (!external.isEmpty() ? external.asMap() : null));
+          filteredBranches[0], filteredTags[0], (!external.isEmpty() ? external.asMap() : null));
     }
   }
 

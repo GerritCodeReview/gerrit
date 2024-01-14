@@ -34,13 +34,16 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
+import com.google.gerrit.server.plugincontext.PluginSetEntryContext;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.Constants;
@@ -56,15 +59,18 @@ public class IncludedIn {
   private final GitRepositoryManager repoManager;
   private final PermissionBackend permissionBackend;
   private final PluginSetContext<ExternalIncludedIn> externalIncludedIn;
+  private final PluginSetContext<FilterIncludedIn> filterIncludedIn;
 
   @Inject
   IncludedIn(
       GitRepositoryManager repoManager,
       PermissionBackend permissionBackend,
-      PluginSetContext<ExternalIncludedIn> externalIncludedIn) {
+      PluginSetContext<ExternalIncludedIn> externalIncludedIn,
+      PluginSetContext<FilterIncludedIn> filterIncludedIn) {
     this.repoManager = repoManager;
     this.permissionBackend = permissionBackend;
     this.externalIncludedIn = externalIncludedIn;
+    this.filterIncludedIn = filterIncludedIn;
   }
 
   public IncludedInInfo apply(Project.NameKey project, String revisionId)
@@ -94,13 +100,26 @@ public class IncludedIn {
               .collect(Collectors.toSet());
 
       // Filter branches and tags according to their visbility by the user
-      ImmutableSortedSet<String> filteredBranches =
+      Stream<String> filteredBranchesStream =
           sortedShortNames(
               filterReadableRefs(
                   project, getMatchingRefNames(allMatchingTagsAndBranches, branches)));
-      ImmutableSortedSet<String> filteredTags =
+      Stream<String> filteredTagsStream =
           sortedShortNames(
               filterReadableRefs(project, getMatchingRefNames(allMatchingTagsAndBranches, tags)));
+      for (Iterator<PluginSetEntryContext<FilterIncludedIn>> pluginFilterIt =
+              filterIncludedIn.iterator();
+          pluginFilterIt.hasNext(); ) {
+        PluginSetEntryContext<FilterIncludedIn> pluginFilter = pluginFilterIt.next();
+        filteredBranchesStream =
+            filteredBranchesStream.filter(pluginFilter.get().getBranchFilter(project, rev));
+        filteredTagsStream =
+            filteredTagsStream.filter(pluginFilter.get().getTagFilter(project, rev));
+      }
+      ImmutableSortedSet<String> filteredBranches =
+          filteredBranchesStream.collect(toImmutableSortedSet(naturalOrder()));
+      ImmutableSortedSet<String> filteredTags =
+          filteredTagsStream.collect(toImmutableSortedSet(naturalOrder()));
 
       ListMultimap<String, String> external = MultimapBuilder.hashKeys().arrayListValues().build();
       externalIncludedIn.runEach(
@@ -146,9 +165,7 @@ public class IncludedIn {
         .collect(toImmutableList());
   }
 
-  private ImmutableSortedSet<String> sortedShortNames(Collection<String> refs) {
-    return refs.stream()
-        .map(Repository::shortenRefName)
-        .collect(toImmutableSortedSet(naturalOrder()));
+  private Stream<String> sortedShortNames(Collection<String> refs) {
+    return refs.stream().map(Repository::shortenRefName).sorted(naturalOrder());
   }
 }

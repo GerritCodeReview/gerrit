@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ae71230_a7018fa3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-01-14T14:17:57Z",
+      "side": 1,
+      "message": "I\u0027ve rebase this on the latest `stable-3.7` and updated the commit message to match the current state in that branch.",
+      "revId": "1d29333d350fc0109468a41207d80885d4c08f3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

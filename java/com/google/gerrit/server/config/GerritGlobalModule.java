@@ -122,6 +122,7 @@ import com.google.gerrit.server.change.ChangeKindCacheImpl;
 import com.google.gerrit.server.change.ChangePluginDefinedInfoFactory;
 import com.google.gerrit.server.change.EmailNewPatchSet;
 import com.google.gerrit.server.change.FileInfoJsonModule;
+import com.google.gerrit.server.change.FilterIncludedIn;
 import com.google.gerrit.server.change.MergeabilityCacheImpl;
 import com.google.gerrit.server.change.ReviewerSuggestion;
 import com.google.gerrit.server.change.RevisionJson;
@@ -429,6 +430,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.bind(binder(), GerritConfigListener.class)
         .toInstance(SuggestReviewers.configListener());
     DynamicSet.setOf(binder(), ExternalIncludedIn.class);
+    DynamicSet.setOf(binder(), FilterIncludedIn.class);
     DynamicMap.mapOf(binder(), ProjectConfigEntry.class);
     DynamicSet.setOf(binder(), PluginPushOption.class);
     DynamicSet.setOf(binder(), PatchSetWebLink.class);

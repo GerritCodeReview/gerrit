@@ -46,6 +46,7 @@ import com.google.gerrit.extensions.webui.ResolveConflictsWebLink;
 import com.google.gerrit.server.ExceptionHook;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.change.ChangeETagComputation;
+import com.google.gerrit.server.change.FilterIncludedIn;
 import com.google.gerrit.server.change.ReviewerSuggestion;
 import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.git.ChangeMessageModifier;
@@ -88,6 +89,7 @@ public class ExtensionRegistry {
   private final DynamicSet<GitReferenceUpdatedListener> refUpdatedListeners;
   private final DynamicSet<GitBatchRefUpdateListener> batchRefUpdateListeners;
   private final DynamicSet<FileHistoryWebLink> fileHistoryWebLinks;
+  private final DynamicSet<FilterIncludedIn> filterIncludedIns;
   private final DynamicSet<PatchSetWebLink> patchSetWebLinks;
   private final DynamicSet<ResolveConflictsWebLink> resolveConflictsWebLinks;
   private final DynamicSet<EditWebLink> editWebLinks;
@@ -134,6 +136,7 @@ public class ExtensionRegistry {
       DynamicSet<GitReferenceUpdatedListener> refUpdatedListeners,
       DynamicSet<GitBatchRefUpdateListener> batchRefUpdateListeners,
       DynamicSet<FileHistoryWebLink> fileHistoryWebLinks,
+      DynamicSet<FilterIncludedIn> filterIncludedIns,
       DynamicSet<PatchSetWebLink> patchSetWebLinks,
       DynamicSet<ResolveConflictsWebLink> resolveConflictsWebLinks,
       DynamicSet<EditWebLink> editWebLinks,
@@ -175,6 +178,7 @@ public class ExtensionRegistry {
     this.refUpdatedListeners = refUpdatedListeners;
     this.batchRefUpdateListeners = batchRefUpdateListeners;
     this.fileHistoryWebLinks = fileHistoryWebLinks;
+    this.filterIncludedIns = filterIncludedIns;
     this.patchSetWebLinks = patchSetWebLinks;
     this.editWebLinks = editWebLinks;
     this.fileWebLinks = fileWebLinks;
@@ -319,6 +323,11 @@ public class ExtensionRegistry {
     @CanIgnoreReturnValue
     public Registration add(FileHistoryWebLink fileHistoryWebLink) {
       return add(fileHistoryWebLinks, fileHistoryWebLink);
+    }
+
+    @CanIgnoreReturnValue
+    public Registration add(FilterIncludedIn filterIncludedIn) {
+      return add(filterIncludedIns, filterIncludedIn);
     }
 
     @CanIgnoreReturnValue

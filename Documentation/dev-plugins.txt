@@ -2248,6 +2248,9 @@ by implementing `com.google.gerrit.extensions.config.ExternalIncludedIn`,
 e.g. a plugin can provide a list of servers on which the change was
 deployed.
 
+Plugins can filter the branches and tags that are inlcuded by implementing
+`com.google.gerrit.extensions.config.FilterIncludedIn`.
+
 [[change-report-formatting]]
 == Change Report Formatting
 

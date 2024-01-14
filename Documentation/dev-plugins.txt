@@ -2248,6 +2248,51 @@ by implementing `com.google.gerrit.extensions.config.ExternalIncludedIn`,
 e.g. a plugin can provide a list of servers on which the change was
 deployed.
 
+Plugins can filter the branches and tags that are inlcuded by implementing
+`com.google.gerrit.server.change.FilterIncludedIn`.
+
+[source, java]
+----
+import com.google.gerrit.entities.Project;
+import com.google.gerrit.server.change.FilterIncludedIn;
+import java.util.function.Predicate;
+import org.eclipse.jgit.revwalk.RevCommit;
+
+public class MyFilter implements FilterIncludedIn {
+  @Override
+  public Predicate<String> getBranchFilter(Project.NameKey project, RevCommit commit) {
+    if (project.get() != "myproject") {
+      return branch -> true;
+    }
+    return branch -> !branch.startsWith("feature/");
+  }
+
+  @Override
+  public Predicate<String> getTagFilter(Project.NameKey project, RevCommit commit) {
+    if (project.get() != "myproject") {
+      return tag -> true;
+    }
+    return tag -> tag.startsWith("v");
+  }
+}
+----
+
+And register your class:
+
+[source, java]
+----
+import com.google.gerrit.extensions.annotations.Exports;
+import com.google.gerrit.server.change.FilterIncludedIn;
+import com.google.inject.AbstractModule;
+
+public class MyPluginModule extends AbstractModule {
+  @Override
+  protected void configure() {
+    bind(FilterIncludedIn.class).to(MyFilter.class);
+  }
+}
+----
+
 [[change-report-formatting]]
 == Change Report Formatting
 

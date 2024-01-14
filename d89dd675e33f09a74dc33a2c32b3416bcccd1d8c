@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9fb2f84_94b05565",
+        "filename": "java/com/google/gerrit/server/change/IncludedIn.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2024-01-14T12:35:33Z",
+      "side": 1,
+      "message": "Had to change this to an array to allow replacing it in the lambda.\n\nThere must be a cleaner way to implement it. Please advise.",
+      "revId": "d89dd675e33f09a74dc33a2c32b3416bcccd1d8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

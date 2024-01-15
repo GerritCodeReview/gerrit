@@ -110,6 +110,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "26bb4f18_ad5db117",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148165
+      },
+      "writtenOn": "2024-01-15T14:54:29Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/401777\nThis is the test code. But we\u0027re not sure if it\u0027s the right way to do it.\nIs there any documentation about how to access Gerrit internal WorkQueue Object inside test?",
+      "parentUuid": "b2f0411f_d8fd2e46",
+      "revId": "ea059926dd3655ff9bc75ca2afce33a2f0fe70c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "299c49a6_daf11daf",
         "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
         "patchSetId": 14

@@ -21,6 +21,7 @@ import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdate
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.BranchNameKey;
@@ -88,6 +89,8 @@ import org.eclipse.jgit.util.ChangeIdUtil;
 
 @Singleton
 public class CherryPickChange {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   @AutoValue
   abstract static class Result {
     static Result create(Change.Id changeId, ImmutableSet<String> filesWithGitConflicts) {
@@ -374,6 +377,7 @@ public class CherryPickChange {
                 input.parent - 1,
                 input.allowEmpty,
                 input.allowConflicts);
+        logger.atFine().log("flushing inserter %s", oi);
         oi.flush();
       } catch (MergeIdenticalTreeException | MergeConflictException e) {
         throw new IntegrationConflictException("Cherry pick failed: " + e.getMessage(), e);

@@ -67,7 +67,7 @@ public class ModifiedFilesLoader {
 
   @Singleton
   public static class Factory {
-    private GitModifiedFilesCache gitModifiedFilesCache;
+    private final GitModifiedFilesCache gitModifiedFilesCache;
 
     @Inject
     Factory(GitModifiedFilesCache gitModifiedFilesCache) {
@@ -104,8 +104,9 @@ public class ModifiedFilesLoader {
     }
   }
 
+  @Nullable private final GitModifiedFilesCache gitModifiedFilesCache;
+
   @Nullable private Integer renameScore = null;
-  @Nullable private GitModifiedFilesCache gitModifiedFilesCache;
 
   ModifiedFilesLoader(@Nullable GitModifiedFilesCache gitModifiedFilesCache) {
     this.gitModifiedFilesCache = gitModifiedFilesCache;

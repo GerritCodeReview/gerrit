@@ -55,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1f9d0d01_546ec26f",
+        "filename": "java/com/google/gerrit/extensions/config/FilterIncludedIn.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-01-15T08:58:01Z",
+      "side": 1,
+      "message": "See [1] for the difference between plugins and extensions.\n\nWhat you a doing here, sounds more like a plugin, rather then an extension, e.g. it\u0027s tightly coupled with logic in Gerrit core.\n\nFWIW the concept of extensions wasn\u0027t really successful, so I think it\u0027s better that new extension points rather make use of strong types.\n\n[1] https://gerrit-review.googlesource.com/Documentation/dev-plugins.html#API",
+      "parentUuid": "a4578370_7fe9719a",
+      "revId": "97751f02dbfa82d67756c59471e5944284bc91de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "39172e2a_7fe20e81",
         "filename": "java/com/google/gerrit/extensions/config/FilterIncludedIn.java",
         "patchSetId": 4

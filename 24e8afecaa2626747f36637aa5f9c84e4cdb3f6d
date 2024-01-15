@@ -45,6 +45,23 @@
       },
       "revId": "24e8afecaa2626747f36637aa5f9c84e4cdb3f6d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7e4d0e3_c333f84d",
+        "filename": "java/com/google/gerrit/server/plugins/ServerPlugin.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2024-01-15T10:21:02Z",
+      "side": 1,
+      "message": "is the `baseInjector.getInstance(apiModuleClass)` guaranteed to return a non-null value? Otherwise here we can get a NPE.",
+      "revId": "24e8afecaa2626747f36637aa5f9c84e4cdb3f6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

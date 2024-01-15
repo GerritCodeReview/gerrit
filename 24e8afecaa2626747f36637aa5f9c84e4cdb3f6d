@@ -47,6 +47,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "beade270_7ac44f44",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2024-01-15T11:05:48Z",
+      "side": 1,
+      "message": "Tested the use case where pull-replication adds a healthcheck in the Healthcheck\u0027s plugin dynamic set, works fine!",
+      "revId": "24e8afecaa2626747f36637aa5f9c84e4cdb3f6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d7e4d0e3_c333f84d",

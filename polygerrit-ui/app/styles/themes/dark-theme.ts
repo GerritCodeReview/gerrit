@@ -11,6 +11,7 @@ import {safeStyleSheet, safeStyleEl} from '../../utils/inner-html-util';
 // applyTheme() below (similar to app-theme).
 const darkThemeCss = safeStyleSheet`
   html {
+    --test: blue;
     /**
        * Sections and variables must stay consistent with app-theme.js.
        *

@@ -71,6 +71,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce6da778_0819f17c",
+        "filename": "java/com/google/gerrit/extensions/config/FilterIncludedIn.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2024-01-15T17:10:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1f9d0d01_546ec26f",
+      "revId": "97751f02dbfa82d67756c59471e5944284bc91de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "39172e2a_7fe20e81",

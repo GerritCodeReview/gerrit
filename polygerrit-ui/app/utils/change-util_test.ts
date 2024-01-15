@@ -73,8 +73,15 @@ suite('change-util tests', () => {
     statuses = changeStatuses(change, {mergeable: true});
     assert.deepEqual(statuses, [ChangeStates.READY_TO_SUBMIT]);
 
+    change.revert_of = 123 as NumericChangeId;
+    assert.deepEqual(changeStatuses(change, {mergeable: true}), [
+      ChangeStates.REVERT,
+      ChangeStates.READY_TO_SUBMIT,
+    ]);
+
     change.mergeable = false;
     change.submittable = true;
+    change.revert_of = undefined;
     statuses = changeStatuses(change, {mergeable: false});
     assert.deepEqual(statuses, [ChangeStates.MERGE_CONFLICT]);
 

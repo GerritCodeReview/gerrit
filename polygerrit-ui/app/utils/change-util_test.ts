@@ -176,6 +176,18 @@ suite('change-util tests', () => {
     ]);
   });
 
+  test('Revert that is submittable', () => {
+    const change = {
+      ...createChange(),
+      revert_of: 123 as NumericChangeId,
+      submittable: true,
+    };
+    assert.deepEqual(changeStatuses(change, {mergeable: true}), [
+      ChangeStates.REVERT,
+      ChangeStates.READY_TO_SUBMIT,
+    ]);
+  })
+
   test('Open status with private and wip', () => {
     const change = {
       ...createChange(),

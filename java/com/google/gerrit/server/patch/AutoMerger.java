@@ -252,7 +252,7 @@ public class AutoMerger {
     ObjectId treeId;
     if (couldMerge) {
       treeId = m.getResultTreeId();
-      logger.atSevere().log(
+      logger.atFine().log(
           "AutoMerge treeId=%s (no conflicts, inserter: %s, caller: %s)",
           treeId.name(), m.getObjectInserter(), callerFinder.findCallerLazy());
     } else {

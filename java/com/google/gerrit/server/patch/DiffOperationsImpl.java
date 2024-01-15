@@ -453,7 +453,8 @@ public class DiffOperationsImpl implements DiffOperations {
     return modifiedFiles;
   }
 
-  private static Map<String, ModifiedFile> toMap(ImmutableList<ModifiedFile> modifiedFiles) {
+  private static ImmutableMap<String, ModifiedFile> toMap(
+      ImmutableList<ModifiedFile> modifiedFiles) {
     return modifiedFiles.stream()
         .collect(
             toImmutableSortedMap(

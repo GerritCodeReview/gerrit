@@ -21,7 +21,6 @@ import static java.util.Comparator.comparing;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
-import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
@@ -57,7 +56,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
  * Factory#createWithRetrievingModifiedFilesForTreesFromGitModifiedFilesCache()} in which case the
  * trees are looked up via a new {@link RevWalk} instance that is created by {@code
  * GitModifiedFilesCacheImpl.Loader}. Looking up the trees from a new {@link RevWalk} instance only
- * succeeds if they were already fully persisted in the repository, i.e. if these are not newly
+ * succeeds if they were already fully persisted in the repository, i.e., if these are not newly
  * created trees or tree which have been created in memory. This means using the {@link
  * GitModifiedFilesCache} is expected to cause {@link MissingObjectException}s for the commit trees
  * that are newly created or that were created in memory only.
@@ -67,7 +66,7 @@ public class ModifiedFilesLoader {
 
   @Singleton
   public static class Factory {
-    private GitModifiedFilesCache gitModifiedFilesCache;
+    private final GitModifiedFilesCache gitModifiedFilesCache;
 
     @Inject
     Factory(GitModifiedFilesCache gitModifiedFilesCache) {
@@ -93,7 +92,7 @@ public class ModifiedFilesLoader {
      * GitModifiedFilesCacheImpl.Loader}), and not by the {@link RevWalk} instance that is given to
      * the {@link #load(com.google.gerrit.entities.Project.NameKey, Config, RevWalk, ObjectId,
      * ObjectId)} method. Looking up the trees from a new {@link RevWalk} instance only succeeds if
-     * they were already fully persisted in the repository, i.e. if these are not newly created
+     * they were already fully persisted in the repository, i.e., if these are not newly created
      * trees or tree which have been created in memory. This means using the {@link
      * GitModifiedFilesCache} is expected to cause {@link MissingObjectException}s for the commit
      * trees that are newly created or that were created in memory only. Also see the javadoc on
@@ -104,8 +103,9 @@ public class ModifiedFilesLoader {
     }
   }
 
-  private @Nullable Integer renameScore = null;
-  private @Nullable GitModifiedFilesCache gitModifiedFilesCache;
+  @Nullable private final GitModifiedFilesCache gitModifiedFilesCache;
+
+  @Nullable private Integer renameScore = null;
 
   ModifiedFilesLoader(@Nullable GitModifiedFilesCache gitModifiedFilesCache) {
     this.gitModifiedFilesCache = gitModifiedFilesCache;
@@ -147,12 +147,11 @@ public class ModifiedFilesLoader {
               : DiffUtil.getTreeId(revWalk, baseCommit);
       ObjectId newTree = DiffUtil.getTreeId(revWalk, newCommit);
       ImmutableList<ModifiedFile> modifiedFiles =
-          DiffUtil.mergeRewrittenModifiedFiles(
+          ImmutableList.sortedCopyOf(
+              comparing(f -> f.getDefaultPath()),
+              DiffUtil.mergeRewrittenModifiedFiles(
                   getModifiedFiles(
-                      project, repoConfig, revWalk.getObjectReader(), baseTree, newTree))
-              .stream()
-              .sorted(comparing(f -> f.getDefaultPath()))
-              .collect(toImmutableList());
+                      project, repoConfig, revWalk.getObjectReader(), baseTree, newTree)));
       if (baseCommit.equals(ObjectId.zeroId())) {
         return modifiedFiles;
       }
@@ -198,14 +197,14 @@ public class ModifiedFilesLoader {
       ObjectId parentOfNew)
       throws IOException {
     try {
-      List<ModifiedFile> oldVsBase =
+      ImmutableList<ModifiedFile> oldVsBase =
           getModifiedFiles(
               project,
               repoConfig,
               revWalk.getObjectReader(),
               DiffUtil.getTreeId(revWalk, parentOfBase),
               DiffUtil.getTreeId(revWalk, baseCommit));
-      List<ModifiedFile> newVsBase =
+      ImmutableList<ModifiedFile> newVsBase =
           getModifiedFiles(
               project,
               repoConfig,
@@ -255,8 +254,7 @@ public class ModifiedFilesLoader {
 
   private ImmutableSet<String> getOldAndNewPaths(List<ModifiedFile> files) {
     return files.stream()
-        .flatMap(
-            file -> Stream.concat(Streams.stream(file.oldPath()), Streams.stream(file.newPath())))
+        .flatMap(file -> Stream.concat(file.oldPath().stream(), file.newPath().stream()))
         .collect(ImmutableSet.toImmutableSet());
   }
 

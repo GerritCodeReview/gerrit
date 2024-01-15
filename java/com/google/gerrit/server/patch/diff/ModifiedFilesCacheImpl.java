@@ -93,13 +93,8 @@ public class ModifiedFilesCacheImpl implements ModifiedFilesCache {
     }
   }
 
-  public Optional<ImmutableList<ModifiedFile>> getIfPresent(ModifiedFilesCacheKey key)
-      throws DiffNotAvailableException {
-    try {
-      return Optional.ofNullable(cache.getIfPresent(key));
-    } catch (Exception e) {
-      throw new DiffNotAvailableException(e);
-    }
+  public Optional<ImmutableList<ModifiedFile>> getIfPresent(ModifiedFilesCacheKey key) {
+    return Optional.ofNullable(cache.getIfPresent(key));
   }
 
   public void put(ModifiedFilesCacheKey key, ImmutableList<ModifiedFile> modifiedFiles) {

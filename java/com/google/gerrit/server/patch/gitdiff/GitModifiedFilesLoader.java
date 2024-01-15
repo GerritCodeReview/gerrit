@@ -56,7 +56,7 @@ public class GitModifiedFilesLoader {
           DiffEntry.ChangeType.COPY,
           Patch.ChangeType.COPIED);
 
-  private @Nullable Integer renameScore = null;
+  @Nullable private Integer renameScore = null;
 
   /**
    * Enables rename detection

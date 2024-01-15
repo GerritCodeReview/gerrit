@@ -16,6 +16,24 @@
       "message": "Had to change this to an array to allow replacing it in the lambda.\n\nThere must be a cleaner way to implement it. Please advise.",
       "revId": "d89dd675e33f09a74dc33a2c32b3416bcccd1d8c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "908b5e82_7871107d",
+        "filename": "java/com/google/gerrit/server/change/IncludedIn.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-01-15T08:30:00Z",
+      "side": 1,
+      "message": "My suggestion would be:\n\n1. Make filterReadableRefs(…) return a Stream\u003cString\u003e\n\n2. Change the extension point to return a filter:\n\n\u003e public default Predicate\u003cString\u003e getBranchFilter(\n\u003e     Project.NameKey project, ObjectId commit) {\n\u003e   return (branch -\u003e true);\n\u003e }\n  \n3. Then call it like this (or similar):\n\n\u003e Stream\u003cString\u003e filteredBranchesStream \u003d filterReadableRefs(\n\u003e     project, getMatchingRefNames(allMatchingTagsAndBranches, branches));\n\u003e for (Iterator\u003cPluginSetEntryContext\u003cFilterIncludedIn\u003e\u003e pluginFilterIt \u003d\n\u003e     filterIncludedIn.iterator(); pluginFilterIt.hasNext();) {\n\u003e   PluginSetEntryContext\u003cFilterIncludedIn\u003e pluginFilter \u003d pluginFilterIt.next();\n\u003e   filteredBranchesStream.filter(pluginFilter.get()\n\u003e       .getBranchFilter(project, rev));\n\u003e }\n\u003e ImmutableSortedSet\u003cString\u003e filteredBranches \u003d \n\u003e     sortedShortNames(filteredBranchesStream.collect(toImmutableList()));",
+      "parentUuid": "e9fb2f84_94b05565",
+      "revId": "d89dd675e33f09a74dc33a2c32b3416bcccd1d8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

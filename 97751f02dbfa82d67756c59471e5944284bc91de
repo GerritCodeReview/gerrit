@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1a71b0b_58f47918",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-01-15T08:30:00Z",
+      "side": 1,
+      "message": "Please also include a test.",
+      "revId": "97751f02dbfa82d67756c59471e5944284bc91de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aaa916fa_46efe5cc",
+        "filename": "java/com/google/gerrit/extensions/config/FilterIncludedIn.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-01-15T08:30:00Z",
+      "side": 1,
+      "message": "Any reason why this needs to be an extension?\n\nI think it would be better to make this an extension point for plugins only, i.e. move this into the same package as the IncludedIn class and use the proper types for the args, e.g. Project.NameKey for project instead of String.",
+      "revId": "97751f02dbfa82d67756c59471e5944284bc91de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39172e2a_7fe20e81",
+        "filename": "java/com/google/gerrit/extensions/config/FilterIncludedIn.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-01-15T08:30:00Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be an interface?",
+      "revId": "97751f02dbfa82d67756c59471e5944284bc91de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba097c7e_c7eaecb7",
+        "filename": "java/com/google/gerrit/extensions/config/FilterIncludedIn.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-01-15T08:30:00Z",
+      "side": 1,
+      "message": "If you want to have a default implementation, it should probably return all branches so that it\u0027s not filtering by default.",
+      "revId": "97751f02dbfa82d67756c59471e5944284bc91de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -3,6 +3,75 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bbe35742_51684cbc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-01-15T17:00:12Z",
+      "side": 1,
+      "message": "Revert",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 6
+      },
+      "revId": "fb126bedda1f0503551b4dcb270a5321516e5a6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16ce289c_71536243",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-01-15T17:00:12Z",
+      "side": 1,
+      "message": "it",
+      "range": {
+        "startLine": 9,
+        "startChar": 25,
+        "endLine": 9,
+        "endChar": 27
+      },
+      "revId": "fb126bedda1f0503551b4dcb270a5321516e5a6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3d0e7c5_9f2ca7b7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-01-15T17:00:12Z",
+      "side": 1,
+      "message": "submitted",
+      "range": {
+        "startLine": 9,
+        "startChar": 62,
+        "endLine": 9,
+        "endChar": 68
+      },
+      "revId": "fb126bedda1f0503551b4dcb270a5321516e5a6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4255d71a_85e7a99d",
         "filename": "polygerrit-ui/app/utils/change-util.ts",
         "patchSetId": 2

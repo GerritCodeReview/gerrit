@@ -509,7 +509,7 @@ public class DiffOperationsImpl implements DiffOperations {
   private DiffParameters computeDiffParameters(
       Project.NameKey project,
       ObjectId newCommit,
-      Integer parent,
+      int parent,
       RepoView repoView,
       ObjectInserter ins)
       throws IOException {

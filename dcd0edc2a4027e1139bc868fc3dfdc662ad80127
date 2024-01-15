@@ -34,6 +34,24 @@
       "parentUuid": "fadf0fa4_25711b4c",
       "revId": "dcd0edc2a4027e1139bc868fc3dfdc662ad80127",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba2e587e_84663e6b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2024-01-15T07:40:16Z",
+      "side": 1,
+      "message": "Done, and linked to an old outstanding issue.",
+      "parentUuid": "528830bb_5c60c02e",
+      "revId": "dcd0edc2a4027e1139bc868fc3dfdc662ad80127",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

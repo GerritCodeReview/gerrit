@@ -2,7 +2,7 @@
   "checks": {
     "gerritforge-bb:bb-a6a0e4682515f3521897c5f950d1394f4619d928": {
       "state": "SUCCESSFUL",
-      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-chrome-latest/155/console",
+      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-chrome-latest/153/console",
       "started": "2024-01-15T16:36:55Z",
       "finished": "2024-01-15T16:37:12Z",
       "created": "2024-01-15T16:18:29Z",

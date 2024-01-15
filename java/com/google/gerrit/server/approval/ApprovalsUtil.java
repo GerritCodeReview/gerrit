@@ -71,6 +71,7 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.approval.ApprovalQueryBuilder;
 import com.google.gerrit.server.query.approval.UserInPredicate;
+import com.google.gerrit.server.update.RepoView;
 import com.google.gerrit.server.util.AccountTemplateUtil;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.server.util.ManualRequestContext;
@@ -90,8 +91,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.StringTokenizer;
-import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.revwalk.RevWalk;
 
 /**
  * Utility functions to manipulate patchset approvals.
@@ -396,20 +395,15 @@ public class ApprovalsUtil {
    *
    * @param notes the change notes
    * @param patchSet the newly created patch set
-   * @param revWalk {@link RevWalk} that can see the new patch set revision
-   * @param repoConfig the repo config
+   * @param repoView repo view
    * @param changeUpdate changeUpdate that is used to persist the copied approvals and update the
    *     attention set
    * @return the result of the approval copying
    */
   public ApprovalCopier.Result copyApprovalsToNewPatchSet(
-      ChangeNotes notes,
-      PatchSet patchSet,
-      RevWalk revWalk,
-      Config repoConfig,
-      ChangeUpdate changeUpdate) {
+      ChangeNotes notes, PatchSet patchSet, RepoView repoView, ChangeUpdate changeUpdate) {
     ApprovalCopier.Result approvalCopierResult =
-        approvalCopier.forPatchSet(notes, patchSet, revWalk, repoConfig);
+        approvalCopier.forPatchSet(notes, patchSet, repoView);
     approvalCopierResult
         .copiedApprovals()
         .forEach(approvalData -> changeUpdate.putCopiedApproval(approvalData.patchSetApproval()));

@@ -48,6 +48,7 @@ import com.google.gerrit.server.git.validators.TopicValidator;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.AutoMerger;
+import com.google.gerrit.server.patch.DiffOperationsForCommitValidation;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -87,6 +88,7 @@ public class PatchSetInserter implements BatchUpdateOp {
   private final WorkInProgressStateChanged wipStateChanged;
   private final AutoMerger autoMerger;
   private final TopicValidator topicValidator;
+  private final DiffOperationsForCommitValidation.Factory diffOperationsForCommitValidationFactory;
 
   // Assisted-injected fields.
   private final PatchSet.Id psId;
@@ -136,6 +138,7 @@ public class PatchSetInserter implements BatchUpdateOp {
       WorkInProgressStateChanged wipStateChanged,
       AutoMerger autoMerger,
       TopicValidator topicValidator,
+      DiffOperationsForCommitValidation.Factory diffOperationsForCommitValidationFactory,
       @Assisted ChangeNotes notes,
       @Assisted PatchSet.Id psId,
       @Assisted ObjectId commitId) {
@@ -152,6 +155,7 @@ public class PatchSetInserter implements BatchUpdateOp {
     this.wipStateChanged = wipStateChanged;
     this.autoMerger = autoMerger;
     this.topicValidator = topicValidator;
+    this.diffOperationsForCommitValidationFactory = diffOperationsForCommitValidationFactory;
 
     this.origNotes = notes;
     this.psId = psId;
@@ -269,10 +273,7 @@ public class PatchSetInserter implements BatchUpdateOp {
 
     Optional<ReceiveCommand> autoMerge =
         autoMerger.createAutoMergeCommitIfNecessary(
-            ctx.getRepoView(),
-            ctx.getRevWalk(),
-            ctx.getInserter(),
-            ctx.getRevWalk().parseCommit(commitId));
+            ctx.getRepoView(), ctx.getInserter(), ctx.getRevWalk().parseCommit(commitId));
     if (autoMerge.isPresent()) {
       ctx.addRefUpdate(autoMerge.get());
     }
@@ -333,7 +334,7 @@ public class PatchSetInserter implements BatchUpdateOp {
     if (storeCopiedVotes) {
       approvalCopierResult =
           approvalsUtil.copyApprovalsToNewPatchSet(
-              ctx.getNotes(), patchSet, ctx.getRevWalk(), ctx.getRepoView().getConfig(), update);
+              ctx.getNotes(), patchSet, ctx.getRepoView(), update);
     }
 
     mailMessage = insertChangeMessage(update, ctx);
@@ -437,7 +438,9 @@ public class PatchSetInserter implements BatchUpdateOp {
             ctx.getRepoView().getConfig(),
             ctx.getRevWalk().getObjectReader(),
             commitId,
-            ctx.getIdentifiedUser())) {
+            ctx.getIdentifiedUser(),
+            diffOperationsForCommitValidationFactory.create(
+                ctx.getRepoView(), ctx.getInserter()))) {
       commitValidatorsFactory
           .forGerritCommits(
               permissionBackend.user(ctx.getUser()).project(ctx.getProject()),

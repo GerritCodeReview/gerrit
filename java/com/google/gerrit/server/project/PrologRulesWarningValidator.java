@@ -26,10 +26,7 @@ import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.git.validators.CommitValidationMessage;
 import com.google.gerrit.server.git.validators.ValidationMessage;
 import com.google.gerrit.server.patch.DiffNotAvailableException;
-import com.google.gerrit.server.patch.DiffOperations;
-import com.google.gerrit.server.patch.DiffOptions;
-import com.google.gerrit.server.patch.filediff.FileDiffOutput;
-import com.google.inject.Inject;
+import com.google.gerrit.server.patch.gitdiff.ModifiedFile;
 import com.google.inject.Singleton;
 import java.util.List;
 import java.util.Map;
@@ -42,13 +39,6 @@ import java.util.stream.Collectors;
 @Singleton
 public class PrologRulesWarningValidator implements CommitValidationListener {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
-  private final DiffOperations diffOperations;
-
-  @Inject
-  public PrologRulesWarningValidator(DiffOperations diffOperations) {
-    this.diffOperations = diffOperations;
-  }
 
   @Override
   public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
@@ -70,13 +60,13 @@ public class PrologRulesWarningValidator implements CommitValidationListener {
 
   private boolean isFileAdded(CommitReceivedEvent receiveEvent, String fileName)
       throws DiffNotAvailableException {
-    List<Map.Entry<String, FileDiffOutput>> matchingEntries =
-        diffOperations
-            .listModifiedFilesAgainstParent(
+    List<Map.Entry<String, ModifiedFile>> matchingEntries =
+        receiveEvent.diffOperations
+            .loadModifiedFilesAgainstParentIfNecessary(
                 receiveEvent.project.getNameKey(),
                 receiveEvent.commit,
                 /* parentNum=*/ 0,
-                DiffOptions.DEFAULTS)
+                /* enableRenameDetection= */ true)
             .entrySet().stream()
             .filter(e -> fileName.equals(e.getKey()))
             .collect(Collectors.toList());

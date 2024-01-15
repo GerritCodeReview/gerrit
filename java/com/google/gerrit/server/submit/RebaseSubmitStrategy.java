@@ -33,6 +33,7 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.change.RebaseChangeOp;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.MergeTip;
+import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -155,7 +156,7 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
     @Override
     public void updateRepoImpl(RepoContext ctx)
         throws InvalidChangeOperationException, RestApiException, IOException,
-            PermissionBackendException {
+            PermissionBackendException, DiffNotAvailableException {
       if (!rebaseAlways
           && args.mergeUtil.canFastForward(
               args.mergeSorter, args.mergeTip.getCurrentTip(), args.rw, toMerge)) {

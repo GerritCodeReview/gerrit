@@ -17,6 +17,7 @@ package com.google.gerrit.server.patch.gitdiff;
 import static com.google.gerrit.server.patch.DiffUtil.stringSize;
 
 import com.google.auto.value.AutoValue;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.proto.Protos;
@@ -92,6 +93,7 @@ public abstract class GitModifiedFilesCacheKey {
 
     public abstract Builder renameScore(int value);
 
+    @CanIgnoreReturnValue
     public Builder disableRenameDetection() {
       renameScore(-1);
       return this;

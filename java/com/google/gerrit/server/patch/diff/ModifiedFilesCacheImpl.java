@@ -14,19 +14,12 @@
 
 package com.google.gerrit.server.patch.diff;
 
-import static com.google.common.collect.ImmutableList.toImmutableList;
-
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Sets;
-import com.google.common.collect.Streams;
-import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.DiffNotAvailableException;
-import com.google.gerrit.server.patch.DiffUtil;
 import com.google.gerrit.server.patch.gitdiff.GitModifiedFilesCache;
 import com.google.gerrit.server.patch.gitdiff.GitModifiedFilesCacheImpl;
 import com.google.gerrit.server.patch.gitdiff.GitModifiedFilesCacheKey;
@@ -37,12 +30,9 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import java.io.IOException;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Stream;
+import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 /**
@@ -57,8 +47,6 @@ import org.eclipse.jgit.revwalk.RevWalk;
  */
 @Singleton
 public class ModifiedFilesCacheImpl implements ModifiedFilesCache {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
   private static final String MODIFIED_FILES = "modified_files";
 
   private final LoadingCache<ModifiedFilesCacheKey, ImmutableList<ModifiedFile>> cache;
@@ -83,7 +71,7 @@ public class ModifiedFilesCacheImpl implements ModifiedFilesCache {
             .maximumWeight(10 << 20)
             .weigher(ModifiedFilesWeigher.class)
             .version(4)
-            .loader(ModifiedFilesLoader.class);
+            .loader(Loader.class);
       }
     };
   }
@@ -105,14 +93,27 @@ public class ModifiedFilesCacheImpl implements ModifiedFilesCache {
     }
   }
 
-  static class ModifiedFilesLoader
-      extends CacheLoader<ModifiedFilesCacheKey, ImmutableList<ModifiedFile>> {
-    private final GitModifiedFilesCache gitCache;
+  public Optional<ImmutableList<ModifiedFile>> getIfPresent(ModifiedFilesCacheKey key)
+      throws DiffNotAvailableException {
+    try {
+      return Optional.ofNullable(cache.getIfPresent(key));
+    } catch (Exception e) {
+      throw new DiffNotAvailableException(e);
+    }
+  }
+
+  public void put(ModifiedFilesCacheKey key, ImmutableList<ModifiedFile> modifiedFiles) {
+    cache.put(key, modifiedFiles);
+  }
+
+  static class Loader extends CacheLoader<ModifiedFilesCacheKey, ImmutableList<ModifiedFile>> {
     private final GitRepositoryManager repoManager;
+    private final ModifiedFilesLoader.Factory modifiedFilesLoaderFactory;
 
     @Inject
-    ModifiedFilesLoader(GitModifiedFilesCache gitCache, GitRepositoryManager repoManager) {
-      this.gitCache = gitCache;
+    Loader(
+        GitRepositoryManager repoManager, ModifiedFilesLoader.Factory modifiedFilesLoaderFactory) {
+      this.modifiedFilesLoaderFactory = modifiedFilesLoaderFactory;
       this.repoManager = repoManager;
     }
 
@@ -120,88 +121,15 @@ public class ModifiedFilesCacheImpl implements ModifiedFilesCache {
     public ImmutableList<ModifiedFile> load(ModifiedFilesCacheKey key)
         throws IOException, DiffNotAvailableException {
       try (Repository repo = repoManager.openRepository(key.project());
-          RevWalk rw = new RevWalk(repo.newObjectReader())) {
-        return loadModifiedFiles(key, rw);
+          RevWalk revWalk = new RevWalk(repo.newObjectReader())) {
+        ModifiedFilesLoader loader =
+            modifiedFilesLoaderFactory
+                .createWithRetrievingModifiedFilesForTreesFromGitModifiedFilesCache();
+        if (key.renameDetectionEnabled()) {
+          loader.withRenameDetection(key.renameScore());
+        }
+        return loader.load(key.project(), repo.getConfig(), revWalk, key.aCommit(), key.bCommit());
       }
-    }
-
-    private ImmutableList<ModifiedFile> loadModifiedFiles(ModifiedFilesCacheKey key, RevWalk rw)
-        throws IOException, DiffNotAvailableException {
-      ObjectId aTree =
-          key.aCommit().equals(ObjectId.zeroId())
-              ? key.aCommit()
-              : DiffUtil.getTreeId(rw, key.aCommit());
-      ObjectId bTree = DiffUtil.getTreeId(rw, key.bCommit());
-      GitModifiedFilesCacheKey gitKey =
-          GitModifiedFilesCacheKey.builder()
-              .project(key.project())
-              .aTree(aTree)
-              .bTree(bTree)
-              .renameScore(key.renameScore())
-              .build();
-      ImmutableList<ModifiedFile> modifiedFiles =
-          DiffUtil.mergeRewrittenModifiedFiles(gitCache.get(gitKey));
-      if (key.aCommit().equals(ObjectId.zeroId())) {
-        return modifiedFiles;
-      }
-      RevCommit revCommitA = DiffUtil.getRevCommit(rw, key.aCommit());
-      RevCommit revCommitB = DiffUtil.getRevCommit(rw, key.bCommit());
-      if (DiffUtil.areRelated(revCommitA, revCommitB)) {
-        return modifiedFiles;
-      }
-      Set<String> touchedFiles =
-          getTouchedFilesWithParents(
-              key, revCommitA.getParent(0).getId(), revCommitB.getParent(0).getId(), rw);
-      return modifiedFiles.stream()
-          .filter(f -> isTouched(touchedFiles, f))
-          .collect(toImmutableList());
-    }
-
-    /**
-     * Returns the paths of files that were modified between the old and new commits versus their
-     * parents (i.e. old commit vs. its parent, and new commit vs. its parent).
-     *
-     * @param key the {@link ModifiedFilesCacheKey} representing the commits we are diffing
-     * @param rw a {@link RevWalk} for the repository
-     * @return The list of modified files between the old/new commits and their parents
-     */
-    private Set<String> getTouchedFilesWithParents(
-        ModifiedFilesCacheKey key, ObjectId parentOfA, ObjectId parentOfB, RevWalk rw)
-        throws IOException {
-      try {
-        // TODO(ghareeb): as an enhancement: the 3 calls of the underlying git cache can be combined
-        GitModifiedFilesCacheKey oldVsBaseKey =
-            GitModifiedFilesCacheKey.create(
-                key.project(), parentOfA, key.aCommit(), key.renameScore(), rw);
-        List<ModifiedFile> oldVsBase = gitCache.get(oldVsBaseKey);
-
-        GitModifiedFilesCacheKey newVsBaseKey =
-            GitModifiedFilesCacheKey.create(
-                key.project(), parentOfB, key.bCommit(), key.renameScore(), rw);
-        List<ModifiedFile> newVsBase = gitCache.get(newVsBaseKey);
-
-        return Sets.union(getOldAndNewPaths(oldVsBase), getOldAndNewPaths(newVsBase));
-      } catch (DiffNotAvailableException e) {
-        logger.atWarning().log(
-            "Failed to retrieve the touched files' commits (%s, %s) and parents (%s, %s): %s",
-            key.aCommit(), key.bCommit(), parentOfA, parentOfB, e.getMessage());
-        return ImmutableSet.of();
-      }
-    }
-
-    private ImmutableSet<String> getOldAndNewPaths(List<ModifiedFile> files) {
-      return files.stream()
-          .flatMap(
-              file -> Stream.concat(Streams.stream(file.oldPath()), Streams.stream(file.newPath())))
-          .collect(ImmutableSet.toImmutableSet());
-    }
-
-    private static boolean isTouched(Set<String> touchedFilePaths, ModifiedFile modifiedFile) {
-      String oldFilePath = modifiedFile.oldPath().orElse(null);
-      String newFilePath = modifiedFile.newPath().orElse(null);
-      // One of the above file paths could be /dev/null but we need not explicitly check for this
-      // value as the set of file paths shouldn't contain it.
-      return touchedFilePaths.contains(oldFilePath) || touchedFilePaths.contains(newFilePath);
     }
   }
 }

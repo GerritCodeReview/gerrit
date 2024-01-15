@@ -46,6 +46,7 @@ import com.google.gerrit.server.git.GroupCollector;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.MergeUtilFactory;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -303,7 +304,7 @@ public class RebaseChangeOp implements BatchUpdateOp {
   @Override
   public void updateRepo(RepoContext ctx)
       throws InvalidChangeOperationException, RestApiException, IOException, NoSuchChangeException,
-          PermissionBackendException {
+          PermissionBackendException, DiffNotAvailableException {
     // Ok that originalPatchSet was not read in a transaction, since we just
     // need its revision.
     RevWalk rw = ctx.getRevWalk();

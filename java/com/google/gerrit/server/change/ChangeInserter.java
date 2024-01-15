@@ -72,6 +72,7 @@ import com.google.gerrit.server.mail.send.OutgoingEmail;
 import com.google.gerrit.server.mail.send.StartReviewChangeEmailDecorator;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.AutoMerger;
+import com.google.gerrit.server.patch.DiffOperationsForCommitValidation;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -125,6 +126,7 @@ public class ChangeInserter implements InsertChangeOp {
   private final MessageIdGenerator messageIdGenerator;
   private final AutoMerger autoMerger;
   private final ChangeUtil changeUtil;
+  private final DiffOperationsForCommitValidation.Factory diffOperationsForCommitValidationFactory;
 
   private final Change.Id changeId;
   private final PatchSet.Id psId;
@@ -179,6 +181,7 @@ public class ChangeInserter implements InsertChangeOp {
       MessageIdGenerator messageIdGenerator,
       AutoMerger autoMerger,
       ChangeUtil changeUtil,
+      DiffOperationsForCommitValidation.Factory diffOperationsForCommitValidationFactory,
       @Assisted Change.Id changeId,
       @Assisted ObjectId commitId,
       @Assisted String refName) {
@@ -198,6 +201,7 @@ public class ChangeInserter implements InsertChangeOp {
     this.messageIdGenerator = messageIdGenerator;
     this.autoMerger = autoMerger;
     this.changeUtil = changeUtil;
+    this.diffOperationsForCommitValidationFactory = diffOperationsForCommitValidationFactory;
 
     this.changeId = changeId;
     this.psId = PatchSet.id(changeId, INITIAL_PATCH_SET_ID);
@@ -451,10 +455,7 @@ public class ChangeInserter implements InsertChangeOp {
     ctx.addRefUpdate(cmd);
     Optional<ReceiveCommand> autoMerge =
         autoMerger.createAutoMergeCommitIfNecessary(
-            ctx.getRepoView(),
-            ctx.getRevWalk(),
-            ctx.getInserter(),
-            ctx.getRevWalk().parseCommit(commitId));
+            ctx.getRepoView(), ctx.getInserter(), ctx.getRevWalk().parseCommit(commitId));
     if (autoMerge.isPresent()) {
       ctx.addRefUpdate(autoMerge.get());
     }
@@ -652,7 +653,9 @@ public class ChangeInserter implements InsertChangeOp {
               ctx.getRepoView().getConfig(),
               ctx.getRevWalk().getObjectReader(),
               commitId,
-              ctx.getIdentifiedUser())) {
+              ctx.getIdentifiedUser(),
+              diffOperationsForCommitValidationFactory.create(
+                  ctx.getRepoView(), ctx.getInserter()))) {
         commitValidatorsFactory
             .forGerritCommits(
                 permissionBackend.user(ctx.getUser()).project(ctx.getProject()),

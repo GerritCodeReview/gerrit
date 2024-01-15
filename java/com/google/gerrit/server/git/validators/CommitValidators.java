@@ -57,9 +57,7 @@ import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.patch.DiffNotAvailableException;
-import com.google.gerrit.server.patch.DiffOperations;
-import com.google.gerrit.server.patch.DiffOptions;
-import com.google.gerrit.server.patch.filediff.FileDiffOutput;
+import com.google.gerrit.server.patch.gitdiff.ModifiedFile;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
@@ -117,7 +115,6 @@ public class CommitValidators {
     private final AccountCache accountCache;
     private final ProjectCache projectCache;
     private final ProjectConfig.Factory projectConfigFactory;
-    private final DiffOperations diffOperations;
     private final Config config;
     private final ChangeUtil changeUtil;
     private final MetricMaker metricMaker;
@@ -136,7 +133,6 @@ public class CommitValidators {
         AccountCache accountCache,
         ProjectCache projectCache,
         ProjectConfig.Factory projectConfigFactory,
-        DiffOperations diffOperations,
         ChangeUtil changeUtil,
         MetricMaker metricMaker) {
       this.gerritIdent = gerritIdent;
@@ -151,7 +147,6 @@ public class CommitValidators {
       this.accountCache = accountCache;
       this.projectCache = projectCache;
       this.projectConfigFactory = projectConfigFactory;
-      this.diffOperations = diffOperations;
       this.changeUtil = changeUtil;
       this.metricMaker = metricMaker;
     }
@@ -174,7 +169,7 @@ public class CommitValidators {
           .add(new ProjectStateValidationListener(projectState))
           .add(new AmendedGerritMergeCommitValidationListener(perm, gerritIdent))
           .add(new AuthorUploaderValidator(user, perm, urlFormatter.get()))
-          .add(new FileCountValidator(config, urlFormatter.get(), diffOperations, metricMaker))
+          .add(new FileCountValidator(config, urlFormatter.get(), metricMaker))
           .add(new CommitterUploaderValidator(user, perm, urlFormatter.get()))
           .add(new SignedOffByValidator(user, perm, projectState))
           .add(
@@ -186,7 +181,7 @@ public class CommitValidators {
           .add(new ExternalIdUpdateListener(allUsers, externalIdsConsistencyChecker, accountCache))
           .add(new AccountCommitValidator(repoManager, allUsers, accountValidator))
           .add(new GroupCommitValidator(allUsers))
-          .add(new LabelConfigValidator(diffOperations));
+          .add(new LabelConfigValidator());
       return new CommitValidators(validators.build());
     }
 
@@ -206,7 +201,7 @@ public class CommitValidators {
           .add(new ProjectStateValidationListener(projectState))
           .add(new AmendedGerritMergeCommitValidationListener(perm, gerritIdent))
           .add(new AuthorUploaderValidator(user, perm, urlFormatter.get()))
-          .add(new FileCountValidator(config, urlFormatter.get(), diffOperations, metricMaker))
+          .add(new FileCountValidator(config, urlFormatter.get(), metricMaker))
           .add(new SignedOffByValidator(user, perm, projectState))
           .add(
               new ChangeIdValidator(
@@ -216,7 +211,7 @@ public class CommitValidators {
           .add(new ExternalIdUpdateListener(allUsers, externalIdsConsistencyChecker, accountCache))
           .add(new AccountCommitValidator(repoManager, allUsers, accountValidator))
           .add(new GroupCommitValidator(allUsers))
-          .add(new LabelConfigValidator(diffOperations));
+          .add(new LabelConfigValidator());
       return new CommitValidators(validators.build());
     }
 
@@ -453,16 +448,10 @@ public class CommitValidators {
 
     private final int maxFileCount;
     private final UrlFormatter urlFormatter;
-    private final DiffOperations diffOperations;
     private final Counter2<Integer, String> metricCountManyFilesPerChange;
 
-    FileCountValidator(
-        Config config,
-        UrlFormatter urlFormatter,
-        DiffOperations diffOperations,
-        MetricMaker metricMaker) {
+    FileCountValidator(Config config, UrlFormatter urlFormatter, MetricMaker metricMaker) {
       this.urlFormatter = urlFormatter;
-      this.diffOperations = diffOperations;
       this.metricCountManyFilesPerChange =
           metricMaker.newCounter(
               "validation/file_count",
@@ -523,11 +512,14 @@ public class CommitValidators {
     private int countChangedFiles(CommitReceivedEvent receiveEvent)
         throws DiffNotAvailableException {
       // For merge commits this will compare against auto-merge.
-      Map<String, FileDiffOutput> modifiedFiles =
-          diffOperations.listModifiedFilesAgainstParent(
-              receiveEvent.getProjectNameKey(), receiveEvent.commit, 0, DiffOptions.DEFAULTS);
+      Map<String, ModifiedFile> modifiedFiles =
+          receiveEvent.diffOperations.loadModifiedFilesAgainstParentIfNecessary(
+              receiveEvent.getProjectNameKey(),
+              receiveEvent.commit,
+              0,
+              /* enableRenameDetection= */ true);
       // We don't want to count the COMMIT_MSG and MERGE_LIST files.
-      List<FileDiffOutput> modifiedFilesList =
+      List<ModifiedFile> modifiedFilesList =
           modifiedFiles.values().stream()
               .filter(p -> !Patch.isMagic(p.newPath().orElse("")))
               .collect(Collectors.toList());

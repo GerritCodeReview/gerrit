@@ -104,8 +104,8 @@ public class ModifiedFilesLoader {
     }
   }
 
-  private @Nullable Integer renameScore = null;
-  private @Nullable GitModifiedFilesCache gitModifiedFilesCache;
+  @Nullable private Integer renameScore = null;
+  @Nullable private GitModifiedFilesCache gitModifiedFilesCache;
 
   ModifiedFilesLoader(@Nullable GitModifiedFilesCache gitModifiedFilesCache) {
     this.gitModifiedFilesCache = gitModifiedFilesCache;

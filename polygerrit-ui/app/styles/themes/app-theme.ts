@@ -18,6 +18,7 @@ const appThemeCss = safeStyleSheet`
        */
 
     /* color palette */
+    --test: green;
     --gerrit-blue-light: #1565c0;
     --gerrit-blue-dark: #90caf9;
     --red-900: #a50e0e;

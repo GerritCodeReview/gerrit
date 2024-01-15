@@ -197,14 +197,14 @@ public class ModifiedFilesLoader {
       ObjectId parentOfNew)
       throws IOException {
     try {
-      List<ModifiedFile> oldVsBase =
+      ImmutableList<ModifiedFile> oldVsBase =
           getModifiedFiles(
               project,
               repoConfig,
               revWalk.getObjectReader(),
               DiffUtil.getTreeId(revWalk, parentOfBase),
               DiffUtil.getTreeId(revWalk, baseCommit));
-      List<ModifiedFile> newVsBase =
+      ImmutableList<ModifiedFile> newVsBase =
           getModifiedFiles(
               project,
               repoConfig,

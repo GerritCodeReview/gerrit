@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4255d71a_85e7a99d",
+        "filename": "polygerrit-ui/app/utils/change-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-01-15T16:59:04Z",
+      "side": 1,
+      "message": "```suggestion\n  // Change is not submittable if there are conflicts or is WIP/private even if\n```",
+      "range": {
+        "startLine": 127,
+        "startChar": 5,
+        "endLine": 127,
+        "endChar": 28
+      },
+      "revId": "fb126bedda1f0503551b4dcb270a5321516e5a6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c86a15fe_fdac0854",
+        "filename": "polygerrit-ui/app/utils/change-util_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-01-15T16:59:04Z",
+      "side": 1,
+      "message": "can you split these tests up a bit?\ncurrently a bit hard to read, ideally a test for each specific state of the change object",
+      "range": {
+        "startLine": 58,
+        "startChar": 2,
+        "endLine": 58,
+        "endChar": 19
+      },
+      "revId": "fb126bedda1f0503551b4dcb270a5321516e5a6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -34,6 +34,24 @@
       "parentUuid": "40f2dfe2_85e4af41",
       "revId": "a6e3536ddb83043a0f2c3dc1f61d055a931d24c5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cdc244c1_3552d99e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-01-15T14:39:11Z",
+      "side": 1,
+      "message": "Yeah, that\u0027s what Nitzan was doing now.",
+      "parentUuid": "b18e25ac_f3940429",
+      "revId": "a6e3536ddb83043a0f2c3dc1f61d055a931d24c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

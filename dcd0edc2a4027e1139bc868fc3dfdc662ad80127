@@ -16,6 +16,24 @@
       "message": "Can you please explain what\u0027s the use case behind this?",
       "revId": "dcd0edc2a4027e1139bc868fc3dfdc662ad80127",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "528830bb_5c60c02e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2024-01-15T07:03:01Z",
+      "side": 1,
+      "message": "Sure. I\u0027ll edit the commit message.",
+      "parentUuid": "fadf0fa4_25711b4c",
+      "revId": "dcd0edc2a4027e1139bc868fc3dfdc662ad80127",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

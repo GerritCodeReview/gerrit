@@ -1,3 +1,7 @@
+"""
+This module lists the external dependencies of the Gerrit project.
+"""
+
 load("//tools/bzl:maven_jar.bzl", "GERRIT", "maven_jar")
 
 CAFFEINE_VERS = "2.9.2"
@@ -24,6 +28,9 @@ BYTE_BUDDY_VERSION = "1.14.9"
 ROARING_BITMAP_VERSION = "0.9.44"
 
 def java_dependencies():
+    """
+    This method lists the maven jars used in the Gerrit project.
+    """
     maven_jar(
         name = "java-runtime",
         artifact = "org.antlr:antlr-runtime:" + ANTLR_VERS,

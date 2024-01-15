@@ -23,6 +23,11 @@ import java.util.List;
  *
  * <p>Invoked by Gerrit when a new commit is received, has passed basic Gerrit validation and can be
  * then subject to extra validation checks.
+ *
+ * <p>Do not use {@link com.google.gerrit.server.patch.DiffOperations} from {@code
+ * CommitValidationListener} implementations to get the modified files for the received commit,
+ * instead use {@link com.google.gerrit.server.patch.DiffOperationsForCommitValidation} that is
+ * provided in {@link CommitReceivedEvent#diffOperations}.
  */
 @ExtensionPoint
 public interface CommitValidationListener {

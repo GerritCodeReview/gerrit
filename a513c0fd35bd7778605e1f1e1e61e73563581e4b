@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef34ad67_7af66fc7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2024-01-15T13:31:21Z",
+      "side": 1,
+      "message": "Overriding \"Verified\" since the only failure is `longCommitMessage_providedMessageWithCorrectChangeId(com.google.gerrit.acceptance.api.change.ApplyPatchIT)`, which is fixed in I0eb56b71.",
+      "revId": "a513c0fd35bd7778605e1f1e1e61e73563581e4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

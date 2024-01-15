@@ -241,6 +241,8 @@ public class MergeUtil {
     if (m.merge(mergeTip, originalCommit)) {
       filesWithGitConflicts = null;
       tree = m.getResultTreeId();
+      logger.atFine().log(
+          "CherryPick treeId=%s (no conflicts, inserter: %s)", tree.name(), m.getObjectInserter());
       if (tree.equals(mergeTip.getTree()) && !ignoreIdenticalTree) {
         throw new MergeIdenticalTreeException("identical tree");
       }
@@ -299,6 +301,8 @@ public class MergeUtil {
       tree =
           mergeWithConflicts(
               rw, inserter, dc, "HEAD", mergeTip, "CHANGE", originalCommit, mergeResults);
+      logger.atFine().log(
+          "AutoMerge treeId=%s (with conflicts, inserter: %s)", tree.name(), inserter);
     }
 
     CommitBuilder cherryPickCommit = new CommitBuilder();
@@ -310,6 +314,7 @@ public class MergeUtil {
     matchAuthorToCommitterDate(project, cherryPickCommit);
     CodeReviewCommit commit = rw.parseCommit(inserter.insert(cherryPickCommit));
     commit.setFilesWithGitConflicts(filesWithGitConflicts);
+    logger.atFine().log("CherryPick commitId=%s", commit.name());
     return commit;
   }
 

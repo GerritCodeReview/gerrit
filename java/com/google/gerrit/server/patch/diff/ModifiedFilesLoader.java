@@ -21,7 +21,6 @@ import static java.util.Comparator.comparing;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
-import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
@@ -255,8 +254,7 @@ public class ModifiedFilesLoader {
 
   private ImmutableSet<String> getOldAndNewPaths(List<ModifiedFile> files) {
     return files.stream()
-        .flatMap(
-            file -> Stream.concat(Streams.stream(file.oldPath()), Streams.stream(file.newPath())))
+        .flatMap(file -> Stream.concat(file.oldPath().stream(), file.newPath().stream()))
         .collect(ImmutableSet.toImmutableSet());
   }
 

@@ -147,12 +147,11 @@ public class ModifiedFilesLoader {
               : DiffUtil.getTreeId(revWalk, baseCommit);
       ObjectId newTree = DiffUtil.getTreeId(revWalk, newCommit);
       ImmutableList<ModifiedFile> modifiedFiles =
-          DiffUtil.mergeRewrittenModifiedFiles(
+          ImmutableList.sortedCopyOf(
+              comparing(f -> f.getDefaultPath()),
+              DiffUtil.mergeRewrittenModifiedFiles(
                   getModifiedFiles(
-                      project, repoConfig, revWalk.getObjectReader(), baseTree, newTree))
-              .stream()
-              .sorted(comparing(f -> f.getDefaultPath()))
-              .collect(toImmutableList());
+                      project, repoConfig, revWalk.getObjectReader(), baseTree, newTree)));
       if (baseCommit.equals(ObjectId.zeroId())) {
         return modifiedFiles;
       }

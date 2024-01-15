@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "418efecd_3b01b4ee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-15T11:46:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71961416_b43d5b68",
+      "range": {
+        "startLine": 31,
+        "startChar": 22,
+        "endLine": 31,
+        "endChar": 28
+      },
+      "revId": "24e8afecaa2626747f36637aa5f9c84e4cdb3f6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e130f0ef_c8177848",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-01-15T08:29:30Z",
       "side": 1,
       "message": "exposes",
+      "range": {
+        "startLine": 32,
+        "startChar": 22,
+        "endLine": 32,
+        "endChar": 28
+      },
+      "revId": "24e8afecaa2626747f36637aa5f9c84e4cdb3f6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bdf1b434_e080f7cb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-15T11:46:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e130f0ef_c8177848",
       "range": {
         "startLine": 32,
         "startChar": 22,
@@ -77,6 +125,24 @@
       "writtenOn": "2024-01-15T10:21:02Z",
       "side": 1,
       "message": "is the `baseInjector.getInstance(apiModuleClass)` guaranteed to return a non-null value? Otherwise here we can get a NPE.",
+      "revId": "24e8afecaa2626747f36637aa5f9c84e4cdb3f6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "35d307ce_cf5c60c9",
+        "filename": "java/com/google/gerrit/server/plugins/ServerPlugin.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-15T11:46:34Z",
+      "side": 1,
+      "message": "Yes, see Guice\u0027s Javadoc at [1].\n\n[1] https://google.github.io/guice/api-docs/4.2/javadoc/com/google/inject/Injector.html#getInstance-java.lang.Class-",
+      "parentUuid": "d7e4d0e3_c333f84d",
       "revId": "24e8afecaa2626747f36637aa5f9c84e4cdb3f6d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

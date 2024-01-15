@@ -57,7 +57,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
  * Factory#createWithRetrievingModifiedFilesForTreesFromGitModifiedFilesCache()} in which case the
  * trees are looked up via a new {@link RevWalk} instance that is created by {@code
  * GitModifiedFilesCacheImpl.Loader}. Looking up the trees from a new {@link RevWalk} instance only
- * succeeds if they were already fully persisted in the repository, i.e. if these are not newly
+ * succeeds if they were already fully persisted in the repository, i.e., if these are not newly
  * created trees or tree which have been created in memory. This means using the {@link
  * GitModifiedFilesCache} is expected to cause {@link MissingObjectException}s for the commit trees
  * that are newly created or that were created in memory only.
@@ -93,7 +93,7 @@ public class ModifiedFilesLoader {
      * GitModifiedFilesCacheImpl.Loader}), and not by the {@link RevWalk} instance that is given to
      * the {@link #load(com.google.gerrit.entities.Project.NameKey, Config, RevWalk, ObjectId,
      * ObjectId)} method. Looking up the trees from a new {@link RevWalk} instance only succeeds if
-     * they were already fully persisted in the repository, i.e. if these are not newly created
+     * they were already fully persisted in the repository, i.e., if these are not newly created
      * trees or tree which have been created in memory. This means using the {@link
      * GitModifiedFilesCache} is expected to cause {@link MissingObjectException}s for the commit
      * trees that are newly created or that were created in memory only. Also see the javadoc on

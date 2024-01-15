@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2482d8f_a1fb8949",
+        "filename": "java/com/google/gerrit/server/change/IncludedIn.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2024-01-15T19:01:05Z",
+      "side": 1,
+      "message": "Is it ok that I used var here? I just noticed it\u0027s not used a lot in the codebase...",
+      "revId": "ee261c1fb674e9f90abb3758bc19d12363c7d786",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

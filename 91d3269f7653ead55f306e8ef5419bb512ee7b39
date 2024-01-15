@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3581fa4e_9b882e79",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 631,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-01-15T10:58:10Z",
+      "side": 0,
+      "message": "Just a side note, this code was introduced in change I69c46ab4, in 2016, when NoteDb was still in its infancy. Then improved by adding a cache in change I4bbb9bf82f, again in 2016. Since then a lot has changed (and improved) around the NoteDb, and when the `change_notes` cache is populated. It probably had much bigger impact back then, now it looks more of an exception than a rule, that we\u0027ll benefit any performance improvements from this \"side\" loading `revitionNoteMap`. Instead, with the imported changes mapping we suffer from random unintended changes in the `/meta` branch.",
+      "range": {
+        "startLine": 624,
+        "startChar": 0,
+        "endLine": 631,
+        "endChar": 7
+      },
+      "revId": "91d3269f7653ead55f306e8ef5419bb512ee7b39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7da50425_990a4d31",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-01-16T11:12:01Z",
+      "side": 1,
+      "message": "Here are the merge-ups:\n* https://gerrit-review.googlesource.com/c/gerrit/+/403037\n* https://gerrit-review.googlesource.com/c/gerrit/+/403057\n* https://gerrit-review.googlesource.com/c/gerrit/+/403038",
+      "revId": "068b770d982c0aefdf93bde49513cdc02521147b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "878a0400_05891775",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-01-16T12:29:47Z",
+      "side": 1,
+      "message": "Could we cover this with a test?",
+      "revId": "f30c5287fd0320478ebf112413aa85a39edf1aae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6902863a_6d6a4395",
+        "filename": "java/com/google/gerrit/server/change/RebaseUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-01-16T12:29:47Z",
+      "side": 1,
+      "message": "Could we check at this point whether inputBase is a SHA1 and if yes, look it up via the RevWalk?",
+      "revId": "f30c5287fd0320478ebf112413aa85a39edf1aae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -663,7 +663,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
           }
           String formattedMaxSize = CacheInfo.EntriesInfo.bytes(maxSize);
           if (used <= maxSize) {
-            logger.atInfo().log(
+            logger.atFine().log(
                 "Cache %s size (%s) is less than maxSize (%s), not pruning",
                 url, CacheInfo.EntriesInfo.bytes(used), formattedMaxSize);
             return;

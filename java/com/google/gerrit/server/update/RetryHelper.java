@@ -476,17 +476,24 @@ public class RetryHelper {
               actionType,
               opts,
               t -> {
+                String actionName = opts.actionName().orElse("N/A");
+                String cause = formatCause(t);
+
                 // exceptionPredicate checks for temporary errors for which the operation should be
                 // retried (e.g. LockFailure). The retry has good chances to succeed.
                 if (exceptionPredicate.test(t)) {
+                  logger.atFine().withCause(t).log(
+                      "Retry: %s failed with possibly temporary error (cause = %s)",
+                      actionName, cause);
                   return true;
                 }
-
-                String actionName = opts.actionName().orElse("N/A");
 
                 // Exception hooks may identify additional exceptions for retry.
                 if (exceptionHooks.stream()
                     .anyMatch(h -> h.shouldRetry(actionType, actionName, t))) {
+                  logger.atFine().withCause(t).log(
+                      "Retry: %s failed with possibly temporary error (cause = %s)",
+                      actionName, cause);
                   return true;
                 }
 
@@ -502,7 +509,6 @@ public class RetryHelper {
                     return false;
                   }
 
-                  String cause = formatCause(t);
                   if (!TraceContext.isTracing()) {
                     String traceId = "retry-on-failure-" + new RequestId();
                     traceContext.addTag(RequestId.Type.TRACE_ID, traceId).forceLogging();

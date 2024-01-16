@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.notedb;
 
-import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.entities.RefNames.changeMetaRef;
@@ -646,15 +645,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     if (curr.equals(ObjectId.zeroId())) {
       return RevisionNoteMap.emptyMap();
     }
-    // The old ChangeNotes may have already parsed the revision notes. We can reuse them as long as
-    // the ref hasn't advanced.
-    ChangeNotes notes = getNotes();
-    if (notes != null && notes.revisionNoteMap != null) {
-      ObjectId idFromNotes = firstNonNull(notes.load().getRevision(), ObjectId.zeroId());
-      if (idFromNotes.equals(curr)) {
-        return notes.revisionNoteMap;
-      }
-    }
+
     NoteMap noteMap = NoteMap.read(rw.getObjectReader(), rw.parseCommit(curr));
     // Even though reading from changes might not be enabled, we need to
     // parse any existing revision notes so we can merge them.

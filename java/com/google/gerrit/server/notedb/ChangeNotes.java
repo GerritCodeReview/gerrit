@@ -379,11 +379,6 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   private Change change;
   private ChangeNotesState state;
-
-  // Parsed note map state, used by ChangeUpdate to make in-place editing of
-  // notes easier.
-  RevisionNoteMap<ChangeRevisionNote> revisionNoteMap;
-
   private DraftCommentNotes draftCommentNotes;
   private RobotCommentNotes robotCommentNotes;
 
@@ -648,9 +643,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       return;
     }
 
-    ChangeNotesCache.Value v =
-        args.cache.get().get(getProjectName(), getChangeId(), rev, handle::walk);
-    state = v.state();
+    state = args.cache.get().get(getProjectName(), getChangeId(), rev, handle::walk);
 
     String stateServerId = state.serverId();
     /**
@@ -667,7 +660,6 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     }
 
     state.copyColumnsTo(change);
-    revisionNoteMap = v.revisionNoteMap();
   }
 
   @Override

@@ -16,6 +16,23 @@
       "message": "```\n$ bazel build release \u0026\u0026 bazel test --flaky_test_attempts 3 --test_timeout 3600 --test_tag_filters\u003d-flaky //...\n[snip]\nExecuted 188 out of 200 tests: 200 tests pass.\nINFO: Build completed successfully, 474 total actions\n```",
       "revId": "0ca24de06391b083b2be30a900db673b259b8c76",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6ef39ac_3928ce5e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-16T21:50:59Z",
+      "side": 1,
+      "message": "Thanks for the fix @nasser.grainawi@linaro.org 👍",
+      "revId": "0ca24de06391b083b2be30a900db673b259b8c76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

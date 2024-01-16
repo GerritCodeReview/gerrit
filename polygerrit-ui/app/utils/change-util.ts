@@ -87,10 +87,8 @@ export function changeStatuses(
   change: ChangeInfo,
   options?: ChangeStatusesOptions
 ): ChangeStates[] {
-  const states = [];
-  if (change.revert_of) {
-    states.push(ChangeStates.REVERT);
-  }
+  const states: ChangeStates[] = [];
+
   if (change.status === ChangeStatus.MERGED) {
     if (options?.revertingChangeStatus === ChangeStatus.MERGED) {
       return [ChangeStates.MERGED, ChangeStates.REVERT_SUBMITTED];
@@ -102,6 +100,10 @@ export function changeStatuses(
   }
   if (change.status === ChangeStatus.ABANDONED) {
     return [ChangeStates.ABANDONED];
+  }
+
+  if (change.revert_of) {
+    states.push(ChangeStates.REVERT);
   }
   if (change.mergeable === false || (options && options.mergeable === false)) {
     // 'mergeable' prop may not always exist (@see Issue 6819)
@@ -116,15 +118,29 @@ export function changeStatuses(
     states.push(ChangeStates.PRIVATE);
   }
 
-  // If there are any pre-defined statuses, only return those. Otherwise,
-  // will determine the derived status.
-  if (states.length || !options) {
+  // The gr-change-list table does not want READY TO SUBMIT or ACTIVE and it
+  // does not pass options.
+  if (!options) {
+    return states;
+  }
+
+  // The change is not submittable if there are conflicts or is WIP/private even
+  // if the submit requirements are ok.
+  if (
+    [
+      ChangeStates.MERGE_CONFLICT,
+      ChangeStates.GIT_CONFLICT,
+      ChangeStates.WIP,
+      ChangeStates.PRIVATE,
+    ].some(unsubmittableState => states.includes(unsubmittableState))
+  ) {
     return states;
   }
 
   if (change.submittable) {
     states.push(ChangeStates.READY_TO_SUBMIT);
-  } else {
+  }
+  if (states.length === 0) {
     states.push(ChangeStates.ACTIVE);
   }
   return states;

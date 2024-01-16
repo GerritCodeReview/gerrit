@@ -63,6 +63,30 @@
       },
       "revId": "4858d3daf77c3f8e9d8a12452289eb826af4deac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dffac193_441dc06b",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 666,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-01-16T18:38:27Z",
+      "side": 1,
+      "message": "403100: H2CacheImpl: Lower logging level for no pruning | https://gerrit-review.googlesource.com/c/gerrit/+/403100",
+      "parentUuid": "12309c17_5ae7450a",
+      "range": {
+        "startLine": 666,
+        "startChar": 19,
+        "endLine": 666,
+        "endChar": 25
+      },
+      "revId": "4858d3daf77c3f8e9d8a12452289eb826af4deac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

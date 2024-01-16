@@ -19,7 +19,6 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.cache.Cache;
 import com.google.common.collect.Table;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
@@ -333,26 +332,9 @@ public class ChangeNotesCache {
     }
   }
 
-  @AutoValue
-  abstract static class Value {
-    abstract ChangeNotesState state();
-
-    /**
-     * The {@link RevisionNoteMap} produced while parsing this change.
-     *
-     * <p>These instances are mutable and non-threadsafe, so it is only safe to return it to the
-     * caller that actually incurred the cache miss. It is only used as an optimization; {@link
-     * ChangeNotes} is capable of lazily loading it as necessary.
-     */
-    @Nullable
-    abstract RevisionNoteMap<ChangeRevisionNote> revisionNoteMap();
-  }
-
   private class Loader implements Callable<ChangeNotesState> {
     private final Key key;
     private final Supplier<ChangeNotesRevWalk> walkSupplier;
-
-    private RevisionNoteMap<ChangeRevisionNote> revisionNoteMap;
 
     private Loader(Key key, Supplier<ChangeNotesRevWalk> walkSupplier) {
       this.key = key;
@@ -371,11 +353,7 @@ public class ChangeNotesCache {
               args.changeNoteJson,
               args.metrics,
               new NoteDbUtil(args.serverId, externalIdCache));
-      ChangeNotesState result = parser.parseAll();
-      // This assignment only happens if call() was actually called, which only
-      // happens when Cache#get(K, Callable<V>) incurs a cache miss.
-      revisionNoteMap = parser.getRevisionNoteMap();
-      return result;
+      return parser.parseAll();
     }
   }
 
@@ -393,7 +371,7 @@ public class ChangeNotesCache {
     this.externalIdCache = externalIdCache;
   }
 
-  Value get(
+  ChangeNotesState get(
       Project.NameKey project,
       Change.Id changeId,
       ObjectId metaId,
@@ -402,8 +380,7 @@ public class ChangeNotesCache {
     try {
       Key key = Key.create(project, changeId, metaId);
       Loader loader = new Loader(key, walkSupplier);
-      ChangeNotesState s = cache.get(key, loader);
-      return new AutoValue_ChangeNotesCache_Value(s, loader.revisionNoteMap);
+      return cache.get(key, loader);
     } catch (ExecutionException e) {
       throw new IOException(
           String.format(

@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "725b3307_5174b269",
+        "filename": "java/com/google/gerrit/acceptance/TestPlugin.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1145312
+      },
+      "writtenOn": "2024-01-16T17:26:07Z",
+      "side": 1,
+      "message": "change to new2\n```suggestion\n//NEW2\n```",
+      "range": {
+        "startLine": 19,
+        "startChar": 2,
+        "endLine": 19,
+        "endChar": 5
+      },
+      "revId": "a6d20f6a91bf111396ebc5aa98bccc7993ae3295",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b875037e_63c39825",
         "filename": "java/com/google/gerrit/acceptance/TestPlugin.java",
         "patchSetId": 2

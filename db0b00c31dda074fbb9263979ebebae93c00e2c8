@@ -52,6 +52,42 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2487d83c_562c1109",
+        "filename": "java/com/google/gerrit/server/change/FilterIncludedIn.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2024-01-16T07:48:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be730cdd_0cfccf6e",
+      "revId": "db0b00c31dda074fbb9263979ebebae93c00e2c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2eb8ae81_66efcf40",
+        "filename": "java/com/google/gerrit/server/change/FilterIncludedIn.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2024-01-16T07:48:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "38491f68_f5859e9a",
+      "revId": "db0b00c31dda074fbb9263979ebebae93c00e2c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e1da4060_44577757",
@@ -69,6 +105,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "541ef4c3_3085a9e0",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeIncludedInIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2024-01-16T07:48:01Z",
+      "side": 1,
+      "message": "No, it\u0027s a base test case for the tests below. Renamed.",
+      "parentUuid": "e1da4060_44577757",
+      "revId": "db0b00c31dda074fbb9263979ebebae93c00e2c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4fa59d99_aa9b492e",
@@ -82,6 +136,24 @@
       "writtenOn": "2024-01-16T07:34:33Z",
       "side": 1,
       "message": "I think this works, but I think it\u0027s easier/better/more-consistent to use ExtensionRegistry for registering the TestFilter.\n\nFor an example how to use ExtensionRegistry have a look at CommentsIT.fireEventsForOperationsOnDrafts().\n\nBasically what you need to do is:\n\n1. Add an \"add\" method for FilterIncludedIn to ExtensionRegistry:\n\n\u003e @CanIgnoreReturnValue\n\u003e public Registration add(FilterIncludedIn filterIncludedIn) {\n\u003e   return add(filterIncludedIns, filterIncludedIn);\n\u003e }\n\n2. Get ExtensionRegistry injected in the test class.\n\n3. Register the extension with a try-with-resources block:\n\n\u003e try (ExtensionRegistry.Registration registration \u003d\n\u003e        extensionRegistry.newRegistration().add(new TestFilter())) {",
+      "revId": "db0b00c31dda074fbb9263979ebebae93c00e2c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ceaed98a_af750bba",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeIncludedInIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2024-01-16T07:48:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4fa59d99_aa9b492e",
       "revId": "db0b00c31dda074fbb9263979ebebae93c00e2c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

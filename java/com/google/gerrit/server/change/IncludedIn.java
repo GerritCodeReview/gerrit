@@ -39,7 +39,6 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -107,10 +106,7 @@ public class IncludedIn {
       Stream<String> filteredTagsStream =
           sortedShortNames(
               filterReadableRefs(project, getMatchingRefNames(allMatchingTagsAndBranches, tags)));
-      for (Iterator<PluginSetEntryContext<FilterIncludedIn>> pluginFilterIt =
-              filterIncludedIn.iterator();
-          pluginFilterIt.hasNext(); ) {
-        PluginSetEntryContext<FilterIncludedIn> pluginFilter = pluginFilterIt.next();
+      for (PluginSetEntryContext<FilterIncludedIn> pluginFilter : filterIncludedIn) {
         filteredBranchesStream =
             filteredBranchesStream.filter(pluginFilter.get().getBranchFilter(project, rev));
         filteredTagsStream =

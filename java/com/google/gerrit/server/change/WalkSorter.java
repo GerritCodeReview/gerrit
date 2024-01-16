@@ -23,6 +23,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Ordering;
+import com.google.common.collect.SetMultimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.PatchSet;
@@ -146,8 +147,8 @@ public class WalkSorter {
 
       Set<RevCommit> commits = byCommit.keySet();
       ListMultimap<RevCommit, RevCommit> children = collectChildren(commits);
-      ListMultimap<RevCommit, RevCommit> pending =
-          MultimapBuilder.hashKeys().arrayListValues().build();
+      SetMultimap<RevCommit, RevCommit> pending =
+          MultimapBuilder.hashKeys().hashSetValues().build();
       Deque<RevCommit> todo = new ArrayDeque<>();
 
       RevFlag done = rw.newFlag("done");
@@ -156,6 +157,7 @@ public class WalkSorter {
       int found = 0;
       RevCommit c;
       List<PatchSetData> result = new ArrayList<>(expected);
+      int maxPopSize = commits.size() * commits.size();
       while (found < expected && (c = rw.next()) != null) {
         if (!commits.contains(c)) {
           continue;
@@ -164,9 +166,15 @@ public class WalkSorter {
         todo.add(c);
         int i = 0;
         while (!todo.isEmpty()) {
-          // Sanity check: we can't pop more than N pending commits, otherwise
-          // we have an infinite loop due to programmer error or something.
-          checkState(++i <= commits.size(), "Too many pending steps while sorting %s", commits);
+          // Sanity check: in the worst case scenario, each commit can add all previous commits in
+          // the todo queue. This can lead to (n-1) + (n-2) + ... +1 iterations of the algorithm.
+          // So, in the worst case we can't we can't pop more than N^2 pending commits, otherwise
+          // we have an infinite loop due to programmer error or something. (actually, it is
+          // (N-1) + (N-2) + (N-3) + (1) + 1 = N/2*(N-1)+1, but N^2 is enough for us.)
+          checkState(
+              ++i <= maxPopSize,
+              "Too many pending steps while sorting %s - can be a problem in the algorithm.",
+              commits);
           RevCommit t = todo.removeFirst();
           if (t.has(done)) {
             continue;

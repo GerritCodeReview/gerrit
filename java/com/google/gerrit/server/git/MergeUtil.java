@@ -1055,6 +1055,12 @@ public class MergeUtil {
 
           @Override
           public void close() {}
+
+          @Override
+          public String toString() {
+            return String.format(
+                "%s (wrapped inserter: %s)", super.toString(), inserter.toString());
+          }
         },
         repoConfig);
   }

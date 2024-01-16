@@ -413,7 +413,10 @@ public class RebaseUtil {
     }
     if (base == null) {
       throw new ResourceConflictException(
-          "base revision is missing from the destination branch: " + inputBase);
+          String.format(
+              "base revision is missing from the destination branch: %s, or its commit has no"
+                  + " Change-Id",
+              inputBase));
     }
     return getLatestRevisionForBaseChange(rw, permissionBackend, rsrc, base);
   }

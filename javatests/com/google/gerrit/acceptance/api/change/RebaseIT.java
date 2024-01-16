@@ -840,6 +840,56 @@ public class RebaseIT {
     }
 
     @Test
+    public void rebaseChangeWithValidBaseCommit() throws Exception {
+      RevCommit desiredBase =
+          createNewCommitWithoutChangeId(/*branch=*/ "refs/heads/master", "file", "content");
+      PushOneCommit.Result child = createChange();
+      RebaseInput ri = new RebaseInput();
+
+      // rebase child onto desiredBase (referenced by commit)
+      ri.base = desiredBase.getName();
+      rebaseCallWithInput.call(child.getChangeId(), ri);
+
+      PatchSet ps2 = child.getPatchSet();
+      assertThat(ps2.id().get()).isEqualTo(2);
+      RevisionInfo childInfo =
+          get(child.getChangeId(), CURRENT_REVISION, CURRENT_COMMIT).getCurrentRevision();
+      assertThat(childInfo.commit.parents.get(0).commit).isEqualTo(desiredBase.name());
+    }
+
+    @Test
+    public void cannotRebaseChangeWithInvalidBaseCommit() throws Exception {
+      // Create another branch and push the desired parent commit to it.
+      String branchName = "foo";
+      BranchInput branchInput = new BranchInput();
+      branchInput.ref = branchName;
+      branchInput.revision = projectOperations.project(project).getHead("master").name();
+      gApi.projects().name(project.get()).branch(branchInput.ref).create(branchInput);
+      RevCommit desiredBase =
+          createNewCommitWithoutChangeId(/*branch=*/ "refs/heads/foo", "file", "content");
+      // Create the child commit on "master".
+      PushOneCommit.Result child = createChange();
+      RebaseInput ri = new RebaseInput();
+
+      // Try to rebase child onto desiredBase (referenced by commit)
+      ri.base = desiredBase.getName();
+      ResourceConflictException thrown =
+          assertThrows(
+              ResourceConflictException.class,
+              () -> rebaseCallWithInput.call(child.getChangeId(), ri));
+      assertThat(thrown)
+          .hasMessageThat()
+          .contains(
+              String.format("base revision is missing from the destination branch: %s", ri.base));
+
+      PatchSet ps2 = child.getPatchSet();
+      assertThat(ps2.id().get()).isEqualTo(2);
+      RevisionInfo childInfo =
+          get(child.getChangeId(), CURRENT_REVISION, CURRENT_COMMIT).getCurrentRevision();
+      assertThat(childInfo.commit.parents.get(0).commit).isEqualTo(desiredBase.name());
+    }
+
+    @Test
     public void rebaseUpToDateChange() throws Exception {
       PushOneCommit.Result r = createChange();
       verifyChangeIsUpToDate(r);

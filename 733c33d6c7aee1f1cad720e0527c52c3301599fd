@@ -144,6 +144,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d645e10f_1b74aa0e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-17T20:01:59Z",
+      "side": 1,
+      "message": "Marking as resolved, as I believe this was NoteDb migration related. @hiesel@google.com feel free to reopen the discussion if you feels the reason was different.",
+      "parentUuid": "336dca2f_31715f2f",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 38
+      },
+      "revId": "733c33d6c7aee1f1cad720e0527c52c3301599fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cf99cca7_74316433",

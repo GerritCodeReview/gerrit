@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "659bb8da_60017bd2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-17T20:01:59Z",
+      "side": 1,
+      "message": "Ping?",
+      "parentUuid": "e873b896_e86cb359",
+      "revId": "2ed76bc603b071bbb8a1316f2f66c2bcbd1dad51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ace7719c_79e443de",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -54,6 +72,30 @@
       "writtenOn": "2024-01-12T17:22:07Z",
       "side": 1,
       "message": "Well, based on my and your tests, this optimisation was quite short-sighted, because it actually did not hit the cache very often: it was quite hard for us to reproduce this issue.\n\nIt would be interesting to actually see *IF* and *HOW OFTEN* and *HOW MUCH* was saved with this performance optimisation.\n\nIf the case happens 1% (or less) of the times, is it worth to break the encapsulation of the loader, making the code more difficult to understand and potentially more fragile?\n\nI. believe we need to measure first and then assess if that was a good choice or not.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 58
+      },
+      "revId": "2ed76bc603b071bbb8a1316f2f66c2bcbd1dad51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42acbc9d_c2aa1853",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-17T20:01:59Z",
+      "side": 1,
+      "message": "Can you check if that was related to the NoteDb migration?",
+      "parentUuid": "3ae4d1ff_a60e319d",
       "range": {
         "startLine": 12,
         "startChar": 0,
@@ -243,6 +285,30 @@
       "side": 1,
       "message": "\u003e \u003e Now that the serverId inconsistency has been fixed on stable-3.7, I would rephrase this as the removal of the design inconsistency that had very little benefit in performance, as you mentioned how hard was to end up on that code path.\n\u003e \n\u003e As described above, the last fix will prevent data inconsistency, but unintended changes to the `/meta` branch can still sneak it \"randomly\". Which IMO is still a bug that needs to be fixed on `stable-3.7`.\n\nI agree that is design flaw IMHO, with very little benefit because the condition for having a performance improvement was very rare, whilst the risks that you have highlighted are potentially serious.\n\nThat is because the Loader _handed over_ its internal state as a mutable variable to any higher level to edit in memory. Then the update of the notes take that mutable state and stores it on disk, which is quite dangerous.\n\nWhat I am not sure if that is critical for stable-3.7 or not, having seen the moving parts.\n\n\u003e \u003e Also, this refactoring should be directed to the master branch only IMHO.\n\u003e \n\u003e I wouldn\u0027t call this a refactoring. When you remove the last constant usage while fixing a bug, will you keep that constant or remove it in a separate change?\n\nIt is true that once you remove the use of that internal field, the variable has little use. I am OK to keep it as single change if that is on master, for limiting the merge pains.\n\n\u003e IMO, it is better to clean the code as it is not used than split that into separate changes.\n\nPoint taken, in this case the variables and fields would be unused, it\u0027s a cleanup.",
       "parentUuid": "3c8a785e_8f362fab",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 23
+      },
+      "revId": "2ed76bc603b071bbb8a1316f2f66c2bcbd1dad51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa816d90_9359f338",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-17T20:01:59Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "a6e391cb_3b8ff087",
       "range": {
         "startLine": 38,
         "startChar": 0,

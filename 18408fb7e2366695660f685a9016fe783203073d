@@ -120,6 +120,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0da1e91_8fa701da",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-17T20:01:59Z",
+      "side": 0,
+      "message": "Acknowledged",
+      "parentUuid": "650da869_a4ce75ba",
+      "range": {
+        "startLine": 379,
+        "startChar": 6,
+        "endLine": 379,
+        "endChar": 52
+      },
+      "revId": "18408fb7e2366695660f685a9016fe783203073d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "84bf5079_bf07c5c2",
@@ -253,6 +277,30 @@
       "side": 0,
       "message": "\u003e \u003e\u003e Could we reduce this change to only this bit and still get the fix working?\n\u003e \u003e\n\u003e \u003e I will verify the simplified patch and get back to you.\n\u003e \n\u003e Yes, that\u0027s the only change needed for the fix, the rest is the code cleanup.\n\nCan we reduce the fix to this part only? That would simplify the merge-ups and have a lot less impact on the current code.\n\n\u003e Personally, I\u0027d prefer to merge the fix and clean-up in one change, as that makes it atomic. But if splitting it is the only way to go, I\u0027ll split it ;)\n\nI believe the removal of the access to the private field of the loader makes sense regardless of this fix. It was breaking the encapsulation of the cache loading mechanism and its benefits were very questionable, having seen that it was such a rare condition to happen.\n\nMost of the times (I reckon over 99.9% of the times) the code was going to the L633-L637 code path, which was always working and wasn\u0027t using the optimisation at all.\n\nThe refactoring makes sense also as standalone change and it should be done on master IMHO.",
       "parentUuid": "60fe5ccc_6eac0548",
+      "range": {
+        "startLine": 628,
+        "startChar": 0,
+        "endLine": 631,
+        "endChar": 7
+      },
+      "revId": "18408fb7e2366695660f685a9016fe783203073d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e84f719_158925a9",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 631,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-17T20:01:59Z",
+      "side": 0,
+      "message": "I traced back this piece of code to I69c46ab4b. @dborowitz@google.com mentioned that:\n\n _\"But in the context of NoteDbUpdateManager that executes multiple\nChangeUpdates in sequence, it doesn\u0027t make sense to look up a\ncomment in the old comment map based on the current branch tip when\nthe ChangeUpdate instance was created. Instead we should be looking at\nthe comment map that is the immediate output of the previous update in\nthe sequence. This distinction is precisely what was causing the test\nin I064f004e to fail.\n\nTo solve this problem at the storage layer, instead of depending on\nthe NoteMap from the original ChangeNotes, read the RevisionNotes\nfrom the current revision passed in from the NoteDbUpdateManager\n(which may not have been flushed yet, but is still available to the\nreader).\"_\n\nSo, basically, it was a deliberate choice to use the mutated in-memory copy of the `RevisionNoteMap` instead of reading and parsing the notes again from NoteDb for managing multiple updates. The only reason I can think of was the NoteDb migration, where the process was reading multiple records from ReviewDb and generating a rapid sequence of NoteDb messages.\n\nRe-reading the whole change notes messages every time would have slowed down the process quite a lot.\n\nHowever, fast-forward to 2024 and Gerrit v3.7, do we still care about NoteDb migration in this version? All that code is done and this looks like ghost code to me.\n\n@dariusz.luksza@gmail.com can you just verify the above assumption that this was used in NoteDb migration? If yes, we are 100% safe to remove it.",
+      "parentUuid": "36111395_23e53a8b",
       "range": {
         "startLine": 628,
         "startChar": 0,

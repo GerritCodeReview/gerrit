@@ -128,6 +128,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "96be0d40_73a939a4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148165
+      },
+      "writtenOn": "2024-01-17T03:12:58Z",
+      "side": 1,
+      "message": "@luca.milanesio@gmail.com\nHi. We find a way to write the test. The test is implemented like this:\n1. schedule a task which execute `num++` every 1 second.\n2. put a 1 second sleep in OnStop method.\n2. wait 10 seconds\n3. check if `num` is greater than 1.\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/399657 pass with our fix\nhttps://gerrit-review.googlesource.com/c/gerrit/+/401777 fails without fix\n\nI think the only thing left is what @mogulguy12@gmail.com said, if we reschedule the task immediately, the CPU would spin for a long time. However we cannot get interval from Task instance.",
+      "parentUuid": "26bb4f18_ad5db117",
+      "revId": "ea059926dd3655ff9bc75ca2afce33a2f0fe70c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "299c49a6_daf11daf",
         "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
         "patchSetId": 14

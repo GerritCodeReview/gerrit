@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b13fcd91_d8c0aaad",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-01-17T06:55:56Z",
+      "side": 1,
+      "message": "Nice!!",
+      "revId": "312ce792cb2c57a5d26c8ae9426662860fca8dba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a8670ab0_e839ec4c",
+        "filename": "java/com/google/gerrit/server/change/WalkSorter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-01-17T06:55:56Z",
+      "side": 1,
+      "message": "nit: drop one of the \"we can\u0027t\"",
+      "range": {
+        "startLine": 171,
+        "startChar": 35,
+        "endLine": 171,
+        "endChar": 52
+      },
+      "revId": "312ce792cb2c57a5d26c8ae9426662860fca8dba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "faff12a0_d222d899",
+        "filename": "javatests/com/google/gerrit/server/change/WalkSorterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-01-17T06:55:56Z",
+      "side": 1,
+      "message": "nit: the",
+      "range": {
+        "startLine": 128,
+        "startChar": 30,
+        "endLine": 128,
+        "endChar": 31
+      },
+      "revId": "312ce792cb2c57a5d26c8ae9426662860fca8dba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

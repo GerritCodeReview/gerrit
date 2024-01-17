@@ -462,6 +462,7 @@ export function createAuth(): AuthInfo {
 
 export function createChangeConfig(): ChangeConfigInfo {
   return {
+    allow_blame: true,
     large_change: 500,
     // The default update_delay is 5 minutes, but we don't want to accidentally
     // start polling in tests

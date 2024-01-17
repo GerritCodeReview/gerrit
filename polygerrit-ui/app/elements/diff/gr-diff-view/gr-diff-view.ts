@@ -107,6 +107,7 @@ import {
 import {isImageDiff} from '../../../utils/diff-util';
 import {formStyles} from '../../../styles/form-styles';
 import {NormalizedFileInfo} from '../../change/gr-file-list/gr-file-list';
+import { configModelToken } from '../../../models/config/config-model';
 
 const LOADING_BLAME = 'Loading blame...';
 const LOADED_BLAME = 'Blame loaded';
@@ -208,6 +209,10 @@ export class GrDiffView extends LitElement {
   // Private but used in tests.
   @state() isActiveChildView = false;
 
+  // Whether to allow the "Show Blame button"
+  @state()
+  allowBlame = false;
+
   // Private but used in tests.
   @state()
   loggedIn = false;
@@ -260,6 +265,8 @@ export class GrDiffView extends LitElement {
   private readonly getShortcutsService = resolve(this, shortcutsServiceToken);
 
   private readonly getViewModel = resolve(this, changeViewModelToken);
+
+  private readonly getConfigModel = resolve(this, configModelToken);
 
   private throttledToggleFileReviewed?: (e: KeyboardEvent) => void;
 
@@ -456,6 +463,12 @@ export class GrDiffView extends LitElement {
         this.reviewed = !!path && !!files && files.includes(path);
       }
     );
+
+    subscribe(
+      this,
+      () => this.getConfigModel().serverConfig$,
+      serverConfig => ( this.allowBlame = serverConfig?.change.allow_blame ?? false)
+    )
 
     // When user initially loads the diff view, we want to automatically mark
     // the file as reviewed if they have it enabled. We can't observe these
@@ -1054,26 +1067,11 @@ export class GrDiffView extends LitElement {
   }
 
   private renderRightControls() {
-    const blameLoaderClass =
-      !isMagicPath(this.path) && !isImageDiff(this.diff) ? 'show' : '';
-    const blameToggleLabel =
-      this.isBlameLoaded && !this.isBlameLoading ? 'Hide blame' : 'Show blame';
+
     const diffModeSelectorClass = !this.diff || this.diff.binary ? 'hide' : '';
     return html` <div class="rightControls">
       ${this.renderSidebarTriggers()}
-      <span class="blameLoader ${blameLoaderClass}">
-        <gr-button
-          link=""
-          id="toggleBlame"
-          title=${this.createTitle(
-            Shortcut.TOGGLE_BLAME,
-            ShortcutSection.DIFFS
-          )}
-          ?disabled=${this.isBlameLoading}
-          @click=${this.toggleBlame}
-          >${blameToggleLabel}</gr-button
-        >
-      </span>
+      ${this.renderBlameButton()}
       ${when(
         this.computeCanEdit(),
         () => html`
@@ -1141,6 +1139,28 @@ export class GrDiffView extends LitElement {
         </span>
       </gr-endpoint-decorator>
     </div>`;
+  }
+
+  private renderBlameButton() {
+    if (!this.allowBlame) return;
+    const blameLoaderClass =
+      !isMagicPath(this.path) && !isImageDiff(this.diff) ? 'show' : '';
+    const blameToggleLabel =
+      this.isBlameLoaded && !this.isBlameLoading ? 'Hide blame' : 'Show blame';
+    return html`
+      <span class="blameLoader ${blameLoaderClass}">
+      <gr-button
+        link=""
+        id="toggleBlame"
+        title=${this.createTitle(
+          Shortcut.TOGGLE_BLAME,
+          ShortcutSection.DIFFS
+        )}
+        ?disabled=${this.isBlameLoading}
+        @click=${this.toggleBlame}
+        >${blameToggleLabel}</gr-button
+      >
+    </span>`;
   }
 
   private renderDialogs() {
@@ -1771,12 +1791,13 @@ export class GrDiffView extends LitElement {
    * Otherwise hide it.
    */
   private toggleBlame() {
+    if (!this.allowBlame) return;
     assertIsDefined(this.diffHost, 'diffHost');
     if (this.isBlameLoaded) {
       this.diffHost.clearBlame();
-      return;
+    } else {
+      this.loadBlame();
     }
-    this.loadBlame();
   }
 
   private handleToggleHideAllCommentThreads() {

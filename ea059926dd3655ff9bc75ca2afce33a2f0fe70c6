@@ -146,6 +146,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a9f28670_277cda7a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2024-01-17T19:54:59Z",
+      "side": 1,
+      "message": "\u003e I think the only thing left is what @mogulguy12@gmail.com said, if we reschedule the task immediately, the CPU would spin for a long time. However we cannot get interval from Task instance.\n\nIs it possible to modify WorkQueue.Task so that you can get the interval?",
+      "parentUuid": "96be0d40_73a939a4",
+      "revId": "ea059926dd3655ff9bc75ca2afce33a2f0fe70c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "299c49a6_daf11daf",
         "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
         "patchSetId": 14

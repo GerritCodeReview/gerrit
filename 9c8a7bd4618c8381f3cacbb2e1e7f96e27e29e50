@@ -22,6 +22,23 @@
       },
       "revId": "9c8a7bd4618c8381f3cacbb2e1e7f96e27e29e50",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "681eb890_dd00fee2",
+        "filename": "java/com/google/gerrit/acceptance/TestPlugin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1145312
+      },
+      "writtenOn": "2024-01-17T09:41:57Z",
+      "side": 1,
+      "message": "Add a comment here",
+      "revId": "9c8a7bd4618c8381f3cacbb2e1e7f96e27e29e50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -91,8 +91,8 @@ public class WorkQueue {
     private final WorkQueue workQueue;
 
     @Inject
-    Lifecycle(WorkQueue workQeueue) {
-      this.workQueue = workQeueue;
+    Lifecycle(WorkQueue workQueue) {
+      this.workQueue = workQueue;
     }
 
     @Override

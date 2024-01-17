@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8762c2b_b9715cf6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148165
+      },
+      "writtenOn": "2024-01-17T03:32:41Z",
+      "side": 1,
+      "message": "This is just a test to describe the race condition. If should not be merged.\nMerge https://gerrit-review.googlesource.com/c/gerrit/+/399657 instead",
+      "revId": "72a20e2c2d59a44f2bb9bfa553ffc4fa5535ccda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

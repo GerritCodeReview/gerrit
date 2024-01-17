@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0e2b319_2eb39bf1",
+        "filename": "java/com/google/gerrit/acceptance/TestPlugin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1145312
+      },
+      "writtenOn": "2024-01-17T09:41:32Z",
+      "side": 1,
+      "message": "change to google6\n```suggestion\n// Google6\n```",
+      "range": {
+        "startLine": 27,
+        "startChar": 3,
+        "endLine": 27,
+        "endChar": 10
+      },
+      "revId": "9c8a7bd4618c8381f3cacbb2e1e7f96e27e29e50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

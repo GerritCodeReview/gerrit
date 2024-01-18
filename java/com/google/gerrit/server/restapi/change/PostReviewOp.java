@@ -20,7 +20,6 @@ import static com.google.gerrit.entities.Patch.PATCHSET_LEVEL;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.joining;
-import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.auto.value.AutoValue;
@@ -35,8 +34,6 @@ import com.google.common.collect.Streams;
 import com.google.common.collect.Table.Cell;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Comment;
-import com.google.gerrit.entities.FixReplacement;
-import com.google.gerrit.entities.FixSuggestion;
 import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.LabelTypes;
@@ -47,8 +44,6 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
-import com.google.gerrit.extensions.common.FixReplacementInfo;
-import com.google.gerrit.extensions.common.FixSuggestionInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.restapi.Url;
@@ -57,7 +52,6 @@ import com.google.gerrit.extensions.validators.CommentValidationContext;
 import com.google.gerrit.extensions.validators.CommentValidationFailure;
 import com.google.gerrit.extensions.validators.CommentValidator;
 import com.google.gerrit.server.ChangeMessagesUtil;
-import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.DraftCommentsReader;
 import com.google.gerrit.server.IdentifiedUser;
@@ -510,37 +504,9 @@ public class PostReviewOp implements BatchUpdateOp {
     robotComment.setLineNbrAndRange(robotCommentInput.line, robotCommentInput.range);
     robotComment.tag = in.tag;
     commentsUtil.setCommentCommitId(robotComment, ctx.getChange(), ps);
-    robotComment.fixSuggestions = createFixSuggestionsFromInput(robotCommentInput.fixSuggestions);
+    robotComment.fixSuggestions =
+        CommentsUtil.createFixSuggestionsFromInput(robotCommentInput.fixSuggestions);
     return robotComment;
-  }
-
-  private ImmutableList<FixSuggestion> createFixSuggestionsFromInput(
-      List<FixSuggestionInfo> fixSuggestionInfos) {
-    if (fixSuggestionInfos == null) {
-      return ImmutableList.of();
-    }
-
-    ImmutableList.Builder<FixSuggestion> fixSuggestions =
-        ImmutableList.builderWithExpectedSize(fixSuggestionInfos.size());
-    for (FixSuggestionInfo fixSuggestionInfo : fixSuggestionInfos) {
-      fixSuggestions.add(createFixSuggestionFromInput(fixSuggestionInfo));
-    }
-    return fixSuggestions.build();
-  }
-
-  private FixSuggestion createFixSuggestionFromInput(FixSuggestionInfo fixSuggestionInfo) {
-    List<FixReplacement> fixReplacements = toFixReplacements(fixSuggestionInfo.replacements);
-    String fixId = ChangeUtil.messageUuid();
-    return new FixSuggestion(fixId, fixSuggestionInfo.description, fixReplacements);
-  }
-
-  private List<FixReplacement> toFixReplacements(List<FixReplacementInfo> fixReplacementInfos) {
-    return fixReplacementInfos.stream().map(this::toFixReplacement).collect(toList());
-  }
-
-  private FixReplacement toFixReplacement(FixReplacementInfo fixReplacementInfo) {
-    Comment.Range range = new Comment.Range(fixReplacementInfo.range);
-    return new FixReplacement(fixReplacementInfo.path, range, fixReplacementInfo.replacement);
   }
 
   private Set<CommentSetEntry> readExistingComments(ChangeContext ctx) {

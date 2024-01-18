@@ -18,6 +18,9 @@ import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.common.collect.MoreCollectors.onlyElement;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
+import static com.google.gerrit.acceptance.server.change.CommentsUtil.createFixReplacementInfo;
+import static com.google.gerrit.acceptance.server.change.CommentsUtil.createFixSuggestionInfo;
+import static com.google.gerrit.acceptance.server.change.CommentsUtil.createRange;
 import static com.google.gerrit.entities.Patch.COMMIT_MSG;
 import static com.google.gerrit.entities.Patch.PATCHSET_LEVEL;
 import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
@@ -43,7 +46,6 @@ import com.google.gerrit.entities.Patch;
 import com.google.gerrit.extensions.api.changes.PublishChangeEditInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
-import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
@@ -1674,33 +1676,6 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     assertThat(diff).content().element(0).commonLines().containsExactly("1st line");
     assertThat(diff).content().element(1).linesOfA().containsExactly("2nd line");
     assertThat(diff).content().element(1).linesOfB().containsExactly("2nd line", "");
-  }
-
-  private static FixSuggestionInfo createFixSuggestionInfo(
-      FixReplacementInfo... fixReplacementInfos) {
-    FixSuggestionInfo newFixSuggestionInfo = new FixSuggestionInfo();
-    newFixSuggestionInfo.fixId = "An ID which must be overwritten.";
-    newFixSuggestionInfo.description = "A description for a suggested fix.";
-    newFixSuggestionInfo.replacements = Arrays.asList(fixReplacementInfos);
-    return newFixSuggestionInfo;
-  }
-
-  private static FixReplacementInfo createFixReplacementInfo() {
-    FixReplacementInfo newFixReplacementInfo = new FixReplacementInfo();
-    newFixReplacementInfo.path = FILE_NAME;
-    newFixReplacementInfo.replacement = "some replacement code";
-    newFixReplacementInfo.range = createRange(3, 9, 8, 4);
-    return newFixReplacementInfo;
-  }
-
-  private static Comment.Range createRange(
-      int startLine, int startCharacter, int endLine, int endCharacter) {
-    Comment.Range range = new Comment.Range();
-    range.startLine = startLine;
-    range.startCharacter = startCharacter;
-    range.endLine = endLine;
-    range.endCharacter = endCharacter;
-    return range;
   }
 
   private List<RobotCommentInfo> getRobotComments() throws RestApiException {

@@ -15,6 +15,7 @@
 package com.google.gerrit.entities;
 
 import java.util.List;
+import java.util.Objects;
 
 public final class FixSuggestion {
   public final String fixId;
@@ -46,5 +47,21 @@ public final class FixSuggestion {
     return fixId.length()
         + description.length()
         + replacements.stream().mapToInt(FixReplacement::getApproximateSize).sum();
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (!(o instanceof FixSuggestion)) {
+      return false;
+    }
+    FixSuggestion fs = (FixSuggestion) o;
+    return Objects.equals(fixId, fs.fixId)
+        && Objects.equals(description, fs.description)
+        && Objects.equals(replacements, fs.replacements);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(fixId, description, replacements);
   }
 }

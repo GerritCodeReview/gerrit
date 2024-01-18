@@ -185,6 +185,7 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
             parentUuid);
     comment.setLineNbrAndRange(draftInput.line, draftInput.range);
     comment.tag = draftInput.tag;
+    comment.fixSuggestions = CommentsUtil.createFixSuggestionsFromInput(draftInput.fixSuggestions);
 
     commentsUtil.setCommentCommitId(comment, change, ps);
     return comment;

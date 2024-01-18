@@ -27,6 +27,7 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+@Deprecated
 @Singleton
 public class RobotComments implements ChildCollection<RevisionResource, RobotCommentResource> {
   private final DynamicMap<RestView<RobotCommentResource>> views;

@@ -18,14 +18,18 @@ import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toCollection;
+import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ComparisonChain;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.FixReplacement;
+import com.google.gerrit.entities.FixSuggestion;
 import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
@@ -33,6 +37,8 @@ import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.extensions.common.FixReplacementInfo;
+import com.google.gerrit.extensions.common.FixSuggestionInfo;
 import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -397,5 +403,35 @@ public class CommentsUtil {
   public static <T extends Comment> List<T> sort(List<T> comments) {
     comments.sort(COMMENT_ORDER);
     return comments;
+  }
+
+  public static ImmutableList<FixSuggestion> createFixSuggestionsFromInput(
+      List<FixSuggestionInfo> fixSuggestionInfos) {
+    if (fixSuggestionInfos == null) {
+      return ImmutableList.of();
+    }
+
+    ImmutableList.Builder<FixSuggestion> fixSuggestions =
+        ImmutableList.builderWithExpectedSize(fixSuggestionInfos.size());
+    for (FixSuggestionInfo fixSuggestionInfo : fixSuggestionInfos) {
+      fixSuggestions.add(createFixSuggestionFromInput(fixSuggestionInfo));
+    }
+    return fixSuggestions.build();
+  }
+
+  public static FixSuggestion createFixSuggestionFromInput(FixSuggestionInfo fixSuggestionInfo) {
+    List<FixReplacement> fixReplacements = toFixReplacements(fixSuggestionInfo.replacements);
+    String fixId = ChangeUtil.messageUuid();
+    return new FixSuggestion(fixId, fixSuggestionInfo.description, fixReplacements);
+  }
+
+  public static List<FixReplacement> toFixReplacements(
+      List<FixReplacementInfo> fixReplacementInfos) {
+    return fixReplacementInfos.stream().map(CommentsUtil::toFixReplacement).collect(toList());
+  }
+
+  public static FixReplacement toFixReplacement(FixReplacementInfo fixReplacementInfo) {
+    Comment.Range range = new Comment.Range(fixReplacementInfo.range);
+    return new FixReplacement(fixReplacementInfo.path, range, fixReplacementInfo.replacement);
   }
 }

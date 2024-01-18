@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "23117c5d_24a272fd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-01-18T18:42:37Z",
+      "side": 1,
+      "message": "\u003e \u003e use different addresses for different projects\n\u003e \n\u003e but making this manual seems like waste of resources and rather error-prone to me.\n\u003e the question would then be how to make per-project per-user settings.\n\u003e i suppose something resembling project watches would work.\n\u003e but then, having each user configure the policy is still suboptimal.\n\u003e setting up email selector patterns per-project (an inheritable property, of course) would seem best.\n\nTotally agree, but at least having the manual ability is better than nothing and it lets the more intelligent policy-based functionality be layered on top. We\u0027ll get there eventually and I view this as incremental progress towards that goal.",
+      "parentUuid": "7e5b55eb_46eec114",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 9
+      },
+      "revId": "d7e0ee6a17115a0429e92242e6c0136b4ca47c85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "613702fe_ba4906be",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9c65138_1c537788",
+        "filename": "javatests/com/google/gerrit/acceptance/server/util/WorkQueueIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1148165
+      },
+      "writtenOn": "2024-01-18T01:51:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "acd02c1d_6038ea07",
+      "revId": "72a20e2c2d59a44f2bb9bfa553ffc4fa5535ccda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e402e149_1570ebe4",
@@ -48,6 +66,24 @@
       "writtenOn": "2024-01-17T19:52:43Z",
       "side": 1,
       "message": "Is this the right place for this (seems like it should not be run for every test invocation)?",
+      "revId": "72a20e2c2d59a44f2bb9bfa553ffc4fa5535ccda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6cae4e24_306a92ba",
+        "filename": "javatests/com/google/gerrit/acceptance/server/util/WorkQueueIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1148165
+      },
+      "writtenOn": "2024-01-18T01:51:16Z",
+      "side": 1,
+      "message": "We put the exactly same test in change https://gerrit-review.googlesource.com/c/gerrit/+/399657\n\nThis change is just a prove that the test will fail without any fix",
+      "parentUuid": "e402e149_1570ebe4",
       "revId": "72a20e2c2d59a44f2bb9bfa553ffc4fa5535ccda",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

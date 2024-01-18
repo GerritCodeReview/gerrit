@@ -1733,6 +1733,15 @@ public class ChangeField {
       CUSTOM_KEYED_VALUES_SPEC =
           CUSTOM_KEYED_VALUES_FIELD.prefix(ChangeQueryBuilder.FIELD_CUSTOM_KEYED_VALUES);
 
+  public static final IndexedField<ChangeData, Integer> CHANGENUM_FIELD =
+      IndexedField.<ChangeData>integerBuilder("ChangeNum")
+          .stored()
+          .required()
+          .build(cd -> cd.change().getId().get());
+
+  public static final IndexedField<ChangeData, Integer>.SearchSpec CHANGENUM_SPEC =
+      CHANGENUM_FIELD.integer("changenum");
+
   @Nullable
   private static String getTopic(ChangeData cd) {
     Change c = cd.change();

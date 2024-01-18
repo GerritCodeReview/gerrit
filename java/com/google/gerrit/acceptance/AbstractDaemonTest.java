@@ -205,59 +205,13 @@ import org.junit.runner.Description;
 import org.junit.runner.RunWith;
 import org.junit.runners.model.Statement;
 
-@RunWith(ConfigSuite.class)
-public abstract class AbstractDaemonTest {
-
-  /**
-   * Test methods without special annotations will use a common server for efficiency reasons. The
-   * server is torn down after the test class is done.
-   */
-  private static GerritServer commonServer;
-
-  private static Description firstTest;
-
-  @ClassRule public static TemporaryFolder temporaryFolder = new TemporaryFolder();
-
-  @ConfigSuite.Parameter public Config baseConfig;
-  @ConfigSuite.Name private String configName;
-
-  @Rule
-  public TestRule testRunner =
-      new TestRule() {
-        @Override
-        public Statement apply(Statement base, Description description) {
-          return new Statement() {
-            @Override
-            public void evaluate() throws Throwable {
-              if (firstTest == null) {
-                firstTest = description;
-              }
-              beforeTest(description);
-              ProjectResetter.Config input = requireNonNull(resetProjects());
-
-              try (ProjectResetter resetter =
-                  projectResetter != null ? projectResetter.builder().build(input) : null) {
-                AbstractDaemonTest.this.resetter = resetter;
-                base.evaluate();
-              } finally {
-                AbstractDaemonTest.this.resetter = null;
-                afterTest();
-              }
-            }
-          };
-        }
-      };
-
+public abstract class AbstractDaemonTest extends AbstractDaemonTestBase {
   @Inject @CanonicalWebUrl protected Provider<String> canonicalWebUrl;
   @Inject @GerritPersonIdent protected Provider<PersonIdent> serverIdent;
   @Inject @GerritServerConfig protected Config cfg;
   @Inject @GerritInstanceId @Nullable protected String instanceId;
-  @Inject protected AcceptanceTestRequestScope atrScope;
   @Inject protected AccountCache accountCache;
-  @Inject protected AccountCreator accountCreator;
   @Inject protected Accounts accounts;
-  @Inject protected AllProjectsName allProjects;
-  @Inject protected AllUsersName allUsers;
   @Inject protected BatchUpdate.Factory batchUpdateFactory;
   @Inject protected ChangeData.Factory changeDataFactory;
   @Inject protected ChangeFinder changeFinder;
@@ -266,15 +220,12 @@ public abstract class AbstractDaemonTest {
   @Inject protected ChangeResource.Factory changeResourceFactory;
   @Inject protected FakeEmailSender sender;
   @Inject protected GerritApi gApi;
-  @Inject protected GitRepositoryManager repoManager;
   @Inject protected GroupBackend groupBackend;
   @Inject protected GroupCache groupCache;
-  @Inject protected IdentifiedUser.GenericFactory identifiedUserFactory;
   @Inject protected MetaDataUpdate.Server metaDataUpdateFactory;
   @Inject protected PatchSetUtil psUtil;
   @Inject protected ProjectCache projectCache;
   @Inject protected ProjectConfig.Factory projectConfigFactory;
-  @Inject protected ProjectResetter.Builder.Factory projectResetter;
   @Inject protected Provider<InternalChangeQuery> queryProvider;
   @Inject protected PushOneCommit.Factory pushFactory;
   @Inject protected PluginConfigFactory pluginConfig;
@@ -283,137 +234,21 @@ public abstract class AbstractDaemonTest {
   @Inject protected ChangeNotes.Factory notesFactory;
   @Inject protected BatchAbandon batchAbandon;
   @Inject protected TestSshKeys sshKeys;
-  @Inject protected TestTicker testTicker;
 
   protected EventRecorder eventRecorder;
 
-  protected GerritServer server;
-
   protected Project.NameKey project;
-  protected RestSession adminRestSession;
-  protected RestSession userRestSession;
-  protected RestSession anonymousRestSession;
-  protected SshSession adminSshSession;
-  protected SshSession userSshSession;
-  protected TestAccount admin;
-  protected TestAccount user;
   protected TestRepository<InMemoryRepository> testRepo;
-  protected String resourcePrefix;
-  protected Description description;
-  protected GerritServer.Description testMethodDescription;
 
-  protected boolean testRequiresSsh;
   protected BlockStrategy noSleepBlockStrategy = t -> {}; // Don't sleep in tests.
 
   @Inject private AbstractChangeNotes.Args changeNotesArgs;
-  @Inject private AccountIndexer accountIndexer;
   @Inject private EventRecorder.Factory eventRecorderFactory;
-  @Inject private InProcessProtocol inProcessProtocol;
+
   @Inject private PluginGuiceEnvironment pluginGuiceEnvironment;
   @Inject private PluginUser.Factory pluginUserFactory;
-  @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private SitePaths sitePaths;
   @Inject private ProjectOperations projectOperations;
-
-  private ProjectResetter resetter;
-  private List<Repository> toClose;
-  private String systemTimeZone;
-  private SystemReader oldSystemReader;
-
-  /**
-   * The Getters and Setters below are needed for tests that run on custom {@link GerritServer}
-   * (that can be set up via {@link #initServer} and {@link #setUpDatabase} methods. Because tests
-   * inherit directly from {@link AbstractDaemonTest}, the set up has to be delegated to some other
-   * class that can share the set up logic across different test classes.
-   *
-   * <p>E.g, we need to be able to do something like:
-   *
-   * <pre>{@code
-   * public class AccountIT extends AbstractDaemonTest {...}
-   *
-   * public class AbstractDaemonTestAdapter {
-   *
-   *   protected void initServer() {...}
-   *
-   *   ...
-   *
-   * }
-   *
-   * public class CustomAccountIT extends AccountIT {
-   *
-   *   AbstractDaemonTestAdapter testAdapter;
-   *
-   *   {@literal @Override}
-   *   protected void initServer() {
-   *         testAdapter.initServer();
-   *   }
-   *   ...
-   * }
-   *
-   * public class CustomChangeIT extends ChangeIT {
-   *
-   *   AbstractDaemonTestAdapter testAdapter;
-   *
-   *   {@literal @Override}
-   *   protected void initServer() {
-   *         testAdapter.initServer();
-   *   }
-   *   ...
-   * }
-   *
-   * }</pre>
-   */
-  public String getResourcePrefix() {
-    return resourcePrefix;
-  }
-
-  public void setResourcePrefix(String resourcePrefix) {
-    this.resourcePrefix = resourcePrefix;
-  }
-
-  public Description getDescription() {
-    return description;
-  }
-
-  public TestRepository<InMemoryRepository> getTestRepo() {
-    return testRepo;
-  }
-
-  public void setTestRepo(TestRepository<InMemoryRepository> testRepo) {
-    this.testRepo = testRepo;
-  }
-
-  public TestAccount getUser() {
-    return user;
-  }
-
-  public void setUser(TestAccount user) {
-    this.user = user;
-  }
-
-  public TestAccount getAdmin() {
-    return admin;
-  }
-
-  public void setAdmin(TestAccount admin) {
-    this.admin = admin;
-  }
-
-  public Project.NameKey getProject() {
-    return project;
-  }
-
-  public void setProject(Project.NameKey project) {
-    this.project = project;
-  }
-
-  public GerritServer getServer() {
-    return server;
-  }
-
-  public void setServer(GerritServer server) {
-    this.server = server;
-  }
 
   @Before
   public void clearSender() {
@@ -429,15 +264,6 @@ public abstract class AbstractDaemonTest {
     }
   }
 
-  @Before
-  public void assumeSshIfRequired() {
-    if (testRequiresSsh) {
-      // If the test uses ssh, we use assume() to make sure ssh is enabled on
-      // the test suite. JUnit will skip tests annotated with @UseSsh if we
-      // disable them using the command line flag.
-      assume().that(SshMode.useSsh()).isTrue();
-    }
-  }
 
   @After
   public void verifyNoPiiInChangeNotes() throws RestApiException, IOException {
@@ -453,62 +279,6 @@ public abstract class AbstractDaemonTest {
     }
   }
 
-  @ConfigSuite.AfterConfig
-  public static void stopCommonServer() throws Exception {
-    if (commonServer != null) {
-      try {
-        commonServer.close();
-      } catch (Exception e) {
-        throw new AssertionError(
-            "Error stopping common server in "
-                + (firstTest != null ? firstTest.getTestClass().getName() : "unknown test class"),
-            e);
-      } finally {
-        commonServer = null;
-      }
-    }
-  }
-
-  /** Controls which project and branches should be reset after each test case. */
-  protected ProjectResetter.Config resetProjects() {
-    return new ProjectResetter.Config()
-        // Don't reset all refs so that refs/sequences/changes is not touched and change IDs are
-        // not reused.
-        .reset(allProjects, RefNames.REFS_CONFIG)
-        // Don't reset refs/sequences/accounts so that account IDs are not reused.
-        .reset(
-            allUsers,
-            RefNames.REFS_CONFIG,
-            RefNames.REFS_USERS + "*",
-            RefNames.REFS_EXTERNAL_IDS,
-            RefNames.REFS_GROUPNAMES,
-            RefNames.REFS_GROUPS + "*",
-            RefNames.REFS_STARRED_CHANGES + "*",
-            RefNames.REFS_DRAFT_COMMENTS + "*");
-  }
-
-  protected void restartAsSlave() throws Exception {
-    closeSsh();
-    server = GerritServer.restartAsSlave(server);
-    server.getTestInjector().injectMembers(this);
-    if (resetter != null) {
-      server.getTestInjector().injectMembers(resetter);
-    }
-    initSsh();
-  }
-
-  protected void restart() throws Exception {
-    server = GerritServer.restart(server, createModule(), createSshModule());
-    server.getTestInjector().injectMembers(this);
-    if (resetter != null) {
-      server.getTestInjector().injectMembers(resetter);
-    }
-    initSsh();
-  }
-
-  public void reindexAccount(Account.Id accountId) {
-    accountIndexer.index(accountId);
-  }
 
   protected static Config submitWholeTopicEnabledConfig() {
     Config cfg = new Config();
@@ -524,195 +294,15 @@ public abstract class AbstractDaemonTest {
     return cfg.getBoolean("auth", null, "contributorAgreements", false);
   }
 
-  protected void beforeTest(Description description) throws Exception {
-    // SystemReader must be overridden before creating any repos, since they read the user/system
-    // configs at initialization time, and are then stored in the RepositoryCache forever.
-    oldSystemReader = setFakeSystemReader(temporaryFolder.getRoot());
-
-    this.description = description;
-    GerritServer.Description classDesc =
-        GerritServer.Description.forTestClass(description, configName);
-    GerritServer.Description methodDesc =
-        GerritServer.Description.forTestMethod(description, configName);
-    testMethodDescription = methodDesc;
-
-    if (methodDesc.systemProperties() != null) {
-      ConfigAnnotationParser.parse(methodDesc.systemProperties());
-    }
-
-    if (methodDesc.systemProperty() != null) {
-      ConfigAnnotationParser.parse(methodDesc.systemProperty());
-    }
-
-    testRequiresSsh = classDesc.useSshAnnotation() || methodDesc.useSshAnnotation();
-    if (!testRequiresSsh) {
-      baseConfig.setString("sshd", null, "listenAddress", "off");
-    }
-
-    baseConfig.unset("gerrit", null, "canonicalWebUrl");
-    baseConfig.unset("httpd", null, "listenUrl");
-
-    baseConfig.setInt("index", null, "batchThreads", -1);
-
-    if (enableExperimentsRejectImplicitMergesOnMerge()) {
-      // When changes are merged/submitted - reject the operation if there is an implicit merge (
-      // even if rejectImplicitMerges is disabled in the project config).
-      baseConfig.setStringList(
-          "experiments",
-          null,
-          "enabled",
-          ImmutableList.of(
-              "GerritBackendFeature__check_implicit_merges_on_merge",
-              "GerritBackendFeature__reject_implicit_merges_on_merge",
-              "GerritBackendFeature__always_reject_implicit_merges_on_merge"));
-    }
-
-    initServer(classDesc, methodDesc);
-
-    server.getTestInjector().injectMembers(this);
-    Transport.register(inProcessProtocol);
-    toClose = Collections.synchronizedList(new ArrayList<>());
-
-    setUpDatabase(classDesc);
-
-    // Set the clock step last, so that the test setup isn't consuming any timestamps after the
-    // clock has been set.
-    setTimeSettings(classDesc.useSystemTime(), classDesc.useClockStep(), classDesc.useTimezone());
-    setTimeSettings(
-        methodDesc.useSystemTime(), methodDesc.useClockStep(), methodDesc.useTimezone());
-  }
-
-  protected boolean enableExperimentsRejectImplicitMergesOnMerge() {
-    // By default any attempt to make an explicit merge is rejected. This allows to check
-    // that existing workflows continue to work even if gerrit rejects implicit merges on merge.
-    return true;
-  }
-
-  protected void setUpDatabase(GerritServer.Description classDesc) throws Exception {
-    admin = accountCreator.admin();
-    user = accountCreator.user1();
-
-    // Evict and reindex accounts in case tests modify them.
-    reindexAccount(admin.id());
-    reindexAccount(user.id());
-
-    adminRestSession = new RestSession(server, admin);
-    userRestSession = new RestSession(server, user);
-    anonymousRestSession = new RestSession(server, null);
-
-    initSsh();
-
-    String testMethodName = description.getMethodName();
-    resourcePrefix =
-        UNSAFE_PROJECT_NAME
-            .matcher(description.getClassName() + "_" + testMethodName + "_")
-            .replaceAll("");
-
-    setRequestScope(admin);
+  @Override
+  protected void createProject(Description description, boolean cloneProject) throws Exception {
     ProjectInput in = projectInput(description);
     gApi.projects().create(in);
     project = Project.nameKey(in.name);
-    if (!classDesc.skipProjectClone()) {
+    if (cloneProject) {
       testRepo = cloneProject(project, getCloneAsAccount(description));
     }
-  }
 
-  protected void initServer(GerritServer.Description classDesc, GerritServer.Description methodDesc)
-      throws Exception {
-    Module module = createModule();
-    Module auditModule = createAuditModule();
-    Module sshModule = createSshModule();
-    if (classDesc.equals(methodDesc) && !classDesc.sandboxed() && !methodDesc.sandboxed()) {
-      if (commonServer == null) {
-        commonServer =
-            GerritServer.initAndStart(
-                temporaryFolder, classDesc, baseConfig, module, auditModule, sshModule);
-      }
-      server = commonServer;
-    } else {
-      server =
-          GerritServer.initAndStart(
-              temporaryFolder, methodDesc, baseConfig, module, auditModule, sshModule);
-    }
-  }
-
-  private static SystemReader setFakeSystemReader(File tempDir) {
-    SystemReader oldSystemReader = SystemReader.getInstance();
-    SystemReader.setInstance(
-        new DelegateSystemReader(oldSystemReader) {
-          @Override
-          public FileBasedConfig openJGitConfig(Config parent, FS fs) {
-            return new FileBasedConfig(parent, new File(tempDir, "jgit.config"), FS.detect());
-          }
-
-          @Override
-          public FileBasedConfig openUserConfig(Config parent, FS fs) {
-            return new FileBasedConfig(parent, new File(tempDir, "user.config"), FS.detect());
-          }
-
-          @Override
-          public FileBasedConfig openSystemConfig(Config parent, FS fs) {
-            return new FileBasedConfig(parent, new File(tempDir, "system.config"), FS.detect());
-          }
-        });
-    return oldSystemReader;
-  }
-
-  private void setTimeSettings(
-      boolean useSystemTime,
-      @Nullable UseClockStep useClockStep,
-      @Nullable UseTimezone useTimezone) {
-    if (useSystemTime) {
-      TestTimeUtil.useSystemTime();
-    } else if (useClockStep != null) {
-      TestTimeUtil.resetWithClockStep(useClockStep.clockStep(), useClockStep.clockStepUnit());
-      if (useClockStep.startAtEpoch()) {
-        TestTimeUtil.setClock(Timestamp.from(Instant.EPOCH));
-      }
-    }
-    if (useTimezone != null) {
-      systemTimeZone = System.setProperty("user.timezone", useTimezone.timezone());
-    }
-  }
-
-  private void resetTimeSettings() {
-    TestTimeUtil.useSystemTime();
-    if (systemTimeZone != null) {
-      System.setProperty("user.timezone", systemTimeZone);
-      systemTimeZone = null;
-    }
-  }
-
-  /** Override to bind an additional Guice module */
-  public Module createModule() {
-    return null;
-  }
-
-  /** Override to bind an alternative audit Guice module */
-  public Module createAuditModule() {
-    return null;
-  }
-
-  /** Override to bind an additional Guice module for SSH injector */
-  public Module createSshModule() {
-    return null;
-  }
-
-  protected void initSsh() throws Exception {
-    if (testRequiresSsh
-        && SshMode.useSsh()
-        && (adminSshSession == null || userSshSession == null)) {
-      // Create Ssh sessions
-      SshSessionFactory.initSsh();
-      Context ctx = newRequestContext(user);
-      atrScope.set(ctx);
-      userSshSession = ctx.getSession();
-      userSshSession.open();
-      ctx = newRequestContext(admin);
-      atrScope.set(ctx);
-      adminSshSession = ctx.getSession();
-      adminSshSession.open();
-    }
   }
 
   protected TestAccount getCloneAsAccount(Description description) {
@@ -754,7 +344,6 @@ public abstract class AbstractDaemonTest {
     // Default implementation does nothing.
   }
 
-  public static final Pattern UNSAFE_PROJECT_NAME = Pattern.compile("[^a-zA-Z0-9._/-]+");
 
   protected Git git() {
     return testRepo.git();
@@ -797,65 +386,7 @@ public abstract class AbstractDaemonTest {
     return cloneProject(p, admin);
   }
 
-  protected TestRepository<InMemoryRepository> cloneProject(
-      Project.NameKey p, TestAccount testAccount) throws Exception {
-    return GitUtil.cloneProject(p, registerRepoConnection(p, testAccount));
-  }
 
-  /**
-   * Register a repository connection over the test protocol.
-   *
-   * @return a URI string that can be used to connect to this repository for both fetch and push.
-   */
-  protected String registerRepoConnection(Project.NameKey p, TestAccount testAccount)
-      throws Exception {
-    InProcessProtocol.Context ctx =
-        new InProcessProtocol.Context(identifiedUserFactory, testAccount.id(), p);
-    Repository repo = repoManager.openRepository(p);
-    toClose.add(repo);
-    return inProcessProtocol.register(ctx, repo).toString();
-  }
-
-  protected void afterTest() throws Exception {
-    Transport.unregister(inProcessProtocol);
-    for (Repository repo : toClose) {
-      repo.close();
-    }
-    closeSsh();
-    resetTimeSettings();
-    if (server != commonServer) {
-      server.close();
-      server = null;
-    }
-
-    GerritServer.Description methodDesc =
-        GerritServer.Description.forTestMethod(description, configName);
-    if (methodDesc.systemProperties() != null) {
-      for (GerritSystemProperty sysProp : methodDesc.systemProperties().value()) {
-        System.clearProperty(sysProp.name());
-      }
-    }
-
-    if (methodDesc.systemProperty() != null) {
-      System.clearProperty(methodDesc.systemProperty().name());
-    }
-
-    SystemReader.setInstance(oldSystemReader);
-    oldSystemReader = null;
-    // Set useDefaultTicker in afterTest, so the next beforeTest will use the default ticker
-    testTicker.useDefaultTicker();
-  }
-
-  protected void closeSsh() {
-    if (adminSshSession != null) {
-      adminSshSession.close();
-      adminSshSession = null;
-    }
-    if (userSshSession != null) {
-      userSshSession.close();
-      userSshSession = null;
-    }
-  }
 
   /**
    * Verify that NoteDB commits do not persist user-sensitive information, by running checks for all
@@ -1196,16 +727,7 @@ public abstract class AbstractDaemonTest {
     return gApi.changes().query(q).get();
   }
 
-  /** Sets up {@code account} as a caller in tests. */
-  public void setRequestScope(TestAccount account) {
-    Context ctx = newRequestContext(account);
-    atrScope.set(ctx);
-  }
 
-  protected Context newRequestContext(TestAccount account) {
-    requestScopeOperations.setApiUser(account.id());
-    return atrScope.get();
-  }
 
   protected Account getAccount(Account.Id accountId) {
     return getAccountState(accountId).account();
@@ -1983,33 +1505,4 @@ public abstract class AbstractDaemonTest {
     }
   }
 
-  /** {@link Ticker} implementation for mocking without restarting GerritServer */
-  public static class TestTicker extends Ticker {
-    Ticker actualTicker;
-
-    public TestTicker() {
-      useDefaultTicker();
-    }
-
-    /** Switches to system ticker */
-    @CanIgnoreReturnValue
-    public Ticker useDefaultTicker() {
-      this.actualTicker = Ticker.systemTicker();
-      return actualTicker;
-    }
-
-    /** Switches to {@link FakeTicker} */
-    @CanIgnoreReturnValue
-    public FakeTicker useFakeTicker() {
-      if (!(this.actualTicker instanceof FakeTicker)) {
-        this.actualTicker = new FakeTicker();
-      }
-      return (FakeTicker) actualTicker;
-    }
-
-    @Override
-    public long read() {
-      return actualTicker.read();
-    }
-  }
 }

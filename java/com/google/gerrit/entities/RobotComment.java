@@ -15,16 +15,15 @@
 package com.google.gerrit.entities;
 
 import java.time.Instant;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+@Deprecated
 public final class RobotComment extends Comment {
   public String robotId;
   public String robotRunId;
   public String url;
   public Map<String, String> properties;
-  public List<FixSuggestion> fixSuggestions;
 
   public RobotComment(
       Key key,
@@ -64,7 +63,6 @@ public final class RobotComment extends Comment {
         .add("robotRunId", robotRunId)
         .add("url", url)
         .add("properties", Objects.toString(properties, ""))
-        .add("fixSuggestions", Objects.toString(fixSuggestions, ""))
         .toString();
   }
 
@@ -78,12 +76,11 @@ public final class RobotComment extends Comment {
         && Objects.equals(robotId, c.robotId)
         && Objects.equals(robotRunId, c.robotRunId)
         && Objects.equals(url, c.url)
-        && Objects.equals(properties, c.properties)
-        && Objects.equals(fixSuggestions, c.fixSuggestions);
+        && Objects.equals(properties, c.properties);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(super.hashCode(), robotId, robotRunId, url, properties, fixSuggestions);
+    return Objects.hash(super.hashCode(), robotId, robotRunId, url, properties);
   }
 }

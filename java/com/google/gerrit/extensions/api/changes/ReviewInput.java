@@ -22,7 +22,6 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ReviewerState;
-import com.google.gerrit.extensions.common.FixSuggestionInfo;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -120,7 +119,6 @@ public class ReviewInput {
     public String robotRunId;
     public String url;
     public Map<String, String> properties;
-    public List<FixSuggestionInfo> fixSuggestions;
   }
 
   @CanIgnoreReturnValue

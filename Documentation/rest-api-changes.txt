@@ -7526,7 +7526,8 @@ parameter (see link:#list-change-comments[List Change Comments]) is set.
 Mime type of the file where the comment is written. Available only if the
 "enable-context" parameter (see link:#list-change-comments[List Change Comments])
 is set.
-
+|`fix_suggestions`|optional|Suggested fixes for this robot comment as a list of
+<<fix-suggestion-info,FixSuggestionInfo>> entities.
 |===========================
 
 [[comment-input]]
@@ -7574,6 +7575,8 @@ link:#review-input[ReviewInput]. Votes/comments that contain `tag` with
 Whether or not the comment must be addressed by the user. This value will
 default to false if the comment is an orphan, or the value of the `in_reply_to`
 comment if it is supplied.
+|`fix_suggestions`|optional|Suggested fixes for this robot comment as a list of
+<<fix-suggestion-info,FixSuggestionInfo>> entities.
 |===========================
 
 [[comment-range]]
@@ -8881,8 +8884,6 @@ In addition `RobotCommentInfo` has the following fields:
 |`url`            |optional|URL to more information.
 |`properties`     |optional|Robot specific properties as map that maps arbitrary
 keys to values.
-|`fix_suggestions`|optional|Suggested fixes for this robot comment as a list of
-<<fix-suggestion-info,FixSuggestionInfo>> entities.
 |===========================
 
 [[robot-comment-input]]
@@ -8916,8 +8917,6 @@ The comment message.
 |`url`            |optional|URL to more information.
 |`properties`     |optional|Robot specific properties as map that maps arbitrary
 keys to values.
-|`fix_suggestions`|optional|Suggested fixes for this robot comment as a list of
-<<fix-suggestion-info,FixSuggestionInfo>> entities.
 |===========================
 
 [[rule-input]]

@@ -47,11 +47,6 @@ public class HumanComment extends Comment {
   }
 
   @Override
-  public int getApproximateSize() {
-    return super.getCommentFieldApproximateSize();
-  }
-
-  @Override
   public String toString() {
     return toStringHelper().add("unresolved", unresolved).toString();
   }

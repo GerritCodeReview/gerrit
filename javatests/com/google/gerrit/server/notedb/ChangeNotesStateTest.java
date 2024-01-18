@@ -31,6 +31,7 @@ import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.FixSuggestion;
 import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.LegacySubmitRequirement;
@@ -1162,6 +1163,7 @@ public class ChangeNotesStateTest {
                 .put("revId", String.class)
                 .put("serverId", String.class)
                 .put("unresolved", boolean.class)
+                .put("fixSuggestions", new TypeLiteral<List<FixSuggestion>>() {}.getType())
                 .build());
   }
 

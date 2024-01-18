@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.FixSuggestion;
-import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -27,6 +27,7 @@ import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -53,10 +54,12 @@ public class Fixes implements ChildCollection<RevisionResource, FixResource> {
     String fixId = id.get();
     ChangeNotes changeNotes = revisionResource.getNotes();
 
-    List<RobotComment> robotComments =
-        commentsUtil.robotCommentsByPatchSet(changeNotes, revisionResource.getPatchSet().id());
-    for (RobotComment robotComment : robotComments) {
-      for (FixSuggestion fixSuggestion : robotComment.fixSuggestions) {
+    List<Comment> allComments = new ArrayList<>();
+    allComments.addAll(commentsUtil.publishedHumanCommentsByChange(changeNotes));
+    allComments.addAll(
+        commentsUtil.robotCommentsByPatchSet(changeNotes, revisionResource.getPatchSet().id()));
+    for (Comment comment : allComments) {
+      for (FixSuggestion fixSuggestion : comment.fixSuggestions) {
         if (Objects.equals(fixId, fixSuggestion.fixId)) {
           return new FixResource(revisionResource, fixSuggestion.replacements);
         }

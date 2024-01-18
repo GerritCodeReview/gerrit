@@ -33,6 +33,24 @@
       "message": "this is not a useful release note. think of the target audience, which are actual users, or at least admins.",
       "revId": "0da5c50c79e6e7527265d965b9d1c91b1285a235",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1226bf4a_88bbe7ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2024-01-18T11:18:53Z",
+      "side": 1,
+      "message": "for clarity: s/useful/intelligible/",
+      "parentUuid": "7bfa9f81_e8e7e92e",
+      "revId": "0da5c50c79e6e7527265d965b9d1c91b1285a235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

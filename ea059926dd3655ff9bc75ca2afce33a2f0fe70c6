@@ -164,6 +164,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f7610034_8bd76b4c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148165
+      },
+      "writtenOn": "2024-01-18T02:22:16Z",
+      "side": 1,
+      "message": "@mogulguy12@gmail.com\nThe logic is not in the `WorkQueue.java\nWorkQueue.scheduleAtFixedRate` directly calls `ScheduledThreadPoolExecutor.scheduleAtFixedRate` which is inside JDK.\nAnd before creating `WorkQueue.Task` by `WorkQueue.decorateTask`, interval is already wrapped into timestamp by `triggerTime(delay, unit)`.\nYou can check this in `ScheduledThreadPoolExecutor.java`",
+      "parentUuid": "a9f28670_277cda7a",
+      "revId": "ea059926dd3655ff9bc75ca2afce33a2f0fe70c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "299c49a6_daf11daf",
         "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
         "patchSetId": 14

@@ -41,6 +41,7 @@ import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.PublishCommentUtil;
+import com.google.gerrit.server.change.CommentsValidator;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -134,6 +135,8 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
             rsrc.getPatchSet(),
             commentsUtil);
 
+    CommentsValidator.ensureFixSuggestionsAreAddable(in.fixSuggestions, in.path);
+
     CommentValidationContext ctx =
         CommentValidationContext.create(
             rsrc.getChange().getChangeId(),
@@ -182,7 +185,8 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
             draftInput.side(),
             draftInput.message.trim(),
             draftInput.unresolved,
-            parentUuid);
+            parentUuid,
+            CommentsUtil.createFixSuggestionsFromInput(draftInput.fixSuggestions));
     comment.setLineNbrAndRange(draftInput.line, draftInput.range);
     comment.tag = draftInput.tag;
 

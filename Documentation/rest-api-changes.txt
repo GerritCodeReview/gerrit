@@ -2480,7 +2480,7 @@ only works if `enable-context` is set to true.
 ----
 
 [[list-change-robot-comments]]
-=== List Change Robot Comments
+=== List Change Robot Comments (deprecated)
 --
 'GET /changes/link:#change-id[\{change-id\}]/robotcomments'
 --
@@ -5437,7 +5437,7 @@ describes the updated comment.
 ----
 
 [[list-robot-comments]]
-=== List Robot Comments
+=== List Robot Comments (deprecated)
 --
 'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/robotcomments/'
 --
@@ -5494,7 +5494,7 @@ map are sorted by file path.
 ----
 
 [[get-robot-comment]]
-=== Get Robot Comment
+=== Get Robot Comment (deprecated)
 --
 'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/robotcomments/link:#comment-id[\{comment-id\}]'
 --
@@ -7526,7 +7526,8 @@ parameter (see link:#list-change-comments[List Change Comments]) is set.
 Mime type of the file where the comment is written. Available only if the
 "enable-context" parameter (see link:#list-change-comments[List Change Comments])
 is set.
-
+|`fix_suggestions`|optional|Suggested fixes for this comment as a list of
+<<fix-suggestion-info,FixSuggestionInfo>> entities.
 |===========================
 
 [[comment-input]]
@@ -7574,6 +7575,8 @@ link:#review-input[ReviewInput]. Votes/comments that contain `tag` with
 Whether or not the comment must be addressed by the user. This value will
 default to false if the comment is an orphan, or the value of the `in_reply_to`
 comment if it is supplied.
+|`fix_suggestions`|optional|Suggested fixes for this comment as a list of
+<<fix-suggestion-info,FixSuggestionInfo>> entities.
 |===========================
 
 [[comment-range]]
@@ -8615,7 +8618,7 @@ label names to the voting values.
 |`comments`                             |optional|
 The comments that should be added as a map that maps a file path to a
 list of link:#comment-input[CommentInput] entities.
-|`robot_comments`                       |optional|
+|`robot_comments`                       |optional, deprecated|
 The robot comments that should be added as a map that maps a file path
 to a list of link:#robot-comment-input[RobotCommentInput] entities.
 |`drafts`                               |optional|
@@ -8865,7 +8868,7 @@ selector menu. May be null if no description is set.
 |===========================
 
 [[robot-comment-info]]
-=== RobotCommentInfo
+=== RobotCommentInfo (deprecated)
 The `RobotCommentInfo` entity contains information about a robot inline
 comment.
 
@@ -8881,12 +8884,10 @@ In addition `RobotCommentInfo` has the following fields:
 |`url`            |optional|URL to more information.
 |`properties`     |optional|Robot specific properties as map that maps arbitrary
 keys to values.
-|`fix_suggestions`|optional|Suggested fixes for this robot comment as a list of
-<<fix-suggestion-info,FixSuggestionInfo>> entities.
 |===========================
 
 [[robot-comment-input]]
-=== RobotCommentInput
+=== RobotCommentInput (deprecated)
 The `RobotCommentInput` entity contains information for creating an inline
 robot comment.
 
@@ -8916,8 +8917,6 @@ The comment message.
 |`url`            |optional|URL to more information.
 |`properties`     |optional|Robot specific properties as map that maps arbitrary
 keys to values.
-|`fix_suggestions`|optional|Suggested fixes for this robot comment as a list of
-<<fix-suggestion-info,FixSuggestionInfo>> entities.
 |===========================
 
 [[rule-input]]

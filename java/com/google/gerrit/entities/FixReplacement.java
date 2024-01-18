@@ -14,6 +14,8 @@
 
 package com.google.gerrit.entities;
 
+import java.util.Objects;
+
 public final class FixReplacement {
   public final String path;
   public final Comment.Range range;
@@ -42,5 +44,21 @@ public final class FixReplacement {
   /** Returns this instance's approximate size in bytes for the purpose of applying size limits. */
   int getApproximateSize() {
     return path.length() + replacement.length();
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (!(o instanceof FixReplacement)) {
+      return false;
+    }
+    FixReplacement f = (FixReplacement) o;
+    return Objects.equals(path, f.path)
+        && Objects.equals(range, f.range)
+        && Objects.equals(replacement, f.replacement);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(path, range, replacement);
   }
 }

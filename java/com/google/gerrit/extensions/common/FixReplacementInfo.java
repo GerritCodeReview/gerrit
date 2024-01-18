@@ -15,9 +15,26 @@
 package com.google.gerrit.extensions.common;
 
 import com.google.gerrit.extensions.client.Comment;
+import java.util.Objects;
 
 public class FixReplacementInfo {
   public String path;
   public Comment.Range range;
   public String replacement;
+
+  @Override
+  public boolean equals(Object o) {
+    if (!(o instanceof FixReplacementInfo)) {
+      return false;
+    }
+    FixReplacementInfo fs = (FixReplacementInfo) o;
+    return Objects.equals(path, fs.path)
+        && Objects.equals(range, fs.range)
+        && Objects.equals(replacement, fs.replacement);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(path, range, replacement);
+  }
 }

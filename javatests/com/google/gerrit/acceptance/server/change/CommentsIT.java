@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
+import static com.google.gerrit.acceptance.server.change.CommentsUtil.createRange;
 import static com.google.gerrit.entities.Patch.COMMIT_MSG;
 import static com.google.gerrit.entities.Patch.PATCHSET_LEVEL;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
@@ -152,6 +153,56 @@ public class CommentsIT extends AbstractDaemonTest {
       actual = list.get(0);
       assertThat(comment).isEqualTo(infoToDraft(path).apply(actual));
     }
+  }
+
+  @Test
+  public void createDraftWithFixSuggestions() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    String revId = r.getCommit().getName();
+    String path = "file1";
+    DraftInput comment = CommentsUtil.newDraft(path, Side.REVISION, 0, "comment 1");
+    comment.fixSuggestions =
+        ImmutableList.of(
+            CommentsUtil.createFixSuggestionInfo(CommentsUtil.createFixReplacementInfo()));
+    addDraft(changeId, revId, comment);
+    Map<String, List<CommentInfo>> result = getDraftComments(changeId, revId);
+    assertThat(result).hasSize(1);
+    CommentInfo actual = Iterables.getOnlyElement(result.get(comment.path));
+    // FixId is generated, use the one provided by the server.
+    comment.fixSuggestions.get(0).fixId = actual.fixSuggestions.get(0).fixId;
+    assertThat(comment).isEqualTo(infoToDraft(path).apply(actual));
+
+    List<CommentInfo> list = getDraftCommentsAsList(changeId);
+    assertThat(list).hasSize(1);
+    actual = list.get(0);
+    assertThat(comment).isEqualTo(infoToDraft(path).apply(actual));
+
+    // Publish draft comment
+    ReviewInput reviewInput = new ReviewInput();
+    reviewInput.drafts = DraftHandling.PUBLISH_ALL_REVISIONS;
+    reviewInput.message = "bar";
+    gApi.changes().id(changeId).current().review(reviewInput);
+
+    actual = gApi.changes().id(changeId).commentsRequest().getAsList().get(0);
+    assertThat(comment).isEqualTo(infoToDraft(path).apply(actual));
+  }
+
+  @Test
+  public void createDraftWithFixInvalidSuggestions() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    String revId = r.getCommit().getName();
+    String path = "file1";
+    DraftInput comment = CommentsUtil.newDraft(path, Side.REVISION, 0, "comment 1");
+    comment.fixSuggestions =
+        ImmutableList.of(
+            CommentsUtil.createFixSuggestionInfo(CommentsUtil.createFixReplacementInfo()));
+    // Invalid range
+    comment.fixSuggestions.get(0).replacements.get(0).range = createRange(13, 9, 5, 10);
+    BadRequestException thrown =
+        assertThrows(BadRequestException.class, () -> addDraft(changeId, revId, comment));
+    assertThat(thrown).hasMessageThat().contains("Range (13:9 - 5:10)");
   }
 
   @Test
@@ -2236,6 +2287,7 @@ public class CommentsIT extends AbstractDaemonTest {
       DraftInput draftInput = new DraftInput();
       draftInput.path = path;
       draftInput.unresolved = info.unresolved;
+      draftInput.fixSuggestions = info.fixSuggestions;
       copy(info, draftInput);
       return draftInput;
     };

@@ -22,7 +22,6 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ReviewerState;
-import com.google.gerrit.extensions.common.FixSuggestionInfo;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -39,7 +38,7 @@ public class ReviewInput {
 
   public Map<String, Short> labels;
   public Map<String, List<CommentInput>> comments;
-  public Map<String, List<RobotCommentInput>> robotComments;
+  @Deprecated public Map<String, List<RobotCommentInput>> robotComments;
 
   /**
    * How to process draft comments already in the database that were not also described in this
@@ -115,12 +114,12 @@ public class ReviewInput {
     public Boolean unresolved;
   }
 
+  @Deprecated
   public static class RobotCommentInput extends Comment {
     public String robotId;
     public String robotRunId;
     public String url;
     public Map<String, String> properties;
-    public List<FixSuggestionInfo> fixSuggestions;
   }
 
   @CanIgnoreReturnValue

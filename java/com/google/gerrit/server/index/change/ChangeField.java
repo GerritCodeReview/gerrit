@@ -17,6 +17,7 @@ package com.google.gerrit.server.index.change;
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
+import static com.google.gerrit.server.query.change.ChangeQueryBuilder.FIELD_CHANGE_NUMBER;
 import static com.google.gerrit.server.util.AttentionSetUtil.additionsOnly;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.joining;
@@ -1732,6 +1733,15 @@ public class ChangeField {
   public static final IndexedField<ChangeData, Iterable<String>>.SearchSpec
       CUSTOM_KEYED_VALUES_SPEC =
           CUSTOM_KEYED_VALUES_FIELD.prefix(ChangeQueryBuilder.FIELD_CUSTOM_KEYED_VALUES);
+
+  public static final IndexedField<ChangeData, Integer> CHANGENUM_FIELD =
+      IndexedField.<ChangeData>integerBuilder("ChangeNum")
+          .stored()
+          .required()
+          .build(cd -> cd.change().getId().get());
+
+  public static final IndexedField<ChangeData, Integer>.SearchSpec CHANGENUM_SPEC =
+      CHANGENUM_FIELD.integer(FIELD_CHANGE_NUMBER);
 
   @Nullable
   private static String getTopic(ChangeData cd) {

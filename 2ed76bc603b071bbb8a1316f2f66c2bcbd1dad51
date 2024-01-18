@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "31182106_b5670cfd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-01-18T09:21:58Z",
+      "side": 1,
+      "message": "I think I\u0027ve addressed all of the above in the updated commit message. I\u0027ll mak this as resolved for now. If you find anything missing in the commit feel free to reopen the discussion.",
+      "parentUuid": "659bb8da_60017bd2",
+      "revId": "2ed76bc603b071bbb8a1316f2f66c2bcbd1dad51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ace7719c_79e443de",
@@ -96,6 +114,30 @@
       "side": 1,
       "message": "Can you check if that was related to the NoteDb migration?",
       "parentUuid": "3ae4d1ff_a60e319d",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 58
+      },
+      "revId": "2ed76bc603b071bbb8a1316f2f66c2bcbd1dad51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "804480cf_6c03e630",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-01-18T09:21:58Z",
+      "side": 1,
+      "message": "Sure, I can have a look into this.\n\nOn the other note, maybe we can just add a log in `ChangeUpdate:630` saying that cache-loader value is being used and see how often it happens on production. This should be the least invasive and most accurate measurement for performance optimization.",
+      "parentUuid": "42acbc9d_c2aa1853",
       "range": {
         "startLine": 12,
         "startChar": 0,

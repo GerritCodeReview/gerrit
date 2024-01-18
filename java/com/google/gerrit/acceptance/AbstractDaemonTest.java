@@ -20,7 +20,6 @@ import static com.google.common.truth.OptionalSubject.optionals;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.Truth8.assertThat;
-import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.entities.Patch.COMMIT_MSG;
@@ -35,29 +34,22 @@ import static com.google.gerrit.server.project.testing.TestLabels.value;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static com.google.gerrit.testing.TestActionRefUpdateContext.testRefAction;
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 import static org.eclipse.jgit.lib.Constants.HEAD;
 
 import com.github.rholder.retry.BlockStrategy;
 import com.google.common.base.Strings;
-import com.google.common.base.Ticker;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.primitives.Chars;
-import com.google.common.testing.FakeTicker;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
-import com.google.gerrit.acceptance.config.ConfigAnnotationParser;
-import com.google.gerrit.acceptance.config.GerritSystemProperty;
 import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
-import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
-import com.google.gerrit.acceptance.testsuite.request.SshSessionFactory;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.entities.Account;
@@ -122,17 +114,13 @@ import com.google.gerrit.server.change.ChangeFinder;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.FileContentUtil;
 import com.google.gerrit.server.change.RevisionResource;
-import com.google.gerrit.server.config.AllProjectsName;
-import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritInstanceId;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.SystemGroupBackend;
-import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.notedb.AbstractChangeNotes;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
@@ -147,12 +135,8 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.restapi.change.Revisions;
 import com.google.gerrit.server.update.BatchUpdate;
-import com.google.gerrit.server.util.git.DelegateSystemReader;
-import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.FakeEmailSender;
 import com.google.gerrit.testing.FakeEmailSender.Message;
-import com.google.gerrit.testing.SshMode;
-import com.google.gerrit.testing.TestTimeUtil;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
 import com.google.inject.Module;
@@ -161,8 +145,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Modifier;
-import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -175,7 +157,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import org.eclipse.jgit.api.Git;
@@ -191,19 +172,9 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.storage.file.FileBasedConfig;
-import org.eclipse.jgit.transport.Transport;
-import org.eclipse.jgit.util.FS;
-import org.eclipse.jgit.util.SystemReader;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.ClassRule;
-import org.junit.Rule;
-import org.junit.rules.TemporaryFolder;
-import org.junit.rules.TestRule;
 import org.junit.runner.Description;
-import org.junit.runner.RunWith;
-import org.junit.runners.model.Statement;
 
 public abstract class AbstractDaemonTest extends AbstractDaemonTestBase {
   @Inject @CanonicalWebUrl protected Provider<String> canonicalWebUrl;
@@ -264,7 +235,6 @@ public abstract class AbstractDaemonTest extends AbstractDaemonTestBase {
     }
   }
 
-
   @After
   public void verifyNoPiiInChangeNotes() throws RestApiException, IOException {
     if (testMethodDescription.verifyNoPiiInChangeNotes()) {
@@ -278,7 +248,6 @@ public abstract class AbstractDaemonTest extends AbstractDaemonTestBase {
       eventRecorder.close();
     }
   }
-
 
   protected static Config submitWholeTopicEnabledConfig() {
     Config cfg = new Config();
@@ -302,7 +271,6 @@ public abstract class AbstractDaemonTest extends AbstractDaemonTestBase {
     if (cloneProject) {
       testRepo = cloneProject(project, getCloneAsAccount(description));
     }
-
   }
 
   protected TestAccount getCloneAsAccount(Description description) {
@@ -344,7 +312,6 @@ public abstract class AbstractDaemonTest extends AbstractDaemonTestBase {
     // Default implementation does nothing.
   }
 
-
   protected Git git() {
     return testRepo.git();
   }
@@ -385,8 +352,6 @@ public abstract class AbstractDaemonTest extends AbstractDaemonTestBase {
   protected TestRepository<InMemoryRepository> cloneProject(Project.NameKey p) throws Exception {
     return cloneProject(p, admin);
   }
-
-
 
   /**
    * Verify that NoteDB commits do not persist user-sensitive information, by running checks for all
@@ -726,8 +691,6 @@ public abstract class AbstractDaemonTest extends AbstractDaemonTestBase {
   protected List<ChangeInfo> query(String q) throws RestApiException {
     return gApi.changes().query(q).get();
   }
-
-
 
   protected Account getAccount(Account.Id accountId) {
     return getAccountState(accountId).account();
@@ -1504,5 +1467,4 @@ public abstract class AbstractDaemonTest extends AbstractDaemonTestBase {
           moduleClass.getName());
     }
   }
-
 }

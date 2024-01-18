@@ -30,7 +30,6 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
-import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
@@ -78,14 +77,12 @@ public abstract class AbstractDaemonTestBase {
 
   private static Description firstTest;
 
-  @ClassRule
-  public static TemporaryFolder temporaryFolder = new TemporaryFolder();
+  @ClassRule public static TemporaryFolder temporaryFolder = new TemporaryFolder();
 
   @ConfigSuite.Parameter public Config baseConfig;
   @ConfigSuite.Name private String configName;
 
-  @Inject
-  protected AllProjectsName allProjects;
+  @Inject protected AllProjectsName allProjects;
   @Inject protected AllUsersName allUsers;
   @Inject protected ProjectResetter.Builder.Factory projectResetter;
 
@@ -100,7 +97,6 @@ public abstract class AbstractDaemonTestBase {
   protected SshSession userSshSession;
 
   @Inject protected TestTicker testTicker;
-
 
   private List<Repository> toClose;
   private String systemTimeZone;
@@ -125,8 +121,6 @@ public abstract class AbstractDaemonTestBase {
   @Inject private RequestScopeOperations requestScopeOperations;
 
   @Inject protected GitRepositoryManager repoManager;
-
-
 
   /** {@link Ticker} implementation for mocking without restarting GerritServer */
   public static class TestTicker extends Ticker {
@@ -157,8 +151,6 @@ public abstract class AbstractDaemonTestBase {
       return actualTicker.read();
     }
   }
-
-
 
   @Rule
   public TestRule testRunner =
@@ -263,8 +255,6 @@ public abstract class AbstractDaemonTestBase {
         methodDesc.useSystemTime(), methodDesc.useClockStep(), methodDesc.useTimezone());
   }
 
-
-
   protected boolean enableExperimentsRejectImplicitMergesOnMerge() {
     // By default any attempt to make an explicit merge is rejected. This allows to check
     // that existing workflows continue to work even if gerrit rejects implicit merges on merge.
@@ -295,12 +285,12 @@ public abstract class AbstractDaemonTestBase {
     createProject(description, !classDesc.skipProjectClone());
   }
 
-  protected abstract void createProject(Description description, boolean cloneProject) throws Exception ;
+  protected abstract void createProject(Description description, boolean cloneProject)
+      throws Exception;
 
   public void reindexAccount(Account.Id accountId) {
     accountIndexer.index(accountId);
   }
-
 
   protected void initServer(GerritServer.Description classDesc, GerritServer.Description methodDesc)
       throws Exception {
@@ -321,7 +311,6 @@ public abstract class AbstractDaemonTestBase {
     }
   }
 
-
   /** Override to bind an additional Guice module */
   public Module createModule() {
     return null;
@@ -336,7 +325,6 @@ public abstract class AbstractDaemonTestBase {
   public Module createSshModule() {
     return null;
   }
-
 
   private static SystemReader setFakeSystemReader(File tempDir) {
     SystemReader oldSystemReader = SystemReader.getInstance();
@@ -377,7 +365,6 @@ public abstract class AbstractDaemonTestBase {
     }
   }
 
-
   private void resetTimeSettings() {
     TestTimeUtil.useSystemTime();
     if (systemTimeZone != null) {
@@ -385,7 +372,6 @@ public abstract class AbstractDaemonTestBase {
       systemTimeZone = null;
     }
   }
-
 
   protected void initSsh() throws Exception {
     if (testRequiresSsh
@@ -455,8 +441,6 @@ public abstract class AbstractDaemonTestBase {
     testTicker.useDefaultTicker();
   }
 
-
-
   protected void closeSsh() {
     if (adminSshSession != null) {
       adminSshSession.close();
@@ -487,7 +471,6 @@ public abstract class AbstractDaemonTestBase {
     return inProcessProtocol.register(ctx, repo).toString();
   }
 
-
   @ConfigSuite.AfterConfig
   public static void stopCommonServer() throws Exception {
     if (commonServer != null) {
@@ -503,8 +486,6 @@ public abstract class AbstractDaemonTestBase {
       }
     }
   }
-
-
 
   protected void restartAsSlave() throws Exception {
     closeSsh();
@@ -524,8 +505,4 @@ public abstract class AbstractDaemonTestBase {
     }
     initSsh();
   }
-
-
-
-
 }

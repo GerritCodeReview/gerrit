@@ -22,6 +22,47 @@
       },
       "revId": "d7e0ee6a17115a0429e92242e6c0136b4ca47c85",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e83f24d6_c48d9f46",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-01-18T16:07:26Z",
+      "side": 1,
+      "message": "\u003e the immediate question that pops into my mind is \"what about the author?\"\n\u003e \n\u003e i suppose this is sort of implicitly answered by the second paragraph: this is not about modifying the meta data overall, but merely the \"signature\" of the actual content edit.\n\nCorrect. We thought about adding support for changing the author here, but to us it didn\u0027t fit. Change Ic6d86e748 provides the ability to edit both author and committer in the context of a change edit (equivalent to `git commit --amend`) and we expect users to use that functionality if needed.\n\n\u003e \n\u003e but then i wonder what the use case really is, and whether this is the right way to address it. isn\u0027t this something one would want to configure just once in the account settings?\n\nIn our deployments users have multiple \"active\" email addresses and they are required by internal policies to use different addresses for different projects (simplistically: internal vs external). So the use case for this functionality is for when a user who is not the current patch set committer is editing the commit message and needs to commit using their alternate/external email address. A practical example of this would be a project maintainer fixing a typo in a contributor\u0027s commit message. They could do that via the new edit APIs mentioned above, but it\u0027s a lot faster to use the commit message edit feature directly.",
+      "parentUuid": "e2d495a0_72dbb16a",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 9
+      },
+      "revId": "d7e0ee6a17115a0429e92242e6c0136b4ca47c85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "613702fe_ba4906be",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-01-18T16:07:26Z",
+      "side": 1,
+      "message": "Add a link with a screenshot?",
+      "revId": "d7e0ee6a17115a0429e92242e6c0136b4ca47c85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

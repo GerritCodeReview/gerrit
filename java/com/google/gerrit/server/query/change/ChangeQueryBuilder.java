@@ -166,6 +166,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   public static final String FIELD_CHANGE = "change";
   public static final String FIELD_CHANGE_ID = "change_id";
+
+  public static final String FIELD_CHANGE_NUMBER = "changenumber";
   public static final String FIELD_COMMENT = "comment";
   public static final String FIELD_COMMENTBY = "commentby";
   public static final String FIELD_COMMIT = "commit";

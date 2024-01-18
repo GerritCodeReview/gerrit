@@ -229,6 +229,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "03bac257_8a34d5a1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-01-18T09:24:06Z",
+      "side": 1,
+      "message": "Marking as resolved as there has been no feedback for over two weeks.",
+      "parentUuid": "36e9d6d8_a52db12b",
+      "revId": "f34901ad4509a531fe6c59ea36b9cb25b70cb7a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ec04d5f3_0734689a",
@@ -290,6 +308,30 @@
       "side": 1,
       "message": "@dmfilippov@google.com, WDYT?",
       "parentUuid": "e64bc49a_dc374d0d",
+      "range": {
+        "startLine": 44,
+        "startChar": 6,
+        "endLine": 44,
+        "endChar": 33
+      },
+      "revId": "f34901ad4509a531fe6c59ea36b9cb25b70cb7a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b248039_48feeec8",
+        "filename": "java/com/google/gerrit/httpd/GuiceRequestScopePropagator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-01-18T09:24:06Z",
+      "side": 1,
+      "message": "Marking as resolved as there has been no feedback for over two weeks.",
+      "parentUuid": "3ae256ff_c91a2b70",
       "range": {
         "startLine": 44,
         "startChar": 6,

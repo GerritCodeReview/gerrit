@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2d495a0_72dbb16a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2024-01-18T11:32:31Z",
+      "side": 1,
+      "message": "the immediate question that pops into my mind is \"what about the author?\"\n\ni suppose this is sort of implicitly answered by the second paragraph: this is not about modifying the meta data overall, but merely the \"signature\" of the actual content edit.\n\nbut then i wonder what the use case really is, and whether this is the right way to address it. isn\u0027t this something one would want to configure just once in the account settings?",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 9
+      },
+      "revId": "d7e0ee6a17115a0429e92242e6c0136b4ca47c85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -26,37 +26,6 @@ public class ExperimentFeaturesConstants {
   /** Features, enabled by default in the current release. */
   public static final ImmutableSet<String> DEFAULT_ENABLED_FEATURES = ImmutableSet.of();
 
-  /**
-   * If true, gerrit checks implicit merges on each merge operations.
-   *
-   * <p>If only this option is set (without {@link
-   * #GERRIT_BACKEND_FEATURE_REJECT_IMPLICIT_MERGES_ON_MERGE}) - then the outcome of the check is
-   * only logged and doesn't block merge operation. Any exceptions during the check are logged and
-   * doesn't block merge operation.
-   */
-  public static String GERRIT_BACKEND_FEATURE_CHECK_IMPLICIT_MERGES_ON_MERGE =
-      "GerritBackendFeature__check_implicit_merges_on_merge";
-
-  /**
-   * If true, gerrit rejects implicit merges on merge.
-   *
-   * <p>Should work together with {@link #GERRIT_BACKEND_FEATURE_CHECK_IMPLICIT_MERGES_ON_MERGE}.
-   *
-   * <p>If {@link #GERRIT_BACKEND_FEATURE_ALWAYS_REJECT_IMPLICIT_MERGES_ON_MERGE} is set to true
-   * then implicit merges are rejected even if rejectImplicitMerges in project config is set to
-   * false.
-   *
-   * <p>If {@link #GERRIT_BACKEND_FEATURE_ALWAYS_REJECT_IMPLICIT_MERGES_ON_MERGE} is set to false
-   * then implicit merges are rejected only if rejectImplicitMerges in project config is set to
-   * true.
-   */
-  public static String GERRIT_BACKEND_FEATURE_REJECT_IMPLICIT_MERGES_ON_MERGE =
-      "GerritBackendFeature__reject_implicit_merges_on_merge";
-
-  /** If true, gerrit ignores rejectImplicitMerges setting from the project config on merge. */
-  public static String GERRIT_BACKEND_FEATURE_ALWAYS_REJECT_IMPLICIT_MERGES_ON_MERGE =
-      "GerritBackendFeature__always_reject_implicit_merges_on_merge";
-
   /** Whether the rebase submit strategies should rebase merge commits. */
   public static final String REBASE_MERGE_COMMITS = "GerritBackendFeature__rebase_merge_commits";
 }

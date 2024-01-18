@@ -382,7 +382,7 @@ public class ProjectIT extends AbstractDaemonTest {
     assertThat(info.createNewChangeForAllNotInTarget.configuredValue)
         .isEqualTo(input.createNewChangeForAllNotInTarget);
     assertThat(info.requireChangeId.configuredValue).isEqualTo(input.requireChangeId);
-    assertThat(info.rejectImplicitMerges.configuredValue).isEqualTo(input.rejectImplicitMerges);
+    assertThat(info.enableImplicitMerges.configuredValue).isEqualTo(input.enableImplicitMerges);
     assertThat(info.enableReviewerByEmail.configuredValue).isEqualTo(input.enableReviewerByEmail);
     assertThat(info.createNewChangeForAllNotInTarget.configuredValue)
         .isEqualTo(input.createNewChangeForAllNotInTarget);
@@ -412,7 +412,7 @@ public class ProjectIT extends AbstractDaemonTest {
     assertThat(info.createNewChangeForAllNotInTarget.configuredValue)
         .isEqualTo(input.createNewChangeForAllNotInTarget);
     assertThat(info.requireChangeId.configuredValue).isEqualTo(input.requireChangeId);
-    assertThat(info.rejectImplicitMerges.configuredValue).isEqualTo(input.rejectImplicitMerges);
+    assertThat(info.enableImplicitMerges.configuredValue).isEqualTo(input.enableImplicitMerges);
     assertThat(info.enableReviewerByEmail.configuredValue).isEqualTo(input.enableReviewerByEmail);
     assertThat(info.createNewChangeForAllNotInTarget.configuredValue)
         .isEqualTo(input.createNewChangeForAllNotInTarget);
@@ -1140,11 +1140,9 @@ public class ProjectIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.disabled",
-      // The test intentionally create an implicit merge change.
-      value = "GerritBackendFeature__reject_implicit_merges_on_merge")
   public void commitsIncludedInRefsMergedChangeNonTipCommit() throws Exception {
+    // The test intentionally create an implicit merge change.
+    setEnableImplicitMerges(true);
     String branchWithChange1 = R_HEADS + "branch-with-change1";
     String tagWithChange1 = R_TAGS + "tag-with-change1";
     String branchWithChange1Change2 = R_HEADS + "branch-with-change1-change2";
@@ -1309,7 +1307,7 @@ public class ProjectIT extends AbstractDaemonTest {
     input.useSignedOffBy = InheritableBoolean.TRUE;
     input.createNewChangeForAllNotInTarget = InheritableBoolean.TRUE;
     input.requireChangeId = InheritableBoolean.TRUE;
-    input.rejectImplicitMerges = InheritableBoolean.TRUE;
+    input.enableImplicitMerges = InheritableBoolean.TRUE;
     input.enableReviewerByEmail = InheritableBoolean.TRUE;
     input.createNewChangeForAllNotInTarget = InheritableBoolean.TRUE;
     input.maxObjectSizeLimit = "5m";

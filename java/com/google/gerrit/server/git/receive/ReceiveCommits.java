@@ -2368,12 +2368,14 @@ class ReceiveCommits {
         int maxBatchChanges = receiveConfig.getEffectiveMaxBatchChangesLimit(user);
         int total = 0;
         int alreadyTracked = 0;
+        // An attempt to detect implicit merge on receive. This check doesn't cover all possible
+        // scenarios for implicit merges; other cases are checked on submit.
         boolean rejectImplicitMerges =
             start.getParentCount() == 1
-                && projectCache
+                && !projectCache
                     .get(project.getNameKey())
                     .orElseThrow(illegalState(project.getNameKey()))
-                    .is(BooleanProjectConfig.REJECT_IMPLICIT_MERGES)
+                    .is(BooleanProjectConfig.ENABLE_IMPLICIT_MERGES)
                 // Don't worry about implicit merges when creating changes for
                 // already-merged commits; they're already in history, so it's too
                 // late.

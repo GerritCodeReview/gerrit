@@ -20,7 +20,6 @@ import static com.google.gerrit.server.util.CommitMessageUtil.generateChangeId;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -48,11 +47,6 @@ import org.junit.Test;
  * }</pre>
  */
 public class ImplicitMergeOnSubmitExperimentsIT extends AbstractImplicitMergeTest {
-  @Override
-  protected boolean enableExperimentsRejectImplicitMergesOnMerge() {
-    // Tests uses own experiment setup.
-    return false;
-  }
 
   @ConfigSuite.Configs
   public static ImmutableMap<String, Config> configs() {
@@ -79,6 +73,7 @@ public class ImplicitMergeOnSubmitExperimentsIT extends AbstractImplicitMergeTes
   public void setUp() throws Exception {
     // The ConfigSuite runner always adds a default config. Ignore it (submitType is not set for
     // it).
+    setEnableImplicitMerges(true);
     assume().that(cfg.getString("test", null, "submitType")).isNotEmpty();
     RevCommit base = repo().parseCommit(repo().exactRef("HEAD").getObjectId());
     RevCommit stableBranchTip =
@@ -110,174 +105,26 @@ public class ImplicitMergeOnSubmitExperimentsIT extends AbstractImplicitMergeTes
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      values = {
-        "GerritBackendFeature__check_implicit_merges_on_merge",
-        "GerritBackendFeature__reject_implicit_merges_on_merge",
-        "GerritBackendFeature__always_reject_implicit_merges_on_merge"
-      })
-  public void alwaysRejectOnMerge_rejectImplicitMergeFalse_rejectImplicitMergeOnSubmit()
-      throws Exception {
-    setRejectImplicitMerges(/*reject=*/ false);
+  public void implicitMergeDisabled_rejectImplicitMergeOnSubmit() throws Exception {
+    setEnableImplicitMerges(false);
     assertThatImplicitMergeSubmitRejected();
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      values = {
-        "GerritBackendFeature__check_implicit_merges_on_merge",
-        "GerritBackendFeature__reject_implicit_merges_on_merge",
-        "GerritBackendFeature__always_reject_implicit_merges_on_merge"
-      })
-  public void alwaysRejectOnMerge_rejectImplicitMergeFalse_canSubmitExplicitMerge()
-      throws Exception {
-    setRejectImplicitMerges(/*reject=*/ false);
+  public void implicitMergeDisabled_canSubmitExplicitMerge() throws Exception {
+    setEnableImplicitMerges(false);
     assertThatExcplicitMergeSubmitAllowed();
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      values = {
-        "GerritBackendFeature__check_implicit_merges_on_merge",
-        "GerritBackendFeature__reject_implicit_merges_on_merge",
-        "GerritBackendFeature__always_reject_implicit_merges_on_merge"
-      })
-  public void alwaysRejectOnMerge_rejectImplicitMergeTrue_rejectImplicitMergeOnSubmit()
-      throws Exception {
-    setRejectImplicitMerges(/*reject=*/ true);
-    assertThatImplicitMergeSubmitRejected();
-  }
-
-  @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      values = {
-        "GerritBackendFeature__check_implicit_merges_on_merge",
-        "GerritBackendFeature__reject_implicit_merges_on_merge",
-        "GerritBackendFeature__always_reject_implicit_merges_on_merge"
-      })
-  public void alwaysRejectOnMerge_rejectImplicitMergeTrue_canSubmitExplicitMerge()
-      throws Exception {
-    setRejectImplicitMerges(/*reject=*/ true);
-    assertThatExcplicitMergeSubmitAllowed();
-  }
-
-  @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      values = {
-        "GerritBackendFeature__check_implicit_merges_on_merge",
-        "GerritBackendFeature__reject_implicit_merges_on_merge",
-      })
-  public void rejectOnMerge_rejectImplicitMergeFalse_canSubmitImplicitMerge() throws Exception {
-    setRejectImplicitMerges(/*reject=*/ false);
+  public void implicitMergeEnabled_canSubmitImplicitMerge() throws Exception {
+    setEnableImplicitMerges(true);
     assertThatImplicitMergeSubmitAllowed();
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      values = {
-        "GerritBackendFeature__check_implicit_merges_on_merge",
-        "GerritBackendFeature__reject_implicit_merges_on_merge",
-      })
-  public void rejectOnMerge_rejectImplicitMergeFalse_canSubmitExplicitMerge() throws Exception {
-    setRejectImplicitMerges(/*reject=*/ false);
-    assertThatExcplicitMergeSubmitAllowed();
-  }
-
-  @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      values = {
-        "GerritBackendFeature__check_implicit_merges_on_merge",
-        "GerritBackendFeature__reject_implicit_merges_on_merge",
-      })
-  public void rejectOnMerge_rejectImplicitMergeTrue_rejectImplicitMergeOnSubmit() throws Exception {
-    setRejectImplicitMerges(/*reject=*/ true);
-    assertThatImplicitMergeSubmitRejected();
-  }
-
-  @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      values = {
-        "GerritBackendFeature__check_implicit_merges_on_merge",
-        "GerritBackendFeature__reject_implicit_merges_on_merge",
-      })
-  public void rejectOnMerge_rejectImplicitMergeTrue_canSubmitExplicitMerge() throws Exception {
-    setRejectImplicitMerges(/*reject=*/ true);
-    assertThatExcplicitMergeSubmitAllowed();
-  }
-
-  @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      values = {
-        "GerritBackendFeature__check_implicit_merges_on_merge",
-      })
-  public void checkOnly_rejectImplicitMergeFalse_canSubmitImplicitMerge() throws Exception {
-    setRejectImplicitMerges(/*reject=*/ false);
-    assertThatImplicitMergeSubmitAllowed();
-  }
-
-  @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      values = {
-        "GerritBackendFeature__check_implicit_merges_on_merge",
-      })
-  public void checkOnly_rejectImplicitMergeFalse_canSubmitExplicitMerge() throws Exception {
-    setRejectImplicitMerges(/*reject=*/ false);
-    assertThatExcplicitMergeSubmitAllowed();
-  }
-
-  @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      values = {
-        "GerritBackendFeature__check_implicit_merges_on_merge",
-      })
-  public void checkOnly_rejectImplicitMergeTrue_canSubmitImplicitMerge() throws Exception {
-    setRejectImplicitMerges(/*reject=*/ true);
-    assertThatImplicitMergeSubmitAllowed();
-  }
-
-  @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      values = {
-        "GerritBackendFeature__check_implicit_merges_on_merge",
-      })
-  public void checkOnly_rejectImplicitMergeTrue_canSubmitExplicitMerge() throws Exception {
-    setRejectImplicitMerges(/*reject=*/ true);
-    assertThatExcplicitMergeSubmitAllowed();
-  }
-
-  @Test
-  public void noExperiments_rejectImplicitMergeFalse_canSubmitImplicitMerge() throws Exception {
-    setRejectImplicitMerges(/*reject=*/ false);
-    assertThatImplicitMergeSubmitAllowed();
-  }
-
-  @Test
-  public void noExperiments_rejectImplicitMergeFalse_canSubmitExplicitMerge() throws Exception {
-    setRejectImplicitMerges(/*reject=*/ false);
-    assertThatExcplicitMergeSubmitAllowed();
-  }
-
-  @Test
-  public void noExperiments_rejectImplicitMergeTrue_canSubmitImplicitMerge() throws Exception {
-    setRejectImplicitMerges(/*reject=*/ true);
-    assertThatImplicitMergeSubmitAllowed();
-  }
-
-  @Test
-  public void noExperiments_rejectImplicitMergeTrue_canSubmitExplicitMerge() throws Exception {
-    setRejectImplicitMerges(/*reject=*/ true);
+  public void implicitMergeEnabled_canSubmitExplicitMerge() throws Exception {
+    setEnableImplicitMerges(true);
     assertThatExcplicitMergeSubmitAllowed();
   }
 

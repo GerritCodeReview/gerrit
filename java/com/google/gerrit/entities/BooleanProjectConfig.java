@@ -38,14 +38,14 @@ public enum BooleanProjectConfig {
   CREATE_NEW_CHANGE_FOR_ALL_NOT_IN_TARGET("receive", "createNewChangeForAllNotInTarget"),
   ENABLE_SIGNED_PUSH("receive", "enableSignedPush"),
   REQUIRE_SIGNED_PUSH("receive", "requireSignedPush"),
-  REJECT_IMPLICIT_MERGES("receive", "rejectImplicitMerges"),
   PRIVATE_BY_DEFAULT("change", "privateByDefault"),
   ENABLE_REVIEWER_BY_EMAIL("reviewer", "enableByEmail"),
   MATCH_AUTHOR_TO_COMMITTER_DATE("submit", "matchAuthorToCommitterDate"),
   REJECT_EMPTY_COMMIT("submit", "rejectEmptyCommit"),
   WORK_IN_PROGRESS_BY_DEFAULT("change", "workInProgressByDefault"),
   SKIP_ADDING_AUTHOR_AND_COMMITTER_AS_REVIEWERS(
-      "reviewer", "skipAddingAuthorAndCommitterAsReviewers");
+      "reviewer", "skipAddingAuthorAndCommitterAsReviewers"),
+  ENABLE_IMPLICIT_MERGES("project", "enableImplicitMerges");
 
   // Git config
   private final String section;

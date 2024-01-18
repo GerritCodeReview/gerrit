@@ -554,19 +554,6 @@ public abstract class AbstractDaemonTest {
 
     baseConfig.setInt("index", null, "batchThreads", -1);
 
-    if (enableExperimentsRejectImplicitMergesOnMerge()) {
-      // When changes are merged/submitted - reject the operation if there is an implicit merge (
-      // even if rejectImplicitMerges is disabled in the project config).
-      baseConfig.setStringList(
-          "experiments",
-          null,
-          "enabled",
-          ImmutableList.of(
-              "GerritBackendFeature__check_implicit_merges_on_merge",
-              "GerritBackendFeature__reject_implicit_merges_on_merge",
-              "GerritBackendFeature__always_reject_implicit_merges_on_merge"));
-    }
-
     initServer(classDesc, methodDesc);
 
     server.getTestInjector().injectMembers(this);
@@ -582,10 +569,16 @@ public abstract class AbstractDaemonTest {
         methodDesc.useSystemTime(), methodDesc.useClockStep(), methodDesc.useTimezone());
   }
 
-  protected boolean enableExperimentsRejectImplicitMergesOnMerge() {
-    // By default any attempt to make an explicit merge is rejected. This allows to check
-    // that existing workflows continue to work even if gerrit rejects implicit merges on merge.
-    return true;
+  protected void setEnableImplicitMerges(boolean enable) throws Exception {
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig()
+          .updateProject(
+              p ->
+                  p.setBooleanConfig(
+                      BooleanProjectConfig.ENABLE_IMPLICIT_MERGES,
+                      enable ? InheritableBoolean.TRUE : InheritableBoolean.FALSE));
+      u.save();
+    }
   }
 
   protected void setUpDatabase(GerritServer.Description classDesc) throws Exception {

@@ -17,9 +17,7 @@ package com.google.gerrit.acceptance.git;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
-import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
-import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.SubmitType;
 import java.util.Arrays;
 import java.util.List;
@@ -87,22 +85,6 @@ public abstract class AbstractImplicitMergeTest extends AbstractDaemonTest {
     }
 
     return commitBuilder.create();
-  }
-
-  protected void setRejectImplicitMerges() throws Exception {
-    setRejectImplicitMerges(/*reject=*/ true);
-  }
-
-  protected void setRejectImplicitMerges(boolean reject) throws Exception {
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig()
-          .updateProject(
-              p ->
-                  p.setBooleanConfig(
-                      BooleanProjectConfig.REJECT_IMPLICIT_MERGES,
-                      reject ? InheritableBoolean.TRUE : InheritableBoolean.FALSE));
-      u.save();
-    }
   }
 
   protected void setSubmitType(SubmitType submitType) throws Exception {

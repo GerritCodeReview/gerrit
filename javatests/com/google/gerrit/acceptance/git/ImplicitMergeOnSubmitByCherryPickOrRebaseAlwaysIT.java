@@ -62,7 +62,7 @@ public class ImplicitMergeOnSubmitByCherryPickOrRebaseAlwaysIT extends AbstractI
     assume().that(submitType).isNotEmpty();
     setSubmitType(SubmitType.valueOf(submitType));
 
-    setRejectImplicitMerges(false);
+    // setRejectImplicitMerges(false);
     RevCommit base = repo().parseCommit(repo().exactRef("HEAD").getObjectId());
     RevCommit masterBranchTip =
         pushTo("refs/heads/master", ImmutableMap.of("master-content", "master-first-line\n"), base)

@@ -34,7 +34,7 @@ public class ConfigInfo {
   public InheritedBooleanInfo requireChangeId;
   public InheritedBooleanInfo enableSignedPush;
   public InheritedBooleanInfo requireSignedPush;
-  public InheritedBooleanInfo rejectImplicitMerges;
+  public InheritedBooleanInfo enableImplicitMerges;
   public InheritedBooleanInfo privateByDefault;
   public InheritedBooleanInfo workInProgressByDefault;
   public InheritedBooleanInfo enableReviewerByEmail;

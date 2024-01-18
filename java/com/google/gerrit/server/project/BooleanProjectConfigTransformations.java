@@ -53,8 +53,8 @@ public class BooleanProjectConfigTransformations {
               BooleanProjectConfig.REQUIRE_SIGNED_PUSH,
               new Mapper(i -> i.requireSignedPush, (i, v) -> i.requireSignedPush = v))
           .put(
-              BooleanProjectConfig.REJECT_IMPLICIT_MERGES,
-              new Mapper(i -> i.rejectImplicitMerges, (i, v) -> i.rejectImplicitMerges = v))
+              BooleanProjectConfig.ENABLE_IMPLICIT_MERGES,
+              new Mapper(i -> i.enableImplicitMerges, (i, v) -> i.enableImplicitMerges = v))
           .put(
               BooleanProjectConfig.PRIVATE_BY_DEFAULT,
               new Mapper(i -> i.privateByDefault, (i, v) -> i.privateByDefault = v))

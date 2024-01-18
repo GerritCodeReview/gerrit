@@ -28,8 +28,6 @@ public class ImplicitMergeCheckOnReceiveIT extends AbstractImplicitMergeTest {
 
   @Test
   public void implicitMergeViaFastForward() throws Exception {
-    setRejectImplicitMerges();
-
     pushHead(testRepo, "refs/heads/stable", false);
     PushOneCommit.Result m = push("refs/heads/master", "0", "file", "0");
     PushOneCommit.Result c = push("refs/for/stable", "1", "file", "1");
@@ -40,8 +38,6 @@ public class ImplicitMergeCheckOnReceiveIT extends AbstractImplicitMergeTest {
 
   @Test
   public void implicitMergeViaRealMerge() throws Exception {
-    setRejectImplicitMerges();
-
     ObjectId base = repo().exactRef("HEAD").getObjectId();
     push("refs/heads/stable", "0", "f", "0");
     testRepo.reset(base);
@@ -54,6 +50,7 @@ public class ImplicitMergeCheckOnReceiveIT extends AbstractImplicitMergeTest {
 
   @Test
   public void implicitMergeCheckOff() throws Exception {
+    setEnableImplicitMerges(true);
     ObjectId base = repo().exactRef("HEAD").getObjectId();
     push("refs/heads/stable", "0", "f", "0");
     testRepo.reset(base);
@@ -66,8 +63,6 @@ public class ImplicitMergeCheckOnReceiveIT extends AbstractImplicitMergeTest {
 
   @Test
   public void notImplicitMerge_noWarning() throws Exception {
-    setRejectImplicitMerges();
-
     ObjectId base = repo().exactRef("HEAD").getObjectId();
     push("refs/heads/stable", "0", "f", "0");
     testRepo.reset(base);

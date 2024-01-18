@@ -16,16 +16,12 @@ package com.google.gerrit.server.submit;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.gerrit.server.experiments.ExperimentFeaturesConstants.GERRIT_BACKEND_FEATURE_ALWAYS_REJECT_IMPLICIT_MERGES_ON_MERGE;
-import static com.google.gerrit.server.experiments.ExperimentFeaturesConstants.GERRIT_BACKEND_FEATURE_CHECK_IMPLICIT_MERGES_ON_MERGE;
-import static com.google.gerrit.server.experiments.ExperimentFeaturesConstants.GERRIT_BACKEND_FEATURE_REJECT_IMPLICIT_MERGES_ON_MERGE;
 import static com.google.gerrit.server.experiments.ExperimentFeaturesConstants.REBASE_MERGE_COMMITS;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static com.google.gerrit.server.update.RetryableAction.ActionType.INDEX_QUERY;
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.MERGE_CHANGE;
 import static java.util.Comparator.comparing;
 import static java.util.Objects.requireNonNull;
-import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toSet;
 
 import com.github.rholder.retry.Attempt;
@@ -858,48 +854,18 @@ public class MergeOp implements AutoCloseable {
       return;
     }
     Project.NameKey project = branch.project();
-    if (!experimentFeatures.isFeatureEnabled(
-        GERRIT_BACKEND_FEATURE_CHECK_IMPLICIT_MERGES_ON_MERGE, project)) {
-      return;
-    }
     boolean rebaseMergeCommits = experimentFeatures.isFeatureEnabled(REBASE_MERGE_COMMITS, project);
     if (submitType == SubmitType.CHERRY_PICK
         || (rebaseMergeCommits && submitType == SubmitType.REBASE_ALWAYS)) {
       return;
     }
 
-    boolean projectConfigRejectImplicitMerges =
-        projectCache
+    if (!projectCache
             .get(project)
             .orElseThrow(illegalState(project))
-            .is(BooleanProjectConfig.REJECT_IMPLICIT_MERGES);
-    boolean rejectImplicitMergesOnMerges =
-        experimentFeatures.isFeatureEnabled(
-                GERRIT_BACKEND_FEATURE_REJECT_IMPLICIT_MERGES_ON_MERGE, project)
-            && (experimentFeatures.isFeatureEnabled(
-                    GERRIT_BACKEND_FEATURE_ALWAYS_REJECT_IMPLICIT_MERGES_ON_MERGE, project)
-                || projectConfigRejectImplicitMerges);
-    try {
-      if (hasImplicitMerges(branch, rw, commitsToSubmit, branchTip)) {
-        if (rejectImplicitMergesOnMerges) {
-          commitStatus.addImplicitMerge(project, branch);
-        } else {
-          String allCommits =
-              commitsToSubmit.stream()
-                  .map(CodeReviewCommit::getId)
-                  .map(c -> ObjectId.toString(c))
-                  .collect(joining(", "));
-          logger.atWarning().log(
-              "Implicit merge was detected for the branch %s of the project %s. "
-                  + "Commits to be merged are: %s",
-              branch.shortName(), project, allCommits);
-        }
-      }
-    } catch (Exception e) {
-      if (rejectImplicitMergesOnMerges) {
-        throw e;
-      }
-      logger.atWarning().withCause(e).log("Error while checking for implicit merges");
+            .is(BooleanProjectConfig.ENABLE_IMPLICIT_MERGES)
+        && hasImplicitMerges(branch, rw, commitsToSubmit, branchTip)) {
+      commitStatus.addImplicitMerge(project, branch);
     }
   }
 

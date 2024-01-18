@@ -16,6 +16,24 @@
       "message": "Is it possible to add an acceptance test that mimics this scenario?",
       "revId": "d229d8b75813b1776c36d395e837ce97c6caeadc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "91cf6aa1_725960cc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-18T23:46:51Z",
+      "side": 1,
+      "message": "Unit/white-box test, yes. Full E2E acceptance test, not really, at least with the testing framework we have now :-(\n\nWe should move the Gerrit acceptance tests to testcontainers, but that would not allow us to run the builds on RBE anymore.",
+      "parentUuid": "52281b78_e13c2fff",
+      "revId": "d229d8b75813b1776c36d395e837ce97c6caeadc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

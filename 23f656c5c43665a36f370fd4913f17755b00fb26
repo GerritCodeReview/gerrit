@@ -16,6 +16,23 @@
       "message": "ping",
       "revId": "23f656c5c43665a36f370fd4913f17755b00fb26",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "833f3d57_517b8f14",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-18T23:40:46Z",
+      "side": 1,
+      "message": "LGTM, let\u0027s just wait for @kamilm@google.com feedback on the process and get the Release-Notes amended.",
+      "revId": "23f656c5c43665a36f370fd4913f17755b00fb26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

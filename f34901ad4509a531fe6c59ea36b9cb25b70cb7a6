@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5e4a5365_266a880e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-18T23:40:46Z",
+      "side": 1,
+      "message": "I believe this should be mentioned in the release notes.",
+      "parentUuid": "a66cdf1d_c2607918",
+      "revId": "f34901ad4509a531fe6c59ea36b9cb25b70cb7a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6e69adfc_0b1ee60e",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
@@ -243,6 +261,24 @@
       "side": 1,
       "message": "Marking as resolved as there has been no feedback for over two weeks.",
       "parentUuid": "36e9d6d8_a52db12b",
+      "revId": "f34901ad4509a531fe6c59ea36b9cb25b70cb7a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a86c005_7bac83c4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-18T23:40:46Z",
+      "side": 1,
+      "message": "\u003e I think, unless there is a specific reason for this, the changes should first be submitted to master and then cherrypicked into versioned releases.\n\nCould you point me to where this is documented? AFAIK and according to our Gerrit development process we had for over a decade, it is the other way around (see [1]).\n\nCopying the relevant part here for your convenience:\n_Bug-fixes should generally at least cover the oldest affected and still supported version_.\n\nIf the process has changed, we need to amend the contribution process and we\u0027ll be happy to comment and approve the new process. Reopening the feedback to allow @kamilm@google.com to answer before merging this change.\n\n[1] https://gerrit-documentation.storage.googleapis.com/Documentation/3.9.1/dev-crafting-changes.html#branch",
+      "parentUuid": "03bac257_8a34d5a1",
       "revId": "f34901ad4509a531fe6c59ea36b9cb25b70cb7a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

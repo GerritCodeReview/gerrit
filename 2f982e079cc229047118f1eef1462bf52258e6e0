@@ -55,6 +55,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "4736de85_3031d00e",
+        "filename": "java/com/google/gerrit/httpd/GuiceRequestScopePropagator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-01-18T09:24:51Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "580b3d63_706f52ae",
+      "revId": "2f982e079cc229047118f1eef1462bf52258e6e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "a30bd890_8c8cd385",
         "filename": "java/com/google/gerrit/httpd/GuiceRequestScopePropagator.java",
         "patchSetId": 1

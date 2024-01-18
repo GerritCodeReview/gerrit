@@ -46,6 +46,30 @@
       },
       "revId": "1b94625e00b9099bf5cf3b032c02677d2c8c08a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c515b5ef_f5fe81c5",
+        "filename": "java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 632,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-01-18T09:24:51Z",
+      "side": 0,
+      "message": "Acknowledged",
+      "parentUuid": "9de651f0_90cd5c53",
+      "range": {
+        "startLine": 629,
+        "startChar": 0,
+        "endLine": 632,
+        "endChar": 0
+      },
+      "revId": "1b94625e00b9099bf5cf3b032c02677d2c8c08a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -451,6 +451,7 @@ public class MailProcessor {
               (short) side.ordinal(),
               mailComment.getMessage(),
               false,
+              null,
               null);
 
       comment.tag = tag;

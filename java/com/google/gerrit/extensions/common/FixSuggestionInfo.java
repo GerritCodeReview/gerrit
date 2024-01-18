@@ -15,9 +15,26 @@
 package com.google.gerrit.extensions.common;
 
 import java.util.List;
+import java.util.Objects;
 
 public class FixSuggestionInfo {
   public String fixId;
   public String description;
   public List<FixReplacementInfo> replacements;
+
+  @Override
+  public boolean equals(Object o) {
+    if (!(o instanceof FixSuggestionInfo)) {
+      return false;
+    }
+    FixSuggestionInfo fs = (FixSuggestionInfo) o;
+    return Objects.equals(fixId, fs.fixId)
+        && Objects.equals(description, fs.description)
+        && Objects.equals(replacements, fs.replacements);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(fixId, description, replacements);
+  }
 }

@@ -163,7 +163,8 @@ public class ReplyAttentionSetUpdates {
                 commentInput.side(),
                 commentInput.message,
                 commentInput.unresolved,
-                commentInput.inReplyTo));
+                commentInput.inReplyTo,
+                CommentsUtil.createFixSuggestionsFromInput(commentInput.fixSuggestions)));
       }
     }
     List<HumanComment> drafts = new ArrayList<>();

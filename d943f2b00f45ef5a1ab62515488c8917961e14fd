@@ -114,6 +114,30 @@
       },
       "revId": "d943f2b00f45ef5a1ab62515488c8917961e14fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb14a03d_6a228ab2",
+        "filename": "javatests/com/google/gerrit/acceptance/server/util/WorkQueueIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1148165
+      },
+      "writtenOn": "2024-01-18T15:12:15Z",
+      "side": 1,
+      "message": "@luca.milanesio@gmail.com\nWe will fix issues above tommorow.\n\nHere\u0027s the logic:\n1. schedule a period task, execute `num++` every 1 seconds.\n2. Task has an OnStop method, which execute sleep 1 second\n2. wait for 10 seconds\n3. check `num`. It should be around 4 or 5 no matter how the thread runs.\n4. If it\u0027s not greater than 1. It means the period task is only executed once and then stop forever\n\nI think this test prove that period task will stop in some situation\nThe test in this change pass with our fix\nBut the exact same test fails in this change without our fix: https://gerrit-review.googlesource.com/c/gerrit/+/401777",
+      "parentUuid": "0a668139_0679ed6d",
+      "range": {
+        "startLine": 67,
+        "startChar": 4,
+        "endLine": 67,
+        "endChar": 30
+      },
+      "revId": "d943f2b00f45ef5a1ab62515488c8917961e14fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

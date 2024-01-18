@@ -58,6 +58,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Table;
 import com.google.common.collect.Table.Cell;
 import com.google.common.collect.TreeBasedTable;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Address;
@@ -145,6 +146,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   public static final int MAX_CUSTOM_KEY_LENGTH = 100;
   public static final int MAX_CUSTOM_KEYED_VALUE_LENGTH = 1000;
   public static final int MAX_CUSTOM_KEYED_VALUES = 100;
+
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final NoteDbUpdateManager.Factory updateManagerFactory;
   private final ChangeDraftUpdate.ChangeDraftUpdateFactory draftUpdateFactory;
@@ -652,6 +655,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     if (notes != null && notes.revisionNoteMap != null) {
       ObjectId idFromNotes = firstNonNull(notes.load().getRevision(), ObjectId.zeroId());
       if (idFromNotes.equals(curr)) {
+        logger.atInfo().log("value from ChangeNotesCache.Loader#revisionNoteMap is used");
         return notes.revisionNoteMap;
       }
     }

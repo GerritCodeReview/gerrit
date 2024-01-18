@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "502efda1_866db0f8",
+        "filename": "javatests/com/google/gerrit/acceptance/server/util/WorkQueueIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-18T12:04:29Z",
+      "side": 1,
+      "message": "This doesn\u0027t look right: this instance variable is not volatile so we have no guarantee that the update done in the scheduled thread is visible in the test code.",
+      "range": {
+        "startLine": 56,
+        "startChar": 14,
+        "endLine": 56,
+        "endChar": 19
+      },
+      "revId": "d943f2b00f45ef5a1ab62515488c8917961e14fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3bc483e9_fc4e9f54",
+        "filename": "javatests/com/google/gerrit/acceptance/server/util/WorkQueueIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-18T12:04:29Z",
+      "side": 1,
+      "message": "Avoid magic values in tests.\n\n\n```suggestion\n            FIXED_RATE_SCHEDULE_INTERVAL_SEC,\n```",
+      "range": {
+        "startLine": 59,
+        "startChar": 12,
+        "endLine": 59,
+        "endChar": 13
+      },
+      "revId": "d943f2b00f45ef5a1ab62515488c8917961e14fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f22ec18_68e5cce0",
+        "filename": "javatests/com/google/gerrit/acceptance/server/util/WorkQueueIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-18T12:04:29Z",
+      "side": 1,
+      "message": "Avoid magic values in tests.\n\n\n```suggestion\n      Thread.sleep(1000 * (FIXED_RATE_SCHEDULE_INTERVAL_SEC + 1));\n```",
+      "range": {
+        "startLine": 62,
+        "startChar": 19,
+        "endLine": 62,
+        "endChar": 24
+      },
+      "revId": "d943f2b00f45ef5a1ab62515488c8917961e14fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a08d524d_2b7787da",
+        "filename": "javatests/com/google/gerrit/acceptance/server/util/WorkQueueIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-18T12:04:29Z",
+      "side": 1,
+      "message": "How could this be already incremented at this time? There is no wait for the scheduler to have executed the task.\n\nI believe you need to put some wait cycles here.",
+      "range": {
+        "startLine": 66,
+        "startChar": 4,
+        "endLine": 66,
+        "endChar": 37
+      },
+      "revId": "d943f2b00f45ef5a1ab62515488c8917961e14fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a668139_0679ed6d",
+        "filename": "javatests/com/google/gerrit/acceptance/server/util/WorkQueueIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-18T12:04:29Z",
+      "side": 1,
+      "message": "So, you are scheduling a task, do not give any space for the scheduler to execute it and then shut the pool down.\n\nIt doesn\u0027t look right to me.\n\nWhat it should happen is:\n\n1) You schedule the task\n2) You wait for the task to complete (through the future)\n3) You check the `num` value that is greater than its initial value.\n\nDoes that make sense to you?",
+      "range": {
+        "startLine": 67,
+        "startChar": 4,
+        "endLine": 67,
+        "endChar": 30
+      },
+      "revId": "d943f2b00f45ef5a1ab62515488c8917961e14fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

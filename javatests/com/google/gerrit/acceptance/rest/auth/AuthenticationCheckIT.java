@@ -33,7 +33,7 @@ public class AuthenticationCheckIT extends AbstractDaemonTest {
 
   @Test
   public void authCheck_anonymousUser_returnsForbidden() throws Exception {
-    RestSession anonymous = new RestSession(server, null);
+    RestSession anonymous = new GerritServerRestSession(server, null);
     RestResponse r = anonymous.get("/auth-check");
     r.assertForbidden();
   }

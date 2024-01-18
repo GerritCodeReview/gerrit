@@ -104,7 +104,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
 
   @Before
   public void setUp() throws Exception {
-    anonRestSession = new RestSession(server, null);
+    anonRestSession = new GerritServerRestSession(server, null);
     admin2 = accountCreator.admin2();
     GroupInput gi = new GroupInput();
     gi.name = name("New-Group");

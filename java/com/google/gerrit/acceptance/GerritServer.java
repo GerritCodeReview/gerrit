@@ -24,7 +24,7 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.base.Ticker;
 import com.google.common.collect.ImmutableList;
-import com.google.gerrit.acceptance.AbstractDaemonTest.TestTicker;
+import com.google.gerrit.acceptance.AbstractDaemonTestBase.TestTicker;
 import com.google.gerrit.acceptance.FakeGroupAuditService.FakeGroupAuditServiceModule;
 import com.google.gerrit.acceptance.ReindexGroupsAtStartup.ReindexGroupsAtStartupModule;
 import com.google.gerrit.acceptance.ReindexProjectsAtStartup.ReindexProjectsAtStartupModule;

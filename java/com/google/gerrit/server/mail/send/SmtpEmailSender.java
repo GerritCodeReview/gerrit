@@ -159,7 +159,7 @@ public class SmtpEmailSender implements EmailSender {
     if (denyrcpt.contains(address)
         || denyrcpt.contains(domain)
         || denyrcpt.contains("@" + domain)) {
-      logger.atWarning().log("Not emailing %s (prohibited by sendemail.denyrcpt)", address);
+      logger.atInfo().log("Not emailing %s (prohibited by sendemail.denyrcpt)", address);
       return true;
     }
 

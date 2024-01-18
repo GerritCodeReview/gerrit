@@ -79,8 +79,4 @@ public class RobotCommentInfoSubject extends Subject {
     isNotNull();
     return check("property").that(robotCommentInfo.properties);
   }
-
-  public FixSuggestionInfoSubject onlyFixSuggestion() {
-    return fixSuggestions().onlyElement();
-  }
 }

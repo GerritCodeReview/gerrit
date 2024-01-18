@@ -20,6 +20,7 @@ import com.google.gerrit.common.Nullable;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Objects;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
@@ -227,6 +228,8 @@ public abstract class Comment {
   public Range range;
   public String tag;
 
+  public List<FixSuggestion> fixSuggestions;
+
   /**
    * Hex commit SHA1 of the commit of the patchset to which this comment applies. Other classes call
    * this "commitId", but this class uses the old ReviewDb term "revId", and this field name is
@@ -296,8 +299,14 @@ public abstract class Comment {
    * therefore include all unbounded fields (e.g. String-s).
    */
   protected int getCommentFieldApproximateSize() {
-    return nullableLength(message, parentUuid, tag, revId, serverId)
-        + (key != null ? nullableLength(key.filename, key.uuid) : 0);
+    int approximateSize =
+        nullableLength(message, parentUuid, tag, revId, serverId)
+            + (key != null ? nullableLength(key.filename, key.uuid) : 0);
+    approximateSize +=
+        fixSuggestions != null
+            ? fixSuggestions.stream().mapToInt(FixSuggestion::getApproximateSize).sum()
+            : 0;
+    return approximateSize;
   }
 
   public abstract int getApproximateSize();
@@ -327,7 +336,8 @@ public abstract class Comment {
         && Objects.equals(range, c.range)
         && Objects.equals(tag, c.tag)
         && Objects.equals(revId, c.revId)
-        && Objects.equals(serverId, c.serverId);
+        && Objects.equals(serverId, c.serverId)
+        && Objects.equals(fixSuggestions, c.fixSuggestions);
   }
 
   @Override
@@ -344,7 +354,8 @@ public abstract class Comment {
         range,
         tag,
         revId,
-        serverId);
+        serverId,
+        fixSuggestions);
   }
 
   @Override
@@ -364,6 +375,7 @@ public abstract class Comment {
         .add("parentUuid", Objects.toString(parentUuid, ""))
         .add("range", Objects.toString(range, ""))
         .add("revId", Objects.toString(revId, ""))
-        .add("tag", Objects.toString(tag, ""));
+        .add("tag", Objects.toString(tag, ""))
+        .add("fixSuggestions", Objects.toString(fixSuggestions, ""));
   }
 }

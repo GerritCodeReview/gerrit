@@ -27,6 +27,8 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.client.Side;
+import com.google.gerrit.extensions.common.FixReplacementInfo;
+import com.google.gerrit.extensions.common.FixSuggestionInfo;
 import java.util.Arrays;
 import java.util.HashMap;
 
@@ -189,5 +191,32 @@ public class CommentsUtil {
     ReviewInput in = CommentsUtil.newInput(c);
     in.omitDuplicateComments = omitDuplicateComments;
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(in);
+  }
+
+  public static FixSuggestionInfo createFixSuggestionInfo(
+      FixReplacementInfo... fixReplacementInfos) {
+    FixSuggestionInfo newFixSuggestionInfo = new FixSuggestionInfo();
+    newFixSuggestionInfo.fixId = "An ID which must be overwritten.";
+    newFixSuggestionInfo.description = "A description for a suggested fix.";
+    newFixSuggestionInfo.replacements = Arrays.asList(fixReplacementInfos);
+    return newFixSuggestionInfo;
+  }
+
+  public static FixReplacementInfo createFixReplacementInfo() {
+    FixReplacementInfo newFixReplacementInfo = new FixReplacementInfo();
+    newFixReplacementInfo.path = FILE_NAME;
+    newFixReplacementInfo.replacement = "some replacement code";
+    newFixReplacementInfo.range = createRange(3, 9, 8, 4);
+    return newFixReplacementInfo;
+  }
+
+  public static Comment.Range createRange(
+      int startLine, int startCharacter, int endLine, int endCharacter) {
+    Comment.Range range = new Comment.Range();
+    range.startLine = startLine;
+    range.startCharacter = startCharacter;
+    range.endLine = endLine;
+    range.endCharacter = endCharacter;
+    return range;
   }
 }

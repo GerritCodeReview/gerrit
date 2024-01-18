@@ -39,13 +39,14 @@ public class CommentInfo extends Comment {
       CommentInfo ci = (CommentInfo) o;
       return Objects.equals(author, ci.author)
           && Objects.equals(tag, ci.tag)
-          && Objects.equals(unresolved, ci.unresolved);
+          && Objects.equals(unresolved, ci.unresolved)
+          && Objects.equals(fixSuggestions, ci.fixSuggestions);
     }
     return false;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(super.hashCode(), author, tag, unresolved);
+    return Objects.hash(super.hashCode(), author, tag, unresolved, fixSuggestions);
   }
 }

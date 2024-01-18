@@ -150,6 +150,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0ba87ec3_a88c5b07",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-01-18T09:44:43Z",
+      "side": 1,
+      "message": "here\u0027s the change that adds logging:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/403457 \n\nI\u0027ve pushed it for 3.9, as we\u0027d like to test it on gerrithub.io which is running 3.9",
+      "parentUuid": "804480cf_6c03e630",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 58
+      },
+      "revId": "2ed76bc603b071bbb8a1316f2f66c2bcbd1dad51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f88a7466_f9a17731",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4

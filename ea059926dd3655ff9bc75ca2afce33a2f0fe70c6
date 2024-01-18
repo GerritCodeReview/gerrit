@@ -182,6 +182,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c3ffbc05_ec12b574",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148165
+      },
+      "writtenOn": "2024-01-18T02:46:43Z",
+      "side": 1,
+      "message": "@mogulguy12@gmail.com\nAnd the interval is stored in `WorkQueue.Task.task.period`. However `period` is a private attribute of `ScheduledFutureTask`.\nMaybe we can create a HashMap of \u003cRunnable, Period\u003e in `WorkQueue.Executor`. And inside `WorkQueue.Executor.decorateTask` we put the period into `WorkQueue.Task`.\n\nWe upload a new change to implement this. However it\u0027s kind wierd",
+      "parentUuid": "f7610034_8bd76b4c",
+      "revId": "ea059926dd3655ff9bc75ca2afce33a2f0fe70c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "299c49a6_daf11daf",
         "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
         "patchSetId": 14

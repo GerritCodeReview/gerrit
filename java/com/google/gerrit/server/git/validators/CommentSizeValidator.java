@@ -46,7 +46,7 @@ public class CommentSizeValidator implements CommentValidator {
   private boolean exceedsSizeLimit(CommentForValidation comment) {
     switch (comment.getSource()) {
       case HUMAN:
-        return comment.getApproximateSize() > commentSizeLimit;
+        return commentSizeLimit > 0 && comment.getApproximateSize() > commentSizeLimit;
       case ROBOT:
         return robotCommentSizeLimit > 0 && comment.getApproximateSize() > robotCommentSizeLimit;
     }

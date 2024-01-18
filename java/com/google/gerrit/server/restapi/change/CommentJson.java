@@ -227,6 +227,7 @@ public class CommentJson {
         r.author = loader.get(c.author.getId());
       }
       r.commitId = c.getCommitId().getName();
+      r.fixSuggestions = toFixSuggestionInfos(c.fixSuggestions);
     }
 
     protected Range toRange(Comment.Range commentRange) {
@@ -239,32 +240,6 @@ public class CommentJson {
         range.endCharacter = commentRange.endChar;
       }
       return range;
-    }
-  }
-
-  public class HumanCommentFormatter extends BaseCommentFormatter<HumanComment, CommentInfo> {
-    @Override
-    protected CommentInfo toInfo(HumanComment c, AccountLoader loader) {
-      CommentInfo ci = new CommentInfo();
-      fillCommentInfo(c, ci, loader);
-      ci.unresolved = c.unresolved;
-      return ci;
-    }
-
-    private HumanCommentFormatter() {}
-  }
-
-  class RobotCommentFormatter extends BaseCommentFormatter<RobotComment, RobotCommentInfo> {
-    @Override
-    protected RobotCommentInfo toInfo(RobotComment c, AccountLoader loader) {
-      RobotCommentInfo rci = new RobotCommentInfo();
-      rci.robotId = c.robotId;
-      rci.robotRunId = c.robotRunId;
-      rci.url = c.url;
-      rci.properties = c.properties;
-      rci.fixSuggestions = toFixSuggestionInfos(c.fixSuggestions);
-      fillCommentInfo(c, rci, loader);
-      return rci;
     }
 
     @Nullable
@@ -292,6 +267,31 @@ public class CommentJson {
       fixReplacementInfo.range = toRange(fixReplacement.range);
       fixReplacementInfo.replacement = fixReplacement.replacement;
       return fixReplacementInfo;
+    }
+  }
+
+  public class HumanCommentFormatter extends BaseCommentFormatter<HumanComment, CommentInfo> {
+    @Override
+    protected CommentInfo toInfo(HumanComment c, AccountLoader loader) {
+      CommentInfo ci = new CommentInfo();
+      fillCommentInfo(c, ci, loader);
+      ci.unresolved = c.unresolved;
+      return ci;
+    }
+
+    private HumanCommentFormatter() {}
+  }
+
+  class RobotCommentFormatter extends BaseCommentFormatter<RobotComment, RobotCommentInfo> {
+    @Override
+    protected RobotCommentInfo toInfo(RobotComment c, AccountLoader loader) {
+      RobotCommentInfo rci = new RobotCommentInfo();
+      rci.robotId = c.robotId;
+      rci.robotRunId = c.robotRunId;
+      rci.url = c.url;
+      rci.properties = c.properties;
+      fillCommentInfo(c, rci, loader);
+      return rci;
     }
 
     private RobotCommentFormatter() {}

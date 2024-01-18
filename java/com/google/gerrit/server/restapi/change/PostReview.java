@@ -684,6 +684,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         ensureRangeIsValid(path, comment.range);
         ensureValidPatchsetLevelComment(path, comment);
         ensureValidInReplyTo(revision.getNotes(), comment.inReplyTo);
+        ensureFixSuggestionsAreAddable(comment.fixSuggestions, path);
       }
     }
   }
@@ -786,7 +787,6 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       for (RobotCommentInput c : e.getValue()) {
         ensureRobotIdIsSet(c.robotId, commentPath);
         ensureRobotRunIdIsSet(c.robotRunId, commentPath);
-        ensureFixSuggestionsAreAddable(c.fixSuggestions, commentPath);
         // Size is validated later, in CommentLimitsValidator.
       }
     }

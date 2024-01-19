@@ -46,10 +46,12 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.primitives.Chars;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.gerrit.acceptance.AbstractDaemonTestBase.TestData;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.entities.Account;
@@ -114,13 +116,17 @@ import com.google.gerrit.server.change.ChangeFinder;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.FileContentUtil;
 import com.google.gerrit.server.change.RevisionResource;
+import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritInstanceId;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.notedb.AbstractChangeNotes;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
@@ -135,6 +141,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.restapi.change.Revisions;
 import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.FakeEmailSender;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.gson.Gson;
@@ -157,6 +164,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import org.eclipse.jgit.api.Git;
@@ -174,9 +182,63 @@ import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.ClassRule;
+import org.junit.Rule;
+import org.junit.rules.RuleChain;
+import org.junit.rules.TemporaryFolder;
+import org.junit.rules.TestRule;
 import org.junit.runner.Description;
+import org.junit.runner.RunWith;
+import org.junit.runners.model.Statement;
 
-public abstract class AbstractDaemonTest extends AbstractDaemonTestBase {
+@RunWith(ConfigSuite.class)
+public abstract class AbstractDaemonTest {
+
+  public interface TestSetupRule extends TestRule {
+    TestRepository<InMemoryRepository> cloneProject(Project.NameKey p, TestAccount testAccount) throws Exception;
+  }
+
+  public TestSetupRule testRule = createTestSetupRule();
+
+  protected TestSetupRule createTestSetupRule() {
+    return new AbstractDaemonTestBase(this, new TestData() {
+      @Override
+      public Config getBaseConfig() {
+        return baseConfig;
+      }
+
+      @Override
+      public String getConfigName() {
+        return configName;
+      }
+
+      @Override
+      public TemporaryFolder getTemporaryFolder() {
+        return temporaryFolder;
+      }
+
+      @Override
+      public ProjectResetter.Config getResetProjects() {
+        return resetProjects();
+      }
+    });
+  }
+
+  @ClassRule
+  public static TemporaryFolder temporaryFolder = new TemporaryFolder();
+
+  @ConfigSuite.AfterConfig
+  public static void afterConfig() throws Exception{
+    AbstractDaemonTestBase.configSuiteAfterConfig();
+  }
+
+  @ConfigSuite.Parameter public Config baseConfig;
+  @ConfigSuite.Name private String configName;
+  public static final Pattern UNSAFE_PROJECT_NAME = Pattern.compile("[^a-zA-Z0-9._/-]+");
+
+  @Inject protected AllProjectsName allProjects;
+  @Inject protected AllUsersName allUsers;
+  @Inject protected ProjectResetter.Builder.Factory projectResetter;
   @Inject @CanonicalWebUrl protected Provider<String> canonicalWebUrl;
   @Inject @GerritPersonIdent protected Provider<PersonIdent> serverIdent;
   @Inject @GerritServerConfig protected Config cfg;
@@ -197,14 +259,22 @@ public abstract class AbstractDaemonTest extends AbstractDaemonTestBase {
   @Inject protected PatchSetUtil psUtil;
   @Inject protected ProjectCache projectCache;
   @Inject protected ProjectConfig.Factory projectConfigFactory;
+  @Inject private AccountIndexer accountIndexer;
+  @Inject private RequestScopeOperations requestScopeOperations;
+
   @Inject protected Provider<InternalChangeQuery> queryProvider;
   @Inject protected PushOneCommit.Factory pushFactory;
   @Inject protected PluginConfigFactory pluginConfig;
   @Inject protected Revisions revisions;
   @Inject protected SystemGroupBackend systemGroupBackend;
+  @Inject protected AccountCreator accountCreator;
   @Inject protected ChangeNotes.Factory notesFactory;
   @Inject protected BatchAbandon batchAbandon;
   @Inject protected TestSshKeys sshKeys;
+  @Inject protected GitRepositoryManager repoManager;
+  public TestAccount admin;
+  public TestAccount user;
+
 
   protected EventRecorder eventRecorder;
 
@@ -220,6 +290,54 @@ public abstract class AbstractDaemonTest extends AbstractDaemonTestBase {
   @Inject private PluginUser.Factory pluginUserFactory;
   @Inject private SitePaths sitePaths;
   @Inject private ProjectOperations projectOperations;
+  @Inject protected IdentifiedUser.GenericFactory identifiedUserFactory;
+  @Inject protected AcceptanceTestRequestScope atrScope;
+  /** Sets up {@code account} as a caller in tests. */
+  public void setRequestScope(TestAccount account) {
+    Context ctx = newRequestContext(account);
+    atrScope.set(ctx);
+  }
+
+  protected Context newRequestContext(TestAccount account) {
+    requestScopeOperations.setApiUser(account.id());
+    return atrScope.get();
+  }
+  private String resourcePrefix;
+
+  /** Controls which project and branches should be reset after each test case. */
+  protected ProjectResetter.Config resetProjects() {
+    return new ProjectResetter.Config()
+        // Don't reset all refs so that refs/sequences/changes is not touched and change IDs are
+        // not reused.
+        .reset(allProjects, RefNames.REFS_CONFIG)
+        // Don't reset refs/sequences/accounts so that account IDs are not reused.
+        .reset(
+            allUsers,
+            RefNames.REFS_CONFIG,
+            RefNames.REFS_USERS + "*",
+            RefNames.REFS_EXTERNAL_IDS,
+            RefNames.REFS_GROUPNAMES,
+            RefNames.REFS_GROUPS + "*",
+            RefNames.REFS_STARRED_CHANGES + "*",
+            RefNames.REFS_DRAFT_COMMENTS + "*");
+  }
+
+
+  public TestRule myTestRule = new TestRule() {
+    @Override
+    public Statement apply(Statement statement, Description description) {
+      return new Statement() {
+        @Override
+        public void evaluate() throws Throwable {
+          createProject(description);
+          statement.evaluate();
+        }
+      };
+    }
+  };
+
+  @Rule
+  public TestRule chain = RuleChain.outerRule(testRule).around(myTestRule);
 
   @Before
   public void clearSender() {
@@ -237,7 +355,7 @@ public abstract class AbstractDaemonTest extends AbstractDaemonTestBase {
 
   @After
   public void verifyNoPiiInChangeNotes() throws RestApiException, IOException {
-    if (testMethodDescription.verifyNoPiiInChangeNotes()) {
+    if (testRule.testMethodDescription.verifyNoPiiInChangeNotes()) {
       verifyNoAccountDetailsInChangeNotes();
     }
   }
@@ -262,14 +380,26 @@ public abstract class AbstractDaemonTest extends AbstractDaemonTestBase {
   protected boolean isContributorAgreementsEnabled() {
     return cfg.getBoolean("auth", null, "contributorAgreements", false);
   }
+  public TestAccount admin;
+  public TestAccount user;
 
-  @Override
-  protected void createProject(Description description, boolean cloneProject) throws Exception {
+  protected TestRepository<InMemoryRepository> cloneProject(Project.NameKey p, TestAccount testAccount) throws Exception {
+    return testRule.cloneProject(p, testAccount);
+  }
+  public void reindexAccount(Account.Id accountId) {
+    accountIndexer.index(accountId);
+  }
+  protected void createProject(Description description) throws Exception {
+    String testMethodName = description.getMethodName();
+    resourcePrefix =
+        UNSAFE_PROJECT_NAME
+            .matcher(description.getClassName() + "_" + testMethodName + "_")
+            .replaceAll("");
     ProjectInput in = projectInput(description);
     gApi.projects().create(in);
     project = Project.nameKey(in.name);
-    if (cloneProject) {
-      testRepo = cloneProject(project, getCloneAsAccount(description));
+    if (!testRule.skipProjectClone) {
+      testRepo = testRule.cloneProject(project, getCloneAsAccount(description));
     }
   }
 
@@ -350,7 +480,7 @@ public abstract class AbstractDaemonTest extends AbstractDaemonTestBase {
   }
 
   protected TestRepository<InMemoryRepository> cloneProject(Project.NameKey p) throws Exception {
-    return cloneProject(p, admin);
+    return testRule.cloneProject(p, testRule.admin);
   }
 
   /**
@@ -430,7 +560,7 @@ public abstract class AbstractDaemonTest extends AbstractDaemonTestBase {
 
   @CanIgnoreReturnValue
   protected PushOneCommit.Result createChange(String ref) throws Exception {
-    PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
+    PushOneCommit push = pushFactory.create(testRule.admin.newIdent(), testRepo);
     PushOneCommit.Result result = push.to(ref);
     result.assertOkStatus();
     return result;
@@ -439,7 +569,7 @@ public abstract class AbstractDaemonTest extends AbstractDaemonTestBase {
   @CanIgnoreReturnValue
   protected PushOneCommit.Result createChange(TestRepository<InMemoryRepository> repo)
       throws Exception {
-    PushOneCommit push = pushFactory.create(admin.newIdent(), repo);
+    PushOneCommit push = pushFactory.create(testRule.admin.newIdent(), repo);
     PushOneCommit.Result result = push.to("refs/for/master");
     result.assertOkStatus();
     return result;
@@ -457,7 +587,7 @@ public abstract class AbstractDaemonTest extends AbstractDaemonTestBase {
     PushOneCommit.Result p1 =
         pushFactory
             .create(
-                admin.newIdent(),
+                testRule.admin.newIdent(),
                 testRepo,
                 "parent 1",
                 ImmutableMap.of(file, "foo-1", "bar", "bar-1"))
@@ -469,7 +599,7 @@ public abstract class AbstractDaemonTest extends AbstractDaemonTestBase {
     PushOneCommit.Result p2 =
         pushFactory
             .create(
-                admin.newIdent(),
+                testRule.admin.newIdent(),
                 testRepo,
                 "parent 2",
                 ImmutableMap.of(file, "foo-2", "bar", "bar-2"))
@@ -477,7 +607,7 @@ public abstract class AbstractDaemonTest extends AbstractDaemonTestBase {
 
     PushOneCommit m =
         pushFactory.create(
-            admin.newIdent(), testRepo, "merge", ImmutableMap.of(file, "foo-1", "bar", "bar-2"));
+            testRule.admin.newIdent(), testRepo, "merge", ImmutableMap.of(file, "foo-1", "bar", "bar-2"));
     m.setParents(ImmutableList.of(p1.getCommit(), p2.getCommit()));
     PushOneCommit.Result result = m.to(ref);
     result.assertOkStatus();
@@ -507,7 +637,7 @@ public abstract class AbstractDaemonTest extends AbstractDaemonTestBase {
       pushResults.add(
           pushFactory
               .create(
-                  admin.newIdent(),
+                  testRule.admin.newIdent(),
                   testRepo,
                   "parent " + i,
                   fileNames.stream().collect(Collectors.toMap(f -> f, f -> f + "-" + finalI)))
@@ -521,7 +651,7 @@ public abstract class AbstractDaemonTest extends AbstractDaemonTestBase {
 
     PushOneCommit m =
         pushFactory.create(
-            admin.newIdent(),
+            testRule.admin.newIdent(),
             testRepo,
             "merge",
             IntStream.range(1, n + 1)
@@ -545,7 +675,7 @@ public abstract class AbstractDaemonTest extends AbstractDaemonTestBase {
       String content)
       throws Exception {
     PushOneCommit.Result result =
-        pushFactory.create(admin.newIdent(), repo, commitMsg, fileName, content).to(ref);
+        pushFactory.create(testRule.admin.newIdent(), repo, commitMsg, fileName, content).to(ref);
     result.assertOkStatus();
     return result;
   }
@@ -566,7 +696,7 @@ public abstract class AbstractDaemonTest extends AbstractDaemonTestBase {
   @CanIgnoreReturnValue
   protected PushOneCommit.Result createChange(String subject, String fileName, String content)
       throws Exception {
-    PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo, subject, fileName, content);
+    PushOneCommit push = pushFactory.create(testRule.admin.newIdent(), testRepo, subject, fileName, content);
     return push.to("refs/for/master");
   }
 
@@ -579,7 +709,7 @@ public abstract class AbstractDaemonTest extends AbstractDaemonTestBase {
       String content,
       @Nullable String topic)
       throws Exception {
-    PushOneCommit push = pushFactory.create(admin.newIdent(), repo, subject, fileName, content);
+    PushOneCommit push = pushFactory.create(testRule.admin.newIdent(), repo, subject, fileName, content);
     return push.to(
         "refs/for/" + branch + (Strings.isNullOrEmpty(topic) ? "" : "%topic=" + name(topic)));
   }
@@ -607,7 +737,7 @@ public abstract class AbstractDaemonTest extends AbstractDaemonTestBase {
   protected PushOneCommit.Result amendChangeWithUploader(
       PushOneCommit.Result change, Project.NameKey projectName, TestAccount account)
       throws Exception {
-    TestRepository<InMemoryRepository> repo = cloneProject(projectName, account);
+    TestRepository<InMemoryRepository> repo = testRule.cloneProject(projectName, account);
     GitUtil.fetch(repo, "refs/*:refs/*");
     repo.reset(change.getCommit());
     PushOneCommit.Result result =
@@ -624,7 +754,7 @@ public abstract class AbstractDaemonTest extends AbstractDaemonTestBase {
 
   @CanIgnoreReturnValue
   protected PushOneCommit.Result amendChange(String changeId) throws Exception {
-    return amendChange(changeId, "refs/for/master", admin, testRepo);
+    return amendChange(changeId, "refs/for/master", testRule.admin, testRepo);
   }
 
   @CanIgnoreReturnValue
@@ -645,7 +775,7 @@ public abstract class AbstractDaemonTest extends AbstractDaemonTestBase {
   @CanIgnoreReturnValue
   protected PushOneCommit.Result amendChange(
       String changeId, String subject, String fileName, String content) throws Exception {
-    return amendChange(changeId, "refs/for/master", admin, testRepo, subject, fileName, content);
+    return amendChange(changeId, "refs/for/master", testRule.admin, testRepo, subject, fileName, content);
   }
 
   @CanIgnoreReturnValue
@@ -707,10 +837,10 @@ public abstract class AbstractDaemonTest extends AbstractDaemonTestBase {
 
   protected AutoCloseable disableNoteDb() {
     changeNotesArgs.failOnLoadForTest.set(true);
-    Context oldContext = atrScope.disableNoteDb();
+    Context oldContext = testRule.atrScope.disableNoteDb();
     return () -> {
       changeNotesArgs.failOnLoadForTest.set(false);
-      atrScope.set(oldContext);
+      testRule.atrScope.set(oldContext);
     };
   }
 
@@ -765,7 +895,7 @@ public abstract class AbstractDaemonTest extends AbstractDaemonTestBase {
 
   @CanIgnoreReturnValue
   protected PushOneCommit.Result pushTo(String ref) throws Exception {
-    PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
+    PushOneCommit push = pushFactory.create(testRule.admin.newIdent(), testRepo);
     return push.to(ref);
   }
 
@@ -882,7 +1012,7 @@ public abstract class AbstractDaemonTest extends AbstractDaemonTestBase {
   protected ChangeResource parseChangeResource(String changeId) throws Exception {
     List<ChangeNotes> notes = changeFinder.find(changeId);
     assertThat(notes).hasSize(1);
-    return changeResourceFactory.create(notes.get(0), atrScope.get().getUser());
+    return changeResourceFactory.create(notes.get(0), testRule.atrScope.get().getUser());
   }
 
   protected RevCommit getHead(Repository repo, String name) throws Exception {
@@ -1371,7 +1501,7 @@ public abstract class AbstractDaemonTest extends AbstractDaemonTestBase {
     public void save() throws Exception {
       testRefAction(
           () -> {
-            metaDataUpdate.setAuthor(identifiedUserFactory.create(admin.id()));
+            metaDataUpdate.setAuthor(identifiedUserFactory.create(testRule.admin.id()));
             projectConfig.commit(metaDataUpdate);
             metaDataUpdate.close();
             metaDataUpdate = null;

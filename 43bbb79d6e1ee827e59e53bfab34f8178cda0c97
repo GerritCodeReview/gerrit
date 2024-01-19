@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79162bf6_aad255d9",
+        "filename": "Documentation/intro-project-owner.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-01-19T15:58:59Z",
+      "side": 1,
+      "message": "Update this one too? (actually it looks like there\u0027s 8 references to `Projects` in this file, so they could probably all be updated in one change)",
+      "range": {
+        "startLine": 47,
+        "startChar": 16,
+        "endLine": 47,
+        "endChar": 24
+      },
+      "revId": "43bbb79d6e1ee827e59e53bfab34f8178cda0c97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

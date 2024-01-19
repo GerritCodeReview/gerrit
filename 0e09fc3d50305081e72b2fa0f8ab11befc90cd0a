@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd054309_27885fec",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-01-19T15:36:00Z",
+      "side": 1,
+      "message": "One thing to add, is that I don\u0027t think that we need to invalidate any caches or do reindexing after the migration. As both should have \"correct\" data already loaded. The migration here is only to ensure that data in Git are the same as in the cache and the external account mapping is skipped when loading data.",
+      "revId": "0e09fc3d50305081e72b2fa0f8ab11befc90cd0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

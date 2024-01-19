@@ -416,8 +416,8 @@ public class AgreementsIT extends AbstractDaemonTest {
 
     String url = "/changes/" + changeId + "/edit:publish";
     setUseContributorAgreements(InheritableBoolean.TRUE);
-    userRestSession.post(url).assertForbidden();
+    testRule.userRestSession.post(url).assertForbidden();
     setUseContributorAgreements(InheritableBoolean.FALSE);
-    userRestSession.post(url).assertNoContent();
+    testRule.userRestSession.post(url).assertNoContent();
   }
 }

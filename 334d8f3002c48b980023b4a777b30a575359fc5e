@@ -34,6 +34,40 @@
       "parentUuid": "acee7f3f_e792481e",
       "revId": "334d8f3002c48b980023b4a777b30a575359fc5e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e0eec18_7e1717ce",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2024-01-19T23:10:33Z",
+      "side": 1,
+      "message": "This reason, \"to prevent it from running before runningState is set to null.\" sounds like the reason that \"the Task is rescheduled in WorkQueue.Task.run\", but not the reason that \"we skip decorating\" it. I would think you skip decorating it because the task being retried has already been decorated? If my reasoning is correct, then perhaps the \"retry\" variable should actually be called \"decorated\" and it should be set to true at the bottom of this method instead of line 720?",
+      "revId": "334d8f3002c48b980023b4a777b30a575359fc5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a1cf182_be5d84f8",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2024-01-19T23:10:33Z",
+      "side": 1,
+      "message": "Above 4 lines are racy, and can likely be replaced with the following single line?\n\n  task.setPeriod(delayMap.remove(runnable));",
+      "revId": "334d8f3002c48b980023b4a777b30a575359fc5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

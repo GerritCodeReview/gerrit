@@ -194,6 +194,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "309b8f4c_8e32f466",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2024-01-19T20:54:06Z",
+      "side": 1,
+      "message": "well, it\u0027s a simple problem (as far as you presented it), so it really seems like implementing it perfectly should be easy enough. and given that it would fall onto the admin, it\u0027s not something i\u0027d expect users to work around.\n\nthen you need to consider the wider impact:\nfirstly, i have five emails in my qt-project account, and three of them are dead, so they absolutely need a config option to mark them as inactive to prevent accidental selection (but they should stay there, as i want my account to be associated with commits using them).\nsecondly, as pointed out before, for just about everyone outside your setup this additional UI would be just clutter and therefore degrade UX. so you\u0027d need another option (global? per-user?) to actually enable the feature.",
+      "parentUuid": "79ae377c_4a3eadb6",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 9
+      },
+      "revId": "d7e0ee6a17115a0429e92242e6c0136b4ca47c85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "613702fe_ba4906be",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

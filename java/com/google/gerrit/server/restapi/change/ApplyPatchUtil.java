@@ -215,8 +215,15 @@ public final class ApplyPatchUtil {
   }
 
   private static String decodeIfNecessary(String patch) {
-    if (Base64.isBase64(patch)) {
-      return new String(org.eclipse.jgit.util.Base64.decode(patch), UTF_8);
+    if (Base64.isBase64(patch.getBytes(UTF_8))) {
+      try {
+        return new String(org.eclipse.jgit.util.Base64.decode(patch), UTF_8);
+      } catch (IllegalArgumentException e) {
+        // It's possible that all the chars in the patch are valid Base64 chars, but the full string
+        // is not a valid Base64 string as expected by jGit. In this case, we assume the patch is
+        // already unencoded.
+        return patch;
+      }
     }
     return patch;
   }

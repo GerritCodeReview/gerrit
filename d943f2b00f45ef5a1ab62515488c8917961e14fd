@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed9d1808_8ee225c6",
+        "filename": "javatests/com/google/gerrit/acceptance/server/util/WorkQueueIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 3228522
+      },
+      "writtenOn": "2024-01-19T02:53:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "26bb2420_1eab82fa",
+      "range": {
+        "startLine": 30,
+        "startChar": 21,
+        "endLine": 30,
+        "endChar": 25
+      },
+      "revId": "d943f2b00f45ef5a1ab62515488c8917961e14fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c31da60c_d3ed3228",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-01-18T15:26:54Z",
       "side": 1,
       "message": "Avoid magic values in tests: what 8 represents? Please use a self-documenting constant name.",
+      "range": {
+        "startLine": 52,
+        "startChar": 66,
+        "endLine": 52,
+        "endChar": 67
+      },
+      "revId": "d943f2b00f45ef5a1ab62515488c8917961e14fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c06afd7c_979a3ec4",
+        "filename": "javatests/com/google/gerrit/acceptance/server/util/WorkQueueIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 3228522
+      },
+      "writtenOn": "2024-01-19T02:53:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c31da60c_d3ed3228",
       "range": {
         "startLine": 52,
         "startChar": 66,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d41f8b73_9e2b4c24",
+        "filename": "javatests/com/google/gerrit/acceptance/server/util/WorkQueueIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 3228522
+      },
+      "writtenOn": "2024-01-19T02:53:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "502efda1_866db0f8",
+      "range": {
+        "startLine": 56,
+        "startChar": 14,
+        "endLine": 56,
+        "endChar": 19
+      },
+      "revId": "d943f2b00f45ef5a1ab62515488c8917961e14fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3bc483e9_fc4e9f54",
@@ -83,6 +155,30 @@
       "writtenOn": "2024-01-18T12:04:29Z",
       "side": 1,
       "message": "Avoid magic values in tests.\n\n\n```suggestion\n            FIXED_RATE_SCHEDULE_INTERVAL_SEC,\n```",
+      "range": {
+        "startLine": 59,
+        "startChar": 12,
+        "endLine": 59,
+        "endChar": 13
+      },
+      "revId": "d943f2b00f45ef5a1ab62515488c8917961e14fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "800e86a5_cae7f9e4",
+        "filename": "javatests/com/google/gerrit/acceptance/server/util/WorkQueueIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 3228522
+      },
+      "writtenOn": "2024-01-19T02:53:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3bc483e9_fc4e9f54",
       "range": {
         "startLine": 59,
         "startChar": 12,
@@ -140,6 +236,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d260d579_cd056fab",
+        "filename": "javatests/com/google/gerrit/acceptance/server/util/WorkQueueIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 3228522
+      },
+      "writtenOn": "2024-01-19T02:53:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f066d56c_fd467a46",
+      "range": {
+        "startLine": 62,
+        "startChar": 19,
+        "endLine": 62,
+        "endChar": 24
+      },
+      "revId": "d943f2b00f45ef5a1ab62515488c8917961e14fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a08d524d_2b7787da",
@@ -153,6 +273,30 @@
       "writtenOn": "2024-01-18T12:04:29Z",
       "side": 1,
       "message": "How could this be already incremented at this time? There is no wait for the scheduler to have executed the task.\n\nI believe you need to put some wait cycles here.",
+      "range": {
+        "startLine": 66,
+        "startChar": 4,
+        "endLine": 66,
+        "endChar": 37
+      },
+      "revId": "d943f2b00f45ef5a1ab62515488c8917961e14fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1305fe6_4597128d",
+        "filename": "javatests/com/google/gerrit/acceptance/server/util/WorkQueueIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 3228522
+      },
+      "writtenOn": "2024-01-19T02:53:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a08d524d_2b7787da",
       "range": {
         "startLine": 66,
         "startChar": 4,
@@ -224,6 +368,30 @@
       "side": 1,
       "message": "\u003e @luca.milanesio@gmail.com\n\u003e We will fix issues above tommorow.\n\u003e \n\u003e Here\u0027s the logic:\n\u003e 1. schedule a period task, execute `num++` every 1 seconds.\n\u003e 2. Task has an OnStop method, which execute sleep 1 second\n\nGotcha, I missed that part.\n\n\u003e 2. wait for 10 seconds\n\u003e 3. check `num`. It should be around 4 or 5 no matter how the thread runs.\n\u003e 4. If it\u0027s not greater than 1. It means the period task is only executed once and then stop forever\n\nOk, but the magic values in the code did not make the test readable enough.\nAlso, there is no need to make an explicit sleep of 10s, you\u0027re just making the Gerrit build 10s slower than it should.\n\nUse a countdown latch and assert that it should trigger two times. You can wait up to 2*FIXED_RATE_SCHEDULE_INTERVAL_SEC.\n\n\u003e I think this test prove that period task will stop in some situation\n\u003e The test in this change pass with our fix\n\u003e But the exact same test fails in this change without our fix: https://gerrit-review.googlesource.com/c/gerrit/+/401777\n\nGotcha.",
       "parentUuid": "cb14a03d_6a228ab2",
+      "range": {
+        "startLine": 67,
+        "startChar": 4,
+        "endLine": 67,
+        "endChar": 30
+      },
+      "revId": "d943f2b00f45ef5a1ab62515488c8917961e14fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f59b78e_6f163055",
+        "filename": "javatests/com/google/gerrit/acceptance/server/util/WorkQueueIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 3228522
+      },
+      "writtenOn": "2024-01-19T02:53:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "220c87f9_4c8b3bf6",
       "range": {
         "startLine": 67,
         "startChar": 4,

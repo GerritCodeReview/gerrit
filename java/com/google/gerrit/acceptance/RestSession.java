@@ -20,6 +20,7 @@ import static com.google.gerrit.json.OutputFormat.JSON_COMPACT;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
 
+import com.google.gerrit.acceptance.AbstractDaemonTestBase.RestSessionInterface;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.restapi.RawInput;
 import java.io.IOException;
@@ -30,20 +31,23 @@ import org.apache.http.entity.InputStreamEntity;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.message.BasicHeader;
 
-public class RestSession extends HttpSession {
+public class RestSession extends HttpSession implements RestSessionInterface {
 
   public RestSession(GerritServer server, @Nullable TestAccount account) {
     super(server, account);
   }
 
+  @Override
   public RestResponse get(String endPoint) throws IOException {
     return getWithHeaders(endPoint);
   }
 
+  @Override
   public RestResponse getJsonAccept(String endPoint) throws IOException {
     return getWithHeaders(endPoint, new BasicHeader(ACCEPT, "application/json"));
   }
 
+  @Override
   public RestResponse getWithHeaders(String endPoint, Header... headers) throws IOException {
     Request get = Request.Get(getUrl(endPoint));
     if (headers != null) {
@@ -52,22 +56,27 @@ public class RestSession extends HttpSession {
     return execute(get);
   }
 
+  @Override
   public RestResponse head(String endPoint) throws IOException {
     return execute(Request.Head(getUrl(endPoint)));
   }
 
+  @Override
   public RestResponse put(String endPoint) throws IOException {
     return put(endPoint, /* content = */ null);
   }
 
+  @Override
   public RestResponse put(String endPoint, Object content) throws IOException {
     return putWithHeaders(endPoint, content);
   }
 
+  @Override
   public RestResponse putWithHeaders(String endPoint, Header... headers) throws IOException {
     return putWithHeaders(endPoint, /* content= */ null, headers);
   }
 
+  @Override
   public RestResponse putWithHeaders(String endPoint, Object content, Header... headers)
       throws IOException {
     Request put = Request.Put(getUrl(endPoint));
@@ -80,6 +89,7 @@ public class RestSession extends HttpSession {
     return execute(put);
   }
 
+  @Override
   public RestResponse putRaw(String endPoint, RawInput stream) throws IOException {
     requireNonNull(stream);
     Request put = Request.Put(getUrl(endPoint));
@@ -90,14 +100,17 @@ public class RestSession extends HttpSession {
     return execute(put);
   }
 
+  @Override
   public RestResponse post(String endPoint) throws IOException {
     return post(endPoint, /* content = */ null);
   }
 
+  @Override
   public RestResponse post(String endPoint, Object content) throws IOException {
     return postWithHeaders(endPoint, content);
   }
 
+  @Override
   public RestResponse postWithHeaders(String endPoint, Object content, Header... headers)
       throws IOException {
     Request post = Request.Post(getUrl(endPoint));
@@ -115,10 +128,12 @@ public class RestSession extends HttpSession {
     request.body(new StringEntity(JSON_COMPACT.newGson().toJson(content), UTF_8));
   }
 
+  @Override
   public RestResponse delete(String endPoint) throws IOException {
     return execute(Request.Delete(getUrl(endPoint)));
   }
 
+  @Override
   public RestResponse deleteWithHeaders(String endPoint, Header... headers) throws IOException {
     Request delete = Request.Delete(getUrl(endPoint));
     if (headers != null) {

@@ -39,17 +39,17 @@ public class FilterClassIT extends AbstractDaemonTest {
   @Test
   public void filterLoad() {
     FakeNoInitParamsFilter fakeNoInitParamsFilter =
-        server.getTestInjector().getBinding(FakeNoInitParamsFilter.class).getProvider().get();
+        testRule.getTestInjector().getBinding(FakeNoInitParamsFilter.class).getProvider().get();
     Assert.assertNotNull(fakeNoInitParamsFilter);
     FakeMustInitParamsFilter fakeMustInitParamsFilter =
-        server.getTestInjector().getBinding(FakeMustInitParamsFilter.class).getProvider().get();
+        testRule.getTestInjector().getBinding(FakeMustInitParamsFilter.class).getProvider().get();
     Assert.assertNotNull(fakeMustInitParamsFilter);
   }
 
   @Test
   public void filterInitParams() {
     FakeMustInitParamsFilter fakeMustInitParamsFilter =
-        server.getTestInjector().getBinding(FakeMustInitParamsFilter.class).getProvider().get();
+        testRule.getTestInjector().getBinding(FakeMustInitParamsFilter.class).getProvider().get();
     Assert.assertEquals(2, fakeMustInitParamsFilter.getInitParams().size());
     Assert.assertEquals("hello", fakeMustInitParamsFilter.getInitParams().get("PARAM-1"));
     Assert.assertEquals("world", fakeMustInitParamsFilter.getInitParams().get("PARAM-2"));

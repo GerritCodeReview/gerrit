@@ -650,9 +650,10 @@ Plugin Development] section.
 [[project-creation]]
 === Project Creation
 
-New projects can be created in the Gerrit Web UI under `Projects` >
-`Create Project`. The `Create Project` menu entry is only available if
-you have the link:access-control.html#capability_createProject[
+New projects can be created in the Gerrit Web UI under `BROWSE` >
+`Repositories` and then clicking on the `CREATE NEW` button in the
+upper right corner. The `CREATE NEW` button is only available if you
+have the link:access-control.html#capability_createProject[
 Create Project] global capability assigned.
 
 Projects can also be created via REST or SSH as described in the

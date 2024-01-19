@@ -72,6 +72,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "31eac52b_748b37f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-01-19T09:34:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5e4a5365_266a880e",
+      "revId": "f34901ad4509a531fe6c59ea36b9cb25b70cb7a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6e69adfc_0b1ee60e",
@@ -279,6 +297,24 @@
       "side": 1,
       "message": "\u003e I think, unless there is a specific reason for this, the changes should first be submitted to master and then cherrypicked into versioned releases.\n\nCould you point me to where this is documented? AFAIK and according to our Gerrit development process we had for over a decade, it is the other way around (see [1]).\n\nCopying the relevant part here for your convenience:\n_Bug-fixes should generally at least cover the oldest affected and still supported version_.\n\nIf the process has changed, we need to amend the contribution process and we\u0027ll be happy to comment and approve the new process. Reopening the feedback to allow @kamilm@google.com to answer before merging this change.\n\n[1] https://gerrit-documentation.storage.googleapis.com/Documentation/3.9.1/dev-crafting-changes.html#branch",
       "parentUuid": "03bac257_8a34d5a1",
+      "revId": "f34901ad4509a531fe6c59ea36b9cb25b70cb7a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d9b3eed_93953558",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-01-19T09:34:08Z",
+      "side": 1,
+      "message": "\u003e Copying the relevant part here for your convenience:\n\u003e _Bug-fixes should generally at least cover the oldest affected and still supported version._\n\nThis makes me think that this should even go into the `stable-3.7`, as this code (and bug) has been there for the dawn of time and the earliest supported version is 3.7 right now.",
+      "parentUuid": "5a86c005_7bac83c4",
       "revId": "f34901ad4509a531fe6c59ea36b9cb25b70cb7a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

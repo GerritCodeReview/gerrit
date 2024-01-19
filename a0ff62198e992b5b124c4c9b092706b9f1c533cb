@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ef688d0_d7945739",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 32
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1152600
+      },
+      "writtenOn": "2024-01-19T14:32:24Z",
+      "side": 1,
+      "message": "I have the change in WIP. I will make it ready, once this change pass review.",
+      "parentUuid": "f712b9ed_b1b0963f",
+      "range": {
+        "startLine": 7,
+        "startChar": 30,
+        "endLine": 7,
+        "endChar": 34
+      },
+      "revId": "a0ff62198e992b5b124c4c9b092706b9f1c533cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6490ada6_53c1407d",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "696b4adb_2517cf08",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 32
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1152600
+      },
+      "writtenOn": "2024-01-19T14:32:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6490ada6_53c1407d",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 60
+      },
+      "revId": "a0ff62198e992b5b124c4c9b092706b9f1c533cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cac2c44a_36d8e119",
@@ -60,6 +108,30 @@
       "writtenOn": "2024-01-17T20:37:45Z",
       "side": 1,
       "message": "What about \"Implement a new REST-API to remove Gerrit groups\"",
+      "range": {
+        "startLine": 14,
+        "startChar": 15,
+        "endLine": 14,
+        "endChar": 29
+      },
+      "revId": "a0ff62198e992b5b124c4c9b092706b9f1c533cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "73ee148e_d64582ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 32
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1152600
+      },
+      "writtenOn": "2024-01-19T14:32:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cac2c44a_36d8e119",
       "range": {
         "startLine": 14,
         "startChar": 15,
@@ -110,6 +182,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0be4d599_3d36b825",
+        "filename": "Documentation/rest-api-groups.txt",
+        "patchSetId": 32
+      },
+      "lineNbr": 1489,
+      "author": {
+        "id": 1152600
+      },
+      "writtenOn": "2024-01-19T14:32:24Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "fda1c1ea_e91b2396",
+      "range": {
+        "startLine": 1489,
+        "startChar": 4,
+        "endLine": 1489,
+        "endChar": 17
+      },
+      "revId": "a0ff62198e992b5b124c4c9b092706b9f1c533cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6ea3649f_26571697",
@@ -123,6 +219,30 @@
       "writtenOn": "2024-01-17T20:37:45Z",
       "side": 1,
       "message": "```suggestion\nThis endpoint is only allowed for Gerrit\u0027s internal groups; attempting to call on a\n```",
+      "range": {
+        "startLine": 1491,
+        "startChar": 34,
+        "endLine": 1491,
+        "endChar": 49
+      },
+      "revId": "a0ff62198e992b5b124c4c9b092706b9f1c533cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa324dd8_b7e7a4a1",
+        "filename": "Documentation/rest-api-groups.txt",
+        "patchSetId": 32
+      },
+      "lineNbr": 1491,
+      "author": {
+        "id": 1152600
+      },
+      "writtenOn": "2024-01-19T14:32:24Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "6ea3649f_26571697",
       "range": {
         "startLine": 1491,
         "startChar": 34,
@@ -156,6 +276,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9f90fed_72f472f4",
+        "filename": "Documentation/rest-api-groups.txt",
+        "patchSetId": 32
+      },
+      "lineNbr": 1492,
+      "author": {
+        "id": 1152600
+      },
+      "writtenOn": "2024-01-19T14:32:24Z",
+      "side": 1,
+      "message": "Yes, it correct. It is only possible to delete internal groups.",
+      "parentUuid": "e01c0b75_9a1a473c",
+      "range": {
+        "startLine": 1492,
+        "startChar": 0,
+        "endLine": 1492,
+        "endChar": 18
+      },
+      "revId": "a0ff62198e992b5b124c4c9b092706b9f1c533cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "604592b4_1cb75eb8",
@@ -169,6 +313,30 @@
       "writtenOn": "2024-01-17T20:37:45Z",
       "side": 1,
       "message": "Leftover?",
+      "range": {
+        "startLine": 1505,
+        "startChar": 0,
+        "endLine": 1522,
+        "endChar": 0
+      },
+      "revId": "a0ff62198e992b5b124c4c9b092706b9f1c533cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e7d0fe8_260bf5f0",
+        "filename": "Documentation/rest-api-groups.txt",
+        "patchSetId": 32
+      },
+      "lineNbr": 1522,
+      "author": {
+        "id": 1152600
+      },
+      "writtenOn": "2024-01-19T14:32:24Z",
+      "side": 1,
+      "message": "If I understood your comment correctly. It has 2 alternatives command POST and DELETE",
+      "parentUuid": "604592b4_1cb75eb8",
       "range": {
         "startLine": 1505,
         "startChar": 0,
@@ -202,6 +370,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6854a3fa_d42bb057",
+        "filename": "java/com/google/gerrit/extensions/api/groups/GroupApi.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1152600
+      },
+      "writtenOn": "2024-01-19T14:32:24Z",
+      "side": 1,
+      "message": "It was a bad comment",
+      "parentUuid": "d41134c7_3cce35c3",
+      "range": {
+        "startLine": 43,
+        "startChar": 19,
+        "endLine": 43,
+        "endChar": 37
+      },
+      "revId": "a0ff62198e992b5b124c4c9b092706b9f1c533cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "60b4737a_bcca5d09",
@@ -219,6 +411,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f963cbc9_61b85c6b",
+        "filename": "java/com/google/gerrit/extensions/common/DeleteGroupInput.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1152600
+      },
+      "writtenOn": "2024-01-19T14:32:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "60b4737a_bcca5d09",
+      "revId": "a0ff62198e992b5b124c4c9b092706b9f1c533cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f790a35b_cd49104f",
@@ -232,6 +442,24 @@
       "writtenOn": "2024-01-17T20:37:45Z",
       "side": 1,
       "message": "nit: add empty space",
+      "revId": "a0ff62198e992b5b124c4c9b092706b9f1c533cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6763f3e5_ce2bdae2",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1152600
+      },
+      "writtenOn": "2024-01-19T14:32:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f790a35b_cd49104f",
       "revId": "a0ff62198e992b5b124c4c9b092706b9f1c533cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -259,6 +487,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c05e4e92_e189e89d",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 1152600
+      },
+      "writtenOn": "2024-01-19T14:32:24Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "6f62ac20_acb0ba32",
+      "range": {
+        "startLine": 483,
+        "startChar": 61,
+        "endLine": 483,
+        "endChar": 68
+      },
+      "revId": "a0ff62198e992b5b124c4c9b092706b9f1c533cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8c763dc0_dd9bf513",
@@ -272,6 +524,30 @@
       "writtenOn": "2024-01-17T20:37:45Z",
       "side": 1,
       "message": "```suggestion\n// Copyright (C) 2024 The Android Open Source Project\n```",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "a0ff62198e992b5b124c4c9b092706b9f1c533cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f83a2683_d0f48c2d",
+        "filename": "java/com/google/gerrit/server/restapi/group/DeleteGroup.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1152600
+      },
+      "writtenOn": "2024-01-19T14:32:24Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "8c763dc0_dd9bf513",
       "range": {
         "startLine": 1,
         "startChar": 17,

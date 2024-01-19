@@ -242,6 +242,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2b62fbfc_9e3eb7bd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2024-01-19T23:47:29Z",
+      "side": 1,
+      "message": "\u003e I was simplifying the problem significantly.\n\nfair enough. but if it is a clear rule set with known mechanistic inputs, then it\u0027s still less error prone to have the admin set it up rather than users second-guessing it.\n\nif subjective or otherwise elusive inputs are sometimes required, then the scenario would be rather different from what you presented so far. users stop paying attention when the machine gets it right most of the time, so the idea to automate it at all is a non-starter in this case - unless mistakes are considered minor, but this would call the whole thing into question (why bother at all then?).\n\n\u003e It makes use of existing empty UI space\n\njust because space is available doesn\u0027t mean that it can be stuffed without detriment. unnecessary cognitive load is bad.\n\n\u003e do you expect a config to disable every feature a user doesn\u0027t regularly use in Gerrit?\n\nas a general rule, yes.\nfor smaller things not on a per-user level, because that tends to get silly. but things that are generally not required by the org\u0027s policy should be hidden, and gerrit does in fact have lots of knobs for that (and qt-project patches out some non-configurable things locally, which is of course ugly admin-wise).",
+      "parentUuid": "ca498e3e_d9bb9526",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 9
+      },
+      "revId": "d7e0ee6a17115a0429e92242e6c0136b4ca47c85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "613702fe_ba4906be",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

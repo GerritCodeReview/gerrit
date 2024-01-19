@@ -40,6 +40,7 @@ import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.SshMode;
 import com.google.gerrit.testing.TestTimeUtil;
 import com.google.inject.Inject;
+import com.google.inject.Injector;
 import com.google.inject.Module;
 import java.io.File;
 import java.sql.Timestamp;
@@ -51,6 +52,7 @@ import java.util.regex.Pattern;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.transport.Transport;
@@ -65,9 +67,8 @@ import org.junit.runner.Description;
 import org.junit.runner.RunWith;
 import org.junit.runners.model.Statement;
 
-@RunWith(ConfigSuite.class)
-public abstract class AbstractDaemonTestBase {
-  public static final Pattern UNSAFE_PROJECT_NAME = Pattern.compile("[^a-zA-Z0-9._/-]+");
+
+public class AbstractDaemonTestBase implements TestRule {
 
   /**
    * Test methods without special annotations will use a common server for efficiency reasons. The
@@ -82,21 +83,21 @@ public abstract class AbstractDaemonTestBase {
   @ConfigSuite.Parameter public Config baseConfig;
   @ConfigSuite.Name private String configName;
 
-  @Inject protected AllProjectsName allProjects;
-  @Inject protected AllUsersName allUsers;
-  @Inject protected ProjectResetter.Builder.Factory projectResetter;
+  @Inject private AllProjectsName allProjects;
+  @Inject private AllUsersName allUsers;
+  @Inject private ProjectResetter.Builder.Factory projectResetter;
 
   @Inject private InProcessProtocol inProcessProtocol;
 
   private ProjectResetter resetter;
 
   private boolean testRequiresSsh;
-  protected GerritServer server;
+  private GerritServer server;
 
   protected SshSession adminSshSession;
   protected SshSession userSshSession;
 
-  @Inject protected TestTicker testTicker;
+  @Inject private TestTicker testTicker;
 
   private List<Repository> toClose;
   private String systemTimeZone;
@@ -105,11 +106,10 @@ public abstract class AbstractDaemonTestBase {
   protected Description description;
   protected GerritServer.Description testMethodDescription;
 
-  protected String resourcePrefix;
 
-  protected TestAccount admin;
-  protected TestAccount user;
-  @Inject protected AccountCreator accountCreator;
+  public TestAccount admin;
+  public TestAccount user;
+  @Inject private AccountCreator accountCreator;
 
   @Inject private AccountIndexer accountIndexer;
   protected RestSession adminRestSession;
@@ -120,7 +120,12 @@ public abstract class AbstractDaemonTestBase {
   @Inject protected IdentifiedUser.GenericFactory identifiedUserFactory;
   @Inject private RequestScopeOperations requestScopeOperations;
 
-  @Inject protected GitRepositoryManager repoManager;
+  @Inject private GitRepositoryManager repoManager;
+
+    @Override
+    public Statement apply(Statement statement, Description description) {
+      return testRunner.apply(statement, description);
+    }
 
   /** {@link Ticker} implementation for mocking without restarting GerritServer */
   public static class TestTicker extends Ticker {
@@ -152,8 +157,7 @@ public abstract class AbstractDaemonTestBase {
     }
   }
 
-  @Rule
-  public TestRule testRunner =
+  private TestRule testRunner =
       new TestRule() {
         @Override
         public Statement apply(Statement base, Description description) {
@@ -169,6 +173,7 @@ public abstract class AbstractDaemonTestBase {
               try (ProjectResetter resetter =
                   projectResetter != null ? projectResetter.builder().build(input) : null) {
                 AbstractDaemonTestBase.this.resetter = resetter;
+                assumeSshIfRequired();
                 base.evaluate();
               } finally {
                 AbstractDaemonTestBase.this.resetter = null;
@@ -275,18 +280,8 @@ public abstract class AbstractDaemonTestBase {
 
     initSsh();
 
-    String testMethodName = description.getMethodName();
-    resourcePrefix =
-        UNSAFE_PROJECT_NAME
-            .matcher(description.getClassName() + "_" + testMethodName + "_")
-            .replaceAll("");
-
     setRequestScope(admin);
-    createProject(description, !classDesc.skipProjectClone());
   }
-
-  protected abstract void createProject(Description description, boolean cloneProject)
-      throws Exception;
 
   public void reindexAccount(Account.Id accountId) {
     accountIndexer.index(accountId);
@@ -373,7 +368,7 @@ public abstract class AbstractDaemonTestBase {
     }
   }
 
-  protected void initSsh() throws Exception {
+  private void initSsh() throws Exception {
     if (testRequiresSsh
         && SshMode.useSsh()
         && (adminSshSession == null || userSshSession == null)) {
@@ -401,7 +396,7 @@ public abstract class AbstractDaemonTestBase {
     return atrScope.get();
   }
 
-  @Before
+  // @Before
   public void assumeSshIfRequired() {
     if (testRequiresSsh) {
       // If the test uses ssh, we use assume() to make sure ssh is enabled on
@@ -471,7 +466,9 @@ public abstract class AbstractDaemonTestBase {
     return inProcessProtocol.register(ctx, repo).toString();
   }
 
-  @ConfigSuite.AfterConfig
+  public static void configSuiteAfterConfig() throws Exception {
+    stopCommonServer();
+  }
   public static void stopCommonServer() throws Exception {
     if (commonServer != null) {
       try {
@@ -504,5 +501,9 @@ public abstract class AbstractDaemonTestBase {
       server.getTestInjector().injectMembers(resetter);
     }
     initSsh();
+  }
+
+  protected Injector getTestInjector() {
+    return server.getTestInjector();
   }
 }

@@ -61,7 +61,7 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
 
   @Before
   public void enableReviewerByEmail() throws Exception {
-    requestScopeOperations.setApiUser(admin.id());
+    requestScopeOperations.setApiUser(testRule.admin.id());
     ConfigInput conf = new ConfigInput();
     conf.enableReviewerByEmail = InheritableBoolean.TRUE;
     gApi.projects().name(project.get()).config(conf);
@@ -366,11 +366,11 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
     public boolean supportReviewersByEmail;
 
     private String usersCacheKey() {
-      return description.getClassName();
+      return testRule.description.getClassName();
     }
 
     private TestAccount reindexAndCopy(TestAccount account) {
-      reindexAccount(account.id());
+      testRule.reindexAccount(account.id());
       return account;
     }
 
@@ -499,7 +499,7 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
         ref = ref + '%' + Joiner.on(',').join(pushOptions);
       }
       requestScopeOperations.setApiUser(owner.id());
-      repo = cloneProject(project, owner);
+      repo = testRule.cloneProject(project, owner);
       PushOneCommit push = pushFactory.create(owner.newIdent(), repo);
       result = push.to(ref);
       result.assertOkStatus();

@@ -218,6 +218,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ca498e3e_d9bb9526",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-01-19T22:03:23Z",
+      "side": 1,
+      "message": "\u003e well, it\u0027s a simple problem (as far as you presented it), so it really seems like implementing it perfectly should be easy enough. and given that it would fall onto the admin, it\u0027s not something i\u0027d expect users to work around.\n\nI was simplifying the problem significantly. The logic for selection is painfully complicated and unfortunately changes on a regular basis. If it was easy I would have done it years ago.\n\n\u003e \n\u003e then you need to consider the wider impact:\n\u003e firstly, i have five emails in my qt-project account, and three of them are dead, so they absolutely need a config option to mark them as inactive to prevent accidental selection (but they should stay there, as i want my account to be associated with commits using them).\n\nI agree that would be nice, but it doesn\u0027t seem like a blocker. Maybe you want to contribute it?\n\n\u003e secondly, as pointed out before, for just about everyone outside your setup this additional UI would be just clutter and therefore degrade UX. so you\u0027d need another option (global? per-user?) to actually enable the feature.\n\nI\u0027m still not convinced this is \"clutter\". It makes use of existing empty UI space and informs the user as to what email address will be used as the committer address when they save their commit message edit. Further, do you expect a config to disable every feature a user doesn\u0027t regularly use in Gerrit? That doesn\u0027t seem practical.",
+      "parentUuid": "309b8f4c_8e32f466",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 9
+      },
+      "revId": "d7e0ee6a17115a0429e92242e6c0136b4ca47c85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "613702fe_ba4906be",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

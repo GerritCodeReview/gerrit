@@ -124,12 +124,11 @@ public class GerritServer implements AutoCloseable {
   @AutoValue
   public abstract static class Description {
     public static Description forTestClass(
-        org.junit.runner.Description testDesc, String configName) {
+        org.junit.runner.Description testDesc) {
       VerifyNoPiiInChangeNotes verifyNoPiiInChangeNotes =
           get(VerifyNoPiiInChangeNotes.class, testDesc.getTestClass());
       return new AutoValue_GerritServer_Description(
           testDesc,
-          configName,
           !has(UseLocalDisk.class, testDesc.getTestClass()) && !forceLocalDisk(),
           !has(NoHttpd.class, testDesc.getTestClass()),
           has(Sandboxed.class, testDesc.getTestClass()),
@@ -148,7 +147,7 @@ public class GerritServer implements AutoCloseable {
     }
 
     public static Description forTestMethod(
-        org.junit.runner.Description testDesc, String configName) {
+        org.junit.runner.Description testDesc) {
       UseClockStep useClockStep = testDesc.getAnnotation(UseClockStep.class);
       if (testDesc.getAnnotation(UseSystemTime.class) == null && useClockStep == null) {
         // Only read the UseClockStep from the class if on method level neither @UseSystemTime nor
@@ -165,7 +164,6 @@ public class GerritServer implements AutoCloseable {
 
       return new AutoValue_GerritServer_Description(
           testDesc,
-          configName,
           (testDesc.getAnnotation(UseLocalDisk.class) == null
                   && !has(UseLocalDisk.class, testDesc.getTestClass()))
               && !forceLocalDisk(),
@@ -211,9 +209,6 @@ public class GerritServer implements AutoCloseable {
     }
 
     abstract org.junit.runner.Description testDescription();
-
-    @Nullable
-    abstract String configName();
 
     abstract boolean memory();
 

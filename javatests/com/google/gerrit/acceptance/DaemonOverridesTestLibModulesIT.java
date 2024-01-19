@@ -44,16 +44,16 @@ public class DaemonOverridesTestLibModulesIT extends AbstractDaemonTest {
 
   @ModuleImpl(name = TEST_MODULE)
   public static class OverriddenModule extends TestModule {}
-
-  @Override
-  public Module createAuditModule() {
-    return new DefaultModule();
-  }
-
-  @Override
-  public Module createModule() {
-    return new OverriddenModule();
-  }
+//
+//  @Override
+//  public Module createAuditModule() {
+//    return new DefaultModule();
+//  }
+//
+//  @Override
+//  public Module createModule() {
+//    return new OverriddenModule();
+//  }
 
   @Test
   public void testSysModuleShouldOverrideTheDefaultOneWithSameModuleAnnotation() {

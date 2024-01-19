@@ -122,6 +122,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "919d72b0_54e98c9c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-01-19T16:11:12Z",
+      "side": 1,
+      "message": "\u003e i\u0027m skeptical of that line of argumentation, as i don\u0027t see potential for layering anything; the implementations are basically orthogonal.\n\nIf you have the implementation handy for the policy-based solution, please do share it. I\u0027m skeptical that you do 😊\nI don\u0027t have an implementation yet, but the design we very roughly sketched out for it leverages the backend API that\u0027s populating this UI drop-down, including which email it chooses as the default for the drop-down. If we can influence that default through project config or a plugin, then we can make it easy for users to follow the policy.\n\n\u003e the actual outcome will be probably that the perceived urgency of a proper solution will be significantly downgraded. while permanently cluttering up the UI for unsuspecting users.\n\nYou gloss over the fact that the immediate outcome is an (imperfect) solution to the issue we have. I don\u0027t think this drop-down is \"clutter\", but if you have concerns about UI clutter and want to improve that, please suggest some options.",
+      "parentUuid": "f512c388_b34b50dd",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 9
+      },
+      "revId": "d7e0ee6a17115a0429e92242e6c0136b4ca47c85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "613702fe_ba4906be",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

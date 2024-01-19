@@ -44,7 +44,7 @@ Access Control] chapter explains all the details.
 To see the access rights of your project
 
 - go to the Gerrit Web UI
-- click on the `Projects` > `List` menu entry
+- click on the `BROWSE` > `Repositories` menu entry
 - find your project in the project list and click on it
 - click on the `Access` menu entry
 
@@ -238,7 +238,7 @@ link:project-configuration.html#project_options[Project Options] section.
 To see the options of your project:
 
 . Go to the Gerrit Web UI.
-. Click on the `Projects` > `List` menu entry.
+. Click on the `BROWSE` > `Repositories` menu entry.
 . Find your project in the project list and click it.
 . Click the `General` menu entry.
 
@@ -431,7 +431,7 @@ messages conform to line length limits.
 == Branch Administration
 
 As project owner you can administrate the branches of your project in
-the Gerrit Web UI under `Projects` > `List` > <your project> >
+the Gerrit Web UI under `BROWSE` > `Repositories` > <your project> >
 `Branches`. In the Web UI link:project-configuration.html#branch-creation[
 branch creation] is allowed if you have
 link:access-control.html#category_create[Create Reference] access right and
@@ -450,7 +450,7 @@ this default branch and checks it out.
 
 With Gerrit individual users control their own email subscriptions. By
 editing the link:user-notify.html#user[watched projects] in the Web UI
-under `Settings` > `Watched Projects` users can decide which events to
+under `Settings` > `Notifications` users can decide which events to
 be informed about by email. The change notifications can be filtered by
 link:user-search.html[change search expressions].
 
@@ -476,8 +476,8 @@ configure such custom dashboards on
 link:user-dashboards.html#project-dashboards[project level]. This way
 you can define a view of the changes that are relevant for your
 project and share this dashboard with all users. The project dashboards
-can be seen in the Web UI under `Projects` > `List` > <your project> >
-`Dashboards`.
+can be seen in the Web UI under `BROWSE` > `Repositories` > <your project>
+> `Dashboards`.
 
 [[issue-tracker-integration]]
 == Issue Tracker Integration
@@ -509,7 +509,7 @@ If installed, these plugins can e.g. be used to automatically add links
 to Gerrit changes to the issues in the issue tracker system or to
 automatically close an issue if the corresponding change is merged.
 If installed, project owners may enable/disable the issue tracker
-integration from the Gerrit Web UI under `Projects` > `Lists` >
+integration from the Gerrit Web UI under `BROWSE` > `Repositories` >
 <your project> > `General`.
 
 [[comment-links]]
@@ -554,7 +554,7 @@ Gerrit will then notify this person by email about the review request.
 With the link:https://gerrit-review.googlesource.com/admin/repos/plugins/reviewers[
 reviewers,role=external,window=_blank] plugin it is possible to configure default reviewers who
 will be automatically added to each change. The default reviewers can
-be configured in the Gerrit Web UI under `Projects` > `List` >
+be configured in the Gerrit Web UI under `BROWSE` > `Repositories` >
 <your project> > `General` in the `reviewers Plugin` section.
 
 The link:https://gerrit-review.googlesource.com/admin/repos/plugins/reviewers-by-blame[
@@ -565,7 +565,7 @@ will add those users as reviewer that authored most of the lines
 touched by the change, since these users should be familiar with the
 code and can most likely review the change. How many reviewers the
 plugin will add to a change at most can be configured in the Gerrit
-Web UI under `Projects` > `List` > <your project> > `General` in the
+Web UI under `BROWSE` > `Repositories` > <your project> > `General` in the
 `reviewers-by-blame Plugin` section.
 
 [[download-commands]]
@@ -650,9 +650,10 @@ Plugin Development] section.
 [[project-creation]]
 === Project Creation
 
-New projects can be created in the Gerrit Web UI under `Projects` >
-`Create Project`. The `Create Project` menu entry is only available if
-you have the link:access-control.html#capability_createProject[
+New projects can be created in the Gerrit Web UI under `BROWSE` >
+`Repositories` and then clicking on the `CREATE NEW` button in the
+upper right corner. The `CREATE NEW` button is only available if you
+have the link:access-control.html#capability_createProject[
 Create Project] global capability assigned.
 
 Projects can also be created via REST or SSH as described in the
@@ -736,7 +737,7 @@ Gerrit core does not support the deletion of projects.
 
 If the link:https://gerrit-review.googlesource.com/admin/repos/plugins/delete-project[
 delete-project,role=external,window=_blank] plugin is installed, projects can be deleted from the
-Gerrit Web UI under `Projects` > `List` > <project> > `General` by
+Gerrit Web UI under `BROWSE` > `Repositories` > <project> > `General` by
 clicking on the `Delete` command under `Project Commands`. The `Delete`
 command is only available if you have the `Delete Projects` global
 capability assigned, or if you own the project and you have the

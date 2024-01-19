@@ -106,7 +106,6 @@ public abstract class StandaloneSiteTest {
   }
 
   @ConfigSuite.Parameter public Config baseConfig;
-  @ConfigSuite.Name private String configName;
 
   private final TemporaryFolder tempSiteDir = new TemporaryFolder();
 
@@ -137,7 +136,7 @@ public abstract class StandaloneSiteTest {
     // configs at initialization time, and are then stored in the RepositoryCache forever.
     oldSystemReader = setFakeSystemReader(tempSiteDir.getRoot());
 
-    serverDesc = GerritServer.Description.forTestMethod(description, configName);
+    serverDesc = GerritServer.Description.forTestMethod(description);
     sitePaths = new SitePaths(tempSiteDir.getRoot().toPath());
     GerritServer.init(serverDesc, baseConfig, sitePaths.site_path);
   }

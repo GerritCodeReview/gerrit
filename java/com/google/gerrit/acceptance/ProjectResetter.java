@@ -19,7 +19,9 @@ import static com.google.gerrit.entities.RefNames.REFS_USERS;
 import static com.google.gerrit.testing.TestActionRefUpdateContext.testRefAction;
 import static java.util.stream.Collectors.toSet;
 
+import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Sets;
@@ -27,6 +29,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.index.RefState;
 import com.google.gerrit.server.account.AccountCache;
@@ -137,19 +140,25 @@ public class ProjectResetter implements AutoCloseable {
   }
 
   public static class Config {
-    private final Multimap<Project.NameKey, String> refsByProject;
+    private final ImmutableMultimap<NameKey, String> refsByProject;
 
     public Config() {
-      this.refsByProject = MultimapBuilder.hashKeys().arrayListValues().build();
+      this(ImmutableMultimap.of());
+    }
+    private Config(ImmutableMultimap<NameKey, String> refsByProject) {
+      this.refsByProject = refsByProject;
+
     }
 
     public Config reset(Project.NameKey project, String... refPatterns) {
+      ImmutableMultimap.Builder<NameKey, String> refsByProjectBuilder  = ImmutableMultimap.builder();
+      refsByProjectBuilder.putAll(refsByProject);
       List<String> refPatternList = Arrays.asList(refPatterns);
       if (refPatternList.isEmpty()) {
         refPatternList = ImmutableList.of(RefNames.REFS + "*");
       }
-      refsByProject.putAll(project, refPatternList);
-      return this;
+      refsByProjectBuilder.putAll(project, refPatternList);
+      return new Config(refsByProjectBuilder.build());
     }
   }
 

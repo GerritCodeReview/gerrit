@@ -366,7 +366,7 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
     public boolean supportReviewersByEmail;
 
     private String usersCacheKey() {
-      return description.getClassName();
+      return descriptionRule.testClassName();
     }
 
     private TestAccount reindexAndCopy(TestAccount account) {
@@ -499,7 +499,7 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
         ref = ref + '%' + Joiner.on(',').join(pushOptions);
       }
       requestScopeOperations.setApiUser(owner.id());
-      repo = cloneProject(project, owner);
+      repo = testRule.cloneProject(project, owner);
       PushOneCommit push = pushFactory.create(owner.newIdent(), repo);
       result = push.to(ref);
       result.assertOkStatus();

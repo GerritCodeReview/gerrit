@@ -240,7 +240,7 @@ public class AccountManagerIT extends AbstractDaemonTest {
   @Test
   public void readOnlyFullNameField_authenticateWithUsernameAndUpdateDisplayName()
       throws Exception {
-    TestRealm realm = server.getTestInjector().getInstance(TestRealm.class);
+    TestRealm realm = testRule.getTestInjector().getInstance(TestRealm.class);
     realm.denyEdit(AccountFieldName.FULL_NAME);
     authenticateWithUsernameAndUpdateDisplayName(
         new AccountManager(

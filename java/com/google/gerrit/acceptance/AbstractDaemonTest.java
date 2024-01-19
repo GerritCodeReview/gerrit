@@ -46,10 +46,15 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.primitives.Chars;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.gerrit.acceptance.AbstractDaemonTestBase.ConfigSuiteListener;
+import com.google.gerrit.acceptance.AbstractDaemonTestBase.RestSessionInterface;
+import com.google.gerrit.acceptance.AbstractDaemonTestBase.TestDescriptionRule;
+import com.google.gerrit.acceptance.AbstractDaemonTestBase.TestSshRule;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.entities.Account;
@@ -114,13 +119,17 @@ import com.google.gerrit.server.change.ChangeFinder;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.FileContentUtil;
 import com.google.gerrit.server.change.RevisionResource;
+import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritInstanceId;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.notedb.AbstractChangeNotes;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
@@ -135,10 +144,13 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.restapi.change.Revisions;
 import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.FakeEmailSender;
 import com.google.gerrit.testing.FakeEmailSender.Message;
+import com.google.gerrit.testing.GerritTestName;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
+import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.google.inject.Provider;
 import java.io.ByteArrayOutputStream;
@@ -157,6 +169,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.Callable;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import org.eclipse.jgit.api.Git;
@@ -174,9 +188,52 @@ import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.ClassRule;
+import org.junit.Rule;
+import org.junit.rules.RuleChain;
+import org.junit.rules.TemporaryFolder;
+import org.junit.rules.TestRule;
 import org.junit.runner.Description;
+import org.junit.runner.RunWith;
+import org.junit.runners.model.Statement;
 
-public abstract class AbstractDaemonTest extends AbstractDaemonTestBase {
+@RunWith(ConfigSuite.class)
+public abstract class AbstractDaemonTest {
+
+  public interface TestSetupRule extends TestRule {
+    TestRepository<InMemoryRepository> cloneProject(Project.NameKey p, TestAccount testAccount) throws Exception;
+    RestSessionInterface createSessionForAccount(TestAccount account);
+    RestSessionInterface createAnonymousSession();
+    void setSshRule(TestSshRule testSshRule);
+    Injector getTestInjector();
+  }
+
+
+  public TestSetupRule testRule = createTestSetupRule();
+
+  public static final List<Runnable> afterConfigListeners = new ArrayList<>();
+
+  protected TestSetupRule createTestSetupRule() {
+    AbstractDaemonTestBase testRule = new AbstractDaemonTestBase(temporaryFolder, () -> baseConfig);
+    afterConfigListeners.add(AbstractDaemonTestBase::configSuiteAfterConfig);
+    return testRule;
+  }
+
+  @ClassRule
+  public static TemporaryFolder temporaryFolder = new TemporaryFolder();
+
+  @ConfigSuite.AfterConfig
+  public static void afterConfig() throws Exception{
+    afterConfigListeners.stream().forEach(Runnable::run);
+    afterConfigListeners.clear();
+  }
+
+  @ConfigSuite.Parameter public Config baseConfig;
+  public static final Pattern UNSAFE_PROJECT_NAME = Pattern.compile("[^a-zA-Z0-9._/-]+");
+
+  @Inject protected AllProjectsName allProjects;
+  @Inject protected AllUsersName allUsers;
+  @Inject protected ProjectResetter.Builder.Factory projectResetter;
   @Inject @CanonicalWebUrl protected Provider<String> canonicalWebUrl;
   @Inject @GerritPersonIdent protected Provider<PersonIdent> serverIdent;
   @Inject @GerritServerConfig protected Config cfg;
@@ -197,14 +254,22 @@ public abstract class AbstractDaemonTest extends AbstractDaemonTestBase {
   @Inject protected PatchSetUtil psUtil;
   @Inject protected ProjectCache projectCache;
   @Inject protected ProjectConfig.Factory projectConfigFactory;
+  @Inject private AccountIndexer accountIndexer;
+  @Inject private RequestScopeOperations requestScopeOperations;
+
   @Inject protected Provider<InternalChangeQuery> queryProvider;
   @Inject protected PushOneCommit.Factory pushFactory;
   @Inject protected PluginConfigFactory pluginConfig;
   @Inject protected Revisions revisions;
   @Inject protected SystemGroupBackend systemGroupBackend;
+  @Inject protected AccountCreator accountCreator;
   @Inject protected ChangeNotes.Factory notesFactory;
   @Inject protected BatchAbandon batchAbandon;
   @Inject protected TestSshKeys sshKeys;
+  @Inject protected GitRepositoryManager repoManager;
+  public TestAccount admin;
+  public TestAccount user;
+
 
   protected EventRecorder eventRecorder;
 
@@ -220,15 +285,94 @@ public abstract class AbstractDaemonTest extends AbstractDaemonTestBase {
   @Inject private PluginUser.Factory pluginUserFactory;
   @Inject private SitePaths sitePaths;
   @Inject private ProjectOperations projectOperations;
+  @Inject protected IdentifiedUser.GenericFactory identifiedUserFactory;
+  @Inject protected AcceptanceTestRequestScope atrScope;
+  /** Sets up {@code account} as a caller in tests. */
+  public void setRequestScope(TestAccount account) {
+    Context ctx = newRequestContext(account);
+    atrScope.set(ctx);
+  }
+
+  protected Context newRequestContext(TestAccount account) {
+    requestScopeOperations.setApiUser(account.id());
+    return atrScope.get();
+  }
+  private String resourcePrefix;
+
+  /** Controls which project and branches should be reset after each test case. */
+  protected ProjectResetter.Config resetProjects() {
+    return new ProjectResetter.Config()
+        // Don't reset all refs so that refs/sequences/changes is not touched and change IDs are
+        // not reused.
+        .reset(allProjects, RefNames.REFS_CONFIG)
+        // Don't reset refs/sequences/accounts so that account IDs are not reused.
+        .reset(
+            allUsers,
+            RefNames.REFS_CONFIG,
+            RefNames.REFS_USERS + "*",
+            RefNames.REFS_EXTERNAL_IDS,
+            RefNames.REFS_GROUPNAMES,
+            RefNames.REFS_GROUPS + "*",
+            RefNames.REFS_STARRED_CHANGES + "*",
+            RefNames.REFS_DRAFT_COMMENTS + "*");
+  }
+
+
+  public TestRule myTestRule = new TestRule() {
+    @Override
+    public Statement apply(Statement statement, Description description) {
+      return new Statement() {
+        @Override
+        public void evaluate() throws Throwable {
+          testRule.getTestInjector().injectMembers(AbstractDaemonTest.this);
+          admin = accountCreator.admin();
+          user = accountCreator.user1();
+
+          // Evict and reindex accounts in case tests modify them.
+          reindexAccount(admin.id());
+          reindexAccount(user.id());
+
+          setRequestScope(admin);
+          createProject(description);
+          statement.evaluate();
+        }
+      };
+    }
+  };
+
+  public TestDescriptionRule descriptionRule = new TestDescriptionRule();
+  @Rule
+  public TestRule chain = RuleChain.outerRule(descriptionRule).around(testRule).around(myTestRule);
+
+  protected RestSessionInterface adminRestSession;
+  protected RestSessionInterface userRestSession;
+  protected RestSessionInterface anonymousRestSession;
+  ProjectResetter resetter;
 
   @Before
+  public void setUpBase() throws Exception {
+    // testRule.getTestInjector().injectMembers(this);
+    clearSender();
+    startEventRecorder();
+    adminRestSession = testRule.createSessionForAccount(admin);
+    userRestSession = testRule.createSessionForAccount(user);
+    anonymousRestSession = testRule.createAnonymousSession();
+    ProjectResetter.Config cfg = resetProjects();
+    if(cfg != null) {
+      resetter = projectResetter.builder().build(cfg);
+    } else {
+      resetter = null;
+    }
+
+
+  }
+
   public void clearSender() {
     if (sender != null) {
       sender.clear();
     }
   }
 
-  @Before
   public void startEventRecorder() {
     if (eventRecorderFactory != null) {
       eventRecorder = eventRecorderFactory.create(admin);
@@ -236,9 +380,13 @@ public abstract class AbstractDaemonTest extends AbstractDaemonTestBase {
   }
 
   @After
-  public void verifyNoPiiInChangeNotes() throws RestApiException, IOException {
-    if (testMethodDescription.verifyNoPiiInChangeNotes()) {
+  public void verifyNoPiiInChangeNotes() throws Exception {
+    if (descriptionRule.verifyNoPiiInChangeNotes()) {
       verifyNoAccountDetailsInChangeNotes();
+    }
+    if(resetter != null) {
+      resetter.close();
+      resetter = null;
     }
   }
 
@@ -248,6 +396,8 @@ public abstract class AbstractDaemonTest extends AbstractDaemonTestBase {
       eventRecorder.close();
     }
   }
+
+
 
   protected static Config submitWholeTopicEnabledConfig() {
     Config cfg = new Config();
@@ -263,13 +413,23 @@ public abstract class AbstractDaemonTest extends AbstractDaemonTestBase {
     return cfg.getBoolean("auth", null, "contributorAgreements", false);
   }
 
-  @Override
-  protected void createProject(Description description, boolean cloneProject) throws Exception {
+  protected TestRepository<InMemoryRepository> cloneProject(Project.NameKey p, TestAccount testAccount) throws Exception {
+    return testRule.cloneProject(p, testAccount);
+  }
+  public void reindexAccount(Account.Id accountId) {
+    accountIndexer.index(accountId);
+  }
+  protected void createProject(Description description) throws Exception {
+    String testMethodName = description.getMethodName();
+    resourcePrefix =
+        UNSAFE_PROJECT_NAME
+            .matcher(description.getClassName() + "_" + testMethodName + "_")
+            .replaceAll("");
     ProjectInput in = projectInput(description);
     gApi.projects().create(in);
     project = Project.nameKey(in.name);
-    if (cloneProject) {
-      testRepo = cloneProject(project, getCloneAsAccount(description));
+    if (!descriptionRule.skipProjectClone()) {
+      testRepo = testRule.cloneProject(project, getCloneAsAccount(description));
     }
   }
 
@@ -350,7 +510,7 @@ public abstract class AbstractDaemonTest extends AbstractDaemonTestBase {
   }
 
   protected TestRepository<InMemoryRepository> cloneProject(Project.NameKey p) throws Exception {
-    return cloneProject(p, admin);
+    return testRule.cloneProject(p, admin);
   }
 
   /**
@@ -607,7 +767,7 @@ public abstract class AbstractDaemonTest extends AbstractDaemonTestBase {
   protected PushOneCommit.Result amendChangeWithUploader(
       PushOneCommit.Result change, Project.NameKey projectName, TestAccount account)
       throws Exception {
-    TestRepository<InMemoryRepository> repo = cloneProject(projectName, account);
+    TestRepository<InMemoryRepository> repo = testRule.cloneProject(projectName, account);
     GitUtil.fetch(repo, "refs/*:refs/*");
     repo.reset(change.getCommit());
     PushOneCommit.Result result =

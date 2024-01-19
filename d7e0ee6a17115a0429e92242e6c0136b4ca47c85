@@ -170,6 +170,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "79ae377c_4a3eadb6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-01-19T20:29:28Z",
+      "side": 1,
+      "message": "\u003e my assumption is that the proper implementation _won\u0027t_ have an interactive drop-down, because there simply is no need for this: your case can be fully automated, and the \"usual\" case is already automated by selecting the preferred email address. therefore, the implementation would likely be in the backend, as an extension to the already existing preference. plus, a config frontend. so basically zero overlap with this patch, except maybe some of the autotests.\n\nWe would still have the UI selection available as an override to allow for any exception cases. Policies are rarely perfect.",
+      "parentUuid": "2828bbce_58859469",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 9
+      },
+      "revId": "d7e0ee6a17115a0429e92242e6c0136b4ca47c85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "613702fe_ba4906be",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

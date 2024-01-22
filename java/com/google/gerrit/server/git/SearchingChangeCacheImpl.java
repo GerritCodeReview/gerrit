@@ -155,13 +155,14 @@ public class SearchingChangeCacheImpl
                 .byProject(key);
         Map<Change.Id, CachedChange> result = new HashMap<>(cds.size());
         for (ChangeData cd : cds) {
-          if (result.containsKey(cd.getId())) {
+          final Change.Id cdUniqueId = cd.virtualId();
+          if (result.containsKey(cdUniqueId)) {
             logger.atWarning().log(
                 "Duplicate changes returned from change query by project %s: %s, %s",
-                key, cd.change(), result.get(cd.getId()).change());
+                key, cd.change(), result.get(cdUniqueId).change());
           }
           result.put(
-              cd.getId(),
+              cdUniqueId,
               new AutoValue_SearchingChangeCacheImpl_CachedChange(cd.change(), cd.reviewers()));
         }
         return List.copyOf(result.values());

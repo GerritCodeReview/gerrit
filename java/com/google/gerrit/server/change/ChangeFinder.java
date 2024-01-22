@@ -208,6 +208,12 @@ public class ChangeFinder {
     return Optional.of(notes.get(0));
   }
 
+  /**
+   * @deprecated this method is not reliable in Gerrit instances with imported changes, since
+   *     multiple changes can have the same change number and make the `changeIdProjectCache` cache
+   *     pointless.
+   */
+  @Deprecated(since = "3.10", forRemoval = true)
   public List<ChangeNotes> find(Change.Id id) {
     String project = changeIdProjectCache.getIfPresent(id);
     if (project != null) {
@@ -243,9 +249,9 @@ public class ChangeFinder {
     // the index results have no stored fields, so the data is already reloaded. (It's also possible
     // that a change might appear in zero subindexes, but there's nothing we can do here to help
     // this case.)
-    Set<Change.Id> seen = Sets.newHashSetWithExpectedSize(cds.size());
+    Set<String> seen = Sets.newHashSetWithExpectedSize(cds.size());
     for (ChangeData cd : cds) {
-      if (seen.add(cd.getId())) {
+      if (seen.add(cd.getUniqueId())) {
         try {
           notes.add(cd.notes());
         } catch (NoSuchChangeException e) {

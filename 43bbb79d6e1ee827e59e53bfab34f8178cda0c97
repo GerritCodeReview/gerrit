@@ -22,6 +22,30 @@
       },
       "revId": "43bbb79d6e1ee827e59e53bfab34f8178cda0c97",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aafe98c9_69c7c26b",
+        "filename": "Documentation/intro-project-owner.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-01-22T09:05:38Z",
+      "side": 1,
+      "message": "Thanks for pointing out! Done.",
+      "parentUuid": "79162bf6_aad255d9",
+      "range": {
+        "startLine": 47,
+        "startChar": 16,
+        "endLine": 47,
+        "endChar": 24
+      },
+      "revId": "43bbb79d6e1ee827e59e53bfab34f8178cda0c97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

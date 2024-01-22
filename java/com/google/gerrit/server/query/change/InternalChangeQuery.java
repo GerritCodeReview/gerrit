@@ -112,14 +112,14 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
   }
 
   public List<ChangeData> byLegacyChangeId(Change.Id id) {
-    return query(ChangePredicates.idStr(id));
+    return query(ChangePredicates.legacyIdStr(id));
   }
 
   @UsedAt(UsedAt.Project.GOOGLE)
   public List<ChangeData> byLegacyChangeIds(Collection<Change.Id> ids) {
     List<Predicate<ChangeData>> preds = new ArrayList<>(ids.size());
     for (Change.Id id : ids) {
-      preds.add(ChangePredicates.idStr(id));
+      preds.add(ChangePredicates.legacyIdStr(id));
     }
     return query(or(preds));
   }

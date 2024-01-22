@@ -13,7 +13,7 @@ MIME4J_VERS = "0.8.1"
 OW2_VERS = "9.2"
 AUTO_COMMON_VERSION = "1.2.1"
 AUTO_FACTORY_VERSION = "1.0.1"
-AUTO_VALUE_VERSION = "1.7.4"
+AUTO_VALUE_VERSION = "1.10.4"
 AUTO_VALUE_GSON_VERSION = "1.3.1"
 PROLOG_VERS = "1.4.4"
 PROLOG_REPO = GERRIT
@@ -303,13 +303,13 @@ def java_dependencies():
     maven_jar(
         name = "auto-value",
         artifact = "com.google.auto.value:auto-value:" + AUTO_VALUE_VERSION,
-        sha1 = "6b126cb218af768339e4d6e95a9b0ae41f74e73d",
+        sha1 = "90f9629eaa123f88551cc26a64bc386967ee24cc",
     )
 
     maven_jar(
         name = "auto-value-annotations",
         artifact = "com.google.auto.value:auto-value-annotations:" + AUTO_VALUE_VERSION,
-        sha1 = "eff48ed53995db2dadf0456426cc1f8700136f86",
+        sha1 = "9679de8286eb0a151db6538ba297a8951c4a1224",
     )
 
     maven_jar(
@@ -464,8 +464,8 @@ def java_dependencies():
 
     maven_jar(
         name = "httpcore",
-        artifact = "org.apache.httpcomponents:httpcore:4.4.4",
-        sha1 = "b31526a230871fbe285fbcbe2813f9c0839ae9b0",
+        artifact = "org.apache.httpcomponents:httpcore:4.4.16",
+        sha1 = "51cf043c87253c9f58b539c9f7e44c8894223850",
     )
 
     # Test-only dependencies below.

@@ -16,6 +16,24 @@
       "message": "I\u0027ve just rolled out this to GerritHub.io last night, and in 12 hours I already have 237 occurrences of this log.\n\nBottom line: the caching of revisionNoteMap is indeed used and quite a lot.",
       "revId": "84deab1e495d7bf0c9166f74ff7a4c481fa4a18c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5c3670e_c5117ca6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-22T13:51:38Z",
+      "side": 1,
+      "message": "I\u0027ll post more complete statistics at the end of the week, with the % of reviews that went through the cache.",
+      "parentUuid": "cea97a51_7b5f5511",
+      "revId": "84deab1e495d7bf0c9166f74ff7a4c481fa4a18c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

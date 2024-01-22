@@ -252,7 +252,7 @@ public class MailProcessor {
           queryProvider
               .get()
               .enforceVisibility(true)
-              .byLegacyChangeId(Change.id(metadata.changeNumber));
+              .byChangeNumber(Change.id(metadata.changeNumber));
       if (changeDataList.isEmpty()) {
         sendRejectionEmail(message, InboundEmailError.CHANGE_NOT_FOUND);
         return;

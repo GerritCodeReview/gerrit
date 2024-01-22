@@ -144,7 +144,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   public interface ChangeIsOperandFactory extends ChangeOperandFactory {}
 
-  private static final Pattern PAT_LEGACY_ID = Pattern.compile("^[1-9][0-9]*$");
+  private static final Pattern PAT_CHANGE_NUMBER = Pattern.compile("^[1-9][0-9]*$");
   private static final Pattern PAT_PROJECT_CHANGE_NUM = Pattern.compile("^([^~]+)~([1-9][0-9]*)$");
   private static final Pattern PAT_CHANGE_ID = Pattern.compile(CHANGE_ID_PATTERN);
   private static final Pattern DEF_CHANGE =
@@ -589,6 +589,18 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   @Operator
   public Predicate<ChangeData> change(String query) throws QueryParseException {
+    return getPredicateChangeData(query, changeId -> ChangePredicates.changeNumber(changeId, args));
+  }
+
+  // Keep using the index legacy document-id (legacy_id_str) for URLs queries like: "/q/123456",
+  // "/q/Iasdw2312321", "/q/project~123456"  that are expecting to always find a single element.
+  private Predicate<ChangeData> defaultSearch(String query) throws QueryParseException {
+    return getPredicateChangeData(query, ChangePredicates::idStr);
+  }
+
+  private Predicate<ChangeData> getPredicateChangeData(
+      String query, Function<Change.Id, Predicate<ChangeData>> changePredicateGetter)
+      throws QueryParseException {
     Optional<ChangeTriplet> triplet = ChangeTriplet.parse(query);
     if (triplet.isPresent()) {
       return Predicate.and(
@@ -602,11 +614,10 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       return Predicate.and(
           project(projectChangeNumber.group(1)),
           ChangePredicates.idStr(projectChangeNumber.group(2)));
-
-    } else if (PAT_LEGACY_ID.matcher(query).matches()) {
+    } else if (PAT_CHANGE_NUMBER.matcher(query).matches()) {
       Integer id = Ints.tryParse(query);
       if (id != null) {
-        return ChangePredicates.idStr(Change.id(id));
+        return changePredicateGetter.apply(Change.id(id));
       }
     } else if (PAT_CHANGE_ID.matcher(query).matches()) {
       return ChangePredicates.idPrefix(parseChangeId(query));
@@ -1691,13 +1702,13 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     } else if (DEF_CHANGE.matcher(query).matches()) {
       List<Predicate<ChangeData>> predicates = Lists.newArrayListWithCapacity(2);
       try {
-        predicates.add(change(query));
+        predicates.add(defaultSearch(query));
       } catch (QueryParseException e) {
         // Skip.
       }
 
-      // For PAT_LEGACY_ID, it may also be the prefix of some commits.
-      if (query.length() >= 6 && PAT_LEGACY_ID.matcher(query).matches()) {
+      // For PAT_CHANGE_NUMBER, it may also be the prefix of some commits.
+      if (query.length() >= 6 && PAT_CHANGE_NUMBER.matcher(query).matches()) {
         predicates.add(commit(query));
       }
 
@@ -1861,12 +1872,12 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   }
 
   private List<ChangeData> parseChangeData(String value) throws QueryParseException {
-    if (PAT_LEGACY_ID.matcher(value).matches()) {
+    if (PAT_CHANGE_NUMBER.matcher(value).matches()) {
       Optional<Change.Id> id = Change.Id.tryParse(value);
       if (!id.isPresent()) {
         throw error("Invalid change id " + value);
       }
-      return args.queryProvider.get().byLegacyChangeId(id.get());
+      return args.queryProvider.get().byChangeNumber(id.get());
     } else if (PAT_CHANGE_ID.matcher(value).matches()) {
       List<ChangeData> changes = args.queryProvider.get().byKeyPrefix(parseChangeId(value));
       if (changes.isEmpty()) {

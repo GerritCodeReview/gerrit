@@ -52,7 +52,7 @@ public class OrSource extends OrPredicate<ChangeData> implements ChangeDataSourc
           Set<Change.Id> have = new HashSet<>();
           for (ResultSet<ChangeData> resultSet : results) {
             for (ChangeData result : resultSet) {
-              if (have.add(result.getId())) {
+              if (have.add(result.virtualId())) {
                 r.add(result);
               }
             }

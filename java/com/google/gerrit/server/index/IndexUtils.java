@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.index;
 
+import static com.google.gerrit.server.index.change.ChangeField.CHANGENUM_SPEC;
 import static com.google.gerrit.server.index.change.ChangeField.CHANGE_SPEC;
 import static com.google.gerrit.server.index.change.ChangeField.NUMERIC_ID_STR_SPEC;
 import static com.google.gerrit.server.index.change.ChangeField.PROJECT_SPEC;
@@ -81,10 +82,18 @@ public final class IndexUtils {
       // A Change is always sufficient.
       return fs;
     }
-    if (fs.contains(PROJECT_SPEC.getName()) && fs.contains(NUMERIC_ID_STR_SPEC.getName())) {
+
+    Set<String> requiredFields =
+        CHANGENUM_SPEC.getName() != null
+            ? ImmutableSet.of(
+                NUMERIC_ID_STR_SPEC.getName(), PROJECT_SPEC.getName(), CHANGENUM_SPEC.getName())
+            : ImmutableSet.of(NUMERIC_ID_STR_SPEC.getName(), PROJECT_SPEC.getName());
+
+    if (fs.containsAll(requiredFields)) {
       return fs;
     }
-    return Sets.union(fs, ImmutableSet.of(NUMERIC_ID_STR_SPEC.getName(), PROJECT_SPEC.getName()));
+
+    return Sets.union(fs, ImmutableSet.copyOf(requiredFields));
   }
 
   /**

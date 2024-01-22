@@ -143,6 +143,11 @@ public class ChangePredicates {
         ChangeField.NUMERIC_ID_STR_SPEC, ChangeQueryBuilder.FIELD_CHANGE, id, 1);
   }
 
+  public static Predicate<ChangeData> changeNum(String changeNum) {
+    return new ChangeIndexCardinalPredicate(
+        ChangeField.CHANGENUM_SPEC, ChangeQueryBuilder.FIELD_CHANGE_NUMBER, changeNum, 5000);
+  }
+
   /**
    * Returns a predicate that matches changes owned by the provided {@link
    * com.google.gerrit.entities.Account.Id}.

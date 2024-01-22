@@ -617,6 +617,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   }
 
   @Operator
+  public Predicate<ChangeData> changenum(String query) throws QueryParseException {
+    return ChangePredicates.changeNum(query);
+  }
+
+  @Operator
   public Predicate<ChangeData> comment(String value) {
     return ChangePredicates.comment(value);
   }

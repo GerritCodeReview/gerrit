@@ -153,15 +153,15 @@ public class SearchingChangeCacheImpl
                 .get()
                 .setRequestedFields(ChangeField.CHANGE_SPEC, ChangeField.REVIEWER_SPEC)
                 .byProject(key);
-        Map<Change.Id, CachedChange> result = new HashMap<>(cds.size());
+        Map<String, CachedChange> result = new HashMap<>(cds.size());
         for (ChangeData cd : cds) {
-          if (result.containsKey(cd.getId())) {
+          if (result.containsKey(cd.getUniqueId())) {
             logger.atWarning().log(
                 "Duplicate changes returned from change query by project %s: %s, %s",
-                key, cd.change(), result.get(cd.getId()).change());
+                key, cd.change(), result.get(cd.getUniqueId()).change());
           }
           result.put(
-              cd.getId(),
+              cd.getUniqueId(),
               new AutoValue_SearchingChangeCacheImpl_CachedChange(cd.change(), cd.reviewers()));
         }
         return List.copyOf(result.values());

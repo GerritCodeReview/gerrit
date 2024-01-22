@@ -17,7 +17,6 @@ package com.google.gerrit.server.query.change;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
 import com.google.common.collect.ImmutableList;
-import com.google.gerrit.entities.Change;
 import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.index.query.LazyResultSet;
 import com.google.gerrit.index.query.OrPredicate;
@@ -50,10 +49,10 @@ public class OrSource extends OrPredicate<ChangeData> implements ChangeDataSourc
     return new LazyResultSet<>(
         () -> {
           ImmutableList.Builder<ChangeData> r = ImmutableList.builder();
-          Set<Change.Id> have = new HashSet<>();
+          Set<String> have = new HashSet<>();
           for (ResultSet<ChangeData> resultSet : results) {
             for (ChangeData result : resultSet) {
-              if (have.add(result.getId())) {
+              if (have.add(result.getUniqueId())) {
                 r.add(result);
               }
             }

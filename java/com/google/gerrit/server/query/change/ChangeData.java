@@ -684,6 +684,10 @@ public class ChangeData {
     return virtualId;
   }
 
+  public String getUniqueId() {
+    return project.get() + "~" + getId();
+  }
+
   public Project.NameKey project() {
     return project;
   }

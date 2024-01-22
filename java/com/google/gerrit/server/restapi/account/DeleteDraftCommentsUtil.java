@@ -67,6 +67,7 @@ public class DeleteDraftCommentsUtil {
   private final BatchUpdate.Factory batchUpdateFactory;
   private final BatchUpdates batchUpdates;
   private final Supplier<ChangeQueryBuilder> queryBuilderSupplier;
+  private final Provider<ChangeQueryBuilder.Arguments> queryBuilderArgsProvider;
   private final Provider<InternalChangeQuery> queryProvider;
   private final ChangeData.Factory changeDataFactory;
   private final ChangeJson.Factory changeJsonFactory;
@@ -81,6 +82,7 @@ public class DeleteDraftCommentsUtil {
       BatchUpdate.Factory batchUpdateFactory,
       BatchUpdates batchUpdates,
       Provider<ChangeQueryBuilder> queryBuilderProvider,
+      Provider<ChangeQueryBuilder.Arguments> queryBuilderArgsProvider,
       Provider<InternalChangeQuery> queryProvider,
       ChangeData.Factory changeDataFactory,
       ChangeJson.Factory changeJsonFactory,
@@ -91,6 +93,7 @@ public class DeleteDraftCommentsUtil {
     this.batchUpdateFactory = batchUpdateFactory;
     this.batchUpdates = batchUpdates;
     this.queryBuilderSupplier = Suppliers.memoize(queryBuilderProvider::get);
+    this.queryBuilderArgsProvider = queryBuilderArgsProvider;
     this.queryProvider = queryProvider;
     this.changeDataFactory = changeDataFactory;
     this.changeJsonFactory = changeJsonFactory;
@@ -133,7 +136,9 @@ public class DeleteDraftCommentsUtil {
 
   private Predicate<ChangeData> predicate(Account.Id accountId, String query)
       throws BadRequestException {
-    Predicate<ChangeData> hasDraft = ChangePredicates.draftBy(draftCommentsReader, accountId);
+    Predicate<ChangeData> hasDraft =
+        ChangePredicates.draftBy(
+            draftCommentsReader, accountId);
     if (CharMatcher.whitespace().trimFrom(Strings.nullToEmpty(query)).isEmpty()) {
       return hasDraft;
     }

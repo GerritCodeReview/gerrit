@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.index;
 
+import static com.google.gerrit.server.index.change.ChangeField.CHANGENUM_SPEC;
 import static com.google.gerrit.server.index.change.ChangeField.CHANGE_SPEC;
 import static com.google.gerrit.server.index.change.ChangeField.NUMERIC_ID_STR_SPEC;
 import static com.google.gerrit.server.index.change.ChangeField.PROJECT_SPEC;
@@ -29,6 +30,7 @@ import com.google.gerrit.server.index.account.AccountField;
 import com.google.gerrit.server.index.group.GroupField;
 import com.google.gerrit.server.query.change.GroupBackedUser;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
@@ -81,10 +83,18 @@ public final class IndexUtils {
       // A Change is always sufficient.
       return fs;
     }
-    if (fs.contains(PROJECT_SPEC.getName()) && fs.contains(NUMERIC_ID_STR_SPEC.getName())) {
+
+    Set<String> requiredFields =
+        new HashSet<>(Set.of(NUMERIC_ID_STR_SPEC.getName(), PROJECT_SPEC.getName()));
+    if (CHANGENUM_SPEC.getName() != null) {
+      requiredFields.add(CHANGENUM_SPEC.getName());
+    }
+
+    if (fs.containsAll(requiredFields)) {
       return fs;
     }
-    return Sets.union(fs, ImmutableSet.of(NUMERIC_ID_STR_SPEC.getName(), PROJECT_SPEC.getName()));
+
+    return Sets.union(fs, ImmutableSet.copyOf(requiredFields));
   }
 
   /**

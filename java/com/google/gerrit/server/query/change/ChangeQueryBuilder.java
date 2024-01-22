@@ -599,14 +599,14 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
     Matcher projectChangeNumber = PAT_PROJECT_CHANGE_NUM.matcher(query);
     if (projectChangeNumber.matches()) {
+      Integer id = Ints.tryParse(projectChangeNumber.group(2));
       return Predicate.and(
           project(projectChangeNumber.group(1)),
-          ChangePredicates.idStr(projectChangeNumber.group(2)));
-
+          ChangePredicates.changeNumber(Change.id(id), args));
     } else if (PAT_LEGACY_ID.matcher(query).matches()) {
       Integer id = Ints.tryParse(query);
       if (id != null) {
-        return ChangePredicates.idStr(Change.id(id));
+        return ChangePredicates.changeNumber(Change.id(id), args);
       }
     } else if (PAT_CHANGE_ID.matcher(query).matches()) {
       return ChangePredicates.idPrefix(parseChangeId(query));
@@ -1218,11 +1218,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   }
 
   private Predicate<ChangeData> starredBySelf() throws QueryParseException {
-    return ChangePredicates.starBy(args.starredChangesReader, self());
+    return ChangePredicates.starByChangeNumber(args.starredChangesReader, self(), args);
   }
 
   private Predicate<ChangeData> draftBySelf() throws QueryParseException {
-    return ChangePredicates.draftBy(args.draftCommentsReader, self());
+    return ChangePredicates.draftByChangeNumber(args.draftCommentsReader, self(), args);
   }
 
   @Operator

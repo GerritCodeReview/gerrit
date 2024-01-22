@@ -88,6 +88,7 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
   private final ChangeData.Factory changeDataFactory;
   private final ChangeNotes.Factory notesFactory;
   private final EditByPredicateProvider editByPredicateProvider;
+  private final Provider<ChangeQueryBuilder.Arguments> queryBuilderArgsProvider;
 
   @Inject
   InternalChangeQuery(
@@ -96,11 +97,13 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
       IndexConfig indexConfig,
       ChangeData.Factory changeDataFactory,
       ChangeNotes.Factory notesFactory,
-      EditByPredicateProvider editByPredicateProvider) {
+      EditByPredicateProvider editByPredicateProvider,
+      Provider<ChangeQueryBuilder.Arguments> queryBuilderArgsProvider) {
     super(queryProcessor, indexes, indexConfig);
     this.changeDataFactory = changeDataFactory;
     this.notesFactory = notesFactory;
     this.editByPredicateProvider = editByPredicateProvider;
+    this.queryBuilderArgsProvider = queryBuilderArgsProvider;
   }
 
   public List<ChangeData> byKey(Change.Key key) {
@@ -112,14 +115,14 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
   }
 
   public List<ChangeData> byLegacyChangeId(Change.Id id) {
-    return query(ChangePredicates.idStr(id));
+    return query(ChangePredicates.changeNumber(id, queryBuilderArgsProvider.get()));
   }
 
   @UsedAt(UsedAt.Project.GOOGLE)
   public List<ChangeData> byLegacyChangeIds(Collection<Change.Id> ids) {
     List<Predicate<ChangeData>> preds = new ArrayList<>(ids.size());
     for (Change.Id id : ids) {
-      preds.add(ChangePredicates.idStr(id));
+      preds.add(ChangePredicates.changeNumber(id, queryBuilderArgsProvider.get()));
     }
     return query(or(preds));
   }

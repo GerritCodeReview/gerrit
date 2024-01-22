@@ -150,7 +150,7 @@ maintains its own groups internally but also supports different external
 group backends.
 
 The Gerrit internal groups can be seen in the Gerrit Web UI by clicking
-on the `Groups` > `List` menu entry. By clicking on a group you can
+on the `BROWSE` > `Groups` menu entry. By clicking on a group you can
 edit the group members (`Members` tab) and the group options
 (`General` tab).
 
@@ -168,8 +168,9 @@ An important setting on a group is the option
 `Make group visible to all registered users.`, which defines whether
 non-members can see who is member of the group.
 
-New internal Gerrit groups can be created under `Groups` >
-`Create New Group`. This menu is only available if you have the global
+New internal Gerrit groups can be created under `BROWSE` > `Groups`
+and then clicking on the `CREATE NEW` button in the upper right corner.
+The `CREATE NEW` button is only available if you have the global
 capability link:access-control.html#capability_createGroup[Create Group]
 assigned.
 

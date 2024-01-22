@@ -17,6 +17,7 @@ package com.google.gerrit.server.query.change;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 
 import com.google.common.base.CharMatcher;
+import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
@@ -87,7 +88,10 @@ public class ChangePredicates {
   /**
    * Returns a predicate that matches changes where the provided {@link
    * com.google.gerrit.entities.Account.Id} has a pending draft comment.
+   *
+   * <p>The predicates filter by "legacy_id_str" field.
    */
+  @UsedAt(UsedAt.Project.GOOGLE)
   public static Predicate<ChangeData> draftBy(
       DraftCommentsReader draftCommentsReader, Account.Id id) {
     Set<Predicate<ChangeData>> changeIdPredicates =
@@ -101,13 +105,48 @@ public class ChangePredicates {
 
   /**
    * Returns a predicate that matches changes where the provided {@link
-   * com.google.gerrit.entities.Account.Id} has starred changes with {@code label}.
+   * com.google.gerrit.entities.Account.Id} has a pending draft comment.
+   *
+   * <p>The predicates filter by {@link ChangeQueryBuilder#FIELD_CHANGE_NUMBER} field.
    */
+  public static Predicate<ChangeData> draftByChangeNumber(
+      DraftCommentsReader draftCommentsReader, Account.Id id, ChangeQueryBuilder.Arguments args) {
+    Set<Predicate<ChangeData>> changeIdPredicates =
+        draftCommentsReader.getChangesWithDrafts(id).stream()
+            .map(cId -> ChangePredicates.changeNumber(cId, args))
+            .collect(toImmutableSet());
+    return changeIdPredicates.isEmpty()
+        ? ChangeIndexPredicate.none()
+        : Predicate.or(changeIdPredicates);
+  }
+
+  /**
+   * Returns a predicate that matches changes where the provided {@link
+   * com.google.gerrit.entities.Account.Id} has starred changes with {@code label}.
+   *
+   * <p>The predicates filter by "legacy_id_str" field.
+   */
+  @UsedAt(UsedAt.Project.GOOGLE)
   public static Predicate<ChangeData> starBy(
       StarredChangesReader starredChangesReader, Account.Id id) {
     Set<Predicate<ChangeData>> starredChanges =
         starredChangesReader.byAccountId(id).stream()
             .map(ChangePredicates::idStr)
+            .collect(toImmutableSet());
+    return starredChanges.isEmpty() ? ChangeIndexPredicate.none() : Predicate.or(starredChanges);
+  }
+
+  /**
+   * Returns a predicate that matches changes where the provided {@link
+   * com.google.gerrit.entities.Account.Id} has starred changes with {@code label}.
+   *
+   * <p>The predicates filter by {@link ChangeQueryBuilder#FIELD_CHANGE_NUMBER} field.
+   */
+  public static Predicate<ChangeData> starByChangeNumber(
+      StarredChangesReader starredChangesReader, Account.Id id, ChangeQueryBuilder.Arguments args) {
+    Set<Predicate<ChangeData>> starredChanges =
+        starredChangesReader.byAccountId(id).stream()
+            .map(cId -> ChangePredicates.changeNumber(cId, args))
             .collect(toImmutableSet());
     return starredChanges.isEmpty() ? ChangeIndexPredicate.none() : Predicate.or(starredChanges);
   }
@@ -141,6 +180,19 @@ public class ChangePredicates {
   public static Predicate<ChangeData> idStr(String id) {
     return new ChangeIndexCardinalPredicate(
         ChangeField.NUMERIC_ID_STR_SPEC, ChangeQueryBuilder.FIELD_CHANGE, id, 1);
+  }
+
+  /**
+   * Returns a predicate that matches the change number with the provided {@link
+   * com.google.gerrit.entities.Change.Id}.
+   */
+  public static Predicate<ChangeData> changeNumber(
+      Change.Id id, ChangeQueryBuilder.Arguments args) {
+    if (args.getSchema().hasField(ChangeField.CHANGENUM_SPEC)) {
+      return new ChangeIndexCardinalPredicate(
+          ChangeField.CHANGENUM_SPEC, ChangeQueryBuilder.FIELD_CHANGE, id.toString(), 1);
+    }
+    return idStr(id);
   }
 
   /**

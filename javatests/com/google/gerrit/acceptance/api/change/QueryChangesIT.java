@@ -67,6 +67,26 @@ public class QueryChangesIT extends AbstractDaemonTest {
 
   @Test
   @SuppressWarnings("unchecked")
+  public void changenumPredicateReturnsSingleChange() throws Exception {
+    String cId = createChange().getChangeId();
+    int changeNum = gApi.changes().id(cId).get()._number;
+
+    assertThat(gApi.changes().query("changenum:" + changeNum).get())
+        .comparingElementsUsing(hasChangeId())
+        .contains(Change.id(changeNum));
+  }
+
+  @Test
+  @SuppressWarnings("unchecked")
+  public void changenumPredicateReturnsNoChanges() throws Exception {
+    createChange();
+    int nonExistentChangeNum = 1234;
+
+    assertThat(gApi.changes().query("changenum:" + nonExistentChangeNum).get()).isEmpty();
+  }
+
+  @Test
+  @SuppressWarnings("unchecked")
   public void multipleQueriesInOneRequestCanContainSameChange() throws Exception {
     String cId1 = createChange().getChangeId();
     String cId2 = createChange().getChangeId();

@@ -709,6 +709,7 @@ export function createPreferences(): PreferencesInfo {
     changes_per_page: 10,
     email_strategy: EmailStrategy.ENABLED,
     allow_browser_notifications: true,
+    allow_suggest_code_while_commenting: true,
   };
 }
 

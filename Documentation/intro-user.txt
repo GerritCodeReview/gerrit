@@ -31,7 +31,7 @@ optionally:
 * link:https://github.com/uwolfer/gerrit-intellij-plugin[Gerrit
   IntelliJ Plugin,role=external,window=_blank]: Gerrit integration with the
   link:http://www.jetbrains.com/idea/[IntelliJ Platform,role=external,window=_blank]
-* link:https://opendev.org/ttygroup/gertty]: Console-based interface for Gerrit
+* link:https://opendev.org/ttygroup/gertty[gertty]: Console-based interface for Gerrit
 
 [[clone]]
 == Clone Gerrit Project

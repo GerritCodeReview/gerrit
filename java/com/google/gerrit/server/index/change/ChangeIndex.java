@@ -31,7 +31,7 @@ public interface ChangeIndex extends Index<Change.Id, ChangeData> {
 
   @Override
   default Predicate<ChangeData> keyPredicate(Change.Id id) {
-    return ChangePredicates.idStr(id);
+    return ChangePredicates.legacyIdStr(id);
   }
 
   Function<ChangeData, Change.Id> ENTITY_TO_KEY = ChangeData::getId;

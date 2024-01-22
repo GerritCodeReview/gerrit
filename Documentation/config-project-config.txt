@@ -69,7 +69,7 @@ All changes are directly applied (without code review).
 The `Access` screen can be found under:
 `BROWSE` > `Repositories` > `<project-name>` > `Access`
 +
-This screen allows to edit the project's access rights.
+This screen allows to edit the project's access rights and the parent project.
 +
 Updating access rights via the `Access` screen updates the
 link:#file-groups[groups] file automatically.
@@ -225,6 +225,11 @@ Some settings can be enforced for child projects (or if set on the
 via link:access-control#block[BLOCK rules] or
 link:config-submit-requirements.html#submit_requirement_can_override_in_child_projects[
 non-overridable] submit requirements.
+
+[NOTE]
+The parent project for an existing project can be changed via the
+link:update-through-access-screen[Access] screen (by default this is only
+allowed for administrators).
 
 [NOTE]
 Project owners can be allowed to change the parent of projects that they own

@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "19422126_c3b589cc",
+        "filename": "javatests/com/google/gerrit/acceptance/server/util/WorkQueueIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 3228522
+      },
+      "writtenOn": "2024-01-22T10:12:47Z",
+      "side": 1,
+      "message": "Sorry, I can not inject WorkQueue in the constructor. And I find others use this like line 93 in `javatests/com/google/gerrit/acceptance/rest/TraceIT.java`.",
+      "parentUuid": "75255034_521c2a34",
+      "revId": "43b7eb39fe4dafae20d4827b0c33382f2da3b6b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9a9cbb54_7862c158",
         "filename": "javatests/com/google/gerrit/acceptance/server/util/WorkQueueIT.java",
         "patchSetId": 11
@@ -48,6 +66,24 @@
       "writtenOn": "2024-01-19T22:54:20Z",
       "side": 1,
       "message": "What is the lowest you can make this and still make the test fail reliably? Maybe this should be about 5 times whatever that value is?",
+      "revId": "43b7eb39fe4dafae20d4827b0c33382f2da3b6b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "93ec4113_f069c9a3",
+        "filename": "javatests/com/google/gerrit/acceptance/server/util/WorkQueueIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 3228522
+      },
+      "writtenOn": "2024-01-22T10:12:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a9cbb54_7862c158",
       "revId": "43b7eb39fe4dafae20d4827b0c33382f2da3b6b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -69,6 +105,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a96840da_90fdd2f1",
+        "filename": "javatests/com/google/gerrit/acceptance/server/util/WorkQueueIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 3228522
+      },
+      "writtenOn": "2024-01-22T10:12:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9875aacf_9af06fe0",
+      "revId": "43b7eb39fe4dafae20d4827b0c33382f2da3b6b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6a7d4ff3_74a1eb84",
@@ -86,6 +140,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8e56611_de1b88b6",
+        "filename": "javatests/com/google/gerrit/acceptance/server/util/WorkQueueIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 3228522
+      },
+      "writtenOn": "2024-01-22T10:12:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a7d4ff3_74a1eb84",
+      "revId": "43b7eb39fe4dafae20d4827b0c33382f2da3b6b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e7a8a815_1f0908ca",
@@ -99,6 +171,24 @@
       "writtenOn": "2024-01-19T22:54:20Z",
       "side": 1,
       "message": "If the 2 here needs to match the 2 on line 24, then it should be a constant.",
+      "revId": "43b7eb39fe4dafae20d4827b0c33382f2da3b6b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c4d4c91_06574ccc",
+        "filename": "javatests/com/google/gerrit/acceptance/server/util/WorkQueueIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 3228522
+      },
+      "writtenOn": "2024-01-22T10:12:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7a8a815_1f0908ca",
       "revId": "43b7eb39fe4dafae20d4827b0c33382f2da3b6b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

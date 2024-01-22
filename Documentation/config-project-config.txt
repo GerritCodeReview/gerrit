@@ -228,7 +228,7 @@ non-overridable] submit requirements.
 
 [NOTE]
 Project owners can be allowed to change the parent of projects that they own
-(see config-gerrit.html#receive.allowProjectOwnersToChangeParent[
+(see link:config-gerrit.html#receive.allowProjectOwnersToChangeParent[
 receive.allowProjectOwnersToChangeParent] setting which is `false` by default).
 In this case project owners may escape the settings that are enforced by their
 parent project by choosing a different parent project.

@@ -144,6 +144,7 @@ import com.google.gerrit.server.plugins.TestServerPlugin;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.restapi.change.Revisions;
 import com.google.gerrit.server.update.BatchUpdate;
@@ -276,6 +277,7 @@ public abstract class AbstractDaemonTest {
   @Inject protected ProjectConfig.Factory projectConfigFactory;
   @Inject protected ProjectResetter.Builder.Factory projectResetter;
   @Inject protected Provider<InternalChangeQuery> queryProvider;
+  @Inject protected Provider<ChangeQueryBuilder> changeQueryBuilderProvider;
   @Inject protected PushOneCommit.Factory pushFactory;
   @Inject protected PluginConfigFactory pluginConfig;
   @Inject protected Revisions revisions;

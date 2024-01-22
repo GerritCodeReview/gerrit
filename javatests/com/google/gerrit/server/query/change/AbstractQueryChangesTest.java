@@ -185,7 +185,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Inject protected BatchUpdate.Factory updateFactory;
   @Inject protected AllProjectsName allProjectsName;
   @Inject protected ChangeInserter.Factory changeFactory;
-  @Inject protected ChangeQueryBuilder queryBuilder;
+  @Inject protected Provider<ChangeQueryBuilder> changeQueryBuilderProvider;
   @Inject protected GerritApi gApi;
   @Inject protected IdentifiedUser.GenericFactory userFactory;
   @Inject protected ChangeIndexCollection indexes;
@@ -4428,8 +4428,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     for (Predicate<ChangeData> matchingOneChange :
         ImmutableList.of(
             // One index query, one post-filtering query.
-            queryBuilder.parse(change.getId().toString()),
-            queryBuilder.parse("ownerin:Administrators"))) {
+            changeQueryBuilderProvider.get().parse(change.getId().toString()),
+            changeQueryBuilderProvider.get().parse("ownerin:Administrators"))) {
       assertQuery(matchingOneChange, change);
       assertQuery(Predicate.or(ChangeIndexPredicate.none(), matchingOneChange), change);
       assertQuery(Predicate.and(ChangeIndexPredicate.none(), matchingOneChange));

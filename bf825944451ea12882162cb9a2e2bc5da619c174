@@ -16,6 +16,24 @@
       "message": "Should we rebase this change out of the series and submit it?",
       "revId": "bf825944451ea12882162cb9a2e2bc5da619c174",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6632c841_439c42f7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-01-22T08:50:39Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "dd04e63d_dfd67d1c",
+      "revId": "bf825944451ea12882162cb9a2e2bc5da619c174",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

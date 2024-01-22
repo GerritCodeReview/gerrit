@@ -220,6 +220,25 @@ public class ApplyPatchIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void applyDecodedPatchConsistsOfBase64CharsOnly_success() throws Exception {
+    final String deletedFileName = "file_to_be_deleted";
+    final String deletedFileOriginalContent =
+        "The deletion patch of this file only contain valid Base64 chars.\n"
+            + "However, the patch is not Base64-encoded.\n";
+    final String deletedFileDiff =
+        "diff --git a/file_to_be_deleted b/file_to_be_deleted\n"
+            + "--- a/file_to_be_deleted\n"
+            + "+++ /dev/null\n";
+    initBaseWithFile(deletedFileName, deletedFileOriginalContent);
+    ApplyPatchPatchSetInput in = buildInput(deletedFileDiff);
+
+    ChangeInfo result = applyPatch(in);
+
+    DiffInfo diff = fetchDiffForFile(result, deletedFileName);
+    assertDiffForDeletedFile(diff, deletedFileName, deletedFileOriginalContent);
+  }
+
+  @Test
   public void applyGerritBasedPatchWithSingleFile_success() throws Exception {
     String head = getHead(repo(), HEAD).name();
     createBranchWithRevision(BranchNameKey.create(project, "branch"), head);

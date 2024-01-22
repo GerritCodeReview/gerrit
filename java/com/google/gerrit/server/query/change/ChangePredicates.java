@@ -89,10 +89,10 @@ public class ChangePredicates {
    * com.google.gerrit.entities.Account.Id} has a pending draft comment.
    */
   public static Predicate<ChangeData> draftBy(
-      DraftCommentsReader draftCommentsReader, Account.Id id) {
+      DraftCommentsReader draftCommentsReader, Account.Id id, ChangeQueryBuilder.Arguments args) {
     Set<Predicate<ChangeData>> changeIdPredicates =
         draftCommentsReader.getChangesWithDrafts(id).stream()
-            .map(ChangePredicates::idStr)
+            .map(cId -> ChangePredicates.idStr(cId, args))
             .collect(toImmutableSet());
     return changeIdPredicates.isEmpty()
         ? ChangeIndexPredicate.none()
@@ -104,10 +104,10 @@ public class ChangePredicates {
    * com.google.gerrit.entities.Account.Id} has starred changes with {@code label}.
    */
   public static Predicate<ChangeData> starBy(
-      StarredChangesReader starredChangesReader, Account.Id id) {
+      StarredChangesReader starredChangesReader, Account.Id id, ChangeQueryBuilder.Arguments args) {
     Set<Predicate<ChangeData>> starredChanges =
         starredChangesReader.byAccountId(id).stream()
-            .map(ChangePredicates::idStr)
+            .map(cId -> ChangePredicates.idStr(cId, args))
             .collect(toImmutableSet());
     return starredChanges.isEmpty() ? ChangeIndexPredicate.none() : Predicate.or(starredChanges);
   }
@@ -131,6 +131,15 @@ public class ChangePredicates {
   }
 
   /**
+   * Returns a predicate that matches the change with the provided legacy {@link
+   * com.google.gerrit.entities.Change.Id}.
+   */
+  public static Predicate<ChangeData> legacyIdStr(Change.Id id) {
+    return new ChangeIndexCardinalPredicate(
+        ChangeField.NUMERIC_ID_STR_SPEC, ChangeQueryBuilder.FIELD_CHANGE, id.toString(), 1);
+  }
+
+  /**
    * Returns a predicate that matches the change with the provided {@link
    * com.google.gerrit.entities.Change.Id}.
    */
@@ -141,6 +150,18 @@ public class ChangePredicates {
   public static Predicate<ChangeData> idStr(String id) {
     return new ChangeIndexCardinalPredicate(
         ChangeField.NUMERIC_ID_STR_SPEC, ChangeQueryBuilder.FIELD_CHANGE, id, 1);
+  }
+
+  public static Predicate<ChangeData> idStr(Change.Id id, ChangeQueryBuilder.Arguments args) {
+    return idStr(id.toString(), args);
+  }
+
+  public static Predicate<ChangeData> idStr(String id, ChangeQueryBuilder.Arguments args) {
+    if (args.getSchema().hasField(ChangeField.CHANGENUM_SPEC)) {
+      return new ChangeIndexCardinalPredicate(
+          ChangeField.CHANGENUM_SPEC, ChangeQueryBuilder.FIELD_CHANGE, id, 1);
+    }
+    return idStr(id);
   }
 
   /**

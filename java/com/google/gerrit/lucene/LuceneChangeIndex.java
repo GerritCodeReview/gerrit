@@ -17,7 +17,7 @@ package com.google.gerrit.lucene;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.lucene.AbstractLuceneIndex.sortFieldName;
 import static com.google.gerrit.server.git.QueueProvider.QueueType.INTERACTIVE;
-import static com.google.gerrit.server.index.change.ChangeField.NUMERIC_ID_STR_SPEC;
+import static com.google.gerrit.server.index.change.ChangeField.CHANGENUM_SPEC;
 import static com.google.gerrit.server.index.change.ChangeField.PROJECT_SPEC;
 import static com.google.gerrit.server.index.change.ChangeIndexRewriter.CLOSED_STATUSES;
 import static com.google.gerrit.server.index.change.ChangeIndexRewriter.OPEN_STATUSES;
@@ -113,11 +113,11 @@ public class LuceneChangeIndex implements ChangeIndex {
   private static final String CHANGE_FIELD = ChangeField.CHANGE_SPEC.getName();
 
   static Term idTerm(ChangeData cd) {
-    return idTerm(cd.getVirtualId());
+    return idTerm(cd.getId());
   }
 
   static Term idTerm(Change.Id id) {
-    return QueryBuilder.stringTerm(NUMERIC_ID_STR_SPEC.getName(), Integer.toString(id.get()));
+    return QueryBuilder.stringTerm(CHANGENUM_SPEC.getName(), Integer.toString(id.get()));
   }
 
   private final ListeningExecutorService executor;
@@ -528,7 +528,7 @@ public class LuceneChangeIndex implements ChangeIndex {
         ImmutableList.Builder<ChangeData> result =
             ImmutableList.builderWithExpectedSize(docs.size());
         for (Document doc : docs) {
-          result.add(toChangeData(fields(doc, fields), fields, NUMERIC_ID_STR_SPEC.getName()));
+          result.add(toChangeData(fields(doc, fields), fields, CHANGENUM_SPEC.getName()));
         }
         return result.build();
       } catch (InterruptedException e) {

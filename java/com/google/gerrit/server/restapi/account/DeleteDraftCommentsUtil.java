@@ -29,6 +29,7 @@ import com.google.gerrit.extensions.api.accounts.DeletedDraftCommentInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.CommentsUtil;
@@ -72,6 +73,8 @@ public class DeleteDraftCommentsUtil {
 
   private final PatchSetUtil psUtil;
 
+  private final Schema<ChangeData> schema;
+
   @Inject
   public DeleteDraftCommentsUtil(
       BatchUpdate.Factory batchUpdateFactory,
@@ -82,7 +85,8 @@ public class DeleteDraftCommentsUtil {
       Provider<CommentJson> commentJsonProvider,
       CommentsUtil commentsUtil,
       DraftCommentsReader draftCommentsReader,
-      PatchSetUtil psUtil) {
+      PatchSetUtil psUtil,
+      Schema<ChangeData> schema) {
     this.batchUpdateFactory = batchUpdateFactory;
     this.queryBuilder = queryBuilder;
     this.queryProvider = queryProvider;
@@ -92,6 +96,7 @@ public class DeleteDraftCommentsUtil {
     this.commentsUtil = commentsUtil;
     this.draftCommentsReader = draftCommentsReader;
     this.psUtil = psUtil;
+    this.schema = schema;
   }
 
   @CanIgnoreReturnValue
@@ -127,7 +132,8 @@ public class DeleteDraftCommentsUtil {
 
   private Predicate<ChangeData> predicate(Account.Id accountId, String query)
       throws BadRequestException {
-    Predicate<ChangeData> hasDraft = ChangePredicates.draftBy(draftCommentsReader, accountId);
+    Predicate<ChangeData> hasDraft =
+        ChangePredicates.draftBy(draftCommentsReader, accountId, schema);
     if (CharMatcher.whitespace().trimFrom(Strings.nullToEmpty(query)).isEmpty()) {
       return hasDraft;
     }

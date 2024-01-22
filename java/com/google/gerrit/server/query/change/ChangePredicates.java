@@ -22,6 +22,7 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.git.ObjectIds;
+import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.DraftCommentsReader;
@@ -89,10 +90,10 @@ public class ChangePredicates {
    * com.google.gerrit.entities.Account.Id} has a pending draft comment.
    */
   public static Predicate<ChangeData> draftBy(
-      DraftCommentsReader draftCommentsReader, Account.Id id) {
+      DraftCommentsReader draftCommentsReader, Account.Id id, Schema<ChangeData> schema) {
     Set<Predicate<ChangeData>> changeIdPredicates =
         draftCommentsReader.getChangesWithDrafts(id).stream()
-            .map(ChangePredicates::idStr)
+            .map(cId -> ChangePredicates.idStr(cId, schema))
             .collect(toImmutableSet());
     return changeIdPredicates.isEmpty()
         ? ChangeIndexPredicate.none()
@@ -104,10 +105,10 @@ public class ChangePredicates {
    * com.google.gerrit.entities.Account.Id} has starred changes with {@code label}.
    */
   public static Predicate<ChangeData> starBy(
-      StarredChangesReader starredChangesReader, Account.Id id) {
+      StarredChangesReader starredChangesReader, Account.Id id, Schema<ChangeData> schema) {
     Set<Predicate<ChangeData>> starredChanges =
         starredChangesReader.byAccountId(id).stream()
-            .map(ChangePredicates::idStr)
+            .map(cId -> ChangePredicates.idStr(cId, schema))
             .collect(toImmutableSet());
     return starredChanges.isEmpty() ? ChangeIndexPredicate.none() : Predicate.or(starredChanges);
   }
@@ -131,16 +132,32 @@ public class ChangePredicates {
   }
 
   /**
+   * Predicate that looks up a single document by key.
+   *
+   * <p>Returns a predicate that matches the change with the provided {@link
+   * com.google.gerrit.entities.Change.Id}.
+   */
+  public static Predicate<ChangeData> legacyIdStr(Change.Id id) {
+    return new ChangeIndexCardinalPredicate(
+        ChangeField.NUMERIC_ID_STR_SPEC, ChangeQueryBuilder.FIELD_CHANGE, id.toString(), 1);
+  }
+
+  /**
    * Returns a predicate that matches the change with the provided {@link
    * com.google.gerrit.entities.Change.Id}.
    */
-  public static Predicate<ChangeData> idStr(Change.Id id) {
-    return idStr(id.toString());
+  public static Predicate<ChangeData> idStr(Change.Id id, Schema<ChangeData> schema) {
+    return idStr(id.toString(), schema);
   }
 
-  public static Predicate<ChangeData> idStr(String id) {
-    return new ChangeIndexCardinalPredicate(
-        ChangeField.NUMERIC_ID_STR_SPEC, ChangeQueryBuilder.FIELD_CHANGE, id, 1);
+  public static Predicate<ChangeData> idStr(String id, Schema<ChangeData> schema) {
+    if (schema.hasField(ChangeField.CHANGENUM_SPEC)) {
+      return new ChangeIndexCardinalPredicate(
+          ChangeField.CHANGENUM_SPEC, ChangeQueryBuilder.FIELD_CHANGE, id, 1);
+    } else {
+      return new ChangeIndexCardinalPredicate(
+          ChangeField.NUMERIC_ID_STR_SPEC, ChangeQueryBuilder.FIELD_CHANGE, id, 1);
+    }
   }
 
   /**

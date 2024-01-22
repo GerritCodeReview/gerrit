@@ -656,6 +656,10 @@ public class ChangeData {
     return Change.id(virtualIdFunc.apply(changeServerId, legacyId.get()));
   }
 
+  public String getUniqueId() {
+    return project.get() + "~" + getId();
+  }
+
   public Project.NameKey project() {
     return project;
   }

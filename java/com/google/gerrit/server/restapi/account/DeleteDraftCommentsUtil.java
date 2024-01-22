@@ -63,6 +63,7 @@ import java.util.Objects;
 public class DeleteDraftCommentsUtil {
   private final BatchUpdate.Factory batchUpdateFactory;
   private final ChangeQueryBuilder queryBuilder;
+  private final ChangeQueryBuilder.Arguments queryBuilderArgs;
   private final Provider<InternalChangeQuery> queryProvider;
   private final ChangeData.Factory changeDataFactory;
   private final ChangeJson.Factory changeJsonFactory;
@@ -76,6 +77,7 @@ public class DeleteDraftCommentsUtil {
   public DeleteDraftCommentsUtil(
       BatchUpdate.Factory batchUpdateFactory,
       ChangeQueryBuilder queryBuilder,
+      ChangeQueryBuilder.Arguments queryBuilderArgs,
       Provider<InternalChangeQuery> queryProvider,
       ChangeData.Factory changeDataFactory,
       ChangeJson.Factory changeJsonFactory,
@@ -85,6 +87,7 @@ public class DeleteDraftCommentsUtil {
       PatchSetUtil psUtil) {
     this.batchUpdateFactory = batchUpdateFactory;
     this.queryBuilder = queryBuilder;
+    this.queryBuilderArgs = queryBuilderArgs;
     this.queryProvider = queryProvider;
     this.changeDataFactory = changeDataFactory;
     this.changeJsonFactory = changeJsonFactory;
@@ -127,7 +130,8 @@ public class DeleteDraftCommentsUtil {
 
   private Predicate<ChangeData> predicate(Account.Id accountId, String query)
       throws BadRequestException {
-    Predicate<ChangeData> hasDraft = ChangePredicates.draftBy(draftCommentsReader, accountId);
+    Predicate<ChangeData> hasDraft =
+        ChangePredicates.draftBy(draftCommentsReader, accountId, queryBuilderArgs);
     if (CharMatcher.whitespace().trimFrom(Strings.nullToEmpty(query)).isEmpty()) {
       return hasDraft;
     }

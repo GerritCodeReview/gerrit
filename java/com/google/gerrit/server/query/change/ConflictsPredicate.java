@@ -89,7 +89,7 @@ public class ConflictsPredicate {
     List<Predicate<ChangeData>> and = new ArrayList<>(5);
     and.add(ChangePredicates.project(c.getProject()));
     and.add(ChangePredicates.ref(c.getDest().branch()));
-    and.add(Predicate.not(ChangePredicates.idStr(c.getId())));
+    and.add(Predicate.not(ChangePredicates.changeNumber(c.getId(), args)));
     and.add(Predicate.or(filePredicates));
 
     ChangeDataCache changeDataCache = new ChangeDataCache(cd, args.projectCache);

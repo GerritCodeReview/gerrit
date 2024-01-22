@@ -140,7 +140,7 @@ public class ChangePredicates {
 
   public static Predicate<ChangeData> idStr(String id) {
     return new ChangeIndexCardinalPredicate(
-        ChangeField.NUMERIC_ID_STR_SPEC, ChangeQueryBuilder.FIELD_CHANGE, id, 1);
+        ChangeField.CHANGENUM_SPEC, ChangeQueryBuilder.FIELD_CHANGE, id, 1);
   }
 
   /**

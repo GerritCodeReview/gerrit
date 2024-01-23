@@ -22,6 +22,30 @@
       },
       "revId": "0765eb9be5988c2019da3e05a3c3fc17a36f9b0a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e2fa4b9_2d9b65b7",
+        "filename": "java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 632,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-01-23T13:38:42Z",
+      "side": 0,
+      "message": "I do think that code in the `WebAppInitializer` is also a \"no-op\", as the instance of `HttpCanonicalWebUrlProvider` will be created on the spot, the `setHttpServletRequest` method will be called, and the instance will be disposed of as it\u0027s not a `Singleton`.\n\nIMO, that deserves a separate change, as it is not related to issue 311925527 and could be a follow-up cleanup.",
+      "parentUuid": "5cfed267_e34eed20",
+      "range": {
+        "startLine": 629,
+        "startChar": 4,
+        "endLine": 632,
+        "endChar": 0
+      },
+      "revId": "0765eb9be5988c2019da3e05a3c3fc17a36f9b0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

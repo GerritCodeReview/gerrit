@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35f23155_0278e6b7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-01-23T07:51:56Z",
+      "side": 1,
+      "message": "nit: how about a link to release notes?\nhttps://github.com/apache/mina-sshd/releases/tag/sshd-2.12.0\n\nbtw: with this release SSH supports Git protocol v2",
+      "revId": "fa40f71da523d58fcaff12b63486e88157d45579",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

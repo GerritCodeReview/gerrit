@@ -22,6 +22,23 @@
       },
       "revId": "a0fbfe4560b3e5b2529b461e4aacfcd0d9838206",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0f864c0_699746ce",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2024-01-23T09:42:04Z",
+      "side": 1,
+      "message": "Sorry for delay with the answer. I spent some time looking at the change to understand if something can go wrong (there is to much guice magic involved 😊 ).",
+      "revId": "a0fbfe4560b3e5b2529b461e4aacfcd0d9838206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -319,6 +319,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "09593c33_f71ce299",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-01-23T09:13:48Z",
+      "side": 1,
+      "message": "No, I don\u0027t think the process changed. (I am not aware of the process at least). My impression was probably built from some debugging I did earlier last year, where there were confusion about what releases some changes are in, because they were submitted to one of the earlier versioned release, but the record of their merge into master was hard to find and happened at much (like half a year) later time. Don\u0027t exactly remember the specifics.\n\nIn any case, resolving this. Sorry for creating confusion.",
+      "parentUuid": "9d9b3eed_93953558",
+      "revId": "f34901ad4509a531fe6c59ea36b9cb25b70cb7a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ec04d5f3_0734689a",

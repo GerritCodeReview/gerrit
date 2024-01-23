@@ -264,6 +264,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b26f092_0830be90",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-01-23T17:04:08Z",
+      "side": 1,
+      "message": "\u003e \u003e I was simplifying the problem significantly.\n\u003e \n\u003e fair enough. but if it is a clear rule set with known mechanistic inputs, then it\u0027s still less error prone to have the admin set it up rather than users second-guessing it.\n\nAs previously mentioned, it\u0027s a clear rule set, but with allowed exceptions. Does there have to be UI support for the exception cases? Probably not since you could always edit the commit message with `git -c committer.email\u003d\u003c\u003e commit --amend`. But if that support comes as part of a feature that enables both normal usage and the exception cases, then I think it makes sense.\n\n\u003e \n\u003e if subjective or otherwise elusive inputs are sometimes required, then the scenario would be rather different from what you presented so far. users stop paying attention when the machine gets it right most of the time, so the idea to automate it at all is a non-starter in this case - unless mistakes are considered minor, but this would call the whole thing into question (why bother at all then?).\n\nThere\u0027s still a validation system (that can be overridden) that checks if the user got it correct, so mistakes are caught. This feature 1) allows using the commit message edit feature without having to change your preferred email (or failing the validation check) and 2) makes it easier to fix mistakes quickly.\n\n\u003e \n\u003e \u003e It makes use of existing empty UI space\n\u003e \n\u003e just because space is available doesn\u0027t mean that it can be stuffed without detriment. unnecessary cognitive load is bad.\n\nReviewing the linked screenshot, I\u0027m really not buying that seeing the committer email address is going to create unnecessary cognitive load.\n\n\u003e \n\u003e \u003e do you expect a config to disable every feature a user doesn\u0027t regularly use in Gerrit?\n\u003e \n\u003e as a general rule, yes.\n\u003e for smaller things not on a per-user level, because that tends to get silly. but things that are generally not required by the org\u0027s policy should be hidden, and gerrit does in fact have lots of knobs for that (and qt-project patches out some non-configurable things locally, which is of course ugly admin-wise).\n\nWhile I agree Gerrit does have many knobs, I think your expectation here doesn\u0027t match the expectation of the project maintainers. Notably, there\u0027s nothing describing this kind of objective in the project contribution or design docs. If you want that to be a goal for the project I think you\u0027re going to have to 1) get several maintainers to agree with you and 2) put in the effort to help make it happen. I\u0027m not going to block this change waiting for those to happen, but I\u0027d be happy to work with you on follow ups to improve it.",
+      "parentUuid": "2b62fbfc_9e3eb7bd",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 9
+      },
+      "revId": "d7e0ee6a17115a0429e92242e6c0136b4ca47c85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "613702fe_ba4906be",

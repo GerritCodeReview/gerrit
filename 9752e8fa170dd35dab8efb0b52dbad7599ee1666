@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2fd383e_b1b654d1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-01-23T12:28:15Z",
+      "side": 1,
+      "message": "Submitting this update of httpcore without the corresponding update of httpclient (https://gerrit-review.googlesource.com/c/gerrit/+/388223) was apparently not a good idea. I found this broke the in-tree build of the high-availability plugin (master branch) with the build error:\n\n```\nERROR: /Users/xxxxxx/src/git/gerrit/plugins/high-availability/BUILD:10:14: Building plugins/high-availability/libhigh-availability__plugin-class.jar (105 source files) and running annotation processors (AutoAnnotationProcessor, AutoValueProcessor, AutoOneOfProcessor, AutoValueGsonAdapterFactoryProcessor) failed: (Exit 1): java failed: error executing Javac command (from target //plugins/high-availability:high-availability__plugin) external/remotejdk17_macos_aarch64/bin/java \u0027--add-exports\u003djdk.compiler/com.sun.tools.javac.api\u003dALL-UNNAMED\u0027 \u0027--add-exports\u003djdk.compiler/com.sun.tools.javac.main\u003dALL-UNNAMED\u0027 ... (remaining 19 arguments skipped)\nerror: cannot access NotThreadSafe\n  class file for org.apache.http.annotation.NotThreadSafe not found\n```\n\nNotThreadSafe isn\u0027t used neither in gerrit core nor in high-availability plugin.\n\nReverting the httpcore update or adding the httpclient update fixes the problem.",
+      "revId": "9752e8fa170dd35dab8efb0b52dbad7599ee1666",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

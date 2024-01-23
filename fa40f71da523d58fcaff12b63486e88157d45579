@@ -16,6 +16,23 @@
       "message": "nit: how about a link to release notes?\nhttps://github.com/apache/mina-sshd/releases/tag/sshd-2.12.0\n\nbtw: with this release SSH supports Git protocol v2",
       "revId": "fa40f71da523d58fcaff12b63486e88157d45579",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fec09b89_45d01d75",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-01-23T07:52:48Z",
+      "side": 1,
+      "message": "Considering that this is a CVE maybe we should apply it to `stable-3.7` and merge-up?",
+      "revId": "fa40f71da523d58fcaff12b63486e88157d45579",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

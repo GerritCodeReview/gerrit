@@ -55,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2ee150f8_a73a03d2",
+        "filename": "javatests/com/google/gerrit/acceptance/server/util/WorkQueueIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 3228522
+      },
+      "writtenOn": "2024-01-24T02:56:25Z",
+      "side": 1,
+      "message": "@mogulguy12@gmail.com\nIf I define `@Inject WorkQueueIT(WorkQueue WorkQueue)`. junit will rasei an error \"Test should have exactly one public constructor\".\nAnd I just follow the way in `javatests/com/google/gerrit/acceptance/rest/TraceIT.java`.\nWould mind giving me an example about how to inject `WorkQueue` into the constructor?",
+      "parentUuid": "19422126_c3b589cc",
+      "revId": "43b7eb39fe4dafae20d4827b0c33382f2da3b6b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9a9cbb54_7862c158",
         "filename": "javatests/com/google/gerrit/acceptance/server/util/WorkQueueIT.java",
         "patchSetId": 11

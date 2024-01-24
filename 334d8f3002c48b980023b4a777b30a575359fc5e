@@ -53,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6a25a86_d1f4996f",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 3228522
+      },
+      "writtenOn": "2024-01-24T01:27:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e0eec18_7e1717ce",
+      "revId": "334d8f3002c48b980023b4a777b30a575359fc5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4a1cf182_be5d84f8",
@@ -66,6 +84,24 @@
       "writtenOn": "2024-01-19T23:10:33Z",
       "side": 1,
       "message": "Above 4 lines are racy, and can likely be replaced with the following single line?\n\n  task.setPeriod(delayMap.remove(runnable));",
+      "revId": "334d8f3002c48b980023b4a777b30a575359fc5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2fc5ca5a_00045a87",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 3228522
+      },
+      "writtenOn": "2024-01-24T01:27:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a1cf182_be5d84f8",
       "revId": "334d8f3002c48b980023b4a777b30a575359fc5e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

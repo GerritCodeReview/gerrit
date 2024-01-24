@@ -90,7 +90,7 @@ export class GrLabelScores extends LitElement {
       ).length === 0
     ) {
       return html`<h3 class="heading-4">Submit requirements votes</h3>
-        <div class="permissionMessage">You don't have permission to vote</div>`;
+        <div class="permissionMessage">You don't have permission to vote on labels in the submit requirements section</div>`;
     }
     return html`<h3 class="heading-4">Submit requirements votes</h3>
       ${this.renderLabels(labels)}`;

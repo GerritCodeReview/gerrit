@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d53b248e_ba38140b",
+        "filename": "README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-01-24T18:31:06Z",
+      "side": 1,
+      "message": "rename to gerrit\n```suggestion\n[![Build Status](https://gerrit-ci.gerritforge.com/view/gerrit/job/Gerrit-bazel-master/badge/icon)](https://gerrit-ci.gerritforge.com/view/gerrit/job/Gerrit-bazel-master/)\n```",
+      "range": {
+        "startLine": 6,
+        "startChar": 17,
+        "endLine": 6,
+        "endChar": 46
+      },
+      "revId": "38283312e56a7ce20aac7f1f2d2e267111f70d34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77d7441b_65c7d1d8",
+        "filename": "README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-01-24T18:31:06Z",
+      "side": 1,
+      "message": "rename to Configs",
+      "range": {
+        "startLine": 6,
+        "startChar": 9,
+        "endLine": 6,
+        "endChar": 15
+      },
+      "revId": "38283312e56a7ce20aac7f1f2d2e267111f70d34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

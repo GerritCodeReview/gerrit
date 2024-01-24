@@ -189,11 +189,11 @@ nodejs_test(
         ":package.json",
         ":web-test-runner.config.mjs",
         # This is an example of how you could reference your plugin sources:
-        # "//plugins/codemirror-editor/web:codemirror-test-sources",
+        "//plugins/mo-plugin/web:mo-plugin-test-sources",
         "@plugins_npm//:node_modules",
     ],
     entry_point = "@plugins_npm//:node_modules/@web/test-runner/dist/bin.js",
-    env = {"PLUGIN_DIR": "codemirror-editor"},
+    env = {"PLUGIN_DIR": "mo-plugin"},
     tags = [
         "local",
         "manual",

@@ -27,7 +27,6 @@ import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.RestView;
-import com.google.gerrit.server.ChangeDraftUpdate;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.DefaultRefLogIdentityProvider;
 import com.google.gerrit.server.IdentifiedUser;
@@ -73,7 +72,6 @@ import com.google.gerrit.server.extensions.events.WorkInProgressStateChanged;
 import com.google.gerrit.server.git.ChangesByProjectCache;
 import com.google.gerrit.server.git.PureRevertCache;
 import com.google.gerrit.server.git.TagCache;
-import com.google.gerrit.server.notedb.ChangeDraftNotesUpdate;
 import com.google.gerrit.server.notedb.NoteDbModule;
 import com.google.gerrit.server.patch.DiffExecutorModule;
 import com.google.gerrit.server.patch.DiffOperationsForCommitValidation;
@@ -206,7 +204,6 @@ public class BatchProgramModule extends FactoryModule {
     factory(DistinctVotersPredicate.Factory.class);
     factory(HasSubmoduleUpdatePredicate.Factory.class);
     factory(ProjectState.Factory.class);
-    bind(ChangeDraftUpdate.ChangeDraftUpdateFactory.class).to(ChangeDraftNotesUpdate.Factory.class);
 
     DynamicMap.mapOf(binder(), ChangeQueryBuilder.ChangeOperatorFactory.class);
     DynamicMap.mapOf(binder(), ChangeQueryBuilder.ChangeHasOperandFactory.class);

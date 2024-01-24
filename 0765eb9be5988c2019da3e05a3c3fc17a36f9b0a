@@ -46,6 +46,30 @@
       },
       "revId": "0765eb9be5988c2019da3e05a3c3fc17a36f9b0a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3aed858d_00413ffb",
+        "filename": "java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 632,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-01-24T12:10:31Z",
+      "side": 0,
+      "message": "This is exactly the same _dead code_ as it is in `Daemon` class:\n* get instance of `HttpCanonicalWebUrlProvider`\n* set its request provider\n* get rid off the instance as it is not a `@Singleton`\n\nHaving said that I don\u0027t mind having it addressed in the follow up 😊",
+      "parentUuid": "2e2fa4b9_2d9b65b7",
+      "range": {
+        "startLine": 629,
+        "startChar": 4,
+        "endLine": 632,
+        "endChar": 0
+      },
+      "revId": "0765eb9be5988c2019da3e05a3c3fc17a36f9b0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

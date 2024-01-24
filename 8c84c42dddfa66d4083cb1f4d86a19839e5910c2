@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "012a2224_fe611b59",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-24T20:31:38Z",
+      "side": 1,
+      "message": "Isn\u0027t this redundant? The headline says *Submit requirements votes*",
+      "range": {
+        "startLine": 93,
+        "startChar": 83,
+        "endLine": 93,
+        "endChar": 117
+      },
+      "revId": "8c84c42dddfa66d4083cb1f4d86a19839e5910c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

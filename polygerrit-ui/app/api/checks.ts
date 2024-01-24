@@ -85,7 +85,8 @@ export declare interface FetchResponse {
   actions?: Action[];
 
   /**
-   * Shown prominently in the change summary below the run chips.
+   * Shown prominently in the change summary below the run chips. Interpreted
+   * as markdown.
    */
   summaryMessage?: string;
 

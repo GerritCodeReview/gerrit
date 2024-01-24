@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ab0f6e8_31dad46a",
+        "filename": "polygerrit-ui/app/constants/constants.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-01-24T09:46:19Z",
+      "side": 1,
+      "message": "rename to DiffMode\n```suggestion\nimport {DiffMode} from \u0027../api/diff\u0027;\n```",
+      "range": {
+        "startLine": 10,
+        "startChar": 8,
+        "endLine": 10,
+        "endChar": 20
+      },
+      "revId": "f3e6bfef446777f486318f79ad50f971fe329eed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -24,7 +24,7 @@ If votes get outdated due to pushing a new patch set the uploader is
 informed about this by a message in the git output. In addition,
 outdated votes are also listed in the email notification that is sent
 for the new patch set (unless this is disabled by a custom email
-template). Note, that the uploader only get this email notification if
+template). Note, that the uploader only gets this email notification if
 they have configured `Every Comment` for `Email notifications` in their
 user preferences. With any other email preference the email sender, the
 uploader in this case, is not included in the email recipients.
@@ -251,7 +251,7 @@ Label functions dictate the rules for requiring certain label votes before a
 change is allowed for submission. Label functions are **deprecated** and updates
 that set `function` to a blocking value {`MaxWithBlock`, `MaxNoBlock`,
 `AnyWithBlock`} will be rejected. Existing label function definitions can only
-be updated to {`NoBlock`, `NoOp`, `PatchSetLock`}. New label defintions should
+be updated to {`NoBlock`, `NoOp`, `PatchSetLock`}. New label definitions should
 also explicitly set the `function` attribute to a non-blocking value since the
 default is `MaxWithBlock`.
 

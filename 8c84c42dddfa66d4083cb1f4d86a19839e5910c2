@@ -22,6 +22,30 @@
       },
       "revId": "8c84c42dddfa66d4083cb1f4d86a19839e5910c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3a14bcd_c15bb24f",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2024-01-24T21:34:01Z",
+      "side": 1,
+      "message": "The problem is it says \"you don\u0027t have permission to vote\" on a single line without any qualifiers. I can understand why users would take that at face value and assume they cannot vote at all. Especially newer users who may not understand the nuances between the different types of labels.\n\nI\u0027m open to suggestions on how to make this more clear, but I\u0027m not sure the submit requirements header alone is sufficient. One suggestion from our users was to drop the section entirely when you can\u0027t vote on any labels. This is already done for trigger votes, but the change that introduced this message (https://gerrit-review.googlesource.com/c/gerrit/+/328179) seemed to do so intentionally. Unfortunately there is a google bug link that I can\u0027t open to see the motivation behind the change.",
+      "parentUuid": "012a2224_fe611b59",
+      "range": {
+        "startLine": 93,
+        "startChar": 83,
+        "endLine": 93,
+        "endChar": 117
+      },
+      "revId": "8c84c42dddfa66d4083cb1f4d86a19839e5910c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

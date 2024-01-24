@@ -106,8 +106,8 @@ public class ChangeDraftNotesUpdate extends AbstractChangeUpdate implements Chan
     return new AutoValue_ChangeDraftNotesUpdate_Key(c.getCommitId(), c.key);
   }
 
-  static class Executor implements ChangeDraftUpdateExecutor, AutoCloseable {
-    interface Factory extends ChangeDraftUpdateExecutor.Factory<Executor> {
+  public static class Executor implements ChangeDraftUpdateExecutor, AutoCloseable {
+    public interface Factory extends ChangeDraftUpdateExecutor.Factory<Executor> {
       @Override
       Executor create(CurrentUser currentUser);
     }

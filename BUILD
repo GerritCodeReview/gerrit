@@ -2,7 +2,7 @@ load("//tools/bzl:genrule2.bzl", "genrule2")
 load("//tools/bzl:pkg_war.bzl", "pkg_war")
 
 package(default_visibility = ["//visibility:public"])
-
+TEST
 genrule(
     name = "gen_version",
     outs = ["version.txt"],

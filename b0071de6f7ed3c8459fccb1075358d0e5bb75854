@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5c9da72_26c509e2",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2024-01-24T11:15:18Z",
+      "side": 1,
+      "message": "should you also pass repoCommentLinks for linking which seems common in checks?",
+      "range": {
+        "startLine": 351,
+        "startChar": 16,
+        "endLine": 351,
+        "endChar": 25
+      },
+      "revId": "b0071de6f7ed3c8459fccb1075358d0e5bb75854",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

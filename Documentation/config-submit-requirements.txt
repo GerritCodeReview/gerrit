@@ -193,7 +193,7 @@ these votes.
 Voting on labels that have no impact on the submittability of changes usually
 serves the purpose to trigger processes, e.g. a vote on a `Presubmit-Ready`
 label can be a signal to run presubmit integration tests. Hence these votes are
-called `tigger votes`.
+called `trigger votes`.
 
 Trigger votes are displayed in a separate section in the change page.
 

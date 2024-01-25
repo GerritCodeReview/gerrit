@@ -34,6 +34,7 @@ import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RestoreInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
+import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.server.DynamicOptions;
@@ -56,6 +57,7 @@ import java.lang.reflect.AnnotatedElement;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
@@ -256,15 +258,24 @@ public class ReviewCommand extends SshCommand {
                 ActionType.CHANGE_UPDATE,
                 "applyReview",
                 () -> {
+                  int changeNumber = patchSet.id().changeId().get();
+                  String query = "change: " + changeNumber;
                   if (projectState == null) {
                     writeError(
                         "warning",
                         "Deprecated command usage. Add project argument (-p, --project).");
+                    List<ChangeInfo> changeInfos = gApi.changes().query(query).get();
+                    if (changeInfos.size() > 1) {
+                      throw die(
+                          String.format(
+                              "Multiple changes (%d) found for change number %d",
+                              changeInfos.size(), changeNumber));
+                    }
+                    gApi.changes()
+                        .id(patchSet.id().changeId().get())
+                        .revision(patchSet.number())
+                        .review(review);
                   }
-                  gApi.changes()
-                      .id(patchSet.id().changeId().get())
-                      .revision(patchSet.number())
-                      .review(review);
                   return null;
                 })
             .call();

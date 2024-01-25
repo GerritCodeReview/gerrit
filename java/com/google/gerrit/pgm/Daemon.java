@@ -146,7 +146,6 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import javax.servlet.http.HttpServletRequest;
 import org.eclipse.jgit.lib.Config;
 import org.kohsuke.args4j.Option;
 
@@ -625,10 +624,6 @@ public class Daemon extends SiteProgram {
     webInjector = createWebInjector();
 
     sysInjector.getInstance(PluginGuiceEnvironment.class).setHttpInjector(webInjector);
-
-    sysInjector
-        .getInstance(HttpCanonicalWebUrlProvider.class)
-        .setHttpServletRequest(webInjector.getProvider(HttpServletRequest.class));
 
     httpdInjector = createHttpdInjector();
     manager.add(webInjector, httpdInjector);

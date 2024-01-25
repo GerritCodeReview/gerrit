@@ -14,13 +14,13 @@ import {
   Replacement,
   RunStatus,
 } from '../../api/checks';
-import {PatchSetNumber, RevisionPatchSetNum} from '../../api/rest-api';
-import {CommentSide} from '../../constants/constants';
 import {
-  FixSuggestionInfo,
+  PatchSetNumber,
+  RevisionPatchSetNum,
   FixReplacementInfo,
-  DraftInfo,
-} from '../../types/common';
+} from '../../api/rest-api';
+import {CommentSide} from '../../constants/constants';
+import {FixSuggestionInfo, DraftInfo} from '../../types/common';
 import {OpenFixPreviewEventDetail} from '../../types/events';
 import {isDefined} from '../../types/types';
 import {PROVIDED_FIX_ID, createNew} from '../../utils/comment-util';

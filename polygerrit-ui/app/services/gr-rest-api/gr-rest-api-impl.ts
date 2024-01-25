@@ -113,7 +113,6 @@ import {
   TagInput,
   TopMenuEntryInfo,
   UrlEncodedCommentId,
-  FixReplacementInfo,
   DraftInfo,
   ListChangesOption,
   ReviewResult,
@@ -150,6 +149,7 @@ import {MaxInFlightScheduler} from '../scheduler/max-in-flight-scheduler';
 import {escapeAndWrapSearchOperatorValue} from '../../utils/string-util';
 import {FlagsService, KnownExperimentId} from '../flags/flags';
 import {RetryScheduler} from '../scheduler/retry-scheduler';
+import {FixReplacementInfo} from '../../api/rest-api';
 
 const MAX_PROJECT_RESULTS = 25;
 

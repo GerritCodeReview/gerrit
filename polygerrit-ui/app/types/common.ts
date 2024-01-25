@@ -119,6 +119,8 @@ import {
   isQuickLabelInfo,
   Base64FileContent,
   CommentRange,
+  FixSuggestionInfoInput,
+  FixReplacementInfo,
 } from '../api/rest-api';
 import {DiffInfo, IgnoreWhitespaceType} from './diff';
 import {PatchRange, LineNumber} from '../api/diff';
@@ -1433,15 +1435,6 @@ export interface RobotCommentInfo extends CommentInfo {
 }
 export type PathToRobotCommentsInfoMap = {[path: string]: RobotCommentInfo[]};
 
-/**
- * The FixSuggestionInfo entity represents a suggested fix
- * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#fix-suggestion-info
- */
-export interface FixSuggestionInfoInput {
-  description: string;
-  replacements: FixReplacementInfo[];
-}
-
 export interface FixSuggestionInfo extends FixSuggestionInfoInput {
   fix_id: FixId;
   description: string;
@@ -1455,16 +1448,6 @@ export interface FixSuggestionInfo extends FixSuggestionInfoInput {
  */
 export interface ApplyProvidedFixInput {
   fix_replacement_infos: FixReplacementInfo[];
-}
-
-/**
- * The FixReplacementInfo entity describes how the content of a file should be replaced by another content
- * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#fix-replacement-info
- */
-export interface FixReplacementInfo {
-  path: string;
-  range: CommentRange;
-  replacement: string;
 }
 
 /**

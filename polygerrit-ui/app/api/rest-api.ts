@@ -1291,3 +1291,22 @@ export function isBase64FileContent(
 
 // The URL encoded UUID of the comment
 export type UrlEncodedCommentId = BrandType<string, '_urlEncodedCommentId'>;
+
+/**
+ * The FixSuggestionInfo entity represents a suggested fix
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#fix-suggestion-info
+ */
+export interface FixSuggestionInfoInput {
+  description: string;
+  replacements: FixReplacementInfo[];
+}
+
+/**
+ * The FixReplacementInfo entity describes how the content of a file should be replaced by another content
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#fix-replacement-info
+ */
+export interface FixReplacementInfo {
+  path: string;
+  range: CommentRange;
+  replacement: string;
+}

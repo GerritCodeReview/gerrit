@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "13ed7b65_6ec4a90d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-01-25T15:52:19Z",
+      "side": 1,
+      "message": "I think it would make sense to log these details also for git requests over HTTP",
+      "revId": "db0cad716c4b176d66d45e70793c8b3d90bee96e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "617d915f_98c6e529",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-01-25T15:52:19Z",
+      "side": 1,
+      "message": "The advantage of logging these metrics is that in the logs we have the details which request on which repository was run. These timing metrics depend heavily on the size and content of the repository being served.",
+      "revId": "db0cad716c4b176d66d45e70793c8b3d90bee96e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

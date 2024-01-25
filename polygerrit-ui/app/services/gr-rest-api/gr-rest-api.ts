@@ -40,7 +40,6 @@ import {
   FileNameToFileInfoMap,
   FilePathToDiffInfoMap,
   FixId,
-  FixReplacementInfo,
   GitRef,
   GpgKeyId,
   GpgKeyInfo,
@@ -99,6 +98,7 @@ import {
 } from '../../types/diff';
 import {Finalizable, ParsedChangeInfo} from '../../types/types';
 import {ErrorCallback} from '../../api/rest';
+import {FixReplacementInfo} from '../../api/rest-api';
 
 export type CancelConditionCallback = () => boolean;
 

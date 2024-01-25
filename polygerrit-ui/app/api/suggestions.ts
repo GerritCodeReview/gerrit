@@ -4,7 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {ChangeInfo, CommentRange, RevisionPatchSetNum} from './rest-api';
+import {
+  ChangeInfo,
+  CommentRange,
+  FixSuggestionInfoInput,
+  RevisionPatchSetNum,
+} from './rest-api';
 
 export declare interface SuggestionsPluginApi {
   /**
@@ -24,10 +29,11 @@ export declare interface SuggestCodeRequest {
 
 export declare interface SuggestionsProvider {
   /**
-   * Gerrit calls this method when ...
+   * Gerrit calls these methods when ...
    * - ... user types a comment draft
    */
   suggestCode(commentData: SuggestCodeRequest): Promise<SuggestCodeResponse>;
+  suggestFix(commentData: SuggestCodeRequest): Promise<SuggestedFixResponse>;
   /**
    * List of supported file extensions. If undefined, all file extensions supported.
    */
@@ -37,6 +43,11 @@ export declare interface SuggestionsProvider {
 export declare interface SuggestCodeResponse {
   responseCode: ResponseCode;
   suggestions: Suggestion[];
+}
+
+export declare interface SuggestedFixResponse {
+  responseCode: ResponseCode;
+  fix_suggestions: FixSuggestionInfoInput[];
 }
 
 export declare interface Suggestion {

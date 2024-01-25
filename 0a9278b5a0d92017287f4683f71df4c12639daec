@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5020cf2_282620a3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-25T22:39:29Z",
+      "side": 1,
+      "message": "I verified E2E that:\n- The offline/online reindex of changes enables the force flag\n- Migrating from v3.8 to v3.9, the force flag is off",
+      "revId": "0a9278b5a0d92017287f4683f71df4c12639daec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

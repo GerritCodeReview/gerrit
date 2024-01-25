@@ -235,19 +235,6 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
       }
       env.setHttpInjector(webInjector);
 
-      // Push the Provider<HttpServletRequest> down into the canonical
-      // URL provider. Its optional for that provider, but since we can
-      // supply one we should do so, in case the administrator has not
-      // setup the canonical URL in the configuration file.
-      //
-      // Note we have to do this manually as Guice failed to do the
-      // injection here because the HTTP environment is not visible
-      // to the core server modules.
-      //
-      sysInjector
-          .getInstance(HttpCanonicalWebUrlProvider.class)
-          .setHttpServletRequest(webInjector.getProvider(HttpServletRequest.class));
-
       filter = webInjector.getInstance(GuiceFilter.class);
       manager = new LifecycleManager();
       manager.add(dbInjector);

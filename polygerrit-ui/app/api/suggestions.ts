@@ -32,8 +32,8 @@ export declare interface SuggestionsProvider {
    * Gerrit calls these methods when ...
    * - ... user types a comment draft
    */
-  suggestCode(commentData: SuggestCodeRequest): Promise<SuggestCodeResponse>;
-  suggestFix(commentData: SuggestCodeRequest): Promise<SuggestedFixResponse>;
+  suggestCode?(commentData: SuggestCodeRequest): Promise<SuggestCodeResponse>;
+  suggestFix?(commentData: SuggestCodeRequest): Promise<SuggestedFixResponse>;
   /**
    * List of supported file extensions. If undefined, all file extensions supported.
    */

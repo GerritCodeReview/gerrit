@@ -1093,7 +1093,7 @@ export class GrComment extends LitElement {
     const suggestionsProvider = this.suggestionsProvider;
     const changeInfo = this.getChangeModel().getChange();
     if (
-      !suggestionsProvider ||
+      !suggestionsProvider?.suggestCode ||
       !this.showGeneratedSuggestion() ||
       !changeInfo ||
       !this.comment ||

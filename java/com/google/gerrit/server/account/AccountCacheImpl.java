@@ -127,7 +127,9 @@ public class AccountCacheImpl implements AccountCache {
 
   @Override
   public Map<Account.Id, AccountState> get(Set<Account.Id> accountIds) {
-    try {
+    try (TraceTimer ignored =
+        TraceContext.newTimer(
+            "Loading accounts", Metadata.builder().resourceCount(accountIds.size()).build())) {
       try (Repository allUsers = repoManager.openRepository(allUsersName)) {
         Set<CachedAccountDetails.Key> keys =
             Sets.newLinkedHashSetWithExpectedSize(accountIds.size());

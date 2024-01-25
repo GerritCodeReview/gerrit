@@ -38,6 +38,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "d87fa43b_f8b1de9f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-25T16:45:16Z",
+      "side": 1,
+      "message": "\u003e I think it would make sense to log these details also for git requests over HTTP\n\nYes, indeed. I\u0027ve already looked at it and requires some small changes in JGit as well. I\u0027ll do that development on master though, as we should not change the formatting of the logs in a stable release.",
+      "parentUuid": "b0e779eb_123d2385",
+      "revId": "db0cad716c4b176d66d45e70793c8b3d90bee96e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "617d915f_98c6e529",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -49,6 +67,24 @@
       "writtenOn": "2024-01-25T15:52:19Z",
       "side": 1,
       "message": "The advantage of logging these metrics is that in the logs we have the details which request on which repository was run. These timing metrics depend heavily on the size and content of the repository being served.",
+      "revId": "db0cad716c4b176d66d45e70793c8b3d90bee96e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b348fc10_c31858b8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-25T16:45:16Z",
+      "side": 1,
+      "message": "\u003e The advantage of logging these metrics is that in the logs we have the details which request on which repository was run. These timing metrics depend heavily on the size and content of the repository being served.\n\nThe request-level details could be useful indeed, however bear in mind that unlike Git/SSH, the whole session is not associated with a single log entry in httpd_log because, for instance, the negotiation may involve multiple requests.",
+      "parentUuid": "617d915f_98c6e529",
       "revId": "db0cad716c4b176d66d45e70793c8b3d90bee96e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

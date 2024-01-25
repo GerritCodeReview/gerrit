@@ -264,11 +264,19 @@ public class ReviewCommand extends SshCommand {
                   if (projectState == null) {
                     stdout.write(DEPRECATE_USAGE_WITHOUT_PROJECT);
                   }
-                  gApi.changes()
+                  int changeNumber = patchSet.id().changeId().get();
+                  String query = "change: " + changeNumber;
+                  int changesFound = gApi.changes().query(query).get().size();
+                  if (changesFound > 1) {
+                    throw die(
+                        String.format(
+                            "Multiple changes (%d) found for change number %d",
+                            changesFound, changeNumber));
+                  }
+                  return gApi.changes()
                       .id(patchSet.id().changeId().get())
                       .revision(patchSet.number())
                       .review(review);
-                  return null;
                 })
             .call();
   }

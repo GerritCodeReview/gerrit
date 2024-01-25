@@ -275,6 +275,11 @@ public class ReviewCommand extends SshCommand {
                         .id(patchSet.id().changeId().get())
                         .revision(patchSet.number())
                         .review(review);
+                  } else {
+                    gApi.changes()
+                        .id(projectState.getProject().getName(), patchSet.id().changeId().get())
+                        .revision(patchSet.number())
+                        .review(review);
                   }
                   return null;
                 })

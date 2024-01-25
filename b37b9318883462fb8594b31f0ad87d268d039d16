@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b7cac11_a3b41f58",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1737,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-01-25T10:59:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2cf04203_56d6da22",
+      "revId": "b37b9318883462fb8594b31f0ad87d268d039d16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "108939c2_dca8a581",
@@ -31,6 +49,30 @@
       "writtenOn": "2024-01-25T00:32:41Z",
       "side": 1,
       "message": "Why not index as an int using `integerBuilder()`?",
+      "range": {
+        "startLine": 1738,
+        "startChar": 31,
+        "endLine": 1738,
+        "endChar": 44
+      },
+      "revId": "b37b9318883462fb8594b31f0ad87d268d039d16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "20c8c626_79a084ed",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1738,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-01-25T10:59:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "108939c2_dca8a581",
       "range": {
         "startLine": 1738,
         "startChar": 31,

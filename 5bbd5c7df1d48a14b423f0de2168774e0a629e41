@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "52d5d368_fb1ba82a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-01-25T10:55:13Z",
+      "side": 1,
+      "message": "Missing `Release-Notes: skip` footer in the chain",
+      "revId": "5bbd5c7df1d48a14b423f0de2168774e0a629e41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a88b61e6_db2ee65b",

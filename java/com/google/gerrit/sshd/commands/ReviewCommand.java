@@ -18,6 +18,7 @@ import static com.google.gerrit.util.cli.Localizable.localizable;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
@@ -71,6 +72,10 @@ import org.kohsuke.args4j.spi.Setter;
 
 @CommandMetaData(name = "review", description = "Apply reviews to one or more patch sets")
 public class ReviewCommand extends SshCommand {
+  @VisibleForTesting
+  public static final String DEPRECATE_USAGE_WITHOUT_PROJECT =
+      "Warning: Deprecated command usage. Add project argument (-p, --project).";
+
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   @Override
@@ -256,6 +261,9 @@ public class ReviewCommand extends SshCommand {
                 ActionType.CHANGE_UPDATE,
                 "applyReview",
                 () -> {
+                  if (projectState == null) {
+                    stdout.write(DEPRECATE_USAGE_WITHOUT_PROJECT);
+                  }
                   gApi.changes()
                       .id(patchSet.id().changeId().get())
                       .revision(patchSet.number())

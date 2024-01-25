@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account;
 
+import static com.google.common.collect.ImmutableMap.toImmutableMap;
 import static com.google.gerrit.server.account.AccountCacheImpl.AccountCacheModule.ACCOUNT_CACHE_MODULE;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 
@@ -47,6 +48,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
+import java.util.function.Function;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -131,10 +133,13 @@ public class AccountCacheImpl implements AccountCache {
         TraceContext.newTimer(
             "Loading accounts", Metadata.builder().resourceCount(accountIds.size()).build())) {
       try (Repository allUsers = repoManager.openRepository(allUsersName)) {
+        Map<String, Ref> userRefs =
+            allUsers.getRefDatabase().getRefsByPrefix(RefNames.REFS_USERS).stream()
+                .collect(toImmutableMap(Ref::getName, Function.identity()));
         Set<CachedAccountDetails.Key> keys =
             Sets.newLinkedHashSetWithExpectedSize(accountIds.size());
         for (Account.Id id : accountIds) {
-          Ref userRef = allUsers.exactRef(RefNames.refsUsers(id));
+          Ref userRef = userRefs.get(RefNames.refsUsers(id));
           if (userRef == null) {
             continue;
           }

@@ -144,7 +144,6 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
 import org.eclipse.jgit.lib.Config;
 
 /** Configures the web application environment for Gerrit Code Review. */
@@ -234,19 +233,6 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
         env.setSshInjector(sshInjector);
       }
       env.setHttpInjector(webInjector);
-
-      // Push the Provider<HttpServletRequest> down into the canonical
-      // URL provider. Its optional for that provider, but since we can
-      // supply one we should do so, in case the administrator has not
-      // setup the canonical URL in the configuration file.
-      //
-      // Note we have to do this manually as Guice failed to do the
-      // injection here because the HTTP environment is not visible
-      // to the core server modules.
-      //
-      sysInjector
-          .getInstance(HttpCanonicalWebUrlProvider.class)
-          .setHttpServletRequest(webInjector.getProvider(HttpServletRequest.class));
 
       filter = webInjector.getInstance(GuiceFilter.class);
       manager = new LifecycleManager();

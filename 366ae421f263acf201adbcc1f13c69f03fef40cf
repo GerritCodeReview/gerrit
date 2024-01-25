@@ -16,6 +16,24 @@
       "message": "This has broken the off-line reindex on Gerrit v3.9.1, see Issue 322269961",
       "revId": "366ae421f263acf201adbcc1f13c69f03fef40cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "243f1832_b52fdc5c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-25T20:41:32Z",
+      "side": 1,
+      "message": "Also, this changes the functional behaviour of the online reindex too, at least that\u0027s my understanding from the change.\n\n@matthias.sohn@gmail.com @thomas.draebing@sap.com can you confirm?\n\nI\u0027ll do some more investigation on other potential consequences.",
+      "parentUuid": "890cc34b_5408b26b",
+      "revId": "366ae421f263acf201adbcc1f13c69f03fef40cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

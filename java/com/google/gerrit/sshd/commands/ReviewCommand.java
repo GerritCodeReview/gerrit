@@ -30,6 +30,7 @@ import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.changes.AbandonInput;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
+import com.google.gerrit.extensions.api.changes.Changes;
 import com.google.gerrit.extensions.api.changes.MoveInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RestoreInput;
@@ -261,20 +262,22 @@ public class ReviewCommand extends SshCommand {
                 ActionType.CHANGE_UPDATE,
                 "applyReview",
                 () -> {
+                  Changes changesApi = gApi.changes();
+                  int changeNumber = patchSet.id().changeId().get();
                   if (projectState == null) {
                     stdout.write(DEPRECATE_USAGE_WITHOUT_PROJECT);
+                    String query = "change: " + changeNumber;
+                    int changesFound = gApi.changes().query(query).get().size();
+                    if (changesFound > 1) {
+                      throw die(
+                          String.format(
+                              "Multiple changes (%d) found for change number %d",
+                              changesFound, changeNumber));
+                    }
+                    return changesApi.id(changeNumber).revision(patchSet.number()).review(review);
                   }
-                  int changeNumber = patchSet.id().changeId().get();
-                  String query = "change: " + changeNumber;
-                  int changesFound = gApi.changes().query(query).get().size();
-                  if (changesFound > 1) {
-                    throw die(
-                        String.format(
-                            "Multiple changes (%d) found for change number %d",
-                            changesFound, changeNumber));
-                  }
-                  return gApi.changes()
-                      .id(patchSet.id().changeId().get())
+                  return changesApi
+                      .id(projectState.getProject().getName(), changeNumber)
                       .revision(patchSet.number())
                       .review(review);
                 })

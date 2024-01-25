@@ -256,6 +256,11 @@ public class ReviewCommand extends SshCommand {
                 ActionType.CHANGE_UPDATE,
                 "applyReview",
                 () -> {
+                  if (projectState == null) {
+                    writeError(
+                        "warning",
+                        "Deprecated command usage. Add project argument (-p, --project).");
+                  }
                   gApi.changes()
                       .id(patchSet.id().changeId().get())
                       .revision(patchSet.number())

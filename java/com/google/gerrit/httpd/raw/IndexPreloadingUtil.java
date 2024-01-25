@@ -87,7 +87,8 @@ public class IndexPreloadingUtil {
       ImmutableSet.of(
           ListChangesOption.LABELS,
           ListChangesOption.DETAILED_ACCOUNTS,
-          ListChangesOption.SUBMIT_REQUIREMENTS);
+          ListChangesOption.SUBMIT_REQUIREMENTS,
+          ListChangesOption.STAR);
 
   public static final ImmutableSet<ListChangesOption> CHANGE_DETAIL_OPTIONS =
       ImmutableSet.of(

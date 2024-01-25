@@ -88,7 +88,10 @@ public enum ListChangesOption implements ListOption {
   SKIP_DIFFSTAT(23),
 
   /** Include the evaluated submit requirements for the caller. */
-  SUBMIT_REQUIREMENTS(24);
+  SUBMIT_REQUIREMENTS(24),
+
+  /** Include the 'starred' field, that is if the change is starred by the current user . */
+  STAR(25);
 
   private final int value;
 

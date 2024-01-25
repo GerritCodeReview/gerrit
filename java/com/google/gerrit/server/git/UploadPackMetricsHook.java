@@ -39,6 +39,7 @@ public class UploadPackMetricsHook implements PostUploadHook {
   private final Counter1<Operation> requestCount;
   private final Timer1<Operation> counting;
   private final Timer1<Operation> compressing;
+  private final Timer1<Operation> negotiating;
   private final Timer1<Operation> writing;
   private final Histogram1<Operation> packBytes;
 
@@ -72,6 +73,14 @@ public class UploadPackMetricsHook implements PostUploadHook {
                 .setUnit(Units.MILLISECONDS),
             operationField);
 
+    negotiating =
+        metricMaker.newTimer(
+            "git/upload-pack/phase_negotiating",
+            new Description("Time spent in the negotiation phase")
+                .setCumulative()
+                .setUnit(Units.MILLISECONDS),
+            operationField);
+
     writing =
         metricMaker.newTimer(
             "git/upload-pack/phase_writing",
@@ -99,6 +108,7 @@ public class UploadPackMetricsHook implements PostUploadHook {
     requestCount.increment(op);
     counting.record(op, stats.getTimeCounting(), MILLISECONDS);
     compressing.record(op, stats.getTimeCompressing(), MILLISECONDS);
+    negotiating.record(op, stats.getTimeNegotiating(), MILLISECONDS);
     writing.record(op, stats.getTimeWriting(), MILLISECONDS);
     packBytes.record(op, stats.getTotalBytes());
   }

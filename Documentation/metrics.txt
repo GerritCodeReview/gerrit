@@ -374,6 +374,9 @@ Each queue provides the following metrics:
 * `git/upload-pack/phase_compressing`: Time spent in the 'Compressing...' phase.
 ** `operation`:
    The name of the operation (CLONE, FETCH).
+* `git/upload-pack/phase_negotiating`: Time spent in the negotiation phase.
+** `operation`:
+   The name of the operation (CLONE, FETCH).
 * `git/upload-pack/phase_writing`: Time spent transferring bytes to client.
 ** `operation`:
    The name of the operation (CLONE, FETCH).

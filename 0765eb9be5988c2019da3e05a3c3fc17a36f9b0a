@@ -70,6 +70,54 @@
       },
       "revId": "0765eb9be5988c2019da3e05a3c3fc17a36f9b0a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d303b3af_84b38f68",
+        "filename": "java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 632,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-01-25T10:39:37Z",
+      "side": 0,
+      "message": "Here\u0027s the follow-up change: https://gerrit-review.googlesource.com/c/gerrit/+/404401",
+      "parentUuid": "3aed858d_00413ffb",
+      "range": {
+        "startLine": 629,
+        "startChar": 4,
+        "endLine": 632,
+        "endChar": 0
+      },
+      "revId": "0765eb9be5988c2019da3e05a3c3fc17a36f9b0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f98aaa7_48428bf1",
+        "filename": "java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 632,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-01-25T10:39:37Z",
+      "side": 0,
+      "message": "Here\u0027s a followup change: https://gerrit-review.googlesource.com/c/gerrit/+/404401",
+      "parentUuid": "3aed858d_00413ffb",
+      "range": {
+        "startLine": 629,
+        "startChar": 4,
+        "endLine": 632,
+        "endChar": 0
+      },
+      "revId": "0765eb9be5988c2019da3e05a3c3fc17a36f9b0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

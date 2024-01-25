@@ -228,7 +228,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
     private final ProjectSlice projectSlice;
     private final ProgressMonitor done;
     private final ProgressMonitor failed;
-    private final boolean forceReindex;
+    private boolean forceReindex;
 
     private ProjectSliceIndexer(
         ChangeIndexer indexer,
@@ -257,8 +257,15 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
                     + "]");
         OnlineReindexMode.begin();
         Optional<ChangeIndex> newestIndex = indexer.getNewestIndex();
+        Optional<ChangeIndex> oldestIndex = indexer.getOldestIndex();
         if (newestIndex.isEmpty()) {
           logger.atWarning().log("No change index available yet");
+        } else {
+          if (!forceReindex && newestIndex.equals(oldestIndex)) {
+            forceReindex = true;
+            logger.atWarning().log(
+                "Forcing the reindex of ALL changes: reindexing in-place on the same version");
+          }
         }
         // Order of scanning changes is undefined. This is ok if we assume that packfile locality is
         // not important for indexing, since sites should have a fully populated DiffSummary cache.

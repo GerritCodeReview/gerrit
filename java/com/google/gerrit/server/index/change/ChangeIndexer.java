@@ -272,6 +272,10 @@ public class ChangeIndexer {
     return getWriteIndexes().stream().max(Comparator.comparingInt(i -> i.getSchema().getVersion()));
   }
 
+  public Optional<ChangeIndex> getOldestIndex() {
+    return getWriteIndexes().stream().min(Comparator.comparingInt(i -> i.getSchema().getVersion()));
+  }
+
   private void fireChangeScheduledForIndexingEvent(String projectName, int id) {
     indexedListeners.runEach(l -> l.onChangeScheduledForIndexing(projectName, id));
   }

@@ -14,6 +14,9 @@
 
 package com.google.gerrit.acceptance.api.change;
 
+import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.sshd.commands.ReviewCommand.DEPRECATE_USAGE_WITHOUT_PROJECT;
+
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.UseSsh;
@@ -38,12 +41,27 @@ public class ChangeReviewIT extends AbstractDaemonTest {
   @Test
   public void testGerritReviewCommandWithoutProject() throws Exception {
     PushOneCommit.Result r = createChange();
-    adminSshSession.exec(
-        "gerrit review"
-            + " --branch "
-            + r.getChange().change().getDest().shortName()
-            + " --code-review 1 "
-            + r.getCommit().getName());
+    String response =
+        adminSshSession.exec(
+            "gerrit review"
+                + " --branch "
+                + r.getChange().change().getDest().shortName()
+                + " --code-review 1 "
+                + r.getCommit().getName());
     adminSshSession.assertSuccess();
+    assertThat(response).contains(DEPRECATE_USAGE_WITHOUT_PROJECT);
+  }
+
+  @Test
+  public void testGerritReviewCommandWithProject() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String response =
+        adminSshSession.exec(
+            "gerrit review --project "
+                + r.getChange().change().getProject().get()
+                + " --code-review 1 "
+                + r.getCommit().getName());
+    adminSshSession.assertSuccess();
+    assertThat(response).doesNotContain(DEPRECATE_USAGE_WITHOUT_PROJECT);
   }
 }

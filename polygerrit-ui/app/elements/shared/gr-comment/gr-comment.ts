@@ -1014,34 +1014,11 @@ export class GrComment extends LitElement {
     )
       return nothing;
 
-    if (this.generatedSuggestion.newRange) {
-      return this.renderGeneratedSuggestionOutOfRange();
-    } else {
-      return html`<gr-suggestion-diff-preview
-        .showAddSuggestionButton=${true}
-        .suggestion=${this.generatedSuggestion?.replacement}
-        .uuid=${this.generatedSuggestionId}
-      ></gr-suggestion-diff-preview>`;
-    }
-  }
-
-  // TODO(milutin): This is temporary warning, will be removed, once we are
-  // able to change range of a comment
-  private renderGeneratedSuggestionOutOfRange() {
-    if (!this.generatedSuggestion?.newRange) return;
-    if (
-      this.flagsService.isEnabled(
-        KnownExperimentId.ML_SUGGESTED_EDIT_OUT_OF_RANGE
-      )
-    ) {
-      const range = this.generatedSuggestion.newRange;
-      return html`<div class="info">
-        <gr-icon icon="info" filled></gr-icon>
-        There is a suggestion in range (${range.start_line}, ${range.end_line})
-      </div>`;
-    } else {
-      return nothing;
-    }
+    return html`<gr-suggestion-diff-preview
+      .showAddSuggestionButton=${true}
+      .suggestion=${this.generatedSuggestion?.replacement}
+      .uuid=${this.generatedSuggestionId}
+    ></gr-suggestion-diff-preview>`;
   }
 
   private renderGenerateSuggestEditButton() {
@@ -1098,17 +1075,6 @@ export class GrComment extends LitElement {
   }
 
   private getNumberOfSuggestions() {
-    if (this.generatedSuggestion?.newRange) {
-      if (
-        this.flagsService.isEnabled(
-          KnownExperimentId.ML_SUGGESTED_EDIT_OUT_OF_RANGE
-        )
-      ) {
-        return '(1)';
-      } else {
-        return '(0)';
-      }
-    }
     if (this.generatedSuggestion) {
       return '(1)';
     } else {
@@ -1154,7 +1120,6 @@ export class GrComment extends LitElement {
     } finally {
       this.suggestionLoading = false;
     }
-
     if (!suggestionResponse) return;
     // TODO(milutin): The suggestionResponse can contain multiple suggestion
     // options. We pick the first one for now. In future we shouldn't ignore
@@ -1163,7 +1128,6 @@ export class GrComment extends LitElement {
       uuid: this.generatedSuggestionId,
       response: suggestionResponse.responseCode,
       numSuggestions: suggestionResponse.suggestions.length,
-      hasNewRange: suggestionResponse.suggestions?.[0]?.newRange !== undefined,
     });
     const suggestion = suggestionResponse.suggestions?.[0];
     if (!suggestion) return;

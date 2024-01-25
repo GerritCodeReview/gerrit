@@ -92,7 +92,7 @@ suite('gr-change-summary test', () => {
               <gr-icon icon="info" filled></gr-icon>
             </div>
             <div class="right">
-              <div class="message" title="a message">a message</div>
+              <gr-formatted-text class="message"></gr-formatted-text>
             </div>
           </div>
         </div>

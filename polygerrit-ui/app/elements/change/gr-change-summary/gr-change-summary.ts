@@ -348,7 +348,11 @@ export class GrChangeSummary extends LitElement {
             <gr-icon icon="info" filled></gr-icon>
           </div>
           <div class="right">
-            <div class="message" title=${m}>${m}</div>
+            <gr-formatted-text
+              class="message"
+              .markdown=${true}
+              .content=${m}
+            ></gr-formatted-text>
           </div>
         </div>
       `

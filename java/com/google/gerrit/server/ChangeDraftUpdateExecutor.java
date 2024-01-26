@@ -24,7 +24,6 @@ import com.google.gerrit.server.update.BatchUpdateListener;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Optional;
-import java.util.function.Function;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.transport.PushCertificate;
@@ -109,16 +108,15 @@ public interface ChangeDraftUpdateExecutor {
 
   /** Returns the given updates that match the provided type. */
   default <UpdateT extends ChangeDraftUpdate> ListMultimap<String, UpdateT> filterTypedUpdates(
-      ListMultimap<String, ChangeDraftUpdate> updates,
-      Function<ChangeDraftUpdate, Boolean> isSubtype,
-      Function<ChangeDraftUpdate, UpdateT> toSubtype) {
+      ListMultimap<String, ChangeDraftUpdate> updates, Class<UpdateT> updateType) {
     ListMultimap<String, UpdateT> res = MultimapBuilder.hashKeys().arrayListValues().build();
     for (String key : updates.keySet()) {
       res.putAll(
           key,
           updates.get(key).stream()
-              .filter(u -> isSubtype.apply(u))
-              .map(u -> toSubtype.apply(u))
+              .map(u -> u.toOptionalChangeDraftUpdateSubtype(updateType))
+              .filter(Optional::isPresent)
+              .map(Optional::get)
               .collect(toImmutableList()));
     }
     return res;

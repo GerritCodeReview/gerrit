@@ -21,6 +21,7 @@ import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 import org.eclipse.jgit.lib.PersonIdent;
 
 /** An interface for updating draft comments. */
@@ -71,4 +72,16 @@ public interface ChangeDraftUpdate {
    * A unique identifier for the draft, used by the storage system. For example, NoteDB's ref name.
    */
   String getStorageKey();
+
+  /**
+   * Converts this update to the given subtype if possible. Returns {@link Optional#empty()}
+   * otherwise.
+   */
+  default <UpdateT extends ChangeDraftUpdate> Optional<UpdateT> toOptionalChangeDraftUpdateSubtype(
+      Class<UpdateT> subtype) {
+    if (this.getClass().isAssignableFrom(subtype)) {
+      return Optional.of((UpdateT) this);
+    }
+    return Optional.empty();
+  }
 }

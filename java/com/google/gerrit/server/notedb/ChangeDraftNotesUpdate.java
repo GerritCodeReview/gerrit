@@ -138,8 +138,7 @@ public class ChangeDraftNotesUpdate extends AbstractChangeUpdate implements Chan
     public void queueAllDraftUpdates(ListMultimap<String, ChangeDraftUpdate> updaters)
         throws IOException {
       ListMultimap<String, ChangeDraftNotesUpdate> noteDbUpdaters =
-          filterTypedUpdates(
-              updaters, u -> u instanceof ChangeDraftNotesUpdate, u -> (ChangeDraftNotesUpdate) u);
+          filterTypedUpdates(updaters, ChangeDraftNotesUpdate.class);
       if (canRunAsync(noteDbUpdaters.values())) {
         updateAllUsersAsync.setDraftUpdates(noteDbUpdaters);
       } else {

@@ -46,6 +46,30 @@
       },
       "revId": "8c84c42dddfa66d4083cb1f4d86a19839e5910c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77a1cf2c_7f7ffaec",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 3261867
+      },
+      "writtenOn": "2024-01-26T12:43:15Z",
+      "side": 1,
+      "message": "I ran into that trap Clark is referring to, when I was helping a newcomer in one of the OpenInfra projects that is using Gerrit. The person was very confused by the text that said \"you don\u0027t have permission to vote\", as he didn\u0027t realize that the scope of the note was just that particular section, and was certain he cannot vote on that change at all.\n\nIf redundancy is an issue, maybe we could shorten the text to say \"You don\u0027t have permission to vote on labels in this section\"?",
+      "parentUuid": "f3a14bcd_c15bb24f",
+      "range": {
+        "startLine": 93,
+        "startChar": 83,
+        "endLine": 93,
+        "endChar": 117
+      },
+      "revId": "8c84c42dddfa66d4083cb1f4d86a19839e5910c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

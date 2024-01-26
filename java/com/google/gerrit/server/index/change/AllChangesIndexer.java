@@ -47,7 +47,6 @@ import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.RejectedExecutionException;
@@ -198,20 +197,15 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
     return Result.create(sw, ok.get(), nDone, nFailed);
   }
 
-  /**
-   * Reindexes all changes in a given project, even if they already exist in the index. Changes will
-   * not be sliced to allow multithreaded reindexing.
-   */
   @Nullable
   public Callable<Void> reindexProject(
       ChangeIndexer indexer, Project.NameKey project, Task done, Task failed) {
     try (Repository repo = repoManager.openRepository(project)) {
-      return new ProjectSliceIndexer(
+      return reindexProjectSlice(
           indexer,
           ProjectSlice.oneSlice(project, ChangeNotes.Factory.scanChangeIds(repo)),
           done,
-          failed,
-          true);
+          failed);
     } catch (IOException e) {
       logger.atSevere().log("%s", e.getMessage());
       return null;
@@ -220,7 +214,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
 
   public Callable<Void> reindexProjectSlice(
       ChangeIndexer indexer, ProjectSlice projectSlice, Task done, Task failed) {
-    return new ProjectSliceIndexer(indexer, projectSlice, done, failed, false);
+    return new ProjectSliceIndexer(indexer, projectSlice, done, failed);
   }
 
   private class ProjectSliceIndexer implements Callable<Void> {
@@ -228,19 +222,16 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
     private final ProjectSlice projectSlice;
     private final ProgressMonitor done;
     private final ProgressMonitor failed;
-    private final boolean forceReindex;
 
     private ProjectSliceIndexer(
         ChangeIndexer indexer,
         ProjectSlice projectSlice,
         ProgressMonitor done,
-        ProgressMonitor failed,
-        boolean forceReindex) {
+        ProgressMonitor failed) {
       this.indexer = indexer;
       this.projectSlice = projectSlice;
       this.done = done;
       this.failed = failed;
-      this.forceReindex = forceReindex;
     }
 
     @Override
@@ -256,10 +247,6 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
                     + projectSlice.slice()
                     + "]");
         OnlineReindexMode.begin();
-        Optional<ChangeIndex> newestIndex = indexer.getNewestIndex();
-        if (newestIndex.isEmpty()) {
-          logger.atWarning().log("No change index available yet");
-        }
         // Order of scanning changes is undefined. This is ok if we assume that packfile locality is
         // not important for indexing, since sites should have a fully populated DiffSummary cache.
         // It does mean that reindexing after invalidating the DiffSummary cache will be expensive,
@@ -270,7 +257,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
                 projectSlice.metaIdByChange(),
                 projectSlice.name(),
                 id -> (id.get() % projectSlice.slices()) == projectSlice.slice())
-            .forEach(r -> index(r, newestIndex));
+            .forEach(r -> index(r));
         OnlineReindexMode.end();
       } finally {
         Thread.currentThread().setName(oldThreadName);
@@ -278,23 +265,16 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
       return null;
     }
 
-    private void index(ChangeNotesResult r, Optional<ChangeIndex> newestIndex) {
+    private void index(ChangeNotesResult r) {
       if (r.error().isPresent()) {
         fail("Failed to read change " + r.id() + " for indexing", true, r.error().get());
         return;
       }
       try {
-        if (forceReindex || !indexer.isChangeAlreadyIndexed(r.id(), newestIndex)) {
-          indexer.index(changeDataFactory.create(r.notes()));
-          verboseWriter.format(
-              "Reindexed change %d (project: %s)\n",
-              r.id().get(), r.notes().getProjectName().get());
-
-        } else {
-          verboseWriter.format(
-              "Skipped change %d (project: %s)\n", r.id().get(), r.notes().getProjectName().get());
-        }
+        indexer.index(changeDataFactory.create(r.notes()));
         done.update(1);
+        verboseWriter.format(
+            "Reindexed change %d (project: %s)\n", r.id().get(), r.notes().getProjectName().get());
       } catch (RejectedExecutionException e) {
         // Server shutdown, don't spam the logs.
         failSilently();

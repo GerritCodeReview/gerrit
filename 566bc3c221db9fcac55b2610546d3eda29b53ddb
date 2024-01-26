@@ -63,6 +63,30 @@
       },
       "revId": "566bc3c221db9fcac55b2610546d3eda29b53ddb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb008fbc_6d6c2608",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-26T08:54:13Z",
+      "side": 1,
+      "message": "Revert created: Change 404817",
+      "parentUuid": "208622a1_f44fc2de",
+      "range": {
+        "startLine": 260,
+        "startChar": 44,
+        "endLine": 260,
+        "endChar": 68
+      },
+      "revId": "566bc3c221db9fcac55b2610546d3eda29b53ddb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

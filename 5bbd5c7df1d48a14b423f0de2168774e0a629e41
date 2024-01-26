@@ -33,6 +33,24 @@
       "message": "this is kind of an odd change, I\u0027d expect either `stable-3.7` or `stable-3.8` to fail to build because of missing import, but both builds just fine. Nonetheless, this import is needed when both are merged as without it we get a compilation error.",
       "revId": "5bbd5c7df1d48a14b423f0de2168774e0a629e41",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6de2e4e_15d54e10",
+        "filename": "java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-01-26T01:26:24Z",
+      "side": 1,
+      "message": "That is indeed weird. Up to you whether you want to add that in a seperate commit and put this ontop or keep as is.",
+      "parentUuid": "a88b61e6_db2ee65b",
+      "revId": "5bbd5c7df1d48a14b423f0de2168774e0a629e41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -13,6 +13,7 @@ _java_ -jar gerrit.war _reindex_
   [--verbose]
   [--list]
   [--index]
+  [--skip-existing]
 --
 
 == DESCRIPTION
@@ -35,6 +36,10 @@ Rebuilds the secondary index.
 --index::
 	Reindex only index with given name. This option can be supplied
 	more than once to reindex multiple indices.
+	Currently, only supported by the changes index.
+
+--skip-existing::
+	Whether to skip indexing of documents that already exist in the index.
 
 --show-cache-stats::
 	Show cache statistics at the end of program.

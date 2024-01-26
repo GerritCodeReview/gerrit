@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5a31c75_3edc0083",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-01-26T09:03:41Z",
+      "side": 1,
+      "message": "Solves the issue for me. I will investigate how to solve it on master without reverting.",
+      "revId": "ce49afb24e97e600a48dfc0f68f2014d20bdb197",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

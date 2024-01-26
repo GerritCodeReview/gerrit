@@ -16,6 +16,29 @@
       "message": "Thanks Luca! LGTM. I am currently running some manual tests of offline and online reindexing and if everything works will give CR+2.",
       "revId": "566bc3c221db9fcac55b2610546d3eda29b53ddb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7e7bb59_b474b279",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-01-26T08:15:09Z",
+      "side": 1,
+      "message": "In case of online reindexing, even between two schema versions (tested Gerrit 3.8.3 -\u003e 3.9.1, change index 82 -\u003e 84), this is always the same as newestIndex and thus the feature to skip changes during reindexing will never be used.\n\nThe reason is in line 418, where the changeIndexer will be created and given just the index that is supposed to be reindexed and not the complete index collection.\n\nThis means that the name `newestIndex` was already badly chosen and the `getNewestIndex()` method unnecessary.\n\nSo reverting the change causing this issue would have the same effect and I would the n prefer that (less complexity). However, I will think and try a different solution.\n\nFor example, how about committing the deletion of all documents in the index before starting to index during offline reindex? That would essentially also force indexing.",
+      "range": {
+        "startLine": 260,
+        "startChar": 44,
+        "endLine": 260,
+        "endChar": 68
+      },
+      "revId": "566bc3c221db9fcac55b2610546d3eda29b53ddb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

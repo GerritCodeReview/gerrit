@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8933ae6a_2603ffd9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-01-26T07:38:24Z",
+      "side": 1,
+      "message": "Thanks Luca! LGTM. I am currently running some manual tests of offline and online reindexing and if everything works will give CR+2.",
+      "revId": "566bc3c221db9fcac55b2610546d3eda29b53ddb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

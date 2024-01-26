@@ -22,6 +22,30 @@
       },
       "revId": "06eb9f6a07b042c581356189cb3aae6673c86539",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fcf1e3d5_2c7aa78f",
+        "filename": "java/com/google/gerrit/server/ChangeDraftUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2024-01-26T13:22:19Z",
+      "side": 1,
+      "message": "An (internal) implementing class should override the default behavior, and the (noteDB) caller doesn\u0027t know about this class. So unfortunately, I think that\u0027s the cleanest solution.",
+      "parentUuid": "7597aa0d_33578e69",
+      "range": {
+        "startLine": 76,
+        "startChar": 2,
+        "endLine": 86,
+        "endChar": 3
+      },
+      "revId": "06eb9f6a07b042c581356189cb3aae6673c86539",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

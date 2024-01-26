@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7597aa0d_33578e69",
+        "filename": "java/com/google/gerrit/server/ChangeDraftUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-01-26T13:17:10Z",
+      "side": 1,
+      "message": "Does it need to be part of the interface? Are there other usecases outside of the callsite in this change. If not, it seems a bit too specific for the interface, I would just do it in a callsite, ie. Cast -\u003e filter nulls out",
+      "range": {
+        "startLine": 76,
+        "startChar": 2,
+        "endLine": 86,
+        "endChar": 3
+      },
+      "revId": "06eb9f6a07b042c581356189cb3aae6673c86539",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

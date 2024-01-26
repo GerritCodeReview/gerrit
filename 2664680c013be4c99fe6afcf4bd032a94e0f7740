@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4383b73c_969fd08d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2024-01-26T17:03:02Z",
+      "side": 1,
+      "message": "I haven\u0027t tested it because my Gerrit FE developer plugin is broken for some reason I haven\u0027t investigated yet :-\\",
+      "revId": "2664680c013be4c99fe6afcf4bd032a94e0f7740",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -16,6 +16,46 @@
       "message": "I haven\u0027t tested it because my Gerrit FE developer plugin is broken for some reason I haven\u0027t investigated yet :-\\",
       "revId": "2664680c013be4c99fe6afcf4bd032a94e0f7740",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bdf2ef91_1aa02373",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-01-26T17:12:26Z",
+      "side": 1,
+      "message": "Thank you for fixing this issue",
+      "revId": "2664680c013be4c99fe6afcf4bd032a94e0f7740",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3d6c409_7ec016c5",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1337,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-01-26T17:12:26Z",
+      "side": 1,
+      "message": "I tested your change and it needs prependOrigin, because links with this change look like this\nhttps://imgur.com/a/btT34LD",
+      "range": {
+        "startLine": 1336,
+        "startChar": 4,
+        "endLine": 1337,
+        "endChar": 27
+      },
+      "revId": "2664680c013be4c99fe6afcf4bd032a94e0f7740",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,24 @@
       "message": "I think this is tradeoff and will give us worse performance if the set is small because we have to iterate over all account refs and better performance only if the set is larger.\n\nSo not sure if should do it. WDYT?",
       "revId": "4606a7e40814b1afbc97fce17944bb88bfb58c64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d65d2cc_fecb2cba",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-01-26T13:55:32Z",
+      "side": 1,
+      "message": "Do you have an idea at which point (at how many accounts) this would improve performance? If yes, we can do the new logic if more than X accounts are requested and stick with the old logic if the number of requested accounts is lower.",
+      "parentUuid": "3af861a7_2835a3bc",
+      "revId": "4606a7e40814b1afbc97fce17944bb88bfb58c64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

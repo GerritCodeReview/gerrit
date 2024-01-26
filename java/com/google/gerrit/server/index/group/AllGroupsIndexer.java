@@ -70,7 +70,7 @@ public class AllGroupsIndexer extends SiteIndexer<AccountGroup.UUID, InternalGro
   }
 
   @Override
-  public SiteIndexer.Result indexAll(GroupIndex index) {
+  public SiteIndexer.Result indexAll(GroupIndex index, boolean skipExisting) {
     ProgressMonitor progress = new TextProgressMonitor(newPrintWriter(progressOut));
     progress.start(2);
     Stopwatch sw = Stopwatch.createStarted();

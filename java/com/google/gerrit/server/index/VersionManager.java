@@ -59,6 +59,7 @@ public abstract class VersionManager implements LifecycleListener {
   }
 
   protected final boolean onlineUpgrade;
+  protected final boolean skipExisting;
   protected final String runReindexMsg;
   protected final SitePaths sitePaths;
 
@@ -72,7 +73,8 @@ public abstract class VersionManager implements LifecycleListener {
       SitePaths sitePaths,
       PluginSetContext<OnlineUpgradeListener> listeners,
       Collection<IndexDefinition<?, ?, ?>> defs,
-      boolean onlineUpgrade) {
+      boolean onlineUpgrade,
+      boolean skipExisting) {
     this.sitePaths = sitePaths;
     this.listeners = listeners;
     this.defs = Maps.newHashMapWithExpectedSize(defs.size());
@@ -82,6 +84,7 @@ public abstract class VersionManager implements LifecycleListener {
 
     this.reindexers = Maps.newHashMapWithExpectedSize(defs.size());
     this.onlineUpgrade = onlineUpgrade;
+    this.skipExisting = skipExisting;
     this.runReindexMsg =
         "No index versions for index '%s' ready; run java -jar "
             + sitePaths.gerrit_war.toAbsolutePath()
@@ -190,7 +193,7 @@ public abstract class VersionManager implements LifecycleListener {
       if (!reindexers.containsKey(def.getName())) {
         int latest = write.get(0).version;
         OnlineReindexer<K, V, I> reindexer =
-            new OnlineReindexer<>(def, search.version, latest, listeners);
+            new OnlineReindexer<>(def, search.version, latest, listeners, skipExisting);
         reindexers.put(def.getName(), reindexer);
       }
     }

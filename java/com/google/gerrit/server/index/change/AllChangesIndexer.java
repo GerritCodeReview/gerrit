@@ -47,7 +47,6 @@ import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.RejectedExecutionException;
@@ -138,7 +137,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
   }
 
   @Override
-  public Result indexAll(ChangeIndex index) {
+  public Result indexAll(ChangeIndex index, boolean skipExisting) {
     // The simplest approach to distribute indexing would be to let each thread grab a project
     // and index it fully. But if a site has one big project and 100s of small projects, then
     // in the beginning all CPUs would be busy reindexing projects. But soon enough all small
@@ -161,7 +160,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
     failedTask = mpm.beginSubTask("failed", MultiProgressMonitor.UNKNOWN);
     List<ListenableFuture<?>> futures;
     try {
-      futures = new SliceScheduler(index, ok).schedule();
+      futures = new SliceScheduler(index, ok).schedule(skipExisting);
     } catch (ProjectsCollectionFailure e) {
       logger.atSevere().log("%s", e.getMessage());
       return Result.create(sw, false, 0, 0);
@@ -219,8 +218,12 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
   }
 
   public Callable<Void> reindexProjectSlice(
-      ChangeIndexer indexer, ProjectSlice projectSlice, Task done, Task failed) {
-    return new ProjectSliceIndexer(indexer, projectSlice, done, failed, false);
+      ChangeIndexer indexer,
+      ProjectSlice projectSlice,
+      Task done,
+      Task failed,
+      boolean skipExisting) {
+    return new ProjectSliceIndexer(indexer, projectSlice, done, failed, !skipExisting);
   }
 
   private class ProjectSliceIndexer implements Callable<Void> {
@@ -256,10 +259,6 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
                     + projectSlice.slice()
                     + "]");
         OnlineReindexMode.begin();
-        Optional<ChangeIndex> newestIndex = indexer.getNewestIndex();
-        if (newestIndex.isEmpty()) {
-          logger.atWarning().log("No change index available yet");
-        }
         // Order of scanning changes is undefined. This is ok if we assume that packfile locality is
         // not important for indexing, since sites should have a fully populated DiffSummary cache.
         // It does mean that reindexing after invalidating the DiffSummary cache will be expensive,
@@ -270,7 +269,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
                 projectSlice.metaIdByChange(),
                 projectSlice.name(),
                 id -> (id.get() % projectSlice.slices()) == projectSlice.slice())
-            .forEach(r -> index(r, newestIndex));
+            .forEach(r -> index(r));
         OnlineReindexMode.end();
       } finally {
         Thread.currentThread().setName(oldThreadName);
@@ -278,13 +277,13 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
       return null;
     }
 
-    private void index(ChangeNotesResult r, Optional<ChangeIndex> newestIndex) {
+    private void index(ChangeNotesResult r) {
       if (r.error().isPresent()) {
         fail("Failed to read change " + r.id() + " for indexing", true, r.error().get());
         return;
       }
       try {
-        if (forceReindex || !indexer.isChangeAlreadyIndexed(r.id(), newestIndex)) {
+        if (forceReindex || !indexer.isChangeAlreadyIndexed(r.id())) {
           indexer.index(changeDataFactory.create(r.notes()));
           verboseWriter.format(
               "Reindexed change %d (project: %s)\n",
@@ -345,12 +344,13 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
       this.ok = ok;
     }
 
-    private List<ListenableFuture<?>> schedule() throws ProjectsCollectionFailure {
+    private List<ListenableFuture<?>> schedule(boolean skipExisting)
+        throws ProjectsCollectionFailure {
       Set<Project.NameKey> projects = Sets.difference(projectCache.all(), projectsToSkip);
       int projectCount = projects.size();
       slicingProjects = mpm.beginSubTask("Slicing projects", projectCount);
       for (Project.NameKey name : projects) {
-        sliceCreationFutures.add(executor.submit(new ProjectSliceCreator(name)));
+        sliceCreationFutures.add(executor.submit(new ProjectSliceCreator(name, skipExisting)));
       }
 
       try {
@@ -381,9 +381,11 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
 
     private class ProjectSliceCreator implements Callable<Void> {
       final Project.NameKey name;
+      final boolean skipExisting;
 
-      public ProjectSliceCreator(Project.NameKey name) {
+      public ProjectSliceCreator(Project.NameKey name, boolean skipExisting) {
         this.name = name;
+        this.skipExisting = skipExisting;
       }
 
       @Override
@@ -411,7 +413,8 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
                           indexerFactory.create(executor, index),
                           projectSlice,
                           doneTask,
-                          failedTask));
+                          failedTask,
+                          skipExisting));
               String description = "project " + name + " (" + slice + "/" + slices + ")";
               addErrorListener(future, description, projTask, ok);
               sliceIndexerFutures.add(future);

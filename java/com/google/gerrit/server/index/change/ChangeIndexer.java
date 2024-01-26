@@ -85,6 +85,7 @@ public class ChangeIndexer {
   private final StalenessChecker stalenessChecker;
   private final boolean autoReindexIfStale;
   private final IsFirstInsertForEntry isFirstInsertForEntry;
+  private final Optional<ChangeIndex> latestIndex;
 
   private final Map<Change.Id, IndexTask> queuedIndexTasks = new ConcurrentHashMap<>();
   private final Set<ReindexIfStaleTask> queuedReindexIfStaleTasks =
@@ -113,6 +114,7 @@ public class ChangeIndexer {
     this.index = index;
     this.indexes = null;
     this.isFirstInsertForEntry = isFirstInsertForEntry;
+    this.latestIndex = getLatestIndex();
   }
 
   @AssistedInject
@@ -138,6 +140,7 @@ public class ChangeIndexer {
     this.index = null;
     this.indexes = indexes;
     this.isFirstInsertForEntry = isFirstInsertForEntry;
+    this.latestIndex = getLatestIndex();
   }
 
   private static boolean autoReindexIfStale(Config cfg) {
@@ -262,14 +265,14 @@ public class ChangeIndexer {
     fireChangeIndexedEvent(cd.project().get(), cd.getId().get());
   }
 
-  public boolean isChangeAlreadyIndexed(Change.Id id, Optional<ChangeIndex> newestIndex) {
-    if (newestIndex.isEmpty()) {
+  public boolean isChangeAlreadyIndexed(Change.Id id) {
+    if (latestIndex.isEmpty()) {
       return false;
     }
-    return newestIndex.get().get(id, IndexedChangeQuery.oneResult()).isPresent();
+    return latestIndex.get().get(id, IndexedChangeQuery.oneResult()).isPresent();
   }
 
-  public Optional<ChangeIndex> getNewestIndex() {
+  public Optional<ChangeIndex> getLatestIndex() {
     return getWriteIndexes().stream().max(Comparator.comparingInt(i -> i.getSchema().getVersion()));
   }
 

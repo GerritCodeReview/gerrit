@@ -66,7 +66,7 @@ public class AllAccountsIndexer extends SiteIndexer<Account.Id, AccountState, Ac
   }
 
   @Override
-  public SiteIndexer.Result indexAll(AccountIndex index) {
+  public SiteIndexer.Result indexAll(AccountIndex index, boolean skipExisting) {
     ProgressMonitor progress = new TextProgressMonitor(newPrintWriter(progressOut));
     progress.start(2);
     Stopwatch sw = Stopwatch.createStarted();

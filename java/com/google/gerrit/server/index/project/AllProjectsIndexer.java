@@ -62,7 +62,7 @@ public class AllProjectsIndexer extends SiteIndexer<Project.NameKey, ProjectData
   }
 
   @Override
-  public SiteIndexer.Result indexAll(final ProjectIndex index) {
+  public SiteIndexer.Result indexAll(final ProjectIndex index, boolean skipExisting) {
     ProgressMonitor progress = new TextProgressMonitor(newPrintWriter(progressOut));
     progress.start(2);
     List<Project.NameKey> names = collectProjects(progress);

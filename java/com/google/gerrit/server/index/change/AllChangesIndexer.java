@@ -87,6 +87,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
   private final ChangeNotes.Factory notesFactory;
   private final ProjectCache projectCache;
   private final Set<Project.NameKey> projectsToSkip;
+  private final boolean skipExistingDocuments;
 
   @Inject
   AllChangesIndexer(
@@ -110,6 +111,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
             .stream()
             .map(p -> Project.NameKey.parse(p))
             .collect(Collectors.toSet());
+    this.skipExistingDocuments = config.getBoolean("index", null, "skipExistingDocuments", false);
   }
 
   @AutoValue
@@ -197,11 +199,15 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
     return Result.create(sw, ok.get(), nDone, nFailed);
   }
 
+  /**
+   * Reindexes all changes in a given project, even if they already exist in the index. Changes will
+   * not be sliced to allow multithreaded reindexing.
+   */
   @Nullable
   public Callable<Void> reindexProject(
       ChangeIndexer indexer, Project.NameKey project, Task done, Task failed) {
     try (Repository repo = repoManager.openRepository(project)) {
-      return reindexProjectSlice(
+      return new ProjectSliceIndexer(
           indexer,
           ProjectSlice.oneSlice(project, ChangeNotes.Factory.scanChangeIds(repo)),
           done,
@@ -271,10 +277,26 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
         return;
       }
       try {
-        indexer.index(changeDataFactory.create(r.notes()));
+        ChangeData cd = changeDataFactory.create(r.notes());
+        if (!skipExistingDocuments || !indexer.isChangeAlreadyIndexed(r.id())) {
+          indexer.index(cd);
+          String msg =
+              String.format(
+                  "Reindexed change %d (project: %s)\n",
+                  r.id().get(), r.notes().getProjectName().get());
+          logger.atFine().log(msg);
+          verboseWriter.format(msg);
+
+        } else {
+          indexer.autoReindexLatestWriteIndexIfStale(cd);
+          String msg =
+              String.format(
+                  "Skipped change %d (project: %s)\n",
+                  r.id().get(), r.notes().getProjectName().get());
+          logger.atFine().log(msg);
+          verboseWriter.format(msg);
+        }
         done.update(1);
-        verboseWriter.format(
-            "Reindexed change %d (project: %s)\n", r.id().get(), r.notes().getProjectName().get());
       } catch (RejectedExecutionException e) {
         // Server shutdown, don't spam the logs.
         failSilently();

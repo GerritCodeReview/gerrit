@@ -3488,6 +3488,22 @@ projects.
 Excluded projects can later be reindexed by for example using the
 link:cmd-index-changes-in-project.html[index changes in project command].
 
+[[index.reuseExistingDocuments]]index.reuseExistingDocuments::
++
+Whether to skip indexing of documents that already exist in the index
+during reindexing.
++
+Currently, only supported by the changes index.
++
+This feature is useful, if the Gerrit server has to be restarted
+during an ongoing index online upgrade, since this would cause
+a complete reindexing otherwise that might take an extensive time.
++
+Each existing document in the index will be checked for staleness
+and reindexed if found to be stale.
++
+Defaults to false.
+
 [[index.paginationType]]index.paginationType::
 +
 The pagination type to use when index queries are repeated to

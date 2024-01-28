@@ -48,6 +48,7 @@ import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -259,6 +260,17 @@ public class ChangeIndexer {
       }
     }
     fireChangeIndexedEvent(cd.project().get(), cd.getId().get());
+  }
+
+  public boolean isChangeAlreadyIndexed(Change.Id id, Optional<ChangeIndex> newestIndex) {
+    if (newestIndex.isEmpty()) {
+      return false;
+    }
+    return newestIndex.get().get(id, IndexedChangeQuery.oneResult()).isPresent();
+  }
+
+  public Optional<ChangeIndex> getNewestIndex() {
+    return getWriteIndexes().stream().max(Comparator.comparingInt(i -> i.getSchema().getVersion()));
   }
 
   private void fireChangeScheduledForIndexingEvent(String projectName, int id) {

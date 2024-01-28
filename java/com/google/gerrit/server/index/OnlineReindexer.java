@@ -42,18 +42,21 @@ public class OnlineReindexer<K, V, I extends Index<K, V>> {
   private final PluginSetContext<OnlineUpgradeListener> listeners;
   private I index;
   private final AtomicBoolean running = new AtomicBoolean();
+  private final boolean reuseExistingDocuments;
 
   public OnlineReindexer(
       IndexDefinition<K, V, I> def,
       int oldVersion,
       int newVersion,
-      PluginSetContext<OnlineUpgradeListener> listeners) {
+      PluginSetContext<OnlineUpgradeListener> listeners,
+      boolean reuseExistingDocuments) {
     this.name = def.getName();
     this.indexes = def.getIndexCollection();
     this.batchIndexer = def.getSiteIndexer();
     this.oldVersion = oldVersion;
     this.newVersion = newVersion;
     this.listeners = listeners;
+    this.reuseExistingDocuments = reuseExistingDocuments;
   }
 
   /** Starts the background process. */
@@ -106,7 +109,7 @@ public class OnlineReindexer<K, V, I extends Index<K, V>> {
         "Starting online reindex of %s from schema version %s to %s",
         name, version(indexes.getSearchIndex()), version(index));
 
-    if (oldVersion != newVersion) {
+    if (!reuseExistingDocuments && oldVersion != newVersion) {
       index.deleteAll();
     }
     SiteIndexer.Result result = batchIndexer.indexAll(index);

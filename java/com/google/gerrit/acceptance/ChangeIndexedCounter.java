@@ -41,6 +41,10 @@ public class ChangeIndexedCounter implements ChangeIndexedListener {
     return countsByChange.get(info._number);
   }
 
+  public long getTotalCount() {
+    return countsByChange.asMap().values().stream().reduce(0L, Long::sum);
+  }
+
   public void assertReindexOf(ChangeInfo info) {
     assertReindexOf(info, 1);
   }

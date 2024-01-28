@@ -30,6 +30,7 @@ import com.google.gerrit.acceptance.pgm.IndexUpgradeController.UpgradeAttempt;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.GerritApi;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.index.IndexDefinition;
 import com.google.gerrit.index.Schema;
@@ -68,9 +69,45 @@ public abstract class AbstractReindexTests extends StandaloneSiteTest {
     Files.createDirectory(sitePaths.index_dir);
     assertServerStartupFails();
 
-    runGerrit("reindex", "-d", sitePaths.site_path.toString(), "--show-stack-trace");
+    runGerrit("reindex", "-d", sitePaths.site_path.toString(), "--show-stack-trace", "--verbose");
+    assertReady(ChangeSchemaDefinitions.INSTANCE.getLatest().getVersion());
+    assertIndexQueries();
+  }
+
+  @Test
+  public void reindexWithSkipExistingDocumentsEnabled() throws Exception {
+    updateConfig(config -> config.setBoolean("index", null, "reuseExistingDocuments", true));
+    setUpChange();
+
+    MoreFiles.deleteRecursively(sitePaths.index_dir, RecursiveDeleteOption.ALLOW_INSECURE);
+    Files.createDirectory(sitePaths.index_dir);
+    assertServerStartupFails();
+
+    runGerrit("reindex", "-d", sitePaths.site_path.toString(), "--show-stack-trace", "--verbose");
     assertReady(ChangeSchemaDefinitions.INSTANCE.getLatest().getVersion());
 
+    runGerrit("reindex", "-d", sitePaths.site_path.toString(), "--show-stack-trace", "--verbose");
+    assertIndexQueries();
+
+    Files.copy(sitePaths.index_dir, sitePaths.resolve("index-backup"));
+    try (ServerContext ctx = startServer()) {
+      GerritApi gApi = ctx.getInjector().getInstance(GerritApi.class);
+      gApi.changes().id(changeId).revision(1).review(ReviewInput.approve());
+      // Query change index
+      assertThat(gApi.changes().query("label:Code-Review+2").get().stream().map(c -> c.changeId))
+          .containsExactly(changeId);
+    }
+    MoreFiles.deleteRecursively(sitePaths.index_dir, RecursiveDeleteOption.ALLOW_INSECURE);
+    Files.copy(sitePaths.resolve("index-backup"), sitePaths.index_dir);
+    runGerrit("reindex", "-d", sitePaths.site_path.toString(), "--show-stack-trace", "--verbose");
+    try (ServerContext ctx = startServer()) {
+      GerritApi gApi = ctx.getInjector().getInstance(GerritApi.class);
+      assertThat(gApi.changes().query("label:Code-Review+2").get().stream().map(c -> c.changeId))
+          .containsExactly(changeId);
+    }
+  }
+
+  private void assertIndexQueries() throws Exception {
     try (ServerContext ctx = startServer()) {
       GerritApi gApi = ctx.getInjector().getInstance(GerritApi.class);
       // Query change index

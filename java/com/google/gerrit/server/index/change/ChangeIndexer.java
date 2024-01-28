@@ -70,6 +70,9 @@ public class ChangeIndexer {
   public interface Factory {
     ChangeIndexer create(ListeningExecutorService executor, ChangeIndex index);
 
+    ChangeIndexer create(
+        ListeningExecutorService executor, ChangeIndex index, StalenessChecker stalenessChecker);
+
     ChangeIndexer create(ListeningExecutorService executor, ChangeIndexCollection indexes);
   }
 
@@ -112,6 +115,31 @@ public class ChangeIndexer {
     this.index = index;
     this.indexes = null;
     this.isFirstInsertForEntry = isFirstInsertForEntry;
+  }
+
+  @AssistedInject
+  ChangeIndexer(
+      @GerritServerConfig Config cfg,
+      ChangeData.Factory changeDataFactory,
+      ChangeNotes.Factory notesFactory,
+      ThreadLocalRequestContext context,
+      PluginSetContext<ChangeIndexedListener> indexedListeners,
+      @IndexExecutor(BATCH) ListeningExecutorService batchExecutor,
+      IsFirstInsertForEntry isFirstInsertForEntry,
+      @Assisted ListeningExecutorService executor,
+      @Assisted ChangeIndex index,
+      @Assisted StalenessChecker stalenessChecker) {
+    this.executor = executor;
+    this.changeDataFactory = changeDataFactory;
+    this.notesFactory = notesFactory;
+    this.context = context;
+    this.indexedListeners = indexedListeners;
+    this.batchExecutor = batchExecutor;
+    this.autoReindexIfStale = autoReindexIfStale(cfg);
+    this.isFirstInsertForEntry = isFirstInsertForEntry;
+    this.index = index;
+    this.indexes = null;
+    this.stalenessChecker = stalenessChecker;
   }
 
   @AssistedInject
@@ -350,12 +378,47 @@ public class ChangeIndexer {
    * @param id ID of the change to index.
    * @return future for reindexing the change; returns true if the change was stale.
    */
-  public ListenableFuture<Boolean> reindexIfStale(Project.NameKey project, Change.Id id) {
+  public ListenableFuture<Boolean> asyncReindexIfStale(Project.NameKey project, Change.Id id) {
     ReindexIfStaleTask task = new ReindexIfStaleTask(project, id);
     if (queuedReindexIfStaleTasks.add(task)) {
       return submit(task, batchExecutor);
     }
     return Futures.immediateFuture(false);
+  }
+
+  /**
+   * Synchronously check if a change is stale, and reindex if it is.
+   *
+   * @param cd the change data to be checked for staleness.
+   * @return true if the change was stale, false if it was up-to-date
+   */
+  public boolean reindexIfStale(ChangeData cd) {
+    return reindexIfStale(cd.project(), cd.getId());
+  }
+
+  /**
+   * Synchronously check if a change is stale, and reindex if it is.
+   *
+   * @param project the project to which the change belongs.
+   * @param id ID of the change to index.
+   * @return true if the change was stale, false if it was up-to-date
+   */
+  public boolean reindexIfStale(Project.NameKey project, Change.Id id) {
+    try {
+      StalenessCheckResult stalenessCheckResult = stalenessChecker.check(id);
+      if (stalenessCheckResult.isStale()) {
+        logger.atInfo().log("Reindexing stale document %s", stalenessCheckResult);
+        indexImpl(changeDataFactory.create(project, id));
+        return true;
+      }
+    } catch (Exception e) {
+      if (!isCausedByRepositoryNotFoundException(e)) {
+        throw e;
+      }
+      logger.atFine().log(
+          "Change %s belongs to deleted project %s, aborting reindexing the change.", id, project);
+    }
+    return false;
   }
 
   private void autoReindexIfStale(ChangeData cd) {
@@ -366,7 +429,7 @@ public class ChangeIndexer {
     if (autoReindexIfStale) {
       // Don't retry indefinitely; if this fails the change will be stale.
       @SuppressWarnings("unused")
-      Future<?> possiblyIgnoredError = reindexIfStale(project, id);
+      Future<?> possiblyIgnoredError = asyncReindexIfStale(project, id);
     }
   }
 
@@ -546,22 +609,7 @@ public class ChangeIndexer {
     @Override
     public Boolean callImpl() throws Exception {
       remove();
-      try {
-        StalenessCheckResult stalenessCheckResult = stalenessChecker.check(id);
-        if (stalenessCheckResult.isStale()) {
-          logger.atInfo().log("Reindexing stale document %s", stalenessCheckResult);
-          indexImpl(changeDataFactory.create(project, id));
-          return true;
-        }
-      } catch (Exception e) {
-        if (!isCausedByRepositoryNotFoundException(e)) {
-          throw e;
-        }
-        logger.atFine().log(
-            "Change %s belongs to deleted project %s, aborting reindexing the change.",
-            id.get(), project.get());
-      }
-      return false;
+      return reindexIfStale(project, id);
     }
 
     @Override

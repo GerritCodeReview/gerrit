@@ -258,7 +258,9 @@ public class Reindex extends SiteProgram {
     requireNonNull(
         index, () -> String.format("no active search index configured for %s", def.getName()));
     index.markReady(false);
-    index.deleteAll();
+    if (!globalConfig.getBoolean("index", null, "reuseExistingDocuments", false)) {
+      index.deleteAll();
+    }
 
     SiteIndexer<K, V, I> siteIndexer = def.getSiteIndexer();
     siteIndexer.setProgressOut(System.err);

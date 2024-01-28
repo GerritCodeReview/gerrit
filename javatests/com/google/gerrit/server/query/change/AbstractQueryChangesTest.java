@@ -3576,7 +3576,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     getChangeApi(change).addReviewer(anotherUser.toString());
 
     assertQuery("reviewer:self", change);
-    assertThat(indexer.reindexIfStale(project, change.getId()).get()).isFalse();
+    assertThat(indexer.reindexIfStale(project, change.getId())).isFalse();
 
     // Remove reviewer behind index's back.
     ChangeUpdate update = newUpdate(change);
@@ -3585,7 +3585,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     // Index is stale.
     assertQuery("reviewer:self", change);
-    assertThat(indexer.reindexIfStale(project, change.getId()).get()).isTrue();
+    assertThat(indexer.reindexIfStale(project, change.getId())).isTrue();
     assertQuery("reviewer:self");
 
     // Index is not stale when a draft comment exists
@@ -3594,7 +3594,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     in.message = "nit: trailing whitespace";
     in.path = Patch.COMMIT_MSG;
     getChangeApi(change).current().createDraft(in);
-    assertThat(indexer.reindexIfStale(project, change.getId()).get()).isFalse();
+    assertThat(indexer.reindexIfStale(project, change.getId())).isFalse();
   }
 
   @Test

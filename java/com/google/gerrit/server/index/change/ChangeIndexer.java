@@ -70,6 +70,9 @@ public class ChangeIndexer {
   public interface Factory {
     ChangeIndexer create(ListeningExecutorService executor, ChangeIndex index);
 
+    ChangeIndexer create(
+        ListeningExecutorService executor, ChangeIndex index, StalenessChecker stalenessChecker);
+
     ChangeIndexer create(ListeningExecutorService executor, ChangeIndexCollection indexes);
   }
 
@@ -112,6 +115,31 @@ public class ChangeIndexer {
     this.index = index;
     this.indexes = null;
     this.isFirstInsertForEntry = isFirstInsertForEntry;
+  }
+
+  @AssistedInject
+  ChangeIndexer(
+      @GerritServerConfig Config cfg,
+      ChangeData.Factory changeDataFactory,
+      ChangeNotes.Factory notesFactory,
+      ThreadLocalRequestContext context,
+      PluginSetContext<ChangeIndexedListener> indexedListeners,
+      @IndexExecutor(BATCH) ListeningExecutorService batchExecutor,
+      IsFirstInsertForEntry isFirstInsertForEntry,
+      @Assisted ListeningExecutorService executor,
+      @Assisted ChangeIndex index,
+      @Assisted StalenessChecker stalenessChecker) {
+    this.executor = executor;
+    this.changeDataFactory = changeDataFactory;
+    this.notesFactory = notesFactory;
+    this.context = context;
+    this.indexedListeners = indexedListeners;
+    this.batchExecutor = batchExecutor;
+    this.autoReindexIfStale = autoReindexIfStale(cfg);
+    this.isFirstInsertForEntry = isFirstInsertForEntry;
+    this.index = index;
+    this.indexes = null;
+    this.stalenessChecker = stalenessChecker;
   }
 
   @AssistedInject
@@ -356,6 +384,19 @@ public class ChangeIndexer {
       return submit(task, batchExecutor);
     }
     return Futures.immediateFuture(false);
+  }
+
+  /**
+   * Asynchronously check if a change is stale, and reindex if it is.
+   *
+   * <p>Always run on the batch executor, even if this indexer instance is configured to use a
+   * different executor.
+   *
+   * @param cd the change data to be checked for staleness.
+   * @return future for reindexing the change; returns true if the change was stale.
+   */
+  public ListenableFuture<Boolean> reindexIfStale(ChangeData cd) {
+    return reindexIfStale(cd.project(), cd.getId());
   }
 
   private void autoReindexIfStale(ChangeData cd) {

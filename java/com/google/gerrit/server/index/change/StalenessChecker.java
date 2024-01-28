@@ -27,6 +27,7 @@ import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
@@ -36,8 +37,8 @@ import com.google.gerrit.index.RefState;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.StalenessCheckResult;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -50,9 +51,12 @@ import org.eclipse.jgit.lib.Repository;
  * Checker that compares values stored in the change index to metadata in NoteDb to detect index
  * documents that should have been updated (= stale).
  */
-@Singleton
 public class StalenessChecker {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
+  public interface Factory {
+    StalenessChecker create(ChangeIndex index);
+  }
 
   public static final ImmutableSet<String> FIELDS =
       ImmutableSet.of(
@@ -60,16 +64,26 @@ public class StalenessChecker {
           ChangeField.REF_STATE_SPEC.getName(),
           ChangeField.REF_STATE_PATTERN_SPEC.getName());
 
-  private final ChangeIndexCollection indexes;
+  @Nullable private final ChangeIndexCollection indexes;
+  @Nullable private final ChangeIndex index;
   private final GitRepositoryManager repoManager;
   private final IndexConfig indexConfig;
 
-  @Inject
-  StalenessChecker(
+  public StalenessChecker(
       ChangeIndexCollection indexes, GitRepositoryManager repoManager, IndexConfig indexConfig) {
     this.indexes = indexes;
+    this.index = null;
     this.repoManager = repoManager;
     this.indexConfig = indexConfig;
+  }
+
+  @AssistedInject
+  StalenessChecker(
+      GitRepositoryManager repoManager, IndexConfig indexConfig, @Assisted ChangeIndex index) {
+    this.indexes = null;
+    this.repoManager = repoManager;
+    this.indexConfig = indexConfig;
+    this.index = index;
   }
 
   /**
@@ -77,7 +91,18 @@ public class StalenessChecker {
    * provided {@link com.google.gerrit.entities.Change.Id}.
    */
   public StalenessCheckResult check(Change.Id id) {
-    ChangeIndex i = indexes.getSearchIndex();
+    if (index != null) {
+      return check(id, index);
+    }
+    return check(id, indexes.getSearchIndex());
+  }
+
+  /**
+   * Returns a {@link StalenessCheckResult} with structured information about staleness of the
+   * provided {@link com.google.gerrit.entities.Change.Id} in the provided {@link
+   * com.google.gerrit.server.index.change.ChangeIndex}.
+   */
+  private StalenessCheckResult check(Change.Id id, ChangeIndex i) {
     if (i == null) {
       return StalenessCheckResult
           .notStale(); // No index; caller couldn't do anything if it is stale.

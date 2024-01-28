@@ -77,7 +77,15 @@ public class StalenessChecker {
    * provided {@link com.google.gerrit.entities.Change.Id}.
    */
   public StalenessCheckResult check(Change.Id id) {
-    ChangeIndex i = indexes.getSearchIndex();
+    return check(id, indexes.getSearchIndex());
+  }
+
+  /**
+   * Returns a {@link StalenessCheckResult} with structured information about staleness of the
+   * provided {@link com.google.gerrit.entities.Change.Id} in the provided {@link
+   * com.google.gerrit.server.index.change.ChangeIndex}.
+   */
+  public StalenessCheckResult check(Change.Id id, ChangeIndex i) {
     if (i == null) {
       return StalenessCheckResult
           .notStale(); // No index; caller couldn't do anything if it is stale.

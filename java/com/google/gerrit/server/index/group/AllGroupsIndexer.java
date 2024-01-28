@@ -70,7 +70,11 @@ public class AllGroupsIndexer extends SiteIndexer<AccountGroup.UUID, InternalGro
   }
 
   @Override
-  public SiteIndexer.Result indexAll(GroupIndex index) {
+  public SiteIndexer.Result indexAll(GroupIndex index, boolean skipExisting) {
+    if (skipExisting) {
+      logger.atWarning().log(
+          "Skipping indexing of existing documents in GROUPS index not supported.");
+    }
     ProgressMonitor progress = new TextProgressMonitor(newPrintWriter(progressOut));
     progress.start(2);
     Stopwatch sw = Stopwatch.createStarted();

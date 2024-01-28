@@ -137,7 +137,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
   }
 
   @Override
-  public Result indexAll(ChangeIndex index) {
+  public Result indexAll(ChangeIndex index, boolean skipExisting) {
     // The simplest approach to distribute indexing would be to let each thread grab a project
     // and index it fully. But if a site has one big project and 100s of small projects, then
     // in the beginning all CPUs would be busy reindexing projects. But soon enough all small
@@ -160,7 +160,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
     failedTask = mpm.beginSubTask("failed", MultiProgressMonitor.UNKNOWN);
     List<ListenableFuture<?>> futures;
     try {
-      futures = new SliceScheduler(index, ok).schedule();
+      futures = new SliceScheduler(index, ok).schedule(skipExisting);
     } catch (ProjectsCollectionFailure e) {
       logger.atSevere().log("%s", e.getMessage());
       return Result.create(sw, false, 0, 0);
@@ -197,15 +197,20 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
     return Result.create(sw, ok.get(), nDone, nFailed);
   }
 
+  /**
+   * Reindexes all changes in a given project, even if they already exist in the index. Changes will
+   * not be sliced to allow multithreaded reindexing.
+   */
   @Nullable
   public Callable<Void> reindexProject(
       ChangeIndexer indexer, Project.NameKey project, Task done, Task failed) {
     try (Repository repo = repoManager.openRepository(project)) {
-      return reindexProjectSlice(
+      return new ProjectSliceIndexer(
           indexer,
           ProjectSlice.oneSlice(project, ChangeNotes.Factory.scanChangeIds(repo)),
           done,
-          failed);
+          failed,
+          true);
     } catch (IOException e) {
       logger.atSevere().log("%s", e.getMessage());
       return null;
@@ -213,8 +218,12 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
   }
 
   public Callable<Void> reindexProjectSlice(
-      ChangeIndexer indexer, ProjectSlice projectSlice, Task done, Task failed) {
-    return new ProjectSliceIndexer(indexer, projectSlice, done, failed);
+      ChangeIndexer indexer,
+      ProjectSlice projectSlice,
+      Task done,
+      Task failed,
+      boolean skipExisting) {
+    return new ProjectSliceIndexer(indexer, projectSlice, done, failed, !skipExisting);
   }
 
   private class ProjectSliceIndexer implements Callable<Void> {
@@ -222,16 +231,19 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
     private final ProjectSlice projectSlice;
     private final ProgressMonitor done;
     private final ProgressMonitor failed;
+    private final boolean forceReindex;
 
     private ProjectSliceIndexer(
         ChangeIndexer indexer,
         ProjectSlice projectSlice,
         ProgressMonitor done,
-        ProgressMonitor failed) {
+        ProgressMonitor failed,
+        boolean forceReindex) {
       this.indexer = indexer;
       this.projectSlice = projectSlice;
       this.done = done;
       this.failed = failed;
+      this.forceReindex = forceReindex;
     }
 
     @Override
@@ -271,10 +283,26 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
         return;
       }
       try {
-        indexer.index(changeDataFactory.create(r.notes()));
+        ChangeData cd = changeDataFactory.create(r.notes());
+        if (forceReindex || !indexer.isChangeAlreadyIndexed(r.id())) {
+          indexer.index(cd);
+          String msg =
+              String.format(
+                  "Reindexed change %d (project: %s)\n",
+                  r.id().get(), r.notes().getProjectName().get());
+          logger.atFine().log(msg);
+          verboseWriter.format(msg);
+
+        } else {
+          indexer.autoReindexLatestWriteIndexIfStale(cd);
+          String msg =
+              String.format(
+                  "Skipped change %d (project: %s)\n",
+                  r.id().get(), r.notes().getProjectName().get());
+          logger.atFine().log(msg);
+          verboseWriter.format(msg);
+        }
         done.update(1);
-        verboseWriter.format(
-            "Reindexed change %d (project: %s)\n", r.id().get(), r.notes().getProjectName().get());
       } catch (RejectedExecutionException e) {
         // Server shutdown, don't spam the logs.
         failSilently();
@@ -325,12 +353,13 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
       this.ok = ok;
     }
 
-    private List<ListenableFuture<?>> schedule() throws ProjectsCollectionFailure {
+    private List<ListenableFuture<?>> schedule(boolean skipExisting)
+        throws ProjectsCollectionFailure {
       Set<Project.NameKey> projects = Sets.difference(projectCache.all(), projectsToSkip);
       int projectCount = projects.size();
       slicingProjects = mpm.beginSubTask("Slicing projects", projectCount);
       for (Project.NameKey name : projects) {
-        sliceCreationFutures.add(executor.submit(new ProjectSliceCreator(name)));
+        sliceCreationFutures.add(executor.submit(new ProjectSliceCreator(name, skipExisting)));
       }
 
       try {
@@ -361,9 +390,11 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
 
     private class ProjectSliceCreator implements Callable<Void> {
       final Project.NameKey name;
+      final boolean skipExisting;
 
-      public ProjectSliceCreator(Project.NameKey name) {
+      public ProjectSliceCreator(Project.NameKey name, boolean skipExisting) {
         this.name = name;
+        this.skipExisting = skipExisting;
       }
 
       @Override
@@ -391,7 +422,8 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
                           indexerFactory.create(executor, index),
                           projectSlice,
                           doneTask,
-                          failedTask));
+                          failedTask,
+                          skipExisting));
               String description = "project " + name + " (" + slice + "/" + slices + ")";
               addErrorListener(future, description, projTask, ok);
               sliceIndexerFutures.add(future);

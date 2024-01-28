@@ -74,7 +74,7 @@ public abstract class SiteIndexer<K, V, I extends Index<K, V>> {
   }
 
   /** Indexes all entities for the provided index. */
-  public abstract Result indexAll(I index);
+  public abstract Result indexAll(I index, boolean skipExisting);
 
   protected final void addErrorListener(
       ListenableFuture<?> future, String desc, ProgressMonitor progress, AtomicBoolean ok) {

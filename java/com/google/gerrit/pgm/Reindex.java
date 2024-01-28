@@ -98,6 +98,9 @@ public class Reindex extends SiteProgram {
   @Option(name = "--build-bloom-filter", usage = "Build bloom filter for H2 disk caches.")
   private boolean buildBloomFilter;
 
+  @Option(name = "--skip-existing", usage = "Skips documents already existing in index.")
+  private boolean skipExisting;
+
   private Injector dbInjector;
   private Injector sysInjector;
   private Injector cfgInjector;
@@ -258,12 +261,14 @@ public class Reindex extends SiteProgram {
     requireNonNull(
         index, () -> String.format("no active search index configured for %s", def.getName()));
     index.markReady(false);
-    index.deleteAll();
+    if (!skipExisting) {
+      index.deleteAll();
+    }
 
     SiteIndexer<K, V, I> siteIndexer = def.getSiteIndexer();
     siteIndexer.setProgressOut(System.err);
     siteIndexer.setVerboseOut(verbose ? System.out : NullOutputStream.INSTANCE);
-    SiteIndexer.Result result = siteIndexer.indexAll(index);
+    SiteIndexer.Result result = siteIndexer.indexAll(index, skipExisting);
     int n = result.doneCount() + result.failedCount();
     double t = result.elapsed(TimeUnit.MILLISECONDS) / 1000d;
     System.out.format(

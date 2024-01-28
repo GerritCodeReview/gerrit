@@ -49,7 +49,12 @@ public class LuceneVersionManager extends VersionManager {
       SitePaths sitePaths,
       PluginSetContext<OnlineUpgradeListener> listeners,
       Collection<IndexDefinition<?, ?, ?>> defs) {
-    super(sitePaths, listeners, defs, VersionManager.getOnlineUpgrade(cfg));
+    super(
+        sitePaths,
+        listeners,
+        defs,
+        VersionManager.getOnlineUpgrade(cfg),
+        cfg.getBoolean("index", null, "skipExistingDocuments", false));
   }
 
   @Override

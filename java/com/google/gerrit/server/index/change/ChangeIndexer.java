@@ -48,6 +48,7 @@ import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -84,6 +85,7 @@ public class ChangeIndexer {
   private final StalenessChecker stalenessChecker;
   private final boolean autoReindexIfStale;
   private final IsFirstInsertForEntry isFirstInsertForEntry;
+  private final Optional<ChangeIndex> latestIndex;
 
   private final Map<Change.Id, IndexTask> queuedIndexTasks = new ConcurrentHashMap<>();
   private final Set<ReindexIfStaleTask> queuedReindexIfStaleTasks =
@@ -112,6 +114,7 @@ public class ChangeIndexer {
     this.index = index;
     this.indexes = null;
     this.isFirstInsertForEntry = isFirstInsertForEntry;
+    this.latestIndex = getLatestIndex();
   }
 
   @AssistedInject
@@ -137,6 +140,7 @@ public class ChangeIndexer {
     this.index = null;
     this.indexes = indexes;
     this.isFirstInsertForEntry = isFirstInsertForEntry;
+    this.latestIndex = getLatestIndex();
   }
 
   private static boolean autoReindexIfStale(Config cfg) {
@@ -261,6 +265,17 @@ public class ChangeIndexer {
     fireChangeIndexedEvent(cd.project().get(), cd.getId().get());
   }
 
+  public boolean isChangeAlreadyIndexed(Change.Id id) {
+    if (latestIndex.isEmpty()) {
+      return false;
+    }
+    return latestIndex.get().get(id, IndexedChangeQuery.oneResult()).isPresent();
+  }
+
+  public Optional<ChangeIndex> getLatestIndex() {
+    return getWriteIndexes().stream().max(Comparator.comparingInt(i -> i.getSchema().getVersion()));
+  }
+
   private void fireChangeScheduledForIndexingEvent(String projectName, int id) {
     indexedListeners.runEach(l -> l.onChangeScheduledForIndexing(projectName, id));
   }
@@ -356,6 +371,18 @@ public class ChangeIndexer {
       return submit(task, batchExecutor);
     }
     return Futures.immediateFuture(false);
+  }
+
+  public void autoReindexLatestWriteIndexIfStale(ChangeData cd) {
+    if (latestIndex.isEmpty()) {
+      return;
+    }
+    ReindexIfStaleTask task =
+        new ReindexIfStaleInGivenIndexTask(cd.project(), cd.getId(), latestIndex.get());
+    if (queuedReindexIfStaleTasks.add(task)) {
+      @SuppressWarnings("unused")
+      Future<?> possiblyIgnoredError = submit(task, batchExecutor);
+    }
   }
 
   private void autoReindexIfStale(ChangeData cd) {
@@ -538,6 +565,21 @@ public class ChangeIndexer {
     }
   }
 
+  private class ReindexIfStaleInGivenIndexTask extends ReindexIfStaleTask {
+    private final ChangeIndex staleIndex;
+
+    private ReindexIfStaleInGivenIndexTask(
+        Project.NameKey project, Change.Id id, ChangeIndex index) {
+      super(project, id);
+      this.staleIndex = index;
+    }
+
+    @Override
+    protected StalenessCheckResult check() {
+      return stalenessChecker.check(id, staleIndex);
+    }
+  }
+
   private class ReindexIfStaleTask extends AbstractIndexTask<Boolean> {
     private ReindexIfStaleTask(Project.NameKey project, Change.Id id) {
       super(project, id);
@@ -547,7 +589,7 @@ public class ChangeIndexer {
     public Boolean callImpl() throws Exception {
       remove();
       try {
-        StalenessCheckResult stalenessCheckResult = stalenessChecker.check(id);
+        StalenessCheckResult stalenessCheckResult = check();
         if (stalenessCheckResult.isStale()) {
           logger.atInfo().log("Reindexing stale document %s", stalenessCheckResult);
           indexImpl(changeDataFactory.create(project, id));
@@ -562,6 +604,10 @@ public class ChangeIndexer {
             id.get(), project.get());
       }
       return false;
+    }
+
+    protected StalenessCheckResult check() {
+      return stalenessChecker.check(id);
     }
 
     @Override

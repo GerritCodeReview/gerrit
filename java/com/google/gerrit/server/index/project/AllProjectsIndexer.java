@@ -62,7 +62,11 @@ public class AllProjectsIndexer extends SiteIndexer<Project.NameKey, ProjectData
   }
 
   @Override
-  public SiteIndexer.Result indexAll(final ProjectIndex index) {
+  public SiteIndexer.Result indexAll(final ProjectIndex index, boolean skipExisting) {
+    if (skipExisting) {
+      logger.atWarning().log(
+          "Skipping indexing of existing documents in PROJECTS index not supported.");
+    }
     ProgressMonitor progress = new TextProgressMonitor(newPrintWriter(progressOut));
     progress.start(2);
     List<Project.NameKey> names = collectProjects(progress);

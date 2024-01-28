@@ -66,7 +66,11 @@ public class AllAccountsIndexer extends SiteIndexer<Account.Id, AccountState, Ac
   }
 
   @Override
-  public SiteIndexer.Result indexAll(AccountIndex index) {
+  public SiteIndexer.Result indexAll(AccountIndex index, boolean skipExisting) {
+    if (skipExisting) {
+      logger.atWarning().log(
+          "Skipping indexing of existing documents in ACCOUNTS index not supported.");
+    }
     ProgressMonitor progress = new TextProgressMonitor(newPrintWriter(progressOut));
     progress.start(2);
     Stopwatch sw = Stopwatch.createStarted();

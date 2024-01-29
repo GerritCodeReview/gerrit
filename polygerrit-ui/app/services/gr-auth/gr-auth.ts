@@ -19,7 +19,6 @@ export enum AuthStatus {
 export const authServiceToken = define<AuthService>('auth-service');
 
 export interface AuthService extends Finalizable {
-  baseUrl: string;
   isAuthed: boolean;
 
   /**

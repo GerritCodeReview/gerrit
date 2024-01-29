@@ -34,6 +34,57 @@
       "parentUuid": "c2a935d3_29c3f42e",
       "revId": "6bfcd61010c59d2755106a545a2179f9aa835cc2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4965ec4c_e8f2ff36",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2024-01-29T19:25:03Z",
+      "side": 1,
+      "message": "This likely does not need to be as large as the pool since these values are very short lived?",
+      "revId": "6bfcd61010c59d2755106a545a2179f9aa835cc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "380085fa_c0702f74",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2024-01-29T19:25:03Z",
+      "side": 1,
+      "message": "This might be racy, or does it work correctly at all (it would seem that this value needs to be set before you schedule it or it will be null when requested)? Put the value in the delayMap before scheduling to ensure it is not racy? This also would allow you to avoid having to store the future?",
+      "revId": "6bfcd61010c59d2755106a545a2179f9aa835cc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "099a9fdc_ed477032",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2024-01-29T19:25:03Z",
+      "side": 1,
+      "message": "Aren\u0027t all instances of Task already decorated? Is there really a need to check getDecorated() since it will always be set whenever a Task is created? Is there a way to have a task which is not decorated?",
+      "revId": "6bfcd61010c59d2755106a545a2179f9aa835cc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

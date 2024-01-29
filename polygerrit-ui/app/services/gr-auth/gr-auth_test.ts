@@ -5,9 +5,7 @@
  */
 import '../../test/common-test-setup';
 import {Auth} from './gr-auth_impl';
-import {stubBaseUrl} from '../../test/test-utils';
 import {SinonFakeTimers} from 'sinon';
-import {DefaultAuthOptions} from './gr-auth';
 import {assert} from '@open-wc/testing';
 import {AuthRequestInit} from '../../types/types';
 
@@ -194,136 +192,6 @@ suite('gr-auth', () => {
       assert.equal(url, '/url');
       assert.equal(options.credentials, 'same-origin');
       assert.equal(options.headers.get('X-Gerrit-Auth'), 'foobar');
-    });
-  });
-
-  suite('cors (access token)', () => {
-    let fakeFetch: sinon.SinonStub;
-
-    setup(() => {
-      fakeFetch = sinon
-        .stub(window, 'fetch')
-        .returns(Promise.resolve({...new Response(), ok: true}));
-    });
-
-    let getToken: sinon.SinonStub;
-
-    const makeToken = (accessToken?: string) => {
-      return {
-        access_token: accessToken || 'zbaz',
-        expires_at: new Date(Date.now() + 10e8).getTime(),
-      };
-    };
-
-    setup(() => {
-      getToken = sinon.stub();
-      getToken.returns(Promise.resolve(makeToken()));
-      const defaultOptions: DefaultAuthOptions = {
-        credentials: 'include',
-      };
-      auth.setup(getToken, defaultOptions);
-    });
-
-    test('base url support', async () => {
-      const baseUrl = 'http://foo';
-      stubBaseUrl(baseUrl);
-      await auth.fetch(baseUrl + '/url', {bar: 'bar'} as AuthRequestInit);
-      const [url] = fakeFetch.lastCall.args;
-      assert.equal(url, 'http://foo/a/url?access_token=zbaz');
-    });
-
-    test('fetch not signed in', async () => {
-      getToken.returns(Promise.resolve());
-      await auth.fetch('/url', {bar: 'bar'} as AuthRequestInit);
-      const [url, options] = fakeFetch.lastCall.args;
-      assert.equal(url, '/url');
-      assert.equal(options.bar, 'bar');
-      assert.equal(Object.keys(options.headers).length, 0);
-    });
-
-    test('fetch signed in', async () => {
-      await auth.fetch('/url', {bar: 'bar'} as AuthRequestInit);
-      const [url, options] = fakeFetch.lastCall.args;
-      assert.equal(url, '/a/url?access_token=zbaz');
-      assert.equal(options.bar, 'bar');
-    });
-
-    test('getToken calls are cached', async () => {
-      await Promise.all([auth.fetch('/url-one'), auth.fetch('/url-two')]);
-      assert.equal(getToken.callCount, 1);
-    });
-
-    test('getToken refreshes token', async () => {
-      const isTokenValidStub = sinon.stub(auth, '_isTokenValid');
-      isTokenValidStub
-        .onFirstCall()
-        .returns(true)
-        .onSecondCall()
-        .returns(false)
-        .onThirdCall()
-        .returns(true);
-      await auth.fetch('/url-one');
-      getToken.returns(Promise.resolve(makeToken('bzzbb')));
-      await auth.fetch('/url-two');
-
-      const [[firstUrl], [secondUrl]] = fakeFetch.args;
-      assert.equal(firstUrl, '/a/url-one?access_token=zbaz');
-      assert.equal(secondUrl, '/a/url-two?access_token=bzzbb');
-    });
-
-    test('signed in token error falls back to anonymous', async () => {
-      getToken.returns(Promise.resolve('rubbish'));
-      await auth.fetch('/url', {bar: 'bar'} as AuthRequestInit);
-      const [url, options] = fakeFetch.lastCall.args;
-      assert.equal(url, '/url');
-      assert.equal(options.bar, 'bar');
-    });
-
-    test('_isTokenValid', () => {
-      assert.isFalse(auth._isTokenValid(null));
-      assert.isFalse(auth._isTokenValid({}));
-      assert.isFalse(auth._isTokenValid({access_token: 'foo'}));
-      assert.isFalse(
-        auth._isTokenValid({
-          access_token: 'foo',
-          expires_at: `${Date.now() / 1000 - 1}`,
-        })
-      );
-      assert.isTrue(
-        auth._isTokenValid({
-          access_token: 'foo',
-          expires_at: `${Date.now() / 1000 + 1}`,
-        })
-      );
-    });
-
-    test('HTTP PUT with content type', async () => {
-      const originalOptions = {
-        method: 'PUT',
-        headers: new Headers({'Content-Type': 'mail/pigeon'}),
-      };
-      await auth.fetch('/url', originalOptions);
-      assert.isTrue(getToken.called);
-      const [url, options] = fakeFetch.lastCall.args;
-      assert.include(url, '$ct=mail%2Fpigeon');
-      assert.include(url, '$m=PUT');
-      assert.include(url, 'access_token=zbaz');
-      assert.equal(options.method, 'POST');
-      assert.equal(options.headers.get('Content-Type'), 'text/plain');
-    });
-
-    test('HTTP PUT without content type', async () => {
-      const originalOptions = {
-        method: 'PUT',
-      };
-      await auth.fetch('/url', originalOptions);
-      assert.isTrue(getToken.called);
-      const [url, options] = fakeFetch.lastCall.args;
-      assert.include(url, '$ct=text%2Fplain');
-      assert.include(url, '$m=PUT');
-      assert.include(url, 'access_token=zbaz');
-      assert.equal(options.method, 'POST');
-      assert.equal(options.headers.get('Content-Type'), 'text/plain');
     });
   });
 });

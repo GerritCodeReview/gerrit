@@ -63,7 +63,11 @@ import {CommentSide, SpecialFilePath} from '../../../constants/constants';
 import {Subject} from 'rxjs';
 import {debounceTime} from 'rxjs/operators';
 import {changeModelToken} from '../../../models/change/change-model';
-import {ChangeInfo, isBase64FileContent} from '../../../api/rest-api';
+import {
+  ChangeInfo,
+  FixSuggestionInfoInput,
+  isBase64FileContent,
+} from '../../../api/rest-api';
 import {createDiffUrl} from '../../../models/views/change';
 import {userModelToken} from '../../../models/user/user-model';
 import {modalStyles} from '../../../styles/gr-modal-styles';
@@ -217,6 +221,9 @@ export class GrComment extends LitElement {
 
   @state()
   generatedSuggestion?: Suggestion;
+
+  @state()
+  generatedFixSuggestion?: FixSuggestionInfoInput;
 
   @state()
   generatedSuggestionId?: string;
@@ -1010,15 +1017,28 @@ export class GrComment extends LitElement {
     if (
       !this.showGeneratedSuggestion() ||
       !this.generateSuggestion ||
-      !this.generatedSuggestion
+      (!this.generatedSuggestion && !this.generatedFixSuggestion)
     )
       return nothing;
+    if (this.generatedSuggestion) {
+      return html`<gr-suggestion-diff-preview
+        .showAddSuggestionButton=${true}
+        .suggestion=${this.generatedSuggestion?.replacement}
+        .uuid=${this.generatedSuggestionId}
+      ></gr-suggestion-diff-preview>`;
+    }
 
-    return html`<gr-suggestion-diff-preview
-      .showAddSuggestionButton=${true}
-      .suggestion=${this.generatedSuggestion?.replacement}
-      .uuid=${this.generatedSuggestionId}
-    ></gr-suggestion-diff-preview>`;
+    if (this.generatedFixSuggestion) {
+      const codeBlocks = this.generatedFixSuggestion.replacements.map(
+        repl =>
+          `@@ +${repl.range.start_line}, ${repl.range.end_line} @@\n+${repl.replacement}`
+      );
+
+      return html`<gr-suggestion-diff-preview
+      .suggestion=${codeBlocks.join('\n')}></code>`;
+    }
+
+    return nothing;
   }
 
   private renderGenerateSuggestEditButton() {
@@ -1093,7 +1113,7 @@ export class GrComment extends LitElement {
     const suggestionsProvider = this.suggestionsProvider;
     const changeInfo = this.getChangeModel().getChange();
     if (
-      !suggestionsProvider?.suggestCode ||
+      !suggestionsProvider?.suggestFix ||
       !this.showGeneratedSuggestion() ||
       !changeInfo ||
       !this.comment ||
@@ -1109,7 +1129,7 @@ export class GrComment extends LitElement {
     this.suggestionLoading = true;
     let suggestionResponse;
     try {
-      suggestionResponse = await suggestionsProvider.suggestCode({
+      suggestionResponse = await suggestionsProvider.suggestFix({
         prompt: this.messageText,
         changeInfo: changeInfo as ChangeInfo,
         patchsetNumber: this.comment?.patch_set,
@@ -1125,15 +1145,16 @@ export class GrComment extends LitElement {
     // TODO(milutin): The suggestionResponse can contain multiple suggestion
     // options. We pick the first one for now. In future we shouldn't ignore
     // other suggestions.
-    this.reporting.reportInteraction(Interaction.GENERATE_SUGGESTION_RESPONSE, {
-      uuid: this.generatedSuggestionId,
-      response: suggestionResponse.responseCode,
-      numSuggestions: suggestionResponse.suggestions.length,
-      hasNewRange: suggestionResponse.suggestions?.[0]?.newRange !== undefined,
-    });
-    const suggestion = suggestionResponse.suggestions?.[0];
+    // this.reporting.reportInteraction(Interaction.GENERATE_SUGGESTION_RESPONSE, {
+    //   uuid: this.generatedSuggestionId,
+    //   response: suggestionResponse.responseCode,
+    //   numSuggestions: suggestionResponse.suggestions.length,
+    //   hasNewRange: suggestionResponse.suggestions?.[0]?.newRange !== undefined,
+    // });
+    const suggestion = suggestionResponse.fix_suggestions?.[0];
     if (!suggestion) return;
-    this.generatedSuggestion = suggestion;
+    // this.generatedSuggestion = suggestion;
+    this.generatedFixSuggestion = suggestion;
   }
 
   private renderRobotActions() {

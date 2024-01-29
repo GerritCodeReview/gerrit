@@ -5,12 +5,7 @@
  */
 import {AuthRequestInit} from '../../types/types';
 import {fire} from '../../utils/event-util';
-import {
-  AuthService,
-  AuthStatus,
-  DefaultAuthOptions,
-  GetTokenCallback,
-} from './gr-auth';
+import {AuthService, AuthStatus} from './gr-auth';
 import {Auth} from './gr-auth_impl';
 
 export class GrAuthMock implements AuthService {
@@ -54,8 +49,6 @@ export class GrAuthMock implements AuthService {
   }
 
   clearCache() {}
-
-  setup(_getToken: GetTokenCallback, _defaultOptions: DefaultAuthOptions) {}
 
   fetch(_url: string, _options?: AuthRequestInit): Promise<Response> {
     return Promise.resolve(new Response());

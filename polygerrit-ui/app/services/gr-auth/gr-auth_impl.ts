@@ -6,22 +6,9 @@
 import {AuthRequestInit, Finalizable} from '../../types/types';
 import {fire} from '../../utils/event-util';
 import {getBaseUrl} from '../../utils/url-util';
-import {
-  AuthService,
-  AuthStatus,
-  AuthType,
-  DefaultAuthOptions,
-  GetTokenCallback,
-  Token,
-} from './gr-auth';
+import {AuthService, AuthStatus, AuthType} from './gr-auth';
 
 export const MAX_AUTH_CHECK_WAIT_TIME_MS = 1000 * 30; // 30s
-const MAX_GET_TOKEN_RETRIES = 2;
-
-interface ValidToken extends Token {
-  access_token: string;
-  expires_at: string;
-}
 
 interface AuthRequestInitWithHeaders extends AuthRequestInit {
   // RequestInit define headers as optional property with a type
@@ -38,7 +25,6 @@ export class Auth implements AuthService, Finalizable {
   // AuthStatus to API
   static TYPE = {
     XSRF_TOKEN: AuthType.XSRF_TOKEN,
-    ACCESS_TOKEN: AuthType.ACCESS_TOKEN,
   };
 
   static STATUS = {
@@ -55,20 +41,6 @@ export class Auth implements AuthService, Finalizable {
   private _last_auth_check_time: number = Date.now();
 
   private _status = AuthStatus.UNDETERMINED;
-
-  private retriesLeft = MAX_GET_TOKEN_RETRIES;
-
-  private cachedTokenPromise: Promise<Token | null> | null = null;
-
-  private type?: AuthType;
-
-  private defaultOptions: AuthRequestInit = {};
-
-  private getToken: GetTokenCallback;
-
-  constructor() {
-    this.getToken = () => Promise.resolve(this.cachedTokenPromise);
-  }
 
   get baseUrl() {
     return getBaseUrl();
@@ -143,37 +115,14 @@ export class Auth implements AuthService, Finalizable {
   }
 
   /**
-   * Enable cross-domain authentication using OAuth access token.
-   */
-  setup(getToken: GetTokenCallback, defaultOptions: DefaultAuthOptions) {
-    this.retriesLeft = MAX_GET_TOKEN_RETRIES;
-    if (getToken) {
-      this.type = AuthType.ACCESS_TOKEN;
-      this.cachedTokenPromise = null;
-      this.getToken = getToken;
-    }
-    this.defaultOptions = {};
-    if (defaultOptions) {
-      this.defaultOptions.credentials = defaultOptions.credentials;
-    }
-  }
-
-  /**
    * Perform network fetch with authentication.
    */
   fetch(url: string, options?: AuthRequestInit): Promise<Response> {
     const optionsWithHeaders: AuthRequestInitWithHeaders = {
       headers: new Headers(),
-      ...this.defaultOptions,
       ...options,
     };
-    if (this.type === AuthType.ACCESS_TOKEN) {
-      return this._getAccessToken().then(accessToken =>
-        this._fetchWithAccessToken(url, optionsWithHeaders, accessToken)
-      );
-    } else {
-      return this._fetchWithXsrfToken(url, optionsWithHeaders);
-    }
+    return this._fetchWithXsrfToken(url, optionsWithHeaders);
   }
 
   // private but used in test
@@ -191,23 +140,6 @@ export class Auth implements AuthService, Finalizable {
     return result;
   }
 
-  // private but used in test
-  _isTokenValid(token: Token | null): token is ValidToken {
-    if (!token) {
-      return false;
-    }
-    if (!token.access_token || !token.expires_at) {
-      return false;
-    }
-
-    const expiration = new Date(Number(token.expires_at) * 1000);
-    if (Date.now() >= expiration.getTime()) {
-      return false;
-    }
-
-    return true;
-  }
-
   private _fetchWithXsrfToken(
     url: string,
     options: AuthRequestInitWithHeaders
@@ -219,72 +151,6 @@ export class Auth implements AuthService, Finalizable {
       }
     }
     options.credentials = 'same-origin';
-    return this._ensureBodyLoaded(fetch(url, options));
-  }
-
-  private _getAccessToken(): Promise<string | null> {
-    if (!this.cachedTokenPromise) {
-      this.cachedTokenPromise = this.getToken();
-    }
-    return this.cachedTokenPromise.then(token => {
-      if (this._isTokenValid(token)) {
-        this.retriesLeft = MAX_GET_TOKEN_RETRIES;
-        return token.access_token;
-      }
-      if (this.retriesLeft > 0) {
-        this.retriesLeft--;
-        this.cachedTokenPromise = null;
-        return this._getAccessToken();
-      }
-      // Fall back to anonymous access.
-      return null;
-    });
-  }
-
-  private _fetchWithAccessToken(
-    url: string,
-    options: AuthRequestInitWithHeaders,
-    accessToken: string | null
-  ): Promise<Response> {
-    const params = [];
-
-    if (accessToken) {
-      params.push(`access_token=${accessToken}`);
-      const baseUrl = this.baseUrl;
-      const pathname = baseUrl
-        ? url.substring(url.indexOf(baseUrl) + baseUrl.length)
-        : url;
-      if (!pathname.startsWith('/a/')) {
-        url = url.replace(pathname, '/a' + pathname);
-      }
-    }
-
-    const method = options.method || 'GET';
-    let contentType = options.headers.get('Content-Type');
-
-    // For all requests with body, ensure json content type.
-    if (!contentType && options.body) {
-      contentType = 'application/json';
-    }
-
-    if (method !== 'GET') {
-      options.method = 'POST';
-      params.push(`$m=${method}`);
-      // If a request is not GET, and does not have a body, ensure text/plain
-      // content type.
-      if (!contentType) {
-        contentType = 'text/plain';
-      }
-    }
-
-    if (contentType) {
-      options.headers.set('Content-Type', 'text/plain');
-      params.push(`$ct=${encodeURIComponent(contentType)}`);
-    }
-
-    if (params.length) {
-      url = url + (url.indexOf('?') === -1 ? '?' : '&') + params.join('&');
-    }
     return this._ensureBodyLoaded(fetch(url, options));
   }
 

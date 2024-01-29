@@ -35,6 +35,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "553ee666_86df9919",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2024-01-29T17:04:05Z",
+      "side": 1,
+      "message": "Thank you for the check! I will investigate more, I have more or less fixed my local development stack today, so I should be to live test it myself now.",
+      "revId": "2664680c013be4c99fe6afcf4bd032a94e0f7740",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b3d6c409_7ec016c5",
@@ -48,6 +65,30 @@
       "writtenOn": "2024-01-26T17:12:26Z",
       "side": 1,
       "message": "I tested your change and it needs prependOrigin, because links with this change look like this\nhttps://imgur.com/a/btT34LD",
+      "range": {
+        "startLine": 1336,
+        "startChar": 4,
+        "endLine": 1337,
+        "endChar": 27
+      },
+      "revId": "2664680c013be4c99fe6afcf4bd032a94e0f7740",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd38659c_5f4886d2",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1337,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2024-01-29T17:04:05Z",
+      "side": 1,
+      "message": "I thought `this.computeChangeUrl()` was giving the full url including the baseUrl/CANONICAL_PATH but indeed it only yields `/c/gerrit/+/404937`.  \n\nI will investigate more. Thank you for the test!",
+      "parentUuid": "b3d6c409_7ec016c5",
       "range": {
         "startLine": 1336,
         "startChar": 4,

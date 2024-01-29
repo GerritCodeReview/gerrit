@@ -42,10 +42,6 @@ export class Auth implements AuthService, Finalizable {
 
   private _status = AuthStatus.UNDETERMINED;
 
-  get baseUrl() {
-    return getBaseUrl();
-  }
-
   finalize() {}
 
   /**
@@ -57,7 +53,7 @@ export class Auth implements AuthService, Finalizable {
       Date.now() - this._last_auth_check_time > MAX_AUTH_CHECK_WAIT_TIME_MS
     ) {
       // Refetch after last check expired
-      this.authCheckPromise = fetch(`${this.baseUrl}/auth-check`)
+      this.authCheckPromise = fetch(`${getBaseUrl()}/auth-check`)
         .then(res => {
           // Make a call that requires loading the body of the request. This makes it so that the browser
           // can close the request even though callers of this method might only ever read headers.

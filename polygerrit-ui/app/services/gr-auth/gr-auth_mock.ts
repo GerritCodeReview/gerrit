@@ -9,8 +9,6 @@ import {AuthService, AuthStatus} from './gr-auth';
 import {Auth} from './gr-auth_impl';
 
 export class GrAuthMock implements AuthService {
-  baseUrl = '';
-
   private _status = AuthStatus.UNDETERMINED;
 
   constructor() {}
@@ -37,7 +35,7 @@ export class GrAuthMock implements AuthService {
   }
 
   authCheck() {
-    return this.fetch(`${this.baseUrl}/auth-check`).then(res => {
+    return this.fetch('/auth-check').then(res => {
       if (res.status === 204) {
         this._setStatus(Auth.STATUS.AUTHED);
         return true;

@@ -16,6 +16,24 @@
       "message": "Check if it works with previous index version while online reindexing is happening.",
       "revId": "7a61813f05cc0af95f4ed5ee284f636c70655a69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dfacbb77_5d39a0d5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-01-29T17:17:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ac2223b_560500b9",
+      "revId": "7a61813f05cc0af95f4ed5ee284f636c70655a69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

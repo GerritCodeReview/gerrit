@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49774c61_3268998a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2024-01-30T11:43:02Z",
+      "side": 1,
+      "message": "This time I have tested it using the Gerrit GE Frontend against:\n\n* https://gerrit.wikimedia.org/r which runs 3.7.6\n* https://gerrit-review.googlesource.com/ which runs 3.9 but the change view worked nonetheless\n\nI have added two tests covering the behavior :)",
+      "revId": "8bd8ce2f5eb3d8bec964748fb235f80e991ce037",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f63c7ab6_cc4c5945",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 2638,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2024-01-30T11:43:02Z",
+      "side": 1,
+      "message": "I went to use `assert.deepEqual` which gives a nice difference of the fields unlike  `assert.isTrue(copyLinks;some(...))` in the above test.",
+      "range": {
+        "startLine": 2638,
+        "startChar": 11,
+        "endLine": 2638,
+        "endChar": 20
+      },
+      "revId": "8bd8ce2f5eb3d8bec964748fb235f80e991ce037",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

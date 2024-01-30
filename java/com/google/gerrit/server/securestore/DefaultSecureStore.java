@@ -22,6 +22,7 @@ import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,15 +38,19 @@ public class DefaultSecureStore extends SecureStore {
   private final FileBasedConfig sec;
   private final Map<String, FileBasedConfig> pluginSec;
   private final SitePaths site;
+  protected final Path secure_config;
+  private static final String SECURE_CONFIG_FILE = "secure.config";
 
   @Inject
   DefaultSecureStore(SitePaths site) {
     this.site = site;
-    sec = new FileBasedConfig(site.secure_config.toFile(), FS.DETECTED);
+    secure_config = site.etc_dir.resolve(SECURE_CONFIG_FILE);
+
+    sec = new FileBasedConfig(secure_config.toFile(), FS.DETECTED);
     try {
       sec.load();
     } catch (IOException | ConfigInvalidException e) {
-      throw new RuntimeException("Cannot load secure.config", e);
+      throw new RuntimeException("Cannot load " + SECURE_CONFIG_FILE, e);
     }
     this.pluginSec = new HashMap<>();
   }
@@ -63,7 +68,7 @@ public class DefaultSecureStore extends SecureStore {
     if (pluginSec.containsKey(pluginName)) {
       cfg = pluginSec.get(pluginName);
     } else {
-      String filename = pluginName + ".secure.config";
+      String filename = pluginName + "." + SECURE_CONFIG_FILE;
       File pluginConfigFile = site.etc_dir.resolve(filename).toFile();
       if (pluginConfigFile.exists()) {
         cfg = new FileBasedConfig(pluginConfigFile, FS.DETECTED);
@@ -120,15 +125,15 @@ public class DefaultSecureStore extends SecureStore {
     try {
       sec.load();
     } catch (IOException | ConfigInvalidException e) {
-      throw new ProvisionException("Couldn't reload secure.config", e);
+      throw new ProvisionException("Couldn't reload " + SECURE_CONFIG_FILE, e);
     }
   }
 
-  private void save() {
+  protected void save() {
     try {
       saveSecure(sec);
     } catch (IOException e) {
-      throw new RuntimeException("Cannot save secure.config", e);
+      throw new RuntimeException("Cannot save " + SECURE_CONFIG_FILE, e);
     }
   }
 

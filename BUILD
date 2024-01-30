@@ -11,6 +11,8 @@ genrule(
     stamp = 1,
 )
 
+test
+
 genrule(
     name = "LICENSES",
     srcs = ["//Documentation:licenses.txt"],

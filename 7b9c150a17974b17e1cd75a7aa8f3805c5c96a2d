@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "d33c8df8_76a11f64",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-01-30T15:54:33Z",
+      "side": 1,
+      "message": "missing `Release-Notes` footer",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 1
+      },
+      "revId": "7b9c150a17974b17e1cd75a7aa8f3805c5c96a2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "78c38aae_8cea3ade",

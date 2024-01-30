@@ -21,6 +21,7 @@ import {
   mockPromise,
   pressKey,
   queryAndAssert,
+  stubBaseUrl,
   stubFlags,
   stubRestApi,
   waitUntil,
@@ -1614,5 +1615,37 @@ suite('gr-change-view tests', () => {
     assert.isTrue(
       copyLinksDialog.copyLinks.some(copyLink => copyLink.value === sha)
     );
+  });
+
+  test('copy links without a base URL', async () => {
+    element.change = createChangeViewChange();
+    await element.updateComplete;
+
+    const copyLinksDialog = queryAndAssert<GrCopyLinks>(
+      element,
+      'gr-copy-links'
+    );
+    assert.deepEqual(copyLinksDialog.copyLinks[1], {
+      label: 'Change URL',
+      shortcut: 'u',
+      value: 'http://localhost:9876/c/test-project/+/42',
+    });
+  });
+
+  test('copy links with a base URL having a path', async () => {
+    stubBaseUrl('/review');
+    element.change = createChangeViewChange();
+    await element.updateComplete;
+
+    const copyLinksDialog = queryAndAssert<GrCopyLinks>(
+      element,
+      'gr-copy-links'
+    );
+
+    assert.deepEqual(copyLinksDialog.copyLinks[1], {
+      label: 'Change URL',
+      shortcut: 'u',
+      value: 'http://localhost:9876/review/c/test-project/+/42',
+    });
   });
 });

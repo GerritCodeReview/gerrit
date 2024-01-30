@@ -138,7 +138,7 @@ import {ShortcutController} from '../../lit/shortcut-controller';
 import {FilesExpandedState} from '../gr-file-list-constants';
 import {subscribe} from '../../lit/subscription-controller';
 import {configModelToken} from '../../../models/config/config-model';
-import {getBaseUrl, prependOrigin} from '../../../utils/url-util';
+import {prependOrigin} from '../../../utils/url-util';
 import {CopyLink, GrCopyLinks} from '../gr-copy-links/gr-copy-links';
 import {
   ChangeChildView,
@@ -1209,7 +1209,7 @@ export class GrChangeView extends LitElement {
   private renderCopyLinksDropdown() {
     const url = this.computeChangeUrl();
     if (!url) return;
-    const changeURL = prependOrigin(getBaseUrl() + url);
+    const changeURL = prependOrigin(url);
     const links: CopyLink[] = [
       {
         label: 'Change Number',

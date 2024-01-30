@@ -1209,7 +1209,7 @@ export class GrChangeView extends LitElement {
   private renderCopyLinksDropdown() {
     const url = this.computeChangeUrl();
     if (!url) return;
-    const changeURL = prependOrigin(getBaseUrl() + url);
+    const changeURL = prependOrigin(url);
     const links: CopyLink[] = [
       {
         label: 'Change Number',

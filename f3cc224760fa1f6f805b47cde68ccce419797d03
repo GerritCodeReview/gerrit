@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a31fec91_307ff01a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-01-30T11:47:57Z",
+      "side": 1,
+      "message": "Thank you very much. I found today bug report about similar issue, but I think this is fixing it. https://g-issues.gerritcodereview.com/issues/322846987",
+      "revId": "f3cc224760fa1f6f805b47cde68ccce419797d03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

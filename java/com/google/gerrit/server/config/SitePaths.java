@@ -52,6 +52,12 @@ public final class SitePaths {
   public final Path gerrit_war;
 
   public final Path gerrit_config;
+  /**
+   *  Use SecureStore to access sensitive information instead
+   *  of direct access to file. Other implementations may exist that
+   *  use a different strategy than plain text read/write.
+   */
+  @Deprecated
   public final Path secure_config;
   public final Path notedb_config;
 

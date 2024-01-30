@@ -53,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5da7cfc_dc772f8b",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 3228522
+      },
+      "writtenOn": "2024-01-30T08:31:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4965ec4c_e8f2ff36",
+      "revId": "6bfcd61010c59d2755106a545a2179f9aa835cc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "380085fa_c0702f74",
@@ -70,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5954f073_93d899d4",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 3228522
+      },
+      "writtenOn": "2024-01-30T08:31:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "380085fa_c0702f74",
+      "revId": "6bfcd61010c59d2755106a545a2179f9aa835cc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "099a9fdc_ed477032",
@@ -83,6 +119,24 @@
       "writtenOn": "2024-01-29T19:25:03Z",
       "side": 1,
       "message": "Aren\u0027t all instances of Task already decorated? Is there really a need to check getDecorated() since it will always be set whenever a Task is created? Is there a way to have a task which is not decorated?",
+      "revId": "6bfcd61010c59d2755106a545a2179f9aa835cc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de8e5482_7225b234",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 3228522
+      },
+      "writtenOn": "2024-01-30T08:31:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "099a9fdc_ed477032",
       "revId": "6bfcd61010c59d2755106a545a2179f9aa835cc2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9cd9840_5ad64f8a",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2024-01-30T23:09:46Z",
+      "side": 1,
+      "message": "The comment above is outdated since there is no \"retry\" in the code anymore? Maybe the comment should be simplified to something like:\n\n\"Periodic Tasks may get rescheduled if the previous run has yet to fully complete (and thus passed to decorateTask() more than once), and there is no need to redecorate them if the are already decorated.\"",
+      "revId": "19d7dd5b004718c76e7683da095df86ce61fd6ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba58f868_0b90be16",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2024-01-30T23:09:46Z",
+      "side": 1,
+      "message": "Looks like the Task will get discarded if it is not returned on line 476, at which point the runnable and period will no longer be in the delayMap. I suspect you should perform the delayMap.remove(runnable) before entering the for loop to ensure that it is not lost if the loop needs to iterate.",
+      "revId": "19d7dd5b004718c76e7683da095df86ce61fd6ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "630ea39f_402ce42a",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 574,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2024-01-30T23:09:46Z",
+      "side": 1,
+      "message": "Since null is never used here, use a \u0027long\u0027 instead of a \u0027Long\u0027?",
+      "revId": "19d7dd5b004718c76e7683da095df86ce61fd6ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5e4b8b1_ee203815",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 627,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2024-01-30T23:09:46Z",
+      "side": 1,
+      "message": "Simplify this function and use something like:\n\n this.period \u003d firstNonNull(period, 0L);",
+      "revId": "19d7dd5b004718c76e7683da095df86ce61fd6ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

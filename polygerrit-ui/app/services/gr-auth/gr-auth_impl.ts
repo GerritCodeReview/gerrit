@@ -6,9 +6,19 @@
 import {AuthRequestInit, Finalizable} from '../../types/types';
 import {fire} from '../../utils/event-util';
 import {getBaseUrl} from '../../utils/url-util';
-import {AuthService, AuthStatus, AuthType} from './gr-auth';
+import {AuthService} from './gr-auth';
 
-export const MAX_AUTH_CHECK_WAIT_TIME_MS = 1000 * 30; // 30s
+const MAX_AUTH_CHECK_WAIT_TIME_MS = 1000 * 30; // 30s
+
+const CREDS_EXPIRED_MSG = 'Credentials expired.';
+
+// visible for testing
+export enum AuthStatus {
+  UNDETERMINED = 0,
+  AUTHED = 1,
+  NOT_AUTHED = 2,
+  ERROR = 3,
+}
 
 interface AuthRequestInitWithHeaders extends AuthRequestInit {
   // RequestInit define headers as optional property with a type
@@ -21,21 +31,6 @@ interface AuthRequestInitWithHeaders extends AuthRequestInit {
  * Auth class.
  */
 export class Auth implements AuthService, Finalizable {
-  // TODO(dmfilippov): Remove Type and Status properties, expose AuthType and
-  // AuthStatus to API
-  static TYPE = {
-    XSRF_TOKEN: AuthType.XSRF_TOKEN,
-  };
-
-  static STATUS = {
-    UNDETERMINED: AuthStatus.UNDETERMINED,
-    AUTHED: AuthStatus.AUTHED,
-    NOT_AUTHED: AuthStatus.NOT_AUTHED,
-    ERROR: AuthStatus.ERROR,
-  };
-
-  static CREDS_EXPIRED_MSG = 'Credentials expired.';
-
   private authCheckPromise?: Promise<boolean>;
 
   private _last_auth_check_time: number = Date.now();
@@ -67,10 +62,10 @@ export class Auth implements AuthService, Finalizable {
           // auth-check will return 204 if authed
           // treat the rest as unauthed
           if (res.status === 204) {
-            this._setStatus(Auth.STATUS.AUTHED);
+            this._setStatus(AuthStatus.AUTHED);
             return true;
           } else {
-            this._setStatus(Auth.STATUS.NOT_AUTHED);
+            this._setStatus(AuthStatus.NOT_AUTHED);
             return false;
           }
         })
@@ -95,19 +90,20 @@ export class Auth implements AuthService, Finalizable {
 
     if (this._status === AuthStatus.AUTHED) {
       fire(document, 'auth-error', {
-        message: Auth.CREDS_EXPIRED_MSG,
+        message: CREDS_EXPIRED_MSG,
         action: 'Refresh credentials',
       });
     }
     this._status = status;
   }
 
+  // visible for testing
   get status() {
     return this._status;
   }
 
   get isAuthed() {
-    return this._status === Auth.STATUS.AUTHED;
+    return this._status === AuthStatus.AUTHED;
   }
 
   /**

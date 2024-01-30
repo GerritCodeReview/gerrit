@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "78c38aae_8cea3ade",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-01-30T12:59:07Z",
+      "side": 1,
+      "message": "can we also migrate `DefaultSecureStore` to use `site.etc_dir.resolve(\"secure.config\")` in the same change?",
+      "revId": "7b9c150a17974b17e1cd75a7aa8f3805c5c96a2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3683491d_a47d2e6f",
+        "filename": "java/com/google/gerrit/server/config/SitePaths.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-01-30T12:59:07Z",
+      "side": 1,
+      "message": "would rather use \"to access sensitive information\", as \"secure.config\" is an implementation detail of the default `SecureStore` implementation",
+      "range": {
+        "startLine": 57,
+        "startChar": 32,
+        "endLine": 57,
+        "endChar": 45
+      },
+      "revId": "7b9c150a17974b17e1cd75a7aa8f3805c5c96a2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

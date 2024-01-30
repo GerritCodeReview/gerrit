@@ -73,6 +73,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f6e947bd_20c93608",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1168787
+      },
+      "writtenOn": "2024-01-30T08:42:19Z",
+      "side": 1,
+      "message": "This is my last comment.",
+      "parentUuid": "257cbc21_cadc9849",
+      "revId": "4f4a6045d119c0b02bb79aedf946a3ba0582fa83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5138ae27_d5cc091d",
         "filename": "polygerrit-ui/app/elements/change-list/gr-profile-view/gr-profile-view.ts",
         "patchSetId": 6

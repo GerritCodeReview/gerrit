@@ -163,7 +163,7 @@ expression that checks that:
 * the label was approved: `label:My-Label=MAX`
 * the label has no veto: `-label:My-Label=MIN`
 * the label was not self-approved: `label:My-Label=MAX,user=non_uploader`
-* the label was approved by multiple users: `label:My-Label,count=2`
+* the label was approved by multiple users: `label:My-Label,count>1`
 
 Submit requirements that check votes for a single label often have the same
 name as the label, e.g.:

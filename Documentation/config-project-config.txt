@@ -145,6 +145,12 @@ Gerrit offers several REST endpoints to modify the project configuration:
 +
 ** link:rest-api-projects.html#set-config[Set Config] REST endpoint:
    Allows to edit the project description and change repository options.
+** link:rest-api-projects.html#set-project-description[Set Project Description]
+   REST endpoint:
+   Allows to set the project description.
+** link:rest-api-projects.html#delete-project-description[Delete Project
+   Description] REST endpoint:
+   Allows to unset the project description.
 ** link:rest-api-projects.html#set-access[Add, Update and Delete Access Rights
    for Project] REST endpoint:
    Allows to edit the access rights of the project.
@@ -152,6 +158,21 @@ Gerrit offers several REST endpoints to modify the project configuration:
    for review] REST endpoint:
    Allows to create a change with access right modifications that can be
    reviewed and submitted by a project owner.
+** link:rest-api-projects.html#create-label[Create Label] REST endpoint:
+   Allows to create a new label definition.
+** link:rest-api-projects.html#set-label[Set Label] REST endpoint:
+   Allows to update an existing label definition.
+** link:rest-api-projects.html#delete-label[Delete Label] REST endpoint:
+   Allows to delete an existing label definition.
+** link:rest-api-projects.html#create-submit-requirement[Create Submit
+   Requirement] REST endpoint:
+   Allows to create a new submit requirement.
+** link:rest-api-projects.html#update-submit-requirement[Update Submit
+   Requirement] REST endpoint:
+   Allows to update an existing submit requirement.
+** link:rest-api-projects.html#delete-submit-requirement[Delete Submit
+   Requirement] REST endpoint:
+   Allows to delete an existing submit requirement.
 
 [[required-permissions]]
 == Required permissions

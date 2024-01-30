@@ -16,6 +16,24 @@
       "message": "Thank you very much. I found today bug report about similar issue, but I think this is fixing it. https://g-issues.gerritcodereview.com/issues/322846987",
       "revId": "f3cc224760fa1f6f805b47cde68ccce419797d03",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "87c98c7d_70ea4a10",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2024-01-30T11:55:50Z",
+      "side": 1,
+      "message": "Yes that is that is the same issue, that got reported on our tracker ( https://phabricator.wikimedia.org/T355931 ) and I went directly for the fix skipping the reporting in your issues tracker :)\n\nMaybe at some point it was recommended to expose Gerrit under a namespaced URI path (`/r`), possibly to leave room for potential future usage. We did the same for wikipedia:\n* `/wiki/` for articles\n* `/w/` for PHP entry points\n\nThen Google, GerritForge and I guess most core developers have instances not having such path, so it easy to miss out.  Maybe some more issues can be caught by having the test suite to be run against a test server having a `/r` in its path.",
+      "parentUuid": "a31fec91_307ff01a",
+      "revId": "f3cc224760fa1f6f805b47cde68ccce419797d03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

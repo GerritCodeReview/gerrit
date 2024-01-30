@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5cd3c46_30e84b2f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-01-30T15:37:12Z",
+      "side": 1,
+      "message": "@david.ostrovsky@gmail.com please, have a look at this. It looks that maybe we need to cherry pick something else:\n```\nERROR: /home/jenkins/workspace/Gerrit-verifier-chrome-latest/gerrit/BUILD:76:9: While resolving toolchains for target //:api-skip-javadoc: com.google.devtools.build.lib.packages.BuildFileNotFoundException: no such package \u0027@ubuntu2204_jdk17//config\u0027: The repository \u0027@ubuntu2204_jdk17\u0027 could not be resolved: Repository \u0027@ubuntu2204_jdk17\u0027 is not defined\n```",
+      "revId": "2ce3e7efa1a9471915393e1614730b4cfa05c741",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -5,16 +5,20 @@
  */
 import {AuthRequestInit} from '../../types/types';
 import {fire} from '../../utils/event-util';
-import {AuthService, AuthStatus} from './gr-auth';
-import {Auth} from './gr-auth_impl';
+import {AuthService} from './gr-auth';
+
+enum AuthStatus {
+  UNDETERMINED = 0,
+  AUTHED = 1,
+  NOT_AUTHED = 2,
+  ERROR = 3,
+}
 
 export class GrAuthMock implements AuthService {
   private _status = AuthStatus.UNDETERMINED;
 
-  constructor() {}
-
   get isAuthed() {
-    return this._status === Auth.STATUS.AUTHED;
+    return this._status === AuthStatus.AUTHED;
   }
 
   finalize() {}
@@ -23,7 +27,7 @@ export class GrAuthMock implements AuthService {
     if (this._status === status) return;
     if (this._status === AuthStatus.AUTHED) {
       fire(document, 'auth-error', {
-        message: Auth.CREDS_EXPIRED_MSG,
+        message: 'Credentials expired.',
         action: 'Refresh credentials',
       });
     }
@@ -37,10 +41,10 @@ export class GrAuthMock implements AuthService {
   authCheck() {
     return this.fetch('/auth-check').then(res => {
       if (res.status === 204) {
-        this._setStatus(Auth.STATUS.AUTHED);
+        this._setStatus(AuthStatus.AUTHED);
         return true;
       } else {
-        this._setStatus(Auth.STATUS.NOT_AUTHED);
+        this._setStatus(AuthStatus.NOT_AUTHED);
         return false;
       }
     });

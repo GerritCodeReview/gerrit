@@ -16,6 +16,23 @@
       "message": "Think this may fix https://phabricator.wikimedia.org/T355504 (per @hashar@free.fr finding and thus backporting the fix).",
       "revId": "237ce5d10f2fc95848c00f60a49dfd8065b857f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d8ff878_bd25d036",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2024-01-31T21:13:27Z",
+      "side": 1,
+      "message": "That came from a full reindex for the Gerrit 3.7 upgrade (but that definitely happened when we upgraded to 3.5 as well).\n\n\u003e Failed to read change 96315 for indexing\n\u003e com.google.common.util.concurrent.UncheckedExecutionException:\n\u003e java.time.format.DateTimeParseException: Text \u0027Feb 6, 2017 5:37:26 AM\u0027 could not be parsed at index 11\nat com.github.benmanes.caffeine.guava.CaffeinatedGuavaCache.lambda$get$0(CaffeinatedGuavaCache.java:77)\nat com.github.benmanes.caffeine.cache.LocalCache.lambda$statsAware$0(LocalCache.java:139)\n\nThen I don\u0027t know how that is related since https://gerrit.wikimedia.org/r/c/analytics/limn-mobile-data/+/96315/ was created in 2013 (but patchset 1 can not be seen).",
+      "revId": "237ce5d10f2fc95848c00f60a49dfd8065b857f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

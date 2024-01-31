@@ -2,11 +2,11 @@ load("//tools/bzl:maven_jar.bzl", "maven_jar")
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 load("@bazel_tools//tools/build_defs/repo:utils.bzl", "maybe")
 
-GUAVA_VERSION = "32.1.2-jre"
+GUAVA_VERSION = "33.0.0-jre"
 
-GUAVA_BIN_SHA1 = "5e64ec7e056456bef3a4bc4c6fdaef71e8ab6318"
+GUAVA_BIN_SHA1 = "161ba27964a62f241533807a46b8711b13c1d94b"
 
-GUAVA_TESTLIB_BIN_SHA1 = "c7a8a2c91b6809ff46373b1bc06185241801f6b5"
+GUAVA_TESTLIB_BIN_SHA1 = "cf21e00fcc92786094fb5b376500f50d06878b0b"
 
 GUAVA_DOC_URL = "https://google.github.io/guava/releases/" + GUAVA_VERSION + "/api/docs/"
 
@@ -266,30 +266,30 @@ def declare_nongoogle_deps():
         sha1 = "48462eb319817c90c27d377341684b6b81372e08",
     )
 
-    TRUTH_VERS = "1.1"
+    TRUTH_VERS = "1.3.0"
 
     maven_jar(
         name = "truth",
         artifact = "com.google.truth:truth:" + TRUTH_VERS,
-        sha1 = "6a096a16646559c24397b03f797d0c9d75ee8720",
+        sha1 = "a92487a9c1b8a5edc7238e632a3b46696a0f022e",
     )
 
     maven_jar(
         name = "truth-java8-extension",
         artifact = "com.google.truth.extensions:truth-java8-extension:" + TRUTH_VERS,
-        sha1 = "258db6eb8df61832c5c059ed2bc2e1c88683e92f",
+        sha1 = "d217a9164dd2eaf61c4030d2bcf8aaddbd31719a",
     )
 
     maven_jar(
         name = "truth-liteproto-extension",
         artifact = "com.google.truth.extensions:truth-liteproto-extension:" + TRUTH_VERS,
-        sha1 = "bf65afa13aa03330e739bcaa5d795fe0f10fbf20",
+        sha1 = "171b83e77d5baac38088b2ae9423dd13207445d4",
     )
 
     maven_jar(
         name = "truth-proto-extension",
         artifact = "com.google.truth.extensions:truth-proto-extension:" + TRUTH_VERS,
-        sha1 = "64cba89cf87c1d84cb8c81d06f0b9c482f10b4dc",
+        sha1 = "85b9093c6cf0abc635c172a00b155d85513e6b20",
     )
 
     LUCENE_VERS = "9.8.0"

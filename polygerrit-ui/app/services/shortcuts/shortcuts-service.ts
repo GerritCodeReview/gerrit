@@ -27,7 +27,7 @@ import {define} from '../../models/dependency';
 import {isCharacterLetter, isUpperCase} from '../../utils/string-util';
 import {Finalizable} from '../../types/types';
 
-export {Shortcut, ShortcutSection};
+export type {Shortcut, ShortcutSection};
 
 export type SectionView = Array<{binding: string[][]; text: string}>;
 

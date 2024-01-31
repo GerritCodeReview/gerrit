@@ -30,7 +30,7 @@ import {
   SubmitType,
 } from '../api/rest-api';
 
-export {
+export type {
   AuthType,
   ChangeStatus,
   CommentSide,
@@ -123,7 +123,7 @@ export enum SpecialFilePath {
   MERGE_LIST = '/MERGE_LIST',
 }
 
-export {Side} from '../api/diff';
+export type {Side} from '../api/diff';
 
 /**
  * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#mergeable-info
@@ -189,7 +189,7 @@ export enum TimeFormat {
   HHMM_24 = 'HHMM_24',
 }
 
-export {DiffViewMode};
+export type {DiffViewMode};
 
 /**
  * The type of email strategy to use.

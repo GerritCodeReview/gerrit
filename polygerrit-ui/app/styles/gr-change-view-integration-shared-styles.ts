@@ -7,7 +7,7 @@
 // Mark the file as a module. Otherwise typescript assumes this is a script
 // and $_documentContainer is a global variable.
 // See: https://www.typescriptlang.org/docs/handbook/modules.html
-export {};
+export type {};
 
 const $_documentContainer = document.createElement('template');
 

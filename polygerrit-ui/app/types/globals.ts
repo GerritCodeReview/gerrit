@@ -6,7 +6,7 @@
 import {ParsedJSON} from './common';
 import {HighlightJS} from './types';
 
-export {};
+export type {};
 
 declare global {
   interface Window {

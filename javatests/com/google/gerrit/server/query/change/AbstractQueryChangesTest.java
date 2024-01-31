@@ -36,6 +36,7 @@ import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.fail;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.base.Supplier;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -185,7 +186,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Inject protected BatchUpdate.Factory updateFactory;
   @Inject protected AllProjectsName allProjectsName;
   @Inject protected ChangeInserter.Factory changeFactory;
-  @Inject protected ChangeQueryBuilder queryBuilder;
+  @Inject protected Supplier<ChangeQueryBuilder> queryBuilderSupplier;
   @Inject protected GerritApi gApi;
   @Inject protected IdentifiedUser.GenericFactory userFactory;
   @Inject protected ChangeIndexCollection indexes;
@@ -4428,8 +4429,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     for (Predicate<ChangeData> matchingOneChange :
         ImmutableList.of(
             // One index query, one post-filtering query.
-            queryBuilder.parse(change.getId().toString()),
-            queryBuilder.parse("ownerin:Administrators"))) {
+            queryBuilderSupplier.get().parse(change.getId().toString()),
+            queryBuilderSupplier.get().parse("ownerin:Administrators"))) {
       assertQuery(matchingOneChange, change);
       assertQuery(Predicate.or(ChangeIndexPredicate.none(), matchingOneChange), change);
       assertQuery(Predicate.and(ChangeIndexPredicate.none(), matchingOneChange));

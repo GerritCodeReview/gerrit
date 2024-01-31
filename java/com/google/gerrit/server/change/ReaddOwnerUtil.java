@@ -16,6 +16,8 @@ package com.google.gerrit.server.change;
 
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
 
+import com.google.common.base.Supplier;
+import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.flogger.FluentLogger;
@@ -47,7 +49,7 @@ public class ReaddOwnerUtil {
 
   private final AttentionSetConfig cfg;
   private final Provider<ChangeQueryProcessor> queryProvider;
-  private final ChangeQueryBuilder queryBuilder;
+  private final Supplier<ChangeQueryBuilder> queryBuilderSupplier;
   private final AddToAttentionSetOp.Factory opFactory;
   private final ServiceUserClassifier serviceUserClassifier;
   private final InternalUser internalUser;
@@ -56,13 +58,13 @@ public class ReaddOwnerUtil {
   ReaddOwnerUtil(
       AttentionSetConfig cfg,
       Provider<ChangeQueryProcessor> queryProvider,
-      ChangeQueryBuilder queryBuilder,
+      Supplier<ChangeQueryBuilder> queryBuilderSupplier,
       AddToAttentionSetOp.Factory opFactory,
       ServiceUserClassifier serviceUserClassifier,
       InternalUser.Factory internalUserFactory) {
     this.cfg = cfg;
     this.queryProvider = queryProvider;
-    this.queryBuilder = queryBuilder;
+    this.queryBuilderSupplier = Suppliers.memoize(queryBuilderSupplier);
     this.opFactory = opFactory;
     this.serviceUserClassifier = serviceUserClassifier;
     internalUser = internalUserFactory.create();
@@ -81,7 +83,11 @@ public class ReaddOwnerUtil {
               + "m";
 
       List<ChangeData> changesToAddOwner =
-          queryProvider.get().enforceVisibility(false).query(queryBuilder.parse(query)).entities();
+          queryProvider
+              .get()
+              .enforceVisibility(false)
+              .query(queryBuilderSupplier.get().parse(query))
+              .entities();
 
       ImmutableListMultimap.Builder<Project.NameKey, ChangeData> builder =
           ImmutableListMultimap.builder();

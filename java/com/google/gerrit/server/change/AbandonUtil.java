@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.common.base.Supplier;
+import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.flogger.FluentLogger;
@@ -40,7 +42,7 @@ public class AbandonUtil {
 
   private final ChangeCleanupConfig cfg;
   private final Provider<ChangeQueryProcessor> queryProvider;
-  private final ChangeQueryBuilder queryBuilder;
+  private final Supplier<ChangeQueryBuilder> queryBuilderSupplier;
   private final BatchAbandon batchAbandon;
   private final InternalUser internalUser;
 
@@ -49,11 +51,11 @@ public class AbandonUtil {
       ChangeCleanupConfig cfg,
       InternalUser.Factory internalUserFactory,
       Provider<ChangeQueryProcessor> queryProvider,
-      ChangeQueryBuilder queryBuilder,
+      Provider<ChangeQueryBuilder> queryBuilderProvider,
       BatchAbandon batchAbandon) {
     this.cfg = cfg;
     this.queryProvider = queryProvider;
-    this.queryBuilder = queryBuilder;
+    this.queryBuilderSupplier = Suppliers.memoize(queryBuilderProvider::get);
     this.batchAbandon = batchAbandon;
     internalUser = internalUserFactory.create();
   }
@@ -71,7 +73,11 @@ public class AbandonUtil {
       }
 
       List<ChangeData> changesToAbandon =
-          queryProvider.get().enforceVisibility(false).query(queryBuilder.parse(query)).entities();
+          queryProvider
+              .get()
+              .enforceVisibility(false)
+              .query(queryBuilderSupplier.get().parse(query))
+              .entities();
       ImmutableListMultimap.Builder<Project.NameKey, ChangeData> builder =
           ImmutableListMultimap.builder();
       for (ChangeData cd : changesToAbandon) {
@@ -111,7 +117,7 @@ public class AbandonUtil {
           queryProvider
               .get()
               .enforceVisibility(false)
-              .query(queryBuilder.parse(newQuery))
+              .query(queryBuilderSupplier.get().parse(newQuery))
               .entities();
       if (!changesToAbandon.isEmpty()) {
         validChanges.add(cd);

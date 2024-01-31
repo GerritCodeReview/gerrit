@@ -238,7 +238,7 @@ public abstract class FakeQueryChangesTest extends AbstractQueryChangesTest {
 
   @SuppressWarnings("unused")
   private void executeQuery(String query) throws QueryParseException {
-    List<ChangeData> unused = queryProvider.get().query(queryBuilder.parse(query));
+    List<ChangeData> unused = queryProvider.get().query(queryBuilderProvider.get().parse(query));
   }
 
   private void assertThatSearchQueryWasNotPaginated(int queryCount) {

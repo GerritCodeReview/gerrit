@@ -15,7 +15,6 @@
 package com.google.gerrit.acceptance.server.quota;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static org.mockito.Mockito.clearInvocations;
 import static org.mockito.Mockito.mock;
@@ -23,6 +22,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.truth.Truth8;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.config.FactoryModule;
@@ -124,7 +124,7 @@ public class MultipleQuotaPluginsIT extends AbstractDaemonTest {
 
     OptionalLong tokens =
         quotaBackend.user(identifiedAdmin).availableTokens("testGroup").availableTokens();
-    assertThat(tokens).isPresent();
+    Truth8.assertThat(tokens).isPresent();
     assertThat(tokens.getAsLong()).isEqualTo(10L);
 
     verify(quotaEnforcerA).availableTokens("testGroup", ctx);
@@ -139,7 +139,7 @@ public class MultipleQuotaPluginsIT extends AbstractDaemonTest {
 
     OptionalLong tokens =
         quotaBackend.user(identifiedAdmin).availableTokens("testGroup").availableTokens();
-    assertThat(tokens).isPresent();
+    Truth8.assertThat(tokens).isPresent();
     assertThat(tokens.getAsLong()).isEqualTo(20L);
 
     verify(quotaEnforcerA).availableTokens("testGroup", ctx);

@@ -18,6 +18,8 @@ import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdate
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Strings;
+import com.google.common.base.Supplier;
+import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
@@ -62,7 +64,7 @@ import java.util.Objects;
 @Singleton
 public class DeleteDraftCommentsUtil {
   private final BatchUpdate.Factory batchUpdateFactory;
-  private final ChangeQueryBuilder queryBuilder;
+  private final Supplier<ChangeQueryBuilder> queryBuilderSupplier;
   private final Provider<InternalChangeQuery> queryProvider;
   private final ChangeData.Factory changeDataFactory;
   private final ChangeJson.Factory changeJsonFactory;
@@ -75,7 +77,7 @@ public class DeleteDraftCommentsUtil {
   @Inject
   public DeleteDraftCommentsUtil(
       BatchUpdate.Factory batchUpdateFactory,
-      ChangeQueryBuilder queryBuilder,
+      Provider<ChangeQueryBuilder> queryBuilderSupplier,
       Provider<InternalChangeQuery> queryProvider,
       ChangeData.Factory changeDataFactory,
       ChangeJson.Factory changeJsonFactory,
@@ -84,7 +86,7 @@ public class DeleteDraftCommentsUtil {
       DraftCommentsReader draftCommentsReader,
       PatchSetUtil psUtil) {
     this.batchUpdateFactory = batchUpdateFactory;
-    this.queryBuilder = queryBuilder;
+    this.queryBuilderSupplier = Suppliers.memoize(queryBuilderSupplier::get);
     this.queryProvider = queryProvider;
     this.changeDataFactory = changeDataFactory;
     this.changeJsonFactory = changeJsonFactory;
@@ -132,7 +134,7 @@ public class DeleteDraftCommentsUtil {
       return hasDraft;
     }
     try {
-      return Predicate.and(hasDraft, queryBuilder.parse(query));
+      return Predicate.and(hasDraft, queryBuilderSupplier.get().parse(query));
     } catch (QueryParseException e) {
       throw new BadRequestException("Invalid query: " + e.getMessage(), e);
     }

@@ -134,6 +134,17 @@ import org.eclipse.jgit.revwalk.RevWalk;
 public class ChangeData {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  @AutoValue
+  public abstract static class UniqueId {
+    public static UniqueId create(Change.Id changeId, Project.NameKey project) {
+      return new AutoValue_ChangeData_UniqueId(changeId, project);
+    }
+
+    public abstract Change.Id changeId();
+
+    public abstract Project.NameKey project();
+  }
+
   public enum StorageConstraint {
     /**
      * This instance was loaded from the change index. Backfilling missing data from NoteDb is not
@@ -147,6 +158,10 @@ public class ChangeData {
     INDEX_PRIMARY_NOTEDB_SECONDARY,
     /** This instance was loaded from NoteDb. */
     NOTEDB_ONLY
+  }
+
+  public UniqueId getUniqueId() {
+    return UniqueId.create(getId(), project);
   }
 
   public static List<Change> asChanges(List<ChangeData> changeDatas) {

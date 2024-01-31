@@ -330,7 +330,7 @@ public class ChangeJson {
     try (Timer0.Context ignored = metrics.formatQueryResultsLatency.start()) {
       accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
       List<List<ChangeInfo>> res = new ArrayList<>(in.size());
-      Map<Change.Id, ChangeInfo> cache = Maps.newHashMapWithExpectedSize(in.size());
+      Map<ChangeData.UniqueId, ChangeInfo> cache = Maps.newHashMapWithExpectedSize(in.size());
       ImmutableListMultimap<Change.Id, PluginDefinedInfo> pluginInfosByChange =
           getPluginInfos(in.stream().flatMap(e -> e.entities().stream()).collect(toList()));
       for (QueryResult<ChangeData> r : in) {
@@ -505,9 +505,9 @@ public class ChangeJson {
     return options.contains(option);
   }
 
-  private List<ChangeInfo> toChangeInfos(
+  private List<ChangeInfo>  toChangeInfos(
       List<ChangeData> changes,
-      Map<Change.Id, ChangeInfo> cache,
+      Map<ChangeData.UniqueId, ChangeInfo> cache,
       ImmutableListMultimap<Change.Id, PluginDefinedInfo> pluginInfosByChange) {
     try (Timer0.Context ignored = metrics.toChangeInfosLatency.start()) {
       List<ChangeInfo> changeInfos = new ArrayList<>(changes.size());
@@ -527,7 +527,7 @@ public class ChangeJson {
           }
           continue;
         }
-        ChangeInfo info = cache.get(cd.getId());
+        ChangeInfo info = cache.get(cd.getUniqueId());
         if (info != null && isCacheable) {
           changeInfos.add(info);
           continue;
@@ -539,7 +539,7 @@ public class ChangeJson {
           info = format(cd, Optional.empty(), false, pluginInfosByChange.get(cd.getId()));
           changeInfos.add(info);
           if (isCacheable) {
-            cache.put(Change.id(info._number), info);
+            cache.put(cd.getUniqueId(), info);
           }
         } catch (RuntimeException e) {
           Optional<RequestCancelledException> requestCancelledException =

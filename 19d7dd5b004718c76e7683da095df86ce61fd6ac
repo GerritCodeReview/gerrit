@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3de12804_be85e095",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 3228522
+      },
+      "writtenOn": "2024-01-31T02:00:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9cd9840_5ad64f8a",
+      "revId": "19d7dd5b004718c76e7683da095df86ce61fd6ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ba58f868_0b90be16",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-01-30T23:09:46Z",
       "side": 1,
       "message": "Looks like the Task will get discarded if it is not returned on line 476, at which point the runnable and period will no longer be in the delayMap. I suspect you should perform the delayMap.remove(runnable) before entering the for loop to ensure that it is not lost if the loop needs to iterate.",
+      "revId": "19d7dd5b004718c76e7683da095df86ce61fd6ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2f17b28_ba6b6d74",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 3228522
+      },
+      "writtenOn": "2024-01-31T02:00:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba58f868_0b90be16",
       "revId": "19d7dd5b004718c76e7683da095df86ce61fd6ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "60ceee2d_a3c05cfe",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 574,
+      "author": {
+        "id": 3228522
+      },
+      "writtenOn": "2024-01-31T02:00:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "630ea39f_402ce42a",
+      "revId": "19d7dd5b004718c76e7683da095df86ce61fd6ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d5e4b8b1_ee203815",
@@ -65,6 +119,24 @@
       "writtenOn": "2024-01-30T23:09:46Z",
       "side": 1,
       "message": "Simplify this function and use something like:\n\n this.period \u003d firstNonNull(period, 0L);",
+      "revId": "19d7dd5b004718c76e7683da095df86ce61fd6ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb176b29_714b8a47",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 627,
+      "author": {
+        "id": 3228522
+      },
+      "writtenOn": "2024-01-31T02:00:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d5e4b8b1_ee203815",
       "revId": "19d7dd5b004718c76e7683da095df86ce61fd6ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

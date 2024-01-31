@@ -46,7 +46,8 @@ export interface PageOptions {
 /**
  * The browser `History` API allows `pushState()` to contain an arbitrary state
  * object. Our router only sets `path` on the state and inspects it when
- * handling `popstate` events. This interface is internal only.
+ * handling `popstate` events. This interface is for internal use within the
+ * router.
  */
 interface PageState {
   path?: string;

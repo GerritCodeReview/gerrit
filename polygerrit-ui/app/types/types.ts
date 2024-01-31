@@ -30,7 +30,7 @@ export function isDefined<T>(x: T): x is NonNullable<T> {
 }
 
 export type {CoverageRange} from '../api/diff';
-export {CoverageType} from '../api/diff';
+export type {CoverageType} from '../api/diff';
 
 export enum ErrorType {
   AUTH = 'AUTH',

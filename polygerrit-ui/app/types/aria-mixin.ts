@@ -3,7 +3,7 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-export {};
+export type {};
 
 declare global {
   // The current version of lib.dom.d.ts doesn't contains AriaMixin definition,

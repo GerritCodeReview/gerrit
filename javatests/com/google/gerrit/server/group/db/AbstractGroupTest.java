@@ -46,7 +46,7 @@ import org.junit.Ignore;
 public class AbstractGroupTest {
   protected static final ZoneId ZONE_ID = ZoneId.of("America/Los_Angeles");
   protected static final String SERVER_ID = "server-id";
-  protected static final String SERVER_EMAIL = "noreply@gerritcodereview.com";
+  protected static final String SERVER_EMAIL = "noreply@example.com";
   protected static final int SERVER_ACCOUNT_NUMBER = 100000;
   protected static final int USER_ACCOUNT_NUMBER = 100001;
 

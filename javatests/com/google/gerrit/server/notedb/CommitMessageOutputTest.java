@@ -390,12 +390,11 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.putReviewerByEmail(
-        Address.create("John Doe", "j.doe@gerritcodereview.com"), ReviewerStateInternal.REVIEWER);
+        Address.create("John Doe", "j.doe@example.com"), ReviewerStateInternal.REVIEWER);
     update.commit();
 
     assertBodyEquals(
-        "Update patch set 1\n\nPatch-set: 1\n"
-            + "Reviewer-email: John Doe <j.doe@gerritcodereview.com>\n",
+        "Update patch set 1\n\nPatch-set: 1\n" + "Reviewer-email: John Doe <j.doe@example.com>\n",
         update.getResult());
   }
 
@@ -403,13 +402,11 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
   public void ccByEmail() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
-    update.putReviewerByEmail(
-        Address.create("j.doe@gerritcodereview.com"), ReviewerStateInternal.CC);
+    update.putReviewerByEmail(Address.create("j.doe@example.com"), ReviewerStateInternal.CC);
     update.commit();
 
     assertBodyEquals(
-        "Update patch set 1\n\nPatch-set: 1\nCC-email: j.doe@gerritcodereview.com\n",
-        update.getResult());
+        "Update patch set 1\n\nPatch-set: 1\nCC-email: j.doe@example.com\n", update.getResult());
   }
 
   private RevCommit parseCommit(ObjectId id) throws Exception {

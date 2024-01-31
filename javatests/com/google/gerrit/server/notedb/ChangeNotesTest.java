@@ -3676,7 +3676,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
   @Test
   public void putReviewerByEmail() throws Exception {
-    Address adr = Address.create("Foo Bar", "foo.bar@gerritcodereview.com");
+    Address adr = Address.create("Foo Bar", "foo.bar@example.com");
 
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
@@ -3689,7 +3689,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
   @Test
   public void putAndRemoveReviewerByEmail() throws Exception {
-    Address adr = Address.create("Foo Bar", "foo.bar@gerritcodereview.com");
+    Address adr = Address.create("Foo Bar", "foo.bar@example.com");
 
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
@@ -3706,7 +3706,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
   @Test
   public void putRemoveAndAddBackReviewerByEmail() throws Exception {
-    Address adr = Address.create("Foo Bar", "foo.bar@gerritcodereview.com");
+    Address adr = Address.create("Foo Bar", "foo.bar@example.com");
 
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
@@ -3727,8 +3727,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
   @Test
   public void putReviewerByEmailAndCcByEmail() throws Exception {
-    Address adrReviewer = Address.create("Foo Bar", "foo.bar@gerritcodereview.com");
-    Address adrCc = Address.create("Foo Bor", "foo.bar.2@gerritcodereview.com");
+    Address adrReviewer = Address.create("Foo Bar", "foo.bar@example.com");
+    Address adrCc = Address.create("Foo Bor", "foo.bar.2@example.com");
 
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
@@ -3749,7 +3749,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
   @Test
   public void putReviewerByEmailAndChangeToCc() throws Exception {
-    Address adr = Address.create("Foo Bar", "foo.bar@gerritcodereview.com");
+    Address adr = Address.create("Foo Bar", "foo.bar@example.com");
 
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
@@ -3805,8 +3805,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
   @Test
   public void pendingReviewers() throws Exception {
-    Address adr1 = Address.create("Foo Bar1", "foo.bar1@gerritcodereview.com");
-    Address adr2 = Address.create("Foo Bar2", "foo.bar2@gerritcodereview.com");
+    Address adr1 = Address.create("Foo Bar1", "foo.bar1@example.com");
+    Address adr2 = Address.create("Foo Bar2", "foo.bar2@example.com");
     Account.Id ownerId = changeOwner.getAccount().id();
     Account.Id otherUserId = otherUser.getAccount().id();
 

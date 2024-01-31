@@ -19,7 +19,7 @@ import {PageContext} from '../elements/core/gr-router/gr-page';
 import {waitUntil} from '../utils/async-util';
 export {query, queryAll, queryAndAssert} from '../utils/common-util';
 export {mockPromise, waitUntil} from '../utils/async-util';
-export type {MockPromise} from '../utils/async-util';
+export {MockPromise} from '../utils/async-util';
 
 export function isHidden(el: Element | undefined | null) {
   if (!el) return true;

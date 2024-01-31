@@ -24,7 +24,7 @@ import {
   SkipLength,
 } from '../api/diff';
 
-export type {
+export {
   ChangeType,
   DiffIntralineInfo,
   DiffResponsiveMode,

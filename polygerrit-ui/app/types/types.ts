@@ -29,7 +29,7 @@ export function isDefined<T>(x: T): x is NonNullable<T> {
   return x !== undefined && x !== null;
 }
 
-export type {CoverageRange} from '../api/diff';
+export {CoverageRange} from '../api/diff';
 export {CoverageType} from '../api/diff';
 
 export enum ErrorType {

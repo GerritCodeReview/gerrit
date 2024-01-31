@@ -125,7 +125,7 @@ import {
 import {DiffInfo, IgnoreWhitespaceType} from './diff';
 import {PatchRange, LineNumber} from '../api/diff';
 
-export type {
+export {
   AccountId,
   AccountDetailInfo,
   AccountInfo,

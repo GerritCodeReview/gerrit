@@ -1,0 +1,170 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1eeb6aef_f5313789",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-01-31T11:51:05Z",
+      "side": 1,
+      "message": "The commit message and/or the documentation should describe what happens when the existing but stale entries in the index.",
+      "revId": "95d190580a20ef8eee443fdd8c5ce8436dc02bcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6219d5a_bbc0fd84",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-01-31T11:51:05Z",
+      "side": 1,
+      "message": "did this happen only for the offline case?",
+      "range": {
+        "startLine": 13,
+        "startChar": 12,
+        "endLine": 14,
+        "endChar": 17
+      },
+      "revId": "95d190580a20ef8eee443fdd8c5ce8436dc02bcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db5c301d_dcf04b96",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 3491,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-01-31T11:51:05Z",
+      "side": 1,
+      "message": "Maybe `reuseExistingDocuments` is a better name as it describes the desired outcome?",
+      "range": {
+        "startLine": 3491,
+        "startChar": 37,
+        "endLine": 3491,
+        "endChar": 58
+      },
+      "revId": "95d190580a20ef8eee443fdd8c5ce8436dc02bcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c440bbc_909f7f0c",
+        "filename": "java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-01-31T11:51:05Z",
+      "side": 1,
+      "message": "I think that the `reuse...` name would be easier to read here:\n\n````\n  if (!reuseExistingDocuments) {\n    deleteAll();\n  }\n````  \n\nvs\n\n````\n  if (!skipExistingDocuments) {\n    deleteAll();\n  }\n````",
+      "revId": "95d190580a20ef8eee443fdd8c5ce8436dc02bcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3165188_a7ebe74b",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeIndexer.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-01-31T11:51:05Z",
+      "side": 1,
+      "message": "Why is the latest index `Optional`? IIUC, either `this.index` is not `null` or `this.indexes` is not `null`.\n\nAnyway, what would it mean to perform indexing when the latest write index is `null`. We shall rather fail immediately in that case?",
+      "range": {
+        "startLine": 275,
+        "startChar": 9,
+        "endLine": 275,
+        "endChar": 30
+      },
+      "revId": "95d190580a20ef8eee443fdd8c5ce8436dc02bcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "201fb928_a048c4d0",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeIndexer.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-01-31T11:51:05Z",
+      "side": 1,
+      "message": "`getLatestWriteIndex`",
+      "range": {
+        "startLine": 275,
+        "startChar": 31,
+        "endLine": 275,
+        "endChar": 45
+      },
+      "revId": "95d190580a20ef8eee443fdd8c5ce8436dc02bcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93a0de31_7ac9d0b4",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeIndexer.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-01-31T11:51:05Z",
+      "side": 1,
+      "message": "This should also be named `latestWriteIndex`, like this method is named.",
+      "range": {
+        "startLine": 386,
+        "startChar": 8,
+        "endLine": 386,
+        "endChar": 19
+      },
+      "revId": "95d190580a20ef8eee443fdd8c5ce8436dc02bcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "334d21b9_aeae40e6",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeIndexer.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 578,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-01-31T11:51:05Z",
+      "side": 1,
+      "message": "This index is not necessarily stale, I think this shall be just named `index`.",
+      "revId": "95d190580a20ef8eee443fdd8c5ce8436dc02bcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

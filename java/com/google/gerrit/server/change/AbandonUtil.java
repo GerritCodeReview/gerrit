@@ -40,7 +40,7 @@ public class AbandonUtil {
 
   private final ChangeCleanupConfig cfg;
   private final Provider<ChangeQueryProcessor> queryProvider;
-  private final ChangeQueryBuilder queryBuilder;
+  private final Provider<ChangeQueryBuilder> queryBuilderProvider;
   private final BatchAbandon batchAbandon;
   private final InternalUser internalUser;
 
@@ -49,11 +49,11 @@ public class AbandonUtil {
       ChangeCleanupConfig cfg,
       InternalUser.Factory internalUserFactory,
       Provider<ChangeQueryProcessor> queryProvider,
-      ChangeQueryBuilder queryBuilder,
+      Provider<ChangeQueryBuilder> queryBuilderProvider,
       BatchAbandon batchAbandon) {
     this.cfg = cfg;
     this.queryProvider = queryProvider;
-    this.queryBuilder = queryBuilder;
+    this.queryBuilderProvider = queryBuilderProvider;
     this.batchAbandon = batchAbandon;
     internalUser = internalUserFactory.create();
   }
@@ -71,7 +71,11 @@ public class AbandonUtil {
       }
 
       List<ChangeData> changesToAbandon =
-          queryProvider.get().enforceVisibility(false).query(queryBuilder.parse(query)).entities();
+          queryProvider
+              .get()
+              .enforceVisibility(false)
+              .query(queryBuilderProvider.get().parse(query))
+              .entities();
       ImmutableListMultimap.Builder<Project.NameKey, ChangeData> builder =
           ImmutableListMultimap.builder();
       for (ChangeData cd : changesToAbandon) {
@@ -111,7 +115,7 @@ public class AbandonUtil {
           queryProvider
               .get()
               .enforceVisibility(false)
-              .query(queryBuilder.parse(newQuery))
+              .query(queryBuilderProvider.get().parse(newQuery))
               .entities();
       if (!changesToAbandon.isEmpty()) {
         validChanges.add(cd);

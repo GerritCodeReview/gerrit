@@ -62,7 +62,7 @@ import java.util.Objects;
 @Singleton
 public class DeleteDraftCommentsUtil {
   private final BatchUpdate.Factory batchUpdateFactory;
-  private final ChangeQueryBuilder queryBuilder;
+  private final Provider<ChangeQueryBuilder> queryBuilderProvider;
   private final Provider<InternalChangeQuery> queryProvider;
   private final ChangeData.Factory changeDataFactory;
   private final ChangeJson.Factory changeJsonFactory;
@@ -75,7 +75,7 @@ public class DeleteDraftCommentsUtil {
   @Inject
   public DeleteDraftCommentsUtil(
       BatchUpdate.Factory batchUpdateFactory,
-      ChangeQueryBuilder queryBuilder,
+      Provider<ChangeQueryBuilder> queryBuilderProvider,
       Provider<InternalChangeQuery> queryProvider,
       ChangeData.Factory changeDataFactory,
       ChangeJson.Factory changeJsonFactory,
@@ -84,7 +84,7 @@ public class DeleteDraftCommentsUtil {
       DraftCommentsReader draftCommentsReader,
       PatchSetUtil psUtil) {
     this.batchUpdateFactory = batchUpdateFactory;
-    this.queryBuilder = queryBuilder;
+    this.queryBuilderProvider = queryBuilderProvider;
     this.queryProvider = queryProvider;
     this.changeDataFactory = changeDataFactory;
     this.changeJsonFactory = changeJsonFactory;
@@ -132,7 +132,7 @@ public class DeleteDraftCommentsUtil {
       return hasDraft;
     }
     try {
-      return Predicate.and(hasDraft, queryBuilder.parse(query));
+      return Predicate.and(hasDraft, queryBuilderProvider.get().parse(query));
     } catch (QueryParseException e) {
       throw new BadRequestException("Invalid query: " + e.getMessage(), e);
     }

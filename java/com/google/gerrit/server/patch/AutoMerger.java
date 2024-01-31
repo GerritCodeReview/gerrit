@@ -289,7 +289,7 @@ public class AutoMerger {
               merge.getParent(1),
               m.getMergeResults(),
               useDiff3);
-      logger.atSevere().log(
+      logger.atFine().log(
           "AutoMerge treeId=%s (with conflicts, inserter: %s, caller: %s)",
           treeId.name(), nonFlushingInserter, callerFinder.findCallerLazy());
     }

@@ -22,7 +22,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -164,7 +164,7 @@ public class AsciiDoctor {
     if (bazel) {
       renderFiles(inputFiles, null);
     } else {
-      try (ZipOutputStream zip = new ZipOutputStream(Files.newOutputStream(Paths.get(zipFile)))) {
+      try (ZipOutputStream zip = new ZipOutputStream(Files.newOutputStream(Path.of(zipFile)))) {
         renderFiles(inputFiles, zip);
 
         File[] cssFiles = tmpdir.listFiles((dir, name) -> name.endsWith(".css"));

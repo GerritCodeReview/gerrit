@@ -21,7 +21,6 @@ import com.google.common.flogger.FluentLogger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import org.eclipse.jgit.lib.Config;
 
 @Singleton
@@ -48,7 +47,7 @@ public class GitwebCgiConfig {
     }
 
     String cfgCgi = cfg.getString("gitweb", null, "cgi");
-    Path pkgCgi = Paths.get("/usr/lib/cgi-bin/gitweb.cgi");
+    Path pkgCgi = Path.of("/usr/lib/cgi-bin/gitweb.cgi");
     String[] resourcePaths = {
       "/usr/share/gitweb/static", "/usr/share/gitweb", "/var/www/static", "/var/www",
     };
@@ -96,7 +95,7 @@ public class GitwebCgiConfig {
     Path js = null;
     Path logo = null;
     for (String path : resourcePaths) {
-      Path dir = Paths.get(path);
+      Path dir = Path.of(path);
       css = dir.resolve("gitweb.css");
       js = dir.resolve("gitweb.js");
       logo = dir.resolve("git-logo.png");

@@ -33,7 +33,6 @@ import java.lang.management.ThreadMXBean;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
@@ -203,7 +202,7 @@ public class GetSummary implements RestReadView<ConfigResource> {
       // Ignored
     }
 
-    jvmSummary.currentWorkingDirectory = path(Paths.get(".").toAbsolutePath().getParent());
+    jvmSummary.currentWorkingDirectory = path(Path.of(".").toAbsolutePath().getParent());
     jvmSummary.site = path(sitePath);
     return jvmSummary;
   }

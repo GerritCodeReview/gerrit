@@ -20,7 +20,7 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.plugincontext.PluginContext.PluginMetrics;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -31,7 +31,7 @@ public class MailSoySauceLoaderTest {
 
   @Before
   public void setUp() throws Exception {
-    sitePaths = new SitePaths(Paths.get("."));
+    sitePaths = new SitePaths(Path.of("."));
     set = new DynamicSet<>();
   }
 

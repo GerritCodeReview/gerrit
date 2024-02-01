@@ -33,7 +33,7 @@ import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
 import com.google.template.soy.jbcsrc.api.SoySauce;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import javax.inject.Provider;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
@@ -41,7 +41,7 @@ import org.junit.Test;
 public class MailSoySauceModuleTest {
   @Test
   public void soySauceProviderReturnsCachedValue() throws Exception {
-    SitePaths sitePaths = new SitePaths(Paths.get("."));
+    SitePaths sitePaths = new SitePaths(Path.of("."));
     Injector injector =
         Guice.createInjector(
             new MailSoySauceModule(),

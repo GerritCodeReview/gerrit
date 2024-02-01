@@ -46,6 +46,30 @@
       },
       "revId": "a7199ae91ebb2641045be860cf6e71f3e3ac0610",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b62415b0_e39534e3",
+        "filename": "java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-02-01T15:12:24Z",
+      "side": 1,
+      "message": "\u003e If that becomes a warning on the error_log, it should be quite easy to disable it, in case the Gerrit admin is aware of it and wants to turn it off to avoid polluting the logs. The Gerrit logging facility would already give the possibility to turn it off.\n\n+1, I think that would work.",
+      "parentUuid": "856c2ebf_9a8b809c",
+      "range": {
+        "startLine": 265,
+        "startChar": 20,
+        "endLine": 265,
+        "endChar": 26
+      },
+      "revId": "a7199ae91ebb2641045be860cf6e71f3e3ac0610",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

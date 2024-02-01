@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.rest.change;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.extensions.client.ReviewerState.CC;
+import static com.google.gerrit.extensions.client.ReviewerState.REMOVED;
 import static com.google.gerrit.extensions.client.ReviewerState.REVIEWER;
 
 import com.google.common.collect.ImmutableList;
@@ -36,10 +37,12 @@ import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.ReviewerUpdateInfo;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 import java.lang.reflect.Type;
+import java.util.Iterator;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
@@ -92,28 +95,26 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
 
     ChangeInfo c = gApi.changes().id(changeId).get();
     assertThat(c.reviewerUpdates).isNotNull();
-    // TODO: expect 3 updates here once we create ReviewerStatusUpdate for reviewers by email, see
-    // TODO in ChangeNotesParser#parseReviewerByEmail.
-    assertThat(c.reviewerUpdates).hasSize(0);
+    assertThat(c.reviewerUpdates).hasSize(3);
 
-    // Iterator<ReviewerUpdateInfo> it = c.reviewerUpdates.iterator();
-    // ReviewerUpdateInfo reviewerUpdateInfo = it.next();
-    // assertThat(reviewerUpdateInfo.state).isEqualTo(CC);
-    // assertThat(reviewerUpdateInfo.reviewer._accountId).isNull();
-    // assertThat(reviewerUpdateInfo.reviewer.email).isEqualTo(acc.email);
-    // assertThat(reviewerUpdateInfo.updatedBy._accountId).isEqualTo(admin.id().get());
-    //
-    // reviewerUpdateInfo = it.next();
-    // assertThat(reviewerUpdateInfo.state).isEqualTo(REVIEWER);
-    // assertThat(reviewerUpdateInfo.reviewer._accountId).isNull();
-    // assertThat(reviewerUpdateInfo.reviewer.email).isEqualTo(acc.email);
-    // assertThat(reviewerUpdateInfo.updatedBy._accountId).isEqualTo(admin.id().get());
-    //
-    // reviewerUpdateInfo = it.next();
-    // assertThat(reviewerUpdateInfo.state).isEqualTo(REMOVED);
-    // assertThat(reviewerUpdateInfo.reviewer._accountId).isNull();
-    // assertThat(reviewerUpdateInfo.reviewer.email).isEqualTo(acc.email);
-    // assertThat(reviewerUpdateInfo.updatedBy._accountId).isEqualTo(admin.id().get());
+    Iterator<ReviewerUpdateInfo> it = c.reviewerUpdates.iterator();
+    ReviewerUpdateInfo reviewerUpdateInfo = it.next();
+    assertThat(reviewerUpdateInfo.state).isEqualTo(CC);
+    assertThat(reviewerUpdateInfo.reviewer._accountId).isNull();
+    assertThat(reviewerUpdateInfo.reviewer.email).isEqualTo(acc.email);
+    assertThat(reviewerUpdateInfo.updatedBy._accountId).isEqualTo(admin.id().get());
+
+    reviewerUpdateInfo = it.next();
+    assertThat(reviewerUpdateInfo.state).isEqualTo(REVIEWER);
+    assertThat(reviewerUpdateInfo.reviewer._accountId).isNull();
+    assertThat(reviewerUpdateInfo.reviewer.email).isEqualTo(acc.email);
+    assertThat(reviewerUpdateInfo.updatedBy._accountId).isEqualTo(admin.id().get());
+
+    reviewerUpdateInfo = it.next();
+    assertThat(reviewerUpdateInfo.state).isEqualTo(REMOVED);
+    assertThat(reviewerUpdateInfo.reviewer._accountId).isNull();
+    assertThat(reviewerUpdateInfo.reviewer.email).isEqualTo(acc.email);
+    assertThat(reviewerUpdateInfo.updatedBy._accountId).isEqualTo(admin.id().get());
   }
 
   @Test

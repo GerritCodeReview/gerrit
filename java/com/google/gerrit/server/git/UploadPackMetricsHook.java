@@ -40,6 +40,8 @@ public class UploadPackMetricsHook implements PostUploadHook {
   private final Timer1<Operation> counting;
   private final Timer1<Operation> compressing;
   private final Timer1<Operation> negotiating;
+  private final Timer1<Operation> searchingForReuse;
+  private final Timer1<Operation> searchingForSizes;
   private final Timer1<Operation> writing;
   private final Histogram1<Operation> packBytes;
 
@@ -81,6 +83,24 @@ public class UploadPackMetricsHook implements PostUploadHook {
                 .setUnit(Units.MILLISECONDS),
             operationField);
 
+    searchingForReuse =
+        metricMaker.newTimer(
+            "git/upload-pack/phase_searching_for_reuse",
+            new Description(
+                    "Time spent in the 'Finding sources...' while searching for reuse phase")
+                .setCumulative()
+                .setUnit(Units.MILLISECONDS),
+            operationField);
+
+    searchingForSizes =
+        metricMaker.newTimer(
+            "git/upload-pack/phase_searching_for_sizes",
+            new Description(
+                    "Time spent in the 'Finding sources...' while searching for sizes phase")
+                .setCumulative()
+                .setUnit(Units.MILLISECONDS),
+            operationField);
+
     writing =
         metricMaker.newTimer(
             "git/upload-pack/phase_writing",
@@ -109,6 +129,8 @@ public class UploadPackMetricsHook implements PostUploadHook {
     counting.record(op, stats.getTimeCounting(), MILLISECONDS);
     compressing.record(op, stats.getTimeCompressing(), MILLISECONDS);
     negotiating.record(op, stats.getTimeNegotiating(), MILLISECONDS);
+    searchingForReuse.record(op, stats.getTimeSearchingForReuse(), MILLISECONDS);
+    searchingForSizes.record(op, stats.getTimeSearchingForSizes(), MILLISECONDS);
     writing.record(op, stats.getTimeWriting(), MILLISECONDS);
     packBytes.record(op, stats.getTotalBytes());
   }

@@ -22,6 +22,30 @@
       },
       "revId": "4ca9f2f857335d44aa69765095b83cc307df311c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f27900f_7176b61f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1083,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-02-01T17:34:30Z",
+      "side": 1,
+      "message": "I can do it tomorrow in follow up change. I need to think about it more.",
+      "parentUuid": "e8adedc9_a80fbbe2",
+      "range": {
+        "startLine": 1077,
+        "startChar": 0,
+        "endLine": 1083,
+        "endChar": 3
+      },
+      "revId": "4ca9f2f857335d44aa69765095b83cc307df311c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

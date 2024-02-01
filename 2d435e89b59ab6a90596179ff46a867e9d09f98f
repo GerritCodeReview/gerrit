@@ -25,12 +25,9 @@
       "updated": "2024-02-01T18:08:11Z"
     },
     "gerritforge:rbe-a6a0e4682515f3521897c5f950d1394f4619d928": {
-      "state": "RUNNING",
-      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-pipeline/job/81%252F405581%252F10/1/console",
-      "started": "2024-02-01T21:01:10Z",
-      "finished": "2024-02-01T21:01:09Z",
+      "state": "NOT_STARTED",
       "created": "2024-02-01T18:00:17Z",
-      "updated": "2024-02-01T21:01:11Z"
+      "updated": "2024-02-01T23:16:38Z"
     }
   }
 }

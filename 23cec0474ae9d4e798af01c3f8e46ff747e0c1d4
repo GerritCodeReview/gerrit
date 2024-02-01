@@ -69,6 +69,24 @@
       "parentUuid": "a11da7a6_f222da2a",
       "revId": "23cec0474ae9d4e798af01c3f8e46ff747e0c1d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "29ccc77f_15c0c928",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083648
+      },
+      "writtenOn": "2024-02-01T14:48:35Z",
+      "side": 1,
+      "message": "OK, great, thanks! Sounds like a +1 from me won\u0027t count for that, either, but I\u0027ll give one while I\u0027m here.",
+      "parentUuid": "e30df3cc_1db10e0d",
+      "revId": "23cec0474ae9d4e798af01c3f8e46ff747e0c1d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

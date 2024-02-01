@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c8322dc_82f5c411",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-02-01T19:28:13Z",
+      "side": 1,
+      "message": "I intentionally copy code. It might be that I will remove v1, so I want to separate code from beginning.",
+      "revId": "8ce515b6f28fd07e9defb47dd80a09188e2aabd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

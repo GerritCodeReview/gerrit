@@ -70,7 +70,7 @@ import org.junit.Test;
 
 public class GroupNameNotesTest {
   private static final String SERVER_NAME = "Gerrit Server";
-  private static final String SERVER_EMAIL = "noreply@gerritcodereview.com";
+  private static final String SERVER_EMAIL = "noreply@example.com";
   private static final ZoneId ZONE_ID = ZoneId.of("America/Los_Angeles");
 
   private final AccountGroup.UUID groupUuid = AccountGroup.uuid("users-XYZ");

@@ -35,14 +35,14 @@ public class MailSenderIT extends AbstractMailIT {
   @Inject private SitePaths sitePaths;
 
   @Test
-  @GerritConfig(name = "sendemail.replyToAddress", value = "custom@gerritcodereview.com")
+  @GerritConfig(name = "sendemail.replyToAddress", value = "custom@example.com")
   @GerritConfig(name = "receiveemail.protocol", value = "POP3")
   public void outgoingMailHasCustomReplyToHeader() throws Exception {
     createChangeWithReview(user);
     // Check that the custom address was added as Reply-To
     assertThat(sender.getMessages()).hasSize(1);
     Map<String, EmailHeader> headers = sender.getMessages().iterator().next().headers();
-    assertThat(headerString(headers, "Reply-To")).isEqualTo("custom@gerritcodereview.com");
+    assertThat(headerString(headers, "Reply-To")).isEqualTo("custom@example.com");
   }
 
   @Test

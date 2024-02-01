@@ -39,7 +39,7 @@ public class MailHeaderParserTest {
     b.addAdditionalHeader(
         MailHeader.COMMENT_DATE.fieldWithDelimiter() + "Tue, 25 Oct 2016 02:11:35 -0700");
 
-    Address author = Address.create("Diffy", "test@gerritcodereview.com");
+    Address author = Address.create("Diffy", "test@example.com");
     b.from(author);
 
     MailMetadata meta = MailHeaderParser.parse(b.build());
@@ -72,7 +72,7 @@ public class MailHeaderParserTest {
         .append("Tue, 25 Oct 2016 02:11:35 -0700\r\n");
     b.textContent(stringBuilder.toString());
 
-    Address author = Address.create("Diffy", "test@gerritcodereview.com");
+    Address author = Address.create("Diffy", "test@example.com");
     b.from(author);
 
     MailMetadata meta = MailHeaderParser.parse(b.build());
@@ -113,7 +113,7 @@ public class MailHeaderParserTest {
         .append("</div>");
     b.htmlContent(stringBuilder.toString());
 
-    Address author = Address.create("Diffy", "test@gerritcodereview.com");
+    Address author = Address.create("Diffy", "test@example.com");
     b.from(author);
 
     MailMetadata meta = MailHeaderParser.parse(b.build());

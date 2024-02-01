@@ -54,7 +54,7 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
 
   @Test
   public void addByEmail() throws Exception {
-    AccountInfo acc = new AccountInfo("Foo Bar", "foo.bar@gerritcodereview.com");
+    AccountInfo acc = new AccountInfo("Foo Bar", "foo.bar@example.com");
 
     for (ReviewerState state : ImmutableList.of(ReviewerState.CC, ReviewerState.REVIEWER)) {
       PushOneCommit.Result r = createChange();
@@ -73,7 +73,7 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
 
   @Test
   public void addByEmailAndById() throws Exception {
-    AccountInfo byEmail = new AccountInfo("Foo Bar", "foo.bar@gerritcodereview.com");
+    AccountInfo byEmail = new AccountInfo("Foo Bar", "foo.bar@example.com");
     AccountInfo byId = new AccountInfo(user.id().get());
 
     for (ReviewerState state : ImmutableList.of(ReviewerState.CC, ReviewerState.REVIEWER)) {
@@ -98,7 +98,7 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
 
   @Test
   public void listReviewersByEmail() throws Exception {
-    AccountInfo acc = new AccountInfo("Foo Bar", "foo.bar@gerritcodereview.com");
+    AccountInfo acc = new AccountInfo("Foo Bar", "foo.bar@example.com");
 
     for (ReviewerState state : ImmutableList.of(ReviewerState.CC, ReviewerState.REVIEWER)) {
       PushOneCommit.Result r = createChange();
@@ -125,7 +125,7 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
 
   @Test
   public void removeByEmail() throws Exception {
-    AccountInfo acc = new AccountInfo("Foo Bar", "foo.bar@gerritcodereview.com");
+    AccountInfo acc = new AccountInfo("Foo Bar", "foo.bar@example.com");
 
     for (ReviewerState state : ImmutableList.of(ReviewerState.CC, ReviewerState.REVIEWER)) {
       PushOneCommit.Result r = createChange();
@@ -144,7 +144,7 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
 
   @Test
   public void convertFromCCToReviewer() throws Exception {
-    AccountInfo acc = new AccountInfo("Foo Bar", "foo.bar@gerritcodereview.com");
+    AccountInfo acc = new AccountInfo("Foo Bar", "foo.bar@example.com");
 
     PushOneCommit.Result r = createChange();
 
@@ -165,7 +165,7 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
 
   @Test
   public void addedReviewersGetNotified() throws Exception {
-    AccountInfo acc = new AccountInfo("Foo Bar", "foo.bar@gerritcodereview.com");
+    AccountInfo acc = new AccountInfo("Foo Bar", "foo.bar@example.com");
 
     for (ReviewerState state : ImmutableList.of(ReviewerState.CC, ReviewerState.REVIEWER)) {
       PushOneCommit.Result r = createChange();
@@ -184,7 +184,7 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
 
   @Test
   public void removingReviewerTriggersNotification() throws Exception {
-    AccountInfo acc = new AccountInfo("Foo Bar", "foo.bar@gerritcodereview.com");
+    AccountInfo acc = new AccountInfo("Foo Bar", "foo.bar@example.com");
 
     for (ReviewerState state : ImmutableList.of(ReviewerState.CC, ReviewerState.REVIEWER)) {
       PushOneCommit.Result r = createChange();
@@ -216,7 +216,7 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
 
   @Test
   public void reviewerAndCCReceiveRegularNotification() throws Exception {
-    AccountInfo acc = new AccountInfo("Foo Bar", "foo.bar@gerritcodereview.com");
+    AccountInfo acc = new AccountInfo("Foo Bar", "foo.bar@example.com");
 
     for (ReviewerState state : ImmutableList.of(ReviewerState.CC, ReviewerState.REVIEWER)) {
       PushOneCommit.Result r = createChange();
@@ -242,7 +242,7 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
     for (ReviewerState state : ImmutableList.of(ReviewerState.CC, ReviewerState.REVIEWER)) {
       for (int i = 0; i < 10; i++) {
         ReviewerInput input = new ReviewerInput();
-        input.reviewer = String.format("%s-%s@gerritcodereview.com", state, i);
+        input.reviewer = String.format("%s-%s@example.com", state, i);
         input.state = state;
         gApi.changes().id(r.getChangeId()).addReviewer(input);
       }
@@ -266,7 +266,7 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
     ReviewInput reviewInput = new ReviewInput();
     for (ReviewerState state : ImmutableList.of(ReviewerState.CC, ReviewerState.REVIEWER)) {
       for (int i = 0; i < 10; i++) {
-        reviewInput.reviewer(String.format("%s-%s@gerritcodereview.com", state, i), state, true);
+        reviewInput.reviewer(String.format("%s-%s@example.com", state, i), state, true);
       }
     }
     assertThat(reviewInput.reviewers).hasSize(20);
@@ -303,18 +303,18 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
 
     ReviewerResult result =
-        gApi.changes().id(r.getChangeId()).addReviewer("Foo Bar <foo.bar@gerritcodereview.com>");
+        gApi.changes().id(r.getChangeId()).addReviewer("Foo Bar <foo.bar@example.com>");
     assertThat(result.error)
         .isEqualTo(
-            "Account 'Foo Bar <foo.bar@gerritcodereview.com>' not found\n"
-                + "Foo Bar <foo.bar@gerritcodereview.com> does not identify a registered user or"
+            "Account 'Foo Bar <foo.bar@example.com>' not found\n"
+                + "Foo Bar <foo.bar@example.com> does not identify a registered user or"
                 + " group");
     assertThat(result.reviewers).isNull();
   }
 
   @Test
   public void reviewersByEmailAreServedFromIndex() throws Exception {
-    AccountInfo acc = new AccountInfo("Foo Bar", "foo.bar@gerritcodereview.com");
+    AccountInfo acc = new AccountInfo("Foo Bar", "foo.bar@example.com");
 
     for (ReviewerState state : ImmutableList.of(ReviewerState.CC, ReviewerState.REVIEWER)) {
       PushOneCommit.Result r = createChange();

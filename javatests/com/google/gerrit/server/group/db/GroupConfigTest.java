@@ -1064,7 +1064,7 @@ public class GroupConfigTest {
     groupConfig.setGroupDelta(groupDelta, auditLogFormatter);
 
     PersonIdent committerIdent =
-        new PersonIdent("Jane", "Jane@gerritcodereview.com", committerTimestamp, zoneId);
+        new PersonIdent("Jane", "Jane@example.com", committerTimestamp, zoneId);
     try (MetaDataUpdate metaDataUpdate = createMetaDataUpdate()) {
       metaDataUpdate.getCommitBuilder().setCommitter(committerIdent);
       groupConfig.commit(metaDataUpdate);
@@ -1095,8 +1095,7 @@ public class GroupConfigTest {
     GroupConfig groupConfig = GroupConfig.createForNewGroup(projectName, repository, groupCreation);
     groupConfig.setGroupDelta(groupDelta, auditLogFormatter);
 
-    PersonIdent authorIdent =
-        new PersonIdent("Jane", "Jane@gerritcodereview.com", authorTimestamp, zoneId);
+    PersonIdent authorIdent = new PersonIdent("Jane", "Jane@example.com", authorTimestamp, zoneId);
     try (MetaDataUpdate metaDataUpdate = createMetaDataUpdate()) {
       metaDataUpdate.getCommitBuilder().setAuthor(authorIdent);
       groupConfig.commit(metaDataUpdate);
@@ -1155,7 +1154,7 @@ public class GroupConfigTest {
     groupConfig.setGroupDelta(groupDelta, auditLogFormatter);
 
     PersonIdent committerIdent =
-        new PersonIdent("Jane", "Jane@gerritcodereview.com", committerTimestamp, zoneId);
+        new PersonIdent("Jane", "Jane@example.com", committerTimestamp, zoneId);
     try (MetaDataUpdate metaDataUpdate = createMetaDataUpdate()) {
       metaDataUpdate.getCommitBuilder().setCommitter(committerIdent);
       groupConfig.commit(metaDataUpdate);
@@ -1181,8 +1180,7 @@ public class GroupConfigTest {
     GroupConfig groupConfig = GroupConfig.loadForGroup(projectName, repository, groupUuid);
     groupConfig.setGroupDelta(groupDelta, auditLogFormatter);
 
-    PersonIdent authorIdent =
-        new PersonIdent("Jane", "Jane@gerritcodereview.com", authorTimestamp, zoneId);
+    PersonIdent authorIdent = new PersonIdent("Jane", "Jane@example.com", authorTimestamp, zoneId);
     try (MetaDataUpdate metaDataUpdate = createMetaDataUpdate()) {
       metaDataUpdate.getCommitBuilder().setAuthor(authorIdent);
       groupConfig.commit(metaDataUpdate);
@@ -1546,7 +1544,7 @@ public class GroupConfigTest {
 
   private MetaDataUpdate createMetaDataUpdate() {
     PersonIdent serverIdent =
-        new PersonIdent("Gerrit Server", "noreply@gerritcodereview.com", TimeUtil.now(), zoneId);
+        new PersonIdent("Gerrit Server", "noreply@example.com", TimeUtil.now(), zoneId);
 
     MetaDataUpdate metaDataUpdate =
         new MetaDataUpdate(

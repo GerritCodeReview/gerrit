@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb00d9de_86878024",
+        "filename": "java/com/google/gerrit/server/change/AbandonUtil.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-01T23:20:11Z",
+      "side": 1,
+      "message": "```suggestion\n      Provider\u003cChangeQueryBuilder\u003e queryBuilderProvider,\n```\n\nGuice doesn\u0027t know how to build the `Supplier\u003c\u003e`, therefore you should keep `Provider\u003c\u003e` here.",
+      "range": {
+        "startLine": 54,
+        "startChar": 6,
+        "endLine": 54,
+        "endChar": 14
+      },
+      "revId": "a2c8111cfb12944c64eb2068342173431431efbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4fb3467f_6abda403",
+        "filename": "java/com/google/gerrit/server/change/AbandonUtil.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-01T23:20:11Z",
+      "side": 1,
+      "message": "```suggestion\n    this.queryBuilderSupplier \u003d Suppliers.memoize(queryBuilderProvider);\n```",
+      "range": {
+        "startLine": 58,
+        "startChar": 62,
+        "endLine": 58,
+        "endChar": 70
+      },
+      "revId": "a2c8111cfb12944c64eb2068342173431431efbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

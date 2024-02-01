@@ -36,7 +36,6 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.security.CodeSource;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -706,7 +705,7 @@ public final class GerritLauncher {
     Path dir;
     String sourceRoot = System.getProperty("sourceRoot");
     if (sourceRoot != null) {
-      dir = Paths.get(sourceRoot);
+      dir = Path.of(sourceRoot);
       if (!Files.exists(dir)) {
         throw new FileNotFoundException("source root not found: " + dir);
       }
@@ -729,7 +728,7 @@ public final class GerritLauncher {
       }
 
       // Pop up to the top-level source folder by looking for WORKSPACE.
-      dir = Paths.get(u.getPath());
+      dir = Path.of(u.getPath());
       while (!Files.isRegularFile(dir.resolve("WORKSPACE"))) {
         Path parent = dir.getParent();
         if (parent == null) {
@@ -756,7 +755,7 @@ public final class GerritLauncher {
       Path rootPath = resolveInSourceRoot(".").normalize();
 
       Properties properties = loadBuildProperties(rootPath.resolve(".bazel_path"));
-      Path outputBase = Paths.get(properties.getProperty("output_base"));
+      Path outputBase = Path.of(properties.getProperty("output_base"));
 
       Path runtimeClasspath =
           rootPath.resolve("bazel-bin/tools/eclipse/main_classpath_collect.runtime_classpath");

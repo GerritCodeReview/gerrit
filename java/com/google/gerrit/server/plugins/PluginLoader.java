@@ -48,7 +48,6 @@ import java.io.InputStream;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.AbstractMap;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -716,7 +715,7 @@ public class PluginLoader implements LifecycleListener {
                 + " another plugin <%s>"
                 + " with the same name <%s> already exists",
             loser, winner, plugin);
-        Path disabledPlugin = Paths.get(loser + ".disabled");
+        Path disabledPlugin = Path.of(loser + ".disabled");
         elementsToAdd.add(disabledPlugin);
         elementsToRemove.add(loser);
         try {

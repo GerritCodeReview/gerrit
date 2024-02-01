@@ -25,7 +25,6 @@ import com.google.gerrit.server.config.RepositoryConfig;
 import com.google.gerrit.server.config.SitePaths;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.NavigableSet;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
@@ -156,7 +155,7 @@ public class MultiBaseLocalDiskRepositoryManagerTest {
         IllegalStateException.class,
         () -> {
           configMock = mock(RepositoryConfig.class);
-          when(configMock.getAllBasePaths()).thenReturn(ImmutableList.of(Paths.get("repos")));
+          when(configMock.getAllBasePaths()).thenReturn(ImmutableList.of(Path.of("repos")));
           repoManager = new MultiBaseLocalDiskRepositoryManager(site, cfg, configMock);
         });
   }

@@ -16,7 +16,6 @@ package com.google.gerrit.testing;
 
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.util.concurrent.MoreExecutors.newDirectExecutorService;
-import static com.google.gerrit.server.Sequence.LightweightGroups;
 import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.common.base.Strings;
@@ -47,6 +46,7 @@ import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.LibModuleType;
 import com.google.gerrit.server.PluginUser;
 import com.google.gerrit.server.Sequence;
+import com.google.gerrit.server.Sequence.LightweightGroups;
 import com.google.gerrit.server.account.AccountCacheImpl;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.storage.notedb.AccountNoteDbReadStorageModule;
@@ -135,7 +135,6 @@ import com.google.inject.util.Providers;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
@@ -228,7 +227,7 @@ public class InMemoryModule extends FactoryModule {
 
     // It would be nice to use Jimfs for the SitePath, but the biggest blocker is that JGit does not
     // support Path-based Configs, only FileBasedConfig.
-    bind(Path.class).annotatedWith(SitePath.class).toInstance(Paths.get("."));
+    bind(Path.class).annotatedWith(SitePath.class).toInstance(Path.of("."));
     bind(Config.class).annotatedWith(GerritServerConfig.class).toInstance(cfg);
     bind(GerritOptions.class).toInstance(new GerritOptions(false, false));
     bind(AllProjectsConfigProvider.class).to(FileBasedAllProjectsConfigProvider.class);

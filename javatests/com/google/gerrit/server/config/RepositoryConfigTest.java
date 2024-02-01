@@ -21,7 +21,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.client.SubmitType;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Before;
@@ -191,7 +190,7 @@ public class RepositoryConfigTest {
   public void allBasePath() {
     ImmutableList<Path> allBasePaths =
         ImmutableList.of(
-            Paths.get("/someBasePath1"), Paths.get("/someBasePath2"), Paths.get("/someBasePath2"));
+            Path.of("/someBasePath1"), Path.of("/someBasePath2"), Path.of("/someBasePath2"));
 
     configureBasePath("*", allBasePaths.get(0).toString());
     configureBasePath("project/*", allBasePaths.get(1).toString());

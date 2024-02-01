@@ -30,7 +30,6 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -131,7 +130,7 @@ public class JarPluginProvider implements ServerPluginProvider {
       List<URL> urls = new ArrayList<>(2);
       String overlay = System.getProperty("gerrit.plugin-classes");
       if (overlay != null) {
-        Path classes = Paths.get(overlay).resolve(name).resolve("main");
+        Path classes = Path.of(overlay).resolve(name).resolve("main");
         if (Files.isDirectory(classes)) {
           logger.atInfo().log("plugin %s: including %s", name, classes);
           urls.add(classes.toUri().toURL());

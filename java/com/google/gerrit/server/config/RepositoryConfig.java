@@ -58,7 +58,7 @@ public class RepositoryConfig {
   @Nullable
   public Path getBasePath(Project.NameKey project) {
     String basePath = cfg.getString(SECTION_NAME, findSubSection(project.get()), BASE_PATH_NAME);
-    return basePath != null ? Paths.get(basePath) : null;
+    return basePath != null ? Path.of(basePath) : null;
   }
 
   public ImmutableList<Path> getAllBasePaths() {

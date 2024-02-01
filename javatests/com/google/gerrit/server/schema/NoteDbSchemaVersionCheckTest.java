@@ -24,7 +24,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
 import com.google.inject.ProvisionException;
 import java.io.IOException;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Before;
 import org.junit.Test;
@@ -41,7 +41,7 @@ public class NoteDbSchemaVersionCheckTest {
     versionManager = new NoteDbSchemaVersionManager(allProjectsName, repoManager);
     testRefAction(() -> versionManager.init());
 
-    sitePaths = new SitePaths(Paths.get("/tmp/foo"));
+    sitePaths = new SitePaths(Path.of("/tmp/foo"));
   }
 
   @Test

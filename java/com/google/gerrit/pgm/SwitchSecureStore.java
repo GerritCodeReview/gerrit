@@ -31,7 +31,6 @@ import com.google.inject.Injector;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.jar.JarFile;
@@ -63,7 +62,7 @@ public class SwitchSecureStore extends SiteProgram {
   @Override
   public int run() throws Exception {
     SitePaths sitePaths = new SitePaths(getSitePath());
-    Path newSecureStorePath = Paths.get(newSecureStoreLib);
+    Path newSecureStorePath = Path.of(newSecureStoreLib);
     if (!Files.exists(newSecureStorePath)) {
       logger.atSevere().log("File %s doesn't exist", newSecureStorePath.toAbsolutePath());
       return -1;

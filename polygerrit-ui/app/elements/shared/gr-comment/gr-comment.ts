@@ -1105,6 +1105,8 @@ export class GrComment extends LitElement {
     this.generatedSuggestionId = uuid();
     this.reporting.reportInteraction(Interaction.GENERATE_SUGGESTION_REQUEST, {
       uuid: this.generatedSuggestionId,
+      type: 'suggest-code',
+      commentId: this.comment.id,
     });
     this.suggestionLoading = true;
     let suggestionResponse;

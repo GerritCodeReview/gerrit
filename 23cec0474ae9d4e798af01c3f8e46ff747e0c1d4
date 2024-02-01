@@ -33,6 +33,24 @@
       "message": "I see a failure for \"RBE BB Build/Tests,\" but the link (https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-chrome-latest/368/console) shows a 404 for me.\n\nI had tried building locally with `bazelisk build -k //...`, but that failed even at head (with a TypeScript error, I believe). I don\u0027t know if I have a problem with my client (an old one, but I\u0027d run `git submodule update`) or with my testing strategy or if the breakage is expected.\n\nLet me know if there\u0027s anything broken that I should be looking at.",
       "revId": "23cec0474ae9d4e798af01c3f8e46ff747e0c1d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3f9232b_8f965519",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083648
+      },
+      "writtenOn": "2024-02-01T14:44:43Z",
+      "side": 1,
+      "message": "(I pressed RERUN, but that moved the check to the \"Not Run\" section, and it seems to be staying that way? I tried its new RUN button, but that doesn\u0027t seem to have done anything, either.)",
+      "parentUuid": "a11da7a6_f222da2a",
+      "revId": "23cec0474ae9d4e798af01c3f8e46ff747e0c1d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

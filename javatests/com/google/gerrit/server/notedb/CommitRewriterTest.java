@@ -509,10 +509,10 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     Instant updateTimestamp = serverIdent.getWhenAsInstant();
     ImmutableList<ReviewerStatusUpdate> expectedReviewerUpdates =
         ImmutableList.of(
-            ReviewerStatusUpdate.create(
+            ReviewerStatusUpdate.createForReviewer(
                 updateTimestamp, changeOwner.getAccountId(), otherUserId, REVIEWER),
-            ReviewerStatusUpdate.create(updateTimestamp, otherUserId, otherUserId, CC),
-            ReviewerStatusUpdate.create(
+            ReviewerStatusUpdate.createForReviewer(updateTimestamp, otherUserId, otherUserId, CC),
+            ReviewerStatusUpdate.createForReviewer(
                 updateTimestamp, changeOwner.getAccountId(), otherUserId, REMOVED));
     ChangeNotes notesAfterRewrite = newNotes(c);
 
@@ -593,13 +593,13 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     Instant updateTimestamp = serverIdent.getWhenAsInstant();
     ImmutableList<ReviewerStatusUpdate> expectedReviewerUpdates =
         ImmutableList.of(
-            ReviewerStatusUpdate.create(
+            ReviewerStatusUpdate.createForReviewer(
                 addReviewerUpdate.when, changeOwner.getAccountId(), otherUserId, REVIEWER),
-            ReviewerStatusUpdate.create(
+            ReviewerStatusUpdate.createForReviewer(
                 updateTimestamp, changeOwner.getAccountId(), otherUserId, REMOVED),
-            ReviewerStatusUpdate.create(
+            ReviewerStatusUpdate.createForReviewer(
                 addCcUpdate.when, changeOwner.getAccountId(), otherUserId, CC),
-            ReviewerStatusUpdate.create(
+            ReviewerStatusUpdate.createForReviewer(
                 updateTimestamp, changeOwner.getAccountId(), otherUserId, REMOVED));
     ChangeNotes notesAfterRewrite = newNotes(c);
 

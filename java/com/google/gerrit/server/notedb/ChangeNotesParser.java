@@ -442,10 +442,21 @@ class ChangeNotesParser {
   private List<ReviewerStatusUpdate> buildReviewerUpdates() {
     List<ReviewerStatusUpdate> result = new ArrayList<>();
     HashMap<Account.Id, ReviewerStateInternal> lastState = new HashMap<>();
+    HashMap<Address, ReviewerStateInternal> lastStateReviewerByEmail = new HashMap<>();
     for (ReviewerStatusUpdate u : Lists.reverse(reviewerUpdates)) {
-      if (!Objects.equals(ownerId, u.reviewer()) && lastState.get(u.reviewer()) != u.state()) {
-        result.add(u);
-        lastState.put(u.reviewer(), u.state());
+      if (u.reviewer().isPresent()) {
+        if (!Objects.equals(ownerId, u.reviewer().get())
+            && lastState.get(u.reviewer().get()) != u.state()) {
+          result.add(u);
+          lastState.put(u.reviewer().get(), u.state());
+        }
+      }
+
+      if (u.reviewerByEmail().isPresent()) {
+        if (lastStateReviewerByEmail.get(u.reviewerByEmail().get()) != u.state()) {
+          result.add(u);
+          lastStateReviewerByEmail.put(u.reviewerByEmail().get(), u.state());
+        }
       }
     }
     return result;
@@ -1233,7 +1244,8 @@ class ChangeNotesParser {
       throw invalidFooter(state.getFooterKey(), line);
     }
     Account.Id accountId = parseIdent(ident);
-    ReviewerStatusUpdate update = ReviewerStatusUpdate.create(ts, ownerId, accountId, state);
+    ReviewerStatusUpdate update =
+        ReviewerStatusUpdate.createForReviewer(ts, ownerId, accountId, state);
     reviewerUpdates.add(update);
     if (update.state() == ReviewerStateInternal.REMOVED) {
       removedReviewers.add(accountId);
@@ -1254,6 +1266,9 @@ class ChangeNotesParser {
       cie.initCause(e);
       throw cie;
     }
+    // TODO: Create ReviewerStatusUpdate for reviewers by email only once the code that can handle
+    // such ReviewerStatusUpdate's has been rolled out to all data centers.
+    // reviewerUpdates.add(ReviewerStatusUpdate.createForReviewerByEmail(ts, ownerId, adr, state));
     if (!reviewersByEmail.containsRow(adr)) {
       reviewersByEmail.put(adr, state, ts);
     }

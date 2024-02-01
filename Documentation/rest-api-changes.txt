@@ -8585,8 +8585,10 @@ Timestamp of the update.
 The account which modified state of the reviewer in question as
 link:rest-api-accounts.html#account-info[AccountInfo] entity.
 |`reviewer`|
-The reviewer account added or removed from the change as an
-link:rest-api-accounts.html#account-info[AccountInfo] entity.
+The reviewer added or removed from the change as an
+link:rest-api-accounts.html#account-info[AccountInfo] entity. For
+reviewers by email the `AccountInfo` doesn't contain an account ID but
+only the email and optionally a name.
 |`state`|
 The reviewer state, one of `REVIEWER`, `CC` or `REMOVED`.
 |===========================

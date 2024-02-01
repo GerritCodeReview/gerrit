@@ -19,7 +19,7 @@ import {when} from 'lit/directives/when.js';
 import {GrSyntaxLayerWorker} from '../../../embed/diff/gr-syntax-layer/gr-syntax-layer-worker';
 import {resolve} from '../../../models/dependency';
 import {highlightServiceToken} from '../../../services/highlight/highlight-service';
-import {NumericChangeId} from '../../../api/rest-api';
+import {FixReplacementInfo, NumericChangeId} from '../../../api/rest-api';
 import {changeModelToken} from '../../../models/change/change-model';
 import {subscribe} from '../../lit/subscription-controller';
 import {FilePreview} from '../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog';
@@ -43,10 +43,19 @@ export interface OpenUserSuggestionPreviewEventDetail {
   code: string;
 }
 
+/**
+ * Diff preview for
+ * 1. suggestion vs commented Text
+ * or 2. fixReplacementInfos
+ * that are attached to a comment.
+ */
 @customElement('gr-suggestion-diff-preview')
 export class GrSuggestionDiffPreview extends LitElement {
   @property({type: String})
   suggestion?: string;
+
+  @property({type: Object})
+  fixReplacementInfos?: FixReplacementInfo[];
 
   @property({type: Boolean})
   showAddSuggestionButton = false;
@@ -64,7 +73,7 @@ export class GrSuggestionDiffPreview extends LitElement {
   layers: DiffLayer[] = [];
 
   @state()
-  previewLoadedFor?: string;
+  previewLoadedFor?: string | FixReplacementInfo[];
 
   @state() repo?: RepoName;
 
@@ -167,10 +176,16 @@ export class GrSuggestionDiffPreview extends LitElement {
         this.fetchFixPreview();
       }
     }
+
+    if (changed.has('changeNum') || changed.has('comment')) {
+      if (this.previewLoadedFor !== this.fixReplacementInfos) {
+        this.fetchFixReplacementInfosPreview();
+      }
+    }
   }
 
   override render() {
-    if (!this.suggestion) return nothing;
+    if (!this.suggestion && !this.fixReplacementInfos) return nothing;
     const code = this.suggestion;
     return html`
       ${when(
@@ -239,6 +254,45 @@ export class GrSuggestionDiffPreview extends LitElement {
     if (currentPreviews.length > 0) {
       this.preview = currentPreviews[0];
       this.previewLoadedFor = this.suggestion;
+    }
+
+    return res;
+  }
+
+  private async fetchFixReplacementInfosPreview() {
+    if (
+      this.suggestion ||
+      !this.changeNum ||
+      !this.comment?.patch_set ||
+      !this.fixReplacementInfos
+    )
+      return;
+
+    // TODO(milutin): Temporary fix path
+    const replacements = this.fixReplacementInfos.map(fixInfo => {
+      return {
+        ...fixInfo,
+        path: this.comment?.path ?? fixInfo.path,
+      };
+    });
+
+    this.reporting.time(Timing.PREVIEW_FIX_LOAD);
+    const res = await this.restApiService.getFixPreview(
+      this.changeNum,
+      this.comment?.patch_set,
+      replacements
+    );
+
+    if (!res) return;
+    const currentPreviews = Object.keys(res).map(key => {
+      return {filepath: key, preview: res[key]};
+    });
+    this.reporting.timeEnd(Timing.PREVIEW_FIX_LOAD, {
+      uuid: this.uuid,
+    });
+    if (currentPreviews.length > 0) {
+      this.preview = currentPreviews[0];
+      this.previewLoadedFor = this.fixReplacementInfos;
     }
 
     return res;

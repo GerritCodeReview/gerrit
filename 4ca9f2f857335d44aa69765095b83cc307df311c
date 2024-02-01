@@ -1,5 +1,29 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8adedc9_a80fbbe2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1083,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-02-01T17:30:27Z",
+      "side": 1,
+      "message": "It would be incorrect to show (0) when we don\u0027t generate suggestion at all.\nI would return empty string when !this.generateSuggestion\n\n```suggestion\n  private getNumberOfSuggestions() {\n    if (!this.generateSuggestion) {\n      return \u0027\u0027;\n    }\n    if (this.generatedSuggestion) {\n      return \u0027(1)\u0027;\n    } else {\n      return \u0027(0)\u0027;\n    }\n  }\n```",
+      "range": {
+        "startLine": 1077,
+        "startChar": 0,
+        "endLine": 1083,
+        "endChar": 3
+      },
+      "revId": "4ca9f2f857335d44aa69765095b83cc307df311c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

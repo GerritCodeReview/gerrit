@@ -33,6 +33,24 @@
       "message": "After running I66677d91c on GerritHub.io, I have observed that roughly 9% of the notedb updates are going through the cached note-map.\n\nHence, this change is a performance regression IMHO.",
       "revId": "068b770d982c0aefdf93bde49513cdc02521147b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f67dbfa6_ba654312",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-02-01T10:34:44Z",
+      "side": 1,
+      "message": "Let\u0027s step back and recap where we\u0027re right now and what we\u0027re trying to fix.\n\nWith change I5904dc46, we ensure that `comment.author.id` and `comment.serverId` are always in sync. We also know that there\u0027s _roughly a 9%_ chance that a commit to NoteDb, may contain _unrelated changes_ (where \"unrelated\" means that they\u0027re not mentioned in the commit message). This will **only** happen when one of those _roughly 9%_ changes happens to be migrated from another Gerrit instance.\n\nThe _unrelated changes_ to `comment.author.id` and `comment.serverId` will occur randomly, depending on the `change_notes` cache configuration and server load.\n\nIn the current state of `stable-3.7`, the UI will always present the proper comment author, and the data in the `/meta` branch will be consistent. The only downside is those random _unrelated changes_ in the history of the `/meta` branch.\n\nIMO, we should track this as a separate ticket, as the UI breakage is now fixed with change I5904dc46.\n\nI see two different types of solutions here:\n1. make sure that `ChangeNotesCache.Loader#revisionNoteMap` is the same as in git (not migrated),\n2. migrate change notes either by the usage of the site program or REST endpoint or as a side action when they are read",
+      "parentUuid": "ae9ecf34_26fb5654",
+      "revId": "068b770d982c0aefdf93bde49513cdc02521147b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import org.apache.log4j.LogManager;
@@ -52,7 +53,7 @@ public class ListLoggingLevelCommand extends SshCommand {
   }
 
   @SuppressWarnings({"unchecked", "JdkObsolete"})
-  private static Iterable<Logger> getCurrentLoggers() {
+  private static List<Logger> getCurrentLoggers() {
     return Collections.list(LogManager.getCurrentLoggers());
   }
 }

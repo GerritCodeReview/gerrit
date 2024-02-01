@@ -771,7 +771,7 @@ class GitwebServlet extends HttpServlet {
   }
 
   @SuppressWarnings("JdkObsolete")
-  private static Iterable<String> getHeaderNames(HttpServletRequest req) {
+  private static List<String> getHeaderNames(HttpServletRequest req) {
     return Collections.list(req.getHeaderNames());
   }
 

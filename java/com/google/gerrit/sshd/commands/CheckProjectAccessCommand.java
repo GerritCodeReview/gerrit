@@ -14,8 +14,10 @@
 
 package com.google.gerrit.sshd.commands;
 
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -31,8 +33,6 @@ import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
-import java.util.Set;
-import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.kohsuke.args4j.Option;
 
@@ -96,14 +96,14 @@ public class CheckProjectAccessCommand extends SshCommand {
     }
   }
 
-  private Set<IdentifiedUser> getUserList(String userName)
+  private ImmutableSet<IdentifiedUser> getUserList(String userName)
       throws ConfigInvalidException, IOException, ResourceNotFoundException {
-    return getIdList(userName).stream().map(userFactory::create).collect(Collectors.toSet());
+    return getIdList(userName).stream().map(userFactory::create).collect(toImmutableSet());
   }
 
-  private Set<Account.Id> getIdList(String userName)
+  private ImmutableSet<Account.Id> getIdList(String userName)
       throws ConfigInvalidException, IOException, ResourceNotFoundException {
-    Set<Account.Id> idList = accountResolver.resolve(userName).asIdSet();
+    ImmutableSet<Account.Id> idList = accountResolver.resolve(userName).asIdSet();
     if (idList.isEmpty()) {
       throw new ResourceNotFoundException(
           "No accounts found for your query: \""

@@ -24,6 +24,7 @@ import com.google.gerrit.sshd.SshCommand;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Collections;
+import java.util.List;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -86,7 +87,7 @@ public class SetLoggingLevelCommand extends SshCommand {
   }
 
   @SuppressWarnings({"unchecked", "JdkObsolete"})
-  private static Iterable<Logger> getCurrentLoggers() {
+  private static List<Logger> getCurrentLoggers() {
     return Collections.list(LogManager.getCurrentLoggers());
   }
 }

@@ -21,7 +21,6 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.proto.Entities;
 import com.google.protobuf.Parser;
 import java.time.Instant;
-import java.util.List;
 import org.eclipse.jgit.lib.ObjectId;
 
 @Immutable
@@ -45,7 +44,7 @@ public enum PatchSetProtoConverter implements ProtoConverter<Entities.PatchSet, 
             .setRealUploaderAccountId(accountIdConverter.toProto(patchSet.realUploader()))
             .setCreatedOn(patchSet.createdOn().toEpochMilli());
     patchSet.branch().ifPresent(builder::setBranch);
-    List<String> groups = patchSet.groups();
+    ImmutableList<String> groups = patchSet.groups();
     if (!groups.isEmpty()) {
       builder.setGroups(PatchSet.joinGroups(groups));
     }

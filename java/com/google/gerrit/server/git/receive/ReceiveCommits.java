@@ -2394,7 +2394,7 @@ class ReceiveCommits {
           globalRevWalk.parseBody(c);
           String name = c.name();
           groupCollector.visit(c);
-          Collection<PatchSet.Id> existingPatchSets =
+          ImmutableList<PatchSet.Id> existingPatchSets =
               receivePackRefCache.patchSetIdsFromObjectId(c);
 
           if (rejectImplicitMerges) {
@@ -2578,7 +2578,7 @@ class ReceiveCommits {
       }
 
       SortedSetMultimap<ObjectId, String> groups = groupCollector.getGroups();
-      List<Integer> newIds = seq.nextChangeIds(newChanges.size());
+      ImmutableList<Integer> newIds = seq.nextChangeIds(newChanges.size());
       for (int i = 0; i < newChanges.size(); i++) {
         CreateRequest create = newChanges.get(i);
         create.setChangeId(newIds.get(i));
@@ -2754,7 +2754,7 @@ class ReceiveCommits {
     Change.Id changeId;
     ReceiveCommand cmd;
     ChangeInserter ins;
-    List<String> groups = ImmutableList.of();
+    ImmutableList<String> groups = ImmutableList.of();
 
     Change change;
 
@@ -2952,7 +2952,7 @@ class ReceiveCommits {
     ReceiveCommand cmd;
     PatchSetInfo info;
     PatchSet.Id priorPatchSet;
-    List<String> groups = ImmutableList.of();
+    ImmutableList<String> groups = ImmutableList.of();
     ReplaceOp replaceOp;
 
     ReplaceRequest(
@@ -3085,7 +3085,7 @@ class ReceiveCommits {
           return false;
         }
 
-        List<PatchSet.Id> existingPatchSetsWithSameCommit =
+        ImmutableList<PatchSet.Id> existingPatchSetsWithSameCommit =
             receivePackRefCache.patchSetIdsFromObjectId(newCommit);
         if (!existingPatchSetsWithSameCommit.isEmpty()) {
           // TODO(hiesel, hanwen): Remove this check entirely when Gerrit requires change IDs

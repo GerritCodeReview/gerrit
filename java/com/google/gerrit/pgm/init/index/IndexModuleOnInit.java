@@ -15,9 +15,9 @@
 package com.google.gerrit.pgm.init.index;
 
 import com.google.common.collect.FluentIterable;
-import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.index.IndexDefinition;
 import com.google.gerrit.index.SchemaDefinitions;
@@ -40,12 +40,11 @@ import com.google.inject.name.Names;
 import com.google.inject.util.Providers;
 import java.util.Collection;
 import java.util.Map;
-import java.util.Set;
 
 public class IndexModuleOnInit extends AbstractModule {
   static final String INDEX_MANAGER = "IndexModuleOnInit/IndexManager";
 
-  private static final ImmutableCollection<SchemaDefinitions<?>> ALL_SCHEMA_DEFS =
+  private static final ImmutableList<SchemaDefinitions<?>> ALL_SCHEMA_DEFS =
       ImmutableList.of(AccountSchemaDefinitions.INSTANCE, GroupSchemaDefinitions.INSTANCE);
 
   @Override
@@ -83,10 +82,11 @@ public class IndexModuleOnInit extends AbstractModule {
   @Provides
   Collection<IndexDefinition<?, ?, ?>> getIndexDefinitions(
       AccountIndexDefinition accounts, GroupIndexDefinition groups) {
-    Collection<IndexDefinition<?, ?, ?>> result = ImmutableList.of(accounts, groups);
-    Set<String> expected =
+    ImmutableList<IndexDefinition<?, ?, ?>> result = ImmutableList.of(accounts, groups);
+    ImmutableSet<String> expected =
         FluentIterable.from(ALL_SCHEMA_DEFS).transform(SchemaDefinitions::getName).toSet();
-    Set<String> actual = FluentIterable.from(result).transform(IndexDefinition::getName).toSet();
+    ImmutableSet<String> actual =
+        FluentIterable.from(result).transform(IndexDefinition::getName).toSet();
     if (!expected.equals(actual)) {
       throw new ProvisionException(
           "need index definitions for all schemas: " + expected + " != " + actual);

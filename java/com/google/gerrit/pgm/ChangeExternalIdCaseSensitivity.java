@@ -14,6 +14,7 @@
 
 package com.google.gerrit.pgm;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
@@ -35,7 +36,6 @@ import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import java.io.IOException;
-import java.util.Collection;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ProgressMonitor;
@@ -108,7 +108,7 @@ public class ChangeExternalIdCaseSensitivity extends SiteProgram {
       return 0;
     }
 
-    Collection<ExternalId> todo = externalIds.all();
+    ImmutableSet<ExternalId> todo = externalIds.all();
     monitor.beginTask("Converting external ID note names", todo.size());
 
     manager.start();

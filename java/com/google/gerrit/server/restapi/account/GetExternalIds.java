@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.account;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.common.AccountExternalIdInfo;
@@ -35,7 +36,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -71,7 +71,7 @@ public class GetExternalIds implements RestReadView<AccountResource> {
       permissionBackend.currentUser().check(GlobalPermission.MODIFY_ACCOUNT);
     }
 
-    Collection<ExternalId> ids = externalIds.byAccount(resource.getUser().getAccountId());
+    ImmutableSet<ExternalId> ids = externalIds.byAccount(resource.getUser().getAccountId());
     if (ids.isEmpty()) {
       return Response.ok(ImmutableList.of());
     }

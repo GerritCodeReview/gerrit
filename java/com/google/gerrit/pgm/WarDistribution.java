@@ -18,6 +18,7 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.pgm.init.InitPlugins.JAR;
 import static com.google.gerrit.pgm.init.InitPlugins.PLUGIN_DIR;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.launcher.GerritLauncher;
 import com.google.gerrit.pgm.init.PluginsDistribution;
@@ -64,7 +65,7 @@ public class WarDistribution implements PluginsDistribution {
     throw new UnsupportedOperationException();
   }
 
-  private static Iterable<? extends ZipEntry> entriesOf(ZipFile zipFile) {
+  private static ImmutableList<? extends ZipEntry> entriesOf(ZipFile zipFile) {
     return zipFile.stream().collect(toImmutableList());
   }
 }

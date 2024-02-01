@@ -16,6 +16,7 @@ package com.google.gerrit.pgm;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.launcher.GerritLauncher;
 import com.google.gerrit.pgm.util.AbstractProgram;
 import java.io.IOException;
@@ -49,7 +50,7 @@ public class Ls extends AbstractProgram {
     return 0;
   }
 
-  private static Iterable<? extends ZipEntry> entriesOf(ZipFile zipFile) {
+  private static ImmutableList<? extends ZipEntry> entriesOf(ZipFile zipFile) {
     return zipFile.stream().collect(toImmutableList());
   }
 }

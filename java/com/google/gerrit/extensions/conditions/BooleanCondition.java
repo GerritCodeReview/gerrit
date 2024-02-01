@@ -14,8 +14,8 @@
 
 package com.google.gerrit.extensions.conditions;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
-import java.util.Collections;
 
 /** Delayed evaluation of a boolean condition. */
 public abstract class BooleanCondition {
@@ -270,8 +270,8 @@ public abstract class BooleanCondition {
     }
 
     @Override
-    public <T> Iterable<T> children(Class<T> type) {
-      return Collections.emptyList();
+    public <T> ImmutableList<T> children(Class<T> type) {
+      return ImmutableList.of();
     }
 
     @Override

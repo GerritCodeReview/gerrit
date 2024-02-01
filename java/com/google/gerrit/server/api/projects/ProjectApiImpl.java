@@ -20,6 +20,7 @@ import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdate
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.HEAD_MODIFICATION;
 import static java.util.stream.Collectors.toList;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.api.access.ProjectAccessInfo;
 import com.google.gerrit.extensions.api.access.ProjectAccessInput;
 import com.google.gerrit.extensions.api.config.AccessCheckInfo;
@@ -533,7 +534,7 @@ public class ProjectApiImpl implements ProjectApi {
   public ListRefsRequest<BranchInfo> branches() {
     return new ListRefsRequest<>() {
       @Override
-      public List<BranchInfo> get() throws RestApiException {
+      public ImmutableList<BranchInfo> get() throws RestApiException {
         try {
           return listBranches.get().request(this).apply(checkExists()).value();
         } catch (Exception e) {
@@ -547,7 +548,7 @@ public class ProjectApiImpl implements ProjectApi {
   public ListRefsRequest<TagInfo> tags() {
     return new ListRefsRequest<>() {
       @Override
-      public List<TagInfo> get() throws RestApiException {
+      public ImmutableList<TagInfo> get() throws RestApiException {
         try {
           return listTags.get().request(this).apply(checkExists()).value();
         } catch (Exception e) {

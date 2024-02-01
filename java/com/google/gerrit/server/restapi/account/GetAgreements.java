@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.account;
 
+import com.google.common.collect.ImmutableCollection;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.ContributorAgreement;
@@ -38,7 +39,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import org.eclipse.jgit.lib.Config;
 
@@ -93,7 +93,7 @@ public class GetAgreements implements RestReadView<AccountResource> {
     }
 
     List<AgreementInfo> results = new ArrayList<>();
-    Collection<ContributorAgreement> cas =
+    ImmutableCollection<ContributorAgreement> cas =
         projectCache.getAllProjects().getConfig().getContributorAgreements().values();
     for (ContributorAgreement ca : cas) {
       List<AccountGroup.UUID> groupIds = new ArrayList<>();

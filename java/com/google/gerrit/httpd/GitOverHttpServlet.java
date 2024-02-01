@@ -19,7 +19,6 @@ import static org.eclipse.jgit.http.server.GitSmartHttpTools.sendError;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableListMultimap;
-import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
@@ -259,7 +258,8 @@ public class GitOverHttpServlet extends GitServlet {
     return commandName.toString();
   }
 
-  private static ListMultimap<String, String> extractParameters(HttpServletRequest request) {
+  private static ImmutableListMultimap<String, String> extractParameters(
+      HttpServletRequest request) {
     if (request.getQueryString() == null) {
       return ImmutableListMultimap.of();
     }

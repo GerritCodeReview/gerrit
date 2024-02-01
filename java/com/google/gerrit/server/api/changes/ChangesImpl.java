@@ -126,7 +126,7 @@ class ChangesImpl implements Changes {
   public QueryRequest query() {
     return new QueryRequest() {
       @Override
-      public List<ChangeInfo> get() throws RestApiException {
+      public ImmutableList<ChangeInfo> get() throws RestApiException {
         return ChangesImpl.this.get(this);
       }
     };
@@ -137,7 +137,7 @@ class ChangesImpl implements Changes {
     return query().withQuery(query);
   }
 
-  private List<ChangeInfo> get(QueryRequest q) throws RestApiException {
+  private ImmutableList<ChangeInfo> get(QueryRequest q) throws RestApiException {
     try (DynamicOptions dynamicOptions = new DynamicOptions(injector, dynamicBeans)) {
       QueryChanges qc = queryProvider.get();
       if (q.getQuery() != null) {

@@ -25,8 +25,10 @@ import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Throwables;
+import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.flogger.FluentLogger;
@@ -131,12 +133,12 @@ public class PostGpgKeys implements RestModifyView<AccountResource, GpgKeysInput
       throws RestApiException, PGPException, IOException, ConfigInvalidException {
     GpgKeys.checkVisible(self, rsrc);
 
-    Collection<ExternalId> existingExtIds =
+    ImmutableSet<ExternalId> existingExtIds =
         externalIds.byAccount(rsrc.getUser().getAccountId(), SCHEME_GPGKEY);
     try (PublicKeyStore store = storeProvider.get()) {
-      Map<ExternalId, Fingerprint> toRemove = readKeysToRemove(input, existingExtIds);
-      Collection<Fingerprint> fingerprintsToRemove = toRemove.values();
-      List<PGPPublicKeyRing> newKeys = readKeysToAdd(input, fingerprintsToRemove);
+      ImmutableMap<ExternalId, Fingerprint> toRemove = readKeysToRemove(input, existingExtIds);
+      ImmutableCollection<Fingerprint> fingerprintsToRemove = toRemove.values();
+      ImmutableList<PGPPublicKeyRing> newKeys = readKeysToAdd(input, fingerprintsToRemove);
       List<ExternalId> newExtIds = new ArrayList<>(existingExtIds.size());
 
       for (PGPPublicKeyRing keyRing : newKeys) {

@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.account;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -42,7 +43,6 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -124,7 +124,7 @@ public class PutPreferred implements RestModifyView<AccountResource.Email, Input
                       // user doesn't have an external ID for this email
                       if (user.hasEmailAddress(preferredEmail)) {
                         // but Realm says the user is allowed to use this email
-                        Set<ExternalId> existingExtIdsWithThisEmail =
+                        ImmutableSet<ExternalId> existingExtIdsWithThisEmail =
                             externalIds.byEmail(preferredEmail);
                         if (!existingExtIdsWithThisEmail.isEmpty()) {
                           // but the email is already assigned to another account

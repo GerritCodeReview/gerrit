@@ -143,7 +143,7 @@ public class Init extends BaseInit {
 
   @Override
   protected void afterInit(SiteRun run) throws Exception {
-    List<SchemaDefinitions<?>> schemaDefs =
+    ImmutableList<SchemaDefinitions<?>> schemaDefs =
         ImmutableList.of(
             AccountSchemaDefinitions.INSTANCE,
             ChangeSchemaDefinitions.INSTANCE,

@@ -135,7 +135,7 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
 
   @Override
   public DataSource<V> getSource(Predicate<V> p, QueryOptions opts) {
-    List<V> results;
+    ImmutableList<V> results;
     synchronized (indexedDocuments) {
       Stream<V> valueStream =
           indexedDocuments.values().stream()

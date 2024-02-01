@@ -70,6 +70,24 @@
       "parentUuid": "be059894_ed79899d",
       "revId": "4606a7e40814b1afbc97fce17944bb88bfb58c64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6c29f52_3b5ab1e2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-02-01T09:08:29Z",
+      "side": 1,
+      "message": "Thanks for checking! Let\u0027s drop this change then.",
+      "parentUuid": "09830df8_3f3aa2c5",
+      "revId": "4606a7e40814b1afbc97fce17944bb88bfb58c64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1ebe57d_d283cc88",
+        "filename": "java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-02-01T05:12:22Z",
+      "side": 1,
+      "message": "Should this go to `stderr` instead? I don\u0027t know what\u0027s typical for deprecation warnings.\n\nThis also seems like behavior that should go behind a config. Some Gerrit sites may never want to support non-unique change numbers due to the complexity of adapting legacy systems to that model. Those users shouldn\u0027t see deprecation warnings for something that is perfectly safe for them.",
+      "range": {
+        "startLine": 265,
+        "startChar": 20,
+        "endLine": 265,
+        "endChar": 26
+      },
+      "revId": "a7199ae91ebb2641045be860cf6e71f3e3ac0610",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

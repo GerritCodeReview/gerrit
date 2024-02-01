@@ -62,7 +62,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
@@ -313,7 +312,7 @@ public class BaseInit extends SiteProgram {
       return null;
     }
 
-    Path secureStoreLib = Paths.get(secureStore);
+    Path secureStoreLib = Path.of(secureStore);
     if (!Files.exists(secureStoreLib)) {
       throw new InvalidSecureStoreException(String.format("File %s doesn't exist", secureStore));
     }

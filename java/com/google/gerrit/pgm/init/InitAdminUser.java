@@ -40,7 +40,6 @@ import com.google.inject.Inject;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -186,7 +185,7 @@ public class InitAdminUser implements InitStep {
   @Nullable
   private AccountSshKey readSshKey(Account.Id id) throws IOException {
     String defaultPublicSshKeyFile = "";
-    Path defaultPublicSshKeyPath = Paths.get(System.getProperty("user.home"), ".ssh", "id_rsa.pub");
+    Path defaultPublicSshKeyPath = Path.of(System.getProperty("user.home"), ".ssh", "id_rsa.pub");
     if (Files.exists(defaultPublicSshKeyPath)) {
       defaultPublicSshKeyFile = defaultPublicSshKeyPath.toString();
     }
@@ -195,7 +194,7 @@ public class InitAdminUser implements InitStep {
   }
 
   private AccountSshKey createSshKey(Account.Id id, String keyFile) throws IOException {
-    Path p = Paths.get(keyFile);
+    Path p = Path.of(keyFile);
     if (!Files.exists(p)) {
       throw new IOException(String.format("Cannot add public SSH key: %s is not a file", keyFile));
     }

@@ -42,7 +42,6 @@ import com.google.inject.spi.Message;
 import com.google.inject.util.Providers;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import org.kohsuke.args4j.Option;
@@ -53,10 +52,10 @@ public abstract class SiteProgram extends AbstractProgram {
       aliases = {"-d"},
       usage = "Local directory containing site data")
   void setSitePath(String path) {
-    sitePath = Paths.get(path).normalize();
+    sitePath = Path.of(path).normalize();
   }
 
-  private Path sitePath = Paths.get(".");
+  private Path sitePath = Path.of(".");
 
   protected SiteProgram() {}
 

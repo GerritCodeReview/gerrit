@@ -132,7 +132,6 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -176,7 +175,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     if (manager == null) {
       String path = System.getProperty(GERRIT_SITE_PATH);
       if (path != null) {
-        sitePath = Paths.get(path);
+        sitePath = Path.of(path);
       } else {
         throw new ProvisionException(GERRIT_SITE_PATH + " must be defined");
       }

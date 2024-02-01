@@ -262,8 +262,7 @@ public class StaticModule extends ServletModule {
           // root directory
           warFs = null;
           unpackedWar =
-              java.nio.file.Paths.get(
-                  launcherLoadedFrom.getParentFile().getParentFile().getParentFile().toURI());
+              Path.of(launcherLoadedFrom.getParentFile().getParentFile().getParentFile().toURI());
           sourceRoot = null;
           development = false;
           return;

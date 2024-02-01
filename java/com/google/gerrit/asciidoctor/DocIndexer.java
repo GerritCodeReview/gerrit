@@ -24,7 +24,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.jar.JarEntry;
@@ -82,7 +82,7 @@ public class DocIndexer {
       return;
     }
 
-    try (JarOutputStream jar = new JarOutputStream(Files.newOutputStream(Paths.get(outFile)))) {
+    try (JarOutputStream jar = new JarOutputStream(Files.newOutputStream(Path.of(outFile)))) {
       byte[] compressedIndex = zip(index());
       JarEntry entry = new JarEntry(String.format("%s/%s", Constants.PACKAGE, Constants.INDEX_ZIP));
       entry.setSize(compressedIndex.length);

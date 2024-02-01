@@ -1075,6 +1075,9 @@ export class GrComment extends LitElement {
   }
 
   private getNumberOfSuggestions() {
+    if (!this.generateSuggestion) {
+      return '';
+    }
     if (this.generatedSuggestion) {
       return '(1)';
     } else {

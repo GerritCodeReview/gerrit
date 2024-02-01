@@ -22,6 +22,30 @@
       },
       "revId": "a7199ae91ebb2641045be860cf6e71f3e3ac0610",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "856c2ebf_9a8b809c",
+        "filename": "java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-01T11:33:00Z",
+      "side": 1,
+      "message": "+1, the deprecation warning is for Gerrit admins, not to the end users IMHO. The Gerrit admin should be aware that a CI system (e.g. Gerrit trigger plugin) is still using a deprecated feature and plan the upgrade of that plugin.\n\n@ponch78@gmail.com are you also working in raise a change to the Gerrit Trigger plugin and the Gerrit Code Review plugin for Jenkins?\n\nIf that becomes a warning on the error_log, it should be quite easy to disable it, in case the Gerrit admin is aware of it and wants to turn it off to avoid polluting the logs. The Gerrit logging facility would already give the possibility to turn it off.",
+      "parentUuid": "f1ebe57d_d283cc88",
+      "range": {
+        "startLine": 265,
+        "startChar": 20,
+        "endLine": 265,
+        "endChar": 26
+      },
+      "revId": "a7199ae91ebb2641045be860cf6e71f3e3ac0610",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

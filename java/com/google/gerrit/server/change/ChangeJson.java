@@ -806,13 +806,23 @@ public class ChangeJson {
     List<ReviewerStatusUpdate> reviewerUpdates = cd.reviewerUpdates();
     List<ReviewerUpdateInfo> result = new ArrayList<>(reviewerUpdates.size());
     for (ReviewerStatusUpdate c : reviewerUpdates) {
-      ReviewerUpdateInfo change =
-          new ReviewerUpdateInfo(
-              c.date(),
-              accountLoader.get(c.updatedBy()),
-              accountLoader.get(c.reviewer()),
-              c.state().asReviewerState());
-      result.add(change);
+      if (c.reviewer().isPresent()) {
+        result.add(
+            new ReviewerUpdateInfo(
+                c.date(),
+                accountLoader.get(c.updatedBy()),
+                accountLoader.get(c.reviewer().get()),
+                c.state().asReviewerState()));
+      }
+
+      if (c.reviewerByEmail().isPresent()) {
+        result.add(
+            new ReviewerUpdateInfo(
+                c.date(),
+                accountLoader.get(c.updatedBy()),
+                toAccountInfoByEmail(c.reviewerByEmail().get()),
+                c.state().asReviewerState()));
+      }
     }
     return result;
   }
@@ -933,9 +943,13 @@ public class ChangeJson {
         .collect(toList());
   }
 
+  private AccountInfo toAccountInfoByEmail(Address address) {
+    return new AccountInfo(address.name(), address.email());
+  }
+
   private List<AccountInfo> toAccountInfoByEmail(Collection<Address> addresses) {
     return addresses.stream()
-        .map(a -> new AccountInfo(a.name(), a.email()))
+        .map(this::toAccountInfoByEmail)
         .sorted(AccountInfoComparator.ORDER_NULLS_FIRST)
         .collect(toList());
   }

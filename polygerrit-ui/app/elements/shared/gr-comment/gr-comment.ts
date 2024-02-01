@@ -1095,6 +1095,7 @@ export class GrComment extends LitElement {
     if (
       !suggestionsProvider?.suggestCode ||
       !this.showGeneratedSuggestion() ||
+      !this.generateSuggestion ||
       !changeInfo ||
       !this.comment ||
       !this.comment.patch_set ||

@@ -80,7 +80,7 @@ export class GrTooltip extends LitElement {
   override render() {
     this.style.maxWidth = this.maxWidth;
 
-    return html` <div class="tooltip">
+    return html` <div class="tooltip" aria-live="polite" role="tooltip">
       <i
         class="arrowPositionBelow arrow"
         style=${styleMap({marginLeft: this.arrowCenterOffset})}

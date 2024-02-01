@@ -38,6 +38,8 @@ public class UploadPackMetricsHook implements PostUploadHook {
 
   private final Counter1<Operation> requestCount;
   private final Timer1<Operation> counting;
+  private final Histogram1<Operation> bitmapIndexMissesCount;
+  private final Counter1<Operation> noBitmapIndex;
   private final Timer1<Operation> compressing;
   private final Timer1<Operation> negotiating;
   private final Timer1<Operation> searchingForReuse;
@@ -65,6 +67,20 @@ public class UploadPackMetricsHook implements PostUploadHook {
             new Description("Time spent in the 'Counting...' phase")
                 .setCumulative()
                 .setUnit(Units.MILLISECONDS),
+            operationField);
+
+    bitmapIndexMissesCount =
+        metricMaker.newHistogram(
+            "git/upload-pack/bitmap_index_misses_count",
+            new Description("Total number of bitmap index misses").setRate().setUnit("requests"),
+            operationField);
+
+    noBitmapIndex =
+        metricMaker.newCounter(
+            "git/upload-pack/no_bitmap_index",
+            new Description("Total number of times that bitmap index was not found")
+                .setRate()
+                .setUnit("requests"),
             operationField);
 
     compressing =
@@ -127,6 +143,12 @@ public class UploadPackMetricsHook implements PostUploadHook {
 
     requestCount.increment(op);
     counting.record(op, stats.getTimeCounting(), MILLISECONDS);
+    long bitmapIndexMisses = stats.getBitmapIndexMisses();
+    if (bitmapIndexMisses < 0) {
+      noBitmapIndex.increment(op);
+    } else {
+      bitmapIndexMissesCount.record(op, bitmapIndexMisses);
+    }
     compressing.record(op, stats.getTimeCompressing(), MILLISECONDS);
     negotiating.record(op, stats.getTimeNegotiating(), MILLISECONDS);
     searchingForReuse.record(op, stats.getTimeSearchingForReuse(), MILLISECONDS);

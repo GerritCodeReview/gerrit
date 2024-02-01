@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e91b2211_0d6a0969",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 32
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-01T21:26:40Z",
+      "side": 1,
+      "message": "Can you add the same topic to both of them?",
+      "parentUuid": "8ef688d0_d7945739",
+      "range": {
+        "startLine": 7,
+        "startChar": 30,
+        "endLine": 7,
+        "endChar": 34
+      },
+      "revId": "a0ff62198e992b5b124c4c9b092706b9f1c533cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6490ada6_53c1407d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 32
@@ -337,6 +361,30 @@
       "side": 1,
       "message": "If I understood your comment correctly. It has 2 alternatives command POST and DELETE",
       "parentUuid": "604592b4_1cb75eb8",
+      "range": {
+        "startLine": 1505,
+        "startChar": 0,
+        "endLine": 1522,
+        "endChar": 0
+      },
+      "revId": "a0ff62198e992b5b124c4c9b092706b9f1c533cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "279eae1c_647e3503",
+        "filename": "Documentation/rest-api-groups.txt",
+        "patchSetId": 32
+      },
+      "lineNbr": 1522,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-01T21:26:40Z",
+      "side": 1,
+      "message": "Do we really need two alternatives?",
+      "parentUuid": "2e7d0fe8_260bf5f0",
       "range": {
         "startLine": 1505,
         "startChar": 0,

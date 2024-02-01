@@ -51,6 +51,24 @@
       "parentUuid": "a11da7a6_f222da2a",
       "revId": "23cec0474ae9d4e798af01c3f8e46ff747e0c1d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e30df3cc_1db10e0d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-02-01T14:45:36Z",
+      "side": 1,
+      "message": "IIUC RBE BB Build/Tests is something experimental that is not fully working yet. It\u0027s not blocking submitting this change.\n\nSince I added the \"Release-Notes: skip\" release footer to the commit message, I\u0027m the uploader now and somebody else needs to approve this change to make it submittable (can\u0027t self approve).",
+      "parentUuid": "a11da7a6_f222da2a",
+      "revId": "23cec0474ae9d4e798af01c3f8e46ff747e0c1d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

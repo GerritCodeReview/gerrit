@@ -368,6 +368,12 @@ Each queue provides the following metrics:
 * `git/upload-pack/request_count`: Total number of git-upload-pack requests.
 ** `operation`:
    The name of the operation (CLONE, FETCH).
+* `git/upload-pack/bitmap_index_misses_count`: Total number of bitmap index misses.
+** `operation`:
+   The name of the operation (CLONE, FETCH).
+* `git/upload-pack/rno_bitmap_index`: Total number of times that bitmap index was not found.
+** `operation`:
+   The name of the operation (CLONE, FETCH).
 * `git/upload-pack/phase_counting`: Time spent in the 'Counting...' phase.
 ** `operation`:
    The name of the operation (CLONE, FETCH).

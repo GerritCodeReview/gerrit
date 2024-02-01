@@ -34,6 +34,24 @@
       "parentUuid": "3af861a7_2835a3bc",
       "revId": "4606a7e40814b1afbc97fce17944bb88bfb58c64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be059894_ed79899d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2024-02-01T01:58:45Z",
+      "side": 1,
+      "message": "One alternative to consider would be using the `exactRef(String...)` variant, which allows passing in an array.",
+      "parentUuid": "6d65d2cc_fecb2cba",
+      "revId": "4606a7e40814b1afbc97fce17944bb88bfb58c64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

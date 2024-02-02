@@ -35,6 +35,8 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterators;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.entities.Project;
@@ -75,7 +77,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -771,8 +772,8 @@ class GitwebServlet extends HttpServlet {
   }
 
   @SuppressWarnings("JdkObsolete")
-  private static List<String> getHeaderNames(HttpServletRequest req) {
-    return Collections.list(req.getHeaderNames());
+  private static ImmutableList<String> getHeaderNames(HttpServletRequest req) {
+    return ImmutableList.copyOf(Iterators.forEnumeration(req.getHeaderNames()));
   }
 
   /** private utility class that manages the Environment passed to exec. */

@@ -17,14 +17,14 @@ package com.google.gerrit.sshd.commands;
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterators;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Collections;
-import java.util.List;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -87,7 +87,7 @@ public class SetLoggingLevelCommand extends SshCommand {
   }
 
   @SuppressWarnings({"unchecked", "JdkObsolete"})
-  private static List<Logger> getCurrentLoggers() {
-    return Collections.list(LogManager.getCurrentLoggers());
+  private static ImmutableList<Logger> getCurrentLoggers() {
+    return ImmutableList.copyOf(Iterators.forEnumeration(LogManager.getCurrentLoggers()));
   }
 }

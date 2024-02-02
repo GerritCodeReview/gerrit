@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dc2804c6_2aa1a857",
+        "filename": "java/com/google/gerrit/server/git/UploadPackMetricsHook.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1155610
+      },
+      "writtenOn": "2024-02-02T00:19:14Z",
+      "side": 1,
+      "message": "Does this metric not make more sense as a hystogram? I think it\u0027s the distribution of how many indexes are missed that is more important that a total number? Even graphing this as a rate wouldn\u0027t make much sense?",
+      "range": {
+        "startLine": 73,
+        "startChar": 20,
+        "endLine": 73,
+        "endChar": 30
+      },
+      "revId": "f46506b4edc533f359a1d95104238ab7b7ba1bf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d4e3ba75_00c934f3",
         "filename": "java/com/google/gerrit/server/git/UploadPackMetricsHook.java",
         "patchSetId": 2

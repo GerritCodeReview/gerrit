@@ -34,6 +34,57 @@
       "parentUuid": "a15eb252_1ba65c96",
       "revId": "526d715d9325efff85f1af2aa9c67cc204eaaa10",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7a8be22_f2ee9a12",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 34
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2024-02-02T06:55:09Z",
+      "side": 1,
+      "message": "Just some very minor nits now, and I think otherwise this is good. Thank you for your persistence, this is tricky code.",
+      "revId": "526d715d9325efff85f1af2aa9c67cc204eaaa10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eddb782f_af504276",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2024-02-02T06:55:09Z",
+      "side": 1,
+      "message": "Instead of using a comment, better to encode the unit in the variable name: nanosDelayByRunnable?",
+      "revId": "526d715d9325efff85f1af2aa9c67cc204eaaa10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a26f1c1_4b8a518b",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 625,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2024-02-02T06:55:09Z",
+      "side": 1,
+      "message": "I suspect that we want \"period\" to actually be \"immutable\", so we probably should not have a setter for it (and in particular likely not a public one), better to set it via the constructor?",
+      "revId": "526d715d9325efff85f1af2aa9c67cc204eaaa10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

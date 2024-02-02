@@ -16,6 +16,24 @@
       "message": "Shouldn\u0027t this list be Immutable?",
       "revId": "d391295d25abef98cc0eecaa446a9ab34879352f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "13b7cbdc_68fc4685",
+        "filename": "java/com/google/gerrit/sshd/commands/ListLoggingLevelCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-02-02T09:15:04Z",
+      "side": 1,
+      "message": "It needs to be List since Collections.list(Enumeration) returns an ArrayList.\n\nI agree we should probably change this method to return an ImmutableList, but this goes beyond addressing PreferredInterfaceType issues.",
+      "parentUuid": "f3cbf212_700375e5",
+      "revId": "d391295d25abef98cc0eecaa446a9ab34879352f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

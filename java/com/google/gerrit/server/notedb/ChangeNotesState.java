@@ -608,12 +608,24 @@ public abstract class ChangeNotesState {
     }
 
     private static ReviewerStatusUpdateProto toReviewerStatusUpdateProto(ReviewerStatusUpdate u) {
-      return ReviewerStatusUpdateProto.newBuilder()
-          .setTimestampMillis(u.date().toEpochMilli())
-          .setUpdatedBy(u.updatedBy().get())
-          .setReviewer(u.reviewer().get())
-          .setState(REVIEWER_STATE_CONVERTER.reverse().convert(u.state()))
-          .build();
+      ReviewerStatusUpdateProto.Builder protoBuilder =
+          ReviewerStatusUpdateProto.newBuilder()
+              .setTimestampMillis(u.date().toEpochMilli())
+              .setUpdatedBy(u.updatedBy().get())
+              .setState(REVIEWER_STATE_CONVERTER.reverse().convert(u.state()));
+      u.reviewer()
+          .ifPresent(
+              accountId -> {
+                protoBuilder.setHasReviewer(true);
+                protoBuilder.setReviewer(accountId.get());
+              });
+      u.reviewerByEmail()
+          .ifPresent(
+              address -> {
+                protoBuilder.setHasReviewerByEmail(true);
+                protoBuilder.setReviewerByEmail(address.toHeaderString());
+              });
+      return protoBuilder.build();
     }
 
     private static AttentionSetUpdateProto toAttentionSetUpdateProto(
@@ -745,12 +757,26 @@ public abstract class ChangeNotesState {
         List<ReviewerStatusUpdateProto> protos) {
       ImmutableList.Builder<ReviewerStatusUpdate> b = ImmutableList.builder();
       for (ReviewerStatusUpdateProto proto : protos) {
-        b.add(
-            ReviewerStatusUpdate.create(
-                Instant.ofEpochMilli(proto.getTimestampMillis()),
-                Account.id(proto.getUpdatedBy()),
-                Account.id(proto.getReviewer()),
-                REVIEWER_STATE_CONVERTER.convert(proto.getState())));
+        if (proto.getHasReviewerByEmail()) {
+          b.add(
+              ReviewerStatusUpdate.createForReviewerByEmail(
+                  Instant.ofEpochMilli(proto.getTimestampMillis()),
+                  Account.id(proto.getUpdatedBy()),
+                  Address.parse(proto.getReviewerByEmail()),
+                  REVIEWER_STATE_CONVERTER.convert(proto.getState())));
+        } else {
+          // If the "has_reviewer_by_email" field is not set, then either the "has_reviewer" field
+          // is true and the "reviewer" field is populated, or the proto was created before the
+          // "has_reviewer", "has_reviewer_by_email" and "reviewer_by_email" fields have been added
+          // and the "reviewer" field is always populated. This means by not checking that
+          // "proto.getHasReviewer()" is true here we allow the new code to read old protos.
+          b.add(
+              ReviewerStatusUpdate.createForReviewer(
+                  Instant.ofEpochMilli(proto.getTimestampMillis()),
+                  Account.id(proto.getUpdatedBy()),
+                  Account.id(proto.getReviewer()),
+                  REVIEWER_STATE_CONVERTER.convert(proto.getState())));
+        }
       }
       return b.build();
     }

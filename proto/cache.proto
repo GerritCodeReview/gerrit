@@ -172,12 +172,23 @@ message ChangeNotesStateProto {
 
   repeated int32 past_reviewer = 12;
 
-  // Next ID: 5
+  // Next ID: 8
   message ReviewerStatusUpdateProto {
     // Epoch millis.
     int64 timestamp_millis = 1;
     int32 updated_by = 2;
+
+    // Account ID of the reviewer.
+    // Not set if a reviewer for which no Gerrit account exists is added by email.
     int32 reviewer = 3;
+    bool has_reviewer = 5;
+
+    // Address of the reviewer by email (can be "Full Name <full.name@example.com>" or
+    // "full.name@example.com").
+    // Only set for reviewers that have no Gerrit account and that have been added by email.
+    string reviewer_by_email = 6;
+    bool has_reviewer_by_email = 7;
+
     string state = 4;
   }
   repeated ReviewerStatusUpdateProto reviewer_update = 13;

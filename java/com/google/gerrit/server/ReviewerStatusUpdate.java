@@ -16,22 +16,35 @@ package com.google.gerrit.server;
 
 import com.google.auto.value.AutoValue;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.Address;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import java.time.Instant;
+import java.util.Optional;
 
 /** Change to a reviewer's status. */
 @AutoValue
 public abstract class ReviewerStatusUpdate {
-  public static ReviewerStatusUpdate create(
+  public static ReviewerStatusUpdate createForReviewer(
       Instant ts, Account.Id updatedBy, Account.Id reviewer, ReviewerStateInternal state) {
-    return new AutoValue_ReviewerStatusUpdate(ts, updatedBy, reviewer, state);
+    return new AutoValue_ReviewerStatusUpdate(
+        ts, updatedBy, Optional.of(reviewer), Optional.empty(), state);
+  }
+
+  public static ReviewerStatusUpdate createForReviewerByEmail(
+      Instant ts, Account.Id updatedBy, Address reviewerByEmail, ReviewerStateInternal state) {
+    return new AutoValue_ReviewerStatusUpdate(
+        ts, updatedBy, Optional.empty(), Optional.of(reviewerByEmail), state);
   }
 
   public abstract Instant date();
 
   public abstract Account.Id updatedBy();
 
-  public abstract Account.Id reviewer();
+  /** Not set if a reviewer for which no Gerrit account exists is added by email. */
+  public abstract Optional<Account.Id> reviewer();
+
+  /** Only set for reviewers that have no Gerrit account and that have been added by email. */
+  public abstract Optional<Address> reviewerByEmail();
 
   public abstract ReviewerStateInternal state();
 }

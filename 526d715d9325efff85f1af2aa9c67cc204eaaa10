@@ -53,6 +53,42 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9fd16883_4573c11f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 34
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3228522
+      },
+      "writtenOn": "2024-02-02T07:22:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc5099ee_da43b37f",
+      "revId": "526d715d9325efff85f1af2aa9c67cc204eaaa10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "42adf87d_e68e607c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 34
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3228522
+      },
+      "writtenOn": "2024-02-02T07:22:54Z",
+      "side": 1,
+      "message": "You\u0027re welcome! Thank you for your patience and guidance. I have also learned a lot of.",
+      "parentUuid": "b7a8be22_f2ee9a12",
+      "revId": "526d715d9325efff85f1af2aa9c67cc204eaaa10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eddb782f_af504276",
@@ -70,6 +106,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1918935e_352de112",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 3228522
+      },
+      "writtenOn": "2024-02-02T07:22:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eddb782f_af504276",
+      "revId": "526d715d9325efff85f1af2aa9c67cc204eaaa10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5a26f1c1_4b8a518b",
@@ -83,6 +137,24 @@
       "writtenOn": "2024-02-02T06:55:09Z",
       "side": 1,
       "message": "I suspect that we want \"period\" to actually be \"immutable\", so we probably should not have a setter for it (and in particular likely not a public one), better to set it via the constructor?",
+      "revId": "526d715d9325efff85f1af2aa9c67cc204eaaa10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dae0241e_db872f18",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 625,
+      "author": {
+        "id": 3228522
+      },
+      "writtenOn": "2024-02-02T07:22:54Z",
+      "side": 1,
+      "message": "OK. I\u0027ve set it via the constructor(`Task` and `ProjectTask`)",
+      "parentUuid": "5a26f1c1_4b8a518b",
       "revId": "526d715d9325efff85f1af2aa9c67cc204eaaa10",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

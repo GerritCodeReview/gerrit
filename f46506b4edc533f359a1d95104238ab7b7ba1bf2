@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4e3ba75_00c934f3",
+        "filename": "java/com/google/gerrit/server/git/UploadPackMetricsHook.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1155610
+      },
+      "writtenOn": "2024-02-02T00:16:54Z",
+      "side": 1,
+      "message": "```suggestion\n            new Description(\"Total number of bitmap index misses\")\n.setRate()\n.setUnit(\"requests\"),\n```\n\nFor consistency with the other occurrences? But if GJF didn\u0027t pick it up then maybe no point in changing it.",
+      "range": {
+        "startLine": 75,
+        "startChar": 12,
+        "endLine": 75,
+        "endChar": 96
+      },
+      "revId": "f46506b4edc533f359a1d95104238ab7b7ba1bf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3cbf212_700375e5",
+        "filename": "java/com/google/gerrit/sshd/commands/ListLoggingLevelCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2024-02-02T08:08:37Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this list be Immutable?",
+      "revId": "d391295d25abef98cc0eecaa446a9ab34879352f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

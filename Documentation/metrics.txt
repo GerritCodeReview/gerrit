@@ -376,10 +376,25 @@ Each queue provides the following metrics:
 * `git/upload-pack/request_count`: Total number of git-upload-pack requests.
 ** `operation`:
    The name of the operation (CLONE, FETCH).
+* `git/upload-pack/bitmap_index_misses_count`: Number of bitmap index misses per request.
+** `operation`:
+   The name of the operation (CLONE, FETCH).
+* `git/upload-pack/no_bitmap_index`: Total number of requests executed without a bitmap index.
+** `operation`:
+   The name of the operation (CLONE, FETCH).
 * `git/upload-pack/phase_counting`: Time spent in the 'Counting...' phase.
 ** `operation`:
    The name of the operation (CLONE, FETCH).
 * `git/upload-pack/phase_compressing`: Time spent in the 'Compressing...' phase.
+** `operation`:
+   The name of the operation (CLONE, FETCH).
+* `git/upload-pack/phase_negotiating`: Time spent in the negotiation phase.
+** `operation`:
+   The name of the operation (CLONE, FETCH).
+* `git/upload-pack/phase_searching_for_reuse`: Time spent in the 'Finding sources...' while searching for reuse phase.
+** `operation`:
+   The name of the operation (CLONE, FETCH).
+* `git/upload-pack/phase_searching_for_sizes`: Time spent in the 'Finding sources...' while searching for sizes phase.
 ** `operation`:
    The name of the operation (CLONE, FETCH).
 * `git/upload-pack/phase_writing`: Time spent transferring bytes to client.

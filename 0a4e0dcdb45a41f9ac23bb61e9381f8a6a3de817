@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a42be945_2f21d512",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2024-02-02T08:19:37Z",
+      "side": 1,
+      "message": "LGTM. Please put a -2 on it to block and remove when stage 1 has deployed",
+      "revId": "0a4e0dcdb45a41f9ac23bb61e9381f8a6a3de817",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

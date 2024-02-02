@@ -530,10 +530,10 @@ If not set, HTTP request's domain is used.
 
 [[auth.cookieSecure]]auth.cookieSecure::
 +
-Sets "secure" flag of the authentication cookie.  If true, cookies
+Sets "secure" flag of the authentication cookie.  If `true`, cookies
 will be transmitted only over HTTPS protocol.
 +
-By default, false.
+By default, `false`.
 
 [[auth.emailFormat]]auth.emailFormat::
 +
@@ -562,7 +562,7 @@ in project.config and create agreement files under
 `'$site_path'/static`, so users can actually complete one or
 more agreements.
 +
-By default this is false (no agreements are used).
+By default this is `false` (no agreements are used).
 +
 To enable the actual usage of contributor agreement the project
 specific config option in the `project.config` must be set:
@@ -571,14 +571,14 @@ receive.requireContributorAgreement].
 
 [[auth.trustContainerAuth]]auth.trustContainerAuth::
 +
-If true then it is the responsibility of the container hosting
+If `true` then it is the responsibility of the container hosting
 Gerrit to authenticate users. In this case Gerrit will blindly trust
 the container.
 +
 This parameter only affects git over http traffic. If set to false
 then Gerrit will do the authentication (using Basic authentication).
 +
-By default this is set to false.
+By default this is set to `false`.
 
 
 [[auth.gitBasicAuthPolicy]]auth.gitBasicAuthPolicy::
@@ -656,7 +656,7 @@ have a non-lower-case username.
 +
 This parameter only affects git over http and git over SSH traffic.
 +
-By default this is set to false.
+By default this is set to `false`.
 
 [[auth.userNameCaseInsensitive]]auth.userNameCaseInsensitive::
 +
@@ -683,29 +683,29 @@ accounts exist the migration tool will fail, since the newly computed
 note name would be identical and thus conflict. These duplicates thus
 have to be deleted manually by deleting the respective external ID.
 +
-For newly initialized sites this option defaults to true.
+For newly initialized sites this option defaults to `true`.
 +
-Default is false.
+Default is `false`.
 
 [[auth.userNameCaseInsensitiveMigrationMode]]auth.userNameCaseInsensitiveMigrationMode::
 +
-Setting migration mode to true allows to fallback to case sensitive
+Setting migration mode to `true` allows to fallback to case sensitive
 behaviour if the migrated external ID cannot be found. This allows to
 trigger the migration while Gerrit process is running.
 +
-Default is false.
+Default is `false`.
 
 [[auth.enableRunAs]]auth.enableRunAs::
 +
-If true HTTP REST APIs will accept the `X-Gerrit-RunAs` HTTP request
+If `true` HTTP REST APIs will accept the `X-Gerrit-RunAs` HTTP request
 header from any users granted the link:access-control.html#capability_runAs[Run As]
 capability. The header and capability permit the authenticated user
 to impersonate another account.
 +
-If false the feature is disabled and cannot be re-enabled without
+If `false` the feature is disabled and cannot be re-enabled without
 editing gerrit.config and restarting the server.
 +
-Default is true.
+Default is `true`.
 
 [[auth.allowRegisterNewEmail]]auth.allowRegisterNewEmail::
 +
@@ -715,13 +715,13 @@ In addition for the HTTP authentication type
 link:#auth.httpemailheader[auth.httpemailheader] must *not* be set to
 enable registration of new email addresses.
 +
-By default, true.
+By default, `true`.
 
 [[auth.autoUpdateAccountActiveStatus]]auth.autoUpdateAccountActiveStatus::
 +
 Whether to allow automatic synchronization of an account's inactive flag upon login.
 +
-If set to true, upon login, if the authentication back-end reports the account as active,
+If set to `true`, upon login, if the authentication back-end reports the account as active,
 the account's inactive flag in NoteDb will be updated to be active.
 +
 If the authentication back-end reports the account as inactive, the account's flag will be
@@ -729,12 +729,12 @@ updated to be inactive and the login attempt will be blocked. Users enabling thi
 should ensure that their authentication back-end is supported. Currently, only
 strict 'LDAP' authentication is supported.
 +
-In addition, if this parameter is not set, or false, the corresponding scheduled
+In addition, if this parameter is not set, or `false`, the corresponding scheduled
 task to deactivate inactive Gerrit accounts will also be disabled. If this
-parameter is set to true, users should also consider configuring the
+parameter is set to `true`, users should also consider configuring the
 link:#accountDeactivation[accountDeactivation] section appropriately.
 +
-By default, false.
+By default, `false`.
 
 [[auth.skipFullRefEvaluationIfAllRefsAreVisible]]auth.skipFullRefEvaluationIfAllRefsAreVisible::
 +
@@ -744,7 +744,7 @@ user has READ permission for all refs.
 The full ref filtering would filter out refs for pending edits, private changes
 and auto merge commits.
 +
-By default, true.
+By default, `true`.
 
 [[cache]]
 === Section cache
@@ -781,7 +781,7 @@ Default is unset, no disk cache.
 Whether to enable the computation of disk statistics of persistent caches.
 This computation is expensive and requires a long time on larger installations.
 +
-By default, false.
+By default, `false`.
 
 [[cache.h2CacheSize]]cache.h2CacheSize::
 +
@@ -804,13 +804,13 @@ Common unit suffixes of 'k', 'm', or 'g' are supported.
 
 [[cache.h2AutoServer]]cache.h2AutoServer::
 +
-If set to true, enable H2 autoserver mode for the H2-backed persistent cache
+If set to `true`, enable H2 autoserver mode for the H2-backed persistent cache
 databases.
 +
 See link:http://www.h2database.com/html/features.html#auto_mixed_mode[here,role=external,window=_blank]
 for detail.
 +
-Default is false.
+Default is `false`.
 
 [[cache.openFiles]]cache.openFiles::
 +
@@ -1314,7 +1314,7 @@ necessary.  To maintain backwards compatibility with prior versions,
 this setting will fallback to `cache.diff.intraline` if not set in the
 configuration.
 +
-Default is true, enabled.
+Default is `true`, enabled.
 
 [[cache.projects.loadOnStartup]]cache.projects.loadOnStartup::
 +
@@ -1324,12 +1324,12 @@ The cache is loaded concurrently. Admins should ensure that the cache
 size set under <<cache.name.memoryLimit,cache.projects.memoryLimit>>
 is not smaller than the number of repos.
 +
-Default is false, disabled.
+Default is `false`, disabled.
 
 [[cache.projects.loadThreads]]cache.projects.loadThreads::
 +
 Only relevant if <<cache.projects.loadOnStartup,cache.projects.loadOnStartup>>
-is true.
+is `true`.
 +
 The number of threads to allocate for loading the cache at startup. These
 threads will die out after the cache is loaded.
@@ -1384,7 +1384,7 @@ automatically be added to the administrator group and hence get the
 `administrateServer` capability assigned. This is useful to bootstrap
 the link:config-accounts.html[account data].
 +
-Default is true.
+Default is `true`.
 
 
 [[change]]
@@ -1392,9 +1392,9 @@ Default is true.
 
 [[change.allowBlame]]change.allowBlame::
 +
-Allow blame on side by side diff. If set to false, blame cannot be used.
+Allow blame on side by side diff. If set to `false`, blame cannot be used.
 +
-Default is true.
+Default is `true`.
 
 [[change.cacheAutomerge]]change.cacheAutomerge::
 +
@@ -1404,13 +1404,13 @@ cached in the change repository, or if only the diff is cached in the persistent
 diff caches (`"git_modified_files"`, `modified_files`, `"git_file_diff"`,
 `"file_diff"`).
 +
-If true, automerge results are stored in the repository under
+If `true`, automerge results are stored in the repository under
 `refs/cache-automerge/*`; the results of diffing the change against its
-automerge base are stored in the diff caches. If false, no extra data is
+automerge base are stored in the diff caches. If `false`, no extra data is
 stored in the repository, only the diff caches. This can result in slight
 performance improvements by reducing the number of refs in the repo.
 +
-Default is true.
+Default is `true`.
 
 [[change.commentSizeLimit]]change.commentSizeLimit::
 +
@@ -1438,9 +1438,9 @@ The default limit is 3MiB.
 
 [[change.disablePrivateChanges]]change.disablePrivateChanges::
 +
-If set to true, users are not allowed to create private changes.
+If set to `true`, users are not allowed to create private changes.
 +
-The default is false.
+The default is `false`.
 
 [[change.maxComments]]change.maxComments::
 +
@@ -1531,12 +1531,12 @@ Default is `NEVER`.
 This setting determines when Gerrit renders conflict changes section on change
 screen and also supports `conflicts` predicate. This computation is expensive,
 computing ConflictsPredicate has a runtime complexity of O(nˆ2) with n number
-of open changes on a branch. When set to false GUI will silently ignore the
+of open changes on a branch. When set to `false` GUI will silently ignore the
 error message and leave the conflict changes section on change screen empty.
 See also implications on rendering of conflict changes section in configuration
 section:link:#change.mergeabilityComputationBehavior[change.mergeabilityComputationBehavior].
 
-Default is true.
+Default is `true`.
 
 [[change.maxSubmittableAtOnce]]change.maxSubmittableAtOnce::
 +
@@ -1559,14 +1559,14 @@ into the new branch, although these changes have not been moved to that
 branch (see details in
 link:https://issues.gerritcodereview.com/issues/40009784[issue 40009784]).
 +
-By default true.
+By default `true`.
 
 [[change.enableRobotComments]]change.enableRobotComments::
 +
 Are robot comments enabled in the Gerrit UI? This setting allows phasing out
 robot comments.
 +
-By default true.
+By default `true`.
 
 [[change.propagateSubmitRequirementErrors]]change.propagateSubmitRequirementErrors::
 +
@@ -1608,18 +1608,18 @@ The default limit is 1MiB.
 
 [[change.sendNewPatchsetEmails]]change.sendNewPatchsetEmails::
 +
-When false, emails will not be sent to owners, reviewers, and cc for
+When `false`, emails will not be sent to owners, reviewers, and cc for
 creating a new patchset unless they are project watchers or have starred
 the change.
 +
-Default is true.
+Default is `true`.
 
 [[change.showAssigneeInChangesTable]]change.showAssigneeInChangesTable::
 +
-Show assignee field in changes table. If set to false, assignees will
+Show assignee field in changes table. If set to `false`, assignees will
 not be visible in changes table.
 +
-Default is false.
+Default is `false`.
 
 [[change.strictLabels]]change.strictLabels::
 +
@@ -1627,7 +1627,7 @@ Reject invalid label votes: invalid labels or invalid values. This
 configuration option is provided for backwards compatibility and may
 be removed in future gerrit versions.
 +
-Default is false.
+Default is `false`.
 
 [[change.submitLabel]]change.submitLabel::
 +
@@ -1672,7 +1672,7 @@ Defaults to "Submit whole topic"
 
 [[change.submitTopicTooltip]]change.submitTopicTooltip::
 +
-If `change.submitWholeTopic` is configured to true and a change has a
+If `change.submitWholeTopic` is configured to `true` and a change has a
 topic, this configuration determines the tooltip for the submit button
 instead of `change.submitTooltip`. The variable `${topicSize}` is available
 for the number of changes in the same topic to be submitted. The number of
@@ -1687,7 +1687,7 @@ changes related by topic)".
 Determines if the submit button submits the whole topic instead of
 just the current change.
 +
-Default is false.
+Default is `false`.
 
 [[change.updateDelay]]change.updateDelay::
 +
@@ -1716,7 +1716,7 @@ common parents will be shown as well.
 This setting takes effect when generating the automerge, which happens on upload.
 Changing the setting leaves existing changes unaffected.
 +
-Default is false.
+Default is `false`.
 
 [[change.maxFileSizeDiff]]change.maxFileSizeDiff::
 +
@@ -1949,7 +1949,7 @@ Whether the comment link is enabled. A child project may override a
 section in a parent or the site-wide config that is disabled by
 specifying `enabled = true`.
 +
-By default, true.
+By default, `true`.
 +
 Note that the names and contents of disabled sections are visible even
 to anonymous users via the
@@ -2008,7 +2008,7 @@ options.
 
 [[container.replica]]container.replica::
 +
-Used on Gerrit replica installations. If set to true the Gerrit JVM is
+Used on Gerrit replica installations. If set to `true` the Gerrit JVM is
 called with the '--replica' switch, enabling replica mode. If no value is
 set (or any other value), Gerrit defaults to primary mode enabling write
 operations.
@@ -2141,18 +2141,18 @@ Common unit suffixes of 'k', 'm', or 'g' are supported.
 
 [[core.packedGitMmap]]core.packedGitMmap::
 +
-When true, JGit will use `mmap()` rather than `malloc()+read()`
+When `true`, JGit will use `mmap()` rather than `malloc()+read()`
 to load data from pack files.  The use of mmap can be problematic
 on some JVMs as the garbage collector must deduce that a memory
 mapped segment is no longer in use before a call to `munmap()`
 can be made by the JVM native code.
 +
 In server applications (such as Gerrit) that need to access many
-pack files, setting this to true risks artificially running out
+pack files, setting this to `true` risks artificially running out
 of virtual address space, as the garbage collector cannot reclaim
 unused mapped spaces fast enough.
 +
-Default on JGit is false. Although potentially slower, it yields
+Default on JGit is `false`. Although potentially slower, it yields
 much more predictable behavior.
 
 [[core.asyncLoggingBufferSize]]core.asyncLoggingBufferSize::
@@ -2174,7 +2174,7 @@ link:http://codicesoftware.blogspot.com/2011/09/merge-recursive-strategy.html[
 blog,role=external,window=_blank], the recursive merge produces better results if the two commits
 that are merged have more than one common predecessor.
 +
-Default is true.
+Default is `true`.
 
 [[core.repositoryCacheCleanupDelay]]core.repositoryCacheCleanupDelay::
 +
@@ -2211,7 +2211,7 @@ refs are checked and potentially read at least once per request
 (lazily) if needed. This helps reduce the overhead of checking if
 the packed-refs file is outdated.
 +
-Default is true.
+Default is `true`.
 
 [[dashboard]]
 === Section dashboard
@@ -2376,7 +2376,7 @@ through Web-UI should run in aggressive mode or not. Aggressive garbage
 collections are more expensive but may lead to significantly smaller
 repositories.
 +
-Valid values are "true" and "false," default is "false".
+Valid values are "`true`" and "`false`," default is "`false`".
 
 [[gc.startTime]]gc.startTime::
 +
@@ -2472,7 +2472,7 @@ link:rest-api-accounts.html#list-gpg-keys[REST API endpoints] and web UI
 for editing GPG keys. If disabled, GPG keys can only be added by
 administrators with direct git access to All-Users.
 +
-Defaults to true.
+Defaults to `true`.
 
 [[gerrit.installCommitMsgHookCommand]]gerrit.installCommitMsgHookCommand::
 +
@@ -2561,14 +2561,14 @@ Example:
 Enable rendering of project list from the secondary index instead
 of purely relying on the in-memory cache.
 +
-By default false.
+By default `false`.
 +
 [NOTE]
-The in-memory cache (set to false) rendering provides an **unlimited list** as a result
+The in-memory cache (set to `false`) rendering provides an **unlimited list** as a result
 of the list project API, causing the full list of projects to be
 returned as a result of the link:rest-api-projects.html[/projects/] REST API
 or the link:cmd-ls-projects.html[gerrit ls-projects] SSH command.
-When the rendering from the secondary index (set to true),
+When the rendering from the secondary index (set to `true`),
 the **list is limited** by the global capability
 link:access-control.html#capability_queryLimit[queryLimit]
 which is defaulted to 500 entries.
@@ -2600,7 +2600,7 @@ should set this to the URL of their issue tracker, if necessary.
 
 Record actual peer IP address in ref log entry for identified user.
 
-Defaults to false.
+Defaults to `false`.
 
 [[gerrit.secureStoreClass]]gerrit.secureStoreClass::
 +
@@ -2615,9 +2615,9 @@ If not specified, the default no-op implementation is used.
 [[gerrit.canLoadInIFrame]]gerrit.canLoadInIFrame::
 +
 For security reasons Gerrit will always jump out of iframe.
-Setting this option to true will prevent this behavior.
+Setting this option to `true` will prevent this behavior.
 +
-By default false.
+By default `false`.
 
 [[gerrit.xframeOption]]gerrit.xframeOption::
 +
@@ -2631,7 +2631,7 @@ Available values:
 1. ALLOW - The page can be displayed in a frame.
 2. SAMEORIGIN - The page can only be displayed in a frame on the same origin as the page itself.
 +
-If link:#gerrit.canLoadInIFrame is set to false this option is ignored and the
+If link:#gerrit.canLoadInIFrame is set to `false` this option is ignored and the
 `X-Frame-Options` header is always set to `DENY`.
 Setting this option to `ALLOW` will cause the `X-Frame-Options` header to be omitted
 the the page can be displayed in a frame.
@@ -2673,17 +2673,17 @@ then its next version N+1 is v3.3 (All-Projects:refs/meta/version=184).
 Allow Gerrit to start even if the underlying schema version has been bumped to
 the next Gerrit version.
 +
-Set to true if Gerrit is installed in
+Set to `true` if Gerrit is installed in
 [high-availability configuration](https://gerrit.googlesource.com/plugins/high-availability/+/refs/heads/master/README.md)
 during the rolling upgrade to the next version.
 +
-By default false.
+By default `false`.
 +
 The rolling upgrade process, at high level, assumes that Gerrit is installed
 on two or more nodes sharing the repositories over NFS. The upgrade is composed
 of the following steps:
 +
-1. Set gerrit.experimentalRollingUpgrade to true on all Gerrit masters
+1. Set gerrit.experimentalRollingUpgrade to `true` on all Gerrit masters
 2. Set the first master unhealthy
 3. Shutdown the first master and [upgrade](install.html#init) to the next version
 4. Startup the first master, wait for the online reindex to complete (where applicable)
@@ -2701,7 +2701,7 @@ the rolling upgrade is possible or not and the associated constraints.
 ServerId of the repositories imported from other Gerrit servers. Changes coming
 associated with the imported serverIds are indexed and displayed in the UI
 but they are not searchable by `changeNumber` therefore the
-`index.cacheQueryResultsByChangeNum` must also be set to false.
+`index.cacheQueryResultsByChangeNum` must also be set to `false`.
 Imported changes are still discoverable in any other ways, for example:
 
   project:someproject branch:main changeId:I78a7add1fe2597cad788c833d8f771f09b54cf33
@@ -2873,7 +2873,7 @@ Valid values are `true` and `false`. The default is `true`.
 [[groups.auditLog.ignoreRecordsFromUnidentifiedUsers]]groups.auditLog.ignoreRecordsFromUnidentifiedUsers::
 +
 Controls whether AuditLogReader should ignore commits created by unidentified users.
-If true, then AuditLogReader ignores commits in the refs/groups/* made by unidentified users (i.e.
+If `true`, then AuditLogReader ignores commits in the refs/groups/* made by unidentified users (i.e.
 when the author of a commit can't be parsed as account id).
 +
 The current version of Gerrit writes identified users as authors for new refs/groups/* commits.
@@ -2881,9 +2881,9 @@ However, some old versions used a server identity as the author (e.g. "Gerrit Co
 <server@googlesource.com>") for such commits. Such string can't be converted to account id but
 usually the commit shouldn't be ignored.
 +
-By default, false.
+By default, `false`.
 +
-Setting it to true may lead to some unexpected results in audit log and must be set carefully.
+Setting it to `true` may lead to some unexpected results in audit log and must be set carefully.
 
 [[groups.includeExternalUsersInRegisteredUsersGroup]]groups.includeExternalUsersInRegisteredUsersGroup::
 +
@@ -2895,14 +2895,14 @@ This setting only makes sense if you run custom code (e.g. from a plugin
 or a custom authentication backend). By default, Gerrit core always requires
 users to register and doesn't use external users.
 +
-By default, true.
+By default, `true`.
 
 [[groups.newGroupsVisibleToAll]]groups.newGroupsVisibleToAll::
 +
 Controls whether newly created groups should be by default visible to
 all registered users.
 +
-By default, false.
+By default, `false`.
 
 [[groups.uuid.name]]groups.<uuid>.name::
 +
@@ -3017,7 +3017,7 @@ appear in the http.proxy property above.
 
 [[http.addUserAsRequestAttribute]]http.addUserAsRequestAttribute::
 +
-If true, 'User' attribute will be added to the request attributes so it
+If `true`, 'User' attribute will be added to the request attributes so it
 can be accessed outside the request scope (will be set to username or id
 if username not configured).
 +
@@ -3032,15 +3032,15 @@ print user in the httpd_log.
 Pattern to print user in Tomcat AccessLog.
 
 +
-Default value is true.
+Default value is `true`.
 
 [[http.addUserAsResponseHeader]]http.addUserAsResponseHeader::
 +
-If true, the header 'User' will be added to the list of response headers so it
+If `true`, the header 'User' will be added to the list of response headers so it
 can be accessed from a reverse proxy for logging purposes.
 
 +
-Default value is false.
+Default value is `false`.
 
 [[httpd]]
 === Section httpd
@@ -3169,12 +3169,12 @@ By default, `\http://*:8080`.
 
 [[httpd.reuseAddress]]httpd.reuseAddress::
 +
-If true, permits the daemon to bind to the port even if the port
-is already in use.  If false, the daemon ensures the port is not
+If `true`, permits the daemon to bind to the port even if the port
+is already in use.  If `false`, the daemon ensures the port is not
 in use before starting.  Busy sites may need to set this to true
 to permit fast restarts.
 +
-By default, true.
+By default, `true`.
 
 [[httpd.gracefulStopTimeout]]httpd.gracefulStopTimeout::
 +
@@ -3193,11 +3193,11 @@ By default, 0 seconds (immediate shutdown).
 
 [[httpd.inheritChannel]]httpd.inheritChannel::
 +
-If true, permits the daemon to inherit its server socket channel
-from fd0/1(stdin/stdout). When set to true, the server can be socket
+If `true`, permits the daemon to inherit its server socket channel
+from fd0/1(stdin/stdout). When set to `true`, the server can be socket
 activated via systemd or xinetd.
 +
-By default, false.
+By default, `false`.
 
 [[httpd.requestHeaderSize]]httpd.requestHeaderSize::
 +
@@ -3268,8 +3268,8 @@ link:logs.html#_httpd_log[here].
 `log4j.appender` with the name `httpd_log` can be configured to overwrite
 programmatic configuration.
 +
-By default, true if httpd.listenUrl uses http:// or https://,
-and false if httpd.listenUrl uses proxy-http:// or proxy-https://.
+By default, `true` if httpd.listenUrl uses http:// or https://,
+and `false` if httpd.listenUrl uses proxy-http:// or proxy-https://.
 
 [[httpd.acceptorThreads]]httpd.acceptorThreads::
 +
@@ -3421,7 +3421,7 @@ bundled with the .war will be used instead.
 +
 Enable (or disable) registration of Jetty MBeans for Java JMX.
 +
-By default, false.
+By default, `false`.
 
 [[index]]
 === Section index
@@ -3465,7 +3465,7 @@ This improves the performance of queries that are returning Changes duplicates.
 It needs to be turned off when having Changes imported from other servers
 because of the potential conflicts of change numbers.
 +
-Defaults to true.
+Defaults to `true`.
 
 [[index.onlineUpgrade]]index.onlineUpgrade::
 +
@@ -3474,10 +3474,10 @@ running. This is recommended as it prevents additional downtime during
 Gerrit version upgrades (avoiding the need for an offline reindex step
 using Reindex), but can add additional server load during the upgrade.
 +
-If set to false, there is no way to upgrade the index schema to take
+If set to `false`, there is no way to upgrade the index schema to take
 advantage of new search features without restarting the server.
 +
-Defaults to true.
+Defaults to `true`.
 
 [[index.excludeProjectFromChangeReindex]]index.excludeProjectFromChangeReindex::
 +
@@ -3605,11 +3605,11 @@ Defaults to 1024.
 [[index.autoReindexIfStale]]index.autoReindexIfStale::
 +
 Whether to automatically check if a document became stale in the index
-immediately after indexing it. If false, there is a race condition during two
+immediately after indexing it. If `false`, there is a race condition during two
 simultaneous writes that may cause one of the writes to not be reflected in the
 index. The check to avoid this does consume some resources.
 +
-Defaults to false.
+Defaults to `false`.
 
 [[index.indexChangesAsync]]index.indexChangesAsync::
 +
@@ -3619,7 +3619,7 @@ This has an advantage of faster UI (because indexing latency does not contribute
 to the write request latency) and disadvantage that the indexing result might not be
 immediately available after the write request.
 +
-Defaults to false.
+Defaults to `false`.
 
 [[index.scheduledIndexer]]
 ==== Subsection index.scheduledIndexer
@@ -3761,7 +3761,7 @@ so merges do not fall behind. See the
 link:https://lucene.apache.org/core/5_5_0/core/org/apache/lucene/index/ConcurrentMergeScheduler.html#enableAutoIOThrottle()[
 Lucene documentation,role=external,window=_blank] for further details.
 +
-Defaults to true (throttling enabled).
+Defaults to `true` (throttling enabled).
 
 During offline reindexing, setting ramBufferSize greater than the size
 of index (size of specific index folder under <site_dir>/index) and
@@ -3823,7 +3823,7 @@ case is to re-trigger CI build from the change screen by adding a comment with
 specific content, e.g.: `recheck`. Jenkins Gerrit Trigger plugin and Zuul CI
 depend on this feature to trigger change verification.
 +
-By default, true.
+By default, `true`.
 
 [[event.stream-events.enableRefUpdatedEvents]]event.stream-events.enableRefUpdatedEvents::
 +
@@ -3833,7 +3833,7 @@ This allows event listeners to react on a ref update.
 Please consider switching to `batch-ref-updated` event which provides better control on grouping and
 preserving order of the ref updates.
 +
-By default, true.
+By default, `true`.
 
 [[event.stream-events.enableBatchRefUpdatedEvents]]event.stream-events.enableBatchRefUpdatedEvents::
 +
@@ -3841,9 +3841,9 @@ Enable streaming of `batch-ref-updated` event which represents group of
 refs updated during a single batch ref update operation.
 Single ref updates are also streamed as a `batch-ref-updated` events with a single ref specified.
 This allows event listeners to react on all ref updated events and disable individual `ref-updated`
-events by setting <<event.stream-events.enableRefUpdatedEvents, event.stream-events.enableRefUpdatedEvents>> to false.
+events by setting <<event.stream-events.enableRefUpdatedEvents, event.stream-events.enableRefUpdatedEvents>> to `false`.
 +
-By default, false.
+By default, `false`.
 
 [[event.stream-events.enableDraftCommentEvents]]event.stream-events.enableDraftCommentEvents::
 +
@@ -3854,7 +3854,7 @@ NOTE: Due to the nature of drafts, the amount of `ref-updated` events created on
 The extra amount of events depends on the usage pattern of the installation. It is worth evaluating
 the amount of extra events produced before enabling this flag by counting the calls to the draft APIs.
 +
-By default, false.
+By default, `false`.
 
 [[experiments]]
 === Section experiments
@@ -3927,7 +3927,7 @@ Please note that projects rarely used and thus not cached may be
 temporarily inaccessible by users even with LDAP membership and grants
 referenced in the ACLs.
 +
-By default, true.
+By default, `true`.
 
 [[ldap.server]]ldap.server::
 +
@@ -3946,31 +3946,31 @@ See https://issues.gerritcodereview.com/issues/40010644[issue 40010644].
 
 [[ldap.startTls]]ldap.startTls::
 +
-If true, Gerrit will perform StartTLS extended operation.
+If `true`, Gerrit will perform StartTLS extended operation.
 +
-By default, false, StartTLS will not be enabled.
+By default, `false`, StartTLS will not be enabled.
 
 [[ldap.supportAnonymous]]ldap.supportAnonymous::
 +
-If false, Gerrit will provide credentials only at connection open, this is
+If `false`, Gerrit will provide credentials only at connection open, this is
 required for some `LDAP` implementations that do not allow anonymous bind
 for StartTLS or for reauthentication.
 +
-By default, true.
+By default, `true`.
 
 [[ldap.sslVerify]]ldap.sslVerify::
 +
-If false and ldap.server is an `ldaps://` style URL or `ldap.startTls`
-is true, Gerrit will not verify the server certificate when it connects
+If `false` and ldap.server is an `ldaps://` style URL or `ldap.startTls`
+is `true`, Gerrit will not verify the server certificate when it connects
 to perform a query.
 +
-By default, true, requiring the certificate to be verified.
+By default, `true`, requiring the certificate to be verified.
 
 [[ldap.groupsVisibleToAll]]ldap.groupsVisibleToAll::
 +
-If true, LDAP groups are visible to all registered users.
+If `true`, LDAP groups are visible to all registered users.
 +
-By default, false, LDAP groups are visible only to administrators and
+By default, `false`, LDAP groups are visible only to administrators and
 group members.
 
 [[ldap.username]]ldap.username::
@@ -4207,7 +4207,7 @@ By default, unset.
 +
 Converts the local username, that is used to login into the Gerrit
 Web UI, to lower case before doing the LDAP authentication. By setting
-this parameter to true, a case insensitive login to the Gerrit Web UI
+this parameter to `true`, a case insensitive login to the Gerrit Web UI
 can be achieved.
 +
 If set, it must be ensured that the local usernames for all existing
@@ -4220,7 +4220,7 @@ Please be aware that the conversion of the local usernames to lower
 case can't be undone. For newly created accounts the local username
 will be directly stored in lower case.
 +
-By default, unset/false.
+By default, unset/`false`.
 
 [[ldap.authentication]]ldap.authentication::
 +
@@ -4239,7 +4239,7 @@ KerberosLogin {
             required
             useTicketCache=true
             doNotPrompt=true
-            renewTGT=true;
+            renewTGT=`true`;
 };
 ----
 
@@ -4258,7 +4258,7 @@ have local administrator privileges.
 +
 _(Optional)_ Enable the LDAP connection pooling or not.
 +
-If it is true, the LDAP service provider maintains a pool of (possibly)
+If it is `true`, the LDAP service provider maintains a pool of (possibly)
 previously used connections and assigns them to a Context instance as
 needed. When a Context instance is done with a connection (closed or
 garbage collected), the connection is returned to the pool for future use.
@@ -4267,7 +4267,7 @@ For details, see link:http://docs.oracle.com/javase/tutorial/jndi/ldap/pool.html
 LDAP connection management (Pool),role=external,window=_blank] and link:http://docs.oracle.com/javase/tutorial/jndi/ldap/config.html[
 LDAP connection management (Configuration),role=external,window=_blank]
 +
-By default, false.
+By default, `false`.
 
 [[ldap.connectTimeout]]ldap.connectTimeout::
 +
@@ -4313,7 +4313,7 @@ By default unset.
 
 [[log.jsonLogging]]log.jsonLogging::
 +
-If set to true, enables error, ssh and http logging in JSON format (file names:
+If set to `true`, enables error, ssh and http logging in JSON format (file names:
 `logs/error_log.json`, `logs/sshd_log.json` and `logs/httpd_log.json`).
 +
 The option only applies to Gerrit built-in loggers. It is ignored when a log4j
@@ -4321,11 +4321,11 @@ configuration is specified via
 link:#container.javaOptions[container.javaOptions], for example
 `-Dlog4j.configuration=file://etc/log4j.properties`.
 +
-Defaults to false.
+Defaults to `false`.
 
 [[log.textLogging]]log.textLogging::
 +
-If set to true, enables error logging in regular plain text format. Can only be disabled
+If set to `true`, enables error logging in regular plain text format. Can only be disabled
 if `jsonLogging` is enabled.
 +
 The option only applies to Gerrit built-in loggers. It is ignored when a log4j
@@ -4333,20 +4333,20 @@ configuration is specified via
 link:#container.javaOptions[container.javaOptions], for example
 `-Dlog4j.configuration=file://etc/log4j.properties`.
 +
-Defaults to true.
+Defaults to `true`.
 
 [[log.compress]]log.compress::
 +
-If set to true, log files are compressed at server startup and then daily at 11pm
+If set to `true`, log files are compressed at server startup and then daily at 11pm
 (in the server's local time zone).
 +
-Defaults to true.
+Defaults to `true`.
 
 [[log.rotate]]log.rotate::
 +
-If set to true, log files are rotated daily at midnight (GMT).
+If set to `true`, log files are rotated daily at midnight (GMT).
 +
-Defaults to true.
+Defaults to `true`.
 
 [[metrics]]
 === Section metrics
@@ -4393,13 +4393,13 @@ time-based reservoir types.
 
 [[mimetype.name.safe]]mimetype.<name>.safe::
 +
-If set to true, files with the MIME type `<name>` will be sent as
+If set to `true`, files with the MIME type `<name>` will be sent as
 direct downloads to the user's browser, rather than being wrapped up
 inside of zipped archives.  The type name may be a complete type
 name, e.g. `image/gif`, a generic media type, e.g. `+image/*+`,
 or the wildcard `+*/*+` to match all types.
 +
-By default, false for all MIME types.
+By default, `false` for all MIME types.
 
 Common examples:
 ----
@@ -4464,16 +4464,16 @@ their contact information manually.
 
 [[oauth.allowEditFullName]]oauth.allowEditFullName::
 +
-If true, the full name can be edited in the contact information.
+If `true`, the full name can be edited in the contact information.
 +
-Default is false.
+Default is `false`.
 
 [[oauth.allowRegisterNewEmail]]oauth.allowRegisterNewEmail::
 +
-If true, additional email addresses can be registered in the contact
+If `true`, additional email addresses can be registered in the contact
 information.
 +
-Default is false.
+Default is `false`.
 
 [[operator-alias]]
 === Section operator alias
@@ -4519,7 +4519,7 @@ memory resources.
 
 [[pack.deltacompression]]pack.deltacompression::
 +
-If true, delta compression between objects is enabled.  This may
+If `true`, delta compression between objects is enabled.  This may
 result in a smaller overall transfer for the client, but requires
 more server memory and CPU time.
 +
@@ -4552,8 +4552,8 @@ Default is 1 minute.
 [[plugins.allowRemoteAdmin]]plugins.allowRemoteAdmin::
 +
 Enable remote installation, enable and disable of plugins over HTTP
-and SSH.  If set to true Administrators can install new plugins
-remotely, or disable existing plugins.  Defaults to false.
+and SSH.  If set to `true` Administrators can install new plugins
+remotely, or disable existing plugins.  Defaults to `false`.
 
 [[plugins.mandatory]]plugins.mandatory::
 +
@@ -4619,34 +4619,34 @@ Default is 5 minutes.
 
 [[receive.checkMagicRefs]]receive.checkMagicRefs::
 +
-If true, Gerrit will verify the destination repository has
+If `true`, Gerrit will verify the destination repository has
 no references under the magic 'refs/for' branch namespace. Names under
 these locations confuse clients when trying to upload code reviews so
 Gerrit requires them to be empty.
 +
-If false Gerrit skips the sanity check and assumes administrators
+If `false` Gerrit skips the sanity check and assumes administrators
 have ensured the repository does not contain any magic references.
-Setting to false to skip the check can decrease latency during push.
+Setting to `false` to skip the check can decrease latency during push.
 +
-Default is true.
+Default is `true`.
 
 [[receive.allowProjectOwnersToChangeParent]]receive.allowProjectOwnersToChangeParent::
 +
-If true, Gerrit will allow project owners to change the parent of a project.
+If `true`, Gerrit will allow project owners to change the parent of a project.
 +
 By default only Gerrit administrators are allowed to change the parent
 of a project. By allowing project owners to change parents, it may
 allow the owner to circumvent certain enforced rules (like important
 BLOCK rules).
 +
-Default is false.
+Default is `false`.
 +
 This value supports configuration reloads:
 link:cmd-reload-config.html[reload-config]
 
 [[receive.checkReferencedObjectsAreReachable]]receive.checkReferencedObjectsAreReachable::
 +
-If set to true, Gerrit will validate that all referenced objects that
+If set to `true`, Gerrit will validate that all referenced objects that
 are not included in the received pack are reachable by the user.
 +
 Carrying out this check on gits with many refs and commits can be a
@@ -4656,11 +4656,11 @@ be overkill.
 Only disable this check if you trust the clients not to forge SHA-1
 references to access commits intended to be hidden from the user.
 +
-Default is true.
+Default is `true`.
 
 [[receive.enableInMemoryRefCache]]receive.enableInMemoryRefCache::
 +
-If true, Gerrit will cache all refs advertised during push in memory and
+If `true`, Gerrit will cache all refs advertised during push in memory and
 base later receive operations on that cache.
 +
 Turning this cache off is considered experimental.
@@ -4669,17 +4669,17 @@ This cache provides value when the ref database is slow and/or does not
 offer an inverse lookup of object ID to ref name. When RefTable is used,
 this cache can be turned off (experimental) to get speed improvements.
 +
-Default is true.
+Default is `true`.
 
 [[receive.enableSignedPush]]receive.enableSignedPush::
 +
-If true, server-side signed push validation is enabled.
+If `true`, server-side signed push validation is enabled.
 +
 When a client pushes with `git push --signed`, this ensures that the
 push certificate is valid and signed with a valid public key stored in
 the `refs/meta/gpg-keys` branch of `All-Users`.
 +
-Defaults to false.
+Defaults to `false`.
 
 [[receive.maxBatchChanges]]receive.maxBatchChanges::
 +
@@ -4730,7 +4730,7 @@ Controls whether the project-level link:config-project-config.html[`receive.maxO
 value is inherited from the parent project. When `true`, the value is
 inherited, otherwise it is not inherited.
 +
-Default is false, the value is not inherited.
+Default is `false`, the value is not inherited.
 
 [[receive.maxTrustDepth]]receive.maxTrustDepth::
 +
@@ -4929,18 +4929,18 @@ and assumes milliseconds if not specified.
 Whether Gerrit should automatically retry operations on failure with tracing
 enabled. The automatically generated traces can help with debugging.
 +
-By default this is set to false.
+By default this is set to `false`.
 
 [[rules]]
 === Section rules
 
 [[rules.enable]]rules.enable::
 +
-If true, Gerrit will load and execute 'rules.pl' files in each
-project's refs/meta/config branch, if present. When set to false,
+If `true`, Gerrit will load and execute 'rules.pl' files in each
+project's refs/meta/config branch, if present. When set to `false`,
 only the default internal rules will be used.
 +
-Default is true, to execute project specific rules.
+Default is `true`, to execute project specific rules.
 
 [[rules.reductionLimit]]rules.reductionLimit::
 +
@@ -4973,7 +4973,7 @@ Maximum input size (in bytes) of a Prolog rules.pl file.  Larger
 source files may need a larger rules.compileReductionLimit.  Consider
 using link:pgm-rulec.html[rulec] to precompile larger rule files.
 +
-A size of 0 bytes disables rules, same as rules.enable = false.
+A size of 0 bytes disables rules, same as rules.enable = `false`.
 +
 Common unit suffixes of 'k', 'm', or 'g' are supported.
 +
@@ -5067,7 +5067,7 @@ keep the connection with the email server alive and receive a push when a new
 email is delivered to the inbox. In this case, Gerrit will process the email
 immediately and will not have a fetch delay.
 +
-Defaults to false.
+Defaults to `false`.
 
 [[receiveemail.filter.mode]]receiveemail.filter.mode::
 +
@@ -5101,18 +5101,18 @@ be a list of addresses when regular expression characters are escaped.
 
 [[sendemail.enable]]sendemail.enable::
 +
-If false Gerrit will not send email messages, for any reason,
+If `false` Gerrit will not send email messages, for any reason,
 and all other properties of section sendemail are ignored.
 +
-By default, true, allowing notifications to be sent.
+By default, `true`, allowing notifications to be sent.
 
 [[sendemail.html]]sendemail.html::
 +
-If false, Gerrit will only send plain-text emails.
-If true, Gerrit will send multi-part emails with an HTML and
+If `false`, Gerrit will only send plain-text emails.
+If `true`, Gerrit will send multi-part emails with an HTML and
 plain text part.
 +
-By default, true, allowing HTML in the emails Gerrit sends.
+By default, `true`, allowing HTML in the emails Gerrit sends.
 
 [[sendemail.connectTimeout]]sendemail.connectTimeout::
 +
@@ -5204,11 +5204,11 @@ By default, 'none', indicating no encryption is used.
 
 [[sendemail.sslVerify]]sendemail.sslVerify::
 +
-If false and sendemail.smtpEncryption is 'ssl' or 'tls', Gerrit
+If `false` and sendemail.smtpEncryption is 'ssl' or 'tls', Gerrit
 will not verify the server certificate when it connects to send
 an email message.
 +
-By default, true, requiring the certificate to be verified.
+By default, `true`, requiring the certificate to be verified.
 
 [[sendemail.smtpUser]]sendemail.smtpUser::
 +
@@ -5245,12 +5245,12 @@ By default, unset, permitting delivery to any email address.
 
 [[sendemail.includeDiff]]sendemail.includeDiff::
 +
-If true, new change emails and merged change emails from Gerrit
+If `true`, new change emails and merged change emails from Gerrit
 will include the complete unified diff of the change.
 Variable maxmimumDiffSize places an upper limit on how large the
 email can get when this option is enabled.
 +
-By default, false.
+By default, `false`.
 
 [[sendemail.maximumDiffSize]]sendemail.maximumDiffSize::
 +
@@ -5300,12 +5300,12 @@ Defaults to an empty list, meaning no additional TLDs are allowed.
 
 [[sendemail.addInstanceNameInSubject]]sendemail.addInstanceNameInSubject::
 +
-When set to true, Gerrit will add its short name to the email subject, allowing recipients to quickly identify
+When set to `true`, Gerrit will add its short name to the email subject, allowing recipients to quickly identify
 what Gerrit instance the email came from.
 +
 The short name can be customized via the gerrit.instanceName option.
 +
-Defaults to false.
+Defaults to `false`.
 
 
 [[site]]
@@ -5325,9 +5325,9 @@ By default, unset, denying all cross-origin requests.
 
 [[site.refreshHeaderFooter]]site.refreshHeaderFooter::
 +
-If true the server checks the site header, footer and CSS files for
-updated versions. If false, a server restart is required to change
-any of these resources. Default is true, allowing automatic reloads.
+If `true` the server checks the site header, footer and CSS files for
+updated versions. If `false`, a server restart is required to change
+any of these resources. Default is `true`, allowing automatic reloads.
 
 [[ssh-alias]]
 === Section ssh-alias
@@ -5413,7 +5413,7 @@ By default uses the value of `sshd.listenAddress`.
 
 [[sshd.tcpKeepAlive]]sshd.tcpKeepAlive::
 +
-If true, enables TCP keepalive messages to the other side, so
+If `true`, enables TCP keepalive messages to the other side, so
 the daemon can terminate connections if the peer disappears.
 +
 Only effective when `sshd.backend` is set to `MINA`.
@@ -5750,7 +5750,7 @@ By default 50.
 If link:access-control.html#service_users[service users] should be skipped when
 suggesting reviewers.
 +
-By default true.
+By default `true`.
 
 [[tracing]]
 === Section tracing
@@ -5770,7 +5770,7 @@ In one recorded case the impact was an overall heap increase of 40%
 heap increase wasn't nearly as dramatic and the impact is most likely
 dependent on which plugin is used.
 +
-By default, false.
+By default, `false`.
 
 [[tracing.traceid]]
 ==== Subsection tracing.<trace-id>
@@ -6062,7 +6062,7 @@ account deactivations.
 
 Note that the task will only be scheduled if the
 link:#autoUpdateAccountActiveStatus[auth.autoUpdateAccountActiveStatus]
-is set to true.
+is set to `true`.
 
 link:#schedule-configuration-examples[Schedule examples] can be found
 in the link:#schedule-configuration[Schedule Configuration] section.
@@ -6088,7 +6088,7 @@ By default this is `TRUE`.
 +
 This allows to enable the superproject subscription mechanism.
 +
-By default this is true.
+By default this is `true`.
 
 [[submodule.maxCombinedCommitMessageSize]]submodule.maxCombinedCommitMessageSize::
 +

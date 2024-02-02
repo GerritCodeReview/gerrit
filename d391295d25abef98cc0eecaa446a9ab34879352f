@@ -34,6 +34,24 @@
       "parentUuid": "f3cbf212_700375e5",
       "revId": "d391295d25abef98cc0eecaa446a9ab34879352f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3a2a013_0092be1f",
+        "filename": "java/com/google/gerrit/sshd/commands/ListLoggingLevelCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-02-02T10:20:15Z",
+      "side": 1,
+      "message": "Done as a follow-up change:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/406497",
+      "parentUuid": "13b7cbdc_68fc4685",
+      "revId": "d391295d25abef98cc0eecaa446a9ab34879352f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

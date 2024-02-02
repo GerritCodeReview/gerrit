@@ -16,6 +16,24 @@
       "message": "OK, one last concern (not a doing one, just one of process). Since this is a bug fix, it likely should be done on an older release. I would suspect that it would be appreciated all the way back to at least 3.5? @nasser.grainawi@linaro.org?",
       "revId": "a4c7a7384ef151b80ae45faca1450a90d9672ea5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4da93858_5909e360",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 36
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-02-02T19:38:06Z",
+      "side": 1,
+      "message": "I don\u0027t mind cherrypicking it back to stable-3.5 after it merges onto master. But if @lintw0302@gmail.com wants to move it and rebase, I would be fine with that too.",
+      "parentUuid": "acf3f0b0_47c4d716",
+      "revId": "a4c7a7384ef151b80ae45faca1450a90d9672ea5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

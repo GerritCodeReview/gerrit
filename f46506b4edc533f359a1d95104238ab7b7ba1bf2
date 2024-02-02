@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "73d81c5d_2a4220ef",
+        "filename": "java/com/google/gerrit/server/git/UploadPackMetricsHook.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-02T00:31:27Z",
+      "side": 1,
+      "message": "Point taken, let me change the metric type.",
+      "parentUuid": "dc2804c6_2aa1a857",
+      "range": {
+        "startLine": 73,
+        "startChar": 20,
+        "endLine": 73,
+        "endChar": 30
+      },
+      "revId": "f46506b4edc533f359a1d95104238ab7b7ba1bf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d4e3ba75_00c934f3",
         "filename": "java/com/google/gerrit/server/git/UploadPackMetricsHook.java",
         "patchSetId": 2
@@ -37,6 +61,30 @@
       "writtenOn": "2024-02-02T00:16:54Z",
       "side": 1,
       "message": "```suggestion\n            new Description(\"Total number of bitmap index misses\")\n.setRate()\n.setUnit(\"requests\"),\n```\n\nFor consistency with the other occurrences? But if GJF didn\u0027t pick it up then maybe no point in changing it.",
+      "range": {
+        "startLine": 75,
+        "startChar": 12,
+        "endLine": 75,
+        "endChar": 96
+      },
+      "revId": "f46506b4edc533f359a1d95104238ab7b7ba1bf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "79da96f6_fcfb4a4f",
+        "filename": "java/com/google/gerrit/server/git/UploadPackMetricsHook.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-02T00:31:27Z",
+      "side": 1,
+      "message": "I\u0027d stick with GJF\u0027s formatting.",
+      "parentUuid": "d4e3ba75_00c934f3",
       "range": {
         "startLine": 75,
         "startChar": 12,

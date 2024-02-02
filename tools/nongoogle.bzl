@@ -1,6 +1,11 @@
-load("//tools/bzl:maven_jar.bzl", "maven_jar")
+"""
+Dependencies that are exempted from requiring a Library-Compliance approval
+from a Googler.
+"""
+
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 load("@bazel_tools//tools/build_defs/repo:utils.bzl", "maybe")
+load("//tools/bzl:maven_jar.bzl", "maven_jar")
 
 GUAVA_VERSION = "33.0.0-jre"
 

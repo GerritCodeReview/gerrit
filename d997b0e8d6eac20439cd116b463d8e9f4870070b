@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a53f701_4eb514a3",
+        "filename": "Documentation/metrics.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1155610
+      },
+      "writtenOn": "2024-02-02T00:10:40Z",
+      "side": 1,
+      "message": "```suggestion\n* `git/upload-pack/no_bitmap_index`: Total number of times that bitmap index was not found.\n```",
+      "range": {
+        "startLine": 374,
+        "startChar": 19,
+        "endLine": 374,
+        "endChar": 35
+      },
+      "revId": "d997b0e8d6eac20439cd116b463d8e9f4870070b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

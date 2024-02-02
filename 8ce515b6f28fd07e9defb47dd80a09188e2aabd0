@@ -3,6 +3,29 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "e0963a5b_917eb3f9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-02T09:44:28Z",
+      "side": 1,
+      "message": "Non-blocking: I think the comment message can benefit from a much more detailed explanation of what is being added, what makes them complex, how is it different.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 60
+      },
+      "revId": "8ce515b6f28fd07e9defb47dd80a09188e2aabd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "5c8322dc_82f5c411",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -14,6 +37,29 @@
       "writtenOn": "2024-02-01T19:28:13Z",
       "side": 1,
       "message": "I intentionally copy code. It might be that I will remove v1, so I want to separate code from beginning.",
+      "revId": "8ce515b6f28fd07e9defb47dd80a09188e2aabd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45c64e34_adc8aa56",
+        "filename": "polygerrit-ui/app/elements/shared/gr-suggestion-diff-preview/gr-suggestion-diff-preview.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-02T09:44:28Z",
+      "side": 1,
+      "message": "It\u0027s unclear from the comment what would it mean to address this TODO exactly and why path fix is necessary. Could you expand?",
+      "range": {
+        "startLine": 271,
+        "startChar": 22,
+        "endLine": 271,
+        "endChar": 40
+      },
       "revId": "8ce515b6f28fd07e9defb47dd80a09188e2aabd0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

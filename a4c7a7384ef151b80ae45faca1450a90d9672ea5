@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "acf3f0b0_47c4d716",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 36
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2024-02-02T19:18:36Z",
+      "side": 1,
+      "message": "OK, one last concern (not a doing one, just one of process). Since this is a bug fix, it likely should be done on an older release. I would suspect that it would be appreciated all the way back to at least 3.5? @nasser.grainawi@linaro.org?",
+      "revId": "a4c7a7384ef151b80ae45faca1450a90d9672ea5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

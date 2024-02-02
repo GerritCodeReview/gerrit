@@ -113,7 +113,7 @@ public class ListMembers implements RestReadView<GroupResource> {
       GroupDescription.Internal group, GroupControl groupControl)
       throws PermissionBackendException {
     checkSameGroup(group, groupControl);
-    Set<Account.Id> directMembers = getDirectMemberIds(group, groupControl);
+    ImmutableSet<Account.Id> directMembers = getDirectMemberIds(group, groupControl);
     return toAccountInfos(directMembers);
   }
 
@@ -140,32 +140,32 @@ public class ListMembers implements RestReadView<GroupResource> {
       GroupDescription.Internal group,
       GroupControl groupControl,
       HashSet<AccountGroup.UUID> seenGroups) {
-    Set<Account.Id> directMembers = getDirectMemberIds(group, groupControl);
+    ImmutableSet<Account.Id> directMembers = getDirectMemberIds(group, groupControl);
 
     if (!groupControl.canSeeGroup()) {
       return directMembers;
     }
 
-    Set<Account.Id> indirectMembers = getIndirectMemberIds(group, seenGroups);
+    ImmutableSet<Account.Id> indirectMembers = getIndirectMemberIds(group, seenGroups);
     return Sets.union(directMembers, indirectMembers);
   }
 
-  private static Set<Account.Id> getDirectMemberIds(
+  private static ImmutableSet<Account.Id> getDirectMemberIds(
       GroupDescription.Internal group, GroupControl groupControl) {
     return group.getMembers().stream().filter(groupControl::canSeeMember).collect(toImmutableSet());
   }
 
-  private Set<Account.Id> getIndirectMemberIds(
+  private ImmutableSet<Account.Id> getIndirectMemberIds(
       GroupDescription.Internal group, HashSet<AccountGroup.UUID> seenGroups) {
-    Set<Account.Id> indirectMembers = new HashSet<>();
-    Set<AccountGroup.UUID> subgroupMembersToLoad = new HashSet<>();
+    ImmutableSet.Builder<Account.Id> indirectMembers = ImmutableSet.builder();
+    ImmutableSet.Builder<AccountGroup.UUID> subgroupMembersToLoad = ImmutableSet.builder();
     for (AccountGroup.UUID subgroupUuid : group.getSubgroups()) {
       if (!seenGroups.contains(subgroupUuid)) {
         seenGroups.add(subgroupUuid);
         subgroupMembersToLoad.add(subgroupUuid);
       }
     }
-    groupCache.get(subgroupMembersToLoad).values().stream()
+    groupCache.get(subgroupMembersToLoad.build()).values().stream()
         .map(InternalGroupDescription::new)
         .forEach(
             subgroup -> {
@@ -173,7 +173,7 @@ public class ListMembers implements RestReadView<GroupResource> {
               indirectMembers.addAll(getTransitiveMemberIds(subgroup, subgroupControl, seenGroups));
             });
 
-    return indirectMembers;
+    return indirectMembers.build();
   }
 
   private static void checkSameGroup(GroupDescription.Internal group, GroupControl groupControl) {

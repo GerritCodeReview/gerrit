@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.quota.QuotaGroupDefinitions.REPOSITORY_SIZE_GROUP;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 import com.google.gerrit.common.Nullable;
@@ -69,7 +70,6 @@ import com.google.inject.name.Named;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Collection;
-import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -422,12 +422,14 @@ public class AsyncReceiveCommits {
     int totalChanges = 0;
     if (result.magicPush()) {
       pushType = PushType.CREATE_REPLACE;
-      Set<Change.Id> created = result.changes().get(ReceiveCommitsResult.ChangeStatus.CREATED);
-      Set<Change.Id> replaced = result.changes().get(ReceiveCommitsResult.ChangeStatus.REPLACED);
+      ImmutableSet<Change.Id> created =
+          result.changes().get(ReceiveCommitsResult.ChangeStatus.CREATED);
+      ImmutableSet<Change.Id> replaced =
+          result.changes().get(ReceiveCommitsResult.ChangeStatus.REPLACED);
       metrics.changes.record(pushType, created.size() + replaced.size());
       totalChanges = replaced.size() + created.size();
     } else {
-      Set<Change.Id> autoclosed =
+      ImmutableSet<Change.Id> autoclosed =
           result.changes().get(ReceiveCommitsResult.ChangeStatus.AUTOCLOSED);
       if (!autoclosed.isEmpty()) {
         pushType = PushType.AUTOCLOSE;

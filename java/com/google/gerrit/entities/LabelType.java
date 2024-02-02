@@ -249,7 +249,7 @@ public abstract class LabelType {
         setRefPatterns(null);
       }
 
-      List<LabelValue> valueList = sortValues(getValues());
+      ImmutableList<LabelValue> valueList = sortValues(getValues());
       setValues(valueList);
       if (!valueList.isEmpty()) {
         if (valueList.get(0).getValue() < 0) {

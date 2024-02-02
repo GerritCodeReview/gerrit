@@ -17,7 +17,7 @@ package com.google.gerrit.server.rules.prolog;
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.SetMultimap;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
-import java.util.Collection;
+import java.util.Set;
 
 /** Loads the classes for Prolog predicates. */
 class PredicateClassLoader extends ClassLoader {
@@ -38,8 +38,7 @@ class PredicateClassLoader extends ClassLoader {
 
   @Override
   protected Class<?> findClass(String className) throws ClassNotFoundException {
-    final Collection<ClassLoader> classLoaders =
-        packageClassLoaderMap.get(getPackageName(className));
+    final Set<ClassLoader> classLoaders = packageClassLoaderMap.get(getPackageName(className));
     for (ClassLoader cl : classLoaders) {
       try {
         return Class.forName(className, true, cl);

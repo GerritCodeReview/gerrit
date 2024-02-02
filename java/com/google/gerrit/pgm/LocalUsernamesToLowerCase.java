@@ -16,6 +16,7 @@ package com.google.gerrit.pgm;
 
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GERRIT;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.exceptions.DuplicateKeyException;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
@@ -35,7 +36,6 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Locale;
 import java.util.Optional;
 import org.apache.commons.lang3.StringUtils;
@@ -78,7 +78,7 @@ public class LocalUsernamesToLowerCase extends SiteProgram {
             })
         .injectMembers(this);
 
-    Collection<ExternalId> todo = externalIds.all();
+    ImmutableSet<ExternalId> todo = externalIds.all();
     monitor.beginTask("Converting local usernames", todo.size());
 
     try (Repository repo = repoManager.openRepository(allUsersName)) {

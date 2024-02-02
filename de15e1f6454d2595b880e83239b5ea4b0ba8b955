@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "57f81cf1_e1a6e36a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-02-02T14:57:19Z",
+      "side": 1,
+      "message": "IIUC we already use 4.5.14 internally.",
+      "revId": "de15e1f6454d2595b880e83239b5ea4b0ba8b955",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

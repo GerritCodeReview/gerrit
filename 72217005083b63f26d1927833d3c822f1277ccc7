@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "38b1af22_a3c7bb44",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-02-02T09:20:41Z",
+      "side": 1,
+      "message": "Makes sense. I was looking for a serialVersionUID in ChangeNotesState, but I missed that there was an explicit version on the cache.\n\nBut yeah, better to be safe and do this as a 2-step rollout.",
+      "parentUuid": "3160fa81_e1547509",
+      "range": {
+        "startLine": 63,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 0
+      },
+      "revId": "72217005083b63f26d1927833d3c822f1277ccc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0f5965f5_ea338ac3",
@@ -37,6 +61,24 @@
       "writtenOn": "2024-02-02T08:18:38Z",
       "side": 1,
       "message": "Please increase the version number in ChangeNotesCache",
+      "revId": "72217005083b63f26d1927833d3c822f1277ccc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e6ebe1b_3af91794",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-02-02T09:20:41Z",
+      "side": 1,
+      "message": "Thanks for catching this!\n\nDone.",
+      "parentUuid": "0f5965f5_ea338ac3",
       "revId": "72217005083b63f26d1927833d3c822f1277ccc7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

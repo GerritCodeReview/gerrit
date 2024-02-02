@@ -15,7 +15,6 @@
 package com.google.gerrit.acceptance.server.project;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth8.assertThat;
 
 import com.google.common.cache.LoadingCache;
 import com.google.gerrit.acceptance.AbstractDaemonTest;

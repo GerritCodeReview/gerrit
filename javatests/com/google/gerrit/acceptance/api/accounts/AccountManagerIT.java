@@ -17,7 +17,6 @@ package com.google.gerrit.acceptance.api.accounts;
 import static com.google.common.truth.OptionalSubject.optionals;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
-import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.entities.RefNames.REFS_EXTERNAL_IDS;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GOOGLE_OAUTH;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;

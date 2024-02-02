@@ -15,7 +15,6 @@
 package com.google.gerrit.server.ioutil;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth8.assertThat;
 
 import com.google.common.collect.ImmutableList;
 import java.util.List;

@@ -14,7 +14,7 @@
 
 package com.google.gerrit.acceptance.pgm;
 
-import static com.google.common.truth.Truth8.assertThat;
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 
 import com.google.common.collect.ImmutableSet;

@@ -18,7 +18,6 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.server.group.testing.InternalGroupSubject.internalGroups;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
-import static com.google.gerrit.truth.OptionalSubject.assertThat;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
@@ -1599,6 +1598,6 @@ public class GroupConfigTest {
 
   private static OptionalSubject<InternalGroupSubject, InternalGroup> assertThatGroup(
       Optional<InternalGroup> loadedGroup) {
-    return assertThat(loadedGroup, internalGroups());
+    return OptionalSubject.assertThat(loadedGroup, internalGroups());
   }
 }

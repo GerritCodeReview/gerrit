@@ -15,7 +15,6 @@
 package com.google.gerrit.server.update;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.testing.TestActionRefUpdateContext.testRefAction;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 

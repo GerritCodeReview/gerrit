@@ -15,7 +15,6 @@
 package com.google.gerrit.acceptance.rest.config;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth8.assertThat;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;

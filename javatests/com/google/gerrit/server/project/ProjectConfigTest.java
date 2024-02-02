@@ -16,7 +16,6 @@ package com.google.gerrit.server.project;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
-import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.entities.BooleanProjectConfig.REQUIRE_CHANGE_ID;
 
 import com.google.common.collect.ImmutableList;

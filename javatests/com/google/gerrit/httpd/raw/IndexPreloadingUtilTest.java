@@ -15,7 +15,6 @@
 package com.google.gerrit.httpd.raw;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.httpd.raw.IndexPreloadingUtil.computeChangeRequestsPath;
 import static com.google.gerrit.httpd.raw.IndexPreloadingUtil.parseRequestedPage;
 

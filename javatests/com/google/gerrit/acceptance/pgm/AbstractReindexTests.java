@@ -18,7 +18,6 @@ import static com.google.common.collect.ImmutableMap.toImmutableMap;
 import static com.google.common.truth.StreamSubject.streams;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
-import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.extensions.client.ListGroupsOption.MEMBERS;
 
 import com.google.common.collect.ImmutableSet;

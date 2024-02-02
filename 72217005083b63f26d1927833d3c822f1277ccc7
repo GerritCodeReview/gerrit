@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3160fa81_e1547509",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2024-02-02T08:18:38Z",
+      "side": 1,
+      "message": "I think this is not necessary but SGTM to err on the safe side anyway.\n\nThe parsed state is only cached and the cache is versioned (the keys contain the cache version). So old binaries will never read records written to by new binaries and vice versa if you increase the cache version number.",
+      "range": {
+        "startLine": 63,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 0
+      },
+      "revId": "72217005083b63f26d1927833d3c822f1277ccc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f5965f5_ea338ac3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2024-02-02T08:18:38Z",
+      "side": 1,
+      "message": "Please increase the version number in ChangeNotesCache",
+      "revId": "72217005083b63f26d1927833d3c822f1277ccc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

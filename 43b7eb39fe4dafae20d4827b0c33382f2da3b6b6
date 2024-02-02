@@ -71,6 +71,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f17ee90_e7b01943",
+        "filename": "javatests/com/google/gerrit/acceptance/server/util/WorkQueueIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2024-02-02T06:53:52Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "2ee150f8_a73a03d2",
+      "revId": "43b7eb39fe4dafae20d4827b0c33382f2da3b6b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9a9cbb54_7862c158",

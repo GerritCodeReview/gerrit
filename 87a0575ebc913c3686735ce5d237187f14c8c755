@@ -70,6 +70,30 @@
       },
       "revId": "87a0575ebc913c3686735ce5d237187f14c8c755",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bacc7b1a_2c27531e",
+        "filename": "java/com/google/gerrit/server/git/UploadPackMetricsHook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-02-03T14:20:26Z",
+      "side": 1,
+      "message": "👍 for explanation",
+      "parentUuid": "3d9d6d9f_b2c4ca9b",
+      "range": {
+        "startLine": 148,
+        "startChar": 4,
+        "endLine": 149,
+        "endChar": 32
+      },
+      "revId": "87a0575ebc913c3686735ce5d237187f14c8c755",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

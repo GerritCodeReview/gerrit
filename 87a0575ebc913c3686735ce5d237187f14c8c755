@@ -22,6 +22,30 @@
       },
       "revId": "87a0575ebc913c3686735ce5d237187f14c8c755",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dbdf6657_f982018e",
+        "filename": "java/com/google/gerrit/server/git/UploadPackMetricsHook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-03T12:12:32Z",
+      "side": 1,
+      "message": "\u003e AFAIU `\u003c0` means that NO bitmap index exists, correct?\n\nCorrect.\n\n\u003e Is value meaningful? IOW if we have 2 calls for missing bitmap index would it be `-2` then?\n\nNo, if you have two git-upload-pack with bitmap index misses, you have two calls to this method with a `-1` value, it would go to L150 and would increment the `noBitMapIndex` counter.\n\nSo, two calls to the metrics of `git-upload-pack` without a bitmap, would result in the `noBitmapIndex` metric to have a value of `2`. I tested it E2E and behaves as expected.\n \n\u003e If yes maybe we should rather `record(op, -bitmapIndexMisses)` so that number of misses is reflected rather than just the fact that they occurred?\n\nThat\u0027s pretty much the same, isn\u0027t it?\nIf `bitmapIndexMisses` is `-1`, then `record(op, -(-1))` is the same of `increment(op)`.\n\n\u003e Again if value is recorded then the description of the metric could/should be also modified?\n\nI don\u0027t believe there is the need to use `record(op, -bitmapIndexMisses)` because the result is the same. The fact that `git-upload-pack` did not find a bitmap, is a boolean event, represented by a `-1` value. It is not a continuous or discreet value, but just a _Yes, the bitmap was there_ or _No, the bitmap wasn\u0027t there_.\n\nHope that makes sense 😊",
+      "parentUuid": "47c0d318_d1e16656",
+      "range": {
+        "startLine": 148,
+        "startChar": 4,
+        "endLine": 149,
+        "endChar": 32
+      },
+      "revId": "87a0575ebc913c3686735ce5d237187f14c8c755",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

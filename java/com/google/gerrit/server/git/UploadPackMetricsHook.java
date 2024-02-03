@@ -38,7 +38,12 @@ public class UploadPackMetricsHook implements PostUploadHook {
 
   private final Counter1<Operation> requestCount;
   private final Timer1<Operation> counting;
+  private final Histogram1<Operation> bitmapIndexMissesCount;
+  private final Counter1<Operation> noBitmapIndex;
   private final Timer1<Operation> compressing;
+  private final Timer1<Operation> negotiating;
+  private final Timer1<Operation> searchingForReuse;
+  private final Timer1<Operation> searchingForSizes;
   private final Timer1<Operation> writing;
   private final Histogram1<Operation> packBytes;
 
@@ -64,10 +69,52 @@ public class UploadPackMetricsHook implements PostUploadHook {
                 .setUnit(Units.MILLISECONDS),
             operationField);
 
+    bitmapIndexMissesCount =
+        metricMaker.newHistogram(
+            "git/upload-pack/bitmap_index_misses_count",
+            new Description("Number of bitmap index misses per request")
+                .setCumulative()
+                .setUnit("misses"),
+            operationField);
+
+    noBitmapIndex =
+        metricMaker.newCounter(
+            "git/upload-pack/no_bitmap_index",
+            new Description("Total number of requests executed without a bitmap index")
+                .setRate()
+                .setUnit("requests"),
+            operationField);
+
     compressing =
         metricMaker.newTimer(
             "git/upload-pack/phase_compressing",
             new Description("Time spent in the 'Compressing...' phase")
+                .setCumulative()
+                .setUnit(Units.MILLISECONDS),
+            operationField);
+
+    negotiating =
+        metricMaker.newTimer(
+            "git/upload-pack/phase_negotiating",
+            new Description("Time spent in the negotiation phase")
+                .setCumulative()
+                .setUnit(Units.MILLISECONDS),
+            operationField);
+
+    searchingForReuse =
+        metricMaker.newTimer(
+            "git/upload-pack/phase_searching_for_reuse",
+            new Description(
+                    "Time spent in the 'Finding sources...' while searching for reuse phase")
+                .setCumulative()
+                .setUnit(Units.MILLISECONDS),
+            operationField);
+
+    searchingForSizes =
+        metricMaker.newTimer(
+            "git/upload-pack/phase_searching_for_sizes",
+            new Description(
+                    "Time spent in the 'Finding sources...' while searching for sizes phase")
                 .setCumulative()
                 .setUnit(Units.MILLISECONDS),
             operationField);
@@ -98,7 +145,16 @@ public class UploadPackMetricsHook implements PostUploadHook {
 
     requestCount.increment(op);
     counting.record(op, stats.getTimeCounting(), MILLISECONDS);
+    long bitmapIndexMisses = stats.getBitmapIndexMisses();
+    if (bitmapIndexMisses < 0) {
+      noBitmapIndex.increment(op);
+    } else {
+      bitmapIndexMissesCount.record(op, bitmapIndexMisses);
+    }
     compressing.record(op, stats.getTimeCompressing(), MILLISECONDS);
+    negotiating.record(op, stats.getTimeNegotiating(), MILLISECONDS);
+    searchingForReuse.record(op, stats.getTimeSearchingForReuse(), MILLISECONDS);
+    searchingForSizes.record(op, stats.getTimeSearchingForSizes(), MILLISECONDS);
     writing.record(op, stats.getTimeWriting(), MILLISECONDS);
     packBytes.record(op, stats.getTotalBytes());
   }

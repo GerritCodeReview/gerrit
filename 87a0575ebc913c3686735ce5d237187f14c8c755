@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47c0d318_d1e16656",
+        "filename": "java/com/google/gerrit/server/git/UploadPackMetricsHook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-02-03T11:27:21Z",
+      "side": 1,
+      "message": "AFAIU `\u003c0` means that NO bitmap index exists, correct?\nIs value meaningful? IOW if we have 2 calls for missing bitmap index would it be `-2` then? If yes maybe we should rather `record(op, -bitmapIndexMisses)` so that number of misses is reflected rather than just the fact that they occurred? Again if value is recorded then the description of the metric could/should be also modified?",
+      "range": {
+        "startLine": 148,
+        "startChar": 4,
+        "endLine": 149,
+        "endChar": 32
+      },
+      "revId": "87a0575ebc913c3686735ce5d237187f14c8c755",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

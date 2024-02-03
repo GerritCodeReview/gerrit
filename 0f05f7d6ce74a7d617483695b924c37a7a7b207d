@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06917b41_205332a5",
+        "filename": "java/com/google/gerrit/server/config/SitePaths.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-03T01:38:59Z",
+      "side": 1,
+      "message": "```suggestion\n   *  Use SecureStore to access sensitive information instead\n```",
+      "range": {
+        "startLine": 56,
+        "startChar": 22,
+        "endLine": 56,
+        "endChar": 41
+      },
+      "revId": "0f05f7d6ce74a7d617483695b924c37a7a7b207d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

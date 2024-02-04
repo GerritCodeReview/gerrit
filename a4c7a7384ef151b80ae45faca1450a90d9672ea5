@@ -34,6 +34,24 @@
       "parentUuid": "acf3f0b0_47c4d716",
       "revId": "a4c7a7384ef151b80ae45faca1450a90d9672ea5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e8df32e_ea82c2d2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 36
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3228522
+      },
+      "writtenOn": "2024-02-04T02:09:57Z",
+      "side": 1,
+      "message": "Hi, @nasser.grainawi@linaro.org, I have merged this change. What else should I do?",
+      "parentUuid": "4da93858_5909e360",
+      "revId": "a4c7a7384ef151b80ae45faca1450a90d9672ea5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f05b6139_4bee2e44",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 986,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-02-05T20:29:20Z",
+      "side": 1,
+      "message": "Use util function\n\n```suggestion\n          this.comment.path.substring(this.comment.path.lastIndexOf(\u0027.\u0027) - 1)\n```",
+      "range": {
+        "startLine": 986,
+        "startChar": 28,
+        "endLine": 986,
+        "endChar": 37
+      },
+      "revId": "67d4f506243b10095b4712672471eb91f7e7c331",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

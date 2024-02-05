@@ -23,7 +23,13 @@ import {when} from 'lit/directives/when.js';
 import {GrSyntaxLayerWorker} from '../../../embed/diff/gr-syntax-layer/gr-syntax-layer-worker';
 import {resolve} from '../../../models/dependency';
 import {highlightServiceToken} from '../../../services/highlight/highlight-service';
+<<<<<<< PATCH SET (5200f7 Force Reload on apply fix)
+import {NumericChangeId} from '../../../api/rest-api';
+||||||| BASE
+import {FixReplacementInfo, NumericChangeId} from '../../../api/rest-api';
+=======
 import {FixSuggestionInfo, NumericChangeId} from '../../../api/rest-api';
+>>>>>>> BASE      (534c9d Fire an event when the selection action box is visible)
 import {changeModelToken} from '../../../models/change/change-model';
 import {subscribe} from '../../lit/subscription-controller';
 import {DiffPreview} from '../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog';
@@ -38,6 +44,29 @@ import {throwingErrorCallback} from '../gr-rest-api-interface/gr-rest-apis/gr-re
 export interface PreviewLoadedDetail {
   previewLoadedFor?: FixSuggestionInfo;
 }
+<<<<<<< PATCH SET (5200f7 Force Reload on apply fix)
+
+export type AddGeneratedSuggestionEvent =
+  CustomEvent<OpenUserSuggestionPreviewEventDetail>;
+export interface OpenUserSuggestionPreviewEventDetail {
+  code: string;
+}
+
+||||||| BASE
+
+export type AddGeneratedSuggestionEvent =
+  CustomEvent<OpenUserSuggestionPreviewEventDetail>;
+export interface OpenUserSuggestionPreviewEventDetail {
+  code: string;
+}
+
+/**
+ * Diff preview for
+ * 1. suggestion vs commented Text
+ * or 2. fixReplacementInfos
+ * that are attached to a comment.
+ */
+=======
 /**
  * Diff preview for
  * 1. code block suggestion vs commented Text
@@ -46,12 +75,23 @@ export interface PreviewLoadedDetail {
  * It shouldn't be created with both 1. and 2. but if it is
  * it shows just for 1. (code block suggestion)
  */
+>>>>>>> BASE      (534c9d Fire an event when the selection action box is visible)
 @customElement('gr-suggestion-diff-preview')
 export class GrSuggestionDiffPreview extends LitElement {
   // Optional. Used as backup when preview is not loaded.
   @property({type: String})
   codeText?: string;
 
+<<<<<<< PATCH SET (5200f7 Force Reload on apply fix)
+  @property({type: Boolean})
+  showAddSuggestionButton = false;
+||||||| BASE
+  @property({type: Object})
+  fixReplacementInfos?: FixReplacementInfo[];
+
+  @property({type: Boolean})
+  showAddSuggestionButton = false;
+=======
   // Required.
   @property({type: Object})
   fixSuggestionInfo?: FixSuggestionInfo;
@@ -60,6 +100,7 @@ export class GrSuggestionDiffPreview extends LitElement {
   // this is identical to previewLoadedFor !== undefined and can be removed
   @property({type: Boolean, attribute: 'previewed', reflect: true})
   previewed = false;
+>>>>>>> BASE      (534c9d Fire an event when the selection action box is visible)
 
   // Optional. Used in logging.
   @property({type: String})
@@ -82,7 +123,13 @@ export class GrSuggestionDiffPreview extends LitElement {
    * fix suggestion info currently in gr-comment.
    */
   @state()
+<<<<<<< PATCH SET (5200f7 Force Reload on apply fix)
+  previewLoadedFor?: string;
+||||||| BASE
+  previewLoadedFor?: string | FixReplacementInfo[];
+=======
   public previewLoadedFor?: FixSuggestionInfo;
+>>>>>>> BASE      (534c9d Fire an event when the selection action box is visible)
 
   @state() repo?: RepoName;
 
@@ -192,17 +239,43 @@ export class GrSuggestionDiffPreview extends LitElement {
   }
 
   override updated(changed: PropertyValues) {
+<<<<<<< PATCH SET (5200f7 Force Reload on apply fix)
+    if (changed.has('commentedText') || changed.has('comment')) {
+      if (this.previewLoadedFor !== this.suggestion) {
+        this.fetchFixPreview();
+      }
+||||||| BASE
+    if (changed.has('commentedText') || changed.has('comment')) {
+      if (this.previewLoadedFor !== this.suggestion) {
+        this.fetchFixPreview();
+      }
+    }
+
+    if (changed.has('changeNum') || changed.has('comment')) {
+      if (this.previewLoadedFor !== this.fixReplacementInfos) {
+        this.fetchFixReplacementInfosPreview();
+      }
+=======
     if (
       changed.has('fixSuggestionInfo') ||
       changed.has('changeNum') ||
       changed.has('patchSet')
     ) {
       this.fetchFixPreview();
+>>>>>>> BASE      (534c9d Fire an event when the selection action box is visible)
     }
   }
 
   override render() {
+<<<<<<< PATCH SET (5200f7 Force Reload on apply fix)
+    if (!this.suggestion) return nothing;
+    const code = this.suggestion;
+||||||| BASE
+    if (!this.suggestion && !this.fixReplacementInfos) return nothing;
+    const code = this.suggestion;
+=======
     if (!this.fixSuggestionInfo) return nothing;
+>>>>>>> BASE      (534c9d Fire an event when the selection action box is visible)
     return html`
       ${when(
         this.previewLoadedFor,
@@ -257,6 +330,52 @@ export class GrSuggestionDiffPreview extends LitElement {
 
     return res;
   }
+<<<<<<< PATCH SET (5200f7 Force Reload on apply fix)
+
+||||||| BASE
+
+  private async fetchFixReplacementInfosPreview() {
+    if (
+      this.suggestion ||
+      !this.changeNum ||
+      !this.comment?.patch_set ||
+      !this.fixReplacementInfos
+    )
+      return;
+
+    // TODO (milutin): This is a temporary fix for the broken path issue.
+    // Our experimental plugin currently returns only the file extension.
+    const replacements = this.fixReplacementInfos.map(fixInfo => {
+      return {
+        ...fixInfo,
+        path: this.comment?.path ?? fixInfo.path,
+      };
+    });
+
+    this.reporting.time(Timing.PREVIEW_FIX_LOAD);
+    const res = await this.restApiService.getFixPreview(
+      this.changeNum,
+      this.comment?.patch_set,
+      replacements
+    );
+
+    if (!res) return;
+    const currentPreviews = Object.keys(res).map(key => {
+      return {filepath: key, preview: res[key]};
+    });
+    this.reporting.timeEnd(Timing.PREVIEW_FIX_LOAD, {
+      uuid: this.uuid,
+    });
+    if (currentPreviews.length > 0) {
+      this.preview = currentPreviews[0];
+      this.previewLoadedFor = this.fixReplacementInfos;
+    }
+
+    return res;
+  }
+
+=======
+>>>>>>> BASE      (534c9d Fire an event when the selection action box is visible)
   /**
    * Applies a fix (codeblock in comment message) previewed in
    * `suggestion-diff-preview`, navigating to the new change URL with the EDIT
@@ -310,7 +429,12 @@ export class GrSuggestionDiffPreview extends LitElement {
           repo: this.repo!,
           patchNum: EDIT,
           basePatchNum,
+<<<<<<< PATCH SET (5200f7 Force Reload on apply fix)
+          forceReload: true,
+||||||| BASE
+=======
           forceReload: !this.hasEdit,
+>>>>>>> BASE      (534c9d Fire an event when the selection action box is visible)
         })
       );
       fire(this, 'reload-diff', {path: fixSuggestion.replacements[0].path});

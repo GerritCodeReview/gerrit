@@ -86,6 +86,9 @@ suite('gr-hovercard-account-contents tests', () => {
           <a href="/q/owner:kermit@gmail.com">Changes</a>
           ·
           <a href="/dashboard/31415926535">Dashboard</a>
+          <gr-endpoint-decorator name="hovercard-links">
+            <gr-endpoint-param name="account"></gr-endpoint-param>
+          </gr-endpoint-decorator>
         </div>
       `
     );
@@ -125,6 +128,9 @@ suite('gr-hovercard-account-contents tests', () => {
           <a href="/q/owner:kermit@gmail.com"> Changes </a>
           ·
           <a href="/dashboard/31415926535"> Dashboard </a>
+          <gr-endpoint-decorator name="hovercard-links">
+            <gr-endpoint-param name="account"></gr-endpoint-param>
+          </gr-endpoint-decorator>
         </div>
       `
     );

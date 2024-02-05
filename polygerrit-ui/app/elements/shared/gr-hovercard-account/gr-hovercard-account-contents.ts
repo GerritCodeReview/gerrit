@@ -281,6 +281,12 @@ export class GrHovercardAccountContents extends LitElement {
         }}
         >Dashboard</a
       >
+      <gr-endpoint-decorator name="hovercard-links">
+        <gr-endpoint-param
+          name="account"
+          .value=${this.account}
+        ></gr-endpoint-param>
+      </gr-endpoint-decorator>
     </div>`;
   }
 

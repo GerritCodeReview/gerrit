@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6b3e8b70_42d9fa65",
+        "filename": "java/com/google/gerrit/server/query/change/ChangePredicates.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-02-05T19:02:42Z",
+      "side": 1,
+      "message": "Done. Thanks for the feedback.\n\nWhat\u0027s the rationale behind it? We will leave dead code hanging around.",
+      "parentUuid": "3619aff3_12a3ebf3",
+      "revId": "1d90a7df8fa0a6201154a851f45edcc10a0dd73e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3eeb49c7_f2836174",
         "filename": "java/com/google/gerrit/server/query/change/ChangePredicates.java",
         "patchSetId": 19
@@ -31,6 +49,30 @@
       "writtenOn": "2024-02-05T18:09:33Z",
       "side": 1,
       "message": "Ditto.",
+      "range": {
+        "startLine": 106,
+        "startChar": 38,
+        "endLine": 106,
+        "endChar": 44
+      },
+      "revId": "1d90a7df8fa0a6201154a851f45edcc10a0dd73e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8061dd83_cba8aac7",
+        "filename": "java/com/google/gerrit/server/query/change/ChangePredicates.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-02-05T19:02:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3eeb49c7_f2836174",
       "range": {
         "startLine": 106,
         "startChar": 38,

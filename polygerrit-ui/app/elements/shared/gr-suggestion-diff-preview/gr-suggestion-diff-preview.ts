@@ -1,3 +1,4 @@
+
 /**
  * @license
  * Copyright 2023 Google LLC
@@ -34,7 +35,6 @@ import {Timing} from '../../../constants/reporting';
 import {createChangeUrl} from '../../../models/views/change';
 import {getFileExtension} from '../../../utils/file-util';
 import {throwingErrorCallback} from '../gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
-
 export interface PreviewLoadedDetail {
   previewLoadedFor?: FixSuggestionInfo;
 }
@@ -51,30 +51,23 @@ export class GrSuggestionDiffPreview extends LitElement {
   // Optional. Used as backup when preview is not loaded.
   @property({type: String})
   codeText?: string;
-
   // Required.
   @property({type: Object})
   fixSuggestionInfo?: FixSuggestionInfo;
-
   // Used to determine if the preview has been loaded
   // this is identical to previewLoadedFor !== undefined and can be removed
   @property({type: Boolean, attribute: 'previewed', reflect: true})
   previewed = false;
-
   // Optional. Used in logging.
   @property({type: String})
   uuid?: string;
-
   @property({type: Number})
   patchSet?: BasePatchSetNum;
-
   // Optional. Used in logging.
   @property({type: String})
   commentId?: string;
-
   @state()
   layers: DiffLayer[] = [];
-
   /**
    * The fix suggestion info that the preview is loaded for.
    *
@@ -83,90 +76,22 @@ export class GrSuggestionDiffPreview extends LitElement {
    */
   @state()
   public previewLoadedFor?: FixSuggestionInfo;
-
   @state() repo?: RepoName;
-
   @state() hasEdit = false;
-
   @state()
   changeNum?: NumericChangeId;
-
   @state()
   preview?: DiffPreview;
-
   @state()
   diffPrefs?: DiffPreferencesInfo;
-
   @state() latestPatchNum?: PatchSetNumber;
-
   @state()
   renderPrefs: RenderPreferences = {
     disable_context_control_buttons: true,
     show_file_comment_button: false,
     hide_line_length_indicator: true,
   };
-
   private readonly reporting = getAppContext().reportingService;
-
-  private readonly getChangeModel = resolve(this, changeModelToken);
-
-  private readonly restApiService = getAppContext().restApiService;
-
-  private readonly getUserModel = resolve(this, userModelToken);
-
-  private readonly getNavigation = resolve(this, navigationToken);
-
-  private readonly syntaxLayer = new GrSyntaxLayerWorker(
-    resolve(this, highlightServiceToken),
-    () => getAppContext().reportingService
-  );
-
-  constructor() {
-    super();
-    subscribe(
-      this,
-      () => this.getChangeModel().changeNum$,
-      changeNum => (this.changeNum = changeNum)
-    );
-    subscribe(
-      this,
-      () => this.getChangeModel().revisions$,
-      revisions =>
-        (this.hasEdit = Object.values(revisions).some(
-          info => info._number === EDIT
-        ))
-    );
-    subscribe(
-      this,
-      () => this.getChangeModel().latestPatchNum$,
-      x => (this.latestPatchNum = x)
-    );
-    subscribe(
-      this,
-      () => this.getUserModel().diffPreferences$,
-      diffPreferences => {
-        if (!diffPreferences) return;
-        this.diffPrefs = diffPreferences;
-        this.syntaxLayer.setEnabled(!!this.diffPrefs.syntax_highlighting);
-      }
-    );
-    subscribe(
-      this,
-      () => this.getChangeModel().repo$,
-      x => (this.repo = x)
-    );
-  }
-
-  static override get styles() {
-    return [
-      css`
-        :host {
-          display: block;
-        }
-        .buttons {
-          text-align: right;
-        }
-        .diff-container {
           border: 1px solid var(--border-color);
           border-top: none;
         }
@@ -190,7 +115,6 @@ export class GrSuggestionDiffPreview extends LitElement {
       `,
     ];
   }
-
   override updated(changed: PropertyValues) {
     if (
       changed.has('fixSuggestionInfo') ||
@@ -200,7 +124,6 @@ export class GrSuggestionDiffPreview extends LitElement {
       this.fetchFixPreview();
     }
   }
-
   override render() {
     if (!this.fixSuggestionInfo) return nothing;
     return html`
@@ -211,7 +134,6 @@ export class GrSuggestionDiffPreview extends LitElement {
       )}
     `;
   }
-
   private renderDiff() {
     if (!this.preview) return;
     const diff = this.preview.preview;
@@ -227,11 +149,6 @@ export class GrSuggestionDiffPreview extends LitElement {
       ></gr-diff>
     </div>`;
   }
-
-  private async fetchFixPreview() {
-    if (!this.changeNum || !this.patchSet || !this.fixSuggestionInfo) return;
-
-    this.reporting.time(Timing.PREVIEW_FIX_LOAD);
     const res = await this.restApiService.getFixPreview(
       this.changeNum,
       this.patchSet,
@@ -249,12 +166,10 @@ export class GrSuggestionDiffPreview extends LitElement {
       this.preview = currentPreviews[0];
       this.previewLoadedFor = this.fixSuggestionInfo;
       this.previewed = true;
-
       fire(this, 'preview-loaded', {
         previewLoadedFor: this.fixSuggestionInfo,
       });
     }
-
     return res;
   }
   /**
@@ -265,13 +180,11 @@ export class GrSuggestionDiffPreview extends LitElement {
    * Similar code flow is in gr-apply-fix-dialog.handleApplyFix
    * Used in gr-user-suggestion-fix
    */
-
   public async applyFix() {
     const changeNum = this.changeNum;
     const basePatchNum = this.patchSet;
     const fixSuggestion = this.fixSuggestionInfo;
     if (!changeNum || !basePatchNum || !fixSuggestion) return;
-
     this.reporting.time(Timing.APPLY_FIX_LOAD);
     let res: Response | undefined = undefined;
     let errorText = '';
@@ -310,14 +223,18 @@ export class GrSuggestionDiffPreview extends LitElement {
           repo: this.repo!,
           patchNum: EDIT,
           basePatchNum,
+<<<<<<< PATCH SET (5200f7 Force Reload on apply fix)
+          forceReload: true,
+||||||| BASE
+=======
           forceReload: !this.hasEdit,
+>>>>>>> BASE      (534c9d Fire an event when the selection action box is visible)
         })
       );
       fire(this, 'reload-diff', {path: fixSuggestion.replacements[0].path});
       fire(this, 'apply-user-suggestion', {fixSuggestion});
     }
   }
-
   private overridePartialDiffPrefs() {
     if (!this.diffPrefs) return undefined;
     return {
@@ -328,7 +245,6 @@ export class GrSuggestionDiffPreview extends LitElement {
     };
   }
 }
-
 declare global {
   interface HTMLElementTagNameMap {
     'gr-suggestion-diff-preview': GrSuggestionDiffPreview;

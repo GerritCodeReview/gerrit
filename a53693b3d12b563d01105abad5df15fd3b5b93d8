@@ -16,6 +16,24 @@
       "message": "nit: unneeded change.",
       "revId": "a53693b3d12b563d01105abad5df15fd3b5b93d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ceef128_0cff04d7",
+        "filename": "java/com/google/gerrit/server/config/SitePaths.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1090261
+      },
+      "writtenOn": "2024-02-05T12:31:02Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "29fec2a3_a13e78d5",
+      "revId": "a53693b3d12b563d01105abad5df15fd3b5b93d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1bba26c3_10ec7b10",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-02-05T12:15:49Z",
+      "side": 1,
+      "message": "Thanks much!",
+      "revId": "ddb53fbf7f0994370114bcd57ad118d750f59bea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed85f3cb_7c2e1aa9",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-02-05T12:15:49Z",
+      "side": 1,
+      "message": "I think it\u0027s the other way around. When the project is created, the \u0027Owner\u0027 access right is automatically assigned to this group.",
+      "range": {
+        "startLine": 189,
+        "startChar": 25,
+        "endLine": 189,
+        "endChar": 103
+      },
+      "revId": "ddb53fbf7f0994370114bcd57ad118d750f59bea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b2149c5_1fdc4cf5",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-02-05T12:15:49Z",
+      "side": 1,
+      "message": "I guess this is fine. To be precise for parent-only repos the refs/meta/config branch is always set as the default branch as that\u0027s the only branch (no matter what is provided as the default branch in the input). \n\nI was thinking whether the UI could just disable the default branch field when this option is selected?",
+      "range": {
+        "startLine": 244,
+        "startChar": 0,
+        "endLine": 244,
+        "endChar": 43
+      },
+      "revId": "ddb53fbf7f0994370114bcd57ad118d750f59bea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

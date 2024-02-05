@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3619aff3_12a3ebf3",
+        "filename": "java/com/google/gerrit/server/query/change/ChangePredicates.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2024-02-05T18:09:33Z",
+      "side": 1,
+      "message": "Same here. Please do not change signatures in this file.",
+      "revId": "1d90a7df8fa0a6201154a851f45edcc10a0dd73e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3eeb49c7_f2836174",
+        "filename": "java/com/google/gerrit/server/query/change/ChangePredicates.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2024-02-05T18:09:33Z",
+      "side": 1,
+      "message": "Ditto.",
+      "range": {
+        "startLine": 106,
+        "startChar": 38,
+        "endLine": 106,
+        "endChar": 44
+      },
+      "revId": "1d90a7df8fa0a6201154a851f45edcc10a0dd73e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -34,6 +34,24 @@
       "parentUuid": "141fba13_032fc87a",
       "revId": "bf1ab92e73b22372f83287c6d1270594eadbbe58",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f9ad622_2588cdb5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2024-02-05T23:13:34Z",
+      "side": 1,
+      "message": "@twolf Did you ever manage to fix this? I\u0027m also seeing this now.",
+      "parentUuid": "02f9f4b9_cc897e63",
+      "revId": "bf1ab92e73b22372f83287c6d1270594eadbbe58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

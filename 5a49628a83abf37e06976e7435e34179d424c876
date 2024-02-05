@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b902451b_a015ea8c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-02-05T13:13:01Z",
+      "side": 1,
+      "message": "unknown",
+      "range": {
+        "startLine": 37,
+        "startChar": 43,
+        "endLine": 37,
+        "endChar": 49
+      },
+      "revId": "5a49628a83abf37e06976e7435e34179d424c876",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c713fda6_04c3fa73",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 2483,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-02-05T13:13:01Z",
+      "side": 1,
+      "message": "Should robot comments be marked as deprecated in the documentation too?",
+      "revId": "5a49628a83abf37e06976e7435e34179d424c876",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28d9a917_09b2cb75",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ReviewInput.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-02-05T13:13:01Z",
+      "side": 1,
+      "message": "Should this be marked as deprecated too?",
+      "revId": "5a49628a83abf37e06976e7435e34179d424c876",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d6409c1_ad7e0cb4",
+        "filename": "java/com/google/gerrit/server/restapi/change/Fixes.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-02-05T13:13:01Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be publishedByPatchSet? Since a revisionResource is given, we should only include comments from that revision, shouldn\u0027t we?",
+      "range": {
+        "startLine": 58,
+        "startChar": 36,
+        "endLine": 58,
+        "endChar": 66
+      },
+      "revId": "5a49628a83abf37e06976e7435e34179d424c876",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "178fdccd_246a26de",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/CommentWithFixIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-02-05T13:13:01Z",
+      "side": 1,
+      "message": "nit: missing license header",
+      "revId": "5a49628a83abf37e06976e7435e34179d424c876",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

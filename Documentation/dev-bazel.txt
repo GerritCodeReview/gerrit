@@ -103,7 +103,7 @@ they could be added to ~/.bazelrc resource file:
 
 ```
 $ cat << EOF > ~/.bazelrc
-build --define=ABSOLUTE_JAVABASE=<path-to-java-13>
+build --define=ABSOLUTE_JAVABASE=<path-to-java-10>
 build --javabase=@bazel_tools//tools/jdk:absolute_javabase
 build --host_javabase=@bazel_tools//tools/jdk:absolute_javabase
 build --host_java_toolchain=@bazel_tools//tools/jdk:toolchain_vanilla
@@ -265,6 +265,18 @@ The html files will be bundled into `searchfree.zip` in this location:
 
 ----
   bazel-bin/Documentation/searchfree.zip
+----
+
+To use local fonts and keep the search box with the html_safe target:
+
+----
+  bazel build Documentation:html_safe
+----
+
+The html files will be bundled into `html_safe.zip` in this location:
+
+----
+  bazel-bin/Documentation/html_safe.zip
 ----
 
 To generate HTML files skipping the zip archiving:

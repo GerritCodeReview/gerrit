@@ -33,6 +33,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
 import com.google.gerrit.acceptance.testsuite.change.TestHumanComment;
@@ -64,6 +65,7 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.RevisionResource;
+import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.server.notedb.DeleteCommentRewriter;
 import com.google.gerrit.server.restapi.change.ChangesCollection;
@@ -156,6 +158,9 @@ public class CommentsIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      values = {ExperimentFeaturesConstants.ALLOW_FIX_SUGGESTIONS_IN_COMMENTS})
   public void createDraftWithFixSuggestions() throws Exception {
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
@@ -186,6 +191,21 @@ public class CommentsIT extends AbstractDaemonTest {
 
     actual = gApi.changes().id(changeId).commentsRequest().getAsList().get(0);
     assertThat(comment).isEqualTo(infoToDraft(path).apply(actual));
+  }
+
+  @Test
+  public void createDraftWithFixSuggestionsFailsWithoutExperimentFlag() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    String revId = r.getCommit().getName();
+    String path = "file1";
+    DraftInput comment = CommentsUtil.newDraft(path, Side.REVISION, 0, "comment 1");
+    comment.fixSuggestions =
+        ImmutableList.of(
+            CommentsUtil.createFixSuggestionInfo(CommentsUtil.createFixReplacementInfo()));
+    IllegalStateException thrown =
+        assertThrows(IllegalStateException.class, () -> addDraft(changeId, revId, comment));
+    assertThat(thrown).hasMessageThat().contains("feature flag prohibits setting fixSuggestions");
   }
 
   @Test

@@ -52,6 +52,9 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.testing.BinaryResultSubject;
+import com.google.gerrit.server.experiments.ExperimentFeatures;
+import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
+import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.TestCommentHelper;
 import com.google.inject.Inject;
 import java.util.Arrays;
@@ -60,6 +63,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import org.eclipse.jgit.lib.Config;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -68,6 +72,7 @@ public class CommentWithFixIT extends AbstractDaemonTest {
   @Inject private ChangeOperations changeOperations;
   @Inject private AccountOperations accountOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
+  @Inject private ExperimentFeatures experimentFeatures;
 
   private static final String PLAIN_TEXT_CONTENT_TYPE = "text/plain";
   private static final String GERRIT_COMMIT_MESSAGE_TYPE = "text/x-gerrit-commit-message";
@@ -102,6 +107,17 @@ public class CommentWithFixIT extends AbstractDaemonTest {
     fixReplacementInfo = createFixReplacementInfo();
     fixSuggestionInfo = createFixSuggestionInfo(fixReplacementInfo);
     withFixCommentInput = TestCommentHelper.createCommentInput(FILE_NAME, fixSuggestionInfo);
+  }
+
+  @ConfigSuite.Default
+  public static Config setExperimentFlag() {
+    Config cfg = new Config();
+    cfg.setString(
+        "experiments",
+        null,
+        "enabled",
+        ExperimentFeaturesConstants.ALLOW_FIX_SUGGESTIONS_IN_COMMENTS);
+    return cfg;
   }
 
   @Test
@@ -1174,6 +1190,18 @@ public class CommentWithFixIT extends AbstractDaemonTest {
         .element(2)
         .commonLines()
         .containsExactly("Line 3", "Last line", "", footer, "");
+  }
+
+  @Test
+  @GerritConfig(
+      name = "experiments.disabled",
+      values = {ExperimentFeaturesConstants.ALLOW_FIX_SUGGESTIONS_IN_COMMENTS})
+  public void commentWithFixFailsToPersistWithoutFeatureFlag() {
+    IllegalStateException thrown =
+        assertThrows(
+            IllegalStateException.class,
+            () -> testCommentHelper.addComment(changeId, withFixCommentInput));
+    assertThat(thrown).hasMessageThat().contains("feature flag prohibits setting fixSuggestions");
   }
 
   private void updateCommitMessage(String changeId, String newCommitMessage) throws Exception {

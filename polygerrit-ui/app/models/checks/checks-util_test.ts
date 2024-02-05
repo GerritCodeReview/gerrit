@@ -121,7 +121,7 @@ suite('checks-util tests', () => {
     });
 
     test('no summary', () => {
-      assert.isFalse(
+      assert.isTrue(
         computeIsExpandable({
           ...createCheckResult(),
           message: 'asdf',

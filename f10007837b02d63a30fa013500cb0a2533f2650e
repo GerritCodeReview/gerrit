@@ -16,6 +16,24 @@
       "message": "Please add methods with `QueryBuilder.Arguments` param instead of replacing the current ones. The \"old\" methods should use the default case of the newly used argument.\n\nHere and below.",
       "revId": "f10007837b02d63a30fa013500cb0a2533f2650e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3232c29_6336265e",
+        "filename": "java/com/google/gerrit/server/query/change/ChangePredicates.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-02-05T17:09:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "794580cd_432a0177",
+      "revId": "f10007837b02d63a30fa013500cb0a2533f2650e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4b19b47f_d09b2d44",
+        "filename": "java/com/google/gerrit/server/query/change/ChangePredicates.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-02-05T20:17:54Z",
+      "side": 1,
+      "message": "So probably we should mark them as `@UsedAt(UsedAt.Project.GOOGLE)`, right?",
+      "parentUuid": "a155eb6b_146c7965",
+      "revId": "1d90a7df8fa0a6201154a851f45edcc10a0dd73e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3eeb49c7_f2836174",
         "filename": "java/com/google/gerrit/server/query/change/ChangePredicates.java",
         "patchSetId": 19

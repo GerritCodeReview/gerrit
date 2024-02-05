@@ -298,6 +298,14 @@ export class GrSyntaxLayerWorker implements DiffLayer {
     return makeCancelable(hlPromise);
   }
 
+  highlightSimple(language?: string, code?: string): CancelablePromise<string> {
+    const hlPromise = this.getHighlightService().highlightSimple(
+      language,
+      code
+    );
+    return makeCancelable(hlPromise);
+  }
+
   notify() {
     // We don't want to notify for lines that don't have any SyntaxLayerRange.
     // So for both sides we are looking for the first and the last occurrence

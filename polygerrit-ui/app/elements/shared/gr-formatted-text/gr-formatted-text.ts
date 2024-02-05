@@ -24,6 +24,9 @@ import {
   USER_SUGGESTION_INFO_STRING,
 } from '../../../utils/comment-util';
 import {sameOrigin} from '../../../utils/url-util';
+import {GrSyntaxLayerWorker} from '../../../embed/diff/gr-syntax-layer/gr-syntax-layer-worker';
+import {highlightServiceToken} from '../../../services/highlight/highlight-service';
+import {getAppContext} from '../../../services/app-context';
 
 /**
  * This element optionally renders markdown and also applies some regex
@@ -41,6 +44,11 @@ export class GrFormattedText extends LitElement {
   private repoCommentLinks: CommentLinks = {};
 
   private readonly getConfigModel = resolve(this, configModelToken);
+
+  readonly syntaxLayer = new GrSyntaxLayerWorker(
+    resolve(this, highlightServiceToken),
+    () => getAppContext().reportingService
+  );
 
   // Private const but used in tests.
   // Limit the length of markdown because otherwise the markdown lexer will
@@ -278,6 +286,7 @@ export class GrFormattedText extends LitElement {
     // Look for @mentions and replace them with an account-label chip.
     this.convertEmailsToAccountChips();
     this.convertCodeToSuggestions();
+    this.highlightCodeSnippets();
   }
 
   private convertEmailsToAccountChips() {
@@ -320,6 +329,29 @@ export class GrFormattedText extends LitElement {
       );
     }
   }
+
+  private highlightCodeSnippets() {
+    const codes = this.renderRoot.querySelectorAll('code');
+    if (codes.length > 0) {
+      const code = codes[0];
+      if (!code.textContent?.includes('import')) return;
+      if (!window.hljs) return;
+      if (this.hljsdone) return;
+      // const highlightedCode = await this.syntaxLayer.highlightSimple(
+      //   'text/javascript',
+      //   code.textContent ?? ''
+      // );
+      this.hljsdone = true;
+      const highlightedCode = window.hljs.highlight(
+        'text/javascript',
+        code.textContent ?? '',
+        true
+      );
+      code.replaceChildren(highlightedCode.value);
+    }
+  }
+
+  hljsdone = false;
 }
 
 declare global {

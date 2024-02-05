@@ -20,6 +20,7 @@
 export enum SyntaxWorkerMessageType {
   INIT,
   REQUEST,
+  SIMPLE_REQUEST,
 }
 
 /** Incoming message for SyntaxWorker. */
@@ -48,7 +49,9 @@ export function isInit(
  * initialized before.
  */
 export interface SyntaxWorkerRequest extends SyntaxWorkerMessage {
-  type: SyntaxWorkerMessageType.REQUEST;
+  type:
+    | SyntaxWorkerMessageType.REQUEST
+    | SyntaxWorkerMessageType.SIMPLE_REQUEST;
   language: string;
   code: string;
 }
@@ -57,6 +60,12 @@ export function isRequest(
   x: SyntaxWorkerMessage | undefined
 ): x is SyntaxWorkerRequest {
   return !!x && x.type === SyntaxWorkerMessageType.REQUEST;
+}
+
+export function isSimpleHighlightRequest(
+  x: SyntaxWorkerMessage | undefined
+): x is SyntaxWorkerRequest {
+  return !!x && x.type === SyntaxWorkerMessageType.SIMPLE_REQUEST;
 }
 
 /** Type of outgoing messages of SyntaxWorker. */
@@ -69,6 +78,7 @@ export interface SyntaxWorkerResult {
    * which may be empty. All ranges are guaranteed to be closed.
    */
   ranges?: SyntaxLayerLine[];
+  highlighted?: string;
 }
 
 /** Ranges for one line. */

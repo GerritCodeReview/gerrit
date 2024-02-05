@@ -150,6 +150,29 @@ export class HighlightService implements Finalizable {
     return await promise;
   }
 
+  async highlightSimple(language?: string, code?: string): Promise<string> {
+    if (!language || !code) return '';
+    if (code.length > CODE_MAX_LENGTH) return '';
+    const worker = this.createWorker();
+    const message: SyntaxWorkerRequest = {
+      type: SyntaxWorkerMessageType.SIMPLE_REQUEST,
+      language,
+      code,
+    };
+    const promise = new Promise<string>((r, reject) => {
+      worker.onmessage = (e: MessageEvent<SyntaxWorkerResult>) => {
+        r(e.data.highlighted ?? '');
+      };
+      worker.onerror = e => {
+        console.error('Worker error:', e);
+        reject(e); // Reject the promise on error
+      };
+    });
+
+    worker.postMessage(message);
+    return await promise;
+  }
+
   finalize() {
     for (const worker of this.poolIdle) {
       worker.terminate();

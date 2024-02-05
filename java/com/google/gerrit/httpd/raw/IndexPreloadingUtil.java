@@ -99,6 +99,7 @@ public class IndexPreloadingUtil {
           ListChangesOption.DETAILED_LABELS,
           ListChangesOption.DOWNLOAD_COMMANDS,
           ListChangesOption.MESSAGES,
+          ListChangesOption.REVIEWER_UPDATES,
           ListChangesOption.SUBMITTABLE,
           ListChangesOption.WEB_LINKS,
           ListChangesOption.SKIP_DIFFSTAT,

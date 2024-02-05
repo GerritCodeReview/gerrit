@@ -103,10 +103,27 @@ export class GrCreateRepoDialog extends LitElement {
         :host {
           display: inline-block;
         }
+        div.title-flex,
+        div.value-flex {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+        }
         input {
           width: 20em;
+          box-sizing: border-box;
         }
-        gr-autocomplete {
+        div.gr-form-styles section {
+          margin: var(--spacing-m) 0;
+        }
+        div.gr-form-styles span.title {
+          width: 13em;
+        }
+        section .title gr-icon {
+          vertical-align: top;
+        }
+        section .value gr-autocomplete {
+          display: block;
           width: 20em;
         }
       `,
@@ -118,7 +135,9 @@ export class GrCreateRepoDialog extends LitElement {
       <div class="gr-form-styles">
         <div id="form">
           <section>
-            <span class="title">Repository name</span>
+            <div class="title-flex">
+              <span class="title">Repository Name</span>
+            </div>
             <iron-input
               .bindValue=${convertToString(this.repoConfig.name)}
               @bind-value-changed=${this.handleNameBindValueChanged}
@@ -126,8 +145,10 @@ export class GrCreateRepoDialog extends LitElement {
               <input id="repoNameInput" autocomplete="on" />
             </iron-input>
           </section>
-          <section>
-            <span class="title">Default Branch</span>
+          <section ?hidden=${!!this.repoConfig.permissions_only}>
+            <div class="title-flex">
+              <span class="title">Default Branch</span>
+            </div>
             <span class="value">
               <gr-autocomplete
                 id="defaultBranchNameInput"
@@ -139,7 +160,16 @@ export class GrCreateRepoDialog extends LitElement {
             </span>
           </section>
           <section>
-            <span class="title">Rights inherit from</span>
+            <div class="title-flex">
+              <span class="title">
+                <gr-tooltip-content
+                  has-tooltip
+                  title="For inheriting access rights and repository configuration"
+                >
+                  Parent Repository <gr-icon icon="info"></gr-icon>
+                </gr-tooltip-content>
+              </span>
+            </div>
             <span class="value">
               <gr-autocomplete
                 id="rightsInheritFromInput"
@@ -152,13 +182,23 @@ export class GrCreateRepoDialog extends LitElement {
             </span>
           </section>
           <section>
-            <span class="title">Owner</span>
+            <div class="title-flex">
+              <span class="title">
+                <gr-tooltip-content
+                  has-tooltip
+                  title="When the project is created, the 'Owner' access right is automatically assigned to this group."
+                >
+                  Owner Group <gr-icon icon="info"></gr-icon>
+                </gr-tooltip-content>
+              </span>
+            </div>
             <span class="value">
               <gr-autocomplete
                 id="ownerInput"
                 .text=${convertToString(this.repoOwner)}
                 .value=${convertToString(this.repoOwnerId)}
                 .query=${this.queryGroups}
+                .placeholder=${'Optional'}
                 @text-changed=${this.handleOwnerTextChanged}
                 @value-changed=${this.handleOwnerValueChanged}
               >
@@ -166,38 +206,61 @@ export class GrCreateRepoDialog extends LitElement {
             </span>
           </section>
           <section>
-            <span class="title">Create initial empty commit</span>
-            <span class="value">
-              <gr-select
-                id="initialCommit"
-                .bindValue=${this.repoConfig.create_empty_commit}
-                @bind-value-changed=${this
-                  .handleCreateEmptyCommitBindValueChanged}
-              >
-                <select>
-                  <option value="false">False</option>
-                  <option value="true">True</option>
-                </select>
-              </gr-select>
-            </span>
+            <div class="title-flex">
+              <span class="title">
+                <gr-tooltip-content
+                  has-tooltip
+                  title="Choose 'false', if you want to import an existing repo, 'true' otherwise."
+                >
+                  Create Empty Commit <gr-icon icon="info"></gr-icon>
+                </gr-tooltip-content>
+              </span>
+            </div>
+            <div class="value-flex">
+              <span class="value">
+                <gr-select
+                  id="initialCommit"
+                  .bindValue=${this.repoConfig.create_empty_commit}
+                  @bind-value-changed=${this
+                    .handleCreateEmptyCommitBindValueChanged}
+                >
+                  <select>
+                    <option value="false">False</option>
+                    <option value="true">True</option>
+                  </select>
+                </gr-select>
+              </span>
+            </div>
           </section>
           <section>
-            <span class="title"
-              >Only serve as parent for other repositories</span
-            >
-            <span class="value">
-              <gr-select
-                id="parentRepo"
-                .bindValue=${this.repoConfig.permissions_only}
-                @bind-value-changed=${this
-                  .handlePermissionsOnlyBindValueChanged}
-              >
-                <select>
-                  <option value="false">False</option>
-                  <option value="true">True</option>
-                </select>
-              </gr-select>
-            </span>
+            <div class="title-flex">
+              <span class="title">
+                <gr-tooltip-content
+                  has-tooltip
+                  title="Only serve as a parent repository for other repositories
+to inheright access rights and configs.
+If 'true', then you cannot push code to this repo.
+It will only have a 'refs/meta/config' branch."
+                >
+                  Parent Repo Only <gr-icon icon="info"></gr-icon>
+                </gr-tooltip-content>
+              </span>
+            </div>
+            <div class="value-flex">
+              <span class="value">
+                <gr-select
+                  id="parentRepo"
+                  .bindValue=${this.repoConfig.permissions_only}
+                  @bind-value-changed=${this
+                    .handlePermissionsOnlyBindValueChanged}
+                >
+                  <select>
+                    <option value="false">False</option>
+                    <option value="true">True</option>
+                  </select>
+                </gr-select>
+              </span>
+            </div>
           </section>
         </div>
       </div>
@@ -252,8 +315,10 @@ export class GrCreateRepoDialog extends LitElement {
   }
 
   private handleRightsTextChanged(e: ValueChangedEvent) {
-    this.repoConfig.parent = e.detail.value as RepoName;
-    this.requestUpdate();
+    this.repoConfig = {
+      ...this.repoConfig,
+      parent: e.detail.value as RepoName,
+    };
   }
 
   private handleOwnerTextChanged(e: ValueChangedEvent) {
@@ -279,14 +344,18 @@ export class GrCreateRepoDialog extends LitElement {
   }
 
   private handleCreateEmptyCommitBindValueChanged(
-    e: ValueChangedEvent<boolean>
+    e: ValueChangedEvent<string>
   ) {
-    this.repoConfig.create_empty_commit = e.detail.value;
-    this.requestUpdate();
+    this.repoConfig = {
+      ...this.repoConfig,
+      create_empty_commit: e.detail.value === 'true',
+    };
   }
 
-  private handlePermissionsOnlyBindValueChanged(e: ValueChangedEvent<boolean>) {
-    this.repoConfig.permissions_only = e.detail.value;
-    this.requestUpdate();
+  private handlePermissionsOnlyBindValueChanged(e: ValueChangedEvent<string>) {
+    this.repoConfig = {
+      ...this.repoConfig,
+      permissions_only: e.detail.value === 'true',
+    };
   }
 }

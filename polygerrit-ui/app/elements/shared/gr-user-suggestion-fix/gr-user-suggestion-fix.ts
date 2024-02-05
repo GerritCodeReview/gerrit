@@ -16,7 +16,7 @@ import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
 import {GrSuggestionDiffPreview} from '../gr-suggestion-diff-preview/gr-suggestion-diff-preview';
 import {changeModelToken} from '../../../models/change/change-model';
-import {Comment, PatchSetNumber} from '../../../types/common';
+import {Comment, isDraft, PatchSetNumber} from '../../../types/common';
 import {commentModelToken} from '../gr-comment-model/gr-comment-model';
 
 declare global {
@@ -153,6 +153,7 @@ export class GrUserSuggestionsFix extends LitElement {
 
   private isApplyEditDisabled() {
     if (this.comment?.patch_set === undefined) return true;
+    if (isDraft(this.comment)) return true;
     return this.comment.patch_set !== this.latestPatchNum;
   }
 

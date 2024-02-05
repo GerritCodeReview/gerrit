@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "68754a19_0b3bc153",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-02-05T13:15:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed85f3cb_7c2e1aa9",
+      "range": {
+        "startLine": 189,
+        "startChar": 25,
+        "endLine": 189,
+        "endChar": 103
+      },
+      "revId": "ddb53fbf7f0994370114bcd57ad118d750f59bea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7b2149c5_1fdc4cf5",
@@ -54,6 +78,30 @@
       "writtenOn": "2024-02-05T12:15:49Z",
       "side": 1,
       "message": "I guess this is fine. To be precise for parent-only repos the refs/meta/config branch is always set as the default branch as that\u0027s the only branch (no matter what is provided as the default branch in the input). \n\nI was thinking whether the UI could just disable the default branch field when this option is selected?",
+      "range": {
+        "startLine": 244,
+        "startChar": 0,
+        "endLine": 244,
+        "endChar": 43
+      },
+      "revId": "ddb53fbf7f0994370114bcd57ad118d750f59bea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "903c7910_a7b5b8d0",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-02-05T13:15:52Z",
+      "side": 1,
+      "message": "Yes, the UI removes the \"Default Branch\" row, if this is `true`.\n\nMaybe then let\u0027s just delete the last half sentence.\n\nDone.",
+      "parentUuid": "7b2149c5_1fdc4cf5",
       "range": {
         "startLine": 244,
         "startChar": 0,

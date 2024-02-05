@@ -32,52 +32,102 @@ suite('gr-create-repo-dialog tests', () => {
         <div class="gr-form-styles">
           <div id="form">
             <section>
-              <span class="title"> Repository name </span>
+              <div class="title-flex">
+                <span class="title"> Repository Name </span>
+              </div>
               <iron-input>
                 <input autocomplete="on" id="repoNameInput" />
               </iron-input>
             </section>
             <section>
-              <span class="title"> Default Branch </span>
+              <div class="title-flex">
+                <span class="title"> Default Branch </span>
+              </div>
               <span class="value">
                 <gr-autocomplete id="defaultBranchNameInput"> </gr-autocomplete>
               </span>
             </section>
             <section>
-              <span class="title"> Rights inherit from </span>
+              <div class="title-flex">
+                <span class="title">
+                  <gr-tooltip-content
+                    has-tooltip=""
+                    title="For inheriting access rights and repository configuration"
+                  >
+                    Parent Repository
+                    <gr-icon icon="info"> </gr-icon>
+                  </gr-tooltip-content>
+                </span>
+              </div>
               <span class="value">
                 <gr-autocomplete id="rightsInheritFromInput"> </gr-autocomplete>
               </span>
             </section>
             <section>
-              <span class="title"> Owner </span>
+              <div class="title-flex">
+                <span class="title">
+                  <gr-tooltip-content
+                    has-tooltip=""
+                    title="If access rights are granted to 'Owner', then they will resolve to this group."
+                  >
+                    Owner Group
+                    <gr-icon icon="info"> </gr-icon>
+                  </gr-tooltip-content>
+                </span>
+              </div>
               <span class="value">
                 <gr-autocomplete id="ownerInput"> </gr-autocomplete>
               </span>
             </section>
             <section>
-              <span class="title"> Create initial empty commit </span>
-              <span class="value">
-                <gr-select id="initialCommit">
-                  <select>
-                    <option value="false">False</option>
-                    <option value="true">True</option>
-                  </select>
-                </gr-select>
-              </span>
+              <div class="title-flex">
+                <span class="title">
+                  <gr-tooltip-content
+                    has-tooltip=""
+                    title="Choose 'false', if you want to import an existing repo, 'true' otherwise."
+                  >
+                    Create Empty Commit
+                    <gr-icon icon="info"> </gr-icon>
+                  </gr-tooltip-content>
+                </span>
+              </div>
+              <div class="value-flex">
+                <span class="value">
+                  <gr-select id="initialCommit">
+                    <select>
+                      <option value="false">False</option>
+                      <option value="true">True</option>
+                    </select>
+                  </gr-select>
+                </span>
+              </div>
             </section>
             <section>
-              <span class="title">
-                Only serve as parent for other repositories
-              </span>
-              <span class="value">
-                <gr-select id="parentRepo">
-                  <select>
-                    <option value="false">False</option>
-                    <option value="true">True</option>
-                  </select>
-                </gr-select>
-              </span>
+              <div class="title-flex">
+                <span class="title">
+                  <gr-tooltip-content
+                    has-tooltip=""
+                    title="Only serve as a parent repository for other repositories
+to inheright access rights and configs.
+If 'true', then you cannot push code to this repo.
+It will only have a 'refs/meta/config' branch,
+and a 'Default Branch' cannot be specified."
+                  >
+                    Parent Repo Only
+                    <gr-icon icon="info"> </gr-icon>
+                  </gr-tooltip-content>
+                </span>
+              </div>
+              <div class="value-flex">
+                <span class="value">
+                  <gr-select id="parentRepo">
+                    <select>
+                      <option value="false">False</option>
+                      <option value="true">True</option>
+                    </select>
+                  </gr-select>
+                </span>
+              </div>
             </section>
           </div>
         </div>

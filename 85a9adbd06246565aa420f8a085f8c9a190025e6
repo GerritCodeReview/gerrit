@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43f4c7c4_adb5191f",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-02-05T13:34:21Z",
+      "side": 1,
+      "message": "Should this better be something like MethodNotAllowedException [1]?\nOtherwise users can trigger ISE by setting fix suggestions, which can cause SLO alerts.\n\n[1] https://gerrit-review.googlesource.com/Documentation/rest-api.html#_405_method_not_allowed",
+      "range": {
+        "startLine": 207,
+        "startChar": 21,
+        "endLine": 207,
+        "endChar": 42
+      },
+      "revId": "85a9adbd06246565aa420f8a085f8c9a190025e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

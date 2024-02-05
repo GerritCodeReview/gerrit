@@ -35,6 +35,8 @@ import com.google.gerrit.server.ChangeDraftUpdateExecutor;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.experiments.ExperimentFeatures;
+import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
@@ -221,6 +223,7 @@ public class ChangeDraftNotesUpdate extends AbstractChangeUpdate implements Chan
   }
 
   private final AllUsersName draftsProject;
+  private final ExperimentFeatures experimentFeatures;
 
   private List<HumanComment> put = new ArrayList<>();
   private Map<Key, DeleteReason> delete = new HashMap<>();
@@ -231,6 +234,7 @@ public class ChangeDraftNotesUpdate extends AbstractChangeUpdate implements Chan
       @GerritPersonIdent PersonIdent serverIdent,
       AllUsersName allUsers,
       ChangeNoteUtil noteUtil,
+      ExperimentFeatures experimentFeatures,
       @Assisted ChangeNotes notes,
       @Assisted("effective") Account.Id accountId,
       @Assisted("real") Account.Id realAccountId,
@@ -238,6 +242,7 @@ public class ChangeDraftNotesUpdate extends AbstractChangeUpdate implements Chan
       @Assisted Instant when) {
     super(noteUtil, serverIdent, notes, null, accountId, realAccountId, authorIdent, when);
     this.draftsProject = allUsers;
+    this.experimentFeatures = experimentFeatures;
   }
 
   @AssistedInject
@@ -245,6 +250,7 @@ public class ChangeDraftNotesUpdate extends AbstractChangeUpdate implements Chan
       @GerritPersonIdent PersonIdent serverIdent,
       AllUsersName allUsers,
       ChangeNoteUtil noteUtil,
+      ExperimentFeatures experimentFeatures,
       @Assisted Change change,
       @Assisted("effective") Account.Id accountId,
       @Assisted("real") Account.Id realAccountId,
@@ -252,6 +258,7 @@ public class ChangeDraftNotesUpdate extends AbstractChangeUpdate implements Chan
       @Assisted Instant when) {
     super(noteUtil, serverIdent, null, change, accountId, realAccountId, authorIdent, when);
     this.draftsProject = allUsers;
+    this.experimentFeatures = experimentFeatures;
   }
 
   @Override
@@ -313,6 +320,7 @@ public class ChangeDraftNotesUpdate extends AbstractChangeUpdate implements Chan
             authorIdent,
             draftsProject,
             noteUtil,
+            experimentFeatures,
             new Change(getChange()),
             accountId,
             realAccountId,
@@ -330,6 +338,10 @@ public class ChangeDraftNotesUpdate extends AbstractChangeUpdate implements Chan
     RevisionNoteBuilder.Cache cache = new RevisionNoteBuilder.Cache(rnm);
 
     for (HumanComment c : put) {
+      if (!experimentFeatures.isFeatureEnabled(
+          ExperimentFeaturesConstants.ALLOW_FIX_SUGGESTIONS_IN_COMMENTS)) {
+        checkState(c.fixSuggestions == null, "feature flag prohibits setting fixSuggestions");
+      }
       if (!delete.keySet().contains(key(c))) {
         cache.get(c.getCommitId()).putComment(c);
       }

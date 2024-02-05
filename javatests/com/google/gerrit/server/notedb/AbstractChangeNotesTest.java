@@ -57,6 +57,8 @@ import com.google.gerrit.server.config.EnablePeerIPInReflogRecord;
 import com.google.gerrit.server.config.GerritImportedServerIds;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerId;
+import com.google.gerrit.server.experiments.ConfigExperimentFeatures;
+import com.google.gerrit.server.experiments.ExperimentFeatures;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitModule;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -225,6 +227,7 @@ public abstract class AbstractChangeNotesTest {
             bind(PatchSetApprovalUuidGenerator.class).to(TestPatchSetApprovalUuidGenerator.class);
             bind(ChangeDraftUpdate.ChangeDraftUpdateFactory.class)
                 .to(ChangeDraftNotesUpdate.Factory.class);
+            bind(ExperimentFeatures.class).to(ConfigExperimentFeatures.class);
           }
         });
   }

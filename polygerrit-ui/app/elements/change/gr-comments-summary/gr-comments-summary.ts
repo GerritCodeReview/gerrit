@@ -23,11 +23,16 @@ import {SummaryChipStyles} from '../gr-change-summary/gr-summary-chip';
 import {subscribe} from '../../lit/subscription-controller';
 import {resolve} from '../../../models/dependency';
 import {userModelToken} from '../../../models/user/user-model';
+import {when} from 'lit/directives/when.js';
+import {spinnerStyles} from '../../../styles/gr-spinner-styles';
 
 @customElement('gr-comments-summary')
 export class GrCommentsSummary extends LitElement {
   @property({type: Object})
   commentThreads?: CommentThread[];
+
+  @property({type: Boolean})
+  commentsLoading = false;
 
   @property({type: Number})
   draftCount = 0;
@@ -63,7 +68,18 @@ export class GrCommentsSummary extends LitElement {
 
   static override get styles() {
     return [
+      spinnerStyles,
       css`
+        /* The basics of .loadingSpin are defined in shared styles. */
+        .loadingSpin {
+          width: calc(var(--line-height-normal) - 2px);
+          height: calc(var(--line-height-normal) - 2px);
+          display: inline-block;
+          vertical-align: top;
+          position: relative;
+          /* Making up for the 2px reduced height above. */
+          top: 1px;
+        }
         .zeroState {
           color: var(--deemphasized-text-color);
         }
@@ -91,6 +107,10 @@ export class GrCommentsSummary extends LitElement {
       ? this.getAccounts(commentThreads.filter(isResolved))
       : undefined;
     return html`
+      ${when(
+        this.commentsLoading,
+        () => html`<span class="loadingSpin"></span>`
+      )}
       ${this.renderZeroState(countResolvedComments, countUnresolvedComments)}
       ${this.renderDraftChip()} ${this.renderMentionChip()}
       ${this.renderUnresolvedCommentsChip(
@@ -112,6 +132,10 @@ export class GrCommentsSummary extends LitElement {
       !!countUnresolvedComments
     )
       return nothing;
+    if (this.commentsLoading) {
+      return html`<span class="zeroState"> Loading comments...</span>`;
+    }
+
     return html`<span class="zeroState"> No comments</span>`;
   }
 

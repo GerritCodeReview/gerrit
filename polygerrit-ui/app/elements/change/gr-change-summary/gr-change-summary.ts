@@ -538,11 +538,8 @@ export class GrChangeSummary extends LitElement {
           <tr>
             <td class="key">Comments</td>
             <td class="value">
-              ${when(
-                this.commentsLoading,
-                () => html`<span class="loadingSpin"></span>`
-              )}
               <gr-comments-summary
+                .commentsLoading=${this.commentsLoading}
                 .commentThreads=${this.commentThreads}
                 .draftCount=${this.draftCount}
                 .mentionCount=${this.mentionCount}

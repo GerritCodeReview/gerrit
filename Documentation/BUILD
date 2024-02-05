@@ -126,3 +126,13 @@ genasciidoc_zip(
     searchbox = False,
     webfonts = False,
 )
+
+genasciidoc_zip(
+    name = "html_safe",
+    srcs = SRCS,
+    attributes = documentation_attributes(),
+    backend = "html5",
+    directory = DOC_DIR,
+    searchbox = True,
+    webfonts = False,
+)

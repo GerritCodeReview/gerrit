@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc9a8dc5_68f454cd",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-05T14:24:51Z",
+      "side": 1,
+      "message": "What does \"#\" do?",
+      "range": {
+        "startLine": 157,
+        "startChar": 10,
+        "endLine": 157,
+        "endChar": 11
+      },
+      "revId": "e60080046dae0d0710f5b26caca5db8a302e62c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -59,4 +59,8 @@ public class ExperimentFeaturesConstants {
 
   /** Whether the rebase submit strategies should rebase merge commits. */
   public static final String REBASE_MERGE_COMMITS = "GerritBackendFeature__rebase_merge_commits";
+
+  /** Whether we allow fix suggestions in HumanComments. */
+  public static final String ALLOW_FIX_SUGGESTIONS_IN_COMMENTS =
+      "GerritBackendFeature__allow_fix_suggestions_in_comments";
 }

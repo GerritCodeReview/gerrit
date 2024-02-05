@@ -407,10 +407,11 @@ public class CommentsUtil {
     return comments;
   }
 
+  @Nullable
   public static ImmutableList<FixSuggestion> createFixSuggestionsFromInput(
       List<FixSuggestionInfo> fixSuggestionInfos) {
     if (fixSuggestionInfos == null) {
-      return ImmutableList.of();
+      return null;
     }
 
     ImmutableList.Builder<FixSuggestion> fixSuggestions =

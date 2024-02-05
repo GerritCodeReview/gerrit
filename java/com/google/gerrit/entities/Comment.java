@@ -228,7 +228,7 @@ public abstract class Comment {
   public Range range;
   public String tag;
 
-  public List<FixSuggestion> fixSuggestions;
+  @Nullable public List<FixSuggestion> fixSuggestions;
 
   /**
    * Hex commit SHA1 of the commit of the patchset to which this comment applies. Other classes call

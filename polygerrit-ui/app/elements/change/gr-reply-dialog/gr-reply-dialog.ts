@@ -1380,7 +1380,6 @@ export class GrReplyDialog extends LitElement {
 
     if (startReview) {
       reviewInput.ready = true;
-      this.reporting.reportInteraction(Interaction.START_REVIEW);
     } else if (this.change?.work_in_progress) {
       const addedAccounts = [
         ...(this.reviewersList?.additions() ?? []),
@@ -1450,6 +1449,7 @@ export class GrReplyDialog extends LitElement {
 
     assertIsDefined(this.change, 'change');
     reviewInput.reviewers = this.computeReviewers();
+    this.reportStartReview(reviewInput);
 
     const errFn = (r?: Response | null) => this.handle400Error(r);
     this.getNavigation().blockNavigation('sending review');
@@ -1477,6 +1477,31 @@ export class GrReplyDialog extends LitElement {
         // By this point in time the change has loaded, we're only waiting for the comments.
         this.reporting.timeEnd(Timing.SEND_REPLY);
       });
+  }
+
+  private reportStartReview(reviewInput: ReviewInput) {
+    const changeHasReviewers =
+      (this.change?.reviewers.REVIEWER ?? []).length > 0;
+    const newReviewersAdded =
+      (this.reviewersList?.additions() ?? []).length > 0;
+
+    // A review starts if either a WIP change is set to active with reviewers ...
+    const setActiveWithReviewers =
+      this.change?.work_in_progress &&
+      reviewInput.ready &&
+      // Setting a change active and *removing* all reviewers at the same time
+      // is an obscure corner case that we don't care about. :-)
+      (changeHasReviewers || newReviewersAdded);
+    // ... or if reviewers are added to an already active change that has no reviewers yet.
+    const isActiveAddReviewers =
+      !this.change?.work_in_progress &&
+      !reviewInput.work_in_progress &&
+      !changeHasReviewers &&
+      newReviewersAdded;
+
+    if (setActiveWithReviewers || isActiveAddReviewers) {
+      this.reporting.reportInteraction(Interaction.START_REVIEW);
+    }
   }
 
   focusOn(section?: FocusTarget) {

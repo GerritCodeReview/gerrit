@@ -143,13 +143,17 @@ export class GrChangeListView extends LitElement {
         gr-repo-header {
           border-bottom: 1px solid var(--border-color);
         }
+        a[disabled] gr-icon {
+          background-color: transparent;
+          color: var(--disabled-foreground);
+          cursor: default;
+        }
         nav {
           align-items: center;
           display: flex;
           height: 3rem;
           justify-content: flex-end;
           margin-right: 20px;
-          color: var(--deemphasized-text-color);
         }
         gr-icon {
           font-size: 1.85rem;
@@ -212,17 +216,39 @@ export class GrChangeListView extends LitElement {
 
     return html`
       <nav>
-        Page ${this.computePage()} ${this.renderPrevArrow()}
+        ${this.renderPageNums()}${this.renderPrevArrow()}
         ${this.renderNextArrow()}
       </nav>
     `;
   }
 
+  private renderPageNums() {
+    if (this.offset === 0 && this.changes.length <= 1) {
+      return html`<span><strong>${this.changes.length}</strong></span>`;
+    }
+
+    const changesCount = this.changes?.length ?? 0;
+    const hasMore = this.changes?.[changesCount - 1]._more_changes;
+
+    return html`<span>
+      <strong
+        >${this.offset + 1}&nbsp;-&nbsp;${this.offset + changesCount}</strong
+      >&nbsp;of&nbsp;<strong
+        >${hasMore ? 'many' : this.offset + changesCount}
+      </strong></span
+    >`;
+  }
+
   private renderPrevArrow() {
-    if (this.offset === 0) return nothing;
+    const changesCount = this.changes?.length ?? 0;
+    if (changesCount === 0) return nothing;
 
     return html`
-      <a id="prevArrow" href=${this.computeNavLink(-1)}>
+      <a
+        id="prevArrow"
+        href=${this.computeNavLink(-1)}
+        ?disabled=${this.offset === 0}
+      >
         <gr-icon icon="chevron_left" aria-label="Older"></gr-icon>
       </a>
     `;
@@ -231,10 +257,13 @@ export class GrChangeListView extends LitElement {
   private renderNextArrow() {
     const changesCount = this.changes?.length ?? 0;
     if (changesCount === 0) return nothing;
-    if (!this.changes?.[changesCount - 1]._more_changes) return nothing;
 
     return html`
-      <a id="nextArrow" href=${this.computeNavLink(1)}>
+      <a
+        id="nextArrow"
+        href=${this.computeNavLink(1)}
+        ?disabled=${!this.changes?.[changesCount - 1]._more_changes}
+      >
         <gr-icon icon="chevron_right" aria-label="Newer"></gr-icon>
       </a>
     `;
@@ -266,13 +295,15 @@ export class GrChangeListView extends LitElement {
 
   // private but used in test
   handleNextPage() {
-    if (!this.nextArrow || !this.changesPerPage) return;
+    if (this.nextArrow?.hasAttribute('disabled') || !this.changesPerPage)
+      return;
     this.getNavigation().setUrl(this.computeNavLink(1));
   }
 
   // private but used in test
   handlePreviousPage() {
-    if (!this.prevArrow || !this.changesPerPage) return;
+    if (this.prevArrow?.hasAttribute('disabled') || !this.changesPerPage)
+      return;
     this.getNavigation().setUrl(this.computeNavLink(-1));
   }
 

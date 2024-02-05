@@ -261,6 +261,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b0e9f6b5_ce3f4d36",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeIndexer.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-02-05T09:28:43Z",
+      "side": 1,
+      "message": "This is marked as done but actually left unchanged?",
+      "parentUuid": "f3a73e43_6e2a78c1",
+      "range": {
+        "startLine": 275,
+        "startChar": 9,
+        "endLine": 275,
+        "endChar": 30
+      },
+      "revId": "95d190580a20ef8eee443fdd8c5ce8436dc02bcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "93a0de31_7ac9d0b4",
         "filename": "java/com/google/gerrit/server/index/change/ChangeIndexer.java",
         "patchSetId": 6

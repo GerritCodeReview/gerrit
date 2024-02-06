@@ -14,7 +14,10 @@ import {
   fireNetworkError,
   fireServerError,
 } from '../../../../utils/event-util';
-import {AuthRequestInit, FetchRequest} from '../../../../types/types';
+import {
+  AuthRequestInit,
+  FetchRequest as FetchRequestBase,
+} from '../../../../types/types';
 import {ErrorCallback} from '../../../../api/rest';
 import {Scheduler, Task} from '../../../../services/scheduler/scheduler';
 import {RetryError} from '../../../../services/scheduler/retry-scheduler';
@@ -207,10 +210,18 @@ export interface SendJSONRequest extends SendRequestBase {
 
 export type SendRequest = SendRawRequest | SendJSONRequest;
 
-export interface FetchJSONRequest extends FetchRequest {
+export interface FetchRequest extends FetchRequestBase {
+  /**
+   * If neither this or anonymizedUrl specified no url is added to the
+   * 'gr-rpc-log' event.
+   */
   reportUrlAsIs?: boolean;
+  /** Extra url params to be encoded and added to the url. */
   params?: FetchParams;
-  cancelCondition?: CancelConditionCallback;
+  /**
+   * Callback that is called, if an error was caught during fetch or if the
+   * response was returned with a non-2xx status.
+   */
   errFn?: ErrorCallback;
 }
 
@@ -235,7 +246,7 @@ export class GrRestApiHelper {
    * Wraps calls to the underlying authenticated fetch function (_auth.fetch)
    * with timing and logging.
    */
-  fetch(req: FetchRequest): Promise<Response> {
+  private fetchImpl(req: FetchRequest): Promise<Response> {
     const method = req.fetchOptions?.method ?? 'GET';
     const startTime = Date.now();
     const task = async () => {
@@ -255,9 +266,7 @@ export class GrRestApiHelper {
     });
 
     // Log the call after it completes.
-    resPromise.then(res =>
-      this._logCall(req, startTime, res.status)
-    );
+    resPromise.then(res => this._logCall(req, startTime, res.status));
     // Return the response directly (without the log).
     return resPromise;
   }
@@ -305,39 +314,33 @@ export class GrRestApiHelper {
   }
 
   /**
-   * Fetch JSON from url provided.
-   * Returns a Promise that resolves to a native Response.
-   * Doesn't do error checking. Supports cancel condition. Performs auth.
-   * Validates auth expiry errors.
+   * Fetch from url provided.
    *
-   * @return Promise which resolves to undefined if cancelCondition returns true
-   *     and resolves to Response otherwise
+   * Performs auth. Validates auth expiry errors.
+   * Will report any errors that happen during the request, but doesn't inspect
+   * the status of the received response.
+   *
+   * @return Promise which resolves to undefined if cancelCondition; otherwise
+   *     resolves to a native Response. If an error occurs when performing
+   *     request promise rejects.
    */
-  fetchRawJSON(req: FetchJSONRequest): Promise<Response | undefined> {
+  async fetch(req: FetchRequest): Promise<Response> {
     const urlWithParams = this.urlWithParams(req.url, req.params);
     const fetchReq: FetchRequest = {
       url: urlWithParams,
       fetchOptions: req.fetchOptions,
       anonymizedUrl: req.reportUrlAsIs ? urlWithParams : req.anonymizedUrl,
     };
-    return this.fetch(fetchReq)
-      .then((res: Response) => {
-        if (req.cancelCondition && req.cancelCondition()) {
-          if (res.body) {
-            res.body.cancel();
-          }
-          return;
-        }
-        return res;
-      })
-      .catch(err => {
-        if (req.errFn) {
-          req.errFn.call(undefined, null, err);
-        } else {
-          fireNetworkError(err);
-        }
-        throw err;
-      });
+    try {
+      return await this.fetchImpl(fetchReq);
+    } catch (err) {
+      if (req.errFn) {
+        req.errFn.call(undefined, null, err as Error);
+      } else {
+        fireNetworkError(err as Error);
+      }
+      throw err;
+    }
   }
 
   /**
@@ -348,13 +351,13 @@ export class GrRestApiHelper {
    * @param noAcceptHeader - don't add default accept json header
    */
   async fetchJSON(
-    req: FetchJSONRequest,
+    req: FetchRequest,
     noAcceptHeader?: boolean
   ): Promise<ParsedJSON | undefined> {
     if (!noAcceptHeader) {
       req = this.addAcceptJsonHeader(req);
     }
-    const response = await this.fetchRawJSON(req);
+    const response = await this.fetch(req);
     if (!response) {
       return;
     }
@@ -408,7 +411,7 @@ export class GrRestApiHelper {
     return readJSONResponsePayload(response).then(payload => payload.parsed);
   }
 
-  addAcceptJsonHeader(req: FetchJSONRequest) {
+  addAcceptJsonHeader(req: FetchRequest) {
     if (!req.fetchOptions) req.fetchOptions = {};
     if (!req.fetchOptions.headers) req.fetchOptions.headers = new Headers();
     if (!req.fetchOptions.headers.has('Accept')) {
@@ -417,7 +420,7 @@ export class GrRestApiHelper {
     return req;
   }
 
-  fetchCacheURL(req: FetchJSONRequest): Promise<ParsedJSON | undefined> {
+  fetchCacheURL(req: FetchRequest): Promise<ParsedJSON | undefined> {
     if (this._fetchPromisesCache.has(req.url)) {
       return this._fetchPromisesCache.get(req.url)!;
     }

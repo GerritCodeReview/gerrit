@@ -69,6 +69,24 @@
       "parentUuid": "22e062af_c3143d77",
       "revId": "108d24a1ffab02f3be190312d8b3d67485b9b1d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a1ac33c_323a9c2d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2024-02-06T10:21:28Z",
+      "side": 1,
+      "message": "Thanks, that is useful context.",
+      "parentUuid": "fbaa6e93_662eb489",
+      "revId": "108d24a1ffab02f3be190312d8b3d67485b9b1d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

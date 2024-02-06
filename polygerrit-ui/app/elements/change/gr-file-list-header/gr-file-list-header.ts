@@ -143,8 +143,8 @@ export class GrFileListHeader extends LitElement {
     return [
       sharedStyles,
       css`
-        .prefsButton {
-          float: right;
+        #diffPrefsContainer {
+          display: flex;
         }
         .patchInfoOldPatchSet.patchInfo-header {
           background-color: var(--emphasis-color);

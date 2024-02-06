@@ -14,7 +14,6 @@ import {
   fireServerError,
 } from '../../../../utils/event-util';
 import {
-  AuthRequestInit,
   FetchRequest as FetchRequestBase,
 } from '../../../../types/types';
 import {ErrorCallback} from '../../../../api/rest';
@@ -187,27 +186,6 @@ export function throwingErrorCallback(
     throw new Error(message);
   });
 }
-
-interface SendRequestBase {
-  method: HttpMethod | undefined;
-  body?: RequestPayload;
-  contentType?: string;
-  headers?: Record<string, string>;
-  url: string;
-  reportUrlAsIs?: boolean;
-  anonymizedUrl?: string;
-  errFn?: ErrorCallback;
-}
-
-export interface SendRawRequest extends SendRequestBase {
-  parseResponse?: false | null;
-}
-
-export interface SendJSONRequest extends SendRequestBase {
-  parseResponse: true;
-}
-
-export type SendRequest = SendRawRequest | SendJSONRequest;
 
 export interface FetchRequest extends FetchRequestBase {
   /**
@@ -461,73 +439,6 @@ export class GrRestApiHelper {
         })
     );
     return this._fetchPromisesCache.get(req.url)!;
-  }
-
-  // if errFn is not set, then only Response possible
-  send(req: SendRawRequest & {errFn?: undefined}): Promise<Response>;
-
-  send(req: SendRawRequest): Promise<Response | undefined>;
-
-  send(req: SendJSONRequest): Promise<ParsedJSON>;
-
-  send(req: SendRequest): Promise<Response | ParsedJSON | undefined>;
-
-  /**
-   * Send an XHR.
-   *
-   * @return Promise resolves to Response/ParsedJSON only if the request is successful
-   *     (i.e. no exception and response.ok is true). If response fails then
-   *     promise resolves either to void if errFn is set or rejects if errFn
-   *     is not set   */
-  async send(req: SendRequest): Promise<Response | ParsedJSON | undefined> {
-    const options: AuthRequestInit = {method: req.method};
-    if (req.body) {
-      options.headers = new Headers();
-      options.headers.set(
-        'Content-Type',
-        req.contentType || 'application/json'
-      );
-      options.body =
-        typeof req.body === 'string' ? req.body : JSON.stringify(req.body);
-    }
-    if (req.headers) {
-      if (!options.headers) {
-        options.headers = new Headers();
-      }
-      for (const [name, value] of Object.entries(req.headers)) {
-        options.headers.set(name, value);
-      }
-    }
-    const url = req.url.startsWith('http') ? req.url : getBaseUrl() + req.url;
-    const fetchReq: FetchRequest = {
-      url,
-      fetchOptions: options,
-      anonymizedUrl: req.reportUrlAsIs ? url : req.anonymizedUrl,
-    };
-    let xhr;
-    try {
-      xhr = await this.fetch(fetchReq);
-    } catch (err) {
-      fireNetworkError(err as Error);
-      if (req.errFn) {
-        await req.errFn.call(undefined, null, err as Error);
-        xhr = undefined;
-      } else {
-        throw err;
-      }
-    }
-    if (xhr && !xhr.ok) {
-      if (req.errFn) {
-        await req.errFn.call(undefined, xhr);
-      } else {
-        fireServerError(xhr, fetchReq);
-      }
-    }
-
-    if (req.parseResponse) {
-      xhr = xhr && (await readJSONResponsePayload(xhr)).parsed;
-    }
-    return xhr;
   }
 
   invalidateFetchPromisesPrefix(prefix: string) {

@@ -463,7 +463,7 @@ export class GrResultRow extends LitElement {
   }
 
   renderSummary(text?: string) {
-    if (!text) return;
+    text = text ?? '';
     return html`
       <!-- The &nbsp; is for being able to shrink a tiny amount without
        the text itself getting shrunk with an ellipsis. -->

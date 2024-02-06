@@ -520,7 +520,6 @@ export function secondaryLinks(result?: CheckResultApi): Link[] {
 }
 
 export function computeIsExpandable(result?: CheckResultApi) {
-  if (!result?.summary) return false;
   const hasMessage = !!result?.message;
   const hasMultipleLinks = (result?.links ?? []).length > 1;
   const hasPointers = (result?.codePointers ?? []).length > 0;

@@ -32,6 +32,18 @@ public class ChangeNoteJsonTest {
     Optional<Child> optionalChild;
   }
 
+  static class ParentWithoutField {}
+
+  static class ChildWithField extends ParentWithoutField {
+    String field;
+  }
+
+  static class ParentWithField {
+    String field;
+  }
+
+  static class ChildWithoutField extends ParentWithField {}
+
   @Test
   public void shouldSerializeAndDeserializeEmptyOptional() {
     // given
@@ -145,5 +157,17 @@ public class ChangeNoteJsonTest {
 
     assertThat(result.optionalChild).isPresent();
     assertThat(result.optionalChild.get().optionalValue).isEmpty();
+  }
+
+  @Test
+  public void fieldCanBeMovedFromChildToParentWithoutChangingSerializedRepresentation() {
+    ChildWithField c = new ChildWithField();
+    c.field = "test";
+    ChildWithoutField c2 = gson.fromJson(gson.toJson(c), ChildWithoutField.class);
+    assertThat(c2.field).isEqualTo("test");
+
+    String serialized = "" + "{\n" + "  \"field\": \"test\"\n" + "}";
+    assertThat(gson.toJson(c)).isEqualTo(serialized);
+    assertThat(gson.toJson(c2)).isEqualTo(serialized);
   }
 }

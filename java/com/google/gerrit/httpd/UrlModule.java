@@ -86,7 +86,7 @@ class UrlModule extends ServletModule {
     serveRegex("^/(?:a/)?tools/(.*)$").with(ToolServlet.class);
 
     // Serve auth check. Mainly used by PolyGerrit for checking if a user is still logged in.
-    serveRegex("^/(?:a/)?auth-check$").with(AuthorizationCheckServlet.class);
+    serveRegex("^/(?:a/)?auth-check(\\.svg)?$").with(AuthorizationCheckServlet.class);
 
     // Bind servlets for REST root collections.
     // The '/plugins/' root collection is already handled by HttpPluginServlet

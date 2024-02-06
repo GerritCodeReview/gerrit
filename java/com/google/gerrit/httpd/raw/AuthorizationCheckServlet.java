@@ -44,8 +44,17 @@ public class AuthorizationCheckServlet extends HttpServlet {
   protected void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException {
     CacheHeaders.setNotCacheable(res);
     if (user.get().isIdentifiedUser()) {
-      res.setContentLength(0);
-      res.setStatus(HttpServletResponse.SC_NO_CONTENT);
+      if (req.getPathInfo().endsWith(".svg")) {
+        String responseToClient =
+            "\n"
+                + "<?xml version=\"1.0\" encoding=\"UTF-8\"?><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"1\" height=\"1\"/>";
+        res.setStatus(HttpServletResponse.SC_OK);
+        res.getWriter().write(responseToClient);
+        res.getWriter().flush();
+      } else {
+        res.setContentLength(0);
+        res.setStatus(HttpServletResponse.SC_NO_CONTENT);
+      }
     } else {
       res.setStatus(HttpServletResponse.SC_FORBIDDEN);
     }

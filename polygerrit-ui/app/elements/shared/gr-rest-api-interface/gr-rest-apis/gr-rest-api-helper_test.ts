@@ -263,6 +263,31 @@ suite('gr-rest-api-helper tests', () => {
     });
   });
 
+  test('params are properly encoded', () => {
+    let url = helper.urlWithParams('/path/', {
+      sp: 'hola',
+      gr: 'guten tag',
+      noval: null,
+      novaltoo: undefined,
+    });
+    assert.equal(
+      url,
+      `${window.CANONICAL_PATH}/path/?sp=hola&gr=guten%20tag&noval&novaltoo`
+    );
+
+    url = helper.urlWithParams('/path/', {
+      sp: 'hola',
+      en: ['hey', 'hi'],
+    });
+    assert.equal(url, `${window.CANONICAL_PATH}/path/?sp=hola&en=hey&en=hi`);
+
+    // Order must be maintained with array params.
+    url = helper.urlWithParams('/path/', {
+      l: ['c', 'b', 'a'],
+    });
+    assert.equal(url, `${window.CANONICAL_PATH}/path/?l=c&l=b&l=a`);
+  });
+
   suite('throwing in errFn', () => {
     function throwInPromise(response?: Response | null, _?: Error) {
       return response?.text().then(text => {

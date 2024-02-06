@@ -46,6 +46,30 @@
       },
       "revId": "85a9adbd06246565aa420f8a085f8c9a190025e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4beee18c_40a71b0f",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-02-06T07:52:33Z",
+      "side": 1,
+      "message": "Yeah, makes sense. Fine with me then.",
+      "parentUuid": "0959daeb_f49f2a50",
+      "range": {
+        "startLine": 207,
+        "startChar": 21,
+        "endLine": 207,
+        "endChar": 42
+      },
+      "revId": "85a9adbd06246565aa420f8a085f8c9a190025e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

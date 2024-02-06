@@ -223,7 +223,7 @@ export class GrRestApiHelper {
     private readonly writeScheduler: Scheduler<Response>
   ) {}
 
-  private schedule(method: string, task: Task<Response>) {
+  private schedule(method: string, task: Task<Response>): Promise<Response> {
     if (method === 'PUT' || method === 'POST' || method === 'DELETE') {
       return this.writeScheduler.schedule(task);
     } else {
@@ -236,18 +236,17 @@ export class GrRestApiHelper {
    * with timing and logging.
    */
   fetch(req: FetchRequest): Promise<Response> {
-    const method =
-      req.fetchOptions && req.fetchOptions.method
-        ? req.fetchOptions.method
-        : 'GET';
-    const start = Date.now();
+    const method = req.fetchOptions?.method ?? HttpMethod.GET;
+    const startTime = Date.now();
     const task = async () => {
       const res = await this._auth.fetch(req.url, req.fetchOptions);
+      // If the scheduler attempts retries, check for "too many requests" error
+      // and throw to avoid retry in this case.
       if (!res.ok && res.status === 429) throw new RetryError<Response>(res);
       return res;
     };
 
-    const xhr = this.schedule(method, task).catch((err: unknown) => {
+    const resPromise = this.schedule(method, task).catch((err: unknown) => {
       if (err instanceof RetryError) {
         return err.payload;
       } else {
@@ -256,9 +255,9 @@ export class GrRestApiHelper {
     });
 
     // Log the call after it completes.
-    xhr.then(res => this._logCall(req, start, res ? res.status : null));
-    // Return the XHR directly (without the log).
-    return xhr;
+    resPromise.then(res => this._logCall(req, startTime, res.status));
+    // Return the response directly (without the log).
+    return resPromise;
   }
 
   /**
@@ -273,7 +272,7 @@ export class GrRestApiHelper {
    *     is used here rather than the response object so there is no way this
    *     method can read the body stream.
    */
-  _logCall(req: FetchRequest, startTime: number, status: number | null) {
+  _logCall(req: FetchRequest, startTime: number, status: number) {
     const method =
       req.fetchOptions && req.fetchOptions.method
         ? req.fetchOptions.method

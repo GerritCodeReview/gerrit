@@ -206,13 +206,14 @@ suite('gr-button tests', () => {
       assert.equal(reportStub.lastCall.args[0], 'button-click');
       assert.deepEqual(reportStub.lastCall.args[1], {
         path: 'html>body>div>gr-button',
+        text: '',
       });
     });
 
     test('report event after click on nested', async () => {
       const nestedElement = await fixture<HTMLDivElement>(html`
         <div id="test">
-          <gr-button class="testBtn"></gr-button>
+          <gr-button class="testBtn">Click Me</gr-button>
         </div>
       `);
       queryAndAssert<GrButton>(nestedElement, 'gr-button').click();
@@ -220,6 +221,7 @@ suite('gr-button tests', () => {
       assert.equal(reportStub.lastCall.args[0], 'button-click');
       assert.deepEqual(reportStub.lastCall.args[1], {
         path: 'html>body>div>div#test>gr-button.testBtn',
+        text: 'CLICK ME',
       });
     });
   });

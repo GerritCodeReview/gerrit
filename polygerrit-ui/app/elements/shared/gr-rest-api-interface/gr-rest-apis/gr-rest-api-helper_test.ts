@@ -263,6 +263,40 @@ suite('gr-rest-api-helper tests', () => {
     });
   });
 
+  test('cached results', () => {
+    let n = 0;
+    sinon
+      .stub(helper, 'fetchJSON')
+      .callsFake(() => Promise.resolve(makeParsedJSON(++n)));
+    const promises = [];
+    promises.push(helper.fetchCacheJSON({url: '/foo'}));
+    promises.push(helper.fetchCacheJSON({url: '/foo'}));
+    promises.push(helper.fetchCacheJSON({url: '/foo'}));
+
+    return Promise.all(promises).then(results => {
+      assert.deepEqual(results, [
+        makeParsedJSON(1),
+        makeParsedJSON(1),
+        makeParsedJSON(1),
+      ]);
+      return helper.fetchCacheJSON({url: '/foo'}).then(foo => {
+        assert.equal(foo, makeParsedJSON(1));
+      });
+    });
+  });
+
+  test('cache invalidation', async () => {
+    cache.set('/foo/bar', makeParsedJSON(1));
+    cache.set('/bar', makeParsedJSON(2));
+    fetchPromisesCache.set('/foo/bar', Promise.resolve(makeParsedJSON(3)));
+    fetchPromisesCache.set('/bar', Promise.resolve(makeParsedJSON(4)));
+    helper.invalidateFetchPromisesPrefix('/foo/');
+    assert.isFalse(cache.has('/foo/bar'));
+    assert.isTrue(cache.has('/bar'));
+    assert.isUndefined(fetchPromisesCache.get('/foo/bar'));
+    assert.strictEqual(makeParsedJSON(4), await fetchPromisesCache.get('/bar'));
+  });
+
   test('params are properly encoded', () => {
     let url = helper.urlWithParams('/path/', {
       sp: 'hola',

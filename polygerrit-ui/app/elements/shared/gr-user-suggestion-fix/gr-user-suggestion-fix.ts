@@ -126,7 +126,7 @@ export class GrUserSuggestionsFix extends LitElement {
             flatten
             .loading=${this.applyingFix}
             .disabled=${this.isApplyEditDisabled()}
-            class="action show-fix"
+            class="action apply-fix"
             @click=${this.handleApplyFix}
             .title=${this.computeApplyEditTooltip()}
           >

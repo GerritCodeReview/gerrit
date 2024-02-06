@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff44c6d1_534b6dcf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2024-02-06T07:45:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b902451b_a015ea8c",
+      "range": {
+        "startLine": 37,
+        "startChar": 43,
+        "endLine": 37,
+        "endChar": 49
+      },
+      "revId": "5a49628a83abf37e06976e7435e34179d424c876",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c713fda6_04c3fa73",
@@ -41,6 +65,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "18d62100_d400e57e",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 2483,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2024-02-06T07:45:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c713fda6_04c3fa73",
+      "revId": "5a49628a83abf37e06976e7435e34179d424c876",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "28d9a917_09b2cb75",
@@ -54,6 +96,24 @@
       "writtenOn": "2024-02-05T13:13:01Z",
       "side": 1,
       "message": "Should this be marked as deprecated too?",
+      "revId": "5a49628a83abf37e06976e7435e34179d424c876",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9fb17be1_e7d90fd7",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ReviewInput.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2024-02-06T07:45:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28d9a917_09b2cb75",
       "revId": "5a49628a83abf37e06976e7435e34179d424c876",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -81,6 +141,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9753cb4_3b68f321",
+        "filename": "java/com/google/gerrit/server/restapi/change/Fixes.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2024-02-06T07:45:51Z",
+      "side": 1,
+      "message": "Nice catch! Done.",
+      "parentUuid": "7d6409c1_ad7e0cb4",
+      "range": {
+        "startLine": 58,
+        "startChar": 36,
+        "endLine": 58,
+        "endChar": 66
+      },
+      "revId": "5a49628a83abf37e06976e7435e34179d424c876",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "178fdccd_246a26de",
@@ -94,6 +178,24 @@
       "writtenOn": "2024-02-05T13:13:01Z",
       "side": 1,
       "message": "nit: missing license header",
+      "revId": "5a49628a83abf37e06976e7435e34179d424c876",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2dace1a_30b13b92",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/CommentWithFixIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2024-02-06T07:45:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "178fdccd_246a26de",
       "revId": "5a49628a83abf37e06976e7435e34179d424c876",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

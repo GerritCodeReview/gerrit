@@ -1,14 +1,12 @@
 /**
  * @license
- * Copyright 2019 Google LLC
+ * Copyright 2024 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
 import {getBaseUrl} from '../../../../utils/url-util';
 import {CancelConditionCallback} from '../../../../services/gr-rest-api/gr-rest-api';
 import {AuthService} from '../../../../services/gr-auth/gr-auth';
 import {
-  AccountDetailInfo,
-  EmailInfo,
   ParsedJSON,
   RequestPayload,
 } from '../../../../types/common';
@@ -27,32 +25,21 @@ import {RetryError} from '../../../../services/scheduler/retry-scheduler';
 export const JSON_PREFIX = ")]}'";
 
 export interface ResponsePayload {
-  // TODO(TS): readResponsePayload can assign null to the parsed property if
-  // it can't parse input data. However polygerrit assumes in many places
-  // that the parsed property can't be null. We should update
-  // readResponsePayload method and reject a promise instead of assigning
-  // null to the parsed property
-  parsed: ParsedJSON; // Can be null!!! See comment above
+  parsed: ParsedJSON;
   raw: string;
 }
 
-export function readResponsePayload(
+export async function readJSONResponsePayload(
   response: Response
 ): Promise<ResponsePayload> {
-  return response.text().then(text => {
-    let result;
-    try {
-      result = parsePrefixedJSON(text);
-    } catch (_) {
-      result = null;
-    }
-    // TODO(TS): readResponsePayload can assign null to the parsed property if
-    // it can't parse input data. However polygerrit assumes in many places
-    // that the parsed property can't be null. We should update
-    // readResponsePayload method and reject a promise instead of assigning
-    // null to the parsed property
-    return {parsed: result!, raw: text};
-  });
+  const text = await response.text();
+  let result: ParsedJSON;
+  try {
+    result = parsePrefixedJSON(text);
+  } catch (_) {
+    throw new Error(`Response payload is not prefixed json. Payload: ${text}`);
+  }
+  return {parsed: result!, raw: text};
 }
 
 export function parsePrefixedJSON(jsonWithPrefix: string): ParsedJSON {
@@ -63,20 +50,22 @@ export function parsePrefixedJSON(jsonWithPrefix: string): ParsedJSON {
  * Wrapper around Map for caching server responses. Site-based so that
  * changes to CANONICAL_PATH will result in a different cache going into
  * effect.
+ *
+ * All has/set/get methods operate on the cache for the current CANONICAL_PATH.
+ * Accessing older cache entries not supported.
  */
+// TODO(kamilm): Seems redundant to have both this and FetchPromisesCache
+//   consider joining their functionality into a single cache.
 export class SiteBasedCache {
-  // TODO(TS): Type looks unusual. Fix it.
-  // Container of per-canonical-path caches.
-  private readonly data = new Map<
-    string | undefined,
-    unknown | Map<string, ParsedJSON | null>
-  >();
+  private readonly data = new Map<string, Map<string, ParsedJSON>>();
 
   constructor() {
     if (window.INITIAL_DATA) {
       // Put all data shipped with index.html into the cache. This makes it
       // so that we spare more round trips to the server when the app loads
       // initially.
+      // TODO(kamilm): This implies very strict format of what is stored in
+      //   INITIAL_DATA which is not clear from the name, consider renaming.
       Object.entries(window.INITIAL_DATA).forEach(e =>
         this._cache().set(e[0], e[1] as unknown as ParsedJSON)
       );
@@ -84,40 +73,23 @@ export class SiteBasedCache {
   }
 
   // Returns the cache for the current canonical path.
-  _cache(): Map<string, unknown> {
-    if (!this.data.has(window.CANONICAL_PATH)) {
-      this.data.set(
-        window.CANONICAL_PATH,
-        new Map<string, ParsedJSON | null>()
-      );
+  _cache(): Map<string, ParsedJSON> {
+    let canonical_path = window.CANONICAL_PATH ?? '';
+    if (!this.data.has(canonical_path)) {
+      this.data.set(canonical_path, new Map<string, ParsedJSON>());
     }
-    return this.data.get(window.CANONICAL_PATH) as Map<
-      string,
-      ParsedJSON | null
-    >;
+    return this.data.get(canonical_path) as Map<string, ParsedJSON>;
   }
 
   has(key: string) {
     return this._cache().has(key);
   }
 
-  get(key: '/accounts/self/emails'): EmailInfo[] | null;
-
-  get(key: '/accounts/self/detail'): AccountDetailInfo | null;
-
-  get(key: string): ParsedJSON | null;
-
-  get(key: string): unknown {
+  get(key: string): ParsedJSON | undefined {
     return this._cache().get(key);
   }
 
-  set(key: '/accounts/self/emails', value: EmailInfo[]): void;
-
-  set(key: '/accounts/self/detail', value: AccountDetailInfo): void;
-
-  set(key: string, value: ParsedJSON | null): void;
-
-  set(key: string, value: unknown) {
+  set(key: string, value: ParsedJSON) {
     this._cache().set(key, value);
   }
 
@@ -126,13 +98,13 @@ export class SiteBasedCache {
   }
 
   invalidatePrefix(prefix: string) {
-    const newMap = new Map<string, unknown>();
+    const newMap = new Map<string, ParsedJSON>();
     for (const [key, value] of this._cache().entries()) {
       if (!key.startsWith(prefix)) {
         newMap.set(key, value);
       }
     }
-    this.data.set(window.CANONICAL_PATH, newMap);
+    this.data.set(window.CANONICAL_PATH ?? '', newMap);
   }
 }
 
@@ -140,6 +112,9 @@ type FetchPromisesCacheData = {
   [url: string]: Promise<ParsedJSON | undefined> | undefined;
 };
 
+/**
+ * Stores promises for inflight requests, by url.
+ */
 export class FetchPromisesCache {
   private data: FetchPromisesCacheData;
 
@@ -180,6 +155,7 @@ export class FetchPromisesCache {
     this.data = newData;
   }
 }
+
 export type FetchParams = {
   [name: string]: string[] | string | number | boolean | undefined | null;
 };
@@ -241,18 +217,6 @@ export interface FetchJSONRequest extends FetchRequest {
   errFn?: ErrorCallback;
 }
 
-// export function isRequestWithCancel<T extends FetchJSONRequest>(
-//   x: T
-// ): x is T & RequestWithCancel {
-//   return !!(x as RequestWithCancel).cancelCondition;
-// }
-//
-// export function isRequestWithErrFn<T extends FetchJSONRequest>(
-//   x: T
-// ): x is T & RequestWithErrFn {
-//   return !!(x as RequestWithErrFn).errFn;
-// }
-
 export class GrRestApiHelper {
   constructor(
     private readonly _cache: SiteBasedCache,
@@ -273,7 +237,7 @@ export class GrRestApiHelper {
   /**
    * Wraps calls to the underlying authenticated fetch function (_auth.fetch)
    * with timing and logging.
-s   */
+   */
   fetch(req: FetchRequest): Promise<Response> {
     const method =
       req.fetchOptions && req.fetchOptions.method
@@ -440,8 +404,10 @@ s   */
     );
   }
 
+  // TODO(kamilm): Unclear why this method is useful vs. readJSONResponsePayload
+  //   Consider changing it to handle error cases.
   getResponseObject(response: Response): Promise<ParsedJSON> {
-    return readResponsePayload(response).then(payload => payload.parsed);
+    return readJSONResponsePayload(response).then(payload => payload.parsed);
   }
 
   addAcceptJsonHeader(req: FetchJSONRequest) {

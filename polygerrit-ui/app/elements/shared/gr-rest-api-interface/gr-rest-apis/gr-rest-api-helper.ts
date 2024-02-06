@@ -344,9 +344,17 @@ export class GrRestApiHelper {
 
   /**
    * Fetch JSON from url provided.
-   * Returns a Promise that resolves to a parsed response.
+   *
+   * Returned promise rejects if an error occurs when performing a request or
+   * if the response payload doesn't contain a valid prefixed JSON.
+   *
+   * If response status is not 2xx, promise resolves to undefined and error is
+   * reported, through errFn callback or via 'sever-error' event.
+   *
+   * If JSON parsing fails the promise rejects.
    *
    * @param noAcceptHeader - don't add default accept json header
+   * @return Promise that resolves to a parsed response.
    */
   async fetchJSON(
     req: FetchRequest,
@@ -356,9 +364,6 @@ export class GrRestApiHelper {
       req = this.addAcceptJsonHeader(req);
     }
     const response = await this.fetch(req);
-    if (!response) {
-      return;
-    }
     if (!response.ok) {
       if (req.errFn) {
         await req.errFn.call(undefined, response);
@@ -367,7 +372,9 @@ export class GrRestApiHelper {
       fireServerError(response, req);
       return;
     }
-    return this.getResponseObject(response);
+    // TODO(kamilm): The parsing error should likely be reported via errFn or
+    // gr-error-manager as well.
+    return (await readJSONResponsePayload(response)).parsed;
   }
 
   urlWithParams(url: string, fetchParams?: FetchParams): string {
@@ -401,12 +408,6 @@ export class GrRestApiHelper {
       /['()*]/g,
       c => '%' + c.charCodeAt(0).toString(16)
     );
-  }
-
-  // TODO(kamilm): Unclear why this method is useful vs. readJSONResponsePayload
-  //   Consider changing it to handle error cases.
-  getResponseObject(response: Response): Promise<ParsedJSON> {
-    return readJSONResponsePayload(response).then(payload => payload.parsed);
   }
 
   addAcceptJsonHeader(req: FetchRequest) {
@@ -506,7 +507,7 @@ export class GrRestApiHelper {
     }
 
     if (req.parseResponse) {
-      xhr = xhr && this.getResponseObject(xhr);
+      xhr = xhr && (await readJSONResponsePayload(xhr)).parsed;
     }
     return xhr;
   }

@@ -90,6 +90,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa087a4a_920b9bf3",
+        "filename": "java/com/google/gerrit/server/query/change/ChangePredicates.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-02-06T08:51:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc601b16_b498a9a2",
+      "revId": "1d90a7df8fa0a6201154a851f45edcc10a0dd73e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3eeb49c7_f2836174",

@@ -22,6 +22,30 @@
       },
       "revId": "85a9adbd06246565aa420f8a085f8c9a190025e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0959daeb_f49f2a50",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2024-02-06T07:50:38Z",
+      "side": 1,
+      "message": "I agree that it would be better, but this is deep down in the Git storage code, which doesn\u0027t deal with rest API exceptions. We could do the wiring, but I wonder if it is really worth it?\n\nThe only case that can run into this is a bot that currently posts human comments and correctly attaches fixes in the REST requests that are never actually attached because the field is currently not parsed. That seems not very likely to me and worst case we could roll back if we see HTTP 500s from this.\n\nWDYT?",
+      "parentUuid": "43f4c7c4_adb5191f",
+      "range": {
+        "startLine": 207,
+        "startChar": 21,
+        "endLine": 207,
+        "endChar": 42
+      },
+      "revId": "85a9adbd06246565aa420f8a085f8c9a190025e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

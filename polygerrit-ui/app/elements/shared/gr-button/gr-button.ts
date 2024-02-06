@@ -232,6 +232,7 @@ export class GrButton extends LitElement {
 
     this.reporting.reportInteraction(Interaction.BUTTON_CLICK, {
       path: getEventPath(e),
+      text: this.innerText,
     });
   }
 }

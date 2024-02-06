@@ -41,7 +41,7 @@ import {when} from 'lit/directives/when.js';
 import {BindValueChangeEvent} from '../../../types/events';
 import {resolve} from '../../../models/dependency';
 import {createSearchUrl} from '../../../models/views/search';
-import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
+import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper-old';
 import {uuid} from '../../../utils/common-util';
 import {ParsedChangeInfo} from '../../../types/types';
 import {formStyles} from '../../../styles/form-styles';

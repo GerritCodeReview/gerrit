@@ -33,7 +33,7 @@ import {createEditUrl} from '../../../models/views/change';
 import {resolve} from '../../../models/dependency';
 import {modalStyles} from '../../../styles/gr-modal-styles';
 import {whenVisible} from '../../../utils/dom-util';
-import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
+import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper-old';
 import {changeModelToken} from '../../../models/change/change-model';
 import {formStyles} from '../../../styles/form-styles';
 

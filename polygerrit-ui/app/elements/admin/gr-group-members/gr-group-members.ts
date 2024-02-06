@@ -42,7 +42,7 @@ import {subscribe} from '../../lit/subscription-controller';
 import {configModelToken} from '../../../models/config/config-model';
 import {resolve} from '../../../models/dependency';
 import {modalStyles} from '../../../styles/gr-modal-styles';
-import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
+import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper-old';
 import {ValueChangedEvent} from '../../../types/events';
 import {getAccountDisplayName} from '../../../utils/display-name-util';
 

@@ -86,7 +86,7 @@ import {when} from 'lit/directives/when.js';
 import {createSearchUrl} from '../../../models/views/search';
 import {createChangeUrl} from '../../../models/views/change';
 import {getChangeWeblinks} from '../../../utils/weblink-util';
-import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
+import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper-old';
 import {subscribe} from '../../lit/subscription-controller';
 import {userModelToken} from '../../../models/user/user-model';
 import {resolve} from '../../../models/dependency';

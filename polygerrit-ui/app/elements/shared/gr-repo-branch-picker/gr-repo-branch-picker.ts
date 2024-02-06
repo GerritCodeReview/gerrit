@@ -21,7 +21,7 @@ import {customElement, property, state, query} from 'lit/decorators.js';
 import {assertIsDefined} from '../../../utils/common-util';
 import {fire} from '../../../utils/event-util';
 import {BindValueChangeEvent} from '../../../types/events';
-import {throwingErrorCallback} from '../gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
+import {throwingErrorCallback} from '../gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper-old';
 import {branchName} from '../../../utils/patch-set-util';
 
 const SUGGESTIONS_LIMIT = 15;

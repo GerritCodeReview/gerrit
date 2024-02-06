@@ -16,7 +16,7 @@ import {
   SendJSONRequest,
   SendRequest,
   SiteBasedCache,
-} from '../../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
+} from '../../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper-old';
 import {GrReviewerUpdatesParser} from '../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {parseDate} from '../../utils/date-util';
 import {getBaseUrl} from '../../utils/url-util';

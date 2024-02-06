@@ -45,7 +45,7 @@ import {
 } from '../../../types/events';
 import {resolve} from '../../../models/dependency';
 import {createChangeUrl} from '../../../models/views/change';
-import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
+import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper-old';
 import {createRepoUrl, RepoDetailView} from '../../../models/views/repo';
 import '../../shared/gr-weblink/gr-weblink';
 

@@ -22,7 +22,7 @@ import {
   createSearchUrl,
   searchViewModelToken,
 } from '../../../models/views/search';
-import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
+import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper-old';
 
 const MAX_AUTOCOMPLETE_RESULTS = 10;
 const SELF_EXPRESSION = 'self';

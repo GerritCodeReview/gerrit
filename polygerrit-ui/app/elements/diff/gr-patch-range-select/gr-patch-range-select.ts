@@ -98,6 +98,9 @@ export class GrPatchRangeSelect extends LitElement {
   @state()
   changeNum?: NumericChangeId;
 
+  @property()
+  path?: string;
+
   @property({type: Object})
   filesWeblinks?: FilesWebLinks;
 
@@ -349,6 +352,7 @@ export class GrPatchRangeSelect extends LitElement {
       value: patchNum,
       commentThreads: this.changeComments?.computeCommentThreads(
         {
+          path: this.path,
           patchNum,
         },
         true
@@ -429,6 +433,7 @@ export class GrPatchRangeSelect extends LitElement {
 
     const commentThreadCount = this.changeComments.computeCommentThreads(
       {
+        path: this.path,
         patchNum,
       },
       true
@@ -436,7 +441,10 @@ export class GrPatchRangeSelect extends LitElement {
     const commentThreadString = pluralize(commentThreadCount, 'comment');
 
     const unresolvedCount = this.changeComments.computeUnresolvedNum(
-      {patchNum},
+      {
+        path: this.path,
+        patchNum,
+      },
       true
     );
     const unresolvedString =
@@ -487,10 +495,12 @@ export class GrPatchRangeSelect extends LitElement {
     if (target === this.patchNumDropdown) {
       if (detail.patchNum === patchSetValue) return;
       this.reporting.reportInteraction('right-patchset-changed', {
+        path: this.path,
         previous: detail.patchNum,
         current: patchSetValue,
         latest: latestPatchNum,
         commentCount: this.changeComments?.computeCommentThreads({
+          path: this.path,
           patchNum: patchSetValue,
         }).length,
       });
@@ -498,9 +508,11 @@ export class GrPatchRangeSelect extends LitElement {
     } else {
       if (detail.basePatchNum === patchSetValue) return;
       this.reporting.reportInteraction('left-patchset-changed', {
+        path: this.path,
         previous: detail.basePatchNum,
         current: patchSetValue,
         commentCount: this.changeComments?.computeCommentThreads({
+          path: this.path,
           patchNum: patchSetValue,
         }).length,
       });

@@ -384,6 +384,14 @@ suite('gr-patch-range-select tests', () => {
       ' (3 comments, 1 unresolved)'
     );
 
+    // Test string for specific file path.
+    element.path = 'foo';
+    assert.equal(
+      element.computePatchSetCommentsString(1 as PatchSetNum),
+      ' (1 comment, 1 unresolved)'
+    );
+    element.path = undefined;
+
     // Test string with no unresolved comments.
     delete comments['foo'];
     element.changeComments = new ChangeComments(comments);

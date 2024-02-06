@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb86901c_50423715",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2024-02-06T13:32:22Z",
+      "side": 1,
+      "message": "Minor suggestion: Rather than renaming the current one as \"old\".  Rename the new one as \"new\".\n\nThis avoids having to update all the imports.\n\nThen when you\u0027re ready, swap over the implementation",
+      "revId": "1886a2551ca13dba2d28ad965b37aaca8e61df52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

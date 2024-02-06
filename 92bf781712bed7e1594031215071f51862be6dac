@@ -16,6 +16,24 @@
       "message": "Blocking until the followup change guarantees NoteDb rollout safeness. But this change is good for review already now :-)",
       "revId": "92bf781712bed7e1594031215071f51862be6dac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8fe8b03_e3958901",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2024-02-06T07:51:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa48661a_288438c3",
+      "revId": "92bf781712bed7e1594031215071f51862be6dac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

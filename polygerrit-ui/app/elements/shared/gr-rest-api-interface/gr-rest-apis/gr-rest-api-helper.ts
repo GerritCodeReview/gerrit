@@ -424,11 +424,20 @@ export class GrRestApiHelper {
     return req;
   }
 
-  fetchCacheURL(req: FetchRequest): Promise<ParsedJSON | undefined> {
+  /**
+   * Fetch JSON using cached value if available.
+   *
+   * If there is an in-flight request with the same url returns the promise for
+   * the in-flight request. If previous call for the same url resulted in the
+   * successfull response it is returned. Otherwise a new request is sent.
+   *
+   * Only req.url is considered for the request, ie. additional url params
+   * (req.params), headers or request body is not included in cache key.
+   */
+  fetchCacheJSON(req: FetchRequest): Promise<ParsedJSON | undefined> {
     if (this._fetchPromisesCache.has(req.url)) {
       return this._fetchPromisesCache.get(req.url)!;
     }
-    // TODO(andybons): Periodic cache invalidation.
     if (this._cache.has(req.url)) {
       return Promise.resolve(this._cache.get(req.url)!);
     }

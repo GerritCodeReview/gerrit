@@ -1029,16 +1029,9 @@ export class GrChangeMetadata extends LitElement {
     return createSearchUrl({repo: project});
   }
 
-  private computeBranchUrl(project?: RepoName, branch?: BranchName) {
-    if (!project || !branch || !this.change || !this.change.status) return '';
-    return createSearchUrl({
-      branch,
-      repo: project,
-      statuses:
-        this.change.status === ChangeStatus.NEW
-          ? ['open']
-          : [this.change.status.toLowerCase()],
-    });
+  private computeBranchUrl(repo?: RepoName, branch?: BranchName) {
+    if (!repo || !branch || !this.change || !this.change.status) return '';
+    return createSearchUrl({branch, repo});
   }
 
   private computeCherryPickOfUrl(

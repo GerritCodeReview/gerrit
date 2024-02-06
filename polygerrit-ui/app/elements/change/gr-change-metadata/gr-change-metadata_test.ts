@@ -166,7 +166,7 @@ suite('gr-change-metadata tests', () => {
               test-project
             </a>
             |
-            <a href="/q/project:test-project+branch:test-branch+status:open">
+            <a href="/q/project:test-project+branch:test-branch">
               test-branch
             </a>
           </span>

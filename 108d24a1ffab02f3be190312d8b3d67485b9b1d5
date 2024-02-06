@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd8d5a4d_ab719843",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-02-06T10:17:17Z",
+      "side": 1,
+      "message": "??",
+      "parentUuid": "8070dc26_91299fbf",
+      "revId": "108d24a1ffab02f3be190312d8b3d67485b9b1d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "22e062af_c3143d77",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-02-06T10:13:20Z",
       "side": 1,
       "message": "I don\u0027t think it\u0027s a good idea to base logging based on user-visible text. This means that if we change the label on teh button the logging will break.",
+      "revId": "108d24a1ffab02f3be190312d8b3d67485b9b1d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fbaa6e93_662eb489",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-02-06T10:17:17Z",
+      "side": 1,
+      "message": "I think we have two types of logging.\n\nOne is generic and captures the DOM path of the button, and IMO should also capture the text of the button.\n\nThe other type is specific interaction logging. I am adding this in change 407298.",
+      "parentUuid": "22e062af_c3143d77",
       "revId": "108d24a1ffab02f3be190312d8b3d67485b9b1d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

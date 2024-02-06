@@ -25,7 +25,7 @@ import {
   parsePrefixedJSON,
   readResponsePayload,
   JSON_PREFIX,
-} from '../../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
+} from '../../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper-old';
 import {GrRestApiServiceImpl} from './gr-rest-api-impl';
 import {
   CommentSide,

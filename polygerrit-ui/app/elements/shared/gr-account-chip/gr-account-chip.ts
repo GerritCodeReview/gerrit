@@ -119,6 +119,9 @@ export class GrAccountChip extends LitElement {
         gr-icon {
           font-size: 1.2rem;
         }
+        gr-icon[icon='close'] {
+          margin-top: var(--spacing-xxs);
+        }
         .container gr-account-label::part(gr-account-label-text) {
           color: var(--deemphasized-text-color);
         }

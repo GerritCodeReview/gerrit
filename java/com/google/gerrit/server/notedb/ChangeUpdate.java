@@ -83,6 +83,8 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.ServiceUserClassifier;
 import com.google.gerrit.server.approval.PatchSetApprovalUuidGenerator;
+import com.google.gerrit.server.experiments.ExperimentFeatures;
+import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.server.git.validators.TopicValidator;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.update.context.RefUpdateContext;
@@ -162,6 +164,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private final Map<Account.Id, ReviewerStateInternal> reviewers = new LinkedHashMap<>();
   private final Map<Address, ReviewerStateInternal> reviewersByEmail = new LinkedHashMap<>();
   private final List<HumanComment> comments = new ArrayList<>();
+  private final ExperimentFeatures experimentFeatures;
 
   private String commitSubject;
   private String subject;
@@ -213,6 +216,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       ProjectCache projectCache,
       ServiceUserClassifier serviceUserClassifier,
       PatchSetApprovalUuidGenerator patchSetApprovalUuidGenerator,
+      ExperimentFeatures experimentFeatures,
       @Assisted ChangeNotes notes,
       @Assisted CurrentUser user,
       @Assisted Instant when,
@@ -225,6 +229,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         deleteCommentRewriterFactory,
         serviceUserClassifier,
         patchSetApprovalUuidGenerator,
+        experimentFeatures,
         notes,
         user,
         when,
@@ -250,6 +255,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       DeleteCommentRewriter.Factory deleteCommentRewriterFactory,
       ServiceUserClassifier serviceUserClassifier,
       PatchSetApprovalUuidGenerator patchSetApprovalUuidGenerator,
+      ExperimentFeatures experimentFeatures,
       @Assisted ChangeNotes notes,
       @Assisted CurrentUser user,
       @Assisted Instant when,
@@ -262,6 +268,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.deleteCommentRewriterFactory = deleteCommentRewriterFactory;
     this.serviceUserClassifier = serviceUserClassifier;
     this.patchSetApprovalUuidGenerator = patchSetApprovalUuidGenerator;
+    this.experimentFeatures = experimentFeatures;
     this.approvals = approvals(labelNameComparator);
     this.user = user;
   }
@@ -612,6 +619,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     RevisionNoteBuilder.Cache cache = new RevisionNoteBuilder.Cache(rnm);
     for (HumanComment c : comments) {
       c.tag = tag;
+      if (!experimentFeatures.isFeatureEnabled(
+          ExperimentFeaturesConstants.ALLOW_FIX_SUGGESTIONS_IN_COMMENTS)) {
+        checkState(c.fixSuggestions == null, "feature flag prohibits setting fixSuggestions");
+      }
       cache.get(c.getCommitId()).putComment(c);
     }
     if (submitRequirementResults != null) {

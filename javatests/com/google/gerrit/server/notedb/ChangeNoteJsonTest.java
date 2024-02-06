@@ -123,4 +123,27 @@ public class ChangeNoteJsonTest {
     assertThat(result.optionalChild).isPresent();
     assertThat(result.optionalChild.get().optionalValue).isEmpty();
   }
+
+  @Test
+  public void ignoresUnknownField() {
+    Child fooChild = new Child();
+    fooChild.optionalValue = Optional.empty();
+    Parent parent = new Parent();
+    parent.optionalChild = Optional.of(fooChild);
+
+    String jsonWithUnknownField =
+        "{\n"
+            + "  \"unknown-field\": \"unknown-value\","
+            + "  \"optionalChild\": {\n"
+            + "    \"value\": {\n"
+            + "      \"optionalValue\": {}\n"
+            + "    }\n"
+            + "  }\n"
+            + "}";
+
+    Parent result = gson.fromJson(jsonWithUnknownField, new TypeLiteral<Parent>() {}.getType());
+
+    assertThat(result.optionalChild).isPresent();
+    assertThat(result.optionalChild.get().optionalValue).isEmpty();
+  }
 }

@@ -181,7 +181,8 @@ public class PerPatchsetOperationsImpl implements PerPatchsetOperations {
               side,
               message,
               unresolved,
-              parentUuid);
+              parentUuid,
+              null);
       // For draft comments, only the tag set on the HumanComment (and not on the ChangeUpdate)
       // matters.
       commentCreation.tag().ifPresent(tag -> newComment.tag = tag);

@@ -17,6 +17,7 @@ package com.google.gerrit.extensions.common.testing;
 import static com.google.common.truth.Truth.assertAbout;
 import static com.google.gerrit.extensions.common.testing.AccountInfoSubject.accounts;
 import static com.google.gerrit.extensions.common.testing.RangeSubject.ranges;
+import static com.google.gerrit.truth.ListSubject.elements;
 
 import com.google.common.truth.BooleanSubject;
 import com.google.common.truth.ComparableSubject;
@@ -26,6 +27,7 @@ import com.google.common.truth.StringSubject;
 import com.google.common.truth.Subject;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.extensions.common.FixSuggestionInfo;
 import com.google.gerrit.truth.ListSubject;
 import java.sql.Timestamp;
 import java.util.List;
@@ -50,6 +52,12 @@ public class CommentInfoSubject extends Subject {
   private CommentInfoSubject(FailureMetadata failureMetadata, CommentInfo commentInfo) {
     super(failureMetadata, commentInfo);
     this.commentInfo = commentInfo;
+  }
+
+  public ListSubject<FixSuggestionInfoSubject, FixSuggestionInfo> fixSuggestions() {
+    return check("fixSuggestions")
+        .about(elements())
+        .thatCustom(commentInfo.fixSuggestions, FixSuggestionInfoSubject.fixSuggestions());
   }
 
   public StringSubject uuid() {
@@ -115,5 +123,9 @@ public class CommentInfoSubject extends Subject {
   private CommentInfo commentInfo() {
     isNotNull();
     return commentInfo;
+  }
+
+  public FixSuggestionInfoSubject onlyFixSuggestion() {
+    return fixSuggestions().onlyElement();
   }
 }

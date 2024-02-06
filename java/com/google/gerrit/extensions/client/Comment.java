@@ -14,9 +14,11 @@
 
 package com.google.gerrit.extensions.client;
 
+import com.google.gerrit.extensions.common.FixSuggestionInfo;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Objects;
 
 public abstract class Comment {
@@ -48,6 +50,8 @@ public abstract class Comment {
    * comment applies.
    */
   public String commitId;
+
+  public List<FixSuggestionInfo> fixSuggestions;
 
   // TODO(issue-15508): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
   // Instant
@@ -151,13 +155,15 @@ public abstract class Comment {
           && Objects.equals(inReplyTo, c.inReplyTo)
           && Objects.equals(updated, c.updated)
           && Objects.equals(message, c.message)
-          && Objects.equals(commitId, c.commitId);
+          && Objects.equals(commitId, c.commitId)
+          && Objects.equals(fixSuggestions, c.fixSuggestions);
     }
     return false;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(patchSet, id, path, side, parent, line, range, inReplyTo, updated, message);
+    return Objects.hash(
+        patchSet, id, path, side, parent, line, range, inReplyTo, updated, message, fixSuggestions);
   }
 }

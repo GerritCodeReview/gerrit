@@ -440,30 +440,40 @@ export class GrRestApiHelper {
     return req;
   }
 
-  fetchCacheURL(req: FetchRequest): Promise<ParsedJSON | undefined> {
-    if (this._fetchPromisesCache.has(req.url)) {
-      return this._fetchPromisesCache.get(req.url)!;
+  /**
+   * Fetch JSON using cached value if available.
+   *
+   * If there is an in-flight request with the same url returns the promise for
+   * the in-flight request. If previous call for the same url resulted in the
+   * successful response it is returned. Otherwise a new request is sent.
+   *
+   * Only req.url with req.params is considered for the caching key;
+   * headers or request body are not included in cache key.
+   */
+  fetchCacheJSON(req: FetchRequest): Promise<ParsedJSON | undefined> {
+    const urlWithParams = this.urlWithParams(req.url, req.params);
+    if (this._fetchPromisesCache.has(urlWithParams)) {
+      return this._fetchPromisesCache.get(urlWithParams)!;
     }
-    // TODO(andybons): Periodic cache invalidation.
-    if (this._cache.has(req.url)) {
-      return Promise.resolve(this._cache.get(req.url)!);
+    if (this._cache.has(urlWithParams)) {
+      return Promise.resolve(this._cache.get(urlWithParams)!);
     }
     this._fetchPromisesCache.set(
-      req.url,
+      urlWithParams,
       this.fetchJSON(req)
         .then(response => {
           if (response !== undefined) {
-            this._cache.set(req.url, response);
+            this._cache.set(urlWithParams, response);
           }
-          this._fetchPromisesCache.set(req.url, undefined);
+          this._fetchPromisesCache.set(urlWithParams, undefined);
           return response;
         })
         .catch(err => {
-          this._fetchPromisesCache.set(req.url, undefined);
+          this._fetchPromisesCache.set(urlWithParams, undefined);
           throw err;
         })
     );
-    return this._fetchPromisesCache.get(req.url)!;
+    return this._fetchPromisesCache.get(urlWithParams)!;
   }
 
   // if errFn is not set, then only Response possible

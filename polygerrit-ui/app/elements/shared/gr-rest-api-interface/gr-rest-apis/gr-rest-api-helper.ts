@@ -379,25 +379,34 @@ export class GrRestApiHelper {
     return (await readJSONResponsePayload(response)).parsed;
   }
 
+  /**
+   * Add extra url params to the url.
+   *
+   * Params with values (not undefined) added as <key>=<value>. If value is an
+   * array a separate <key>=<value> param is added for every value.
+   */
   urlWithParams(url: string, fetchParams?: FetchParams): string {
     if (!fetchParams) {
       return getBaseUrl() + url;
     }
 
     const params: Array<string | number | boolean> = [];
-    for (const [p, paramValue] of Object.entries(fetchParams)) {
+    for (const [paramKey, paramValue] of Object.entries(fetchParams)) {
       if (paramValue === null || paramValue === undefined) {
-        params.push(this.encodeRFC5987(p));
+        params.push(this.encodeRFC5987(paramKey));
         continue;
       }
-      // TODO(TS): Unclear, why do we need the following code.
-      // If paramValue can be array - we should either fix FetchParams type
-      // or convert the array to a string before calling urlWithParams method.
-      const paramValueAsArray = ([] as Array<string | number | boolean>).concat(
-        paramValue
-      );
-      for (const value of paramValueAsArray) {
-        params.push(`${this.encodeRFC5987(p)}=${this.encodeRFC5987(value)}`);
+
+      if (Array.isArray(paramValue)) {
+        for (const value of paramValue) {
+          params.push(
+            `${this.encodeRFC5987(paramKey)}=${this.encodeRFC5987(value)}`
+          );
+        }
+      } else {
+        params.push(
+          `${this.encodeRFC5987(paramKey)}=${this.encodeRFC5987(paramValue)}`
+        );
       }
     }
     return getBaseUrl() + url + '?' + params.join('&');

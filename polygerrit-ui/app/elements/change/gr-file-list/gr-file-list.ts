@@ -51,7 +51,7 @@ import {GrDiffCursor} from '../../../embed/diff/gr-diff-cursor/gr-diff-cursor';
 import {GrCursorManager} from '../../shared/gr-cursor-manager/gr-cursor-manager';
 import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
 import {ParsedChangeInfo, PatchSetFile} from '../../../types/types';
-import {Timing} from '../../../constants/reporting';
+import {Timing, Interaction} from '../../../constants/reporting';
 import {RevisionInfo} from '../../shared/revision-info/revision-info';
 import {select} from '../../../utils/observable-util';
 import {resolve} from '../../../models/dependency';
@@ -1756,8 +1756,10 @@ export class GrFileList extends LitElement {
       f => f.path === file.path
     );
     if (indexInExpanded === -1) {
+      this.reporting.reportInteraction(Interaction.FILE_LIST_DIFF_EXPANDED);
       this.expandedFiles = this.expandedFiles.concat([file]);
     } else {
+      this.reporting.reportInteraction(Interaction.FILE_LIST_DIFF_COLLAPSED);
       this.expandedFiles = this.expandedFiles.filter(
         (_val, idx) => idx !== indexInExpanded
       );
@@ -1800,10 +1802,12 @@ export class GrFileList extends LitElement {
       }
     }
 
+    this.reporting.reportInteraction(Interaction.FILE_LIST_ALL_DIFFS_EXPANDED);
     this.expandedFiles = newFiles.concat(this.expandedFiles);
   }
 
   collapseAllDiffs() {
+    this.reporting.reportInteraction(Interaction.FILE_LIST_ALL_DIFFS_COLLAPSED);
     this.expandedFiles = [];
   }
 

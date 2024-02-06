@@ -373,7 +373,7 @@ export class GrRestApiHelper {
     return (await readJSONResponsePayload(response)).parsed;
   }
 
-  urlWithParams(url: string, fetchParams?: FetchParams): string {
+  private urlWithParams(url: string, fetchParams?: FetchParams): string {
     if (!fetchParams) {
       return getBaseUrl() + url;
     }
@@ -384,14 +384,15 @@ export class GrRestApiHelper {
         params.push(this.encodeRFC5987(p));
         continue;
       }
-      // TODO(TS): Unclear, why do we need the following code.
-      // If paramValue can be array - we should either fix FetchParams type
-      // or convert the array to a string before calling urlWithParams method.
-      const paramValueAsArray = ([] as Array<string | number | boolean>).concat(
-        paramValue
-      );
-      for (const value of paramValueAsArray) {
-        params.push(`${this.encodeRFC5987(p)}=${this.encodeRFC5987(value)}`);
+
+      if (Array.isArray(paramValue)) {
+        for (const value of paramValue) {
+          params.push(`${this.encodeRFC5987(p)}=${this.encodeRFC5987(value)}`);
+        }
+      } else {
+        params.push(
+          `${this.encodeRFC5987(p)}=${this.encodeRFC5987(paramValue)}`
+        );
       }
     }
     return getBaseUrl() + url + '?' + params.join('&');

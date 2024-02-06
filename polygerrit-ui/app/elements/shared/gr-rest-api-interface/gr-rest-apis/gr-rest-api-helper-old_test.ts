@@ -8,7 +8,7 @@ import {
   SiteBasedCache,
   FetchPromisesCache,
   GrRestApiHelper,
-} from './gr-rest-api-helper';
+} from './gr-rest-api-helper-old';
 import {assertFails, waitEventLoop} from '../../../../test/test-utils';
 import {FakeScheduler} from '../../../../services/scheduler/fake-scheduler';
 import {RetryScheduler} from '../../../../services/scheduler/retry-scheduler';

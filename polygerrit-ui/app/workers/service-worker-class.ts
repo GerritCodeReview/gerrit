@@ -5,7 +5,7 @@
  */
 import {ParsedChangeInfo} from '../types/types';
 import {getReason} from '../utils/attention-set-util';
-import {readResponsePayload} from '../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
+import {readResponsePayload} from '../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper-old';
 import {filterAttentionChangesAfter} from '../utils/service-worker-util';
 import {AccountDetailInfo} from '../api/rest-api';
 import {

@@ -61,7 +61,7 @@ import {
   DraftInfo,
 } from '../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../types/diff';
-import {readResponsePayload} from '../../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
+import {readResponsePayload} from '../../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper-old';
 import {
   createAccountDetailWithId,
   createChange,

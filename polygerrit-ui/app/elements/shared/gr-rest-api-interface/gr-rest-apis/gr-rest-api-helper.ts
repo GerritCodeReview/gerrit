@@ -221,6 +221,13 @@ export interface FetchRequest extends FetchRequestBase {
    * response was returned with a non-2xx status.
    */
   errFn?: ErrorCallback;
+  /**
+   * If true, response with non-200 status will cause an error to be reported
+   * via server-error event or errFn, if provided.
+   */
+  // TODO(kamilm): Consider changing the default to true. It makes more sense to
+  //   only skip the check if the caller wants to prosess status themselves.
+  reportServerError?: boolean;
 }
 
 export class GrRestApiHelper {
@@ -317,10 +324,10 @@ export class GrRestApiHelper {
    * Performs auth. Validates auth expiry errors.
    * Will report any errors (by firing a corresponding event or calling errFn)
    * that happen during the request, but doesn't inspect the status of the
-   * received response.
+   * received response unless req.reportServerError = true.
    *
    * @return Promise resolves to a native Response.
-   *     If an error occurs when performing a request promise rejects.
+   *     If an error occurs when performing a request, promise rejects.
    */
   async fetch(req: FetchRequest): Promise<Response> {
     const urlWithParams = this.urlWithParams(req.url, req.params);
@@ -329,8 +336,9 @@ export class GrRestApiHelper {
       fetchOptions: req.fetchOptions,
       anonymizedUrl: req.reportUrlAsIs ? urlWithParams : req.anonymizedUrl,
     };
+    let resp: Response;
     try {
-      return await this.fetchImpl(fetchReq);
+      resp = await this.fetchImpl(fetchReq);
     } catch (err) {
       if (req.errFn) {
         await req.errFn.call(undefined, null, err as Error);
@@ -339,13 +347,30 @@ export class GrRestApiHelper {
       }
       throw err;
     }
+    if (req.reportServerError && !resp.ok) {
+      if (req.errFn) {
+        await req.errFn.call(undefined, resp);
+      } else {
+        fireServerError(resp, req);
+      }
+    }
+    return resp;
   }
 
   /**
    * Fetch JSON from url provided.
-   * Returns a Promise that resolves to a parsed response.
+   *
+   * Returned promise rejects if an error occurs when performing a request or
+   * if the response payload doesn't contain a valid prefixed JSON.
+   *
+   * If response status is not 2xx, promise resolves to undefined and error is
+   * reported, through errFn callback or via 'sever-error' event. The error can
+   * be suppressed with req.reportServerError = false.
+   *
+   * If JSON parsing fails the promise rejects.
    *
    * @param noAcceptHeader - don't add default accept json header
+   * @return Promise that resolves to a parsed response.
    */
   async fetchJSON(
     req: FetchRequest,
@@ -354,19 +379,14 @@ export class GrRestApiHelper {
     if (!noAcceptHeader) {
       req = this.addAcceptJsonHeader(req);
     }
+    req.reportServerError ??= true;
     const response = await this.fetch(req);
-    if (!response) {
-      return;
-    }
     if (!response.ok) {
-      if (req.errFn) {
-        await req.errFn.call(undefined, response);
-        return;
-      }
-      fireServerError(response, req);
-      return;
+      return undefined;
     }
-    return this.getResponseObject(response);
+    // TODO(kamilm): The parsing error should likely be reported via errFn or
+    // gr-error-manager as well.
+    return (await readJSONResponsePayload(response)).parsed;
   }
 
   urlWithParams(url: string, fetchParams?: FetchParams): string {
@@ -400,12 +420,6 @@ export class GrRestApiHelper {
       /['()*]/g,
       c => '%' + c.charCodeAt(0).toString(16)
     );
-  }
-
-  // TODO(kamilm): Unclear why this method is useful vs. readJSONResponsePayload
-  //   Consider changing it to handle error cases.
-  getResponseObject(response: Response): Promise<ParsedJSON> {
-    return readJSONResponsePayload(response).then(payload => payload.parsed);
   }
 
   addAcceptJsonHeader(req: FetchRequest) {
@@ -505,7 +519,7 @@ export class GrRestApiHelper {
     }
 
     if (req.parseResponse) {
-      xhr = xhr && this.getResponseObject(xhr);
+      xhr = xhr && (await readJSONResponsePayload(xhr)).parsed;
     }
     return xhr;
   }

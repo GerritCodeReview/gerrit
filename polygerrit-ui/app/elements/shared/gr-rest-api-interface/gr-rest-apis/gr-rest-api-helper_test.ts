@@ -8,6 +8,9 @@ import {
   SiteBasedCache,
   FetchPromisesCache,
   GrRestApiHelper,
+  JSON_PREFIX,
+  readJSONResponsePayload,
+  parsePrefixedJSON,
 } from './gr-rest-api-helper';
 import {
   addListenerForTest,
@@ -433,6 +436,24 @@ suite('gr-rest-api-helper tests', () => {
       await assertReadRequest();
       const res: Response = await promise;
       assert.equal(await res.text(), 'Yay');
+    });
+  });
+
+  suite('reading responses', () => {
+    test('_readResponsePayload', async () => {
+      const mockObject = {foo: 'bar', baz: 'foo'} as unknown as ParsedJSON;
+      const serial = JSON_PREFIX + JSON.stringify(mockObject);
+      const response = new Response(serial);
+      const payload = await readJSONResponsePayload(response);
+      assert.deepEqual(payload.parsed, mockObject);
+      assert.equal(payload.raw, serial);
+    });
+
+    test('_parsePrefixedJSON', () => {
+      const obj = {x: 3, y: {z: 4}, w: 23} as unknown as ParsedJSON;
+      const serial = JSON_PREFIX + JSON.stringify(obj);
+      const result = parsePrefixedJSON(serial);
+      assert.deepEqual(result, obj);
     });
   });
 });

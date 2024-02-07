@@ -20,6 +20,7 @@ import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.testsuite.ThrowingFunction;
+import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
@@ -32,6 +33,9 @@ import org.eclipse.jgit.merge.MergeStrategy;
 /** Initial attributes of the change. If not provided, arbitrary values will be used. */
 @AutoValue
 public abstract class TestChangeCreation {
+  @UsedAt(UsedAt.Project.GOOGLE)
+  public abstract Optional<String> host();
+
   public abstract Optional<Project.NameKey> project();
 
   public abstract String branch();
@@ -72,6 +76,10 @@ public abstract class TestChangeCreation {
 
   @AutoValue.Builder
   public abstract static class Builder {
+    /** Host name in a multi-tenant deployment. */
+    @UsedAt(UsedAt.Project.GOOGLE)
+    public abstract Builder host(String host);
+
     /** Target project/Repository of the change. Must be an existing project. */
     public abstract Builder project(Project.NameKey project);
 

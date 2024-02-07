@@ -464,10 +464,8 @@ export class GrEditableContent extends LitElement {
   }
 
   async loadEmails() {
-    let accountEmails: EmailInfo[] = [];
-    await this.restApiService.getAccountEmails().then(emails => {
-      accountEmails = emails ?? [];
-    });
+    const accountEmails: EmailInfo[] =
+      (await this.restApiService.getAccountEmails()) ?? [];
     let selectedEmail: string | undefined;
     accountEmails.forEach(e => {
       if (e.preferred) {

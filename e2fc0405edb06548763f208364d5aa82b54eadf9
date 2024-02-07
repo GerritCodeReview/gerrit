@@ -16,6 +16,24 @@
       "message": "Needs Release-Notes footer",
       "revId": "e2fc0405edb06548763f208364d5aa82b54eadf9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a8d9726_8d3ea432",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2024-02-07T12:29:00Z",
+      "side": 1,
+      "message": "Like this \u0027Release-Notes: skip\u0027",
+      "parentUuid": "3614042d_9814416a",
+      "revId": "e2fc0405edb06548763f208364d5aa82b54eadf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

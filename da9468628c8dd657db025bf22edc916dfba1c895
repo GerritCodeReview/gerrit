@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d60be40a_f4c895c4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-02-07T12:57:16Z",
+      "side": 1,
+      "message": "I have done some tests (in a docker container gerritforge/gerrit-release-bazel:debian-bullseye)\n\n- JDK 11 \n\n```\nbazelisk test \\\n--config\u003dremote_bb \\\n--jobs\u003d50 \\\n--remote_header\u003dx-buildbuddy-api-key\u003dXXXXXXXX \\\n--flaky_test_attempts 3 \\\n--test_timeout 3600 \\\n--test_tag_filters\u003d-flaky \\\n //...\n```\n\n- JDK 17\n\n```\nbazelisk test \\\n--config\u003dremote17_bb \\\n--jobs\u003d50 \\\n--remote_header\u003dx-buildbuddy-api-key\u003dXXXXXXXX \\\n--flaky_test_attempts 3 \\\n--test_timeout 3600 \\\n--test_tag_filters\u003d-flaky \\\n //...\n```\n\nThere is a well known failure test:\n\n```\n There was 1 failure:\n1) invalidTargetArchiveFolder(com.googlesource.gerrit.plugins.deleteproject.ConfigurationTest)\nexpected: /buildbuddy/remotebuilds/64a11551-7c3b-42f2-9f4f-c408a9724fbf/_tmp/1a603f63979fdbf7741d14f4152518a3/junit989776008197781132/data\nbut was : /\\\\\\\n\tat com.googlesource.gerrit.plugins.deleteproject.ConfigurationTest.invalidTargetArchiveFolder(ConfigurationTest.java:127)\n\nFAILURES!!!\nTests run: 41,  Failures: 1\n```\n\nThis test is reverted in this change 405198",
+      "revId": "da9468628c8dd657db025bf22edc916dfba1c895",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

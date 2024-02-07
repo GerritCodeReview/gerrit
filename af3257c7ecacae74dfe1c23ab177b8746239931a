@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14ca9e5e_54daa013",
+        "filename": "java/com/google/gerrit/server/account/AccountCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-07T13:17:56Z",
+      "side": 1,
+      "message": "```suggestion\npublic interface AccountSupport {\n```",
+      "range": {
+        "startLine": 11,
+        "startChar": 17,
+        "endLine": 11,
+        "endChar": 29
+      },
+      "revId": "af3257c7ecacae74dfe1c23ab177b8746239931a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

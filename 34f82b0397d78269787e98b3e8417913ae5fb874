@@ -46,6 +46,30 @@
       },
       "revId": "34f82b0397d78269787e98b3e8417913ae5fb874",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7dc8510_aae19e7c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 724,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2024-02-07T12:27:30Z",
+      "side": 1,
+      "message": "\u003e Why do we subscribe to values, that is not likely to change\n\nI think it\u0027s worth just getting used to the pattern and avoiding the class of problems when we are wrong about \"not likely to change\". Further, even when it is unlikely to change once its loaded, we would need to worry about blocking data reads or renders until the data is loaded.\n\nBugs about those issues are hard to figure out and have cost us a lot of time in the past.\n\nWe are hoping to create a lit Controller or custom `@subscribe(...)` decorator to clean up the boilerplate, but didn\u0027t invest there yet. Those features were added only after we added the models.",
+      "parentUuid": "c9ccc5f2_c330d898",
+      "range": {
+        "startLine": 715,
+        "startChar": 4,
+        "endLine": 724,
+        "endChar": 6
+      },
+      "revId": "34f82b0397d78269787e98b3e8417913ae5fb874",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

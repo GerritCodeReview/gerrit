@@ -1917,6 +1917,9 @@ download scheme and its commands.
 |`url`               ||
 The URL of the download scheme, where '${project}' is used as
 placeholder for the project name.
+|`description`       |optional|
+An optional description of how the scheme works and maybe comparing
+it to other schemes, explaining the pros and cons of each option.
 |`is_auth_required`  |not set if `false`|
 Whether this download scheme requires authentication.
 |`is_auth_supported` |not set if `false`|

@@ -21,11 +21,7 @@ import {
   createServerInfo,
 } from '../../test/test-data-generators';
 import {CURRENT} from '../../utils/patch-set-util';
-import {
-  parsePrefixedJSON,
-  readResponsePayload,
-  JSON_PREFIX,
-} from '../../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper-old';
+import {JSON_PREFIX} from '../../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {GrRestApiServiceImpl} from './gr-rest-api-impl';
 import {
   CommentSide,
@@ -1359,24 +1355,6 @@ suite('gr-rest-api-service-impl tests', () => {
       sendStub.lastCall.args[0].url,
       '/changes/test~1/revisions/1/test'
     );
-  });
-
-  suite('reading responses', () => {
-    test('_readResponsePayload', async () => {
-      const mockObject = {foo: 'bar', baz: 'foo'} as unknown as ParsedJSON;
-      const serial = JSON_PREFIX + JSON.stringify(mockObject);
-      const response = new Response(serial);
-      const payload = await readResponsePayload(response);
-      assert.deepEqual(payload.parsed, mockObject);
-      assert.equal(payload.raw, serial);
-    });
-
-    test('_parsePrefixedJSON', () => {
-      const obj = {x: 3, y: {z: 4}, w: 23} as unknown as ParsedJSON;
-      const serial = JSON_PREFIX + JSON.stringify(obj);
-      const result = parsePrefixedJSON(serial);
-      assert.deepEqual(result, obj);
-    });
   });
 
   test('setChangeTopic', async () => {

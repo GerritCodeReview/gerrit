@@ -37,4 +37,9 @@ public abstract class DownloadScheme {
 
   /** Returns whether the download scheme is hidden in the UI */
   public abstract boolean isHidden();
+
+  /** Returns an optional description of the scheme */
+  public String getDescription() {
+    return null;
+  }
 }

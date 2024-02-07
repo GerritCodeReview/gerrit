@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aec662d9_8f1a6935",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 603,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-02-07T17:35:25Z",
+      "side": 1,
+      "message": "This could be extracted in another change, but I think it might be overkilled IMO.\nThe check at line 603 is redundant anyway since the clause in the `if` statement enforces the value as an integer.",
+      "range": {
+        "startLine": 602,
+        "startChar": 6,
+        "endLine": 603,
+        "endChar": 23
+      },
+      "revId": "4d1817bbc7d96b6a27860f76a838be3c6310ca68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

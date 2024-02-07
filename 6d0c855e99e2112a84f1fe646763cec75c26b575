@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68ea31d5_ced03ece",
+        "filename": "java/com/google/gerrit/server/query/change/ChangePredicates.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-07T15:01:16Z",
+      "side": 1,
+      "message": "This is effectively a different predicate: previously it was searching by document ID (either the original change number or the virtualised one, if imported), but now is searching by original change number, which may or may not be unique anymore.\n\nIt would be best to keep the original `idStr()` semantics (search by document id) and define a new method here.",
+      "range": {
+        "startLine": 183,
+        "startChar": 0,
+        "endLine": 189,
+        "endChar": 3
+      },
+      "revId": "6d0c855e99e2112a84f1fe646763cec75c26b575",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

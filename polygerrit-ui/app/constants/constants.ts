@@ -7,8 +7,6 @@
 /**
  * Tab names for primary tabs on change view page.
  */
-import {DiffViewMode} from '../api/diff';
-import {DiffPreferencesInfo} from '../types/diff';
 import {EditPreferencesInfo, PreferencesInfo} from '../types/common';
 import {
   AuthType,

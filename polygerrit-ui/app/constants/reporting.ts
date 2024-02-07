@@ -148,4 +148,8 @@ export enum Interaction {
   GENERATE_SUGGESTION_DISABLED = 'generate_suggestion_disabled',
   START_REVIEW = 'start-review',
   CODE_REVIEW_APPROVAL = 'code-review-approval',
+  FILE_LIST_DIFF_COLLAPSED = 'file-list-diff-collapsed',
+  FILE_LIST_DIFF_EXPANDED = 'file-list-diff-expanded',
+  FILE_LIST_ALL_DIFFS_COLLAPSED = 'file-list-all-diffs-collapsed',
+  FILE_LIST_ALL_DIFFS_EXPANDED = 'file-list-all-diffs-expanded',
 }

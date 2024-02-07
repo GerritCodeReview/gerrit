@@ -19,7 +19,6 @@ import static com.google.gerrit.entities.Patch.FileMode.REGULAR_FILE;
 import static java.util.Objects.requireNonNull;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
@@ -73,8 +72,7 @@ public class ChangeFileContentModification implements TreeModification {
     return ImmutableSet.of(filePath);
   }
 
-  @VisibleForTesting
-  RawInput getNewContent() {
+  public RawInput getNewContent() {
     return newContent;
   }
 

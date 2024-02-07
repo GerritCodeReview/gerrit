@@ -408,6 +408,10 @@ export class GrChangeView extends LitElement {
   @state()
   replyModalOpened = false;
 
+  @state() private loginUrl = '';
+
+  @state() private loginText = '';
+
   // Accessed in tests.
   readonly reporting = getAppContext().reportingService;
 
@@ -707,6 +711,16 @@ export class GrChangeView extends LitElement {
         this.serverConfig = config;
         this.replyDisabled = false;
       }
+    );
+    subscribe(
+      this,
+      () => this.getConfigModel().loginUrl$,
+      loginUrl => (this.loginUrl = loginUrl)
+    );
+    subscribe(
+      this,
+      () => this.getConfigModel().loginText$,
+      loginText => (this.loginText = loginText)
     );
     subscribe(
       this,
@@ -1298,7 +1312,6 @@ export class GrChangeView extends LitElement {
                   Shortcut.OPEN_REPLY_DIALOG,
                   ShortcutSection.ACTIONS
                 )}
-                ?hidden=${!this.loggedIn}
                 primary=""
                 .disabled=${this.replyDisabled}
                 @click=${this.handleReplyTap}
@@ -1792,9 +1805,12 @@ export class GrChangeView extends LitElement {
     );
   }
 
-  private handleReplyTap(e: MouseEvent) {
-    e.preventDefault();
-    this.openReplyDialog(FocusTarget.ANY);
+  private handleReplyTap() {
+    if (this.loggedIn) {
+      this.openReplyDialog(FocusTarget.ANY);
+    } else {
+      window.location.href = this.loginUrl;
+    }
   }
 
   private onReplyModalCanceled() {
@@ -1983,6 +1999,9 @@ export class GrChangeView extends LitElement {
 
   // Private but used in tests.
   computeReplyButtonLabel() {
+    if (!this.loggedIn) {
+      return this.loginText;
+    }
     let label = this.canStartReview() ? 'Start Review' : 'Reply';
     if (this.draftCount > 0) {
       label += ` (${this.draftCount})`;

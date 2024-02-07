@@ -1061,14 +1061,11 @@ suite('gr-change-view tests', () => {
     });
   });
 
-  test('reply button is not visible when logged out', async () => {
+  test('reply button is a login button when logged out', async () => {
     assertIsDefined(element.replyBtn);
     element.loggedIn = false;
     await element.updateComplete;
-    assert.equal(getComputedStyle(element.replyBtn).display, 'none');
-    element.loggedIn = true;
-    await element.updateComplete;
-    assert.notEqual(getComputedStyle(element.replyBtn).display, 'none');
+    assert.equal(element.replyBtn.textContent, 'Sign in');
   });
 
   test('download tap calls handleOpenDownloadDialog', () => {

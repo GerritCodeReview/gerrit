@@ -7,8 +7,6 @@ import {getBaseUrl} from '../../../../utils/url-util';
 import {CancelConditionCallback} from '../../../../services/gr-rest-api/gr-rest-api';
 import {AuthService} from '../../../../services/gr-auth/gr-auth';
 import {
-  AccountDetailInfo,
-  EmailInfo,
   ParsedJSON,
   RequestPayload,
 } from '../../../../types/common';
@@ -23,6 +21,7 @@ import {AuthRequestInit, FetchRequest} from '../../../../types/types';
 import {ErrorCallback} from '../../../../api/rest';
 import {Scheduler, Task} from '../../../../services/scheduler/scheduler';
 import {RetryError} from '../../../../services/scheduler/retry-scheduler';
+import {FetchPromisesCache, SiteBasedCache} from './gr-rest-api-helper';
 
 export const JSON_PREFIX = ")]}'";
 
@@ -59,127 +58,6 @@ export function parsePrefixedJSON(jsonWithPrefix: string): ParsedJSON {
   return JSON.parse(jsonWithPrefix.substring(JSON_PREFIX.length)) as ParsedJSON;
 }
 
-/**
- * Wrapper around Map for caching server responses. Site-based so that
- * changes to CANONICAL_PATH will result in a different cache going into
- * effect.
- */
-export class SiteBasedCache {
-  // TODO(TS): Type looks unusual. Fix it.
-  // Container of per-canonical-path caches.
-  private readonly data = new Map<
-    string | undefined,
-    unknown | Map<string, ParsedJSON | null>
-  >();
-
-  constructor() {
-    if (window.INITIAL_DATA) {
-      // Put all data shipped with index.html into the cache. This makes it
-      // so that we spare more round trips to the server when the app loads
-      // initially.
-      Object.entries(window.INITIAL_DATA).forEach(e =>
-        this._cache().set(e[0], e[1] as unknown as ParsedJSON)
-      );
-    }
-  }
-
-  // Returns the cache for the current canonical path.
-  _cache(): Map<string, unknown> {
-    if (!this.data.has(window.CANONICAL_PATH)) {
-      this.data.set(
-        window.CANONICAL_PATH,
-        new Map<string, ParsedJSON | null>()
-      );
-    }
-    return this.data.get(window.CANONICAL_PATH) as Map<
-      string,
-      ParsedJSON | null
-    >;
-  }
-
-  has(key: string) {
-    return this._cache().has(key);
-  }
-
-  get(key: '/accounts/self/emails'): EmailInfo[] | null;
-
-  get(key: '/accounts/self/detail'): AccountDetailInfo | null;
-
-  get(key: string): ParsedJSON | null;
-
-  get(key: string): unknown {
-    return this._cache().get(key);
-  }
-
-  set(key: '/accounts/self/emails', value: EmailInfo[]): void;
-
-  set(key: '/accounts/self/detail', value: AccountDetailInfo): void;
-
-  set(key: string, value: ParsedJSON | null): void;
-
-  set(key: string, value: unknown) {
-    this._cache().set(key, value);
-  }
-
-  delete(key: string) {
-    this._cache().delete(key);
-  }
-
-  invalidatePrefix(prefix: string) {
-    const newMap = new Map<string, unknown>();
-    for (const [key, value] of this._cache().entries()) {
-      if (!key.startsWith(prefix)) {
-        newMap.set(key, value);
-      }
-    }
-    this.data.set(window.CANONICAL_PATH, newMap);
-  }
-}
-
-type FetchPromisesCacheData = {
-  [url: string]: Promise<ParsedJSON | undefined> | undefined;
-};
-
-export class FetchPromisesCache {
-  private data: FetchPromisesCacheData;
-
-  constructor() {
-    this.data = {};
-  }
-
-  public testOnlyGetData() {
-    return this.data;
-  }
-
-  /**
-   * @return true only if a value for a key sets and it is not undefined
-   */
-  has(key: string): boolean {
-    return !!this.data[key];
-  }
-
-  get(key: string) {
-    return this.data[key];
-  }
-
-  /**
-   * @param value a Promise to store in the cache. Pass undefined value to
-   *     mark key as deleted.
-   */
-  set(key: string, value: Promise<ParsedJSON | undefined> | undefined) {
-    this.data[key] = value;
-  }
-
-  invalidatePrefix(prefix: string) {
-    const newData: FetchPromisesCacheData = {};
-    Object.entries(this.data).forEach(([key, value]) => {
-      if (!key.startsWith(prefix)) {
-        newData[key] = value;
-      }
-    });
-    this.data = newData;
-  }
-}
 export type FetchParams = {
   [name: string]: string[] | string | number | boolean | undefined | null;
 };

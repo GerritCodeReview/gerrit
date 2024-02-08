@@ -29,6 +29,7 @@ import {
   HttpMethod,
 } from '../../constants/constants';
 import {
+  AccountDetailInfo,
   BasePatchSetNum,
   ChangeInfo,
   ChangeMessageId,
@@ -409,7 +410,7 @@ suite('gr-rest-api-service-impl tests', () => {
   test('getAccount when resp is undefined clears cache', async () => {
     const cacheKey = '/accounts/self/detail';
     const account = createAccountDetailWithId();
-    element._cache.set(cacheKey, account);
+    element._cache.set(cacheKey, account as unknown as ParsedJSON);
     const stub = sinon
       .stub(element._restApiHelper, 'fetchCacheURL')
       .callsFake(async req => {
@@ -426,7 +427,7 @@ suite('gr-rest-api-service-impl tests', () => {
   test('getAccount when status is 403 clears cache', async () => {
     const cacheKey = '/accounts/self/detail';
     const account = createAccountDetailWithId();
-    element._cache.set(cacheKey, account);
+    element._cache.set(cacheKey, account as unknown as ParsedJSON);
     const stub = sinon
       .stub(element._restApiHelper, 'fetchCacheURL')
       .callsFake(async req => {
@@ -446,14 +447,17 @@ suite('gr-rest-api-service-impl tests', () => {
     const stub = sinon
       .stub(element._restApiHelper, 'fetchCacheURL')
       .callsFake(async () => {
-        element._cache.set(cacheKey, account);
+        element._cache.set(cacheKey, account as unknown as ParsedJSON);
         return undefined;
       });
     assert.isFalse(element._cache.has(cacheKey));
 
     await element.getAccount();
     assert.isTrue(stub.called);
-    assert.equal(element._cache.get(cacheKey), account);
+    assert.equal(
+      element._cache.get(cacheKey),
+      account as unknown as ParsedJSON
+    );
   });
 
   const preferenceSetup = function (testJSON: unknown, loggedIn: boolean) {
@@ -591,7 +595,7 @@ suite('gr-rest-api-service-impl tests', () => {
     element._cache.set('/accounts/self/emails', [
       {email: email1, preferred: true},
       {email: email2, preferred: false},
-    ]);
+    ] as unknown as ParsedJSON);
 
     await element.setPreferredAccountEmail(email2);
     assert.isTrue(sendStub.calledOnce);
@@ -603,21 +607,26 @@ suite('gr-rest-api-service-impl tests', () => {
     assert.deepEqual(element._cache.get('/accounts/self/emails'), [
       {email: email1, preferred: false},
       {email: email2, preferred: true},
-    ]);
+    ] as unknown as ParsedJSON);
   });
 
   test('setAccountStatus', async () => {
     const sendStub = sinon
       .stub(element._restApiHelper, 'send')
       .resolves('OOO' as unknown as ParsedJSON);
-    element._cache.set('/accounts/self/detail', createAccountDetailWithId());
+    element._cache.set(
+      '/accounts/self/detail',
+      createAccountDetailWithId() as unknown as ParsedJSON
+    );
     await element.setAccountStatus('OOO');
     assert.isTrue(sendStub.calledOnce);
     assert.equal(sendStub.lastCall.args[0].method, HttpMethod.PUT);
     assert.equal(sendStub.lastCall.args[0].url, '/accounts/self/status');
     assert.deepEqual(sendStub.lastCall.args[0].body, {status: 'OOO'});
     assert.deepEqual(
-      element._cache.get('/accounts/self/detail')!.status,
+      (element._cache.get(
+        '/accounts/self/detail'
+      ) as unknown as AccountDetailInfo)!.status,
       'OOO'
     );
   });

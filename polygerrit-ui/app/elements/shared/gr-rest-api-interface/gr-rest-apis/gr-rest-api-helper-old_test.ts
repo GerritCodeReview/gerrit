@@ -5,8 +5,6 @@
  */
 import '../../../../test/common-test-setup';
 import {
-  SiteBasedCache,
-  FetchPromisesCache,
   GrRestApiHelper,
 } from './gr-rest-api-helper-old';
 import {assertFails, waitEventLoop} from '../../../../test/test-utils';
@@ -18,6 +16,7 @@ import {SinonFakeTimers} from 'sinon';
 import {assert} from '@open-wc/testing';
 import {AuthService} from '../../../../services/gr-auth/gr-auth';
 import {GrAuthMock} from '../../../../services/gr-auth/gr-auth_mock';
+import {FetchPromisesCache, SiteBasedCache} from './gr-rest-api-helper';
 
 function makeParsedJSON<T>(val: T): ParsedJSON {
   return val as unknown as ParsedJSON;

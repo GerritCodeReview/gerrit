@@ -29,6 +29,7 @@ import {select} from '../../utils/observable-util';
 import {define} from '../dependency';
 import {Model} from '../base/model';
 import {isDefined} from '../../types/types';
+import {readJSONResponsePayload} from '../../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 
 export function changeTablePrefs(prefs: Partial<PreferencesInfo>) {
   const cols = prefs.change_table ?? [];
@@ -214,8 +215,8 @@ export class UserModel extends Model<UserState> {
     return this.restApiService
       .saveDiffPreferences(diffPrefs)
       .then((response: Response) =>
-        this.restApiService.getResponseObject(response).then(obj => {
-          const newPrefs = obj as unknown as DiffPreferencesInfo;
+        readJSONResponsePayload(response).then(obj => {
+          const newPrefs = obj.parsed as unknown as DiffPreferencesInfo;
           if (!newPrefs) return;
           this.setDiffPreferences(newPrefs);
         })
@@ -226,8 +227,8 @@ export class UserModel extends Model<UserState> {
     return this.restApiService
       .saveEditPreferences(editPrefs)
       .then((response: Response) => {
-        this.restApiService.getResponseObject(response).then(obj => {
-          const newPrefs = obj as unknown as EditPreferencesInfo;
+        readJSONResponsePayload(response).then(obj => {
+          const newPrefs = obj.parsed as unknown as EditPreferencesInfo;
           if (!newPrefs) return;
           this.setEditPreferences(newPrefs);
         });

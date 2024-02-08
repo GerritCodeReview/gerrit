@@ -196,6 +196,7 @@ suite('gr-file-list tests', () => {
                   emptywhennocomments=""
                 ></gr-comments-summary
               ></span>
+              <span></span>
               <span class="noCommentsScreenReaderText"> No comments </span>
             </div>
             <div class="comments mobile">

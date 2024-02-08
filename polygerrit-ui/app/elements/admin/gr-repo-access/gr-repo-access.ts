@@ -695,7 +695,10 @@ export class GrRepoAccess extends LitElement {
     return this.restApiService
       .setRepoAccessRightsForReview(this.repo, obj)
       .then(change => {
-        this.getNavigation().setUrl(createChangeUrl({change}));
+        // Don't navigate on server error.
+        if (change) {
+          this.getNavigation().setUrl(createChangeUrl({change}));
+        }
       })
       .finally(() => {
         this.modified = false;

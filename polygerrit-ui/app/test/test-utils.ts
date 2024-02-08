@@ -17,6 +17,7 @@ import {assert} from '@open-wc/testing';
 import {Route, ViewState} from '../models/views/base';
 import {PageContext} from '../elements/core/gr-router/gr-page';
 import {waitUntil} from '../utils/async-util';
+import {JSON_PREFIX} from '../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 export {query, queryAll, queryAndAssert} from '../utils/common-util';
 export {mockPromise, waitUntil} from '../utils/async-util';
 export type {MockPromise} from '../utils/async-util';
@@ -310,4 +311,8 @@ export function assertRouteFalse<T extends ViewState>(
   const ctx = new PageContext(path);
   const matches = ctx.match(route.urlPattern);
   assert.isFalse(matches);
+}
+
+export function makePrefixedJSON(obj: any) {
+  return JSON_PREFIX + JSON.stringify(obj);
 }

@@ -7,6 +7,7 @@ import {getBaseUrl} from '../../../utils/url-util';
 import {HttpMethod} from '../../../constants/constants';
 import {RequestPayload} from '../../../types/common';
 import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
+import {readJSONResponsePayload} from '../gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 
 export const PLUGIN_LOADING_TIMEOUT_MS = 10000;
 
@@ -75,7 +76,7 @@ export function send(
           }
         });
       } else {
-        return restApiService.getResponseObject(response);
+        return readJSONResponsePayload(response).then(obj => obj.parsed);
       }
     })
     .then(response => {

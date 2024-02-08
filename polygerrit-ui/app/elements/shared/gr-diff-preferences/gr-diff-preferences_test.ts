@@ -6,12 +6,16 @@
 import '../../../test/common-test-setup';
 import './gr-diff-preferences';
 import {GrDiffPreferences} from './gr-diff-preferences';
-import {queryAll, stubRestApi} from '../../../test/test-utils';
+import {
+  makePrefixedJSON,
+  queryAll,
+  stubRestApi,
+  waitUntil,
+} from '../../../test/test-utils';
 import {DiffPreferencesInfo} from '../../../types/diff';
 import {createDefaultDiffPrefs} from '../../../constants/constants';
 import {IronInputElement} from '@polymer/iron-input';
 import {GrSelect} from '../gr-select/gr-select';
-import {ParsedJSON} from '../../../types/common';
 import {fixture, html, assert} from '@open-wc/testing';
 
 suite('gr-diff-preferences tests', () => {
@@ -223,17 +227,20 @@ suite('gr-diff-preferences tests', () => {
 
     assert.isTrue(element.hasUnsavedChanges());
 
-    const getResponseObjStub = stubRestApi('getResponseObject').returns(
-      Promise.resolve(element.diffPrefs! as unknown as ParsedJSON)
+    const savePrefStub = stubRestApi('saveDiffPreferences').resolves(
+      new Response(makePrefixedJSON(element.diffPrefs))
     );
 
-    // Save the change.
     await element.save();
+    // Wait for model state update, since this is not awaited by element.save()
+    await waitUntil(
+      () =>
+        !element.getUserModel().getState().diffPreferences
+          ?.show_whitespace_errors
+    );
 
-    assert.isTrue(getResponseObjStub.called);
-
+    assert.isTrue(savePrefStub.called);
     assert.isFalse(element.diffPrefs!.show_whitespace_errors);
-
     assert.isFalse(element.hasUnsavedChanges());
   });
 });

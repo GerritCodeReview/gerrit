@@ -52,7 +52,7 @@ export class GrDiffPreferences extends LitElement {
 
   @state() private originalDiffPrefs?: DiffPreferencesInfo;
 
-  private readonly getUserModel = resolve(this, userModelToken);
+  readonly getUserModel = resolve(this, userModelToken);
 
   constructor() {
     super();

@@ -49,7 +49,6 @@ import {
   isDetailedLabelInfo,
   isReviewerAccountSuggestion,
   isReviewerGroupSuggestion,
-  ParsedJSON,
   ReviewerInput,
   ReviewInput,
   ReviewResult,
@@ -131,6 +130,10 @@ import {GrReviewerUpdatesParser} from '../../shared/gr-rest-api-interface/gr-rev
 import {formStyles} from '../../../styles/form-styles';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {getDocUrl} from '../../../utils/url-util';
+import {
+  readJSONResponsePayload,
+  ResponsePayload,
+} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 
 export enum FocusTarget {
   ANY = 'any',
@@ -1544,26 +1547,29 @@ export class GrReplyDialog extends LitElement {
     //
     this.disabled = false;
 
-    // Using response.clone() here, because getResponseObject() and
+    // Using response.clone() here, because readJSONResponsePayload() and
     // potentially the generic error handler will want to call text() on the
     // response object, which can only be done once per object.
-    const jsonPromise = this.restApiService.getResponseObject(response.clone());
-    return jsonPromise.then((parsed: ParsedJSON) => {
-      const result = parsed as ReviewResult;
-      // Only perform custom error handling for 400s and a parsable
-      // ReviewResult response.
-      if (response.status === 400 && result && result.reviewers) {
-        const errors: string[] = [];
-        const addReviewers = Object.values(result.reviewers);
-        addReviewers.forEach(r => errors.push(r.error ?? 'no explanation'));
-        response = {
-          ...response,
-          ok: false,
-          text: () => Promise.resolve(errors.join(', ')),
-        };
-      }
-      fireServerError(response);
-    });
+    const jsonPromise = readJSONResponsePayload(response.clone());
+    return jsonPromise
+      .then((payload: ResponsePayload) => {
+        const result = payload.parsed as ReviewResult;
+        // Only perform custom error handling for 400s and a parsable
+        // ReviewResult response.
+        if (response.status === 400 && result.reviewers) {
+          const errors: string[] = [];
+          const addReviewers = Object.values(result.reviewers);
+          addReviewers.forEach(r => errors.push(r.error ?? 'no explanation'));
+          response = {
+            ...response,
+            ok: false,
+            text: () => Promise.resolve(errors.join(', ')),
+          };
+        }
+      })
+      .finally(() => {
+        fireServerError(response);
+      });
   }
 
   computeDraftsTitle(draftCommentThreads?: CommentThread[]) {

@@ -337,8 +337,8 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   finalize() {}
 
-  getResponseObject(response: Response): Promise<ParsedJSON> {
-    return this._restApiHelper.getResponseObject(response);
+  async getResponseObject(response: Response): Promise<ParsedJSON> {
+    return (await readJSONResponsePayload(response)).parsed;
   }
 
   getConfig(noCache?: boolean): Promise<ServerInfo | undefined> {
@@ -639,8 +639,8 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     };
     return this._restApiHelper.send(req).then(response => {
       if (response?.ok) {
-        return this.getResponseObject(
-          response
+        return readJSONResponsePayload(response).then(
+          resp => resp.parsed
         ) as unknown as Promise<GroupInfo>;
       }
       return undefined;
@@ -721,8 +721,8 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
         reportUrlAsIs: true,
       })
       .then((response: Response) =>
-        this.getResponseObject(response).then(
-          obj => obj as unknown as PreferencesInfo
+        readJSONResponsePayload(response).then(
+          obj => obj.parsed as unknown as PreferencesInfo
         )
       );
   }
@@ -2152,8 +2152,8 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       // The file type (used for syntax highlighting) is identified in the
       // X-FYI-Content-Type header of the response.
       const type = res.headers.get('X-FYI-Content-Type');
-      return this.getResponseObject(res).then(content => {
-        const strContent = content as unknown as string | null;
+      return readJSONResponsePayload(res).then(content => {
+        const strContent = content.parsed as unknown as string | null;
         return {content: strContent, type, ok: true};
       });
     });
@@ -3045,8 +3045,8 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
         if (!response || (response.status < 200 && response.status >= 300)) {
           return Promise.reject(new Error('error'));
         }
-        return this.getResponseObject(
-          response
+        return readJSONResponsePayload(response).then(
+          resp => resp.parsed
         ) as unknown as Promise<SshKeyInfo>;
       })
       .then(obj => {
@@ -3085,7 +3085,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
         if (!response || (response.status < 200 && response.status >= 300)) {
           return Promise.reject(new Error('error'));
         }
-        return this.getResponseObject(response);
+        return readJSONResponsePayload(response).then(resp => resp.parsed);
       })
       .then(obj => {
         if (!obj) {

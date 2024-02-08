@@ -6,7 +6,11 @@
 import '../../../test/common-test-setup';
 import './gr-js-api-interface';
 import {GrPluginRestApi} from './gr-plugin-rest-api';
-import {assertFails, stubRestApi} from '../../../test/test-utils';
+import {
+  assertFails,
+  makePrefixedJSON,
+  stubRestApi,
+} from '../../../test/test-utils';
 import {assert} from '@open-wc/testing';
 import {PluginApi} from '../../../api/plugin';
 import {
@@ -18,12 +22,10 @@ import {getAppContext} from '../../../services/app-context';
 
 suite('gr-plugin-rest-api tests', () => {
   let instance: GrPluginRestApi;
-  let getResponseObjectStub: sinon.SinonStub;
   let sendStub: sinon.SinonStub;
 
   setup(() => {
     stubRestApi('getAccount').resolves(createAccountDetailWithId());
-    getResponseObjectStub = stubRestApi('getResponseObject').resolves();
     sendStub = stubRestApi('send').resolves({...new Response(), status: 200});
     let pluginApi: PluginApi;
     window.Gerrit.install(
@@ -45,42 +47,41 @@ suite('gr-plugin-rest-api tests', () => {
     const r = await instance.fetch(HttpMethod.POST, '/url', payload);
     assert.isTrue(sendStub.calledWith(HttpMethod.POST, '/url', payload));
     assert.equal(r.status, 200);
-    assert.isFalse(getResponseObjectStub.called);
   });
 
   test('send', async () => {
     const payload = {foo: 'foo'};
     const response = {bar: 'bar'};
-    getResponseObjectStub.resolves(response);
+    sendStub.resolves(new Response(makePrefixedJSON(response)));
     const r = await instance.send(HttpMethod.POST, '/url', payload);
     assert.isTrue(sendStub.calledWith(HttpMethod.POST, '/url', payload));
-    assert.strictEqual(r, response);
+    assert.deepEqual(r, response);
   });
 
   test('get', async () => {
     const response = {foo: 'foo'};
-    getResponseObjectStub.resolves(response);
+    sendStub.resolves(new Response(makePrefixedJSON(response)));
     const r = await instance.get('/url');
     assert.isTrue(sendStub.calledWith('GET', '/url'));
-    assert.strictEqual(r, response);
+    assert.deepEqual(r, response);
   });
 
   test('post', async () => {
     const payload = {foo: 'foo'};
     const response = {bar: 'bar'};
-    getResponseObjectStub.resolves(response);
+    sendStub.resolves(new Response(makePrefixedJSON(response)));
     const r = await instance.post('/url', payload);
     assert.isTrue(sendStub.calledWith('POST', '/url', payload));
-    assert.strictEqual(r, response);
+    assert.deepEqual(r, response);
   });
 
   test('put', async () => {
     const payload = {foo: 'foo'};
     const response = {bar: 'bar'};
-    getResponseObjectStub.resolves(response);
+    sendStub.resolves(new Response(makePrefixedJSON(response)));
     const r = await instance.put('/url', payload);
     assert.isTrue(sendStub.calledWith('PUT', '/url', payload));
-    assert.strictEqual(r, response);
+    assert.deepEqual(r, response);
   });
 
   test('delete works', async () => {

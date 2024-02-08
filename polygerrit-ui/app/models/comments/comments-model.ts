@@ -57,6 +57,7 @@ import {
 import {isDefined} from '../../types/types';
 import {ChangeViewModel} from '../views/change';
 import {NavigationService} from '../../elements/core/gr-navigation/gr-navigation';
+import {readJSONResponsePayload} from '../../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 
 export interface CommentState {
   /** undefined means 'still loading' */
@@ -643,9 +644,8 @@ export class CommentsModel extends Model<CommentState> {
       );
       if (changeNum !== this.changeNum) return draft;
       if (!result.ok) throw new Error('request failed');
-      savedComment = (await this.restApiService.getResponseObject(
-        result
-      )) as unknown as CommentInfo;
+      savedComment = (await readJSONResponsePayload(result))
+        .parsed as unknown as CommentInfo;
     } catch (error) {
       if (showToast) this.handleFailedDraftRequest();
       const draftError: DraftInfo = {...draft, savingState: SavingState.ERROR};

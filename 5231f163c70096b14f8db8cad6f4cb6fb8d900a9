@@ -33,6 +33,24 @@
       "message": "The whole change series seems to first have added server ID to legacy_id_str (which used to only be change num) and then added another change_num as a separate field. \n\nWhy not just add a \"server_id\" field in the first place?",
       "revId": "5231f163c70096b14f8db8cad6f4cb6fb8d900a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89ef6aff_d0768604",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-02-08T20:53:59Z",
+      "side": 1,
+      "message": "\u003e The whole change series seems to first have added server ID to legacy_id_str (which used to only be change num) and then added another change_num as a separate field.\n\u003e \n\u003e Why not just add a \"server_id\" field in the first place?\n\n`legacy_id_str` is used as document id, which has to be unique. That\u0027s why it was disambiguated with the concept of `virtualId` which accounts for the server ID.\n\nI think at this point is easier adding a new filed for the change number rather that repurposing a preexistent one. WDYT?",
+      "parentUuid": "b3b6edb2_cf887f76",
+      "revId": "5231f163c70096b14f8db8cad6f4cb6fb8d900a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

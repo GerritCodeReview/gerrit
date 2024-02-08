@@ -115,6 +115,7 @@ import {subscribe} from '../../lit/subscription-controller';
 import {userModelToken} from '../../../models/user/user-model';
 import {ParsedChangeInfo} from '../../../types/types';
 import {configModelToken} from '../../../models/config/config-model';
+import {readJSONResponsePayload} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 
 const ERR_BRANCH_EMPTY = 'The destination branch can’t be empty.';
 const ERR_COMMIT_EMPTY = 'The commit message can’t be empty.';
@@ -1829,7 +1830,7 @@ export class GrChangeActions
       return;
     }
     // response is guaranteed to be ok (due to semantics of rest-api methods)
-    const obj = await this.restApiService.getResponseObject(response);
+    const obj = (await readJSONResponsePayload(response)).parsed;
     switch (action.__key) {
       case ChangeActions.REVERT: {
         const revertChangeInfo: ChangeInfo = obj as unknown as ChangeInfo;

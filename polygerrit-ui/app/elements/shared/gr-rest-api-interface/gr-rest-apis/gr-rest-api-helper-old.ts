@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {getBaseUrl} from '../../../../utils/url-util';
-import {CancelConditionCallback} from '../../../../services/gr-rest-api/gr-rest-api';
 import {AuthService} from '../../../../services/gr-auth/gr-auth';
 import {ParsedJSON, RequestPayload} from '../../../../types/common';
 import {HttpMethod} from '../../../../constants/constants';
@@ -19,6 +18,8 @@ import {ErrorCallback} from '../../../../api/rest';
 import {Scheduler, Task} from '../../../../services/scheduler/scheduler';
 import {RetryError} from '../../../../services/scheduler/retry-scheduler';
 import {FetchPromisesCache, SiteBasedCache} from './gr-rest-api-helper';
+
+export type CancelConditionCallback = () => boolean;
 
 export const JSON_PREFIX = ")]}'";
 

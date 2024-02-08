@@ -30,9 +30,10 @@ suite('gr-change-list-view tests', () => {
   });
 
   test('render', async () => {
-    element.changes = Array(25)
+    element.changes = Array(10)
       .fill(0)
       .map(_ => createChange());
+    element.changes[9]._more_changes = true;
     element.changesPerPage = 10;
     element.loading = false;
     await element.updateComplete;
@@ -45,12 +46,14 @@ suite('gr-change-list-view tests', () => {
           <gr-change-list> </gr-change-list>
           <nav>
             <span>
-              <strong>1&nbsp;-&nbsp;25</strong>&nbsp;of&nbsp;<strong>25</strong>
+              <strong>1&nbsp;-&nbsp;10</strong>&nbsp;of&nbsp;<strong
+                >many</strong
+              >
             </span>
-            <a disabled="" href="/q/test-query" id="prevArrow">
+            <span disabled="" id="prevArrow">
               <gr-icon aria-label="Older" icon="chevron_left"> </gr-icon>
-            </a>
-            <a disabled="" href="/q/test-query,10" id="nextArrow">
+            </span>
+            <a href="/q/test-query,10" id="nextArrow">
               <gr-icon aria-label="Newer" icon="chevron_right"> </gr-icon>
             </a>
           </nav>

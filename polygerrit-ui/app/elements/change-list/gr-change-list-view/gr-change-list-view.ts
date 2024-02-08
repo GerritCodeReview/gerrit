@@ -32,9 +32,13 @@ const LIMIT_OPERATOR_PATTERN = /\blimit:(\d+)/i;
 
 @customElement('gr-change-list-view')
 export class GrChangeListView extends LitElement {
-  @query('#prevArrow') protected prevArrow?: HTMLAnchorElement;
+  @query('#prevArrow') protected prevArrow?:
+    | HTMLAnchorElement
+    | HTMLSpanElement;
 
-  @query('#nextArrow') protected nextArrow?: HTMLAnchorElement;
+  @query('#nextArrow') protected nextArrow?:
+    | HTMLAnchorElement
+    | HTMLSpanElement;
 
   // private but used in test
   @state() account?: AccountDetailInfo;
@@ -143,7 +147,7 @@ export class GrChangeListView extends LitElement {
         gr-repo-header {
           border-bottom: 1px solid var(--border-color);
         }
-        a[disabled] gr-icon {
+        span[disabled] gr-icon {
           background-color: transparent;
           color: var(--disabled-foreground);
           cursor: default;
@@ -243,12 +247,14 @@ export class GrChangeListView extends LitElement {
     const changesCount = this.changes?.length ?? 0;
     if (changesCount === 0) return nothing;
 
+    const isDisabled = this.offset === 0;
+    if (isDisabled) {
+      return html`<span id="prevArrow" disabled>
+        <gr-icon icon="chevron_left" aria-label="Older"></gr-icon>
+      </span>`;
+    }
     return html`
-      <a
-        id="prevArrow"
-        href=${this.computeNavLink(-1)}
-        ?disabled=${this.offset === 0}
-      >
+      <a id="prevArrow" href=${this.computeNavLink(-1)}>
         <gr-icon icon="chevron_left" aria-label="Older"></gr-icon>
       </a>
     `;
@@ -258,12 +264,14 @@ export class GrChangeListView extends LitElement {
     const changesCount = this.changes?.length ?? 0;
     if (changesCount === 0) return nothing;
 
+    const isDisabled = !this.changes?.[changesCount - 1]._more_changes;
+    if (isDisabled) {
+      return html`<span id="nextArrow" disabled>
+        <gr-icon icon="chevron_right" aria-label="Newer"></gr-icon>
+      </span>`;
+    }
     return html`
-      <a
-        id="nextArrow"
-        href=${this.computeNavLink(1)}
-        ?disabled=${!this.changes?.[changesCount - 1]._more_changes}
-      >
+      <a id="nextArrow" href=${this.computeNavLink(1)}>
         <gr-icon icon="chevron_right" aria-label="Newer"></gr-icon>
       </a>
     `;

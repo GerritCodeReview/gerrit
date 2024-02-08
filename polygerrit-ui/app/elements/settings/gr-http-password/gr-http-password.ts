@@ -156,7 +156,7 @@ export class GrHttpPassword extends LitElement {
     this._generatedPassword = 'Generating...';
     this.generatedPasswordModal?.showModal();
     this.restApiService.generateAccountHttpPassword().then(newPassword => {
-      this._generatedPassword = newPassword;
+      this._generatedPassword = newPassword ?? 'Failed to generate';
     });
   }
 

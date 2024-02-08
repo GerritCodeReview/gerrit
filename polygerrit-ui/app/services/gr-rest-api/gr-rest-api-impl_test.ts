@@ -37,16 +37,13 @@ import {
   ChangeMessageId,
   CommentInfo,
   DashboardId,
-  DiffPreferenceInput,
   EDIT,
-  EditPreferencesInfo,
   Hashtag,
   ListChangesOption,
   NumericChangeId,
   PARENT,
   ParsedJSON,
   PatchSetNum,
-  PreferencesInfo,
   RepoName,
   RevisionPatchSetNum,
   RobotCommentInfo,
@@ -322,13 +319,13 @@ suite('gr-rest-api-service-impl tests', () => {
 
   test('saveDiffPreferences invalidates cache line', () => {
     const cacheKey = '/accounts/self/preferences.diff';
-    const sendStub = sinon.stub(element._restApiHelper, 'send');
+    const fetchStub = sinon.stub(element._restApiHelperNew, 'fetch');
     element._cache.set(cacheKey, {tab_size: 4} as unknown as ParsedJSON);
     element.saveDiffPreferences({
       tab_size: 8,
       ignore_whitespace: 'IGNORE_NONE',
     });
-    assert.isTrue(sendStub.called);
+    assert.isTrue(fetchStub.called);
     assert.isFalse(element._cache.has(cacheKey));
   });
 
@@ -487,14 +484,14 @@ suite('gr-rest-api-service-impl tests', () => {
     assert.equal(obj!.diff_view, 'SIDE_BY_SIDE');
   });
 
-  test('savPreferences normalizes download scheme', () => {
-    const sendStub = sinon
-      .stub(element._restApiHelper, 'send')
+  test('savePreferences normalizes download scheme', () => {
+    const fetchStub = sinon
+      .stub(element._restApiHelperNew, 'fetch')
       .resolves(new Response());
     element.savePreferences({download_scheme: 'HTTP'});
-    assert.isTrue(sendStub.called);
+    assert.isTrue(fetchStub.called);
     assert.equal(
-      (sendStub.lastCall.args[0].body as Partial<PreferencesInfo>)
+      JSON.parse(fetchStub.lastCall.args[0].fetchOptions?.body as string)
         .download_scheme,
       'http'
     );
@@ -518,14 +515,14 @@ suite('gr-rest-api-service-impl tests', () => {
   });
 
   test('saveDiffPreferences set show_tabs to false', () => {
-    const sendStub = sinon.stub(element._restApiHelper, 'send');
+    const fetchStub = sinon.stub(element._restApiHelperNew, 'fetch');
     element.saveDiffPreferences({
       show_tabs: false,
       ignore_whitespace: 'IGNORE_NONE',
     });
-    assert.isTrue(sendStub.called);
+    assert.isTrue(fetchStub.called);
     assert.equal(
-      (sendStub.lastCall.args[0].body as Partial<DiffPreferenceInput>)
+      JSON.parse(fetchStub.lastCall.args[0].fetchOptions?.body as string)
         .show_tabs,
       false
     );
@@ -554,32 +551,42 @@ suite('gr-rest-api-service-impl tests', () => {
   });
 
   test('saveEditPreferences set show_tabs to false', () => {
-    const sendStub = sinon.stub(element._restApiHelper, 'send');
+    const fetchStub = sinon.stub(element._restApiHelperNew, 'fetch');
     element.saveEditPreferences({
       ...createDefaultEditPrefs(),
       show_tabs: false,
     });
-    assert.isTrue(sendStub.called);
+    assert.isTrue(fetchStub.called);
     assert.equal(
-      (sendStub.lastCall.args[0].body as EditPreferencesInfo).show_tabs,
+      JSON.parse(fetchStub.lastCall.args[0].fetchOptions?.body as string)
+        .show_tabs,
       false
     );
   });
 
   test('confirmEmail', () => {
-    const sendStub = sinon.spy(element._restApiHelper, 'send');
+    const fetchStub = sinon.stub(element._restApiHelperNew, 'fetch').resolves();
     element.confirmEmail('foo');
-    assert.isTrue(sendStub.calledOnce);
-    assert.equal(sendStub.lastCall.args[0].method, HttpMethod.PUT);
-    assert.equal(sendStub.lastCall.args[0].url, '/config/server/email.confirm');
-    assert.deepEqual(sendStub.lastCall.args[0].body, {token: 'foo'});
+    assert.isTrue(fetchStub.calledOnce);
+    assert.equal(
+      fetchStub.lastCall.args[0].fetchOptions?.method,
+      HttpMethod.PUT
+    );
+    assert.equal(
+      fetchStub.lastCall.args[0].url,
+      '/config/server/email.confirm'
+    );
+    assert.deepEqual(
+      JSON.parse(fetchStub.lastCall.args[0].fetchOptions?.body as string),
+      {token: 'foo'}
+    );
   });
 
   test('setPreferredAccountEmail', async () => {
     const email1 = 'email1@example.com';
     const email2 = 'email2@example.com';
     const encodedEmail = encodeURIComponent(email2);
-    const sendStub = sinon.stub(element._restApiHelper, 'send').resolves();
+    const sendStub = sinon.stub(element._restApiHelperNew, 'fetch').resolves();
     element._cache.set('/accounts/self/emails', [
       {email: email1, preferred: true},
       {email: email2, preferred: false},
@@ -587,7 +594,10 @@ suite('gr-rest-api-service-impl tests', () => {
 
     await element.setPreferredAccountEmail(email2);
     assert.isTrue(sendStub.calledOnce);
-    assert.equal(sendStub.lastCall.args[0].method, HttpMethod.PUT);
+    assert.equal(
+      sendStub.lastCall.args[0].fetchOptions?.method,
+      HttpMethod.PUT
+    );
     assert.equal(
       sendStub.lastCall.args[0].url,
       `/accounts/self/emails/${encodedEmail}/preferred`
@@ -599,18 +609,24 @@ suite('gr-rest-api-service-impl tests', () => {
   });
 
   test('setAccountStatus', async () => {
-    const sendStub = sinon
-      .stub(element._restApiHelper, 'send')
+    const fetchStub = sinon
+      .stub(element._restApiHelperNew, 'fetchJSON')
       .resolves('OOO' as unknown as ParsedJSON);
     element._cache.set(
       '/accounts/self/detail',
       createAccountDetailWithId() as unknown as ParsedJSON
     );
     await element.setAccountStatus('OOO');
-    assert.isTrue(sendStub.calledOnce);
-    assert.equal(sendStub.lastCall.args[0].method, HttpMethod.PUT);
-    assert.equal(sendStub.lastCall.args[0].url, '/accounts/self/status');
-    assert.deepEqual(sendStub.lastCall.args[0].body, {status: 'OOO'});
+    assert.isTrue(fetchStub.calledOnce);
+    assert.equal(
+      fetchStub.lastCall.args[0].fetchOptions?.method,
+      HttpMethod.PUT
+    );
+    assert.equal(fetchStub.lastCall.args[0].url, '/accounts/self/status');
+    assert.deepEqual(
+      JSON.parse(fetchStub.lastCall.args[0].fetchOptions?.body as string),
+      {status: 'OOO'}
+    );
     assert.deepEqual(
       (element._cache.get(
         '/accounts/self/detail'
@@ -874,10 +890,10 @@ suite('gr-rest-api-service-impl tests', () => {
   });
 
   test('createRepo encodes name', async () => {
-    const sendStub = sinon.stub(element._restApiHelper, 'send').resolves();
+    const fetchStub = sinon.stub(element._restApiHelperNew, 'fetch').resolves();
     await element.createRepo({name: 'x/y' as RepoName});
-    assert.isTrue(sendStub.calledOnce);
-    assert.equal(sendStub.lastCall.args[0].url, '/projects/x%2Fy');
+    assert.isTrue(fetchStub.calledOnce);
+    assert.equal(fetchStub.lastCall.args[0].url, '/projects/x%2Fy');
   });
 
   test('queryChangeFiles', async () => {
@@ -1399,10 +1415,15 @@ suite('gr-rest-api-service-impl tests', () => {
   });
 
   test('generateAccountHttpPassword', async () => {
-    const sendSpy = sinon.spy(element._restApiHelper, 'send');
+    const fetchStub = sinon
+      .stub(element._restApiHelperNew, 'fetchJSON')
+      .resolves();
     await element.generateAccountHttpPassword();
-    assert.isTrue(sendSpy.calledOnce);
-    assert.deepEqual(sendSpy.lastCall.args[0].body, {generate: true});
+    assert.isTrue(fetchStub.calledOnce);
+    assert.deepEqual(
+      JSON.parse(fetchStub.lastCall.args[0].fetchOptions?.body as string),
+      {generate: true}
+    );
   });
 
   suite('getChangeFiles', () => {
@@ -1686,21 +1707,22 @@ suite('gr-rest-api-service-impl tests', () => {
   });
 
   test('saveChangeStarred', async () => {
-    sinon.stub(element, 'getFromProjectLookup').resolves('test' as RepoName);
-    const sendStub = sinon.stub(element._restApiHelper, 'send').resolves();
+    element.setInProjectLookup(123 as NumericChangeId, 'test' as RepoName);
+    element.setInProjectLookup(456 as NumericChangeId, 'test' as RepoName);
+    const fetchStub = sinon.stub(element._restApiHelperNew, 'fetch').resolves();
 
     await element.saveChangeStarred(123 as NumericChangeId, true);
-    assert.isTrue(sendStub.calledOnce);
-    assert.deepEqual(sendStub.lastCall.args[0], {
-      method: HttpMethod.PUT,
+    assert.isTrue(fetchStub.calledOnce);
+    assert.deepEqual(fetchStub.lastCall.args[0], {
+      fetchOptions: {method: HttpMethod.PUT},
       url: '/accounts/self/starred.changes/test~123',
       anonymizedUrl: '/accounts/self/starred.changes/*',
     });
 
     await element.saveChangeStarred(456 as NumericChangeId, false);
-    assert.isTrue(sendStub.calledTwice);
-    assert.deepEqual(sendStub.lastCall.args[0], {
-      method: HttpMethod.DELETE,
+    assert.isTrue(fetchStub.calledTwice);
+    assert.deepEqual(fetchStub.lastCall.args[0], {
+      fetchOptions: {method: HttpMethod.DELETE},
       url: '/accounts/self/starred.changes/test~456',
       anonymizedUrl: '/accounts/self/starred.changes/*',
     });

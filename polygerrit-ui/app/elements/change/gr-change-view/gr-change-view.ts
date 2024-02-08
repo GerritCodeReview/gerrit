@@ -1809,7 +1809,7 @@ export class GrChangeView extends LitElement {
     if (this.loggedIn) {
       this.openReplyDialog(FocusTarget.ANY);
     } else {
-      window.location.href = this.loginUrl;
+      this.getNavigation().setUrl(this.loginUrl);
     }
   }
 

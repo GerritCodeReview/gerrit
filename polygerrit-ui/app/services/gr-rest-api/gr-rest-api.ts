@@ -149,6 +149,11 @@ export interface RestApiService extends Finalizable {
     headers?: Record<string, string>
   ): Promise<Response | void>;
 
+  /**
+   * DEPRECATED: Use functions from gr-rest-api-helper directly.
+   *
+   * Preserved for plugins that use it.
+   */
   getResponseObject(response: Response): Promise<ParsedJSON>;
 
   getChangeSuggestedReviewers(

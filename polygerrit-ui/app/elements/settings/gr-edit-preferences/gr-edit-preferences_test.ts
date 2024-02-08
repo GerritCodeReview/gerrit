@@ -5,9 +5,14 @@
  */
 import '../../../test/common-test-setup';
 import './gr-edit-preferences';
-import {queryAll, stubRestApi} from '../../../test/test-utils';
+import {
+  makePrefixedJSON,
+  queryAll,
+  stubRestApi,
+  waitUntil,
+} from '../../../test/test-utils';
 import {GrEditPreferences} from './gr-edit-preferences';
-import {EditPreferencesInfo, ParsedJSON} from '../../../types/common';
+import {EditPreferencesInfo} from '../../../types/common';
 import {IronInputElement} from '@polymer/iron-input';
 import {createDefaultEditPrefs} from '../../../constants/constants';
 import {fixture, html, assert} from '@open-wc/testing';
@@ -194,16 +199,18 @@ suite('gr-edit-preferences tests', () => {
 
     assert.isTrue(element.hasUnsavedChanges());
 
-    const getResponseObjStub = stubRestApi('getResponseObject').returns(
-      Promise.resolve(element.editPrefs! as unknown as ParsedJSON)
+    const savePrefStub = stubRestApi('saveEditPreferences').resolves(
+      new Response(makePrefixedJSON(element.editPrefs))
     );
 
     await element.save();
+    // Wait for model state update, since this is not awaited by element.save()
+    await waitUntil(
+      () => !element.getUserModel().getState().editPreferences?.show_tabs
+    );
 
-    assert.isTrue(getResponseObjStub.called);
-
+    assert.isTrue(savePrefStub.called);
     assert.isFalse(element.editPrefs?.show_tabs);
-
     assert.isFalse(element.hasUnsavedChanges());
   });
 });

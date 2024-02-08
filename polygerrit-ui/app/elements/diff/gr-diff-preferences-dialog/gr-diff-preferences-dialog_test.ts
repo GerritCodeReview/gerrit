@@ -7,9 +7,13 @@ import '../../../test/common-test-setup';
 import './gr-diff-preferences-dialog';
 import {GrDiffPreferencesDialog} from './gr-diff-preferences-dialog';
 import {createDefaultDiffPrefs} from '../../../constants/constants';
-import {queryAndAssert, stubRestApi, waitUntil} from '../../../test/test-utils';
+import {
+  makePrefixedJSON,
+  queryAndAssert,
+  stubRestApi,
+  waitUntil,
+} from '../../../test/test-utils';
 import {DiffPreferencesInfo} from '../../../api/diff';
-import {ParsedJSON} from '../../../types/common';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {fixture, html, assert} from '@open-wc/testing';
 
@@ -95,11 +99,13 @@ suite('gr-diff-preferences-dialog', () => {
     assert.isTrue(element.diffPrefsChanged);
     assert.isTrue(originalDiffPrefs.line_wrapping);
 
-    stubRestApi('getResponseObject').returns(
-      Promise.resolve({
-        ...originalDiffPrefs,
-        line_wrapping: false,
-      } as unknown as ParsedJSON)
+    stubRestApi('saveDiffPreferences').resolves(
+      new Response(
+        makePrefixedJSON({
+          ...originalDiffPrefs,
+          line_wrapping: false,
+        })
+      )
     );
 
     queryAndAssert<GrButton>(element, '#saveButton').click();

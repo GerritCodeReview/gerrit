@@ -9,6 +9,7 @@ import {ErrorCallback, RestPluginApi} from '../../../api/rest';
 import {PluginApi} from '../../../api/plugin';
 import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
+import {readJSONResponsePayload} from '../gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 
 async function getErrorMessage(response: Response): Promise<string> {
   const text = await response.text();
@@ -153,7 +154,9 @@ export class GrPluginRestApi implements RestPluginApi {
             Promise.reject(new Error(msg))
           );
         } else {
-          return this.restApi.getResponseObject(response) as Promise<T>;
+          return readJSONResponsePayload(response).then(
+            obj => obj.parsed
+          ) as Promise<T>;
         }
       })
       .catch(err => {

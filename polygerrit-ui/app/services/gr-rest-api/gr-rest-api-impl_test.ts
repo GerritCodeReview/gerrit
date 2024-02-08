@@ -310,20 +310,6 @@ suite('gr-rest-api-service-impl tests', () => {
     } as RobotCommentInfo);
   });
 
-  test('server error', async () => {
-    const getResponseObjectStub = sinon.stub(element, 'getResponseObject');
-    sinon
-      .stub(authService, 'fetch')
-      .resolves(new Response(undefined, {status: 502}));
-    const serverErrorEventPromise = new Promise(resolve => {
-      addListenerForTest(document, 'server-error', resolve);
-    });
-    const response = await element._restApiHelper.fetchJSON({url: ''});
-    assert.isUndefined(response);
-    assert.isTrue(getResponseObjectStub.notCalled);
-    await serverErrorEventPromise;
-  });
-
   test('legacy n,z key in change url is replaced', async () => {
     const stub = sinon
       .stub(element._restApiHelper, 'fetchJSON')
@@ -731,13 +717,6 @@ suite('gr-rest-api-service-impl tests', () => {
         file_name,
         file_contents,
       ] as unknown as ParsedJSON);
-    sinon
-      .stub(element, 'getResponseObject')
-      .resolves([
-        change_num,
-        file_name,
-        file_contents,
-      ] as unknown as ParsedJSON);
     element._cache.set(
       `/changes/${change_num}/edit/${file_name}`,
       {} as unknown as ParsedJSON
@@ -759,9 +738,6 @@ suite('gr-rest-api-service-impl tests', () => {
     const committer_email = 'test@example.com';
     const sendStub = sinon
       .stub(element._restApiHelper, 'send')
-      .resolves([change_num, message] as unknown as ParsedJSON);
-    sinon
-      .stub(element, 'getResponseObject')
       .resolves([change_num, message] as unknown as ParsedJSON);
     element._cache.set(
       `/changes/${change_num}/message`,
@@ -804,9 +780,6 @@ suite('gr-rest-api-service-impl tests', () => {
     const messageId = 'abc' as ChangeMessageId;
     const sendStub = sinon
       .stub(element._restApiHelper, 'send')
-      .resolves([change_num, messageId] as unknown as ParsedJSON);
-    sinon
-      .stub(element, 'getResponseObject')
       .resolves([change_num, messageId] as unknown as ParsedJSON);
     await element.deleteChangeCommitMessage(change_num, messageId);
     assert.isTrue(sendStub.calledOnce);
@@ -1521,18 +1494,16 @@ suite('gr-rest-api-service-impl tests', () => {
   });
 
   test('getFileContent', async () => {
-    sinon.stub(element, '_getChangeURLAndSend').resolves(
-      new Response(undefined, {
-        status: 200,
-        headers: {
-          'X-FYI-Content-Type': 'text/java',
-        },
-      }) as unknown as ParsedJSON
+    sinon.stub(element, '_getChangeURLAndSend').callsFake(() =>
+      Promise.resolve(
+        new Response(JSON_PREFIX + '"new content"', {
+          status: 200,
+          headers: {
+            'X-FYI-Content-Type': 'text/java',
+          },
+        }) as unknown as ParsedJSON
+      )
     );
-
-    sinon
-      .stub(element, 'getResponseObject')
-      .resolves('new content' as unknown as ParsedJSON);
 
     const edit = await element.getFileContent(
       1 as NumericChangeId,

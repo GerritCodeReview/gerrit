@@ -47,7 +47,7 @@ export class GrEditPreferences extends LitElement {
 
   @state() private originalEditPrefs?: EditPreferencesInfo;
 
-  private readonly getUserModel = resolve(this, userModelToken);
+  readonly getUserModel = resolve(this, userModelToken);
 
   constructor() {
     super();

@@ -28,7 +28,7 @@ suite('gr-reviewer-list tests', () => {
       element,
       /* HTML */ `
         <div class="container">
-          <div>
+          <div class="reviewersAndControls">
             <div class="controlsContainer" hidden="">
               <gr-button
                 aria-disabled="false"

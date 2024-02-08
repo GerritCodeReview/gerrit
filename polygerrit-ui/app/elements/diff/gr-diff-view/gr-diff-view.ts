@@ -109,7 +109,7 @@ import {formStyles} from '../../../styles/form-styles';
 import {NormalizedFileInfo} from '../../change/gr-file-list/gr-file-list';
 import {configModelToken} from '../../../models/config/config-model';
 
-const LOADING_BLAME = 'Loading blame...';
+const LOADING_BLAME = 'Loading blame information. This may take a while ...';
 const LOADED_BLAME = 'Blame loaded';
 
 // Time in which pressing n key again after the toast navigates to next file
@@ -1145,8 +1145,10 @@ export class GrDiffView extends LitElement {
     if (!this.allowBlame) return;
     const blameLoaderClass =
       !isMagicPath(this.path) && !isImageDiff(this.diff) ? 'show' : '';
-    const blameToggleLabel =
-      this.isBlameLoaded && !this.isBlameLoading ? 'Hide blame' : 'Show blame';
+    let blameToggleLabel = 'Loading blame ...';
+    if (!this.isBlameLoading) {
+      blameToggleLabel = this.isBlameLoaded ? 'Hide blame' : 'Show blame';
+    }
     return html` <span class="blameLoader ${blameLoaderClass}">
       <gr-button
         link=""

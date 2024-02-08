@@ -93,6 +93,9 @@ export class GrReviewerList extends LitElement {
           --gr-vote-chip-width: 14px;
           --gr-vote-chip-height: 14px;
         }
+        .reviewersAndControls {
+          text-wrap: pretty;
+        }
       `,
     ];
   }
@@ -103,7 +106,7 @@ export class GrReviewerList extends LitElement {
       this.reviewers.length - this.displayedReviewers.length;
     return html`
       <div class="container">
-        <div>
+        <div class="reviewersAndControls">
           ${repeat(
             this.displayedReviewers,
             reviewer => accountKey(reviewer),

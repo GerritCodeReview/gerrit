@@ -415,6 +415,7 @@ export class GrRestApiHelper {
    * (req.params), headers or request body is not included in cache key.
    */
   fetchCacheJSON(req: FetchRequest): Promise<ParsedJSON | undefined> {
+    debugger;
     if (this._fetchPromisesCache.has(req.url)) {
       return this._fetchPromisesCache.get(req.url)!;
     }

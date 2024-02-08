@@ -102,27 +102,27 @@ suite('gr-http-password tests', () => {
         })
     );
 
-    assert.isNotOk(element._generatedPassword);
+    assert.isNotOk(element.generatedPassword);
 
     button.click();
 
     assert.isTrue(generateStub.called);
-    assert.equal(element._generatedPassword, 'Generating...');
+    assert.equal(element.status, 'Generating...');
 
     generateStub.lastCall.returnValue.then(() => {
       generateResolve(nextPassword);
-      assert.equal(element._generatedPassword, nextPassword);
+      assert.equal(element.generatedPassword, nextPassword);
     });
   });
 
   test('without http_password_url', () => {
-    assert.isNull(element._passwordUrl);
+    assert.isNull(element.passwordUrl);
   });
 
   test('with http_password_url', async () => {
     config.auth.http_password_url = 'http://example.com/';
     await element.loadData();
-    assert.isNotNull(element._passwordUrl);
-    assert.equal(element._passwordUrl, config.auth.http_password_url);
+    assert.isNotNull(element.passwordUrl);
+    assert.equal(element.passwordUrl, config.auth.http_password_url);
   });
 });

@@ -24,13 +24,16 @@ export class GrHttpPassword extends LitElement {
   generatedPasswordModal?: HTMLDialogElement;
 
   @property({type: String})
-  _username?: string;
+  username?: string;
 
   @property({type: String})
-  _generatedPassword?: string;
+  generatedPassword?: string;
 
   @property({type: String})
-  _passwordUrl: string | null = null;
+  status?: string;
+
+  @property({type: String})
+  passwordUrl: string | null = null;
 
   private readonly restApiService = getAppContext().restApiService;
 
@@ -45,7 +48,7 @@ export class GrHttpPassword extends LitElement {
     promises.push(
       this.restApiService.getAccount().then(account => {
         if (account) {
-          this._username = account.username;
+          this.username = account.username;
         }
       })
     );
@@ -53,9 +56,9 @@ export class GrHttpPassword extends LitElement {
     promises.push(
       this.restApiService.getConfig().then(info => {
         if (info) {
-          this._passwordUrl = info.auth.http_password_url || null;
+          this.passwordUrl = info.auth.http_password_url || null;
         } else {
-          this._passwordUrl = null;
+          this.passwordUrl = null;
         }
       })
     );
@@ -104,18 +107,18 @@ export class GrHttpPassword extends LitElement {
 
   override render() {
     return html` <div class="gr-form-styles">
-        <div ?hidden=${!!this._passwordUrl}>
+        <div ?hidden=${!!this.passwordUrl}>
           <section>
             <span class="title">Username</span>
-            <span class="value">${this._username ?? ''}</span>
+            <span class="value">${this.username ?? ''}</span>
           </section>
           <gr-button id="generateButton" @click=${this._handleGenerateTap}
             >Generate new password</gr-button
           >
         </div>
-        <span ?hidden=${!this._passwordUrl}>
+        <span ?hidden=${!this.passwordUrl}>
           <a
-            href=${this._passwordUrl!}
+            href=${this.passwordUrl!}
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -132,12 +135,12 @@ export class GrHttpPassword extends LitElement {
         <div class="gr-form-styles">
           <section id="generatedPasswordDisplay">
             <span class="title">New Password:</span>
-            <span class="value">${this._generatedPassword}</span>
+            <span class="value">${this.status || this.generatedPassword}</span>
             <gr-copy-clipboard
               hasTooltip=""
               buttonTitle="Copy password to clipboard"
               hideInput=""
-              .text=${this._generatedPassword}
+              .text=${this.status ? '' : this.generatedPassword}
             >
             </gr-copy-clipboard>
           </section>
@@ -153,10 +156,15 @@ export class GrHttpPassword extends LitElement {
   }
 
   _handleGenerateTap() {
-    this._generatedPassword = 'Generating...';
+    this.status = 'Generating...';
     this.generatedPasswordModal?.showModal();
     this.restApiService.generateAccountHttpPassword().then(newPassword => {
-      this._generatedPassword = newPassword;
+      if (newPassword) {
+        this.generatedPassword = newPassword;
+        this.status = undefined;
+      } else {
+        this.status = 'Failed to generate';
+      }
     });
   }
 
@@ -165,6 +173,7 @@ export class GrHttpPassword extends LitElement {
   }
 
   _generatedPasswordModalClosed() {
-    this._generatedPassword = '';
+    this.status = undefined;
+    this.generatedPassword = '';
   }
 }

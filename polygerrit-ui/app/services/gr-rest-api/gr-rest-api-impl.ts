@@ -337,20 +337,13 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   finalize() {}
 
-  _fetchSharedCacheURL(
-    req: FetchJSONRequest
-  ): Promise<AccountDetailInfo | ParsedJSON | undefined> {
-    // Cache is shared across instances
-    return this._restApiHelper.fetchCacheURL(req);
-  }
-
   getResponseObject(response: Response): Promise<ParsedJSON> {
     return this._restApiHelper.getResponseObject(response);
   }
 
   getConfig(noCache?: boolean): Promise<ServerInfo | undefined> {
     if (!noCache) {
-      return this._fetchSharedCacheURL({
+      return this._restApiHelperNew.fetchCacheJSON({
         url: '/config/server/info',
         reportUrlAsIs: true,
       }) as Promise<ServerInfo | undefined>;
@@ -368,7 +361,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   ): Promise<ProjectInfo | undefined> {
     // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
     // supports it.
-    return this._fetchSharedCacheURL({
+    return this._restApiHelperNew.fetchCacheJSON({
       url: '/projects/' + encodeURIComponent(repo),
       errFn,
       anonymizedUrl: '/projects/*',
@@ -381,7 +374,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   ): Promise<ConfigInfo | undefined> {
     // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
     // supports it.
-    return this._fetchSharedCacheURL({
+    return this._restApiHelperNew.fetchCacheJSON({
       url: '/projects/' + encodeURIComponent(repo) + '/config',
       errFn,
       anonymizedUrl: '/projects/*/config',
@@ -391,7 +384,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   getRepoAccess(repo: RepoName): Promise<RepoAccessInfoMap | undefined> {
     // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
     // supports it.
-    return this._fetchSharedCacheURL({
+    return this._restApiHelperNew.fetchCacheJSON({
       url: '/access/?project=' + encodeURIComponent(repo),
       anonymizedUrl: '/access/?project=*',
     }) as Promise<RepoAccessInfoMap | undefined>;
@@ -403,7 +396,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   ): Promise<DashboardInfo[] | undefined> {
     // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
     // supports it.
-    return this._fetchSharedCacheURL({
+    return this._restApiHelperNew.fetchCacheJSON({
       url: `/projects/${encodeURIComponent(repo)}/dashboards?inherited`,
       errFn,
       anonymizedUrl: '/projects/*/dashboards?inherited',
@@ -535,9 +528,9 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       url: `/groups/?owned&g=${encodeName}`,
       anonymizedUrl: '/groups/owned&g=*',
     };
-    return this._fetchSharedCacheURL(req).then(configs =>
-      hasOwnProperty(configs, groupName)
-    );
+    return this._restApiHelperNew
+      .fetchCacheJSON(req)
+      .then(configs => hasOwnProperty(configs, groupName));
   }
 
   getGroupMembers(groupName: GroupId | GroupName): Promise<AccountInfo[]> {
@@ -610,7 +603,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     group: EncodedGroupId,
     errFn?: ErrorCallback
   ): Promise<GroupAuditEventInfo[] | undefined> {
-    return this._fetchSharedCacheURL({
+    return this._restApiHelperNew.fetchCacheJSON({
       url: `/groups/${group}/log.audit`,
       errFn,
       anonymizedUrl: '/groups/*/log.audit',
@@ -681,7 +674,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   getVersion(): Promise<string | undefined> {
-    return this._fetchSharedCacheURL({
+    return this._restApiHelperNew.fetchCacheJSON({
       url: '/config/server/version',
       reportUrlAsIs: true,
     }) as Promise<string | undefined>;
@@ -690,7 +683,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   getDiffPreferences(): Promise<DiffPreferencesInfo | undefined> {
     return this.getLoggedIn().then(loggedIn => {
       if (loggedIn) {
-        return this._fetchSharedCacheURL({
+        return this._restApiHelperNew.fetchCacheJSON({
           url: '/accounts/self/preferences.diff',
           reportUrlAsIs: true,
         }) as Promise<DiffPreferencesInfo | undefined>;
@@ -702,7 +695,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   getEditPreferences(): Promise<EditPreferencesInfo | undefined> {
     return this.getLoggedIn().then(loggedIn => {
       if (loggedIn) {
-        return this._fetchSharedCacheURL({
+        return this._restApiHelperNew.fetchCacheJSON({
           url: '/accounts/self/preferences.edit',
           reportUrlAsIs: true,
         }) as Promise<EditPreferencesInfo | undefined>;
@@ -757,7 +750,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   getAccount(): Promise<AccountDetailInfo | undefined> {
-    return this._fetchSharedCacheURL({
+    return this._restApiHelperNew.fetchCacheJSON({
       url: '/accounts/self/detail',
       reportUrlAsIs: true,
       errFn: resp => {
@@ -769,7 +762,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   getAvatarChangeUrl() {
-    return this._fetchSharedCacheURL({
+    return this._restApiHelperNew.fetchCacheJSON({
       url: '/accounts/self/avatar.change.url',
       reportUrlAsIs: true,
       errFn: resp => {
@@ -809,7 +802,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     userId: AccountId | EmailAddress,
     errFn?: ErrorCallback
   ): Promise<AccountDetailInfo | undefined> {
-    return this._fetchSharedCacheURL({
+    return this._restApiHelperNew.fetchCacheJSON({
       url: `/accounts/${encodeURIComponent(userId)}/detail`,
       anonymizedUrl: '/accounts/*/detail',
       errFn,
@@ -819,7 +812,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   async getAccountEmails() {
     const isloggedIn = await this.getLoggedIn();
     if (isloggedIn) {
-      return this._fetchSharedCacheURL({
+      return this._restApiHelperNew.fetchCacheJSON({
         url: '/accounts/self/emails',
         reportUrlAsIs: true,
       }) as Promise<EmailInfo[] | undefined>;
@@ -837,7 +830,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       })
       .then((capabilities: AccountCapabilityInfo | undefined) => {
         if (capabilities && capabilities.viewSecondaryEmails) {
-          return this._fetchSharedCacheURL({
+          return this._restApiHelperNew.fetchCacheJSON({
             url: '/accounts/' + email + '/emails',
             reportUrlAsIs: true,
             errFn,
@@ -1003,7 +996,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       queryString =
         '?q=' + params.map(param => encodeURIComponent(param)).join('&q=');
     }
-    return this._fetchSharedCacheURL({
+    return this._restApiHelperNew.fetchCacheJSON({
       url: '/accounts/self/capabilities' + queryString,
       anonymizedUrl: '/accounts/self/capabilities?q=*',
     }) as Promise<AccountCapabilityInfo | undefined>;
@@ -1029,7 +1022,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   getDefaultPreferences(): Promise<PreferencesInfo | undefined> {
-    return this._fetchSharedCacheURL({
+    return this._restApiHelperNew.fetchCacheJSON({
       url: '/config/server/preferences',
       reportUrlAsIs: true,
     }) as Promise<PreferencesInfo | undefined>;
@@ -1039,7 +1032,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     return this.getLoggedIn().then(loggedIn => {
       if (loggedIn) {
         const req = {url: '/accounts/self/preferences', reportUrlAsIs: true};
-        return this._fetchSharedCacheURL(req).then(res => {
+        return this._restApiHelperNew.fetchCacheJSON(req).then(res => {
           if (!res) {
             return res;
           }
@@ -1052,7 +1045,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   getWatchedProjects() {
-    return this._fetchSharedCacheURL({
+    return this._restApiHelperNew.fetchCacheJSON({
       url: '/accounts/self/watched.projects',
       reportUrlAsIs: true,
     }) as unknown as Promise<ProjectWatchInfo[] | undefined>;
@@ -1611,7 +1604,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   getGroups(filter: string, groupsPerPage: number, offset?: number) {
     const url = this._getGroupsUrl(filter, groupsPerPage, offset);
 
-    return this._fetchSharedCacheURL({
+    return this._restApiHelperNew.fetchCacheJSON({
       url,
       anonymizedUrl: '/groups/?*',
     }) as Promise<GroupNameToGroupInfoMap | undefined>;
@@ -1632,13 +1625,13 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     // will already be the expected array. If it is not a query, transform the
     // map to an array.
     if (isQuery) {
-      return this._fetchSharedCacheURL({
+      return this._restApiHelperNew.fetchCacheJSON({
         url,
         anonymizedUrl: '/projects/?*',
         errFn,
       }) as Promise<ProjectInfoWithName[] | undefined>;
     } else {
-      const result = await (this._fetchSharedCacheURL({
+      const result = await (this._restApiHelperNew.fetchCacheJSON({
         url,
         anonymizedUrl: '/projects/?*',
         errFn,
@@ -3032,7 +3025,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   getAccountSSHKeys() {
-    return this._fetchSharedCacheURL({
+    return this._restApiHelperNew.fetchCacheJSON({
       url: '/accounts/self/sshkeys',
       reportUrlAsIs: true,
     }) as Promise<unknown> as Promise<SshKeyInfo[] | undefined>;
@@ -3160,7 +3153,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   getTopMenus(): Promise<TopMenuEntryInfo[] | undefined> {
-    return this._fetchSharedCacheURL({
+    return this._restApiHelperNew.fetchCacheJSON({
       url: '/config/server/top-menus',
       reportUrlAsIs: true,
     }) as Promise<TopMenuEntryInfo[] | undefined>;
@@ -3450,7 +3443,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       encodeURIComponent(repo) +
       '/dashboards/' +
       encodeURIComponent(dashboard);
-    return this._fetchSharedCacheURL({
+    return this._restApiHelperNew.fetchCacheJSON({
       url,
       errFn,
       anonymizedUrl: '/projects/*/dashboards/*',
@@ -3463,7 +3456,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
     // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
     // supports it.
-    return this._fetchSharedCacheURL({
+    return this._restApiHelperNew.fetchCacheJSON({
       url: `/Documentation/?q=${encodedFilter}`,
       anonymizedUrl: '/Documentation/?*',
     }) as Promise<DocResult[] | undefined>;

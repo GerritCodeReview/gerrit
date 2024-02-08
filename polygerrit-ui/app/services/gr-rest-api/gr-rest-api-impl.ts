@@ -6,10 +6,7 @@
 /* NB: Order is important, because of namespaced classes. */
 
 import {GrEtagDecorator} from '../../elements/shared/gr-rest-api-interface/gr-etag-decorator';
-import {
-  GrRestApiHelper,
-  SendJSONRequest,
-} from '../../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper-old';
+import {GrRestApiHelper} from '../../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper-old';
 import {GrReviewerUpdatesParser} from '../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {parseDate} from '../../utils/date-util';
 import {getBaseUrl} from '../../utils/url-util';
@@ -147,6 +144,7 @@ import {
   parsePrefixedJSON,
   readJSONResponsePayload,
   SiteBasedCache,
+  throwingErrorCallback,
 } from '../../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 
 const MAX_PROJECT_RESULTS = 25;
@@ -359,46 +357,66 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     // supports it.
     const url = `/projects/${encodeURIComponent(repo)}/config`;
     this._cache.delete(url);
-    return this._restApiHelper.send({
-      method: HttpMethod.PUT,
-      url,
-      body: config,
-      anonymizedUrl: '/projects/*/config',
-    });
+    return this._restApiHelperNew.fetch(
+      {
+        fetchOptions: getFetchOptions({
+          method: HttpMethod.PUT,
+          body: config,
+        }),
+        url,
+        anonymizedUrl: '/projects/*/config',
+      },
+      /* reportServerError=*/ true
+    );
   }
 
   runRepoGC(repo: RepoName): Promise<Response> {
     // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
     // supports it.
     const encodeName = encodeURIComponent(repo);
-    return this._restApiHelper.send({
-      method: HttpMethod.POST,
-      url: `/projects/${encodeName}/gc`,
-      body: '',
-      anonymizedUrl: '/projects/*/gc',
-    });
+    return this._restApiHelperNew.fetch(
+      {
+        fetchOptions: getFetchOptions({
+          method: HttpMethod.POST,
+          body: '',
+        }),
+        url: `/projects/${encodeName}/gc`,
+        anonymizedUrl: '/projects/*/gc',
+      },
+      /* reportServerError=*/ true
+    );
   }
 
   createRepo(config: ProjectInput & {name: RepoName}): Promise<Response> {
     // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
     // supports it.
     const encodeName = encodeURIComponent(config.name);
-    return this._restApiHelper.send({
-      method: HttpMethod.PUT,
-      url: `/projects/${encodeName}`,
-      body: config,
-      anonymizedUrl: '/projects/*',
-    });
+    return this._restApiHelperNew.fetch(
+      {
+        fetchOptions: getFetchOptions({
+          method: HttpMethod.PUT,
+          body: config,
+        }),
+        url: `/projects/${encodeName}`,
+        anonymizedUrl: '/projects/*',
+      },
+      /* reportServerError=*/ true
+    );
   }
 
   createGroup(config: GroupInput & {name: string}): Promise<Response> {
     const encodeName = encodeURIComponent(config.name);
-    return this._restApiHelper.send({
-      method: HttpMethod.PUT,
-      url: `/groups/${encodeName}`,
-      body: config,
-      anonymizedUrl: '/groups/*',
-    });
+    return this._restApiHelperNew.fetch(
+      {
+        fetchOptions: getFetchOptions({
+          method: HttpMethod.PUT,
+          body: config,
+        }),
+        url: `/groups/${encodeName}`,
+        anonymizedUrl: '/groups/*',
+      },
+      /* reportServerError=*/ true
+    );
   }
 
   getGroupConfig(
@@ -417,12 +435,17 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     // supports it.
     const encodeName = encodeURIComponent(repo);
     const encodeRef = encodeURIComponent(ref);
-    return this._restApiHelper.send({
-      method: HttpMethod.DELETE,
-      url: `/projects/${encodeName}/branches/${encodeRef}`,
-      body: '',
-      anonymizedUrl: '/projects/*/branches/*',
-    });
+    return this._restApiHelperNew.fetch(
+      {
+        fetchOptions: getFetchOptions({
+          method: HttpMethod.DELETE,
+          body: '',
+        }),
+        url: `/projects/${encodeName}/branches/${encodeRef}`,
+        anonymizedUrl: '/projects/*/branches/*',
+      },
+      /* reportServerError=*/ true
+    );
   }
 
   deleteRepoTags(repo: RepoName, ref: GitRef): Promise<Response> {
@@ -430,12 +453,17 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     // supports it.
     const encodeName = encodeURIComponent(repo);
     const encodeRef = encodeURIComponent(ref);
-    return this._restApiHelper.send({
-      method: HttpMethod.DELETE,
-      url: `/projects/${encodeName}/tags/${encodeRef}`,
-      body: '',
-      anonymizedUrl: '/projects/*/tags/*',
-    });
+    return this._restApiHelperNew.fetch(
+      {
+        fetchOptions: getFetchOptions({
+          method: HttpMethod.DELETE,
+          body: '',
+        }),
+        url: `/projects/${encodeName}/tags/${encodeRef}`,
+        anonymizedUrl: '/projects/*/tags/*',
+      },
+      /* reportServerError=*/ true
+    );
   }
 
   createRepoBranch(
@@ -447,12 +475,17 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     // supports it.
     const encodeName = encodeURIComponent(name);
     const encodeBranch = encodeURIComponent(branch);
-    return this._restApiHelper.send({
-      method: HttpMethod.PUT,
-      url: `/projects/${encodeName}/branches/${encodeBranch}`,
-      body: revision,
-      anonymizedUrl: '/projects/*/branches/*',
-    });
+    return this._restApiHelperNew.fetch(
+      {
+        fetchOptions: getFetchOptions({
+          method: HttpMethod.PUT,
+          body: revision,
+        }),
+        url: `/projects/${encodeName}/branches/${encodeBranch}`,
+        anonymizedUrl: '/projects/*/branches/*',
+      },
+      /* reportServerError=*/ true
+    );
   }
 
   createRepoTag(
@@ -464,12 +497,17 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     // supports it.
     const encodeName = encodeURIComponent(name);
     const encodeTag = encodeURIComponent(tag);
-    return this._restApiHelper.send({
-      method: HttpMethod.PUT,
-      url: `/projects/${encodeName}/tags/${encodeTag}`,
-      body: revision,
-      anonymizedUrl: '/projects/*/tags/*',
-    });
+    return this._restApiHelperNew.fetch(
+      {
+        fetchOptions: getFetchOptions({
+          method: HttpMethod.PUT,
+          body: revision,
+        }),
+        url: `/projects/${encodeName}/tags/${encodeTag}`,
+        anonymizedUrl: '/projects/*/tags/*',
+      },
+      /* reportServerError=*/ true
+    );
   }
 
   getIsGroupOwner(groupName?: GroupName): Promise<boolean> {
@@ -503,12 +541,17 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   saveGroupName(groupId: GroupId | GroupName, name: string): Promise<Response> {
     const encodeId = encodeURIComponent(groupId);
-    return this._restApiHelper.send({
-      method: HttpMethod.PUT,
-      url: `/groups/${encodeId}/name`,
-      body: {name},
-      anonymizedUrl: '/groups/*/name',
-    });
+    return this._restApiHelperNew.fetch(
+      {
+        fetchOptions: getFetchOptions({
+          method: HttpMethod.PUT,
+          body: {name},
+        }),
+        url: `/groups/${encodeId}/name`,
+        anonymizedUrl: '/groups/*/name',
+      },
+      /* reportServerError=*/ true
+    );
   }
 
   saveGroupOwner(
@@ -516,12 +559,17 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     ownerId: string
   ): Promise<Response> {
     const encodeId = encodeURIComponent(groupId);
-    return this._restApiHelper.send({
-      method: HttpMethod.PUT,
-      url: `/groups/${encodeId}/owner`,
-      body: {owner: ownerId},
-      anonymizedUrl: '/groups/*/owner',
-    });
+    return this._restApiHelperNew.fetch(
+      {
+        fetchOptions: getFetchOptions({
+          method: HttpMethod.PUT,
+          body: {owner: ownerId},
+        }),
+        url: `/groups/${encodeId}/owner`,
+        anonymizedUrl: '/groups/*/owner',
+      },
+      /* reportServerError=*/ true
+    );
   }
 
   saveGroupDescription(
@@ -529,12 +577,17 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     description: string
   ): Promise<Response> {
     const encodeId = encodeURIComponent(groupId);
-    return this._restApiHelper.send({
-      method: HttpMethod.PUT,
-      url: `/groups/${encodeId}/description`,
-      body: {description},
-      anonymizedUrl: '/groups/*/description',
-    });
+    return this._restApiHelperNew.fetch(
+      {
+        fetchOptions: getFetchOptions({
+          method: HttpMethod.PUT,
+          body: {description},
+        }),
+        url: `/groups/${encodeId}/description`,
+        anonymizedUrl: '/groups/*/description',
+      },
+      /* reportServerError=*/ true
+    );
   }
 
   saveGroupOptions(
@@ -542,12 +595,17 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     options: GroupOptionsInput
   ): Promise<Response> {
     const encodeId = encodeURIComponent(groupId);
-    return this._restApiHelper.send({
-      method: HttpMethod.PUT,
-      url: `/groups/${encodeId}/options`,
-      body: options,
-      anonymizedUrl: '/groups/*/options',
-    });
+    return this._restApiHelperNew.fetch(
+      {
+        fetchOptions: getFetchOptions({
+          method: HttpMethod.PUT,
+          body: options,
+        }),
+        url: `/groups/${encodeId}/options`,
+        anonymizedUrl: '/groups/*/options',
+      },
+      /* reportServerError=*/ true
+    );
   }
 
   getGroupAuditLog(
@@ -564,15 +622,16 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   saveGroupMember(
     groupName: GroupId | GroupName,
     groupMember: AccountId
-  ): Promise<AccountInfo> {
+  ): Promise<AccountInfo | undefined> {
     const encodeName = encodeURIComponent(groupName);
     const encodeMember = encodeURIComponent(`${groupMember}`);
-    return this._restApiHelper.send({
-      method: HttpMethod.PUT,
+    return this._restApiHelperNew.fetchJSON({
+      fetchOptions: {
+        method: HttpMethod.PUT,
+      },
       url: `/groups/${encodeName}/members/${encodeMember}`,
-      parseResponse: true,
       anonymizedUrl: '/groups/*/members/*',
-    }) as unknown as Promise<AccountInfo>;
+    }) as unknown as Promise<AccountInfo | undefined>;
   }
 
   saveIncludedGroup(
@@ -583,19 +642,16 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     const encodeName = encodeURIComponent(groupName);
     const encodeIncludedGroup = encodeURIComponent(includedGroup);
     const req = {
-      method: HttpMethod.PUT,
+      fetchOptions: {
+        method: HttpMethod.PUT,
+      },
       url: `/groups/${encodeName}/groups/${encodeIncludedGroup}`,
       errFn,
       anonymizedUrl: '/groups/*/groups/*',
     };
-    return this._restApiHelper.send(req).then(response => {
-      if (response?.ok) {
-        return readJSONResponsePayload(response).then(
-          resp => resp.parsed
-        ) as unknown as Promise<GroupInfo>;
-      }
-      return undefined;
-    });
+    return this._restApiHelperNew.fetchJSON(req) as unknown as Promise<
+      GroupInfo | undefined
+    >;
   }
 
   deleteGroupMember(
@@ -604,11 +660,16 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   ): Promise<Response> {
     const encodeName = encodeURIComponent(groupName);
     const encodeMember = encodeURIComponent(`${groupMember}`);
-    return this._restApiHelper.send({
-      method: HttpMethod.DELETE,
-      url: `/groups/${encodeName}/members/${encodeMember}`,
-      anonymizedUrl: '/groups/*/members/*',
-    });
+    return this._restApiHelperNew.fetch(
+      {
+        fetchOptions: {
+          method: HttpMethod.DELETE,
+        },
+        url: `/groups/${encodeName}/members/${encodeMember}`,
+        anonymizedUrl: '/groups/*/members/*',
+      },
+      /* reportServerError=*/ true
+    );
   }
 
   deleteIncludedGroup(
@@ -617,11 +678,16 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   ): Promise<Response> {
     const encodeName = encodeURIComponent(groupName);
     const encodeIncludedGroup = encodeURIComponent(includedGroup);
-    return this._restApiHelper.send({
-      method: HttpMethod.DELETE,
-      url: `/groups/${encodeName}/groups/${encodeIncludedGroup}`,
-      anonymizedUrl: '/groups/*/groups/*',
-    });
+    return this._restApiHelperNew.fetch(
+      {
+        fetchOptions: {
+          method: HttpMethod.DELETE,
+        },
+        url: `/groups/${encodeName}/groups/${encodeIncludedGroup}`,
+        anonymizedUrl: '/groups/*/groups/*',
+      },
+      /* reportServerError=*/ true
+    );
   }
 
   getVersion(): Promise<string | undefined> {
@@ -664,40 +730,46 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       prefs.download_scheme = prefs.download_scheme.toLowerCase();
     }
 
-    return this._restApiHelper
-      .send({
+    return this._restApiHelperNew.fetchJSON({
+      fetchOptions: getFetchOptions({
         method: HttpMethod.PUT,
-        url: '/accounts/self/preferences',
         body: prefs,
-        reportUrlAsIs: true,
-      })
-      .then((response: Response) =>
-        readJSONResponsePayload(response).then(
-          obj => obj.parsed as unknown as PreferencesInfo
-        )
-      );
+      }),
+      url: '/accounts/self/preferences',
+      reportUrlAsIs: true,
+    }) as unknown as Promise<PreferencesInfo | undefined>;
   }
 
   saveDiffPreferences(prefs: DiffPreferenceInput): Promise<Response> {
     // Invalidate the cache.
     this._cache.delete('/accounts/self/preferences.diff');
-    return this._restApiHelper.send({
-      method: HttpMethod.PUT,
-      url: '/accounts/self/preferences.diff',
-      body: prefs,
-      reportUrlAsIs: true,
-    });
+    return this._restApiHelperNew.fetch(
+      {
+        fetchOptions: getFetchOptions({
+          method: HttpMethod.PUT,
+          body: prefs,
+        }),
+        url: '/accounts/self/preferences.diff',
+        reportUrlAsIs: true,
+      },
+      /* reportServerError=*/ true
+    );
   }
 
   saveEditPreferences(prefs: EditPreferencesInfo): Promise<Response> {
     // Invalidate the cache.
     this._cache.delete('/accounts/self/preferences.edit');
-    return this._restApiHelper.send({
-      method: HttpMethod.PUT,
-      url: '/accounts/self/preferences.edit',
-      body: prefs,
-      reportUrlAsIs: true,
-    });
+    return this._restApiHelperNew.fetch(
+      {
+        fetchOptions: getFetchOptions({
+          method: HttpMethod.PUT,
+          body: prefs,
+        }),
+        url: '/accounts/self/preferences.edit',
+        reportUrlAsIs: true,
+      },
+      /* reportServerError=*/ true
+    );
   }
 
   getAccount(): Promise<AccountDetailInfo | undefined> {
@@ -732,19 +804,25 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   deleteAccount() {
-    return this._restApiHelper.send({
-      method: HttpMethod.DELETE,
-      url: '/accounts/self',
-      reportUrlAsIs: true,
-    });
+    return this._restApiHelperNew.fetch(
+      {
+        fetchOptions: {
+          method: HttpMethod.DELETE,
+        },
+        url: '/accounts/self',
+        reportUrlAsIs: true,
+      },
+      /* reportServerError=*/ true
+    );
   }
 
   deleteAccountIdentity(id: string[]) {
-    return this._restApiHelper.send({
-      method: HttpMethod.POST,
+    return this._restApiHelperNew.fetchJSON({
+      fetchOptions: getFetchOptions({
+        method: HttpMethod.POST,
+        body: id,
+      }),
       url: '/accounts/self/external.ids:delete',
-      body: id,
-      parseResponse: true,
       reportUrlAsIs: true,
     }) as Promise<unknown>;
   }
@@ -792,47 +870,60 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   addAccountEmail(email: string): Promise<Response> {
-    return this._restApiHelper.send({
-      method: HttpMethod.PUT,
-      url: '/accounts/self/emails/' + encodeURIComponent(email),
-      anonymizedUrl: '/account/self/emails/*',
-    });
+    return this._restApiHelperNew.fetch(
+      {
+        fetchOptions: {
+          method: HttpMethod.PUT,
+        },
+        url: '/accounts/self/emails/' + encodeURIComponent(email),
+        anonymizedUrl: '/account/self/emails/*',
+      },
+      /* reportServerError=*/ true
+    );
   }
 
   deleteAccountEmail(email: string): Promise<Response> {
-    return this._restApiHelper.send({
-      method: HttpMethod.DELETE,
-      url: '/accounts/self/emails/' + encodeURIComponent(email),
-      anonymizedUrl: '/accounts/self/email/*',
-    });
+    return this._restApiHelperNew.fetch(
+      {
+        fetchOptions: {
+          method: HttpMethod.DELETE,
+        },
+        url: '/accounts/self/emails/' + encodeURIComponent(email),
+        anonymizedUrl: '/accounts/self/email/*',
+      },
+      /* reportServerError=*/ true
+    );
   }
 
   setPreferredAccountEmail(email: string): Promise<void> {
-    // TODO(TS): add correct error handling
     const encodedEmail = encodeURIComponent(email);
     const req = {
-      method: HttpMethod.PUT,
+      fetchOptions: {
+        method: HttpMethod.PUT,
+      },
       url: `/accounts/self/emails/${encodedEmail}/preferred`,
       anonymizedUrl: '/accounts/self/emails/*/preferred',
     };
-    return this._restApiHelper.send(req).then(() => {
-      // If result of getAccountEmails is in cache, update it in the cache
-      // so we don't have to invalidate it.
-      const cachedEmails = this._cache.get('/accounts/self/emails');
-      if (cachedEmails) {
-        const emails = (cachedEmails as unknown as EmailInfo[]).map(entry => {
-          if (entry.email === email) {
-            return {email: entry.email, preferred: true};
-          } else {
-            return {email: entry.email, preferred: false};
-          }
-        });
-        this._cache.set(
-          '/accounts/self/emails',
-          emails as unknown as ParsedJSON
-        );
-      }
-    });
+    return this._restApiHelperNew
+      .fetch(req, /* reportServerError=*/ true)
+      .then(() => {
+        // If result of getAccountEmails is in cache, update it in the cache
+        // so we don't have to invalidate it.
+        const cachedEmails = this._cache.get('/accounts/self/emails');
+        if (cachedEmails) {
+          const emails = (cachedEmails as unknown as EmailInfo[]).map(entry => {
+            if (entry.email === email) {
+              return {email: entry.email, preferred: true};
+            } else {
+              return {email: entry.email, preferred: false};
+            }
+          });
+          this._cache.set(
+            '/accounts/self/emails',
+            emails as unknown as ParsedJSON
+          );
+        }
+      });
   }
 
   _updateCachedAccount(obj: Partial<AccountDetailInfo>): void {
@@ -846,64 +937,62 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   setAccountName(name: string): Promise<void> {
-    // TODO(TS): add correct error handling
-    const req: SendJSONRequest = {
-      method: HttpMethod.PUT,
-      url: '/accounts/self/name',
-      body: {name},
-      parseResponse: true,
-      reportUrlAsIs: true,
-    };
     return this._restApiHelper
-      .send(req)
+      .fetchJSON({
+        fetchOptions: getFetchOptions({
+          method: HttpMethod.PUT,
+          body: {name},
+        }),
+        url: '/accounts/self/name',
+        reportUrlAsIs: true,
+      })
       .then(newName =>
         this._updateCachedAccount({name: newName as unknown as string})
       );
   }
 
   setAccountUsername(username: string): Promise<void> {
-    // TODO(TS): add correct error handling
-    const req: SendJSONRequest = {
-      method: HttpMethod.PUT,
-      url: '/accounts/self/username',
-      body: {username},
-      parseResponse: true,
-      reportUrlAsIs: true,
-    };
-    return this._restApiHelper
-      .send(req)
+    return this._restApiHelperNew
+      .fetchJSON({
+        fetchOptions: getFetchOptions({
+          method: HttpMethod.PUT,
+          body: {username},
+        }),
+        url: '/accounts/self/username',
+        reportUrlAsIs: true,
+      })
       .then(newName =>
         this._updateCachedAccount({username: newName as unknown as string})
       );
   }
 
   setAccountDisplayName(displayName: string): Promise<void> {
-    // TODO(TS): add correct error handling
-    const req: SendJSONRequest = {
-      method: HttpMethod.PUT,
-      url: '/accounts/self/displayname',
-      body: {display_name: displayName},
-      parseResponse: true,
-      reportUrlAsIs: true,
-    };
-    return this._restApiHelper.send(req).then(newName =>
-      this._updateCachedAccount({
-        display_name: newName as unknown as string,
+    return this._restApiHelper
+      .fetchJSON({
+        fetchOptions: getFetchOptions({
+          method: HttpMethod.PUT,
+          body: {display_name: displayName},
+        }),
+        url: '/accounts/self/displayname',
+        reportUrlAsIs: true,
       })
-    );
+      .then(newName =>
+        this._updateCachedAccount({
+          display_name: newName as unknown as string,
+        })
+      );
   }
 
   setAccountStatus(status: string): Promise<void> {
-    // TODO(TS): add correct error handling
-    const req: SendJSONRequest = {
-      method: HttpMethod.PUT,
-      url: '/accounts/self/status',
-      body: {status},
-      parseResponse: true,
-      reportUrlAsIs: true,
-    };
-    return this._restApiHelper
-      .send(req)
+    return this._restApiHelperNew
+      .fetchJSON({
+        fetchOptions: getFetchOptions({
+          method: HttpMethod.PUT,
+          body: {status},
+        }),
+        url: '/accounts/self/status',
+        reportUrlAsIs: true,
+      })
       .then(newStatus =>
         this._updateCachedAccount({status: newStatus as unknown as string})
       );
@@ -931,12 +1020,17 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   saveAccountAgreement(name: ContributorAgreementInput): Promise<Response> {
-    return this._restApiHelper.send({
-      method: HttpMethod.PUT,
-      url: '/accounts/self/agreements',
-      body: name,
-      reportUrlAsIs: true,
-    });
+    return this._restApiHelperNew.fetch(
+      {
+        fetchOptions: getFetchOptions({
+          method: HttpMethod.PUT,
+          body: name,
+        }),
+        url: '/accounts/self/agreements',
+        reportUrlAsIs: true,
+      },
+      /* reportServerError=*/ true
+    );
   }
 
   getAccountCapabilities(
@@ -1004,23 +1098,29 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   saveWatchedProjects(
     projects: ProjectWatchInfo[]
-  ): Promise<ProjectWatchInfo[]> {
-    return this._restApiHelper.send({
-      method: HttpMethod.POST,
+  ): Promise<ProjectWatchInfo[] | undefined> {
+    return this._restApiHelperNew.fetchJSON({
+      fetchOptions: getFetchOptions({
+        method: HttpMethod.POST,
+        body: projects,
+      }),
       url: '/accounts/self/watched.projects',
-      body: projects,
-      parseResponse: true,
       reportUrlAsIs: true,
-    }) as unknown as Promise<ProjectWatchInfo[]>;
+    }) as unknown as Promise<ProjectWatchInfo[] | undefined>;
   }
 
   deleteWatchedProjects(projects: ProjectWatchInfo[]): Promise<Response> {
-    return this._restApiHelper.send({
-      method: HttpMethod.POST,
-      url: '/accounts/self/watched.projects:delete',
-      body: projects,
-      reportUrlAsIs: true,
-    });
+    return this._restApiHelperNew.fetch(
+      {
+        fetchOptions: getFetchOptions({
+          method: HttpMethod.POST,
+          body: projects,
+        }),
+        url: '/accounts/self/watched.projects:delete',
+        reportUrlAsIs: true,
+      },
+      /* reportServerError=*/ true
+    );
   }
 
   /**
@@ -1589,12 +1689,17 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   setRepoHead(repo: RepoName, ref: GitRef) {
     // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
     // supports it.
-    return this._restApiHelper.send({
-      method: HttpMethod.PUT,
-      url: `/projects/${encodeURIComponent(repo)}/HEAD`,
-      body: {ref},
-      anonymizedUrl: '/projects/*/HEAD',
-    });
+    return this._restApiHelperNew.fetch(
+      {
+        fetchOptions: getFetchOptions({
+          method: HttpMethod.PUT,
+          body: {ref},
+        }),
+        url: `/projects/${encodeURIComponent(repo)}/HEAD`,
+        anonymizedUrl: '/projects/*/HEAD',
+      },
+      /* reportServerError=*/ true
+    );
   }
 
   getRepoBranches(
@@ -1676,25 +1781,31 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   ): Promise<Response> {
     // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
     // supports it.
-    return this._restApiHelper.send({
-      method: HttpMethod.POST,
-      url: `/projects/${encodeURIComponent(repoName)}/access`,
-      body: repoInfo,
-      anonymizedUrl: '/projects/*/access',
-    });
+    return this._restApiHelperNew.fetch(
+      {
+        fetchOptions: getFetchOptions({
+          method: HttpMethod.POST,
+          body: repoInfo,
+        }),
+        url: `/projects/${encodeURIComponent(repoName)}/access`,
+        anonymizedUrl: '/projects/*/access',
+      },
+      /* reportServerError=*/ true
+    );
   }
 
   setRepoAccessRightsForReview(
     projectName: RepoName,
     projectInfo: ProjectAccessInput
-  ): Promise<ChangeInfo> {
-    return this._restApiHelper.send({
-      method: HttpMethod.PUT,
+  ): Promise<ChangeInfo | undefined> {
+    return this._restApiHelperNew.fetchJSON({
+      fetchOptions: getFetchOptions({
+        method: HttpMethod.PUT,
+        body: projectInfo,
+      }),
       url: `/projects/${encodeURIComponent(projectName)}/access:review`,
-      body: projectInfo,
-      parseResponse: true,
       anonymizedUrl: '/projects/*/access:review',
-    }) as unknown as Promise<ChangeInfo>;
+    }) as unknown as Promise<ChangeInfo | undefined>;
   }
 
   getSuggestedGroups(
@@ -1830,7 +1941,13 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
             assertNever(method, `Unsupported HTTP method: ${method}`);
         }
 
-        return this._restApiHelper.send({method, url, body});
+        return this._restApiHelperNew.fetch(
+          {
+            fetchOptions: getFetchOptions({method, body}),
+            url,
+          },
+          /* reportServerError=*/ true
+        );
       }
     );
   }
@@ -2000,7 +2117,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     review: ReviewInput,
     errFn?: ErrorCallback,
     fetchDetail?: boolean
-  ) {
+  ): Promise<ReviewResult | undefined> {
     if (fetchDetail) {
       review.response_format_options = await this.getResponseFormatOptions();
     }
@@ -2008,22 +2125,16 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       this.awaitPendingDiffDrafts(),
       this.getChangeActionURL(changeNum, patchNum, '/review'),
     ];
-    return Promise.all(promises)
-      .then(([, url]) =>
-        this._restApiHelper.send({
+    return Promise.all(promises).then(([, url]) =>
+      this._restApiHelperNew.fetchJSON({
+        fetchOptions: getFetchOptions({
           method: HttpMethod.POST,
-          url,
           body: review,
-          errFn,
-          parseResponse: true,
-        })
-      )
-      .then(payload => {
-        if (!payload) {
-          return undefined;
-        }
-        return payload as unknown as ReviewResult;
-      });
+        }),
+        url,
+        errFn,
+      })
+    ) as unknown as Promise<ReviewResult | undefined>;
   }
 
   async getChangeEdit(
@@ -2055,21 +2166,22 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     workInProgress?: boolean,
     baseChange?: ChangeId,
     baseCommit?: string
-  ) {
-    return this._restApiHelper.send({
-      method: HttpMethod.POST,
+  ): Promise<ChangeInfo | undefined> {
+    return this._restApiHelper.fetchJSON({
+      fetchOptions: getFetchOptions({
+        method: HttpMethod.POST,
+        body: {
+          project: repo,
+          branch,
+          subject,
+          topic,
+          is_private: isPrivate,
+          work_in_progress: workInProgress,
+          base_change: baseChange,
+          base_commit: baseCommit,
+        },
+      }),
       url: '/changes/',
-      body: {
-        project: repo,
-        branch,
-        subject,
-        topic,
-        is_private: isPrivate,
-        work_in_progress: workInProgress,
-        base_change: baseChange,
-        base_commit: baseCommit,
-      },
-      parseResponse: true,
       reportUrlAsIs: true,
     }) as unknown as Promise<ChangeInfo | undefined>;
   }
@@ -2402,8 +2514,8 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       const encodedRepoName = encodeURIComponent(project) + '~';
       const url = `/accounts/self/starred.changes/${encodedRepoName}${changeNum}`;
       return this._serialScheduler.schedule(() =>
-        this._restApiHelper.send({
-          method: starred ? HttpMethod.PUT : HttpMethod.DELETE,
+        this._restApiHelperNew.fetch({
+          fetchOptions: {method: starred ? HttpMethod.PUT : HttpMethod.DELETE},
           url,
           anonymizedUrl: '/accounts/self/starred.changes/*',
         })
@@ -2444,14 +2556,19 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     contentType?: string,
     headers?: Record<string, string>
   ): Promise<Response | undefined> {
-    return this._restApiHelper.send({
-      method,
-      url,
-      body,
-      errFn,
-      contentType,
-      headers,
-    });
+    return this._restApiHelperNew.fetch(
+      {
+        fetchOptions: getFetchOptions({
+          method,
+          body,
+          contentType,
+          headers,
+        }),
+        url,
+        errFn,
+      },
+      /* reportServerError=*/ true
+    );
   }
 
   async getDiff(
@@ -3022,20 +3139,24 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     }) as unknown as Promise<Hashtag[] | undefined>;
   }
 
-  deleteAccountHttpPassword() {
-    return this._restApiHelper.send({
-      method: HttpMethod.DELETE,
-      url: '/accounts/self/password.http',
-      reportUrlAsIs: true,
-    });
+  deleteAccountHttpPassword(): Promise<Response> {
+    return this._restApiHelperNew.fetch(
+      {
+        fetchOptions: {method: HttpMethod.DELETE},
+        url: '/accounts/self/password.http',
+        reportUrlAsIs: true,
+      },
+      /* reportServerError=*/ true
+    );
   }
 
-  generateAccountHttpPassword(): Promise<Password> {
-    return this._restApiHelper.send({
-      method: HttpMethod.PUT,
+  generateAccountHttpPassword(): Promise<Password | undefined> {
+    return this._restApiHelperNew.fetchJSON({
+      fetchOptions: getFetchOptions({
+        method: HttpMethod.PUT,
+        body: {generate: true},
+      }),
       url: '/accounts/self/password.http',
-      body: {generate: true},
-      parseResponse: true,
       reportUrlAsIs: true,
     }) as Promise<unknown> as Promise<Password>;
   }
@@ -3048,37 +3169,28 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   addAccountSSHKey(key: string): Promise<SshKeyInfo> {
-    const req = {
-      method: HttpMethod.POST,
+    // By passing throwingErrorCallback we guarantee that response is not-null.
+    return this._restApiHelperNew.fetchJSON({
+      fetchOptions: getFetchOptions({
+        method: HttpMethod.POST,
+        body: key,
+        contentType: 'text/plain',
+      }),
       url: '/accounts/self/sshkeys',
-      body: key,
-      contentType: 'text/plain',
       reportUrlAsIs: true,
-    };
-    return this._restApiHelper
-      .send(req)
-      .then((response: Response | undefined) => {
-        if (!response || (response.status < 200 && response.status >= 300)) {
-          return Promise.reject(new Error('error'));
-        }
-        return readJSONResponsePayload(response).then(
-          resp => resp.parsed
-        ) as unknown as Promise<SshKeyInfo>;
-      })
-      .then(obj => {
-        if (!obj || !obj.valid) {
-          return Promise.reject(new Error('error'));
-        }
-        return obj;
-      });
+      errFn: throwingErrorCallback,
+    }) as Promise<unknown> as Promise<SshKeyInfo>;
   }
 
-  deleteAccountSSHKey(id: string) {
-    return this._restApiHelper.send({
-      method: HttpMethod.DELETE,
-      url: '/accounts/self/sshkeys/' + id,
-      anonymizedUrl: '/accounts/self/sshkeys/*',
-    });
+  deleteAccountSSHKey(id: string): Promise<Response> {
+    return this._restApiHelperNew.fetch(
+      {
+        fetchOptions: {method: HttpMethod.DELETE},
+        url: '/accounts/self/sshkeys/' + id,
+        anonymizedUrl: '/accounts/self/sshkeys/*',
+      },
+      /* reportServerError=*/ true
+    );
   }
 
   getAccountGPGKeys() {
@@ -3088,35 +3200,28 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     }) as Promise<unknown> as Promise<Record<string, GpgKeyInfo>>;
   }
 
-  addAccountGPGKey(key: GpgKeysInput) {
-    const req = {
-      method: HttpMethod.POST,
+  addAccountGPGKey(key: GpgKeysInput): Promise<Record<string, GpgKeyInfo>> {
+    // By passing throwingErrorCallback we guarantee that response is not-null.
+    return this._restApiHelperNew.fetchJSON({
+      fetchOptions: getFetchOptions({
+        method: HttpMethod.POST,
+        body: key,
+      }),
       url: '/accounts/self/gpgkeys',
-      body: key,
       reportUrlAsIs: true,
-    };
-    return this._restApiHelper
-      .send(req)
-      .then(response => {
-        if (!response || (response.status < 200 && response.status >= 300)) {
-          return Promise.reject(new Error('error'));
-        }
-        return readJSONResponsePayload(response).then(resp => resp.parsed);
-      })
-      .then(obj => {
-        if (!obj) {
-          return Promise.reject(new Error('error'));
-        }
-        return obj;
-      });
+      errFn: throwingErrorCallback,
+    }) as Promise<unknown> as Promise<Record<string, GpgKeyInfo>>;
   }
 
   deleteAccountGPGKey(id: GpgKeyId) {
-    return this._restApiHelper.send({
-      method: HttpMethod.DELETE,
-      url: `/accounts/self/gpgkeys/${id}`,
-      anonymizedUrl: '/accounts/self/gpgkeys/*',
-    });
+    return this._restApiHelperNew.fetch(
+      {
+        fetchOptions: {method: HttpMethod.DELETE},
+        url: `/accounts/self/gpgkeys/${id}`,
+        anonymizedUrl: '/accounts/self/gpgkeys/*',
+      },
+      /* reportServerError=*/ true
+    );
   }
 
   async deleteVote(
@@ -3154,19 +3259,22 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     );
   }
 
-  confirmEmail(token: string): Promise<string | null> {
-    const req = {
-      method: HttpMethod.PUT,
-      url: '/config/server/email.confirm',
-      body: {token},
-      reportUrlAsIs: true,
-    };
-    return this._restApiHelper.send(req).then(response => {
-      if (response?.status === 204) {
-        return 'Email confirmed successfully.';
-      }
-      return null;
-    });
+  async confirmEmail(token: string): Promise<string | null> {
+    const response = await this._restApiHelperNew.fetch(
+      {
+        fetchOptions: getFetchOptions({
+          method: HttpMethod.PUT,
+          body: {token},
+        }),
+        url: '/config/server/email.confirm',
+        reportUrlAsIs: true,
+      },
+      /* reportServerError=*/ true
+    );
+    if (response?.status === 204) {
+      return 'Email confirmed successfully.';
+    }
+    return null;
   }
 
   getCapabilities(
@@ -3428,10 +3536,12 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   deleteDraftComments(query: string): Promise<Response> {
     const body: DeleteDraftCommentsInput = {query};
-    return this._restApiHelper.send({
-      method: HttpMethod.POST,
+    return this._restApiHelperNew.fetch({
+      fetchOptions: getFetchOptions({
+        method: HttpMethod.POST,
+        body,
+      }),
       url: '/accounts/self/drafts:delete',
-      body,
     });
   }
 }

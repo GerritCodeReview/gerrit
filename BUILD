@@ -3,6 +3,8 @@ load("//tools/bzl:pkg_war.bzl", "pkg_war")
 
 package(default_visibility = ["//visibility:public"])
 
+# Test 2 3
+
 genrule(
     name = "gen_version",
     outs = ["version.txt"],

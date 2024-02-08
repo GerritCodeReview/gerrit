@@ -1047,6 +1047,7 @@ export class GrDiffView extends LitElement {
       <gr-patch-range-select
         id="rangeSelect"
         .filesWeblinks=${this.filesWeblinks}
+        .path=${this.path}
         @patch-range-change=${this.handlePatchChange}
       >
       </gr-patch-range-select>

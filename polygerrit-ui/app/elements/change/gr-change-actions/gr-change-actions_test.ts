@@ -17,6 +17,7 @@ import {
 } from '../../../test/test-data-generators';
 import {ChangeStatus, HttpMethod} from '../../../constants/constants';
 import {
+  makePrefixedJSON,
   mockPromise,
   query,
   queryAll,
@@ -650,7 +651,7 @@ suite('gr-change-actions tests', () => {
     test('rebase change fires reload event', async () => {
       await element.handleResponse(
         {__key: 'rebase', __type: ActionType.CHANGE, label: 'l'},
-        new Response()
+        new Response(makePrefixedJSON({}))
       );
       assert.isTrue(navigateResetStub.called);
     });
@@ -2408,7 +2409,6 @@ suite('gr-change-actions tests', () => {
       const payload = {foo: 'bar'};
       let onShowError: sinon.SinonStub;
       let onShowAlert: sinon.SinonStub;
-      let getResponseObjectStub: sinon.SinonStub;
 
       setup(async () => {
         cleanup = sinon.stub();
@@ -2439,7 +2439,6 @@ suite('gr-change-actions tests', () => {
               messages: createChangeMessages(1),
             })
           );
-          getResponseObjectStub = stubRestApi('getResponseObject');
           sendStub = stubRestApi('executeChangeAction').returns(
             Promise.resolve(new Response())
           );
@@ -2474,11 +2473,12 @@ suite('gr-change-actions tests', () => {
           });
 
           test('revert submission single change', async () => {
-            getResponseObjectStub.returns(
-              Promise.resolve({
+            const response = new Response(
+              makePrefixedJSON({
                 revert_changes: [{change_id: 12345, topic: 'T'}],
               })
             );
+            sendStub.resolves(response);
             await element.send(
               HttpMethod.POST,
               {message: 'Revert submission'},
@@ -2493,20 +2493,21 @@ suite('gr-change-actions tests', () => {
                 __type: ActionType.CHANGE,
                 label: 'l',
               },
-              new Response()
+              response
             );
             assert.isTrue(setUrlStub.called);
             assert.equal(setUrlStub.lastCall.args[0], '/q/topic:"T"');
           });
 
           test('revert single change', async () => {
-            getResponseObjectStub.returns(
-              Promise.resolve({
+            const response = new Response(
+              makePrefixedJSON({
                 change_id: 12345,
                 project: 'projectId',
                 _number: 12345,
               })
             );
+            sendStub.resolves(response);
             stubRestApi('getChange').returns(
               Promise.resolve(createChangeViewChange())
             );
@@ -2524,7 +2525,7 @@ suite('gr-change-actions tests', () => {
                 __type: ActionType.CHANGE,
                 label: 'l',
               },
-              new Response()
+              response
             );
             assert.isTrue(setUrlStub.called);
             assert.equal(setUrlStub.lastCall.args[0], '/c/projectId/+/12345');
@@ -2534,15 +2535,17 @@ suite('gr-change-actions tests', () => {
         suite('multiple changes revert', () => {
           let showActionDialogStub: sinon.SinonStub;
           let setUrlStub: sinon.SinonStub;
+          let response: Response;
           setup(() => {
-            getResponseObjectStub.returns(
-              Promise.resolve({
+            response = new Response(
+              makePrefixedJSON({
                 revert_changes: [
                   {change_id: 12345, topic: 'T'},
                   {change_id: 23456, topic: 'T'},
                 ],
               })
             );
+            sendStub.resolves(response);
             showActionDialogStub = sinon.stub(element, 'showActionDialog');
             setUrlStub = sinon.stub(testResolver(navigationToken), 'setUrl');
           });
@@ -2562,7 +2565,7 @@ suite('gr-change-actions tests', () => {
                 __type: ActionType.CHANGE,
                 label: 'l',
               },
-              new Response()
+              response
             );
             assert.isFalse(showActionDialogStub.called);
             assert.isTrue(setUrlStub.called);
@@ -2662,7 +2665,6 @@ suite('gr-change-actions tests', () => {
               messages: createChangeMessages(1),
             })
           );
-          getResponseObjectStub = stubRestApi('getResponseObject');
           const setUrlStub = sinon.stub(
             testResolver(navigationToken),
             'setUrl'
@@ -2671,8 +2673,8 @@ suite('gr-change-actions tests', () => {
             element,
             'setReviewOnRevert'
           );
-          getResponseObjectStub.returns(
-            Promise.resolve({
+          const response = new Response(
+            makePrefixedJSON({
               change_id: 12345,
               project: 'projectId',
               _number: 12345,
@@ -2705,7 +2707,7 @@ suite('gr-change-actions tests', () => {
               __type: ActionType.CHANGE,
               label: 'l',
             },
-            new Response()
+            response
           );
 
           assert.isTrue(errorFired);

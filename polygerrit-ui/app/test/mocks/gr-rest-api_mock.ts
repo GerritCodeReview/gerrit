@@ -61,7 +61,6 @@ import {
   DraftInfo,
 } from '../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../types/diff';
-import {readResponsePayload} from '../../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper-old';
 import {
   createAccountDetailWithId,
   createChange,
@@ -77,6 +76,7 @@ import {
   createDefaultPreferences,
 } from '../../constants/constants';
 import {ParsedChangeInfo} from '../../types/types';
+import {readJSONResponsePayload} from '../../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 
 export const grRestApiMock: RestApiService = {
   addAccountEmail(): Promise<Response> {
@@ -402,7 +402,7 @@ export const grRestApiMock: RestApiService = {
     return Promise.resolve([]);
   },
   getResponseObject(response: Response): Promise<ParsedJSON> {
-    return readResponsePayload(response).then(payload => payload.parsed);
+    return readJSONResponsePayload(response).then(payload => payload.parsed);
   },
   getReviewedFiles(): Promise<string[] | undefined> {
     return Promise.resolve([]);

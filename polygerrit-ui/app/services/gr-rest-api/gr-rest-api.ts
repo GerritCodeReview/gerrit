@@ -324,7 +324,7 @@ export interface RestApiService extends Finalizable {
   setRepoAccessRightsForReview(
     projectName: RepoName,
     projectInfo: ProjectAccessInput
-  ): Promise<ChangeInfo>;
+  ): Promise<ChangeInfo | undefined>;
 
   getGroups(
     filter: string,
@@ -518,7 +518,7 @@ export interface RestApiService extends Finalizable {
 
   saveWatchedProjects(
     projects: ProjectWatchInfo[]
-  ): Promise<ProjectWatchInfo[]>;
+  ): Promise<ProjectWatchInfo[] | undefined>;
 
   deleteWatchedProjects(projects: ProjectWatchInfo[]): Promise<Response>;
 
@@ -592,7 +592,7 @@ export interface RestApiService extends Finalizable {
   saveGroupMember(
     groupName: GroupId | GroupName,
     groupMember: AccountId
-  ): Promise<AccountInfo>;
+  ): Promise<AccountInfo | undefined>;
 
   saveIncludedGroup(
     groupName: GroupId | GroupName,

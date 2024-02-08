@@ -254,6 +254,8 @@ public class ReviewersUtil {
     return Account.id(Integer.valueOf(f.<String>getValue(AccountField.ID_STR_FIELD_SPEC)));
   }
 
+  // More accounts are suggested here than the requested limit because
+  // visibility filtering will be applied later.
   private List<Account.Id> suggestAccounts(SuggestReviewers suggestReviewers)
       throws BadRequestException {
     try (Timer0.Context ctx = metrics.queryAccountsLatency.start()) {
@@ -278,7 +280,7 @@ public class ReviewersUtil {
                   QueryOptions.create(
                       indexConfig,
                       0,
-                      suggestReviewers.getLimit(),
+                      suggestReviewers.getLimit() + 30,
                       ImmutableSet.of(idField.getName())))
               .readRaw();
       List<Account.Id> matches =

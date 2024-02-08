@@ -9,13 +9,10 @@ import {GrEtagDecorator} from '../../elements/shared/gr-rest-api-interface/gr-et
 import {
   FetchJSONRequest,
   FetchParams,
-  FetchPromisesCache,
   GrRestApiHelper,
   parsePrefixedJSON,
-  readResponsePayload,
   SendJSONRequest,
   SendRequest,
-  SiteBasedCache,
 } from '../../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper-old';
 import {GrReviewerUpdatesParser} from '../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {parseDate} from '../../utils/date-util';
@@ -150,6 +147,12 @@ import {escapeAndWrapSearchOperatorValue} from '../../utils/string-util';
 import {FlagsService, KnownExperimentId} from '../flags/flags';
 import {RetryScheduler} from '../scheduler/retry-scheduler';
 import {FixReplacementInfo} from '../../api/rest-api';
+import {
+  FetchPromisesCache,
+  GrRestApiHelper as GrRestApiHelperNew,
+  readJSONResponsePayload,
+  SiteBasedCache,
+} from '../../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 
 const MAX_PROJECT_RESULTS = 25;
 
@@ -304,6 +307,8 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   // Private, but used in tests.
   readonly _restApiHelper: GrRestApiHelper;
 
+  readonly _restApiHelperNew: GrRestApiHelperNew;
+
   // Used to serialize requests for certain RPCs
   readonly _serialScheduler: Scheduler<Response>;
 
@@ -311,12 +316,21 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     private readonly authService: AuthService,
     private readonly flagService: FlagsService
   ) {
+    const readScheduler = createReadScheduler();
+    const writeScheduler = createWriteScheduler();
     this._restApiHelper = new GrRestApiHelper(
       this._cache,
       this.authService,
       this._sharedFetchPromises,
-      createReadScheduler(),
-      createWriteScheduler()
+      readScheduler,
+      writeScheduler
+    );
+    this._restApiHelperNew = new GrRestApiHelperNew(
+      this._cache,
+      this.authService,
+      this._sharedFetchPromises,
+      readScheduler,
+      writeScheduler
     );
     this._serialScheduler = createSerializingScheduler();
   }
@@ -862,14 +876,17 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       // so we don't have to invalidate it.
       const cachedEmails = this._cache.get('/accounts/self/emails');
       if (cachedEmails) {
-        const emails = cachedEmails.map(entry => {
+        const emails = (cachedEmails as unknown as EmailInfo[]).map(entry => {
           if (entry.email === email) {
             return {email: entry.email, preferred: true};
           } else {
             return {email: entry.email, preferred: false};
           }
         });
-        this._cache.set('/accounts/self/emails', emails);
+        this._cache.set(
+          '/accounts/self/emails',
+          emails as unknown as ParsedJSON
+        );
       }
     });
   }
@@ -1365,16 +1382,16 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
             return Promise.resolve(undefined);
           }
 
-          return readResponsePayload(response).then(payload => {
-            if (!payload) {
-              return undefined;
-            }
-            this._etags.collect(urlWithParams, response, payload.raw);
-            // TODO(TS): Why it is always change info?
-            this._maybeInsertInLookup(payload.parsed as unknown as ChangeInfo);
+          return readJSONResponsePayload(response)
+            .then(payload => {
+              this._etags.collect(urlWithParams, response, payload.raw);
+              this._maybeInsertInLookup(
+                payload.parsed as unknown as ChangeInfo
+              );
 
-            return payload.parsed as unknown as ChangeInfo;
-          });
+              return payload.parsed as unknown as ChangeInfo;
+            })
+            .catch(() => undefined);
         });
       }
     );

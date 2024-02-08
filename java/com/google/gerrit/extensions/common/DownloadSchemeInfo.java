@@ -18,6 +18,7 @@ import java.util.Map;
 
 public class DownloadSchemeInfo {
   public String url;
+  public String description;
   public Boolean isAuthRequired;
   public Boolean isAuthSupported;
   public Map<String, String> commands;

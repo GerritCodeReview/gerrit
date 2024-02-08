@@ -658,6 +658,7 @@ export declare interface DownloadInfo {
  */
 export declare interface DownloadSchemeInfo {
   url: string;
+  description?: string;
   is_auth_required: boolean;
   is_auth_supported: boolean;
   commands: string;

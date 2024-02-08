@@ -252,6 +252,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   private DownloadSchemeInfo getDownloadSchemeInfo(DownloadScheme scheme) {
     DownloadSchemeInfo info = new DownloadSchemeInfo();
     info.url = scheme.getUrl("${project}");
+    info.description = scheme.getDescription();
     info.isAuthRequired = toBoolean(scheme.isAuthRequired());
     info.isAuthSupported = toBoolean(scheme.isAuthSupported());
 

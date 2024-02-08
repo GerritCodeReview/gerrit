@@ -16,6 +16,23 @@
       "message": "I have verified that the imported changes are correctly indexed with the original change number in the `changenumber` field.",
       "revId": "5231f163c70096b14f8db8cad6f4cb6fb8d900a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3b6edb2_cf887f76",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2024-02-08T08:21:30Z",
+      "side": 1,
+      "message": "The whole change series seems to first have added server ID to legacy_id_str (which used to only be change num) and then added another change_num as a separate field. \n\nWhy not just add a \"server_id\" field in the first place?",
+      "revId": "5231f163c70096b14f8db8cad6f4cb6fb8d900a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

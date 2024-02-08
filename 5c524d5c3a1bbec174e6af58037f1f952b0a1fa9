@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "26b69e7a_d49f12f1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2024-02-08T18:31:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c47de24b_6e265fb1",
+      "revId": "5c524d5c3a1bbec174e6af58037f1f952b0a1fa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3aeb1aad_8921064a",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-02-08T18:12:40Z",
       "side": 1,
       "message": "AFAICT ([here](https://gerrit.googlesource.com/gerrit/+/refs/heads/stable-3.7/java/com/google/gerrit/server/restapi/project/ListProjects.java)) the same options are available in `stable-3.7` how about adding it there and merging up later?",
+      "revId": "5c524d5c3a1bbec174e6af58037f1f952b0a1fa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "192cefa1_545d1316",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2024-02-08T18:31:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3aeb1aad_8921064a",
       "revId": "5c524d5c3a1bbec174e6af58037f1f952b0a1fa9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

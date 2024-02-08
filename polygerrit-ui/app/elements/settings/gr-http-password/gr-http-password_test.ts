@@ -107,7 +107,7 @@ suite('gr-http-password tests', () => {
     button.click();
 
     assert.isTrue(generateStub.called);
-    assert.equal(element._generatedPassword, 'Generating...');
+    assert.equal(element._status, 'Generating...');
 
     generateStub.lastCall.returnValue.then(() => {
       generateResolve(nextPassword);

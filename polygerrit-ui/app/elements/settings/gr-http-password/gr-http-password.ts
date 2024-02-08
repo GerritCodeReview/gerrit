@@ -30,6 +30,9 @@ export class GrHttpPassword extends LitElement {
   _generatedPassword?: string;
 
   @property({type: String})
+  _status?: string;
+
+  @property({type: String})
   _passwordUrl: string | null = null;
 
   private readonly restApiService = getAppContext().restApiService;
@@ -132,12 +135,14 @@ export class GrHttpPassword extends LitElement {
         <div class="gr-form-styles">
           <section id="generatedPasswordDisplay">
             <span class="title">New Password:</span>
-            <span class="value">${this._generatedPassword}</span>
+            <span class="value"
+              >${this._status || this._generatedPassword}</span
+            >
             <gr-copy-clipboard
               hasTooltip=""
               buttonTitle="Copy password to clipboard"
               hideInput=""
-              .text=${this._generatedPassword}
+              .text=${this._status ? '' : this._generatedPassword}
             >
             </gr-copy-clipboard>
           </section>
@@ -153,10 +158,15 @@ export class GrHttpPassword extends LitElement {
   }
 
   _handleGenerateTap() {
-    this._generatedPassword = 'Generating...';
+    this._status = 'Generating...';
     this.generatedPasswordModal?.showModal();
     this.restApiService.generateAccountHttpPassword().then(newPassword => {
-      this._generatedPassword = newPassword;
+      if (newPassword) {
+        this._generatedPassword = newPassword;
+        this._status = undefined;
+      } else {
+        this._status = 'Failed to generate';
+      }
     });
   }
 
@@ -165,6 +175,7 @@ export class GrHttpPassword extends LitElement {
   }
 
   _generatedPasswordModalClosed() {
+    this._status = undefined;
     this._generatedPassword = '';
   }
 }

@@ -169,7 +169,7 @@ export const grRestApiMock: RestApiService = {
     return Promise.resolve(new Response());
   },
   finalize(): void {},
-  generateAccountHttpPassword(): Promise<Password> {
+  generateAccountHttpPassword(): Promise<Password | undefined> {
     return Promise.resolve('asdf');
   },
   getAccount(): Promise<AccountDetailInfo | undefined> {
@@ -496,7 +496,7 @@ export const grRestApiMock: RestApiService = {
   saveGroupDescription(): Promise<Response> {
     return Promise.resolve(new Response());
   },
-  saveGroupMember(): Promise<AccountInfo> {
+  saveGroupMember(): Promise<AccountInfo | undefined> {
     return Promise.resolve({});
   },
   saveGroupName(): Promise<Response> {
@@ -518,7 +518,7 @@ export const grRestApiMock: RestApiService = {
   saveRepoConfig(): Promise<Response> {
     return Promise.resolve(new Response());
   },
-  saveWatchedProjects(): Promise<ProjectWatchInfo[]> {
+  saveWatchedProjects(): Promise<ProjectWatchInfo[] | undefined> {
     return Promise.resolve([]);
   },
   send() {
@@ -558,7 +558,7 @@ export const grRestApiMock: RestApiService = {
   setRepoAccessRights(): Promise<Response> {
     return Promise.resolve(new Response());
   },
-  setRepoAccessRightsForReview(): Promise<ChangeInfo> {
+  setRepoAccessRightsForReview(): Promise<ChangeInfo | undefined> {
     throw new Error('setRepoAccessRightsForReview() not implemented by mock.');
   },
   setRepoHead(): Promise<Response> {

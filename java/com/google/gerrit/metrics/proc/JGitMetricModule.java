@@ -80,7 +80,7 @@ public class JGitMetricModule extends MetricModule {
     metrics.newCallbackMetric(
         "jgit/block_cache/eviction_count",
         Long.class,
-        new Description("Cache evictions for JGit block cache.").setGauge(),
+        new Description("Cache evictions for JGit block cache.").setCumulative(),
         new Supplier<Long>() {
           @Override
           public Long get() {
@@ -102,7 +102,7 @@ public class JGitMetricModule extends MetricModule {
     metrics.newCallbackMetric(
         "jgit/block_cache/hit_count",
         Long.class,
-        new Description("Cache hits for JGit block cache.").setGauge(),
+        new Description("Cache hits for JGit block cache.").setCumulative(),
         new Supplier<Long>() {
           @Override
           public Long get() {
@@ -124,7 +124,7 @@ public class JGitMetricModule extends MetricModule {
     metrics.newCallbackMetric(
         "jgit/block_cache/load_failure_count",
         Long.class,
-        new Description("Failed cache loads for JGit block cache.").setGauge(),
+        new Description("Failed cache loads for JGit block cache.").setCumulative(),
         new Supplier<Long>() {
           @Override
           public Long get() {
@@ -146,7 +146,7 @@ public class JGitMetricModule extends MetricModule {
     metrics.newCallbackMetric(
         "jgit/block_cache/load_success_count",
         Long.class,
-        new Description("Successfull cache loads for JGit block cache.").setGauge(),
+        new Description("Successfull cache loads for JGit block cache.").setCumulative(),
         new Supplier<Long>() {
           @Override
           public Long get() {
@@ -156,7 +156,7 @@ public class JGitMetricModule extends MetricModule {
     metrics.newCallbackMetric(
         "jgit/block_cache/miss_count",
         Long.class,
-        new Description("Cache misses for JGit block cache.").setGauge(),
+        new Description("Cache misses for JGit block cache.").setCumulative(),
         new Supplier<Long>() {
           @Override
           public Long get() {

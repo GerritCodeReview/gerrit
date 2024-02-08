@@ -100,8 +100,6 @@ import {Finalizable, ParsedChangeInfo} from '../../types/types';
 import {ErrorCallback} from '../../api/rest';
 import {FixReplacementInfo} from '../../api/rest-api';
 
-export type CancelConditionCallback = () => boolean;
-
 export interface GetDiffCommentsOutput {
   baseComments: CommentInfo[];
   comments: CommentInfo[];
@@ -205,8 +203,7 @@ export interface RestApiService extends Finalizable {
 
   getChangeDetail(
     changeNum?: number | string,
-    errFn?: ErrorCallback,
-    cancelCondition?: Function
+    errFn?: ErrorCallback
   ): Promise<ParsedChangeInfo | undefined>;
 
   /**

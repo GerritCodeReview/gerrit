@@ -4,11 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../../../test/common-test-setup';
-import {
-  SiteBasedCache,
-  FetchPromisesCache,
-  GrRestApiHelper,
-} from './gr-rest-api-helper-old';
+import {GrRestApiHelper} from './gr-rest-api-helper-old';
 import {assertFails, waitEventLoop} from '../../../../test/test-utils';
 import {FakeScheduler} from '../../../../services/scheduler/fake-scheduler';
 import {RetryScheduler} from '../../../../services/scheduler/retry-scheduler';
@@ -18,6 +14,7 @@ import {SinonFakeTimers} from 'sinon';
 import {assert} from '@open-wc/testing';
 import {AuthService} from '../../../../services/gr-auth/gr-auth';
 import {GrAuthMock} from '../../../../services/gr-auth/gr-auth_mock';
+import {FetchPromisesCache, SiteBasedCache} from './gr-rest-api-helper';
 
 function makeParsedJSON<T>(val: T): ParsedJSON {
   return val as unknown as ParsedJSON;

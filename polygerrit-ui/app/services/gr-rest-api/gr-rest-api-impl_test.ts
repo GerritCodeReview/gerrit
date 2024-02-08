@@ -412,7 +412,7 @@ suite('gr-rest-api-service-impl tests', () => {
     const account = createAccountDetailWithId();
     element._cache.set(cacheKey, account as unknown as ParsedJSON);
     const stub = sinon
-      .stub(element._restApiHelper, 'fetchCacheURL')
+      .stub(element._restApiHelperNew, 'fetchCacheJSON')
       .callsFake(async req => {
         req.errFn!(undefined);
         return undefined;
@@ -429,7 +429,7 @@ suite('gr-rest-api-service-impl tests', () => {
     const account = createAccountDetailWithId();
     element._cache.set(cacheKey, account as unknown as ParsedJSON);
     const stub = sinon
-      .stub(element._restApiHelper, 'fetchCacheURL')
+      .stub(element._restApiHelperNew, 'fetchCacheJSON')
       .callsFake(async req => {
         req.errFn!(new Response(undefined, {status: 403}));
         return undefined;
@@ -445,7 +445,7 @@ suite('gr-rest-api-service-impl tests', () => {
     const cacheKey = '/accounts/self/detail';
     const account = createAccountDetailWithId();
     const stub = sinon
-      .stub(element._restApiHelper, 'fetchCacheURL')
+      .stub(element._restApiHelperNew, 'fetchCacheJSON')
       .callsFake(async () => {
         element._cache.set(cacheKey, account as unknown as ParsedJSON);
         return undefined;
@@ -465,7 +465,7 @@ suite('gr-rest-api-service-impl tests', () => {
       .stub(element, 'getLoggedIn')
       .callsFake(() => Promise.resolve(loggedIn));
     sinon
-      .stub(element._restApiHelper, 'fetchCacheURL')
+      .stub(element._restApiHelperNew, 'fetchCacheJSON')
       .callsFake(() => Promise.resolve(testJSON as ParsedJSON));
   };
 
@@ -927,29 +927,29 @@ suite('gr-rest-api-service-impl tests', () => {
 
   suite('getRepos', () => {
     const defaultQuery = '';
-    let fetchCacheURLStub: sinon.SinonStub;
+    let fetchCacheJSONStub: sinon.SinonStub;
     setup(() => {
-      fetchCacheURLStub = sinon
-        .stub(element._restApiHelper, 'fetchCacheURL')
+      fetchCacheJSONStub = sinon
+        .stub(element._restApiHelperNew, 'fetchCacheJSON')
         .resolves([] as unknown as ParsedJSON);
     });
 
     test('normal use', () => {
       element.getRepos('test', 25);
       assert.equal(
-        fetchCacheURLStub.lastCall.args[0].url,
+        fetchCacheJSONStub.lastCall.args[0].url,
         '/projects/?n=26&S=0&d=&m=test'
       );
 
       element.getRepos(undefined, 25);
       assert.equal(
-        fetchCacheURLStub.lastCall.args[0].url,
+        fetchCacheJSONStub.lastCall.args[0].url,
         `/projects/?n=26&S=0&d=&m=${defaultQuery}`
       );
 
       element.getRepos('test', 25, 25);
       assert.equal(
-        fetchCacheURLStub.lastCall.args[0].url,
+        fetchCacheJSONStub.lastCall.args[0].url,
         '/projects/?n=26&S=25&d=&m=test'
       );
     });
@@ -957,7 +957,7 @@ suite('gr-rest-api-service-impl tests', () => {
     test('with blank', () => {
       element.getRepos('test/test', 25);
       assert.equal(
-        fetchCacheURLStub.lastCall.args[0].url,
+        fetchCacheJSONStub.lastCall.args[0].url,
         '/projects/?n=26&S=0&d=&m=test%2Ftest'
       );
     });
@@ -965,7 +965,7 @@ suite('gr-rest-api-service-impl tests', () => {
     test('with hyphen', () => {
       element.getRepos('foo-bar', 25);
       assert.equal(
-        fetchCacheURLStub.lastCall.args[0].url,
+        fetchCacheJSONStub.lastCall.args[0].url,
         '/projects/?n=26&S=0&d=&m=foo-bar'
       );
     });
@@ -973,7 +973,7 @@ suite('gr-rest-api-service-impl tests', () => {
     test('with leading hyphen', () => {
       element.getRepos('-bar', 25);
       assert.equal(
-        fetchCacheURLStub.lastCall.args[0].url,
+        fetchCacheJSONStub.lastCall.args[0].url,
         '/projects/?n=26&S=0&d=&m=-bar'
       );
     });
@@ -981,7 +981,7 @@ suite('gr-rest-api-service-impl tests', () => {
     test('with trailing hyphen', () => {
       element.getRepos('foo-bar-', 25);
       assert.equal(
-        fetchCacheURLStub.lastCall.args[0].url,
+        fetchCacheJSONStub.lastCall.args[0].url,
         '/projects/?n=26&S=0&d=&m=foo-bar-'
       );
     });
@@ -989,7 +989,7 @@ suite('gr-rest-api-service-impl tests', () => {
     test('with underscore', () => {
       element.getRepos('foo_bar', 25);
       assert.equal(
-        fetchCacheURLStub.lastCall.args[0].url,
+        fetchCacheJSONStub.lastCall.args[0].url,
         '/projects/?n=26&S=0&d=&m=foo_bar'
       );
     });
@@ -997,7 +997,7 @@ suite('gr-rest-api-service-impl tests', () => {
     test('with underscore', () => {
       element.getRepos('foo_bar', 25);
       assert.equal(
-        fetchCacheURLStub.lastCall.args[0].url,
+        fetchCacheJSONStub.lastCall.args[0].url,
         '/projects/?n=26&S=0&d=&m=foo_bar'
       );
     });
@@ -1005,7 +1005,7 @@ suite('gr-rest-api-service-impl tests', () => {
     test('hyphen only', () => {
       element.getRepos('-', 25);
       assert.equal(
-        fetchCacheURLStub.lastCall.args[0].url,
+        fetchCacheJSONStub.lastCall.args[0].url,
         '/projects/?n=26&S=0&d=&m=-'
       );
     });
@@ -1013,7 +1013,7 @@ suite('gr-rest-api-service-impl tests', () => {
     test('using query', () => {
       element.getRepos('description:project', 25);
       assert.equal(
-        fetchCacheURLStub.lastCall.args[0].url,
+        fetchCacheJSONStub.lastCall.args[0].url,
         '/projects/?n=26&S=0&query=description%3Aproject'
       );
     });
@@ -1043,24 +1043,30 @@ suite('gr-rest-api-service-impl tests', () => {
   });
 
   suite('getGroups', () => {
-    let fetchCacheURLStub: sinon.SinonStub;
+    let fetchCacheJSONStub: sinon.SinonStub;
     setup(() => {
-      fetchCacheURLStub = sinon.stub(element._restApiHelper, 'fetchCacheURL');
+      fetchCacheJSONStub = sinon.stub(
+        element._restApiHelperNew,
+        'fetchCacheJSON'
+      );
     });
 
     test('normal use', () => {
       element.getGroups('test', 25);
       assert.equal(
-        fetchCacheURLStub.lastCall.args[0].url,
+        fetchCacheJSONStub.lastCall.args[0].url,
         '/groups/?n=26&S=0&m=test'
       );
 
       element.getGroups('', 25);
-      assert.equal(fetchCacheURLStub.lastCall.args[0].url, '/groups/?n=26&S=0');
+      assert.equal(
+        fetchCacheJSONStub.lastCall.args[0].url,
+        '/groups/?n=26&S=0'
+      );
 
       element.getGroups('test', 25, 25);
       assert.equal(
-        fetchCacheURLStub.lastCall.args[0].url,
+        fetchCacheJSONStub.lastCall.args[0].url,
         '/groups/?n=26&S=25&m=test'
       );
     });
@@ -1068,13 +1074,13 @@ suite('gr-rest-api-service-impl tests', () => {
     test('regex', () => {
       element.getGroups('^test.*', 25);
       assert.equal(
-        fetchCacheURLStub.lastCall.args[0].url,
+        fetchCacheJSONStub.lastCall.args[0].url,
         '/groups/?n=26&S=0&r=%5Etest.*'
       );
 
       element.getGroups('^test.*', 25, 25);
       assert.equal(
-        fetchCacheURLStub.lastCall.args[0].url,
+        fetchCacheJSONStub.lastCall.args[0].url,
         '/groups/?n=26&S=25&r=%5Etest.*'
       );
     });
@@ -1105,6 +1111,14 @@ suite('gr-rest-api-service-impl tests', () => {
   });
 
   suite('getChangeDetail', () => {
+    let getConfigStub: sinon.SinonStub;
+
+    setup(() => {
+      getConfigStub = sinon
+        .stub(element, 'getConfig')
+        .resolves(createServerInfo());
+    });
+
     suite('change detail options', () => {
       let changeDetailStub: sinon.SinonStub;
       setup(() => {
@@ -1114,7 +1128,7 @@ suite('gr-rest-api-service-impl tests', () => {
       });
 
       test('signed pushes disabled', async () => {
-        sinon.stub(element, 'getConfig').resolves({
+        getConfigStub.resolves({
           ...createServerInfo(),
           receive: {enable_signed_push: undefined},
         });
@@ -1127,7 +1141,7 @@ suite('gr-rest-api-service-impl tests', () => {
       });
 
       test('signed pushes enabled', async () => {
-        sinon.stub(element, 'getConfig').resolves({
+        getConfigStub.resolves({
           ...createServerInfo(),
           receive: {enable_signed_push: 'true'},
         });
@@ -1491,17 +1505,17 @@ suite('gr-rest-api-service-impl tests', () => {
   });
 
   test('getDashboard', () => {
-    const fetchCacheURLStub = sinon.stub(
-      element._restApiHelper,
-      'fetchCacheURL'
+    const fetchCacheJSONStub = sinon.stub(
+      element._restApiHelperNew,
+      'fetchCacheJSON'
     );
     element.getDashboard(
       'gerrit/project' as RepoName,
       'default:main' as DashboardId
     );
-    assert.isTrue(fetchCacheURLStub.calledOnce);
+    assert.isTrue(fetchCacheJSONStub.calledOnce);
     assert.equal(
-      fetchCacheURLStub.lastCall.args[0].url,
+      fetchCacheJSONStub.lastCall.args[0].url,
       '/projects/gerrit%2Fproject/dashboards/default%3Amain'
     );
   });

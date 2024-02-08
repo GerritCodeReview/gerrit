@@ -539,13 +539,9 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       plannedAttentionSetUpdates = new HashMap<>();
     }
 
-    Set<Account.Id> currentAccountUpdates =
-        plannedAttentionSetUpdates.values().stream()
-            .map(AttentionSetUpdate::account)
-            .collect(Collectors.toSet());
-    updates.stream()
-        .filter(u -> !currentAccountUpdates.contains(u.account()))
-        .forEach(u -> plannedAttentionSetUpdates.putIfAbsent(u.account(), u));
+    // Only add attention set updates for users for which no attention set update has been planned
+    // yet.
+    updates.stream().forEach(u -> plannedAttentionSetUpdates.putIfAbsent(u.account(), u));
   }
 
   public void addToPlannedAttentionSetUpdates(AttentionSetUpdate update) {

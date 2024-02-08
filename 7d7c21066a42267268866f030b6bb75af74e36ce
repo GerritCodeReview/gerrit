@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7bf85d02_1a972862",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-02-08T15:52:01Z",
+      "side": 1,
+      "message": "reuse existing up-to-date documents",
+      "range": {
+        "startLine": 16,
+        "startChar": 61,
+        "endLine": 17,
+        "endChar": 9
+      },
+      "revId": "7d7c21066a42267268866f030b6bb75af74e36ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0889a6ab_96ea6fc2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-02-08T15:52:01Z",
+      "side": 1,
+      "message": "remove this sentence as it adds nothing to the next sentence.",
+      "range": {
+        "startLine": 17,
+        "startChar": 23,
+        "endLine": 17,
+        "endChar": 68
+      },
+      "revId": "7d7c21066a42267268866f030b6bb75af74e36ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bee7a53b_4b162360",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-02-08T15:52:01Z",
+      "side": 1,
+      "message": "reuse",
+      "range": {
+        "startLine": 18,
+        "startChar": 7,
+        "endLine": 18,
+        "endChar": 11
+      },
+      "revId": "7d7c21066a42267268866f030b6bb75af74e36ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7986f34e_5122fcd2",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-02-08T15:52:01Z",
+      "side": 1,
+      "message": "The if-condition with both left and right operands of the `||` negated is hard to read. Invert the condition and swap the then/else branches:\n```\nif (reuseExistingDocuments \u0026\u0026 indexer.isChangeAlreadyIndexed(r.id())) {\n  indexer.autoReindexLatestWriteIndexIfStale(cd);\n  ...\n} else {\n  indexer.index(cd);\n  ...\n}\n```",
+      "revId": "7d7c21066a42267268866f030b6bb75af74e36ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a261c8e_8558191d",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-02-08T15:52:01Z",
+      "side": 1,
+      "message": "We don\u0027t know for sure if it was skipped because if it was stale then it wasn\u0027t skipped. Either log something like `\"Staleness check for change %d (project: %s)\"` or return a result from the `autoReindexLatestWriteIndexIfStale` that tell if the change was stale/skipped or reindexed.",
+      "revId": "7d7c21066a42267268866f030b6bb75af74e36ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08595120_0d972d20",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeIndexer.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-02-08T15:52:01Z",
+      "side": 1,
+      "message": "This is overwritten immediately in the line 390. Line 390 should be in the `else` block.",
+      "revId": "7d7c21066a42267268866f030b6bb75af74e36ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

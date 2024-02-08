@@ -36,9 +36,8 @@ export interface Command {
 
 @customElement('gr-download-commands')
 export class GrDownloadCommands extends LitElement {
-  // TODO(TS): maybe default to [] as only used in dom-repeat
   @property({type: Array})
-  commands?: Command[];
+  commands: Command[] = [];
 
   // private but used in test
   @state() loggedIn = false;
@@ -48,6 +47,10 @@ export class GrDownloadCommands extends LitElement {
 
   @property({type: String})
   selectedScheme?: string;
+
+  // description of selected scheme
+  @property({type: String})
+  description?: string;
 
   @property({type: Boolean, attribute: 'show-keyboard-shortcut-tooltips'})
   showKeyboardShortcutTooltips = false;
@@ -121,6 +124,9 @@ export class GrDownloadCommands extends LitElement {
           display: flex;
           justify-content: space-between;
         }
+        .description {
+          margin-bottom: var(--spacing-m);
+        }
         .commands {
           display: flex;
           flex-direction: column;
@@ -138,7 +144,7 @@ export class GrDownloadCommands extends LitElement {
   override render() {
     return html`
       <div class="schemes">${this.renderDownloadTabs()}</div>
-      ${this.renderCommands()}
+      ${this.renderDescription()} ${this.renderCommands()}
     `;
   }
 
@@ -155,6 +161,11 @@ export class GrDownloadCommands extends LitElement {
         ${this.schemes.map(scheme => this.renderPaperTab(scheme))}
       </paper-tabs>
     `;
+  }
+
+  private renderDescription() {
+    if (!this.description) return;
+    return html`<div class="description">${this.description}</div>`;
   }
 
   private renderPaperTab(scheme: string) {

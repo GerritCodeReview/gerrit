@@ -7,10 +7,7 @@
 
 import {GrEtagDecorator} from '../../elements/shared/gr-rest-api-interface/gr-etag-decorator';
 import {
-  FetchJSONRequest,
-  FetchParams,
   GrRestApiHelper,
-  parsePrefixedJSON,
   SendJSONRequest,
   SendRequest,
 } from '../../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper-old';
@@ -120,7 +117,6 @@ import {
   IgnoreWhitespaceType,
 } from '../../types/diff';
 import {
-  CancelConditionCallback,
   GetDiffCommentsOutput,
   GetDiffRobotCommentsOutput,
   RestApiService,
@@ -148,8 +144,11 @@ import {FlagsService, KnownExperimentId} from '../flags/flags';
 import {RetryScheduler} from '../scheduler/retry-scheduler';
 import {FixReplacementInfo} from '../../api/rest-api';
 import {
+  FetchParams,
   FetchPromisesCache,
+  FetchRequest,
   GrRestApiHelper as GrRestApiHelperNew,
+  parsePrefixedJSON,
   readJSONResponsePayload,
   SiteBasedCache,
 } from '../../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
@@ -349,7 +348,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       }) as Promise<ServerInfo | undefined>;
     }
 
-    return this._restApiHelper.fetchJSON({
+    return this._restApiHelperNew.fetchJSON({
       url: '/config/server/info',
       reportUrlAsIs: true,
     }) as Promise<ServerInfo | undefined>;
@@ -454,7 +453,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     group: GroupId | GroupName,
     errFn?: ErrorCallback
   ): Promise<GroupInfo | undefined> {
-    return this._restApiHelper.fetchJSON({
+    return this._restApiHelperNew.fetchJSON({
       url: `/groups/${encodeURIComponent(group)}/detail`,
       errFn,
       anonymizedUrl: '/groups/*/detail',
@@ -535,7 +534,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   getGroupMembers(groupName: GroupId | GroupName): Promise<AccountInfo[]> {
     const encodeName = encodeURIComponent(groupName);
-    return this._restApiHelper.fetchJSON({
+    return this._restApiHelperNew.fetchJSON({
       url: `/groups/${encodeName}/members/`,
       anonymizedUrl: '/groups/*/members',
     }) as unknown as Promise<AccountInfo[]>;
@@ -544,7 +543,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   getIncludedGroup(
     groupName: GroupId | GroupName
   ): Promise<GroupInfo[] | undefined> {
-    return this._restApiHelper.fetchJSON({
+    return this._restApiHelperNew.fetchJSON({
       url: `/groups/${encodeURIComponent(groupName)}/groups/`,
       anonymizedUrl: '/groups/*/groups',
     }) as Promise<GroupInfo[] | undefined>;
@@ -774,7 +773,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   getExternalIds() {
-    return this._restApiHelper.fetchJSON({
+    return this._restApiHelperNew.fetchJSON({
       url: '/accounts/self/external.ids',
       reportUrlAsIs: true,
     }) as Promise<AccountExternalIdInfo[] | undefined>;
@@ -961,21 +960,21 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   getAccountStatus(userId: AccountId) {
-    return this._restApiHelper.fetchJSON({
+    return this._restApiHelperNew.fetchJSON({
       url: `/accounts/${encodeURIComponent(userId)}/status`,
       anonymizedUrl: '/accounts/*/status',
     }) as Promise<string | undefined>;
   }
 
   getAccountGroups() {
-    return this._restApiHelper.fetchJSON({
+    return this._restApiHelperNew.fetchJSON({
       url: '/accounts/self/groups',
       reportUrlAsIs: true,
     }) as Promise<GroupInfo[] | undefined>;
   }
 
   getAccountAgreements() {
-    return this._restApiHelper.fetchJSON({
+    return this._restApiHelperNew.fetchJSON({
       url: '/accounts/self/agreements',
       reportUrlAsIs: true,
     }) as Promise<ContributorAgreementInfo[] | undefined>;
@@ -1130,7 +1129,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     );
 
     return Promise.resolve(
-      this._restApiHelper.fetchJSON(request, true) as Promise<
+      this._restApiHelperNew.fetchJSON(request, true) as Promise<
         ChangeInfo[] | ChangeInfo[][] | undefined
       >
     ).then(response => {
@@ -1176,7 +1175,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     );
 
     return Promise.resolve(
-      this._restApiHelper.fetchJSON(
+      this._restApiHelperNew.fetchJSON(
         {
           ...request,
           errFn,
@@ -1235,18 +1234,12 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   async getChangeDetail(
     changeNum?: NumericChangeId,
-    errFn?: ErrorCallback,
-    cancelCondition?: CancelConditionCallback
+    errFn?: ErrorCallback
   ): Promise<ParsedChangeInfo | undefined> {
     if (!changeNum) return;
     const optionsHex = await this.getChangeOptionsHex();
 
-    return this._getChangeDetail(
-      changeNum,
-      optionsHex,
-      errFn,
-      cancelCondition
-    ).then(detail =>
+    return this._getChangeDetail(changeNum, optionsHex, errFn).then(detail =>
       // detail has ChangeViewChangeInfo type because the optionsHex always
       // includes ALL_REVISIONS flag.
       GrReviewerUpdatesParser.parse(detail as ChangeViewChangeInfo)
@@ -1341,22 +1334,20 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   _getChangeDetail(
     changeNum: NumericChangeId,
     optionsHex: string,
-    errFn?: ErrorCallback,
-    cancelCondition?: CancelConditionCallback
+    errFn?: ErrorCallback
   ): Promise<ChangeInfo | undefined> {
     return this.getChangeActionURL(changeNum, undefined, '/detail').then(
       url => {
         const params: FetchParams = {O: optionsHex};
-        const urlWithParams = this._restApiHelper.urlWithParams(url, params);
-        const req: FetchJSONRequest = {
+        const urlWithParams = this._restApiHelperNew.urlWithParams(url, params);
+        const req: FetchRequest = {
           url,
           errFn,
-          cancelCondition,
           params,
           fetchOptions: this._etags.getOptions(urlWithParams),
           anonymizedUrl: '/changes/*~*/detail?O=' + optionsHex,
         };
-        return this._restApiHelper.fetchRawJSON(req).then(response => {
+        return this._restApiHelperNew.fetch(req).then(response => {
           if (response?.status === 304) {
             return parsePrefixedJSON(
               // urlWithParams already cached
@@ -1675,7 +1666,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     const url = `/projects/${encodedRepo}/branches?n=${count}&S=${offset}${filter}`;
     // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
     // supports it.
-    return this._restApiHelper.fetchJSON({
+    return this._restApiHelperNew.fetchJSON({
       url,
       errFn,
       anonymizedUrl: '/projects/*/branches?*',
@@ -1697,7 +1688,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       `/projects/${encodedRepo}/tags` + `?n=${n}&S=${offset}` + encodedFilter;
     // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
     // supports it.
-    return this._restApiHelper.fetchJSON({
+    return this._restApiHelperNew.fetchJSON({
       url,
       errFn,
       anonymizedUrl: '/projects/*/tags',
@@ -1714,7 +1705,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     const encodedFilter = this._computeFilter(filter);
     const n = pluginsPerPage + 1;
     const url = `/plugins/?all&n=${n}&S=${offset}${encodedFilter}`;
-    return this._restApiHelper.fetchJSON({
+    return this._restApiHelperNew.fetchJSON({
       url,
       errFn,
       anonymizedUrl: '/plugins/?all',
@@ -1727,7 +1718,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   ): Promise<ProjectAccessInfo | undefined> {
     // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
     // supports it.
-    return this._restApiHelper.fetchJSON({
+    return this._restApiHelperNew.fetchJSON({
       url: `/projects/${encodeURIComponent(repoName)}/access`,
       errFn,
       anonymizedUrl: '/projects/*/access',
@@ -1774,7 +1765,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     if (project) {
       params.p = project;
     }
-    return this._restApiHelper.fetchJSON({
+    return this._restApiHelperNew.fetchJSON({
       url: '/groups/',
       params,
       reportUrlAsIs: true,
@@ -1795,7 +1786,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     if (n) {
       params.n = n;
     }
-    return this._restApiHelper.fetchJSON({
+    return this._restApiHelperNew.fetchJSON({
       url: '/projects/',
       params,
       reportUrlAsIs: true,
@@ -1832,7 +1823,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     if (n) {
       params.n = n;
     }
-    return this._restApiHelper.fetchJSON({
+    return this._restApiHelperNew.fetchJSON({
       url: '/accounts/',
       params,
       anonymizedUrl: '/accounts/?n=*',
@@ -1847,7 +1838,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       params.q = inputVal;
     }
     if (!params.q) return Promise.resolve([]);
-    return this._restApiHelper.fetchJSON({
+    return this._restApiHelperNew.fetchJSON({
       url: '/accounts/',
       params,
     }) as Promise<AccountInfo[] | undefined>;
@@ -1939,7 +1930,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       O: options,
       q: `status:open conflicts:${changeNum}`,
     };
-    return this._restApiHelper.fetchJSON({
+    return this._restApiHelperNew.fetchJSON({
       url: '/changes/',
       params,
       anonymizedUrl: '/changes/conflicts:*',
@@ -1965,7 +1956,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       O: options,
       q: query,
     };
-    return this._restApiHelper.fetchJSON({
+    return this._restApiHelperNew.fetchJSON({
       url: '/changes/',
       params,
       anonymizedUrl: '/changes/change:*',
@@ -1997,7 +1988,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       O: requestOptions,
       q: queryTerms.join(' '),
     };
-    return this._restApiHelper.fetchJSON({
+    return this._restApiHelperNew.fetchJSON({
       url: '/changes/',
       params,
       anonymizedUrl: '/changes/topic:*',
@@ -2009,7 +2000,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     errFn?: ErrorCallback
   ): Promise<ChangeInfo[] | undefined> {
     const query = `intopic:${escapeAndWrapSearchOperatorValue(topic)}`;
-    return this._restApiHelper.fetchJSON({
+    return this._restApiHelperNew.fetchJSON({
       url: '/changes/',
       params: {q: query},
       anonymizedUrl: '/changes/intopic:*',
@@ -2022,7 +2013,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     errFn?: ErrorCallback
   ): Promise<ChangeInfo[] | undefined> {
     const query = `inhashtag:${escapeAndWrapSearchOperatorValue(hashtag)}`;
-    return this._restApiHelper.fetchJSON({
+    return this._restApiHelperNew.fetchJSON({
       url: '/changes/',
       params: {q: query},
       anonymizedUrl: '/changes/inhashtag:*',
@@ -2842,7 +2833,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     repo: RepoName,
     commit: CommitId
   ): Promise<CommitInfo | undefined> {
-    return this._restApiHelper.fetchJSON({
+    return this._restApiHelperNew.fetchJSON({
       url:
         '/projects/' +
         encodeURIComponent(repo) +
@@ -2853,7 +2844,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   _fetchB64File(url: string): Promise<Base64File> {
-    return this._restApiHelper
+    return this._restApiHelperNew
       .fetch({url: getBaseUrl() + url})
       .then(response => {
         if (!response.ok) {
@@ -3070,7 +3061,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   getAccountGPGKeys() {
-    return this._restApiHelper.fetchJSON({
+    return this._restApiHelperNew.fetchJSON({
       url: '/accounts/self/gpgkeys',
       reportUrlAsIs: true,
     }) as Promise<unknown> as Promise<Record<string, GpgKeyInfo>>;
@@ -3149,7 +3140,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   getCapabilities(
     errFn?: ErrorCallback
   ): Promise<CapabilityInfoMap | undefined> {
-    return this._restApiHelper.fetchJSON({
+    return this._restApiHelperNew.fetchJSON({
       url: '/config/server/capabilities',
       errFn,
       reportUrlAsIs: true,
@@ -3214,7 +3205,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       // _projectLookup can only store NumericChangeId, so we are sure that
       // changeNum is NumericChangeId in this case.
       return this._changeBaseURL(changeNum as NumericChangeId).then(url =>
-        this._restApiHelper.fetchJSON(
+        this._restApiHelperNew.fetchJSON(
           {
             url,
             errFn,
@@ -3224,7 +3215,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
         )
       ) as Promise<ChangeInfo | undefined>;
     } else {
-      return this._restApiHelper
+      return this._restApiHelperNew
         .fetchJSON(
           {
             url: `/changes/?q=change:${changeNum}`,
@@ -3337,7 +3328,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       ? ANONYMIZED_REVISION_BASE_URL
       : ANONYMIZED_CHANGE_BASE_URL;
     return this._changeBaseURL(req.changeNum, req.revision).then(url =>
-      this._restApiHelper.fetchJSON(
+      this._restApiHelperNew.fetchJSON(
         {
           url: url + req.endpoint,
           errFn: req.errFn,

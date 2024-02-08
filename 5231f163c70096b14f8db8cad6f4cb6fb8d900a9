@@ -51,6 +51,24 @@
       "parentUuid": "b3b6edb2_cf887f76",
       "revId": "5231f163c70096b14f8db8cad6f4cb6fb8d900a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f47d96c_a0f544af",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-08T22:20:27Z",
+      "side": 1,
+      "message": "If we add the `server_id` field here, is going to be of any help?\n\nThe fields are supposed to be searchable by an end-user, I am not sure any Gerrit user is aware of the `server_id` of the server they are connected to and would be willing to add it for every query to a change number.\n\nI agree with @ponch78@gmail.com that would be best to keep the document ids as they are and just allow to search *explicitly* by change number, which was missing.\n\nThe search by document-id was _implicitly_ a search by change number because of the `legacy_id_str`, but that was an assumption, valid until Gerrit v3.7 with imported changes.",
+      "parentUuid": "89ef6aff_d0768604",
+      "revId": "5231f163c70096b14f8db8cad6f4cb6fb8d900a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

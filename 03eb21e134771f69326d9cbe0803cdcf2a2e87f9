@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf3b0da0_6b98c465",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReviewersUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2024-02-09T08:46:25Z",
+      "side": 1,
+      "message": "that seems like a rather ugly workaround to me. the filtering should be applied already during the query, possibly via a callback.\n\nalso, the comment is in a place where it\u0027s pre-destined for getting out of sync.",
+      "revId": "03eb21e134771f69326d9cbe0803cdcf2a2e87f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

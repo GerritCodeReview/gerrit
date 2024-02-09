@@ -47,6 +47,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7081847_e10c58e3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 27
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-02-09T15:44:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56a47488_b8cf739b",
+      "range": {
+        "startLine": 9,
+        "startChar": 27,
+        "endLine": 9,
+        "endChar": 53
+      },
+      "revId": "96013b5ce96752836bd68a4b0e8cc72cdde76f08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd703d66_ed70660a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 27
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-02-09T15:44:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9057b88a_1d878fed",
+      "range": {
+        "startLine": 9,
+        "startChar": 11,
+        "endLine": 9,
+        "endChar": 21
+      },
+      "revId": "96013b5ce96752836bd68a4b0e8cc72cdde76f08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "01afa165_538efe5c",
@@ -64,6 +112,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e8c1b0c_c9c7a31c",
+        "filename": "java/com/google/gerrit/server/query/change/ChangePredicates.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-02-09T15:44:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "01afa165_538efe5c",
+      "revId": "96013b5ce96752836bd68a4b0e8cc72cdde76f08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "00531fb7_0f9e51bf",
@@ -77,6 +143,30 @@
       "writtenOn": "2024-02-09T12:33:06Z",
       "side": 1,
       "message": "This looks wrong, we are matching the `PAT_LEGACY_ID` which is the index Document-Id, therefore it should stay as `ChangePredicates.idStr()` otherwise we lose the ability to fetch by that id.",
+      "range": {
+        "startLine": 611,
+        "startChar": 31,
+        "endLine": 611,
+        "endChar": 44
+      },
+      "revId": "96013b5ce96752836bd68a4b0e8cc72cdde76f08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "125b845b_25e77e67",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 611,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-02-09T15:44:26Z",
+      "side": 1,
+      "message": "I believe this is correct. These are the regexp for the 3 clauses in the if...else:\n\n```\n# Basically a number\nPAT_LEGACY_ID \u003d Pattern.compile(\"^[1-9][0-9]*$\");\n\n# project and number, i.e.: test-project~1234\nPAT_PROJECT_CHANGE_NUM \u003d Pattern.compile(\"^([^~]+)~([1-9][0-9]*)$\");\n\n# change id, i.e.  I6454f...\nPAT_CHANGE_ID \u003d Pattern.compile(CHANGE_ID_PATTERN);\n```\n\n`ChangePredicates.changeNumber` is used when matching `PAT_LEGACY_ID`, i.e.: when searching for a change number.\n\nThis is triggered, for example, when doing a query like: `change:123` so it is correct to use the `changenumber` field to query the index.\n\nThe `legacy_id_str` is the unique id of the indexed document, but it is not exposed to the end user as search field. The user doesn\u0027t know how internally a change number is remapped when importing it into another server.",
+      "parentUuid": "00531fb7_0f9e51bf",
       "range": {
         "startLine": 611,
         "startChar": 31,

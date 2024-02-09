@@ -22,6 +22,30 @@
       },
       "revId": "4d1817bbc7d96b6a27860f76a838be3c6310ca68",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1128413f_9f8b1eb9",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 603,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-09T12:33:06Z",
+      "side": 1,
+      "message": "Ack, we don\u0027t need the `Ints.tryParse()` because `PAT_PROJECT_CHANGE_NUM` enforces it via regex, which is `([1-9][0-9]*)$`",
+      "parentUuid": "aec662d9_8f1a6935",
+      "range": {
+        "startLine": 602,
+        "startChar": 6,
+        "endLine": 603,
+        "endChar": 23
+      },
+      "revId": "4d1817bbc7d96b6a27860f76a838be3c6310ca68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

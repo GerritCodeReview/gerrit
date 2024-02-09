@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56a47488_b8cf739b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 27
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-09T12:33:06Z",
+      "side": 1,
+      "message": "I believe you should list here the queries that have been modified by this change:\n- get drafts by user\n- query changes by project~changeNum\n- conflicts with change",
+      "range": {
+        "startLine": 9,
+        "startChar": 27,
+        "endLine": 9,
+        "endChar": 53
+      },
+      "revId": "96013b5ce96752836bd68a4b0e8cc72cdde76f08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9057b88a_1d878fed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 27
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-09T12:33:06Z",
+      "side": 1,
+      "message": "The index\u0027s document-id",
+      "range": {
+        "startLine": 9,
+        "startChar": 11,
+        "endLine": 9,
+        "endChar": 21
+      },
+      "revId": "96013b5ce96752836bd68a4b0e8cc72cdde76f08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01afa165_538efe5c",
+        "filename": "java/com/google/gerrit/server/query/change/ChangePredicates.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-09T12:33:06Z",
+      "side": 1,
+      "message": "I believe this deserves its own JavaDoc, mentioning how this is different from the existing one at L93.\n\nFrom the code, my understanding is that the above uses the Document-Id of the change (the legacy_id string of the change number), whilst this new one uses explicitly a predicate on the change number.",
+      "revId": "96013b5ce96752836bd68a4b0e8cc72cdde76f08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00531fb7_0f9e51bf",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 611,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-09T12:33:06Z",
+      "side": 1,
+      "message": "This looks wrong, we are matching the `PAT_LEGACY_ID` which is the index Document-Id, therefore it should stay as `ChangePredicates.idStr()` otherwise we lose the ability to fetch by that id.",
+      "range": {
+        "startLine": 611,
+        "startChar": 31,
+        "endLine": 611,
+        "endChar": 44
+      },
+      "revId": "96013b5ce96752836bd68a4b0e8cc72cdde76f08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

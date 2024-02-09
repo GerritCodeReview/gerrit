@@ -16,6 +16,24 @@
       "message": "that seems like a rather ugly workaround to me. the filtering should be applied already during the query, possibly via a callback.\n\nalso, the comment is in a place where it\u0027s pre-destined for getting out of sync.",
       "revId": "03eb21e134771f69326d9cbe0803cdcf2a2e87f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3cba0819_f7f31076",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReviewersUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2024-02-09T09:37:23Z",
+      "side": 1,
+      "message": "changes welcome",
+      "parentUuid": "bf3b0da0_6b98c465",
+      "revId": "03eb21e134771f69326d9cbe0803cdcf2a2e87f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

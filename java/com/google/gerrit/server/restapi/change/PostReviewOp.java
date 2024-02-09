@@ -654,8 +654,21 @@ public class PostReviewOp implements BatchUpdateOp {
         addLabelDelta(normName, c.value());
         oldApprovals.put(normName, previous.get(normName));
         approvals.put(normName, c.value());
-        update.putReviewer(user.getAccountId(), REVIEWER);
         update.putApproval(normName, ent.getValue());
+
+        // Votes may be applied on outdated patch sets, using a ChangeUpdate that was created for
+        // the outdated patch set. Reviewers however cannot be added on outdated patch sets, but
+        // only on the change. This means reviewers should always be added using a ChangeUpdate
+        // that was created for the current patch set.
+        // This is important so that updates on the current patch set that are done by other ops
+        // within the same BatchUpdate after this PostReviewOp was executed can see the reviewer
+        // updates. E.g. the AddToAttentionSetOp, that updates the attention set on the current
+        // patch set, needs to see newly added reviewers, as otherwise attention set updates for
+        // these reviewers are dropped (ChangeUpdate#updateAttentionSet drops attention set updates
+        // for users that are not active on the change, i.e. for users that are neither change
+        // owner, uploader nor reviewer).
+        ctx.getUpdate(notes.getChange().currentPatchSetId())
+            .putReviewer(user.getAccountId(), REVIEWER);
       }
     }
 

@@ -57,6 +57,7 @@ import {select} from '../../../utils/observable-util';
 import {resolve} from '../../../models/dependency';
 import {browserModelToken} from '../../../models/browser/browser-model';
 import {commentsModelToken} from '../../../models/comments/comments-model';
+import {RunResult, checksModelToken} from '../../../models/checks/checks-model';
 import {changeModelToken} from '../../../models/change/change-model';
 import {filesModelToken} from '../../../models/change/files-model';
 import {ShortcutController} from '../../lit/shortcut-controller';
@@ -86,6 +87,7 @@ import {
 import {userModelToken} from '../../../models/user/user-model';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {FileMode, fileModeToString} from '../../../utils/file-util';
+import {ChecksIcon, iconFor} from '../../../models/checks/checks-util';
 
 export const DEFAULT_NUM_FILES_SHOWN = 200;
 
@@ -198,6 +200,9 @@ export class GrFileList extends LitElement {
   @property({type: Object})
   changeComments?: ChangeComments;
 
+  @property({type: Array})
+  checkResults?: RunResult[];
+
   @state() selectedIndex = 0;
 
   @property({type: Object})
@@ -299,6 +304,8 @@ export class GrFileList extends LitElement {
   private readonly getFilesModel = resolve(this, filesModelToken);
 
   private readonly getCommentsModel = resolve(this, commentsModelToken);
+
+  private readonly getChecksModel = resolve(this, checksModelToken);
 
   private readonly getBrowserModel = resolve(this, browserModelToken);
 
@@ -643,6 +650,46 @@ export class GrFileList extends LitElement {
         :host(.hideComments) {
           --gr-comment-thread-display: none;
         }
+        .checkChip {
+          display: inline-flex;
+          align-items: center;
+          gap: var(--spacing-xs);
+          border: 1px solid;
+          border-radius: 999px;
+          padding: var(--spacing-xxs) var(--spacing-m) var(--spacing-xxs)
+            var(--spacing-s);
+          vertical-align: top;
+          position: relative;
+          top: 2px;
+          font-size: var(--font-size-small);
+          font-weight: var(--font-weight-normal);
+          line-height: var(--line-height-small);
+          color: var(--primary-text-color);
+          & gr-icon {
+            font-size: var(--line-height-small);
+          }
+          &.info {
+            border-color: var(--info-foreground);
+            background-color: var(--info-background);
+            & gr-icon {
+              color: var(--info-foreground);
+            }
+          }
+          &.warning {
+            border-color: var(--warning-foreground);
+            background-color: var(--warning-background);
+            & gr-icon {
+              color: var(--warning-foreground);
+            }
+          }
+          &.error {
+            border-color: var(--error-foreground);
+            background-color: var(--error-background);
+            & gr-icon {
+              color: var(--error-foreground);
+            }
+          }
+        }
       `,
     ];
   }
@@ -740,6 +787,13 @@ export class GrFileList extends LitElement {
       () => this.getCommentsModel().changeComments$,
       changeComments => {
         this.changeComments = changeComments;
+      }
+    );
+    subscribe(
+      this,
+      () => this.getChecksModel().allResultsSelected$,
+      results => {
+        this.checkResults = results;
       }
     );
     subscribe(
@@ -1280,6 +1334,7 @@ export class GrFileList extends LitElement {
     return html` <div role="gridcell">
       <div class="comments desktop">
         <span>${this.renderCommentsChips(file)}</span>
+        <span>${this.renderChecksChips(file)}</span>
         <span class="noCommentsScreenReaderText">
           <!-- Screen readers read the following content only if 2 other
           spans in the parent div is empty. The content is not visible on
@@ -1652,6 +1707,35 @@ export class GrFileList extends LitElement {
       .draftCount=${draftCount}
       emptyWhenNoComments
     ></gr-comments-summary>`;
+  }
+
+  renderChecksChips(file?: NormalizedFileInfo) {
+    if (!this.checkResults || !this.patchRange || !file?.__path) {
+      return nothing;
+    }
+
+    const iconsByName: Record<string, ChecksIcon[]> = {};
+    for (const result of this.checkResults ?? []) {
+      if (
+        result.codePointers === undefined ||
+        !result.codePointers.some(pointer => pointer.path === file.__path)
+      ) {
+        continue;
+      }
+      const icon = iconFor(result.category);
+      iconsByName[icon.name] ??= [];
+      iconsByName[icon.name].push(icon);
+    }
+
+    return Object.values(iconsByName).map(
+      icons =>
+        html`
+          <div class="checkChip ${icons[0].name}">
+            <gr-icon icon=${icons[0].name} ?filled=${icons[0].filled}></gr-icon>
+            <div>${icons.length}</div>
+          </div>
+        `
+    );
   }
 
   protected override firstUpdated(): void {

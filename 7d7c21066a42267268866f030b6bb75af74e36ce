@@ -165,6 +165,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "13bc1db6_bb1bfcf6",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 3493,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-02-09T14:41:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "061df41c_44e4c7d7",
+      "range": {
+        "startLine": 3493,
+        "startChar": 11,
+        "endLine": 3493,
+        "endChar": 15
+      },
+      "revId": "7d7c21066a42267268866f030b6bb75af74e36ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7986f34e_5122fcd2",
@@ -178,6 +202,24 @@
       "writtenOn": "2024-02-08T15:52:01Z",
       "side": 1,
       "message": "The if-condition with both left and right operands of the `||` negated is hard to read. Invert the condition and swap the then/else branches:\n```\nif (reuseExistingDocuments \u0026\u0026 indexer.isChangeAlreadyIndexed(r.id())) {\n  indexer.autoReindexLatestWriteIndexIfStale(cd);\n  ...\n} else {\n  indexer.index(cd);\n  ...\n}\n```",
+      "revId": "7d7c21066a42267268866f030b6bb75af74e36ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53435d23_84e64eb4",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-02-09T14:41:33Z",
+      "side": 1,
+      "message": "done in a different way",
+      "parentUuid": "7986f34e_5122fcd2",
       "revId": "7d7c21066a42267268866f030b6bb75af74e36ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -224,6 +266,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4b965a4a_ccab148a",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeIndexer.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-02-09T14:41:33Z",
+      "side": 1,
+      "message": "method removed",
+      "parentUuid": "1f60dc30_70eeed65",
+      "range": {
+        "startLine": 275,
+        "startChar": 2,
+        "endLine": 275,
+        "endChar": 8
+      },
+      "revId": "7d7c21066a42267268866f030b6bb75af74e36ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "08595120_0d972d20",
         "filename": "java/com/google/gerrit/server/index/change/ChangeIndexer.java",
         "patchSetId": 10
@@ -235,6 +301,24 @@
       "writtenOn": "2024-02-08T15:52:01Z",
       "side": 1,
       "message": "This is overwritten immediately in the line 390. Line 390 should be in the `else` block.",
+      "revId": "7d7c21066a42267268866f030b6bb75af74e36ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4bb727ed_a4d7adca",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeIndexer.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-02-09T14:41:33Z",
+      "side": 1,
+      "message": "method removed",
+      "parentUuid": "08595120_0d972d20",
       "revId": "7d7c21066a42267268866f030b6bb75af74e36ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

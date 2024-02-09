@@ -73,6 +73,7 @@ public class AddToAttentionSetOp implements BatchUpdateOp {
         .anyMatch(
             u ->
                 u.account().equals(attentionUserId)
+                    && u.reason().equals(reason)
                     && u.operation() == AttentionSetUpdate.Operation.ADD)) {
       // We still need to perform this update to ensure that we don't remove the user in a follow-up
       // operation, but no need to send an email about it.

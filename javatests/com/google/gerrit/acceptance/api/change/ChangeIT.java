@@ -1180,7 +1180,6 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   public void attentionSetListener_firesOnChange() throws Exception {
     PushOneCommit.Result r1 = createChange();
-    AttentionSetInput addUser = new AttentionSetInput(user.email(), "some reason");
     TestAttentionSetListener attentionSetListener = new TestAttentionSetListener();
 
     try (Registration registration =
@@ -1194,12 +1193,24 @@ public class ChangeIT extends AbstractDaemonTest {
           .usersAdded()
           .forEach(u -> assertThat(u).isEqualTo(user.id().get()));
 
+      // Adding the user with the same reason doesn't fire an event.
+      AttentionSetInput addUser = new AttentionSetInput(user.email(), "Reviewer was added");
       gApi.changes().id(r1.getChangeId()).addToAttentionSet(addUser);
       assertThat(attentionSetListener.firedCount).isEqualTo(1);
 
-      gApi.changes().id(r1.getChangeId()).attention(user.username()).remove(addUser);
-
+      // Adding the user with a different reason fires an event.
+      addUser = new AttentionSetInput(user.email(), "some reason");
+      gApi.changes().id(r1.getChangeId()).addToAttentionSet(addUser);
       assertThat(attentionSetListener.firedCount).isEqualTo(2);
+      assertThat(attentionSetListener.lastEvent.usersAdded().size()).isEqualTo(1);
+      attentionSetListener
+          .lastEvent
+          .usersAdded()
+          .forEach(u -> assertThat(u).isEqualTo(user.id().get()));
+
+      // Removing the user fires an event.
+      gApi.changes().id(r1.getChangeId()).attention(user.username()).remove(addUser);
+      assertThat(attentionSetListener.firedCount).isEqualTo(3);
       assertThat(attentionSetListener.lastEvent.usersAdded()).isEmpty();
       assertThat(attentionSetListener.lastEvent.usersRemoved().size()).isEqualTo(1);
       attentionSetListener

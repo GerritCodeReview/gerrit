@@ -188,7 +188,13 @@ public class ServerPlugin extends Plugin {
   protected void start(PluginGuiceEnvironment env) throws Exception {
     RequestContext oldContext = env.enter(this);
     try {
-      startPlugin(env);
+      if (env.hasApiModuleClass(this.apiModuleClass)) {
+        logger.atSevere().log(
+            "Unable to start plugin %s because contains the ApiModule=%s which has been already loaded",
+            getName(), this.apiModuleClass.getName());
+      } else {
+        startPlugin(env);
+      }
     } finally {
       env.exit(oldContext);
     }

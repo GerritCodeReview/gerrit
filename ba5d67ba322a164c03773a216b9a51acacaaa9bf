@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75247126_63a8387b",
+        "filename": "java/com/google/gerrit/server/plugins/ServerPlugin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-10T13:08:52Z",
+      "side": 1,
+      "message": "If the environment has already that ApiModule, the start should fail. Creating just a new root injector would leave the old module still loaded, giving the impression that everything works, whilst that\u0027s not the case.",
+      "range": {
+        "startLine": 220,
+        "startChar": 31,
+        "endLine": 220,
+        "endChar": 71
+      },
+      "revId": "ba5d67ba322a164c03773a216b9a51acacaaa9bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

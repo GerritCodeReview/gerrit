@@ -172,6 +172,11 @@ public class ServerPlugin extends Plugin {
   @Override
   protected boolean canReload() {
     Attributes main = manifest.getMainAttributes();
+    String apiModule = main.getValue("Gerrit-ApiModule");
+    if (apiModule != null) {
+      return false;
+    }
+
     String v = main.getValue("Gerrit-ReloadMode");
     if (Strings.isNullOrEmpty(v) || "reload".equalsIgnoreCase(v)) {
       return true;

@@ -217,7 +217,7 @@ public class ServerPlugin extends Plugin {
     }
 
     Injector baseInjector;
-    if (apiModuleClass == null) {
+    if (apiModuleClass == null || env.hasApiModuleClass(apiModuleClass)) {
       baseInjector = newRootInjector(env);
     } else {
       baseInjector = newRootInjectorWithApiModule(env, apiModuleClass);

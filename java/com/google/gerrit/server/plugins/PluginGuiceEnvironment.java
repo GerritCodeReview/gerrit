@@ -85,6 +85,7 @@ public class PluginGuiceEnvironment {
   private final List<StopPluginListener> onStop;
   private final List<ReloadPluginListener> onReload;
   private final MetricMaker serverMetrics;
+  private final Set<Class<? extends Module>> apiModuleClasses;
 
   private Module sysModule;
   private Module sshModule;
@@ -139,6 +140,7 @@ public class PluginGuiceEnvironment {
     apiSets = new HashMap<>();
     apiItems = new HashMap<>();
     apiMaps = new HashMap<>();
+    apiModuleClasses = new HashSet<>();
   }
 
   ServerInformation getServerInformation() {
@@ -270,6 +272,8 @@ public class PluginGuiceEnvironment {
       attachMap(httpMaps, plugin.getHttpInjector(), plugin);
 
       apiInjector = Optional.ofNullable(plugin.getApiInjector()).orElse(apiInjector);
+
+      plugin.getApiModule().map(Module::getClass).ifPresent(apiModuleClasses::add);
 
       if (apiInjector != null) {
         apiItems.putAll(dynamicItemsOf(apiInjector));
@@ -695,5 +699,9 @@ public class PluginGuiceEnvironment {
   @Nullable
   public Injector getApiInjector() {
     return apiInjector;
+  }
+
+  public boolean hasApiModuleClass(Class<? extends Module> apiModuleClass) {
+    return apiModuleClasses.stream().anyMatch(md -> md.getName().equals(apiModuleClass.getName()));
   }
 }

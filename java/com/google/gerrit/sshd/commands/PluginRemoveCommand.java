@@ -17,6 +17,7 @@ package com.google.gerrit.sshd.commands;
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
 import com.google.common.collect.Sets;
+import com.google.gerrit.server.plugins.PluginInstallException;
 import com.google.gerrit.sshd.CommandMetaData;
 import java.util.List;
 import org.kohsuke.args4j.Argument;
@@ -29,7 +30,11 @@ final class PluginRemoveCommand extends PluginAdminSshCommand {
   @Override
   protected void doRun() throws UnloggedFailure {
     if (names != null && !names.isEmpty()) {
-      loader.disablePlugins(Sets.newHashSet(names));
+      try {
+        loader.disablePlugins(Sets.newHashSet(names));
+      } catch (PluginInstallException e) {
+        throw die(e);
+      }
     }
   }
 }

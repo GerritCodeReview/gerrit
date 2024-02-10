@@ -234,6 +234,12 @@ public class PluginLoader implements LifecycleListener {
           continue;
         }
 
+        if (active.getApiModule().isPresent()) {
+          logger.atWarning().log(
+              "Plugin %s has registered an ApiModule therefore it cannot be disabled", name);
+          continue;
+        }
+
         if (mandatoryPlugins.contains(name)) {
           logger.atWarning().log("Mandatory plugin %s cannot be disabled", name);
           continue;
@@ -380,11 +386,14 @@ public class PluginLoader implements LifecycleListener {
         try {
           logger.atInfo().log("Reloading plugin %s", name);
           Plugin newPlugin = runPlugin(name, active.getSrcFile(), active);
-          logger.atInfo().log(
-              "Reloaded plugin %s%s, version %s",
-              newPlugin.getName(),
-              newPlugin.getApiModule().isPresent() ? " (w/ ApiModule)" : "",
-              newPlugin.getVersion());
+
+          if (newPlugin != active) {
+            logger.atInfo().log(
+                "Reloaded plugin %s%s, version %s",
+                newPlugin.getName(),
+                newPlugin.getApiModule().isPresent() ? " (w/ ApiModule)" : "",
+                newPlugin.getVersion());
+          }
         } catch (PluginInstallException e) {
           logger.atWarning().withCause(e.getCause()).log("Cannot reload plugin %s", name);
           throw e;
@@ -520,6 +529,12 @@ public class PluginLoader implements LifecycleListener {
         return oldPlugin;
       }
 
+      if (oldPlugin != null && oldPlugin.getApiModule().isPresent()) {
+        logger.atWarning().log(
+            "Plugin %s has registered an ApiModule therefore its restart is not allowed", name);
+        return oldPlugin;
+      }
+
       Plugin newPlugin = loadPlugin(name, plugin, snapshot);
       if (newPlugin.getCleanupHandle() != null) {
         cleanupHandles.put(newPlugin, newPlugin.getCleanupHandle());
@@ -571,7 +586,14 @@ public class PluginLoader implements LifecycleListener {
       }
     }
     for (String name : unload) {
-      unloadPlugin(running.get(name));
+      Plugin runningPlugin = running.get(name);
+
+      if (runningPlugin.getApiModule().isPresent()) {
+        logger.atWarning().log(
+            "Not unloading plugin %s because it has registered an ApiModule", name);
+      } else {
+        unloadPlugin(running.get(name));
+      }
     }
   }
 

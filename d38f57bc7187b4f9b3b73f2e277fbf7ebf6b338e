@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90cac11c_963ddb03",
+        "filename": "java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-11T09:30:49Z",
+      "side": 1,
+      "message": "This isn\u0027t enough: also reloading isn\u0027t allowed because the ApiModule base Guice injector is used as parent for all other plugins.\n\nThis should rather be just `oldPlugin !\u003d null`",
+      "range": {
+        "startLine": 529,
+        "startChar": 10,
+        "endLine": 529,
+        "endChar": 25
+      },
+      "revId": "d38f57bc7187b4f9b3b73f2e277fbf7ebf6b338e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

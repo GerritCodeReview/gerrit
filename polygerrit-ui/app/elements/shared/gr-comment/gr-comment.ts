@@ -660,6 +660,7 @@ export class GrComment extends LitElement {
             ${this.renderHumanActions()} ${this.renderRobotActions()}
           </div>
           ${this.renderGeneratedSuggestionPreview()}
+          ${this.renderFixSuggestionPreview()}
         </div>
       </gr-endpoint-decorator>
       ${this.renderConfirmDialog()}
@@ -993,6 +994,13 @@ export class GrComment extends LitElement {
         >${this.permanentEditingMode ? 'Preview' : 'Save'}</gr-button
       >
     `;
+  }
+
+  private renderFixSuggestionPreview() {
+    if (!this.comment?.fix_suggestions) return nothing;
+    return html`<gr-suggestion-diff-preview
+      .fixReplacementInfos=${this.comment?.fix_suggestions?.[0].replacements}
+    ></gr-suggestion-diff-preview>`;
   }
 
   private showGeneratedSuggestion() {
@@ -1416,7 +1424,11 @@ export class GrComment extends LitElement {
         ],
       };
     }
-    if (isRobot(this.comment) && this.comment.fix_suggestions.length > 0) {
+    if (
+      isRobot(this.comment) &&
+      this.comment.fix_suggestions &&
+      this.comment.fix_suggestions.length > 0
+    ) {
       const id = this.comment.robot_id;
       return {
         fixSuggestions: this.comment.fix_suggestions.map(s => {

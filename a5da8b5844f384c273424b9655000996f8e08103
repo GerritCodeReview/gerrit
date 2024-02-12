@@ -16,6 +16,24 @@
       "message": "@luca.milanesio@gmail.com This is the tip of `delete-project stable-3.8` [1] and the build is green.\n\nReferences:\n[1] https://gerrit.googlesource.com/plugins/delete-project/+/refs/heads/stable-3.8",
       "revId": "a5da8b5844f384c273424b9655000996f8e08103",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "701a8ea6_3033f744",
+        "filename": "plugins/delete-project",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-02-12T19:39:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "81dd25b4_65a87f3f",
+      "revId": "a5da8b5844f384c273424b9655000996f8e08103",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

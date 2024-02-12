@@ -16,6 +16,24 @@
       "message": "HEAD of delete-project stable-3.8",
       "revId": "241efd6915fb52ee5e7c45582b540b1b22366c8d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7c83cfb_f6b3336e",
+        "filename": "plugins/delete-project",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-12T20:22:21Z",
+      "side": 1,
+      "message": "delete-project uses its HEAD of master for both stable-3.9 and master: this should be `75b79c115ba3dd03aa56a3165e6c319fa30c6c4a` IMHO",
+      "parentUuid": "dfac56be_f246bc53",
+      "revId": "241efd6915fb52ee5e7c45582b540b1b22366c8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

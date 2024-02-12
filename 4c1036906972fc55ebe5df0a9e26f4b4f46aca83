@@ -16,6 +16,23 @@
       "message": "Really nice!",
       "revId": "4c1036906972fc55ebe5df0a9e26f4b4f46aca83",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f6e7a6a_fe900d91",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-12T09:02:22Z",
+      "side": 1,
+      "message": "Is the description already present in the info returned from the backend? Should we make the change there as well.\n\nCan you add this information to the commit message",
+      "revId": "4c1036906972fc55ebe5df0a9e26f4b4f46aca83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

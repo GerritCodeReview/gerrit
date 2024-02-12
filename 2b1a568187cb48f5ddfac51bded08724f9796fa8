@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ed6ae0c_2dfaec18",
+        "filename": "java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 534,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-02-12T14:50:50Z",
+      "side": 1,
+      "message": "Are we sure that it is always a restart case? This method is invoked from many places and not all of them intended to restart the plugin. Shall we use `restartRequired` variable in this `if` condition? Maybe guard both cases, mandatory/has api-module) with an outer `if (restartRequired) {` check?",
+      "range": {
+        "startLine": 534,
+        "startChar": 65,
+        "endLine": 534,
+        "endChar": 72
+      },
+      "revId": "2b1a568187cb48f5ddfac51bded08724f9796fa8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

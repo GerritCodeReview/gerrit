@@ -290,7 +290,7 @@ public class EmailIT extends AbstractDaemonTest {
             enablePeerIPInReflogRecord,
             accountCache,
             groupBackend);
-    return atrScope.set(atrScope.newContext(null, userFactory.create(admin.id())));
+    return atrScope.set(atrScope.newContext(userFactory.create(admin.id())));
   }
 
   private class RealmWithAdditionalEmails extends DefaultRealm {

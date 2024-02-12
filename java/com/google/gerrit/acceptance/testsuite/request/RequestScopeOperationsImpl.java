@@ -19,11 +19,8 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
-import com.google.gerrit.acceptance.GerritServer.TestSshServerAddress;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.account.TestAccount;
-import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
@@ -34,7 +31,6 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import java.net.InetSocketAddress;
 
 /**
  * The implementation of {@code RequestScopeOperations}.
@@ -50,8 +46,6 @@ public class RequestScopeOperationsImpl implements RequestScopeOperations {
   private final IdentifiedUser.GenericFactory userFactory;
   private final Provider<AnonymousUser> anonymousUserProvider;
   private final InternalUser.Factory internalUserFactory;
-  private final InetSocketAddress sshAddress;
-  private final TestSshKeys testSshKeys;
 
   @Inject
   RequestScopeOperationsImpl(
@@ -60,17 +54,13 @@ public class RequestScopeOperationsImpl implements RequestScopeOperations {
       AccountOperations accountOperations,
       GenericFactory userFactory,
       Provider<AnonymousUser> anonymousUserProvider,
-      InternalUser.Factory internalUserFactory,
-      @Nullable @TestSshServerAddress InetSocketAddress sshAddress,
-      TestSshKeys testSshKeys) {
+      InternalUser.Factory internalUserFactory) {
     this.atrScope = atrScope;
     this.accountCache = accountCache;
     this.accountOperations = accountOperations;
     this.userFactory = userFactory;
     this.anonymousUserProvider = anonymousUserProvider;
     this.internalUserFactory = internalUserFactory;
-    this.sshAddress = sshAddress;
-    this.testSshKeys = testSshKeys;
   }
 
   @Override
@@ -82,10 +72,7 @@ public class RequestScopeOperationsImpl implements RequestScopeOperations {
   @Override
   @CanIgnoreReturnValue
   public AcceptanceTestRequestScope.Context setApiUser(TestAccount testAccount) {
-    return atrScope.set(
-        atrScope.newContext(
-            SshSessionFactory.createSession(testSshKeys, sshAddress, testAccount),
-            createIdentifiedUser(testAccount.accountId())));
+    return atrScope.set(atrScope.newContext(createIdentifiedUser(testAccount.accountId())));
   }
 
   @Override
@@ -100,13 +87,13 @@ public class RequestScopeOperationsImpl implements RequestScopeOperations {
   @Override
   @CanIgnoreReturnValue
   public AcceptanceTestRequestScope.Context setApiUserAnonymous() {
-    return atrScope.set(atrScope.newContext(null, anonymousUserProvider.get()));
+    return atrScope.set(atrScope.newContext(anonymousUserProvider.get()));
   }
 
   @Override
   @CanIgnoreReturnValue
   public AcceptanceTestRequestScope.Context setApiUserInternal() {
-    return atrScope.set(atrScope.newContext(null, internalUserFactory.create()));
+    return atrScope.set(atrScope.newContext(internalUserFactory.create()));
   }
 
   private IdentifiedUser createIdentifiedUser(Account.Id accountId) {

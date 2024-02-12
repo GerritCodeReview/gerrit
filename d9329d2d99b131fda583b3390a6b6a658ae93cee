@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2de677c_50f687f9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-02-12T08:18:02Z",
+      "side": 1,
+      "message": "Part 1 (https://gerrit-review.googlesource.com/c/gerrit/+/405978) has been fully rolled out and is rollback safe. Hence we can submit this change now.",
+      "revId": "d9329d2d99b131fda583b3390a6b6a658ae93cee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

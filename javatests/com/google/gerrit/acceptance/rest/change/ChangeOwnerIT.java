@@ -20,7 +20,6 @@ import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.l
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
@@ -32,6 +31,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.inject.Inject;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
@@ -118,11 +118,8 @@ public class ChangeOwnerIT extends AbstractDaemonTest {
   }
 
   private void approve(TestAccount a, String changeId) throws Exception {
-    Context old = requestScopeOperations.setApiUser(a.id());
-    try {
+    try (ManualRequestContext newCtx = requestScopeOperations.setNestedApiUser(a.id())) {
       gApi.changes().id(changeId).current().review(ReviewInput.approve());
-    } finally {
-      atrScope.set(old);
     }
   }
 

@@ -3526,7 +3526,7 @@ public class AccountIT extends AbstractDaemonTest {
     }
 
     // Check raw external IDs.
-    Account.Id currAccountId = atrScope.get().getUser().getAccountId();
+    Account.Id currAccountId = localCtx.getContext().getUser().getAccountId();
     Iterable<String> expectedFps =
         expected.transform(k -> BaseEncoding.base16().encode(k.getPublicKey().getFingerprint()));
     Iterable<String> actualFps =

@@ -259,6 +259,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "77052512_2f208718",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-02-12T12:11:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a261c8e_8558191d",
+      "revId": "7d7c21066a42267268866f030b6bb75af74e36ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1f60dc30_70eeed65",
@@ -306,6 +324,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d402097_6a7a4b7c",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeIndexer.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-02-12T12:11:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b965a4a_ccab148a",
+      "range": {
+        "startLine": 275,
+        "startChar": 2,
+        "endLine": 275,
+        "endChar": 8
+      },
+      "revId": "7d7c21066a42267268866f030b6bb75af74e36ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "08595120_0d972d20",
@@ -337,6 +379,24 @@
       "side": 1,
       "message": "method removed",
       "parentUuid": "08595120_0d972d20",
+      "revId": "7d7c21066a42267268866f030b6bb75af74e36ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "89e42637_e392a5d0",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeIndexer.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-02-12T12:11:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4bb727ed_a4d7adca",
       "revId": "7d7c21066a42267268866f030b6bb75af74e36ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

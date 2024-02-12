@@ -34,6 +34,24 @@
       "parentUuid": "dfac56be_f246bc53",
       "revId": "241efd6915fb52ee5e7c45582b540b1b22366c8d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "69576405_d482cddd",
+        "filename": "plugins/delete-project",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-12T21:12:13Z",
+      "side": 1,
+      "message": "I was wrong: the delete-project plugin (master branch) isn\u0027t compatible with stable-3.9. This submodule update is fine then.",
+      "parentUuid": "e7c83cfb_f6b3336e",
+      "revId": "241efd6915fb52ee5e7c45582b540b1b22366c8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

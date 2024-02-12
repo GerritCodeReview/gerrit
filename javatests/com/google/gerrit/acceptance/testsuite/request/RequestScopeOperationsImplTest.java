@@ -115,7 +115,8 @@ public class RequestScopeOperationsImplTest extends AbstractDaemonTest {
     String changeId = gApi.changes().create(cin).get().changeId;
     assertThat(gApi.changes().id(changeId).get().owner._accountId).isEqualTo(expected.get());
     String queryResults =
-        atrScope.get().getSession().exec("gerrit query owner:self change:" + changeId);
+        getOrCreateSshSessionForContext(atrScope.get())
+            .exec("gerrit query owner:self change:" + changeId);
     assertWithMessage("Change-Ids in query results:\n%s", queryResults)
         .that(findDistinct(queryResults, "I[0-9a-f]{40}"))
         .containsExactly(changeId);

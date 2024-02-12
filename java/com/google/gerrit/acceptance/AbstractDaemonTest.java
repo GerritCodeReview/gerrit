@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.OptionalSubject.optionals;
 import static com.google.common.truth.Truth.assertThat;
@@ -50,9 +51,11 @@ import com.google.common.primitives.Chars;
 import com.google.common.testing.FakeTicker;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context;
+import com.google.gerrit.acceptance.GerritServer.TestSshServerAddress;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.config.ConfigAnnotationParser;
 import com.google.gerrit.acceptance.config.GerritSystemProperty;
+import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
@@ -160,6 +163,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Modifier;
+import java.net.InetSocketAddress;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -313,11 +317,14 @@ public abstract class AbstractDaemonTest {
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private SitePaths sitePaths;
   @Inject private ProjectOperations projectOperations;
+  @Inject @Nullable @TestSshServerAddress private InetSocketAddress sshAddress;
+  @Inject private AccountOperations accountOperations;
 
   private ProjectResetter resetter;
   private List<Repository> toClose;
   private String systemTimeZone;
   private SystemReader oldSystemReader;
+  private final HashMap<Context, SshSession> sshSessions = new HashMap<>();
 
   /**
    * The Getters and Setters below are needed for tests that run on custom {@link GerritServer}
@@ -705,13 +712,26 @@ public abstract class AbstractDaemonTest {
       SshSessionFactory.initSsh();
       Context ctx = newRequestContext(user);
       atrScope.set(ctx);
-      userSshSession = ctx.getSession();
+      userSshSession = getOrCreateSshSessionForContext(ctx);
       userSshSession.open();
       ctx = newRequestContext(admin);
       atrScope.set(ctx);
-      adminSshSession = ctx.getSession();
+      adminSshSession = getOrCreateSshSessionForContext(ctx);
       adminSshSession.open();
     }
+  }
+
+  protected SshSession getOrCreateSshSessionForContext(Context ctx) {
+    checkState(
+        testRequiresSsh,
+        "The test or the test class must be annotated with @UseSsh to use this method.");
+    return sshSessions.computeIfAbsent(
+        ctx,
+        (c) ->
+            SshSessionFactory.createSession(
+                sshKeys,
+                sshAddress,
+                accountOperations.account(ctx.getUser().getAccountId()).get()));
   }
 
   protected TestAccount getCloneAsAccount(Description description) {
@@ -846,14 +866,7 @@ public abstract class AbstractDaemonTest {
   }
 
   protected void closeSsh() {
-    if (adminSshSession != null) {
-      adminSshSession.close();
-      adminSshSession = null;
-    }
-    if (userSshSession != null) {
-      userSshSession.close();
-      userSshSession = null;
-    }
+    sshSessions.values().forEach(SshSession::close);
   }
 
   /**

@@ -65,6 +65,7 @@ import {debounceTime} from 'rxjs/operators';
 import {changeModelToken} from '../../../models/change/change-model';
 import {
   ChangeInfo,
+  FixId,
   FixSuggestionInfo,
   isBase64FileContent,
 } from '../../../api/rest-api';
@@ -79,7 +80,11 @@ import {
 } from '../gr-comment-model/gr-comment-model';
 import {formStyles} from '../../../styles/form-styles';
 import {Interaction} from '../../../constants/reporting';
-import {Suggestion, SuggestionsProvider} from '../../../api/suggestions';
+import {
+  ResponseCode,
+  Suggestion,
+  SuggestionsProvider,
+} from '../../../api/suggestions';
 import {when} from 'lit/directives/when.js';
 import {getDocUrl} from '../../../utils/url-util';
 import {configModelToken} from '../../../models/config/config-model';
@@ -1208,6 +1213,35 @@ export class GrComment extends LitElement {
         lineNumber: this.comment.line,
       });
     } finally {
+      if (suggestionResponse?.responseCode === ResponseCode.ERROR) {
+        this.generatedFixSuggestion = {
+          description: 'prompt_to_edit',
+          fix_id: 'ml' as FixId,
+          replacements: [
+            {
+              path: 'google3/ts',
+              range: {
+                start_line: 83,
+                start_character: 0,
+                end_line: 83,
+                end_character: 0,
+              },
+              replacement: "import {useUtil} from '../../../utils/use_util';\n",
+            },
+            {
+              path: 'google3/ts',
+              range: {
+                start_line: 985,
+                start_character: 0,
+                end_line: 988,
+                end_character: 0,
+              },
+              replacement:
+                '        this.suggestionsProvider.supportedFileExtensions.includes(useUtil.getExtension(this.comment.path))) &&\n',
+            },
+          ],
+        };
+      }
       this.suggestionLoading = false;
     }
 
@@ -1642,11 +1676,16 @@ export class GrComment extends LitElement {
   private rawSave(options: {showToast: boolean}) {
     assert(isDraft(this.comment), 'only drafts are editable');
     assert(!isSaving(this.comment), 'saving already in progress');
+    let fix_suggestions: FixSuggestionInfo[] | undefined = undefined;
+    if (this.generatedFixSuggestion) {
+      fix_suggestions = [this.generatedFixSuggestion];
+    }
     return this.getCommentsModel().saveDraft(
       {
         ...this.comment,
         message: this.messageText.trimEnd(),
         unresolved: this.unresolved,
+        fix_suggestions,
       },
       options.showToast
     );

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98aa9830_8c59f38e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2024-02-12T11:45:44Z",
+      "side": 1,
+      "message": "updating props every render() seems risky/discouraged. The above line is also reading a flag but just using local var. Can we do the same here? or its necessary to overwrite the @property each render()?",
+      "range": {
+        "startLine": 469,
+        "startChar": 4,
+        "endLine": 474,
+        "endChar": 6
+      },
+      "revId": "2e44e322792539c296c9c8f89e8a442792895c72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

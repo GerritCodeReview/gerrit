@@ -79,20 +79,6 @@ public class AcceptanceTestRequestScope {
     }
   }
 
-  static class ContextProvider implements Provider<Context> {
-    @Override
-    public Context get() {
-      return requireContext();
-    }
-  }
-
-  static class SshSessionProvider implements Provider<SshSession> {
-    @Override
-    public SshSession get() {
-      return requireContext().getSession();
-    }
-  }
-
   static class Propagator extends ThreadLocalRequestScopePropagator<Context> {
     private final AcceptanceTestRequestScope atrScope;
 
@@ -148,21 +134,6 @@ public class AcceptanceTestRequestScope {
 
   public Context get() {
     return current.get();
-  }
-
-  /**
-   * Disables read and write access to NoteDb and returns the context prior to that modification.
-   */
-  public Context disableNoteDb() {
-    Context old = current.get();
-    Context ctx = new Context(old.session, old.user, old.created);
-
-    current.set(ctx);
-
-    @SuppressWarnings("unused")
-    var unused = local.setContext(ctx);
-
-    return old;
   }
 
   /** Returns exactly one instance per command executed. */

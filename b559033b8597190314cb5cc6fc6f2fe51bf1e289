@@ -16,6 +16,24 @@
       "message": "nit: usually `static` members are coming first in the class body, and are also divided by empty line from non-static members",
       "revId": "b559033b8597190314cb5cc6fc6f2fe51bf1e289",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5e050e6_ec44f686",
+        "filename": "java/com/google/gerrit/server/securestore/DefaultSecureStore.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1090261
+      },
+      "writtenOn": "2024-02-12T10:46:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3dbb2894_388dbf82",
+      "revId": "b559033b8597190314cb5cc6fc6f2fe51bf1e289",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

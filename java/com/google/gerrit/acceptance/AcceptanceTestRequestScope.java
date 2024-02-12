@@ -50,12 +50,6 @@ public class AcceptanceTestRequestScope {
       map.put(RC_KEY, cleanup);
     }
 
-    private Context(Context p, SshSession s, CurrentUser c) {
-      this(s, c, p.created);
-      started = p.started;
-      finished = p.finished;
-    }
-
     public SshSession getSession() {
       return session;
     }
@@ -76,37 +70,6 @@ public class AcceptanceTestRequestScope {
         map.put(key, t);
       }
       return t;
-    }
-  }
-
-  static class ContextProvider implements Provider<Context> {
-    @Override
-    public Context get() {
-      return requireContext();
-    }
-  }
-
-  static class SshSessionProvider implements Provider<SshSession> {
-    @Override
-    public SshSession get() {
-      return requireContext().getSession();
-    }
-  }
-
-  static class Propagator extends ThreadLocalRequestScopePropagator<Context> {
-    private final AcceptanceTestRequestScope atrScope;
-
-    @Inject
-    Propagator(AcceptanceTestRequestScope atrScope, ThreadLocalRequestContext local) {
-      super(REQUEST, current, local);
-      this.atrScope = atrScope;
-    }
-
-    @Override
-    protected Context continuingContext(Context ctx) {
-      // The cleanup is not chained, since the RequestScopePropagator executors
-      // the Context's cleanup when finished executing.
-      return atrScope.newContinuingContext(ctx);
     }
   }
 
@@ -131,10 +94,6 @@ public class AcceptanceTestRequestScope {
     return new Context(s, user, TimeUtil.nowMs());
   }
 
-  private Context newContinuingContext(Context ctx) {
-    return new Context(ctx, ctx.getSession(), ctx.getUser());
-  }
-
   @CanIgnoreReturnValue
   public Context set(Context ctx) {
     Context old = current.get();
@@ -148,21 +107,6 @@ public class AcceptanceTestRequestScope {
 
   public Context get() {
     return current.get();
-  }
-
-  /**
-   * Disables read and write access to NoteDb and returns the context prior to that modification.
-   */
-  public Context disableNoteDb() {
-    Context old = current.get();
-    Context ctx = new Context(old.session, old.user, old.created);
-
-    current.set(ctx);
-
-    @SuppressWarnings("unused")
-    var unused = local.setContext(ctx);
-
-    return old;
   }
 
   /** Returns exactly one instance per command executed. */

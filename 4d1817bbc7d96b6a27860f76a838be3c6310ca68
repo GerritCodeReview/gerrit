@@ -94,6 +94,30 @@
       },
       "revId": "4d1817bbc7d96b6a27860f76a838be3c6310ca68",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1863df2_4be3fc59",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 603,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-02-12T15:20:27Z",
+      "side": 1,
+      "message": "True...I was blinded by the `tryParte` in the `else` 😐",
+      "parentUuid": "c335c762_1a35192b",
+      "range": {
+        "startLine": 602,
+        "startChar": 6,
+        "endLine": 603,
+        "endChar": 23
+      },
+      "revId": "4d1817bbc7d96b6a27860f76a838be3c6310ca68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

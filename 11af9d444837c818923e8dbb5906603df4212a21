@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "317f87d9_1158d690",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-02-12T12:12:11Z",
+      "side": 1,
+      "message": "inline the only usage of the local variable",
+      "range": {
+        "startLine": 288,
+        "startChar": 27,
+        "endLine": 288,
+        "endChar": 29
+      },
+      "revId": "11af9d444837c818923e8dbb5906603df4212a21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

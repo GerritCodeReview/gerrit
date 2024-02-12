@@ -326,6 +326,12 @@ export class GrDiffHost extends LitElement {
       resolve(this, highlightServiceToken),
       () => getAppContext().reportingService
     );
+    this.renderPrefs = {
+      ...this.renderPrefs,
+      use_simplified_processor: this.flags.isEnabled(
+        KnownExperimentId.SIMPLIFIED_DIFF_PROCESSOR
+      ),
+    };
     this.addEventListener(
       // These are named inconsistently for a reason:
       // The create-comment event is fired to indicate that we should

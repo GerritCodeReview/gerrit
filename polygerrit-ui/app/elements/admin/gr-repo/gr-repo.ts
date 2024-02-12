@@ -19,6 +19,7 @@ import {
   ConfigInput,
   MaxObjectSizeLimitInfo,
   PluginParameterToConfigParameterInfoMap,
+  DownloadSchemeInfo,
 } from '../../../types/common';
 import {
   InheritedBooleanInfoConfiguredValue,
@@ -224,13 +225,10 @@ export class GrRepo extends LitElement {
         <fieldset>
           <gr-download-commands
             id="downloadCommands"
-            .commands=${this.computeCommands(
-              this.repo,
-              this.schemesObj,
-              this.selectedScheme
-            )}
+            .commands=${this.computeCommands()}
             .schemes=${this.schemes}
             .selectedScheme=${this.selectedScheme}
+            .description=${this.computeDescription()}
             @selected-scheme-changed=${(e: BindValueChangeEvent) => {
               if (this.loading) return;
               this.selectedScheme = e.detail.value;
@@ -1073,23 +1071,33 @@ export class GrRepo extends LitElement {
     }
   }
 
-  private computeCommands(
-    repo?: RepoName,
-    schemesObj?: SchemesInfoMap,
-    selectedScheme?: string
-  ) {
-    if (!schemesObj || !repo || !selectedScheme) return [];
-    if (!hasOwnProperty(schemesObj, selectedScheme)) return [];
-    const commandObj = schemesObj[selectedScheme].clone_commands;
+  private getSchemeInfo(): DownloadSchemeInfo | undefined {
+    if (!this.schemesObj || !this.repo || !this.selectedScheme) {
+      return undefined;
+    }
+    if (!hasOwnProperty(this.schemesObj, this.selectedScheme)) return undefined;
+    return this.schemesObj[this.selectedScheme];
+  }
+
+  private computeDescription() {
+    const schemeInfo = this.getSchemeInfo();
+    return schemeInfo?.description;
+  }
+
+  private computeCommands() {
+    const schemeInfo = this.getSchemeInfo();
+    if (!this.repo || !schemeInfo) return undefined;
+
+    const commandObj = schemeInfo.clone_commands ?? {};
     const commands = [];
     for (const [title, command] of Object.entries(commandObj)) {
       commands.push({
         title,
         command: command
-          .replace(/\${project}/gi, encodeURI(repo))
+          .replace(/\${project}/gi, encodeURI(this.repo))
           .replace(
             /\${project-base-name}/gi,
-            encodeURI(repo.substring(repo.lastIndexOf('/') + 1))
+            encodeURI(this.repo.substring(this.repo.lastIndexOf('/') + 1))
           ),
       });
     }

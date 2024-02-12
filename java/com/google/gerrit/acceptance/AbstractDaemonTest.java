@@ -50,7 +50,6 @@ import com.google.common.collect.Lists;
 import com.google.common.primitives.Chars;
 import com.google.common.testing.FakeTicker;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context;
 import com.google.gerrit.acceptance.GerritServer.TestSshServerAddress;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.config.ConfigAnnotationParser;
@@ -149,6 +148,8 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.restapi.change.Revisions;
 import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.util.RequestContext;
+import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gerrit.server.util.git.DelegateSystemReader;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.FakeEmailSender;
@@ -255,7 +256,6 @@ public abstract class AbstractDaemonTest {
   @Inject @GerritPersonIdent protected Provider<PersonIdent> serverIdent;
   @Inject @GerritServerConfig protected Config cfg;
   @Inject @GerritInstanceId @Nullable protected String instanceId;
-  @Inject protected AcceptanceTestRequestScope atrScope;
   @Inject protected AccountCache accountCache;
   @Inject protected AccountCreator accountCreator;
   @Inject protected Accounts accounts;
@@ -287,6 +287,7 @@ public abstract class AbstractDaemonTest {
   @Inject protected BatchAbandon batchAbandon;
   @Inject protected TestSshKeys sshKeys;
   @Inject protected TestTicker testTicker;
+  @Inject protected ThreadLocalRequestContext localCtx;
 
   protected EventRecorder eventRecorder;
 
@@ -324,7 +325,7 @@ public abstract class AbstractDaemonTest {
   private List<Repository> toClose;
   private String systemTimeZone;
   private SystemReader oldSystemReader;
-  private final HashMap<Context, SshSession> sshSessions = new HashMap<>();
+  private final HashMap<RequestContext, SshSession> sshSessionByContext = new HashMap<>();
 
   /**
    * The Getters and Setters below are needed for tests that run on custom {@link GerritServer}
@@ -614,7 +615,7 @@ public abstract class AbstractDaemonTest {
             .matcher(description.getClassName() + "_" + testMethodName + "_")
             .replaceAll("");
 
-    setRequestScope(admin);
+    requestScopeOperations.setApiUser(admin.id());
     ProjectInput in = projectInput(description);
     gApi.projects().create(in);
     project = Project.nameKey(in.name);
@@ -710,22 +711,21 @@ public abstract class AbstractDaemonTest {
         && (adminSshSession == null || userSshSession == null)) {
       // Create Ssh sessions
       SshSessionFactory.initSsh();
-      Context ctx = newRequestContext(user);
-      atrScope.set(ctx);
-      userSshSession = getOrCreateSshSessionForContext(ctx);
+      requestScopeOperations.setApiUser(user.id());
+      userSshSession = getOrCreateSshSessionForContext(localCtx.getContext());
       userSshSession.open();
-      ctx = newRequestContext(admin);
-      atrScope.set(ctx);
-      adminSshSession = getOrCreateSshSessionForContext(ctx);
+
+      requestScopeOperations.setApiUser(admin.id());
+      adminSshSession = getOrCreateSshSessionForContext(localCtx.getContext());
       adminSshSession.open();
     }
   }
 
-  protected SshSession getOrCreateSshSessionForContext(Context ctx) {
+  protected SshSession getOrCreateSshSessionForContext(RequestContext ctx) {
     checkState(
         testRequiresSsh,
         "The test or the test class must be annotated with @UseSsh to use this method.");
-    return sshSessions.computeIfAbsent(
+    return sshSessionByContext.computeIfAbsent(
         ctx,
         (c) ->
             SshSessionFactory.createSession(
@@ -866,7 +866,7 @@ public abstract class AbstractDaemonTest {
   }
 
   protected void closeSsh() {
-    sshSessions.values().forEach(SshSession::close);
+    sshSessionByContext.values().forEach(SshSession::close);
   }
 
   /**
@@ -1208,17 +1208,6 @@ public abstract class AbstractDaemonTest {
     return gApi.changes().query(q).get();
   }
 
-  /** Sets up {@code account} as a caller in tests. */
-  public void setRequestScope(TestAccount account) {
-    Context ctx = newRequestContext(account);
-    atrScope.set(ctx);
-  }
-
-  protected Context newRequestContext(TestAccount account) {
-    requestScopeOperations.setApiUser(account.id());
-    return atrScope.get();
-  }
-
   protected Account getAccount(Account.Id accountId) {
     return getAccountState(accountId).account();
   }
@@ -1407,7 +1396,7 @@ public abstract class AbstractDaemonTest {
   protected ChangeResource parseChangeResource(String changeId) throws Exception {
     List<ChangeNotes> notes = changeFinder.find(changeId);
     assertThat(notes).hasSize(1);
-    return changeResourceFactory.create(notes.get(0), atrScope.get().getUser());
+    return changeResourceFactory.create(notes.get(0), localCtx.getContext().getUser());
   }
 
   protected RevCommit getHead(Repository repo, String name) throws Exception {

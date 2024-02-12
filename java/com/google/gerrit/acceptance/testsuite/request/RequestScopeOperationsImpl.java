@@ -17,8 +17,6 @@ package com.google.gerrit.acceptance.testsuite.request;
 import static com.google.common.base.Preconditions.checkState;
 import static java.util.Objects.requireNonNull;
 
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.account.TestAccount;
 import com.google.gerrit.entities.Account;
@@ -28,6 +26,9 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.IdentifiedUser.GenericFactory;
 import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.util.ManualRequestContext;
+import com.google.gerrit.server.util.RequestContext;
+import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -40,7 +41,7 @@ import com.google.inject.Singleton;
  */
 @Singleton
 public class RequestScopeOperationsImpl implements RequestScopeOperations {
-  private final AcceptanceTestRequestScope atrScope;
+  private final ThreadLocalRequestContext localContext;
   private final AccountCache accountCache;
   private final AccountOperations accountOperations;
   private final IdentifiedUser.GenericFactory userFactory;
@@ -49,13 +50,13 @@ public class RequestScopeOperationsImpl implements RequestScopeOperations {
 
   @Inject
   RequestScopeOperationsImpl(
-      AcceptanceTestRequestScope atrScope,
+      ThreadLocalRequestContext localContext,
       AccountCache accountCache,
       AccountOperations accountOperations,
       GenericFactory userFactory,
       Provider<AnonymousUser> anonymousUserProvider,
       InternalUser.Factory internalUserFactory) {
-    this.atrScope = atrScope;
+    this.localContext = localContext;
     this.accountCache = accountCache;
     this.accountOperations = accountOperations;
     this.userFactory = userFactory;
@@ -64,36 +65,52 @@ public class RequestScopeOperationsImpl implements RequestScopeOperations {
   }
 
   @Override
-  @CanIgnoreReturnValue
-  public AcceptanceTestRequestScope.Context setApiUser(Account.Id accountId) {
-    return setApiUser(accountOperations.account(accountId).get());
+  public ManualRequestContext setNestedApiUser(Account.Id accountId) {
+    return new ManualRequestContext(createIdentifiedUser(accountId), localContext);
   }
 
   @Override
-  @CanIgnoreReturnValue
-  public AcceptanceTestRequestScope.Context setApiUser(TestAccount testAccount) {
-    return atrScope.set(atrScope.newContext(createIdentifiedUser(testAccount.accountId())));
+  public void setApiUser(Account.Id accountId) {
+    setApiUser(accountOperations.account(accountId).get());
   }
 
   @Override
-  @CanIgnoreReturnValue
-  public AcceptanceTestRequestScope.Context resetCurrentApiUser() {
-    CurrentUser user = atrScope.get().getUser();
+  public void setApiUser(TestAccount testAccount) {
+    setApiUser(createIdentifiedUser(testAccount.accountId()));
+  }
+
+  @Override
+  public void resetCurrentApiUser() {
+    RequestContext currentContext = localContext.getContext();
+    checkState(
+        currentContext != null, "can only reset IdentifiedUser, but the RequestContext is null");
+    CurrentUser user = localContext.getContext().getUser();
     // More special cases for anonymous users etc. can be added as needed.
     checkState(user.isIdentifiedUser(), "can only reset IdentifiedUser, not %s", user);
-    return setApiUser(user.getAccountId());
+    setApiUser(user.getAccountId());
   }
 
   @Override
-  @CanIgnoreReturnValue
-  public AcceptanceTestRequestScope.Context setApiUserAnonymous() {
-    return atrScope.set(atrScope.newContext(anonymousUserProvider.get()));
+  public void setApiUserAnonymous() {
+    setApiUser(anonymousUserProvider.get());
   }
 
   @Override
-  @CanIgnoreReturnValue
-  public AcceptanceTestRequestScope.Context setApiUserInternal() {
-    return atrScope.set(atrScope.newContext(internalUserFactory.create()));
+  public void setApiUserInternal() {
+    setApiUser(internalUserFactory.create());
+  }
+
+  private void setApiUser(CurrentUser newUser) {
+    // The ManualRequestContext stores the previous context. When the close() method is called,
+    // the old context is restored.
+    RequestContext oldContext = localContext.getContext();
+    if (oldContext instanceof ManualRequestContext) {
+      ((ManualRequestContext) oldContext).close();
+    }
+    // The created object is not used, because the constructor of the ManualRequestContext sets the
+    // active context to itself. It is not needed to explicitly call localContext.setContext after
+    // an instance is created.
+    var unused = new ManualRequestContext(newUser, localContext);
   }
 
   private IdentifiedUser createIdentifiedUser(Account.Id accountId) {

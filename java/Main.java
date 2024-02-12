@@ -18,7 +18,7 @@ public final class Main {
   private static final String FLOGGER_LOGGING_CONTEXT = "flogger.logging_context";
   private static final Runtime.Version MIN_JAVA_VERSION = Runtime.Version.parse("11.0.10");
 
-  // We don't do any real work here because we need to import
+  // We don't do any rea work here because we need to import
   // the archive lookup code and we cannot import a class in
   // the default package. So this is just a tiny springboard
   // to jump into the real main code.

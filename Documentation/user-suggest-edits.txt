@@ -1,4 +1,4 @@
-= Gerrit Code Review - User suggested edits (Experiment)
+= Gerrit Code Review - User suggested edits
 
 Easy and fast way for reviewers to suggest code changes that can be easily applied
 by change owner.

@@ -1266,9 +1266,7 @@ class ChangeNotesParser {
       cie.initCause(e);
       throw cie;
     }
-    // TODO: Create ReviewerStatusUpdate for reviewers by email only once the code that can handle
-    // such ReviewerStatusUpdate's has been rolled out to all data centers.
-    // reviewerUpdates.add(ReviewerStatusUpdate.createForReviewerByEmail(ts, ownerId, adr, state));
+    reviewerUpdates.add(ReviewerStatusUpdate.createForReviewerByEmail(ts, ownerId, adr, state));
     if (!reviewersByEmail.containsRow(adr)) {
       reviewersByEmail.put(adr, state, ts);
     }

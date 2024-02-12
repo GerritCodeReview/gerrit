@@ -33,6 +33,8 @@ import {
   isDraft,
   isNew,
   CommentInput,
+  FixSuggestionInfo,
+  FixId,
 } from '../../../types/common';
 import {GrConfirmDeleteCommentDialog} from '../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog';
 import {
@@ -79,7 +81,11 @@ import {
 } from '../gr-comment-model/gr-comment-model';
 import {formStyles} from '../../../styles/form-styles';
 import {Interaction} from '../../../constants/reporting';
-import {Suggestion, SuggestionsProvider} from '../../../api/suggestions';
+import {
+  ResponseCode,
+  Suggestion,
+  SuggestionsProvider,
+} from '../../../api/suggestions';
 import {when} from 'lit/directives/when.js';
 import {getDocUrl} from '../../../utils/url-util';
 import {configModelToken} from '../../../models/config/config-model';
@@ -660,6 +666,7 @@ export class GrComment extends LitElement {
             ${this.renderHumanActions()} ${this.renderRobotActions()}
           </div>
           ${this.renderGeneratedSuggestionPreview()}
+          ${this.renderFixSuggestionPreview()}
         </div>
       </gr-endpoint-decorator>
       ${this.renderConfirmDialog()}
@@ -995,6 +1002,13 @@ export class GrComment extends LitElement {
     `;
   }
 
+  private renderFixSuggestionPreview() {
+    if (!this.comment?.fix_suggestions) return nothing;
+    return html`<gr-suggestion-diff-preview
+      .fixReplacementInfos=${this.comment?.fix_suggestions?.[0].replacements}
+    ></gr-suggestion-diff-preview>`;
+  }
+
   private showGeneratedSuggestion() {
     return (
       (this.flagsService.isEnabled(KnownExperimentId.ML_SUGGESTED_EDIT) ||
@@ -1200,6 +1214,34 @@ export class GrComment extends LitElement {
         lineNumber: this.comment.line,
       });
     } finally {
+      if (suggestionResponse?.responseCode === ResponseCode.ERROR) {
+        this.generatedFixSuggestion = {
+          description: 'prompt_to_edit',
+          replacements: [
+            {
+              path: 'google3/ts',
+              range: {
+                start_line: 83,
+                start_character: 0,
+                end_line: 83,
+                end_character: 0,
+              },
+              replacement: "import {useUtil} from '../../../utils/use_util';\n",
+            },
+            {
+              path: 'google3/ts',
+              range: {
+                start_line: 985,
+                start_character: 0,
+                end_line: 988,
+                end_character: 0,
+              },
+              replacement:
+                '        this.suggestionsProvider.supportedFileExtensions.includes(useUtil.getExtension(this.comment.path))) &&\n',
+            },
+          ],
+        };
+      }
       this.suggestionLoading = false;
     }
 
@@ -1416,10 +1458,13 @@ export class GrComment extends LitElement {
         ],
       };
     }
-    if (isRobot(this.comment) && this.comment.fix_suggestions.length > 0) {
+    if (
+      isRobot(this.comment) &&
+      (this.comment?.fix_suggestions?.length ?? 0) > 0
+    ) {
       const id = this.comment.robot_id;
       return {
-        fixSuggestions: this.comment.fix_suggestions.map(s => {
+        fixSuggestions: this.comment.fix_suggestions!.map(s => {
           return {
             ...s,
             description: `${id ?? ''} - ${s.description ?? ''}`,
@@ -1630,11 +1675,22 @@ export class GrComment extends LitElement {
   private rawSave(options: {showToast: boolean}) {
     assert(isDraft(this.comment), 'only drafts are editable');
     assert(!isSaving(this.comment), 'saving already in progress');
+    let fix_suggestions: FixSuggestionInfo[] | undefined = undefined;
+    if (this.generatedFixSuggestion) {
+      fix_suggestions = [
+        {
+          ...this.generatedFixSuggestion,
+          fix_id: 'ml' as FixId,
+          description: '',
+        },
+      ];
+    }
     return this.getCommentsModel().saveDraft(
       {
         ...this.comment,
         message: this.messageText.trimEnd(),
         unresolved: this.unresolved,
+        fix_suggestions,
       },
       options.showToast
     );

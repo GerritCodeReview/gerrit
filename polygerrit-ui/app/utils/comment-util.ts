@@ -589,5 +589,8 @@ export function convertToCommentInput(comment: Comment): CommentInput {
   if (comment.tag) {
     output.tag = comment.tag;
   }
+  if (comment.fix_suggestions) {
+    output.fix_suggestions = comment.fix_suggestions;
+  }
   return output;
 }

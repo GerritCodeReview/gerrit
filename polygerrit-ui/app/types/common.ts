@@ -41,7 +41,6 @@ import {
   ChangeMessageId,
   ChangeMessageInfo,
   ChangeSubmissionId,
-  CommentInfo,
   CommentLinkInfo,
   CommentLinks,
   CommentSide,
@@ -146,7 +145,6 @@ export type {
   ChangeMessageId,
   ChangeMessageInfo,
   ChangeSubmissionId,
-  CommentInfo,
   CommentLinkInfo,
   CommentLinks,
   CommentRange,
@@ -1203,6 +1201,7 @@ export interface CommentInput {
   message?: string;
   tag?: string;
   unresolved?: boolean;
+  fix_suggestions?: FixSuggestionInfo[];
 }
 
 /**
@@ -1417,6 +1416,32 @@ export type RecipientTypeToNotifyInfoMap = {
 };
 
 /**
+ * The CommentInfo entity contains information about an inline comment.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#comment-info
+ */
+export interface CommentInfo {
+  id: UrlEncodedCommentId;
+  updated: Timestamp;
+  // TODO(TS): Make this required. Every comment must have patch_set set.
+  patch_set?: RevisionPatchSetNum;
+  path?: string;
+  side?: CommentSide;
+  parent?: number;
+  line?: number;
+  range?: CommentRange;
+  in_reply_to?: UrlEncodedCommentId;
+  message?: string;
+  author?: AccountInfo;
+  tag?: string;
+  unresolved?: boolean;
+  change_message_id?: string;
+  commit_id?: string;
+  context_lines?: ContextLine[];
+  source_content_type?: string;
+  fix_suggestions?: FixSuggestionInfo[];
+}
+
+/**
  * The RobotCommentInput entity contains information for creating an inline robot comment
  * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#robot-comment-input
  */
@@ -1431,7 +1456,7 @@ export interface RobotCommentInfo extends CommentInfo {
   robot_run_id: RobotRunId;
   url?: string;
   properties: {[propertyName: string]: string};
-  fix_suggestions: FixSuggestionInfo[];
+  // fix_suggestions: FixSuggestionInfo[];
 }
 export type PathToRobotCommentsInfoMap = {[path: string]: RobotCommentInfo[]};
 

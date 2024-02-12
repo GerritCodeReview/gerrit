@@ -17,6 +17,8 @@ package com.google.gerrit.server.change;
 import static com.google.gerrit.server.mail.send.AttentionSetChangeEmailDecorator.AttentionSetChange.USER_REMOVED;
 import static java.util.Objects.requireNonNull;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.AttentionSetUpdate.Operation;
@@ -46,6 +48,7 @@ public class RemoveFromAttentionSetOp implements BatchUpdateOp {
 
   private Change change;
   private boolean notify;
+  @Nullable private AttentionSetUpdateCondition condition;
 
   /**
    * Remove a specified user from the attention set.
@@ -68,8 +71,19 @@ public class RemoveFromAttentionSetOp implements BatchUpdateOp {
     this.notify = notify;
   }
 
+  /** Sets a condition for performing this attention set update. */
+  @CanIgnoreReturnValue
+  public RemoveFromAttentionSetOp setCondition(AttentionSetUpdateCondition condition) {
+    this.condition = condition;
+    return this;
+  }
+
   @Override
   public boolean updateChange(ChangeContext ctx) throws RestApiException {
+    if (condition != null && !condition.check()) {
+      return false;
+    }
+
     ChangeData changeData = changeDataFactory.create(ctx.getNotes());
     Optional<AttentionSetUpdate> existingEntry =
         changeData.attentionSet().stream()

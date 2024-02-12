@@ -4,11 +4,12 @@
 If you are eager to contribute to Gerrit, but you don't know where to
 start here are some opportunities to contribute.
 
-== Starter Projects
+[[help-wanted]]
+== Help Wanted
 
-The link:https://issues.gerritcodereview.com/hotlists/5052926[StarterProject,role=external,window=_blank]
-hotlist in the issue tracker lists projects that are easy to
-implement, and hence are suitable to be picked up by new contributors.
+The link:https://issues.gerritcodereview.com/hotlists/5395287[HelpWanted,role=external,window=_blank]
+hotlist in the issue tracker lists issues that need help from the
+community and where any contribution is very welcome.
 
 If you are interested in any of the projects and you want to try
 implementing it, just assign the corresponding issue to yourself and
@@ -16,11 +17,25 @@ reach out on the
 link:https://groups.google.com/forum/#!forum/repo-discuss[mailing list,role=external,window=_blank]
 if you have questions or need help.
 
-== Help Wanted
+[[creating-help-wanted-issue]]
+=== Creating Help Wanted issues
 
-The link:https://issues.gerritcodereview.com/hotlists/5395287[HelpWanted,role=external,window=_blank]
-hotlist in the issue tracker lists issues that need help from the
-community and where any contribution is very welcome.
+Issues on the link:https://issues.gerritcodereview.com/hotlists/5395287[HelpWanted,role=external,window=_blank]
+hotlist should be phrased as user stories and be well-scoped so that they can
+be easily picked up by new contributors:
+
+* The issue title should name the feature and be prefixed with a t-shirt size
+  in square brackets to indicate the expected effort.
+* The issue description should use Markdown and have the following sections:
+** *User Story*: Explain the use case that is being addressed and what's the
+   value of the feature.
+** *What*: Describe what should be done.
+** *Background*: Any useful background information, including ideas how the
+   feature can be done.
+** *Pointers*: Useful links to documentation and code
+
+Note, only link:dev-roles.html#maintainer[maintainers] and
+link:dev-roles.html#contributor[trusted contributors] can add issues to the `HelpWanted` hotlist.
 
 GERRIT
 ------

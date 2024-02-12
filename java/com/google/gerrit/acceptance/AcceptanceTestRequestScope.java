@@ -14,27 +14,19 @@
 
 package com.google.gerrit.acceptance;
 
+import static com.google.common.base.Preconditions.checkState;
+
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.RequestCleanup;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
-import com.google.inject.Key;
-import com.google.inject.OutOfScopeException;
-import com.google.inject.Provider;
-import com.google.inject.Scope;
-import java.util.HashMap;
-import java.util.Map;
 
 /** Guice scopes for state during an Acceptance Test connection. */
 public class AcceptanceTestRequestScope {
-  private static final Key<RequestCleanup> RC_KEY = Key.get(RequestCleanup.class);
 
   public static class Context implements RequestContext {
-    private final RequestCleanup cleanup = new RequestCleanup();
-    private final Map<Key<?>, Object> map = new HashMap<>();
     private final SshSession session;
     private final CurrentUser user;
 
@@ -46,7 +38,6 @@ public class AcceptanceTestRequestScope {
       session = s;
       user = u;
       created = started = finished = at;
-      map.put(RC_KEY, cleanup);
     }
 
     public SshSession getSession() {
@@ -60,26 +51,6 @@ public class AcceptanceTestRequestScope {
       }
       return user;
     }
-
-    synchronized <T> T get(Key<T> key, Provider<T> creator) {
-      @SuppressWarnings("unchecked")
-      T t = (T) map.get(key);
-      if (t == null) {
-        t = creator.get();
-        map.put(key, t);
-      }
-      return t;
-    }
-  }
-
-  private static final ThreadLocal<Context> current = new ThreadLocal<>();
-
-  private static Context requireContext() {
-    final Context ctx = current.get();
-    if (ctx == null) {
-      throw new OutOfScopeException("Not in command/request");
-    }
-    return ctx;
   }
 
   private final ThreadLocalRequestContext local;
@@ -95,40 +66,18 @@ public class AcceptanceTestRequestScope {
 
   @CanIgnoreReturnValue
   public Context set(Context ctx) {
-    Context old = current.get();
-    current.set(ctx);
-
-    @SuppressWarnings("unused")
-    var unused = local.setContext(ctx);
-
-    return old;
+    RequestContext old = local.setContext(ctx);
+    checkState(
+        old == null || old instanceof Context,
+        "Previous context must be either not set or has AcceptanceTestRequestScope.Context type");
+    return (Context) old;
   }
 
   public Context get() {
-    return current.get();
+    RequestContext result = local.getContext();
+    checkState(
+        result == null || result instanceof Context,
+        "The current context must be either not set or has AcceptanceTestRequestScope.Context type");
+    return (Context) result;
   }
-
-  /** Returns exactly one instance per command executed. */
-  static final Scope REQUEST =
-      new Scope() {
-        @Override
-        public <T> Provider<T> scope(Key<T> key, Provider<T> creator) {
-          return new Provider<>() {
-            @Override
-            public T get() {
-              return requireContext().get(key, creator);
-            }
-
-            @Override
-            public String toString() {
-              return String.format("%s[%s]", creator, REQUEST);
-            }
-          };
-        }
-
-        @Override
-        public String toString() {
-          return "Acceptance Test Scope.REQUEST";
-        }
-      };
 }

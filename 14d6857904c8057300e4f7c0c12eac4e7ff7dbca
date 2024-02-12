@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4aa3fea6_28347387",
+        "filename": "plugins/delete-project",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-02-12T19:30:33Z",
+      "side": 1,
+      "message": "@luca.milanesio@gmail.com this is the the tip of `delete-project master` [1] and it does not compile\n\nReferences:\n[1] https://gerrit.googlesource.com/plugins/delete-project/+/refs/heads/master",
+      "revId": "14d6857904c8057300e4f7c0c12eac4e7ff7dbca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

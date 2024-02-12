@@ -16,6 +16,24 @@
       "message": "HEAD of delete-project stable-3.8",
       "revId": "4768d4df0bf54c3c8ed4601fd15202e240b439dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b315f619_45aa962e",
+        "filename": "plugins/delete-project",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-12T19:59:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9b4d5cc1_8a3f928a",
+      "revId": "4768d4df0bf54c3c8ed4601fd15202e240b439dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

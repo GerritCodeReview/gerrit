@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d134cb20_d7ffaf34",
+        "filename": "java/com/google/gerrit/server/query/change/ChangePredicates.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-12T10:45:02Z",
+      "side": 1,
+      "message": "Would it be `draftByChangeNumber` more appropriate?\n\n\n```suggestion\n  public static Predicate\u003cChangeData\u003e draftByChangeNumber(\n```",
+      "range": {
+        "startLine": 112,
+        "startChar": 38,
+        "endLine": 112,
+        "endChar": 45
+      },
+      "revId": "e1f82eea3b58bc813f43dddd5daef9beb306996c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18837449_64ca8cda",
+        "filename": "java/com/google/gerrit/server/query/change/ChangePredicates.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-12T10:45:02Z",
+      "side": 1,
+      "message": "Would it be `startByChangeNumber` more appropriate?\n\n\n\n```suggestion\n  public static Predicate\u003cChangeData\u003e starByChangeNumber(\n```",
+      "range": {
+        "startLine": 145,
+        "startChar": 38,
+        "endLine": 145,
+        "endChar": 44
+      },
+      "revId": "e1f82eea3b58bc813f43dddd5daef9beb306996c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

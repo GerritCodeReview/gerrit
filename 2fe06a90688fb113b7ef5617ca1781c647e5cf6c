@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3617b9e3_7721ec39",
+        "filename": "plugins/delete-project",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-02-12T19:57:08Z",
+      "side": 1,
+      "message": "HEAD of delete-project master/",
+      "revId": "2fe06a90688fb113b7ef5617ca1781c647e5cf6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

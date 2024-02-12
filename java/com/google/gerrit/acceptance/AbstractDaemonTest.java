@@ -1221,10 +1221,8 @@ public abstract class AbstractDaemonTest {
 
   protected AutoCloseable disableNoteDb() {
     changeNotesArgs.failOnLoadForTest.set(true);
-    Context oldContext = atrScope.disableNoteDb();
     return () -> {
       changeNotesArgs.failOnLoadForTest.set(false);
-      atrScope.set(oldContext);
     };
   }
 

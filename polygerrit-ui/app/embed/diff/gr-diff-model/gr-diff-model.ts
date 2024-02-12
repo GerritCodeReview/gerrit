@@ -36,6 +36,10 @@ import {
   GrDiffProcessor,
   ProcessingOptions,
 } from '../gr-diff-processor/gr-diff-processor';
+import {
+  GrDiffProcessorSimplified,
+  ProcessingOptions as ProcessingOptionsSimplified,
+} from '../gr-diff-processor/gr-diff-processor-simplified';
 import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
 import {assert} from '../../../utils/common-util';
 import {countLines, isImageDiff} from '../../../utils/diff-util';
@@ -237,7 +241,7 @@ export class DiffModel extends Model<DiffState> {
         withLatestFrom(this.keyLocations$),
         debounceTime(1),
         switchMap(([[diff, context, renderPrefs], keyLocations]) => {
-          const options: ProcessingOptions = {
+          const options: ProcessingOptions | ProcessingOptionsSimplified = {
             context,
             keyLocations,
             isBinary: !!(isImageDiff(diff) || diff.binary),
@@ -245,7 +249,10 @@ export class DiffModel extends Model<DiffState> {
           if (renderPrefs?.num_lines_rendered_at_once) {
             options.asyncThreshold = renderPrefs.num_lines_rendered_at_once;
           }
-          const processor = new GrDiffProcessor(options);
+
+          const processor = renderPrefs?.use_simplified_processor
+            ? new GrDiffProcessorSimplified(options)
+            : new GrDiffProcessor(options);
           return from(processor.process(diff.content));
         })
       )

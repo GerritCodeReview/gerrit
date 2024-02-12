@@ -138,7 +138,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void addUser() throws Exception {
+  public void addUser_updateReason() throws Exception {
     PushOneCommit.Result r = createChange();
     requestScopeOperations.setApiUser(user.id());
     int accountId =
@@ -149,19 +149,62 @@ public class AttentionSetIT extends AbstractDaemonTest {
             fakeClock.now(), admin.id(), AttentionSetUpdate.Operation.ADD, "first");
     assertThat(r.getChange().attentionSet()).containsExactly(expectedAttentionSetUpdate);
 
-    // Second add is ignored.
-    accountId =
-        change(r).addToAttentionSet(new AttentionSetInput(admin.email(), "second"))._accountId;
-    assertThat(accountId).isEqualTo(admin.id().get());
-    assertThat(r.getChange().attentionSet()).containsExactly(expectedAttentionSetUpdate);
-
-    // Only one email since the second add was ignored.
+    // Check that email was sent
     String emailBody = Iterables.getOnlyElement(sender.getMessages()).body();
     assertThat(emailBody)
         .contains(
             String.format(
                 "%s requires the attention of %s to this change.\n The reason is: first.",
                 user.fullName(), admin.fullName()));
+
+    // Update the reason
+    sender.clear();
+    accountId =
+        change(r).addToAttentionSet(new AttentionSetInput(admin.email(), "second"))._accountId;
+    assertThat(accountId).isEqualTo(admin.id().get());
+    expectedAttentionSetUpdate =
+        AttentionSetUpdate.createFromRead(
+            fakeClock.now(), admin.id(), AttentionSetUpdate.Operation.ADD, "second");
+    assertThat(r.getChange().attentionSet()).containsExactly(expectedAttentionSetUpdate);
+
+    // Check that email was sent
+    emailBody = Iterables.getOnlyElement(sender.getMessages()).body();
+    assertThat(emailBody)
+        .contains(
+            String.format(
+                "%s requires the attention of %s to this change.\n The reason is: second.",
+                user.fullName(), admin.fullName()));
+  }
+
+  @Test
+  public void addUser_addWithSameReasonIsIgnored() throws Exception {
+    PushOneCommit.Result r = createChange();
+    requestScopeOperations.setApiUser(user.id());
+    int accountId =
+        change(r).addToAttentionSet(new AttentionSetInput(admin.email(), "reason"))._accountId;
+    assertThat(accountId).isEqualTo(admin.id().get());
+    AttentionSetUpdate expectedAttentionSetUpdate =
+        AttentionSetUpdate.createFromRead(
+            fakeClock.now(), admin.id(), AttentionSetUpdate.Operation.ADD, "reason");
+    assertThat(r.getChange().attentionSet()).containsExactly(expectedAttentionSetUpdate);
+
+    // Check that email was sent
+    String emailBody = Iterables.getOnlyElement(sender.getMessages()).body();
+    assertThat(emailBody)
+        .contains(
+            String.format(
+                "%s requires the attention of %s to this change.\n The reason is: reason.",
+                user.fullName(), admin.fullName()));
+
+    // Second add with the same reason is ignored.
+    sender.clear();
+    accountId =
+        change(r).addToAttentionSet(new AttentionSetInput(admin.email(), "reason"))._accountId;
+    assertThat(accountId).isEqualTo(admin.id().get());
+    assertThat(r.getChange().attentionSet()).containsExactly(expectedAttentionSetUpdate);
+
+    // Check that no email was sent
+    assertThat(sender.getMessages()).isEmpty();
   }
 
   @Test

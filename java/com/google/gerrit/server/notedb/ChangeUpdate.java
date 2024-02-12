@@ -17,6 +17,7 @@ package com.google.gerrit.server.notedb;
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.ImmutableMap.toImmutableMap;
 import static com.google.gerrit.entities.RefNames.changeMetaRef;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_ATTENTION;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_BRANCH;
@@ -52,6 +53,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Iterables;
@@ -539,13 +541,9 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       plannedAttentionSetUpdates = new HashMap<>();
     }
 
-    Set<Account.Id> currentAccountUpdates =
-        plannedAttentionSetUpdates.values().stream()
-            .map(AttentionSetUpdate::account)
-            .collect(Collectors.toSet());
-    updates.stream()
-        .filter(u -> !currentAccountUpdates.contains(u.account()))
-        .forEach(u -> plannedAttentionSetUpdates.putIfAbsent(u.account(), u));
+    // Only add attention set updates for users for which no attention set update has been planned
+    // yet.
+    updates.stream().forEach(u -> plannedAttentionSetUpdates.putIfAbsent(u.account(), u));
   }
 
   public void addToPlannedAttentionSetUpdates(AttentionSetUpdate update) {
@@ -1068,10 +1066,9 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     if (plannedAttentionSetUpdates == null) {
       plannedAttentionSetUpdates = new HashMap<>();
     }
-    Set<Account.Id> currentUsersInAttentionSet =
+    ImmutableMap<Account.Id, String> reasonsForCurrentUsersInAttentionSet =
         AttentionSetUtil.additionsOnly(getNotes().getAttentionSet()).stream()
-            .map(AttentionSetUpdate::account)
-            .collect(Collectors.toSet());
+            .collect(toImmutableMap(AttentionSetUpdate::account, AttentionSetUpdate::reason));
 
     // Current reviewers/ccs are the reviewers/ccs before the update + the new reviewers/ccs - the
     // deleted reviewers/ccs.
@@ -1094,13 +1091,17 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
     for (AttentionSetUpdate attentionSetUpdate : plannedAttentionSetUpdates.values()) {
       if (attentionSetUpdate.operation() == AttentionSetUpdate.Operation.ADD
-          && currentUsersInAttentionSet.contains(attentionSetUpdate.account())) {
-        // Skip users that are already in the attention set: no need to re-add them.
+          && reasonsForCurrentUsersInAttentionSet.get(attentionSetUpdate.account()) != null
+          && reasonsForCurrentUsersInAttentionSet
+              .get(attentionSetUpdate.account())
+              .equals(attentionSetUpdate.reason())) {
+        // Skip users that are already in the attention set with the same reason: no need to re-add
+        // them.
         continue;
       }
 
       if (attentionSetUpdate.operation() == AttentionSetUpdate.Operation.REMOVE
-          && !currentUsersInAttentionSet.contains(attentionSetUpdate.account())) {
+          && !reasonsForCurrentUsersInAttentionSet.containsKey(attentionSetUpdate.account())) {
         // Skip users that are not in the attention set: no need to remove them.
         continue;
       }

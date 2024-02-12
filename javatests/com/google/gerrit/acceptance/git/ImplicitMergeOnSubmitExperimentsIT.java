@@ -299,7 +299,8 @@ public class ImplicitMergeOnSubmitExperimentsIT extends AbstractImplicitMergeTes
     ChangeInfo ci = gApi.changes().id(implicitMergeChangeId).info();
     assertThat(ci.submitted).isNotNull();
     assertThat(ci.submitter).isNotNull();
-    assertThat(ci.submitter._accountId).isEqualTo(atrScope.get().getUser().getAccountId().get());
+    assertThat(ci.submitter._accountId)
+        .isEqualTo(localCtx.getContext().getUser().getAccountId().get());
 
     if (submitType != SubmitType.REBASE_ALWAYS) {
       assertThat(getRemoteBranchRootPathContent("refs/heads/stable"))
@@ -321,7 +322,8 @@ public class ImplicitMergeOnSubmitExperimentsIT extends AbstractImplicitMergeTes
     ChangeInfo ci = gApi.changes().id(explicitMergeChangeId).info();
     assertThat(ci.submitted).isNotNull();
     assertThat(ci.submitter).isNotNull();
-    assertThat(ci.submitter._accountId).isEqualTo(atrScope.get().getUser().getAccountId().get());
+    assertThat(ci.submitter._accountId)
+        .isEqualTo(localCtx.getContext().getUser().getAccountId().get());
     assertThat(getRemoteBranchRootPathContent("refs/heads/stable"))
         .containsExactly(
             "master-content", "master-first-line\n",

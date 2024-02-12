@@ -2983,7 +2983,8 @@ public class ChangeIT extends AbstractDaemonTest {
     c = gApi.changes().id(r.getChangeId()).info();
     assertThat(c.submitted).isNotNull();
     assertThat(c.submitter).isNotNull();
-    assertThat(c.submitter._accountId).isEqualTo(atrScope.get().getUser().getAccountId().get());
+    assertThat(c.submitter._accountId)
+        .isEqualTo(localCtx.getContext().getUser().getAccountId().get());
   }
 
   @Test
@@ -4386,7 +4387,7 @@ public class ChangeIT extends AbstractDaemonTest {
   private void setChangeStatus(Change.Id id, Change.Status newStatus) throws Exception {
     try (RefUpdateContext ctx = openTestRefUpdateContext()) {
       try (BatchUpdate batchUpdate =
-          batchUpdateFactory.create(project, atrScope.get().getUser(), TimeUtil.now())) {
+          batchUpdateFactory.create(project, localCtx.getContext().getUser(), TimeUtil.now())) {
         batchUpdate.addOp(id, new ChangeStatusUpdateOp(newStatus));
         batchUpdate.execute();
       }

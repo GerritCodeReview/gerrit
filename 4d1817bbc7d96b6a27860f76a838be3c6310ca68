@@ -70,6 +70,30 @@
       },
       "revId": "4d1817bbc7d96b6a27860f76a838be3c6310ca68",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c335c762_1a35192b",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 603,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-12T12:35:40Z",
+      "side": 1,
+      "message": "\u003e We need `Ints.tryParse()` because we need to convert from string to int. However, the check for `id !\u003d null` I think is not necessary.\n\nIf you are sure that the string you are parsing is a number, then use:\n```\n      Integer id \u003d Integer.parseInt(projectChangeNumber.group(2));\n```",
+      "parentUuid": "81eb8554_b41c6d4b",
+      "range": {
+        "startLine": 602,
+        "startChar": 6,
+        "endLine": 603,
+        "endChar": 23
+      },
+      "revId": "4d1817bbc7d96b6a27860f76a838be3c6310ca68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

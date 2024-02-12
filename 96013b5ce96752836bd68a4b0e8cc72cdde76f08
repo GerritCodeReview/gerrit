@@ -175,6 +175,30 @@
       },
       "revId": "96013b5ce96752836bd68a4b0e8cc72cdde76f08",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a60d3495_a3b999b1",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 611,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-12T12:35:40Z",
+      "side": 1,
+      "message": "I believe then we should also rename `PAT_LEGACY_ID` to `CHANGE_NUM` to identify that we are expecting to be a change number, which is not the document-id (`legacy_id_str`).",
+      "parentUuid": "125b845b_25e77e67",
+      "range": {
+        "startLine": 611,
+        "startChar": 31,
+        "endLine": 611,
+        "endChar": 44
+      },
+      "revId": "96013b5ce96752836bd68a4b0e8cc72cdde76f08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

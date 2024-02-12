@@ -466,6 +466,12 @@ export class GrDiffHost extends LitElement {
     const useNewImageDiffUi = this.flags.isEnabled(
       KnownExperimentId.NEW_IMAGE_DIFF_UI
     );
+    this.renderPrefs = {
+      ...this.renderPrefs,
+      use_simplified_processor: this.flags.isEnabled(
+        KnownExperimentId.SIMPLIFIED_DIFF_PROCESSOR
+      ),
+    };
 
     return keyed(
       this.grDiffKey,

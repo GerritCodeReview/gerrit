@@ -255,6 +255,11 @@ export declare interface RenderPreferences {
   show_newline_warning_left?: boolean;
   show_newline_warning_right?: boolean;
   use_new_image_diff_ui?: boolean;
+  /**
+   * Temporary flag for switching over to a simplified version of the diff
+   * processor.
+   */
+  use_simplified_processor?: boolean;
 }
 
 /**

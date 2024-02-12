@@ -26,16 +26,10 @@ import com.google.inject.Inject;
 public class AcceptanceTestRequestScope {
 
   public static class Context implements RequestContext {
-    private final SshSession session;
     private final CurrentUser user;
 
-    private Context(SshSession s, CurrentUser u) {
-      session = s;
+    private Context(CurrentUser u) {
       user = u;
-    }
-
-    public SshSession getSession() {
-      return session;
     }
 
     @Override
@@ -54,8 +48,8 @@ public class AcceptanceTestRequestScope {
     this.local = local;
   }
 
-  public Context newContext(SshSession s, CurrentUser user) {
-    return new Context(s, user);
+  public Context newContext(CurrentUser user) {
+    return new Context(user);
   }
 
   @CanIgnoreReturnValue

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78ea9e30_08f36ad6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-12T18:38:07Z",
+      "side": 1,
+      "message": "Missing `Release-Notes: skip`",
+      "revId": "d5ba576181ccda1856b387c1f50abac62b08352a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

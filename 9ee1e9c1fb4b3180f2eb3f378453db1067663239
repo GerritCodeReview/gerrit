@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "03b08ce8_db54476d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-12T19:04:52Z",
+      "side": 1,
+      "message": "The target merge-point of stable-3.8 is now afb42379c4f7, you need to re-merge.",
+      "revId": "9ee1e9c1fb4b3180f2eb3f378453db1067663239",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

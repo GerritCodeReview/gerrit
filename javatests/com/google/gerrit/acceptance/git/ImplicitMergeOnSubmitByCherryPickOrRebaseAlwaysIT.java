@@ -87,7 +87,8 @@ public class ImplicitMergeOnSubmitByCherryPickOrRebaseAlwaysIT extends AbstractI
     ChangeInfo ci = gApi.changes().id(implicitMergeChangeId).info();
     assertThat(ci.submitted).isNotNull();
     assertThat(ci.submitter).isNotNull();
-    assertThat(ci.submitter._accountId).isEqualTo(atrScope.get().getUser().getAccountId().get());
+    assertThat(ci.submitter._accountId)
+        .isEqualTo(localCtx.getContext().getUser().getAccountId().get());
 
     assertThat(getRemoteBranchRootPathContent("refs/heads/stable"))
         .containsExactly(

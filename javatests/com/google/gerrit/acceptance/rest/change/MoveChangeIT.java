@@ -333,7 +333,7 @@ public class MoveChangeIT extends AbstractDaemonTest {
     assertLabelVote(user, changeId, testLabelA, (short) 1);
 
     requestScopeOperations.setApiUser(admin.id());
-    assertThat(atrScope.get().getUser().getAccountId()).isEqualTo(admin.id());
+    assertThat(localCtx.getContext().getUser().getAccountId()).isEqualTo(admin.id());
 
     // Move the change to the destination branch.
     assertThat(info(changeId).branch).isEqualTo(sourceBranch.shortName());
@@ -396,7 +396,7 @@ public class MoveChangeIT extends AbstractDaemonTest {
     assertLabelVote(user, changeId, testLabelA, (short) 2);
 
     requestScopeOperations.setApiUser(admin.id());
-    assertThat(atrScope.get().getUser().getAccountId()).isEqualTo(admin.id());
+    assertThat(localCtx.getContext().getUser().getAccountId()).isEqualTo(admin.id());
 
     // Move the change to the destination branch.
     assertThat(info(changeId).branch).isEqualTo(sourceBranch.shortName());

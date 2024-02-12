@@ -14,10 +14,9 @@
 
 package com.google.gerrit.acceptance.testsuite.request;
 
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
 import com.google.gerrit.acceptance.testsuite.account.TestAccount;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.server.util.ManualRequestContext;
 
 /**
  * An aggregation of operations on Guice request scopes for test purposes.
@@ -26,32 +25,55 @@ import com.google.gerrit.entities.Account;
  */
 public interface RequestScopeOperations {
   /**
-   * Sets the Guice request scope to the given account.
+   * Sets the Guice request scope to the given account without closing the existing context.
    *
-   * <p>The resulting context has an SSH session attached. In order to use the SSH session returned
-   * by {@link com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context#getSession()}, SSH
-   * must be enabled in the test and the account must have a username set. However, these are not
-   * requirements simply to call this method.
+   * <p>Returns newly created context. To restore previous context call {@link
+   * ManualRequestContext#close()} method.
+   *
+   * <p>In order to create and use the SSH session for the returned context, SSH must be enabled in
+   * the test and the account must have a username set. However, these are not requirements simply
+   * to call this method.
+   *
+   * <p>The session associated with the returned context can be obtained by calling {@link
+   * com.google.gerrit.acceptance.AbstractDaemonTest#getOrCreateSshSessionForContext}.
    *
    * @param accountId account ID. Must exist; throws an unchecked exception otherwise.
-   * @return the previous request scope.
    */
-  @CanIgnoreReturnValue
-  AcceptanceTestRequestScope.Context setApiUser(Account.Id accountId);
+  ManualRequestContext setNestedApiUser(Account.Id accountId);
 
   /**
    * Sets the Guice request scope to the given account.
    *
-   * <p>The resulting context has an SSH session attached. In order to use the SSH session returned
-   * by {@link com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context#getSession()}, SSH
-   * must be enabled in the test and the account must have a username set. However, these are not
-   * requirements simply to call this method.
+   * <p>In order to create and use the SSH session for the returned context, SSH must be enabled in
+   * the test and the account must have a username set. However, these are not requirements simply
+   * to call this method.
+   *
+   * <p>The session associated with the returned context can be obtained by calling {@link
+   * com.google.gerrit.acceptance.AbstractDaemonTest#getOrCreateSshSessionForContext}.
+   *
+   * <p>If the current context is {@link ManualRequestContext}, the method closes it before setting
+   * the new context.
+   *
+   * @param accountId account ID. Must exist; throws an unchecked exception otherwise.
+   */
+  void setApiUser(Account.Id accountId);
+
+  /**
+   * Sets the Guice request scope to the given account.
+   *
+   * <p>In order to create and use the SSH session for the returned context, SSH must be enabled in
+   * the test and the account must have a username set. However, these are not requirements simply
+   * to call this method.
+   *
+   * <p>The session associated with the returned context can be obtained by calling {@link
+   * com.google.gerrit.acceptance.AbstractDaemonTest#getOrCreateSshSessionForContext}.
+   *
+   * <p>If the current context is {@link ManualRequestContext}, the method closes it before setting
+   * the new context.
    *
    * @param testAccount test account from {@code AccountOperations}.
-   * @return the previous request scope.
    */
-  @CanIgnoreReturnValue
-  AcceptanceTestRequestScope.Context setApiUser(TestAccount testAccount);
+  void setApiUser(TestAccount testAccount);
 
   /**
    * Enforces a new request context for the current API user.
@@ -59,26 +81,26 @@ public interface RequestScopeOperations {
    * <p>This recreates the {@code IdentifiedUser}, hence everything which is cached in the {@code
    * IdentifiedUser} is reloaded (e.g. the email addresses of the user).
    *
-   * <p>The current user must be an identified user.
+   * <p>If the current context is {@link ManualRequestContext}, the method closes it before setting
+   * the new context.
    *
-   * @return the previous request scope.
+   * <p>The current user must be an identified user.
    */
-  @CanIgnoreReturnValue
-  AcceptanceTestRequestScope.Context resetCurrentApiUser();
+  void resetCurrentApiUser();
 
   /**
    * Sets the Guice request scope to the anonymous user.
    *
-   * @return the previous request scope.
+   * <p>If the current context is {@link ManualRequestContext}, the method closes it before setting
+   * the new context.
    */
-  @CanIgnoreReturnValue
-  AcceptanceTestRequestScope.Context setApiUserAnonymous();
+  void setApiUserAnonymous();
 
   /**
    * Sets the Guice request scope to the internal server user.
    *
-   * @return the previous request scope.
+   * <p>If the current context is {@link ManualRequestContext}, the method closes it before setting
+   * the new context.
    */
-  @CanIgnoreReturnValue
-  AcceptanceTestRequestScope.Context setApiUserInternal();
+  void setApiUserInternal();
 }

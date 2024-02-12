@@ -239,6 +239,7 @@ suite('gr-comment tests', () => {
                   </gr-button>
                 </div>
               </div>
+              <gr-suggestion-diff-preview></gr-suggestion-diff-preview>
             </div>
           </gr-endpoint-decorator>
           <dialog id="confirmDeleteModal" tabindex="-1">

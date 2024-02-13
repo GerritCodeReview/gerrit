@@ -29,11 +29,13 @@ import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.changes.AbandonInput;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
+import com.google.gerrit.extensions.api.changes.Changes;
 import com.google.gerrit.extensions.api.changes.MoveInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RestoreInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
+import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.server.DynamicOptions;
@@ -56,11 +58,13 @@ import java.lang.reflect.AnnotatedElement;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.Option;
@@ -256,15 +260,31 @@ public class ReviewCommand extends SshCommand {
                 ActionType.CHANGE_UPDATE,
                 "applyReview",
                 () -> {
+                  Changes changesApi = gApi.changes();
+                  int changeNumber = patchSet.id().changeId().get();
                   if (projectState == null) {
                     logger.atWarning().log(
                         "Deprecated usage of review command: missing project for change number %d, patchset %d",
                         patchSet.id().changeId().get(), patchSet.number());
+                    String query = "change: " + changeNumber;
+                    List<ChangeInfo> changeInfos = gApi.changes().query(query).get();
+                    if (changeInfos.size() > 1) {
+                      throw die(
+                          String.format(
+                              "Multiple changes (%d) found for change number %d in projects: %s",
+                              changeInfos.size(),
+                              changeNumber,
+                              changeInfos.stream()
+                                  .map(ci -> ci.project)
+                                  .collect(Collectors.joining(", "))));
+                    }
+                    changesApi.id(changeNumber).revision(patchSet.number()).review(review);
+                  } else {
+                    changesApi
+                        .id(projectState.getProject().getName(), changeNumber)
+                        .revision(patchSet.number())
+                        .review(review);
                   }
-                  gApi.changes()
-                      .id(patchSet.id().changeId().get())
-                      .revision(patchSet.number())
-                      .review(review);
                   return null;
                 })
             .call();

@@ -223,6 +223,30 @@
       },
       "revId": "96013b5ce96752836bd68a4b0e8cc72cdde76f08",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7aae592c_b400c6f1",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 611,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-13T12:11:33Z",
+      "side": 1,
+      "message": "Sure, possibly this part needs a separate change and a separate discussion.\nThe problem is: _\"How to preserve the ability to query by legacy_id_str? (aka the document-id of the index)\"_\n\nThat needs a more focussed discussion an impact analysis IMHO.",
+      "parentUuid": "e368975e_58f8f2f2",
+      "range": {
+        "startLine": 611,
+        "startChar": 31,
+        "endLine": 611,
+        "endChar": 44
+      },
+      "revId": "96013b5ce96752836bd68a4b0e8cc72cdde76f08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

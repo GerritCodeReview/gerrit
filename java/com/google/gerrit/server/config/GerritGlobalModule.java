@@ -160,7 +160,8 @@ import com.google.gerrit.server.git.validators.RefOperationValidators;
 import com.google.gerrit.server.git.validators.UploadValidationListener;
 import com.google.gerrit.server.git.validators.UploadValidators;
 import com.google.gerrit.server.group.db.GroupDbModule;
-import com.google.gerrit.server.index.change.ReindexAfterRefUpdate;
+import com.google.gerrit.server.index.account.ReindexAccountsAfterRefUpdate;
+import com.google.gerrit.server.index.change.ReindexChangesAfterRefUpdate;
 import com.google.gerrit.server.logging.PerformanceLogger;
 import com.google.gerrit.server.mail.AutoReplyMailFilter;
 import com.google.gerrit.server.mail.ListMailFilter;
@@ -397,7 +398,10 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), GarbageCollectorListener.class);
     DynamicSet.setOf(binder(), HeadUpdatedListener.class);
     DynamicSet.setOf(binder(), UsageDataPublishedListener.class);
-    DynamicSet.bind(binder(), GitBatchRefUpdateListener.class).to(ReindexAfterRefUpdate.class);
+    DynamicSet.bind(binder(), GitBatchRefUpdateListener.class)
+        .to(ReindexChangesAfterRefUpdate.class);
+    DynamicSet.bind(binder(), GitBatchRefUpdateListener.class)
+        .to(ReindexAccountsAfterRefUpdate.class);
     DynamicSet.bind(binder(), GitReferenceUpdatedListener.class)
         .to(ProjectConfigEntry.UpdateChecker.class);
     DynamicSet.setOf(binder(), EventListener.class);

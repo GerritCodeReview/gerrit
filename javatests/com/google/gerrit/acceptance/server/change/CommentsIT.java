@@ -177,6 +177,12 @@ public class CommentsIT extends AbstractDaemonTest {
     comment.fixSuggestions.get(0).fixId = actual.fixSuggestions.get(0).fixId;
     assertThat(comment).isEqualTo(infoToDraft(path).apply(actual));
 
+    actual =
+        Iterables.getOnlyElement(
+            Iterables.getOnlyElement(gApi.changes().id(changeId).drafts().values()));
+    comment.fixSuggestions.get(0).fixId = actual.fixSuggestions.get(0).fixId;
+    assertThat(comment).isEqualTo(infoToDraft(path).apply(actual));
+
     List<CommentInfo> list = getDraftCommentsAsList(changeId);
     assertThat(list).hasSize(1);
     actual = list.get(0);

@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "06f5dccc_f8ffd41b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-02-13T10:30:16Z",
+      "side": 1,
+      "message": "CommentInfo now includes fix_suggestions?: FixSuggestionInfo[];\n\nSuggestedFixResponse before this change had fix_suggestions: FixSuggestionInfoInput[];\n\n\nand now after this change we align them so SuggestedFixResponse will have \n fix_suggestions: FixSuggestionInfo[];",
+      "parentUuid": "80f64621_eb7e9c32",
+      "revId": "8ae6b3577efad8f1a4a4201cfbc86807af7c2b27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "77e5ff9e_b6f70ec7",
@@ -115,6 +133,30 @@
       "side": 1,
       "message": "Can you split the revert into another change?\nI\u0027m not sure what the changes outside this revert are.\nOtherwise if you clarify the comment above then I\u0027m fine with keeping them merged but I strongly prefer having a separate change for it.",
       "parentUuid": "fdc755bb_31f3cb23",
+      "range": {
+        "startLine": 523,
+        "startChar": 0,
+        "endLine": 523,
+        "endChar": 28
+      },
+      "revId": "8ae6b3577efad8f1a4a4201cfbc86807af7c2b27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9acb86aa_b39a7700",
+        "filename": "polygerrit-ui/app/api/rest-api.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 523,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-02-13T10:30:16Z",
+      "side": 1,
+      "message": "It\u0027s not possible to split to 2. Both changes needs to move FixSuggestionInfo to \npolygerrit-ui/app/types/common.ts",
+      "parentUuid": "c459f632_3c046f86",
       "range": {
         "startLine": 523,
         "startChar": 0,

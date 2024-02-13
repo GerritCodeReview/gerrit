@@ -16,6 +16,24 @@
       "message": "that makes me wonder how this interactive case is dealt with in the frontend. is there a speculative api variant of what you\u0027re describing here, or does the frontend just do its own thing for the AS selector?",
       "revId": "dee184926e9419a2032a608f6301b17286b99cba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b364b760_b076c1d3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-02-13T12:19:16Z",
+      "side": 1,
+      "message": "The frontend doesn\u0027t do any attention set updates, the attention set is only explicitly updated by the user or automatically by rules in the backend.",
+      "parentUuid": "3b5853eb_efb4bd4c",
+      "revId": "dee184926e9419a2032a608f6301b17286b99cba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aeac376f_e34f9c37",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-02-13T12:43:20Z",
+      "side": 1,
+      "message": "@nitzan@google.com What do you think about adding this as an internal patch?",
+      "revId": "5bb4d98f1d5c2080a7d8b191ea09b3cd77cc811c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

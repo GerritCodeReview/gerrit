@@ -253,6 +253,26 @@ public class ReviewCommand extends SshCommand {
   }
 
   private void applyReview(PatchSet patchSet, ReviewInput review) throws Exception {
+    Changes changesApi = gApi.changes();
+    int changeNumber = patchSet.id().changeId().get();
+    String projectName;
+    if (projectState == null) {
+      logger.atWarning().log(
+          "Deprecated usage of review command: missing project for change number %d, patchset %d",
+          changeNumber, patchSet.number());
+      List<ChangeInfo> changeInfos = changesApi.query("change: " + changeNumber).get();
+      if (changeInfos.size() > 1) {
+        throw die(
+            String.format(
+                "Multiple changes (%d) found for change number %d in projects: %s",
+                changeInfos.size(),
+                changeNumber,
+                changeInfos.stream().map(ci -> ci.project).collect(Collectors.joining(", "))));
+      }
+      projectName = changeInfos.get(0).project;
+    } else {
+      projectName = projectState.getProject().getName();
+    }
     @SuppressWarnings("unused")
     var unused =
         retryHelper
@@ -260,29 +280,6 @@ public class ReviewCommand extends SshCommand {
                 ActionType.CHANGE_UPDATE,
                 "applyReview",
                 () -> {
-                  Changes changesApi = gApi.changes();
-                  int changeNumber = patchSet.id().changeId().get();
-                  String projectName;
-                  if (projectState == null) {
-                    logger.atWarning().log(
-                        "Deprecated usage of review command: missing project for change number %d, patchset %d",
-                        changeNumber, patchSet.number());
-                    List<ChangeInfo> changeInfos =
-                        changesApi.query("change: " + changeNumber).get();
-                    if (changeInfos.size() > 1) {
-                      throw die(
-                          String.format(
-                              "Multiple changes (%d) found for change number %d in projects: %s",
-                              changeInfos.size(),
-                              changeNumber,
-                              changeInfos.stream()
-                                  .map(ci -> ci.project)
-                                  .collect(Collectors.joining(", "))));
-                    }
-                    projectName = changeInfos.get(0).project;
-                  } else {
-                    projectName = projectState.getProject().getName();
-                  }
                   changesApi
                       .id(projectName, changeNumber)
                       .revision(patchSet.number())

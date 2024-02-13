@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b492d0f6_425ba42d",
+        "filename": "java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-02-13T08:54:31Z",
+      "side": 1,
+      "message": "nit: in the first part we say \"cannot remove plugin\", then in the second part we mention \"reload\", IMO this doesn\u0027t makes logical sense. How about \"a Gerrit restart is required to remove or reload it\"?",
+      "range": {
+        "startLine": 594,
+        "startChar": 105,
+        "endLine": 594,
+        "endChar": 111
+      },
+      "revId": "acf1f50c60ea6f51eacb59966767219550447548",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5bb0bac_0ba52a06",
+        "filename": "java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-02-13T08:54:31Z",
+      "side": 1,
+      "message": "s/plugins/plugin/",
+      "range": {
+        "startLine": 594,
+        "startChar": 27,
+        "endLine": 594,
+        "endChar": 34
+      },
+      "revId": "acf1f50c60ea6f51eacb59966767219550447548",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

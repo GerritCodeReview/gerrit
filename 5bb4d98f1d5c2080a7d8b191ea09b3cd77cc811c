@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e2d3d6d_69d2325d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-02-13T12:57:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f258a430_f0f6e360",
+      "revId": "5bb4d98f1d5c2080a7d8b191ea09b3cd77cc811c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "56160eaa_dbbecb4e",
@@ -48,6 +66,24 @@
       "writtenOn": "2024-02-13T12:51:25Z",
       "side": 1,
       "message": "Please add a log here for the purpose of tracing if needed.",
+      "revId": "5bb4d98f1d5c2080a7d8b191ea09b3cd77cc811c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc5eff5a_747a7c10",
+        "filename": "java/com/google/gerrit/server/account/VersionedAccountDestinations.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-02-13T12:57:00Z",
+      "side": 1,
+      "message": "Good point. Done.",
+      "parentUuid": "56160eaa_dbbecb4e",
       "revId": "5bb4d98f1d5c2080a7d8b191ea09b3cd77cc811c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

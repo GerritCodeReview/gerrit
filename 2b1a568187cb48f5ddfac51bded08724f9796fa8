@@ -87,6 +87,24 @@
       "message": "nit: how about something among the line of: _Cannot remove plugins %s as it registered an ApiModule, a Gerrit restart is required to reload it_\n\nGerrit admins are not Gerrit developers, they will probably not know what are the consequences of particular plugin having _ApiModule_.",
       "revId": "2b1a568187cb48f5ddfac51bded08724f9796fa8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f5f2e4f_5150af86",
+        "filename": "java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-13T00:28:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a277dfb7_814562c8",
+      "revId": "2b1a568187cb48f5ddfac51bded08724f9796fa8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

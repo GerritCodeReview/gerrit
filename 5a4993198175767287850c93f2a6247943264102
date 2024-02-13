@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9671a2d1_1fe60a6a",
+        "filename": "java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-02-13T17:17:46Z",
+      "side": 1,
+      "message": "I think if you reached this point you can get the project from the ChangeInfo you have and de-dup the code below. I\u0027ll try to push a change for that.",
+      "revId": "5a4993198175767287850c93f2a6247943264102",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

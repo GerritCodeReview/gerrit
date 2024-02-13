@@ -199,6 +199,56 @@ public class CommentsIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      values = {ExperimentFeaturesConstants.ALLOW_FIX_SUGGESTIONS_IN_COMMENTS})
+  public void createDraftWithoutFixSuggestionsThenUpdateWithFixSuggestions() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    String revId = r.getCommit().getName();
+    String path = "file1";
+    DraftInput comment = CommentsUtil.newDraft(path, Side.REVISION, 0, "comment 1");
+    addDraft(changeId, revId, comment);
+    Map<String, List<CommentInfo>> result = getDraftComments(changeId, revId);
+    assertThat(result).hasSize(1);
+    CommentInfo actual = Iterables.getOnlyElement(result.get(comment.path));
+    // FixId is generated, use the one provided by the server.
+    assertThat(comment).isEqualTo(infoToDraft(path).apply(actual));
+
+    List<CommentInfo> list = getDraftCommentsAsList(changeId);
+    assertThat(list).hasSize(1);
+    actual = list.get(0);
+    assertThat(comment).isEqualTo(infoToDraft(path).apply(actual));
+
+    // Try to update draft comment
+    comment.fixSuggestions =
+        ImmutableList.of(
+            CommentsUtil.createFixSuggestionInfo(CommentsUtil.createFixReplacementInfo()));
+    updateDraft(changeId, revId, comment, actual.id);
+
+    // FixId is generated, use the one provided by the server.
+    actual =
+        Iterables.getOnlyElement(
+            Iterables.getOnlyElement(gApi.changes().id(changeId).drafts().values()));
+    comment.fixSuggestions.get(0).fixId = actual.fixSuggestions.get(0).fixId;
+    assertThat(comment).isEqualTo(infoToDraft(path).apply(actual));
+
+    list = getDraftCommentsAsList(changeId);
+    assertThat(list).hasSize(1);
+    actual = list.get(0);
+    assertThat(comment).isEqualTo(infoToDraft(path).apply(actual));
+
+    // Publish draft comment
+    ReviewInput reviewInput = new ReviewInput();
+    reviewInput.drafts = DraftHandling.PUBLISH_ALL_REVISIONS;
+    reviewInput.message = "bar";
+    gApi.changes().id(changeId).current().review(reviewInput);
+
+    actual = gApi.changes().id(changeId).commentsRequest().getAsList().get(0);
+    assertThat(comment).isEqualTo(infoToDraft(path).apply(actual));
+  }
+
+  @Test
   public void createDraftWithFixSuggestionsFailsWithoutExperimentFlag() throws Exception {
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();

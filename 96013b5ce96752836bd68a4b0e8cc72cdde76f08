@@ -271,6 +271,30 @@
       },
       "revId": "96013b5ce96752836bd68a4b0e8cc72cdde76f08",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d88a10fb_9a1a0eeb",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 611,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-13T16:18:01Z",
+      "side": 1,
+      "message": "\u003e This part of the code is used when doing both the following queries:\n\u003e \n\u003e * `/q/change:1234`\n\nNo, I tried locally and this goes through a standard query parsing.\n\n\u003e * `/q/1234`\n\nYes, this is a query by legacy id.\n\n\u003e Hence it is needed to allow the search by change number when using the `change` predicate.\n\nThe `change:NNNN` yes, but the number only is a legacy id search.\n\n\u003e If we only need to preserve the ability of query by _legacy_id_str_ we could add a specific predicate for it.\n\nThe legacy id was unique, the change-num query may not be unique. We need to allow both.\n\nThe existing code is assuming that the query returns a unique value, therefore it should stay with the legacy id IMHO.\n\n\u003e However I think the concern is understanding if we are breaking any behaviour if we return multiple results with `/q/\u003cchangeNumber\u003e`.\n\u003e \n\u003e To avoid any impact I can intercept and handle differently this type of queries.\n\u003e \n\u003e Probably I would have to do is as a prerequisite of this change.\n\nNo, they are already two different queries at the moment.",
+      "parentUuid": "7a6227b7_237bc53b",
+      "range": {
+        "startLine": 611,
+        "startChar": 31,
+        "endLine": 611,
+        "endChar": 44
+      },
+      "revId": "96013b5ce96752836bd68a4b0e8cc72cdde76f08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

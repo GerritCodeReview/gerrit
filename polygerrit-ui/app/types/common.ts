@@ -41,6 +41,7 @@ import {
   ChangeMessageId,
   ChangeMessageInfo,
   ChangeSubmissionId,
+  CommentInfo,
   CommentLinkInfo,
   CommentLinks,
   CommentSide,
@@ -118,8 +119,9 @@ import {
   isQuickLabelInfo,
   Base64FileContent,
   CommentRange,
-  FixSuggestionInfoInput,
   FixReplacementInfo,
+  FixSuggestionInfo,
+  FixId,
 } from '../api/rest-api';
 import {DiffInfo, IgnoreWhitespaceType} from './diff';
 import {PatchRange, LineNumber} from '../api/diff';
@@ -146,6 +148,7 @@ export type {
   ChangeMessageInfo,
   ChangeSubmissionId,
   CommentLinkInfo,
+  CommentInfo,
   CommentLinks,
   CommentRange,
   CommitId,
@@ -163,6 +166,8 @@ export type {
   EditPatchSet,
   EmailAddress,
   FileInfo,
+  FixId,
+  FixSuggestionInfo,
   GerritInfo,
   GitPersonInfo,
   GitRef,
@@ -236,9 +241,6 @@ export type RobotRunId = BrandType<string, '_robotRunId'>;
 // RevisionId '0' is the same as 'current'. However, we want to avoid '0'
 // in our code, so it is not added here as a possible value.
 export type RevisionId = 'current' | CommitId | PatchSetNum;
-
-// The UUID of the suggested fix.
-export type FixId = BrandType<string, '_fixId'>;
 
 // The ID of the dashboard, in the form of '<ref>:<path>'
 export type DashboardId = BrandType<string, '_dahsboardId'>;
@@ -805,32 +807,6 @@ export enum SavingState {
   // Possible prior states: SAVING
   // Possible subsequent states: SAVING
   ERROR = 'ERROR',
-}
-
-/**
- * The CommentInfo entity contains information about an inline comment.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#comment-info
- */
-export interface CommentInfo {
-  id: UrlEncodedCommentId;
-  updated: Timestamp;
-  // TODO(TS): Make this required. Every comment must have patch_set set.
-  patch_set?: RevisionPatchSetNum;
-  path?: string;
-  side?: CommentSide;
-  parent?: number;
-  line?: number;
-  range?: CommentRange;
-  in_reply_to?: UrlEncodedCommentId;
-  message?: string;
-  author?: AccountInfo;
-  tag?: string;
-  unresolved?: boolean;
-  change_message_id?: string;
-  commit_id?: string;
-  context_lines?: ContextLine[];
-  source_content_type?: string;
-  fix_suggestions?: FixSuggestionInfo[];
 }
 
 export type DraftInfo = Omit<CommentInfo, 'id' | 'updated'> & {
@@ -1458,12 +1434,6 @@ export interface RobotCommentInfo extends CommentInfo {
   properties: {[propertyName: string]: string};
 }
 export type PathToRobotCommentsInfoMap = {[path: string]: RobotCommentInfo[]};
-
-export interface FixSuggestionInfo extends FixSuggestionInfoInput {
-  fix_id: FixId;
-  description: string;
-  replacements: FixReplacementInfo[];
-}
 
 /**
  * The ApplyProvidedFixInput entity contains information for applying fixes, provided in the

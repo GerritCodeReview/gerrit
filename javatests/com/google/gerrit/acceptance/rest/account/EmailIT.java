@@ -21,7 +21,6 @@ import static java.util.stream.Collectors.toSet;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.Account;
@@ -47,6 +46,7 @@ import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.EnablePeerIPInReflogRecord;
+import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -192,15 +192,13 @@ public class EmailIT extends AbstractDaemonTest {
     assertThat(externalIds.get(mailtoExtIdKey)).isEmpty();
     assertThat(gApi.accounts().self().get().email).isNotEqualTo(email);
 
-    Context oldCtx = createContextWithCustomRealm(new RealmWithAdditionalEmails(admin.id(), email));
-    try {
+    try (ManualRequestContext newCtx =
+        createContextWithCustomRealm(new RealmWithAdditionalEmails(admin.id(), email))) {
       gApi.accounts().self().email(email).setPreferred();
       Optional<ExternalId> mailtoExtId = externalIds.get(mailtoExtIdKey);
       assertThat(mailtoExtId).isPresent();
       assertThat(mailtoExtId.get().accountId()).isEqualTo(admin.id());
       assertThat(gApi.accounts().self().get().email).isEqualTo(email);
-    } finally {
-      atrScope.set(oldCtx);
     }
   }
 
@@ -209,16 +207,13 @@ public class EmailIT extends AbstractDaemonTest {
     ExternalId mailToExtId = externalIdFactory.createEmail(user.id(), user.email());
     assertThat(externalIds.get(mailToExtId.key())).isPresent();
 
-    Context oldCtx =
-        createContextWithCustomRealm(new RealmWithAdditionalEmails(admin.id(), user.email()));
-    try {
+    try (ManualRequestContext newCtx =
+        createContextWithCustomRealm(new RealmWithAdditionalEmails(admin.id(), user.email()))) {
       ResourceConflictException thrown =
           assertThrows(
               ResourceConflictException.class,
               () -> gApi.accounts().self().email(user.email()).setPreferred());
       assertThat(thrown).hasMessageThat().contains("email in use by another account");
-    } finally {
-      atrScope.set(oldCtx);
     }
   }
 
@@ -279,7 +274,7 @@ public class EmailIT extends AbstractDaemonTest {
     r.assertCreated();
   }
 
-  private Context createContextWithCustomRealm(Realm realm) {
+  private ManualRequestContext createContextWithCustomRealm(Realm realm) {
     IdentifiedUser.GenericFactory userFactory =
         new IdentifiedUser.GenericFactory(
             authConfig,
@@ -290,7 +285,7 @@ public class EmailIT extends AbstractDaemonTest {
             enablePeerIPInReflogRecord,
             accountCache,
             groupBackend);
-    return atrScope.set(atrScope.newContext(null, userFactory.create(admin.id())));
+    return new ManualRequestContext(userFactory.create(admin.id()), localCtx);
   }
 
   private class RealmWithAdditionalEmails extends DefaultRealm {

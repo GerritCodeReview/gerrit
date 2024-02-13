@@ -76,7 +76,7 @@ public class AbandonIT extends AbstractDaemonTest {
 
   @Test
   public void batchAbandon() throws Exception {
-    CurrentUser user = atrScope.get().getUser();
+    CurrentUser user = localCtx.getContext().getUser();
     PushOneCommit.Result a = createChange();
     PushOneCommit.Result b = createChange();
     List<ChangeData> list = ImmutableList.of(a.getChange(), b.getChange());
@@ -106,7 +106,7 @@ public class AbandonIT extends AbstractDaemonTest {
     TestRepository<InMemoryRepository> project1 = cloneProject(Project.nameKey(project1Name));
     TestRepository<InMemoryRepository> project2 = cloneProject(Project.nameKey(project2Name));
 
-    CurrentUser user = atrScope.get().getUser();
+    CurrentUser user = localCtx.getContext().getUser();
     PushOneCommit.Result a = createChange(project1, "master", "x", "x", "x", "");
     PushOneCommit.Result b = createChange(project2, "master", "x", "x", "x", "");
     List<ChangeData> list = ImmutableList.of(a.getChange(), b.getChange());

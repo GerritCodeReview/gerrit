@@ -20,7 +20,6 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
 import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.account.TestAccount;
@@ -29,6 +28,7 @@ import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.Sequences;
+import com.google.gerrit.server.util.RequestContext;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -48,8 +48,8 @@ public class RequestScopeOperationsImplTest extends AbstractDaemonTest {
   @Test
   public void setApiUserToExistingUserById() throws Exception {
     fastCheckCurrentUser(admin.id());
-    AcceptanceTestRequestScope.Context oldCtx = requestScopeOperations.setApiUser(user.id());
-    assertThat(oldCtx.getUser().getAccountId()).isEqualTo(admin.id());
+    assertThat(localCtx.getContext().getUser().getAccountId()).isEqualTo(admin.id());
+    requestScopeOperations.setApiUser(user.id());
     checkCurrentUser(user.id());
   }
 
@@ -58,8 +58,8 @@ public class RequestScopeOperationsImplTest extends AbstractDaemonTest {
     fastCheckCurrentUser(admin.id());
     TestAccount testAccount =
         accountOperations.account(accountOperations.newAccount().username("tester").create()).get();
-    AcceptanceTestRequestScope.Context oldCtx = requestScopeOperations.setApiUser(testAccount);
-    assertThat(oldCtx.getUser().getAccountId()).isEqualTo(admin.id());
+    assertThat(localCtx.getContext().getUser().getAccountId()).isEqualTo(admin.id());
+    requestScopeOperations.setApiUser(testAccount);
     checkCurrentUser(testAccount.accountId());
   }
 
@@ -95,7 +95,7 @@ public class RequestScopeOperationsImplTest extends AbstractDaemonTest {
     assertWithMessage("user from GerritApi")
         .that(gApi.accounts().self().get()._accountId)
         .isEqualTo(expected.get());
-    AcceptanceTestRequestScope.Context ctx = atrScope.get();
+    RequestContext ctx = localCtx.getContext();
     assertWithMessage("user from AcceptanceTestRequestScope.Context is an IdentifiedUser")
         .that(ctx.getUser().isIdentifiedUser())
         .isTrue();
@@ -115,7 +115,8 @@ public class RequestScopeOperationsImplTest extends AbstractDaemonTest {
     String changeId = gApi.changes().create(cin).get().changeId;
     assertThat(gApi.changes().id(changeId).get().owner._accountId).isEqualTo(expected.get());
     String queryResults =
-        atrScope.get().getSession().exec("gerrit query owner:self change:" + changeId);
+        getOrCreateSshSessionForContext(localCtx.getContext())
+            .exec("gerrit query owner:self change:" + changeId);
     assertWithMessage("Change-Ids in query results:\n%s", queryResults)
         .that(findDistinct(queryResults, "I[0-9a-f]{40}"))
         .containsExactly(changeId);

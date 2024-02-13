@@ -2582,7 +2582,7 @@ public class RevisionIT extends AbstractDaemonTest {
     ChangeInfo info = gApi.changes().id(changeId).get(DETAILED_LABELS);
     LabelInfo li = info.labels.get(label);
     assertThat(li).isNotNull();
-    int accountId = atrScope.get().getUser().getAccountId().get();
+    int accountId = localCtx.getContext().getUser().getAccountId().get();
     return li.all.stream().filter(a -> a._accountId == accountId).findFirst().get();
   }
 

@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "80f64621_eb7e9c32",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-02-13T10:21:46Z",
+      "side": 1,
+      "message": "\u003e Most important part is that SuggestedFixResponse in\nsuggestFix?(commentData: SuggestCodeRequest): Promise\u003cSuggestedFixResponse\u003e;\n\n\nSorry, I don\u0027t follow this. Where exactly is this line being changed in this CL? Can you link to the file and the line?",
+      "parentUuid": "c4e65606_8d3ec971",
+      "revId": "8ae6b3577efad8f1a4a4201cfbc86807af7c2b27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "77e5ff9e_b6f70ec7",
         "filename": "polygerrit-ui/app/api/rest-api.ts",
         "patchSetId": 3
@@ -73,6 +91,30 @@
       "side": 1,
       "message": "I made mistake in Change 408878. It should be in rest-api. Otherwise we will break import to google.",
       "parentUuid": "77e5ff9e_b6f70ec7",
+      "range": {
+        "startLine": 523,
+        "startChar": 0,
+        "endLine": 523,
+        "endChar": 28
+      },
+      "revId": "8ae6b3577efad8f1a4a4201cfbc86807af7c2b27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c459f632_3c046f86",
+        "filename": "polygerrit-ui/app/api/rest-api.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 523,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-02-13T10:21:46Z",
+      "side": 1,
+      "message": "Can you split the revert into another change?\nI\u0027m not sure what the changes outside this revert are.\nOtherwise if you clarify the comment above then I\u0027m fine with keeping them merged but I strongly prefer having a separate change for it.",
+      "parentUuid": "fdc755bb_31f3cb23",
       "range": {
         "startLine": 523,
         "startChar": 0,

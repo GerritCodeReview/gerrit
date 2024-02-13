@@ -262,12 +262,13 @@ public class ReviewCommand extends SshCommand {
                 () -> {
                   Changes changesApi = gApi.changes();
                   int changeNumber = patchSet.id().changeId().get();
+                  String projectName;
                   if (projectState == null) {
                     logger.atWarning().log(
                         "Deprecated usage of review command: missing project for change number %d, patchset %d",
-                        patchSet.id().changeId().get(), patchSet.number());
-                    String query = "change: " + changeNumber;
-                    List<ChangeInfo> changeInfos = gApi.changes().query(query).get();
+                        changeNumber, patchSet.number());
+                    List<ChangeInfo> changeInfos =
+                        changesApi.query("change: " + changeNumber).get();
                     if (changeInfos.size() > 1) {
                       throw die(
                           String.format(
@@ -278,13 +279,14 @@ public class ReviewCommand extends SshCommand {
                                   .map(ci -> ci.project)
                                   .collect(Collectors.joining(", "))));
                     }
-                    changesApi.id(changeNumber).revision(patchSet.number()).review(review);
+                    projectName = changeInfos.get(0).project;
                   } else {
-                    changesApi
-                        .id(projectState.getProject().getName(), changeNumber)
-                        .revision(patchSet.number())
-                        .review(review);
+                    projectName = projectState.getProject().getName();
                   }
+                  changesApi
+                      .id(projectName, changeNumber)
+                      .revision(patchSet.number())
+                      .review(review);
                   return null;
                 })
             .call();

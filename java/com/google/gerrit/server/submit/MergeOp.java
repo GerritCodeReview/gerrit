@@ -1012,6 +1012,14 @@ public class MergeOp implements AutoCloseable {
         implicitMergesRoots.remove(entry.getKey());
         continue;
       }
+      if (entry.getValue() == null) {
+        logger.atSevere().log("The entry value is null for the key %s", entry.getKey());
+      }
+      rw.parseBody(entry.getValue());
+      if (entry.getValue().getParents() == null) {
+        logger.atSevere().log(
+            "The entry value has null parents. The value is: %s", entry.getValue());
+      }
       for (RevCommit parent : entry.getValue().getParents()) {
         reachableCommits.push(Map.entry(entry.getKey(), parent));
       }

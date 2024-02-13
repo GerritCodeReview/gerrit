@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59ed6944_3336584c",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1210,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-02-13T08:36:02Z",
+      "side": 1,
+      "message": "nit: move this up to the other injected fields?",
+      "revId": "0cc9dbb1b8e5aef72e755fcd9614c1d1ac6fa880",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b0f3705_95355ba7",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/request/RequestScopeOperations.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-02-13T08:36:02Z",
+      "side": 1,
+      "message": "not sure I understand this, could you make this clearer?",
+      "range": {
+        "startLine": 34,
+        "startChar": 56,
+        "endLine": 35,
+        "endChar": 25
+      },
+      "revId": "0cc9dbb1b8e5aef72e755fcd9614c1d1ac6fa880",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7142e644_f92d4f94",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/request/RequestScopeOperations.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-02-13T08:36:02Z",
+      "side": 1,
+      "message": "This method is no longer returning a context? \nDid you forget to update this after adding the setNestedApiUser method above?",
+      "range": {
+        "startLine": 47,
+        "startChar": 59,
+        "endLine": 47,
+        "endChar": 75
+      },
+      "revId": "0cc9dbb1b8e5aef72e755fcd9614c1d1ac6fa880",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b85faaea_1cb04dde",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/request/RequestScopeOperations.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-02-13T08:36:02Z",
+      "side": 1,
+      "message": "same here, this method no longer returns a context",
+      "range": {
+        "startLine": 64,
+        "startChar": 59,
+        "endLine": 64,
+        "endChar": 75
+      },
+      "revId": "0cc9dbb1b8e5aef72e755fcd9614c1d1ac6fa880",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5312d1bd_eee47d02",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/request/RequestScopeOperationsImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-02-13T08:36:02Z",
+      "side": 1,
+      "message": "Can you please add a comment to explain why this unused and how this context gets closed (I guess this somehow works because the ManualRequestContext constructor sets itself as context on the localContext)?",
+      "revId": "0cc9dbb1b8e5aef72e755fcd9614c1d1ac6fa880",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

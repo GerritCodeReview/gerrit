@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8857ec23_768695e7",
+        "filename": "java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 534,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-13T00:28:45Z",
+      "side": 1,
+      "message": "Done both:\n- The presence of `Gerrit-ApiModule` would make the plugin not reloadable\n- The present of any `oldPlugin` would abort the reload or restart",
+      "parentUuid": "435847f8_2821c135",
+      "range": {
+        "startLine": 534,
+        "startChar": 65,
+        "endLine": 534,
+        "endChar": 72
+      },
+      "revId": "2b1a568187cb48f5ddfac51bded08724f9796fa8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a277dfb7_814562c8",

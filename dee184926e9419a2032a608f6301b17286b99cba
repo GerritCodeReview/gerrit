@@ -34,6 +34,24 @@
       "parentUuid": "3b5853eb_efb4bd4c",
       "revId": "dee184926e9419a2032a608f6301b17286b99cba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "40cf675c_a223b5cf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2024-02-13T13:23:14Z",
+      "side": 1,
+      "message": "that\u0027s suboptimal. i would expect the interactive selector to accurately reflect the automatic updates (maybe sans the race condition with concurrent activity), so i need to handle the delta only.",
+      "parentUuid": "b364b760_b076c1d3",
+      "revId": "dee184926e9419a2032a608f6301b17286b99cba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

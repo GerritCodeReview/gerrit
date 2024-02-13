@@ -7,8 +7,8 @@
 import {
   ChangeInfo,
   CommentRange,
-  FixSuggestionInfoInput,
   RevisionPatchSetNum,
+  FixSuggestionInfo,
 } from './rest-api';
 
 export declare interface SuggestionsPluginApi {
@@ -47,7 +47,7 @@ export declare interface SuggestCodeResponse {
 
 export declare interface SuggestedFixResponse {
   responseCode: ResponseCode;
-  fix_suggestions: FixSuggestionInfoInput[];
+  fix_suggestions: FixSuggestionInfo[];
 }
 
 export declare interface Suggestion {

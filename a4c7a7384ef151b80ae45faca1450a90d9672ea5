@@ -69,6 +69,24 @@
       "message": "@mogulguy12@gmail.com @nasser.grainawi@linaro.org\nI suggest cherry-picking from master to 3.8 and 3.9 because TaskListener was introduced in 3.8. WorkQueueIT is implemented based on TaskListener. However, if it\u0027s necessary to fix this bug in versions before 3.8 as well, I can modify my code accordingly.",
       "revId": "a4c7a7384ef151b80ae45faca1450a90d9672ea5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1fc2856_01f43d69",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 36
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-02-13T18:53:24Z",
+      "side": 1,
+      "message": "Thanks for uploading those cherry-picks. I\u0027ll take a look at them and see what we want to do about the pre-3.8 branches if the bug is applicable to them.",
+      "parentUuid": "f632a9bf_de6e39ee",
+      "revId": "a4c7a7384ef151b80ae45faca1450a90d9672ea5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

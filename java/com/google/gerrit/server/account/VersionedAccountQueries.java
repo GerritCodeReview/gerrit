@@ -68,6 +68,7 @@ public class VersionedAccountQueries extends VersionedMetaData {
 
   @Override
   protected void onLoad() throws IOException, ConfigInvalidException {
+    logger.atFine().log("Loading named queries from ref %s", ref);
     queryList =
         QueryList.parse(
             readUTF8(QueryList.FILE_NAME),

@@ -20,7 +20,6 @@ import com.google.gerrit.server.git.meta.VersionedMetaData;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
-import org.eclipse.jgit.lib.FileMode;
 
 /** User or Group configured named destinations. */
 public class VersionedAccountDestinations extends VersionedMetaData {
@@ -48,24 +47,11 @@ public class VersionedAccountDestinations extends VersionedMetaData {
 
   @Override
   protected void onLoad() throws IOException, ConfigInvalidException {
-    if (revision == null) {
-      return;
-    }
-    logger.atFine().log("Loading named destinations from ref %s", ref);
-    String prefix = DestinationList.DIR_NAME + "/";
-    for (PathInfo p : getPathInfos(true)) {
-      if (p.fileMode == FileMode.REGULAR_FILE) {
-        String path = p.path;
-        if (path.startsWith(prefix)) {
-          String label = path.substring(prefix.length());
-          destinations.parseLabel(
-              label,
-              readUTF8(path),
-              error ->
-                  logger.atSevere().log("Error parsing file %s: %s", path, error.getMessage()));
-        }
-      }
-    }
+    // named destinations are not supported internally, never load them
+    logger.atFine().log(
+        "Attempted to load named destinations from ref %s, but named destinations are disabled",
+        ref);
+    return;
   }
 
   @Override

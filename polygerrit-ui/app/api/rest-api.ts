@@ -517,6 +517,32 @@ export declare interface ConfigInfo {
 }
 
 /**
+ * The CommentInfo entity contains information about an inline comment.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#comment-info
+ */
+export interface CommentInfo {
+  id: UrlEncodedCommentId;
+  updated: Timestamp;
+  // TODO(TS): Make this required. Every comment must have patch_set set.
+  patch_set?: RevisionPatchSetNum;
+  path?: string;
+  side?: CommentSide;
+  parent?: number;
+  line?: number;
+  range?: CommentRange;
+  in_reply_to?: UrlEncodedCommentId;
+  message?: string;
+  author?: AccountInfo;
+  tag?: string;
+  unresolved?: boolean;
+  change_message_id?: string;
+  commit_id?: string;
+  context_lines?: ContextLine[];
+  source_content_type?: string;
+  fix_suggestions?: FixSuggestionInfo[];
+}
+
+/**
  * The CommentRange entity describes the range of an inline comment.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#comment-range
  *

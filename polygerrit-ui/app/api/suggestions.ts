@@ -4,12 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeInfo,
-  CommentRange,
-  FixSuggestionInfoInput,
-  RevisionPatchSetNum,
-} from './rest-api';
+import {ChangeInfo, CommentRange, RevisionPatchSetNum} from './rest-api';
+import {FixSuggestionInfo} from './common';
 
 export declare interface SuggestionsPluginApi {
   /**
@@ -47,7 +43,7 @@ export declare interface SuggestCodeResponse {
 
 export declare interface SuggestedFixResponse {
   responseCode: ResponseCode;
-  fix_suggestions: FixSuggestionInfoInput[];
+  fix_suggestions: FixSuggestionInfo;
 }
 
 export declare interface Suggestion {

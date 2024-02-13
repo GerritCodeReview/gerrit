@@ -65,7 +65,7 @@ import {debounceTime} from 'rxjs/operators';
 import {changeModelToken} from '../../../models/change/change-model';
 import {
   ChangeInfo,
-  FixSuggestionInfoInput,
+  FixSuggestionInfo,
   isBase64FileContent,
 } from '../../../api/rest-api';
 import {createDiffUrl} from '../../../models/views/change';
@@ -223,7 +223,7 @@ export class GrComment extends LitElement {
   generatedSuggestion?: Suggestion;
 
   @state()
-  generatedFixSuggestion?: FixSuggestionInfoInput;
+  generatedFixSuggestion?: FixSuggestionInfo;
 
   @state()
   generatedSuggestionId?: string;

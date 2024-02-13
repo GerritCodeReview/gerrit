@@ -1,4 +1,4 @@
-// Copyright (C) 2014 The Android Open Source Project
+// Copyright (C) 2024 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,7 +21,6 @@ import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListeningExecutorService;
-import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
@@ -32,7 +31,6 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.QueueProvider.QueueType;
 import com.google.gerrit.server.index.IndexExecutor;
-import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
@@ -45,42 +43,37 @@ import java.util.concurrent.Future;
 import org.eclipse.jgit.lib.Config;
 
 /**
- * Listener for ref update events that reindexes entities in case the updated Git reference was used
+ * Listener for ref update events that reindexes changes in case the updated Git reference was used
  * to compute contents of an index document.
  *
  * <p>Reindexes any open changes that has a destination branch that was updated to ensure that
  * 'mergeable' is still current.
- *
- * <p>Will reindex accounts when the account's NoteDb ref changes.
  */
-public class ReindexAfterRefUpdate implements GitBatchRefUpdateListener {
+public class ReindexChangesAfterRefUpdate implements GitBatchRefUpdateListener {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final OneOffRequestContext requestContext;
   private final Provider<InternalChangeQuery> queryProvider;
-  private final ChangeIndexer.Factory indexerFactory;
-  private final ChangeIndexCollection indexes;
+  private final ChangeIndexer.Factory changeIndexerFactory;
+  private final ChangeIndexCollection changeIndexes;
   private final AllUsersName allUsersName;
-  private final Provider<AccountIndexer> indexer;
   private final ListeningExecutorService executor;
   private final boolean enabled;
 
   @Inject
-  ReindexAfterRefUpdate(
+  ReindexChangesAfterRefUpdate(
       @GerritServerConfig Config cfg,
       OneOffRequestContext requestContext,
       Provider<InternalChangeQuery> queryProvider,
-      ChangeIndexer.Factory indexerFactory,
-      ChangeIndexCollection indexes,
+      ChangeIndexer.Factory changeIndexerFactory,
+      ChangeIndexCollection changeIndexes,
       AllUsersName allUsersName,
-      Provider<AccountIndexer> indexer,
       @IndexExecutor(QueueType.BATCH) ListeningExecutorService executor) {
     this.requestContext = requestContext;
     this.queryProvider = queryProvider;
-    this.indexerFactory = indexerFactory;
-    this.indexes = indexes;
+    this.changeIndexerFactory = changeIndexerFactory;
+    this.changeIndexes = changeIndexes;
     this.allUsersName = allUsersName;
-    this.indexer = indexer;
     this.executor = executor;
     this.enabled = MergeabilityComputationBehavior.fromConfig(cfg).includeInIndex();
   }
@@ -88,14 +81,6 @@ public class ReindexAfterRefUpdate implements GitBatchRefUpdateListener {
   @Override
   public void onGitBatchRefUpdate(GitBatchRefUpdateListener.Event event) {
     if (allUsersName.get().equals(event.getProjectName())) {
-      for (UpdatedRef ref : event.getUpdatedRefs()) {
-        if (RefNames.isRefsUsers(ref.getRefName()) && !RefNames.isRefsEdit(ref.getRefName())) {
-          Account.Id accountId = Account.Id.fromRef(ref.getRefName());
-          if (accountId != null) {
-            indexer.get().index(accountId);
-          }
-        }
-      }
       if (event.getUpdatedRefs().stream()
           .noneMatch(ru -> ru.getRefName().equals(RefNames.REFS_CONFIG))) {
         // The update is in All-Users and not on refs/meta/config. So it's not a change. Return
@@ -113,13 +98,15 @@ public class ReindexAfterRefUpdate implements GitBatchRefUpdateListener {
       }
       Futures.addCallback(
           executor.submit(new GetChanges(event.getProjectName(), ref)),
-          new FutureCallback<List<Change>>() {
+          new FutureCallback<>() {
             @Override
             public void onSuccess(List<Change> changes) {
               for (Change c : changes) {
                 @SuppressWarnings("unused")
                 Future<?> possiblyIgnoredError =
-                    indexerFactory.create(executor, indexes).indexAsync(c.getProject(), c.getId());
+                    changeIndexerFactory
+                        .create(executor, changeIndexes)
+                        .indexAsync(c.getProject(), c.getId());
               }
             }
 

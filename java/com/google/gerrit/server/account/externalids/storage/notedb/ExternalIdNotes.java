@@ -157,8 +157,8 @@ public class ExternalIdNotes extends VersionedMetaData {
      * @param externalIdNotes the committed updates that should be applied to the cache. This first
      *     and last element must be the updates commited first and last, respectively.
      * @param accountsToSkipForReindex accounts that should not be reindexed. This is to avoid
-     *     double reindexing when updated accounts will already be reindexed by
-     *     ReindexAfterRefUpdate.
+     *     double reindexing when updated accounts will already be reindexed by {@link
+     *     com.google.gerrit.server.index.account.ReindexAccountsAfterRefUpdate}.
      */
     public void updateExternalIdCacheAndMaybeReindexAccounts(
         ExternalIdNotes externalIdNotes, Collection<Account.Id> accountsToSkipForReindex)

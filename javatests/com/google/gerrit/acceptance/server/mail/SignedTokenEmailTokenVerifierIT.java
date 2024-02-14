@@ -42,7 +42,7 @@ public class SignedTokenEmailTokenVerifierIT extends AbstractDaemonTest {
   @Before
   public void setUp() throws Exception {
     signedTokenEmailTokenVerifier =
-        server
+        serverTestRule
             .getTestInjector()
             .getBinding(SignedTokenEmailTokenVerifier.class)
             .getProvider()

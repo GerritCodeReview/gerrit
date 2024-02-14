@@ -78,7 +78,7 @@ public abstract class TestAccount {
     return new PersonIdent(fullName(), email());
   }
 
-  public String getHttpUrl(GerritServer server) {
+  public String getHttpUrl(ServerTestRule server) {
     checkState(server.getHttpAddress().isPresent(), "GerritServer must have httpAddress");
     InetSocketAddress addr = server.getHttpAddress().get();
     return new URIBuilder()

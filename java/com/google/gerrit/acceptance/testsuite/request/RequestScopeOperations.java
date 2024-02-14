@@ -39,7 +39,7 @@ public interface RequestScopeOperations {
    *
    * @param accountId account ID. Must exist; throws an unchecked exception otherwise.
    */
-  ManualRequestContext setNestedApiUser(Account.Id accountId);
+  ManualRequestContext setNestedApiUser(Account.Id accountId) throws Exception;
 
   /**
    * Sets the Guice request scope to the given account.
@@ -57,7 +57,7 @@ public interface RequestScopeOperations {
    *
    * @param accountId account ID. Must exist; throws an unchecked exception otherwise.
    */
-  void setApiUser(Account.Id accountId);
+  void setApiUser(Account.Id accountId) throws Exception;
 
   /**
    * Sets the Guice request scope to the given account.
@@ -66,7 +66,7 @@ public interface RequestScopeOperations {
    *
    * @param testAccount test account from {@code AccountOperations}.
    */
-  void setApiUser(TestAccount testAccount);
+  void setApiUser(TestAccount testAccount) throws Exception;
 
   /**
    * Enforces a new request context for the current API user.
@@ -75,19 +75,19 @@ public interface RequestScopeOperations {
    *
    * <p>The current user (i.e. a user set before calling this method) must be an identified user.
    */
-  void resetCurrentApiUser();
+  void resetCurrentApiUser() throws Exception;
 
   /**
    * Sets the Guice request scope to the anonymous user.
    *
    * <p>See {@link #setApiUser(Account.Id)} for details.
    */
-  void setApiUserAnonymous();
+  void setApiUserAnonymous() throws Exception;
 
   /**
    * Sets the Guice request scope to the internal server user.
    *
    * <p>See {@link #setApiUser(Account.Id)} for details.
    */
-  void setApiUserInternal();
+  void setApiUserInternal() throws Exception;
 }

@@ -16,6 +16,23 @@
       "message": "388874: Update Jetty to 10.0.19 and servlet-api to 4.0.4 | https://gerrit-review.googlesource.com/c/gerrit/+/388874",
       "revId": "0765adaf4945cf9b26d6485d8b9bf11208bf4030",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c644367e_219d8b83",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3301156
+      },
+      "writtenOn": "2024-02-14T12:39:15Z",
+      "side": 1,
+      "message": "HTTP/1.1 200 OK\n  Content-Disposition: attachment\n  Content-Type: application/json; charset\u003dUTF-8\n\n  )]}\u0027\n  {\n    \"auto_closeable_changes_check_result\": {\n      \"auto_closeable_changes\": {\n        \"refs/heads/master\": [\n          {\n            \"id\": \"myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940\",\n            \"project\": \"myProject\",\n            \"branch\": \"master\",\n            \"change_id\": \"I8473b95934b5732ac55d26311a706c9c2bde9940\",\n            \"subject\": \"Implementing Feature X\",\n            \"status\": \"NEW\",\n            \"created\": \"2013-02-01 09:59:32.126000000\",\n            \"updated\": \"2013-02-21 11:16:36.775000000\",\n            \"insertions\": 34,\n            \"deletions\": 101,\n            \"_number\": 3965,\n            \"owner\": {\n              \"name\": \"John Doe\"\n            },\n            \"problems\": [\n              {\n                \"message\": \"Patch set 1 (2f15e416237ed9b561199f24184f5f5d2708c584) is merged into destination ref refs/heads/master (2f15e416237ed9b561199f24184f5f5d2708c584), but change status is NEW\",\n                \"status\": \"FIXED\",\n                \"outcome\": \"Marked change as merged\"\n              }\n            ]\n          }\n        ]\n      }\n    }\n  }",
+      "revId": "0765adaf4945cf9b26d6485d8b9bf11208bf4030",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

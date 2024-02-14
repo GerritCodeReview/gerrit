@@ -37,6 +37,8 @@ import org.junit.Test;
 
 /** Unit tests for {@link AuditLogReader}. */
 public final class AuditLogReaderTest extends AbstractGroupTest {
+  private static final PersonIdent SERVER_INDENT =
+      new PersonIdent("Gerrit Code Review", "review@localhost");
 
   private AuditLogReader auditLogReader;
 
@@ -44,7 +46,9 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
   public void setUp() throws Exception {
     auditLogReader =
         new AuditLogReader(
-            allUsersName, new NoteDbUtil(SERVER_ID, new DisabledExternalIdCache()), new Config());
+            allUsersName,
+            new NoteDbUtil(SERVER_INDENT, SERVER_ID, new DisabledExternalIdCache()),
+            new Config());
   }
 
   @Test
@@ -129,7 +133,9 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
     cfg.setBoolean("groups", "auditLog", "ignoreRecordsFromUnidentifiedUsers", true);
     auditLogReader =
         new AuditLogReader(
-            allUsersName, new NoteDbUtil(SERVER_ID, new DisabledExternalIdCache()), cfg);
+            allUsersName,
+            new NoteDbUtil(SERVER_INDENT, SERVER_ID, new DisabledExternalIdCache()),
+            cfg);
     InternalGroup group = createGroupAsUser(1, "test-group");
     AccountGroup.UUID uuid = group.getGroupUUID();
     AccountGroupMemberAudit expAudit1 =

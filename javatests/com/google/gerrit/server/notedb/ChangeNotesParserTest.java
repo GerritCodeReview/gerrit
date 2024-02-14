@@ -823,6 +823,6 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
         walk,
         changeNoteJson,
         args.metrics,
-        new NoteDbUtil(serverId, externalIdCache));
+        new NoteDbUtil(serverIdent, serverId, externalIdCache));
   }
 }

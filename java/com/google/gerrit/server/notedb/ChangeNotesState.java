@@ -87,7 +87,6 @@ import org.eclipse.jgit.lib.ObjectId;
 
 @AutoValue
 public abstract class ChangeNotesState {
-
   static ChangeNotesState empty(Change change) {
     return Builder.empty(change.getId()).build();
   }
@@ -133,7 +132,8 @@ public abstract class ChangeNotesState {
       @Nullable Change.Id revertOf,
       @Nullable PatchSet.Id cherryPickOf,
       int updateCount,
-      @Nullable Instant mergedOn) {
+      @Nullable Instant mergedOn,
+      boolean mutated) {
     requireNonNull(
         metaId,
         () ->
@@ -183,6 +183,7 @@ public abstract class ChangeNotesState {
         .submitRequirementsResult(submitRequirementResults)
         .updateCount(updateCount)
         .mergedOn(mergedOn)
+        .isMutated(mutated)
         .build();
   }
 
@@ -341,6 +342,13 @@ public abstract class ChangeNotesState {
   @Nullable
   abstract Instant mergedOn();
 
+  /**
+   * Indicates if the value was mutated while loading from Git.
+   *
+   * @return {@code true} when in memory value differs from value in git, {@code false} otherwise
+   */
+  abstract boolean isMutated();
+
   Change newChange(Project.NameKey project) {
     ChangeColumns c = requireNonNull(columns(), "columns are required");
     Change change =
@@ -412,6 +420,7 @@ public abstract class ChangeNotesState {
           .changeMessages(ImmutableList.of())
           .publishedComments(ImmutableListMultimap.of())
           .submitRequirementsResult(ImmutableList.of())
+          .isMutated(false)
           .updateCount(0);
     }
 
@@ -459,6 +468,8 @@ public abstract class ChangeNotesState {
     abstract Builder updateCount(int updateCount);
 
     abstract Builder mergedOn(Instant mergedOn);
+
+    abstract Builder isMutated(boolean mutated);
 
     abstract ChangeNotesState build();
   }
@@ -548,6 +559,7 @@ public abstract class ChangeNotesState {
         b.setMergedOnMillis(object.mergedOn().toEpochMilli());
         b.setHasMergedOn(true);
       }
+      b.setIsMutated(object.isMutated());
 
       return Protos.toByteArray(b.build());
     }
@@ -689,7 +701,8 @@ public abstract class ChangeNotesState {
                       .collect(toImmutableList()))
               .updateCount(proto.getUpdateCount())
               .mergedOn(
-                  proto.getHasMergedOn() ? Instant.ofEpochMilli(proto.getMergedOnMillis()) : null);
+                  proto.getHasMergedOn() ? Instant.ofEpochMilli(proto.getMergedOnMillis()) : null)
+              .isMutated(proto.getIsMutated());
       return b.build();
     }
 

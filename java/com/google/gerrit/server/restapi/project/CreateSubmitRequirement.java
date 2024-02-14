@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.project;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.extensions.common.SubmitRequirementInfo;
@@ -41,7 +42,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.util.List;
 import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
@@ -136,7 +136,7 @@ public class CreateSubmitRequirement
             .setAllowOverrideInChildProjects(input.allowOverrideInChildProjects)
             .build();
 
-    List<String> validationMessages =
+    ImmutableList<String> validationMessages =
         submitRequirementExpressionsValidator.validateExpressions(submitRequirement);
     if (!validationMessages.isEmpty()) {
       throw new BadRequestException(

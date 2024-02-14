@@ -698,7 +698,7 @@ public class ChangeData {
         return metaRevision;
       }
       if (refStates != null) {
-        Set<RefState> refs = refStates.get(project);
+        ImmutableSet<RefState> refs = refStates.get(project);
         if (refs != null) {
           String metaRef = RefNames.changeMetaRef(getId());
           for (RefState r : refs) {

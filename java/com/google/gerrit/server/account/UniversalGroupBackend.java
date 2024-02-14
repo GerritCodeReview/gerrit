@@ -163,7 +163,7 @@ public class UniversalGroupBackend implements GroupBackend {
   }
 
   private class UniversalGroupMembership implements GroupMembership {
-    private final Map<GroupBackend, GroupMembership> memberships;
+    private final ImmutableMap<GroupBackend, GroupMembership> memberships;
 
     private UniversalGroupMembership(CurrentUser user) {
       ImmutableMap.Builder<GroupBackend, GroupMembership> builder = ImmutableMap.builder();

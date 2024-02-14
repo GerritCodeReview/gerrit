@@ -70,7 +70,7 @@ public class ListChangeDrafts implements RestReadView<ChangeResource> {
     this.draftCommentsReader = draftCommentsReader;
   }
 
-  private Iterable<HumanComment> listComments(ChangeResource rsrc) {
+  private List<HumanComment> listComments(ChangeResource rsrc) {
     ChangeData cd = changeDataFactory.create(rsrc.getNotes());
     return draftCommentsReader.getDraftsByChangeAndDraftAuthor(
         cd.notes(), rsrc.getUser().getAccountId());

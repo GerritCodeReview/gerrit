@@ -18,8 +18,8 @@ import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdate
 
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
-import com.google.common.collect.ListMultimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Project;
@@ -40,7 +40,6 @@ import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Singleton
@@ -82,7 +81,7 @@ public class ReaddOwnerUtil {
               + TimeUnit.MILLISECONDS.toMinutes(cfg.getReaddAfter())
               + "m";
 
-      List<ChangeData> changesToAddOwner =
+      ImmutableList<ChangeData> changesToAddOwner =
           queryProvider
               .get()
               .enforceVisibility(false)
@@ -95,7 +94,7 @@ public class ReaddOwnerUtil {
         builder.put(cd.project(), cd);
       }
 
-      ListMultimap<Project.NameKey, ChangeData> ownerAdds = builder.build();
+      ImmutableListMultimap<Project.NameKey, ChangeData> ownerAdds = builder.build();
       int ownersAdded = 0;
       for (Project.NameKey project : ownerAdds.keySet()) {
         try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {

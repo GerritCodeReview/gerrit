@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.PermissionRange;
@@ -133,7 +134,7 @@ public class AccountLimits {
   }
 
   private List<PermissionRule> getRules(String permissionName) {
-    List<PermissionRule> rules = capabilities.getPermission(permissionName);
+    ImmutableList<PermissionRule> rules = capabilities.getPermission(permissionName);
     GroupMembership groups = user.getEffectiveGroups();
 
     List<PermissionRule> mine = new ArrayList<>(rules.size());

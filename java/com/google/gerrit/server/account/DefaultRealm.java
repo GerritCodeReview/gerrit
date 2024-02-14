@@ -16,6 +16,7 @@ package com.google.gerrit.server.account;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.exceptions.StorageException;
@@ -26,7 +27,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.util.Set;
 
 @Singleton
 public class DefaultRealm extends AbstractRealm {
@@ -85,7 +85,7 @@ public class DefaultRealm extends AbstractRealm {
   public Account.Id lookup(String accountName) throws IOException {
     if (emailExpander.canExpand(accountName)) {
       try {
-        Set<Account.Id> c = emails.get().getAccountFor(emailExpander.expand(accountName));
+        ImmutableSet<Account.Id> c = emails.get().getAccountFor(emailExpander.expand(accountName));
         if (1 == c.size()) {
           return c.iterator().next();
         }

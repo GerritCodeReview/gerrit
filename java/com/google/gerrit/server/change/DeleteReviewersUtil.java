@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Address;
 import com.google.gerrit.extensions.api.changes.DeleteReviewerInput;
@@ -26,7 +27,6 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.inject.Inject;
 import java.io.IOException;
-import java.util.Collection;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 public class DeleteReviewersUtil {
@@ -78,7 +78,7 @@ public class DeleteReviewersUtil {
     throw new ResourceNotFoundException(reviewerInput.reviewer);
   }
 
-  private Collection<Account.Id> fetchAccountIds(ChangeNotes changeNotes) {
+  private ImmutableSet<Account.Id> fetchAccountIds(ChangeNotes changeNotes) {
     return approvalsUtil.getReviewers(changeNotes).all();
   }
 }

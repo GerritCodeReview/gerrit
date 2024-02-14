@@ -17,6 +17,7 @@ package com.google.gerrit.server.account;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.server.project.ProjectCache.noSuchProject;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Streams;
 import com.google.gerrit.common.Nullable;
@@ -123,7 +124,7 @@ public class GroupMembers {
     seen.add(group.getGroupUUID());
     GroupControl groupControl = groupControlFactory.controlFor(new InternalGroupDescription(group));
 
-    Set<Account> directMembers =
+    ImmutableSet<Account> directMembers =
         group.getMembers().stream()
             .filter(groupControl::canSeeMember)
             .map(accountCache::get)

@@ -16,6 +16,7 @@ package com.google.gerrit.server.change;
 
 import static com.google.common.flogger.LazyArgs.lazy;
 
+import com.google.common.collect.ImmutableCollection;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
@@ -75,7 +76,7 @@ public class DeleteChangeOp implements BatchUpdateOp {
   // fail gracefully if the second delete fails, but fortunately that's not what happens.
   @Override
   public boolean updateChange(ChangeContext ctx) throws RestApiException, IOException {
-    Collection<PatchSet> patchSets = psUtil.byChange(ctx.getNotes());
+    ImmutableCollection<PatchSet> patchSets = psUtil.byChange(ctx.getNotes());
 
     ensureDeletable(ctx, id, patchSets);
     // Cleaning up is only possible as long as the change and its elements are

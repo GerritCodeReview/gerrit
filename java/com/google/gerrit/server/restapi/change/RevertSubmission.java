@@ -25,7 +25,7 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.base.Strings;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Multimap;
+import com.google.common.collect.ListMultimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
@@ -81,7 +81,6 @@ import java.text.MessageFormat;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
@@ -236,7 +235,7 @@ public class RevertSubmission
       throws RestApiException, IOException, UpdateException, ConfigInvalidException,
           StorageException, PermissionBackendException {
 
-    Multimap<BranchNameKey, ChangeData> changesPerProjectAndBranch = ArrayListMultimap.create();
+    ListMultimap<BranchNameKey, ChangeData> changesPerProjectAndBranch = ArrayListMultimap.create();
     changeData.stream().forEach(c -> changesPerProjectAndBranch.put(c.change().getDest(), c));
     cherryPickInput = createCherryPickInput(revertInput);
     Instant timestamp = TimeUtil.now();
@@ -246,8 +245,7 @@ public class RevertSubmission
       cherryPickInput.base = null;
       Project.NameKey project = projectAndBranch.project();
       cherryPickInput.destination = projectAndBranch.branch();
-      Collection<ChangeData> changesInProjectAndBranch =
-          changesPerProjectAndBranch.get(projectAndBranch);
+      List<ChangeData> changesInProjectAndBranch = changesPerProjectAndBranch.get(projectAndBranch);
 
       // Sort the changes topologically.
       Iterator<PatchSetData> sortedChangesInProjectAndBranch =

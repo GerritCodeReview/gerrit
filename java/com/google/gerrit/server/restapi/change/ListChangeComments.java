@@ -87,7 +87,7 @@ public class ListChangeComments implements RestReadView<ChangeResource> {
     return getAsList(listComments(rsrc), rsrc);
   }
 
-  private Iterable<HumanComment> listComments(ChangeResource rsrc) {
+  private List<HumanComment> listComments(ChangeResource rsrc) {
     ChangeData cd = changeDataFactory.create(rsrc.getNotes());
     return commentsUtil.publishedHumanCommentsByChange(cd.notes());
   }

@@ -35,7 +35,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
@@ -424,7 +423,7 @@ public class ApprovalsUtil {
       ChangeUpdate changeUpdate, ImmutableSet<PatchSetApproval> outdatedApprovals) {
     Set<AttentionSetUpdate> updates = new HashSet<>();
 
-    Multimap<Account.Id, PatchSetApproval> outdatedApprovalsByUser = ArrayListMultimap.create();
+    ListMultimap<Account.Id, PatchSetApproval> outdatedApprovalsByUser = ArrayListMultimap.create();
     outdatedApprovals.forEach(psa -> outdatedApprovalsByUser.put(psa.accountId(), psa));
     for (Map.Entry<Account.Id, Collection<PatchSetApproval>> e :
         outdatedApprovalsByUser.asMap().entrySet()) {
@@ -858,7 +857,8 @@ public class ApprovalsUtil {
    *     deleted labels.
    */
   public Iterable<PatchSetApproval> byPatchSet(ChangeNotes notes, PatchSet.Id psId) {
-    List<PatchSetApproval> approvalsNotNormalized = notes.load().getApprovals().all().get(psId);
+    ImmutableList<PatchSetApproval> approvalsNotNormalized =
+        notes.load().getApprovals().all().get(psId);
     return labelNormalizer.normalize(notes, approvalsNotNormalized).getNormalized();
   }
 

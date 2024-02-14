@@ -86,9 +86,9 @@ public class AddReviewersOp extends ReviewerOp {
   // Unlike addedCCs, addedReviewers is a PatchSetApproval because the ReviewerResult returned
   // via the REST API is supposed to include vote information.
   private List<PatchSetApproval> addedReviewers = ImmutableList.of();
-  private Collection<Address> addedReviewersByEmail = ImmutableList.of();
+  private ImmutableList<Address> addedReviewersByEmail = ImmutableList.of();
   private Collection<Account.Id> addedCCs = ImmutableList.of();
-  private Collection<Address> addedCCsByEmail = ImmutableList.of();
+  private ImmutableList<Address> addedCCsByEmail = ImmutableList.of();
 
   private Change change;
 

@@ -102,7 +102,7 @@ public class RelatedChangesSorter {
       }
     }
 
-    Collection<PatchSetData> ancestors = walkAncestors(parents, start);
+    Set<PatchSetData> ancestors = walkAncestors(parents, start);
     List<PatchSetData> descendants =
         walkDescendants(children, start, otherPatchSetsOfStart, ancestors);
     List<PatchSetData> result = new ArrayList<>(ancestors.size() + descendants.size() - 1);
@@ -135,7 +135,7 @@ public class RelatedChangesSorter {
       }
     }
 
-    Collection<PatchSetData> ancestors = walkAncestors(parents, start);
+    Set<PatchSetData> ancestors = walkAncestors(parents, start);
     return List.copyOf(ancestors);
   }
 

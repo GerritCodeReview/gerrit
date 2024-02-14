@@ -746,7 +746,7 @@ public class ChangeJson {
 
     boolean needMessages = has(MESSAGES);
     boolean needRevisions = has(ALL_REVISIONS) || has(CURRENT_REVISION) || limitToPsId.isPresent();
-    Map<PatchSet.Id, PatchSet> src;
+    ImmutableMap<PatchSet.Id, PatchSet> src;
     if (needMessages || needRevisions) {
       src = loadPatchSets(cd, limitToPsId);
     } else {
@@ -793,7 +793,7 @@ public class ChangeJson {
       if (!includeRemoved && state == ReviewerStateInternal.REMOVED) {
         continue;
       }
-      Collection<AccountInfo> reviewersByState = toAccountInfo(reviewers.byState(state));
+      List<AccountInfo> reviewersByState = toAccountInfo(reviewers.byState(state));
       reviewersByState.addAll(toAccountInfoByEmail(reviewersByEmail.byState(state)));
       if (!reviewersByState.isEmpty()) {
         reviewerMap.put(state.asReviewerState(), reviewersByState);
@@ -954,7 +954,7 @@ public class ChangeJson {
         .collect(toList());
   }
 
-  private Map<PatchSet.Id, PatchSet> loadPatchSets(
+  private ImmutableMap<PatchSet.Id, PatchSet> loadPatchSets(
       ChangeData cd, Optional<PatchSet.Id> limitToPsId) {
     Collection<PatchSet> src;
     if (has(ALL_REVISIONS) || has(MESSAGES)) {
@@ -1001,7 +1001,7 @@ public class ChangeJson {
     }
   }
 
-  private List<PluginDefinedInfo> getPluginInfos(ChangeData cd) {
+  private ImmutableList<PluginDefinedInfo> getPluginInfos(ChangeData cd) {
     return getPluginInfos(Collections.singleton(cd)).get(cd.getId());
   }
 

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.project;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.entities.Project;
@@ -41,7 +42,6 @@ import com.google.gerrit.server.project.ProjectResource;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import java.util.List;
 import java.util.Map;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
@@ -88,9 +88,9 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
 
     ProjectConfig config;
 
-    List<AccessSection> removals =
+    ImmutableList<AccessSection> removals =
         accessUtil.getAccessSections(input.remove, /* rejectNonResolvableGroups= */ false);
-    List<AccessSection> additions =
+    ImmutableList<AccessSection> additions =
         accessUtil.getAccessSections(input.add, /* rejectNonResolvableGroups= */ true);
     try (MetaDataUpdate md = metaDataUpdateUser.create(rsrc.getNameKey())) {
       config = projectConfigFactory.read(md);

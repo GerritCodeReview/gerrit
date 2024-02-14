@@ -15,6 +15,7 @@ package com.google.gerrit.server.config;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Multimap;
 import java.util.Collections;
 import java.util.LinkedHashSet;
@@ -64,21 +65,21 @@ public class ConfigUpdatedEvent {
     return accept(Collections.singleton(entry));
   }
 
-  public Multimap<UpdateResult, ConfigUpdateEntry> accept(Set<ConfigKey> entries) {
+  public ListMultimap<UpdateResult, ConfigUpdateEntry> accept(Set<ConfigKey> entries) {
     return createUpdate(entries, UpdateResult.APPLIED);
   }
 
-  public Multimap<UpdateResult, ConfigUpdateEntry> accept(String section) {
+  public ListMultimap<UpdateResult, ConfigUpdateEntry> accept(String section) {
     Set<ConfigKey> entries = getEntriesFromSection(oldConfig, section);
     entries.addAll(getEntriesFromSection(newConfig, section));
     return createUpdate(entries, UpdateResult.APPLIED);
   }
 
-  public Multimap<UpdateResult, ConfigUpdateEntry> reject(ConfigKey entry) {
+  public ListMultimap<UpdateResult, ConfigUpdateEntry> reject(ConfigKey entry) {
     return reject(Collections.singleton(entry));
   }
 
-  public Multimap<UpdateResult, ConfigUpdateEntry> reject(Set<ConfigKey> entries) {
+  public ListMultimap<UpdateResult, ConfigUpdateEntry> reject(Set<ConfigKey> entries) {
     return createUpdate(entries, UpdateResult.REJECTED);
   }
 
@@ -95,9 +96,9 @@ public class ConfigUpdatedEvent {
     return res;
   }
 
-  private Multimap<UpdateResult, ConfigUpdateEntry> createUpdate(
+  private ListMultimap<UpdateResult, ConfigUpdateEntry> createUpdate(
       Set<ConfigKey> entries, UpdateResult updateResult) {
-    Multimap<UpdateResult, ConfigUpdateEntry> updates = ArrayListMultimap.create();
+    ListMultimap<UpdateResult, ConfigUpdateEntry> updates = ArrayListMultimap.create();
     entries.stream()
         .filter(this::isValueUpdated)
         .map(e -> new ConfigUpdateEntry(e, getString(e, oldConfig), getString(e, newConfig)))

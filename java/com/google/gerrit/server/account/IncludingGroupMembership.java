@@ -45,7 +45,7 @@ public class IncludingGroupMembership implements GroupMembership {
   private final GroupIncludeCache includeCache;
   private final CurrentUser user;
   private final Map<AccountGroup.UUID, Boolean> memberOf;
-  private Set<AccountGroup.UUID> knownGroups;
+  private ImmutableSet<AccountGroup.UUID> knownGroups;
 
   @Inject
   IncludingGroupMembership(

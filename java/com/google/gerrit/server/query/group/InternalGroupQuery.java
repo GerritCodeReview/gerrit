@@ -72,7 +72,7 @@ public class InternalGroupQuery extends InternalQuery<InternalGroup, InternalGro
       ImmutableSet<AccountGroup.UUID> subgroupIds) {
     List<Predicate<InternalGroup>> predicates =
         subgroupIds.stream().map(e -> GroupPredicates.subgroup(e)).collect(Collectors.toList());
-    List<InternalGroup> groups = query(Predicate.or(predicates));
+    ImmutableList<InternalGroup> groups = query(Predicate.or(predicates));
 
     Map<AccountGroup.UUID, Set<AccountGroup.UUID>> parentsByChild =
         Maps.newHashMapWithExpectedSize(groups.size());
@@ -90,7 +90,7 @@ public class InternalGroupQuery extends InternalQuery<InternalGroup, InternalGro
 
   private Optional<InternalGroup> getOnlyGroup(
       Predicate<InternalGroup> predicate, String groupDescription) {
-    List<InternalGroup> groups = query(predicate);
+    ImmutableList<InternalGroup> groups = query(predicate);
     if (groups.isEmpty()) {
       return Optional.empty();
     }

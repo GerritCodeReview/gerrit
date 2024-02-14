@@ -74,7 +74,7 @@ public class ListDashboards implements RestReadView<ProjectResource> {
     List<List<DashboardInfo>> all = new ArrayList<>();
     boolean setDefault = true;
     for (ProjectState ps : tree(rsrc)) {
-      List<DashboardInfo> list = scan(ps, project, setDefault);
+      ImmutableList<DashboardInfo> list = scan(ps, project, setDefault);
       for (DashboardInfo d : list) {
         if (d.isDefault != null && Boolean.TRUE.equals(d.isDefault)) {
           setDefault = false;

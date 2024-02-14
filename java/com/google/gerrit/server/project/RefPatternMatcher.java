@@ -111,7 +111,7 @@ public abstract class RefPatternMatcher {
         // allows the pattern prefix to be clipped, saving time on
         // evaluation.
         String replacement = ":PLACEHOLDER:";
-        Map<String, String> params =
+        ImmutableMap<String, String> params =
             ImmutableMap.of(
                 RefPattern.USERID_SHARDED, replacement,
                 RefPattern.USERNAME, replacement);

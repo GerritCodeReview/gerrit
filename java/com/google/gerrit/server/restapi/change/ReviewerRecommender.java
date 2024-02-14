@@ -203,7 +203,7 @@ public class ReviewerRecommender {
     int numberOfRelevantChanges = config.getInt("suggest", "relevantChanges", 50);
     // Get the user's last numberOfRelevantChanges changes, check reviewers
     try {
-      List<ChangeData> result =
+      ImmutableList<ChangeData> result =
           queryProvider
               .get()
               .setLimit(numberOfRelevantChanges)

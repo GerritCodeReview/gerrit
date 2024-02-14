@@ -277,7 +277,7 @@ public class PluginGuiceEnvironment {
         apiSets.putAll(dynamicSetsOf(apiInjector));
         apiMaps.putAll(dynamicMapsOf(apiInjector));
 
-        List<Injector> allPluginInjectors =
+        ImmutableList<Injector> allPluginInjectors =
             listOfInjectors(
                 plugin.getSysInjector(), plugin.getSshInjector(), plugin.getHttpInjector());
         allPluginInjectors.forEach(i -> attachItem(apiItems, i, plugin));
@@ -293,7 +293,7 @@ public class PluginGuiceEnvironment {
     }
   }
 
-  private List<Injector> listOfInjectors(Injector... injectors) {
+  private ImmutableList<Injector> listOfInjectors(Injector... injectors) {
     ImmutableList.Builder<Injector> injectorsListBuilder = ImmutableList.builder();
 
     for (Injector injector : injectors) {

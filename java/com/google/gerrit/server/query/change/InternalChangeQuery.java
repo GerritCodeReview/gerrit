@@ -200,7 +200,7 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
     return Lists.transform(notes, n -> changeDataFactory.create(n));
   }
 
-  private List<ChangeData> byCommitsOnBranchNotMergedFromIndex(
+  private ImmutableList<ChangeData> byCommitsOnBranchNotMergedFromIndex(
       BranchNameKey branch, Collection<String> hashes) {
     return query(
         and(

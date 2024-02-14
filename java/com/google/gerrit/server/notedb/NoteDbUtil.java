@@ -21,6 +21,7 @@ import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdCache;
 import com.google.gerrit.server.config.GerritServerId;
@@ -30,6 +31,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Optional;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.util.GitDateFormatter;
 import org.eclipse.jgit.util.GitDateFormatter.Format;
 
@@ -37,10 +39,15 @@ import org.eclipse.jgit.util.GitDateFormatter.Format;
 public class NoteDbUtil {
 
   final String serverId;
+  private final PersonIdent serverIdent;
   private final ExternalIdCache externalIdCache;
 
   @Inject
-  public NoteDbUtil(@GerritServerId String serverId, ExternalIdCache externalIdCache) {
+  public NoteDbUtil(
+      @GerritPersonIdent PersonIdent serverIdent,
+      @GerritServerId String serverId,
+      ExternalIdCache externalIdCache) {
+    this.serverIdent = serverIdent;
     this.serverId = serverId;
     this.externalIdCache = externalIdCache;
   }
@@ -96,6 +103,17 @@ public class NoteDbUtil {
       }
     }
     return Optional.empty();
+  }
+
+  boolean isCommitByGerritServer(RevCommit commit) {
+    return isGerritServerIdent(commit.getAuthorIdent())
+        && isGerritServerIdent(commit.getCommitterIdent());
+  }
+
+  private boolean isGerritServerIdent(@Nullable PersonIdent ident) {
+    return ident != null
+        && serverIdent.getName().equals(ident.getName())
+        && serverIdent.getEmailAddress().equals(ident.getEmailAddress());
   }
 
   public static String extractHostPartFromPersonIdent(PersonIdent ident) {

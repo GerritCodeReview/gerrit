@@ -614,6 +614,15 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     return false;
   }
 
+  /**
+   * Indicates if the value was mutated while loading from Git.
+   *
+   * @return {@code true} when in memory value differs from value in git, {@code false} otherwise
+   */
+  public boolean isMutated() {
+    return state.isMutated();
+  }
+
   @Override
   public String getRefName() {
     return changeMetaRef(getChangeId());

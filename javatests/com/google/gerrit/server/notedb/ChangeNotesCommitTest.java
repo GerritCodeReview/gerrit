@@ -118,7 +118,7 @@ public class ChangeNotesCommitTest extends AbstractChangeNotesTest {
         walk,
         changeNoteJson,
         args.metrics,
-        new NoteDbUtil(serverId, externalIdCache));
+        new NoteDbUtil(serverIdent, serverId, externalIdCache));
   }
 
   private RevCommit writeCommit(String body) throws Exception {

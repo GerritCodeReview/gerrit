@@ -206,6 +206,7 @@ class ChangeNotesParser {
   // the latest record unsets the field).
   private Optional<PatchSet.Id> cherryPickOf;
   private Instant mergedOn;
+  private Boolean mutated;
   private final NoteDbUtil noteDbUtil;
 
   ChangeNotesParser(
@@ -318,7 +319,8 @@ class ChangeNotesParser {
         revertOf,
         cherryPickOf != null ? cherryPickOf.orElse(null) : null,
         updateCount,
-        mergedOn);
+        mergedOn,
+        firstNonNull(mutated, false));
   }
 
   private Map<PatchSet.Id, PatchSet> buildPatchSets() throws ConfigInvalidException {
@@ -467,6 +469,10 @@ class ChangeNotesParser {
   }
 
   private void parse(ChangeNotesCommit commit) throws ConfigInvalidException {
+    if (noteDbUtil.isCommitByGerritServer(commit)) {
+      // ignore commit by Gerrit Core Review
+      return;
+    }
     Instant commitTimestamp = getCommitTimestamp(commit);
 
     createdOn = commitTimestamp;
@@ -945,7 +951,7 @@ class ChangeNotesParser {
                 : null);
   }
 
-  private void parseNotes() throws IOException, ConfigInvalidException {
+  void parseNotes() throws IOException, ConfigInvalidException {
     ObjectReader reader = walk.getObjectReader();
     ChangeNotesCommit tipCommit = walk.parseCommit(tip);
     revisionNoteMap =
@@ -960,6 +966,10 @@ class ChangeNotesParser {
             .parseIdent(String.format("%s@%s", c.author.getId(), c.serverId))
             .ifPresent(
                 id -> {
+                  if (mutated == null
+                      && !(id.equals(c.author.getId()) && c.serverId.equals(noteDbUtil.serverId))) {
+                    mutated = Boolean.TRUE;
+                  }
                   c.author = new Comment.Identity(id);
                   c.serverId = noteDbUtil.serverId;
                 });

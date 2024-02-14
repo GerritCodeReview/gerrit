@@ -204,7 +204,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
         url = adminSshSession.getUrl();
         break;
       case HTTP:
-        url = admin.getHttpUrl(server);
+        url = admin.getHttpUrl(serverTestRule.server);
         break;
       default:
         throw new IllegalArgumentException("unexpected protocol: " + p);

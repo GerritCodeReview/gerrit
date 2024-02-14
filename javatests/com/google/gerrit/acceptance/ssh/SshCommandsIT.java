@@ -122,7 +122,7 @@ public class SshCommandsIT extends AbstractDaemonTest {
   public void sshCommandCanBeExecuted() throws Exception {
     testCommandExecution(MASTER_COMMANDS);
 
-    restartAsSlave();
+    serverTestRule.restartAsSlave();
     testCommandExecution(SLAVE_COMMANDS);
   }
 
@@ -166,7 +166,7 @@ public class SshCommandsIT extends AbstractDaemonTest {
     List<String> commands = parseCommandsFromGerritHelpText(adminSshSession.getError());
     assertThat(commands).containsExactlyElementsIn(MASTER_COMMANDS.get("gerrit")).inOrder();
 
-    restartAsSlave();
+    serverTestRule.restartAsSlave();
     adminSshSession.exec("gerrit --help");
     commands = parseCommandsFromGerritHelpText(adminSshSession.getError());
     assertThat(commands).containsExactlyElementsIn(SLAVE_COMMANDS.get("gerrit")).inOrder();

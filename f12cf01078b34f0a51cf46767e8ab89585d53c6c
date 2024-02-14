@@ -16,6 +16,24 @@
       "message": "nit: we usually keep the original date when editing files",
       "revId": "f12cf01078b34f0a51cf46767e8ab89585d53c6c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4477d548_22be7342",
+        "filename": "java/com/google/gerrit/server/index/change/ReindexChangesAfterRefUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2024-02-14T07:33:01Z",
+      "side": 1,
+      "message": "This file was renamed. I.e. it\u0027s now a \"new\" file.",
+      "parentUuid": "9dd26336_e095120e",
+      "revId": "f12cf01078b34f0a51cf46767e8ab89585d53c6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

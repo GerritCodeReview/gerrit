@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Address;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -31,7 +32,6 @@ import com.google.gerrit.server.restapi.account.AccountsCollection;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.util.Collection;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
@@ -83,7 +83,7 @@ public class RevisionReviewers implements ChildCollection<RevisionResource, Revi
         throw e;
       }
     }
-    Collection<Account.Id> reviewers = approvalsUtil.getReviewers(rsrc.getNotes()).all();
+    ImmutableSet<Account.Id> reviewers = approvalsUtil.getReviewers(rsrc.getNotes()).all();
     // See if the id exists as a reviewer for this change
     if (reviewers.contains(accountId)) {
       return resourceFactory.create(rsrc, accountId);

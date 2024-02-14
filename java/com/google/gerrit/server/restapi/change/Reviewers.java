@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Address;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -29,7 +30,6 @@ import com.google.gerrit.server.change.ReviewerResource;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.util.Collection;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
@@ -86,7 +86,7 @@ public class Reviewers implements ChildCollection<ChangeResource, ReviewerResour
     throw new ResourceNotFoundException(id);
   }
 
-  private Collection<Account.Id> fetchAccountIds(ChangeResource rsrc) {
+  private ImmutableSet<Account.Id> fetchAccountIds(ChangeResource rsrc) {
     return approvalsUtil.getReviewers(rsrc.getNotes()).all();
   }
 }

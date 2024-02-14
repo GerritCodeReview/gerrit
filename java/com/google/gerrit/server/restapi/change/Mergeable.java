@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.change;
 
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.BranchOrderSection;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
@@ -43,7 +44,6 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -126,7 +126,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
         Optional<BranchOrderSection> branchOrder = projectState.getBranchOrderSection();
         if (branchOrder.isPresent()) {
           int prefixLen = Constants.R_HEADS.length();
-          List<String> names = branchOrder.get().getMoreStable(ref.getName());
+          ImmutableList<String> names = branchOrder.get().getMoreStable(ref.getName());
           Map<String, Ref> refs =
               git.getRefDatabase().exactRef(names.toArray(new String[names.size()]));
           for (String n : names) {

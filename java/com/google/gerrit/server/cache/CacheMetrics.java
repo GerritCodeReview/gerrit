@@ -29,7 +29,6 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import java.util.Set;
 import org.eclipse.jgit.lib.Config;
 
 @Singleton
@@ -73,7 +72,7 @@ public class CacheMetrics {
             new Description("Disk hit ratio for persistent cache").setGauge().setUnit("percent"),
             F_NAME);
 
-    Set<CallbackMetric<?>> cacheMetrics =
+    ImmutableSet<CallbackMetric<?>> cacheMetrics =
         ImmutableSet.of(memEnt, memHit, memEvict, perDiskEnt, perDiskHit);
 
     metrics.newTrigger(

@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.change.HashtagsUtil.extractTags;
 
 import com.google.common.base.Joiner;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Ordering;
 import com.google.gerrit.common.Nullable;
@@ -91,7 +92,7 @@ public class SetHashtagsOp implements BatchUpdateOp {
     ChangeNotes notes = update.getNotes().load();
 
     try {
-      Set<String> existingHashtags = notes.getHashtags();
+      ImmutableSet<String> existingHashtags = notes.getHashtags();
       Set<String> updated = new HashSet<>();
       toAdd = new HashSet<>(extractTags(input.add));
       toRemove = new HashSet<>(extractTags(input.remove));

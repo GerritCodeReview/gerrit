@@ -19,6 +19,7 @@ import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdate
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.entities.BranchNameKey;
@@ -172,7 +173,7 @@ public class CreateMergePatchSet implements RestModifyView<ChangeResource, Merge
       }
 
       RevCommit currentPsCommit;
-      List<String> groups = null;
+      ImmutableList<String> groups = null;
       if (!in.inheritParent && !in.baseChange.isEmpty()) {
         PatchSet basePS = findBasePatchSet(in.baseChange);
         currentPsCommit = rw.parseCommit(basePS.commitId());

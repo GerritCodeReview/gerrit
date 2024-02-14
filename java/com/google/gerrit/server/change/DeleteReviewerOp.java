@@ -17,6 +17,7 @@ package com.google.gerrit.server.change;
 import static com.google.gerrit.server.mail.EmailFactories.REVIEWER_DELETED;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
+import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
@@ -229,8 +230,7 @@ public class DeleteReviewerOp extends ReviewerOp {
   }
 
   private Iterable<PatchSetApproval> approvals(ChangeContext ctx, Account.Id accountId) {
-    Iterable<PatchSetApproval> approvals;
-    approvals = ctx.getNotes().getApprovals().all().values();
+    ImmutableCollection<PatchSetApproval> approvals = ctx.getNotes().getApprovals().all().values();
     return Iterables.filter(approvals, psa -> accountId.equals(psa.accountId()));
   }
 

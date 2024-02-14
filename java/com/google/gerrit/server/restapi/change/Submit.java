@@ -74,7 +74,7 @@ import java.util.Collection;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -357,7 +357,7 @@ public class Submit
     Boolean enabled = useMergeabilityCheck ? cd.isMergeable() : true;
 
     if (treatWithTopic) {
-      Map<String, String> params =
+      ImmutableMap<String, String> params =
           ImmutableMap.of(
               "topicSize", String.valueOf(topicSize),
               "submitSize", String.valueOf(cs.size()));
@@ -367,7 +367,7 @@ public class Submit
           .setVisible(true)
           .setEnabled(Boolean.TRUE.equals(enabled));
     }
-    Map<String, String> params =
+    ImmutableMap<String, String> params =
         ImmutableMap.of(
             "patchSet", String.valueOf(resource.getPatchSet().number()),
             "branch", change.getDest().shortName(),
@@ -391,7 +391,7 @@ public class Submit
     }
     ListMultimap<BranchNameKey, ChangeData> cbb = cs.changesByBranch();
     for (BranchNameKey branch : cbb.keySet()) {
-      Collection<ChangeData> targetBranch = cbb.get(branch);
+      List<ChangeData> targetBranch = cbb.get(branch);
       HashMap<Change.Id, RevCommit> commits = mapToCommits(targetBranch, branch.project());
       Set<ObjectId> allParents =
           commits.values().stream()

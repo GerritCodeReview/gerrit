@@ -173,7 +173,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private String changeId;
   private String branch;
   private Change.Status status;
-  private List<SubmitRecord> submitRecords;
+  private ImmutableList<SubmitRecord> submitRecords;
   private String submissionId;
   private String topic;
   private String commit;
@@ -1014,7 +1014,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     }
 
     Set<AttentionSetUpdate> updates = new HashSet<>();
-    Set<Account.Id> currentReviewers =
+    ImmutableSet<Account.Id> currentReviewers =
         getNotes().getReviewers().byState(ReviewerStateInternal.REVIEWER);
     for (Map.Entry<Account.Id, ReviewerStateInternal> reviewer : reviewers.entrySet()) {
       Account.Id reviewerId = reviewer.getKey();
@@ -1134,7 +1134,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   private void removeInactiveUsersFromAttentionSet(Set<Account.Id> currentReviewers) {
-    Set<Account.Id> inActiveUsersInTheAttentionSet =
+    ImmutableSet<Account.Id> inActiveUsersInTheAttentionSet =
         // get the current attention set.
         getNotes().getAttentionSet().stream()
             .filter(a -> a.operation().equals(Operation.ADD))

@@ -744,7 +744,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
           loadPatterns(rc, CONTRIBUTOR_AGREEMENT, name, KEY_EXCLUDE_PROJECTS));
       ca.setMatchProjectsRegexes(loadPatterns(rc, CONTRIBUTOR_AGREEMENT, name, KEY_MATCH_PROJECTS));
 
-      List<PermissionRule> rules =
+      ImmutableList<PermissionRule> rules =
           loadPermissionRules(rc, CONTRIBUTOR_AGREEMENT, name, KEY_AUTO_VERIFY, false);
       if (rules.isEmpty()) {
         ca.setAutoVerify(null);
@@ -953,7 +953,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   }
 
   private static LabelValue parseLabelValue(String src) {
-    List<String> parts =
+    ImmutableList<String> parts =
         ImmutableList.copyOf(
             Splitter.on(CharMatcher.whitespace()).omitEmptyStrings().limit(2).split(src));
     if (parts.isEmpty()) {
@@ -1651,7 +1651,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         rc.unset(LABEL, name, KEY_COPY_CONDITION);
       }
 
-      List<String> refPatterns = label.getRefPatterns();
+      ImmutableList<String> refPatterns = label.getRefPatterns();
       if (refPatterns != null && !refPatterns.isEmpty()) {
         rc.setStringList(LABEL, name, KEY_BRANCH, refPatterns);
       } else {

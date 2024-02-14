@@ -17,6 +17,7 @@ package com.google.gerrit.server.index.change;
 import static com.google.gerrit.server.query.change.ChangeStatusPredicate.closed;
 import static com.google.gerrit.server.query.change.ChangeStatusPredicate.open;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
@@ -58,10 +59,10 @@ import org.eclipse.jgit.util.MutableInteger;
 @Singleton
 public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
   /** Set of all open change statuses. */
-  public static final Set<Change.Status> OPEN_STATUSES;
+  public static final ImmutableSet<Change.Status> OPEN_STATUSES;
 
   /** Set of all closed change statuses. */
-  public static final Set<Change.Status> CLOSED_STATUSES;
+  public static final ImmutableSet<Change.Status> CLOSED_STATUSES;
 
   static {
     EnumSet<Change.Status> open = EnumSet.noneOf(Change.Status.class);

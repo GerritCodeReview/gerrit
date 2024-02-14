@@ -16,8 +16,8 @@ package com.google.gerrit.server.change;
 
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
-import com.google.common.collect.ListMultimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
@@ -72,7 +72,7 @@ public class AbandonUtil {
         query += " -is:mergeable";
       }
 
-      List<ChangeData> changesToAbandon =
+      ImmutableList<ChangeData> changesToAbandon =
           queryProvider
               .get()
               .enforceVisibility(false)
@@ -85,10 +85,10 @@ public class AbandonUtil {
       }
 
       int count = 0;
-      ListMultimap<Project.NameKey, ChangeData> abandons = builder.build();
+      ImmutableListMultimap<Project.NameKey, ChangeData> abandons = builder.build();
       String message = cfg.getAbandonMessage();
       for (Project.NameKey project : abandons.keySet()) {
-        Collection<ChangeData> changes = getValidChanges(abandons.get(project), query);
+        List<ChangeData> changes = getValidChanges(abandons.get(project), query);
         try {
           batchAbandon.batchAbandon(updateFactory, project, internalUser, changes, message);
           count += changes.size();
@@ -108,12 +108,12 @@ public class AbandonUtil {
     }
   }
 
-  private Collection<ChangeData> getValidChanges(Collection<ChangeData> changes, String query)
+  private List<ChangeData> getValidChanges(Collection<ChangeData> changes, String query)
       throws QueryParseException {
     List<ChangeData> validChanges = new ArrayList<>();
     for (ChangeData cd : changes) {
       String newQuery = query + " change:" + cd.getId();
-      List<ChangeData> changesToAbandon =
+      ImmutableList<ChangeData> changesToAbandon =
           queryProvider
               .get()
               .enforceVisibility(false)

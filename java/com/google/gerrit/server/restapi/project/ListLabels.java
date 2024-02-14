@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.project;
 
+import com.google.common.collect.ImmutableCollection;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.extensions.common.LabelDefinitionInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -29,7 +30,6 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import org.kohsuke.args4j.Option;
@@ -80,7 +80,8 @@ public class ListLabels implements RestReadView<ProjectResource> {
   }
 
   private List<LabelDefinitionInfo> listLabels(ProjectState projectState) {
-    Collection<LabelType> labelTypes = projectState.getConfig().getLabelSections().values();
+    ImmutableCollection<LabelType> labelTypes =
+        projectState.getConfig().getLabelSections().values();
     List<LabelDefinitionInfo> labels = new ArrayList<>(labelTypes.size());
     for (LabelType labelType : labelTypes) {
       labels.add(LabelDefinitionJson.format(projectState.getNameKey(), labelType));

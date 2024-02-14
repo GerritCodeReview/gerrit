@@ -21,7 +21,7 @@ import java.util.Set;
 
 /** GroupMembership over an explicit list. */
 public class ListGroupMembership implements GroupMembership {
-  private final Set<AccountGroup.UUID> groups;
+  private final ImmutableSet<AccountGroup.UUID> groups;
 
   public ListGroupMembership(Iterable<AccountGroup.UUID> groupIds) {
     this.groups = ImmutableSet.copyOf(groupIds);

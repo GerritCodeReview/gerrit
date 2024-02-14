@@ -27,7 +27,7 @@ import java.util.List;
 public class IndexResource extends ConfigResource {
   public static final TypeLiteral<RestView<IndexResource>> INDEX_KIND = new TypeLiteral<>() {};
 
-  private final Collection<Index<?, ?>> indexes;
+  private final ImmutableList<Index<?, ?>> indexes;
 
   public IndexResource(IndexCollection<?, ?, ?> indexes, @Nullable Integer version)
       throws ResourceNotFoundException {

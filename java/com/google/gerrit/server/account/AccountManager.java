@@ -59,7 +59,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -421,7 +420,7 @@ public class AccountManager {
       return;
     }
 
-    Set<ExternalId> existingExtIdsWithEmail = externalIds.byEmail(email);
+    ImmutableSet<ExternalId> existingExtIdsWithEmail = externalIds.byEmail(email);
     if (existingExtIdsWithEmail.isEmpty()) {
       return;
     }
@@ -522,7 +521,7 @@ public class AccountManager {
             "Update External IDs on Update Link",
             to,
             (a, u) -> {
-              Set<ExternalId> filteredExtIdsByScheme =
+              ImmutableSet<ExternalId> filteredExtIdsByScheme =
                   a.externalIds().stream()
                       .filter(e -> e.key().isScheme(who.getExternalIdKey().scheme()))
                       .collect(toImmutableSet());

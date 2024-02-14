@@ -17,6 +17,7 @@ package com.google.gerrit.server.query.change;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 
 import com.google.common.base.CharMatcher;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
@@ -33,7 +34,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 
 /** Predicates that match against {@link ChangeData}. */
 public class ChangePredicates {
@@ -90,7 +90,7 @@ public class ChangePredicates {
    */
   public static Predicate<ChangeData> draftBy(
       DraftCommentsReader draftCommentsReader, Account.Id id) {
-    Set<Predicate<ChangeData>> changeIdPredicates =
+    ImmutableSet<Predicate<ChangeData>> changeIdPredicates =
         draftCommentsReader.getChangesWithDrafts(id).stream()
             .map(ChangePredicates::idStr)
             .collect(toImmutableSet());
@@ -105,7 +105,7 @@ public class ChangePredicates {
    */
   public static Predicate<ChangeData> starBy(
       StarredChangesReader starredChangesReader, Account.Id id) {
-    Set<Predicate<ChangeData>> starredChanges =
+    ImmutableSet<Predicate<ChangeData>> starredChanges =
         starredChangesReader.byAccountId(id).stream()
             .map(ChangePredicates::idStr)
             .collect(toImmutableSet());

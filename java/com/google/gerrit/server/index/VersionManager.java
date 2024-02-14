@@ -206,7 +206,7 @@ public abstract class VersionManager implements LifecycleListener {
           search != null, "no search index ready for %s; should have failed at startup", name);
       int searchVersion = search.getSchema().getVersion();
 
-      List<Index<?, ?>> write = ImmutableList.copyOf(indexes.getWriteIndexes());
+      ImmutableList<Index<?, ?>> write = ImmutableList.copyOf(indexes.getWriteIndexes());
       checkState(
           !write.isEmpty(),
           "no write indexes set for %s; should have been initialized at startup",

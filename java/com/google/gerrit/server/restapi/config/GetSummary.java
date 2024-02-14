@@ -34,7 +34,6 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.nio.file.Path;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,7 +73,7 @@ public class GetSummary implements RestReadView<ConfigResource> {
   }
 
   private TaskSummaryInfo getTaskSummary() {
-    Collection<Task<?>> pending = workQueue.getTasks();
+    List<Task<?>> pending = workQueue.getTasks();
     int tasksTotal = pending.size();
     int tasksStopping = 0;
     int tasksRunning = 0;

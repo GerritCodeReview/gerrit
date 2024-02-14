@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.index.IndexConfig;
@@ -98,7 +99,7 @@ public class GetRelatedChangesUtil {
       return Collections.emptyList();
     }
 
-    List<ChangeData> cds =
+    ImmutableList<ChangeData> cds =
         InternalChangeQuery.byProjectGroups(
             queryProvider, indexConfig, changeData.project(), groups);
     if (cds.isEmpty()) {

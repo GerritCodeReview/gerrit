@@ -17,6 +17,7 @@ package com.google.gerrit.server.project;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Multimap;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.common.ProjectInfo;
@@ -54,7 +55,7 @@ public class ChildProjects {
   /** Gets all child projects recursively. */
   public List<ProjectInfo> list(Project.NameKey parent) throws PermissionBackendException {
     Map<Project.NameKey, Project> projects = readAllReadableProjects();
-    Multimap<Project.NameKey, Project.NameKey> children = parentToChildren(projects);
+    ListMultimap<Project.NameKey, Project.NameKey> children = parentToChildren(projects);
     PermissionBackend.WithUser perm = permissionBackend.currentUser();
 
     List<ProjectInfo> results = new ArrayList<>();
@@ -83,9 +84,9 @@ public class ChildProjects {
   }
 
   /** Map of parent project to direct child. */
-  private Multimap<Project.NameKey, Project.NameKey> parentToChildren(
+  private ListMultimap<Project.NameKey, Project.NameKey> parentToChildren(
       Map<Project.NameKey, Project> projects) {
-    Multimap<Project.NameKey, Project.NameKey> m = ArrayListMultimap.create();
+    ListMultimap<Project.NameKey, Project.NameKey> m = ArrayListMultimap.create();
     for (Map.Entry<Project.NameKey, Project> e : projects.entrySet()) {
       if (!allProjects.equals(e.getKey())) {
         m.put(e.getValue().getParent(allProjects), e.getKey());

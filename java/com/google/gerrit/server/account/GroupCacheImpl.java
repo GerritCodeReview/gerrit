@@ -55,7 +55,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import org.bouncycastle.util.Strings;
 import org.eclipse.jgit.lib.ObjectId;
@@ -178,7 +177,7 @@ public class GroupCacheImpl implements GroupCache {
   @Override
   public Map<AccountGroup.UUID, InternalGroup> get(Collection<AccountGroup.UUID> groupUuids) {
     try {
-      Set<String> groupUuidsStringSet =
+      ImmutableSet<String> groupUuidsStringSet =
           groupUuids.stream().map(u -> u.get()).collect(toImmutableSet());
       return byUUID.getAll(groupUuidsStringSet).entrySet().stream()
           .filter(g -> g.getValue().isPresent())

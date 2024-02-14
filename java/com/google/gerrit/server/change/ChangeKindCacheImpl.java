@@ -21,6 +21,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.cache.Cache;
 import com.google.common.cache.Weigher;
 import com.google.common.collect.FluentIterable;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
@@ -46,7 +47,6 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Objects;
-import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.errors.LargeObjectException;
@@ -272,12 +272,12 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
     }
 
     private static boolean sameRestOfParents(RevCommit prior, RevCommit next) {
-      Set<RevCommit> priorRestParents = allExceptFirstParent(prior.getParents());
-      Set<RevCommit> nextRestParents = allExceptFirstParent(next.getParents());
+      ImmutableSet<RevCommit> priorRestParents = allExceptFirstParent(prior.getParents());
+      ImmutableSet<RevCommit> nextRestParents = allExceptFirstParent(next.getParents());
       return priorRestParents.equals(nextRestParents);
     }
 
-    private static Set<RevCommit> allExceptFirstParent(RevCommit[] parents) {
+    private static ImmutableSet<RevCommit> allExceptFirstParent(RevCommit[] parents) {
       return FluentIterable.from(Arrays.asList(parents)).skip(1).toSet();
     }
 

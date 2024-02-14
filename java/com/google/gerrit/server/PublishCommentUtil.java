@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.HumanComment;
@@ -35,7 +36,6 @@ import com.google.inject.Singleton;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 @Singleton
@@ -62,7 +62,7 @@ public class PublishCommentUtil {
       return;
     }
 
-    Map<PatchSet.Id, PatchSet> patchSets =
+    ImmutableMap<PatchSet.Id, PatchSet> patchSets =
         psUtil.getAsMap(notes, draftComments.stream().map(d -> psId(notes, d)).collect(toSet()));
     Set<HumanComment> commentsToPublish = new HashSet<>();
     for (HumanComment draftComment : draftComments) {

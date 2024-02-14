@@ -17,6 +17,7 @@ package com.google.gerrit.server.account;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.MultimapBuilder;
@@ -30,8 +31,6 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
 import org.eclipse.jgit.lib.PersonIdent;
 
 /** Class to access accounts by email. */
@@ -90,7 +89,7 @@ public class Emails {
         MultimapBuilder.hashKeys(emails.length).hashSetValues(1).build();
     externalIds.byEmails(emails).entries().stream()
         .forEach(e -> result.put(e.getKey(), e.getValue().accountId()));
-    List<String> emailsToBackfill =
+    ImmutableList<String> emailsToBackfill =
         Arrays.stream(emails).filter(e -> !result.containsKey(e)).collect(toImmutableList());
     if (!emailsToBackfill.isEmpty()) {
       retryHelper
@@ -122,7 +121,7 @@ public class Emails {
     // If only one account has access to this email address, select it
     // as the identity of the user.
     //
-    Set<Account.Id> a = getAccountFor(u.getEmail());
+    ImmutableSet<Account.Id> a = getAccountFor(u.getEmail());
     if (a.size() == 1) {
       u.setAccount(a.iterator().next());
     }

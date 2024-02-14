@@ -15,7 +15,7 @@
 package com.google.gerrit.server.config;
 
 import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Multimap;
+import com.google.common.collect.ListMultimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.server.config.ConfigUpdatedEvent.ConfigUpdateEntry;
 import com.google.gerrit.server.config.ConfigUpdatedEvent.UpdateResult;
@@ -43,17 +43,17 @@ public class GerritServerConfigReloader {
    * Reloads the Gerrit Server Configuration from disk. Synchronized to ensure that one issued
    * reload is fully completed before a new one starts.
    */
-  public Multimap<UpdateResult, ConfigUpdateEntry> reloadConfig() {
+  public ListMultimap<UpdateResult, ConfigUpdateEntry> reloadConfig() {
     logger.atInfo().log("Starting server configuration reload");
-    Multimap<UpdateResult, ConfigUpdateEntry> updates =
+    ListMultimap<UpdateResult, ConfigUpdateEntry> updates =
         fireUpdatedConfigEvent(configProvider.updateConfig());
     logger.atInfo().log("Server configuration reload completed succesfully");
     return updates;
   }
 
-  public Multimap<UpdateResult, ConfigUpdateEntry> fireUpdatedConfigEvent(
+  public ListMultimap<UpdateResult, ConfigUpdateEntry> fireUpdatedConfigEvent(
       ConfigUpdatedEvent event) {
-    Multimap<UpdateResult, ConfigUpdateEntry> updates = ArrayListMultimap.create();
+    ListMultimap<UpdateResult, ConfigUpdateEntry> updates = ArrayListMultimap.create();
     configListeners.runEach(l -> updates.putAll(l.configUpdated(event)));
     return updates;
   }

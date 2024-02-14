@@ -14,8 +14,11 @@
 
 package com.google.gerrit.server.account.storage.notedb;
 
+import com.google.gerrit.extensions.events.GitBatchRefUpdateListener;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdNoteDbWriteStorageModule;
+import com.google.gerrit.server.index.account.ReindexAccountsAfterRefUpdate;
 import com.google.inject.AbstractModule;
 
 /** Module that binds {@link AccountsUpdate} */
@@ -29,5 +32,7 @@ public class AccountNoteDbWriteStorageModule extends AbstractModule {
     bind(AccountsUpdate.AccountsUpdateLoader.class)
         .annotatedWith(AccountsUpdate.AccountsUpdateLoader.NoReindex.class)
         .to(AccountsUpdateNoteDbImpl.FactoryNoReindex.class);
+    DynamicSet.bind(binder(), GitBatchRefUpdateListener.class)
+        .to(ReindexAccountsAfterRefUpdate.class);
   }
 }

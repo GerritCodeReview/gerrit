@@ -112,13 +112,14 @@ import org.eclipse.jgit.transport.ReceiveCommand;
  * Hence, in this case the accounts are not evicted and reindexed via {@link
  * ReindexAccountsAfterRefUpdate}.
  *
- * <p>Reindexing and flushing accounts from the account cache can be disabled by
+ * <p>Reindexing and flushing accounts from the account cache can be disabled by-
  *
  * <ul>
  *   <li>using {@link
  *       com.google.gerrit.server.account.storage.notedb.AccountsUpdateNoteDbImpl.FactoryNoReindex}
  *       and
- *   <li>binding {@link GitReferenceUpdated#DISABLED}
+ *   <li>binding {@link GitReferenceUpdated#DISABLED}, or avoid binding {@link
+ *       ReindexAccountsAfterRefUpdate}.
  * </ul>
  *
  * <p>If there are concurrent account updates which updating the user branch in NoteDb may fail with

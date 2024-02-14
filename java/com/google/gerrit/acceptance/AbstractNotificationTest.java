@@ -42,6 +42,8 @@ import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ReviewerState;
+import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.testing.FakeEmailSender;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.inject.Inject;
@@ -68,10 +70,11 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
   }
 
   @Override
-  protected ProjectResetter.Config resetProjects() {
+  protected ProjectResetter.Config resetProjects(
+      AllProjectsName allProjects, AllUsersName allUsers) {
     // Don't reset anything so that stagedUsers can be cached across all tests.
     // Without this caching these tests become much too slow.
-    return new ProjectResetter.Config();
+    return new ProjectResetter.Config.Builder().build();
   }
 
   protected static FakeEmailSenderSubject assertThat(FakeEmailSender sender) {

@@ -35,8 +35,6 @@ import org.junit.runner.RunWith;
 @Sandboxed
 @RunWith(ConfigSuite.class)
 public class SshDaemonIT extends AbstractDaemonTest {
-  @ConfigSuite.Parameter protected Config config;
-
   @ConfigSuite.Config
   public static Config gracefulConfig() {
     Config config = new Config();

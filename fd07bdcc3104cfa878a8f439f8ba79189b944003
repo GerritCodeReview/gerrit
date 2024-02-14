@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3e12d5f0_d51224ba",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 35
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-14T19:55:19Z",
+      "side": 1,
+      "message": "Sure, can that be done as a separate change?",
+      "parentUuid": "a73ef593_4d8a7fe6",
+      "revId": "fd07bdcc3104cfa878a8f439f8ba79189b944003",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6882471d_19204487",
         "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 35
@@ -31,6 +49,116 @@
       "writtenOn": "2024-02-14T18:04:40Z",
       "side": 1,
       "message": "It is worth explaining the reason for the introduction of this default search.",
+      "revId": "fd07bdcc3104cfa878a8f439f8ba79189b944003",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f071941_d7156e85",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-14T19:55:19Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "6882471d_19204487",
+      "revId": "fd07bdcc3104cfa878a8f439f8ba79189b944003",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6397ab64_596ab5c9",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 600,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-14T19:55:19Z",
+      "side": 1,
+      "message": "```suggestion\n      String query, Function\u003cChange.Id, Predicate\u003cChangeData\u003e\u003e changePredicateGetter) throws QueryParseException {\n```",
+      "range": {
+        "startLine": 600,
+        "startChar": 20,
+        "endLine": 600,
+        "endChar": 41
+      },
+      "revId": "fd07bdcc3104cfa878a8f439f8ba79189b944003",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39f310b7_86c041a6",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 617,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-14T19:55:19Z",
+      "side": 1,
+      "message": "```suggestion\n        return changePredicateGetter.apply(Change.id(id));\n```",
+      "range": {
+        "startLine": 617,
+        "startChar": 37,
+        "endLine": 617,
+        "endChar": 40
+      },
+      "revId": "fd07bdcc3104cfa878a8f439f8ba79189b944003",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f178d9b_8c7a40d0",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 630,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-14T19:55:19Z",
+      "side": 1,
+      "message": "Unneeded, just use `Function\u003cChange.Id, Predicate\u003cChangeData\u003e\u003e`",
+      "range": {
+        "startLine": 625,
+        "startChar": 0,
+        "endLine": 630,
+        "endChar": 0
+      },
+      "revId": "fd07bdcc3104cfa878a8f439f8ba79189b944003",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ea0f3d3_81bacc8e",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 1710,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-14T19:55:19Z",
+      "side": 1,
+      "message": "This comment is now stale",
+      "range": {
+        "startLine": 1710,
+        "startChar": 13,
+        "endLine": 1710,
+        "endChar": 26
+      },
       "revId": "fd07bdcc3104cfa878a8f439f8ba79189b944003",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

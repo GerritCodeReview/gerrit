@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.change;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.entities.Patch.PATCHSET_LEVEL;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
@@ -171,6 +172,54 @@ public class PostReviewOp implements BatchUpdateOp {
     }
   }
 
+  @AutoValue
+  public abstract static class Result {
+    /**
+     * Whether this {@code PostReviewOp} updated any vote on the current patch set.
+     *
+     * @return returns {@code true} if a) ReviewInput contained votes and b) ReviewInput was applied
+     *     on the current patch set or any votes got copied to the current patch set.
+     */
+    abstract boolean updatedAnyVoteOnCurrentPatchSet();
+
+    /**
+     * Whether this {@code PostReviewOp} applied any negative vote on the current patch set.
+     *
+     * @return returns {@code true} if a) ReviewInput contained negative votes and b) ReviewInput
+     *     was applied on the current patch set or any of the negative votes got copied to the
+     *     current patch set.
+     */
+    abstract boolean updatedAnyNegativeVoteOnCurrentPatchSet();
+
+    /**
+     * Whether this {@code PostReviewOp} applied votes on an outdated patch set that were not copied
+     * to the current patch set.
+     *
+     * @return returns {@code true} if a) ReviewInput contained votes, b) ReviewInput was applied on
+     *     an outdated patch set and c) not all of the votes got copied to the current patch set
+     */
+    abstract boolean appliedVotesOnOutdatedPatchSetThatWereNotCopiedToCurrentPatchSet();
+
+    /**
+     * Whether this {@code PostReviewOp} posted a change message.
+     *
+     * @return returns {@code true} if ReviewInput contained a message.
+     */
+    abstract boolean postedChangeMessage();
+
+    static Result create(
+        boolean updatedAnyVoteOnCurrentPatchSet,
+        boolean updatedAnyNegativeVoteOnCurrentPatchSet,
+        boolean appliedVotesOnOutdatedPatchSetThatWereNotCopiedToCurrentPatchSet,
+        boolean postedChangeMessage) {
+      return new AutoValue_PostReviewOp_Result(
+          updatedAnyVoteOnCurrentPatchSet,
+          updatedAnyNegativeVoteOnCurrentPatchSet,
+          appliedVotesOnOutdatedPatchSetThatWereNotCopiedToCurrentPatchSet,
+          postedChangeMessage);
+    }
+  }
+
   @VisibleForTesting
   public static final String START_REVIEW_MESSAGE = "This change is ready for review.";
 
@@ -202,6 +251,8 @@ public class PostReviewOp implements BatchUpdateOp {
       MultimapBuilder.hashKeys().treeSetValues(comparing(CopiedLabelUpdate::patchSetId)).build();
   private Map<String, Short> approvals = new HashMap<>();
   private Map<String, Short> oldApprovals = new HashMap<>();
+
+  private Result result;
 
   @Inject
   PostReviewOp(
@@ -266,6 +317,14 @@ public class PostReviewOp implements BatchUpdateOp {
     try (TraceContext.TraceTimer ignored = newTimer("insertMessage")) {
       dirty |= insertMessage(ctx);
     }
+
+    result =
+        Result.create(
+            updatedAnyVoteOnCurrentPatchSet(),
+            updatedAnyNegativeVoteOnCurrentPatchSet(),
+            appliedVotesOnOutdatedPatchSetThatWereNotCopiedToCurrentPatchSet(),
+            postedChangeMessage());
+
     return dirty;
   }
 
@@ -1125,6 +1184,98 @@ public class PostReviewOp implements BatchUpdateOp {
 
   private void addLabelDelta(String name, short value) {
     labelDelta.add(LabelVote.create(name, value));
+  }
+
+  /**
+   * Gets the result of running this {@code PostReviewOp}.
+   *
+   * <p>Must only be invoked after this {@code PostReviewOp} has been executed with {@link
+   * com.google.gerrit.server.update.BatchUpdate}.
+   *
+   * @throws IllegalStateException thrown if invoked before this {@code PostReviewOp} has been
+   *     executed
+   */
+  public Result getResult() {
+    checkState(result != null, "cannot retrieve result, change update has not been executed yet");
+    return result;
+  }
+
+  /**
+   * Whether this {@code PostReviewOp} updated any vote on the current patch set.
+   *
+   * <p>Must only be invoked after this {@code PostReviewOp} has been executed with {@link
+   * com.google.gerrit.server.update.BatchUpdate}.
+   *
+   * @return returns {@code true} if a) ReviewInput contained votes and b) ReviewInput was applied
+   *     on the current patch set or any votes got copied to the current patch set.
+   */
+  private boolean updatedAnyVoteOnCurrentPatchSet() {
+    return in.labels != null
+        && !in.labels.isEmpty()
+        && (notes.getCurrentPatchSet().id().equals(psId)
+            || labelUpdatesOnFollowUpPatchSets.values().stream()
+                .anyMatch(
+                    copiedLabelUpdate ->
+                        copiedLabelUpdate.patchSetId().equals(notes.getCurrentPatchSet().id())));
+  }
+
+  /**
+   * Whether this {@code PostReviewOp} applied any negative vote on the current patch set.
+   *
+   * <p>Must only be invoked after this {@code PostReviewOp} has been executed with {@link
+   * com.google.gerrit.server.update.BatchUpdate}.
+   *
+   * @return returns {@code true} if a) ReviewInput contained negative votes and b) ReviewInput was
+   *     applied on the current patch set or any of the negative votes got copied to the current
+   *     patch set.
+   */
+  private boolean updatedAnyNegativeVoteOnCurrentPatchSet() {
+    return in.labels != null
+        && in.labels.values().stream().anyMatch(vote -> vote < 0)
+        && (notes.getCurrentPatchSet().id().equals(psId)
+            || labelUpdatesOnFollowUpPatchSets.entries().stream()
+                .filter(e -> e.getKey().value() < 0)
+                .anyMatch(e -> e.getValue().patchSetId().equals(notes.getCurrentPatchSet().id())));
+  }
+
+  /**
+   * Whether this {@code PostReviewOp} applied votes on an outdated patch set that were not copied
+   * to the current patch set.
+   *
+   * <p>Must only be invoked after this {@code PostReviewOp} has been executed with {@link
+   * com.google.gerrit.server.update.BatchUpdate}.
+   *
+   * @return returns {@code true} if a) ReviewInput contained votes, b) ReviewInput was applied on
+   *     an outdated patch set and c) not all of the votes got copied to the current patch set
+   */
+  private boolean appliedVotesOnOutdatedPatchSetThatWereNotCopiedToCurrentPatchSet() {
+    if (in.labels == null || notes.getCurrentPatchSet().id().equals(psId)) {
+      return false;
+    }
+
+    for (Map.Entry<String, Short> labelEntry : in.labels.entrySet()) {
+      if (labelUpdatesOnFollowUpPatchSets
+          .get(LabelVote.create(labelEntry.getKey(), labelEntry.getValue())).stream()
+          .anyMatch(
+              copiedLabelUpdate ->
+                  copiedLabelUpdate.patchSetId().equals(notes.getCurrentPatchSet().id()))) {
+        continue;
+      }
+
+      // vote was not copied to current patch set
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
+   * Whether this {@code PostReviewOp} posted a change message.
+   *
+   * @return returns {@code true} if ReviewInput contained a message.
+   */
+  private boolean postedChangeMessage() {
+    return !Strings.isNullOrEmpty(in.message);
   }
 
   private TraceContext.TraceTimer newTimer(String method) {

@@ -15,11 +15,13 @@
 package com.google.gerrit.server.restapi.change;
 
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Sets.SetView;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.HumanComment;
@@ -37,6 +39,7 @@ import com.google.gerrit.server.account.ServiceUserClassifier;
 import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.change.AddToAttentionSetOp;
 import com.google.gerrit.server.change.AttentionSetUnchangedOp;
+import com.google.gerrit.server.change.AttentionSetUpdateCondition;
 import com.google.gerrit.server.change.CommentThread;
 import com.google.gerrit.server.change.CommentThreads;
 import com.google.gerrit.server.change.RemoveFromAttentionSetOp;
@@ -106,6 +109,7 @@ public class ReplyAttentionSetUpdates {
     }
     processRules(
         bu,
+        /* postReviewOp= */ null,
         changeNotes,
         readyForReview,
         currentUser,
@@ -113,14 +117,24 @@ public class ReplyAttentionSetUpdates {
   }
 
   /**
-   * Adjusts the attention set by adding and removing users. If the same user should be added and
-   * removed or added/removed twice, the user will only be added/removed once, based on first
-   * addition/removal.
+   * Adjusts the attention set when a review is posted.
+   *
+   * <p>If the same user should be added and removed or added/removed twice, the user will only be
+   * added/removed once, based on first addition/removal.
+   *
+   * @param postReviewOp the {@link PostReviewOp} that is being executed before the attention set
+   *     updates
    */
-  public void updateAttentionSet(
-      BatchUpdate bu, ChangeNotes changeNotes, ReviewInput input, CurrentUser currentUser)
+  public void updateAttentionSetOnPostReview(
+      BatchUpdate bu,
+      PostReviewOp postReviewOp,
+      ChangeNotes changeNotes,
+      ReviewInput input,
+      CurrentUser currentUser)
       throws BadRequestException, IOException, PermissionBackendException,
           UnprocessableEntityException, ConfigInvalidException {
+    requireNonNull(postReviewOp, "postReviewOp must not be null");
+
     processManualUpdates(bu, changeNotes, input);
     if (input.ignoreAutomaticAttentionSetRules) {
 
@@ -133,12 +147,13 @@ public class ReplyAttentionSetUpdates {
     boolean isReadyForReview = isReadyForReview(changeNotes, input);
 
     if (isReadyForReview && serviceUserClassifier.isServiceUser(currentUser.getAccountId())) {
-      botsWithNegativeLabelsAddOwnerAndUploader(bu, changeNotes, input);
+      botsWithNegativeLabelsAddOwnerAndUploader(bu, postReviewOp, changeNotes);
       return;
     }
 
     processRules(
         bu,
+        postReviewOp,
         changeNotes,
         isReadyForReview,
         currentUser,
@@ -182,27 +197,33 @@ public class ReplyAttentionSetUpdates {
   }
 
   /**
-   * Process the automatic rules of the attention set. All of the automatic rules except
-   * adding/removing reviewers and entering/exiting WIP state are done here, and the rest are done
-   * in {@link ChangeUpdate}
+   * Process the automatic rules of the attention set.
+   *
+   * <p>All of the automatic rules except adding/removing reviewers and entering/exiting WIP state
+   * are done here, and the rest are done in {@link ChangeUpdate}.
+   *
+   * @param postReviewOp {@link PostReviewOp} that is being executed before the attention set
+   *     updates, may be {@code null}
    */
   private void processRules(
       BatchUpdate bu,
+      @Nullable PostReviewOp postReviewOp,
       ChangeNotes changeNotes,
       boolean readyForReview,
       CurrentUser currentUser,
       ImmutableSet<HumanComment> allNewComments) {
-    // Replying removes the publishing user from the attention set.
-    removeFromAttentionSet(bu, changeNotes, currentUser.getAccountId(), "removed on reply", false);
-
-    Account.Id uploader = changeNotes.getCurrentPatchSet().uploader();
-    Account.Id owner = changeNotes.getChange().getOwner();
+    updateAttentionSetForCurrentUser(bu, postReviewOp, changeNotes, currentUser);
 
     // The rest of the conditions only apply if the change is open.
     if (changeNotes.getChange().getStatus().isClosed()) {
       // We still add the owner if a new comment thread was created, on closed changes.
       if (allNewComments.stream().anyMatch(c -> c.parentUuid == null)) {
-        addToAttentionSet(bu, changeNotes, owner, "A new comment thread was created", false);
+        addToAttentionSet(
+            bu,
+            changeNotes,
+            changeNotes.getChange().getOwner(),
+            "A new comment thread was created",
+            false);
       }
       return;
     }
@@ -212,14 +233,98 @@ public class ReplyAttentionSetUpdates {
       return;
     }
 
-    if (!currentUser.getAccountId().equals(owner)) {
-      addToAttentionSet(bu, changeNotes, owner, "Someone else replied on the change", false);
+    addOwnerAndUploaderToAttentionSetIfSomeoneElseReplied(
+        bu, postReviewOp, changeNotes, currentUser, readyForReview, allNewComments);
+    addAllAuthorsOfCommentThreads(bu, changeNotes, allNewComments);
+  }
+
+  /**
+   * Updates the attention set for the current user.
+   *
+   * <p>Removes the current user from the attention set (since they replied) unless they voted on an
+   * outdated patch set and some of the votes were not copied to the current patch set (in this case
+   * they should be in the attention set to re-apply their votes).
+   *
+   * <p>If the current user voted on an outdated patch set and some of the votes were not copied to
+   * the current patch set:
+   *
+   * <ul>
+   *   <li>the current user is added to the attention set (if they are not in the attention set yet)
+   *       or
+   *   <li>the reason for the current user to be in the attention set is updated (if they are
+   *       already in the attention set).
+   * </ul>
+   */
+  private void updateAttentionSetForCurrentUser(
+      BatchUpdate bu,
+      @Nullable PostReviewOp postReviewOp,
+      ChangeNotes changeNotes,
+      CurrentUser currentUser) {
+    if (postReviewOp == null) {
+      // Replying removes the current user from the attention set.
+      removeFromAttentionSet(
+          bu, changeNotes, currentUser.getAccountId(), "removed on reply", false);
+    } else {
+      // If the current user voted on an outdated patch set and some of the votes were not copied to
+      // the current patch set the current user should stay in the attention set, or be added to the
+      // attention set. In case the user stays in the attention set, this updates the reason for
+      // being in the attention set.
+      AttentionSetUpdateCondition addOrKeepCondition =
+          () ->
+              postReviewOp
+                  .getResult()
+                  .appliedVotesOnOutdatedPatchSetThatWereNotCopiedToCurrentPatchSet();
+      maybeAddToAttentionSet(
+          bu,
+          addOrKeepCondition,
+          changeNotes,
+          currentUser.getAccountId(),
+          "Some votes were not copied to the current patch set",
+          false);
+
+      // Otherwise replying removes the current user from the attention set.
+      AttentionSetUpdateCondition removeCondition = () -> !addOrKeepCondition.check();
+      maybeRemoveFromAttentionSet(
+          bu, removeCondition, changeNotes, currentUser.getAccountId(), "removed on reply", false);
     }
-    if (!owner.equals(uploader) && !currentUser.getAccountId().equals(uploader)) {
-      addToAttentionSet(bu, changeNotes, uploader, "Someone else replied on the change", false);
+  }
+
+  /**
+   * Adds the owner and uploader to the attention set if someone else replied.
+   *
+   * <p>Replying means they either updated the votes on the current patch set (either directly on
+   * the current patch set or the votes were copied to the current patch set), they posted a change
+   * message, they marked the change as ready or they posted new comments.
+   */
+  private void addOwnerAndUploaderToAttentionSetIfSomeoneElseReplied(
+      BatchUpdate bu,
+      @Nullable PostReviewOp postReviewOp,
+      ChangeNotes changeNotes,
+      CurrentUser currentUser,
+      boolean readyForReview,
+      ImmutableSet<HumanComment> allNewComments) {
+    AttentionSetUpdateCondition condition =
+        postReviewOp != null
+            ? () ->
+                postReviewOp.getResult().updatedAnyVoteOnCurrentPatchSet()
+                    || postReviewOp.getResult().postedChangeMessage()
+                    || (changeNotes.getChange().isWorkInProgress() && readyForReview)
+                    || !allNewComments.isEmpty()
+            : () ->
+                (changeNotes.getChange().isWorkInProgress() && readyForReview)
+                    || !allNewComments.isEmpty();
+
+    Account.Id owner = changeNotes.getChange().getOwner();
+    if (!currentUser.getAccountId().equals(owner)) {
+      maybeAddToAttentionSet(
+          bu, condition, changeNotes, owner, "Someone else replied on the change", false);
     }
 
-    addAllAuthorsOfCommentThreads(bu, changeNotes, allNewComments);
+    Account.Id uploader = changeNotes.getCurrentPatchSet().uploader();
+    if (!owner.equals(uploader) && !currentUser.getAccountId().equals(uploader)) {
+      maybeAddToAttentionSet(
+          bu, condition, changeNotes, uploader, "Someone else replied on the change", false);
+    }
   }
 
   /** Adds all authors of all comment threads that received a reply during this update */
@@ -267,20 +372,26 @@ public class ReplyAttentionSetUpdates {
 
   /**
    * Bots don't process automatic rules, the only attention set change they do is this rule: Add
-   * owner and uploader when a bot votes negatively, but only if the change is open.
+   * owner and uploader when a bot votes negatively on the current patch set, but only if the change
+   * is open.
    */
   private void botsWithNegativeLabelsAddOwnerAndUploader(
-      BatchUpdate bu, ChangeNotes changeNotes, ReviewInput input) {
+      BatchUpdate bu, PostReviewOp postReviewOp, ChangeNotes changeNotes) {
     if (changeNotes.getChange().isClosed()) {
       return;
     }
-    if (input.labels != null && input.labels.values().stream().anyMatch(vote -> vote < 0)) {
-      Account.Id uploader = changeNotes.getCurrentPatchSet().uploader();
-      Account.Id owner = changeNotes.getChange().getOwner();
-      addToAttentionSet(bu, changeNotes, owner, "A robot voted negatively on a label", false);
-      if (!owner.equals(uploader)) {
-        addToAttentionSet(bu, changeNotes, uploader, "A robot voted negatively on a label", false);
-      }
+
+    AttentionSetUpdateCondition condition =
+        () -> postReviewOp.getResult().updatedAnyNegativeVoteOnCurrentPatchSet();
+
+    Account.Id owner = changeNotes.getChange().getOwner();
+    maybeAddToAttentionSet(
+        bu, condition, changeNotes, owner, "A robot voted negatively on a label", false);
+
+    Account.Id uploader = changeNotes.getCurrentPatchSet().uploader();
+    if (!owner.equals(uploader)) {
+      maybeAddToAttentionSet(
+          bu, condition, changeNotes, uploader, "A robot voted negatively on a label", false);
     }
   }
 
@@ -300,6 +411,28 @@ public class ReplyAttentionSetUpdates {
   }
 
   /**
+   * Adds the user to the attention set if the given condition is true.
+   *
+   * @param bu BatchUpdate to perform the updates to the attention set
+   * @param condition condition that decides whether the attention set update should be performed
+   * @param changeNotes current change
+   * @param user user to add to the attention set
+   * @param reason reason for adding
+   * @param notify whether or not to notify about this addition
+   */
+  private void maybeAddToAttentionSet(
+      BatchUpdate bu,
+      AttentionSetUpdateCondition condition,
+      ChangeNotes changeNotes,
+      Account.Id user,
+      String reason,
+      boolean notify) {
+    AddToAttentionSetOp addToAttentionSet =
+        addToAttentionSetOpFactory.create(user, reason, notify).setCondition(condition);
+    bu.addOp(changeNotes.getChangeId(), addToAttentionSet);
+  }
+
+  /**
    * Removes the user from the attention set
    *
    * @param bu BatchUpdate to perform the updates to the attention set.
@@ -312,6 +445,28 @@ public class ReplyAttentionSetUpdates {
       BatchUpdate bu, ChangeNotes changeNotes, Account.Id user, String reason, boolean notify) {
     RemoveFromAttentionSetOp removeFromAttentionSetOp =
         removeFromAttentionSetOpFactory.create(user, reason, notify);
+    bu.addOp(changeNotes.getChangeId(), removeFromAttentionSetOp);
+  }
+
+  /**
+   * Removes the user from the attention set if the given condition is true.
+   *
+   * @param bu BatchUpdate to perform the updates to the attention set.
+   * @param condition condition that decides whether the attention set update should be performed
+   * @param changeNotes current change.
+   * @param user user to add remove from the attention set.
+   * @param reason reason for removing.
+   * @param notify whether or not to notify about this removal.
+   */
+  private void maybeRemoveFromAttentionSet(
+      BatchUpdate bu,
+      AttentionSetUpdateCondition condition,
+      ChangeNotes changeNotes,
+      Account.Id user,
+      String reason,
+      boolean notify) {
+    RemoveFromAttentionSetOp removeFromAttentionSetOp =
+        removeFromAttentionSetOpFactory.create(user, reason, notify).setCondition(condition);
     bu.addOp(changeNotes.getChangeId(), removeFromAttentionSetOp);
   }
 

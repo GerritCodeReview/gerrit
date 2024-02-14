@@ -378,8 +378,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         bu.addOp(revision.getChange().getId(), postReviewOp);
 
         // Adjust the attention set based on the input
-        replyAttentionSetUpdates.updateAttentionSet(
-            bu, revision.getNotes(), input, revision.getUser());
+        replyAttentionSetUpdates.updateAttentionSetOnPostReview(
+            bu, postReviewOp, revision.getNotes(), input, revision.getUser());
         bu.execute();
       }
     }

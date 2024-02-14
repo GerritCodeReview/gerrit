@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73d8d26e_f716b246",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 36
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-14T23:04:59Z",
+      "side": 1,
+      "message": "This isn\u0027t totally true, this change keeps on using the index legacy document-id for all the _magic URLs_ like `gerrit/q/123455` that were expecting to always find a single element.\n\nThe `changenumber` field is not used instead for the `ChangeFinder` and the explicit search by `change:` query predicate.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 66
+      },
+      "revId": "0ea99fda86471f4cbdef912fe2898a45befa2860",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c66fbcdc_dc5f3822",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 36
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-14T23:04:59Z",
+      "side": 1,
+      "message": "Also mention that `LuceneChangeIndex` will now try to use the `changenumber` field for creating the `Change.Id` for `ChangeData` results fetched from the index.",
+      "revId": "0ea99fda86471f4cbdef912fe2898a45befa2860",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d2a4a73_0618c357",
+        "filename": "java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 531,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-14T23:04:59Z",
+      "side": 1,
+      "message": "We should give priority to `CHANGENUM` (if present) because that would contain the original change number to be used to create the change data.\n\nHowever, doing online reindex, you may still have only the legacy_id_str and we need to preserve existing (limited) functionality.\n\n\n```suggestion\n          String fieldName \u003d doc.getField(CHANGENUM_SPEC.getName()) !\u003d null ? CHANGENUM_SPEC.getName() : NUMERIC_ID_STR_SPEC.getName();\n          result.add(toChangeData(fields(doc, fields), fields, fieldName));\n```",
+      "range": {
+        "startLine": 531,
+        "startChar": 63,
+        "endLine": 531,
+        "endChar": 92
+      },
+      "revId": "0ea99fda86471f4cbdef912fe2898a45befa2860",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "009d42cf_d73e6b42",
+        "filename": "java/com/google/gerrit/server/index/IndexUtils.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-14T23:04:59Z",
+      "side": 1,
+      "message": "You should also add now the `CHANGENUM` field, in addition to `PROJECT` and `NUMERIC_ID_STR`.\n\n\n```suggestion\n    if (fs.contains(PROJECT_SPEC.getName()) \u0026\u0026 fs.contains(NUMERIC_ID_STR_SPEC.getName()) \u0026\u0026 fs.contains(CHANGENUM_SPEC.getName())) {\n```",
+      "revId": "0ea99fda86471f4cbdef912fe2898a45befa2860",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b96a280_e682f47b",
+        "filename": "java/com/google/gerrit/server/index/IndexUtils.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-14T23:04:59Z",
+      "side": 1,
+      "message": "Same as above.\n\n\n```suggestion\n    return Sets.union(fs, ImmutableSet.of(NUMERIC_ID_STR_SPEC.getName(), PROJECT_SPEC.getName(), CHANGENUM_SPEC.getName()));\n```",
+      "revId": "0ea99fda86471f4cbdef912fe2898a45befa2860",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

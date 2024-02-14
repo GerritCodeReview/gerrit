@@ -25,6 +25,7 @@ public class HttpSubmitOnPushIT extends AbstractSubmitOnPush {
   public void cloneProjectOverHttp() throws Exception {
     CredentialsProvider.setDefault(
         new UsernamePasswordCredentialsProvider(admin.username(), admin.httpPassword()));
-    testRepo = GitUtil.cloneProject(project, admin.getHttpUrl(server) + "/a/" + project.get());
+    testRepo =
+        GitUtil.cloneProject(project, admin.getHttpUrl(serverTestRule) + "/a/" + project.get());
   }
 }

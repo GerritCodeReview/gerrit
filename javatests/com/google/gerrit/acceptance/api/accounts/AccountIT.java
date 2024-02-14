@@ -35,7 +35,6 @@ import static com.google.gerrit.server.account.AccountProperties.ACCOUNT;
 import static com.google.gerrit.server.account.AccountProperties.ACCOUNT_CONFIG;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GPGKEY;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_MAILTO;
-import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
@@ -56,6 +55,7 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import com.github.rholder.retry.StopStrategies;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Iterables;
@@ -326,7 +326,8 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void createByAccountCreator() throws Exception {
-    RefUpdateCounter refUpdateCounter = new RefUpdateCounter();
+    RefUpdateCounter refUpdateCounter =
+        new RefUpdateCounter(serverTestRule.isRefSequenceSupported());
     try (Registration registration = extensionRegistry.newRegistration().add(refUpdateCounter)) {
       Account.Id accountId = createByAccountCreator(1);
       refUpdateCounter.assertRefUpdateFor(
@@ -359,7 +360,11 @@ public class AccountIT extends AbstractDaemonTest {
       String name = "foo";
       TestAccount foo = accountCreator.create(name);
       AccountInfo info = gApi.accounts().id(foo.id().get()).get();
-      assertThat(info.username).isEqualTo(name);
+      if (serverTestRule.isUsernameSupported()) {
+        assertThat(info.username).isEqualTo(name);
+      } else {
+        assertThat(info.email).isEqualTo(foo.email());
+      }
       assertThat(info.name).isEqualTo(name);
       accountIndexedCounter.assertReindexOf(foo, expectedAccountReindexCalls);
       assertUserBranch(foo.id(), name, null);
@@ -551,7 +556,9 @@ public class AccountIT extends AbstractDaemonTest {
       AccountInfo info = gApi.accounts().id(admin.id().get()).get();
       assertThat(info.name).isEqualTo("Administrator");
       assertThat(info.email).isEqualTo("admin@example.com");
-      assertThat(info.username).isEqualTo("admin");
+      if (serverTestRule.isUsernameSupported()) {
+        assertThat(info.username).isEqualTo("admin");
+      }
       accountIndexedCounter.assertNoReindex();
     }
   }
@@ -594,12 +601,12 @@ public class AccountIT extends AbstractDaemonTest {
 
       // Inactive users may only be resolved by ID.
       ResourceNotFoundException thrown =
-          assertThrows(ResourceNotFoundException.class, () -> gApi.accounts().id(user.username()));
+          assertThrows(ResourceNotFoundException.class, () -> gApi.accounts().id(user.email()));
       assertThat(thrown)
           .hasMessageThat()
           .isEqualTo(
               "Account '"
-                  + user.username()
+                  + user.email()
                   + "' only matches inactive accounts. To use an inactive account, retry"
                   + " with one of the following exact account IDs:\n"
                   + id
@@ -793,7 +800,8 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   public void starUnstarChange() throws Exception {
     AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
-    RefUpdateCounter refUpdateCounter = new RefUpdateCounter();
+    RefUpdateCounter refUpdateCounter =
+        new RefUpdateCounter(serverTestRule.isRefSequenceSupported());
     try (Registration registration =
         extensionRegistry.newRegistration().add(accountIndexedCounter).add(refUpdateCounter)) {
       PushOneCommit.Result r = createChange();
@@ -919,7 +927,10 @@ public class AccountIT extends AbstractDaemonTest {
       String adminUsername = "admin";
       List<AccountInfo> result = gApi.accounts().suggestAccounts().withQuery(adminUsername).get();
       assertThat(result).hasSize(1);
-      assertThat(result.get(0).username).isEqualTo(adminUsername);
+      if (serverTestRule.isUsernameSupported()) {
+        assertThat(result.get(0).username).isEqualTo(adminUsername);
+      }
+      assertThat(result.get(0).email).isEqualTo("admin@example.com");
 
       List<AccountInfo> resultShortcutApi = gApi.accounts().suggestAccounts(adminUsername).get();
       assertThat(resultShortcutApi).hasSize(result.size());
@@ -947,7 +958,9 @@ public class AccountIT extends AbstractDaemonTest {
     AccountDetailInfo detail = gApi.accounts().id(foo.id().get()).detail();
     assertThat(detail._accountId).isEqualTo(foo.id().get());
     assertThat(detail.name).isEqualTo(name);
-    assertThat(detail.username).isEqualTo(username);
+    if (serverTestRule.isUsernameSupported()) {
+      assertThat(detail.username).isEqualTo(username);
+    }
     assertThat(detail.email).isEqualTo(email);
     assertThat(detail.secondaryEmails).containsExactly(secondaryEmail);
     assertThat(detail.status).isEqualTo(status);
@@ -2163,7 +2176,10 @@ public class AccountIT extends AbstractDaemonTest {
 
     assertLabelPermission(
         allUsers, groupRef(REGISTERED_USERS), userRef, true, "Code-Review", -2, 2);
+  }
 
+  @Test
+  public void defaultPermissionsOnUserDefaultBranches() throws Exception {
     assertPermissions(
         allUsers,
         adminGroupRef(),
@@ -2851,17 +2867,21 @@ public class AccountIT extends AbstractDaemonTest {
     gApi.accounts().id(foo.id().get()).addEmail(input);
 
     requestScopeOperations.setApiUser(user.id());
-    assertThrows(ResourceNotFoundException.class, () -> gApi.accounts().id("secondary"));
+    if (serverTestRule.isUsernameSupported()) {
+      assertThrows(ResourceNotFoundException.class, () -> gApi.accounts().id("secondary"));
+    }
     assertThrows(
         ResourceNotFoundException.class, () -> gApi.accounts().id("secondary@example.com"));
     requestScopeOperations.setApiUser(admin.id());
-    assertThat(gApi.accounts().id("secondary").get()._accountId).isEqualTo(foo.id().get());
+    if (serverTestRule.isUsernameSupported()) {
+      assertThat(gApi.accounts().id("secondary").get()._accountId).isEqualTo(foo.id().get());
+    }
     assertThat(gApi.accounts().id("secondary@example.com").get()._accountId)
         .isEqualTo(foo.id().get());
   }
 
   @Test
-  public void getAccountFromMetaId() throws RestApiException {
+  public void getAccountFromMetaId() throws Exception {
     AccountState preUpdateState = accountCache.get(admin.id()).get();
     requestScopeOperations.setApiUser(admin.id());
     gApi.accounts().self().setStatus("New status");
@@ -2901,7 +2921,7 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void projectWatchesUpdate_refsUsersUpdated() throws RestApiException {
+  public void projectWatchesUpdate_refsUsersUpdated() throws Exception {
     AccountState preUpdateState = accountCache.get(admin.id()).get();
     requestScopeOperations.setApiUser(admin.id());
 
@@ -2924,16 +2944,16 @@ public class AccountIT extends AbstractDaemonTest {
     AccountState preUpdateState = accountCache.get(admin.id()).get();
     requestScopeOperations.setApiUser(admin.id());
 
-    gApi.accounts().self().addEmail(newEmailInput("secondary@google.com"));
+    gApi.accounts().self().addEmail(newEmailInput("secondary@non.google"));
     assertExternalIds(
         admin.id(),
         ImmutableSet.of(
-            "mailto:admin@example.com", "username:admin", "mailto:secondary@google.com"));
+            "mailto:admin@example.com", "username:admin", "mailto:secondary@non.google"));
 
     AccountState updatedState1 = accountCache.get(admin.id()).get();
     assertThat(preUpdateState.account().metaId()).isNotEqualTo(updatedState1.account().metaId());
 
-    gApi.accounts().self().deleteExternalIds(ImmutableList.of("mailto:secondary@google.com"));
+    gApi.accounts().self().deleteExternalIds(ImmutableList.of("mailto:secondary@non.google"));
 
     AccountState updatedState2 = accountCache.get(admin.id()).get();
     assertThat(updatedState1.account().metaId()).isNotEqualTo(updatedState2.account().metaId());
@@ -2960,7 +2980,7 @@ public class AccountIT extends AbstractDaemonTest {
     AccountState preUpdateState = accountCache.get(admin.id()).get();
     requestScopeOperations.setApiUser(admin.id());
 
-    ExternalId externalId = externalIdFactory.create("mailto", "admin@example.com", admin.id());
+    ExternalId externalId = createEmailExternalId(admin.id(), "admin@example.com");
     accountsUpdateProvider
         .get()
         .update("Remove External ID", admin.id(), (a, u) -> u.deleteExternalId(externalId));
@@ -2977,11 +2997,14 @@ public class AccountIT extends AbstractDaemonTest {
 
     ExternalId externalId =
         externalIdFactory.createWithEmail(
-            SCHEME_USERNAME, "admin", admin.id(), "secondary@example.com");
+            SCHEME_MAILTO, "secondary@non.google", admin.id(), "secondary@non.google");
     accountsUpdateProvider
         .get()
-        .update("Remove External ID", admin.id(), (a, u) -> u.updateExternalId(externalId));
-    assertExternalIds(admin.id(), ImmutableSet.of("mailto:admin@example.com", "username:admin"));
+        .update("Update External ID", admin.id(), (a, u) -> u.updateExternalId(externalId));
+    assertExternalIds(
+        admin.id(),
+        ImmutableSet.of(
+            "mailto:admin@example.com", "username:admin", "mailto:secondary@non.google"));
 
     AccountState updatedState = accountCache.get(admin.id()).get();
     assertThat(preUpdateState.account().metaId()).isNotEqualTo(updatedState.account().metaId());
@@ -2994,19 +3017,17 @@ public class AccountIT extends AbstractDaemonTest {
 
     ExternalId externalId =
         externalIdFactory.createWithEmail(
-            SCHEME_USERNAME, admin.username(), admin.id(), "secondary@example.com");
+            SCHEME_MAILTO, "secondary@non.google", admin.id(), "secondary@non.google");
     accountsUpdateProvider
         .get()
         .update(
-            "Remove External ID",
+            "Replace External ID",
             admin.id(),
             (a, u) ->
                 u.replaceExternalId(
-                    externalIds
-                        .get(externalIdKeyFactory.create(SCHEME_USERNAME, admin.username()))
-                        .get(),
+                    externalIds.get(createEmailExternalId(admin.id(), admin.email()).key()).get(),
                     externalId));
-    assertExternalIds(admin.id(), ImmutableSet.of("mailto:admin@example.com", "username:admin"));
+    assertExternalIds(admin.id(), ImmutableSet.of("mailto:secondary@non.google", "username:admin"));
 
     AccountState updatedState = accountCache.get(admin.id()).get();
     assertThat(preUpdateState.account().metaId()).isNotEqualTo(updatedState.account().metaId());
@@ -3072,10 +3093,7 @@ public class AccountIT extends AbstractDaemonTest {
         new AccountsUpdate.UpdateArguments(
             "Remove external Id",
             user.id(),
-            (a, u) ->
-                u.deleteExternalId(
-                    externalIdFactory.createWithEmail(
-                        SCHEME_MAILTO, user.email(), user.id(), user.email())));
+            (a, u) -> u.deleteExternalId(createEmailExternalId(user.id(), user.email())));
     AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(accountIndexedCounter)) {
@@ -3091,6 +3109,10 @@ public class AccountIT extends AbstractDaemonTest {
         .isNotEqualTo(updatedAdminState.account().metaId());
     assertThat(preUpdateUserState.account().metaId())
         .isNotEqualTo(updatedUserState.account().metaId());
+  }
+
+  protected ExternalId createEmailExternalId(Account.Id accountId, String email) {
+    return externalIdFactory.createWithEmail(SCHEME_MAILTO, email, accountId, email);
   }
 
   @Test
@@ -3613,7 +3635,9 @@ public class AccountIT extends AbstractDaemonTest {
       throws Exception {
     assertThat(info.name).isEqualTo(account.fullName());
     assertThat(info.email).isEqualTo(account.email());
-    assertThat(info.username).isEqualTo(account.username());
+    if (serverTestRule.isUsernameSupported()) {
+      assertThat(info.username).isEqualTo(account.username());
+    }
     assertThat(info.status).isEqualTo(expectedStatus);
   }
 
@@ -3690,7 +3714,12 @@ public class AccountIT extends AbstractDaemonTest {
 
   @UsedAt(UsedAt.Project.GOOGLE)
   public static class RefUpdateCounter implements GitReferenceUpdatedListener {
+    private final boolean refSequenceSupported;
     private final AtomicLongMap<String> countsByProjectRefs = AtomicLongMap.create();
+
+    public RefUpdateCounter(boolean refSequenceSupported) {
+      this.refSequenceSupported = refSequenceSupported;
+    }
 
     @UsedAt(UsedAt.Project.GOOGLE)
     public static String projectRef(Project.NameKey project, String ref) {
@@ -3719,9 +3748,15 @@ public class AccountIT extends AbstractDaemonTest {
       assertRefUpdateFor(expectedRefUpdateCounts);
     }
 
-    void assertRefUpdateFor(Map<String, Long> expectedProjectRefUpdateCounts) {
-      assertThat(countsByProjectRefs.asMap())
-          .containsExactlyEntriesIn(expectedProjectRefUpdateCounts);
+    protected void assertRefUpdateFor(Map<String, Long> expectedProjectRefUpdateCounts) {
+      ImmutableMap<String, Long> exprectedFiltered =
+          refSequenceSupported
+              ? ImmutableMap.copyOf(expectedProjectRefUpdateCounts)
+              : ImmutableMap.copyOf(
+                  expectedProjectRefUpdateCounts.entrySet().stream()
+                      .filter(entry -> !entry.getKey().contains(":refs/sequences/"))
+                      .collect(toList()));
+      assertThat(countsByProjectRefs.asMap()).containsExactlyEntriesIn(exprectedFiltered);
       clear();
     }
   }

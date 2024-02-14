@@ -37,14 +37,14 @@ public class GerritIsReplicaIT extends AbstractDaemonTest {
   @Test
   public void isNotReplica() {
     assertThat(isReplicaProvider.get()).isFalse();
-    assertThat(server.isReplica()).isFalse();
+    assertThat(serverTestRule.isReplica()).isFalse();
   }
 
   @Test
   @UseLocalDisk
   public void isNotReplicaWithLocalDisk() {
     assertThat(isReplicaProvider.get()).isFalse();
-    assertThat(server.isReplica()).isFalse();
+    assertThat(serverTestRule.isReplica()).isFalse();
   }
 
   @Test
@@ -52,14 +52,14 @@ public class GerritIsReplicaIT extends AbstractDaemonTest {
   public void isReplica() throws Exception {
     restartAsSlave();
     assertThat(isReplicaProvider.get()).isTrue();
-    assertThat(server.isReplica()).isTrue();
+    assertThat(serverTestRule.isReplica()).isTrue();
   }
 
   @Test
   @GerritConfig(name = "container.replica", value = "true")
   public void isReplicaFromGerritConfigAnnotation() throws Exception {
     assertThat(isReplicaProvider.get()).isTrue();
-    assertThat(server.isReplica()).isTrue();
+    assertThat(serverTestRule.isReplica()).isTrue();
   }
 
   @Test
@@ -67,7 +67,7 @@ public class GerritIsReplicaIT extends AbstractDaemonTest {
   @GerritConfig(name = "container.replica", value = "true")
   public void isReplicaWithLocalDisk() throws Exception {
     assertThat(isReplicaProvider.get()).isTrue();
-    assertThat(server.isReplica()).isTrue();
+    assertThat(serverTestRule.isReplica()).isTrue();
   }
 
   @Test
@@ -76,6 +76,6 @@ public class GerritIsReplicaIT extends AbstractDaemonTest {
   public void isReplicaWithLocalDiskAfterRestart() throws Exception {
     restartAsSlave();
     assertThat(isReplicaProvider.get()).isTrue();
-    assertThat(server.isReplica()).isTrue();
+    assertThat(serverTestRule.isReplica()).isTrue();
   }
 }

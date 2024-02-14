@@ -34,7 +34,6 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.acceptance.config.GerritConfig;
@@ -98,13 +97,11 @@ public class ImpersonationIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
 
-  private RestSession anonRestSession;
   private TestAccount admin2;
   private GroupInfo newGroup;
 
   @Before
   public void setUp() throws Exception {
-    anonRestSession = new RestSession(server, null);
     admin2 = accountCreator.admin2();
     GroupInput gi = new GroupInput();
     gi.name = name("New-Group");
@@ -759,7 +756,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
   @Test
   public void runAsNeverPermittedForAnonymousUsers() throws Exception {
     allowRunAs();
-    RestResponse res = anonRestSession.getWithHeaders("/changes/", runAsHeader(user.id()));
+    RestResponse res = anonymousRestSession.getWithHeaders("/changes/", runAsHeader(user.id()));
     res.assertForbidden();
     assertThat(res.getEntityContent()).isEqualTo("not permitted to use X-Gerrit-RunAs");
   }

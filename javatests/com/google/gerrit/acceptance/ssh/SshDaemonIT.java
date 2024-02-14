@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.GerritServerTestRule;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.UseSsh;
@@ -35,8 +36,6 @@ import org.junit.runner.RunWith;
 @Sandboxed
 @RunWith(ConfigSuite.class)
 public class SshDaemonIT extends AbstractDaemonTest {
-  @ConfigSuite.Parameter protected Config config;
-
   @ConfigSuite.Config
   public static Config gracefulConfig() {
     Config config = new Config();
@@ -52,7 +51,7 @@ public class SshDaemonIT extends AbstractDaemonTest {
   @Test
   public void nonGracefulCommandIsStoppedImmediately() throws Exception {
     Future<Integer> future = startCommand(false);
-    restart();
+    ((GerritServerTestRule) serverTestRule).restartKeepSessionOpen();
     assertThat(future.get()).isEqualTo(-1);
   }
 
@@ -61,7 +60,7 @@ public class SshDaemonIT extends AbstractDaemonTest {
     assume().that(isGracefulStopEnabled()).isTrue();
 
     Future<Integer> future = startCommand(true);
-    restart();
+    ((GerritServerTestRule) serverTestRule).restartKeepSessionOpen();
     assertThat(future.get()).isEqualTo(0);
   }
 

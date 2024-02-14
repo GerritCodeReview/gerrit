@@ -15,12 +15,10 @@
 package com.google.gerrit.acceptance;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.OptionalSubject.optionals;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
-import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.entities.Patch.COMMIT_MSG;
@@ -35,7 +33,6 @@ import static com.google.gerrit.server.project.testing.TestLabels.value;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static com.google.gerrit.testing.TestActionRefUpdateContext.testRefAction;
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 import static org.eclipse.jgit.lib.Constants.HEAD;
 
@@ -50,15 +47,10 @@ import com.google.common.collect.Lists;
 import com.google.common.primitives.Chars;
 import com.google.common.testing.FakeTicker;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import com.google.gerrit.acceptance.GerritServer.TestSshServerAddress;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
-import com.google.gerrit.acceptance.config.ConfigAnnotationParser;
-import com.google.gerrit.acceptance.config.GerritSystemProperty;
-import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
-import com.google.gerrit.acceptance.testsuite.request.SshSessionFactory;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.entities.Account;
@@ -149,14 +141,10 @@ import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.restapi.change.Revisions;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.util.ManualRequestContext;
-import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
-import com.google.gerrit.server.util.git.DelegateSystemReader;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.FakeEmailSender;
 import com.google.gerrit.testing.FakeEmailSender.Message;
-import com.google.gerrit.testing.SshMode;
-import com.google.gerrit.testing.TestTimeUtil;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
 import com.google.inject.Module;
@@ -165,9 +153,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Modifier;
-import java.net.InetSocketAddress;
-import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -196,14 +181,12 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.transport.Transport;
-import org.eclipse.jgit.util.FS;
-import org.eclipse.jgit.util.SystemReader;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Rule;
+import org.junit.rules.RuleChain;
 import org.junit.rules.TemporaryFolder;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
@@ -213,20 +196,11 @@ import org.junit.runners.model.Statement;
 @RunWith(ConfigSuite.class)
 public abstract class AbstractDaemonTest {
 
-  /**
-   * Test methods without special annotations will use a common server for efficiency reasons. The
-   * server is torn down after the test class is done or when the config is changed.
-   */
-  private static GerritServer commonServer;
-
-  private static Description firstTest;
-
   @ClassRule public static TemporaryFolder temporaryFolder = new TemporaryFolder();
 
   @ConfigSuite.Parameter public Config baseConfig;
-  @ConfigSuite.Name private String configName;
+  @ConfigSuite.Name public String configName;
 
-  @Rule
   public TestRule testRunner =
       new TestRule() {
         @Override
@@ -234,31 +208,10 @@ public abstract class AbstractDaemonTest {
           return new Statement() {
             @Override
             public void evaluate() throws Throwable {
-              if (firstTest == null) {
-                firstTest = description;
-              }
               beforeTest(description);
-              ProjectResetter.Config input =
-                  commonServer != null
-                      ? requireNonNull(
-                          resetProjects(
-                              commonServer.testInjector.getInstance(AllProjectsName.class),
-                              commonServer.testInjector.getInstance(AllUsersName.class)))
-                      : null;
-              // Only commonServer can be shared between tests and should be restored after each
-              // test. It can be that the commonServer is started, but a test actually don't use
-              // it and instead the test uses a separate server instance.
-              // In this case, the separate server is stopped after each test and so doesn't require
-              // cleanup (for simplicity, the commonServer is always cleaned up even if it is not
-              // used in a test).
-              ProjectResetter.Builder.Factory projectResetterFactory =
-                  commonServer != null
-                      ? commonServer.testInjector.getInstance(ProjectResetter.Builder.Factory.class)
-                      : null;
               try (ProjectResetter resetter =
-                  projectResetterFactory != null
-                      ? projectResetterFactory.builder().build(input)
-                      : null) {
+                  serverTestRule.createProjectResetter(
+                      (allProjects, allUsers) -> resetProjects(allProjects, allUsers))) {
                 base.evaluate();
               } finally {
                 afterTest();
@@ -267,6 +220,42 @@ public abstract class AbstractDaemonTest {
           };
         }
       };
+
+  protected TestConfigRule configRule;
+  protected ServerTestRule serverTestRule;
+  protected TimeSettingsTestRule timeSettingsRule;
+
+  @Rule public TestRule chainedTestRule = createTestRules();
+
+  /**
+   * Creates test rules required for tests and links them in a chain.
+   *
+   * <p>Creating all rules in a single method gives more flexibility in the order of creation and
+   * allows additional initialization steps if needed.
+   *
+   * <p>It is expected, that if this method is overridden, it sets {@link #configRule}, {@link
+   * #serverTestRule} and {@link #timeSettingsRule} and also returns the chain which includes these
+   * rules.
+   */
+  protected TestRule createTestRules() {
+    configRule = new TestConfigRule(temporaryFolder, this);
+    serverTestRule =
+        new GerritServerTestRule(
+            configRule,
+            temporaryFolder,
+            () -> createModule(),
+            () -> createAuditModule(),
+            () -> createSshModule());
+    timeSettingsRule = new TimeSettingsTestRule(configRule);
+
+    // Set the clock step as almost the last step, so that the test setup isn't consuming any
+    // timestamps after the
+    // clock has been set.
+    return RuleChain.outerRule(configRule)
+        .around(serverTestRule)
+        .around(testRunner)
+        .around(timeSettingsRule);
+  }
 
   @Inject @CanonicalWebUrl protected Provider<String> canonicalWebUrl;
   @Inject @GerritPersonIdent protected Provider<PersonIdent> serverIdent;
@@ -304,24 +293,20 @@ public abstract class AbstractDaemonTest {
   @Inject protected TestTicker testTicker;
   @Inject protected ThreadLocalRequestContext localCtx;
 
-  protected EventRecorder eventRecorder;
+  @Nullable public SshSession adminSshSession;
 
-  protected GerritServer server;
+  @Nullable public SshSession userSshSession;
+
+  protected EventRecorder eventRecorder;
 
   protected Project.NameKey project;
   protected RestSession adminRestSession;
   protected RestSession userRestSession;
   protected RestSession anonymousRestSession;
-  protected SshSession adminSshSession;
-  protected SshSession userSshSession;
   protected TestAccount admin;
   protected TestAccount user;
   protected TestRepository<InMemoryRepository> testRepo;
   protected String resourcePrefix;
-  protected Description description;
-  protected GerritServer.Description testMethodDescription;
-
-  protected boolean testRequiresSsh;
   protected BlockStrategy noSleepBlockStrategy = t -> {}; // Don't sleep in tests.
 
   @Inject private AbstractChangeNotes.Args changeNotesArgs;
@@ -333,67 +318,15 @@ public abstract class AbstractDaemonTest {
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private SitePaths sitePaths;
   @Inject private ProjectOperations projectOperations;
-  @Inject @Nullable @TestSshServerAddress private InetSocketAddress sshAddress;
-  @Inject private AccountOperations accountOperations;
 
   private List<Repository> toClose;
-  private String systemTimeZone;
-  private SystemReader oldSystemReader;
-  private final HashMap<RequestContext, SshSession> sshSessionByContext = new HashMap<>();
 
-  /**
-   * The Getters and Setters below are needed for tests that run on custom {@link GerritServer}
-   * (that can be set up via {@link #initServer} and {@link #setUpDatabase} methods. Because tests
-   * inherit directly from {@link AbstractDaemonTest}, the set up has to be delegated to some other
-   * class that can share the set up logic across different test classes.
-   *
-   * <p>E.g, we need to be able to do something like:
-   *
-   * <pre>{@code
-   * public class AccountIT extends AbstractDaemonTest {...}
-   *
-   * public class AbstractDaemonTestAdapter {
-   *
-   *   protected void initServer() {...}
-   *
-   *   ...
-   *
-   * }
-   *
-   * public class CustomAccountIT extends AccountIT {
-   *
-   *   AbstractDaemonTestAdapter testAdapter;
-   *
-   *   {@literal @Override}
-   *   protected void initServer() {
-   *         testAdapter.initServer();
-   *   }
-   *   ...
-   * }
-   *
-   * public class CustomChangeIT extends ChangeIT {
-   *
-   *   AbstractDaemonTestAdapter testAdapter;
-   *
-   *   {@literal @Override}
-   *   protected void initServer() {
-   *         testAdapter.initServer();
-   *   }
-   *   ...
-   * }
-   *
-   * }</pre>
-   */
   public String getResourcePrefix() {
     return resourcePrefix;
   }
 
   public void setResourcePrefix(String resourcePrefix) {
     this.resourcePrefix = resourcePrefix;
-  }
-
-  public Description getDescription() {
-    return description;
   }
 
   public TestRepository<InMemoryRepository> getTestRepo() {
@@ -428,14 +361,6 @@ public abstract class AbstractDaemonTest {
     this.project = project;
   }
 
-  public GerritServer getServer() {
-    return server;
-  }
-
-  public void setServer(GerritServer server) {
-    this.server = server;
-  }
-
   @Before
   public void clearSender() {
     if (sender != null) {
@@ -450,19 +375,9 @@ public abstract class AbstractDaemonTest {
     }
   }
 
-  @Before
-  public void assumeSshIfRequired() {
-    if (testRequiresSsh) {
-      // If the test uses ssh, we use assume() to make sure ssh is enabled on
-      // the test suite. JUnit will skip tests annotated with @UseSsh if we
-      // disable them using the command line flag.
-      assume().that(SshMode.useSsh()).isTrue();
-    }
-  }
-
   @After
   public void verifyNoPiiInChangeNotes() throws RestApiException, IOException {
-    if (testMethodDescription.verifyNoPiiInChangeNotes()) {
+    if (configRule.methodDescription().verifyNoPiiInChangeNotes()) {
       verifyNoAccountDetailsInChangeNotes();
     }
   }
@@ -476,18 +391,7 @@ public abstract class AbstractDaemonTest {
 
   @ConfigSuite.AfterConfig
   public static void stopCommonServer() throws Exception {
-    if (commonServer != null) {
-      try {
-        commonServer.close();
-      } catch (Exception e) {
-        throw new AssertionError(
-            "Error stopping common server in "
-                + (firstTest != null ? firstTest.getTestClass().getName() : "unknown test class"),
-            e);
-      } finally {
-        commonServer = null;
-      }
-    }
+    GerritServerTestRule.afterConfigChanged();
   }
 
   /**
@@ -516,22 +420,15 @@ public abstract class AbstractDaemonTest {
   }
 
   protected void restartAsSlave() throws Exception {
-    checkState(
-        server != commonServer,
-        "The commonServer can't be restarted; to use this method, the test must be @Sandboxed");
-    closeSsh();
-    server = GerritServer.restartAsSlave(server);
-    server.getTestInjector().injectMembers(this);
-    initSsh();
+    serverTestRule.restartAsSlave();
+    serverTestRule.getTestInjector().injectMembers(this);
+    updateSshSessions();
   }
 
   protected void restart() throws Exception {
-    checkState(
-        server != commonServer,
-        "The commonServer can't be restarted; to use this method, the test must be @Sandboxed");
-    server = GerritServer.restart(server, createModule(), createSshModule());
-    server.getTestInjector().injectMembers(this);
-    initSsh();
+    serverTestRule.restart();
+    serverTestRule.getTestInjector().injectMembers(this);
+    updateSshSessions();
   }
 
   public void reindexAccount(Account.Id accountId) {
@@ -555,32 +452,6 @@ public abstract class AbstractDaemonTest {
   protected void beforeTest(Description description) throws Exception {
     // SystemReader must be overridden before creating any repos, since they read the user/system
     // configs at initialization time, and are then stored in the RepositoryCache forever.
-    oldSystemReader = setFakeSystemReader(temporaryFolder.getRoot());
-
-    this.description = description;
-    GerritServer.Description classDesc =
-        GerritServer.Description.forTestClass(description, configName);
-    GerritServer.Description methodDesc =
-        GerritServer.Description.forTestMethod(description, configName);
-    testMethodDescription = methodDesc;
-
-    if (methodDesc.systemProperties() != null) {
-      ConfigAnnotationParser.parse(methodDesc.systemProperties());
-    }
-
-    if (methodDesc.systemProperty() != null) {
-      ConfigAnnotationParser.parse(methodDesc.systemProperty());
-    }
-
-    testRequiresSsh = classDesc.useSshAnnotation() || methodDesc.useSshAnnotation();
-    if (!testRequiresSsh) {
-      baseConfig.setString("sshd", null, "listenAddress", "off");
-    }
-
-    baseConfig.unset("gerrit", null, "canonicalWebUrl");
-    baseConfig.unset("httpd", null, "listenUrl");
-
-    baseConfig.setInt("index", null, "batchThreads", -1);
 
     if (enableExperimentsRejectImplicitMergesOnMerge()) {
       // When changes are merged/submitted - reject the operation if there is an implicit merge (
@@ -595,20 +466,35 @@ public abstract class AbstractDaemonTest {
               "GerritBackendFeature__always_reject_implicit_merges_on_merge"));
     }
 
-    initServer(classDesc, methodDesc);
+    serverTestRule.initServer();
+    serverTestRule.getTestInjector().injectMembers(this);
 
-    server.getTestInjector().injectMembers(this);
     Transport.register(inProcessProtocol);
     toClose = Collections.synchronizedList(new ArrayList<>());
 
-    setUpDatabase(classDesc);
-    initSsh();
+    setUpDatabase();
+    serverTestRule.initSsh();
+    updateSshSessions();
+  }
 
-    // Set the clock step last, so that the test setup isn't consuming any timestamps after the
-    // clock has been set.
-    setTimeSettings(classDesc.useSystemTime(), classDesc.useClockStep(), classDesc.useTimezone());
-    setTimeSettings(
-        methodDesc.useSystemTime(), methodDesc.useClockStep(), methodDesc.useTimezone());
+  void updateSshSessions() throws Exception {
+    userSshSession = null;
+    adminSshSession = null;
+    if (serverTestRule.sshInitialized()) {
+      try (ManualRequestContext ctx = requestScopeOperations.setNestedApiUser(user.id())) {
+        userSshSession = serverTestRule.getOrCreateSshSessionForContext(ctx);
+        // The session doesn't store any reference to the context and it remains open after the ctx
+        // is closed.
+        userSshSession.open();
+      }
+
+      try (ManualRequestContext ctx = requestScopeOperations.setNestedApiUser(admin.id())) {
+        adminSshSession = serverTestRule.getOrCreateSshSessionForContext(ctx);
+        // The session doesn't store any reference to the context and it remains open after the ctx
+        // is closed.
+        adminSshSession.open();
+      }
+    }
   }
 
   protected boolean enableExperimentsRejectImplicitMergesOnMerge() {
@@ -617,7 +503,7 @@ public abstract class AbstractDaemonTest {
     return true;
   }
 
-  protected void setUpDatabase(GerritServer.Description classDesc) throws Exception {
+  protected void setUpDatabase() throws Exception {
     admin = accountCreator.admin();
     user = accountCreator.user1();
 
@@ -625,92 +511,22 @@ public abstract class AbstractDaemonTest {
     reindexAccount(admin.id());
     reindexAccount(user.id());
 
-    adminRestSession = createRestSession(admin);
-    userRestSession = createRestSession(user);
-    anonymousRestSession = createRestSession(null);
+    adminRestSession = serverTestRule.createRestSession(admin);
+    userRestSession = serverTestRule.createRestSession(user);
+    anonymousRestSession = serverTestRule.createRestSession(null);
 
-    String testMethodName = description.getMethodName();
+    String testMethodName = configRule.description().getMethodName();
     resourcePrefix =
         UNSAFE_PROJECT_NAME
-            .matcher(description.getClassName() + "_" + testMethodName + "_")
+            .matcher(configRule.description().getClassName() + "_" + testMethodName + "_")
             .replaceAll("");
 
     requestScopeOperations.setApiUser(admin.id());
-    ProjectInput in = projectInput(description);
+    ProjectInput in = projectInput(configRule.description());
     gApi.projects().create(in);
     project = Project.nameKey(in.name);
-    if (!classDesc.skipProjectClone()) {
-      testRepo = cloneProject(project, getCloneAsAccount(description));
-    }
-  }
-
-  RestSession createRestSession(@Nullable TestAccount account) {
-    return new GerritServerRestSession(server, account);
-  }
-
-  protected void initServer(GerritServer.Description classDesc, GerritServer.Description methodDesc)
-      throws Exception {
-    Module module = createModule();
-    Module auditModule = createAuditModule();
-    Module sshModule = createSshModule();
-    if (classDesc.equals(methodDesc) && !classDesc.sandboxed() && !methodDesc.sandboxed()) {
-      if (commonServer == null) {
-        commonServer =
-            GerritServer.initAndStart(
-                temporaryFolder, classDesc, baseConfig, module, auditModule, sshModule);
-      }
-      server = commonServer;
-    } else {
-      server =
-          GerritServer.initAndStart(
-              temporaryFolder, methodDesc, baseConfig, module, auditModule, sshModule);
-    }
-  }
-
-  private static SystemReader setFakeSystemReader(File tempDir) {
-    SystemReader oldSystemReader = SystemReader.getInstance();
-    SystemReader.setInstance(
-        new DelegateSystemReader(oldSystemReader) {
-          @Override
-          public FileBasedConfig openJGitConfig(Config parent, FS fs) {
-            return new FileBasedConfig(parent, new File(tempDir, "jgit.config"), FS.detect());
-          }
-
-          @Override
-          public FileBasedConfig openUserConfig(Config parent, FS fs) {
-            return new FileBasedConfig(parent, new File(tempDir, "user.config"), FS.detect());
-          }
-
-          @Override
-          public FileBasedConfig openSystemConfig(Config parent, FS fs) {
-            return new FileBasedConfig(parent, new File(tempDir, "system.config"), FS.detect());
-          }
-        });
-    return oldSystemReader;
-  }
-
-  private void setTimeSettings(
-      boolean useSystemTime,
-      @Nullable UseClockStep useClockStep,
-      @Nullable UseTimezone useTimezone) {
-    if (useSystemTime) {
-      TestTimeUtil.useSystemTime();
-    } else if (useClockStep != null) {
-      TestTimeUtil.resetWithClockStep(useClockStep.clockStep(), useClockStep.clockStepUnit());
-      if (useClockStep.startAtEpoch()) {
-        TestTimeUtil.setClock(Timestamp.from(Instant.EPOCH));
-      }
-    }
-    if (useTimezone != null) {
-      systemTimeZone = System.setProperty("user.timezone", useTimezone.timezone());
-    }
-  }
-
-  private void resetTimeSettings() {
-    TestTimeUtil.useSystemTime();
-    if (systemTimeZone != null) {
-      System.setProperty("user.timezone", systemTimeZone);
-      systemTimeZone = null;
+    if (!configRule.classDescription().skipProjectClone()) {
+      testRepo = cloneProject(project, getCloneAsAccount(configRule.description()));
     }
   }
 
@@ -727,41 +543,6 @@ public abstract class AbstractDaemonTest {
   /** Override to bind an additional Guice module for SSH injector */
   public Module createSshModule() {
     return null;
-  }
-
-  protected void initSsh() throws Exception {
-    if (testRequiresSsh
-        && SshMode.useSsh()
-        && (adminSshSession == null || userSshSession == null)) {
-      // Create Ssh sessions
-      SshSessionFactory.initSsh();
-      try (ManualRequestContext ctx = requestScopeOperations.setNestedApiUser(user.id())) {
-        userSshSession = getOrCreateSshSessionForContext(ctx);
-        // The session doesn't store any reference to the context and it remains open after the ctx
-        // is closed.
-        userSshSession.open();
-      }
-
-      try (ManualRequestContext ctx = requestScopeOperations.setNestedApiUser(admin.id())) {
-        adminSshSession = getOrCreateSshSessionForContext(ctx);
-        // The session doesn't store any reference to the context and it remains open after the ctx
-        // is closed.
-        adminSshSession.open();
-      }
-    }
-  }
-
-  protected SshSession getOrCreateSshSessionForContext(RequestContext ctx) {
-    checkState(
-        testRequiresSsh,
-        "The test or the test class must be annotated with @UseSsh to use this method.");
-    return sshSessionByContext.computeIfAbsent(
-        ctx,
-        (c) ->
-            SshSessionFactory.createSession(
-                sshKeys,
-                sshAddress,
-                accountOperations.account(ctx.getUser().getAccountId()).get()));
   }
 
   protected TestAccount getCloneAsAccount(Description description) {
@@ -870,33 +651,9 @@ public abstract class AbstractDaemonTest {
     for (Repository repo : toClose) {
       repo.close();
     }
-    closeSsh();
-    resetTimeSettings();
-    if (server != commonServer) {
-      server.close();
-      server = null;
-    }
 
-    GerritServer.Description methodDesc =
-        GerritServer.Description.forTestMethod(description, configName);
-    if (methodDesc.systemProperties() != null) {
-      for (GerritSystemProperty sysProp : methodDesc.systemProperties().value()) {
-        System.clearProperty(sysProp.name());
-      }
-    }
-
-    if (methodDesc.systemProperty() != null) {
-      System.clearProperty(methodDesc.systemProperty().name());
-    }
-
-    SystemReader.setInstance(oldSystemReader);
-    oldSystemReader = null;
     // Set useDefaultTicker in afterTest, so the next beforeTest will use the default ticker
     testTicker.useDefaultTicker();
-  }
-
-  protected void closeSsh() {
-    sshSessionByContext.values().forEach(SshSession::close);
   }
 
   /**

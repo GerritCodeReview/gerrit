@@ -71,7 +71,7 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
   protected ProjectResetter.Config resetProjects() {
     // Don't reset anything so that stagedUsers can be cached across all tests.
     // Without this caching these tests become much too slow.
-    return new ProjectResetter.Config();
+    return new ProjectResetter.Config.Builder().build();
   }
 
   protected static FakeEmailSenderSubject assertThat(FakeEmailSender sender) {

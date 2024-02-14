@@ -40,7 +40,9 @@ public class NoteDbUtil {
   private final ExternalIdCache externalIdCache;
 
   @Inject
-  public NoteDbUtil(@GerritServerId String serverId, ExternalIdCache externalIdCache) {
+  public NoteDbUtil(
+      @GerritServerId String serverId,
+      ExternalIdCache externalIdCache) {
     this.serverId = serverId;
     this.externalIdCache = externalIdCache;
   }

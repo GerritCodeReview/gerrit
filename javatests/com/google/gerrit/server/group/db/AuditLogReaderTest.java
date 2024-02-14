@@ -129,7 +129,9 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
     cfg.setBoolean("groups", "auditLog", "ignoreRecordsFromUnidentifiedUsers", true);
     auditLogReader =
         new AuditLogReader(
-            allUsersName, new NoteDbUtil(SERVER_ID, new DisabledExternalIdCache()), cfg);
+            allUsersName,
+            new NoteDbUtil(SERVER_ID, new DisabledExternalIdCache()),
+            cfg);
     InternalGroup group = createGroupAsUser(1, "test-group");
     AccountGroup.UUID uuid = group.getGroupUUID();
     AccountGroupMemberAudit expAudit1 =

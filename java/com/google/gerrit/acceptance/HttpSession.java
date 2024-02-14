@@ -25,7 +25,7 @@ import org.apache.http.client.fluent.Request;
 import org.apache.http.impl.client.HttpClientBuilder;
 
 public class HttpSession {
-  protected TestAccount account;
+  protected @Nullable TestAccount account;
   protected final String url;
   private final Executor executor;
 

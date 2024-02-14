@@ -52,7 +52,7 @@ public class SshDaemonIT extends AbstractDaemonTest {
   @Test
   public void nonGracefulCommandIsStoppedImmediately() throws Exception {
     Future<Integer> future = startCommand(false);
-    restart();
+    serverTestRule.restart();
     assertThat(future.get()).isEqualTo(-1);
   }
 
@@ -61,7 +61,7 @@ public class SshDaemonIT extends AbstractDaemonTest {
     assume().that(isGracefulStopEnabled()).isTrue();
 
     Future<Integer> future = startCommand(true);
-    restart();
+    serverTestRule.restart();
     assertThat(future.get()).isEqualTo(0);
   }
 

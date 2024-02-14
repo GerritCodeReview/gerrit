@@ -44,8 +44,10 @@ public class AbstractGitOverHttpServlet extends AbstractPushForReview {
 
   @Before
   public void beforeEach() throws Exception {
-    checkState(server.getHttpdInjector().isPresent(), "GerritServer must have HttpdInjector");
-    jettyServer = server.getHttpdInjector().get().getInstance(JettyServer.class);
+    checkState(
+        serverTestRule.server.getHttpdInjector().isPresent(),
+        "GerritServer must have HttpdInjector");
+    jettyServer = serverTestRule.server.getHttpdInjector().get().getInstance(JettyServer.class);
 
     CredentialsProvider.setDefault(
         new UsernamePasswordCredentialsProvider(admin.username(), admin.httpPassword()));
@@ -91,7 +93,7 @@ public class AbstractGitOverHttpServlet extends AbstractPushForReview {
     String remote = "authenticated";
     Config cfg = testRepo.git().getRepository().getConfig();
 
-    String uri = admin.getHttpUrl(server) + "/a/" + project.get();
+    String uri = admin.getHttpUrl(serverTestRule.server) + "/a/" + project.get();
     cfg.setString("remote", remote, "url", uri);
     cfg.setString("remote", remote, "fetch", "+refs/heads/*:refs/remotes/origin/*");
 
@@ -104,7 +106,7 @@ public class AbstractGitOverHttpServlet extends AbstractPushForReview {
     String remote = "anonymous";
     Config cfg = testRepo.git().getRepository().getConfig();
 
-    String uri = server.getUrl() + "/" + project.get();
+    String uri = serverTestRule.server.getUrl() + "/" + project.get();
     cfg.setString("remote", remote, "url", uri);
     cfg.setString("remote", remote, "fetch", "+refs/heads/*:refs/remotes/origin/*");
 
@@ -115,7 +117,7 @@ public class AbstractGitOverHttpServlet extends AbstractPushForReview {
   @TestProjectInput(createEmptyCommit = false)
   public void wantNotValidErrorOverHTTPShouldResultIn200OKHttpStatus() throws Exception {
     String remote = "origin";
-    String uri = admin.getHttpUrl(server) + "/a/" + project.get();
+    String uri = admin.getHttpUrl(serverTestRule.server) + "/a/" + project.get();
     cfg.setString("remote", remote, "url", uri);
     cfg.setString("remote", remote, "fetch", "+refs/heads/*:refs/remotes/origin/*");
     String wantNotValidCommit = "554013834d49a69a2f3c494de195ee606dd6d035";

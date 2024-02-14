@@ -26,7 +26,6 @@ import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.proto.Protos;
 import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
-import com.google.gerrit.server.account.externalids.ExternalIdCache;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesKeyProto;
 import com.google.gerrit.server.cache.serialize.CacheSerializer;
@@ -350,12 +349,14 @@ public class ChangeNotesCache {
 
   private class Loader implements Callable<ChangeNotesState> {
     private final Key key;
+    private final NoteDbUtil noteDbUtil;
     private final Supplier<ChangeNotesRevWalk> walkSupplier;
 
     private RevisionNoteMap<ChangeRevisionNote> revisionNoteMap;
 
-    private Loader(Key key, Supplier<ChangeNotesRevWalk> walkSupplier) {
+    private Loader(NoteDbUtil noteDbUtil, Key key, Supplier<ChangeNotesRevWalk> walkSupplier) {
       this.key = key;
+      this.noteDbUtil = noteDbUtil;
       this.walkSupplier = walkSupplier;
     }
 
@@ -370,7 +371,7 @@ public class ChangeNotesCache {
               walkSupplier.get(),
               args.changeNoteJson,
               args.metrics,
-              new NoteDbUtil(args.serverId, externalIdCache));
+              noteDbUtil);
       ChangeNotesState result = parser.parseAll();
       // This assignment only happens if call() was actually called, which only
       // happens when Cache#get(K, Callable<V>) incurs a cache miss.
@@ -380,17 +381,15 @@ public class ChangeNotesCache {
   }
 
   private final Cache<Key, ChangeNotesState> cache;
+  private final NoteDbUtil noteDbUtil;
   private final Args args;
-  private final ExternalIdCache externalIdCache;
 
   @Inject
   ChangeNotesCache(
-      @Named(CACHE_NAME) Cache<Key, ChangeNotesState> cache,
-      Args args,
-      ExternalIdCache externalIdCache) {
+      @Named(CACHE_NAME) Cache<Key, ChangeNotesState> cache, Args args, NoteDbUtil noteDbUtil) {
     this.cache = cache;
     this.args = args;
-    this.externalIdCache = externalIdCache;
+    this.noteDbUtil = noteDbUtil;
   }
 
   Value get(
@@ -401,7 +400,7 @@ public class ChangeNotesCache {
       throws IOException {
     try {
       Key key = Key.create(project, changeId, metaId);
-      Loader loader = new Loader(key, walkSupplier);
+      Loader loader = new Loader(noteDbUtil, key, walkSupplier);
       ChangeNotesState s = cache.get(key, loader);
       return new AutoValue_ChangeNotesCache_Value(s, loader.revisionNoteMap);
     } catch (ExecutionException e) {

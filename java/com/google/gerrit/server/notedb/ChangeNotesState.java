@@ -68,6 +68,7 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 import org.eclipse.jgit.lib.ObjectId;
 
 /**
@@ -87,6 +88,7 @@ import org.eclipse.jgit.lib.ObjectId;
 
 @AutoValue
 public abstract class ChangeNotesState {
+  private final AtomicBoolean mutated = new AtomicBoolean(false);
 
   static ChangeNotesState empty(Change change) {
     return Builder.empty(change.getId()).build();
@@ -133,7 +135,8 @@ public abstract class ChangeNotesState {
       @Nullable Change.Id revertOf,
       @Nullable PatchSet.Id cherryPickOf,
       int updateCount,
-      @Nullable Instant mergedOn) {
+      @Nullable Instant mergedOn,
+      boolean mutated) {
     requireNonNull(
         metaId,
         () ->
@@ -142,48 +145,52 @@ public abstract class ChangeNotesState {
                     + " To create an empty %s without"
                     + " NoteDb data, use empty(...) instead",
                 ChangeNotesState.class.getSimpleName()));
-    return builder()
-        .metaId(metaId)
-        .changeId(changeId)
-        .columns(
-            ChangeColumns.builder()
-                .changeKey(changeKey)
-                .createdOn(createdOn)
-                .lastUpdatedOn(lastUpdatedOn)
-                .owner(owner)
-                .branch(branch)
-                .status(status)
-                .currentPatchSetId(currentPatchSetId)
-                .subject(subject)
-                .topic(topic)
-                .originalSubject(originalSubject)
-                .submissionId(submissionId)
-                .isPrivate(isPrivate)
-                .workInProgress(workInProgress)
-                .reviewStarted(reviewStarted)
-                .revertOf(revertOf)
-                .cherryPickOf(cherryPickOf)
-                .build())
-        .hashtags(hashtags)
-        .customKeyedValues(customKeyedValues.entrySet())
-        .serverId(serverId)
-        .patchSets(patchSets.entrySet())
-        .approvals(approvals.entries())
-        .reviewers(reviewers)
-        .reviewersByEmail(reviewersByEmail)
-        .pendingReviewers(pendingReviewers)
-        .pendingReviewersByEmail(pendingReviewersByEmail)
-        .allPastReviewers(allPastReviewers)
-        .reviewerUpdates(reviewerUpdates)
-        .attentionSet(attentionSetUpdates)
-        .allAttentionSetUpdates(allAttentionSetUpdates)
-        .submitRecords(submitRecords)
-        .changeMessages(changeMessages)
-        .publishedComments(publishedComments)
-        .submitRequirementsResult(submitRequirementResults)
-        .updateCount(updateCount)
-        .mergedOn(mergedOn)
-        .build();
+    ChangeNotesState state =
+        builder()
+            .metaId(metaId)
+            .changeId(changeId)
+            .columns(
+                ChangeColumns.builder()
+                    .changeKey(changeKey)
+                    .createdOn(createdOn)
+                    .lastUpdatedOn(lastUpdatedOn)
+                    .owner(owner)
+                    .branch(branch)
+                    .status(status)
+                    .currentPatchSetId(currentPatchSetId)
+                    .subject(subject)
+                    .topic(topic)
+                    .originalSubject(originalSubject)
+                    .submissionId(submissionId)
+                    .isPrivate(isPrivate)
+                    .workInProgress(workInProgress)
+                    .reviewStarted(reviewStarted)
+                    .revertOf(revertOf)
+                    .cherryPickOf(cherryPickOf)
+                    .build())
+            .hashtags(hashtags)
+            .customKeyedValues(customKeyedValues.entrySet())
+            .serverId(serverId)
+            .patchSets(patchSets.entrySet())
+            .approvals(approvals.entries())
+            .reviewers(reviewers)
+            .reviewersByEmail(reviewersByEmail)
+            .pendingReviewers(pendingReviewers)
+            .pendingReviewersByEmail(pendingReviewersByEmail)
+            .allPastReviewers(allPastReviewers)
+            .reviewerUpdates(reviewerUpdates)
+            .attentionSet(attentionSetUpdates)
+            .allAttentionSetUpdates(allAttentionSetUpdates)
+            .submitRecords(submitRecords)
+            .changeMessages(changeMessages)
+            .publishedComments(publishedComments)
+            .submitRequirementsResult(submitRequirementResults)
+            .updateCount(updateCount)
+            .mergedOn(mergedOn)
+            .build();
+    state.mutated.set(mutated);
+
+    return state;
   }
 
   /**
@@ -340,6 +347,15 @@ public abstract class ChangeNotesState {
 
   @Nullable
   abstract Instant mergedOn();
+
+  /**
+   * Indicates if the value was mutated while loading from Git.
+   *
+   * @return {@code true} when in memory value differs from value in git, {@code false} otherwise
+   */
+  public boolean isMutated() {
+    return mutated.get();
+  }
 
   Change newChange(Project.NameKey project) {
     ChangeColumns c = requireNonNull(columns(), "columns are required");

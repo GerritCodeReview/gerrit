@@ -72,6 +72,7 @@ import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.RequestId;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.notedb.ChangeNotesOnlineMigrator;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.LimitExceededException;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager;
@@ -429,6 +430,7 @@ public class BatchUpdate implements AutoCloseable {
   private final Map<Change.Id, Change> newChanges = new HashMap<>();
   private final List<OpData<RepoOnlyOp>> repoOnlyOps = new ArrayList<>();
   private final Map<Change.Id, NotifyHandling> perChangeNotifyHandling = new HashMap<>();
+  private final ChangeNotesOnlineMigrator.Factory changeNotesOnlineMigratorFactory;
   private final Config gerritConfig;
 
   private RepoView repoView;
@@ -456,6 +458,7 @@ public class BatchUpdate implements AutoCloseable {
       GitReferenceUpdated gitRefUpdated,
       RefLogIdentityProvider refLogIdentityProvider,
       AttentionSetObserver attentionSetObserver,
+      ChangeNotesOnlineMigrator.Factory changeNotesOnlineMigratorFactory,
       @GerritServerConfig Config gerritConfig,
       @Assisted Project.NameKey project,
       @Assisted CurrentUser user,
@@ -471,6 +474,7 @@ public class BatchUpdate implements AutoCloseable {
     this.gitRefUpdated = gitRefUpdated;
     this.refLogIdentityProvider = refLogIdentityProvider;
     this.attentionSetObserver = attentionSetObserver;
+    this.changeNotesOnlineMigratorFactory = changeNotesOnlineMigratorFactory;
     this.project = project;
     this.user = user;
     this.when = when;
@@ -826,6 +830,9 @@ public class BatchUpdate implements AutoCloseable {
           ctx.defaultUpdates.values().forEach(changeUpdates::add);
           ctx.distinctUpdates.values().forEach(changeUpdates::add);
           ctx = newChangeContext(opData.user(), id);
+        }
+        if (ctx.notes.isMutated()) {
+          handle.manager.add(changeNotesOnlineMigratorFactory.create(ctx.notes));
         }
         try (TraceContext.TraceTimer ignored =
             TraceContext.newTimer(

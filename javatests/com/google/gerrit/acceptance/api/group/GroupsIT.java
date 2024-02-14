@@ -1490,7 +1490,7 @@ public class GroupsIT extends AbstractDaemonTest {
     groupInput.name = name("contributors");
     groupInput.members = ImmutableList.of(user.username());
     gApi.groups().create(groupInput);
-    restartAsSlave();
+    serverTestRule.restartAsSlave(admin, user);
 
     requestScopeOperations.setApiUser(user.id());
     List<GroupInfo> groups = gApi.groups().list().withUser(user.username()).get();
@@ -1510,7 +1510,7 @@ public class GroupsIT extends AbstractDaemonTest {
     assertThat(expectedGroups.size()).isAtLeast(2);
 
     // Restart the server as slave, on startup of the slave all groups are indexed.
-    restartAsSlave();
+    serverTestRule.restartAsSlave(admin, user);
 
     GroupIndexedCounter groupIndexedCounter = new GroupIndexedCounter();
     try (Registration registration = extensionRegistry.newRegistration().add(groupIndexedCounter)) {
@@ -1565,7 +1565,7 @@ public class GroupsIT extends AbstractDaemonTest {
         groups.getAllGroupReferences().map(GroupReference::getUUID).collect(toList());
     assertThat(expectedGroups.size()).isAtLeast(2);
 
-    restartAsSlave();
+    serverTestRule.restartAsSlave(admin, user);
 
     GroupIndexedCounter groupIndexedCounter = new GroupIndexedCounter();
     try (Registration registration = extensionRegistry.newRegistration().add(groupIndexedCounter)) {

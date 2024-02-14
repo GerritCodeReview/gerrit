@@ -122,6 +122,24 @@
       "parentUuid": "3b6db1d8_2f46b629",
       "revId": "649ae0650ddc258049516ad8b230b3c9f5afe747",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28f2a262_8a5f1c84",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-02-14T00:10:48Z",
+      "side": 1,
+      "message": "Sorry for not getting back on this sooner. We\u0027re testing an update to `acf21c0bc` (latest JGit stable-6.6 tip) and should have results for that tomorrow. Do you want to update to that commit here too?",
+      "parentUuid": "55b86f47_57aa523f",
+      "revId": "649ae0650ddc258049516ad8b230b3c9f5afe747",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

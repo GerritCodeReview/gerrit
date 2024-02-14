@@ -70,6 +70,24 @@
       "parentUuid": "df9546da_d456c2be",
       "revId": "f12cf01078b34f0a51cf46767e8ab89585d53c6c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "91441ba8_ea905a5b",
+        "filename": "java/com/google/gerrit/server/index/change/ReindexChangesAfterRefUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2024-02-14T07:46:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "58bc94a6_2d732db7",
+      "revId": "f12cf01078b34f0a51cf46767e8ab89585d53c6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

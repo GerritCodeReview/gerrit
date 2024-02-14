@@ -34,6 +34,24 @@
       "parentUuid": "9dd26336_e095120e",
       "revId": "f12cf01078b34f0a51cf46767e8ab89585d53c6c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df9546da_d456c2be",
+        "filename": "java/com/google/gerrit/server/index/change/ReindexChangesAfterRefUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-02-14T07:34:48Z",
+      "side": 1,
+      "message": "Yeah, we usually keep the old date when renaming files :)",
+      "parentUuid": "4477d548_22be7342",
+      "revId": "f12cf01078b34f0a51cf46767e8ab89585d53c6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -215,7 +215,7 @@ public abstract class AbstractDaemonTest {
 
   /**
    * Test methods without special annotations will use a common server for efficiency reasons. The
-   * server is torn down after the test class is done.
+   * server is torn down after the test class is done or when the config is changed.
    */
   private static GerritServer commonServer;
 
@@ -238,14 +238,29 @@ public abstract class AbstractDaemonTest {
                 firstTest = description;
               }
               beforeTest(description);
-              ProjectResetter.Config input = requireNonNull(resetProjects());
-
+              ProjectResetter.Config input =
+                  commonServer != null
+                      ? requireNonNull(
+                          resetProjects(
+                              commonServer.testInjector.getInstance(AllProjectsName.class),
+                              commonServer.testInjector.getInstance(AllUsersName.class)))
+                      : null;
+              // Only commonServer can be shared between tests and should be restored after each
+              // test. It can be that the commonServer is started, but a test actually don't use
+              // it and instead the test uses a separate server instance.
+              // In this case, the separate server is stopped after each test and so doesn't require
+              // cleanup (for simplicity, the commonServer is always cleaned up even if it is not
+              // used in a test).
+              ProjectResetter.Builder.Factory projectResetterFactory =
+                  commonServer != null
+                      ? commonServer.testInjector.getInstance(ProjectResetter.Builder.Factory.class)
+                      : null;
               try (ProjectResetter resetter =
-                  projectResetter != null ? projectResetter.builder().build(input) : null) {
-                AbstractDaemonTest.this.resetter = resetter;
+                  projectResetterFactory != null
+                      ? projectResetterFactory.builder().build(input)
+                      : null) {
                 base.evaluate();
               } finally {
-                AbstractDaemonTest.this.resetter = null;
                 afterTest();
               }
             }
@@ -278,7 +293,6 @@ public abstract class AbstractDaemonTest {
   @Inject protected PatchSetUtil psUtil;
   @Inject protected ProjectCache projectCache;
   @Inject protected ProjectConfig.Factory projectConfigFactory;
-  @Inject protected ProjectResetter.Builder.Factory projectResetter;
   @Inject protected Provider<InternalChangeQuery> queryProvider;
   @Inject protected PushOneCommit.Factory pushFactory;
   @Inject protected PluginConfigFactory pluginConfig;
@@ -322,7 +336,6 @@ public abstract class AbstractDaemonTest {
   @Inject @Nullable @TestSshServerAddress private InetSocketAddress sshAddress;
   @Inject private AccountOperations accountOperations;
 
-  private ProjectResetter resetter;
   private List<Repository> toClose;
   private String systemTimeZone;
   private SystemReader oldSystemReader;
@@ -477,9 +490,18 @@ public abstract class AbstractDaemonTest {
     }
   }
 
-  /** Controls which project and branches should be reset after each test case. */
-  protected ProjectResetter.Config resetProjects() {
-    return new ProjectResetter.Config()
+  /**
+   * Controls which project and branches should be reset in the commonServer after each test case.
+   *
+   * <p>Parameters allProject and allUsers must refer to the commonServer names - if a test doesn't
+   * use commonServer then names in the test can be different from names in commonServer.
+   *
+   * <p>The fields {@link #allProjects} and {@link #allUsers} corresponds to the actual server, not
+   * to the commonServer and can't be used.
+   */
+  protected ProjectResetter.Config resetProjects(
+      AllProjectsName allProjects, AllUsersName allUsers) {
+    return new ProjectResetter.Config.Builder()
         // Don't reset all refs so that refs/sequences/changes is not touched and change IDs are
         // not reused.
         .reset(allProjects, RefNames.REFS_CONFIG)
@@ -492,25 +514,26 @@ public abstract class AbstractDaemonTest {
             RefNames.REFS_GROUPNAMES,
             RefNames.REFS_GROUPS + "*",
             RefNames.REFS_STARRED_CHANGES + "*",
-            RefNames.REFS_DRAFT_COMMENTS + "*");
+            RefNames.REFS_DRAFT_COMMENTS + "*")
+        .build();
   }
 
   protected void restartAsSlave() throws Exception {
+    checkState(
+        server != commonServer,
+        "The commonServer can't be restarted; to use this method, the test must be @Sandboxed");
     closeSsh();
     server = GerritServer.restartAsSlave(server);
     server.getTestInjector().injectMembers(this);
-    if (resetter != null) {
-      server.getTestInjector().injectMembers(resetter);
-    }
     initSsh();
   }
 
   protected void restart() throws Exception {
+    checkState(
+        server != commonServer,
+        "The commonServer can't be restarted; to use this method, the test must be @Sandboxed");
     server = GerritServer.restart(server, createModule(), createSshModule());
     server.getTestInjector().injectMembers(this);
-    if (resetter != null) {
-      server.getTestInjector().injectMembers(resetter);
-    }
     initSsh();
   }
 

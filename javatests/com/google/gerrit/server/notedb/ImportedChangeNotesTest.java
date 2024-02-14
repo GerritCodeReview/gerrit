@@ -26,6 +26,7 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.CommentRange;
 import com.google.gerrit.entities.HumanComment;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdCache;
@@ -37,6 +38,11 @@ import java.util.Objects;
 import java.util.Optional;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.notes.NoteMap;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.treewalk.TreeWalk;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -134,6 +140,7 @@ public class ImportedChangeNotesTest extends AbstractChangeNotesTest {
     HumanComment gotComment = comments.entries().asList().get(0).getValue();
     assertThat(gotComment.author.getId()).isEqualTo(otherUser.getAccountId());
     assertThat(gotComment.serverId).isEqualTo(LOCAL_SERVER_ID);
+    assertRawCommentAuthorIdInNoteDb(importedChange, importedAccountId);
   }
 
   @Test
@@ -157,6 +164,7 @@ public class ImportedChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(comments).hasSize(1);
     HumanComment gotComment = comments.entries().asList().get(0).getValue();
     assertThat(gotComment.author.getId()).isEqualTo(Account.UNKNOWN_ACCOUNT_ID);
+    assertRawCommentAuthorIdInNoteDb(importedChange, importedAccountId);
   }
 
   private HumanComment comment(Change change, IdentifiedUser commenter, String serverId) {
@@ -191,6 +199,31 @@ public class ImportedChangeNotesTest extends AbstractChangeNotesTest {
 
       when(externalIdCacheMock.byKey(eq(importedAccountIdKey)))
           .thenReturn(Optional.of(linkedExternalId));
+    }
+  }
+
+  private void assertRawCommentAuthorIdInNoteDb(Change importedChange, Account.Id expectedAuthorId)
+      throws Exception {
+    Ref metaRef = repo.exactRef(RefNames.changeMetaRef(importedChange.getId()));
+    try (TreeWalk treeWalk = new TreeWalk(repo)) {
+      RevCommit metaTip = rw.parseCommit(metaRef.getObjectId());
+      ObjectReader objectReader = treeWalk.getObjectReader();
+      treeWalk.addTree(metaTip.getTree());
+      treeWalk.next();
+      ObjectId notesId = ObjectId.fromString(treeWalk.getNameString());
+
+      RevisionNoteMap<ChangeRevisionNote> rawNotes =
+          RevisionNoteMap.parse(
+              args.changeNoteJson,
+              objectReader,
+              NoteMap.read(objectReader, metaTip),
+              HumanComment.Status.PUBLISHED);
+
+      ChangeRevisionNote changeRevisionNote = rawNotes.revisionNotes.get(notesId);
+      assertThat(changeRevisionNote).isNotNull();
+      HumanComment comment = changeRevisionNote.getEntities().get(0);
+
+      assertThat(comment.author.getId()).isEqualTo(expectedAuthorId);
     }
   }
 }

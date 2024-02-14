@@ -968,6 +968,18 @@ public class ChangeNotesStateTest {
   }
 
   @Test
+  public void serializeIsMutated() throws Exception {
+    assertRoundTrip(
+        newBuilder().isMutated(true).build(),
+        ChangeNotesStateProto.newBuilder()
+            .setMetaId(SHA_BYTES)
+            .setChangeId(ID.get())
+            .setColumns(colsProto)
+            .setIsMutated(true)
+            .build());
+  }
+
+  @Test
   public void changeNotesStateMethods() throws Exception {
     assertThatSerializedClass(ChangeNotesState.class)
         .hasAutoValueMethods(
@@ -1011,6 +1023,7 @@ public class ChangeNotesStateTest {
                     new TypeLiteral<ImmutableList<SubmitRequirementResult>>() {}.getType())
                 .put("updateCount", int.class)
                 .put("mergedOn", Instant.class)
+                .put("isMutated", boolean.class)
                 .build());
   }
 

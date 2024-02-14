@@ -274,6 +274,13 @@ public class NoteDbUpdateManager implements AutoCloseable {
     changeUpdates.put(update.getRefName(), update);
   }
 
+  public void add(ChangeNotesOnlineMigrator update) throws IOException {
+    ListMultimap<String, ChangeNotesOnlineMigrator> build =
+        MultimapBuilder.hashKeys().arrayListValues().build();
+    build.put(update.getRefName(), update);
+    changeRepo.addUpdatesNoLimits(build);
+  }
+
   public void add(ChangeDraftUpdate draftUpdate) {
     checkNotExecuted();
     draftUpdates.put(draftUpdate.getStorageKey(), draftUpdate);

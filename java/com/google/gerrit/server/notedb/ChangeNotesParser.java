@@ -39,6 +39,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_SUBMITTED
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_TAG;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_TOPIC;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_WORK_IN_PROGRESS;
+import static com.google.gerrit.server.notedb.ChangeNoteFooters.MIGRATION_COMMIT;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.parseCommitMessageRange;
 import static java.util.Comparator.comparing;
 import static java.util.Comparator.comparingInt;
@@ -207,6 +208,7 @@ class ChangeNotesParser {
   // the latest record unsets the field).
   private Optional<PatchSet.Id> cherryPickOf;
   private Instant mergedOn;
+  private Boolean mutated;
   private final NoteDbUtil noteDbUtil;
 
   ChangeNotesParser(
@@ -319,7 +321,8 @@ class ChangeNotesParser {
         revertOf,
         cherryPickOf != null ? cherryPickOf.orElse(null) : null,
         updateCount,
-        mergedOn);
+        mergedOn,
+        firstNonNull(mutated, false));
   }
 
   private Map<PatchSet.Id, PatchSet> buildPatchSets() throws ConfigInvalidException {
@@ -469,6 +472,10 @@ class ChangeNotesParser {
   }
 
   private void parse(ChangeNotesCommit commit) throws ConfigInvalidException {
+    if (!commit.getFooterLines(MIGRATION_COMMIT).isEmpty()) {
+      // ignore commit by Gerrit Core Review
+      return;
+    }
     Instant commitTimestamp = getCommitTimestamp(commit);
 
     createdOn = commitTimestamp;
@@ -947,7 +954,7 @@ class ChangeNotesParser {
                 : null);
   }
 
-  private void parseNotes() throws IOException, ConfigInvalidException {
+  void parseNotes() throws IOException, ConfigInvalidException {
     ObjectReader reader = walk.getObjectReader();
     ChangeNotesCommit tipCommit = walk.parseCommit(tip);
     revisionNoteMap =
@@ -962,6 +969,10 @@ class ChangeNotesParser {
             .parseIdent(String.format("%s@%s", c.author.getId(), c.serverId))
             .ifPresent(
                 id -> {
+                  if (mutated == null
+                      && !(id.equals(c.author.getId()) && c.serverId.equals(noteDbUtil.serverId))) {
+                    mutated = Boolean.TRUE;
+                  }
                   c.author = new Comment.Identity(id);
                   c.serverId = noteDbUtil.serverId;
                 });

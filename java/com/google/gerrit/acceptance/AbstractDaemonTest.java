@@ -603,9 +603,9 @@ public abstract class AbstractDaemonTest {
     reindexAccount(admin.id());
     reindexAccount(user.id());
 
-    adminRestSession = new RestSession(server, admin);
-    userRestSession = new RestSession(server, user);
-    anonymousRestSession = new RestSession(server, null);
+    adminRestSession = createRestSession(admin);
+    userRestSession = createRestSession(user);
+    anonymousRestSession = createRestSession(null);
 
     initSsh();
 
@@ -622,6 +622,10 @@ public abstract class AbstractDaemonTest {
     if (!classDesc.skipProjectClone()) {
       testRepo = cloneProject(project, getCloneAsAccount(description));
     }
+  }
+
+  RestSession createRestSession(@Nullable TestAccount account) {
+    return new GerritServerRestSession(server, account);
   }
 
   protected void initServer(GerritServer.Description classDesc, GerritServer.Description methodDesc)

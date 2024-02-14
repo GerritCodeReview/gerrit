@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a73ef593_4d8a7fe6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 35
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-02-14T18:04:40Z",
+      "side": 1,
+      "message": "I will add a change in the documentation to explain how the \"change\" operator works. Currently, the documentation [1] is not aligned with the code [2].\n\n[1]: https://gerrit-review.googlesource.com/Documentation/user-search.html\n[2]: https://gerrit.googlesource.com/gerrit/+/13fa63dd31de9e93860afda42e574f4cb66c0f51/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java#590",
+      "revId": "fd07bdcc3104cfa878a8f439f8ba79189b944003",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6882471d_19204487",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-02-14T18:04:40Z",
+      "side": 1,
+      "message": "It is worth explaining the reason for the introduction of this default search.",
+      "revId": "fd07bdcc3104cfa878a8f439f8ba79189b944003",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

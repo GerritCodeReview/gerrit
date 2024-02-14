@@ -152,6 +152,8 @@ public class GroupsIT extends AbstractDaemonTest {
   @Inject private ExtensionRegistry extensionRegistry;
   @Inject private GroupsSnapshotReader groupsSnapshotReader;
 
+  @Inject private ProjectResetter.Builder.Factory projectResetterFactory;
+
   @Override
   public Module createModule() {
     return new AbstractModule() {
@@ -175,7 +177,7 @@ public class GroupsIT extends AbstractDaemonTest {
     // Don't reset All-Users since deleting users makes groups inconsistent (e.g. groups would
     // contain members that no longer exist) and as result of this the group consistency checker
     // that is executed after each test would fail.
-    return new ProjectResetter.Config().reset(allProjects, RefNames.REFS_CONFIG);
+    return new ProjectResetter.Config.Builder().reset(allProjects, RefNames.REFS_CONFIG).build();
   }
 
   @Test
@@ -1350,9 +1352,12 @@ public class GroupsIT extends AbstractDaemonTest {
   public void cannotCreateGroupNamesBranch() throws Exception {
     // Use ProjectResetter to restore the group names ref
     try (ProjectResetter resetter =
-        projectResetter
+        projectResetterFactory
             .builder()
-            .build(new ProjectResetter.Config().reset(allUsers, RefNames.REFS_GROUPNAMES))) {
+            .build(
+                new ProjectResetter.Config.Builder()
+                    .reset(allUsers, RefNames.REFS_GROUPNAMES)
+                    .build())) {
       // Manually delete group names ref
       try (Repository repo = repoManager.openRepository(allUsers);
           RevWalk rw = new RevWalk(repo)) {

@@ -80,7 +80,7 @@ public class ProjectResetterTest {
     Ref matchingRef = createRef("refs/any/test");
 
     try (ProjectResetter resetProject =
-        builder().build(new ProjectResetter.Config().reset(project))) {
+        builder().build(new ProjectResetter.Config.Builder().reset(project).build())) {
       updateRef(matchingRef);
     }
 
@@ -98,8 +98,9 @@ public class ProjectResetterTest {
     try (ProjectResetter resetProject =
         builder()
             .build(
-                new ProjectResetter.Config()
-                    .reset(project, "refs/match/*", "refs/another-match/*"))) {
+                new ProjectResetter.Config.Builder()
+                    .reset(project, "refs/match/*", "refs/another-match/*")
+                    .build())) {
       updateRef(matchingRef);
       updateRef(anotherMatchingRef);
       updatedNonMatchingRef = updateRef(nonMatchingRef);
@@ -121,8 +122,9 @@ public class ProjectResetterTest {
     try (ProjectResetter resetProject =
         builder()
             .build(
-                new ProjectResetter.Config()
-                    .reset(project, "refs/match/*", "refs/another-match/*"))) {
+                new ProjectResetter.Config.Builder()
+                    .reset(project, "refs/match/*", "refs/another-match/*")
+                    .build())) {
       matchingRef = createRef("refs/match/test");
       anotherMatchingRef = createRef("refs/another-match/test");
       nonMatchingRef = createRef("refs/no-match/test");
@@ -152,9 +154,10 @@ public class ProjectResetterTest {
     try (ProjectResetter resetProject =
         builder()
             .build(
-                new ProjectResetter.Config()
+                new ProjectResetter.Config.Builder()
                     .reset(project, "refs/foo/*")
-                    .reset(project2, "refs/bar/*"))) {
+                    .reset(project2, "refs/bar/*")
+                    .build())) {
       updateRef(matchingRefProject1);
       updatedNonMatchingRefProject1 = updateRef(nonMatchingRefProject1);
 
@@ -183,9 +186,10 @@ public class ProjectResetterTest {
     try (ProjectResetter resetProject =
         builder()
             .build(
-                new ProjectResetter.Config()
+                new ProjectResetter.Config.Builder()
                     .reset(project, "refs/foo/*")
-                    .reset(project2, "refs/bar/*"))) {
+                    .reset(project2, "refs/bar/*")
+                    .build())) {
       matchingRefProject1 = createRef("refs/foo/test");
       nonMatchingRefProject1 = createRef("refs/bar/test");
 
@@ -208,7 +212,9 @@ public class ProjectResetterTest {
     try (ProjectResetter resetProject =
         builder()
             .build(
-                new ProjectResetter.Config().reset(project, "refs/match/*", "refs/match/test"))) {
+                new ProjectResetter.Config.Builder()
+                    .reset(project, "refs/match/*", "refs/match/test")
+                    .build())) {
       // This ref matches 2 ref pattern, ProjectResetter should try to delete it only once.
       matchingRef = createRef("refs/match/test");
     }
@@ -229,7 +235,7 @@ public class ProjectResetterTest {
 
     try (ProjectResetter resetProject =
         builder(null, null, null, null, null, null, projectCache)
-            .build(new ProjectResetter.Config().reset(project).reset(project2))) {
+            .build(new ProjectResetter.Config.Builder().reset(project).reset(project2).build())) {
       updateRef(nonMetaConfig);
       updateRef(repo2, metaConfig);
     }
@@ -246,7 +252,7 @@ public class ProjectResetterTest {
 
     try (ProjectResetter resetProject =
         builder(null, null, null, null, null, null, projectCache)
-            .build(new ProjectResetter.Config().reset(project).reset(project2))) {
+            .build(new ProjectResetter.Config.Builder().reset(project).reset(project2).build())) {
       createRef("refs/heads/master");
       createRef(repo2, RefNames.REFS_CONFIG);
     }
@@ -270,7 +276,7 @@ public class ProjectResetterTest {
     Ref ref2 = createRef(allUsersRepo, RefNames.refsGroups(uuid2));
     try (ProjectResetter resetProject =
         builder(null, null, null, cache, includeCache, indexer, null)
-            .build(new ProjectResetter.Config().reset(project).reset(allUsers))) {
+            .build(new ProjectResetter.Config.Builder().reset(project).reset(allUsers).build())) {
       updateRef(allUsersRepo, ref2);
       createRef(allUsersRepo, RefNames.refsGroups(uuid3));
     }

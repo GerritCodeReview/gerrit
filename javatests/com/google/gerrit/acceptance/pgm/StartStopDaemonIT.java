@@ -21,18 +21,43 @@ import com.google.gerrit.acceptance.Sandboxed;
 import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadMXBean;
 import org.junit.Test;
+import org.junit.rules.RuleChain;
+import org.junit.rules.TestRule;
 import org.junit.runner.Description;
+import org.junit.runners.model.Statement;
 
 @Sandboxed
 public class StartStopDaemonIT extends AbstractDaemonTest {
   Description suiteDescription = Description.createSuiteDescription(StartStopDaemonIT.class);
 
+  @Override
+  protected TestRule createTestRules() {
+    TestRule innerRules = super.createTestRules();
+    return RuleChain.outerRule(
+            new TestRule() {
+              @Override
+              public Statement apply(Statement statement, Description description) {
+                return new Statement() {
+                  @Override
+                  public void evaluate() throws Throwable {
+                    ThreadMXBean thbean = ManagementFactory.getThreadMXBean();
+                    int startThreads = thbean.getThreadCount();
+                    statement.evaluate();
+                    assertThat(Thread.activeCount()).isLessThan(startThreads);
+                  }
+                };
+              }
+            })
+        .around(innerRules);
+  }
+
   @Test
-  public void sandboxedDaemonDoesNotLeakThreads() throws Exception {
-    ThreadMXBean thbean = ManagementFactory.getThreadMXBean();
-    int startThreads = thbean.getThreadCount();
-    beforeTest(suiteDescription);
-    afterTest();
-    assertThat(Thread.activeCount()).isLessThan(startThreads);
+  public void sandboxedDaemonDoesNotLeakThreads_1() throws Exception {
+    // dummy test - the sandboxed server will be started and then stopped
+  }
+
+  @Test
+  public void sandboxedDaemonDoesNotLeakThreads_2() throws Exception {
+    // dummy test - the sandboxed server will be started and then stopped
   }
 }

@@ -148,6 +148,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.restapi.change.Revisions;
 import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gerrit.server.util.git.DelegateSystemReader;
@@ -581,6 +582,7 @@ public abstract class AbstractDaemonTest {
     toClose = Collections.synchronizedList(new ArrayList<>());
 
     setUpDatabase(classDesc);
+    initSsh();
 
     // Set the clock step last, so that the test setup isn't consuming any timestamps after the
     // clock has been set.
@@ -606,8 +608,6 @@ public abstract class AbstractDaemonTest {
     adminRestSession = createRestSession(admin);
     userRestSession = createRestSession(user);
     anonymousRestSession = createRestSession(null);
-
-    initSsh();
 
     String testMethodName = description.getMethodName();
     resourcePrefix =
@@ -715,13 +715,19 @@ public abstract class AbstractDaemonTest {
         && (adminSshSession == null || userSshSession == null)) {
       // Create Ssh sessions
       SshSessionFactory.initSsh();
-      requestScopeOperations.setApiUser(user.id());
-      userSshSession = getOrCreateSshSessionForContext(localCtx.getContext());
-      userSshSession.open();
+      try (ManualRequestContext ctx = requestScopeOperations.setNestedApiUser(user.id())) {
+        userSshSession = getOrCreateSshSessionForContext(ctx);
+        // The session doesn't store any reference to the context and it remains open after the ctx
+        // is closed.
+        userSshSession.open();
+      }
 
-      requestScopeOperations.setApiUser(admin.id());
-      adminSshSession = getOrCreateSshSessionForContext(localCtx.getContext());
-      adminSshSession.open();
+      try (ManualRequestContext ctx = requestScopeOperations.setNestedApiUser(admin.id())) {
+        adminSshSession = getOrCreateSshSessionForContext(ctx);
+        // The session doesn't store any reference to the context and it remains open after the ctx
+        // is closed.
+        adminSshSession.open();
+      }
     }
   }
 

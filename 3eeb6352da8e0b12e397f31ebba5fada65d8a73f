@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2af96fc5_38a2e72a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2024-02-14T10:12:02Z",
+      "side": 1,
+      "message": "The change description is misleading, as the change converts the *existing* RestSession class into an interface. Please update.",
+      "revId": "3eeb6352da8e0b12e397f31ebba5fada65d8a73f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

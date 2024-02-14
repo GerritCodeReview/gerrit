@@ -478,7 +478,7 @@ public abstract class AbstractDaemonTest {
 
   /** Controls which project and branches should be reset after each test case. */
   protected ProjectResetter.Config resetProjects() {
-    return new ProjectResetter.Config()
+    return new ProjectResetter.Config.Builder()
         // Don't reset all refs so that refs/sequences/changes is not touched and change IDs are
         // not reused.
         .reset(allProjects, RefNames.REFS_CONFIG)
@@ -491,7 +491,8 @@ public abstract class AbstractDaemonTest {
             RefNames.REFS_GROUPNAMES,
             RefNames.REFS_GROUPS + "*",
             RefNames.REFS_STARRED_CHANGES + "*",
-            RefNames.REFS_DRAFT_COMMENTS + "*");
+            RefNames.REFS_DRAFT_COMMENTS + "*")
+        .build();
   }
 
   protected void restartAsSlave() throws Exception {

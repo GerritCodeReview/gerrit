@@ -20,6 +20,7 @@ import static com.google.gerrit.testing.TestActionRefUpdateContext.testRefAction
 import static java.util.stream.Collectors.toSet;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Sets;
@@ -137,19 +138,31 @@ public class ProjectResetter implements AutoCloseable {
   }
 
   public static class Config {
-    private final Multimap<Project.NameKey, String> refsByProject;
+    private final ImmutableMultimap<Project.NameKey, String> refsByProject;
 
-    public Config() {
-      this.refsByProject = MultimapBuilder.hashKeys().arrayListValues().build();
+    private Config(ImmutableMultimap<Project.NameKey, String> refsByProject) {
+      this.refsByProject = refsByProject;
     }
 
-    public Config reset(Project.NameKey project, String... refPatterns) {
-      List<String> refPatternList = Arrays.asList(refPatterns);
-      if (refPatternList.isEmpty()) {
-        refPatternList = ImmutableList.of(RefNames.REFS + "*");
+    public static class Builder {
+      private final Multimap<Project.NameKey, String> refsByProject;
+
+      public Builder() {
+        this.refsByProject = MultimapBuilder.hashKeys().arrayListValues().build();
       }
-      refsByProject.putAll(project, refPatternList);
-      return this;
+
+      public Builder reset(Project.NameKey project, String... refPatterns) {
+        List<String> refPatternList = Arrays.asList(refPatterns);
+        if (refPatternList.isEmpty()) {
+          refPatternList = ImmutableList.of(RefNames.REFS + "*");
+        }
+        refsByProject.putAll(project, refPatternList);
+        return this;
+      }
+
+      public Config build() {
+        return new Config(ImmutableMultimap.copyOf(refsByProject));
+      }
     }
   }
 

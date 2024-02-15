@@ -133,82 +133,13 @@ public class LabelConfigValidator implements CommitValidationListener {
       }
 
       // Load the old config
-      Optional<Config> oldConfig = loadOldConfig(receiveEvent);
+      @Nullable Config oldConfig = loadOldConfig(receiveEvent).orElse(null);
 
       for (String labelName : newConfig.getSubsections(ProjectConfig.LABEL)) {
-        for (String deprecatedFlag : DEPRECATED_FLAGS.keySet()) {
-          if (flagChangedOrNewlySet(newConfig, oldConfig.orElse(null), labelName, deprecatedFlag)) {
-            validationMessageBuilder.add(
-                new CommitValidationMessage(
-                    String.format(
-                        "Parameter '%s.%s.%s' is deprecated and cannot be set,"
-                            + " use '%s' in '%s.%s.%s' instead.",
-                        ProjectConfig.LABEL,
-                        labelName,
-                        deprecatedFlag,
-                        DEPRECATED_FLAGS.get(deprecatedFlag),
-                        ProjectConfig.LABEL,
-                        labelName,
-                        ProjectConfig.KEY_COPY_CONDITION),
-                    ValidationMessage.Type.ERROR));
-          }
-        }
-
-        if (copyValuesChangedOrNewlySet(newConfig, oldConfig.orElse(null), labelName)) {
-          validationMessageBuilder.add(
-              new CommitValidationMessage(
-                  String.format(
-                      "Parameter '%s.%s.%s' is deprecated and cannot be set,"
-                          + " use 'is:<copy-value>' in '%s.%s.%s' instead.",
-                      ProjectConfig.LABEL,
-                      labelName,
-                      KEY_COPY_VALUE,
-                      ProjectConfig.LABEL,
-                      labelName,
-                      ProjectConfig.KEY_COPY_CONDITION),
-                  ValidationMessage.Type.ERROR));
-        }
-
-        // Ban modifying label functions to any blocking function value
-        if (flagChangedOrNewlySet(
-            newConfig, oldConfig.orElse(null), labelName, ProjectConfig.KEY_FUNCTION)) {
-          String fnName =
-              newConfig.getString(ProjectConfig.LABEL, labelName, ProjectConfig.KEY_FUNCTION);
-          Optional<LabelFunction> labelFn = LabelFunction.parse(fnName);
-          if (labelFn.isPresent() && !isLabelFunctionAllowed(labelFn.get())) {
-            validationMessageBuilder.add(
-                new CommitValidationMessage(
-                    String.format(
-                        "Value '%s' of '%s.%s.%s' is not allowed and cannot be set."
-                            + " Label functions can only be set to {%s, %s, %s}."
-                            + " Use submit requirements instead of label functions.",
-                        fnName,
-                        ProjectConfig.LABEL,
-                        labelName,
-                        ProjectConfig.KEY_FUNCTION,
-                        LabelFunction.NO_BLOCK,
-                        LabelFunction.NO_OP,
-                        LabelFunction.PATCH_SET_LOCK),
-                    ValidationMessage.Type.ERROR));
-          }
-        }
-
-        // Ban deletions of label functions as well since the default is MaxWithBlock
-        if (flagDeleted(newConfig, oldConfig.orElse(null), labelName, ProjectConfig.KEY_FUNCTION)) {
-          validationMessageBuilder.add(
-              new CommitValidationMessage(
-                  String.format(
-                      "Cannot delete '%s.%s.%s'."
-                          + " Label functions can only be set to {%s, %s, %s}."
-                          + " Use submit requirements instead of label functions.",
-                      ProjectConfig.LABEL,
-                      labelName,
-                      ProjectConfig.KEY_FUNCTION,
-                      LabelFunction.NO_BLOCK,
-                      LabelFunction.NO_OP,
-                      LabelFunction.PATCH_SET_LOCK),
-                  ValidationMessage.Type.ERROR));
-        }
+        rejectSettingDeprecatedFlags(newConfig, oldConfig, labelName, validationMessageBuilder);
+        rejectSettingCopyValues(newConfig, oldConfig, labelName, validationMessageBuilder);
+        rejectSettingBlockingFunction(newConfig, oldConfig, labelName, validationMessageBuilder);
+        rejectDeletingFunction(newConfig, oldConfig, labelName, validationMessageBuilder);
       }
 
       ImmutableList<CommitValidationMessage> validationMessages = validationMessageBuilder.build();
@@ -230,6 +161,102 @@ public class LabelConfigValidator implements CommitValidationListener {
               receiveEvent.getProjectNameKey());
       logger.atSevere().withCause(e).log("%s", errorMessage);
       throw new CommitValidationException(errorMessage, e);
+    }
+  }
+
+  private void rejectSettingDeprecatedFlags(
+      Config newConfig,
+      @Nullable Config oldConfig,
+      String labelName,
+      ImmutableList.Builder<CommitValidationMessage> validationMessageBuilder) {
+    for (String deprecatedFlag : DEPRECATED_FLAGS.keySet()) {
+      if (flagChangedOrNewlySet(newConfig, oldConfig, labelName, deprecatedFlag)) {
+        validationMessageBuilder.add(
+            new CommitValidationMessage(
+                String.format(
+                    "Parameter '%s.%s.%s' is deprecated and cannot be set,"
+                        + " use '%s' in '%s.%s.%s' instead.",
+                    ProjectConfig.LABEL,
+                    labelName,
+                    deprecatedFlag,
+                    DEPRECATED_FLAGS.get(deprecatedFlag),
+                    ProjectConfig.LABEL,
+                    labelName,
+                    ProjectConfig.KEY_COPY_CONDITION),
+                ValidationMessage.Type.ERROR));
+      }
+    }
+  }
+
+  private void rejectSettingCopyValues(
+      Config newConfig,
+      @Nullable Config oldConfig,
+      String labelName,
+      ImmutableList.Builder<CommitValidationMessage> validationMessageBuilder) {
+    if (copyValuesChangedOrNewlySet(newConfig, oldConfig, labelName)) {
+      validationMessageBuilder.add(
+          new CommitValidationMessage(
+              String.format(
+                  "Parameter '%s.%s.%s' is deprecated and cannot be set,"
+                      + " use 'is:<copy-value>' in '%s.%s.%s' instead.",
+                  ProjectConfig.LABEL,
+                  labelName,
+                  KEY_COPY_VALUE,
+                  ProjectConfig.LABEL,
+                  labelName,
+                  ProjectConfig.KEY_COPY_CONDITION),
+              ValidationMessage.Type.ERROR));
+    }
+  }
+
+  private void rejectSettingBlockingFunction(
+      Config newConfig,
+      @Nullable Config oldConfig,
+      String labelName,
+      ImmutableList.Builder<CommitValidationMessage> validationMessageBuilder) {
+    if (flagChangedOrNewlySet(newConfig, oldConfig, labelName, ProjectConfig.KEY_FUNCTION)) {
+      String fnName =
+          newConfig.getString(ProjectConfig.LABEL, labelName, ProjectConfig.KEY_FUNCTION);
+      Optional<LabelFunction> labelFn = LabelFunction.parse(fnName);
+      if (labelFn.isPresent() && !isLabelFunctionAllowed(labelFn.get())) {
+        validationMessageBuilder.add(
+            new CommitValidationMessage(
+                String.format(
+                    "Value '%s' of '%s.%s.%s' is not allowed and cannot be set."
+                        + " Label functions can only be set to {%s, %s, %s}."
+                        + " Use submit requirements instead of label functions.",
+                    fnName,
+                    ProjectConfig.LABEL,
+                    labelName,
+                    ProjectConfig.KEY_FUNCTION,
+                    LabelFunction.NO_BLOCK,
+                    LabelFunction.NO_OP,
+                    LabelFunction.PATCH_SET_LOCK),
+                ValidationMessage.Type.ERROR));
+      }
+    }
+  }
+
+  private void rejectDeletingFunction(
+      Config newConfig,
+      @Nullable Config oldConfig,
+      String labelName,
+      ImmutableList.Builder<CommitValidationMessage> validationMessageBuilder) {
+    // Ban deletion of label function since the default is MaxWithBlock which is deprecated
+    if (flagDeleted(newConfig, oldConfig, labelName, ProjectConfig.KEY_FUNCTION)) {
+      validationMessageBuilder.add(
+          new CommitValidationMessage(
+              String.format(
+                  "Cannot delete '%s.%s.%s'."
+                      + " Label functions can only be set to {%s, %s, %s}."
+                      + " Use submit requirements instead of label functions.",
+                  ProjectConfig.LABEL,
+                  labelName,
+                  ProjectConfig.KEY_FUNCTION,
+                  LabelFunction.NO_BLOCK,
+                  LabelFunction.NO_OP,
+                  LabelFunction.PATCH_SET_LOCK),
+              ValidationMessage.Type.ERROR));
     }
   }
 

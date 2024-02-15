@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2f83a9e_e9699171",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-02-15T07:38:14Z",
+      "side": 1,
+      "message": "Please add a \"Release-Notes: skip\" footer so that the \"Release-Notes\" submit requirement gets satisfied.",
+      "revId": "3cbc850a44a2bfcf13efbe61ccbc4587a3700c18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1e9d7bf_0df19e3a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-02-15T07:38:14Z",
+      "side": 1,
+      "message": "Thanks!!",
+      "revId": "3cbc850a44a2bfcf13efbe61ccbc4587a3700c18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

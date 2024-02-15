@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8defae57_399d5e3a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-15T10:33:07Z",
+      "side": 1,
+      "message": "Let me upgrade GerritHub.io with this JGit bump and give a green light after 24h, OK?",
+      "revId": "499baf56c35ca4d865ab53e4d25c0bfb6afd7d00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

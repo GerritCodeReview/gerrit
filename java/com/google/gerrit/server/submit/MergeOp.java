@@ -32,6 +32,7 @@ import com.github.rholder.retry.Attempt;
 import com.github.rholder.retry.RetryListener;
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Joiner;
+import com.google.common.base.Stopwatch;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -72,6 +73,8 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.change.NotifyResolver;
+import com.google.gerrit.server.config.ConfigUtil;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.experiments.ExperimentFeatures;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.MergeTip;
@@ -117,10 +120,12 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -293,6 +298,7 @@ public class MergeOp implements AutoCloseable {
   private final ExperimentFeatures experimentFeatures;
 
   private final ProjectCache projectCache;
+  private final long hasImplicitMergeTimeoutSeconds;
 
   private Instant ts;
   private SubmissionId submissionId;
@@ -327,7 +333,8 @@ public class MergeOp implements AutoCloseable {
       StoreSubmitRequirementsOp.Factory storeSubmitRequirementsOpFactory,
       MergeMetrics mergeMetrics,
       ProjectCache projectCache,
-      ExperimentFeatures experimentFeatures) {
+      ExperimentFeatures experimentFeatures,
+      @GerritServerConfig Config config) {
     this.cmUtil = cmUtil;
     this.batchUpdateFactory = batchUpdateFactory;
     this.internalUserFactory = internalUserFactory;
@@ -348,6 +355,10 @@ public class MergeOp implements AutoCloseable {
     this.mergeMetrics = mergeMetrics;
     this.projectCache = projectCache;
     this.experimentFeatures = experimentFeatures;
+    // Undocumented - experimental, can be removed.
+    hasImplicitMergeTimeoutSeconds =
+        ConfigUtil.getTimeUnit(
+            config, "change", null, "implicitMergeCalculationTimeout", 60, TimeUnit.SECONDS);
   }
 
   @Override
@@ -999,7 +1010,22 @@ public class MergeOp implements AutoCloseable {
     rootCommits.forEach(commit -> reachableCommits.add(Map.entry(commit, commit)));
     // Tracks all chains roots which can lead to implicit merge.
     Set<CodeReviewCommit> implicitMergesRoots = new HashSet<>(rootCommits);
+    int iterationCount = 0;
+    Stopwatch sw = Stopwatch.createStarted();
     while (!reachableCommits.isEmpty()) {
+      iterationCount++;
+      if (hasImplicitMergeTimeoutSeconds != 0
+          && sw.elapsed(TimeUnit.SECONDS) >= hasImplicitMergeTimeoutSeconds) {
+        String allCommits =
+            commitsToSubmit.stream()
+                .map(CodeReviewCommit::getId)
+                .map(c -> ObjectId.toString(c))
+                .collect(joining(", "));
+        logger.atWarning().log(
+            "Timeout during hasImplicitMerge calculation. Number of iterations: %s, commitsToSubmit: %s",
+            iterationCount, allCommits);
+        return true;
+      }
       Entry<CodeReviewCommit, RevCommit> entry = reachableCommits.pop();
       if (!implicitMergesRoots.contains(entry.getKey())) {
         // We already know that from the given root (key in the entry) one of the

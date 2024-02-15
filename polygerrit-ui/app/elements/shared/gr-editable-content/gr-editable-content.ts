@@ -203,6 +203,7 @@ export class GrEditableContent extends LitElement {
         }
         .email-dropdown {
           margin-left: var(--spacing-s);
+          align-self: center;
         }
         .cancel-button {
           margin-right: var(--spacing-l);

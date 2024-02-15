@@ -163,7 +163,7 @@ public class ApplyPatch implements RestModifyView<ChangeResource, ApplyPatchPatc
 
       RevCommit latestPatchset = revWalk.parseCommit(destChange.currentPatchSet().commitId());
       RevCommit baseCommit;
-      List<RevCommit> parents;
+      ImmutableList<RevCommit> parents;
       if (!Strings.isNullOrEmpty(input.base)) {
         baseCommit =
             CommitUtil.getBaseCommit(

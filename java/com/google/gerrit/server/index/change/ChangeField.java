@@ -911,7 +911,7 @@ public class ChangeField {
     return SchemaUtil.getPersonParts(cd.getAuthor());
   }
 
-  public static Set<String> getAuthorNameAndEmail(ChangeData cd) {
+  public static ImmutableSet<String> getAuthorNameAndEmail(ChangeData cd) {
     return getNameAndEmail(cd.getAuthor());
   }
 
@@ -919,11 +919,11 @@ public class ChangeField {
     return SchemaUtil.getPersonParts(cd.getCommitter());
   }
 
-  public static Set<String> getCommitterNameAndEmail(ChangeData cd) {
+  public static ImmutableSet<String> getCommitterNameAndEmail(ChangeData cd) {
     return getNameAndEmail(cd.getCommitter());
   }
 
-  private static Set<String> getNameAndEmail(PersonIdent person) {
+  private static ImmutableSet<String> getNameAndEmail(PersonIdent person) {
     if (person == null) {
       return ImmutableSet.of();
     }
@@ -1747,14 +1747,14 @@ public class ChangeField {
     return converter.toProto(object);
   }
 
-  private static <V extends MessageLite, T> List<V> entitiesToProtos(
+  private static <V extends MessageLite, T> ImmutableList<V> entitiesToProtos(
       ProtoConverter<V, T> converter, Collection<T> objects) {
     return objects.stream()
         .map(object -> entityToProto(converter, object))
         .collect(toImmutableList());
   }
 
-  private static <V extends MessageLite, T> List<T> decodeProtosToEntities(
+  private static <V extends MessageLite, T> ImmutableList<T> decodeProtosToEntities(
       Iterable<V> raw, ProtoConverter<V, T> converter) {
     return StreamSupport.stream(raw.spliterator(), false)
         .map(proto -> decodeProtoToEntity(proto, converter))

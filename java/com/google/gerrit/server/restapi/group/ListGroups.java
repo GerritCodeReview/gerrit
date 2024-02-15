@@ -20,6 +20,8 @@ import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
@@ -286,7 +288,8 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     if (limit > 0) {
       existingGroups = existingGroups.limit(limit);
     }
-    List<GroupDescription.Internal> relevantGroups = existingGroups.collect(toImmutableList());
+    ImmutableList<GroupDescription.Internal> relevantGroups =
+        existingGroups.collect(toImmutableList());
     List<GroupInfo> groupInfos = Lists.newArrayListWithCapacity(relevantGroups.size());
     for (GroupDescription.Internal group : relevantGroups) {
       groupInfos.add(json.addOptions(options).format(group));
@@ -376,7 +379,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     if (limit > 0) {
       foundGroups = foundGroups.limit(limit);
     }
-    List<GroupDescription.Internal> ownedGroups = foundGroups.collect(toImmutableList());
+    ImmutableList<GroupDescription.Internal> ownedGroups = foundGroups.collect(toImmutableList());
     List<GroupInfo> groupInfos = new ArrayList<>(ownedGroups.size());
     for (GroupDescription.Internal group : ownedGroups) {
       groupInfos.add(json.addOptions(options).format(group));
@@ -384,7 +387,8 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     return groupInfos;
   }
 
-  private Set<GroupDescription.Internal> loadGroups(Collection<AccountGroup.UUID> groupUuids) {
+  private ImmutableSet<GroupDescription.Internal> loadGroups(
+      Collection<AccountGroup.UUID> groupUuids) {
     return groupCache.get(groupUuids).values().stream()
         .map(InternalGroupDescription::new)
         .collect(toImmutableSet());

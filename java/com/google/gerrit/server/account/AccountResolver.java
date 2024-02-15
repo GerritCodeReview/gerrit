@@ -396,7 +396,7 @@ public class AccountResolver {
       // TODO(dborowitz): This would probably work as a Searcher<Address>
       int lt = nameOrEmail.indexOf('<');
       int gt = nameOrEmail.indexOf('>');
-      Set<Account.Id> ids = emails.getAccountFor(nameOrEmail.substring(lt + 1, gt));
+      ImmutableSet<Account.Id> ids = emails.getAccountFor(nameOrEmail.substring(lt + 1, gt));
       ImmutableList<AccountState> allMatches = toAccountStates(ids).collect(toImmutableList());
       if (allMatches.isEmpty() || allMatches.size() == 1) {
         return allMatches.stream();

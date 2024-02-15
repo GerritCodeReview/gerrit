@@ -16,7 +16,8 @@ package com.google.gerrit.server.restapi.config;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
-import com.google.common.collect.Multimap;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ListMultimap;
 import com.google.gerrit.extensions.api.config.ConfigUpdateEntryInfo;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.Response;
@@ -52,7 +53,7 @@ public class ReloadConfig implements RestModifyView<ConfigResource, Input> {
   public Response<Map<String, List<ConfigUpdateEntryInfo>>> apply(
       ConfigResource resource, Input input) throws RestApiException, PermissionBackendException {
     permissions.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
-    Multimap<UpdateResult, ConfigUpdateEntry> updates = config.reloadConfig();
+    ListMultimap<UpdateResult, ConfigUpdateEntry> updates = config.reloadConfig();
     if (updates.isEmpty()) {
       return Response.ok(Collections.emptyMap());
     }
@@ -64,7 +65,7 @@ public class ReloadConfig implements RestModifyView<ConfigResource, Input> {
                     e -> toEntryInfos(e.getValue()))));
   }
 
-  private static List<ConfigUpdateEntryInfo> toEntryInfos(
+  private static ImmutableList<ConfigUpdateEntryInfo> toEntryInfos(
       Collection<ConfigUpdateEntry> updateEntries) {
     return updateEntries.stream()
         .map(ReloadConfig::toConfigUpdateEntryInfo)

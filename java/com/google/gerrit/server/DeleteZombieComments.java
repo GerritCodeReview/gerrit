@@ -209,7 +209,7 @@ public abstract class DeleteZombieComments<KeyT> implements AutoCloseable {
             draftCommentsReader.getDraftsByChangeAndDraftAuthor(changeId, accountId);
         ChangeNotes notes = getChangeNotes(changeId);
         List<HumanComment> published = commentsUtil.publishedHumanCommentsByChange(notes);
-        Set<String> publishedIds = toUuid(published);
+        ImmutableSet<String> publishedIds = toUuid(published);
         ImmutableList<HumanComment> zombieDraftsForChangeAndAuthor =
             drafts.stream()
                 .filter(draft -> publishedIds.contains(draft.key.uuid))
@@ -284,7 +284,7 @@ public abstract class DeleteZombieComments<KeyT> implements AutoCloseable {
   }
 
   /** Map the list of input comments to their UUIDs. */
-  private Set<String> toUuid(List<HumanComment> in) {
+  private ImmutableSet<String> toUuid(List<HumanComment> in) {
     return in.stream().map(c -> c.key.uuid).collect(toImmutableSet());
   }
 

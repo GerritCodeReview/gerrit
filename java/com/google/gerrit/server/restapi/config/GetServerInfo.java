@@ -18,6 +18,7 @@ import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.ContributorAgreement;
@@ -67,7 +68,6 @@ import com.google.inject.Inject;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -175,7 +175,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.gitBasicAuthPolicy = authConfig.getGitBasicAuthPolicy();
 
     if (info.useContributorAgreements != null) {
-      Collection<ContributorAgreement> agreements =
+      ImmutableCollection<ContributorAgreement> agreements =
           projectCache.getAllProjects().getConfig().getContributorAgreements().values();
       if (!agreements.isEmpty()) {
         info.contributorAgreements = Lists.newArrayListWithCapacity(agreements.size());

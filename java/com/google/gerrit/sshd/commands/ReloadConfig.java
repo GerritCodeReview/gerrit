@@ -16,7 +16,7 @@ package com.google.gerrit.sshd.commands;
 
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
-import com.google.common.collect.Multimap;
+import com.google.common.collect.ListMultimap;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.server.config.ConfigUpdatedEvent.ConfigUpdateEntry;
@@ -39,7 +39,8 @@ public class ReloadConfig extends SshCommand {
   @Override
   protected void run() throws Failure {
     enableGracefulStop();
-    Multimap<UpdateResult, ConfigUpdateEntry> updates = gerritServerConfigReloader.reloadConfig();
+    ListMultimap<UpdateResult, ConfigUpdateEntry> updates =
+        gerritServerConfigReloader.reloadConfig();
     if (updates.isEmpty()) {
       stdout.println("No config entries updated!");
       return;

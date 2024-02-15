@@ -1230,7 +1230,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     if (isSelf(who)) {
       return isVisible();
     }
-    Set<Account.Id> accounts = null;
+    ImmutableSet<Account.Id> accounts = null;
     try {
       accounts = parseAccount(who);
     } catch (QueryParseException e) {
@@ -1289,7 +1289,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   private Predicate<ChangeData> ownerDefaultField(String who)
       throws QueryParseException, IOException, ConfigInvalidException {
-    Set<Account.Id> accounts = parseAccountIgnoreVisibility(who);
+    ImmutableSet<Account.Id> accounts = parseAccountIgnoreVisibility(who);
     if (accounts.size() > MAX_ACCOUNTS_PER_DEFAULT_FIELD) {
       return Predicate.any();
     }
@@ -1451,7 +1451,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   @Operator
   public Predicate<ChangeData> from(String who)
       throws QueryParseException, IOException, ConfigInvalidException {
-    Set<Account.Id> ownerIds = parseAccountIgnoreVisibility(who);
+    ImmutableSet<Account.Id> ownerIds = parseAccountIgnoreVisibility(who);
     return Predicate.or(owner(ownerIds), commentby(ownerIds));
   }
 
@@ -1479,7 +1479,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     try {
       // [,user=<user>]
       if (inputArgs.keyValue.containsKey(ARG_ID_USER)) {
-        Set<Account.Id> accounts = parseAccount(inputArgs.keyValue.get(ARG_ID_USER).value());
+        ImmutableSet<Account.Id> accounts =
+            parseAccount(inputArgs.keyValue.get(ARG_ID_USER).value());
         if (accounts != null && accounts.size() > 1) {
           throw error(
               String.format(
@@ -1568,7 +1569,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     try {
       // [,user=<user>]
       if (inputArgs.keyValue.containsKey(ARG_ID_USER)) {
-        Set<Account.Id> accounts = parseAccount(inputArgs.keyValue.get(ARG_ID_USER).value());
+        ImmutableSet<Account.Id> accounts =
+            parseAccount(inputArgs.keyValue.get(ARG_ID_USER).value());
         if (accounts != null && accounts.size() > 1) {
           throw error(
               String.format(
@@ -1794,7 +1796,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     return accounts;
   }
 
-  private Set<Account.Id> parseAccount(String who)
+  private ImmutableSet<Account.Id> parseAccount(String who)
       throws QueryParseException, IOException, ConfigInvalidException {
     try {
       return args.accountResolver.resolveAsUser(args.getUser(), who).asNonEmptyIdSet();
@@ -1806,7 +1808,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     }
   }
 
-  private Set<Account.Id> parseAccountIgnoreVisibility(String who)
+  private ImmutableSet<Account.Id> parseAccountIgnoreVisibility(String who)
       throws QueryRequiresAuthException, IOException, ConfigInvalidException {
     try {
       return args.accountResolver
@@ -1820,7 +1822,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     }
   }
 
-  private Set<Account.Id> parseAccountIgnoreVisibility(
+  private ImmutableSet<Account.Id> parseAccountIgnoreVisibility(
       String who, java.util.function.Predicate<AccountState> activityFilter)
       throws QueryRequiresAuthException, IOException, ConfigInvalidException {
     try {
@@ -1898,7 +1900,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
     Predicate<ChangeData> reviewerPredicate = null;
     try {
-      Set<Account.Id> accounts = parseAccountIgnoreVisibility(who);
+      ImmutableSet<Account.Id> accounts = parseAccountIgnoreVisibility(who);
       if (!forDefaultField || accounts.size() <= MAX_ACCOUNTS_PER_DEFAULT_FIELD) {
         reviewerPredicate =
             Predicate.or(

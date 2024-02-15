@@ -78,7 +78,7 @@ public class ListRobotComments implements RestReadView<RevisionResource> {
     return commentInfosMap;
   }
 
-  private Iterable<RobotComment> listComments(RevisionResource rsrc) {
+  private List<RobotComment> listComments(RevisionResource rsrc) {
     return commentsUtil.robotCommentsByPatchSet(rsrc.getNotes(), rsrc.getPatchSet().id());
   }
 

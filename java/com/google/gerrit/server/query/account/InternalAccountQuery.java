@@ -21,6 +21,7 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
+import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
@@ -124,7 +125,7 @@ public class InternalAccountQuery extends InternalQuery<AccountState, InternalAc
     if (hasPreferredEmailExact()) {
       List<List<AccountState>> r =
           query(emails.stream().map(AccountPredicates::preferredEmailExact).collect(toList()));
-      Multimap<String, AccountState> accountsByEmail = ArrayListMultimap.create();
+      ListMultimap<String, AccountState> accountsByEmail = ArrayListMultimap.create();
       for (int i = 0; i < emails.size(); i++) {
         accountsByEmail.putAll(emails.get(i), r.get(i));
       }
@@ -137,7 +138,7 @@ public class InternalAccountQuery extends InternalQuery<AccountState, InternalAc
 
     List<List<AccountState>> r =
         query(emails.stream().map(AccountPredicates::preferredEmail).collect(toList()));
-    Multimap<String, AccountState> accountsByEmail = ArrayListMultimap.create();
+    ListMultimap<String, AccountState> accountsByEmail = ArrayListMultimap.create();
     for (int i = 0; i < emails.size(); i++) {
       String email = emails.get(i);
       Set<AccountState> matchingAccounts =

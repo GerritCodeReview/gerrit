@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.project;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.AccessSection;
@@ -45,7 +46,6 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 @Singleton
 public class SetAccessUtil {
@@ -266,7 +266,7 @@ public class SetAccessUtil {
       }
       return true;
     }
-    Set<String> pluginPermissions =
+    ImmutableSet<String> pluginPermissions =
         pluginPermissionsUtil.collectPluginProjectPermissions().keySet();
     return pluginPermissions.contains(name);
   }
@@ -275,7 +275,8 @@ public class SetAccessUtil {
     if (GlobalCapability.isGlobalCapability(name)) {
       return true;
     }
-    Set<String> pluginCapabilities = pluginPermissionsUtil.collectPluginCapabilities().keySet();
+    ImmutableSet<String> pluginCapabilities =
+        pluginPermissionsUtil.collectPluginCapabilities().keySet();
     return pluginCapabilities.contains(name);
   }
 }

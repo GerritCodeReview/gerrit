@@ -17,6 +17,8 @@ package com.google.gerrit.server.query.group;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.entities.Account;
@@ -37,7 +39,6 @@ import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 /** Parses a query string meant to be applied to group objects. */
@@ -135,8 +136,8 @@ public class GroupQueryBuilder extends QueryBuilder<InternalGroup, GroupQueryBui
   @Operator
   public Predicate<InternalGroup> member(String query)
       throws QueryParseException, ConfigInvalidException, IOException {
-    Set<Account.Id> accounts = parseAccount(query);
-    List<Predicate<InternalGroup>> predicates =
+    ImmutableSet<Account.Id> accounts = parseAccount(query);
+    ImmutableList<Predicate<InternalGroup>> predicates =
         accounts.stream().map(GroupPredicates::member).collect(toImmutableList());
     return Predicate.or(predicates);
   }
@@ -156,7 +157,7 @@ public class GroupQueryBuilder extends QueryBuilder<InternalGroup, GroupQueryBui
     return new LimitPredicate<>(FIELD_LIMIT, limit);
   }
 
-  private Set<Account.Id> parseAccount(String nameOrEmail)
+  private ImmutableSet<Account.Id> parseAccount(String nameOrEmail)
       throws QueryParseException, IOException, ConfigInvalidException {
     try {
       return args.accountResolver.resolve(nameOrEmail).asNonEmptyIdSet();

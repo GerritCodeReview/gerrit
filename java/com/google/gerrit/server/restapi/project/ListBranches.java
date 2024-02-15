@@ -56,7 +56,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -232,7 +231,7 @@ public class ListBranches implements RestReadView<ProjectResource> {
       throws IOException, ResourceNotFoundException {
     List<Ref> refs;
     try (Repository db = repoManager.openRepository(rsrc.getNameKey())) {
-      Collection<Ref> heads = db.getRefDatabase().getRefsByPrefix(Constants.R_HEADS);
+      List<Ref> heads = db.getRefDatabase().getRefsByPrefix(Constants.R_HEADS);
       refs = new ArrayList<>(heads.size() + 3);
       refs.addAll(heads);
       refs.addAll(

@@ -146,7 +146,7 @@ public class IndexHtmlUtil {
   }
 
   /** Returns all static parameters of {@code index.html}. */
-  static Map<String, Object> staticTemplateData(
+  static ImmutableMap<String, Object> staticTemplateData(
       String canonicalURL,
       String cdnPath,
       String faviconPath,

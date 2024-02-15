@@ -15,13 +15,13 @@
 package com.google.gerrit.server.account;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.mail.send.EmailSender;
 import com.google.inject.Inject;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -63,7 +63,7 @@ public abstract class AbstractRealm implements Realm {
 
   @Override
   public Set<String> getEmailAddresses(IdentifiedUser user) {
-    Collection<ExternalId> ids = user.state().externalIds();
+    ImmutableSet<ExternalId> ids = user.state().externalIds();
     Set<String> emails = Sets.newHashSetWithExpectedSize(ids.size());
     for (ExternalId ext : ids) {
       if (!Strings.isNullOrEmpty(ext.email())) {

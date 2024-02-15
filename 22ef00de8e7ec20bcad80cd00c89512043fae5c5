@@ -33,6 +33,24 @@
       "message": "Let me deploy this to GerritHub.io and leave it for a 24h observation period.",
       "revId": "22ef00de8e7ec20bcad80cd00c89512043fae5c5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "81533613_0411c001",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-02-15T22:43:10Z",
+      "side": 1,
+      "message": "+1. I\u0027ll defer my +2 until then.",
+      "parentUuid": "6755bc1a_dc158125",
+      "revId": "22ef00de8e7ec20bcad80cd00c89512043fae5c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

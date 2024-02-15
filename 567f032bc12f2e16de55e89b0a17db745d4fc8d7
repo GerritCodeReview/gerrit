@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d9612c9_82fdb2a4",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2024-02-15T08:35:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0decce9f_e650a6a3",
+      "range": {
+        "startLine": 496,
+        "startChar": 19,
+        "endLine": 496,
+        "endChar": 29
+      },
+      "revId": "567f032bc12f2e16de55e89b0a17db745d4fc8d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4dca452c_829191f5",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-02-14T15:32:52Z",
       "side": 1,
       "message": "Is this outdated and should be dropped?",
+      "range": {
+        "startLine": 499,
+        "startChar": 5,
+        "endLine": 500,
+        "endChar": 43
+      },
+      "revId": "567f032bc12f2e16de55e89b0a17db745d4fc8d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7fa5a5b5_89151b62",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 500,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2024-02-15T08:35:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4dca452c_829191f5",
       "range": {
         "startLine": 499,
         "startChar": 5,

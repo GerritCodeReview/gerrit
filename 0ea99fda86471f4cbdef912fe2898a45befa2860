@@ -66,6 +66,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a1c11642_03db4562",
+        "filename": "java/com/google/gerrit/server/change/ChangeFinder.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-15T00:44:39Z",
+      "side": 1,
+      "message": "This should now be `String` because it will contain the concatenation of project and change-number.\n\n\n```suggestion\n    Set\u003cString\u003e seen \u003d Sets.newHashSetWithExpectedSize(cds.size());\n```",
+      "range": {
+        "startLine": 246,
+        "startChar": 8,
+        "endLine": 246,
+        "endChar": 17
+      },
+      "revId": "0ea99fda86471f4cbdef912fe2898a45befa2860",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1357e5f_9db37578",
+        "filename": "java/com/google/gerrit/server/change/ChangeFinder.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-15T00:44:39Z",
+      "side": 1,
+      "message": "This won\u0027t work when searching changes by change-number, where `cds` may contain multiple changes with the same number. Add the `cd.project().get()~` as a prefix for avoiding loosing data in this de-dup exercise.\n\n\n```suggestion\n      if (seen.add(cd.project().get() + \"~\" + cd.getId())) {\n```",
+      "range": {
+        "startLine": 248,
+        "startChar": 19,
+        "endLine": 248,
+        "endChar": 29
+      },
+      "revId": "0ea99fda86471f4cbdef912fe2898a45befa2860",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "009d42cf_d73e6b42",
         "filename": "java/com/google/gerrit/server/index/IndexUtils.java",
         "patchSetId": 36

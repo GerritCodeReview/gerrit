@@ -24,6 +24,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.LabelFunction;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.client.ChangeKind;
+import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
@@ -31,6 +32,7 @@ import com.google.gerrit.server.git.validators.CommitValidationMessage;
 import com.google.gerrit.server.git.validators.ValidationMessage;
 import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.gerrit.server.patch.gitdiff.ModifiedFile;
+import com.google.gerrit.server.query.approval.ApprovalQueryBuilder;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.List;
@@ -100,6 +102,12 @@ public class LabelConfigValidator implements CommitValidationListener {
           .put(KEY_COPY_ALL_SCORES_IF_LIST_OF_FILES_DID_NOT_CHANGE, "has:unchanged-files")
           .build();
 
+  private final ApprovalQueryBuilder approvalQueryBuilder;
+
+  public LabelConfigValidator(ApprovalQueryBuilder approvalQueryBuilder) {
+    this.approvalQueryBuilder = approvalQueryBuilder;
+  }
+
   @Override
   public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
       throws CommitValidationException {
@@ -140,17 +148,18 @@ public class LabelConfigValidator implements CommitValidationListener {
         rejectSettingCopyValues(newConfig, oldConfig, labelName, validationMessageBuilder);
         rejectSettingBlockingFunction(newConfig, oldConfig, labelName, validationMessageBuilder);
         rejectDeletingFunction(newConfig, oldConfig, labelName, validationMessageBuilder);
+        rejectNonParseableCopyCondition(newConfig, oldConfig, labelName, validationMessageBuilder);
       }
 
       ImmutableList<CommitValidationMessage> validationMessages = validationMessageBuilder.build();
-      if (!validationMessages.isEmpty()) {
+      if (validationMessages.stream().anyMatch(CommitValidationMessage::isError)) {
         throw new CommitValidationException(
             String.format(
                 "invalid %s file in revision %s",
                 ProjectConfig.PROJECT_CONFIG, receiveEvent.commit.getName()),
             validationMessages);
       }
-      return ImmutableList.of();
+      return validationMessages;
     } catch (IOException | DiffNotAvailableException e) {
       String errorMessage =
           String.format(
@@ -257,6 +266,53 @@ public class LabelConfigValidator implements CommitValidationListener {
                   LabelFunction.NO_OP,
                   LabelFunction.PATCH_SET_LOCK),
               ValidationMessage.Type.ERROR));
+    }
+  }
+
+  private void rejectNonParseableCopyCondition(
+      Config newConfig,
+      @Nullable Config oldConfig,
+      String labelName,
+      ImmutableList.Builder<CommitValidationMessage> validationMessageBuilder) {
+    if (flagChangedOrNewlySet(newConfig, oldConfig, labelName, ProjectConfig.KEY_COPY_CONDITION)) {
+      String copyCondition =
+          newConfig.getString(ProjectConfig.LABEL, labelName, ProjectConfig.KEY_COPY_CONDITION);
+      try {
+        @SuppressWarnings("unused")
+        var unused = approvalQueryBuilder.parse(copyCondition);
+      } catch (QueryParseException e) {
+        validationMessageBuilder.add(
+            new CommitValidationMessage(
+                String.format(
+                    "Cannot parse copy condition '%s' of label %s (parameter '%s.%s.%s'): %s",
+                    copyCondition,
+                    labelName,
+                    ProjectConfig.LABEL,
+                    labelName,
+                    ProjectConfig.KEY_COPY_CONDITION,
+                    e.getMessage()),
+                // if the old copy condition is not parseable allow updating it even if the new copy
+                // condition is also not parseable, only emit a warning in this case
+                hasUnparseableOldCopyCondition(oldConfig, labelName)
+                    ? ValidationMessage.Type.WARNING
+                    : ValidationMessage.Type.ERROR));
+      }
+    }
+  }
+
+  private boolean hasUnparseableOldCopyCondition(@Nullable Config oldConfig, String labelName) {
+    if (oldConfig == null) {
+      return false;
+    }
+
+    String oldCopyCondition =
+        oldConfig.getString(ProjectConfig.LABEL, labelName, ProjectConfig.KEY_COPY_CONDITION);
+    try {
+      @SuppressWarnings("unused")
+      var unused = approvalQueryBuilder.parse(oldCopyCondition);
+      return false;
+    } catch (QueryParseException e) {
+      return true;
     }
   }
 

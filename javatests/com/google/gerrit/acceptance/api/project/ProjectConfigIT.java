@@ -39,6 +39,7 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.git.ObjectIds;
 import com.google.gerrit.server.config.ProjectConfigEntry;
+import com.google.gerrit.server.git.validators.ValidationMessage;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.GroupList;
 import com.google.gerrit.server.project.LabelConfigValidator;
@@ -1181,7 +1182,100 @@ public class ProjectConfigIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void setCopyCondition() throws Exception {
+  public void testSettingCopyCondition() throws Exception {
+    testChangingCopyCondition(/* initialCopyCondition= */ null, /* newCopyCondition= */ "is:ANY");
+  }
+
+  @Test
+  public void testRejectNonParseableCopyCondition_badSyntax() throws Exception {
+    testChangingCopyConditionExpectError(
+        /* initialCopyCondition= */ "is:ANY",
+        /* newCopyCondition= */ ":",
+        /* errorMessage= */ "Cannot parse copy condition ':' of label Foo (parameter"
+            + " 'label.Foo.copyCondition'): line 1:0 no viable alternative at input ':'");
+  }
+
+  @Test
+  public void testRejectNonParseableCopyCondition_unsupportedOperator() throws Exception {
+    testChangingCopyConditionExpectError(
+        /* initialCopyCondition= */ "is:ANY",
+        /* newCopyCondition= */ "foo:bar",
+        /* errorMessage= */ "Cannot parse copy condition 'foo:bar' of label Foo (parameter"
+            + " 'label.Foo.copyCondition'): unsupported operator foo:bar");
+  }
+
+  @Test
+  public void testFixNonParseableCopyCondition() throws Exception {
+    testChangingCopyCondition(/* initialCopyCondition= */ ":", /* newCopyCondition= */ "is:ANY");
+  }
+
+  @Test
+  public void testChangingCopyCondition() throws Exception {
+    testChangingCopyCondition(
+        /* initialCopyCondition= */ "is:ANY", /* newCopyCondition= */ "is:MAX");
+  }
+
+  @Test
+  public void testDeletingCopyCondition() throws Exception {
+    testChangingCopyCondition(/* initialCopyCondition= */ "is:ANY", /* newCopyCondition= */ null);
+  }
+
+  @Test
+  public void testDeletingNonParseableCopyCondition() throws Exception {
+    testChangingCopyCondition(/* initialCopyCondition= */ ":", /* newCopyCondition= */ null);
+  }
+
+  @Test
+  public void testChangingNonParseableCopyCondition() throws Exception {
+    testChangingCopyConditionExpectWarning(
+        /* initialCopyCondition= */ ":",
+        /* newCopyCondition= */ ":foo",
+        /* warningMessage= */ "Cannot parse copy condition ':foo' of label Foo (parameter"
+            + " 'label.Foo.copyCondition'): line 1:0 no viable alternative at input ':'");
+  }
+
+  private void testChangingCopyCondition(
+      String initialCopyCondition, @Nullable String newCopyCondition) throws Exception {
+    testChangingCopyCondition(
+        initialCopyCondition, newCopyCondition, /* type= */ null, /* message= */ null);
+  }
+
+  private void testChangingCopyConditionExpectError(
+      String initialCopyCondition, @Nullable String newCopyCondition, String errorMessage)
+      throws Exception {
+    testChangingCopyCondition(
+        initialCopyCondition, newCopyCondition, ValidationMessage.Type.ERROR, errorMessage);
+  }
+
+  private void testChangingCopyConditionExpectWarning(
+      String initialCopyCondition, @Nullable String newCopyCondition, String warningMessage)
+      throws Exception {
+    testChangingCopyCondition(
+        initialCopyCondition, newCopyCondition, ValidationMessage.Type.WARNING, warningMessage);
+  }
+
+  private void testChangingCopyCondition(
+      @Nullable String initialCopyCondition,
+      @Nullable String newCopyCondition,
+      @Nullable ValidationMessage.Type type,
+      @Nullable String message)
+      throws Exception {
+    if (initialCopyCondition != null) {
+      try (TestRepository<Repository> testRepo =
+          new TestRepository<>(repoManager.openRepository(project))) {
+        testRepo
+            .branch(RefNames.REFS_CONFIG)
+            .commit()
+            .add(
+                ProjectConfig.PROJECT_CONFIG,
+                String.format(
+                    "[label \"Foo\"]\n  %s = %s\n",
+                    ProjectConfig.KEY_COPY_CONDITION, initialCopyCondition))
+            .parent(projectOperations.project(project).getHead(RefNames.REFS_CONFIG))
+            .create();
+      }
+    }
+
     fetchRefsMetaConfig();
     PushOneCommit push =
         pushFactory.create(
@@ -1189,9 +1283,22 @@ public class ProjectConfigIT extends AbstractDaemonTest {
             testRepo,
             "Test Change",
             ProjectConfig.PROJECT_CONFIG,
-            String.format("[label \"Foo\"]\n  %s = is:ANY", ProjectConfig.KEY_COPY_CONDITION));
+            newCopyCondition == null
+                ? "[label \"Foo\"]\n"
+                : String.format(
+                    "[label \"Foo\"]\n  %s = %s\n",
+                    ProjectConfig.KEY_COPY_CONDITION, newCopyCondition));
     PushOneCommit.Result r = push.to(RefNames.REFS_CONFIG);
-    r.assertOkStatus();
+    if (!ValidationMessage.Type.ERROR.equals(type)) {
+      r.assertOkStatus();
+      return;
+    }
+    r.assertErrorStatus(
+        String.format(
+            "invalid %s file in revision %s", ProjectConfig.PROJECT_CONFIG, r.getCommit().name()));
+    if (message != null) {
+      r.assertMessage(message);
+    }
   }
 
   @Test

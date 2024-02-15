@@ -22,9 +22,9 @@ import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.ProjectWatches.ProjectWatchKey;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 public class IsWatchedByPredicate extends AndPredicate<ChangeData> {
   protected static String describe(CurrentUser user) {
@@ -41,7 +41,7 @@ public class IsWatchedByPredicate extends AndPredicate<ChangeData> {
     this.user = args.getUser();
   }
 
-  protected static List<Predicate<ChangeData>> filters(ChangeQueryBuilder.Arguments args)
+  protected static ImmutableList<Predicate<ChangeData>> filters(ChangeQueryBuilder.Arguments args)
       throws QueryParseException {
     List<Predicate<ChangeData>> r = new ArrayList<>();
     ChangeQueryBuilder builder = new ChangeQueryBuilder(args);
@@ -85,7 +85,7 @@ public class IsWatchedByPredicate extends AndPredicate<ChangeData> {
     return ImmutableList.of(or(r));
   }
 
-  protected static Collection<ProjectWatchKey> getWatches(ChangeQueryBuilder.Arguments args)
+  protected static Set<ProjectWatchKey> getWatches(ChangeQueryBuilder.Arguments args)
       throws QueryParseException {
     CurrentUser user = args.getUser();
     if (user.isIdentifiedUser()) {

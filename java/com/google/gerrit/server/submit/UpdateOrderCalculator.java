@@ -18,7 +18,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.SubmoduleSubscription;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -68,7 +67,8 @@ class UpdateOrderCalculator {
     current.add(project);
     Set<Project.NameKey> subprojects = new HashSet<>();
     for (BranchNameKey branch : subscriptionGraph.getAffectedSuperBranches(project)) {
-      Collection<SubmoduleSubscription> subscriptions = subscriptionGraph.getSubscriptions(branch);
+      ImmutableSet<SubmoduleSubscription> subscriptions =
+          subscriptionGraph.getSubscriptions(branch);
       for (SubmoduleSubscription s : subscriptions) {
         subprojects.add(s.getSubmodule().project());
       }

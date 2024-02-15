@@ -106,8 +106,8 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
   @Override
   public ChangeSet completeWithoutTopic(
       MergeOpRepoManager orm, ChangeSet changeSet, CurrentUser user) throws IOException {
-    Collection<ChangeData> visibleChanges = new ArrayList<>();
-    Collection<ChangeData> nonVisibleChanges = new ArrayList<>();
+    List<ChangeData> visibleChanges = new ArrayList<>();
+    List<ChangeData> nonVisibleChanges = new ArrayList<>();
 
     // For each target branch we run a separate rev walk to find open changes
     // reachable from changes already in the merge super set.
@@ -194,7 +194,7 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
       Set<String> nonVisibleHashes,
       CurrentUser user)
       throws IOException {
-    List<ChangeData> potentiallyVisibleChanges =
+    ImmutableList<ChangeData> potentiallyVisibleChanges =
         byCommitsOnBranchNotMerged(or, branch, visibleHashes);
     List<ChangeData> invisibleChanges =
         new ArrayList<>(byCommitsOnBranchNotMerged(or, branch, nonVisibleHashes));

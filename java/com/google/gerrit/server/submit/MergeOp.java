@@ -308,7 +308,7 @@ public class MergeOp implements AutoCloseable {
   private CommitStatus commitStatus;
   private SubmitInput submitInput;
   private NotifyResolver.Result notify;
-  private Set<Project.NameKey> projects;
+  private ImmutableSet<Project.NameKey> projects;
   private boolean dryrun;
   private TopicMetrics topicMetrics;
 
@@ -815,7 +815,7 @@ public class MergeOp implements AutoCloseable {
       boolean dryrun)
       throws IntegrationConflictException, NoSuchProjectException, IOException {
     List<SubmitStrategy> strategies = new ArrayList<>();
-    Set<BranchNameKey> allBranches = updateOrderCalculator.getBranchesInOrder();
+    ImmutableSet<BranchNameKey> allBranches = updateOrderCalculator.getBranchesInOrder();
     Set<CodeReviewCommit> allCommits =
         toSubmit.values().stream().map(BranchBatch::commits).flatMap(Set::stream).collect(toSet());
 
@@ -828,7 +828,7 @@ public class MergeOp implements AutoCloseable {
         requireNonNull(
             submitting.submitType(),
             String.format("null submit type for %s; expected to previously fail fast", submitting));
-        Set<CodeReviewCommit> commitsToSubmit = submitting.commits();
+        ImmutableSet<CodeReviewCommit> commitsToSubmit = submitting.commits();
         checkImplicitMerges(
             branch, or.rw, submitting.commits(), submitting.submitType(), ob.oldTip);
 

@@ -59,7 +59,7 @@ public class PatchList implements Serializable {
    */
   @VisibleForTesting
   static class ChangeTypeCmp implements Comparator<ChangeType> {
-    static final List<ChangeType> order =
+    static final ImmutableList<ChangeType> order =
         ImmutableList.of(
             ChangeType.ADDED,
             ChangeType.RENAMED,

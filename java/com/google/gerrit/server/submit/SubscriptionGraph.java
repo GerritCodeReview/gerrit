@@ -37,7 +37,6 @@ import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -283,7 +282,7 @@ public class SubscriptionGraph {
 
       currentVisited.add(current);
       try {
-        Collection<SubmoduleSubscription> subscriptions =
+        List<SubmoduleSubscription> subscriptions =
             superProjectSubscriptionsForSubmoduleBranch(current, branchGitModules, orm);
         for (SubmoduleSubscription sub : subscriptions) {
           BranchNameKey superBranch = sub.getSuperProject();
@@ -310,7 +309,7 @@ public class SubscriptionGraph {
       allVisited.add(current);
     }
 
-    private Collection<BranchNameKey> getDestinationBranches(
+    private ImmutableSet<BranchNameKey> getDestinationBranches(
         BranchNameKey src, SubscribeSection s, MergeOpRepoManager orm) throws IOException {
       OpenRepo or;
       try {
@@ -326,12 +325,12 @@ public class SubscriptionGraph {
       return s.getDestinationBranches(src, refs);
     }
 
-    private Collection<SubmoduleSubscription> superProjectSubscriptionsForSubmoduleBranch(
+    private List<SubmoduleSubscription> superProjectSubscriptionsForSubmoduleBranch(
         BranchNameKey srcBranch,
         Map<BranchNameKey, GitModules> branchGitModules,
         MergeOpRepoManager orm)
         throws IOException {
-      Collection<SubmoduleSubscription> ret = new ArrayList<>();
+      List<SubmoduleSubscription> ret = new ArrayList<>();
       if (RefNames.isGerritRef(srcBranch.branch())) return ret;
 
       Project.NameKey srcProject = srcBranch.project();
@@ -340,7 +339,7 @@ public class SubscriptionGraph {
               .get(srcProject)
               .orElseThrow(illegalState(srcProject))
               .getSubscribeSections(srcBranch)) {
-        Collection<BranchNameKey> branches = getDestinationBranches(srcBranch, s, orm);
+        ImmutableSet<BranchNameKey> branches = getDestinationBranches(srcBranch, s, orm);
         for (BranchNameKey targetBranch : branches) {
           Project.NameKey targetProject = targetBranch.project();
           try {

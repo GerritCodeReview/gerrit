@@ -50,7 +50,7 @@ class EditTransformer {
 
   private final GitPositionTransformer positionTransformer =
       new GitPositionTransformer(OmitPositionOnConflict.INSTANCE);
-  private List<ContextAwareEdit> edits;
+  private ImmutableList<ContextAwareEdit> edits;
 
   /**
    * Creates a new {@code EditTransformer} for the edits contained in the specified {@code
@@ -113,7 +113,7 @@ class EditTransformer {
   }
 
   public static Stream<ContextAwareEdit> toEdits(FileEdits in) {
-    List<Edit> edits = in.edits();
+    ImmutableList<Edit> edits = in.edits();
     if (edits.isEmpty()) {
       return Stream.of(ContextAwareEdit.createForNoContentEdit(in.oldPath(), in.newPath()));
     }

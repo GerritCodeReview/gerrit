@@ -76,7 +76,7 @@ public final class IndexUtils {
     // Ensure we request enough fields to construct a ChangeData. We need both
     // change ID and project, which can either come via the Change field or
     // separate fields.
-    Set<String> fs = opts.fields();
+    ImmutableSet<String> fs = opts.fields();
     if (fs.contains(CHANGE_SPEC.getName())) {
       // A Change is always sufficient.
       return fs;
@@ -93,7 +93,7 @@ public final class IndexUtils {
    * is temporary and should be removed after the migration is done.
    */
   public static Set<String> groupFields(QueryOptions opts) {
-    Set<String> fs = opts.fields();
+    ImmutableSet<String> fs = opts.fields();
     return fs.contains(GroupField.UUID_FIELD_SPEC.getName())
         ? fs
         : Sets.union(fs, ImmutableSet.of(GroupField.UUID_FIELD_SPEC.getName()));
@@ -115,7 +115,7 @@ public final class IndexUtils {
    * doesn't support.
    */
   public static Set<String> projectFields(QueryOptions opts) {
-    Set<String> fs = opts.fields();
+    ImmutableSet<String> fs = opts.fields();
     return fs.contains(ProjectField.NAME_SPEC.getName())
         ? fs
         : Sets.union(fs, ImmutableSet.of(ProjectField.NAME_SPEC.getName()));

@@ -18,6 +18,7 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.server.git.QueueProvider.QueueType.BATCH;
 
 import com.google.common.base.Stopwatch;
+import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -74,7 +75,7 @@ public class AllGroupsIndexer extends SiteIndexer<AccountGroup.UUID, InternalGro
     ProgressMonitor progress = new TextProgressMonitor(newPrintWriter(progressOut));
     progress.start(2);
     Stopwatch sw = Stopwatch.createStarted();
-    List<AccountGroup.UUID> uuids;
+    ImmutableList<AccountGroup.UUID> uuids;
     try {
       uuids = collectGroups(progress);
     } catch (IOException | ConfigInvalidException e) {
@@ -138,7 +139,7 @@ public class AllGroupsIndexer extends SiteIndexer<AccountGroup.UUID, InternalGro
     return SiteIndexer.Result.create(sw, ok.get(), done.get(), failed.get());
   }
 
-  private List<AccountGroup.UUID> collectGroups(ProgressMonitor progress)
+  private ImmutableList<AccountGroup.UUID> collectGroups(ProgressMonitor progress)
       throws IOException, ConfigInvalidException {
     progress.beginTask("Collecting groups", ProgressMonitor.UNKNOWN);
     try {

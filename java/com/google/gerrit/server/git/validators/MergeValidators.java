@@ -101,7 +101,7 @@ public class MergeValidators {
       PatchSet.Id patchSetId,
       IdentifiedUser caller)
       throws MergeValidationException {
-    List<MergeValidationListener> validators =
+    ImmutableList<MergeValidationListener> validators =
         ImmutableList.of(
             new PluginMergeValidationListener(mergeValidationListeners),
             projectConfigValidatorFactory.create(),

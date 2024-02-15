@@ -17,6 +17,7 @@ package com.google.gerrit.server.rules;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.LabelFunction;
 import com.google.gerrit.entities.LabelType;
@@ -75,7 +76,7 @@ public class IgnoreSelfApprovalRule implements SubmitRule {
         continue;
       }
 
-      Collection<PatchSetApproval> allApprovalsForLabel = filterApprovalsByLabel(approvals, t);
+      ImmutableList<PatchSetApproval> allApprovalsForLabel = filterApprovalsByLabel(approvals, t);
       SubmitRecord.Label allApprovalsCheckResult = labelFunction.check(t, allApprovalsForLabel);
       SubmitRecord.Label ignoreSelfApprovalCheckResult =
           labelFunction.check(t, filterOutPositiveApprovalsOfUser(allApprovalsForLabel, uploader));
@@ -119,7 +120,7 @@ public class IgnoreSelfApprovalRule implements SubmitRule {
   }
 
   @VisibleForTesting
-  static Collection<PatchSetApproval> filterOutPositiveApprovalsOfUser(
+  static ImmutableList<PatchSetApproval> filterOutPositiveApprovalsOfUser(
       Collection<PatchSetApproval> approvals, Account.Id user) {
     return approvals.stream()
         .filter(input -> input.value() < 0 || !input.accountId().equals(user))
@@ -127,7 +128,7 @@ public class IgnoreSelfApprovalRule implements SubmitRule {
   }
 
   @VisibleForTesting
-  static Collection<PatchSetApproval> filterApprovalsByLabel(
+  static ImmutableList<PatchSetApproval> filterApprovalsByLabel(
       Collection<PatchSetApproval> approvals, LabelType t) {
     return approvals.stream()
         .filter(input -> input.labelId().get().equals(t.getLabelId().get()))

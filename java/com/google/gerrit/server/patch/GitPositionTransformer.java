@@ -94,7 +94,8 @@ public class GitPositionTransformer {
       Collection<PositionedEntity<T>> entities, Set<Mapping> mappings) {
     // Update the file paths first as copied files might exist. For copied files, this operation
     // will duplicate the PositionedEntity instances of the original file.
-    List<PositionedEntity<T>> filePathUpdatedEntities = updateFilePaths(entities, mappings);
+    ImmutableList<PositionedEntity<T>> filePathUpdatedEntities =
+        updateFilePaths(entities, mappings);
 
     return shiftRanges(filePathUpdatedEntities, mappings);
   }

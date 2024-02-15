@@ -55,7 +55,6 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
@@ -233,7 +232,7 @@ public class GitFileDiffCacheImpl implements GitFileDiffCache {
      *
      * @return The git file diffs for all input keys.
      */
-    private Map<GitFileDiffCacheKey, GitFileDiff> loadAllImpl(
+    private ImmutableMap<GitFileDiffCacheKey, GitFileDiff> loadAllImpl(
         Repository repo, DiffOptions options, List<GitFileDiffCacheKey> keys)
         throws IOException, DiffNotAvailableException {
       ImmutableMap.Builder<GitFileDiffCacheKey, GitFileDiff> result =
@@ -279,7 +278,7 @@ public class GitFileDiffCacheImpl implements GitFileDiffCache {
     private static ListMultimap<String, DiffEntry> loadDiffEntries(
         DiffFormatter diffFormatter, DiffOptions diffOptions, Collection<String> filePaths)
         throws IOException {
-      Set<String> filePathsSet = ImmutableSet.copyOf(filePaths);
+      ImmutableSet<String> filePathsSet = ImmutableSet.copyOf(filePaths);
       List<DiffEntry> diffEntries =
           diffFormatter.scan(
               diffOptions.oldTree().equals(ObjectId.zeroId()) ? null : diffOptions.oldTree(),

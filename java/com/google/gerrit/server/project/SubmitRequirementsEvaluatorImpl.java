@@ -181,7 +181,7 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
    * SubmitRequirement#allowOverrideInChildProjects} of global {@link SubmitRequirement}.
    */
   private ImmutableMap<SubmitRequirement, SubmitRequirementResult> getRequirements(ChangeData cd) {
-    Map<String, SubmitRequirement> globalRequirements = getGlobalRequirements();
+    ImmutableMap<String, SubmitRequirement> globalRequirements = getGlobalRequirements();
 
     ProjectState state = projectCache.get(cd.project()).orElseThrow(illegalState(cd.project()));
     Map<String, SubmitRequirement> projectConfigRequirements = state.getSubmitRequirements();
@@ -213,7 +213,7 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
    *
    * <p>The global {@link SubmitRequirement}s apply to all projects and can be bound by plugins.
    */
-  private Map<String, SubmitRequirement> getGlobalRequirements() {
+  private ImmutableMap<String, SubmitRequirement> getGlobalRequirements() {
     return globalSubmitRequirements.stream()
         .collect(
             toImmutableMap(

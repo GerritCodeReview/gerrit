@@ -119,13 +119,13 @@ public class ChangesByProjectCacheImpl implements ChangesByProjectCache {
         ours == projectChanges ? "Scanning" : "Updating");
   }
 
-  private Collection<ChangeData> queryChangeDatasAndLoad(Project.NameKey project) {
-    Collection<ChangeData> cds = queryChangeDatas(project);
+  private List<ChangeData> queryChangeDatasAndLoad(Project.NameKey project) {
+    List<ChangeData> cds = queryChangeDatas(project);
     cache.put(project, new CachedProjectChanges(cds));
     return cds;
   }
 
-  private Collection<ChangeData> queryChangeDatas(Project.NameKey project) {
+  private List<ChangeData> queryChangeDatas(Project.NameKey project) {
     try (TraceTimer timer =
         TraceContext.newTimer(
             "Querying changes of project", Metadata.builder().projectName(project.get()).build())) {

@@ -75,7 +75,7 @@ class AllDiffsEvaluator {
     // First batch: "old commit vs. new commit" and "new parent vs. new commit"
     // Second batch: "old parent vs. old commit" and "old parent vs. new parent"
 
-    Map<FileDiffCacheKey, GitDiffEntity> mainDiffs =
+    ImmutableMap<FileDiffCacheKey, GitDiffEntity> mainDiffs =
         computeGitFileDiffs(
             createGitKeys(
                 augmentedKeys,
@@ -83,7 +83,7 @@ class AllDiffsEvaluator {
                 k -> k.key().newCommit(),
                 k -> k.key().newFilePath()));
 
-    Map<FileDiffCacheKey, GitDiffEntity> oldVsParentDiffs =
+    ImmutableMap<FileDiffCacheKey, GitDiffEntity> oldVsParentDiffs =
         computeGitFileDiffs(
             createGitKeys(
                 keysWithRebaseEdits,
@@ -91,7 +91,7 @@ class AllDiffsEvaluator {
                 k -> k.key().oldCommit(),
                 k -> mainDiffs.get(k.key()).gitDiff().oldPath().orElse(null)));
 
-    Map<FileDiffCacheKey, GitDiffEntity> newVsParentDiffs =
+    ImmutableMap<FileDiffCacheKey, GitDiffEntity> newVsParentDiffs =
         computeGitFileDiffs(
             createGitKeys(
                 keysWithRebaseEdits,
@@ -99,7 +99,7 @@ class AllDiffsEvaluator {
                 k -> k.key().newCommit(),
                 k -> k.key().newFilePath()));
 
-    Map<FileDiffCacheKey, GitDiffEntity> parentsDiffs =
+    ImmutableMap<FileDiffCacheKey, GitDiffEntity> parentsDiffs =
         computeGitFileDiffs(
             createGitKeys(
                 keysWithRebaseEdits,
@@ -149,7 +149,7 @@ class AllDiffsEvaluator {
    * Computes the git diff for the git keys of the input map {@code keys} parameter. The computation
    * uses the underlying {@link GitFileDiffCache}.
    */
-  private Map<FileDiffCacheKey, GitDiffEntity> computeGitFileDiffs(
+  private ImmutableMap<FileDiffCacheKey, GitDiffEntity> computeGitFileDiffs(
       Map<FileDiffCacheKey, GitFileDiffCacheKey> keys) throws DiffNotAvailableException {
     ImmutableMap.Builder<FileDiffCacheKey, GitDiffEntity> result =
         ImmutableMap.builderWithExpectedSize(keys.size());

@@ -19,6 +19,7 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.Iterables.transform;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Maps;
@@ -112,7 +113,7 @@ public class JarScanner implements PluginContentScanner, AutoCloseable {
 
     for (Class<? extends Annotation> annotoation : annotations) {
       String descr = classObjToClassDescr.get(annotoation);
-      Collection<ClassData> discoverdData = rawMap.get(descr);
+      List<ClassData> discoverdData = rawMap.get(descr);
       Collection<ClassData> values = firstNonNull(discoverdData, Collections.emptySet());
 
       result.put(
@@ -331,7 +332,7 @@ public class JarScanner implements PluginContentScanner, AutoCloseable {
     return Maps.transformEntries(attributes, (key, value) -> (String) value);
   }
 
-  private static Iterable<JarEntry> entriesOf(JarFile jarFile) {
+  private static ImmutableList<JarEntry> entriesOf(JarFile jarFile) {
     return jarFile.stream().collect(toImmutableList());
   }
 }

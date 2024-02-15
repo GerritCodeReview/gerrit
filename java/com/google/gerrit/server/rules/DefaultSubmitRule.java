@@ -17,6 +17,7 @@ package com.google.gerrit.server.rules;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.LabelFunction;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.PatchSetApproval;
@@ -26,7 +27,6 @@ import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Singleton;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,7 +67,7 @@ public final class DefaultSubmitRule implements SubmitRule {
           t.getName(),
           cd.getId());
 
-      Collection<PatchSetApproval> approvalsForLabel = getApprovalsForLabel(approvals, t);
+      ImmutableList<PatchSetApproval> approvalsForLabel = getApprovalsForLabel(approvals, t);
       SubmitRecord.Label label = labelFunction.check(t, approvalsForLabel);
       submitRecord.labels.add(label);
 
@@ -87,7 +87,7 @@ public final class DefaultSubmitRule implements SubmitRule {
     return Optional.of(submitRecord);
   }
 
-  private static List<PatchSetApproval> getApprovalsForLabel(
+  private static ImmutableList<PatchSetApproval> getApprovalsForLabel(
       List<PatchSetApproval> approvals, LabelType t) {
     return approvals.stream()
         .filter(input -> input.label().equals(t.getLabelId().get()))

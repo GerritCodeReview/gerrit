@@ -397,7 +397,7 @@ public class CommentChangeEmailDecoratorImpl implements CommentChangeEmailDecora
           commentData.put("lines", getLinesOfComment(comment, group.fileData));
         }
         commentData.put("message", comment.message.trim());
-        List<CommentFormatter.Block> blocks = CommentFormatter.parse(comment.message);
+        ImmutableList<CommentFormatter.Block> blocks = CommentFormatter.parse(comment.message);
         commentData.put("messageBlocks", commentBlocksToSoyData(blocks));
 
         // Set the prefix.

@@ -31,7 +31,6 @@ import com.google.inject.name.Names;
 import com.google.inject.util.Providers;
 import java.util.Collection;
 import java.util.Map;
-import java.util.Set;
 import org.eclipse.jgit.lib.Config;
 
 /**
@@ -59,7 +58,7 @@ public class SingleVersionModule extends LifecycleModule {
   /** Listener to Gerrit's lifecycle events to specify which index versions to use. */
   @Singleton
   public static class SingleVersionListener implements LifecycleListener {
-    private final Set<String> disabled;
+    private final ImmutableSet<String> disabled;
     private final Collection<IndexDefinition<?, ?, ?>> defs;
     private final Map<String, Integer> singleVersions;
 

@@ -72,7 +72,7 @@ public class EventTypes {
    *
    * @return ImmutableMap of event types, Event classes.
    */
-  public static Map<String, Class<?>> getRegisteredEvents() {
+  public static ImmutableMap<String, Class<?>> getRegisteredEvents() {
     return ImmutableMap.copyOf(typesByString);
   }
 }

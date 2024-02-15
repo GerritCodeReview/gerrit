@@ -31,7 +31,6 @@ import com.google.gerrit.server.cache.serialize.CacheSerializer;
 import com.google.gerrit.server.cache.serialize.ObjectIdConverter;
 import com.google.gerrit.server.patch.filediff.Edit;
 import com.google.protobuf.Descriptors.FieldDescriptor;
-import java.util.Map;
 import java.util.Optional;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
@@ -45,7 +44,7 @@ import org.eclipse.jgit.patch.FileHeader;
  */
 @AutoValue
 public abstract class GitFileDiff {
-  private static final Map<FileMode, Patch.FileMode> fileModeMap =
+  private static final ImmutableMap<FileMode, Patch.FileMode> fileModeMap =
       ImmutableMap.<FileMode, Patch.FileMode>builder()
           .put(FileMode.TREE, Patch.FileMode.TREE)
           .put(FileMode.SYMLINK, Patch.FileMode.SYMLINK)

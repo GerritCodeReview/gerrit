@@ -35,14 +35,14 @@ import org.eclipse.jgit.lib.Config;
 public class CommentLinkProvider implements Provider<List<CommentLinkInfo>>, GerritConfigListener {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private volatile List<CommentLinkInfo> commentLinks;
+  private volatile ImmutableList<CommentLinkInfo> commentLinks;
 
   @Inject
   CommentLinkProvider(@GerritServerConfig Config cfg) {
     this.commentLinks = parseConfig(cfg);
   }
 
-  private List<CommentLinkInfo> parseConfig(Config cfg) {
+  private ImmutableList<CommentLinkInfo> parseConfig(Config cfg) {
     Set<String> subsections = cfg.getSubsections(ProjectConfig.COMMENTLINK);
     ImmutableList.Builder<CommentLinkInfo> cls =
         ImmutableList.builderWithExpectedSize(subsections.size());

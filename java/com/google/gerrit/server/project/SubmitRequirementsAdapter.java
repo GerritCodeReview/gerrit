@@ -50,7 +50,7 @@ public class SubmitRequirementsAdapter {
    * Retrieve legacy submit records (created by label functions and other {@link
    * com.google.gerrit.server.rules.SubmitRule}s) and convert them to submit requirement results.
    */
-  public static Map<SubmitRequirement, SubmitRequirementResult> getLegacyRequirements(
+  public static ImmutableMap<SubmitRequirement, SubmitRequirementResult> getLegacyRequirements(
       ChangeData cd) {
     // We use SubmitRuleOptions.defaults() which does not recompute submit rules for closed changes.
     // This doesn't have an effect since we never call this class (i.e. to evaluate submit
@@ -105,9 +105,9 @@ public class SubmitRequirementsAdapter {
   }
 
   @VisibleForTesting
-  static List<SubmitRequirementResult> createResult(
+  static ImmutableList<SubmitRequirementResult> createResult(
       SubmitRecord record, List<LabelType> labelTypes, ObjectId psCommitId, boolean isForced) {
-    List<SubmitRequirementResult> results;
+    ImmutableList<SubmitRequirementResult> results;
     if (record.ruleName != null && record.ruleName.equals(DefaultSubmitRule.RULE_NAME)) {
       results = createFromDefaultSubmitRecord(record.labels, labelTypes, psCommitId, isForced);
     } else {
@@ -117,7 +117,7 @@ public class SubmitRequirementsAdapter {
     return results;
   }
 
-  private static List<SubmitRequirementResult> createFromDefaultSubmitRecord(
+  private static ImmutableList<SubmitRequirementResult> createFromDefaultSubmitRecord(
       @Nullable List<Label> labels,
       List<LabelType> labelTypes,
       ObjectId psCommitId,
@@ -159,7 +159,7 @@ public class SubmitRequirementsAdapter {
     return result.build();
   }
 
-  private static List<SubmitRequirementResult> createFromCustomSubmitRecord(
+  private static ImmutableList<SubmitRequirementResult> createFromCustomSubmitRecord(
       SubmitRecord record, ObjectId psCommitId, boolean isForced) {
     String ruleName = record.ruleName != null ? record.ruleName : "Custom-Rule";
     if (record.labels == null || record.labels.isEmpty()) {

@@ -1186,7 +1186,7 @@ public class CommitRewriter {
             .collect(
                 ImmutableMap.toImmutableMap(
                     Map.Entry::getKey, e -> Optional.ofNullable(e.getValue()))));
-    Map<Account.Id, AccountState> possibleReplacements = ImmutableMap.of();
+    ImmutableMap<Account.Id, AccountState> possibleReplacements = ImmutableMap.of();
     if (accountInfo.email().isPresent()) {
       possibleReplacements =
           changeFixProgress.parsedAccounts.entrySet().stream()

@@ -257,7 +257,7 @@ public class ProjectsConsistencyChecker {
     }
 
     try {
-      List<ChangeData> queryResult =
+      ImmutableList<ChangeData> queryResult =
           retryHelper
               .changeIndexQuery(
                   "projectsConsistencyCheckerQueryChanges",

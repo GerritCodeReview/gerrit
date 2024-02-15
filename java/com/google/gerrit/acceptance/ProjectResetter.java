@@ -144,6 +144,12 @@ public class ProjectResetter implements AutoCloseable {
       this.refsByProject = refsByProject;
     }
 
+    public Builder toBuilder() {
+      Builder builder = new Builder();
+      builder.refsByProject.putAll(refsByProject);
+      return builder;
+    }
+
     public static class Builder {
       private final Multimap<Project.NameKey, String> refsByProject;
 

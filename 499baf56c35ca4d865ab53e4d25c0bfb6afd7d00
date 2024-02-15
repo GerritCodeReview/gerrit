@@ -16,6 +16,23 @@
       "message": "Let me upgrade GerritHub.io with this JGit bump and give a green light after 24h, OK?",
       "revId": "499baf56c35ca4d865ab53e4d25c0bfb6afd7d00",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2436648_aa57ca4a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-02-15T10:37:40Z",
+      "side": 1,
+      "message": "this version of JGit doesn\u0027t have recent @nasser.grainawi@linaro.org fixes to `SnapshottingRefDirectory` and `RefDirectory` done on `stable-6.6`.\n\nLet me do a quick merge up so that we can leverage those also with this bump.",
+      "revId": "499baf56c35ca4d865ab53e4d25c0bfb6afd7d00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

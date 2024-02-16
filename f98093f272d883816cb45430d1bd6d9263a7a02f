@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83c98bc5_91dc01b8",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetMessage.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-02-16T16:06:24Z",
+      "side": 1,
+      "message": "I think you could replace this with existing functionality from ChangeData:\n```suggestion\n    ChangeData cd \u003d cdFactory.create(resource.getNotes());\n    commitMessageInfo.fullMessage \u003d cd.commitMessage();\n    commitMessageInfo.footers \u003d\n          cd.commitFooters().stream()\n              .collect(toMap(FooterLine::getKey, FooterLine::getValue));\n```",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 63,
+        "endChar": 5
+      },
+      "revId": "f98093f272d883816cb45430d1bd6d9263a7a02f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

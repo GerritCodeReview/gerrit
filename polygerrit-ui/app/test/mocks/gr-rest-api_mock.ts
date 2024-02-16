@@ -134,7 +134,7 @@ export const grRestApiMock: RestApiService = {
   deleteChangeCommitMessage(): Promise<Response> {
     return Promise.resolve(new Response());
   },
-  deleteComment(): Promise<CommentInfo> {
+  deleteComment(): Promise<CommentInfo | undefined> {
     throw new Error('deleteComment() not implemented by RestApiMock.');
   },
   deleteDiffDraft(): Promise<Response> {
@@ -164,7 +164,7 @@ export const grRestApiMock: RestApiService = {
   deleteWatchedProjects(): Promise<Response> {
     return Promise.resolve(new Response());
   },
-  executeChangeAction(): Promise<Response | undefined> {
+  executeChangeAction(): Promise<Response> {
     return Promise.resolve(new Response());
   },
   finalize(): void {},

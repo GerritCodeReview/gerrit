@@ -69,6 +69,24 @@
       "parentUuid": "6755bc1a_dc158125",
       "revId": "22ef00de8e7ec20bcad80cd00c89512043fae5c5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f872a94_7887e9b5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-16T22:59:45Z",
+      "side": 1,
+      "message": "Run in production for 24h and no issues at all.",
+      "parentUuid": "aafe06f1_4e83bb34",
+      "revId": "22ef00de8e7ec20bcad80cd00c89512043fae5c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

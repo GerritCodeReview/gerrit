@@ -727,7 +727,10 @@ export class CommentsModel extends Model<CommentState> {
       comment.id,
       reason
     );
-    this.modifyState(s => updateComment(s, newComment));
+    // Don't update state on server error.
+    if (newComment) {
+      this.modifyState(s => updateComment(s, newComment));
+    }
   }
 
   private report(interaction: Interaction, comment: Comment) {

@@ -3,7 +3,6 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {getBaseUrl} from '../../../utils/url-util';
 import {ContributorAgreementInfo} from '../../../types/common';
 import {getAppContext} from '../../../services/app-context';
 import {grFormStyles} from '../../../styles/gr-form-styles';
@@ -79,7 +78,7 @@ export class GrAgreementsList extends LitElement {
   }
 
   getUrl() {
-    return `${getBaseUrl()}/settings/new-agreement`;
+    return `/settings/new-agreement`;
   }
 
   getUrlBase(item?: string) {

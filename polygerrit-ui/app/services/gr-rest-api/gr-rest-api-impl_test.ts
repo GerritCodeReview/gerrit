@@ -624,10 +624,15 @@ suite('gr-rest-api-service-impl tests', () => {
   suite('draft comments', () => {
     test('_sendDiffDraftRequest pending requests tracked', async () => {
       const obj = element._pendingRequests;
+      let promises: MockPromise<string>[] = [];
+      sinon.stub(element, '_changeBaseURL').callsFake(() => {
+        promises.push(mockPromise<string>());
+        return promises[promises.length - 1];
+      });
       sinon
-        .stub(element, '_getChangeURLAndSend')
-        .callsFake(() => mockPromise());
-      assert.notOk(element.hasPendingDiffDrafts());
+        .stub(element._restApiHelperNew, 'fetch')
+        .resolves(new Response(undefined, {status: 201}));
+      assert.isFalse(!!element.hasPendingDiffDrafts());
 
       element._sendDiffDraftRequest(
         HttpMethod.PUT,
@@ -647,8 +652,8 @@ suite('gr-rest-api-service-impl tests', () => {
       assert.equal(obj.sendDiffDraft.length, 2);
       assert.isTrue(!!element.hasPendingDiffDrafts());
 
-      for (const promise of obj.sendDiffDraft) {
-        (promise as MockPromise<void>).resolve();
+      for (const promise of promises) {
+        promise.resolve('');
       }
 
       await element.awaitPendingDiffDrafts();
@@ -658,8 +663,8 @@ suite('gr-rest-api-service-impl tests', () => {
 
     suite('_failForCreate200', () => {
       test('_sendDiffDraftRequest checks for 200 on create', async () => {
-        const sendPromise = Promise.resolve({} as unknown as ParsedJSON);
-        sinon.stub(element, '_getChangeURLAndSend').returns(sendPromise);
+        element.setInProjectLookup(123 as NumericChangeId, TEST_PROJECT_NAME);
+        sinon.stub(element._restApiHelperNew, 'fetch').resolves(new Response());
         const failStub = sinon.stub(element, '_failForCreate200').resolves();
         await element._sendDiffDraftRequest(
           HttpMethod.PUT,
@@ -668,11 +673,11 @@ suite('gr-rest-api-service-impl tests', () => {
           {}
         );
         assert.isTrue(failStub.calledOnce);
-        assert.isTrue(failStub.calledWithExactly(sendPromise));
       });
 
       test('_sendDiffDraftRequest no checks for 200 on non create', async () => {
-        sinon.stub(element, '_getChangeURLAndSend').resolves();
+        element.setInProjectLookup(123 as NumericChangeId, TEST_PROJECT_NAME);
+        sinon.stub(element._restApiHelperNew, 'fetch').resolves(new Response());
         const failStub = sinon.stub(element, '_failForCreate200').resolves();
         await element._sendDiffDraftRequest(
           HttpMethod.PUT,
@@ -714,25 +719,22 @@ suite('gr-rest-api-service-impl tests', () => {
     const change_num = 1 as NumericChangeId;
     const file_name = 'index.php';
     const file_contents = '<?php';
-    const sendStub = sinon
-      .stub(element._restApiHelper, 'send')
-      .resolves([
-        change_num,
-        file_name,
-        file_contents,
-      ] as unknown as ParsedJSON);
+    const fetchStub = sinon.stub(element._restApiHelperNew, 'fetch').resolves();
     element._cache.set(
       `/changes/${change_num}/edit/${file_name}`,
       {} as unknown as ParsedJSON
     );
     await element.saveChangeEdit(change_num, file_name, file_contents);
-    assert.isTrue(sendStub.calledOnce);
-    assert.equal(sendStub.lastCall.args[0].method, HttpMethod.PUT);
+    assert.isTrue(fetchStub.calledOnce);
     assert.equal(
-      sendStub.lastCall.args[0].url,
+      fetchStub.lastCall.args[0].fetchOptions?.method,
+      HttpMethod.PUT
+    );
+    assert.equal(
+      fetchStub.lastCall.args[0].url,
       '/changes/test~1/edit/' + file_name
     );
-    assert.equal(sendStub.lastCall.args[0].body, file_contents);
+    assert.equal(fetchStub.lastCall.args[0].fetchOptions?.body, file_contents);
   });
 
   test('putChangeCommitMessage', async () => {
@@ -740,21 +742,25 @@ suite('gr-rest-api-service-impl tests', () => {
     const change_num = 1 as NumericChangeId;
     const message = 'this is a commit message';
     const committer_email = 'test@example.com';
-    const sendStub = sinon
-      .stub(element._restApiHelper, 'send')
-      .resolves([change_num, message] as unknown as ParsedJSON);
+    const fetchStub = sinon.stub(element._restApiHelperNew, 'fetch').resolves();
     element._cache.set(
       `/changes/${change_num}/message`,
       {} as unknown as ParsedJSON
     );
     await element.putChangeCommitMessage(change_num, message, committer_email);
-    assert.isTrue(sendStub.calledOnce);
-    assert.equal(sendStub.lastCall.args[0].method, HttpMethod.PUT);
-    assert.equal(sendStub.lastCall.args[0].url, '/changes/test~1/message');
-    assert.deepEqual(sendStub.lastCall.args[0].body, {
-      message,
-      committer_email,
-    });
+    assert.isTrue(fetchStub.calledOnce);
+    assert.equal(
+      fetchStub.lastCall.args[0].fetchOptions?.method,
+      HttpMethod.PUT
+    );
+    assert.equal(fetchStub.lastCall.args[0].url, '/changes/test~1/message');
+    assert.deepEqual(
+      JSON.parse(fetchStub.lastCall.args[0].fetchOptions?.body as string),
+      {
+        message,
+        committer_email,
+      }
+    );
   });
 
   test('updateIdentityInChangeEdit', async () => {
@@ -763,32 +769,42 @@ suite('gr-rest-api-service-impl tests', () => {
     const name = 'user';
     const email = 'user@example.com';
     const type = 'AUTHOR';
-    const sendStub = sinon.stub(element._restApiHelper, 'send').resolves();
+    const fetchStub = sinon.stub(element._restApiHelperNew, 'fetch').resolves();
     await element.updateIdentityInChangeEdit(change_num, name, email, type);
-    assert.isTrue(sendStub.calledOnce);
-    assert.equal(sendStub.lastCall.args[0].method, HttpMethod.PUT);
+    assert.isTrue(fetchStub.calledOnce);
     assert.equal(
-      sendStub.lastCall.args[0].url,
+      fetchStub.lastCall.args[0].fetchOptions?.method,
+      HttpMethod.PUT
+    );
+    assert.equal(
+      fetchStub.lastCall.args[0].url,
       '/changes/test~1/edit:identity'
     );
-    assert.deepEqual(sendStub.lastCall.args[0].body, {
-      email: 'user@example.com',
-      name: 'user',
-      type: 'AUTHOR',
-    });
+    assert.deepEqual(
+      JSON.parse(fetchStub.lastCall.args[0].fetchOptions?.body as string),
+      {
+        email: 'user@example.com',
+        name: 'user',
+        type: 'AUTHOR',
+      }
+    );
   });
 
   test('deleteChangeCommitMessage', async () => {
     element._projectLookup = {1: Promise.resolve('test' as RepoName)};
     const change_num = 1 as NumericChangeId;
     const messageId = 'abc' as ChangeMessageId;
-    const sendStub = sinon
-      .stub(element._restApiHelper, 'send')
-      .resolves([change_num, messageId] as unknown as ParsedJSON);
+    const fetchStub = sinon.stub(element._restApiHelperNew, 'fetch').resolves();
     await element.deleteChangeCommitMessage(change_num, messageId);
-    assert.isTrue(sendStub.calledOnce);
-    assert.equal(sendStub.lastCall.args[0].method, HttpMethod.DELETE);
-    assert.equal(sendStub.lastCall.args[0].url, '/changes/test~1/messages/abc');
+    assert.isTrue(fetchStub.calledOnce);
+    assert.equal(
+      fetchStub.lastCall.args[0].fetchOptions?.method,
+      HttpMethod.DELETE
+    );
+    assert.equal(
+      fetchStub.lastCall.args[0].url,
+      '/changes/test~1/messages/abc'
+    );
   });
 
   test('startWorkInProgress', () => {
@@ -1506,16 +1522,17 @@ suite('gr-rest-api-service-impl tests', () => {
   });
 
   test('getFileContent', async () => {
-    sinon.stub(element, '_getChangeURLAndSend').callsFake(() =>
-      Promise.resolve(
+    element.setInProjectLookup(1 as NumericChangeId, TEST_PROJECT_NAME);
+    sinon.stub(element._restApiHelperNew, 'fetch').callsFake(() => {
+      return Promise.resolve(
         new Response(makePrefixedJSON('new content'), {
           status: 200,
           headers: {
             'X-FYI-Content-Type': 'text/java',
           },
-        }) as unknown as ParsedJSON
-      )
-    );
+        })
+      );
+    });
 
     const edit = await element.getFileContent(
       1 as NumericChangeId,

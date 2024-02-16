@@ -147,6 +147,7 @@ import {
   FetchParams,
   FetchPromisesCache,
   FetchRequest,
+  getFetchOptions,
   GrRestApiHelper as GrRestApiHelperNew,
   parsePrefixedJSON,
   readJSONResponsePayload,
@@ -2031,19 +2032,21 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     }) as Promise<string[] | undefined>;
   }
 
-  saveFileReviewed(
+  async saveFileReviewed(
     changeNum: NumericChangeId,
     patchNum: PatchSetNum,
     path: string,
     reviewed: boolean
   ): Promise<Response> {
-    return this._getChangeURLAndSend({
-      changeNum,
-      method: reviewed ? HttpMethod.PUT : HttpMethod.DELETE,
-      patchNum,
-      endpoint: `/files/${encodeURIComponent(path)}/reviewed`,
-      anonymizedEndpoint: '/files/*/reviewed',
-    });
+    const url = await this._changeBaseURL(changeNum, patchNum);
+    return this._restApiHelperNew.fetch(
+      {
+        fetchOptions: {method: reviewed ? HttpMethod.PUT : HttpMethod.DELETE},
+        url: `${url}/files/${encodeURIComponent(path)}/reviewed`,
+        anonymizedUrl: `${ANONYMIZED_REVISION_BASE_URL}/files/*/reviewed`,
+      },
+      /*reportServerError=*/ true
+    );
   }
 
   async saveChangeReview(
@@ -2155,126 +2158,174 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   /**
    * Gets a file in a specific change and revision.
    */
-  _getFileInRevision(
+  async _getFileInRevision(
     changeNum: NumericChangeId,
     path: string,
     patchNum: PatchSetNum,
     errFn?: ErrorCallback
-  ) {
-    return this._getChangeURLAndSend({
-      changeNum,
-      method: HttpMethod.GET,
-      patchNum,
-      endpoint: `/files/${encodeURIComponent(path)}/content`,
-      errFn,
-      headers: {Accept: 'application/json'},
-      anonymizedEndpoint: '/files/*/content',
-    });
+  ): Promise<Response> {
+    const url = await this._changeBaseURL(changeNum, patchNum);
+    return this._restApiHelperNew.fetch(
+      {
+        fetchOptions: getFetchOptions({
+          headers: {Accept: 'application/json'},
+        }),
+        url: `${url}/files/${encodeURIComponent(path)}/content`,
+        errFn,
+        anonymizedUrl: `${ANONYMIZED_REVISION_BASE_URL}/files/*/content`,
+      },
+      /*reportServerError=*/ true
+    );
   }
 
   /**
    * Gets a file in a change edit.
    */
-  _getFileInChangeEdit(changeNum: NumericChangeId, path: string) {
-    return this._getChangeURLAndSend({
-      changeNum,
-      method: HttpMethod.GET,
-      endpoint: '/edit/' + encodeURIComponent(path),
-      headers: {Accept: 'application/json'},
-      anonymizedEndpoint: '/edit/*',
-    });
+  async _getFileInChangeEdit(
+    changeNum: NumericChangeId,
+    path: string
+  ): Promise<Response> {
+    const url = await this._changeBaseURL(changeNum);
+    return this._restApiHelperNew.fetch(
+      {
+        fetchOptions: getFetchOptions({
+          headers: {Accept: 'application/json'},
+        }),
+        url: `${url}/edit/${encodeURIComponent(path)}`,
+        anonymizedUrl: `${ANONYMIZED_CHANGE_BASE_URL}/edit/*`,
+      },
+      /*reportServerError=*/ true
+    );
   }
 
-  rebaseChangeEdit(changeNum: NumericChangeId) {
-    return this._getChangeURLAndSend({
-      changeNum,
-      method: HttpMethod.POST,
-      endpoint: '/edit:rebase',
-      reportEndpointAsIs: true,
-    });
+  async rebaseChangeEdit(changeNum: NumericChangeId): Promise<Response> {
+    const url = await this._changeBaseURL(changeNum);
+    return this._restApiHelperNew.fetch(
+      {
+        fetchOptions: {method: HttpMethod.POST},
+        url: `${url}/edit:rebase`,
+        anonymizedUrl: `${ANONYMIZED_CHANGE_BASE_URL}/edit:rebase`,
+      },
+      /*reportServerError=*/ true
+    );
   }
 
-  deleteChangeEdit(changeNum: NumericChangeId) {
-    return this._getChangeURLAndSend({
-      changeNum,
-      method: HttpMethod.DELETE,
-      endpoint: '/edit',
-      reportEndpointAsIs: true,
-    });
+  async deleteChangeEdit(changeNum: NumericChangeId): Promise<Response> {
+    const url = await this._changeBaseURL(changeNum);
+    return this._restApiHelperNew.fetch(
+      {
+        fetchOptions: {method: HttpMethod.DELETE},
+        url: `${url}/edit`,
+        anonymizedUrl: `${ANONYMIZED_CHANGE_BASE_URL}/edit`,
+      },
+      /*reportServerError=*/ true
+    );
   }
 
-  restoreFileInChangeEdit(changeNum: NumericChangeId, restore_path: string) {
-    return this._getChangeURLAndSend({
-      changeNum,
-      method: HttpMethod.POST,
-      endpoint: '/edit',
-      body: {restore_path},
-      reportEndpointAsIs: true,
-    });
+  async restoreFileInChangeEdit(
+    changeNum: NumericChangeId,
+    restore_path: string
+  ): Promise<Response> {
+    const url = await this._changeBaseURL(changeNum);
+    return this._restApiHelperNew.fetch(
+      {
+        fetchOptions: getFetchOptions({
+          method: HttpMethod.POST,
+          body: {restore_path},
+        }),
+        url: `${url}/edit`,
+        anonymizedUrl: `${ANONYMIZED_CHANGE_BASE_URL}/edit`,
+      },
+      /*reportServerError=*/ true
+    );
   }
 
-  renameFileInChangeEdit(
+  async renameFileInChangeEdit(
     changeNum: NumericChangeId,
     old_path: string,
     new_path: string
-  ) {
-    return this._getChangeURLAndSend({
-      changeNum,
-      method: HttpMethod.POST,
-      endpoint: '/edit',
-      body: {old_path, new_path},
-      reportEndpointAsIs: true,
-    });
+  ): Promise<Response> {
+    const url = await this._changeBaseURL(changeNum);
+    return this._restApiHelperNew.fetch(
+      {
+        fetchOptions: getFetchOptions({
+          method: HttpMethod.POST,
+          body: {old_path, new_path},
+        }),
+        url: `${url}/edit`,
+        anonymizedUrl: `${ANONYMIZED_CHANGE_BASE_URL}/edit`,
+      },
+      /*reportServerError=*/ true
+    );
   }
 
-  deleteFileInChangeEdit(changeNum: NumericChangeId, path: string) {
-    return this._getChangeURLAndSend({
-      changeNum,
-      method: HttpMethod.DELETE,
-      endpoint: '/edit/' + encodeURIComponent(path),
-      anonymizedEndpoint: '/edit/*',
-    });
+  async deleteFileInChangeEdit(
+    changeNum: NumericChangeId,
+    path: string
+  ): Promise<Response> {
+    const url = await this._changeBaseURL(changeNum);
+    return this._restApiHelperNew.fetch(
+      {
+        fetchOptions: {method: HttpMethod.DELETE},
+        url: `${url}/edit/${encodeURIComponent(path)}`,
+        anonymizedUrl: `${ANONYMIZED_CHANGE_BASE_URL}/edit/*`,
+      },
+      /*reportServerError=*/ true
+    );
   }
 
-  saveChangeEdit(changeNum: NumericChangeId, path: string, contents: string) {
-    return this._getChangeURLAndSend({
-      changeNum,
-      method: HttpMethod.PUT,
-      endpoint: '/edit/' + encodeURIComponent(path),
-      body: contents,
-      contentType: 'text/plain',
-      anonymizedEndpoint: '/edit/*',
-    });
+  async saveChangeEdit(
+    changeNum: NumericChangeId,
+    path: string,
+    contents: string
+  ): Promise<Response> {
+    const url = await this._changeBaseURL(changeNum);
+    return this._restApiHelperNew.fetch(
+      {
+        fetchOptions: getFetchOptions({
+          method: HttpMethod.PUT,
+          body: contents,
+          contentType: 'text/plain',
+        }),
+        url: `${url}/edit/${encodeURIComponent(path)}`,
+        anonymizedUrl: `${ANONYMIZED_CHANGE_BASE_URL}/edit/*`,
+      },
+      /*reportServerError=*/ true
+    );
   }
 
-  saveFileUploadChangeEdit(
+  async saveFileUploadChangeEdit(
     changeNum: NumericChangeId,
     path: string,
     content: string
-  ) {
-    return this._getChangeURLAndSend({
-      changeNum,
-      method: HttpMethod.PUT,
-      endpoint: '/edit/' + encodeURIComponent(path),
-      body: {binary_content: content},
-      anonymizedEndpoint: '/edit/*',
-    });
+  ): Promise<Response> {
+    const url = await this._changeBaseURL(changeNum);
+    return this._restApiHelperNew.fetch(
+      {
+        fetchOptions: getFetchOptions({
+          method: HttpMethod.PUT,
+          body: {binary_content: content},
+        }),
+        url: `${url}/edit/${encodeURIComponent(path)}`,
+        anonymizedUrl: `${ANONYMIZED_CHANGE_BASE_URL}/edit/*`,
+      },
+      /*reportServerError=*/ true
+    );
   }
 
-  getFixPreview(
+  async getFixPreview(
     changeNum: NumericChangeId,
     patchNum: PatchSetNum,
     fixReplacementInfos: FixReplacementInfo[]
   ): Promise<FilePathToDiffInfoMap | undefined> {
-    return this._getChangeURLAndSend({
-      method: HttpMethod.POST,
-      changeNum,
-      patchNum,
-      endpoint: '/fix:preview',
-      reportEndpointAsId: true,
-      headers: {Accept: 'application/json'},
-      parseResponse: true,
-      body: {fix_replacement_infos: fixReplacementInfos},
+    const url = await this._changeBaseURL(changeNum, patchNum);
+    return this._restApiHelperNew.fetchJSON({
+      fetchOptions: getFetchOptions({
+        method: HttpMethod.POST,
+        body: {fix_replacement_infos: fixReplacementInfos},
+      }),
+      url: `${url}/fix:preview`,
+      anonymizedUrl: `${ANONYMIZED_REVISION_BASE_URL}/fix:preview`,
     }) as Promise<FilePathToDiffInfoMap | undefined>;
   }
 
@@ -2291,84 +2342,107 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     }) as Promise<FilePathToDiffInfoMap | undefined>;
   }
 
-  applyFixSuggestion(
+  async applyFixSuggestion(
     changeNum: NumericChangeId,
     patchNum: PatchSetNum,
     fixReplacementInfos: FixReplacementInfo[]
   ): Promise<Response> {
-    return this._getChangeURLAndSend({
-      method: HttpMethod.POST,
-      changeNum,
-      patchNum,
-      endpoint: '/fix:apply',
-      reportEndpointAsId: true,
-      headers: {Accept: 'application/json'},
-      body: {fix_replacement_infos: fixReplacementInfos},
-    });
+    const url = await this._changeBaseURL(changeNum, patchNum);
+    return this._restApiHelperNew.fetch(
+      {
+        fetchOptions: getFetchOptions({
+          method: HttpMethod.POST,
+          headers: {Accept: 'application/json'},
+          body: {fix_replacement_infos: fixReplacementInfos},
+        }),
+        url: `${url}/fix:apply`,
+        anonymizedUrl: `${ANONYMIZED_REVISION_BASE_URL}/fix:apply`,
+      },
+      /*reportServerError=*/ true
+    );
   }
 
-  applyRobotFixSuggestion(
+  async applyRobotFixSuggestion(
     changeNum: NumericChangeId,
     patchNum: PatchSetNum,
     fixId: string
   ): Promise<Response> {
-    return this._getChangeURLAndSend({
-      method: HttpMethod.POST,
-      changeNum,
-      patchNum,
-      endpoint: `/fixes/${encodeURIComponent(fixId)}/apply`,
-      reportEndpointAsId: true,
-    });
+    const url = await this._changeBaseURL(changeNum, patchNum);
+    const endpoint = `/fixes/${encodeURIComponent(fixId)}/apply`;
+    return this._restApiHelperNew.fetch(
+      {
+        fetchOptions: {method: HttpMethod.POST},
+        url: `${url}${endpoint}`,
+        anonymizedUrl: `${ANONYMIZED_REVISION_BASE_URL}${endpoint}`,
+      },
+      /*reportServerError=*/ true
+    );
   }
 
-  publishChangeEdit(changeNum: NumericChangeId) {
-    return this._getChangeURLAndSend({
-      changeNum,
-      method: HttpMethod.POST,
-      endpoint: '/edit:publish',
-      reportEndpointAsIs: true,
-    });
+  async publishChangeEdit(changeNum: NumericChangeId) {
+    const url = await this._changeBaseURL(changeNum);
+    return this._restApiHelperNew.fetch(
+      {
+        fetchOptions: {method: HttpMethod.POST},
+        url: `${url}/edit:publish`,
+        anonymizedUrl: `${ANONYMIZED_CHANGE_BASE_URL}/edit:publish`,
+      },
+      /*reportServerError=*/ true
+    );
   }
 
-  putChangeCommitMessage(
+  async putChangeCommitMessage(
     changeNum: NumericChangeId,
     message: string,
     committerEmail: string | null
   ) {
-    return this._getChangeURLAndSend({
-      changeNum,
-      method: HttpMethod.PUT,
-      endpoint: '/message',
-      body: {message, committer_email: committerEmail},
-      reportEndpointAsIs: true,
-    });
+    const url = await this._changeBaseURL(changeNum);
+    return this._restApiHelperNew.fetch(
+      {
+        fetchOptions: getFetchOptions({
+          method: HttpMethod.PUT,
+          body: {message, committer_email: committerEmail},
+        }),
+        url: `${url}/message`,
+        anonymizedUrl: `${ANONYMIZED_CHANGE_BASE_URL}/message`,
+      },
+      /*reportServerError=*/ true
+    );
   }
 
-  updateIdentityInChangeEdit(
+  async updateIdentityInChangeEdit(
     changeNum: NumericChangeId,
     name: string,
     email: string,
     type: string
   ) {
-    return this._getChangeURLAndSend({
-      changeNum,
-      method: HttpMethod.PUT,
-      endpoint: '/edit:identity',
-      body: {name, email, type},
-      reportEndpointAsIs: true,
-    });
+    const url = await this._changeBaseURL(changeNum);
+    return this._restApiHelperNew.fetch(
+      {
+        fetchOptions: getFetchOptions({
+          method: HttpMethod.PUT,
+          body: {name, email, type},
+        }),
+        url: `${url}/edit:identity`,
+        anonymizedUrl: `${ANONYMIZED_CHANGE_BASE_URL}/edit:identity`,
+      },
+      /*reportServerError=*/ true
+    );
   }
 
-  deleteChangeCommitMessage(
+  async deleteChangeCommitMessage(
     changeNum: NumericChangeId,
     messageId: ChangeMessageId
   ) {
-    return this._getChangeURLAndSend({
-      changeNum,
-      method: HttpMethod.DELETE,
-      endpoint: `/messages/${messageId}`,
-      reportEndpointAsIs: true,
-    });
+    const url = await this._changeBaseURL(changeNum);
+    return this._restApiHelperNew.fetch(
+      {
+        fetchOptions: {method: HttpMethod.DELETE},
+        url: `${url}/messages/${messageId}`,
+        anonymizedUrl: `${ANONYMIZED_CHANGE_BASE_URL}/messages/${messageId}`,
+      },
+      /*reportServerError=*/ true
+    );
   }
 
   saveChangeStarred(
@@ -2799,25 +2873,27 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       endpoint += `/${draft.id}`;
       anonymizedEndpoint += '/*';
     }
-    let body;
-    if (method === HttpMethod.PUT) {
-      body = draft;
-    }
 
     if (!this._pendingRequests[Requests.SEND_DIFF_DRAFT]) {
       this._pendingRequests[Requests.SEND_DIFF_DRAFT] = [];
     }
 
-    const req = {
-      changeNum,
-      method,
-      patchNum,
-      endpoint,
-      body,
-      anonymizedEndpoint,
-    };
+    const fetchOptions =
+      method === HttpMethod.PUT
+        ? {method}
+        : getFetchOptions({method, body: draft});
 
-    const promise = this._getChangeURLAndSend(req);
+    const promise = this._changeBaseURL(changeNum, patchNum).then(url => {
+      return this._restApiHelperNew.fetch(
+        {
+          fetchOptions,
+          url: `${url}${endpoint}`,
+          anonymizedUrl: `${ANONYMIZED_REVISION_BASE_URL}${endpoint}`,
+        },
+        /*reportServerError=*/ true
+      );
+    });
+
     this._pendingRequests[Requests.SEND_DIFF_DRAFT].push(promise);
 
     if (isCreate) {
@@ -2943,62 +3019,74 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     });
   }
 
-  addToAttentionSet(
+  async addToAttentionSet(
     changeNum: NumericChangeId,
     user: AccountId | undefined | null,
     reason: string
-  ) {
-    return this._getChangeURLAndSend({
-      changeNum,
-      method: HttpMethod.POST,
-      endpoint: '/attention',
-      body: {user, reason},
-      reportUrlAsIs: true,
-    });
+  ): Promise<Response> {
+    const url = await this._changeBaseURL(changeNum);
+    return this._restApiHelperNew.fetch(
+      {
+        fetchOptions: getFetchOptions({
+          method: HttpMethod.POST,
+          body: {user, reason},
+        }),
+        url: `${url}/attention`,
+        anonymizedUrl: `${ANONYMIZED_CHANGE_BASE_URL}/attention`,
+      },
+      /*reportServerError=*/ true
+    );
   }
 
-  removeFromAttentionSet(
+  async removeFromAttentionSet(
     changeNum: NumericChangeId,
     user: AccountId,
     reason: string
-  ) {
-    return this._getChangeURLAndSend({
-      changeNum,
-      method: HttpMethod.DELETE,
-      endpoint: `/attention/${user}`,
-      anonymizedEndpoint: '/attention/*',
-      body: {reason},
-    });
+  ): Promise<Response> {
+    const url = await this._changeBaseURL(changeNum);
+    return this._restApiHelperNew.fetch(
+      {
+        fetchOptions: getFetchOptions({
+          method: HttpMethod.DELETE,
+          body: {reason},
+        }),
+        url: `${url}/attention/${user}`,
+        anonymizedUrl: `${ANONYMIZED_CHANGE_BASE_URL}/attention/*`,
+      },
+      /*reportServerError=*/ true
+    );
   }
 
-  setChangeTopic(
+  async setChangeTopic(
     changeNum: NumericChangeId,
     topic?: string,
     errFn?: ErrorCallback
   ): Promise<string | undefined> {
-    return this._getChangeURLAndSend({
-      changeNum,
-      method: HttpMethod.PUT,
-      endpoint: '/topic',
-      body: {topic},
-      parseResponse: true,
-      reportUrlAsIs: true,
+    const url = await this._changeBaseURL(changeNum);
+    return this._restApiHelperNew.fetchJSON({
+      fetchOptions: getFetchOptions({
+        method: HttpMethod.PUT,
+        body: {topic},
+      }),
+      url: `${url}/topic`,
+      anonymizedUrl: `${ANONYMIZED_CHANGE_BASE_URL}/topic`,
       errFn,
     }) as unknown as Promise<string | undefined>;
   }
 
-  setChangeHashtag(
+  async setChangeHashtag(
     changeNum: NumericChangeId,
     hashtag: HashtagsInput,
     errFn?: ErrorCallback
   ): Promise<Hashtag[] | undefined> {
-    return this._getChangeURLAndSend({
-      changeNum,
-      method: HttpMethod.POST,
-      endpoint: '/hashtags',
-      body: hashtag,
-      parseResponse: true,
-      reportUrlAsIs: true,
+    const url = await this._changeBaseURL(changeNum);
+    return this._restApiHelperNew.fetchJSON({
+      fetchOptions: getFetchOptions({
+        method: HttpMethod.POST,
+        body: hashtag,
+      }),
+      url: `${url}/hashtags`,
+      anonymizedUrl: `${ANONYMIZED_CHANGE_BASE_URL}/hashtags`,
       errFn,
     }) as unknown as Promise<Hashtag[] | undefined>;
   }
@@ -3100,27 +3188,28 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     });
   }
 
-  deleteVote(changeNum: NumericChangeId, account: AccountId, label: string) {
-    return this._getChangeURLAndSend({
-      changeNum,
-      method: HttpMethod.DELETE,
-      endpoint: `/reviewers/${account}/votes/${encodeURIComponent(label)}`,
-      anonymizedEndpoint: '/reviewers/*/votes/*',
-    });
+  async deleteVote(changeNum: NumericChangeId, account: AccountId, label: string): Promise<Response> {
+    const url = await this._changeBaseURL(changeNum);
+    return this._restApiHelperNew.fetch({
+      fetchOptions: {method: HttpMethod.DELETE},
+      url: `${url}/reviewers/${account}/votes/${encodeURIComponent(label)}`,
+      anonymizedUrl: `${ANONYMIZED_CHANGE_BASE_URL}/reviewers/*/votes/*`,
+    })
   }
 
-  setDescription(
+  async setDescription(
     changeNum: NumericChangeId,
     patchNum: PatchSetNum,
     desc: string
-  ) {
-    return this._getChangeURLAndSend({
-      changeNum,
-      method: HttpMethod.PUT,
-      patchNum,
-      endpoint: '/description',
-      body: {description: desc},
-      reportUrlAsIs: true,
+  ): Promise<Response> {
+    const url = await this._changeBaseURL(changeNum, patchNum);
+    return this._restApiHelperNew.fetch({
+      fetchOptions: getFetchOptions({
+        method: HttpMethod.PUT,
+        body: {description: desc},
+      }),
+      url: `${url}/description`,
+      anonymizedUrl: `${ANONYMIZED_REVISION_BASE_URL}/description`,
     });
   }
 
@@ -3162,24 +3251,23 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     );
   }
 
-  startWorkInProgress(
+  async startWorkInProgress(
     changeNum: NumericChangeId,
     message?: string
   ): Promise<string | undefined> {
-    const body = message ? {message} : {};
-    const req: SendRawChangeRequest = {
-      changeNum,
-      method: HttpMethod.POST,
-      endpoint: '/wip',
-      body,
-      reportUrlAsIs: true,
-    };
-    return this._getChangeURLAndSend(req).then(response => {
-      if (response?.status === 204) {
-        return 'Change marked as Work In Progress.';
-      }
-      return undefined;
+    const url = await this._changeBaseURL(changeNum);
+    const response = await this._restApiHelperNew.fetch({
+      fetchOptions: getFetchOptions({
+        method: HttpMethod.POST,
+        body: message ? {message} : {}
+      }),
+      url: `${url}/wip`,
+      anonymizedUrl: `${ANONYMIZED_CHANGE_BASE_URL}/wip`,
     });
+    if (response.status === 204) {
+      return 'Change marked as Work In Progress.';
+    }
+    return undefined;
   }
 
   deleteComment(
@@ -3347,39 +3435,27 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     );
   }
 
-  executeChangeAction(
-    changeNum: NumericChangeId,
-    method: HttpMethod | undefined,
-    endpoint: string,
-    patchNum?: PatchSetNum,
-    payload?: RequestPayload
-  ): Promise<Response>;
-
-  executeChangeAction(
-    changeNum: NumericChangeId,
-    method: HttpMethod | undefined,
-    endpoint: string,
-    patchNum: PatchSetNum | undefined,
-    payload: RequestPayload | undefined,
-    errFn: ErrorCallback
-  ): Promise<Response | undefined>;
-
-  executeChangeAction(
+  async executeChangeAction(
     changeNum: NumericChangeId,
     method: HttpMethod | undefined,
     endpoint: string,
     patchNum?: PatchSetNum,
     payload?: RequestPayload,
     errFn?: ErrorCallback
-  ) {
-    return this._getChangeURLAndSend({
-      changeNum,
-      method,
-      patchNum,
-      endpoint,
-      body: payload,
-      errFn,
-    });
+  ): Promise<Response> {
+    const url = await this._changeBaseURL(changeNum, patchNum);
+    // No anonymizedUrl specified so the request will not be logged.
+    return this._restApiHelperNew.fetch(
+      {
+        fetchOptions: getFetchOptions({
+          method,
+          body: payload,
+        }),
+        url: url + endpoint,
+        errFn,
+      },
+      /*reportServerError=*/ true
+    );
   }
 
   getBlame(

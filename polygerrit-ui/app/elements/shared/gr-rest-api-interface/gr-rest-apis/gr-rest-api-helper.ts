@@ -31,6 +31,7 @@ export interface ResponsePayload {
 export async function readJSONResponsePayload(
   response: Response
 ): Promise<ResponsePayload> {
+  debugger;
   const text = await response.text();
   let result: ParsedJSON;
   try {

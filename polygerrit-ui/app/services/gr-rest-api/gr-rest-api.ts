@@ -192,7 +192,7 @@ export interface RestApiService extends Finalizable {
     patchNum?: PatchSetNum,
     payload?: RequestPayload,
     errFn?: ErrorCallback
-  ): Promise<Response | undefined>;
+  ): Promise<Response>;
   getRepoBranches(
     filter: string,
     repo: RepoName,

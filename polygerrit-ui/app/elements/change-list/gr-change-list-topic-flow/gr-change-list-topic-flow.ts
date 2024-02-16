@@ -364,6 +364,11 @@ export class GrChangeListTopicFlow extends LitElement {
     this.loadingText = `Removing topic${
       this.selectedExistingTopics.size > 1 ? 's' : ''
     }...`;
+    // TODO(kamilm): trackPromises expects the promise to reject on server error
+    // This is not actually what happens. non-ok status results in
+    // fireServerArror, but promise will still successfully resolve to `null`
+    //
+    // Change this in a separate change
     this.trackPromises(
       this.selectedChanges
         .filter(

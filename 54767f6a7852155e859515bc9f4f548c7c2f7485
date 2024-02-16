@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ec2ac27_c47c16e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-02-16T15:52:48Z",
+      "side": 1,
+      "message": "Needs Release-Notes footer",
+      "revId": "54767f6a7852155e859515bc9f4f548c7c2f7485",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

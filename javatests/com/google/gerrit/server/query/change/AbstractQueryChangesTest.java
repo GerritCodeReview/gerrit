@@ -479,7 +479,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("is:open", change2, change1);
     assertQuery("is:private");
 
-    gApi.changes().id(change1.getChangeId()).setPrivate(true, null);
+    getChangeApi(change1).setPrivate(true, null);
 
     // Change1 is private, but should be still visible to its owner.
     assertQuery("is:open", change1, change2);
@@ -499,11 +499,11 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("is:open", change1);
     assertQuery("is:wip");
 
-    gApi.changes().id(change1.getChangeId()).setWorkInProgress();
+    getChangeApi(change1).setWorkInProgress();
 
     assertQuery("is:wip", change1);
 
-    gApi.changes().id(change1.getChangeId()).setReadyForReview();
+    getChangeApi(change1).setReadyForReview();
 
     assertQuery("is:wip");
   }
@@ -517,11 +517,11 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("is:wip", change1);
     assertQuery("reviewer:" + user1);
 
-    gApi.changes().id(change1.getChangeId()).setReadyForReview();
+    getChangeApi(change1).setReadyForReview();
     assertQuery("is:wip");
     assertQuery("reviewer:" + user1);
 
-    gApi.changes().id(change1.getChangeId()).setWorkInProgress();
+    getChangeApi(change1).setWorkInProgress();
     assertQuery("is:wip", change1);
     assertQuery("reviewer:" + user1);
   }
@@ -533,10 +533,10 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     assertQuery("is:started");
 
-    gApi.changes().id(change1.getChangeId()).setReadyForReview();
+    getChangeApi(change1).setReadyForReview();
     assertQuery("is:started", change1);
 
-    gApi.changes().id(change1.getChangeId()).setWorkInProgress();
+    getChangeApi(change1).setWorkInProgress();
     assertQuery("is:started", change1);
   }
 
@@ -580,7 +580,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
             .reviewer(user2.toString(), ReviewerState.CC, false)
             .reviewer(email1)
             .reviewer(email2, ReviewerState.CC, false);
-    gApi.changes().id(change1.getId().get()).current().review(in);
+    getChangeApi(change1).current().review(in);
 
     List<ChangeInfo> changeInfos =
         assertQuery(newQuery("is:wip").withOption(DETAILED_LABELS), change1);
@@ -597,12 +597,12 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     // Pending reviewers may also be presented in the REMOVED state. Toggle the
     // change to ready and then back to WIP and remove reviewers to produce.
     assertThat(pendingReviewers.get(ReviewerState.REMOVED)).isNull();
-    gApi.changes().id(change1.getId().get()).setReadyForReview();
-    gApi.changes().id(change1.getId().get()).setWorkInProgress();
-    gApi.changes().id(change1.getId().get()).reviewer(user1.toString()).remove();
-    gApi.changes().id(change1.getId().get()).reviewer(user2.toString()).remove();
-    gApi.changes().id(change1.getId().get()).reviewer(email1).remove();
-    gApi.changes().id(change1.getId().get()).reviewer(email2).remove();
+    getChangeApi(change1).setReadyForReview();
+    getChangeApi(change1).setWorkInProgress();
+    getChangeApi(change1).reviewer(user1.toString()).remove();
+    getChangeApi(change1).reviewer(user2.toString()).remove();
+    getChangeApi(change1).reviewer(email1).remove();
+    getChangeApi(change1).reviewer(email2).remove();
 
     changeInfos = assertQuery(newQuery("is:wip").withOption(DETAILED_LABELS), change1);
     assertThat(changeInfos).isNotEmpty();
@@ -794,8 +794,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
         accountManager.authenticate(authRequestFactory.createForUser("anotheruser")).getAccountId();
     Change change2 = insert("repo", newChange(repo), user2);
     Change change3 = insert("repo", newChange(repo), user2);
-    gApi.changes().id(change3.getId().get()).current().review(ReviewInput.approve());
-    gApi.changes().id(change3.getId().get()).current().submit();
+    getChangeApi(change3).current().review(ReviewInput.approve());
+    getChangeApi(change3).current().submit();
 
     assertQuery("ownerin:Administrators", change1);
     assertQuery("ownerin:\"Registered Users\"", change3, change2, change1);
@@ -1340,30 +1340,27 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     ChangeInserter ins6 = newChange(repo);
 
     Change reviewMinus2Change = insert("repo", ins);
-    gApi.changes().id(reviewMinus2Change.getId().get()).current().review(ReviewInput.reject());
+    getChangeApi(reviewMinus2Change).current().review(ReviewInput.reject());
 
     Change reviewMinus1Change = insert("repo", ins2);
-    gApi.changes().id(reviewMinus1Change.getId().get()).current().review(ReviewInput.dislike());
+    getChangeApi(reviewMinus1Change).current().review(ReviewInput.dislike());
 
     Change noLabelChange = insert("repo", ins3);
 
     Change reviewPlus1Change = insert("repo", ins4);
-    gApi.changes().id(reviewPlus1Change.getId().get()).current().review(ReviewInput.recommend());
+    getChangeApi(reviewPlus1Change).current().review(ReviewInput.recommend());
 
     Change reviewTwoPlus1Change = insert("repo", ins5);
-    gApi.changes().id(reviewTwoPlus1Change.getId().get()).current().review(ReviewInput.recommend());
+    getChangeApi(reviewTwoPlus1Change).current().review(ReviewInput.recommend());
     requestContext.setContext(newRequestContext(createAccount("user1")));
-    gApi.changes().id(reviewTwoPlus1Change.getId().get()).current().review(ReviewInput.recommend());
+    getChangeApi(reviewTwoPlus1Change).current().review(ReviewInput.recommend());
     requestContext.setContext(newRequestContext(userId));
 
     Change reviewPlus2Change = insert("repo", ins6);
-    gApi.changes().id(reviewPlus2Change.getId().get()).current().review(ReviewInput.approve());
+    getChangeApi(reviewPlus2Change).current().review(ReviewInput.approve());
 
     Map<String, Short> m =
-        gApi.changes()
-            .id(reviewPlus1Change.getId().get())
-            .reviewer(user.getAccountId().toString())
-            .votes();
+        getChangeApi(reviewPlus1Change).reviewer(user.getAccountId().toString()).votes();
     assertThat(m).hasSize(1);
     assertThat(m).containsEntry("Code-Review", Short.valueOf((short) 1));
 
@@ -1533,25 +1530,25 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     // CR+1
     Change reviewCRplus1 = insert(project.get(), ins);
-    gApi.changes().id(reviewCRplus1.getId().get()).current().review(ReviewInput.recommend());
+    getChangeApi(reviewCRplus1).current().review(ReviewInput.recommend());
 
     // CR+2
     Change reviewCRplus2 = insert(project.get(), ins2);
-    gApi.changes().id(reviewCRplus2.getId().get()).current().review(ReviewInput.approve());
+    getChangeApi(reviewCRplus2).current().review(ReviewInput.approve());
 
     // CR+1 VR+1
     Change reviewCRplus1VRplus1 = insert(project.get(), ins3);
-    gApi.changes().id(reviewCRplus1VRplus1.getId().get()).current().review(ReviewInput.recommend());
-    gApi.changes().id(reviewCRplus1VRplus1.getId().get()).current().review(reviewVerified);
+    getChangeApi(reviewCRplus1VRplus1).current().review(ReviewInput.recommend());
+    getChangeApi(reviewCRplus1VRplus1).current().review(reviewVerified);
 
     // CR+2 VR+1
     Change reviewCRplus2VRplus1 = insert(project.get(), ins4);
-    gApi.changes().id(reviewCRplus2VRplus1.getId().get()).current().review(ReviewInput.approve());
-    gApi.changes().id(reviewCRplus2VRplus1.getId().get()).current().review(reviewVerified);
+    getChangeApi(reviewCRplus2VRplus1).current().review(ReviewInput.approve());
+    getChangeApi(reviewCRplus2VRplus1).current().review(reviewVerified);
 
     // VR+1
     Change reviewVRplus1 = insert(project.get(), ins5);
-    gApi.changes().id(reviewVRplus1.getId().get()).current().review(reviewVerified);
+    getChangeApi(reviewVRplus1).current().review(reviewVerified);
 
     assertQuery("label:Code-Review=+1", reviewCRplus1VRplus1, reviewCRplus1);
     assertQuery(
@@ -1577,7 +1574,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     // post a review with user1
     requestContext.setContext(newRequestContext(user1));
-    gApi.changes().id(reviewPlus1Change.getId().get()).current().review(ReviewInput.recommend());
+    getChangeApi(reviewPlus1Change).current().review(ReviewInput.recommend());
 
     assertQuery("label:Code-Review=+1,user=" + user1, reviewPlus1Change);
     assertQuery("label:Code-Review=+1,owner");
@@ -1593,12 +1590,12 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Change reviewPlus1Change = insert("repo", ins);
 
     // add a +1 vote with "user". Query doesn't match since voter is the uploader.
-    gApi.changes().id(reviewPlus1Change.getId().get()).current().review(ReviewInput.recommend());
+    getChangeApi(reviewPlus1Change).current().review(ReviewInput.recommend());
     assertQuery("label:Code-Review=+1,user=non_uploader");
 
     // add a +1 vote with "user1". Query will match since voter is a non-uploader.
     requestContext.setContext(newRequestContext(user1));
-    gApi.changes().id(reviewPlus1Change.getId().get()).current().review(ReviewInput.recommend());
+    getChangeApi(reviewPlus1Change).current().review(ReviewInput.recommend());
     assertQuery("label:Code-Review=+1,user=non_uploader", reviewPlus1Change);
     assertQuery("label:Code-Review=+1,non_uploader", reviewPlus1Change);
   }
@@ -1643,10 +1640,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     // post a review with user1
     requestContext.setContext(newRequestContext(user1));
-    gApi.changes()
-        .id(change1.getId().get())
-        .current()
-        .review(new ReviewInput().label("Code-Review", 1));
+    getChangeApi(change1).current().review(new ReviewInput().label("Code-Review", 1));
 
     // verify that query with user1 will return results.
     requestContext.setContext(newRequestContext(userId));
@@ -1691,15 +1685,9 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     // post a review with user1 and other_user
     requestContext.setContext(newRequestContext(user1));
-    gApi.changes()
-        .id(change1.getId().get())
-        .current()
-        .review(new ReviewInput().label("Code-Review", 1));
+    getChangeApi(change1).current().review(new ReviewInput().label("Code-Review", 1));
     requestContext.setContext(newRequestContext(userId));
-    gApi.changes()
-        .id(change2.getId().get())
-        .current()
-        .review(new ReviewInput().label("Code-Review", 1));
+    getChangeApi(change2).current().review(new ReviewInput().label("Code-Review", 1));
 
     assertQuery("label:Code-Review=+1," + external_group1.get(), change1);
     assertQuery("label:Code-Review=+1,group=" + external_group1.get(), change1);
@@ -1814,10 +1802,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     }
 
     for (int i : ImmutableList.of(2, 0, 1, 4, 3)) {
-      gApi.changes()
-          .id(changes.get(i).getId().get())
-          .current()
-          .review(new ReviewInput().message("modifying " + i));
+      getChangeApi(changes.get(i)).current().review(new ReviewInput().message("modifying " + i));
     }
 
     assertQuery(
@@ -1840,7 +1825,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertThat(lastUpdatedMs(change1)).isLessThan(lastUpdatedMs(change2));
     assertQuery("status:new", change2, change1);
 
-    gApi.changes().id(change1.getId().get()).topic("new-topic");
+    getChangeApi(change1).topic("new-topic");
     change1 = notesFactory.create(change1.getProject(), change1.getId()).getChange();
 
     assertThat(lastUpdatedMs(change1)).isGreaterThan(lastUpdatedMs(change2));
@@ -2154,15 +2139,13 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     commentInput.line = 1;
     commentInput.message = "inline";
     input.comments = ImmutableMap.of(Patch.COMMIT_MSG, ImmutableList.of(commentInput));
-    gApi.changes().id(change.getId().get()).current().review(input);
+    getChangeApi(change).current().review(input);
 
-    Map<String, List<CommentInfo>> comments =
-        gApi.changes().id(change.getId().get()).current().comments();
+    Map<String, List<CommentInfo>> comments = getChangeApi(change).current().comments();
     assertThat(comments).hasSize(1);
     CommentInfo comment = Iterables.getOnlyElement(comments.get(Patch.COMMIT_MSG));
     assertThat(comment.message).isEqualTo(commentInput.message);
-    ChangeMessageInfo lastMsg =
-        Iterables.getLast(gApi.changes().id(change.getId().get()).get().messages, null);
+    ChangeMessageInfo lastMsg = Iterables.getLast(getChangeApi(change).get().messages, null);
     assertThat(lastMsg.message).isEqualTo("Patch Set 1:\n\n(1 comment)\n\n" + input.message);
 
     assertQuery("comment:foo");
@@ -2534,15 +2517,15 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Change change1 = insert("repo", newChange(repo));
     Change change2 = insert("repo", newChange(repo));
 
-    addHashtags(change1.getId(), "foo", "aaa-bbb-ccc");
-    addHashtags(change2.getId(), "foo", "bar", "a tag", "ACamelCaseTag");
+    addHashtags(change1, "foo", "aaa-bbb-ccc");
+    addHashtags(change2, "foo", "bar", "a tag", "ACamelCaseTag");
     return ImmutableList.of(change1, change2);
   }
 
-  private void addHashtags(Change.Id changeId, String... hashtags) throws Exception {
+  private void addHashtags(Change change, String... hashtags) throws Exception {
     HashtagsInput in = new HashtagsInput();
     in.add = ImmutableSet.copyOf(hashtags);
-    gApi.changes().id(changeId.get()).setHashtags(in);
+    getChangeApi(change).setHashtags(in);
   }
 
   @Test
@@ -2583,10 +2566,10 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Change change1 = insert("repo", newChange(repo));
     Change change2 = insert("repo", newChange(repo));
     Change change3 = insert("repo", newChange(repo));
-    addHashtags(change1.getId(), "feature1");
-    addHashtags(change1.getId(), "trending");
-    addHashtags(change2.getId(), "Cherrypick-feature1");
-    addHashtags(change3.getId(), "feature1-fixup");
+    addHashtags(change1, "feature1");
+    addHashtags(change1, "trending");
+    addHashtags(change2, "Cherrypick-feature1");
+    addHashtags(change3, "feature1-fixup");
 
     assertQuery("inhashtag:^feature1.*", change3, change1);
     assertQuery("inhashtag:{^.*feature1$}", change2, change1);
@@ -2610,7 +2593,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     ReviewInput ri4 = new ReviewInput();
     ri4.message = "toplevel";
     ri4.labels = ImmutableMap.of("Code-Review", (short) 1);
-    gApi.changes().id(change4.getId().get()).current().review(ri4);
+    getChangeApi(change4).current().review(ri4);
 
     ChangeInserter ins5 = newChangeWithTopic(repo, "feature5");
     Change change5 = insert("repo", ins5);
@@ -2746,7 +2729,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Change change1 = insert("repo", newChange(repo));
     Change change2 = insert("repo", newChange(repo));
 
-    gApi.changes().id(change2.getChangeId()).setPrivate(true, "private");
+    getChangeApi(change2).setPrivate(true, "private");
 
     String q = "project:repo";
     assertQuery(q + " visibleto:self", change2, change1);
@@ -2772,11 +2755,11 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     comment.line = 1;
     comment.message = "inline";
     input.comments = ImmutableMap.of(Patch.COMMIT_MSG, ImmutableList.of(comment));
-    gApi.changes().id(change1.getId().get()).current().review(input);
+    getChangeApi(change1).current().review(input);
 
     input = new ReviewInput();
     input.message = "toplevel";
-    gApi.changes().id(change2.getId().get()).current().review(input);
+    getChangeApi(change2).current().review(input);
 
     assertQuery("commentby:" + userId.get(), change2, change1);
     assertQuery("commentby:" + user2);
@@ -2794,7 +2777,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
       // FakeSubmitRule returns true if change has one or more hashtags.
       HashtagsInput hashtag = new HashtagsInput();
       hashtag.add = ImmutableSet.of("Tag1");
-      gApi.changes().id(change.getId().get()).setHashtags(hashtag);
+      getChangeApi(change).setHashtags(hashtag);
 
       assertQuery("rule:FakeSubmitRule", change);
       assertQuery("rule:FakeSubmitRule=OK", change);
@@ -2824,13 +2807,13 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     in.line = 1;
     in.message = "nit: trailing whitespace";
     in.path = Patch.COMMIT_MSG;
-    gApi.changes().id(change1.getId().get()).current().createDraft(in);
+    getChangeApi(change1).current().createDraft(in);
 
     in = new DraftInput();
     in.line = 2;
     in.message = "nit: point in the end of the statement";
     in.path = Patch.COMMIT_MSG;
-    gApi.changes().id(change2.getId().get()).current().createDraft(in);
+    getChangeApi(change2).current().createDraft(in);
 
     Account.Id user2 =
         accountManager.authenticate(authRequestFactory.createForUser("anotheruser")).getAccountId();
@@ -2856,7 +2839,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     in.line = 1;
     in.message = "nit: trailing whitespace";
     in.path = Patch.COMMIT_MSG;
-    gApi.changes().id(id.get()).current().createDraft(in);
+    getChangeApi(change).current().createDraft(in);
 
     assertQuery("has:draft", change);
     assertQuery("commentby:" + userId);
@@ -2868,7 +2851,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
       ReviewInput rin = ReviewInput.dislike();
       rin.drafts = DraftHandling.PUBLISH_ALL_REVISIONS;
-      gApi.changes().id(id.get()).current().review(rin);
+      getChangeApi(change).current().review(rin);
 
       assertQuery("has:draft");
       assertQuery("commentby:" + userId, change);
@@ -2898,10 +2881,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
       in.line = 1;
       in.message = "nit: trailing whitespace";
       in.path = Patch.COMMIT_MSG;
-      gApi.changes()
-          .id(changesWithDrafts[changesWithDrafts.length - 1 - i].getId().get())
-          .current()
-          .createDraft(in);
+      getChangeApi(changesWithDrafts[changesWithDrafts.length - 1 - i]).current().createDraft(in);
     }
     assertQuery("has:draft", changesWithDrafts);
 
@@ -3024,7 +3004,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     comment.line = 1;
     comment.message = "inline";
     input.comments = ImmutableMap.of(Patch.COMMIT_MSG, ImmutableList.of(comment));
-    gApi.changes().id(change2.getId().get()).current().review(input);
+    getChangeApi(change2).current().review(input);
 
     assertQuery("from:" + userId.get(), change2, change1);
     assertQuery("from:" + user2, change2);
@@ -3071,15 +3051,15 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("conflicts:" + change2.getId().get(), change1);
     assertQuery("is:mergeable", change2, change1);
 
-    gApi.changes().id(change1.getChangeId()).current().review(ReviewInput.approve());
-    gApi.changes().id(change1.getChangeId()).current().submit();
+    getChangeApi(change1).current().review(ReviewInput.approve());
+    getChangeApi(change1).current().submit();
 
     // If a change gets submitted, the remaining open changes get reindexed asynchronously to update
     // their mergeability information. If the further assertions in this test are done before the
     // asynchronous reindex completed they fail because the mergeability information in the index
     // was not updated yet. To avoid this flakiness indexing mergeable is switched off for the
     // tests and we index change2 synchronously here.
-    gApi.changes().id(change2.getChangeId()).index();
+    getChangeApi(change2).index();
 
     assertQuery("status:open conflicts:" + change2.getId().get());
     assertQuery("status:open is:mergeable");
@@ -3131,22 +3111,19 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Change change2 = insert("repo", newChange(repo));
     Change change3 = insert("repo", newChange(repo));
 
-    gApi.changes().id(change1.getId().get()).current().review(new ReviewInput().message("comment"));
+    getChangeApi(change1).current().review(new ReviewInput().message("comment"));
 
     Account.Id user2 =
         accountManager.authenticate(authRequestFactory.createForUser("anotheruser")).getAccountId();
     requestContext.setContext(newRequestContext(user2));
 
-    gApi.changes().id(change2.getId().get()).current().review(new ReviewInput().message("comment"));
+    getChangeApi(change2).current().review(new ReviewInput().message("comment"));
 
     PatchSet.Id ps3_1 = change3.currentPatchSetId();
     change3 = newPatchSet("repo", change3, user, /* message= */ Optional.empty());
     assertThat(change3.currentPatchSetId()).isNotEqualTo(ps3_1);
     // Response to previous patch set still counts as reviewing.
-    gApi.changes()
-        .id(change3.getId().get())
-        .revision(ps3_1.get())
-        .review(new ReviewInput().message("comment"));
+    getChangeApi(change3).revision(ps3_1.get()).review(new ReviewInput().message("comment"));
 
     List<ChangeInfo> actual;
     actual = assertQuery(newQuery("is:reviewed").withOption(REVIEWED), change3, change2);
@@ -3176,16 +3153,16 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     ReviewerInput rin = new ReviewerInput();
     rin.reviewer = user1.toString();
     rin.state = ReviewerState.REVIEWER;
-    gApi.changes().id(change1.getId().get()).addReviewer(rin);
+    getChangeApi(change1).addReviewer(rin);
 
     rin = new ReviewerInput();
     rin.reviewer = user1.toString();
     rin.state = ReviewerState.CC;
-    gApi.changes().id(change2.getId().get()).addReviewer(rin);
+    getChangeApi(change2).addReviewer(rin);
 
     assertQuery("is:reviewer");
     assertQuery("reviewer:self");
-    gApi.changes().id(change3.getChangeId()).current().review(ReviewInput.recommend());
+    getChangeApi(change3).current().review(ReviewInput.recommend());
     assertQuery("is:reviewer", change3);
     assertQuery("reviewer:self", change3);
 
@@ -3210,7 +3187,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("-status:reviewed", change2, change1);
 
     requestContext.setContext(newRequestContext(otherUser));
-    gApi.changes().id(change1.getChangeId()).current().review(ReviewInput.recommend());
+    getChangeApi(change1).current().review(ReviewInput.recommend());
 
     assertQuery("is:reviewed", change1);
     assertQuery("status:reviewed", change1);
@@ -3235,17 +3212,17 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     ReviewerInput rin = new ReviewerInput();
     rin.reviewer = user1.toString();
     rin.state = ReviewerState.REVIEWER;
-    gApi.changes().id(change1.getId().get()).addReviewer(rin);
+    getChangeApi(change1).addReviewer(rin);
 
     rin = new ReviewerInput();
     rin.reviewer = user2.toString();
     rin.state = ReviewerState.REVIEWER;
-    gApi.changes().id(change2.getId().get()).addReviewer(rin);
+    getChangeApi(change2).addReviewer(rin);
 
     rin = new ReviewerInput();
     rin.reviewer = user3.toString();
     rin.state = ReviewerState.CC;
-    gApi.changes().id(change3.getId().get()).addReviewer(rin);
+    getChangeApi(change3).addReviewer(rin);
 
     String group = gApi.groups().create("foo").get().name;
     gApi.groups().id(group).addMembers(user2.toString(), user3.toString());
@@ -3259,8 +3236,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("reviewerin:\"Registered Users\"", change2, change1);
     assertQuery("reviewerin:" + group, change2);
 
-    gApi.changes().id(change2.getId().get()).current().review(ReviewInput.approve());
-    gApi.changes().id(change2.getId().get()).current().submit();
+    getChangeApi(change2).current().review(ReviewInput.approve());
+    getChangeApi(change2).current().submit();
 
     assertQuery("reviewerin:" + group, change2);
     assertQuery("project:repo reviewerin:" + group, change2);
@@ -3285,12 +3262,12 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     ReviewerInput rin = new ReviewerInput();
     rin.reviewer = userByEmailWithName;
     rin.state = ReviewerState.REVIEWER;
-    gApi.changes().id(change1.getId().get()).addReviewer(rin);
+    getChangeApi(change1).addReviewer(rin);
 
     rin = new ReviewerInput();
     rin.reviewer = userByEmailWithName;
     rin.state = ReviewerState.CC;
-    gApi.changes().id(change2.getId().get()).addReviewer(rin);
+    getChangeApi(change2).addReviewer(rin);
 
     assertQuery("reviewer:\"" + userByEmailWithName + "\"", change1);
     assertQuery("cc:\"" + userByEmailWithName + "\"", change2);
@@ -3317,12 +3294,12 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     ReviewerInput rin = new ReviewerInput();
     rin.reviewer = userByEmail;
     rin.state = ReviewerState.REVIEWER;
-    gApi.changes().id(change1.getId().get()).addReviewer(rin);
+    getChangeApi(change1).addReviewer(rin);
 
     rin = new ReviewerInput();
     rin.reviewer = userByEmail;
     rin.state = ReviewerState.CC;
-    gApi.changes().id(change2.getId().get()).addReviewer(rin);
+    getChangeApi(change2).addReviewer(rin);
 
     assertQuery("reviewer:\"someone@example.com\"");
     assertQuery("cc:\"someone@example.com\"");
@@ -3335,9 +3312,9 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Change change1 = insert("repo", newChange(repo));
     Change change2 = insert("repo", newChange(repo));
 
-    gApi.changes().id(change1.getId().get()).current().review(ReviewInput.approve());
+    getChangeApi(change1).current().review(ReviewInput.approve());
     requestContext.setContext(newRequestContext(user1));
-    gApi.changes().id(change2.getId().get()).current().review(ReviewInput.recommend());
+    getChangeApi(change2).current().review(ReviewInput.recommend());
     requestContext.setContext(newRequestContext(user.getAccountId()));
 
     assertQuery("is:submittable", change1);
@@ -3354,7 +3331,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("label:CodE-RevieW=need,user1");
     assertQuery("label:CodE-RevieW=need,user");
 
-    gApi.changes().id(change1.getId().get()).current().submit();
+    getChangeApi(change1).current().submit();
     assertQuery("is:submittable");
     assertQuery("-is:submittable", change1, change2);
   }
@@ -3395,10 +3372,10 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     // Change1 has one resolved comment (unresolvedcount = 0)
     // Change2 has one unresolved comment (unresolvedcount = 1)
     // Change3 has one resolved comment and one unresolved comment (unresolvedcount = 1)
-    addComment(change1.getChangeId(), "comment 1", false);
-    addComment(change2.getChangeId(), "comment 2", true);
-    addComment(change3.getChangeId(), "comment 3", false);
-    addComment(change3.getChangeId(), "comment 4", true);
+    addComment(change1, "comment 1", false);
+    addComment(change2, "comment 2", true);
+    addComment(change3, "comment 3", false);
+    addComment(change3, "comment 4", true);
 
     assertQuery("has:unresolved", change3, change2);
 
@@ -3559,8 +3536,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     repo = createAndOpenProject("repo");
     // Create two commits and revert second commit (initial commit can't be reverted)
     Change initial = insert("repo", newChange(repo));
-    gApi.changes().id(initial.getChangeId()).current().review(ReviewInput.approve());
-    gApi.changes().id(initial.getChangeId()).current().submit();
+    getChangeApi(initial).current().review(ReviewInput.approve());
+    getChangeApi(initial).current().submit();
 
     ChangeInfo changeToRevert =
         gApi.changes().create(new ChangeInput("repo", "master", "commit to revert")).get();
@@ -3577,9 +3554,9 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Change change = insert("repo", newChange(repo));
     // create irrelevant change
     insert("repo", newChange(repo));
-    gApi.changes().id(change.getChangeId()).current().review(ReviewInput.approve());
-    gApi.changes().id(change.getChangeId()).current().submit();
-    String submissionId = gApi.changes().id(change.getChangeId()).get().submissionId;
+    getChangeApi(change).current().review(ReviewInput.approve());
+    getChangeApi(change).current().submit();
+    String submissionId = getChangeApi(change).get().submissionId;
 
     assertQueryByIds("submissionid:" + submissionId, change.getId());
   }
@@ -3644,7 +3621,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
       requestContext.setContext(newRequestContext(ownerId));
       Change change = insert("repo", newChange(repo), ownerId);
       id = change.getId();
-      ChangeApi cApi = gApi.changes().id(change.getChangeId());
+      ChangeApi cApi = getChangeApi(change);
       if (wip) {
         cApi.setWorkInProgress();
       }
@@ -3665,15 +3642,15 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
       in.message = "message";
       for (Account.Id commenterId : draftCommentBy) {
         requestContext.setContext(newRequestContext(commenterId));
-        gApi.changes().id(change.getChangeId()).current().createDraft(in);
+        getChangeApi(change).current().createDraft(in);
       }
       for (Account.Id commenterId : deleteDraftCommentBy) {
         requestContext.setContext(newRequestContext(commenterId));
-        gApi.changes().id(change.getChangeId()).current().createDraft(in).delete();
+        getChangeApi(change).current().createDraft(in).delete();
       }
       if (mergedBy != null) {
         requestContext.setContext(newRequestContext(mergedBy));
-        cApi = gApi.changes().id(change.getChangeId());
+        cApi = getChangeApi(change);
         cApi.current().review(ReviewInput.approve());
         cApi.current().submit();
       }
@@ -3845,7 +3822,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Change change2 = insert("repo", newChange(repo));
 
     AttentionSetInput input = new AttentionSetInput(userId.toString(), "some reason");
-    gApi.changes().id(change1.getChangeId()).addToAttentionSet(input);
+    getChangeApi(change1).addToAttentionSet(input);
 
     assertQuery("is:attention", change1);
     assertQuery("-is:attention", change2);
@@ -3854,8 +3831,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("attention:" + userAccount.preferredEmail(), change1);
     assertQuery("-attention:" + userId.toString(), change2);
 
-    gApi.changes()
-        .id(change1.getChangeId())
+    getChangeApi(change1)
         .attention(userId.toString())
         .remove(new AttentionSetInput("removed again"));
     assertQuery("-is:attention", change1, change2);
@@ -3868,7 +3844,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Change change = insert("repo", newChange(repo));
 
     AttentionSetInput input = new AttentionSetInput(userId.toString(), "reason 1");
-    gApi.changes().id(change.getChangeId()).addToAttentionSet(input);
+    getChangeApi(change).addToAttentionSet(input);
     Account.Id user2Id =
         accountManager.authenticate(authRequestFactory.createForUser("anotheruser")).getAccountId();
 
@@ -3877,10 +3853,10 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     ReviewerInput reviewerInput = new ReviewerInput();
     reviewerInput.reviewer = user2Id.toString();
     reviewerInput.state = ReviewerState.CC;
-    gApi.changes().id(change.getChangeId()).addReviewer(reviewerInput);
+    getChangeApi(change).addReviewer(reviewerInput);
 
     input = new AttentionSetInput(user2Id.toString(), "reason 2");
-    gApi.changes().id(change.getChangeId()).addToAttentionSet(input);
+    getChangeApi(change).addToAttentionSet(input);
 
     List<ChangeInfo> result = newQuery("attention:" + user2Id.toString()).get();
     assertThat(result).hasSize(1);
@@ -4061,8 +4037,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("query:query2", change2, change1);
     assertQuery("query:name=query5,user=" + anotherUserId, change2, change1);
     assertQuery("query:user=" + anotherUserId + ",name=query6");
-    gApi.changes().id(change1.getChangeId()).current().review(ReviewInput.approve());
-    gApi.changes().id(change1.getChangeId()).current().submit();
+    getChangeApi(change1).current().review(ReviewInput.approve());
+    getChangeApi(change1).current().submit();
     assertQuery("query:query2", change2);
     assertQuery("query:query3", change2);
     assertQuery("query:query4");
@@ -4096,7 +4072,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     String query = "change:" + change.getId();
     assertQuery(query, change);
 
-    gApi.changes().id(change.getChangeId()).delete();
+    getChangeApi(change).delete();
     assertQuery(query);
   }
 
@@ -4139,8 +4115,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     repo = createAndOpenProject("repo");
     // Create two commits and revert second commit (initial commit can't be reverted)
     Change initial = insert("repo", newChange(repo));
-    gApi.changes().id(initial.getChangeId()).current().review(ReviewInput.approve());
-    gApi.changes().id(initial.getChangeId()).current().submit();
+    getChangeApi(initial).current().review(ReviewInput.approve());
+    getChangeApi(initial).current().submit();
 
     ChangeInfo changeToRevert =
         gApi.changes().create(new ChangeInput("repo", "master", "commit to revert")).get();
@@ -4184,7 +4160,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     repo = createAndOpenProject("repo");
     Change change = insert("repo", newChange(repo));
-    gApi.changes().id(change.getId().get()).addReviewer(user2.toString());
+    getChangeApi(change).addReviewer(user2.toString());
 
     RequestContext adminContext = requestContext.setContext(newRequestContext(user2));
     assertQuery("reviewer:self", change);
@@ -4239,13 +4215,13 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Change change1 = insert("repo", newChange(repo));
     CustomKeyedValuesInput in = new CustomKeyedValuesInput();
     in.add = ImmutableMap.of("workspace", "my-ws");
-    gApi.changes().id(change1.getChangeId()).setCustomKeyedValues(in);
+    getChangeApi(change1).setCustomKeyedValues(in);
 
     Change change2 = insert("repo", newChange(repo));
 
     in = new CustomKeyedValuesInput();
     in.add = ImmutableMap.of("workspace", "123");
-    gApi.changes().id(change2.getChangeId()).setCustomKeyedValues(in);
+    getChangeApi(change2).setCustomKeyedValues(in);
 
     // Insert a change without a KV pair
     insert("repo", newChange(repo));
@@ -4571,16 +4547,16 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   // Get the last  updated time from ChangeApi
   protected long lastUpdatedMsApi(Change c) throws Exception {
-    return gApi.changes().id(c.getChangeId()).get().updated.getTime();
+    return getChangeApi(c).get().updated.getTime();
   }
 
   protected void approve(Change change) throws Exception {
-    gApi.changes().id(change.getChangeId()).current().review(ReviewInput.approve());
+    getChangeApi(change).current().review(ReviewInput.approve());
   }
 
   protected void submit(Change change) throws Exception {
     approve(change);
-    gApi.changes().id(change.getChangeId()).current().submit();
+    getChangeApi(change).current().submit();
   }
 
   /**
@@ -4625,14 +4601,14 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     return String.format(queryPattern, emptyGroupName, searchTerm);
   }
 
-  private void addComment(int changeId, String message, Boolean unresolved) throws Exception {
+  private void addComment(Change change, String message, Boolean unresolved) throws Exception {
     ReviewInput input = new ReviewInput();
     ReviewInput.CommentInput comment = new ReviewInput.CommentInput();
     comment.line = 1;
     comment.message = message;
     comment.unresolved = unresolved;
     input.comments = ImmutableMap.of(Patch.COMMIT_MSG, ImmutableList.of(comment));
-    gApi.changes().id(changeId).current().review(input);
+    getChangeApi(change).current().review(input);
   }
 
   private Account.Id createAccount(String username, String fullName, String email, boolean active)
@@ -4694,5 +4670,9 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   PaginationType getCurrentPaginationType() {
     return config.getEnum("index", null, "paginationType", PaginationType.OFFSET);
+  }
+
+  protected ChangeApi getChangeApi(Change change) throws RestApiException {
+    return gApi.changes().id(change.getProject().get(), change.getChangeId());
   }
 }

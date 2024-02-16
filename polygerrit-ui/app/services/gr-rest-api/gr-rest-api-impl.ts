@@ -172,7 +172,7 @@ let fetchPromisesCache = new FetchPromisesCache(); // Shared across instances.
 let pendingRequest: {[promiseName: string]: Array<Promise<unknown>>} = {}; // Shared across instances.
 let grEtagDecorator = new GrEtagDecorator(); // Shared across instances.
 // TODO: consider changing this to Map()
-let projectLookup: {[changeNum: string]: Promise<RepoName | undefined>} = {}; // Shared across instances.
+let projectLookup: {[changeNum: string]: Promise<RepoName> | undefined} = {}; // Shared across instances.
 
 function suppress404s(res?: Response | null) {
   if (!res || res.status === 404) return;
@@ -2379,7 +2379,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     // alongside the change number, so resolve the project name
     // first.
     return this.getFromProjectLookup(changeNum).then(project => {
-      const encodedRepoName = project ? encodeURIComponent(project) + '~' : '';
+      const encodedRepoName = encodeURIComponent(project) + '~';
       const url = `/accounts/self/starred.changes/${encodedRepoName}${changeNum}`;
       return this._serialScheduler.schedule(() =>
         this._restApiHelper.send({
@@ -2935,10 +2935,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     revisionId?: RevisionId
   ): Promise<string> {
     return this.getFromProjectLookup(changeNum).then(project => {
-      // TODO(TS): unclear why project can't be null here. Fix it
-      let url = `/changes/${encodeURIComponent(
-        project as RepoName
-      )}~${changeNum}`;
+      let url = `/changes/${encodeURIComponent(project)}~${changeNum}`;
       if (revisionId) {
         url += `/revisions/${revisionId}`;
       }
@@ -3243,9 +3240,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     this._projectLookup[changeNum] = Promise.resolve(project);
   }
 
-  getFromProjectLookup(
-    changeNum: NumericChangeId
-  ): Promise<RepoName | undefined> {
+  getFromProjectLookup(changeNum: NumericChangeId): Promise<RepoName> {
     // Hopefully setInProjectLookup() has already been called. Then we don't
     // have to make a dedicated REST API call to look up the project.
     let projectPromise = this._projectLookup[changeNum];
@@ -3260,7 +3255,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       // (e.g. stale index) we should check, if the router has called
       // setInProjectLookup() in the meantime. Then we can fall back to that.
       const currentProjectPromise = this._projectLookup[changeNum];
-      if (currentProjectPromise !== projectPromise) {
+      if (currentProjectPromise && currentProjectPromise !== projectPromise) {
         return currentProjectPromise;
       }
 
@@ -3271,7 +3266,11 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
           {status: 404}
         )
       );
-      return undefined;
+      // Don't store failed lookups in the lookup.
+      this._projectLookup[changeNum] = undefined;
+      throw new Error(
+        `Failed to lookup the repo for change number ${changeNum}`
+      );
     });
     this._projectLookup[changeNum] = projectPromise;
     return projectPromise;

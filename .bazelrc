@@ -58,5 +58,8 @@ build --announce_rc
 
 test --build_tests_only
 test --test_output=errors
+# This is default in Bazel 7 that is used by stable-3.9+.
+# I.e. remove when merging into master.
+test --incompatible_sandbox_hermetic_tmp
 
 import %workspace%/tools/remote-bazelrc

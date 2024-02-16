@@ -22,14 +22,13 @@ import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyProblemInfo;
 import com.google.gerrit.server.group.db.testing.GroupTestUtil;
-import java.util.List;
 import org.junit.Test;
 
 public class GroupsNoteDbConsistencyCheckerTest extends AbstractGroupTest {
 
   @Test
   public void groupNamesRefIsMissing() throws Exception {
-    List<ConsistencyProblemInfo> problems =
+    ImmutableList<ConsistencyProblemInfo> problems =
         GroupsNoteDbConsistencyChecker.checkWithGroupNameNotes(
             allUsersRepo, AccountGroup.nameKey("g-1"), AccountGroup.uuid("uuid-1"));
     assertThat(problems)
@@ -39,7 +38,7 @@ public class GroupsNoteDbConsistencyCheckerTest extends AbstractGroupTest {
   @Test
   public void groupNameNoteIsMissing() throws Exception {
     updateGroupNamesRef("g-2", "[group]\n\tuuid = uuid-2\n\tname = g-2\n");
-    List<ConsistencyProblemInfo> problems =
+    ImmutableList<ConsistencyProblemInfo> problems =
         GroupsNoteDbConsistencyChecker.checkWithGroupNameNotes(
             allUsersRepo, AccountGroup.nameKey("g-1"), AccountGroup.uuid("uuid-1"));
     assertThat(problems)
@@ -49,7 +48,7 @@ public class GroupsNoteDbConsistencyCheckerTest extends AbstractGroupTest {
   @Test
   public void groupNameNoteIsConsistent() throws Exception {
     updateGroupNamesRef("g-1", "[group]\n\tuuid = uuid-1\n\tname = g-1\n");
-    List<ConsistencyProblemInfo> problems =
+    ImmutableList<ConsistencyProblemInfo> problems =
         GroupsNoteDbConsistencyChecker.checkWithGroupNameNotes(
             allUsersRepo, AccountGroup.nameKey("g-1"), AccountGroup.uuid("uuid-1"));
     assertThat(problems).isEmpty();
@@ -58,7 +57,7 @@ public class GroupsNoteDbConsistencyCheckerTest extends AbstractGroupTest {
   @Test
   public void groupNameNoteHasDifferentUUID() throws Exception {
     updateGroupNamesRef("g-1", "[group]\n\tuuid = uuid-2\n\tname = g-1\n");
-    List<ConsistencyProblemInfo> problems =
+    ImmutableList<ConsistencyProblemInfo> problems =
         GroupsNoteDbConsistencyChecker.checkWithGroupNameNotes(
             allUsersRepo, AccountGroup.nameKey("g-1"), AccountGroup.uuid("uuid-1"));
     assertThat(problems)
@@ -71,7 +70,7 @@ public class GroupsNoteDbConsistencyCheckerTest extends AbstractGroupTest {
   @Test
   public void groupNameNoteHasDifferentName() throws Exception {
     updateGroupNamesRef("g-1", "[group]\n\tuuid = uuid-1\n\tname = g-2\n");
-    List<ConsistencyProblemInfo> problems =
+    ImmutableList<ConsistencyProblemInfo> problems =
         GroupsNoteDbConsistencyChecker.checkWithGroupNameNotes(
             allUsersRepo, AccountGroup.nameKey("g-1"), AccountGroup.uuid("uuid-1"));
     assertThat(problems)
@@ -81,7 +80,7 @@ public class GroupsNoteDbConsistencyCheckerTest extends AbstractGroupTest {
   @Test
   public void groupNameNoteHasDifferentNameAndUUID() throws Exception {
     updateGroupNamesRef("g-1", "[group]\n\tuuid = uuid-2\n\tname = g-2\n");
-    List<ConsistencyProblemInfo> problems =
+    ImmutableList<ConsistencyProblemInfo> problems =
         GroupsNoteDbConsistencyChecker.checkWithGroupNameNotes(
             allUsersRepo, AccountGroup.nameKey("g-1"), AccountGroup.uuid("uuid-1"));
     assertThat(problems)

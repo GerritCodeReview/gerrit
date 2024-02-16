@@ -21,6 +21,7 @@ import static com.google.gerrit.testing.IndexVersions.ALL;
 import static com.google.gerrit.testing.IndexVersions.CURRENT;
 import static com.google.gerrit.testing.IndexVersions.PREVIOUS;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
 import java.util.ArrayList;
 import java.util.List;
@@ -129,7 +130,7 @@ public class IndexVersionsTest {
             + SCHEMA_DEF.getSchemas().keySet());
   }
 
-  private static List<Integer> get(String value) {
+  private static ImmutableList<Integer> get(String value) {
     return IndexVersions.get(ChangeSchemaDefinitions.INSTANCE, "test", value);
   }
 

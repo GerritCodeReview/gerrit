@@ -91,7 +91,7 @@ public class RefOperationValidationIT extends AbstractDaemonTest {
             .add(
                 new RefOperationValidationListener() {
                   @Override
-                  public List<ValidationMessage> onRefOperation(RefReceivedEvent refEvent)
+                  public ImmutableList<ValidationMessage> onRefOperation(RefReceivedEvent refEvent)
                       throws ValidationException {
                     return ImmutableList.of(
                         new ValidationMessage(message1, ValidationMessage.Type.HINT),

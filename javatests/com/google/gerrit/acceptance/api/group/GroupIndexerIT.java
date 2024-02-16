@@ -41,7 +41,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
 import java.util.Optional;
-import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.junit.Rule;
 import org.junit.Test;
@@ -68,7 +67,7 @@ public class GroupIndexerIT {
 
     groupIndexer.index(groupUuid);
 
-    Set<AccountGroup.UUID> parentGroups =
+    ImmutableSet<AccountGroup.UUID> parentGroups =
         groupQueryProvider.get().bySubgroups(ImmutableSet.of(subgroupUuid)).get(subgroupUuid);
     assertThat(parentGroups).hasSize(1);
     assertThat(parentGroups).containsExactly(groupUuid);
@@ -87,7 +86,7 @@ public class GroupIndexerIT {
 
     groupIndexer.index(groupUuid);
 
-    Set<AccountGroup.UUID> parentGroups =
+    ImmutableSet<AccountGroup.UUID> parentGroups =
         groupQueryProvider.get().bySubgroups(ImmutableSet.of(subgroupUuid)).get(subgroupUuid);
     assertThat(parentGroups).hasSize(1);
     assertThat(parentGroups).containsExactly(groupUuid);
@@ -117,7 +116,7 @@ public class GroupIndexerIT {
 
     groupIndexer.reindexIfStale(groupUuid);
 
-    Set<AccountGroup.UUID> parentGroups =
+    ImmutableSet<AccountGroup.UUID> parentGroups =
         groupQueryProvider.get().bySubgroups(ImmutableSet.of(subgroupUuid)).get(subgroupUuid);
     assertThat(parentGroups).hasSize(1);
     assertThat(parentGroups).containsExactly(groupUuid);

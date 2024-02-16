@@ -31,8 +31,7 @@ import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Map;
+import java.util.List;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.Test;
@@ -180,7 +179,7 @@ public class RulesIT extends AbstractDaemonTest {
   }
 
   private SubmitRecord.Status statusForRuleAddFile(String... filenames) throws Exception {
-    Map<String, String> fileToContentMap =
+    ImmutableMap<String, String> fileToContentMap =
         Arrays.stream(filenames).collect(ImmutableMap.toImmutableMap(f -> f, f -> "file content"));
     String oldHead = projectOperations.project(project).getHead("master").name();
     PushOneCommit push =
@@ -243,7 +242,7 @@ public class RulesIT extends AbstractDaemonTest {
   private SubmitRecord.Status getStatus(PushOneCommit.Result result) throws Exception {
     ChangeData cd = result.getChange();
 
-    Collection<SubmitRecord> records;
+    List<SubmitRecord> records;
     try (AutoCloseable ignored1 = changeIndexOperations.disableReadsAndWrites();
         AutoCloseable ignored2 = accountIndexOperations.disableReadsAndWrites()) {
       SubmitRuleEvaluator ruleEvaluator = evaluatorFactory.create(SubmitRuleOptions.defaults());

@@ -98,8 +98,8 @@ public class AndPredicateTest extends PredicateTest {
     final TestPredicate<String> a = f("author", "alice");
     final TestPredicate<String> b = f("author", "bob");
     final TestPredicate<String> c = f("author", "charlie");
-    final List<TestPredicate<String>> s2 = ImmutableList.of(a, b);
-    final List<TestPredicate<String>> s3 = ImmutableList.of(a, b, c);
+    final ImmutableList<TestPredicate<String>> s2 = ImmutableList.of(a, b);
+    final ImmutableList<TestPredicate<String>> s3 = ImmutableList.of(a, b, c);
     final Predicate<String> n2 = and(a, b);
 
     assertNotSame(n2, n2.copy(s2));

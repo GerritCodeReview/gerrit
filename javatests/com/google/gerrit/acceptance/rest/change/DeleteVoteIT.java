@@ -22,6 +22,7 @@ import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.b
 import static com.google.gerrit.extensions.client.ReviewerState.REVIEWER;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -42,7 +43,6 @@ import com.google.gerrit.testing.FakeEmailSender;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 import org.junit.Test;
 
@@ -192,7 +192,7 @@ public class DeleteVoteIT extends AbstractDaemonTest {
     RestResponse response = userRestSession.delete(deleteAdminVoteEndPoint);
     response.assertNoContent();
 
-    List<FakeEmailSender.Message> messages = sender.getMessages();
+    ImmutableList<FakeEmailSender.Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     FakeEmailSender.Message msg = messages.get(0);
     assertThat(msg.rcpt()).containsExactly(admin.getNameEmail(), user2.getNameEmail());

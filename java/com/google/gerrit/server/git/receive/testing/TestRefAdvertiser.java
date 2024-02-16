@@ -19,12 +19,12 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Splitter;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.StreamSupport;
@@ -61,7 +61,7 @@ public class TestRefAdvertiser extends RefAdvertiser {
 
   @Override
   protected void writeOne(CharSequence line) throws IOException {
-    List<String> lineParts =
+    ImmutableList<String> lineParts =
         StreamSupport.stream(Splitter.on(' ').split(line).spliterator(), false)
             .map(String::trim)
             .collect(toImmutableList());

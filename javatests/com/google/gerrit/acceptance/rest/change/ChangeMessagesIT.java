@@ -52,7 +52,6 @@ import com.google.gerrit.server.util.AccountTemplateUtil;
 import com.google.inject.Inject;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
@@ -179,7 +178,7 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
         messageTemplate,
         Iterables.getLast(gApi.changes().id(changeId).get(MESSAGES).messages).message);
 
-    Collection<ChangeMessageInfo> listMessages = gApi.changes().id(changeId).messages();
+    List<ChangeMessageInfo> listMessages = gApi.changes().id(changeId).messages();
     assertThat(listMessages).hasSize(2);
     ChangeMessageInfo changeMessageApi = Iterables.getLast(gApi.changes().id(changeId).messages());
     assertMessage("Review by " + admin.getNameEmail(), changeMessageApi.message);

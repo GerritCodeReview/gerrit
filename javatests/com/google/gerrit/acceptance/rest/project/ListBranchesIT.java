@@ -37,7 +37,6 @@ import com.google.gerrit.server.restapi.project.ListBranches;
 import com.google.gerrit.server.restapi.project.ProjectsCollection;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import java.util.List;
 import org.junit.Test;
 
 @NoHttpd
@@ -290,7 +289,7 @@ public class ListBranchesIT extends AbstractDaemonTest {
     listBranches.setNextPageToken(ListBranches.encodeToken("refs/heads/someBranch1"));
     Response<ImmutableList<BranchInfo>> response =
         listBranches.apply(projects.parse(project.get()));
-    List<String> continuationToken =
+    ImmutableList<String> continuationToken =
         response.headers().get(ListBranches.NEXT_PAGE_TOKEN_HEADER).asList();
     // Since branch1 does not exist, the server continues from branch2.
     assertRefs(ImmutableList.of(branch2), response.value());
@@ -307,7 +306,7 @@ public class ListBranchesIT extends AbstractDaemonTest {
     listBranches.setNextPageToken(ListBranches.encodeToken("refs/heads/someBranch4"));
     Response<ImmutableList<BranchInfo>> response =
         listBranches.apply(projects.parse(project.get()));
-    List<String> continuationToken =
+    ImmutableList<String> continuationToken =
         response.headers().get(ListBranches.NEXT_PAGE_TOKEN_HEADER).asList();
     // Since branch1 does not exist, the server continues from branch2.
     assertRefs(ImmutableList.of(), response.value());

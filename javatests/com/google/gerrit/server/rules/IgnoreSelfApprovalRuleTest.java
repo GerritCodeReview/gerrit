@@ -26,7 +26,6 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import org.junit.Test;
 
@@ -42,7 +41,7 @@ public class IgnoreSelfApprovalRuleTest {
     PatchSetApproval approvalVerified = makeApproval(VERIFIED.getLabelId(), USER1, 2);
     PatchSetApproval approvalCr = makeApproval(codeReview.getLabelId(), USER1, 2);
 
-    Collection<PatchSetApproval> filteredApprovals =
+    ImmutableList<PatchSetApproval> filteredApprovals =
         IgnoreSelfApprovalRule.filterApprovalsByLabel(
             ImmutableList.of(approvalVerified, approvalCr), VERIFIED);
 
@@ -62,7 +61,7 @@ public class IgnoreSelfApprovalRuleTest {
             makeApproval(VERIFIED.getLabelId(), USER1, +1),
             makeApproval(VERIFIED.getLabelId(), USER1, +2));
 
-    Collection<PatchSetApproval> filteredApprovals =
+    ImmutableList<PatchSetApproval> filteredApprovals =
         IgnoreSelfApprovalRule.filterOutPositiveApprovalsOfUser(approvals, USER1);
 
     assertThat(filteredApprovals).containsExactly(approvalM1, approvalM2);

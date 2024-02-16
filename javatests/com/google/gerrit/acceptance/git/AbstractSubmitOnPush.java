@@ -20,6 +20,7 @@ import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static java.util.stream.Collectors.toList;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -45,7 +46,6 @@ import com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.gerrit.testing.RefUpdateContextCollector;
 import com.google.inject.Inject;
-import java.util.List;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
 import org.eclipse.jgit.api.errors.TransportException;
@@ -228,7 +228,7 @@ public abstract class AbstractSubmitOnPush extends AbstractDaemonTest {
     PushOneCommit.Result r = push("refs/for/master", PushOneCommit.SUBJECT, "two.txt", "Two");
     startEventRecorder();
     git().push().setRefSpecs(new RefSpec(r.getCommit().name() + ":refs/heads/master")).call();
-    List<ChangeMergedEvent> changeMergedEvents =
+    ImmutableList<ChangeMergedEvent> changeMergedEvents =
         eventRecorder.getChangeMergedEvents(project.get(), "refs/heads/master", 2);
     assertThat(changeMergedEvents.get(0).newRev).isEqualTo(r.getPatchSet().commitId().name());
     assertThat(changeMergedEvents.get(1).newRev).isEqualTo(r.getPatchSet().commitId().name());

@@ -504,7 +504,7 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
   protected List<GroupInfo> assertQuery(QueryRequest query, List<GroupInfo> groups)
       throws Exception {
     List<GroupInfo> result = query.get();
-    Iterable<String> uuids = uuids(result);
+    List<String> uuids = uuids(result);
     assertWithMessage(format(query, result, groups))
         .that(uuids)
         .containsExactlyElementsIn(uuids(groups))
@@ -577,11 +577,11 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
     return b == null ? false : b;
   }
 
-  protected static Iterable<String> ids(GroupInfo... groups) {
+  protected static List<String> ids(GroupInfo... groups) {
     return uuids(Arrays.asList(groups));
   }
 
-  protected static Iterable<String> uuids(List<GroupInfo> groups) {
+  protected static List<String> uuids(List<GroupInfo> groups) {
     return groups.stream().map(g -> g.id).sorted().collect(toList());
   }
 

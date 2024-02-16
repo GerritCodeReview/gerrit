@@ -127,7 +127,7 @@ public class AgreementsIT extends AbstractDaemonTest {
       assertThat(info.auth.useContributorAgreements).isTrue();
       assertThat(info.auth.contributorAgreements).hasSize(2);
       // Sort to get a stable assertion as the API does not guarantee ordering.
-      List<AgreementInfo> agreements =
+      ImmutableList<AgreementInfo> agreements =
           ImmutableList.sortedCopyOf(comparing(a -> a.name), info.auth.contributorAgreements);
       assertAgreement(agreements.get(0), caAutoVerify);
       assertAgreement(agreements.get(1), caNoAutoVerify);

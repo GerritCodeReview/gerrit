@@ -26,7 +26,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.RefNames;
-import java.util.Map;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.Ref;
@@ -93,7 +92,7 @@ public class ReceivePackRefCacheTest {
 
   @Test
   public void advertisedRefs_prefixScansChangeId() throws Exception {
-    Map<String, Ref> refs = setupTwoChanges();
+    ImmutableMap<String, Ref> refs = setupTwoChanges();
     ReceivePackRefCache cache = ReceivePackRefCache.withAdvertisedRefs(() -> refs);
 
     assertThat(cache.byPrefix(RefNames.changeRefPrefix(Change.id(1))))
@@ -102,7 +101,7 @@ public class ReceivePackRefCacheTest {
 
   @Test
   public void advertisedRefs_exactRef() throws Exception {
-    Map<String, Ref> refs = setupTwoChanges();
+    ImmutableMap<String, Ref> refs = setupTwoChanges();
     ReceivePackRefCache cache = ReceivePackRefCache.withAdvertisedRefs(() -> refs);
 
     assertThat(cache.exactRef("refs/changes/01/1/1")).isEqualTo(refs.get("refs/changes/01/1/1"));
@@ -110,7 +109,7 @@ public class ReceivePackRefCacheTest {
 
   @Test
   public void advertisedRefs_patchSetIdsFromObjectId() throws Exception {
-    Map<String, Ref> refs = setupTwoChanges();
+    ImmutableMap<String, Ref> refs = setupTwoChanges();
     ReceivePackRefCache cache = ReceivePackRefCache.withAdvertisedRefs(() -> refs);
 
     assertThat(
@@ -123,7 +122,7 @@ public class ReceivePackRefCacheTest {
     return new ObjectIdRef.Unpeeled(Ref.Storage.NEW, name, ObjectId.fromString(sha1), 1);
   }
 
-  private Map<String, Ref> setupTwoChanges() {
+  private ImmutableMap<String, Ref> setupTwoChanges() {
     Ref ref1 = newRef("refs/changes/01/1/1", "badc0feebadc0feebadc0feebadc0feebadc0fee");
     Ref ref2 = newRef("refs/changes/02/2/1", "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef");
     return ImmutableMap.of(ref1.getName(), ref1, ref2.getName(), ref2);

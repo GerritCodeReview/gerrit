@@ -501,7 +501,7 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
   protected List<ProjectInfo> assertQuery(QueryRequest query, List<ProjectInfo> projects)
       throws Exception {
     List<ProjectInfo> result = query.get();
-    Iterable<String> names = names(result);
+    List<String> names = names(result);
     assertWithMessage(format(query, result, projects))
         .that(names)
         .containsExactlyElementsIn(names(projects))
@@ -566,11 +566,11 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
     return indexes.getSearchIndex().getSchema();
   }
 
-  protected static Iterable<String> names(ProjectInfo... projects) {
+  protected static List<String> names(ProjectInfo... projects) {
     return names(Arrays.asList(projects));
   }
 
-  protected static Iterable<String> names(List<ProjectInfo> projects) {
+  protected static List<String> names(List<ProjectInfo> projects) {
     return projects.stream().map(p -> p.name).collect(toList());
   }
 

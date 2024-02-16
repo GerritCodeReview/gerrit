@@ -937,7 +937,7 @@ public abstract class AbstractDaemonTest {
             if (accountState.userName().isPresent()) {
               assertThat(fullMessage).doesNotContain(accountState.userName().get());
             }
-            List<String> allEmails =
+            ImmutableList<String> allEmails =
                 accountState.externalIds().stream()
                     .map(ExternalId::email)
                     .filter(Objects::nonNull)

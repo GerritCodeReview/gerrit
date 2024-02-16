@@ -26,12 +26,11 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.server.project.ProjectState;
-import java.util.List;
 import java.util.Set;
 
 public class ProjectAssert {
   public static IterableSubject assertThatNameList(Iterable<ProjectInfo> actualIt) {
-    List<ProjectInfo> actual = ImmutableList.copyOf(actualIt);
+    ImmutableList<ProjectInfo> actual = ImmutableList.copyOf(actualIt);
     for (ProjectInfo info : actual) {
       assertWithMessage("missing project name").that(info.name).isNotNull();
       assertWithMessage("project name does not match id")

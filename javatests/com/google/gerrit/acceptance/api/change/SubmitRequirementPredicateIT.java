@@ -49,7 +49,6 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.server.project.SubmitRequirementsEvaluatorImpl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
-import java.util.List;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
@@ -107,7 +106,7 @@ public class SubmitRequirementPredicateIT extends AbstractDaemonTest {
     Account.Id user15 = accountCreator.create("user15").id();
     Account.Id user16 = accountCreator.create("user16").id();
     Account.Id user17 = accountCreator.create("user17").id();
-    List<Account.Id> allUsers =
+    ImmutableList<Account.Id> allUsers =
         ImmutableList.of(user11, user12, user13, user14, user15, user16, user17);
 
     // Give voting permissions to all users

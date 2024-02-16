@@ -20,6 +20,7 @@ import static com.google.gerrit.httpd.restapi.RestApiServlet.X_GERRIT_UPDATED_RE
 import static com.google.gerrit.httpd.restapi.RestApiServlet.X_GERRIT_UPDATED_REF_ENABLED;
 import static org.apache.http.HttpStatus.SC_OK;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.RestResponse;
@@ -34,7 +35,6 @@ import com.google.gerrit.httpd.restapi.ParameterParser;
 import com.google.gerrit.httpd.restapi.RestApiServlet;
 import com.google.inject.Inject;
 import java.io.IOException;
-import java.util.List;
 import java.util.regex.Pattern;
 import org.apache.http.message.BasicHeader;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
@@ -202,7 +202,7 @@ public class RestApiServletIT extends AbstractDaemonTest {
             "/changes/" + change.getChangeId(), X_GERRIT_UPDATED_REF_ENABLED_HEADER);
     response.assertNoContent();
 
-    List<String> headers = response.getHeaders(X_GERRIT_UPDATED_REF);
+    ImmutableList<String> headers = response.getHeaders(X_GERRIT_UPDATED_REF);
 
     // The change was deleted, so the refs were deleted which means they are ObjectId.zeroId().
     assertThat(headers)
@@ -236,7 +236,7 @@ public class RestApiServletIT extends AbstractDaemonTest {
             "/changes/" + change.getChangeId(), X_GERRIT_UPDATED_REF_ENABLED_HEADER);
     response.assertNoContent();
 
-    List<String> headers = response.getHeaders(X_GERRIT_UPDATED_REF);
+    ImmutableList<String> headers = response.getHeaders(X_GERRIT_UPDATED_REF);
 
     // The change was deleted, so the refs were deleted which means they are ObjectId.zeroId().
     assertThat(headers)
@@ -286,7 +286,7 @@ public class RestApiServletIT extends AbstractDaemonTest {
       ObjectId firstMetaRefSha1 = getMetaRefSha1(change1);
       ObjectId secondMetaRefSha1 = getMetaRefSha1(change2);
 
-      List<String> headers = response.getHeaders(X_GERRIT_UPDATED_REF);
+      ImmutableList<String> headers = response.getHeaders(X_GERRIT_UPDATED_REF);
 
       String branch = change1.getChange().change().getDest().branch();
       String branchSha1 =
@@ -363,7 +363,7 @@ public class RestApiServletIT extends AbstractDaemonTest {
       ObjectId firstMetaRefSha1 = getMetaRefSha1(change1);
       ObjectId secondMetaRefSha1 = getMetaRefSha1(change2);
 
-      List<String> headers = response.getHeaders(X_GERRIT_UPDATED_REF);
+      ImmutableList<String> headers = response.getHeaders(X_GERRIT_UPDATED_REF);
 
       String branchSha1Project1 =
           repository1

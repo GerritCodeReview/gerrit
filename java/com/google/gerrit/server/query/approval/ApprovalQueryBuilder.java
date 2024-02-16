@@ -27,10 +27,12 @@ import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.group.GroupResolver;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.Optional;
 
+@Singleton
 public class ApprovalQueryBuilder extends QueryBuilder<ApprovalContext, ApprovalQueryBuilder> {
   private static final QueryBuilder.Definition<ApprovalContext, ApprovalQueryBuilder> mydef =
       new QueryBuilder.Definition<>(ApprovalQueryBuilder.class);

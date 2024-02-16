@@ -66,6 +66,7 @@ import com.google.gerrit.server.project.LabelConfigValidator;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.query.approval.ApprovalQueryBuilder;
 import com.google.gerrit.server.ssh.HostKey;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gerrit.server.util.MagicBranch;
@@ -118,6 +119,7 @@ public class CommitValidators {
     private final Config config;
     private final ChangeUtil changeUtil;
     private final MetricMaker metricMaker;
+    private final ApprovalQueryBuilder approvalQueryBuilder;
 
     @Inject
     Factory(
@@ -134,7 +136,8 @@ public class CommitValidators {
         ProjectCache projectCache,
         ProjectConfig.Factory projectConfigFactory,
         ChangeUtil changeUtil,
-        MetricMaker metricMaker) {
+        MetricMaker metricMaker,
+        ApprovalQueryBuilder approvalQueryBuilder) {
       this.gerritIdent = gerritIdent;
       this.urlFormatter = urlFormatter;
       this.config = config;
@@ -149,6 +152,7 @@ public class CommitValidators {
       this.projectConfigFactory = projectConfigFactory;
       this.changeUtil = changeUtil;
       this.metricMaker = metricMaker;
+      this.approvalQueryBuilder = approvalQueryBuilder;
     }
 
     public CommitValidators forReceiveCommits(
@@ -181,7 +185,7 @@ public class CommitValidators {
           .add(new ExternalIdUpdateListener(allUsers, externalIdsConsistencyChecker, accountCache))
           .add(new AccountCommitValidator(repoManager, allUsers, accountValidator))
           .add(new GroupCommitValidator(allUsers))
-          .add(new LabelConfigValidator());
+          .add(new LabelConfigValidator(approvalQueryBuilder));
       return new CommitValidators(validators.build());
     }
 
@@ -211,7 +215,7 @@ public class CommitValidators {
           .add(new ExternalIdUpdateListener(allUsers, externalIdsConsistencyChecker, accountCache))
           .add(new AccountCommitValidator(repoManager, allUsers, accountValidator))
           .add(new GroupCommitValidator(allUsers))
-          .add(new LabelConfigValidator());
+          .add(new LabelConfigValidator(approvalQueryBuilder));
       return new CommitValidators(validators.build());
     }
 

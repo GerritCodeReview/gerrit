@@ -397,10 +397,10 @@ export interface RestApiService extends Finalizable {
    * If it exists, returns the project. If not, calls the restAPI to get the
    * change, populates projectLookup with the project for that change, and
    * returns the project.
+   *
+   * If the lookup fails the promise rejects and result is not cached.
    */
-  getFromProjectLookup(
-    changeNum: NumericChangeId
-  ): Promise<RepoName | undefined>;
+  getFromProjectLookup(changeNum: NumericChangeId): Promise<RepoName>;
 
   saveDiffDraft(
     changeNum: NumericChangeId,

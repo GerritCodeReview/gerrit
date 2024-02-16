@@ -101,6 +101,7 @@ suite('gr-rest-api-service-impl tests', () => {
   });
 
   test('parent diff comments are properly grouped', async () => {
+    element.setInProjectLookup(42 as NumericChangeId, TEST_PROJECT_NAME);
     sinon.stub(element._restApiHelperNew, 'fetchJSON').resolves({
       '/COMMIT_MSG': [],
       'sieve.go': [
@@ -1247,7 +1248,11 @@ suite('gr-rest-api-service-impl tests', () => {
       const projectLookup = element.getFromProjectLookup(changeNum);
       promise.resolve(undefined);
 
-      assert.isUndefined(await projectLookup);
+      const err = (await assertFails(projectLookup)) as Error;
+      assert.equal(
+        err.message,
+        'Failed to lookup the repo for change number 555'
+      );
     });
 
     test('getChange succeeds with project', async () => {

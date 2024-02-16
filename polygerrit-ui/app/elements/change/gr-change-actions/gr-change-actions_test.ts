@@ -2634,7 +2634,7 @@ suite('gr-change-actions tests', () => {
             (_num, _method, _patchNum, _endpoint, _payload, onErr) => {
               // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
               onErr!();
-              return Promise.resolve(undefined);
+              return Promise.resolve(new Response());
             }
           );
           const handleErrorStub = sinon.stub(element, 'handleResponseError');

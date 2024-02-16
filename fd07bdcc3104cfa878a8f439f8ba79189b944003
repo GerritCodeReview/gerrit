@@ -71,6 +71,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e23eae79_d9f2fd9b",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-02-16T18:44:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f071941_d7156e85",
+      "revId": "fd07bdcc3104cfa878a8f439f8ba79189b944003",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6397ab64_596ab5c9",
@@ -84,6 +102,30 @@
       "writtenOn": "2024-02-14T19:55:19Z",
       "side": 1,
       "message": "```suggestion\n      String query, Function\u003cChange.Id, Predicate\u003cChangeData\u003e\u003e changePredicateGetter) throws QueryParseException {\n```",
+      "range": {
+        "startLine": 600,
+        "startChar": 20,
+        "endLine": 600,
+        "endChar": 41
+      },
+      "revId": "fd07bdcc3104cfa878a8f439f8ba79189b944003",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3619dbc_f7983a62",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 600,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-02-16T18:44:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6397ab64_596ab5c9",
       "range": {
         "startLine": 600,
         "startChar": 20,
@@ -117,6 +159,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "645ef374_3478ac55",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 617,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-02-16T18:44:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39f310b7_86c041a6",
+      "range": {
+        "startLine": 617,
+        "startChar": 37,
+        "endLine": 617,
+        "endChar": 40
+      },
+      "revId": "fd07bdcc3104cfa878a8f439f8ba79189b944003",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5f178d9b_8c7a40d0",
@@ -140,6 +206,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d58ce7a8_63be0a92",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 630,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-02-16T18:44:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f178d9b_8c7a40d0",
+      "range": {
+        "startLine": 625,
+        "startChar": 0,
+        "endLine": 630,
+        "endChar": 0
+      },
+      "revId": "fd07bdcc3104cfa878a8f439f8ba79189b944003",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1ea0f3d3_81bacc8e",
@@ -153,6 +243,30 @@
       "writtenOn": "2024-02-14T19:55:19Z",
       "side": 1,
       "message": "This comment is now stale",
+      "range": {
+        "startLine": 1710,
+        "startChar": 13,
+        "endLine": 1710,
+        "endChar": 26
+      },
+      "revId": "fd07bdcc3104cfa878a8f439f8ba79189b944003",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d18c883_020789b9",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 1710,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-02-16T18:44:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ea0f3d3_81bacc8e",
       "range": {
         "startLine": 1710,
         "startChar": 13,

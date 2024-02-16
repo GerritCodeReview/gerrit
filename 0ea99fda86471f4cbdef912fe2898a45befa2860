@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "340c9aa4_8e360719",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 36
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-02-16T18:44:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73d8d26e_f716b246",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 66
+      },
+      "revId": "0ea99fda86471f4cbdef912fe2898a45befa2860",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c66fbcdc_dc5f3822",
@@ -64,6 +88,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ede3ee0a_7dc29068",
+        "filename": "java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 531,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-02-16T18:44:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d2a4a73_0618c357",
+      "range": {
+        "startLine": 531,
+        "startChar": 63,
+        "endLine": 531,
+        "endChar": 92
+      },
+      "revId": "0ea99fda86471f4cbdef912fe2898a45befa2860",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a1c11642_03db4562",
@@ -77,6 +125,30 @@
       "writtenOn": "2024-02-15T00:44:39Z",
       "side": 1,
       "message": "This should now be `String` because it will contain the concatenation of project and change-number.\n\n\n```suggestion\n    Set\u003cString\u003e seen \u003d Sets.newHashSetWithExpectedSize(cds.size());\n```",
+      "range": {
+        "startLine": 246,
+        "startChar": 8,
+        "endLine": 246,
+        "endChar": 17
+      },
+      "revId": "0ea99fda86471f4cbdef912fe2898a45befa2860",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "77651559_065a863c",
+        "filename": "java/com/google/gerrit/server/change/ChangeFinder.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-02-16T18:44:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a1c11642_03db4562",
       "range": {
         "startLine": 246,
         "startChar": 8,
@@ -110,6 +182,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "28dd8488_c9e79923",
+        "filename": "java/com/google/gerrit/server/change/ChangeFinder.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-02-16T18:44:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c1357e5f_9db37578",
+      "range": {
+        "startLine": 248,
+        "startChar": 19,
+        "endLine": 248,
+        "endChar": 29
+      },
+      "revId": "0ea99fda86471f4cbdef912fe2898a45befa2860",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "009d42cf_d73e6b42",
@@ -129,6 +225,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "06da0863_eb49fafc",
+        "filename": "java/com/google/gerrit/server/index/IndexUtils.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-02-16T18:44:25Z",
+      "side": 1,
+      "message": "If this is used during online migration, it can be an issue since `CHANGENUM` is not there yet.",
+      "parentUuid": "009d42cf_d73e6b42",
+      "revId": "0ea99fda86471f4cbdef912fe2898a45befa2860",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9b96a280_e682f47b",
         "filename": "java/com/google/gerrit/server/index/IndexUtils.java",
         "patchSetId": 36
@@ -140,6 +254,24 @@
       "writtenOn": "2024-02-14T23:04:59Z",
       "side": 1,
       "message": "Same as above.\n\n\n```suggestion\n    return Sets.union(fs, ImmutableSet.of(NUMERIC_ID_STR_SPEC.getName(), PROJECT_SPEC.getName(), CHANGENUM_SPEC.getName()));\n```",
+      "revId": "0ea99fda86471f4cbdef912fe2898a45befa2860",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9400c3d5_1e1d7e1e",
+        "filename": "java/com/google/gerrit/server/index/IndexUtils.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-02-16T18:44:25Z",
+      "side": 1,
+      "message": "Same as previous comment",
+      "parentUuid": "9b96a280_e682f47b",
       "revId": "0ea99fda86471f4cbdef912fe2898a45befa2860",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

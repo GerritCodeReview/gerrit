@@ -336,6 +336,7 @@ java_package_configuration(
         "-Xep:PeriodTimeMath:ERROR",
         "-Xep:PreconditionsCheckNotNullRepeated:ERROR",
         "-Xep:PreconditionsInvalidPlaceholder:ERROR",
+        "-Xep:PreferredInterfaceType:ERROR",
         "-Xep:PrimitiveAtomicReference:ERROR",
         "-Xep:PrivateSecurityContractProtoAccess:ERROR",
         "-Xep:ProtectedMembersInFinalClass:ERROR",

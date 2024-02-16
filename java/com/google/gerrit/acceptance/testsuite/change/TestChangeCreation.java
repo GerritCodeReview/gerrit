@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkState;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.acceptance.testsuite.ThrowingFunction;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.Account;
@@ -246,6 +247,7 @@ public abstract class TestChangeCreation {
      *
      * @return the {@code Change.Id} of the created change
      */
+    @CanIgnoreReturnValue
     public Change.Id create() {
       TestChangeCreation changeUpdate = build();
       return changeUpdate.changeCreator().applyAndThrowSilently(changeUpdate);

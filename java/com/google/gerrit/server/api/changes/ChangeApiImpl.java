@@ -50,6 +50,7 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInfoDifference;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.extensions.common.CommitMessageInfo;
 import com.google.gerrit.extensions.common.CommitMessageInput;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.common.InputWithMessage;
@@ -84,6 +85,7 @@ import com.google.gerrit.server.restapi.change.DeletePrivate;
 import com.google.gerrit.server.restapi.change.GetChange;
 import com.google.gerrit.server.restapi.change.GetCustomKeyedValues;
 import com.google.gerrit.server.restapi.change.GetHashtags;
+import com.google.gerrit.server.restapi.change.GetMessage;
 import com.google.gerrit.server.restapi.change.GetMetaDiff;
 import com.google.gerrit.server.restapi.change.GetPureRevert;
 import com.google.gerrit.server.restapi.change.GetTopic;
@@ -172,6 +174,7 @@ class ChangeApiImpl implements ChangeApi {
   private final DeletePrivate deletePrivate;
   private final SetWorkInProgress setWip;
   private final SetReadyForReview setReady;
+  private final GetMessage getMessage;
   private final PutMessage putMessage;
   private final Provider<GetPureRevert> getPureRevertProvider;
   private final DynamicOptionParser dynamicOptionParser;
@@ -224,6 +227,7 @@ class ChangeApiImpl implements ChangeApi {
       DeletePrivate deletePrivate,
       SetWorkInProgress setWip,
       SetReadyForReview setReady,
+      GetMessage getMessage,
       PutMessage putMessage,
       Provider<GetPureRevert> getPureRevertProvider,
       DynamicOptionParser dynamicOptionParser,
@@ -274,6 +278,7 @@ class ChangeApiImpl implements ChangeApi {
     this.deletePrivate = deletePrivate;
     this.setWip = setWip;
     this.setReady = setReady;
+    this.getMessage = getMessage;
     this.putMessage = putMessage;
     this.getPureRevertProvider = getPureRevertProvider;
     this.dynamicOptionParser = dynamicOptionParser;
@@ -558,6 +563,15 @@ class ChangeApiImpl implements ChangeApi {
   @Override
   public ChangeEditApi edit() throws RestApiException {
     return changeEditApi.create(change);
+  }
+
+  @Override
+  public CommitMessageInfo getMessage() throws RestApiException {
+    try {
+      return getMessage.apply(change).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot get message", e);
+    }
   }
 
   @Override

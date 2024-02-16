@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af0ef873_5b2388e9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-02-16T11:55:50Z",
+      "side": 1,
+      "message": "typo: replication",
+      "range": {
+        "startLine": 9,
+        "startChar": 55,
+        "endLine": 9,
+        "endChar": 66
+      },
+      "revId": "3653015d65c2d4b4fe7afe31ba2cd5a59a17352f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

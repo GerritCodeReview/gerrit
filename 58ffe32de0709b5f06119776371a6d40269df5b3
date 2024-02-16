@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "631b3d8d_2b7e95aa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2024-02-16T05:08:43Z",
+      "side": 1,
+      "message": "Please add before and after screenshots",
+      "revId": "58ffe32de0709b5f06119776371a6d40269df5b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

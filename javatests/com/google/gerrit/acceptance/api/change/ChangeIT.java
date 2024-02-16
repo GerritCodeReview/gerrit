@@ -148,6 +148,7 @@ import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
+import com.google.gerrit.extensions.common.CommitMessageInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.common.TrackingIdInfo;
@@ -187,6 +188,7 @@ import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.AccountTemplateUtil;
+import com.google.gerrit.server.util.CommitMessageUtil;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.inject.AbstractModule;
@@ -214,6 +216,7 @@ import java.util.stream.Stream;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefUpdate.Result;
@@ -3985,6 +3988,22 @@ public class ChangeIT extends AbstractDaemonTest {
         assertThrows(
             BadRequestException.class, () -> gApi.changes().id(changeId).current().review(in));
     assertThat(thrown).hasMessageThat().contains("label \"Code-Review\": 3 is not a valid value");
+  }
+
+  @Test
+  public void getCommitMessage() throws Exception {
+    String subject = "Change Subject";
+    String changeId = "I" + ObjectId.toString(CommitMessageUtil.generateChangeId());
+    String commitMessage =
+        String.format(
+            "%s\n\nFirst Paragraph.\n\nSecond Paragraph\n\nFoo: Bar\nChange-Id: %s\n",
+            subject, changeId);
+    changeOperations.newChange().project(project).commitMessage(commitMessage).create();
+
+    CommitMessageInfo commitMessageInfo = gApi.changes().id(changeId).getMessage();
+    assertThat(commitMessageInfo.subject).isEqualTo(subject);
+    assertThat(commitMessageInfo.fullMessage).isEqualTo(commitMessage);
+    assertThat(commitMessageInfo.footers).containsExactly("Foo", "Bar", "Change-Id", changeId);
   }
 
   @Test

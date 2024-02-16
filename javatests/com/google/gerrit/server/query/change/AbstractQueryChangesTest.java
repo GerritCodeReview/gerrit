@@ -41,6 +41,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
@@ -1435,7 +1436,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertThat(m).hasSize(1);
     assertThat(m).containsEntry("Code-Review", Short.valueOf((short) 1));
 
-    Multimap<Integer, Change> changes =
+    ListMultimap<Integer, Change> changes =
         Multimaps.newListMultimap(Maps.newLinkedHashMap(), () -> Lists.newArrayList());
     changes.put(2, reviewPlus2Change);
     changes.put(1, reviewTwoPlus1Change);
@@ -2658,7 +2659,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     }
   }
 
-  private List<Change> setUpHashtagChanges() throws Exception {
+  private ImmutableList<Change> setUpHashtagChanges() throws Exception {
     Project.NameKey project = Project.nameKey("repo");
     repo = createAndOpenProject(project);
     Change change1 = insert(project, newChange(repo));
@@ -2678,7 +2679,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void byHashtag() throws Exception {
-    List<Change> changes = setUpHashtagChanges();
+    ImmutableList<Change> changes = setUpHashtagChanges();
     assertQuery("hashtag:foo", changes.get(1), changes.get(0));
     assertQuery("hashtag:bar", changes.get(1));
     assertQuery("hashtag:\"a tag\"", changes.get(1));
@@ -2693,7 +2694,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Test
   public void byHashtagFullText() throws Exception {
     assume().that(getSchema().hasField(ChangeField.FUZZY_HASHTAG)).isTrue();
-    List<Change> changes = setUpHashtagChanges();
+    ImmutableList<Change> changes = setUpHashtagChanges();
     assertQuery("inhashtag:foo", changes.get(1), changes.get(0));
     assertQuery("inhashtag:bbb", changes.get(0));
     assertQuery("inhashtag:tag", changes.get(1));
@@ -2702,7 +2703,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Test
   public void byHashtagPrefix() throws Exception {
     assume().that(getSchema().hasField(ChangeField.PREFIX_HASHTAG)).isTrue();
-    List<Change> changes = setUpHashtagChanges();
+    ImmutableList<Change> changes = setUpHashtagChanges();
     assertQuery("prefixhashtag:a", changes.get(1), changes.get(0));
     assertQuery("prefixhashtag:aa", changes.get(0));
     assertQuery("prefixhashtag:bar", changes.get(1));
@@ -4785,11 +4786,11 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     return b.toString();
   }
 
-  protected static Iterable<Change.Id> ids(Change... changes) {
+  protected static List<Change.Id> ids(Change... changes) {
     return Arrays.stream(changes).map(Change::getId).collect(toList());
   }
 
-  protected static Iterable<Change.Id> ids(Iterable<ChangeInfo> changes) {
+  protected static List<Change.Id> ids(Iterable<ChangeInfo> changes) {
     return Streams.stream(changes).map(c -> Change.id(c._number)).collect(toList());
   }
 

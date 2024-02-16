@@ -20,6 +20,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
 import com.google.gerrit.common.Nullable;
@@ -297,14 +298,15 @@ public class AbstractPluginFieldsTest extends AbstractDaemonTest {
     assertThat(getter.call(id).get(id)).isNull();
   }
 
-  protected static List<PluginDefinedInfo> pluginInfoFromSingletonList(
+  protected static ImmutableList<PluginDefinedInfo> pluginInfoFromSingletonList(
       List<ChangeInfo> changeInfos) {
     assertThat(changeInfos).hasSize(1);
     return pluginInfoFromChangeInfo(changeInfos.get(0));
   }
 
   @Nullable
-  protected static List<PluginDefinedInfo> pluginInfoFromChangeInfo(ChangeInfo changeInfo) {
+  protected static ImmutableList<PluginDefinedInfo> pluginInfoFromChangeInfo(
+      ChangeInfo changeInfo) {
     List<PluginDefinedInfo> pluginInfo = changeInfo.plugins;
     if (pluginInfo == null) {
       return null;

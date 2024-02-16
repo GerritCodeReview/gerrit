@@ -829,7 +829,7 @@ public class AccountIT extends AbstractDaemonTest {
     reviewerInput.reviewer = user.email();
     input.reviewers.add(reviewerInput);
     gApi.changes().id(r.getChangeId()).current().review(input);
-    List<Message> messages = sender.getMessages();
+    ImmutableList<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message message = messages.get(0);
     assertThat(message.rcpt()).containsExactly(user.getNameEmail());
@@ -850,7 +850,7 @@ public class AccountIT extends AbstractDaemonTest {
     input2.reviewers.add(reviewerInput3);
 
     gApi.changes().id(r.getChangeId()).current().review(input2);
-    List<Message> messages2 = sender.getMessages();
+    ImmutableList<Message> messages2 = sender.getMessages();
     assertThat(messages2).hasSize(1);
     Message message2 = messages2.get(0);
     assertThat(message2.rcpt()).containsExactly(user2.getNameEmail());
@@ -870,7 +870,7 @@ public class AccountIT extends AbstractDaemonTest {
     input3.reviewers.add(reviewerInput5);
 
     gApi.changes().id(r.getChangeId()).current().review(input3);
-    List<Message> messages3 = sender.getMessages();
+    ImmutableList<Message> messages3 = sender.getMessages();
     assertThat(messages3).isEmpty();
   }
 
@@ -882,7 +882,7 @@ public class AccountIT extends AbstractDaemonTest {
     ReviewerInput reviewerInput = new ReviewerInput();
     reviewerInput.reviewer = user.email();
     gApi.changes().id(r.getChangeId()).addReviewer(reviewerInput);
-    List<Message> messages = sender.getMessages();
+    ImmutableList<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message message = messages.get(0);
     assertThat(message.rcpt()).containsExactly(user.getNameEmail());
@@ -895,7 +895,7 @@ public class AccountIT extends AbstractDaemonTest {
     ReviewerInput reviewerInput2 = new ReviewerInput();
     reviewerInput2.reviewer = user2.email();
     gApi.changes().id(r.getChangeId()).addReviewer(reviewerInput2);
-    List<Message> messages2 = sender.getMessages();
+    ImmutableList<Message> messages2 = sender.getMessages();
     assertThat(messages2).hasSize(1);
     Message message2 = messages2.get(0);
     assertThat(message2.rcpt()).containsExactly(user2.getNameEmail());
@@ -907,7 +907,7 @@ public class AccountIT extends AbstractDaemonTest {
     ReviewerInput reviewerInput3 = new ReviewerInput();
     reviewerInput3.reviewer = user2.email();
     gApi.changes().id(r.getChangeId()).addReviewer(reviewerInput3);
-    List<Message> messages3 = sender.getMessages();
+    ImmutableList<Message> messages3 = sender.getMessages();
     assertThat(messages3).isEmpty();
   }
 
@@ -1032,8 +1032,9 @@ public class AccountIT extends AbstractDaemonTest {
     AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(accountIndexedCounter)) {
-      List<String> emails = ImmutableList.of("new.email@example.com", "new.email@example.systems");
-      Set<String> currentEmails = getEmails();
+      ImmutableList<String> emails =
+          ImmutableList.of("new.email@example.com", "new.email@example.systems");
+      ImmutableSet<String> currentEmails = getEmails();
       for (String email : emails) {
         assertThat(currentEmails).doesNotContain(email);
         EmailInput input = newEmailInput(email);
@@ -1048,7 +1049,7 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void addInvalidEmail() throws Exception {
-    List<String> emails =
+    ImmutableList<String> emails =
         ImmutableList.of(
             // Missing domain part
             "new.email",
@@ -1230,7 +1231,7 @@ public class AccountIT extends AbstractDaemonTest {
     gApi.accounts().self().addEmail(input);
 
     requestScopeOperations.resetCurrentApiUser();
-    Set<String> allEmails = getEmails();
+    ImmutableSet<String> allEmails = getEmails();
     assertThat(allEmails).hasSize(2);
 
     for (String email : allEmails) {
@@ -1452,7 +1453,7 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void putStatus() throws Exception {
-    List<String> statuses = ImmutableList.of("OOO", "Busy");
+    ImmutableList<String> statuses = ImmutableList.of("OOO", "Busy");
     AccountInfo info;
     AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
     try (Registration registration =
@@ -1743,7 +1744,7 @@ public class AccountIT extends AbstractDaemonTest {
     AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(accountIndexedCounter)) {
-      List<TestKey> keys = allValidKeys();
+      ImmutableList<TestKey> keys = allValidKeys();
       List<String> toAdd = new ArrayList<>(keys.size());
       for (TestKey key : keys) {
         addExternalIdEmail(
@@ -2213,7 +2214,7 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void failAfterRetryerGivesUp() throws Exception {
-    List<String> status = ImmutableList.of("foo", "bar", "baz");
+    ImmutableList<String> status = ImmutableList.of("foo", "bar", "baz");
     String fullName = "Foo";
     AtomicInteger bgCounter = new AtomicInteger(0);
     AccountsUpdate update =
@@ -3412,7 +3413,7 @@ public class AccountIT extends AbstractDaemonTest {
           }
 
           @Override
-          public Set<AccountGroup.UUID> getKnownGroups() {
+          public ImmutableSet<AccountGroup.UUID> getKnownGroups() {
             // Typically for external group backends it's too expensive to query all groups that the
             // user is a member of. Instead limit the group membership check to groups that are
             // guessed to be relevant.
@@ -3490,7 +3491,7 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   private static void assertIteratorSize(int size, Iterator<?> it) {
-    List<?> lst = ImmutableList.copyOf(it);
+    ImmutableList<?> lst = ImmutableList.copyOf(it);
     assertThat(lst).hasSize(size);
   }
 
@@ -3529,7 +3530,7 @@ public class AccountIT extends AbstractDaemonTest {
     Account.Id currAccountId = localCtx.getContext().getUser().getAccountId();
     Iterable<String> expectedFps =
         expected.transform(k -> BaseEncoding.base16().encode(k.getPublicKey().getFingerprint()));
-    Iterable<String> actualFps =
+    Set<String> actualFps =
         externalIds.byAccount(currAccountId, SCHEME_GPGKEY).stream()
             .map(e -> e.key().id())
             .collect(toSet());
@@ -3551,7 +3552,7 @@ public class AccountIT extends AbstractDaemonTest {
     assertWithMessage(id)
         .that(actual.fingerprint)
         .isEqualTo(Fingerprint.toString(expected.getPublicKey().getFingerprint()));
-    List<String> userIds = ImmutableList.copyOf(expected.getPublicKey().getUserIDs());
+    ImmutableList<String> userIds = ImmutableList.copyOf(expected.getPublicKey().getUserIDs());
     assertWithMessage(id).that(actual.userIds).containsExactlyElementsIn(userIds);
     String key = actual.key;
     assertWithMessage(id).that(key).startsWith("-----BEGIN PGP PUBLIC KEY BLOCK-----\n");

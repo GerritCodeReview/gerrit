@@ -1533,7 +1533,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   public void pushForMasterWithHashtags() throws Exception {
     // specify a single hashtag as option
     String hashtag1 = "tag1";
-    Set<String> expected = ImmutableSet.of(hashtag1);
+    ImmutableSet<String> expected = ImmutableSet.of(hashtag1);
     PushOneCommit.Result r = pushTo("refs/for/master%hashtag=#" + hashtag1);
     r.assertOkStatus();
     r.assertChange(Change.Status.NEW, null);
@@ -2383,7 +2383,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     addDraft(r.getChangeId(), rev2, newDraft(FILE_NAME, 1, "comment_PS3."));
     amendChange(r.getChangeId(), "refs/for/master%publish-comments");
 
-    Collection<CommentInfo> comments = getPublishedComments(r.getChangeId());
+    List<CommentInfo> comments = getPublishedComments(r.getChangeId());
     List<ChangeMessageInfo> allMessages = getMessages(r.getChangeId());
 
     assertThat(allMessages.stream().map(m -> m.message).collect(toList()))
@@ -2446,7 +2446,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     sender.clear();
     amendChange(r.getChangeId(), "refs/for/master%publish-comments");
 
-    Collection<CommentInfo> comments = getPublishedComments(r.getChangeId());
+    List<CommentInfo> comments = getPublishedComments(r.getChangeId());
     assertThat(comments.stream().map(c -> c.id)).containsExactly(c1.id, c2.id, c3.id);
     assertThat(comments.stream().map(c -> c.message))
         .containsExactly("comment1", "comment2", "comment3");
@@ -2511,7 +2511,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
     r = amendChange(r.getChangeId(), "refs/for/master%publish-comments,m=The_message");
 
-    Collection<CommentInfo> comments = getPublishedComments(r.getChangeId());
+    List<CommentInfo> comments = getPublishedComments(r.getChangeId());
     assertThat(comments.stream().map(c -> c.message)).containsExactly("comment1");
     assertThat(getLastMessage(r.getChangeId())).isEqualTo("Patch Set 2:\n" + "\n" + "(1 comment)");
   }
@@ -2530,7 +2530,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
     amendChanges(initialHead, commits, "refs/for/master%publish-comments");
 
-    Collection<CommentInfo> cs1 = getPublishedComments(id1);
+    List<CommentInfo> cs1 = getPublishedComments(id1);
     List<ChangeMessageInfo> messages1 = getMessages(id1);
     assertThat(cs1.stream().map(c -> c.message)).containsExactly("comment1");
     assertThat(cs1.stream().map(c -> c.id)).containsExactly(c1.id);
@@ -2539,7 +2539,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
         .isEqualTo("Uploaded patch set 2: Commit message was updated.");
     assertThat(messages1.get(2).message).isEqualTo("Patch Set 2:\n\n(1 comment)");
 
-    Collection<CommentInfo> cs2 = getPublishedComments(id2);
+    List<CommentInfo> cs2 = getPublishedComments(id2);
     List<ChangeMessageInfo> messages2 = getMessages(id2);
     assertThat(cs2.stream().map(c -> c.message)).containsExactly("comment2");
     assertThat(cs2.stream().map(c -> c.id)).containsExactly(c2.id);
@@ -2566,7 +2566,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertThat(getPublishedComments(id1)).isEmpty();
     assertThat(gApi.changes().id(id1).drafts()).hasSize(1);
 
-    Collection<CommentInfo> cs2 = getPublishedComments(id2);
+    List<CommentInfo> cs2 = getPublishedComments(id2);
     assertThat(cs2.stream().map(c -> c.message)).containsExactly("comment2");
     assertThat(cs2.stream().map(c -> c.id)).containsExactly(c2.id);
 
@@ -2837,7 +2837,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertThat(pr.getMessages()).contains("Invalid value in -o notedb=foobar");
     assertPushRejected(pr, ref, "NoteDb update requires -o notedb=allow");
 
-    List<String> opts = ImmutableList.of("notedb=allow");
+    ImmutableList<String> opts = ImmutableList.of("notedb=allow");
     pr = pushOne(testRepo, c.name(), ref, false, false, opts);
     assertPushRejected(pr, ref, "NoteDb update requires access database permission");
 
@@ -3197,7 +3197,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     return gApi.changes().id(changeId).revision(revId).createDraft(in).get();
   }
 
-  private Collection<CommentInfo> getPublishedComments(String changeId) throws Exception {
+  private List<CommentInfo> getPublishedComments(String changeId) throws Exception {
     return gApi.changes().id(changeId).commentsRequest().get().values().stream()
         .flatMap(Collection::stream)
         .collect(toList());

@@ -33,6 +33,7 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.Comparator.comparing;
 
 import com.google.common.cache.Cache;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.MoreCollectors;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -471,7 +472,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
 
     // The code-review approval is copied for the second change between PS1 and PS2 since the only
     // modified file is due to rebase.
-    List<PatchSetApproval> patchSetApprovals =
+    ImmutableList<PatchSetApproval> patchSetApprovals =
         r2.getChange().notes().getApprovals().all().values().stream()
             .sorted(comparing(a -> a.patchSetId().get()))
             .collect(toImmutableList());
@@ -1024,7 +1025,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
       amendChange(r.getChangeId());
     }
 
-    List<PatchSetApproval> patchSetApprovals =
+    ImmutableList<PatchSetApproval> patchSetApprovals =
         r.getChange().notes().getApprovals().all().values().stream()
             .sorted(comparing(a -> a.patchSetId().get()))
             .collect(toImmutableList());
@@ -1065,7 +1066,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     // Rebase the second change
     gApi.changes().id(r2.getChangeId()).rebase();
 
-    List<PatchSetApproval> patchSetApprovals =
+    ImmutableList<PatchSetApproval> patchSetApprovals =
         r2.getChange().notes().getApprovals().all().values().stream()
             .sorted(comparing(a -> a.patchSetId().get()))
             .collect(toImmutableList());
@@ -1102,7 +1103,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     // Make a new patchset, keeping the Code-Review +1 vote.
     amendChange(r.getChangeId());
 
-    List<PatchSetApproval> patchSetApprovals =
+    ImmutableList<PatchSetApproval> patchSetApprovals =
         r.getChange().notes().getApprovals().all().values().stream()
             .sorted(comparing(a -> a.patchSetId().get()))
             .collect(toImmutableList());
@@ -1152,7 +1153,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     // Make a new patchset, keeping the Code-Review +1 vote.
     amendChange(r.getChangeId());
 
-    List<PatchSetApproval> patchSetApprovals =
+    ImmutableList<PatchSetApproval> patchSetApprovals =
         r.getChange().notes().getApprovals().all().values().stream()
             .sorted(comparing(a -> a.patchSetId().get()))
             .collect(toImmutableList());
@@ -1288,7 +1289,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
           .create();
       vote(admin, changeId, 2, 1);
 
-      List<PatchSetApproval> patchSetApprovals =
+      ImmutableList<PatchSetApproval> patchSetApprovals =
           notesFactory.create(project, r.getChange().getId()).getApprovals().all().values().stream()
               .sorted(comparing(a -> a.patchSetId().get()))
               .collect(toImmutableList());

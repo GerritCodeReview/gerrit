@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.rest.account;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.entities.Account;
@@ -49,7 +50,7 @@ public class AccountAssert {
    * @param actual the AccountInfos that should be asserted
    */
   public static void assertAccountInfos(List<TestAccount> expected, List<AccountInfo> actual) {
-    Iterable<Account.Id> expectedIds = TestAccount.ids(expected);
+    ImmutableList<Account.Id> expectedIds = TestAccount.ids(expected);
     Iterable<Account.Id> actualIds = Iterables.transform(actual, a -> Account.id(a._accountId));
     assertThat(actualIds).containsExactlyElementsIn(expectedIds).inOrder();
     for (int i = 0; i < expected.size(); i++) {

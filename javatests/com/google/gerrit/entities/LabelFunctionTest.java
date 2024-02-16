@@ -70,7 +70,8 @@ public class LabelFunctionTest {
 
   @Test
   public void checkMaxNoBlockIgnoresMin() {
-    List<PatchSetApproval> approvals = ImmutableList.of(APPROVAL_M2, APPROVAL_2, APPROVAL_M2);
+    ImmutableList<PatchSetApproval> approvals =
+        ImmutableList.of(APPROVAL_M2, APPROVAL_2, APPROVAL_M2);
 
     SubmitRecord.Label myLabel = LabelFunction.MAX_NO_BLOCK.check(VERIFIED_LABEL, approvals);
 
@@ -98,7 +99,8 @@ public class LabelFunctionTest {
   }
 
   private static void checkBlockWorks(LabelFunction function) {
-    List<PatchSetApproval> approvals = ImmutableList.of(APPROVAL_1, APPROVAL_M2, APPROVAL_2);
+    ImmutableList<PatchSetApproval> approvals =
+        ImmutableList.of(APPROVAL_1, APPROVAL_M2, APPROVAL_2);
 
     SubmitRecord.Label myLabel = function.check(VERIFIED_LABEL, approvals);
 
@@ -121,7 +123,7 @@ public class LabelFunctionTest {
   }
 
   private static void checkMaxIsEnforced(LabelFunction function) {
-    List<PatchSetApproval> approvals = ImmutableList.of(APPROVAL_1, APPROVAL_0);
+    ImmutableList<PatchSetApproval> approvals = ImmutableList.of(APPROVAL_1, APPROVAL_0);
 
     SubmitRecord.Label myLabel = function.check(VERIFIED_LABEL, approvals);
 
@@ -129,7 +131,8 @@ public class LabelFunctionTest {
   }
 
   private static void checkMaxValidatesTheLabel(LabelFunction function) {
-    List<PatchSetApproval> approvals = ImmutableList.of(APPROVAL_1, APPROVAL_2, APPROVAL_M1);
+    ImmutableList<PatchSetApproval> approvals =
+        ImmutableList.of(APPROVAL_1, APPROVAL_2, APPROVAL_M1);
 
     SubmitRecord.Label myLabel = function.check(VERIFIED_LABEL, approvals);
 

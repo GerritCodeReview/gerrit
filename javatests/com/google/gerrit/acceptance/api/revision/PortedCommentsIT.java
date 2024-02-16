@@ -77,7 +77,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     newComment(patchset2Id).create();
     newComment(patchset3Id).create();
 
-    List<CommentInfo> portedComments = flatten(getPortedComments(patchset2Id));
+    ImmutableList<CommentInfo> portedComments = flatten(getPortedComments(patchset2Id));
 
     assertThatList(portedComments).comparingElementsUsing(hasUuid()).containsExactly(comment1Uuid);
   }
@@ -94,7 +94,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     String comment1Uuid = newComment(patchset1Id).create();
     String comment3Uuid = newComment(patchset3Id).create();
 
-    List<CommentInfo> portedComments = flatten(getPortedComments(patchset4Id));
+    ImmutableList<CommentInfo> portedComments = flatten(getPortedComments(patchset4Id));
 
     assertThat(portedComments)
         .comparingElementsUsing(hasUuid())
@@ -111,7 +111,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     String comment1Uuid = newComment(patchset1Id).create();
     String comment2Uuid = newComment(patchset1Id).create();
 
-    List<CommentInfo> portedComments = flatten(getPortedComments(patchset2Id));
+    ImmutableList<CommentInfo> portedComments = flatten(getPortedComments(patchset2Id));
 
     assertThat(portedComments)
         .comparingElementsUsing(hasUuid())
@@ -129,7 +129,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     String child1CommentUuid = newComment(patchset1Id).parentUuid(rootCommentUuid).create();
     String child2CommentUuid = newComment(patchset1Id).parentUuid(child1CommentUuid).create();
 
-    List<CommentInfo> portedComments = flatten(getPortedComments(patchset2Id));
+    ImmutableList<CommentInfo> portedComments = flatten(getPortedComments(patchset2Id));
 
     assertThat(portedComments)
         .comparingElementsUsing(hasUuid())
@@ -146,7 +146,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     newComment(patchset1Id).resolved().create();
     String comment2Uuid = newComment(patchset1Id).unresolved().create();
 
-    List<CommentInfo> portedComments = flatten(getPortedComments(patchset2Id));
+    ImmutableList<CommentInfo> portedComments = flatten(getPortedComments(patchset2Id));
 
     assertThat(portedComments).comparingElementsUsing(hasUuid()).containsExactly(comment2Uuid);
   }
@@ -216,7 +216,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     String rootComment2Uuid = newComment(patchset1Id).unresolved().create();
     newComment(patchset1Id).parentUuid(rootComment2Uuid).resolved().create();
 
-    List<CommentInfo> portedComments = flatten(getPortedComments(patchset2Id));
+    ImmutableList<CommentInfo> portedComments = flatten(getPortedComments(patchset2Id));
 
     assertThat(portedComments)
         .comparingElementsUsing(hasUuid())
@@ -246,7 +246,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
             .createdOn(now.plusSeconds(10))
             .create();
 
-    List<CommentInfo> portedComments = flatten(getPortedComments(patchset2Id));
+    ImmutableList<CommentInfo> portedComments = flatten(getPortedComments(patchset2Id));
 
     assertThat(portedComments)
         .comparingElementsUsing(hasUuid())
@@ -272,7 +272,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
 
     // Draft comments are only visible to their author.
     requestScopeOps.setApiUser(accountId);
-    List<CommentInfo> portedComments = flatten(getPortedComments(patchset2Id));
+    ImmutableList<CommentInfo> portedComments = flatten(getPortedComments(patchset2Id));
 
     assertThat(portedComments).comparingElementsUsing(hasUuid()).containsExactly(rootComment2Uuid);
   }
@@ -289,7 +289,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
 
     // Draft comments are only visible to their author.
     requestScopeOps.setApiUser(accountId);
-    List<CommentInfo> portedComments = flatten(getPortedComments(patchset2Id));
+    ImmutableList<CommentInfo> portedComments = flatten(getPortedComments(patchset2Id));
 
     assertThatList(portedComments).isEmpty();
   }
@@ -365,7 +365,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     String patchsetLevelCommentUuid =
         newComment(patchset1Id).message("Patchset-level comment").onPatchsetLevel().create();
 
-    List<CommentInfo> portedComments = flatten(getPortedComments(patchset2Id));
+    ImmutableList<CommentInfo> portedComments = flatten(getPortedComments(patchset2Id));
 
     assertThat(portedComments)
         .comparingElementsUsing(hasUuid())
@@ -382,7 +382,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     // Add comments.
     String commentUuid = newComment(patchset1Id).onParentCommit().create();
 
-    List<CommentInfo> portedComments = flatten(getPortedComments(patchset2Id));
+    ImmutableList<CommentInfo> portedComments = flatten(getPortedComments(patchset2Id));
 
     assertThat(portedComments).comparingElementsUsing(hasUuid()).containsExactly(commentUuid);
   }
@@ -396,7 +396,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     // Add comments.
     String commentUuid = newComment(patchset1Id).onSecondParentCommit().create();
 
-    List<CommentInfo> portedComments = flatten(getPortedComments(patchset2Id));
+    ImmutableList<CommentInfo> portedComments = flatten(getPortedComments(patchset2Id));
 
     assertThat(portedComments).comparingElementsUsing(hasUuid()).containsExactly(commentUuid);
   }
@@ -411,7 +411,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     String commentUuid1 = newComment(patchset1Id).onFileLevelOf("not-existing file").create();
     String commentUuid2 = newComment(patchset1Id).onLine(3).ofFile("myFile").create();
 
-    List<CommentInfo> portedComments = flatten(getPortedComments(patchset2Id));
+    ImmutableList<CommentInfo> portedComments = flatten(getPortedComments(patchset2Id));
 
     assertThat(portedComments)
         .comparingElementsUsing(hasUuid())
@@ -441,7 +441,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     // Add comment.
     String commentUuid = newComment(patchset1Id).create();
 
-    List<CommentInfo> portedComments = flatten(getPortedComments(patchset2Id));
+    ImmutableList<CommentInfo> portedComments = flatten(getPortedComments(patchset2Id));
 
     assertThatList(portedComments).onlyElement().uuid().isEqualTo(commentUuid);
   }
@@ -1859,7 +1859,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
         .revision(patchsetId1.get())
         .comment(commentUuid)
         .delete(new DeleteCommentInput());
-    List<CommentInfo> portedComments = flatten(getPortedComments(patchsetId2));
+    ImmutableList<CommentInfo> portedComments = flatten(getPortedComments(patchsetId2));
 
     assertThatList(portedComments).isEmpty();
   }

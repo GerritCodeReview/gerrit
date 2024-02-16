@@ -21,7 +21,7 @@ import static com.google.gerrit.index.SchemaUtil.schema;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableList;
-import java.util.Map;
+import com.google.common.collect.ImmutableMap;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -53,7 +53,8 @@ public class SchemaUtilTest {
 
   @Test
   public void schemasFromClassBuildsMap() {
-    Map<Integer, Schema<String>> all = SchemaUtil.schemasFromClass(TestSchemas.class, String.class);
+    ImmutableMap<Integer, Schema<String>> all =
+        SchemaUtil.schemasFromClass(TestSchemas.class, String.class);
     assertThat(all.keySet()).containsExactly(1, 2, 4);
     assertThat(all.get(1)).isEqualTo(TestSchemas.V1);
     assertThat(all.get(2)).isEqualTo(TestSchemas.V2);

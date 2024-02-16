@@ -154,7 +154,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     assertReviewers(c, CC, user);
 
     // Verify email was sent to CCed account.
-    List<Message> messages = sender.getMessages();
+    ImmutableList<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message m = messages.get(0);
     assertThat(m.rcpt()).containsExactly(user.getNameEmail());
@@ -232,7 +232,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     assertReviewers(c, CC, firstUsers);
 
     // Verify emails were sent to each of the group's accounts.
-    List<Message> messages = sender.getMessages();
+    ImmutableList<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message m = messages.get(0);
     List<Address> expectedAddresses = new ArrayList<>(firstUsers.size());
@@ -444,7 +444,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     assertReviewers(c, CC, observer);
 
     // Verify emails were sent to added reviewers.
-    List<Message> messages = sender.getMessages();
+    ImmutableList<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(2);
 
     Message m = messages.get(0);

@@ -22,6 +22,7 @@ import static org.junit.Assert.assertEquals;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -533,7 +534,7 @@ public class PushOneCommit {
 
     private void assertReviewers(
         Change c, ReviewerStateInternal state, List<TestAccount> expectedReviewers) {
-      Iterable<Account.Id> actualIds =
+      ImmutableSet<Account.Id> actualIds =
           approvalsUtil.getReviewers(notesFactory.createChecked(c)).byState(state);
       assertThat(actualIds)
           .containsExactlyElementsIn(Sets.newHashSet(TestAccount.ids(expectedReviewers)));

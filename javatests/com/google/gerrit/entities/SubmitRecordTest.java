@@ -18,7 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.ImmutableList;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import org.junit.Test;
 
 public class SubmitRecordTest {
@@ -39,7 +39,7 @@ public class SubmitRecordTest {
 
   @Test
   public void okIfAllOkay() {
-    Collection<SubmitRecord> submitRecords = new ArrayList<>();
+    List<SubmitRecord> submitRecords = new ArrayList<>();
     submitRecords.add(OK_RECORD);
 
     assertThat(SubmitRecord.allRecordsOK(submitRecords)).isTrue();
@@ -47,14 +47,14 @@ public class SubmitRecordTest {
 
   @Test
   public void okWhenEmpty() {
-    Collection<SubmitRecord> submitRecords = new ArrayList<>();
+    List<SubmitRecord> submitRecords = new ArrayList<>();
 
     assertThat(SubmitRecord.allRecordsOK(submitRecords)).isTrue();
   }
 
   @Test
   public void okWhenForced() {
-    Collection<SubmitRecord> submitRecords = new ArrayList<>();
+    List<SubmitRecord> submitRecords = new ArrayList<>();
     submitRecords.add(FORCED_RECORD);
 
     assertThat(SubmitRecord.allRecordsOK(submitRecords)).isTrue();
@@ -62,7 +62,7 @@ public class SubmitRecordTest {
 
   @Test
   public void emptyResultIfInvalid() {
-    Collection<SubmitRecord> submitRecords = new ArrayList<>();
+    List<SubmitRecord> submitRecords = new ArrayList<>();
     submitRecords.add(NOT_READY_RECORD);
     submitRecords.add(OK_RECORD);
 

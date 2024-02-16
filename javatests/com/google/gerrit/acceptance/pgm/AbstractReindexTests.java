@@ -21,6 +21,7 @@ import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.extensions.client.ListGroupsOption.MEMBERS;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.io.MoreFiles;
 import com.google.common.io.RecursiveDeleteOption;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -44,7 +45,6 @@ import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
 import java.nio.file.Files;
 import java.util.Collection;
-import java.util.Set;
 import java.util.function.Consumer;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
@@ -289,7 +289,8 @@ public abstract class AbstractReindexTests extends StandaloneSiteTest {
   }
 
   private void assertReady(int expectedReady) throws Exception {
-    Set<Integer> allVersions = ChangeSchemaDefinitions.INSTANCE.getSchemas().keySet();
+    ImmutableSortedSet<Integer> allVersions =
+        ChangeSchemaDefinitions.INSTANCE.getSchemas().keySet();
     GerritIndexStatus status = new GerritIndexStatus(sitePaths);
     assertWithMessage("ready state for index versions")
         .that(

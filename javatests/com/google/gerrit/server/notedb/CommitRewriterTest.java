@@ -54,7 +54,6 @@ import com.google.inject.Inject;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.IntStream;
@@ -180,7 +179,7 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
 
     assertFixedCommits(ImmutableList.of(commitToFix), backfillResult, c.getId());
 
-    List<String> commitHistoryDiff = commitHistoryDiff(backfillResult, c.getId());
+    ImmutableList<String> commitHistoryDiff = commitHistoryDiff(backfillResult, c.getId());
     assertThat(commitHistoryDiff).containsExactly("");
     BackfillResult secondRunResult = rewriter.backfillProject(project, repo, options);
     assertThat(secondRunResult.fixedRefDiff.keySet()).isEmpty();
@@ -385,7 +384,7 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     assertThat(invalidUpdateCommit.getCommitterIdent())
         .isEqualTo(fixedUpdateCommit.getCommitterIdent());
     assertThat(fixedUpdateCommit.getFullMessage()).doesNotContain(changeOwner.getName());
-    List<String> commitHistoryDiff = commitHistoryDiff(result, c.getId());
+    ImmutableList<String> commitHistoryDiff = commitHistoryDiff(result, c.getId());
     assertThat(commitHistoryDiff).hasSize(1);
     assertThat(commitHistoryDiff.get(0)).contains("-author Change Owner <1@gerrit>");
     assertThat(commitHistoryDiff.get(0)).contains("+author Gerrit User 1 <1@gerrit>");
@@ -448,7 +447,7 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
         commitsBeforeRewrite, commitsAfterRewrite, ImmutableList.of(invalidCommitIndex));
     assertFixedCommits(ImmutableList.of(invalidUpdateCommit), result, c.getId());
 
-    List<String> commitHistoryDiff = commitHistoryDiff(result, c.getId());
+    ImmutableList<String> commitHistoryDiff = commitHistoryDiff(result, c.getId());
     assertThat(commitHistoryDiff)
         .containsExactly(
             "@@ -9 +9 @@\n"
@@ -526,7 +525,7 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     assertValidCommits(commitsBeforeRewrite, commitsAfterRewrite, invalidCommits);
     assertFixedCommits(commitsToFix, result, c.getId());
 
-    List<String> commitHistoryDiff = commitHistoryDiff(result, c.getId());
+    ImmutableList<String> commitHistoryDiff = commitHistoryDiff(result, c.getId());
     assertThat(commitHistoryDiff)
         .containsExactly(
             "@@ -9 +9 @@\n"
@@ -618,7 +617,7 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     assertValidCommits(commitsBeforeRewrite, commitsAfterRewrite, invalidCommits);
     assertFixedCommits(commitsToFix.build(), result, c.getId());
 
-    List<String> commitHistoryDiff = commitHistoryDiff(result, c.getId());
+    ImmutableList<String> commitHistoryDiff = commitHistoryDiff(result, c.getId());
     assertThat(commitHistoryDiff)
         .containsExactly(
             "@@ -6 +6 @@\n" + "-Removed reviewer Other Account.\n" + "+Removed reviewer\n",
@@ -656,7 +655,7 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     BackfillResult result = rewriter.backfillProject(project, repo, options);
     assertThat(result.fixedRefDiff.keySet()).containsExactly(RefNames.changeMetaRef(c.getId()));
 
-    List<String> commitHistoryDiff = commitHistoryDiff(result, c.getId());
+    ImmutableList<String> commitHistoryDiff = commitHistoryDiff(result, c.getId());
     assertThat(commitHistoryDiff)
         .containsExactly(
             "@@ -6 +6 @@\n" + "-Removed reviewer Other Account.\n" + "+Removed reviewer\n",
@@ -783,7 +782,7 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     assertValidCommits(commitsBeforeRewrite, commitsAfterRewrite, invalidCommits);
     assertFixedCommits(commitsToFix, result, c.getId());
 
-    List<String> commitHistoryDiff = commitHistoryDiff(result, c.getId());
+    ImmutableList<String> commitHistoryDiff = commitHistoryDiff(result, c.getId());
     assertThat(commitHistoryDiff)
         .containsExactly(
             "@@ -7,2 +7,2 @@\n"
@@ -908,7 +907,7 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     assertValidCommits(commitsBeforeRewrite, commitsAfterRewrite, invalidCommits);
     assertFixedCommits(commitsToFix, result, c.getId());
 
-    List<String> commitHistoryDiff = commitHistoryDiff(result, c.getId());
+    ImmutableList<String> commitHistoryDiff = commitHistoryDiff(result, c.getId());
     assertThat(commitHistoryDiff)
         .containsExactly(
             "@@ -6 +6 @@\n"
@@ -947,7 +946,7 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     BackfillResult result = rewriter.backfillProject(project, repo, options);
     assertThat(result.fixedRefDiff.keySet()).containsExactly(RefNames.changeMetaRef(c.getId()));
 
-    List<String> commitHistoryDiff = commitHistoryDiff(result, c.getId());
+    ImmutableList<String> commitHistoryDiff = commitHistoryDiff(result, c.getId());
     // Other Account does not applier in any change updates, replaced with default
     assertThat(commitHistoryDiff)
         .containsExactly(
@@ -991,7 +990,7 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     BackfillResult result = rewriter.backfillProject(project, repo, options);
     assertThat(result.fixedRefDiff.keySet()).containsExactly(RefNames.changeMetaRef(c.getId()));
 
-    List<String> commitHistoryDiff = commitHistoryDiff(result, c.getId());
+    ImmutableList<String> commitHistoryDiff = commitHistoryDiff(result, c.getId());
     assertThat(commitHistoryDiff)
         .containsExactly(
             "@@ -6 +6 @@\n"
@@ -1025,7 +1024,7 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     BackfillResult result = rewriter.backfillProject(project, repo, options);
     assertThat(result.fixedRefDiff.keySet()).containsExactly(RefNames.changeMetaRef(c.getId()));
 
-    List<String> commitHistoryDiff = commitHistoryDiff(result, c.getId());
+    ImmutableList<String> commitHistoryDiff = commitHistoryDiff(result, c.getId());
     assertThat(commitHistoryDiff)
         .containsExactly(
             "@@ -6 +6 @@\n"
@@ -1054,7 +1053,7 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     BackfillResult result = rewriter.backfillProject(project, repo, options);
     assertThat(result.fixedRefDiff.keySet()).containsExactly(RefNames.changeMetaRef(c.getId()));
 
-    List<String> commitHistoryDiff = commitHistoryDiff(result, c.getId());
+    ImmutableList<String> commitHistoryDiff = commitHistoryDiff(result, c.getId());
     assertThat(commitHistoryDiff)
         .containsExactly(
             "@@ -6 +6 @@\n"
@@ -1101,7 +1100,7 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     BackfillResult result = rewriter.backfillProject(project, repo, options);
     assertThat(result.fixedRefDiff.keySet()).containsExactly(RefNames.changeMetaRef(c.getId()));
 
-    List<String> commitHistoryDiff = commitHistoryDiff(result, c.getId());
+    ImmutableList<String> commitHistoryDiff = commitHistoryDiff(result, c.getId());
     assertThat(commitHistoryDiff)
         .containsExactly(
             "@@ -6 +6 @@\n"
@@ -1161,7 +1160,7 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     BackfillResult result = rewriter.backfillProject(project, repo, options);
     assertThat(result.fixedRefDiff.keySet()).containsExactly(RefNames.changeMetaRef(c.getId()));
 
-    List<String> commitHistoryDiff = commitHistoryDiff(result, c.getId());
+    ImmutableList<String> commitHistoryDiff = commitHistoryDiff(result, c.getId());
     assertThat(commitHistoryDiff)
         .containsExactly(
             "@@ -7 +7 @@\n"
@@ -1359,7 +1358,7 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     assertValidCommits(commitsBeforeRewrite, commitsAfterRewrite, invalidCommits);
     assertFixedCommits(commitsToFix.build(), result, c.getId());
 
-    List<String> commitHistoryDiff = commitHistoryDiff(result, c.getId());
+    ImmutableList<String> commitHistoryDiff = commitHistoryDiff(result, c.getId());
     assertThat(commitHistoryDiff).hasSize(4);
     assertThat(commitHistoryDiff.get(0))
         .isEqualTo(
@@ -1571,7 +1570,7 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     assertValidCommits(commitsBeforeRewrite, commitsAfterRewrite, invalidCommits);
     assertFixedCommits(commitsToFix.build(), result, c.getId());
 
-    List<String> commitHistoryDiff = commitHistoryDiff(result, c.getId());
+    ImmutableList<String> commitHistoryDiff = commitHistoryDiff(result, c.getId());
     assertThat(commitHistoryDiff)
         .containsExactly(
             "@@ -6 +6 @@\n"
@@ -1621,7 +1620,7 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     BackfillResult result = rewriter.backfillProject(project, repo, options);
     assertThat(result.fixedRefDiff.keySet()).containsExactly(RefNames.changeMetaRef(c.getId()));
 
-    List<String> commitHistoryDiff = commitHistoryDiff(result, c.getId());
+    ImmutableList<String> commitHistoryDiff = commitHistoryDiff(result, c.getId());
     assertThat(commitHistoryDiff)
         .containsExactly(
             "@@ -1 +1 @@\n"
@@ -1702,7 +1701,7 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
         commitsBeforeRewrite, commitsAfterRewrite, ImmutableList.of(invalidCommitIndex));
     assertFixedCommits(ImmutableList.of(invalidUpdateCommit.getId()), result, c.getId());
 
-    List<String> commitHistoryDiff = commitHistoryDiff(result, c.getId());
+    ImmutableList<String> commitHistoryDiff = commitHistoryDiff(result, c.getId());
     assertThat(commitHistoryDiff)
         .containsExactly(
             "@@ -10 +10 @@\n"
@@ -1777,7 +1776,7 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     assertValidCommits(commitsBeforeRewrite, commitsAfterRewrite, invalidCommits);
     assertFixedCommits(commitsToFix.build(), result, c.getId());
 
-    List<String> commitHistoryDiff = commitHistoryDiff(result, c.getId());
+    ImmutableList<String> commitHistoryDiff = commitHistoryDiff(result, c.getId());
     assertThat(commitHistoryDiff)
         .containsExactly(
             "@@ -6 +6 @@\n"
@@ -1890,7 +1889,7 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     assertValidCommits(commitsBeforeRewrite, commitsAfterRewrite, invalidCommits);
     assertFixedCommits(commitsToFix.build(), result, c.getId());
 
-    List<String> commitHistoryDiff = commitHistoryDiff(result, c.getId());
+    ImmutableList<String> commitHistoryDiff = commitHistoryDiff(result, c.getId());
     assertThat(commitHistoryDiff)
         .containsExactly(
             "@@ -6 +6 @@\n"
@@ -2065,7 +2064,7 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     assertValidCommits(commitsBeforeRewrite, commitsAfterRewrite, invalidCommits);
     assertFixedCommits(commitsToFix.build(), result, c.getId());
 
-    List<String> commitHistoryDiff = commitHistoryDiff(result, c.getId());
+    ImmutableList<String> commitHistoryDiff = commitHistoryDiff(result, c.getId());
     assertThat(commitHistoryDiff)
         .containsExactly(
             "@@ -8 +8 @@\n"
@@ -2172,7 +2171,7 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     String expectedFixedIdent = getValidIdentAsString(changeOwner.getAccount());
     assertThat(fixedUpdateCommit.getFullMessage()).contains(expectedFixedIdent);
 
-    List<String> commitHistoryDiff = commitHistoryDiff(result, c.getId());
+    ImmutableList<String> commitHistoryDiff = commitHistoryDiff(result, c.getId());
     assertThat(commitHistoryDiff)
         .containsExactly(
             "@@ -9 +9 @@\n"
@@ -2255,7 +2254,7 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     assertValidCommits(commitsBeforeRewrite, commitsAfterRewrite, invalidCommits);
     assertFixedCommits(commitsToFix, result, c.getId());
 
-    List<String> commitHistoryDiff = commitHistoryDiff(result, c.getId());
+    ImmutableList<String> commitHistoryDiff = commitHistoryDiff(result, c.getId());
     assertThat(commitHistoryDiff)
         .containsExactly(
             "@@ -6 +6 @@\n"
@@ -2319,7 +2318,7 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     options.dryRun = false;
     BackfillResult result = rewriter.backfillProject(project, repo, options);
     assertThat(result.fixedRefDiff.keySet()).containsExactly(RefNames.changeMetaRef(c.getId()));
-    List<String> commitHistoryDiff = commitHistoryDiff(result, c.getId());
+    ImmutableList<String> commitHistoryDiff = commitHistoryDiff(result, c.getId());
     assertThat(commitHistoryDiff)
         .containsExactly(
             "@@ -6 +6 @@\n"
@@ -2384,7 +2383,7 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     assertThat(fixedUpdateCommit.getFullMessage()).doesNotContain(changeOwner.getName());
     assertThat(fixedUpdateCommit.getFullMessage()).doesNotContain(otherUser.getName());
 
-    List<String> commitHistoryDiff = commitHistoryDiff(result, c.getId());
+    ImmutableList<String> commitHistoryDiff = commitHistoryDiff(result, c.getId());
     assertThat(commitHistoryDiff).hasSize(1);
     assertThat(commitHistoryDiff.get(0)).contains("-author Change Owner <1@gerrit>");
     assertThat(commitHistoryDiff.get(0)).contains("+author Gerrit User 1 <1@gerrit>");

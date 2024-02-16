@@ -24,6 +24,7 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 import static org.junit.Assume.assumeFalse;
 import static org.junit.Assume.assumeTrue;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.UseClockStep;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
@@ -238,7 +239,8 @@ public abstract class FakeQueryChangesTest extends AbstractQueryChangesTest {
 
   @SuppressWarnings("unused")
   private void executeQuery(String query) throws QueryParseException {
-    List<ChangeData> unused = queryProvider.get().query(queryBuilderProvider.get().parse(query));
+    ImmutableList<ChangeData> unused =
+        queryProvider.get().query(queryBuilderProvider.get().parse(query));
   }
 
   private void assertThatSearchQueryWasNotPaginated(int queryCount) {

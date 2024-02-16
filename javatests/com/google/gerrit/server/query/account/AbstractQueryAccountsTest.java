@@ -904,7 +904,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
   protected List<AccountInfo> assertQuery(QueryRequest query, List<AccountInfo> accounts)
       throws Exception {
     List<AccountInfo> result = query.get();
-    Iterable<Integer> ids = ids(result);
+    List<Integer> ids = ids(result);
     assertWithMessage(format(query, result, accounts))
         .that(ids)
         .containsExactlyElementsIn(ids(accounts))
@@ -954,11 +954,11 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     return b.toString();
   }
 
-  protected static Iterable<Integer> ids(AccountInfo... accounts) {
+  protected static List<Integer> ids(AccountInfo... accounts) {
     return ids(Arrays.asList(accounts));
   }
 
-  protected static Iterable<Integer> ids(List<AccountInfo> accounts) {
+  protected static List<Integer> ids(List<AccountInfo> accounts) {
     return accounts.stream().map(a -> a._accountId).collect(toList());
   }
 

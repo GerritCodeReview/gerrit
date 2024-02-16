@@ -51,7 +51,7 @@ import org.junit.Test;
 
 @NoHttpd
 public class TagsIT extends AbstractDaemonTest {
-  private static final List<String> testTags =
+  private static final ImmutableList<String> testTags =
       ImmutableList.of("tag-A", "tag-B", "tag-C", "tag-D", "tag-E", "tag-F", "tag-G", "tag-H");
 
   private static final String SIGNED_ANNOTATION =

@@ -1406,7 +1406,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
             .to("refs/for/" + RefNames.REFS_USERS_SELF);
     mr.assertOkStatus();
 
-    List<String> expectedNonMetaRefs =
+    ImmutableList<String> expectedNonMetaRefs =
         ImmutableList.of(
             RefNames.refsUsers(admin.id()),
             RefNames.refsUsers(user.id()),
@@ -1548,7 +1548,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     return AccountGroup.uuid(gApi.groups().create(groupInput).get().id);
   }
 
-  private static Collection<String> names(Collection<Ref> refs) {
+  private static ImmutableList<String> names(Collection<Ref> refs) {
     return refs.stream().map(Ref::getName).collect(toImmutableList());
   }
 }

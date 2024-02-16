@@ -26,6 +26,7 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.TestAccount;
@@ -48,7 +49,6 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.inject.Inject;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 import java.util.stream.IntStream;
 import org.junit.Before;
 import org.junit.Test;
@@ -654,7 +654,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   }
 
   private AccountGroup.UUID createGroupWithArbitraryMembers(int numMembers) {
-    Set<Account.Id> members =
+    ImmutableSet<Account.Id> members =
         IntStream.rangeClosed(1, numMembers)
             .mapToObj(i -> accountOperations.newAccount().create())
             .collect(toImmutableSet());

@@ -20,7 +20,6 @@ import com.google.gerrit.index.project.ProjectSchemaDefinitions;
 import com.google.gerrit.server.index.account.AccountSchemaDefinitions;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
 import com.google.gerrit.server.index.group.GroupSchemaDefinitions;
-import java.util.Collection;
 import java.util.Map.Entry;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -43,7 +42,7 @@ public class IndexUpgradeTest {
   @Parameter public SchemaDefinitions<?> schemaDefinitions;
 
   @Parameters(name = "schema: {0}")
-  public static Collection<SchemaDefinitions<?>> indexes() {
+  public static ImmutableList<SchemaDefinitions<?>> indexes() {
     return ImmutableList.of(
         AccountSchemaDefinitions.INSTANCE,
         ChangeSchemaDefinitions.INSTANCE,

@@ -374,7 +374,7 @@ public class ParameterizedStringTest {
     assertThat(p.getParameterNames()).hasSize(2);
     assertThat(p.getParameterNames()).containsExactly("patchSet", "branch");
 
-    Map<String, String> params =
+    ImmutableMap<String, String> params =
         ImmutableMap.of(
             "patchSet", "42",
             "branch", "foo");
@@ -388,7 +388,7 @@ public class ParameterizedStringTest {
   @Test
   public void replaceSubmitTooltipWithoutVariables() {
     ParameterizedString p = new ParameterizedString("Submit patch set 40 into master");
-    Map<String, String> params =
+    ImmutableMap<String, String> params =
         ImmutableMap.of(
             "patchSet", "42",
             "branch", "foo");

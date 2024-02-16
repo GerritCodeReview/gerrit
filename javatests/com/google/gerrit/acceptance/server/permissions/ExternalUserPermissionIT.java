@@ -53,7 +53,6 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import java.util.Collection;
-import java.util.Set;
 import java.util.stream.StreamSupport;
 import javax.inject.Inject;
 import org.eclipse.jgit.lib.Ref;
@@ -152,7 +151,7 @@ public class ExternalUserPermissionIT extends AbstractDaemonTest {
                       }
 
                       @Override
-                      public Set<AccountGroup.UUID> intersection(
+                      public ImmutableSet<AccountGroup.UUID> intersection(
                           Iterable<AccountGroup.UUID> groupIds) {
                         return StreamSupport.stream(groupIds.spliterator(), /* parallel= */ false)
                             .filter(g -> contains(g))
@@ -160,7 +159,7 @@ public class ExternalUserPermissionIT extends AbstractDaemonTest {
                       }
 
                       @Override
-                      public Set<AccountGroup.UUID> getKnownGroups() {
+                      public ImmutableSet<AccountGroup.UUID> getKnownGroups() {
                         return ImmutableSet.of();
                       }
                     };

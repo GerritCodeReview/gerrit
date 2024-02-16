@@ -132,7 +132,7 @@ public class OpenRepoTest extends AbstractChangeNotesTest {
       ChangeUpdate update2 = newUpdateForNewChange(c1, changeOwner);
       update2.setStatus(Change.Status.NEW);
 
-      ListMultimap<String, ChangeUpdate> changeUpdates =
+      ImmutableListMultimap<String, ChangeUpdate> changeUpdates =
           new ImmutableListMultimap.Builder<String, ChangeUpdate>().put("two", update2).build();
 
       openRepo.addUpdates(changeUpdates, ONLY_TWO_UPDATES, MAX_PATCH_SETS);
@@ -153,7 +153,7 @@ public class OpenRepoTest extends AbstractChangeNotesTest {
       ChangeUpdate update2 = newUpdateForNewChange(c1, changeOwner);
       update2.setStatus(Change.Status.NEW);
 
-      ListMultimap<String, ChangeUpdate> changeUpdates =
+      ImmutableListMultimap<String, ChangeUpdate> changeUpdates =
           new ImmutableListMultimap.Builder<String, ChangeUpdate>().put("two", update2).build();
 
       assertThrows(
@@ -176,7 +176,7 @@ public class OpenRepoTest extends AbstractChangeNotesTest {
       ChangeUpdate update2 = newUpdateForNewChange(c1, changeOwner);
       update2.setStatus(Change.Status.NEW);
 
-      ListMultimap<String, ChangeUpdate> changeUpdates =
+      ImmutableListMultimap<String, ChangeUpdate> changeUpdates =
           new ImmutableListMultimap.Builder<String, ChangeUpdate>().put("two", update2).build();
 
       assertThrows(
@@ -197,7 +197,7 @@ public class OpenRepoTest extends AbstractChangeNotesTest {
       ChangeUpdate update2 = newUpdateForNewChange(c1, changeOwner);
       update2.setStatus(Change.Status.NEW);
 
-      ListMultimap<String, ChangeUpdate> changeUpdates =
+      ImmutableListMultimap<String, ChangeUpdate> changeUpdates =
           new ImmutableListMultimap.Builder<String, ChangeUpdate>().put("two", update2).build();
 
       assertThrows(
@@ -218,7 +218,7 @@ public class OpenRepoTest extends AbstractChangeNotesTest {
       ChangeUpdate update2 = newUpdateForNewChange(c1, changeOwner);
       update2.setStatus(Change.Status.NEW);
 
-      ListMultimap<String, ChangeUpdate> changeUpdates =
+      ImmutableListMultimap<String, ChangeUpdate> changeUpdates =
           new ImmutableListMultimap.Builder<String, ChangeUpdate>().put("two", update2).build();
 
       assertThrows(
@@ -235,7 +235,7 @@ public class OpenRepoTest extends AbstractChangeNotesTest {
       ChangeUpdate update2 = newUpdateForNewChange(c1, changeOwner);
       update2.setStatus(Change.Status.NEW);
 
-      ListMultimap<String, ChangeUpdate> changeUpdates =
+      ImmutableListMultimap<String, ChangeUpdate> changeUpdates =
           new ImmutableListMultimap.Builder<String, ChangeUpdate>().put("two", update2).build();
 
       assertThrows(

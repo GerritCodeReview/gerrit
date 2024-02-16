@@ -86,7 +86,7 @@ public class QueryChangesIT extends AbstractDaemonTest {
     assertThat(result.get(0)).hasSize(2);
     assertThat(result.get(1)).hasSize(1);
 
-    List<Integer> firstResultIds =
+    ImmutableList<Integer> firstResultIds =
         ImmutableList.of(result.get(0).get(0)._number, result.get(0).get(1)._number);
     assertThat(firstResultIds).containsExactly(numericId1, numericId2);
     assertThat(result.get(1).get(0)._number).isEqualTo(numericId2);
@@ -291,7 +291,7 @@ public class QueryChangesIT extends AbstractDaemonTest {
     assertThat(result.get(0)).hasSize(2);
     assertThat(result.get(1)).hasSize(1);
 
-    List<Integer> firstResultIds =
+    ImmutableList<Integer> firstResultIds =
         ImmutableList.of(result.get(0).get(0)._number, result.get(0).get(1)._number);
     assertThat(firstResultIds).containsExactly(numericId1, numericId2);
     assertThat(result.get(1).get(0)._number).isEqualTo(numericId2);

@@ -31,6 +31,7 @@ export interface ResponsePayload {
 export async function readJSONResponsePayload(
   response: Response
 ): Promise<ResponsePayload> {
+  debugger;
   const text = await response.text();
   let result: ParsedJSON;
   try {
@@ -190,8 +191,7 @@ export function throwingErrorCallback(
 
 export interface FetchRequest extends FetchRequestBase {
   /**
-   * If neither this or anonymizedUrl specified no url is added to the
-   * 'gr-rpc-log' event.
+   * If neither this or anonymizedUrl specified no 'gr-rpc-log' event is sent.
    */
   reportUrlAsIs?: boolean;
   /** Extra url params to be encoded and added to the url. */

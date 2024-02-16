@@ -1506,16 +1506,17 @@ suite('gr-rest-api-service-impl tests', () => {
   });
 
   test('getFileContent', async () => {
-    sinon.stub(element, '_getChangeURLAndSend').callsFake(() =>
-      Promise.resolve(
+    element.setInProjectLookup(1 as NumericChangeId, TEST_PROJECT_NAME);
+    sinon.stub(element._restApiHelperNew, 'fetch').callsFake(() => {
+      return Promise.resolve(
         new Response(makePrefixedJSON('new content'), {
           status: 200,
           headers: {
             'X-FYI-Content-Type': 'text/java',
           },
-        }) as unknown as ParsedJSON
-      )
-    );
+        })
+      );
+    });
 
     const edit = await element.getFileContent(
       1 as NumericChangeId,

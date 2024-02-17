@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1772e225_24f13f8c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-17T01:22:08Z",
+      "side": 1,
+      "message": "Missing `Release-Notes: skip` footer.",
+      "revId": "6c89cc511d0aacea8d58e742bdf32b6e54c6327f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

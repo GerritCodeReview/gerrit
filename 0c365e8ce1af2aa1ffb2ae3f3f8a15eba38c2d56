@@ -22,6 +22,53 @@
       },
       "revId": "0c365e8ce1af2aa1ffb2ae3f3f8a15eba38c2d56",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5a3f44c_0a16d595",
+        "filename": "java/com/google/gerrit/server/change/ChangeFinder.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-17T22:39:23Z",
+      "side": 1,
+      "message": "It would be best to deprecate the method for now, indicating that isn\u0027t reliable for imported changes. Then, in Gerrit v3.11, we could get rid of it.",
+      "parentUuid": "f0538354_17160285",
+      "range": {
+        "startLine": 212,
+        "startChar": 21,
+        "endLine": 212,
+        "endChar": 41
+      },
+      "revId": "0c365e8ce1af2aa1ffb2ae3f3f8a15eba38c2d56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d51124dd_a8e4a005",
+        "filename": "java/com/google/gerrit/server/index/IndexUtils.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-17T22:39:23Z",
+      "side": 1,
+      "message": "Should we then check for null here as well?",
+      "range": {
+        "startLine": 95,
+        "startChar": 67,
+        "endLine": 95,
+        "endChar": 91
+      },
+      "revId": "0c365e8ce1af2aa1ffb2ae3f3f8a15eba38c2d56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

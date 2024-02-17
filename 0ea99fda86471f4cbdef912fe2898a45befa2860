@@ -261,6 +261,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3baf906c_38157d4d",
+        "filename": "java/com/google/gerrit/server/index/IndexUtils.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-17T03:35:27Z",
+      "side": 1,
+      "message": "Whouldn\u0027t that be null? Or have you verified a failure in the query?",
+      "parentUuid": "06da0863_eb49fafc",
+      "revId": "0ea99fda86471f4cbdef912fe2898a45befa2860",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9b96a280_e682f47b",
         "filename": "java/com/google/gerrit/server/index/IndexUtils.java",
         "patchSetId": 36

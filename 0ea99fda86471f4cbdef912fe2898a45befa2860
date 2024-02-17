@@ -279,6 +279,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2639f433_40c51381",
+        "filename": "java/com/google/gerrit/server/index/IndexUtils.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-02-17T19:30:26Z",
+      "side": 1,
+      "message": "yes it could be `null`. I think we should also check if it is `null`. See my last PS.",
+      "parentUuid": "3baf906c_38157d4d",
+      "revId": "0ea99fda86471f4cbdef912fe2898a45befa2860",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9b96a280_e682f47b",
         "filename": "java/com/google/gerrit/server/index/IndexUtils.java",
         "patchSetId": 36
@@ -308,6 +326,24 @@
       "side": 1,
       "message": "Same as previous comment",
       "parentUuid": "9b96a280_e682f47b",
+      "revId": "0ea99fda86471f4cbdef912fe2898a45befa2860",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ebf65b0_9800eaf0",
+        "filename": "java/com/google/gerrit/server/index/IndexUtils.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-02-17T19:30:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9400c3d5_1e1d7e1e",
       "revId": "0ea99fda86471f4cbdef912fe2898a45befa2860",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

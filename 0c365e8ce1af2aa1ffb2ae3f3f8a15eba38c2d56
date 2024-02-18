@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e93d1f3_9fd71316",
+        "filename": "java/com/google/gerrit/server/change/ChangeFinder.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-02-18T23:13:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b5a3f44c_0a16d595",
+      "range": {
+        "startLine": 212,
+        "startChar": 21,
+        "endLine": 212,
+        "endChar": 41
+      },
+      "revId": "0c365e8ce1af2aa1ffb2ae3f3f8a15eba38c2d56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d51124dd_a8e4a005",

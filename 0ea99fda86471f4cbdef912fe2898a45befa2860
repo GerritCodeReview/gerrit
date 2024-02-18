@@ -295,6 +295,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "99223638_039806e2",
+        "filename": "java/com/google/gerrit/server/index/IndexUtils.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-02-18T23:14:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2639f433_40c51381",
+      "revId": "0ea99fda86471f4cbdef912fe2898a45befa2860",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9b96a280_e682f47b",

@@ -16,6 +16,24 @@
       "message": "Missing `Release-Notes: skip` footer.",
       "revId": "a4661a6b2e7848ae8f630c71efe4482850182752",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d909e98_534ef8c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-02-18T10:43:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b251204a_22276a11",
+      "revId": "a4661a6b2e7848ae8f630c71efe4482850182752",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

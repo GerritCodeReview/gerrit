@@ -16,6 +16,24 @@
       "message": "I\u0027ve keept the `jgit` submodule same as it\u0027s now on Gerrit\u0027s `master` we should have a separate change to bump it to the latest version from `jgit` `master` branch",
       "revId": "3c3b093f743205f74d2dbcf229d95f8e1e4e7953",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ff54c6d_41c5a69d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-02-18T11:28:45Z",
+      "side": 1,
+      "message": "change for updating jgit version:\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/409800",
+      "parentUuid": "7a1a26da_c31091c6",
+      "revId": "3c3b093f743205f74d2dbcf229d95f8e1e4e7953",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

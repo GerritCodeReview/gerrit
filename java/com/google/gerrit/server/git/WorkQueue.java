@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.CaseFormat;
@@ -286,6 +287,7 @@ public class WorkQueue {
   /** An isolated queue. */
   private class Executor extends ScheduledThreadPoolExecutor {
     private final ConcurrentHashMap<Integer, Task<?>> all;
+    private final ConcurrentHashMap<Runnable, Long> nanosPeriodByRunnable;
     private final String queueName;
 
     Executor(int corePoolSize, final String queueName) {
@@ -310,6 +312,7 @@ public class WorkQueue {
               0.75f, // load factor
               corePoolSize + 4 // concurrency level
               );
+      nanosPeriodByRunnable = new ConcurrentHashMap<>(1, 0.75f, 1);
       this.queueName = queueName;
     }
 
@@ -373,12 +376,14 @@ public class WorkQueue {
     @Override
     public ScheduledFuture<?> scheduleAtFixedRate(
         Runnable command, long initialDelay, long period, TimeUnit unit) {
+      nanosPeriodByRunnable.put(command, unit.toNanos(period));
       return super.scheduleAtFixedRate(LoggingContext.copy(command), initialDelay, period, unit);
     }
 
     @Override
     public ScheduledFuture<?> scheduleWithFixedDelay(
         Runnable command, long initialDelay, long delay, TimeUnit unit) {
+      nanosPeriodByRunnable.put(command, unit.toNanos(delay));
       return super.scheduleWithFixedDelay(LoggingContext.copy(command), initialDelay, delay, unit);
     }
 
@@ -440,6 +445,18 @@ public class WorkQueue {
     protected <V> RunnableScheduledFuture<V> decorateTask(
         Runnable runnable, RunnableScheduledFuture<V> r) {
       r = super.decorateTask(runnable, r);
+
+      // Periodic Tasks may get rescheduled if the previous run has yet to fully complete (and thus
+      // passed to decorateTask() more than once), and there is no need to redecorate them if they
+      // are already decorated.
+      if (runnable instanceof LoggingContextAwareRunnable) {
+        Runnable unwrappedTask = ((LoggingContextAwareRunnable) runnable).unwrap();
+        if (unwrappedTask instanceof Task<?>) {
+          return r;
+        }
+      }
+
+      long nanosPeriod = firstNonNull(nanosPeriodByRunnable.remove(runnable), 0L);
       for (; ; ) {
         final int id = idGenerator.next();
 
@@ -450,9 +467,9 @@ public class WorkQueue {
         }
 
         if (runnable instanceof ProjectRunnable) {
-          task = new ProjectTask<>((ProjectRunnable) runnable, r, this, id);
+          task = new ProjectTask<>((ProjectRunnable) runnable, r, nanosPeriod, this, id);
         } else {
-          task = new Task<>(runnable, r, this, id);
+          task = new Task<>(runnable, r, nanosPeriod, this, id);
         }
 
         if (all.putIfAbsent(task.getTaskId(), task) == null) {
@@ -553,13 +570,20 @@ public class WorkQueue {
     private final Executor executor;
     private final int taskId;
     private final Instant startTime;
+    private final long nanosPeriod;
 
     // runningState is non-null when listener or task code is running in an executor thread
     private final AtomicReference<State> runningState = new AtomicReference<>();
 
-    Task(Runnable runnable, RunnableScheduledFuture<V> task, Executor executor, int taskId) {
+    Task(
+        Runnable runnable,
+        RunnableScheduledFuture<V> task,
+        long nanosPeriod,
+        Executor executor,
+        int taskId) {
       this.runnable = runnable;
       this.task = task;
+      this.nanosPeriod = nanosPeriod;
       this.executor = executor;
       this.taskId = taskId;
       this.startTime = Instant.now();
@@ -684,6 +708,8 @@ public class WorkQueue {
             executor.remove(this);
           }
         }
+      } else {
+        Future<?> unusedFuture = executor.schedule(this, nanosPeriod / 3, TimeUnit.NANOSECONDS);
       }
     }
 
@@ -731,8 +757,12 @@ public class WorkQueue {
     private final ProjectRunnable runnable;
 
     ProjectTask(
-        ProjectRunnable runnable, RunnableScheduledFuture<V> task, Executor executor, int taskId) {
-      super(runnable, task, executor, taskId);
+        ProjectRunnable runnable,
+        RunnableScheduledFuture<V> task,
+        long nanosPeriod,
+        Executor executor,
+        int taskId) {
+      super(runnable, task, nanosPeriod, executor, taskId);
       this.runnable = runnable;
     }
 

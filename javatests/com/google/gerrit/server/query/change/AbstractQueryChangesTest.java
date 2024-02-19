@@ -3504,6 +3504,23 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void watched_projectWatchThatUsesIsWatchedIsIgnored() throws Exception {
+    createProject("repo");
+    insert("repo", newChangeWithStatus("repo", Change.Status.NEW));
+
+    List<ProjectWatchInfo> projectsToWatch = new ArrayList<>();
+    ProjectWatchInfo pwi = new ProjectWatchInfo();
+    pwi.project = "repo";
+    pwi.filter = "is:watched";
+    pwi.notifyNewChanges = true;
+    projectsToWatch.add(pwi);
+    gApi.accounts().self().setWatchedProjects(projectsToWatch);
+    resetUser();
+
+    assertQuery("is:watched");
+  }
+
+  @Test
   public void trackingid() throws Exception {
     repo = createAndOpenProject("repo");
     RevCommit commit1 =

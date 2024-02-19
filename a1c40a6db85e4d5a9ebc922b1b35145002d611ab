@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e54a808e_5036d0a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-02-19T15:03:44Z",
+      "side": 1,
+      "message": "@stariolo@google.com\n\nhttps://www.gitkraken.com/learn/git/best-practices/git-commit-message\n\nGit title should be less than 72 characters",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 33
+      },
+      "revId": "a1c40a6db85e4d5a9ebc922b1b35145002d611ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

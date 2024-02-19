@@ -164,6 +164,27 @@ As result a link:#server-info[ServerInfo] entity is returned.
   }
 ----
 
+[[account-deactivation]]
+=== AccountDeactivation
+--
+'POST /config/server/deactivate.stale.accounts'
+--
+Queues the link:config-gerrit.html#accountDeactivation[account deactivator] task.
+
+.Request
+----
+  POST /config/server/deactivate.stale.accounts HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 202 Accepted
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  "Account deactivator task added to work queue."
+----
+
 [[check-consistency]]
 === Check Consistency
 --

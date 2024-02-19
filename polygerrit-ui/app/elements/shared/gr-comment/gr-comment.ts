@@ -1101,7 +1101,7 @@ export class GrComment extends LitElement {
     if (!this.generateSuggestion) {
       return '';
     }
-    if (this.generatedSuggestion) {
+    if (this.generatedSuggestion || this.generatedFixSuggestion) {
       return '(1)';
     } else {
       return '(0)';

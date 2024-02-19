@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+/* Adding a comment to test */
 module.exports = {
   "overrides": [
     {

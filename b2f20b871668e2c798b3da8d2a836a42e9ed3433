@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1d5a220_99a5122c",
+        "filename": "java/com/google/gerrit/server/restapi/config/AccountDeactivation.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-02-19T13:24:46Z",
+      "side": 1,
+      "message": "This will run synchronously, which might take some time on large sites with a lot of users. I believe we should start that task asynchronously.",
+      "revId": "b2f20b871668e2c798b3da8d2a836a42e9ed3433",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a86b6e8_94f4e6e8",
+        "filename": "java/com/google/gerrit/server/restapi/config/ConfigRestApiModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-02-19T13:24:46Z",
+      "side": 1,
+      "message": "Looking at other endpoints in this namespace:\n\n\n```suggestion\n    post(CONFIG_KIND, \"deactivate.accounts\").to(AccountDeactivation.class);\n```\n\nThis is however still ambiguous, since it actually deactivates only accounts not present in the remote IdP anymore. Maybe: `deactivate.stale.accounts`",
+      "range": {
+        "startLine": 35,
+        "startChar": 23,
+        "endLine": 35,
+        "endChar": 42
+      },
+      "revId": "b2f20b871668e2c798b3da8d2a836a42e9ed3433",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

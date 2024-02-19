@@ -61,6 +61,7 @@ public class ConfigRestApiBindingsIT extends AbstractDaemonTest {
           RestCall.put("/config/server/preferences.edit"),
           RestCall.post("/config/server/reload"),
           RestCall.get("/config/server/summary"),
+          RestCall.get("/config/server/accountdeactivation"),
           RestCall.get("/config/server/tasks"),
           RestCall.get("/config/server/top-menus"),
           RestCall.get("/config/server/version"));

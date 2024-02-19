@@ -14,6 +14,7 @@
 
 package com.google.gerrit.git;
 
+/* Imports */
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.git.ObjectIds.abbreviateName;

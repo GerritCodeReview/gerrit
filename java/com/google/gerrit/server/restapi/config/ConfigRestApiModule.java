@@ -38,6 +38,7 @@ public class ConfigRestApiModule extends RestApiModule {
 
     child(CONFIG_KIND, "capabilities").to(CapabilitiesCollection.class);
     post(CONFIG_KIND, "check.consistency").to(CheckConsistency.class);
+    post(CONFIG_KIND, "deactivate.stale.accounts").to(AccountDeactivation.class);
     put(CONFIG_KIND, "email.confirm").to(ConfirmEmail.class);
 
     child(CONFIG_KIND, "experiments").to(ExperimentsCollection.class);

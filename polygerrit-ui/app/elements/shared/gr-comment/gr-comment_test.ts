@@ -318,7 +318,6 @@ suite('gr-comment tests', () => {
                     <div class="action resolve">
                       <label>
                         <input
-                          checked=""
                           id="resolvedCheckbox"
                           type="checkbox"
                         />
@@ -424,7 +423,6 @@ suite('gr-comment tests', () => {
                     <div class="action resolve">
                       <label>
                         <input
-                          checked=""
                           id="resolvedCheckbox"
                           type="checkbox"
                         />

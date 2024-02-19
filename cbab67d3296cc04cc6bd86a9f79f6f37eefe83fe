@@ -46,6 +46,30 @@
       },
       "revId": "cbab67d3296cc04cc6bd86a9f79f6f37eefe83fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "630f6027_cf8c694d",
+        "filename": "java/com/google/gerrit/server/change/ChangeFinder.java",
+        "patchSetId": 41
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-02-19T10:52:45Z",
+      "side": 1,
+      "message": "Oh, sorry, you\u0027re right I got lost with all of the versions",
+      "parentUuid": "590b9b08_a397c1b5",
+      "range": {
+        "startLine": 216,
+        "startChar": 23,
+        "endLine": 216,
+        "endChar": 27
+      },
+      "revId": "cbab67d3296cc04cc6bd86a9f79f6f37eefe83fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

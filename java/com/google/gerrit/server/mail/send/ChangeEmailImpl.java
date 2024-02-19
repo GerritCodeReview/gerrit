@@ -447,7 +447,7 @@ public class ChangeEmailImpl implements ChangeEmail {
     return watch.getWatchers(type, includeWatchersFromNotifyConfig);
   }
 
-  /** Any user who has published comments on this change. */
+  /** CC all users who are added as reviewer or cc to the change. */
   @Override
   public void ccAllApprovals() {
     if (!NotifyHandling.ALL.equals(email.getNotify().handling())
@@ -458,6 +458,9 @@ public class ChangeEmailImpl implements ChangeEmail {
     try {
       for (Account.Id id : changeData.reviewers().all()) {
         email.addByAccountId(RecipientType.CC, id);
+      }
+      for (Address addr : this.changeData.reviewersByEmail().all()) {
+        email.addByEmail(RecipientType.CC, addr);
       }
     } catch (StorageException err) {
       logger.atWarning().withCause(err).log("Cannot CC users that reviewed updated change");
@@ -475,6 +478,9 @@ public class ChangeEmailImpl implements ChangeEmail {
     try {
       for (Account.Id id : changeData.reviewers().byState(ReviewerStateInternal.REVIEWER)) {
         email.addByAccountId(RecipientType.CC, id);
+      }
+      for (Address addr : changeData.reviewersByEmail().byState(ReviewerStateInternal.REVIEWER)) {
+        email.addByEmail(RecipientType.CC, addr);
       }
     } catch (StorageException err) {
       logger.atWarning().withCause(err).log("Cannot CC users that commented on updated change");
@@ -619,17 +625,6 @@ public class ChangeEmailImpl implements ChangeEmail {
         currentAttentionSet.stream().map(email::getNameFor).sorted().collect(toImmutableList()));
 
     setChangeSubjectHeader();
-    if (email.getNotify().handling().equals(NotifyHandling.OWNER_REVIEWERS)
-        || email.getNotify().handling().equals(NotifyHandling.ALL)) {
-      try {
-        this.changeData.reviewersByEmail().byState(ReviewerStateInternal.CC).stream()
-            .forEach(address -> email.addByEmail(RecipientType.CC, address));
-        this.changeData.reviewersByEmail().byState(ReviewerStateInternal.REVIEWER).stream()
-            .forEach(address -> email.addByEmail(RecipientType.CC, address));
-      } catch (StorageException e) {
-        throw new EmailException("Failed to add unregistered CCs " + change.getChangeId(), e);
-      }
-    }
 
     if (email.useHtml()) {
       email.appendHtml(email.soyHtmlTemplate("ChangeHeaderHtml"));

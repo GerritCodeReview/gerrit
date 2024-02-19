@@ -1044,6 +1044,41 @@ returned that describes the resulting change.
   }
 ----
 
+[[get-message]]
+=== Get Commit Message
+--
+'GET /changes/link:#change-id[\{change-id\}]/message'
+--
+
+Returns the commit message of the change (from the current patch set).
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/message HTTP/1.0
+----
+
+The commit message is returned as a link:#commit-message-info[
+CommitMessageInfo] entity.
+
+Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "subject": "Add feature X",
+    "full_message": "Add Feature X\n\nFeature X helps with foo.\n\nBug: 123\nChange-Id: I10394472cbd17dd12454f229e4f6de00b143a444\n",
+    "footers": {
+      "Bug": "123",
+      "Change-Id": "I10394472cbd17dd12454f229e4f6de00b143a444"
+    }
+  }
+----
+
+----
+
 [[set-message]]
 === Set Commit Message
 --
@@ -7642,6 +7677,21 @@ link:#web-link-info[WebLinkInfo] entities.
 Links to the commit in external sites for resolving conflicts as a list of
 link:#web-link-info[WebLinkInfo] entities.
 |===========================
+
+[[commit-message-info]]
+=== CommitMessageInfo
+The `CommitMessageInfo` entity contains information about the commit
+message of a change.
+
+[options="header",cols="1,6"]
+|============================
+|Field Name     |Description
+|`subject`      |The subject of the change (first line of the commit
+message).
+|`full_message` |Full commit message of the change.
+|`footers`      |The footers from the commit message as a map of
+key-value pairs.
+|============================
 
 [[commit-message-input]]
 === CommitMessageInput

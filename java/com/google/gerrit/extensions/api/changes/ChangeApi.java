@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInfoDifference;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.extensions.common.CommitMessageInfo;
 import com.google.gerrit.extensions.common.CommitMessageInput;
 import com.google.gerrit.extensions.common.MergePatchSetInput;
 import com.google.gerrit.extensions.common.PureRevertInfo;
@@ -320,6 +321,8 @@ public interface ChangeApi {
    * @throws RestApiException if the API isn't accessible
    */
   ChangeEditApi edit() throws RestApiException;
+
+  CommitMessageInfo getMessage() throws RestApiException;
 
   /** Create a new patch set with a new commit message. */
   default void setMessage(String message) throws RestApiException {
@@ -713,6 +716,11 @@ public interface ChangeApi {
         EnumSet<ListChangesOption> options,
         ImmutableListMultimap<String, String> pluginOptions)
         throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public CommitMessageInfo getMessage() throws RestApiException {
       throw new NotImplementedException();
     }
 

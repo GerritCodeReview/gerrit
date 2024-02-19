@@ -317,11 +317,7 @@ suite('gr-comment tests', () => {
                   <div class="leftActions">
                     <div class="action resolve">
                       <label>
-                        <input
-                          checked=""
-                          id="resolvedCheckbox"
-                          type="checkbox"
-                        />
+                        <input id="resolvedCheckbox" type="checkbox" />
                         Resolved
                       </label>
                     </div>
@@ -423,11 +419,7 @@ suite('gr-comment tests', () => {
                   <div class="leftActions">
                     <div class="action resolve">
                       <label>
-                        <input
-                          checked=""
-                          id="resolvedCheckbox"
-                          type="checkbox"
-                        />
+                        <input id="resolvedCheckbox" type="checkbox" />
                         Resolved
                       </label>
                     </div>

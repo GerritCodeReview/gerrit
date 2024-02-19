@@ -294,11 +294,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     TestAccount reviewer = accountCreator.create("added", "added@example.com", "added", null);
     addReviewer(adder, sc.changeId, sc.owner, reviewer.email());
     // TODO(logan): Should CCs be included?
-    assertThat(sender)
-        .sent("newchange", sc)
-        .to(reviewer)
-        .cc(StagedUsers.REVIEWER_BY_EMAIL, StagedUsers.CC_BY_EMAIL)
-        .noOneElse();
+    assertThat(sender).sent("newchange", sc).to(reviewer).noOneElse();
     assertThat(sender).didNotSend();
   }
 
@@ -336,12 +332,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     TestAccount reviewer = accountCreator.create("added", "added@example.com", "added", null);
     addReviewer(adder, sc.changeId, sc.owner, reviewer.email(), CC_ON_OWN_COMMENTS, null);
     // TODO(logan): Should CCs be included?
-    assertThat(sender)
-        .sent("newchange", sc)
-        .to(reviewer)
-        .cc(sc.owner)
-        .cc(StagedUsers.REVIEWER_BY_EMAIL, StagedUsers.CC_BY_EMAIL)
-        .noOneElse();
+    assertThat(sender).sent("newchange", sc).to(reviewer).cc(sc.owner).noOneElse();
     assertThat(sender).didNotSend();
   }
 
@@ -361,11 +352,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     TestAccount reviewer = accountCreator.create("added", "added@example.com", "added", null);
     addReviewer(adder, sc.changeId, other, reviewer.email());
     // TODO(logan): Should CCs be included?
-    assertThat(sender)
-        .sent("newchange", sc)
-        .to(reviewer)
-        .cc(StagedUsers.REVIEWER_BY_EMAIL, StagedUsers.CC_BY_EMAIL)
-        .noOneElse();
+    assertThat(sender).sent("newchange", sc).to(reviewer).noOneElse();
     assertThat(sender).didNotSend();
   }
 
@@ -385,12 +372,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     TestAccount reviewer = accountCreator.create("added", "added@example.com", "added", null);
     addReviewer(adder, sc.changeId, other, reviewer.email(), CC_ON_OWN_COMMENTS, null);
     // TODO(logan): Should CCs be included?
-    assertThat(sender)
-        .sent("newchange", sc)
-        .to(reviewer)
-        .cc(other)
-        .cc(StagedUsers.REVIEWER_BY_EMAIL, StagedUsers.CC_BY_EMAIL)
-        .noOneElse();
+    assertThat(sender).sent("newchange", sc).to(reviewer).cc(other).noOneElse();
     assertThat(sender).didNotSend();
   }
 
@@ -409,11 +391,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     StagedChange sc = stageReviewableChange();
     addReviewer(adder, sc.changeId, sc.owner, email);
     // TODO(logan): Should CCs be included?
-    assertThat(sender)
-        .sent("newchange", sc)
-        .to(email)
-        .cc(StagedUsers.REVIEWER_BY_EMAIL, StagedUsers.CC_BY_EMAIL)
-        .noOneElse();
+    assertThat(sender).sent("newchange", sc).to(email).noOneElse();
     assertThat(sender).didNotSend();
   }
 
@@ -464,11 +442,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     // For a review-started WIP change, same as in the notify=ALL case. It's not especially
     // important to notify just because a reviewer is added, but we do want to notify in the other
     // case that hits this codepath: posting an actual review.
-    assertThat(sender)
-        .sent("newchange", sc)
-        .to(reviewer)
-        .cc(StagedUsers.REVIEWER_BY_EMAIL, StagedUsers.CC_BY_EMAIL)
-        .noOneElse();
+    assertThat(sender).sent("newchange", sc).to(reviewer).noOneElse();
   }
 
   private void addReviewerToWipChangeNotifyAll(Adder adder) throws Exception {
@@ -476,11 +450,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     TestAccount reviewer = accountCreator.create("added", "added@example.com", "added", null);
     addReviewer(adder, sc.changeId, sc.owner, reviewer.email(), NotifyHandling.ALL);
     // TODO(logan): Should CCs be included?
-    assertThat(sender)
-        .sent("newchange", sc)
-        .to(reviewer)
-        .cc(StagedUsers.REVIEWER_BY_EMAIL, StagedUsers.CC_BY_EMAIL)
-        .noOneElse();
+    assertThat(sender).sent("newchange", sc).to(reviewer).noOneElse();
     assertThat(sender).didNotSend();
   }
 
@@ -499,11 +469,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     TestAccount reviewer = accountCreator.create("added", "added@example.com", "added", null);
     addReviewer(adder, sc.changeId, sc.owner, reviewer.email(), OWNER_REVIEWERS);
     // TODO(logan): Should CCs be included?
-    assertThat(sender)
-        .sent("newchange", sc)
-        .to(reviewer)
-        .cc(StagedUsers.REVIEWER_BY_EMAIL, StagedUsers.CC_BY_EMAIL)
-        .noOneElse();
+    assertThat(sender).sent("newchange", sc).to(reviewer).noOneElse();
     assertThat(sender).didNotSend();
   }
 
@@ -556,11 +522,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   private void addNonUserReviewerByEmail(Adder adder) throws Exception {
     StagedChange sc = stageReviewableChange();
     addReviewer(adder, sc.changeId, sc.owner, "nonexistent@example.com");
-    assertThat(sender)
-        .sent("newchange", sc)
-        .to("nonexistent@example.com")
-        .cc(StagedUsers.CC_BY_EMAIL, StagedUsers.REVIEWER_BY_EMAIL)
-        .noOneElse();
+    assertThat(sender).sent("newchange", sc).to("nonexistent@example.com").noOneElse();
     assertThat(sender).didNotSend();
   }
 
@@ -577,11 +539,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   private void addNonUserCcByEmail(Adder adder) throws Exception {
     StagedChange sc = stageReviewableChange();
     addReviewer(adder, sc.changeId, sc.owner, "nonexistent@example.com");
-    assertThat(sender)
-        .sent("newchange", sc)
-        .cc("nonexistent@example.com")
-        .cc(StagedUsers.CC_BY_EMAIL, StagedUsers.REVIEWER_BY_EMAIL)
-        .noOneElse();
+    assertThat(sender).sent("newchange", sc).cc("nonexistent@example.com").noOneElse();
     assertThat(sender).didNotSend();
   }
 
@@ -1023,11 +981,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .bcc(ALL_COMMENTS)
         .noOneElse();
     // TODO(logan): Should CCs be included?
-    assertThat(sender)
-        .sent("newchange", sc)
-        .to(other)
-        .cc(StagedUsers.REVIEWER_BY_EMAIL, StagedUsers.CC_BY_EMAIL)
-        .noOneElse();
+    assertThat(sender).sent("newchange", sc).to(other).noOneElse();
     assertThat(sender).didNotSend();
   }
 
@@ -1932,7 +1886,6 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .sent("newpatchset", sc)
         .to(sc.reviewer)
         .cc(sc.ccer)
-        .cc(StagedUsers.REVIEWER_BY_EMAIL, StagedUsers.CC_BY_EMAIL)
         .bcc(sc.starrer)
         .bcc(NEW_PATCHSETS)
         .noOneElse();
@@ -1948,7 +1901,6 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .notTo(sc.owner) // TODO(logan): This shouldn't be sent *from* the owner.
         .to(sc.reviewer, other)
         .cc(sc.ccer)
-        .cc(StagedUsers.REVIEWER_BY_EMAIL, StagedUsers.CC_BY_EMAIL)
         .bcc(sc.starrer)
         .bcc(NEW_PATCHSETS)
         .noOneElse();
@@ -1964,7 +1916,6 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .notTo(sc.owner) // TODO(logan): This shouldn't be sent *from* the owner.
         .to(sc.reviewer, other)
         .cc(sc.ccer)
-        .cc(StagedUsers.REVIEWER_BY_EMAIL, StagedUsers.CC_BY_EMAIL)
         .bcc(sc.starrer)
         .bcc(NEW_PATCHSETS)
         .noOneElse();
@@ -1981,7 +1932,6 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .to(sc.reviewer)
         .cc(other)
         .cc(sc.ccer)
-        .cc(StagedUsers.REVIEWER_BY_EMAIL, StagedUsers.CC_BY_EMAIL)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -1997,7 +1947,6 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .to(sc.reviewer)
         .cc(other)
         .cc(sc.ccer)
-        .cc(StagedUsers.REVIEWER_BY_EMAIL, StagedUsers.CC_BY_EMAIL)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -2056,7 +2005,6 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .sent("newpatchset", sc)
         .to(sc.reviewer)
         .cc(sc.ccer)
-        .cc(StagedUsers.REVIEWER_BY_EMAIL, StagedUsers.CC_BY_EMAIL)
         .bcc(sc.starrer)
         .bcc(NEW_PATCHSETS)
         .noOneElse();
@@ -2071,7 +2019,6 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .sent("newpatchset", sc)
         .to(sc.reviewer)
         .cc(sc.ccer)
-        .cc(StagedUsers.REVIEWER_BY_EMAIL, StagedUsers.CC_BY_EMAIL)
         .bcc(sc.starrer)
         .bcc(NEW_PATCHSETS)
         .noOneElse();
@@ -2094,7 +2041,6 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .sent("newpatchset", sc)
         .to(sc.reviewer, newReviewer)
         .cc(sc.ccer)
-        .cc(StagedUsers.REVIEWER_BY_EMAIL, StagedUsers.CC_BY_EMAIL)
         .bcc(sc.starrer)
         .bcc(NEW_PATCHSETS)
         .noOneElse();
@@ -2118,7 +2064,6 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .sent("newpatchset", sc)
         .to(sc.reviewer, newReviewer)
         .cc(sc.ccer)
-        .cc(StagedUsers.REVIEWER_BY_EMAIL, StagedUsers.CC_BY_EMAIL)
         .bcc(sc.starrer)
         .bcc(NEW_PATCHSETS)
         .noOneElse();
@@ -2133,7 +2078,6 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .sent("newpatchset", sc)
         .to(sc.reviewer)
         .cc(sc.ccer)
-        .cc(StagedUsers.REVIEWER_BY_EMAIL, StagedUsers.CC_BY_EMAIL)
         .bcc(sc.starrer)
         .bcc(NEW_PATCHSETS)
         .noOneElse();
@@ -2170,7 +2114,6 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .sent("newpatchset", sc)
         .to(sc.reviewer)
         .cc(sc.ccer)
-        .cc(StagedUsers.REVIEWER_BY_EMAIL, StagedUsers.CC_BY_EMAIL)
         .bcc(sc.starrer)
         .bcc(NEW_PATCHSETS)
         .noOneElse();
@@ -2185,7 +2128,6 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .sent("newpatchset", sc)
         .to(sc.owner, sc.reviewer)
         .cc(sc.ccer)
-        .cc(StagedUsers.REVIEWER_BY_EMAIL, StagedUsers.CC_BY_EMAIL)
         .bcc(sc.starrer)
         .bcc(NEW_PATCHSETS)
         .noOneElse();
@@ -2200,7 +2142,6 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .sent("newpatchset", sc)
         .to(sc.owner, sc.reviewer, other)
         .cc(sc.ccer)
-        .cc(StagedUsers.REVIEWER_BY_EMAIL, StagedUsers.CC_BY_EMAIL)
         .bcc(sc.starrer)
         .bcc(NEW_PATCHSETS)
         .noOneElse();
@@ -2211,12 +2152,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   public void editCommitMessageByOtherOnReviewableChangeNotifyOwnerReviewers() throws Exception {
     StagedChange sc = stageReviewableChange();
     editCommitMessage(sc, other, OWNER_REVIEWERS);
-    assertThat(sender)
-        .sent("newpatchset", sc)
-        .to(sc.owner, sc.reviewer)
-        .cc(sc.ccer)
-        .cc(StagedUsers.REVIEWER_BY_EMAIL, StagedUsers.CC_BY_EMAIL)
-        .noOneElse();
+    assertThat(sender).sent("newpatchset", sc).to(sc.owner, sc.reviewer).cc(sc.ccer).noOneElse();
     assertThat(sender).didNotSend();
   }
 
@@ -2229,7 +2165,6 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .sent("newpatchset", sc)
         .to(sc.owner, sc.reviewer)
         .cc(sc.ccer, other)
-        .cc(StagedUsers.REVIEWER_BY_EMAIL, StagedUsers.CC_BY_EMAIL)
         .noOneElse();
     assertThat(sender).didNotSend();
   }
@@ -2295,7 +2230,6 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .sent("newpatchset", sc)
         .to(sc.reviewer)
         .cc(sc.ccer)
-        .cc(StagedUsers.REVIEWER_BY_EMAIL, StagedUsers.CC_BY_EMAIL)
         .bcc(sc.starrer)
         .bcc(NEW_PATCHSETS)
         .noOneElse();

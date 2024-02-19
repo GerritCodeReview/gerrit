@@ -164,6 +164,14 @@ As result a link:#server-info[ServerInfo] entity is returned.
   }
 ----
 
+[[account-deactivation]]
+=== AccountDeactivation
+--
+'POST /config/server/deactivate.stale.accounts'
+--
+Queues the link:config-gerrit.html#accountDeactivation[account deactivator] task.
+----
+
 [[check-consistency]]
 === Check Consistency
 --

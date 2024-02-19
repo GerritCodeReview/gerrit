@@ -896,6 +896,7 @@ export class GrComment extends LitElement {
   private renderHumanActions() {
     if (!this.account || isRobot(this.comment)) return;
     if (this.collapsed || !isDraft(this.comment)) return;
+
     return html`
       <div class="actions">
         <div class="leftActions">
@@ -904,7 +905,7 @@ export class GrComment extends LitElement {
               <input
                 type="checkbox"
                 id="resolvedCheckbox"
-                ?checked=${!this.unresolved}
+                .checked=${!this.unresolved}
                 @change=${this.handleToggleResolved}
               />
               Resolved

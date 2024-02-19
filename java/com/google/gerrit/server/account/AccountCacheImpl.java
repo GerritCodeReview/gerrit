@@ -67,7 +67,6 @@ public class AccountCacheImpl implements AccountCache {
           .loader(Loader.class);
 
       bind(AccountCacheImpl.class);
-      bind(AccountCache.class).to(AccountCacheImpl.class);
     }
   }
 

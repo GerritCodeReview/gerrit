@@ -16,6 +16,24 @@
       "message": "Needs re-merge with the newest target stable-3.7",
       "revId": "76e28fab405f72469373cf88c911c8970549ec92",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ca59fd9_070eebd9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-02-19T09:32:04Z",
+      "side": 1,
+      "message": "this is already up to date with `stable-3.7`. It is merging with `d1a37e8997f2` _Merge changes from topic \"build_buddy\" into stable-3.7_ which is a tip of `stable-3.7`",
+      "parentUuid": "0ee64f34_c418a8b7",
+      "revId": "76e28fab405f72469373cf88c911c8970549ec92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

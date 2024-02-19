@@ -79,7 +79,7 @@ public class AbandonIT extends AbstractDaemonTest {
     CurrentUser user = localCtx.getContext().getUser();
     PushOneCommit.Result a = createChange();
     PushOneCommit.Result b = createChange();
-    List<ChangeData> list = ImmutableList.of(a.getChange(), b.getChange());
+    ImmutableList<ChangeData> list = ImmutableList.of(a.getChange(), b.getChange());
     batchAbandon.batchAbandon(batchUpdateFactory, a.getChange().project(), user, list, "deadbeef");
 
     ChangeInfo info = get(a.getChangeId(), MESSAGES);
@@ -109,7 +109,7 @@ public class AbandonIT extends AbstractDaemonTest {
     CurrentUser user = localCtx.getContext().getUser();
     PushOneCommit.Result a = createChange(project1, "master", "x", "x", "x", "");
     PushOneCommit.Result b = createChange(project2, "master", "x", "x", "x", "");
-    List<ChangeData> list = ImmutableList.of(a.getChange(), b.getChange());
+    ImmutableList<ChangeData> list = ImmutableList.of(a.getChange(), b.getChange());
     ResourceConflictException thrown =
         assertThrows(
             ResourceConflictException.class,

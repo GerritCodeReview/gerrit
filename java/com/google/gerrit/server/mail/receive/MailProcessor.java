@@ -22,6 +22,7 @@ import static java.util.stream.Collectors.toList;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
@@ -200,7 +201,7 @@ public class MailProcessor {
       return;
     }
 
-    Set<Account.Id> accountIds = emails.getAccountFor(metadata.author);
+    ImmutableSet<Account.Id> accountIds = emails.getAccountFor(metadata.author);
 
     if (accountIds.size() != 1) {
       logger.atSevere().log(

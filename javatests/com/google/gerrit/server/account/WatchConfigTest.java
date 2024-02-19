@@ -17,6 +17,7 @@ package com.google.gerrit.server.account;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.NotifyConfig.NotifyType;
@@ -54,7 +55,7 @@ public class WatchConfigTest implements ValidationError.Sink {
             + "[project \"otherProject\"]\n"
             + "  notify = [NEW_PATCHSETS]\n"
             + "  notify = * [NEW_PATCHSETS, ALL_COMMENTS]\n");
-    Map<ProjectWatchKey, ImmutableSet<NotifyType>> projectWatches =
+    ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyType>> projectWatches =
         ProjectWatches.parse(Account.id(1000000), cfg, this);
 
     assertThat(validationErrors).isEmpty();

@@ -77,7 +77,7 @@ public class Reachable {
               .orElse(permissionBackend.currentUser())
               .project(project)
               .filter(refs, repo, RefFilterOptions.defaults());
-      Collection<RevCommit> visible = new ArrayList<>();
+      List<RevCommit> visible = new ArrayList<>();
       for (Ref r : filtered) {
         try {
           visible.add(rw.parseCommit(r.getObjectId()));

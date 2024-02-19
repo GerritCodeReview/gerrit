@@ -17,6 +17,7 @@ package com.google.gerrit.server.index.project;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
 import com.google.gerrit.entities.Project;
@@ -73,7 +74,7 @@ public class StalenessChecker {
       return StalenessCheckResult.stale("Document %s missing from index", project);
     }
 
-    SetMultimap<Project.NameKey, RefState> indexedRefStates =
+    ImmutableSetMultimap<Project.NameKey, RefState> indexedRefStates =
         RefState.parseStates(result.get().getValue(ProjectField.REF_STATE_SPEC));
 
     SetMultimap<Project.NameKey, RefState> currentRefStates =

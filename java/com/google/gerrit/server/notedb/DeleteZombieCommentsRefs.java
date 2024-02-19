@@ -19,6 +19,7 @@ import static com.google.gerrit.entities.RefNames.REFS_DRAFT_COMMENTS;
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
 import static org.eclipse.jgit.lib.Constants.EMPTY_TREE_ID;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.flogger.FluentLogger;
@@ -256,7 +257,7 @@ public class DeleteZombieCommentsRefs extends DeleteZombieComments<Ref> {
 
   private void deleteZombieDraftsBatch(Collection<Ref> refsBatch) throws IOException {
     try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
-      List<ReceiveCommand> deleteCommands =
+      ImmutableList<ReceiveCommand> deleteCommands =
           refsBatch.stream()
               .map(
                   zombieRef ->

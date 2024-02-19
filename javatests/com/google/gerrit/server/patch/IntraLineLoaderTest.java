@@ -163,7 +163,7 @@ public class IntraLineLoaderTest {
         IntraLineLoader.compute(aText, bText, ImmutableList.of(lines), ImmutableSet.of());
 
     assertThat(diff.getStatus()).isEqualTo(IntraLineDiff.Status.EDIT_LIST);
-    List<Edit> actualEdits = diff.getEdits();
+    ImmutableList<Edit> actualEdits = diff.getEdits();
     assertThat(actualEdits).hasSize(1);
     Edit actualEdit = actualEdits.get(0);
     assertThat(actualEdit.getBeginA()).isEqualTo(lines.getBeginA());

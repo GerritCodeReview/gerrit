@@ -25,7 +25,6 @@ import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.ResultSet;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -45,7 +44,7 @@ public class OrSource extends OrPredicate<ChangeData> implements ChangeDataSourc
   public ResultSet<ChangeData> read() {
     // ResultSets are lazy. Calling #read here first and then dealing with ResultSets only when
     // requested allows the index to run asynchronous queries.
-    List<ResultSet<ChangeData>> results =
+    ImmutableList<ResultSet<ChangeData>> results =
         getChildren().stream().map(p -> ((ChangeDataSource) p).read()).collect(toImmutableList());
     return new LazyResultSet<>(
         () -> {

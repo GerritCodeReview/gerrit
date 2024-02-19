@@ -42,7 +42,6 @@ import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.git.meta.VersionedMetaData;
 import com.google.gerrit.testing.ConfigSuite;
 import java.io.IOException;
-import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -202,7 +201,7 @@ public class SubmitTypeRuleIT extends AbstractDaemonTest {
     gApi.changes().id(r.getChangeId()).current().review(ReviewInput.approve());
     gApi.changes().id(r.getChangeId()).current().submit();
 
-    List<RevCommit> log = log("master", 1);
+    ImmutableList<RevCommit> log = log("master", 1);
     assertThat(log.get(0).getShortMessage()).isEqualTo("CHERRY_PICK 1");
     assertThat(log.get(0).name()).isNotEqualTo(r.getCommit().name());
     assertThat(log.get(0).getFullMessage()).contains("Change-Id: " + r.getChangeId());
@@ -231,7 +230,7 @@ public class SubmitTypeRuleIT extends AbstractDaemonTest {
 
     assertThat(log("master", 1).get(0).name()).isEqualTo(r1.getCommit().name());
 
-    List<RevCommit> branchLog = log("branch", 1);
+    ImmutableList<RevCommit> branchLog = log("branch", 1);
     assertThat(branchLog.get(0).getParents()).hasLength(2);
     assertThat(branchLog.get(0).getParent(1).name()).isEqualTo(r2.getCommit().name());
   }
@@ -293,7 +292,7 @@ public class SubmitTypeRuleIT extends AbstractDaemonTest {
     return info;
   }
 
-  private List<RevCommit> log(String commitish, int n) throws Exception {
+  private ImmutableList<RevCommit> log(String commitish, int n) throws Exception {
     try (Repository repo = repoManager.openRepository(project);
         Git git = new Git(repo)) {
       ObjectId id = repo.resolve(commitish);

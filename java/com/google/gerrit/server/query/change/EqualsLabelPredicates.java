@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
@@ -35,7 +36,6 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData.StorageConstraint;
 import java.io.IOException;
-import java.util.List;
 import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
@@ -237,7 +237,7 @@ public class EqualsLabelPredicates {
      */
     private boolean matchAccount(String email, Account.Id accountId) {
       try {
-        List<AccountState> accountsList = accountResolver.resolve(email).asList();
+        ImmutableList<AccountState> accountsList = accountResolver.resolve(email).asList();
         return accountsList.stream().anyMatch(c -> c.account().id().equals(accountId));
       } catch (ConfigInvalidException | IOException e) {
         logger.atWarning().withCause(e).log("Failed to resolve account %s", email);

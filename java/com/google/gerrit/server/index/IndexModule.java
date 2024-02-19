@@ -19,8 +19,8 @@ import static com.google.gerrit.server.git.QueueProvider.QueueType.INTERACTIVE;
 
 import com.google.common.base.Ticker;
 import com.google.common.collect.FluentIterable;
-import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.extensions.events.LifecycleListener;
@@ -65,7 +65,6 @@ import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
 import com.google.inject.multibindings.OptionalBinder;
 import java.util.Collection;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
 
@@ -77,7 +76,7 @@ import org.eclipse.jgit.lib.Config;
  */
 @SuppressWarnings("ProvidesMethodOutsideOfModule")
 public class IndexModule extends LifecycleModule {
-  public static final ImmutableCollection<SchemaDefinitions<?>> ALL_SCHEMA_DEFS =
+  public static final ImmutableList<SchemaDefinitions<?>> ALL_SCHEMA_DEFS =
       ImmutableList.of(
           AccountSchemaDefinitions.INSTANCE,
           ChangeSchemaDefinitions.INSTANCE,
@@ -174,9 +173,10 @@ public class IndexModule extends LifecycleModule {
 
     ImmutableList<IndexDefinition<?, ?, ?>> result =
         ImmutableList.of(accounts, groups, changes, projects);
-    Set<String> expected =
+    ImmutableSet<String> expected =
         FluentIterable.from(ALL_SCHEMA_DEFS).transform(SchemaDefinitions::getName).toSet();
-    Set<String> actual = FluentIterable.from(result).transform(IndexDefinition::getName).toSet();
+    ImmutableSet<String> actual =
+        FluentIterable.from(result).transform(IndexDefinition::getName).toSet();
     if (!expected.equals(actual)) {
       throw new ProvisionException(
           "need index definitions for all schemas: " + expected + " != " + actual);

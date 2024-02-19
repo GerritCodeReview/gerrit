@@ -49,6 +49,7 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.ImmutableTable;
@@ -393,7 +394,8 @@ class ChangeNotesParser {
       return copiedApprovals;
     }
     List<PatchSetApproval> approvalsOnLatestPs = allApprovals.get(latestPs);
-    ListMultimap<Account.Id, PatchSetApproval> approvalsByUser = getApprovalsByUser(allApprovals);
+    ImmutableListMultimap<Account.Id, PatchSetApproval> approvalsByUser =
+        getApprovalsByUser(allApprovals);
     List<SubmitRecord.Label> submitRecordLabels =
         submitRecords.stream()
             .filter(r -> r.labels != null)
@@ -431,7 +433,7 @@ class ChangeNotesParser {
     return allApprovals.values().stream().anyMatch(approval -> approval.copied());
   }
 
-  private ListMultimap<Account.Id, PatchSetApproval> getApprovalsByUser(
+  private ImmutableListMultimap<Account.Id, PatchSetApproval> getApprovalsByUser(
       ListMultimap<PatchSet.Id, PatchSetApproval> allApprovals) {
     return allApprovals.values().stream()
         .collect(
@@ -951,7 +953,7 @@ class ChangeNotesParser {
     revisionNoteMap =
         RevisionNoteMap.parse(
             changeNoteJson, reader, NoteMap.read(reader, tipCommit), HumanComment.Status.PUBLISHED);
-    Map<ObjectId, ChangeRevisionNote> rns = revisionNoteMap.revisionNotes;
+    ImmutableMap<ObjectId, ChangeRevisionNote> rns = revisionNoteMap.revisionNotes;
 
     for (Map.Entry<ObjectId, ChangeRevisionNote> e : rns.entrySet()) {
       for (HumanComment c : e.getValue().getEntities()) {

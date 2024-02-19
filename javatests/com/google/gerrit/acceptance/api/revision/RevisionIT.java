@@ -1693,7 +1693,8 @@ public class RevisionIT extends AbstractDaemonTest {
 
   @Test
   public void queryRevisionFiles() throws Exception {
-    Map<String, String> files = ImmutableMap.of("file1.txt", "content 1", "file2.txt", "content 2");
+    ImmutableMap<String, String> files =
+        ImmutableMap.of("file1.txt", "content 1", "file2.txt", "content 2");
     PushOneCommit.Result result =
         pushFactory.create(admin.newIdent(), testRepo, SUBJECT, files).to("refs/for/master");
     result.assertOkStatus();
@@ -1813,7 +1814,7 @@ public class RevisionIT extends AbstractDaemonTest {
   @Test
   @GerritConfig(name = "change.maxFileSizeDownload", value = "10")
   public void content_maxFileSizeDownload() throws Exception {
-    Map<String, String> files =
+    ImmutableMap<String, String> files =
         ImmutableMap.of("dir/file1.txt", " 9 bytes ", "dir/file2.txt", "11 bytes xx");
     PushOneCommit.Result result =
         pushFactory.create(admin.newIdent(), testRepo, SUBJECT, files).to("refs/for/master");
@@ -1853,7 +1854,7 @@ public class RevisionIT extends AbstractDaemonTest {
 
   @Test
   public void cannotGetContentOfDirectory() throws Exception {
-    Map<String, String> files = ImmutableMap.of("dir/file1.txt", "content 1");
+    ImmutableMap<String, String> files = ImmutableMap.of("dir/file1.txt", "content 1");
     PushOneCommit.Result result =
         pushFactory.create(admin.newIdent(), testRepo, SUBJECT, files).to("refs/for/master");
     result.assertOkStatus();
@@ -2235,7 +2236,7 @@ public class RevisionIT extends AbstractDaemonTest {
 
     // check that reviewer is notified.
     amendChange(r.getChangeId());
-    List<FakeEmailSender.Message> messages = sender.getMessages();
+    ImmutableList<FakeEmailSender.Message> messages = sender.getMessages();
     FakeEmailSender.Message m = Iterables.getOnlyElement(messages);
     assertThat(m.rcpt()).containsExactly(user.getNameEmail());
     assertThat(m.body()).contains("I'd like you to reexamine a change.");
@@ -2264,7 +2265,7 @@ public class RevisionIT extends AbstractDaemonTest {
 
     // check that watcher is notified
     amendChange(r.getChangeId());
-    List<FakeEmailSender.Message> messages = sender.getMessages();
+    ImmutableList<FakeEmailSender.Message> messages = sender.getMessages();
     FakeEmailSender.Message m = Iterables.getOnlyElement(messages);
     assertThat(m.rcpt()).containsExactly(user.getNameEmail());
     assertThat(m.body()).contains(admin.fullName() + " has uploaded a new patch set (#2).");

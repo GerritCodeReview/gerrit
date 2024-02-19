@@ -36,7 +36,6 @@ import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.inject.Inject;
 import java.util.EnumSet;
-import java.util.List;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.junit.Test;
@@ -90,7 +89,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
             .to("refs/for/master");
     r.assertOkStatus();
 
-    List<Message> messages = sender.getMessages();
+    ImmutableList<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message m = messages.get(0);
     assertThat(m.rcpt()).containsExactlyElementsIn(watchers.build());
@@ -248,7 +247,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     r.assertOkStatus();
 
     // assert email notification
-    List<Message> messages = sender.getMessages();
+    ImmutableList<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message m = messages.get(0);
     assertThat(m.rcpt()).containsExactly(user.getNameEmail());
@@ -280,7 +279,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     r.assertOkStatus();
 
     // assert email notification for user
-    List<Message> messages = sender.getMessages();
+    ImmutableList<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message m = messages.get(0);
     assertThat(m.rcpt()).containsExactly(user.getNameEmail());
@@ -329,7 +328,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     r.assertOkStatus();
 
     // assert email notification for user
-    List<Message> messages = sender.getMessages();
+    ImmutableList<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message m = messages.get(0);
     assertThat(m.rcpt()).containsExactly(user.getNameEmail());
@@ -393,7 +392,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     gApi.changes().id(r.getChangeId()).addReviewer(user2.email());
 
     // assert email notification
-    List<Message> messages = sender.getMessages();
+    ImmutableList<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message m = messages.get(0);
     assertNotifyTo(user2);
@@ -419,7 +418,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     r.assertOkStatus();
 
     // assert email notification for user
-    List<Message> messages = sender.getMessages();
+    ImmutableList<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message m = messages.get(0);
     assertThat(m.rcpt()).containsExactly(user.getNameEmail());
@@ -455,7 +454,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     // change user can see the non-visible account.
     // Even if watching by the non-visible account was not possible, user could just watch all
     // changes that are visible to them and then filter them by the non-visible account locally.
-    List<Message> messages = sender.getMessages();
+    ImmutableList<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message m = messages.get(0);
     assertThat(m.rcpt()).containsExactly(user.getNameEmail());
@@ -494,7 +493,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     // is sent to the admin user
     requestScopeOperations.setApiUser(user.id());
     gApi.changes().id(r.getChangeId()).current().review(reviewInput);
-    List<Message> messages = sender.getMessages();
+    ImmutableList<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message m = messages.get(0);
     assertThat(m.rcpt()).containsExactly(admin.getNameEmail());
@@ -531,7 +530,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     r.assertOkStatus();
 
     // assert email notification
-    List<Message> messages = sender.getMessages();
+    ImmutableList<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message m = messages.get(0);
     assertThat(m.rcpt()).containsExactly(user.getNameEmail());
@@ -559,7 +558,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     r.assertOkStatus();
 
     // assert email notification for user
-    List<Message> messages = sender.getMessages();
+    ImmutableList<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message m = messages.get(0);
     assertThat(m.rcpt()).containsExactly(user.getNameEmail());
@@ -608,7 +607,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     r.assertOkStatus();
 
     // assert email notification for user
-    List<Message> messages = sender.getMessages();
+    ImmutableList<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message m = messages.get(0);
     assertThat(m.rcpt()).containsExactly(user.getNameEmail());
@@ -688,7 +687,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     r.assertOkStatus();
 
     // assert email notification
-    List<Message> messages = sender.getMessages();
+    ImmutableList<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message m = messages.get(0);
     assertThat(m.rcpt()).containsExactly(userThatCanViewPrivateChanges.getNameEmail());

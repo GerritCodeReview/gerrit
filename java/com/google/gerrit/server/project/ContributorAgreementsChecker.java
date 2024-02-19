@@ -17,6 +17,8 @@ package com.google.gerrit.server.project;
 import static com.google.common.base.Preconditions.checkArgument;
 import static java.util.Objects.requireNonNull;
 
+import com.google.common.collect.ImmutableCollection;
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.AccountGroup.UUID;
 import com.google.gerrit.entities.BooleanProjectConfig;
@@ -36,7 +38,6 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -89,7 +90,7 @@ public class ContributorAgreementsChecker {
     }
 
     IdentifiedUser iUser = user.asIdentifiedUser();
-    Collection<ContributorAgreement> contributorAgreements =
+    ImmutableCollection<ContributorAgreement> contributorAgreements =
         projectCache.getAllProjects().getConfig().getContributorAgreements().values();
     List<UUID> okGroupIds = new ArrayList<>();
     for (ContributorAgreement ca : contributorAgreements) {
@@ -97,14 +98,14 @@ public class ContributorAgreementsChecker {
       groupIds = okGroupIds;
 
       // matchProjects defaults to match all projects when missing.
-      List<String> matchProjectsRegexes = ca.getMatchProjectsRegexes();
+      ImmutableList<String> matchProjectsRegexes = ca.getMatchProjectsRegexes();
       if (!matchProjectsRegexes.isEmpty()
           && !projectMatchesAnyPattern(project.get(), matchProjectsRegexes)) {
         // Doesn't match, isn't checked.
         continue;
       }
       // excludeProjects defaults to exclude no projects when missing.
-      List<String> excludeProjectsRegexes = ca.getExcludeProjectsRegexes();
+      ImmutableList<String> excludeProjectsRegexes = ca.getExcludeProjectsRegexes();
       if (!excludeProjectsRegexes.isEmpty()
           && projectMatchesAnyPattern(project.get(), excludeProjectsRegexes)) {
         // Matches, isn't checked.

@@ -20,6 +20,7 @@ import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.a
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.project.testing.TestLabels.value;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.MoreCollectors;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.ExtensionRegistry;
@@ -53,7 +54,6 @@ import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.query.change.SubmitRequirementPredicate;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import java.util.Map;
 import java.util.Optional;
 import org.junit.Before;
 import org.junit.Test;
@@ -167,7 +167,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
               /* overrideExpr= */ "", /*allowOverrideInChildProjects*/
               false);
       configSubmitRequirement(project, projectSubmitRequirement);
-      Map<SubmitRequirement, SubmitRequirementResult> results =
+      ImmutableMap<SubmitRequirement, SubmitRequirementResult> results =
           evaluator.evaluateAllRequirements(changeData);
       assertThat(results).hasSize(2);
       assertThat(results.get(globalSubmitRequirement).status())
@@ -198,7 +198,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
               /* overrideExpr= */ "", /*allowOverrideInChildProjects*/
               false);
       configSubmitRequirement(project, projectSubmitRequirement);
-      Map<SubmitRequirement, SubmitRequirementResult> results =
+      ImmutableMap<SubmitRequirement, SubmitRequirementResult> results =
           evaluator.evaluateAllRequirements(changeData);
       assertThat(results).hasSize(1);
       assertThat(results.get(projectSubmitRequirement).status())
@@ -227,7 +227,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
               /* overrideExpr= */ "", /*allowOverrideInChildProjects*/
               false);
       configSubmitRequirement(project, projectSubmitRequirement);
-      Map<SubmitRequirement, SubmitRequirementResult> results =
+      ImmutableMap<SubmitRequirement, SubmitRequirementResult> results =
           evaluator.evaluateAllRequirements(changeData);
       assertThat(results).hasSize(1);
       assertThat(results.get(globalSubmitRequirement).status())

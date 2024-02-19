@@ -65,7 +65,8 @@ public class DefaultQuotaBackend implements QuotaBackend {
 
     // PluginSets can change their content when plugins (de-)register. Copy the currently registered
     // plugins so that we can iterate twice on a stable list.
-    List<PluginSetEntryContext<QuotaEnforcer>> enforcers = ImmutableList.copyOf(quotaEnforcers);
+    ImmutableList<PluginSetEntryContext<QuotaEnforcer>> enforcers =
+        ImmutableList.copyOf(quotaEnforcers);
     List<QuotaResponse> responses = new ArrayList<>(enforcers.size());
     for (PluginSetEntryContext<QuotaEnforcer> enforcer : enforcers) {
       try {
@@ -107,7 +108,8 @@ public class DefaultQuotaBackend implements QuotaBackend {
       QuotaRequestContext requestContext) {
     // PluginSets can change their content when plugins (de-)register. Copy the currently registered
     // plugins so that we can iterate twice on a stable list.
-    List<PluginSetEntryContext<QuotaEnforcer>> enforcers = ImmutableList.copyOf(quotaEnforcers);
+    ImmutableList<PluginSetEntryContext<QuotaEnforcer>> enforcers =
+        ImmutableList.copyOf(quotaEnforcers);
     List<QuotaResponse> responses = new ArrayList<>(enforcers.size());
     for (PluginSetEntryContext<QuotaEnforcer> enforcer : enforcers) {
       responses.add(enforcer.call(p -> p.availableTokens(quotaGroup, requestContext)));

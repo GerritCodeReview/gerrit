@@ -75,11 +75,11 @@ import org.eclipse.jgit.revwalk.RevCommit;
 public class GroupCollector {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  public static List<String> getDefaultGroups(ObjectId commit) {
+  public static ImmutableList<String> getDefaultGroups(ObjectId commit) {
     return ImmutableList.of(commit.name());
   }
 
-  public static List<String> getGroups(RevisionResource rsrc) {
+  public static ImmutableList<String> getGroups(RevisionResource rsrc) {
     if (rsrc.getEdit().isPresent()) {
       // Groups for an edit are just the base revision's groups, since they have
       // the same parent.

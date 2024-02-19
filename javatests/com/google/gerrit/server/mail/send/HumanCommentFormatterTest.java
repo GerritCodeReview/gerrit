@@ -20,6 +20,7 @@ import static com.google.gerrit.server.mail.send.CommentFormatter.BlockType.PARA
 import static com.google.gerrit.server.mail.send.CommentFormatter.BlockType.PRE_FORMATTED;
 import static com.google.gerrit.server.mail.send.CommentFormatter.BlockType.QUOTE;
 
+import com.google.common.collect.ImmutableList;
 import java.util.List;
 import org.junit.Test;
 
@@ -63,7 +64,7 @@ public class HumanCommentFormatterTest {
   @Test
   public void parseSimple() {
     String comment = "Para1";
-    List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
+    ImmutableList<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
     assertThat(result).hasSize(1);
     assertBlock(result, 0, PARAGRAPH, comment);
@@ -72,7 +73,7 @@ public class HumanCommentFormatterTest {
   @Test
   public void parseMultilinePara() {
     String comment = "Para 1\nStill para 1";
-    List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
+    ImmutableList<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
     assertThat(result).hasSize(1);
     assertBlock(result, 0, PARAGRAPH, comment);
@@ -81,7 +82,7 @@ public class HumanCommentFormatterTest {
   @Test
   public void parseParaBreak() {
     String comment = "Para 1\n\nPara 2\n\nPara 3";
-    List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
+    ImmutableList<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
     assertThat(result).hasSize(3);
     assertBlock(result, 0, PARAGRAPH, "Para 1");
@@ -92,7 +93,7 @@ public class HumanCommentFormatterTest {
   @Test
   public void parseQuote() {
     String comment = "> Quote text";
-    List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
+    ImmutableList<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
     assertThat(result).hasSize(1);
     assertQuoteBlock(result, 0, 1);
@@ -102,7 +103,7 @@ public class HumanCommentFormatterTest {
   @Test
   public void parseExcludesEmpty() {
     String comment = "Para 1\n\n\n\nPara 2";
-    List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
+    ImmutableList<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
     assertThat(result).hasSize(2);
     assertBlock(result, 0, PARAGRAPH, "Para 1");
@@ -112,7 +113,7 @@ public class HumanCommentFormatterTest {
   @Test
   public void parseQuoteLeadSpace() {
     String comment = " > Quote text";
-    List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
+    ImmutableList<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
     assertThat(result).hasSize(1);
     assertQuoteBlock(result, 0, 1);
@@ -122,7 +123,7 @@ public class HumanCommentFormatterTest {
   @Test
   public void parseMultiLineQuote() {
     String comment = "> Quote line 1\n> Quote line 2\n > Quote line 3\n";
-    List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
+    ImmutableList<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
     assertThat(result).hasSize(1);
     assertQuoteBlock(result, 0, 1);
@@ -133,7 +134,7 @@ public class HumanCommentFormatterTest {
   @Test
   public void parsePre() {
     String comment = "    Four space indent.";
-    List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
+    ImmutableList<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
     assertThat(result).hasSize(1);
     assertBlock(result, 0, PRE_FORMATTED, comment);
@@ -142,7 +143,7 @@ public class HumanCommentFormatterTest {
   @Test
   public void parseOneSpacePre() {
     String comment = " One space indent.\n Another line.";
-    List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
+    ImmutableList<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
     assertThat(result).hasSize(1);
     assertBlock(result, 0, PRE_FORMATTED, comment);
@@ -151,7 +152,7 @@ public class HumanCommentFormatterTest {
   @Test
   public void parseTabPre() {
     String comment = "\tOne tab indent.\n\tAnother line.\n  Yet another!";
-    List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
+    ImmutableList<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
     assertThat(result).hasSize(1);
     assertBlock(result, 0, PRE_FORMATTED, comment);
@@ -160,7 +161,7 @@ public class HumanCommentFormatterTest {
   @Test
   public void parseIntermediateLeadingWhitespacePre() {
     String comment = "No indent.\n\tNonzero indent.\nNo indent again.";
-    List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
+    ImmutableList<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
     assertThat(result).hasSize(1);
     assertBlock(result, 0, PRE_FORMATTED, comment);
@@ -169,7 +170,7 @@ public class HumanCommentFormatterTest {
   @Test
   public void parseStarList() {
     String comment = "* Item 1\n* Item 2\n* Item 3";
-    List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
+    ImmutableList<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
     assertThat(result).hasSize(1);
     assertListBlock(result, 0, 0, "Item 1");
@@ -180,7 +181,7 @@ public class HumanCommentFormatterTest {
   @Test
   public void parseDashList() {
     String comment = "- Item 1\n- Item 2\n- Item 3";
-    List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
+    ImmutableList<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
     assertThat(result).hasSize(1);
     assertListBlock(result, 0, 0, "Item 1");
@@ -191,7 +192,7 @@ public class HumanCommentFormatterTest {
   @Test
   public void parseMixedList() {
     String comment = "- Item 1\n* Item 2\n- Item 3\n* Item 4";
-    List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
+    ImmutableList<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
     assertThat(result).hasSize(1);
     assertListBlock(result, 0, 0, "Item 1");
@@ -216,7 +217,7 @@ public class HumanCommentFormatterTest {
             + "\tPreformatted text."
             + "\n\n"
             + "Parting words.";
-    List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
+    ImmutableList<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
     assertThat(result).hasSize(7);
     assertBlock(result, 0, PARAGRAPH, "Paragraph\nacross\na\nfew\nlines.");
@@ -235,7 +236,7 @@ public class HumanCommentFormatterTest {
   @Test
   public void bulletList1() {
     String comment = "A\n\n* line 1\n* 2nd line";
-    List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
+    ImmutableList<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
     assertThat(result).hasSize(2);
     assertBlock(result, 0, PARAGRAPH, "A");
@@ -246,7 +247,7 @@ public class HumanCommentFormatterTest {
   @Test
   public void bulletList2() {
     String comment = "A\n\n* line 1\n* 2nd line\n\nB";
-    List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
+    ImmutableList<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
     assertThat(result).hasSize(3);
     assertBlock(result, 0, PARAGRAPH, "A");
@@ -258,7 +259,7 @@ public class HumanCommentFormatterTest {
   @Test
   public void bulletList3() {
     String comment = "* line 1\n* 2nd line\n\nB";
-    List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
+    ImmutableList<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
     assertThat(result).hasSize(2);
     assertListBlock(result, 0, 0, "line 1");
@@ -272,7 +273,7 @@ public class HumanCommentFormatterTest {
         "To see this bug, you have to:\n" //
             + "* Be on IMAP or EAS (not on POP)\n" //
             + "* Be very unlucky\n";
-    List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
+    ImmutableList<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
     assertThat(result).hasSize(2);
     assertBlock(result, 0, PARAGRAPH, "To see this bug, you have to:");
@@ -287,7 +288,7 @@ public class HumanCommentFormatterTest {
             + "you have to:\n" //
             + "* Be on IMAP or EAS (not on POP)\n" //
             + "* Be very unlucky\n";
-    List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
+    ImmutableList<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
     assertThat(result).hasSize(2);
     assertBlock(result, 0, PARAGRAPH, "To see this bug, you have to:");
@@ -298,7 +299,7 @@ public class HumanCommentFormatterTest {
   @Test
   public void dashList1() {
     String comment = "A\n\n- line 1\n- 2nd line";
-    List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
+    ImmutableList<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
     assertThat(result).hasSize(2);
     assertBlock(result, 0, PARAGRAPH, "A");
@@ -309,7 +310,7 @@ public class HumanCommentFormatterTest {
   @Test
   public void dashList2() {
     String comment = "A\n\n- line 1\n- 2nd line\n\nB";
-    List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
+    ImmutableList<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
     assertThat(result).hasSize(3);
     assertBlock(result, 0, PARAGRAPH, "A");
@@ -321,7 +322,7 @@ public class HumanCommentFormatterTest {
   @Test
   public void dashList3() {
     String comment = "- line 1\n- 2nd line\n\nB";
-    List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
+    ImmutableList<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
     assertThat(result).hasSize(2);
     assertListBlock(result, 0, 0, "line 1");
@@ -332,7 +333,7 @@ public class HumanCommentFormatterTest {
   @Test
   public void preformat1() {
     String comment = "A\n\n  This is pre\n  formatted";
-    List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
+    ImmutableList<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
     assertThat(result).hasSize(2);
     assertBlock(result, 0, PARAGRAPH, "A");
@@ -342,7 +343,7 @@ public class HumanCommentFormatterTest {
   @Test
   public void preformat2() {
     String comment = "A\n\n  This is pre\n  formatted\n\nbut this is not";
-    List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
+    ImmutableList<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
     assertThat(result).hasSize(3);
     assertBlock(result, 0, PARAGRAPH, "A");
@@ -353,7 +354,7 @@ public class HumanCommentFormatterTest {
   @Test
   public void preformat3() {
     String comment = "A\n\n  Q\n    <R>\n  S\n\nB";
-    List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
+    ImmutableList<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
     assertThat(result).hasSize(3);
     assertBlock(result, 0, PARAGRAPH, "A");
@@ -364,7 +365,7 @@ public class HumanCommentFormatterTest {
   @Test
   public void preformat4() {
     String comment = "  Q\n    <R>\n  S\n\nB";
-    List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
+    ImmutableList<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
     assertThat(result).hasSize(2);
     assertBlock(result, 0, PRE_FORMATTED, "  Q\n    <R>\n  S");
@@ -374,7 +375,7 @@ public class HumanCommentFormatterTest {
   @Test
   public void quote1() {
     String comment = "> I'm happy\n > with quotes!\n\nSee above.";
-    List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
+    ImmutableList<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
     assertThat(result).hasSize(2);
     assertQuoteBlock(result, 0, 1);
@@ -385,7 +386,7 @@ public class HumanCommentFormatterTest {
   @Test
   public void quote2() {
     String comment = "See this said:\n\n > a quoted\n > string block\n\nOK?";
-    List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
+    ImmutableList<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
     assertThat(result).hasSize(3);
     assertBlock(result, 0, PARAGRAPH, "See this said:");
@@ -397,7 +398,7 @@ public class HumanCommentFormatterTest {
   @Test
   public void nestedQuotes1() {
     String comment = " > > prior\n > \n > next\n";
-    List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
+    ImmutableList<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
     assertThat(result).hasSize(1);
     assertQuoteBlock(result, 0, 2);
@@ -428,7 +429,7 @@ public class HumanCommentFormatterTest {
             + "> Paragraph 6.\n"
             + "\n"
             + "Paragraph 7.\n";
-    List<CommentFormatter.Block> result = CommentFormatter.parse(comment);
+    ImmutableList<CommentFormatter.Block> result = CommentFormatter.parse(comment);
 
     assertThat(result).hasSize(2);
     assertQuoteBlock(result, 0, 2);

@@ -86,7 +86,7 @@ public class ListChangeCommentsTest {
     linkAuthor(comments.get(5), accountId1);
 
     // Change massages have exactly same timestamps
-    List<ChangeMessage> changeMessages =
+    ImmutableList<ChangeMessage> changeMessages =
         ImmutableList.of(
             createChangeMessage("cm0", "10", Account.id(accountId1)),
             createChangeMessage("cm1", "11", Account.id(accountId1)),
@@ -142,7 +142,7 @@ public class ListChangeCommentsTest {
     linkAuthor(comments.get(1), accountId2Imported);
     linkAuthor(comments.get(2), accountId3);
 
-    List<ChangeMessage> changeMessages =
+    ImmutableList<ChangeMessage> changeMessages =
         ImmutableList.of(
             createChangeMessage("changeMessage0", tsCm0, Account.id(accountId1)),
             createChangeMessage("changeMessage1", tsCm1, Account.id(accountId2)),

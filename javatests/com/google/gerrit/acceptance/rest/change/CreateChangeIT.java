@@ -89,7 +89,6 @@ import com.google.inject.Inject;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ExecutorService;
@@ -371,7 +370,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(admin.id());
     assertCreateSucceeds(newChangeInput(ChangeStatus.NEW));
 
-    List<Message> messages = sender.getMessages();
+    ImmutableList<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message m = messages.get(0);
     assertThat(m.rcpt()).containsExactly(user.getNameEmail());
@@ -564,7 +563,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
 
   @Test
   public void createChangeWithParentCommit() throws Exception {
-    Map<String, PushOneCommit.Result> setup =
+    ImmutableMap<String, PushOneCommit.Result> setup =
         changeInTwoBranches("foo", "foo.txt", "bar", "bar.txt");
     ChangeInput input = newChangeInput(ChangeStatus.NEW);
     input.baseCommit = setup.get("master").getCommit().getId().name();
@@ -603,7 +602,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
 
   @Test
   public void createChangeWithParentCommitOnWrongBranchFails() throws Exception {
-    Map<String, PushOneCommit.Result> setup =
+    ImmutableMap<String, PushOneCommit.Result> setup =
         changeInTwoBranches("foo", "foo.txt", "bar", "bar.txt");
     ChangeInput input = newChangeInput(ChangeStatus.NEW);
     input.branch = "foo";
@@ -638,7 +637,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
 
   @Test
   public void createChangeWithoutAccessToParentCommitFails() throws Exception {
-    Map<String, PushOneCommit.Result> results =
+    ImmutableMap<String, PushOneCommit.Result> results =
         changeInTwoBranches("invisible-branch", "a.txt", "visible-branch", "b.txt");
     projectOperations
         .project(project)
@@ -1470,7 +1469,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
    * @param fileB name of file to commit to branchB
    * @return A {@code Map} of branchName => commit result.
    */
-  private Map<String, Result> changeInTwoBranches(
+  private ImmutableMap<String, Result> changeInTwoBranches(
       String branchA, String fileA, String branchB, String fileB) throws Exception {
     return changeInTwoBranches(
         branchA, "change A", fileA, "A content", branchB, "change B", fileB, "B content");
@@ -1489,7 +1488,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
    * @param contentB file content to commit to branchB
    * @return A {@code Map} of branchName => commit result.
    */
-  private Map<String, Result> changeInTwoBranches(
+  private ImmutableMap<String, Result> changeInTwoBranches(
       String branchA,
       String subjectA,
       String fileA,

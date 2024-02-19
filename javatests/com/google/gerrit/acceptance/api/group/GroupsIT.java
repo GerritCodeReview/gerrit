@@ -117,6 +117,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Stream;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
@@ -944,7 +945,7 @@ public class GroupsIT extends AbstractDaemonTest {
 
   @Test
   public void defaultGroupsCreated() throws Exception {
-    Iterable<String> names = gApi.groups().list().getAsMap().keySet();
+    Set<String> names = gApi.groups().list().getAsMap().keySet();
     assertThat(names)
         .containsAtLeast("Administrators", ServiceUserClassifier.SERVICE_USERS)
         .inOrder();
@@ -1700,7 +1701,7 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   private static void assertIncludes(List<GroupInfo> includes, String... expectedNames) {
-    List<String> names = includes.stream().map(i -> i.name).collect(toImmutableList());
+    ImmutableList<String> names = includes.stream().map(i -> i.name).collect(toImmutableList());
     assertThat(names).containsExactlyElementsIn(Arrays.asList(expectedNames));
     assertThat(names).isInOrder();
   }

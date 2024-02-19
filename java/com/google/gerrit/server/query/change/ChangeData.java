@@ -1156,7 +1156,7 @@ public class ChangeData {
    */
   public Map<SubmitRequirement, SubmitRequirementResult> submitRequirementsIncludingLegacy() {
     Map<SubmitRequirement, SubmitRequirementResult> projectConfigReqs = submitRequirements();
-    Map<SubmitRequirement, SubmitRequirementResult> legacyReqs =
+    ImmutableMap<SubmitRequirement, SubmitRequirementResult> legacyReqs =
         SubmitRequirementsAdapter.getLegacyRequirements(this);
     return submitRequirementsUtil.mergeLegacyAndNonLegacyRequirements(
         projectConfigReqs, legacyReqs, this);

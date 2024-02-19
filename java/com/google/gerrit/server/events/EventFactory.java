@@ -76,7 +76,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -601,7 +600,7 @@ public class EventFactory {
   }
 
   private void addHashTags(ChangeAttribute changeAttribute, ChangeNotes notes) {
-    Set<String> hashtags = notes.load().getHashtags();
+    ImmutableSet<String> hashtags = notes.load().getHashtags();
     if (!hashtags.isEmpty()) {
       changeAttribute.hashtags = new ArrayList<>(hashtags.size());
       changeAttribute.hashtags.addAll(hashtags);

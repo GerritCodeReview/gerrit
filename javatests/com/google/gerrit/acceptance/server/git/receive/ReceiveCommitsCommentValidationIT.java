@@ -48,7 +48,6 @@ import com.google.gerrit.testing.FakeEmailSender;
 import com.google.gerrit.testing.TestCommentHelper;
 import com.google.inject.Inject;
 import com.google.inject.Module;
-import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -131,7 +130,7 @@ public class ReceiveCommitsCommentValidationIT extends AbstractDaemonTest {
     testCommentHelper.addDraft(changeId, revId, comment);
     amendChange(changeId, "refs/for/master%publish-comments", admin, testRepo);
 
-    List<FakeEmailSender.Message> messages = sender.getMessages();
+    ImmutableList<FakeEmailSender.Message> messages = sender.getMessages();
     assertThat(messages).hasSize(2);
 
     FakeEmailSender.Message newPatchsetMessage = messages.get(0);

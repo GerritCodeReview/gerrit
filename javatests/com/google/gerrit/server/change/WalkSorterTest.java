@@ -59,7 +59,7 @@ public class WalkSorterTest {
     ChangeData cd2 = newChange(p, c2_1);
     ChangeData cd3 = newChange(p, c3_1);
 
-    List<ChangeData> changes = ImmutableList.of(cd1, cd2, cd3);
+    ImmutableList<ChangeData> changes = ImmutableList.of(cd1, cd2, cd3);
     WalkSorter sorter = new WalkSorter(repoManager);
 
     assertSorted(
@@ -107,7 +107,7 @@ public class WalkSorterTest {
     ChangeData cd3 = newChange(p, c3);
     ChangeData cd4 = newChange(p, c4);
 
-    List<ChangeData> changes = ImmutableList.of(cd1, cd2, cd3, cd4);
+    ImmutableList<ChangeData> changes = ImmutableList.of(cd1, cd2, cd3, cd4);
     WalkSorter sorter = new WalkSorter(repoManager);
 
     assertSorted(
@@ -174,7 +174,7 @@ public class WalkSorterTest {
     ChangeData cd7 = newChange(p, c7);
     ChangeData cd8 = newChange(p, c8);
 
-    List<ChangeData> changes = ImmutableList.of(cd1, cd2, cd3, cd4, cd5, cd6, cd7, cd8);
+    ImmutableList<ChangeData> changes = ImmutableList.of(cd1, cd2, cd3, cd4, cd5, cd6, cd7, cd8);
     WalkSorter sorter = new WalkSorter(repoManager);
 
     // Do not use assertSorted because it tests all permutations. We don't need it for this test
@@ -203,7 +203,7 @@ public class WalkSorterTest {
     ChangeData cd1 = newChange(p, c1_1);
     ChangeData cd3 = newChange(p, c3_1);
 
-    List<ChangeData> changes = ImmutableList.of(cd1, cd3);
+    ImmutableList<ChangeData> changes = ImmutableList.of(cd1, cd3);
     WalkSorter sorter = new WalkSorter(repoManager);
 
     assertSorted(
@@ -230,7 +230,7 @@ public class WalkSorterTest {
     ChangeData cd3 = newChange(p, c3);
     ChangeData cd4 = newChange(p, c4);
 
-    List<ChangeData> changes = ImmutableList.of(cd1, cd2, cd3, cd4);
+    ImmutableList<ChangeData> changes = ImmutableList.of(cd1, cd2, cd3, cd4);
     WalkSorter sorter = new WalkSorter(repoManager);
 
     assertSorted(
@@ -263,7 +263,7 @@ public class WalkSorterTest {
     ChangeData cd3 = newChange(p, c3);
     ChangeData cd4 = newChange(p, c4);
 
-    List<ChangeData> changes = ImmutableList.of(cd1, cd2, cd3, cd4);
+    ImmutableList<ChangeData> changes = ImmutableList.of(cd1, cd2, cd3, cd4);
     WalkSorter sorter = new WalkSorter(repoManager);
 
     assertSorted(
@@ -295,9 +295,9 @@ public class WalkSorterTest {
     ChangeData cd2 = newChange(p, c2);
     ChangeData cd4 = newChange(p, c4);
 
-    List<ChangeData> changes = ImmutableList.of(cd1, cd2, cd4);
+    ImmutableList<ChangeData> changes = ImmutableList.of(cd1, cd2, cd4);
     WalkSorter sorter = new WalkSorter(repoManager);
-    List<PatchSetData> expected =
+    ImmutableList<PatchSetData> expected =
         ImmutableList.of(patchSetData(cd4, c4), patchSetData(cd2, c2), patchSetData(cd1, c1));
 
     for (List<ChangeData> list : permutations(changes)) {
@@ -326,7 +326,7 @@ public class WalkSorterTest {
     ChangeData cd3 = newChange(p, c3);
     ChangeData cd4 = newChange(p, c4);
 
-    List<ChangeData> changes = ImmutableList.of(cd1, cd2, cd3, cd4);
+    ImmutableList<ChangeData> changes = ImmutableList.of(cd1, cd2, cd3, cd4);
     WalkSorter sorter = new WalkSorter(repoManager);
 
     assertSorted(
@@ -379,7 +379,7 @@ public class WalkSorterTest {
     addPatchSet(cd1, c1_2);
     addPatchSet(cd2, c2_2);
 
-    List<ChangeData> changes = ImmutableList.of(cd1, cd2);
+    ImmutableList<ChangeData> changes = ImmutableList.of(cd1, cd2);
     WalkSorter sorter = new WalkSorter(repoManager);
 
     assertSorted(
@@ -402,7 +402,7 @@ public class WalkSorterTest {
     ChangeData cd1 = newChange(pa, c1);
     ChangeData cd2 = newChange(pb, c2);
 
-    List<ChangeData> changes = ImmutableList.of(cd1, cd2);
+    ImmutableList<ChangeData> changes = ImmutableList.of(cd1, cd2);
     WalkSorter sorter =
         new WalkSorter(repoManager).includePatchSets(ImmutableSet.of(cd1.currentPatchSet().id()));
 
@@ -415,7 +415,7 @@ public class WalkSorterTest {
     RevCommit c = p.commit().message("message").create();
     ChangeData cd = newChange(p, c);
 
-    List<ChangeData> changes = ImmutableList.of(cd);
+    ImmutableList<ChangeData> changes = ImmutableList.of(cd);
     RevCommit actual =
         new WalkSorter(repoManager).setRetainBody(true).sort(changes).iterator().next().commit();
     assertThat(actual.getRawBuffer()).isNotNull();
@@ -432,7 +432,7 @@ public class WalkSorterTest {
     RevCommit c = p.commit().create();
     ChangeData cd = newChange(p, c);
 
-    List<ChangeData> changes = ImmutableList.of(cd);
+    ImmutableList<ChangeData> changes = ImmutableList.of(cd);
     WalkSorter sorter = new WalkSorter(repoManager);
 
     assertSorted(sorter, changes, ImmutableList.of(patchSetData(cd, c)));

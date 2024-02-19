@@ -227,7 +227,7 @@ public class CheckAccessIT extends AbstractDaemonTest {
 
   @Test
   public void accessible() throws Exception {
-    List<TestCase> inputs =
+    ImmutableList<TestCase> inputs =
         ImmutableList.of(
             // Test 1
             TestCase.projectRefPerm(

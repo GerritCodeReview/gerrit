@@ -308,7 +308,7 @@ public class DiffOperationsImpl implements DiffOperations {
 
   private FileDiffOutput getModifiedFileForKey(FileDiffCacheKey key)
       throws DiffNotAvailableException {
-    Map<String, FileDiffOutput> diffList =
+    ImmutableMap<String, FileDiffOutput> diffList =
         getModifiedFilesForKeys(ImmutableList.of(key), DiffOptions.DEFAULTS);
     return diffList.containsKey(key.newFilePath())
         ? diffList.get(key.newFilePath())
@@ -427,7 +427,7 @@ public class DiffOperationsImpl implements DiffOperations {
    * multiple times loads the modified files only once (for the first call, for further calls the
    * cached modified files are returned).
    */
-  private Map<String, ModifiedFile> loadModifiedFilesWithoutCacheIfNecessary(
+  private ImmutableMap<String, ModifiedFile> loadModifiedFilesWithoutCacheIfNecessary(
       Project.NameKey project,
       DiffParameters diffParams,
       RevWalk revWalk,
@@ -456,7 +456,7 @@ public class DiffOperationsImpl implements DiffOperations {
     if (enableRenameDetection) {
       modifiedFilesLoader.withRenameDetection(RENAME_SCORE);
     }
-    Map<String, ModifiedFile> modifiedFiles =
+    ImmutableMap<String, ModifiedFile> modifiedFiles =
         toMap(
             modifiedFilesLoader.load(
                 project, repoConfig, revWalk, diffParams.baseCommit(), diffParams.newCommit()));

@@ -707,8 +707,8 @@ public class PluginLoader implements LifecycleListener {
       assert winner != null;
       // Disable all loser plugins by renaming their file names to
       // "file.disabled" and replace the disabled files in the multimap.
-      Collection<Path> elementsToRemove = new ArrayList<>();
-      Collection<Path> elementsToAdd = new ArrayList<>();
+      List<Path> elementsToRemove = new ArrayList<>();
+      List<Path> elementsToAdd = new ArrayList<>();
       for (Path loser : Iterables.skip(enabled, 1)) {
         logger.atWarning().log(
             "Plugin <%s> was disabled, because"

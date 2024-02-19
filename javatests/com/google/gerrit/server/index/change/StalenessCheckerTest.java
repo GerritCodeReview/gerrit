@@ -29,6 +29,7 @@ import com.google.gerrit.index.RefState;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.change.StalenessChecker.RefStatePattern;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
+import java.util.List;
 import java.util.stream.Stream;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
@@ -311,7 +312,7 @@ public class StalenessCheckerTest {
         .isFalse();
   }
 
-  private static Iterable<byte[]> byteArrays(String... strs) {
+  private static List<byte[]> byteArrays(String... strs) {
     return Stream.of(strs).map(s -> s != null ? s.getBytes(UTF_8) : null).collect(toList());
   }
 }

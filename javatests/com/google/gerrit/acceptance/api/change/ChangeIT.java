@@ -1285,7 +1285,7 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(reviewers.iterator().next()._accountId).isEqualTo(user.id().get());
     assertThat(change.reviewers.get(REVIEWER)).isNull();
 
-    List<Message> messages = sender.getMessages();
+    ImmutableList<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message m = messages.get(0);
     assertThat(m.from().name()).isEqualTo("Administrator (Code Review)");
@@ -1355,7 +1355,7 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(reviewers.iterator().next()._accountId).isEqualTo(user.id().get());
     assertThat(change.reviewers.get(CC)).isNull();
 
-    List<Message> messages = sender.getMessages();
+    ImmutableList<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message m = messages.get(0);
     assertThat(m.rcpt()).containsExactly(user.getNameEmail());
@@ -1530,7 +1530,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
     addReviewer.call(r.getChangeId(), user.email());
 
-    List<Message> messages = sender.getMessages();
+    ImmutableList<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message m = messages.get(0);
     assertThat(m.rcpt()).containsExactly(user.getNameEmail());
@@ -1658,7 +1658,7 @@ public class ChangeIT extends AbstractDaemonTest {
     in.reviewer = "abc";
     gApi.changes().id(r.getChangeId()).addReviewer(in.reviewer);
 
-    List<Message> messages = sender.getMessages();
+    ImmutableList<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message m = messages.get(0);
     assertThat(m.rcpt()).containsExactly(Address.create(fullname, email));
@@ -1719,7 +1719,7 @@ public class ChangeIT extends AbstractDaemonTest {
     in.reviewer = testGroup;
     gApi.changes().id(r.getChangeId()).addReviewer(in.reviewer);
 
-    List<Message> messages = sender.getMessages();
+    ImmutableList<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message m = messages.get(0);
     assertThat(m.rcpt()).containsExactly(Address.create(myGroupUserFullname, myGroupUserEmail));
@@ -2369,7 +2369,7 @@ public class ChangeIT extends AbstractDaemonTest {
         .reviewer(user.id().toString())
         .deleteVote(LabelId.CODE_REVIEW);
 
-    List<Message> messages = sender.getMessages();
+    ImmutableList<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message msg = messages.get(0);
     assertThat(msg.rcpt()).containsExactly(user.getNameEmail());
@@ -4527,7 +4527,7 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   public void changeDetailsDoesNotRequireIndex() throws Exception {
     // This set of options must be kept in sync with gr-rest-api-interface.js
-    Set<ListChangesOption> options =
+    ImmutableSet<ListChangesOption> options =
         ImmutableSet.of(
             ListChangesOption.ALL_COMMITS,
             ListChangesOption.ALL_REVISIONS,
@@ -4748,7 +4748,7 @@ public class ChangeIT extends AbstractDaemonTest {
     }
     sender.clear();
     gApi.changes().id(change).addReviewer(user.email());
-    List<Message> messages = sender.getMessages();
+    ImmutableList<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     assertThat(((StringEmailHeader) messages.get(0).headers().get("Subject")).getString())
         .contains("[" + expectedSizeBucket + "]");

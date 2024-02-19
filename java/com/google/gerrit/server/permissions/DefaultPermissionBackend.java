@@ -19,6 +19,7 @@ import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toSet;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
@@ -41,7 +42,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -238,7 +238,7 @@ public class DefaultPermissionBackend extends PermissionBackend {
     }
 
     private boolean canEmailReviewers() {
-      List<PermissionRule> email = capabilities().emailReviewers;
+      ImmutableList<PermissionRule> email = capabilities().emailReviewers;
       if (allow(email)) {
         logger.atFinest().log(
             "user %s can email reviewers (allowed by %s)", user.getLoggableName(), email);

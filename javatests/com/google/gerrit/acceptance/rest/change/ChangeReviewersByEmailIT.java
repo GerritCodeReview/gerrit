@@ -221,7 +221,7 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
       input.state = state;
       gApi.changes().id(r.getChangeId()).addReviewer(input);
 
-      List<Message> messages = sender.getMessages();
+      ImmutableList<Message> messages = sender.getMessages();
       assertThat(messages).hasSize(1);
       assertThat(messages.get(0).rcpt()).containsExactly(Address.parse(input.reviewer));
       sender.clear();
@@ -252,7 +252,7 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
       // Delete as admin
       gApi.changes().id(r.getChangeId()).reviewer(addInput.reviewer).remove();
 
-      List<Message> messages = sender.getMessages();
+      ImmutableList<Message> messages = sender.getMessages();
       assertThat(messages).hasSize(1);
       assertThat(messages.get(0).rcpt())
           .containsExactly(Address.parse(addInput.reviewer), user.getNameEmail());

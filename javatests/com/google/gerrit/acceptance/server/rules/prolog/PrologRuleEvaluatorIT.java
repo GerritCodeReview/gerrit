@@ -45,7 +45,7 @@ public class PrologRuleEvaluatorIT extends AbstractDaemonTest {
     StructureTerm verifiedLabel = makeLabel(LabelId.VERIFIED, "may");
     StructureTerm labels = new StructureTerm("label", verifiedLabel);
 
-    List<Term> terms = ImmutableList.of(makeTerm("ok", labels));
+    ImmutableList<Term> terms = ImmutableList.of(makeTerm("ok", labels));
     SubmitRecord record = evaluator.resultsToSubmitRecord(null, terms);
 
     assertThat(record.status).isEqualTo(SubmitRecord.Status.OK);

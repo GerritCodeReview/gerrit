@@ -109,7 +109,7 @@ public class SchemaCreatorImplTest {
 
   private boolean hasGroup(String name) throws Exception {
     try (Repository repo = repositoryManager.openRepository(allUsersName)) {
-      List<GroupReference> nameNotes = GroupNameNotes.loadAllGroups(repo);
+      ImmutableList<GroupReference> nameNotes = GroupNameNotes.loadAllGroups(repo);
       return nameNotes.stream().anyMatch(g -> g.getName().equals(name));
     }
   }

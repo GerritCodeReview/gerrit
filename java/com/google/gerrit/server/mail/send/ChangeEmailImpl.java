@@ -19,6 +19,7 @@ import static com.google.gerrit.server.util.AttentionSetUtil.additionsOnly;
 
 import com.google.auto.factory.AutoFactory;
 import com.google.auto.factory.Provided;
+import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
@@ -58,7 +59,6 @@ import java.text.MessageFormat;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -88,7 +88,7 @@ public class ChangeEmailImpl implements ChangeEmail {
 
   // Available after init or after being explicitly set.
   protected OutgoingEmail email;
-  private List<Account.Id> stars;
+  private ImmutableList<Account.Id> stars;
   protected PatchSet patchSet;
   protected PatchSetInfo patchSetInfo;
   private String changeMessage;

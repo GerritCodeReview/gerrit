@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.server.mail;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -35,7 +36,6 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import org.junit.Test;
 
@@ -50,7 +50,7 @@ public class MailMetadataIT extends AbstractDaemonTest {
     PushOneCommit.Result newChange = createChange();
     gApi.changes().id(newChange.getChangeId()).addReviewer(user.id().toString());
 
-    List<FakeEmailSender.Message> emails = sender.getMessages();
+    ImmutableList<FakeEmailSender.Message> emails = sender.getMessages();
     assertThat(emails).hasSize(1);
     FakeEmailSender.Message message = emails.get(0);
 
@@ -87,7 +87,7 @@ public class MailMetadataIT extends AbstractDaemonTest {
         gApi.changes().id(newChange.getChangeId()).get().messages;
     assertThat(result).isNotEmpty();
 
-    List<FakeEmailSender.Message> emails = sender.getMessages();
+    ImmutableList<FakeEmailSender.Message> emails = sender.getMessages();
     assertThat(emails).hasSize(1);
     FakeEmailSender.Message message = emails.get(0);
 

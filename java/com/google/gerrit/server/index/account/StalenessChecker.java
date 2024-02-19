@@ -42,7 +42,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -137,7 +136,7 @@ public class StalenessChecker {
       }
     }
 
-    Set<ExternalId> extIds = externalIds.byAccount(id);
+    ImmutableSet<ExternalId> extIds = externalIds.byAccount(id);
 
     ListMultimap<ObjectId, ObjectId> extIdStates =
         parseExternalIdStates(

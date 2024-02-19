@@ -408,7 +408,7 @@ public class FileDiffCacheImpl implements FileDiffCache {
         if (!augmentedKey.ignoreRebase()) {
           rebaseFileEdits = computeRebaseEdits(allDiffs);
         }
-        List<Edit> rebaseEdits = rebaseFileEdits.edits();
+        ImmutableList<Edit> rebaseEdits = rebaseFileEdits.edits();
 
         ObjectId oldTreeId = allDiffs.mainDiff().gitKey().oldTree();
 

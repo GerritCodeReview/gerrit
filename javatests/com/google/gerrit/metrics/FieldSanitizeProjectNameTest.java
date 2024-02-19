@@ -17,7 +17,7 @@ package com.google.gerrit.metrics;
 import static com.google.common.truth.Truth.assertThat;
 
 import java.util.Arrays;
-import java.util.Collection;
+import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -25,7 +25,7 @@ import org.junit.runners.Parameterized;
 @RunWith(Parameterized.class)
 public class FieldSanitizeProjectNameTest {
   @Parameterized.Parameters
-  public static Collection<Object[]> testData() {
+  public static List<Object[]> testData() {
     return Arrays.asList(
         new Object[][] {
           {"repoName", "repoName"},

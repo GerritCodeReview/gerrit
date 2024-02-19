@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.query.account;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.server.index.account.AccountSchemaDefinitions;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.InMemoryModule;
@@ -21,7 +22,6 @@ import com.google.gerrit.testing.IndexConfig;
 import com.google.gerrit.testing.IndexVersions;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import java.util.List;
 import java.util.Map;
 import org.eclipse.jgit.lib.Config;
 
@@ -34,7 +34,7 @@ public class LuceneQueryAccountsTest extends AbstractQueryAccountsTest {
   @ConfigSuite.Configs
   public static Map<String, Config> againstPreviousIndexVersion() {
     // the current schema version is already tested by the inherited default config suite
-    List<Integer> schemaVersions =
+    ImmutableList<Integer> schemaVersions =
         IndexVersions.getWithoutLatest(AccountSchemaDefinitions.INSTANCE);
     return IndexVersions.asConfigMap(
         AccountSchemaDefinitions.INSTANCE, schemaVersions, "againstIndexVersion", defaultConfig());

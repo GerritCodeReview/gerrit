@@ -997,7 +997,7 @@ export class GrComment extends LitElement {
   }
 
   private renderFixSuggestionPreview() {
-    if (!this.comment?.fix_suggestions) return nothing;
+    if (!this.comment?.fix_suggestions || isDraft(this.comment)) return nothing;
     return html`<gr-suggestion-diff-preview
       .fixReplacementInfos=${this.comment?.fix_suggestions?.[0].replacements}
     ></gr-suggestion-diff-preview>`;
@@ -1028,6 +1028,7 @@ export class GrComment extends LitElement {
   private renderGeneratedSuggestionPreview() {
     if (!this.showGeneratedSuggestion() || !this.generateSuggestion)
       return nothing;
+    if (!isDraft(this.comment)) return nothing;
 
     if (this.generatedFixSuggestion) {
       return html`<gr-suggestion-diff-preview
@@ -1065,6 +1066,15 @@ export class GrComment extends LitElement {
               );
               if (this.generateSuggestion) {
                 this.generateSuggestionTrigger$.next();
+              } else {
+                if (
+                  this.flagsService.isEnabled(
+                    KnownExperimentId.ML_SUGGESTED_EDIT_V2
+                  )
+                ) {
+                  this.generatedFixSuggestion = undefined;
+                  this.autoSaveTrigger$.next();
+                }
               }
               this.reporting.reportInteraction(
                 this.generateSuggestion
@@ -1224,6 +1234,7 @@ export class GrComment extends LitElement {
     const suggestion = suggestionResponse.fix_suggestions?.[0];
     if (!suggestion) return;
     this.generatedFixSuggestion = suggestion;
+    this.autoSaveTrigger$.next();
   }
 
   private renderRobotActions() {
@@ -1570,7 +1581,7 @@ export class GrComment extends LitElement {
     assert(isDraft(this.comment), 'only drafts are editable');
     const messageToSave = this.messageText.trimEnd();
     if (messageToSave === '') return;
-    if (messageToSave === this.comment.message) return;
+    if (!this.somethingToSave()) return;
 
     try {
       this.autoSaving = this.rawSave({showToast: false});
@@ -1634,7 +1645,8 @@ export class GrComment extends LitElement {
     return (
       isError(this.comment) ||
       this.messageText.trimEnd() !== this.comment?.message ||
-      this.unresolved !== this.comment.unresolved
+      this.unresolved !== this.comment.unresolved ||
+      this.comment?.fix_suggestions !== this.getFixSuggestions()
     );
   }
 
@@ -1647,9 +1659,18 @@ export class GrComment extends LitElement {
         ...this.comment,
         message: this.messageText.trimEnd(),
         unresolved: this.unresolved,
+        fix_suggestions: this.getFixSuggestions(),
       },
       options.showToast
     );
+  }
+
+  getFixSuggestions(): FixSuggestionInfo[] | undefined {
+    if (!this.flagsService.isEnabled(KnownExperimentId.ML_SUGGESTED_EDIT_V2))
+      return undefined;
+    if (!this.generateSuggestion) return undefined;
+    if (!this.generatedFixSuggestion) return undefined;
+    return [this.generatedFixSuggestion];
   }
 
   private handleToggleResolved() {

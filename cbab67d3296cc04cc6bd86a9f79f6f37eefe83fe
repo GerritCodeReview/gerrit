@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d8e7a034_cfafa107",
+        "filename": "java/com/google/gerrit/server/change/ChangeFinder.java",
+        "patchSetId": 41
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-02-19T10:09:43Z",
+      "side": 1,
+      "message": "nit: IMO, according to the `@Deprecated` javadoc, this should be `3.11`, as that\u0027s the first stable version where this method will be recognised as deprecated.",
+      "range": {
+        "startLine": 216,
+        "startChar": 23,
+        "endLine": 216,
+        "endChar": 27
+      },
+      "revId": "cbab67d3296cc04cc6bd86a9f79f6f37eefe83fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

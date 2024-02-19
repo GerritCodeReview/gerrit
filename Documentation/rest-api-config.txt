@@ -164,6 +164,14 @@ As result a link:#server-info[ServerInfo] entity is returned.
   }
 ----
 
+[[account-deactivation]]
+=== AccountDeactivation
+--
+'POST /config/server/accountdeactivation'
+--
+Runs the link:config-gerrit.html#accountDeactivation[account deactivator] manually.
+----
+
 [[check-consistency]]
 === Check Consistency
 --

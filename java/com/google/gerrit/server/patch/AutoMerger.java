@@ -210,7 +210,6 @@ public class AutoMerger {
               configuredMergeStrategy);
     }
     counter.increment(OperationType.ON_DISK_WRITE);
-    logger.atFine().log("Added %s AutoMerge ref update for commit", autoMerge.name());
     return autoMerge;
   }
 

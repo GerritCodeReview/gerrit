@@ -15,18 +15,21 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.index.query.AndPredicate;
 import com.google.gerrit.index.query.Predicate;
-import com.google.gerrit.index.query.QueryBuilder;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.ProjectWatches.ProjectWatchKey;
+import com.google.gerrit.server.mail.send.ProjectWatch;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
 public class IsWatchedByPredicate extends AndPredicate<ChangeData> {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   protected static String describe(CurrentUser user) {
     if (user.isIdentifiedUser()) {
       return user.getAccountId().toString();
@@ -44,20 +47,16 @@ public class IsWatchedByPredicate extends AndPredicate<ChangeData> {
   protected static ImmutableList<Predicate<ChangeData>> filters(ChangeQueryBuilder.Arguments args)
       throws QueryParseException {
     List<Predicate<ChangeData>> r = new ArrayList<>();
-    ChangeQueryBuilder builder = new ChangeQueryBuilder(args);
+    ProjectWatch.WatcherChangeQueryBuilder builder =
+        new ProjectWatch.WatcherChangeQueryBuilder(args);
     for (ProjectWatchKey w : getWatches(args)) {
       Predicate<ChangeData> f = null;
       if (w.filter() != null) {
         try {
           f = builder.parse(w.filter());
-          if (QueryBuilder.find(f, IsWatchedByPredicate.class) != null) {
-            // If the query is going to infinite loop, assume it
-            // will never match and return null. Yes this test
-            // prevents you from having a filter that matches what
-            // another user is filtering on. :-)
-            continue;
-          }
         } catch (QueryParseException e) {
+          logger.atFine().log(
+              "Ignoring non-parseable filter of project watch %s: %s", w, e.getMessage());
           continue;
         }
       }

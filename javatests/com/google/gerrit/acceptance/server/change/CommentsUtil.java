@@ -47,7 +47,7 @@ public class CommentsUtil {
       throws Exception {
     ReviewInput input = new ReviewInput();
     input.comments = Arrays.stream(commentInputs).collect(groupingBy(c -> c.path));
-    gApi.changes().id(changeId.get()).current().review(input);
+    gApi.changes().id(String.valueOf(changeId.get())).current().review(input);
   }
 
   static void addComments(

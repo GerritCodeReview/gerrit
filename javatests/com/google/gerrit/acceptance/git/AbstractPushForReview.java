@@ -2025,9 +2025,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   @Test
   public void cantAutoCloseChangeAlreadyMergedToBranch() throws Exception {
     PushOneCommit.Result r1 = createChange();
-    Change.Id id1 = r1.getChange().getId();
     PushOneCommit.Result r2 = createChange();
-    Change.Id id2 = r2.getChange().getId();
 
     // Merge change 1 behind Gerrit's back.
     try (Repository repo = repoManager.openRepository(project);
@@ -2035,16 +2033,16 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
       tr.branch("refs/heads/master").update(r1.getCommit());
     }
 
-    assertThat(gApi.changes().id(id1.get()).info().status).isEqualTo(ChangeStatus.NEW);
-    assertThat(gApi.changes().id(id2.get()).info().status).isEqualTo(ChangeStatus.NEW);
+    assertThat(change(r1).info().status).isEqualTo(ChangeStatus.NEW);
+    assertThat(change(r2).info().status).isEqualTo(ChangeStatus.NEW);
     r2 = amendChange(r2.getChangeId());
     r2.assertOkStatus();
 
     // Change 1 is still new despite being merged into the branch, because
     // ReceiveCommits only considers commits between the branch tip (which is
     // now the merged change 1) and the push tip (new patch set of change 2).
-    assertThat(gApi.changes().id(id1.get()).info().status).isEqualTo(ChangeStatus.NEW);
-    assertThat(gApi.changes().id(id2.get()).info().status).isEqualTo(ChangeStatus.NEW);
+    assertThat(change(r1).info().status).isEqualTo(ChangeStatus.NEW);
+    assertThat(change(r2).info().status).isEqualTo(ChangeStatus.NEW);
   }
 
   @Test
@@ -3172,7 +3170,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
       if (expectedReviewer != null) {
         assertWithMessage(name).that(cd.reviewers().all()).containsExactly(expectedReviewer.id());
         // Remove reviewer from PS1 so we can test adding this same reviewer on PS2 below.
-        gApi.changes().id(cd.getId().get()).reviewer(expectedReviewer.id().toString()).remove();
+        getChangeApi(cd).reviewer(expectedReviewer.id().toString()).remove();
       }
       assertWithMessage(name).that(byCommit(c).reviewers().all()).isEmpty();
     }

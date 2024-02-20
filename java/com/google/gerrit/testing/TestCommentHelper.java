@@ -163,7 +163,7 @@ public class TestCommentHelper {
       Change.Id targetChangeId, RobotCommentInput robotCommentInput, String message)
       throws Exception {
     ReviewInput reviewInput = createReviewInput(robotCommentInput, message);
-    gApi.changes().id(targetChangeId.get()).current().review(reviewInput);
+    gApi.changes().id(String.valueOf(targetChangeId)).current().review(reviewInput);
   }
 
   private ReviewInput createReviewInput(RobotCommentInput robotCommentInput, String message) {

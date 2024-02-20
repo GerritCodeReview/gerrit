@@ -491,13 +491,13 @@ public class AccessIT extends AbstractDaemonTest {
 
     requestScopeOperations.setApiUser(admin.id());
 
-    ChangeInfo c = gApi.changes().id(out._number).get(MESSAGES);
+    ChangeInfo c = getChangeApi(out).get(MESSAGES);
     assertThat(c.messages.stream().map(m -> m.message)).containsExactly("Uploaded patch set 1");
 
     ReviewInput reviewIn = new ReviewInput();
     reviewIn.label("Code-Review", (short) 2);
-    gApi.changes().id(out._number).current().review(reviewIn);
-    gApi.changes().id(out._number).current().submit();
+    getChangeApi(out).current().review(reviewIn);
+    getChangeApi(out).current().submit();
 
     // check that the change took effect.
     requestScopeOperations.setApiUser(user.id());
@@ -511,8 +511,8 @@ public class AccessIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(admin.id());
     out = pApi().accessChange(accessInput);
 
-    gApi.changes().id(out._number).current().review(reviewIn);
-    gApi.changes().id(out._number).current().submit();
+    getChangeApi(out).current().review(reviewIn);
+    getChangeApi(out).current().submit();
 
     // Now it works again.
     requestScopeOperations.setApiUser(user.id());

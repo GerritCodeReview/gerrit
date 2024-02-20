@@ -277,7 +277,8 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
   @Override
   public ChangeApi rebase(RebaseInput in) throws RestApiException {
     try {
-      return changes.id(rebaseAsInfo(in)._number);
+      ChangeInfo ci = rebaseAsInfo(in);
+      return changes.id(ci.project, ci._number);
     } catch (Exception e) {
       throw asRestApiException("Cannot rebase ps", e);
     }
@@ -305,7 +306,8 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
   @Override
   public ChangeApi cherryPick(CherryPickInput in) throws RestApiException {
     try {
-      return changes.id(cherryPick.apply(revision, in).value()._number);
+      ChangeInfo ci = cherryPick.apply(revision, in).value();
+      return changes.id(ci.project, ci._number);
     } catch (Exception e) {
       throw asRestApiException("Cannot cherry pick", e);
     }
@@ -544,7 +546,7 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
       String id = createDraft.apply(revision, in).value().id;
       // Reread change to pick up new notes refs.
       return changes
-          .id(revision.getChange().getId().get())
+          .id(revision.getProject().get(), revision.getChangeResource().getId().get())
           .revision(revision.getPatchSet().id().get())
           .draft(id);
     } catch (Exception e) {

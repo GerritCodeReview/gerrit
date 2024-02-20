@@ -355,7 +355,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
     RobotCommentInfo resultComment =
         Iterables.getOnlyElement(
-            gApi.changes().id(changeId.get()).current().robotCommentsAsList().stream()
+            getChangeApi(changeId).current().robotCommentsAsList().stream()
                 .filter(c -> c.message.equals("comment reply"))
                 .collect(toImmutableSet()));
     assertThat(resultComment.inReplyTo).isEqualTo(parentRobotCommentUuid);
@@ -787,15 +787,15 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
     // Fetch Fix ID
     List<RobotCommentInfo> robotCommentInfoList =
-        gApi.changes().id(change.get()).current().robotCommentsAsList();
+        getChangeApi(change).current().robotCommentsAsList();
 
     List<String> fixIds = getFixIds(robotCommentInfoList);
     String fixId = Iterables.getOnlyElement(fixIds);
 
     // Apply fix
-    gApi.changes().id(change.get()).current().applyFix(fixId);
+    getChangeApi(change).current().applyFix(fixId);
 
-    EditInfo editInfo = gApi.changes().id(change.get()).edit().get().orElseThrow();
+    EditInfo editInfo = getChangeApi(change).edit().get().orElseThrow();
     assertThat(editInfo.commit.committer.email).isEqualTo(emailOne);
   }
 

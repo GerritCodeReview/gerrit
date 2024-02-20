@@ -249,13 +249,17 @@ public class ReviewCommand extends SshCommand {
   }
 
   private void applyReview(PatchSet patchSet, ReviewInput review) throws Exception {
+    /* Since we are not guaranteed to get a project from the CLI we have to
+     * use the ambiguous Changes#id(String) that may fail to identify one
+     * single change and throw an exception.
+     */
     retryHelper
         .action(
             ActionType.CHANGE_UPDATE,
             "applyReview",
             () -> {
               gApi.changes()
-                  .id(patchSet.id().changeId().get())
+                  .id(String.valueOf(patchSet.id().changeId().get()))
                   .revision(patchSet.number())
                   .review(review);
               return null;
@@ -326,7 +330,11 @@ public class ReviewCommand extends SshCommand {
   }
 
   private ChangeApi changeApi(PatchSet patchSet) throws RestApiException {
-    return gApi.changes().id(patchSet.id().changeId().get());
+    /* Since we are not guaranteed to get a project from the CLI we have to
+     * use the ambiguous Changes#id(String) that may fail to identify one
+     * single change and throw an exception.
+     */
+    return gApi.changes().id(String.valueOf(patchSet.id().changeId().get()));
   }
 
   private RevisionApi revisionApi(PatchSet patchSet) throws RestApiException {

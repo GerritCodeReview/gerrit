@@ -161,9 +161,11 @@ public class AbandonIT extends AbstractDaemonTest {
 
     // create 2 changes that conflict with each other
     testRepo.reset(initial);
-    int id3 = createChange("change 3", "file.txt", "content").getChange().getId().get();
+    ChangeData cd3 = createChange("change 3", "file.txt", "content").getChange();
+    int id3 = cd3.getId().get();
     testRepo.reset(initial);
-    int id4 = createChange("change 4", "file.txt", "other content").getChange().getId().get();
+    ChangeData cd4 = createChange("change 4", "file.txt", "other content").getChange();
+    int id4 = cd4.getId().get();
 
     // make all 4 previously created changes older than 1 week
     TestTimeUtil.incrementClock(7 * 24, HOURS);
@@ -177,8 +179,8 @@ public class AbandonIT extends AbstractDaemonTest {
     assertThat(query("is:abandoned")).isEmpty();
 
     // submit one of the conflicting changes
-    gApi.changes().id(id3).current().review(ReviewInput.approve());
-    gApi.changes().id(id3).current().submit();
+    getChangeApi(cd3).current().review(ReviewInput.approve());
+    getChangeApi(cd3).current().submit();
     assertThat(toChangeNumbers(query("is:merged"))).containsExactly(id3);
     assertThat(toChangeNumbers(query("-is:mergeable"))).containsExactly(id4);
 
@@ -205,9 +207,11 @@ public class AbandonIT extends AbstractDaemonTest {
 
     // create 2 changes that conflict with each other
     testRepo.reset(initial);
-    int id3 = createChange("change 3", "file.txt", "content").getChange().getId().get();
+    ChangeData cd3 = createChange("change 3", "file.txt", "content").getChange();
+    int id3 = cd3.getId().get();
     testRepo.reset(initial);
-    int id4 = createChange("change 4", "file.txt", "other content").getChange().getId().get();
+    ChangeData cd4 = createChange("change 4", "file.txt", "other content").getChange();
+    int id4 = cd4.getId().get();
 
     // make all 4 previously created changes older than 1 week
     TestTimeUtil.incrementClock(7 * 24, HOURS);
@@ -221,8 +225,8 @@ public class AbandonIT extends AbstractDaemonTest {
     assertThat(query("is:abandoned")).isEmpty();
 
     // submit one of the conflicting changes
-    gApi.changes().id(id3).current().review(ReviewInput.approve());
-    gApi.changes().id(id3).current().submit();
+    getChangeApi(cd3).current().review(ReviewInput.approve());
+    getChangeApi(cd3).current().submit();
     assertThat(toChangeNumbers(query("is:merged"))).containsExactly(id3);
 
     BadRequestException thrown =

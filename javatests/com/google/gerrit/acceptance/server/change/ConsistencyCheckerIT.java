@@ -393,10 +393,10 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
         .branch(notes.getChange().getDest().branch())
         .update(serverSideTestRepo.getRevWalk().parseCommit(commitId));
 
-    ChangeInfo info = gApi.changes().id(notes.getChangeId().get()).info();
+    ChangeInfo info = getChangeApi(notes.getChange()).info();
     assertThat(info.status).isEqualTo(ChangeStatus.NEW);
 
-    info = gApi.changes().id(notes.getChangeId().get()).check(new FixInput());
+    info = getChangeApi(notes.getChange()).check(new FixInput());
     assertThat(info.status).isEqualTo(ChangeStatus.MERGED);
   }
 

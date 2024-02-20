@@ -209,6 +209,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a003b026_38cb867f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-02-20T10:17:04Z",
+      "side": 1,
+      "message": "I did a simple performance test locally using `wrk` and `ported_commments/` REST endpoint, on my m1 air, with disabled `change_notes` cache (`memoryLimit \u003d 1` and `maxAge \u003d 1`), with only **two** imported account.\n\nBefore \"on-line\" migration:\n```\n  5 threads and 10 connections\n  Thread Stats   Avg      Stdev     Max   +/- Stdev\n    Latency    33.08ms   41.23ms 494.40ms   88.19%\n    Req/Sec    90.39     40.20   257.00     66.14%\n  53687 requests in 2.00m, 321.38MB read\nRequests/sec:    447.00\nTransfer/sec:      2.68MB\n```\n\nAfter \"on-line\" migration:\n```\n  5 threads and 10 connections\n  Thread Stats   Avg      Stdev     Max   +/- Stdev\n    Latency    26.91ms   33.03ms 368.54ms   87.29%\n    Req/Sec   113.68     48.89   330.00     68.76%\n  67803 requests in 2.00m, 405.88MB read\nRequests/sec:    564.55\nTransfer/sec:      3.38MB\n```\n\nFrom the above, it looks that after migrating the imported change average latency went down about 18% and overall _Request/sec_ went up for about 20%. We\u0027re looking on a measurable performance improvement even when only a **two** accounts are mapped.",
+      "parentUuid": "d83c147a_67a6b1cd",
+      "revId": "78f266c75381c4902094cf8e1369835a7232d58a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3e01ec39_3e4f8a29",

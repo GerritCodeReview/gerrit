@@ -278,6 +278,7 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  // This tests deosn't work.
   public void diffStatShouldComputeInsertionsAndDeletions() throws Exception {
     String fileName = "a_new_file.txt";
     String fileContent = "First line\nSecond line\n";

@@ -77,6 +77,7 @@ import {
 } from '../../constants/constants';
 import {ParsedChangeInfo} from '../../types/types';
 import {readJSONResponsePayload} from '../../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
+import {ErrorCallback} from '../../api/rest';
 
 export const grRestApiMock: RestApiService = {
   addAccountEmail(): Promise<Response> {
@@ -535,11 +536,17 @@ export const grRestApiMock: RestApiService = {
   setAccountUsername(): Promise<void> {
     return Promise.resolve();
   },
-  setChangeHashtag(): Promise<Hashtag[]> {
+  setChangeHashtag(): Promise<Hashtag[] | undefined> {
     return Promise.resolve([]);
   },
-  setChangeTopic(): Promise<string> {
+  setChangeTopic(): Promise<string | undefined> {
     return Promise.resolve('');
+  },
+  removeChangeTopic(
+    changeNum: NumericChangeId,
+    errFn?: ErrorCallback
+  ): Promise<string | undefined> {
+    return this.setChangeTopic(changeNum, '', errFn);
   },
   setDescription(): Promise<Response> {
     return Promise.resolve(new Response());

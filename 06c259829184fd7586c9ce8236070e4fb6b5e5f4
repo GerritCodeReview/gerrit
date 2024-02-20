@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b210102c_feaeae29",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2024-02-20T08:20:18Z",
+      "side": 1,
+      "message": "@kaushik.lingarkar@linaro.org Could you please review this? Thanks!",
+      "revId": "06c259829184fd7586c9ce8236070e4fb6b5e5f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38b9d409_b05c40ee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-20T14:53:48Z",
+      "side": 1,
+      "message": "To clarify: How was it working before? You would see the fixes as you type, but then once it\u0027s a draft you can\u0027t inspect anymore until you hit reply?\n\nCan you add this to commit message?",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 6
+      },
+      "revId": "3f6790000b987c0e743a0171ef2f1be50a6cb15e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6efbd05_6d906fec",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1000,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-20T14:53:48Z",
+      "side": 1,
+      "message": "Should we have a test for this logic?",
+      "range": {
+        "startLine": 1000,
+        "startChar": 4,
+        "endLine": 1000,
+        "endChar": 71
+      },
+      "revId": "3f6790000b987c0e743a0171ef2f1be50a6cb15e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

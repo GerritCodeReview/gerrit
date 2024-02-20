@@ -15,6 +15,7 @@ import '../gr-tooltip-content/gr-tooltip-content';
 import '../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog';
 import '../gr-account-label/gr-account-label';
 import '../gr-suggestion-diff-preview/gr-suggestion-diff-preview';
+import '../gr-fix-suggestions/gr-fix-suggestions';
 import {getAppContext} from '../../../services/app-context';
 import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
@@ -331,6 +332,9 @@ export class GrComment extends LitElement {
     });
     this.addEventListener('open-user-suggest-preview', e => {
       this.handleShowFix(e.detail.code);
+    });
+    this.addEventListener('open-fix-suggestions-preview', () => {
+      this.handleShowFix();
     });
     this.addEventListener('add-generated-suggestion', e => {
       this.handleAddGeneratedSuggestion(e.detail.code);
@@ -999,10 +1003,12 @@ export class GrComment extends LitElement {
   }
 
   private renderFixSuggestionPreview() {
-    if (!this.comment?.fix_suggestions || this.editing) return nothing;
-    return html`<gr-suggestion-diff-preview
-      .fixReplacementInfos=${this.comment?.fix_suggestions?.[0].replacements}
-    ></gr-suggestion-diff-preview>`;
+    if (!this.comment?.fix_suggestions || this.editing || isRobot(this.comment))
+      return nothing;
+    return html`<gr-fix-suggestions
+      @open-fix-suggestions-preview=${this.handleShowFix()}
+      .comment=${this.comment}
+    ></gr-fix-suggestions>`;
   }
 
   // private but used in test
@@ -1035,7 +1041,7 @@ export class GrComment extends LitElement {
 
     if (this.generatedFixSuggestion) {
       return html`<gr-suggestion-diff-preview
-        .fixReplacementInfos=${this.generatedFixSuggestion.replacements}
+        .fixSuggestionInfo=${this.generatedFixSuggestion}
       ></gr-suggestion-diff-preview>`;
     } else if (this.generatedSuggestion) {
       return html`<gr-suggestion-diff-preview

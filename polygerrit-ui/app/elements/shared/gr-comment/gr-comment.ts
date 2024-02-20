@@ -997,7 +997,7 @@ export class GrComment extends LitElement {
   }
 
   private renderFixSuggestionPreview() {
-    if (!this.comment?.fix_suggestions || isDraft(this.comment)) return nothing;
+    if (!this.comment?.fix_suggestions || this.editing) return nothing;
     return html`<gr-suggestion-diff-preview
       .fixReplacementInfos=${this.comment?.fix_suggestions?.[0].replacements}
     ></gr-suggestion-diff-preview>`;

@@ -27,6 +27,8 @@ import {
 import {getUserId} from '../../utils/account-util';
 import {getChangeNumber} from '../../utils/change-util';
 import {deepEqual} from '../../utils/deep-util';
+import {throwingErrorCallback} from '../../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
+import {assert} from '../../utils/common-util';
 
 export const bulkActionsModelToken =
   define<BulkActionsModel>('bulk-actions-model');
@@ -207,10 +209,16 @@ export class BulkActionsModel extends Model<BulkActionsState> {
     const current = this.getState();
     return current.selectedChangeNums.map(changeNum =>
       this.restApiService
-        .setChangeHashtag(changeNum, {
-          add: hashtags,
-        })
+        .setChangeHashtag(
+          changeNum,
+          {
+            add: hashtags,
+          },
+          throwingErrorCallback
+        )
         .then(responseHashtags => {
+          // With throwingErrorCallback guaranteed to be non-null.
+          assert(!!responseHashtags, 'setChangeHastag returned undefined');
           // Once we get server confirmation that the hashtags were added to the
           // change, we are updating the model's ChangeInfo. This way we can
           // keep the page state (dialog status) but use the updated change info

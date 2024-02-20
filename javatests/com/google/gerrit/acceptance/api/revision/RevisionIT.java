@@ -289,9 +289,8 @@ public class RevisionIT extends AbstractDaemonTest {
   @Test
   public void approvalCopiedDuringSubmitIsNotPostSubmit() throws Exception {
     PushOneCommit.Result r = createChange();
-    Change.Id id = r.getChange().getId();
-    gApi.changes().id(id.get()).current().review(ReviewInput.approve());
-    gApi.changes().id(id.get()).current().submit();
+    change(r).current().review(ReviewInput.approve());
+    change(r).current().submit();
 
     ChangeData cd = r.getChange();
     assertThat(cd.patchSets()).hasSize(2);
@@ -337,7 +336,7 @@ public class RevisionIT extends AbstractDaemonTest {
     ChangeInfo changeInfo = orig.revision(r.getCommit().name()).cherryPickAsInfo(in);
     assertThat(changeInfo.containsGitConflicts).isNull();
     assertThat(changeInfo.workInProgress).isNull();
-    ChangeApi cherry = gApi.changes().id(changeInfo._number);
+    ChangeApi cherry = getChangeApi(changeInfo);
 
     ChangeInfo cherryPickChangeInfoWithDetails = cherry.get();
     assertThat(cherryPickChangeInfoWithDetails.workInProgress).isNull();
@@ -379,12 +378,12 @@ public class RevisionIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(testUser);
 
     // Cherry-pick the change
-    String commit = gApi.changes().id(changeId.get()).get().getCurrentRevision().commit.commit;
+    String commit = getChangeApi(changeId).get().getCurrentRevision().commit.commit;
     CherryPickInput input = new CherryPickInput();
     input.destination = branch;
     input.message = "cherry-pick to foo branch";
     ChangeInfo changeInfo =
-        gApi.changes().id(changeId.get()).revision(commit).cherryPick(input).get();
+        getChangeApi(changeId).revision(commit).cherryPick(input).get();
     assertThat(changeInfo.getCurrentRevision().commit.committer.email).isEqualTo(emailOne);
   }
 
@@ -747,8 +746,7 @@ public class RevisionIT extends AbstractDaemonTest {
     // Verify that the file content in the cherry-pick change is correct.
     // We expect that it has conflict markers to indicate the conflict.
     BinaryResult bin =
-        gApi.changes()
-            .id(cherryPickChange._number)
+        getChangeApi(cherryPickChange)
             .current()
             .file(PushOneCommit.FILE_NAME)
             .content();
@@ -772,7 +770,7 @@ public class RevisionIT extends AbstractDaemonTest {
                 + " test commit)\n");
 
     // Get details of cherry-pick change.
-    ChangeInfo cherryPickChangeWithDetails = gApi.changes().id(cherryPickChange._number).get();
+    ChangeInfo cherryPickChangeWithDetails = getChangeApi(cherryPickChange).get();
     assertThat(cherryPickChangeWithDetails.workInProgress).isTrue();
 
     // Verify that a message has been posted on the cherry-pick change.

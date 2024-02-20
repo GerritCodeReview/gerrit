@@ -616,12 +616,12 @@ public class GetRelatedIT extends AbstractDaemonTest {
     Change change1 = getChange(commit1).change();
     Change change2 = getChange(commit2).change();
     Change change3 = getChange(commit3).change();
-    gApi.changes().id(change1.getChangeId()).current().review(ReviewInput.approve());
-    gApi.changes().id(change1.getChangeId()).current().submit();
-    gApi.changes().id(change2.getChangeId()).abandon();
+    getChangeApi(change1).current().review(ReviewInput.approve());
+    getChangeApi(change1).current().submit();
+    getChangeApi(change2).abandon();
 
     List<RelatedChangeAndCommitInfo> relatedChanges =
-        gApi.changes().id(change3.getChangeId()).current().related().changes;
+    		getChangeApi(change3).current().related().changes;
 
     // Ensure that our REST API returns the states exactly as documented (and required by the
     // frontend).
@@ -641,8 +641,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
     PatchSet.Id ps3 = getPatchSetId(c3);
 
     for (RevCommit c : ImmutableList.of(c1, c3)) {
-      gApi.changes()
-          .id(getChange(c).change().getChangeId())
+    	getChangeApi(getChange(c))
           .current()
           .review(ReviewInput.approve());
     }
@@ -705,8 +704,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
       PatchSet.Id psId, List<RelatedChangeAndCommitInfo> expected, GetRelatedOption... options)
       throws Exception {
     List<RelatedChangeAndCommitInfo> actual =
-        gApi.changes()
-            .id(psId.changeId().get())
+        getChangeApi(psId.changeId())
             .revision(psId.get())
             .related(
                 options.length > 0

@@ -29,6 +29,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
@@ -118,7 +119,7 @@ public class MoveChangeIT extends AbstractDaemonTest {
     int changeNum = r.getChange().change().getChangeId();
     createChange(newBranch.branch(), r.getChangeId());
     ResourceConflictException thrown =
-        assertThrows(ResourceConflictException.class, () -> move(changeNum, newBranch.branch()));
+        assertThrows(ResourceConflictException.class, () -> move(r, newBranch.branch()));
     assertThat(thrown)
         .hasMessageThat()
         .contains(
@@ -225,7 +226,6 @@ public class MoveChangeIT extends AbstractDaemonTest {
 
     // Create a change
     PushOneCommit.Result r = createChange();
-    int changeNum = r.getChange().change().getChangeId();
 
     // Create a branch with that same commit
     BranchNameKey newBranch = BranchNameKey.create(r.getChange().change().getProject(), "moveTest");
@@ -235,7 +235,7 @@ public class MoveChangeIT extends AbstractDaemonTest {
 
     // Try to move the change to the branch with the same commit
     ResourceConflictException thrown =
-        assertThrows(ResourceConflictException.class, () -> move(changeNum, newBranch.branch()));
+        assertThrows(ResourceConflictException.class, () -> move(r, newBranch.branch()));
     assertThat(thrown)
         .hasMessageThat()
         .contains("Current patchset revision is reachable from tip of " + newBranch.branch());
@@ -602,8 +602,8 @@ public class MoveChangeIT extends AbstractDaemonTest {
     assertThat(thrown).hasMessageThat().contains("move changes endpoint is disabled");
   }
 
-  private void move(int changeNum, String destination) throws RestApiException {
-    gApi.changes().id(changeNum).move(destination);
+  private void move(Result change, String destination) throws RestApiException {
+    change(change).move(destination);
   }
 
   private void move(String changeId, String destination) throws RestApiException {

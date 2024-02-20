@@ -1176,22 +1176,22 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
     assertThat(comment).properties().containsExactly("key", "value");
   }
 
-  private List<CommentInfo> getCommentsFromServer(Change.Id changeId) throws RestApiException {
-    return gApi.changes().id(changeId.get()).commentsRequest().getAsList();
+  private List<CommentInfo> getCommentsFromServer(Change.Id changeId) throws Exception {
+    return getChangeApi(changeId).commentsRequest().getAsList();
   }
 
   private List<RobotCommentInfo> getRobotCommentsFromServerFromCurrentPatchset(Change.Id changeId)
-      throws RestApiException {
-    return gApi.changes().id(changeId.get()).current().robotCommentsAsList();
+      throws Exception {
+    return getChangeApi(changeId).current().robotCommentsAsList();
   }
 
-  private List<CommentInfo> getDraftCommentsFromServer(Change.Id changeId) throws RestApiException {
-    return gApi.changes().id(changeId.get()).draftsAsList();
+  private List<CommentInfo> getDraftCommentsFromServer(Change.Id changeId) throws Exception {
+    return getChangeApi(changeId).draftsAsList();
   }
 
   private CommentInfo getCommentFromServer(Change.Id changeId, String uuid)
-      throws RestApiException {
-    return gApi.changes().id(changeId.get()).commentsRequest().getAsList().stream()
+      throws Exception {
+    return getChangeApi(changeId).commentsRequest().getAsList().stream()
         .filter(comment -> comment.id.equals(uuid))
         .findAny()
         .orElseThrow(
@@ -1201,8 +1201,8 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
   }
 
   private RobotCommentInfo getRobotCommentFromServerInCurrentPatchset(
-      Change.Id changeId, String uuid) throws RestApiException {
-    return gApi.changes().id(changeId.get()).current().robotCommentsAsList().stream()
+      Change.Id changeId, String uuid) throws Exception {
+    return getChangeApi(changeId).current().robotCommentsAsList().stream()
         .filter(comment -> comment.id.equals(uuid))
         .findAny()
         .orElseThrow(
@@ -1228,8 +1228,8 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
   }
 
   private CommentInfo getDraftCommentFromServer(Change.Id changeId, String uuid)
-      throws RestApiException {
-    return gApi.changes().id(changeId.get()).draftsAsList().stream()
+      throws Exception {
+    return getChangeApi(changeId).draftsAsList().stream()
         .filter(comment -> comment.id.equals(uuid))
         .findAny()
         .orElseThrow(

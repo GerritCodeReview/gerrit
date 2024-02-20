@@ -32,6 +32,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
 import com.google.gerrit.acceptance.testsuite.change.TestHumanComment;
@@ -178,7 +179,7 @@ public class CommentsIT extends AbstractDaemonTest {
       update.id = Iterables.getOnlyElement(results.get(PATCHSET_LEVEL)).id;
       update.line = 1;
 
-      updateDraft(changeId, revId, update, ci.id);
+      updateDraft(r, revId, update, ci.id);
       assertDraftUpdatedEvent(listener);
 
       deleteDraft(changeId, revId, ci.id);
@@ -459,7 +460,7 @@ public class CommentsIT extends AbstractDaemonTest {
     update.line = 1;
     BadRequestException ex =
         assertThrows(
-            BadRequestException.class, () -> updateDraft(changeId, revId, update, update.id));
+            BadRequestException.class, () -> updateDraft(r, revId, update, update.id));
     assertThat(ex.getMessage()).contains("line");
   }
 
@@ -476,7 +477,7 @@ public class CommentsIT extends AbstractDaemonTest {
     update.range = createLineRange(1, 3);
     BadRequestException ex =
         assertThrows(
-            BadRequestException.class, () -> updateDraft(changeId, revId, update, update.id));
+            BadRequestException.class, () -> updateDraft(r, revId, update, update.id));
     assertThat(ex.getMessage()).contains("range");
   }
 
@@ -493,7 +494,7 @@ public class CommentsIT extends AbstractDaemonTest {
     update.side = Side.REVISION;
     BadRequestException ex =
         assertThrows(
-            BadRequestException.class, () -> updateDraft(changeId, revId, update, update.id));
+            BadRequestException.class, () -> updateDraft(r, revId, update, update.id));
     assertThat(ex.getMessage()).contains("side");
   }
 
@@ -807,7 +808,7 @@ public class CommentsIT extends AbstractDaemonTest {
       assertThat(comment).isEqualTo(infoToDraft(path).apply(actual));
       String uuid = actual.id;
       comment.message = "updated comment 1";
-      updateDraft(changeId, revId, comment, uuid);
+      updateDraft(r, revId, comment, uuid);
       result = getDraftComments(changeId, revId);
       actual = Iterables.getOnlyElement(result.get(comment.path));
       assertThat(comment).isEqualTo(infoToDraft(path).apply(actual));
@@ -858,7 +859,7 @@ public class CommentsIT extends AbstractDaemonTest {
     BadRequestException e =
         assertThrows(
             BadRequestException.class,
-            () -> updateDraft(changeId, revId, draftInput, commentInfo.id));
+            () -> updateDraft(r, revId, draftInput, commentInfo.id));
     assertThat(e).hasMessageThat().contains("id must match URL");
   }
 
@@ -909,7 +910,7 @@ public class CommentsIT extends AbstractDaemonTest {
     CommentInfo commentInfo = addDraft(changeId, revId, comment);
     assertThat(getDraftComments(changeId, revId).keySet()).containsExactly("file_foo");
     DraftInput draftInput = CommentsUtil.newDraft("file_bar", Side.REVISION, 0, "bar");
-    updateDraft(changeId, revId, draftInput, commentInfo.id);
+    updateDraft(r, revId, draftInput, commentInfo.id);
     assertThat(getDraftComments(changeId, revId).keySet()).containsExactly("file_bar");
   }
 
@@ -993,7 +994,7 @@ public class CommentsIT extends AbstractDaemonTest {
     DraftInput draftInput = CommentsUtil.newDraft(FILE_NAME, Side.REVISION, 0, "bar");
     draftInput.message = "Another comment text.";
     gApi.changes()
-        .id(changeId.get())
+        .id(project.get(), changeId.get())
         .revision(patchsetId.get())
         .draft(draftCommentUuid)
         .update(draftInput);
@@ -1797,7 +1798,6 @@ public class CommentsIT extends AbstractDaemonTest {
 
     // 1st commit: Create PS1.
     PushOneCommit.Result result1 = createChange(SUBJECT, "a.txt", "a");
-    Change.Id id = result1.getChange().getId();
     String changeId = result1.getChangeId();
     String ps1 = result1.getCommit().name();
 
@@ -1843,7 +1843,7 @@ public class CommentsIT extends AbstractDaemonTest {
     CommentInput c9 = CommentsUtil.newCommentWithOnlyMandatoryFields("b.txt", "comment 9");
     CommentsUtil.addComments(gApi, changeId, ps2, c9);
 
-    List<CommentInfo> commentsBeforeDelete = getChangeSortedComments(id.get());
+    List<CommentInfo> commentsBeforeDelete = getChangeSortedComments(result1);
     assertThat(commentsBeforeDelete).hasSize(9);
     // PS1 has comments [c1, c2, c3, c4, c5].
     assertThat(getRevisionComments(changeId, ps1)).hasSize(5);
@@ -1856,7 +1856,7 @@ public class CommentsIT extends AbstractDaemonTest {
 
     requestScopeOperations.setApiUser(admin.id());
     for (int i = 0; i < commentsBeforeDelete.size(); i++) {
-      List<RevCommit> commitsBeforeDelete = getChangeMetaCommitsInReverseOrder(id);
+      List<RevCommit> commitsBeforeDelete = getChangeMetaCommitsInReverseOrder(result1.getChange().getId());
 
       CommentInfo comment = commentsBeforeDelete.get(i);
       String uuid = comment.id;
@@ -1875,11 +1875,11 @@ public class CommentsIT extends AbstractDaemonTest {
       assertThat(updatedComment).isEqualTo(oldComment);
 
       // Check the NoteDb state after the deletion.
-      assertMetaBranchCommitsAfterRewriting(commitsBeforeDelete, id, uuid, expectedMsg);
+      assertMetaBranchCommitsAfterRewriting(commitsBeforeDelete, result1.getChange().getId(), uuid, expectedMsg);
 
       comment.message = expectedMsg;
       commentsBeforeDelete.set(i, comment);
-      List<CommentInfo> commentsAfterDelete = getChangeSortedComments(id.get());
+      List<CommentInfo> commentsAfterDelete = getChangeSortedComments(result1);
       assertThat(commentsAfterDelete).isEqualTo(commentsBeforeDelete);
     }
 
@@ -1893,7 +1893,7 @@ public class CommentsIT extends AbstractDaemonTest {
     CommentsUtil.addComments(gApi, changeId, ps3, c12);
     CommentsUtil.addComments(gApi, changeId, ps4, c13);
 
-    assertThat(getChangeSortedComments(id.get())).hasSize(13);
+    assertThat(getChangeSortedComments(result1)).hasSize(13);
     assertThat(getRevisionComments(changeId, ps1)).hasSize(6);
     assertThat(getRevisionComments(changeId, ps2)).hasSize(3);
     assertThat(getRevisionComments(changeId, ps3)).hasSize(1);
@@ -1914,7 +1914,7 @@ public class CommentsIT extends AbstractDaemonTest {
     CommentsUtil.addComments(gApi, changeId, ps1, c2);
     CommentsUtil.addComments(gApi, changeId, ps1, c3);
 
-    List<CommentInfo> commentsBeforeDelete = getChangeSortedComments(id.get());
+    List<CommentInfo> commentsBeforeDelete = getChangeSortedComments(result);
     assertThat(commentsBeforeDelete).hasSize(3);
     Optional<CommentInfo> targetComment =
         commentsBeforeDelete.stream().filter(c -> c.message.equals("comment 2")).findFirst();
@@ -1940,7 +1940,7 @@ public class CommentsIT extends AbstractDaemonTest {
     assertThat(updatedComment).isEqualTo(oldComment);
 
     assertMetaBranchCommitsAfterRewriting(commitsBeforeDelete, id, uuid, expectedMsg);
-    assertThat(getChangeSortedComments(id.get())).hasSize(3);
+    assertThat(getChangeSortedComments(result)).hasSize(3);
   }
 
   @Test
@@ -2022,14 +2022,14 @@ public class CommentsIT extends AbstractDaemonTest {
     Change.Id changeId = Change.Id.tryParse(Integer.toString(changeInfo._number)).get();
 
     // Add a file.
-    gApi.changes().id(changeId.get()).edit().modifyFile("f1.txt", RawInputUtil.create("content"));
-    gApi.changes().id(changeId.get()).edit().publish();
+    getChangeApi(changeInfo).edit().modifyFile("f1.txt", RawInputUtil.create("content"));
+    getChangeApi(changeInfo).edit().publish();
     email.clear();
 
     ReviewerInput reviewerInput = new ReviewerInput();
     reviewerInput.reviewer = admin.email();
-    gApi.changes().id(changeId.get()).addReviewer(reviewerInput);
-    changeInfo = gApi.changes().id(changeId.get()).get();
+    gApi.changes().id(changeInfo.project, changeId.get()).addReviewer(reviewerInput);
+    changeInfo = getChangeApi(changeInfo).get();
     assertThat(email.getMessages()).hasSize(1);
     Message message = email.getMessages().get(0);
     assertThat(message.body()).contains("f1.txt");
@@ -2152,16 +2152,16 @@ public class CommentsIT extends AbstractDaemonTest {
   }
 
   private CommentInfo addDraft(Change.Id changeId, DraftInput in) throws Exception {
-    return gApi.changes().id(changeId.get()).current().createDraft(in).get();
+    return getChangeApi(changeId).current().createDraft(in).get();
   }
 
-  private void updateDraft(String changeId, String revId, DraftInput in, String uuid)
+  private void updateDraft(Result change, String revId, DraftInput in, String uuid)
       throws Exception {
-    gApi.changes().id(changeId).revision(revId).draft(uuid).update(in);
+	  change(change).revision(revId).draft(uuid).update(in);
   }
 
   private void updateDraft(Change.Id changeId, DraftInput in, String uuid) throws Exception {
-    gApi.changes().id(changeId.get()).current().draft(uuid).update(in);
+    getChangeApi(changeId).current().draft(uuid).update(in);
   }
 
   private void deleteDraft(String changeId, String revId, String uuid) throws Exception {
@@ -2183,7 +2183,7 @@ public class CommentsIT extends AbstractDaemonTest {
   }
 
   private List<CommentInfo> getPublishedCommentsAsList(Change.Id changeId) throws Exception {
-    return gApi.changes().id(changeId.get()).commentsRequest().getAsList();
+	  return getChangeApi(changeId).commentsRequest().getAsList();
   }
 
   private Map<String, List<CommentInfo>> getDraftComments(String changeId, String revId)

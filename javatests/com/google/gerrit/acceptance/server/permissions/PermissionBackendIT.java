@@ -34,8 +34,8 @@ public class PermissionBackendIT extends AbstractDaemonTest {
   @Test
   public void changeDataFromIndex_canCheckReviewerState() throws Exception {
     Change.Id changeId = createChange().getChange().getId();
-    gApi.changes().id(changeId.get()).setPrivate(true);
-    gApi.changes().id(changeId.get()).addReviewer(user.email());
+    getChangeApi(changeId).setPrivate(true);
+    getChangeApi(changeId).addReviewer(user.email());
 
     ChangeData changeData =
         Iterables.getOnlyElement(queryProvider.get().byLegacyChangeId(changeId));
@@ -47,8 +47,8 @@ public class PermissionBackendIT extends AbstractDaemonTest {
   @Test
   public void changeDataFromNoteDb_canCheckReviewerState() throws Exception {
     Change.Id changeId = createChange().getChange().getId();
-    gApi.changes().id(changeId.get()).setPrivate(true);
-    gApi.changes().id(changeId.get()).addReviewer(user.email());
+    getChangeApi(changeId).setPrivate(true);
+    getChangeApi(changeId).addReviewer(user.email());
 
     ChangeNotes notes = changeNotesFactory.create(project, changeId);
     ChangeData changeData = changeDataFactory.create(notes);
@@ -60,8 +60,8 @@ public class PermissionBackendIT extends AbstractDaemonTest {
   @Test
   public void changeNotes_canCheckReviewerState() throws Exception {
     Change.Id changeId = createChange().getChange().getId();
-    gApi.changes().id(changeId.get()).setPrivate(true);
-    gApi.changes().id(changeId.get()).addReviewer(user.email());
+    getChangeApi(changeId).setPrivate(true);
+    getChangeApi(changeId).addReviewer(user.email());
 
     ChangeNotes notes = changeNotesFactory.create(project, changeId);
     boolean reviewerCanSee = pb.absentUser(user.id()).change(notes).test(ChangePermission.READ);

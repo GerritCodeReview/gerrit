@@ -1806,6 +1806,7 @@ export class GrChangeView extends LitElement {
     );
   }
 
+<<<<<<< HEAD
   private handleReplyTap() {
     if (this.loggedIn) {
       this.openReplyDialog(FocusTarget.ANY);
@@ -1814,6 +1815,8 @@ export class GrChangeView extends LitElement {
     }
   }
 
+=======
+>>>>>>> 272ec42261 (Conflict markers test)
   private onReplyModalCanceled() {
     this.replyModalOpened = false;
   }

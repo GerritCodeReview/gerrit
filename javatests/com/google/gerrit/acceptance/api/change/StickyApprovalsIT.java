@@ -389,7 +389,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
             .content("content")
             .create();
     vote(admin, prep.toString(), 2, 1);
-    gApi.changes().id(prep.get()).current().submit();
+    getChangeApi(prep).current().submit();
 
     Change.Id changeId = changeOperations.newChange().project(project).create();
     vote(admin, changeId.toString(), 2, 1);
@@ -616,8 +616,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
 
     // The change is for a merge commit. It doesn't touch any files, but contains /COMMIT_MSG and
     // /MERGE_LIST as magic files.
-    Map<String, FileInfo> changedFilesFirstPatchset =
-        gApi.changes().id(changeId.get()).current().files();
+    Map<String, FileInfo> changedFilesFirstPatchset = getChangeApi(changeId).current().files();
     assertThat(changedFilesFirstPatchset.keySet()).containsExactly("/COMMIT_MSG", "/MERGE_LIST");
 
     // Add a Code-Review+2 vote.
@@ -633,8 +632,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
 
     // Since the new patch set is not a merge commit, it no longer contains the magic /MERGE_LIST
     // file.
-    Map<String, FileInfo> changedFilesSecondPatchset =
-        gApi.changes().id(changeId.get()).current().files();
+    Map<String, FileInfo> changedFilesSecondPatchset = getChangeApi(changeId).current().files();
     assertThat(changedFilesSecondPatchset.keySet())
         .containsExactly("/COMMIT_MSG"); // /MERGE_LIST is no longer present
 

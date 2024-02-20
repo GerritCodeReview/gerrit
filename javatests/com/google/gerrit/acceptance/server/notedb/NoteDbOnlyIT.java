@@ -114,8 +114,8 @@ public class NoteDbOnlyIT extends AbstractDaemonTest {
     assertThat(getMessages(id)).contains("Backed up master branch to " + master1.name());
 
     // Advance master by submitting the change.
-    gApi.changes().id(id.get()).current().review(ReviewInput.approve());
-    gApi.changes().id(id.get()).current().submit();
+    getChangeApi(id).current().review(ReviewInput.approve());
+    getChangeApi(id).current().submit();
     ObjectId master2 = getRef(master).get();
     assertThat(master2).isNotEqualTo(master1);
     int msgCount = getMessages(id).size();
@@ -291,9 +291,7 @@ public class NoteDbOnlyIT extends AbstractDaemonTest {
   }
 
   private List<String> getMessages(Change.Id id) throws Exception {
-    return gApi.changes().id(id.get()).get(MESSAGES).messages.stream()
-        .map(m -> m.message)
-        .collect(toList());
+    return getChangeApi(id).get(MESSAGES).messages.stream().map(m -> m.message).collect(toList());
   }
 
   private static List<String> commitMessages(

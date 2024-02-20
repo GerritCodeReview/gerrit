@@ -14,17 +14,20 @@
 
 package com.google.gerrit.testing;
 
+import static com.google.common.truth.Truth.assertThat;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.api.GerritApi;
+import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
 import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.client.Comment.Range;
 import com.google.gerrit.extensions.client.Side;
+import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.FixSuggestionInfo;
 import com.google.gerrit.server.ChangeMessagesUtil;
@@ -163,7 +166,13 @@ public class TestCommentHelper {
       Change.Id targetChangeId, RobotCommentInput robotCommentInput, String message)
       throws Exception {
     ReviewInput reviewInput = createReviewInput(robotCommentInput, message);
-    gApi.changes().id(targetChangeId.get()).current().review(reviewInput);
+    getChangeApi(targetChangeId).current().review(reviewInput);
+  }
+
+  private ChangeApi getChangeApi(Change.Id changeId) throws Exception {
+    List<ChangeInfo> hits = gApi.changes().query(Integer.toString(changeId.get())).get();
+    assertThat(hits.size()).isEqualTo(1);
+    return gApi.changes().id(hits.get(0).project, hits.get(0)._number);
   }
 
   private ReviewInput createReviewInput(RobotCommentInput robotCommentInput, String message) {

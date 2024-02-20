@@ -23,9 +23,9 @@ import static com.google.gerrit.testing.TestActionRefUpdateContext.testRefAction
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
-import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -183,12 +183,11 @@ public class PrivateChangeIT extends AbstractDaemonTest {
   @Test
   public void administratorCanUnmarkPrivateAfterMerging() throws Exception {
     PushOneCommit.Result result = createChange();
-    String changeId = result.getChangeId();
     merge(result);
-    markMergedChangePrivate(Change.id(gApi.changes().id(changeId).get()._number));
+    markMergedChangePrivate(result);
 
-    gApi.changes().id(changeId).setPrivate(false, null);
-    assertThat(gApi.changes().id(changeId).get().isPrivate).isNull();
+    change(result).setPrivate(false, null);
+    assertThat(change(result).get().isPrivate).isNull();
   }
 
   @Test
@@ -227,14 +226,13 @@ public class PrivateChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result result =
         pushFactory.create(user.newIdent(), userRepo).to("refs/for/master");
 
-    String changeId = result.getChangeId();
-    gApi.changes().id(changeId).addReviewer(admin.id().toString());
+    change(result).addReviewer(admin.id().toString());
     merge(result);
-    markMergedChangePrivate(Change.id(gApi.changes().id(changeId).get()._number));
+    markMergedChangePrivate(result);
 
     requestScopeOperations.setApiUser(user.id());
-    gApi.changes().id(changeId).setPrivate(false, null);
-    assertThat(gApi.changes().id(changeId).get().isPrivate).isNull();
+    change(result).setPrivate(false, null);
+    assertThat(change(result).get().isPrivate).isNull();
   }
 
   @Test
@@ -249,14 +247,14 @@ public class PrivateChangeIT extends AbstractDaemonTest {
     assertThat(gApi.changes().id(r.getChangeId()).get().isPrivate).isNull();
   }
 
-  private void markMergedChangePrivate(Change.Id changeId) throws Exception {
+  private void markMergedChangePrivate(Result change) throws Exception {
     try (BatchUpdate u =
         batchUpdateFactory.create(
             project, identifiedUserFactory.create(admin.id()), TimeUtil.now())) {
       testRefAction(
           () ->
               u.addOp(
-                      changeId,
+                      change.getPatchSetId().changeId(),
                       new BatchUpdateOp() {
                         @Override
                         public boolean updateChange(ChangeContext ctx) {
@@ -270,6 +268,6 @@ public class PrivateChangeIT extends AbstractDaemonTest {
                       })
                   .execute());
     }
-    assertThat(gApi.changes().id(changeId.get()).get().isPrivate).isTrue();
+    assertThat(change(change).get().isPrivate).isTrue();
   }
 }

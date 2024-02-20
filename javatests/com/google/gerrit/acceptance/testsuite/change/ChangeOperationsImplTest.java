@@ -47,7 +47,6 @@ import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.restapi.BinaryResult;
-import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.truth.NullAwareCorrespondence;
 import com.google.inject.Inject;
 import java.util.Map;
@@ -195,8 +194,8 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
     Project.NameKey project = projectOperations.newProject().create();
 
     Change.Id parentChangeId = changeOperations.newChange().project(project).create();
-    gApi.changes().id(parentChangeId.get()).current().review(ReviewInput.approve());
-    gApi.changes().id(parentChangeId.get()).current().submit();
+    getChangeApi(parentChangeId).current().review(ReviewInput.approve());
+    getChangeApi(parentChangeId).current().submit();
 
     Change.Id changeId =
         changeOperations.newChange().project(project).childOf().change(parentChangeId).create();
@@ -235,8 +234,8 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
     Change.Id parentChangeId = changeOperations.newChange().project(project).create();
     TestPatchset parentPatchset = changeOperations.change(parentChangeId).currentPatchset().get();
     changeOperations.change(parentChangeId).newPatchset().create();
-    gApi.changes().id(parentChangeId.get()).current().review(ReviewInput.approve());
-    gApi.changes().id(parentChangeId.get()).current().submit();
+    getChangeApi(parentChangeId).current().review(ReviewInput.approve());
+    getChangeApi(parentChangeId).current().submit();
 
     Change.Id changeId =
         changeOperations
@@ -962,10 +961,10 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
     ChangeInfo change = getChangeFromServer(changeId);
     Map<String, FileInfo> files = change.revisions.get(change.currentRevision).files;
     assertThatMap(files).keys().containsExactly("file1", "path/to/file2.txt");
-    BinaryResult fileContent1 = gApi.changes().id(changeId.get()).current().file("file1").content();
+    BinaryResult fileContent1 = getChangeApi(changeId).current().file("file1").content();
     assertThat(fileContent1).asString().isEqualTo("Line 1");
     BinaryResult fileContent2 =
-        gApi.changes().id(changeId.get()).current().file("path/to/file2.txt").content();
+        getChangeApi(changeId).current().file("path/to/file2.txt").content();
     assertThat(fileContent2).asString().isEqualTo("Line one");
   }
 
@@ -1397,8 +1396,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
     BinaryResult fileContent = getFileContent(changeId, patchset2Id, "renamed file");
     assertThat(fileContent).asString().isEqualTo("Line 1\nLine two\nLine 3\n");
     DiffInfo diff =
-        gApi.changes()
-            .id(changeId.get())
+        getChangeApi(changeId)
             .revision(patchset2Id.get())
             .file("renamed file")
             .diffRequest()
@@ -1434,16 +1432,14 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
     // We can't control which of the files Gerrit/Git considers as rename and which as copy.
     // -> Check both for the copy.
     DiffInfo diff1 =
-        gApi.changes()
-            .id(changeId.get())
+        getChangeApi(changeId)
             .revision(patchset2Id.get())
             .file("renamed/copied file 1")
             .diffRequest()
             .withBase(patchset1Id.getId())
             .get();
     DiffInfo diff2 =
-        gApi.changes()
-            .id(changeId.get())
+        getChangeApi(changeId)
             .revision(patchset2Id.get())
             .file("renamed/copied file 2")
             .diffRequest()
@@ -1481,8 +1477,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
             .create();
 
     DiffInfo diff =
-        gApi.changes()
-            .id(changeId.get())
+        getChangeApi(changeId)
             .revision(patchset2Id.get())
             .file("copied file")
             .diffRequest()
@@ -1733,8 +1728,8 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
     assertThat(comment.parentUuid()).value().isEqualTo(parentCommentUuid);
   }
 
-  private ChangeInfo getChangeFromServer(Change.Id changeId) throws RestApiException {
-    return gApi.changes().id(changeId.get()).get();
+  private ChangeInfo getChangeFromServer(Change.Id changeId) throws Exception {
+    return getChangeApi(changeId).get();
   }
 
   private RevisionInfo getRevision(ChangeInfo change, PatchSet.Id patchsetId) {
@@ -1750,8 +1745,8 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
   }
 
   private BinaryResult getFileContent(Change.Id changeId, PatchSet.Id patchsetId, String filePath)
-      throws RestApiException {
-    return gApi.changes().id(changeId.get()).revision(patchsetId.get()).file(filePath).content();
+      throws Exception {
+    return getChangeApi(changeId).revision(patchsetId.get()).file(filePath).content();
   }
 
   private ImmutableList<String> getGroups(Project.NameKey projectName, Change.Id changeId) {

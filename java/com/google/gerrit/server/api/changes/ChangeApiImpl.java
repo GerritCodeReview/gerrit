@@ -367,7 +367,8 @@ class ChangeApiImpl implements ChangeApi {
   @Override
   public ChangeApi revert(RevertInput in) throws RestApiException {
     try {
-      return changeApi.id(revert.apply(change, in).value()._number);
+      ChangeInfo ci = revert.apply(change, in).value();
+      return changeApi.id(ci.project, ci._number);
     } catch (Exception e) {
       throw asRestApiException("Cannot revert change", e);
     }

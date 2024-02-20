@@ -47,9 +47,8 @@ public class PluginFieldsIT extends AbstractPluginFieldsTest {
   @Test
   public void getChangeWithOptionBulkAttribute() throws Exception {
     getChangeWithPluginDefinedBulkAttributeOption(
-        id -> pluginInfosFromChangeInfos(Arrays.asList(gApi.changes().id(id.get()).get())),
-        (id, opts) ->
-            pluginInfosFromChangeInfos(Arrays.asList(gApi.changes().id(id.get()).get(opts))));
+        id -> pluginInfosFromChangeInfos(Arrays.asList(getChangeApi(id).get())),
+        (id, opts) -> pluginInfosFromChangeInfos(Arrays.asList(getChangeApi(id).get(opts))));
   }
 
   @Test
@@ -73,6 +72,6 @@ public class PluginFieldsIT extends AbstractPluginFieldsTest {
   @Test
   public void getChangeWithPluginDefinedException() throws Exception {
     getChangeWithPluginDefinedBulkAttributeWithException(
-        id -> pluginInfosFromChangeInfos(Arrays.asList(gApi.changes().id(id.get()).get())));
+        id -> pluginInfosFromChangeInfos(Arrays.asList(getChangeApi(id).get())));
   }
 }

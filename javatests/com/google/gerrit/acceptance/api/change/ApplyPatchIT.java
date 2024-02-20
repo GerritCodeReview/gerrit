@@ -112,7 +112,7 @@ public class ApplyPatchIT extends AbstractDaemonTest {
     // Apply patch
     ApplyPatchPatchSetInput in = buildInput(ADDED_FILE_DIFF);
     in.responseFormatOptions = ImmutableList.of(CURRENT_REVISION, CURRENT_COMMIT);
-    ChangeInfo result = gApi.changes().id(change.get()).applyPatch(in);
+    ChangeInfo result = getChangeApi(change).applyPatch(in);
 
     assertThat(result.getCurrentRevision().commit.committer.email).isEqualTo(emailOne);
   }

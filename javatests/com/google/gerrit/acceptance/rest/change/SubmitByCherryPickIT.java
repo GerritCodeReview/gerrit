@@ -140,10 +140,10 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     requestScopeOperations.setApiUser(testUser);
 
     // Approve and submit the change
-    RevisionApi revision = gApi.changes().id(changeId.get()).current();
+    RevisionApi revision = getChangeApi(changeId).current();
     revision.review(ReviewInput.approve());
     revision.submit();
-    assertThat(gApi.changes().id(changeId.get()).get().getCurrentRevision().commit.committer.email)
+    assertThat(getChangeApi(changeId).get().getCurrentRevision().commit.committer.email)
         .isEqualTo(emailOne);
   }
 

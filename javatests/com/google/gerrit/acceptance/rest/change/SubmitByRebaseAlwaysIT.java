@@ -142,10 +142,10 @@ public class SubmitByRebaseAlwaysIT extends AbstractSubmitByRebase {
     requestScopeOperations.setApiUser(testUser);
 
     // Approve and submit the change
-    RevisionApi revision = gApi.changes().id(changeId.get()).current();
+    RevisionApi revision = getChangeApi(changeId).current();
     revision.review(ReviewInput.approve());
     revision.submit();
-    assertThat(gApi.changes().id(changeId.get()).get().getCurrentRevision().commit.committer.email)
+    assertThat(getChangeApi(changeId).get().getCurrentRevision().commit.committer.email)
         .isEqualTo(emailOne);
   }
 
@@ -167,7 +167,7 @@ public class SubmitByRebaseAlwaysIT extends AbstractSubmitByRebase {
       String change1CurrentCommit = cd1.currentPatchSet().commitId().name();
       String change2Ps1Commit = cd2.patchSet(PatchSet.id(cd2.getId(), 1)).commitId().name();
 
-      assertThat(gApi.changes().id(cd2.getId().get()).revision(2).commit(false).message)
+      assertThat(getChangeApi(cd2).revision(2).commit(false).message)
           .isEqualTo(
               "Change 2\n\n"
                   + ("Change-Id: " + cd2.change().getKey() + "\n")

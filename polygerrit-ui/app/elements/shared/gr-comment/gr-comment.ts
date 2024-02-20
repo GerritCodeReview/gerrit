@@ -904,7 +904,7 @@ export class GrComment extends LitElement {
               <input
                 type="checkbox"
                 id="resolvedCheckbox"
-                ?checked=${!this.unresolved}
+                .checked=${!this.unresolved}
                 @change=${this.handleToggleResolved}
               />
               Resolved

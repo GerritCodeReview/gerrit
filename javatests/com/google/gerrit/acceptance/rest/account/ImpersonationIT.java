@@ -70,7 +70,6 @@ import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CommentsUtil;
@@ -871,14 +870,14 @@ public class ImpersonationIT extends AbstractDaemonTest {
       String expectedMessage,
       TestAccount expectedAuthor,
       TestAccount expectedRealAuthor)
-      throws RestApiException {
+      throws Exception {
     ChangeMessage m = Iterables.getLast(cmUtil.byChange(changeData.notes()));
     assertThat(m.getMessage()).endsWith(expectedMessage);
     assertThat(m.getAuthor()).isEqualTo(expectedAuthor.id());
     assertThat(m.getRealAuthor()).isEqualTo(expectedRealAuthor.id());
 
     ChangeMessageInfo lastChangeMessageInfo =
-        Iterables.getLast(gApi.changes().id(changeData.getId().get()).get().messages);
+        Iterables.getLast(getChangeApi(changeData).get().messages);
     assertThat(lastChangeMessageInfo.message).endsWith(expectedMessage);
     assertThat(lastChangeMessageInfo.author._accountId).isEqualTo(expectedAuthor.id().get());
     if (expectedAuthor.id().equals(expectedRealAuthor.id())) {

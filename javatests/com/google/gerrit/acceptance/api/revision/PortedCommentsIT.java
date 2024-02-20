@@ -47,7 +47,6 @@ import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
-import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.truth.NullAwareCorrespondence;
 import com.google.inject.Inject;
 import java.time.LocalDateTime;
@@ -177,7 +176,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     List<CommentInfo> portedComments = flatten(getPortedComments(ps3Id));
     assertThat(portedComments).hasSize(1);
     int portedLine = portedComments.get(0).line;
-    BinaryResult fileContent = gApi.changes().id(changeId.get()).current().file(fileName).content();
+    BinaryResult fileContent = change(r).current().file(fileName).content();
     List<String> lines = Splitter.on("\n").splitToList(fileContent.asString());
     // Comment has shifted to L9 instead of L10 because of the deletion of line 4.
     assertThat(portedLine).isEqualTo(9);
@@ -548,11 +547,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     AuthException thrown =
         assertThrows(
             AuthException.class,
-            () ->
-                gApi.changes()
-                    .id(patchsetId.changeId().get())
-                    .revision(patchsetId.get())
-                    .portedDrafts());
+            () -> getChangeApi(changeId).revision(patchsetId.get()).portedDrafts());
     assertThat(thrown)
         .hasMessageThat()
         .contains("requires authentication; only authenticated users can have drafts");
@@ -1854,8 +1849,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     String commentUuid = newComment(patchsetId1).message("Confidential content").create();
 
     getPortedComment(patchsetId2, commentUuid);
-    gApi.changes()
-        .id(changeId.get())
+    getChangeApi(changeId)
         .revision(patchsetId1.get())
         .comment(commentUuid)
         .delete(new DeleteCommentInput());
@@ -1904,24 +1898,21 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   }
 
   private CommentInfo getPortedComment(PatchSet.Id patchsetId, String commentUuid)
-      throws RestApiException {
+      throws Exception {
     Map<String, List<CommentInfo>> portedComments = getPortedComments(patchsetId);
     return extractSpecificComment(portedComments, commentUuid);
   }
 
   private Map<String, List<CommentInfo>> getPortedComments(PatchSet.Id patchsetId)
-      throws RestApiException {
-    return gApi.changes()
-        .id(patchsetId.changeId().get())
-        .revision(patchsetId.get())
-        .portedComments();
+      throws Exception {
+    return getChangeApi(patchsetId.changeId()).revision(patchsetId.get()).portedComments();
   }
 
   private Map<String, List<CommentInfo>> getPortedDraftCommentsOfUser(
-      PatchSet.Id patchsetId, Account.Id accountId) throws RestApiException {
+      PatchSet.Id patchsetId, Account.Id accountId) throws Exception {
     // Draft comments are only visible to their author.
     requestScopeOps.setApiUser(accountId);
-    return gApi.changes().id(patchsetId.changeId().get()).revision(patchsetId.get()).portedDrafts();
+    return getChangeApi(patchsetId.changeId()).revision(patchsetId.get()).portedDrafts();
   }
 
   private static CommentInfo extractSpecificComment(

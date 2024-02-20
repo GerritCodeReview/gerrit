@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.api.changes.Changes;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.IncludedInInfo;
 import com.google.gerrit.extensions.api.projects.CommitApi;
+import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -73,7 +74,8 @@ public class CommitApiImpl implements CommitApi {
   @Override
   public ChangeApi cherryPick(CherryPickInput input) throws RestApiException {
     try {
-      return changes.id(cherryPickCommit.apply(commitResource, input).value()._number);
+      ChangeInfo ci = cherryPickCommit.apply(commitResource, input).value();
+      return changes.id(ci.project, ci._number);
     } catch (Exception e) {
       throw asRestApiException("Cannot cherry pick", e);
     }

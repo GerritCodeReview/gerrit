@@ -1139,7 +1139,25 @@ public abstract class AbstractDaemonTest {
   }
 
   protected ChangeApi change(Result r) throws RestApiException {
-    return gApi.changes().id(r.getChange().getId().get());
+    return gApi.changes().id(r.getChange().project().get(), r.getChange().getId().get());
+  }
+
+  protected ChangeApi getChangeApi(Change change) throws Exception {
+    return gApi.changes().id(change.getProject().get(), change.getChangeId());
+  }
+
+  protected ChangeApi getChangeApi(ChangeInfo changeInfo) throws Exception {
+    return gApi.changes().id(changeInfo.project, changeInfo._number);
+  }
+
+  protected ChangeApi getChangeApi(ChangeData changeData) throws Exception {
+    return gApi.changes().id(changeData.project().get(), changeData.getId().get());
+  }
+
+  protected ChangeApi getChangeApi(Change.Id changeId) throws Exception {
+    List<ChangeInfo> hits = gApi.changes().query(Integer.toString(changeId.get())).get();
+    assertThat(hits.size()).isEqualTo(1);
+    return gApi.changes().id(hits.get(0).project, hits.get(0)._number);
   }
 
   protected Optional<EditInfo> getEdit(String id) throws RestApiException {
@@ -1874,10 +1892,9 @@ public abstract class AbstractDaemonTest {
     }
   }
 
-  protected List<CommentInfo> getChangeSortedComments(int changeNum) throws Exception {
+  protected List<CommentInfo> getChangeSortedComments(Result change) throws Exception {
     List<CommentInfo> comments = new ArrayList<>();
-    Map<String, List<CommentInfo>> commentsMap =
-        gApi.changes().id(changeNum).commentsRequest().get();
+    Map<String, List<CommentInfo>> commentsMap = change(change).commentsRequest().get();
     for (Map.Entry<String, List<CommentInfo>> e : commentsMap.entrySet()) {
       for (CommentInfo c : e.getValue()) {
         c.path = e.getKey(); // Set the comment's path field.

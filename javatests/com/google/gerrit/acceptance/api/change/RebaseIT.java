@@ -303,8 +303,8 @@ public class RebaseIT {
       Change.Id c2 = changeOperations.newChange().project(project).owner(testUser).create();
 
       // Approve and submit the first change
-      gApi.changes().id(c1.get()).current().review(ReviewInput.approve());
-      gApi.changes().id(c1.get()).current().submit();
+      getChangeApi(c1).current().review(ReviewInput.approve());
+      getChangeApi(c1).current().submit();
 
       // Change preferred email for the user
       String emailTwo = "email2@example.com";
@@ -312,8 +312,8 @@ public class RebaseIT {
       requestScopeOperations.setApiUser(testUser);
 
       // Rebase the second change
-      gApi.changes().id(c2.get()).rebase();
-      assertThat(gApi.changes().id(c2.get()).get().getCurrentRevision().commit.committer.email)
+      getChangeApi(c2).rebase();
+      assertThat(getChangeApi(c2).get().getCurrentRevision().commit.committer.email)
           .isEqualTo(emailOne);
     }
 
@@ -446,7 +446,7 @@ public class RebaseIT {
       assertThat(ri2.commit.parents.get(0).commit).isEqualTo(r1.getCommit().name());
 
       List<RelatedChangeAndCommitInfo> related =
-          gApi.changes().id(id2.get()).revision(ri2._number).related().changes;
+          getChangeApi(id2).revision(ri2._number).related().changes;
       assertThat(related).hasSize(2);
       assertThat(related.get(0)._changeNumber).isEqualTo(id2.get());
       assertThat(related.get(0)._revisionNumber).isEqualTo(2);
@@ -467,8 +467,8 @@ public class RebaseIT {
 
       // Submit first change.
       Change.Id id1 = r1.getChange().getId();
-      gApi.changes().id(id1.get()).current().review(ReviewInput.approve());
-      gApi.changes().id(id1.get()).current().submit();
+      getChangeApi(id1).current().review(ReviewInput.approve());
+      getChangeApi(id1).current().submit();
 
       // Rebase second change on first change.
       RebaseInput in = new RebaseInput();
@@ -479,7 +479,7 @@ public class RebaseIT {
       ri2 = get(r2.getChangeId(), CURRENT_REVISION, CURRENT_COMMIT).getCurrentRevision();
       assertThat(ri2.commit.parents.get(0).commit).isEqualTo(r1.getCommit().name());
 
-      assertThat(gApi.changes().id(id2.get()).revision(ri2._number).related().changes).isEmpty();
+      assertThat(getChangeApi(id2).revision(ri2._number).related().changes).isEmpty();
     }
 
     @Test
@@ -661,8 +661,7 @@ public class RebaseIT {
     }
 
     protected void verifyRebaseForChange(
-        Change.Id changeId, Change.Id baseChangeId, boolean shouldHaveApproval)
-        throws RestApiException {
+        Change.Id changeId, Change.Id baseChangeId, boolean shouldHaveApproval) throws Exception {
       verifyRebaseForChange(changeId, baseChangeId, shouldHaveApproval, 2);
     }
 
@@ -671,17 +670,17 @@ public class RebaseIT {
         Change.Id baseChangeId,
         boolean shouldHaveApproval,
         int expectedNumRevisions)
-        throws RestApiException {
-      ChangeInfo baseInfo = gApi.changes().id(baseChangeId.get()).get(CURRENT_REVISION);
+        throws Exception {
+      ChangeInfo baseInfo = getChangeApi(baseChangeId).get(CURRENT_REVISION);
       verifyRebaseForChange(
           changeId, baseInfo.currentRevision, shouldHaveApproval, expectedNumRevisions);
     }
 
     protected void verifyRebaseForChange(
         Change.Id changeId, String baseCommit, boolean shouldHaveApproval, int expectedNumRevisions)
-        throws RestApiException {
+        throws Exception {
       ChangeInfo info =
-          gApi.changes().id(changeId.get()).get(CURRENT_REVISION, CURRENT_COMMIT, DETAILED_LABELS);
+          getChangeApi(changeId).get(CURRENT_REVISION, CURRENT_COMMIT, DETAILED_LABELS);
 
       RevisionInfo r = info.getCurrentRevision();
       assertThat(r._number).isEqualTo(expectedNumRevisions);
@@ -988,8 +987,8 @@ public class RebaseIT {
 
       // Submit first change.
       Change.Id id1 = r1.getChange().getId();
-      gApi.changes().id(id1.get()).current().review(ReviewInput.approve());
-      gApi.changes().id(id1.get()).current().submit();
+      getChangeApi(id1).current().review(ReviewInput.approve());
+      getChangeApi(id1).current().submit();
 
       // Rebase third change on first change.
       RebaseInput in = new RebaseInput();
@@ -1001,7 +1000,7 @@ public class RebaseIT {
           get(r3.getChangeId(), CURRENT_REVISION, CURRENT_COMMIT).getCurrentRevision();
       assertThat(ri3.commit.parents.get(0).commit).isEqualTo(r1.getCommit().name());
 
-      assertThat(gApi.changes().id(id3.get()).revision(ri3._number).related().changes).isEmpty();
+      assertThat(getChangeApi(id3).revision(ri3._number).related().changes).isEmpty();
     }
 
     @Test
@@ -1034,20 +1033,19 @@ public class RebaseIT {
 
       // Change cannot be rebased since its parent commit is the same commit as the HEAD of the
       // destination branch.
-      RevisionInfo currentRevisionInfo =
-          gApi.changes().id(changeToBeRebased.get()).get().getCurrentRevision();
+      RevisionInfo currentRevisionInfo = getChangeApi(changeToBeRebased).get().getCurrentRevision();
       assertThat(currentRevisionInfo.actions).containsKey("rebase");
       ActionInfo rebaseActionInfo = currentRevisionInfo.actions.get("rebase");
       assertThat(rebaseActionInfo.enabled).isNull();
 
       // Approve and submit the change that will be the new base for the chain so that the chain is
       // rebasable.
-      gApi.changes().id(changeToBeTheNewBase.get()).current().review(ReviewInput.approve());
-      gApi.changes().id(changeToBeTheNewBase.get()).current().submit();
+      getChangeApi(changeToBeTheNewBase).current().review(ReviewInput.approve());
+      getChangeApi(changeToBeTheNewBase).current().submit();
 
       // Change can be rebased since its parent commit differs from the commit at the HEAD of the
       // destination branch.
-      currentRevisionInfo = gApi.changes().id(changeToBeRebased.get()).get().getCurrentRevision();
+      currentRevisionInfo = getChangeApi(changeToBeRebased).get().getCurrentRevision();
       assertThat(currentRevisionInfo.actions).containsKey("rebase");
       rebaseActionInfo = currentRevisionInfo.actions.get("rebase");
       assertThat(rebaseActionInfo.enabled).isTrue();
@@ -1061,14 +1059,13 @@ public class RebaseIT {
 
       // change1 cannot be rebased since its parent commit is the same commit as the HEAD of the
       // destination branch.
-      RevisionInfo currentRevisionInfo =
-          gApi.changes().id(change1.get()).get().getCurrentRevision();
+      RevisionInfo currentRevisionInfo = getChangeApi(change1).get().getCurrentRevision();
       assertThat(currentRevisionInfo.actions).containsKey("rebase");
       ActionInfo rebaseActionInfo = currentRevisionInfo.actions.get("rebase");
       assertThat(rebaseActionInfo.enabled).isNull();
 
       // change2 can be rebased to break the relation to change1
-      currentRevisionInfo = gApi.changes().id(change2.get()).get().getCurrentRevision();
+      currentRevisionInfo = getChangeApi(change2).get().getCurrentRevision();
       assertThat(currentRevisionInfo.actions).containsKey("rebase");
       rebaseActionInfo = currentRevisionInfo.actions.get("rebase");
       assertThat(rebaseActionInfo.enabled).isTrue();
@@ -1576,10 +1573,10 @@ public class RebaseIT {
 
       // Approve and submit the change that will be the new base for the chain so that the chain is
       // rebasable.
-      gApi.changes().id(changeToBeTheNewBase.get()).current().review(ReviewInput.approve());
-      gApi.changes().id(changeToBeTheNewBase.get()).current().submit();
+      getChangeApi(changeToBeTheNewBase).current().review(ReviewInput.approve());
+      getChangeApi(changeToBeTheNewBase).current().submit();
 
-      ChangeInfo changeInfo = gApi.changes().id(changeToBeRebased2.get()).get();
+      ChangeInfo changeInfo = getChangeApi(changeToBeRebased2).get();
       assertThat(changeInfo.actions).containsKey("rebase:chain");
       ActionInfo rebaseActionInfo = changeInfo.actions.get("rebase:chain");
       assertThat(rebaseActionInfo.enabled).isTrue();

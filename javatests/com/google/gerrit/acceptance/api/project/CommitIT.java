@@ -222,7 +222,7 @@ public class CommitIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(testUser);
 
     // Cherry-pick the change
-    String commit = gApi.changes().id(changeId.get()).get().getCurrentRevision().commit.commit;
+    String commit = getChangeApi(changeId).get().getCurrentRevision().commit.commit;
     CherryPickInput input = new CherryPickInput();
     input.destination = destBranch;
     input.message = "cherry-pick to foo branch";
@@ -489,9 +489,9 @@ public class CommitIT extends AbstractDaemonTest {
     createBranch(destBranch);
 
     // Create base change on the target branch
-    PushOneCommit.Result r = createChange("refs/for/" + destBranch.shortName());
-    String base = r.getCommit().name();
-    int baseChangeNumber = r.getChange().getId().get();
+    PushOneCommit.Result baseChange = createChange("refs/for/" + destBranch.shortName());
+    String base = baseChange.getCommit().name();
+    int baseChangeNumber = baseChange.getChange().getId().get();
 
     // Create commit to cherry-pick on the source branch (no change exists for this commit)
     String changeId = "Ideadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
@@ -542,10 +542,10 @@ public class CommitIT extends AbstractDaemonTest {
 
     // Verify that the related changes contain the base change and the cherry-pick change (no matter
     // for which of these changes the related changes are retrieved).
-    assertThat(gApi.changes().id(cherryPickChange._number).current().related().changes)
+    assertThat(getChangeApi(cherryPickChange).current().related().changes)
         .comparingElementsUsing(hasId())
         .containsExactly(baseChangeNumber, cherryPickChange._number);
-    assertThat(gApi.changes().id(baseChangeNumber).current().related().changes)
+    assertThat(change(baseChange).current().related().changes)
         .comparingElementsUsing(hasId())
         .containsExactly(baseChangeNumber, cherryPickChange._number);
   }

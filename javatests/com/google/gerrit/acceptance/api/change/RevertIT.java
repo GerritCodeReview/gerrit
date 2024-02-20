@@ -1077,8 +1077,7 @@ public class RevertIT extends AbstractDaemonTest {
     assertThat(revertChanges.get(1).current().files().get("b.txt").linesDeleted).isEqualTo(1);
     assertThat(revertChanges.get(2).current().files().get("a.txt").linesDeleted).isEqualTo(1);
     // has size 3 because of the same topic, and submitWholeTopic is true.
-    assertThat(gApi.changes().id(revertChanges.get(0).get()._number).submittedTogether())
-        .hasSize(3);
+    assertThat(revertChanges.get(0).submittedTogether()).hasSize(3);
 
     // expected messages on source change:
     // 1. Uploaded patch set 1.
@@ -1213,8 +1212,7 @@ public class RevertIT extends AbstractDaemonTest {
 
     List<ChangeApi> revertChanges = getChangeApis(revertSubmissionInfo);
     // has size 2 because of the same topic, and submitWholeTopic is true.
-    assertThat(gApi.changes().id(revertChanges.get(0).get()._number).submittedTogether())
-        .hasSize(2);
+    assertThat(revertChanges.get(0).submittedTogether()).hasSize(2);
     String sha1SecondChange = secondResult.getCommit().getName();
     String sha1FirstChange = firstResult.getCommit().getName();
     assertThat(revertChanges.get(0).current().commit(false).parents.get(0).commit)
@@ -1514,7 +1512,7 @@ public class RevertIT extends AbstractDaemonTest {
       throws Exception {
     List<ChangeApi> results = new ArrayList<>();
     for (ChangeInfo changeInfo : revertSubmissionInfo.revertChanges) {
-      results.add(gApi.changes().id(changeInfo._number));
+      results.add(getChangeApi(changeInfo));
     }
     return results;
   }

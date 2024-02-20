@@ -3051,7 +3051,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
             .content(new String(imageBytes, UTF_8))
             .create();
 
-    DiffInfo diffInfo = gApi.changes().id(changeId.get()).current().file(imageFileName).diff();
+    DiffInfo diffInfo = getChangeApi(changeId).current().file(imageFileName).diff();
 
     assertThat(diffInfo).binary().isTrue();
     assertThat(diffInfo).content().isEmpty();
@@ -3082,7 +3082,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
             .content(new String(newImageBytes, UTF_8))
             .create();
 
-    DiffInfo diffInfo = gApi.changes().id(changeId2.get()).current().file(imageFileName).diff();
+    DiffInfo diffInfo = getChangeApi(changeId2).current().file(imageFileName).diff();
 
     assertThat(diffInfo).binary().isTrue();
 
@@ -3119,7 +3119,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
             .delete()
             .create();
 
-    DiffInfo diffInfo = gApi.changes().id(changeId2.get()).current().file(imageFileName).diff();
+    DiffInfo diffInfo = getChangeApi(changeId2).current().file(imageFileName).diff();
 
     assertThat(diffInfo).binary().isTrue();
 
@@ -3157,7 +3157,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
 
     // Since file imageFileName1 was not touched in the second change, trying to get the diff for it
     // should probably fail with '404 Not Found'.
-    DiffInfo diffInfo = gApi.changes().id(changeId2.get()).current().file(imageFileName1).diff();
+    DiffInfo diffInfo = getChangeApi(changeId2).current().file(imageFileName1).diff();
 
     // This should be detected as a binary file, but it isn't.
     assertThat(diffInfo).binary().isNull();

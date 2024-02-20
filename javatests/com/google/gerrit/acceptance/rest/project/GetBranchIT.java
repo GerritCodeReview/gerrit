@@ -154,7 +154,7 @@ public class GetBranchIT extends AbstractDaemonTest {
 
     // create a change edit by 'user'
     requestScopeOperations.setApiUser(user.id());
-    gApi.changes().id(changeId.get()).edit().create();
+    getChangeApi(changeId).edit().create();
 
     // every user can see their own change edit refs
     String changeEditRef = RefNames.refsEdit(user.id(), changeId, PatchSet.id(changeId, 1));
@@ -177,7 +177,7 @@ public class GetBranchIT extends AbstractDaemonTest {
 
     // create a change edit by 'user'
     requestScopeOperations.setApiUser(user.id());
-    gApi.changes().id(changeId.get()).edit().create();
+    getChangeApi(changeId).edit().create();
 
     // make the change non-visible by blocking read access on the destination
     projectOperations
@@ -359,7 +359,7 @@ public class GetBranchIT extends AbstractDaemonTest {
     draftInput.path = fileName;
     draftInput.line = 0;
     draftInput.message = "Some Comment";
-    gApi.changes().id(change.getChangeId()).current().createDraft(draftInput);
+    getChangeApi(change).current().createDraft(draftInput);
 
     // every user can see their own draft comments refs
     // TODO: is this a bug?
@@ -511,7 +511,7 @@ public class GetBranchIT extends AbstractDaemonTest {
             .content("base content")
             .create();
     approve(Integer.toString(baseChange.get()));
-    gApi.changes().id(baseChange.get()).current().submit();
+    getChangeApi(baseChange).current().submit();
 
     // Create another branch
     String branchName = "foo";
@@ -529,7 +529,7 @@ public class GetBranchIT extends AbstractDaemonTest {
             .content("master content")
             .create();
     approve(Integer.toString(changeInMaster.get()));
-    gApi.changes().id(changeInMaster.get()).current().submit();
+    getChangeApi(changeInMaster).current().submit();
 
     // Create a change in the other branch and that touches the file.
     Change.Id changeInOtherBranch =
@@ -541,7 +541,7 @@ public class GetBranchIT extends AbstractDaemonTest {
             .content("other content")
             .create();
     approve(Integer.toString(changeInOtherBranch.get()));
-    gApi.changes().id(changeInOtherBranch.get()).current().submit();
+    getChangeApi(changeInOtherBranch).current().submit();
 
     // Create a merge change with a conflict resolution for the file.
     Change.Id mergeChange =

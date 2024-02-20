@@ -209,7 +209,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
         .contains("Change-Id: " + info.changeId);
 
     // Verify the message that has been posted on the change.
-    List<ChangeMessageInfo> messages = gApi.changes().id(info._number).messages();
+    List<ChangeMessageInfo> messages = getChangeApi(info).messages();
     assertThat(messages).hasSize(1);
     assertThat(Iterables.getOnlyElement(messages).message).isEqualTo("Uploaded patch set 1.");
   }
@@ -681,7 +681,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
     ChangeInfo change = assertCreateSucceeds(in);
 
     // Verify the message that has been posted on the change.
-    List<ChangeMessageInfo> messages = gApi.changes().id(change._number).messages();
+    List<ChangeMessageInfo> messages = getChangeApi(change).messages();
     assertThat(messages).hasSize(1);
     assertThat(Iterables.getOnlyElement(messages).message).isEqualTo("Uploaded patch set 1.");
   }
@@ -739,7 +739,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
 
     // Verify that the file content in the created change is correct.
     // We expect that it has conflict markers to indicate the conflict.
-    BinaryResult bin = gApi.changes().id(change._number).current().file(fileName).content();
+    BinaryResult bin = getChangeApi(change).current().file(fileName).content();
     ByteArrayOutputStream os = new ByteArrayOutputStream();
     bin.writeTo(os);
     String fileContent = new String(os.toByteArray(), UTF_8);
@@ -764,7 +764,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
                 + ")\n");
 
     // Verify the message that has been posted on the change.
-    List<ChangeMessageInfo> messages = gApi.changes().id(change._number).messages();
+    List<ChangeMessageInfo> messages = getChangeApi(change).messages();
     assertThat(messages).hasSize(1);
     assertThat(Iterables.getOnlyElement(messages).message)
         .isEqualTo(

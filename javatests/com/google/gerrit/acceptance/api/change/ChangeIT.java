@@ -3278,7 +3278,7 @@ public class ChangeIT extends AbstractDaemonTest {
     info = gApi.changes().id(triplet).get();
     assertThat(info.changeId).isEqualTo(r.getChangeId());
 
-    info = gApi.changes().id(info._number).get();
+    info = getChangeApi(info).get();
     assertThat(info.changeId).isEqualTo(r.getChangeId());
     assertThrows(
         AuthException.class,
@@ -4025,11 +4025,11 @@ public class ChangeIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(testUser);
 
     // Change commit message
-    ChangeInfo changeInfo = gApi.changes().id(change.get()).get();
+    ChangeInfo changeInfo = getChangeApi(change).get();
     String msg = String.format("New commit message\n\nChange-Id: %s\n", changeInfo.changeId);
-    gApi.changes().id(change.get()).setMessage(msg);
+    getChangeApi(change).setMessage(msg);
 
-    assertThat(gApi.changes().id(change.get()).get().getCurrentRevision().commit.committer.email)
+    assertThat(getChangeApi(change).get().getCurrentRevision().commit.committer.email)
         .isEqualTo(emailOne);
   }
 
@@ -4379,7 +4379,7 @@ public class ChangeIT extends AbstractDaemonTest {
       }
     }
 
-    ChangeStatus changeStatus = gApi.changes().id(id.get()).get().status;
+    ChangeStatus changeStatus = getChangeApi(id).get().status;
     assertThat(changeStatus).isEqualTo(newStatus.asChangeStatus());
   }
 

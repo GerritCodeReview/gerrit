@@ -173,6 +173,42 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "12b6a8f7_713c19bc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-02-20T09:43:20Z",
+      "side": 1,
+      "message": "yes, before I fix all of the test failures I wanted the approach make sense and could potentially be accepted.",
+      "parentUuid": "024726af_725b39e9",
+      "revId": "78f266c75381c4902094cf8e1369835a7232d58a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d83c147a_67a6b1cd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-02-20T09:43:20Z",
+      "side": 1,
+      "message": "It\u0027s not only the performance optimization but most importantly the \"consistency and predictability\" of NoteDb changes.\n\nFor me, the potential performance improvements are just a side effect. Keeping the commits in NoteDb predictable and always describing what they are changing IMO is more important.\n\nHaving said that, let me run the measurements locally. Bear in mind that any results are tightly coupled to the data stored in Gerrit, meaning, more \"external ID mappings\" will result in more time taken by the mapping and more savings after the migration.",
+      "parentUuid": "22c1f4e0_98433de0",
+      "revId": "78f266c75381c4902094cf8e1369835a7232d58a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3e01ec39_3e4f8a29",
@@ -209,6 +245,30 @@
       "writtenOn": "2024-02-20T08:06:43Z",
       "side": 1,
       "message": "`boolean`? so that `firstNonNull` is not needed in line `#323`? and then condition check in line `#969` could be changed from `mutated \u003d\u003d null` to `!mutated`",
+      "range": {
+        "startLine": 209,
+        "startChar": 10,
+        "endLine": 209,
+        "endChar": 17
+      },
+      "revId": "78f266c75381c4902094cf8e1369835a7232d58a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ad4b004_a52b5359",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-02-20T09:43:20Z",
+      "side": 1,
+      "message": "I\u0027ve followed the pattern with other boolean values in this file, see lines #196-199",
+      "parentUuid": "64efd221_4fbdac3c",
       "range": {
         "startLine": 209,
         "startChar": 10,

@@ -787,10 +787,15 @@ export interface RestApiService extends Finalizable {
 
   setChangeHashtag(
     changeNum: NumericChangeId,
-    hashtag: HashtagsInput
-  ): Promise<Hashtag[]>;
+    hashtag: HashtagsInput,
+    errFn?: ErrorCallback
+  ): Promise<Hashtag[] | undefined>;
 
-  setChangeTopic(changeNum: NumericChangeId, topic?: string): Promise<string>;
+  setChangeTopic(
+    changeNum: NumericChangeId,
+    topic?: string,
+    errFn?: ErrorCallback
+  ): Promise<string | undefined>;
 
   getChangeFiles(
     changeNum: NumericChangeId,

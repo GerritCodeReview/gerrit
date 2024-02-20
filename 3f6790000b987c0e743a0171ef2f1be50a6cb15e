@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "04510b33_b3208b58",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-02-20T17:46:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "38b9d409_b05c40ee",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 6
+      },
+      "revId": "3f6790000b987c0e743a0171ef2f1be50a6cb15e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e6efbd05_6d906fec",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-02-20T14:53:48Z",
       "side": 1,
       "message": "Should we have a test for this logic?",
+      "range": {
+        "startLine": 1000,
+        "startChar": 4,
+        "endLine": 1000,
+        "endChar": 71
+      },
+      "revId": "3f6790000b987c0e743a0171ef2f1be50a6cb15e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac99838d_a8e63ee1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1000,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-02-20T17:46:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e6efbd05_6d906fec",
       "range": {
         "startLine": 1000,
         "startChar": 4,

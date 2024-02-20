@@ -34,6 +34,7 @@ import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.LibModuleLoader;
 import com.google.gerrit.server.LibModuleType;
 import com.google.gerrit.server.ModuleOverloader;
+import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountCacheImpl;
 import com.google.gerrit.server.account.AccountVisibilityProvider;
 import com.google.gerrit.server.account.CapabilityCollection;
@@ -229,6 +230,7 @@ public class BatchProgramModule extends FactoryModule {
     bind(WorkInProgressStateChanged.class).toInstance(WorkInProgressStateChanged.DISABLED);
     bind(AccountVisibility.class).toProvider(AccountVisibilityProvider.class).in(SINGLETON);
     bind(AttentionSetObserver.class).toInstance(AttentionSetObserver.DISABLED);
+    bind(AccountCache.class).to(AccountCacheImpl.class);
 
     ModuleOverloader.override(
             modules,

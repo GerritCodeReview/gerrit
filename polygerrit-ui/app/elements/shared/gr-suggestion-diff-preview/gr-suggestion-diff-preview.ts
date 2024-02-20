@@ -268,20 +268,11 @@ export class GrSuggestionDiffPreview extends LitElement {
     )
       return;
 
-    // TODO (milutin): This is a temporary fix for the broken path issue.
-    // Our experimental plugin currently returns only the file extension.
-    const replacements = this.fixReplacementInfos.map(fixInfo => {
-      return {
-        ...fixInfo,
-        path: this.comment?.path ?? fixInfo.path,
-      };
-    });
-
     this.reporting.time(Timing.PREVIEW_FIX_LOAD);
     const res = await this.restApiService.getFixPreview(
       this.changeNum,
       this.comment?.patch_set,
-      replacements
+      this.fixReplacementInfos
     );
 
     if (!res) return;
@@ -306,7 +297,7 @@ export class GrSuggestionDiffPreview extends LitElement {
    * Similar code flow is in gr-apply-fix-dialog.handleApplyFix
    * Used in gr-user-suggestion-fix
    */
-  public async applyFix() {
+  public async applyUserSuggestedFix() {
     if (
       !this.changeNum ||
       !this.comment?.patch_set ||
@@ -326,6 +317,43 @@ export class GrSuggestionDiffPreview extends LitElement {
       this.changeNum,
       this.comment?.patch_set,
       fixSuggestions[0].replacements
+    );
+    this.reporting.timeEnd(Timing.APPLY_FIX_LOAD);
+    if (res?.ok) {
+      this.getNavigation().setUrl(
+        createChangeUrl({
+          changeNum,
+          repo: this.repo!,
+          patchNum: EDIT,
+          basePatchNum,
+        })
+      );
+      fire(this, 'apply-user-suggestion', {});
+    }
+  }
+
+  /**
+   * Applies a fix previewed in `suggestion-diff-preview`,
+   * navigating to the new change URL with the EDIT patchset.
+   *
+   * Similar code flow is in gr-apply-fix-dialog.handleApplyFix
+   * Used in gr-user-suggestion-fix
+   */
+  public async applyFixSuggestions() {
+    if (
+      this.suggestion ||
+      !this.changeNum ||
+      !this.comment?.patch_set ||
+      !this.fixReplacementInfos
+    )
+      return;
+    const changeNum = this.changeNum;
+    const basePatchNum = this.comment?.patch_set as BasePatchSetNum;
+    this.reporting.time(Timing.APPLY_FIX_LOAD);
+    const res = await this.restApiService.applyFixSuggestion(
+      this.changeNum,
+      this.comment?.patch_set,
+      this.fixReplacementInfos
     );
     this.reporting.timeEnd(Timing.APPLY_FIX_LOAD);
     if (res?.ok) {

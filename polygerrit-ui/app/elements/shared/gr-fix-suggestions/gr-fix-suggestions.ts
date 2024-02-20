@@ -7,8 +7,8 @@ import '../../shared/gr-button/gr-button';
 import '../../shared/gr-icon/gr-icon';
 import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
 import '../gr-suggestion-diff-preview/gr-suggestion-diff-preview';
-import {css, html, LitElement, nothing} from 'lit';
-import {customElement, state, query} from 'lit/decorators.js';
+import {css, html, LitElement} from 'lit';
+import {customElement, state, query, property} from 'lit/decorators.js';
 import {fire} from '../../../utils/event-util';
 import {getDocUrl} from '../../../utils/url-util';
 import {subscribe} from '../../lit/subscription-controller';
@@ -16,25 +16,27 @@ import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
 import {GrSuggestionDiffPreview} from '../gr-suggestion-diff-preview/gr-suggestion-diff-preview';
 import {changeModelToken} from '../../../models/change/change-model';
-import {Comment, isDraft, PatchSetNumber} from '../../../types/common';
+import {
+  Comment,
+  FixSuggestionInfo,
+  isDraft,
+  PatchSetNumber,
+} from '../../../types/common';
 import {commentModelToken} from '../gr-comment-model/gr-comment-model';
 
 declare global {
   interface HTMLElementEventMap {
-    'open-user-suggest-preview': OpenUserSuggestionPreviewEvent;
+    'open-fix-suggestions-preview': CustomEvent<{}>;
   }
 }
 
-export type OpenUserSuggestionPreviewEvent =
-  CustomEvent<OpenUserSuggestionPreviewEventDetail>;
-export interface OpenUserSuggestionPreviewEventDetail {
-  code: string;
-}
-
-@customElement('gr-user-suggestion-fix')
-export class GrUserSuggestionsFix extends LitElement {
+@customElement('gr-fix-suggestions')
+export class GrFixSuggestions extends LitElement {
   @query('gr-suggestion-diff-preview')
   suggestionDiffPreview?: GrSuggestionDiffPreview;
+
+  @property({type: Object})
+  fixSuggestions?: FixSuggestionInfo[];
 
   @state() private docsBaseUrl = '';
 
@@ -92,8 +94,6 @@ export class GrUserSuggestionsFix extends LitElement {
   }
 
   override render() {
-    if (!this.textContent) return nothing;
-    const code = this.textContent;
     return html`<div class="header">
         <div class="title">
           <span>Suggested edit</span>
@@ -103,14 +103,6 @@ export class GrUserSuggestionsFix extends LitElement {
             rel="noopener noreferrer"
             ><gr-icon icon="help" title="read documentation"></gr-icon
           ></a>
-        </div>
-        <div class="copyButton">
-          <gr-copy-clipboard
-            hideInput=""
-            text=${code}
-            multiline
-            copyTargetName="Suggested edit"
-          ></gr-copy-clipboard>
         </div>
         <div>
           <gr-button
@@ -135,19 +127,19 @@ export class GrUserSuggestionsFix extends LitElement {
         </div>
       </div>
       <gr-suggestion-diff-preview
-        .suggestion=${this.textContent}
+        .fixReplacementInfos=${this.fixSuggestions?.[0].replacements}
       ></gr-suggestion-diff-preview>`;
   }
 
   handleShowFix() {
-    if (!this.textContent) return;
-    fire(this, 'open-user-suggest-preview', {code: this.textContent});
+    if (!this.fixSuggestions) return;
+    fire(this, 'open-fix-suggestions-preview', {});
   }
 
   async handleApplyFix() {
-    if (!this.textContent) return;
+    if (!this.fixSuggestions) return;
     this.applyingFix = true;
-    await this.suggestionDiffPreview?.applyUserSuggestedFix();
+    await this.suggestionDiffPreview?.applyFixSuggestions();
     this.applyingFix = false;
   }
 
@@ -167,6 +159,6 @@ export class GrUserSuggestionsFix extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'gr-user-suggestion-fix': GrUserSuggestionsFix;
+    'gr-fix-suggestions': GrFixSuggestions;
   }
 }

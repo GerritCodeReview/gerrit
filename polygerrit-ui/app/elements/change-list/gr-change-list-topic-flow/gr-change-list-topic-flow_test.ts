@@ -33,6 +33,7 @@ import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import './gr-change-list-topic-flow';
 import {GrChangeListTopicFlow} from './gr-change-list-topic-flow';
+import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 
 suite('gr-change-list-topic-flow tests', () => {
   let element: GrChangeListTopicFlow;
@@ -193,7 +194,11 @@ suite('gr-change-list-topic-flow tests', () => {
         const promise = mockPromise<string>();
         setChangeTopicPromises.push(promise);
         setChangeTopicStub
-          .withArgs(changesWithTopics[i]._number, sinon.match.any)
+          .withArgs(
+            changesWithTopics[i]._number,
+            sinon.match.any,
+            sinon.match.any
+          )
           .returns(promise);
       }
       model = new BulkActionsModel(getAppContext().restApiService);
@@ -344,6 +349,7 @@ suite('gr-change-list-topic-flow tests', () => {
       assert.deepEqual(setChangeTopicStub.firstCall.args, [
         changesWithTopics[0]._number,
         '',
+        throwingErrorCallback,
       ]);
 
       await waitUntilCalled(alertStub, 'alertStub');
@@ -377,10 +383,12 @@ suite('gr-change-list-topic-flow tests', () => {
       assert.deepEqual(setChangeTopicStub.firstCall.args, [
         changesWithTopics[0]._number,
         '',
+        throwingErrorCallback,
       ]);
       assert.deepEqual(setChangeTopicStub.secondCall.args, [
         changesWithTopics[1]._number,
         '',
+        throwingErrorCallback,
       ]);
     });
 
@@ -397,6 +405,8 @@ suite('gr-change-list-topic-flow tests', () => {
         'Removing topic...'
       );
 
+      // Rest api doesn't reject on error by default, but it does in topic flow,
+      // because we specify a throwing callback.
       await rejectPromises();
       await element.updateComplete;
 
@@ -454,10 +464,12 @@ suite('gr-change-list-topic-flow tests', () => {
       assert.deepEqual(setChangeTopicStub.firstCall.args, [
         changesWithTopics[0]._number,
         'topic1',
+        throwingErrorCallback,
       ]);
       assert.deepEqual(setChangeTopicStub.secondCall.args, [
         changesWithTopics[1]._number,
         'topic1',
+        throwingErrorCallback,
       ]);
 
       await waitUntilCalled(alertStub, 'alertStub');
@@ -510,7 +522,11 @@ suite('gr-change-list-topic-flow tests', () => {
         const promise = mockPromise<string>();
         setChangeTopicPromises.push(promise);
         setChangeTopicStub
-          .withArgs(changesWithNoTopics[i]._number, sinon.match.any)
+          .withArgs(
+            changesWithNoTopics[i]._number,
+            sinon.match.any,
+            sinon.match.any
+          )
           .returns(promise);
       }
 
@@ -619,10 +635,12 @@ suite('gr-change-list-topic-flow tests', () => {
       assert.deepEqual(setChangeTopicStub.firstCall.args, [
         changesWithNoTopics[0]._number,
         'foo',
+        throwingErrorCallback,
       ]);
       assert.deepEqual(setChangeTopicStub.secondCall.args, [
         changesWithNoTopics[1]._number,
         'foo',
+        throwingErrorCallback,
       ]);
 
       await waitUntilCalled(alertStub, 'alertStub');
@@ -661,6 +679,8 @@ suite('gr-change-list-topic-flow tests', () => {
         'Setting topic...'
       );
 
+      // Rest api doesn't reject on error by default, but it does in topic flow,
+      // because we specify a throwing callback.
       await rejectPromises();
       await element.updateComplete;
       await waitUntil(() => query(element, '.error') !== undefined);
@@ -709,10 +729,12 @@ suite('gr-change-list-topic-flow tests', () => {
       assert.deepEqual(setChangeTopicStub.firstCall.args, [
         changesWithNoTopics[0]._number,
         'foo',
+        throwingErrorCallback,
       ]);
       assert.deepEqual(setChangeTopicStub.secondCall.args, [
         changesWithNoTopics[1]._number,
         'foo',
+        throwingErrorCallback,
       ]);
 
       await waitUntilCalled(alertStub, 'alertStub');
@@ -724,47 +746,6 @@ suite('gr-change-list-topic-flow tests', () => {
         type: 'add-topic',
         selectedChangeCount: 2,
       });
-    });
-
-    test('shows error when setting topic fails', async () => {
-      const getTopicsStub = stubRestApi('getChangesWithSimilarTopic').resolves([
-        {...createChange(), topic: 'foo' as TopicName},
-      ]);
-      const alertStub = sinon.stub();
-      element.addEventListener('show-alert', alertStub);
-      const autocomplete = queryAndAssert<GrAutocomplete>(
-        element,
-        'gr-autocomplete'
-      );
-
-      autocomplete.setFocus(true);
-      autocomplete.text = 'foo';
-      await element.updateComplete;
-      await waitUntilCalled(getTopicsStub, 'getTopicsStub');
-      assert.isFalse(
-        queryAndAssert<GrButton>(element, '#set-topic-button').disabled
-      );
-      queryAndAssert<GrButton>(element, '#set-topic-button').click();
-      await element.updateComplete;
-
-      assert.equal(
-        queryAndAssert(element, '.loadingText').textContent,
-        'Setting topic...'
-      );
-
-      await rejectPromises();
-      await element.updateComplete;
-
-      await waitUntil(() => query(element, '.error') !== undefined);
-      assert.equal(
-        queryAndAssert(element, '.error').textContent,
-        'Failed to set topic'
-      );
-      assert.equal(
-        queryAndAssert(element, 'gr-button#cancel-button').textContent,
-        'Cancel'
-      );
-      assert.isUndefined(query(element, '.loadingText'));
     });
   });
 });

@@ -398,7 +398,7 @@ public class QueryChangesIT extends AbstractDaemonTest {
 
     // Add a review.
     requestScopeOperations.setApiUser(nonVisibleReviewer);
-    gApi.changes().id(changeId.get()).current().review(ReviewInput.recommend());
+    getChangeApi(changeId).current().review(ReviewInput.recommend());
 
     requestScopeOperations.setApiUser(user.id());
 
@@ -465,7 +465,7 @@ public class QueryChangesIT extends AbstractDaemonTest {
 
     // Add a review.
     requestScopeOperations.setApiUser(nonVisibleReviewer);
-    gApi.changes().id(changeId.get()).current().review(ReviewInput.recommend());
+    getChangeApi(changeId).current().review(ReviewInput.recommend());
 
     // Block read permission so that the change is not visible.
     projectOperations
@@ -519,7 +519,7 @@ public class QueryChangesIT extends AbstractDaemonTest {
 
     // Add a review.
     requestScopeOperations.setApiUser(reviewer);
-    gApi.changes().id(changeId.get()).current().review(ReviewInput.recommend());
+    getChangeApi(changeId).current().review(ReviewInput.recommend());
 
     requestScopeOperations.setApiUser(user.id());
 
@@ -583,7 +583,7 @@ public class QueryChangesIT extends AbstractDaemonTest {
 
     // Add a review.
     requestScopeOperations.setApiUser(reviewer);
-    gApi.changes().id(changeId.get()).current().review(ReviewInput.recommend());
+    getChangeApi(changeId).current().review(ReviewInput.recommend());
 
     projectOperations
         .allProjectsForUpdate()
@@ -638,7 +638,7 @@ public class QueryChangesIT extends AbstractDaemonTest {
 
     // Add a review.
     requestScopeOperations.setApiUser(reviewer);
-    gApi.changes().id(changeId.get()).current().review(ReviewInput.recommend());
+    getChangeApi(changeId).current().review(ReviewInput.recommend());
 
     // Verify that the change is found if owner queries for changes owned/uploaded by their
     // secondary email.

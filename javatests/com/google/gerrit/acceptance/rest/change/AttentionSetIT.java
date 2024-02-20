@@ -1211,10 +1211,10 @@ public class AttentionSetIT extends AbstractDaemonTest {
     Account.Id user3 = accountOperations.newAccount().create();
     Account.Id user4 = accountOperations.newAccount().create();
     // Add users as reviewers.
-    gApi.changes().id(changeId.get()).addReviewer(user1.toString());
-    gApi.changes().id(changeId.get()).addReviewer(user2.toString());
-    gApi.changes().id(changeId.get()).addReviewer(user3.toString());
-    gApi.changes().id(changeId.get()).addReviewer(user4.toString());
+    getChangeApi(changeId).addReviewer(user1.toString());
+    getChangeApi(changeId).addReviewer(user2.toString());
+    getChangeApi(changeId).addReviewer(user3.toString());
+    getChangeApi(changeId).addReviewer(user4.toString());
     // Add a comment thread with branches. Such threads occur if people reply in parallel without
     // having seen/loaded the reply of another person.
     String root =
@@ -1245,14 +1245,14 @@ public class AttentionSetIT extends AbstractDaemonTest {
     // Clear the attention set. Necessary as we used Gerrit APIs above which affect the attention
     // set.
     AttentionSetInput clearAttention = new AttentionSetInput("clear attention set");
-    gApi.changes().id(changeId.get()).attention(user1.toString()).remove(clearAttention);
-    gApi.changes().id(changeId.get()).attention(user2.toString()).remove(clearAttention);
-    gApi.changes().id(changeId.get()).attention(user3.toString()).remove(clearAttention);
-    gApi.changes().id(changeId.get()).attention(user4.toString()).remove(clearAttention);
+    getChangeApi(changeId).attention(user1.toString()).remove(clearAttention);
+    getChangeApi(changeId).attention(user2.toString()).remove(clearAttention);
+    getChangeApi(changeId).attention(user3.toString()).remove(clearAttention);
+    getChangeApi(changeId).attention(user4.toString()).remove(clearAttention);
 
     requestScopeOperations.setApiUser(changeOwner);
     // Simulate that this reply is a child of sibling1 and thus parallel to sibling2 and its child.
-    gApi.changes().id(changeId.get()).current().review(reviewInReplyToComment(sibling1));
+    getChangeApi(changeId).current().review(reviewInReplyToComment(sibling1));
 
     List<AttentionSetUpdate> attentionSetUpdates = getAttentionSetUpdates(changeId);
     assertThat(attentionSetUpdates)

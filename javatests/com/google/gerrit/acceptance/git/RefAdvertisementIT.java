@@ -383,11 +383,11 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
     // Admin's edit is not visible.
     requestScopeOperations.setApiUser(admin.id());
-    gApi.changes().id(cd3.getId().get()).edit().create();
+    getChangeApi(cd3).edit().create();
 
     // User's edit is visible.
     requestScopeOperations.setApiUser(user.id());
-    gApi.changes().id(cd3.getId().get()).edit().create();
+    getChangeApi(cd3).edit().create();
 
     assertUploadPackRefs(
         "HEAD",
@@ -445,14 +445,14 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
     // Admin's edit on change3 is visible.
     requestScopeOperations.setApiUser(admin.id());
-    gApi.changes().id(cd3.getId().get()).edit().create();
+    getChangeApi(cd3).edit().create();
 
     // Admin's edit on change4 is not visible since user cannot see the change.
-    gApi.changes().id(cd4.getId().get()).edit().create();
+    getChangeApi(cd4).edit().create();
 
     // User's edit is visible.
     requestScopeOperations.setApiUser(user.id());
-    gApi.changes().id(cd3.getId().get()).edit().create();
+    getChangeApi(cd3).edit().create();
 
     assertUploadPackRefs(
         "HEAD",
@@ -481,7 +481,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
         .update();
 
     requestScopeOperations.setApiUser(admin.id());
-    gApi.changes().id(cd3.getId().get()).edit().create();
+    getChangeApi(cd3).edit().create();
     requestScopeOperations.setApiUser(user.id());
 
     assertUploadPackRefs(
@@ -563,7 +563,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
         .add(allow(Permission.READ).ref("refs/*").group(REGISTERED_USERS))
         .update();
     // Delete the pending change on 'branch' and 'branch' itself so that the tag gets orphaned
-    gApi.changes().id(cd4.getId().get()).delete();
+    getChangeApi(cd4).delete();
     gApi.projects().name(project.get()).branch("refs/heads/branch").delete();
 
     requestScopeOperations.setApiUser(user.id());
@@ -1291,7 +1291,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
       String change3RefName = cd3.currentPatchSet().refName();
       assertWithMessage("Precondition violated").that(getRefs(git)).contains(change3RefName);
 
-      gApi.changes().id(cd3.getId().get()).setPrivate(true, null);
+      getChangeApi(cd3).setPrivate(true, null);
       assertThat(getRefs(git)).doesNotContain(change3RefName);
     }
   }
@@ -1312,7 +1312,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
       String change3RefName = cd3.currentPatchSet().refName();
       assertWithMessage("Precondition violated").that(getRefs(git)).contains(change3RefName);
 
-      gApi.changes().id(cd3.getId().get()).setPrivate(true, null);
+      getChangeApi(cd3).setPrivate(true, null);
       assertThat(getRefs(git)).contains(change3RefName);
     }
   }
@@ -1332,7 +1332,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
       String change3RefName = cd3.currentPatchSet().refName();
       assertWithMessage("Precondition violated").that(getRefs(git)).contains(change3RefName);
 
-      gApi.changes().id(cd3.getId().get()).setPrivate(true, null);
+      getChangeApi(cd3).setPrivate(true, null);
       assertThat(getRefs(git)).doesNotContain(change3RefName);
     }
   }
@@ -1355,7 +1355,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     draftInput.line = 1;
     draftInput.message = "nit: trailing whitespace";
     draftInput.path = Patch.COMMIT_MSG;
-    gApi.changes().id(cd3.getId().get()).current().createDraft(draftInput);
+    getChangeApi(cd3).current().createDraft(draftInput);
     String draftCommentRef = RefNames.refsDraftComments(cd3.getId(), user.id());
 
     // user can see the draft comment ref of the own draft comment

@@ -4492,7 +4492,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   private String format(String query, Iterable<Change.Id> actualIds, Change.Id... expectedChanges)
-      throws RestApiException {
+      throws Exception {
     return "query '"
         + query
         + "' with expected changes "
@@ -4501,16 +4501,16 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
         + format(actualIds);
   }
 
-  private String format(Iterable<Change.Id> changeIds) throws RestApiException {
+  private String format(Iterable<Change.Id> changeIds) throws Exception {
     return format(changeIds.iterator());
   }
 
-  private String format(Iterator<Change.Id> changeIds) throws RestApiException {
+  private String format(Iterator<Change.Id> changeIds) throws Exception {
     StringBuilder b = new StringBuilder();
     b.append("[");
     while (changeIds.hasNext()) {
       Change.Id id = changeIds.next();
-      ChangeInfo c = gApi.changes().id(id.get()).get();
+      ChangeInfo c = getChangeApi(id).get();
       b.append("{")
           .append(id)
           .append(" (")
@@ -4674,5 +4674,11 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   private ChangeApi getChangeApi(Change change) throws RestApiException {
     return gApi.changes().id(change.getProject().get(), change.getChangeId());
+  }
+
+  private ChangeApi getChangeApi(Change.Id changeId) throws Exception {
+    List<ChangeInfo> hits = gApi.changes().query(Integer.toString(changeId.get())).get();
+    assertThat(hits.size()).isEqualTo(1);
+    return gApi.changes().id(hits.get(0).project, hits.get(0)._number);
   }
 }

@@ -362,7 +362,7 @@ public class SubmitRequirementPredicateIT extends AbstractDaemonTest {
 
     Change.Id changeId =
         changeOperations.newChange().author(authorId).committer(committerId).create();
-    ChangeInfo changeInfo = gApi.changes().id(changeId.get()).get();
+    ChangeInfo changeInfo = getChangeApi(changeId).get();
     assertAuthor(changeInfo, "authoremail@example.com");
 
     allowLabelPermission(
@@ -391,7 +391,7 @@ public class SubmitRequirementPredicateIT extends AbstractDaemonTest {
 
     Change.Id changeId =
         changeOperations.newChange().author(authorId).committer(committerId).create();
-    ChangeInfo changeInfo = gApi.changes().id(changeId.get()).get();
+    ChangeInfo changeInfo = getChangeApi(changeId).get();
     assertCommitter(changeInfo, "committeremail@example.com");
 
     allowLabelPermission(

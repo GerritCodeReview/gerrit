@@ -141,7 +141,7 @@ public class ChangeIdIT extends AbstractDaemonTest {
   @Test
   public void hiddenChangeNotFound() throws Exception {
     Change.Id changeId = createChange().getChange().getId();
-    gApi.changes().id(changeId.get()).setPrivate(true, null);
+    getChangeApi(changeId).setPrivate(true, null);
     RestResponse res = anonymousRestSession.get("/" + changeId.get());
     res.assertNotFound();
   }

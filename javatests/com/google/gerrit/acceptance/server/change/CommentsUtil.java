@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance.server.change;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static java.util.stream.Collectors.groupingBy;
 
@@ -27,8 +28,10 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.client.Side;
+import com.google.gerrit.extensions.common.ChangeInfo;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * A utility class for creating {@link CommentInput} objects, publishing comments and creating draft
@@ -47,7 +50,9 @@ public class CommentsUtil {
       throws Exception {
     ReviewInput input = new ReviewInput();
     input.comments = Arrays.stream(commentInputs).collect(groupingBy(c -> c.path));
-    gApi.changes().id(changeId.get()).current().review(input);
+    List<ChangeInfo> hits = gApi.changes().query(Integer.toString(changeId.get())).get();
+    assertThat(hits.size()).isEqualTo(1);
+    gApi.changes().id(hits.get(0).project, hits.get(0)._number).current().review(input);
   }
 
   static void addComments(

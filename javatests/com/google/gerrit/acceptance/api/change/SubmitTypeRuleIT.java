@@ -36,7 +36,6 @@ import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.TestSubmitRuleInfo;
 import com.google.gerrit.extensions.common.TestSubmitRuleInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.git.meta.VersionedMetaData;
 import com.google.gerrit.testing.ConfigSuite;
@@ -78,8 +77,8 @@ public class SubmitTypeRuleIT extends AbstractDaemonTest {
       TestSubmitRuleInput in = new TestSubmitRuleInput();
       in.rule = rule;
       try {
-        gApi.changes().id(testChangeId.get()).current().testSubmitType(in);
-      } catch (RestApiException e) {
+        getChangeApi(testChangeId).current().testSubmitType(in);
+      } catch (Exception e) {
         throw new ConfigInvalidException("Invalid submit type rule", e);
       }
 

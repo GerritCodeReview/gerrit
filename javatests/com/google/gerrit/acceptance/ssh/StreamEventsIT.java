@@ -185,7 +185,7 @@ public class StreamEventsIT extends AbstractDaemonTest {
   }
 
   private void reviewChange(ReviewInput reviewInput) throws Exception {
-    ChangeApi changeApi = gApi.changes().id(createChange().getChange().getId().get());
+    ChangeApi changeApi = getChangeApi(createChange().getChange());
     changeApi.current().review(reviewInput);
   }
 
@@ -193,7 +193,7 @@ public class StreamEventsIT extends AbstractDaemonTest {
     DraftInput draftInput = new DraftInput();
     draftInput.message = reviewMessage;
     draftInput.path = path;
-    ChangeApi changeApi = gApi.changes().id(change.getId().get());
+    ChangeApi changeApi = getChangeApi(change);
     changeApi.current().createDraft(draftInput).get();
   }
 
@@ -201,7 +201,7 @@ public class StreamEventsIT extends AbstractDaemonTest {
     ReviewInput reviewInput = new ReviewInput();
     reviewInput.tag = "new_tag";
     reviewInput.drafts = DraftHandling.PUBLISH;
-    gApi.changes().id(change.getId().get()).current().review(reviewInput);
+    getChangeApi(change).current().review(reviewInput);
   }
 
   private List<String> pollEventsContaining(String eventType, String... expectedContent) {

@@ -1792,11 +1792,6 @@ export class GrChangeView extends LitElement {
     );
   }
 
-  private handleReplyTap(e: MouseEvent) {
-    e.preventDefault();
-    this.openReplyDialog(FocusTarget.ANY);
-  }
-
   private onReplyModalCanceled() {
     this.replyModalOpened = false;
   }

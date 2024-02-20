@@ -33,6 +33,7 @@ import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import './gr-change-list-hashtag-flow';
 import {GrChangeListHashtagFlow} from './gr-change-list-hashtag-flow';
+import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 
 suite('gr-change-list-hashtag-flow tests', () => {
   let element: GrChangeListHashtagFlow;
@@ -201,7 +202,7 @@ suite('gr-change-list-hashtag-flow tests', () => {
         const promise = mockPromise<Hashtag[]>();
         setChangeHashtagPromises.push(promise);
         setChangeHashtagStub
-          .withArgs(changes[i]._number, sinon.match.any)
+          .withArgs(changes[i]._number, sinon.match.any, sinon.match.any)
           .returns(promise);
       }
       model = new BulkActionsModel(getAppContext().restApiService);
@@ -322,14 +323,17 @@ suite('gr-change-list-hashtag-flow tests', () => {
       assert.deepEqual(setChangeHashtagStub.firstCall.args, [
         changes[0]._number,
         {add: ['hashtag1']},
+        throwingErrorCallback,
       ]);
       assert.deepEqual(setChangeHashtagStub.secondCall.args, [
         changes[1]._number,
         {add: ['hashtag1']},
+        throwingErrorCallback,
       ]);
       assert.deepEqual(setChangeHashtagStub.thirdCall.args, [
         changes[2]._number,
         {add: ['hashtag1']},
+        throwingErrorCallback,
       ]);
       await waitUntilCalled(alertStub, 'alertStub');
       assert.deepEqual(alertStub.lastCall.args[0].detail, {
@@ -344,34 +348,6 @@ suite('gr-change-list-hashtag-flow tests', () => {
       assert.isTrue(
         queryAndAssert<IronDropdownElement>(element, 'iron-dropdown').opened
       );
-    });
-
-    test('shows error when add hashtag fails', async () => {
-      // selects "hashtag1"
-      queryAll<HTMLButtonElement>(element, 'button.chip')[0].click();
-      await element.updateComplete;
-
-      queryAndAssert<GrButton>(element, '#add-hashtag-button').click();
-      await element.updateComplete;
-
-      assert.equal(
-        queryAndAssert(element, '.loadingText').textContent,
-        'Adding hashtag...'
-      );
-
-      await rejectPromises();
-      await element.updateComplete;
-      await waitUntil(() => query(element, '.error') !== undefined);
-
-      assert.equal(
-        queryAndAssert(element, '.error').textContent,
-        'Failed to add'
-      );
-      assert.equal(
-        queryAndAssert(element, 'gr-button#cancel-button').textContent,
-        'Cancel'
-      );
-      assert.isUndefined(query(element, '.loadingText'));
     });
 
     test('add multiple hashtag from selected change', async () => {
@@ -400,14 +376,17 @@ suite('gr-change-list-hashtag-flow tests', () => {
       assert.deepEqual(setChangeHashtagStub.firstCall.args, [
         changes[0]._number,
         {add: ['hashtag1', 'hashtag2']},
+        throwingErrorCallback,
       ]);
       assert.deepEqual(setChangeHashtagStub.secondCall.args, [
         changes[1]._number,
         {add: ['hashtag1', 'hashtag2']},
+        throwingErrorCallback,
       ]);
       assert.deepEqual(setChangeHashtagStub.thirdCall.args, [
         changes[2]._number,
         {add: ['hashtag1', 'hashtag2']},
+        throwingErrorCallback,
       ]);
 
       await waitUntilCalled(alertStub, 'alertStub');
@@ -453,14 +432,17 @@ suite('gr-change-list-hashtag-flow tests', () => {
       assert.deepEqual(setChangeHashtagStub.firstCall.args, [
         changes[0]._number,
         {add: ['foo']},
+        throwingErrorCallback,
       ]);
       assert.deepEqual(setChangeHashtagStub.secondCall.args, [
         changes[1]._number,
         {add: ['foo']},
+        throwingErrorCallback,
       ]);
       assert.deepEqual(setChangeHashtagStub.thirdCall.args, [
         changes[2]._number,
         {add: ['foo']},
+        throwingErrorCallback,
       ]);
 
       await waitUntilCalled(alertStub, 'alertStub');
@@ -515,14 +497,17 @@ suite('gr-change-list-hashtag-flow tests', () => {
       assert.deepEqual(setChangeHashtagStub.firstCall.args, [
         changes[0]._number,
         {add: ['foo']},
+        throwingErrorCallback,
       ]);
       assert.deepEqual(setChangeHashtagStub.secondCall.args, [
         changes[1]._number,
         {add: ['foo']},
+        throwingErrorCallback,
       ]);
       assert.deepEqual(setChangeHashtagStub.thirdCall.args, [
         changes[2]._number,
         {add: ['foo']},
+        throwingErrorCallback,
       ]);
 
       await waitUntilCalled(alertStub, 'alertStub');
@@ -568,6 +553,8 @@ suite('gr-change-list-hashtag-flow tests', () => {
         'Adding hashtag...'
       );
 
+      // Rest api doesn't reject on error by default, but it does in topic flow,
+      // because we specify a throwing callback.
       await rejectPromises();
       await element.updateComplete;
       await waitUntil(() => query(element, '.error') !== undefined);

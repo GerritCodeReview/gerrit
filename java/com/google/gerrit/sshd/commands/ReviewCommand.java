@@ -255,7 +255,7 @@ public class ReviewCommand extends SshCommand {
             "applyReview",
             () -> {
               gApi.changes()
-                  .id(patchSet.id().changeId().get())
+                  .id(projectState.getName(), patchSet.id().changeId().get())
                   .revision(patchSet.number())
                   .review(review);
               return null;
@@ -326,7 +326,7 @@ public class ReviewCommand extends SshCommand {
   }
 
   private ChangeApi changeApi(PatchSet patchSet) throws RestApiException {
-    return gApi.changes().id(patchSet.id().changeId().get());
+    return gApi.changes().id(projectState.getName(), patchSet.id().changeId().get());
   }
 
   private RevisionApi revisionApi(PatchSet patchSet) throws RestApiException {

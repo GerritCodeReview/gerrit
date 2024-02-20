@@ -90,7 +90,7 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
             .content("content\naa\nsF\naa\naaa\nsomething\nfoo\nbla\ndeletedEnd")
             .create();
 
-    gApi.changes().id(changeId.get()).current().review(ReviewInput.approve());
+    getChangeApi(changeId).current().review(ReviewInput.approve());
 
     changeOperations
         .change(changeId)
@@ -100,12 +100,12 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
         .create();
 
     // add a reviewer to ensure an email is sent.
-    gApi.changes().id(changeId.get()).addReviewer(user.email());
+    getChangeApi(changeId).addReviewer(user.email());
 
-    gApi.changes().id(changeId.get()).current().submit();
+    getChangeApi(changeId).current().submit();
 
     assertDiffChangeMessageAndEmailWithStickyApproval(
-        Iterables.getLast(gApi.changes().id(changeId.get()).messages()).message,
+        Iterables.getLast(getChangeApi(changeId).messages()).message,
         /* file= */ "file",
         /* insertions= */ 3,
         /* deletions= */ 4,
@@ -137,7 +137,7 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
             .content("line1\nline2\nline3\nline4")
             .create();
 
-    gApi.changes().id(changeId.get()).current().review(ReviewInput.approve());
+    getChangeApi(changeId).current().review(ReviewInput.approve());
     changeOperations
         .change(changeId)
         .newPatchset()
@@ -146,7 +146,7 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
         .create();
 
     // add a reviewer to ensure an email is sent.
-    gApi.changes().id(changeId.get()).addReviewer(user.email());
+    getChangeApi(changeId).addReviewer(user.email());
 
     testRepo.reset(initial);
 
@@ -154,20 +154,20 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
     // The changes add files.
     Change.Id unrelated =
         changeOperations.newChange().project(project).file("a").content("a").create();
-    gApi.changes().id(unrelated.get()).current().review(ReviewInput.approve());
-    gApi.changes().id(unrelated.get()).current().submit();
+    getChangeApi(unrelated).current().review(ReviewInput.approve());
+    getChangeApi(unrelated).current().submit();
     unrelated = changeOperations.newChange().project(project).file("z").content("z").create();
-    gApi.changes().id(unrelated.get()).current().review(ReviewInput.approve());
-    gApi.changes().id(unrelated.get()).current().submit();
+    getChangeApi(unrelated).current().review(ReviewInput.approve());
+    getChangeApi(unrelated).current().submit();
 
     RebaseInput rebaseInput = new RebaseInput();
-    rebaseInput.base = gApi.changes().id(unrelated.get()).current().commit(true).commit;
-    gApi.changes().id(changeId.get()).current().rebase(rebaseInput);
+    rebaseInput.base = getChangeApi(unrelated).current().commit(true).commit;
+    getChangeApi(changeId).current().rebase(rebaseInput);
 
-    gApi.changes().id(changeId.get()).current().submit();
+    getChangeApi(changeId).current().submit();
 
     assertDiffChangeMessageAndEmailWithStickyApproval(
-        Iterables.getLast(gApi.changes().id(changeId.get()).messages()).message,
+        Iterables.getLast(getChangeApi(changeId).messages()).message,
         /* file= */ "file",
         /* insertions= */ 1,
         /* deletions= */ 0,
@@ -183,12 +183,12 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
   public void diffChangeMessageOnSubmitWithStickyVote_ignoreDiffFromRebaseRenames()
       throws Exception {
     Change.Id setup = changeOperations.newChange().project(project).file("a").content("a").create();
-    gApi.changes().id(setup.get()).current().review(ReviewInput.approve());
-    gApi.changes().id(setup.get()).current().submit();
+    getChangeApi(setup).current().review(ReviewInput.approve());
+    getChangeApi(setup).current().submit();
 
     setup = changeOperations.newChange().project(project).file("z").content("z").create();
-    gApi.changes().id(setup.get()).current().review(ReviewInput.approve());
-    gApi.changes().id(setup.get()).current().submit();
+    getChangeApi(setup).current().review(ReviewInput.approve());
+    getChangeApi(setup).current().submit();
 
     ObjectId initial = repo().exactRef(HEAD).getLeaf().getObjectId();
     Change.Id changeId =
@@ -199,7 +199,7 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
             .content("line1\nline2\nline3\nline4")
             .create();
 
-    gApi.changes().id(changeId.get()).current().review(ReviewInput.approve());
+    getChangeApi(changeId).current().review(ReviewInput.approve());
     changeOperations
         .change(changeId)
         .newPatchset()
@@ -208,7 +208,7 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
         .create();
 
     // add a reviewer to ensure an email is sent.
-    gApi.changes().id(changeId.get()).addReviewer(user.email());
+    getChangeApi(changeId).addReviewer(user.email());
 
     testRepo.reset(initial);
 
@@ -216,20 +216,20 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
     // The changes rename files.
     Change.Id unrelated =
         changeOperations.newChange().project(project).file("a").renameTo("aa").create();
-    gApi.changes().id(unrelated.get()).current().review(ReviewInput.approve());
-    gApi.changes().id(unrelated.get()).current().submit();
+    getChangeApi(unrelated).current().review(ReviewInput.approve());
+    getChangeApi(unrelated).current().submit();
     unrelated = changeOperations.newChange().project(project).file("z").renameTo("zz").create();
-    gApi.changes().id(unrelated.get()).current().review(ReviewInput.approve());
-    gApi.changes().id(unrelated.get()).current().submit();
+    getChangeApi(unrelated).current().review(ReviewInput.approve());
+    getChangeApi(unrelated).current().submit();
 
     RebaseInput rebaseInput = new RebaseInput();
-    rebaseInput.base = gApi.changes().id(unrelated.get()).current().commit(true).commit;
-    gApi.changes().id(changeId.get()).current().rebase(rebaseInput);
+    rebaseInput.base = getChangeApi(unrelated).current().commit(true).commit;
+    getChangeApi(changeId).current().rebase(rebaseInput);
 
-    gApi.changes().id(changeId.get()).current().submit();
+    getChangeApi(changeId).current().submit();
 
     assertDiffChangeMessageAndEmailWithStickyApproval(
-        Iterables.getLast(gApi.changes().id(changeId.get()).messages()).message,
+        Iterables.getLast(getChangeApi(changeId).messages()).message,
         /* file= */ "file",
         /* insertions= */ 1,
         /* deletions= */ 0,
@@ -245,12 +245,12 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
   public void diffChangeMessageOnSubmitWithStickyVote_ignoreDiffFromRebaseDeletions()
       throws Exception {
     Change.Id setup = changeOperations.newChange().project(project).file("a").content("a").create();
-    gApi.changes().id(setup.get()).current().review(ReviewInput.approve());
-    gApi.changes().id(setup.get()).current().submit();
+    getChangeApi(setup).current().review(ReviewInput.approve());
+    getChangeApi(setup).current().submit();
 
     setup = changeOperations.newChange().project(project).file("z").content("z").create();
-    gApi.changes().id(setup.get()).current().review(ReviewInput.approve());
-    gApi.changes().id(setup.get()).current().submit();
+    getChangeApi(setup).current().review(ReviewInput.approve());
+    getChangeApi(setup).current().submit();
 
     ObjectId initial = repo().exactRef(HEAD).getLeaf().getObjectId();
     Change.Id changeId =
@@ -261,7 +261,7 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
             .content("line1\nline2\nline3\nline4")
             .create();
 
-    gApi.changes().id(changeId.get()).current().review(ReviewInput.approve());
+    getChangeApi(changeId).current().review(ReviewInput.approve());
     changeOperations
         .change(changeId)
         .newPatchset()
@@ -270,26 +270,26 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
         .create();
 
     // add a reviewer to ensure an email is sent.
-    gApi.changes().id(changeId.get()).addReviewer(user.email());
+    getChangeApi(changeId).addReviewer(user.email());
 
     testRepo.reset(initial);
     // create 2 unrelated changes and rebase on top of them. Those rebases should be ignored.
     // The changes delete files.
     Change.Id unrelated = changeOperations.newChange().project(project).file("a").delete().create();
-    gApi.changes().id(unrelated.get()).current().review(ReviewInput.approve());
-    gApi.changes().id(unrelated.get()).current().submit();
+    getChangeApi(unrelated).current().review(ReviewInput.approve());
+    getChangeApi(unrelated).current().submit();
     unrelated = changeOperations.newChange().project(project).file("z").delete().create();
-    gApi.changes().id(unrelated.get()).current().review(ReviewInput.approve());
-    gApi.changes().id(unrelated.get()).current().submit();
+    getChangeApi(unrelated).current().review(ReviewInput.approve());
+    getChangeApi(unrelated).current().submit();
 
     RebaseInput rebaseInput = new RebaseInput();
-    rebaseInput.base = gApi.changes().id(unrelated.get()).current().commit(true).commit;
-    gApi.changes().id(changeId.get()).current().rebase(rebaseInput);
+    rebaseInput.base = getChangeApi(unrelated).current().commit(true).commit;
+    getChangeApi(changeId).current().rebase(rebaseInput);
 
-    gApi.changes().id(changeId.get()).current().submit();
+    getChangeApi(changeId).current().submit();
 
     assertDiffChangeMessageAndEmailWithStickyApproval(
-        Iterables.getLast(gApi.changes().id(changeId.get()).messages()).message,
+        Iterables.getLast(getChangeApi(changeId).messages()).message,
         /* file= */ "file",
         /* insertions= */ 1,
         /* deletions= */ 0,
@@ -311,7 +311,7 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
             .file("file")
             .content("content\naa\nbb\ncc\ndd\nee\nff\nTODELETE1\nTODELETE2\ngg\nend")
             .create();
-    gApi.changes().id(changeId.get()).current().review(ReviewInput.approve());
+    getChangeApi(changeId).current().review(ReviewInput.approve());
 
     changeOperations
         .change(changeId)
@@ -321,12 +321,12 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
         .create();
 
     // add a reviewer to ensure an email is sent.
-    gApi.changes().id(changeId.get()).addReviewer(user.email());
+    getChangeApi(changeId).addReviewer(user.email());
 
-    gApi.changes().id(changeId.get()).current().submit();
+    getChangeApi(changeId).current().submit();
 
     assertDiffChangeMessageAndEmailWithStickyApproval(
-        Iterables.getLast(gApi.changes().id(changeId.get()).messages()).message,
+        Iterables.getLast(getChangeApi(changeId).messages()).message,
         /* file= */ "file",
         /* insertions= */ 4,
         /* deletions= */ 2,
@@ -353,13 +353,13 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
   public void autoGeneratedPostSubmitDiffIsPartOfTheCommentSizeLimit() throws Exception {
     Change.Id changeId =
         changeOperations.newChange().project(project).file("file").content("content").create();
-    gApi.changes().id(changeId.get()).current().review(ReviewInput.approve());
+    getChangeApi(changeId).current().review(ReviewInput.approve());
     String content = new String(new char[800]).replace("\0", "a");
     changeOperations.change(changeId).newPatchset().file("file").content(content).create();
 
     // Post a submit diff that is almost the cumulativeCommentSizeLimit
-    gApi.changes().id(changeId.get()).current().submit();
-    assertThat(Iterables.getLast(gApi.changes().id(changeId.get()).messages()).message)
+    getChangeApi(changeId).current().submit();
+    assertThat(Iterables.getLast(getChangeApi(changeId).messages()).message)
         .doesNotContain("The diff is too large to show. Please review the diff");
 
     // unrelated comment and change message posting doesn't work, since the post submit diff is
@@ -374,8 +374,7 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
 
     BadRequestException thrown =
         assertThrows(
-            BadRequestException.class,
-            () -> gApi.changes().id(changeId.get()).current().review(reviewInput));
+            BadRequestException.class, () -> getChangeApi(changeId).current().review(reviewInput));
     assertThat(thrown)
         .hasMessageThat()
         .contains("Exceeding maximum cumulative size of comments and change messages");
@@ -385,7 +384,7 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
   public void postSubmitDiffCannotBeTooBig() throws Exception {
     Change.Id changeId =
         changeOperations.newChange().project(project).file("file").content("content").create();
-    gApi.changes().id(changeId.get()).current().review(ReviewInput.approve());
+    getChangeApi(changeId).current().review(ReviewInput.approve());
 
     // max post submit diff size is 300k
     String content = new String(new char[320000]).replace("\0", "a");
@@ -393,8 +392,8 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
     changeOperations.change(changeId).newPatchset().file("file").content(content).create();
 
     // Post submit diff is over the postSubmitDiffSizeLimit (300k).
-    gApi.changes().id(changeId.get()).current().submit();
-    assertThat(Iterables.getLast(gApi.changes().id(changeId.get()).messages()).message)
+    getChangeApi(changeId).current().submit();
+    assertThat(Iterables.getLast(getChangeApi(changeId).messages()).message)
         .isEqualTo(
             "Change has been successfully merged\n\n1 is the latest approved patch-set.\nThe "
                 + "change was submitted with unreviewed changes in the following "
@@ -407,7 +406,7 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
   public void postSubmitDiffCannotBeTooBigWithLargeComments() throws Exception {
     Change.Id changeId =
         changeOperations.newChange().project(project).file("file").content("content").create();
-    gApi.changes().id(changeId.get()).current().review(ReviewInput.approve());
+    getChangeApi(changeId).current().review(ReviewInput.approve());
 
     // unrelated comment taking up most of the space, making post submit diff shorter.
     String message = new String(new char[9700]).replace("\0", "a");
@@ -416,15 +415,15 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
     commentInput.line = 1;
     commentInput.path = "file";
     reviewInput.comments = ImmutableMap.of("file", ImmutableList.of(commentInput));
-    gApi.changes().id(changeId.get()).current().review(reviewInput);
+    getChangeApi(changeId).current().review(reviewInput);
 
     String content = new String(new char[500]).replace("\0", "a");
     changeOperations.change(changeId).newPatchset().file("file").content(content).create();
 
     // Post submit diff is over the cumulativeCommentSizeLimit, since the comment took most of
     // the space (even though the post submit diff is not limited).
-    gApi.changes().id(changeId.get()).current().submit();
-    assertThat(Iterables.getLast(gApi.changes().id(changeId.get()).messages()).message)
+    getChangeApi(changeId).current().submit();
+    assertThat(Iterables.getLast(getChangeApi(changeId).messages()).message)
         .isEqualTo(
             "Change has been successfully merged\n\n1 is the latest approved patch-set.\nThe "
                 + "change was submitted with unreviewed changes in the following "
@@ -435,7 +434,7 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
   @Test
   public void diffChangeMessageOnSubmitWithStickyVote_addedFile() throws Exception {
     Change.Id changeId = changeOperations.newChange().project(project).create();
-    gApi.changes().id(changeId.get()).current().review(ReviewInput.approve());
+    getChangeApi(changeId).current().review(ReviewInput.approve());
 
     changeOperations
         .change(changeId)
@@ -445,12 +444,12 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
         .create();
 
     // add a reviewer to ensure an email is sent.
-    gApi.changes().id(changeId.get()).addReviewer(user.email());
+    getChangeApi(changeId).addReviewer(user.email());
 
-    gApi.changes().id(changeId.get()).current().submit();
+    getChangeApi(changeId).current().submit();
 
     assertDiffChangeMessageAndEmailWithStickyApproval(
-        Iterables.getLast(gApi.changes().id(changeId.get()).messages()).message,
+        Iterables.getLast(getChangeApi(changeId).messages()).message,
         /* file= */ "file",
         /* insertions= */ 3,
         /* deletions= */ 0,
@@ -461,7 +460,7 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
   @Test
   public void diffChangeMessageOnSubmitWithStickyVote_addedMultipleFiles() throws Exception {
     Change.Id changeId = changeOperations.newChange().project(project).create();
-    gApi.changes().id(changeId.get()).current().review(ReviewInput.approve());
+    getChangeApi(changeId).current().review(ReviewInput.approve());
 
     changeOperations
         .change(changeId)
@@ -478,12 +477,12 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
         .create();
 
     // add a reviewer to ensure an email is sent.
-    gApi.changes().id(changeId.get()).addReviewer(user.email());
+    getChangeApi(changeId).addReviewer(user.email());
 
-    gApi.changes().id(changeId.get()).current().submit();
+    getChangeApi(changeId).current().submit();
 
     assertDiffChangeMessageAndEmailWithStickyApproval(
-        Iterables.getLast(gApi.changes().id(changeId.get()).messages()).message,
+        Iterables.getLast(getChangeApi(changeId).messages()).message,
         /* file1= */ "otherFile",
         /* insertions1= */ 3,
         /* deletions1= */ 0,
@@ -505,17 +504,17 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
             .file("file")
             .content("content\nmore content\nlast content")
             .create();
-    gApi.changes().id(changeId.get()).current().review(ReviewInput.approve());
+    getChangeApi(changeId).current().review(ReviewInput.approve());
 
     changeOperations.change(changeId).newPatchset().file("file").delete().create();
 
     // add a reviewer to ensure an email is sent.
-    gApi.changes().id(changeId.get()).addReviewer(user.email());
+    getChangeApi(changeId).addReviewer(user.email());
 
-    gApi.changes().id(changeId.get()).current().submit();
+    getChangeApi(changeId).current().submit();
 
     assertDiffChangeMessageAndEmailWithStickyApproval(
-        Iterables.getLast(gApi.changes().id(changeId.get()).messages()).message,
+        Iterables.getLast(getChangeApi(changeId).messages()).message,
         /* file= */ "file",
         /* insertions= */ 0,
         /* deletions= */ 3,
@@ -532,17 +531,17 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
             .file("file")
             .content("content\nmoreContent")
             .create();
-    gApi.changes().id(changeId.get()).current().review(ReviewInput.approve());
+    getChangeApi(changeId).current().review(ReviewInput.approve());
 
     changeOperations.change(changeId).newPatchset().file("file").renameTo("new_file").create();
 
     // add a reviewer to ensure an email is sent.
-    gApi.changes().id(changeId.get()).addReviewer(user.email());
+    getChangeApi(changeId).addReviewer(user.email());
 
-    gApi.changes().id(changeId.get()).current().submit();
+    getChangeApi(changeId).current().submit();
 
     assertDiffChangeMessageAndEmailWithStickyApproval(
-        Iterables.getLast(gApi.changes().id(changeId.get()).messages()).message,
+        Iterables.getLast(getChangeApi(changeId).messages()).message,
         /* file= */ "new_file",
         /* insertions= */ 0,
         /* deletions= */ 0,
@@ -559,16 +558,16 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
             .file("file")
             .content("content\nmoreContent")
             .create();
-    gApi.changes().id(changeId.get()).current().review(ReviewInput.approve());
+    getChangeApi(changeId).current().review(ReviewInput.approve());
 
     changeOperations.change(changeId).newPatchset().file("file").renameTo("new_file").create();
 
     // Approve last patch-set again, although there is already a +2 on the change (since it's
     // sticky).
-    gApi.changes().id(changeId.get()).current().review(ReviewInput.approve());
-    gApi.changes().id(changeId.get()).current().submit();
+    getChangeApi(changeId).current().review(ReviewInput.approve());
+    getChangeApi(changeId).current().submit();
 
-    assertThat(Iterables.getLast(gApi.changes().id(changeId.get()).messages()).message.trim())
+    assertThat(Iterables.getLast(getChangeApi(changeId).messages()).message.trim())
         .isEqualTo("Change has been successfully merged");
   }
 
@@ -578,15 +577,15 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
     changeOperations.change(changeId).newPatchset().create();
 
     // approve patch-set 2
-    gApi.changes().id(changeId.get()).current().review(ReviewInput.approve());
+    getChangeApi(changeId).current().review(ReviewInput.approve());
 
     // create patch-set 3
     changeOperations.change(changeId).newPatchset().create();
 
-    gApi.changes().id(changeId.get()).current().submit();
+    getChangeApi(changeId).current().submit();
 
     // patch-set 2 was the latest approved one.
-    assertThat(Iterables.getLast(gApi.changes().id(changeId.get()).messages()).message)
+    assertThat(Iterables.getLast(getChangeApi(changeId).messages()).message)
         .contains("2 is the latest approved patch-set.");
   }
 
@@ -612,24 +611,24 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
     changeOperations.change(changeId).newPatchset().create();
 
     // Submitted without Code-Review approval
-    gApi.changes().id(changeId.get()).current().submit();
+    getChangeApi(changeId).current().submit();
 
-    assertThat(Iterables.getLast(gApi.changes().id(changeId.get()).messages()).message)
+    assertThat(Iterables.getLast(getChangeApi(changeId).messages()).message)
         .isEqualTo("Change has been successfully merged");
   }
 
   @Test
   public void diffChangeMessageOnSubmitWithStickyVote_noChanges() throws Exception {
     Change.Id changeId = changeOperations.newChange().project(project).create();
-    gApi.changes().id(changeId.get()).current().review(ReviewInput.approve());
+    getChangeApi(changeId).current().review(ReviewInput.approve());
 
     // no file changed
     changeOperations.change(changeId).newPatchset().create();
 
-    gApi.changes().id(changeId.get()).current().submit();
+    getChangeApi(changeId).current().submit();
 
     // No other content in the message since the diff is the same.
-    assertThat(Iterables.getLast(gApi.changes().id(changeId.get()).messages()).message)
+    assertThat(Iterables.getLast(getChangeApi(changeId).messages()).message)
         .isEqualTo(
             "Change has been successfully merged\n\n1 is the latest approved patch-set.\n"
                 + "No files were changed between the latest approved patch-set and the submitted"

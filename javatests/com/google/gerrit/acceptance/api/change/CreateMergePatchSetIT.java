@@ -185,9 +185,9 @@ public class CreateMergePatchSetIT extends AbstractDaemonTest {
     mergeInput.source = branch;
     MergePatchSetInput in = new MergePatchSetInput();
     in.merge = mergeInput;
-    gApi.changes().id(change.get()).createMergePatchSet(in);
+    getChangeApi(change).createMergePatchSet(in);
 
-    assertThat(gApi.changes().id(change.get()).get().getCurrentRevision().commit.committer.email)
+    assertThat(getChangeApi(change).get().getCurrentRevision().commit.committer.email)
         .isEqualTo(emailOne);
   }
 

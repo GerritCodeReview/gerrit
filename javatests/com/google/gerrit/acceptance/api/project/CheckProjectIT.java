@@ -73,7 +73,7 @@ public class CheckProjectIT extends AbstractDaemonTest {
     String branch = "refs/heads/master";
     serverSideTestRepo.branch(branch).update(testRepo.getRevWalk().parseCommit(commit));
 
-    ChangeInfo info = gApi.changes().id(change._number).info();
+    ChangeInfo info = getChangeApi(change).info();
     assertThat(info.status).isEqualTo(ChangeStatus.NEW);
 
     CheckProjectResultInfo checkResult =
@@ -84,7 +84,7 @@ public class CheckProjectIT extends AbstractDaemonTest {
                 .collect(toList()))
         .containsExactly(change._number);
 
-    info = gApi.changes().id(change._number).info();
+    info = getChangeApi(change).info();
     assertThat(info.status).isEqualTo(ChangeStatus.NEW);
   }
 
@@ -97,7 +97,7 @@ public class CheckProjectIT extends AbstractDaemonTest {
     String branch = "refs/heads/master";
     serverSideTestRepo.branch(branch).update(commit);
 
-    ChangeInfo info = gApi.changes().id(change._number).info();
+    ChangeInfo info = getChangeApi(change).info();
     assertThat(info.status).isEqualTo(ChangeStatus.NEW);
 
     CheckProjectInput input = checkProjectInputForAutoCloseableCheck(branch);
@@ -109,7 +109,7 @@ public class CheckProjectIT extends AbstractDaemonTest {
                 .collect(toSet()))
         .containsExactly(change._number);
 
-    info = gApi.changes().id(change._number).info();
+    info = getChangeApi(change).info();
     assertThat(info.status).isEqualTo(ChangeStatus.MERGED);
   }
 

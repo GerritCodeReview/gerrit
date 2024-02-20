@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ee94055_54057061",
+        "filename": "polygerrit-ui/app/elements/settings/gr-agreements-list/gr-agreements-list.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-02-20T18:15:27Z",
+      "side": 1,
+      "message": "You forgot to call getBaseUrl from url-util2",
+      "range": {
+        "startLine": 81,
+        "startChar": 12,
+        "endLine": 81,
+        "endChar": 13
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "a779453b_ea06b73b",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/settings/gr-agreements-list/gr-agreements-list.ts",
+              "range": {
+                "startLine": 12,
+                "startChar": 0,
+                "endLine": 12,
+                "endChar": 0
+              },
+              "replacement": "import {getBaseUrl} from \u0027../../../utils/url-util2\u0027;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/settings/gr-agreements-list/gr-agreements-list.ts",
+              "range": {
+                "startLine": 81,
+                "startChar": 0,
+                "endLine": 82,
+                "endChar": 0
+              },
+              "replacement": "    return `${getBaseUrl()}/settings/new-agreement`;\n"
+            }
+          ]
+        }
+      ],
+      "revId": "f52d90d357fe2514eabe002c90e3a8ffa8a64811",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

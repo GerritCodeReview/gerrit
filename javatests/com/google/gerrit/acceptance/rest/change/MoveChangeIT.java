@@ -38,6 +38,7 @@ import com.google.gerrit.entities.LabelFunction;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.Permission;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.changes.MoveInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
@@ -113,12 +114,14 @@ public class MoveChangeIT extends AbstractDaemonTest {
   public void moveChangeToSameChangeId() throws Exception {
     // Move change to a branch with existing change with same change ID
     PushOneCommit.Result r = createChange();
-    BranchNameKey newBranch = BranchNameKey.create(r.getChange().change().getProject(), "moveTest");
-    createBranch(newBranch);
     int changeNum = r.getChange().change().getChangeId();
+    Project.NameKey project = r.getChange().change().getProject();
+    BranchNameKey newBranch = BranchNameKey.create(project, "moveTest");
+    createBranch(newBranch);
     createChange(newBranch.branch(), r.getChangeId());
     ResourceConflictException thrown =
-        assertThrows(ResourceConflictException.class, () -> move(changeNum, newBranch.branch()));
+        assertThrows(
+            ResourceConflictException.class, () -> move(project, changeNum, newBranch.branch()));
     assertThat(thrown)
         .hasMessageThat()
         .contains(
@@ -226,6 +229,7 @@ public class MoveChangeIT extends AbstractDaemonTest {
     // Create a change
     PushOneCommit.Result r = createChange();
     int changeNum = r.getChange().change().getChangeId();
+    Project.NameKey project = r.getChange().project();
 
     // Create a branch with that same commit
     BranchNameKey newBranch = BranchNameKey.create(r.getChange().change().getProject(), "moveTest");
@@ -235,7 +239,8 @@ public class MoveChangeIT extends AbstractDaemonTest {
 
     // Try to move the change to the branch with the same commit
     ResourceConflictException thrown =
-        assertThrows(ResourceConflictException.class, () -> move(changeNum, newBranch.branch()));
+        assertThrows(
+            ResourceConflictException.class, () -> move(project, changeNum, newBranch.branch()));
     assertThat(thrown)
         .hasMessageThat()
         .contains("Current patchset revision is reachable from tip of " + newBranch.branch());
@@ -602,8 +607,9 @@ public class MoveChangeIT extends AbstractDaemonTest {
     assertThat(thrown).hasMessageThat().contains("move changes endpoint is disabled");
   }
 
-  private void move(int changeNum, String destination) throws RestApiException {
-    gApi.changes().id(changeNum).move(destination);
+  private void move(Project.NameKey project, int changeNum, String destination)
+      throws RestApiException {
+    gApi.changes().id(project.get(), changeNum).move(destination);
   }
 
   private void move(String changeId, String destination) throws RestApiException {

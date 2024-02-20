@@ -196,8 +196,7 @@ public class PluginProvidedChildRestApiBindingsIT extends AbstractDaemonTest {
     testCommentHelper.addRobotComment(
         changeId, TestCommentHelper.createRobotCommentInput(PushOneCommit.FILE_NAME));
     return Iterables.getOnlyElement(
-            Iterables.getOnlyElement(
-                gApi.changes().id(changeId.get()).current().robotComments().values()))
+            Iterables.getOnlyElement(getChangeApi(changeId).current().robotComments().values()))
         .id;
   }
 }

@@ -288,9 +288,9 @@ public class ChangeEditIT extends AbstractDaemonTest {
     // Add new patch-set to change
     changeOperations.change(change).newPatchset().create();
     // Rebase Edit
-    gApi.changes().id(change.get()).edit().rebase();
+    getChangeApi(change).edit().rebase();
 
-    EditInfo editInfo = gApi.changes().id(change.get()).edit().get().orElseThrow();
+    EditInfo editInfo = getChangeApi(change).edit().get().orElseThrow();
     assertThat(editInfo.commit.committer.email).isEqualTo(emailOne);
   }
 
@@ -362,9 +362,9 @@ public class ChangeEditIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(testUser);
 
     // Modify file
-    gApi.changes().id(change.get()).edit().modifyFile(FILE_NAME, RawInputUtil.create(CONTENT_NEW));
+    getChangeApi(change).edit().modifyFile(FILE_NAME, RawInputUtil.create(CONTENT_NEW));
 
-    EditInfo editInfo = gApi.changes().id(change.get()).edit().get().orElseThrow();
+    EditInfo editInfo = getChangeApi(change).edit().get().orElseThrow();
     assertThat(editInfo.commit.committer.email).isEqualTo(emailOne);
   }
 
@@ -525,11 +525,11 @@ public class ChangeEditIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(testUser);
 
     // Update commit message
-    ChangeInfo changeInfo = gApi.changes().id(change.get()).get();
+    ChangeInfo changeInfo = getChangeApi(change).get();
     String msg = String.format("New commit message\n\nChange-Id: %s\n", changeInfo.changeId);
-    gApi.changes().id(change.get()).edit().modifyCommitMessage(msg);
+    getChangeApi(change).edit().modifyCommitMessage(msg);
 
-    EditInfo editInfo = gApi.changes().id(change.get()).edit().get().orElseThrow();
+    EditInfo editInfo = getChangeApi(change).edit().get().orElseThrow();
     assertThat(editInfo.commit.committer.email).isEqualTo(emailOne);
   }
 
@@ -700,9 +700,9 @@ public class ChangeEditIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(testUser);
 
     // Delete file
-    gApi.changes().id(change.get()).edit().deleteFile(FILE_NAME);
+    getChangeApi(change).edit().deleteFile(FILE_NAME);
 
-    EditInfo editInfo = gApi.changes().id(change.get()).edit().get().orElseThrow();
+    EditInfo editInfo = getChangeApi(change).edit().get().orElseThrow();
     assertThat(editInfo.commit.committer.email).isEqualTo(emailOne);
   }
 
@@ -735,9 +735,9 @@ public class ChangeEditIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(testUser);
 
     // Rename file
-    gApi.changes().id(change.get()).edit().renameFile(FILE_NAME, FILE_NAME3);
+    getChangeApi(change).edit().renameFile(FILE_NAME, FILE_NAME3);
 
-    EditInfo editInfo = gApi.changes().id(change.get()).edit().get().orElseThrow();
+    EditInfo editInfo = getChangeApi(change).edit().get().orElseThrow();
     assertThat(editInfo.commit.committer.email).isEqualTo(emailOne);
   }
 
@@ -797,9 +797,9 @@ public class ChangeEditIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(testUser);
 
     // Restore file to the state in the parent of change
-    gApi.changes().id(change.get()).edit().restoreFile(FILE_NAME);
+    getChangeApi(change).edit().restoreFile(FILE_NAME);
 
-    EditInfo editInfo = gApi.changes().id(change.get()).edit().get().orElseThrow();
+    EditInfo editInfo = getChangeApi(change).edit().get().orElseThrow();
     assertThat(editInfo.commit.committer.email).isEqualTo(emailOne);
   }
 
@@ -1150,14 +1150,14 @@ public class ChangeEditIT extends AbstractDaemonTest {
     changeInput.status = ChangeStatus.NEW;
 
     ChangeInfo info1 = gApi.changes().create(changeInput).get();
-    gApi.changes().id(info1._number).edit().modifyFile(FILE_NAME, RawInputUtil.create(CONTENT_NEW));
-    gApi.changes().id(info1._number).edit().publish(new PublishChangeEditInput());
-    info1 = gApi.changes().id(info1._number).get();
+    getChangeApi(info1).edit().modifyFile(FILE_NAME, RawInputUtil.create(CONTENT_NEW));
+    getChangeApi(info1).edit().publish(new PublishChangeEditInput());
+    info1 = getChangeApi(info1).get();
 
     ChangeInfo info2 = gApi.changes().create(changeInput).get();
-    gApi.changes().id(info2._number).edit().modifyFile(FILE_NAME, RawInputUtil.create(CONTENT_NEW));
-    gApi.changes().id(info2._number).edit().publish(new PublishChangeEditInput());
-    info2 = gApi.changes().id(info2._number).get();
+    getChangeApi(info2).edit().modifyFile(FILE_NAME, RawInputUtil.create(CONTENT_NEW));
+    getChangeApi(info2).edit().publish(new PublishChangeEditInput());
+    info2 = getChangeApi(info2).get();
 
     assertThat(info1.currentRevision).isNotEqualTo(info2.currentRevision);
   }

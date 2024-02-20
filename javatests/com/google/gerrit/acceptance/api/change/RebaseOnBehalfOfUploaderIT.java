@@ -58,7 +58,6 @@ import com.google.gerrit.extensions.events.RevisionCreatedListener;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.server.project.testing.TestLabels;
 import com.google.gerrit.server.util.AccountTemplateUtil;
@@ -94,8 +93,7 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     rebaseInput.onBehalfOfUploader = true;
     rebaseInput.allowConflicts = true;
     BadRequestException exception =
-        assertThrows(
-            BadRequestException.class, () -> gApi.changes().id(changeId.get()).rebase(rebaseInput));
+        assertThrows(BadRequestException.class, () -> getChangeApi(changeId).rebase(rebaseInput));
     assertThat(exception)
         .hasMessageThat()
         .isEqualTo("allow_conflicts and on_behalf_of_uploader are mutually exclusive");
@@ -130,24 +128,17 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
 
     // Approve and submit the change that will be the new base for the change that will be rebased.
     requestScopeOperations.setApiUser(approver);
-    gApi.changes().id(changeToBeTheNewBase.get()).current().review(ReviewInput.approve());
-    gApi.changes().id(changeToBeTheNewBase.get()).current().submit();
+    getChangeApi(changeToBeTheNewBase).current().review(ReviewInput.approve());
+    getChangeApi(changeToBeTheNewBase).current().submit();
 
     // Rebase the second change on behalf of the uploader
     requestScopeOperations.setApiUser(rebaser);
     RebaseInput rebaseInput = new RebaseInput();
     rebaseInput.onBehalfOfUploader = true;
     rebaseInput.committerEmail = uploaderSecondaryEmail;
-    gApi.changes().id(changeToBeRebased.get()).rebase(rebaseInput);
+    getChangeApi(changeToBeRebased).rebase(rebaseInput);
 
-    assertThat(
-            gApi.changes()
-                .id(changeToBeRebased.get())
-                .get()
-                .getCurrentRevision()
-                .commit
-                .committer
-                .email)
+    assertThat(getChangeApi(changeToBeRebased).get().getCurrentRevision().commit.committer.email)
         .isEqualTo(uploaderSecondaryEmail);
   }
 
@@ -176,8 +167,8 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
 
     // Approve and submit the change that will be the new base for the change that will be rebased.
     requestScopeOperations.setApiUser(approver);
-    gApi.changes().id(changeToBeTheNewBase.get()).current().review(ReviewInput.approve());
-    gApi.changes().id(changeToBeTheNewBase.get()).current().submit();
+    getChangeApi(changeToBeTheNewBase).current().review(ReviewInput.approve());
+    getChangeApi(changeToBeTheNewBase).current().submit();
 
     // Rebase the second change on behalf of the uploader
     requestScopeOperations.setApiUser(rebaser);
@@ -188,7 +179,7 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     ResourceConflictException exception =
         assertThrows(
             ResourceConflictException.class,
-            () -> gApi.changes().id(changeToBeRebased.get()).rebase(rebaseInput));
+            () -> getChangeApi(changeToBeRebased).rebase(rebaseInput));
     assertThat(exception)
         .hasMessageThat()
         .isEqualTo(
@@ -208,7 +199,7 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     BadRequestException exception =
         assertThrows(
             BadRequestException.class,
-            () -> gApi.changes().id(changeId.get()).revision(1).rebase(rebaseInput));
+            () -> getChangeApi(changeId).revision(1).rebase(rebaseInput));
     assertThat(exception)
         .hasMessageThat()
         .isEqualTo(
@@ -220,29 +211,27 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
   @Test
   public void rebaseChangeOnBehalfOfUploader_withRebasePermission() throws Exception {
     testRebaseChangeOnBehalfOfUploader(
-        Permission.REBASE,
-        (changeId, rebaseInput) -> gApi.changes().id(changeId.get()).rebase(rebaseInput));
+        Permission.REBASE, (changeId, rebaseInput) -> getChangeApi(changeId).rebase(rebaseInput));
   }
 
   @Test
   public void rebaseCurrentPatchSetOnBehalfOfUploader_withRebasePermission() throws Exception {
     testRebaseChangeOnBehalfOfUploader(
         Permission.REBASE,
-        (changeId, rebaseInput) -> gApi.changes().id(changeId.get()).current().rebase(rebaseInput));
+        (changeId, rebaseInput) -> getChangeApi(changeId).current().rebase(rebaseInput));
   }
 
   @Test
   public void rebaseChangeOnBehalfOfUploader_withSubmitPermission() throws Exception {
     testRebaseChangeOnBehalfOfUploader(
-        Permission.SUBMIT,
-        (changeId, rebaseInput) -> gApi.changes().id(changeId.get()).rebase(rebaseInput));
+        Permission.SUBMIT, (changeId, rebaseInput) -> getChangeApi(changeId).rebase(rebaseInput));
   }
 
   @Test
   public void rebaseCurrentPatchSetOnBehalfOfUploader_withSubmitPermission() throws Exception {
     testRebaseChangeOnBehalfOfUploader(
         Permission.SUBMIT,
-        (changeId, rebaseInput) -> gApi.changes().id(changeId.get()).current().rebase(rebaseInput));
+        (changeId, rebaseInput) -> getChangeApi(changeId).current().rebase(rebaseInput));
   }
 
   private void testRebaseChangeOnBehalfOfUploader(String permissionToAllow, RebaseCall rebaseCall)
@@ -294,8 +283,8 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
 
     // Approve and submit the change that will be the new base for the change that will be rebased.
     requestScopeOperations.setApiUser(approver);
-    gApi.changes().id(changeToBeTheNewBase.get()).current().review(ReviewInput.approve());
-    gApi.changes().id(changeToBeTheNewBase.get()).current().submit();
+    getChangeApi(changeToBeTheNewBase).current().review(ReviewInput.approve());
+    getChangeApi(changeToBeTheNewBase).current().submit();
 
     // Rebase the second change on behalf of the uploader
     requestScopeOperations.setApiUser(rebaser);
@@ -313,7 +302,7 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
           .isEqualTo(rebaser.get());
     }
 
-    ChangeInfo changeInfo2 = gApi.changes().id(changeToBeRebased.get()).get();
+    ChangeInfo changeInfo2 = getChangeApi(changeToBeRebased).get();
     RevisionInfo currentRevisionInfo = changeInfo2.getCurrentRevision();
     // The change had 2 patch sets before the rebase, now it should be 3
     assertThat(currentRevisionInfo._number).isEqualTo(3);
@@ -362,8 +351,8 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
         changeOperations.newChange().project(project).owner(uploader).create();
 
     // Approve and submit the change that will be the new base for the change that will be rebased.
-    gApi.changes().id(changeToBeTheNewBase.get()).current().review(ReviewInput.approve());
-    gApi.changes().id(changeToBeTheNewBase.get()).current().submit();
+    getChangeApi(changeToBeTheNewBase).current().review(ReviewInput.approve());
+    getChangeApi(changeToBeTheNewBase).current().submit();
 
     // Change preferred email for the uploader
     String uploaderEmailTwo = "uploader2@example.com";
@@ -372,15 +361,8 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     // Rebase the second change on behalf of the uploader
     RebaseInput rebaseInput = new RebaseInput();
     rebaseInput.onBehalfOfUploader = true;
-    gApi.changes().id(changeToBeRebased.get()).rebase(rebaseInput);
-    assertThat(
-            gApi.changes()
-                .id(changeToBeRebased.get())
-                .get()
-                .getCurrentRevision()
-                .commit
-                .committer
-                .email)
+    getChangeApi(changeToBeRebased).rebase(rebaseInput);
+    assertThat(getChangeApi(changeToBeRebased).get().getCurrentRevision().commit.committer.email)
         .isEqualTo(uploaderEmailOne);
   }
 
@@ -402,16 +384,16 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
 
     // Approve and submit the change that will be the new base for the change that will be rebased.
     requestScopeOperations.setApiUser(approver);
-    gApi.changes().id(changeToBeTheNewBase.get()).current().review(ReviewInput.approve());
-    gApi.changes().id(changeToBeTheNewBase.get()).current().submit();
+    getChangeApi(changeToBeTheNewBase).current().review(ReviewInput.approve());
+    getChangeApi(changeToBeTheNewBase).current().submit();
 
     // Rebase the second change on behalf of the uploader
     requestScopeOperations.setApiUser(rebaser);
     RebaseInput rebaseInput = new RebaseInput();
     rebaseInput.onBehalfOfUploader = true;
-    gApi.changes().id(changeToBeRebased.get()).rebase(rebaseInput);
+    getChangeApi(changeToBeRebased).rebase(rebaseInput);
 
-    ChangeInfo changeInfo2 = gApi.changes().id(changeToBeRebased.get()).get();
+    ChangeInfo changeInfo2 = getChangeApi(changeToBeRebased).get();
     RevisionInfo currentRevisionInfo = changeInfo2.getCurrentRevision();
     // The change had 1 patch set before the rebase, now it should be 2
     assertThat(currentRevisionInfo._number).isEqualTo(2);
@@ -423,14 +405,14 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(approver);
     Change.Id changeToBeTheNewBase2 =
         changeOperations.newChange().project(project).owner(uploader).create();
-    gApi.changes().id(changeToBeTheNewBase2.get()).current().review(ReviewInput.approve());
-    gApi.changes().id(changeToBeTheNewBase2.get()).current().submit();
+    getChangeApi(changeToBeTheNewBase2).current().review(ReviewInput.approve());
+    getChangeApi(changeToBeTheNewBase2).current().submit();
 
     // Rebase the change once again on behalf of the uploader.
     requestScopeOperations.setApiUser(rebaser);
-    gApi.changes().id(changeToBeRebased.get()).rebase(rebaseInput);
+    getChangeApi(changeToBeRebased).rebase(rebaseInput);
 
-    changeInfo2 = gApi.changes().id(changeToBeRebased.get()).get();
+    changeInfo2 = getChangeApi(changeToBeRebased).get();
     currentRevisionInfo = changeInfo2.getCurrentRevision();
     // The change had 2 patch sets before the rebase, now it should be 3
     assertThat(currentRevisionInfo._number).isEqualTo(3);
@@ -442,15 +424,15 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(approver);
     Change.Id changeToBeTheNewBase3 =
         changeOperations.newChange().project(project).owner(uploader).create();
-    gApi.changes().id(changeToBeTheNewBase3.get()).current().review(ReviewInput.approve());
-    gApi.changes().id(changeToBeTheNewBase3.get()).current().submit();
+    getChangeApi(changeToBeTheNewBase3).current().review(ReviewInput.approve());
+    getChangeApi(changeToBeTheNewBase3).current().submit();
 
     // Rebase the change once again on behalf of the uploader, this time by another rebaser.
     Account.Id rebaser2 = accountOperations.newAccount().create();
     requestScopeOperations.setApiUser(rebaser2);
-    gApi.changes().id(changeToBeRebased.get()).rebase(rebaseInput);
+    getChangeApi(changeToBeRebased).rebase(rebaseInput);
 
-    changeInfo2 = gApi.changes().id(changeToBeRebased.get()).get();
+    changeInfo2 = getChangeApi(changeToBeRebased).get();
     currentRevisionInfo = changeInfo2.getCurrentRevision();
     // The change had 3 patch sets before the rebase, now it should be 4
     assertThat(currentRevisionInfo._number).isEqualTo(4);
@@ -472,8 +454,7 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     RebaseInput rebaseInput = new RebaseInput();
     rebaseInput.onBehalfOfUploader = true;
     AuthException exception =
-        assertThrows(
-            AuthException.class, () -> gApi.changes().id(changeId.get()).rebase(rebaseInput));
+        assertThrows(AuthException.class, () -> getChangeApi(changeId).rebase(rebaseInput));
     assertThat(exception)
         .hasMessageThat()
         .isEqualTo(
@@ -519,8 +500,8 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
 
     // Approve and submit the change that will be the new base for the change that will be rebased.
     requestScopeOperations.setApiUser(approver);
-    gApi.changes().id(changeToBeTheNewBase.get()).current().review(ReviewInput.approve());
-    gApi.changes().id(changeToBeTheNewBase.get()).current().submit();
+    getChangeApi(changeToBeTheNewBase).current().review(ReviewInput.approve());
+    getChangeApi(changeToBeTheNewBase).current().submit();
 
     // Block the required permission for uploader. Without this permission it should not be possible
     // to rebase the change on behalf of the uploader.
@@ -535,7 +516,7 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     ResourceConflictException exception =
         assertThrows(
             ResourceConflictException.class,
-            () -> gApi.changes().id(changeToBeRebased.get()).rebase(rebaseInput));
+            () -> getChangeApi(changeToBeRebased).rebase(rebaseInput));
     assertThat(exception)
         .hasMessageThat()
         .isEqualTo(String.format("change %s: %s", changeToBeRebased, expectedErrorMessage));
@@ -559,17 +540,16 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
 
     // Approve and submit the change that will be the new base for the change that will be rebased.
     requestScopeOperations.setApiUser(approver);
-    gApi.changes().id(changeToBeTheNewBase.get()).current().review(ReviewInput.approve());
-    gApi.changes().id(changeToBeTheNewBase.get()).current().submit();
+    getChangeApi(changeToBeTheNewBase).current().review(ReviewInput.approve());
+    getChangeApi(changeToBeTheNewBase).current().submit();
 
     // Rebase the second change as uploader on behalf of the uploader
     requestScopeOperations.setApiUser(uploader);
     RebaseInput rebaseInput = new RebaseInput();
     rebaseInput.onBehalfOfUploader = true;
-    gApi.changes().id(changeToBeRebased.get()).rebase(rebaseInput);
+    getChangeApi(changeToBeRebased).rebase(rebaseInput);
 
-    RevisionInfo currentRevisionInfo =
-        gApi.changes().id(changeToBeRebased.get()).get().getCurrentRevision();
+    RevisionInfo currentRevisionInfo = getChangeApi(changeToBeRebased).get().getCurrentRevision();
     // The change had 1 patch set before the rebase, now it should be 2
     assertThat(currentRevisionInfo._number).isEqualTo(2);
     assertThat(currentRevisionInfo.uploader._accountId).isEqualTo(uploader.get());
@@ -594,8 +574,8 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
 
     // Approve and submit the change that will be the new base for the change that will be rebased.
     requestScopeOperations.setApiUser(approver);
-    gApi.changes().id(changeToBeTheNewBase.get()).current().review(ReviewInput.approve());
-    gApi.changes().id(changeToBeTheNewBase.get()).current().submit();
+    getChangeApi(changeToBeTheNewBase).current().review(ReviewInput.approve());
+    getChangeApi(changeToBeTheNewBase).current().submit();
 
     // Block push for uploader. For rebase on behalf of the uploader only
     // the rebaser needs to have this permission, but not the uploader on whom's behalf the rebase
@@ -610,8 +590,7 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     rebaseInput.onBehalfOfUploader = true;
     AuthException exception =
         assertThrows(
-            AuthException.class,
-            () -> gApi.changes().id(changeToBeRebased.get()).rebase(rebaseInput));
+            AuthException.class, () -> getChangeApi(changeToBeRebased).rebase(rebaseInput));
     assertThat(exception)
         .hasMessageThat()
         .isEqualTo(
@@ -651,8 +630,8 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
 
     // Approve and submit the change that will be the new base for the change that will be rebased.
     requestScopeOperations.setApiUser(approver);
-    gApi.changes().id(changeToBeTheNewBase.get()).current().review(ReviewInput.approve());
-    gApi.changes().id(changeToBeTheNewBase.get()).current().submit();
+    getChangeApi(changeToBeTheNewBase).current().review(ReviewInput.approve());
+    getChangeApi(changeToBeTheNewBase).current().submit();
 
     // Grant add patch set permission for uploader. Without the add patch set permission it is not
     // possible to rebase the change on behalf of the uploader since the uploader cannot add a
@@ -665,10 +644,9 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(rebaser);
     RebaseInput rebaseInput = new RebaseInput();
     rebaseInput.onBehalfOfUploader = true;
-    gApi.changes().id(changeToBeRebased.get()).rebase(rebaseInput);
+    getChangeApi(changeToBeRebased).rebase(rebaseInput);
 
-    RevisionInfo currentRevisionInfo =
-        gApi.changes().id(changeToBeRebased.get()).get().getCurrentRevision();
+    RevisionInfo currentRevisionInfo = getChangeApi(changeToBeRebased).get().getCurrentRevision();
     // The change had 2 patch set before the rebase, now it should be 3
     assertThat(currentRevisionInfo._number).isEqualTo(3);
     assertThat(currentRevisionInfo.uploader._accountId).isEqualTo(uploader.get());
@@ -709,8 +687,8 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
 
     // Approve and submit the change that will be the new base for the change that will be rebased.
     requestScopeOperations.setApiUser(approver);
-    gApi.changes().id(changeToBeTheNewBase.get()).current().review(ReviewInput.approve());
-    gApi.changes().id(changeToBeTheNewBase.get()).current().submit();
+    getChangeApi(changeToBeTheNewBase).current().review(ReviewInput.approve());
+    getChangeApi(changeToBeTheNewBase).current().submit();
 
     // Block add patch set permission for uploader. Without the add patch set permission it should
     // not possible to rebase the change on behalf of the uploader since the uploader cannot add a
@@ -726,7 +704,7 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     ResourceConflictException exception =
         assertThrows(
             ResourceConflictException.class,
-            () -> gApi.changes().id(changeToBeRebased.get()).rebase(rebaseInput));
+            () -> getChangeApi(changeToBeRebased).rebase(rebaseInput));
     assertThat(exception)
         .hasMessageThat()
         .isEqualTo(
@@ -755,8 +733,8 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
 
     // Approve and submit the change that will be the new base for the change that will be rebased.
     requestScopeOperations.setApiUser(approver);
-    gApi.changes().id(changeToBeTheNewBase.get()).current().review(ReviewInput.approve());
-    gApi.changes().id(changeToBeTheNewBase.get()).current().submit();
+    getChangeApi(changeToBeTheNewBase).current().review(ReviewInput.approve());
+    getChangeApi(changeToBeTheNewBase).current().submit();
 
     // Grant forge author permission for uploader. Without the forge author permission it is not
     // possible to rebase the change on behalf of the uploader.
@@ -768,10 +746,9 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(rebaser);
     RebaseInput rebaseInput = new RebaseInput();
     rebaseInput.onBehalfOfUploader = true;
-    gApi.changes().id(changeToBeRebased.get()).rebase(rebaseInput);
+    getChangeApi(changeToBeRebased).rebase(rebaseInput);
 
-    RevisionInfo currentRevisionInfo =
-        gApi.changes().id(changeToBeRebased.get()).get().getCurrentRevision();
+    RevisionInfo currentRevisionInfo = getChangeApi(changeToBeRebased).get().getCurrentRevision();
     // The change had 1 patch set before the rebase, now it should be 2
     assertThat(currentRevisionInfo._number).isEqualTo(2);
     assertThat(currentRevisionInfo.commit.author.email).isEqualTo(authorEmail);
@@ -801,8 +778,8 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
 
     // Approve and submit the change that will be the new base for the change that will be rebased.
     requestScopeOperations.setApiUser(approver);
-    gApi.changes().id(changeToBeTheNewBase.get()).current().review(ReviewInput.approve());
-    gApi.changes().id(changeToBeTheNewBase.get()).current().submit();
+    getChangeApi(changeToBeTheNewBase).current().review(ReviewInput.approve());
+    getChangeApi(changeToBeTheNewBase).current().submit();
 
     // Block forge author permission for uploader. Without the forge author permission it should not
     // be possible to rebase the change on behalf of the uploader.
@@ -817,7 +794,7 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     ResourceConflictException exception =
         assertThrows(
             ResourceConflictException.class,
-            () -> gApi.changes().id(changeToBeRebased.get()).rebase(rebaseInput));
+            () -> getChangeApi(changeToBeRebased).rebase(rebaseInput));
     assertThat(exception)
         .hasMessageThat()
         .isEqualTo(
@@ -849,17 +826,16 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
 
     // Approve and submit the change that will be the new base for the change that will be rebased.
     requestScopeOperations.setApiUser(approver);
-    gApi.changes().id(changeToBeTheNewBase.get()).current().review(ReviewInput.approve());
-    gApi.changes().id(changeToBeTheNewBase.get()).current().submit();
+    getChangeApi(changeToBeTheNewBase).current().review(ReviewInput.approve());
+    getChangeApi(changeToBeTheNewBase).current().submit();
 
     // Rebase the second change on behalf of the uploader
     requestScopeOperations.setApiUser(rebaser);
     RebaseInput rebaseInput = new RebaseInput();
     rebaseInput.onBehalfOfUploader = true;
-    gApi.changes().id(changeToBeRebased.get()).rebase(rebaseInput);
+    getChangeApi(changeToBeRebased).rebase(rebaseInput);
 
-    RevisionInfo currentRevisionInfo =
-        gApi.changes().id(changeToBeRebased.get()).get().getCurrentRevision();
+    RevisionInfo currentRevisionInfo = getChangeApi(changeToBeRebased).get().getCurrentRevision();
     // The change had 1 patch set before the rebase, now it should be 2
     assertThat(currentRevisionInfo._number).isEqualTo(2);
     assertThat(currentRevisionInfo.commit.committer.email).isEqualTo(uploaderEmail);
@@ -891,8 +867,8 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
 
     // Approve and submit the change that will be the new base for the change that will be rebased.
     requestScopeOperations.setApiUser(approver);
-    gApi.changes().id(changeToBeTheNewBase.get()).current().review(ReviewInput.approve());
-    gApi.changes().id(changeToBeTheNewBase.get()).current().submit();
+    getChangeApi(changeToBeTheNewBase).current().review(ReviewInput.approve());
+    getChangeApi(changeToBeTheNewBase).current().submit();
 
     // Grant forge author and forge server permission for uploader. Without these permissions it is
     // not possible to rebase the change on behalf of the uploader.
@@ -909,10 +885,9 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(rebaser);
     RebaseInput rebaseInput = new RebaseInput();
     rebaseInput.onBehalfOfUploader = true;
-    gApi.changes().id(changeToBeRebased.get()).rebase(rebaseInput);
+    getChangeApi(changeToBeRebased).rebase(rebaseInput);
 
-    RevisionInfo currentRevisionInfo =
-        gApi.changes().id(changeToBeRebased.get()).get().getCurrentRevision();
+    RevisionInfo currentRevisionInfo = getChangeApi(changeToBeRebased).get().getCurrentRevision();
     // The change had 1 patch set before the rebase, now it should be 2
     assertThat(currentRevisionInfo._number).isEqualTo(2);
     assertThat(currentRevisionInfo.commit.author.email)
@@ -947,8 +922,8 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
 
     // Approve and submit the change that will be the new base for the change that will be rebased.
     requestScopeOperations.setApiUser(approver);
-    gApi.changes().id(changeToBeTheNewBase.get()).current().review(ReviewInput.approve());
-    gApi.changes().id(changeToBeTheNewBase.get()).current().submit();
+    getChangeApi(changeToBeTheNewBase).current().review(ReviewInput.approve());
+    getChangeApi(changeToBeTheNewBase).current().submit();
 
     // Grant forge author permission for uploader, but not the forge server permission. Without the
     // forge server permission it is not possible to rebase the change on behalf of the uploader.
@@ -963,7 +938,7 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     ResourceConflictException exception =
         assertThrows(
             ResourceConflictException.class,
-            () -> gApi.changes().id(changeToBeRebased.get()).rebase(rebaseInput));
+            () -> getChangeApi(changeToBeRebased).rebase(rebaseInput));
     assertThat(exception)
         .hasMessageThat()
         .isEqualTo(
@@ -1005,12 +980,11 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
 
     // Approve and submit the change that will be the new base for the change that will be rebased.
     requestScopeOperations.setApiUser(approver);
-    gApi.changes().id(changeToBeTheNewBase.get()).current().review(ReviewInput.approve());
-    gApi.changes().id(changeToBeTheNewBase.get()).current().submit();
+    getChangeApi(changeToBeTheNewBase).current().review(ReviewInput.approve());
+    getChangeApi(changeToBeTheNewBase).current().submit();
 
     requestScopeOperations.setApiUser(rebaser);
-    RevisionInfo revisionInfo =
-        gApi.changes().id(changeToBeRebased.get()).get().getCurrentRevision();
+    RevisionInfo revisionInfo = getChangeApi(changeToBeRebased).get().getCurrentRevision();
     assertThat(revisionInfo.actions).containsKey("rebase");
     ActionInfo rebaseActionInfo = revisionInfo.actions.get("rebase");
     assertThat(rebaseActionInfo.enabled).isTrue();
@@ -1034,12 +1008,11 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
 
     // Approve and submit the change that will be the new base for the change that will be rebased.
     requestScopeOperations.setApiUser(approver);
-    gApi.changes().id(changeToBeTheNewBase.get()).current().review(ReviewInput.approve());
-    gApi.changes().id(changeToBeTheNewBase.get()).current().submit();
+    getChangeApi(changeToBeTheNewBase).current().review(ReviewInput.approve());
+    getChangeApi(changeToBeTheNewBase).current().submit();
 
     requestScopeOperations.setApiUser(changeOwner);
-    RevisionInfo revisionInfo =
-        gApi.changes().id(changeToBeRebased.get()).get().getCurrentRevision();
+    RevisionInfo revisionInfo = getChangeApi(changeToBeRebased).get().getCurrentRevision();
     assertThat(revisionInfo.actions).containsKey("rebase");
     ActionInfo rebaseActionInfo = revisionInfo.actions.get("rebase");
     assertThat(rebaseActionInfo.enabled).isTrue();
@@ -1069,8 +1042,8 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
 
     // Approve and submit the change that will be the new base for the change that will be rebased.
     requestScopeOperations.setApiUser(approver);
-    gApi.changes().id(changeToBeTheNewBase.get()).current().review(ReviewInput.approve());
-    gApi.changes().id(changeToBeTheNewBase.get()).current().submit();
+    getChangeApi(changeToBeTheNewBase).current().review(ReviewInput.approve());
+    getChangeApi(changeToBeTheNewBase).current().submit();
 
     try (Repository repo = repoManager.openRepository(project)) {
       String changeMetaRef = RefNames.changeMetaRef(changeToBeRebased);
@@ -1082,7 +1055,7 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
       requestScopeOperations.setApiUser(rebaser);
       RebaseInput rebaseInput = new RebaseInput();
       rebaseInput.onBehalfOfUploader = true;
-      gApi.changes().id(changeToBeRebased.get()).rebase(rebaseInput);
+      getChangeApi(changeToBeRebased).rebase(rebaseInput);
 
       // The ref log for the patch set ref records the impersonated user aka the uploader.
       ReflogEntry patchSetRefLogEntry = repo.getReflogReader(patchSetRef).getLastEntry();
@@ -1127,38 +1100,38 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
 
     // Approve and submit the change that will be the new base for the change that will be rebased.
     requestScopeOperations.setApiUser(approver);
-    gApi.changes().id(changeToBeTheNewBase.get()).current().review(ReviewInput.approve());
-    gApi.changes().id(changeToBeTheNewBase.get()).current().submit();
+    getChangeApi(changeToBeTheNewBase).current().review(ReviewInput.approve());
+    getChangeApi(changeToBeTheNewBase).current().submit();
 
     // Rebase it on behalf of the uploader
     requestScopeOperations.setApiUser(rebaser);
     RebaseInput rebaseInput = new RebaseInput();
     rebaseInput.onBehalfOfUploader = true;
-    gApi.changes().id(changeToBeRebased.get()).rebase(rebaseInput);
+    getChangeApi(changeToBeRebased).rebase(rebaseInput);
 
     // Approve the change as the rebaser.
     allowVotingOnCodeReviewToAllUsers();
-    gApi.changes().id(changeToBeRebased.get()).current().review(ReviewInput.approve());
+    getChangeApi(changeToBeRebased).current().review(ReviewInput.approve());
 
     // The change is submittable because the approval is from a user (the rebaser) that is not the
     // uploader.
-    assertThat(gApi.changes().id(changeToBeRebased.get()).get().submittable).isTrue();
+    assertThat(getChangeApi(changeToBeRebased).get().submittable).isTrue();
 
     // Create and submit another change so that we can rebase the change once again.
     requestScopeOperations.setApiUser(approver);
     Change.Id changeToBeTheNewBase2 =
         changeOperations.newChange().project(project).owner(uploader).create();
-    gApi.changes().id(changeToBeTheNewBase2.get()).current().review(ReviewInput.approve());
-    gApi.changes().id(changeToBeTheNewBase2.get()).current().submit();
+    getChangeApi(changeToBeTheNewBase2).current().review(ReviewInput.approve());
+    getChangeApi(changeToBeTheNewBase2).current().submit();
 
     // Doing a normal rebase (not on behalf of the uploader) makes the rebaser the uploader. This
     // makse the change non-submittable since the approval of the rebaser is ignored now (due to
     // using 'user=non_uploader' in the submit requirement expression).
     requestScopeOperations.setApiUser(rebaser);
     rebaseInput.onBehalfOfUploader = false;
-    gApi.changes().id(changeToBeRebased.get()).rebase(rebaseInput);
-    gApi.changes().id(changeToBeRebased.get()).current().review(ReviewInput.approve());
-    assertThat(gApi.changes().id(changeToBeRebased.get()).get().submittable).isFalse();
+    getChangeApi(changeToBeRebased).rebase(rebaseInput);
+    getChangeApi(changeToBeRebased).current().review(ReviewInput.approve());
+    assertThat(getChangeApi(changeToBeRebased).get().submittable).isFalse();
   }
 
   @Test
@@ -1208,23 +1181,21 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
 
     // Approve and submit the change that will be the new base for the change that will be rebased.
     requestScopeOperations.setApiUser(approver);
-    gApi.changes()
-        .id(changeToBeTheNewBase.get())
+    getChangeApi(changeToBeTheNewBase)
         .current()
         .review(ReviewInput.approve().label(TestLabels.verified().getName(), 1));
     testMetricMaker.reset();
-    gApi.changes().id(changeToBeTheNewBase.get()).current().submit();
+    getChangeApi(changeToBeTheNewBase).current().submit();
     assertThat(testMetricMaker.getCount("change/submitted_with_rebaser_approval")).isEqualTo(0);
 
     // Rebase it on behalf of the uploader
     requestScopeOperations.setApiUser(rebaser);
     RebaseInput rebaseInput = new RebaseInput();
     rebaseInput.onBehalfOfUploader = true;
-    gApi.changes().id(changeToBeRebased.get()).rebase(rebaseInput);
+    getChangeApi(changeToBeRebased).rebase(rebaseInput);
 
     // Approve the change as the rebaser.
-    gApi.changes()
-        .id(changeToBeRebased.get())
+    getChangeApi(changeToBeRebased)
         .current()
         .review(ReviewInput.approve().label(TestLabels.verified().getName(), 1));
 
@@ -1232,7 +1203,7 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     // uploader.
     allowPermissionToAllUsers(Permission.SUBMIT);
     testMetricMaker.reset();
-    gApi.changes().id(changeToBeRebased.get()).current().submit();
+    getChangeApi(changeToBeRebased).current().submit();
     assertThat(testMetricMaker.getCount("change/submitted_with_rebaser_approval")).isEqualTo(1);
   }
 
@@ -1284,35 +1255,33 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
 
     // Approve and submit the change that will be the new base for the change that will be rebased.
     requestScopeOperations.setApiUser(approver);
-    gApi.changes()
-        .id(changeToBeTheNewBase.get())
+    getChangeApi(changeToBeTheNewBase)
         .current()
         .review(ReviewInput.approve().label(TestLabels.verified().getName(), 1));
     testMetricMaker.reset();
-    gApi.changes().id(changeToBeTheNewBase.get()).current().submit();
+    getChangeApi(changeToBeTheNewBase).current().submit();
     assertThat(testMetricMaker.getCount("change/submitted_with_rebaser_approval")).isEqualTo(0);
 
     // Rebase it on behalf of the uploader
     requestScopeOperations.setApiUser(rebaser);
     RebaseInput rebaseInput = new RebaseInput();
     rebaseInput.onBehalfOfUploader = true;
-    gApi.changes().id(changeToBeRebased.get()).rebase(rebaseInput);
+    getChangeApi(changeToBeRebased).rebase(rebaseInput);
 
     // Approve the change as the rebaser.
-    gApi.changes()
-        .id(changeToBeRebased.get())
+    getChangeApi(changeToBeRebased)
         .current()
         .review(ReviewInput.approve().label(TestLabels.verified().getName(), 1));
 
     // Approve the change as another user.
     requestScopeOperations.setApiUser(approver);
-    gApi.changes().id(changeToBeRebased.get()).current().review(ReviewInput.approve());
+    getChangeApi(changeToBeRebased).current().review(ReviewInput.approve());
 
     // Due to the second approval the change would also be submittable if the approval of the
     // rebaser would be ignored due to the rebaser being the uploader.
     allowPermissionToAllUsers(Permission.SUBMIT);
     testMetricMaker.reset();
-    gApi.changes().id(changeToBeRebased.get()).current().submit();
+    getChangeApi(changeToBeRebased).current().submit();
     assertThat(testMetricMaker.getCount("change/submitted_with_rebaser_approval")).isEqualTo(0);
   }
 
@@ -1333,15 +1302,15 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
 
     // Approve and submit the change that will be the new base for the change that will be rebased.
     requestScopeOperations.setApiUser(approver);
-    gApi.changes().id(changeToBeTheNewBase.get()).current().review(ReviewInput.approve());
-    gApi.changes().id(changeToBeTheNewBase.get()).current().submit();
+    getChangeApi(changeToBeTheNewBase).current().review(ReviewInput.approve());
+    getChangeApi(changeToBeTheNewBase).current().submit();
 
     // Rebase it on behalf of the uploader
     testMetricMaker.reset();
     requestScopeOperations.setApiUser(rebaser);
     RebaseInput rebaseInput = new RebaseInput();
     rebaseInput.onBehalfOfUploader = true;
-    gApi.changes().id(changeToBeRebased.get()).rebase(rebaseInput);
+    getChangeApi(changeToBeRebased).rebase(rebaseInput);
     // field1 is on_behalf_of_uploader, field2 is rebase_chain, field3 is allow_conflicts
     assertThat(testMetricMaker.getCount("change/count_rebases", true, false, false)).isEqualTo(1);
     assertThat(testMetricMaker.getCount("change/count_rebases", false, false, false)).isEqualTo(0);
@@ -1352,15 +1321,15 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(approver);
     Change.Id changeToBeTheNewBase2 =
         changeOperations.newChange().project(project).owner(uploader).create();
-    gApi.changes().id(changeToBeTheNewBase2.get()).current().review(ReviewInput.approve());
-    gApi.changes().id(changeToBeTheNewBase2.get()).current().submit();
+    getChangeApi(changeToBeTheNewBase2).current().review(ReviewInput.approve());
+    getChangeApi(changeToBeTheNewBase2).current().submit();
 
     // Rebase the change once again, this time as the uploader.
     // If the uploader sets on_behalf_of_uploader = true, the flag is ignored and a normal rebase is
     // done, hence the metric should count this as a a rebase with on_behalf_of_uploader = false.
     requestScopeOperations.setApiUser(uploader);
     testMetricMaker.reset();
-    gApi.changes().id(changeToBeRebased.get()).rebase(rebaseInput);
+    getChangeApi(changeToBeRebased).rebase(rebaseInput);
     // field1 is on_behalf_of_uploader, field2 is rebase_chain, field3 is allow_conflicts
     assertThat(testMetricMaker.getCount("change/count_rebases", false, false, false)).isEqualTo(1);
     assertThat(testMetricMaker.getCount("change/count_rebases", true, false, false)).isEqualTo(0);
@@ -1429,7 +1398,7 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
 
   @FunctionalInterface
   private interface RebaseCall {
-    void call(Change.Id changeId, RebaseInput rebaseInput) throws RestApiException;
+    void call(Change.Id changeId, RebaseInput rebaseInput) throws Exception;
   }
 
   private static class TestRevisionCreatedListener implements RevisionCreatedListener {

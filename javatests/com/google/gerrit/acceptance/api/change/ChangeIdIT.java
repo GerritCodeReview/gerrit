@@ -97,13 +97,14 @@ public class ChangeIdIT extends AbstractDaemonTest {
 
   @Test
   public void changeNumberReturnsChange() throws Exception {
-    ChangeApi cApi = gApi.changes().id(changeInfo._number);
+    ChangeApi cApi = getChangeApi(changeInfo);
     assertThat(cApi.get().changeId).isEqualTo(changeInfo.changeId);
   }
 
   @Test
   public void wrongChangeNumberReturnsNotFound() throws Exception {
-    assertThrows(ResourceNotFoundException.class, () -> gApi.changes().id(Integer.MAX_VALUE));
+    assertThrows(
+        ResourceNotFoundException.class, () -> gApi.changes().id(project.get(), Integer.MAX_VALUE));
   }
 
   @Test

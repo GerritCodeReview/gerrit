@@ -19,7 +19,7 @@ import {when} from 'lit/directives/when.js';
 import {GrSyntaxLayerWorker} from '../../../embed/diff/gr-syntax-layer/gr-syntax-layer-worker';
 import {resolve} from '../../../models/dependency';
 import {highlightServiceToken} from '../../../services/highlight/highlight-service';
-import {FixReplacementInfo, NumericChangeId} from '../../../api/rest-api';
+import {FixSuggestionInfo, NumericChangeId} from '../../../api/rest-api';
 import {changeModelToken} from '../../../models/change/change-model';
 import {subscribe} from '../../lit/subscription-controller';
 import {FilePreview} from '../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog';
@@ -45,9 +45,11 @@ export interface OpenUserSuggestionPreviewEventDetail {
 
 /**
  * Diff preview for
- * 1. suggestion vs commented Text
- * or 2. fixReplacementInfos
- * that are attached to a comment.
+ * 1. code block suggestion vs commented Text
+ * or 2. fixSuggestionInfo that are attached to a comment.
+ *
+ * It shouldn't be created with both 1. and 2. but if it is
+ * it shows just for 1. (code block suggestion)
  */
 @customElement('gr-suggestion-diff-preview')
 export class GrSuggestionDiffPreview extends LitElement {
@@ -55,7 +57,7 @@ export class GrSuggestionDiffPreview extends LitElement {
   suggestion?: string;
 
   @property({type: Object})
-  fixReplacementInfos?: FixReplacementInfo[];
+  fixSuggestionInfo?: FixSuggestionInfo;
 
   @property({type: Boolean})
   showAddSuggestionButton = false;
@@ -73,7 +75,7 @@ export class GrSuggestionDiffPreview extends LitElement {
   layers: DiffLayer[] = [];
 
   @state()
-  previewLoadedFor?: string | FixReplacementInfo[];
+  previewLoadedFor?: string | FixSuggestionInfo;
 
   @state() repo?: RepoName;
 
@@ -178,14 +180,14 @@ export class GrSuggestionDiffPreview extends LitElement {
     }
 
     if (changed.has('changeNum') || changed.has('comment')) {
-      if (this.previewLoadedFor !== this.fixReplacementInfos) {
-        this.fetchFixReplacementInfosPreview();
+      if (this.previewLoadedFor !== this.fixSuggestionInfo) {
+        this.fetchfixSuggestionInfoPreview();
       }
     }
   }
 
   override render() {
-    if (!this.suggestion && !this.fixReplacementInfos) return nothing;
+    if (!this.suggestion && !this.fixSuggestionInfo) return nothing;
     const code = this.suggestion;
     return html`
       ${when(
@@ -259,29 +261,20 @@ export class GrSuggestionDiffPreview extends LitElement {
     return res;
   }
 
-  private async fetchFixReplacementInfosPreview() {
+  private async fetchfixSuggestionInfoPreview() {
     if (
       this.suggestion ||
       !this.changeNum ||
       !this.comment?.patch_set ||
-      !this.fixReplacementInfos
+      !this.fixSuggestionInfo
     )
       return;
-
-    // TODO (milutin): This is a temporary fix for the broken path issue.
-    // Our experimental plugin currently returns only the file extension.
-    const replacements = this.fixReplacementInfos.map(fixInfo => {
-      return {
-        ...fixInfo,
-        path: this.comment?.path ?? fixInfo.path,
-      };
-    });
 
     this.reporting.time(Timing.PREVIEW_FIX_LOAD);
     const res = await this.restApiService.getFixPreview(
       this.changeNum,
       this.comment?.patch_set,
-      replacements
+      this.fixSuggestionInfo.replacements
     );
 
     if (!res) return;
@@ -293,43 +286,58 @@ export class GrSuggestionDiffPreview extends LitElement {
     });
     if (currentPreviews.length > 0) {
       this.preview = currentPreviews[0];
-      this.previewLoadedFor = this.fixReplacementInfos;
+      this.previewLoadedFor = this.fixSuggestionInfo;
     }
 
     return res;
   }
 
   /**
-   * Applies a fix previewed in `suggestion-diff-preview`,
-   * navigating to the new change URL with the EDIT patchset.
+   * Applies a fix (fix_suggestion in comment) previewed in
+   * `suggestion-diff-preview`, navigating to the new change URL with the EDIT
+   * patchset.
+   *
+   * Similar code flow is in gr-apply-fix-dialog.handleApplyFix
+   * Used in gr-fix-suggestions
+   */
+  public applyFixSuggestion() {
+    if (this.suggestion || !this.fixSuggestionInfo) return;
+    this.applyFix(this.fixSuggestionInfo);
+  }
+
+  /**
+   * Applies a fix (codeblock in comment message) previewed in
+   * `suggestion-diff-preview`, navigating to the new change URL with the EDIT
+   * patchset.
    *
    * Similar code flow is in gr-apply-fix-dialog.handleApplyFix
    * Used in gr-user-suggestion-fix
    */
-  public async applyFix() {
-    if (
-      !this.changeNum ||
-      !this.comment?.patch_set ||
-      !this.suggestion ||
-      !this.commentedText
-    )
-      return;
-    const changeNum = this.changeNum;
-    const basePatchNum = this.comment?.patch_set as BasePatchSetNum;
+  public applyUserSuggestedFix() {
+    if (!this.comment || !this.suggestion || !this.commentedText) return;
+
     const fixSuggestions = createUserFixSuggestion(
       this.comment,
       this.commentedText,
       this.suggestion
     );
+    this.applyFix(fixSuggestions[0]);
+  }
+
+  private async applyFix(fixSuggestion: FixSuggestionInfo) {
+    const changeNum = this.changeNum;
+    const basePatchNum = this.comment?.patch_set as BasePatchSetNum;
+    if (!changeNum || !basePatchNum || !fixSuggestion) return;
+
     this.reporting.time(Timing.APPLY_FIX_LOAD);
     const res = await this.restApiService.applyFixSuggestion(
-      this.changeNum,
-      this.comment?.patch_set,
-      fixSuggestions[0].replacements
+      changeNum,
+      basePatchNum,
+      fixSuggestion.replacements
     );
     this.reporting.timeEnd(Timing.APPLY_FIX_LOAD, {
       method: '1-click',
-      description: fixSuggestions?.[0].description,
+      description: fixSuggestion.description,
     });
     if (res?.ok) {
       this.getNavigation().setUrl(

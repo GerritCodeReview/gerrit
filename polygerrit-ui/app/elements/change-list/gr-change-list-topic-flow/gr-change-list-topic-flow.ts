@@ -370,7 +370,15 @@ export class GrChangeListTopicFlow extends LitElement {
           change =>
             change.topic && this.selectedExistingTopics.has(change.topic)
         )
-        .map(change => this.restApiService.setChangeTopic(change._number, '')),
+        .map(
+          change =>
+            // With throwing callback guaranteed to be non-null.
+            this.restApiService.setChangeTopic(
+              change._number,
+              '',
+              throwingErrorCallback
+            ) as Promise<string>
+        ),
       `${this.selectedChanges[0].topic} removed from changes`,
       'Failed to remove topic'
     );
@@ -384,8 +392,14 @@ export class GrChangeListTopicFlow extends LitElement {
     this.loadingText = 'Applying to all';
     const topic = Array.from(this.selectedExistingTopics.values())[0];
     this.trackPromises(
-      this.selectedChanges.map(change =>
-        this.restApiService.setChangeTopic(change._number, topic)
+      this.selectedChanges.map(
+        change =>
+          // With throwing callback guaranteed to be non-null.
+          this.restApiService.setChangeTopic(
+            change._number,
+            topic,
+            throwingErrorCallback
+          ) as Promise<string>
       ),
       `${topic} applied to all changes`,
       'Failed to apply topic'
@@ -403,8 +417,14 @@ export class GrChangeListTopicFlow extends LitElement {
     )} added to ${this.topicToAdd}`;
     this.loadingText = loadingText;
     this.trackPromises(
-      this.selectedChanges.map(change =>
-        this.restApiService.setChangeTopic(change._number, this.topicToAdd)
+      this.selectedChanges.map(
+        change =>
+          // With throwing callback guaranteed to be non-null.
+          this.restApiService.setChangeTopic(
+            change._number,
+            this.topicToAdd,
+            throwingErrorCallback
+          ) as Promise<string>
       ),
       alert,
       'Failed to set topic'

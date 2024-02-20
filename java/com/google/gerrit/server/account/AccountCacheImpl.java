@@ -16,6 +16,7 @@ package com.google.gerrit.server.account;
 
 import static com.google.gerrit.server.account.AccountCacheImpl.AccountCacheModule.ACCOUNT_CACHE_MODULE;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
+import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -37,6 +38,7 @@ import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.util.time.TimeUtil;
+import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
@@ -51,8 +53,17 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 
-/** Caches important (but small) account state to avoid database hits. */
-@Singleton
+/**
+ * Caches important (but small) account state to avoid database hits.
+ *
+ * <p>This class should be bounded as a Singleton. However, due to internal limitations in Google,
+ * it cannot be marked as a singleton. The common installation pattern should therefore be:
+ *
+ * <pre>{@code
+ * install(AccountCacheImpl.module());
+ * install(AccountCacheImpl.bindingModule());
+ * }</pre>
+ */
 public class AccountCacheImpl implements AccountCache {
   @ModuleImpl(name = ACCOUNT_CACHE_MODULE)
   public static class AccountCacheModule extends CacheModule {
@@ -70,12 +81,24 @@ public class AccountCacheImpl implements AccountCache {
     }
   }
 
+  public static class AccountCacheBindingModule extends AbstractModule {
+    @Override
+    protected void configure() {
+      bind(AccountCacheImpl.class).in(SINGLETON);
+      bind(AccountCache.class).to(AccountCacheImpl.class).in(SINGLETON);
+    }
+  }
+
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final String BYID_AND_REV_NAME = "accounts";
 
   public static Module module() {
     return new AccountCacheModule();
+  }
+
+  public static Module bindingModule() {
+    return new AccountCacheBindingModule();
   }
 
   private final ExternalIds externalIds;

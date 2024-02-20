@@ -535,10 +535,10 @@ export const grRestApiMock: RestApiService = {
   setAccountUsername(): Promise<void> {
     return Promise.resolve();
   },
-  setChangeHashtag(): Promise<Hashtag[]> {
+  setChangeHashtag(): Promise<Hashtag[] | undefined> {
     return Promise.resolve([]);
   },
-  setChangeTopic(): Promise<string> {
+  setChangeTopic(): Promise<string | undefined> {
     return Promise.resolve('');
   },
   setDescription(): Promise<Response> {

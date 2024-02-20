@@ -2973,7 +2973,11 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     });
   }
 
-  setChangeTopic(changeNum: NumericChangeId, topic?: string): Promise<string> {
+  setChangeTopic(
+    changeNum: NumericChangeId,
+    topic?: string,
+    errFn?: ErrorCallback
+  ): Promise<string | undefined> {
     return this._getChangeURLAndSend({
       changeNum,
       method: HttpMethod.PUT,
@@ -2981,13 +2985,15 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       body: {topic},
       parseResponse: true,
       reportUrlAsIs: true,
-    }) as unknown as Promise<string>;
+      errFn,
+    }) as unknown as Promise<string | undefined>;
   }
 
   setChangeHashtag(
     changeNum: NumericChangeId,
-    hashtag: HashtagsInput
-  ): Promise<Hashtag[]> {
+    hashtag: HashtagsInput,
+    errFn?: ErrorCallback
+  ): Promise<Hashtag[] | undefined> {
     return this._getChangeURLAndSend({
       changeNum,
       method: HttpMethod.POST,
@@ -2995,7 +3001,8 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       body: hashtag,
       parseResponse: true,
       reportUrlAsIs: true,
-    }) as unknown as Promise<Hashtag[]>;
+      errFn,
+    }) as unknown as Promise<Hashtag[] | undefined>;
   }
 
   deleteAccountHttpPassword() {

@@ -252,6 +252,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "15a98ad9_f4f2cac7",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesOnlineMigrator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-02-20T12:58:25Z",
+      "side": 1,
+      "message": "With the current implementation we don\u0027t know what is migrated, we get the already migrated output from `ChangeNotesParser` that migrates the notes.\n\nCurrently we assume that the account IDs are migrated, but this may change in the future.",
+      "parentUuid": "3e01ec39_3e4f8a29",
+      "range": {
+        "startLine": 95,
+        "startChar": 19,
+        "endLine": 95,
+        "endChar": 45
+      },
+      "revId": "78f266c75381c4902094cf8e1369835a7232d58a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "64efd221_4fbdac3c",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
         "patchSetId": 2
@@ -292,6 +316,29 @@
         "startChar": 10,
         "endLine": 209,
         "endChar": 17
+      },
+      "revId": "78f266c75381c4902094cf8e1369835a7232d58a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d53ec414_f562604d",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-02-20T12:58:25Z",
+      "side": 1,
+      "message": "using server identifier can be potentially problematic for two reasons:\n* server identifier can be changed\n* when migrating to another instance the server identifier will definitely be different\n\nWhen the server identity will not match, it will result in a parse error.\n\nInstead, we can use a commit footer, something like `Data-Migration-Commit`, WDYT?",
+      "range": {
+        "startLine": 472,
+        "startChar": 8,
+        "endLine": 472,
+        "endChar": 49
       },
       "revId": "78f266c75381c4902094cf8e1369835a7232d58a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

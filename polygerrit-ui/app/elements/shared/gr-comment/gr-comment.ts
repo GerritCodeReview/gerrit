@@ -85,6 +85,7 @@ import {getDocUrl} from '../../../utils/url-util';
 import {configModelToken} from '../../../models/config/config-model';
 import {getFileExtension} from '../../../utils/file-util';
 import {storageServiceToken} from '../../../services/storage/gr-storage_impl';
+import {deepEqual} from '../../../utils/deep-util';
 
 // visible for testing
 export const AUTO_SAVE_DEBOUNCE_DELAY_MS = 2000;
@@ -223,7 +224,8 @@ export class GrComment extends LitElement {
   generatedSuggestion?: Suggestion;
 
   @state()
-  generatedFixSuggestion?: FixSuggestionInfo;
+  generatedFixSuggestion: FixSuggestionInfo | undefined =
+    this.comment?.fix_suggestions?.[0];
 
   @state()
   generatedSuggestionId?: string;
@@ -1647,7 +1649,7 @@ export class GrComment extends LitElement {
       isError(this.comment) ||
       this.messageText.trimEnd() !== this.comment?.message ||
       this.unresolved !== this.comment.unresolved ||
-      this.comment?.fix_suggestions !== this.getFixSuggestions()
+      !deepEqual(this.comment?.fix_suggestions, this.getFixSuggestions())
     );
   }
 

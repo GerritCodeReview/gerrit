@@ -327,7 +327,10 @@ export class GrSuggestionDiffPreview extends LitElement {
       this.comment?.patch_set,
       fixSuggestions[0].replacements
     );
-    this.reporting.timeEnd(Timing.APPLY_FIX_LOAD);
+    this.reporting.timeEnd(Timing.APPLY_FIX_LOAD, {
+      method: '1-click',
+      description: fixSuggestions?.[0].description,
+    });
     if (res?.ok) {
       this.getNavigation().setUrl(
         createChangeUrl({

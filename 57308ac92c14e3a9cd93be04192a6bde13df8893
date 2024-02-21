@@ -1,12 +1,9 @@
 {
   "checks": {
     "gerritforge-bb:bb-a6a0e4682515f3521897c5f950d1394f4619d928": {
-      "state": "FAILED",
-      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-chrome-latest/690/console",
-      "started": "2024-02-20T15:40:26Z",
-      "finished": "2024-02-20T18:46:19Z",
+      "state": "NOT_STARTED",
       "created": "2024-02-20T15:40:26Z",
-      "updated": "2024-02-20T18:46:19Z"
+      "updated": "2024-02-21T08:13:02Z"
     },
     "gerritforge:codestyle-a6a0e4682515f3521897c5f950d1394f4619d928": {
       "state": "SUCCESSFUL",

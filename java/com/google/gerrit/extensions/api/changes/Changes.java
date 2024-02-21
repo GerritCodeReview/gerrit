@@ -31,14 +31,10 @@ public interface Changes {
   /**
    * Look up a change by numeric ID.
    *
-   * <p><strong>Note:</strong> This method eagerly reads the change. Methods that mutate the change
-   * do not necessarily re-read the change. Therefore, calling a getter method on an instance after
-   * calling a mutation method on that same instance is not guaranteed to reflect the mutation. It
-   * is not recommended to store references to {@code ChangeApi} instances. Also note that the
-   * change numeric id without a project name parameter may fail to identify a unique change
-   * element, because the potential conflict with other changes imported from Gerrit instances with
-   * a different Server-Id.
+   * <p><strong>Note:</strong> Change number is not guaranteed to unambiguously identify a change.
    *
+   * @see #id(String, int)
+   * @deprecated in favor of {@link #id(String, int)}
    * @param id change number.
    * @return API for accessing the change.
    * @throws RestApiException if an error occurred.
@@ -49,7 +45,7 @@ public interface Changes {
   /**
    * Look up a change by string ID.
    *
-   * @see #id(int)
+   * @see #id(String, int)
    * @param id any identifier supported by the REST API, including change number, Change-Id, or
    *     project~branch~Change-Id triplet.
    * @return API for accessing the change.
@@ -60,16 +56,23 @@ public interface Changes {
   /**
    * Look up a change by project, branch, and change ID.
    *
-   * @see #id(int)
+   * @see #id(String, int)
    */
   ChangeApi id(String project, String branch, String id) throws RestApiException;
 
   /**
    * Look up a change by project and numeric ID.
    *
+   * <p><strong>Note:</strong> This method eagerly reads the change. Methods that mutate the change
+   * do not necessarily re-read the change. Therefore, calling a getter method on an instance after
+   * calling a mutation method on that same instance is not guaranteed to reflect the mutation. It
+   * is not recommended to store references to {@code ChangeApi} instances. Also note that the
+   * change numeric id without a project name parameter may fail to identify a unique change
+   * element, because the potential conflict with other changes imported from Gerrit instances with
+   * a different Server-Id.
+   *
    * @param project project name.
    * @param id change number.
-   * @see #id(int)
    */
   ChangeApi id(String project, int id) throws RestApiException;
 

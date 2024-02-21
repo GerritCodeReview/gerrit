@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "495d71f6_10504ed6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-21T16:55:49Z",
+      "side": 1,
+      "message": "This isn\u0027t relevant here: the problem happens with or without imported changes.",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 35
+      },
+      "revId": "34c3c45771968c8d9513a091107b1eda77e6ce5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5679510_6c1c210a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-21T16:55:49Z",
+      "side": 1,
+      "message": "Why is this required? The id of a change is documented at [1] and can also include the project name.\n\n[1] https://gerrit-documentation.storage.googleapis.com/Documentation/3.9.1/rest-api-changes.html#change-id",
+      "range": {
+        "startLine": 14,
+        "startChar": 7,
+        "endLine": 14,
+        "endChar": 35
+      },
+      "revId": "34c3c45771968c8d9513a091107b1eda77e6ce5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4d8c03d_0741c4e5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-21T16:55:49Z",
+      "side": 1,
+      "message": "This doesn\u0027t look right for multiple reasons:\n1. We add functionality to a stable (almost EOL) branch\n2. There is no need to add an extra parameter, as the syntax already supports the project name\n3. We introduce a new method, whilst the change finder already returns what we need and parses the change id as requested.",
+      "revId": "34c3c45771968c8d9513a091107b1eda77e6ce5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -76,6 +76,7 @@ public class CustomLabelIT extends AbstractDaemonTest {
         .update();
   }
 
+  @SuppressWarnings("deprecation")
   @Test
   public void customLabelNoOp_NegativeVoteNotBlock() throws Exception {
     saveLabelConfig(LABEL.toBuilder().setFunction(NO_OP));
@@ -91,6 +92,7 @@ public class CustomLabelIT extends AbstractDaemonTest {
     assertThat(q.blocking).isNull();
   }
 
+  @SuppressWarnings("deprecation")
   @Test
   public void customLabelNoBlock_NegativeVoteNotBlock() throws Exception {
     saveLabelConfig(LABEL.toBuilder().setFunction(NO_BLOCK));
@@ -106,6 +108,7 @@ public class CustomLabelIT extends AbstractDaemonTest {
     assertThat(q.blocking).isNull();
   }
 
+  @SuppressWarnings("deprecation")
   @Test
   public void customLabelMaxNoBlock_NegativeVoteNotBlock() throws Exception {
     saveLabelConfig(LABEL.toBuilder().setFunction(MAX_NO_BLOCK));
@@ -121,6 +124,7 @@ public class CustomLabelIT extends AbstractDaemonTest {
     assertThat(q.blocking).isNull();
   }
 
+  @SuppressWarnings("deprecation")
   @Test
   public void customLabelMaxNoBlock_MaxVoteSubmittable() throws Exception {
     saveLabelConfig(LABEL.toBuilder().setFunction(MAX_NO_BLOCK), P.toBuilder().setFunction(NO_OP));
@@ -139,6 +143,7 @@ public class CustomLabelIT extends AbstractDaemonTest {
     assertThat(q.blocking).isNull();
   }
 
+  @SuppressWarnings("deprecation")
   @Test
   public void customLabelAnyWithBlock_NegativeVoteBlock() throws Exception {
     saveLabelConfig(LABEL.toBuilder().setFunction(ANY_WITH_BLOCK));
@@ -163,6 +168,7 @@ public class CustomLabelIT extends AbstractDaemonTest {
     }
   }
 
+  @SuppressWarnings("deprecation")
   @Test
   public void customLabelAnyWithBlock_Addreviewer_ZeroVote() throws Exception {
     TestListener testListener = new TestListener();
@@ -190,6 +196,7 @@ public class CustomLabelIT extends AbstractDaemonTest {
     }
   }
 
+  @SuppressWarnings("deprecation")
   @Test
   public void customLabelMaxWithBlock_NegativeVoteBlock() throws Exception {
     saveLabelConfig(LABEL.toBuilder().setFunction(MAX_WITH_BLOCK));
@@ -205,6 +212,7 @@ public class CustomLabelIT extends AbstractDaemonTest {
     assertThat(q.blocking).isTrue();
   }
 
+  @SuppressWarnings("deprecation")
   @Test
   public void customLabelMaxWithBlock_DeletedVoteDoesNotTriggerNegativeBlock() throws Exception {
     saveLabelConfig(P.toBuilder().setFunction(MAX_WITH_BLOCK));
@@ -227,6 +235,7 @@ public class CustomLabelIT extends AbstractDaemonTest {
     assertThat(labelInfo.blocking).isNull(); // label is not blocking the change submission
   }
 
+  @SuppressWarnings("deprecation")
   @Test
   public void customLabelMaxWithBlock_MaxVoteSubmittable() throws Exception {
     saveLabelConfig(
@@ -246,6 +255,7 @@ public class CustomLabelIT extends AbstractDaemonTest {
     assertThat(q.blocking).isNull();
   }
 
+  @SuppressWarnings("deprecation")
   @Test
   public void customLabelMaxWithBlock_MaxVoteNegativeVoteBlock() throws Exception {
     saveLabelConfig(LABEL.toBuilder().setFunction(MAX_WITH_BLOCK));
@@ -262,6 +272,7 @@ public class CustomLabelIT extends AbstractDaemonTest {
     assertThat(q.blocking).isTrue();
   }
 
+  @SuppressWarnings("deprecation")
   @Test
   public void customLabel_DisallowPostSubmit() throws Exception {
     saveLabelConfig(

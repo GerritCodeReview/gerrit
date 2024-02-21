@@ -115,6 +115,7 @@ public class SetLabel implements RestModifyView<LabelResource, LabelDefinitionIn
    * @throws BadRequestException if there was invalid data in the input
    * @throws ResourceConflictException if the update cannot be applied due to a conflict
    */
+  @SuppressWarnings("deprecation")
   public boolean updateLabel(ProjectConfig config, LabelType labelType, LabelDefinitionInput input)
       throws BadRequestException, ResourceConflictException {
     boolean dirty = false;

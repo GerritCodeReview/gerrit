@@ -24,6 +24,7 @@ import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.util.Comparator.comparing;
 import static java.util.Objects.requireNonNull;
 
+import autovalue.shaded.com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
@@ -48,6 +49,7 @@ import com.google.gerrit.extensions.api.changes.ReviewerInput;
 import com.google.gerrit.extensions.api.changes.ReviewerResult;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.AnonymousUser;
@@ -219,10 +221,13 @@ public class ReviewerModifier {
    */
   public ReviewerModification prepare(
       ChangeNotes notes, CurrentUser user, ReviewerInput input, boolean allowGroup)
-      throws IOException, PermissionBackendException, ConfigInvalidException {
+      throws IOException, PermissionBackendException, ConfigInvalidException, BadRequestException {
     try (TraceContext.TraceTimer ignored =
         TraceContext.newTimer(getClass().getSimpleName() + "#prepare", Metadata.empty())) {
-      requireNonNull(input.reviewer);
+      if (Strings.isNullOrEmpty(input.reviewer)) {
+        throw new BadRequestException("reviewer is required");
+      }
+
       boolean confirmed = input.confirmed();
       boolean allowByEmail =
           projectCache
@@ -616,7 +621,7 @@ public class ReviewerModifier {
       CurrentUser user,
       Iterable<? extends ReviewerInput> inputs,
       boolean allowGroup)
-      throws IOException, PermissionBackendException, ConfigInvalidException {
+      throws IOException, PermissionBackendException, ConfigInvalidException, BadRequestException {
     // Process CC ops before reviewer ops, so a user that appears in both lists ends up as a
     // reviewer; the last call to ChangeUpdate#putReviewer wins. This can happen if the caller
     // specifies the same string twice, or less obviously if they specify multiple groups with

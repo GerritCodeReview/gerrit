@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34d1be29_f0b282bd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 982,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-21T09:35:47Z",
+      "side": 1,
+      "message": "Doesn\u0027t \"createDraft\" populate a bunch of fields already?\n\nYou\u0027re not inspecting the values of the field you override, do you need to set them?",
+      "range": {
+        "startLine": 975,
+        "startChar": 8,
+        "endLine": 982,
+        "endChar": 31
+      },
+      "revId": "d9e99758ebe47e5a054ae9b9710bde69ec27fdd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

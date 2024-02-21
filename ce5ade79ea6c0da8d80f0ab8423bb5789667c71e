@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "793bd45e_3b53ec6c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-21T13:42:53Z",
+      "side": 1,
+      "message": "I am not sure I understand what is being said.\n\nWhat structure are you referring to. I see you\u0027ve created gr-fix-suggestions, do you mean that the structure of the file corresponds to the gr-user-suggestion-fix?\n\nCan you add more information about gr-fix-suggestion to the commit message (and/or class description). What is it for? How is it different from the preview that we already had in gerrit?",
+      "range": {
+        "startLine": 9,
+        "startChar": 131,
+        "endLine": 9,
+        "endChar": 217
+      },
+      "revId": "ce5ade79ea6c0da8d80f0ab8423bb5789667c71e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0de858b4_4920a5fc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-21T13:42:53Z",
+      "side": 1,
+      "message": "all handleShowFix does is throws another event. Can we throw that event directly instead of having an intermediate event created by gr-fix-suggestion?\n\nAdditionally it seems that the showFix button is sometimes implemented right in gr-comment (robot comments) and sometimes in child classes (this change), can we add a TODO to clean/unify this?",
+      "range": {
+        "startLine": 337,
+        "startChar": 11,
+        "endLine": 337,
+        "endChar": 24
+      },
+      "revId": "ce5ade79ea6c0da8d80f0ab8423bb5789667c71e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34c4eac7_ac85705b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1006,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-21T13:42:53Z",
+      "side": 1,
+      "message": "Why do we exclude robot comment, isn\u0027t the preview for robot comments the same? Is it defined somewhere else?",
+      "range": {
+        "startLine": 1006,
+        "startChar": 58,
+        "endLine": 1006,
+        "endChar": 79
+      },
+      "revId": "ce5ade79ea6c0da8d80f0ab8423bb5789667c71e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75db3913_261c4ab1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1473,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-21T13:42:53Z",
+      "side": 1,
+      "message": "This method is grown pretty large and I am having hard time understanding it by reading.\n\n1) Can this if and the previous one be combined, ie. make description based on isRobot and the rest is reused\n2) Can we add comments about what this method does. It has logic for several things at once UserSuggestions, Robot and ML(?) suggestions. I think it\u0027s complex enough to warrant a clarifying docstring",
+      "range": {
+        "startLine": 1468,
+        "startChar": 8,
+        "endLine": 1473,
+        "endChar": 11
+      },
+      "revId": "ce5ade79ea6c0da8d80f0ab8423bb5789667c71e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5baaed28_7d42bb63",
+        "filename": "polygerrit-ui/app/elements/shared/gr-fix-suggestions/gr-fix-suggestions.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-21T13:42:53Z",
+      "side": 1,
+      "message": "gr-fix-suggestion is always the child of the gr-comment. Do we need to fetch the comment from the model or can we simplify and have it be a parameter passed from gr-comment?",
+      "range": {
+        "startLine": 67,
+        "startChar": 4,
+        "endLine": 71,
+        "endChar": 6
+      },
+      "revId": "ce5ade79ea6c0da8d80f0ab8423bb5789667c71e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54f9085a_cf023cbc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-suggestion-diff-preview/gr-suggestion-diff-preview.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-21T13:42:53Z",
+      "side": 1,
+      "message": "Outside of \n\n```\nconst fixSuggestions \u003d createUserFixSuggestion(\n```\n\nThis method is the copy of the previous one. Can we unify? ie. Have a method with most of the logic that takes fixReplacementInfo as argument",
+      "range": {
+        "startLine": 342,
+        "startChar": 2,
+        "endLine": 342,
+        "endChar": 38
+      },
+      "revId": "ce5ade79ea6c0da8d80f0ab8423bb5789667c71e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -432,7 +432,10 @@ export class GrApplyFixDialog extends LitElement {
       this.close(true);
     }
     this.isApplyFixLoading = false;
-    this.reporting.timeEnd(Timing.APPLY_FIX_LOAD);
+    this.reporting.timeEnd(Timing.APPLY_FIX_LOAD, {
+      method: 'apply-fix-dialog',
+      description: this.fixSuggestions?.[0].description,
+    });
   }
 }
 

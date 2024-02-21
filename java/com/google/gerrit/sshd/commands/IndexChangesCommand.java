@@ -19,6 +19,7 @@ import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.restapi.change.Index;
 import com.google.gerrit.sshd.ChangeArgumentParser;
 import com.google.gerrit.sshd.CommandMetaData;
@@ -27,12 +28,16 @@ import com.google.inject.Inject;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import org.kohsuke.args4j.Argument;
+import org.kohsuke.args4j.Option;
 
 @CommandMetaData(name = "changes", description = "Index changes")
 final class IndexChangesCommand extends SshCommand {
   @Inject private Index index;
 
   @Inject private ChangeArgumentParser changeArgumentParser;
+
+  @Option(name = "--project", aliases = "-p", usage = "project containing the change")
+  private ProjectState projectState;
 
   @Argument(
       index = 0,
@@ -42,7 +47,7 @@ final class IndexChangesCommand extends SshCommand {
       usage = "changes to index")
   void addChange(String token) {
     try {
-      changeArgumentParser.addChange(token, changes, null, false);
+      changeArgumentParser.addChange(token, changes, projectState, false);
     } catch (UnloggedFailure | StorageException | PermissionBackendException e) {
       writeError("warning", e.getMessage());
     }

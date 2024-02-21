@@ -31,7 +31,6 @@ import com.google.gerrit.server.restapi.change.ChangesCollection;
 import com.google.gerrit.sshd.BaseCommand.UnloggedFailure;
 import com.google.inject.Inject;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -70,7 +69,7 @@ public class ChangeArgumentParser {
       @Nullable ProjectState projectState,
       boolean useIndex)
       throws UnloggedFailure, PermissionBackendException {
-    List<ChangeNotes> matched = useIndex ? changeFinder.find(id) : changeFromNotesFactory(id);
+    List<ChangeNotes> matched = getMatchedChangeNotes(id, projectState, useIndex);
     List<ChangeNotes> toAdd = new ArrayList<>(changes.size());
     boolean canMaintainServer;
     try {
@@ -115,13 +114,26 @@ public class ChangeArgumentParser {
     changes.put(cId, changeResource);
   }
 
-  private List<ChangeNotes> changeFromNotesFactory(String id) throws UnloggedFailure {
-    return changeNotesFactory.createUsingIndexLookup(parseId(id));
+  private List<ChangeNotes> getMatchedChangeNotes(
+      String id, @Nullable ProjectState projectState, boolean useIndex) throws UnloggedFailure {
+    if (projectState != null) {
+      return List.of(changeNotesFactory.createChecked(projectState.getNameKey(), parseId(id)));
+    }
+
+    if (useIndex) {
+      return changeFinder.find(id);
+    }
+
+    return changeFromNotesFactory(id);
   }
 
-  private List<Change.Id> parseId(String id) throws UnloggedFailure {
+  private List<ChangeNotes> changeFromNotesFactory(String id) throws UnloggedFailure {
+    return changeNotesFactory.createUsingIndexLookup(List.of(parseId(id)));
+  }
+
+  private Change.Id parseId(String id) throws UnloggedFailure {
     try {
-      return Arrays.asList(Change.id(Integer.parseInt(id)));
+      return Change.id(Integer.parseInt(id));
     } catch (NumberFormatException e) {
       throw new UnloggedFailure(2, "Invalid change ID " + id, e);
     }

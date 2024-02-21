@@ -18,7 +18,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.ChangeFinder;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -30,27 +30,27 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.restapi.change.ChangesCollection;
 import com.google.gerrit.sshd.BaseCommand.UnloggedFailure;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 public class ChangeArgumentParser {
   private final ChangesCollection changesCollection;
   private final ChangeFinder changeFinder;
-  private final ChangeNotes.Factory changeNotesFactory;
   private final PermissionBackend permissionBackend;
+  private final Provider<CurrentUser> currentUserProvider;
 
   @Inject
   ChangeArgumentParser(
       ChangesCollection changesCollection,
       ChangeFinder changeFinder,
-      ChangeNotes.Factory changeNotesFactory,
-      PermissionBackend permissionBackend) {
+      PermissionBackend permissionBackend,
+      Provider<CurrentUser> currentUserProvider) {
     this.changesCollection = changesCollection;
     this.changeFinder = changeFinder;
-    this.changeNotesFactory = changeNotesFactory;
     this.permissionBackend = permissionBackend;
+    this.currentUserProvider = currentUserProvider;
   }
 
   public void addChange(String id, Map<Change.Id, ChangeResource> changes)
@@ -68,9 +68,22 @@ public class ChangeArgumentParser {
       String id,
       Map<Change.Id, ChangeResource> changes,
       @Nullable ProjectState projectState,
-      boolean useIndex)
+      @SuppressWarnings(
+              "unused") /* Issue 325821304: the useIndex parameter was introduced back in Gerrit
+                         * v2.13
+                         * when ReviewDb was around and the changeFinder was purely relying on
+                         * Lucene.
+                         * Fast-forward to v3.7 and the situation is exactly the opposite:
+                         * changeFinder uses Lucene or NoteDb depending on the format of the
+                         * change id.
+                         * TODO: The useIndex is effectively useless right now, but the method
+                         * signature needs to be preserved in a stable (almost EOL) release
+                         * like v3.7.
+                         * The method signature can be amended the parameter removed once this
+                         * change is merged to master. */
+          boolean useIndex)
       throws UnloggedFailure, PermissionBackendException {
-    List<ChangeNotes> matched = useIndex ? changeFinder.find(id) : changeFromNotesFactory(id);
+    List<ChangeNotes> matched = changeFinder.find(id);
     List<ChangeNotes> toAdd = new ArrayList<>(changes.size());
     boolean canMaintainServer;
     try {
@@ -105,26 +118,10 @@ public class ChangeArgumentParser {
     } else if (toAdd.size() > 1) {
       throw new UnloggedFailure(1, "\"" + id + "\" matches multiple changes");
     }
-    Change.Id cId = toAdd.get(0).getChangeId();
+    ChangeNotes changeNotes = toAdd.get(0);
     ChangeResource changeResource;
-    try {
-      changeResource = changesCollection.parse(cId);
-    } catch (RestApiException e) {
-      throw new UnloggedFailure(1, "\"" + id + "\" no such change", e);
-    }
-    changes.put(cId, changeResource);
-  }
-
-  private List<ChangeNotes> changeFromNotesFactory(String id) throws UnloggedFailure {
-    return changeNotesFactory.createUsingIndexLookup(parseId(id));
-  }
-
-  private List<Change.Id> parseId(String id) throws UnloggedFailure {
-    try {
-      return Arrays.asList(Change.id(Integer.parseInt(id)));
-    } catch (NumberFormatException e) {
-      throw new UnloggedFailure(2, "Invalid change ID " + id, e);
-    }
+    changeResource = changesCollection.parse(changeNotes, currentUserProvider.get());
+    changes.put(changeNotes.getChangeId(), changeResource);
   }
 
   private boolean inProject(ProjectState projectState, Project.NameKey project) {

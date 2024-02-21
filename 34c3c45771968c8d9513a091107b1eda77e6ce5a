@@ -62,6 +62,23 @@
       "message": "This doesn\u0027t look right for multiple reasons:\n1. We add functionality to a stable (almost EOL) branch\n2. There is no need to add an extra parameter, as the syntax already supports the project name\n3. We introduce a new method, whilst the change finder already returns what we need and parses the change id as requested.",
       "revId": "34c3c45771968c8d9513a091107b1eda77e6ce5a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5accb85_eeb60ab7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-21T21:01:02Z",
+      "side": 1,
+      "message": "I did a bit of _archeological research_ in Gerrit v2.13 where the SSH command for indexing a change was introduced and discovered that the issue has:\n- nothing to do with the SSH index changes command\n- shared with other SSH commands\n\nIt\u0027s a change id parsing issue, therefore this is the wrong fix in the wrong place. It should be done at change id parsing level.",
+      "revId": "34c3c45771968c8d9513a091107b1eda77e6ce5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

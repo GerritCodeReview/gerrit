@@ -1816,7 +1816,8 @@ public abstract class AbstractDaemonTest {
     configLabel(project, label, func, ImmutableList.of(), value);
   }
 
-  private void configLabel(
+  @SuppressWarnings("deprecation")
+private void configLabel(
       Project.NameKey project,
       String label,
       LabelFunction func,

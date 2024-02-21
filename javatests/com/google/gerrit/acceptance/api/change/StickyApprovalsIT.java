@@ -1230,7 +1230,8 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
         .contains("Code-Review+1 by User");
   }
 
-  @Test
+  @SuppressWarnings("deprecation")
+@Test
   public void sticky_copiedToLatestPatchSetFromSubmitRecords() throws Exception {
     updateVerifiedLabel(b -> b.setFunction(LabelFunction.NO_BLOCK));
 

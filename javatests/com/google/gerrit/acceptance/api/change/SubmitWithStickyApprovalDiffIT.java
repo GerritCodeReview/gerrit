@@ -589,7 +589,8 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
         .contains("2 is the latest approved patch-set.");
   }
 
-  @Test
+  @SuppressWarnings("deprecation")
+@Test
   public void overriddenSubmitRequirementMissingCodeReviewVote_submitsWithoutDiff()
       throws Exception {
     // Set Code-Review to optional

@@ -40,7 +40,8 @@ public class SubmitRequirementsAdapterTest {
 
   @Before
   public void setup() {
-    LabelType codeReview =
+    @SuppressWarnings("deprecation")
+	LabelType codeReview =
         LabelType.builder(
                 "Code-Review",
                 ImmutableList.of(
@@ -50,7 +51,8 @@ public class SubmitRequirementsAdapterTest {
             .setFunction(LabelFunction.MAX_WITH_BLOCK)
             .build();
 
-    LabelType verified =
+    @SuppressWarnings("deprecation")
+	LabelType verified =
         LabelType.builder(
                 "Verified",
                 ImmutableList.of(
@@ -60,7 +62,8 @@ public class SubmitRequirementsAdapterTest {
             .setFunction(LabelFunction.MAX_NO_BLOCK)
             .build();
 
-    LabelType codeStyle =
+    @SuppressWarnings("deprecation")
+	LabelType codeStyle =
         LabelType.builder(
                 "Code-Style",
                 ImmutableList.of(
@@ -70,7 +73,8 @@ public class SubmitRequirementsAdapterTest {
             .setFunction(LabelFunction.ANY_WITH_BLOCK)
             .build();
 
-    LabelType ignoreSelfApprovalLabel =
+    @SuppressWarnings("deprecation")
+	LabelType ignoreSelfApprovalLabel =
         LabelType.builder(
                 "ISA-Label",
                 ImmutableList.of(

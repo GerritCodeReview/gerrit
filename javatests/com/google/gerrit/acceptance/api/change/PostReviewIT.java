@@ -608,7 +608,8 @@ public class PostReviewIT extends AbstractDaemonTest {
     // When the NO_BLOCK function is used for a label, the "approved" is set by the
     // LabelsJson.setLabelScores method instead of LabelsJson.initLabels method.
     try (ProjectConfigUpdate u = updateProject(project)) {
-      LabelType.Builder verified =
+      @SuppressWarnings("deprecation")
+	LabelType.Builder verified =
           labelBuilder(
                   LabelId.VERIFIED, value(1, "Passes"), value(0, "No score"), value(-1, "Failed"))
               .setFunction(LabelFunction.NO_BLOCK);

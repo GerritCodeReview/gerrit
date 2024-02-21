@@ -1597,7 +1597,8 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
 
       // Clear SRs for the project and update code-review label to be non-blocking.
       clearSubmitRequirements(project);
-      LabelType cr =
+      @SuppressWarnings("deprecation")
+	LabelType cr =
           TestLabels.codeReview().toBuilder().setFunction(LabelFunction.NO_BLOCK).build();
       try (ProjectConfigUpdate u = updateProject(project)) {
         u.getConfig().upsertLabelType(cr);
@@ -1643,7 +1644,8 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
 
       // Clear SRs for the project and update code-review label to be non-blocking.
       clearSubmitRequirements(project);
-      LabelType cr =
+      @SuppressWarnings("deprecation")
+	LabelType cr =
           TestLabels.codeReview().toBuilder().setFunction(LabelFunction.NO_BLOCK).build();
       try (ProjectConfigUpdate u = updateProject(project)) {
         u.getConfig().upsertLabelType(cr);
@@ -2857,7 +2859,8 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
             .setAllowOverrideInChildProjects(true)
             .build());
 
-    LabelType cr = TestLabels.codeReview().toBuilder().setFunction(LabelFunction.NO_BLOCK).build();
+    @SuppressWarnings("deprecation")
+	LabelType cr = TestLabels.codeReview().toBuilder().setFunction(LabelFunction.NO_BLOCK).build();
     try (ProjectConfigUpdate u = updateProject(project)) {
       u.getConfig().upsertLabelType(cr);
       u.save();

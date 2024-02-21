@@ -60,7 +60,6 @@ import com.google.gerrit.server.LibModuleLoader;
 import com.google.gerrit.server.LibModuleType;
 import com.google.gerrit.server.ModuleOverloader;
 import com.google.gerrit.server.StartupChecks.StartupChecksModule;
-import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountCacheImpl;
 import com.google.gerrit.server.account.AccountDeactivator.AccountDeactivatorModule;
 import com.google.gerrit.server.account.InternalAccountDirectory.InternalAccountDirectoryModule;
@@ -472,13 +471,7 @@ public class Daemon extends SiteProgram {
     modules.add(new MimeUtil2Module());
 
     modules.add(cfgInjector.getInstance(AccountCacheImpl.AccountCacheModule.class));
-    modules.add(
-        new AbstractModule() {
-          @Override
-          protected void configure() {
-            bind(AccountCache.class).to(AccountCacheImpl.class);
-          }
-        });
+    modules.add(cfgInjector.getInstance(AccountCacheImpl.AccountCacheBindingModule.class));
 
     modules.add(new AccountNoteDbWriteStorageModule());
     modules.add(new AccountNoteDbReadStorageModule());

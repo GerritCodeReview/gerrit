@@ -47,7 +47,6 @@ import com.google.gerrit.server.LibModuleType;
 import com.google.gerrit.server.PluginUser;
 import com.google.gerrit.server.Sequence;
 import com.google.gerrit.server.Sequence.LightweightGroups;
-import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountCacheImpl;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.storage.notedb.AccountNoteDbReadStorageModule;
@@ -202,7 +201,7 @@ public class InMemoryModule extends FactoryModule {
     bind(MetricMaker.class).to(DisabledMetricMaker.class);
 
     install(cfgInjector.getInstance(AccountCacheImpl.AccountCacheModule.class));
-    bind(AccountCache.class).to(AccountCacheImpl.class);
+    install(cfgInjector.getInstance(AccountCacheImpl.AccountCacheBindingModule.class));
 
     install(cfgInjector.getInstance(GerritGlobalModule.class));
     install(new AccountNoteDbWriteStorageModule());

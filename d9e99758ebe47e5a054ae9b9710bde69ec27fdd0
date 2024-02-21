@@ -22,6 +22,30 @@
       },
       "revId": "d9e99758ebe47e5a054ae9b9710bde69ec27fdd0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d685d2d_daf62dbe",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 982,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-02-21T09:38:25Z",
+      "side": 1,
+      "message": "I reused what was already in file. I can double check and do follow-up change with cleanup",
+      "parentUuid": "34d1be29_f0b282bd",
+      "range": {
+        "startLine": 975,
+        "startChar": 8,
+        "endLine": 982,
+        "endChar": 31
+      },
+      "revId": "d9e99758ebe47e5a054ae9b9710bde69ec27fdd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -276,6 +276,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9920d894_9d79106b",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesOnlineMigrator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-02-22T06:55:46Z",
+      "side": 1,
+      "message": "\u003e With the current implementation we don\u0027t know what is migrated (...)\n\nTrue but OTOH this class is called `ChangeNotesOnlineMigrator`, IMHO `migration` should be reflected in the commit message 😊 the other option is to get info about what was modified from the `parser` to take the informed decision, WDYT?",
+      "parentUuid": "15a98ad9_f4f2cac7",
+      "range": {
+        "startLine": 95,
+        "startChar": 19,
+        "endLine": 95,
+        "endChar": 45
+      },
+      "revId": "78f266c75381c4902094cf8e1369835a7232d58a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "64efd221_4fbdac3c",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
         "patchSetId": 2
@@ -323,6 +347,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fad9e9d7_7249aa2e",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-02-22T06:55:46Z",
+      "side": 1,
+      "message": "Yes and no 😊 the other booleans describe the change _features_ whereas `mutated` is pure technical marker that indicates if notes were modified. Having said that I will leave it up to you decide.",
+      "parentUuid": "8ad4b004_a52b5359",
+      "range": {
+        "startLine": 209,
+        "startChar": 10,
+        "endLine": 209,
+        "endChar": 17
+      },
+      "revId": "78f266c75381c4902094cf8e1369835a7232d58a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d53ec414_f562604d",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
         "patchSetId": 2
@@ -334,6 +382,30 @@
       "writtenOn": "2024-02-20T12:58:25Z",
       "side": 1,
       "message": "using server identifier can be potentially problematic for two reasons:\n* server identifier can be changed\n* when migrating to another instance the server identifier will definitely be different\n\nWhen the server identity will not match, it will result in a parse error.\n\nInstead, we can use a commit footer, something like `Data-Migration-Commit`, WDYT?",
+      "range": {
+        "startLine": 472,
+        "startChar": 8,
+        "endLine": 472,
+        "endChar": 49
+      },
+      "revId": "78f266c75381c4902094cf8e1369835a7232d58a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11fd67ef_129342bd",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-02-22T06:55:46Z",
+      "side": 1,
+      "message": "👍",
+      "parentUuid": "d53ec414_f562604d",
       "range": {
         "startLine": 472,
         "startChar": 8,

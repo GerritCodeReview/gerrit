@@ -19,13 +19,13 @@
 {template ChangeFooterHtml}
   {@param change: ?}
   {@param email: ?}
-  {if $email.changeUrl or $email.settingsUrl}
+  {if $email.changeUrl || $email.settingsUrl}
     <p>
       {if $email.changeUrl}
         To view, visit{sp}
         <a href="{$email.changeUrl}">change {$change.changeNumber}</a>.
       {/if}
-      {if $email.changeUrl and $email.settingsUrl}{sp}{/if}
+      {if $email.changeUrl && $email.settingsUrl}{sp}{/if}
       {if $email.settingsUrl}
         To unsubscribe, or for help writing mail filters,{sp}
         visit <a href="{$email.settingsUrl}">settings</a>.

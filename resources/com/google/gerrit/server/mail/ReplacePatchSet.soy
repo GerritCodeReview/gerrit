@@ -30,7 +30,7 @@
   {@param unsatisfiedSubmitRequirements: ?}
   {@param oldSubmitRequirements: ?}
   {@param newSubmitRequirements: ?}
-  {if $email.reviewerNames and $fromEmail == $change.ownerEmail}
+  {if $email.reviewerNames && $fromEmail == $change.ownerEmail}
     Hello{sp}
     {for $reviewerName in $email.reviewerNames}
       {$reviewerName},{sp}
@@ -53,7 +53,7 @@
     {/if}.
     {if $email.changeUrl} ( {$email.changeUrl} ){/if}
   {/if}{\n}
-  {if $email.outdatedApprovals and length($email.outdatedApprovals) > 0}
+  {if $email.outdatedApprovals && length($email.outdatedApprovals) > 0}
     {\n}
     The following approvals got outdated and were removed:{\n}
     {for $outdatedApproval, $index in $email.outdatedApprovals}

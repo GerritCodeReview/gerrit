@@ -44,7 +44,7 @@ import * as mailTemplate from 'com/google/gerrit/server/mail/Private.soy';
     </p>
   {/if}
 
-  {if $email.outdatedApprovals and length($email.outdatedApprovals) > 0}
+  {if $email.outdatedApprovals && length($email.outdatedApprovals) > 0}
     <p>
       The following approvals got outdated and were removed:{\n}
       {for $outdatedApproval, $index in $email.outdatedApprovals}

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c8c1085_c71b7165",
+        "filename": "tools/coverage.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1169277
+      },
+      "writtenOn": "2024-02-22T18:15:08Z",
+      "side": 1,
+      "message": "Comment #1",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 6
+      },
+      "revId": "ae385a23b2d16865e8396624f6c226624381a272",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11500693_f320625a",
+        "filename": "tools/coverage.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1169277
+      },
+      "writtenOn": "2024-02-22T18:15:08Z",
+      "side": 1,
+      "message": "Comment #2",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 6
+      },
+      "revId": "ae385a23b2d16865e8396624f6c226624381a272",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a82b3f54_03014143",
+        "filename": "tools/coverage.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1169277
+      },
+      "writtenOn": "2024-02-22T18:15:08Z",
+      "side": 1,
+      "message": "Comment #3 multi-line",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 2
+      },
+      "revId": "ae385a23b2d16865e8396624f6c226624381a272",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

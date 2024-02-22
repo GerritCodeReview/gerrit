@@ -27,7 +27,7 @@
   {@param ownerName: ?}
   {@param patchSet: ?}
   {@param projectName: ?}
-  {if $email.reviewerNames or $email.removedReviewerNames}
+  {if $email.reviewerNames || $email.removedReviewerNames}
    {if $email.reviewerNames}
       Hello{sp}
       {for $reviewerName, $index in $email.reviewerNames}

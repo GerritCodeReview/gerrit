@@ -6,6 +6,8 @@
 #
 # COVERAGE_CPUS defaults to 2, and the default destination is a temp
 # dir.
+# 2333
+# Test
 
 bazel_bin=$(which bazelisk 2>/dev/null)
 if [[ -z "$bazel_bin" ]]; then
@@ -13,11 +15,15 @@ if [[ -z "$bazel_bin" ]]; then
     bazel_bin=bazel
 fi
 
+# Test
+
 genhtml=$(which genhtml)
 if [[ -z "${genhtml}" ]]; then
     echo "Install 'genhtml' (contained in the 'lcov' package)"
     exit 1
 fi
+
+# Unsaved changes.
 
 destdir="$1"
 if [[ -z "${destdir}" ]]; then

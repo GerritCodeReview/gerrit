@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e4b4807_fb109ada",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-02-22T06:10:12Z",
+      "side": 1,
+      "message": "It simplifies the flow and AFAIU should perform better 👍",
+      "revId": "4151e6f9efd71d9239bd2b65cac17790239b454c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

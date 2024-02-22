@@ -300,6 +300,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6f507558_9d4ed66b",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesOnlineMigrator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-02-22T10:07:30Z",
+      "side": 1,
+      "message": "Sure, we can keep track of the account IDs mapping in the parser, but:\n* it will be _computed_ on every read of every change (which feels a bit too much),\n* will be used only once when (eventually) the mutations will be persisted,\n* the _parser_ feels like the wrong place for such a thing.\n\nI don\u0027t think that we should list all of the migrated account IDs in the commit message, that information can be _easily_ found in the diff. We can probably mention the overall count, but I\u0027m not sure if that information will be meaningful.",
+      "parentUuid": "9920d894_9d79106b",
+      "range": {
+        "startLine": 95,
+        "startChar": 19,
+        "endLine": 95,
+        "endChar": 45
+      },
+      "revId": "78f266c75381c4902094cf8e1369835a7232d58a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "64efd221_4fbdac3c",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
         "patchSetId": 2

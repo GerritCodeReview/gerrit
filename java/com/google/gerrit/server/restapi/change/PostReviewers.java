@@ -65,10 +65,6 @@ public class PostReviewers
   public Response<ReviewerResult> apply(ChangeResource rsrc, ReviewerInput input)
       throws IOException, RestApiException, UpdateException, PermissionBackendException,
           ConfigInvalidException {
-    if (input.reviewer == null) {
-      throw new BadRequestException("missing reviewer field");
-    }
-
     ReviewerModification modification =
         reviewerModifier.prepare(rsrc.getNotes(), rsrc.getUser(), input, true);
     if (modification.op == null) {

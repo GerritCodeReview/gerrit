@@ -59,6 +59,7 @@ import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewResult;
+import com.google.gerrit.extensions.api.changes.ReviewerInput;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.client.Side;
@@ -822,6 +823,41 @@ public class PostReviewIT extends AbstractDaemonTest {
     // * 1 batch event for adding user and user2 as reviewers
     assertThat(testReviewerAddedListener.receivedEvents).hasSize(1);
     assertThat(testReviewerAddedListener.getReviewerIds()).containsExactly(user.id(), user2.id());
+  }
+
+  @Test
+  public void rejectAddingReviewerIfReviewerUserIdentifierIsMissing() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    // Add reviewer with ReviewerInput where the 'reviewer' field is not set.
+    ReviewerInput reviewerInput = new ReviewerInput();
+    reviewerInput.state = ReviewerState.REVIEWER;
+
+    ReviewInput reviewInput = ReviewInput.create();
+    reviewInput.reviewers = ImmutableList.of(reviewerInput);
+
+    ReviewResult reviewResult = gApi.changes().id(r.getChangeId()).current().review(reviewInput);
+    assertThat(reviewResult.error).isEqualTo("error adding reviewer");
+    assertThat(reviewResult.reviewers.keySet()).containsExactly(reviewerInput.reviewer);
+    assertThat(reviewResult.reviewers.get(reviewerInput.reviewer).error)
+        .isEqualTo("reviewer user identifier is required");
+
+    // Add reviewer with ReviewerInput where the 'reviewer' field is set to an empty string.
+    reviewerInput.reviewer = "";
+    reviewResult = gApi.changes().id(r.getChangeId()).current().review(reviewInput);
+    assertThat(reviewResult.error).isEqualTo("error adding reviewer");
+    assertThat(reviewResult.reviewers.keySet()).containsExactly(reviewerInput.reviewer);
+    assertThat(reviewResult.reviewers.get(reviewerInput.reviewer).error)
+        .isEqualTo("reviewer user identifier is required");
+
+    // Add reviewer with ReviewerInput where the 'reviewer' field is set to an empty string after
+    // trimming it.
+    reviewerInput.reviewer = "   ";
+    reviewResult = gApi.changes().id(r.getChangeId()).current().review(reviewInput);
+    assertThat(reviewResult.error).isEqualTo("error adding reviewer");
+    assertThat(reviewResult.reviewers.keySet()).containsExactly(reviewerInput.reviewer);
+    assertThat(reviewResult.reviewers.get(reviewerInput.reviewer).error)
+        .isEqualTo("reviewer user identifier is required");
   }
 
   @Test

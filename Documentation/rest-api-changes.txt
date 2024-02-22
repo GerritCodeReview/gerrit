@@ -1077,8 +1077,6 @@ Response
   }
 ----
 
-----
-
 [[set-message]]
 === Set Commit Message
 --

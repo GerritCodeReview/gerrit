@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6ce61a2_9a948ceb",
+        "filename": ".bazelrc",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-02-22T15:40:12Z",
+      "side": 1,
+      "message": "Same note as the commit message\n\n```suggestion\n# This is default in Bazel 7 that is used on master since change Ie7cb3003d.\n# i.e. remove when merging into master.\n```",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 39
+      },
+      "revId": "177ae5cc770eba9903c210ce791e07da29110801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ab158ab_f664035f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-02-22T15:40:12Z",
+      "side": 1,
+      "message": "Reading this makes me think stable-3.9 uses Bazel 7, but it doesn\u0027t, it still uses 6.3.2. Maybe reword like this?\n\n```\nThis option is the default for Bazel 7 that is used on master since\nchange Ie7cb3003d, so this additional config should be removed when\nmerging to master.\n```\n\nAnd since stable-3.7 uses bazel 6.2.0, which has the `--incompatible_sandbox_hermetic_tmp` option, should we move this change there?",
+      "range": {
+        "startLine": 10,
+        "startChar": 44,
+        "endLine": 10,
+        "endChar": 54
+      },
+      "revId": "177ae5cc770eba9903c210ce791e07da29110801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a1a4582_9f4b70ed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-02-22T15:40:12Z",
+      "side": 1,
+      "message": "Need a Release-Notes footer",
+      "revId": "177ae5cc770eba9903c210ce791e07da29110801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

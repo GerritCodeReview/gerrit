@@ -97,7 +97,7 @@ suite('gr-rest-api-service-impl tests', () => {
 
   test('parent diff comments are properly grouped', async () => {
     element.setInProjectLookup(42 as NumericChangeId, TEST_PROJECT_NAME);
-    sinon.stub(element._restApiHelperNew, 'fetchJSON').resolves({
+    sinon.stub(element._restApiHelper, 'fetchJSON').resolves({
       '/COMMIT_MSG': [],
       'sieve.go': [
         {
@@ -241,47 +241,45 @@ suite('gr-rest-api-service-impl tests', () => {
 
   test('differing patch diff comments are properly grouped', async () => {
     sinon.stub(element, 'getFromProjectLookup').resolves('test' as RepoName);
-    sinon
-      .stub(element._restApiHelperNew, 'fetchJSON')
-      .callsFake(async request => {
-        const url = request.url;
-        if (url === '/changes/test~42/revisions/1/comments') {
-          return {
-            '/COMMIT_MSG': [],
-            'sieve.go': [
-              {
-                message: 'this isn’t quite right',
-                updated: '2017-02-03 22:32:28.000000000',
-              },
-              {
-                side: CommentSide.PARENT,
-                message: 'how did this work in the first place?',
-                updated: '2017-02-03 22:33:28.000000000',
-              },
-            ],
-          } as unknown as ParsedJSON;
-        } else if (url === '/changes/test~42/revisions/2/comments') {
-          return {
-            '/COMMIT_MSG': [],
-            'sieve.go': [
-              {
-                message: 'What on earth are you thinking, here?',
-                updated: '2017-02-03 22:32:28.000000000',
-              },
-              {
-                side: CommentSide.PARENT,
-                message: 'Yeah not sure how this worked either?',
-                updated: '2017-02-03 22:33:28.000000000',
-              },
-              {
-                message: '¯\\_(ツ)_/¯',
-                updated: '2017-02-04 22:33:28.000000000',
-              },
-            ],
-          } as unknown as ParsedJSON;
-        }
-        return undefined;
-      });
+    sinon.stub(element._restApiHelper, 'fetchJSON').callsFake(async request => {
+      const url = request.url;
+      if (url === '/changes/test~42/revisions/1/comments') {
+        return {
+          '/COMMIT_MSG': [],
+          'sieve.go': [
+            {
+              message: 'this isn’t quite right',
+              updated: '2017-02-03 22:32:28.000000000',
+            },
+            {
+              side: CommentSide.PARENT,
+              message: 'how did this work in the first place?',
+              updated: '2017-02-03 22:33:28.000000000',
+            },
+          ],
+        } as unknown as ParsedJSON;
+      } else if (url === '/changes/test~42/revisions/2/comments') {
+        return {
+          '/COMMIT_MSG': [],
+          'sieve.go': [
+            {
+              message: 'What on earth are you thinking, here?',
+              updated: '2017-02-03 22:32:28.000000000',
+            },
+            {
+              side: CommentSide.PARENT,
+              message: 'Yeah not sure how this worked either?',
+              updated: '2017-02-03 22:33:28.000000000',
+            },
+            {
+              message: '¯\\_(ツ)_/¯',
+              updated: '2017-02-04 22:33:28.000000000',
+            },
+          ],
+        } as unknown as ParsedJSON;
+      }
+      return undefined;
+    });
     const obj = await element._getDiffComments(
       42 as NumericChangeId,
       '/comments',
@@ -311,7 +309,7 @@ suite('gr-rest-api-service-impl tests', () => {
 
   test('legacy n,z key in change url is replaced', async () => {
     const stub = sinon
-      .stub(element._restApiHelperNew, 'fetchJSON')
+      .stub(element._restApiHelper, 'fetchJSON')
       .resolves([] as unknown as ParsedJSON);
     await element.getChanges(1, undefined, 'n,z');
     assert.equal(stub.lastCall.args[0].params!.S, 0);
@@ -319,7 +317,7 @@ suite('gr-rest-api-service-impl tests', () => {
 
   test('saveDiffPreferences invalidates cache line', () => {
     const cacheKey = '/accounts/self/preferences.diff';
-    const fetchStub = sinon.stub(element._restApiHelperNew, 'fetch');
+    const fetchStub = sinon.stub(element._restApiHelper, 'fetch');
     element._cache.set(cacheKey, {tab_size: 4} as unknown as ParsedJSON);
     element.saveDiffPreferences({
       tab_size: 8,
@@ -335,7 +333,7 @@ suite('gr-rest-api-service-impl tests', () => {
     const testChangeNumber = 341682;
     setup(() => {
       fetchStub = sinon
-        .stub(element._restApiHelperNew, 'fetch')
+        .stub(element._restApiHelper, 'fetch')
         .resolves(new Response(makePrefixedJSON(createAccountWithId())));
       element.setInProjectLookup(
         testChangeNumber as NumericChangeId,
@@ -382,7 +380,7 @@ suite('gr-rest-api-service-impl tests', () => {
 
   test('getAccountSuggestions using suggest query param', () => {
     const fetchStub = sinon
-      .stub(element._restApiHelperNew, 'fetch')
+      .stub(element._restApiHelper, 'fetch')
       .resolves(new Response());
     element.getAccountSuggestions('user');
     assert.isTrue(fetchStub.calledOnce);
@@ -397,7 +395,7 @@ suite('gr-rest-api-service-impl tests', () => {
     const account = createAccountDetailWithId();
     element._cache.set(cacheKey, account as unknown as ParsedJSON);
     const stub = sinon
-      .stub(element._restApiHelperNew, 'fetchCacheJSON')
+      .stub(element._restApiHelper, 'fetchCacheJSON')
       .callsFake(async req => {
         req.errFn!(undefined);
         return undefined;
@@ -414,7 +412,7 @@ suite('gr-rest-api-service-impl tests', () => {
     const account = createAccountDetailWithId();
     element._cache.set(cacheKey, account as unknown as ParsedJSON);
     const stub = sinon
-      .stub(element._restApiHelperNew, 'fetchCacheJSON')
+      .stub(element._restApiHelper, 'fetchCacheJSON')
       .callsFake(async req => {
         req.errFn!(new Response(undefined, {status: 403}));
         return undefined;
@@ -430,7 +428,7 @@ suite('gr-rest-api-service-impl tests', () => {
     const cacheKey = '/accounts/self/detail';
     const account = createAccountDetailWithId();
     const stub = sinon
-      .stub(element._restApiHelperNew, 'fetchCacheJSON')
+      .stub(element._restApiHelper, 'fetchCacheJSON')
       .callsFake(async () => {
         element._cache.set(cacheKey, account as unknown as ParsedJSON);
         return undefined;
@@ -450,7 +448,7 @@ suite('gr-rest-api-service-impl tests', () => {
       .stub(element, 'getLoggedIn')
       .callsFake(() => Promise.resolve(loggedIn));
     sinon
-      .stub(element._restApiHelperNew, 'fetchCacheJSON')
+      .stub(element._restApiHelper, 'fetchCacheJSON')
       .callsFake(() => Promise.resolve(testJSON as ParsedJSON));
   };
 
@@ -486,7 +484,7 @@ suite('gr-rest-api-service-impl tests', () => {
 
   test('savePreferences normalizes download scheme', () => {
     const fetchStub = sinon
-      .stub(element._restApiHelperNew, 'fetch')
+      .stub(element._restApiHelper, 'fetch')
       .resolves(new Response());
     element.savePreferences({download_scheme: 'HTTP'});
     assert.isTrue(fetchStub.called);
@@ -515,7 +513,7 @@ suite('gr-rest-api-service-impl tests', () => {
   });
 
   test('saveDiffPreferences set show_tabs to false', () => {
-    const fetchStub = sinon.stub(element._restApiHelperNew, 'fetch');
+    const fetchStub = sinon.stub(element._restApiHelper, 'fetch');
     element.saveDiffPreferences({
       show_tabs: false,
       ignore_whitespace: 'IGNORE_NONE',
@@ -551,7 +549,7 @@ suite('gr-rest-api-service-impl tests', () => {
   });
 
   test('saveEditPreferences set show_tabs to false', () => {
-    const fetchStub = sinon.stub(element._restApiHelperNew, 'fetch');
+    const fetchStub = sinon.stub(element._restApiHelper, 'fetch');
     element.saveEditPreferences({
       ...createDefaultEditPrefs(),
       show_tabs: false,
@@ -565,7 +563,7 @@ suite('gr-rest-api-service-impl tests', () => {
   });
 
   test('confirmEmail', () => {
-    const fetchStub = sinon.stub(element._restApiHelperNew, 'fetch').resolves();
+    const fetchStub = sinon.stub(element._restApiHelper, 'fetch').resolves();
     element.confirmEmail('foo');
     assert.isTrue(fetchStub.calledOnce);
     assert.equal(
@@ -586,7 +584,7 @@ suite('gr-rest-api-service-impl tests', () => {
     const email1 = 'email1@example.com';
     const email2 = 'email2@example.com';
     const encodedEmail = encodeURIComponent(email2);
-    const sendStub = sinon.stub(element._restApiHelperNew, 'fetch').resolves();
+    const sendStub = sinon.stub(element._restApiHelper, 'fetch').resolves();
     element._cache.set('/accounts/self/emails', [
       {email: email1, preferred: true},
       {email: email2, preferred: false},
@@ -610,7 +608,7 @@ suite('gr-rest-api-service-impl tests', () => {
 
   test('setAccountStatus', async () => {
     const fetchStub = sinon
-      .stub(element._restApiHelperNew, 'fetchJSON')
+      .stub(element._restApiHelper, 'fetchJSON')
       .resolves('OOO' as unknown as ParsedJSON);
     element._cache.set(
       '/accounts/self/detail',
@@ -644,7 +642,7 @@ suite('gr-rest-api-service-impl tests', () => {
         return promises[promises.length - 1];
       });
       sinon
-        .stub(element._restApiHelperNew, 'fetch')
+        .stub(element._restApiHelper, 'fetch')
         .resolves(new Response(undefined, {status: 201}));
       assert.isFalse(!!element.hasPendingDiffDrafts());
 
@@ -678,7 +676,7 @@ suite('gr-rest-api-service-impl tests', () => {
     suite('_failForCreate200', () => {
       test('_sendDiffDraftRequest checks for 200 on create', async () => {
         element.setInProjectLookup(123 as NumericChangeId, TEST_PROJECT_NAME);
-        sinon.stub(element._restApiHelperNew, 'fetch').resolves(new Response());
+        sinon.stub(element._restApiHelper, 'fetch').resolves(new Response());
         const failStub = sinon.stub(element, '_failForCreate200').resolves();
         await element._sendDiffDraftRequest(
           HttpMethod.PUT,
@@ -691,7 +689,7 @@ suite('gr-rest-api-service-impl tests', () => {
 
       test('_sendDiffDraftRequest no checks for 200 on non create', async () => {
         element.setInProjectLookup(123 as NumericChangeId, TEST_PROJECT_NAME);
-        sinon.stub(element._restApiHelperNew, 'fetch').resolves(new Response());
+        sinon.stub(element._restApiHelper, 'fetch').resolves(new Response());
         const failStub = sinon.stub(element, '_failForCreate200').resolves();
         await element._sendDiffDraftRequest(
           HttpMethod.PUT,
@@ -733,7 +731,7 @@ suite('gr-rest-api-service-impl tests', () => {
     const change_num = 1 as NumericChangeId;
     const file_name = 'index.php';
     const file_contents = '<?php';
-    const fetchStub = sinon.stub(element._restApiHelperNew, 'fetch').resolves();
+    const fetchStub = sinon.stub(element._restApiHelper, 'fetch').resolves();
     element._cache.set(
       `/changes/${change_num}/edit/${file_name}`,
       {} as unknown as ParsedJSON
@@ -756,7 +754,7 @@ suite('gr-rest-api-service-impl tests', () => {
     const change_num = 1 as NumericChangeId;
     const message = 'this is a commit message';
     const committer_email = 'test@example.com';
-    const fetchStub = sinon.stub(element._restApiHelperNew, 'fetch').resolves();
+    const fetchStub = sinon.stub(element._restApiHelper, 'fetch').resolves();
     element._cache.set(
       `/changes/${change_num}/message`,
       {} as unknown as ParsedJSON
@@ -783,7 +781,7 @@ suite('gr-rest-api-service-impl tests', () => {
     const name = 'user';
     const email = 'user@example.com';
     const type = 'AUTHOR';
-    const fetchStub = sinon.stub(element._restApiHelperNew, 'fetch').resolves();
+    const fetchStub = sinon.stub(element._restApiHelper, 'fetch').resolves();
     await element.updateIdentityInChangeEdit(change_num, name, email, type);
     assert.isTrue(fetchStub.calledOnce);
     assert.equal(
@@ -808,7 +806,7 @@ suite('gr-rest-api-service-impl tests', () => {
     element._projectLookup = {1: Promise.resolve('test' as RepoName)};
     const change_num = 1 as NumericChangeId;
     const messageId = 'abc' as ChangeMessageId;
-    const fetchStub = sinon.stub(element._restApiHelperNew, 'fetch').resolves();
+    const fetchStub = sinon.stub(element._restApiHelper, 'fetch').resolves();
     await element.deleteChangeCommitMessage(change_num, messageId);
     assert.isTrue(fetchStub.calledOnce);
     assert.equal(
@@ -824,7 +822,7 @@ suite('gr-rest-api-service-impl tests', () => {
   test('startWorkInProgress', async () => {
     element.setInProjectLookup(42 as NumericChangeId, TEST_PROJECT_NAME);
     const fetchStub = sinon
-      .stub(element._restApiHelperNew, 'fetch')
+      .stub(element._restApiHelper, 'fetch')
       .resolves(new Response());
     const urlSpy = sinon.spy(element, '_changeBaseURL');
     await element.startWorkInProgress(42 as NumericChangeId);
@@ -863,7 +861,7 @@ suite('gr-rest-api-service-impl tests', () => {
     element.setInProjectLookup(123 as NumericChangeId, TEST_PROJECT_NAME);
     const comment = createComment();
     const fetchStub = sinon
-      .stub(element._restApiHelperNew, 'fetchJSON')
+      .stub(element._restApiHelper, 'fetchJSON')
       .resolves(comment as unknown as ParsedJSON);
     const response = await element.deleteComment(
       123 as NumericChangeId,
@@ -890,7 +888,7 @@ suite('gr-rest-api-service-impl tests', () => {
   });
 
   test('createRepo encodes name', async () => {
-    const fetchStub = sinon.stub(element._restApiHelperNew, 'fetch').resolves();
+    const fetchStub = sinon.stub(element._restApiHelper, 'fetch').resolves();
     await element.createRepo({name: 'x/y' as RepoName});
     assert.isTrue(fetchStub.calledOnce);
     assert.equal(fetchStub.lastCall.args[0].url, '/projects/x%2Fy');
@@ -899,7 +897,7 @@ suite('gr-rest-api-service-impl tests', () => {
   test('queryChangeFiles', async () => {
     element.setInProjectLookup(42 as NumericChangeId, TEST_PROJECT_NAME);
     const fetchStub = sinon
-      .stub(element._restApiHelperNew, 'fetchJSON')
+      .stub(element._restApiHelper, 'fetchJSON')
       .resolves();
     await element.queryChangeFiles(42 as NumericChangeId, EDIT, 'test/path.js');
     assert.equal(
@@ -961,7 +959,7 @@ suite('gr-rest-api-service-impl tests', () => {
     let fetchCacheJSONStub: sinon.SinonStub;
     setup(() => {
       fetchCacheJSONStub = sinon
-        .stub(element._restApiHelperNew, 'fetchCacheJSON')
+        .stub(element._restApiHelper, 'fetchCacheJSON')
         .resolves([] as unknown as ParsedJSON);
     });
 
@@ -1076,10 +1074,7 @@ suite('gr-rest-api-service-impl tests', () => {
   suite('getGroups', () => {
     let fetchCacheJSONStub: sinon.SinonStub;
     setup(() => {
-      fetchCacheJSONStub = sinon.stub(
-        element._restApiHelperNew,
-        'fetchCacheJSON'
-      );
+      fetchCacheJSONStub = sinon.stub(element._restApiHelper, 'fetchCacheJSON');
     });
 
     test('normal use', () => {
@@ -1124,7 +1119,7 @@ suite('gr-rest-api-service-impl tests', () => {
   });
 
   test('queryAccounts does not return fetchJSON', async () => {
-    const fetchJSONSpy = sinon.spy(element._restApiHelperNew, 'fetchJSON');
+    const fetchJSONSpy = sinon.spy(element._restApiHelper, 'fetchJSON');
     const accts = await element.queryAccounts('');
     assert.isFalse(fetchJSONSpy.called);
     assert.equal(accts!.length, 0);
@@ -1132,7 +1127,7 @@ suite('gr-rest-api-service-impl tests', () => {
 
   test('fetchJSON gets called by queryAccounts', async () => {
     const fetchJSONStub = sinon
-      .stub(element._restApiHelperNew, 'fetchJSON')
+      .stub(element._restApiHelper, 'fetchJSON')
       .resolves();
     await element.queryAccounts('own');
     assert.deepEqual(fetchJSONStub.lastCall.args[0].params, {
@@ -1202,7 +1197,7 @@ suite('gr-rest-api-service-impl tests', () => {
       const expectedUrl = `${window.CANONICAL_PATH}/changes/test~4321/detail?O=516714`;
       const optionsStub = sinon.stub(element._etags, 'getOptions');
       const collectStub = sinon.stub(element._etags, 'collect');
-      sinon.stub(element._restApiHelperNew, 'fetch').resolves(
+      sinon.stub(element._restApiHelper, 'fetch').resolves(
         new Response(
           makePrefixedJSON({
             ...createChange(),
@@ -1219,7 +1214,7 @@ suite('gr-rest-api-service-impl tests', () => {
       const errFn = sinon.stub();
       sinon.stub(element, 'getChangeActionURL').resolves('');
       sinon
-        .stub(element._restApiHelperNew, 'fetch')
+        .stub(element._restApiHelper, 'fetch')
         .resolves(new Response(undefined, {status: 500}));
       await element._getChangeDetail(123 as NumericChangeId, '516714', errFn);
       assert.isTrue(errFn.called);
@@ -1227,7 +1222,7 @@ suite('gr-rest-api-service-impl tests', () => {
 
     test('_getChangeDetail populates _projectLookup', async () => {
       sinon.stub(element, 'getChangeActionURL').resolves('');
-      sinon.stub(element._restApiHelperNew, 'fetch').resolves(
+      sinon.stub(element._restApiHelper, 'fetch').resolves(
         new Response(')]}\'{"_number":1,"project":"test"}', {
           status: 200,
         })
@@ -1247,16 +1242,14 @@ suite('gr-rest-api-service-impl tests', () => {
         requestUrl = '/foo/bar';
         const mockResponse = {foo: 'bar', baz: 42};
         mockResponseSerial = makePrefixedJSON(mockResponse);
-        sinon
-          .stub(element._restApiHelperNew, 'urlWithParams')
-          .returns(requestUrl);
+        sinon.stub(element._restApiHelper, 'urlWithParams').returns(requestUrl);
         sinon.stub(element, 'getChangeActionURL').resolves(requestUrl);
         collectSpy = sinon.spy(element._etags, 'collect');
       });
 
       test('contributes to cache', async () => {
         const getPayloadSpy = sinon.spy(element._etags, 'getCachedPayload');
-        sinon.stub(element._restApiHelperNew, 'fetch').resolves(
+        sinon.stub(element._restApiHelper, 'fetch').resolves(
           new Response(mockResponseSerial, {
             status: 200,
           })
@@ -1272,7 +1265,7 @@ suite('gr-rest-api-service-impl tests', () => {
       test('uses cache on HTTP 304', async () => {
         const getPayloadStub = sinon.stub(element._etags, 'getCachedPayload');
         getPayloadStub.returns(mockResponseSerial);
-        sinon.stub(element._restApiHelperNew, 'fetch').resolves(
+        sinon.stub(element._restApiHelper, 'fetch').resolves(
           new Response(undefined, {
             status: 304,
           })
@@ -1334,7 +1327,7 @@ suite('gr-rest-api-service-impl tests', () => {
 
   suite('getChanges populates _projectLookup', () => {
     test('multiple queries', async () => {
-      sinon.stub(element._restApiHelperNew, 'fetchJSON').resolves([
+      sinon.stub(element._restApiHelper, 'fetchJSON').resolves([
         [
           {_number: 1, project: 'test'},
           {_number: 2, project: 'test'},
@@ -1354,7 +1347,7 @@ suite('gr-rest-api-service-impl tests', () => {
     });
 
     test('no query', async () => {
-      sinon.stub(element._restApiHelperNew, 'fetchJSON').resolves([
+      sinon.stub(element._restApiHelper, 'fetchJSON').resolves([
         {_number: 1, project: 'test'},
         {_number: 2, project: 'test'},
         {_number: 3, project: 'test/test'},
@@ -1392,7 +1385,7 @@ suite('gr-rest-api-service-impl tests', () => {
 
   test('setChangeTopic', async () => {
     element.setInProjectLookup(123 as NumericChangeId, TEST_PROJECT_NAME);
-    const fetchStub = sinon.stub(element._restApiHelperNew, 'fetchJSON');
+    const fetchStub = sinon.stub(element._restApiHelper, 'fetchJSON');
     await element.setChangeTopic(123 as NumericChangeId, 'foo-bar');
     assert.isTrue(fetchStub.calledOnce);
     assert.deepEqual(
@@ -1403,7 +1396,7 @@ suite('gr-rest-api-service-impl tests', () => {
 
   test('setChangeHashtag', async () => {
     element.setInProjectLookup(123 as NumericChangeId, TEST_PROJECT_NAME);
-    const fetchStub = sinon.stub(element._restApiHelperNew, 'fetchJSON');
+    const fetchStub = sinon.stub(element._restApiHelper, 'fetchJSON');
     await element.setChangeHashtag(123 as NumericChangeId, {
       add: ['foo-bar' as Hashtag],
     });
@@ -1416,7 +1409,7 @@ suite('gr-rest-api-service-impl tests', () => {
 
   test('generateAccountHttpPassword', async () => {
     const fetchStub = sinon
-      .stub(element._restApiHelperNew, 'fetchJSON')
+      .stub(element._restApiHelper, 'fetchJSON')
       .resolves();
     await element.generateAccountHttpPassword();
     assert.isTrue(fetchStub.calledOnce);
@@ -1430,7 +1423,7 @@ suite('gr-rest-api-service-impl tests', () => {
     test('patch only', async () => {
       element.setInProjectLookup(123 as NumericChangeId, TEST_PROJECT_NAME);
       const fetchStub = sinon
-        .stub(element._restApiHelperNew, 'fetchJSON')
+        .stub(element._restApiHelper, 'fetchJSON')
         .resolves();
       const range = {basePatchNum: PARENT, patchNum: 2 as RevisionPatchSetNum};
       await element.getChangeFiles(123 as NumericChangeId, range);
@@ -1445,7 +1438,7 @@ suite('gr-rest-api-service-impl tests', () => {
     test('simple range', async () => {
       element.setInProjectLookup(123 as NumericChangeId, TEST_PROJECT_NAME);
       const fetchStub = sinon
-        .stub(element._restApiHelperNew, 'fetchJSON')
+        .stub(element._restApiHelper, 'fetchJSON')
         .resolves();
       const range = {
         basePatchNum: 4 as BasePatchSetNum,
@@ -1465,7 +1458,7 @@ suite('gr-rest-api-service-impl tests', () => {
     test('parent index', async () => {
       element.setInProjectLookup(123 as NumericChangeId, TEST_PROJECT_NAME);
       const fetchStub = sinon
-        .stub(element._restApiHelperNew, 'fetchJSON')
+        .stub(element._restApiHelper, 'fetchJSON')
         .resolves();
       const range = {
         basePatchNum: -3 as BasePatchSetNum,
@@ -1487,7 +1480,7 @@ suite('gr-rest-api-service-impl tests', () => {
     test('patchOnly', async () => {
       element.setInProjectLookup(123 as NumericChangeId, TEST_PROJECT_NAME);
       const fetchStub = sinon
-        .stub(element._restApiHelperNew, 'fetchJSON')
+        .stub(element._restApiHelper, 'fetchJSON')
         .resolves();
       await element.getDiff(
         123 as NumericChangeId,
@@ -1508,7 +1501,7 @@ suite('gr-rest-api-service-impl tests', () => {
     test('simple range', async () => {
       element.setInProjectLookup(123 as NumericChangeId, TEST_PROJECT_NAME);
       const fetchStub = sinon
-        .stub(element._restApiHelperNew, 'fetchJSON')
+        .stub(element._restApiHelper, 'fetchJSON')
         .resolves();
       await element.getDiff(
         123 as NumericChangeId,
@@ -1529,7 +1522,7 @@ suite('gr-rest-api-service-impl tests', () => {
     test('parent index', async () => {
       element.setInProjectLookup(123 as NumericChangeId, TEST_PROJECT_NAME);
       const fetchStub = sinon
-        .stub(element._restApiHelperNew, 'fetchJSON')
+        .stub(element._restApiHelper, 'fetchJSON')
         .resolves();
       await element.getDiff(
         123 as NumericChangeId,
@@ -1550,7 +1543,7 @@ suite('gr-rest-api-service-impl tests', () => {
 
   test('getDashboard', () => {
     const fetchCacheJSONStub = sinon.stub(
-      element._restApiHelperNew,
+      element._restApiHelper,
       'fetchCacheJSON'
     );
     element.getDashboard(
@@ -1566,7 +1559,7 @@ suite('gr-rest-api-service-impl tests', () => {
 
   test('getFileContent', async () => {
     element.setInProjectLookup(1 as NumericChangeId, TEST_PROJECT_NAME);
-    sinon.stub(element._restApiHelperNew, 'fetch').callsFake(() =>
+    sinon.stub(element._restApiHelper, 'fetch').callsFake(() =>
       Promise.resolve(
         new Response(makePrefixedJSON('new content'), {
           status: 200,
@@ -1648,42 +1641,11 @@ suite('gr-rest-api-service-impl tests', () => {
     assert.isTrue(getChangeFilesStub.calledOnce);
   });
 
-  test('_fetch forwards request and logs', async () => {
-    const logStub = sinon.stub(element._restApiHelper, '_logCall');
-    const response = new Response(undefined, {status: 404});
-    const url = 'my url';
-    const fetchOptions = {method: 'DELETE'};
-    sinon.stub(authService, 'fetch').resolves(response);
-    const startTime = 123;
-    sinon.stub(Date, 'now').returns(startTime);
-    const req = {url, fetchOptions};
-    await element._restApiHelper.fetch(req);
-    assert.isTrue(logStub.calledOnce);
-    assert.isTrue(logStub.calledWith(req, startTime, response.status));
-  });
-
-  test('_logCall only reports requests with anonymized URLss', async () => {
-    sinon.stub(Date, 'now').returns(200);
-    const handler = sinon.stub();
-    addListenerForTest(document, 'gr-rpc-log', handler);
-
-    element._restApiHelper._logCall({url: 'url'}, 100, 200);
-    assert.isFalse(handler.called);
-
-    element._restApiHelper._logCall(
-      {url: 'url', anonymizedUrl: 'not url'},
-      100,
-      200
-    );
-    await waitEventLoop();
-    assert.isTrue(handler.calledOnce);
-  });
-
   test('ported comment errors do not trigger error dialog', () => {
     const change = createChange();
     const handler = sinon.stub();
     addListenerForTest(document, 'server-error', handler);
-    sinon.stub(element._restApiHelperNew, 'fetchJSON').resolves({
+    sinon.stub(element._restApiHelper, 'fetchJSON').resolves({
       ok: false,
     } as unknown as ParsedJSON);
 
@@ -1697,7 +1659,7 @@ suite('gr-rest-api-service-impl tests', () => {
     element.setInProjectLookup(change._number, TEST_PROJECT_NAME);
     sinon.stub(element, 'getLoggedIn').resolves(false);
     const getChangeURLAndFetchStub = sinon.stub(
-      element._restApiHelperNew,
+      element._restApiHelper,
       'fetchJSON'
     );
 
@@ -1709,7 +1671,7 @@ suite('gr-rest-api-service-impl tests', () => {
   test('saveChangeStarred', async () => {
     element.setInProjectLookup(123 as NumericChangeId, 'test' as RepoName);
     element.setInProjectLookup(456 as NumericChangeId, 'test' as RepoName);
-    const fetchStub = sinon.stub(element._restApiHelperNew, 'fetch').resolves();
+    const fetchStub = sinon.stub(element._restApiHelper, 'fetch').resolves();
 
     await element.saveChangeStarred(123 as NumericChangeId, true);
     assert.isTrue(fetchStub.calledOnce);

@@ -26,7 +26,7 @@ import * as mailTemplate from 'com/google/gerrit/server/mail/Private.soy';
   {@param patchSet: ?}
   {@param projectName: ?}
   <p>
-    {if $email.reviewerNames or $email.removedReviewerNames}
+    {if $email.reviewerNames || $email.removedReviewerNames}
       {if $email.reviewerNames}
         {$fromName} would like{sp}
         {for $reviewerName, $index in $email.reviewerNames}

@@ -25,6 +25,7 @@ import {assert} from '@open-wc/testing';
 import {AuthService} from '../../../../services/gr-auth/gr-auth';
 import {GrAuthMock} from '../../../../services/gr-auth/gr-auth_mock';
 import {ParsedJSON} from '../../../../types/common';
+import {getBaseUrl} from '../../../../utils/url-util';
 
 function makeParsedJSON<T>(val: T): ParsedJSON {
   return val as unknown as ParsedJSON;
@@ -127,6 +128,30 @@ suite('gr-rest-api-helper tests', () => {
       await assertWriteRequest();
       const res: Response = await promise;
       assert.equal(await res.text(), 'Yay');
+    });
+
+    test('_fetch forwards request and logs', async () => {
+      const logStub = sinon.stub(helper, '_logCall');
+      const response = new Response(undefined, {status: 404});
+      const url = '/my/url';
+      const fetchOptions = {method: 'DELETE'};
+      authFetchStub.resolves(response);
+      const startTime = 123;
+      sinon.stub(Date, 'now').returns(startTime);
+      helper.fetch({url, fetchOptions});
+
+      await assertWriteRequest();
+      assert.isTrue(logStub.calledOnce);
+      const expectedReq = {
+        url: getBaseUrl() + url,
+        fetchOptions,
+        anonymizedUrl: undefined,
+      };
+      assert.deepEqual(logStub.lastCall.args, [
+        expectedReq,
+        startTime,
+        response.status,
+      ]);
     });
   });
 
@@ -458,5 +483,18 @@ suite('gr-rest-api-helper tests', () => {
       const result = parsePrefixedJSON(serial);
       assert.deepEqual(result, obj);
     });
+  });
+
+  test('_logCall only reports requests with anonymized URLs', async () => {
+    sinon.stub(Date, 'now').returns(200);
+    const handler = sinon.stub();
+    addListenerForTest(document, 'gr-rpc-log', handler);
+
+    helper._logCall({url: 'url'}, 100, 200);
+    assert.isFalse(handler.called);
+
+    helper._logCall({url: 'url', anonymizedUrl: 'not url'}, 100, 200);
+    await waitEventLoop();
+    assert.isTrue(handler.calledOnce);
   });
 });

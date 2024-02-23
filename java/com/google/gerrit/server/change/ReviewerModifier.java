@@ -24,6 +24,7 @@ import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.util.Comparator.comparing;
 import static java.util.Objects.requireNonNull;
 
+import autovalue.shaded.com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
@@ -222,7 +223,10 @@ public class ReviewerModifier {
       throws IOException, PermissionBackendException, ConfigInvalidException {
     try (TraceContext.TraceTimer ignored =
         TraceContext.newTimer(getClass().getSimpleName() + "#prepare", Metadata.empty())) {
-      requireNonNull(input.reviewer);
+      if (Strings.nullToEmpty(input.reviewer).trim().isEmpty()) {
+        return fail(input, FailureType.NOT_FOUND, "reviewer user identifier is required");
+      }
+
       boolean confirmed = input.confirmed();
       boolean allowByEmail =
           projectCache

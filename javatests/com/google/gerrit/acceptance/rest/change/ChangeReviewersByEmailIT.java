@@ -323,11 +323,19 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void rejectMissingEmail() throws Exception {
+  public void rejectIfReviewerUserIdentifierIsMissing() throws Exception {
     PushOneCommit.Result r = createChange();
 
-    ReviewerResult result = gApi.changes().id(r.getChangeId()).addReviewer("");
-    assertThat(result.error).isEqualTo(" is not a valid user identifier");
+    ReviewerResult result = gApi.changes().id(r.getChangeId()).addReviewer((String) null);
+    assertThat(result.error).isEqualTo("reviewer user identifier is required");
+    assertThat(result.reviewers).isNull();
+
+    result = gApi.changes().id(r.getChangeId()).addReviewer("");
+    assertThat(result.error).isEqualTo("reviewer user identifier is required");
+    assertThat(result.reviewers).isNull();
+
+    result = gApi.changes().id(r.getChangeId()).addReviewer("   ");
+    assertThat(result.error).isEqualTo("reviewer user identifier is required");
     assertThat(result.reviewers).isNull();
   }
 

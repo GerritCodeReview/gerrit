@@ -1,0 +1,216 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f38e1786_988b8bdc",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 43
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-24T02:46:23Z",
+      "side": 1,
+      "message": "Extract into a `cdUniqueId` so you can reuse it at L542\n```suggestion\n        String cdUniqueId \u003d cd.getUniqueId();\n        ChangeInfo info \u003d cache.get(cdUniqueId);\n```",
+      "range": {
+        "startLine": 530,
+        "startChar": 36,
+        "endLine": 530,
+        "endChar": 52
+      },
+      "revId": "7b671c2828e270f602bec1262b993490a4dbcdfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67fb44e3_5d3e7266",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 43
+      },
+      "lineNbr": 542,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-24T02:46:23Z",
+      "side": 1,
+      "message": "Reuse the `cdUniqueId` calculated at L530.\n\n\n```suggestion\n            cache.put(cdUniqueId, info);\n```",
+      "range": {
+        "startLine": 542,
+        "startChar": 22,
+        "endLine": 542,
+        "endChar": 50
+      },
+      "revId": "7b671c2828e270f602bec1262b993490a4dbcdfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e0fb420_512ddcf1",
+        "filename": "java/com/google/gerrit/server/git/SearchingChangeCacheImpl.java",
+        "patchSetId": 43
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-24T02:46:23Z",
+      "side": 1,
+      "message": "Extract into a common variable `cdUniqueId`.",
+      "range": {
+        "startLine": 161,
+        "startChar": 45,
+        "endLine": 161,
+        "endChar": 61
+      },
+      "revId": "7b671c2828e270f602bec1262b993490a4dbcdfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc5f61d3_8cd47541",
+        "filename": "java/com/google/gerrit/server/query/change/ChangePredicates.java",
+        "patchSetId": 43
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-24T02:46:23Z",
+      "side": 1,
+      "message": "Not sure this make sense anymore, after the discovery of Issue 325309574.\nWe should be keep on using the `legacy_id_str` for finding drafts comments, for avoiding clashed.",
+      "range": {
+        "startLine": 112,
+        "startChar": 0,
+        "endLine": 121,
+        "endChar": 3
+      },
+      "revId": "7b671c2828e270f602bec1262b993490a4dbcdfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34455560_2574951e",
+        "filename": "java/com/google/gerrit/server/query/change/ChangePredicates.java",
+        "patchSetId": 43
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-24T02:46:23Z",
+      "side": 1,
+      "message": "Not sure this make sense anymore, after the discovery of Issue 325309573.\nWe should be keep on using the `legacy_id_str` for finding drafts comments, for avoiding clashed.",
+      "range": {
+        "startLine": 145,
+        "startChar": 0,
+        "endLine": 152,
+        "endChar": 3
+      },
+      "revId": "7b671c2828e270f602bec1262b993490a4dbcdfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3f2f964_8962465f",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 43
+      },
+      "lineNbr": 1232,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-24T02:46:23Z",
+      "side": 1,
+      "message": "This should stay as as before.",
+      "revId": "7b671c2828e270f602bec1262b993490a4dbcdfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d6f93fd_26118cf8",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 43
+      },
+      "lineNbr": 1236,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-24T02:46:23Z",
+      "side": 1,
+      "message": "This should stay as before.",
+      "revId": "7b671c2828e270f602bec1262b993490a4dbcdfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "082e570f_acc13937",
+        "filename": "java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
+        "patchSetId": 43
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-24T02:46:23Z",
+      "side": 1,
+      "message": "The method name says `byLegacyChangeId` therefore we should keep the existing behaviour. Otherwise existing calls like the `ChangeFinder.find(id)` may now break because it internally uses a project cache by change-id which may confuse two change having the same number.\n\nWe can introduce a new new `byChangeNumber` and start using it throughout the code where it makes sense.",
+      "range": {
+        "startLine": 118,
+        "startChar": 34,
+        "endLine": 118,
+        "endChar": 46
+      },
+      "revId": "7b671c2828e270f602bec1262b993490a4dbcdfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3886733c_e0171388",
+        "filename": "java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
+        "patchSetId": 43
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-24T02:46:23Z",
+      "side": 1,
+      "message": "The legacy API call used only by Google should keep existing behaviour IMHO, so that we do not impact any of their use-cases.\n\nLater on, Google may (or may not) decide to start using the project and change number rather than the legacy one.",
+      "revId": "7b671c2828e270f602bec1262b993490a4dbcdfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b03df67_6d42d954",
+        "filename": "java/com/google/gerrit/server/restapi/account/DeleteDraftCommentsUtil.java",
+        "patchSetId": 43
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-24T02:46:23Z",
+      "side": 1,
+      "message": "This should stay as-is IMHO.",
+      "range": {
+        "startLine": 135,
+        "startChar": 0,
+        "endLine": 137,
+        "endChar": 76
+      },
+      "revId": "7b671c2828e270f602bec1262b993490a4dbcdfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

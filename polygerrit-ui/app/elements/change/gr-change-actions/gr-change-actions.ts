@@ -49,6 +49,7 @@ import {
   LabelInfo,
   ListChangesOption,
   NumericChangeId,
+  ParsedJSON,
   PatchSetNumber,
   RequestPayload,
   RevertSubmissionInfo,
@@ -115,7 +116,6 @@ import {subscribe} from '../../lit/subscription-controller';
 import {userModelToken} from '../../../models/user/user-model';
 import {ParsedChangeInfo} from '../../../types/types';
 import {configModelToken} from '../../../models/config/config-model';
-import {readJSONResponsePayload} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 
 const ERR_BRANCH_EMPTY = 'The destination branch can’t be empty.';
 const ERR_COMMIT_EMPTY = 'The commit message can’t be empty.';
@@ -1825,15 +1825,15 @@ export class GrChangeActions
   }
 
   // private but used in test
-  async handleResponse(action: UIActionInfo, response?: Response) {
+  async handleResponse(action: UIActionInfo, response?: ParsedJSON) {
     if (!response) {
       return;
     }
-    // response is guaranteed to be ok (due to semantics of rest-api methods)
-    const obj = (await readJSONResponsePayload(response)).parsed;
+    // Response status is guaranteed to be ok, because rest-api returns
+    // undefined if response is non-2xx.
     switch (action.__key) {
       case ChangeActions.REVERT: {
-        const revertChangeInfo: ChangeInfo = obj as unknown as ChangeInfo;
+        const revertChangeInfo: ChangeInfo = response as unknown as ChangeInfo;
         this.restApiService.setInProjectLookup(
           revertChangeInfo._number,
           revertChangeInfo.project
@@ -1849,7 +1849,8 @@ export class GrChangeActions
         break;
       }
       case RevisionActions.CHERRYPICK: {
-        const cherrypickChangeInfo: ChangeInfo = obj as unknown as ChangeInfo;
+        const cherrypickChangeInfo: ChangeInfo =
+          response as unknown as ChangeInfo;
         this.restApiService.setInProjectLookup(
           cherrypickChangeInfo._number,
           cherrypickChangeInfo.project
@@ -1880,7 +1881,8 @@ export class GrChangeActions
         this.getChangeModel().navigateToChangeResetReload();
         break;
       case ChangeActions.REVERT_SUBMISSION: {
-        const revertSubmistionInfo = obj as unknown as RevertSubmissionInfo;
+        const revertSubmistionInfo =
+          response as unknown as RevertSubmissionInfo;
         if (
           !revertSubmistionInfo.revert_changes ||
           !revertSubmistionInfo.revert_changes.length
@@ -1939,7 +1941,7 @@ export class GrChangeActions
     revisionAction: boolean,
     cleanupFn: () => void,
     action: UIActionInfo
-  ): Promise<Response | undefined> {
+  ): Promise<ParsedJSON | undefined> {
     const handleError: ErrorCallback = response => {
       cleanupFn.call(this);
       this.handleResponseError(action, response, payload);

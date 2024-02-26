@@ -1003,7 +1003,12 @@ export class GrReporting implements ReportingService, Finalizable {
   }
 
   setChangeId(changeId: NumericChangeId) {
+    const originalChangeId = this.reportChangeId;
     this.reportChangeId = changeId;
+
+    if (!!changeId && changeId !== originalChangeId) {
+      this.reportInteraction(Interaction.CHANGE_ID_CHANGED, {changeId});
+    }
   }
 }
 

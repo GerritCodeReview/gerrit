@@ -276,7 +276,11 @@ public class DeleteZombieCommentsRefs {
                 changeId, draftRef.getName());
             continue;
           }
-          DraftCommentNotes draftNotes = draftNotesFactory.create(changeId, accountId).load();
+          // Assumption: the change is not an Imported change.
+          // TODO: Look up for the virtualId
+          Change.Id virtualId = changeId;
+          DraftCommentNotes draftNotes =
+              draftNotesFactory.create(changeId, virtualId, accountId).load();
           ChangeNotes notes =
               changeNotesFactory.createChecked(changeProjectMap.get(changeId), changeId);
           List<HumanComment> drafts = draftNotes.getComments().values().asList();

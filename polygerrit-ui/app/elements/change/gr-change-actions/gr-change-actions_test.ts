@@ -429,7 +429,6 @@ suite('gr-change-actions tests', () => {
     });
 
     test('buttons exist', async () => {
-      element.loading = false;
       await element.updateComplete;
       const buttonEls = queryAll(element, 'gr-button');
       const menuItems = queryAndAssert<GrDropdown>(

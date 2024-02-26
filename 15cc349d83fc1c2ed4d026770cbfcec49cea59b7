@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0c7ea992_97aa6606",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-02-26T18:45:16Z",
+      "side": 1,
+      "message": "Why is `assert.isNotNull(loadingButton.getAttribute(\u0027hidden\u0027));` true?\n\nSince `element.mergeable` has some value that is already true/false?\n\nI guess this confused me a bit since this is not following the timeline that the user sees\n\n1. First loading button is shown\n2. Then mergeable is set and loading button is hidden.\n\nIn the test first it\u0027s hidden and then shown which confused me a bit. 😊",
+      "parentUuid": "c3abffbf_8f70e33e",
+      "range": {
+        "startLine": 314,
+        "startChar": 6,
+        "endLine": 314,
+        "endChar": 61
+      },
+      "revId": "15cc349d83fc1c2ed4d026770cbfcec49cea59b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "16613fcf_54bb239f",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.ts",
         "patchSetId": 2
@@ -37,6 +61,30 @@
       "writtenOn": "2024-02-26T18:41:39Z",
       "side": 1,
       "message": "Once we set it to undefined, `isLoading` should be true?\n\nHow is `assert.isNull(loadingButton.getAttribute(\u0027hidden\u0027));` true then?",
+      "range": {
+        "startLine": 316,
+        "startChar": 6,
+        "endLine": 316,
+        "endChar": 36
+      },
+      "revId": "15cc349d83fc1c2ed4d026770cbfcec49cea59b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "593c9fdc_cc5b6c1e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-02-26T18:45:16Z",
+      "side": 1,
+      "message": "Nvm, hidden \u003d null means the loading button is shown which is WAI.",
+      "parentUuid": "16613fcf_54bb239f",
       "range": {
         "startLine": 316,
         "startChar": 6,

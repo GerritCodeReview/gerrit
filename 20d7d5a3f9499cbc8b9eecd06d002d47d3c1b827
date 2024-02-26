@@ -426,6 +426,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "403727fc_d9ef9171",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper_test.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-02-26T18:08:10Z",
+      "side": 1,
+      "message": "\u003e So, turns out RetryScheduler (https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/services/scheduler/retry-scheduler.ts;l\u003d18?q\u003dRetryScheduler\u0026sq\u003d) only retries if the server responds, but response has code 429\n\nIn a separate change can you add some comments there as well?",
+      "parentUuid": "f793215d_3e6c80a0",
+      "range": {
+        "startLine": 132,
+        "startChar": 16,
+        "endLine": 132,
+        "endChar": 38
+      },
+      "revId": "20d7d5a3f9499cbc8b9eecd06d002d47d3c1b827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "da0570af_8fe1d08f",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper_test.ts",
         "patchSetId": 9

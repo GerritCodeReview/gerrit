@@ -1515,7 +1515,8 @@ public class ChangeData {
       }
 
       draftsByUser = new HashMap<>();
-      for (Ref ref : commentsUtil.getDraftRefs(notes().getChangeId())) {
+      ChangeNotes notes = notes();
+      for (Ref ref : commentsUtil.getDraftRefs(notes.getChangeId())) {
         Account.Id account = Account.Id.fromRefSuffix(ref.getName());
         if (account != null
             // Double-check that any drafts exist for this user after
@@ -1524,11 +1525,17 @@ public class ChangeData {
             // this is suboptimal, but is ok for the purposes of
             // draftsByUser(), and easier than trying to rebuild the change at
             // this point.
-            && !notes().getDraftComments(account, ref).isEmpty()) {
+            && !notes.getDraftComments(account, getVirtualId(notes.getChange()), ref).isEmpty()) {
           draftsByUser.put(account, ref.getObjectId());
         }
       }
     }
     return draftsByUser;
+  }
+
+  private Change.Id getVirtualId(Change change) {
+    return virtualIdFunc == null
+        ? change.getId()
+        : virtualIdFunc.apply(change.getServerId(), change.getId());
   }
 }

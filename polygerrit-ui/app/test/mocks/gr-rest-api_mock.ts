@@ -165,8 +165,8 @@ export const grRestApiMock: RestApiService = {
   deleteWatchedProjects(): Promise<Response> {
     return Promise.resolve(new Response());
   },
-  executeChangeAction(): Promise<Response> {
-    return Promise.resolve(new Response());
+  executeChangeAction(): Promise<ParsedJSON | undefined> {
+    return Promise.resolve({}) as Promise<ParsedJSON>;
   },
   finalize(): void {},
   generateAccountHttpPassword(): Promise<Password | undefined> {

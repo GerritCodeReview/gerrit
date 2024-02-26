@@ -142,6 +142,7 @@ suite('gr-change-actions tests', () => {
         },
       };
       element.changeNum = 42 as NumericChangeId;
+      element.mergeable = false;
       element.latestPatchNum = 2 as PatchSetNumber;
       element.account = {
         _account_id: 123 as AccountId,
@@ -302,6 +303,19 @@ suite('gr-change-actions tests', () => {
           </dialog>
         `
       );
+    });
+
+    test('isLoading', async () => {
+      const loadingButton = queryAndAssert(
+        element,
+        'div#mainContent > gr-button'
+      );
+      assert.equal(loadingButton.textContent, 'Loading actions...');
+      assert.isNotNull(loadingButton.getAttribute('hidden'));
+
+      element.mergeable = undefined;
+      await element.updateComplete;
+      assert.isNull(loadingButton.getAttribute('hidden'));
     });
 
     test('show-revision-actions event should fire', async () => {

@@ -392,6 +392,8 @@ export class GrChangeActions
 
   @state() commitMessage = '';
 
+  // The unfiltered result of calling `restApiService.getChangeRevisionActions()`.
+  // The DOWNLOAD action is also added to it in `actionsChanged()`.
   @state() revisionActions: ActionNameToActionInfoMap = {};
 
   @state() revisionSubmitAction?: ActionInfo | null;
@@ -399,8 +401,6 @@ export class GrChangeActions
   @state() revisionRebaseAction?: ActionInfo | null;
 
   @state() privateByDefault?: InheritedBooleanInfo;
-
-  @state() loading = true;
 
   @state() actionLoadingMessage = '';
 
@@ -479,6 +479,8 @@ export class GrChangeActions
 
   @state() loggedIn = false;
 
+  @state() pluginsLoaded = false;
+
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly reporting = getAppContext().reportingService;
@@ -554,6 +556,11 @@ export class GrChangeActions
     );
     subscribe(
       this,
+      () => this.getPluginLoader().pluginsModel.pluginsLoaded$,
+      x => (this.pluginsLoaded = x)
+    );
+    subscribe(
+      this,
       () => this.getConfigModel().repoConfig$,
       config => (this.privateByDefault = config?.private_by_default)
     );
@@ -565,7 +572,6 @@ export class GrChangeActions
       TargetElement.CHANGE_ACTIONS,
       this
     );
-    this.handleLoadingComplete();
   }
 
   static override get styles() {
@@ -643,7 +649,7 @@ export class GrChangeActions
         </span>
         <section
           id="primaryActions"
-          ?hidden=${this.loading ||
+          ?hidden=${this.isLoading() ||
           !this.topLevelActions ||
           !this.topLevelActions.length}
         >
@@ -653,7 +659,7 @@ export class GrChangeActions
         </section>
         <section
           id="secondaryActions"
-          ?hidden=${this.loading ||
+          ?hidden=${this.isLoading() ||
           !this.topLevelActions ||
           !this.topLevelActions.length}
         >
@@ -661,14 +667,14 @@ export class GrChangeActions
             this.renderUIAction(action)
           )}
         </section>
-        <gr-button ?hidden=${!this.loading}>Loading actions...</gr-button>
+        <gr-button ?hidden=${!this.isLoading()}>Loading actions...</gr-button>
         <gr-dropdown
           id="moreActions"
           link
           .verticalOffset=${32}
           .horizontalAlign=${'right'}
           @tap-item=${this.handleOverflowItemTap}
-          ?hidden=${this.loading ||
+          ?hidden=${this.isLoading() ||
           !this.menuActions ||
           !this.menuActions.length}
           .disabledIds=${this.disabledMenuActions}
@@ -866,7 +872,7 @@ export class GrChangeActions
     }
     const change = this.change;
 
-    this.loading = true;
+    this.revisionActions = {};
     return this.restApiService
       .getChangeRevisionActions(this.changeNum, this.latestPatchNum)
       .then(revisionActions => {
@@ -879,19 +885,19 @@ export class GrChangeActions
           change: change as ChangeInfo,
           revisionActions,
         });
-        this.handleLoadingComplete();
       })
       .catch(err => {
         fireAlert(this, ERR_REVISION_ACTIONS);
-        this.loading = false;
         throw err;
       });
   }
 
-  private handleLoadingComplete() {
-    this.getPluginLoader()
-      .awaitPluginsLoaded()
-      .then(() => (this.loading = false));
+  private isLoading() {
+    return (
+      !this.pluginsLoaded ||
+      !this.change ||
+      Object.keys(this.revisionActions).length === 0
+    );
   }
 
   // private but used in test

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5956cc2d_d5acf635",
+        "filename": "java/com/google/gerrit/server/restapi/config/AccountDeactivation.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-02-26T10:18:33Z",
+      "side": 1,
+      "message": "You should use a WorkQueue similar to the LifecycleListener that runs it on a regular schedule. Note, that as far as I can see, that will require in WorkQueue to allow to schedule a single run of a task.",
+      "range": {
+        "startLine": 39,
+        "startChar": 4,
+        "endLine": 39,
+        "endChar": 64
+      },
+      "revId": "904784089dfac3d2a749fc0772ed22ffc122f7b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

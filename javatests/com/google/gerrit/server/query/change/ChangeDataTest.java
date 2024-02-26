@@ -55,7 +55,7 @@ public class ChangeDataTest {
   @Test
   public void getChangeVirtualIdUsingAlgorithm() throws Exception {
     Project.NameKey project = Project.nameKey("project");
-    final int encodedChangeNum = 12345678;
+    final Change.Id encodedChangeNum = Change.id(12345678);
 
     when(changeNotesMock.getServerId()).thenReturn(UUID.randomUUID().toString());
 
@@ -65,7 +65,6 @@ public class ChangeDataTest {
             Change.id(1),
             1,
             ObjectId.zeroId(),
-            GERRIT_SERVER_ID,
             (s, c) -> encodedChangeNum,
             changeNotesMock);
 

@@ -2823,7 +2823,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-    assertThat(notes.getDraftComments(otherUserId))
+    assertThat(notes.getDraftComments(otherUserId, virtualIdFunc))
         .containsExactlyEntriesIn(ImmutableListMultimap.of(commitId, comment1));
     assertThat(notes.getHumanComments()).isEmpty();
 
@@ -2833,7 +2833,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     notes = newNotes(c);
-    assertThat(notes.getDraftComments(otherUserId)).isEmpty();
+    assertThat(notes.getDraftComments(otherUserId, virtualIdFunc)).isEmpty();
     assertThat(notes.getHumanComments())
         .containsExactlyEntriesIn(ImmutableListMultimap.of(commitId, comment1));
   }
@@ -2887,7 +2887,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-    assertThat(notes.getDraftComments(otherUserId))
+    assertThat(notes.getDraftComments(otherUserId, virtualIdFunc))
         .containsExactlyEntriesIn(
             ImmutableListMultimap.of(
                 commitId, comment1,
@@ -2902,7 +2902,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     notes = newNotes(c);
-    assertThat(notes.getDraftComments(otherUserId))
+    assertThat(notes.getDraftComments(otherUserId, virtualIdFunc))
         .containsExactlyEntriesIn(ImmutableListMultimap.of(commitId, comment2));
     assertThat(notes.getHumanComments())
         .containsExactlyEntriesIn(ImmutableListMultimap.of(commitId, comment1));
@@ -2958,7 +2958,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-    assertThat(notes.getDraftComments(otherUserId))
+    assertThat(notes.getDraftComments(otherUserId, virtualIdFunc))
         .containsExactlyEntriesIn(
             ImmutableListMultimap.of(
                 commitId1, baseComment,
@@ -2974,7 +2974,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     notes = newNotes(c);
-    assertThat(notes.getDraftComments(otherUserId)).isEmpty();
+    assertThat(notes.getDraftComments(otherUserId, virtualIdFunc)).isEmpty();
     assertThat(notes.getHumanComments())
         .containsExactlyEntriesIn(
             ImmutableListMultimap.of(
@@ -3013,7 +3013,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-    assertThat(notes.getDraftComments(otherUserId)).hasSize(1);
+    assertThat(notes.getDraftComments(otherUserId, virtualIdFunc)).hasSize(1);
     assertThat(notes.getDraftCommentNotes().getNoteMap().contains(commitId)).isTrue();
 
     update = newUpdate(c, otherUser);
@@ -3022,7 +3022,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     notes = newNotes(c);
-    assertThat(notes.getDraftComments(otherUserId)).isEmpty();
+    assertThat(notes.getDraftComments(otherUserId, virtualIdFunc)).isEmpty();
     assertThat(notes.getDraftCommentNotes().getNoteMap()).isNull();
   }
 
@@ -3081,7 +3081,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-    assertThat(notes.getDraftComments(otherUserId)).hasSize(2);
+    assertThat(notes.getDraftComments(otherUserId, virtualIdFunc)).hasSize(2);
 
     update = newUpdate(c, otherUser);
     update.setPatchSetId(ps2);
@@ -3089,7 +3089,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     notes = newNotes(c);
-    assertThat(notes.getDraftComments(otherUserId)).hasSize(1);
+    assertThat(notes.getDraftComments(otherUserId, virtualIdFunc)).hasSize(1);
     NoteMap noteMap = notes.getDraftCommentNotes().getNoteMap();
     assertThat(noteMap.contains(commitId1)).isTrue();
     assertThat(noteMap.contains(commitId2)).isFalse();
@@ -3296,7 +3296,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-    assertThat(notes.getDraftComments(otherUserId)).hasSize(2);
+    assertThat(notes.getDraftComments(otherUserId, virtualIdFunc)).hasSize(2);
     assertThat(notes.getHumanComments()).isEmpty();
 
     update = newUpdate(c, otherUser);
@@ -3306,7 +3306,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     notes = newNotes(c);
-    assertThat(notes.getDraftComments(otherUserId)).isEmpty();
+    assertThat(notes.getDraftComments(otherUserId, virtualIdFunc)).isEmpty();
     assertThat(notes.getHumanComments()).hasSize(2);
   }
 
@@ -3354,7 +3354,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-    assertThat(notes.getDraftComments(otherUserId).get(commitId1))
+    assertThat(notes.getDraftComments(otherUserId, virtualIdFunc).get(commitId1))
         .containsExactly(comment1, comment2);
     assertThat(notes.getHumanComments()).isEmpty();
 
@@ -3364,7 +3364,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     notes = newNotes(c);
-    assertThat(notes.getDraftComments(otherUserId).get(commitId1)).containsExactly(comment1);
+    assertThat(notes.getDraftComments(otherUserId, virtualIdFunc).get(commitId1))
+        .containsExactly(comment1);
     assertThat(notes.getHumanComments().get(commitId1)).containsExactly(comment2);
   }
 
@@ -3448,12 +3449,13 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     }
 
     // Looking at drafts directly shows the zombie comment.
-    DraftCommentNotes draftNotes = draftNotesFactory.create(c.getId(), otherUserId);
+    DraftCommentNotes draftNotes = draftNotesFactory.create(c.getId(), c.getId(), otherUserId);
     assertThat(draftNotes.load().getComments().get(commitId1)).containsExactly(comment1, comment2);
 
     // Zombie comment is filtered out of drafts via ChangeNotes.
     ChangeNotes notes = newNotes(c);
-    assertThat(notes.getDraftComments(otherUserId).get(commitId1)).containsExactly(comment1);
+    assertThat(notes.getDraftComments(otherUserId, virtualIdFunc).get(commitId1))
+        .containsExactly(comment1);
     assertThat(notes.getHumanComments().get(commitId1)).containsExactly(comment2);
 
     update = newUpdate(c, otherUser);

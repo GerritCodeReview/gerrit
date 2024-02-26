@@ -60,6 +60,7 @@ import com.google.gerrit.server.git.RepositoryCaseMismatchException;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.NullProjectCache;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.query.change.ChangeNumberVirtualIdAlgorithm;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.AssertableExecutorService;
@@ -129,6 +130,13 @@ public abstract class AbstractChangeNotesTest {
   private String systemTimeZone;
 
   @Inject protected ChangeNotes.Factory changeNotesFactory;
+
+  protected ChangeNumberVirtualIdAlgorithm virtualIdFunc = new ChangeNumberVirtualIdAlgorithm() {
+    @Override
+    public Change.Id apply(String serverId, Change.Id legacyChangeNum) {
+      return legacyChangeNum;
+    }
+  };
 
   @Before
   public void setUpTestEnvironment() throws Exception {

@@ -33,8 +33,9 @@ public class DraftCommentNotesTest extends AbstractChangeNotesTest {
     update.setPatchSetId(c.currentPatchSetId());
     update.putComment(HumanComment.Status.PUBLISHED, comment(c.currentPatchSetId()));
     update.commit();
-
-    assertThat(newNotes(c).getDraftComments(otherUserId)).isEmpty();
+    Change.Id virtualId = c.getId();
+    ChangeNotes notes = newNotes(c);
+    assertThat(notes.getDraftComments(otherUserId, virtualId)).isEmpty();
     assertableFanOutExecutor.assertInteractions(1);
   }
 
@@ -46,14 +47,17 @@ public class DraftCommentNotesTest extends AbstractChangeNotesTest {
     update.setPatchSetId(c.currentPatchSetId());
     update.putComment(HumanComment.Status.DRAFT, comment(c.currentPatchSetId()));
     update.commit();
-    assertThat(newNotes(c).getDraftComments(otherUserId)).hasSize(1);
+    Change.Id virtualId = c.getId();
+    ChangeNotes notes1 = newNotes(c);
+    assertThat(notes1.getDraftComments(otherUserId, virtualId)).hasSize(1);
     assertableFanOutExecutor.assertInteractions(0);
 
     update = newUpdate(c, otherUser);
     update.putComment(HumanComment.Status.PUBLISHED, comment(c.currentPatchSetId()));
     update.commit();
 
-    assertThat(newNotes(c).getDraftComments(otherUserId)).isEmpty();
+    ChangeNotes notes2 = newNotes(c);
+    assertThat(notes2.getDraftComments(otherUserId, virtualId)).isEmpty();
     assertableFanOutExecutor.assertInteractions(1);
   }
 
@@ -66,8 +70,9 @@ public class DraftCommentNotesTest extends AbstractChangeNotesTest {
     update.putComment(HumanComment.Status.DRAFT, comment(c.currentPatchSetId()));
     update.commit();
 
+    Change.Id virtualId = c.getId();
     ChangeNotes notes = newNotes(c);
-    assertThat(notes.getDraftComments(otherUserId)).hasSize(1);
+    assertThat(notes.getDraftComments(otherUserId, virtualId)).hasSize(1);
     assertableFanOutExecutor.assertInteractions(0);
 
     update = newUpdate(c, otherUser);
@@ -76,7 +81,7 @@ public class DraftCommentNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     notes = newNotes(c);
-    assertThat(notes.getDraftComments(otherUserId)).isEmpty();
+    assertThat(notes.getDraftComments(otherUserId, virtualId)).isEmpty();
     assertableFanOutExecutor.assertInteractions(0);
   }
 

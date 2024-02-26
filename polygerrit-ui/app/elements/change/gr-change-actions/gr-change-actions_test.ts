@@ -142,6 +142,7 @@ suite('gr-change-actions tests', () => {
         },
       };
       element.changeNum = 42 as NumericChangeId;
+      element.mergeable = false;
       element.latestPatchNum = 2 as PatchSetNumber;
       element.account = {
         _account_id: 123 as AccountId,
@@ -302,6 +303,55 @@ suite('gr-change-actions tests', () => {
           </dialog>
         `
       );
+    });
+
+    suite('isLoading', () => {
+      const isLoading = async () => {
+        await element.updateComplete;
+        const loadingButton = queryAndAssert(
+          element,
+          'div#mainContent > gr-button'
+        );
+        assert.equal(loadingButton.textContent, 'Loading actions...');
+        return loadingButton.getAttribute('hidden') === null;
+      };
+
+      test('change', async () => {
+        element.change = undefined;
+        await element.updateComplete;
+        assert.shadowDom.equal(element, '');
+      });
+
+      test('mergeable', async () => {
+        element.mergeable = undefined;
+        assert.isTrue(await isLoading());
+
+        element.mergeable = true;
+        assert.isFalse(await isLoading());
+      });
+
+      test('pluginsLoaded', async () => {
+        element.pluginsLoaded = false;
+        assert.isTrue(await isLoading());
+
+        element.pluginsLoaded = true;
+        assert.isFalse(await isLoading());
+      });
+
+      test('revisionActions', async () => {
+        element.revisionActions = {};
+        assert.isTrue(await isLoading());
+
+        element.revisionActions = {
+          submit: {
+            method: HttpMethod.POST,
+            label: 'Submit',
+            title: 'Submit patch set 2 into master',
+            enabled: true,
+          },
+        };
+        assert.isFalse(await isLoading());
+      });
     });
 
     test('show-revision-actions event should fire', async () => {

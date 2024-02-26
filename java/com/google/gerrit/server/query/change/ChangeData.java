@@ -1524,11 +1524,17 @@ public class ChangeData {
             // this is suboptimal, but is ok for the purposes of
             // draftsByUser(), and easier than trying to rebuild the change at
             // this point.
-            && !notes().getDraftComments(account, ref).isEmpty()) {
+            && !notes().getDraftComments(account, getVirtualId(notes()), ref).isEmpty()) {
           draftsByUser.put(account, ref.getObjectId());
         }
       }
     }
     return draftsByUser;
+  }
+
+  private Change.Id getVirtualId(ChangeNotes notes) {
+    return virtualIdFunc == null
+        ? notes.getChangeId()
+        : virtualIdFunc.apply(notes.getChange().getServerId(), notes.getChangeId());
   }
 }

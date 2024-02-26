@@ -17,6 +17,7 @@ export enum LifeCycle {
   USER_REFERRED_FROM = 'User referred from',
   NOTIFICATION_PERMISSION = 'Notification Permission',
   SERVICE_WORKER_UPDATE = 'Service worker update',
+  VIEW_CHANGED = 'View changed',
 }
 
 export enum Execution {

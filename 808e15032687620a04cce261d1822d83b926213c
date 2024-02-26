@@ -46,6 +46,30 @@
       },
       "revId": "808e15032687620a04cce261d1822d83b926213c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68c72067_9fb07af8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-02-26T18:11:53Z",
+      "side": 1,
+      "message": "\u003e For example GetChange that you mention doesn\u0027t use it.\n\nBut someone else could accidentally use it with GetChange in the future and lead to the bug that I mentioned in the comment above?\n\nI guess it\u0027s existing code but I don\u0027t see why we shouldn\u0027t have the cache for the complete URL with a params that all APIs can use?",
+      "parentUuid": "a174574c_1e3aa217",
+      "range": {
+        "startLine": 447,
+        "startChar": 53,
+        "endLine": 448,
+        "endChar": 71
+      },
+      "revId": "808e15032687620a04cce261d1822d83b926213c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

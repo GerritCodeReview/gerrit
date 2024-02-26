@@ -22,6 +22,30 @@
       },
       "revId": "808e15032687620a04cce261d1822d83b926213c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a174574c_1e3aa217",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-26T16:07:12Z",
+      "side": 1,
+      "message": "Less \"incorrect\", more error-prone and situational. \n\nWe don\u0027t use it for all rest-api calls. For example GetChange that you mention doesn\u0027t use it.",
+      "parentUuid": "f77c88d3_1748ecea",
+      "range": {
+        "startLine": 447,
+        "startChar": 53,
+        "endLine": 448,
+        "endChar": 71
+      },
+      "revId": "808e15032687620a04cce261d1822d83b926213c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

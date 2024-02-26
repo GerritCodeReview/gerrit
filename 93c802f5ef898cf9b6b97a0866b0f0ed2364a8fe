@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "352b718b_f3c5439b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-02-26T15:07:55Z",
+      "side": 1,
+      "message": "Should this be private as well?\nI assume all callers want `fetchJSON`?\n\nWhen would a caller call this directly instead of `fetchJSON`?",
+      "range": {
+        "startLine": 329,
+        "startChar": 2,
+        "endLine": 329,
+        "endChar": 13
+      },
+      "revId": "93c802f5ef898cf9b6b97a0866b0f0ed2364a8fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c3e89ad_3b848608",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-02-26T15:07:55Z",
+      "side": 1,
+      "message": "Nice! Way more readable.",
+      "range": {
+        "startLine": 386,
+        "startChar": 4,
+        "endLine": 386,
+        "endChar": 60
+      },
+      "revId": "93c802f5ef898cf9b6b97a0866b0f0ed2364a8fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -22,6 +22,30 @@
       },
       "revId": "b5c6fa770599d175137eace22b07b592222c7c65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "125d6053_5b66aa73",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-26T16:11:48Z",
+      "side": 1,
+      "message": "I agree, but for now it keeps it consistent with existing behaviour.\n\nAdded a TODO.",
+      "parentUuid": "24439beb_c6b1b05f",
+      "range": {
+        "startLine": 228,
+        "startChar": 2,
+        "endLine": 228,
+        "endChar": 29
+      },
+      "revId": "b5c6fa770599d175137eace22b07b592222c7c65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

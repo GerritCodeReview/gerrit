@@ -479,8 +479,8 @@ export class GrEditorView extends LitElement {
 
       this.showAlert(PUBLISHING_EDIT_MSG);
 
-      // restApiService has some quirks where it will still call .then() with
-      // undefined or Response status 429 when it hits an error.
+      // restApiService return undefined if server response with non-200 error
+      // code.
       this.restApiService
         .executeChangeAction(
           changeNum,
@@ -491,10 +491,7 @@ export class GrEditorView extends LitElement {
           handleError
         )
         .then(res => {
-          if (
-            res === undefined ||
-            (res instanceof Response && res.status === 429)
-          ) {
+          if (res === undefined) {
             // In an error case we should not navigate and lose edits.
             return;
           }

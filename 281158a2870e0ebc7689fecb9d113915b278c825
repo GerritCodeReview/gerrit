@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a19df9c4_18d42670",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-02-26T14:09:33Z",
+      "side": 1,
+      "message": "throw error if payload can\u0027t be parsed?\n\nRight now it\u0027s unclear what this means. There was an error before not being thrown?",
+      "range": {
+        "startLine": 7,
+        "startChar": 18,
+        "endLine": 7,
+        "endChar": 39
+      },
+      "revId": "281158a2870e0ebc7689fecb9d113915b278c825",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "defaf707_61f1124e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-02-26T14:09:33Z",
+      "side": 1,
+      "message": "what does this sentence mean?\n\n\"All\" has? What is the entity having something?",
+      "range": {
+        "startLine": 51,
+        "startChar": 3,
+        "endLine": 51,
+        "endChar": 79
+      },
+      "revId": "281158a2870e0ebc7689fecb9d113915b278c825",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1019453_83522d2b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-02-26T14:09:33Z",
+      "side": 1,
+      "message": "nice!!!",
+      "range": {
+        "startLine": 57,
+        "startChar": 2,
+        "endLine": 57,
+        "endChar": 69
+      },
+      "revId": "281158a2870e0ebc7689fecb9d113915b278c825",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9dbb228_06a2c579",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-02-26T14:09:33Z",
+      "side": 1,
+      "message": "what does this value contain/mean?\nThe original definition has no comment explaining it as well.\n\nCan you maybe tell me what it is and also update the location where it\u0027s defined as well?\n\nhttps://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/types/globals.ts;l\u003d13?q\u003d%22CANONICAL_PATH%3F:%20string;%22\u0026sq\u003d",
+      "range": {
+        "startLine": 74,
+        "startChar": 27,
+        "endLine": 74,
+        "endChar": 48
+      },
+      "revId": "281158a2870e0ebc7689fecb9d113915b278c825",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d494ee6d_793bba18",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-02-26T14:09:33Z",
+      "side": 1,
+      "message": "when is this value not set?",
+      "range": {
+        "startLine": 74,
+        "startChar": 27,
+        "endLine": 74,
+        "endChar": 48
+      },
+      "revId": "281158a2870e0ebc7689fecb9d113915b278c825",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cdd0bff3_81b1cc23",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-02-26T14:09:33Z",
+      "side": 1,
+      "message": "do we need to cast here?\nNow that you fixed the type, I think this should not be required 😄",
+      "range": {
+        "startLine": 78,
+        "startChar": 4,
+        "endLine": 78,
+        "endChar": 68
+      },
+      "revId": "281158a2870e0ebc7689fecb9d113915b278c825",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16976124_0e7aeb7a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-02-26T14:09:33Z",
+      "side": 1,
+      "message": "What does this comment mean?\nThis method is calling `readJSONResponsePayload`.\n\nAre you expressing that this method can be removed in favour of `readJSONResponsePayload`?",
+      "range": {
+        "startLine": 404,
+        "startChar": 19,
+        "endLine": 404,
+        "endChar": 80
+      },
+      "revId": "281158a2870e0ebc7689fecb9d113915b278c825",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

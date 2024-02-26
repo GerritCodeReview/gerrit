@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4c342fb_23dc7007",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-26T15:44:33Z",
+      "side": 1,
+      "message": "Changed to \"fired\"",
+      "parentUuid": "edc6c4dd_179eaac5",
+      "range": {
+        "startLine": 214,
+        "startChar": 51,
+        "endLine": 214,
+        "endChar": 77
+      },
+      "revId": "20d7d5a3f9499cbc8b9eecd06d002d47d3c1b827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "04cb0973_d7e28438",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-02-26T14:36:26Z",
       "side": 1,
       "message": "what does report errors mean?\n\nIt\u0027s calling the req.errFn provided so it\u0027s doing more than just reporting?",
+      "range": {
+        "startLine": 318,
+        "startChar": 5,
+        "endLine": 318,
+        "endChar": 27
+      },
+      "revId": "20d7d5a3f9499cbc8b9eecd06d002d47d3c1b827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b876205b_b0bf5275",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-26T15:44:33Z",
+      "side": 1,
+      "message": "It either calls errFn or fires an event. Which I combined in one word \"report\". Added the clarification to the comment as well.",
+      "parentUuid": "04cb0973_d7e28438",
       "range": {
         "startLine": 318,
         "startChar": 5,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "29c65af7_4ec3dde1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-26T15:44:33Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "bb4d6f0c_6d87c99d",
+      "range": {
+        "startLine": 321,
+        "startChar": 39,
+        "endLine": 321,
+        "endChar": 67
+      },
+      "revId": "20d7d5a3f9499cbc8b9eecd06d002d47d3c1b827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "694210cd_3881ec63",
@@ -93,6 +165,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "50c34cda_684bb373",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-26T15:44:33Z",
+      "side": 1,
+      "message": "In the next change I have also moved the server-error handling in this method. So it makes sense to me to have two separate methods\n\n- fetchImpl - lower level call to fetch, retry logic handling, scheduling\n- fetch - higher level, error handling.\n\nI think the retry logic and scheduler interaction is confusing enough to be separated",
+      "parentUuid": "694210cd_3881ec63",
+      "range": {
+        "startLine": 333,
+        "startChar": 13,
+        "endLine": 333,
+        "endChar": 33
+      },
+      "revId": "20d7d5a3f9499cbc8b9eecd06d002d47d3c1b827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "01fa7220_8ebc15ba",
@@ -106,6 +202,30 @@
       "writtenOn": "2024-02-26T14:36:26Z",
       "side": 1,
       "message": "2024?",
+      "range": {
+        "startLine": 3,
+        "startChar": 13,
+        "endLine": 3,
+        "endChar": 17
+      },
+      "revId": "20d7d5a3f9499cbc8b9eecd06d002d47d3c1b827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3399f589_fc645c7e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper_test.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-26T15:44:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "01fa7220_8ebc15ba",
       "range": {
         "startLine": 3,
         "startChar": 13,
@@ -141,6 +261,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "1e0d4521_f3e1a65d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper_test.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-26T15:44:33Z",
+      "side": 1,
+      "message": "AFAICT all of these are stateful. So assigning them here, would make their state shared across tests, ie. potentially make some tests affect the others.",
+      "parentUuid": "1218840c_93f6af20",
+      "range": {
+        "startLine": 25,
+        "startChar": 2,
+        "endLine": 31,
+        "endChar": 17
+      },
+      "revId": "20d7d5a3f9499cbc8b9eecd06d002d47d3c1b827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "3461f8a1_d31703a5",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper_test.ts",
         "patchSetId": 9
@@ -152,6 +296,30 @@
       "writtenOn": "2024-02-26T14:36:26Z",
       "side": 1,
       "message": "hello world? XD",
+      "range": {
+        "startLine": 41,
+        "startChar": 31,
+        "endLine": 41,
+        "endChar": 47
+      },
+      "revId": "20d7d5a3f9499cbc8b9eecd06d002d47d3c1b827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ec3783d_3d84fea1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper_test.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-26T15:44:33Z",
+      "side": 1,
+      "message": "That\u0027s what the original test file had",
+      "parentUuid": "3461f8a1_d31703a5",
       "range": {
         "startLine": 41,
         "startChar": 31,
@@ -185,6 +353,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a0fc6a6_aadac366",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper_test.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-26T15:44:33Z",
+      "side": 1,
+      "message": "FYI: these tests are copied from the tests for the previous helper and not edited.\n\nIIUC the main parts of these tests is asserting that correct scheduler was used, via `assertReadRequest` and `assertWriteRequest`, the assertion on the response is less consequential and just there to check that result is forwarded from the lower level fetcher successfully.\n\n\u003e this is the same text returned by the authFetchStub?\n\nYes. it asserts that response from authFetchStub got propagated correctly here",
+      "parentUuid": "a2cb8fbc_0189b3f5",
+      "range": {
+        "startLine": 104,
+        "startChar": 38,
+        "endLine": 104,
+        "endChar": 42
+      },
+      "revId": "20d7d5a3f9499cbc8b9eecd06d002d47d3c1b827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8686d775_7aa4ddd4",
@@ -198,6 +390,30 @@
       "writtenOn": "2024-02-26T14:36:26Z",
       "side": 1,
       "message": "what is passing through where?",
+      "range": {
+        "startLine": 132,
+        "startChar": 16,
+        "endLine": 132,
+        "endChar": 38
+      },
+      "revId": "20d7d5a3f9499cbc8b9eecd06d002d47d3c1b827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f793215d_3e6c80a0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper_test.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-26T15:44:33Z",
+      "side": 1,
+      "message": "I\u0027ve looked more deeply at RetryScheduler and was suprised by the results 😭\n\nSo, turns out RetryScheduler (https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/services/scheduler/retry-scheduler.ts;l\u003d18?q\u003dRetryScheduler\u0026sq\u003d) only retries if the server responds, but response has code 429. All other cases (like network errors) are not retried.\n\nTherefore\n- The comment in fetchImpl is wrong, so I reworded that.\n- Since 429 supposed to cause a retry in RetryScheduler, they are checking that if a different scheduler is used it simply returns the response without changing.\n\nReworded the name of test and the comment",
+      "parentUuid": "8686d775_7aa4ddd4",
       "range": {
         "startLine": 132,
         "startChar": 16,
@@ -231,6 +447,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5bb41073_5b4ed292",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper_test.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-26T15:44:33Z",
+      "side": 1,
+      "message": "Reworded the comment.",
+      "parentUuid": "da0570af_8fe1d08f",
+      "range": {
+        "startLine": 138,
+        "startChar": 10,
+        "endLine": 139,
+        "endChar": 38
+      },
+      "revId": "20d7d5a3f9499cbc8b9eecd06d002d47d3c1b827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0f1ab7ad_03f7611e",
@@ -244,6 +484,30 @@
       "writtenOn": "2024-02-26T14:36:26Z",
       "side": 1,
       "message": "I can\u0027t easily figure out why it was not retried in the previous test but it\u0027s retried in this test.\n\nCan you please explain the cause of the retry?",
+      "range": {
+        "startLine": 144,
+        "startChar": 4,
+        "endLine": 144,
+        "endChar": 22
+      },
+      "revId": "20d7d5a3f9499cbc8b9eecd06d002d47d3c1b827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea42999d_87f36422",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper_test.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-26T15:44:33Z",
+      "side": 1,
+      "message": "When constructing GrRestApiHelper RetryScheduler was passed (instead of ReadScheduler passed in the previous test)",
+      "parentUuid": "0f1ab7ad_03f7611e",
       "range": {
         "startLine": 144,
         "startChar": 4,

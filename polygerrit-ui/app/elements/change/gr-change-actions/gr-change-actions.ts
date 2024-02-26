@@ -386,6 +386,8 @@ export class GrChangeActions
 
   @state() changeStatus?: ChangeStatus;
 
+  @state() mergeable?: boolean;
+
   @state() commitNum?: CommitId;
 
   @state() latestPatchNum?: PatchSetNumber;
@@ -526,6 +528,11 @@ export class GrChangeActions
       this,
       () => this.getChangeModel().status$,
       x => (this.changeStatus = x)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().mergeable$,
+      x => (this.mergeable = x)
     );
     subscribe(
       this,
@@ -894,6 +901,7 @@ export class GrChangeActions
     return (
       !this.pluginsLoaded ||
       !this.change ||
+      this.mergeable === undefined ||
       Object.keys(this.revisionActions).length === 0
     );
   }

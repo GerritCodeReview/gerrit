@@ -142,6 +142,7 @@ suite('gr-change-actions tests', () => {
         },
       };
       element.changeNum = 42 as NumericChangeId;
+      element.mergeable = false;
       element.latestPatchNum = 2 as PatchSetNumber;
       element.account = {
         _account_id: 123 as AccountId,

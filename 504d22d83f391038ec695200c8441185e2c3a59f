@@ -69,6 +69,30 @@
       },
       "revId": "504d22d83f391038ec695200c8441185e2c3a59f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e24306e_c75e7657",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-02-26T18:03:52Z",
+      "side": 1,
+      "message": "SG\nNormally I think we just write `private but used in tests`.",
+      "parentUuid": "f6e0dfec_13032db7",
+      "range": {
+        "startLine": 275,
+        "startChar": 2,
+        "endLine": 275,
+        "endChar": 10
+      },
+      "revId": "504d22d83f391038ec695200c8441185e2c3a59f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

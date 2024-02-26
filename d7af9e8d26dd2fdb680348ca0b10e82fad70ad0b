@@ -33,6 +33,24 @@
       "message": "Move to stable-3.7?",
       "revId": "d7af9e8d26dd2fdb680348ca0b10e82fad70ad0b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f382756_3a256e62",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2024-02-26T07:41:51Z",
+      "side": 1,
+      "message": "The issue doesn\u0027t seem to affect stable-3.7 and stable-3.8, at least it doesn\u0027t happen for me. I\u0027ve regularly run the tests of stable-branches locally but I\u0027ve never seen it before I started running the tests of stable-3.9 locally.",
+      "parentUuid": "5438d333_4fad1245",
+      "revId": "d7af9e8d26dd2fdb680348ca0b10e82fad70ad0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

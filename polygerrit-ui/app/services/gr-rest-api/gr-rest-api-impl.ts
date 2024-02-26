@@ -3311,17 +3311,16 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     patchNum?: PatchSetNum,
     payload?: RequestPayload,
     errFn?: ErrorCallback
-  ): Promise<Response> {
+  ): Promise<ParsedJSON | undefined> {
     const url = await this._changeBaseURL(changeNum, patchNum);
     // No anonymizedUrl specified so the request will not be logged.
-    return this._restApiHelper.fetch({
+    return this._restApiHelper.fetchJSON({
       fetchOptions: getFetchOptions({
         method,
         body: payload,
       }),
       url: url + endpoint,
       errFn,
-      reportServerError: true,
     });
   }
 

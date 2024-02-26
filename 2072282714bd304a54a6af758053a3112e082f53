@@ -22,6 +22,30 @@
       },
       "revId": "2072282714bd304a54a6af758053a3112e082f53",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e062fff_26ddadbc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-26T16:11:12Z",
+      "side": 1,
+      "message": "The idea of having it in this method: the logic of this method is copied from send() and therefore it can be reviewed in the diff to see that it\u0027s the same.\n\nI prefer it this way, but I can move it as well if you insist",
+      "parentUuid": "3bbe1120_1c97c41e",
+      "range": {
+        "startLine": 217,
+        "startChar": 0,
+        "endLine": 217,
+        "endChar": 31
+      },
+      "revId": "2072282714bd304a54a6af758053a3112e082f53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

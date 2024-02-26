@@ -30,6 +30,7 @@ import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {ProgressStatus} from '../../../constants/constants';
 import {fixture, html, assert} from '@open-wc/testing';
 import {GrDropdownList} from '../../shared/gr-dropdown-list/gr-dropdown-list';
+import {ParsedJSON} from '../../../types/common';
 
 const CHERRY_PICK_TYPES = {
   SINGLE_CHANGE: 1,
@@ -207,7 +208,7 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
       await element.updateComplete;
       const executeChangeActionStub = stubRestApi(
         'executeChangeAction'
-      ).returns(Promise.resolve(new Response()));
+      ).resolves(createChange() as unknown as ParsedJSON);
       queryAndAssert<GrDialog>(element, 'gr-dialog').confirmButton!.click();
       await element.updateComplete;
       const args = executeChangeActionStub.args[0];
@@ -228,7 +229,7 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
       await element.updateComplete;
       const executeChangeActionStub = stubRestApi(
         'executeChangeAction'
-      ).returns(Promise.resolve(new Response()));
+      ).resolves(createChange() as unknown as ParsedJSON);
       const checkboxes = queryAll<HTMLInputElement>(
         element,
         'input[type="checkbox"]'
@@ -247,7 +248,7 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
       await element.updateComplete;
       const executeChangeActionStub = stubRestApi(
         'executeChangeAction'
-      ).returns(Promise.resolve(new Response()));
+      ).resolves(createChange() as unknown as ParsedJSON);
       const checkboxes = queryAll<HTMLInputElement>(
         element,
         'input[type="checkbox"]'

@@ -45,6 +45,11 @@ export interface ChecksUpdate {
 /** Application wide state of plugins. */
 interface PluginsState {
   /**
+   * Initially false. Becomes true, if either all plugins were loaded, or if
+   * loading plugins has timed out. Once true, it will not change again.
+   */
+  pluginsLoaded: boolean;
+  /**
    * List of plugins that have called annotationApi().setCoverageProvider().
    */
   coveragePlugins: CoveragePlugin[];
@@ -84,8 +89,11 @@ export class PluginsModel extends Model<PluginsState> {
 
   public coveragePlugins$ = select(this.state$, state => state.coveragePlugins);
 
+  public pluginsLoaded$ = select(this.state$, state => state.pluginsLoaded);
+
   constructor() {
     super({
+      pluginsLoaded: false,
       coveragePlugins: [],
       checksPlugins: [],
       suggestionsPlugins: [],

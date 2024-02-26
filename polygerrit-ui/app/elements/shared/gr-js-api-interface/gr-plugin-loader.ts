@@ -119,6 +119,9 @@ export class PluginLoader implements Gerrit, Finalizable {
       this.reportingService
     );
     this.pluginsModel = new PluginsModel();
+    this.awaitPluginsLoaded().finally(() => {
+      this.pluginsModel.updateState({pluginsLoaded: true});
+    });
     this.pluginEndPoints = new GrPluginEndpoints();
   }
 

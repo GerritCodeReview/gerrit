@@ -28,6 +28,7 @@ import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.query.change.ChangeNumberVirtualIdAlgorithm;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
@@ -54,6 +55,8 @@ import org.eclipse.jgit.revwalk.RevWalk;
  * <p>This class is not thread safe.
  */
 public class ChangeDraftUpdate extends AbstractChangeUpdate {
+  private final ChangeNumberVirtualIdAlgorithm virtualIdFunc;
+
   public interface Factory {
     ChangeDraftUpdate create(
         ChangeNotes notes,
@@ -98,6 +101,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
       @GerritPersonIdent PersonIdent serverIdent,
       AllUsersName allUsers,
       ChangeNoteUtil noteUtil,
+      ChangeNumberVirtualIdAlgorithm virtualIdFunc,
       @Assisted ChangeNotes notes,
       @Assisted("effective") Account.Id accountId,
       @Assisted("real") Account.Id realAccountId,
@@ -105,6 +109,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
       @Assisted Instant when) {
     super(noteUtil, serverIdent, notes, null, accountId, realAccountId, authorIdent, when);
     this.draftsProject = allUsers;
+    this.virtualIdFunc = virtualIdFunc;
   }
 
   @AssistedInject
@@ -112,6 +117,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
       @GerritPersonIdent PersonIdent serverIdent,
       AllUsersName allUsers,
       ChangeNoteUtil noteUtil,
+      ChangeNumberVirtualIdAlgorithm virtualIdFunc,
       @Assisted Change change,
       @Assisted("effective") Account.Id accountId,
       @Assisted("real") Account.Id realAccountId,
@@ -119,6 +125,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
       @Assisted Instant when) {
     super(noteUtil, serverIdent, null, change, accountId, realAccountId, authorIdent, when);
     this.draftsProject = allUsers;
+    this.virtualIdFunc = virtualIdFunc;
   }
 
   public void putComment(HumanComment c) {
@@ -178,6 +185,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
             authorIdent,
             draftsProject,
             noteUtil,
+            virtualIdFunc,
             new Change(getChange()),
             accountId,
             realAccountId,
@@ -283,7 +291,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
 
   @Override
   protected String getRefName() {
-    return RefNames.refsDraftComments(getId(), accountId);
+    return RefNames.refsDraftComments(getVirtualId(), accountId);
   }
 
   @Override
@@ -294,5 +302,12 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
   @Override
   public boolean isEmpty() {
     return delete.isEmpty() && put.isEmpty();
+  }
+
+  private Change.Id getVirtualId() {
+    Change change = getChange();
+    return virtualIdFunc == null
+        ? change.getId()
+        : virtualIdFunc.apply(change.getServerId(), change.getId());
   }
 }

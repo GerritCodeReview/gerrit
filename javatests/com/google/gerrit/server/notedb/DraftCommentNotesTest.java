@@ -34,7 +34,7 @@ public class DraftCommentNotesTest extends AbstractChangeNotesTest {
     update.putComment(HumanComment.Status.PUBLISHED, comment(c.currentPatchSetId()));
     update.commit();
 
-    assertThat(newNotes(c).getDraftComments(otherUserId)).isEmpty();
+    assertThat(newNotes(c).getDraftComments(otherUserId, virtualIdFunc)).isEmpty();
     assertableFanOutExecutor.assertInteractions(1);
   }
 
@@ -46,14 +46,14 @@ public class DraftCommentNotesTest extends AbstractChangeNotesTest {
     update.setPatchSetId(c.currentPatchSetId());
     update.putComment(HumanComment.Status.DRAFT, comment(c.currentPatchSetId()));
     update.commit();
-    assertThat(newNotes(c).getDraftComments(otherUserId)).hasSize(1);
+    assertThat(newNotes(c).getDraftComments(otherUserId, virtualIdFunc)).hasSize(1);
     assertableFanOutExecutor.assertInteractions(0);
 
     update = newUpdate(c, otherUser);
     update.putComment(HumanComment.Status.PUBLISHED, comment(c.currentPatchSetId()));
     update.commit();
 
-    assertThat(newNotes(c).getDraftComments(otherUserId)).isEmpty();
+    assertThat(newNotes(c).getDraftComments(otherUserId, virtualIdFunc)).isEmpty();
     assertableFanOutExecutor.assertInteractions(1);
   }
 
@@ -67,7 +67,7 @@ public class DraftCommentNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-    assertThat(notes.getDraftComments(otherUserId)).hasSize(1);
+    assertThat(notes.getDraftComments(otherUserId, virtualIdFunc)).hasSize(1);
     assertableFanOutExecutor.assertInteractions(0);
 
     update = newUpdate(c, otherUser);
@@ -76,7 +76,7 @@ public class DraftCommentNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     notes = newNotes(c);
-    assertThat(notes.getDraftComments(otherUserId)).isEmpty();
+    assertThat(notes.getDraftComments(otherUserId, virtualIdFunc)).isEmpty();
     assertableFanOutExecutor.assertInteractions(0);
   }
 

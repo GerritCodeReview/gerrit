@@ -223,7 +223,7 @@ suite('bulk actions model test', () => {
     });
 
     test('already abandoned change does not call executeChangeAction', () => {
-      const actionStub = stubRestApi('executeChangeAction');
+      const actionStub = stubRestApi('executeChangeAction').resolves();
       bulkActionsModel.abandonChanges();
       assert.equal(actionStub.callCount, 1);
       assert.deepEqual(actionStub.lastCall.args.slice(0, 5), [

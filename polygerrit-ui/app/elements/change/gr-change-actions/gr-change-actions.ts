@@ -386,6 +386,8 @@ export class GrChangeActions
 
   @state() changeStatus?: ChangeStatus;
 
+  @state() mergeable?: boolean;
+
   @state() commitNum?: CommitId;
 
   @state() latestPatchNum?: PatchSetNumber;
@@ -528,6 +530,11 @@ export class GrChangeActions
       this,
       () => this.getChangeModel().status$,
       x => (this.changeStatus = x)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().mergeable$,
+      x => (this.mergeable = x)
     );
     subscribe(
       this,
@@ -896,7 +903,8 @@ export class GrChangeActions
     return (
       !this.pluginsLoaded ||
       !this.change ||
-      Object.keys(this.revisionActions).length === 0
+      this.mergeable === undefined ||
+      !this.hasRevisionActions()
     );
   }
 
@@ -1016,11 +1024,15 @@ export class GrChangeActions
     return -1;
   }
 
+  private hasRevisionActions() {
+    return Object.keys(this.revisionActions).length > 0;
+  }
+
   private actionsChanged() {
     this.actionLoadingMessage = '';
     this.disabledMenuActions = [];
 
-    if (!this.revisionActions.download) {
+    if (!this.revisionActions.download && this.hasRevisionActions()) {
       this.revisionActions = {
         ...this.revisionActions,
         download: DOWNLOAD_ACTION,

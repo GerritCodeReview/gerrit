@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3abffbf_8f70e33e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-02-26T18:41:39Z",
+      "side": 1,
+      "message": "can you assert the value of `element.mergeable` at this point?\n\nIIUC it should be undefined since it\u0027s not loaded yet?",
+      "range": {
+        "startLine": 314,
+        "startChar": 6,
+        "endLine": 314,
+        "endChar": 61
+      },
+      "revId": "15cc349d83fc1c2ed4d026770cbfcec49cea59b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16613fcf_54bb239f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-02-26T18:41:39Z",
+      "side": 1,
+      "message": "Once we set it to undefined, `isLoading` should be true?\n\nHow is `assert.isNull(loadingButton.getAttribute(\u0027hidden\u0027));` true then?",
+      "range": {
+        "startLine": 316,
+        "startChar": 6,
+        "endLine": 316,
+        "endChar": 36
+      },
+      "revId": "15cc349d83fc1c2ed4d026770cbfcec49cea59b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

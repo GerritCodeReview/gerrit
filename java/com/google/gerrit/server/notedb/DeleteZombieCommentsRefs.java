@@ -276,7 +276,11 @@ public class DeleteZombieCommentsRefs {
                 changeId, draftRef.getName());
             continue;
           }
-          DraftCommentNotes draftNotes = draftNotesFactory.create(changeId, accountId).load();
+          // The change is not an Imported change.
+          // This class is used in a pgm to run an ad hoc cleanup of left over change drafts.
+          Change.Id virtualId = changeId;
+          DraftCommentNotes draftNotes =
+              draftNotesFactory.create(changeId, virtualId, accountId).load();
           ChangeNotes notes =
               changeNotesFactory.createChecked(changeProjectMap.get(changeId), changeId);
           List<HumanComment> drafts = draftNotes.getComments().values().asList();

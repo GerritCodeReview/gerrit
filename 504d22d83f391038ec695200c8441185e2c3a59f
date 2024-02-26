@@ -45,6 +45,30 @@
       },
       "revId": "504d22d83f391038ec695200c8441185e2c3a59f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6e0dfec_13032db7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-26T14:56:45Z",
+      "side": 1,
+      "message": "It\u0027s called from the tests (to test this method directly). I can still remove the underscore if you prefer.\n\nThe tests I am talking about got moved in https://gerrit-review.git.corp.google.com/c/gerrit/+/410461/5",
+      "parentUuid": "f2ed53d9_4fb2c4b7",
+      "range": {
+        "startLine": 275,
+        "startChar": 2,
+        "endLine": 275,
+        "endChar": 10
+      },
+      "revId": "504d22d83f391038ec695200c8441185e2c3a59f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

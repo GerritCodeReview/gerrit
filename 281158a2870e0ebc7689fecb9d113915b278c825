@@ -261,6 +261,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1ce5d774_eefb2003",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-02-26T14:56:11Z",
+      "side": 1,
+      "message": "\u003e We do, because `get` can technically return `undefined`. But we exclude this with the `has` check above\n\nso we can do `return this.data.get(canonical_path)!` instead of casting?",
+      "parentUuid": "27d02ac5_b30d46ff",
+      "range": {
+        "startLine": 78,
+        "startChar": 4,
+        "endLine": 78,
+        "endChar": 68
+      },
+      "revId": "281158a2870e0ebc7689fecb9d113915b278c825",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "16976124_0e7aeb7a",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
         "patchSetId": 5
@@ -296,6 +320,30 @@
       "side": 1,
       "message": "Yes, exactly. In the following changes, I in fact removed this method and just let the callsites use readJSONResponsePayload directly.",
       "parentUuid": "16976124_0e7aeb7a",
+      "range": {
+        "startLine": 404,
+        "startChar": 19,
+        "endLine": 404,
+        "endChar": 80
+      },
+      "revId": "281158a2870e0ebc7689fecb9d113915b278c825",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd815fe5_2866ed2c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-02-26T14:56:11Z",
+      "side": 1,
+      "message": "I still see this method in PS 6?",
+      "parentUuid": "9d27db46_cf2b1e6f",
       "range": {
         "startLine": 404,
         "startChar": 19,

@@ -1,0 +1,257 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "edc6c4dd_179eaac5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-02-26T14:36:26Z",
+      "side": 1,
+      "message": "event sent where?\n`fire(document, \u0027gr-rpc-log\u0027, detail);`\n\nIf it\u0027s this line of code, then maybe `gr-rpc-log` event is fired?",
+      "range": {
+        "startLine": 214,
+        "startChar": 51,
+        "endLine": 214,
+        "endChar": 77
+      },
+      "revId": "20d7d5a3f9499cbc8b9eecd06d002d47d3c1b827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04cb0973_d7e28438",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-02-26T14:36:26Z",
+      "side": 1,
+      "message": "what does report errors mean?\n\nIt\u0027s calling the req.errFn provided so it\u0027s doing more than just reporting?",
+      "range": {
+        "startLine": 318,
+        "startChar": 5,
+        "endLine": 318,
+        "endChar": 27
+      },
+      "revId": "20d7d5a3f9499cbc8b9eecd06d002d47d3c1b827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb4d6f0c_6d87c99d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-02-26T14:36:26Z",
+      "side": 1,
+      "message": "commit message says remove cancelCondition so we should remove this comment as well?",
+      "range": {
+        "startLine": 321,
+        "startChar": 39,
+        "endLine": 321,
+        "endChar": 67
+      },
+      "revId": "20d7d5a3f9499cbc8b9eecd06d002d47d3c1b827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "694210cd_3881ec63",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-02-26T14:36:26Z",
+      "side": 1,
+      "message": "does it make sense to just inline the method then?\n\nTo me `fetch` and `fetchImpl` are difficult names to read. `Impl` is usually for some interface being implemented.\n\nAlso unclear when one should be called and if it\u0027s ok to call the other one directly(even if it\u0027s private) but if we inline then we know it\u0027s all one fetch method.\n\nIf you think it hurts readability to merge, then feel free to Ack this.",
+      "range": {
+        "startLine": 333,
+        "startChar": 13,
+        "endLine": 333,
+        "endChar": 33
+      },
+      "revId": "20d7d5a3f9499cbc8b9eecd06d002d47d3c1b827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01fa7220_8ebc15ba",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper_test.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-02-26T14:36:26Z",
+      "side": 1,
+      "message": "2024?",
+      "range": {
+        "startLine": 3,
+        "startChar": 13,
+        "endLine": 3,
+        "endChar": 17
+      },
+      "revId": "20d7d5a3f9499cbc8b9eecd06d002d47d3c1b827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1218840c_93f6af20",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper_test.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-02-26T14:36:26Z",
+      "side": 1,
+      "message": "can we mark some of these as `const` where possible and just directly assign the value here?",
+      "range": {
+        "startLine": 25,
+        "startChar": 2,
+        "endLine": 31,
+        "endChar": 17
+      },
+      "revId": "20d7d5a3f9499cbc8b9eecd06d002d47d3c1b827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3461f8a1_d31703a5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper_test.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-02-26T14:36:26Z",
+      "side": 1,
+      "message": "hello world? XD",
+      "range": {
+        "startLine": 41,
+        "startChar": 31,
+        "endLine": 41,
+        "endChar": 47
+      },
+      "revId": "20d7d5a3f9499cbc8b9eecd06d002d47d3c1b827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2cb8fbc_0189b3f5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper_test.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-02-26T14:36:26Z",
+      "side": 1,
+      "message": "this is the same text returned by the `authFetchStub`?\nI don\u0027t follow this test. We\u0027re making a GET request and then in the next test a PUT request but asserting the return value of the `authFetchStub`?",
+      "range": {
+        "startLine": 104,
+        "startChar": 38,
+        "endLine": 104,
+        "endChar": 42
+      },
+      "revId": "20d7d5a3f9499cbc8b9eecd06d002d47d3c1b827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8686d775_7aa4ddd4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper_test.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-02-26T14:36:26Z",
+      "side": 1,
+      "message": "what is passing through where?",
+      "range": {
+        "startLine": 132,
+        "startChar": 16,
+        "endLine": 132,
+        "endChar": 38
+      },
+      "revId": "20d7d5a3f9499cbc8b9eecd06d002d47d3c1b827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da0570af_8fe1d08f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper_test.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-02-26T14:36:26Z",
+      "side": 1,
+      "message": "not sure I follow this comment.\nResult from the network? -\u003e what does this mean\n\nreturn a 429 error when it\u0027s no longer being retried -\u003e what is returning 429 and what is no longer being retried? I\u0027m not sure I follow this",
+      "range": {
+        "startLine": 138,
+        "startChar": 10,
+        "endLine": 139,
+        "endChar": 38
+      },
+      "revId": "20d7d5a3f9499cbc8b9eecd06d002d47d3c1b827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f1ab7ad_03f7611e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper_test.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-02-26T14:36:26Z",
+      "side": 1,
+      "message": "I can\u0027t easily figure out why it was not retried in the previous test but it\u0027s retried in this test.\n\nCan you please explain the cause of the retry?",
+      "range": {
+        "startLine": 144,
+        "startChar": 4,
+        "endLine": 144,
+        "endChar": 22
+      },
+      "revId": "20d7d5a3f9499cbc8b9eecd06d002d47d3c1b827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

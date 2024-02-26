@@ -69,6 +69,24 @@
       "parentUuid": "89ef6aff_d0768604",
       "revId": "5231f163c70096b14f8db8cad6f4cb6fb8d900a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "678bdcf7_5bf4390c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2024-02-26T07:14:04Z",
+      "side": 1,
+      "message": "\u003e The fields are supposed to be searchable by an end-user\n\nI don\u0027t think that\u0027s given. Some fields might just be for gerrit-internal queries (e.g. ref spec).\n\n\u003e I agree with Ponch that would be best to keep the document ids as they are and just allow to search explicitly by change number, which was missing.\n \nSGTM, just wanted to clarify.",
+      "parentUuid": "4f47d96c_a0f544af",
+      "revId": "5231f163c70096b14f8db8cad6f4cb6fb8d900a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

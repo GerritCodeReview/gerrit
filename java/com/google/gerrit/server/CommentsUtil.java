@@ -46,6 +46,7 @@ import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.gerrit.server.patch.DiffOperations;
 import com.google.gerrit.server.patch.DiffOptions;
 import com.google.gerrit.server.patch.filediff.FileDiffOutput;
+import com.google.gerrit.server.query.change.ChangeNumberVirtualIdAlgorithm;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -117,17 +118,20 @@ public class CommentsUtil {
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsers;
   private final String serverId;
+  private final ChangeNumberVirtualIdAlgorithm virtualIdAlgorithm;
 
   @Inject
   CommentsUtil(
       DiffOperations diffOperations,
       GitRepositoryManager repoManager,
       AllUsersName allUsers,
-      @GerritServerId String serverId) {
+      @GerritServerId String serverId,
+      ChangeNumberVirtualIdAlgorithm virtualIdAlgorithm) {
     this.diffOperations = diffOperations;
     this.repoManager = repoManager;
     this.allUsers = allUsers;
     this.serverId = serverId;
+    this.virtualIdAlgorithm = virtualIdAlgorithm;
   }
 
   public HumanComment newHumanComment(
@@ -323,17 +327,18 @@ public class CommentsUtil {
 
   public List<HumanComment> draftByPatchSetAuthor(
       PatchSet.Id psId, Account.Id author, ChangeNotes notes) {
-    return commentsOnPatchSet(notes.load().getDraftComments(author).values(), psId);
+    return commentsOnPatchSet(
+        notes.load().getDraftComments(author, virtualIdAlgorithm).values(), psId);
   }
 
   public List<HumanComment> draftByChangeFileAuthor(
       ChangeNotes notes, String file, Account.Id author) {
-    return commentsOnFile(notes.load().getDraftComments(author).values(), file);
+    return commentsOnFile(notes.load().getDraftComments(author, virtualIdAlgorithm).values(), file);
   }
 
   public List<HumanComment> draftByChangeAuthor(ChangeNotes notes, Account.Id author) {
     List<HumanComment> comments = new ArrayList<>();
-    comments.addAll(notes.getDraftComments(author).values());
+    comments.addAll(notes.getDraftComments(author, virtualIdAlgorithm).values());
     return sort(comments);
   }
 

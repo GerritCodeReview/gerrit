@@ -60,6 +60,7 @@ import com.google.gerrit.server.git.RefCache;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.ChangeNumberVirtualIdAlgorithm;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -562,13 +563,14 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     return Optional.ofNullable(state.mergedOn());
   }
 
-  public ImmutableListMultimap<ObjectId, HumanComment> getDraftComments(Account.Id author) {
-    return getDraftComments(author, null);
+  public ImmutableListMultimap<ObjectId, HumanComment> getDraftComments(
+      Account.Id author, ChangeNumberVirtualIdAlgorithm virtualIdFunc) {
+    return getDraftComments(author, virtualIdFunc, null);
   }
 
   public ImmutableListMultimap<ObjectId, HumanComment> getDraftComments(
-      Account.Id author, @Nullable Ref ref) {
-    loadDraftComments(author, ref);
+      Account.Id author, ChangeNumberVirtualIdAlgorithm virtualIdFunc, @Nullable Ref ref) {
+    loadDraftComments(author, virtualIdFunc, ref);
     // Filter out any zombie draft comments. These are drafts that are also in
     // the published map, and arise when the update to All-Users to delete them
     // during the publish operation failed.
@@ -587,9 +589,16 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
    * However, this method will load the comments if no draft comments have been loaded or if the
    * caller would like the drafts for another author.
    */
-  private void loadDraftComments(Account.Id author, @Nullable Ref ref) {
+  private void loadDraftComments(
+      Account.Id author,
+      @Nullable ChangeNumberVirtualIdAlgorithm virtualIdFunc,
+      @Nullable Ref ref) {
     if (draftCommentNotes == null || !author.equals(draftCommentNotes.getAuthor()) || ref != null) {
-      draftCommentNotes = new DraftCommentNotes(args, getChangeId(), author, ref);
+      Change.Id virtualId =
+          virtualIdFunc == null
+              ? getChangeId()
+              : virtualIdFunc.apply(getChange().getServerId(), getChangeId());
+      draftCommentNotes = new DraftCommentNotes(args, getChangeId(), virtualId, author, ref);
       draftCommentNotes.load();
     }
   }

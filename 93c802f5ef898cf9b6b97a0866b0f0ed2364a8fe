@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "3123ec25_03de16de",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-02-26T18:09:46Z",
+      "side": 1,
+      "message": "Can you provide a specific example and add it as a comment?\n\nTo me it\u0027s still unclear. Why would some caller not want the response parsed?\n\n\u003e or simply because we don\u0027t care about the contents of the response\n\nSure but the response can still be parsed in this case so we can call the other method and not use this one?",
+      "parentUuid": "05ccad9d_f988e067",
+      "range": {
+        "startLine": 329,
+        "startChar": 2,
+        "endLine": 329,
+        "endChar": 13
+      },
+      "revId": "93c802f5ef898cf9b6b97a0866b0f0ed2364a8fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "2c3e89ad_3b848608",

@@ -26,6 +26,7 @@ import com.google.gerrit.server.DraftCommentsReader;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.query.change.ChangeNumberVirtualIdAlgorithm;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -43,15 +44,18 @@ public class DraftCommentsNotesReader implements DraftCommentsReader {
   private final DraftCommentNotes.Factory draftCommentNotesFactory;
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsers;
+  private final ChangeNumberVirtualIdAlgorithm virtualIdAlgorithm;
 
   @Inject
   DraftCommentsNotesReader(
       DraftCommentNotes.Factory draftCommentNotesFactory,
       GitRepositoryManager repoManager,
-      AllUsersName allUsers) {
+      AllUsersName allUsers,
+      ChangeNumberVirtualIdAlgorithm virtualIdAlgorithm) {
     this.draftCommentNotesFactory = draftCommentNotesFactory;
     this.repoManager = repoManager;
     this.allUsers = allUsers;
+    this.virtualIdAlgorithm = virtualIdAlgorithm;
   }
 
   @Override
@@ -64,7 +68,7 @@ public class DraftCommentsNotesReader implements DraftCommentsReader {
 
   @Override
   public List<HumanComment> getDraftsByChangeAndDraftAuthor(ChangeNotes notes, Account.Id author) {
-    return sort(new ArrayList<>(notes.getDraftComments(author)));
+    return sort(new ArrayList<>(notes.getDraftComments(author, getVirtualId(notes))));
   }
 
   @Override
@@ -77,7 +81,7 @@ public class DraftCommentsNotesReader implements DraftCommentsReader {
   public List<HumanComment> getDraftsByPatchSetAndDraftAuthor(
       ChangeNotes notes, PatchSet.Id psId, Account.Id author) {
     return sort(
-        notes.load().getDraftComments(author).stream()
+        notes.load().getDraftComments(author, getVirtualId(notes)).stream()
             .filter(c -> c.key.patchSetId == psId.get())
             .collect(Collectors.toList()));
   }
@@ -136,7 +140,7 @@ public class DraftCommentsNotesReader implements DraftCommentsReader {
   private List<Ref> getDraftRefs(ChangeNotes notes) {
     try (Repository repo = repoManager.openRepository(allUsers)) {
       return repo.getRefDatabase()
-          .getRefsByPrefix(RefNames.refsDraftCommentsPrefix(notes.getChangeId()));
+          .getRefsByPrefix(RefNames.refsDraftCommentsPrefix(getVirtualId(notes)));
     } catch (IOException e) {
       throw new StorageException(e);
     }
@@ -144,5 +148,11 @@ public class DraftCommentsNotesReader implements DraftCommentsReader {
 
   private List<HumanComment> sort(List<HumanComment> comments) {
     return CommentsUtil.sort(comments);
+  }
+
+  private Change.Id getVirtualId(ChangeNotes notes) {
+    return virtualIdAlgorithm == null
+        ? notes.getChangeId()
+        : virtualIdAlgorithm.apply(notes.getServerId(), notes.getChangeId());
   }
 }

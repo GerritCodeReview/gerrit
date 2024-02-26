@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d018816d_8826fd23",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-26T14:52:48Z",
+      "side": 1,
+      "message": "Added more explicit to the commit message\n\nYes, the error here is meant JSON parsing error.",
+      "parentUuid": "a19df9c4_18d42670",
+      "range": {
+        "startLine": 7,
+        "startChar": 18,
+        "endLine": 7,
+        "endChar": 39
+      },
+      "revId": "281158a2870e0ebc7689fecb9d113915b278c825",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "defaf707_61f1124e",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-02-26T14:09:33Z",
       "side": 1,
       "message": "what does this sentence mean?\n\n\"All\" has? What is the entity having something?",
+      "range": {
+        "startLine": 51,
+        "startChar": 3,
+        "endLine": 51,
+        "endChar": 79
+      },
+      "revId": "281158a2870e0ebc7689fecb9d113915b278c825",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9f6acc8_25f08ec7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-26T14:52:48Z",
+      "side": 1,
+      "message": "I meant all methods of the class and then explicitly named \"has\" \"set\" and \"get\") methods.\n\nRemoved \"has/set/get\" to avoid confusion. Added more clarity to the 2nd sentence\n\nOverall meaning is that when `window.CANONICAL_PATH` changes, you can no longer access entries for previous `window.CANONICAL_PATH` (without changing it back)",
+      "parentUuid": "defaf707_61f1124e",
       "range": {
         "startLine": 51,
         "startChar": 3,
@@ -116,6 +164,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b36bb89_5fb7fa53",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-26T14:52:48Z",
+      "side": 1,
+      "message": "I am actually not entirely sure, the value of the field comes from the java code through index.html. https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy;l\u003d64?q\u003dPolyGerritIndexHtml.soy\n\nI think for google deployment it\u0027s always unset (or equal to \u0027\u0027), because I don\u0027t see usages of the method that sets it. But upstream there are more references.\n\nFrom the usage it\u0027s the base path that is added as prefix to urls in various rest api methods. It being unset means we use relative paths. It\u0027s unclear how can it possibly change without reloading the page (and therefore losing the state of these global variables). Nevertheless this cache is written under the assumption that it can in fact change.",
+      "parentUuid": "c9dbb228_06a2c579",
+      "range": {
+        "startLine": 74,
+        "startChar": 27,
+        "endLine": 74,
+        "endChar": 48
+      },
+      "revId": "281158a2870e0ebc7689fecb9d113915b278c825",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d923aa30_4255a5b9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-26T14:52:48Z",
+      "side": 1,
+      "message": "I believe for google gerrit deployment it\u0027s always not set.",
+      "parentUuid": "d494ee6d_793bba18",
+      "range": {
+        "startLine": 74,
+        "startChar": 27,
+        "endLine": 74,
+        "endChar": 48
+      },
+      "revId": "281158a2870e0ebc7689fecb9d113915b278c825",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cdd0bff3_81b1cc23",
@@ -139,6 +235,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "27d02ac5_b30d46ff",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-26T14:52:48Z",
+      "side": 1,
+      "message": "We do, because `get` can technically return `undefined`. But we exclude this with the `has` check above",
+      "parentUuid": "cdd0bff3_81b1cc23",
+      "range": {
+        "startLine": 78,
+        "startChar": 4,
+        "endLine": 78,
+        "endChar": 68
+      },
+      "revId": "281158a2870e0ebc7689fecb9d113915b278c825",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "16976124_0e7aeb7a",
@@ -152,6 +272,30 @@
       "writtenOn": "2024-02-26T14:09:33Z",
       "side": 1,
       "message": "What does this comment mean?\nThis method is calling `readJSONResponsePayload`.\n\nAre you expressing that this method can be removed in favour of `readJSONResponsePayload`?",
+      "range": {
+        "startLine": 404,
+        "startChar": 19,
+        "endLine": 404,
+        "endChar": 80
+      },
+      "revId": "281158a2870e0ebc7689fecb9d113915b278c825",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d27db46_cf2b1e6f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-26T14:52:48Z",
+      "side": 1,
+      "message": "Yes, exactly. In the following changes, I in fact removed this method and just let the callsites use readJSONResponsePayload directly.",
+      "parentUuid": "16976124_0e7aeb7a",
       "range": {
         "startLine": 404,
         "startChar": 19,

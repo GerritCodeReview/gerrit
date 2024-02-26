@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "e543099f_eb4f0bbc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-26T14:52:48Z",
+      "side": 0,
+      "message": "Since we are working on the fork, removing them doesn\u0027t affect the usage. The actual places where they are used are affected in https://gerrit-review.git.corp.google.com/c/gerrit/+/407817/8 \n\nIt seemed a better trade-off for me to have simplified types vs. some minor casting boilerplate at the callsite. It made it easier to get rid of `unknown` types.",
+      "parentUuid": "4b7a25cd_7110343f",
+      "range": {
+        "startLine": 104,
+        "startChar": 0,
+        "endLine": 107,
+        "endChar": 0
+      },
+      "revId": "ae5ee155aaffb9ec5b86ec8bcec5f621749a3961",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "7d3b609a_75f1558a",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
         "patchSetId": 5

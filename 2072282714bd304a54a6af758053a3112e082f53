@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3bbe1120_1c97c41e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-02-26T15:27:21Z",
+      "side": 1,
+      "message": "Where is this method used?\nIf it\u0027s in a different CL, then can you just keep this CL for the removal of `send` method?",
+      "range": {
+        "startLine": 217,
+        "startChar": 0,
+        "endLine": 217,
+        "endChar": 31
+      },
+      "revId": "2072282714bd304a54a6af758053a3112e082f53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

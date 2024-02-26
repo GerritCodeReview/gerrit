@@ -350,6 +350,11 @@ export class GrRouter implements Finalizable, NavigationService {
         }
       }),
       this.routerModel.routerView$.subscribe(view => (this.view = view)),
+      // Compared to the NAVIGATION event this event will also include the
+      // change id.
+      this.routerModel.routerView$.subscribe(view =>
+        this.reporting.reportLifeCycle(LifeCycle.VIEW_CHANGED, {view})
+      ),
     ];
   }
 

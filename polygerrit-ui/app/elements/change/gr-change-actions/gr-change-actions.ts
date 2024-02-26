@@ -313,7 +313,6 @@ interface MenuAction {
 interface OverflowAction {
   type: ActionType;
   key: string;
-  overflow?: boolean;
 }
 
 interface ActionPriorityOverride {
@@ -825,7 +824,7 @@ export class GrChangeActions
     this.topLevelActions = this.allActionValues.filter(a => {
       if (this.hiddenActions.includes(a.__key)) return false;
       if (this.editMode) return EDIT_ACTIONS.has(a.__key);
-      return this.getActionOverflowIndex(a.__type, a.__key) === -1;
+      return !this.isOverflowAction(a.__type, a.__key);
     });
     this.topLevelPrimaryActions = this.topLevelActions.filter(
       action => action.__primary
@@ -933,22 +932,25 @@ export class GrChangeActions
     this.requestUpdate('additionalActions');
   }
 
+  // TODO: Rename to toggleOverflow().
   setActionOverflow(type: ActionType, key: string, overflow: boolean) {
     if (type !== ActionType.CHANGE && type !== ActionType.REVISION) {
       throw Error(`Invalid action type given: ${type}`);
     }
-    const index = this.getActionOverflowIndex(type, key);
-    const action: OverflowAction = {
-      type,
-      key,
-      overflow,
-    };
-    if (!overflow && index !== -1) {
-      this.overflowActions.splice(index, 1);
-      this.requestUpdate('overflowActions');
-    } else if (overflow) {
-      this.overflowActions.push(action);
-      this.requestUpdate('overflowActions');
+    const isCurrentlyOverflow = this.isOverflowAction(type, key);
+    if (overflow === isCurrentlyOverflow) {
+      return;
+    }
+
+    // remove from overflowActions
+    if (!overflow) {
+      this.overflowActions = this.overflowActions.filter(
+        action => action.type !== type || action.key !== key
+      );
+    }
+    // add to overflowActions
+    if (overflow) {
+      this.overflowActions = [...this.overflowActions, {type, key}];
     }
   }
 
@@ -1723,8 +1725,8 @@ export class GrChangeActions
     );
   }
 
-  private getActionOverflowIndex(type: string, key: string) {
-    return this.overflowActions.findIndex(
+  private isOverflowAction(type: string, key: string) {
+    return this.overflowActions.some(
       action => action.type === type && action.key === key
     );
   }
@@ -1742,8 +1744,7 @@ export class GrChangeActions
       buttonKey = ChangeActions.REVERT;
     }
 
-    // If the action appears in the overflow menu.
-    if (this.getActionOverflowIndex(action.__type, buttonKey) !== -1) {
+    if (this.isOverflowAction(action.__type, buttonKey)) {
       this.disabledMenuActions.push(buttonKey === '/' ? 'delete' : buttonKey);
       this.requestUpdate('disabledMenuActions');
       return () => {
@@ -2171,7 +2172,7 @@ export class GrChangeActions
   private computeMenuActions(): MenuAction[] {
     return this.allActionValues
       .filter(a => {
-        const overflow = this.getActionOverflowIndex(a.__type, a.__key) !== -1;
+        const overflow = this.isOverflowAction(a.__type, a.__key);
         return overflow && !this.hiddenActions.includes(a.__key);
       })
       .map(action => {

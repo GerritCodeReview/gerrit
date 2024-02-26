@@ -58,5 +58,9 @@ build --announce_rc
 
 test --build_tests_only
 test --test_output=errors
+# This option is the default for Bazel 7 that is used on master since
+# change Ie7cb3003d, so this additional config should be removed when
+# merging to master.
+test --incompatible_sandbox_hermetic_tmp
 
 import %workspace%/tools/remote-bazelrc

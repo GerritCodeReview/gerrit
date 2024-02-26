@@ -291,7 +291,7 @@ suite('gr-editor-view tests', () => {
     test('file modification and publish', async () => {
       const saveSpy = sinon.spy(element, 'saveEdit');
       const alertStub = sinon.stub(element, 'showAlert');
-      const changeActionsStub = stubRestApi('executeChangeAction');
+      const changeActionsStub = stubRestApi('executeChangeAction').resolves();
       saveFileStub.returns(Promise.resolve({ok: true}));
       element.newContent = newText;
       await element.updateComplete;

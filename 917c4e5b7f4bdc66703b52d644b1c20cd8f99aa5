@@ -22,6 +22,30 @@
       },
       "revId": "917c4e5b7f4bdc66703b52d644b1c20cd8f99aa5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f10d3aa4_76fc3e50",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-02-26T17:37:06Z",
+      "side": 1,
+      "message": "Sorry, I got confused.",
+      "parentUuid": "865c7e4a_73754e6e",
+      "range": {
+        "startLine": 75,
+        "startChar": 0,
+        "endLine": 78,
+        "endChar": 42
+      },
+      "revId": "917c4e5b7f4bdc66703b52d644b1c20cd8f99aa5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -26,6 +26,7 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.server.query.change.ChangeNumberVirtualIdAlgorithm;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
@@ -41,8 +42,10 @@ import org.eclipse.jgit.revwalk.RevCommit;
 public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  private final Change.Id virtualId;
+
   public interface Factory {
-    DraftCommentNotes create(Change.Id changeId, Account.Id accountId);
+    DraftCommentNotes create(@Assisted("changeId") Change.Id changeId, @Assisted("virtualId") Change.Id virtualId, Account.Id accountId);
   }
 
   private final Account.Id author;
@@ -52,12 +55,13 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
   private RevisionNoteMap<ChangeRevisionNote> revisionNoteMap;
 
   @AssistedInject
-  DraftCommentNotes(Args args, @Assisted Change.Id changeId, @Assisted Account.Id author) {
-    this(args, changeId, author, null);
+  DraftCommentNotes(Args args, @Assisted("changeId") Change.Id changeId, @Assisted("virtualId") Change.Id virtualId, @Assisted Account.Id author) {
+    this(args, changeId, virtualId, author, null);
   }
 
-  DraftCommentNotes(Args args, Change.Id changeId, Account.Id author, @Nullable Ref ref) {
+  DraftCommentNotes(Args args, Change.Id changeId, Change.Id virtualId, Account.Id author, @Nullable Ref ref) {
     super(args, changeId, null);
+    this.virtualId = virtualId;
     this.author = requireNonNull(author);
     this.ref = ref;
     if (ref != null) {
@@ -93,7 +97,7 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
 
   @Override
   protected String getRefName() {
-    return refsDraftComments(getChangeId(), author);
+    return refsDraftComments(virtualId, author);
   }
 
   @Override

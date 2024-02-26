@@ -1524,7 +1524,7 @@ public class ChangeData {
             // this is suboptimal, but is ok for the purposes of
             // draftsByUser(), and easier than trying to rebuild the change at
             // this point.
-            && !notes().getDraftComments(account, ref).isEmpty()) {
+            && !notes().getDraftComments(account, virtualIdFunc, ref).isEmpty()) {
           draftsByUser.put(account, ref.getObjectId());
         }
       }

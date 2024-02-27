@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be4d0b26_f52850e5",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 893,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-27T09:00:08Z",
+      "side": 1,
+      "message": "Do we have a test for this?",
+      "range": {
+        "startLine": 893,
+        "startChar": 2,
+        "endLine": 893,
+        "endChar": 23
+      },
+      "revId": "d4c965d93e66b91fd2f22b7599917add2dfe81d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ace484db_61344f43",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 897,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-27T09:00:08Z",
+      "side": 1,
+      "message": "I always get confused about what contains only \"default\" actions, and what can contain plugin custom actions. This check is for checking that \"default\" actions have not been loaded yet, correct?\n\nCan we add documentation to revisionActions declaration?",
+      "range": {
+        "startLine": 897,
+        "startChar": 18,
+        "endLine": 897,
+        "endChar": 38
+      },
+      "revId": "d4c965d93e66b91fd2f22b7599917add2dfe81d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e269ef92_d5b9dfb9",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-topic-flow/gr-change-list-topic-flow.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-02-27T14:38:16Z",
+      "side": 1,
+      "message": "maybe add a method `removeChangeTopic` and hide the implementation detail that setting empty removes the topic.",
+      "range": {
+        "startLine": 376,
+        "startChar": 32,
+        "endLine": 376,
+        "endChar": 46
+      },
+      "revId": "2cfd3e76a58bdb52fe6b1b89c8858c25f96c9886",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b30dcea8_1d84ac5a",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-topic-flow/gr-change-list-topic-flow_test.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-02-27T14:38:16Z",
+      "side": 1,
+      "message": "nit: which has a",
+      "range": {
+        "startLine": 347,
+        "startChar": 38,
+        "endLine": 347,
+        "endChar": 58
+      },
+      "revId": "2cfd3e76a58bdb52fe6b1b89c8858c25f96c9886",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b1156bf_6a2ebf26",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-topic-flow/gr-change-list-topic-flow_test.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-02-27T14:38:16Z",
+      "side": 1,
+      "message": "same here",
+      "range": {
+        "startLine": 381,
+        "startChar": 38,
+        "endLine": 381,
+        "endChar": 58
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "44de171e_8b9d7336",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change-list/gr-change-list-topic-flow/gr-change-list-topic-flow_test.ts",
+              "range": {
+                "startLine": 381,
+                "startChar": 0,
+                "endLine": 382,
+                "endChar": 0
+              },
+              "replacement": "      // not called for second change which has a different topic\n"
+            }
+          ]
+        }
+      ],
+      "revId": "2cfd3e76a58bdb52fe6b1b89c8858c25f96c9886",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

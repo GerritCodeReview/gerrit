@@ -227,6 +227,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f3c7628_92e32ca3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-02-27T09:59:25Z",
+      "side": 1,
+      "message": "Hi @hiesel@google.com, could you have a quick look at this change and give the initial feedback? The most important question is _if it\u0027s worth merging into `master`_. Before I go on and fix the failing tests, I wanted to have confirmation that the approach I\u0027ve taken makes sense and would be acceptable.\n\nOne thing to note is that this \"on-demand online migration\" improves notes load time by about 20% as demonstrated [here](https://gerrit-review.googlesource.com/c/gerrit/+/409484/comments/22c1f4e0_98433de0)",
+      "revId": "78f266c75381c4902094cf8e1369835a7232d58a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3e01ec39_3e4f8a29",

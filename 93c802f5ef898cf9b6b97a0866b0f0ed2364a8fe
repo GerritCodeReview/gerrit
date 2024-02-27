@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "b868155a_c4ba269d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-27T12:12:48Z",
+      "side": 1,
+      "message": "https://source.corp.google.com/search?q\u003dresponse%5C.status%20file:polygerrit\u0026sq\u003dpackage:piper%20file:%2F%2Fdepot%2Fgoogle3%20-file:google3%2Fexperimental\n\nThis query will give you examples that inspect status. so they want Response object and not parsed json. there are also cases i have seen, where response is not Json, but i don\u0027t remember exact examples\n\nBut even on a more conceptual level: even if we didn\u0027t use it anywhere, I don\u0027t believe it should be private. There is a value in this API as being convenient wrapper around fetch that adds authentication, throttling, retrying, etc. The JSON (especially prefixed JSON) parts are very specific to gerrit api, while this fetch can be used for more.",
+      "parentUuid": "3123ec25_03de16de",
+      "range": {
+        "startLine": 329,
+        "startChar": 2,
+        "endLine": 329,
+        "endChar": 13
+      },
+      "revId": "93c802f5ef898cf9b6b97a0866b0f0ed2364a8fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "2c3e89ad_3b848608",

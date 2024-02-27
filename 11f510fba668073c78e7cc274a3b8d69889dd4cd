@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a89702d_d71e2ce1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-02-27T08:10:38Z",
+      "side": 1,
+      "message": "Test failures?\n```\njavatests/com/google/gerrit/server/query/change/ChangeDataTest.java:37: error: [UnusedVariable] The field \u0027GERRIT_SERVER_ID\u0027 is never read.\n  private static final String GERRIT_SERVER_ID \u003d UUID.randomUUID().toString();\n                              ^\n    (see https://errorprone.info/bugpattern/UnusedVariable)\n  Did you mean to remove this line or \u0027static { UUID.randomUUID().toString(); }\u0027?\njavatests/com/google/gerrit/server/query/change/ChangeDataTest.java:71: error: [TruthIncompatibleType] Argument \u0027encodedChangeNum\u0027 should not be passed to this method: its type `Id` is not compatible with `int`\n    assertThat(cd.getVirtualId().get()).isEqualTo(encodedChangeNum);\n                                                  ^\n    (see https://errorprone.info/bugpattern/TruthIncompatibleType)\n```",
+      "revId": "11f510fba668073c78e7cc274a3b8d69889dd4cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

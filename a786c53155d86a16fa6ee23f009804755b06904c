@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f7f67cb_9b9c3c7d",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-02-27T12:14:20Z",
+      "side": 1,
+      "message": "getRepoForChange(changeNum)?\n\nThe fact that the rest-api-impl is doing this cache lookup is an implementation detail that the caller should not be aware about I think",
+      "range": {
+        "startLine": 403,
+        "startChar": 2,
+        "endLine": 403,
+        "endChar": 22
+      },
+      "revId": "a786c53155d86a16fa6ee23f009804755b06904c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1805,7 +1805,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       queryParams.push(`${escapeAndWrapSearchOperatorValue(inputVal)}`);
     }
     if (canSee) {
-      const project = await this.getFromProjectLookup(canSee);
+      const project = await this.getRepoName(canSee);
       queryParams.push(`cansee:${project}~${canSee}`);
     }
     if (filterActive) {
@@ -2413,7 +2413,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     // Some servers may require the project name to be provided
     // alongside the change number, so resolve the project name
     // first.
-    return this.getFromProjectLookup(changeNum).then(project => {
+    return this.getRepoName(changeNum).then(project => {
       const encodedRepoName = encodeURIComponent(project) + '~';
       const url = `/accounts/self/starred.changes/${encodedRepoName}${changeNum}`;
       return this._serialScheduler.schedule(() =>
@@ -2957,7 +2957,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     changeNum: NumericChangeId,
     revisionId?: RevisionId
   ): Promise<string> {
-    return this.getFromProjectLookup(changeNum).then(project => {
+    return this.getRepoName(changeNum).then(project => {
       let url = `/changes/${encodeURIComponent(project)}~${changeNum}`;
       if (revisionId) {
         url += `/revisions/${revisionId}`;
@@ -3268,7 +3268,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     this._projectLookup[changeNum] = Promise.resolve(project);
   }
 
-  getFromProjectLookup(changeNum: NumericChangeId): Promise<RepoName> {
+  getRepoName(changeNum: NumericChangeId): Promise<RepoName> {
     // Hopefully setInProjectLookup() has already been called. Then we don't
     // have to make a dedicated REST API call to look up the project.
     let projectPromise = this._projectLookup[changeNum];

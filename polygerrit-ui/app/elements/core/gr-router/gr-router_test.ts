@@ -863,7 +863,7 @@ suite('gr-router tests', () => {
 
       test('CHANGE_LEGACY', async () => {
         // CHANGE_LEGACY: /^\/c\/(\d+)\/?(.*)$/,
-        stubRestApi('getFromProjectLookup').resolves('project' as RepoName);
+        stubRestApi('getRepoName').resolves('project' as RepoName);
         await checkRedirect('/c/1234', '/c/project/+/1234/');
         await checkRedirect(
           '/c/1234/comment/6789',

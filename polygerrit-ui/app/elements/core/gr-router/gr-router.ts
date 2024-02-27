@@ -1474,7 +1474,7 @@ export class GrRouter implements Finalizable, NavigationService {
       this.show404();
       return;
     }
-    this.restApiService.getFromProjectLookup(changeNum).then(project => {
+    this.restApiService.getRepoName(changeNum).then(project => {
       // Show a 404 and terminate if the lookup request failed. Attempting
       // to redirect after failing to get the project loops infinitely.
       if (!project) {

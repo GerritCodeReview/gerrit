@@ -240,7 +240,7 @@ suite('gr-rest-api-service-impl tests', () => {
   });
 
   test('differing patch diff comments are properly grouped', async () => {
-    sinon.stub(element, 'getFromProjectLookup').resolves('test' as RepoName);
+    sinon.stub(element, 'getRepoName').resolves('test' as RepoName);
     sinon.stub(element._restApiHelper, 'fetchJSON').callsFake(async request => {
       const url = request.url;
       if (url === '/changes/test~42/revisions/1/comments') {
@@ -1280,11 +1280,11 @@ suite('gr-rest-api-service-impl tests', () => {
 
   test('setInProjectLookup', async () => {
     element.setInProjectLookup(555 as NumericChangeId, 'project' as RepoName);
-    const project = await element.getFromProjectLookup(555 as NumericChangeId);
+    const project = await element.getRepoName(555 as NumericChangeId);
     assert.deepEqual(project, 'project' as RepoName);
   });
 
-  suite('getFromProjectLookup', () => {
+  suite('getRepoName', () => {
     const changeNum = 555 as NumericChangeId;
     const repo = 'test-repo' as RepoName;
 
@@ -1292,7 +1292,7 @@ suite('gr-rest-api-service-impl tests', () => {
       const promise = mockPromise<undefined>();
       sinon.stub(element, 'getChange').returns(promise);
 
-      const projectLookup = element.getFromProjectLookup(changeNum);
+      const projectLookup = element.getRepoName(changeNum);
       promise.resolve(undefined);
 
       const err: Error = await assertFails(projectLookup);
@@ -1306,7 +1306,7 @@ suite('gr-rest-api-service-impl tests', () => {
       const promise = mockPromise<undefined | ChangeInfo>();
       sinon.stub(element, 'getChange').returns(promise);
 
-      const projectLookup = element.getFromProjectLookup(changeNum);
+      const projectLookup = element.getRepoName(changeNum);
       promise.resolve({...createChange(), project: repo});
 
       assert.equal(await projectLookup, repo);
@@ -1317,7 +1317,7 @@ suite('gr-rest-api-service-impl tests', () => {
       const promise = mockPromise<undefined>();
       sinon.stub(element, 'getChange').returns(promise);
 
-      const projectLookup = element.getFromProjectLookup(changeNum);
+      const projectLookup = element.getRepoName(changeNum);
       element.setInProjectLookup(changeNum, repo);
       promise.resolve(undefined);
 
@@ -1338,11 +1338,11 @@ suite('gr-rest-api-service-impl tests', () => {
       // Array<Array<Object>>.
       await element.getChangesForMultipleQueries(undefined, []);
       assert.equal(Object.keys(element._projectLookup).length, 3);
-      const project1 = await element.getFromProjectLookup(1 as NumericChangeId);
+      const project1 = await element.getRepoName(1 as NumericChangeId);
       assert.equal(project1, 'test' as RepoName);
-      const project2 = await element.getFromProjectLookup(2 as NumericChangeId);
+      const project2 = await element.getRepoName(2 as NumericChangeId);
       assert.equal(project2, 'test' as RepoName);
-      const project3 = await element.getFromProjectLookup(3 as NumericChangeId);
+      const project3 = await element.getRepoName(3 as NumericChangeId);
       assert.equal(project3, 'test/test' as RepoName);
     });
 
@@ -1356,11 +1356,11 @@ suite('gr-rest-api-service-impl tests', () => {
       // When query !instanceof Array, fetchJSON returns Array<Object>.
       await element.getChanges();
       assert.equal(Object.keys(element._projectLookup).length, 3);
-      const project1 = await element.getFromProjectLookup(1 as NumericChangeId);
+      const project1 = await element.getRepoName(1 as NumericChangeId);
       assert.equal(project1, 'test' as RepoName);
-      const project2 = await element.getFromProjectLookup(2 as NumericChangeId);
+      const project2 = await element.getRepoName(2 as NumericChangeId);
       assert.equal(project2, 'test' as RepoName);
-      const project3 = await element.getFromProjectLookup(3 as NumericChangeId);
+      const project3 = await element.getRepoName(3 as NumericChangeId);
       assert.equal(project3, 'test/test' as RepoName);
     });
   });

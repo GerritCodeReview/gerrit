@@ -325,8 +325,8 @@ export const grRestApiMock: RestApiService = {
   getFileContent(): Promise<Response | Base64FileContent | undefined> {
     return Promise.resolve(new Response());
   },
-  getFromProjectLookup(): Promise<RepoName> {
-    throw new Error('getFromProjectLookup() not implemented by RestApiMock.');
+  getRepoName(): Promise<RepoName> {
+    throw new Error('getRepoName() not implemented by RestApiMock.');
   },
   getGroupAuditLog(): Promise<GroupAuditEventInfo[] | undefined> {
     return Promise.resolve([]);

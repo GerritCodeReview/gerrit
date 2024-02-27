@@ -16,6 +16,24 @@
       "message": "The acceptance tests for this code still pass, but we don\u0027t know yet if this fixes the issue we saw with our copy of prod data. We\u0027re going to re-run copy-approvals tomorrow and I\u0027ll reply back.",
       "revId": "55b95261cfe591ef74ce67f5a4cbb6ca91393a0e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd141091_ad94155d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-02-27T20:03:04Z",
+      "side": 1,
+      "message": "This successfully solved the issue we had with our production data, so I think the fix is good.\n\n```\n$ bazel build release \u0026\u0026 bazel test --flaky_test_attempts 3 --test_timeout 3600 --test_tag_filters\u003d-flaky //...\nINFO: Elapsed time: 2255.221s, Critical Path: 1061.46s\nINFO: 1329 processes: 52 disk cache hit, 827 internal, 228 linux-sandbox, 222 worker.\nINFO: Build completed successfully, 1329 total actions\n[snip]\nExecuted 193 out of 200 tests: 200 tests pass.\nINFO: Build completed successfully, 1329 total actions\n```",
+      "parentUuid": "02fa0026_9ea23a31",
+      "revId": "55b95261cfe591ef74ce67f5a4cbb6ca91393a0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

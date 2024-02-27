@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eefab52a_99904740",
+        "filename": "plugins/delete-project",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-02-27T10:56:47Z",
+      "side": 1,
+      "message": "This is failing due to:\n\n```\nTime: 26.826\nThere was 1 failure:\n1) invalidTargetArchiveFolder(com.googlesource.gerrit.plugins.deleteproject.ConfigurationTest)\nexpected: /buildbuddy/remotebuilds/cb0ee50d-8868-4938-9cb4-4e38e760443b/_tmp/1a603f63979fdbf7741d14f4152518a3/junit1259604211622080480/data\nbut was : /\\\\\\\n        at com.googlesource.gerrit.plugins.deleteproject.ConfigurationTest.invalidTargetArchiveFolder(ConfigurationTest.java:127)\nFAILURES!!!\nTests run: 41,  Failures: 1\n```\n\nThis failure, exposed by RBE BB, is expected.\nIt is because `38b4cb16483045557ffbe7dec8c3d971b95ebc82` does not include the removal of the failing test, which was done in [1].\n\nRBE BB will start passing once we merge to the latest tip of master, which also includes [1].\n\n[1] https://gerrit.googlesource.com/plugins/delete-project/+/75b79c115ba3dd03aa56a3165e6c319fa30c6c4a",
+      "range": {
+        "startLine": 1,
+        "startChar": 18,
+        "endLine": 1,
+        "endChar": 58
+      },
+      "revId": "eb1fa6749681e78d6f8e8cb2a949ec81f6b5e290",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

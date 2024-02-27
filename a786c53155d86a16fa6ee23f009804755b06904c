@@ -22,6 +22,30 @@
       },
       "revId": "a786c53155d86a16fa6ee23f009804755b06904c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "953cd5c5_5aa473ca",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-27T16:10:05Z",
+      "side": 1,
+      "message": "Done in https://gerrit-review.git.corp.google.com/c/gerrit/+/411062",
+      "parentUuid": "1f7f67cb_9b9c3c7d",
+      "range": {
+        "startLine": 403,
+        "startChar": 2,
+        "endLine": 403,
+        "endChar": 22
+      },
+      "revId": "a786c53155d86a16fa6ee23f009804755b06904c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

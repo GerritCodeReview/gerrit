@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b2beb17_38e879db",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 1833,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-02-27T10:22:44Z",
+      "side": 1,
+      "message": "should this method just return the `response.parsed`?\nQuick look but seems like most callers want the `.parsed`?",
+      "range": {
+        "startLine": 1833,
+        "startChar": 23,
+        "endLine": 1833,
+        "endChar": 56
+      },
+      "revId": "655eb636ec075a362886c7dc252f78b508c319d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

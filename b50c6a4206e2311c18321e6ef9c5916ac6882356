@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43426bbf_bd59947d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 935,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-02-27T09:33:54Z",
+      "side": 1,
+      "message": "is the argument of this of type `OverflowAction`?\nCan we instead use that as argument to make it clearer what the argument is?",
+      "range": {
+        "startLine": 935,
+        "startChar": 20,
+        "endLine": 935,
+        "endChar": 49
+      },
+      "revId": "b50c6a4206e2311c18321e6ef9c5916ac6882356",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7b0bd57_6399493e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 935,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-02-27T09:33:54Z",
+      "side": 1,
+      "message": "can you maybe add a definition for this param?\nI\u0027m not sure what the name `overflowToBe` means.",
+      "range": {
+        "startLine": 935,
+        "startChar": 51,
+        "endLine": 935,
+        "endChar": 63
+      },
+      "revId": "b50c6a4206e2311c18321e6ef9c5916ac6882356",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "540bdb54_d0fb515a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 935,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-02-27T09:33:54Z",
+      "side": 1,
+      "message": "setOverflowActions since the variable being set is `overflowActions`?",
+      "range": {
+        "startLine": 935,
+        "startChar": 2,
+        "endLine": 935,
+        "endChar": 19
+      },
+      "revId": "b50c6a4206e2311c18321e6ef9c5916ac6882356",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

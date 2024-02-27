@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b8998ea_a3a1f2ec",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-27T09:59:03Z",
+      "side": 1,
+      "message": "It\u0027s difference in default types.\n\nPromise.catch: has err type as `any` (from signature of reject() method)\nWhile the try catch block has err type as `unknown`",
+      "parentUuid": "5b62bf72_3af696b0",
+      "range": {
+        "startLine": 336,
+        "startChar": 50,
+        "endLine": 336,
+        "endChar": 58
+      },
+      "revId": "083d646e81ad0a0625600c7490cbf2bc304b6327",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f24a3a2d_f7b49e70",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-02-26T18:08:10Z",
       "side": 1,
       "message": "nit: change this to `without retrying`",
+      "range": {
+        "startLine": 132,
+        "startChar": 52,
+        "endLine": 132,
+        "endChar": 61
+      },
+      "revId": "083d646e81ad0a0625600c7490cbf2bc304b6327",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c62b236a_16e525f2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper_test.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-27T09:59:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f24a3a2d_f7b49e70",
       "range": {
         "startLine": 132,
         "startChar": 52,

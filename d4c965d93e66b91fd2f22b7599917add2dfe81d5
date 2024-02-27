@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb34da7f_f08e2193",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 893,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-02-27T09:11:00Z",
+      "side": 1,
+      "message": "See change 410723. Maybe leave a comment there, if you would like other test cases to be covered.",
+      "parentUuid": "be4d0b26_f52850e5",
+      "range": {
+        "startLine": 893,
+        "startChar": 2,
+        "endLine": 893,
+        "endChar": 23
+      },
+      "revId": "d4c965d93e66b91fd2f22b7599917add2dfe81d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ace484db_61344f43",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-02-27T09:00:08Z",
       "side": 1,
       "message": "I always get confused about what contains only \"default\" actions, and what can contain plugin custom actions. This check is for checking that \"default\" actions have not been loaded yet, correct?\n\nCan we add documentation to revisionActions declaration?",
+      "range": {
+        "startLine": 897,
+        "startChar": 18,
+        "endLine": 897,
+        "endChar": 38
+      },
+      "revId": "d4c965d93e66b91fd2f22b7599917add2dfe81d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "11d44dc0_b9bc1d3c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 897,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-02-27T09:11:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ace484db_61344f43",
       "range": {
         "startLine": 897,
         "startChar": 18,

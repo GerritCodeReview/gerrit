@@ -96,7 +96,7 @@ suite('gr-rest-api-service-impl tests', () => {
   });
 
   test('parent diff comments are properly grouped', async () => {
-    element.setInProjectLookup(42 as NumericChangeId, TEST_PROJECT_NAME);
+    element.addRepoNameToCache(42 as NumericChangeId, TEST_PROJECT_NAME);
     sinon.stub(element._restApiHelper, 'fetchJSON').resolves({
       '/COMMIT_MSG': [],
       'sieve.go': [
@@ -240,7 +240,7 @@ suite('gr-rest-api-service-impl tests', () => {
   });
 
   test('differing patch diff comments are properly grouped', async () => {
-    sinon.stub(element, 'getFromProjectLookup').resolves('test' as RepoName);
+    sinon.stub(element, 'getRepoName').resolves('test' as RepoName);
     sinon.stub(element._restApiHelper, 'fetchJSON').callsFake(async request => {
       const url = request.url;
       if (url === '/changes/test~42/revisions/1/comments') {
@@ -335,7 +335,7 @@ suite('gr-rest-api-service-impl tests', () => {
       fetchStub = sinon
         .stub(element._restApiHelper, 'fetch')
         .resolves(new Response(makePrefixedJSON(createAccountWithId())));
-      element.setInProjectLookup(
+      element.addRepoNameToCache(
         testChangeNumber as NumericChangeId,
         testProject as RepoName
       );
@@ -675,7 +675,7 @@ suite('gr-rest-api-service-impl tests', () => {
 
     suite('_failForCreate200', () => {
       test('_sendDiffDraftRequest checks for 200 on create', async () => {
-        element.setInProjectLookup(123 as NumericChangeId, TEST_PROJECT_NAME);
+        element.addRepoNameToCache(123 as NumericChangeId, TEST_PROJECT_NAME);
         sinon.stub(element._restApiHelper, 'fetch').resolves(new Response());
         const failStub = sinon.stub(element, '_failForCreate200').resolves();
         await element._sendDiffDraftRequest(
@@ -688,7 +688,7 @@ suite('gr-rest-api-service-impl tests', () => {
       });
 
       test('_sendDiffDraftRequest no checks for 200 on non create', async () => {
-        element.setInProjectLookup(123 as NumericChangeId, TEST_PROJECT_NAME);
+        element.addRepoNameToCache(123 as NumericChangeId, TEST_PROJECT_NAME);
         sinon.stub(element._restApiHelper, 'fetch').resolves(new Response());
         const failStub = sinon.stub(element, '_failForCreate200').resolves();
         await element._sendDiffDraftRequest(
@@ -820,7 +820,7 @@ suite('gr-rest-api-service-impl tests', () => {
   });
 
   test('startWorkInProgress', async () => {
-    element.setInProjectLookup(42 as NumericChangeId, TEST_PROJECT_NAME);
+    element.addRepoNameToCache(42 as NumericChangeId, TEST_PROJECT_NAME);
     const fetchStub = sinon
       .stub(element._restApiHelper, 'fetch')
       .resolves(new Response());
@@ -858,7 +858,7 @@ suite('gr-rest-api-service-impl tests', () => {
   });
 
   test('deleteComment', async () => {
-    element.setInProjectLookup(123 as NumericChangeId, TEST_PROJECT_NAME);
+    element.addRepoNameToCache(123 as NumericChangeId, TEST_PROJECT_NAME);
     const comment = createComment();
     const fetchStub = sinon
       .stub(element._restApiHelper, 'fetchJSON')
@@ -895,7 +895,7 @@ suite('gr-rest-api-service-impl tests', () => {
   });
 
   test('queryChangeFiles', async () => {
-    element.setInProjectLookup(42 as NumericChangeId, TEST_PROJECT_NAME);
+    element.addRepoNameToCache(42 as NumericChangeId, TEST_PROJECT_NAME);
     const fetchStub = sinon
       .stub(element._restApiHelper, 'fetchJSON')
       .resolves();
@@ -1181,7 +1181,7 @@ suite('gr-rest-api-service-impl tests', () => {
     });
 
     test('GrReviewerUpdatesParser.parse is used', async () => {
-      element.setInProjectLookup(42 as NumericChangeId, TEST_PROJECT_NAME);
+      element.addRepoNameToCache(42 as NumericChangeId, TEST_PROJECT_NAME);
       const changeInfo = createParsedChange();
       const parseStub = sinon
         .stub(GrReviewerUpdatesParser, 'parse')
@@ -1278,13 +1278,13 @@ suite('gr-rest-api-service-impl tests', () => {
     });
   });
 
-  test('setInProjectLookup', async () => {
-    element.setInProjectLookup(555 as NumericChangeId, 'project' as RepoName);
-    const project = await element.getFromProjectLookup(555 as NumericChangeId);
+  test('addRepoNameToCache', async () => {
+    element.addRepoNameToCache(555 as NumericChangeId, 'project' as RepoName);
+    const project = await element.getRepoName(555 as NumericChangeId);
     assert.deepEqual(project, 'project' as RepoName);
   });
 
-  suite('getFromProjectLookup', () => {
+  suite('getRepoName', () => {
     const changeNum = 555 as NumericChangeId;
     const repo = 'test-repo' as RepoName;
 
@@ -1292,7 +1292,7 @@ suite('gr-rest-api-service-impl tests', () => {
       const promise = mockPromise<undefined>();
       sinon.stub(element, 'getChange').returns(promise);
 
-      const projectLookup = element.getFromProjectLookup(changeNum);
+      const projectLookup = element.getRepoName(changeNum);
       promise.resolve(undefined);
 
       const err: Error = await assertFails(projectLookup);
@@ -1306,19 +1306,19 @@ suite('gr-rest-api-service-impl tests', () => {
       const promise = mockPromise<undefined | ChangeInfo>();
       sinon.stub(element, 'getChange').returns(promise);
 
-      const projectLookup = element.getFromProjectLookup(changeNum);
+      const projectLookup = element.getRepoName(changeNum);
       promise.resolve({...createChange(), project: repo});
 
       assert.equal(await projectLookup, repo);
       assert.deepEqual(element._projectLookup, {'555': projectLookup});
     });
 
-    test('getChange fails, but a setInProjectLookup() call is used as fallback', async () => {
+    test('getChange fails, but a addRepoNameToCache() call is used as fallback', async () => {
       const promise = mockPromise<undefined>();
       sinon.stub(element, 'getChange').returns(promise);
 
-      const projectLookup = element.getFromProjectLookup(changeNum);
-      element.setInProjectLookup(changeNum, repo);
+      const projectLookup = element.getRepoName(changeNum);
+      element.addRepoNameToCache(changeNum, repo);
       promise.resolve(undefined);
 
       assert.equal(await projectLookup, repo);
@@ -1338,11 +1338,11 @@ suite('gr-rest-api-service-impl tests', () => {
       // Array<Array<Object>>.
       await element.getChangesForMultipleQueries(undefined, []);
       assert.equal(Object.keys(element._projectLookup).length, 3);
-      const project1 = await element.getFromProjectLookup(1 as NumericChangeId);
+      const project1 = await element.getRepoName(1 as NumericChangeId);
       assert.equal(project1, 'test' as RepoName);
-      const project2 = await element.getFromProjectLookup(2 as NumericChangeId);
+      const project2 = await element.getRepoName(2 as NumericChangeId);
       assert.equal(project2, 'test' as RepoName);
-      const project3 = await element.getFromProjectLookup(3 as NumericChangeId);
+      const project3 = await element.getRepoName(3 as NumericChangeId);
       assert.equal(project3, 'test/test' as RepoName);
     });
 
@@ -1356,11 +1356,11 @@ suite('gr-rest-api-service-impl tests', () => {
       // When query !instanceof Array, fetchJSON returns Array<Object>.
       await element.getChanges();
       assert.equal(Object.keys(element._projectLookup).length, 3);
-      const project1 = await element.getFromProjectLookup(1 as NumericChangeId);
+      const project1 = await element.getRepoName(1 as NumericChangeId);
       assert.equal(project1, 'test' as RepoName);
-      const project2 = await element.getFromProjectLookup(2 as NumericChangeId);
+      const project2 = await element.getRepoName(2 as NumericChangeId);
       assert.equal(project2, 'test' as RepoName);
-      const project3 = await element.getFromProjectLookup(3 as NumericChangeId);
+      const project3 = await element.getRepoName(3 as NumericChangeId);
       assert.equal(project3, 'test/test' as RepoName);
     });
   });
@@ -1384,7 +1384,7 @@ suite('gr-rest-api-service-impl tests', () => {
   });
 
   test('setChangeTopic', async () => {
-    element.setInProjectLookup(123 as NumericChangeId, TEST_PROJECT_NAME);
+    element.addRepoNameToCache(123 as NumericChangeId, TEST_PROJECT_NAME);
     const fetchStub = sinon.stub(element._restApiHelper, 'fetchJSON');
     await element.setChangeTopic(123 as NumericChangeId, 'foo-bar');
     assert.isTrue(fetchStub.calledOnce);
@@ -1395,7 +1395,7 @@ suite('gr-rest-api-service-impl tests', () => {
   });
 
   test('setChangeHashtag', async () => {
-    element.setInProjectLookup(123 as NumericChangeId, TEST_PROJECT_NAME);
+    element.addRepoNameToCache(123 as NumericChangeId, TEST_PROJECT_NAME);
     const fetchStub = sinon.stub(element._restApiHelper, 'fetchJSON');
     await element.setChangeHashtag(123 as NumericChangeId, {
       add: ['foo-bar' as Hashtag],
@@ -1421,7 +1421,7 @@ suite('gr-rest-api-service-impl tests', () => {
 
   suite('getChangeFiles', () => {
     test('patch only', async () => {
-      element.setInProjectLookup(123 as NumericChangeId, TEST_PROJECT_NAME);
+      element.addRepoNameToCache(123 as NumericChangeId, TEST_PROJECT_NAME);
       const fetchStub = sinon
         .stub(element._restApiHelper, 'fetchJSON')
         .resolves();
@@ -1436,7 +1436,7 @@ suite('gr-rest-api-service-impl tests', () => {
     });
 
     test('simple range', async () => {
-      element.setInProjectLookup(123 as NumericChangeId, TEST_PROJECT_NAME);
+      element.addRepoNameToCache(123 as NumericChangeId, TEST_PROJECT_NAME);
       const fetchStub = sinon
         .stub(element._restApiHelper, 'fetchJSON')
         .resolves();
@@ -1456,7 +1456,7 @@ suite('gr-rest-api-service-impl tests', () => {
     });
 
     test('parent index', async () => {
-      element.setInProjectLookup(123 as NumericChangeId, TEST_PROJECT_NAME);
+      element.addRepoNameToCache(123 as NumericChangeId, TEST_PROJECT_NAME);
       const fetchStub = sinon
         .stub(element._restApiHelper, 'fetchJSON')
         .resolves();
@@ -1478,7 +1478,7 @@ suite('gr-rest-api-service-impl tests', () => {
 
   suite('getDiff', () => {
     test('patchOnly', async () => {
-      element.setInProjectLookup(123 as NumericChangeId, TEST_PROJECT_NAME);
+      element.addRepoNameToCache(123 as NumericChangeId, TEST_PROJECT_NAME);
       const fetchStub = sinon
         .stub(element._restApiHelper, 'fetchJSON')
         .resolves();
@@ -1499,7 +1499,7 @@ suite('gr-rest-api-service-impl tests', () => {
     });
 
     test('simple range', async () => {
-      element.setInProjectLookup(123 as NumericChangeId, TEST_PROJECT_NAME);
+      element.addRepoNameToCache(123 as NumericChangeId, TEST_PROJECT_NAME);
       const fetchStub = sinon
         .stub(element._restApiHelper, 'fetchJSON')
         .resolves();
@@ -1520,7 +1520,7 @@ suite('gr-rest-api-service-impl tests', () => {
     });
 
     test('parent index', async () => {
-      element.setInProjectLookup(123 as NumericChangeId, TEST_PROJECT_NAME);
+      element.addRepoNameToCache(123 as NumericChangeId, TEST_PROJECT_NAME);
       const fetchStub = sinon
         .stub(element._restApiHelper, 'fetchJSON')
         .resolves();
@@ -1558,7 +1558,7 @@ suite('gr-rest-api-service-impl tests', () => {
   });
 
   test('getFileContent', async () => {
-    element.setInProjectLookup(1 as NumericChangeId, TEST_PROJECT_NAME);
+    element.addRepoNameToCache(1 as NumericChangeId, TEST_PROJECT_NAME);
     sinon.stub(element._restApiHelper, 'fetch').callsFake(() =>
       Promise.resolve(
         new Response(makePrefixedJSON('new content'), {
@@ -1656,7 +1656,7 @@ suite('gr-rest-api-service-impl tests', () => {
 
   test('ported drafts are not requested user is not logged in', () => {
     const change = createChange();
-    element.setInProjectLookup(change._number, TEST_PROJECT_NAME);
+    element.addRepoNameToCache(change._number, TEST_PROJECT_NAME);
     sinon.stub(element, 'getLoggedIn').resolves(false);
     const getChangeURLAndFetchStub = sinon.stub(
       element._restApiHelper,
@@ -1669,8 +1669,8 @@ suite('gr-rest-api-service-impl tests', () => {
   });
 
   test('saveChangeStarred', async () => {
-    element.setInProjectLookup(123 as NumericChangeId, 'test' as RepoName);
-    element.setInProjectLookup(456 as NumericChangeId, 'test' as RepoName);
+    element.addRepoNameToCache(123 as NumericChangeId, 'test' as RepoName);
+    element.addRepoNameToCache(456 as NumericChangeId, 'test' as RepoName);
     const fetchStub = sinon.stub(element._restApiHelper, 'fetch').resolves();
 
     await element.saveChangeStarred(123 as NumericChangeId, true);

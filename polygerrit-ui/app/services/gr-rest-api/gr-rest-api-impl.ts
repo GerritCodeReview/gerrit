@@ -1211,7 +1211,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
    */
   _maybeInsertInLookup(change: ChangeInfo): void {
     if (change?.project && change._number) {
-      this.setInProjectLookup(change._number, change.project);
+      this.addRepoNameToCache(change._number, change.project);
     }
   }
 
@@ -1805,7 +1805,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       queryParams.push(`${escapeAndWrapSearchOperatorValue(inputVal)}`);
     }
     if (canSee) {
-      const project = await this.getFromProjectLookup(canSee);
+      const project = await this.getRepoName(canSee);
       queryParams.push(`cansee:${project}~${canSee}`);
     }
     if (filterActive) {
@@ -2413,7 +2413,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     // Some servers may require the project name to be provided
     // alongside the change number, so resolve the project name
     // first.
-    return this.getFromProjectLookup(changeNum).then(project => {
+    return this.getRepoName(changeNum).then(project => {
       const encodedRepoName = encodeURIComponent(project) + '~';
       const url = `/accounts/self/starred.changes/${encodedRepoName}${changeNum}`;
       return this._serialScheduler.schedule(() =>
@@ -2957,7 +2957,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     changeNum: NumericChangeId,
     revisionId?: RevisionId
   ): Promise<string> {
-    return this.getFromProjectLookup(changeNum).then(project => {
+    return this.getRepoName(changeNum).then(project => {
       let url = `/changes/${encodeURIComponent(project)}~${changeNum}`;
       if (revisionId) {
         url += `/revisions/${revisionId}`;
@@ -3271,12 +3271,12 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
    * Then we don't need to make a dedicated REST API call or have a fallback,
    * if that fails.
    */
-  setInProjectLookup(changeNum: NumericChangeId, project: RepoName) {
+  addRepoNameToCache(changeNum: NumericChangeId, project: RepoName) {
     this._projectLookup[changeNum] = Promise.resolve(project);
   }
 
-  getFromProjectLookup(changeNum: NumericChangeId): Promise<RepoName> {
-    // Hopefully setInProjectLookup() has already been called. Then we don't
+  getRepoName(changeNum: NumericChangeId): Promise<RepoName> {
+    // Hopefully addRepoNameToCache() has already been called. Then we don't
     // have to make a dedicated REST API call to look up the project.
     let projectPromise = this._projectLookup[changeNum];
     if (projectPromise) return projectPromise;
@@ -3288,7 +3288,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
       // In the very rare case that the change index cannot provide an answer
       // (e.g. stale index) we should check, if the router has called
-      // setInProjectLookup() in the meantime. Then we can fall back to that.
+      // addRepoNameToCache() in the meantime. Then we can fall back to that.
       const currentProjectPromise = this._projectLookup[changeNum];
       if (currentProjectPromise && currentProjectPromise !== projectPromise) {
         return currentProjectPromise;

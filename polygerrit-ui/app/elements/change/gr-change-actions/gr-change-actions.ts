@@ -1834,7 +1834,7 @@ export class GrChangeActions
     switch (action.__key) {
       case ChangeActions.REVERT: {
         const revertChangeInfo: ChangeInfo = response as unknown as ChangeInfo;
-        this.restApiService.setInProjectLookup(
+        this.restApiService.addRepoNameToCache(
           revertChangeInfo._number,
           revertChangeInfo.project
         );
@@ -1851,7 +1851,7 @@ export class GrChangeActions
       case RevisionActions.CHERRYPICK: {
         const cherrypickChangeInfo: ChangeInfo =
           response as unknown as ChangeInfo;
-        this.restApiService.setInProjectLookup(
+        this.restApiService.addRepoNameToCache(
           cherrypickChangeInfo._number,
           cherrypickChangeInfo.project
         );

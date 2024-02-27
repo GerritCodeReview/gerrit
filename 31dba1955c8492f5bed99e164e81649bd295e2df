@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5a153a7_bcb6415a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 906,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-27T09:17:05Z",
+      "side": 1,
+      "message": "When navigating to a differnt change, mergeable will not reset to undefined. But the ChangeModel will be updating for at least some time. Should we account for this?",
+      "range": {
+        "startLine": 906,
+        "startChar": 6,
+        "endLine": 906,
+        "endChar": 37
+      },
+      "revId": "31dba1955c8492f5bed99e164e81649bd295e2df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "845ce4b2_dfd93721",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-27T09:17:05Z",
+      "side": 1,
+      "message": "This only tests mergeable behaviour. Can we add tests for other cases in isLoading?\n\nAlso nit: the test name should reflect that it\u0027s only testing mergeable",
+      "range": {
+        "startLine": 308,
+        "startChar": 4,
+        "endLine": 308,
+        "endChar": 35
+      },
+      "revId": "31dba1955c8492f5bed99e164e81649bd295e2df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

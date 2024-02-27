@@ -393,14 +393,16 @@ export interface RestApiService extends Finalizable {
   ): Promise<IncludedInInfo | undefined>;
 
   /**
-   * Checks in projectLookup map shared across instances for the changeNum.
-   * If it exists, returns the project. If not, calls the restAPI to get the
-   * change, populates projectLookup with the project for that change, and
-   * returns the project.
+   * Looks up repo name in which change is located.
+   *
+   * Change -> repo association is cached. This will only make restAPI call (and
+   * cache the result) if the repo name for the change is not already known.
+   *
+   * addRepoNameToCache can be used to add entry to the cache manually.
    *
    * If the lookup fails the promise rejects and result is not cached.
    */
-  getFromProjectLookup(changeNum: NumericChangeId): Promise<RepoName>;
+  getRepoName(changeNum: NumericChangeId): Promise<RepoName>;
 
   saveDiffDraft(
     changeNum: NumericChangeId,
@@ -836,7 +838,13 @@ export interface RestApiService extends Finalizable {
 
   getTopMenus(): Promise<TopMenuEntryInfo[] | undefined>;
 
-  setInProjectLookup(changeNum: NumericChangeId, repo: RepoName): void;
+  /**
+   * Populates cache for the future getRepoName(changeNum) lookup.
+   *
+   * The repo name is used for constructing of url for all change-based
+   * endpoints.
+   */
+  addRepoNameToCache(changeNum: NumericChangeId, repo: RepoName): void;
   getMergeable(changeNum: NumericChangeId): Promise<MergeableInfo | undefined>;
 
   putChangeCommitMessage(

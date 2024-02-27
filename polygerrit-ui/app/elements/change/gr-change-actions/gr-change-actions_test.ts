@@ -474,9 +474,7 @@ suite('gr-change-actions tests', () => {
 
     test('submit change', async () => {
       const showSpy = sinon.spy(element, 'showActionDialog');
-      stubRestApi('getFromProjectLookup').returns(
-        Promise.resolve('test' as RepoName)
-      );
+      stubRestApi('getRepoName').returns(Promise.resolve('test' as RepoName));
       element.change = {
         ...createChangeViewChange(),
         revisions: {
@@ -510,9 +508,7 @@ suite('gr-change-actions tests', () => {
           'resetFocus'
         )
         .callsFake(() => submitted.resolve());
-      stubRestApi('getFromProjectLookup').returns(
-        Promise.resolve('test' as RepoName)
-      );
+      stubRestApi('getRepoName').returns(Promise.resolve('test' as RepoName));
       element.change = {
         ...createChangeViewChange(),
         revisions: {

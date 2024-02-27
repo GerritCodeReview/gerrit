@@ -140,6 +140,30 @@
       },
       "revId": "b50c6a4206e2311c18321e6ef9c5916ac6882356",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f64bd99e_e4327b5e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 935,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-02-27T09:58:31Z",
+      "side": 1,
+      "message": "Yeah, sorry should have made concrete suggestions.\n\nI would propose renaming `overflowToBe` to `addToOverflow`.\n\nRenaming `overflowAsIs` to `isCurrentlyOverflow`.\n\nThis would make it clearer for me.\n\nThe tricky part is when `addToOverflow \u003d false` and `isCurrentlyOverflow\u003dtrue` then we end up removing it from the overflow actions?\n\nThis method is doing too much and ideally we split into two method, `addToOverflow` and `removeFromOverflow` and let the caller decide what they want.\nIf it\u0027s a bigger change, then maybe leave a TODO?",
+      "parentUuid": "98a2215d_b61f5a4b",
+      "range": {
+        "startLine": 935,
+        "startChar": 51,
+        "endLine": 935,
+        "endChar": 63
+      },
+      "revId": "b50c6a4206e2311c18321e6ef9c5916ac6882356",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

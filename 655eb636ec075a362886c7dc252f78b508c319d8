@@ -22,6 +22,30 @@
       },
       "revId": "655eb636ec075a362886c7dc252f78b508c319d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0d8d611_40434ed3",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 1833,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-27T15:32:18Z",
+      "side": 1,
+      "message": "Most but not all, https://source.corp.google.com/piper///depot/google3/third_party/javascript/polygerrit/services/gr-rest-api/gr-rest-api-impl.ts;rcl\u003d604585707;l\u003d1372 Uses `.raw`. \n\nI\u0027ve looked into improving _getChangeDetail, but to improve it you need to refactor etag logic (maybe bring it into the helper caching logic). And I don\u0027t understand it very well atm.\n\nI will leave it for now. There is only a handful of usages (and this one is removed in a follow-up change), so it\u0027s not a big deal of the line being a bit longer",
+      "parentUuid": "7b2beb17_38e879db",
+      "range": {
+        "startLine": 1833,
+        "startChar": 23,
+        "endLine": 1833,
+        "endChar": 56
+      },
+      "revId": "655eb636ec075a362886c7dc252f78b508c319d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

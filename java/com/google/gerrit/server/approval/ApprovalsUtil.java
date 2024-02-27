@@ -45,6 +45,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
+import com.google.gerrit.server.change.LabelNormalizer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
@@ -102,6 +103,7 @@ public class ApprovalsUtil {
   private final PermissionBackend permissionBackend;
   private final ProjectCache projectCache;
   private final ApprovalCache approvalCache;
+  private final LabelNormalizer labelNormalizer;
 
   @VisibleForTesting
   @Inject
@@ -109,11 +111,13 @@ public class ApprovalsUtil {
       ApprovalInference approvalInference,
       PermissionBackend permissionBackend,
       ProjectCache projectCache,
-      ApprovalCache approvalCache) {
+      ApprovalCache approvalCache,
+      LabelNormalizer labelNormalizer) {
     this.approvalInference = approvalInference;
     this.permissionBackend = permissionBackend;
     this.projectCache = projectCache;
     this.approvalCache = approvalCache;
+    this.labelNormalizer = labelNormalizer;
   }
 
   /**
@@ -375,13 +379,15 @@ public class ApprovalsUtil {
       ChangeUpdate changeUpdate) {
     Set<PatchSetApproval> current =
         ImmutableSet.copyOf(notes.getApprovalsWithCopied().get(notes.getCurrentPatchSet().id()));
+    Iterable<PatchSetApproval> currentNormalized =
+        labelNormalizer.normalize(notes, current).getNormalized();
     Set<PatchSetApproval> inferred =
         ImmutableSet.copyOf(approvalInference.forPatchSet(notes, patchSet, revWalk, repoConfig));
 
     // Exempt granted timestamp from comparisson, otherwise, we would persist the copied
     // labels every time this method is called.
     Table<LabelId, Account.Id, Short> approvalTable = HashBasedTable.create();
-    for (PatchSetApproval psa : current) {
+    for (PatchSetApproval psa : currentNormalized) {
       Account.Id id = psa.accountId();
       approvalTable.put(psa.labelId(), id, psa.value());
     }

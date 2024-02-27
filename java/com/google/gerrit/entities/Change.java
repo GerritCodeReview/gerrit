@@ -427,6 +427,9 @@ public final class Change {
   /** Locally assigned unique identifier of the change */
   private Id changeId;
 
+  /** ServerId of the Gerrit instance that has created the change */
+  private String serverId;
+
   /** Globally assigned unique identifier of the change */
   private Key changeKey;
 
@@ -526,6 +529,14 @@ public final class Change {
   /** 32 bit integer identity for a change. */
   public Change.Id getId() {
     return changeId;
+  }
+
+  public void setServerId(String serverId) {
+    this.serverId = serverId;
+  }
+
+  public String getServerId() {
+    return serverId;
   }
 
   /** 32 bit integer identity for a change. */

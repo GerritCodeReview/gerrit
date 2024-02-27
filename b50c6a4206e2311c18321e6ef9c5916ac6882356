@@ -68,6 +68,78 @@
       },
       "revId": "b50c6a4206e2311c18321e6ef9c5916ac6882356",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98a2215d_b61f5a4b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 935,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-02-27T09:50:26Z",
+      "side": 1,
+      "message": "Maybe you can suggest a better name then? I was hoping that `...ToBe` and `...AsIs` would speak for themselves. Maybe `...Current` and `...Desired`? Or just remove the `...ToBe` suffix?",
+      "parentUuid": "f7b0bd57_6399493e",
+      "range": {
+        "startLine": 935,
+        "startChar": 51,
+        "endLine": 935,
+        "endChar": 63
+      },
+      "revId": "b50c6a4206e2311c18321e6ef9c5916ac6882356",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a57b2d29_29673cdf",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 935,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-02-27T09:50:26Z",
+      "side": 1,
+      "message": "`OverflowAction` is just an internal type, not something that external callers should worry about in the API surface. It is consistent with other parts of the code that actions are generally referenced by type and key. At least not something that I want to refactor in this change.",
+      "parentUuid": "43426bbf_bd59947d",
+      "range": {
+        "startLine": 935,
+        "startChar": 20,
+        "endLine": 935,
+        "endChar": 49
+      },
+      "revId": "b50c6a4206e2311c18321e6ef9c5916ac6882356",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a30a0a5_50b5eae5",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 935,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-02-27T09:50:26Z",
+      "side": 1,
+      "message": "`setActionOverflow()` is what you see from the outside as a caller. `overflowActions` is an internal field. They don\u0027t have to much.\n\nThe method sets the overflow property for just one action, so I think keeping the name as is should be fine.",
+      "parentUuid": "540bdb54_d0fb515a",
+      "range": {
+        "startLine": 935,
+        "startChar": 2,
+        "endLine": 935,
+        "endChar": 19
+      },
+      "revId": "b50c6a4206e2311c18321e6ef9c5916ac6882356",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

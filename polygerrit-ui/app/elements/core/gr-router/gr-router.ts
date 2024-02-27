@@ -401,7 +401,7 @@ export class GrRouter implements Finalizable, NavigationService {
   setState(state: AppElementParams) {
     // TODO: Move this logic into the change model.
     if ('repo' in state && state.repo !== undefined && 'changeNum' in state)
-      this.restApiService.setInProjectLookup(state.changeNum, state.repo);
+      this.restApiService.addRepoNameToCache(state.changeNum, state.repo);
 
     this.routerModel.setState({view: state.view});
     // We are trying to reset the change (view) model when navigating to other
@@ -1361,7 +1361,7 @@ export class GrRouter implements Finalizable, NavigationService {
     const repo = ctx.params[0] as RepoName;
     const commentId = ctx.params[2] as UrlEncodedCommentId;
 
-    this.restApiService.setInProjectLookup(changeNum, repo);
+    this.restApiService.addRepoNameToCache(changeNum, repo);
     const [comments, robotComments, drafts, change] = await Promise.all([
       this.restApiService.getDiffComments(changeNum),
       this.restApiService.getDiffRobotComments(changeNum),
@@ -1474,7 +1474,7 @@ export class GrRouter implements Finalizable, NavigationService {
       this.show404();
       return;
     }
-    this.restApiService.getFromProjectLookup(changeNum).then(project => {
+    this.restApiService.getRepoName(changeNum).then(project => {
       // Show a 404 and terminate if the lookup request failed. Attempting
       // to redirect after failing to get the project loops infinitely.
       if (!project) {

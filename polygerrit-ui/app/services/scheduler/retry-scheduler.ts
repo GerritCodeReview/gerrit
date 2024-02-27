@@ -15,6 +15,16 @@ function untilTimeout(ms: number) {
   return new Promise(resolve => window.setTimeout(resolve, ms));
 }
 
+/**
+ * The scheduler that retries tasks on RetryError.
+ *
+ * The task is only retried if the RetryError was thrown, all other errors cause
+ * the worker to stop and the error is re-thrown.
+ *
+ * The number of retries are limited by maxRetry, the retries are performed
+ * according to exponential backoff, configured by backoffIntervalMs
+ * and backoffFactor.
+ */
 export class RetryScheduler<T> implements Scheduler<T> {
   constructor(
     private readonly base: Scheduler<T>,

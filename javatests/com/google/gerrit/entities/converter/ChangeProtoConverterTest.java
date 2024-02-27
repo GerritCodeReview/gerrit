@@ -278,6 +278,7 @@ public class ChangeProtoConverterTest {
         .hasFields(
             ImmutableMap.<String, Type>builder()
                 .put("changeId", Change.Id.class)
+                .put("serverId", String.class)
                 .put("changeKey", Change.Key.class)
                 .put("createdOn", Instant.class)
                 .put("lastUpdatedOn", Instant.class)

@@ -70,6 +70,30 @@
       },
       "revId": "808e15032687620a04cce261d1822d83b926213c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "72da4a49_db4c0f7a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-27T12:13:05Z",
+      "side": 1,
+      "message": "Looked through all the usages, none of them set `params`. So this should be no-op to include the url params. Added it and corresponding test.\n\nHeaders are not included (probably not needed), body is not included (since it only makes sense to cache GET responses)",
+      "parentUuid": "68c72067_9fb07af8",
+      "range": {
+        "startLine": 447,
+        "startChar": 53,
+        "endLine": 448,
+        "endChar": 71
+      },
+      "revId": "808e15032687620a04cce261d1822d83b926213c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41ac43cc_b6bf24dc",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting_impl.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1011,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-28T08:12:40Z",
+      "side": 1,
+      "message": "I think we can simplify to\n\n```suggestion\n    if (!!changeId \u0026\u0026 changeId !\u003d\u003d this.reportChangeId) {\n      this.reportInteraction(Interaction.CHANGE_ID_CHANGED, {changeId});\n    }\n    this.reportChangeId \u003d changeId;\n```\n\nAdditionally, why do we check `!!changeId`, the type of method argument, doesn\u0027t allow it to be undefined. Can we fix the type, if that\u0027s incorrect?",
+      "range": {
+        "startLine": 1006,
+        "startChar": 4,
+        "endLine": 1011,
+        "endChar": 5
+      },
+      "revId": "9e41b74744ba3ad63a7396ad07a2b77f322713fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

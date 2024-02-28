@@ -46,6 +46,30 @@
       },
       "revId": "9e41b74744ba3ad63a7396ad07a2b77f322713fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f699f570_d7e521f5",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting_impl.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1011,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-28T10:12:38Z",
+      "side": 1,
+      "message": "Understood, the passing of `changeId` as an argument, made me think `reportChangeId` is not used inside.\n\nThanks for fixing the types",
+      "parentUuid": "6e2cedd1_f4df1a65",
+      "range": {
+        "startLine": 1006,
+        "startChar": 4,
+        "endLine": 1011,
+        "endChar": 5
+      },
+      "revId": "9e41b74744ba3ad63a7396ad07a2b77f322713fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -13,14 +13,6 @@ build:build_shared --java_runtime_version=remotejdk_17
 build:build_shared --tool_java_language_version=17
 build:build_shared --tool_java_runtime_version=remotejdk_17
 
-# Builds using remotejdk_17, executes using remotejdk_17 or local_jdk
-# Avoid warnings for non default configurations:
-# build --config=build_shared
-build --java_language_version=17
-build --java_runtime_version=remotejdk_17
-build --tool_java_language_version=17
-build --tool_java_runtime_version=remotejdk_17
-
 # Builds and executes on Google GCP RBE using remotejdk_17
 build:remote --config=config_gcp
 build:remote --config=build_shared

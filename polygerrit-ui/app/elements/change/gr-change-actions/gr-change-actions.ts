@@ -49,6 +49,7 @@ import {
   LabelInfo,
   ListChangesOption,
   NumericChangeId,
+  ParsedJSON,
   PatchSetNumber,
   RequestPayload,
   RevertSubmissionInfo,
@@ -1843,16 +1844,16 @@ export class GrChangeActions
   }
 
   // private but used in test
-  async handleResponse(action: UIActionInfo, response?: Response) {
+  async handleResponse(action: UIActionInfo, response?: ParsedJSON) {
     if (!response) {
       return;
     }
-    // response is guaranteed to be ok (due to semantics of rest-api methods)
-    const obj = await this.restApiService.getResponseObject(response);
+    // Response status is guaranteed to be ok, because rest-api returns
+    // undefined if response is non-2xx.
     switch (action.__key) {
       case ChangeActions.REVERT: {
-        const revertChangeInfo: ChangeInfo = obj as unknown as ChangeInfo;
-        this.restApiService.setInProjectLookup(
+        const revertChangeInfo: ChangeInfo = response as unknown as ChangeInfo;
+        this.restApiService.addRepoNameToCache(
           revertChangeInfo._number,
           revertChangeInfo.project
         );
@@ -1867,8 +1868,9 @@ export class GrChangeActions
         break;
       }
       case RevisionActions.CHERRYPICK: {
-        const cherrypickChangeInfo: ChangeInfo = obj as unknown as ChangeInfo;
-        this.restApiService.setInProjectLookup(
+        const cherrypickChangeInfo: ChangeInfo =
+          response as unknown as ChangeInfo;
+        this.restApiService.addRepoNameToCache(
           cherrypickChangeInfo._number,
           cherrypickChangeInfo.project
         );
@@ -1898,7 +1900,8 @@ export class GrChangeActions
         this.getChangeModel().navigateToChangeResetReload();
         break;
       case ChangeActions.REVERT_SUBMISSION: {
-        const revertSubmistionInfo = obj as unknown as RevertSubmissionInfo;
+        const revertSubmistionInfo =
+          response as unknown as RevertSubmissionInfo;
         if (
           !revertSubmistionInfo.revert_changes ||
           !revertSubmistionInfo.revert_changes.length
@@ -1957,7 +1960,7 @@ export class GrChangeActions
     revisionAction: boolean,
     cleanupFn: () => void,
     action: UIActionInfo
-  ): Promise<Response | undefined> {
+  ): Promise<ParsedJSON | undefined> {
     const handleError: ErrorCallback = response => {
       cleanupFn.call(this);
       this.handleResponseError(action, response, payload);

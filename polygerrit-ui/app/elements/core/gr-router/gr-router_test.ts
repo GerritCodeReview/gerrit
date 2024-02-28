@@ -263,7 +263,7 @@ suite('gr-router tests', () => {
     let urlPromise: MockPromise<string>;
 
     setup(() => {
-      stubRestApi('setInProjectLookup');
+      stubRestApi('addRepoNameToCache');
       urlPromise = mockPromise<string>();
       redirectStub = sinon
         .stub(router, 'redirect')
@@ -374,7 +374,7 @@ suite('gr-router tests', () => {
     }
 
     setup(() => {
-      stubRestApi('setInProjectLookup');
+      stubRestApi('addRepoNameToCache');
       redirectStub = sinon.stub(router, 'redirect');
       redirectToLoginStub = sinon.stub(router, 'redirectToLogin');
       setStateStub = sinon.stub(router, 'setState');
@@ -863,7 +863,7 @@ suite('gr-router tests', () => {
 
       test('CHANGE_LEGACY', async () => {
         // CHANGE_LEGACY: /^\/c\/(\d+)\/?(.*)$/,
-        stubRestApi('getFromProjectLookup').resolves('project' as RepoName);
+        stubRestApi('getRepoName').resolves('project' as RepoName);
         await checkRedirect('/c/1234', '/c/project/+/1234/');
         await checkRedirect(
           '/c/1234/comment/6789',

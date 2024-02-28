@@ -34,6 +34,7 @@ import {
   ChangeSubmissionId,
   CommitId,
   NumericChangeId,
+  ParsedJSON,
   PatchSetNumber,
   RepoName,
   ReviewInput,
@@ -98,29 +99,6 @@ suite('gr-change-actions tests', () => {
           },
         })
       );
-      stubRestApi('send').callsFake((method, url) => {
-        if (method !== 'POST') {
-          return Promise.reject(new Error('bad method'));
-        }
-        if (url === '/changes/test~42/revisions/2/submit') {
-          return Promise.resolve({
-            ...new Response(),
-            ok: true,
-            text() {
-              return Promise.resolve(")]}'\n{}");
-            },
-          });
-        } else if (url === '/changes/test~42/revisions/2/rebase') {
-          return Promise.resolve({
-            ...new Response(),
-            ok: true,
-            text() {
-              return Promise.resolve(")]}'\n{}");
-            },
-          });
-        }
-        return Promise.reject(new Error('bad url'));
-      });
 
       sinon
         .stub(testResolver(pluginLoaderToken), 'awaitPluginsLoaded')
@@ -545,9 +523,7 @@ suite('gr-change-actions tests', () => {
 
     test('submit change', async () => {
       const showSpy = sinon.spy(element, 'showActionDialog');
-      stubRestApi('getFromProjectLookup').returns(
-        Promise.resolve('test' as RepoName)
-      );
+      stubRestApi('getRepoName').returns(Promise.resolve('test' as RepoName));
       element.change = {
         ...createChangeViewChange(),
         revisions: {
@@ -581,9 +557,7 @@ suite('gr-change-actions tests', () => {
           'resetFocus'
         )
         .callsFake(() => submitted.resolve());
-      stubRestApi('getFromProjectLookup').returns(
-        Promise.resolve('test' as RepoName)
-      );
+      stubRestApi('getRepoName').returns(Promise.resolve('test' as RepoName));
       element.change = {
         ...createChangeViewChange(),
         revisions: {
@@ -699,7 +673,7 @@ suite('gr-change-actions tests', () => {
     test('rebase change fires reload event', async () => {
       await element.handleResponse(
         {__key: 'rebase', __type: ActionType.CHANGE, label: 'l'},
-        new Response()
+        {} as ParsedJSON
       );
       assert.isTrue(navigateResetStub.called);
     });
@@ -2457,7 +2431,6 @@ suite('gr-change-actions tests', () => {
       const payload = {foo: 'bar'};
       let onShowError: sinon.SinonStub;
       let onShowAlert: sinon.SinonStub;
-      let getResponseObjectStub: sinon.SinonStub;
 
       setup(async () => {
         cleanup = sinon.stub();
@@ -2478,7 +2451,7 @@ suite('gr-change-actions tests', () => {
       });
 
       suite('happy path', () => {
-        let sendStub: sinon.SinonStub;
+        let executeChangeActionStub: sinon.SinonStub;
         setup(() => {
           stubRestApi('getChangeDetail').returns(
             Promise.resolve({
@@ -2488,9 +2461,8 @@ suite('gr-change-actions tests', () => {
               messages: createChangeMessages(1),
             })
           );
-          getResponseObjectStub = stubRestApi('getResponseObject');
-          sendStub = stubRestApi('executeChangeAction').returns(
-            Promise.resolve(new Response())
+          executeChangeActionStub = stubRestApi('executeChangeAction').returns(
+            Promise.resolve({} as ParsedJSON)
           );
         });
 
@@ -2506,7 +2478,7 @@ suite('gr-change-actions tests', () => {
           assert.isFalse(onShowError.called);
           assert.isTrue(cleanup.calledOnce);
           assert.isTrue(
-            sendStub.calledWith(
+            executeChangeActionStub.calledWith(
               42,
               HttpMethod.DELETE,
               '/endpoint',
@@ -2523,11 +2495,10 @@ suite('gr-change-actions tests', () => {
           });
 
           test('revert submission single change', async () => {
-            getResponseObjectStub.returns(
-              Promise.resolve({
-                revert_changes: [{change_id: 12345, topic: 'T'}],
-              })
-            );
+            const response = {
+              revert_changes: [{change_id: 12345, topic: 'T'}],
+            } as unknown as ParsedJSON;
+            executeChangeActionStub.resolves(response);
             await element.send(
               HttpMethod.POST,
               {message: 'Revert submission'},
@@ -2542,20 +2513,19 @@ suite('gr-change-actions tests', () => {
                 __type: ActionType.CHANGE,
                 label: 'l',
               },
-              new Response()
+              response
             );
             assert.isTrue(setUrlStub.called);
             assert.equal(setUrlStub.lastCall.args[0], '/q/topic:"T"');
           });
 
           test('revert single change', async () => {
-            getResponseObjectStub.returns(
-              Promise.resolve({
-                change_id: 12345,
-                project: 'projectId',
-                _number: 12345,
-              })
-            );
+            const response = {
+              change_id: 12345,
+              project: 'projectId',
+              _number: 12345,
+            } as unknown as ParsedJSON;
+            executeChangeActionStub.resolves(response);
             stubRestApi('getChange').returns(
               Promise.resolve(createChangeViewChange())
             );
@@ -2573,7 +2543,7 @@ suite('gr-change-actions tests', () => {
                 __type: ActionType.CHANGE,
                 label: 'l',
               },
-              new Response()
+              response
             );
             assert.isTrue(setUrlStub.called);
             assert.equal(setUrlStub.lastCall.args[0], '/c/projectId/+/12345');
@@ -2583,15 +2553,15 @@ suite('gr-change-actions tests', () => {
         suite('multiple changes revert', () => {
           let showActionDialogStub: sinon.SinonStub;
           let setUrlStub: sinon.SinonStub;
+          let response: ParsedJSON;
           setup(() => {
-            getResponseObjectStub.returns(
-              Promise.resolve({
-                revert_changes: [
-                  {change_id: 12345, topic: 'T'},
-                  {change_id: 23456, topic: 'T'},
-                ],
-              })
-            );
+            response = {
+              revert_changes: [
+                {change_id: 12345, topic: 'T'},
+                {change_id: 23456, topic: 'T'},
+              ],
+            } as unknown as ParsedJSON;
+            executeChangeActionStub.resolves(response);
             showActionDialogStub = sinon.stub(element, 'showActionDialog');
             setUrlStub = sinon.stub(testResolver(navigationToken), 'setUrl');
           });
@@ -2611,7 +2581,7 @@ suite('gr-change-actions tests', () => {
                 __type: ActionType.CHANGE,
                 label: 'l',
               },
-              new Response()
+              response
             );
             assert.isFalse(showActionDialogStub.called);
             assert.isTrue(setUrlStub.called);
@@ -2631,7 +2601,13 @@ suite('gr-change-actions tests', () => {
           assert.isFalse(onShowError.called);
           assert.isTrue(cleanup.calledOnce);
           assert.isTrue(
-            sendStub.calledWith(42, 'DELETE', '/endpoint', 12, payload)
+            executeChangeActionStub.calledWith(
+              42,
+              'DELETE',
+              '/endpoint',
+              12,
+              payload
+            )
           );
         });
       });
@@ -2648,7 +2624,7 @@ suite('gr-change-actions tests', () => {
               messages: createChangeMessages(1),
             })
           );
-          const sendStub = stubRestApi('executeChangeAction');
+          const executeChangeActionStub = stubRestApi('executeChangeAction');
 
           return element
             .send(
@@ -2663,7 +2639,7 @@ suite('gr-change-actions tests', () => {
               assert.isTrue(onShowAlert.calledOnce);
               assert.isFalse(onShowError.called);
               assert.isTrue(cleanup.calledOnce);
-              assert.isFalse(sendStub.called);
+              assert.isFalse(executeChangeActionStub.called);
             });
         });
 
@@ -2676,11 +2652,13 @@ suite('gr-change-actions tests', () => {
               messages: createChangeMessages(1),
             })
           );
-          const sendStub = stubRestApi('executeChangeAction').callsFake(
+          const executeChangeActionStub = stubRestApi(
+            'executeChangeAction'
+          ).callsFake(
             (_num, _method, _patchNum, _endpoint, _payload, onErr) => {
               // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
               onErr!();
-              return Promise.resolve(undefined);
+              return Promise.resolve({} as ParsedJSON);
             }
           );
           const handleErrorStub = sinon.stub(element, 'handleResponseError');
@@ -2697,7 +2675,7 @@ suite('gr-change-actions tests', () => {
             .then(() => {
               assert.isFalse(onShowError.called);
               assert.isTrue(cleanup.called);
-              assert.isTrue(sendStub.calledOnce);
+              assert.isTrue(executeChangeActionStub.calledOnce);
               assert.isTrue(handleErrorStub.called);
             });
         });
@@ -2711,7 +2689,6 @@ suite('gr-change-actions tests', () => {
               messages: createChangeMessages(1),
             })
           );
-          getResponseObjectStub = stubRestApi('getResponseObject');
           const setUrlStub = sinon.stub(
             testResolver(navigationToken),
             'setUrl'
@@ -2720,13 +2697,11 @@ suite('gr-change-actions tests', () => {
             element,
             'setReviewOnRevert'
           );
-          getResponseObjectStub.returns(
-            Promise.resolve({
-              change_id: 12345,
-              project: 'projectId',
-              _number: 12345,
-            })
-          );
+          const response = {
+            change_id: 12345,
+            project: 'projectId',
+            _number: 12345,
+          } as unknown as ParsedJSON;
           let errorFired = false;
           // Mimics the behaviour of gr-rest-api-impl: If errFn is passed call
           // it and return undefined, otherwise call fireNetworkError or
@@ -2754,7 +2729,7 @@ suite('gr-change-actions tests', () => {
               __type: ActionType.CHANGE,
               label: 'l',
             },
-            new Response()
+            response
           );
 
           assert.isTrue(errorFired);

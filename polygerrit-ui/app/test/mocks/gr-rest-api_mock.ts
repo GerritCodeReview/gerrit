@@ -61,7 +61,6 @@ import {
   DraftInfo,
 } from '../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../types/diff';
-import {readResponsePayload} from '../../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {
   createAccountDetailWithId,
   createChange,
@@ -77,6 +76,8 @@ import {
   createDefaultPreferences,
 } from '../../constants/constants';
 import {ParsedChangeInfo} from '../../types/types';
+import {readJSONResponsePayload} from '../../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
+import {ErrorCallback} from '../../api/rest';
 
 export const grRestApiMock: RestApiService = {
   addAccountEmail(): Promise<Response> {
@@ -134,7 +135,7 @@ export const grRestApiMock: RestApiService = {
   deleteChangeCommitMessage(): Promise<Response> {
     return Promise.resolve(new Response());
   },
-  deleteComment(): Promise<CommentInfo> {
+  deleteComment(): Promise<CommentInfo | undefined> {
     throw new Error('deleteComment() not implemented by RestApiMock.');
   },
   deleteDiffDraft(): Promise<Response> {
@@ -164,11 +165,11 @@ export const grRestApiMock: RestApiService = {
   deleteWatchedProjects(): Promise<Response> {
     return Promise.resolve(new Response());
   },
-  executeChangeAction(): Promise<Response | undefined> {
-    return Promise.resolve(new Response());
+  executeChangeAction(): Promise<ParsedJSON | undefined> {
+    return Promise.resolve({}) as Promise<ParsedJSON>;
   },
   finalize(): void {},
-  generateAccountHttpPassword(): Promise<Password> {
+  generateAccountHttpPassword(): Promise<Password | undefined> {
     return Promise.resolve('asdf');
   },
   getAccount(): Promise<AccountDetailInfo | undefined> {
@@ -324,8 +325,8 @@ export const grRestApiMock: RestApiService = {
   getFileContent(): Promise<Response | Base64FileContent | undefined> {
     return Promise.resolve(new Response());
   },
-  getFromProjectLookup(): Promise<RepoName | undefined> {
-    throw new Error('getFromProjectLookup() not implemented by RestApiMock.');
+  getRepoName(): Promise<RepoName> {
+    throw new Error('getRepoName() not implemented by RestApiMock.');
   },
   getGroupAuditLog(): Promise<GroupAuditEventInfo[] | undefined> {
     return Promise.resolve([]);
@@ -402,7 +403,7 @@ export const grRestApiMock: RestApiService = {
     return Promise.resolve([]);
   },
   getResponseObject(response: Response): Promise<ParsedJSON> {
-    return readResponsePayload(response).then(payload => payload.parsed);
+    return readJSONResponsePayload(response).then(payload => payload.parsed);
   },
   getReviewedFiles(): Promise<string[] | undefined> {
     return Promise.resolve([]);
@@ -495,7 +496,7 @@ export const grRestApiMock: RestApiService = {
   saveGroupDescription(): Promise<Response> {
     return Promise.resolve(new Response());
   },
-  saveGroupMember(): Promise<AccountInfo> {
+  saveGroupMember(): Promise<AccountInfo | undefined> {
     return Promise.resolve({});
   },
   saveGroupName(): Promise<Response> {
@@ -517,7 +518,7 @@ export const grRestApiMock: RestApiService = {
   saveRepoConfig(): Promise<Response> {
     return Promise.resolve(new Response());
   },
-  saveWatchedProjects(): Promise<ProjectWatchInfo[]> {
+  saveWatchedProjects(): Promise<ProjectWatchInfo[] | undefined> {
     return Promise.resolve([]);
   },
   send() {
@@ -535,23 +536,29 @@ export const grRestApiMock: RestApiService = {
   setAccountUsername(): Promise<void> {
     return Promise.resolve();
   },
-  setChangeHashtag(): Promise<Hashtag[]> {
+  setChangeHashtag(): Promise<Hashtag[] | undefined> {
     return Promise.resolve([]);
   },
-  setChangeTopic(): Promise<string> {
+  setChangeTopic(): Promise<string | undefined> {
     return Promise.resolve('');
+  },
+  removeChangeTopic(
+    changeNum: NumericChangeId,
+    errFn?: ErrorCallback
+  ): Promise<string | undefined> {
+    return this.setChangeTopic(changeNum, '', errFn);
   },
   setDescription(): Promise<Response> {
     return Promise.resolve(new Response());
   },
-  setInProjectLookup(): void {},
+  addRepoNameToCache(): void {},
   setPreferredAccountEmail(): Promise<void> {
     return Promise.resolve();
   },
   setRepoAccessRights(): Promise<Response> {
     return Promise.resolve(new Response());
   },
-  setRepoAccessRightsForReview(): Promise<ChangeInfo> {
+  setRepoAccessRightsForReview(): Promise<ChangeInfo | undefined> {
     throw new Error('setRepoAccessRightsForReview() not implemented by mock.');
   },
   setRepoHead(): Promise<Response> {

@@ -5,7 +5,7 @@
  */
 import {ParsedChangeInfo} from '../types/types';
 import {getReason} from '../utils/attention-set-util';
-import {readResponsePayload} from '../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
+import {readJSONResponsePayload} from '../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {filterAttentionChangesAfter} from '../utils/service-worker-util';
 import {AccountDetailInfo} from '../api/rest-api';
 import {
@@ -177,9 +177,19 @@ export class ServiceWorker {
     const response = await fetch(
       '/changes/?O=1000081&S=0&n=25&q=attention%3Aself'
     );
-    const payload = await readResponsePayload(response);
-    const changes = payload.parsed as unknown as ParsedChangeInfo[] | undefined;
-    return changes ?? [];
+
+    try {
+      // Throws an error if response payload is not prefixed JSON.
+      return (await readJSONResponsePayload(response))
+        .parsed as unknown as ParsedChangeInfo[];
+    } catch (err) {
+      if (err instanceof Error) {
+        console.warn(
+          `Request for latest attention set changes failed. Error: ${err.message}`
+        );
+      }
+      return [];
+    }
   }
 
   /**

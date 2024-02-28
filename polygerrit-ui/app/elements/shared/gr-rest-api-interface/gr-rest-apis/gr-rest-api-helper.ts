@@ -1,17 +1,11 @@
 /**
  * @license
- * Copyright 2019 Google LLC
+ * Copyright 2024 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
 import {getBaseUrl} from '../../../../utils/url-util';
-import {CancelConditionCallback} from '../../../../services/gr-rest-api/gr-rest-api';
 import {AuthService} from '../../../../services/gr-auth/gr-auth';
-import {
-  AccountDetailInfo,
-  EmailInfo,
-  ParsedJSON,
-  RequestPayload,
-} from '../../../../types/common';
+import {ParsedJSON, RequestPayload} from '../../../../types/common';
 import {HttpMethod} from '../../../../constants/constants';
 import {RpcLogEventDetail} from '../../../../types/events';
 import {
@@ -19,7 +13,10 @@ import {
   fireNetworkError,
   fireServerError,
 } from '../../../../utils/event-util';
-import {AuthRequestInit, FetchRequest} from '../../../../types/types';
+import {
+  AuthRequestInit,
+  FetchRequest as FetchRequestBase,
+} from '../../../../types/types';
 import {ErrorCallback} from '../../../../api/rest';
 import {Scheduler, Task} from '../../../../services/scheduler/scheduler';
 import {RetryError} from '../../../../services/scheduler/retry-scheduler';
@@ -27,32 +24,21 @@ import {RetryError} from '../../../../services/scheduler/retry-scheduler';
 export const JSON_PREFIX = ")]}'";
 
 export interface ResponsePayload {
-  // TODO(TS): readResponsePayload can assign null to the parsed property if
-  // it can't parse input data. However polygerrit assumes in many places
-  // that the parsed property can't be null. We should update
-  // readResponsePayload method and reject a promise instead of assigning
-  // null to the parsed property
-  parsed: ParsedJSON; // Can be null!!! See comment above
+  parsed: ParsedJSON;
   raw: string;
 }
 
-export function readResponsePayload(
+export async function readJSONResponsePayload(
   response: Response
 ): Promise<ResponsePayload> {
-  return response.text().then(text => {
-    let result;
-    try {
-      result = parsePrefixedJSON(text);
-    } catch (_) {
-      result = null;
-    }
-    // TODO(TS): readResponsePayload can assign null to the parsed property if
-    // it can't parse input data. However polygerrit assumes in many places
-    // that the parsed property can't be null. We should update
-    // readResponsePayload method and reject a promise instead of assigning
-    // null to the parsed property
-    return {parsed: result!, raw: text};
-  });
+  const text = await response.text();
+  let result: ParsedJSON;
+  try {
+    result = parsePrefixedJSON(text);
+  } catch (_) {
+    throw new Error(`Response payload is not prefixed json. Payload: ${text}`);
+  }
+  return {parsed: result!, raw: text};
 }
 
 export function parsePrefixedJSON(jsonWithPrefix: string): ParsedJSON {
@@ -63,20 +49,22 @@ export function parsePrefixedJSON(jsonWithPrefix: string): ParsedJSON {
  * Wrapper around Map for caching server responses. Site-based so that
  * changes to CANONICAL_PATH will result in a different cache going into
  * effect.
+ *
+ * All methods operate on the cache for the current CANONICAL_PATH.
+ * Accessing cache entries for older CANONICAL_PATH not supported.
  */
+// TODO(kamilm): Seems redundant to have both this and FetchPromisesCache
+//   consider joining their functionality into a single cache.
 export class SiteBasedCache {
-  // TODO(TS): Type looks unusual. Fix it.
-  // Container of per-canonical-path caches.
-  private readonly data = new Map<
-    string | undefined,
-    unknown | Map<string, ParsedJSON | null>
-  >();
+  private readonly data = new Map<string, Map<string, ParsedJSON>>();
 
   constructor() {
     if (window.INITIAL_DATA) {
       // Put all data shipped with index.html into the cache. This makes it
       // so that we spare more round trips to the server when the app loads
       // initially.
+      // TODO(kamilm): This implies very strict format of what is stored in
+      //   INITIAL_DATA which is not clear from the name, consider renaming.
       Object.entries(window.INITIAL_DATA).forEach(e =>
         this._cache().set(e[0], e[1] as unknown as ParsedJSON)
       );
@@ -84,40 +72,23 @@ export class SiteBasedCache {
   }
 
   // Returns the cache for the current canonical path.
-  _cache(): Map<string, unknown> {
-    if (!this.data.has(window.CANONICAL_PATH)) {
-      this.data.set(
-        window.CANONICAL_PATH,
-        new Map<string, ParsedJSON | null>()
-      );
+  _cache(): Map<string, ParsedJSON> {
+    const canonical_path = window.CANONICAL_PATH ?? '';
+    if (!this.data.has(canonical_path)) {
+      this.data.set(canonical_path, new Map<string, ParsedJSON>());
     }
-    return this.data.get(window.CANONICAL_PATH) as Map<
-      string,
-      ParsedJSON | null
-    >;
+    return this.data.get(canonical_path)!;
   }
 
   has(key: string) {
     return this._cache().has(key);
   }
 
-  get(key: '/accounts/self/emails'): EmailInfo[] | null;
-
-  get(key: '/accounts/self/detail'): AccountDetailInfo | null;
-
-  get(key: string): ParsedJSON | null;
-
-  get(key: string): unknown {
+  get(key: string): ParsedJSON | undefined {
     return this._cache().get(key);
   }
 
-  set(key: '/accounts/self/emails', value: EmailInfo[]): void;
-
-  set(key: '/accounts/self/detail', value: AccountDetailInfo): void;
-
-  set(key: string, value: ParsedJSON | null): void;
-
-  set(key: string, value: unknown) {
+  set(key: string, value: ParsedJSON) {
     this._cache().set(key, value);
   }
 
@@ -126,13 +97,13 @@ export class SiteBasedCache {
   }
 
   invalidatePrefix(prefix: string) {
-    const newMap = new Map<string, unknown>();
+    const newMap = new Map<string, ParsedJSON>();
     for (const [key, value] of this._cache().entries()) {
       if (!key.startsWith(prefix)) {
         newMap.set(key, value);
       }
     }
-    this.data.set(window.CANONICAL_PATH, newMap);
+    this.data.set(window.CANONICAL_PATH ?? '', newMap);
   }
 }
 
@@ -140,6 +111,9 @@ type FetchPromisesCacheData = {
   [url: string]: Promise<ParsedJSON | undefined> | undefined;
 };
 
+/**
+ * Stores promises for inflight requests, by url.
+ */
 export class FetchPromisesCache {
   private data: FetchPromisesCacheData;
 
@@ -180,6 +154,7 @@ export class FetchPromisesCache {
     this.data = newData;
   }
 }
+
 export type FetchParams = {
   [name: string]: string[] | string | number | boolean | undefined | null;
 };
@@ -213,45 +188,56 @@ export function throwingErrorCallback(
   });
 }
 
-interface SendRequestBase {
-  method: HttpMethod | undefined;
+export interface FetchRequest extends FetchRequestBase {
+  /**
+   * If neither this or anonymizedUrl specified no 'gr-rpc-log' event is fired.
+   */
+  reportUrlAsIs?: boolean;
+  /** Extra url params to be encoded and added to the url. */
+  params?: FetchParams;
+  /**
+   * Callback that is called, if an error was caught during fetch or if the
+   * response was returned with a non-2xx status.
+   */
+  errFn?: ErrorCallback;
+  /**
+   * If true, response with non-200 status will cause an error to be reported
+   * via server-error event or errFn, if provided.
+   */
+  // TODO(kamilm): Consider changing the default to true. It makes more sense to
+  //   only skip the check if the caller wants to prosess status themselves.
+  reportServerError?: boolean;
+}
+
+export interface FetchOptionsInit {
+  method?: HttpMethod;
   body?: RequestPayload;
   contentType?: string;
   headers?: Record<string, string>;
-  url: string;
-  reportUrlAsIs?: boolean;
-  anonymizedUrl?: string;
-  errFn?: ErrorCallback;
 }
 
-export interface SendRawRequest extends SendRequestBase {
-  parseResponse?: false | null;
+export function getFetchOptions(init: FetchOptionsInit): AuthRequestInit {
+  const options: AuthRequestInit = {
+    method: init.method,
+  };
+  if (init.body) {
+    options.headers = new Headers();
+    options.headers.set('Content-Type', init.contentType || 'application/json');
+    options.body =
+      typeof init.body === 'string' ? init.body : JSON.stringify(init.body);
+  }
+  // Copy headers after processing body, so that explicit headers can override
+  // if necessary.
+  if (init.headers) {
+    if (!options.headers) {
+      options.headers = new Headers();
+    }
+    for (const [name, value] of Object.entries(init.headers)) {
+      options.headers.set(name, value);
+    }
+  }
+  return options;
 }
-
-export interface SendJSONRequest extends SendRequestBase {
-  parseResponse: true;
-}
-
-export type SendRequest = SendRawRequest | SendJSONRequest;
-
-export interface FetchJSONRequest extends FetchRequest {
-  reportUrlAsIs?: boolean;
-  params?: FetchParams;
-  cancelCondition?: CancelConditionCallback;
-  errFn?: ErrorCallback;
-}
-
-// export function isRequestWithCancel<T extends FetchJSONRequest>(
-//   x: T
-// ): x is T & RequestWithCancel {
-//   return !!(x as RequestWithCancel).cancelCondition;
-// }
-//
-// export function isRequestWithErrFn<T extends FetchJSONRequest>(
-//   x: T
-// ): x is T & RequestWithErrFn {
-//   return !!(x as RequestWithErrFn).errFn;
-// }
 
 export class GrRestApiHelper {
   constructor(
@@ -262,7 +248,7 @@ export class GrRestApiHelper {
     private readonly writeScheduler: Scheduler<Response>
   ) {}
 
-  private schedule(method: string, task: Task<Response>) {
+  private schedule(method: string, task: Task<Response>): Promise<Response> {
     if (method === 'PUT' || method === 'POST' || method === 'DELETE') {
       return this.writeScheduler.schedule(task);
     } else {
@@ -273,20 +259,19 @@ export class GrRestApiHelper {
   /**
    * Wraps calls to the underlying authenticated fetch function (_auth.fetch)
    * with timing and logging.
-s   */
-  fetch(req: FetchRequest): Promise<Response> {
-    const method =
-      req.fetchOptions && req.fetchOptions.method
-        ? req.fetchOptions.method
-        : 'GET';
-    const start = Date.now();
+   */
+  private fetchImpl(req: FetchRequest): Promise<Response> {
+    const method = req.fetchOptions?.method ?? HttpMethod.GET;
+    const startTime = Date.now();
     const task = async () => {
       const res = await this._auth.fetch(req.url, req.fetchOptions);
+      // Check for "too many requests" error and throw RetryError to cause a
+      // retry in this case, if the scheduler attempts retries.
       if (!res.ok && res.status === 429) throw new RetryError<Response>(res);
       return res;
     };
 
-    const xhr = this.schedule(method, task).catch((err: unknown) => {
+    const resPromise = this.schedule(method, task).catch((err: unknown) => {
       if (err instanceof RetryError) {
         return err.payload;
       } else {
@@ -295,9 +280,9 @@ s   */
     });
 
     // Log the call after it completes.
-    xhr.then(res => this._logCall(req, start, res ? res.status : null));
-    // Return the XHR directly (without the log).
-    return xhr;
+    resPromise.then(res => this.logCall(req, startTime, res.status));
+    // Return the response directly (without the log).
+    return resPromise;
   }
 
   /**
@@ -312,7 +297,7 @@ s   */
    *     is used here rather than the response object so there is no way this
    *     method can read the body stream.
    */
-  _logCall(req: FetchRequest, startTime: number, status: number | null) {
+  logCall(req: FetchRequest, startTime: number, status: number) {
     const method =
       req.fetchOptions && req.fetchOptions.method
         ? req.fetchOptions.method
@@ -343,89 +328,104 @@ s   */
   }
 
   /**
-   * Fetch JSON from url provided.
-   * Returns a Promise that resolves to a native Response.
-   * Doesn't do error checking. Supports cancel condition. Performs auth.
-   * Validates auth expiry errors.
+   * Fetch from url provided.
    *
-   * @return Promise which resolves to undefined if cancelCondition returns true
-   *     and resolves to Response otherwise
+   * Performs auth. Validates auth expiry errors.
+   * Will report any errors (by firing a corresponding event or calling errFn)
+   * that happen during the request, but doesn't inspect the status of the
+   * received response unless req.reportServerError = true.
+   *
+   * @return Promise resolves to a native Response.
+   *     If an error occurs when performing a request, promise rejects.
    */
-  fetchRawJSON(req: FetchJSONRequest): Promise<Response | undefined> {
+  async fetch(req: FetchRequest): Promise<Response> {
     const urlWithParams = this.urlWithParams(req.url, req.params);
     const fetchReq: FetchRequest = {
       url: urlWithParams,
       fetchOptions: req.fetchOptions,
       anonymizedUrl: req.reportUrlAsIs ? urlWithParams : req.anonymizedUrl,
     };
-    return this.fetch(fetchReq)
-      .then((res: Response) => {
-        if (req.cancelCondition && req.cancelCondition()) {
-          if (res.body) {
-            res.body.cancel();
-          }
-          return;
-        }
-        return res;
-      })
-      .catch(err => {
-        if (req.errFn) {
-          req.errFn.call(undefined, null, err);
-        } else {
-          fireNetworkError(err);
-        }
-        throw err;
-      });
+    let resp: Response;
+    try {
+      resp = await this.fetchImpl(fetchReq);
+    } catch (err) {
+      if (req.errFn) {
+        await req.errFn.call(undefined, null, err as Error);
+      } else {
+        fireNetworkError(err as Error);
+      }
+      throw err;
+    }
+    if (req.reportServerError && !resp.ok) {
+      if (req.errFn) {
+        await req.errFn.call(undefined, resp);
+      } else {
+        fireServerError(resp, req);
+      }
+    }
+    return resp;
   }
 
   /**
    * Fetch JSON from url provided.
-   * Returns a Promise that resolves to a parsed response.
-   * Same as {@link fetchRawJSON}, plus error handling.
+   *
+   * Returned promise rejects if an error occurs when performing a request or
+   * if the response payload doesn't contain a valid prefixed JSON.
+   *
+   * If response status is not 2xx, promise resolves to undefined and error is
+   * reported, through errFn callback or via 'sever-error' event. The error can
+   * be suppressed with req.reportServerError = false.
+   *
+   * If JSON parsing fails the promise rejects.
    *
    * @param noAcceptHeader - don't add default accept json header
+   * @return Promise that resolves to a parsed response.
    */
   async fetchJSON(
-    req: FetchJSONRequest,
+    req: FetchRequest,
     noAcceptHeader?: boolean
   ): Promise<ParsedJSON | undefined> {
     if (!noAcceptHeader) {
       req = this.addAcceptJsonHeader(req);
     }
-    const response = await this.fetchRawJSON(req);
-    if (!response) {
-      return;
-    }
+    req.reportServerError ??= true;
+    const response = await this.fetch(req);
     if (!response.ok) {
-      if (req.errFn) {
-        await req.errFn.call(undefined, response);
-        return;
-      }
-      fireServerError(response, req);
-      return;
+      return undefined;
     }
-    return this.getResponseObject(response);
+    // TODO(kamilm): The parsing error should likely be reported via errFn or
+    // gr-error-manager as well.
+    return (await readJSONResponsePayload(response)).parsed;
   }
 
+  /**
+   * Add extra url params to the url.
+   *
+   * Params with values (not undefined) added as <key>=<value>. If value is an
+   * array a separate <key>=<value> param is added for every value.
+   */
   urlWithParams(url: string, fetchParams?: FetchParams): string {
     if (!fetchParams) {
       return getBaseUrl() + url;
     }
 
     const params: Array<string | number | boolean> = [];
-    for (const [p, paramValue] of Object.entries(fetchParams)) {
+    for (const [paramKey, paramValue] of Object.entries(fetchParams)) {
       if (paramValue === null || paramValue === undefined) {
-        params.push(this.encodeRFC5987(p));
+        params.push(this.encodeRFC5987(paramKey));
         continue;
       }
-      // TODO(TS): Unclear, why do we need the following code.
-      // If paramValue can be array - we should either fix FetchParams type
-      // or convert the array to a string before calling urlWithParams method.
-      const paramValueAsArray = ([] as Array<string | number | boolean>).concat(
-        paramValue
-      );
-      for (const value of paramValueAsArray) {
-        params.push(`${this.encodeRFC5987(p)}=${this.encodeRFC5987(value)}`);
+
+      if (Array.isArray(paramValue)) {
+        for (const value of paramValue) {
+          params.push(
+            `${this.encodeRFC5987(paramKey)}=${this.encodeRFC5987(value)}`
+          );
+        }
+      } else {
+        params.push(
+          `${this.encodeRFC5987(paramKey)}=${this.encodeRFC5987(paramValue)}`
+        );
       }
     }
     return getBaseUrl() + url + '?' + params.join('&');
@@ -440,11 +440,7 @@ s   */
     );
   }
 
-  getResponseObject(response: Response): Promise<ParsedJSON> {
-    return readResponsePayload(response).then(payload => payload.parsed);
-  }
-
-  addAcceptJsonHeader(req: FetchJSONRequest) {
+  addAcceptJsonHeader(req: FetchRequest) {
     if (!req.fetchOptions) req.fetchOptions = {};
     if (!req.fetchOptions.headers) req.fetchOptions.headers = new Headers();
     if (!req.fetchOptions.headers.has('Accept')) {
@@ -453,97 +449,40 @@ s   */
     return req;
   }
 
-  fetchCacheURL(req: FetchJSONRequest): Promise<ParsedJSON | undefined> {
-    if (this._fetchPromisesCache.has(req.url)) {
-      return this._fetchPromisesCache.get(req.url)!;
+  /**
+   * Fetch JSON using cached value if available.
+   *
+   * If there is an in-flight request with the same url returns the promise for
+   * the in-flight request. If previous call for the same url resulted in the
+   * successful response it is returned. Otherwise a new request is sent.
+   *
+   * Only req.url with req.params is considered for the caching key;
+   * headers or request body are not included in cache key.
+   */
+  fetchCacheJSON(req: FetchRequest): Promise<ParsedJSON | undefined> {
+    const urlWithParams = this.urlWithParams(req.url, req.params);
+    if (this._fetchPromisesCache.has(urlWithParams)) {
+      return this._fetchPromisesCache.get(urlWithParams)!;
     }
-    // TODO(andybons): Periodic cache invalidation.
-    if (this._cache.has(req.url)) {
-      return Promise.resolve(this._cache.get(req.url)!);
+    if (this._cache.has(urlWithParams)) {
+      return Promise.resolve(this._cache.get(urlWithParams)!);
     }
     this._fetchPromisesCache.set(
-      req.url,
+      urlWithParams,
       this.fetchJSON(req)
         .then(response => {
           if (response !== undefined) {
-            this._cache.set(req.url, response);
+            this._cache.set(urlWithParams, response);
           }
-          this._fetchPromisesCache.set(req.url, undefined);
+          this._fetchPromisesCache.set(urlWithParams, undefined);
           return response;
         })
         .catch(err => {
-          this._fetchPromisesCache.set(req.url, undefined);
+          this._fetchPromisesCache.set(urlWithParams, undefined);
           throw err;
         })
     );
-    return this._fetchPromisesCache.get(req.url)!;
-  }
-
-  // if errFn is not set, then only Response possible
-  send(req: SendRawRequest & {errFn?: undefined}): Promise<Response>;
-
-  send(req: SendRawRequest): Promise<Response | undefined>;
-
-  send(req: SendJSONRequest): Promise<ParsedJSON>;
-
-  send(req: SendRequest): Promise<Response | ParsedJSON | undefined>;
-
-  /**
-   * Send an XHR.
-   *
-   * @return Promise resolves to Response/ParsedJSON only if the request is successful
-   *     (i.e. no exception and response.ok is true). If response fails then
-   *     promise resolves either to void if errFn is set or rejects if errFn
-   *     is not set   */
-  async send(req: SendRequest): Promise<Response | ParsedJSON | undefined> {
-    const options: AuthRequestInit = {method: req.method};
-    if (req.body) {
-      options.headers = new Headers();
-      options.headers.set(
-        'Content-Type',
-        req.contentType || 'application/json'
-      );
-      options.body =
-        typeof req.body === 'string' ? req.body : JSON.stringify(req.body);
-    }
-    if (req.headers) {
-      if (!options.headers) {
-        options.headers = new Headers();
-      }
-      for (const [name, value] of Object.entries(req.headers)) {
-        options.headers.set(name, value);
-      }
-    }
-    const url = req.url.startsWith('http') ? req.url : getBaseUrl() + req.url;
-    const fetchReq: FetchRequest = {
-      url,
-      fetchOptions: options,
-      anonymizedUrl: req.reportUrlAsIs ? url : req.anonymizedUrl,
-    };
-    let xhr;
-    try {
-      xhr = await this.fetch(fetchReq);
-    } catch (err) {
-      fireNetworkError(err as Error);
-      if (req.errFn) {
-        await req.errFn.call(undefined, null, err as Error);
-        xhr = undefined;
-      } else {
-        throw err;
-      }
-    }
-    if (xhr && !xhr.ok) {
-      if (req.errFn) {
-        await req.errFn.call(undefined, xhr);
-      } else {
-        fireServerError(xhr, fetchReq);
-      }
-    }
-
-    if (req.parseResponse) {
-      xhr = xhr && this.getResponseObject(xhr);
-    }
-    return xhr;
+    return this._fetchPromisesCache.get(urlWithParams)!;
   }
 
   invalidateFetchPromisesPrefix(prefix: string) {

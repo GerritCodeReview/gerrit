@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2ad539b_dbe9b5ad",
+        "filename": "polygerrit-ui/app/elements/settings/gr-http-password/gr-http-password.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-28T12:36:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "96755d2d_dc4c9d65",
+      "range": {
+        "startLine": 139,
+        "startChar": 38,
+        "endLine": 139,
+        "endChar": 56
+      },
+      "revId": "4fc05a165b5a127570baf80b2859a84696a11c0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c4a24ae1_e1e5ed50",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-02-28T12:31:33Z",
       "side": 1,
       "message": "remove _?",
+      "range": {
+        "startLine": 161,
+        "startChar": 9,
+        "endLine": 161,
+        "endChar": 16
+      },
+      "revId": "4fc05a165b5a127570baf80b2859a84696a11c0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e73d2a6c_2b9a9dcb",
+        "filename": "polygerrit-ui/app/elements/settings/gr-http-password/gr-http-password.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-28T12:36:26Z",
+      "side": 1,
+      "message": "Replaced all underscored names in the file",
+      "parentUuid": "c4a24ae1_e1e5ed50",
       "range": {
         "startLine": 161,
         "startChar": 9,

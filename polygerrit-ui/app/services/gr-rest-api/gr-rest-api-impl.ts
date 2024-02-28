@@ -298,8 +298,6 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     repo: RepoName,
     errFn?: ErrorCallback
   ): Promise<ProjectInfo | undefined> {
-    // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
-    // supports it.
     return this._restApiHelper.fetchCacheJSON({
       url: '/projects/' + encodeURIComponent(repo),
       errFn,
@@ -311,8 +309,6 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     repo: RepoName,
     errFn?: ErrorCallback
   ): Promise<ConfigInfo | undefined> {
-    // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
-    // supports it.
     return this._restApiHelper.fetchCacheJSON({
       url: '/projects/' + encodeURIComponent(repo) + '/config',
       errFn,
@@ -321,8 +317,6 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   getRepoAccess(repo: RepoName): Promise<RepoAccessInfoMap | undefined> {
-    // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
-    // supports it.
     return this._restApiHelper.fetchCacheJSON({
       url: '/access/?project=' + encodeURIComponent(repo),
       anonymizedUrl: '/access/?project=*',
@@ -333,8 +327,6 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     repo: RepoName,
     errFn?: ErrorCallback
   ): Promise<DashboardInfo[] | undefined> {
-    // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
-    // supports it.
     return this._restApiHelper.fetchCacheJSON({
       url: `/projects/${encodeURIComponent(repo)}/dashboards?inherited`,
       errFn,
@@ -343,8 +335,6 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   saveRepoConfig(repo: RepoName, config: ConfigInput): Promise<Response> {
-    // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
-    // supports it.
     const url = `/projects/${encodeURIComponent(repo)}/config`;
     this._cache.delete(url);
     return this._restApiHelper.fetch({
@@ -359,8 +349,6 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   runRepoGC(repo: RepoName): Promise<Response> {
-    // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
-    // supports it.
     const encodeName = encodeURIComponent(repo);
     return this._restApiHelper.fetch({
       fetchOptions: getFetchOptions({
@@ -374,8 +362,6 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   createRepo(config: ProjectInput & {name: RepoName}): Promise<Response> {
-    // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
-    // supports it.
     const encodeName = encodeURIComponent(config.name);
     return this._restApiHelper.fetch({
       fetchOptions: getFetchOptions({
@@ -413,8 +399,6 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   deleteRepoBranches(repo: RepoName, ref: GitRef): Promise<Response> {
-    // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
-    // supports it.
     const encodeName = encodeURIComponent(repo);
     const encodeRef = encodeURIComponent(ref);
     return this._restApiHelper.fetch({
@@ -429,8 +413,6 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   deleteRepoTags(repo: RepoName, ref: GitRef): Promise<Response> {
-    // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
-    // supports it.
     const encodeName = encodeURIComponent(repo);
     const encodeRef = encodeURIComponent(ref);
     return this._restApiHelper.fetch({
@@ -449,8 +431,6 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     branch: BranchName,
     revision: BranchInput
   ): Promise<Response> {
-    // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
-    // supports it.
     const encodeName = encodeURIComponent(name);
     const encodeBranch = encodeURIComponent(branch);
     return this._restApiHelper.fetch({
@@ -469,8 +449,6 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     tag: string,
     revision: TagInput
   ): Promise<Response> {
-    // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
-    // supports it.
     const encodeName = encodeURIComponent(name);
     const encodeTag = encodeURIComponent(tag);
     return this._restApiHelper.fetch({
@@ -1598,10 +1576,6 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     errFn?: ErrorCallback
   ): Promise<ProjectInfoWithName[] | undefined> {
     const [isQuery, url] = this._getReposUrl(filter, reposPerPage, offset);
-
-    // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
-    // supports it.
-
     // If the request is a query then return the response directly as the result
     // will already be the expected array. If it is not a query, transform the
     // map to an array.
@@ -1628,8 +1602,6 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   setRepoHead(repo: RepoName, ref: GitRef) {
-    // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
-    // supports it.
     return this._restApiHelper.fetch({
       fetchOptions: getFetchOptions({
         method: HttpMethod.PUT,
@@ -1653,8 +1625,6 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     filter = this._computeFilter(filter);
     const encodedRepo = encodeURIComponent(repo);
     const url = `/projects/${encodedRepo}/branches?n=${count}&S=${offset}${filter}`;
-    // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
-    // supports it.
     return this._restApiHelper.fetchJSON({
       url,
       errFn,
@@ -1675,8 +1645,6 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     const encodedFilter = this._computeFilter(filter);
     const url =
       `/projects/${encodedRepo}/tags` + `?n=${n}&S=${offset}` + encodedFilter;
-    // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
-    // supports it.
     return this._restApiHelper.fetchJSON({
       url,
       errFn,
@@ -1705,8 +1673,6 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     repoName: RepoName,
     errFn?: ErrorCallback
   ): Promise<ProjectAccessInfo | undefined> {
-    // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
-    // supports it.
     return this._restApiHelper.fetchJSON({
       url: `/projects/${encodeURIComponent(repoName)}/access`,
       errFn,
@@ -1718,8 +1684,6 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     repoName: RepoName,
     repoInfo: ProjectAccessInput
   ): Promise<Response> {
-    // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
-    // supports it.
     return this._restApiHelper.fetch({
       fetchOptions: getFetchOptions({
         method: HttpMethod.POST,
@@ -2686,8 +2650,6 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     let fetchPromise;
     fetchPromise = fetchComments(patchNum).then(response => {
       comments = (response && path && response[path]) || [];
-      // TODO(kaspern): Implement this on in the backend so this can
-      // be removed.
       // Sort comments by date so that parent ranges can be propagated
       // in a single pass.
       comments = this._setRanges(comments);
@@ -3401,8 +3363,6 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     filter = filter.trim();
     const encodedFilter = encodeURIComponent(filter);
 
-    // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
-    // supports it.
     return this._restApiHelper.fetchCacheJSON({
       url: `/Documentation/?q=${encodedFilter}`,
       anonymizedUrl: '/Documentation/?*',

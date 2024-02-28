@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dac12140_db0fa2ae",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 847,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-02-28T12:07:56Z",
+      "side": 1,
+      "message": "Maybe move next to `getRepoName()`?",
+      "revId": "60e5b6beed619181ddced0db6a259a1f201b8c0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6e23fcd_58bc8682",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-28T11:45:25Z",
+      "side": 1,
+      "message": "It is consistent with other fields. It\u0027s also used in the tests (for stubbing).\n\nSo I could remove `_`, but it can\u0027t be private. But I would only remove it if I removing all of them. (Which we can do, but not in this change)",
+      "parentUuid": "435c6c7f_1f44d841",
+      "range": {
+        "startLine": 310,
+        "startChar": 11,
+        "endLine": 310,
+        "endChar": 28
+      },
+      "revId": "f41ba5be5a4d07dd1d15dd801c4cb75a43813731",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f089fb03_b542ba8f",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-02-27T10:15:23Z",
       "side": 1,
       "message": "maybe do this casting in line 877 where the value is assigned?",
+      "range": {
+        "startLine": 879,
+        "startChar": 24,
+        "endLine": 879,
+        "endChar": 62
+      },
+      "revId": "f41ba5be5a4d07dd1d15dd801c4cb75a43813731",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a337e8bf_c6789b30",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 879,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-28T11:45:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f089fb03_b542ba8f",
       "range": {
         "startLine": 879,
         "startChar": 24,

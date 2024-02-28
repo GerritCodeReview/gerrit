@@ -22,6 +22,30 @@
       },
       "revId": "2732ae8247ddb232a35849168dd925477f14c330",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "709e6212_b5c1c255",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 829,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-28T11:54:08Z",
+      "side": 1,
+      "message": "Renamed to addRepoNameToCache",
+      "parentUuid": "3dfb18ab_1c72ec86",
+      "range": {
+        "startLine": 829,
+        "startChar": 2,
+        "endLine": 829,
+        "endChar": 20
+      },
+      "revId": "2732ae8247ddb232a35849168dd925477f14c330",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

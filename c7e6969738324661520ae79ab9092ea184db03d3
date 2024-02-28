@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e4d1d25_6ef9281a",
+        "filename": "polygerrit-ui/app/elements/settings/gr-http-password/gr-http-password.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-28T11:46:11Z",
+      "side": 1,
+      "message": "Added status variable to contain the status",
+      "parentUuid": "d88fc999_c90177bb",
+      "range": {
+        "startLine": 159,
+        "startChar": 11,
+        "endLine": 159,
+        "endChar": 68
+      },
+      "revId": "c7e6969738324661520ae79ab9092ea184db03d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "37ac58b8_4d1bb076",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c2c2011_3ce4b00c",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-28T11:46:11Z",
+      "side": 1,
+      "message": "Done in https://gerrit-review.googlesource.com/c/gerrit/+/411142",
+      "parentUuid": "37ac58b8_4d1bb076",
+      "range": {
+        "startLine": 356,
+        "startChar": 7,
+        "endLine": 357,
+        "endChar": 19
+      },
+      "revId": "c7e6969738324661520ae79ab9092ea184db03d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "61ec3231_4f54c3fe",
@@ -60,6 +108,30 @@
       "writtenOn": "2024-02-27T14:58:49Z",
       "side": 1,
       "message": "this should be the default and the caller should explicitly set it to false I think.\nFeel free to Ack if it\u0027s a big change.",
+      "range": {
+        "startLine": 535,
+        "startChar": 6,
+        "endLine": 535,
+        "endChar": 29
+      },
+      "revId": "c7e6969738324661520ae79ab9092ea184db03d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fcba2f65_8fa226a7",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 535,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-28T11:46:11Z",
+      "side": 1,
+      "message": "Already added a TODO in response to your comment on an earlier change. The good fix, should go through the calls, that set it to true and see if they should.",
+      "parentUuid": "61ec3231_4f54c3fe",
       "range": {
         "startLine": 535,
         "startChar": 6,

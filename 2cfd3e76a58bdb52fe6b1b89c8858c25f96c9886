@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4c086d8_45e6ef6f",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-topic-flow/gr-change-list-topic-flow.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-28T11:45:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e269ef92_d5b9dfb9",
+      "range": {
+        "startLine": 376,
+        "startChar": 32,
+        "endLine": 376,
+        "endChar": 46
+      },
+      "revId": "2cfd3e76a58bdb52fe6b1b89c8858c25f96c9886",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b30dcea8_1d84ac5a",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-02-27T14:38:16Z",
       "side": 1,
       "message": "nit: which has a",
+      "range": {
+        "startLine": 347,
+        "startChar": 38,
+        "endLine": 347,
+        "endChar": 58
+      },
+      "revId": "2cfd3e76a58bdb52fe6b1b89c8858c25f96c9886",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "30eadbe5_b176cae7",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-topic-flow/gr-change-list-topic-flow_test.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-28T11:45:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b30dcea8_1d84ac5a",
       "range": {
         "startLine": 347,
         "startChar": 38,
@@ -84,6 +132,30 @@
           ]
         }
       ],
+      "revId": "2cfd3e76a58bdb52fe6b1b89c8858c25f96c9886",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "372fa5c6_5eafb8bc",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-topic-flow/gr-change-list-topic-flow_test.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-28T11:45:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b1156bf_6a2ebf26",
+      "range": {
+        "startLine": 381,
+        "startChar": 38,
+        "endLine": 381,
+        "endChar": 58
+      },
       "revId": "2cfd3e76a58bdb52fe6b1b89c8858c25f96c9886",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

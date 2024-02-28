@@ -152,4 +152,7 @@ export enum Interaction {
   FILE_LIST_DIFF_EXPANDED = 'file-list-diff-expanded',
   FILE_LIST_ALL_DIFFS_COLLAPSED = 'file-list-all-diffs-collapsed',
   FILE_LIST_ALL_DIFFS_EXPANDED = 'file-list-all-diffs-expanded',
+  // The very first reporting event with `ChangeId` set when visiting a change
+  // related page. Can be used as a starting point for user journeys.
+  CHANGE_ID_CHANGED = 'change-id-changed',
 }

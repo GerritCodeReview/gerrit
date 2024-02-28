@@ -612,8 +612,9 @@ export class GrReporting implements ReportingService, Finalizable {
     this.time(Timing.DIFF_VIEW_CONTENT_DISPLAYED);
     this.time(Timing.DIFF_VIEW_DISPLAYED);
     this.time(Timing.FILE_LIST_DISPLAYED);
-    this.reportRepoName = undefined;
-    this.reportChangeId = undefined;
+
+    this.setRepoName(undefined);
+    this.setChangeId(undefined);
     // reset slow rpc list since here start page loads which report these rpcs
     this.slowRpcList = [];
     this.hiddenDurationTimer.reset();
@@ -998,12 +999,17 @@ export class GrReporting implements ReportingService, Finalizable {
     );
   }
 
-  setRepoName(repoName: string) {
+  setRepoName(repoName?: string) {
     this.reportRepoName = repoName;
   }
 
-  setChangeId(changeId: NumericChangeId) {
+  setChangeId(changeId?: NumericChangeId) {
+    const originalChangeId = this.reportChangeId;
     this.reportChangeId = changeId;
+
+    if (!!changeId && changeId !== originalChangeId) {
+      this.reportInteraction(Interaction.CHANGE_ID_CHANGED, {changeId});
+    }
   }
 }
 

@@ -47,6 +47,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "55410b69_98550c4d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper_test.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-28T11:46:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c55de449_fd6a9d97",
+      "range": {
+        "startLine": 133,
+        "startChar": 10,
+        "endLine": 133,
+        "endChar": 16
+      },
+      "revId": "d486edd1b1f0b36aa446e415868a9e99463805a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "10126388_61271426",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper_test.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-28T11:46:22Z",
+      "side": 1,
+      "message": "Reworded to \"calls auth fetch\"",
+      "parentUuid": "5366f349_42ae8a2f",
+      "range": {
+        "startLine": 133,
+        "startChar": 10,
+        "endLine": 133,
+        "endChar": 33
+      },
+      "revId": "d486edd1b1f0b36aa446e415868a9e99463805a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a25247fb_fbefbc7b",
@@ -60,6 +108,30 @@
       "writtenOn": "2024-02-27T15:03:44Z",
       "side": 1,
       "message": "The test below says `logCall only reports requests with anonymized URLs` but here `anonymizedUrl` is undefined?",
+      "range": {
+        "startLine": 148,
+        "startChar": 8,
+        "endLine": 148,
+        "endChar": 32
+      },
+      "revId": "d486edd1b1f0b36aa446e415868a9e99463805a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "28980b12_3f52fd1d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper_test.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-28T11:46:22Z",
+      "side": 1,
+      "message": "The anonymizedUrl checking happens within logCall. Here we are only checking that logCall was called.\n\nBut added the value, to avoid confusion.",
+      "parentUuid": "a25247fb_fbefbc7b",
       "range": {
         "startLine": 148,
         "startChar": 8,

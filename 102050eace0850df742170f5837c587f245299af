@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a74a2be_190541ef",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 1340,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-28T11:46:03Z",
+      "side": 1,
+      "message": "Size of the merge conflict that will cause for me is not worth it. And if you want to get rid of _ you should probably do the entire file at the same time (a lot of different names use it). I inclined to say \"out of scope\", especially since the benefit is small",
+      "parentUuid": "9048195a_8031acb0",
+      "range": {
+        "startLine": 1340,
+        "startChar": 27,
+        "endLine": 1340,
+        "endChar": 41
+      },
+      "revId": "102050eace0850df742170f5837c587f245299af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d0a5134c_e30dc92b",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-02-27T14:52:26Z",
       "side": 1,
       "message": "We simply return undefined instead of asking the user to log-in?\n\nThis loggedIn check also seems to be sparsely present in this file.\n\nAny ideas when we should use this check?",
+      "range": {
+        "startLine": 2032,
+        "startChar": 4,
+        "endLine": 2035,
+        "endChar": 5
+      },
+      "revId": "102050eace0850df742170f5837c587f245299af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "19414517_feef7646",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 2035,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-28T11:46:03Z",
+      "side": 1,
+      "message": "\u003e We simply return undefined instead of asking the user to log-in?\n\nThat makes sense. Something like that is probably not a responsibility of the rest-api layer, but rather the elements that do an interaction (when you press a button that requires you to be logged in)\n\ngetLoggedIn within this file seems to be used for two purposes:\n- return default preferences, if the account is not logged (like diff preferences) this makes sense\n- save a request to the backend that we know is going to be an error/empty. (requesting parts of the page that are only relevant if you have an account).\n\nThe 2nd is arguably should also be part of the elements calling the rest-api and not rest-api itself, but overall is okay.\n\nIn this particular case, this is not tied to a user action, this rest-api is called, when we render change page, to decide if we should show the \"yellow header\" that says that you have non-empty edit patchset.",
+      "parentUuid": "d0a5134c_e30dc92b",
       "range": {
         "startLine": 2032,
         "startChar": 4,

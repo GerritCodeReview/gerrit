@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0aa665d7_a54446f9",
+        "filename": "java/com/google/gerrit/server/restapi/config/AccountDeactivation.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2024-02-28T09:15:13Z",
+      "side": 1,
+      "message": "I believe getDefaultQueue is correct here, based on the fact that AccountDeactivator uses WorkQueue.scheduleAtFixedRate which calls WorkQueue.getDefaultQueue:\n\nAccountDeactivator: https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/account/AccountDeactivator.java#62\n\nWorkQueue: https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/git/WorkQueue.java#220\n```\n  /** Executes a periodic command at a fixed schedule on the default queue. */\n  public void scheduleAtFixedRate(Runnable command, Schedule schedule) {\n    @SuppressWarnings(\"unused\")\n    Future\u003c?\u003e possiblyIgnoredError \u003d\n        getDefaultQueue()\n            .scheduleAtFixedRate(\n                command, schedule.initialDelay(), schedule.interval(), TimeUnit.MILLISECONDS);\n  }\n```",
+      "revId": "5e699b9dcef834005789ebccc122ee12ee44f2f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4b02b99_909581a4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-02-28T18:07:10Z",
+      "side": 1,
+      "message": "```\n$ bazel build release \u0026\u0026 bazel test --flaky_test_attempts 3 --test_timeout 3600 --test_tag_filters\u003d-flaky //...\n[snip]\nINFO: Elapsed time: 1025.578s, Critical Path: 343.54s\nINFO: 1335 processes: 47 disk cache hit, 798 internal, 247 linux-sandbox, 243 worker.\nINFO: Build completed successfully, 1335 total actions\n[snip]\nExecuted 196 out of 202 tests: 202 tests pass.\nINFO: Build completed successfully, 1335 total actions\n```",
+      "revId": "27847d3bbf4fc780ba5ed09a85c7d2be1fd08e35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

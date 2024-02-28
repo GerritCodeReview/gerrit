@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8c39b6d_90d0ccd4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-02-28T22:10:55Z",
+      "side": 1,
+      "message": "I don\u0027t know why RBE is showing as failed in the checks. The link is wrong and the [real job][1] succeeded.\n\n[1]: https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-chrome-latest/46198/console",
+      "revId": "587b4e49536f27f74c736c4aa9a3b29d8d92beee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

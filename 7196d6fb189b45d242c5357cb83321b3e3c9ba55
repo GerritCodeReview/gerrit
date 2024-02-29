@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "db5f4a96_b7bbf287",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-02-29T10:04:06Z",
+      "side": 1,
+      "message": "apparently this was already fixed by DavidO and then the fix reverted because of Google-internal reasons: https://gerrit-review.googlesource.com/c/gerrit/+/387595/4",
+      "revId": "7196d6fb189b45d242c5357cb83321b3e3c9ba55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

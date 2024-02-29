@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3b06385_9f146aed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-02-29T14:47:30Z",
+      "side": 1,
+      "message": "Uploaded `PS#6` by mistake. Reverting it back to `PS#5`.",
+      "revId": "4833e5cc4e2137977865ad22c0b99f17182a0968",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

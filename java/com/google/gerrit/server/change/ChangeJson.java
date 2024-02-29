@@ -486,6 +486,9 @@ public class ChangeJson {
       if (has(REVIEWED) && userProvider.get().isIdentifiedUser()) {
         ChangeData.ensureReviewedByLoadedForOpenChanges(all);
       }
+      if (has(STAR) && userProvider.get().isIdentifiedUser()) {
+        ChangeData.ensureChangeServerId(all);
+      }
       ChangeData.ensureCurrentApprovalsLoaded(all);
     } else {
       for (ChangeData cd : all) {

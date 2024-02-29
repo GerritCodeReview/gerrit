@@ -169,7 +169,7 @@ public class GroupsIT extends AbstractDaemonTest {
 
   @After
   public void consistencyCheck() throws Exception {
-    if (description.getAnnotation(IgnoreGroupInconsistencies.class) == null) {
+    if (configRule.description().getAnnotation(IgnoreGroupInconsistencies.class) == null) {
       assertThat(consistencyChecker.check()).isEmpty();
     }
   }

@@ -37,6 +37,7 @@ import {
   ChangeInfo,
   ChangeMessageId,
   CommentInfo,
+  CommentInput,
   DashboardId,
   EDIT,
   Hashtag,
@@ -807,16 +808,20 @@ suite('gr-rest-api-service-impl tests', () => {
         promises.push(mockPromise<string>());
         return promises[promises.length - 1];
       });
-      sinon
+      const fetchStub = sinon
         .stub(element._restApiHelper, 'fetch')
         .resolves(new Response(undefined, {status: 201}));
+      const draft: CommentInput = {
+        id: 'draft-id' as UrlEncodedCommentId,
+        message: 'draft message',
+      };
       assert.isFalse(!!element.hasPendingDiffDrafts());
 
       element._sendDiffDraftRequest(
         HttpMethod.PUT,
         123 as NumericChangeId,
         1 as PatchSetNum,
-        {}
+        draft
       );
       assert.equal(obj.sendDiffDraft.length, 1);
       assert.isTrue(!!element.hasPendingDiffDrafts());
@@ -825,7 +830,7 @@ suite('gr-rest-api-service-impl tests', () => {
         HttpMethod.PUT,
         123 as NumericChangeId,
         1 as PatchSetNum,
-        {}
+        draft
       );
       assert.equal(obj.sendDiffDraft.length, 2);
       assert.isTrue(!!element.hasPendingDiffDrafts());
@@ -837,6 +842,12 @@ suite('gr-rest-api-service-impl tests', () => {
       await element.awaitPendingDiffDrafts();
       assert.equal(obj.sendDiffDraft.length, 0);
       assert.isFalse(!!element.hasPendingDiffDrafts());
+
+      assert.isTrue(fetchStub.called);
+      assert.deepEqual(
+        JSON.parse(fetchStub.lastCall.args[0].fetchOptions?.body as string),
+        draft
+      );
     });
 
     suite('_failForCreate200', () => {

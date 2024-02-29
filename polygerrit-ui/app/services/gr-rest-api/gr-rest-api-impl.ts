@@ -2809,6 +2809,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     patchNum: PatchSetNum,
     draft: CommentInput | {id: UrlEncodedCommentId}
   ): Promise<Response> {
+    debugger;
     const isCreate = !draft.id && method === HttpMethod.PUT;
     let endpoint = '/drafts';
     let anonymizedEndpoint = endpoint;
@@ -2823,8 +2824,8 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
     const fetchOptions =
       method === HttpMethod.PUT
-        ? {method}
-        : getFetchOptions({method, body: draft});
+        ? getFetchOptions({method, body: draft})
+        : {method};
 
     const promise = this._changeBaseURL(changeNum, patchNum).then(url =>
       this._restApiHelper.fetch({

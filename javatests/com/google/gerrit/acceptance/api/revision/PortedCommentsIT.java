@@ -1918,7 +1918,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   }
 
   private Map<String, List<CommentInfo>> getPortedDraftCommentsOfUser(
-      PatchSet.Id patchsetId, Account.Id accountId) throws RestApiException {
+      PatchSet.Id patchsetId, Account.Id accountId) throws Exception {
     // Draft comments are only visible to their author.
     requestScopeOps.setApiUser(accountId);
     return gApi.changes().id(patchsetId.changeId().get()).revision(patchsetId.get()).portedDrafts();

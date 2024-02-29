@@ -49,7 +49,6 @@ import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.ChangeKind;
-import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.approval.ApprovalCopier;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.RepoView;
@@ -441,7 +440,7 @@ public class ApprovalCopierIT extends AbstractDaemonTest {
   }
 
   private void vote(String changeId, TestAccount testAccount, String label, int value)
-      throws RestApiException {
+      throws Exception {
     requestScopeOperations.setApiUser(testAccount.id());
     gApi.changes().id(changeId).current().review(new ReviewInput().label(label, value));
     requestScopeOperations.setApiUser(admin.id());

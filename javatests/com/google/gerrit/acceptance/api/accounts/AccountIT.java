@@ -2860,7 +2860,7 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void getAccountFromMetaId() throws RestApiException {
+  public void getAccountFromMetaId() throws Exception {
     AccountState preUpdateState = accountCache.get(admin.id()).get();
     requestScopeOperations.setApiUser(admin.id());
     gApi.accounts().self().setStatus("New status");
@@ -2900,7 +2900,7 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void projectWatchesUpdate_refsUsersUpdated() throws RestApiException {
+  public void projectWatchesUpdate_refsUsersUpdated() throws Exception {
     AccountState preUpdateState = accountCache.get(admin.id()).get();
     requestScopeOperations.setApiUser(admin.id());
 

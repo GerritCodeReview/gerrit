@@ -124,7 +124,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void getExternalIdsOfOtherUserNotAllowed() {
+  public void getExternalIdsOfOtherUserNotAllowed() throws Exception {
     requestScopeOperations.setApiUser(user.id());
     AuthException thrown =
         assertThrows(

@@ -913,10 +913,11 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     cb.setMessage(msg.toString());
     try {
       ObjectId treeId = storeRevisionNotes(rw, ins, curr);
-      logger.atFine().log(
-          "change meta tree ID: %s (inserter: %s)", treeId != null ? treeId.name() : "null", ins);
       if (treeId != null) {
+        logger.atFine().log("change meta tree ID: %s (inserter: %s)", treeId.name(), ins);
         cb.setTreeId(treeId);
+      } else {
+        logger.atFine().log("no revision notes to write, hence no change meta tree was created");
       }
     } catch (ConfigInvalidException e) {
       throw new StorageException(e);

@@ -14,12 +14,14 @@
 
 package com.google.gerrit.acceptance;
 
+import static com.google.gerrit.common.UsedAt.Project.GOOGLE;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.InternalGroup;
@@ -56,7 +58,8 @@ public class AccountCreator {
   private final ExternalIdFactory externalIdFactory;
 
   @Inject
-  AccountCreator(
+  @UsedAt(GOOGLE)
+  protected AccountCreator(
       Sequences sequences,
       @ServerInitiated Provider<AccountsUpdate> accountsUpdateProvider,
       GroupCache groupCache,
@@ -107,14 +110,9 @@ public class AccountCreator {
                     .addExternalIds(extIds));
 
     ImmutableList.Builder<String> tags = ImmutableList.builder();
+    addUserToGroups(id, groupNames);
     if (groupNames != null) {
       for (String n : groupNames) {
-        AccountGroup.NameKey k = AccountGroup.nameKey(n);
-        Optional<InternalGroup> group = groupCache.get(k);
-        if (!group.isPresent()) {
-          throw new NoSuchGroupException(n);
-        }
-        addGroupMember(group.get().getGroupUUID(), id);
         if (ServiceUserClassifier.SERVICE_USERS.equals(n)) {
           tags.add("SERVICE_USER");
         }
@@ -127,6 +125,19 @@ public class AccountCreator {
       accounts.put(username, account);
     }
     return account;
+  }
+
+  protected void addUserToGroups(Account.Id id, String... groupNames) throws Exception {
+    if (groupNames != null) {
+      for (String n : groupNames) {
+        AccountGroup.NameKey k = AccountGroup.nameKey(n);
+        Optional<InternalGroup> group = groupCache.get(k);
+        if (!group.isPresent()) {
+          throw new NoSuchGroupException(n);
+        }
+        addGroupMember(group.get().getGroupUUID(), id);
+      }
+    }
   }
 
   public TestAccount create(@Nullable String username, String group) throws Exception {
@@ -178,7 +189,7 @@ public class AccountCreator {
     return ImmutableList.copyOf(accounts.values());
   }
 
-  private void addGroupMember(AccountGroup.UUID groupUuid, Account.Id accountId)
+  protected void addGroupMember(AccountGroup.UUID groupUuid, Account.Id accountId)
       throws IOException, NoSuchGroupException, ConfigInvalidException {
     GroupDelta groupDelta =
         GroupDelta.builder()

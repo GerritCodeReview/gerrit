@@ -66,7 +66,7 @@ public class ChangeDataTest {
             (s, c) -> encodedChangeNum,
             changeNotesMock);
 
-    assertThat(cd.getVirtualId().get()).isEqualTo(encodedChangeNum.get());
+    assertThat(cd.virtualId().get()).isEqualTo(encodedChangeNum.get());
   }
 
   private static PatchSet newPatchSet(Change.Id changeId, int num) {

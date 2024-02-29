@@ -127,7 +127,7 @@ public class ChangeField {
   // TODO: Rename LEGACY_ID to NUMERIC_ID
   /** Legacy change ID. */
   public static final FieldDef<ChangeData, String> LEGACY_ID_STR =
-      exact("legacy_id_str").stored().build(cd -> String.valueOf(cd.getVirtualId().get()));
+      exact("legacy_id_str").stored().build(cd -> String.valueOf(cd.virtualId().get()));
 
   /** Newer style Change-Id key. */
   public static final FieldDef<ChangeData, String> ID =

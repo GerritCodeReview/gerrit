@@ -73,7 +73,7 @@ public class StarredChanges
     IdentifiedUser user = parent.getUser();
     ChangeResource change = changes.parse(TopLevelResource.INSTANCE, id);
     if (starredChangesUtil
-        .getLabels(user.getAccountId(), change.getId())
+        .getLabels(user.getAccountId(), change.getVirtualId())
         .contains(StarredChangesUtil.DEFAULT_LABEL)) {
       return new AccountResource.StarredChange(user, change);
     }
@@ -133,7 +133,7 @@ public class StarredChanges
         starredChangesUtil.star(
             self.get().getAccountId(),
             change.getProject(),
-            change.getId(),
+            change.getVirtualId(),
             StarredChangesUtil.Operation.ADD);
       } catch (MutuallyExclusiveLabelsException e) {
         throw new ResourceConflictException(e.getMessage());
@@ -184,7 +184,7 @@ public class StarredChanges
       starredChangesUtil.star(
           self.get().getAccountId(),
           rsrc.getChange().getProject(),
-          rsrc.getChange().getId(),
+          rsrc.getVirtualId(),
           StarredChangesUtil.Operation.REMOVE);
       return Response.none();
     }

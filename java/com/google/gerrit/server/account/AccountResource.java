@@ -99,6 +99,10 @@ public class AccountResource implements RestResource {
     public Change getChange() {
       return change.getChange();
     }
+
+    public Change.Id getVirtualId() {
+      return change.getVirtualId();
+    }
   }
 
   public static class Star implements RestResource {

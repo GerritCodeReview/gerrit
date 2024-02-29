@@ -106,6 +106,7 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
@@ -237,11 +238,11 @@ public class ChangeData {
     }
 
     public ChangeData create(Project.NameKey project, Change.Id id) {
-      return assistedFactory.create(project, id, null, null);
+      return assistedFactory.create(project, id, Optional.empty(), null, null);
     }
 
     public ChangeData create(Project.NameKey project, Change.Id id, ObjectId metaRevision) {
-      ChangeData cd = assistedFactory.create(project, id, null, null);
+      ChangeData cd = assistedFactory.create(project, id, Optional.empty(), null, null);
       cd.setMetaRevision(metaRevision);
       return cd;
     }
@@ -254,12 +255,25 @@ public class ChangeData {
     }
 
     public ChangeData create(Change change) {
-      return assistedFactory.create(change.getProject(), change.getId(), change, null);
+      return create(change, Optional.empty());
+    }
+
+    public ChangeData create(Change change, Optional<Change.Id> virtualId) {
+      return assistedFactory.create(
+          change.getProject(),
+          change.getId(),
+          virtualId.filter(id -> !Objects.equals(id, change.getId())),
+          change,
+          null);
     }
 
     public ChangeData create(ChangeNotes notes) {
       return assistedFactory.create(
-          notes.getChange().getProject(), notes.getChangeId(), notes.getChange(), notes);
+          notes.getChange().getProject(),
+          notes.getChangeId(),
+          Optional.empty(),
+          notes.getChange(),
+          notes);
     }
   }
 
@@ -267,6 +281,7 @@ public class ChangeData {
     ChangeData create(
         Project.NameKey project,
         Change.Id id,
+        Optional<Change.Id> virtualId,
         @Nullable Change change,
         @Nullable ChangeNotes notes);
   }
@@ -332,6 +347,7 @@ public class ChangeData {
             false,
             project,
             id,
+            Optional.empty(),
             null,
             changeNotes);
     cd.currentPatchSet =
@@ -432,6 +448,7 @@ public class ChangeData {
   private ImmutableList<byte[]> refStatePatterns;
   private String changeServerId;
   private ChangeNumberVirtualIdAlgorithm virtualIdFunc;
+  private Optional<Change.Id> virtualId;
 
   @Inject
   private ChangeData(
@@ -456,6 +473,7 @@ public class ChangeData {
       @SkipCurrentRulesEvaluationOnClosedChanges Boolean skipCurrentRulesEvaluationOnClosedChange,
       @Assisted Project.NameKey project,
       @Assisted Change.Id id,
+      @Assisted Optional<Change.Id> virtualId,
       @Assisted @Nullable Change change,
       @Assisted @Nullable ChangeNotes notes) {
     this.approvalsUtil = approvalsUtil;
@@ -485,6 +503,7 @@ public class ChangeData {
 
     this.changeServerId = notes == null ? null : notes.getServerId();
     this.virtualIdFunc = virtualIdFunc;
+    this.virtualId = virtualId;
   }
 
   /**
@@ -605,8 +624,30 @@ public class ChangeData {
     return legacyId;
   }
 
+  public static void ensureChangeServerId(Iterable<ChangeData> changes) {
+    ChangeData first = Iterables.getFirst(changes, null);
+    if (first == null) {
+      return;
+    }
+
+    for (ChangeData cd : changes) {
+      cd.changeServerId();
+    }
+  }
+
+  public String changeServerId() {
+    if (changeServerId == null) {
+      if (!lazyload()) {
+        return null;
+      }
+      changeServerId = notes().getServerId();
+    }
+    return changeServerId;
+  }
+
   public Change.Id getVirtualId() {
-    return virtualIdFunc == null ? legacyId : virtualIdFunc.apply(changeServerId, legacyId);
+    return virtualId.orElseGet(
+        () -> virtualIdFunc == null ? legacyId : virtualIdFunc.apply(changeServerId, legacyId));
   }
 
   public Project.NameKey project() {
@@ -1345,7 +1386,7 @@ public class ChangeData {
       if (!lazyload()) {
         return ImmutableMap.of();
       }
-      starRefs = requireNonNull(starredChangesUtil).byChange(legacyId);
+      starRefs = requireNonNull(starredChangesUtil).byChange(getVirtualId());
     }
     return starRefs;
   }
@@ -1363,7 +1404,8 @@ public class ChangeData {
         if (!lazyload()) {
           return ImmutableSet.of();
         }
-        starsOf = StarsOf.create(accountId, starredChangesUtil.getLabels(accountId, legacyId));
+        starsOf =
+            StarsOf.create(accountId, starredChangesUtil.getLabels(accountId, getVirtualId()));
       }
     }
     return starsOf.stars();

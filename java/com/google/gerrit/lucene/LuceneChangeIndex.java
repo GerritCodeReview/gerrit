@@ -70,6 +70,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -538,17 +539,18 @@ public class LuceneChangeIndex implements ChangeIndex {
     ChangeData cd;
     // Either change or the ID field was guaranteed to be included in the call
     // to fields() above.
+    Optional<IndexableField> f =
+        Optional.ofNullable(Iterables.getFirst(doc.get(idFieldName), null));
+    Optional<Change.Id> id = f.map(idField -> Change.id(Integer.valueOf(idField.stringValue())));
+
     IndexableField cb = Iterables.getFirst(doc.get(CHANGE_FIELD), null);
     if (cb != null) {
       BytesRef proto = cb.binaryValue();
-      cd = changeDataFactory.create(parseProtoFrom(proto, ChangeProtoConverter.INSTANCE));
+      cd = changeDataFactory.create(parseProtoFrom(proto, ChangeProtoConverter.INSTANCE), id);
     } else {
-      IndexableField f = Iterables.getFirst(doc.get(idFieldName), null);
-
-      Change.Id id = Change.id(Integer.valueOf(f.stringValue()));
       // IndexUtils#changeFields ensures either CHANGE or PROJECT is always present.
       IndexableField project = doc.get(PROJECT.getName()).iterator().next();
-      cd = changeDataFactory.create(Project.nameKey(project.stringValue()), id);
+      cd = changeDataFactory.create(Project.nameKey(project.stringValue()), id.get());
     }
 
     for (SchemaField<ChangeData, ?> field : getSchema().getSchemaFields().values()) {

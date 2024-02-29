@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b87e9461_536126f6",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 883,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-29T11:38:44Z",
+      "side": 0,
+      "message": "I think we should still set this to undefined, until it\u0027s loaded. Otherwise old value is not reset during loading",
+      "range": {
+        "startLine": 883,
+        "startChar": 4,
+        "endLine": 883,
+        "endChar": 30
+      },
+      "revId": "10322e02cfb98317c9a432cbe937eab9cbe2a93e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

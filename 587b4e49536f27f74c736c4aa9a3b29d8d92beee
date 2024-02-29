@@ -16,6 +16,52 @@
       "message": "I don\u0027t know why RBE is showing as failed in the checks. The link is wrong and the [real job][1] succeeded.\n\n[1]: https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-chrome-latest/46198/console",
       "revId": "587b4e49536f27f74c736c4aa9a3b29d8d92beee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb810bf3_956bedd7",
+        "filename": "tools/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2024-02-29T10:14:03Z",
+      "side": 1,
+      "message": "OFF?",
+      "range": {
+        "startLine": 192,
+        "startChar": 39,
+        "endLine": 192,
+        "endChar": 44
+      },
+      "revId": "587b4e49536f27f74c736c4aa9a3b29d8d92beee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15b20d6d_ea5715df",
+        "filename": "tools/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2024-02-29T10:14:03Z",
+      "side": 1,
+      "message": "OFF?",
+      "range": {
+        "startLine": 261,
+        "startChar": 32,
+        "endLine": 261,
+        "endChar": 37
+      },
+      "revId": "587b4e49536f27f74c736c4aa9a3b29d8d92beee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

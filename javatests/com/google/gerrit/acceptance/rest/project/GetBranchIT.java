@@ -83,7 +83,7 @@ public class GetBranchIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void cannotGetNonVisibleBranch() {
+  public void cannotGetNonVisibleBranch() throws Exception {
     String branchName = "master";
 
     // block read access to the branch
@@ -98,7 +98,7 @@ public class GetBranchIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void cannotGetNonVisibleBranchByShortName() {
+  public void cannotGetNonVisibleBranchByShortName() throws Exception {
     String branchName = "master";
 
     // block read access to the branch
@@ -441,7 +441,7 @@ public class GetBranchIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void cannotGetSymbolicRefThatPointsToNonVisibleBranch() {
+  public void cannotGetSymbolicRefThatPointsToNonVisibleBranch() throws Exception {
     // block read access to the branch to which HEAD points by default
     projectOperations
         .project(project)
@@ -562,8 +562,7 @@ public class GetBranchIT extends AbstractDaemonTest {
     assertBranchNotFound(project, RefNames.refsCacheAutomerge(mergeRevision));
   }
 
-  private void testGetRefWithAccessDatabase(Project.NameKey project, String ref)
-      throws RestApiException {
+  private void testGetRefWithAccessDatabase(Project.NameKey project, String ref) throws Exception {
     projectOperations
         .project(allProjects)
         .forUpdate()

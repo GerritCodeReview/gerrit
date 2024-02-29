@@ -161,6 +161,10 @@ public class ChangeResource implements RestResource, HasETag {
     return changeData;
   }
 
+  public Change.Id getVirtualId() {
+    return getChangeData().getVirtualId();
+  }
+
   // This includes all information relevant for ETag computation
   // unrelated to the UI.
   public void prepareETag(Hasher h, CurrentUser user) {
@@ -240,7 +244,8 @@ public class ChangeResource implements RestResource, HasETag {
                 .build())) {
       Hasher h = Hashing.murmur3_128().newHasher();
       if (user.isIdentifiedUser()) {
-        h.putString(starredChangesUtil.getObjectId(user.getAccountId(), getId()).name(), UTF_8);
+        h.putString(
+            starredChangesUtil.getObjectId(user.getAccountId(), getVirtualId()).name(), UTF_8);
       }
       prepareETag(h, user);
       return h.hash().toString();

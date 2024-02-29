@@ -538,14 +538,14 @@ public class LuceneChangeIndex implements ChangeIndex {
     ChangeData cd;
     // Either change or the ID field was guaranteed to be included in the call
     // to fields() above.
+    IndexableField f = Iterables.getFirst(doc.get(idFieldName), null);
+    Change.Id id = Change.id(Integer.valueOf(f.stringValue()));
+
     IndexableField cb = Iterables.getFirst(doc.get(CHANGE_FIELD), null);
     if (cb != null) {
       BytesRef proto = cb.binaryValue();
-      cd = changeDataFactory.create(parseProtoFrom(proto, ChangeProtoConverter.INSTANCE));
+      cd = changeDataFactory.create(parseProtoFrom(proto, ChangeProtoConverter.INSTANCE), id);
     } else {
-      IndexableField f = Iterables.getFirst(doc.get(idFieldName), null);
-
-      Change.Id id = Change.id(Integer.valueOf(f.stringValue()));
       // IndexUtils#changeFields ensures either CHANGE or PROJECT is always present.
       IndexableField project = doc.get(PROJECT.getName()).iterator().next();
       cd = changeDataFactory.create(Project.nameKey(project.stringValue()), id);

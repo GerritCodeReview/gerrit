@@ -44,7 +44,8 @@ public class AbstractGitOverHttpServlet extends AbstractPushForReview {
 
   @Before
   public void beforeEach() throws Exception {
-    checkState(server.getHttpdInjector().isPresent(), "GerritServer must have HttpdInjector");
+    checkState(
+        server.getHttpdInjector().isPresent(), "GerritServer must have HttpdInjector");
     jettyServer = server.getHttpdInjector().get().getInstance(JettyServer.class);
 
     CredentialsProvider.setDefault(
@@ -104,7 +105,7 @@ public class AbstractGitOverHttpServlet extends AbstractPushForReview {
     String remote = "anonymous";
     Config cfg = testRepo.git().getRepository().getConfig();
 
-    String uri = server.getUrl() + "/" + project.get();
+    String uri = server.getGitUrl() + "/" + project.get();
     cfg.setString("remote", remote, "url", uri);
     cfg.setString("remote", remote, "fetch", "+refs/heads/*:refs/remotes/origin/*");
 

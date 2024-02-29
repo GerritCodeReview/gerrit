@@ -369,7 +369,7 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
     public boolean supportReviewersByEmail;
 
     private String usersCacheKey() {
-      return description.getClassName();
+      return configRule.description().getClassName();
     }
 
     private TestAccount reindexAndCopy(TestAccount account) {

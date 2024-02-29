@@ -1361,6 +1361,10 @@ public class ChangeField {
                     RefStatePattern.create(
                             RefNames.REFS_USERS + "*/" + RefNames.EDIT_PREFIX + id + "/*")
                         .toByteArray(project));
+                result.add(
+                    RefStatePattern.create(
+                            RefNames.refsStarredChangesPrefix(cd.getVirtualId()) + "*")
+                        .toByteArray(allUsers(cd)));
                 return result;
               },
               (cd, field) -> cd.setRefStatePatterns(field));

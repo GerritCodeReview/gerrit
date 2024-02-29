@@ -317,17 +317,10 @@ suite('gr-change-actions tests', () => {
       });
 
       test('revisionActions', async () => {
-        element.revisionActions = {};
+        element.revisionActions = undefined;
         assert.isTrue(await isLoading());
 
-        element.revisionActions = {
-          submit: {
-            method: HttpMethod.POST,
-            label: 'Submit',
-            title: 'Submit patch set 2 into master',
-            enabled: true,
-          },
-        };
+        element.revisionActions = {};
         assert.isFalse(await isLoading());
       });
     });
@@ -599,7 +592,7 @@ suite('gr-change-actions tests', () => {
       assert.isTrue(fireStub.calledOnce);
       assert.deepEqual(fireStub.lastCall.args, [
         '/submit',
-        assertUIActionInfo(element.revisionActions.submit),
+        assertUIActionInfo(element.revisionActions?.submit),
         true,
       ]);
     });
@@ -2329,7 +2322,7 @@ suite('gr-change-actions tests', () => {
     test('adds download revision action', async () => {
       const handler = sinon.stub();
       element.addEventListener('download-tap', handler);
-      assert.ok(element.revisionActions.download);
+      assert.ok(element.revisionActions?.download);
       element.handleDownloadTap();
       await element.updateComplete;
 
@@ -2785,12 +2778,12 @@ suite('gr-change-actions tests', () => {
       assert.strictEqual(
         queryAndAssert<GrConfirmSubmitDialog>(element, '#confirmSubmitDialog')
           .action,
-        null
+        undefined
       );
       assert.strictEqual(
         queryAndAssert<GrConfirmRebaseDialog>(element, '#confirmRebase')
           .rebaseOnCurrent,
-        null
+        false
       );
     });
   });

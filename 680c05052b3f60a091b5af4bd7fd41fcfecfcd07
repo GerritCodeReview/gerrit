@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91db6072_96da46a1",
+        "filename": "java/com/google/gerrit/server/notedb/DraftCommentNotes.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-02-29T18:55:16Z",
+      "side": 1,
+      "message": "@luca.milanesio@gmail.com Do we need changeId and virtualId? why dont we leave it as it is and leave the\nresponsibility to the caller to inject one or another depending if is imported or not?",
+      "revId": "680c05052b3f60a091b5af4bd7fd41fcfecfcd07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

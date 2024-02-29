@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1c08a5f_47e2ba73",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2024-02-29T14:29:51Z",
+      "side": 1,
+      "message": "Checks didn\u0027t triggered for some reason (Even after I clicked \"Run\" manually and modified the change). Because checks passed on PS18, I manually voted for Code-Style and Verified.",
+      "revId": "2651c7a3143f11e2acb2d78fefe7af439b1f2b03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

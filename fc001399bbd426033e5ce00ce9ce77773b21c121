@@ -89,6 +89,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e01a0b24_32257691",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-29T17:13:33Z",
+      "side": 1,
+      "message": "draft reply",
+      "parentUuid": "8a2a8af0_dd271b4e",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 30
+      },
+      "revId": "fc001399bbd426033e5ce00ce9ce77773b21c121",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2e82110f_7a41213d",
         "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
         "patchSetId": 9

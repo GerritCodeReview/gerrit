@@ -16,6 +16,24 @@
       "message": "\u003e making more difficult for the other parts of the Gerrit code to understand\nif the change was created locally or imported from a different server.\n\nTo my knowledge, how the `serverId` property can help us to understand if it has been created locally or imported?\nwhen is null means is imported otherwise is created locally?",
       "revId": "d619b7238e63d9c1bd8bb79fb84533050642174b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bad0e58e_e211f0a6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-02-29T11:53:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b3a2ec4_87f31aa6",
+      "revId": "d619b7238e63d9c1bd8bb79fb84533050642174b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

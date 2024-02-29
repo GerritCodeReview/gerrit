@@ -34,6 +34,24 @@
       "parentUuid": "585e3f3a_34d17af4",
       "revId": "4af8c1d50954896559287cd33971e8401332a05c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d75dc97f_034af9cd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-02-29T15:35:08Z",
+      "side": 1,
+      "message": "Sorry for the https://gerrit-review.git.corp.google.com/c/gerrit/+/410722/4 . \n\nBut the point is the same. This doesn\u0027t need backporting",
+      "parentUuid": "d565d7dd_45419509",
+      "revId": "4af8c1d50954896559287cd33971e8401332a05c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

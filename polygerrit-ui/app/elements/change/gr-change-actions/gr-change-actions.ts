@@ -397,11 +397,7 @@ export class GrChangeActions
 
   // The unfiltered result of calling `restApiService.getChangeRevisionActions()`.
   // The DOWNLOAD action is also added to it in `actionsChanged()`.
-  @state() revisionActions: ActionNameToActionInfoMap = {};
-
-  @state() revisionSubmitAction?: ActionInfo | null;
-
-  @state() revisionRebaseAction?: ActionInfo | null;
+  @state() revisionActions?: ActionNameToActionInfoMap;
 
   @state() privateByDefault?: InheritedBooleanInfo;
 
@@ -702,9 +698,7 @@ export class GrChangeActions
             RevisionActions.REBASE
           )}
           .branch=${this.change?.branch}
-          .rebaseOnCurrent=${this.revisionRebaseAction
-            ? !!this.revisionRebaseAction.enabled
-            : null}
+          .rebaseOnCurrent=${!!this.revisionActions?.rebase?.enabled}
         ></gr-confirm-rebase-dialog>
         <gr-confirm-cherrypick-dialog
           id="confirmCherrypick"
@@ -744,7 +738,7 @@ export class GrChangeActions
         <gr-confirm-submit-dialog
           id="confirmSubmitDialog"
           class="confirmDialog"
-          .action=${this.revisionSubmitAction}
+          .action=${this.revisionActions?.submit}
           @cancel=${this.handleConfirmDialogCancel}
           @confirm=${this.handleSubmitConfirm}
         ></gr-confirm-submit-dialog>
@@ -847,31 +841,6 @@ export class GrChangeActions
       action => !action.__primary
     );
     this.menuActions = this.computeMenuActions();
-    this.revisionSubmitAction = this.getSubmitAction(this.revisionActions);
-    this.revisionRebaseAction = this.getRebaseAction(this.revisionActions);
-  }
-
-  private getSubmitAction(revisionActions: ActionNameToActionInfoMap) {
-    return this.getRevisionAction(revisionActions, 'submit');
-  }
-
-  private getRebaseAction(revisionActions: ActionNameToActionInfoMap) {
-    return this.getRevisionAction(revisionActions, 'rebase');
-  }
-
-  private getRevisionAction(
-    revisionActions: ActionNameToActionInfoMap,
-    actionName: string
-  ) {
-    if (!revisionActions) {
-      return undefined;
-    }
-    if (revisionActions[actionName] === undefined) {
-      // Return null to fire an event when revisionActions was loaded
-      // but doesn't contain actionName. undefined doesn't fire an event
-      return null;
-    }
-    return revisionActions[actionName];
   }
 
   reload() {
@@ -880,18 +849,14 @@ export class GrChangeActions
     }
     const change = this.change;
 
-    this.revisionActions = {};
+    this.revisionActions = undefined;
     return this.restApiService
       .getChangeRevisionActions(this.changeNum, this.latestPatchNum)
       .then(revisionActions => {
-        if (!revisionActions) {
-          return;
-        }
-
-        this.revisionActions = revisionActions;
+        this.revisionActions = revisionActions ?? {};
         this.sendShowRevisionActions({
           change: change as ChangeInfo,
-          revisionActions,
+          revisionActions: this.revisionActions,
         });
       })
       .catch(err => {
@@ -905,7 +870,7 @@ export class GrChangeActions
       !this.pluginsLoaded ||
       !this.change ||
       this.mergeable === undefined ||
-      !this.hasRevisionActions()
+      this.revisionActions === undefined
     );
   }
 
@@ -1014,9 +979,9 @@ export class GrChangeActions
   }
 
   getActionDetails(actionName: string) {
-    if (this.revisionActions[actionName]) {
+    if (this.revisionActions?.[actionName]) {
       return this.revisionActions[actionName];
-    } else if (this.actions[actionName]) {
+    } else if (this.actions?.[actionName]) {
       return this.actions[actionName];
     } else {
       return undefined;
@@ -1033,14 +998,18 @@ export class GrChangeActions
   }
 
   private hasRevisionActions() {
-    return Object.keys(this.revisionActions).length > 0;
+    return Object.keys(this.revisionActions ?? {}).length > 0;
   }
 
   private actionsChanged() {
     this.actionLoadingMessage = '';
     this.disabledMenuActions = [];
 
-    if (!this.revisionActions.download && this.hasRevisionActions()) {
+    if (
+      this.revisionActions &&
+      !this.revisionActions.download &&
+      this.hasRevisionActions()
+    ) {
       this.revisionActions = {
         ...this.revisionActions,
         download: DOWNLOAD_ACTION,
@@ -1240,7 +1209,7 @@ export class GrChangeActions
   }
 
   private getActionValues(
-    actionsChange: ActionNameToActionInfoMap,
+    actionsChange: ActionNameToActionInfoMap | undefined,
     primariesChange: PrimaryActionKey[],
     additionalActionsChange: UIActionInfo[],
     type: ActionType
@@ -1536,7 +1505,7 @@ export class GrChangeActions
       default:
         this.fireAction(
           this.prependSlash(key),
-          assertUIActionInfo(this.revisionActions[key]),
+          assertUIActionInfo(this.revisionActions?.[key]),
           true
         );
     }
@@ -1580,7 +1549,7 @@ export class GrChangeActions
     const rebaseChain = !!e.detail.rebaseChain;
     this.fireAction(
       rebaseChain ? '/rebase:chain' : '/rebase',
-      assertUIActionInfo(this.revisionActions.rebase),
+      assertUIActionInfo(this.revisionActions?.rebase),
       rebaseChain ? false : true,
       payload,
       {
@@ -1616,7 +1585,7 @@ export class GrChangeActions
     el.hidden = true;
     this.fireAction(
       '/cherrypick',
-      assertUIActionInfo(this.revisionActions.cherrypick),
+      assertUIActionInfo(this.revisionActions?.cherrypick),
       true,
       {
         destination: el.branch,
@@ -1739,7 +1708,7 @@ export class GrChangeActions
     this.hideAllDialogs();
     this.fireAction(
       '/submit',
-      assertUIActionInfo(this.revisionActions.submit),
+      assertUIActionInfo(this.revisionActions?.submit),
       true
     );
   }

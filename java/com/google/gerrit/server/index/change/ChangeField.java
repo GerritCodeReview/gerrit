@@ -1363,7 +1363,8 @@ public class ChangeField {
                             RefNames.REFS_USERS + "*/" + RefNames.EDIT_PREFIX + id + "/*")
                         .toByteArray(project));
                 result.add(
-                    RefStatePattern.create(RefNames.refsStarredChangesPrefix(id) + "*")
+                    RefStatePattern.create(
+                            RefNames.refsStarredChangesPrefix(cd.getVirtualId()) + "*")
                         .toByteArray(allUsers(cd)));
                 result.add(
                     RefStatePattern.create(RefNames.refsDraftCommentsPrefix(id) + "*")

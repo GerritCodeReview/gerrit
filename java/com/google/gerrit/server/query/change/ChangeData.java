@@ -605,6 +605,27 @@ public class ChangeData {
     return legacyId;
   }
 
+  public static void ensureChangeServerId(Iterable<ChangeData> changes) {
+    ChangeData first = Iterables.getFirst(changes, null);
+    if (first == null) {
+      return;
+    }
+
+    for (ChangeData cd : changes) {
+      cd.changeServerId();
+    }
+  }
+
+  public String changeServerId() {
+    if (changeServerId == null) {
+      if (!lazyload()) {
+        return null;
+      }
+      changeServerId = notes().getServerId();
+    }
+    return changeServerId;
+  }
+
   public Change.Id getVirtualId() {
     return virtualIdFunc == null ? legacyId : virtualIdFunc.apply(changeServerId, legacyId);
   }
@@ -1345,7 +1366,7 @@ public class ChangeData {
       if (!lazyload()) {
         return ImmutableMap.of();
       }
-      starRefs = requireNonNull(starredChangesUtil).byChange(legacyId);
+      starRefs = requireNonNull(starredChangesUtil).byChange(getVirtualId());
     }
     return starRefs;
   }
@@ -1363,7 +1384,8 @@ public class ChangeData {
         if (!lazyload()) {
           return ImmutableSet.of();
         }
-        starsOf = StarsOf.create(accountId, starredChangesUtil.getLabels(accountId, legacyId));
+        starsOf =
+            StarsOf.create(accountId, starredChangesUtil.getLabels(accountId, getVirtualId()));
       }
     }
     return starsOf.stars();

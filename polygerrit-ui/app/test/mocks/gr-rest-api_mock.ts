@@ -128,7 +128,7 @@ export const grRestApiMock: RestApiService = {
   deleteAccountGPGKey(): Promise<Response> {
     return Promise.resolve(new Response());
   },
-  deleteAccountIdentity(): Promise<unknown> {
+  deleteAccountIdentity(): Promise<Response> {
     return Promise.resolve(new Response());
   },
   deleteAccountSSHKey(): void {},
@@ -165,8 +165,8 @@ export const grRestApiMock: RestApiService = {
   deleteWatchedProjects(): Promise<Response> {
     return Promise.resolve(new Response());
   },
-  executeChangeAction(): Promise<ParsedJSON | undefined> {
-    return Promise.resolve({}) as Promise<ParsedJSON>;
+  executeChangeAction(): Promise<Response> {
+    return Promise.resolve(new Response());
   },
   finalize(): void {},
   generateAccountHttpPassword(): Promise<Password | undefined> {

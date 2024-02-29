@@ -377,7 +377,7 @@ As response the new account status is returned.
   "Out Of Office"
 ----
 
-If the name was deleted the response is "`204 No Content`".
+If the status was deleted the response is "`204 No Content`".
 
 [[get-username]]
 === Get Username
@@ -448,6 +448,8 @@ a link:#display-name-input[DisplayNameInput] entity.
 ----
 
 As response the new display name is returned.
+
+If the Display Name was deleted the response is "`204 No Content`".
 
 [[get-active]]
 === Get Active

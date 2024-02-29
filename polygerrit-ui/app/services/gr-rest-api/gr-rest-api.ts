@@ -120,8 +120,8 @@ export interface RestApiService extends Finalizable {
     params?: string[]
   ): Promise<AccountCapabilityInfo | undefined>;
   getExternalIds(): Promise<AccountExternalIdInfo[] | undefined>;
-  deleteAccountIdentity(id: string[]): Promise<unknown>;
-  deleteAccount(): Promise<unknown>;
+  deleteAccountIdentity(id: string[]): Promise<Response>;
+  deleteAccount(): Promise<Response>;
   getRepos(
     filter: string | undefined,
     reposPerPage: number,
@@ -192,7 +192,7 @@ export interface RestApiService extends Finalizable {
     patchNum?: PatchSetNum,
     payload?: RequestPayload,
     errFn?: ErrorCallback
-  ): Promise<ParsedJSON | undefined>;
+  ): Promise<Response>;
   getRepoBranches(
     filter: string,
     repo: RepoName,

@@ -631,9 +631,8 @@ export class GrConfirmCherrypickDialog
           payload,
           handleError
         )
-        .then(cherrypickedChange => {
-          // Rest api returns undefined on non-2xx response status
-          if (cherrypickedChange === undefined) {
+        .then(response => {
+          if (!response.ok) {
             return;
           }
           this.updateStatus(change, {status: ProgressStatus.SUCCESSFUL});

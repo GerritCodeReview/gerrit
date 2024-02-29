@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "559c507a_8308ccb3",
+        "filename": "java/com/google/gerrit/acceptance/ServerTestRule.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2024-02-29T12:11:39Z",
+      "side": 1,
+      "message": "Missing a word here. As a-...?",
+      "range": {
+        "startLine": 62,
+        "startChar": 20,
+        "endLine": 62,
+        "endChar": 25
+      },
+      "revId": "84ea1f26037247c1ef1cc5a1ba6b3df4ee682861",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -104,7 +104,7 @@ public class AbstractGitOverHttpServlet extends AbstractPushForReview {
     String remote = "anonymous";
     Config cfg = testRepo.git().getRepository().getConfig();
 
-    String uri = server.getUrl() + "/" + project.get();
+    String uri = server.getGitUrl() + "/" + project.get();
     cfg.setString("remote", remote, "url", uri);
     cfg.setString("remote", remote, "fetch", "+refs/heads/*:refs/remotes/origin/*");
 

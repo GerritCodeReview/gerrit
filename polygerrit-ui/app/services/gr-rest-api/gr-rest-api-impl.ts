@@ -2823,8 +2823,8 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
     const fetchOptions =
       method === HttpMethod.PUT
-        ? {method}
-        : getFetchOptions({method, body: draft});
+        ? getFetchOptions({method, body: draft})
+        : {method};
 
     const promise = this._changeBaseURL(changeNum, patchNum).then(url =>
       this._restApiHelper.fetch({

@@ -32,7 +32,7 @@ import {
 } from '../../../test/test-utils';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {ProgressStatus} from '../../../constants/constants';
-import {ParsedJSON, RequestPayload} from '../../../types/common';
+import {RequestPayload} from '../../../types/common';
 import {ErrorCallback} from '../../../api/rest';
 
 const change1: ChangeInfo = {...createChange(), _number: 1 as NumericChangeId};
@@ -187,7 +187,7 @@ suite('gr-change-list-bulk-abandon-flow tests', () => {
       `Status: ${ProgressStatus.NOT_STARTED}`
     );
 
-    const executeChangeAction = mockPromise<ParsedJSON>();
+    const executeChangeAction = mockPromise<Response>();
     stubRestApi('executeChangeAction').returns(executeChangeAction);
 
     assert.isNotOk(
@@ -215,7 +215,7 @@ suite('gr-change-list-bulk-abandon-flow tests', () => {
       `Status: ${ProgressStatus.RUNNING}`
     );
 
-    executeChangeAction.resolve({} as ParsedJSON);
+    executeChangeAction.resolve(new Response());
     await waitUntil(
       () =>
         element.progress.get(1 as NumericChangeId) === ProgressStatus.SUCCESSFUL
@@ -265,7 +265,7 @@ suite('gr-change-list-bulk-abandon-flow tests', () => {
         _payload?: RequestPayload,
         errFn?: ErrorCallback
       ) =>
-        Promise.resolve({} as ParsedJSON).then(res => {
+        Promise.resolve(new Response()).then(res => {
           errFn && errFn();
           return res;
         })
@@ -313,7 +313,7 @@ suite('gr-change-list-bulk-abandon-flow tests', () => {
         _payload?: RequestPayload,
         errFn?: ErrorCallback
       ) =>
-        Promise.resolve({} as ParsedJSON).then(res => {
+        Promise.resolve(new Response()).then(res => {
           errFn && errFn();
           return res;
         })

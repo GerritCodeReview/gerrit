@@ -128,14 +128,14 @@ export class BulkActionsModel extends Model<BulkActionsState> {
     reason?: string,
     // errorFn is needed to avoid showing an error dialog
     errFn?: (changeNum: NumericChangeId) => void
-  ): Promise<ChangeInfo | undefined>[] {
+  ): Promise<Response>[] {
     const current = this.getState();
     return current.selectedChangeNums.map(changeNum => {
       if (!current.allChanges.get(changeNum))
         throw new Error('invalid change id');
       const change = current.allChanges.get(changeNum)!;
       if (change.status === ChangeStatus.ABANDONED) {
-        return Promise.resolve(change);
+        return Promise.resolve(new Response());
       }
       return this.restApiService.executeChangeAction(
         getChangeNumber(change),
@@ -144,7 +144,7 @@ export class BulkActionsModel extends Model<BulkActionsState> {
         undefined,
         {message: reason ?? ''},
         () => errFn && errFn(getChangeNumber(change))
-      ) as Promise<ChangeInfo | undefined>;
+      );
     });
   }
 

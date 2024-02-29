@@ -15,6 +15,7 @@ import {
 import {
   addListenerForTest,
   assertFails,
+  makePrefixedJSON,
   waitEventLoop,
 } from '../../../../test/test-utils';
 import {FakeScheduler} from '../../../../services/scheduler/fake-scheduler';
@@ -499,7 +500,7 @@ suite('gr-rest-api-helper tests', () => {
   suite('reading responses', () => {
     test('readResponsePayload', async () => {
       const mockObject = {foo: 'bar', baz: 'foo'} as unknown as ParsedJSON;
-      const serial = JSON_PREFIX + JSON.stringify(mockObject);
+      const serial = makePrefixedJSON(mockObject);
       const response = new Response(serial);
       const payload = await readJSONResponsePayload(response);
       assert.deepEqual(payload.parsed, mockObject);
@@ -511,6 +512,15 @@ suite('gr-rest-api-helper tests', () => {
       const serial = JSON_PREFIX + JSON.stringify(obj);
       const result = parsePrefixedJSON(serial);
       assert.deepEqual(result, obj);
+    });
+
+    test('parsing error', async () => {
+      const response = new Response('[');
+      const err: Error = await assertFails(readJSONResponsePayload(response));
+      assert.equal(
+        err.message,
+        'Response payload is not prefixed json. Payload: ['
+      );
     });
   });
 

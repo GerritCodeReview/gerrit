@@ -16,6 +16,24 @@
       "message": "@geminica.programs@gmail.com The patch set 7 breaks the code.",
       "revId": "66cd6a57b2f43efa45e76c432087c5ce01119a20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8dec840c_3072ea73",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-01T01:10:13Z",
+      "side": 1,
+      "message": "Fixed in PS8.",
+      "parentUuid": "c948e43a_b7861dd9",
+      "revId": "66cd6a57b2f43efa45e76c432087c5ce01119a20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

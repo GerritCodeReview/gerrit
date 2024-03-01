@@ -34,6 +34,24 @@
       "parentUuid": "ac648bfc_9636a5c3",
       "revId": "a87eed66c6922b4c0c509d7c088243aa33f04b9b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5502daf3_a47225e6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2024-03-01T06:45:08Z",
+      "side": 1,
+      "message": "That merge was not at all as nasty as the one for AbstractQueryChangesTest.java (sorry about that, next time don\u0027t be afraid to say \"Hey Sven, your patch makes merging up a PITA, do it yourself!\" 😊 ).\nI\u0027ll redo it when your merge is submitted and upload for review.",
+      "parentUuid": "7900175a_265c1033",
+      "revId": "a87eed66c6922b4c0c509d7c088243aa33f04b9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,24 @@
       "message": "@luca.milanesio@gmail.com Do we need changeId and virtualId? why dont we leave it as it is and leave the\nresponsibility to the caller to inject one or another depending if is imported or not?",
       "revId": "680c05052b3f60a091b5af4bd7fd41fcfecfcd07",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "adb70c51_af0bd356",
+        "filename": "java/com/google/gerrit/server/notedb/DraftCommentNotes.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-02T02:04:22Z",
+      "side": 1,
+      "message": "The `changeId` is passed to the super-class which is the `AbstractChangeNotes`. If you want to understand to which change number it is associated, you have to keep that information unchanged.\n\nAlternatively, you could avoid passing the `virtualId` but then you would have to pass the virtualisation algorithm which I found more complicated to this one.\n\nIn both cases, you need to preserve the original change number (`changeId`).",
+      "parentUuid": "91db6072_96da46a1",
+      "revId": "680c05052b3f60a091b5af4bd7fd41fcfecfcd07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

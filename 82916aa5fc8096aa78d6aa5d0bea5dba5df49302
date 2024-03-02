@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "60cefbd9_b5ce0590",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-03-02T00:40:01Z",
+      "side": 1,
+      "message": "I\u0027ve included this in my merge that I had in progress already: 411338: Merge branch \u0027stable-3.7\u0027 into stable-3.8 | https://gerrit-review.googlesource.com/c/gerrit/+/411338",
+      "revId": "82916aa5fc8096aa78d6aa5d0bea5dba5df49302",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -597,14 +597,6 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     return robotCommentNotes;
   }
 
-  public boolean containsComment(HumanComment c) {
-    if (containsCommentPublished(c)) {
-      return true;
-    }
-    loadDraftComments(c.author.getId(), null);
-    return draftCommentNotes.containsComment(c);
-  }
-
   public boolean containsCommentPublished(Comment c) {
     for (Comment l : getHumanComments().values()) {
       if (c.key.equals(l.key)) {

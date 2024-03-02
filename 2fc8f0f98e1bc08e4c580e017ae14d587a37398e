@@ -3,6 +3,144 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e9815e1f_a6bcebf4",
+        "filename": "java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-02T01:32:44Z",
+      "side": 1,
+      "message": "We should rename this to `virtualId` to advise the caller of which type of change id needs to be specified.",
+      "range": {
+        "startLine": 198,
+        "startChar": 76,
+        "endLine": 198,
+        "endChar": 84
+      },
+      "revId": "2fc8f0f98e1bc08e4c580e017ae14d587a37398e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77c16519_b653b893",
+        "filename": "java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-02T01:32:44Z",
+      "side": 1,
+      "message": "virtualIds",
+      "range": {
+        "startLine": 231,
+        "startChar": 47,
+        "endLine": 231,
+        "endChar": 56
+      },
+      "revId": "2fc8f0f98e1bc08e4c580e017ae14d587a37398e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84d0aa6b_98c0edb1",
+        "filename": "java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-02T01:32:44Z",
+      "side": 1,
+      "message": "virtualId",
+      "range": {
+        "startLine": 258,
+        "startChar": 51,
+        "endLine": 258,
+        "endChar": 59
+      },
+      "revId": "2fc8f0f98e1bc08e4c580e017ae14d587a37398e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be55b2b2_82ffd9e1",
+        "filename": "java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-02T01:32:44Z",
+      "side": 1,
+      "message": "virtualId",
+      "range": {
+        "startLine": 288,
+        "startChar": 62,
+        "endLine": 288,
+        "endChar": 70
+      },
+      "revId": "2fc8f0f98e1bc08e4c580e017ae14d587a37398e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b696b45_ddc18bb4",
+        "filename": "java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-02T01:32:44Z",
+      "side": 1,
+      "message": "virtualId",
+      "range": {
+        "startLine": 335,
+        "startChar": 79,
+        "endLine": 335,
+        "endChar": 87
+      },
+      "revId": "2fc8f0f98e1bc08e4c580e017ae14d587a37398e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec40001b_84a1f7c0",
+        "filename": "java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-02T01:32:44Z",
+      "side": 1,
+      "message": "For consistency with what you\u0027ve done with `AccountResource`, you should introduce a `getVirtualId()` method on `ChangeResource` that calls `getChangeData().getVirtualId()`.",
+      "range": {
+        "startLine": 245,
+        "startChar": 50,
+        "endLine": 245,
+        "endChar": 80
+      },
+      "revId": "2fc8f0f98e1bc08e4c580e017ae14d587a37398e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "546af68d_73942d5e",
         "filename": "java/com/google/gerrit/server/change/DeleteChangeOp.java",
         "patchSetId": 5

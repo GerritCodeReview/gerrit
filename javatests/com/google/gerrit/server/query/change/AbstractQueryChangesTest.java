@@ -3466,6 +3466,14 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("reviewer:self", change);
     assertThat(indexer.reindexIfStale(project, change.getId()).get()).isTrue();
     assertQuery("reviewer:self");
+
+    // Index is not stale when a draft comment exists
+    DraftInput in = new DraftInput();
+    in.line = 1;
+    in.message = "nit: trailing whitespace";
+    in.path = Patch.COMMIT_MSG;
+    gApi.changes().id(project.get(), change.getId().get()).current().createDraft(in);
+    assertThat(indexer.reindexIfStale(project, change.getId()).get()).isFalse();
   }
 
   @Test

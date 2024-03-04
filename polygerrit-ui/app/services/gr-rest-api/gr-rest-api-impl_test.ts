@@ -19,6 +19,7 @@ import {
   createAccountWithId,
   createChange,
   createComment,
+  createEditInfo,
   createParsedChange,
   createServerInfo,
   TEST_PROJECT_NAME,
@@ -36,6 +37,7 @@ import {
   ChangeInfo,
   ChangeMessageId,
   CommentInfo,
+  CommentInput,
   DashboardId,
   EDIT,
   Hashtag,
@@ -606,10 +608,154 @@ suite('gr-rest-api-service-impl tests', () => {
     ] as unknown as ParsedJSON);
   });
 
+  test('setAccountUsername', async () => {
+    const fetchStub = sinon
+      .stub(element._restApiHelper, 'fetch')
+      .resolves(new Response(makePrefixedJSON('john')));
+    element._cache.set(
+      '/accounts/self/detail',
+      createAccountDetailWithId() as unknown as ParsedJSON
+    );
+    await element.setAccountUsername('john');
+    assert.isTrue(fetchStub.calledOnce);
+    assert.equal(
+      fetchStub.lastCall.args[0].fetchOptions?.method,
+      HttpMethod.PUT
+    );
+    assert.equal(fetchStub.lastCall.args[0].url, '/accounts/self/username');
+    assert.deepEqual(
+      JSON.parse(fetchStub.lastCall.args[0].fetchOptions?.body as string),
+      {username: 'john'}
+    );
+    assert.deepEqual(
+      (element._cache.get(
+        '/accounts/self/detail'
+      ) as unknown as AccountDetailInfo)!.username,
+      'john'
+    );
+  });
+
+  test('setAccountUsername empty unsets field', async () => {
+    const fetchStub = sinon
+      .stub(element._restApiHelper, 'fetch')
+      .resolves(new Response(undefined, {status: 204}));
+    element._cache.set('/accounts/self/detail', {
+      ...createAccountDetailWithId(),
+      username: 'john',
+    } as unknown as ParsedJSON);
+    await element.setAccountUsername('');
+    assert.isTrue(fetchStub.calledOnce);
+    assert.equal(
+      fetchStub.lastCall.args[0].fetchOptions?.method,
+      HttpMethod.PUT
+    );
+    assert.isUndefined(
+      (element._cache.get(
+        '/accounts/self/detail'
+      ) as unknown as AccountDetailInfo)!.username
+    );
+  });
+
+  test('setAccountDisplayName', async () => {
+    const fetchStub = sinon
+      .stub(element._restApiHelper, 'fetch')
+      .resolves(new Response(makePrefixedJSON('john')));
+    element._cache.set(
+      '/accounts/self/detail',
+      createAccountDetailWithId() as unknown as ParsedJSON
+    );
+    await element.setAccountDisplayName('john');
+    assert.isTrue(fetchStub.calledOnce);
+    assert.equal(
+      fetchStub.lastCall.args[0].fetchOptions?.method,
+      HttpMethod.PUT
+    );
+    assert.equal(fetchStub.lastCall.args[0].url, '/accounts/self/displayname');
+    assert.deepEqual(
+      JSON.parse(fetchStub.lastCall.args[0].fetchOptions?.body as string),
+      {display_name: 'john'}
+    );
+    assert.deepEqual(
+      (element._cache.get(
+        '/accounts/self/detail'
+      ) as unknown as AccountDetailInfo)!.display_name,
+      'john'
+    );
+  });
+
+  test('setAccountDisplayName empty unsets field', async () => {
+    const fetchStub = sinon
+      .stub(element._restApiHelper, 'fetch')
+      .resolves(new Response(undefined, {status: 204}));
+    element._cache.set('/accounts/self/detail', {
+      ...createAccountDetailWithId(),
+      display_name: 'john',
+    } as unknown as ParsedJSON);
+    await element.setAccountDisplayName('');
+    assert.isTrue(fetchStub.calledOnce);
+    assert.equal(
+      fetchStub.lastCall.args[0].fetchOptions?.method,
+      HttpMethod.PUT
+    );
+    assert.isUndefined(
+      (element._cache.get(
+        '/accounts/self/detail'
+      ) as unknown as AccountDetailInfo)!.display_name
+    );
+  });
+
+  test('setAccountName', async () => {
+    const fetchStub = sinon
+      .stub(element._restApiHelper, 'fetch')
+      .resolves(new Response(makePrefixedJSON('john')));
+    element._cache.set(
+      '/accounts/self/detail',
+      createAccountDetailWithId() as unknown as ParsedJSON
+    );
+    await element.setAccountName('john');
+    assert.isTrue(fetchStub.calledOnce);
+    assert.equal(
+      fetchStub.lastCall.args[0].fetchOptions?.method,
+      HttpMethod.PUT
+    );
+    assert.equal(fetchStub.lastCall.args[0].url, '/accounts/self/name');
+    assert.deepEqual(
+      JSON.parse(fetchStub.lastCall.args[0].fetchOptions?.body as string),
+      {name: 'john'}
+    );
+    assert.deepEqual(
+      (element._cache.get(
+        '/accounts/self/detail'
+      ) as unknown as AccountDetailInfo)!.name,
+      'john'
+    );
+  });
+
+  test('setAccountName empty unsets field', async () => {
+    const fetchStub = sinon
+      .stub(element._restApiHelper, 'fetch')
+      .resolves(new Response(undefined, {status: 204}));
+    element._cache.set('/accounts/self/detail', {
+      ...createAccountDetailWithId(),
+      name: 'john',
+    } as unknown as ParsedJSON);
+    await element.setAccountName('');
+    assert.isTrue(fetchStub.calledOnce);
+    assert.equal(
+      fetchStub.lastCall.args[0].fetchOptions?.method,
+      HttpMethod.PUT
+    );
+    assert.isUndefined(
+      (element._cache.get(
+        '/accounts/self/detail'
+      ) as unknown as AccountDetailInfo)!.name
+    );
+  });
+
   test('setAccountStatus', async () => {
     const fetchStub = sinon
-      .stub(element._restApiHelper, 'fetchJSON')
-      .resolves('OOO' as unknown as ParsedJSON);
+      .stub(element._restApiHelper, 'fetch')
+      .resolves(new Response(makePrefixedJSON('OOO')));
     element._cache.set(
       '/accounts/self/detail',
       createAccountDetailWithId() as unknown as ParsedJSON
@@ -633,6 +779,27 @@ suite('gr-rest-api-service-impl tests', () => {
     );
   });
 
+  test('setAccountStatus empty unsets field', async () => {
+    const fetchStub = sinon
+      .stub(element._restApiHelper, 'fetch')
+      .resolves(new Response(undefined, {status: 204}));
+    element._cache.set('/accounts/self/detail', {
+      ...createAccountDetailWithId(),
+      status: 'OOO',
+    } as unknown as ParsedJSON);
+    await element.setAccountStatus('');
+    assert.isTrue(fetchStub.calledOnce);
+    assert.equal(
+      fetchStub.lastCall.args[0].fetchOptions?.method,
+      HttpMethod.PUT
+    );
+    assert.isUndefined(
+      (element._cache.get(
+        '/accounts/self/detail'
+      ) as unknown as AccountDetailInfo)!.status
+    );
+  });
+
   suite('draft comments', () => {
     test('_sendDiffDraftRequest pending requests tracked', async () => {
       const obj = element._pendingRequests;
@@ -641,16 +808,20 @@ suite('gr-rest-api-service-impl tests', () => {
         promises.push(mockPromise<string>());
         return promises[promises.length - 1];
       });
-      sinon
+      const fetchStub = sinon
         .stub(element._restApiHelper, 'fetch')
         .resolves(new Response(undefined, {status: 201}));
+      const draft: CommentInput = {
+        id: 'draft-id' as UrlEncodedCommentId,
+        message: 'draft message',
+      };
       assert.isFalse(!!element.hasPendingDiffDrafts());
 
       element._sendDiffDraftRequest(
         HttpMethod.PUT,
         123 as NumericChangeId,
         1 as PatchSetNum,
-        {}
+        draft
       );
       assert.equal(obj.sendDiffDraft.length, 1);
       assert.isTrue(!!element.hasPendingDiffDrafts());
@@ -659,7 +830,7 @@ suite('gr-rest-api-service-impl tests', () => {
         HttpMethod.PUT,
         123 as NumericChangeId,
         1 as PatchSetNum,
-        {}
+        draft
       );
       assert.equal(obj.sendDiffDraft.length, 2);
       assert.isTrue(!!element.hasPendingDiffDrafts());
@@ -671,6 +842,12 @@ suite('gr-rest-api-service-impl tests', () => {
       await element.awaitPendingDiffDrafts();
       assert.equal(obj.sendDiffDraft.length, 0);
       assert.isFalse(!!element.hasPendingDiffDrafts());
+
+      assert.isTrue(fetchStub.called);
+      assert.deepEqual(
+        JSON.parse(fetchStub.lastCall.args[0].fetchOptions?.body as string),
+        draft
+      );
     });
 
     suite('_failForCreate200', () => {
@@ -1385,7 +1562,9 @@ suite('gr-rest-api-service-impl tests', () => {
 
   test('setChangeTopic', async () => {
     element.addRepoNameToCache(123 as NumericChangeId, TEST_PROJECT_NAME);
-    const fetchStub = sinon.stub(element._restApiHelper, 'fetchJSON');
+    const fetchStub = sinon
+      .stub(element._restApiHelper, 'fetch')
+      .resolves(new Response(makePrefixedJSON('foo-bar')));
     await element.setChangeTopic(123 as NumericChangeId, 'foo-bar');
     assert.isTrue(fetchStub.calledOnce);
     assert.deepEqual(
@@ -1639,6 +1818,36 @@ suite('gr-rest-api-service-impl tests', () => {
     });
     assert.isTrue(getChangeEditFilesStub.calledOnce);
     assert.isTrue(getChangeFilesStub.calledOnce);
+  });
+
+  test('getChangeEdit not logged in returns undefined', async () => {
+    element.addRepoNameToCache(123 as NumericChangeId, TEST_PROJECT_NAME);
+    sinon.stub(element, 'getLoggedIn').resolves(false);
+    const fetchSpy = sinon.spy(element._restApiHelper, 'fetch');
+    const edit = await element.getChangeEdit(123 as NumericChangeId);
+    assert.isUndefined(edit);
+    assert.isFalse(fetchSpy.called);
+  });
+
+  test('getChangeEdit no edit patchset returns undefined', async () => {
+    element.addRepoNameToCache(123 as NumericChangeId, TEST_PROJECT_NAME);
+    sinon.stub(element, 'getLoggedIn').resolves(true);
+    sinon
+      .stub(element._restApiHelper, 'fetch')
+      .resolves(new Response(undefined, {status: 204}));
+    const edit = await element.getChangeEdit(123 as NumericChangeId);
+    assert.isUndefined(edit);
+  });
+
+  test('getChangeEdit returns edit patchset', async () => {
+    element.addRepoNameToCache(123 as NumericChangeId, TEST_PROJECT_NAME);
+    sinon.stub(element, 'getLoggedIn').resolves(true);
+    const expected = createEditInfo();
+    sinon
+      .stub(element._restApiHelper, 'fetch')
+      .resolves(new Response(makePrefixedJSON(expected)));
+    const edit = await element.getChangeEdit(123 as NumericChangeId);
+    assert.deepEqual(edit, expected);
   });
 
   test('ported comment errors do not trigger error dialog', () => {

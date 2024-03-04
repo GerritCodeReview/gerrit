@@ -739,7 +739,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     }) as Promise<AccountExternalIdInfo[] | undefined>;
   }
 
-  deleteAccount() {
+  deleteAccount(): Promise<Response> {
     return this._restApiHelper.fetch({
       fetchOptions: {
         method: HttpMethod.DELETE,
@@ -750,15 +750,16 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     });
   }
 
-  deleteAccountIdentity(id: string[]) {
-    return this._restApiHelper.fetchJSON({
+  deleteAccountIdentity(id: string[]): Promise<Response> {
+    return this._restApiHelper.fetch({
       fetchOptions: getFetchOptions({
         method: HttpMethod.POST,
         body: id,
       }),
       url: '/accounts/self/external.ids:delete',
       reportUrlAsIs: true,
-    }) as Promise<unknown>;
+      reportServerError: true,
+    });
   }
 
   getAccountDetails(
@@ -861,66 +862,90 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     }
   }
 
-  setAccountName(name: string): Promise<void> {
-    return this._restApiHelper
-      .fetchJSON({
-        fetchOptions: getFetchOptions({
-          method: HttpMethod.PUT,
-          body: {name},
-        }),
-        url: '/accounts/self/name',
-        reportUrlAsIs: true,
-      })
-      .then(newName =>
-        this._updateCachedAccount({name: newName as unknown as string})
-      );
+  async setAccountName(name: string): Promise<void> {
+    const response = await this._restApiHelper.fetch({
+      fetchOptions: getFetchOptions({
+        method: HttpMethod.PUT,
+        body: {name},
+      }),
+      url: '/accounts/self/name',
+      reportUrlAsIs: true,
+      reportServerError: true,
+    });
+    if (!response.ok) {
+      return;
+    }
+    let newName = undefined;
+    // If the name was deleted server returns 204
+    if (response.status !== 204) {
+      newName = (await readJSONResponsePayload(response))
+        .parsed as unknown as string;
+    }
+    this._updateCachedAccount({name: newName});
   }
 
-  setAccountUsername(username: string): Promise<void> {
-    return this._restApiHelper
-      .fetchJSON({
-        fetchOptions: getFetchOptions({
-          method: HttpMethod.PUT,
-          body: {username},
-        }),
-        url: '/accounts/self/username',
-        reportUrlAsIs: true,
-      })
-      .then(newName =>
-        this._updateCachedAccount({username: newName as unknown as string})
-      );
+  async setAccountUsername(username: string): Promise<void> {
+    const response = await this._restApiHelper.fetch({
+      fetchOptions: getFetchOptions({
+        method: HttpMethod.PUT,
+        body: {username},
+      }),
+      url: '/accounts/self/username',
+      reportUrlAsIs: true,
+    });
+    if (!response.ok) {
+      return;
+    }
+    let newName = undefined;
+    // If the name was deleted server returns 204
+    if (response.status !== 204) {
+      newName = (await readJSONResponsePayload(response))
+        .parsed as unknown as string;
+    }
+    this._updateCachedAccount({username: newName});
   }
 
-  setAccountDisplayName(displayName: string): Promise<void> {
-    return this._restApiHelper
-      .fetchJSON({
-        fetchOptions: getFetchOptions({
-          method: HttpMethod.PUT,
-          body: {display_name: displayName},
-        }),
-        url: '/accounts/self/displayname',
-        reportUrlAsIs: true,
-      })
-      .then(newName =>
-        this._updateCachedAccount({
-          display_name: newName as unknown as string,
-        })
-      );
+  async setAccountDisplayName(displayName: string): Promise<void> {
+    const response = await this._restApiHelper.fetch({
+      fetchOptions: getFetchOptions({
+        method: HttpMethod.PUT,
+        body: {display_name: displayName},
+      }),
+      url: '/accounts/self/displayname',
+      reportUrlAsIs: true,
+      reportServerError: true,
+    });
+    if (!response.ok) {
+      return;
+    }
+    let newName = undefined;
+    // If the name was deleted server returns 204
+    if (response.status !== 204) {
+      newName = (await readJSONResponsePayload(response))
+        .parsed as unknown as string;
+    }
+    this._updateCachedAccount({display_name: newName});
   }
 
-  setAccountStatus(status: string): Promise<void> {
-    return this._restApiHelper
-      .fetchJSON({
-        fetchOptions: getFetchOptions({
-          method: HttpMethod.PUT,
-          body: {status},
-        }),
-        url: '/accounts/self/status',
-        reportUrlAsIs: true,
-      })
-      .then(newStatus =>
-        this._updateCachedAccount({status: newStatus as unknown as string})
-      );
+  async setAccountStatus(status: string): Promise<void> {
+    const response = await this._restApiHelper.fetch({
+      fetchOptions: getFetchOptions({
+        method: HttpMethod.PUT,
+        body: {status},
+      }),
+      url: '/accounts/self/status',
+      reportUrlAsIs: true,
+    });
+    if (!response.ok) {
+      return;
+    }
+    let newStatus = undefined;
+    // If the status was deleted server returns 204
+    if (response.status !== 204) {
+      newStatus = (await readJSONResponsePayload(response))
+        .parsed as unknown as string;
+    }
+    this._updateCachedAccount({status: newStatus});
   }
 
   getAccountStatus(userId: AccountId) {
@@ -1396,9 +1421,13 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       anonymizedUrl += '&base=*';
     }
 
-    return this._restApiHelper.fetchJSON({url, anonymizedUrl}) as Promise<
-      {files: FileNameToFileInfoMap} | undefined
-    >;
+    const response = await this._restApiHelper.fetch({url, anonymizedUrl});
+    if (!response.ok || response.status === 204) {
+      return undefined;
+    }
+    return (await readJSONResponsePayload(response)).parsed as unknown as
+      | {files: FileNameToFileInfoMap}
+      | undefined;
   }
 
   async queryChangeFiles(
@@ -2044,14 +2073,17 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       return undefined;
     }
     const url = await this._changeBaseURL(changeNum);
-    return this._restApiHelper.fetchJSON(
-      {
-        url: `${url}/edit/`,
-        params,
-        anonymizedUrl: `${ANONYMIZED_CHANGE_BASE_URL}/edit/`,
-      },
-      /* noAcceptHeader=*/ true
-    ) as Promise<EditInfo | undefined>;
+    const response = await this._restApiHelper.fetch({
+      url: `${url}/edit/`,
+      params,
+      anonymizedUrl: `${ANONYMIZED_CHANGE_BASE_URL}/edit/`,
+    });
+    // If there is no edit patchset 204 is returned.
+    if (!response.ok || response.status === 204) {
+      return undefined;
+    }
+    return (await readJSONResponsePayload(response))
+      .parsed as unknown as EditInfo;
   }
 
   createChange(
@@ -2791,8 +2823,8 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
     const fetchOptions =
       method === HttpMethod.PUT
-        ? {method}
-        : getFetchOptions({method, body: draft});
+        ? getFetchOptions({method, body: draft})
+        : {method};
 
     const promise = this._changeBaseURL(changeNum, patchNum).then(url =>
       this._restApiHelper.fetch({
@@ -2968,7 +3000,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     errFn?: ErrorCallback
   ): Promise<string | undefined> {
     const url = await this._changeBaseURL(changeNum);
-    return this._restApiHelper.fetchJSON({
+    const response = await this._restApiHelper.fetch({
       fetchOptions: getFetchOptions({
         method: HttpMethod.PUT,
         body: {topic},
@@ -2976,7 +3008,15 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       url: `${url}/topic`,
       anonymizedUrl: `${ANONYMIZED_CHANGE_BASE_URL}/topic`,
       errFn,
-    }) as unknown as Promise<string | undefined>;
+    });
+    if (!response.ok) {
+      return undefined;
+    }
+    if (response.status === 204) {
+      return '';
+    }
+    return (await readJSONResponsePayload(response))
+      .parsed as unknown as string;
   }
 
   removeChangeTopic(
@@ -3280,16 +3320,17 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     patchNum?: PatchSetNum,
     payload?: RequestPayload,
     errFn?: ErrorCallback
-  ): Promise<ParsedJSON | undefined> {
+  ): Promise<Response> {
     const url = await this._changeBaseURL(changeNum, patchNum);
     // No anonymizedUrl specified so the request will not be logged.
-    return this._restApiHelper.fetchJSON({
+    return this._restApiHelper.fetch({
       fetchOptions: getFetchOptions({
         method,
         body: payload,
       }),
       url: url + endpoint,
       errFn,
+      reportServerError: true,
     });
   }
 

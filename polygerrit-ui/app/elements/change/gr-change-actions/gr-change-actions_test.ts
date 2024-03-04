@@ -17,6 +17,7 @@ import {
 } from '../../../test/test-data-generators';
 import {ChangeStatus, HttpMethod} from '../../../constants/constants';
 import {
+  makePrefixedJSON,
   mockPromise,
   query,
   queryAll,
@@ -34,7 +35,6 @@ import {
   ChangeSubmissionId,
   CommitId,
   NumericChangeId,
-  ParsedJSON,
   PatchSetNumber,
   RepoName,
   ReviewInput,
@@ -666,7 +666,7 @@ suite('gr-change-actions tests', () => {
     test('rebase change fires reload event', async () => {
       await element.handleResponse(
         {__key: 'rebase', __type: ActionType.CHANGE, label: 'l'},
-        {} as ParsedJSON
+        new Response()
       );
       assert.isTrue(navigateResetStub.called);
     });
@@ -2455,7 +2455,7 @@ suite('gr-change-actions tests', () => {
             })
           );
           executeChangeActionStub = stubRestApi('executeChangeAction').returns(
-            Promise.resolve({} as ParsedJSON)
+            Promise.resolve(new Response())
           );
         });
 
@@ -2488,9 +2488,11 @@ suite('gr-change-actions tests', () => {
           });
 
           test('revert submission single change', async () => {
-            const response = {
-              revert_changes: [{change_id: 12345, topic: 'T'}],
-            } as unknown as ParsedJSON;
+            const response = new Response(
+              makePrefixedJSON({
+                revert_changes: [{change_id: 12345, topic: 'T'}],
+              })
+            );
             executeChangeActionStub.resolves(response);
             await element.send(
               HttpMethod.POST,
@@ -2513,11 +2515,13 @@ suite('gr-change-actions tests', () => {
           });
 
           test('revert single change', async () => {
-            const response = {
-              change_id: 12345,
-              project: 'projectId',
-              _number: 12345,
-            } as unknown as ParsedJSON;
+            const response = new Response(
+              makePrefixedJSON({
+                change_id: 12345,
+                project: 'projectId',
+                _number: 12345,
+              })
+            );
             executeChangeActionStub.resolves(response);
             stubRestApi('getChange').returns(
               Promise.resolve(createChangeViewChange())
@@ -2546,14 +2550,16 @@ suite('gr-change-actions tests', () => {
         suite('multiple changes revert', () => {
           let showActionDialogStub: sinon.SinonStub;
           let setUrlStub: sinon.SinonStub;
-          let response: ParsedJSON;
+          let response: Response;
           setup(() => {
-            response = {
-              revert_changes: [
-                {change_id: 12345, topic: 'T'},
-                {change_id: 23456, topic: 'T'},
-              ],
-            } as unknown as ParsedJSON;
+            response = new Response(
+              makePrefixedJSON({
+                revert_changes: [
+                  {change_id: 12345, topic: 'T'},
+                  {change_id: 23456, topic: 'T'},
+                ],
+              })
+            );
             executeChangeActionStub.resolves(response);
             showActionDialogStub = sinon.stub(element, 'showActionDialog');
             setUrlStub = sinon.stub(testResolver(navigationToken), 'setUrl');
@@ -2651,7 +2657,7 @@ suite('gr-change-actions tests', () => {
             (_num, _method, _patchNum, _endpoint, _payload, onErr) => {
               // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
               onErr!();
-              return Promise.resolve({} as ParsedJSON);
+              return Promise.resolve(new Response());
             }
           );
           const handleErrorStub = sinon.stub(element, 'handleResponseError');
@@ -2690,11 +2696,13 @@ suite('gr-change-actions tests', () => {
             element,
             'setReviewOnRevert'
           );
-          const response = {
-            change_id: 12345,
-            project: 'projectId',
-            _number: 12345,
-          } as unknown as ParsedJSON;
+          const response = new Response(
+            makePrefixedJSON({
+              change_id: 12345,
+              project: 'projectId',
+              _number: 12345,
+            })
+          );
           let errorFired = false;
           // Mimics the behaviour of gr-rest-api-impl: If errFn is passed call
           // it and return undefined, otherwise call fireNetworkError or

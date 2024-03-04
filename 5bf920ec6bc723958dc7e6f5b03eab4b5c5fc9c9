@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b3f9f4a_ca5e2f61",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-03-04T11:05:11Z",
+      "side": 1,
+      "message": "@luca.milanesio@gmail.com do we need to check if it is null?",
+      "revId": "5bf920ec6bc723958dc7e6f5b03eab4b5c5fc9c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55a42dc1_b8cd5d52",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-03-04T11:05:11Z",
+      "side": 1,
+      "message": "do we need to check if this is null?",
+      "revId": "5bf920ec6bc723958dc7e6f5b03eab4b5c5fc9c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca2f9b30_bc7dfb5b",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 1537,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-03-04T11:05:11Z",
+      "side": 1,
+      "message": "why do we check if is null?",
+      "revId": "5bf920ec6bc723958dc7e6f5b03eab4b5c5fc9c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

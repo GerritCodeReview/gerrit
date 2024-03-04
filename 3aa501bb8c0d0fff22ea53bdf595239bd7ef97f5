@@ -22,6 +22,30 @@
       },
       "revId": "3aa501bb8c0d0fff22ea53bdf595239bd7ef97f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "37ec64f8_85f02284",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 846,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-03-04T08:53:15Z",
+      "side": 1,
+      "message": "I think this is better for clarity of intent. Otherwise it\u0027s a random \"property doesn\u0027t exist\" exception on failure",
+      "parentUuid": "12521ac4_d8df4e4c",
+      "range": {
+        "startLine": 846,
+        "startChar": 6,
+        "endLine": 846,
+        "endChar": 38
+      },
+      "revId": "3aa501bb8c0d0fff22ea53bdf595239bd7ef97f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

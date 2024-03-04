@@ -28,6 +28,7 @@ import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.metrics.Description;
@@ -42,6 +43,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbWrapper;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.ChangeUpdateExecutor;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -59,6 +61,7 @@ import com.google.gerrit.server.notedb.NoteDbUpdateManager;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager.MismatchedStateException;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.notedb.OnlineProjectsMigrationChecker;
+import com.google.gerrit.server.notedb.rebuild.NoteDbMigrator;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
@@ -310,7 +313,9 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
   private final NoteDbUpdateManager.Factory updateManagerFactory;
   private final NotesMigration notesMigration;
   private final OnlineProjectsMigrationChecker onlineProjectsMigrationChecker;
+  private final GitReferenceUpdated gitReferenceUpdated;
   private final ReviewDb db;
+  private final boolean getMetaEventsInTrial;
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final long skewMs;
 
@@ -336,7 +341,8 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
       @Assisted ReviewDb db,
       @Assisted Project.NameKey project,
       @Assisted CurrentUser user,
-      @Assisted Timestamp when) {
+      @Assisted Timestamp when,
+      GitReferenceUpdated gitReferenceUpdated) {
     super(repoManager, serverIdent, project, user, when);
     this.allUsers = allUsers;
     this.changeNotesFactory = changeNotesFactory;
@@ -351,6 +357,8 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
     this.db = db;
     skewMs = NoteDbChangeState.getReadOnlySkew(cfg);
     this.onlineProjectsMigrationChecker = onlineProjectsMigrationChecker;
+    this.gitReferenceUpdated = gitReferenceUpdated;
+    this.getMetaEventsInTrial = NoteDbMigrator.getMetaEventsInTrial(cfg);
   }
 
   @Override
@@ -605,6 +613,9 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
         throw new IOException("Update failed: " + bru);
       }
     }
+    if (getMetaEventsInTrial) {
+      gitReferenceUpdated.fire(project, bru, getAccountState(user));
+    }
   }
 
   private class ChangeTask implements Callable<Void> {
@@ -844,5 +855,10 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
     for (RepoOnlyOp op : repoOnlyOps) {
       op.postUpdate(ctx);
     }
+  }
+
+  @Nullable
+  private static AccountState getAccountState(CurrentUser user) {
+    return user.isIdentifiedUser() ? user.asIdentifiedUser().state() : null;
   }
 }

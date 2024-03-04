@@ -44,6 +44,7 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
+import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.reviewdb.client.Change;
@@ -79,8 +80,9 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.function.Consumer;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import java.util.function.Consumer;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
@@ -122,6 +124,7 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
   @Inject private Provider<NoteDbMigrator.Builder> migratorBuilderProvider;
   @Inject private Sequences sequences;
   @Inject private SitePaths sitePaths;
+  @Inject private DynamicSet<GitReferenceUpdatedListener> refUpdateListeners;
 
   private FileBasedConfig noteDbConfig;
   private List<RegistrationHandle> addedListeners;
@@ -249,6 +252,25 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
       assertThat(state.getPrimaryStorage()).isEqualTo(PrimaryStorage.REVIEW_DB);
       assertThat(state.getRefState()).hasValue(RefState.create(newMetaId, ImmutableMap.of()));
     }
+  }
+
+  @Test
+  @GerritConfig(name = "noteDb.changes.metaEventsInTrial", value = "true")
+  public void noteDbMetaRefUpdateIsEmittedWhenTrialMode() throws Exception {
+    migrate(b -> b.setTrialMode(true));
+    List<GitReferenceUpdatedListener.Event> eventsForProject = generateStreamEventsForProject();
+
+    assertThat(eventsForProject).hasSize(2);
+    assertThat(eventsForProject.get(1).getRefName()).endsWith("meta");
+
+  }
+
+  @Test
+  public void noteDbMetaRefUpdateIsNotEmittedByDefaultWhenTrialMode() throws Exception {
+    migrate(b -> b.setTrialMode(true));
+    List<GitReferenceUpdatedListener.Event> eventsForProject = generateStreamEventsForProject();
+
+    assertThat(eventsForProject).hasSize(0);
   }
 
   @Test
@@ -814,6 +836,26 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
     try (ReviewDb db = schemaFactory.open()) {
       for (Change.Id id : ids) {
         assertChange.accept(db.changes().get(id));
+      }
+    }
+  }
+
+  private List<GitReferenceUpdatedListener.Event> generateStreamEventsForProject() throws java.lang.Exception {
+    RegistrationHandle testListenerHandler = null;
+    try {
+      List<GitReferenceUpdatedListener.Event> emittedEvents = new ArrayList<>();
+      testListenerHandler = refUpdateListeners.add("gerrit", emittedEvents::add);
+
+      PushOneCommit.Result r = createChange();
+
+      return emittedEvents.stream()
+          .filter(
+              e ->
+                  project.get().equals(e.getProjectName()) && RefNames.changeMetaRef(r.getChange().getId()).equals(e.getRefName()))
+          .collect(Collectors.toList());
+    } finally {
+      if (testListenerHandler != null) {
+        testListenerHandler.remove();
       }
     }
   }

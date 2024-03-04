@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e5a0a92_763b6754",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeNumberVirtualIdAlgorithm.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-03-04T09:55:22Z",
+      "side": 1,
+      "message": "@geminica.programs@gmail.com and @luca.milanesio@gmail.com could we add this method in a follow up change: \n```\npublic Change.Id getVirtualId(ChangeNotes notes)\n```\n\nwith the implementation:\n```\n  public Change.Id getVirtualId(ChangeNotes notes) {\n    return this.apply(notes.getChange().getServerId(), notes.getChangeId());\n  }\n```",
+      "revId": "2fa2f101571746f88ba32944df623a2efe9183a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

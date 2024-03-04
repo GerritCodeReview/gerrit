@@ -28,6 +28,7 @@ import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.metrics.Description;
@@ -42,6 +43,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbWrapper;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.ChangeUpdateExecutor;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -59,6 +61,7 @@ import com.google.gerrit.server.notedb.NoteDbUpdateManager;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager.MismatchedStateException;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.notedb.OnlineProjectsMigrationChecker;
+import com.google.gerrit.server.notedb.rebuild.NoteDbMigrator;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
@@ -311,6 +314,7 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
   private final NotesMigration notesMigration;
   private final OnlineProjectsMigrationChecker onlineProjectsMigrationChecker;
   private final ReviewDb db;
+  private final boolean getMetaEventsInTrial;
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final long skewMs;
 
@@ -351,6 +355,7 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
     this.db = db;
     skewMs = NoteDbChangeState.getReadOnlySkew(cfg);
     this.onlineProjectsMigrationChecker = onlineProjectsMigrationChecker;
+    this.getMetaEventsInTrial = NoteDbMigrator.getEnableMetaRefStreamEventsInTrial(cfg);
   }
 
   @Override
@@ -604,6 +609,10 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
       if (cmd.getResult() != ReceiveCommand.Result.OK) {
         throw new IOException("Update failed: " + bru);
       }
+    }
+
+    if (getMetaEventsInTrial) {
+      gitRefUpdated.fire(project, bru, user.isIdentifiedUser() ? user.asIdentifiedUser().state() : null);
     }
   }
 

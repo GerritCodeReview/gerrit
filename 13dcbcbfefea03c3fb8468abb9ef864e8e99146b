@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e9ec7d3_2ddfd8d3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-03-04T17:59:41Z",
+      "side": 1,
+      "message": "Not for imported changes only, but for all the changes. We will always use the virtual Id and for non-imported changes `virtualId \u003d\u003d\u003d changeNum`.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 21
+      },
+      "revId": "13dcbcbfefea03c3fb8468abb9ef864e8e99146b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5ab8c41_6f7c7331",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-03-04T17:59:41Z",
+      "side": 1,
+      "message": "long line",
+      "revId": "13dcbcbfefea03c3fb8468abb9ef864e8e99146b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c01fc66e_e364da2d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-03-04T17:59:41Z",
+      "side": 1,
+      "message": "I\u0027d rather say something like: \"...ensures a unique identifier for changes with the same change number\"",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 30
+      },
+      "revId": "13dcbcbfefea03c3fb8468abb9ef864e8e99146b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68ec79b3_cfeaf457",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-03-04T17:59:41Z",
+      "side": 1,
+      "message": "This logic has been introduced in change I385dcaf5. It should be enough to just call `virtualIdAlgorithm.apply(change.getServerId(), change.getId())`",
+      "range": {
+        "startLine": 512,
+        "startChar": 1,
+        "endLine": 516,
+        "endChar": 3
+      },
+      "revId": "13dcbcbfefea03c3fb8468abb9ef864e8e99146b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39a54df1_f142c1d8",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-03-04T17:59:41Z",
+      "side": 1,
+      "message": "What about adding a `getVirtualId()` method and use it here, instead of overriding the `getId`? This way, we don\u0027t change the semantics of `getId()` in a stable branch and we are consistent with what has been done in `CommentsUtil`.",
+      "range": {
+        "startLine": 294,
+        "startChar": 38,
+        "endLine": 294,
+        "endChar": 45
+      },
+      "revId": "13dcbcbfefea03c3fb8468abb9ef864e8e99146b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff059c77_11e5e065",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-03-04T17:59:41Z",
+      "side": 1,
+      "message": "The assumption is correct. This class is used in a pgm to run an ad hoc cleanup of left over change drafts. See I6f7b6582 for more details.",
+      "range": {
+        "startLine": 279,
+        "startChar": 13,
+        "endLine": 279,
+        "endChar": 62
+      },
+      "revId": "13dcbcbfefea03c3fb8468abb9ef864e8e99146b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "333f1211_6fa87a87",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 1536,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-03-04T17:59:41Z",
+      "side": 1,
+      "message": "Duplicate of L#609",
+      "range": {
+        "startLine": 1536,
+        "startChar": 20,
+        "endLine": 1536,
+        "endChar": 32
+      },
+      "revId": "13dcbcbfefea03c3fb8468abb9ef864e8e99146b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -237,9 +237,14 @@ public abstract class AbstractChangeUpdate {
     setParentCommit(cb, curr);
     if (cb.getTreeId() == null) {
       if (curr.equals(z)) {
-        cb.setTreeId(emptyTree(ins)); // No parent, assume empty tree.
+        ObjectId emptyTreeId = emptyTree(ins);
+        logger.atFine().log("setting empty tree %s for new change meta commit", emptyTreeId.name());
+        cb.setTreeId(emptyTreeId); // No parent, assume empty tree.
       } else {
         RevCommit p = rw.parseCommit(curr);
+        logger.atFine().log(
+            "setting tree %s of previous commit %s for new change meta commit",
+            p.getTree().name(), p.name());
         cb.setTreeId(p.getTree()); // Copy tree from parent.
       }
     }
@@ -273,7 +278,9 @@ public abstract class AbstractChangeUpdate {
   }
 
   private static ObjectId emptyTree(ObjectInserter ins) throws IOException {
-    return ins.insert(Constants.OBJ_TREE, new byte[] {});
+    ObjectId treeId = ins.insert(Constants.OBJ_TREE, new byte[] {});
+    logger.atFine().log("inserted empty tree %s (inserter: %s)", treeId.name(), ins);
+    return treeId;
   }
 
   protected void verifyComment(Comment c) {

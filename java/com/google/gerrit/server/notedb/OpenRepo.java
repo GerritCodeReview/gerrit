@@ -32,6 +32,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -116,6 +117,9 @@ class OpenRepo implements AutoCloseable {
   void flushToFinalInserter() throws IOException {
     checkState(finalIns != null);
     for (InsertedObject obj : inMemIns.getInsertedObjects()) {
+      logger.atFine().log(
+          "copying %s object %s to final inserter %s",
+          Constants.typeString(obj.type()), obj.id().name(), finalIns);
       finalIns.insert(obj.type(), obj.data().toByteArray());
     }
     inMemIns.clear();

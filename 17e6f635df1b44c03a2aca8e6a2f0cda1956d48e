@@ -33,6 +33,41 @@
       "message": "We should add at least these integration tests against the changes APIs:\n\nPre condition:\n- Project is imported from another server\n\n- Test 1: Create a change:\n\nPUT http://localhost:8080/changes/P2~1/revisions/1/drafts\n\n- Test 2: Update a change:\n\nPUT http://localhost:8080/changes/P2~1/revisions/1/drafts/be825501_bc2af94\n\n- Test 3: Delete a change:\n\nDELETE http://localhost:8080/changes/P2~1/revisions/1/drafts/be825501_bc2af941\n\n\nTests should check that the draft comment ref has the virtualId",
       "revId": "17e6f635df1b44c03a2aca8e6a2f0cda1956d48e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68d59060_9dfa3b77",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 20
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-03-04T12:36:19Z",
+      "side": 1,
+      "message": "We should add at least these integration tests against the changes APIs:\n\nPre condition\n\n- Project is imported from another server\n\nTest cases: \n\n- Test 1 Create a change: `PUT http://localhost:8080/changes/P2~1/revisions/1/drafts`\n\n- Test 2 Update a change: `PUT http://localhost:8080/changes/P2~1/revisions/1/drafts/be825501_bc2af94`\n\n- Test 3 Delete a change: `DELETE http://localhost:8080/changes/P2~1/revisions/1/drafts/be825501_bc2af941`\n\nTests should check that the draft comment ref has the virtualId",
+      "revId": "17e6f635df1b44c03a2aca8e6a2f0cda1956d48e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b690d442_c58abccf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 20
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-03-04T12:36:19Z",
+      "side": 1,
+      "message": "bad formatting",
+      "parentUuid": "91c9e1a5_d9f81972",
+      "revId": "17e6f635df1b44c03a2aca8e6a2f0cda1956d48e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

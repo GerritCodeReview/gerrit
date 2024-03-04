@@ -89,6 +89,10 @@ import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-load
 import {FileMode, fileModeToString} from '../../../utils/file-util';
 import {ChecksIcon, iconFor} from '../../../models/checks/checks-util';
 
+interface ContentVisibilityAutoStateChangeEvent {
+  skipped: boolean;
+}
+
 export const DEFAULT_NUM_FILES_SHOWN = 200;
 
 const WARN_SHOW_ALL_THRESHOLD = 1000;
@@ -326,6 +330,11 @@ export class GrFileList extends LitElement {
       css`
         :host {
           display: block;
+        }
+        gr-diff-host {
+          display: block;
+          content-visibility: auto;
+          contain-intrinsic-size: auto 400px auto 500px;
         }
         .row {
           align-items: center;
@@ -1131,10 +1140,20 @@ export class GrFileList extends LitElement {
             .path=${file.__path}
             .projectName=${this.change?.project}
             ?noRenderOnPrefsChange=${true}
+            @contentvisibilityautostatechange=${(e: Event) =>
+              this.visiChanged(file.__path, e)}
           ></gr-diff-host>
         `
       )}
     </div>`;
+  }
+
+  private visiChanged(path: string, e: Event) {
+    console.log(
+      `visi asdf ${path} ${
+        (e as unknown as ContentVisibilityAutoStateChangeEvent).skipped
+      }`
+    );
   }
 
   private renderPrependedContentEndpointsForFile(file: NormalizedFileInfo) {

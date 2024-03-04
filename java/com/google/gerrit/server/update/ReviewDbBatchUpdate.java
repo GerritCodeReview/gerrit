@@ -59,6 +59,7 @@ import com.google.gerrit.server.notedb.NoteDbUpdateManager;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager.MismatchedStateException;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.notedb.OnlineProjectsMigrationChecker;
+import com.google.gerrit.server.notedb.rebuild.NoteDbMigrator;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
@@ -286,9 +287,10 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
       // patch set ref being created means the change was created, or a branch advancing meaning
       // some changes were closed.
       updates.stream()
-          .filter(u -> u.batchRefUpdate != null)
           .forEach(
-              u -> u.gitRefUpdated.fire(u.project, u.batchRefUpdate, u.getAccount().orElse(null)));
+              u ->
+                  u.batchRefUpdatesToFire.forEach(
+                      bru -> u.gitRefUpdated.fire(u.project, bru, u.getAccount().orElse(null))));
 
       if (!dryrun) {
         for (ReviewDbBatchUpdate u : updates) {
@@ -311,8 +313,10 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
   private final NotesMigration notesMigration;
   private final OnlineProjectsMigrationChecker onlineProjectsMigrationChecker;
   private final ReviewDb db;
+  private final boolean getMetaEventsInTrial;
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final long skewMs;
+  private final List<BatchRefUpdate> batchRefUpdatesToFire = new ArrayList<>();
 
   @SuppressWarnings("deprecation")
   private final List<com.google.common.util.concurrent.CheckedFuture<?, IOException>> indexFutures =
@@ -351,6 +355,7 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
     this.db = db;
     skewMs = NoteDbChangeState.getReadOnlySkew(cfg);
     this.onlineProjectsMigrationChecker = onlineProjectsMigrationChecker;
+    this.getMetaEventsInTrial = NoteDbMigrator.getEnableMetaRefStreamEventsInTrial(cfg);
   }
 
   @Override
@@ -433,6 +438,7 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
     if (!ok) {
       throw new RestApiException("BatchRefUpdate failed: " + batchRefUpdate);
     }
+    batchRefUpdatesToFire.add(batchRefUpdate);
   }
 
   private List<ChangeTask> executeChangeOps(boolean parallel, boolean dryrun)
@@ -543,6 +549,9 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
             "Collected %d objects and %d ref updates to change repo",
             objs, changeRefUpdate.getCommands().size());
         executeNoteDbUpdate(getRevWalk(), ins, changeRefUpdate);
+        if (getMetaEventsInTrial) {
+          batchRefUpdatesToFire.add(changeRefUpdate);
+        }
       }
 
       if (hasAllUsersCommands) {

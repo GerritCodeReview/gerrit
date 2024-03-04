@@ -153,6 +153,15 @@ There are several use cases for trial mode:
   link:rest-api-changes.html#get-hashtags[hashtags] without running the full
   migration.
 
+Note that during the trial mode, change meta refs creations are not emitted
+by default. To enable this, set `noteDb.changes.metaEventsInTrial=true`.
+
+Note however that, during trial mode, change meta refs are not persisted
+transactionally with the ReviewDB update, nor with the patch-set ref
+update. For this reason triggering replication by consuming change meta events
+might lead to the replication of stale or corrupted meta refs, and it is
+therefore discouraged.
+
 To continue with the full migration after running the trial migration, use
 either the online or offline migration steps as normal. To revert to
 ReviewDb-only, remove `noteDb.changes.read` and `noteDb.changes.write` from

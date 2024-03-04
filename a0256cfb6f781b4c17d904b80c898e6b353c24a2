@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d02c83c6_97e5bfe4",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-03-04T08:51:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c59c058b_2c8124da",
+      "range": {
+        "startLine": 490,
+        "startChar": 66,
+        "endLine": 490,
+        "endChar": 74
+      },
+      "revId": "a0256cfb6f781b4c17d904b80c898e6b353c24a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "81bbd7c3_43760c75",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-03-02T01:59:52Z",
       "side": 1,
       "message": "Unrelated formatting change.",
+      "range": {
+        "startLine": 491,
+        "startChar": 0,
+        "endLine": 494,
+        "endChar": 83
+      },
+      "revId": "a0256cfb6f781b4c17d904b80c898e6b353c24a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "507de23e_82d19533",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-03-04T08:51:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "81bbd7c3_43760c75",
       "range": {
         "startLine": 491,
         "startChar": 0,

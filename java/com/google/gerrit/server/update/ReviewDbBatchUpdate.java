@@ -59,6 +59,7 @@ import com.google.gerrit.server.notedb.NoteDbUpdateManager;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager.MismatchedStateException;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.notedb.OnlineProjectsMigrationChecker;
+import com.google.gerrit.server.notedb.rebuild.NoteDbMigrator;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
@@ -288,7 +289,12 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
       updates.stream()
           .filter(u -> u.batchRefUpdate != null)
           .forEach(
-              u -> u.gitRefUpdated.fire(u.project, u.batchRefUpdate, u.getAccount().orElse(null)));
+              u -> {
+                u.gitRefUpdated.fire(u.project, u.batchRefUpdate, u.getAccount().orElse(null));
+                if (u.getMetaEventsInTrial) {
+                  u.fireChangeOpsEvents();
+                }
+              });
 
       if (!dryrun) {
         for (ReviewDbBatchUpdate u : updates) {
@@ -311,8 +317,10 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
   private final NotesMigration notesMigration;
   private final OnlineProjectsMigrationChecker onlineProjectsMigrationChecker;
   private final ReviewDb db;
+  private final boolean getMetaEventsInTrial;
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final long skewMs;
+  private final List<BatchRefUpdate> changeOpsRefUpdates = new ArrayList<>();
 
   @SuppressWarnings("deprecation")
   private final List<com.google.common.util.concurrent.CheckedFuture<?, IOException>> indexFutures =
@@ -351,6 +359,7 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
     this.db = db;
     skewMs = NoteDbChangeState.getReadOnlySkew(cfg);
     this.onlineProjectsMigrationChecker = onlineProjectsMigrationChecker;
+    this.getMetaEventsInTrial = NoteDbMigrator.getEnableMetaRefStreamEventsInTrial(cfg);
   }
 
   @Override
@@ -543,6 +552,7 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
             "Collected %d objects and %d ref updates to change repo",
             objs, changeRefUpdate.getCommands().size());
         executeNoteDbUpdate(getRevWalk(), ins, changeRefUpdate);
+        changeOpsRefUpdates.add(changeRefUpdate);
       }
 
       if (hasAllUsersCommands) {
@@ -566,6 +576,7 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
               "Collected %d objects and %d ref updates to All-Users",
               objs, allUsersRefUpdate.getCommands().size());
           executeNoteDbUpdate(allUsersRw, allUsersIns, allUsersRefUpdate);
+          changeOpsRefUpdates.add(allUsersRefUpdate);
         }
       } else {
         logDebug("No All-Users updates");
@@ -825,6 +836,11 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
     private boolean isNewChange(Change.Id id) {
       return newChanges.containsKey(id);
     }
+  }
+
+  public void fireChangeOpsEvents() {
+    changeOpsRefUpdates.forEach(
+        opsRefUpdate -> gitRefUpdated.fire(project, opsRefUpdate, getAccount().orElse(null)));
   }
 
   private static Iterable<Change> changesToUpdate(ChangeContextImpl ctx) {

@@ -44,6 +44,7 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
+import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.reviewdb.client.Change;
@@ -80,6 +81,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.junit.TestRepository;
@@ -122,6 +124,7 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
   @Inject private Provider<NoteDbMigrator.Builder> migratorBuilderProvider;
   @Inject private Sequences sequences;
   @Inject private SitePaths sitePaths;
+  @Inject private DynamicSet<GitReferenceUpdatedListener> refUpdateListeners;
 
   private FileBasedConfig noteDbConfig;
   private List<RegistrationHandle> addedListeners;
@@ -248,6 +251,28 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
       assertThat(state).isNotNull();
       assertThat(state.getPrimaryStorage()).isEqualTo(PrimaryStorage.REVIEW_DB);
       assertThat(state.getRefState()).hasValue(RefState.create(newMetaId, ImmutableMap.of()));
+    }
+  }
+
+  @Test
+  public void noteDbMetaRefUpdateIsEmittedWhenTrialMode() throws Exception {
+    migrate(b -> b.setTrialMode(true));
+    RegistrationHandle testListenerHandle = null;
+
+    try {
+      TestReferenceUpdateListener refUpdatedListener = new TestReferenceUpdateListener();
+      testListenerHandle = refUpdateListeners.add("gerrit", refUpdatedListener);
+
+      PushOneCommit.Result r = createChange();
+
+      List<GitReferenceUpdatedListener.Event> noteDbMetaRefUpdates =
+          refUpdatedListener.getEventsFor(project, RefNames.changeMetaRef(r.getChange().getId()));
+
+      assertThat(noteDbMetaRefUpdates).hasSize(1);
+    } finally {
+      if (testListenerHandle != null) {
+        testListenerHandle.remove();
+      }
     }
   }
 
@@ -815,6 +840,23 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
       for (Change.Id id : ids) {
         assertChange.accept(db.changes().get(id));
       }
+    }
+  }
+
+  private static class TestReferenceUpdateListener implements GitReferenceUpdatedListener {
+    private final List<Event> emittedEvents = new ArrayList<>();
+
+    @Override
+    public void onGitReferenceUpdated(Event event) {
+      emittedEvents.add(event);
+    }
+
+    public List<Event> getEventsFor(Project.NameKey projectNameKey, String refName) {
+      return emittedEvents.stream()
+          .filter(
+              e ->
+                  projectNameKey.get().equals(e.getProjectName()) && refName.equals(e.getRefName()))
+          .collect(Collectors.toList());
     }
   }
 }

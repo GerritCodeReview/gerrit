@@ -310,6 +310,7 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
   private final NoteDbUpdateManager.Factory updateManagerFactory;
   private final NotesMigration notesMigration;
   private final OnlineProjectsMigrationChecker onlineProjectsMigrationChecker;
+  private final GitReferenceUpdated gitReferenceUpdated;
   private final ReviewDb db;
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final long skewMs;
@@ -336,7 +337,8 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
       @Assisted ReviewDb db,
       @Assisted Project.NameKey project,
       @Assisted CurrentUser user,
-      @Assisted Timestamp when) {
+      @Assisted Timestamp when,
+      GitReferenceUpdated gitReferenceUpdated) {
     super(repoManager, serverIdent, project, user, when);
     this.allUsers = allUsers;
     this.changeNotesFactory = changeNotesFactory;
@@ -351,6 +353,7 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
     this.db = db;
     skewMs = NoteDbChangeState.getReadOnlySkew(cfg);
     this.onlineProjectsMigrationChecker = onlineProjectsMigrationChecker;
+    this.gitReferenceUpdated = gitReferenceUpdated;
   }
 
   @Override
@@ -605,6 +608,7 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
         throw new IOException("Update failed: " + bru);
       }
     }
+    gitReferenceUpdated.fire(project, bru, null);
   }
 
   private class ChangeTask implements Callable<Void> {

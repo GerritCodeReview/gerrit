@@ -124,6 +124,7 @@ public class NoteDbMigrator implements AutoCloseable {
 
   private static final String AUTO_MIGRATE = "autoMigrate";
   private static final String TRIAL = "trial";
+  private static final String META_REF_STREAM_EVENTS_IN_TRIAL = "metaRefStreamEventsInTrial";
   private static final String SECTION_DATABASE = "database";
   private static final String POSTGRESQL = "postgresql";
   private static final String URL = "url";
@@ -142,6 +143,10 @@ public class NoteDbMigrator implements AutoCloseable {
 
   public static boolean getTrialMode(Config cfg) {
     return cfg.getBoolean(SECTION_NOTE_DB, NoteDbTable.CHANGES.key(), TRIAL, false);
+  }
+
+  public static boolean getEnableMetaRefStreamEventsInTrial(Config cfg) {
+    return cfg.getBoolean(SECTION_NOTE_DB, NoteDbTable.CHANGES.key(), META_REF_STREAM_EVENTS_IN_TRIAL, false);
   }
 
   public static void setTrialMode(Config cfg, boolean trial) {

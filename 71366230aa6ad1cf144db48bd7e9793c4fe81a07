@@ -50,6 +50,42 @@
       "message": "My bad. The issue I mentioned was already filed here [1]\n\n[1]: https://issues.gerritcodereview.com/issues/327769226",
       "revId": "71366230aa6ad1cf144db48bd7e9793c4fe81a07",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "67021785_4a9d0cb0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 30
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-03-05T17:13:43Z",
+      "side": 1,
+      "message": "Forget about this. See my comment here [1]\n\n[1]: https://gerrit-review.googlesource.com/c/gerrit/+/410580/comments/98356626_a1c4b617",
+      "parentUuid": "b98003d7_07bfa3d6",
+      "revId": "71366230aa6ad1cf144db48bd7e9793c4fe81a07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "772fbc4f_b1815fb4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 30
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-03-05T17:13:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "98356626_a1c4b617",
+      "revId": "71366230aa6ad1cf144db48bd7e9793c4fe81a07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

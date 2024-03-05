@@ -177,6 +177,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "312f9030_cc860e8e",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-03-05T09:39:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d014acd8_aa76d428",
+      "range": {
+        "startLine": 512,
+        "startChar": 1,
+        "endLine": 516,
+        "endChar": 3
+      },
+      "revId": "13dcbcbfefea03c3fb8468abb9ef864e8e99146b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "39a54df1_f142c1d8",

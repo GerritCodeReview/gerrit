@@ -104,6 +104,24 @@
       "parentUuid": "ca2f9b30_bc7dfb5b",
       "revId": "5bf920ec6bc723958dc7e6f5b03eab4b5c5fc9c9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "746d86f2_4b49b0de",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 1537,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-03-05T09:39:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0dd91a16_4e1b3339",
+      "revId": "5bf920ec6bc723958dc7e6f5b03eab4b5c5fc9c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

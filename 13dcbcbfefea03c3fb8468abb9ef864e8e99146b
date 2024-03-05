@@ -295,6 +295,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "145a702c_3785f53a",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-03-05T15:05:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e44eb4c_272b3710",
+      "range": {
+        "startLine": 279,
+        "startChar": 13,
+        "endLine": 279,
+        "endChar": 62
+      },
+      "revId": "13dcbcbfefea03c3fb8468abb9ef864e8e99146b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "333f1211_6fa87a87",

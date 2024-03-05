@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ce31c21_8081a571",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeNumberBitmapMaskAlgorithm.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-03-05T08:56:54Z",
+      "side": 1,
+      "message": "```suggestion\n    if (Objects.equals(changeServerId, localServerId)) {\n    return changeNumId;\n    }\n```",
+      "revId": "1d9663378f6b990f19d54b60491f456583c09102",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

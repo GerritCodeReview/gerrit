@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34d3cb9f_379de2e2",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-03-05T15:19:50Z",
+      "side": 1,
+      "message": "The `indexer.reindexIfStale` executes asynchronously, which is different from the `indexer.index` call at `246` which is a synchronous call. Therefore, waiting on the future created by submitting a `ProjectSliceIndexer` instance makes no sense for the `reindexIfStale` call. We need a synchronous `reindexIfStale` method in the `ChangeIndexer`.",
+      "revId": "785e4e72be2c299264c6477405fbc69e61f0e9f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

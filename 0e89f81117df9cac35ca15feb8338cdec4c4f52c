@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76c752db_736a130d",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-05T08:56:37Z",
+      "side": 1,
+      "message": "Annotate with `@Nullable`",
+      "revId": "0e89f81117df9cac35ca15feb8338cdec4c4f52c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b875fd5_ed18b66b",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-05T08:56:37Z",
+      "side": 1,
+      "message": "Add `@Nullable`",
+      "revId": "0e89f81117df9cac35ca15feb8338cdec4c4f52c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ccac0855_96721cc3",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-05T08:56:37Z",
+      "side": 1,
+      "message": "Add `@Nullabel`",
+      "revId": "0e89f81117df9cac35ca15feb8338cdec4c4f52c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

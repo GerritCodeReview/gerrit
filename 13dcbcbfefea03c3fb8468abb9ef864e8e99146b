@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f99540b_c28bdf2f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-05T08:56:37Z",
+      "side": 1,
+      "message": "For non-imported changes, this is a NOOP because of the equivalence you\u0027ve mentioned.",
+      "parentUuid": "7e9ec7d3_2ddfd8d3",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 21
+      },
+      "revId": "13dcbcbfefea03c3fb8468abb9ef864e8e99146b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b5ab8c41_6f7c7331",
@@ -131,6 +155,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d014acd8_aa76d428",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-05T08:56:37Z",
+      "side": 1,
+      "message": "What if `virtualIdAlgorithm` is `null`? You\u0027ll get a NPE.",
+      "parentUuid": "68ec79b3_cfeaf457",
+      "range": {
+        "startLine": 512,
+        "startChar": 1,
+        "endLine": 516,
+        "endChar": 3
+      },
+      "revId": "13dcbcbfefea03c3fb8468abb9ef864e8e99146b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "39a54df1_f142c1d8",
         "filename": "java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
         "patchSetId": 21
@@ -189,6 +237,30 @@
       "writtenOn": "2024-03-04T17:59:41Z",
       "side": 1,
       "message": "The assumption is correct. This class is used in a pgm to run an ad hoc cleanup of left over change drafts. See I6f7b6582 for more details.",
+      "range": {
+        "startLine": 279,
+        "startChar": 13,
+        "endLine": 279,
+        "endChar": 62
+      },
+      "revId": "13dcbcbfefea03c3fb8468abb9ef864e8e99146b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e44eb4c_272b3710",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-05T08:56:37Z",
+      "side": 1,
+      "message": "Can we add your review feedback to the comment?",
+      "parentUuid": "ff059c77_11e5e065",
       "range": {
         "startLine": 279,
         "startChar": 13,

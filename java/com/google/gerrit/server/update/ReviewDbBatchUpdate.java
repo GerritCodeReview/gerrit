@@ -255,12 +255,11 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
           }
           listener.afterUpdateRepos();
           for (ReviewDbBatchUpdate u : updates) {
+            List<ChangeTask> executeChangeOps = u.executeChangeOps(updateChangesInParallel, dryrun);
             u.executeRefUpdates(dryrun);
+            u.reindexChanges(executeChangeOps);
           }
           listener.afterUpdateRefs();
-          for (ReviewDbBatchUpdate u : updates) {
-            u.reindexChanges(u.executeChangeOps(updateChangesInParallel, dryrun));
-          }
           listener.afterUpdateChanges();
           break;
         case DB_BEFORE_REPO:
@@ -532,6 +531,7 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
           }
           for (ReceiveCommand cmd : task.noteDbResult.changeCommands()) {
             changeRefUpdate.addCommand(cmd);
+            repoView.getCommands().add(cmd);
           }
           for (InsertedObject obj : task.noteDbResult.changeObjects()) {
             objs++;

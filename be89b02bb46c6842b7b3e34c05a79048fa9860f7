@@ -22,6 +22,30 @@
       },
       "revId": "be89b02bb46c6842b7b3e34c05a79048fa9860f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d117d5f_28b356b8",
+        "filename": "javatests/com/google/gerrit/entities/converter/ChangeProtoConverterTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-05T13:40:40Z",
+      "side": 1,
+      "message": "Good catch, I did a bit of due diligence on this.\n\nAFAIK the `Change` object is not used for serialisation into a persistent cache but is only used in a transient cache, but streamed.\n\nI am not changing here the protobuf definition, hence the wire-format is exactly the same.\n\nAlso, the serverId is set on the change based on the underlying NoteDb state and not through deserialisation: I will add one test on the protobuf converter to state that serverId is not supposed to be either serialised or deserialised, hence is transparent from this change.",
+      "parentUuid": "22eb551d_cc90bfff",
+      "range": {
+        "startLine": 281,
+        "startChar": 17,
+        "endLine": 281,
+        "endChar": 46
+      },
+      "revId": "be89b02bb46c6842b7b3e34c05a79048fa9860f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

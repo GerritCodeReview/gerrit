@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69e21c88_e43b9929",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 30
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-03-05T15:07:22Z",
+      "side": 1,
+      "message": "@ponch78@gmail.com, please can you do some E2E tests based on the acceptance criteria defined in the issue 325309574",
+      "revId": "71366230aa6ad1cf144db48bd7e9793c4fe81a07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

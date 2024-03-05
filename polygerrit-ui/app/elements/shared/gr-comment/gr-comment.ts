@@ -1185,7 +1185,7 @@ export class GrComment extends LitElement {
       hasNewRange: suggestionResponse.suggestions?.[0]?.newRange !== undefined,
     });
     const suggestion = suggestionResponse.suggestions?.[0];
-    if (!suggestion) return;
+    if (!suggestion?.replacement) return;
     this.generatedSuggestion = suggestion;
   }
 
@@ -1235,7 +1235,9 @@ export class GrComment extends LitElement {
       numSuggestions: suggestionResponse.fix_suggestions.length,
     });
     const suggestion = suggestionResponse.fix_suggestions?.[0];
-    if (!suggestion) return;
+    if (!suggestion?.replacements || suggestion.replacements.length === 0) {
+      return;
+    }
     this.generatedFixSuggestion = suggestion;
     this.autoSaveTrigger$.next();
   }

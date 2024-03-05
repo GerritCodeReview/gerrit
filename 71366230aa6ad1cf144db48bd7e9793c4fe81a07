@@ -86,6 +86,24 @@
       "parentUuid": "98356626_a1c4b617",
       "revId": "71366230aa6ad1cf144db48bd7e9793c4fe81a07",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eadf6914_c3d93311",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 30
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-03-05T17:39:14Z",
+      "side": 1,
+      "message": "Looks good to me. I covered all the scenarios in the ticket and it works fine.",
+      "parentUuid": "69e21c88_e43b9929",
+      "revId": "71366230aa6ad1cf144db48bd7e9793c4fe81a07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

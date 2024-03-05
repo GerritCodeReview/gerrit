@@ -16,6 +16,24 @@
       "message": "You need to check whether replacements is present.",
       "revId": "b14d2a1573cf5c221c91a0734493239bb7ea6ae0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c927373_537bbb21",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1235,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-03-05T17:22:18Z",
+      "side": 1,
+      "message": "Ok, I added it as !suggestions?.replacements\n\nI was thinking about it, but interface is defined that replacements are required. But we can be more cautious.",
+      "parentUuid": "11d56a55_9cbbda5d",
+      "revId": "b14d2a1573cf5c221c91a0734493239bb7ea6ae0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

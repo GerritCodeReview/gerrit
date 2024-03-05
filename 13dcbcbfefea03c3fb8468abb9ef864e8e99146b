@@ -340,6 +340,30 @@
       },
       "revId": "13dcbcbfefea03c3fb8468abb9ef864e8e99146b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "270226c6_d730caa4",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 1536,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-05T11:57:33Z",
+      "side": 1,
+      "message": "I agree with @ponch78@gmail.com that this is equivalent to just calling `getVirtualId` for two reasons:\n\n1. `change.getServerId()` at L1539 is the same value of `this.changeServerId` because it was loaded during the `loadChange()` at L696, which is triggered indirectly at L1512 by calling `change()`\n\n2. `change.getId()` is the same as the `this.legacyId` because that\u0027s the way it was loaded by the `loadChange()`\n\nBottom line, I believe this method is redundant and you should just call `getVirtualId()` at L1528",
+      "parentUuid": "18dbc0ff_8e1a154b",
+      "range": {
+        "startLine": 1536,
+        "startChar": 20,
+        "endLine": 1536,
+        "endChar": 32
+      },
+      "revId": "13dcbcbfefea03c3fb8468abb9ef864e8e99146b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

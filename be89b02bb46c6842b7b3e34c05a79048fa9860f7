@@ -46,6 +46,30 @@
       },
       "revId": "be89b02bb46c6842b7b3e34c05a79048fa9860f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e17df14_a4bb7280",
+        "filename": "javatests/com/google/gerrit/entities/converter/ChangeProtoConverterTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-05T14:26:12Z",
+      "side": 1,
+      "message": "@dhruvsri@google.com do you foresee any issues for the Google use-case with this change?",
+      "parentUuid": "9d117d5f_28b356b8",
+      "range": {
+        "startLine": 281,
+        "startChar": 17,
+        "endLine": 281,
+        "endChar": 46
+      },
+      "revId": "be89b02bb46c6842b7b3e34c05a79048fa9860f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

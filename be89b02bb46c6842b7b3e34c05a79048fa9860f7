@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22eb551d_cc90bfff",
+        "filename": "javatests/com/google/gerrit/entities/converter/ChangeProtoConverterTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-03-05T12:18:04Z",
+      "side": 1,
+      "message": "Does this mean that persistent caches with `Change` objects as key or value (directly or indirectly) will have a different protobuf representation, potentially requiring a cache version update?",
+      "range": {
+        "startLine": 281,
+        "startChar": 17,
+        "endLine": 281,
+        "endChar": 46
+      },
+      "revId": "be89b02bb46c6842b7b3e34c05a79048fa9860f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8adbf833_a0f0f617",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-06T23:51:25Z",
+      "side": 1,
+      "message": "Let me re-add `Forward-Compatible` once I\u0027ve verified the change notes cache compatiblity.",
+      "revId": "e2a48e5e36bdfc2987771c7b294d9e31168c76cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -146,7 +146,6 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   private final BatchUpdate.Factory updateFactory;
   private final PostReviewOp.Factory postReviewOpFactory;
   private final ChangeResource.Factory changeResourceFactory;
-  private final ChangeData.Factory changeDataFactory;
   private final AccountCache accountCache;
   private final ApprovalsUtil approvalsUtil;
   private final DraftCommentsReader draftCommentsReader;
@@ -171,7 +170,6 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       BatchUpdate.Factory updateFactory,
       PostReviewOp.Factory postReviewOpFactory,
       ChangeResource.Factory changeResourceFactory,
-      ChangeData.Factory changeDataFactory,
       AccountCache accountCache,
       ApprovalsUtil approvalsUtil,
       DraftCommentsReader draftCommentsReader,
@@ -191,7 +189,6 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     this.updateFactory = updateFactory;
     this.postReviewOpFactory = postReviewOpFactory;
     this.changeResourceFactory = changeResourceFactory;
-    this.changeDataFactory = changeDataFactory;
     this.accountCache = accountCache;
     this.draftCommentsReader = draftCommentsReader;
     this.approvalsUtil = approvalsUtil;
@@ -293,6 +290,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
     output.labels = input.labels;
 
+    ReadChangeDataOp readChangeDataOp = new ReadChangeDataOp();
+
     // Notify based on ReviewInput, ignoring the notify settings from any ReviewerInputs.
     NotifyResolver.Result notify = notifyResolver.resolve(input.notify, input.notifyDetails);
     try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
@@ -380,12 +379,16 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         // Adjust the attention set based on the input
         replyAttentionSetUpdates.updateAttentionSetOnPostReview(
             bu, postReviewOp, revision.getNotes(), input, revision.getUser());
+
+        bu.addOp(revision.getChange().getId(), readChangeDataOp);
         bu.execute();
       }
     }
 
-    // Re-read change to take into account results of the update.
-    ChangeData cd = changeDataFactory.create(revision.getProject(), revision.getChange().getId());
+    // Do not re-read the change to avoid that submit rules need to be executed again when the
+    // change is formatted, but instead get the updated ChangeData instance that was created when
+    // the change was reindexed.
+    ChangeData cd = readChangeDataOp.getChangeData();
     for (ReviewerModification reviewerResult : reviewerResults) {
       reviewerResult.gatherResults(cd);
     }

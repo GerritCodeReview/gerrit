@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e54983f6_cbf06c14",
+        "filename": "tools/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-03-06T00:47:18Z",
+      "side": 1,
+      "message": "\u003e But Doesn\u0027t this effectively revert the disabling of error-prone warnings you did on stable-3.7?\n\nNo, I don\u0027t think it does. Because stable-3.8 has this set to ERROR, we know there\u0027s no issues remaining, so it\u0027s fine to leave at ERROR.\n\n\u003e I thought we wanted to disable these error-prone warnings for all stable-branches.\n\nWe do want to turn off the noisy warnings, but since this is already an ERROR on 3.8, we don\u0027t need to change it.",
+      "parentUuid": "0e30e94f_a03758f3",
+      "range": {
+        "startLine": 130,
+        "startChar": 33,
+        "endLine": 130,
+        "endChar": 38
+      },
+      "revId": "bc028d8fd69fd6a76c5f3863b7dbb2611e5876c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c48e7140_046e9f13",
         "filename": "tools/BUILD",
         "patchSetId": 1

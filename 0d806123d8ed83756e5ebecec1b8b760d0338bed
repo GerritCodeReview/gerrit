@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1ed8f6f_5c031160",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2024-03-06T16:40:53Z",
+      "side": 1,
+      "message": "nit:creation",
+      "range": {
+        "startLine": 12,
+        "startChar": 40,
+        "endLine": 12,
+        "endChar": 47
+      },
+      "revId": "0d806123d8ed83756e5ebecec1b8b760d0338bed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "543663ce_3f795c66",
+        "filename": "Documentation/note-db.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2024-03-06T16:40:53Z",
+      "side": 1,
+      "message": "nit:transactionally",
+      "range": {
+        "startLine": 160,
+        "startChar": 0,
+        "endLine": 160,
+        "endChar": 15
+      },
+      "revId": "0d806123d8ed83756e5ebecec1b8b760d0338bed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

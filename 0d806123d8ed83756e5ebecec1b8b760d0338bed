@@ -45,6 +45,29 @@
       },
       "revId": "0d806123d8ed83756e5ebecec1b8b760d0338bed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6140a2a5_cbb7e063",
+        "filename": "java/com/google/gerrit/server/update/ReviewDbBatchUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-03-06T16:42:13Z",
+      "side": 1,
+      "message": "nit: s/geteMetaEventsInTrial/getMetaEventsInTrial/",
+      "range": {
+        "startLine": 361,
+        "startChar": 9,
+        "endLine": 361,
+        "endChar": 30
+      },
+      "revId": "0d806123d8ed83756e5ebecec1b8b760d0338bed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

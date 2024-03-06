@@ -142,6 +142,30 @@
       },
       "revId": "be89b02bb46c6842b7b3e34c05a79048fa9860f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2301b3d_d78e5a70",
+        "filename": "javatests/com/google/gerrit/entities/converter/ChangeProtoConverterTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-06T23:50:46Z",
+      "side": 1,
+      "message": "Thanks for the pointer @ekempin@google.com, I\u0027ll verify that the cache remains compatible. I wouldn\u0027t do the version update on stable-3.7; however, happy to bump the version of the cache on master and also add the fields to the protobuf definition, as optional.",
+      "parentUuid": "62bcc071_5e11708b",
+      "range": {
+        "startLine": 281,
+        "startChar": 17,
+        "endLine": 281,
+        "endChar": 46
+      },
+      "revId": "be89b02bb46c6842b7b3e34c05a79048fa9860f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

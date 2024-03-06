@@ -118,6 +118,30 @@
       },
       "revId": "be89b02bb46c6842b7b3e34c05a79048fa9860f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62bcc071_5e11708b",
+        "filename": "javatests/com/google/gerrit/entities/converter/ChangeProtoConverterTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-03-06T06:58:47Z",
+      "side": 1,
+      "message": "Change is a part of ChangeNoteState which is cached in ChangeNotesCache. Not sure if we need to update the version there (e.g. as I did at [1]). I think @hiesel@google.com knows this best.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/405978/4/java/com/google/gerrit/server/notedb/ChangeNotesCache.java",
+      "parentUuid": "b5206503_4f3efe84",
+      "range": {
+        "startLine": 281,
+        "startChar": 17,
+        "endLine": 281,
+        "endChar": 46
+      },
+      "revId": "be89b02bb46c6842b7b3e34c05a79048fa9860f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

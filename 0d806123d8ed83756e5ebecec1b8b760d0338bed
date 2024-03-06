@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b869227d_a4ac05a1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-03-06T17:22:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e1ed8f6f_5c031160",
+      "range": {
+        "startLine": 12,
+        "startChar": 40,
+        "endLine": 12,
+        "endChar": 47
+      },
+      "revId": "0d806123d8ed83756e5ebecec1b8b760d0338bed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "543663ce_3f795c66",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4c11e8c_b8573c28",
+        "filename": "Documentation/note-db.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-03-06T17:22:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "543663ce_3f795c66",
+      "range": {
+        "startLine": 160,
+        "startChar": 0,
+        "endLine": 160,
+        "endChar": 15
+      },
+      "revId": "0d806123d8ed83756e5ebecec1b8b760d0338bed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6140a2a5_cbb7e063",
@@ -60,6 +108,30 @@
       "writtenOn": "2024-03-06T16:42:13Z",
       "side": 1,
       "message": "nit: s/geteMetaEventsInTrial/getMetaEventsInTrial/",
+      "range": {
+        "startLine": 361,
+        "startChar": 9,
+        "endLine": 361,
+        "endChar": 30
+      },
+      "revId": "0d806123d8ed83756e5ebecec1b8b760d0338bed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7dbadba3_af7682f2",
+        "filename": "java/com/google/gerrit/server/update/ReviewDbBatchUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-03-06T17:22:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6140a2a5_cbb7e063",
       "range": {
         "startLine": 361,
         "startChar": 9,

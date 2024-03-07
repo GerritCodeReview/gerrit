@@ -31,8 +31,8 @@ public class StartStopDaemonIT extends AbstractDaemonTest {
   Description suiteDescription = Description.createSuiteDescription(StartStopDaemonIT.class);
 
   @Override
-  protected TestRule createTestRules() {
-    TestRule innerRules = super.createTestRules();
+  protected TestRule createTopLevelTestRule() {
+    TestRule innerRules = super.createTopLevelTestRule();
     return RuleChain.outerRule(
             new TestRule() {
               @Override

@@ -52,6 +52,7 @@ import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
@@ -186,7 +187,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Rule;
-import org.junit.rules.RuleChain;
 import org.junit.rules.TemporaryFolder;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
@@ -221,39 +221,30 @@ public abstract class AbstractDaemonTest {
         }
       };
 
+  protected DaemonTestRule daemonTestRule;
   protected TestConfigRule configRule;
   protected ServerTestRule server;
   protected TimeSettingsTestRule timeSettingsRule;
 
-  @Rule public TestRule chainedTestRule = createTestRules();
+  @Rule public TestRule topLevelTestRule = createTopLevelTestRule();
 
   /**
-   * Creates test rules required for tests and links them in a chain.
+   * Creates test rules required for tests.
    *
    * <p>Creating all rules in a single method gives more flexibility in the order of creation and
    * allows additional initialization steps if needed.
-   *
-   * <p>It is expected, that if this method is overridden, it sets {@link #configRule}, {@link
-   * #server} and {@link #timeSettingsRule} and also returns the chain which includes these rules.
    */
-  protected TestRule createTestRules() {
-    configRule = new TestConfigRule(temporaryFolder, this);
-    server =
-        new GerritServerTestRule(
-            configRule,
-            temporaryFolder,
-            () -> createModule(),
-            () -> createAuditModule(),
-            () -> createSshModule());
-    timeSettingsRule = new TimeSettingsTestRule(configRule);
+  protected TestRule createTopLevelTestRule() {
+    daemonTestRule = createDaemonTestRule();
+    configRule = daemonTestRule.configRule();
+    timeSettingsRule = daemonTestRule.timeSettingsRule();
+    server = daemonTestRule.server();
+    return daemonTestRule;
+  }
 
-    // Set the clock step as almost the last step, so that the test setup isn't consuming any
-    // timestamps after the
-    // clock has been set.
-    return RuleChain.outerRule(configRule)
-        .around(server)
-        .around(testRunner)
-        .around(timeSettingsRule);
+  @UsedAt(UsedAt.Project.GOOGLE)
+  protected DaemonTestRule createDaemonTestRule() {
+    return GerritServerDaemonTestRule.create(this);
   }
 
   @Inject @CanonicalWebUrl protected Provider<String> canonicalWebUrl;
@@ -603,7 +594,7 @@ public abstract class AbstractDaemonTest {
    * @return name prefixed by a string unique to this test method.
    */
   protected String name(String name) {
-    return resourcePrefix + name;
+    return daemonTestRule.name(name);
   }
 
   @CanIgnoreReturnValue
@@ -628,7 +619,7 @@ public abstract class AbstractDaemonTest {
 
   protected TestRepository<InMemoryRepository> cloneProject(
       Project.NameKey p, TestAccount testAccount) throws Exception {
-    return GitUtil.cloneProject(p, registerRepoConnection(p, testAccount));
+    return daemonTestRule.cloneProject(p, testAccount);
   }
 
   /**
@@ -636,8 +627,7 @@ public abstract class AbstractDaemonTest {
    *
    * @return a URI string that can be used to connect to this repository for both fetch and push.
    */
-  protected String registerRepoConnection(Project.NameKey p, TestAccount testAccount)
-      throws Exception {
+  String registerRepoConnection(Project.NameKey p, TestAccount testAccount) throws Exception {
     InProcessProtocol.Context ctx =
         new InProcessProtocol.Context(identifiedUserFactory, testAccount.id(), p);
     Repository repo = repoManager.openRepository(p);

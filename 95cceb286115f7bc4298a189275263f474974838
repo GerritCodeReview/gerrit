@@ -518,6 +518,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "63057c1b_1014e9c3",
+        "filename": "java/com/google/gerrit/server/update/ReviewDbBatchUpdate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-07T22:28:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf6a7252_4fe1ef7b",
+      "range": {
+        "startLine": 445,
+        "startChar": 0,
+        "endLine": 445,
+        "endChar": 3
+      },
+      "revId": "95cceb286115f7bc4298a189275263f474974838",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b405e538_a91403f9",

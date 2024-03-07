@@ -15,6 +15,7 @@
 package com.google.gerrit.server.mail.send;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.concurrent.TimeUnit.HOURS;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.common.io.BaseEncoding;
@@ -142,7 +143,7 @@ public class SmtpEmailSender implements EmailSender {
   @Override
   public boolean canEmail(String address) {
     if (!isEnabled()) {
-      logger.atWarning().log("Not emailing %s (email is disabled)", address);
+      logger.atWarning().atMostEvery(1, HOURS).log("Not emailing %s (email is disabled)", address);
       return false;
     }
 
@@ -163,7 +164,7 @@ public class SmtpEmailSender implements EmailSender {
     if (denyrcpt.contains(address)
         || denyrcpt.contains(domain)
         || denyrcpt.contains("@" + domain)) {
-      logger.atInfo().log("Not emailing %s (prohibited by sendemail.denyrcpt)", address);
+      logger.atInfo().atMostEvery(1, HOURS).log("Not emailing %s (prohibited by sendemail.denyrcpt)", address);
       return true;
     }
 
@@ -182,7 +183,7 @@ public class SmtpEmailSender implements EmailSender {
       return true;
     }
 
-    logger.atWarning().log("Not emailing %s (prohibited by sendemail.allowrcpt)", address);
+    logger.atWarning().atMostEvery(1, HOURS).log("Not emailing %s (prohibited by sendemail.allowrcpt)", address);
     return false;
   }
 

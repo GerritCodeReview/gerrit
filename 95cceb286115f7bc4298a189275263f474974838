@@ -400,6 +400,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b25b8489_feaa88c9",
+        "filename": "java/com/google/gerrit/server/update/ReviewDbBatchUpdate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-07T21:50:52Z",
+      "side": 1,
+      "message": "Agreed, but look at my solution, which just uses the list as unique set of batch-ref-update to notify. That would work because as long as there is something to notify, it will do.\n\nAlso, we\u0027ll just add the events as they are executed and if they are successful, we do not assert anymore the order and we just the _natural ordering_ to be followed by the notifications.",
+      "parentUuid": "de332f26_98255253",
+      "range": {
+        "startLine": 294,
+        "startChar": 0,
+        "endLine": 296,
+        "endChar": 17
+      },
+      "revId": "95cceb286115f7bc4298a189275263f474974838",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3399711f_e14b6e8d",

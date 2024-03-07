@@ -41,6 +41,12 @@ public abstract class Metadata {
    */
   public abstract Optional<String> actionType();
 
+  /**
+   * Number of attempt. The first execution has {@code attempt=1}, the first retry has {@code
+   * attempt=2}.
+   */
+  public abstract Optional<Integer> attempt();
+
   /** An authentication domain name. */
   public abstract Optional<String> authDomainName();
 
@@ -186,16 +192,16 @@ public abstract class Metadata {
    * few are populated this leads to long string representations such as
    *
    * <pre>
-   * Metadata{accountId=Optional.empty, actionType=Optional.empty, authDomainName=Optional.empty,
-   * branchName=Optional.empty, cacheKey=Optional.empty, cacheName=Optional.empty,
-   * className=Optional.empty, cancellationReason=Optional.empty changeId=Optional[9212550],
-   * changeIdType=Optional.empty, cause=Optional.empty, diffAlgorithm=Optional.empty,
-   * eventType=Optional.empty, exportValue=Optional.empty, filePath=Optional.empty,
-   * garbageCollectorName=Optional.empty, gitOperation=Optional.empty, groupId=Optional.empty,
-   * groupName=Optional.empty, groupUuid=Optional.empty, httpStatus=Optional.empty,
-   * indexName=Optional.empty, indexVersion=Optional[0], methodName=Optional.empty,
-   * multiple=Optional.empty, operationName=Optional.empty, partial=Optional.empty,
-   * noteDbFilePath=Optional.empty, noteDbRefName=Optional.empty,
+   * Metadata{accountId=Optional.empty, actionType=Optional.empty, attempt=Optional.empty,
+   * authDomainName=Optional.empty, branchName=Optional.empty, cacheKey=Optional.empty,
+   * cacheName=Optional.empty, className=Optional.empty, cancellationReason=Optional.empty
+   * changeId=Optional[9212550], changeIdType=Optional.empty, cause=Optional.empty,
+   * diffAlgorithm=Optional.empty, eventType=Optional.empty, exportValue=Optional.empty,
+   * filePath=Optional.empty, garbageCollectorName=Optional.empty, gitOperation=Optional.empty,
+   * groupId=Optional.empty, groupName=Optional.empty, groupUuid=Optional.empty,
+   * httpStatus=Optional.empty, indexName=Optional.empty, indexVersion=Optional[0],
+   * methodName=Optional.empty, multiple=Optional.empty, operationName=Optional.empty,
+   * partial=Optional.empty, noteDbFilePath=Optional.empty, noteDbRefName=Optional.empty,
    * noteDbSequenceType=Optional.empty, patchSetId=Optional.empty, pluginMetadata=[],
    * pluginName=Optional.empty, projectName=Optional.empty, pushType=Optional.empty,
    * requestType=Optional.empty, resourceCount=Optional.empty, restViewName=Optional.empty,
@@ -293,6 +299,8 @@ public abstract class Metadata {
     public abstract Builder accountId(int accountId);
 
     public abstract Builder actionType(@Nullable String actionType);
+
+    public abstract Builder attempt(int attempt);
 
     public abstract Builder authDomainName(@Nullable String authDomainName);
 

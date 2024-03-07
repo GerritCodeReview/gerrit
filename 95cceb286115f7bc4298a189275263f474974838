@@ -1,0 +1,274 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "042cff5f_15f7c373",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-07T19:42:57Z",
+      "side": 1,
+      "message": "metaRefStreamEventsInTrial",
+      "range": {
+        "startLine": 7,
+        "startChar": 26,
+        "endLine": 7,
+        "endChar": 43
+      },
+      "revId": "95cceb286115f7bc4298a189275263f474974838",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cdbb7cbf_4893032f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-07T19:42:57Z",
+      "side": 1,
+      "message": "nit: wrap long line",
+      "range": {
+        "startLine": 16,
+        "startChar": 69,
+        "endLine": 16,
+        "endChar": 75
+      },
+      "revId": "95cceb286115f7bc4298a189275263f474974838",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "941e959d_9a63cbfb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-07T19:42:57Z",
+      "side": 1,
+      "message": "nit: wrap long line",
+      "range": {
+        "startLine": 20,
+        "startChar": 68,
+        "endLine": 20,
+        "endChar": 73
+      },
+      "revId": "95cceb286115f7bc4298a189275263f474974838",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8bb5d2b_33100891",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-07T19:42:57Z",
+      "side": 1,
+      "message": "nit: wrap long line",
+      "range": {
+        "startLine": 24,
+        "startChar": 72,
+        "endLine": 24,
+        "endChar": 79
+      },
+      "revId": "95cceb286115f7bc4298a189275263f474974838",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4c62d47_e66c2716",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-07T19:42:57Z",
+      "side": 1,
+      "message": "nit: wrap long line",
+      "range": {
+        "startLine": 25,
+        "startChar": 70,
+        "endLine": 25,
+        "endChar": 73
+      },
+      "revId": "95cceb286115f7bc4298a189275263f474974838",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5fc366b_1ae254b4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-07T19:42:57Z",
+      "side": 1,
+      "message": "nit: wrap long line",
+      "range": {
+        "startLine": 30,
+        "startChar": 71,
+        "endLine": 30,
+        "endChar": 74
+      },
+      "revId": "95cceb286115f7bc4298a189275263f474974838",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b88bc2e_888535f8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-07T19:42:57Z",
+      "side": 1,
+      "message": "nit: wrap long line",
+      "range": {
+        "startLine": 31,
+        "startChar": 71,
+        "endLine": 31,
+        "endChar": 76
+      },
+      "revId": "95cceb286115f7bc4298a189275263f474974838",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3859fa1e_488b9572",
+        "filename": "Documentation/note-db.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-07T19:42:57Z",
+      "side": 1,
+      "message": "Replicating the /meta won\u0027t help because only the updates of the changes would trigger an event, but not the migration.\n\n```suggestion\nnotedb migration has finished its final mode, because, during trial mode,\n```",
+      "range": {
+        "startLine": 162,
+        "startChar": 21,
+        "endLine": 162,
+        "endChar": 28
+      },
+      "revId": "95cceb286115f7bc4298a189275263f474974838",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3732530f_edb1555c",
+        "filename": "java/com/google/gerrit/server/update/ReviewDbBatchUpdate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-07T19:42:57Z",
+      "side": 1,
+      "message": "Why do we add also the notification to All-Users.git? AFAIK nobody will ever create a change with a /meta ref inside there.",
+      "range": {
+        "startLine": 579,
+        "startChar": 10,
+        "endLine": 579,
+        "endChar": 53
+      },
+      "revId": "95cceb286115f7bc4298a189275263f474974838",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60497575_c4899117",
+        "filename": "java/com/google/gerrit/server/update/ReviewDbBatchUpdate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 844,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-07T19:42:57Z",
+      "side": 1,
+      "message": "This is duplication of what we do at L293. Why not simply keeping a list of batch-ref-updates done and notify all of them?",
+      "range": {
+        "startLine": 841,
+        "startChar": 0,
+        "endLine": 844,
+        "endChar": 3
+      },
+      "revId": "95cceb286115f7bc4298a189275263f474974838",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e3f6942_07dc0ae4",
+        "filename": "javatests/com/google/gerrit/acceptance/server/notedb/OnlineNoteDbMigrationIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-07T19:42:57Z",
+      "side": 1,
+      "message": "We should also assert that the first event does not contain the \u0027/meta\u0027",
+      "revId": "95cceb286115f7bc4298a189275263f474974838",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ec94a3e_f25415bc",
+        "filename": "javatests/com/google/gerrit/acceptance/server/notedb/OnlineNoteDbMigrationIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-07T19:42:57Z",
+      "side": 1,
+      "message": "That\u0027s not enough: we should also say that does not contain the \u0027/meta\u0027",
+      "range": {
+        "startLine": 272,
+        "startChar": 0,
+        "endLine": 272,
+        "endChar": 44
+      },
+      "revId": "95cceb286115f7bc4298a189275263f474974838",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

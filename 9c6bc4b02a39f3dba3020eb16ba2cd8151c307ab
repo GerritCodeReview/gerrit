@@ -284,6 +284,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef23d566_05e26c51",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-07T19:42:57Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "a1b91c4f_081cdc5e",
+      "range": {
+        "startLine": 19,
+        "startChar": 13,
+        "endLine": 19,
+        "endChar": 56
+      },
+      "revId": "9c6bc4b02a39f3dba3020eb16ba2cd8151c307ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "89fe8a54_87816d61",
@@ -660,6 +684,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0bbc41b9_fa2a05c3",
+        "filename": "Documentation/note-db.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-07T19:42:57Z",
+      "side": 1,
+      "message": "I believe the current wording is fine.",
+      "parentUuid": "e404b968_a4eac3d9",
+      "range": {
+        "startLine": 159,
+        "startChar": 0,
+        "endLine": 163,
+        "endChar": 22
+      },
+      "revId": "9c6bc4b02a39f3dba3020eb16ba2cd8151c307ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "691c3b4c_d928cb8d",
@@ -837,6 +885,30 @@
       "writtenOn": "2024-03-06T21:51:36Z",
       "side": 1,
       "message": "This would generate out of order events, by emitting the ref-updated event on the /meta before the patch-set, which would potentially leave the replicas (I know, we discouraged that, but people will make this mistake as the replication plugin by default will replicate them) with inconsistent state.\n\nI tried it and I see this when uploading a new patch-set:\n```\n{\"submitter\":{\"name\":\"Admin\",\"username\":\"admin\"},\"refUpdate\":{\"oldRev\":\"991a050fb6989739e6f16cbadb345795b58f6d67\",\"newRev\":\"7917ff4e2142013666440b3acf9feb7a69809665\",\"refName\":\"refs/changes/02/2/meta\",\"project\":\"test-repo\"},\"type\":\"ref-updated\",\"eventCreatedOn\":1709760832}\n{\"submitter\":{\"name\":\"Admin\",\"username\":\"admin\"},\"refUpdate\":{\"oldRev\":\"0000000000000000000000000000000000000000\",\"newRev\":\"e82893f862f5122b1321c3c7e66ea34f55149b18\",\"refName\":\"refs/changes/02/2/2\",\"project\":\"test-repo\"},\"type\":\"ref-updated\",\"eventCreatedOn\":1709760832}\n```\n\nThe first update is the `refs/changes/02/2/meta` and the second is `refs/changes/02/2/2`. The order is wrong, the safest way to notify a new patch-set, if they are not part of the same batch, is:\n1. Notify the patch-set creation\n2. Notify the /meta ref update\n\nThe right place for notification is at L294, but not here.",
+      "range": {
+        "startLine": 616,
+        "startChar": 0,
+        "endLine": 618,
+        "endChar": 5
+      },
+      "revId": "9c6bc4b02a39f3dba3020eb16ba2cd8151c307ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa9cd697_b15dbd6d",
+        "filename": "java/com/google/gerrit/server/update/ReviewDbBatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 618,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-07T19:42:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "25d1d3c4_43e5cc1c",
       "range": {
         "startLine": 616,
         "startChar": 0,

@@ -352,8 +352,13 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @UsedAt(UsedAt.Project.GOOGLE)
+  protected AccountIndexedCounter getAccountIndexedCounter() {
+    return new AccountIndexedCounter();
+  }
+
+  @UsedAt(UsedAt.Project.GOOGLE)
   protected Account.Id createByAccountCreator(int expectedAccountReindexCalls) throws Exception {
-    AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
+    AccountIndexedCounter accountIndexedCounter = getAccountIndexedCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(accountIndexedCounter)) {
       String name = "foo";
@@ -373,7 +378,7 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void createAnonymousCowardByAccountCreator() throws Exception {
-    AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
+    AccountIndexedCounter accountIndexedCounter = getAccountIndexedCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(accountIndexedCounter)) {
       TestAccount anonymousCoward = accountCreator.create();
@@ -384,7 +389,7 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void create() throws Exception {
-    AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
+    AccountIndexedCounter accountIndexedCounter = getAccountIndexedCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(accountIndexedCounter)) {
       AccountInput input = new AccountInput();
@@ -549,7 +554,7 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void get() throws Exception {
-    AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
+    AccountIndexedCounter accountIndexedCounter = getAccountIndexedCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(accountIndexedCounter)) {
       AccountInfo info = gApi.accounts().id(admin.id().get()).get();
@@ -564,7 +569,7 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void getByIntId() throws Exception {
-    AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
+    AccountIndexedCounter accountIndexedCounter = getAccountIndexedCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(accountIndexedCounter)) {
       AccountInfo info = gApi.accounts().id(admin.id().get()).get();
@@ -576,7 +581,7 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void self() throws Exception {
-    AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
+    AccountIndexedCounter accountIndexedCounter = getAccountIndexedCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(accountIndexedCounter)) {
       AccountInfo info = gApi.accounts().self().get();
@@ -590,7 +595,7 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void active() throws Exception {
-    AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
+    AccountIndexedCounter accountIndexedCounter = getAccountIndexedCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(accountIndexedCounter)) {
       int id = gApi.accounts().id(user.id().get()).get()._accountId;
@@ -620,7 +625,7 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void shouldAllowQueryByEmailForInactiveUser() throws Exception {
-    AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
+    AccountIndexedCounter accountIndexedCounter = getAccountIndexedCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(accountIndexedCounter)) {
       Account.Id activatableAccountId =
@@ -634,7 +639,7 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void shouldAllowQueryByUserNameForInactiveUser() throws Exception {
-    AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
+    AccountIndexedCounter accountIndexedCounter = getAccountIndexedCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(accountIndexedCounter)) {
       Account.Id activatableAccountId =
@@ -798,7 +803,7 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void starUnstarChange() throws Exception {
-    AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
+    AccountIndexedCounter accountIndexedCounter = getAccountIndexedCounter();
     RefUpdateCounter refUpdateCounter = new RefUpdateCounter(server.isRefSequenceSupported());
     try (Registration registration =
         extensionRegistry.newRegistration().add(accountIndexedCounter).add(refUpdateCounter)) {
@@ -919,7 +924,7 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void suggestAccounts() throws Exception {
-    AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
+    AccountIndexedCounter accountIndexedCounter = getAccountIndexedCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(accountIndexedCounter)) {
       String adminUsername = "admin";
@@ -1040,7 +1045,7 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void addEmail() throws Exception {
-    AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
+    AccountIndexedCounter accountIndexedCounter = getAccountIndexedCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(accountIndexedCounter)) {
       ImmutableList<String> emails =
@@ -1073,7 +1078,7 @@ public class AccountIT extends AbstractDaemonTest {
 
             // Non-supported TLD  (see tlds-alpha-by-domain.txt)
             "new.email@example.africa");
-    AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
+    AccountIndexedCounter accountIndexedCounter = getAccountIndexedCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(accountIndexedCounter)) {
       for (String email : emails) {
@@ -1163,7 +1168,7 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void addEmailAndSetPreferred() throws Exception {
-    AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
+    AccountIndexedCounter accountIndexedCounter = getAccountIndexedCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(accountIndexedCounter)) {
       String email = "foo.bar@example.com";
@@ -1184,7 +1189,7 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void deleteEmail() throws Exception {
-    AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
+    AccountIndexedCounter accountIndexedCounter = getAccountIndexedCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(accountIndexedCounter)) {
       String email = "foo.bar@example.com";
@@ -1205,7 +1210,7 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void deletePreferredEmail() throws Exception {
-    AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
+    AccountIndexedCounter accountIndexedCounter = getAccountIndexedCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(accountIndexedCounter)) {
       ImmutableSet<String> previous = getEmails();
@@ -1256,7 +1261,7 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void deleteEmailFromCustomExternalIdSchemes() throws Exception {
-    AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
+    AccountIndexedCounter accountIndexedCounter = getAccountIndexedCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(accountIndexedCounter)) {
       String email = "foo.bar@example.com";
@@ -1373,7 +1378,7 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void deleteEmailOfOtherUser() throws Exception {
-    AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
+    AccountIndexedCounter accountIndexedCounter = getAccountIndexedCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(accountIndexedCounter)) {
       String email = "foo.bar@example.com";
@@ -1466,7 +1471,7 @@ public class AccountIT extends AbstractDaemonTest {
   public void putStatus() throws Exception {
     ImmutableList<String> statuses = ImmutableList.of("OOO", "Busy");
     AccountInfo info;
-    AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
+    AccountIndexedCounter accountIndexedCounter = getAccountIndexedCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(accountIndexedCounter)) {
       for (String status : statuses) {
@@ -1516,7 +1521,7 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void fetchUserBranch() throws Exception {
-    AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
+    AccountIndexedCounter accountIndexedCounter = getAccountIndexedCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(accountIndexedCounter)) {
       requestScopeOperations.setApiUser(user.id());
@@ -1723,7 +1728,7 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void addOtherUsersGpgKey_Conflict() throws Exception {
-    AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
+    AccountIndexedCounter accountIndexedCounter = getAccountIndexedCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(accountIndexedCounter)) {
       // Both users have a matching external ID for this key.
@@ -1752,7 +1757,7 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void listGpgKeys() throws Exception {
-    AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
+    AccountIndexedCounter accountIndexedCounter = getAccountIndexedCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(accountIndexedCounter)) {
       ImmutableList<TestKey> keys = allValidKeys();
@@ -1771,7 +1776,7 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void deleteGpgKey() throws Exception {
-    AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
+    AccountIndexedCounter accountIndexedCounter = getAccountIndexedCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(accountIndexedCounter)) {
       TestKey key = validKeyWithoutExpiration();
@@ -1797,7 +1802,7 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void addAndRemoveGpgKeys() throws Exception {
-    AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
+    AccountIndexedCounter accountIndexedCounter = getAccountIndexedCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(accountIndexedCounter)) {
       for (TestKey key : allValidKeys()) {
@@ -1856,7 +1861,7 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   @UseSsh
   public void sshKeys() throws Exception {
-    AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
+    AccountIndexedCounter accountIndexedCounter = getAccountIndexedCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(accountIndexedCounter)) {
       // The test account should initially have exactly one ssh key
@@ -1929,7 +1934,7 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   @UseSsh
   public void adminCanAddOrRemoveSshKeyOnOtherAccount() throws Exception {
-    AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
+    AccountIndexedCounter accountIndexedCounter = getAccountIndexedCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(accountIndexedCounter)) {
       // The test account should initially have exactly one ssh key
@@ -1990,7 +1995,7 @@ public class AccountIT extends AbstractDaemonTest {
   // reindex is tested by {@link AbstractQueryAccountsTest#reindex}
   @Test
   public void reindexPermissions() throws Exception {
-    AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
+    AccountIndexedCounter accountIndexedCounter = getAccountIndexedCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(accountIndexedCounter)) {
       // admin can reindex any account
@@ -3050,7 +3055,7 @@ public class AccountIT extends AbstractDaemonTest {
     AccountsUpdate.UpdateArguments ua2 =
         new AccountsUpdate.UpdateArguments(
             "Add External ID", user.id(), (a, u) -> u.addExternalId(extId2));
-    AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
+    AccountIndexedCounter accountIndexedCounter = getAccountIndexedCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(accountIndexedCounter)) {
       accountsUpdateProvider.get().updateBatch(ImmutableList.of(ua1, ua2));
@@ -3092,7 +3097,7 @@ public class AccountIT extends AbstractDaemonTest {
             "Remove external Id",
             user.id(),
             (a, u) -> u.deleteExternalId(createEmailExternalId(user.id(), user.email())));
-    AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
+    AccountIndexedCounter accountIndexedCounter = getAccountIndexedCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(accountIndexedCounter)) {
       accountsUpdateProvider.get().updateBatch(ImmutableList.of(ua1, ua2));
@@ -3582,7 +3587,7 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   private void addExternalIdEmail(TestAccount account, String email) throws Exception {
-    AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
+    AccountIndexedCounter accountIndexedCounter = getAccountIndexedCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(accountIndexedCounter)) {
       requireNonNull(email);
@@ -3608,7 +3613,7 @@ public class AccountIT extends AbstractDaemonTest {
   private Map<String, GpgKeyInfo> addGpgKey(TestAccount account, String armored) throws Exception {
     return testRefAction(
         () -> {
-          AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
+          AccountIndexedCounter accountIndexedCounter = getAccountIndexedCounter();
           try (Registration registration =
               extensionRegistry.newRegistration().add(accountIndexedCounter)) {
             Map<String, GpgKeyInfo> gpgKeys =

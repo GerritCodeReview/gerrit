@@ -41,7 +41,7 @@ public class PredicateArgs {
    *
    * @param args arguments to be parsed
    */
-  PredicateArgs(String args) throws QueryParseException {
+  public PredicateArgs(String args) throws QueryParseException {
     positional = new ArrayList<>();
     keyValue = new HashMap<>();
 

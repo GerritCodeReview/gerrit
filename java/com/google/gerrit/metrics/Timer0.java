@@ -49,8 +49,6 @@ public abstract class Timer0 implements RegistrationHandle {
     }
   }
 
-  private boolean suppressLogging;
-
   protected final String name;
 
   public Timer0(String name) {
@@ -76,20 +74,12 @@ public abstract class Timer0 implements RegistrationHandle {
   public final void record(long value, TimeUnit unit) {
     long durationMs = unit.toMillis(value);
 
-    if (!suppressLogging) {
-      LoggingContext.getInstance()
-          .addPerformanceLogRecord(() -> PerformanceLogRecord.create(name, durationMs));
-      logger.atFinest().log("%s took %dms", name, durationMs);
-    }
+    LoggingContext.getInstance()
+        .addPerformanceLogRecord(() -> PerformanceLogRecord.create(name, durationMs));
+    logger.atFinest().log("%s took %dms", name, durationMs);
 
     doRecord(value, unit);
     RequestStateContext.abortIfCancelled();
-  }
-
-  /** Suppress logging (debug log and performance log) when values are recorded. */
-  public final Timer0 suppressLogging() {
-    this.suppressLogging = true;
-    return this;
   }
 
   /**

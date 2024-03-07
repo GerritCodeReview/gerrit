@@ -238,6 +238,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4ce13d43_f9896af7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-07T12:10:22Z",
+      "side": 1,
+      "message": "Not done, unresolving.",
+      "parentUuid": "6144ba92_bc62a6da",
+      "range": {
+        "startLine": 19,
+        "startChar": 13,
+        "endLine": 19,
+        "endChar": 56
+      },
+      "revId": "9c6bc4b02a39f3dba3020eb16ba2cd8151c307ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "89fe8a54_87816d61",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

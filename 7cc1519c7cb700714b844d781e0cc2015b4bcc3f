@@ -39,6 +39,24 @@
       "message": "We use this only once in the code: just inline this call at L555 as condition for adding the batch-ref-update to the ones to be fired.",
       "revId": "7cc1519c7cb700714b844d781e0cc2015b4bcc3f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab1a0655_c187107a",
+        "filename": "java/com/google/gerrit/server/update/ReviewDbBatchUpdate.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-07T22:20:42Z",
+      "side": 1,
+      "message": "I see, the `cfg` is not stored in the instance variable. Ok then.",
+      "parentUuid": "51e0f12e_0526100c",
+      "revId": "7cc1519c7cb700714b844d781e0cc2015b4bcc3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

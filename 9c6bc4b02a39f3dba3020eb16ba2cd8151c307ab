@@ -565,6 +565,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe8f0877_d8b1b815",
+        "filename": "Documentation/note-db.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2024-03-07T14:40:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "727f91b3_22230fce",
+      "range": {
+        "startLine": 156,
+        "startChar": 10,
+        "endLine": 157,
+        "endChar": 10
+      },
+      "revId": "9c6bc4b02a39f3dba3020eb16ba2cd8151c307ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d7dc64d_d5635ced",
+        "filename": "Documentation/note-db.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2024-03-07T14:40:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f98c5ee9_b62f06de",
+      "range": {
+        "startLine": 157,
+        "startChar": 15,
+        "endLine": 157,
+        "endChar": 26
+      },
+      "revId": "9c6bc4b02a39f3dba3020eb16ba2cd8151c307ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "415a0d8d_75e686a8",
@@ -578,6 +626,30 @@
       "writtenOn": "2024-03-06T21:51:36Z",
       "side": 1,
       "message": "I would simply say that the replication of /meta refs should be disabled until the notedb migration has entered its final mode, because of the lack of transactionality. When events are generated forcibly can be used for sole logging and tracing purposes.",
+      "range": {
+        "startLine": 159,
+        "startChar": 0,
+        "endLine": 163,
+        "endChar": 22
+      },
+      "revId": "9c6bc4b02a39f3dba3020eb16ba2cd8151c307ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e404b968_a4eac3d9",
+        "filename": "Documentation/note-db.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2024-03-07T14:40:13Z",
+      "side": 1,
+      "message": "Not sure I get the part about the events being generated forcibly.",
+      "parentUuid": "415a0d8d_75e686a8",
       "range": {
         "startLine": 159,
         "startChar": 0,

@@ -43,7 +43,8 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeNotes.Factory.ChangeNotesResult;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,6 +67,13 @@ import org.eclipse.jgit.lib.Repository;
  */
 public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, ChangeIndex> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
+  public interface Factory {
+    AllChangesIndexer create();
+
+    AllChangesIndexer create(boolean reuseExistingDocuments);
+  }
+
   private MultiProgressMonitor mpm;
   private VolatileTask doneTask;
   private Task failedTask;
@@ -91,7 +99,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
   private final Set<Project.NameKey> projectsToSkip;
   private final boolean reuseExistingDocuments;
 
-  @Inject
+  @AssistedInject
   AllChangesIndexer(
       MultiProgressMonitor.Factory multiProgressMonitorFactory,
       ChangeData.Factory changeDataFactory,
@@ -102,6 +110,31 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
       ChangeNotes.Factory notesFactory,
       ProjectCache projectCache,
       @GerritServerConfig Config config) {
+    this(
+        multiProgressMonitorFactory,
+        changeDataFactory,
+        repoManager,
+        executor,
+        indexerFactory,
+        stalenessCheckerFactory,
+        notesFactory,
+        projectCache,
+        config,
+        config.getBoolean("index", null, "reuseExistingDocuments", false));
+  }
+
+  @AssistedInject
+  AllChangesIndexer(
+      MultiProgressMonitor.Factory multiProgressMonitorFactory,
+      ChangeData.Factory changeDataFactory,
+      GitRepositoryManager repoManager,
+      @IndexExecutor(BATCH) ListeningExecutorService executor,
+      ChangeIndexer.Factory indexerFactory,
+      StalenessChecker.Factory stalenessCheckerFactory,
+      ChangeNotes.Factory notesFactory,
+      ProjectCache projectCache,
+      @GerritServerConfig Config config,
+      @Assisted boolean reuseExistingDocuments) {
     this.multiProgressMonitorFactory = multiProgressMonitorFactory;
     this.changeDataFactory = changeDataFactory;
     this.repoManager = repoManager;
@@ -115,7 +148,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
             .stream()
             .map(p -> Project.NameKey.parse(p))
             .collect(Collectors.toSet());
-    this.reuseExistingDocuments = config.getBoolean("index", null, "reuseExistingDocuments", false);
+    this.reuseExistingDocuments = reuseExistingDocuments;
   }
 
   @AutoValue

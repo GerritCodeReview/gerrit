@@ -1,4 +1,4 @@
-// Copyright (C) 2014 The Android Open Source Project
+// Copyright (C) 2024 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,34 +16,22 @@ package com.google.gerrit.server.restapi.config;
 
 import static com.google.gerrit.common.data.GlobalCapability.MAINTAIN_SERVER;
 
-import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.index.IndexDefinition;
-import com.google.gerrit.server.config.ConfigResource;
-import com.google.inject.Inject;
-import java.util.Collection;
+import com.google.gerrit.server.config.IndexResource;
+import java.util.Map;
 
 @RequiresCapability(MAINTAIN_SERVER)
-public class ListIndexes implements RestReadView<ConfigResource> {
-  private final Collection<IndexDefinition<?, ?, ?>> defs;
-
-  @Inject
-  public ListIndexes(Collection<IndexDefinition<?, ?, ?>> defs) {
-    this.defs = defs;
-  }
-
-  private ImmutableList<IndexInfo> getIndexInfos() {
-    ImmutableList.Builder<IndexInfo> indexInfos = ImmutableList.builder();
-    for (IndexDefinition<?, ?, ?> def : defs) {
-      indexInfos.add(IndexInfo.fromIndexDefinition(def));
-    }
-    return indexInfos.build();
-  }
+public class ListIndexVersions implements RestReadView<IndexResource> {
 
   @Override
-  public Response<Object> apply(ConfigResource rsrc) {
-    return Response.ok(getIndexInfos());
+  public Response<Map<Integer, IndexInfo.IndexVersionInfo>> apply(IndexResource rsrc)
+      throws AuthException, BadRequestException, ResourceConflictException, Exception {
+    IndexInfo info = IndexInfo.fromIndexDefinition(rsrc.getIndexDefinition());
+    return Response.ok(info.getVersions());
   }
 }

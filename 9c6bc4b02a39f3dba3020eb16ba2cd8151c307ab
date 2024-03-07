@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b8231c1_2306c169",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1155610
+      },
+      "writtenOn": "2024-03-07T10:19:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f396363_9cc6efb5",
+      "range": {
+        "startLine": 9,
+        "startChar": 26,
+        "endLine": 9,
+        "endChar": 27
+      },
+      "revId": "9c6bc4b02a39f3dba3020eb16ba2cd8151c307ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d319b27f_10834365",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-03-06T21:51:36Z",
       "side": 1,
       "message": "Not just the creation: it is created during the trial migration and kept up to date upon change updates.",
+      "range": {
+        "startLine": 12,
+        "startChar": 40,
+        "endLine": 12,
+        "endChar": 48
+      },
+      "revId": "9c6bc4b02a39f3dba3020eb16ba2cd8151c307ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "31986b60_e0acab24",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1155610
+      },
+      "writtenOn": "2024-03-07T10:19:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d319b27f_10834365",
       "range": {
         "startLine": 12,
         "startChar": 40,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2fb0ec81_bca9a41d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1155610
+      },
+      "writtenOn": "2024-03-07T10:19:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61e97e5d_beefcb87",
+      "range": {
+        "startLine": 15,
+        "startChar": 38,
+        "endLine": 15,
+        "endChar": 49
+      },
+      "revId": "9c6bc4b02a39f3dba3020eb16ba2cd8151c307ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "97bdf5c2_f7708bda",
@@ -83,6 +155,30 @@
       "writtenOn": "2024-03-06T21:51:36Z",
       "side": 1,
       "message": "It is a bit hard to read. Why not says _\"Gerrit does not emit ref-updated stream events for those trial updates because they are not part of the batch update of the Git repository\"_",
+      "range": {
+        "startLine": 16,
+        "startChar": 11,
+        "endLine": 16,
+        "endChar": 70
+      },
+      "revId": "9c6bc4b02a39f3dba3020eb16ba2cd8151c307ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "383d9fcd_e86668ac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1155610
+      },
+      "writtenOn": "2024-03-07T10:19:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97bdf5c2_f7708bda",
       "range": {
         "startLine": 16,
         "startChar": 11,
@@ -116,6 +212,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6144ba92_bc62a6da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1155610
+      },
+      "writtenOn": "2024-03-07T10:19:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1429be8b_cb7ff38e",
+      "range": {
+        "startLine": 19,
+        "startChar": 13,
+        "endLine": 19,
+        "endChar": 56
+      },
+      "revId": "9c6bc4b02a39f3dba3020eb16ba2cd8151c307ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "89fe8a54_87816d61",
@@ -139,6 +259,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4526238_16c8204f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1155610
+      },
+      "writtenOn": "2024-03-07T10:19:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "89fe8a54_87816d61",
+      "range": {
+        "startLine": 22,
+        "startChar": 1,
+        "endLine": 22,
+        "endChar": 15
+      },
+      "revId": "9c6bc4b02a39f3dba3020eb16ba2cd8151c307ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4fd6f90d_ee93c740",
@@ -152,6 +296,30 @@
       "writtenOn": "2024-03-06T21:51:36Z",
       "side": 1,
       "message": "Say simply _\"to enable to notification of /meta ref-updates in trial mode\"_",
+      "range": {
+        "startLine": 26,
+        "startChar": 61,
+        "endLine": 27,
+        "endChar": 46
+      },
+      "revId": "9c6bc4b02a39f3dba3020eb16ba2cd8151c307ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9f4e056_877887e9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1155610
+      },
+      "writtenOn": "2024-03-07T10:19:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4fd6f90d_ee93c740",
       "range": {
         "startLine": 26,
         "startChar": 61,
@@ -208,6 +376,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ebb332a6_856d8069",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1155610
+      },
+      "writtenOn": "2024-03-07T10:19:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1fd8834f_9f8b9cdf",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 40
+      },
+      "revId": "9c6bc4b02a39f3dba3020eb16ba2cd8151c307ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dbcb4156_60ca42e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1155610
+      },
+      "writtenOn": "2024-03-07T10:19:27Z",
+      "side": 1,
+      "message": "Removing this as it has already been mentioned above.",
+      "parentUuid": "685b5918_04666059",
+      "range": {
+        "startLine": 31,
+        "startChar": 46,
+        "endLine": 31,
+        "endChar": 68
+      },
+      "revId": "9c6bc4b02a39f3dba3020eb16ba2cd8151c307ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "033e6cd8_3985b44b",
@@ -221,6 +437,30 @@
       "writtenOn": "2024-03-06T21:51:36Z",
       "side": 1,
       "message": "I would add this as a note, e.g.\n\n\u003e **IMPORTANT NOTE**: The ref-updates in trial mode can be used for logging or tracing purposes, but should not be relied upon for any data replication, because of the inherent danger of inconsistency. E.g. when uploading a new patch-set, the ref-update of the patch may fail but not the associated /meta update.",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 22
+      },
+      "revId": "9c6bc4b02a39f3dba3020eb16ba2cd8151c307ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "675f08d1_d7f1a477",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1155610
+      },
+      "writtenOn": "2024-03-07T10:19:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "033e6cd8_3985b44b",
       "range": {
         "startLine": 34,
         "startChar": 0,

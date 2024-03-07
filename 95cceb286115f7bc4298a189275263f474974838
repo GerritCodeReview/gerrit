@@ -402,6 +402,69 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3399711f_e14b6e8d",
+        "filename": "java/com/google/gerrit/server/update/ReviewDbBatchUpdate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-07T21:47:12Z",
+      "side": 1,
+      "message": "```suggestion\n          .forEach(\n              u -\u003e\n                  u.changeOpsRefUpdates.forEach(\n                      bru -\u003e u.gitRefUpdated.fire(u.project, bru, u.getAccount().orElse(null))));\n```",
+      "range": {
+        "startLine": 290,
+        "startChar": 0,
+        "endLine": 297,
+        "endChar": 17
+      },
+      "revId": "95cceb286115f7bc4298a189275263f474974838",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf6a7252_4fe1ef7b",
+        "filename": "java/com/google/gerrit/server/update/ReviewDbBatchUpdate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-07T21:47:12Z",
+      "side": 1,
+      "message": "```suggestion\n    changeOpsRefUpdates.add(batchRefUpdate);\n  }\n```\n\nWe can just add the batch ref-update to the list of the ones to notify.",
+      "range": {
+        "startLine": 445,
+        "startChar": 0,
+        "endLine": 445,
+        "endChar": 3
+      },
+      "revId": "95cceb286115f7bc4298a189275263f474974838",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b405e538_a91403f9",
+        "filename": "java/com/google/gerrit/server/update/ReviewDbBatchUpdate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 555,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-07T21:47:12Z",
+      "side": 1,
+      "message": "```suggestion\n        if (getMetaEventsInTrial) {\n          changeOpsRefUpdates.add(changeRefUpdate);\n        }\n```",
+      "revId": "95cceb286115f7bc4298a189275263f474974838",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3732530f_edb1555c",
         "filename": "java/com/google/gerrit/server/update/ReviewDbBatchUpdate.java",
         "patchSetId": 9
@@ -437,6 +500,30 @@
       "side": 1,
       "message": "NoteDB updates, done on trial mode via `ReviewDbBatchUpdate.executeNoteDbUpdates()` might update both the project and `All-Users` [1] (I am thinking draft-comments for example). \n\nIf any ref was created in All-Users as part of the NoteDB update that would also need to be notified, no?\n\n[1] https://gerrit.googlesource.com/gerrit/+/refs/heads/stable-2.16/java/com/google/gerrit/server/update/ReviewDbBatchUpdate.java#548",
       "parentUuid": "3732530f_edb1555c",
+      "range": {
+        "startLine": 579,
+        "startChar": 10,
+        "endLine": 579,
+        "endChar": 53
+      },
+      "revId": "95cceb286115f7bc4298a189275263f474974838",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9cd7d722_9c56c017",
+        "filename": "java/com/google/gerrit/server/update/ReviewDbBatchUpdate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-07T21:47:12Z",
+      "side": 1,
+      "message": "The draft comments have never been notified as stream events until Gerrit v3.9, and it should remain like that.\n\nThis change is about `/meta` ref notification and should be limited to that.",
+      "parentUuid": "8f35ed60_6b0b49c2",
       "range": {
         "startLine": 579,
         "startChar": 10,

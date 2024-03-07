@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.config;
 
 import static com.google.gerrit.server.config.ConfigResource.CONFIG_KIND;
 import static com.google.gerrit.server.config.IndexResource.INDEX_KIND;
+import static com.google.gerrit.server.config.IndexVersionResource.INDEX_VERSION_KIND;
 import static com.google.gerrit.server.config.TaskResource.TASK_KIND;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -31,6 +32,7 @@ public class ConfigRestApiModule extends RestApiModule {
     DynamicMap.mapOf(binder(), TASK_KIND);
     DynamicMap.mapOf(binder(), TopMenuResource.TOP_MENU_KIND);
     DynamicMap.mapOf(binder(), INDEX_KIND);
+    DynamicMap.mapOf(binder(), INDEX_VERSION_KIND);
 
     child(CONFIG_KIND, "capabilities").to(CapabilitiesCollection.class);
     post(CONFIG_KIND, "check.consistency").to(CheckConsistency.class);
@@ -44,6 +46,7 @@ public class ConfigRestApiModule extends RestApiModule {
     get(CONFIG_KIND, "preferences.edit").to(GetEditPreferences.class);
     put(CONFIG_KIND, "preferences.edit").to(SetEditPreferences.class);
     post(CONFIG_KIND, "reload").to(ReloadConfig.class);
+    post(CONFIG_KIND, "snapshot.indexes").to(SnapshotIndexes.class);
 
     child(CONFIG_KIND, "tasks").to(TasksCollection.class);
     delete(TASK_KIND).to(DeleteTask.class);
@@ -53,7 +56,12 @@ public class ConfigRestApiModule extends RestApiModule {
     get(CONFIG_KIND, "version").to(GetVersion.class);
 
     child(CONFIG_KIND, "indexes").to(IndexCollection.class);
-    put(INDEX_KIND, "snapshot").to(SnapshotIndex.class);
+    post(INDEX_KIND, "snapshot").to(SnapshotIndex.class);
+    get(INDEX_KIND).to(GetIndex.class);
+
+    child(INDEX_KIND, "versions").to(IndexVersionsCollection.class);
+    get(INDEX_VERSION_KIND).to(GetIndexVersion.class);
+    post(INDEX_VERSION_KIND, "snapshot").to(SnapshotIndexVersion.class);
 
     // The caches and summary REST endpoints are bound via RestCacheAdminModule.
   }

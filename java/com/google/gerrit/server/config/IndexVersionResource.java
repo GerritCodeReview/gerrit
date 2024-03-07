@@ -1,4 +1,4 @@
-// Copyright (C) 2023 The Android Open Source Project
+// Copyright (C) 2024 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,27 +14,27 @@
 
 package com.google.gerrit.server.config;
 
+import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
-import com.google.gerrit.index.IndexCollection;
 import com.google.inject.TypeLiteral;
-import java.util.List;
 
-public class IndexResource extends ConfigResource {
-  public static final TypeLiteral<RestView<IndexResource>> INDEX_KIND = new TypeLiteral<>() {};
+public class IndexVersionResource implements RestResource {
+  public static final TypeLiteral<RestView<IndexVersionResource>> INDEX_VERSION_KIND =
+      new TypeLiteral<>() {};
 
-  private final List<IndexCollection<?, ?, ?>> indexCollections;
-  private final String name;
+  private final IndexResource indexResource;
+  private final int version;
 
-  public IndexResource(List<IndexCollection<?, ?, ?>> indexes, String name) {
-    this.indexCollections = indexes;
-    this.name = name;
+  public IndexVersionResource(IndexResource indexResource, int version) {
+    this.indexResource = indexResource;
+    this.version = version;
   }
 
-  public List<IndexCollection<?, ?, ?>> getIndexCollections() {
-    return indexCollections;
+  public IndexResource getIndexResource() {
+    return indexResource;
   }
 
-  public String getName() {
-    return name;
+  public int getVersion() {
+    return version;
   }
 }

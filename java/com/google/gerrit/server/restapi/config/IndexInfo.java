@@ -41,6 +41,16 @@ public abstract class IndexInfo {
     return new AutoValue_IndexInfo(name, versions.build());
   }
 
+  /*
+  public static IndexInfo fromIndex(String name, Index<?, ?> index) {
+    ImmutableSortedMap.Builder<Integer, IndexVersionInfo> versions =
+        ImmutableSortedMap.naturalOrder();
+    versions.put(index.getSchema().getVersion(), IndexVersionInfo.create(true, isSearchIndex));
+
+    return null;
+  }
+  */
+
   public abstract String getName();
 
   public abstract ImmutableMap<Integer, IndexVersionInfo> getVersions();

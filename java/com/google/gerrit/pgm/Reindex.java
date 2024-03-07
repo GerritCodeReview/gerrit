@@ -98,6 +98,8 @@ public class Reindex extends SiteProgram {
   @Option(name = "--build-bloom-filter", usage = "Build bloom filter for H2 disk caches.")
   private boolean buildBloomFilter;
 
+  private Boolean reuseExistingDocumentsOption;
+
   private Injector dbInjector;
   private Injector sysInjector;
   private Injector cfgInjector;
@@ -105,6 +107,11 @@ public class Reindex extends SiteProgram {
 
   @Inject private Collection<IndexDefinition<?, ?, ?>> indexDefs;
   @Inject private DynamicMap<Cache<?, ?>> cacheMap;
+
+  @Option(name = "--reuse", usage = "Reindex only when existing index entry is stale")
+  public void setReuseExistingDocuments(boolean value) {
+    reuseExistingDocumentsOption = value;
+  }
 
   @Override
   public int run() throws Exception {
@@ -258,11 +265,16 @@ public class Reindex extends SiteProgram {
     requireNonNull(
         index, () -> String.format("no active search index configured for %s", def.getName()));
     index.markReady(false);
-    if (!globalConfig.getBoolean("index", null, "reuseExistingDocuments", false)) {
+    boolean reuseExistingDocuments =
+        reuseExistingDocumentsOption != null
+            ? reuseExistingDocumentsOption
+            : globalConfig.getBoolean("index", null, "reuseExistingDocuments", false);
+
+    if (!reuseExistingDocuments) {
       index.deleteAll();
     }
 
-    SiteIndexer<K, V, I> siteIndexer = def.getSiteIndexer();
+    SiteIndexer<K, V, I> siteIndexer = def.getSiteIndexer(reuseExistingDocuments);
     siteIndexer.setProgressOut(System.err);
     siteIndexer.setVerboseOut(verbose ? System.out : NullOutputStream.INSTANCE);
     SiteIndexer.Result result = siteIndexer.indexAll(index);

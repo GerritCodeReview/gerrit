@@ -14,20 +14,34 @@
 
 package com.google.gerrit.server.index.change;
 
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.index.IndexDefinition;
+import com.google.gerrit.index.SiteIndexer;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 
 /** Bundle of service classes that make up the change index. */
 public class ChangeIndexDefinition extends IndexDefinition<Change.Id, ChangeData, ChangeIndex> {
 
+  private final AllChangesIndexer.Factory allChangesIndexerFactory;
+
   @Inject
   ChangeIndexDefinition(
       ChangeIndexCollection indexCollection,
       ChangeIndex.Factory indexFactory,
-      @Nullable AllChangesIndexer allChangesIndexer) {
-    super(ChangeSchemaDefinitions.INSTANCE, indexCollection, indexFactory, allChangesIndexer);
+      AllChangesIndexer.Factory allChangesIndexerFactory) {
+    super(ChangeSchemaDefinitions.INSTANCE, indexCollection, indexFactory, null);
+    this.allChangesIndexerFactory = allChangesIndexerFactory;
+  }
+
+  @Override
+  public SiteIndexer<Change.Id, ChangeData, ChangeIndex> getSiteIndexer() {
+    return allChangesIndexerFactory.create();
+  }
+
+  @Override
+  public SiteIndexer<Change.Id, ChangeData, ChangeIndex> getSiteIndexer(
+      boolean reuseExistingDocuments) {
+    return allChangesIndexerFactory.create(reuseExistingDocuments);
   }
 }

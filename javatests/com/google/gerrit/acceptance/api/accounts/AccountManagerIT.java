@@ -801,14 +801,18 @@ public class AccountManagerIT extends AbstractDaemonTest {
 
     accountManager.link(accountId, authRequestFactory.createForEmail(email1));
 
+    int initialCommits;
     try (Repository allUsersRepo = repoManager.openRepository(allUsers);
         Git git = new Git(allUsersRepo)) {
-      int initialCommits = getCommitsInExternalIds(git, allUsersRepo);
+      initialCommits = getCommitsInExternalIds(git, allUsersRepo);
 
       accountManager.updateLink(accountId, authRequestFactory.createForEmail(email2));
-
+    }
+    // Reopen the repo again - this is required for git.log() operations (otherwise, git.log()
+    // returns unmodified history on google internal infra).
+    try (Repository allUsersRepo = repoManager.openRepository(allUsers);
+        Git git = new Git(allUsersRepo)) {
       int afterUpdateCommits = getCommitsInExternalIds(git, allUsersRepo);
-
       assertThat(afterUpdateCommits).isEqualTo(initialCommits + 1);
     }
   }

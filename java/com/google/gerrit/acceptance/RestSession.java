@@ -15,7 +15,6 @@ package com.google.gerrit.acceptance;
 
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.extensions.restapi.RawInput;
-import java.io.IOException;
 import org.apache.http.Header;
 import org.apache.http.client.fluent.Request;
 
@@ -24,35 +23,33 @@ import org.apache.http.client.fluent.Request;
 public interface RestSession {
   String url();
 
-  RestResponse execute(Request request) throws IOException;
+  RestResponse execute(Request request) throws Exception;
 
-  RestResponse get(String endPoint) throws IOException;
+  RestResponse get(String endPoint) throws Exception;
 
-  RestResponse getJsonAccept(String endPoint) throws IOException;
+  RestResponse getJsonAccept(String endPoint) throws Exception;
 
-  RestResponse getWithHeaders(String endPoint, Header... headers) throws IOException;
+  RestResponse getWithHeaders(String endPoint, Header... headers) throws Exception;
 
-  RestResponse head(String endPoint) throws IOException;
+  RestResponse head(String endPoint) throws Exception;
 
-  RestResponse put(String endPoint) throws IOException;
+  RestResponse put(String endPoint) throws Exception;
 
-  RestResponse put(String endPoint, Object content) throws IOException;
+  RestResponse put(String endPoint, Object content) throws Exception;
 
-  RestResponse putWithHeaders(String endPoint, Header... headers) throws IOException;
+  RestResponse putWithHeaders(String endPoint, Header... headers) throws Exception;
 
-  RestResponse putWithHeaders(String endPoint, Object content, Header... headers)
-      throws IOException;
+  RestResponse putWithHeaders(String endPoint, Object content, Header... headers) throws Exception;
 
-  RestResponse putRaw(String endPoint, RawInput stream) throws IOException;
+  RestResponse putRaw(String endPoint, RawInput stream) throws Exception;
 
-  RestResponse post(String endPoint) throws IOException;
+  RestResponse post(String endPoint) throws Exception;
 
-  RestResponse post(String endPoint, Object content) throws IOException;
+  RestResponse post(String endPoint, Object content) throws Exception;
 
-  RestResponse postWithHeaders(String endPoint, Object content, Header... headers)
-      throws IOException;
+  RestResponse postWithHeaders(String endPoint, Object content, Header... headers) throws Exception;
 
-  RestResponse delete(String endPoint) throws IOException;
+  RestResponse delete(String endPoint) throws Exception;
 
-  RestResponse deleteWithHeaders(String endPoint, Header... headers) throws IOException;
+  RestResponse deleteWithHeaders(String endPoint, Header... headers) throws Exception;
 }

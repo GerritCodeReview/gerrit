@@ -95,6 +95,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb555ff5_61c7f496",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2024-03-07T16:24:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da63ea05_75aeb15f",
+      "range": {
+        "startLine": 24,
+        "startChar": 34,
+        "endLine": 24,
+        "endChar": 51
+      },
+      "revId": "6402e94c2c34bd3a4fd5c45b673bcdbe4913f9e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fdbb56d7_91479d24",
@@ -142,6 +166,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b2126fe_daef5a63",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2024-03-07T16:24:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fdbb56d7_91479d24",
+      "range": {
+        "startLine": 35,
+        "startChar": 41,
+        "endLine": 35,
+        "endChar": 58
+      },
+      "revId": "6402e94c2c34bd3a4fd5c45b673bcdbe4913f9e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "035ed6df_767d43f5",
@@ -176,6 +224,30 @@
         "id": 1155599
       },
       "writtenOn": "2024-03-07T16:24:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "035ed6df_767d43f5",
+      "range": {
+        "startLine": 158,
+        "startChar": 55,
+        "endLine": 158,
+        "endChar": 72
+      },
+      "revId": "6402e94c2c34bd3a4fd5c45b673bcdbe4913f9e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "776b4d79_26dcdae4",
+        "filename": "Documentation/note-db.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2024-03-07T16:24:48Z",
       "side": 1,
       "message": "Done",
       "parentUuid": "035ed6df_767d43f5",

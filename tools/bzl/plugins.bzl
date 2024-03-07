@@ -18,4 +18,5 @@ CUSTOM_PLUGINS = [
 
 CUSTOM_PLUGINS_TEST_DEPS = [
     # Add custom core plugins with tests deps here
+    "high-availability",
 ]

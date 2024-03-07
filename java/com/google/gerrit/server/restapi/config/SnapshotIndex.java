@@ -21,7 +21,8 @@ import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.index.Index;
-import com.google.gerrit.server.config.IndexResource;
+import com.google.gerrit.index.IndexCollection;
+import com.google.gerrit.server.config.IndexVersionResource;
 import com.google.gerrit.server.restapi.config.SnapshotIndex.Input;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -29,26 +30,28 @@ import java.nio.file.FileAlreadyExistsException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Collection;
+import java.util.List;
 
 @RequiresCapability(MAINTAIN_SERVER)
 @Singleton
-public class SnapshotIndex implements RestModifyView<IndexResource, Input> {
+public class SnapshotIndex implements RestModifyView<IndexVersionResource, Input> {
   private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss");
 
   @Override
-  public Response<?> apply(IndexResource rsrc, Input input) throws IOException {
-    Collection<Index<?, ?>> indexes = rsrc.getIndexes();
+  public Response<?> apply(IndexVersionResource rsrc, Input input) throws IOException {
     String id = input.id;
     if (id == null) {
       id = LocalDateTime.now(ZoneId.systemDefault()).format(formatter);
     }
-    for (Index<?, ?> index : indexes) {
-      try {
-        @SuppressWarnings("unused")
-        var unused = index.snapshot(id);
-      } catch (FileAlreadyExistsException e) {
-        return Response.withStatusCode(SC_CONFLICT, "Snapshot with same ID already exists.");
+    List<IndexCollection<?, ?, ?>> collections = rsrc.getIndexResource().getIndexCollections();
+    for (IndexCollection<?, ?, ?> indexCollection : collections) {
+      for (Index<?, ?> index : indexCollection.getWriteIndexes()) {
+        try {
+          @SuppressWarnings("unused")
+          var unused = index.snapshot(id);
+        } catch (FileAlreadyExistsException e) {
+          return Response.withStatusCode(SC_CONFLICT, "Snapshot with same ID already exists.");
+        }
       }
     }
     SnapshotInfo info = new SnapshotInfo();

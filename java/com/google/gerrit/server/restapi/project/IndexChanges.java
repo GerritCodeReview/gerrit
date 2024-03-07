@@ -42,18 +42,18 @@ import org.eclipse.jgit.util.io.NullOutputStream;
 public class IndexChanges implements RestModifyView<ProjectResource, Input> {
 
   private final MultiProgressMonitor.Factory multiProgressMonitorFactory;
-  private final Provider<AllChangesIndexer> allChangesIndexerProvider;
+  private final AllChangesIndexer.Factory allChangesIndexerFactory;
   private final ChangeIndexer indexer;
   private final ListeningExecutorService executor;
 
   @Inject
   IndexChanges(
       MultiProgressMonitor.Factory multiProgressMonitorFactory,
-      Provider<AllChangesIndexer> allChangesIndexerProvider,
+      AllChangesIndexer.Factory allChangesIndexerFactory,
       ChangeIndexer indexer,
       @IndexExecutor(BATCH) ListeningExecutorService executor) {
     this.multiProgressMonitorFactory = multiProgressMonitorFactory;
-    this.allChangesIndexerProvider = allChangesIndexerProvider;
+    this.allChangesIndexerFactory = allChangesIndexerFactory;
     this.indexer = indexer;
     this.executor = executor;
   }
@@ -65,7 +65,7 @@ public class IndexChanges implements RestModifyView<ProjectResource, Input> {
         multiProgressMonitorFactory
             .create(ByteStreams.nullOutputStream(), TaskKind.INDEXING, "Reindexing project")
             .beginSubTask("", MultiProgressMonitor.UNKNOWN);
-    AllChangesIndexer allChangesIndexer = allChangesIndexerProvider.get();
+    AllChangesIndexer allChangesIndexer = allChangesIndexerFactory.create();
     allChangesIndexer.setVerboseOut(NullOutputStream.INSTANCE);
     // The REST call is just a trigger for async reindexing, so it is safe to ignore the future's
     // return value.

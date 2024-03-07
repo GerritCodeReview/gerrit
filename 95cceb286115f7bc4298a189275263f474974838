@@ -353,6 +353,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d458c7fe_5624186b",
+        "filename": "Documentation/note-db.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2024-03-07T21:14:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3859fa1e_488b9572",
+      "range": {
+        "startLine": 162,
+        "startChar": 21,
+        "endLine": 162,
+        "endChar": 28
+      },
+      "revId": "95cceb286115f7bc4298a189275263f474974838",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "de332f26_98255253",

@@ -30,6 +30,8 @@ import static javax.servlet.http.HttpServletResponse.SC_NO_CONTENT;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
 import static javax.servlet.http.HttpServletResponse.SC_PRECONDITION_FAILED;
 
+import com.google.gerrit.common.UsedAt;
+import com.google.gerrit.common.UsedAt.Project;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -37,7 +39,8 @@ import java.net.URI;
 
 public class RestResponse extends HttpResponse {
 
-  RestResponse(org.apache.http.HttpResponse response) {
+  @UsedAt(Project.GOOGLE)
+  public RestResponse(org.apache.http.HttpResponse response) {
     super(response);
   }
 

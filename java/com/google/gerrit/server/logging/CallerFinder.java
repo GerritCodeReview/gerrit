@@ -195,15 +195,17 @@ public abstract class CallerFinder {
     public abstract CallerFinder build();
   }
 
+  public String findCaller() {
+    return targets().stream()
+        .map(t -> findCallerOf(t, skip() + 1))
+        .filter(Optional::isPresent)
+        .findFirst()
+        .map(Optional::get)
+        .orElse("unknown");
+  }
+
   public LazyArg<String> findCallerLazy() {
-    return lazy(
-        () ->
-            targets().stream()
-                .map(t -> findCallerOf(t, skip() + 1))
-                .filter(Optional::isPresent)
-                .findFirst()
-                .map(Optional::get)
-                .orElse("unknown"));
+    return lazy(() -> findCaller());
   }
 
   private Optional<String> findCallerOf(Class<?> target, int skip) {

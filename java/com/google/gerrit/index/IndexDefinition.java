@@ -67,7 +67,11 @@ public abstract class IndexDefinition<K, V, I extends Index<K, V>> {
   }
 
   @Nullable
-  public final SiteIndexer<K, V, I> getSiteIndexer() {
+  public SiteIndexer<K, V, I> getSiteIndexer() {
+    return siteIndexer;
+  }
+
+  public SiteIndexer<K, V, I> getSiteIndexer(boolean reuseExistingDocuments) {
     return siteIndexer;
   }
 }

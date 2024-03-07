@@ -20,6 +20,9 @@ import com.github.rholder.retry.RetryListener;
 import com.google.common.base.Throwables;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.server.ExceptionHook;
+import com.google.gerrit.server.logging.Metadata;
+import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -72,6 +75,8 @@ public class RetryableAction<T> {
   private final RetryHelper.Options.Builder options = RetryHelper.options();
   private final List<Predicate<Throwable>> exceptionPredicates = new ArrayList<>();
 
+  private int numberOfCalls;
+
   RetryableAction(
       RetryHelper retryHelper, ActionType actionType, String actionName, Action<T> action) {
     this(retryHelper, requireNonNull(actionType, "actionType").name(), actionName, action);
@@ -80,7 +85,15 @@ public class RetryableAction<T> {
   RetryableAction(RetryHelper retryHelper, String actionType, String actionName, Action<T> action) {
     this.retryHelper = requireNonNull(retryHelper, "retryHelper");
     this.actionType = requireNonNull(actionType, "actionType");
-    this.action = requireNonNull(action, "action");
+    this.action =
+        () -> {
+          numberOfCalls++;
+          try (TraceTimer timer =
+              TraceContext.newTimer(
+                  actionName, Metadata.builder().attempt(numberOfCalls).build())) {
+            return requireNonNull(action, "action").call();
+          }
+        };
     options.actionName(requireNonNull(actionName, "actionName"));
   }
 

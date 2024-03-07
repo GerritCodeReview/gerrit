@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "898b35bc_dfbec138",
+        "filename": "java/com/google/gerrit/server/notedb/DraftCommentNotes.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-03-07T15:25:42Z",
+      "side": 0,
+      "message": "We could keep this one and use it when virtual and non-virtual changeId are the same. Also we would avoid removing a public API in a stable branch.",
+      "range": {
+        "startLine": 45,
+        "startChar": 22,
+        "endLine": 45,
+        "endChar": 28
+      },
+      "revId": "be89b02bb46c6842b7b3e34c05a79048fa9860f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

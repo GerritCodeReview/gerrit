@@ -246,6 +246,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e76e09a7_b16cd18a",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-03-07T18:06:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eff26baa_01d99192",
+      "range": {
+        "startLine": 279,
+        "startChar": 13,
+        "endLine": 279,
+        "endChar": 50
+      },
+      "revId": "71366230aa6ad1cf144db48bd7e9793c4fe81a07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6ab3073_5af03e21",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-03-07T18:06:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a211a6f_a20086b6",
+      "range": {
+        "startLine": 279,
+        "startChar": 34,
+        "endLine": 279,
+        "endChar": 35
+      },
+      "revId": "71366230aa6ad1cf144db48bd7e9793c4fe81a07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bedcd50d_bc506af9",
@@ -277,6 +325,24 @@
       "side": 1,
       "message": "\u003e Do we need this reassignment?\n\nThe reason was to make the code more idiomatic for the reader\n\n\u003e We already have a factory that only takes changeId and accountId as parameters. Can we use that one?\n\nI did not find any. I guess is related with your comment in line L#45",
       "parentUuid": "bedcd50d_bc506af9",
+      "revId": "71366230aa6ad1cf144db48bd7e9793c4fe81a07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de35a0c2_23996ab4",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-03-07T18:06:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f6eddbe_456080cb",
       "revId": "71366230aa6ad1cf144db48bd7e9793c4fe81a07",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

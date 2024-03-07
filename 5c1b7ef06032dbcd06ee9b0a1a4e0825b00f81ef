@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18214984_c20280f0",
+        "filename": "java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2024-03-07T11:56:25Z",
+      "side": 1,
+      "message": "I don\u0027t think this will work. The call is assessed when the lazy arg is evaluated. lazy args help when you have a log say at INFO but you don\u0027t want to compute the arg when you are not logging at info.\n\nhere, that would only work if we don\u0027t always log to the performance log. eitherwise, we either always compute the lazyarg inline (hence adding to request cost) or compute the lazy arg async after the request has finished but then the caller is always the async work item with it\u0027s strack trace.\n\nWDYT?",
+      "range": {
+        "startLine": 121,
+        "startChar": 28,
+        "endLine": 121,
+        "endChar": 53
+      },
+      "revId": "5c1b7ef06032dbcd06ee9b0a1a4e0825b00f81ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f93ce4f9_93794281",
+        "filename": "java/com/google/gerrit/server/mail/send/SmtpEmailSender.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-03-08T07:41:34Z",
+      "side": 1,
+      "message": "Does this ensure that every affected email address is at least logged once, i.e. each unique log message is logged once per hour, or is it rate limiting on the call independent of the message content, i.e. just the first email send hitting this line will be logged?",
+      "range": {
+        "startLine": 187,
+        "startChar": 23,
+        "endLine": 187,
+        "endChar": 34
+      },
+      "revId": "a227926bbef3ed249be2ee9abf9a0fc8d78d8871",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

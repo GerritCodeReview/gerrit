@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "07ebdb65_029122b4",
+        "filename": "java/com/google/gerrit/server/mail/send/SmtpEmailSender.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-03-08T10:11:58Z",
+      "side": 1,
+      "message": "I would rather tend to change log level of all these calls to fine. If the admin configured that he wants to deny some recipient why should this be logged as a warning when it happens ? Do we need to remind the admin in the logs what he configured in the gerrit configuration ?\n\nRate limiting the current behavior is a compromise between flooding the logs by default or changing this to debug trace.",
+      "parentUuid": "06214b52_4c505177",
+      "range": {
+        "startLine": 167,
+        "startChar": 13,
+        "endLine": 167,
+        "endChar": 19
+      },
+      "revId": "a227926bbef3ed249be2ee9abf9a0fc8d78d8871",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f93ce4f9_93794281",
         "filename": "java/com/google/gerrit/server/mail/send/SmtpEmailSender.java",
         "patchSetId": 3

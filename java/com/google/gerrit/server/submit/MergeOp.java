@@ -558,7 +558,8 @@ public class MergeOp implements AutoCloseable {
         }
 
         SubmissionExecutor submissionExecutor =
-            new SubmissionExecutor(dryrun, superprojectUpdateSubmissionListeners);
+            new SubmissionExecutor(
+                changeDataFactory, dryrun, superprojectUpdateSubmissionListeners);
         RetryTracker retryTracker = new RetryTracker();
         @SuppressWarnings("unused")
         var unused =

@@ -290,7 +290,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
     output.labels = input.labels;
 
-    GetUpdatedChangeDataOp getUpdatedChangeDataOp = new GetUpdatedChangeDataOp();
+    BatchUpdate.Result batchUpdateResult;
 
     // Notify based on ReviewInput, ignoring the notify settings from any ReviewerInputs.
     NotifyResolver.Result notify = notifyResolver.resolve(input.notify, input.notifyDetails);
@@ -380,15 +380,12 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         replyAttentionSetUpdates.updateAttentionSetOnPostReview(
             bu, postReviewOp, revision.getNotes(), input, revision.getUser());
 
-        bu.addOp(revision.getChange().getId(), getUpdatedChangeDataOp);
-        bu.execute();
+        batchUpdateResult = bu.execute();
       }
     }
 
-    // Do not re-read the change to avoid that submit rules need to be executed again when the
-    // change is formatted, but instead get the updated ChangeData instance that was created when
-    // the change was reindexed.
-    ChangeData cd = getUpdatedChangeDataOp.getChangeData();
+    ChangeData cd =
+        batchUpdateResult.getChangeData(revision.getProject(), revision.getChange().getId());
     for (ReviewerModification reviewerResult : reviewerResults) {
       reviewerResult.gatherResults(cd);
     }

@@ -103,7 +103,6 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PushCertificate;
 import org.eclipse.jgit.transport.ReceiveCommand;
-import org.eclipse.jgit.transport.ReceiveCommand.Result;
 
 /**
  * Helper for a set of change updates that should be applied to the NoteDb database.
@@ -142,12 +141,42 @@ public class BatchUpdate implements AutoCloseable {
     BatchUpdate create(Project.NameKey project, CurrentUser user, Instant when);
   }
 
-  public static void execute(
-      Collection<BatchUpdate> updates, ImmutableList<BatchUpdateListener> listeners, boolean dryrun)
+  public static class Result {
+    private final ChangeData.Factory changeDataFactory;
+    private final Map<Change.Id, ChangeData> changeDatas;
+
+    private Result(ChangeData.Factory changeDataFactory) {
+      this(changeDataFactory, new HashMap<>());
+    }
+
+    private Result(ChangeData.Factory changeDataFactory, Map<Change.Id, ChangeData> changeDatas) {
+      this.changeDataFactory = changeDataFactory;
+      this.changeDatas = changeDatas;
+    }
+
+    /**
+     * Returns the updated {@link ChangeData} for the given project and change ID.
+     *
+     * <p>If the requested {@link ChangeData} was already loaded after the {@link BatchUpdate} has
+     * been executed the cached {@link ChangeData} instance is returned, otherwise the requested
+     * {@link ChangeData} is loaded and put into the cache.
+     */
+    public ChangeData getChangeData(Project.NameKey projectName, Change.Id changeId) {
+      return changeDatas.computeIfAbsent(
+          changeId, id -> changeDataFactory.create(projectName, changeId));
+    }
+  }
+
+  @CanIgnoreReturnValue
+  public static Result execute(
+      ChangeData.Factory changeDataFactory,
+      Collection<BatchUpdate> updates,
+      ImmutableList<BatchUpdateListener> listeners,
+      boolean dryrun)
       throws UpdateException, RestApiException {
     requireNonNull(listeners);
     if (updates.isEmpty()) {
-      return;
+      return new Result(changeDataFactory);
     }
 
     checkDifferentProject(updates);
@@ -193,8 +222,11 @@ public class BatchUpdate implements AutoCloseable {
           u.executePostOps(changeDatas);
         }
       }
+
+      return new Result(changeDataFactory, changeDatas);
     } catch (Exception e) {
       wrapAndThrowException(e);
+      return new Result(changeDataFactory);
     }
   }
 
@@ -484,12 +516,14 @@ public class BatchUpdate implements AutoCloseable {
     }
   }
 
-  public void execute(BatchUpdateListener listener) throws UpdateException, RestApiException {
-    execute(ImmutableList.of(this), ImmutableList.of(listener), false);
+  @CanIgnoreReturnValue
+  public Result execute(BatchUpdateListener listener) throws UpdateException, RestApiException {
+    return execute(changeDataFactory, ImmutableList.of(this), ImmutableList.of(listener), false);
   }
 
-  public void execute() throws UpdateException, RestApiException {
-    execute(ImmutableList.of(this), ImmutableList.of(), false);
+  @CanIgnoreReturnValue
+  public Result execute() throws UpdateException, RestApiException {
+    return execute(changeDataFactory, ImmutableList.of(this), ImmutableList.of(), false);
   }
 
   public boolean isExecuted() {
@@ -584,7 +618,7 @@ public class BatchUpdate implements AutoCloseable {
    */
   public Map<BranchNameKey, ReceiveCommand> getSuccessfullyUpdatedBranches(boolean dryrun) {
     return getRefUpdates().entrySet().stream()
-        .filter(entry -> dryrun || entry.getValue().getResult() == Result.OK)
+        .filter(entry -> dryrun || entry.getValue().getResult() == ReceiveCommand.Result.OK)
         .collect(
             toMap(entry -> BranchNameKey.create(project, entry.getKey()), Map.Entry::getValue));
   }

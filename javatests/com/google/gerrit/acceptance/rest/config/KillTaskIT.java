@@ -36,7 +36,7 @@ public class KillTaskIT extends AbstractDaemonTest {
 
     Optional<String> id =
         result.stream()
-            .filter(t -> "Log File Compressor".equals(t.command))
+            .filter(t -> "Log File Manager".equals(t.command))
             .map(t -> t.id)
             .findFirst();
     assertThat(id).isPresent();

@@ -150,7 +150,7 @@ public class TaskListenerIT extends AbstractDaemonTest {
       @Override
       public void configure() {
         // Forwarder.delegate is empty on start to protect test listener from non test tasks
-        // (such as the "Log File Compressor") interference
+        // (such as the "Log File Manager") interference
         forwarder = new ForwardingListener(); // Only gets bound once for all tests
         bind(TaskListener.class).annotatedWith(Exports.named("listener")).toInstance(forwarder);
       }
@@ -161,7 +161,7 @@ public class TaskListenerIT extends AbstractDaemonTest {
   public void setupExecutorAndForwarder() throws InterruptedException {
     executor = workQueue.createQueue(1, "TaskListeners");
 
-    // "Log File Compressor"s are likely running and will interfere with tests
+    // "Log File Manager"s are likely running and will interfere with tests
     while (0 != workQueue.getTasks().size()) {
       for (Task<?> t : workQueue.getTasks()) {
         @SuppressWarnings("unused")

@@ -41,6 +41,12 @@ public abstract class Metadata {
    */
   public abstract Optional<String> actionType();
 
+  /**
+   * Number of attempt. The first execution has {@code attempt=1}, the first retry has {@code
+   * attempt=2}.
+   */
+  public abstract Optional<Integer> attempt();
+
   /** An authentication domain name. */
   public abstract Optional<String> authDomainName();
 
@@ -52,6 +58,9 @@ public abstract class Metadata {
 
   /** The name of a cache. */
   public abstract Optional<String> cacheName();
+
+  /** The caller that triggered the operation. */
+  public abstract Optional<String> caller();
 
   /** The name of the implementation class. */
   public abstract Optional<String> className();
@@ -186,20 +195,20 @@ public abstract class Metadata {
    * few are populated this leads to long string representations such as
    *
    * <pre>
-   * Metadata{accountId=Optional.empty, actionType=Optional.empty, authDomainName=Optional.empty,
-   * branchName=Optional.empty, cacheKey=Optional.empty, cacheName=Optional.empty,
-   * className=Optional.empty, cancellationReason=Optional.empty changeId=Optional[9212550],
-   * changeIdType=Optional.empty, cause=Optional.empty, diffAlgorithm=Optional.empty,
-   * eventType=Optional.empty, exportValue=Optional.empty, filePath=Optional.empty,
-   * garbageCollectorName=Optional.empty, gitOperation=Optional.empty, groupId=Optional.empty,
-   * groupName=Optional.empty, groupUuid=Optional.empty, httpStatus=Optional.empty,
-   * indexName=Optional.empty, indexVersion=Optional[0], methodName=Optional.empty,
-   * multiple=Optional.empty, operationName=Optional.empty, partial=Optional.empty,
-   * noteDbFilePath=Optional.empty, noteDbRefName=Optional.empty,
-   * noteDbSequenceType=Optional.empty, patchSetId=Optional.empty, pluginMetadata=[],
-   * pluginName=Optional.empty, projectName=Optional.empty, pushType=Optional.empty,
-   * requestType=Optional.empty, resourceCount=Optional.empty, restViewName=Optional.empty,
-   * revision=Optional.empty, username=Optional.empty}
+   * Metadata{accountId=Optional.empty, actionType=Optional.empty, attempt=Optional.empty,
+   * authDomainName=Optional.empty, branchName=Optional.empty, cacheKey=Optional.empty,
+   * cacheName=Optional.empty, caller=Optional.empty, className=Optional.empty,
+   * cancellationReason=Optional.empty, changeId=Optional[9212550], changeIdType=Optional.empty,
+   * cause=Optional.empty, diffAlgorithm=Optional.empty, eventType=Optional.empty,
+   * exportValue=Optional.empty, filePath=Optional.empty, garbageCollectorName=Optional.empty,
+   * gitOperation=Optional.empty, groupId=Optional.empty, groupName=Optional.empty,
+   * groupUuid=Optional.empty, httpStatus=Optional.empty, indexName=Optional.empty,
+   * indexVersion=Optional[0], methodName=Optional.empty, multiple=Optional.empty,
+   * operationName=Optional.empty, partial=Optional.empty, noteDbFilePath=Optional.empty,
+   * noteDbRefName=Optional.empty, noteDbSequenceType=Optional.empty, patchSetId=Optional.empty,
+   * pluginMetadata=[], pluginName=Optional.empty, projectName=Optional.empty,
+   * pushType=Optional.empty, requestType=Optional.empty, resourceCount=Optional.empty,
+   * restViewName=Optional.empty, revision=Optional.empty, username=Optional.empty}
    * </pre>
    *
    * <p>That's hard to read in logs. This is why this method
@@ -294,6 +303,8 @@ public abstract class Metadata {
 
     public abstract Builder actionType(@Nullable String actionType);
 
+    public abstract Builder attempt(int attempt);
+
     public abstract Builder authDomainName(@Nullable String authDomainName);
 
     public abstract Builder branchName(@Nullable String branchName);
@@ -301,6 +312,8 @@ public abstract class Metadata {
     public abstract Builder cacheKey(@Nullable String cacheKey);
 
     public abstract Builder cacheName(@Nullable String cacheName);
+
+    public abstract Builder caller(@Nullable String caller);
 
     public abstract Builder className(@Nullable String className);
 

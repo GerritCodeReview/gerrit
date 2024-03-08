@@ -93,6 +93,30 @@
       },
       "revId": "a227926bbef3ed249be2ee9abf9a0fc8d78d8871",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ceef3d8_cd68e003",
+        "filename": "java/com/google/gerrit/server/mail/send/SmtpEmailSender.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-03-08T10:52:28Z",
+      "side": 1,
+      "message": "Hm.. would that then not mean, if we have another log statement in this class that it would also be affected, even if it does not explicitly set this option, but is called after this line?",
+      "parentUuid": "26aaa6c7_9c381906",
+      "range": {
+        "startLine": 187,
+        "startChar": 23,
+        "endLine": 187,
+        "endChar": 34
+      },
+      "revId": "a227926bbef3ed249be2ee9abf9a0fc8d78d8871",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

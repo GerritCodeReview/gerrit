@@ -28,8 +28,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
-import com.google.gerrit.acceptance.PushOneCommit.Result;
-import com.google.gerrit.entities.Change;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
@@ -37,14 +36,12 @@ import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.TestSubmitRuleInfo;
 import com.google.gerrit.extensions.common.TestSubmitRuleInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.git.meta.VersionedMetaData;
 import com.google.gerrit.testing.ConfigSuite;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
@@ -60,7 +57,7 @@ public class SubmitTypeRuleIT extends AbstractDaemonTest {
     return submitWholeTopicEnabledConfig();
   }
 
-  private class RulesPl extends VersionedMetaData {
+  private static class RulesPl extends VersionedMetaData {
     private String rule;
 
     @Override
@@ -69,21 +66,12 @@ public class SubmitTypeRuleIT extends AbstractDaemonTest {
     }
 
     @Override
-    protected void onLoad() throws IOException, ConfigInvalidException {
+    protected void onLoad() throws IOException {
       rule = readUTF8(RULES_PL_FILE);
     }
 
     @Override
-    protected boolean onSave(CommitBuilder commit) throws IOException, ConfigInvalidException {
-      TestSubmitRuleInput in = new TestSubmitRuleInput();
-      in.rule = rule;
-      try {
-        @SuppressWarnings("unused")
-        var unused = gApi.changes().id(testChangeId.get()).current().testSubmitType(in);
-      } catch (RestApiException e) {
-        throw new ConfigInvalidException("Invalid submit type rule", e);
-      }
-
+    protected boolean onSave(CommitBuilder commit) throws IOException {
       saveUTF8(RULES_PL_FILE, rule);
       return true;
     }
@@ -91,18 +79,10 @@ public class SubmitTypeRuleIT extends AbstractDaemonTest {
 
   private AtomicInteger fileCounter;
 
-  // The change is used only to verify that the rule is valid. It is never submitted in the test.
-  private Change.Id testChangeId;
-
   @Before
   public void setUp() throws Exception {
     fileCounter = new AtomicInteger();
     gApi.projects().name(project.get()).branch("test").create(new BranchInput());
-    Result testChange = createChange("test", "test change");
-    testChangeId = testChange.getChange().getId();
-    // Reset repo back to the original state - otherwise all changes in tests have testChange as a
-    // parent.
-    testRepo.reset(testChange.getCommit().getParent(0));
   }
 
   private void setRulesPl(String rule) throws Exception {
@@ -190,6 +170,21 @@ public class SubmitTypeRuleIT extends AbstractDaemonTest {
     assertSubmitType(REBASE_ALWAYS, r5.getChangeId());
     assertSubmitType(MERGE_ALWAYS, r6.getChangeId());
     assertSubmitType(CHERRY_PICK, r7.getChangeId());
+  }
+
+  @Test
+  @GerritConfig(name = "rules.enable", value = "false")
+  public void submitType_rulesTakeNoEffectWhenDisabled() throws Exception {
+    PushOneCommit.Result r1 = createChange("master", "Default 1");
+    PushOneCommit.Result r2 = createChange("master", "FAST_FORWARD_ONLY 2");
+    PushOneCommit.Result r3 = createChange("master", "MERGE_IF_NECESSARY 3");
+
+    setRulesPl(SUBMIT_TYPE_FROM_SUBJECT);
+
+    // Rules take no effect
+    assertSubmitType(MERGE_IF_NECESSARY, r1.getChangeId());
+    assertSubmitType(MERGE_IF_NECESSARY, r2.getChangeId());
+    assertSubmitType(MERGE_IF_NECESSARY, r3.getChangeId());
   }
 
   @Test

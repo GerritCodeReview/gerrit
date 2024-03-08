@@ -36,6 +36,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.SUBMITTABLE;
 import static com.google.gerrit.extensions.client.ListChangesOption.SUBMIT_REQUIREMENTS;
 import static com.google.gerrit.extensions.client.ListChangesOption.TRACKING_IDS;
 import static com.google.gerrit.server.ChangeMessagesUtil.createChangeMessageInfo;
+import static com.google.gerrit.server.git.QueueProvider.QueueType.INTERACTIVE;
 import static com.google.gerrit.server.util.AttentionSetUtil.additionsOnly;
 import static com.google.gerrit.server.util.AttentionSetUtil.removalsOnly;
 import static java.util.stream.Collectors.toList;
@@ -48,11 +49,15 @@ import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedMap;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
@@ -106,6 +111,7 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
@@ -135,6 +141,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
@@ -228,6 +236,7 @@ public class ChangeJson {
     }
   }
 
+  private final ListeningExecutorService executor;
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsers;
   private final Provider<CurrentUser> userProvider;
@@ -255,6 +264,7 @@ public class ChangeJson {
 
   @Inject
   ChangeJson(
+      @IndexExecutor(INTERACTIVE) ListeningExecutorService executor,
       GitRepositoryManager repoManager,
       AllUsersName allUsers,
       Provider<CurrentUser> user,
@@ -274,6 +284,7 @@ public class ChangeJson {
       @GerritServerConfig Config cfg,
       @Assisted Iterable<ListChangesOption> options,
       @Assisted Optional<PluginDefinedInfosFactory> pluginDefinedInfosFactory) {
+    this.executor = executor;
     this.repoManager = repoManager;
     this.allUsers = allUsers;
     this.userProvider = user;
@@ -350,7 +361,7 @@ public class ChangeJson {
 
   public List<ChangeInfo> format(Collection<ChangeData> in) throws PermissionBackendException {
     accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
-    ensureLoaded(in);
+    in = ensureLoaded(in);
     List<ChangeInfo> out = new ArrayList<>(in.size());
     ImmutableListMultimap<Change.Id, PluginDefinedInfo> pluginInfosByChange = getPluginInfos(in);
     for (ChangeData cd : in) {
@@ -480,33 +491,61 @@ public class ChangeJson {
     }
   }
 
-  private void ensureLoaded(Collection<ChangeData> all) {
-    if (lazyLoad) {
-      try (TraceTimer timer =
-          TraceContext.newTimer(
-              "Load change data for lazyLoad options",
-              Metadata.builder().resourceCount(all.size()).build())) {
-        for (ChangeData cd : all) {
-          // Mark all ChangeDatas as coming from the index, but allow backfilling data from NoteDb
-          cd.setStorageConstraint(ChangeData.StorageConstraint.INDEX_PRIMARY_NOTEDB_SECONDARY);
-        }
-        ChangeData.ensureChangeLoaded(all);
-        if (has(ALL_REVISIONS)) {
-          ChangeData.ensureAllPatchSetsLoaded(all);
-        } else if (has(CURRENT_REVISION) || has(MESSAGES)) {
-          ChangeData.ensureCurrentPatchSetLoaded(all);
-        }
-        if (has(REVIEWED) && userProvider.get().isIdentifiedUser()) {
-          ChangeData.ensureReviewedByLoadedForOpenChanges(all);
-        }
-        ChangeData.ensureCurrentApprovalsLoaded(all);
-      }
-    } else {
-      for (ChangeData cd : all) {
-        // Mark all ChangeDatas as coming from the index. Disallow using NoteDb
-        cd.setStorageConstraint(ChangeData.StorageConstraint.INDEX_ONLY);
-      }
+  private Collection<ChangeData> ensureLoaded(Collection<ChangeData> all) {
+    if (all.isEmpty()) {
+      return all;
     }
+
+    if (!lazyLoad) {
+      // Mark all ChangeDatas as coming from the index. Disallow using NoteDb
+      all.forEach(cd -> cd.setStorageConstraint(ChangeData.StorageConstraint.INDEX_ONLY));
+      return all;
+    }
+
+    try (TraceTimer timer =
+        TraceContext.newTimer(
+            "Load change data for lazyLoad options",
+            Metadata.builder().resourceCount(all.size()).build())) {
+      Function<ChangeData, ChangeData> loadChangeData =
+          cd -> {
+            // Mark all ChangeDatas as coming from the index, but allow backfilling data from NoteDb
+            cd.setStorageConstraint(ChangeData.StorageConstraint.INDEX_PRIMARY_NOTEDB_SECONDARY);
+
+            ChangeData.ensureChangeLoaded(cd);
+            if (has(ALL_REVISIONS)) {
+              ChangeData.ensureAllPatchSetsLoaded(cd);
+            } else if (has(CURRENT_REVISION) || has(MESSAGES)) {
+              ChangeData.ensureCurrentPatchSetLoaded(cd);
+            }
+            if (has(REVIEWED) && userProvider.get().isIdentifiedUser()) {
+              ChangeData.ensureReviewedByLoadedForOpenChanges(cd);
+            }
+            ChangeData.ensureCurrentApprovalsLoaded(cd);
+
+            return cd;
+          };
+
+      // do the loading in the main thread if there is only one change
+      if (all.size() == 1) {
+        return ImmutableList.of(loadChangeData.apply(Iterables.getOnlyElement(all)));
+      }
+
+      // Load the data for each ChangeData in an own thread.
+      // ChangeData is not thread-safe, but each ChangeData is updated in its own thread, so there
+      // are no concurrent accesses or updates for any ChangeData instance. Starting a new thread
+      // defines a happens-before relationship between the ChangaData updates that happened in the
+      // main thread and the ChangeData updates that happen in the spawned off thread. Getting the
+      // ChangeData's from the futures establishes another happens-before relationship.
+      List<ListenableFuture<ChangeData>> loadChangeDataFutures = new ArrayList<>();
+      all.forEach(cd -> loadChangeDataFutures.add(executor.submit(() -> loadChangeData.apply(cd))));
+      return Futures.allAsList(loadChangeDataFutures).get();
+    } catch (ExecutionException | InterruptedException e) {
+      throw new StorageException("Failed to load change data for lazyLoad options", e);
+    }
+  }
+
+  private ChangeData ensureLoaded(ChangeData cd) {
+    return Iterables.getOnlyElement(ensureLoaded(ImmutableList.of(cd)));
   }
 
   private boolean has(ListChangesOption option) {
@@ -543,7 +582,7 @@ public class ChangeJson {
 
         // Compute and cache if possible
         try {
-          ensureLoaded(Collections.singleton(cd));
+          cd = ensureLoaded(cd);
           info = format(cd, Optional.empty(), false, pluginInfosByChange.get(cd.getId()));
           changeInfos.add(info);
           if (isCacheable) {

@@ -22,6 +22,30 @@
       },
       "revId": "b613de28883e917dafd81664f6f2d2fce41f4d75",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "26eae0d9_a19578cb",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-03-08T11:38:40Z",
+      "side": 1,
+      "message": "Thanks, this is a good idea, but it\u0027s not as straight-forward as simply returning the changeData map from the execute method, because this map only contains ChangeData\u0027s which have been requested after the change has been updated, and there is no guarantee that it contains ChangeData\u0027s for all updated changes. That\u0027s why I\u0027ve implemented a slightly different approach. I\u0027ve uploaded it as a follow-up change, please have a look (https://gerrit-review.googlesource.com/c/gerrit/+/412437).",
+      "parentUuid": "125b70cb_17a9c8a5",
+      "range": {
+        "startLine": 384,
+        "startChar": 11,
+        "endLine": 384,
+        "endChar": 18
+      },
+      "revId": "b613de28883e917dafd81664f6f2d2fce41f4d75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

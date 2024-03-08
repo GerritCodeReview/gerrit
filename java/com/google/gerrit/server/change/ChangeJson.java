@@ -107,6 +107,9 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.change.ChangeField;
+import com.google.gerrit.server.logging.Metadata;
+import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
@@ -477,22 +480,27 @@ public class ChangeJson {
     }
   }
 
-  private void ensureLoaded(Iterable<ChangeData> all) {
+  private void ensureLoaded(Collection<ChangeData> all) {
     if (lazyLoad) {
-      for (ChangeData cd : all) {
-        // Mark all ChangeDatas as coming from the index, but allow backfilling data from NoteDb
-        cd.setStorageConstraint(ChangeData.StorageConstraint.INDEX_PRIMARY_NOTEDB_SECONDARY);
+      try (TraceTimer timer =
+          TraceContext.newTimer(
+              "Load change data for lazyLoad options",
+              Metadata.builder().resourceCount(all.size()).build())) {
+        for (ChangeData cd : all) {
+          // Mark all ChangeDatas as coming from the index, but allow backfilling data from NoteDb
+          cd.setStorageConstraint(ChangeData.StorageConstraint.INDEX_PRIMARY_NOTEDB_SECONDARY);
+        }
+        ChangeData.ensureChangeLoaded(all);
+        if (has(ALL_REVISIONS)) {
+          ChangeData.ensureAllPatchSetsLoaded(all);
+        } else if (has(CURRENT_REVISION) || has(MESSAGES)) {
+          ChangeData.ensureCurrentPatchSetLoaded(all);
+        }
+        if (has(REVIEWED) && userProvider.get().isIdentifiedUser()) {
+          ChangeData.ensureReviewedByLoadedForOpenChanges(all);
+        }
+        ChangeData.ensureCurrentApprovalsLoaded(all);
       }
-      ChangeData.ensureChangeLoaded(all);
-      if (has(ALL_REVISIONS)) {
-        ChangeData.ensureAllPatchSetsLoaded(all);
-      } else if (has(CURRENT_REVISION) || has(MESSAGES)) {
-        ChangeData.ensureCurrentPatchSetLoaded(all);
-      }
-      if (has(REVIEWED) && userProvider.get().isIdentifiedUser()) {
-        ChangeData.ensureReviewedByLoadedForOpenChanges(all);
-      }
-      ChangeData.ensureCurrentApprovalsLoaded(all);
     } else {
       for (ChangeData cd : all) {
         // Mark all ChangeDatas as coming from the index. Disallow using NoteDb

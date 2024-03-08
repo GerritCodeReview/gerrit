@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "536fb811_eee013ef",
+        "filename": "java/com/google/gerrit/server/mail/send/SmtpEmailSender.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-03-08T12:57:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07ebdb65_029122b4",
+      "range": {
+        "startLine": 167,
+        "startChar": 13,
+        "endLine": 167,
+        "endChar": 19
+      },
+      "revId": "a227926bbef3ed249be2ee9abf9a0fc8d78d8871",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f93ce4f9_93794281",
@@ -157,6 +181,30 @@
       "side": 1,
       "message": "Ok. However, we would still miss some blocked emails in the log, e.g. the first log would be for `foo@example.com` and would be logged. If now 10 minutes later `bar@example.com` would be the address, it wouldn\u0027t be logged. This might make it hard to analyse issues with email sending for certain configurations.\nMaybe we could instead just make those debug logs?",
       "parentUuid": "9ffbf59a_5d835200",
+      "range": {
+        "startLine": 187,
+        "startChar": 23,
+        "endLine": 187,
+        "endChar": 34
+      },
+      "revId": "a227926bbef3ed249be2ee9abf9a0fc8d78d8871",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61df40cd_981430fc",
+        "filename": "java/com/google/gerrit/server/mail/send/SmtpEmailSender.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-03-08T12:57:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b472c125_49cc1b90",
       "range": {
         "startLine": 187,
         "startChar": 23,

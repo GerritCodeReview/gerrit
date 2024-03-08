@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee9a61f5_806fff4f",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-03-08T06:22:04Z",
+      "side": 1,
+      "message": "populate `virtualId` only in case when it is not equal to to the `id` so that it falls back to `virtualFunc` as a last resord",
+      "range": {
+        "startLine": 265,
+        "startChar": 10,
+        "endLine": 265,
+        "endChar": 70
+      },
+      "revId": "21eaad165a244f15dd779cf0c376e51e03c5b549",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

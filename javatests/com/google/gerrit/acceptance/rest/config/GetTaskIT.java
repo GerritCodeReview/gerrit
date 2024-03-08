@@ -33,7 +33,7 @@ public class GetTaskIT extends AbstractDaemonTest {
     TaskInfo info = newGson().fromJson(r.getReader(), new TypeToken<TaskInfo>() {}.getType());
     assertThat(info.id).isNotNull();
     Long.parseLong(info.id, 16);
-    assertThat(info.command).isEqualTo("Log File Compressor");
+    assertThat(info.command).isEqualTo("Log File Manager");
     assertThat(info.startTime).isNotNull();
   }
 
@@ -49,7 +49,7 @@ public class GetTaskIT extends AbstractDaemonTest {
         newGson().fromJson(r.getReader(), new TypeToken<List<TaskInfo>>() {}.getType());
     r.consume();
     for (TaskInfo info : result) {
-      if ("Log File Compressor".equals(info.command)) {
+      if ("Log File Manager".equals(info.command)) {
         return info.id;
       }
     }

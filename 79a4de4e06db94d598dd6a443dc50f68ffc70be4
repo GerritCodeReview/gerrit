@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7eeddaf6_d0082d0a",
+        "filename": "java/com/google/gerrit/pgm/util/LogFileManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-03-08T10:31:47Z",
+      "side": 1,
+      "message": "Not all filesystems provide a creationtime (birthtime) attribute.\nSee https://www.gnu.org/software/coreutils/manual/html_node/File-timestamps.html\nIf the filesystem doesn\u0027t support it we may consider to parse the creation date from the date appended to the filename when the live log file is rotated.",
+      "revId": "79a4de4e06db94d598dd6a443dc50f68ffc70be4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

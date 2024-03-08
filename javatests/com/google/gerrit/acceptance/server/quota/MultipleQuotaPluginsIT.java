@@ -22,7 +22,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.truth.Truth8;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.config.FactoryModule;
@@ -124,7 +123,7 @@ public class MultipleQuotaPluginsIT extends AbstractDaemonTest {
 
     OptionalLong tokens =
         quotaBackend.user(identifiedAdmin).availableTokens("testGroup").availableTokens();
-    Truth8.assertThat(tokens).isPresent();
+    assertThat(tokens).isPresent();
     assertThat(tokens.getAsLong()).isEqualTo(10L);
 
     verify(quotaEnforcerA).availableTokens("testGroup", ctx);
@@ -139,7 +138,7 @@ public class MultipleQuotaPluginsIT extends AbstractDaemonTest {
 
     OptionalLong tokens =
         quotaBackend.user(identifiedAdmin).availableTokens("testGroup").availableTokens();
-    Truth8.assertThat(tokens).isPresent();
+    assertThat(tokens).isPresent();
     assertThat(tokens.getAsLong()).isEqualTo(20L);
 
     verify(quotaEnforcerA).availableTokens("testGroup", ctx);

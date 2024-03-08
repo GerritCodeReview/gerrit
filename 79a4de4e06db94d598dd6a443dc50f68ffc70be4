@@ -3,6 +3,69 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "42a3c5d0_33aadb86",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 4351,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-03-08T13:35:15Z",
+      "side": 1,
+      "message": "maybe `timeToKeep` would be more neutral and more compatible with the other options which specify a duration. In that case, as an example, one could also specify `2 weeks` instead of `14 days`.",
+      "range": {
+        "startLine": 4351,
+        "startChar": 22,
+        "endLine": 4351,
+        "endChar": 32
+      },
+      "revId": "79a4de4e06db94d598dd6a443dc50f68ffc70be4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bbd9f3b3_b8f7ee58",
+        "filename": "java/com/google/gerrit/pgm/util/LogFileManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-03-08T13:35:15Z",
+      "side": 1,
+      "message": "If my previous proposal gets accepted then this should be `Duration timeToKeep`.",
+      "revId": "79a4de4e06db94d598dd6a443dc50f68ffc70be4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "309ddda2_96bdf75e",
+        "filename": "java/com/google/gerrit/pgm/util/LogFileManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-03-08T13:35:15Z",
+      "side": 1,
+      "message": "maybe extract this out into a method to keep the code structure here cleaner and the deletion case shorter, same like the compression is handled in the `compress` method.",
+      "range": {
+        "startLine": 118,
+        "startChar": 0,
+        "endLine": 126,
+        "endChar": 11
+      },
+      "revId": "79a4de4e06db94d598dd6a443dc50f68ffc70be4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7eeddaf6_d0082d0a",
         "filename": "java/com/google/gerrit/pgm/util/LogFileManager.java",
         "patchSetId": 1

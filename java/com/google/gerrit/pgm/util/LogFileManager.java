@@ -31,6 +31,8 @@ import java.io.OutputStream;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.attribute.FileTime;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
@@ -38,11 +40,13 @@ import java.util.concurrent.Future;
 import java.util.zip.GZIPOutputStream;
 import org.eclipse.jgit.lib.Config;
 
-/** Compresses the old error logs. */
-public class LogFileCompressor implements Runnable {
+/** Compresses and eventually deletes the old logs. */
+public class LogFileManager implements Runnable {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+  protected final boolean compressionEnabled;
+  private final int daysToKeep;
 
-  public static class LogFileCompressorModule extends LifecycleModule {
+  public static class LogFileManagerModule extends LifecycleModule {
     @Override
     protected void configure() {
       listener().to(Lifecycle.class);
@@ -51,23 +55,21 @@ public class LogFileCompressor implements Runnable {
 
   static class Lifecycle implements LifecycleListener {
     private final WorkQueue queue;
-    private final LogFileCompressor compressor;
-    private final boolean enabled;
+    private final LogFileManager manager;
 
     @Inject
-    Lifecycle(WorkQueue queue, LogFileCompressor compressor, @GerritServerConfig Config config) {
+    Lifecycle(WorkQueue queue, LogFileManager manager) {
       this.queue = queue;
-      this.compressor = compressor;
-      this.enabled = config.getBoolean("log", "compress", true);
+      this.manager = manager;
     }
 
     @Override
     public void start() {
-      if (!enabled) {
+      if (!manager.compressionEnabled && manager.daysToKeep < 0) {
         return;
       }
       // compress log once and then schedule compression every day at 11:00pm
-      queue.getDefaultQueue().execute(compressor);
+      queue.getDefaultQueue().execute(manager);
       ZoneId zone = ZoneId.systemDefault();
       LocalDateTime now = LocalDateTime.now(zone);
       long milliSecondsUntil11pm =
@@ -77,7 +79,7 @@ public class LogFileCompressor implements Runnable {
           queue
               .getDefaultQueue()
               .scheduleAtFixedRate(
-                  compressor, milliSecondsUntil11pm, HOURS.toMillis(24), MILLISECONDS);
+                  manager, milliSecondsUntil11pm, HOURS.toMillis(24), MILLISECONDS);
     }
 
     @Override
@@ -87,8 +89,10 @@ public class LogFileCompressor implements Runnable {
   private final Path logs_dir;
 
   @Inject
-  LogFileCompressor(SitePaths site) {
-    logs_dir = resolve(site.logs_dir);
+  LogFileManager(SitePaths site, @GerritServerConfig Config config) {
+    this.logs_dir = resolve(site.logs_dir);
+    this.compressionEnabled = config.getBoolean("log", "compress", true);
+    this.daysToKeep = config.getInt("log", "daysToKeep", -1);
   }
 
   private static Path resolve(Path p) {
@@ -101,13 +105,26 @@ public class LogFileCompressor implements Runnable {
 
   @Override
   public void run() {
+    logger.atInfo().log("Starting log file maintenance.");
     try {
       if (!Files.isDirectory(logs_dir)) {
         return;
       }
       try (DirectoryStream<Path> list = Files.newDirectoryStream(logs_dir)) {
         for (Path entry : list) {
-          if (!isLive(entry) && !isCompressed(entry) && isLogFile(entry)) {
+          if (isLive(entry) || !isLogFile(entry)) {
+            continue;
+          }
+          if (daysToKeep > 0 && isExpired(entry)) {
+            try {
+              Files.deleteIfExists(entry);
+              logger.atInfo().log("Log file %s has been deleted.", entry);
+              continue;
+            } catch (IOException e) {
+              logger.atWarning().withCause(e).log("Failed to delete log file %s", entry);
+            }
+          }
+          if (compressionEnabled && !isCompressed(entry)) {
             compress(entry);
           }
         }
@@ -115,8 +132,9 @@ public class LogFileCompressor implements Runnable {
         logger.atSevere().withCause(e).log("Error listing logs to compress in %s", logs_dir);
       }
     } catch (Exception e) {
-      logger.atSevere().withCause(e).log("Failed to compress log files: %s", e.getMessage());
+      logger.atSevere().withCause(e).log("Failed to process log files: %s", e.getMessage());
     }
+    logger.atInfo().log("Log file maintenance has finished.");
   }
 
   private boolean isLive(Path entry) {
@@ -137,6 +155,16 @@ public class LogFileCompressor implements Runnable {
 
   private boolean isLogFile(Path entry) {
     return Files.isRegularFile(entry);
+  }
+
+  private boolean isExpired(Path entry) {
+    try {
+      FileTime creationTime = (FileTime) Files.getAttribute(entry, "creationTime");
+      return creationTime.toInstant().isBefore(Instant.now().minus(daysToKeep, ChronoUnit.DAYS));
+    } catch (IOException e) {
+      logger.atSevere().withCause(e).log("Failed to get creation time of log file %s", entry);
+    }
+    return false;
   }
 
   private void compress(Path src) {
@@ -166,6 +194,6 @@ public class LogFileCompressor implements Runnable {
 
   @Override
   public String toString() {
-    return "Log File Compressor";
+    return "Log File Manager";
   }
 }

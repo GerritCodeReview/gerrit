@@ -20,22 +20,29 @@ import com.google.gerrit.server.query.change.ChangeData;
 
 /** Provides prolog-related operations to different callers. */
 public interface PrologSubmitRuleUtil {
+  /** Returns true if prolog rules are enabled for the project. */
+  boolean isProjectRulesEnabled();
 
   /**
    * Returns the submit-type of a change depending on the change data and the definition of the
    * prolog rules file.
+   *
+   * <p>Must only be called when Prolog rules are enabled on the Gerrit server.
    */
   SubmitTypeRecord getSubmitType(ChangeData cd);
 
   /**
    * Returns the submit-type of a change depending on the change data and the definition of the
    * prolog rules file.
+   *
+   * <p>Must only be called when Prolog rules are enabled on the Gerrit server.
    */
   SubmitTypeRecord getSubmitType(ChangeData cd, String ruleToTest, boolean skipFilters);
 
-  /** Evaluates a submit rule. */
+  /**
+   * Evaluates a submit rule.
+   *
+   * <p>Must only be called when Prolog rules are enabled on the Gerrit server.
+   */
   SubmitRecord evaluate(ChangeData cd, String ruleToTest, boolean skipFilters);
-
-  /** Returns true if prolog rules are enabled for the project. */
-  boolean isProjectRulesEnabled();
 }

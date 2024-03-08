@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "125b70cb_17a9c8a5",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2024-03-08T09:44:52Z",
+      "side": 1,
+      "message": "Should we just let execute return a Map\u003cChange.ID, ChangeData\u003e ?\n\nWould seem more natural to me than adding an operation that caches the changedata for getting it out.",
+      "range": {
+        "startLine": 384,
+        "startChar": 11,
+        "endLine": 384,
+        "endChar": 18
+      },
+      "revId": "b613de28883e917dafd81664f6f2d2fce41f4d75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

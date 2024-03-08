@@ -15,10 +15,10 @@
 package com.google.gerrit.server.project;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
 import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.entities.SubmitTypeRecord;
 import com.google.gerrit.exceptions.StorageException;
@@ -151,7 +151,7 @@ public class SubmitRuleEvaluator {
           // Skip evaluating the default submit rule if the project has prolog rules.
           // Note that in this case, the prolog submit rule will handle labels for us
           .filter(
-              projectState.hasPrologRules()
+              projectState.hasPrologRules() && prologSubmitRuleUtil.isProjectRulesEnabled()
                   ? rule -> !(rule.get() instanceof DefaultSubmitRule)
                   : rule -> true)
           .map(
@@ -180,14 +180,10 @@ public class SubmitRuleEvaluator {
    */
   public SubmitTypeRecord getSubmitType(ChangeData cd) {
     try (Timer0.Context ignored = metrics.submitTypeEvaluationLatency.start()) {
-      try {
-        Project.NameKey name = cd.project();
-        Optional<ProjectState> project = projectCache.get(name);
-        if (!project.isPresent()) {
-          throw new NoSuchProjectException(name);
-        }
-      } catch (NoSuchProjectException e) {
-        throw new IllegalStateException("Unable to find project while evaluating submit rule", e);
+      ProjectState projectState =
+          projectCache.get(cd.project()).orElseThrow(illegalState(cd.project()));
+      if (!prologSubmitRuleUtil.isProjectRulesEnabled()) {
+        return SubmitTypeRecord.OK(projectState.getSubmitType());
       }
 
       return prologSubmitRuleUtil.getSubmitType(cd);

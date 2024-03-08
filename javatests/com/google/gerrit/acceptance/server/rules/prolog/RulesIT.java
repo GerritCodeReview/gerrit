@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.change.IndexOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.entities.RefNames;
@@ -168,6 +169,28 @@ public class RulesIT extends AbstractDaemonTest {
   public void typeError() throws Exception {
     modifySubmitRules("user(1000000)."); // the trailing '.' triggers a type error
     assertThat(statusForRuleAddFile("foo")).isEqualTo(SubmitRecord.Status.RULE_ERROR);
+  }
+
+  @Test
+  @GerritConfig(name = "rules.enable", value = "false")
+  public void prologRule_noEffectWhenRulesDisabled() throws Exception {
+    modifySubmitRules("gerrit:commit_message_matches('foo.*')");
+    String changeId = createChange().getChangeId();
+    // Default rules don't allow submission
+    assertThat(gApi.changes().id(changeId).get().submittable).isFalse();
+    // Satisfy default rules
+    approve(changeId);
+
+    assertThat(gApi.changes().id(changeId).get().submittable).isTrue();
+  }
+
+  @Test
+  public void prologRule_takesEffectWhenRulesDisabled() throws Exception {
+    modifySubmitRules("gerrit:commit_message_matches('foo.*')");
+    String changeId = createChange().getChangeId();
+    approve(changeId);
+
+    assertThat(gApi.changes().id(changeId).get().submittable).isFalse();
   }
 
   private SubmitRecord.Status statusForRule() throws Exception {

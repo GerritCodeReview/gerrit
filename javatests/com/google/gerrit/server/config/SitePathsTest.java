@@ -17,7 +17,6 @@ package com.google.gerrit.server.config;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
-import com.google.common.truth.Truth8;
 import com.google.gerrit.server.ioutil.HostPlatform;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -31,8 +30,8 @@ public class SitePathsTest {
     final Path root = random();
     final SitePaths site = new SitePaths(root);
     assertThat(site.isNew).isTrue();
-    Truth8.assertThat(site.site_path).isEqualTo(root);
-    Truth8.assertThat(site.etc_dir).isEqualTo(root.resolve("etc"));
+    assertThat(site.site_path).isEqualTo(root);
+    assertThat(site.etc_dir).isEqualTo(root.resolve("etc"));
   }
 
   @Test
@@ -43,7 +42,7 @@ public class SitePathsTest {
 
       final SitePaths site = new SitePaths(root);
       assertThat(site.isNew).isTrue();
-      Truth8.assertThat(site.site_path).isEqualTo(root);
+      assertThat(site.site_path).isEqualTo(root);
     } finally {
       Files.delete(root);
     }
@@ -59,7 +58,7 @@ public class SitePathsTest {
 
       final SitePaths site = new SitePaths(root);
       assertThat(site.isNew).isFalse();
-      Truth8.assertThat(site.site_path).isEqualTo(root);
+      assertThat(site.site_path).isEqualTo(root);
     } finally {
       Files.delete(txt);
       Files.delete(root);
@@ -83,15 +82,15 @@ public class SitePathsTest {
     final Path root = random();
     final SitePaths site = new SitePaths(root);
 
-    Truth8.assertThat(site.resolve(null)).isNull();
-    Truth8.assertThat(site.resolve("")).isNull();
+    assertThat(site.resolve(null)).isNull();
+    assertThat(site.resolve("")).isNull();
 
-    Truth8.assertThat(site.resolve("a")).isNotNull();
-    Truth8.assertThat(site.resolve("a")).isEqualTo(root.resolve("a").toAbsolutePath().normalize());
+    assertThat(site.resolve("a")).isNotNull();
+    assertThat(site.resolve("a")).isEqualTo(root.resolve("a").toAbsolutePath().normalize());
 
     final String pfx = HostPlatform.isWin32() ? "C:/" : "/";
-    Truth8.assertThat(site.resolve(pfx + "a")).isNotNull();
-    Truth8.assertThat(site.resolve(pfx + "a")).isEqualTo(Path.of(pfx + "a"));
+    assertThat(site.resolve(pfx + "a")).isNotNull();
+    assertThat(site.resolve(pfx + "a")).isEqualTo(Path.of(pfx + "a"));
   }
 
   private static Path random() throws IOException {

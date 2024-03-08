@@ -33,7 +33,7 @@ import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.StandardSubjectBuilder;
 import com.google.common.truth.StringSubject;
 import com.google.common.truth.Subject;
-import com.google.common.truth.Truth8;
+import com.google.common.truth.Truth;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -489,7 +489,7 @@ public class ApprovalCopierIT extends AbstractDaemonTest {
                       approvalData.patchSetApproval().label().equals(labelId)
                           && approvalData.patchSetApproval().accountId().equals(accountId))
               .findAny();
-      Truth8.assertThat(approvalDataForLabelAndAccount).isPresent();
+      Truth.assertThat(approvalDataForLabelAndAccount).isPresent();
       return assertAbout(approvalDatas()).that(approvalDataForLabelAndAccount.get());
     }
 

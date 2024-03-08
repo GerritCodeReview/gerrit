@@ -34,7 +34,17 @@ public class OptionalSubject<S extends Subject, T> extends Subject {
     return assertAbout(optionals()).thatCustom(optional, valueSubjectFactory);
   }
 
-  public static OptionalSubject<Subject, ?> assertThat(Optional<?> optional) {
+  /*
+   * This could be made to return OptionalSubject<Subject, T>. But that wouldn't help users, since T
+   * is not used in the API. And it could result in a longer type ("OptionalSubject<Subject,
+   * SomeVeryLongType<Foo, Bar>>") in some cases.
+   *
+   * The parameter type "Optional<T>" remains important, however: It causes javac to prefer this
+   * assertThat method over Truth.assertThat(Optional) when we static import assertThat from both
+   * this class and Truth.
+   */
+  @SuppressWarnings("AlmostJavadoc") // "<T>" looks like an HTML tag? b/328779158
+  public static <T> OptionalSubject<Subject, ?> assertThat(Optional<T> optional) {
     return assertAbout(optionals()).that(optional);
   }
 

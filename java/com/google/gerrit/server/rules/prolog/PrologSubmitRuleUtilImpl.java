@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.rules.prolog;
 
+import static com.google.common.base.Preconditions.checkState;
+
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.entities.SubmitTypeRecord;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -25,7 +27,6 @@ import javax.inject.Inject;
 @Singleton
 public class PrologSubmitRuleUtilImpl implements PrologSubmitRuleUtil {
   private final PrologRule prologRule;
-
   private final RulesCache rulesCache;
 
   @Inject
@@ -35,22 +36,25 @@ public class PrologSubmitRuleUtilImpl implements PrologSubmitRuleUtil {
   }
 
   @Override
+  public boolean isProjectRulesEnabled() {
+    return rulesCache.isProjectRulesEnabled();
+  }
+
+  @Override
   public SubmitTypeRecord getSubmitType(ChangeData cd) {
-    return prologRule.getSubmitType(cd);
+    checkState(isProjectRulesEnabled(), "prolog rules disabled");
+    return prologRule.getSubmitType(cd, PrologOptions.defaultOptions());
   }
 
   @Override
   public SubmitTypeRecord getSubmitType(ChangeData cd, String ruleToTest, boolean skipFilters) {
+    checkState(isProjectRulesEnabled(), "prolog rules disabled");
     return prologRule.getSubmitType(cd, PrologOptions.dryRunOptions(ruleToTest, skipFilters));
   }
 
   @Override
   public SubmitRecord evaluate(ChangeData cd, String ruleToTest, boolean skipFilters) {
+    checkState(isProjectRulesEnabled(), "prolog rules disabled");
     return prologRule.evaluate(cd, PrologOptions.dryRunOptions(ruleToTest, skipFilters));
-  }
-
-  @Override
-  public boolean isProjectRulesEnabled() {
-    return rulesCache.isProjectRulesEnabled();
   }
 }

@@ -618,11 +618,8 @@ public class ChangeJson {
     if (has(CHECK)) {
       out.problems = checkerProvider.get().check(cd.notes(), fix).problems();
       // If any problems were fixed, the ChangeData needs to be reloaded.
-      for (ProblemInfo p : out.problems) {
-        if (p.status == ProblemInfo.Status.FIXED) {
-          cd = changeDataFactory.create(cd.project(), cd.getId());
-          break;
-        }
+      if (out.problems.stream().anyMatch(p -> p.status == ProblemInfo.Status.FIXED)) {
+        cd = changeDataFactory.create(cd.project(), cd.getId());
       }
     }
 

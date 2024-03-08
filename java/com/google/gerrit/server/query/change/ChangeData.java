@@ -28,7 +28,6 @@ import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -161,64 +160,41 @@ public class ChangeData {
     return changes.stream().collect(toMap(ChangeData::getId, Function.identity()));
   }
 
-  public static void ensureChangeLoaded(Iterable<ChangeData> changes) {
-    ChangeData first = Iterables.getFirst(changes, null);
-    if (first == null) {
-      return;
-    }
-
-    for (ChangeData cd : changes) {
-      @SuppressWarnings("unused")
-      var unused = cd.change();
-    }
+  public static void ensureChangeLoaded(Collection<ChangeData> changes) {
+    changes.forEach(ChangeData::ensureChangeLoaded);
   }
 
-  public static void ensureAllPatchSetsLoaded(Iterable<ChangeData> changes) {
-    ChangeData first = Iterables.getFirst(changes, null);
-    if (first == null) {
-      return;
-    }
-
-    for (ChangeData cd : changes) {
-      @SuppressWarnings("unused")
-      var unused = cd.patchSets();
-    }
+  public static void ensureChangeLoaded(ChangeData cd) {
+    @SuppressWarnings("unused")
+    var unused = cd.change();
   }
 
-  public static void ensureCurrentPatchSetLoaded(Iterable<ChangeData> changes) {
-    ChangeData first = Iterables.getFirst(changes, null);
-    if (first == null) {
-      return;
-    }
-
-    for (ChangeData cd : changes) {
-      @SuppressWarnings("unused")
-      var unused = cd.currentPatchSet();
-    }
+  public static void ensureAllPatchSetsLoaded(Collection<ChangeData> changes) {
+    changes.forEach(ChangeData::ensureAllPatchSetsLoaded);
   }
 
-  public static void ensureCurrentApprovalsLoaded(Iterable<ChangeData> changes) {
-    ChangeData first = Iterables.getFirst(changes, null);
-    if (first == null) {
-      return;
-    }
-
-    for (ChangeData cd : changes) {
-      @SuppressWarnings("unused")
-      var unused = cd.currentApprovals();
-    }
+  public static void ensureAllPatchSetsLoaded(ChangeData cd) {
+    @SuppressWarnings("unused")
+    var unused = cd.patchSets();
   }
 
-  public static void ensureMessagesLoaded(Iterable<ChangeData> changes) {
-    ChangeData first = Iterables.getFirst(changes, null);
-    if (first == null) {
-      return;
-    }
+  public static void ensureCurrentPatchSetLoaded(ChangeData cd) {
+    @SuppressWarnings("unused")
+    var unused = cd.currentPatchSet();
+  }
 
-    for (ChangeData cd : changes) {
-      @SuppressWarnings("unused")
-      var unused = cd.messages();
-    }
+  public static void ensureCurrentApprovalsLoaded(ChangeData cd) {
+    @SuppressWarnings("unused")
+    var unused = cd.currentApprovals();
+  }
+
+  public static void ensureMessagesLoaded(Collection<ChangeData> changes) {
+    changes.forEach(ChangeData::ensureMessagesLoaded);
+  }
+
+  public static void ensureMessagesLoaded(ChangeData cd) {
+    @SuppressWarnings("unused")
+    var unused = cd.messages();
   }
 
   public static void ensureReviewedByLoadedForOpenChanges(Iterable<ChangeData> changes) {
@@ -236,6 +212,16 @@ public class ChangeData {
         @SuppressWarnings("unused")
         var unused = cd.reviewedBy();
       }
+    }
+  }
+
+  public static void ensureReviewedByLoadedForOpenChanges(ChangeData cd) {
+    if (cd.reviewedBy == null && cd.change().isNew()) {
+      ensureAllPatchSetsLoaded(cd);
+      ensureMessagesLoaded(cd);
+
+      @SuppressWarnings("unused")
+      var unused = cd.reviewedBy();
     }
   }
 

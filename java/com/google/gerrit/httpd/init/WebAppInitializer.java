@@ -45,7 +45,7 @@ import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.lucene.LuceneIndexModule;
 import com.google.gerrit.metrics.dropwizard.DropWizardMetricMaker;
-import com.google.gerrit.pgm.util.LogFileCompressor.LogFileCompressorModule;
+import com.google.gerrit.pgm.util.LogFileManager.LogFileManagerModule;
 import com.google.gerrit.server.DefaultRefLogIdentityProvider;
 import com.google.gerrit.server.LibModuleLoader;
 import com.google.gerrit.server.LibModuleType;
@@ -302,7 +302,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
   private Injector createSysInjector() {
     final List<Module> modules = new ArrayList<>();
     modules.add(new DropWizardMetricMaker.RestModule());
-    modules.add(new LogFileCompressorModule());
+    modules.add(new LogFileManagerModule());
     modules.add(new EventBrokerModule());
     modules.add(new JdbcAccountPatchReviewStoreModule(config));
     modules.add(cfgInjector.getInstance(GitRepositoryManagerModule.class));

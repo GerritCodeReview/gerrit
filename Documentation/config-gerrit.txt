@@ -4348,6 +4348,33 @@ If set to `true`, log files are rotated daily at midnight (GMT).
 +
 Defaults to `true`.
 
+[[log.daysToKeep]]log.timeToKeep::
++
+Time that logs should be kept until they are being deleted. Values should use common
+suffixes to express their setting:
++
+* d, day, days
+* w, week, weeks (`1 week` is treated as `7 days`)
+* mon, month, months (`1 month` is treated as `30 days`)
+* y, year, years (`1 year` is treated as `365 days`)
++
+The minimum granularity is days. Using a smaller time unit will result in deletion of
+all old logs, as if `0d` would have been configured.
++
+Actively used logs will never be deleted. Thus, this feature only works in combination
+with enabled link:#log.rotate[log.rotate]. Log deletion happens at server startup and
+then daily at 11pm (in the server's local time zone).
++
+Depending on the filesystem the following file times will be used, in order of priority:
++
+* Time of file creation
+* Time when the file was last modified
+* Date added to the filename as part of log file rotation. Time will be set to `00:00:00Z`.
++
+If none of the above is available, the log file won't be deleted.
++
+Defaults to `-1`, i.e. being disabled.
+
 [[metrics]]
 === Section metrics
 

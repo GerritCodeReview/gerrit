@@ -1,5 +1,46 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "85bbc43b_668ff943",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-11T22:48:59Z",
+      "side": 1,
+      "message": "Post-review -1: this change caused the issue 328958027. @diego.sessona@gmail.com does my comment makes sense?",
+      "revId": "b79ed753852e297d1dc133ab94d4fe6b1e5c6d99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49aaea16_685e7dd2",
+        "filename": "java/com/google/gerrit/index/query/PaginatingSource.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-11T22:48:59Z",
+      "side": 1,
+      "message": "This is wrong: the loop here below was also used when some of the data returned by the query was skipped, for instance because of visibility constraints.\n\nWe still need this loop *IF* the results size is less than the page limit requested and we skipped some elements.",
+      "range": {
+        "startLine": 72,
+        "startChar": 17,
+        "endLine": 72,
+        "endChar": 73
+      },
+      "revId": "b79ed753852e297d1dc133ab94d4fe6b1e5c6d99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

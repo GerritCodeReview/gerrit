@@ -107,6 +107,9 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.change.ChangeField;
+import com.google.gerrit.server.logging.Metadata;
+import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
@@ -619,7 +622,12 @@ public class ChangeJson {
       out.problems = checkerProvider.get().check(cd.notes(), fix).problems();
       // If any problems were fixed, the ChangeData needs to be reloaded.
       if (out.problems.stream().anyMatch(p -> p.status == ProblemInfo.Status.FIXED)) {
-        cd = changeDataFactory.create(cd.project(), cd.getId());
+        try (TraceTimer timer =
+            TraceContext.newTimer(
+                "Reload change data after fixing a problem",
+                Metadata.builder().changeId(cd.change().getChangeId()).build())) {
+          cd = changeDataFactory.create(cd.project(), cd.getId());
+        }
       }
     }
 

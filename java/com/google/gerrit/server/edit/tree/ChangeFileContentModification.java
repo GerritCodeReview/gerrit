@@ -32,7 +32,6 @@ import java.util.Collections;
 import java.util.List;
 import org.eclipse.jgit.dircache.DirCacheEditor;
 import org.eclipse.jgit.dircache.DirCacheEntry;
-import org.eclipse.jgit.errors.InvalidObjectIdException;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -119,15 +118,10 @@ public class ChangeFileContentModification implements TreeModification {
           ObjectId newBlobObjectId = createNewBlobAndGetItsId();
           dirCacheEntry.setObjectId(newBlobObjectId);
         }
-        // Previously, these two exceptions were swallowed. To improve the
-        // situation, we log them now. However, we should think of a better
-        // approach.
       } catch (IOException e) {
         String message =
             String.format("Could not change the content of %s", dirCacheEntry.getPathString());
-        logger.atSevere().withCause(e).log("%s", message);
-      } catch (InvalidObjectIdException e) {
-        logger.atSevere().withCause(e).log("Invalid object id in submodule link");
+        throw new IllegalStateException(message, e);
       }
     }
 

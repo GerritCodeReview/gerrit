@@ -24,6 +24,7 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.stream.Collectors.toList;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.clearInvocations;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -153,6 +154,10 @@ public class PostReviewIT extends AbstractDaemonTest {
       @Override
       public void configure() {
         CommentValidator mockCommentValidator = mock(CommentValidator.class);
+
+        // by default return no validation errors
+        when(mockCommentValidator.validateComments(any(), any())).thenReturn(ImmutableList.of());
+
         bind(CommentValidator.class)
             .annotatedWith(Exports.named(mockCommentValidator.getClass()))
             .toInstance(mockCommentValidator);

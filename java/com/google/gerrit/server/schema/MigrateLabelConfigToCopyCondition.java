@@ -29,8 +29,8 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
+import com.google.gerrit.server.git.meta.VersionedConfigFile;
 import com.google.gerrit.server.project.ProjectConfig;
-import com.google.gerrit.server.project.ProjectLevelConfig;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -127,8 +127,7 @@ public class MigrateLabelConfigToCopyCondition {
    *     parsed
    */
   public void execute(Project.NameKey projectName) throws IOException, ConfigInvalidException {
-    ProjectLevelConfig.Bare projectConfig =
-        new ProjectLevelConfig.Bare(ProjectConfig.PROJECT_CONFIG);
+    VersionedConfigFile projectConfig = new VersionedConfigFile(ProjectConfig.PROJECT_CONFIG);
     try (Repository repo = repoManager.openRepository(projectName);
         MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED, projectName, repo)) {
       boolean isAlreadyMigrated = hasMigrationAlreadyRun(repo);

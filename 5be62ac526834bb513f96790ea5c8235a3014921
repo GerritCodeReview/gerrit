@@ -46,6 +46,30 @@
       },
       "revId": "5be62ac526834bb513f96790ea5c8235a3014921",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6aaee4f8_ed21c8aa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-03-12T14:46:16Z",
+      "side": 1,
+      "message": "Sorry it should be line 398 not 425 https://gerrit-review.git.corp.google.com/c/gerrit/+/412877/3/polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts#398",
+      "parentUuid": "8c3c426a_e5665c41",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 33
+      },
+      "revId": "5be62ac526834bb513f96790ea5c8235a3014921",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

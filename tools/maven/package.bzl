@@ -32,18 +32,20 @@ sh_bang_template = (" && ".join([
     "echo %s >> $@",
 ]))
 
-def maven_package(
+def maven_package_plugin(
         version,
-        repository = None,
-        url = None,
-        jar = {},
+        jar,
+        pom = None,
         src = {},
         doc = {},
-        war = {}):
+        repository = None,
+        url = None,
+):
     build_cmd = ["bazel_cmd", "build"]
     mvn_cmd = ["python", "tools/maven/mvn.py", "-v", version]
     api_cmd = mvn_cmd[:]
-    api_targets = []
+    api_targets = [pom] if pom else []
+    target_pom = ["-p", "$(location %s)" % pom] if pom else []
     for type, d in [("jar", jar), ("java-source", src), ("javadoc", doc)]:
         for a, t in sorted(d.items()):
             api_cmd.append("-s %s:%s:$(location %s)" % (a, type, t))
@@ -53,7 +55,7 @@ def maven_package(
         name = "gen_api_install",
         cmd = sh_bang_template % (
             " ".join(build_cmd + api_targets),
-            " ".join(api_cmd + ["-a", "install"]),
+            " ".join(api_cmd + target_pom + ["-a", "install"]),
         ),
         srcs = api_targets,
         outs = ["api_install.sh"],
@@ -66,7 +68,9 @@ def maven_package(
             name = "gen_api_deploy",
             cmd = sh_bang_template % (
                 " ".join(build_cmd + api_targets),
-                " ".join(api_cmd + [
+                " ".join(api_cmd
+                 + target_pom
+                 + [
                     "-a",
                     "deploy",
                     "--repository",
@@ -81,6 +85,26 @@ def maven_package(
             testonly = True,
         )
 
+
+def maven_package(
+        version,
+        repository = None,
+        url = None,
+        jar = {},
+        src = {},
+        doc = {},
+        war = {}):
+    maven_package_plugin(
+        version = version,
+        jar = jar,
+        src = src,
+        doc = doc,
+        repository = repository,
+        url = url,
+    )
+
+    build_cmd = ["bazel_cmd", "build"]
+    mvn_cmd = ["python", "tools/maven/mvn.py", "-v", version]
     war_cmd = mvn_cmd[:]
     war_targets = []
     for a, t in sorted(war.items()):

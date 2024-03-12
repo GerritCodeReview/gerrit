@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c49b28f5_6f6d119d",
+        "filename": "java/com/google/gerrit/server/restapi/project/PutConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-03-12T09:42:10Z",
+      "side": 1,
+      "message": "Can `value` be `null` here?\n\nIf not, then we can call equals on the `value`:\n```\n   if (value.equals(projectConfigEntry.getDefaultValue()) {\n    ...\n   }\n```\n\nThis works because `value.equals(null)` is `false` and there is no NPE.\n\nIf yes, then what about the case where both `defaultValue` and `value` are `null`? Shall that also be considered equal?",
+      "revId": "82dca1f028835ddb5a85b538f020dbe8ca9d048f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

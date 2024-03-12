@@ -16,6 +16,24 @@
       "message": "reducing visibility of this method breaks UploadValidatorIT of the uploadvalidator plugin which uses this method https://gerrit.googlesource.com/plugins/uploadvalidator/+/refs/heads/master/src/test/java/com/googlesource/gerrit/plugins/uploadvalidator/UploadValidatorIT.java#75",
       "revId": "bba2ee004bf4aa7247c64ae324964663c6d4758b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0136a31f_01189487",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 630,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2024-03-12T14:34:52Z",
+      "side": 1,
+      "message": "Should be fixed in https://gerrit-review.git.corp.google.com/c/plugins/uploadvalidator/+/412599",
+      "parentUuid": "e0fd3b2e_e411ca93",
+      "revId": "bba2ee004bf4aa7247c64ae324964663c6d4758b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

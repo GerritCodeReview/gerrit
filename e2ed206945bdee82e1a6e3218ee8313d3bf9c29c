@@ -1,0 +1,79 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "330bd574_d7b2478a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2024-03-12T12:42:39Z",
+      "side": 1,
+      "message": "Thanks for handling this!",
+      "revId": "e2ed206945bdee82e1a6e3218ee8313d3bf9c29c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9eb63d6_3aba8a05",
+        "filename": "proto/entities.proto",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2024-03-12T12:42:39Z",
+      "side": 1,
+      "message": "r. w. com.google.gerrit.extensions.common.ChangeInput",
+      "range": {
+        "startLine": 65,
+        "startChar": 22,
+        "endLine": 65,
+        "endChar": 61
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "f9951e54_a1409a10",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "proto/entities.proto",
+              "range": {
+                "startLine": 65,
+                "startChar": 0,
+                "endLine": 66,
+                "endChar": 0
+              },
+              "replacement": "// Serialized form of com.google.gerrit.extensions.common.ChangeInput.\n"
+            }
+          ]
+        }
+      ],
+      "revId": "e2ed206945bdee82e1a6e3218ee8313d3bf9c29c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d864b8d_671e5c17",
+        "filename": "proto/entities.proto",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2024-03-12T12:42:39Z",
+      "side": 1,
+      "message": "What about the `notify` and `notifyDetails` fields?",
+      "revId": "e2ed206945bdee82e1a6e3218ee8313d3bf9c29c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -65,6 +65,7 @@ import java.util.Objects;
 @Singleton
 public class DeleteDraftCommentsUtil {
   private final BatchUpdate.Factory batchUpdateFactory;
+  private final BatchUpdates batchUpdates;
   private final Supplier<ChangeQueryBuilder> queryBuilderSupplier;
   private final Provider<InternalChangeQuery> queryProvider;
   private final ChangeData.Factory changeDataFactory;
@@ -78,6 +79,7 @@ public class DeleteDraftCommentsUtil {
   @Inject
   public DeleteDraftCommentsUtil(
       BatchUpdate.Factory batchUpdateFactory,
+      BatchUpdates batchUpdates,
       Provider<ChangeQueryBuilder> queryBuilderProvider,
       Provider<InternalChangeQuery> queryProvider,
       ChangeData.Factory changeDataFactory,
@@ -87,6 +89,7 @@ public class DeleteDraftCommentsUtil {
       DraftCommentsReader draftCommentsReader,
       PatchSetUtil psUtil) {
     this.batchUpdateFactory = batchUpdateFactory;
+    this.batchUpdates = batchUpdates;
     this.queryBuilderSupplier = Suppliers.memoize(queryBuilderProvider::get);
     this.queryProvider = queryProvider;
     this.changeDataFactory = changeDataFactory;
@@ -123,7 +126,7 @@ public class DeleteDraftCommentsUtil {
       // were,
       // all updates from this operation only happen in All-Users and thus are fully atomic, so
       // allowing partial failure would have little value.
-      BatchUpdates.execute(changeDataFactory, updates.values(), ImmutableList.of(), false);
+      batchUpdates.execute(updates.values(), ImmutableList.of(), false);
     }
     return ops.stream().map(Op::getResult).filter(Objects::nonNull).collect(toImmutableList());
   }

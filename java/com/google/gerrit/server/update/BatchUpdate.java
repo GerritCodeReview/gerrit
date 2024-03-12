@@ -284,6 +284,7 @@ public class BatchUpdate implements AutoCloseable {
     DELETED
   }
 
+  private final BatchUpdates batchUpdates;
   private final GitRepositoryManager repoManager;
   private final AccountCache accountCache;
   private final ChangeData.Factory changeDataFactory;
@@ -320,6 +321,7 @@ public class BatchUpdate implements AutoCloseable {
 
   @Inject
   BatchUpdate(
+      BatchUpdates batchUpdates,
       GitRepositoryManager repoManager,
       @GerritPersonIdent PersonIdent serverIdent,
       AccountCache accountCache,
@@ -336,6 +338,7 @@ public class BatchUpdate implements AutoCloseable {
       @Assisted CurrentUser user,
       @Assisted Instant when) {
     this.gerritConfig = gerritConfig;
+    this.batchUpdates = batchUpdates;
     this.repoManager = repoManager;
     this.accountCache = accountCache;
     this.changeDataFactory = changeDataFactory;
@@ -362,14 +365,12 @@ public class BatchUpdate implements AutoCloseable {
   @CanIgnoreReturnValue
   public BatchUpdates.Result execute(BatchUpdateListener listener)
       throws UpdateException, RestApiException {
-    return BatchUpdates.execute(
-        changeDataFactory, ImmutableList.of(this), ImmutableList.of(listener), false);
+    return batchUpdates.execute(ImmutableList.of(this), ImmutableList.of(listener), false);
   }
 
   @CanIgnoreReturnValue
   public BatchUpdates.Result execute() throws UpdateException, RestApiException {
-    return BatchUpdates.execute(
-        changeDataFactory, ImmutableList.of(this), ImmutableList.of(), false);
+    return batchUpdates.execute(ImmutableList.of(this), ImmutableList.of(), false);
   }
 
   public boolean isExecuted() {

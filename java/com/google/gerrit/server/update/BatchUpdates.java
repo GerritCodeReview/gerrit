@@ -38,6 +38,8 @@ import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.NoSuchRefException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.BatchUpdate.ChangesHandle;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -46,17 +48,16 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
 
+@Singleton
 public class BatchUpdates {
-  public static class Result {
-    private final ChangeData.Factory changeDataFactory;
+  public class Result {
     private final Map<Change.Id, ChangeData> changeDatas;
 
-    private Result(ChangeData.Factory changeDataFactory) {
-      this(changeDataFactory, new HashMap<>());
+    private Result() {
+      this(new HashMap<>());
     }
 
-    private Result(ChangeData.Factory changeDataFactory, Map<Change.Id, ChangeData> changeDatas) {
-      this.changeDataFactory = changeDataFactory;
+    private Result(Map<Change.Id, ChangeData> changeDatas) {
       this.changeDatas = changeDatas;
     }
 
@@ -73,16 +74,20 @@ public class BatchUpdates {
     }
   }
 
+  private final ChangeData.Factory changeDataFactory;
+
+  @Inject
+  BatchUpdates(ChangeData.Factory changeDataFactory) {
+    this.changeDataFactory = changeDataFactory;
+  }
+
   @CanIgnoreReturnValue
-  public static Result execute(
-      ChangeData.Factory changeDataFactory,
-      Collection<BatchUpdate> updates,
-      ImmutableList<BatchUpdateListener> listeners,
-      boolean dryrun)
+  public Result execute(
+      Collection<BatchUpdate> updates, ImmutableList<BatchUpdateListener> listeners, boolean dryrun)
       throws UpdateException, RestApiException {
     requireNonNull(listeners);
     if (updates.isEmpty()) {
-      return new Result(changeDataFactory);
+      return new Result();
     }
 
     checkDifferentProject(updates);
@@ -129,10 +134,10 @@ public class BatchUpdates {
         }
       }
 
-      return new Result(changeDataFactory, changeDatas);
+      return new Result(changeDatas);
     } catch (Exception e) {
       wrapAndThrowException(e);
-      return new Result(changeDataFactory);
+      return new Result();
     }
   }
 

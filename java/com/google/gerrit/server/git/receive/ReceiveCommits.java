@@ -184,6 +184,7 @@ import com.google.gerrit.server.submit.MergeOp;
 import com.google.gerrit.server.submit.MergeOpRepoManager;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
+import com.google.gerrit.server.update.BatchUpdates;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.gerrit.server.update.RepoContext;
@@ -367,9 +368,9 @@ class ReceiveCommits {
   private final AccountResolver accountResolver;
   private final AllProjectsName allProjectsName;
   private final BatchUpdate.Factory batchUpdateFactory;
+  private final BatchUpdates batchUpdates;
   private final CancellationMetrics cancellationMetrics;
   private final ChangeEditUtil editUtil;
-  private final ChangeData.Factory changeDataFactory;
   private final ChangeIndexer indexer;
   private final ChangeInserter.Factory changeInserterFactory;
   private final ChangeNotes.Factory notesFactory;
@@ -456,11 +457,11 @@ class ReceiveCommits {
       AccountResolver accountResolver,
       AllProjectsName allProjectsName,
       BatchUpdate.Factory batchUpdateFactory,
+      BatchUpdates batchUpdates,
       CancellationMetrics cancellationMetrics,
       ProjectConfig.Factory projectConfigFactory,
       @GerritServerConfig Config config,
       ChangeEditUtil editUtil,
-      ChangeData.Factory changeDataFactory,
       ChangeIndexer indexer,
       ChangeInserter.Factory changeInserterFactory,
       ChangeNotes.Factory notesFactory,
@@ -514,6 +515,7 @@ class ReceiveCommits {
     this.accountResolver = accountResolver;
     this.allProjectsName = allProjectsName;
     this.batchUpdateFactory = batchUpdateFactory;
+    this.batchUpdates = batchUpdates;
     this.cancellationMetrics = cancellationMetrics;
     this.changeFormatter = changeFormatterProvider.get();
     this.changeUtil = changeUtil;
@@ -527,7 +529,6 @@ class ReceiveCommits {
     this.deadlineCheckerFactory = deadlineCheckerFactory;
     this.diffOperationsForCommitValidationFactory = diffOperationsForCommitValidationFactory;
     this.editUtil = editUtil;
-    this.changeDataFactory = changeDataFactory;
     this.hashtagsFactory = hashtagsFactory;
     this.setTopicFactory = setTopicFactory;
     this.indexer = indexer;
@@ -887,7 +888,7 @@ class ReceiveCommits {
         logger.atFine().log("Added %d additional ref updates", added);
 
         SubmissionExecutor submissionExecutor =
-            new SubmissionExecutor(changeDataFactory, false, superprojectUpdateSubmissionListeners);
+            new SubmissionExecutor(batchUpdates, false, superprojectUpdateSubmissionListeners);
 
         submissionExecutor.execute(ImmutableList.of(bu));
 

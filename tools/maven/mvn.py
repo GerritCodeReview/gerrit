@@ -26,6 +26,7 @@ parser.add_argument('-o')
 parser.add_argument('-a', help='action (valid actions are: install,deploy)')
 parser.add_argument('-v', help='gerrit version')
 parser.add_argument('-s', action='append', help='triplet of artifactId:type:path')
+parser.add_argument('-p', help='path to pom.xml file')
 args = parser.parse_args()
 
 if not args.v:
@@ -56,9 +57,9 @@ else:
 
 for spec in args.s:
     artifact, packaging_type, src = spec.split(':')
+    pom = args.p or path.join(root, 'tools', 'maven', '%s_pom.xml' % artifact)
     exe = cmd + [
-        '-DpomFile=%s' % path.join(root, 'tools', 'maven',
-                                   '%s_pom.xml' % artifact),
+        '-DpomFile=%s' % pom,
         '-Dpackaging=%s' % packaging_type,
         '-Dfile=%s' % src,
     ]

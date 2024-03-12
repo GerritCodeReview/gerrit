@@ -1,4 +1,5 @@
 load("@rules_java//java:defs.bzl", "java_binary", "java_library")
+load("//tools/maven:package.bzl", "maven_package_plugin")
 load("//tools/bzl:genrule2.bzl", "genrule2")
 load("//:version.bzl", "GERRIT_VERSION")
 
@@ -26,6 +27,10 @@ def gerrit_plugin(
         dir_name = None,
         target_suffix = "",
         deploy_env = [],
+        pom_file = None,
+        version = None,
+        repository = None,
+        url = None,
         **kwargs):
     java_library(
         name = name + "__plugin",
@@ -75,3 +80,25 @@ def gerrit_plugin(
         outs = ["%s%s.jar" % (name, target_suffix)],
         visibility = ["//visibility:public"],
     )
+
+    if pom_file:
+        version = version or GERRIT_VERSION
+        plugin_task = "//plugins/%s" % name
+        plugin_build_task = "%s:%s" % (plugin_task, name)
+
+        genrule2(
+            name = "gen_pom_file",
+            srcs = [pom_file],
+            outs = ["gen-%s" % pom_file],
+            local = True,
+            cmd = 'sed "s/{VERSION}/%s/" "$<" > "$@"' % version,
+        )
+
+        maven_package_plugin(
+            version = version,
+            jar = {"gerrit-%s-plugin" % name: plugin_build_task},
+            src = {"gerrit-%s-plugin-src" % name: plugin_build_task + "__non_stamped_deploy-src.jar"},
+            pom = "%s:gen_pom_file" % plugin_task,
+            repository = repository,
+            url = url,
+        )

@@ -16,6 +16,24 @@
       "message": "This implies if both instanceName and canonicalUrl are null we return null.\nShouldn\u0027t we better use the fallback in extractInstanceName in this case ?",
       "revId": "b53ba381ca0111bc89fa70b092e94146cb5ed86f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "313c105d_774503be",
+        "filename": "java/com/google/gerrit/server/config/GerritInstanceNameProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-03-12T13:45:38Z",
+      "side": 1,
+      "message": "I want to fix that in a new change and also add some unit tests.\nNote that this issues exists in the base version too.",
+      "parentUuid": "ddd488ee_5828d108",
+      "revId": "b53ba381ca0111bc89fa70b092e94146cb5ed86f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

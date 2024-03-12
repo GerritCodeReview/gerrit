@@ -44,7 +44,7 @@ public class ProjectConfigEntry {
   private final String displayName;
   private final String description;
   private final boolean inheritable;
-  private final String defaultValue;
+  @Nullable private final String defaultValue;
   private final ProjectConfigEntryType type;
   private final List<String> permittedValues;
 

@@ -786,7 +786,7 @@ public final class OutgoingEmail {
   }
 
   private String getInstanceName() {
-    return args.instanceNameProvider.get();
+    return args.instanceName;
   }
 
   /** Renders a soy template of kind="text". */

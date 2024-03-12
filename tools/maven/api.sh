@@ -69,4 +69,13 @@ fi
 ${BAZEL_CMD} build //tools/maven:gen_${command} "$@" || \
   { echo "${BAZEL_CMD} failed to build gen_${command}. Use VERBOSE=1 for more info" ; exit 1 ; }
 
+if [[ "${command}" == "api_install"]] || [[ "${command}" == "api_deploy"]]; then
+  ${BAZEL_CMD} build //plugins/replication/replication:gen_${command} "$@" || \
+    { echo "${BAZEL_CMD} failed to build //plugins/replication/replication:gen_${command}. Use VERBOSE=1 for more info" ; exit 1 ; }
+fi
+
 ./bazel-bin/tools/maven/${command}.sh
+
+if [[ "${command}" == "api_install"]] || [[ "${command}" == "api_deploy"]]; then
+  ./bazel-bin/plugins/replication/${command}.sh
+fi

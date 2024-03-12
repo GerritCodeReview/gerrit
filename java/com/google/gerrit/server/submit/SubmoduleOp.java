@@ -26,7 +26,7 @@ import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.submit.MergeOpRepoManager.OpenRepo;
-import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.BatchUpdates;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.inject.Inject;
@@ -115,7 +115,7 @@ public class SubmoduleOp {
         }
       }
       try (RefUpdateContext ctx = RefUpdateContext.open(UPDATE_SUPERPROJECT)) {
-        BatchUpdate.execute(
+        BatchUpdates.execute(
             changeDataFactory,
             orm.batchUpdates(superProjects, /* refLogMessage= */ "merged"),
             ImmutableList.of(),

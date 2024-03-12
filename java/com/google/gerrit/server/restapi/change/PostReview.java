@@ -94,6 +94,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.BatchUpdates;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.time.TimeUtil;
@@ -290,7 +291,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
     output.labels = input.labels;
 
-    BatchUpdate.Result batchUpdateResult;
+    BatchUpdates.Result batchUpdateResult;
 
     // Notify based on ReviewInput, ignoring the notify settings from any ReviewerInputs.
     NotifyResolver.Result notify = notifyResolver.resolve(input.notify, input.notifyDetails);

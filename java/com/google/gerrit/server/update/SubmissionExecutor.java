@@ -63,7 +63,7 @@ public class SubmissionExecutor {
                     .map(Optional::get)
                     .collect(Collectors.toList()))
             .build();
-    BatchUpdate.execute(changeDataFactory, updates, listeners, dryrun);
+    BatchUpdates.execute(changeDataFactory, updates, listeners, dryrun);
   }
 
   /**

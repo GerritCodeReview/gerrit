@@ -46,6 +46,7 @@ import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.restapi.change.CommentJson;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
+import com.google.gerrit.server.update.BatchUpdates;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.update.context.RefUpdateContext;
@@ -122,7 +123,7 @@ public class DeleteDraftCommentsUtil {
       // were,
       // all updates from this operation only happen in All-Users and thus are fully atomic, so
       // allowing partial failure would have little value.
-      BatchUpdate.execute(changeDataFactory, updates.values(), ImmutableList.of(), false);
+      BatchUpdates.execute(changeDataFactory, updates.values(), ImmutableList.of(), false);
     }
     return ops.stream().map(Op::getResult).filter(Objects::nonNull).collect(toImmutableList());
   }

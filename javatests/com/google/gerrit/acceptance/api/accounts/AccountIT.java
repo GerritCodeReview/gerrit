@@ -145,6 +145,7 @@ import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.account.externalids.DuplicateExternalIdKeyException;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
+import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdFactoryNoteDbImpl;
 import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdNotes;
 import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdsNoteDbImpl;
@@ -244,7 +245,7 @@ public class AccountIT extends AbstractDaemonTest {
   @Inject private @ServerInitiated Provider<AccountsUpdate> accountsUpdateProvider;
   @Inject private AccountIndexer accountIndexer;
   @Inject private ExternalIdNotes.Factory extIdNotesFactory;
-  @Inject private ExternalIdsNoteDbImpl externalIds;
+  @Inject private ExternalIdsNoteDbImpl externalIdsNoteDbImpl;
   @Inject private GitReferenceUpdated gitReferenceUpdated;
   @Inject private Provider<InternalAccountQuery> accountQueryProvider;
   @Inject private Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory;
@@ -406,7 +407,7 @@ public class AccountIT extends AbstractDaemonTest {
 
       Account.Id accountId = Account.id(accountInfo._accountId);
       accountIndexedCounter.assertReindexOf(accountId, 1);
-      assertThat(externalIds.byAccount(accountId))
+      assertThat(getExternalIdsReader().byAccount(accountId))
           .containsExactly(
               externalIdFactory.createUsername(input.username, accountId, null),
               externalIdFactory.createEmail(accountId, input.email));
@@ -2199,7 +2200,7 @@ public class AccountIT extends AbstractDaemonTest {
     String fullName = "Foo";
     AtomicBoolean doneBgUpdate = new AtomicBoolean(false);
     AccountsUpdate update =
-        getAccountsUpdate(
+        getAccountsUpdateWithRunnables(
             () -> {
               if (!doneBgUpdate.getAndSet(true)) {
                 try {
@@ -2237,7 +2238,7 @@ public class AccountIT extends AbstractDaemonTest {
     String fullName = "Foo";
     AtomicInteger bgCounter = new AtomicInteger(0);
     AccountsUpdate update =
-        getAccountsUpdate(
+        getAccountsUpdateWithRunnables(
             () -> {
               try {
                 accountsUpdateProvider
@@ -2282,15 +2283,19 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void atomicReadMofifyWrite() throws Exception {
+  public void atomicReadModifyWrite() throws Exception {
     gApi.accounts().id(admin.id().get()).setStatus("A-1");
 
-    AtomicInteger bgCounterA1 = new AtomicInteger(0);
-    AtomicInteger bgCounterA2 = new AtomicInteger(0);
+    AtomicBoolean bgIndicatorA1ToA2 = new AtomicBoolean(false);
     AccountsUpdate update =
-        getAccountsUpdate(
+        getAccountsUpdateWithRunnables(
             Runnables.doNothing(),
             () -> {
+              if (bgIndicatorA1ToA2.get()) {
+                // In the Google architecture, this runnable might be called multiple times. Only
+                // do the replacement ones.
+                return;
+              }
               try {
                 accountsUpdateProvider
                     .get()
@@ -2299,28 +2304,29 @@ public class AccountIT extends AbstractDaemonTest {
                 // Ignore, the expected exception is asserted later
               }
             });
-    assertThat(bgCounterA1.get()).isEqualTo(0);
-    assertThat(bgCounterA2.get()).isEqualTo(0);
+
     assertThat(gApi.accounts().id(admin.id().get()).get().status).isEqualTo("A-1");
 
+    AtomicBoolean bgIndicatorA1ToB1 = new AtomicBoolean(false);
+    AtomicBoolean bgIndicatorA2ToB2 = new AtomicBoolean(false);
     Optional<AccountState> updatedAccountState =
         update.update(
             "Set Status",
             admin.id(),
             (a, u) -> {
               if ("A-1".equals(a.account().status())) {
-                bgCounterA1.getAndIncrement();
+                bgIndicatorA1ToB1.set(true);
                 u.setStatus("B-1");
               }
 
               if ("A-2".equals(a.account().status())) {
-                bgCounterA2.getAndIncrement();
+                bgIndicatorA2ToB2.set(true);
                 u.setStatus("B-2");
               }
             });
 
-    assertThat(bgCounterA1.get()).isEqualTo(1);
-    assertThat(bgCounterA2.get()).isEqualTo(1);
+    assertThat(bgIndicatorA1ToB1.get()).isTrue();
+    assertThat(bgIndicatorA2ToB2.get()).isTrue();
 
     assertThat(updatedAccountState).isPresent();
     assertThat(updatedAccountState.get().account().status()).isEqualTo("B-2");
@@ -2329,7 +2335,7 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void atomicReadMofifyWriteExternalIds() throws Exception {
+  public void atomicReadModifyWriteExternalIds() throws Exception {
     projectOperations
         .allProjectsForUpdate()
         .add(allowCapability(GlobalCapability.ACCESS_DATABASE).group(REGISTERED_USERS))
@@ -2341,26 +2347,31 @@ public class AccountIT extends AbstractDaemonTest {
         .get()
         .insert("Create Test Account", accountId, u -> u.addExternalId(extIdA1));
 
-    AtomicInteger bgCounterA1 = new AtomicInteger(0);
-    AtomicInteger bgCounterA2 = new AtomicInteger(0);
     ExternalId extIdA2 = externalIdFactory.create("foo", "A-2", accountId);
+    AtomicBoolean bgIndicatorA1ToA2 = new AtomicBoolean(false);
     AccountsUpdate update =
-        getAccountsUpdate(
+        getAccountsUpdateWithRunnables(
             Runnables.doNothing(),
             () -> {
+              if (bgIndicatorA1ToA2.get()) {
+                // In the Google architecture, this runnable might be called multiple times. Only
+                // do the replacement ones.
+                return;
+              }
               try {
                 accountsUpdateProvider
                     .get()
                     .update(
-                        "Update External ID",
+                        "Update External ID A1->A2",
                         accountId,
                         u -> u.replaceExternalId(extIdA1, extIdA2));
+                bgIndicatorA1ToA2.set(true);
               } catch (IOException | ConfigInvalidException | StorageException e) {
                 // Ignore, the expected exception is asserted later
               }
+              bgIndicatorA1ToA2.set(true);
             });
-    assertThat(bgCounterA1.get()).isEqualTo(0);
-    assertThat(bgCounterA2.get()).isEqualTo(0);
+
     assertThat(
             gApi.accounts().id(accountId.get()).getExternalIds().stream()
                 .map(i -> i.identity)
@@ -2369,24 +2380,26 @@ public class AccountIT extends AbstractDaemonTest {
 
     ExternalId extIdB1 = externalIdFactory.create("foo", "B-1", accountId);
     ExternalId extIdB2 = externalIdFactory.create("foo", "B-2", accountId);
+    AtomicBoolean bgIndicatorA1ToB1 = new AtomicBoolean(false);
+    AtomicBoolean bgIndicatorA2ToB2 = new AtomicBoolean(false);
     Optional<AccountState> updatedAccount =
         update.update(
-            "Update External ID",
+            "Conditionally update External IDs: A1->B1, A2->B2",
             accountId,
             (a, u) -> {
               if (a.externalIds().contains(extIdA1)) {
-                bgCounterA1.getAndIncrement();
+                bgIndicatorA1ToB1.set(true);
                 u.replaceExternalId(extIdA1, extIdB1);
               }
 
               if (a.externalIds().contains(extIdA2)) {
-                bgCounterA2.getAndIncrement();
+                bgIndicatorA2ToB2.set(true);
                 u.replaceExternalId(extIdA2, extIdB2);
               }
             });
 
-    assertThat(bgCounterA1.get()).isEqualTo(1);
-    assertThat(bgCounterA2.get()).isEqualTo(1);
+    assertThat(bgIndicatorA1ToB1.get()).isTrue();
+    assertThat(bgIndicatorA2ToB2.get()).isTrue();
 
     assertThat(updatedAccount).isPresent();
     assertThat(updatedAccount.get().externalIds()).containsExactly(extIdB2);
@@ -3028,7 +3041,9 @@ public class AccountIT extends AbstractDaemonTest {
             admin.id(),
             (a, u) ->
                 u.replaceExternalId(
-                    externalIds.get(createEmailExternalId(admin.id(), admin.email()).key()).get(),
+                    getExternalIdsReader()
+                        .get(createEmailExternalId(admin.id(), admin.email()).key())
+                        .get(),
                     externalId));
     assertExternalIds(admin.id(), ImmutableSet.of("mailto:secondary@non.google", "username:admin"));
 
@@ -3240,7 +3255,8 @@ public class AccountIT extends AbstractDaemonTest {
     gApi.accounts().self().delete();
 
     requestScopeOperations.setApiUser(admin.id());
-    assertThat(externalIds.byEmails("deleted@internal.com", "deleted@external.com")).isEmpty();
+    assertThat(getExternalIdsReader().byEmails("deleted@internal.com", "deleted@external.com"))
+        .isEmpty();
 
     // Clean up the test framework
     accountCreator.evict(deleted.id());
@@ -3556,7 +3572,7 @@ public class AccountIT extends AbstractDaemonTest {
     Iterable<String> expectedFps =
         expected.transform(k -> BaseEncoding.base16().encode(k.getPublicKey().getFingerprint()));
     Set<String> actualFps =
-        externalIds.byAccount(currAccountId, SCHEME_GPGKEY).stream()
+        getExternalIdsReader().byAccount(currAccountId, SCHEME_GPGKEY).stream()
             .map(e -> e.key().id())
             .collect(toSet());
     assertWithMessage("external IDs in database")
@@ -3677,8 +3693,9 @@ public class AccountIT extends AbstractDaemonTest {
         "login?account_id=" + accountId, HttpServletResponse.SC_MOVED_TEMPORARILY);
   }
 
-  private AccountsUpdate getAccountsUpdate(Runnable afterReadRevision, Runnable beforeCommit) {
-    return getAccountsUpdate(
+  private AccountsUpdate getAccountsUpdateWithRunnables(
+      Runnable afterReadRevision, Runnable beforeCommit) {
+    return getAccountsUpdateWithRunnables(
         afterReadRevision,
         beforeCommit,
         new RetryHelper(
@@ -3692,14 +3709,26 @@ public class AccountIT extends AbstractDaemonTest {
             r -> r.withBlockStrategy(noSleepBlockStrategy)));
   }
 
-  private AccountsUpdate getAccountsUpdate(
+  @UsedAt(UsedAt.Project.GOOGLE)
+  protected ExternalIds getExternalIdsReader() {
+    return externalIdsNoteDbImpl;
+  }
+
+  @UsedAt(UsedAt.Project.GOOGLE)
+  protected AccountsUpdate getAccountsUpdateWithRunnables(
+      Runnable afterReadRevision, Runnable beforeCommit, RetryHelper retryHelper) {
+    return getAccountsUpdateNoteDbImplWithRunnables(afterReadRevision, beforeCommit, retryHelper);
+  }
+
+  @UsedAt(UsedAt.Project.GOOGLE)
+  protected final AccountsUpdateNoteDbImpl getAccountsUpdateNoteDbImplWithRunnables(
       Runnable afterReadRevision, Runnable beforeCommit, RetryHelper retryHelper) {
     return new AccountsUpdateNoteDbImpl(
         repoManager,
         gitReferenceUpdated,
         Optional.empty(),
         allUsers,
-        externalIds,
+        externalIdsNoteDbImpl,
         extIdNotesFactory,
         metaDataUpdateInternalFactory,
         retryHelper,

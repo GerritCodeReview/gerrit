@@ -16,6 +16,24 @@
       "message": "Can `value` be `null` here?\n\nIf not, then we can call equals on the `value`:\n```\n   if (value.equals(projectConfigEntry.getDefaultValue()) {\n    ...\n   }\n```\n\nThis works because `value.equals(null)` is `false` and there is no NPE.\n\nIf yes, then what about the case where both `defaultValue` and `value` are `null`? Shall that also be considered equal?",
       "revId": "82dca1f028835ddb5a85b538f020dbe8ca9d048f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9372d162_dfce8668",
+        "filename": "java/com/google/gerrit/server/restapi/project/PutConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-03-12T12:10:57Z",
+      "side": 1,
+      "message": "\u003e Can value be null here?\n\nPlugins provide project config options using a Map and as such there is no explicit protection that the value is not `null`. However, at least when using the UI feature to generate the plugin project option UI section, it seems that empty text fields lead to an empty String being sent instead of `null`. IMO it would still be better to guard this with a null-check.\n\nAlternatively, we could to the null check in `ProjectConfigEntry.getDefaultValue()` and return an empty string in that case.\n\n\u003e If yes, then what about the case where both defaultValue and value are null? Shall that also be considered equal?\n\nIn that case, the body of the conditional would not serve any additional purpose, since it is meant to unset the value, if it is equal to the default. But if it is already null, it is unset anyways in the else block.",
+      "parentUuid": "c49b28f5_6f6d119d",
+      "revId": "82dca1f028835ddb5a85b538f020dbe8ca9d048f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

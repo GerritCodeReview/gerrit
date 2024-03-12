@@ -12,6 +12,7 @@ junit_tests(
         "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/entities",
         "//java/com/google/gerrit/extensions:api",
+        "//java/com/google/gerrit/git",
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/server/util/time",
         "//java/com/google/gerrit/testing:gerrit-test-util",

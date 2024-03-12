@@ -34,6 +34,24 @@
       "parentUuid": "ddd488ee_5828d108",
       "revId": "b53ba381ca0111bc89fa70b092e94146cb5ed86f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f6912c3_96a44fed",
+        "filename": "java/com/google/gerrit/server/config/GerritInstanceNameProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-03-12T13:56:00Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "313c105d_774503be",
+      "revId": "b53ba381ca0111bc89fa70b092e94146cb5ed86f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

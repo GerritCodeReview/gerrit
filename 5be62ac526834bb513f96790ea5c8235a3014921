@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "871f8d4a_f2bccdfd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-03-12T13:10:21Z",
+      "side": 1,
+      "message": "Do we still offer an option to opt-out of the feature completely? Or is that no longer possible after this change?\n\nIf not, do we plan to add another way to opt-out globally?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 33
+      },
+      "revId": "5be62ac526834bb513f96790ea5c8235a3014921",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

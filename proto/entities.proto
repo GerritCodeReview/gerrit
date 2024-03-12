@@ -63,6 +63,27 @@ message Change {
 }
 
 // Serialized form of com.google.gerrit.enities.ChangeMessage.
+// Next ID: 17
+message ChangeInput {
+  optional string project = 1;
+  optional string branch = 2;
+  optional string subject = 3;
+  optional string topic = 4;
+  optional ChangeStatus status = 5;
+  optional bool is_private = 6;
+  optional bool work_in_progress = 7;
+  optional string base_change = 8;
+  optional string base_commit = 9;
+  optional bool new_branch = 10;
+  map<string, string> validation_options = 11; 
+  map<string, string> custom_keyed_values = 12;
+  optional MergeInput merge = 13; 
+  optional ApplyPatchInput patch = 14; 
+  optional AccountInput author = 15;
+  repeated ListChangesOption response_format_options = 16;  
+}
+
+// Serialized form of com.google.gerrit.enities.ChangeMessage.
 // Next ID: 3
 message ChangeMessage_Key {
   required Change_Id change_id = 1;
@@ -79,6 +100,74 @@ message ChangeMessage {
   optional PatchSet_Id patchset = 5;
   optional string tag = 6;
   optional Account_Id real_author = 7;
+}
+
+// Serialized form of com.google.gerrit.extensions.client.ChangeStatus.
+// Next ID: 4
+enum ChangeStatus {
+ NEW = 0;
+ MERGED = 1;
+ ABANDONED = 2;
+}
+
+// Serialized form of com.google.gerrit.extensions.common.MergeInput.
+// Next ID: 5
+message MergeInput {
+ optional string source = 1;
+ optional string source_branch = 2;
+ optional string strategy = 3;
+ optional bool allow_conflicts = 4;
+}
+
+// Serialized form of com.google.gerrit.extensions.api.changes.ApplyPatchInput.
+// Next ID: 2
+message ApplyPatchInput {
+ optional string patch = 1;
+}
+
+// Serialized form of com.google.gerrit.extensions.api.accounts.AccountInput.
+// Next ID: 8
+message AccountInput {
+ optional string username = 1;
+ optional string name = 2;
+ optional string display_name = 3;
+ optional string email = 4;
+ optional string ssh_key = 5;
+ optional string http_password = 6; 
+ repeated string groups = 7;
+}
+
+// Serialized form of com.google.gerrit.extensions.client.ListChangesOption.
+// Next ID: 28
+enum ListChangesOption {
+  LABELS = 0;
+  CURRENT_REVISION = 1;
+  ALL_REVISIONS = 2;
+  CURRENT_COMMIT = 3;
+  ALL_COMMITS = 4;
+  CURRENT_FILES = 5;
+  ALL_FILES = 6;
+  DETAILED_ACCOUNTS = 7;
+  DETAILED_LABELS = 8;
+  MESSAGES = 9;
+  CURRENT_ACTIONS = 10;
+  REVIEWED = 11;
+  DRAFT_COMMENTS = 12;
+  DOWNLOAD_COMMANDS = 13;
+  WEB_LINKS = 14;
+  CHECK = 15;
+  CHANGE_ACTIONS = 16;
+  COMMIT_FOOTERS = 17;
+  PUSH_CERTIFICATES = 18;
+  REVIEWER_UPDATES = 19;
+  SUBMITTABLE = 20;
+  TRACKING_IDS = 21;
+  SKIP_MERGEABLE = 22;
+  SKIP_DIFFSTAT = 23;
+  SUBMIT_REQUIREMENTS = 24;
+  CUSTOM_KEYED_VALUES = 25;
+  STAR = 26;
+  PARENTS = 27;
 }
 
 // Serialized form of com.google.gerrit.entities.PatchSet.Id.

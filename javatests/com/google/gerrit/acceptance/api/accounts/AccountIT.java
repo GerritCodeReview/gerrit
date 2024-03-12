@@ -2303,6 +2303,7 @@ public class AccountIT extends AbstractDaemonTest {
               } catch (IOException | ConfigInvalidException | StorageException e) {
                 // Ignore, the expected exception is asserted later
               }
+              bgIndicatorA1ToA2.set(true);
             });
 
     assertThat(gApi.accounts().id(admin.id().get()).get().status).isEqualTo("A-1");
@@ -2365,7 +2366,6 @@ public class AccountIT extends AbstractDaemonTest {
                         "Update External ID A1->A2",
                         accountId,
                         u -> u.replaceExternalId(extIdA1, extIdA2));
-                bgIndicatorA1ToA2.set(true);
               } catch (IOException | ConfigInvalidException | StorageException e) {
                 // Ignore, the expected exception is asserted later
               }

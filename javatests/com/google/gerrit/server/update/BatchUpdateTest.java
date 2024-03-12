@@ -22,6 +22,9 @@ import static com.google.gerrit.testing.TestActionRefUpdateContext.openTestRefUp
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+import com.github.rholder.retry.Attempt;
+import com.github.rholder.retry.RetryException;
+import com.github.rholder.retry.RetryListener;
 import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -37,6 +40,7 @@ import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.events.AttentionSetListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.git.RefUpdateUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -64,6 +68,7 @@ import com.google.inject.name.Named;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Config;
@@ -114,6 +119,7 @@ public class BatchUpdateTest {
   @Inject private InternalUser.Factory internalUserFactory;
   @Inject private AbandonOp.Factory abandonOpFactory;
   @Inject @GerritPersonIdent private PersonIdent serverIdent;
+  @Inject private RetryHelper retryHelper;
 
   @Rule public final MockitoRule mockito = MockitoJUnit.rule();
 
@@ -583,7 +589,7 @@ public class BatchUpdateTest {
 
     AtomicBoolean doneBackgroundUpdate = new AtomicBoolean(false);
 
-    // Create a listener that updates the change meta ref concurrently.
+    // Create a listener that updates the change meta ref concurrently on the first attempt.
     BatchUpdateListener listener =
         new BatchUpdateListener() {
           @Override
@@ -627,6 +633,95 @@ public class BatchUpdateTest {
     // Check that the BatchUpdate updated the change.
     notes = changeNotesFactory.create(project, changeId);
     assertThat(notes.getChange().getStatus()).isEqualTo(Change.Status.ABANDONED);
+  }
+
+  @Test
+  public void noRequestLevelRetryingOnLockFailure() throws Exception {
+    Change.Id changeId = createChange();
+
+    ChangeNotes notes = changeNotesFactory.create(project, changeId);
+    assertThat(notes.getChange().getStatus()).isEqualTo(Change.Status.NEW);
+
+    AtomicBoolean backgroundFailure = new AtomicBoolean(false);
+
+    // Create a listener that updates the change meta ref concurrently on all attempts.
+    BatchUpdateListener listener =
+        new BatchUpdateListener() {
+          @Override
+          public BatchRefUpdate beforeUpdateRefs(BatchRefUpdate bru) {
+            try (RevWalk rw = new RevWalk(repo.getRepository())) {
+              String changeMetaRef = RefNames.changeMetaRef(changeId);
+              ObjectId metaId = repo.getRepository().exactRef(changeMetaRef).getObjectId();
+              RevCommit old = rw.parseCommit(metaId);
+              RevCommit commit =
+                  repo.commit()
+                      .parent(old)
+                      .author(serverIdent)
+                      .committer(serverIdent)
+                      .setTopLevelTree(old.getTree())
+                      .message("Concurrent Update\n\nPatch-Set: 1")
+                      .create();
+              RefUpdate ru = repo.getRepository().updateRef(changeMetaRef);
+              ru.setExpectedOldObjectId(metaId);
+              ru.setNewObjectId(commit);
+              ru.update();
+              RefUpdateUtil.checkResult(ru);
+            } catch (Exception e) {
+              backgroundFailure.set(true);
+            }
+
+            return bru;
+          }
+        };
+
+    AtomicInteger retryOnExceptionCounter = new AtomicInteger();
+    UpdateException exception =
+        assertThrows(
+            UpdateException.class,
+            () ->
+                // Use retryHelper to simulate retrying on request level. We expect that this
+                // retrying doesn't do any retries of retrying was already done on BatchUpdate
+                // level.
+                retryHelper
+                    .changeUpdate(
+                        "batchUpdate",
+                        updateFactory -> {
+                          // abandonUtil.abandonInactiveOpenChanges(updateFactory);
+                          try (BatchUpdate bu =
+                              updateFactory.create(project, user.get(), TimeUtil.now())) {
+                            bu.addOp(changeId, abandonOpFactory.create(null, "abandon"));
+                            bu.execute(listener);
+                          }
+                          return null;
+                        })
+                    // give it enough time to potentially retry multiple times when each retry also
+                    // does retrying
+                    .defaultTimeoutMultiplier(5)
+                    .listener(
+                        new RetryListener() {
+                          @Override
+                          public <V> void onRetry(Attempt<V> attempt) {
+                            if (attempt.hasException()) {
+                              @SuppressWarnings("unused")
+                              var unused = retryOnExceptionCounter.incrementAndGet();
+                            }
+                          }
+                        })
+                    .call());
+    assertThat(backgroundFailure.get()).isFalse();
+
+    // Check that there was no retrying on the outer level since retrying was already done on
+    // BatchUpdate level.
+    // We expect 1 because RetryListener#onRetry is invoked before the rejection predicate and stop
+    // strategies are applied (i.e. before RetryHelper decides whether retrying should be done).
+    assertThat(retryOnExceptionCounter.get()).isEqualTo(1);
+
+    assertThat(exception).hasCauseThat().isInstanceOf(RetryException.class);
+    assertThat(exception.getCause()).hasCauseThat().isInstanceOf(LockFailureException.class);
+
+    // Check that the change was not updated.
+    notes = changeNotesFactory.create(project, changeId);
+    assertThat(notes.getChange().getStatus()).isEqualTo(Change.Status.NEW);
   }
 
   private Change.Id createChange() throws Exception {

@@ -18,6 +18,7 @@ junit_tests(
         "//java/com/google/gerrit/testing:gerrit-test-util",
         "//java/com/google/gerrit/testing:test-ref-update-context",
         "//lib:guava",
+        "//lib:guava-retrying",
         "//lib:jgit",
         "//lib:jgit-junit",
         "//lib/guice",

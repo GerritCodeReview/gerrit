@@ -91,7 +91,7 @@ import {deepEqual} from '../../../utils/deep-util';
 export const AUTO_SAVE_DEBOUNCE_DELAY_MS = 2000;
 export const GENERATE_SUGGESTION_DEBOUNCE_DELAY_MS = 1500;
 export const ENABLE_GENERATE_SUGGESTION_STORAGE_KEY =
-  'enableGenerateSuggestionStorageKey';
+  'enableGenerateSuggestionStorageKeyForCommentWithId-';
 
 declare global {
   interface HTMLElementEventMap {
@@ -416,12 +416,14 @@ export class GrComment extends LitElement {
         this.suggestionsProvider = suggestionsPlugins?.[0]?.provider;
       });
 
-    const generateSuggestionStoredContent =
-      this.getStorage().getEditableContentItem(
-        ENABLE_GENERATE_SUGGESTION_STORAGE_KEY
-      );
-    if (generateSuggestionStoredContent?.message === 'false') {
-      this.generateSuggestion = false;
+    if (this.comment?.id) {
+      const generateSuggestionStoredContent =
+        this.getStorage().getEditableContentItem(
+          ENABLE_GENERATE_SUGGESTION_STORAGE_KEY + this.comment?.id
+        );
+      if (generateSuggestionStoredContent?.message === 'false') {
+        this.generateSuggestion = false;
+      }
     }
   }
 
@@ -1063,10 +1065,12 @@ export class GrComment extends LitElement {
             ?checked=${this.generateSuggestion}
             @change=${() => {
               this.generateSuggestion = !this.generateSuggestion;
-              this.getStorage().setEditableContentItem(
-                ENABLE_GENERATE_SUGGESTION_STORAGE_KEY,
-                this.generateSuggestion.toString()
-              );
+              if (this.comment?.id) {
+                this.getStorage().setEditableContentItem(
+                  ENABLE_GENERATE_SUGGESTION_STORAGE_KEY + this.comment?.id,
+                  this.generateSuggestion.toString()
+                );
+              }
               if (this.generateSuggestion) {
                 this.generateSuggestionTrigger$.next();
               } else {

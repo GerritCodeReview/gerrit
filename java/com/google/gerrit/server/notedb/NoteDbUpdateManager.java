@@ -150,6 +150,10 @@ public class NoteDbUpdateManager implements AutoCloseable {
     return this;
   }
 
+  public void reset() {
+    changeRepo.reset();
+  }
+
   @CanIgnoreReturnValue
   public NoteDbUpdateManager setRefLogMessage(String message) {
     this.refLogMessage = message;

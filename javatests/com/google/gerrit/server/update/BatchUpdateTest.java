@@ -37,7 +37,6 @@ import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.events.AttentionSetListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.git.RefUpdateUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -575,7 +574,7 @@ public class BatchUpdateTest {
   }
 
   @Test
-  public void lockFailureOnConcurrentUpdate() throws Exception {
+  public void retryOnLockFailure() throws Exception {
     Change.Id changeId = createChange();
     ObjectId metaId = getMetaId(changeId);
 
@@ -589,48 +588,45 @@ public class BatchUpdateTest {
         new BatchUpdateListener() {
           @Override
           public BatchRefUpdate beforeUpdateRefs(BatchRefUpdate bru) {
-            try (RevWalk rw = new RevWalk(repo.getRepository())) {
-              RevCommit old = rw.parseCommit(metaId);
-              RevCommit commit =
-                  repo.commit()
-                      .parent(old)
-                      .author(serverIdent)
-                      .committer(serverIdent)
-                      .setTopLevelTree(old.getTree())
-                      .message("Concurrent Update\n\nPatch-Set: 1")
-                      .create();
-              RefUpdate ru = repo.getRepository().updateRef(RefNames.changeMetaRef(changeId));
-              ru.setExpectedOldObjectId(metaId);
-              ru.setNewObjectId(commit);
-              ru.update();
-              RefUpdateUtil.checkResult(ru);
-              doneBackgroundUpdate.set(true);
-            } catch (Exception e) {
-              // Ignore. If an exception happens doneBackgroundUpdate is false and we fail later
-              // when doneBackgroundUpdate is checked.
+            if (!doneBackgroundUpdate.getAndSet(true)) {
+              try (RevWalk rw = new RevWalk(repo.getRepository())) {
+                RevCommit old = rw.parseCommit(metaId);
+                RevCommit commit =
+                    repo.commit()
+                        .parent(old)
+                        .author(serverIdent)
+                        .committer(serverIdent)
+                        .setTopLevelTree(old.getTree())
+                        .message("Concurrent Update\n\nPatch-Set: 1")
+                        .create();
+                RefUpdate ru = repo.getRepository().updateRef(RefNames.changeMetaRef(changeId));
+                ru.setExpectedOldObjectId(metaId);
+                ru.setNewObjectId(commit);
+                ru.update();
+                RefUpdateUtil.checkResult(ru);
+              } catch (Exception e) {
+                // Ignore. If an exception happens doneBackgroundUpdate is false and we fail later
+                // when doneBackgroundUpdate is checked.
+              }
             }
             return bru;
           }
         };
 
-    // Do a batch update, expect that it fails with LOCK_FAILURE due to the concurrent update.
+    // Do a batch update, expect that it succeeds due to retrying despite the LOCK_FAILURE on the
+    // first attempt.
     assertThat(doneBackgroundUpdate.get()).isFalse();
-    UpdateException exception =
-        assertThrows(
-            UpdateException.class,
-            () -> {
-              try (BatchUpdate bu =
-                  batchUpdateFactory.create(project, user.get(), TimeUtil.now())) {
-                bu.addOp(changeId, abandonOpFactory.create(null, "abandon"));
-                bu.execute(listener);
-              }
-            });
-    assertThat(exception).hasCauseThat().isInstanceOf(LockFailureException.class);
+    try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.now())) {
+      bu.addOp(changeId, abandonOpFactory.create(null, "abandon"));
+      bu.execute(listener);
+    }
+
+    // Check that the concurrent update was done.
     assertThat(doneBackgroundUpdate.get()).isTrue();
 
-    // Check that the change was not updated.
+    // Check that the BatchUpdate updated the change.
     notes = changeNotesFactory.create(project, changeId);
-    assertThat(notes.getChange().getStatus()).isEqualTo(Change.Status.NEW);
+    assertThat(notes.getChange().getStatus()).isEqualTo(Change.Status.ABANDONED);
   }
 
   private Change.Id createChange() throws Exception {

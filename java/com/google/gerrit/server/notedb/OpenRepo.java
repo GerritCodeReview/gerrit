@@ -122,6 +122,10 @@ class OpenRepo implements AutoCloseable {
           Constants.typeString(obj.type()), obj.id().name(), finalIns);
       finalIns.insert(obj.type(), obj.data().toByteArray());
     }
+    reset();
+  }
+
+  void reset() {
     inMemIns.clear();
   }
 

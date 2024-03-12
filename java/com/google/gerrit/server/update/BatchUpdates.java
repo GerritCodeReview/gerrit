@@ -19,6 +19,8 @@ import static com.google.common.collect.ImmutableMultiset.toImmutableMultiset;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toMap;
 
+import com.github.rholder.retry.Attempt;
+import com.github.rholder.retry.RetryListener;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Multiset;
@@ -38,6 +40,7 @@ import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.NoSuchRefException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.BatchUpdate.ChangesHandle;
+import com.google.gerrit.server.update.RetryableAction.ActionType;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.ArrayList;
@@ -74,10 +77,12 @@ public class BatchUpdates {
     }
   }
 
+  private final RetryHelper retryHelper;
   private final ChangeData.Factory changeDataFactory;
 
   @Inject
-  BatchUpdates(ChangeData.Factory changeDataFactory) {
+  BatchUpdates(RetryHelper retryHelper, ChangeData.Factory changeDataFactory) {
+    this.retryHelper = retryHelper;
     this.changeDataFactory = changeDataFactory;
   }
 
@@ -93,48 +98,64 @@ public class BatchUpdates {
     checkDifferentProject(updates);
 
     try {
-      List<ListenableFuture<ChangeData>> indexFutures = new ArrayList<>();
-      List<ChangesHandle> changesHandles = new ArrayList<>(updates.size());
-      try {
-        for (BatchUpdate u : updates) {
-          u.executeUpdateRepo();
-        }
-        notifyAfterUpdateRepo(listeners);
-        for (BatchUpdate u : updates) {
-          changesHandles.add(u.executeChangeOps(listeners, dryrun));
-        }
-        for (ChangesHandle h : changesHandles) {
-          h.execute();
-          if (h.requiresReindex()) {
-            indexFutures.addAll(h.startIndexFutures());
-          }
-        }
-        notifyAfterUpdateRefs(listeners);
-        notifyAfterUpdateChanges(listeners);
-      } finally {
-        for (ChangesHandle h : changesHandles) {
-          h.close();
-        }
-      }
+      return retryHelper
+          .action(
+              ActionType.CHANGE_UPDATE,
+              "batchUpdate",
+              () -> {
+                List<ListenableFuture<ChangeData>> indexFutures = new ArrayList<>();
+                List<ChangesHandle> changesHandles = new ArrayList<>(updates.size());
+                try {
+                  for (BatchUpdate u : updates) {
+                    u.executeUpdateRepo();
+                  }
+                  notifyAfterUpdateRepo(listeners);
+                  for (BatchUpdate u : updates) {
+                    changesHandles.add(u.executeChangeOps(listeners, dryrun));
+                  }
+                  for (ChangesHandle h : changesHandles) {
+                    h.execute();
+                    if (h.requiresReindex()) {
+                      indexFutures.addAll(h.startIndexFutures());
+                    }
+                  }
+                  notifyAfterUpdateRefs(listeners);
+                  notifyAfterUpdateChanges(listeners);
+                } finally {
+                  for (ChangesHandle h : changesHandles) {
+                    h.close();
+                  }
+                }
 
-      Map<Change.Id, ChangeData> changeDatas =
-          Futures.allAsList(indexFutures).get().stream()
-              // filter out null values that were returned for change deletions
-              .filter(Objects::nonNull)
-              .collect(toMap(cd -> cd.change().getId(), Function.identity()));
+                Map<Change.Id, ChangeData> changeDatas =
+                    Futures.allAsList(indexFutures).get().stream()
+                        // filter out null values that were returned for change deletions
+                        .filter(Objects::nonNull)
+                        .collect(toMap(cd -> cd.change().getId(), Function.identity()));
 
-      // Fire ref update events only after all mutations are finished, since callers may assume a
-      // patch set ref being created means the change was created, or a branch advancing meaning
-      // some changes were closed.
-      updates.forEach(BatchUpdate::fireRefChangeEvents);
+                // Fire ref update events only after all mutations are finished, since callers may
+                // assume a patch set ref being created means the change was created, or a branch
+                // advancing meaning some changes were closed.
+                updates.forEach(BatchUpdate::fireRefChangeEvents);
 
-      if (!dryrun) {
-        for (BatchUpdate u : updates) {
-          u.executePostOps(changeDatas);
-        }
-      }
+                if (!dryrun) {
+                  for (BatchUpdate u : updates) {
+                    u.executePostOps(changeDatas);
+                  }
+                }
 
-      return new Result(changeDatas);
+                return new Result(changeDatas);
+              })
+          .listener(
+              new RetryListener() {
+                @Override
+                public <V> void onRetry(Attempt<V> attempt) {
+                  if (attempt.hasException()) {
+                    updates.forEach(BatchUpdate::reset);
+                  }
+                }
+              })
+          .call();
     } catch (Exception e) {
       wrapAndThrowException(e);
       return new Result();

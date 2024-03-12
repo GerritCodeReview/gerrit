@@ -310,6 +310,7 @@ public class BatchUpdate implements AutoCloseable {
   private RepoView repoView;
   private ImmutableMultimap<Project.NameKey, BatchRefUpdate> batchRefUpdate;
   private ImmutableListMultimap<ProjectChangeKey, AttentionSetUpdate> attentionSetUpdates;
+  private List<NoteDbUpdateManager> noteDbUpdateManagers = new ArrayList<>();
 
   private boolean executed;
   private OnSubmitValidators onSubmitValidators;
@@ -382,6 +383,18 @@ public class BatchUpdate implements AutoCloseable {
     checkState(this.repoView == null, "repo already set");
     repoView = new RepoView(repo, revWalk, inserter);
     return this;
+  }
+
+  /** Resets the batch update that so it can be retried. */
+  void reset() {
+    checkState(this.repoView != null, "repo not set yet");
+    repoView =
+        new RepoView(repoView.getRepository(), repoView.getRevWalk(), repoView.getInserter());
+    noteDbUpdateManagers.forEach(NoteDbUpdateManager::reset);
+    noteDbUpdateManagers.clear();
+    batchRefUpdate = null;
+    attentionSetUpdates = null;
+    executed = false;
   }
 
   @CanIgnoreReturnValue
@@ -677,15 +690,14 @@ public class BatchUpdate implements AutoCloseable {
         "cannot use NoteDb with a repository that does not support atomic batch ref updates: %s",
         repo);
 
-    ChangesHandle handle =
-        new ChangesHandle(
-            updateManagerFactory
-                .create(project, user)
-                .setBatchUpdateListeners(batchUpdateListeners)
-                .setChangeRepo(
-                    repo, repoView.getRevWalk(), repoView.getInserter(), repoView.getCommands()),
-            dryrun,
-            indexAsync());
+    NoteDbUpdateManager noteDbUpdateManager =
+        updateManagerFactory
+            .create(project, user)
+            .setBatchUpdateListeners(batchUpdateListeners)
+            .setChangeRepo(
+                repo, repoView.getRevWalk(), repoView.getInserter(), repoView.getCommands());
+    noteDbUpdateManagers.add(noteDbUpdateManager);
+    ChangesHandle handle = new ChangesHandle(noteDbUpdateManager, dryrun, indexAsync());
     getRefLogIdent().ifPresent(handle.manager::setRefLogIdent);
     handle.manager.setRefLogMessage(refLogMessage);
     handle.manager.setPushCertificate(pushCert);

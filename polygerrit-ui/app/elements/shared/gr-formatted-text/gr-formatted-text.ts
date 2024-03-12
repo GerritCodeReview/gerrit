@@ -305,8 +305,7 @@ export class GrFormattedText extends LitElement {
 
   private convertCodeToSuggestions() {
     const marks = this.renderRoot.querySelectorAll('mark');
-    if (marks.length > 0) {
-      const userSuggestionMark = marks[0];
+    for (const userSuggestionMark of marks) {
       const userSuggestion = document.createElement('gr-user-suggestion-fix');
       // Temporary workaround for bug - tabs replacement
       if (this.content.includes('\t')) {

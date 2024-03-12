@@ -101,7 +101,7 @@ public class EmailArguments {
   public final Provider<InternalAccountQuery> accountQueryProvider;
   public final OutgoingEmailValidator validator;
   public final boolean addInstanceNameInSubject;
-  public final Provider<String> instanceNameProvider;
+  public final String instanceName;
   public final Provider<CurrentUser> currentUserProvider;
   public final RetryHelper retryHelper;
 
@@ -134,7 +134,7 @@ public class EmailArguments {
       DynamicSet<OutgoingEmailValidationListener> outgoingEmailValidationListeners,
       Provider<InternalAccountQuery> accountQueryProvider,
       OutgoingEmailValidator validator,
-      @GerritInstanceName Provider<String> instanceNameProvider,
+      @GerritInstanceName String instanceName,
       @GerritServerConfig Config cfg,
       Provider<CurrentUser> currentUserProvider,
       RetryHelper retryHelper) {
@@ -165,7 +165,7 @@ public class EmailArguments {
     this.outgoingEmailValidationListeners = outgoingEmailValidationListeners;
     this.accountQueryProvider = accountQueryProvider;
     this.validator = validator;
-    this.instanceNameProvider = instanceNameProvider;
+    this.instanceName = instanceName;
     this.addInstanceNameInSubject = cfg.getBoolean("sendemail", "addInstanceNameInSubject", false);
     this.currentUserProvider = currentUserProvider;
     this.retryHelper = retryHelper;

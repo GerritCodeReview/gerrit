@@ -41,7 +41,7 @@ public class GerritInstanceNameProvider implements Provider<String> {
 
   private static String getInstanceName(Config config, String canonicalUrl) {
     String instanceName = config.getString("gerrit", null, "instanceName");
-    if (instanceName != null || canonicalUrl == null) {
+    if (instanceName != null) {
       return instanceName;
     }
 

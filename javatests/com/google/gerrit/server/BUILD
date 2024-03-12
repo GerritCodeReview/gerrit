@@ -67,6 +67,7 @@ junit_tests(
         "//java/com/google/gerrit/server/restapi",
         "//java/com/google/gerrit/server/schema",
         "//java/com/google/gerrit/server/schema/testing",
+        "//java/com/google/gerrit/server/util/git",
         "//java/com/google/gerrit/server/util/time",
         "//java/com/google/gerrit/sshd",
         "//java/com/google/gerrit/testing:assertable-executor",

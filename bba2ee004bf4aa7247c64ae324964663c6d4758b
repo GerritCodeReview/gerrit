@@ -34,6 +34,24 @@
       "parentUuid": "e0fd3b2e_e411ca93",
       "revId": "bba2ee004bf4aa7247c64ae324964663c6d4758b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c481556_05a7a337",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 630,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-03-12T14:52:34Z",
+      "side": 1,
+      "message": "thanks a lot :-)",
+      "parentUuid": "0136a31f_01189487",
+      "revId": "bba2ee004bf4aa7247c64ae324964663c6d4758b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

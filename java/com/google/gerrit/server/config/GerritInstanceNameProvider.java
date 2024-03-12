@@ -30,9 +30,8 @@ public class GerritInstanceNameProvider implements Provider<String> {
 
   @Inject
   public GerritInstanceNameProvider(
-      @GerritServerConfig Config config,
-      @CanonicalWebUrl @Nullable Provider<String> canonicalUrlProvider) {
-    this.instanceName = getInstanceName(config, canonicalUrlProvider);
+      @GerritServerConfig Config config, @CanonicalWebUrl @Nullable String canonicalUrl) {
+    this.instanceName = getInstanceName(config, canonicalUrl);
   }
 
   @Override
@@ -40,14 +39,13 @@ public class GerritInstanceNameProvider implements Provider<String> {
     return instanceName;
   }
 
-  private static String getInstanceName(
-      Config config, @Nullable Provider<String> canonicalUrlProvider) {
+  private static String getInstanceName(Config config, String canonicalUrl) {
     String instanceName = config.getString("gerrit", null, "instanceName");
-    if (instanceName != null || canonicalUrlProvider == null) {
+    if (instanceName != null) {
       return instanceName;
     }
 
-    return extractInstanceName(canonicalUrlProvider.get());
+    return extractInstanceName(canonicalUrl);
   }
 
   private static String extractInstanceName(String canonicalUrl) {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9950b116_b28fea8f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-03-12T20:08:21Z",
+      "side": 1,
+      "message": "Thanks for review, can you please have second look. I changed it a lot",
+      "revId": "f2ada2458b8ef58d6a0f13735d52450797f1fd2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "63afe876_46a1715c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-03-12T20:08:21Z",
+      "side": 1,
+      "message": "You are right, I rewrote whole commit message",
+      "parentUuid": "793bd45e_3b53ec6c",
+      "range": {
+        "startLine": 9,
+        "startChar": 131,
+        "endLine": 9,
+        "endChar": 217
+      },
+      "revId": "ce5ade79ea6c0da8d80f0ab8423bb5789667c71e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0de858b4_4920a5fc",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-02-21T13:42:53Z",
       "side": 1,
       "message": "all handleShowFix does is throws another event. Can we throw that event directly instead of having an intermediate event created by gr-fix-suggestion?\n\nAdditionally it seems that the showFix button is sometimes implemented right in gr-comment (robot comments) and sometimes in child classes (this change), can we add a TODO to clean/unify this?",
+      "range": {
+        "startLine": 337,
+        "startChar": 11,
+        "endLine": 337,
+        "endChar": 24
+      },
+      "revId": "ce5ade79ea6c0da8d80f0ab8423bb5789667c71e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1bd7996f_983eb57e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-03-12T20:08:21Z",
+      "side": 1,
+      "message": "- Good idea to call it directly.\n\n- Since robot comments are deprecated, i think they will be deleted in future.",
+      "parentUuid": "0de858b4_4920a5fc",
       "range": {
         "startLine": 337,
         "startChar": 11,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "70b1b338_b0118e49",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1006,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-03-12T20:08:21Z",
+      "side": 1,
+      "message": "Robot comments are deprecated, so I don\u0027t plan to implement new UI for them. However robot comments have fix_suggestions, so if I didn\u0027t exclude them they would have this UI. And I don\u0027t want to test this UI for them, since they are deprecated",
+      "parentUuid": "34c4eac7_ac85705b",
+      "range": {
+        "startLine": 1006,
+        "startChar": 58,
+        "endLine": 1006,
+        "endChar": 79
+      },
+      "revId": "ce5ade79ea6c0da8d80f0ab8423bb5789667c71e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "75db3913_261c4ab1",
@@ -83,6 +155,30 @@
       "writtenOn": "2024-02-21T13:42:53Z",
       "side": 1,
       "message": "This method is grown pretty large and I am having hard time understanding it by reading.\n\n1) Can this if and the previous one be combined, ie. make description based on isRobot and the rest is reused\n2) Can we add comments about what this method does. It has logic for several things at once UserSuggestions, Robot and ML(?) suggestions. I think it\u0027s complex enough to warrant a clarifying docstring",
+      "range": {
+        "startLine": 1468,
+        "startChar": 8,
+        "endLine": 1473,
+        "endChar": 11
+      },
+      "revId": "ce5ade79ea6c0da8d80f0ab8423bb5789667c71e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f2de5e6_3e6ce2ee",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1473,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-03-12T20:08:21Z",
+      "side": 1,
+      "message": "I think this was solved by calling it directly from gr-fix-suggestion as you proposed in different comment.",
+      "parentUuid": "75db3913_261c4ab1",
       "range": {
         "startLine": 1468,
         "startChar": 8,
@@ -116,6 +212,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1417ad65_f9b7af50",
+        "filename": "polygerrit-ui/app/elements/shared/gr-fix-suggestions/gr-fix-suggestions.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-03-12T20:08:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5baaed28_7d42bb63",
+      "range": {
+        "startLine": 67,
+        "startChar": 4,
+        "endLine": 71,
+        "endChar": 6
+      },
+      "revId": "ce5ade79ea6c0da8d80f0ab8423bb5789667c71e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "54f9085a_cf023cbc",
@@ -129,6 +249,30 @@
       "writtenOn": "2024-02-21T13:42:53Z",
       "side": 1,
       "message": "Outside of \n\n```\nconst fixSuggestions \u003d createUserFixSuggestion(\n```\n\nThis method is the copy of the previous one. Can we unify? ie. Have a method with most of the logic that takes fixReplacementInfo as argument",
+      "range": {
+        "startLine": 342,
+        "startChar": 2,
+        "endLine": 342,
+        "endChar": 38
+      },
+      "revId": "ce5ade79ea6c0da8d80f0ab8423bb5789667c71e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "57f71ea6_1ea8bfca",
+        "filename": "polygerrit-ui/app/elements/shared/gr-suggestion-diff-preview/gr-suggestion-diff-preview.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-03-12T20:08:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "54f9085a_cf023cbc",
       "range": {
         "startLine": 342,
         "startChar": 2,

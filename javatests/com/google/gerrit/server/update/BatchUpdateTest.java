@@ -37,7 +37,10 @@ import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.events.AttentionSetListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.git.LockFailureException;
+import com.google.gerrit.git.RefUpdateUtil;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.Sequences;
@@ -61,12 +64,16 @@ import com.google.inject.Provider;
 import com.google.inject.name.Named;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -107,6 +114,7 @@ public class BatchUpdateTest {
   @Inject private IdentifiedUser.GenericFactory userFactory;
   @Inject private InternalUser.Factory internalUserFactory;
   @Inject private AbandonOp.Factory abandonOpFactory;
+  @Inject @GerritPersonIdent private PersonIdent serverIdent;
 
   @Rule public final MockitoRule mockito = MockitoJUnit.rule();
 
@@ -564,6 +572,65 @@ public class BatchUpdateTest {
                 + "Attention:");
 
     assertThat(metaCommit.getParent(0)).isEqualTo(oldHead);
+  }
+
+  @Test
+  public void lockFailureOnConcurrentUpdate() throws Exception {
+    Change.Id changeId = createChange();
+    ObjectId metaId = getMetaId(changeId);
+
+    ChangeNotes notes = changeNotesFactory.create(project, changeId);
+    assertThat(notes.getChange().getStatus()).isEqualTo(Change.Status.NEW);
+
+    AtomicBoolean doneBackgroundUpdate = new AtomicBoolean(false);
+
+    // Create a listener that updates the change meta ref concurrently on the first attempt.
+    BatchUpdateListener listener =
+        new BatchUpdateListener() {
+          @Override
+          public BatchRefUpdate beforeUpdateRefs(BatchRefUpdate bru) {
+            try (RevWalk rw = new RevWalk(repo.getRepository())) {
+              RevCommit old = rw.parseCommit(metaId);
+              RevCommit commit =
+                  repo.commit()
+                      .parent(old)
+                      .author(serverIdent)
+                      .committer(serverIdent)
+                      .setTopLevelTree(old.getTree())
+                      .message("Concurrent Update\n\nPatch-Set: 1")
+                      .create();
+              RefUpdate ru = repo.getRepository().updateRef(RefNames.changeMetaRef(changeId));
+              ru.setExpectedOldObjectId(metaId);
+              ru.setNewObjectId(commit);
+              ru.update();
+              RefUpdateUtil.checkResult(ru);
+              doneBackgroundUpdate.set(true);
+            } catch (Exception e) {
+              // Ignore. If an exception happens doneBackgroundUpdate is false and we fail later
+              // when doneBackgroundUpdate is checked.
+            }
+            return bru;
+          }
+        };
+
+    // Do a batch update, expect that it fails with LOCK_FAILURE due to the concurrent update.
+    assertThat(doneBackgroundUpdate.get()).isFalse();
+    UpdateException exception =
+        assertThrows(
+            UpdateException.class,
+            () -> {
+              try (BatchUpdate bu =
+                  batchUpdateFactory.create(project, user.get(), TimeUtil.now())) {
+                bu.addOp(changeId, abandonOpFactory.create(null, "abandon"));
+                bu.execute(listener);
+              }
+            });
+    assertThat(exception).hasCauseThat().isInstanceOf(LockFailureException.class);
+    assertThat(doneBackgroundUpdate.get()).isTrue();
+
+    // Check that the change was not updated.
+    notes = changeNotesFactory.create(project, changeId);
+    assertThat(notes.getChange().getStatus()).isEqualTo(Change.Status.NEW);
   }
 
   private Change.Id createChange() throws Exception {

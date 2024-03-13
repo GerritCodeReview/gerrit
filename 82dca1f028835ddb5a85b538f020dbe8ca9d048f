@@ -34,6 +34,24 @@
       "parentUuid": "c49b28f5_6f6d119d",
       "revId": "82dca1f028835ddb5a85b538f020dbe8ca9d048f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3af42e9d_a084d8b2",
+        "filename": "java/com/google/gerrit/server/restapi/project/PutConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-03-13T10:41:57Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "9372d162_dfce8668",
+      "revId": "82dca1f028835ddb5a85b538f020dbe8ca9d048f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

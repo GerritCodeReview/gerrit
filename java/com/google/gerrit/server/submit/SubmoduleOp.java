@@ -24,6 +24,7 @@ import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.submit.MergeOpRepoManager.OpenRepo;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.UpdateException;
@@ -39,13 +40,16 @@ public class SubmoduleOp {
 
   @Singleton
   public static class Factory {
+    private final ChangeData.Factory changeDataFactory;
     private final SubscriptionGraph.Factory subscriptionGraphFactory;
     private final SubmoduleCommits.Factory submoduleCommitsFactory;
 
     @Inject
     Factory(
+        ChangeData.Factory changeDataFactory,
         SubscriptionGraph.Factory subscriptionGraphFactory,
         SubmoduleCommits.Factory submoduleCommitsFactory) {
+      this.changeDataFactory = changeDataFactory;
       this.subscriptionGraphFactory = subscriptionGraphFactory;
       this.submoduleCommitsFactory = submoduleCommitsFactory;
     }
@@ -54,6 +58,7 @@ public class SubmoduleOp {
         Map<BranchNameKey, ReceiveCommand> updatedBranches, MergeOpRepoManager orm)
         throws SubmoduleConflictException {
       return new SubmoduleOp(
+          changeDataFactory,
           updatedBranches,
           orm,
           subscriptionGraphFactory.compute(updatedBranches.keySet(), orm),
@@ -61,6 +66,7 @@ public class SubmoduleOp {
     }
   }
 
+  private final ChangeData.Factory changeDataFactory;
   private final Map<BranchNameKey, ReceiveCommand> updatedBranches;
   private final MergeOpRepoManager orm;
   private final SubscriptionGraph subscriptionGraph;
@@ -68,10 +74,12 @@ public class SubmoduleOp {
   private final UpdateOrderCalculator updateOrderCalculator;
 
   private SubmoduleOp(
+      ChangeData.Factory changeDataFactory,
       Map<BranchNameKey, ReceiveCommand> updatedBranches,
       MergeOpRepoManager orm,
       SubscriptionGraph subscriptionGraph,
       SubmoduleCommits submoduleCommits) {
+    this.changeDataFactory = changeDataFactory;
     this.updatedBranches = updatedBranches;
     this.orm = orm;
     this.subscriptionGraph = subscriptionGraph;
@@ -108,6 +116,7 @@ public class SubmoduleOp {
       }
       try (RefUpdateContext ctx = RefUpdateContext.open(UPDATE_SUPERPROJECT)) {
         BatchUpdate.execute(
+            changeDataFactory,
             orm.batchUpdates(superProjects, /* refLogMessage= */ "merged"),
             ImmutableList.of(),
             dryrun);

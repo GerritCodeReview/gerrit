@@ -122,7 +122,7 @@ public class DeleteDraftCommentsUtil {
       // were,
       // all updates from this operation only happen in All-Users and thus are fully atomic, so
       // allowing partial failure would have little value.
-      BatchUpdate.execute(updates.values(), ImmutableList.of(), false);
+      BatchUpdate.execute(changeDataFactory, updates.values(), ImmutableList.of(), false);
     }
     return ops.stream().map(Op::getResult).filter(Objects::nonNull).collect(toImmutableList());
   }

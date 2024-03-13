@@ -369,6 +369,7 @@ class ReceiveCommits {
   private final BatchUpdate.Factory batchUpdateFactory;
   private final CancellationMetrics cancellationMetrics;
   private final ChangeEditUtil editUtil;
+  private final ChangeData.Factory changeDataFactory;
   private final ChangeIndexer indexer;
   private final ChangeInserter.Factory changeInserterFactory;
   private final ChangeNotes.Factory notesFactory;
@@ -459,6 +460,7 @@ class ReceiveCommits {
       ProjectConfig.Factory projectConfigFactory,
       @GerritServerConfig Config config,
       ChangeEditUtil editUtil,
+      ChangeData.Factory changeDataFactory,
       ChangeIndexer indexer,
       ChangeInserter.Factory changeInserterFactory,
       ChangeNotes.Factory notesFactory,
@@ -525,6 +527,7 @@ class ReceiveCommits {
     this.deadlineCheckerFactory = deadlineCheckerFactory;
     this.diffOperationsForCommitValidationFactory = diffOperationsForCommitValidationFactory;
     this.editUtil = editUtil;
+    this.changeDataFactory = changeDataFactory;
     this.hashtagsFactory = hashtagsFactory;
     this.setTopicFactory = setTopicFactory;
     this.indexer = indexer;
@@ -884,7 +887,7 @@ class ReceiveCommits {
         logger.atFine().log("Added %d additional ref updates", added);
 
         SubmissionExecutor submissionExecutor =
-            new SubmissionExecutor(false, superprojectUpdateSubmissionListeners);
+            new SubmissionExecutor(changeDataFactory, false, superprojectUpdateSubmissionListeners);
 
         submissionExecutor.execute(ImmutableList.of(bu));
 

@@ -93,6 +93,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -764,6 +765,20 @@ public class PostReviewIT extends AbstractDaemonTest {
     TestSubmitRule testSubmitRule = new TestSubmitRule();
     try (Registration registration = extensionRegistry.newRegistration().add(testSubmitRule)) {
       ReviewInput input = new ReviewInput().label(LabelId.CODE_REVIEW, 1);
+      gApi.changes().id(r.getChangeId()).current().review(input);
+    }
+
+    assertThat(testSubmitRule.count).isEqualTo(1);
+  }
+
+  @Test
+  public void submitRulesAreInvokedOnlyOnce_allOptionsSet() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    TestSubmitRule testSubmitRule = new TestSubmitRule();
+    try (Registration registration = extensionRegistry.newRegistration().add(testSubmitRule)) {
+      ReviewInput input = new ReviewInput().label(LabelId.CODE_REVIEW, 1);
+      input.responseFormatOptions = ImmutableList.copyOf(EnumSet.allOf(ListChangesOption.class));
       gApi.changes().id(r.getChangeId()).current().review(input);
     }
 

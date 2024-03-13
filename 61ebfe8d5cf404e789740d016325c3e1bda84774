@@ -106,6 +106,24 @@
       "parentUuid": "64590359_ffa155ca",
       "revId": "61ebfe8d5cf404e789740d016325c3e1bda84774",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0fc7ed07_a03095c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-03-13T21:33:41Z",
+      "side": 1,
+      "message": "FYI, I tried to implement generic retrying for all BatchUpdates in [1]. In this change the lower retrying in BatchUpdate takes care to reset the state that was created by the failed BatchUpdate attempt before attempting a retry (from the RetryListener). This worked for most BatchUpdates, but not for some BatchUpdates that have an updateRepo phase because updates from this phase were not reset (because in this phase we do not use an InMemoryInserter (yet) which would allow us to reset the state). So in this case the retry of the inner operation failed because it didn\u0027t properly reset all its modifications. So for all operations that properly reset their state before retrying, retrying should just work and then there is no need for retrying the outer operation (if there is a need I would say it\u0027s a bug that the inner retry didn\u0027t properly reset the state).\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/413241",
+      "parentUuid": "6a437b0a_6f316d73",
+      "revId": "61ebfe8d5cf404e789740d016325c3e1bda84774",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,24 @@
       "message": "What if the outer operation refreshes some state/cache when it retries that will then make the inner operation succeed?",
       "revId": "61ebfe8d5cf404e789740d016325c3e1bda84774",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ddb32037_c9247bd2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-03-13T17:45:11Z",
+      "side": 1,
+      "message": "With this change such requests will fail now, but I think that\u0027s better than nested retries. Do you have an example in mind?",
+      "parentUuid": "bd809e8f_9e0ab6f1",
+      "revId": "61ebfe8d5cf404e789740d016325c3e1bda84774",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

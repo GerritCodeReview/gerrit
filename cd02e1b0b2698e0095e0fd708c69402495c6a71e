@@ -34,6 +34,24 @@
       "parentUuid": "1c993356_4d3245f8",
       "revId": "cd02e1b0b2698e0095e0fd708c69402495c6a71e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1d9fffe_ecaa8f38",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListTags.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-03-13T12:28:41Z",
+      "side": 1,
+      "message": "Thanks, this looks good!",
+      "parentUuid": "d6e0586b_0ad83e42",
+      "revId": "cd02e1b0b2698e0095e0fd708c69402495c6a71e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

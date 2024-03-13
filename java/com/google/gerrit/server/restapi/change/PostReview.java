@@ -291,48 +291,95 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
     output.labels = input.labels;
 
-    BatchUpdates.Result batchUpdateResult;
+    Account account = revision.getUser().asIdentifiedUser().getAccount();
+    boolean ccOrReviewer = false;
+    if (input.labels != null && !input.labels.isEmpty()) {
+      ccOrReviewer = input.labels.values().stream().anyMatch(v -> v != 0);
+      if (ccOrReviewer) {
+        logger.atFine().log("calling user is cc/reviewer on the change due to voting on a label");
+      }
+    }
+
+    if (!ccOrReviewer) {
+      // Check if user was already CCed or reviewing prior to this review.
+      ReviewerSet currentReviewers =
+          approvalsUtil.getReviewers(revision.getChangeResource().getNotes());
+      ccOrReviewer = currentReviewers.all().contains(account.id());
+      if (ccOrReviewer) {
+        logger.atFine().log("calling user is already cc/reviewer on the change");
+      }
+    }
+
+    for (ReviewerModification reviewerResult : reviewerResults) {
+      reviewerResult.op.suppressEmail(); // Send a single batch email below.
+      reviewerResult.op.suppressEvent(); // Send events below, if possible as batch.
+      if (!ccOrReviewer && reviewerResult.reviewers.contains(account)) {
+        logger.atFine().log("calling user is explicitly added as reviewer or CC");
+        ccOrReviewer = true;
+      }
+    }
 
     // Notify based on ReviewInput, ignoring the notify settings from any ReviewerInputs.
     NotifyResolver.Result notify = notifyResolver.resolve(input.notify, input.notifyDetails);
+
+    if ((input.ready || input.workInProgress)
+        && didWorkInProgressChange(revision.getChange().isWorkInProgress(), input)) {
+      if (input.ready && input.workInProgress) {
+        output.error = ERROR_WIP_READY_MUTUALLY_EXCLUSIVE;
+        return Response.withStatusCode(SC_BAD_REQUEST, output);
+      }
+
+      revision
+          .getChangeResource()
+          .permissions()
+          .check(ChangePermission.TOGGLE_WORK_IN_PROGRESS_STATE);
+
+      if (input.ready) {
+        output.ready = true;
+      }
+    }
+
+    BatchUpdates.Result batchUpdateResult =
+        runBatchUpdate(projectState, revision, input, ts, notify, reviewerResults, ccOrReviewer);
+    ChangeData cd =
+        batchUpdateResult.getChangeData(revision.getProject(), revision.getChange().getId());
+    for (ReviewerModification reviewerResult : reviewerResults) {
+      reviewerResult.gatherResults(cd);
+    }
+
+    // Sending emails and events from ReviewersOps was suppressed so we can send a single batch
+    // email/event here.
+    batchEmailReviewers(revision.getUser(), revision.getChange(), reviewerResults, notify);
+    batchReviewerEvents(revision.getUser(), cd, revision.getPatchSet(), reviewerResults, ts);
+
+    if (input.responseFormatOptions != null) {
+      output.changeInfo = changeJsonFactory.create(input.responseFormatOptions).format(cd);
+    }
+
+    return Response.ok(output);
+  }
+
+  private BatchUpdates.Result runBatchUpdate(
+      ProjectState projectState,
+      RevisionResource revision,
+      ReviewInput input,
+      Instant ts,
+      NotifyResolver.Result notify,
+      List<ReviewerModification> reviewerResults,
+      boolean ccOrReviewer)
+      throws UpdateException, RestApiException, IOException, PermissionBackendException,
+          ConfigInvalidException {
     try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
       try (BatchUpdate bu =
           updateFactory.create(revision.getChange().getProject(), revision.getUser(), ts)) {
         bu.setNotify(notify);
 
-        Account account = revision.getUser().asIdentifiedUser().getAccount();
-        boolean ccOrReviewer = false;
-        if (input.labels != null && !input.labels.isEmpty()) {
-          ccOrReviewer = input.labels.values().stream().anyMatch(v -> v != 0);
-          if (ccOrReviewer) {
-            logger.atFine().log(
-                "calling user is cc/reviewer on the change due to voting on a label");
-          }
-        }
-
-        if (!ccOrReviewer) {
-          // Check if user was already CCed or reviewing prior to this review.
-          ReviewerSet currentReviewers =
-              approvalsUtil.getReviewers(revision.getChangeResource().getNotes());
-          ccOrReviewer = currentReviewers.all().contains(account.id());
-          if (ccOrReviewer) {
-            logger.atFine().log("calling user is already cc/reviewer on the change");
-          }
-        }
-
         // Apply reviewer changes first. Revision emails should be sent to the
         // updated set of reviewers. Also keep track of whether the user added
         // themselves as a reviewer or to the CC list.
         logger.atFine().log("adding reviewer additions");
-        for (ReviewerModification reviewerResult : reviewerResults) {
-          reviewerResult.op.suppressEmail(); // Send a single batch email below.
-          reviewerResult.op.suppressEvent(); // Send events below, if possible as batch.
-          bu.addOp(revision.getChange().getId(), reviewerResult.op);
-          if (!ccOrReviewer && reviewerResult.reviewers.contains(account)) {
-            logger.atFine().log("calling user is explicitly added as reviewer or CC");
-            ccOrReviewer = true;
-          }
-        }
+        reviewerResults.forEach(
+            reviewerResult -> bu.addOp(revision.getChange().getId(), reviewerResult.op));
 
         if (!ccOrReviewer) {
           // User posting this review isn't currently in the reviewer or CC list,
@@ -349,20 +396,6 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         // Add WorkInProgressOp if requested.
         if ((input.ready || input.workInProgress)
             && didWorkInProgressChange(revision.getChange().isWorkInProgress(), input)) {
-          if (input.ready && input.workInProgress) {
-            output.error = ERROR_WIP_READY_MUTUALLY_EXCLUSIVE;
-            return Response.withStatusCode(SC_BAD_REQUEST, output);
-          }
-
-          revision
-              .getChangeResource()
-              .permissions()
-              .check(ChangePermission.TOGGLE_WORK_IN_PROGRESS_STATE);
-
-          if (input.ready) {
-            output.ready = true;
-          }
-
           logger.atFine().log("setting work-in-progress to %s", input.workInProgress);
           WorkInProgressOp wipOp =
               workInProgressOpFactory.create(input.workInProgress, new WorkInProgressOp.Input());
@@ -381,26 +414,9 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         replyAttentionSetUpdates.updateAttentionSetOnPostReview(
             bu, postReviewOp, revision.getNotes(), input, revision.getUser());
 
-        batchUpdateResult = bu.execute();
+        return bu.execute();
       }
     }
-
-    ChangeData cd =
-        batchUpdateResult.getChangeData(revision.getProject(), revision.getChange().getId());
-    for (ReviewerModification reviewerResult : reviewerResults) {
-      reviewerResult.gatherResults(cd);
-    }
-
-    // Sending emails and events from ReviewersOps was suppressed so we can send a single batch
-    // email/event here.
-    batchEmailReviewers(revision.getUser(), revision.getChange(), reviewerResults, notify);
-    batchReviewerEvents(revision.getUser(), cd, revision.getPatchSet(), reviewerResults, ts);
-
-    if (input.responseFormatOptions != null) {
-      output.changeInfo = changeJsonFactory.create(input.responseFormatOptions).format(cd);
-    }
-
-    return Response.ok(output);
   }
 
   private boolean didWorkInProgressChange(boolean currentWorkInProgress, ReviewInput input) {

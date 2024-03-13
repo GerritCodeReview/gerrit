@@ -1152,11 +1152,13 @@ public class ChangeIT extends AbstractDaemonTest {
         .modifyFile(FILE_NAME, RawInputUtil.create("foo".getBytes(UTF_8)));
 
     requestScopeOperations.setApiUser(admin.id());
+    String expected = RefNames.refsUsers(user.id()) + "/edit-" + result.getChange().getId() + "/1";
     try (Repository repo = repoManager.openRepository(project)) {
-      String expected =
-          RefNames.refsUsers(user.id()) + "/edit-" + result.getChange().getId() + "/1";
       assertThat(repo.getRefDatabase().getRefsByPrefix(expected)).isNotEmpty();
       gApi.changes().id(changeId).delete();
+    }
+    // On google infra, repo should be reopened for getting updated refs.
+    try (Repository repo = repoManager.openRepository(project)) {
       assertThat(repo.getRefDatabase().getRefsByPrefix(expected)).isEmpty();
     }
   }
@@ -1457,7 +1459,9 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(r.reviewers).hasSize(1);
     ReviewerInfo reviewer = r.reviewers.get(0);
     assertThat(reviewer._accountId).isEqualTo(id.get());
-    assertThat(reviewer.username).isEqualTo(username);
+    if (server.isUsernameSupported()) {
+      assertThat(reviewer.username).isEqualTo(username);
+    }
   }
 
   @Test
@@ -1476,7 +1480,9 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(r.reviewers).hasSize(1);
     ReviewerInfo reviewer = r.reviewers.get(0);
     assertThat(reviewer._accountId).isEqualTo(id.get());
-    assertThat(reviewer.username).isEqualTo(username);
+    if (server.isUsernameSupported()) {
+      assertThat(reviewer.username).isEqualTo(username);
+    }
   }
 
   @Test
@@ -1486,7 +1492,7 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.projects().name(project.get()).config(conf);
     PushOneCommit.Result result = createChange();
     String username = "user@domain.com";
-    Account.Id id = accountOperations.newAccount().username(username).inactive().create();
+    Account.Id id = accountOperations.newAccount().preferredEmail(username).inactive().create();
 
     ReviewerInput in = new ReviewerInput();
     in.reviewer = username;
@@ -1498,7 +1504,9 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(r.ccs).hasSize(1);
     AccountInfo reviewer = r.ccs.get(0);
     assertThat(reviewer._accountId).isEqualTo(id.get());
-    assertThat(reviewer.username).isEqualTo(username);
+    if (server.isUsernameSupported()) {
+      assertThat(reviewer.username).isEqualTo(username);
+    }
   }
 
   @Test
@@ -1587,17 +1595,22 @@ public class ChangeIT extends AbstractDaemonTest {
 
     String username1 = name("user1");
     String email1 = username1 + "@example.com";
-    accountOperations
-        .newAccount()
-        .username(username1)
-        .preferredEmail(email1)
-        .fullname("User1")
-        .create();
+    Account.Id user1Id =
+        accountOperations
+            .newAccount()
+            .username(username1)
+            .preferredEmail(email1)
+            .fullname("User1")
+            .create();
     in.reviewer = email1;
     in.state = ReviewerState.CC;
     gApi.changes().id(r.getChangeId()).addReviewer(in);
-    assertThat(gApi.changes().id(r.getChangeId()).reviewers().stream().map(a -> a.username))
-        .containsExactly(user.username(), username1);
+    if (server.isUsernameSupported()) {
+      assertThat(gApi.changes().id(r.getChangeId()).reviewers().stream().map(a -> a.username))
+          .containsExactly(user.username(), username1);
+    }
+    assertThat(gApi.changes().id(r.getChangeId()).reviewers().stream().map(a -> a._accountId))
+        .containsExactly(user.id().get(), user1Id.get());
   }
 
   @Test
@@ -1821,7 +1834,9 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   public void implicitlyCcOnNonVotingReviewForUserWithoutUserNamePgStyle() throws Exception {
     com.google.gerrit.acceptance.TestAccount accountWithoutUsername = accountCreator.create();
-    assertThat(accountWithoutUsername.username()).isNull();
+    if (server.isUsernameSupported()) {
+      assertThat(accountWithoutUsername.username()).isNull();
+    }
     testImplicitlyCcOnNonVotingReviewPgStyle(accountWithoutUsername);
   }
 
@@ -3470,7 +3485,9 @@ public class ChangeIT extends AbstractDaemonTest {
     // permittedVotingRange is not served if DETAILED_LABELS is not requested.
     assertThat(codeReviewApproval.permittedVotingRange).isNull();
     assertThat(codeReviewApproval.value).isEqualTo(1);
-    assertThat(codeReviewApproval.username).isEqualTo(admin.username());
+    if (server.isUsernameSupported()) {
+      assertThat(codeReviewApproval.username).isEqualTo(admin.username());
+    }
 
     // Add another +1 vote as user
     requestScopeOperations.setApiUser(user.id());
@@ -3486,8 +3503,12 @@ public class ChangeIT extends AbstractDaemonTest {
         .containsExactly(null, null);
     assertThat(codeReviewApprovals.stream().map(a -> a.value).collect(toList()))
         .containsExactly(1, 1);
-    assertThat(codeReviewApprovals.stream().map(a -> a.username).collect(toList()))
-        .containsExactly(admin.username(), user.username());
+    if (server.isUsernameSupported()) {
+      assertThat(codeReviewApprovals.stream().map(a -> a.username).collect(toList()))
+          .containsExactly(admin.username(), user.username());
+    }
+    assertThat(codeReviewApprovals.stream().map(a -> a._accountId).collect(toList()))
+        .containsExactly(admin.id().get(), user.id().get());
   }
 
   @Test
@@ -3602,12 +3623,16 @@ public class ChangeIT extends AbstractDaemonTest {
 
     assertThat(codeReviewApprovals).hasSize(1);
     assertThat(codeReviewApprovals.get(0).value).isEqualTo(2);
-    assertThat(codeReviewApprovals.get(0).username).isEqualTo(admin.username());
+    if (server.isUsernameSupported()) {
+      assertThat(codeReviewApprovals.get(0).username).isEqualTo(admin.username());
+    }
     assertThat(codeReviewApprovals.get(0).permittedVotingRange).isNull();
 
     assertThat(verifiedApprovals).hasSize(1);
     assertThat(verifiedApprovals.get(0).value).isEqualTo(1);
-    assertThat(verifiedApprovals.get(0).username).isEqualTo(admin.username());
+    if (server.isUsernameSupported()) {
+      assertThat(verifiedApprovals.get(0).username).isEqualTo(admin.username());
+    }
     assertThat(codeReviewApprovals.get(0).permittedVotingRange).isNull();
   }
 
@@ -4154,6 +4179,8 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit push = pushFactory.create(user.newIdent(), userTestRepo);
     PushOneCommit.Result r = push.to("refs/for/master");
     r.assertOkStatus();
+    assertThat(gApi.changes().id(r.getChangeId()).info().owner._accountId)
+        .isEqualTo(user.id().get());
     // Try to change the commit message
     AuthException thrown =
         assertThrows(

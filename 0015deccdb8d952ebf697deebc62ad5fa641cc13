@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5cd7b877_652c4095",
+        "filename": "polygerrit-ui/app/utils/location-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-03-13T12:13:28Z",
+      "side": 1,
+      "message": "NIT: Maybe can you add information that this is for window.location?\n\nSo if someone will search for window.location, they will find this file?",
+      "range": {
+        "startLine": 13,
+        "startChar": 2,
+        "endLine": 13,
+        "endChar": 14
+      },
+      "revId": "0015deccdb8d952ebf697deebc62ad5fa641cc13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

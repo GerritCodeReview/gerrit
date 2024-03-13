@@ -144,6 +144,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5206e30f_3e3d8970",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1006,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-03-13T10:29:09Z",
+      "side": 1,
+      "message": "Since they are excluded here, can you elaborate how will they be rendered from now on? (I don\u0027t really remember, how it used to look like). Want to make sure we are not leaving them in a broken state.",
+      "parentUuid": "70b1b338_b0118e49",
+      "range": {
+        "startLine": 1006,
+        "startChar": 58,
+        "endLine": 1006,
+        "endChar": 79
+      },
+      "revId": "ce5ade79ea6c0da8d80f0ab8423bb5789667c71e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "75db3913_261c4ab1",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
         "patchSetId": 4

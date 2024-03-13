@@ -291,100 +291,56 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
     output.labels = input.labels;
 
-    BatchUpdates.Result batchUpdateResult;
-
-    // Notify based on ReviewInput, ignoring the notify settings from any ReviewerInputs.
-    NotifyResolver.Result notify = notifyResolver.resolve(input.notify, input.notifyDetails);
-    try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
-      try (BatchUpdate bu =
-          updateFactory.create(revision.getChange().getProject(), revision.getUser(), ts)) {
-        bu.setNotify(notify);
-
-        Account account = revision.getUser().asIdentifiedUser().getAccount();
-        boolean ccOrReviewer = false;
-        if (input.labels != null && !input.labels.isEmpty()) {
-          ccOrReviewer = input.labels.values().stream().anyMatch(v -> v != 0);
-          if (ccOrReviewer) {
-            logger.atFine().log(
-                "calling user is cc/reviewer on the change due to voting on a label");
-          }
-        }
-
-        if (!ccOrReviewer) {
-          // Check if user was already CCed or reviewing prior to this review.
-          ReviewerSet currentReviewers =
-              approvalsUtil.getReviewers(revision.getChangeResource().getNotes());
-          ccOrReviewer = currentReviewers.all().contains(account.id());
-          if (ccOrReviewer) {
-            logger.atFine().log("calling user is already cc/reviewer on the change");
-          }
-        }
-
-        // Apply reviewer changes first. Revision emails should be sent to the
-        // updated set of reviewers. Also keep track of whether the user added
-        // themselves as a reviewer or to the CC list.
-        logger.atFine().log("adding reviewer additions");
-        for (ReviewerModification reviewerResult : reviewerResults) {
-          reviewerResult.op.suppressEmail(); // Send a single batch email below.
-          reviewerResult.op.suppressEvent(); // Send events below, if possible as batch.
-          bu.addOp(revision.getChange().getId(), reviewerResult.op);
-          if (!ccOrReviewer && reviewerResult.reviewers.contains(account)) {
-            logger.atFine().log("calling user is explicitly added as reviewer or CC");
-            ccOrReviewer = true;
-          }
-        }
-
-        if (!ccOrReviewer) {
-          // User posting this review isn't currently in the reviewer or CC list,
-          // isn't being explicitly added, and isn't voting on any label.
-          // Automatically CC them on this change so they receive replies.
-          logger.atFine().log("CCing calling user");
-          ReviewerModification selfAddition =
-              reviewerModifier.ccCurrentUser(revision.getUser(), revision);
-          selfAddition.op.suppressEmail();
-          selfAddition.op.suppressEvent();
-          bu.addOp(revision.getChange().getId(), selfAddition.op);
-        }
-
-        // Add WorkInProgressOp if requested.
-        if ((input.ready || input.workInProgress)
-            && didWorkInProgressChange(revision.getChange().isWorkInProgress(), input)) {
-          if (input.ready && input.workInProgress) {
-            output.error = ERROR_WIP_READY_MUTUALLY_EXCLUSIVE;
-            return Response.withStatusCode(SC_BAD_REQUEST, output);
-          }
-
-          revision
-              .getChangeResource()
-              .permissions()
-              .check(ChangePermission.TOGGLE_WORK_IN_PROGRESS_STATE);
-
-          if (input.ready) {
-            output.ready = true;
-          }
-
-          logger.atFine().log("setting work-in-progress to %s", input.workInProgress);
-          WorkInProgressOp wipOp =
-              workInProgressOpFactory.create(input.workInProgress, new WorkInProgressOp.Input());
-          wipOp.suppressEmail();
-          bu.addOp(revision.getChange().getId(), wipOp);
-        }
-
-        // Add the review ops.
-        logger.atFine().log("posting review");
-        PostReviewOp postReviewOp =
-            postReviewOpFactory.create(
-                projectState, revision.getPatchSet().id(), input, revision.getAccountId());
-        bu.addOp(revision.getChange().getId(), postReviewOp);
-
-        // Adjust the attention set based on the input
-        replyAttentionSetUpdates.updateAttentionSetOnPostReview(
-            bu, postReviewOp, revision.getNotes(), input, revision.getUser());
-
-        batchUpdateResult = bu.execute();
+    Account account = revision.getUser().asIdentifiedUser().getAccount();
+    boolean ccOrReviewer = false;
+    if (input.labels != null && !input.labels.isEmpty()) {
+      ccOrReviewer = input.labels.values().stream().anyMatch(v -> v != 0);
+      if (ccOrReviewer) {
+        logger.atFine().log("calling user is cc/reviewer on the change due to voting on a label");
       }
     }
 
+    if (!ccOrReviewer) {
+      // Check if user was already CCed or reviewing prior to this review.
+      ReviewerSet currentReviewers =
+          approvalsUtil.getReviewers(revision.getChangeResource().getNotes());
+      ccOrReviewer = currentReviewers.all().contains(account.id());
+      if (ccOrReviewer) {
+        logger.atFine().log("calling user is already cc/reviewer on the change");
+      }
+    }
+
+    for (ReviewerModification reviewerResult : reviewerResults) {
+      reviewerResult.op.suppressEmail(); // Send a single batch email below.
+      reviewerResult.op.suppressEvent(); // Send events below, if possible as batch.
+      if (!ccOrReviewer && reviewerResult.reviewers.contains(account)) {
+        logger.atFine().log("calling user is explicitly added as reviewer or CC");
+        ccOrReviewer = true;
+      }
+    }
+
+    // Notify based on ReviewInput, ignoring the notify settings from any ReviewerInputs.
+    NotifyResolver.Result notify = notifyResolver.resolve(input.notify, input.notifyDetails);
+
+    if ((input.ready || input.workInProgress)
+        && didWorkInProgressChange(revision.getChange().isWorkInProgress(), input)) {
+      if (input.ready && input.workInProgress) {
+        output.error = ERROR_WIP_READY_MUTUALLY_EXCLUSIVE;
+        return Response.withStatusCode(SC_BAD_REQUEST, output);
+      }
+
+      revision
+          .getChangeResource()
+          .permissions()
+          .check(ChangePermission.TOGGLE_WORK_IN_PROGRESS_STATE);
+
+      if (input.ready) {
+        output.ready = true;
+      }
+    }
+
+    BatchUpdates.Result batchUpdateResult =
+        runBatchUpdate(projectState, revision, input, ts, notify, reviewerResults, ccOrReviewer);
     ChangeData cd =
         batchUpdateResult.getChangeData(revision.getProject(), revision.getChange().getId());
     for (ReviewerModification reviewerResult : reviewerResults) {
@@ -403,6 +359,66 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
 
     return Response.ok(output);
+  }
+
+  private BatchUpdates.Result runBatchUpdate(
+      ProjectState projectState,
+      RevisionResource revision,
+      ReviewInput input,
+      Instant ts,
+      NotifyResolver.Result notify,
+      List<ReviewerModification> reviewerResults,
+      boolean ccOrReviewer)
+      throws UpdateException, RestApiException, IOException, PermissionBackendException,
+          ConfigInvalidException {
+    try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
+      try (BatchUpdate bu =
+          updateFactory.create(revision.getChange().getProject(), revision.getUser(), ts)) {
+        bu.setNotify(notify);
+
+        // Apply reviewer changes first. Revision emails should be sent to the
+        // updated set of reviewers. Also keep track of whether the user added
+        // themselves as a reviewer or to the CC list.
+        logger.atFine().log("adding reviewer additions");
+        reviewerResults.forEach(
+            reviewerResult -> bu.addOp(revision.getChange().getId(), reviewerResult.op));
+
+        if (!ccOrReviewer) {
+          // User posting this review isn't currently in the reviewer or CC list,
+          // isn't being explicitly added, and isn't voting on any label.
+          // Automatically CC them on this change so they receive replies.
+          logger.atFine().log("CCing calling user");
+          ReviewerModification selfAddition =
+              reviewerModifier.ccCurrentUser(revision.getUser(), revision);
+          selfAddition.op.suppressEmail();
+          selfAddition.op.suppressEvent();
+          bu.addOp(revision.getChange().getId(), selfAddition.op);
+        }
+
+        // Add WorkInProgressOp if requested.
+        if ((input.ready || input.workInProgress)
+            && didWorkInProgressChange(revision.getChange().isWorkInProgress(), input)) {
+          logger.atFine().log("setting work-in-progress to %s", input.workInProgress);
+          WorkInProgressOp wipOp =
+              workInProgressOpFactory.create(input.workInProgress, new WorkInProgressOp.Input());
+          wipOp.suppressEmail();
+          bu.addOp(revision.getChange().getId(), wipOp);
+        }
+
+        // Add the review ops.
+        logger.atFine().log("posting review");
+        PostReviewOp postReviewOp =
+            postReviewOpFactory.create(
+                projectState, revision.getPatchSet().id(), input, revision.getAccountId());
+        bu.addOp(revision.getChange().getId(), postReviewOp);
+
+        // Adjust the attention set based on the input
+        replyAttentionSetUpdates.updateAttentionSetOnPostReview(
+            bu, postReviewOp, revision.getNotes(), input, revision.getUser());
+
+        return bu.execute();
+      }
+    }
   }
 
   private boolean didWorkInProgressChange(boolean currentWorkInProgress, ReviewInput input) {

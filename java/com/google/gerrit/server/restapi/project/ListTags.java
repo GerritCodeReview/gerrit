@@ -42,6 +42,7 @@ import java.io.IOException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
@@ -78,6 +79,14 @@ public class ListTags implements RestReadView<ProjectResource> {
   }
 
   @Option(
+      name = "--descending",
+      aliases = {"-d"},
+      usage = "sort the returned tags in descending order")
+  public void setDescendingOrder(boolean descendingOrder) {
+    this.descendingOrder = descendingOrder;
+  }
+
+  @Option(
       name = "--match",
       aliases = {"-m"},
       metaVar = "MATCH",
@@ -97,6 +106,7 @@ public class ListTags implements RestReadView<ProjectResource> {
 
   private int limit;
   private int start;
+  private boolean descendingOrder;
   private String matchSubstring;
   private String matchRegex;
 
@@ -111,6 +121,7 @@ public class ListTags implements RestReadView<ProjectResource> {
   public ListTags request(ListRefsRequest<TagInfo> request) {
     this.setLimit(request.getLimit());
     this.setStart(request.getStart());
+    this.setDescendingOrder(request.getDescendingOrder());
     this.setMatchSubstring(request.getSubstring());
     this.setMatchRegex(request.getRegex());
     return this;
@@ -137,6 +148,9 @@ public class ListTags implements RestReadView<ProjectResource> {
     }
 
     tags.sort(comparing(t -> t.ref));
+    if (descendingOrder) {
+      Collections.reverse(tags);
+    }
 
     return Response.ok(
         new RefFilter<>(Constants.R_TAGS, (TagInfo tag) -> tag.ref)

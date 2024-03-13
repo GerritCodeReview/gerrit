@@ -16,12 +16,12 @@ package com.google.gerrit.server.notedb;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static com.google.gerrit.truth.OptionalSubject.assertThat;
 
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
-import com.google.gerrit.truth.OptionalSubject;
 import java.io.IOException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
@@ -52,7 +52,7 @@ public class IntBlobTest {
 
   @Test
   public void parseNoRef() throws Exception {
-    OptionalSubject.assertThat(IntBlob.parse(repo, "refs/nothing")).isEmpty();
+    assertThat(IntBlob.parse(repo, "refs/nothing")).isEmpty();
   }
 
   @Test
@@ -66,18 +66,14 @@ public class IntBlobTest {
   public void parseValid() throws Exception {
     String refName = "refs/foo";
     ObjectId id = tr.update(refName, tr.blob("123"));
-    OptionalSubject.assertThat(IntBlob.parse(repo, refName))
-        .value()
-        .isEqualTo(IntBlob.create(id, 123));
+    assertThat(IntBlob.parse(repo, refName)).value().isEqualTo(IntBlob.create(id, 123));
   }
 
   @Test
   public void parseWithWhitespace() throws Exception {
     String refName = "refs/foo";
     ObjectId id = tr.update(refName, tr.blob(" 123 "));
-    OptionalSubject.assertThat(IntBlob.parse(repo, refName))
-        .value()
-        .isEqualTo(IntBlob.create(id, 123));
+    assertThat(IntBlob.parse(repo, refName)).value().isEqualTo(IntBlob.create(id, 123));
   }
 
   @Test
@@ -96,7 +92,7 @@ public class IntBlobTest {
         IntBlob.tryStore(repo, rw, projectName, refName, null, 123, GitReferenceUpdated.DISABLED);
     assertThat(ru.getResult()).isEqualTo(RefUpdate.Result.NEW);
     assertThat(ru.getName()).isEqualTo(refName);
-    OptionalSubject.assertThat(IntBlob.parse(repo, refName))
+    assertThat(IntBlob.parse(repo, refName))
         .value()
         .isEqualTo(IntBlob.create(ru.getNewObjectId(), 123));
   }
@@ -109,7 +105,7 @@ public class IntBlobTest {
             repo, rw, projectName, refName, ObjectId.zeroId(), 123, GitReferenceUpdated.DISABLED);
     assertThat(ru.getResult()).isEqualTo(RefUpdate.Result.NEW);
     assertThat(ru.getName()).isEqualTo(refName);
-    OptionalSubject.assertThat(IntBlob.parse(repo, refName))
+    assertThat(IntBlob.parse(repo, refName))
         .value()
         .isEqualTo(IntBlob.create(ru.getNewObjectId(), 123));
   }
@@ -122,7 +118,7 @@ public class IntBlobTest {
         IntBlob.tryStore(repo, rw, projectName, refName, id, 456, GitReferenceUpdated.DISABLED);
     assertThat(ru.getResult()).isEqualTo(RefUpdate.Result.FORCED);
     assertThat(ru.getName()).isEqualTo(refName);
-    OptionalSubject.assertThat(IntBlob.parse(repo, refName))
+    assertThat(IntBlob.parse(repo, refName))
         .value()
         .isEqualTo(IntBlob.create(ru.getNewObjectId(), 456));
   }
@@ -141,14 +137,14 @@ public class IntBlobTest {
             GitReferenceUpdated.DISABLED);
     assertThat(ru.getResult()).isEqualTo(RefUpdate.Result.LOCK_FAILURE);
     assertThat(ru.getName()).isEqualTo(refName);
-    OptionalSubject.assertThat(IntBlob.parse(repo, refName)).isEmpty();
+    assertThat(IntBlob.parse(repo, refName)).isEmpty();
   }
 
   @Test
   public void storeNoOldId() throws Exception {
     String refName = "refs/foo";
     IntBlob.store(repo, rw, projectName, refName, null, 123, GitReferenceUpdated.DISABLED);
-    OptionalSubject.assertThat(IntBlob.parse(repo, refName))
+    assertThat(IntBlob.parse(repo, refName))
         .value()
         .isEqualTo(IntBlob.create(getRef(refName), 123));
   }
@@ -158,7 +154,7 @@ public class IntBlobTest {
     String refName = "refs/foo";
     IntBlob.store(
         repo, rw, projectName, refName, ObjectId.zeroId(), 123, GitReferenceUpdated.DISABLED);
-    OptionalSubject.assertThat(IntBlob.parse(repo, refName))
+    assertThat(IntBlob.parse(repo, refName))
         .value()
         .isEqualTo(IntBlob.create(getRef(refName), 123));
   }
@@ -168,7 +164,7 @@ public class IntBlobTest {
     String refName = "refs/foo";
     ObjectId id = tr.update(refName, tr.blob("123"));
     IntBlob.store(repo, rw, projectName, refName, id, 456, GitReferenceUpdated.DISABLED);
-    OptionalSubject.assertThat(IntBlob.parse(repo, refName))
+    assertThat(IntBlob.parse(repo, refName))
         .value()
         .isEqualTo(IntBlob.create(getRef(refName), 456));
   }
@@ -189,7 +185,7 @@ public class IntBlobTest {
                     123,
                     GitReferenceUpdated.DISABLED));
     assertThat(thrown.getFailedRefs()).containsExactly("refs/foo");
-    OptionalSubject.assertThat(IntBlob.parse(repo, refName)).isEmpty();
+    assertThat(IntBlob.parse(repo, refName)).isEmpty();
   }
 
   private ObjectId getRef(String refName) throws IOException {

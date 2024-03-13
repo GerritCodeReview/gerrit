@@ -93,6 +93,16 @@ public class IndexedQuery<I, T> extends Predicate<T> implements DataSource<T>, P
   }
 
   @Override
+  public ResultSet<T> restart(int start, int pageSize, int limit) {
+    int realPageSize = start + pageSize;
+    if (Integer.MAX_VALUE - pageSize < start) {
+      realPageSize = Integer.MAX_VALUE;
+    }
+    opts = opts.withStart(start).withPageSize(pageSize).withLimit(realPageSize);
+    return search();
+  }
+
+  @Override
   public ResultSet<T> restart(Object searchAfter, int pageSize) {
     opts = opts.withSearchAfter(searchAfter).withPageSize(pageSize);
     return search();

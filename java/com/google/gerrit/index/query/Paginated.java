@@ -22,4 +22,6 @@ public interface Paginated<T> {
   ResultSet<T> restart(int start, int pageSize);
 
   ResultSet<T> restart(Object searchAfter, int pageSize);
+
+  ResultSet<T> restart(int start, int pageSize, int limit);
 }

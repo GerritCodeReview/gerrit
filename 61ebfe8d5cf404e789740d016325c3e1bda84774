@@ -34,6 +34,24 @@
       "parentUuid": "bd809e8f_9e0ab6f1",
       "revId": "61ebfe8d5cf404e789740d016325c3e1bda84774",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97f20da7_a5738e8c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-03-13T17:55:56Z",
+      "side": 1,
+      "message": "I don\u0027t know if I have a perfect example, @kaushik.lingarkar@linaro.org might be able to add more. I do know the SnapshottingRefDirectory\u0027s update* methods will invalidate its snapshot of refs if they encounter any exceptions (such as a LockFailure), and then an outer operation like PostReview could see an updated change note ref that might allow the outer operation to succeed. If the inner operation were retried on its own it might continue to fail (maybe because it\u0027s trying to make an update based on some invalid/outdated data).",
+      "parentUuid": "ddb32037_c9247bd2",
+      "revId": "61ebfe8d5cf404e789740d016325c3e1bda84774",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

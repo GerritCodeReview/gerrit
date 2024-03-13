@@ -52,6 +52,24 @@
       "parentUuid": "ddb32037_c9247bd2",
       "revId": "61ebfe8d5cf404e789740d016325c3e1bda84774",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b5fea08_1b426716",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-03-13T18:08:56Z",
+      "side": 1,
+      "message": "Is a bug then that the inner operation is retried at all?",
+      "parentUuid": "97f20da7_a5738e8c",
+      "revId": "61ebfe8d5cf404e789740d016325c3e1bda84774",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

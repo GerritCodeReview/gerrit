@@ -1809,7 +1809,10 @@ export class GrChangeView extends LitElement {
     if (this.loggedIn) {
       this.openReplyDialog(FocusTarget.ANY);
     } else {
-      this.getNavigation().setUrl(this.loginUrl);
+      // We are not using `this.getNavigation().setUrl()`, because the login
+      // page is served directly from the backend and is not part of the web
+      // app.
+      window.location.assign(this.loginUrl);
     }
   }
 

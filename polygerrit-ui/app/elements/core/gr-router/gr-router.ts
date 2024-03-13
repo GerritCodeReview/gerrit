@@ -120,12 +120,6 @@ const RoutePattern = {
   NEW_AGREEMENTS: /^\/settings\/new-agreement\/?/,
   REGISTER: /^\/register(\/.*)?$/,
 
-  // Pattern for login and logout URLs intended to be passed-through. May
-  // include a return URL.
-  // TODO: Maybe this pattern and its handler can just be removed, because
-  // passing through is what the default router would eventually do anyway.
-  LOG_IN_OR_OUT: /^\/log(in|out)(\/(.+))?$/,
-
   // Pattern for a catchall route when no other pattern is matched.
   DEFAULT: /.*/,
 
@@ -170,8 +164,6 @@ const RoutePattern = {
 
   // Matches /admin/repos/<repos>,access.
   REPO_DASHBOARDS: /^\/admin\/repos\/(.+),dashboards$/,
-
-  PLUGINS: /^\/plugins\/(.+)$/,
 
   // Matches /admin/plugins with optional filter and offset.
   PLUGIN_LIST: /^\/admin\/plugins\/?(?:\/q\/filter:(.*?))?(?:,(\d+))?$/,
@@ -456,7 +448,10 @@ export class GrRouter implements Finalizable, NavigationService {
    */
   redirectToLogin(returnUrl: string) {
     const basePath = getBaseUrl() || '';
-    this.setUrl(
+    // We are not using `this.getNavigation().setUrl()`, because the login
+    // page is served directly from the backend and is not part of the web
+    // app.
+    window.location.assign(
       '/login/' + encodeURIComponent(returnUrl.substring(basePath.length))
     );
   }
@@ -579,6 +574,8 @@ export class GrRouter implements Finalizable, NavigationService {
    * page.show() eventually just calls `window.history.pushState()`.
    */
   setUrl(url: string) {
+    // TODO: Use window.location.assign() instead of page.show(), if the URL is
+    // external, i.e. not handled by the router.
     this.page.show(url);
   }
 
@@ -589,6 +586,8 @@ export class GrRouter implements Finalizable, NavigationService {
    * this.page.redirect() eventually just calls `window.history.replaceState()`.
    */
   replaceUrl(url: string) {
+    // TODO: Use window.location.replace() instead of page.redirect(), if the
+    // URL is external, i.e. not handled by the router.
     this.redirect(url);
   }
 
@@ -805,10 +804,6 @@ export class GrRouter implements Finalizable, NavigationService {
       this.handleRepoRoute(ctx)
     );
 
-    this.mapRoute(RoutePattern.PLUGINS, 'handlePassThroughRoute', () =>
-      this.handlePassThroughRoute()
-    );
-
     this.mapRoute(
       RoutePattern.PLUGIN_LIST,
       'handlePluginListFilterRoute',
@@ -905,10 +900,6 @@ export class GrRouter implements Finalizable, NavigationService {
 
     this.mapRoute(RoutePattern.REGISTER, 'handleRegisterRoute', ctx =>
       this.handleRegisterRoute(ctx)
-    );
-
-    this.mapRoute(RoutePattern.LOG_IN_OR_OUT, 'handlePassThroughRoute', () =>
-      this.handlePassThroughRoute()
     );
 
     this.mapRoute(
@@ -1547,14 +1538,6 @@ export class GrRouter implements Finalizable, NavigationService {
   }
 
   /**
-   * Handler for routes that should pass through the router and not be caught
-   * by the catchall _handleDefaultRoute handler.
-   */
-  handlePassThroughRoute() {
-    windowLocationReload();
-  }
-
-  /**
    * URL may sometimes have /+/ encoded to / /.
    * Context: Issue 6888, Issue 7100
    */
@@ -1609,8 +1592,13 @@ export class GrRouter implements Finalizable, NavigationService {
       this.show404();
     } else {
       // Route can be recognized by server, so we pass it to server.
-      this.handlePassThroughRoute();
+      this.windowReload();
     }
+  }
+
+  // Allows stubbing in tests.
+  windowReload() {
+    windowLocationReload();
   }
 
   private show404() {

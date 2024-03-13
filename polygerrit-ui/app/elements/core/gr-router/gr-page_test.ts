@@ -20,14 +20,49 @@ suite('gr-page tests', () => {
     page.stop();
   });
 
-  test('click handler', async () => {
-    const spy = sinon.spy();
-    page.registerRoute(/\/settings/, spy);
-    const link = await fixture<HTMLAnchorElement>(
-      html`<a href="/settings"></a>`
-    );
-    link.click();
-    assert.isTrue(spy.calledOnce);
+  suite('click handler', () => {
+    const clickListener = (e: Event) => e.preventDefault();
+    let spy: sinon.SinonSpy;
+    let link: HTMLAnchorElement;
+
+    setup(async () => {
+      spy = sinon.spy();
+      link = await fixture<HTMLAnchorElement>(html`<a href="/settings"></a>`);
+
+      document.addEventListener('click', clickListener);
+    });
+
+    teardown(() => {
+      document.removeEventListener('click', clickListener);
+    });
+
+    test('click handled by specific route', async () => {
+      page.registerRoute(/\/settings/, spy);
+      link.href = '/settings';
+      link.click();
+      assert.isTrue(spy.calledOnce);
+    });
+
+    test('click handled by default route', async () => {
+      page.registerRoute(/.*/, spy);
+      link.href = '/something';
+      link.click();
+      assert.isTrue(spy.called);
+    });
+
+    test('click not handled for /plugins/... links', async () => {
+      page.registerRoute(/.*/, spy);
+      link.href = '/plugins/gitiles';
+      link.click();
+      assert.isFalse(spy.called);
+    });
+
+    test('click not handled for /login/... links', async () => {
+      page.registerRoute(/.*/, spy);
+      link.href = '/login';
+      link.click();
+      assert.isFalse(spy.called);
+    });
   });
 
   test('register route and exit', () => {

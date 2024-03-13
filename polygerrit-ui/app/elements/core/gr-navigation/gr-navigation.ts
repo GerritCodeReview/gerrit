@@ -10,7 +10,12 @@ export const navigationToken = define<NavigationService>('navigation');
 export interface NavigationService {
   /**
    * This is similar to letting the browser navigate to this URL when the user
-   * clicks it, or to just setting `window.location.href` directly.
+   * clicks it, or to just calling `window.location.assign()` directly.
+   *
+   * CAUTION: You should actually use `window.location.assign()` directly for
+   * URLs that are not handled by gr-router. Otherwise we will call
+   * `pushState()` and then `window.location.reload()` from the router, which
+   * will break the browser's back button.
    *
    * This adds a new entry to the browser location history. Consier using
    * `replaceUrl()`, if you want to avoid that.
@@ -22,6 +27,11 @@ export interface NavigationService {
   /**
    * Navigate to this URL, but replace the current URL in the history instead of
    * adding a new one (which is what `setUrl()` would do).
+   *
+   * CAUTION: You should actually use `window.location.replace()` directly for
+   * URLs that are not handled by gr-router. Otherwise we will call
+   * `replaceState()` and then `window.location.reload()` from the router, which
+   * will break the browser's back button.
    *
    * page.redirect() eventually just calls `window.history.replaceState()`.
    */

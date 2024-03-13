@@ -153,6 +153,7 @@ import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-load
 import {modalStyles} from '../../../styles/gr-modal-styles';
 import {relatedChangesModelToken} from '../../../models/change/related-changes-model';
 import {KnownExperimentId} from '../../../services/flags/flags';
+import {assign} from '../../../utils/location-util';
 
 const MIN_LINES_FOR_COMMIT_COLLAPSE = 18;
 
@@ -1812,7 +1813,7 @@ export class GrChangeView extends LitElement {
       // We are not using `this.getNavigation().setUrl()`, because the login
       // page is served directly from the backend and is not part of the web
       // app.
-      window.location.assign(this.loginUrl);
+      assign(window.location, this.loginUrl);
     }
   }
 

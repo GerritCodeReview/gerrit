@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ddcee829_a56a41b5",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-page.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-03-13T08:08:26Z",
+      "side": 1,
+      "message": "Wouldn\u0027t it be better to use gr-router RoutePattern?\nLOG_IN_OR_OUT and PLUGINS?",
+      "range": {
+        "startLine": 251,
+        "startChar": 6,
+        "endLine": 253,
+        "endChar": 33
+      },
+      "revId": "88d40fd0b532ef55899842b554af9636e7986387",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -22,6 +22,30 @@
       },
       "revId": "0015deccdb8d952ebf697deebc62ad5fa641cc13",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dfe2a903_5e4b8794",
+        "filename": "polygerrit-ui/app/utils/location-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-03-13T12:15:16Z",
+      "side": 1,
+      "message": "They will find callers of this function. I think that should be enough.",
+      "parentUuid": "5cd7b877_652c4095",
+      "range": {
+        "startLine": 13,
+        "startChar": 2,
+        "endLine": 13,
+        "endChar": 14
+      },
+      "revId": "0015deccdb8d952ebf697deebc62ad5fa641cc13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -23,6 +23,7 @@ import static org.eclipse.jgit.lib.Constants.R_TAGS;
 
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -155,6 +156,10 @@ public class TagsIT extends AbstractDaemonTest {
 
     // With conflicting options
     assertBadRequest(getTags().withSubstring("ag-B").withRegex("^tag-[c|d]$"));
+
+    // with descending order
+    result = getTags().withDescendingOrder(true).get();
+    assertTagList(FluentIterable.from(Lists.reverse(testTags)), result);
   }
 
   @Test

@@ -115,6 +115,7 @@ public class BatchUpdateTest {
   @Inject private InternalUser.Factory internalUserFactory;
   @Inject private AbandonOp.Factory abandonOpFactory;
   @Inject @GerritPersonIdent private PersonIdent serverIdent;
+  @Inject private RetryHelper retryHelper;
 
   @Rule public final MockitoRule mockito = MockitoJUnit.rule();
 
@@ -631,6 +632,72 @@ public class BatchUpdateTest {
     // Check that the change was not updated.
     notes = changeNotesFactory.create(project, changeId);
     assertThat(notes.getChange().getStatus()).isEqualTo(Change.Status.NEW);
+  }
+
+  @Test
+  public void useRetryHelperToRetryOnLockFailure() throws Exception {
+    Change.Id changeId = createChange();
+    ObjectId metaId = getMetaId(changeId);
+
+    ChangeNotes notes = changeNotesFactory.create(project, changeId);
+    assertThat(notes.getChange().getStatus()).isEqualTo(Change.Status.NEW);
+
+    AtomicBoolean doneBackgroundUpdate = new AtomicBoolean(false);
+
+    // Create a listener that updates the change meta ref concurrently on the first attempt.
+    BatchUpdateListener listener =
+        new BatchUpdateListener() {
+          @Override
+          public BatchRefUpdate beforeUpdateRefs(BatchRefUpdate bru) {
+            if (!doneBackgroundUpdate.getAndSet(true)) {
+              try (RevWalk rw = new RevWalk(repo.getRepository())) {
+                RevCommit old = rw.parseCommit(metaId);
+                RevCommit commit =
+                    repo.commit()
+                        .parent(old)
+                        .author(serverIdent)
+                        .committer(serverIdent)
+                        .setTopLevelTree(old.getTree())
+                        .message("Concurrent Update\n\nPatch-Set: 1")
+                        .create();
+                RefUpdate ru = repo.getRepository().updateRef(RefNames.changeMetaRef(changeId));
+                ru.setExpectedOldObjectId(metaId);
+                ru.setNewObjectId(commit);
+                ru.update();
+                RefUpdateUtil.checkResult(ru);
+              } catch (Exception e) {
+                // Ignore. If an exception happens doneBackgroundUpdate is false and we fail later
+                // when doneBackgroundUpdate is checked.
+              }
+            }
+            return bru;
+          }
+        };
+
+    // Do a batch update, expect that it succeeds due to retrying despite the LOCK_FAILURE on the
+    // first attempt.
+    assertThat(doneBackgroundUpdate.get()).isFalse();
+
+    @SuppressWarnings("unused")
+    var unused =
+        retryHelper
+            .changeUpdate(
+                "batchUpdate",
+                updateFactory -> {
+                  try (BatchUpdate bu = updateFactory.create(project, user.get(), TimeUtil.now())) {
+                    bu.addOp(changeId, abandonOpFactory.create(null, "abandon"));
+                    bu.execute(listener);
+                  }
+                  return null;
+                })
+            .call();
+
+    // Check that the concurrent update was done.
+    assertThat(doneBackgroundUpdate.get()).isTrue();
+
+    // Check that the BatchUpdate updated the change.
+    notes = changeNotesFactory.create(project, changeId);
+    assertThat(notes.getChange().getStatus()).isEqualTo(Change.Status.ABANDONED);
   }
 
   private Change.Id createChange() throws Exception {

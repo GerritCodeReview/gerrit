@@ -72,6 +72,7 @@ public interface ProjectApi {
   abstract class ListRefsRequest<T extends RefInfo> {
     protected int limit;
     protected int start;
+    protected boolean descendingOrder;
     protected String substring;
     protected String regex;
     protected String nextPageToken;
@@ -85,6 +86,11 @@ public interface ProjectApi {
 
     public ListRefsRequest<T> withStart(int start) {
       this.start = start;
+      return this;
+    }
+
+    public ListRefsRequest<T> withDescendingOrder(boolean descendingOrder) {
+      this.descendingOrder = descendingOrder;
       return this;
     }
 
@@ -110,6 +116,8 @@ public interface ProjectApi {
     public int getStart() {
       return start;
     }
+
+    public boolean getDescendingOrder() { return descendingOrder; }
 
     public String getNextPageToken() {
       return nextPageToken;

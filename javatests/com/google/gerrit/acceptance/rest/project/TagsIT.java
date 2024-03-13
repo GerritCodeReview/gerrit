@@ -155,6 +155,10 @@ public class TagsIT extends AbstractDaemonTest {
 
     // With conflicting options
     assertBadRequest(getTags().withSubstring("ag-B").withRegex("^tag-[c|d]$"));
+
+    // with descending order
+    result = getTags().withDescendingOrder(true).get();
+    assertTagList(FluentIterable.from(testTags).reverse(), result);
   }
 
   @Test

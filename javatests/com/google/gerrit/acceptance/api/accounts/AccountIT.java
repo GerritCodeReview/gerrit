@@ -3031,17 +3031,24 @@ public class AccountIT extends AbstractDaemonTest {
         getExternalIdFactory()
             .createWithEmail(
                 SCHEME_MAILTO, "secondary@non.google", admin.id(), "secondary@non.google");
+    AtomicBoolean bgIndicator = new AtomicBoolean(false);
     accountsUpdateProvider
         .get()
         .update(
             "Replace External ID",
             admin.id(),
-            (a, u) ->
-                u.replaceExternalId(
-                    getExternalIdsReader()
-                        .get(createEmailExternalId(admin.id(), admin.email()).key())
-                        .get(),
-                    externalId));
+            (a, u) -> {
+              if (bgIndicator.getAndSet(true)) {
+                // In the Google architecture, this runnable might be called multiple times. Only
+                // do the replacement ones./
+                return;
+              }
+              u.replaceExternalId(
+                  getExternalIdsReader()
+                      .get(createEmailExternalId(admin.id(), admin.email()).key())
+                      .get(),
+                  externalId);
+            });
     assertExternalIds(admin.id(), ImmutableSet.of("mailto:secondary@non.google", "username:admin"));
 
     AccountState updatedState = accountCache.get(admin.id()).get();

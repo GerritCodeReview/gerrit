@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ffd69c55_d95f1782",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 666,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-03-13T11:13:05Z",
+      "side": 1,
+      "message": "Added explicit condition and comment.",
+      "parentUuid": "3dc0ccd5_5ce1ac83",
+      "range": {
+        "startLine": 665,
+        "startChar": 10,
+        "endLine": 666,
+        "endChar": 46
+      },
+      "revId": "10a7ffa5aa75563a286536e50119c218f2eec8fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bcbb1b2d_0381ce6a",
@@ -54,6 +78,30 @@
       "writtenOn": "2024-03-13T10:29:09Z",
       "side": 1,
       "message": "nit: Can we have a class level docstring explaining the purpose of the class?",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 50
+      },
+      "revId": "10a7ffa5aa75563a286536e50119c218f2eec8fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac162da5_b214a887",
+        "filename": "polygerrit-ui/app/elements/shared/gr-fix-suggestions/gr-fix-suggestions.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-03-13T11:13:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bcbb1b2d_0381ce6a",
       "range": {
         "startLine": 23,
         "startChar": 0,
@@ -87,6 +135,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3e4718a_720c4895",
+        "filename": "polygerrit-ui/app/elements/shared/gr-fix-suggestions/gr-fix-suggestions.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-03-13T11:13:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ac203890_577e8097",
+      "range": {
+        "startLine": 131,
+        "startChar": 4,
+        "endLine": 133,
+        "endChar": 29
+      },
+      "revId": "10a7ffa5aa75563a286536e50119c218f2eec8fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ff0120ea_229a5f3a",
@@ -100,6 +172,30 @@
       "writtenOn": "2024-03-13T10:29:09Z",
       "side": 1,
       "message": "nit: We should document that when both user suggestion and fix are present, user suggestion wins",
+      "range": {
+        "startLine": 302,
+        "startChar": 8,
+        "endLine": 302,
+        "endChar": 23
+      },
+      "revId": "10a7ffa5aa75563a286536e50119c218f2eec8fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d26193cc_2298d268",
+        "filename": "polygerrit-ui/app/elements/shared/gr-suggestion-diff-preview/gr-suggestion-diff-preview.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-03-13T11:13:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff0120ea_229a5f3a",
       "range": {
         "startLine": 302,
         "startChar": 8,

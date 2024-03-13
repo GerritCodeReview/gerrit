@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1656e103_ed5fdb0b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-03-13T20:58:40Z",
+      "side": 1,
+      "message": "This issue was reported on 3.7, but this change seems to have some significant conflicts with that branch. Can you help to backport it?",
+      "revId": "90b2b7dd10a929f7afb1a8306705e1d530368bf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

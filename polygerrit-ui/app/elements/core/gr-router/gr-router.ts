@@ -106,6 +106,7 @@ import {
   timeoutPromise,
 } from '../../../utils/async-util';
 import {Finalizable} from '../../../types/types';
+import {assign} from '../../../utils/location-util';
 
 // TODO: Move all patterns to view model files and use the `Route` interface,
 // which will enforce using `RegExp` in its `urlPattern` property.
@@ -455,7 +456,8 @@ export class GrRouter implements Finalizable, NavigationService {
     // We are not using `this.getNavigation().setUrl()`, because the login
     // page is served directly from the backend and is not part of the web
     // app.
-    window.location.assign(
+    assign(
+      window.location,
       '/login/' + encodeURIComponent(returnUrl.substring(basePath.length))
     );
   }

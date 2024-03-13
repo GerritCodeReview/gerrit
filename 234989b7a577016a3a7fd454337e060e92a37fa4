@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11e86950_207d8bff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-03-13T14:33:32Z",
+      "side": 1,
+      "message": "One last thing to do, please add a \"Release-Notes\" footer with a line that should be included into the release notes, e.g.:\n\nRelease-Notes: Added support for listing tags in descending order\n\nThe Release-Notes footer should be in the same paragraph as the Change-Id footer.",
+      "revId": "234989b7a577016a3a7fd454337e060e92a37fa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

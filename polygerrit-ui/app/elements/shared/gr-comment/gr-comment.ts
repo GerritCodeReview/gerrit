@@ -15,6 +15,7 @@ import '../gr-tooltip-content/gr-tooltip-content';
 import '../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog';
 import '../gr-account-label/gr-account-label';
 import '../gr-suggestion-diff-preview/gr-suggestion-diff-preview';
+import '../gr-fix-suggestions/gr-fix-suggestions';
 import {getAppContext} from '../../../services/app-context';
 import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
@@ -663,8 +664,8 @@ export class GrComment extends LitElement {
             <gr-endpoint-slot name="above-actions"></gr-endpoint-slot>
             ${this.renderHumanActions()} ${this.renderRobotActions()}
           </div>
-          ${this.renderGeneratedSuggestionPreview()}
-          ${this.renderFixSuggestionPreview()}
+          ${/* if this.editing */ this.renderGeneratedSuggestionPreview()}
+          ${/* if !this.editing */ this.renderFixSuggestionPreview()}
         </div>
       </gr-endpoint-decorator>
       ${this.renderConfirmDialog()}
@@ -1001,10 +1002,11 @@ export class GrComment extends LitElement {
   }
 
   private renderFixSuggestionPreview() {
-    if (!this.comment?.fix_suggestions || this.editing) return nothing;
-    return html`<gr-suggestion-diff-preview
-      .fixReplacementInfos=${this.comment?.fix_suggestions?.[0].replacements}
-    ></gr-suggestion-diff-preview>`;
+    if (!this.comment?.fix_suggestions || this.editing || isRobot(this.comment))
+      return nothing;
+    return html`<gr-fix-suggestions
+      .comment=${this.comment}
+    ></gr-fix-suggestions>`;
   }
 
   // private but used in test
@@ -1031,13 +1033,17 @@ export class GrComment extends LitElement {
   }
 
   private renderGeneratedSuggestionPreview() {
-    if (!this.showGeneratedSuggestion() || !this.generateSuggestion)
+    if (
+      !this.editing ||
+      !this.showGeneratedSuggestion() ||
+      !this.generateSuggestion
+    )
       return nothing;
     if (!isDraft(this.comment)) return nothing;
 
     if (this.generatedFixSuggestion) {
       return html`<gr-suggestion-diff-preview
-        .fixReplacementInfos=${this.generatedFixSuggestion.replacements}
+        .fixSuggestionInfo=${this.generatedFixSuggestion}
       ></gr-suggestion-diff-preview>`;
     } else if (this.generatedSuggestion) {
       return html`<gr-suggestion-diff-preview

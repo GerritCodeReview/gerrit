@@ -241,7 +241,6 @@ suite('gr-comment tests', () => {
                   </gr-button>
                 </div>
               </div>
-              <gr-suggestion-diff-preview></gr-suggestion-diff-preview>
             </div>
           </gr-endpoint-decorator>
           <dialog id="confirmDeleteModal" tabindex="-1">
@@ -956,8 +955,8 @@ suite('gr-comment tests', () => {
       element.editing = false;
       await element.updateComplete;
       assert.dom.equal(
-        queryAndAssert(element, 'gr-suggestion-diff-preview'),
-        /* HTML */ '<gr-suggestion-diff-preview> </gr-suggestion-diff-preview>'
+        queryAndAssert(element, 'gr-fix-suggestions'),
+        /* HTML */ '<gr-fix-suggestions> </gr-fix-suggestions>'
       );
     });
 
@@ -985,8 +984,8 @@ suite('gr-comment tests', () => {
       element.editing = false;
       await element.updateComplete;
       assert.dom.equal(
-        queryAndAssert(element, 'gr-suggestion-diff-preview'),
-        /* HTML */ '<gr-suggestion-diff-preview> </gr-suggestion-diff-preview>'
+        queryAndAssert(element, 'gr-fix-suggestions'),
+        /* HTML */ '<gr-fix-suggestions> </gr-fix-suggestions>'
       );
     });
 
@@ -1035,7 +1034,7 @@ suite('gr-comment tests', () => {
           .initiallyCollapsed=${false}
         ></gr-comment>`
       );
-      element.editing = false;
+      element.editing = true;
       sinon.stub(element, 'showGeneratedSuggestion').returns(true);
       element.generateSuggestion = true;
       element.generatedFixSuggestion = generatedFixSuggestion;

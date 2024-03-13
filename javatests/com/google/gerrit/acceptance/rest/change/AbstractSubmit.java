@@ -37,6 +37,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+import com.github.rholder.retry.RetryException;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
@@ -1190,7 +1191,11 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     testMetricMaker.reset();
 
     Throwable thrown = assertThrows(StorageException.class, () -> submit(id, input));
-    assertThat(thrown.getCause()).hasMessageThat().contains("missing from ChangeSet[][]");
+    assertThat(thrown.getCause()).hasMessageThat().contains("Computing mergeSuperset has failed");
+    assertThat(thrown.getCause()).hasCauseThat().isInstanceOf(RetryException.class);
+    assertThat(thrown.getCause().getCause().getCause())
+        .hasMessageThat()
+        .contains("missing from ChangeSet[][]");
 
     // We retried more than once before giving up
     assertThat(

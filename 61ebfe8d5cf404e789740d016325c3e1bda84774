@@ -70,6 +70,24 @@
       "parentUuid": "97f20da7_a5738e8c",
       "revId": "61ebfe8d5cf404e789740d016325c3e1bda84774",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64590359_ffa155ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-03-13T20:55:10Z",
+      "side": 1,
+      "message": "I don\u0027t think so, but it might depend on what exactly the update is? @kaushik.lingarkar@linaro.org when you were trying to add retries to ReceiveCommits, was the challenge that you needed the retry to happen at a lower level or at a higher level? From what I recall it was lower level (like a BatchUpdate), so the inner retry being discussed here would have been helpful.",
+      "parentUuid": "1b5fea08_1b426716",
+      "revId": "61ebfe8d5cf404e789740d016325c3e1bda84774",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

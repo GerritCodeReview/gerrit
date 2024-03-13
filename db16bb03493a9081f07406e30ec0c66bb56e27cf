@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1aad501_d814fb14",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083648
+      },
+      "writtenOn": "2024-03-13T14:10:09Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "db16bb03493a9081f07406e30ec0c66bb56e27cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5e36616a_7388a3e5",
@@ -14,6 +31,30 @@
       "writtenOn": "2024-03-13T10:04:57Z",
       "side": 1,
       "message": "can you remove this or file an external issue to link?",
+      "range": {
+        "startLine": 46,
+        "startChar": 71,
+        "endLine": 46,
+        "endChar": 81
+      },
+      "revId": "db16bb03493a9081f07406e30ec0c66bb56e27cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4655b62d_9e0b033b",
+        "filename": "java/com/google/gerrit/truth/OptionalSubject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1083648
+      },
+      "writtenOn": "2024-03-13T14:10:09Z",
+      "side": 1,
+      "message": "Sure. I just removed it.",
+      "parentUuid": "5e36616a_7388a3e5",
       "range": {
         "startLine": 46,
         "startChar": 71,

@@ -239,6 +239,22 @@ export class Page {
     if (this.base && orig === path && window.location.protocol !== 'file:') {
       return;
     }
+
+    // See issue 40015337: We have to make sure that we only use
+    // show()/pushState() for URLs that gr-router will actually handle.
+    // Calling pushState() tells the browser that both the previous and the
+    // next URL are handled by the same single page application with a
+    // popstate event handler. But if we call pushState() and then
+    // later `window.location.reload()` from the router and a separate page
+    // and document are loaded, then the BACK button will stop working.
+    if (
+      path.startsWith('/plugins/') ||
+      path.startsWith('/login/') ||
+      path.startsWith('/logout/')
+    ) {
+      return;
+    }
+
     e.preventDefault();
     this.show(orig);
   };

@@ -171,6 +171,8 @@ const RoutePattern = {
   // Matches /admin/repos/<repos>,access.
   REPO_DASHBOARDS: /^\/admin\/repos\/(.+),dashboards$/,
 
+  // TODO: Maybe this pattern and its handler can just be removed, because
+  // passing through is what the default router would eventually do anyway.
   PLUGINS: /^\/plugins\/(.+)$/,
 
   // Matches /admin/plugins with optional filter and offset.

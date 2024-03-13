@@ -20,14 +20,39 @@ suite('gr-page tests', () => {
     page.stop();
   });
 
-  test('click handler', async () => {
-    const spy = sinon.spy();
-    page.registerRoute(/\/settings/, spy);
-    const link = await fixture<HTMLAnchorElement>(
-      html`<a href="/settings"></a>`
-    );
-    link.click();
-    assert.isTrue(spy.calledOnce);
+  suite('click handler', () => {
+    test('click handled by specific route', async () => {
+      const settingsSpy = sinon.spy();
+      page.registerRoute(/\/settings/, settingsSpy);
+
+      const link = await fixture<HTMLAnchorElement>(
+        html`<a href="/settings"></a>`
+      );
+      link.click();
+      assert.isTrue(settingsSpy.calledOnce);
+    });
+
+    test('click handled by default route', async () => {
+      const defaultSpy = sinon.spy();
+      page.registerRoute(/.*/, defaultSpy);
+
+      const link = await fixture<HTMLAnchorElement>(
+        html`<a href="/something"></a>`
+      );
+      link.click();
+      assert.isTrue(defaultSpy.called);
+    });
+
+    test('click not handled for /plugins/... links', async () => {
+      const defaultSpy = sinon.spy();
+      page.registerRoute(/.*/, defaultSpy);
+
+      const link = await fixture<HTMLAnchorElement>(
+        html`<a href="/plugins/gitiles"></a>`
+      );
+      link.click();
+      assert.isFalse(defaultSpy.called);
+    });
   });
 
   test('register route and exit', () => {

@@ -632,7 +632,9 @@ public class AccountIT extends AbstractDaemonTest {
         extensionRegistry.newRegistration().add(accountIndexedCounter)) {
       Account.Id activatableAccountId =
           accountOperations.newAccount().inactive().preferredEmail("foo@activatable.com").create();
-      accountIndexedCounter.assertReindexOf(activatableAccountId, 1);
+      // Implementation of the accountOperations can create an account in several steps,
+      // with more than one reindexing.
+      accountIndexedCounter.assertReindexAtLeastOnceOf(activatableAccountId);
     }
 
     @SuppressWarnings("unused")
@@ -646,7 +648,9 @@ public class AccountIT extends AbstractDaemonTest {
         extensionRegistry.newRegistration().add(accountIndexedCounter)) {
       Account.Id activatableAccountId =
           accountOperations.newAccount().inactive().username("foo").create();
-      accountIndexedCounter.assertReindexOf(activatableAccountId, 1);
+      // Implementation of the accountOperations can create an account in several steps,
+      // with more than one reindexing.
+      accountIndexedCounter.assertReindexAtLeastOnceOf(activatableAccountId);
     }
 
     @SuppressWarnings("unused")

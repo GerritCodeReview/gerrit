@@ -71,7 +71,7 @@ public class AccountOperationsImpl implements AccountOperations {
         this::createAccount, externalIdFactory.arePasswordsAllowed());
   }
 
-  private Account.Id createAccount(TestAccountCreation testAccountCreation) throws Exception {
+  protected Account.Id createAccount(TestAccountCreation testAccountCreation) throws Exception {
     Account.Id accountId = Account.id(seq.nextAccountId());
     Consumer<AccountDelta.Builder> accountCreation =
         deltaBuilder -> initAccountDelta(deltaBuilder, testAccountCreation, accountId);

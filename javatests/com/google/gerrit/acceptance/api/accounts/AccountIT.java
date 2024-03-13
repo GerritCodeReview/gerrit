@@ -144,6 +144,7 @@ import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.account.externalids.DuplicateExternalIdKeyException;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdFactory;
 import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdFactoryNoteDbImpl;
@@ -256,7 +257,7 @@ public class AccountIT extends AbstractDaemonTest {
   @Inject private VersionedAuthorizedKeys.Accessor authorizedKeys;
   @Inject private PluginSetContext<ExceptionHook> exceptionHooks;
   @Inject private ExternalIdKeyFactory externalIdKeyFactory;
-  @Inject private ExternalIdFactoryNoteDbImpl externalIdFactory;
+  @Inject private ExternalIdFactoryNoteDbImpl externalIdFactoryNoteDbImpl;
   @Inject private AuthConfig authConfig;
   @Inject private AccountControl.Factory accountControlFactory;
   @Inject private AccountOperations accountOperations;
@@ -409,8 +410,8 @@ public class AccountIT extends AbstractDaemonTest {
       accountIndexedCounter.assertReindexOf(accountId, 1);
       assertThat(getExternalIdsReader().byAccount(accountId))
           .containsExactly(
-              externalIdFactory.createUsername(input.username, accountId, null),
-              externalIdFactory.createEmail(accountId, input.email));
+              getExternalIdFactory().createUsername(input.username, accountId, null),
+              getExternalIdFactory().createEmail(accountId, input.email));
     }
   }
 
@@ -463,7 +464,7 @@ public class AccountIT extends AbstractDaemonTest {
   public void createAtomically() throws Exception {
     Account.Id accountId = Account.id(seq.nextAccountId());
     String fullName = "Foo";
-    ExternalId extId = externalIdFactory.createEmail(accountId, "foo@example.com");
+    ExternalId extId = getExternalIdFactory().createEmail(accountId, "foo@example.com");
     AccountState accountState =
         accountsUpdateProvider
             .get()
@@ -1275,11 +1276,13 @@ public class AccountIT extends AbstractDaemonTest {
               admin.id(),
               u ->
                   u.addExternalId(
-                          externalIdFactory.createWithEmail(
-                              externalIdKeyFactory.parse(extId1), admin.id(), email))
+                          getExternalIdFactory()
+                              .createWithEmail(
+                                  externalIdKeyFactory.parse(extId1), admin.id(), email))
                       .addExternalId(
-                          externalIdFactory.createWithEmail(
-                              externalIdKeyFactory.parse(extId2), admin.id(), email)));
+                          getExternalIdFactory()
+                              .createWithEmail(
+                                  externalIdKeyFactory.parse(extId2), admin.id(), email)));
       accountIndexedCounter.assertReindexOf(admin);
       assertThat(
               gApi.accounts().self().getExternalIds().stream()
@@ -1315,8 +1318,9 @@ public class AccountIT extends AbstractDaemonTest {
             admin.id(),
             u ->
                 u.addExternalId(
-                    externalIdFactory.createWithEmail(
-                        externalIdKeyFactory.parse(ldapExternalId), admin.id(), ldapEmail)));
+                    getExternalIdFactory()
+                        .createWithEmail(
+                            externalIdKeyFactory.parse(ldapExternalId), admin.id(), ldapEmail)));
     assertThat(
             gApi.accounts().self().getExternalIds().stream()
                 .map(e -> e.identity)
@@ -1354,13 +1358,17 @@ public class AccountIT extends AbstractDaemonTest {
             admin.id(),
             u ->
                 u.addExternalId(
-                        externalIdFactory.createWithEmail(
-                            externalIdKeyFactory.parse(nonLdapExternalId),
-                            admin.id(),
-                            nonLdapEMail))
+                        getExternalIdFactory()
+                            .createWithEmail(
+                                externalIdKeyFactory.parse(nonLdapExternalId),
+                                admin.id(),
+                                nonLdapEMail))
                     .addExternalId(
-                        externalIdFactory.createWithEmail(
-                            externalIdKeyFactory.parse(ldapExternalId), admin.id(), ldapEmail)));
+                        getExternalIdFactory()
+                            .createWithEmail(
+                                externalIdKeyFactory.parse(ldapExternalId),
+                                admin.id(),
+                                ldapEmail)));
     assertThat(
             gApi.accounts().self().getExternalIds().stream().map(e -> e.identity).collect(toSet()))
         .containsAtLeast(ldapExternalId, nonLdapExternalId);
@@ -1423,8 +1431,9 @@ public class AccountIT extends AbstractDaemonTest {
             admin.id(),
             u ->
                 u.addExternalId(
-                    externalIdFactory.createWithEmail(
-                        externalIdKeyFactory.parse("foo:bar"), admin.id(), email)));
+                    getExternalIdFactory()
+                        .createWithEmail(
+                            externalIdKeyFactory.parse("foo:bar"), admin.id(), email)));
     assertEmail(emails.getAccountFor(email), admin);
 
     // wrong case doesn't match
@@ -1740,7 +1749,7 @@ public class AccountIT extends AbstractDaemonTest {
           .update(
               "Add External ID",
               user.id(),
-              u -> u.addExternalId(externalIdFactory.create("foo", "myId", user.id())));
+              u -> u.addExternalId(getExternalIdFactory().create("foo", "myId", user.id())));
       accountIndexedCounter.assertReindexOf(user);
 
       TestKey key = validKeyWithSecondUserId();
@@ -2043,7 +2052,7 @@ public class AccountIT extends AbstractDaemonTest {
         .update(
             "Delete External ID",
             account.id(),
-            u -> u.deleteExternalId(externalIdFactory.createEmail(account.id(), email)));
+            u -> u.deleteExternalId(getExternalIdFactory().createEmail(account.id(), email)));
     expectedProblems.add(
         new ConsistencyProblemInfo(
             ConsistencyProblemInfo.Status.ERROR,
@@ -2343,12 +2352,12 @@ public class AccountIT extends AbstractDaemonTest {
         .update();
 
     Account.Id accountId = Account.id(seq.nextAccountId());
-    ExternalId extIdA1 = externalIdFactory.create("foo", "A-1", accountId);
+    ExternalId extIdA1 = getExternalIdFactory().create("foo", "A-1", accountId);
     accountsUpdateProvider
         .get()
         .insert("Create Test Account", accountId, u -> u.addExternalId(extIdA1));
 
-    ExternalId extIdA2 = externalIdFactory.create("foo", "A-2", accountId);
+    ExternalId extIdA2 = getExternalIdFactory().create("foo", "A-2", accountId);
     AtomicBoolean bgIndicatorA1ToA2 = new AtomicBoolean(false);
     AccountsUpdate update =
         getAccountsUpdateWithRunnables(
@@ -2378,8 +2387,8 @@ public class AccountIT extends AbstractDaemonTest {
                 .collect(toSet()))
         .containsExactly(extIdA1.key().get());
 
-    ExternalId extIdB1 = externalIdFactory.create("foo", "B-1", accountId);
-    ExternalId extIdB2 = externalIdFactory.create("foo", "B-2", accountId);
+    ExternalId extIdB1 = getExternalIdFactory().create("foo", "B-1", accountId);
+    ExternalId extIdB2 = getExternalIdFactory().create("foo", "B-2", accountId);
     AtomicBoolean bgIndicatorA1ToB1 = new AtomicBoolean(false);
     AtomicBoolean bgIndicatorA2ToB2 = new AtomicBoolean(false);
     Optional<AccountState> updatedAccount =
@@ -2449,38 +2458,24 @@ public class AccountIT extends AbstractDaemonTest {
     try (Repository repo = repoManager.openRepository(allUsers)) {
       testRefAction(
           () -> {
-            ExternalIdNotes extIdNotes =
-                ExternalIdNotes.load(
-                    allUsers,
-                    repo,
-                    externalIdFactory,
-                    authConfig.isUserNameCaseInsensitiveMigrationMode());
+            ExternalIdNotes extIdNotes = getExternalIdNotes(repo);
 
             ExternalId.Key key = externalIdKeyFactory.create("foo", "foo");
-            extIdNotes.insert(externalIdFactory.create(key, accountId));
+            extIdNotes.insert(getExternalIdFactory().create(key, accountId));
             try (MetaDataUpdate update = metaDataUpdateFactory.create(allUsers)) {
               extIdNotes.commit(update);
             }
             assertStaleAccountAndReindex(accountId);
 
-            extIdNotes =
-                ExternalIdNotes.load(
-                    allUsers,
-                    repo,
-                    externalIdFactory,
-                    authConfig.isUserNameCaseInsensitiveMigrationMode());
-            extIdNotes.upsert(externalIdFactory.createWithEmail(key, accountId, "foo@example.com"));
+            extIdNotes = getExternalIdNotes(repo);
+            extIdNotes.upsert(
+                getExternalIdFactory().createWithEmail(key, accountId, "foo@example.com"));
             try (MetaDataUpdate update = metaDataUpdateFactory.create(allUsers)) {
               extIdNotes.commit(update);
             }
             assertStaleAccountAndReindex(accountId);
 
-            extIdNotes =
-                ExternalIdNotes.load(
-                    allUsers,
-                    repo,
-                    externalIdFactory,
-                    authConfig.isUserNameCaseInsensitiveMigrationMode());
+            extIdNotes = getExternalIdNotes(repo);
             extIdNotes.delete(accountId, key);
             try (MetaDataUpdate update = metaDataUpdateFactory.create(allUsers)) {
               extIdNotes.commit(update);
@@ -2745,11 +2740,11 @@ public class AccountIT extends AbstractDaemonTest {
     String extId1String = "foo:bar";
     String extId2String = "foo:baz";
     ExternalId extId1 =
-        externalIdFactory.createWithEmail(
-            externalIdKeyFactory.parse(extId1String), admin.id(), "1@foo.com");
+        getExternalIdFactory()
+            .createWithEmail(externalIdKeyFactory.parse(extId1String), admin.id(), "1@foo.com");
     ExternalId extId2 =
-        externalIdFactory.createWithEmail(
-            externalIdKeyFactory.parse(extId2String), user.id(), "2@foo.com");
+        getExternalIdFactory()
+            .createWithEmail(externalIdKeyFactory.parse(extId2String), user.id(), "2@foo.com");
 
     ObjectId revBefore;
     try (Repository repo = repoManager.openRepository(allUsers)) {
@@ -2789,11 +2784,11 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   public void externalIdBatchUpdates_fail_sameAccount() {
     ExternalId extId1 =
-        externalIdFactory.createWithEmail(
-            externalIdKeyFactory.parse("foo:bar"), admin.id(), "1@foo.com");
+        getExternalIdFactory()
+            .createWithEmail(externalIdKeyFactory.parse("foo:bar"), admin.id(), "1@foo.com");
     ExternalId extId2 =
-        externalIdFactory.createWithEmail(
-            externalIdKeyFactory.parse("foo:baz"), user.id(), "2@foo.com");
+        getExternalIdFactory()
+            .createWithEmail(externalIdKeyFactory.parse("foo:baz"), user.id(), "2@foo.com");
 
     AccountsUpdate.UpdateArguments ua1 =
         new AccountsUpdate.UpdateArguments(
@@ -2812,11 +2807,11 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   public void externalIdBatchUpdates_fail_duplicateKey() {
     ExternalId extIdAdmin =
-        externalIdFactory.createWithEmail(
-            externalIdKeyFactory.parse("foo:bar"), admin.id(), "1@foo.com");
+        getExternalIdFactory()
+            .createWithEmail(externalIdKeyFactory.parse("foo:bar"), admin.id(), "1@foo.com");
     ExternalId extIdUser =
-        externalIdFactory.createWithEmail(
-            externalIdKeyFactory.parse("foo:bar"), user.id(), "2@foo.com");
+        getExternalIdFactory()
+            .createWithEmail(externalIdKeyFactory.parse("foo:bar"), user.id(), "2@foo.com");
 
     AccountsUpdate.UpdateArguments ua1 =
         new AccountsUpdate.UpdateArguments(
@@ -2834,11 +2829,11 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   public void externalIdBatchUpdates_commitMsg_multipleAccounts() throws Exception {
     ExternalId extId1 =
-        externalIdFactory.createWithEmail(
-            externalIdKeyFactory.parse("foo:bar"), admin.id(), "1@foo.com");
+        getExternalIdFactory()
+            .createWithEmail(externalIdKeyFactory.parse("foo:bar"), admin.id(), "1@foo.com");
     ExternalId extId2 =
-        externalIdFactory.createWithEmail(
-            externalIdKeyFactory.parse("foo:baz"), user.id(), "2@foo.com");
+        getExternalIdFactory()
+            .createWithEmail(externalIdKeyFactory.parse("foo:baz"), user.id(), "2@foo.com");
 
     AccountsUpdate.UpdateArguments ua1 =
         new AccountsUpdate.UpdateArguments(
@@ -2860,8 +2855,8 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   public void externalIdBatchUpdates_commitMsg_singleAccount() throws Exception {
     ExternalId extId =
-        externalIdFactory.createWithEmail(
-            externalIdKeyFactory.parse("foo:bar"), admin.id(), "1@foo.com");
+        getExternalIdFactory()
+            .createWithEmail(externalIdKeyFactory.parse("foo:bar"), admin.id(), "1@foo.com");
 
     accountsUpdateProvider.get().update("foobar", admin.id(), (a, u) -> u.addExternalId(extId));
 
@@ -2980,7 +2975,7 @@ public class AccountIT extends AbstractDaemonTest {
     AccountState preUpdateState = accountCache.get(admin.id()).get();
     requestScopeOperations.setApiUser(admin.id());
 
-    ExternalId externalId = externalIdFactory.create("custom", "value", admin.id());
+    ExternalId externalId = getExternalIdFactory().create("custom", "value", admin.id());
     accountsUpdateProvider
         .get()
         .update("Add External ID", admin.id(), (a, u) -> u.addExternalId(externalId));
@@ -3012,8 +3007,9 @@ public class AccountIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(admin.id());
 
     ExternalId externalId =
-        externalIdFactory.createWithEmail(
-            SCHEME_MAILTO, "secondary@non.google", admin.id(), "secondary@non.google");
+        getExternalIdFactory()
+            .createWithEmail(
+                SCHEME_MAILTO, "secondary@non.google", admin.id(), "secondary@non.google");
     accountsUpdateProvider
         .get()
         .update("Update External ID", admin.id(), (a, u) -> u.updateExternalId(externalId));
@@ -3032,8 +3028,9 @@ public class AccountIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(admin.id());
 
     ExternalId externalId =
-        externalIdFactory.createWithEmail(
-            SCHEME_MAILTO, "secondary@non.google", admin.id(), "secondary@non.google");
+        getExternalIdFactory()
+            .createWithEmail(
+                SCHEME_MAILTO, "secondary@non.google", admin.id(), "secondary@non.google");
     accountsUpdateProvider
         .get()
         .update(
@@ -3059,10 +3056,11 @@ public class AccountIT extends AbstractDaemonTest {
 
     requestScopeOperations.setApiUser(admin.id());
     ExternalId extId1 =
-        externalIdFactory.createWithEmail("custom", "admin-id", admin.id(), "admin-id@test.com");
+        getExternalIdFactory()
+            .createWithEmail("custom", "admin-id", admin.id(), "admin-id@test.com");
 
     ExternalId extId2 =
-        externalIdFactory.createWithEmail("custom", "user-id", user.id(), "user-id@test.com");
+        getExternalIdFactory().createWithEmail("custom", "user-id", user.id(), "user-id@test.com");
 
     AccountsUpdate.UpdateArguments ua1 =
         new AccountsUpdate.UpdateArguments(
@@ -3130,7 +3128,7 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   protected ExternalId createEmailExternalId(Account.Id accountId, String email) {
-    return externalIdFactory.createWithEmail(SCHEME_MAILTO, email, accountId, email);
+    return getExternalIdFactory().createWithEmail(SCHEME_MAILTO, email, accountId, email);
   }
 
   @Test
@@ -3614,7 +3612,8 @@ public class AccountIT extends AbstractDaemonTest {
               account.id(),
               u ->
                   u.addExternalId(
-                      externalIdFactory.createWithEmail(name("test"), email, account.id(), email)));
+                      getExternalIdFactory()
+                          .createWithEmail(name("test"), email, account.id(), email)));
       accountIndexedCounter.assertReindexOf(account);
       requestScopeOperations.setApiUser(account.id());
     }
@@ -3707,6 +3706,20 @@ public class AccountIT extends AbstractDaemonTest {
             null,
             exceptionHooks,
             r -> r.withBlockStrategy(noSleepBlockStrategy)));
+  }
+
+  private ExternalIdNotes getExternalIdNotes(Repository allUsersRepo)
+      throws ConfigInvalidException, IOException {
+    return ExternalIdNotes.load(
+        allUsers,
+        allUsersRepo,
+        externalIdFactoryNoteDbImpl,
+        authConfig.isUserNameCaseInsensitiveMigrationMode());
+  }
+
+  @UsedAt(UsedAt.Project.GOOGLE)
+  protected ExternalIdFactory getExternalIdFactory() {
+    return externalIdFactoryNoteDbImpl;
   }
 
   @UsedAt(UsedAt.Project.GOOGLE)

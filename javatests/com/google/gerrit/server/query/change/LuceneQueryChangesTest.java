@@ -20,8 +20,10 @@ import static com.google.gerrit.common.data.GlobalCapability.QUERY_LIMIT;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.testing.InMemoryModule;
 import com.google.gerrit.testing.InMemoryRepositoryManager.Repo;
@@ -31,6 +33,7 @@ import com.google.inject.Injector;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public abstract class LuceneQueryChangesTest extends AbstractQueryChangesTest {
@@ -97,5 +100,28 @@ public abstract class LuceneQueryChangesTest extends AbstractQueryChangesTest {
 
     Change[] expected = new Change[] {change6, change5, change4, change3, change2, change1};
     assertQuery(newQuery("project:repo").withNoLimit(), expected);
+  }
+
+  @Ignore
+  public void skipChangesNotVisible() throws Exception {
+    // create 1 new change on a repo
+    TestRepository<Repo> repo = createProject("publicRepo");
+    Change visibleChange = insert(repo, newChangeWithStatus(repo, Change.Status.NEW));
+    Change[] expected = new Change[] {visibleChange};
+
+    // pagination does not need to restart the datasource, the request is fulfilled
+    assertQuery(newQuery("status:new").withLimit(1), expected);
+
+    // create 2 new private changes
+    Account.Id user2 =
+        accountManager.authenticate(AuthRequest.forUser("anotheruser")).getAccountId();
+
+    Change invisibleChange1 = insert(repo, newChangeWithStatus(repo, Change.Status.NEW), user2);
+    Change invisibleChange2 = insert(repo, newChangeWithStatus(repo, Change.Status.NEW), user2);
+    gApi.changes().id(invisibleChange1.getChangeId()).setPrivate(true, null);
+    gApi.changes().id(invisibleChange2.getChangeId()).setPrivate(true, null);
+
+    // pagination should back-fill when the results skipped because of the visibility
+    assertQuery(newQuery("status:new").withLimit(1), expected);
   }
 }

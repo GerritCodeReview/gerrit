@@ -33,7 +33,6 @@ import com.google.inject.Injector;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public abstract class LuceneQueryChangesTest extends AbstractQueryChangesTest {
@@ -102,7 +101,7 @@ public abstract class LuceneQueryChangesTest extends AbstractQueryChangesTest {
     assertQuery(newQuery("project:repo").withNoLimit(), expected);
   }
 
-  @Ignore
+  @Test
   public void skipChangesNotVisible() throws Exception {
     // create 1 new change on a repo
     TestRepository<Repo> repo = createProject("repo");

@@ -49,6 +49,7 @@ import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.truth.NullAwareCorrespondence;
+import com.google.gerrit.truth.OptionalSubject;
 import com.google.inject.Inject;
 import java.util.Map;
 import org.eclipse.jgit.lib.ObjectId;
@@ -1629,7 +1630,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
 
     TestHumanComment comment = changeOperations.change(changeId).comment(childCommentUuid).get();
 
-    assertThat(comment.parentUuid()).value().isEqualTo(parentCommentUuid);
+    OptionalSubject.assertThat(comment.parentUuid()).value().isEqualTo(parentCommentUuid);
   }
 
   @Test
@@ -1640,7 +1641,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
 
     TestHumanComment comment = changeOperations.change(changeId).comment(childCommentUuid).get();
 
-    assertThat(comment.tag()).value().isEqualTo("tag");
+    OptionalSubject.assertThat(comment.tag()).value().isEqualTo("tag");
   }
 
   @Test
@@ -1700,7 +1701,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
     TestHumanComment comment =
         changeOperations.change(changeId).draftComment(childCommentUuid).get();
 
-    assertThat(comment.parentUuid()).value().isEqualTo(parentCommentUuid);
+    OptionalSubject.assertThat(comment.parentUuid()).value().isEqualTo(parentCommentUuid);
   }
 
   @Test
@@ -1730,7 +1731,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
     TestRobotComment comment =
         changeOperations.change(changeId).robotComment(childCommentUuid).get();
 
-    assertThat(comment.parentUuid()).value().isEqualTo(parentCommentUuid);
+    OptionalSubject.assertThat(comment.parentUuid()).value().isEqualTo(parentCommentUuid);
   }
 
   private ChangeInfo getChangeFromServer(Change.Id changeId) throws RestApiException {

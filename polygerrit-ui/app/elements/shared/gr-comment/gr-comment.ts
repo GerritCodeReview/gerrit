@@ -317,7 +317,11 @@ export class GrComment extends LitElement {
         () => {
           this.save();
         },
-        {preventDefault: false}
+        {preventDefault: this.permanentEditingMode ? false : true}
+        // Do not override default for comments who are not in
+        // permanentEditingMode (normal comments), so they don't propagate
+        // this shortcut to reply dialog. It's propagated only for patchset
+        // comment.
       );
     }
     // For Ctrl+s add shorctut with preventDefault so that it does

@@ -62,6 +62,7 @@ public class ConfigRestApiModule extends RestApiModule {
     child(INDEX_KIND, "versions").to(IndexVersionsCollection.class);
     get(INDEX_VERSION_KIND).to(GetIndexVersion.class);
     post(INDEX_VERSION_KIND, "snapshot").to(SnapshotIndexVersion.class);
+    post(INDEX_VERSION_KIND, "reindex").to(ReindexIndexVersion.class);
 
     // The caches and summary REST endpoints are bound via RestCacheAdminModule.
   }

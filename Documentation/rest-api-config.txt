@@ -1678,6 +1678,33 @@ This creates a snapshot of one index version of the specified index.
   }
 ----
 
+=== Reindex an Index Version
+--
+'POST /config/server/indexes/link:#index-name[\{index-name\}]/versions/#index-version[\{index-version\}]/reindex'
+--
+
+This endpoint allows to trigger background reindexing of an index version.  It is
+also supported to specify whether to reuse existing up-to-date (non-stale) index
+documents.
+
+.Request
+----
+  POST /config/server/indexes/changes/versions/84/reindex HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "reuse": "true"
+  }
+----
+
+.Response
+----
+  HTTP/1.1 202 Accepted
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+----
+
 [[ids]]
 == IDs
 

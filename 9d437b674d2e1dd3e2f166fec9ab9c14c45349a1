@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0964585_ff238aba",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-03-14T12:43:52Z",
+      "side": 1,
+      "message": "Yes, you are right, we should use INTERACTIVE here.\n\nDone.",
+      "parentUuid": "64d3fc44_b16d9b80",
+      "range": {
+        "startLine": 267,
+        "startChar": 21,
+        "endLine": 267,
+        "endChar": 26
+      },
+      "revId": "9d437b674d2e1dd3e2f166fec9ab9c14c45349a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7a4293e7_b9f88d29",
@@ -60,6 +84,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c315508a_d83ee141",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-03-14T12:43:52Z",
+      "side": 1,
+      "message": "\u003e Would be good to comment about thread safety here.\n\u003e \n\u003e I think this is safe as you operate on one ChangeData per thread only, so it \n\u003e doesn\u0027t matter that CD is not thread safe.\n\nGood idea about the comment. I also think this should be safe, but such things are always tricky, so better to put some more thoughts into this.\n\nThe indexFutures in BatchUpdate also return ChangeData instances, so at least for this part we have an example that we know works.\n\nAdded a comment.\n\n\u003e For us at Google I am not sure if this will give us much. We are caching the\n\u003e open repo per thread, which we loose when parallelizing here. So for\n\u003e operations that actually need to load from the repo, we have to load pack\n\u003e infos once per CD now. Still interesting to try and see, though.\n\nInteresting. Definitely we want to collect some data for this performance event before and after to compare. Curious how the result will be.",
+      "parentUuid": "7a4293e7_b9f88d29",
+      "revId": "9d437b674d2e1dd3e2f166fec9ab9c14c45349a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "216e611b_f9a6e784",
         "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 2
@@ -71,6 +113,30 @@
       "writtenOn": "2024-03-13T09:41:08Z",
       "side": 1,
       "message": "nit: has nothing to do with index",
+      "range": {
+        "startLine": 535,
+        "startChar": 24,
+        "endLine": 535,
+        "endChar": 36
+      },
+      "revId": "9d437b674d2e1dd3e2f166fec9ab9c14c45349a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a811530_caa77e0f",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 535,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-03-14T12:43:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "216e611b_f9a6e784",
       "range": {
         "startLine": 535,
         "startChar": 24,

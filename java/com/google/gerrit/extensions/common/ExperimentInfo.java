@@ -1,4 +1,4 @@
-// Copyright (C) 2015 The Android Open Source Project
+// Copyright (C) 2034 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,18 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.api.config;
+package com.google.gerrit.extensions.common;
 
-import com.google.gerrit.extensions.api.config.Config;
-import com.google.gerrit.extensions.api.config.Server;
-import com.google.gerrit.extensions.config.FactoryModule;
-
-public class ConfigModule extends FactoryModule {
-  @Override
-  protected void configure() {
-    bind(Config.class).to(ConfigImpl.class);
-    bind(Server.class).to(ServerImpl.class);
-
-    factory(ExperimentApiImpl.Factory.class);
-  }
+public class ExperimentInfo {
+  /** Whether the experiment is enabled. */
+  public Boolean enabled;
 }

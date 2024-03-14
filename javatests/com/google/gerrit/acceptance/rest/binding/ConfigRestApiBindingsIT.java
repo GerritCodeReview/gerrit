@@ -25,6 +25,7 @@ import com.google.gerrit.acceptance.rest.util.RestApiCallHelper;
 import com.google.gerrit.acceptance.rest.util.RestCall;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.server.project.ProjectCacheImpl;
 import com.google.gerrit.server.restapi.config.ListTasks.TaskInfo;
 import com.google.gson.reflect.TypeToken;
@@ -51,6 +52,7 @@ public class ConfigRestApiBindingsIT extends AbstractDaemonTest {
           RestCall.get("/config/server/capabilities"),
           RestCall.post("/config/server/check.consistency"),
           RestCall.put("/config/server/email.confirm"),
+          RestCall.get("/config/server/experiments"),
           RestCall.post("/config/server/index.changes"),
           RestCall.get("/config/server/info"),
           RestCall.get("/config/server/preferences"),
@@ -71,6 +73,13 @@ public class ConfigRestApiBindingsIT extends AbstractDaemonTest {
    */
   private static final ImmutableList<RestCall> CACHE_ENDPOINTS =
       ImmutableList.of(RestCall.get("/config/server/caches/%s"));
+
+  /**
+   * Experiment REST endpoints to be tested, the URLs contain a placeholder for the experiment name.
+   * Since there is only a single supported config identifier ('server') it can be hard-coded.
+   */
+  private static final ImmutableList<RestCall> EXPERIMENT_ENDPOINTS =
+      ImmutableList.of(RestCall.get("/config/server/experiments/%s"));
 
   /**
    * Task REST endpoints to be tested, the URLs contain a placeholder for the task identifier. Since
@@ -99,6 +108,14 @@ public class ConfigRestApiBindingsIT extends AbstractDaemonTest {
   @Test
   public void cacheEndpoints() throws Exception {
     RestApiCallHelper.execute(adminRestSession, CACHE_ENDPOINTS, ProjectCacheImpl.CACHE_NAME);
+  }
+
+  @Test
+  public void experimentEndpoints() throws Exception {
+    RestApiCallHelper.execute(
+        adminRestSession,
+        EXPERIMENT_ENDPOINTS,
+        ExperimentFeaturesConstants.ALLOW_FIX_SUGGESTIONS_IN_COMMENTS);
   }
 
   @Test

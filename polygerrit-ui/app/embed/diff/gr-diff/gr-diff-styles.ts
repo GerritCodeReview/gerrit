@@ -582,7 +582,8 @@ export const grDiffSelectionStyles = css`
   gr-diff-row tr.diff-row,
   gr-diff-row td.content,
   gr-diff-section tbody.contextControl,
-  gr-diff-row td.blame {
+  gr-diff-row td.blame,
+  #diffHeader {
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;

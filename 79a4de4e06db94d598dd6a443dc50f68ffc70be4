@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "86d0fbad_0e8dde6c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 4351,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-03-14T08:51:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42a3c5d0_33aadb86",
+      "range": {
+        "startLine": 4351,
+        "startChar": 22,
+        "endLine": 4351,
+        "endChar": 32
+      },
+      "revId": "79a4de4e06db94d598dd6a443dc50f68ffc70be4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bbd9f3b3_b8f7ee58",
@@ -37,6 +61,24 @@
       "writtenOn": "2024-03-08T13:35:15Z",
       "side": 1,
       "message": "If my previous proposal gets accepted then this should be `Duration timeToKeep`.",
+      "revId": "79a4de4e06db94d598dd6a443dc50f68ffc70be4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7765ace_fded006a",
+        "filename": "java/com/google/gerrit/pgm/util/LogFileManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-03-14T08:51:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bbd9f3b3_b8f7ee58",
       "revId": "79a4de4e06db94d598dd6a443dc50f68ffc70be4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -64,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "87f52df3_87ca5216",
+        "filename": "java/com/google/gerrit/pgm/util/LogFileManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-03-14T08:51:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "309ddda2_96bdf75e",
+      "range": {
+        "startLine": 118,
+        "startChar": 0,
+        "endLine": 126,
+        "endChar": 11
+      },
+      "revId": "79a4de4e06db94d598dd6a443dc50f68ffc70be4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7eeddaf6_d0082d0a",
@@ -77,6 +143,24 @@
       "writtenOn": "2024-03-08T10:31:47Z",
       "side": 1,
       "message": "Not all filesystems provide a creationtime (birthtime) attribute.\nSee https://www.gnu.org/software/coreutils/manual/html_node/File-timestamps.html\nIf the filesystem doesn\u0027t support it we may consider to parse the creation date from the date appended to the filename when the live log file is rotated.",
+      "revId": "79a4de4e06db94d598dd6a443dc50f68ffc70be4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd46179f_965a587c",
+        "filename": "java/com/google/gerrit/pgm/util/LogFileManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-03-14T08:51:50Z",
+      "side": 1,
+      "message": "Now, the lastModified time and then the date in the filename will be used as fallbacks in such cases.",
+      "parentUuid": "7eeddaf6_d0082d0a",
       "revId": "79a4de4e06db94d598dd6a443dc50f68ffc70be4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

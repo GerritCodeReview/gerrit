@@ -268,6 +268,7 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(c.changeId).isEqualTo(r.getChangeId());
     assertThat(c.created).isEqualTo(c.updated);
     assertThat(c._number).isEqualTo(r.getChange().getId().get());
+    assertThat(c.currentRevisionNumber).isEqualTo(r.getPatchSetId().get());
 
     assertThat(c.owner._accountId).isEqualTo(admin.id().get());
     assertThat(c.owner.name).isNull();
@@ -513,7 +514,7 @@ public class ChangeIT extends AbstractDaemonTest {
             .reviewer("byemail3@example.com", CC, false)
             .reviewer("byemail4@example.com", CC, false);
     ReviewResult result = gApi.changes().id(changeId).current().review(in);
-    assertThat(result.changeInfo).isNull();
+    assertThat(result.changeInfo).isNotNull();
     assertThat(result.reviewers).isNotEmpty();
     ChangeInfo info = gApi.changes().id(changeId).get();
     Function<Collection<AccountInfo>, Collection<String>> toEmails =

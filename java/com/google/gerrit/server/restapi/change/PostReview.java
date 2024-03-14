@@ -397,6 +397,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
     if (input.responseFormatOptions != null) {
       output.changeInfo = changeJsonFactory.create(input.responseFormatOptions).format(cd);
+    } else {
+      output.changeInfo = changeJsonFactory.noOptions().format(cd);
     }
 
     return Response.ok(output);

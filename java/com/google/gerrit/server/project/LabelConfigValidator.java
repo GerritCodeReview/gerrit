@@ -26,6 +26,7 @@ import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.events.CommitReceivedEvent;
+import com.google.gerrit.server.git.meta.VersionedConfigFile;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.git.validators.CommitValidationMessage;
@@ -352,7 +353,7 @@ public class LabelConfigValidator implements CommitValidationListener {
 
   private Config loadNewConfig(CommitReceivedEvent receiveEvent)
       throws IOException, ConfigInvalidException {
-    ProjectLevelConfig.Bare bareConfig = new ProjectLevelConfig.Bare(ProjectConfig.PROJECT_CONFIG);
+    VersionedConfigFile bareConfig = new VersionedConfigFile(ProjectConfig.PROJECT_CONFIG);
     bareConfig.load(receiveEvent.project.getNameKey(), receiveEvent.revWalk, receiveEvent.commit);
     return bareConfig.getConfig();
   }
@@ -364,8 +365,7 @@ public class LabelConfigValidator implements CommitValidationListener {
     }
 
     try {
-      ProjectLevelConfig.Bare bareConfig =
-          new ProjectLevelConfig.Bare(ProjectConfig.PROJECT_CONFIG);
+      VersionedConfigFile bareConfig = new VersionedConfigFile(ProjectConfig.PROJECT_CONFIG);
       bareConfig.load(
           receiveEvent.project.getNameKey(),
           receiveEvent.revWalk,

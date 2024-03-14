@@ -28,8 +28,8 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
+import com.google.gerrit.server.git.meta.VersionedConfigFile;
 import com.google.gerrit.server.project.ProjectConfig;
-import com.google.gerrit.server.project.ProjectLevelConfig;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
@@ -130,8 +130,7 @@ public class MigrateLabelFunctionsToSubmitRequirement {
       ui.message(String.format("Skipping project %s because it has prolog rules", project));
       return Status.HAS_PROLOG;
     }
-    ProjectLevelConfig.Bare projectConfig =
-        new ProjectLevelConfig.Bare(ProjectConfig.PROJECT_CONFIG);
+    VersionedConfigFile projectConfig = new VersionedConfigFile(ProjectConfig.PROJECT_CONFIG);
     boolean migrationPerformed = false;
     try (Repository repo = repoManager.openRepository(project);
         MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED, project, repo)) {
@@ -275,7 +274,7 @@ public class MigrateLabelFunctionsToSubmitRequirement {
     cfg.setString(ProjectConfig.LABEL, labelName, ProjectConfig.KEY_FUNCTION, function);
   }
 
-  private void commit(ProjectLevelConfig.Bare projectConfig, MetaDataUpdate md) throws IOException {
+  private void commit(VersionedConfigFile projectConfig, MetaDataUpdate md) throws IOException {
     md.getCommitBuilder().setAuthor(serverUser);
     md.getCommitBuilder().setCommitter(serverUser);
     md.setMessage(COMMIT_MSG);

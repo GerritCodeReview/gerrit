@@ -18,60 +18,15 @@ import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.Streams;
 import com.google.gerrit.entities.ImmutableConfig;
-import com.google.gerrit.entities.RefNames;
-import com.google.gerrit.server.git.meta.VersionedMetaData;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 import org.eclipse.jgit.annotations.Nullable;
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
 
 /** Configuration file in the projects refs/meta/config branch. */
 public class ProjectLevelConfig {
-  /**
-   * This class is a low-level API that allows callers to read the config directly from a repository
-   * and make updates to it.
-   */
-  public static class Bare extends VersionedMetaData {
-    private final String fileName;
-    @Nullable private Config cfg;
-
-    public Bare(String fileName) {
-      this.fileName = fileName;
-      this.cfg = null;
-    }
-
-    public Config getConfig() {
-      if (cfg == null) {
-        cfg = new Config();
-      }
-      return cfg;
-    }
-
-    @Override
-    protected String getRefName() {
-      return RefNames.REFS_CONFIG;
-    }
-
-    @Override
-    protected void onLoad() throws IOException, ConfigInvalidException {
-      cfg = readConfig(fileName);
-    }
-
-    @Override
-    protected boolean onSave(CommitBuilder commit) throws IOException {
-      if (commit.getMessage() == null || "".equals(commit.getMessage())) {
-        commit.setMessage("Updated configuration\n");
-      }
-      saveConfig(fileName, cfg);
-      return true;
-    }
-  }
-
   private final String fileName;
   private final ProjectState project;
   private final ImmutableConfig immutableConfig;

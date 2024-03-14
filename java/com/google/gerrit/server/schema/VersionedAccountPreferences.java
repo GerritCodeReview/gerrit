@@ -14,17 +14,12 @@
 
 package com.google.gerrit.server.schema;
 
-import com.google.common.base.Strings;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.RefNames;
-import com.google.gerrit.server.git.meta.VersionedMetaData;
-import java.io.IOException;
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.CommitBuilder;
-import org.eclipse.jgit.lib.Config;
+import com.google.gerrit.server.git.meta.VersionedConfigFile;
 
 /** Preferences for user accounts during schema migrations. */
-class VersionedAccountPreferences extends VersionedMetaData {
+class VersionedAccountPreferences extends VersionedConfigFile {
   static final String PREFERENCES = "preferences.config";
 
   static VersionedAccountPreferences forUser(Account.Id id) {
@@ -35,33 +30,7 @@ class VersionedAccountPreferences extends VersionedMetaData {
     return new VersionedAccountPreferences(RefNames.REFS_USERS_DEFAULT);
   }
 
-  private final String ref;
-  private Config cfg;
-
   protected VersionedAccountPreferences(String ref) {
-    this.ref = ref;
-  }
-
-  @Override
-  protected String getRefName() {
-    return ref;
-  }
-
-  Config getConfig() {
-    return cfg;
-  }
-
-  @Override
-  protected void onLoad() throws IOException, ConfigInvalidException {
-    cfg = readConfig(PREFERENCES);
-  }
-
-  @Override
-  protected boolean onSave(CommitBuilder commit) throws IOException, ConfigInvalidException {
-    if (Strings.isNullOrEmpty(commit.getMessage())) {
-      commit.setMessage("Updated preferences\n");
-    }
-    saveConfig(PREFERENCES, cfg);
-    return true;
+    super(ref, PREFERENCES, "Updated preferences\n");
   }
 }

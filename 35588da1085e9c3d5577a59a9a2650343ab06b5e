@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd9cc8ae_d96d5f11",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-03-14T10:09:02Z",
+      "side": 1,
+      "message": "compile error:\n\n```\njavatests/com/google/gerrit/pgm/util/LogFileManagerTest.java:48: error: cannot find symbol\n    LogFileManager manager \u003d new LogFileManager(new SitePaths(Path.of(\"/gerrit\")), new Config());\n    ^\n  symbol:   class LogFileManager\n  location: class LogFileManagerTest\njavatests/com/google/gerrit/pgm/util/LogFileManagerTest.java:48: error: cannot find symbol\n    LogFileManager manager \u003d new LogFileManager(new SitePaths(Path.of(\"/gerrit\")), new Config());\n                                 ^\n  symbol:   class LogFileManager\n  location: class LogFileManagerTest\n```",
+      "revId": "35588da1085e9c3d5577a59a9a2650343ab06b5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

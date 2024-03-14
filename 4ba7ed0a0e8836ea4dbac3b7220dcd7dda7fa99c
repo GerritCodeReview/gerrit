@@ -34,6 +34,24 @@
       "parentUuid": "9b7e4f5e_1887dc6f",
       "revId": "4ba7ed0a0e8836ea4dbac3b7220dcd7dda7fa99c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8a4cb07_03d868d9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-03-14T15:58:07Z",
+      "side": 1,
+      "message": "They seem pretty close, so I think it\u0027s doable. Good to know it\u0027s just a time thing.",
+      "parentUuid": "c8766947_2cf28c7b",
+      "revId": "4ba7ed0a0e8836ea4dbac3b7220dcd7dda7fa99c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

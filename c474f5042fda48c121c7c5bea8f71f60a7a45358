@@ -16,6 +16,24 @@
       "message": "Nice!\nThanks for the fix.\nIs it possible to have a test for this?",
       "revId": "c474f5042fda48c121c7c5bea8f71f60a7a45358",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "241fe219_fcd4c588",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-03-14T17:59:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0fbc30b9_12f96062",
+      "revId": "c474f5042fda48c121c7c5bea8f71f60a7a45358",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

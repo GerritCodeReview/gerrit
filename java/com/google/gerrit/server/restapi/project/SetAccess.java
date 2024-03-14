@@ -29,15 +29,11 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.server.CreateGroupPermissionSyncer;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupBackend;
-import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.RefPermission;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -49,92 +45,72 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessInput> {
   protected final GroupBackend groupBackend;
   private final PermissionBackend permissionBackend;
-  private final Provider<MetaDataUpdate.User> metaDataUpdateFactory;
   private final GetAccess getAccess;
-  private final ProjectCache projectCache;
   private final Provider<IdentifiedUser> identifiedUser;
   private final SetAccessUtil accessUtil;
-  private final CreateGroupPermissionSyncer createGroupPermissionSyncer;
-  private final ProjectConfig.Factory projectConfigFactory;
+  private final RepoMetaDataUpdater repoMetaDataUpdater;
 
   @Inject
   private SetAccess(
       GroupBackend groupBackend,
       PermissionBackend permissionBackend,
-      Provider<MetaDataUpdate.User> metaDataUpdateFactory,
-      ProjectCache projectCache,
       GetAccess getAccess,
       Provider<IdentifiedUser> identifiedUser,
       SetAccessUtil accessUtil,
-      CreateGroupPermissionSyncer createGroupPermissionSyncer,
-      ProjectConfig.Factory projectConfigFactory) {
+      RepoMetaDataUpdater repoMetaDataUpdater) {
     this.groupBackend = groupBackend;
     this.permissionBackend = permissionBackend;
-    this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.getAccess = getAccess;
-    this.projectCache = projectCache;
     this.identifiedUser = identifiedUser;
     this.accessUtil = accessUtil;
-    this.createGroupPermissionSyncer = createGroupPermissionSyncer;
-    this.projectConfigFactory = projectConfigFactory;
+    this.repoMetaDataUpdater = repoMetaDataUpdater;
   }
 
   @Override
   public Response<ProjectAccessInfo> apply(ProjectResource rsrc, ProjectAccessInput input)
       throws Exception {
-    MetaDataUpdate.User metaDataUpdateUser = metaDataUpdateFactory.get();
-
     validateInput(input);
-
-    ProjectConfig config;
 
     ImmutableList<AccessSection> removals =
         accessUtil.getAccessSections(input.remove, /* rejectNonResolvableGroups= */ false);
     ImmutableList<AccessSection> additions =
         accessUtil.getAccessSections(input.add, /* rejectNonResolvableGroups= */ true);
-    try (MetaDataUpdate md = metaDataUpdateUser.create(rsrc.getNameKey())) {
-      config = projectConfigFactory.read(md);
-
-      // Check that the user has the right permissions.
-      boolean checkedAdmin = false;
-      for (AccessSection section : Iterables.concat(additions, removals)) {
-        boolean isGlobalCapabilities = AccessSection.GLOBAL_CAPABILITIES.equals(section.getName());
-        if (isGlobalCapabilities) {
-          if (!checkedAdmin) {
-            permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
-            checkedAdmin = true;
-          }
-        } else {
-          permissionBackend
-              .currentUser()
-              .project(rsrc.getNameKey())
-              .ref(section.getName())
-              .check(RefPermission.WRITE_CONFIG);
-        }
-      }
-
-      accessUtil.validateChanges(config, removals, additions);
-      accessUtil.applyChanges(config, removals, additions);
-
-      accessUtil.setParentName(
-          identifiedUser.get(),
-          config,
+    String message = !Strings.isNullOrEmpty(input.message) ? input.message : "Modify access rules";
+    try {
+      this.repoMetaDataUpdater.updateWithoutReview(
           rsrc.getNameKey(),
-          input.parent == null ? null : Project.nameKey(input.parent),
-          !checkedAdmin);
+          message,
+          /*skipPermissionsCheck=*/ true,
+          config -> {
+            // Check that the user has the right permissions.
+            boolean checkedAdmin = false;
+            for (AccessSection section : Iterables.concat(additions, removals)) {
+              boolean isGlobalCapabilities =
+                  AccessSection.GLOBAL_CAPABILITIES.equals(section.getName());
+              if (isGlobalCapabilities) {
+                if (!checkedAdmin) {
+                  permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
+                  checkedAdmin = true;
+                }
+              } else {
+                permissionBackend
+                    .currentUser()
+                    .project(rsrc.getNameKey())
+                    .ref(section.getName())
+                    .check(RefPermission.WRITE_CONFIG);
+              }
+            }
 
-      if (!Strings.isNullOrEmpty(input.message)) {
-        if (!input.message.endsWith("\n")) {
-          input.message += "\n";
-        }
-        md.setMessage(input.message);
-      } else {
-        md.setMessage("Modify access rules\n");
-      }
+            accessUtil.validateChanges(config, removals, additions);
+            accessUtil.applyChanges(config, removals, additions);
 
-      config.commit(md);
-      projectCache.evictAndReindex(config.getProject());
-      createGroupPermissionSyncer.syncIfNeeded();
+            accessUtil.setParentName(
+                identifiedUser.get(),
+                config,
+                rsrc.getNameKey(),
+                input.parent == null ? null : Project.nameKey(input.parent),
+                !checkedAdmin);
+          });
     } catch (InvalidNameException e) {
       throw new BadRequestException(e.toString());
     } catch (ConfigInvalidException e) {

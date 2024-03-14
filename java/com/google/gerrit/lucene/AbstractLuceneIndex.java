@@ -421,10 +421,6 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
     return f.isStored() ? Field.Store.YES : Field.Store.NO;
   }
 
-  static int getLimitBasedOnPaginationType(QueryOptions opts, int pagesize) {
-    return PaginationType.NONE == opts.config().paginationType() ? opts.limit() : pagesize;
-  }
-
   private final class NrtFuture extends AbstractFuture<Void> {
     private final long gen;
 
@@ -546,7 +542,9 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
         searcher = acquire();
         int realLimit =
             Ints.saturatedCast(
-                (long) getLimitBasedOnPaginationType(opts, opts.pageSize()) + opts.start());
+                PaginationType.NONE == opts.config().paginationType()
+                    ? (long) opts.start() + opts.limit()
+                    : (long) opts.start() + opts.pageSize());
         TopFieldDocs docs =
             opts.searchAfter() != null
                 ? searcher.searchAfter(

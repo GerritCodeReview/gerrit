@@ -46,66 +46,107 @@ public class PaginatingSource<T> implements DataSource<T> {
     if (source == null) {
       throw new StorageException("No DataSource: " + this);
     }
-
     // ResultSets are lazy. Calling #read here first and then dealing with ResultSets only when
     // requested allows the index to run asynchronous queries.
     ResultSet<T> resultSet = source.read();
-    return new LazyResultSet<>(
-        () -> {
-          List<T> r = new ArrayList<>();
-          T last = null;
-          int pageResultSize = 0;
-          for (T data : buffer(resultSet)) {
-            if (!isMatchable() || match(data)) {
-              r.add(data);
-            }
-            last = data;
-            pageResultSize++;
-          }
 
-          if (last != null
-              && source instanceof Paginated
-              // TODO: this fix is only for the stable branches and the real refactoring would be to
-              // restore the logic
-              // for the filtering in AndSource (L58 - 64) as per
-              // https://gerrit-review.googlesource.com/c/gerrit/+/345634/9
-              && !indexConfig.paginationType().equals(PaginationType.NONE)) {
-            // Restart source and continue if we have not filled the
-            // full limit the caller wants.
-            //
-            @SuppressWarnings("unchecked")
-            Paginated<T> p = (Paginated<T>) source;
-            QueryOptions opts = p.getOptions();
-            final int limit = opts.limit();
-            int pageSize = opts.pageSize();
-            int pageSizeMultiplier = opts.pageSizeMultiplier();
-            Object searchAfter = resultSet.searchAfter();
-            int nextStart = pageResultSize;
-            while (pageResultSize == pageSize && r.size() <= limit) { // get 1 more than the limit
-              pageSize = getNextPageSize(pageSize, pageSizeMultiplier);
-              ResultSet<T> next =
-                  indexConfig.paginationType().equals(PaginationType.SEARCH_AFTER)
-                      ? p.restart(searchAfter, pageSize)
-                      : p.restart(nextStart, pageSize);
-              pageResultSize = 0;
-              for (T data : buffer(next)) {
-                if (match(data)) {
-                  r.add(data);
-                }
-                pageResultSize++;
+    if (indexConfig.paginationType().equals(PaginationType.NONE)) {
+      return new LazyResultSet<>(
+          () -> {
+            List<T> r = new ArrayList<>();
+            T last = null;
+            int nextStart = 0;
+            boolean skipped = false;
+            for (T data : buffer(resultSet)) {
+              if (!isMatchable() || match(data)) {
+                r.add(data);
+              } else {
+                skipped = true;
               }
-              nextStart += pageResultSize;
-              searchAfter = next.searchAfter();
+              last = data;
+              nextStart++;
             }
-          }
 
-          if (start >= r.size()) {
-            return ImmutableList.of();
-          } else if (start > 0) {
-            return ImmutableList.copyOf(r.subList(start, r.size()));
-          }
-          return ImmutableList.copyOf(r);
-        });
+            if (skipped && last != null && source instanceof Paginated) {
+              // If our source is a paginated source and we skipped at
+              // least one of its results, we may not have filled the full
+              // limit the caller wants.  Restart the source and continue.
+              //
+              @SuppressWarnings("unchecked")
+              Paginated<T> p = (Paginated<T>) source;
+              while (skipped && r.size() < p.getOptions().limit() + start) {
+                skipped = false;
+                ResultSet<T> next = p.restart(nextStart);
+
+                for (T data : buffer(next)) {
+                  if (match(data)) {
+                    r.add(data);
+                  } else {
+                    skipped = true;
+                  }
+                  nextStart++;
+                }
+              }
+            }
+            if (start >= r.size()) {
+              return ImmutableList.of();
+            } else if (start > 0) {
+              return ImmutableList.copyOf(r.subList(start, r.size()));
+            }
+            return ImmutableList.copyOf(r);
+          });
+    } else {
+      return new LazyResultSet<>(
+          () -> {
+            List<T> r = new ArrayList<>();
+            T last = null;
+            int pageResultSize = 0;
+            for (T data : buffer(resultSet)) {
+              if (!isMatchable() || match(data)) {
+                r.add(data);
+              }
+              last = data;
+              pageResultSize++;
+            }
+
+            if (last != null && source instanceof Paginated) {
+              // Restart source and continue if we have not filled the
+              // full limit the caller wants.
+              //
+              @SuppressWarnings("unchecked")
+              Paginated<T> p = (Paginated<T>) source;
+              QueryOptions opts = p.getOptions();
+              final int limit = opts.limit();
+              int pageSize = opts.pageSize();
+              int pageSizeMultiplier = opts.pageSizeMultiplier();
+              Object searchAfter = resultSet.searchAfter();
+              int nextStart = pageResultSize;
+              while (pageResultSize == pageSize && r.size() <= limit) { // get 1 more than the limit
+                pageSize = getNextPageSize(pageSize, pageSizeMultiplier);
+                ResultSet<T> next =
+                    indexConfig.paginationType().equals(PaginationType.SEARCH_AFTER)
+                        ? p.restart(searchAfter, pageSize)
+                        : p.restart(nextStart, pageSize);
+                pageResultSize = 0;
+                for (T data : buffer(next)) {
+                  if (match(data)) {
+                    r.add(data);
+                  }
+                  pageResultSize++;
+                }
+                nextStart += pageResultSize;
+                searchAfter = next.searchAfter();
+              }
+            }
+
+            if (start >= r.size()) {
+              return ImmutableList.of();
+            } else if (start > 0) {
+              return ImmutableList.copyOf(r.subList(start, r.size()));
+            }
+            return ImmutableList.copyOf(r);
+          });
+    }
   }
 
   @Override

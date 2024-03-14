@@ -468,7 +468,12 @@ public class LuceneChangeIndex implements ChangeIndex {
         if (Integer.MAX_VALUE - opts.pageSize() < opts.start()) {
           realPageSize = Integer.MAX_VALUE;
         }
-        int queryLimit = AbstractLuceneIndex.getLimitBasedOnPaginationType(opts, realPageSize);
+        int realLimit = opts.start() + opts.limit();
+        if (Integer.MAX_VALUE - opts.limit() < opts.start()) {
+          realLimit = Integer.MAX_VALUE;
+        }
+        int queryLimit =
+            PaginationType.NONE == opts.config().paginationType() ? realLimit : realPageSize;
         List<TopFieldDocs> hits = new ArrayList<>();
         int searchAfterHitsCount = 0;
         for (int i = 0; i < indexes.size(); i++) {

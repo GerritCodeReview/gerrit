@@ -115,11 +115,16 @@ public abstract class LuceneQueryChangesTest extends AbstractQueryChangesTest {
     Account.Id user2 =
         accountManager.authenticate(AuthRequest.forUser("anotheruser")).getAccountId();
 
-    Change priChange1 = insert(publicRepo, newChangeWithStatus(publicRepo, Change.Status.NEW), user2);
-    Change priChange2 = insert(publicRepo, newChangeWithStatus(publicRepo, Change.Status.NEW), user2);
-    Change priChange3 = insert(publicRepo, newChangeWithStatus(publicRepo, Change.Status.NEW), user2);
-    Change priChange4 = insert(publicRepo, newChangeWithStatus(publicRepo, Change.Status.NEW), user2);
-    Change priChange5 = insert(publicRepo, newChangeWithStatus(publicRepo, Change.Status.NEW), user2);
+    Change priChange1 =
+        insert(publicRepo, newChangeWithStatus(publicRepo, Change.Status.NEW), user2);
+    Change priChange2 =
+        insert(publicRepo, newChangeWithStatus(publicRepo, Change.Status.NEW), user2);
+    Change priChange3 =
+        insert(publicRepo, newChangeWithStatus(publicRepo, Change.Status.NEW), user2);
+    Change priChange4 =
+        insert(publicRepo, newChangeWithStatus(publicRepo, Change.Status.NEW), user2);
+    Change priChange5 =
+        insert(publicRepo, newChangeWithStatus(publicRepo, Change.Status.NEW), user2);
     gApi.changes().id(priChange1.getChangeId()).setPrivate(true, null);
     gApi.changes().id(priChange2.getChangeId()).setPrivate(true, null);
     gApi.changes().id(priChange3.getChangeId()).setPrivate(true, null);

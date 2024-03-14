@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2216b98d_2e05e735",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-03-14T15:20:38Z",
+      "side": 1,
+      "message": "Thanks! I was going to check on this but got distracted trying to get the task plugin docker-based tests to work with master and zuul.",
+      "revId": "1c3c0edbbc2807a06f1b61fa2022368d15483da3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -316,8 +316,9 @@ export class GrComment extends LitElement {
         {key: Key.ENTER, modifiers: [modifier]},
         () => {
           this.save();
-        },
-        {preventDefault: false}
+        }
+        // Do not override default stopPropagating, otherwise this shortcut
+        // can cause unintended sending of reply
       );
     }
     // For Ctrl+s add shorctut with preventDefault so that it does

@@ -16,6 +16,24 @@
       "message": "This issue was reported on 3.7, but this change seems to have some significant conflicts with that branch. Can you help to backport it?",
       "revId": "90b2b7dd10a929f7afb1a8306705e1d530368bf1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ccab700_63876c17",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-03-14T07:02:35Z",
+      "side": 1,
+      "message": "Sorry, this fix cannot be backported beyond https://gerrit-review.git.corp.google.com/c/gerrit/+/356935: Remove page.js in favor of our own re-written version of it\n\nIt is a bug in the page.js library. We were only able to fix it, because we have replaced it with our own implementation in the above change.\n\nPlease also wait before backporting to 3.8. I would like to wait a few days and make sure that everything works as intended with the fix released to production at Google.",
+      "parentUuid": "1656e103_ed5fdb0b",
+      "revId": "90b2b7dd10a929f7afb1a8306705e1d530368bf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

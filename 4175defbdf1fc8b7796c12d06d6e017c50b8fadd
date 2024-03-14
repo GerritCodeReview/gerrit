@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0507c409_b3de81bf",
+        "filename": "javatests/com/google/gerrit/server/query/change/LuceneQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-14T22:04:25Z",
+      "side": 1,
+      "message": "Just create the repo as all other tests: calling this `publicRepo` is misleading, it could be any type of repository.\n\n\n```suggestion\n    TestRepository\u003cRepo\u003e repo \u003d createProject(\"repo\");\n```",
+      "revId": "4175defbdf1fc8b7796c12d06d6e017c50b8fadd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19eb8815_7f7e9f1c",
+        "filename": "javatests/com/google/gerrit/server/query/change/LuceneQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-14T22:04:25Z",
+      "side": 1,
+      "message": "```suggestion\n    Change visibleChange \u003d insert(repo, newChangeWithStatus(publicRepo, Change.Status.NEW));\n```",
+      "range": {
+        "startLine": 112,
+        "startChar": 11,
+        "endLine": 112,
+        "endChar": 21
+      },
+      "revId": "4175defbdf1fc8b7796c12d06d6e017c50b8fadd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "481be690_375b16bd",
+        "filename": "javatests/com/google/gerrit/server/query/change/LuceneQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-14T22:04:25Z",
+      "side": 1,
+      "message": "```suggestion\n    Change invisibleChange1 \u003d insert(repo, newChangeWithStatus(repo, Change.Status.NEW), user2);\n    Change invisibleChange2 \u003d insert(repo, newChangeWithStatus(repo, Change.Status.NEW), user2);\n```",
+      "range": {
+        "startLine": 118,
+        "startChar": 0,
+        "endLine": 119,
+        "endChar": 102
+      },
+      "revId": "4175defbdf1fc8b7796c12d06d6e017c50b8fadd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9de12e42_60ff3a14",
+        "filename": "javatests/com/google/gerrit/server/query/change/LuceneQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-14T22:04:25Z",
+      "side": 1,
+      "message": "Not needed: 2 private changes are enough",
+      "range": {
+        "startLine": 120,
+        "startChar": 0,
+        "endLine": 122,
+        "endChar": 102
+      },
+      "revId": "4175defbdf1fc8b7796c12d06d6e017c50b8fadd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6566e355_3d3370d5",
+        "filename": "javatests/com/google/gerrit/server/query/change/LuceneQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-14T22:04:25Z",
+      "side": 1,
+      "message": "Not needed: 2 private changes are enough",
+      "range": {
+        "startLine": 125,
+        "startChar": 0,
+        "endLine": 127,
+        "endChar": 71
+      },
+      "revId": "4175defbdf1fc8b7796c12d06d6e017c50b8fadd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c020deef_d25f6441",
+        "filename": "javatests/com/google/gerrit/server/query/change/LuceneQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-14T22:04:25Z",
+      "side": 1,
+      "message": "I would highlight that this query works and returns one change, when executed at L113, but it doesn\u0027t work anymore and returns no changes when executed at L131.",
+      "range": {
+        "startLine": 130,
+        "startChar": 0,
+        "endLine": 131,
+        "endChar": 63
+      },
+      "revId": "4175defbdf1fc8b7796c12d06d6e017c50b8fadd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c905d9c5_72f99034",
+        "filename": "javatests/com/google/gerrit/server/query/change/LuceneQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-14T22:04:25Z",
+      "side": 1,
+      "message": "How is this test different from the one above? You are just showing a different way for creating invisible changes, but the above test has already done the job in a clever way by creating private changes.",
+      "range": {
+        "startLine": 135,
+        "startChar": 2,
+        "endLine": 162,
+        "endChar": 3
+      },
+      "revId": "4175defbdf1fc8b7796c12d06d6e017c50b8fadd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

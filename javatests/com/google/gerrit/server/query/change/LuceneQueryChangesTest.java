@@ -16,12 +16,18 @@ package com.google.gerrit.server.query.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.deny;
 import static com.google.gerrit.common.data.GlobalCapability.QUERY_LIMIT;
+import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Permission;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.testing.InMemoryModule;
 import com.google.gerrit.testing.InMemoryRepositoryManager.Repo;
@@ -97,5 +103,61 @@ public abstract class LuceneQueryChangesTest extends AbstractQueryChangesTest {
 
     Change[] expected = new Change[] {change6, change5, change4, change3, change2, change1};
     assertQuery(newQuery("project:repo").withNoLimit(), expected);
+  }
+
+  @Test
+  public void skipChangesNotVisible() throws Exception {
+    // create 1 new change on a repo
+    TestRepository<Repo> publicRepo = createProject("publicRepo");
+    Change pubChange1 = insert(publicRepo, newChangeWithStatus(publicRepo, Change.Status.NEW));
+
+    // create 5 new private changes
+    Account.Id user2 =
+        accountManager.authenticate(AuthRequest.forUser("anotheruser")).getAccountId();
+
+    Change priChange1 = insert(publicRepo, newChangeWithStatus(publicRepo, Change.Status.NEW), user2);
+    Change priChange2 = insert(publicRepo, newChangeWithStatus(publicRepo, Change.Status.NEW), user2);
+    Change priChange3 = insert(publicRepo, newChangeWithStatus(publicRepo, Change.Status.NEW), user2);
+    Change priChange4 = insert(publicRepo, newChangeWithStatus(publicRepo, Change.Status.NEW), user2);
+    Change priChange5 = insert(publicRepo, newChangeWithStatus(publicRepo, Change.Status.NEW), user2);
+    gApi.changes().id(priChange1.getChangeId()).setPrivate(true, null);
+    gApi.changes().id(priChange2.getChangeId()).setPrivate(true, null);
+    gApi.changes().id(priChange3.getChangeId()).setPrivate(true, null);
+    gApi.changes().id(priChange4.getChangeId()).setPrivate(true, null);
+    gApi.changes().id(priChange5.getChangeId()).setPrivate(true, null);
+
+    // pagination should back-fill the results skipped because of the visibility
+    Change[] expected = new Change[] {pubChange1};
+    assertQuery(newQuery("status:new").withLimit(1), expected);
+  }
+
+  @Test
+  public void skipChangesNotVisibleForAnonymousUser() throws Exception {
+
+    // create 1 new change on a public repo
+    TestRepository<Repo> publicRepo = createProject("publicRepo");
+    Change pubChange1 = insert(publicRepo, newChangeWithStatus(publicRepo, Change.Status.NEW));
+
+    // create 5 new changes on a private repo
+    Account.Id user2 =
+        accountManager.authenticate(AuthRequest.forUser("anotheruser")).getAccountId();
+    TestRepository<Repo> privateRepo = createProject("privateRepo");
+    insert(privateRepo, newChangeWithStatus(privateRepo, Change.Status.NEW), user2);
+    insert(privateRepo, newChangeWithStatus(privateRepo, Change.Status.NEW), user2);
+    insert(privateRepo, newChangeWithStatus(privateRepo, Change.Status.NEW), user2);
+    insert(privateRepo, newChangeWithStatus(privateRepo, Change.Status.NEW), user2);
+    insert(privateRepo, newChangeWithStatus(privateRepo, Change.Status.NEW), user2);
+
+    projectOperations
+        .project(Project.NameKey.parse("privateRepo"))
+        .forUpdate()
+        .add(deny(Permission.READ).ref("refs/heads/*").group(ANONYMOUS_USERS))
+        .add(deny(Permission.READ).ref("refs/*").group(ANONYMOUS_USERS))
+        .update();
+
+    // pagination should back-fill the results skipped because of the visibility
+    requestContext.setContext(anonymousUserProvider::get);
+    Change[] expected = new Change[] {pubChange1};
+    assertQuery(newQuery("status:new").withLimit(1), expected);
   }
 }

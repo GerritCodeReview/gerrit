@@ -16,22 +16,28 @@ package com.google.gerrit.server.api.config;
 
 import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.common.Version;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInput;
+import com.google.gerrit.extensions.api.config.ExperimentApi;
 import com.google.gerrit.extensions.api.config.Server;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
+import com.google.gerrit.extensions.common.ExperimentInfo;
 import com.google.gerrit.extensions.common.ServerInfo;
+import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.webui.TopMenu;
 import com.google.gerrit.server.config.ConfigResource;
 import com.google.gerrit.server.restapi.config.CheckConsistency;
+import com.google.gerrit.server.restapi.config.ExperimentsCollection;
 import com.google.gerrit.server.restapi.config.GetDiffPreferences;
 import com.google.gerrit.server.restapi.config.GetEditPreferences;
 import com.google.gerrit.server.restapi.config.GetPreferences;
 import com.google.gerrit.server.restapi.config.GetServerInfo;
+import com.google.gerrit.server.restapi.config.ListExperiments;
 import com.google.gerrit.server.restapi.config.ListTopMenus;
 import com.google.gerrit.server.restapi.config.SetDiffPreferences;
 import com.google.gerrit.server.restapi.config.SetEditPreferences;
@@ -52,6 +58,9 @@ public class ServerImpl implements Server {
   private final GetServerInfo getServerInfo;
   private final Provider<CheckConsistency> checkConsistency;
   private final ListTopMenus listTopMenus;
+  private final ExperimentApiImpl.Factory experimentApi;
+  private final ExperimentsCollection experimentsCollection;
+  private final Provider<ListExperiments> listExperimentsProvider;
 
   @Inject
   ServerImpl(
@@ -63,7 +72,10 @@ public class ServerImpl implements Server {
       SetEditPreferences setEditPreferences,
       GetServerInfo getServerInfo,
       Provider<CheckConsistency> checkConsistency,
-      ListTopMenus listTopMenus) {
+      ListTopMenus listTopMenus,
+      ExperimentApiImpl.Factory experimentApi,
+      ExperimentsCollection experimentsCollection,
+      Provider<ListExperiments> listExperimentsProvider) {
     this.getPreferences = getPreferences;
     this.setPreferences = setPreferences;
     this.getDiffPreferences = getDiffPreferences;
@@ -73,6 +85,9 @@ public class ServerImpl implements Server {
     this.getServerInfo = getServerInfo;
     this.checkConsistency = checkConsistency;
     this.listTopMenus = listTopMenus;
+    this.experimentApi = experimentApi;
+    this.experimentsCollection = experimentsCollection;
+    this.listExperimentsProvider = listExperimentsProvider;
   }
 
   @Override
@@ -161,6 +176,39 @@ public class ServerImpl implements Server {
       return listTopMenus.apply(new ConfigResource()).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot get top menus", e);
+    }
+  }
+
+  @Override
+  public ExperimentApi experiment(String name) throws RestApiException {
+    try {
+      return experimentApi.create(
+          experimentsCollection.parse(new ConfigResource(), IdString.fromDecoded(name)));
+    } catch (Exception e) {
+      throw asRestApiException("Cannot parse experiment", e);
+    }
+  }
+
+  @Override
+  public ListExperimentsRequest listExperiments() throws RestApiException {
+    return new ListExperimentsRequest() {
+      @Override
+      public ImmutableMap<String, ExperimentInfo> get() throws RestApiException {
+        return ServerImpl.this.listExperiments(this);
+      }
+    };
+  }
+
+  private ImmutableMap<String, ExperimentInfo> listExperiments(ListExperimentsRequest r)
+      throws RestApiException {
+    try {
+      ListExperiments listExperiments = listExperimentsProvider.get();
+      if (r.getEnabledOnly()) {
+        listExperiments.setEnabledOnly(true);
+      }
+      return listExperiments.apply(new ConfigResource()).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot retrieve experiments", e);
     }
   }
 }

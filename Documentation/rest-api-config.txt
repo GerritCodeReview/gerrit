@@ -875,6 +875,49 @@ The entries in the map are sorted by capability ID.
   }
 ----
 
+[[list-experiments]]
+=== List Experiments
+--
+'GET /config/server/experiments'
+--
+
+Lists the experiments that are available in the system.
+
+Requires the caller to have the link:access-control.html#capability_administrateServer[
+Administrate Server] global capability.
+
+As result a map of experiment names to link:#experiment-info[Experiment] entities is returned.
+
+The entries in the map are sorted by experiment name.
+
+.Request
+----
+  GET /config/server/experiments/ HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "GerritBackendFeature__allow_fix_suggestions_in_comments": {
+      "enabled": false
+    },
+    "GerritBackendFeature__attach_nonce_to_documentation": {
+      "enabled": true
+    }
+  }
+----
+
+It is possible to specify the following options:
+
+[[list-experiments-enabled-only]]
+--
+* `enabled-only`: If specified only enabled experiments are listed.
+--
+
 [[list-tasks]]
 === List Tasks
 --
@@ -1551,6 +1594,40 @@ or will default to the current local time in ISO8601 format.
   }
 ----
 
+[[experiment-endpoints]]
+== Experiment Endpoints
+
+[[get-experiment]]
+=== Get Experiment
+--
+'GET /config/server/experiments/link:#experiment-name[\{experiment-name\}]
+--
+
+Retrieves the details of the experiment with the given name.
+
+Requires the caller to have the link:access-control.html#capability_administrateServer[
+Administrate Server] global capability.
+
+.Request
+----
+  GET /config/server/experiments/mGerritBackendFeature__attach_nonce_to_documentation HTTP/1.0
+----
+
+As response an link:#experiment-info[Experiment] entity is returned that
+describes the experiment.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "enabled": true
+  }
+----
+
 [[ids]]
 == IDs
 
@@ -1563,6 +1640,10 @@ plugin name: "<plugin-name>-<cache-name>".
 
 Gerrit core caches can optionally be prefixed with "gerrit":
 "gerrit-<cache-name>".
+
+[[experiment-name]]
+=== \{experiment-name\}
+The name of the experiment.
 
 [[task-id]]
 === \{task-id\}
@@ -1889,6 +1970,16 @@ The entity describes an updated config value.
 Missing if value was not previously configured.
 |`new_value`  |The new config value, picked up after reload.
 |======================
+
+[[experiment-info]]
+=== ExperimentInfo
+The `ExperimentInfo` entity contains information about an experiment.
+
+[options="header",cols="1,6"]
+|============================
+|Field Name |Description
+|`enabled`  |Whether the experiment is enabled.
+|============================
 
 [[download-info]]
 === DownloadInfo

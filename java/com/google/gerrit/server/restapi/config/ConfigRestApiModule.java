@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.config;
 
 import static com.google.gerrit.server.config.ConfigResource.CONFIG_KIND;
+import static com.google.gerrit.server.config.ExperimentResource.EXPERIMENT_KIND;
 import static com.google.gerrit.server.config.IndexResource.INDEX_KIND;
 import static com.google.gerrit.server.config.TaskResource.TASK_KIND;
 
@@ -28,6 +29,7 @@ public class ConfigRestApiModule extends RestApiModule {
   protected void configure() {
     DynamicMap.mapOf(binder(), CapabilityResource.CAPABILITY_KIND);
     DynamicMap.mapOf(binder(), CONFIG_KIND);
+    DynamicMap.mapOf(binder(), EXPERIMENT_KIND);
     DynamicMap.mapOf(binder(), TASK_KIND);
     DynamicMap.mapOf(binder(), TopMenuResource.TOP_MENU_KIND);
     DynamicMap.mapOf(binder(), INDEX_KIND);
@@ -35,6 +37,10 @@ public class ConfigRestApiModule extends RestApiModule {
     child(CONFIG_KIND, "capabilities").to(CapabilitiesCollection.class);
     post(CONFIG_KIND, "check.consistency").to(CheckConsistency.class);
     put(CONFIG_KIND, "email.confirm").to(ConfirmEmail.class);
+
+    child(CONFIG_KIND, "experiments").to(ExperimentsCollection.class);
+    get(EXPERIMENT_KIND).to(GetExperiment.class);
+
     post(CONFIG_KIND, "index.changes").to(IndexChanges.class);
     get(CONFIG_KIND, "info").to(GetServerInfo.class);
     get(CONFIG_KIND, "preferences").to(GetPreferences.class);

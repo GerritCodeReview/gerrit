@@ -16,6 +16,24 @@
       "message": "Unrelated change",
       "revId": "4175defbdf1fc8b7796c12d06d6e017c50b8fadd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f536457_5f95b5c7",
+        "filename": "java/com/google/gerrit/index/query/PaginatingSource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-03-15T12:10:41Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "e40c31dd_3d5d4bfb",
+      "revId": "4175defbdf1fc8b7796c12d06d6e017c50b8fadd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

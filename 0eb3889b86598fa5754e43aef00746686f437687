@@ -65,6 +65,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7f8dfd0_c231f29e",
+        "filename": "java/com/google/gerrit/index/query/PaginatingSource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-03-15T12:10:41Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "37b15460_c9f11f76",
+      "revId": "0eb3889b86598fa5754e43aef00746686f437687",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dceed3b2_de81b1bc",
@@ -78,6 +96,30 @@
       "writtenOn": "2024-03-15T10:03:26Z",
       "side": 1,
       "message": "This can be kept as it was before.",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 13
+      },
+      "revId": "0eb3889b86598fa5754e43aef00746686f437687",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f41d441e_4f6ac7ca",
+        "filename": "java/com/google/gerrit/index/query/PaginatingSource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-03-15T12:10:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dceed3b2_de81b1bc",
       "range": {
         "startLine": 69,
         "startChar": 0,
@@ -111,6 +153,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a6d0103_acab3576",
+        "filename": "java/com/google/gerrit/index/query/PaginatingSource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-03-15T12:10:41Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "b410b679_34074941",
+      "range": {
+        "startLine": 101,
+        "startChar": 0,
+        "endLine": 110,
+        "endChar": 13
+      },
+      "revId": "0eb3889b86598fa5754e43aef00746686f437687",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7ee59152_34e83f61",
@@ -124,6 +190,30 @@
       "writtenOn": "2024-03-15T10:03:26Z",
       "side": 1,
       "message": "How is this different from the previous version?",
+      "range": {
+        "startLine": 545,
+        "startChar": 0,
+        "endLine": 547,
+        "endChar": 61
+      },
+      "revId": "0eb3889b86598fa5754e43aef00746686f437687",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1acb763_744b9ab6",
+        "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-03-15T12:10:41Z",
+      "side": 1,
+      "message": "It is not different, only that in the subclass the\n`static int getLimitBasedOnPaginationType` is no longer used in the subclass, based on your suggestion in the comment in `LuceneChangeIndex.doRead` this is not needed.",
+      "parentUuid": "7ee59152_34e83f61",
       "range": {
         "startLine": 545,
         "startChar": 0,
@@ -180,6 +270,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1cba0ceb_7bbf67df",
+        "filename": "java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-03-15T12:10:41Z",
+      "side": 1,
+      "message": "Yes, based on the suggestion on the previous comment.",
+      "parentUuid": "51167c17_e7f1cee9",
+      "range": {
+        "startLine": 475,
+        "startChar": 0,
+        "endLine": 476,
+        "endChar": 93
+      },
+      "revId": "0eb3889b86598fa5754e43aef00746686f437687",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "861c78b6_56bf7551",
@@ -203,6 +317,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "20f123ba_a2789bfc",
+        "filename": "java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-03-15T12:10:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "861c78b6_56bf7551",
+      "range": {
+        "startLine": 484,
+        "startChar": 35,
+        "endLine": 484,
+        "endChar": 47
+      },
+      "revId": "0eb3889b86598fa5754e43aef00746686f437687",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2c98e8fd_20e3cfb4",
@@ -216,6 +354,30 @@
       "writtenOn": "2024-03-15T10:03:26Z",
       "side": 1,
       "message": "Unrelated formatting change",
+      "range": {
+        "startLine": 118,
+        "startChar": 0,
+        "endLine": 127,
+        "endChar": 86
+      },
+      "revId": "0eb3889b86598fa5754e43aef00746686f437687",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3bcf0d09_d69f7ce3",
+        "filename": "javatests/com/google/gerrit/server/query/change/LuceneQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-03-15T12:10:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c98e8fd_20e3cfb4",
       "range": {
         "startLine": 118,
         "startChar": 0,

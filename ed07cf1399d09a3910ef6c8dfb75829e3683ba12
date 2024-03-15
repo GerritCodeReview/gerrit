@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "89894558_04ec28ba",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-03-15T07:11:36Z",
+      "side": 1,
+      "message": "Really nice tests!!",
+      "revId": "ed07cf1399d09a3910ef6c8dfb75829e3683ba12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fcc82815_d39daa9d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 602,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-03-15T07:11:36Z",
+      "side": 1,
+      "message": "😄",
+      "range": {
+        "startLine": 602,
+        "startChar": 31,
+        "endLine": 602,
+        "endChar": 68
+      },
+      "revId": "ed07cf1399d09a3910ef6c8dfb75829e3683ba12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

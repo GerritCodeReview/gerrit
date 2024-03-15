@@ -96,6 +96,7 @@ import com.google.gerrit.server.group.PeriodicGroupIndexer.PeriodicGroupIndexerM
 import com.google.gerrit.server.index.AbstractIndexModule;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.OnlineUpgrader.OnlineUpgraderModule;
+import com.google.gerrit.server.index.ReindexingController;
 import com.google.gerrit.server.index.VersionManager;
 import com.google.gerrit.server.index.options.AutoFlush;
 import com.google.gerrit.server.mail.EmailModule;
@@ -504,6 +505,7 @@ public class Daemon extends SiteProgram {
     }
     modules.add(new SignedTokenEmailTokenVerifierModule());
     modules.add(new PluginModule());
+    modules.add(new ReindexingController.Module());
     if (VersionManager.getOnlineUpgrade(config)) {
       modules.add(new OnlineUpgraderModule());
     }

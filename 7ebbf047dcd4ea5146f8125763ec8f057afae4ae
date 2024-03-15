@@ -39,6 +39,30 @@
       },
       "revId": "7ebbf047dcd4ea5146f8125763ec8f057afae4ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "baa8dcf3_e93d46e6",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-03-15T11:15:06Z",
+      "side": 1,
+      "message": "Done\n\nThe `change_notes` persistent cache entry was updated to include the `mutated` flag. This way, even when change data is read from the cache, we can still migrate it on \"mutation\".\n\nWithout this, the migration will occur only when the mutated change is read directly from git data or stays in the in-memory cache.",
+      "parentUuid": "924c92c4_381a3c09",
+      "range": {
+        "startLine": 91,
+        "startChar": 2,
+        "endLine": 91,
+        "endChar": 65
+      },
+      "revId": "7ebbf047dcd4ea5146f8125763ec8f057afae4ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

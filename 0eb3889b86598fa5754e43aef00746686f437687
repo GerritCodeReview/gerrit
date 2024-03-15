@@ -226,6 +226,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e035cdee_4b0e5cd8",
+        "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-03-15T12:12:36Z",
+      "side": 1,
+      "message": "There are no difference in this class on the last patchset, so it reusing the `getLimitBasedOnPaginationType` as it was before.",
+      "parentUuid": "b1acb763_744b9ab6",
+      "range": {
+        "startLine": 545,
+        "startChar": 0,
+        "endLine": 547,
+        "endChar": 61
+      },
+      "revId": "0eb3889b86598fa5754e43aef00746686f437687",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b108f273_fa715b3f",
         "filename": "java/com/google/gerrit/lucene/LuceneChangeIndex.java",
         "patchSetId": 1
@@ -237,6 +261,30 @@
       "writtenOn": "2024-03-15T10:03:26Z",
       "side": 1,
       "message": "These two are identical, with the exception that the first is based on `opts.pageSize()` and the second is based on `opts.limit()`.\n\nEffective this can then be rewritten as follows.\n\n\n```suggestion\n        int pageLimit \u003d AbstractLuceneIndex.getLimitBasedOnPaginationType(opts, opts.pageSize());\n        int queryLimit \u003d opts.start() + pageLimit;\n        if (Integer.MAX_VALUE - pageLimit \u003c opts.start()) {\n          queryLimit \u003d Integer.MAX_VALUE;\n        }\n```",
+      "range": {
+        "startLine": 467,
+        "startChar": 0,
+        "endLine": 474,
+        "endChar": 9
+      },
+      "revId": "0eb3889b86598fa5754e43aef00746686f437687",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d9ea500_0b65b7b7",
+        "filename": "java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-03-15T12:12:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b108f273_fa715b3f",
       "range": {
         "startLine": 467,
         "startChar": 0,

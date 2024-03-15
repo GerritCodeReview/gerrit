@@ -22,6 +22,208 @@
       },
       "revId": "0eb3889b86598fa5754e43aef00746686f437687",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e02bbbd5_aa6a34d3",
+        "filename": "java/com/google/gerrit/index/query/PaginatingSource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-15T10:03:26Z",
+      "side": 1,
+      "message": "Yes, this condition can be moved down as `else if()`  after L100",
+      "parentUuid": "efcc2f74_c4b232d0",
+      "range": {
+        "startLine": 53,
+        "startChar": 4,
+        "endLine": 53,
+        "endChar": 67
+      },
+      "revId": "0eb3889b86598fa5754e43aef00746686f437687",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37b15460_c9f11f76",
+        "filename": "java/com/google/gerrit/index/query/PaginatingSource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-15T10:03:26Z",
+      "side": 1,
+      "message": "This is effectively the same as `pageResultSize`\n\n\n```suggestion\n            int pageResultSize \u003d 0;\n```",
+      "revId": "0eb3889b86598fa5754e43aef00746686f437687",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dceed3b2_de81b1bc",
+        "filename": "java/com/google/gerrit/index/query/PaginatingSource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-15T10:03:26Z",
+      "side": 1,
+      "message": "This can be kept as it was before.",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 13
+      },
+      "revId": "0eb3889b86598fa5754e43aef00746686f437687",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b410b679_34074941",
+        "filename": "java/com/google/gerrit/index/query/PaginatingSource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-15T10:03:26Z",
+      "side": 1,
+      "message": "No need for this, as it is the same in both cases of the `if()`",
+      "range": {
+        "startLine": 101,
+        "startChar": 0,
+        "endLine": 110,
+        "endChar": 13
+      },
+      "revId": "0eb3889b86598fa5754e43aef00746686f437687",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ee59152_34e83f61",
+        "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-15T10:03:26Z",
+      "side": 1,
+      "message": "How is this different from the previous version?",
+      "range": {
+        "startLine": 545,
+        "startChar": 0,
+        "endLine": 547,
+        "endChar": 61
+      },
+      "revId": "0eb3889b86598fa5754e43aef00746686f437687",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b108f273_fa715b3f",
+        "filename": "java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-15T10:03:26Z",
+      "side": 1,
+      "message": "These two are identical, with the exception that the first is based on `opts.pageSize()` and the second is based on `opts.limit()`.\n\nEffective this can then be rewritten as follows.\n\n\n```suggestion\n        int pageLimit \u003d AbstractLuceneIndex.getLimitBasedOnPaginationType(opts, opts.pageSize());\n        int queryLimit \u003d opts.start() + pageLimit;\n        if (Integer.MAX_VALUE - pageLimit \u003c opts.start()) {\n          queryLimit \u003d Integer.MAX_VALUE;\n        }\n```",
+      "range": {
+        "startLine": 467,
+        "startChar": 0,
+        "endLine": 474,
+        "endChar": 9
+      },
+      "revId": "0eb3889b86598fa5754e43aef00746686f437687",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51167c17_e7f1cee9",
+        "filename": "java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-15T10:03:26Z",
+      "side": 1,
+      "message": "Unneded.",
+      "range": {
+        "startLine": 475,
+        "startChar": 0,
+        "endLine": 476,
+        "endChar": 93
+      },
+      "revId": "0eb3889b86598fa5754e43aef00746686f437687",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "861c78b6_56bf7551",
+        "filename": "java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-15T10:03:26Z",
+      "side": 1,
+      "message": "```suggestion\n            int maxRemainingHits \u003d queryLimit - searchAfterHitsCount;\n```",
+      "range": {
+        "startLine": 484,
+        "startChar": 35,
+        "endLine": 484,
+        "endChar": 47
+      },
+      "revId": "0eb3889b86598fa5754e43aef00746686f437687",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c98e8fd_20e3cfb4",
+        "filename": "javatests/com/google/gerrit/server/query/change/LuceneQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-15T10:03:26Z",
+      "side": 1,
+      "message": "Unrelated formatting change",
+      "range": {
+        "startLine": 118,
+        "startChar": 0,
+        "endLine": 127,
+        "endChar": 86
+      },
+      "revId": "0eb3889b86598fa5754e43aef00746686f437687",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

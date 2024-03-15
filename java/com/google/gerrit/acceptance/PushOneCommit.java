@@ -176,7 +176,7 @@ public class PushOneCommit {
   private final TestRepository<?>.CommitBuilder commitBuilder;
 
   @AssistedInject
-  PushOneCommit(
+  public PushOneCommit(
       Result.Factory pushResultFactory,
       @Assisted PersonIdent i,
       @Assisted TestRepository<?> testRepo)
@@ -185,7 +185,7 @@ public class PushOneCommit {
   }
 
   @AssistedInject
-  PushOneCommit(
+  public PushOneCommit(
       Result.Factory pushResultFactory,
       @Assisted PersonIdent i,
       @Assisted TestRepository<?> testRepo,
@@ -202,7 +202,7 @@ public class PushOneCommit {
   }
 
   @AssistedInject
-  PushOneCommit(
+  public PushOneCommit(
       Result.Factory pushResultFactory,
       @Assisted PersonIdent i,
       @Assisted TestRepository<?> testRepo,
@@ -212,7 +212,7 @@ public class PushOneCommit {
   }
 
   @AssistedInject
-  PushOneCommit(
+  public PushOneCommit(
       Result.Factory pushResultFactory,
       @Assisted PersonIdent i,
       @Assisted TestRepository<?> testRepo,
@@ -224,7 +224,7 @@ public class PushOneCommit {
   }
 
   @AssistedInject
-  PushOneCommit(
+  public PushOneCommit(
       Result.Factory pushResultFactory,
       @Assisted PersonIdent i,
       @Assisted TestRepository<?> testRepo,
@@ -236,7 +236,7 @@ public class PushOneCommit {
   }
 
   @AssistedInject
-  PushOneCommit(
+  public PushOneCommit(
       Result.Factory pushResultFactory,
       @Assisted PersonIdent i,
       @Assisted TestRepository<?> testRepo,
@@ -256,7 +256,7 @@ public class PushOneCommit {
   }
 
   @AssistedInject
-  PushOneCommit(
+  public PushOneCommit(
       Result.Factory pushResultFactory,
       @Assisted PersonIdent i,
       @Assisted TestRepository<?> testRepo,
@@ -275,7 +275,7 @@ public class PushOneCommit {
   }
 
   @AssistedInject
-  PushOneCommit(
+  public PushOneCommit(
       Result.Factory pushResultFactory,
       @Assisted PersonIdent i,
       @Assisted TestRepository<?> testRepo,
@@ -301,6 +301,11 @@ public class PushOneCommit {
       commitBuilder = testRepo.amendRef("HEAD");
     }
     commitBuilder.message(subject).author(i).committer(new PersonIdent(i, testRepo.getDate()));
+  }
+
+  @UsedAt(Project.GOOGLE)
+  protected TestRepository<?> testRepository() {
+    return testRepo;
   }
 
   @CanIgnoreReturnValue

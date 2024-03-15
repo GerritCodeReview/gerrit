@@ -52,6 +52,11 @@ public class AccountIndexedCounter implements AccountIndexedListener {
     countsByAccount.remove(accountId.get());
   }
 
+  public void assertReindexAtLeastOnceOf(Account.Id accountId) {
+    assertThat(countsByAccount.asMap().getOrDefault(accountId.get(), 0L)).isAtLeast(1);
+    countsByAccount.remove(accountId.get());
+  }
+
   public void assertNoReindex() {
     assertThat(countsByAccount.asMap()).isEmpty();
   }

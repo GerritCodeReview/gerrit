@@ -39,7 +39,7 @@ import {
 import {ReplyToCommentEvent} from '../../../types/events';
 import {GrConfirmDeleteCommentDialog} from '../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog';
 import {assertIsDefined} from '../../../utils/common-util';
-import {Modifier} from '../../../utils/dom-util';
+import {Key, Modifier} from '../../../utils/dom-util';
 import {SinonStubbedMember} from 'sinon';
 import {fixture, html, assert} from '@open-wc/testing';
 import {GrButton} from '../gr-button/gr-button';
@@ -594,6 +594,46 @@ suite('gr-comment tests', () => {
       await element.updateComplete;
       pressKey(element.textarea!.textarea!.textarea, 's', Modifier.CTRL_KEY);
       assert.isTrue(spy.called);
+    });
+
+    suite('ctrl+ENTER  ', () => {
+      test('saves comment', async () => {
+        const spy = sinon.stub(element, 'save');
+        element.messageText = 'is that the horse from horsing around??';
+        element.editing = true;
+        await element.updateComplete;
+        pressKey(
+          element.textarea!.textarea!.textarea,
+          Key.ENTER,
+          Modifier.CTRL_KEY
+        );
+        assert.isTrue(spy.called);
+      });
+      test('propagates on patchset comment', async () => {
+        const event = new KeyboardEvent('keydown', {
+          key: Key.ENTER,
+          ctrlKey: true,
+        });
+        const stopPropagationStub = sinon.stub(event, 'stopPropagation');
+        element.permanentEditingMode = true;
+        element.messageText = 'is that the horse from horsing around??';
+        element.editing = true;
+        await element.updateComplete;
+        element.dispatchEvent(event);
+        assert.isFalse(stopPropagationStub.called);
+      });
+      test('does not propagate on normal comment', async () => {
+        const event = new KeyboardEvent('keydown', {
+          key: Key.ENTER,
+          ctrlKey: true,
+        });
+        const stopPropagationStub = sinon.stub(event, 'stopPropagation');
+        element.messageText = 'is that the horse from horsing around??';
+        element.editing = true;
+        await element.updateComplete;
+        element.dispatchEvent(event);
+        assert.isTrue(stopPropagationStub.called);
+      });
     });
 
     test('save', async () => {

@@ -314,8 +314,16 @@ export class GrComment extends LitElement {
     for (const modifier of [Modifier.CTRL_KEY, Modifier.META_KEY]) {
       this.shortcuts.addLocal(
         {key: Key.ENTER, modifiers: [modifier]},
-        () => {
+        e => {
           this.save();
+          // We don't stop propagation for patchset comment
+          // (this.permanentEditingMode = true), but we stop it for normal
+          // comments. This prevents accidentally sending a reply when
+          // editing/saving them in the reply dialog.
+          if (!this.permanentEditingMode) {
+            e.preventDefault();
+            e.stopPropagation();
+          }
         },
         {preventDefault: false}
       );

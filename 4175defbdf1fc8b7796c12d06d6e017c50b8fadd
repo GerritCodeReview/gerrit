@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "35bdfd51_8d5f50a9",
+        "filename": "javatests/com/google/gerrit/server/query/change/LuceneQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-03-15T09:29:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0507c409_b3de81bf",
+      "revId": "4175defbdf1fc8b7796c12d06d6e017c50b8fadd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "19eb8815_7f7e9f1c",
@@ -31,6 +49,30 @@
       "writtenOn": "2024-03-14T22:04:25Z",
       "side": 1,
       "message": "```suggestion\n    Change visibleChange \u003d insert(repo, newChangeWithStatus(publicRepo, Change.Status.NEW));\n```",
+      "range": {
+        "startLine": 112,
+        "startChar": 11,
+        "endLine": 112,
+        "endChar": 21
+      },
+      "revId": "4175defbdf1fc8b7796c12d06d6e017c50b8fadd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7f47c3b_c0e35c10",
+        "filename": "javatests/com/google/gerrit/server/query/change/LuceneQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-03-15T09:29:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19eb8815_7f7e9f1c",
       "range": {
         "startLine": 112,
         "startChar": 11,
@@ -64,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c67105d_ba82293f",
+        "filename": "javatests/com/google/gerrit/server/query/change/LuceneQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-03-15T09:29:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "481be690_375b16bd",
+      "range": {
+        "startLine": 118,
+        "startChar": 0,
+        "endLine": 119,
+        "endChar": 102
+      },
+      "revId": "4175defbdf1fc8b7796c12d06d6e017c50b8fadd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9de12e42_60ff3a14",
@@ -77,6 +143,30 @@
       "writtenOn": "2024-03-14T22:04:25Z",
       "side": 1,
       "message": "Not needed: 2 private changes are enough",
+      "range": {
+        "startLine": 120,
+        "startChar": 0,
+        "endLine": 122,
+        "endChar": 102
+      },
+      "revId": "4175defbdf1fc8b7796c12d06d6e017c50b8fadd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "94e306d3_066bc297",
+        "filename": "javatests/com/google/gerrit/server/query/change/LuceneQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-03-15T09:29:02Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "9de12e42_60ff3a14",
       "range": {
         "startLine": 120,
         "startChar": 0,
@@ -110,6 +200,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ebe4129_da491bfa",
+        "filename": "javatests/com/google/gerrit/server/query/change/LuceneQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-03-15T09:29:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6566e355_3d3370d5",
+      "range": {
+        "startLine": 125,
+        "startChar": 0,
+        "endLine": 127,
+        "endChar": 71
+      },
+      "revId": "4175defbdf1fc8b7796c12d06d6e017c50b8fadd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c020deef_d25f6441",
@@ -133,6 +247,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "30de0df4_d323332e",
+        "filename": "javatests/com/google/gerrit/server/query/change/LuceneQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-03-15T09:29:02Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "c020deef_d25f6441",
+      "range": {
+        "startLine": 130,
+        "startChar": 0,
+        "endLine": 131,
+        "endChar": 63
+      },
+      "revId": "4175defbdf1fc8b7796c12d06d6e017c50b8fadd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c905d9c5_72f99034",
@@ -146,6 +284,30 @@
       "writtenOn": "2024-03-14T22:04:25Z",
       "side": 1,
       "message": "How is this test different from the one above? You are just showing a different way for creating invisible changes, but the above test has already done the job in a clever way by creating private changes.",
+      "range": {
+        "startLine": 135,
+        "startChar": 2,
+        "endLine": 162,
+        "endChar": 3
+      },
+      "revId": "4175defbdf1fc8b7796c12d06d6e017c50b8fadd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01f00ed0_e99f2afe",
+        "filename": "javatests/com/google/gerrit/server/query/change/LuceneQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-03-15T09:29:02Z",
+      "side": 1,
+      "message": "True, I wanted to check that both use cases are covered, but as you mentioned they are equivalent, in fact both tests are testing the filtering by visibility, hence this test would be a duplicate. Deleted it.",
+      "parentUuid": "c905d9c5_72f99034",
       "range": {
         "startLine": 135,
         "startChar": 2,

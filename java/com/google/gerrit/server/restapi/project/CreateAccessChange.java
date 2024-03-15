@@ -14,17 +14,11 @@
 
 package com.google.gerrit.server.restapi.project;
 
-import static com.google.gerrit.server.project.ProjectCache.illegalState;
-import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
-
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.InvalidNameException;
 import com.google.gerrit.extensions.api.access.ProjectAccessInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -33,89 +27,35 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.server.Sequences;
-import com.google.gerrit.server.approval.ApprovalsUtil;
-import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeJson;
-import com.google.gerrit.server.git.meta.MetaDataUpdate;
-import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.ProjectPermission;
-import com.google.gerrit.server.permissions.RefPermission;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectResource;
-import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.UpdateException;
-import com.google.gerrit.server.update.context.RefUpdateContext;
-import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectInserter;
-import org.eclipse.jgit.lib.ObjectReader;
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
 
 @Singleton
 public class CreateAccessChange implements RestModifyView<ProjectResource, ProjectAccessInput> {
-  private final PermissionBackend permissionBackend;
-  private final Sequences seq;
-  private final ChangeInserter.Factory changeInserterFactory;
-  private final BatchUpdate.Factory updateFactory;
-  private final Provider<MetaDataUpdate.User> metaDataUpdateFactory;
   private final SetAccessUtil setAccess;
   private final ChangeJson.Factory jsonFactory;
-  private final ProjectCache projectCache;
-  private final ProjectConfig.Factory projectConfigFactory;
+  private final RepoMetaDataUpdater repoMetaDataUpdater;
 
   @Inject
   CreateAccessChange(
-      PermissionBackend permissionBackend,
-      ChangeInserter.Factory changeInserterFactory,
-      BatchUpdate.Factory updateFactory,
-      Sequences seq,
-      Provider<MetaDataUpdate.User> metaDataUpdateFactory,
       SetAccessUtil accessUtil,
       ChangeJson.Factory jsonFactory,
-      ProjectCache projectCache,
-      ProjectConfig.Factory projectConfigFactory) {
-    this.permissionBackend = permissionBackend;
-    this.seq = seq;
-    this.changeInserterFactory = changeInserterFactory;
-    this.updateFactory = updateFactory;
-    this.metaDataUpdateFactory = metaDataUpdateFactory;
+      RepoMetaDataUpdater repoMetaDataUpdater) {
     this.setAccess = accessUtil;
     this.jsonFactory = jsonFactory;
-    this.projectCache = projectCache;
-    this.projectConfigFactory = projectConfigFactory;
+    this.repoMetaDataUpdater = repoMetaDataUpdater;
   }
 
   @Override
   public Response<ChangeInfo> apply(ProjectResource rsrc, ProjectAccessInput input)
-      throws PermissionBackendException, AuthException, IOException, ConfigInvalidException,
-          InvalidNameException, UpdateException, RestApiException {
-    PermissionBackend.ForProject forProject =
-        permissionBackend.user(rsrc.getUser()).project(rsrc.getNameKey());
-    if (!check(forProject, ProjectPermission.READ_CONFIG)) {
-      throw new AuthException(RefNames.REFS_CONFIG + " not visible");
-    }
-    if (!check(forProject, ProjectPermission.WRITE_CONFIG)) {
-      try {
-        forProject.ref(RefNames.REFS_CONFIG).check(RefPermission.CREATE_CHANGE);
-      } catch (AuthException denied) {
-        throw new AuthException("cannot create change for " + RefNames.REFS_CONFIG, denied);
-      }
-    }
-    projectCache
-        .get(rsrc.getNameKey())
-        .orElseThrow(illegalState(rsrc.getNameKey()))
-        .checkStatePermitsWrite();
-
-    MetaDataUpdate.User metaDataUpdateUser = metaDataUpdateFactory.get();
+      throws PermissionBackendException, IOException, ConfigInvalidException, InvalidNameException,
+          UpdateException, RestApiException {
     ImmutableList<AccessSection> removals =
         setAccess.getAccessSections(input.remove, /* rejectNonResolvableGroups= */ false);
     ImmutableList<AccessSection> additions =
@@ -123,81 +63,30 @@ public class CreateAccessChange implements RestModifyView<ProjectResource, Proje
 
     Project.NameKey newParentProjectName =
         input.parent == null ? null : Project.nameKey(input.parent);
-
-    try (MetaDataUpdate md = metaDataUpdateUser.create(rsrc.getNameKey())) {
-      ProjectConfig config = projectConfigFactory.read(md);
-      ObjectId oldCommit = config.getRevision();
-      String oldCommitSha1 = oldCommit == null ? null : oldCommit.getName();
-
-      setAccess.validateChanges(config, removals, additions);
-      setAccess.applyChanges(config, removals, additions);
-      try {
-        setAccess.setParentName(
-            rsrc.getUser().asIdentifiedUser(),
-            config,
-            rsrc.getNameKey(),
-            newParentProjectName,
-            false);
-      } catch (AuthException e) {
-        throw new IllegalStateException(e);
-      }
-
-      if (!Strings.isNullOrEmpty(input.message)) {
-        if (!input.message.endsWith("\n")) {
-          input.message += "\n";
-        }
-        md.setMessage(input.message);
-      } else {
-        md.setMessage("Review access change\n");
-      }
-
-      md.setInsertChangeId(true);
-      Change.Id changeId = Change.id(seq.nextChangeId());
-      try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
-        RevCommit commit =
-            config.commitToNewRef(
-                md, PatchSet.id(changeId, Change.INITIAL_PATCH_SET_ID).toRefName());
-
-        if (commit.name().equals(oldCommitSha1)) {
-          throw new BadRequestException("no change");
-        }
-
-        try (ObjectInserter objInserter = md.getRepository().newObjectInserter();
-            ObjectReader objReader = objInserter.newReader();
-            RevWalk rw = new RevWalk(objReader);
-            BatchUpdate bu =
-                updateFactory.create(rsrc.getNameKey(), rsrc.getUser(), TimeUtil.now())) {
-          bu.setRepository(md.getRepository(), rw, objInserter);
-          ChangeInserter ins = newInserter(changeId, commit);
-          bu.insertChange(ins);
-          bu.execute();
-          return Response.created(jsonFactory.noOptions().format(ins.getChange()));
-        }
-      }
+    String message = !Strings.isNullOrEmpty(input.message) ? input.message : "Review access change";
+    try {
+      Change change =
+          repoMetaDataUpdater.updateAndCreateChangeForReview(
+              rsrc.getNameKey(),
+              rsrc.getUser(),
+              message,
+              config -> {
+                setAccess.validateChanges(config, removals, additions);
+                setAccess.applyChanges(config, removals, additions);
+                try {
+                  setAccess.setParentName(
+                      rsrc.getUser().asIdentifiedUser(),
+                      config,
+                      rsrc.getNameKey(),
+                      newParentProjectName,
+                      false);
+                } catch (AuthException e) {
+                  throw new IllegalStateException(e);
+                }
+              });
+      return Response.created(jsonFactory.noOptions().format(change));
     } catch (InvalidNameException e) {
       throw new BadRequestException(e.toString());
-    }
-  }
-
-  // ProjectConfig doesn't currently support fusing into a BatchUpdate.
-  @SuppressWarnings("deprecation")
-  private ChangeInserter newInserter(Change.Id changeId, RevCommit commit) {
-    return changeInserterFactory
-        .create(changeId, commit, RefNames.REFS_CONFIG)
-        .setMessage(
-            // Same message as in ReceiveCommits.CreateRequest.
-            ApprovalsUtil.renderMessageWithApprovals(1, ImmutableMap.of(), ImmutableMap.of()))
-        .setValidate(false)
-        .setUpdateRef(false);
-  }
-
-  private boolean check(PermissionBackend.ForProject perm, ProjectPermission p)
-      throws PermissionBackendException {
-    try {
-      perm.check(p);
-      return true;
-    } catch (AuthException denied) {
-      return false;
     }
   }
 }

@@ -16,6 +16,24 @@
       "message": "Please, can you add in the description the reason behind this change? I dont have the context.",
       "revId": "a93234625bc2b47ec2ee610a6ce74928922313cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7c03a00_0db04f08",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-03-15T13:12:11Z",
+      "side": 1,
+      "message": "The final goal is to use the `replication` plugin `ApiModule` (we\u0027re interested in the new configuration API to add remotes programmatically see https://gerrit-review.googlesource.com/c/plugins/github/+/413243).\n\nAs the `github` plugin is using Maven, we need to first be able to deploy the `replication` plugin to the Maven registry.\n\nThe `api.sh` script automates that Maven deployment process and as the `replication` is a built-in plugin, we can always install/deploy it whenever we do install/deploy the Gerrit artefact.\n\nThat\u0027s why we need this change. It\u0027s also a convenience for the contributors and maintainers to bundle all of the Maven install/deploy tasks together.\n\nHope this description helps.",
+      "parentUuid": "49662d1c_8b7d6603",
+      "revId": "a93234625bc2b47ec2ee610a6ce74928922313cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

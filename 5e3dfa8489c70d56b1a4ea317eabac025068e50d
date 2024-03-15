@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5601b643_f9779aa5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-15T10:23:30Z",
+      "side": 1,
+      "message": "Just a small nit.\nCan you flag the test as disabled, and enable this again in the follow-up change?",
+      "revId": "5e3dfa8489c70d56b1a4ea317eabac025068e50d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82521eba_869fc2fb",
+        "filename": "javatests/com/google/gerrit/server/query/change/LuceneQueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-15T10:23:30Z",
+      "side": 1,
+      "message": "```suggestion\n    TestRepository\u003cRepo\u003e repo \u003d createProject(\"repo\");\n```",
+      "range": {
+        "startLine": 107,
+        "startChar": 47,
+        "endLine": 107,
+        "endChar": 57
+      },
+      "revId": "5e3dfa8489c70d56b1a4ea317eabac025068e50d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

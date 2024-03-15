@@ -3637,6 +3637,18 @@ immediately available after the write request.
 +
 Defaults to `false`.
 
+[[index.name.reindexOnStart]]index.name.reindexOnStart
++
+Start background reindexing for the specified index. This will perform the
+reindex-if-stale for every entity indexed by this index. The reindexing is done
+in background.
+
+==== Reindex on start configuration
+
+This section configures reindexing of some indexes at Gerrit start.
+
+[[index.name.reindexOnStart]]
+
 [[index.scheduledIndexer]]
 ==== Subsection index.scheduledIndexer
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44fab7e2_7830e003",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-16T00:34:09Z",
+      "side": 1,
+      "message": "Works E2E as expected. Just a little nit.",
+      "revId": "df84a0879e850d22de0b17c63b09497e7c5ff28a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

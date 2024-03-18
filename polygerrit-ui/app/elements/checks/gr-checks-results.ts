@@ -241,12 +241,28 @@ export class GrResultRow extends LitElement {
           display: inline-block;
           margin-left: var(--spacing-s);
         }
+        tr.container td .summary-cell .actions-shown-on-collapsed,
+        tr.container.collapsed:focus-within
+          td
+          .summary-cell
+          .actions-shown-on-collapsed,
+        tr.container.collapsed:hover
+          td
+          .summary-cell
+          .actions-shown-on-collapsed,
+        :host(.dropdown-open) tr td .summary-cell .actions-shown-on-collapsed {
+          display: none;
+        }
         tr.container.collapsed td .summary-cell .message {
           color: var(--deemphasized-text-color);
         }
         tr.container.collapsed td .summary-cell .links,
         tr.container.collapsed td .summary-cell .actions {
           display: none;
+        }
+        tr.container.collapsed td .summary-cell .actions-shown-on-collapsed {
+          display: inline-block;
+          margin-left: var(--spacing-s);
         }
         tr.detailsRow.collapsed {
           display: none;
@@ -278,6 +294,7 @@ export class GrResultRow extends LitElement {
         td .summary-cell .tag.brown {
           background-color: var(--tag-brown);
         }
+        .actions-shown-on-collapsed gr-checks-action,
         .actions gr-checks-action,
         .actions gr-dropdown {
           /* Fitting a 28px button into 20px line-height. */
@@ -549,24 +566,31 @@ export class GrResultRow extends LitElement {
     const disabledItems = overflowItems
       .filter(action => action.disabled)
       .map(action => action.id);
-    return html`<div class="actions">
-      ${this.renderAction(actions[0])} ${this.renderAction(actions[1])}
-      <gr-dropdown
-        id="moreActions"
-        link=""
-        vertical-offset="32"
-        horizontal-align="right"
-        @tap-item=${this.handleAction}
-        @opened-changed=${(e: ValueChangedEvent<boolean>) =>
-          this.classList.toggle('dropdown-open', e.detail.value)}
-        ?hidden=${overflowItems.length === 0}
-        .items=${overflowItems}
-        .disabledIds=${disabledItems}
-      >
-        <gr-icon icon="more_vert" aria-labelledby="moreMessage"></gr-icon>
-        <span id="moreMessage">More</span>
-      </gr-dropdown>
-    </div>`;
+    return html` ${when(
+        fixAction,
+        () =>
+          html`<div class="actions-shown-on-collapsed">
+            ${this.renderAction(fixAction)}
+          </div> `
+      )}
+      <div class="actions">
+        ${this.renderAction(actions[0])} ${this.renderAction(actions[1])}
+        <gr-dropdown
+          id="moreActions"
+          link=""
+          vertical-offset="32"
+          horizontal-align="right"
+          @tap-item=${this.handleAction}
+          @opened-changed=${(e: ValueChangedEvent<boolean>) =>
+            this.classList.toggle('dropdown-open', e.detail.value)}
+          ?hidden=${overflowItems.length === 0}
+          .items=${overflowItems}
+          .disabledIds=${disabledItems}
+        >
+          <gr-icon icon="more_vert" aria-labelledby="moreMessage"></gr-icon>
+          <span id="moreMessage">More</span>
+        </gr-dropdown>
+      </div>`;
   }
 
   private handleAction(e: CustomEvent<Action>) {
@@ -583,24 +607,6 @@ export class GrResultRow extends LitElement {
       context="result-row"
       .action=${action}
     ></gr-checks-action>`;
-  }
-
-  renderPrimaryActions() {
-    const primaryActions = (this.result?.actions ?? []).slice(0, 2);
-    if (primaryActions.length === 0) return;
-    return html`
-      <div class="primaryActions">${primaryActions.map(this.renderAction)}</div>
-    `;
-  }
-
-  renderSecondaryActions() {
-    const secondaryActions = (this.result?.actions ?? []).slice(2);
-    if (secondaryActions.length === 0) return;
-    return html`
-      <div class="secondaryActions">
-        ${secondaryActions.map(this.renderAction)}
-      </div>
-    `;
   }
 
   renderTag(tag: Tag) {

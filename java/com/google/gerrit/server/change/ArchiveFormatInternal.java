@@ -63,8 +63,8 @@ public enum ArchiveFormatInternal {
     return format.suffixes();
   }
 
-  public ArchiveOutputStream createArchiveOutputStream(OutputStream o) throws IOException {
-    return (ArchiveOutputStream) this.format.createArchiveOutputStream(o);
+  public ArchiveOutputStream<?> createArchiveOutputStream(OutputStream o) throws IOException {
+    return (ArchiveOutputStream<?>) this.format.createArchiveOutputStream(o);
   }
 
   public <T extends Closeable> void putEntry(T out, String path, byte[] data) throws IOException {

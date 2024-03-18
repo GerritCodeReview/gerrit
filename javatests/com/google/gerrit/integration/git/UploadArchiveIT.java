@@ -110,12 +110,12 @@ public class UploadArchiveIT extends StandaloneSiteTest {
         outputPath);
     try (InputStream fi = Files.newInputStream(outputPath);
         InputStream bi = new BufferedInputStream(fi);
-        ArchiveInputStream archive = archiveStreamForFormat(bi, format)) {
+        ArchiveInputStream<?> archive = archiveStreamForFormat(bi, format)) {
       assertEntries(archive);
     }
   }
 
-  private ArchiveInputStream archiveStreamForFormat(InputStream bi, String format)
+  private ArchiveInputStream<?> archiveStreamForFormat(InputStream bi, String format)
       throws IOException {
     switch (format) {
       case "zip":

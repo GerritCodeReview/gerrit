@@ -256,6 +256,18 @@ suite('gr-search-bar tests', () => {
       const s = await element.getSearchSuggestions('is:mergeab');
       assert.isEmpty(s);
     });
+
+    test('Autocompletes correctly second condition', async () => {
+      const s = await element.getSearchSuggestions('is:open me');
+      assert.equal(s[0].value, 'mergedafter:');
+    });
+
+    test('Autocomplete handles space before expression correctly', async () => {
+      // This previously suggested "mergedafter" (incorrectly) due to the
+      // leading space.
+      const s = await element.getSearchSuggestions('author: me');
+      assert.isEmpty(s);
+    });
   });
 
   [

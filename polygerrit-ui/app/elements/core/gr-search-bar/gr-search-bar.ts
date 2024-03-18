@@ -126,7 +126,11 @@ const SEARCH_OPERATORS_WITH_NEGATIONS_SET: ReadonlySet<string> = new Set(
 
 const MAX_AUTOCOMPLETE_RESULTS = 10;
 
-const TOKENIZE_REGEX = /(?:[^\s"]+|"[^"]*")+\s*/g;
+// 3 types of tokens
+// 1. predicate:expression (?:[^\s":]+:\s*[^\s"]+)
+// 2. quotes with anything inside "[^"]*"
+// 3. anything else like unfinished predicate [^\s"]+
+const TOKENIZE_REGEX = /(?:(?:[^\s":]+:\s*[^\s"]+)|[^\s"]+|"[^"]*")+\s*/g;
 
 export type SuggestionProvider = (
   predicate: string,

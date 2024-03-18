@@ -121,6 +121,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c82048fd_9b462088",
+        "filename": "java/com/google/gerrit/index/query/PaginatingSource.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-18T23:18:38Z",
+      "side": 1,
+      "message": "\u003e  I think that still leads to the bug where an extra query is done when at least one result was skipped but the overall count of results is less than the limit.\n\nI see, gotcha, let me check. Yes, it would be best to have a validation test, so that we can verify that it is covered and the same bug doesn\u0027t come back at a later stage.\n\n@diego.sessona@gmail.com can you add that validation test as a separate change? So that we make sure that it is failing without the fix, but it is passing with the fix.",
+      "parentUuid": "788e29a2_3d881b52",
+      "revId": "db911c50c6d87d92da8f0c78dcf9063974269a18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ca073cc2_7fd8d134",
         "filename": "java/com/google/gerrit/index/query/PaginatingSource.java",
         "patchSetId": 9
@@ -180,6 +198,30 @@
       "side": 1,
       "message": "\u003e \u003e I think this reintroduce the exact issue that change 379354 (`PaginationType.NONE`) was created to fix?\n\u003e \n\u003e The issue did not exist in v3.4.0 where this code is coming from.\n\nI don\u0027t think that\u0027s true. It was just less likely.\n\n\u003e \n\u003e \u003e And it seems `PaginationType.NONE` is now incorrect since it does a backend pagination in this case.\n\u003e \n\u003e PaginationType.NONE refers to the indexing pagination when the API doesn\u0027t ask for one, see how v3.4.0 behaves, that\u0027s the legacy behaviour that we want to keep and did not create any issues.\n\nBut calling `restart()` is doing a pagination (that\u0027s exactly what\u0027s said in the comment above that you agreed applies to both paths). I think you\u0027ll get the same \"duplicate results\" kind of issue in a well crafted scenario. All it would take is for a result that you\u0027ve already added to re-appear in the restarted backend query due to many newer results appearing first.",
       "parentUuid": "0fb692ca_27ad7ed7",
+      "range": {
+        "startLine": 107,
+        "startChar": 38,
+        "endLine": 107,
+        "endChar": 45
+      },
+      "revId": "db911c50c6d87d92da8f0c78dcf9063974269a18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dcaa3089_ca41d8b8",
+        "filename": "java/com/google/gerrit/index/query/PaginatingSource.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-18T23:18:38Z",
+      "side": 1,
+      "message": "The pagination issue did not existed in v3.4.0, where this code is coming from.",
+      "parentUuid": "eafd2379_7468b195",
       "range": {
         "startLine": 107,
         "startChar": 38,

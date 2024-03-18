@@ -139,6 +139,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d07fd47b_20c5e06e",
+        "filename": "java/com/google/gerrit/index/query/PaginatingSource.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-18T23:34:03Z",
+      "side": 1,
+      "message": "I\u0027ve created Issue 330195358 for tracking this regression.",
+      "parentUuid": "c82048fd_9b462088",
+      "revId": "db911c50c6d87d92da8f0c78dcf9063974269a18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ca073cc2_7fd8d134",
         "filename": "java/com/google/gerrit/index/query/PaginatingSource.java",
         "patchSetId": 9

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e416c712_b1a3f2e0",
+        "filename": "java/com/google/gerrit/server/restapi/config/AccountDeactivation.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-03-18T10:22:58Z",
+      "side": 1,
+      "message": "Should we check whether a scheduled task is currently running? Otherwise, they might conflict.",
+      "range": {
+        "startLine": 44,
+        "startChar": 37,
+        "endLine": 44,
+        "endChar": 97
+      },
+      "revId": "174aac8ec6fa2e0f42b4571a4640f77c0c1ff308",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

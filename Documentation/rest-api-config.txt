@@ -931,7 +931,7 @@ command.
       "state": "SLEEPING",
       "start_time": "2014-06-11 12:58:51.508000000",
       "delay": 3287966,
-      "command": "Log File Compressor"
+      "command": "Log File Manager"
     }
   ]
 ----

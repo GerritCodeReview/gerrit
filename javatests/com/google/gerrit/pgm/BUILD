@@ -7,6 +7,7 @@ junit_tests(
     deps = [
         "//java/com/google/gerrit/pgm/http/jetty",
         "//java/com/google/gerrit/pgm/init/api",
+        "//java/com/google/gerrit/pgm/util",
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/server/securestore/testing",
         "//lib:guava",

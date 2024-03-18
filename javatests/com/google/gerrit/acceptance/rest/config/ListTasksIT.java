@@ -34,7 +34,7 @@ public class ListTasksIT extends AbstractDaemonTest {
     assertThat(result).isNotEmpty();
     boolean foundLogFileCompressorTask = false;
     for (TaskInfo info : result) {
-      if ("Log File Compressor".equals(info.command)) {
+      if ("Log File Manager".equals(info.command)) {
         foundLogFileCompressorTask = true;
       }
       assertThat(info.id).isNotNull();

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58fda4a8_f315c8a7",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 754,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-03-18T14:49:33Z",
+      "side": 0,
+      "message": "This method is referenced from JavaDoc in RequestScopeOperations (and the JavaDoc link is broken now). The JavaDoc says to use this method to get the session for a context, but it seems this is no longer possible now that this method has been moved into ServerTestRule which is not accessible from outside of AbstractDaemonTest. So I wonder how the JavaDoc should be updated (to fix the broken JavaDoc link)?",
+      "revId": "7a398d234b068e5b7bcddb766c449abddbb931c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

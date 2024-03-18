@@ -85,6 +85,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2c5406b9_b1c19887",
+        "filename": "java/com/google/gerrit/index/query/PaginatingSource.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-18T22:31:52Z",
+      "side": 1,
+      "message": "I checked I3143e69354e and that refers to the code at L86-L100, which contains the fix. Hence I do not believe that this change reintroduces the bug.\n\nIf you have a test-case that shows the issue, happy to verify if the issue exists with this code or not.",
+      "parentUuid": "a36d23fd_0396007d",
+      "revId": "db911c50c6d87d92da8f0c78dcf9063974269a18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ca073cc2_7fd8d134",
         "filename": "java/com/google/gerrit/index/query/PaginatingSource.java",
         "patchSetId": 9

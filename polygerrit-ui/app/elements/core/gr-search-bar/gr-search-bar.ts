@@ -126,7 +126,7 @@ const SEARCH_OPERATORS_WITH_NEGATIONS_SET: ReadonlySet<string> = new Set(
 
 const MAX_AUTOCOMPLETE_RESULTS = 10;
 
-const TOKENIZE_REGEX = /(?:[^\s"]+|"[^"]*")+\s*/g;
+const TOKENIZE_REGEX = /(?:(?:[^\s":]+:\s*[^\s"]+)|[^\s"]+|"[^"]*")+\s*/g;
 
 export type SuggestionProvider = (
   predicate: string,

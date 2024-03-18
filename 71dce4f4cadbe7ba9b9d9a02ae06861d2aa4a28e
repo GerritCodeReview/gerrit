@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a84f83bf_2a5e24bd",
+        "filename": "java/com/google/gerrit/server/restapi/config/ReindexIndexVersion.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-03-18T13:28:34Z",
+      "side": 1,
+      "message": "missing license header",
+      "revId": "71dce4f4cadbe7ba9b9d9a02ae06861d2aa4a28e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1443361e_d3d8d9c1",
+        "filename": "java/com/google/gerrit/server/restapi/config/ReindexIndexVersion.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-03-18T13:28:34Z",
+      "side": 1,
+      "message": "Started reindexing",
+      "range": {
+        "startLine": 61,
+        "startChar": 35,
+        "endLine": 61,
+        "endChar": 51
+      },
+      "revId": "71dce4f4cadbe7ba9b9d9a02ae06861d2aa4a28e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "425d71ef_a5714958",
+        "filename": "java/com/google/gerrit/server/restapi/config/ReindexIndexVersion.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-03-18T13:28:34Z",
+      "side": 1,
+      "message": "Completed reindexing of %s version %s successfully.",
+      "range": {
+        "startLine": 64,
+        "startChar": 37,
+        "endLine": 64,
+        "endChar": 67
+      },
+      "revId": "71dce4f4cadbe7ba9b9d9a02ae06861d2aa4a28e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da09e35f_d4050ca7",
+        "filename": "java/com/google/gerrit/server/restapi/config/ReindexIndexVersion.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-03-18T13:28:34Z",
+      "side": 1,
+      "message": "Reindexing",
+      "range": {
+        "startLine": 67,
+        "startChar": 21,
+        "endLine": 67,
+        "endChar": 28
+      },
+      "revId": "71dce4f4cadbe7ba9b9d9a02ae06861d2aa4a28e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

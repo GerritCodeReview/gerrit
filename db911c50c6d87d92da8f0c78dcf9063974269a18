@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "71948854_aeb0caa0",
+        "filename": "java/com/google/gerrit/index/query/PaginatingSource.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-18T22:14:26Z",
+      "side": 1,
+      "message": "+1, it should be moved before L70",
+      "parentUuid": "d7a90bb0_0f8ebc9f",
+      "range": {
+        "startLine": 75,
+        "startChar": 0,
+        "endLine": 76,
+        "endChar": 45
+      },
+      "revId": "db911c50c6d87d92da8f0c78dcf9063974269a18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "85bca522_2b3552b2",
         "filename": "java/com/google/gerrit/index/query/PaginatingSource.java",
         "patchSetId": 9
@@ -43,6 +67,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a36d23fd_0396007d",
+        "filename": "java/com/google/gerrit/index/query/PaginatingSource.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-18T22:14:26Z",
+      "side": 1,
+      "message": "I checked I3143e69354e and I did not find:\n- Release notes\n- Reference to an issue\n- Test checking that the issue exist and the change fixes it\n\nThat\u0027s why I missed it :-(\n\nI need to read I3143e69354e more carefully and understand what was the buggy situation and how to reproduce it. Did you raised any issue but forgot to include it in the commit message?",
+      "parentUuid": "85bca522_2b3552b2",
+      "revId": "db911c50c6d87d92da8f0c78dcf9063974269a18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ca073cc2_7fd8d134",
         "filename": "java/com/google/gerrit/index/query/PaginatingSource.java",
         "patchSetId": 9
@@ -54,6 +96,30 @@
       "writtenOn": "2024-03-18T15:15:17Z",
       "side": 1,
       "message": "I think this reintroduce the exact issue that change 379354 (`PaginationType.NONE`) was created to fix? And it seems `PaginationType.NONE` is now incorrect since it does a backend pagination in this case.",
+      "range": {
+        "startLine": 107,
+        "startChar": 38,
+        "endLine": 107,
+        "endChar": 45
+      },
+      "revId": "db911c50c6d87d92da8f0c78dcf9063974269a18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0fb692ca_27ad7ed7",
+        "filename": "java/com/google/gerrit/index/query/PaginatingSource.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-18T22:14:26Z",
+      "side": 1,
+      "message": "\u003e I think this reintroduce the exact issue that change 379354 (`PaginationType.NONE`) was created to fix?\n\nThe issue did not exist in v3.4.0 where this code is coming from.\n\n\u003e And it seems `PaginationType.NONE` is now incorrect since it does a backend pagination in this case.\n\nPaginationType.NONE refers to the indexing pagination when the API doesn\u0027t ask for one, see how v3.4.0 behaves, that\u0027s the legacy behaviour that we want to keep and did not create any issues.",
+      "parentUuid": "ca073cc2_7fd8d134",
       "range": {
         "startLine": 107,
         "startChar": 38,

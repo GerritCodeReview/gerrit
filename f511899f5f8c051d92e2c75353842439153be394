@@ -49,6 +49,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "aa488a05_baef535b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-03-18T14:58:53Z",
+      "side": 1,
+      "message": "I\u0027m curious how you manage disk cache sizes with this. We\u0027ve seen that a full offline reindex creates huge (100s of GB) H2 disk cache files (for the gerrit/git file diff caches) and then the size of those files creates other performance problems during runtime. Have you seen a similar issue?\n\nOur current solution to that has been to create/update a set of \"full\" caches for offline reindexing (in the rare cases we need to do it) and then use smaller (initially empty) cache files during normal operations. We have some rough plans to eventually add a disk cache backend that isn\u0027t H2 to provide a better distributed cache solution (and hopefully as a side effect it would address the performance problems with larger caches), but until then we\u0027re very careful about the H2 cache sizes.",
+      "revId": "f511899f5f8c051d92e2c75353842439153be394",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5bc247e0_db03d735",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

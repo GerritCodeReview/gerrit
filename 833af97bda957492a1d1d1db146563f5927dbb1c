@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46cab183_9d25969e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-03-18T09:55:24Z",
+      "side": 1,
+      "message": "What about snapshot on the index (all versions)? this was possible before this change. This shall also work:\n```\nPUT /config/server/indexes/changes/snapshot\n```",
+      "revId": "833af97bda957492a1d1d1db146563f5927dbb1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

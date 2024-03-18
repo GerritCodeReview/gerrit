@@ -1183,18 +1183,22 @@ public class NoteDbMigrator implements AutoCloseable {
 
       pm.beginTask(
           FormatUtil.elide("Saving noteDb refs for " + project.get(), 60), ProgressMonitor.UNKNOWN);
+      boolean changeCmdSucceeded = false;
       try {
         save(changeRepo, changeRw, changeIns, changeCmds);
+        changeCmdSucceeded = true;
         save(allUsersRepo, allUsersRw, allUsersIns, allUsersCmds);
         // This isn't really useful progress. If we passed a real ProgressMonitor to
         // BatchRefUpdate#execute we might get something more incremental, but that doesn't allow us
         // to specify the repo name in the task text.
         pm.update(toSave);
       } catch (LockFailureException e) {
-        logger.atWarning().log(
-            "Rebuilding detected a conflicting NoteDb update for the following refs, which will"
+        logger.atWarning().withCause(e).log(
+            "Rebuilding detected a conflicting NoteDb update on %s of the batch [ %s ] for the following refs, which will"
                 + " be auto-rebuilt at runtime: %s",
-            e.getFailedRefs().stream().distinct().sorted().collect(joining(", ")));
+            changeCmdSucceeded ? "All-Users" : project.get(),
+            listOfRefs((changeCmdSucceeded ? allUsersCmds : changeCmds).getCommands().keySet()),
+            listOfRefs(e.getFailedRefs()));
       } catch (IOException e) {
         logger.atSevere().withCause(e).log("Failed to save NoteDb state for %s", project);
       } finally {
@@ -1208,6 +1212,10 @@ public class NoteDbMigrator implements AutoCloseable {
       Thread.currentThread().setName(oldThreadName);
     }
     return ok;
+  }
+
+  private String listOfRefs(Collection<String> refs) {
+    return refs.stream().distinct().sorted().collect(joining(", "));
   }
 
   private void gc(Project.NameKey project, Repository repo, ReentrantLock gcLock) {

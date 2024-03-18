@@ -174,7 +174,7 @@ public class PutMessage implements RestModifyView<ChangeResource, CommitMessageI
       String commitMessage,
       Instant timestamp,
       String committerEmail)
-      throws IOException, BadRequestException, ResourceConflictException {
+      throws IOException, BadRequestException {
     CommitBuilder builder = new CommitBuilder();
     builder.setTreeId(basePatchSetCommit.getTree());
     builder.setParentIds(basePatchSetCommit.getParents());

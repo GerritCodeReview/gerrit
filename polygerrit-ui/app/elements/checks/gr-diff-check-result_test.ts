@@ -31,31 +31,42 @@ suite('gr-diff-check-result tests', () => {
     assert.shadowDom.equal(
       element,
       `
-      <div class="container font-normal warning">
-        <div class="header">
-          <div class="icon">
-            <gr-icon icon="warning" filled></gr-icon>
-          </div>
-          <div class="name">
-            <gr-hovercard-run> </gr-hovercard-run>
-            <div class="name" role="button" tabindex="0">FAKE Super Check</div>
-          </div>
-          <div class="summary">We think that you could improve this.</div>
-          <div class="message">
-            There is a lot to be said. A lot. I say, a lot.
+        <div class="container font-normal warning">
+          <div class="header">
+            <div class="icon">
+              <gr-icon icon="warning" filled></gr-icon>
+            </div>
+            <div class="name">
+              <gr-hovercard-run> </gr-hovercard-run>
+              <div class="name" role="button" tabindex="0">
+                FAKE Super Check
+              </div>
+            </div>
+            <div class="summary">We think that you could improve this.</div>
+            <div class="message">
+              There is a lot to be said. A lot. I say, a lot.
                 So please keep reading.
+            </div>
+            <div
+              aria-checked="false"
+              aria-label="Expand result row"
+              class="show-hide"
+              role="switch"
+              tabindex="0"
+            >
+              <gr-icon icon="expand_more"></gr-icon>
+            </div>
           </div>
-          <div aria-checked="false"
-               aria-label="Expand result row"
-               class="show-hide"
-               role="switch"
-               tabindex="0">
-            <gr-icon icon="expand_more"></gr-icon>
+          <div class="details">
+            <div class="actions">
+              <gr-checks-action
+                id="please-fix"
+                context="diff-fix"
+              ></gr-checks-action>
+            </div>
           </div>
         </div>
-        <div class="details"></div>
-      </div>
-    `
+      `
     );
   });
 

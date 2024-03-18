@@ -40,6 +40,7 @@ import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.account.SetInactiveFlag;
+import com.google.gerrit.server.account.externalids.DuplicateExternalIdKeyException;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdFactory;
 import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
@@ -593,7 +594,7 @@ public class AccountManagerIT extends AbstractDaemonTest {
 
     AccountException thrown =
         assertThrows(AccountException.class, () -> accountManager.authenticate(whoOAuth));
-    assertThat(thrown).hasMessageThat().contains("Cannot assign external ID \"username:foo\" to");
+    assertThat(thrown).hasCauseThat().isInstanceOf(DuplicateExternalIdKeyException.class);
   }
 
   @Test
@@ -647,9 +648,7 @@ public class AccountManagerIT extends AbstractDaemonTest {
 
     AccountException thrown =
         assertThrows(AccountException.class, () -> accountManager.authenticate(whoOAuth));
-    assertThat(thrown)
-        .hasMessageThat()
-        .contains("Cannot assign external ID \"username:foo\" to account");
+    assertThat(thrown).hasCauseThat().isInstanceOf(DuplicateExternalIdKeyException.class);
   }
 
   @Test

@@ -365,7 +365,8 @@ public class AccountManager {
               + e.getDuplicateKey().get()
               + "\" to account "
               + newId
-              + "; external ID already in use.");
+              + "; external ID already in use.",
+          e);
     } finally {
       // If adding the account failed, it may be that it actually was the
       // first account. So we reset the 'check for first account'-guard, as

@@ -28,6 +28,7 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.server.IdentifiedUser;
@@ -52,11 +53,9 @@ import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.inject.Inject;
 import com.google.inject.util.Providers;
-import java.io.IOException;
 import java.util.Optional;
 import java.util.Set;
 import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.Test;
@@ -797,29 +796,22 @@ public class AccountManagerIT extends AbstractDaemonTest {
         "Create Test Account",
         accountId,
         u -> u.addExternalId(externalIdFactory.create(mailExtIdKey, accountId)));
-
     accountManager.link(accountId, authRequestFactory.createForEmail(email1));
+    int initialCommits = countExternalIdsCommits();
 
-    int initialCommits;
-    try (Repository allUsersRepo = repoManager.openRepository(allUsers);
-        Git git = new Git(allUsersRepo)) {
-      initialCommits = getCommitsInExternalIds(git, allUsersRepo);
+    accountManager.updateLink(accountId, authRequestFactory.createForEmail(email2));
 
-      accountManager.updateLink(accountId, authRequestFactory.createForEmail(email2));
-    }
-    // Reopen the repo again - this is required for git.log() operations (otherwise, git.log()
-    // returns unmodified history on google internal infra).
-    try (Repository allUsersRepo = repoManager.openRepository(allUsers);
-        Git git = new Git(allUsersRepo)) {
-      int afterUpdateCommits = getCommitsInExternalIds(git, allUsersRepo);
-      assertThat(afterUpdateCommits).isEqualTo(initialCommits + 1);
-    }
+    int afterUpdateCommits = countExternalIdsCommits();
+    assertThat(afterUpdateCommits).isEqualTo(initialCommits + 1);
   }
 
-  private static int getCommitsInExternalIds(Git git, Repository allUsersRepo)
-      throws GitAPIException, IOException {
-    ObjectId refsMetaExternalIdsHead = allUsersRepo.exactRef(REFS_EXTERNAL_IDS).getObjectId();
-    return Iterables.size(git.log().add(refsMetaExternalIdsHead).call());
+  @UsedAt(UsedAt.Project.GOOGLE)
+  protected int countExternalIdsCommits() throws Exception {
+    try (Repository allUsersRepo = repoManager.openRepository(allUsers);
+        Git git = new Git(allUsersRepo)) {
+      ObjectId refsMetaExternalIdsHead = allUsersRepo.exactRef(REFS_EXTERNAL_IDS).getObjectId();
+      return Iterables.size(git.log().add(refsMetaExternalIdsHead).call());
+    }
   }
 
   private void assertNoSuchExternalIds(ExternalId.Key... extIdKeys) throws Exception {

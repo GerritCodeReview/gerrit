@@ -15,7 +15,6 @@
 package com.google.gerrit.server.config;
 
 import com.google.auto.value.AutoValue;
-import com.google.common.base.Function;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
@@ -23,6 +22,10 @@ import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.proto.Entities.UserPreferences;
 import com.google.gerrit.server.cache.proto.Cache.CachedPreferencesProto;
+import com.google.gerrit.server.config.PreferencesParserUtil.DiffPreferencesParser;
+import com.google.gerrit.server.config.PreferencesParserUtil.EditPreferencesParser;
+import com.google.gerrit.server.config.PreferencesParserUtil.GeneralPreferencesParser;
+import com.google.gerrit.server.config.PreferencesParserUtil.PreferencesParser;
 import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
@@ -67,38 +70,17 @@ public abstract class CachedPreferences {
 
   public static GeneralPreferencesInfo general(
       Optional<CachedPreferences> defaultPreferences, CachedPreferences userPreferences) {
-    return getPreferences(
-        defaultPreferences,
-        userPreferences,
-        PreferencesParserUtil::parseGeneralPreferences,
-        p ->
-            UserPreferencesConverter.GeneralPreferencesInfoConverter.fromProto(
-                p.getGeneralPreferencesInfo()),
-        GeneralPreferencesInfo.defaults());
+    return getPreferences(defaultPreferences, userPreferences, GeneralPreferencesParser.Instance);
   }
 
   public static DiffPreferencesInfo diff(
       Optional<CachedPreferences> defaultPreferences, CachedPreferences userPreferences) {
-    return getPreferences(
-        defaultPreferences,
-        userPreferences,
-        PreferencesParserUtil::parseDiffPreferences,
-        p ->
-            UserPreferencesConverter.DiffPreferencesInfoConverter.fromProto(
-                p.getDiffPreferencesInfo()),
-        DiffPreferencesInfo.defaults());
+    return getPreferences(defaultPreferences, userPreferences, DiffPreferencesParser.Instance);
   }
 
   public static EditPreferencesInfo edit(
       Optional<CachedPreferences> defaultPreferences, CachedPreferences userPreferences) {
-    return getPreferences(
-        defaultPreferences,
-        userPreferences,
-        PreferencesParserUtil::parseEditPreferences,
-        p ->
-            UserPreferencesConverter.EditPreferencesInfoConverter.fromProto(
-                p.getEditPreferencesInfo()),
-        EditPreferencesInfo.defaults());
+    return getPreferences(defaultPreferences, userPreferences, EditPreferencesParser.Instance);
   }
 
   public Config asConfig() {
@@ -135,34 +117,26 @@ public abstract class CachedPreferences {
     return cachedPreferences.map(CachedPreferences::asConfig).orElse(null);
   }
 
-  @FunctionalInterface
-  private interface ComputePreferencesFn<PreferencesT> {
-    PreferencesT apply(Config cfg, @Nullable Config defaultCfg, @Nullable PreferencesT input)
-        throws ConfigInvalidException;
-  }
-
   private static <PreferencesT> PreferencesT getPreferences(
       Optional<CachedPreferences> defaultPreferences,
       CachedPreferences userPreferences,
-      ComputePreferencesFn<PreferencesT> computePreferencesFn,
-      Function<UserPreferences, PreferencesT> fromUserPreferencesFn,
-      PreferencesT javaDefaults) {
+      PreferencesParser<PreferencesT> preferencesParser) {
     try {
       CachedPreferencesProto userPreferencesProto = userPreferences.config();
       switch (userPreferencesProto.getPreferencesCase()) {
         case USER_PREFERENCES:
           PreferencesT pref =
-              fromUserPreferencesFn.apply(userPreferencesProto.getUserPreferences());
-          return computePreferencesFn.apply(new Config(), configOrNull(defaultPreferences), pref);
+              preferencesParser.fromUserPreferences(userPreferencesProto.getUserPreferences());
+          return preferencesParser.parse(pref, configOrNull(defaultPreferences));
         case LEGACY_GIT_CONFIG:
-          return computePreferencesFn.apply(
+          return preferencesParser.parse(
               userPreferences.asConfig(), configOrNull(defaultPreferences), null);
         case PREFERENCES_NOT_SET:
           throw new ConfigInvalidException("Invalid config " + userPreferences);
       }
     } catch (ConfigInvalidException e) {
-      return javaDefaults;
+      return preferencesParser.getJavaDefaults();
     }
-    return javaDefaults;
+    return preferencesParser.getJavaDefaults();
   }
 }

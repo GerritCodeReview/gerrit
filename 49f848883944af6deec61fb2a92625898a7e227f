@@ -25,12 +25,12 @@
       "updated": "2024-03-19T16:53:06Z"
     },
     "gerritforge:rbe-a6a0e4682515f3521897c5f950d1394f4619d928": {
-      "state": "FAILED",
-      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-chrome-latest/47191/console",
-      "started": "2024-03-19T17:09:40Z",
+      "state": "RUNNING",
+      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-pipeline/job/39%252F413839%252F5/1/console",
+      "started": "2024-03-19T17:30:50Z",
       "finished": "2024-03-19T17:30:48Z",
       "created": "2024-03-19T16:45:22Z",
-      "updated": "2024-03-19T17:30:48Z"
+      "updated": "2024-03-19T17:30:50Z"
     }
   }
 }

@@ -118,6 +118,51 @@ public class UserPreferencesConverterTest {
   }
 
   @Test
+  public void generalPreferencesInfo_toProtoTrimsMyMenuSpaces() {
+    GeneralPreferencesInfo info = new GeneralPreferencesInfo();
+    info.my =
+        ImmutableList.of(
+            new com.google.gerrit.extensions.client.MenuItem(
+                " name1 ", " url1 ", " target1 ", " id1 "),
+            new com.google.gerrit.extensions.client.MenuItem(null, " url2 ", null, null));
+    UserPreferences.GeneralPreferencesInfo resProto = GeneralPreferencesInfoConverter.toProto(info);
+    assertThat(resProto)
+        .isEqualTo(
+            UserPreferences.GeneralPreferencesInfo.newBuilder()
+                .addAllMyMenuItems(
+                    ImmutableList.of(
+                        MenuItem.newBuilder()
+                            .setUrl("url1")
+                            .setName("name1")
+                            .setTarget("target1")
+                            .setId("id1")
+                            .build(),
+                        MenuItem.newBuilder().setUrl("url2").build()))
+                .build());
+  }
+
+  @Test
+  public void generalPreferencesInfo_fromProtoTrimsMyMenuSpaces() {
+    UserPreferences.GeneralPreferencesInfo originalProto =
+        UserPreferences.GeneralPreferencesInfo.newBuilder()
+            .addAllMyMenuItems(
+                ImmutableList.of(
+                    MenuItem.newBuilder()
+                        .setName(" name1 ")
+                        .setUrl(" url1 ")
+                        .setTarget(" target1 ")
+                        .setId(" id1 ")
+                        .build(),
+                    MenuItem.newBuilder().setUrl(" url2 ").build()))
+            .build();
+    GeneralPreferencesInfo info = GeneralPreferencesInfoConverter.fromProto(originalProto);
+    assertThat(info.my)
+        .containsExactly(
+            new com.google.gerrit.extensions.client.MenuItem("name1", "url1", "target1", "id1"),
+            new com.google.gerrit.extensions.client.MenuItem(null, "url2", null, null));
+  }
+
+  @Test
   public void generalPreferencesInfo_emptyJavaToProto() {
     GeneralPreferencesInfo info = new GeneralPreferencesInfo();
     UserPreferences.GeneralPreferencesInfo res = GeneralPreferencesInfoConverter.toProto(info);

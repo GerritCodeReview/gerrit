@@ -861,9 +861,11 @@ public class BatchUpdate implements AutoCloseable {
           ctx.distinctUpdates.values().forEach(changeUpdates::add);
           ctx = newChangeContext(opData.user(), id);
         }
+        Class<? extends BatchUpdateOp> opClass = opData.op().getClass();
         try (TraceContext.TraceTimer ignored =
             TraceContext.newTimer(
-                opData.getClass().getSimpleName() + "#updateChange",
+                (opClass.isAnonymousClass() ? opClass.getName() : opClass.getSimpleName())
+                    + "#updateChange",
                 Metadata.builder().projectName(project.get()).changeId(id.get()).build())) {
           dirty |= opData.op().updateChange(ctx);
           deleted |= ctx.deleted;

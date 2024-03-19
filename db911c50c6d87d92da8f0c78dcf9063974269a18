@@ -248,6 +248,30 @@
       },
       "revId": "db911c50c6d87d92da8f0c78dcf9063974269a18",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ea1bf45_6c586460",
+        "filename": "java/com/google/gerrit/index/query/PaginatingSource.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-03-19T19:00:56Z",
+      "side": 1,
+      "message": "\u003e The pagination issue did not existed in v3.4.0, where this code is coming from.\n\nAs I said, I think it does exist in v3.4.0, but it probably didn\u0027t reproduce in your test scenario. If you add a test for the behavior you expected change 379354 to fix, it should be adaptable to this other scenario I\u0027m referring to.",
+      "parentUuid": "dcaa3089_ca41d8b8",
+      "range": {
+        "startLine": 107,
+        "startChar": 38,
+        "endLine": 107,
+        "endChar": 45
+      },
+      "revId": "db911c50c6d87d92da8f0c78dcf9063974269a18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

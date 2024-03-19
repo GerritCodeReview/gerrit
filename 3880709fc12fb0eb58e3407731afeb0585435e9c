@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe866074_9bd57c88",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-03-19T07:34:14Z",
+      "side": 1,
+      "message": "Maybe add a comment. This is getting quite complex ...",
+      "revId": "3880709fc12fb0eb58e3407731afeb0585435e9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e125728_03f1add7",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-03-19T07:34:14Z",
+      "side": 1,
+      "message": "You show the button by default, but then you hide it on hover? Is that intentional?",
+      "revId": "3880709fc12fb0eb58e3407731afeb0585435e9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

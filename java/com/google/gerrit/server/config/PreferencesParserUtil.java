@@ -71,6 +71,20 @@ public class PreferencesParserUtil {
     return r;
   }
 
+  public static GeneralPreferencesInfo parseGeneralPreferences(
+      GeneralPreferencesInfo cfg, @Nullable Config defaultCfg) throws ConfigInvalidException {
+    GeneralPreferencesInfo r =
+        loadSection(
+            cfg,
+            new GeneralPreferencesInfo(),
+            defaultCfg != null
+                ? parseDefaultGeneralPreferences(defaultCfg, null)
+                : GeneralPreferencesInfo.defaults());
+    r.changeTable = cfg.changeTable != null ? cfg.changeTable : Lists.newArrayList();
+    r.my = parseMyMenus(cfg, defaultCfg);
+    return r;
+  }
+
   /**
    * Returns a {@link GeneralPreferencesInfo} that is the result of parsing {@code defaultCfg} for
    * the server's default configs. These configs are then overlaid to inherit values (default ->
@@ -110,6 +124,21 @@ public class PreferencesParserUtil {
 
   /**
    * Returns a {@link DiffPreferencesInfo} that is the result of parsing {@code defaultCfg} for the
+   * server's default configs and {@code cfg} for the user's config. These configs are then overlaid
+   * to inherit values (default -> user -> input (if provided).
+   */
+  public static DiffPreferencesInfo parseDiffPreferences(
+      DiffPreferencesInfo cfg, @Nullable Config defaultCfg) throws ConfigInvalidException {
+    return loadSection(
+        cfg,
+        new DiffPreferencesInfo(),
+        defaultCfg != null
+            ? parseDefaultDiffPreferences(defaultCfg, null)
+            : DiffPreferencesInfo.defaults());
+  }
+
+  /**
+   * Returns a {@link DiffPreferencesInfo} that is the result of parsing {@code defaultCfg} for the
    * server's default configs. These configs are then overlaid to inherit values (default -> input
    * (if provided).
    */
@@ -145,6 +174,16 @@ public class PreferencesParserUtil {
         input);
   }
 
+  public static EditPreferencesInfo parseEditPreferences(
+      EditPreferencesInfo cfg, @Nullable Config defaultCfg) throws ConfigInvalidException {
+    return loadSection(
+        cfg,
+        new EditPreferencesInfo(),
+        defaultCfg != null
+            ? parseDefaultEditPreferences(defaultCfg, null)
+            : EditPreferencesInfo.defaults());
+  }
+
   /**
    * Returns a {@link EditPreferencesInfo} that is the result of parsing {@code defaultCfg} for the
    * server's default configs. These configs are then overlaid to inherit values (default -> input
@@ -173,6 +212,24 @@ public class PreferencesParserUtil {
 
   private static List<MenuItem> parseMyMenus(Config cfg, @Nullable Config defaultCfg) {
     List<MenuItem> my = my(cfg);
+    if (my.isEmpty() && defaultCfg != null) {
+      my = my(defaultCfg);
+    }
+    if (my.isEmpty()) {
+      my.add(new MenuItem("Dashboard", "#/dashboard/self", null));
+      my.add(new MenuItem("Draft Comments", "#/q/has:draft", null));
+      my.add(new MenuItem("Edits", "#/q/has:edit", null));
+      my.add(new MenuItem("Watched Changes", "#/q/is:watched+is:open", null));
+      my.add(new MenuItem("Starred Changes", "#/q/is:starred", null));
+      my.add(new MenuItem("All Visible Changes", "#/q/is:visible", null));
+      my.add(new MenuItem("Groups", "#/settings/#Groups", null));
+    }
+    return my;
+  }
+
+  private static List<MenuItem> parseMyMenus(
+      GeneralPreferencesInfo cfg, @Nullable Config defaultCfg) {
+    List<MenuItem> my = cfg.my;
     if (my.isEmpty() && defaultCfg != null) {
       my = my(defaultCfg);
     }

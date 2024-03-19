@@ -71,6 +71,7 @@ public abstract class CachedPreferences {
         defaultPreferences,
         userPreferences,
         PreferencesParserUtil::parseGeneralPreferences,
+        PreferencesParserUtil::parseGeneralPreferences,
         p ->
             UserPreferencesConverter.GeneralPreferencesInfoConverter.fromProto(
                 p.getGeneralPreferencesInfo()),
@@ -83,6 +84,7 @@ public abstract class CachedPreferences {
         defaultPreferences,
         userPreferences,
         PreferencesParserUtil::parseDiffPreferences,
+        PreferencesParserUtil::parseDiffPreferences,
         p ->
             UserPreferencesConverter.DiffPreferencesInfoConverter.fromProto(
                 p.getDiffPreferencesInfo()),
@@ -94,6 +96,7 @@ public abstract class CachedPreferences {
     return getPreferences(
         defaultPreferences,
         userPreferences,
+        PreferencesParserUtil::parseEditPreferences,
         PreferencesParserUtil::parseEditPreferences,
         p ->
             UserPreferencesConverter.EditPreferencesInfoConverter.fromProto(
@@ -137,6 +140,12 @@ public abstract class CachedPreferences {
 
   @FunctionalInterface
   private interface ComputePreferencesFn<PreferencesT> {
+    PreferencesT apply(PreferencesT pref, @Nullable Config defaultCfg)
+        throws ConfigInvalidException;
+  }
+
+  @FunctionalInterface
+  private interface ComputePreferencesGitConfigFn<PreferencesT> {
     PreferencesT apply(Config cfg, @Nullable Config defaultCfg, @Nullable PreferencesT input)
         throws ConfigInvalidException;
   }
@@ -145,6 +154,7 @@ public abstract class CachedPreferences {
       Optional<CachedPreferences> defaultPreferences,
       CachedPreferences userPreferences,
       ComputePreferencesFn<PreferencesT> computePreferencesFn,
+      ComputePreferencesGitConfigFn<PreferencesT> computePreferencesGitConfigFn,
       Function<UserPreferences, PreferencesT> fromUserPreferencesFn,
       PreferencesT javaDefaults) {
     try {
@@ -153,9 +163,9 @@ public abstract class CachedPreferences {
         case USER_PREFERENCES:
           PreferencesT pref =
               fromUserPreferencesFn.apply(userPreferencesProto.getUserPreferences());
-          return computePreferencesFn.apply(new Config(), configOrNull(defaultPreferences), pref);
+          return computePreferencesFn.apply(pref, configOrNull(defaultPreferences));
         case LEGACY_GIT_CONFIG:
-          return computePreferencesFn.apply(
+          return computePreferencesGitConfigFn.apply(
               userPreferences.asConfig(), configOrNull(defaultPreferences), null);
         case PREFERENCES_NOT_SET:
           throw new ConfigInvalidException("Invalid config " + userPreferences);

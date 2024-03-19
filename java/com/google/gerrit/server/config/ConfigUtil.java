@@ -396,6 +396,32 @@ public class ConfigUtil {
     return s;
   }
 
+  @CanIgnoreReturnValue
+  public static <T> T loadSection(T cfg, T s, T defaults) throws ConfigInvalidException {
+    try {
+      for (Field f : s.getClass().getDeclaredFields()) {
+        if (skipField(f)) {
+          continue;
+        }
+        Class<?> t = f.getType();
+        String n = f.getName();
+        f.setAccessible(true);
+
+        Object val = f.get(cfg);
+        if (val == null) {
+          val = f.get(defaults);
+          if (!isString(t) && !isCollectionOrMap(t)) {
+            requireNonNull(val, "Default cannot be null for: " + n);
+          }
+        }
+        f.set(s, val);
+      }
+    } catch (SecurityException | IllegalArgumentException | IllegalAccessException e) {
+      throw new ConfigInvalidException("cannot load values", e);
+    }
+    return s;
+  }
+
   /**
    * Update user config by applying the specified delta
    *

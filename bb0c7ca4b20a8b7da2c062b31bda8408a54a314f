@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0709d63_65d9c365",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-03-19T15:21:34Z",
+      "side": 1,
+      "message": "I can see in debug mode that indeed the issue was reintroduced, and manually verified this changed, but I am struggling to get a reference to the datasource that can check:\n\n```\n  @Test\n  public void queryLuceneRightNumberOfTimes() throws Exception {\n    TestRepository\u003cRepo\u003e repo \u003d createProject(\"repo\");\n    Account.Id user2 \u003d\n        accountManager.authenticate(AuthRequest.forUser(\"anotheruser\")).getAccountId();\n\n    // create 1 private change\n    Change invisibleChange1 \u003d insert(repo, newChangeWithStatus(repo, Change.Status.NEW), user2);\n    gApi.changes().id(invisibleChange1.getChangeId()).setPrivate(true, null);\n\n    // create 1 visible change\n    Change visibleChange2 \u003d insert(repo, newChangeWithStatus(repo, Change.Status.NEW));\n\n    // create 5 private changes\n    Change invisibleChange3 \u003d insert(repo, newChangeWithStatus(repo, Change.Status.NEW), user2);\n    Change invisibleChange4 \u003d insert(repo, newChangeWithStatus(repo, Change.Status.NEW), user2);\n    Change invisibleChange5 \u003d insert(repo, newChangeWithStatus(repo, Change.Status.NEW), user2);\n    Change invisibleChange6 \u003d insert(repo, newChangeWithStatus(repo, Change.Status.NEW), user2);\n    Change invisibleChange7 \u003d insert(repo, newChangeWithStatus(repo, Change.Status.NEW), user2);\n    gApi.changes().id(invisibleChange3.getChangeId()).setPrivate(true, null);\n    gApi.changes().id(invisibleChange4.getChangeId()).setPrivate(true, null);\n    gApi.changes().id(invisibleChange5.getChangeId()).setPrivate(true, null);\n    gApi.changes().id(invisibleChange6.getChangeId()).setPrivate(true, null);\n    gApi.changes().id(invisibleChange7.getChangeId()).setPrivate(true, null);\n\n    \n    // pagination should back-fill when the results skipped because of the visibility\n    Change[] expected \u003d new Change[] {visibleChange2};\n    assertQuery(newQuery(\"status:new\").withLimit(5), expected);\n    \n    // pagination should should stop calling restart() if there are no more changes\n    // pseudocode: verify(DataSource, times((int) Math.ceil((double)totalChanges / limit)).restart();\n  }\n```",
+      "revId": "bb0c7ca4b20a8b7da2c062b31bda8408a54a314f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6e4f340_e268962e",
+        "filename": "java/com/google/gerrit/index/query/PaginatingSource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-03-19T15:21:34Z",
+      "side": 1,
+      "message": "This can be done inline at L 108 , here in this patchset to highlight the mechanism.",
+      "range": {
+        "startLine": 136,
+        "startChar": 0,
+        "endLine": 138,
+        "endChar": 3
+      },
+      "revId": "bb0c7ca4b20a8b7da2c062b31bda8408a54a314f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "942a4aa8_6ad1226d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-03-19T11:19:39Z",
+      "side": 1,
+      "message": "fails due to lock failure",
+      "range": {
+        "startLine": 9,
+        "startChar": 57,
+        "endLine": 9,
+        "endChar": 62
+      },
+      "revId": "8ad5a33ec5f30f03acb0c996b8b61f3bbf6b7277",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d1c8995_80a94821",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-03-19T11:19:39Z",
+      "side": 1,
+      "message": "nit: should we say `ones` here? `getfailedRefs()` could potentially return more than one ref.",
+      "range": {
+        "startLine": 14,
+        "startChar": 27,
+        "endLine": 14,
+        "endChar": 30
+      },
+      "revId": "8ad5a33ec5f30f03acb0c996b8b61f3bbf6b7277",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "adb1ad59_0fa6001a",
+        "filename": "java/com/google/gerrit/server/notedb/rebuild/NoteDbMigrator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1199,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-03-19T11:19:39Z",
+      "side": 1,
+      "message": "nit: could use `AllUsersName` here so that we get the correct name, should that have been configured to be something else than All-Users.",
+      "range": {
+        "startLine": 1199,
+        "startChar": 33,
+        "endLine": 1199,
+        "endChar": 44
+      },
+      "revId": "8ad5a33ec5f30f03acb0c996b8b61f3bbf6b7277",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9040953c_004a818d",
+        "filename": "java/com/google/gerrit/server/notedb/rebuild/NoteDbMigrator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1217,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-03-19T11:19:39Z",
+      "side": 1,
+      "message": "nit: I believe this could be static",
+      "range": {
+        "startLine": 1217,
+        "startChar": 2,
+        "endLine": 1217,
+        "endChar": 27
+      },
+      "revId": "8ad5a33ec5f30f03acb0c996b8b61f3bbf6b7277",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7aaf7eb3_3212929e",
+        "filename": "java/com/google/gerrit/server/notedb/rebuild/NoteDbMigrator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1218,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-03-19T11:19:39Z",
+      "side": 1,
+      "message": "why `distinct`? the input of this method is either `keySet` or `failedRefs`, which contain already a unique set of refs.",
+      "range": {
+        "startLine": 1218,
+        "startChar": 25,
+        "endLine": 1218,
+        "endChar": 35
+      },
+      "revId": "8ad5a33ec5f30f03acb0c996b8b61f3bbf6b7277",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

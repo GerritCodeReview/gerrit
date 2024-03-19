@@ -15,6 +15,7 @@
 package com.google.gerrit.server.config;
 
 import static com.google.gerrit.server.config.ConfigUtil.loadSection;
+import static com.google.gerrit.server.config.ConfigUtil.mergeWithDefaults;
 import static com.google.gerrit.server.config.ConfigUtil.skipField;
 import static com.google.gerrit.server.git.UserConfigSections.CHANGE_TABLE;
 import static com.google.gerrit.server.git.UserConfigSections.CHANGE_TABLE_COLUMN;
@@ -30,6 +31,7 @@ import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.MenuItem;
+import com.google.gerrit.proto.Entities.UserPreferences;
 import com.google.gerrit.server.git.UserConfigSections;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -66,8 +68,26 @@ public class PreferencesParserUtil {
       r.my = input.my;
     } else {
       r.changeTable = parseChangeTableColumns(cfg, defaultCfg);
-      r.my = parseMyMenus(cfg, defaultCfg);
+      r.my = parseMyMenus(my(cfg), defaultCfg);
     }
+    return r;
+  }
+
+  /**
+   * Returns a {@link GeneralPreferencesInfo} that is the result of parsing {@code defaultCfg} for
+   * the server's default configs and {@code cfg} for the user's config.
+   */
+  public static GeneralPreferencesInfo parseGeneralPreferences(
+      GeneralPreferencesInfo cfg, @Nullable Config defaultCfg) throws ConfigInvalidException {
+    GeneralPreferencesInfo r =
+        mergeWithDefaults(
+            cfg,
+            new GeneralPreferencesInfo(),
+            defaultCfg != null
+                ? parseDefaultGeneralPreferences(defaultCfg, null)
+                : GeneralPreferencesInfo.defaults());
+    r.changeTable = cfg.changeTable != null ? cfg.changeTable : Lists.newArrayList();
+    r.my = parseMyMenus(cfg.my, defaultCfg);
     return r;
   }
 
@@ -110,6 +130,20 @@ public class PreferencesParserUtil {
 
   /**
    * Returns a {@link DiffPreferencesInfo} that is the result of parsing {@code defaultCfg} for the
+   * server's default configs and {@code cfg} for the user's config.
+   */
+  public static DiffPreferencesInfo parseDiffPreferences(
+      DiffPreferencesInfo cfg, @Nullable Config defaultCfg) throws ConfigInvalidException {
+    return mergeWithDefaults(
+        cfg,
+        new DiffPreferencesInfo(),
+        defaultCfg != null
+            ? parseDefaultDiffPreferences(defaultCfg, null)
+            : DiffPreferencesInfo.defaults());
+  }
+
+  /**
+   * Returns a {@link DiffPreferencesInfo} that is the result of parsing {@code defaultCfg} for the
    * server's default configs. These configs are then overlaid to inherit values (default -> input
    * (if provided).
    */
@@ -147,6 +181,20 @@ public class PreferencesParserUtil {
 
   /**
    * Returns a {@link EditPreferencesInfo} that is the result of parsing {@code defaultCfg} for the
+   * server's default configs and {@code cfg} for the user's config.
+   */
+  public static EditPreferencesInfo parseEditPreferences(
+      EditPreferencesInfo cfg, @Nullable Config defaultCfg) throws ConfigInvalidException {
+    return mergeWithDefaults(
+        cfg,
+        new EditPreferencesInfo(),
+        defaultCfg != null
+            ? parseDefaultEditPreferences(defaultCfg, null)
+            : EditPreferencesInfo.defaults());
+  }
+
+  /**
+   * Returns a {@link EditPreferencesInfo} that is the result of parsing {@code defaultCfg} for the
    * server's default configs. These configs are then overlaid to inherit values (default -> input
    * (if provided).
    */
@@ -171,10 +219,13 @@ public class PreferencesParserUtil {
     return changeTable;
   }
 
-  private static List<MenuItem> parseMyMenus(Config cfg, @Nullable Config defaultCfg) {
-    List<MenuItem> my = my(cfg);
-    if (my.isEmpty() && defaultCfg != null) {
+  private static List<MenuItem> parseMyMenus(
+      @Nullable List<MenuItem> my, @Nullable Config defaultCfg) {
+    if (defaultCfg != null && (my == null || my.isEmpty())) {
       my = my(defaultCfg);
+    }
+    if (my == null) {
+      my = new ArrayList<>();
     }
     if (my.isEmpty()) {
       my.add(new MenuItem("Dashboard", "#/dashboard/self", null));
@@ -263,5 +314,111 @@ public class PreferencesParserUtil {
   private static String my(Config cfg, String subsection, String key, String defaultValue) {
     String val = cfg.getString(UserConfigSections.MY, subsection, key);
     return !Strings.isNullOrEmpty(val) ? val : defaultValue;
+  }
+
+  /** Provides methods for parsing user configs */
+  public interface PreferencesParser<T> {
+    T parse(Config cfg, @Nullable Config defaultConfig, @Nullable T input)
+        throws ConfigInvalidException;
+
+    T parse(T cfg, @Nullable Config defaultConfig) throws ConfigInvalidException;
+
+    T fromUserPreferences(UserPreferences userPreferences);
+
+    T getJavaDefaults();
+  }
+
+  /** Provides methods for parsing GeneralPreferencesInfo configs */
+  public static class GeneralPreferencesParser
+      implements PreferencesParser<GeneralPreferencesInfo> {
+    public static GeneralPreferencesParser Instance = new GeneralPreferencesParser();
+
+    private GeneralPreferencesParser() {}
+
+    @Override
+    public GeneralPreferencesInfo parse(
+        Config cfg, @Nullable Config defaultCfg, @Nullable GeneralPreferencesInfo input)
+        throws ConfigInvalidException {
+      return PreferencesParserUtil.parseGeneralPreferences(cfg, defaultCfg, input);
+    }
+
+    @Override
+    public GeneralPreferencesInfo parse(GeneralPreferencesInfo cfg, @Nullable Config defaultCfg)
+        throws ConfigInvalidException {
+      return PreferencesParserUtil.parseGeneralPreferences(cfg, defaultCfg);
+    }
+
+    @Override
+    public GeneralPreferencesInfo fromUserPreferences(UserPreferences p) {
+      return UserPreferencesConverter.GeneralPreferencesInfoConverter.fromProto(
+          p.getGeneralPreferencesInfo());
+    }
+
+    @Override
+    public GeneralPreferencesInfo getJavaDefaults() {
+      return GeneralPreferencesInfo.defaults();
+    }
+  }
+
+  /** Provides methods for parsing EditPreferencesInfo configs */
+  public static class EditPreferencesParser implements PreferencesParser<EditPreferencesInfo> {
+    public static EditPreferencesParser Instance = new EditPreferencesParser();
+
+    private EditPreferencesParser() {}
+
+    @Override
+    public EditPreferencesInfo parse(
+        Config cfg, @Nullable Config defaultCfg, @Nullable EditPreferencesInfo input)
+        throws ConfigInvalidException {
+      return PreferencesParserUtil.parseEditPreferences(cfg, defaultCfg, input);
+    }
+
+    @Override
+    public EditPreferencesInfo parse(EditPreferencesInfo cfg, @Nullable Config defaultCfg)
+        throws ConfigInvalidException {
+      return PreferencesParserUtil.parseEditPreferences(cfg, defaultCfg);
+    }
+
+    @Override
+    public EditPreferencesInfo fromUserPreferences(UserPreferences p) {
+      return UserPreferencesConverter.EditPreferencesInfoConverter.fromProto(
+          p.getEditPreferencesInfo());
+    }
+
+    @Override
+    public EditPreferencesInfo getJavaDefaults() {
+      return EditPreferencesInfo.defaults();
+    }
+  }
+
+  /** Provides methods for parsing DiffPreferencesInfo configs */
+  public static class DiffPreferencesParser implements PreferencesParser<DiffPreferencesInfo> {
+    public static DiffPreferencesParser Instance = new DiffPreferencesParser();
+
+    private DiffPreferencesParser() {}
+
+    @Override
+    public DiffPreferencesInfo parse(
+        Config cfg, @Nullable Config defaultCfg, @Nullable DiffPreferencesInfo input)
+        throws ConfigInvalidException {
+      return PreferencesParserUtil.parseDiffPreferences(cfg, defaultCfg, input);
+    }
+
+    @Override
+    public DiffPreferencesInfo parse(DiffPreferencesInfo cfg, @Nullable Config defaultCfg)
+        throws ConfigInvalidException {
+      return PreferencesParserUtil.parseDiffPreferences(cfg, defaultCfg);
+    }
+
+    @Override
+    public DiffPreferencesInfo fromUserPreferences(UserPreferences p) {
+      return UserPreferencesConverter.DiffPreferencesInfoConverter.fromProto(
+          p.getDiffPreferencesInfo());
+    }
+
+    @Override
+    public DiffPreferencesInfo getJavaDefaults() {
+      return DiffPreferencesInfo.defaults();
+    }
   }
 }

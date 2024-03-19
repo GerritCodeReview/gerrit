@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a19bc3d8_da783a91",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-03-19T07:54:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe866074_9bd57c88",
+      "revId": "3880709fc12fb0eb58e3407731afeb0585435e9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7e125728_03f1add7",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-03-19T07:34:14Z",
       "side": 1,
       "message": "You show the button by default, but then you hide it on hover? Is that intentional?",
+      "revId": "3880709fc12fb0eb58e3407731afeb0585435e9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2191c12e_22f2590c",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-03-19T07:54:12Z",
+      "side": 1,
+      "message": "Yes, actions-shown-on-collapsed are just for showing actions on collapsed and hide it otherwise. I haven\u0027t find easier way to show SHOW FIX and not change current UI.\n\nBut I think if this will have impact, I will invest more time to improve UI here.",
+      "parentUuid": "7e125728_03f1add7",
       "revId": "3880709fc12fb0eb58e3407731afeb0585435e9c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

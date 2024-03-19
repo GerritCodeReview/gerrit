@@ -397,6 +397,50 @@ public class ConfigUtil {
   }
 
   /**
+   * Merges config by inspecting Java class attributes, similar to {@link #loadSection}.
+   *
+   * <p>Config values are stored optimized: no default values are stored. The loading is performed
+   * eagerly: all values are set, except default boolean values.
+   *
+   * <p>Fields marked with final or transient modifiers are skipped.
+   *
+   * @param cfg config from which the values are loaded
+   * @param s instance of class in which the values are set
+   * @param defaults instance of class with default values
+   * @return loaded instance
+   */
+  @CanIgnoreReturnValue
+  public static <T> T mergeWithDefaults(T cfg, T s, T defaults) throws ConfigInvalidException {
+    try {
+      for (Field f : s.getClass().getDeclaredFields()) {
+        if (skipField(f)) {
+          continue;
+        }
+        Class<?> t = f.getType();
+        String n = f.getName();
+        f.setAccessible(true);
+
+        Object val = f.get(cfg);
+        if (val == null) {
+          val = f.get(defaults);
+          if (!isString(t) && !isCollectionOrMap(t)) {
+            requireNonNull(val, "Default cannot be null for: " + n);
+          }
+        }
+        if (!isBoolean(t) || (boolean) val) {
+          // To reproduce the same behavior as in the loadSection method above, values are
+          // explicitly set for all types, except the boolean type. For the boolean type, the value
+          // is set only if it is 'true' (so, the false value is omitted in the result object).
+          f.set(s, val);
+        }
+      }
+    } catch (SecurityException | IllegalArgumentException | IllegalAccessException e) {
+      throw new ConfigInvalidException("cannot load values", e);
+    }
+    return s;
+  }
+
+  /**
    * Update user config by applying the specified delta
    *
    * <p>As opposed to {@link com.google.gerrit.server.config.ConfigUtil#storeSection}, this method

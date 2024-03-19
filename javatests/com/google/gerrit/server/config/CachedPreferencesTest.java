@@ -130,6 +130,27 @@ public class CachedPreferencesTest {
   }
 
   @Test
+  public void userPreferencesProto_falseValueReturnsAsNull() throws Exception {
+    UserPreferences originalProto =
+        UserPreferences.newBuilder()
+            .setEditPreferencesInfo(
+                UserPreferences.EditPreferencesInfo.newBuilder()
+                    .setTabSize(17)
+                    .setHideTopMenu(false)
+                    .setHideLineNumbers(false)
+                    .setAutoCloseBrackets(true))
+            .build();
+
+    CachedPreferences pref = CachedPreferences.fromUserPreferencesProto(originalProto);
+    EditPreferencesInfo edit = CachedPreferences.edit(Optional.empty(), pref);
+
+    assertThat(edit.tabSize).isEqualTo(17);
+    assertThat(edit.hideTopMenu).isNull();
+    assertThat(edit.hideLineNumbers).isNull();
+    assertThat(edit.autoCloseBrackets).isTrue();
+  }
+
+  @Test
   public void defaultPreferences_acceptingGitConfig() throws Exception {
     Config cfg = new Config();
     cfg.fromText("[general]\n\tchangesPerPage = 19");

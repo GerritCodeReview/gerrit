@@ -16,6 +16,7 @@ package com.google.gerrit.server.config;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
@@ -180,20 +181,24 @@ public final class UserPreferencesConverter {
         MenuItem javaItem) {
       UserPreferences.GeneralPreferencesInfo.MenuItem.Builder builder =
           UserPreferences.GeneralPreferencesInfo.MenuItem.newBuilder();
-      builder = setIfNotNull(builder, builder::setName, javaItem.name);
-      builder = setIfNotNull(builder, builder::setUrl, javaItem.url);
-      builder = setIfNotNull(builder, builder::setTarget, javaItem.target);
-      builder = setIfNotNull(builder, builder::setId, javaItem.id);
+      builder = setIfNotNull(builder, builder::setName, trimSafe(javaItem.name));
+      builder = setIfNotNull(builder, builder::setUrl, trimSafe(javaItem.url));
+      builder = setIfNotNull(builder, builder::setTarget, trimSafe(javaItem.target));
+      builder = setIfNotNull(builder, builder::setId, trimSafe(javaItem.id));
       return builder.build();
+    }
+
+    private static @Nullable String trimSafe(@Nullable String s) {
+      return s == null ? s : s.trim();
     }
 
     private static MenuItem menuItemFromProto(
         UserPreferences.GeneralPreferencesInfo.MenuItem proto) {
       return new MenuItem(
-          proto.hasName() ? proto.getName() : null,
-          proto.hasUrl() ? proto.getUrl() : null,
-          proto.hasTarget() ? proto.getTarget() : null,
-          proto.hasId() ? proto.getId() : null);
+          proto.hasName() ? proto.getName().trim() : null,
+          proto.hasUrl() ? proto.getUrl().trim() : null,
+          proto.hasTarget() ? proto.getTarget().trim() : null,
+          proto.hasId() ? proto.getId().trim() : null);
     }
 
     private GeneralPreferencesInfoConverter() {}

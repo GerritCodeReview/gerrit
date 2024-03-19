@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "503626d9_c8d2bf83",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2024-03-19T21:46:50Z",
+      "side": 1,
+      "message": "Your steps are correct, but setting N\u003d4 will reproduce it for sure. With N\u003d5 it won\u0027t reproduce if the public change is the only one returned after the source is restarted.\n\n```\nSet in gerrit.config index.maxLimit \u003d 10\nCreate a public project public-project\nCreate 1x private change C1\nCreate 1x public change C2\nCreate 5x private changes\nMake an anonymous query for changes with S\u003d0 and N\u003d4\n```",
+      "parentUuid": "34adbe9b_bd527ec5",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 19
+      },
+      "revId": "db635f9a025c3dda198ed11c3cc42b17e2c0db4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "3f9cd341_ff1f59db",

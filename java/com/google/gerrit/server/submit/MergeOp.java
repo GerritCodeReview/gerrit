@@ -94,6 +94,7 @@ import com.google.gerrit.server.submit.MergeOpRepoManager.OpenBranch;
 import com.google.gerrit.server.submit.MergeOpRepoManager.OpenRepo;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
+import com.google.gerrit.server.update.BatchUpdates;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.SubmissionExecutor;
@@ -277,6 +278,7 @@ public class MergeOp implements AutoCloseable {
 
   private final ChangeMessagesUtil cmUtil;
   private final BatchUpdate.Factory batchUpdateFactory;
+  private final BatchUpdates batchUpdates;
   private final InternalUser.Factory internalUserFactory;
   private final MergeSuperSet mergeSuperSet;
   private final MergeValidators.Factory mergeValidatorsFactory;
@@ -316,6 +318,7 @@ public class MergeOp implements AutoCloseable {
   MergeOp(
       ChangeMessagesUtil cmUtil,
       BatchUpdate.Factory batchUpdateFactory,
+      BatchUpdates batchUpdates,
       InternalUser.Factory internalUserFactory,
       MergeSuperSet mergeSuperSet,
       MergeValidators.Factory mergeValidatorsFactory,
@@ -337,6 +340,7 @@ public class MergeOp implements AutoCloseable {
       @GerritServerConfig Config config) {
     this.cmUtil = cmUtil;
     this.batchUpdateFactory = batchUpdateFactory;
+    this.batchUpdates = batchUpdates;
     this.internalUserFactory = internalUserFactory;
     this.mergeSuperSet = mergeSuperSet;
     this.mergeValidatorsFactory = mergeValidatorsFactory;
@@ -558,8 +562,7 @@ public class MergeOp implements AutoCloseable {
         }
 
         SubmissionExecutor submissionExecutor =
-            new SubmissionExecutor(
-                changeDataFactory, dryrun, superprojectUpdateSubmissionListeners);
+            new SubmissionExecutor(batchUpdates, dryrun, superprojectUpdateSubmissionListeners);
         RetryTracker retryTracker = new RetryTracker();
         @SuppressWarnings("unused")
         var unused =

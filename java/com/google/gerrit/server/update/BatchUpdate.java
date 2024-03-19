@@ -17,7 +17,6 @@ package com.google.gerrit.server.update;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
-import static com.google.common.collect.ImmutableMultiset.toImmutableMultiset;
 import static com.google.common.flogger.LazyArgs.lazy;
 import static com.google.gerrit.common.UsedAt.Project.GOOGLE;
 import static java.util.Comparator.comparing;
@@ -35,7 +34,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
-import com.google.common.collect.Multiset;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -51,9 +49,6 @@ import com.google.gerrit.entities.ProjectChangeKey;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.config.FactoryModule;
-import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.CurrentUser;
@@ -73,12 +68,7 @@ import com.google.gerrit.server.logging.RequestId;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
-import com.google.gerrit.server.notedb.LimitExceededException;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager;
-import com.google.gerrit.server.project.InvalidChangeOperationException;
-import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.project.NoSuchRefException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.Module;
@@ -91,10 +81,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.TreeMap;
-import java.util.function.Function;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -139,151 +127,6 @@ public class BatchUpdate implements AutoCloseable {
 
   public interface Factory {
     BatchUpdate create(Project.NameKey project, CurrentUser user, Instant when);
-  }
-
-  public static class Result {
-    private final ChangeData.Factory changeDataFactory;
-    private final Map<Change.Id, ChangeData> changeDatas;
-
-    private Result(ChangeData.Factory changeDataFactory) {
-      this(changeDataFactory, new HashMap<>());
-    }
-
-    private Result(ChangeData.Factory changeDataFactory, Map<Change.Id, ChangeData> changeDatas) {
-      this.changeDataFactory = changeDataFactory;
-      this.changeDatas = changeDatas;
-    }
-
-    /**
-     * Returns the updated {@link ChangeData} for the given project and change ID.
-     *
-     * <p>If the requested {@link ChangeData} was already loaded after the {@link BatchUpdate} has
-     * been executed the cached {@link ChangeData} instance is returned, otherwise the requested
-     * {@link ChangeData} is loaded and put into the cache.
-     */
-    public ChangeData getChangeData(Project.NameKey projectName, Change.Id changeId) {
-      return changeDatas.computeIfAbsent(
-          changeId, id -> changeDataFactory.create(projectName, changeId));
-    }
-  }
-
-  @CanIgnoreReturnValue
-  public static Result execute(
-      ChangeData.Factory changeDataFactory,
-      Collection<BatchUpdate> updates,
-      ImmutableList<BatchUpdateListener> listeners,
-      boolean dryrun)
-      throws UpdateException, RestApiException {
-    requireNonNull(listeners);
-    if (updates.isEmpty()) {
-      return new Result(changeDataFactory);
-    }
-
-    checkDifferentProject(updates);
-
-    try {
-      List<ListenableFuture<ChangeData>> indexFutures = new ArrayList<>();
-      List<ChangesHandle> changesHandles = new ArrayList<>(updates.size());
-      try {
-        for (BatchUpdate u : updates) {
-          u.executeUpdateRepo();
-        }
-        notifyAfterUpdateRepo(listeners);
-        for (BatchUpdate u : updates) {
-          changesHandles.add(u.executeChangeOps(listeners, dryrun));
-        }
-        for (ChangesHandle h : changesHandles) {
-          h.execute();
-          if (h.requiresReindex()) {
-            indexFutures.addAll(h.startIndexFutures());
-          }
-        }
-        notifyAfterUpdateRefs(listeners);
-        notifyAfterUpdateChanges(listeners);
-      } finally {
-        for (ChangesHandle h : changesHandles) {
-          h.close();
-        }
-      }
-
-      Map<Change.Id, ChangeData> changeDatas =
-          Futures.allAsList(indexFutures).get().stream()
-              // filter out null values that were returned for change deletions
-              .filter(Objects::nonNull)
-              .collect(toMap(cd -> cd.change().getId(), Function.identity()));
-
-      // Fire ref update events only after all mutations are finished, since callers may assume a
-      // patch set ref being created means the change was created, or a branch advancing meaning
-      // some changes were closed.
-      updates.forEach(BatchUpdate::fireRefChangeEvents);
-
-      if (!dryrun) {
-        for (BatchUpdate u : updates) {
-          u.executePostOps(changeDatas);
-        }
-      }
-
-      return new Result(changeDataFactory, changeDatas);
-    } catch (Exception e) {
-      wrapAndThrowException(e);
-      return new Result(changeDataFactory);
-    }
-  }
-
-  private static void notifyAfterUpdateRepo(ImmutableList<BatchUpdateListener> listeners)
-      throws Exception {
-    for (BatchUpdateListener listener : listeners) {
-      listener.afterUpdateRepos();
-    }
-  }
-
-  private static void notifyAfterUpdateRefs(ImmutableList<BatchUpdateListener> listeners)
-      throws Exception {
-    for (BatchUpdateListener listener : listeners) {
-      listener.afterUpdateRefs();
-    }
-  }
-
-  private static void notifyAfterUpdateChanges(ImmutableList<BatchUpdateListener> listeners)
-      throws Exception {
-    for (BatchUpdateListener listener : listeners) {
-      listener.afterUpdateChanges();
-    }
-  }
-
-  private static void checkDifferentProject(Collection<BatchUpdate> updates) {
-    Multiset<Project.NameKey> projectCounts =
-        updates.stream().map(u -> u.project).collect(toImmutableMultiset());
-    checkArgument(
-        projectCounts.entrySet().size() == updates.size(),
-        "updates must all be for different projects, got: %s",
-        projectCounts);
-  }
-
-  private static void wrapAndThrowException(Exception e) throws UpdateException, RestApiException {
-    // Convert common non-REST exception types with user-visible messages to corresponding REST
-    // exception types.
-    if (e instanceof InvalidChangeOperationException || e instanceof LimitExceededException) {
-      throw new ResourceConflictException(e.getMessage(), e);
-    } else if (e instanceof NoSuchChangeException
-        || e instanceof NoSuchRefException
-        || e instanceof NoSuchProjectException) {
-      throw new ResourceNotFoundException(e.getMessage(), e);
-    } else if (e instanceof CommentsRejectedException) {
-      // SC_BAD_REQUEST is not ideal because it's not a syntactic error, but there is no better
-      // status code and it's isolated in monitoring.
-      throw new BadRequestException(e.getMessage(), e);
-    }
-
-    Throwables.throwIfUnchecked(e);
-
-    // Propagate REST API exceptions thrown by operations; they commonly throw exceptions like
-    // ResourceConflictException to indicate an atomic update failure.
-    Throwables.throwIfInstanceOf(e, UpdateException.class);
-    Throwables.throwIfInstanceOf(e, RestApiException.class);
-
-    // Otherwise, wrap in a generic UpdateException, which does not include a user-visible message.
-    throw new UpdateException(e);
   }
 
   class ContextImpl implements Context {
@@ -441,6 +284,7 @@ public class BatchUpdate implements AutoCloseable {
     DELETED
   }
 
+  private final BatchUpdates batchUpdates;
   private final GitRepositoryManager repoManager;
   private final AccountCache accountCache;
   private final ChangeData.Factory changeDataFactory;
@@ -477,6 +321,7 @@ public class BatchUpdate implements AutoCloseable {
 
   @Inject
   BatchUpdate(
+      BatchUpdates batchUpdates,
       GitRepositoryManager repoManager,
       @GerritPersonIdent PersonIdent serverIdent,
       AccountCache accountCache,
@@ -493,6 +338,7 @@ public class BatchUpdate implements AutoCloseable {
       @Assisted CurrentUser user,
       @Assisted Instant when) {
     this.gerritConfig = gerritConfig;
+    this.batchUpdates = batchUpdates;
     this.repoManager = repoManager;
     this.accountCache = accountCache;
     this.changeDataFactory = changeDataFactory;
@@ -517,13 +363,14 @@ public class BatchUpdate implements AutoCloseable {
   }
 
   @CanIgnoreReturnValue
-  public Result execute(BatchUpdateListener listener) throws UpdateException, RestApiException {
-    return execute(changeDataFactory, ImmutableList.of(this), ImmutableList.of(listener), false);
+  public BatchUpdates.Result execute(BatchUpdateListener listener)
+      throws UpdateException, RestApiException {
+    return batchUpdates.execute(ImmutableList.of(this), ImmutableList.of(listener), false);
   }
 
   @CanIgnoreReturnValue
-  public Result execute() throws UpdateException, RestApiException {
-    return execute(changeDataFactory, ImmutableList.of(this), ImmutableList.of(), false);
+  public BatchUpdates.Result execute() throws UpdateException, RestApiException {
+    return batchUpdates.execute(ImmutableList.of(this), ImmutableList.of(), false);
   }
 
   public boolean isExecuted() {
@@ -676,7 +523,7 @@ public class BatchUpdate implements AutoCloseable {
     return this;
   }
 
-  private void executeUpdateRepo() throws UpdateException, RestApiException {
+  void executeUpdateRepo() throws UpdateException, RestApiException {
     try {
       logDebug("Executing updateRepo on %d ops", ops.size());
       for (Map.Entry<Change.Id, OpData<BatchUpdateOp>> e : ops.entries()) {
@@ -718,7 +565,7 @@ public class BatchUpdate implements AutoCloseable {
         && gerritConfig.getBoolean("index", "indexChangesAsync", false);
   }
 
-  private void fireRefChangeEvents() {
+  void fireRefChangeEvents() {
     batchRefUpdate.forEach(
         (projectName, bru) -> gitRefUpdated.fire(projectName, bru, getAccount().orElse(null)));
   }
@@ -735,7 +582,7 @@ public class BatchUpdate implements AutoCloseable {
     }
   }
 
-  private class ChangesHandle implements AutoCloseable {
+  class ChangesHandle implements AutoCloseable {
     private final NoteDbUpdateManager manager;
     private final boolean dryrun;
     private final Map<Change.Id, ChangeResult> results;
@@ -820,7 +667,7 @@ public class BatchUpdate implements AutoCloseable {
     }
   }
 
-  private ChangesHandle executeChangeOps(
+  ChangesHandle executeChangeOps(
       ImmutableList<BatchUpdateListener> batchUpdateListeners, boolean dryrun) throws Exception {
     logDebug("Executing change ops");
     initRepository();
@@ -950,7 +797,7 @@ public class BatchUpdate implements AutoCloseable {
     return new ChangeContextImpl(contextUser, notes);
   }
 
-  private void executePostOps(Map<Change.Id, ChangeData> changeDatas) throws Exception {
+  void executePostOps(Map<Change.Id, ChangeData> changeDatas) throws Exception {
     for (OpData<BatchUpdateOp> opData : ops.values()) {
       PostUpdateContextImpl ctx = new PostUpdateContextImpl(opData.user(), changeDatas);
       try (TraceContext.TraceTimer ignored =

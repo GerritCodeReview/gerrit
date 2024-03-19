@@ -16,23 +16,22 @@ package com.google.gerrit.server.update;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.submit.MergeOpRepoManager;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class SubmissionExecutor {
-  private final ChangeData.Factory changeDataFactory;
+  private final BatchUpdates batchUpdates;
   private final ImmutableList<SubmissionListener> submissionListeners;
   private final boolean dryrun;
   private ImmutableList<BatchUpdateListener> additionalListeners = ImmutableList.of();
 
   public SubmissionExecutor(
-      ChangeData.Factory changeDataFactory,
+      BatchUpdates batchUpdates,
       boolean dryrun,
       ImmutableList<SubmissionListener> submissionListeners) {
-    this.changeDataFactory = changeDataFactory;
+    this.batchUpdates = batchUpdates;
     this.dryrun = dryrun;
     this.submissionListeners = submissionListeners;
     if (dryrun) {
@@ -63,7 +62,7 @@ public class SubmissionExecutor {
                     .map(Optional::get)
                     .collect(Collectors.toList()))
             .build();
-    BatchUpdate.execute(changeDataFactory, updates, listeners, dryrun);
+    batchUpdates.execute(updates, listeners, dryrun);
   }
 
   /**

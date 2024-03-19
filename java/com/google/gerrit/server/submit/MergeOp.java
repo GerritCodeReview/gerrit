@@ -19,7 +19,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.server.experiments.ExperimentFeaturesConstants.GERRIT_BACKEND_FEATURE_ALWAYS_REJECT_IMPLICIT_MERGES_ON_MERGE;
 import static com.google.gerrit.server.experiments.ExperimentFeaturesConstants.GERRIT_BACKEND_FEATURE_CHECK_IMPLICIT_MERGES_ON_MERGE;
 import static com.google.gerrit.server.experiments.ExperimentFeaturesConstants.GERRIT_BACKEND_FEATURE_REJECT_IMPLICIT_MERGES_ON_MERGE;
-import static com.google.gerrit.server.experiments.ExperimentFeaturesConstants.REBASE_MERGE_COMMITS;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static com.google.gerrit.server.update.RetryableAction.ActionType.INDEX_QUERY;
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.MERGE_CHANGE;
@@ -877,9 +876,7 @@ public class MergeOp implements AutoCloseable {
         GERRIT_BACKEND_FEATURE_CHECK_IMPLICIT_MERGES_ON_MERGE, project)) {
       return;
     }
-    boolean rebaseMergeCommits = experimentFeatures.isFeatureEnabled(REBASE_MERGE_COMMITS, project);
-    if (submitType == SubmitType.CHERRY_PICK
-        || (rebaseMergeCommits && submitType == SubmitType.REBASE_ALWAYS)) {
+    if (submitType == SubmitType.CHERRY_PICK || submitType == SubmitType.REBASE_ALWAYS) {
       return;
     }
 

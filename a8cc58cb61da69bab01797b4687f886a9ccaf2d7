@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d50c1e1_c3403562",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2024-03-19T13:00:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "223fa629_d9df0f57",
+      "revId": "a8cc58cb61da69bab01797b4687f886a9ccaf2d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "81011f4f_ea989b07",
@@ -31,6 +49,30 @@
       "writtenOn": "2024-03-19T12:43:03Z",
       "side": 1,
       "message": "I\u0027m not clear whether `false value` is an incorrect one, or the `false` literal. Could you please clarify this comment?\n\nIf you meant `false` as a literal - what happens for fields with `default \u003d true`?",
+      "range": {
+        "startLine": 431,
+        "startChar": 13,
+        "endLine": 431,
+        "endChar": 35
+      },
+      "revId": "a8cc58cb61da69bab01797b4687f886a9ccaf2d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cda70909_56c4c461",
+        "filename": "java/com/google/gerrit/server/config/ConfigUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2024-03-19T13:00:41Z",
+      "side": 1,
+      "message": "Done\nComment is added.",
+      "parentUuid": "81011f4f_ea989b07",
       "range": {
         "startLine": 431,
         "startChar": 13,

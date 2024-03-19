@@ -14,6 +14,8 @@
 
 package com.google.gerrit.extensions.api.changes;
 
+import java.util.Objects;
+
 /** Information about a patch to apply. */
 public class ApplyPatchInput {
   /**
@@ -22,4 +24,18 @@ public class ApplyPatchInput {
    * <p>Must be compatible with `git diff` output. For example, Gerrit API `Get Patch` output.
    */
   public String patch;
+
+  @Override
+  public boolean equals(Object o) {
+    if (o instanceof ApplyPatchInput) {
+      ApplyPatchInput k = (ApplyPatchInput) o;
+      return patch.equals(k.patch);
+    }
+    return false;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(patch);
+  }
 }

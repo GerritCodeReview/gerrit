@@ -39,6 +39,30 @@
       },
       "revId": "bb0c7ca4b20a8b7da2c062b31bda8408a54a314f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77a4378e_1642db25",
+        "filename": "java/com/google/gerrit/index/query/PaginatingSource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-03-19T15:29:53Z",
+      "side": 1,
+      "message": "Also, I think that checking for skipped results explicitly will make it easier to read, please see the comment on change 344695 [1]:\n\n[1]: https://gerrit-review.googlesource.com/c/gerrit/+/344695/comment/4c60c5ff_b7d9b316/",
+      "parentUuid": "b6e4f340_e268962e",
+      "range": {
+        "startLine": 136,
+        "startChar": 0,
+        "endLine": 138,
+        "endChar": 3
+      },
+      "revId": "bb0c7ca4b20a8b7da2c062b31bda8408a54a314f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

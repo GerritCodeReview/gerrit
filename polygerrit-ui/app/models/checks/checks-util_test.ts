@@ -93,6 +93,29 @@ suite('checks-util tests', () => {
     assert.equal(rectified?.fix_id, PROVIDED_FIX_ID);
   });
 
+  test('rectifyFix changes description when description is empty', () => {
+    const rectified = rectifyFix(
+      {
+        replacements: [
+          {
+            path: 'test-path',
+            range: {
+              start_line: 1,
+              end_line: 1,
+              start_character: 0,
+              end_character: 1,
+            } as CommentRange,
+            replacement: 'test-replacement-string',
+          },
+        ],
+        description: '',
+      },
+      'test-check-name'
+    );
+    assert.isDefined(rectified);
+    assert.equal(rectified?.description, 'Fix provided by test-check-name');
+  });
+
   test('sortAttemptChoices', () => {
     const unsorted: (AttemptChoice | undefined)[] = [
       3,

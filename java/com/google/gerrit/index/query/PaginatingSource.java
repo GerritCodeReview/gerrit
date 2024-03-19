@@ -102,8 +102,13 @@ public class PaginatingSource<T> implements DataSource<T> {
             } else {
               @SuppressWarnings("unchecked")
               Paginated<T> p = (Paginated<T>) source;
-              while (skipped && r.size() < p.getOptions().limit() + start) {
+              int pageSize = p.getOptions().pageSize();
+              int resultSize = pageResultSize;
+              while (skipped
+                  && hasMoreChanges(resultSize, pageSize)
+                  && r.size() < p.getOptions().limit() + start) {
                 skipped = false;
+                resultSize = 0;
                 ResultSet<T> next = p.restart(pageResultSize);
 
                 for (T data : buffer(next)) {
@@ -112,6 +117,7 @@ public class PaginatingSource<T> implements DataSource<T> {
                   } else {
                     skipped = true;
                   }
+                  resultSize++;
                   pageResultSize++;
                 }
               }
@@ -125,6 +131,10 @@ public class PaginatingSource<T> implements DataSource<T> {
           }
           return ImmutableList.copyOf(r);
         });
+  }
+
+  private boolean hasMoreChanges(int resultsWanted, int resultsFetched) {
+    return resultsWanted == resultsFetched;
   }
 
   @Override

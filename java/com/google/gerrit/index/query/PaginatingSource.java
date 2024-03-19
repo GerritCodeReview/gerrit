@@ -55,12 +55,9 @@ public class PaginatingSource<T> implements DataSource<T> {
           List<T> r = new ArrayList<>();
           T last = null;
           int pageResultSize = 0;
-          boolean skipped = false;
           for (T data : buffer(resultSet)) {
             if (!isMatchable() || match(data)) {
               r.add(data);
-            } else {
-              skipped = true;
             }
             last = data;
             pageResultSize++;
@@ -69,16 +66,16 @@ public class PaginatingSource<T> implements DataSource<T> {
           if (last != null && source instanceof Paginated) {
             // Restart source and continue if we have not filled the
             // full limit the caller wants.
-            //
+            @SuppressWarnings("unchecked")
+            Paginated<T> p = (Paginated<T>) source;
+            QueryOptions opts = p.getOptions();
+            final int limit = opts.limit();
+
             // TODO: this fix is only for the stable branches and the real refactoring would be to
             // restore the logic
             // for the filtering in AndSource (L58 - 64) as per
             // https://gerrit-review.googlesource.com/c/gerrit/+/345634/9
             if (!indexConfig.paginationType().equals(PaginationType.NONE)) {
-              @SuppressWarnings("unchecked")
-              Paginated<T> p = (Paginated<T>) source;
-              QueryOptions opts = p.getOptions();
-              final int limit = opts.limit();
               int pageSize = opts.pageSize();
               int pageSizeMultiplier = opts.pageSizeMultiplier();
               Object searchAfter = resultSet.searchAfter();
@@ -100,20 +97,16 @@ public class PaginatingSource<T> implements DataSource<T> {
                 searchAfter = next.searchAfter();
               }
             } else {
-              @SuppressWarnings("unchecked")
-              Paginated<T> p = (Paginated<T>) source;
-              while (skipped && r.size() < p.getOptions().limit() + start) {
-                skipped = false;
-                ResultSet<T> next = p.restart(pageResultSize);
-
+              int nextStart = pageResultSize;
+              while (pageResultSize == limit && r.size() < limit) {
+                ResultSet<T> next = p.restart(nextStart);
                 for (T data : buffer(next)) {
                   if (match(data)) {
                     r.add(data);
-                  } else {
-                    skipped = true;
                   }
                   pageResultSize++;
                 }
+                nextStart += pageResultSize;
               }
             }
           }

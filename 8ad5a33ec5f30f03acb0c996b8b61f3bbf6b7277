@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9912533f_9e5b2a78",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-19T23:22:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "942a4aa8_6ad1226d",
+      "range": {
+        "startLine": 9,
+        "startChar": 57,
+        "endLine": 9,
+        "endChar": 62
+      },
+      "revId": "8ad5a33ec5f30f03acb0c996b8b61f3bbf6b7277",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7d1c8995_80a94821",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-03-19T11:19:39Z",
       "side": 1,
       "message": "nit: should we say `ones` here? `getfailedRefs()` could potentially return more than one ref.",
+      "range": {
+        "startLine": 14,
+        "startChar": 27,
+        "endLine": 14,
+        "endChar": 30
+      },
+      "revId": "8ad5a33ec5f30f03acb0c996b8b61f3bbf6b7277",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2213f9b_73e179e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-19T23:22:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d1c8995_80a94821",
       "range": {
         "startLine": 14,
         "startChar": 27,

@@ -20,6 +20,7 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import com.google.gerrit.acceptance.LightweightPluginDaemonTest;
 import com.google.gerrit.acceptance.TestPlugin;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
+import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.extensions.events.AccountActivationListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -49,16 +50,17 @@ public class AccountListenersIT extends LightweightPluginDaemonTest {
     @Override
     protected void configure() {
       DynamicSet.bind(binder(), AccountActivationValidationListener.class).to(Validator.class);
+      bind(AccountListenersITValidator.class).to(Validator.class);
       DynamicSet.bind(binder(), AccountActivationListener.class).to(Listener.class);
     }
   }
 
-  Validator validator;
+  AccountListenersITValidator validator;
   Listener listener;
 
   @Before
   public void setUp() {
-    validator = plugin.getSysInjector().getInstance(Validator.class);
+    validator = plugin.getSysInjector().getInstance(AccountListenersITValidator.class);
 
     listener = plugin.getSysInjector().getInstance(Listener.class);
   }
@@ -128,8 +130,21 @@ public class AccountListenersIT extends LightweightPluginDaemonTest {
     listener.assertNoMoreEvents();
   }
 
+  @UsedAt(UsedAt.Project.GOOGLE)
+  protected interface AccountListenersITValidator extends AccountActivationValidationListener {
+    void failActivationValidations();
+
+    void failDeactivationValidations();
+
+    void assertNoMoreEvents();
+
+    void assertActivationValidation(int id);
+
+    void assertDeactivationValidation(int id);
+  }
+
   @Singleton
-  public static class Validator implements AccountActivationValidationListener {
+  public static final class Validator implements AccountListenersITValidator {
     private Integer lastIdActivationValidation;
     private Integer lastIdDeactivationValidation;
     private boolean failActivationValidations;
@@ -153,25 +168,30 @@ public class AccountListenersIT extends LightweightPluginDaemonTest {
       }
     }
 
+    @Override
     public void failActivationValidations() {
       failActivationValidations = true;
     }
 
+    @Override
     public void failDeactivationValidations() {
       failDeactivationValidations = true;
     }
 
-    private void assertNoMoreEvents() {
+    @Override
+    public void assertNoMoreEvents() {
       assertThat(lastIdActivationValidation).isNull();
       assertThat(lastIdDeactivationValidation).isNull();
     }
 
-    private void assertActivationValidation(int id) {
+    @Override
+    public void assertActivationValidation(int id) {
       assertThat(lastIdActivationValidation).isEqualTo(id);
       lastIdActivationValidation = null;
     }
 
-    private void assertDeactivationValidation(int id) {
+    @Override
+    public void assertDeactivationValidation(int id) {
       assertThat(lastIdDeactivationValidation).isEqualTo(id);
       lastIdDeactivationValidation = null;
     }

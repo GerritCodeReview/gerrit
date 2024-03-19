@@ -52,7 +52,6 @@ public class ListExperimentsIT extends AbstractDaemonTest {
                 .GERRIT_BACKEND_FEATURE_ALWAYS_REJECT_IMPLICIT_MERGES_ON_MERGE,
             ExperimentFeaturesConstants.GERRIT_BACKEND_FEATURE_ATTACH_NONCE_TO_DOCUMENTATION,
             ExperimentFeaturesConstants.GERRIT_BACKEND_FEATURE_CHECK_IMPLICIT_MERGES_ON_MERGE,
-            ExperimentFeaturesConstants.REBASE_MERGE_COMMITS,
             ExperimentFeaturesConstants.GERRIT_BACKEND_FEATURE_REJECT_IMPLICIT_MERGES_ON_MERGE)
         .inOrder();
 
@@ -88,7 +87,6 @@ public class ListExperimentsIT extends AbstractDaemonTest {
                         .GERRIT_BACKEND_FEATURE_ATTACH_NONCE_TO_DOCUMENTATION)
                 .enabled)
         .isFalse();
-    assertThat(experiments.get(ExperimentFeaturesConstants.REBASE_MERGE_COMMITS).enabled).isFalse();
   }
 
   @Test

@@ -18,11 +18,9 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
-import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.testing.ConfigSuite;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -78,9 +76,6 @@ public class ImplicitMergeOnSubmitByCherryPickOrRebaseAlwaysIT extends AbstractI
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      value = ExperimentFeaturesConstants.REBASE_MERGE_COMMITS)
   public void doesntAddContentFromParentForImplicitMergeChange() throws Exception {
     gApi.changes().id(implicitMergeChangeId).current().submit();
 

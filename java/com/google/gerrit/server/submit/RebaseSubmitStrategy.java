@@ -15,12 +15,9 @@
 package com.google.gerrit.server.submit;
 
 import static com.google.common.base.Preconditions.checkState;
-import static com.google.common.collect.ImmutableList.toImmutableList;
-import static com.google.gerrit.server.experiments.ExperimentFeaturesConstants.REBASE_MERGE_COMMITS;
 import static com.google.gerrit.server.submit.CommitMergeStatus.EMPTY_COMMIT;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.PatchSet;
@@ -43,13 +40,10 @@ import com.google.gerrit.server.update.RepoContext;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
-import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 
 /** This strategy covers RebaseAlways and RebaseIfNecessary ones. */
 public class RebaseSubmitStrategy extends SubmitStrategy {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
   private final boolean rebaseAlways;
 
   RebaseSubmitStrategy(SubmitStrategy.Arguments args, boolean rebaseAlways) {
@@ -59,53 +53,11 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
 
   @Override
   public ImmutableList<SubmitStrategyOp> buildOps(Collection<CodeReviewCommit> toMerge) {
-    boolean rebaseMergeCommits =
-        args.experimentFeatures.isFeatureEnabled(REBASE_MERGE_COMMITS, args.destBranch.project());
-    logger.atFine().log("rebaseMergeCommits=%s", rebaseMergeCommits);
-
     List<CodeReviewCommit> sorted;
     try {
-      sorted =
-          rebaseMergeCommits ? args.rebaseSorterNew.sort(toMerge) : args.rebaseSorter.sort(toMerge);
+      sorted = args.rebaseSorter.sort(toMerge);
     } catch (IOException | StorageException e) {
       throw new StorageException("Commit sorting failed", e);
-    }
-
-    if (!rebaseMergeCommits) {
-      // We cannot rebase merge commits. This is why we integrate merge changes into the target
-      // branch the same way as if MERGE_IF_NECESSARY was the submit strategy. This means if needed
-      // we create a merge commit that integrates the merge change into the target branch.
-      // If we integrate a change series that consists out of a normal change and a merge change,
-      // where the merge change depends on the normal change, we must skip rebasing the normal
-      // change, because it already gets integrated by merging the merge change. If the rebasing of
-      // the  normal change is not skipped, it would appear twice in the history after the submit is
-      // done (once through its rebased commit, and once through its original commit which is a
-      // parent of the merge change that was merged into the target branch. To skip the rebasing of
-      // the normal change, we call MergeUtil#reduceToMinimalMerge, as it excludes commits which
-      // will be implicitly integrated by merging the series. Then we use the MergeIfNecessaryOp to
-      // integrate the whole series.
-      // If on the other hand, we integrate a change series that consists out of a merge change and
-      // a normal change, where the normal change depends on the merge change, we can first
-      // integrate the merge change by a merge and then integrate the normal change by a rebase. In
-      // this case we do not want to call MergeUtil#reduceToMinimalMerge as we are not intending to
-      // integrate the whole series by a merge, but rather do the integration of the commits one by
-      // one.
-      boolean foundNonMerge = false;
-      for (CodeReviewCommit c : sorted) {
-        if (c.getParentCount() > 1) {
-          if (!foundNonMerge) {
-            // found a merge change, but it doesn't depend on a normal change, this means we are not
-            // required to merge the whole series at once
-            continue;
-          }
-          // found a merge commit that depends on a normal change, this means we are required to
-          // merge
-          // the whole series at once
-          sorted = args.mergeUtil.reduceToMinimalMerge(args.mergeSorter, sorted);
-          return sorted.stream().map(n -> new MergeIfNecessaryOp(n)).collect(toImmutableList());
-        }
-        foundNonMerge = true;
-      }
     }
 
     ImmutableList.Builder<SubmitStrategyOp> ops =
@@ -119,12 +71,8 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
         ops.add(new FastForwardOp(args, n));
       } else if (n.getParentCount() == 0) {
         ops.add(new RebaseRootOp(n));
-      } else if (rebaseMergeCommits) {
-        ops.add(new RebaseOneOp(n));
-      } else if (n.getParentCount() == 1) {
-        ops.add(new RebaseOneOp(n));
       } else {
-        ops.add(new MergeIfNecessaryOp(n));
+        ops.add(new RebaseOneOp(n));
       }
       first = false;
     }
@@ -267,49 +215,6 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
       if (rebaseOp != null) {
         rebaseOp.postUpdate(ctx);
       }
-    }
-  }
-
-  private class MergeIfNecessaryOp extends SubmitStrategyOp {
-    private MergeIfNecessaryOp(CodeReviewCommit toMerge) {
-      super(RebaseSubmitStrategy.this.args, toMerge);
-    }
-
-    @Override
-    public void updateRepoImpl(RepoContext ctx) throws IntegrationConflictException, IOException {
-      // There are multiple parents, so this is a merge commit. We don't want
-      // to rebase the merge as clients can't easily rebase their history with
-      // that merge present and replaced by an equivalent merge with a different
-      // first parent. So instead behave as though MERGE_IF_NECESSARY was
-      // configured.
-      // TODO(tandrii): this is not in spirit of RebaseAlways strategy because
-      // the commit messages can not be modified in the process. It's also
-      // possible to implement rebasing of merge commits. E.g., the Cherry Pick
-      // REST endpoint already supports cherry-picking of merge commits.
-      // For now, users of RebaseAlways strategy for whom changed commit footers
-      // are important would be well advised to prohibit uploading patches with
-      // merge commits.
-      MergeTip mergeTip = args.mergeTip;
-      if (args.rw.isMergedInto(mergeTip.getCurrentTip(), toMerge)
-          && !args.subscriptionGraph.hasSubscription(args.destBranch)) {
-        mergeTip.moveTipTo(toMerge, toMerge);
-      } else {
-        PersonIdent caller = ctx.newCommitterIdent();
-        CodeReviewCommit newTip =
-            args.mergeUtil.mergeOneCommit(
-                caller,
-                caller,
-                args.rw,
-                ctx.getInserter(),
-                ctx.getRepoView().getConfig(),
-                args.destBranch,
-                mergeTip.getCurrentTip(),
-                toMerge);
-        mergeTip.moveTipTo(amendGitlink(newTip), toMerge);
-      }
-      args.mergeUtil.markCleanMerges(
-          args.rw, args.canMergeFlag, mergeTip.getCurrentTip(), args.alreadyAccepted);
-      acceptMergeTip(mergeTip);
     }
   }
 

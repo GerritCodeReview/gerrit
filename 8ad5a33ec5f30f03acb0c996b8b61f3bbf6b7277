@@ -142,6 +142,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1678cdd2_3458ea1a",
+        "filename": "java/com/google/gerrit/server/notedb/rebuild/NoteDbMigrator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1199,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-19T23:31:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f86ebdce_5f056c3a",
+      "range": {
+        "startLine": 1199,
+        "startChar": 33,
+        "endLine": 1199,
+        "endChar": 44
+      },
+      "revId": "8ad5a33ec5f30f03acb0c996b8b61f3bbf6b7277",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9040953c_004a818d",
@@ -165,6 +189,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3c5a452_8033e7f2",
+        "filename": "java/com/google/gerrit/server/notedb/rebuild/NoteDbMigrator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1217,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-19T23:31:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9040953c_004a818d",
+      "range": {
+        "startLine": 1217,
+        "startChar": 2,
+        "endLine": 1217,
+        "endChar": 27
+      },
+      "revId": "8ad5a33ec5f30f03acb0c996b8b61f3bbf6b7277",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7aaf7eb3_3212929e",
@@ -178,6 +226,30 @@
       "writtenOn": "2024-03-19T11:19:39Z",
       "side": 1,
       "message": "why `distinct`? the input of this method is either `keySet` or `failedRefs`, which contain already a unique set of refs.",
+      "range": {
+        "startLine": 1218,
+        "startChar": 25,
+        "endLine": 1218,
+        "endChar": 35
+      },
+      "revId": "8ad5a33ec5f30f03acb0c996b8b61f3bbf6b7277",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77cd029e_ebccd541",
+        "filename": "java/com/google/gerrit/server/notedb/rebuild/NoteDbMigrator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1218,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-19T23:31:24Z",
+      "side": 1,
+      "message": "The `distinct()` is existing code at L1197",
+      "parentUuid": "7aaf7eb3_3212929e",
       "range": {
         "startLine": 1218,
         "startChar": 25,

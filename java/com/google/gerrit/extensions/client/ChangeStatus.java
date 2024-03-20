@@ -31,7 +31,7 @@ public enum ChangeStatus {
    *   <li>{@link #ABANDONED} - when the Abandon action is used.
    * </ul>
    */
-  NEW,
+  NEW(0),
 
   /**
    * Change is closed, and submitted to its destination branch.
@@ -39,7 +39,7 @@ public enum ChangeStatus {
    * <p>Once a change has been merged, it cannot be further modified by adding a replacement patch
    * set. Draft comments however may be published, supporting a post-submit review.
    */
-  MERGED,
+  MERGED(1),
 
   /**
    * Change is closed, but was not submitted to its destination branch.
@@ -54,5 +54,15 @@ public enum ChangeStatus {
    *   <li>{@link #NEW} - when the Restore action is used.
    * </ul>
    */
-  ABANDONED
+  ABANDONED(2);
+
+  private final int value;
+
+  ChangeStatus(int v) {
+    this.value = v;
+  }
+
+  public int getValue() {
+    return value;
+  }
 }

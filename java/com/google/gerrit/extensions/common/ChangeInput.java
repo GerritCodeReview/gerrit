@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class ChangeInput {
   public String project;
@@ -66,4 +67,58 @@ public class ChangeInput {
   public NotifyHandling notify = NotifyHandling.ALL;
 
   public Map<RecipientType, NotifyInfo> notifyDetails;
+
+  @Override
+  public boolean equals(Object o) {
+    if (o instanceof ChangeInput) {
+      ChangeInput k = (ChangeInput) o;
+      return project.equals(k.project)
+          && branch.equals(k.branch)
+          && subject.equals(k.subject)
+          && ((topic == null && k.topic == null) || topic.equals(k.topic))
+          && ((status == null && k.topic == null) || status.equals(k.status))
+          && ((isPrivate == null && k.isPrivate == null) || isPrivate.equals(k.isPrivate))
+          && ((workInProgress == null && k.workInProgress == null)
+              || workInProgress.equals(k.workInProgress))
+          && ((baseChange == null && k.baseChange == null) || baseChange.equals(k.baseChange))
+          && ((baseCommit == null && k.baseCommit == null) || baseCommit.equals(k.baseCommit))
+          && ((newBranch == null && k.newBranch == null) || newBranch.equals(k.newBranch))
+          && ((validationOptions == null && k.validationOptions == null)
+              || validationOptions.equals(k.validationOptions))
+          && ((customKeyedValues == null && k.customKeyedValues == null)
+              || customKeyedValues.equals(k.customKeyedValues))
+          && ((merge == null && k.merge == null) || merge.equals(k.merge))
+          && ((patch == null && k.patch == null) || patch.equals(k.patch))
+          && ((author == null && k.author == null) || author.equals(k.author))
+          && ((responseFormatOptions == null && k.responseFormatOptions == null)
+              || responseFormatOptions.equals(k.responseFormatOptions))
+          && notify.equals(k.notify)
+          && ((notifyDetails == null && k.notifyDetails == null)
+              || notifyDetails.equals(k.notifyDetails));
+    }
+    return false;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+        project,
+        branch,
+        subject,
+        topic,
+        status,
+        isPrivate,
+        workInProgress,
+        baseChange,
+        baseCommit,
+        newBranch,
+        validationOptions,
+        customKeyedValues,
+        merge,
+        patch,
+        author,
+        responseFormatOptions,
+        notify,
+        notifyDetails);
+  }
 }

@@ -16,6 +16,7 @@ package com.google.gerrit.extensions.api.accounts;
 
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import java.util.List;
+import java.util.Objects;
 
 public class AccountInput {
   @DefaultInput public String username;
@@ -25,4 +26,25 @@ public class AccountInput {
   public String sshKey;
   public String httpPassword;
   public List<String> groups;
+
+  @Override
+  public boolean equals(Object o) {
+    if (o instanceof AccountInput) {
+      AccountInput k = (AccountInput) o;
+      return ((username == null && k.username == null) || username.equals(k.username))
+          && ((name == null && k.name == null) || name.equals(k.name))
+          && ((displayName == null && k.displayName == null) || displayName.equals(k.displayName))
+          && ((email == null && k.email == null) || email.equals(k.email))
+          && ((sshKey == null && k.sshKey == null) || sshKey.equals(k.sshKey))
+          && ((httpPassword == null && k.httpPassword == null)
+              || httpPassword.equals(k.httpPassword))
+          && ((groups == null && k.groups == null) || groups.equals(k.groups));
+    }
+    return false;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(username, name, displayName, email, sshKey, httpPassword, groups);
+  }
 }

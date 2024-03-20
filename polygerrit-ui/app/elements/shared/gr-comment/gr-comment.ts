@@ -1010,7 +1010,12 @@ export class GrComment extends LitElement {
   }
 
   private renderFixSuggestionPreview() {
-    if (!this.comment?.fix_suggestions || this.editing || isRobot(this.comment))
+    if (
+      !this.comment?.fix_suggestions ||
+      this.editing ||
+      isRobot(this.comment) ||
+      this.collapsed
+    )
       return nothing;
     return html`<gr-fix-suggestions
       .comment=${this.comment}
@@ -1104,7 +1109,9 @@ export class GrComment extends LitElement {
               );
             }}
           />
-          Generate Suggestion
+          ${this.flagsService.isEnabled(KnownExperimentId.ML_SUGGESTED_EDIT_V2)
+            ? 'Attach ML-suggested edit'
+            : 'Generate Suggestion'}
           ${when(
             this.suggestionLoading,
             () => html`<span class="loadingSpin"></span>`,

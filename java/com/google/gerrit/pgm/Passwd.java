@@ -36,33 +36,40 @@ import org.kohsuke.args4j.Argument;
 
 public class Passwd extends SiteProgram {
   private String section;
+  private String subsection;
   private String key;
 
   @Argument(
-      metaVar = "SECTION.KEY",
+      metaVar = "SECTION.[SUBSECTION.]KEY",
       index = 0,
       required = true,
-      usage = "Section and key separated by a dot of the password to set")
-  private String sectionAndKey;
+      usage =
+          "Section, subsection and key separated by a dot of the password to set. Subsection is optional")
+  private String sectionSubsectionAndKey;
 
   @Argument(metaVar = "PASSWORD", index = 1, required = false, usage = "Password to set")
   private String password;
 
   private void init() {
-    List<String> varParts = Splitter.on('.').splitToList(sectionAndKey);
-    if (varParts.size() != 2) {
+    List<String> varParts = Splitter.on('.').splitToList(sectionSubsectionAndKey);
+    if (varParts.size() != 2 && varParts.size() != 3) {
       throw new IllegalArgumentException(
-          "Invalid name '" + sectionAndKey + "': expected section.key format");
+          "Invalid name '"
+              + sectionSubsectionAndKey
+              + "': expected section.[subsection.]key format");
     }
     section = varParts.get(0);
-    key = varParts.get(1);
+    if (varParts.size() == 3) {
+      subsection = varParts.get(1);
+    }
+    key = varParts.get(varParts.size() - 1);
   }
 
   @Override
   public int run() throws Exception {
     init();
     SetPasswd setPasswd = getSysInjector().getInstance(SetPasswd.class);
-    setPasswd.run(section, key, password);
+    setPasswd.run(section, subsection, key, password);
     return 0;
   }
 

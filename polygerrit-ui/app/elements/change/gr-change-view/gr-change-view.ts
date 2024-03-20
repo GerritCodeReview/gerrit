@@ -493,6 +493,7 @@ export class GrChangeView extends LitElement {
     // TODO: Do we still need docOnly bindings?
     this.shortcutsController.addAbstract(Shortcut.EMOJI_DROPDOWN, () => {}); // docOnly
     this.shortcutsController.addAbstract(Shortcut.MENTIONS_DROPDOWN, () => {}); // docOnly
+    this.shortcutsController.addAbstract(Shortcut.SAVE_COMMENT, () => {}); // docOnly
     this.shortcutsController.addAbstract(Shortcut.REFRESH_CHANGE, () =>
       this.getChangeModel().navigateToChangeResetReload()
     );

@@ -34,6 +34,41 @@
       ],
       "revId": "c5ad5340856a9fa3f1123cce03ae8114cdeea771",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "370d7221_f9ebdcc6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-fix-suggestions/gr-fix-suggestions.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2024-03-20T14:31:35Z",
+      "side": 1,
+      "message": "If the API returns an optional string, this could be simplified to",
+      "fixSuggestions": [
+        {
+          "fixId": "d02671fa_67de59f1",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-fix-suggestions/gr-fix-suggestions.ts",
+              "range": {
+                "startLine": 157,
+                "startChar": 0,
+                "endLine": 165,
+                "endChar": 0
+              },
+              "replacement": "    return this.suggestionsProvider?.getDocumentationLink?.(fix_suggestions) ??\n      getDocUrl(this.docsBaseUrl, \u0027user-suggest-edits.html\u0027);\n"
+            }
+          ]
+        }
+      ],
+      "revId": "c5ad5340856a9fa3f1123cce03ae8114cdeea771",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

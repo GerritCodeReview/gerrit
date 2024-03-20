@@ -102,6 +102,7 @@ public class SubmitRuleEvaluator {
             .addTarget(ChangeJson.class)
             .addTarget(ChangeData.class)
             .addTarget(SubmitRequirementsEvaluatorImpl.class)
+            .addTarget(SubmitRequirementsAdapter.class)
             .build();
   }
 

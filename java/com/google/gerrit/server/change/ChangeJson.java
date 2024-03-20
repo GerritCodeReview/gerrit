@@ -639,6 +639,7 @@ public class ChangeJson {
     Change in = cd.change();
     out.project = in.getProject().get();
     out.branch = in.getDest().shortName();
+    out.currentRevisionNumber = in.currentPatchSetId().get();
     out.topic = in.getTopic();
     if (!cd.attentionSet().isEmpty()) {
       out.removedFromAttentionSet =

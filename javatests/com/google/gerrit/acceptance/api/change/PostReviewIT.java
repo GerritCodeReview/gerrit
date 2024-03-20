@@ -65,6 +65,7 @@ import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.config.FactoryModule;
@@ -761,6 +762,26 @@ public class PostReviewIT extends AbstractDaemonTest {
       // Event not fired.
       assertThat(testListener.lastCommentAddedEvent).isNull();
     }
+  }
+
+  @Test
+  public void currentRevisionNumberIsSetOnReturnedChangeInfo() throws Exception {
+    PushOneCommit.Result r = createChange();
+    ChangeInfo changeInfo =
+        gApi.changes().id(r.getChangeId()).current().review(ReviewInput.dislike()).changeInfo;
+    assertThat(changeInfo.currentRevisionNumber).isEqualTo(1);
+    amendChange(r.getChangeId());
+    changeInfo =
+        gApi.changes().id(r.getChangeId()).current().review(ReviewInput.recommend()).changeInfo;
+    assertThat(changeInfo.currentRevisionNumber).isEqualTo(2);
+
+    // Check that the current revision number is also returned when list changes options are
+    // requested.
+    ReviewInput reviewInput = ReviewInput.approve();
+    reviewInput.responseFormatOptions =
+        ImmutableList.copyOf(EnumSet.allOf(ListChangesOption.class));
+    changeInfo = gApi.changes().id(r.getChangeId()).current().review(reviewInput).changeInfo;
+    assertThat(changeInfo.currentRevisionNumber).isEqualTo(2);
   }
 
   @Test

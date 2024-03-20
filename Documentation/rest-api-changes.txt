@@ -63,7 +63,8 @@ the resulting change.
     "_number": 4711,
     "owner": {
       "name": "John Doe"
-    }
+    },
+    "current_revision_number": 2
   }
 ----
 
@@ -126,6 +127,7 @@ Query for open changes of watched projects:
       "owner": {
         "name": "John Doe"
       },
+      "current_revision_number": 2
     },
     {
       "id": "demo~master~I09c8041b5867d5b33170316e2abc34b79bbb8501",
@@ -143,6 +145,7 @@ Query for open changes of watched projects:
       "owner": {
         "name": "John Doe"
       },
+      "current_revision_number": 2,
       "_more_changes": true
     }
   ]
@@ -214,7 +217,8 @@ Query that retrieves changes for a user's dashboard:
         "labels": {
           "Verified": {},
           "Code-Review": {}
-        }
+        },
+        "current_revision_number": 2
       }
     ],
     [],
@@ -437,6 +441,7 @@ link:#approval-info[ApprovalInfo] of the `all` attribute.
       "owner": {
         "name": "Shawn Pearce"
       },
+      "current_revision_number": 1,
       "current_revision": "184ebe53805e102605d11f6b143486d15c23a09c",
       "revisions": {
         "184ebe53805e102605d11f6b143486d15c23a09c": {
@@ -598,7 +603,8 @@ describes the change.
     "_number": 3965,
     "owner": {
       "name": "John Doe"
-    }
+    },
+    "current_revision_number": 2
   }
 ----
 
@@ -680,7 +686,8 @@ returned. Only fields that differ between the change's two states are returned.
       "_number": 3965,
       "owner": {
         "name": "John Doe"
-      }
+      },
+      "current_revision_number": 2
     },
     "new_change_info": {
       "id": "myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940",
@@ -709,7 +716,8 @@ returned. Only fields that differ between the change's two states are returned.
       "_number": 3965,
       "owner": {
         "name": "John Doe"
-      }
+      },
+      "current_revision_number": 2
     },
   }
 ----
@@ -978,7 +986,8 @@ REJECTED > APPROVED > DISLIKED > RECOMMENDED.
         "message": "Patch Set 1:\n\nThis is the second message.\n\nWith a line break.",
         "_revision_number": 1
       }
-    ]
+    ],
+    "current_revision_number": 2
   }
 ----
 
@@ -1040,6 +1049,7 @@ returned that describes the resulting change.
     "owner": {
       "_account_id": 1000000
     },
+    "current_revision_number": 1,
     "current_revision": "27cc4558b5a3d3387dd11ee2df7a117e7e581822"
   }
 ----
@@ -1268,7 +1278,8 @@ describes the abandoned change.
     "_number": 3965,
     "owner": {
       "name": "John Doe"
-    }
+    },
+    "current_revision_number": 2
   }
 ----
 
@@ -1339,7 +1350,8 @@ describes the restored change.
     "_number": 3965,
     "owner": {
       "name": "John Doe"
-    }
+    },
+    "current_revision_number": 2
   }
 ----
 
@@ -1411,6 +1423,7 @@ is included.
     "owner": {
       "name": "John Doe"
     },
+    "current_revision_number": 2,
     "current_revision": "27cc4558b5a3d3387dd11ee2df7a117e7e581822",
     "revisions": {
       "27cc4558b5a3d3387dd11ee2df7a117e7e581822": {
@@ -1561,6 +1574,7 @@ are included.
         "owner": {
           "_account_id": 1000000
         },
+        "current_revision_number": 2,
         "current_revision": "c3b2ba222d42a56e05c90f88d4509a124620517d",
         "revisions": {
           "c3b2ba222d42a56e05c90f88d4509a124620517d": {
@@ -1638,6 +1652,7 @@ are included.
         "owner": {
           "_account_id": 1000000
         },
+        "current_revision_number": 2,
         "current_revision": "77eb17a9501a5c21963bc6af56085e60f281acbb",
         "revisions": {
           "77eb17a9501a5c21963bc6af56085e60f281acbb": {
@@ -1762,7 +1777,8 @@ describes the moved change.
     "_number": 3965,
     "owner": {
       "name": "John Doe"
-    }
+    },
+    "current_revision_number": 2
   }
 ----
 
@@ -1841,7 +1857,8 @@ describes the reverting change.
     "_number": 3965,
     "owner": {
       "name": "John Doe"
-    }
+    },
+    "current_revision_number": 2
   }
 ----
 
@@ -1935,7 +1952,8 @@ is returned. That entity describes the revert changes.
         "_number": 3965,
         "owner": {
           "name": "John Doe"
-        }
+        },
+        "current_revision_number": 2
       },
       {
         "id": "anyProject~master~1eee2c9d8f352483781e772f35dc586a69ff5646",
@@ -1953,7 +1971,8 @@ is returned. That entity describes the revert changes.
         "_number": 3966,
         "owner": {
           "name": "Jane Doe"
-        }
+        },
+        "current_revision_number": 2
       }
     ]
 ----
@@ -2038,7 +2057,8 @@ of *that* topic will also be submitted).
     "_number": 3965,
     "owner": {
       "name": "John Doe"
-    }
+    },
+    "current_revision_number": 2
   }
 ----
 
@@ -2191,6 +2211,7 @@ options `NON_VISIBLE_CHANGES` and `TOPIC_CLOSURE`.
           }
         ]
       },
+      "current_revision_number": 1,
       "current_revision": "9adb9f4c7b40eeee0646e235de818d09164d7379",
       "revisions": {
         "9adb9f4c7b40eeee0646e235de818d09164d7379": {
@@ -2288,6 +2309,7 @@ options `NON_VISIBLE_CHANGES` and `TOPIC_CLOSURE`.
           }
         ]
       },
+      "current_revision_number": 1,
       "current_revision": "1bd7c12a38854a2c6de426feec28800623f492c4",
       "revisions": {
         "1bd7c12a38854a2c6de426feec28800623f492c4": {
@@ -2397,6 +2419,7 @@ describes the destination change after applying the patch.
     "owner": {
       "name": "John Doe"
     },
+    "current_revision_number": 1,
     "current_revision": "184ebe53805e102605d11f6b143486d15c23a09c"
   }
 ----
@@ -2661,6 +2684,7 @@ missing from the result. At least `id`, `project`, `branch`, and
     "owner": {
       "name": "John Doe"
     },
+    "current_revision_number": 2,
     "problems": [
       {
         "message": "Current patch set 1 not found"
@@ -2713,6 +2737,7 @@ Only the change owner, a project owner, or an administrator may fix changes.
     "owner": {
       "name": "John Doe"
     },
+    "current_revision_number": 2,
     "problems": [
       {
         "message": "Current patch set 2 not found"
@@ -4427,6 +4452,7 @@ for the current patch set.
         }
       ]
     },
+    "current_revision_number": 2,
     "current_revision": "674ac754f91e64a0efb8087e59a176484bd534d1",
     "revisions": {
       "674ac754f91e64a0efb8087e59a176484bd534d1": {
@@ -4818,6 +4844,7 @@ is included.
     "owner": {
       "name": "John Doe"
     },
+    "current_revision_number": 2,
     "current_revision": "27cc4558b5a3d3387dd11ee2df7a117e7e581822",
     "revisions": {
       "27cc4558b5a3d3387dd11ee2df7a117e7e581822": {
@@ -4918,7 +4945,8 @@ of *that* topic will also be submitted).
     "_number": 3965,
     "owner": {
       "name": "John Doe"
-    }
+    },
+    "current_revision_number": 2
   }
 ----
 
@@ -6491,7 +6519,8 @@ describes the resulting cherry-pick change.
     "_number": 3965,
     "owner": {
       "name": "John Doe"
-    }
+    },
+    "current_revision_number": 2
   }
 ----
 
@@ -7260,6 +7289,8 @@ Only set if link:#reviewer-updates[reviewer updates] are requested.
 Messages associated with the change as a list of
 link:#change-message-info[ChangeMessageInfo] entities. +
 Only set if link:#messages[messages] are requested.
+|`current_revision_number`||The number of the current patch set of this
+change. +
 |`current_revision`   |optional|
 The commit ID of the current patch set of this change. +
 Only set if link:#current-revision[the current revision] is requested
@@ -8747,9 +8778,8 @@ If true, the change was moved from WIP to ready for review as a result of this
 action. Not set if false.
 |`error`                  |optional|
 Error message for non-200 responses.
-|`change_info`            |optional|
-Post-update change information. Only set if `response_format_options` were
-set.
+|`change_info`            ||
+Post-update change information.
 |============================
 
 [[reviewer-info]]

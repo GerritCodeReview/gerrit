@@ -34,6 +34,8 @@ export declare interface SuggestionsProvider {
    */
   suggestCode?(commentData: SuggestCodeRequest): Promise<SuggestCodeResponse>;
   suggestFix?(commentData: SuggestCodeRequest): Promise<SuggestedFixResponse>;
+  isFixSuggestionFromML?(fix_suggestions?: FixSuggestionInfo[]): boolean;
+  getDocumentationLink?(fix_suggestions?: FixSuggestionInfo[]): string;
   /**
    * List of supported file extensions. If undefined, all file extensions supported.
    */

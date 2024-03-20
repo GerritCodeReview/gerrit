@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "de484749_9732819b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 36
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1152600
+      },
+      "writtenOn": "2024-03-20T05:20:50Z",
+      "side": 1,
+      "message": "If I understand your question. The call check if the group is  mentioned in any reference including being owner of projects:\n```\ncurl -X DELETE -u admin:secret http://localhost:8080/a/groups/test\nCannot delete group that is referenced in access permissions for project: \n[testProject]\n```\n Also it checked if it is mentioned in global capabilities\n ```\n curl -X DELETE -u admin:secret http://localhost:8080/a/groups/test\nCannot delete group that is referenced in access permissions for project: \n[All-Projects]\n```",
+      "parentUuid": "74f3d6bc_f2ec8dea",
+      "range": {
+        "startLine": 18,
+        "startChar": 38,
+        "endLine": 18,
+        "endChar": 53
+      },
+      "revId": "dcbf4e9d6ca48865540c36d801ba5e52cfddaf34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "dd59373b_191486e2",

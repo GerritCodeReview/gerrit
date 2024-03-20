@@ -421,6 +421,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c7ab3dd5_40d7f36c",
+        "filename": "Documentation/rest-api-groups.txt",
+        "patchSetId": 32
+      },
+      "lineNbr": 1522,
+      "author": {
+        "id": 1152600
+      },
+      "writtenOn": "2024-03-20T05:20:50Z",
+      "side": 1,
+      "message": "By implanting delete endpoint the post also automatically implement",
+      "parentUuid": "279eae1c_647e3503",
+      "range": {
+        "startLine": 1505,
+        "startChar": 0,
+        "endLine": 1522,
+        "endChar": 0
+      },
+      "revId": "a0ff62198e992b5b124c4c9b092706b9f1c533cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d41134c7_3cce35c3",
         "filename": "java/com/google/gerrit/extensions/api/groups/GroupApi.java",
         "patchSetId": 32

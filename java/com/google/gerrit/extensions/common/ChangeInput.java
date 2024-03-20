@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class ChangeInput {
   public String project;
@@ -66,4 +67,53 @@ public class ChangeInput {
   public NotifyHandling notify = NotifyHandling.ALL;
 
   public Map<RecipientType, NotifyInfo> notifyDetails;
+
+  @Override
+  public boolean equals(Object o) {
+    if (o instanceof ChangeInput) {
+      ChangeInput k = (ChangeInput) o;
+      return Objects.equals(project, k.project)
+          && Objects.equals(branch, k.branch)
+          && Objects.equals(subject, k.subject)
+          && Objects.equals(topic, k.topic)
+          && Objects.equals(status, k.status)
+          && Objects.equals(isPrivate, k.isPrivate)
+          && Objects.equals(workInProgress, k.workInProgress)
+          && Objects.equals(baseChange, k.baseChange)
+          && Objects.equals(baseCommit, k.baseCommit)
+          && Objects.equals(newBranch, k.newBranch)
+          && Objects.equals(validationOptions, k.validationOptions)
+          && Objects.equals(customKeyedValues, k.customKeyedValues)
+          && Objects.equals(merge, k.merge)
+          && Objects.equals(patch, k.patch)
+          && Objects.equals(author, k.author)
+          && Objects.equals(responseFormatOptions, k.responseFormatOptions)
+          && Objects.equals(notify, k.notify)
+          && Objects.equals(notifyDetails, k.notifyDetails);
+    }
+    return false;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+        project,
+        branch,
+        subject,
+        topic,
+        status,
+        isPrivate,
+        workInProgress,
+        baseChange,
+        baseCommit,
+        newBranch,
+        validationOptions,
+        customKeyedValues,
+        merge,
+        patch,
+        author,
+        responseFormatOptions,
+        notify,
+        notifyDetails);
+  }
 }

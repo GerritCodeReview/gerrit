@@ -12,17 +12,54 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.extensions.api.accounts;
+package com.google.gerrit.extensions.common;
 
-import com.google.gerrit.extensions.restapi.DefaultInput;
-import java.util.List;
+import java.util.Objects;
 
-public class AccountInput {
-  @DefaultInput public String username;
-  public String name;
-  public String displayName;
-  public String email;
-  public String sshKey;
-  public String httpPassword;
-  public List<String> groups;
+public class MergeInput {
+  /**
+   * {@code source} can be any Git object reference expression.
+   *
+   * @see <a
+   *     href="https://www.kernel.org/pub/software/scm/git/docs/gitrevisions.html">gitrevisions(7)</a>
+   */
+  public String source;
+
+  /**
+   * If specified, visibility of the {@code source} commit will only be checked against {@code
+   * source_branch}, rather than all visible branches.
+   */
+  public String sourceBranch;
+
+  /**
+   * {@code strategy} name of the merge strategy.
+   *
+   * @see org.eclipse.jgit.merge.MergeStrategy
+   */
+  public String strategy;
+
+  /**
+   * Whether the creation of the merge should succeed if there are conflicts.
+   *
+   * <p>If there are conflicts the file contents of the created change contain git conflict markers
+   * to indicate the conflicts.
+   */
+  public boolean allowConflicts;
+
+  @Override
+  public boolean equals(Object o) {
+    if (o instanceof MergeInput) {
+      MergeInput k = (MergeInput) o;
+      return Objects.equals(source, k.source)
+          && Objects.equals(sourceBranch, k.sourceBranch)
+          && Objects.equals(strategy, k.strategy)
+          && allowConflicts == k.allowConflicts;
+    }
+    return false;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(source, sourceBranch, strategy, allowConflicts);
+  }
 }

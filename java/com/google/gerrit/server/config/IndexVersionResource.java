@@ -1,4 +1,4 @@
-// Copyright (C) 2023 The Android Open Source Project
+// Copyright (C) 2024 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,21 +14,29 @@
 
 package com.google.gerrit.server.config;
 
+import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.index.IndexDefinition;
 import com.google.inject.TypeLiteral;
 
-public class IndexResource extends ConfigResource {
-  public static final TypeLiteral<RestView<IndexResource>> INDEX_KIND = new TypeLiteral<>() {};
+public class IndexVersionResource implements RestResource {
+  public static final TypeLiteral<RestView<IndexVersionResource>> INDEX_VERSION_KIND =
+      new TypeLiteral<>() {};
 
-  private IndexDefinition<?, ?, ?> def;
+  private final IndexDefinition<?, ?, ?> def;
+  private final Index<?, ?> index;
 
-  public IndexResource(IndexDefinition<?, ?, ?> def) {
+  public IndexVersionResource(IndexDefinition<?, ?, ?> def, Index<?, ?> index) {
     this.def = def;
+    this.index = index;
   }
 
-  public IndexDefinition<?, ?, ? extends Index<?, ?>> getIndexDefinition() {
+  public IndexDefinition<?, ?, ?> getIndexDefinition() {
     return def;
+  }
+
+  public Index<?, ?> getIndex() {
+    return index;
   }
 }

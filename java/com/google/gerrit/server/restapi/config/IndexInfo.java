@@ -19,6 +19,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSortedMap;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.index.IndexCollection;
+import com.google.gerrit.index.IndexDefinition;
 
 @AutoValue
 public abstract class IndexInfo {
@@ -39,6 +40,10 @@ public abstract class IndexInfo {
     }
 
     return new AutoValue_IndexInfo(name, versions.build());
+  }
+
+  public static IndexInfo fromIndexDefinition(IndexDefinition<?, ?, ?> def) {
+    return fromIndexCollection(def.getName(), def.getIndexCollection());
   }
 
   public abstract String getName();

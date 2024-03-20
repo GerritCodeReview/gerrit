@@ -1444,8 +1444,8 @@ capability.
   Content-Type: application/json; charset=UTF-8
 
   )]}'
-  {
-    "accounts": {
+  [
+    {
       "name": "accounts",
       "versions": {
         "13": {
@@ -1454,7 +1454,7 @@ capability.
         }
       }
     },
-    "changes": {
+    {
       "name": "changes",
       "versions": {
         "83": {
@@ -1467,7 +1467,7 @@ capability.
         }
       }
     },
-    "groups": {
+    {
       "name": "groups",
       "versions": {
         "10": {
@@ -1476,7 +1476,7 @@ capability.
         }
       }
     },
-    "projects": {
+    {
       "name": "projects",
       "versions": {
         "8": {
@@ -1485,33 +1485,125 @@ capability.
         }
       }
     }
+  [
+----
+
+=== Get Index
+--
+'GET /config/server/indexes/changes'
+--
+
+Get an index used by Gerrit. It provides details about the index versions, which
+index version is used to search and which versions are written to.
+
+.Request
+----
+  'GET /config/server/indexes/changes'
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "name": "changes",
+    "versions": {
+      "83": {
+        "write": true,
+        "search": true
+      },
+      "84": {
+        "write": true,
+        "search": false
+      }
+    }
+  }
+----
+
+=== List Index Versions
+--
+'GET /config/server/indexes/changes/versions'
+--
+
+Lists versions of an index used by Gerrit.
+
+.Request
+----
+  'GET /config/server/indexes/changes/versions'
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "83": {
+      "write": true,
+      "search": true
+    },
+    "84": {
+      "write": true,
+      "search": false
+    }
+  }
+----
+
+=== Get Index Version
+--
+'GET /config/server/indexes/changes/versions/85'
+--
+
+Get info about one version of an index used by Gerrit.
+
+.Request
+----
+  'GET /config/server/indexes/changes/versions/84'
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "write": true,
+    "search": false
   }
 ----
 
 [[snapshot-index]]
 === Create Index Snapshot
 
-This endpoint allows Gerrit admins to create a snapshot of an index.
-This snapshot can be used as a backup of the index.
+These endpoints allow Gerrit admins to create index snapshots.
+Created snapshots can be used as a backup of the index.
 
-A snapshot of all versions of an index can be created by just using
-the name of the index, e.g. `changes`. Only snapshots of indexes that
-Gerrit currently writes to can be created. An index version can be
-selected by using e.g. `changes~84`. Snapshots of all indexes can be
-created by using `all` instead of an index name.
+It is possible to create a snapshot of all indexes, snapshot of one index or
+snapshot of one index version.
+
+The snapshots will be stored on the server at `$SITE/index/snapshots/$ID`.
+The `$ID` can be optionally provided in link:#snapshot-index-input[SnapshotIndex.Input]
+or will default to the current local time in ISO8601 format.
+
+Only snapshots of indexes that Gerrit currently writes to can be created.
 
 Note, that the creation of multiple snapshots, e.g. of different index
 versions, is not atomic. If a consistent state over multiple indexes is
 required, the server has to be put into read-only mode before creating
 the snapshot.
 
-The snapshots will be stored on the server at `$SITE/index/snapshots/$ID`.
-The `$ID` can be optionally provided in link:#snapshot-index-input[SnapshotIndex.Input]
-or will default to the current local time in ISO8601 format.
+==== Create Snapshot of All Indexes
+--
+'POST /config/server/snapshot.indexes HTTP/1.0'
+--
 
 .Request
 ----
-  PUT /config/server/indexes/all/snapshot HTTP/1.0
+  POST /config/server/snapshot.indexes HTTP/1.0
   Content-Type: application/json; charset=UTF-8
 
   {
@@ -1530,9 +1622,16 @@ or will default to the current local time in ISO8601 format.
   }
 ----
 
+==== Create Snapshot of one Index
+--
+'POST /config/server/indexes/link:#index-name[\{index-name\}]/snapshot'
+--
+
+This creates a snapshot of all write index versions of the specified index.
+
 .Request
 ----
-  PUT /config/server/indexes/accounts~13/snapshot HTTP/1.0
+  POST /config/server/indexes/accounts/snapshot HTTP/1.0
   Content-Type: application/json; charset=UTF-8
 
   {
@@ -1549,6 +1648,61 @@ or will default to the current local time in ISO8601 format.
   {
     "id": "snapshot-1"
   }
+----
+
+==== Create Snapshot of one Index Version
+--
+'POST /config/server/indexes/link:#index-name[\{index-name\}]/versions/#index-version[\{index-version\}]/snapshot'
+--
+
+This creates a snapshot of one index version of the specified index.
+
+.Request
+----
+  POST /config/server/indexes/changes/versions/84/snapshot HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "id": "snapshot-1"
+  }
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "id": "snapshot-1"
+  }
+----
+
+=== Reindex an Index Version
+--
+'POST /config/server/indexes/link:#index-name[\{index-name\}]/versions/#index-version[\{index-version\}]/reindex'
+--
+
+This endpoint allows to trigger background reindexing of an index version.  It is
+also supported to specify whether to reuse existing up-to-date (non-stale) index
+documents.
+
+.Request
+----
+  POST /config/server/indexes/changes/versions/84/reindex HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "reuse": "true"
+  }
+----
+
+.Response
+----
+  HTTP/1.1 202 Accepted
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
 ----
 
 [[ids]]
@@ -1568,6 +1722,13 @@ Gerrit core caches can optionally be prefixed with "gerrit":
 === \{task-id\}
 The ID of the task (hex string).
 
+[[index-name]]
+=== \{index-name\}
+The name of the index. Can be any of: "accounts", "changes", "groups", "projects".
+
+[[index-version]]
+=== \{index-version\}
+The version of the index. This is an integer.
 
 [[json-entities]]
 == JSON Entities

@@ -1,4 +1,4 @@
-// Copyright (C) 2023 The Android Open Source Project
+// Copyright (C) 2024 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,42 +15,34 @@
 package com.google.gerrit.server.restapi.config;
 
 import static com.google.gerrit.common.data.GlobalCapability.MAINTAIN_SERVER;
-import static javax.servlet.http.HttpServletResponse.SC_CONFLICT;
 
 import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.index.Index;
-import com.google.gerrit.index.IndexDefinition;
-import com.google.gerrit.server.config.IndexResource;
-import com.google.gerrit.server.restapi.config.SnapshotIndex.Input;
+import com.google.gerrit.server.config.IndexVersionResource;
+import com.google.gerrit.server.restapi.config.SnapshotIndexVersion.Input;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.nio.file.FileAlreadyExistsException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
 @RequiresCapability(MAINTAIN_SERVER)
 @Singleton
-public class SnapshotIndex implements RestModifyView<IndexResource, Input> {
+public class SnapshotIndexVersion implements RestModifyView<IndexVersionResource, Input> {
   private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss");
 
   @Override
-  public Response<?> apply(IndexResource rsrc, Input input) throws IOException {
+  public Response<?> apply(IndexVersionResource rsrc, Input input)
+      throws IOException, ResourceNotFoundException {
     String id = input.id;
     if (id == null) {
       id = LocalDateTime.now(ZoneId.systemDefault()).format(formatter);
     }
-    IndexDefinition<?, ?, ?> def = rsrc.getIndexDefinition();
-    for (Index<?, ?> index : def.getIndexCollection().getWriteIndexes()) {
-      try {
-        @SuppressWarnings("unused")
-        var unused = index.snapshot(id);
-      } catch (FileAlreadyExistsException e) {
-        return Response.withStatusCode(SC_CONFLICT, "Snapshot with same ID already exists.");
-      }
-    }
+    Index<?, ?> index = rsrc.getIndex();
+    var unused = index.snapshot(id);
     SnapshotInfo info = new SnapshotInfo();
     info.id = id;
     return Response.ok(info);

@@ -16,21 +16,20 @@ package com.google.gerrit.acceptance.rest.config;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.index.Index;
-import com.google.gerrit.index.IndexCollection;
-import com.google.gerrit.index.IndexDefinition;
 import com.google.gerrit.index.IndexType;
-import com.google.gerrit.index.project.ProjectIndexCollection;
+import com.google.gerrit.server.config.ConfigResource;
 import com.google.gerrit.server.config.IndexResource;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.index.account.AccountIndexCollection;
-import com.google.gerrit.server.index.change.ChangeIndexCollection;
-import com.google.gerrit.server.index.group.GroupIndexCollection;
+import com.google.gerrit.server.index.account.AccountIndexDefinition;
+import com.google.gerrit.server.index.change.ChangeIndexDefinition;
+import com.google.gerrit.server.index.group.GroupIndexDefinition;
+import com.google.gerrit.server.index.project.ProjectIndexDefinition;
 import com.google.gerrit.server.restapi.config.SnapshotIndex;
+import com.google.gerrit.server.restapi.config.SnapshotIndexes;
 import com.google.gerrit.server.restapi.config.SnapshotInfo;
 import com.google.gerrit.testing.SystemPropertiesTestRule;
 import com.google.inject.Inject;
@@ -57,22 +56,25 @@ public class IndexSnapshotsIT extends AbstractDaemonTest {
       new SystemPropertiesTestRule(IndexType.SYS_PROP, "lucene");
 
   @Inject private SnapshotIndex snapshotIndex;
-  @Inject private AccountIndexCollection accountIndexes;
-  @Inject private ChangeIndexCollection changeIndexes;
-  @Inject private GroupIndexCollection groupIndexes;
-  @Inject private ProjectIndexCollection projectIndexes;
+  @Inject private SnapshotIndexes snapshotIndexes;
+  @Inject private AccountIndexDefinition accountIndexDefinition;
+  @Inject private ChangeIndexDefinition changeIndexDefinition;
+  @Inject private GroupIndexDefinition groupIndexDefinition;
+  @Inject private ProjectIndexDefinition projectIndexDefinition;
 
   @Inject private SitePaths sitePaths;
-  @Inject private Collection<IndexDefinition<?, ?, ?>> defs;
+
+  @Test
+  @UseLocalDisk
+  public void createAccountsIndexSnapshot() throws Exception {
+    Query query = new TermQuery(new Term("is", "active"));
+    createAndVerifySnapshot(new IndexResource(accountIndexDefinition), "accounts", query);
+  }
 
   @Test
   @UseLocalDisk
   public void createFullSnapshot() throws Exception {
-    ImmutableList.Builder<IndexCollection<?, ?, ?>> indexCollections = ImmutableList.builder();
-    for (IndexDefinition<?, ?, ?> def : defs) {
-      indexCollections.add(def.getIndexCollection());
-    }
-    File snapshot = createSnapshot(new IndexResource(indexCollections.build()));
+    File snapshot = createSnapshotOfAllIndexes();
     File[] members = snapshot.listFiles();
     for (File member : members) {
       assertThat(member.isDirectory()).isTrue();
@@ -82,30 +84,23 @@ public class IndexSnapshotsIT extends AbstractDaemonTest {
 
   @Test
   @UseLocalDisk
-  public void createAccountsIndexSnapshot() throws Exception {
-    Query query = new TermQuery(new Term("is", "active"));
-    createAndVerifySnapshot(new IndexResource(accountIndexes, null), "accounts", query);
-  }
-
-  @Test
-  @UseLocalDisk
   public void createChangesIndexSnapshot() throws Exception {
     Query query = new TermQuery(new Term("status", "open"));
-    createAndVerifySnapshot(new IndexResource(changeIndexes, null), "changes", query);
+    createAndVerifySnapshot(new IndexResource(changeIndexDefinition), "changes", query);
   }
 
   @Test
   @UseLocalDisk
   public void createGroupsIndexSnapshot() throws Exception {
     Query query = new TermQuery(new Term("is", "active"));
-    createAndVerifySnapshot(new IndexResource(groupIndexes, null), "groups", query);
+    createAndVerifySnapshot(new IndexResource(groupIndexDefinition), "groups", query);
   }
 
   @Test
   @UseLocalDisk
   public void createProjectsIndexSnapshot() throws Exception {
     Query query = new TermQuery(new Term("name", "foo"));
-    createAndVerifySnapshot(new IndexResource(projectIndexes, null), "projects", query);
+    createAndVerifySnapshot(new IndexResource(projectIndexDefinition), "projects", query);
   }
 
   private File createAndVerifySnapshot(IndexResource rsrc, String prefix, Query query)
@@ -113,8 +108,10 @@ public class IndexSnapshotsIT extends AbstractDaemonTest {
     File snapshot = createSnapshot(rsrc);
 
     File[] subdirs = snapshot.listFiles();
-    assertThat(subdirs).hasLength(rsrc.getIndexes().size());
-    for (Index<?, ?> i : rsrc.getIndexes()) {
+    Collection<? extends Index<?, ?>> indexes =
+        rsrc.getIndexDefinition().getIndexCollection().getWriteIndexes();
+    assertThat(subdirs).hasLength(indexes.size());
+    for (Index<?, ?> i : indexes) {
       String indexDirName = String.format("%s_%04d", prefix, i.getSchema().getVersion());
       File[] result = snapshot.listFiles((d, n) -> n.equals(indexDirName));
       assertThat(result).hasLength(1);
@@ -126,6 +123,15 @@ public class IndexSnapshotsIT extends AbstractDaemonTest {
 
   private File createSnapshot(IndexResource rsrc) throws IOException {
     Response<?> rsp = snapshotIndex.apply(rsrc, new SnapshotIndex.Input());
+    return verifySnapshot(rsp);
+  }
+
+  private File createSnapshotOfAllIndexes() throws IOException {
+    Response<?> rsp = snapshotIndexes.apply(new ConfigResource(), new SnapshotIndexes.Input());
+    return verifySnapshot(rsp);
+  }
+
+  private File verifySnapshot(Response<?> rsp) {
     assertThat(rsp.value()).isInstanceOf(SnapshotInfo.class);
     SnapshotInfo snapshotInfo = (SnapshotInfo) rsp.value();
     Path snapshotDir = sitePaths.index_dir.resolve("snapshots").resolve(snapshotInfo.id);

@@ -479,6 +479,12 @@ public class RetryHelper {
                 String actionName = opts.actionName().orElse("N/A");
                 String cause = formatCause(t);
 
+                // Do not retry if retrying was already done and failed.
+                if (Throwables.getCausalChain(t).stream()
+                    .anyMatch(RetryException.class::isInstance)) {
+                  return false;
+                }
+
                 // exceptionPredicate checks for temporary errors for which the operation should be
                 // retried (e.g. LockFailure). The retry has good chances to succeed.
                 if (exceptionPredicate.test(t)) {
@@ -596,6 +602,9 @@ public class RetryHelper {
             actionType,
             opts.actionName().orElse("N/A"),
             listener.getOriginalCause().map(this::formatCause).orElse("_unknown"));
+
+        // Re-throw the RetryException so that retrying is not re-attempted on an outer level.
+        throw e;
       }
       if (e.getCause() != null) {
         Throwables.throwIfUnchecked(e.getCause());

@@ -52,6 +52,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
+import com.github.rholder.retry.RetryException;
 import com.github.rholder.retry.StopStrategies;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
@@ -2281,9 +2282,12 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(accountInfo.status).isNull();
     assertThat(accountInfo.name).isNotEqualTo(fullName);
 
-    assertThrows(
-        LockFailureException.class,
-        () -> update.update("Set Full Name", admin.id(), u -> u.setFullName(fullName)));
+    StorageException exception =
+        assertThrows(
+            StorageException.class,
+            () -> update.update("Set Full Name", admin.id(), u -> u.setFullName(fullName)));
+    assertThat(exception).hasCauseThat().isInstanceOf(RetryException.class);
+    assertThat(exception.getCause()).hasCauseThat().isInstanceOf(LockFailureException.class);
     assertThat(bgCounter.get()).isEqualTo(status.size());
 
     Account updatedAccount = accounts.get(admin.id()).get().account();

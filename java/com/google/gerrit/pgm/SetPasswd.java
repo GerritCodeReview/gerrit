@@ -29,8 +29,8 @@ public class SetPasswd {
     this.sections = sections;
   }
 
-  public void run(String section, String key, String password) throws Exception {
-    Section passwordSection = sections.get(section, null);
+  public void run(String section, String subsection, String key, String password) throws Exception {
+    Section passwordSection = sections.get(section, subsection);
 
     if (ui.isBatch()) {
       passwordSection.setSecure(key, password);

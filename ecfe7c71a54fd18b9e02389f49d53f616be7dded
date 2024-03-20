@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd2a1de4_0680c2b4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2024-03-20T14:24:09Z",
+      "side": 1,
+      "message": "It seems hashcode and equals are used only in tests.\nThe general recommendation is to avoid equals and hashcode for mutable objects - \ngo/java-practices/equals#mutable.\n\nPlease explicitly checks in tests that properties are equals (or introduce a helper method in test for comparing objects, e.g.:\nassertAccountInputEquals(AccountInput expected, AccountInput actual) {\n   assertThat(actual.username).isEqualTo(expected.username);\n   ....\n}",
+      "revId": "ecfe7c71a54fd18b9e02389f49d53f616be7dded",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "50f72536_6d36f879",

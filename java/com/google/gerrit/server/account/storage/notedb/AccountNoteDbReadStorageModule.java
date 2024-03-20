@@ -16,6 +16,8 @@ package com.google.gerrit.server.account.storage.notedb;
 
 import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdNoteDbReadStorageModule;
+import com.google.gerrit.server.mail.send.MessageIdGenerator;
+import com.google.gerrit.server.mail.send.MessageIdGeneratorImpl;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 
@@ -25,5 +27,6 @@ public class AccountNoteDbReadStorageModule extends AbstractModule {
     install(new ExternalIdNoteDbReadStorageModule());
 
     bind(Accounts.class).to(AccountsNoteDbImpl.class).in(Singleton.class);
+    bind(MessageIdGenerator.class).to(MessageIdGeneratorImpl.class);
   }
 }

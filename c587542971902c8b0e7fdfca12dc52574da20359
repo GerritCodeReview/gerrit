@@ -1,0 +1,138 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1db2b3f_383346f0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2024-03-20T09:09:40Z",
+      "side": 1,
+      "message": "Thanks for handling this!\n\nProtip: you can add `Google-Bug-Id: b/\u003cnum\u003e` to the change description footers, to post a bug update upon submission.",
+      "revId": "c587542971902c8b0e7fdfca12dc52574da20359",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d344d8c_d1433314",
+        "filename": "java/com/google/gerrit/entities/converter/ApplyPatchInputProtoConverter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2024-03-20T09:09:40Z",
+      "side": 1,
+      "message": "I think this will fail for a null patch. Please check for nullness first.",
+      "range": {
+        "startLine": 35,
+        "startChar": 74,
+        "endLine": 35,
+        "endChar": 79
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "799523c4_00a57615",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "java/com/google/gerrit/entities/converter/ApplyPatchInputProtoConverter.java",
+              "range": {
+                "startLine": 35,
+                "startChar": 0,
+                "endLine": 36,
+                "endChar": 0
+              },
+              "replacement": "    Entities.ApplyPatchInput.Builder builder \u003d Entities.ApplyPatchInput.newBuilder();\n    if (applyPatchInput.patch !\u003d null) {\n      builder.setPatch(applyPatchInput.patch);\n    }\n    return builder.build();\n"
+            }
+          ]
+        }
+      ],
+      "revId": "c587542971902c8b0e7fdfca12dc52574da20359",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d147a3e_0d75d7f8",
+        "filename": "java/com/google/gerrit/entities/converter/ChangeInputProtoConverter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2024-03-20T09:09:40Z",
+      "side": 1,
+      "message": "Please do nullness check for these. The java struct doesn\u0027t enforce it itself.",
+      "range": {
+        "startLine": 57,
+        "startChar": 8,
+        "endLine": 59,
+        "endChar": 41
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "d7ee2053_50d8ea3b",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "java/com/google/gerrit/entities/converter/ChangeInputProtoConverter.java",
+              "range": {
+                "startLine": 56,
+                "startChar": 0,
+                "endLine": 60,
+                "endChar": 0
+              },
+              "replacement": "    if (changeInput.project !\u003d null) {\n      builder.setProject(changeInput.project);\n    }\n    if (changeInput.branch !\u003d null) {\n      builder.setBranch(changeInput.branch);\n    }\n    if (changeInput.subject !\u003d null) {\n      builder.setSubject(changeInput.subject);\n    }\n"
+            }
+          ]
+        }
+      ],
+      "revId": "c587542971902c8b0e7fdfca12dc52574da20359",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "899b4081_b897cfe6",
+        "filename": "java/com/google/gerrit/entities/converter/NotifyInfoProtoConverter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2024-03-20T09:09:40Z",
+      "side": 1,
+      "message": "I\u0027m not sure if that will work for null `accounts`.",
+      "fixSuggestions": [
+        {
+          "fixId": "a1fa7f01_4daaea5f",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "java/com/google/gerrit/entities/converter/NotifyInfoProtoConverter.java",
+              "range": {
+                "startLine": 34,
+                "startChar": 0,
+                "endLine": 35,
+                "endChar": 0
+              },
+              "replacement": "    Entities.NotifyInfo.Builder builder \u003d Entities.NotifyInfo.newBuilder();\n    if (notifyInfo.accounts !\u003d null) {\n      builder.addAllAccounts(notifyInfo.accounts);\n    }\n    return builder.build();\n"
+            }
+          ]
+        }
+      ],
+      "revId": "c587542971902c8b0e7fdfca12dc52574da20359",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

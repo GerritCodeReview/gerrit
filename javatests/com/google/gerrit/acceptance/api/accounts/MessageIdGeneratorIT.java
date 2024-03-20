@@ -18,6 +18,8 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.common.UsedAt;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.RefNames;
@@ -34,12 +36,8 @@ public class MessageIdGeneratorIT extends AbstractDaemonTest {
 
   @Test
   public void fromAccountUpdate() throws Exception {
-    try (Repository repo = repoManager.openRepository(allUsers)) {
-      String messageId = messageIdGenerator.fromAccountUpdate(admin.id()).id();
-      String sha1 =
-          repo.getRefDatabase().findRef(RefNames.refsUsers(admin.id())).getObjectId().getName();
-      assertThat(sha1).isEqualTo(messageId);
-    }
+    String messageId = messageIdGenerator.fromAccountUpdate(admin.id()).id();
+    validateAccountUpdateMessageId(messageId, admin.id());
   }
 
   @Test
@@ -77,5 +75,14 @@ public class MessageIdGeneratorIT extends AbstractDaemonTest {
     assertThat(
             messageIdGenerator.fromReasonAccountIdAndTimestamp(reason, admin.id(), timestamp).id())
         .isEqualTo(reason + "-" + admin.id().toString() + "-" + timestamp.toString());
+  }
+
+  @UsedAt(UsedAt.Project.GOOGLE)
+  protected void validateAccountUpdateMessageId(String messageId, Account.Id id) throws Exception {
+    try (Repository repo = repoManager.openRepository(allUsers)) {
+      String sha1 =
+          repo.getRefDatabase().findRef(RefNames.refsUsers(admin.id())).getObjectId().getName();
+      assertThat(sha1).isEqualTo(messageId);
+    }
   }
 }

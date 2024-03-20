@@ -34,6 +34,24 @@
       "parentUuid": "89ded64d_073aed53",
       "revId": "3ccfdeafc7e969dd56df0de7c1a4869f53a228d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c409282f_b40ab0a3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-03-20T07:30:27Z",
+      "side": 1,
+      "message": "With change [1] retrying on top level will be skipped now if retrying was already done on a lower level.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/413242",
+      "parentUuid": "b9baedc8_91e3c681",
+      "revId": "3ccfdeafc7e969dd56df0de7c1a4869f53a228d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

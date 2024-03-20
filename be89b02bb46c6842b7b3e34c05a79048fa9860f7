@@ -166,6 +166,30 @@
       },
       "revId": "be89b02bb46c6842b7b3e34c05a79048fa9860f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f93d926f_9d24764e",
+        "filename": "javatests/com/google/gerrit/entities/converter/ChangeProtoConverterTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-20T00:25:18Z",
+      "side": 1,
+      "message": "Change is *used* in ChangeNoteState but not persisted in the cache anywhere. I also tested that enabling the cache on disk does not create any compatibility issue. Therefore the version number can remain the same.",
+      "parentUuid": "a2301b3d_d78e5a70",
+      "range": {
+        "startLine": 281,
+        "startChar": 17,
+        "endLine": 281,
+        "endChar": 46
+      },
+      "revId": "be89b02bb46c6842b7b3e34c05a79048fa9860f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

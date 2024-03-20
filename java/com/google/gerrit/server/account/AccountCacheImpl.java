@@ -26,6 +26,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ModuleImpl;
 import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.gerrit.server.account.externalids.ExternalIds;
@@ -34,6 +35,7 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.CachedPreferences;
 import com.google.gerrit.server.config.DefaultPreferencesCache;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.logging.CallerFinder;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
@@ -149,7 +151,8 @@ public class AccountCacheImpl implements AccountCache {
   public Map<Account.Id, AccountState> get(Set<Account.Id> accountIds) {
     try (TraceTimer ignored =
         TraceContext.newTimer(
-            "Loading accounts", Metadata.builder().resourceCount(accountIds.size()).build())) {
+            "Loading accounts",
+            Metadata.builder().caller(findCaller()).resourceCount(accountIds.size()).build())) {
       try (Repository allUsers = repoManager.openRepository(allUsersName)) {
         Set<CachedAccountDetails.Key> keys =
             Sets.newLinkedHashSetWithExpectedSize(accountIds.size());
@@ -192,6 +195,17 @@ public class AccountCacheImpl implements AccountCache {
     Account.Builder account = Account.builder(accountId, TimeUtil.now());
     account.setActive(false);
     return AccountState.forAccount(account.build());
+  }
+
+  private String findCaller() {
+    return CallerFinder.builder()
+        .addTarget(AccountLoader.class)
+        .addTarget(InternalAccountDirectory.class)
+        .addTarget(AccountResolver.class)
+        .addTarget(IdentifiedUser.class)
+        .addTarget(AccountCacheImpl.class)
+        .build()
+        .findCaller();
   }
 
   @Singleton

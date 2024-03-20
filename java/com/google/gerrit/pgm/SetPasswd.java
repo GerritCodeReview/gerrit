@@ -14,6 +14,7 @@
 
 package com.google.gerrit.pgm;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.Section;
 import com.google.inject.Inject;
@@ -29,8 +30,9 @@ public class SetPasswd {
     this.sections = sections;
   }
 
-  public void run(String section, String key, String password) throws Exception {
-    Section passwordSection = sections.get(section, null);
+  public void run(String section, @Nullable String subsection, String key, String password)
+      throws Exception {
+    Section passwordSection = sections.get(section, subsection);
 
     if (ui.isBatch()) {
       passwordSection.setSecure(key, password);

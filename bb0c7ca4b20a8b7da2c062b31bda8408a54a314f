@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2b047487_d26181e0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-03-20T17:19:29Z",
+      "side": 1,
+      "message": "Correct, although there is already a [stopQueryIfNoMoreResults](https://gerrit.googlesource.com/gerrit/+/refs/heads/stable-3.5/javatests/com/google/gerrit/server/query/change/FakeQueryChangesTest.java#59) test for it, but in 3.5.\n\nThe reason is that there is no AbstractFakeIndex in 3.4 that provides the `getQueryCount()` while doing that directly in `LuceneChangeIndex` is very hard, we cannot add the same counter there, and cannot spy on the `LuceneChangeIndex.QuerySource.read()` method. \n\nDo you have any suggestions?",
+      "parentUuid": "0d68ff40_70a79144",
+      "revId": "bb0c7ca4b20a8b7da2c062b31bda8408a54a314f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b6e4f340_e268962e",
         "filename": "java/com/google/gerrit/index/query/PaginatingSource.java",
         "patchSetId": 1

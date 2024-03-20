@@ -31,6 +31,9 @@ import com.google.gerrit.extensions.webui.PrivateInternals_UiActionDescription;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.extensions.webui.UiActions;
+import com.google.gerrit.server.logging.Metadata;
+import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -179,38 +182,43 @@ public class ActionJson {
 
   private Map<String, ActionInfo> toActionMap(
       ChangeData changeData, List<ActionVisitor> visitors, ChangeInfo changeInfo) {
-    CurrentUser user = userProvider.get();
-    Map<String, ActionInfo> out = new LinkedHashMap<>();
-    if (!user.isIdentifiedUser()) {
+    try (TraceTimer timer =
+        TraceContext.newTimer(
+            "Get actions",
+            Metadata.builder().changeId(changeData.change().getId().get()).build())) {
+      CurrentUser user = userProvider.get();
+      Map<String, ActionInfo> out = new LinkedHashMap<>();
+      if (!user.isIdentifiedUser()) {
+        return out;
+      }
+
+      Iterable<UiAction.Description> descs =
+          uiActions.from(changeViews, changeResourceFactory.create(changeData, user));
+
+      // The followup action is a client-side only operation that does not
+      // have a server side handler. It must be manually registered into the
+      // resulting action map.
+      if (!changeData.change().isAbandoned()) {
+        UiAction.Description descr = new UiAction.Description();
+        PrivateInternals_UiActionDescription.setId(descr, "followup");
+        PrivateInternals_UiActionDescription.setMethod(descr, "POST");
+        descr.setTitle("Create follow-up change");
+        descr.setLabel("Follow-Up");
+        descs = Iterables.concat(descs, Collections.singleton(descr));
+      }
+
+      ACTION:
+      for (UiAction.Description d : descs) {
+        ActionInfo actionInfo = new ActionInfo(d);
+        for (ActionVisitor visitor : visitors) {
+          if (!visitor.visit(d.getId(), actionInfo, changeInfo)) {
+            continue ACTION;
+          }
+        }
+        out.put(d.getId(), actionInfo);
+      }
       return out;
     }
-
-    Iterable<UiAction.Description> descs =
-        uiActions.from(changeViews, changeResourceFactory.create(changeData, user));
-
-    // The followup action is a client-side only operation that does not
-    // have a server side handler. It must be manually registered into the
-    // resulting action map.
-    if (!changeData.change().isAbandoned()) {
-      UiAction.Description descr = new UiAction.Description();
-      PrivateInternals_UiActionDescription.setId(descr, "followup");
-      PrivateInternals_UiActionDescription.setMethod(descr, "POST");
-      descr.setTitle("Create follow-up change");
-      descr.setLabel("Follow-Up");
-      descs = Iterables.concat(descs, Collections.singleton(descr));
-    }
-
-    ACTION:
-    for (UiAction.Description d : descs) {
-      ActionInfo actionInfo = new ActionInfo(d);
-      for (ActionVisitor visitor : visitors) {
-        if (!visitor.visit(d.getId(), actionInfo, changeInfo)) {
-          continue ACTION;
-        }
-      }
-      out.put(d.getId(), actionInfo);
-    }
-    return out;
   }
 
   private ImmutableMap<String, ActionInfo> toActionMap(

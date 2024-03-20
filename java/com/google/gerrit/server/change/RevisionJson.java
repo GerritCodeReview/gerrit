@@ -65,6 +65,9 @@ import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.GpgApiAdapter;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtilFactory;
+import com.google.gerrit.server.logging.Metadata;
+import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -258,26 +261,30 @@ public class RevisionJson {
       Optional<PatchSet.Id> limitToPsId,
       ChangeInfo changeInfo)
       throws PatchListNotAvailableException, GpgException, IOException, PermissionBackendException {
-    Map<String, RevisionInfo> res = new LinkedHashMap<>();
-    try (Repository repo = openRepoIfNecessary(cd.project());
-        RevWalk rw = newRevWalk(repo)) {
-      for (PatchSet in : map.values()) {
-        PatchSet.Id id = in.id();
-        boolean want;
-        if (has(ALL_REVISIONS)) {
-          want = true;
-        } else if (limitToPsId.isPresent()) {
-          want = id.equals(limitToPsId.get());
-        } else {
-          want = id.equals(cd.change().currentPatchSetId());
+    try (TraceTimer timer =
+        TraceContext.newTimer(
+            "Get revisions", Metadata.builder().changeId(cd.change().getId().get()).build())) {
+      Map<String, RevisionInfo> res = new LinkedHashMap<>();
+      try (Repository repo = openRepoIfNecessary(cd.project());
+          RevWalk rw = newRevWalk(repo)) {
+        for (PatchSet in : map.values()) {
+          PatchSet.Id id = in.id();
+          boolean want;
+          if (has(ALL_REVISIONS)) {
+            want = true;
+          } else if (limitToPsId.isPresent()) {
+            want = id.equals(limitToPsId.get());
+          } else {
+            want = id.equals(cd.change().currentPatchSetId());
+          }
+          if (want) {
+            res.put(
+                in.commitId().name(),
+                toRevisionInfo(accountLoader, cd, in, repo, rw, false, changeInfo));
+          }
         }
-        if (want) {
-          res.put(
-              in.commitId().name(),
-              toRevisionInfo(accountLoader, cd, in, repo, rw, false, changeInfo));
-        }
+        return res;
       }
-      return res;
     }
   }
 

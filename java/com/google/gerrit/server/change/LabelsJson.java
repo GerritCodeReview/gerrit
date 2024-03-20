@@ -43,6 +43,9 @@ import com.google.gerrit.extensions.common.VotingRangeInfo;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountLoader;
+import com.google.gerrit.server.logging.Metadata;
+import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.permissions.LabelPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -99,12 +102,16 @@ public class LabelsJson {
       return null;
     }
 
-    LabelTypes labelTypes = cd.getLabelTypes();
-    Map<String, LabelWithStatus> withStatus =
-        cd.change().isMerged()
-            ? labelsForSubmittedChange(accountLoader, cd, labelTypes, standard, detailed)
-            : labelsForUnsubmittedChange(accountLoader, cd, labelTypes, standard, detailed);
-    return ImmutableMap.copyOf(Maps.transformValues(withStatus, LabelWithStatus::label));
+    try (TraceTimer timer =
+        TraceContext.newTimer(
+            "Get labels", Metadata.builder().changeId(cd.change().getId().get()).build())) {
+      LabelTypes labelTypes = cd.getLabelTypes();
+      Map<String, LabelWithStatus> withStatus =
+          cd.change().isMerged()
+              ? labelsForSubmittedChange(accountLoader, cd, labelTypes, standard, detailed)
+              : labelsForUnsubmittedChange(accountLoader, cd, labelTypes, standard, detailed);
+      return ImmutableMap.copyOf(Maps.transformValues(withStatus, LabelWithStatus::label));
+    }
   }
 
   /**
@@ -118,30 +125,36 @@ public class LabelsJson {
    */
   Map<String, Collection<String>> permittedLabels(Account.Id filterApprovalsBy, ChangeData cd)
       throws PermissionBackendException {
-    SetMultimap<String, String> permitted = LinkedHashMultimap.create();
-    boolean isMerged = cd.change().isMerged();
-    Map<String, Short> currentUserVotes = currentLabels(filterApprovalsBy, cd);
-    for (LabelType labelType : cd.getLabelTypes().getLabelTypes()) {
-      if (isMerged && !labelType.isAllowPostSubmit()) {
-        continue;
-      }
-      Set<LabelPermission.WithValue> can =
-          permissionBackend.absentUser(filterApprovalsBy).change(cd).test(labelType);
-      for (LabelValue v : labelType.getValues()) {
-        boolean ok = can.contains(new LabelPermission.WithValue(labelType, v));
-        if (isMerged) {
-          // Votes cannot be decreased if the change is merged. Only accept the label value if it's
-          // greater or equal than the user's latest vote.
-          short prev = currentUserVotes.getOrDefault(labelType.getName(), (short) 0);
-          ok &= v.getValue() >= prev;
+    try (TraceTimer timer =
+        TraceContext.newTimer(
+            "Get permitted labels",
+            Metadata.builder().changeId(cd.change().getId().get()).build())) {
+      SetMultimap<String, String> permitted = LinkedHashMultimap.create();
+      boolean isMerged = cd.change().isMerged();
+      Map<String, Short> currentUserVotes = currentLabels(filterApprovalsBy, cd);
+      for (LabelType labelType : cd.getLabelTypes().getLabelTypes()) {
+        if (isMerged && !labelType.isAllowPostSubmit()) {
+          continue;
         }
-        if (ok) {
-          permitted.put(labelType.getName(), v.formatValue());
+        Set<LabelPermission.WithValue> can =
+            permissionBackend.absentUser(filterApprovalsBy).change(cd).test(labelType);
+        for (LabelValue v : labelType.getValues()) {
+          boolean ok = can.contains(new LabelPermission.WithValue(labelType, v));
+          if (isMerged) {
+            // Votes cannot be decreased if the change is merged. Only accept the label value if
+            // it's
+            // greater or equal than the user's latest vote.
+            short prev = currentUserVotes.getOrDefault(labelType.getName(), (short) 0);
+            ok &= v.getValue() >= prev;
+          }
+          if (ok) {
+            permitted.put(labelType.getName(), v.formatValue());
+          }
         }
       }
+      clearOnlyZerosEntries(permitted);
+      return permitted.asMap();
     }
-    clearOnlyZerosEntries(permitted);
-    return permitted.asMap();
   }
 
   /**
@@ -156,32 +169,37 @@ public class LabelsJson {
   Map<String, Map<String, List<AccountInfo>>> removableLabels(
       AccountLoader accountLoader, CurrentUser user, ChangeData cd)
       throws PermissionBackendException {
-    if (cd.change().isMerged()) {
-      return new HashMap<>();
-    }
+    try (TraceTimer timer =
+        TraceContext.newTimer(
+            "Get removable labels",
+            Metadata.builder().changeId(cd.change().getId().get()).build())) {
+      if (cd.change().isMerged()) {
+        return new HashMap<>();
+      }
 
-    Map<String, Map<String, List<AccountInfo>>> res = new HashMap<>();
-    LabelTypes labelTypes = cd.getLabelTypes();
-    for (PatchSetApproval approval : cd.currentApprovals()) {
-      Optional<LabelType> labelType = labelTypes.byLabel(approval.labelId());
-      if (!labelType.isPresent()) {
-        continue;
+      Map<String, Map<String, List<AccountInfo>>> res = new HashMap<>();
+      LabelTypes labelTypes = cd.getLabelTypes();
+      for (PatchSetApproval approval : cd.currentApprovals()) {
+        Optional<LabelType> labelType = labelTypes.byLabel(approval.labelId());
+        if (!labelType.isPresent()) {
+          continue;
+        }
+        if (!(deleteVoteControl.testDeleteVotePermissions(user, cd, approval, labelType.get())
+            || removeReviewerControl.testRemoveReviewer(
+                cd, user, approval.accountId(), approval.value()))) {
+          continue;
+        }
+        if (!res.containsKey(approval.label())) {
+          res.put(approval.label(), new HashMap<>());
+        }
+        String labelValue = LabelValue.formatValue(approval.value());
+        if (!res.get(approval.label()).containsKey(labelValue)) {
+          res.get(approval.label()).put(labelValue, new ArrayList<>());
+        }
+        res.get(approval.label()).get(labelValue).add(accountLoader.get(approval.accountId()));
       }
-      if (!(deleteVoteControl.testDeleteVotePermissions(user, cd, approval, labelType.get())
-          || removeReviewerControl.testRemoveReviewer(
-              cd, user, approval.accountId(), approval.value()))) {
-        continue;
-      }
-      if (!res.containsKey(approval.label())) {
-        res.put(approval.label(), new HashMap<>());
-      }
-      String labelValue = LabelValue.formatValue(approval.value());
-      if (!res.get(approval.label()).containsKey(labelValue)) {
-        res.get(approval.label()).put(labelValue, new ArrayList<>());
-      }
-      res.get(approval.label()).get(labelValue).add(accountLoader.get(approval.accountId()));
+      return res;
     }
-    return res;
   }
 
   private static void clearOnlyZerosEntries(SetMultimap<String, String> permitted) {

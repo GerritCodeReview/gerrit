@@ -16,8 +16,15 @@ import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
 import {GrSuggestionDiffPreview} from '../gr-suggestion-diff-preview/gr-suggestion-diff-preview';
 import {changeModelToken} from '../../../models/change/change-model';
-import {Comment, isDraft, PatchSetNumber} from '../../../types/common';
+import {
+  Comment,
+  FixSuggestionInfo,
+  isDraft,
+  PatchSetNumber,
+} from '../../../types/common';
 import {OpenFixPreviewEventDetail} from '../../../types/events';
+import {pluginLoaderToken} from '../gr-js-api-interface/gr-plugin-loader';
+import {SuggestionsProvider} from '../../../api/suggestions';
 
 /**
  * gr-fix-suggestions is UI for comment.fix_suggestions.
@@ -38,9 +45,14 @@ export class GrFixSuggestions extends LitElement {
 
   @state() latestPatchNum?: PatchSetNumber;
 
+  @state()
+  suggestionsProvider?: SuggestionsProvider;
+
   private readonly getConfigModel = resolve(this, configModelToken);
 
   private readonly getChangeModel = resolve(this, changeModelToken);
+
+  private readonly getPluginLoader = resolve(this, pluginLoaderToken);
 
   constructor() {
     super();
@@ -54,6 +66,18 @@ export class GrFixSuggestions extends LitElement {
       () => this.getChangeModel().latestPatchNum$,
       x => (this.latestPatchNum = x)
     );
+  }
+
+  override connectedCallback() {
+    super.connectedCallback();
+    this.getPluginLoader()
+      .awaitPluginsLoaded()
+      .then(() => {
+        const suggestionsPlugins =
+          this.getPluginLoader().pluginsModel.getState().suggestionsPlugins;
+        // We currently support results from only 1 provider.
+        this.suggestionsProvider = suggestionsPlugins?.[0]?.provider;
+      });
   }
 
   static override get styles() {
@@ -79,9 +103,14 @@ export class GrFixSuggestions extends LitElement {
   }
 
   override render() {
+    if (!this.comment?.fix_suggestions) return;
+    const fix_suggestions = this.comment.fix_suggestions;
     return html`<div class="header">
         <div class="title">
-          <span>Suggested edit</span>
+          <span>${
+      this.suggestionsProvider?.getFixSuggestionTitle?.(fix_suggestions) ||
+      'Suggested edit'
+    }</span>
           <a
             href=${getDocUrl(this.docsBaseUrl, 'user-suggest-edits.html')}
             target="_blank"
@@ -114,6 +143,11 @@ export class GrFixSuggestions extends LitElement {
       <gr-suggestion-diff-preview
         .fixSuggestionInfo=${this.comment?.fix_suggestions?.[0]}
       ></gr-suggestion-diff-preview>`;
+  }
+
+  getDocumentationLink(fix_suggestions: FixSuggestionInfo[]) {
+    return this.suggestionsProvider?.getDocumentationLink?.(fix_suggestions) ||
+      getDocUrl(this.docsBaseUrl, 'user-suggest-edits.html');
   }
 
   handleShowFix() {

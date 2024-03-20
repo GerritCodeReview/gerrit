@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0de8c8eb_4194c642",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-03-20T21:39:12Z",
+      "side": 1,
+      "message": "I\u0027ll cherry-pick this back to the non-EOL stable branches after it\u0027s been on master for a bit. We\u0027re also re-running our internal tests with this backported to 3.5.",
+      "revId": "eef3529120308bbbd4a6b309f3c1f00bd724a9cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

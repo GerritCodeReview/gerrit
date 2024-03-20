@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4d96ac7_14693ff3",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/config/IndexSnapshotsIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-03-20T08:37:29Z",
+      "side": 1,
+      "message": "this shall be removed",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 84,
+        "endChar": 5
+      },
+      "revId": "c24d2a245b5d25f6367695724f0f83038649fc4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

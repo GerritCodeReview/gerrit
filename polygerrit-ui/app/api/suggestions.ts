@@ -35,6 +35,21 @@ export declare interface SuggestionsProvider {
   suggestCode?(commentData: SuggestCodeRequest): Promise<SuggestCodeResponse>;
   suggestFix?(commentData: SuggestCodeRequest): Promise<SuggestedFixResponse>;
   /**
+   * Gets the title to display on the fix suggestion preview.
+   *
+   * @param fix_suggestions A list of suggested fixes.
+   * @return The title string or empty to use the default title.
+   */
+  getFixSuggestionTitle?(fix_suggestions?: FixSuggestionInfo[]): string;
+  /**
+   * Gets a link to documentation for icon help next to title
+   *
+   * @param fix_suggestions A list of suggested fixes.
+   * @return The documentation URL string or empty to use the default link to
+   * gerrit documentation about fix suggestions.
+   */
+  getDocumentationLink?(fix_suggestions?: FixSuggestionInfo[]): string;
+  /**
    * List of supported file extensions. If undefined, all file extensions supported.
    */
   supportedFileExtensions?: string[];

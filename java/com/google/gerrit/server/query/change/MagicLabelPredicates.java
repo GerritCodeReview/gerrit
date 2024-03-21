@@ -150,16 +150,30 @@ public class MagicLabelPredicates {
     public boolean match(ChangeData cd) {
       Change change = cd.change();
       if (change == null) {
+        logger.atFine().log(
+            "%s doesn't match because the change has disappeared.", magicLabelVote.formatLabel());
         return false; // The change has disappeared.
       }
 
       Optional<ProjectState> project = args.projectCache.get(change.getDest().project());
       if (!project.isPresent()) {
+        logger.atFine().log(
+            "%s doesn't match change %s because its project %s has disappeared.",
+            magicLabelVote.formatLabel(),
+            cd.change().getChangeId(),
+            change.getDest().project().get());
         return false; // The project has disappeared.
       }
 
       LabelType labelType = type(project.get().getLabelTypes(), magicLabelVote.label());
       if (labelType == null) {
+        logger.atFine().log(
+            "%s doesn't match change %s because the label is not defined by its project %s (label"
+                + " types = %s)",
+            magicLabelVote.formatLabel(),
+            cd.change().getChangeId(),
+            project.get(),
+            project.get().getLabelTypes());
         return false; // Label is not defined by this project.
       }
 

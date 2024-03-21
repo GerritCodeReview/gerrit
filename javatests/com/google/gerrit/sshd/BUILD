@@ -4,8 +4,11 @@ junit_tests(
     name = "sshd_tests",
     srcs = glob(["**/*.java"]),
     deps = [
+        "//java/com/google/gerrit/entities",
         "//java/com/google/gerrit/extensions:api",
+        "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/sshd",
+        "//java/com/google/gerrit/testing:gerrit-test-util",
         "//lib/mina:sshd",
         "//lib/truth",
     ],

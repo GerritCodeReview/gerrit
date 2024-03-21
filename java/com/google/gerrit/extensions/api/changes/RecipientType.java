@@ -15,7 +15,17 @@
 package com.google.gerrit.extensions.api.changes;
 
 public enum RecipientType {
-  TO,
-  CC,
-  BCC
+  TO(0),
+  CC(1),
+  BCC(2);
+
+  private final int value;
+
+  RecipientType(int v) {
+    this.value = v;
+  }
+
+  public int getValue() {
+    return value;
+  }
 }

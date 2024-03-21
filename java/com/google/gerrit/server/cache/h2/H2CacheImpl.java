@@ -232,7 +232,10 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
 
   void prune(ScheduledExecutorService service) {
     store.prune(mem);
+    schedulePrune(service);
+  }
 
+  void schedulePrune(ScheduledExecutorService service) {
     Calendar cal = Calendar.getInstance();
     cal.set(Calendar.HOUR_OF_DAY, 01);
     cal.set(Calendar.MINUTE, 0);

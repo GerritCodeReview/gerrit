@@ -67,6 +67,7 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
   private final boolean h2AutoServer;
   private final boolean isOfflineReindex;
   private final boolean buildBloomFilter;
+  private final boolean pruneOnStartup;
 
   @Inject
   H2CacheFactory(
@@ -79,6 +80,7 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
     super(memCacheFactory, cfg, site);
     h2CacheSize = cfg.getLong("cache", null, "h2CacheSize", -1);
     h2AutoServer = cfg.getBoolean("cache", null, "h2AutoServer", false);
+    pruneOnStartup = cfg.getBoolean("cache", null, "pruneOnStartup", true);
     caches = new ArrayList<>();
     this.cacheMap = cacheMap;
     this.isOfflineReindex =
@@ -114,9 +116,13 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
       for (H2CacheImpl<?, ?> cache : caches) {
         executor.execute(cache::start);
         if (cleanup != null) {
-          @SuppressWarnings("unused")
-          Future<?> possiblyIgnoredError =
-              cleanup.schedule(() -> cache.prune(cleanup), 30, TimeUnit.SECONDS);
+          if (pruneOnStartup) {
+            @SuppressWarnings("unused")
+            Future<?> possiblyIgnoredError =
+                cleanup.schedule(() -> cache.prune(cleanup), 30, TimeUnit.SECONDS);
+          } else {
+            cache.schedulePrune(cleanup);
+          }
         }
       }
     }

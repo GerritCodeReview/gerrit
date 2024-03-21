@@ -8,9 +8,11 @@
       "updated": "2024-03-21T13:36:29Z"
     },
     "gerritforge:codestyle-a6a0e4682515f3521897c5f950d1394f4619d928": {
-      "state": "NOT_STARTED",
+      "state": "SUCCESSFUL",
+      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-codestyle/106383/console",
+      "finished": "2024-03-21T13:40:04Z",
       "created": "2024-03-21T13:35:17Z",
-      "updated": "2024-03-21T13:35:30Z"
+      "updated": "2024-03-21T13:40:05Z"
     },
     "gerritforge:notedb-a6a0e4682515f3521897c5f950d1394f4619d928": {
       "state": "NOT_STARTED",

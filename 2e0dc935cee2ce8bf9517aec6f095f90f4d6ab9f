@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ebe3381_d455a156",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2024-03-21T12:50:53Z",
+      "side": 1,
+      "message": "Experiments can take many parameters, including project, caller, environment (prod vs canary vs staging), etc. Should these all become parameters of the experiment resource?\n\nI am a little worried that the API will create the wrong impression (i.e. tells you that an experiment parameter is enabled, but for the user you are debugging something for, it is actually disabled). WDYT?",
+      "revId": "2e0dc935cee2ce8bf9517aec6f095f90f4d6ab9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

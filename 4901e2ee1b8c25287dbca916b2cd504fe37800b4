@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78b0085e_7471bc94",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-03-21T23:29:03Z",
+      "side": 1,
+      "message": "All the tests are passing with both ReviewDB and NoteDB",
+      "revId": "4901e2ee1b8c25287dbca916b2cd504fe37800b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

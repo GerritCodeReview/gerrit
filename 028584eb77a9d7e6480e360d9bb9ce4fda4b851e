@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e4395f9_73beef24",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 500,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-21T23:39:48Z",
+      "side": 0,
+      "message": "Why not keeping this constructor as well? That would minimise the changes in tests.",
+      "range": {
+        "startLine": 498,
+        "startChar": 0,
+        "endLine": 500,
+        "endChar": 3
+      },
+      "revId": "028584eb77a9d7e6480e360d9bb9ce4fda4b851e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1126,17 +1126,19 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes().id(r.getChangeId()).current().createDraft(dri);
     Change.Id num = r.getChange().getId();
 
-    try (Repository repo = repoManager.openRepository(allUsers)) {
-      assertThat(repo.getRefDatabase().getRefsByPrefix(RefNames.refsDraftComments(num, user.id())))
-          .isNotEmpty();
-    }
+    assertThat(getDraftsCountForChange(num, user.id())).isGreaterThan(0);
 
     requestScopeOperations.setApiUser(admin.id());
 
     gApi.changes().id(r.getChangeId()).delete();
+    assertThat(getDraftsCountForChange(num, user.id())).isEqualTo(0);
+  }
+
+  protected int getDraftsCountForChange(Change.Id changeId, Account.Id accountId) throws Exception {
     try (Repository repo = repoManager.openRepository(allUsers)) {
-      assertThat(repo.getRefDatabase().getRefsByPrefix(RefNames.refsDraftComments(num, user.id())))
-          .isEmpty();
+      return repo.getRefDatabase()
+          .getRefsByPrefix(RefNames.refsDraftComments(changeId, accountId))
+          .size();
     }
   }
 

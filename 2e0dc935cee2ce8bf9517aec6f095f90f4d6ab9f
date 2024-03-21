@@ -16,6 +16,24 @@
       "message": "Experiments can take many parameters, including project, caller, environment (prod vs canary vs staging), etc. Should these all become parameters of the experiment resource?\n\nI am a little worried that the API will create the wrong impression (i.e. tells you that an experiment parameter is enabled, but for the user you are debugging something for, it is actually disabled). WDYT?",
       "revId": "2e0dc935cee2ce8bf9517aec6f095f90f4d6ab9f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8fa66af8_910dffc3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-03-21T13:00:14Z",
+      "side": 1,
+      "message": "Yes, project and caller should become parameters on the experiment REST endpoints (planned as follow-up change).\n\nE.g.:\n\n```\nGET /config/server/experiments/?project\u003dfoo\u0026caller\u003dbar\n\n{\n  \"GerritBackendFeature__allow_fix_suggestions_in_comments\": {\n    \"enabled\": false\n  },\n  \"GerritBackendFeature__attach_nonce_to_documentation\": {\n    \"enabled\": true\n  }\n}\n```\n\nThe `enabled` flag then reflects whether the experiment is enabled for the project and user that were provided on the request.\n\nThe environment is probably already implicit, depending on whether you call this endpoint in prod, canary or staging, isn\u0027t it?\n\nDoes this make sense?",
+      "parentUuid": "7ebe3381_d455a156",
+      "revId": "2e0dc935cee2ce8bf9517aec6f095f90f4d6ab9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

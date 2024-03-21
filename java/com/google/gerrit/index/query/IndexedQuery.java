@@ -87,6 +87,12 @@ public class IndexedQuery<I, T> extends Predicate<T> implements DataSource<T>, P
   }
 
   @Override
+  public ResultSet<T> restart(int start) {
+    opts = opts.withStart(start);
+    return search();
+  }
+
+  @Override
   public ResultSet<T> restart(int start, int pageSize) {
     opts = opts.withStart(start).withPageSize(pageSize);
     return search();

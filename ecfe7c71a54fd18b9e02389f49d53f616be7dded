@@ -35,6 +35,42 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d689b69_5f919888",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155205
+      },
+      "writtenOn": "2024-03-21T14:50:06Z",
+      "side": 1,
+      "message": "Thanks for suggesting. \nI followed this recommendation and introduced helper methods in the tests.",
+      "parentUuid": "fd2a1de4_0680c2b4",
+      "revId": "ecfe7c71a54fd18b9e02389f49d53f616be7dded",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2beeba33_01b426cf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155205
+      },
+      "writtenOn": "2024-03-21T14:50:06Z",
+      "side": 1,
+      "message": "I removed these methods as suggested.",
+      "parentUuid": "73dfe0f5_35448926",
+      "revId": "ecfe7c71a54fd18b9e02389f49d53f616be7dded",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "50f72536_6d36f879",
@@ -72,6 +108,30 @@
           ]
         }
       ],
+      "revId": "ecfe7c71a54fd18b9e02389f49d53f616be7dded",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "18916278_d261e200",
+        "filename": "java/com/google/gerrit/extensions/api/accounts/AccountInput.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1155205
+      },
+      "writtenOn": "2024-03-21T14:50:06Z",
+      "side": 1,
+      "message": "Done in the helper method.",
+      "parentUuid": "50f72536_6d36f879",
+      "range": {
+        "startLine": 34,
+        "startChar": 13,
+        "endLine": 34,
+        "endChar": 86
+      },
       "revId": "ecfe7c71a54fd18b9e02389f49d53f616be7dded",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

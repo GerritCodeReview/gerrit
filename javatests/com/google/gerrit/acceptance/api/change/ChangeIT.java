@@ -95,6 +95,7 @@ import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.RawInputUtil;
+import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
@@ -1126,17 +1127,20 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes().id(r.getChangeId()).current().createDraft(dri);
     Change.Id num = r.getChange().getId();
 
-    try (Repository repo = repoManager.openRepository(allUsers)) {
-      assertThat(repo.getRefDatabase().getRefsByPrefix(RefNames.refsDraftComments(num, user.id())))
-          .isNotEmpty();
-    }
+    assertThat(getDraftsCountForChange(num, user.id())).isGreaterThan(0);
 
     requestScopeOperations.setApiUser(admin.id());
 
     gApi.changes().id(r.getChangeId()).delete();
+    assertThat(getDraftsCountForChange(num, user.id())).isEqualTo(0);
+  }
+
+  @UsedAt(UsedAt.Project.GOOGLE)
+  protected int getDraftsCountForChange(Change.Id changeId, Account.Id accountId) throws Exception {
     try (Repository repo = repoManager.openRepository(allUsers)) {
-      assertThat(repo.getRefDatabase().getRefsByPrefix(RefNames.refsDraftComments(num, user.id())))
-          .isEmpty();
+      return repo.getRefDatabase()
+          .getRefsByPrefix(RefNames.refsDraftComments(changeId, accountId))
+          .size();
     }
   }
 

@@ -1,4 +1,4 @@
-// Copyright (C) 2014 The Android Open Source Project
+// Copyright (C) 2022 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,47 +12,30 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.extensions.client;
+package com.google.gerrit.extensions.api.changes;
 
-/* Current state within the basic workflow of the change **/
-public enum ChangeStatus {
+import java.util.Objects;
 
+/** Information about a patch to apply. */
+public class ApplyPatchInput {
   /**
-   * Change is open and pending review, or review is in progress.
+   * Required. The patch to be applied.
    *
-   * <p>This is the default state assigned to a change when it is first created in the database. A
-   * change stays in the NEW state throughout its review cycle, until the change is submitted or
-   * abandoned.
-   *
-   * <p>Changes in the NEW state can be moved to:
-   *
-   * <ul>
-   *   <li>{@link #MERGED} - when the Submit Patch Set action is used;
-   *   <li>{@link #ABANDONED} - when the Abandon action is used.
-   * </ul>
+   * <p>Must be compatible with `git diff` output. For example, Gerrit API `Get Patch` output.
    */
-  NEW,
+  public String patch;
 
-  /**
-   * Change is closed, and submitted to its destination branch.
-   *
-   * <p>Once a change has been merged, it cannot be further modified by adding a replacement patch
-   * set. Draft comments however may be published, supporting a post-submit review.
-   */
-  MERGED,
+  @Override
+  public boolean equals(Object o) {
+    if (o instanceof ApplyPatchInput) {
+      ApplyPatchInput k = (ApplyPatchInput) o;
+      return Objects.equals(patch, k.patch);
+    }
+    return false;
+  }
 
-  /**
-   * Change is closed, but was not submitted to its destination branch.
-   *
-   * <p>Once a change has been abandoned, it cannot be further modified by adding a replacement
-   * patch set, and it cannot be merged. Draft comments however may be published, permitting
-   * reviewers to send constructive feedback.
-   *
-   * <p>Changes in the ABANDONED state can be moved to:
-   *
-   * <ul>
-   *   <li>{@link #NEW} - when the Restore action is used.
-   * </ul>
-   */
-  ABANDONED
+  @Override
+  public int hashCode() {
+    return Objects.hash(patch);
+  }
 }

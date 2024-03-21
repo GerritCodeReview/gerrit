@@ -57,7 +57,12 @@ public class SshUtil {
         throw new InvalidKeySpecException("No key string");
       }
       final byte[] bin = BaseEncoding.base64().decode(s);
-      return new ByteArrayBuffer(bin).getRawPublicKey();
+      String publicKeyAlgo = new ByteArrayBuffer(bin).getString();
+      PublicKey publicKey = new ByteArrayBuffer(bin).getRawPublicKey();
+      if (!key.algorithm().equals(publicKeyAlgo)) {
+        throw new InvalidKeyAlgorithmException(key.algorithm(), publicKeyAlgo, publicKey);
+      }
+      return publicKey;
     } catch (RuntimeException | SshException e) {
       throw new InvalidKeySpecException("Cannot parse key", e);
     }

@@ -20,7 +20,6 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.server.account.AccountSshKey;
 import java.security.spec.InvalidKeySpecException;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class SshUtilTest {
@@ -31,7 +30,6 @@ public class SshUtilTest {
       "AAAAB3NzaC1yc2EAAAABIwAAAIEA0R66EoZ7hFp81w9sAJqu34UFyE+w36H/mobUqnT5Lns7PcTOJh3sgMJAlswX2lFAWqvF2gd2PRMpMhbfEU4iq2SfY8x+RDCJ4ZQWESln/587T41BlQjOXzu3W1bqgmtHnRCte3DjyWDvM/fucnUMSwOgP+FVEZCLTrk3thLMWsU=";
   private static final Object VALID_SSH_RSA_ALGO = "ssh-rsa";
 
-  @Ignore("To be enabled once the SSH key parsing is fixed")
   @Test
   public void shouldFailParsingOpenSshKeyWithInvalidAlgo() {
     String sshKeyWithInvalidAlgo = String.format("%s %s", INVALID_ALGO, VALID_OPENSSH_RSA_KEY);

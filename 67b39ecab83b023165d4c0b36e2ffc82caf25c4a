@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "315ed38e_276addb7",
+        "filename": "javatests/com/google/gerrit/server/query/change/LuceneQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-03-21T18:36:09Z",
+      "side": 1,
+      "message": "This test works also for the `FakeQueryChangesTest` implementations. \nShould this test be moved to the `AbstractQueryChangesTest` so it gets executed for both `FakeQueryChangesTest` and `LuceneQueryChangesTest` ?",
+      "range": {
+        "startLine": 104,
+        "startChar": 2,
+        "endLine": 124,
+        "endChar": 3
+      },
+      "revId": "67b39ecab83b023165d4c0b36e2ffc82caf25c4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

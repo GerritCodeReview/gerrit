@@ -19,10 +19,12 @@ import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.a
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.common.data.GlobalCapability.QUERY_LIMIT;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static org.junit.Assume.assumeFalse;
 
 import com.google.gerrit.acceptance.UseClockStep;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.index.PaginationType;
 import com.google.gerrit.index.testing.AbstractFakeIndex;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
@@ -83,6 +85,7 @@ public abstract class FakeQueryChangesTest extends AbstractQueryChangesTest {
   @UseClockStep
   @SuppressWarnings("unchecked")
   public void noLimitQueryPaginates() throws Exception {
+    assumeFalse(PaginationType.NONE == getCurrentPaginationType());
     TestRepository<InMemoryRepositoryManager.Repo> testRepo = createProject("repo");
     // create 4 changes
     insert(testRepo, newChange(testRepo));
@@ -110,6 +113,7 @@ public abstract class FakeQueryChangesTest extends AbstractQueryChangesTest {
   @UseClockStep
   @SuppressWarnings("unchecked")
   public void internalQueriesPaginate() throws Exception {
+    assumeFalse(PaginationType.NONE == getCurrentPaginationType());
     // create 4 changes
     TestRepository<InMemoryRepositoryManager.Repo> testRepo = createProject("repo");
     insert(testRepo, newChange(testRepo));

@@ -15,8 +15,18 @@
 package com.google.gerrit.extensions.api.changes;
 
 public enum NotifyHandling {
-  NONE,
-  OWNER,
-  OWNER_REVIEWERS,
-  ALL
+  NONE(0),
+  OWNER(1),
+  OWNER_REVIEWERS(2),
+  ALL(3);
+
+  private final int value;
+
+  NotifyHandling(int v) {
+    this.value = v;
+  }
+
+  public int getValue() {
+    return value;
+  }
 }

@@ -1352,6 +1352,33 @@ the project_list cache warmer.
 
 Default is 00:00 if the project_list cache warmer is enabled.
 
+[[cachePruning]]
+=== Section cachePruning
+
+[[cachePruning.pruneOnStartup]]cachePruning.pruneOnStartup::
++
+Whether to asynchronously prune all cache when starting Gerrit.
++
+Defaults to `true`.
+
+[[cachePruning.startTime]]cachePruning.startTime::
++
+The link:#schedule-configuration-startTime[start time] for running
+cache pruning.
++
+Defaults to `01:00`.
+
+[[cachePruning.interval]]cachePruning.interval::
++
+The link:#schedule-configuration-interval[interval] for running
+cache pruning.
++
+Defaults to `1d`.
+
+link:#schedule-configuration-examples[Schedule examples] can be found
+in the link:#schedule-configuration[Schedule Configuration] section.
+
+
 [[capability]]
 === Section capability
 

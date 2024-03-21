@@ -22,6 +22,8 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 import static org.junit.Assume.assumeFalse;
 
 import com.google.gerrit.acceptance.UseClockStep;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.index.PaginationType;
@@ -79,6 +81,48 @@ public abstract class FakeQueryChangesTest extends AbstractQueryChangesTest {
     // Since the limit of the query (i.e. 5) is more than the total number of changes (i.e. 4),
     // only 1 index search is expected.
     assertThat(idx.getQueryCount()).isEqualTo(1);
+  }
+
+  @Test
+  @UseClockStep
+  @SuppressWarnings("unchecked")
+  public void queryLuceneRightNumberOfTimes() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    Account.Id user2 =
+        accountManager.authenticate(authRequestFactory.createForUser("anotheruser")).getAccountId();
+
+    // create 1 private change
+    Change invisibleChange1 = insert(repo, newChangeWithStatus(repo, Change.Status.NEW), user2);
+    gApi.changes().id(invisibleChange1.getChangeId()).setPrivate(true, null);
+
+    // create 1 visible change
+    Change visibleChange2 = insert(repo, newChangeWithStatus(repo, Change.Status.NEW));
+
+    // create 5 private changes
+    Change invisibleChange3 = insert(repo, newChangeWithStatus(repo, Change.Status.NEW), user2);
+    Change invisibleChange4 = insert(repo, newChangeWithStatus(repo, Change.Status.NEW), user2);
+    Change invisibleChange5 = insert(repo, newChangeWithStatus(repo, Change.Status.NEW), user2);
+    Change invisibleChange6 = insert(repo, newChangeWithStatus(repo, Change.Status.NEW), user2);
+    Change invisibleChange7 = insert(repo, newChangeWithStatus(repo, Change.Status.NEW), user2);
+    gApi.changes().id(invisibleChange3.getChangeId()).setPrivate(true, null);
+    gApi.changes().id(invisibleChange4.getChangeId()).setPrivate(true, null);
+    gApi.changes().id(invisibleChange5.getChangeId()).setPrivate(true, null);
+    gApi.changes().id(invisibleChange6.getChangeId()).setPrivate(true, null);
+    gApi.changes().id(invisibleChange7.getChangeId()).setPrivate(true, null);
+
+    projectOperations
+        .project(allProjects)
+        .forUpdate()
+        .add(allowCapability(QUERY_LIMIT).group(REGISTERED_USERS).range(0, 10))
+        .update();
+
+    AbstractFakeIndex idx = (AbstractFakeIndex) changeIndexCollection.getSearchIndex();
+    int queriesBeforeExecution = idx.getQueryCount();
+    assertQuery(newQuery("status:new").withLimit(5), visibleChange2);
+
+    // Since the limit of the query (i.e. 5),
+    // only 2 index searches are expected (and one on a different index).
+    assertThat(idx.getQueryCount() - queriesBeforeExecution).isEqualTo(3);
   }
 
   @Test

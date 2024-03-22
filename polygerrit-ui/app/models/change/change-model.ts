@@ -772,7 +772,7 @@ export class ChangeModel extends Model<ChangeState> {
   // Private but used in tests.
   updateStateChange(change?: ParsedChangeInfo) {
     this.updateState({
-      change,
+      change: updateRevisionsWithCommitShas(change),
       loadingStatus:
         change === undefined ? LoadingStatus.NOT_LOADED : LoadingStatus.LOADED,
     });

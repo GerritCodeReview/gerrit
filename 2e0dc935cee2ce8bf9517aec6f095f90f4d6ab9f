@@ -34,6 +34,24 @@
       "parentUuid": "7ebe3381_d455a156",
       "revId": "2e0dc935cee2ce8bf9517aec6f095f90f4d6ab9f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f60b4897_cb16cd03",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2024-03-22T10:01:23Z",
+      "side": 1,
+      "message": "SGTM. You\u0027ll probably need to do some resolution of user to gaia ID which is how the diversion is done.",
+      "parentUuid": "8fa66af8_910dffc3",
+      "revId": "2e0dc935cee2ce8bf9517aec6f095f90f4d6ab9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

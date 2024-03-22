@@ -3,6 +3,144 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "71a35cd8_22b13ed5",
+        "filename": "javatests/com/google/gerrit/server/query/change/FakeQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-22T23:58:51Z",
+      "side": 1,
+      "message": "Why Lucene? In this test is using the FakeQuery indexing backend.",
+      "range": {
+        "startLine": 89,
+        "startChar": 19,
+        "endLine": 89,
+        "endChar": 25
+      },
+      "revId": "f08ab21de72a2bb42f9e5c8186f9221aa45230f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bbf08de2_bc3a84a6",
+        "filename": "javatests/com/google/gerrit/server/query/change/FakeQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-22T23:58:51Z",
+      "side": 1,
+      "message": "This isn\u0027t relevant and unneeded.",
+      "range": {
+        "startLine": 94,
+        "startChar": 0,
+        "endLine": 96,
+        "endChar": 77
+      },
+      "revId": "f08ab21de72a2bb42f9e5c8186f9221aa45230f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d0ff6ad_fa2642ad",
+        "filename": "javatests/com/google/gerrit/server/query/change/FakeQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-22T23:58:51Z",
+      "side": 1,
+      "message": "Creating 2 private changes is more than enough, if you limit the query to 2 elements.",
+      "range": {
+        "startLine": 104,
+        "startChar": 0,
+        "endLine": 106,
+        "endChar": 96
+      },
+      "revId": "f08ab21de72a2bb42f9e5c8186f9221aa45230f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d14bcaec_4bcc5bef",
+        "filename": "javatests/com/google/gerrit/server/query/change/FakeQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-22T23:58:51Z",
+      "side": 1,
+      "message": "Not needed.",
+      "range": {
+        "startLine": 109,
+        "startChar": 0,
+        "endLine": 111,
+        "endChar": 77
+      },
+      "revId": "f08ab21de72a2bb42f9e5c8186f9221aa45230f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52b38e6f_144ae84c",
+        "filename": "javatests/com/google/gerrit/server/query/change/FakeQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-22T23:58:51Z",
+      "side": 1,
+      "message": "This is a distraction to the reader of the test: we are not interested to limit the user to 10 results because we pass a user-defined limit at L121.",
+      "range": {
+        "startLine": 113,
+        "startChar": 0,
+        "endLine": 117,
+        "endChar": 18
+      },
+      "revId": "f08ab21de72a2bb42f9e5c8186f9221aa45230f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9cb48bf_eb61a1ff",
+        "filename": "javatests/com/google/gerrit/server/query/change/FakeQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-22T23:58:51Z",
+      "side": 1,
+      "message": "`assertQuery` would inflate the number of queries because it performs additional changes queries for formatting the output.\n\nAlso, just limit to 2 elements, so that you can avoid creating additional changes. With a limit of 2 you can simulate Gerrit trying to make extra queries to fill the results up to its limit.\n\n```suggestion\n    List\u003cChangeInfo\u003e queryResult \u003d newQuery(\"status:new\").withLimit(2).get();\n    assertThat(queryResult).hasSize(1);\n    assertThat(queryResult.get(0).changeId)\n              .isEqualTo(visibleChange2.getKey().get());\n```",
+      "range": {
+        "startLine": 121,
+        "startChar": 4,
+        "endLine": 121,
+        "endChar": 15
+      },
+      "revId": "f08ab21de72a2bb42f9e5c8186f9221aa45230f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d4c5fc12_cfedf03e",
         "filename": "javatests/com/google/gerrit/server/query/change/FakeQueryChangesTest.java",
         "patchSetId": 1
@@ -38,6 +176,30 @@
       "side": 1,
       "message": "and one on a different index. Pagination OFFSET and SEARCH_AFTER will have a count of 3, pagination NONE fails with 4. Will rework the assertion to get rid of the magic number and reword the comment.",
       "parentUuid": "d4c5fc12_cfedf03e",
+      "range": {
+        "startLine": 125,
+        "startChar": 71,
+        "endLine": 125,
+        "endChar": 72
+      },
+      "revId": "f08ab21de72a2bb42f9e5c8186f9221aa45230f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5a1f778_584caa15",
+        "filename": "javatests/com/google/gerrit/server/query/change/FakeQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-22T23:58:51Z",
+      "side": 1,
+      "message": "See my comments on L121: the inflated number is coming from the use of `assertQuery` that performs extra queries.\n\nWith my suggested amendments, you can keep this one to 2, explaining that:\n- Query 1: select the visible element, but des not manage to fill up the results up to the limit\n- Query 2: look for more results, but there are none and in total are less than the limit.",
+      "parentUuid": "de033505_96c2103a",
       "range": {
         "startLine": 125,
         "startChar": 71,

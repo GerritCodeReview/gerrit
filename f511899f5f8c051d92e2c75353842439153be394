@@ -66,6 +66,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5c9e7699_12464e89",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-03-22T14:27:32Z",
+      "side": 1,
+      "message": "Now that you mentioned it we started seeing these issues :-)\n\nAnyway, I checked the code and found out that it may not be just the H2 to blame but also how we use it. We didn\u0027t support SQL queries with indexes. This change is an experiment which may significantly improve H2 cache performance. I didn\u0027t test it yet: I6d67878b81d46cd4b342ba9480e31d3af4b5ce40",
+      "parentUuid": "aa488a05_baef535b",
+      "revId": "f511899f5f8c051d92e2c75353842439153be394",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5bc247e0_db03d735",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

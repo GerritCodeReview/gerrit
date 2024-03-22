@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4c5fc12_cfedf03e",
+        "filename": "javatests/com/google/gerrit/server/query/change/FakeQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-22T17:02:59Z",
+      "side": 1,
+      "message": "You mentioned `2` in the comment at L124 but asserting `3` here?",
+      "range": {
+        "startLine": 125,
+        "startChar": 71,
+        "endLine": 125,
+        "endChar": 72
+      },
+      "revId": "f08ab21de72a2bb42f9e5c8186f9221aa45230f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

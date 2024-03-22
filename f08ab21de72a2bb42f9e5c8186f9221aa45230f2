@@ -22,6 +22,30 @@
       },
       "revId": "f08ab21de72a2bb42f9e5c8186f9221aa45230f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de033505_96c2103a",
+        "filename": "javatests/com/google/gerrit/server/query/change/FakeQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-03-22T20:05:28Z",
+      "side": 1,
+      "message": "and one on a different index. Pagination OFFSET and SEARCH_AFTER will have a count of 3, pagination NONE fails with 4. Will rework the assertion to get rid of the magic number and reword the comment.",
+      "parentUuid": "d4c5fc12_cfedf03e",
+      "range": {
+        "startLine": 125,
+        "startChar": 71,
+        "endLine": 125,
+        "endChar": 72
+      },
+      "revId": "f08ab21de72a2bb42f9e5c8186f9221aa45230f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

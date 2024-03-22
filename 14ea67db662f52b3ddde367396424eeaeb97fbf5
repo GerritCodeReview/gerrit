@@ -1,5 +1,29 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "42b0b9e1_8551998c",
+        "filename": "java/com/google/gerrit/server/query/change/EqualsLabelPredicates.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-03-22T09:48:21Z",
+      "side": 1,
+      "message": "In case anyone is interested, this is the case that causes the issue/confusion for us.",
+      "range": {
+        "startLine": 303,
+        "startChar": 8,
+        "endLine": 305,
+        "endChar": 54
+      },
+      "revId": "14ea67db662f52b3ddde367396424eeaeb97fbf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

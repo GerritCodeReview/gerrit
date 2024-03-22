@@ -137,6 +137,8 @@ public class EqualsLabelPredicates {
       Change c = cd.change();
       if (c == null) {
         // The change has disappeared.
+        logger.atFine().log(
+            "%s=%s doesn't match because the change has disappeared.", label, expVal);
         return false;
       }
 
@@ -145,17 +147,28 @@ public class EqualsLabelPredicates {
         // in the index. We do that since computing count=0 requires looping on all {label_type,
         // vote_value} for the change and storing a {count=0} format for it in the change index
         // which is computationally expensive.
+        logger.atFine().log(
+            "%s=%s doesn't match change %s because the count was specified as 0 which is not"
+                + " supported.",
+            label, expVal, cd.change().getChangeId());
         return false;
       }
 
       Optional<ProjectState> project = projectCache.get(c.getDest().project());
       if (!project.isPresent()) {
         // The project has disappeared.
+        logger.atFine().log(
+            "%s=%s doesn't match change %s because its project %s has disappeared.",
+            label, expVal, cd.change().getChangeId(), c.getDest().project().get());
         return false;
       }
 
       LabelType labelType = type(project.get().getLabelTypes(), label);
       if (labelType == null) {
+        logger.atFine().log(
+            "%s=%s doesn't match change %s because the label is not defined by its project %s"
+                + " (label type = %s)",
+            label, expVal, cd.change().getChangeId(), project.get(), project.get().getLabelTypes());
         return false; // Label is not defined by this project.
       }
 
@@ -171,16 +184,51 @@ public class EqualsLabelPredicates {
           }
         }
       }
+      logger.atFine().log(
+          "found %s matching votes for %s=%s on change %s (current approvals = %s)",
+          matchingVotes, label, expVal, cd.change().getChangeId(), cd.currentApprovals());
       cd.setStorageConstraint(currentStorageConstraint);
       if (!hasVote && expVal == 0) {
+        logger.atFine().log(
+            "%s=%s matches change %s because there is no vote for label %s",
+            label, expVal, cd.change().getChangeId(), label);
         return true;
       }
 
-      return count == null ? matchingVotes >= 1 : matchingVotes == count;
+      if (count == null) {
+        if (matchingVotes >= 1) {
+          logger.atFine().log(
+              "%s=%s matches change %s because there are %s matching votes (count was not"
+                  + " specified, hence 1 or more votes are needed)",
+              label, expVal, cd.change().getChangeId(), matchingVotes);
+          return true;
+        }
+        logger.atFine().log(
+            "%s=%s doesn't match change %s because there are no matching votes (count was not"
+                + " specified, hence 1 or more votes are needed)",
+            label, expVal, cd.change().getChangeId());
+        return false;
+      }
+
+      if (matchingVotes == count) {
+        logger.atFine().log(
+            "%s=%s matches change %s because there are %s matching votes which matches the"
+                + " expected count %s",
+            label, expVal, cd.change().getChangeId(), matchingVotes, count);
+        return true;
+      }
+      logger.atFine().log(
+          "%s=%s doesn't match change %s because there are %s matching votes which doesn't match"
+              + " the expected count %s",
+          label, expVal, cd.change().getChangeId(), matchingVotes, count);
+      return false;
     }
 
     private boolean match(ChangeData cd, PatchSetApproval psa) {
       if (psa.value() != expVal) {
+        logger.atFine().log(
+            "vote %s on change %s doesn't match expected value %s",
+            psa, cd.change().getChangeId(), expVal);
         return false;
       }
       Account.Id approver = psa.accountId();
@@ -188,18 +236,27 @@ public class EqualsLabelPredicates {
       if (account != null) {
         // case when account in query is numeric
         if (!account.equals(approver) && !isMagicUser()) {
+          logger.atFine().log(
+              "vote %s on change %s doesn't match expected approver %s",
+              psa, cd.change().getChangeId(), account);
           return false;
         }
 
         // case when account in query = owner
         if (account.equals(ChangeQueryBuilder.OWNER_ACCOUNT_ID)
             && !cd.change().getOwner().equals(approver)) {
+          logger.atFine().log(
+              "vote %s on change %s doesn't match since it is not from the change owner %s",
+              psa, cd.change().getChangeId(), cd.change().getOwner());
           return false;
         }
 
         // case when account in query = non_uploader
         if (account.equals(ChangeQueryBuilder.NON_UPLOADER_ACCOUNT_ID)
             && cd.currentPatchSet().uploader().equals(approver)) {
+          logger.atFine().log(
+              "vote %s on change %s doesn't match since it is not from the uploader %s",
+              psa, cd.change().getChangeId(), cd.currentPatchSet().uploader());
           return false;
         }
 
@@ -207,6 +264,14 @@ public class EqualsLabelPredicates {
           if ((cd.currentPatchSet().uploader().equals(approver)
               || matchAccount(cd.getCommitter().getEmailAddress(), approver)
               || matchAccount(cd.getAuthor().getEmailAddress(), approver))) {
+            logger.atFine().log(
+                "vote %s on change %s doesn't match since it is not from a contributor"
+                    + " (uploader: %s, committer: %s, author: %s)",
+                psa,
+                cd.change().getChangeId(),
+                cd.currentPatchSet().uploader(),
+                cd.getCommitter().getEmailAddress(),
+                cd.getAuthor().getEmailAddress());
             return false;
           }
         }
@@ -214,6 +279,10 @@ public class EqualsLabelPredicates {
 
       IdentifiedUser reviewer = userFactory.create(approver);
       if (group != null && !reviewer.getEffectiveGroups().contains(group)) {
+        logger.atFine().log(
+            "vote %s on change %s doesn't match since the approver %s is not a member of the"
+                + " expected group %s",
+            psa, cd.change().getChangeId(), approver, group);
         return false;
       }
 
@@ -221,12 +290,19 @@ public class EqualsLabelPredicates {
       try {
         PermissionBackend.ForChange perm = permissionBackend.absentUser(approver).change(cd);
         if (!projectCache.get(cd.project()).map(ProjectState::statePermitsRead).orElse(false)) {
+          logger.atFine().log(
+              "vote %s on change %s doesn't match since the project %s doesn't permit read",
+              psa, cd.change().getChangeId(), cd.project().get());
           return false;
         }
 
         perm.check(ChangePermission.READ);
+        logger.atFine().log("vote %s on change %s matches", psa, cd.change().getChangeId());
         return true;
       } catch (PermissionBackendException | AuthException e) {
+        logger.atFine().log(
+            "vote %s on change %s doesn't match because the approver %s has no read access",
+            psa, cd.change().getChangeId(), approver);
         return false;
       }
     }

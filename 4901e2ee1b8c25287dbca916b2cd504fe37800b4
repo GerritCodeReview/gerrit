@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2223ed7_22a8d49a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-03-22T08:16:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21810acd_c614a997",
+      "revId": "4901e2ee1b8c25287dbca916b2cd504fe37800b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "78b0085e_7471bc94",
@@ -58,6 +76,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a62d03e_214c9769",
+        "filename": "java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-03-22T08:16:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68995e8b_f7f5ab08",
+      "range": {
+        "startLine": 159,
+        "startChar": 0,
+        "endLine": 161,
+        "endChar": 5
+      },
+      "revId": "4901e2ee1b8c25287dbca916b2cd504fe37800b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "869e5c8d_b04c5f0a",
@@ -71,6 +113,30 @@
       "writtenOn": "2024-03-21T23:39:48Z",
       "side": 1,
       "message": "```suggestion\n    return openHandleFromRevisionId(repo, readRef(repo));\n```",
+      "range": {
+        "startLine": 211,
+        "startChar": 11,
+        "endLine": 211,
+        "endChar": 27
+      },
+      "revId": "4901e2ee1b8c25287dbca916b2cd504fe37800b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "732594c8_3f011939",
+        "filename": "java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-03-22T08:16:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "869e5c8d_b04c5f0a",
       "range": {
         "startLine": 211,
         "startChar": 11,
@@ -100,6 +166,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5113f03c_d523b4ce",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-03-22T08:16:15Z",
+      "side": 1,
+      "message": "\u003e Also, it is better to move new parameters to the end after L131\n\nSince it is a cherry-pick I wanted to keep it as close as possible to the original change.",
+      "parentUuid": "ad8934df_1cba53fe",
+      "revId": "4901e2ee1b8c25287dbca916b2cd504fe37800b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "427fc4e7_e7216dc2",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 9
@@ -111,6 +195,30 @@
       "writtenOn": "2024-03-21T23:39:48Z",
       "side": 1,
       "message": "Is it worth delegating the existing 2 parameters constructor to. the new 3 parameters one and having null at the end?",
+      "range": {
+        "startLine": 223,
+        "startChar": 17,
+        "endLine": 223,
+        "endChar": 48
+      },
+      "revId": "4901e2ee1b8c25287dbca916b2cd504fe37800b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac9bfc1a_8923d9eb",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-03-22T08:16:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "427fc4e7_e7216dc2",
       "range": {
         "startLine": 223,
         "startChar": 17,

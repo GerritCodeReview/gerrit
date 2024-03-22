@@ -108,6 +108,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4281bf2_fdc9fa44",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-03-22T19:11:15Z",
+      "side": 1,
+      "message": "Sure, I will try to benchmark also these cases. I expect that inserts will take teh same time and updates shall be faster because the `WHERE` condition shall be supported by indexes.",
+      "parentUuid": "9d7b9236_48d2b05f",
+      "revId": "ac3ee13b317f243788b1f990c868d9d875610e0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "92faa92e_4350f80a",

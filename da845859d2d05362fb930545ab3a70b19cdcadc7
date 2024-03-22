@@ -22,6 +22,30 @@
       },
       "revId": "da845859d2d05362fb930545ab3a70b19cdcadc7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87a3be4d_247ba9e0",
+        "filename": "javatests/com/google/gerrit/server/query/change/FakeQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-03-22T20:16:35Z",
+      "side": 1,
+      "message": "This is because in this change we just add the tests for pagination NONE. \nIn the following change 413843 this test is enabled again alongside the new test as described in the issue. \nSould this test be enabled already here? \nAnd in that case should the new test be added in change 413843 or in this one?",
+      "parentUuid": "d0994325_c609bdac",
+      "range": {
+        "startLine": 62,
+        "startChar": 4,
+        "endLine": 62,
+        "endChar": 67
+      },
+      "revId": "da845859d2d05362fb930545ab3a70b19cdcadc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

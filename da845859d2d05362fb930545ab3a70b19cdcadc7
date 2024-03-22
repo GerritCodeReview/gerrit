@@ -46,6 +46,30 @@
       },
       "revId": "da845859d2d05362fb930545ab3a70b19cdcadc7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e90f210f_a4bb9969",
+        "filename": "javatests/com/google/gerrit/server/query/change/FakeQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-22T21:54:37Z",
+      "side": 1,
+      "message": "I believe there is valid in adding it here as a separate change. However, if you disable it for `PaginationType.NONE` because it is breaking, then add a `//TODO: ...` comment to explain.",
+      "parentUuid": "87a3be4d_247ba9e0",
+      "range": {
+        "startLine": 62,
+        "startChar": 4,
+        "endLine": 62,
+        "endChar": 67
+      },
+      "revId": "da845859d2d05362fb930545ab3a70b19cdcadc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

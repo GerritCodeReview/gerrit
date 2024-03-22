@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "167d5f62_257e67c3",
+        "filename": "java/com/google/gerrit/server/query/change/EqualsLabelPredicates.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-03-22T07:06:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa62a68d_1a5812f0",
+      "range": {
+        "startLine": 193,
+        "startChar": 45,
+        "endLine": 193,
+        "endChar": 48
+      },
+      "revId": "51b083a931ce0b1f186c3cb40d741ff83b396ea4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "14eb2257_d8d6ddb5",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f2b091e_19305d59",
+        "filename": "java/com/google/gerrit/server/query/change/EqualsLabelPredicates.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-03-22T07:06:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "14eb2257_d8d6ddb5",
+      "range": {
+        "startLine": 207,
+        "startChar": 51,
+        "endLine": 207,
+        "endChar": 57
+      },
+      "revId": "51b083a931ce0b1f186c3cb40d741ff83b396ea4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "21950ce5_1fa589a2",
@@ -60,6 +108,30 @@
       "writtenOn": "2024-03-21T16:27:40Z",
       "side": 1,
       "message": "contributor",
+      "range": {
+        "startLine": 268,
+        "startChar": 75,
+        "endLine": 268,
+        "endChar": 85
+      },
+      "revId": "51b083a931ce0b1f186c3cb40d741ff83b396ea4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e51c025_2435c95e",
+        "filename": "java/com/google/gerrit/server/query/change/EqualsLabelPredicates.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-03-22T07:06:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21950ce5_1fa589a2",
       "range": {
         "startLine": 268,
         "startChar": 75,

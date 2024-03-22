@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7848e3b8_f7643015",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-22T14:49:00Z",
+      "side": 1,
+      "message": "Missing `Release-Notes` footer. I believe this is a noteworthy improvement to be mentioned.\n\nCan you also add some benchmarks on your system with millions of changes and the associated improvements?",
+      "revId": "ac3ee13b317f243788b1f990c868d9d875610e0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "92faa92e_4350f80a",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 777,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-22T14:49:00Z",
+      "side": 1,
+      "message": "Neat!",
+      "range": {
+        "startLine": 776,
+        "startChar": 0,
+        "endLine": 777,
+        "endChar": 79
+      },
+      "revId": "ac3ee13b317f243788b1f990c868d9d875610e0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

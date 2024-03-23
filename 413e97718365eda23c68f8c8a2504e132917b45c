@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc1fc9d9_adf1e5e1",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-23T01:43:56Z",
+      "side": 1,
+      "message": "This can be `@Nullable`, hence we can also keep the existing public method, which is a good thing as we won\u0027t break binary compatibility of a public method in a stable release.",
+      "range": {
+        "startLine": 566,
+        "startChar": 25,
+        "endLine": 566,
+        "endChar": 34
+      },
+      "revId": "413e97718365eda23c68f8c8a2504e132917b45c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51fa56e7_6f30a995",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 571,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-23T01:43:56Z",
+      "side": 1,
+      "message": "This can be `@Nullable`, hence we can also keep the existing public method, which is a good thing as we won\u0027t break binary compatibility of a public method in a stable release.",
+      "range": {
+        "startLine": 571,
+        "startChar": 25,
+        "endLine": 571,
+        "endChar": 34
+      },
+      "revId": "413e97718365eda23c68f8c8a2504e132917b45c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f20a510_5e5e2d43",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-23T01:43:56Z",
+      "side": 1,
+      "message": "This is `@Nullable` because the `DraftCommentsNotes` constructor allows a null in the virtualId, which is the case when the change isn\u0027t imported.",
+      "range": {
+        "startLine": 591,
+        "startChar": 52,
+        "endLine": 591,
+        "endChar": 61
+      },
+      "revId": "413e97718365eda23c68f8c8a2504e132917b45c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7ad00d3_9618e0db",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 1527,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-23T01:43:56Z",
+      "side": 1,
+      "message": "This should stay `notes()` otherwise it would risk a NPE in case of lazy loading.",
+      "range": {
+        "startLine": 1527,
+        "startChar": 16,
+        "endLine": 1527,
+        "endChar": 21
+      },
+      "revId": "413e97718365eda23c68f8c8a2504e132917b45c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "127e914b_511a48bd",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-23T01:43:56Z",
+      "side": 1,
+      "message": "No need to change any of these tests, if we keep backward compatibility when loading changes without a virtualId",
+      "revId": "413e97718365eda23c68f8c8a2504e132917b45c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "029f016b_bd99a492",
+        "filename": "javatests/com/google/gerrit/server/notedb/DraftCommentNotesTest.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-23T01:43:56Z",
+      "side": 1,
+      "message": "No need to change any of these tests, if we keep backward compatibility when loading changes without a virtualId",
+      "revId": "413e97718365eda23c68f8c8a2504e132917b45c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

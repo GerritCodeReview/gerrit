@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae49768d_6f656f20",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 39
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-23T01:51:54Z",
+      "side": 1,
+      "message": "Tested E2E and works as expected. @geminica.programs@gmail.com @syntonyze@gmail.com can you double-check?",
+      "revId": "cfb8342b5014eb7cd078df6f3f3362758d0e8c99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

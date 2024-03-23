@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5472b39_bc97594d",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-23T01:15:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "784acd18_24d2bbfd",
+      "range": {
+        "startLine": 231,
+        "startChar": 14,
+        "endLine": 231,
+        "endChar": 23
+      },
+      "revId": "f768b44f1142100c93305d664e5a22dedf970e98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "08c66cda_0a2c181a",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e48ebf35_a8bf56f3",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-23T01:15:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "08c66cda_0a2c181a",
+      "range": {
+        "startLine": 332,
+        "startChar": 46,
+        "endLine": 332,
+        "endChar": 77
+      },
+      "revId": "f768b44f1142100c93305d664e5a22dedf970e98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8cf712fd_eb4887c8",
@@ -60,6 +108,30 @@
       "writtenOn": "2024-03-23T01:13:49Z",
       "side": 1,
       "message": "The caller has `ChangeNotes`: just pass it through and use it directly here.",
+      "range": {
+        "startLine": 512,
+        "startChar": 33,
+        "endLine": 512,
+        "endChar": 39
+      },
+      "revId": "f768b44f1142100c93305d664e5a22dedf970e98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd2a59a9_7962b883",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 512,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-23T01:15:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8cf712fd_eb4887c8",
       "range": {
         "startLine": 512,
         "startChar": 33,

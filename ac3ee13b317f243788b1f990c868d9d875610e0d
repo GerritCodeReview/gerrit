@@ -126,6 +126,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "e381ef22_7cfc3dfc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-03-23T08:42:41Z",
+      "side": 1,
+      "message": "Just one benchmark without this change: The `git_file_diff` cache was around `100gb` large and was pruned down to `5gb`. This took about 9,5 hours!\nAnother pruning of the same cache from `5gb` to `5gb` took about 3 minutes.",
+      "parentUuid": "e4281bf2_fdc9fa44",
+      "revId": "ac3ee13b317f243788b1f990c868d9d875610e0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "92faa92e_4350f80a",

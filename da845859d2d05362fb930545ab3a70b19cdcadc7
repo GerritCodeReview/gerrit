@@ -3,6 +3,63 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6ea10dc6_9abf0fcc",
+        "filename": "java/com/google/gerrit/index/QueryOptions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-23T00:08:18Z",
+      "side": 1,
+      "message": "It would make sense to add here the method to return the limit based on pagination type, so that we can reuse them in the FakeQuery indexing backend.\n\n\n```suggestion\n    public int getLimitBasedOnPaginationType() {\n      return PaginationType.NONE \u003d\u003d config().paginationType() ? limit() : pageSize();\n    }\n  }\n```",
+      "revId": "da845859d2d05362fb930545ab3a70b19cdcadc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "565a2c85_74102368",
+        "filename": "java/com/google/gerrit/index/testing/AbstractFakeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-23T00:08:18Z",
+      "side": 1,
+      "message": "This should be `limit()` if PaginationType.NONE is disabled.\n\n\n```suggestion\n        int toIndex \u003d Math.min(fromIndex + opts.opts.getLimitBasedOnPaginationType(), valueList.size());\n```",
+      "range": {
+        "startLine": 138,
+        "startChar": 48,
+        "endLine": 138,
+        "endChar": 56
+      },
+      "revId": "da845859d2d05362fb930545ab3a70b19cdcadc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ea195a2_76ef33f9",
+        "filename": "java/com/google/gerrit/index/testing/AbstractFakeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-23T00:08:18Z",
+      "side": 1,
+      "message": "```suggestion\n        results \u003d valueStream.skip(opts.start()).limit(opts.opts.getLimitBasedOnPaginationType()).collect(toImmutableList());\n```",
+      "revId": "da845859d2d05362fb930545ab3a70b19cdcadc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d0994325_c609bdac",
         "filename": "javatests/com/google/gerrit/server/query/change/FakeQueryChangesTest.java",
         "patchSetId": 1

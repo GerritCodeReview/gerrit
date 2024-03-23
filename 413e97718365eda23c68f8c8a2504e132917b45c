@@ -165,6 +165,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f5e6767_c3b3464f",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 1527,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-23T01:52:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b7ad00d3_9618e0db",
+      "range": {
+        "startLine": 1527,
+        "startChar": 16,
+        "endLine": 1527,
+        "endChar": 21
+      },
+      "revId": "413e97718365eda23c68f8c8a2504e132917b45c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "127e914b_511a48bd",
@@ -182,6 +206,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9124bd5c_c32513b1",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-23T01:52:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "127e914b_511a48bd",
+      "revId": "413e97718365eda23c68f8c8a2504e132917b45c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "029f016b_bd99a492",
@@ -195,6 +237,24 @@
       "writtenOn": "2024-03-23T01:43:56Z",
       "side": 1,
       "message": "No need to change any of these tests, if we keep backward compatibility when loading changes without a virtualId",
+      "revId": "413e97718365eda23c68f8c8a2504e132917b45c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bab64375_565d4cf9",
+        "filename": "javatests/com/google/gerrit/server/notedb/DraftCommentNotesTest.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-23T01:52:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "029f016b_bd99a492",
       "revId": "413e97718365eda23c68f8c8a2504e132917b45c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

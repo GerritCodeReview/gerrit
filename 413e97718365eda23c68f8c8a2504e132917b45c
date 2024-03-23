@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "314ceb1f_f8ca92f7",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-23T01:49:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cc1fc9d9_adf1e5e1",
+      "range": {
+        "startLine": 566,
+        "startChar": 25,
+        "endLine": 566,
+        "endChar": 34
+      },
+      "revId": "413e97718365eda23c68f8c8a2504e132917b45c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "51fa56e7_6f30a995",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e40e076_6ce5e2fa",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 571,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-23T01:49:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51fa56e7_6f30a995",
+      "range": {
+        "startLine": 571,
+        "startChar": 25,
+        "endLine": 571,
+        "endChar": 34
+      },
+      "revId": "413e97718365eda23c68f8c8a2504e132917b45c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4f20a510_5e5e2d43",
@@ -60,6 +108,30 @@
       "writtenOn": "2024-03-23T01:43:56Z",
       "side": 1,
       "message": "This is `@Nullable` because the `DraftCommentsNotes` constructor allows a null in the virtualId, which is the case when the change isn\u0027t imported.",
+      "range": {
+        "startLine": 591,
+        "startChar": 52,
+        "endLine": 591,
+        "endChar": 61
+      },
+      "revId": "413e97718365eda23c68f8c8a2504e132917b45c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb020885_fe687142",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 37
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-23T01:49:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f20a510_5e5e2d43",
       "range": {
         "startLine": 591,
         "startChar": 52,

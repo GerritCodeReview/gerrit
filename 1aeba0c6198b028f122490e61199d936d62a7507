@@ -16,6 +16,23 @@
       "message": "I had planned to eventually make this same change, so thank you for beating me to it 😊",
       "revId": "1aeba0c6198b028f122490e61199d936d62a7507",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c5af185_1665747d",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-03-24T14:12:27Z",
+      "side": 1,
+      "message": "Now that the cleanup executor is created via the `workQueue.createQueue` this may be unnecessary. The `WorkQueue` has its own `Lifecycle` and it will shutdown all \"queues\" (executors) created through itself.",
+      "revId": "1aeba0c6198b028f122490e61199d936d62a7507",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

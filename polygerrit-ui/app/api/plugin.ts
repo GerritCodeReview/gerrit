@@ -34,6 +34,7 @@ export enum EventType {
   POST_REVERT = 'postrevert',
   ADMIN_MENU_LINKS = 'admin-menu-links',
   SHOW_DIFF = 'showdiff',
+  REPLY_SENT = 'replysent',
 }
 
 export declare interface PluginApi {

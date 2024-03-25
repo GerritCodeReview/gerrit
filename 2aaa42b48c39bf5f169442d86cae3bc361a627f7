@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "74a293a2_3a9b9f51",
+        "filename": "java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-03-25T22:47:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31153654_5b487924",
+      "range": {
+        "startLine": 225,
+        "startChar": 12,
+        "endLine": 225,
+        "endChar": 46
+      },
+      "revId": "2aaa42b48c39bf5f169442d86cae3bc361a627f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1482050f_bd79e9bf",
@@ -37,6 +61,24 @@
       "writtenOn": "2024-03-25T22:40:50Z",
       "side": 1,
       "message": "Unneeded, because we already have a compatible constructor.\n\n\n```suggestion\n      return new ChangeNotes(args, loadChangeFromDb(db, project, changeId)).load();\n```",
+      "revId": "2aaa42b48c39bf5f169442d86cae3bc361a627f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "475aa0d3_dd927f10",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-03-25T22:47:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1482050f_bd79e9bf",
       "revId": "2aaa42b48c39bf5f169442d86cae3bc361a627f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -58,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1bbcdcc_1134d85a",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-03-25T22:47:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "95e22ddd_6bc8f4d2",
+      "revId": "2aaa42b48c39bf5f169442d86cae3bc361a627f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9470640d_760d7037",
@@ -75,6 +135,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fdcb3357_924b0e4e",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-03-25T22:47:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9470640d_760d7037",
+      "revId": "2aaa42b48c39bf5f169442d86cae3bc361a627f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a9d29ee7_59a7ccb1",
@@ -88,6 +166,30 @@
       "writtenOn": "2024-03-25T22:40:50Z",
       "side": 1,
       "message": "Unneeded.\n\n\n```suggestion\n    super(args, change.getId(), PrimaryStorage.of(change), false);\n```",
+      "range": {
+        "startLine": 52,
+        "startChar": 64,
+        "endLine": 52,
+        "endChar": 70
+      },
+      "revId": "2aaa42b48c39bf5f169442d86cae3bc361a627f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9aff664e_0cbce026",
+        "filename": "java/com/google/gerrit/server/notedb/RobotCommentNotes.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-03-25T22:47:58Z",
+      "side": 1,
+      "message": "This is needed. See the `AbstractChangeNotes` constructor:\n\n```\n AbstractChangeNotes(\n      Args args,\n      Change.Id changeId,\n      @Nullable PrimaryStorage primaryStorage,\n      boolean autoRebuild,\n      @Nullable ObjectId metaSha1)\n```",
+      "parentUuid": "a9d29ee7_59a7ccb1",
       "range": {
         "startLine": 52,
         "startChar": 64,

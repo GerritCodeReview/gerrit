@@ -1298,11 +1298,11 @@ export class GrChangeActions
   }
 
   // private but used in test
-  canSubmitChange() {
+  async canSubmitChange() {
     if (!this.change) return false;
     const change = this.change as ChangeInfo;
     const revision = this.getRevision(change, this.latestPatchNum);
-    return this.getPluginLoader().jsApiService.canSubmitChange(
+    return await this.getPluginLoader().jsApiService.canSubmitChange(
       change,
       revision
     );
@@ -1343,8 +1343,8 @@ export class GrChangeActions
     });
   }
 
-  showSubmitDialog() {
-    if (!this.canSubmitChange()) {
+  async showSubmitDialog() {
+    if (!(await this.canSubmitChange())) {
       return;
     }
     assertIsDefined(this.confirmSubmitDialog, 'confirmSubmitDialog');
@@ -1473,7 +1473,7 @@ export class GrChangeActions
     }
   }
 
-  private handleRevisionAction(key: string) {
+  private async handleRevisionAction(key: string) {
     switch (key) {
       case RevisionActions.REBASE:
         assertIsDefined(this.confirmRebase, 'confirmRebase');
@@ -1487,7 +1487,7 @@ export class GrChangeActions
         this.handleDownloadTap();
         break;
       case RevisionActions.SUBMIT:
-        if (!this.canSubmitChange()) {
+        if (!(await this.canSubmitChange())) {
           return;
         }
         assertIsDefined(this.confirmSubmitDialog, 'confirmSubmitDialog');
@@ -1692,8 +1692,8 @@ export class GrChangeActions
   }
 
   // private but used in test
-  handleSubmitConfirm() {
-    if (!this.canSubmitChange()) {
+  async handleSubmitConfirm() {
+    if (!(await this.canSubmitChange())) {
       return;
     }
     this.hideAllDialogs();
@@ -1793,10 +1793,11 @@ export class GrChangeActions
   // TODO(rmistry): Redo this after
   // https://issues.gerritcodereview.com/issues/40004936 is resolved.
   // private but used in test
-  setReviewOnRevert(newChangeId: NumericChangeId) {
-    const review = this.getPluginLoader().jsApiService.getReviewPostRevert(
-      this.change as ChangeInfo
-    );
+  async setReviewOnRevert(newChangeId: NumericChangeId) {
+    const review =
+      await this.getPluginLoader().jsApiService.getReviewPostRevert(
+        this.change as ChangeInfo
+      );
     if (!review) {
       return Promise.resolve(undefined);
     }

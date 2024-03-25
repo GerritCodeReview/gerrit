@@ -175,7 +175,7 @@ export class GrConfirmRevertDialog
     return this.revertType === RevertType.REVERT_SUBMISSION;
   }
 
-  modifyRevertMsg(
+  async modifyRevertMsg(
     change: ParsedChangeInfo,
     commitMessage: string,
     message: string
@@ -202,7 +202,7 @@ export class GrConfirmRevertDialog
     this.populateRevertSubmissionMessage(change, commitMessage);
   }
 
-  populateRevertSingleChangeMessage(
+  async populateRevertSingleChangeMessage(
     change: ParsedChangeInfo,
     commitMessage: string,
     commitHash?: CommitId
@@ -229,7 +229,8 @@ export class GrConfirmRevertDialog
       `${revertTitle}\n\n${revertCommitText}\n\n` +
       `Reason for revert: ${INSERT_REASON_STRING}\n`;
     // This is to give plugins a chance to update message
-    this.message = this.modifyRevertMsg(change, commitMessage, message);
+    this.message =
+      (await this.modifyRevertMsg(change, commitMessage, message)) ?? '';
     this.revertType = RevertType.REVERT_SINGLE_CHANGE;
     this.showRevertSubmission = false;
     this.revertMessages[this.revertType] = this.message;
@@ -248,7 +249,7 @@ export class GrConfirmRevertDialog
     );
   }
 
-  populateRevertSubmissionMessage(
+  async populateRevertSubmissionMessage(
     change: ParsedChangeInfo,
     commitMessage: string
   ) {
@@ -258,6 +259,11 @@ export class GrConfirmRevertDialog
       fireAlert(this, ERR_COMMIT_NOT_FOUND);
       return;
     }
+    console.log(
+      `${Date.now() % 100000} asdf populateRevertSubmissionMessage ${
+        this.changesCount
+      }`
+    );
     if (this.changesCount! <= 1) return;
     const message =
       `Revert submission ${change.submission_id}` +
@@ -267,11 +273,9 @@ export class GrConfirmRevertDialog
       'Reverted changes: ' +
       createSearchUrl({query: `submissionid:${change.submission_id}`}) +
       '\n';
-    this.message = this.modifyRevertSubmissionMsg(
-      change,
-      message,
-      commitMessage
-    );
+    this.message =
+      (await this.modifyRevertSubmissionMsg(change, message, commitMessage)) ??
+      '';
     this.revertType = RevertType.REVERT_SUBMISSION;
     this.revertMessages[this.revertType] = this.message;
     this.originalRevertMessages[this.revertType] = this.message;

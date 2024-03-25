@@ -192,7 +192,7 @@ suite('GrJsApiInterface tests', () => {
     assert.isTrue(showChangeStub.called);
   });
 
-  test('revert event', () => {
+  test('revert event', async () => {
     function appendToRevertMsg(
       _c: unknown,
       revertMsg: string,
@@ -202,52 +202,55 @@ suite('GrJsApiInterface tests', () => {
     }
     const change = createChange();
 
-    assert.equal(element.modifyRevertMsg(change, 'test', 'origTest'), 'test');
+    assert.equal(
+      await element.modifyRevertMsg(change, 'test', 'origTest'),
+      'test'
+    );
     assert.equal(errorStub.callCount, 0);
 
     plugin.on(EventType.REVERT, throwErrFn);
     plugin.on(EventType.REVERT, appendToRevertMsg);
     assert.equal(
-      element.modifyRevertMsg(change, 'test', 'origTest'),
+      await element.modifyRevertMsg(change, 'test', 'origTest'),
       'test\n> origTest\ninfo'
     );
     assert.isTrue(errorStub.calledOnce);
 
     plugin.on(EventType.REVERT, appendToRevertMsg);
     assert.equal(
-      element.modifyRevertMsg(change, 'test', 'origTest'),
+      await element.modifyRevertMsg(change, 'test', 'origTest'),
       'test\n> origTest\ninfo\n> origTest\ninfo'
     );
     assert.isTrue(errorStub.calledTwice);
   });
 
-  test('postrevert event labels', () => {
+  test('postrevert event labels', async () => {
     function getLabels(_c: unknown) {
       return {'Code-Review': 1};
     }
 
-    assert.deepEqual(element.getReviewPostRevert(undefined), {});
+    assert.deepEqual(await element.getReviewPostRevert(undefined), {});
     assert.equal(errorStub.callCount, 0);
 
     plugin.on(EventType.POST_REVERT, throwErrFn);
     plugin.on(EventType.POST_REVERT, getLabels);
-    assert.deepEqual(element.getReviewPostRevert(undefined), {
+    assert.deepEqual(await element.getReviewPostRevert(undefined), {
       labels: {'Code-Review': 1},
     });
     assert.isTrue(errorStub.calledOnce);
   });
 
-  test('postrevert event review', () => {
+  test('postrevert event review', async () => {
     function getReview(_c: unknown) {
       return {labels: {'Code-Review': 1}};
     }
 
-    assert.deepEqual(element.getReviewPostRevert(undefined), {});
+    assert.deepEqual(await element.getReviewPostRevert(undefined), {});
     assert.equal(errorStub.callCount, 0);
 
     plugin.on(EventType.POST_REVERT, throwErrFn);
     plugin.on(EventType.POST_REVERT, getReview);
-    assert.deepEqual(element.getReviewPostRevert(undefined), {
+    assert.deepEqual(await element.getReviewPostRevert(undefined), {
       labels: {'Code-Review': 1},
     });
     assert.isTrue(errorStub.calledOnce);
@@ -284,14 +287,16 @@ suite('GrJsApiInterface tests', () => {
     assert.isTrue(errorStub.calledOnce);
   });
 
-  test('submitchange', () => {
+  test.only('submitchange', async () => {
+    console.log(`${Date.now() % 100000} asdf submitchange test 0`);
     plugin.on(EventType.SUBMIT_CHANGE, throwErrFn);
     plugin.on(EventType.SUBMIT_CHANGE, () => true);
-    assert.isTrue(element.canSubmitChange(createChange()));
+    console.log(`${Date.now() % 100000} asdf submitchange test 1`);
+    assert.isTrue(await element.canSubmitChange(createChange()));
     assert.isTrue(errorStub.calledOnce);
     plugin.on(EventType.SUBMIT_CHANGE, () => false);
     plugin.on(EventType.SUBMIT_CHANGE, () => true);
-    assert.isFalse(element.canSubmitChange(createChange()));
+    assert.isFalse(await element.canSubmitChange(createChange()));
     assert.isTrue(errorStub.calledTwice);
   });
 

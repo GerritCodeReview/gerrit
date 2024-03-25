@@ -44,7 +44,7 @@ export interface JsApiService extends Finalizable {
     change: ChangeInfo,
     revertSubmissionMsg: string,
     origMsg: string
-  ): string;
+  ): Promise<string | undefined>;
   handleShowChange(detail: ShowChangeDetail): void;
   handleShowRevisionActions(detail: ShowRevisionActionsDetail): void;
   handleLabelChange(detail: {change?: ParsedChangeInfo}): void;
@@ -52,11 +52,14 @@ export interface JsApiService extends Finalizable {
     change: ChangeInfo,
     revertMsg: string,
     origMsg: string
-  ): string;
+  ): Promise<string | undefined>;
   addElement(key: TargetElement, el: HTMLElement): void;
   getAdminMenuLinks(): MenuLink[];
   handleCommitMessage(change: ChangeInfo | ParsedChangeInfo, msg: string): void;
-  canSubmitChange(change: ChangeInfo, revision?: RevisionInfo | null): boolean;
-  getReviewPostRevert(change?: ChangeInfo): ReviewInput;
+  canSubmitChange(
+    change: ChangeInfo,
+    revision?: RevisionInfo | null
+  ): Promise<boolean | undefined>;
+  getReviewPostRevert(change?: ChangeInfo): Promise<ReviewInput | undefined>;
   handleShowDiff(detail: ShowDiffDetail): void;
 }

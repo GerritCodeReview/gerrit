@@ -34,6 +34,8 @@ export enum EventType {
   POST_REVERT = 'postrevert',
   ADMIN_MENU_LINKS = 'admin-menu-links',
   SHOW_DIFF = 'showdiff',
+  // Triggered whenever a user has sent votes or comments using the reply dialog.
+  CHANGE_REPLY_SENT = 'change-reply-sent',
 }
 
 export declare interface PluginApi {

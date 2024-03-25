@@ -24,6 +24,8 @@ import {
   queryAndAssert,
   stubReporting,
   stubRestApi,
+  waitQueryAndAssert,
+  waitUntil,
 } from '../../../test/test-utils';
 import {assertUIActionInfo, GrChangeActions} from './gr-change-actions';
 import {
@@ -530,9 +532,7 @@ suite('gr-change-actions tests', () => {
         element,
         'gr-button[data-action-key="submit"]'
       ).click();
-
-      await element.updateComplete;
-      assert.isTrue(
+      await waitUntil(() =>
         showSpy.calledWith(
           queryAndAssert<GrConfirmSubmitDialog>(element, '#confirmSubmitDialog')
         )
@@ -585,10 +585,10 @@ suite('gr-change-actions tests', () => {
       );
     });
 
-    test('handleSubmitConfirm', () => {
+    test('handleSubmitConfirm', async () => {
       const fireStub = sinon.stub(element, 'fireAction');
-      sinon.stub(element, 'canSubmitChange').returns(true);
-      element.handleSubmitConfirm();
+      sinon.stub(element, 'canSubmitChange').returns(Promise.resolve(true));
+      await element.handleSubmitConfirm();
       assert.isTrue(fireStub.calledOnce);
       assert.deepEqual(fireStub.lastCall.args, [
         '/submit',
@@ -599,13 +599,15 @@ suite('gr-change-actions tests', () => {
 
     test('handleSubmitConfirm when not able to submit', () => {
       const fireStub = sinon.stub(element, 'fireAction');
-      sinon.stub(element, 'canSubmitChange').returns(false);
+      sinon.stub(element, 'canSubmitChange').returns(Promise.resolve(false));
       element.handleSubmitConfirm();
       assert.isFalse(fireStub.called);
     });
 
     test('submit change with plugin hook', async () => {
-      sinon.stub(element, 'canSubmitChange').callsFake(() => false);
+      sinon
+        .stub(element, 'canSubmitChange')
+        .callsFake(() => Promise.resolve(false));
       const fireActionStub = sinon.stub(element, 'fireAction');
       await element.updateComplete;
       queryAndAssert<GrButton>(
@@ -731,7 +733,7 @@ suite('gr-change-actions tests', () => {
           testResolver(pluginLoaderToken).jsApiService,
           'getReviewPostRevert'
         )
-        .returns(review);
+        .returns(Promise.resolve(review));
       const saveStub = stubRestApi('saveChangeReview').returns(
         Promise.resolve({})
       );
@@ -1484,7 +1486,7 @@ suite('gr-change-actions tests', () => {
             ),
             'modifyRevertMsg'
           )
-          .callsFake(() => newRevertMsg);
+          .callsFake(() => Promise.resolve(newRevertMsg));
         element.change = {
           ...createChangeViewChange(),
           current_revision: 'abc1234' as CommitId,
@@ -1521,17 +1523,19 @@ suite('gr-change-actions tests', () => {
             ),
             'populateRevertSubmissionMessage'
           )
-          .callsFake(() => 'original msg');
+          .callsFake(() => Promise.resolve());
         await element.updateComplete;
         queryAndAssert<GrButton>(
           element,
           'gr-button[data-action-key="revert"]'
         ).click();
-        await element.updateComplete;
-        assert.equal(
-          queryAndAssert<GrConfirmRevertDialog>(element, '#confirmRevertDialog')
-            .message,
-          newRevertMsg
+
+        await waitUntil(
+          () =>
+            queryAndAssert<GrConfirmRevertDialog>(
+              element,
+              '#confirmRevertDialog'
+            ).message === newRevertMsg
         );
       });
 
@@ -1570,26 +1574,30 @@ suite('gr-change-actions tests', () => {
           await element.updateComplete;
         });
 
-        test('confirm revert dialog shows both options', async () => {
+        test.only('confirm revert dialog shows both options', async () => {
           queryAndAssert<GrButton>(
             element,
             'gr-button[data-action-key="revert"]'
           ).click();
           await element.updateComplete;
           assert.equal(getChangesStub.args[0][1], 'submissionid: "199 0"');
-          const confirmRevertDialog = queryAndAssert<GrConfirmRevertDialog>(
-            element,
-            '#confirmRevertDialog'
-          );
+          const confirmRevertDialog =
+            await waitQueryAndAssert<GrConfirmRevertDialog>(
+              element,
+              '#confirmRevertDialog'
+            );
           await element.updateComplete;
-          const revertSingleChangeLabel = queryAndAssert<HTMLLabelElement>(
-            confirmRevertDialog,
-            '.revertSingleChange'
-          );
-          const revertSubmissionLabel = queryAndAssert<HTMLLabelElement>(
-            confirmRevertDialog,
-            '.revertSubmission'
-          );
+          console.log(`${Date.now() % 100000} asdf test`);
+          const revertSingleChangeLabel =
+            await waitQueryAndAssert<HTMLLabelElement>(
+              confirmRevertDialog,
+              '.revertSingleChange'
+            );
+          const revertSubmissionLabel =
+            await waitQueryAndAssert<HTMLLabelElement>(
+              confirmRevertDialog,
+              '.revertSubmission'
+            );
           assert(
             revertSingleChangeLabel.innerText.trim() === 'Revert single change'
           );

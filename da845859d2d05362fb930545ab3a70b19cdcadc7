@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8812313_5cac3a87",
+        "filename": "java/com/google/gerrit/index/QueryOptions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-03-25T22:38:31Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "6ea10dc6_9abf0fcc",
+      "revId": "da845859d2d05362fb930545ab3a70b19cdcadc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "565a2c85_74102368",
@@ -41,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ddaffdea_efd6ad36",
+        "filename": "java/com/google/gerrit/index/testing/AbstractFakeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-03-25T22:38:31Z",
+      "side": 1,
+      "message": "Good point. I think we initially missed this because of without loop in the pagination we initially the pageSize is always the same as the limit.",
+      "parentUuid": "565a2c85_74102368",
+      "range": {
+        "startLine": 138,
+        "startChar": 48,
+        "endLine": 138,
+        "endChar": 56
+      },
+      "revId": "da845859d2d05362fb930545ab3a70b19cdcadc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5ea195a2_76ef33f9",
@@ -54,6 +96,24 @@
       "writtenOn": "2024-03-23T00:08:18Z",
       "side": 1,
       "message": "```suggestion\n        results \u003d valueStream.skip(opts.start()).limit(opts.opts.getLimitBasedOnPaginationType()).collect(toImmutableList());\n```",
+      "revId": "da845859d2d05362fb930545ab3a70b19cdcadc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e028be33_d1032b4b",
+        "filename": "java/com/google/gerrit/index/testing/AbstractFakeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-03-25T22:38:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ea195a2_76ef33f9",
       "revId": "da845859d2d05362fb930545ab3a70b19cdcadc7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -119,6 +179,30 @@
       "side": 1,
       "message": "I believe there is valid in adding it here as a separate change. However, if you disable it for `PaginationType.NONE` because it is breaking, then add a `//TODO: ...` comment to explain.",
       "parentUuid": "87a3be4d_247ba9e0",
+      "range": {
+        "startLine": 62,
+        "startChar": 4,
+        "endLine": 62,
+        "endChar": 67
+      },
+      "revId": "da845859d2d05362fb930545ab3a70b19cdcadc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ddb3fe2_54fa0324",
+        "filename": "javatests/com/google/gerrit/server/query/change/FakeQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-03-25T22:38:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e90f210f_a4bb9969",
       "range": {
         "startLine": 62,
         "startChar": 4,

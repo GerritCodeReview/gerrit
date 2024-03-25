@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31153654_5b487924",
+        "filename": "java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-25T22:40:50Z",
+      "side": 1,
+      "message": "By looking at ChangeNotes, it is clear to me that this is needed for accessing the pure loading of the change handle without allowing any override by subclasses.\n\nCan you make this method final then?",
+      "range": {
+        "startLine": 225,
+        "startChar": 12,
+        "endLine": 225,
+        "endChar": 46
+      },
+      "revId": "2aaa42b48c39bf5f169442d86cae3bc361a627f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1482050f_bd79e9bf",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-25T22:40:50Z",
+      "side": 1,
+      "message": "Unneeded, because we already have a compatible constructor.\n\n\n```suggestion\n      return new ChangeNotes(args, loadChangeFromDb(db, project, changeId)).load();\n```",
+      "revId": "2aaa42b48c39bf5f169442d86cae3bc361a627f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95e22ddd_6bc8f4d2",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-25T22:40:50Z",
+      "side": 1,
+      "message": "Unneeded.\n\n\n```suggestion\n      return new ChangeNotes(args, change).load();\n```",
+      "revId": "2aaa42b48c39bf5f169442d86cae3bc361a627f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9470640d_760d7037",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-25T22:40:50Z",
+      "side": 1,
+      "message": "Unneeded\n\n\n```suggestion\n      ChangeNotes n \u003d new ChangeNotes(args, rawChangeFromReviewDbOrNoteDb);\n```",
+      "revId": "2aaa42b48c39bf5f169442d86cae3bc361a627f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9d29ee7_59a7ccb1",
+        "filename": "java/com/google/gerrit/server/notedb/RobotCommentNotes.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-25T22:40:50Z",
+      "side": 1,
+      "message": "Unneeded.\n\n\n```suggestion\n    super(args, change.getId(), PrimaryStorage.of(change), false);\n```",
+      "range": {
+        "startLine": 52,
+        "startChar": 64,
+        "endLine": 52,
+        "endChar": 70
+      },
+      "revId": "2aaa42b48c39bf5f169442d86cae3bc361a627f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

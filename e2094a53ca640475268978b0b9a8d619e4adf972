@@ -41,6 +41,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "466fc77c_72690281",
+        "filename": "java/com/google/gerrit/sshd/SshKeyCacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-25T11:53:41Z",
+      "side": 1,
+      "message": "Good point, I believe we should.",
+      "parentUuid": "13fcea8d_81b23185",
+      "revId": "e2094a53ca640475268978b0b9a8d619e4adf972",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f191fb7b_3a28ecf2",
@@ -54,6 +72,24 @@
       "writtenOn": "2024-03-25T10:20:06Z",
       "side": 1,
       "message": "if we fail with the account update here, we\u0027ll still put the key into the cache in L#153, this feels wrong as we may end up in a state where we\u0027ll always try to fix up the keys, fails and try to update them again when they are again loaded into the cache.\n\nHow about returning a simple `boolean` flag indicating if the fix up worked, then if it did, updating the cache?",
+      "revId": "e2094a53ca640475268978b0b9a8d619e4adf972",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9a8a4e6_84a84c02",
+        "filename": "java/com/google/gerrit/sshd/SshKeyCacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-25T11:53:41Z",
+      "side": 1,
+      "message": "True, let me return a boolean and manage in the caller.",
+      "parentUuid": "f191fb7b_3a28ecf2",
       "revId": "e2094a53ca640475268978b0b9a8d619e4adf972",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

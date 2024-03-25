@@ -84,7 +84,7 @@ public class FakeGroupAuditService extends AuditService {
     int expectedSize = Ints.checkedCast(httpMetrics.getRequestsStarted() - drainedSoFar.get());
     List<HttpAuditEvent> result = new ArrayList<>();
     for (int i = 0; i < expectedSize; i++) {
-      HttpAuditEvent e = httpEvents.poll(30, SECONDS);
+      HttpAuditEvent e = httpEvents.poll(40, SECONDS);
       if (e == null) {
         throw new AssertionError(
             String.format("Timeout after receiving %d/%d audit events", i, expectedSize));

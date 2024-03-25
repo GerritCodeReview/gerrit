@@ -1473,6 +1473,7 @@ export class GrReplyDialog extends LitElement {
         this.includeComments = true;
         fireNoBubble(this, 'send', {});
         fireIronAnnounce(this, 'Reply sent');
+        this.getPluginLoader().jsApiService.handleReplySent();
         return;
       })
       .then(result => result)

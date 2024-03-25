@@ -57,11 +57,7 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
       try {
         return callback(change, revision) === false;
       } catch (err: unknown) {
-        this.reporting.error(
-          'GrJsApiInterface',
-          new Error('canSubmitChange callback error'),
-          err
-        );
+        this.reportError(err, EventType.SUBMIT_CHANGE);
       }
       return false;
     });
@@ -116,11 +112,18 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
       try {
         cb(change, revision, info, baseRevision ?? PARENT);
       } catch (err: unknown) {
-        this.reporting.error(
-          'GrJsApiInterface',
-          new Error('showChange callback error'),
-          err
-        );
+        this.reportError(err, EventType.SHOW_CHANGE);
+      }
+    }
+  }
+
+  async handleReplySent() {
+    await this.waitForPluginsToLoad();
+    for (const cb of this._getEventCallbacks(EventType.REPLY_SENT)) {
+      try {
+        cb();
+      } catch (err: unknown) {
+        this.reportError(err, EventType.REPLY_SENT);
       }
     }
   }
@@ -134,11 +137,7 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
       try {
         cb(detail.revisionActions, detail.change);
       } catch (err: unknown) {
-        this.reporting.error(
-          'GrJsApiInterface',
-          new Error('showRevisionActions callback error'),
-          err
-        );
+        this.reportError(err, EventType.SHOW_REVISION_ACTIONS);
       }
     }
   }
@@ -148,11 +147,7 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
       try {
         cb(change, msg);
       } catch (err: unknown) {
-        this.reporting.error(
-          'GrJsApiInterface',
-          new Error('commitMessage callback error'),
-          err
-        );
+        this.reportError(err, EventType.COMMIT_MSG_EDIT);
       }
     }
   }
@@ -163,11 +158,7 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
       try {
         cb(detail.change);
       } catch (err: unknown) {
-        this.reporting.error(
-          'GrJsApiInterface',
-          new Error('labelChange callback error'),
-          err
-        );
+        this.reportError(err, EventType.LABEL_CHANGE);
       }
     }
   }
@@ -177,11 +168,7 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
       try {
         revertMsg = cb(change, revertMsg, origMsg) as string;
       } catch (err: unknown) {
-        this.reporting.error(
-          'GrJsApiInterface',
-          new Error('modifyRevertMsg callback error'),
-          err
-        );
+        this.reportError(err, EventType.REVERT);
       }
     }
     return revertMsg;
@@ -200,11 +187,7 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
           origMsg
         ) as string;
       } catch (err: unknown) {
-        this.reporting.error(
-          'GrJsApiInterface',
-          new Error('modifyRevertSubmissionMsg callback error'),
-          err
-        );
+        this.reportError(err, EventType.REVERT_SUBMISSION);
       }
     }
     return revertSubmissionMsg;
@@ -230,11 +213,7 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
           review = {labels: r as LabelNameToValueMap};
         }
       } catch (err: unknown) {
-        this.reporting.error(
-          'GrJsApiInterface',
-          new Error('getReviewPostRevert callback error'),
-          err
-        );
+        this.reportError(err, EventType.POST_REVERT);
       }
     }
     return review;
@@ -246,13 +225,17 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
       try {
         cb(detail.change, detail.patchRange, detail.fileRange);
       } catch (err: unknown) {
-        this.reporting.error(
-          'GrJsApiInterface',
-          new Error('showDiff callback error'),
-          err
-        );
+        this.reportError(err, EventType.SHOW_DIFF);
       }
     }
+  }
+
+  reportError(err: unknown, type: EventType) {
+    this.reporting.error(
+      'GrJsApiInterface',
+      new Error(`plugin event callback error for type "${type}"`),
+      err
+    );
   }
 
   _getEventCallbacks(type: EventType) {

@@ -45,7 +45,7 @@ export interface JsApiService extends Finalizable {
     revertSubmissionMsg: string,
     origMsg: string
   ): string;
-  handleShowChange(detail: ShowChangeDetail): void;
+  handleShowChange(detail: ShowChangeDetail): Promise<void>;
   handleShowRevisionActions(detail: ShowRevisionActionsDetail): void;
   handleLabelChange(detail: {change?: ParsedChangeInfo}): void;
   modifyRevertMsg(
@@ -59,4 +59,5 @@ export interface JsApiService extends Finalizable {
   canSubmitChange(change: ChangeInfo, revision?: RevisionInfo | null): boolean;
   getReviewPostRevert(change?: ChangeInfo): ReviewInput;
   handleShowDiff(detail: ShowDiffDetail): void;
+  handleReplySent(): Promise<void>;
 }

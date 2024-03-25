@@ -1,0 +1,11 @@
+{
+  "checks": {
+    "gerritforge-bb:bb-a6a0e4682515f3521897c5f950d1394f4619d928": {
+      "state": "RUNNING",
+      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-pipeline/job/50%252F414350%252F7/1/console",
+      "started": "2024-03-25T11:44:00Z",
+      "created": "2024-03-25T11:44:00Z",
+      "updated": "2024-03-25T11:44:00Z"
+    }
+  }
+}

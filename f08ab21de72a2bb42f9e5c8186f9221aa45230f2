@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "81136b5b_464d8314",
+        "filename": "javatests/com/google/gerrit/server/query/change/FakeQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-03-25T22:39:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71a35cd8_22b13ed5",
+      "range": {
+        "startLine": 89,
+        "startChar": 19,
+        "endLine": 89,
+        "endChar": 25
+      },
+      "revId": "f08ab21de72a2bb42f9e5c8186f9221aa45230f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bbf08de2_bc3a84a6",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-03-22T23:58:51Z",
       "side": 1,
       "message": "This isn\u0027t relevant and unneeded.",
+      "range": {
+        "startLine": 94,
+        "startChar": 0,
+        "endLine": 96,
+        "endChar": 77
+      },
+      "revId": "f08ab21de72a2bb42f9e5c8186f9221aa45230f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19a8c416_2e60ed6b",
+        "filename": "javatests/com/google/gerrit/server/query/change/FakeQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-03-25T22:39:04Z",
+      "side": 1,
+      "message": "This is relevant, otherwise if upon filtering the last query no results are skipped the query the extra query will not be done and the test is not valid.\n\nAnyway, I think is it better to add one more unvisible change in the first query, so that the second query gets all the remaining results, but with one result skipped.\n\nPlease check the explanation in the new patchset, as you properly suggested at line 125.",
+      "parentUuid": "bbf08de2_bc3a84a6",
       "range": {
         "startLine": 94,
         "startChar": 0,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1eca0cae_b543ac6c",
+        "filename": "javatests/com/google/gerrit/server/query/change/FakeQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-03-25T22:39:04Z",
+      "side": 1,
+      "message": "Based on previous comment:\nBecause it needs to check the \"hasMore\" results it means that the first query (i.e. limit 2) will result in START: 0 LIMIT: 3, the second query will result in START: 3 LIMIT: 3.\n\nBecause the first change (last checked) has been deleted we need to make sure that the second query contains at least one invisible change (skipped) to be a valid test.",
+      "parentUuid": "0d0ff6ad_fa2642ad",
+      "range": {
+        "startLine": 104,
+        "startChar": 0,
+        "endLine": 106,
+        "endChar": 96
+      },
+      "revId": "f08ab21de72a2bb42f9e5c8186f9221aa45230f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d14bcaec_4bcc5bef",
@@ -83,6 +155,30 @@
       "writtenOn": "2024-03-22T23:58:51Z",
       "side": 1,
       "message": "Not needed.",
+      "range": {
+        "startLine": 109,
+        "startChar": 0,
+        "endLine": 111,
+        "endChar": 77
+      },
+      "revId": "f08ab21de72a2bb42f9e5c8186f9221aa45230f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9a41a90_b256d94e",
+        "filename": "javatests/com/google/gerrit/server/query/change/FakeQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-03-25T22:39:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d14bcaec_4bcc5bef",
       "range": {
         "startLine": 109,
         "startChar": 0,
@@ -116,6 +212,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "235be1c9_0cecd369",
+        "filename": "javatests/com/google/gerrit/server/query/change/FakeQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-03-25T22:39:04Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "52b38e6f_144ae84c",
+      "range": {
+        "startLine": 113,
+        "startChar": 0,
+        "endLine": 117,
+        "endChar": 18
+      },
+      "revId": "f08ab21de72a2bb42f9e5c8186f9221aa45230f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e9cb48bf_eb61a1ff",
@@ -129,6 +249,30 @@
       "writtenOn": "2024-03-22T23:58:51Z",
       "side": 1,
       "message": "`assertQuery` would inflate the number of queries because it performs additional changes queries for formatting the output.\n\nAlso, just limit to 2 elements, so that you can avoid creating additional changes. With a limit of 2 you can simulate Gerrit trying to make extra queries to fill the results up to its limit.\n\n```suggestion\n    List\u003cChangeInfo\u003e queryResult \u003d newQuery(\"status:new\").withLimit(2).get();\n    assertThat(queryResult).hasSize(1);\n    assertThat(queryResult.get(0).changeId)\n              .isEqualTo(visibleChange2.getKey().get());\n```",
+      "range": {
+        "startLine": 121,
+        "startChar": 4,
+        "endLine": 121,
+        "endChar": 15
+      },
+      "revId": "f08ab21de72a2bb42f9e5c8186f9221aa45230f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e22098c_11ed4fee",
+        "filename": "javatests/com/google/gerrit/server/query/change/FakeQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-03-25T22:39:04Z",
+      "side": 1,
+      "message": "Thank you!",
+      "parentUuid": "e9cb48bf_eb61a1ff",
       "range": {
         "startLine": 121,
         "startChar": 4,
@@ -200,6 +344,30 @@
       "side": 1,
       "message": "See my comments on L121: the inflated number is coming from the use of `assertQuery` that performs extra queries.\n\nWith my suggested amendments, you can keep this one to 2, explaining that:\n- Query 1: select the visible element, but des not manage to fill up the results up to the limit\n- Query 2: look for more results, but there are none and in total are less than the limit.",
       "parentUuid": "de033505_96c2103a",
+      "range": {
+        "startLine": 125,
+        "startChar": 71,
+        "endLine": 125,
+        "endChar": 72
+      },
+      "revId": "f08ab21de72a2bb42f9e5c8186f9221aa45230f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "604bbec7_9d39571e",
+        "filename": "javatests/com/google/gerrit/server/query/change/FakeQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-03-25T22:39:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5a1f778_584caa15",
       "range": {
         "startLine": 125,
         "startChar": 71,

@@ -182,6 +182,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "775d9741_a0844336",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-25T22:20:06Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "5113f03c_d523b4ce",
+      "revId": "4901e2ee1b8c25287dbca916b2cd504fe37800b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "427fc4e7_e7216dc2",

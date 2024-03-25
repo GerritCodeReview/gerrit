@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "33bdfea4_fd16f594",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-03-25T22:37:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c410159_e67fce98",
+      "range": {
+        "startLine": 7,
+        "startChar": 24,
+        "endLine": 7,
+        "endChar": 32
+      },
+      "revId": "bb0c7ca4b20a8b7da2c062b31bda8408a54a314f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "287091df_d4d5d97b",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-03-23T00:21:12Z",
       "side": 1,
       "message": "the previous query returned less results than the limit.",
+      "range": {
+        "startLine": 11,
+        "startChar": 18,
+        "endLine": 11,
+        "endChar": 67
+      },
+      "revId": "bb0c7ca4b20a8b7da2c062b31bda8408a54a314f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8931fcd8_226503e1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-03-25T22:37:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "287091df_d4d5d97b",
       "range": {
         "startLine": 11,
         "startChar": 18,
@@ -95,6 +143,24 @@
       "side": 1,
       "message": "Correct, although there is already a [stopQueryIfNoMoreResults](https://gerrit.googlesource.com/gerrit/+/refs/heads/stable-3.5/javatests/com/google/gerrit/server/query/change/FakeQueryChangesTest.java#59) test for it, but in 3.5.\n\nThe reason is that there is no AbstractFakeIndex in 3.4 that provides the `getQueryCount()` while doing that directly in `LuceneChangeIndex` is very hard, we cannot add the same counter there, and cannot spy on the `LuceneChangeIndex.QuerySource.read()` method. \n\nDo you have any suggestions?",
       "parentUuid": "0d68ff40_70a79144",
+      "revId": "bb0c7ca4b20a8b7da2c062b31bda8408a54a314f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb2e0708_cc9d03bf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-03-25T22:37:54Z",
+      "side": 1,
+      "message": "Please note the test in change 413843",
+      "parentUuid": "2b047487_d26181e0",
       "revId": "bb0c7ca4b20a8b7da2c062b31bda8408a54a314f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -194,6 +260,30 @@
       "writtenOn": "2024-03-23T00:21:12Z",
       "side": 1,
       "message": "These are common for both `PaginationType.NONE` and the paginated option. Move it to L70.",
+      "range": {
+        "startLine": 78,
+        "startChar": 0,
+        "endLine": 81,
+        "endChar": 45
+      },
+      "revId": "bb0c7ca4b20a8b7da2c062b31bda8408a54a314f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3faf152_bb00eabe",
+        "filename": "java/com/google/gerrit/index/query/PaginatingSource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-03-25T22:37:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f8f92fd_3be12aa2",
       "range": {
         "startLine": 78,
         "startChar": 0,

@@ -116,6 +116,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d23c3293_61e5c988",
+        "filename": "java/com/google/gerrit/index/query/PaginatingSource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-03-25T22:22:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e5027eb_9bd995f0",
+      "revId": "bb0c7ca4b20a8b7da2c062b31bda8408a54a314f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7e58153c_ecb6796d",
@@ -129,6 +147,30 @@
       "writtenOn": "2024-03-23T00:21:12Z",
       "side": 1,
       "message": "Remove the `else` because we do not need the `skipped` flag anymore.",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 13
+      },
+      "revId": "bb0c7ca4b20a8b7da2c062b31bda8408a54a314f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "05a75975_23f06a15",
+        "filename": "java/com/google/gerrit/index/query/PaginatingSource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-03-25T22:22:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e58153c_ecb6796d",
       "range": {
         "startLine": 62,
         "startChar": 0,
@@ -185,6 +227,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "813596f0_3e3dd506",
+        "filename": "java/com/google/gerrit/index/query/PaginatingSource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-03-25T22:22:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ce10fbc_a5c97f78",
+      "range": {
+        "startLine": 103,
+        "startChar": 0,
+        "endLine": 106,
+        "endChar": 46
+      },
+      "revId": "bb0c7ca4b20a8b7da2c062b31bda8408a54a314f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "61280c54_9e40c2a6",
@@ -198,6 +264,30 @@
       "writtenOn": "2024-03-23T00:21:12Z",
       "side": 1,
       "message": "This looks wrong: the `PaginationType.NONE` doesn\u0027t use the pageSize but relies on the query limits.\n\n\n```suggestion\n              while (pageResultSize \u003d\u003d limit \u0026\u0026 r.size() \u003c limit) {\n```",
+      "range": {
+        "startLine": 107,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 65
+      },
+      "revId": "bb0c7ca4b20a8b7da2c062b31bda8408a54a314f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c371613b_46a7bf4f",
+        "filename": "java/com/google/gerrit/index/query/PaginatingSource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-03-25T22:22:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61280c54_9e40c2a6",
       "range": {
         "startLine": 107,
         "startChar": 0,
@@ -231,6 +321,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "43dd11f2_d8cab697",
+        "filename": "java/com/google/gerrit/index/query/PaginatingSource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-03-25T22:22:10Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "116d2d68_ceef785c",
+      "range": {
+        "startLine": 110,
+        "startChar": 16,
+        "endLine": 110,
+        "endChar": 32
+      },
+      "revId": "bb0c7ca4b20a8b7da2c062b31bda8408a54a314f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "558abc61_232d502e",
@@ -244,6 +358,30 @@
       "writtenOn": "2024-03-23T00:21:12Z",
       "side": 1,
       "message": "No, it is the `pageResultSize` that needs to be reset to zero.\n\n\n```suggestion\n                pageResultSize \u003d 0;\n```",
+      "range": {
+        "startLine": 111,
+        "startChar": 16,
+        "endLine": 111,
+        "endChar": 31
+      },
+      "revId": "bb0c7ca4b20a8b7da2c062b31bda8408a54a314f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "05f921fa_02ffd969",
+        "filename": "java/com/google/gerrit/index/query/PaginatingSource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-03-25T22:22:10Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "558abc61_232d502e",
       "range": {
         "startLine": 111,
         "startChar": 16,
@@ -277,6 +415,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4e37335_b3624b3c",
+        "filename": "java/com/google/gerrit/index/query/PaginatingSource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-03-25T22:22:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "047010bc_524cfd85",
+      "range": {
+        "startLine": 112,
+        "startChar": 46,
+        "endLine": 112,
+        "endChar": 60
+      },
+      "revId": "bb0c7ca4b20a8b7da2c062b31bda8408a54a314f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "98130858_32d4ad59",
@@ -300,6 +462,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa50c2b8_f38df789",
+        "filename": "java/com/google/gerrit/index/query/PaginatingSource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-03-25T22:22:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "98130858_32d4ad59",
+      "range": {
+        "startLine": 120,
+        "startChar": 0,
+        "endLine": 120,
+        "endChar": 28
+      },
+      "revId": "bb0c7ca4b20a8b7da2c062b31bda8408a54a314f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e2164b24_87be60e8",
@@ -313,6 +499,24 @@
       "writtenOn": "2024-03-23T00:21:12Z",
       "side": 1,
       "message": "After this, you also need to advance with `nextStart`.\n\n\n```suggestion\n                }\n                nextStart +\u003d pageResultSize;\n```",
+      "revId": "bb0c7ca4b20a8b7da2c062b31bda8408a54a314f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d48a4abc_a69e53bd",
+        "filename": "java/com/google/gerrit/index/query/PaginatingSource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-03-25T22:22:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e2164b24_87be60e8",
       "revId": "bb0c7ca4b20a8b7da2c062b31bda8408a54a314f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -378,6 +582,30 @@
       "side": 1,
       "message": "Just remove it, it isn\u0027t needed.",
       "parentUuid": "77a4378e_1642db25",
+      "range": {
+        "startLine": 136,
+        "startChar": 0,
+        "endLine": 138,
+        "endChar": 3
+      },
+      "revId": "bb0c7ca4b20a8b7da2c062b31bda8408a54a314f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "74713388_0210faaa",
+        "filename": "java/com/google/gerrit/index/query/PaginatingSource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-03-25T22:22:10Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "639cf2a3_6fa89d34",
       "range": {
         "startLine": 136,
         "startChar": 0,

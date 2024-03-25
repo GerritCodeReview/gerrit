@@ -26,6 +26,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "13fcea8d_81b23185",
+        "filename": "java/com/google/gerrit/sshd/SshKeyCacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-03-25T10:48:36Z",
+      "side": 1,
+      "message": "question: should we also mark `k` as invalid in case when algorithm fix failed? To preserve the previous behaviour?",
+      "revId": "e2094a53ca640475268978b0b9a8d619e4adf972",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f191fb7b_3a28ecf2",
         "filename": "java/com/google/gerrit/sshd/SshKeyCacheImpl.java",
         "patchSetId": 3

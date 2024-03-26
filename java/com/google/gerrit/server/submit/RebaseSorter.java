@@ -31,6 +31,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
 
@@ -65,8 +66,10 @@ public class RebaseSorter {
   public List<CodeReviewCommit> sort(Collection<CodeReviewCommit> toSort) throws IOException {
     final List<CodeReviewCommit> sorted = new ArrayList<>();
     final Set<CodeReviewCommit> sort = new HashSet<>(toSort);
+    final Set<ObjectId> uninterestingParents = new HashSet<>();
     while (!sort.isEmpty()) {
       final CodeReviewCommit n = removeOne(sort);
+      collectUninterestingParents(n, uninterestingParents);
 
       rw.resetRetain(canMergeFlag);
       rw.markStart(n);
@@ -77,6 +80,8 @@ public class RebaseSorter {
       CodeReviewCommit c;
       final List<CodeReviewCommit> contents = new ArrayList<>();
       while ((c = rw.next()) != null) {
+        collectUninterestingParents(c, uninterestingParents);
+
         if (!c.has(canMergeFlag) || !incoming.contains(c)) {
           if (isMergedInBranchAsSubmittedChange(c, n.change().getDest())
               || isAlreadyMergedInAnyBranch(c)) {
@@ -106,7 +111,25 @@ public class RebaseSorter {
       sorted.removeAll(contents);
       sorted.addAll(contents);
     }
+    sorted.removeAll(uninterestingParents);
     return sorted;
+  }
+
+  /**
+   * Rebasing merge commits is done by rebasing their first parent commit, i.e. the first parent is
+   * updated to the new base while the second parent stays intact. This means for chains of changes
+   * we only need to rebase changes that are reachable via the first parents. Changes that are
+   * reachable via second parents do not need to be rebased (since the second parent of merge
+   * commits stays intact) which is why we filter them out here by marking them as uninteresting.
+   */
+  private void collectUninterestingParents(CodeReviewCommit c, Set<ObjectId> uninterestingParents)
+      throws IOException {
+    if (c.getParentCount() > 0) {
+      for (int parent = 1; parent < c.getParentCount(); parent++) {
+        uninterestingParents.add(c.getParent(parent));
+        rw.markUninteresting(c.getParent(parent));
+      }
+    }
   }
 
   private boolean isAlreadyMergedInAnyBranch(CodeReviewCommit commit) throws IOException {

@@ -93,7 +93,6 @@ import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.change.MergeabilityComputationBehavior;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.TestSubmitInput;
-import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.server.git.validators.OnSubmitValidationListener;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -689,36 +688,6 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
     List<RevCommit> log = getRemoteLog();
     assertThat(log).contains(stable.getCommit());
-    assertThat(log).contains(mergeReview.getCommit());
-  }
-
-  @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      value = ExperimentFeaturesConstants.REBASE_MERGE_COMMITS)
-  public void submitMergeOfNonChangeBranchTip_withRebasingMergeCommits() throws Throwable {
-    // Merge a branch with commits that have not been submitted as
-    // changes.
-    //
-    // M  -- mergeCommit (pushed for review and submitted)
-    // | \
-    // |  S -- stable (pushed directly to refs/heads/stable)
-    // | /
-    // I   -- master
-    //
-    RevCommit master = projectOperations.project(project).getHead("master");
-    PushOneCommit stableTip =
-        pushFactory.create(admin.newIdent(), testRepo, "Tip of branch stable", "stable.txt", "");
-    PushOneCommit.Result stable = stableTip.to("refs/heads/stable");
-    PushOneCommit mergeCommit =
-        pushFactory.create(admin.newIdent(), testRepo, "The merge commit", "merge.txt", "");
-    mergeCommit.setParents(ImmutableList.of(master, stable.getCommit()));
-    PushOneCommit.Result mergeReview = mergeCommit.to("refs/for/master");
-    approve(mergeReview.getChangeId());
-    submit(mergeReview.getChangeId());
-
-    List<RevCommit> log = getRemoteLog();
-    assertThat(log).contains(stable.getCommit());
 
     if (getSubmitType() == SubmitType.REBASE_ALWAYS) {
       // the merge commit has been rebased
@@ -734,53 +703,6 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
   @Test
   public void submitMergeOfNonChangeBranchNonTip() throws Throwable {
-    // Merge a branch with commits that have not been submitted as
-    // changes.
-    //
-    // MC  -- merge commit (pushed for review and submitted)
-    // |\   S2 -- new stable tip (pushed directly to refs/heads/stable)
-    // M \ /
-    // |  S1 -- stable (pushed directly to refs/heads/stable)
-    // | /
-    // I -- master
-    //
-    RevCommit initial = projectOperations.project(project).getHead("master");
-    // push directly to stable to S1
-    PushOneCommit.Result s1 =
-        pushFactory
-            .create(admin.newIdent(), testRepo, "new commit into stable", "stable1.txt", "")
-            .to("refs/heads/stable");
-    // move the stable tip ahead to S2
-    pushFactory
-        .create(admin.newIdent(), testRepo, "Tip of branch stable", "stable2.txt", "")
-        .to("refs/heads/stable");
-
-    testRepo.reset(initial);
-
-    // move the master ahead
-    PushOneCommit.Result m =
-        pushFactory
-            .create(admin.newIdent(), testRepo, "Move master ahead", "master.txt", "")
-            .to("refs/heads/master");
-
-    // create merge change
-    PushOneCommit mc =
-        pushFactory.create(admin.newIdent(), testRepo, "The merge commit", "merge.txt", "");
-    mc.setParents(ImmutableList.of(m.getCommit(), s1.getCommit()));
-    PushOneCommit.Result mergeReview = mc.to("refs/for/master");
-    approve(mergeReview.getChangeId());
-    submit(mergeReview.getChangeId());
-
-    List<RevCommit> log = getRemoteLog();
-    assertThat(log).contains(s1.getCommit());
-    assertThat(log).contains(mergeReview.getCommit());
-  }
-
-  @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      value = ExperimentFeaturesConstants.REBASE_MERGE_COMMITS)
-  public void submitMergeOfNonChangeBranchNonTip_withRebasingMergeCommits() throws Throwable {
     // Merge a branch with commits that have not been submitted as
     // changes.
     //
@@ -995,81 +917,6 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
   @Test
   public void submitWithCommitAndItsMergeCommitTogether() throws Throwable {
-    assume().that(isSubmitWholeTopicEnabled()).isTrue();
-
-    RevCommit initialHead = projectOperations.project(project).getHead("master");
-
-    // Create a stable branch and bootstrap it.
-    gApi.projects().name(project.get()).branch("stable").create(new BranchInput());
-    PushOneCommit push =
-        pushFactory.create(user.newIdent(), testRepo, "initial commit", "a.txt", "a");
-    PushOneCommit.Result change = push.to("refs/heads/stable");
-
-    RevCommit stable = projectOperations.project(project).getHead("stable");
-    RevCommit master = projectOperations.project(project).getHead("master");
-
-    assertThat(master).isEqualTo(initialHead);
-    assertThat(stable).isEqualTo(change.getCommit());
-
-    testRepo.git().fetch().call();
-    testRepo.git().branchCreate().setName("stable").setStartPoint(stable).call();
-    testRepo.git().branchCreate().setName("master").setStartPoint(master).call();
-
-    // Create a fix in stable branch.
-    testRepo.reset(stable);
-    RevCommit fix =
-        testRepo
-            .commit()
-            .parent(stable)
-            .message("small fix")
-            .add("b.txt", "b")
-            .insertChangeId()
-            .create();
-    testRepo.branch("refs/heads/stable").update(fix);
-    testRepo
-        .git()
-        .push()
-        .setRefSpecs(new RefSpec("refs/heads/stable:refs/for/stable%topic=" + name("topic")))
-        .call();
-
-    // Merge the fix into master.
-    testRepo.reset(master);
-    RevCommit merge =
-        testRepo
-            .commit()
-            .parent(master)
-            .parent(fix)
-            .message("Merge stable into master")
-            .insertChangeId()
-            .create();
-    testRepo.branch("refs/heads/master").update(merge);
-    testRepo
-        .git()
-        .push()
-        .setRefSpecs(new RefSpec("refs/heads/master:refs/for/master%topic=" + name("topic")))
-        .call();
-
-    // Submit together.
-    String fixId = GitUtil.getChangeId(testRepo, fix).get();
-    String mergeId = GitUtil.getChangeId(testRepo, merge).get();
-    approve(fixId);
-    approve(mergeId);
-    submit(mergeId);
-    assertMerged(fixId);
-    assertMerged(mergeId);
-    testRepo.git().fetch().call();
-    RevWalk rw = testRepo.getRevWalk();
-    master = rw.parseCommit(projectOperations.project(project).getHead("master"));
-    assertThat(rw.isMergedInto(merge, master)).isTrue();
-    assertThat(rw.isMergedInto(fix, master)).isTrue();
-  }
-
-  @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      value = ExperimentFeaturesConstants.REBASE_MERGE_COMMITS)
-  public void submitWithCommitAndItsMergeCommitTogether_withRebasingMergeCommits()
-      throws Throwable {
     assume().that(isSubmitWholeTopicEnabled()).isTrue();
 
     RevCommit initialHead = projectOperations.project(project).getHead("master");

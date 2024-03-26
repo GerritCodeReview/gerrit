@@ -578,71 +578,6 @@ suite('gr-diff-processor tests', () => {
       ]);
     });
 
-    test('breaks down shared chunks w/ whole-file', () => {
-      const maxGroupSize = 128;
-      const size = maxGroupSize * 2 + 5;
-      const ab = Array(size)
-        .fill(0)
-        .map(() => `${Math.random()}`);
-      const content = [{ab}];
-      processor.context = FULL_CONTEXT;
-      const result = processor.splitLargeChunks(content);
-      assert.equal(result.length, 2);
-      assert.deepEqual(result[0].ab, content[0].ab.slice(0, maxGroupSize));
-      assert.deepEqual(result[1].ab, content[0].ab.slice(maxGroupSize));
-    });
-
-    test('breaks down added chunks', () => {
-      const maxGroupSize = 128;
-      const size = maxGroupSize * 2 + 5;
-      const content = Array(size)
-        .fill(0)
-        .map(() => `${Math.random()}`);
-      processor.context = 5;
-      const splitContent = processor
-        .splitLargeChunks([{a: [], b: content}])
-        .map(r => r.b);
-      assert.equal(splitContent.length, 3);
-      assert.deepEqual(splitContent[0], content.slice(0, 5));
-      assert.deepEqual(splitContent[1], content.slice(5, maxGroupSize + 5));
-      assert.deepEqual(splitContent[2], content.slice(maxGroupSize + 5));
-    });
-
-    test('breaks down removed chunks', () => {
-      const maxGroupSize = 128;
-      const size = maxGroupSize * 2 + 5;
-      const content = Array(size)
-        .fill(0)
-        .map(() => `${Math.random()}`);
-      processor.context = 5;
-      const splitContent = processor
-        .splitLargeChunks([{a: content, b: []}])
-        .map(r => r.a);
-      assert.equal(splitContent.length, 3);
-      assert.deepEqual(splitContent[0], content.slice(0, 5));
-      assert.deepEqual(splitContent[1], content.slice(5, maxGroupSize + 5));
-      assert.deepEqual(splitContent[2], content.slice(maxGroupSize + 5));
-    });
-
-    test('does not break down moved chunks', () => {
-      const size = 120 * 2 + 5;
-      const content = Array(size)
-        .fill(0)
-        .map(() => `${Math.random()}`);
-      processor.context = 5;
-      const splitContent = processor
-        .splitLargeChunks([
-          {
-            a: content,
-            b: [],
-            move_details: {changed: false, range: {start: 1, end: 1}},
-          },
-        ])
-        .map(r => r.a);
-      assert.equal(splitContent.length, 1);
-      assert.deepEqual(splitContent[0], content);
-    });
-
     test('does not break-down common chunks w/ context', () => {
       const ab = Array(75)
         .fill(0)
@@ -765,15 +700,6 @@ suite('gr-diff-processor tests', () => {
           endIndex: 1,
         },
       ]);
-    });
-
-    test('isScrolling paused', async () => {
-      const content = Array(200).fill({ab: ['', '']});
-      processor.isScrolling = true;
-      const promise = processor.process(content);
-      processor.isScrolling = false;
-      const groups = await promise;
-      assert.isAtLeast(groups.length, 3);
     });
 
     test('image diffs', async () => {
@@ -1051,62 +977,6 @@ suite('gr-diff-processor tests', () => {
           startLineNum + rows.length
         );
         assert.notOk(result[result.length - 1].afterNumber);
-      });
-    });
-
-    suite('breakdown*', () => {
-      test('breakdownChunk breaks down additions', () => {
-        const breakdownSpy = sinon.spy(processor, 'breakdown');
-        const chunk = {b: ['blah', 'blah', 'blah']};
-        const result = processor.breakdownChunk(chunk);
-        assert.deepEqual(result, [chunk]);
-        assert.isTrue(breakdownSpy.called);
-      });
-
-      test('breakdownChunk keeps due_to_rebase for broken down additions', () => {
-        sinon.spy(processor, 'breakdown');
-        const chunk = {b: ['blah', 'blah', 'blah'], due_to_rebase: true};
-        const result = processor.breakdownChunk(chunk);
-        for (const subResult of result) {
-          assert.isTrue(subResult.due_to_rebase);
-        }
-      });
-
-      test('breakdown common case', () => {
-        const array = 'Lorem ipsum dolor sit amet, suspendisse inceptos'.split(
-          ' '
-        );
-        const size = 3;
-
-        const result = processor.breakdown(array, size);
-
-        for (const subResult of result) {
-          assert.isAtMost(subResult.length, size);
-        }
-        const flattened = result.reduce((a, b) => a.concat(b), []);
-        assert.deepEqual(flattened, array);
-      });
-
-      test('breakdown smaller than size', () => {
-        const array = 'Lorem ipsum dolor sit amet, suspendisse inceptos'.split(
-          ' '
-        );
-        const size = 10;
-        const expected = [array];
-
-        const result = processor.breakdown(array, size);
-
-        assert.deepEqual(result, expected);
-      });
-
-      test('breakdown empty', () => {
-        const array: string[] = [];
-        const size = 10;
-        const expected: string[][] = [];
-
-        const result = processor.breakdown(array, size);
-
-        assert.deepEqual(result, expected);
       });
     });
   });

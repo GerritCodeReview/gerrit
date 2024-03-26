@@ -16,6 +16,23 @@
       "message": "Tested E2E and works as expected. @geminica.programs@gmail.com @syntonyze@gmail.com can you double-check?",
       "revId": "cfb8342b5014eb7cd078df6f3f3362758d0e8c99",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2dc7bab6_899e5112",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 39
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-03-26T07:27:55Z",
+      "side": 1,
+      "message": "Drafts work fine. Yet I believe that there is another issue related to the display of posted comments: they are available in meta refs but perhaps due to Issue 331016670 Gerrit cannot retrieve them properly once they are stored 😞",
+      "revId": "cfb8342b5014eb7cd078df6f3f3362758d0e8c99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -11,8 +11,6 @@ import {
 } from '../gr-diff/gr-diff-group';
 import {DiffContent} from '../../../types/diff';
 import {Side} from '../../../constants/constants';
-import {debounce, DelayedTask} from '../../../utils/async-util';
-import {assert} from '../../../utils/common-util';
 import {getStringLength} from '../gr-diff-highlight/gr-annotation';
 import {GrDiffLineType, LineNumber} from '../../../api/diff';
 import {FULL_CONTEXT, KeyLocations} from '../gr-diff/gr-diff-utils';
@@ -29,19 +27,6 @@ export interface State {
 interface ChunkEnd {
   offset: number;
   keyLocation: boolean;
-}
-
-/**
- * The maximum size for an addition or removal chunk before it is broken down
- * into a series of chunks that are this size at most.
- *
- * Note: The value of 120 is chosen so that it is larger than the default
- * asyncThreshold of 64, but feel free to tune this constant to your
- * performance needs.
- */
-function calcMaxGroupSize(asyncThreshold?: number): number {
-  if (!asyncThreshold) return 120;
-  return asyncThreshold * 2;
 }
 
 /** Interface for listening to the output of the processor. */
@@ -90,114 +75,48 @@ export class GrDiffProcessor {
   // visible for testing
   keyLocations: KeyLocations;
 
-  private asyncThreshold: number;
+  private isBinary = false;
 
-  private isBinary: boolean;
-
-  // visible for testing
-  isScrolling?: boolean;
-
-  /** Just for making sure that process() is only called once. */
-  private isStarted = false;
-
-  /** Indicates that processing should be stopped. */
-  private isCancelled = false;
-
-  private resetIsScrollingTask?: DelayedTask;
-
-  private readonly groups: GrDiffGroup[] = [];
+  private groups: GrDiffGroup[] = [];
 
   constructor(options: ProcessingOptions) {
     this.context = options.context;
-    this.asyncThreshold = options.asyncThreshold ?? 64;
     this.keyLocations = options.keyLocations ?? {left: {}, right: {}};
     this.isBinary = options.isBinary ?? false;
   }
 
-  private readonly handleWindowScroll = () => {
-    this.isScrolling = true;
-    this.resetIsScrollingTask = debounce(
-      this.resetIsScrollingTask,
-      () => (this.isScrolling = false),
-      50
-    );
-  };
-
   /**
-   * Asynchronously process the diff chunks into groups. As it processes, it
-   * will splice groups into the `groups` property of the component.
+   * Process the diff chunks into GrDiffGroups.
    *
-   * @return A promise that resolves with an
-   * array of GrDiffGroups when the diff is completely processed.
+   * @return an array of GrDiffGroups
    */
-  async process(chunks: DiffContent[]): Promise<GrDiffGroup[]> {
-    assert(this.isStarted === false, 'diff processor cannot be started twice');
-
-    window.addEventListener('scroll', this.handleWindowScroll);
-
+  process(chunks: DiffContent[]): GrDiffGroup[] {
+    this.groups = [];
     this.groups.push(this.makeGroup('LOST'));
     this.groups.push(this.makeGroup('FILE'));
 
-    if (this.isBinary) return this.groups;
-    try {
-      await this.processChunks(chunks);
-    } finally {
-      this.finish();
-    }
+    this.processChunks(chunks);
     return this.groups;
   }
 
-  finish() {
-    window.removeEventListener('scroll', this.handleWindowScroll);
-  }
-
-  cancel() {
-    this.isCancelled = true;
-    this.finish();
-  }
-
-  async processChunks(chunks: DiffContent[]) {
-    let completed = () => {};
-    const promise = new Promise<void>(resolve => (completed = resolve));
+  processChunks(chunks: DiffContent[]) {
+    if (this.isBinary) return;
 
     const state = {
       lineNums: {left: 0, right: 0},
       chunkIndex: 0,
     };
-
-    chunks = this.splitLargeChunks(chunks);
     chunks = this.splitCommonChunksWithKeyLocations(chunks);
 
-    let currentBatch = 0;
-    const nextStep = () => {
-      if (this.isCancelled || state.chunkIndex >= chunks.length) {
-        completed();
-        return;
-      }
-      if (this.isScrolling) {
-        window.setTimeout(nextStep, 100);
-        return;
-      }
-
+    while (state.chunkIndex < chunks.length) {
       const stateUpdate = this.processNext(state, chunks);
       for (const group of stateUpdate.groups) {
         this.groups.push(group);
-        currentBatch += group.lines.length;
       }
       state.lineNums.left += stateUpdate.lineDelta.left;
       state.lineNums.right += stateUpdate.lineDelta.right;
-
       state.chunkIndex = stateUpdate.newChunkIndex;
-      if (currentBatch >= this.asyncThreshold) {
-        currentBatch = 0;
-        window.setTimeout(nextStep, 1);
-      } else {
-        nextStep.call(this);
-      }
-    };
-
-    nextStep.call(this);
-    await promise;
+    }
   }
 
   /**
@@ -448,53 +367,6 @@ export class GrDiffProcessor {
   }
 
   /**
-   * Split chunks into smaller chunks of the same kind.
-   *
-   * This is done to prevent doing too much work on the main thread in one
-   * uninterrupted rendering step, which would make the browser unresponsive.
-   *
-   * Note that in the case of unmodified chunks, we only split chunks if the
-   * context is set to file (because otherwise they are split up further down
-   * the processing into the visible and hidden context), and only split it
-   * into 2 chunks, one max sized one and the rest (for reasons that are
-   * unclear to me).
-   *
-   * @param chunks Chunks as returned from the server
-   * @return Finer grained chunks.
-   */
-  // visible for testing
-  splitLargeChunks(chunks: DiffContent[]): DiffContent[] {
-    const newChunks = [];
-
-    for (const chunk of chunks) {
-      if (!chunk.ab) {
-        for (const subChunk of this.breakdownChunk(chunk)) {
-          newChunks.push(subChunk);
-        }
-        continue;
-      }
-
-      // If the context is set to "whole file", then break down the shared
-      // chunks so they can be rendered incrementally. Note: this is not
-      // enabled for any other context preference because manipulating the
-      // chunks in this way violates assumptions by the context grouper logic.
-      const MAX_GROUP_SIZE = calcMaxGroupSize(this.asyncThreshold);
-      if (
-        this.context === FULL_CONTEXT &&
-        chunk.ab.length > MAX_GROUP_SIZE * 2
-      ) {
-        // Split large shared chunks in two, where the first is the maximum
-        // group size.
-        newChunks.push({ab: chunk.ab.slice(0, MAX_GROUP_SIZE)});
-        newChunks.push({ab: chunk.ab.slice(MAX_GROUP_SIZE)});
-      } else {
-        newChunks.push(chunk);
-      }
-    }
-    return newChunks;
-  }
-
-  /**
    * In order to show key locations, such as comments, out of the bounds of
    * the selected context, treat them as separate chunks within the model so
    * that the content (and context surrounding it) renders correctly.
@@ -674,61 +546,5 @@ export class GrDiffProcessor {
       normalized.push(lineHighlight);
     }
     return normalized;
-  }
-
-  /**
-   * If a group is an addition or a removal, break it down into smaller groups
-   * of that type using the MAX_GROUP_SIZE. If the group is a shared chunk
-   * or a delta it is returned as the single element of the result array.
-   */
-  // visible for testing
-  breakdownChunk(chunk: DiffContent): DiffContent[] {
-    let key: 'a' | 'b' | 'ab' | null = null;
-    const {a, b, ab, move_details} = chunk;
-    if (a?.length && !b?.length) {
-      key = 'a';
-    } else if (b?.length && !a?.length) {
-      key = 'b';
-    } else if (ab?.length) {
-      key = 'ab';
-    }
-
-    // Move chunks should not be divided because of move label
-    // positioned in the top of the chunk
-    if (!key || move_details) {
-      return [chunk];
-    }
-
-    const MAX_GROUP_SIZE = calcMaxGroupSize(this.asyncThreshold);
-    return this.breakdown(chunk[key]!, MAX_GROUP_SIZE).map(subChunkLines => {
-      const subChunk: DiffContent = {};
-      subChunk[key!] = subChunkLines;
-      if (chunk.due_to_rebase) {
-        subChunk.due_to_rebase = true;
-      }
-      if (chunk.move_details) {
-        subChunk.move_details = chunk.move_details;
-      }
-      return subChunk;
-    });
-  }
-
-  /**
-   * Given an array and a size, return an array of arrays where no inner array
-   * is larger than that size, preserving the original order.
-   */
-  // visible for testing
-  breakdown<T>(array: T[], size: number): T[][] {
-    if (!array.length) {
-      return [];
-    }
-    if (array.length < size) {
-      return [array];
-    }
-
-    const head = array.slice(0, array.length - size);
-    const tail = array.slice(array.length - size);
-
-    return this.breakdown(head, size).concat([tail]);
   }
 }

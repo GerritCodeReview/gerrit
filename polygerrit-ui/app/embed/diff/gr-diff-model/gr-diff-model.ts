@@ -3,8 +3,8 @@
  * Copyright 2023 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {Observable, combineLatest, from, of} from 'rxjs';
-import {debounceTime, filter, switchMap, withLatestFrom} from 'rxjs/operators';
+import {Observable, combineLatest} from 'rxjs';
+import {debounceTime, filter, map, withLatestFrom} from 'rxjs/operators';
 import {
   CreateCommentEventDetail,
   DiffInfo,
@@ -36,10 +36,6 @@ import {
   GrDiffProcessor,
   ProcessingOptions,
 } from '../gr-diff-processor/gr-diff-processor';
-import {
-  GrDiffProcessorSimplified,
-  ProcessingOptions as ProcessingOptionsSimplified,
-} from '../gr-diff-processor/gr-diff-processor-simplified';
 import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
 import {assert} from '../../../utils/common-util';
 import {countLines, isImageDiff} from '../../../utils/diff-util';
@@ -240,8 +236,8 @@ export class DiffModel extends Model<DiffState> {
       .pipe(
         withLatestFrom(this.keyLocations$),
         debounceTime(1),
-        switchMap(([[diff, context, renderPrefs], keyLocations]) => {
-          const options: ProcessingOptions | ProcessingOptionsSimplified = {
+        map(([[diff, context, renderPrefs], keyLocations]) => {
+          const options: ProcessingOptions = {
             context,
             keyLocations,
             isBinary: !!(isImageDiff(diff) || diff.binary),
@@ -250,15 +246,8 @@ export class DiffModel extends Model<DiffState> {
             options.asyncThreshold = renderPrefs.num_lines_rendered_at_once;
           }
 
-          // TODO: When switching to the simplified processor unconditionally,
-          // then we can use map() instead of switchMap().
-          if (renderPrefs?.use_simplified_processor) {
-            const processor = new GrDiffProcessorSimplified(options);
-            return of(processor.process(diff.content));
-          } else {
-            const processor = new GrDiffProcessor(options);
-            return from(processor.process(diff.content));
-          }
+          const processor = new GrDiffProcessor(options);
+          return processor.process(diff.content);
         })
       )
       .subscribe(groups => {

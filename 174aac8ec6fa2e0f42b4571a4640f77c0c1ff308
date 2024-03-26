@@ -22,6 +22,30 @@
       },
       "revId": "174aac8ec6fa2e0f42b4571a4640f77c0c1ff308",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f744c192_512b9233",
+        "filename": "java/com/google/gerrit/server/restapi/config/AccountDeactivation.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2024-03-26T14:42:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e416c712_b1a3f2e0",
+      "range": {
+        "startLine": 44,
+        "startChar": 37,
+        "endLine": 44,
+        "endChar": 97
+      },
+      "revId": "174aac8ec6fa2e0f42b4571a4640f77c0c1ff308",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

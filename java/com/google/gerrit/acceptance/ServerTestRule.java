@@ -101,7 +101,4 @@ public interface ServerTestRule extends TestRule {
    * (e.g. email)
    */
   boolean isUsernameSupported();
-
-  /** Returns true if ref sequences are stored in NoteDb. */
-  boolean isRefSequenceSupported();
 }

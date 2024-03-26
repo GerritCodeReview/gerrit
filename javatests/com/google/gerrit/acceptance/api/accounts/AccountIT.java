@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.api.accounts;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
+import static com.google.common.collect.ImmutableMap.toImmutableMap;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
@@ -329,7 +330,7 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void createByAccountCreator() throws Exception {
-    RefUpdateCounter refUpdateCounter = new RefUpdateCounter(server.isRefSequenceSupported());
+    RefUpdateCounter refUpdateCounter = createRefUpdateCounter();
     try (Registration registration = extensionRegistry.newRegistration().add(refUpdateCounter)) {
       Account.Id accountId = createByAccountCreator(1);
       refUpdateCounter.assertRefUpdateFor(
@@ -811,7 +812,7 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   public void starUnstarChange() throws Exception {
     AccountIndexedCounter accountIndexedCounter = getAccountIndexedCounter();
-    RefUpdateCounter refUpdateCounter = new RefUpdateCounter(server.isRefSequenceSupported());
+    RefUpdateCounter refUpdateCounter = createRefUpdateCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(accountIndexedCounter).add(refUpdateCounter)) {
       PushOneCommit.Result r = createChange();
@@ -2754,11 +2755,7 @@ public class AccountIT extends AbstractDaemonTest {
         getExternalIdFactory()
             .createWithEmail(externalIdKeyFactory.parse(extId2String), user.id(), "2@foo.com");
 
-    ObjectId revBefore;
-    try (Repository repo = repoManager.openRepository(allUsers)) {
-      revBefore = repo.exactRef(RefNames.REFS_EXTERNAL_IDS).getObjectId();
-    }
-
+    int initialCommits = countExternalIdsCommits();
     AccountsUpdate.UpdateArguments ua1 =
         new AccountsUpdate.UpdateArguments(
             "Add External ID", admin.id(), (a, u) -> u.addExternalId(extId1));
@@ -2782,10 +2779,17 @@ public class AccountIT extends AbstractDaemonTest {
         .contains(extId2String);
 
     // Ensure that we only applied one single commit.
-    try (Repository repo = repoManager.openRepository(allUsers);
-        RevWalk rw = new RevWalk(repo)) {
-      RevCommit after = rw.parseCommit(repo.exactRef(RefNames.REFS_EXTERNAL_IDS).getObjectId());
-      assertThat(after.getParent(0).toObjectId()).isEqualTo(revBefore);
+    int afterUpdateCommits = countExternalIdsCommits();
+    assertThat(afterUpdateCommits).isEqualTo(initialCommits + 1);
+  }
+
+  @UsedAt(UsedAt.Project.GOOGLE)
+  protected int countExternalIdsCommits() throws Exception {
+    try (Repository allUsersRepo = repoManager.openRepository(allUsers);
+        Git git = new Git(allUsersRepo)) {
+      ObjectId refsMetaExternalIdsHead =
+          allUsersRepo.exactRef(RefNames.REFS_EXTERNAL_IDS).getObjectId();
+      return Iterables.size(git.log().add(refsMetaExternalIdsHead).call());
     }
   }
 
@@ -3039,28 +3043,27 @@ public class AccountIT extends AbstractDaemonTest {
         getExternalIdFactory()
             .createWithEmail(
                 SCHEME_MAILTO, "secondary@non.google", admin.id(), "secondary@non.google");
-    AtomicBoolean bgIndicator = new AtomicBoolean(false);
+    ExternalId oldExternalId =
+        getExternalIdsReader().get(createEmailExternalId(admin.id(), admin.email()).key()).get();
     accountsUpdateProvider
         .get()
         .update(
             "Replace External ID",
             admin.id(),
             (a, u) -> {
-              if (bgIndicator.getAndSet(true)) {
-                // In the Google architecture, this runnable might be called multiple times. Only
-                // do the replacement once.
-                return;
-              }
-              u.replaceExternalId(
-                  getExternalIdsReader()
-                      .get(createEmailExternalId(admin.id(), admin.email()).key())
-                      .get(),
-                  externalId);
+              u.replaceExternalId(oldExternalId, externalId);
             });
     assertExternalIds(admin.id(), ImmutableSet.of("mailto:secondary@non.google", "username:admin"));
 
     AccountState updatedState = accountCache.get(admin.id()).get();
-    assertThat(preUpdateState.account().metaId()).isNotEqualTo(updatedState.account().metaId());
+    assertThat(accountCache.get(admin.id()).get()).isNotSameInstanceAs(preUpdateState);
+    if (preUpdateState.account().metaId() == null) {
+      // When the test is executed on google infrastructure, metaId should be either always set
+      // or always be null.
+      assertThat(updatedState.account().metaId()).isNull();
+    } else {
+      assertThat(preUpdateState.account().metaId()).isNotEqualTo(updatedState.account().metaId());
+    }
   }
 
   @Test
@@ -3328,23 +3331,12 @@ public class AccountIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(deleted.id());
 
     gApi.accounts().self().starChange(triplet);
-    try (Repository repo = repoManager.openRepository(allUsers)) {
-      assertThat(
-              repo.getRefDatabase()
-                  .getRefsByPrefix(RefNames.refsStarredChangesPrefix(r.getChange().getId())))
-          .hasSize(1);
+    assertThat(getStarredChangesCount(r.getChange().getId())).isEqualTo(1);
 
-      gApi.accounts().self().delete();
-    }
+    gApi.accounts().self().delete();
 
     // Reopen the repo to refresh RefDb
-    try (Repository repo = repoManager.openRepository(allUsers)) {
-      assertThat(
-              repo.getRefDatabase()
-                  .getRefsByPrefix(RefNames.refsStarredChangesPrefix(r.getChange().getId())))
-          .isEmpty();
-    }
-
+    assertThat(getStarredChangesCount(r.getChange().getId())).isEqualTo(0);
     // Clean up the test framework
     accountCreator.evict(deleted.id());
   }
@@ -3386,25 +3378,33 @@ public class AccountIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(deleted.id());
 
     createDraft(r, PushOneCommit.FILE_NAME, "draft");
-    try (Repository repo = repoManager.openRepository(allUsers)) {
-      assertThat(
-              repo.getRefDatabase()
-                  .getRefsByPrefix(RefNames.refsDraftCommentsPrefix(r.getChange().getId())))
-          .hasSize(1);
+    assertThat(getUsersWithDraftsCount(r.getChange().getId())).isEqualTo(1);
+    gApi.accounts().self().delete();
 
-      gApi.accounts().self().delete();
-    }
-
-    // Reopen the repo to refresh RefDb
-    try (Repository repo = repoManager.openRepository(allUsers)) {
-      assertThat(
-              repo.getRefDatabase()
-                  .getRefsByPrefix(RefNames.refsDraftCommentsPrefix(r.getChange().getId())))
-          .isEmpty();
-    }
+    assertThat(getUsersWithDraftsCount(r.getChange().getId())).isEqualTo(0);
 
     // Clean up the test framework
     accountCreator.evict(deleted.id());
+  }
+
+  @UsedAt(UsedAt.Project.GOOGLE)
+  protected int getUsersWithDraftsCount(Change.Id changeId) throws Exception {
+    // The getStarredChangesCount and getUsersWithDraftsCount should be 2 distinct methods,
+    // because in google they can query data from a different storage (i.e. not from noteDb).
+    return getRefCount(RefNames.refsDraftCommentsPrefix(changeId));
+  }
+
+  @UsedAt(UsedAt.Project.GOOGLE)
+  protected int getStarredChangesCount(Change.Id changeId) throws Exception {
+    // The getStarredChangesCount and getDraftsCommentsCount should be 2 distinct methods,
+    // because in google they can query data from a different storage (i.e. not from noteDb).
+    return getRefCount(RefNames.refsStarredChangesPrefix(changeId));
+  }
+
+  private int getRefCount(String refPrefix) throws Exception {
+    try (Repository repo = repoManager.openRepository(allUsers)) {
+      return repo.getRefDatabase().getRefsByPrefix(refPrefix).size();
+    }
   }
 
   @Test
@@ -3773,13 +3773,13 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @UsedAt(UsedAt.Project.GOOGLE)
-  public static class RefUpdateCounter implements GitReferenceUpdatedListener {
-    private final boolean refSequenceSupported;
-    private final AtomicLongMap<String> countsByProjectRefs = AtomicLongMap.create();
+  protected RefUpdateCounter createRefUpdateCounter() {
+    return new RefUpdateCounter();
+  }
 
-    public RefUpdateCounter(boolean refSequenceSupported) {
-      this.refSequenceSupported = refSequenceSupported;
-    }
+  @UsedAt(UsedAt.Project.GOOGLE)
+  public static class RefUpdateCounter implements GitReferenceUpdatedListener {
+    private final AtomicLongMap<String> countsByProjectRefs = AtomicLongMap.create();
 
     @UsedAt(UsedAt.Project.GOOGLE)
     public static String projectRef(Project.NameKey project, String ref) {
@@ -3810,14 +3810,16 @@ public class AccountIT extends AbstractDaemonTest {
 
     protected void assertRefUpdateFor(Map<String, Long> expectedProjectRefUpdateCounts) {
       ImmutableMap<String, Long> exprectedFiltered =
-          refSequenceSupported
-              ? ImmutableMap.copyOf(expectedProjectRefUpdateCounts)
-              : ImmutableMap.copyOf(
-                  expectedProjectRefUpdateCounts.entrySet().stream()
-                      .filter(entry -> !entry.getKey().contains(":refs/sequences/"))
-                      .collect(toList()));
+          expectedProjectRefUpdateCounts.entrySet().stream()
+              .filter(entry -> isRefSupported(entry.getKey()))
+              .collect(toImmutableMap(Map.Entry::getKey, Map.Entry::getValue));
       assertThat(countsByProjectRefs.asMap()).containsExactlyEntriesIn(exprectedFiltered);
       clear();
+    }
+
+    @UsedAt(UsedAt.Project.GOOGLE)
+    protected boolean isRefSupported(String expectedRefEntryKey) {
+      return true;
     }
   }
 }

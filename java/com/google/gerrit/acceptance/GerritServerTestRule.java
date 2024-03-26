@@ -268,11 +268,6 @@ public class GerritServerTestRule implements ServerTestRule {
     return true;
   }
 
-  @Override
-  public boolean isRefSequenceSupported() {
-    return true;
-  }
-
   public static void afterConfigChanged() {
     if (commonServer != null) {
       try {

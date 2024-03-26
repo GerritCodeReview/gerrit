@@ -16,6 +16,24 @@
       "message": "Before submitting this, I want to double check with the list experiments REST endpoint (that is added by change 413540) that the experiment is indeed properly enabled on our hosts (I don\u0027t trust our experiment configuration enough).",
       "revId": "606cde156672c77f35fea59c20ab36700f28447b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0b11605_8ecbcde4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-03-26T14:10:12Z",
+      "side": 1,
+      "message": "Double-check that rebasing merge commits is enabled everywhere. Hence we can submit this now.",
+      "parentUuid": "a89a895a_6e33d936",
+      "revId": "606cde156672c77f35fea59c20ab36700f28447b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

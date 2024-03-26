@@ -22,6 +22,30 @@
       },
       "revId": "67b39ecab83b023165d4c0b36e2ffc82caf25c4a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3a34ebd_7fd84761",
+        "filename": "javatests/com/google/gerrit/server/query/change/LuceneQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-26T20:58:24Z",
+      "side": 1,
+      "message": "True, but not in a merge commit IMHO.",
+      "parentUuid": "315ed38e_276addb7",
+      "range": {
+        "startLine": 104,
+        "startChar": 2,
+        "endLine": 124,
+        "endChar": 3
+      },
+      "revId": "67b39ecab83b023165d4c0b36e2ffc82caf25c4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

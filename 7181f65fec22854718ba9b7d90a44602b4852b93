@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06568cef_95a5d681",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2024-03-26T08:59:59Z",
+      "side": 1,
+      "message": "does it mean this now is launching the changes for upstream folks? If so can you add some release notes?",
+      "revId": "7181f65fec22854718ba9b7d90a44602b4852b93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

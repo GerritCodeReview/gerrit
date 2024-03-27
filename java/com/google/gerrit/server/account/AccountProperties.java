@@ -97,6 +97,7 @@ public class AccountProperties {
 
     accountBuilder.setStatus(get(accountConfig, KEY_STATUS));
     accountBuilder.setMetaId(metaId != null ? metaId.name() : null);
+    accountBuilder.setUniqueTag(accountBuilder.metaId());
     account = accountBuilder.build();
   }
 

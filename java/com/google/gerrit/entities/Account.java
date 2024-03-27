@@ -162,6 +162,17 @@ public abstract class Account {
   public abstract String metaId();
 
   /**
+   * A unique tag which identifies the current version of the account.
+   *
+   * <p>It can be any non-empty string. For open-source gerrit it is the same as metaId; internally
+   * in google a different value is assigned.
+   *
+   * <p>The value can be null only during account updating/creation.
+   */
+  @Nullable
+  public abstract String uniqueTag();
+
+  /**
    * Create a new account.
    *
    * @param newId unique id, see Sequences#nextAccountId().
@@ -278,6 +289,11 @@ public abstract class Account {
 
     public abstract Builder setMetaId(@Nullable String metaId);
 
+    @Nullable
+    public abstract String uniqueTag();
+
+    public abstract Builder setUniqueTag(@Nullable String uniqueTag);
+
     public abstract Account build();
   }
 
@@ -296,6 +312,7 @@ public abstract class Account {
         .add("inactive", inactive())
         .add("status", status())
         .add("metaId", metaId())
+        .add("uniqueTag", uniqueTag())
         .toString();
   }
 }

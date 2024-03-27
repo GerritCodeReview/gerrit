@@ -41,12 +41,15 @@ public class AccountCacheTest {
 
   @Test
   public void account_roundTrip() throws Exception {
+    // The uniqueTag and metaId can be different (in google internal implementation).
+    // This tests ensures that they are serialized/deserialized separately.
     Account account =
         Account.builder(Account.id(1), Instant.EPOCH)
             .setFullName("foo bar")
             .setDisplayName("foo")
             .setActive(false)
             .setMetaId("dead..beef")
+            .setUniqueTag("dead..beef..tag")
             .setStatus("OOO")
             .setPreferredEmail("foo@bar.tld")
             .build();
@@ -63,11 +66,45 @@ public class AccountCacheTest {
                     .setDisplayName("foo")
                     .setInactive(true)
                     .setMetaId("dead..beef")
+                    .setUniqueTag("dead..beef..tag")
                     .setStatus("OOO")
                     .setPreferredEmail("foo@bar.tld"))
             .build();
     ProtoTruth.assertThat(Cache.AccountDetailsProto.parseFrom(serialized)).isEqualTo(expected);
     Truth.assertThat(SERIALIZER.deserialize(serialized)).isEqualTo(original);
+  }
+
+  @Test
+  public void account_deserializeOldRecordWithoutUniqueTag() throws Exception {
+    Account.Builder builder =
+        Account.builder(Account.id(1), Instant.EPOCH)
+            .setFullName("foo bar")
+            .setDisplayName("foo")
+            .setActive(false)
+            .setMetaId("dead..beef")
+            .setStatus("OOO")
+            .setPreferredEmail("foo@bar.tld");
+    CachedAccountDetails original =
+        CachedAccountDetails.create(builder.build(), ImmutableMap.of(), CachedPreferences.EMPTY);
+    CachedAccountDetails expected =
+        CachedAccountDetails.create(
+            builder.setUniqueTag("dead..beef").build(), ImmutableMap.of(), CachedPreferences.EMPTY);
+    byte[] serialized = SERIALIZER.serialize(original);
+    Cache.AccountDetailsProto expectedProto =
+        Cache.AccountDetailsProto.newBuilder()
+            .setAccount(
+                Cache.AccountProto.newBuilder()
+                    .setId(1)
+                    .setRegisteredOn(0)
+                    .setFullName("foo bar")
+                    .setDisplayName("foo")
+                    .setInactive(true)
+                    .setMetaId("dead..beef")
+                    .setStatus("OOO")
+                    .setPreferredEmail("foo@bar.tld"))
+            .build();
+    ProtoTruth.assertThat(Cache.AccountDetailsProto.parseFrom(serialized)).isEqualTo(expectedProto);
+    Truth.assertThat(SERIALIZER.deserialize(serialized)).isEqualTo(expected);
   }
 
   @Test

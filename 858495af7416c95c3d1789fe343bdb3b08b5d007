@@ -16,6 +16,24 @@
       "message": "Just to let you know, there are also tests for this in AbstractQueryAccountsTest:\n* withSecondaryEmails()\n* withSecondaryEmailsWithoutModifyAccountCapability",
       "revId": "858495af7416c95c3d1789fe343bdb3b08b5d007",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "79b95c13_97a5b9bf",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3455,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2024-03-27T08:54:55Z",
+      "side": 1,
+      "message": "Ok great, I think that should be sufficient coverage then.",
+      "parentUuid": "e31fe267_1e78c151",
+      "revId": "858495af7416c95c3d1789fe343bdb3b08b5d007",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

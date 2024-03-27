@@ -111,6 +111,7 @@ import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyProblemInfo;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInput;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInput.CheckAccountsInput;
+import com.google.gerrit.extensions.client.ListAccountsOption;
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.common.AccountDetailInfo;
 import com.google.gerrit.extensions.common.AccountInfo;
@@ -3448,6 +3449,22 @@ public class AccountIT extends AbstractDaemonTest {
     AuthException thrown =
         assertThrows(AuthException.class, () -> gApi.accounts().id(deleted.id().get()).delete());
     assertThat(thrown).hasMessageThat().isEqualTo("Delete account is only permitted for self");
+  }
+
+  @Test
+  public void secondaryEmail_servedInQueryApi() throws Exception {
+    accountOperations
+        .newAccount()
+        .preferredEmail("preferred@domain.org")
+        .addSecondaryEmail("secondary@domain.org")
+        .create();
+    List<AccountInfo> accounts =
+        gApi.accounts()
+            .query("email:preferred@domain.org")
+            .withOption(ListAccountsOption.ALL_EMAILS)
+            .get();
+    assertThat(accounts).hasSize(1);
+    assertThat(accounts.get(0).secondaryEmails).containsExactly("secondary@domain.org");
   }
 
   private TestGroupBackend createTestGroupBackendWithAllUsersGroup(String nameOfAllUsersGroup)

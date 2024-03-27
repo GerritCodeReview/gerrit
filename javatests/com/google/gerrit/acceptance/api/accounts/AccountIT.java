@@ -2089,23 +2089,30 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void checkMetaId() throws Exception {
-    // metaId is set when account is loaded
+  public void checkMetaIdAndUniqueTag() throws Exception {
+    // In open-source Gerrit, the uniqueTag and metaId are always the same. Check them together
+    // in this test.
+    // metaId and uniqueTag are set when account is loaded
     assertThat(accounts.get(admin.id()).get().account().metaId()).isEqualTo(getMetaId(admin.id()));
+    assertThat(accounts.get(admin.id()).get().account().uniqueTag())
+        .isEqualTo(getMetaId(admin.id()));
 
-    // metaId is set when account is created
+    // metaId and uniqueTag are set when account is created
     AccountsUpdate au = accountsUpdateProvider.get();
     Account.Id accountId = Account.id(seq.nextAccountId());
     AccountState accountState = au.insert("Create Test Account", accountId, u -> {});
     assertThat(accountState.account().metaId()).isEqualTo(getMetaId(accountId));
+    assertThat(accountState.account().uniqueTag()).isEqualTo(getMetaId(accountId));
 
-    // metaId is set when account is updated
+    // metaId and uniqueTag are set when account is updated
     Optional<AccountState> updatedAccountState =
         au.update("Set Full Name", accountId, u -> u.setFullName("foo"));
     assertThat(updatedAccountState).isPresent();
     Account updatedAccount = updatedAccountState.get().account();
     assertThat(accountState.account().metaId()).isNotEqualTo(updatedAccount.metaId());
+    assertThat(accountState.account().uniqueTag()).isNotEqualTo(updatedAccount.uniqueTag());
     assertThat(updatedAccount.metaId()).isEqualTo(getMetaId(accountId));
+    assertThat(updatedAccount.uniqueTag()).isEqualTo(getMetaId(accountId));
   }
 
   private EmailInput newEmailInput(String email, boolean noConfirmation) {

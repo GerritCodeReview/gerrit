@@ -114,7 +114,8 @@ public abstract class CachedAccountDetails {
               .setDisplayName(Strings.nullToEmpty(account.displayName()))
               .setPreferredEmail(Strings.nullToEmpty(account.preferredEmail()))
               .setStatus(Strings.nullToEmpty(account.status()))
-              .setMetaId(Strings.nullToEmpty(account.metaId()));
+              .setMetaId(Strings.nullToEmpty(account.metaId()))
+              .setUniqueTag(Strings.nullToEmpty(account.uniqueTag()));
       serialized.setAccount(accountProto);
 
       for (Map.Entry<ProjectWatches.ProjectWatchKey, ImmutableSet<NotifyConfig.NotifyType>> watch :
@@ -145,7 +146,7 @@ public abstract class CachedAccountDetails {
     public CachedAccountDetails deserialize(byte[] in) {
       Cache.AccountDetailsProto proto =
           Protos.parseUnchecked(Cache.AccountDetailsProto.parser(), in);
-      Account account =
+      Account.Builder builder =
           Account.builder(
                   Account.id(proto.getAccount().getId()),
                   Instant.ofEpochMilli(proto.getAccount().getRegisteredOn()))
@@ -155,7 +156,11 @@ public abstract class CachedAccountDetails {
               .setInactive(proto.getAccount().getInactive())
               .setStatus(Strings.emptyToNull(proto.getAccount().getStatus()))
               .setMetaId(Strings.emptyToNull(proto.getAccount().getMetaId()))
-              .build();
+              .setUniqueTag(Strings.emptyToNull(proto.getAccount().getUniqueTag()));
+      if (Strings.isNullOrEmpty(builder.uniqueTag())) {
+        builder.setUniqueTag(builder.metaId());
+      }
+      Account account = builder.build();
 
       ImmutableMap.Builder<ProjectWatches.ProjectWatchKey, ImmutableSet<NotifyConfig.NotifyType>>
           projectWatches = ImmutableMap.builder();

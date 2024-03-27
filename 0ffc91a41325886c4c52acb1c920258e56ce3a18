@@ -16,6 +16,23 @@
       "message": "This works but only after:\n- Change 414699 is merged onto stable-3.4\n- stable-3.4 is merged with stable-3.5",
       "revId": "0ffc91a41325886c4c52acb1c920258e56ce3a18",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "93c0930b_b8e41d42",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-27T00:49:08Z",
+      "side": 1,
+      "message": "Holding on +1 until the stable-3.4 is merged, including the fix for the `PaginationType.NONE` condition.",
+      "revId": "0ffc91a41325886c4c52acb1c920258e56ce3a18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

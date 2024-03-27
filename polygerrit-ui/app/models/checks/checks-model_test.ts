@@ -30,12 +30,16 @@ import {
 } from '../../test/test-data-generators';
 import {waitUntil, waitUntilCalled} from '../../test/test-utils';
 import {ParsedChangeInfo} from '../../types/types';
-import {changeModelToken} from '../change/change-model';
+import {
+  changeModelToken,
+  updateRevisionsWithCommitShas,
+} from '../change/change-model';
 import {assert} from '@open-wc/testing';
 import {testResolver} from '../../test/common-test-setup';
 import {changeViewModelToken} from '../views/change';
 import {NumericChangeId, PatchSetNumber} from '../../api/rest-api';
 import {pluginLoaderToken} from '../../elements/shared/gr-js-api-interface/gr-plugin-loader';
+import {deepEqual} from '../../utils/deep-util';
 
 const PLUGIN_NAME = 'test-plugin';
 
@@ -106,17 +110,17 @@ suite('checks-model tests', () => {
     });
     await waitUntil(() => change === undefined);
 
-    const testChange = createParsedChange();
+    const testChange = updateRevisionsWithCommitShas(createParsedChange());
     testResolver(changeModelToken).updateStateChange(testChange);
-    await waitUntil(() => change === testChange);
+    await waitUntil(() => deepEqual(change, testChange));
     await waitUntilCalled(fetchSpy, 'fetch');
 
     assert.equal(
       model.latestPatchNum,
-      testChange.revisions[testChange.current_revision]
+      testChange!.revisions[testChange!.current_revision]
         ._number as PatchSetNumber
     );
-    assert.equal(model.changeNum, testChange._number);
+    assert.equal(model.changeNum, testChange!._number);
   });
 
   test('fetch throttle', async () => {
@@ -133,9 +137,9 @@ suite('checks-model tests', () => {
     });
     await waitUntil(() => change === undefined);
 
-    const testChange = createParsedChange();
+    const testChange = updateRevisionsWithCommitShas(createParsedChange());
     testResolver(changeModelToken).updateStateChange(testChange);
-    await waitUntil(() => change === testChange);
+    await waitUntil(() => deepEqual(change, testChange));
 
     model.reload('test-plugin');
     model.reload('test-plugin');
@@ -339,9 +343,9 @@ suite('checks-model tests', () => {
     });
     await waitUntil(() => change === undefined);
     clock.tick(1);
-    const testChange = createParsedChange();
+    const testChange = updateRevisionsWithCommitShas(createParsedChange());
     testResolver(changeModelToken).updateStateChange(testChange);
-    await waitUntil(() => change === testChange);
+    await waitUntil(() => deepEqual(change, testChange));
     clock.tick(600); // need to wait for 500ms throttle
     await waitUntilCalled(fetchSpy, 'fetch');
     const pollCount = fetchSpy.callCount;
@@ -366,9 +370,9 @@ suite('checks-model tests', () => {
     });
     await waitUntil(() => change === undefined);
     clock.tick(1);
-    const testChange = createParsedChange();
+    const testChange = updateRevisionsWithCommitShas(createParsedChange());
     testResolver(changeModelToken).updateStateChange(testChange);
-    await waitUntil(() => change === testChange);
+    await waitUntil(() => deepEqual(change, testChange));
     clock.tick(600); // need to wait for 500ms throttle
     await waitUntilCalled(fetchSpy, 'fetch');
     clock.tick(1);

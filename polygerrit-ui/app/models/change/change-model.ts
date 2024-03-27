@@ -19,7 +19,13 @@ import {
 } from '../../types/common';
 import {ChangeStatus, DefaultBase} from '../../constants/constants';
 import {combineLatest, from, Observable, forkJoin, of} from 'rxjs';
-import {map, filter, withLatestFrom, switchMap} from 'rxjs/operators';
+import {
+  map,
+  filter,
+  withLatestFrom,
+  switchMap,
+  catchError,
+} from 'rxjs/operators';
 import {
   computeAllPatchSets,
   computeLatestPatchNum,
@@ -55,7 +61,7 @@ const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 export interface ChangeState {
   /**
    * If `change` is undefined, this must be either NOT_LOADED or LOADING.
-   * If `change` is defined, this must be either LOADED or RELOADING.
+   * If `change` is defined, this must be either LOADED.
    */
   loadingStatus: LoadingStatus;
   change?: ParsedChangeInfo;
@@ -177,7 +183,13 @@ const initialState: ChangeState = {
 };
 
 export const changeModelToken = define<ChangeModel>('change-model');
-
+/**
+ * Change model maintains information about the current change.
+ *
+ * The "current" change is defined by ChangeViewModel. This model tracks part of
+ * the current view. As such it's a singleton global state. It's NOT meant to
+ * keep the state of an arbitrary change.
+ */
 export class ChangeModel extends Model<ChangeState> {
   private change?: ParsedChangeInfo;
 
@@ -199,8 +211,7 @@ export class ChangeModel extends Model<ChangeState> {
 
   public readonly loading$ = select(
     this.changeLoadingStatus$,
-    status =>
-      status === LoadingStatus.LOADING || status === LoadingStatus.RELOADING
+    status => status === LoadingStatus.LOADING
   );
 
   public readonly reviewedFiles$ = select(
@@ -388,10 +399,7 @@ export class ChangeModel extends Model<ChangeState> {
 
   private reportChangeReload() {
     return this.changeLoadingStatus$.subscribe(loadingStatus => {
-      if (
-        loadingStatus === LoadingStatus.LOADING ||
-        loadingStatus === LoadingStatus.RELOADING
-      ) {
+      if (loadingStatus === LoadingStatus.LOADING) {
         this.reporting.time(Timing.CHANGE_RELOAD);
       }
       if (
@@ -557,16 +565,21 @@ export class ChangeModel extends Model<ChangeState> {
     return this.viewModel.changeNum$
       .pipe(
         switchMap(changeNum => {
-          if (changeNum !== undefined) this.updateStateLoading(changeNum);
-          const change = from(this.restApiService.getChangeDetail(changeNum));
-          const edit = from(this.restApiService.getChangeEdit(changeNum));
+          this.updateStateLoading(changeNum);
+          // if changeNum is undefined restApi calls return undefined.
+          const change = this.restApiService.getChangeDetail(changeNum);
+          const edit = this.restApiService.getChangeEdit(changeNum);
           return forkJoin([change, edit]);
         }),
         withLatestFrom(this.viewModel.patchNum$),
         map(([[change, edit], patchNum]) =>
           updateChangeWithEdit(change, edit, patchNum)
         ),
-        map(updateRevisionsWithCommitShas)
+        catchError(err => {
+          // Reset loading state and re-throw.
+          this.updateState({loadingStatus: LoadingStatus.NOT_LOADED});
+          throw err;
+        })
       )
       .subscribe(change => {
         // The change service is currently a singleton, so we have to be
@@ -752,25 +765,33 @@ export class ChangeModel extends Model<ChangeState> {
   /**
    * Called when change detail loading is initiated.
    *
-   * If the change number matches the current change in the state, then
-   * this is a reload. If not, then we not just want to set the state to
-   * LOADING instead of RELOADING, but we also want to set the change to
+   * We want to set the state to LOADING, but we also want to set the change to
    * undefined right away. Otherwise components could see inconsistent state:
    * a new change number, but an old change.
    */
-  private updateStateLoading(changeNum: NumericChangeId) {
-    const current = this.getState();
-    const reloading = current.change?._number === changeNum;
+  private updateStateLoading(changeNum?: NumericChangeId) {
     this.updateState({
-      change: reloading ? current.change : undefined,
-      loadingStatus: reloading
-        ? LoadingStatus.RELOADING
-        : LoadingStatus.LOADING,
+      change: undefined,
+      loadingStatus: changeNum
+        ? LoadingStatus.LOADING
+        : LoadingStatus.NOT_LOADED,
     });
   }
 
   // Private but used in tests.
+  /**
+   * Update the change information in the state.
+   *
+   * Since the ChangeModel must maintain consistency with ChangeViewModel
+   * The update is only allowed, if the new change has the same number as the
+   * current change or if the current change is not set (it was reset to
+   * undefined when ChangeViewModel.changeNum updated).
+   */
   updateStateChange(change?: ParsedChangeInfo) {
+    if (this.change && change?._number !== this.change?._number) {
+      return;
+    }
+    change = updateRevisionsWithCommitShas(change);
     this.updateState({
       change,
       loadingStatus:

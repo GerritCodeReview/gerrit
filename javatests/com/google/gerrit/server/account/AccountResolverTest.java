@@ -351,6 +351,7 @@ public class AccountResolverTest {
     return AccountState.forAccount(
         Account.builder(Account.id(id), TimeUtil.now())
             .setMetaId("1234567812345678123456781234567812345678")
+            .setUniqueTag("1234567812345678123456781234567812345678")
             .build());
   }
 

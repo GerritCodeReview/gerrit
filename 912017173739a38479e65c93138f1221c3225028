@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "214e0761_205581f4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1090261
+      },
+      "writtenOn": "2024-03-27T10:03:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "325fad5c_aab5ab02",
+      "revId": "912017173739a38479e65c93138f1221c3225028",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "d3c73835_8c534661",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -58,6 +76,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c2f10b6_91bd8d6b",
+        "filename": "java/com/google/gerrit/pgm/Passwd.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1090261
+      },
+      "writtenOn": "2024-03-27T10:03:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "98049b86_64128a70",
+      "range": {
+        "startLine": 55,
+        "startChar": 8,
+        "endLine": 55,
+        "endChar": 50
+      },
+      "revId": "912017173739a38479e65c93138f1221c3225028",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "58880c91_f1a958cb",
@@ -71,6 +113,30 @@
       "writtenOn": "2024-03-27T00:05:56Z",
       "side": 1,
       "message": "The key part is common and should always be the last one. Can we put outside the if/then/else?",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 28
+      },
+      "revId": "912017173739a38479e65c93138f1221c3225028",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22af7eb1_21e118a4",
+        "filename": "java/com/google/gerrit/pgm/Passwd.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1090261
+      },
+      "writtenOn": "2024-03-27T10:03:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "58880c91_f1a958cb",
       "range": {
         "startLine": 64,
         "startChar": 0,

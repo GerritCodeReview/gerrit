@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "325fad5c_aab5ab02",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-27T00:05:56Z",
+      "side": 1,
+      "message": "Missing `Release-Notes` footer.",
+      "revId": "912017173739a38479e65c93138f1221c3225028",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3c73835_8c534661",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-27T00:05:56Z",
+      "side": 1,
+      "message": "Missing documentation",
+      "revId": "912017173739a38479e65c93138f1221c3225028",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98049b86_64128a70",
+        "filename": "java/com/google/gerrit/pgm/Passwd.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-27T00:05:56Z",
+      "side": 1,
+      "message": "We basically want 2 or 3 sized elements: why not just assert that?",
+      "range": {
+        "startLine": 55,
+        "startChar": 8,
+        "endLine": 55,
+        "endChar": 50
+      },
+      "revId": "912017173739a38479e65c93138f1221c3225028",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58880c91_f1a958cb",
+        "filename": "java/com/google/gerrit/pgm/Passwd.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-27T00:05:56Z",
+      "side": 1,
+      "message": "The key part is common and should always be the last one. Can we put outside the if/then/else?",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 28
+      },
+      "revId": "912017173739a38479e65c93138f1221c3225028",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

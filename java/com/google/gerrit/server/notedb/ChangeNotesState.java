@@ -351,6 +351,7 @@ public abstract class ChangeNotesState {
     change.setOwner(c.owner());
     change.setDest(BranchNameKey.create(change.getProject(), c.branch()));
     change.setCreatedOn(c.createdOn());
+    change.setServerId(serverId());
     copyNonConstructorColumnsTo(change);
   }
 

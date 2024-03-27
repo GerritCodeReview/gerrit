@@ -46,6 +46,7 @@ import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.gerrit.server.patch.DiffOperations;
 import com.google.gerrit.server.patch.DiffOptions;
 import com.google.gerrit.server.patch.filediff.FileDiffOutput;
+import com.google.gerrit.server.query.change.ChangeNumberVirtualIdAlgorithm;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -118,17 +119,20 @@ public class CommentsUtil {
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsers;
   private final String serverId;
+  private final ChangeNumberVirtualIdAlgorithm virtualIdAlgorithm;
 
   @Inject
   CommentsUtil(
       DiffOperations diffOperations,
       GitRepositoryManager repoManager,
       AllUsersName allUsers,
-      @GerritServerId String serverId) {
+      @GerritServerId String serverId,
+      @Nullable ChangeNumberVirtualIdAlgorithm virtualIdAlgorithm) {
     this.diffOperations = diffOperations;
     this.repoManager = repoManager;
     this.allUsers = allUsers;
     this.serverId = serverId;
+    this.virtualIdAlgorithm = virtualIdAlgorithm;
   }
 
   public HumanComment newHumanComment(
@@ -225,7 +229,7 @@ public class CommentsUtil {
 
   public List<HumanComment> draftByChange(ChangeNotes notes) {
     List<HumanComment> comments = new ArrayList<>();
-    for (Ref ref : getDraftRefs(notes.getChangeId())) {
+    for (Ref ref : getDraftRefs(getVirtualId(notes))) {
       Account.Id account = Account.Id.fromRefSuffix(ref.getName());
       if (account != null) {
         comments.addAll(draftByChangeAuthor(notes, account));
@@ -324,17 +328,19 @@ public class CommentsUtil {
 
   public List<HumanComment> draftByPatchSetAuthor(
       PatchSet.Id psId, Account.Id author, ChangeNotes notes) {
-    return commentsOnPatchSet(notes.load().getDraftComments(author).values(), psId);
+    return commentsOnPatchSet(
+        notes.load().getDraftComments(author, getVirtualId(notes)).values(), psId);
   }
 
   public List<HumanComment> draftByChangeFileAuthor(
       ChangeNotes notes, String file, Account.Id author) {
-    return commentsOnFile(notes.load().getDraftComments(author).values(), file);
+    return commentsOnFile(
+        notes.load().getDraftComments(author, getVirtualId(notes)).values(), file);
   }
 
   public List<HumanComment> draftByChangeAuthor(ChangeNotes notes, Account.Id author) {
     List<HumanComment> comments = new ArrayList<>();
-    comments.addAll(notes.getDraftComments(author).values());
+    comments.addAll(notes.getDraftComments(author, getVirtualId(notes)).values());
     return sort(comments);
   }
 
@@ -478,8 +484,8 @@ public class CommentsUtil {
     }
   }
 
-  private Collection<Ref> getDraftRefs(Repository repo, Change.Id changeId) throws IOException {
-    return repo.getRefDatabase().getRefsByPrefix(RefNames.refsDraftCommentsPrefix(changeId));
+  private Collection<Ref> getDraftRefs(Repository repo, Change.Id virtualId) throws IOException {
+    return repo.getRefDatabase().getRefsByPrefix(RefNames.refsDraftCommentsPrefix(virtualId));
   }
 
   private Collection<Change.Id> getChangesWithDrafts(Repository repo, Account.Id accountId)
@@ -501,5 +507,11 @@ public class CommentsUtil {
   private static <T extends Comment> List<T> sort(List<T> comments) {
     comments.sort(COMMENT_ORDER);
     return comments;
+  }
+
+  private Change.Id getVirtualId(ChangeNotes notes) {
+    return virtualIdAlgorithm == null
+        ? notes.getChangeId()
+        : virtualIdAlgorithm.apply(notes.getServerId(), notes.getChangeId());
   }
 }

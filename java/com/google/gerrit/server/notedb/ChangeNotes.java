@@ -539,12 +539,17 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   }
 
   public ImmutableListMultimap<ObjectId, HumanComment> getDraftComments(Account.Id author) {
-    return getDraftComments(author, null);
+    return getDraftComments(author, null, null);
   }
 
   public ImmutableListMultimap<ObjectId, HumanComment> getDraftComments(
-      Account.Id author, @Nullable Ref ref) {
-    loadDraftComments(author, ref);
+      Account.Id author, @Nullable Change.Id virtualId) {
+    return getDraftComments(author, virtualId, null);
+  }
+
+  public ImmutableListMultimap<ObjectId, HumanComment> getDraftComments(
+      Account.Id author, @Nullable Change.Id virtualId, @Nullable Ref ref) {
+    loadDraftComments(author, virtualId, ref);
     // Filter out any zombie draft comments. These are drafts that are also in
     // the published map, and arise when the update to All-Users to delete them
     // during the publish operation failed.
@@ -563,9 +568,10 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
    * However, this method will load the comments if no draft comments have been loaded or if the
    * caller would like the drafts for another author.
    */
-  private void loadDraftComments(Account.Id author, @Nullable Ref ref) {
+  private void loadDraftComments(
+      Account.Id author, @Nullable Change.Id virtualId, @Nullable Ref ref) {
     if (draftCommentNotes == null || !author.equals(draftCommentNotes.getAuthor()) || ref != null) {
-      draftCommentNotes = new DraftCommentNotes(args, getChangeId(), author, ref);
+      draftCommentNotes = new DraftCommentNotes(args, getChangeId(), virtualId, author, ref);
       draftCommentNotes.load();
     }
   }

@@ -98,6 +98,7 @@ public class ChangeInfo {
   public Boolean containsGitConflicts;
 
   public Integer _number;
+  public Integer _virtualIdNumber;
 
   public AccountInfo owner;
 

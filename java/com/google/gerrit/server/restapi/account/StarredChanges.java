@@ -73,7 +73,7 @@ public class StarredChanges
     IdentifiedUser user = parent.getUser();
     ChangeResource change = changes.parse(TopLevelResource.INSTANCE, id);
     if (starredChangesUtil
-        .getLabels(user.getAccountId(), change.getId())
+        .getLabels(user.getAccountId(), change.getVirtualId())
         .contains(StarredChangesUtil.DEFAULT_LABEL)) {
       return new AccountResource.StarredChange(user, change);
     }
@@ -131,7 +131,7 @@ public class StarredChanges
 
       try {
         starredChangesUtil.star(
-            self.get().getAccountId(), change.getId(), StarredChangesUtil.Operation.ADD);
+            self.get().getAccountId(), change.getVirtualId(), StarredChangesUtil.Operation.ADD);
       } catch (MutuallyExclusiveLabelsException e) {
         throw new ResourceConflictException(e.getMessage());
       } catch (IllegalLabelException e) {
@@ -179,7 +179,7 @@ public class StarredChanges
         throw new AuthException("not allowed remove starred change");
       }
       starredChangesUtil.star(
-          self.get().getAccountId(), rsrc.getChange().getId(), StarredChangesUtil.Operation.REMOVE);
+          self.get().getAccountId(), rsrc.getVirtualId(), StarredChangesUtil.Operation.REMOVE);
       return Response.none();
     }
   }

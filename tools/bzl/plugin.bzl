@@ -1,3 +1,7 @@
+"""
+Build rules for plugins.
+"""
+
 load("@rules_java//java:defs.bzl", "java_binary", "java_library")
 load("//tools/bzl:genrule2.bzl", "genrule2")
 load("//:version.bzl", "GERRIT_VERSION")

@@ -98,10 +98,7 @@ import {
 } from '../../../utils/attention-set-util';
 import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 import {resolve} from '../../../models/dependency';
-import {
-  changeModelToken,
-  updateRevisionsWithCommitShas,
-} from '../../../models/change/change-model';
+import {changeModelToken} from '../../../models/change/change-model';
 import {LabelNameToValuesMap, PatchSetNumber} from '../../../api/rest-api';
 import {css, html, PropertyValues, LitElement, nothing} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
@@ -1462,10 +1459,8 @@ export class GrReplyDialog extends LitElement {
     return this.saveReview(reviewInput, errFn)
       .then(result => {
         this.getChangeModel().updateStateChange(
-          updateRevisionsWithCommitShas(
-            GrReviewerUpdatesParser.parse(
-              result?.change_info as ChangeViewChangeInfo
-            )
+          GrReviewerUpdatesParser.parse(
+            result?.change_info as ChangeViewChangeInfo
           )
         );
 

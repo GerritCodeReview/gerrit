@@ -27,6 +27,7 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.UseClockStep;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.AccessSection;
@@ -35,6 +36,7 @@ import com.google.gerrit.extensions.api.projects.ProjectApi.ListRefsRequest;
 import com.google.gerrit.extensions.api.projects.TagApi;
 import com.google.gerrit.extensions.api.projects.TagInfo;
 import com.google.gerrit.extensions.api.projects.TagInput;
+import com.google.gerrit.extensions.common.ListTagSortOption;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
@@ -120,6 +122,7 @@ public class TagsIT extends AbstractDaemonTest {
   }
 
   @Test
+  @UseClockStep
   public void listTags() throws Exception {
     createTags();
 
@@ -160,6 +163,19 @@ public class TagsIT extends AbstractDaemonTest {
     // with descending order
     result = getTags().withDescendingOrder(true).get();
     assertTagList(FluentIterable.from(Lists.reverse(testTags)), result);
+
+    // with sortBy creation time
+    result = getTags().withSortBy(ListTagSortOption.CREATION_TIME).get();
+    assertTagList(FluentIterable.from(Lists.reverse(testTags)), result);
+
+    // with sortBy, descending order and limit
+    result =
+        getTags()
+            .withDescendingOrder(true)
+            .withLimit(2)
+            .withSortBy(ListTagSortOption.CREATION_TIME)
+            .get();
+    assertTagList(FluentIterable.from(ImmutableList.of("tag-A", "tag-B")), result);
   }
 
   @Test
@@ -481,9 +497,10 @@ public class TagsIT extends AbstractDaemonTest {
     TagInput input = new TagInput();
     input.revision = revision;
 
-    for (String tagname : testTags) {
+    // Creating the tags in reverse order to allow testing the sortBy option
+    for (String tagname : Lists.reverse(testTags)) {
+      input.message = tagname; // This updates the 'created' time of the tag
       TagInfo result = tag(tagname).create(input).get();
-      assertThat(result.revision).isEqualTo(input.revision);
       assertThat(result.ref).isEqualTo(R_TAGS + tagname);
     }
   }

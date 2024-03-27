@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.api.config.AccessCheckInput;
 import com.google.gerrit.extensions.common.BatchLabelInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.LabelDefinitionInfo;
+import com.google.gerrit.extensions.common.ListTagSortOption;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.common.SubmitRequirementInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
@@ -76,6 +77,7 @@ public interface ProjectApi {
     protected String substring;
     protected String regex;
     protected String nextPageToken;
+    protected ListTagSortOption sortBy = ListTagSortOption.REF;
 
     public abstract List<T> get() throws RestApiException;
 
@@ -91,6 +93,11 @@ public interface ProjectApi {
 
     public ListRefsRequest<T> withDescendingOrder(boolean descendingOrder) {
       this.descendingOrder = descendingOrder;
+      return this;
+    }
+
+    public ListRefsRequest<T> withSortBy(ListTagSortOption sortBy) {
+      this.sortBy = sortBy;
       return this;
     }
 
@@ -119,6 +126,10 @@ public interface ProjectApi {
 
     public boolean getDescendingOrder() {
       return descendingOrder;
+    }
+
+    public ListTagSortOption getSortBy() {
+      return sortBy;
     }
 
     public String getNextPageToken() {

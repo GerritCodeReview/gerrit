@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "281ff691_5f19f41e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-03-27T10:44:25Z",
+      "side": 1,
+      "message": "Note for Google reviewer: This upstreams the change that was to done to tools/bzl/plugin.bzl in cl/619235785",
+      "revId": "06cec171ccde7bbc5ae2874027e459d4ec94ebe0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

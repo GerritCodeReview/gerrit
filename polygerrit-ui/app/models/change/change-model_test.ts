@@ -306,11 +306,11 @@ suite('change model tests', () => {
 
     // Reloading same change
     document.dispatchEvent(new CustomEvent('reload'));
-    state = await waitForLoadingStatus(LoadingStatus.RELOADING);
+    state = await waitForLoadingStatus(LoadingStatus.LOADING);
     assert.equal(stub.callCount, 3);
     assert.equal(stub.getCall(1).firstArg, undefined);
     assert.equal(stub.getCall(2).firstArg, TEST_NUMERIC_CHANGE_ID);
-    assert.deepEqual(state?.change, updateRevisionsWithCommitShas(knownChange));
+    assert.deepEqual(state?.change, undefined);
 
     promise.resolve(knownChange);
     state = await waitForLoadingStatus(LoadingStatus.LOADED);

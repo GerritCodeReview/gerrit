@@ -41,7 +41,6 @@ export enum ErrorType {
 export enum LoadingStatus {
   NOT_LOADED = 'NOT_LOADED',
   LOADING = 'LOADING',
-  RELOADING = 'RELOADING',
   LOADED = 'LOADED',
 }
 

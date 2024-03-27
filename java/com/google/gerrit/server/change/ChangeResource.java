@@ -251,7 +251,15 @@ public class ChangeResource implements RestResource, HasETag {
 
   private void hashAccount(Hasher h, AccountState accountState, byte[] buf) {
     h.putInt(accountState.account().id().get());
-    h.putString(MoreObjects.firstNonNull(accountState.account().metaId(), ZERO_ID_STRING), UTF_8);
+    // Based on the code, it seems the metaId should never be null in this place and so the
+    // uniqueTag.
+    // However, the null-check for metaId has been existed here for some time already - for safety
+    // the same check is applied to uniqueTag.
+    h.putString(
+        MoreObjects.firstNonNull(
+            accountState.account().uniqueTag(),
+            MoreObjects.firstNonNull(accountState.account().metaId(), ZERO_ID_STRING)),
+        UTF_8);
     accountState.externalIds().stream().forEach(e -> hashObjectId(h, e.blobId(), buf));
   }
 }

@@ -103,6 +103,7 @@ public class IdentifiedUserTest {
     Account account =
         Account.builder(Account.id(1), TimeUtil.now())
             .setMetaId("1234567812345678123456781234567812345678")
+            .setUniqueTag("1234567812345678123456781234567812345678")
             .build();
     Account.Id ownerId = account.id();
 

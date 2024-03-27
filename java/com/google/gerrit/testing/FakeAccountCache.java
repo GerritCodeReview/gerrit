@@ -43,6 +43,7 @@ public class FakeAccountCache implements AccountCache {
     return newState(
         Account.builder(accountId, TimeUtil.now())
             .setMetaId("1234567812345678123456781234567812345678")
+            .setUniqueTag("1234567812345678123456781234567812345678")
             .build());
   }
 

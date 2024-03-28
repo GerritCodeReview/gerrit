@@ -24,6 +24,7 @@ import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.Comment;
@@ -31,10 +32,12 @@ import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -43,6 +46,7 @@ import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.gerrit.server.patch.DiffOperations;
 import com.google.gerrit.server.patch.DiffOptions;
 import com.google.gerrit.server.patch.filediff.FileDiffOutput;
+import com.google.gerrit.server.query.change.ChangeNumberVirtualIdAlgorithm;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -55,6 +59,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 
@@ -111,16 +116,22 @@ public class CommentsUtil {
 
   private final DiffOperations diffOperations;
   private final GitRepositoryManager repoManager;
+  private final AllUsersName allUsers;
   private final String serverId;
+  private final ChangeNumberVirtualIdAlgorithm virtualIdAlgorithm;
 
   @Inject
   CommentsUtil(
       DiffOperations diffOperations,
       GitRepositoryManager repoManager,
-      @GerritServerId String serverId) {
+      AllUsersName allUsers,
+      @GerritServerId String serverId,
+      @Nullable ChangeNumberVirtualIdAlgorithm virtualIdAlgorithm) {
     this.diffOperations = diffOperations;
     this.repoManager = repoManager;
+    this.allUsers = allUsers;
     this.serverId = serverId;
+    this.virtualIdAlgorithm = virtualIdAlgorithm;
   }
 
   public HumanComment newHumanComment(
@@ -311,6 +322,17 @@ public class CommentsUtil {
         .collect(toList());
   }
 
+  public List<HumanComment> draftByPatchSetAuthor(
+      PatchSet.Id psId, Account.Id author, ChangeNotes notes) {
+    return commentsOnPatchSet(notes.load().getDraftComments(author, getVirtualId(notes)), psId);
+  }
+
+  public List<HumanComment> draftByChangeAuthor(ChangeNotes notes, Account.Id author) {
+    List<HumanComment> comments = new ArrayList<>();
+    comments.addAll(notes.getDraftComments(author, getVirtualId(notes)));
+    return sort(comments);
+  }
+
   public void putHumanComments(
       ChangeUpdate update, Comment.Status status, Iterable<HumanComment> comments) {
     for (HumanComment c : comments) {
@@ -425,8 +447,36 @@ public class CommentsUtil {
     }
   }
 
+  /**
+   * Get NoteDb draft refs for a change.
+   *
+   * <p>This is just a simple ref scan, so the results may potentially include refs for zombie draft
+   * comments. A zombie draft is one which has been published but the write to delete the draft ref
+   * from All-Users failed.
+   *
+   * @param changeId change ID.
+   * @return raw refs from All-Users repo.
+   */
+  public Collection<Ref> getDraftRefs(Change.Id changeId) {
+    try (Repository repo = repoManager.openRepository(allUsers)) {
+      return getDraftRefs(repo, changeId);
+    } catch (IOException e) {
+      throw new StorageException(e);
+    }
+  }
+
+  private Collection<Ref> getDraftRefs(Repository repo, Change.Id virtualId) throws IOException {
+    return repo.getRefDatabase().getRefsByPrefix(RefNames.refsDraftCommentsPrefix(virtualId));
+  }
+
   public static <T extends Comment> List<T> sort(List<T> comments) {
     comments.sort(COMMENT_ORDER);
     return comments;
+  }
+
+  private Change.Id getVirtualId(ChangeNotes notes) {
+    return virtualIdAlgorithm == null
+        ? notes.getChangeId()
+        : virtualIdAlgorithm.apply(notes.getServerId(), notes.getChangeId());
   }
 }

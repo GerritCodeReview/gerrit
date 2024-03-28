@@ -84,31 +84,31 @@ public class StarredChangesUtilNoteDbImpl implements StarredChangesUtil {
   }
 
   @Override
-  public boolean isStarred(Account.Id accountId, Change.Id changeId) {
+  public boolean isStarred(Account.Id accountId, Change.Id virtualId) {
     try (Repository repo = repoManager.openRepository(allUsers)) {
-      return getStarRef(repo, RefNames.refsStarredChanges(changeId, accountId)).isPresent();
+      return getStarRef(repo, RefNames.refsStarredChanges(virtualId, accountId)).isPresent();
     } catch (IOException e) {
       throw new StorageException(
           String.format(
               "Reading stars from change %d for account %d failed",
-              changeId.get(), accountId.get()),
+              virtualId.get(), accountId.get()),
           e);
     }
   }
 
   @Override
-  public void star(Account.Id accountId, Change.Id changeId) {
-    updateStar(accountId, changeId, true);
+  public void star(Account.Id accountId, Change.Id virtualId) {
+    updateStar(accountId, virtualId, true);
   }
 
   @Override
-  public void unstar(Account.Id accountId, Change.Id changeId) {
-    updateStar(accountId, changeId, false);
+  public void unstar(Account.Id accountId, Change.Id virtualId) {
+    updateStar(accountId, virtualId, false);
   }
 
-  private void updateStar(Account.Id accountId, Change.Id changeId, boolean shouldAdd) {
+  private void updateStar(Account.Id accountId, Change.Id virtualId, boolean shouldAdd) {
     try (Repository repo = repoManager.openRepository(allUsers)) {
-      String refName = RefNames.refsStarredChanges(changeId, accountId);
+      String refName = RefNames.refsStarredChanges(virtualId, accountId);
       if (shouldAdd) {
         addRef(repo, refName, null);
       } else {
@@ -119,16 +119,16 @@ public class StarredChangesUtilNoteDbImpl implements StarredChangesUtil {
       }
     } catch (IOException e) {
       throw new StorageException(
-          String.format("Star change %d for account %d failed", changeId.get(), accountId.get()),
+          String.format("Star change %d for account %d failed", virtualId.get(), accountId.get()),
           e);
     }
   }
 
   @Override
   public Set<Change.Id> areStarred(
-      Repository allUsersRepo, List<Change.Id> changeIds, Account.Id caller) {
+      Repository allUsersRepo, List<Change.Id> virtualIds, Account.Id caller) {
     List<String> starRefs =
-        changeIds.stream()
+        virtualIds.stream()
             .map(c -> RefNames.refsStarredChanges(c, caller))
             .collect(Collectors.toList());
     try {
@@ -139,21 +139,21 @@ public class StarredChangesUtilNoteDbImpl implements StarredChangesUtil {
     } catch (IOException e) {
       logger.atWarning().withCause(e).log(
           "Failed getting starred changes for account %d within changes: %s",
-          caller.get(), Joiner.on(", ").join(changeIds));
+          caller.get(), Joiner.on(", ").join(virtualIds));
       return ImmutableSet.of();
     }
   }
 
   @Override
-  public void unstarAllForChangeDeletion(Change.Id changeId) throws IOException {
+  public void unstarAllForChangeDeletion(Change.Id virtualId) throws IOException {
     try (Repository repo = repoManager.openRepository(allUsers);
         RevWalk rw = new RevWalk(repo)) {
       BatchRefUpdate batchUpdate = repo.getRefDatabase().newBatchUpdate();
       batchUpdate.setAllowNonFastForwards(true);
       batchUpdate.setRefLogIdent(serverIdent.get());
-      batchUpdate.setRefLogMessage("Unstar change " + changeId.get(), true);
-      for (Account.Id accountId : getStars(repo, changeId)) {
-        String refName = RefNames.refsStarredChanges(changeId, accountId);
+      batchUpdate.setRefLogMessage("Unstar change " + virtualId.get(), true);
+      for (Account.Id accountId : getStars(repo, virtualId)) {
+        String refName = RefNames.refsStarredChanges(virtualId, accountId);
         Ref ref = repo.getRefDatabase().exactRef(refName);
         if (ref != null) {
           batchUpdate.addCommand(new ReceiveCommand(ref.getObjectId(), ObjectId.zeroId(), refName));
@@ -165,7 +165,7 @@ public class StarredChangesUtilNoteDbImpl implements StarredChangesUtil {
           String message =
               String.format(
                   "Unstar change %d failed, ref %s could not be deleted: %s",
-                  changeId.get(), command.getRefName(), command.getResult());
+                  virtualId.get(), command.getRefName(), command.getResult());
           if (command.getResult() == ReceiveCommand.Result.LOCK_FAILURE) {
             throw new LockFailureException(message, batchUpdate);
           }
@@ -176,11 +176,11 @@ public class StarredChangesUtilNoteDbImpl implements StarredChangesUtil {
   }
 
   @Override
-  public ImmutableMap<Account.Id, Ref> byChange(Change.Id changeId) {
+  public ImmutableMap<Account.Id, Ref> byChange(Change.Id virtualId) {
     try (Repository repo = repoManager.openRepository(allUsers)) {
       ImmutableMap.Builder<Account.Id, Ref> builder = ImmutableMap.builder();
-      for (Account.Id accountId : getStars(repo, changeId)) {
-        Optional<Ref> starRef = getStarRef(repo, RefNames.refsStarredChanges(changeId, accountId));
+      for (Account.Id accountId : getStars(repo, virtualId)) {
+        Optional<Ref> starRef = getStarRef(repo, RefNames.refsStarredChanges(virtualId, accountId));
         if (starRef.isPresent()) {
           builder.put(accountId, starRef.get());
         }
@@ -188,7 +188,7 @@ public class StarredChangesUtilNoteDbImpl implements StarredChangesUtil {
       return builder.build();
     } catch (IOException e) {
       throw new StorageException(
-          String.format("Get accounts that starred change %d failed", changeId.get()), e);
+          String.format("Get accounts that starred change %d failed", virtualId.get()), e);
     }
   }
 
@@ -222,9 +222,9 @@ public class StarredChangesUtilNoteDbImpl implements StarredChangesUtil {
     }
   }
 
-  private static Set<Account.Id> getStars(Repository allUsers, Change.Id changeId)
+  private static Set<Account.Id> getStars(Repository allUsers, Change.Id virtualId)
       throws IOException {
-    String prefix = RefNames.refsStarredChangesPrefix(changeId);
+    String prefix = RefNames.refsStarredChangesPrefix(virtualId);
     RefDatabase refDb = allUsers.getRefDatabase();
     return refDb.getRefsByPrefix(prefix).stream()
         .map(r -> r.getName().substring(prefix.length()))

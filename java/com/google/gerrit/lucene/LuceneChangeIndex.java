@@ -113,7 +113,7 @@ public class LuceneChangeIndex implements ChangeIndex {
   private static final String CHANGE_FIELD = ChangeField.CHANGE_SPEC.getName();
 
   static Term idTerm(ChangeData cd) {
-    return idTerm(cd.getVirtualId());
+    return idTerm(cd.virtualId());
   }
 
   static Term idTerm(Change.Id id) {
@@ -571,7 +571,13 @@ public class LuceneChangeIndex implements ChangeIndex {
     IndexableField cb = Iterables.getFirst(doc.get(CHANGE_FIELD), null);
     if (cb != null) {
       BytesRef proto = cb.binaryValue();
-      cd = changeDataFactory.create(parseProtoFrom(proto, ChangeProtoConverter.INSTANCE));
+      // pass the id field value (which is the change virtual id for the imported changes) when
+      // available
+      IndexableField f = Iterables.getFirst(doc.get(idFieldName), null);
+      cd =
+          changeDataFactory.create(
+              parseProtoFrom(proto, ChangeProtoConverter.INSTANCE),
+              f != null ? Change.id(Integer.valueOf(f.stringValue())) : null);
     } else {
       IndexableField f = Iterables.getFirst(doc.get(idFieldName), null);
 

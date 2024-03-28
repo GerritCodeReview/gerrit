@@ -433,6 +433,9 @@ public final class Change {
   /** Locally assigned unique identifier of the change */
   private Id changeId;
 
+  /** ServerId of the Gerrit instance that has created the change */
+  private String serverId;
+
   /** Globally assigned unique identifier of the change */
   private Key changeKey;
 
@@ -528,6 +531,22 @@ public final class Change {
   /** 32 bit integer identity for a change. */
   public Change.Id getId() {
     return changeId;
+  }
+
+  /**
+   * Set the serverId of the Gerrit instance that created the change. It can be set to null for
+   * testing purposes in the protobuf converter tests.
+   */
+  public void setServerId(@Nullable String serverId) {
+    this.serverId = serverId;
+  }
+
+  /**
+   * ServerId of the Gerrit instance that created the change. It could be null when the change is
+   * not fetched from NoteDb but obtained through protobuf deserialisation.
+   */
+  public @Nullable String getServerId() {
+    return serverId;
   }
 
   /** 32 bit integer identity for a change. */

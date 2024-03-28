@@ -513,6 +513,9 @@ public class ChangeJson {
         if (has(REVIEWED) && userProvider.get().isIdentifiedUser()) {
           ChangeData.ensureReviewedByLoadedForOpenChanges(all);
         }
+        if (has(STAR) && userProvider.get().isIdentifiedUser()) {
+          ChangeData.ensureChangeServerId(all);
+        }
         ChangeData.ensureCurrentApprovalsLoaded(all);
       }
     } else {
@@ -802,6 +805,8 @@ public class ChangeJson {
       }
     }
 
+    out._virtualIdNumber = cd.virtualId().get();
+
     return out;
   }
 
@@ -1071,14 +1076,15 @@ public class ChangeJson {
     // repository only once
     try (Repository allUsersRepo = repoManager.openRepository(allUsers)) {
       List<Change.Id> changeIds =
-          changeInfos.stream().map(c -> Change.id(c._number)).collect(Collectors.toList());
+          changeInfos.stream().map(c -> Change.id(c._virtualIdNumber)).collect(Collectors.toList());
       Set<Change.Id> starredChanges =
           starredChangesreader.areStarred(
               allUsersRepo, changeIds, userProvider.get().asIdentifiedUser().getAccountId());
       if (starredChanges.isEmpty()) {
         return;
       }
-      changeInfos.stream().forEach(c -> c.starred = starredChanges.contains(Change.id(c._number)));
+      changeInfos.stream()
+          .forEach(c -> c.starred = starredChanges.contains(Change.id(c._virtualIdNumber)));
     } catch (IOException e) {
       logger.atWarning().withCause(e).log("Failed to open All-Users repo.");
     }

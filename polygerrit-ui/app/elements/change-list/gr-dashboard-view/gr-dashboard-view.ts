@@ -51,6 +51,7 @@ import {createSearchUrl} from '../../../models/views/search';
 import {subscribe} from '../../lit/subscription-controller';
 import {resolve} from '../../../models/dependency';
 import {
+  CLOSED,
   getUserDashboard,
   OUTGOING,
   UserDashboard,
@@ -514,6 +515,15 @@ export class GrDashboardView extends LitElement {
         // Should never happen that an attention set entry has no update.
         if (!c1Update || !c2Update) return c1Update ? 1 : -1;
         return parseDate(c1Update).valueOf() - parseDate(c2Update).valueOf();
+      });
+    }
+    if (name === CLOSED.name) {
+      sortedResults.sort((c1, c2) => {
+        const c1Submitted = c1.submitted;
+        const c2Submitted = c2.submitted;
+        // Should never happen that closed pr has no submission date
+        if (!c1Submitted || !c2Submitted) return c1Submitted ? 1 : -1;
+        return parseDate(c1Submitted).valueOf() - parseDate(c2Submitted).valueOf();
       });
     }
     return sortedResults;

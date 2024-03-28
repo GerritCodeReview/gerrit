@@ -177,6 +177,11 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
 
   @Override
   public Result indexAll(ChangeIndex index) {
+    return indexAll(index, true);
+  }
+
+  @Override
+  public Result indexAll(ChangeIndex index, boolean notifyListeners) {
     // The simplest approach to distribute indexing would be to let each thread grab a project
     // and index it fully. But if a site has one big project and 100s of small projects, then
     // in the beginning all CPUs would be busy reindexing projects. But soon enough all small
@@ -199,7 +204,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
     failedTask = mpm.beginSubTask("failed", MultiProgressMonitor.UNKNOWN);
     List<ListenableFuture<?>> futures;
     try {
-      futures = new SliceScheduler(index, ok).schedule();
+      futures = new SliceScheduler(index, ok, notifyListeners).schedule();
     } catch (ProjectsCollectionFailure e) {
       logger.atSevere().log("%s", e.getMessage());
       return Result.create(sw, false, 0, 0);
@@ -359,6 +364,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
   private class SliceScheduler {
     final ChangeIndex index;
     final AtomicBoolean ok;
+    final boolean notifyListeners;
     final AtomicInteger changeCount = new AtomicInteger(0);
     final AtomicInteger projectsFailed = new AtomicInteger(0);
     final List<ListenableFuture<?>> sliceIndexerFutures = new ArrayList<>();
@@ -366,9 +372,10 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
     VolatileTask projTask = mpm.beginVolatileSubTask("project-slices");
     Task slicingProjects;
 
-    public SliceScheduler(ChangeIndex index, AtomicBoolean ok) {
+    public SliceScheduler(ChangeIndex index, AtomicBoolean ok, boolean notifyListeners) {
       this.index = index;
       this.ok = ok;
+      this.notifyListeners = notifyListeners;
     }
 
     private List<ListenableFuture<?>> schedule() throws ProjectsCollectionFailure {
@@ -376,7 +383,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
       int projectCount = projects.size();
       slicingProjects = mpm.beginSubTask("Slicing projects", projectCount);
       for (Project.NameKey name : projects) {
-        sliceCreationFutures.add(executor.submit(new ProjectSliceCreator(name)));
+        sliceCreationFutures.add(executor.submit(new ProjectSliceCreator(name, notifyListeners)));
       }
 
       try {
@@ -407,9 +414,11 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
 
     private class ProjectSliceCreator implements Callable<Void> {
       final Project.NameKey name;
+      final boolean notifyListeners;
 
-      public ProjectSliceCreator(Project.NameKey name) {
+      public ProjectSliceCreator(Project.NameKey name, boolean notifyListeners) {
         this.name = name;
+        this.notifyListeners = notifyListeners;
       }
 
       @Override
@@ -434,9 +443,10 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
               ChangeIndexer indexer;
               if (reuseExistingDocuments) {
                 indexer =
-                    indexerFactory.create(executor, index, stalenessCheckerFactory.create(index));
+                    indexerFactory.create(
+                        executor, index, stalenessCheckerFactory.create(index), notifyListeners);
               } else {
-                indexer = indexerFactory.create(executor, index);
+                indexer = indexerFactory.create(executor, index, notifyListeners);
               }
               ListenableFuture<?> future =
                   executor.submit(reindexProjectSlice(indexer, projectSlice, doneTask, failedTask));

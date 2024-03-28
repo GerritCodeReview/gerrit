@@ -7,7 +7,6 @@ import {ChangeComments} from '../../elements/diff/gr-comment-api/gr-comment-api'
 import {
   CommentInfo,
   NumericChangeId,
-  PatchSetNum,
   RevisionId,
   UrlEncodedCommentId,
   RobotCommentInfo,
@@ -34,7 +33,14 @@ import {
 import {deepEqual} from '../../utils/deep-util';
 import {select} from '../../utils/observable-util';
 import {define} from '../dependency';
-import {combineLatest, forkJoin, from, Observable, of} from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  forkJoin,
+  from,
+  Observable,
+  of,
+} from 'rxjs';
 import {fire, fireAlert} from '../../utils/event-util';
 import {CURRENT} from '../../utils/patch-set-util';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
@@ -69,9 +75,20 @@ export interface CommentState {
   drafts?: {[path: string]: DraftInfo[]};
   // Ported comments only affect `CommentThread` properties, not individual
   // comments.
-  /** undefined means 'still loading' */
+  /**
+   * Comments ported from earlier patchsets.
+   *
+   * This only considers current patchset (right side), not the base patchset
+   * (left-side).
+   *
+   * undefined means 'still loading'
+   */
   portedComments?: {[path: string]: CommentInfo[]};
-  /** undefined means 'still loading' */
+  /**
+   * Drafts ported from earlier patchsets.
+   *
+   * undefined means 'still loading'
+   */
   portedDrafts?: {[path: string]: DraftInfo[]};
   /**
    * If a draft is discarded by the user, then we temporarily keep it in this
@@ -216,7 +233,7 @@ export function deleteDiscardedDraft(
   return nextState;
 }
 
-/** Adds or updates a draft. */
+/** Adds or updates a draft in the state. */
 export function setDraft(state: CommentState, draft: DraftInfo): CommentState {
   const nextState = {...state};
   assert(!!draft.path, 'draft without path');
@@ -235,6 +252,12 @@ export function setDraft(state: CommentState, draft: DraftInfo): CommentState {
   return nextState;
 }
 
+/** Removes a draft from the state.
+ *
+ * Removed draft is stored in discardedDrafts for potential undo operation.
+ * discardedDrafts however is only a client-side cache and such drafts are not
+ * retained in the server.
+ */
 export function deleteDraft(
   state: CommentState,
   draft: DraftInfo
@@ -254,6 +277,10 @@ export function deleteDraft(
 }
 
 export const commentsModelToken = define<CommentsModel>('comments-model');
+/**
+ * Model that maintains the state of all comments and drafts for the current
+ * change in the context of change-view.
+ */
 export class CommentsModel extends Model<CommentState> {
   public readonly commentsLoading$ = select(
     this.state$,
@@ -415,6 +442,8 @@ export class CommentsModel extends Model<CommentState> {
     }
   );
 
+  public readonly reloadAllComments$ = new BehaviorSubject(undefined);
+
   public thread$(id: UrlEncodedCommentId) {
     return select(this.threads$, threads => threads.find(t => t.rootId === id));
   }
@@ -422,8 +451,6 @@ export class CommentsModel extends Model<CommentState> {
   private numPendingDraftRequests = 0;
 
   private changeNum?: NumericChangeId;
-
-  private patchNum?: PatchSetNum;
 
   private drafts: {[path: string]: DraftInfo[]} = {};
 
@@ -464,9 +491,8 @@ export class CommentsModel extends Model<CommentState> {
     this.subscriptions.push(
       this.drafts$.subscribe(x => (this.drafts = x ?? {}))
     );
-    this.subscriptions.push(
-      this.changeModel.patchNum$.subscribe(x => (this.patchNum = x))
-    );
+    // Patchset-level draft should always exist when opening reply dialog.
+    // If there are none, create an empty one.
     this.subscriptions.push(
       combineLatest([
         this.draftsLoading$,
@@ -478,59 +504,60 @@ export class CommentsModel extends Model<CommentState> {
       })
     );
     this.subscriptions.push(
-      this.changeViewModel.changeNum$.subscribe(changeNum => {
-        this.changeNum = changeNum;
-        this.setState({...initialState});
-        this.reloadAllComments();
-      })
+      combineLatest([this.changeViewModel.changeNum$, this.reloadAllComments$])
+        .pipe(
+          switchMap(([changeNum, _]) => {
+            this.changeNum = changeNum;
+            this.setState({...initialState});
+            if (!changeNum) return of([undefined, undefined, undefined]);
+            return forkJoin([
+              this.restApiService.getDiffComments(changeNum),
+              this.restApiService.getDiffRobotComments(changeNum),
+              this.restApiService.getDiffDrafts(changeNum),
+            ]);
+          })
+        )
+        .subscribe(([comments, robotComments, drafts]) => {
+          this.reportRobotCommentStats(robotComments);
+          this.modifyState(s => {
+            s = setComments(s, comments);
+            s = setRobotComments(s, robotComments);
+            return setDrafts(s, drafts);
+          });
+        })
     );
+    // When the patchset selection changes update information about comments
+    // ported from earlier patchsets.
     this.subscriptions.push(
-      combineLatest([
-        this.changeModel.changeNum$,
-        this.changeModel.patchNum$,
-      ]).subscribe(([changeNum, patchNum]) => {
-        this.changeNum = changeNum;
-        this.patchNum = patchNum;
-        this.reloadAllPortedComments();
-      })
+      combineLatest([this.changeModel.changeNum$, this.changeModel.patchNum$])
+        .pipe(
+          switchMap(([changeNum, patchNum]) => {
+            this.changeNum = changeNum;
+            if (!changeNum) return of([undefined, undefined]);
+            const revision = patchNum ?? (CURRENT as RevisionId);
+            return forkJoin([
+              this.restApiService.getPortedComments(changeNum, revision),
+              this.restApiService.getPortedDrafts(changeNum, revision),
+            ]);
+          })
+        )
+        .subscribe(([portedComments, portedDrafts]) =>
+          this.modifyState(s => {
+            s = setPortedComments(s, portedComments);
+            return setPortedDrafts(s, portedDrafts);
+          })
+        )
     );
   }
 
   // Note that this does *not* reload ported comments.
-  async reloadAllComments() {
-    if (!this.changeNum) return;
-    await Promise.all([
-      this.reloadComments(this.changeNum),
-      this.reloadRobotComments(this.changeNum),
-      this.reloadDrafts(this.changeNum),
-    ]);
-  }
-
-  async reloadAllPortedComments() {
-    if (!this.changeNum) return;
-    if (!this.patchNum) return;
-    await Promise.all([
-      this.reloadPortedComments(this.changeNum, this.patchNum),
-      this.reloadPortedDrafts(this.changeNum, this.patchNum),
-    ]);
+  reloadAllComments() {
+    this.reloadAllComments$.next(undefined);
   }
 
   // visible for testing
   modifyState(reducer: (state: CommentState) => CommentState) {
     this.setState(reducer({...this.getState()}));
-  }
-
-  async reloadComments(changeNum: NumericChangeId): Promise<void> {
-    const comments = await this.restApiService.getDiffComments(changeNum);
-    this.modifyState(s => setComments(s, comments));
-  }
-
-  async reloadRobotComments(changeNum: NumericChangeId): Promise<void> {
-    const robotComments = await this.restApiService.getDiffRobotComments(
-      changeNum
-    );
-    this.reportRobotCommentStats(robotComments);
-    this.modifyState(s => setRobotComments(s, robotComments));
   }
 
   private reportRobotCommentStats(obj?: PathToRobotCommentsInfoMap) {
@@ -559,33 +586,6 @@ export class CommentsModel extends Model<CommentState> {
       details,
       {deduping: Deduping.EVENT_ONCE_PER_CHANGE}
     );
-  }
-
-  async reloadDrafts(changeNum: NumericChangeId): Promise<void> {
-    const drafts = await this.restApiService.getDiffDrafts(changeNum);
-    this.modifyState(s => setDrafts(s, drafts));
-  }
-
-  async reloadPortedComments(
-    changeNum: NumericChangeId,
-    patchNum = CURRENT as RevisionId
-  ): Promise<void> {
-    const portedComments = await this.restApiService.getPortedComments(
-      changeNum,
-      patchNum
-    );
-    this.modifyState(s => setPortedComments(s, portedComments));
-  }
-
-  async reloadPortedDrafts(
-    changeNum: NumericChangeId,
-    patchNum = CURRENT as RevisionId
-  ): Promise<void> {
-    const portedDrafts = await this.restApiService.getPortedDrafts(
-      changeNum,
-      patchNum
-    );
-    this.modifyState(s => setPortedDrafts(s, portedDrafts));
   }
 
   async restoreDraft(draftId: UrlEncodedCommentId) {

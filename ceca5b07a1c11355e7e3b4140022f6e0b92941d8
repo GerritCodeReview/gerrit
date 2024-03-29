@@ -256,6 +256,24 @@
       "parentUuid": "40a9ecf4_8aa12605",
       "revId": "ceca5b07a1c11355e7e3b4140022f6e0b92941d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4353981b_aded2ba7",
+        "filename": "java/com/google/gerrit/server/notedb/StarredChangesUtilNoteDbImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-03-29T08:49:36Z",
+      "side": 1,
+      "message": "Never mind, I\u0027ll rename all of them",
+      "parentUuid": "93dc18fd_24e3564c",
+      "revId": "ceca5b07a1c11355e7e3b4140022f6e0b92941d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

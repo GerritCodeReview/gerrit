@@ -16,6 +16,24 @@
       "message": "The conflict should be resolved by applying the modifications made in java/com/google/gerrit/server/notedb/StarredChangesUtilNoteDbImpl.java to `StarredChangesUtil.java` to the `StarredChangesUtilNoteDbImpl.java`",
       "revId": "cf7cd2e90f1bfe62c36341a6fcd5cb8adc7d1b8c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "88608723_0149fc26",
+        "filename": "java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-03-29T08:49:36Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "86e3eb89_dba25972",
+      "revId": "cf7cd2e90f1bfe62c36341a6fcd5cb8adc7d1b8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

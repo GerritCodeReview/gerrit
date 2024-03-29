@@ -16,6 +16,132 @@
       "message": "and manual E2E test would be ideal.",
       "revId": "ceca5b07a1c11355e7e3b4140022f6e0b92941d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ae57d87_f1c8537e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-29T02:20:08Z",
+      "side": 1,
+      "message": "Wrong conflict resolution, see my comments.",
+      "revId": "ceca5b07a1c11355e7e3b4140022f6e0b92941d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20de720a_851a864a",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-29T02:20:08Z",
+      "side": 1,
+      "message": "In stable-3.8 they are inverted: I believe it would make sense to keep it consistent.\n\n\n```suggestion\n  private final AllUsersName allUsers;\n  private final String serverId;\n```",
+      "range": {
+        "startLine": 119,
+        "startChar": 0,
+        "endLine": 120,
+        "endChar": 38
+      },
+      "revId": "ceca5b07a1c11355e7e3b4140022f6e0b92941d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53c12975_3a943c51",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-29T02:20:08Z",
+      "side": 1,
+      "message": "Same as above: it would make sense to keep the same ordering as in stable-3.8.\n\n\n```suggestion\n    this.allUsers \u003d allUsers;\n    this.serverId \u003d serverId;\n```",
+      "range": {
+        "startLine": 132,
+        "startChar": 0,
+        "endLine": 133,
+        "endChar": 29
+      },
+      "revId": "ceca5b07a1c11355e7e3b4140022f6e0b92941d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd7fa92f_699e7b04",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-29T02:20:08Z",
+      "side": 1,
+      "message": "These are unused in stable-3.9",
+      "range": {
+        "startLine": 223,
+        "startChar": 0,
+        "endLine": 245,
+        "endChar": 3
+      },
+      "revId": "ceca5b07a1c11355e7e3b4140022f6e0b92941d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25d77904_20d01e40",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-29T02:20:08Z",
+      "side": 1,
+      "message": "This is unused in stable-3.9",
+      "range": {
+        "startLine": 354,
+        "startChar": 0,
+        "endLine": 357,
+        "endChar": 3
+      },
+      "revId": "ceca5b07a1c11355e7e3b4140022f6e0b92941d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40a9ecf4_8aa12605",
+        "filename": "java/com/google/gerrit/server/notedb/StarredChangesUtilNoteDbImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-29T02:20:08Z",
+      "side": 1,
+      "message": "You\u0027ve missed all the changes made in I85c946efc on `StarredChangesUtil.java` that has been renamed into `StarredChangesUtilNoteDbImpl.java`",
+      "revId": "ceca5b07a1c11355e7e3b4140022f6e0b92941d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

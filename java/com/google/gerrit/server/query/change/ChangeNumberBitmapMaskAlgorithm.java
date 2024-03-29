@@ -16,7 +16,9 @@ package com.google.gerrit.server.query.change;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.server.config.GerritImportedServerIds;
+import com.google.gerrit.server.config.GerritServerId;
 import com.google.inject.Inject;
 import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
@@ -38,9 +40,11 @@ public class ChangeNumberBitmapMaskAlgorithm implements ChangeNumberVirtualIdAlg
       Integer.BYTES * 8 - CHANGE_NUM_BIT_LEN; // Allows up to 64 ServerIds
 
   private final ImmutableMap<String, Integer> serverIdCodes;
+  private final String localServerId;
 
   @Inject
   public ChangeNumberBitmapMaskAlgorithm(
+      @GerritServerId String localServerId,
       @GerritImportedServerIds ImmutableList<String> importedServerIds) {
     if (importedServerIds.size() >= 1 << SERVER_ID_BIT_LEN) {
       throw new ProvisionException(
@@ -54,10 +58,17 @@ public class ChangeNumberBitmapMaskAlgorithm implements ChangeNumberVirtualIdAlg
     }
 
     serverIdCodes = serverIdCodesBuilder.build();
+    this.localServerId = localServerId;
   }
 
   @Override
-  public int apply(String changeServerId, int changeNum) {
+  public Change.Id apply(String changeServerId, Change.Id changeNumId) {
+    if (changeServerId == null || localServerId.equals(changeServerId)) {
+      return changeNumId;
+    }
+
+    int changeNum = changeNumId.get();
+
     if ((changeNum & LEGACY_ID_BIT_MASK) != changeNum) {
       throw new IllegalArgumentException(
           String.format(
@@ -71,6 +82,6 @@ public class ChangeNumberBitmapMaskAlgorithm implements ChangeNumberVirtualIdAlg
     }
     int virtualId = (changeNum & LEGACY_ID_BIT_MASK) | (encodedServerId << CHANGE_NUM_BIT_LEN);
 
-    return virtualId;
+    return Change.id(virtualId);
   }
 }

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.gerrit.entities.Change;
 import com.google.inject.ImplementedBy;
 
 /**
@@ -31,5 +32,5 @@ public interface ChangeNumberVirtualIdAlgorithm {
    * @param legacyChangeNum legacy change number
    * @return virtual id which combines serverId and legacyChangeNum together
    */
-  int apply(String serverId, int legacyChangeNum);
+  Change.Id apply(String serverId, Change.Id legacyChangeNum);
 }

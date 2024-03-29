@@ -32,6 +32,7 @@ import org.junit.Test;
 
 public class ChangeProtoConverterTest {
   private final ChangeProtoConverter changeProtoConverter = ChangeProtoConverter.INSTANCE;
+  private static final String TEST_SERVER_ID = "test-server-id";
 
   @Test
   public void allValuesConvertedToProto() {
@@ -42,6 +43,7 @@ public class ChangeProtoConverterTest {
             Account.id(35),
             BranchNameKey.create(Project.nameKey("project 67"), "branch 74"),
             Instant.ofEpochMilli(987654L));
+    change.setServerId(TEST_SERVER_ID);
     change.setLastUpdatedOn(Instant.ofEpochMilli(1234567L));
     change.setStatus(Change.Status.MERGED);
     change.setCurrentPatchSet(
@@ -89,6 +91,7 @@ public class ChangeProtoConverterTest {
             Account.id(35),
             BranchNameKey.create(Project.nameKey("project 67"), "branch-74"),
             Instant.ofEpochMilli(987654L));
+    change.setServerId(TEST_SERVER_ID);
 
     Entities.Change proto = changeProtoConverter.toProto(change);
 
@@ -124,6 +127,7 @@ public class ChangeProtoConverterTest {
             Account.id(35),
             BranchNameKey.create(Project.nameKey("project 67"), "branch-74"),
             Instant.ofEpochMilli(987654L));
+    change.setServerId(TEST_SERVER_ID);
     // O as ID actually means that no current patch set is present.
     change.setCurrentPatchSet(PatchSet.id(Change.id(14), 0), null, null);
 
@@ -161,6 +165,7 @@ public class ChangeProtoConverterTest {
             Account.id(35),
             BranchNameKey.create(Project.nameKey("project 67"), "branch-74"),
             Instant.ofEpochMilli(987654L));
+    change.setServerId(TEST_SERVER_ID);
     change.setCurrentPatchSet(PatchSet.id(Change.id(14), 23), "subject ABC", null);
 
     Entities.Change proto = changeProtoConverter.toProto(change);
@@ -189,7 +194,7 @@ public class ChangeProtoConverterTest {
   }
 
   @Test
-  public void allValuesConvertedToProtoAndBackAgain() {
+  public void allValuesConvertedToProtoAndBackAgainExceptServerId() {
     Change change =
         new Change(
             Change.key("change 1"),
@@ -197,6 +202,7 @@ public class ChangeProtoConverterTest {
             Account.id(35),
             BranchNameKey.create(Project.nameKey("project 67"), "branch-74"),
             Instant.ofEpochMilli(987654L));
+    change.setServerId(TEST_SERVER_ID);
     change.setLastUpdatedOn(Instant.ofEpochMilli(1234567L));
     change.setStatus(Change.Status.MERGED);
     change.setCurrentPatchSet(
@@ -209,6 +215,11 @@ public class ChangeProtoConverterTest {
     change.setRevertOf(Change.id(180));
 
     Change convertedChange = changeProtoConverter.fromProto(changeProtoConverter.toProto(change));
+
+    // Change serverId is not one of the protobuf definitions, hence is not supposed to be converted
+    // from proto
+    assertThat(convertedChange.getServerId()).isNull();
+    change.setServerId(null);
     assertEqualChange(convertedChange, change);
   }
 
@@ -275,6 +286,7 @@ public class ChangeProtoConverterTest {
         .hasFields(
             ImmutableMap.<String, Type>builder()
                 .put("changeId", Change.Id.class)
+                .put("serverId", String.class)
                 .put("changeKey", Change.Key.class)
                 .put("createdOn", Instant.class)
                 .put("lastUpdatedOn", Instant.class)
@@ -298,6 +310,7 @@ public class ChangeProtoConverterTest {
   // an AutoValue.
   private static void assertEqualChange(Change change, Change expectedChange) {
     assertThat(change.getChangeId()).isEqualTo(expectedChange.getChangeId());
+    assertThat(change.getServerId()).isEqualTo(expectedChange.getServerId());
     assertThat(change.getKey()).isEqualTo(expectedChange.getKey());
     assertThat(change.getCreatedOn()).isEqualTo(expectedChange.getCreatedOn());
     assertThat(change.getLastUpdatedOn()).isEqualTo(expectedChange.getLastUpdatedOn());

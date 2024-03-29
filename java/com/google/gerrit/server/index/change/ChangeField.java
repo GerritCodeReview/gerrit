@@ -128,7 +128,7 @@ public class ChangeField {
           .required()
           // The numeric change id is integer in string form
           .size(10)
-          .build(cd -> String.valueOf(cd.getVirtualId().get()));
+          .build(cd -> String.valueOf(cd.virtualId().get()));
 
   public static final IndexedField<ChangeData, String>.SearchSpec NUMERIC_ID_STR_SPEC =
       NUMERIC_ID_STR_FIELD.exact("legacy_id_str");

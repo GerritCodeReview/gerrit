@@ -40,6 +40,7 @@ import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.query.change.ChangeNumberVirtualIdAlgorithm;
 import com.google.gerrit.server.update.BatchUpdateListener;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -73,6 +74,8 @@ import org.eclipse.jgit.transport.ReceiveCommand;
  * <p>This class is not thread safe.
  */
 public class ChangeDraftNotesUpdate extends AbstractChangeUpdate implements ChangeDraftUpdate {
+  private final ChangeNumberVirtualIdAlgorithm virtualIdFunc;
+
   public interface Factory extends ChangeDraftUpdateFactory {
     @Override
     ChangeDraftNotesUpdate create(
@@ -234,6 +237,7 @@ public class ChangeDraftNotesUpdate extends AbstractChangeUpdate implements Chan
       AllUsersName allUsers,
       ChangeNoteUtil noteUtil,
       ExperimentFeatures experimentFeatures,
+      @Nullable ChangeNumberVirtualIdAlgorithm virtualIdFunc,
       @Assisted ChangeNotes notes,
       @Assisted("effective") Account.Id accountId,
       @Assisted("real") Account.Id realAccountId,
@@ -242,6 +246,7 @@ public class ChangeDraftNotesUpdate extends AbstractChangeUpdate implements Chan
     super(noteUtil, serverIdent, notes, null, accountId, realAccountId, authorIdent, when);
     this.draftsProject = allUsers;
     this.experimentFeatures = experimentFeatures;
+    this.virtualIdFunc = virtualIdFunc;
   }
 
   @AssistedInject
@@ -250,6 +255,7 @@ public class ChangeDraftNotesUpdate extends AbstractChangeUpdate implements Chan
       AllUsersName allUsers,
       ChangeNoteUtil noteUtil,
       ExperimentFeatures experimentFeatures,
+      @Nullable ChangeNumberVirtualIdAlgorithm virtualIdFunc,
       @Assisted Change change,
       @Assisted("effective") Account.Id accountId,
       @Assisted("real") Account.Id realAccountId,
@@ -258,6 +264,7 @@ public class ChangeDraftNotesUpdate extends AbstractChangeUpdate implements Chan
     super(noteUtil, serverIdent, null, change, accountId, realAccountId, authorIdent, when);
     this.draftsProject = allUsers;
     this.experimentFeatures = experimentFeatures;
+    this.virtualIdFunc = virtualIdFunc;
   }
 
   @Override
@@ -320,6 +327,7 @@ public class ChangeDraftNotesUpdate extends AbstractChangeUpdate implements Chan
             draftsProject,
             noteUtil,
             experimentFeatures,
+            virtualIdFunc,
             new Change(getChange()),
             accountId,
             realAccountId,
@@ -430,7 +438,7 @@ public class ChangeDraftNotesUpdate extends AbstractChangeUpdate implements Chan
 
   @Override
   protected String getRefName() {
-    return RefNames.refsDraftComments(getId(), accountId);
+    return RefNames.refsDraftComments(getVirtualId(), accountId);
   }
 
   @Override
@@ -446,5 +454,12 @@ public class ChangeDraftNotesUpdate extends AbstractChangeUpdate implements Chan
   @Override
   public boolean isEmpty() {
     return delete.isEmpty() && put.isEmpty();
+  }
+
+  private Change.Id getVirtualId() {
+    Change change = getChange();
+    return virtualIdFunc == null
+        ? change.getId()
+        : virtualIdFunc.apply(change.getServerId(), change.getId());
   }
 }

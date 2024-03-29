@@ -77,6 +77,7 @@ public interface ChangeDraftUpdate {
    * Converts this update to the given subtype if possible. Returns {@link Optional#empty()}
    * otherwise.
    */
+  @SuppressWarnings("unchecked")
   default <UpdateT extends ChangeDraftUpdate> Optional<UpdateT> toOptionalChangeDraftUpdateSubtype(
       Class<UpdateT> subtype) {
     if (this.getClass().isAssignableFrom(subtype)) {

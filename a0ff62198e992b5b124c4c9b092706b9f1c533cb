@@ -445,6 +445,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a1fff4da_d17d3bb1",
+        "filename": "Documentation/rest-api-groups.txt",
+        "patchSetId": 32
+      },
+      "lineNbr": 1522,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2024-03-29T01:16:25Z",
+      "side": 1,
+      "message": "The plugin documenation is heavily inspired by delete project documentation. I believe it also mentions 2 way of deleting project.",
+      "parentUuid": "c7ab3dd5_40d7f36c",
+      "range": {
+        "startLine": 1505,
+        "startChar": 0,
+        "endLine": 1522,
+        "endChar": 0
+      },
+      "revId": "a0ff62198e992b5b124c4c9b092706b9f1c533cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d41134c7_3cce35c3",
         "filename": "java/com/google/gerrit/extensions/api/groups/GroupApi.java",
         "patchSetId": 32

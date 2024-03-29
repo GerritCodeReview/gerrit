@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "37d46321_2a9cea92",
+        "filename": "java/com/google/gerrit/server/ChangeDraftUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-03-29T22:56:43Z",
+      "side": 1,
+      "message": "Yes, this is related, as without it the errorprone check will fail and break the build.",
+      "parentUuid": "734345ce_90013929",
+      "range": {
+        "startLine": 80,
+        "startChar": 2,
+        "endLine": 80,
+        "endChar": 32
+      },
+      "revId": "dcd2fe5c6c420e3a3d71e66dafda498e54ea37ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3ef35ed0_2d95d69d",
         "filename": "java/com/google/gerrit/server/CommentsUtil.java",
         "patchSetId": 2
@@ -49,6 +73,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5b77afe6_70aaefb2",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-03-29T22:56:43Z",
+      "side": 1,
+      "message": "Yes, this is related, as without it the errorprone check will fail and break the build.",
+      "parentUuid": "3ef35ed0_2d95d69d",
+      "range": {
+        "startLine": 445,
+        "startChar": 10,
+        "endLine": 445,
+        "endChar": 14
+      },
+      "revId": "dcd2fe5c6c420e3a3d71e66dafda498e54ea37ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "514866fe_68e2fc06",
         "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
         "patchSetId": 2
@@ -60,6 +108,30 @@
       "writtenOn": "2024-03-29T22:40:39Z",
       "side": 1,
       "message": "Is this related?",
+      "range": {
+        "startLine": 666,
+        "startChar": 6,
+        "endLine": 666,
+        "endChar": 19
+      },
+      "revId": "dcd2fe5c6c420e3a3d71e66dafda498e54ea37ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d70d9fb3_e45fa0aa",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 666,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-03-29T22:56:43Z",
+      "side": 1,
+      "message": "Yes, this is related, as without it the errorprone check will fail and break the build.",
+      "parentUuid": "514866fe_68e2fc06",
       "range": {
         "startLine": 666,
         "startChar": 6,

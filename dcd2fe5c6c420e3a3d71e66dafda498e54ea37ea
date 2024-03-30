@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "94dc1615_b5fb018c",
+        "filename": "java/com/google/gerrit/server/ChangeDraftUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-30T10:02:38Z",
+      "side": 1,
+      "message": "would be worth mentioning of the added fixes in the commit message, to indicate that this is more that a merge.",
+      "parentUuid": "37d46321_2a9cea92",
+      "range": {
+        "startLine": 80,
+        "startChar": 2,
+        "endLine": 80,
+        "endChar": 32
+      },
+      "revId": "dcd2fe5c6c420e3a3d71e66dafda498e54ea37ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3ef35ed0_2d95d69d",
         "filename": "java/com/google/gerrit/server/CommentsUtil.java",
         "patchSetId": 2

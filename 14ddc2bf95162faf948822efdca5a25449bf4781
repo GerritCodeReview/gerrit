@@ -22,6 +22,30 @@
       },
       "revId": "14ddc2bf95162faf948822efdca5a25449bf4781",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ccc9ee15_099ec644",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-03-31T08:05:18Z",
+      "side": 1,
+      "message": "`CommentsUtil.getDraftRefs()` is not used on `master` same as `CommentsUtils.draftByPatchSetAuthor()` and `CommentsUtils.draftByChangeAuthor()`.\n\nThe `DraftCommentsNotesReader` is using `ChangeNotes` where we don\u0027t have access to the change `virtualId`. IMO, we should merge this as-is and redo the fixes (and clean up) on `master`",
+      "parentUuid": "921361ab_e20a72b3",
+      "range": {
+        "startLine": 426,
+        "startChar": 0,
+        "endLine": 448,
+        "endChar": 0
+      },
+      "revId": "14ddc2bf95162faf948822efdca5a25449bf4781",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

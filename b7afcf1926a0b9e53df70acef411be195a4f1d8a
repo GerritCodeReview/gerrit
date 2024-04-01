@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7a7d7e3_e8a5b0a9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2024-04-01T21:13:37Z",
+      "side": 1,
+      "message": "I revived my work, that I started 4 years ago to fix that: [1].\n\nI would rather try not to complicate the Bazel build even further, and try to avoid using Maven altogether.\n\nRemember what Shawn was saying: \"Friends, don\u0027t let friends use Maven!\"\n\nAnd also one reason why Shawn replaced Maven build with Buck build 11 years ago in this CL: [2], was to make modern fronted integration much easier. So that we should try to avoid using Maven\u0027s way `com.github.eirslett:frontend-maven-plugin` for integrating modern frontends, and do it in Bazel way.\n\nIf all other options fail, we should look into integrating Bazel\u0027s new and shiny way for transitive Maven artifact resolution and publishing rules for Bazel rules_jvm_external: [3].\n\n[1]: https://gerrit-review.googlesource.com/c/plugins/github/+/289467\n[2]: https://gerrit-review.googlesource.com/c/gerrit/+/45110\n[3]: https://github.com/bazelbuild/rules_jvm_external",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 40
+      },
+      "revId": "b7afcf1926a0b9e53df70acef411be195a4f1d8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

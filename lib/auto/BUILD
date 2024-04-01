@@ -65,6 +65,7 @@ java_library(
     exported_plugins = [
         ":auto-factory-plugin",
     ],
+    neverlink = True,
     visibility = ["//visibility:public"],
     exports = ["@auto-factory//jar"],
 )
@@ -77,6 +78,7 @@ java_library(
         ":auto-value-plugin",
         ":auto-oneof-plugin",
     ],
+    neverlink = True,
     visibility = ["//visibility:public"],
     exports = ["@auto-value//jar"],
 )
@@ -89,6 +91,7 @@ java_library(
         ":auto-value-plugin",
         ":auto-oneof-plugin",
     ],
+    neverlink = True,
     visibility = ["//visibility:public"],
     exports = ["@auto-value-annotations//jar"],
 )
@@ -99,6 +102,7 @@ java_library(
     exported_plugins = [
         ":auto-value-gson-plugin",
     ],
+    neverlink = True,
     visibility = ["//visibility:public"],
     exports = [
         "@auto-value-gson-runtime//jar",

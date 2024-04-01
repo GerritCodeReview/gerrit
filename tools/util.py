@@ -16,8 +16,10 @@ from os import path
 
 REPO_ROOTS = {
   'ECLIPSE': 'https://repo.eclipse.org/content/groups/releases',
+  'ECLIPSE_EGIT': 'https://repo.eclipse.org/content/repositories/egit-releases',
   'GERRIT': 'https://gerrit-maven.storage.googleapis.com',
   'GERRIT_API': 'https://gerrit-api.commondatastorage.googleapis.com/release',
+  'JENKINS': 'https://repo.jenkins-ci.org/artifactory/public',
   'MAVEN_CENTRAL': 'https://repo1.maven.org/maven2',
   'MAVEN_LOCAL': 'file://' + path.expanduser('~/.m2/repository'),
   'MAVEN_SNAPSHOT': 'https://oss.sonatype.org/content/repositories/snapshots',

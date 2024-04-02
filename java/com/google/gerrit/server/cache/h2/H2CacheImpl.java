@@ -419,7 +419,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     @Nullable
     private BloomFilter<K> buildBloomFilter() {
       SqlHandle c = null;
-      try {
+      try (TraceTimer ignored = TraceContext.newTimer("Build bloom filter", Metadata.empty())) {
         c = acquire();
         if (estimatedSize <= 0) {
           try (PreparedStatement ps =
@@ -761,6 +761,8 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
             "ALTER TABLE data ADD COLUMN IF NOT EXISTS "
                 + "space BIGINT AS OCTET_LENGTH(k) + OCTET_LENGTH(v)");
         stmt.addBatch("ALTER TABLE data ADD COLUMN IF NOT EXISTS version INT DEFAULT 0 NOT NULL");
+        stmt.addBatch("CREATE INDEX IF NOT EXISTS version_key ON data(version, k)");
+        stmt.addBatch("CREATE INDEX IF NOT EXISTS accessed ON data(accessed)");
         stmt.executeBatch();
       }
     }

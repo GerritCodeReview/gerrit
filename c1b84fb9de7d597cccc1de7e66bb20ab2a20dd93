@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88d02245_e7a94240",
+        "filename": "polygerrit-ui/app/constants/constants.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-04-02T13:34:12Z",
+      "side": 1,
+      "message": "rename to Auth",
+      "range": {
+        "startLine": 33,
+        "startChar": 2,
+        "endLine": 33,
+        "endChar": 10
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "bd1df360_468601f7",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/constants/constants.ts",
+              "range": {
+                "startLine": 13,
+                "startChar": 0,
+                "endLine": 14,
+                "endChar": 0
+              },
+              "replacement": "  Auth,\n"
+            },
+            {
+              "path": "polygerrit-ui/app/constants/constants.ts",
+              "range": {
+                "startLine": 33,
+                "startChar": 0,
+                "endLine": 34,
+                "endChar": 0
+              },
+              "replacement": "  Auth,\n"
+            }
+          ]
+        }
+      ],
+      "revId": "c1b84fb9de7d597cccc1de7e66bb20ab2a20dd93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

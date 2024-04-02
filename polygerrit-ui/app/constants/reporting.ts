@@ -146,6 +146,7 @@ export enum Interaction {
   GENERATE_SUGGESTION_ENABLED = 'generate_suggestion_enabled',
   // User disabled generating suggestions
   GENERATE_SUGGESTION_DISABLED = 'generate_suggestion_disabled',
+  GENERATE_SUGGESTION_EDITED = 'generate_suggestion_edited',
   START_REVIEW = 'start-review',
   CODE_REVIEW_APPROVAL = 'code-review-approval',
   FILE_LIST_DIFF_COLLAPSED = 'file-list-diff-collapsed',

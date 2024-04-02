@@ -42,6 +42,7 @@ import {
   ChangeActionDialog,
   ChangeInfo,
   CherryPickInput,
+  CommentThread,
   CommitId,
   InheritedBooleanInfo,
   isDetailedLabelInfo,
@@ -116,6 +117,7 @@ import {userModelToken} from '../../../models/user/user-model';
 import {ParsedChangeInfo} from '../../../types/types';
 import {configModelToken} from '../../../models/config/config-model';
 import {readJSONResponsePayload} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
+import {commentsModelToken} from '../../../models/comments/comments-model';
 
 const ERR_BRANCH_EMPTY = 'The destination branch can’t be empty.';
 const ERR_COMMIT_EMPTY = 'The commit message can’t be empty.';
@@ -366,6 +368,8 @@ export class GrChangeActions
 
   @query('#confirmDeleteEditDialog') confirmDeleteEditDialog?: GrDialog;
 
+  @query('#confirmPublishEditDialog') confirmPublishEditDialog?: GrDialog;
+
   @query('#moreActions') moreActions?: GrDropdown;
 
   @query('#secondaryActions') secondaryActions?: HTMLElement;
@@ -480,6 +484,8 @@ export class GrChangeActions
 
   @state() pluginsLoaded = false;
 
+  @state() commentsWithSuggestions?: CommentThread[];
+
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly reporting = getAppContext().reportingService;
@@ -495,6 +501,8 @@ export class GrChangeActions
   private readonly getStorage = resolve(this, storageServiceToken);
 
   private readonly getNavigation = resolve(this, navigationToken);
+
+  private readonly getCommentsModel = resolve(this, commentsModelToken);
 
   constructor() {
     super();
@@ -567,6 +575,11 @@ export class GrChangeActions
       this,
       () => this.getConfigModel().repoConfig$,
       config => (this.privateByDefault = config?.private_by_default)
+    );
+    subscribe(
+      this,
+      () => this.getCommentsModel().threadsSaved$,
+      x => (this.commentsWithSuggestions = x)
     );
   }
 
@@ -784,6 +797,19 @@ export class GrChangeActions
           <div class="header" slot="header">Delete Change Edit</div>
           <div class="main" slot="main">
             Do you really want to delete the edit?
+          </div>
+        </gr-dialog>
+        <gr-dialog
+          id="confirmPublishEditDialog"
+          class="confirmDialog"
+          confirm-label="Publish"
+          confirm-on-enter=""
+          @cancel=${this.handleConfirmDialogCancel}
+          @confirm=${this.handlePublishEditConfirm}
+        >
+          <div class="header" slot="header">Publish Change Edit</div>
+          <div class="main" slot="main">
+            Do you really want to publish the edit?
           </div>
         </gr-dialog>
       </dialog>
@@ -1691,6 +1717,23 @@ export class GrChangeActions
     );
   }
 
+  private handlePublishEditConfirm() {
+    this.hideAllDialogs();
+
+    if (!this.actions.publishEdit) return;
+
+    // We need to make sure that all cached version of a change
+    // edit are deleted.
+    this.getStorage().eraseEditableContentItemsForChangeEdit(this.changeNum);
+
+    this.fireAction(
+      '/edit:publish',
+      assertUIActionInfo(this.actions.publishEdit),
+      false,
+      {notify: NotifyType.NONE}
+    );
+  }
+
   // private but used in test
   handleSubmitConfirm() {
     if (!this.canSubmitChange()) {
@@ -2044,18 +2087,8 @@ export class GrChangeActions
   }
 
   private handlePublishEditTap() {
-    if (!this.actions.publishEdit) return;
-
-    // We need to make sure that all cached version of a change
-    // edit are deleted.
-    this.getStorage().eraseEditableContentItemsForChangeEdit(this.changeNum);
-
-    this.fireAction(
-      '/edit:publish',
-      assertUIActionInfo(this.actions.publishEdit),
-      false,
-      {notify: NotifyType.NONE}
-    );
+    assertIsDefined(this.confirmPublishEditDialog, 'confirmPublishEditDialog');
+    this.showActionDialog(this.confirmPublishEditDialog);
   }
 
   private handleRebaseEditTap() {

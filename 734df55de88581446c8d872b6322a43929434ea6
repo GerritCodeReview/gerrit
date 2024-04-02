@@ -45,6 +45,54 @@
       },
       "revId": "734df55de88581446c8d872b6322a43929434ea6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0fedc0fb_5796ed42",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-04-02T16:45:33Z",
+      "side": 1,
+      "message": "Hi Luca, it\u0027s still kind of experiment. There is already UiFeature__ml_suggested_edit_v2 and this v1 is still under feature flag and can be removed in near future.",
+      "parentUuid": "979ecb44_3c107da2",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 19
+      },
+      "revId": "734df55de88581446c8d872b6322a43929434ea6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8cf12a2c_01e3cd49",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-04-02T16:45:33Z",
+      "side": 1,
+      "message": "Hi Luca, it\u0027s still kind of experiment. There is already UiFeature__ml_suggested_edit_v2 and this v1 is still under feature flag and can be removed in near future.",
+      "parentUuid": "10b0ff76_2f3f6fe5",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 19
+      },
+      "revId": "734df55de88581446c8d872b6322a43929434ea6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

@@ -71,7 +71,13 @@ public class ChangeIndexer {
     ChangeIndexer create(ListeningExecutorService executor, ChangeIndex index);
 
     ChangeIndexer create(
-        ListeningExecutorService executor, ChangeIndex index, StalenessChecker stalenessChecker);
+        ListeningExecutorService executor, ChangeIndex index, boolean notifyListeners);
+
+    ChangeIndexer create(
+        ListeningExecutorService executor,
+        ChangeIndex index,
+        StalenessChecker stalenessChecker,
+        boolean notifyListeners);
 
     ChangeIndexer create(ListeningExecutorService executor, ChangeIndexCollection indexes);
   }
@@ -87,6 +93,7 @@ public class ChangeIndexer {
   private final StalenessChecker stalenessChecker;
   private final boolean autoReindexIfStale;
   private final IsFirstInsertForEntry isFirstInsertForEntry;
+  private final boolean notifyListeners;
 
   private final Map<Change.Id, IndexTask> queuedIndexTasks = new ConcurrentHashMap<>();
   private final Set<ReindexIfStaleTask> queuedReindexIfStaleTasks =
@@ -104,6 +111,33 @@ public class ChangeIndexer {
       @Assisted ListeningExecutorService executor,
       @Assisted ChangeIndex index,
       IsFirstInsertForEntry isFirstInsertForEntry) {
+    this(
+        cfg,
+        changeDataFactory,
+        notesFactory,
+        context,
+        indexedListeners,
+        stalenessChecker,
+        batchExecutor,
+        executor,
+        index,
+        true,
+        isFirstInsertForEntry);
+  }
+
+  @AssistedInject
+  ChangeIndexer(
+      @GerritServerConfig Config cfg,
+      ChangeData.Factory changeDataFactory,
+      ChangeNotes.Factory notesFactory,
+      ThreadLocalRequestContext context,
+      PluginSetContext<ChangeIndexedListener> indexedListeners,
+      StalenessChecker stalenessChecker,
+      @IndexExecutor(BATCH) ListeningExecutorService batchExecutor,
+      @Assisted ListeningExecutorService executor,
+      @Assisted ChangeIndex index,
+      @Assisted boolean notifyListeners,
+      IsFirstInsertForEntry isFirstInsertForEntry) {
     this.executor = executor;
     this.changeDataFactory = changeDataFactory;
     this.notesFactory = notesFactory;
@@ -115,6 +149,7 @@ public class ChangeIndexer {
     this.index = index;
     this.indexes = null;
     this.isFirstInsertForEntry = isFirstInsertForEntry;
+    this.notifyListeners = notifyListeners;
   }
 
   @AssistedInject
@@ -128,7 +163,8 @@ public class ChangeIndexer {
       IsFirstInsertForEntry isFirstInsertForEntry,
       @Assisted ListeningExecutorService executor,
       @Assisted ChangeIndex index,
-      @Assisted StalenessChecker stalenessChecker) {
+      @Assisted StalenessChecker stalenessChecker,
+      @Assisted boolean notifyListeners) {
     this.executor = executor;
     this.changeDataFactory = changeDataFactory;
     this.notesFactory = notesFactory;
@@ -140,6 +176,7 @@ public class ChangeIndexer {
     this.index = index;
     this.indexes = null;
     this.stalenessChecker = stalenessChecker;
+    this.notifyListeners = notifyListeners;
   }
 
   @AssistedInject
@@ -165,6 +202,7 @@ public class ChangeIndexer {
     this.index = null;
     this.indexes = indexes;
     this.isFirstInsertForEntry = isFirstInsertForEntry;
+    this.notifyListeners = true;
   }
 
   private static boolean autoReindexIfStale(Config cfg) {
@@ -290,19 +328,27 @@ public class ChangeIndexer {
   }
 
   private void fireChangeScheduledForIndexingEvent(String projectName, int id) {
-    indexedListeners.runEach(l -> l.onChangeScheduledForIndexing(projectName, id));
+    if (notifyListeners) {
+      indexedListeners.runEach(l -> l.onChangeScheduledForIndexing(projectName, id));
+    }
   }
 
   private void fireChangeIndexedEvent(String projectName, int id) {
-    indexedListeners.runEach(l -> l.onChangeIndexed(projectName, id));
+    if (notifyListeners) {
+      indexedListeners.runEach(l -> l.onChangeIndexed(projectName, id));
+    }
   }
 
   private void fireChangeScheduledForDeletionFromIndexEvent(int id) {
-    indexedListeners.runEach(l -> l.onChangeScheduledForDeletionFromIndex(id));
+    if (notifyListeners) {
+      indexedListeners.runEach(l -> l.onChangeScheduledForDeletionFromIndex(id));
+    }
   }
 
   private void fireChangeDeletedFromIndexEvent(int id) {
-    indexedListeners.runEach(l -> l.onChangeDeleted(id));
+    if (notifyListeners) {
+      indexedListeners.runEach(l -> l.onChangeDeleted(id));
+    }
   }
 
   /**

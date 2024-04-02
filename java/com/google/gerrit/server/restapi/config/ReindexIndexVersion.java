@@ -25,7 +25,8 @@ import com.google.inject.Inject;
 
 public class ReindexIndexVersion implements RestModifyView<IndexVersionResource, Input> {
   public static class Input {
-    boolean reuse;
+    public boolean reuse;
+    public boolean notifyListeners;
   }
 
   private final IndexVersionReindexer indexVersionReindexer;
@@ -41,7 +42,7 @@ public class ReindexIndexVersion implements RestModifyView<IndexVersionResource,
     IndexDefinition<?, ?, ?> def = rsrc.getIndexDefinition();
     int version = rsrc.getIndex().getSchema().getVersion();
     @SuppressWarnings("unused")
-    var unused = indexVersionReindexer.reindex(def, version, input.reuse);
+    var unused = indexVersionReindexer.reindex(def, version, input.reuse, input.notifyListeners);
     return Response.accepted(
         String.format("Index %s version %d submitted for reindexing", def.getName(), version));
   }

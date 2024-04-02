@@ -1728,7 +1728,7 @@ This creates a snapshot of one index version of the specified index.
 
 This endpoint allows to trigger background reindexing of an index version.  It is
 also supported to specify whether to reuse existing up-to-date (non-stale) index
-documents.
+documents and whether to notifyListeners or not.
 
 .Request
 ----
@@ -1736,7 +1736,8 @@ documents.
   Content-Type: application/json; charset=UTF-8
 
   {
-    "reuse": "true"
+    "reuse": "true",
+    "notifyListeners": "false"
   }
 ----
 

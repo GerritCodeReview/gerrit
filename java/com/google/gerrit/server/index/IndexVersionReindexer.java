@@ -35,14 +35,14 @@ public class IndexVersionReindexer {
   }
 
   public <K, V, I extends Index<K, V>> Future<SiteIndexer.Result> reindex(
-      IndexDefinition<K, V, I> def, int version, boolean reuse) {
+      IndexDefinition<K, V, I> def, int version, boolean reuse, boolean notifyListeners) {
     I index = def.getIndexCollection().getWriteIndex(version);
     SiteIndexer<K, V, I> siteIndexer = def.getSiteIndexer(reuse);
     return executor.submit(
         () -> {
           String name = def.getName();
           logger.atInfo().log("Starting reindex of %s version %d", name, version);
-          SiteIndexer.Result result = siteIndexer.indexAll(index);
+          SiteIndexer.Result result = siteIndexer.indexAll(index, notifyListeners);
           if (result.success()) {
             logger.atInfo().log("Reindex %s version %s complete", name, version);
           } else {

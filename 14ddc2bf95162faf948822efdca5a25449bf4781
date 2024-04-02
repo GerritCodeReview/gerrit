@@ -46,6 +46,30 @@
       },
       "revId": "14ddc2bf95162faf948822efdca5a25449bf4781",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cedd1afa_952e9ef3",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-04-02T07:56:29Z",
+      "side": 1,
+      "message": "\u003e we should merge this as-is and redo the fixes\n\nIn that case, the changes that are not included should be a no-op so that they do not add dead code. After the merge, in the same topic, we should redo the excluded no-op merged commits.",
+      "parentUuid": "ccc9ee15_099ec644",
+      "range": {
+        "startLine": 426,
+        "startChar": 0,
+        "endLine": 448,
+        "endChar": 0
+      },
+      "revId": "14ddc2bf95162faf948822efdca5a25449bf4781",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -278,6 +278,18 @@ suite('gr-change-actions tests', () => {
                 Do you really want to delete the edit?
               </div>
             </gr-dialog>
+            <gr-dialog
+              class="confirmDialog"
+              confirm-label="Publish"
+              confirm-on-enter=""
+              id="confirmPublishEditDialog"
+              role="dialog"
+            >
+              <div class="header" slot="header">Publish Change Edit</div>
+              <div class="main" slot="main">
+                Do you really want to publish the edit?
+              </div>
+            </gr-dialog>
           </dialog>
         `
       );

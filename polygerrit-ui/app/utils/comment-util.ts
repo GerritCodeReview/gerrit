@@ -262,6 +262,15 @@ export function isRobotThread(thread: CommentThread): boolean {
   return isRobot(getFirstComment(thread));
 }
 
+export function hasSuggestion(thread: CommentThread): boolean {
+  const firstComment = getFirstComment(thread);
+  if (!firstComment) return false;
+  return (
+    hasUserSuggestion(firstComment) ||
+    firstComment.fix_suggestions?.[0] !== undefined
+  );
+}
+
 export function hasHumanReply(thread: CommentThread): boolean {
   return countComments(thread) > 1 && !isRobot(getLastComment(thread));
 }

@@ -80,6 +80,9 @@ public class ChangeIndexer {
         boolean notifyListeners);
 
     ChangeIndexer create(ListeningExecutorService executor, ChangeIndexCollection indexes);
+
+    ChangeIndexer create(
+        ListeningExecutorService executor, ChangeIndexCollection indexes, boolean notifyListeners);
   }
 
   @Nullable private final ChangeIndexCollection indexes;
@@ -191,6 +194,33 @@ public class ChangeIndexer {
       @Assisted ListeningExecutorService executor,
       @Assisted ChangeIndexCollection indexes,
       IsFirstInsertForEntry isFirstInsertForEntry) {
+    this(
+        cfg,
+        changeDataFactory,
+        notesFactory,
+        context,
+        indexedListeners,
+        stalenessChecker,
+        batchExecutor,
+        executor,
+        indexes,
+        true,
+        isFirstInsertForEntry);
+  }
+
+  @AssistedInject
+  ChangeIndexer(
+      @GerritServerConfig Config cfg,
+      ChangeData.Factory changeDataFactory,
+      ChangeNotes.Factory notesFactory,
+      ThreadLocalRequestContext context,
+      PluginSetContext<ChangeIndexedListener> indexedListeners,
+      StalenessChecker stalenessChecker,
+      @IndexExecutor(BATCH) ListeningExecutorService batchExecutor,
+      @Assisted ListeningExecutorService executor,
+      @Assisted ChangeIndexCollection indexes,
+      @Assisted boolean notifyListeners,
+      IsFirstInsertForEntry isFirstInsertForEntry) {
     this.executor = executor;
     this.changeDataFactory = changeDataFactory;
     this.notesFactory = notesFactory;
@@ -201,8 +231,8 @@ public class ChangeIndexer {
     this.autoReindexIfStale = autoReindexIfStale(cfg);
     this.index = null;
     this.indexes = indexes;
+    this.notifyListeners = notifyListeners;
     this.isFirstInsertForEntry = isFirstInsertForEntry;
-    this.notifyListeners = true;
   }
 
   private static boolean autoReindexIfStale(Config cfg) {

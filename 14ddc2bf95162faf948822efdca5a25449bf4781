@@ -94,6 +94,30 @@
       },
       "revId": "14ddc2bf95162faf948822efdca5a25449bf4781",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb270756_3ba42b43",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-04-02T23:00:12Z",
+      "side": 1,
+      "message": "Can you point to the follow-up change and put it in the same topic with this merge?",
+      "parentUuid": "20ac8351_5237c29e",
+      "range": {
+        "startLine": 426,
+        "startChar": 0,
+        "endLine": 448,
+        "endChar": 0
+      },
+      "revId": "14ddc2bf95162faf948822efdca5a25449bf4781",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

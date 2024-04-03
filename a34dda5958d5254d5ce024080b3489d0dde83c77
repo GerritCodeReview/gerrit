@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b864cb3a_44078894",
+        "filename": "java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-04-03T12:37:13Z",
+      "side": 1,
+      "message": "I think the caller should be informed that the plugin failed being started/reloaded/disabled.\n\n```\nssh -p 29418 admin@localhost gerrit plugin rm healthcheck\n```\n\nshould output a useful result message:\n\n```\nfatal: Plugin healthcheck has registered an ApiModule therefore its restart/reload is not allowed\n```\n\nThis behaviour would be consistent with other types of failures (i.e. `plugin not running`, `remote installation is disabled`, `unsupported plugin type` and so on).\n\nHave you considered raising a `PluginInstallException` rather than just logging?",
+      "range": {
+        "startLine": 533,
+        "startChar": 0,
+        "endLine": 536,
+        "endChar": 25
+      },
+      "revId": "a34dda5958d5254d5ce024080b3489d0dde83c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -20,6 +20,7 @@ import {Comment, isDraft, PatchSetNumber} from '../../../types/common';
 import {OpenFixPreviewEventDetail} from '../../../types/events';
 import {pluginLoaderToken} from '../gr-js-api-interface/gr-plugin-loader';
 import {SuggestionsProvider} from '../../../api/suggestions';
+import {PROVIDED_FIX_ID} from '../../../utils/comment-util';
 
 /**
  * gr-fix-suggestions is UI for comment.fix_suggestions.
@@ -149,7 +150,11 @@ export class GrFixSuggestions extends LitElement {
       fixSuggestions: this.comment.fix_suggestions.map(s => {
         return {
           ...s,
-          description: 'Suggested Edit from comment',
+          fix_id: PROVIDED_FIX_ID,
+          description:
+            this.suggestionsProvider?.getFixSuggestionTitle?.(
+              this.comment?.fix_suggestions
+            ) || 'Suggested edit',
         };
       }),
       patchNum: this.comment.patch_set,

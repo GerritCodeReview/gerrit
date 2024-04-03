@@ -232,6 +232,9 @@ export class GrComment extends LitElement {
   generatedSuggestionId?: string;
 
   @state()
+  addedGeneratedSuggestion?: string;
+
+  @state()
   suggestionsProvider?: SuggestionsProvider;
 
   @state()
@@ -1149,9 +1152,10 @@ export class GrComment extends LitElement {
 
   private handleAddGeneratedSuggestion(code: string) {
     const addNewLine = this.messageText.length !== 0;
-    this.messageText += `${
+    this.addedGeneratedSuggestion = `${
       addNewLine ? '\n' : ''
     }${USER_SUGGESTION_START_PATTERN}${code}${'\n```'}`;
+    this.messageText += this.addedGeneratedSuggestion;
   }
 
   private generateSuggestEdit() {
@@ -1665,6 +1669,7 @@ export class GrComment extends LitElement {
     } else {
       // No need to make a backend call when nothing has changed.
       while (this.somethingToSave()) {
+        this.trackGeneratedSuggestionEdit();
         this.comment = await this.rawSave({showToast: true});
         if (isError(this.comment)) return;
       }
@@ -1745,6 +1750,19 @@ export class GrComment extends LitElement {
       this.confirmDeleteDialog.message
     );
     this.closeDeleteCommentModal();
+  }
+
+  private trackGeneratedSuggestionEdit() {
+    const wasGeneratedSuggestionEdited =
+      this.addedGeneratedSuggestion &&
+      !this.messageText.includes(this.addedGeneratedSuggestion);
+    if (wasGeneratedSuggestionEdited) {
+      this.reporting.reportInteraction(Interaction.GENERATE_SUGGESTION_EDITED, {
+        uuid: this.generatedSuggestionId,
+        commentId: this.comment?.id ?? '',
+      });
+      this.addedGeneratedSuggestion = undefined;
+    }
   }
 }
 

@@ -16,6 +16,23 @@
       "message": "Will need a manual CS+1 due to no CI on this branch.",
       "revId": "1d7803586a74ab9688b32d64f9df15527fafbfde",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "242e5f0d_a92b0fd0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-04-03T15:52:48Z",
+      "side": 1,
+      "message": "Need manual verification of all tests, will do that in a sec.",
+      "revId": "1d7803586a74ab9688b32d64f9df15527fafbfde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

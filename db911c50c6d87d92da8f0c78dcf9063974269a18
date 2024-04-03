@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6e17569_a2df920c",
+        "filename": "java/com/google/gerrit/index/query/PaginatingSource.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-04-03T18:42:54Z",
+      "side": 1,
+      "message": "Done in 414697: Move comment of PaginatingSource.read() | https://gerrit-review.googlesource.com/c/gerrit/+/414697",
+      "parentUuid": "71948854_aeb0caa0",
+      "range": {
+        "startLine": 75,
+        "startChar": 0,
+        "endLine": 76,
+        "endChar": 45
+      },
+      "revId": "db911c50c6d87d92da8f0c78dcf9063974269a18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "85bca522_2b3552b2",
@@ -169,6 +193,24 @@
       "side": 1,
       "message": "\u003e I don\u0027t think there was an issue created for it. Kaushik Lingarkar do you recall?\n\nYeah, we did not create an issue as far as I can recall.",
       "parentUuid": "d07fd47b_20c5e06e",
+      "revId": "db911c50c6d87d92da8f0c78dcf9063974269a18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe29b9d7_9e7af083",
+        "filename": "java/com/google/gerrit/index/query/PaginatingSource.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-04-03T18:42:54Z",
+      "side": 1,
+      "message": "Fixed now in 414699: Fix paginationType NONE to run further queries only if needed | https://gerrit-review.googlesource.com/c/gerrit/+/414699\nand tested now in 413843: Add test paginationType NONE to query only if there are more results | https://gerrit-review.googlesource.com/c/gerrit/+/413843\n\nThanks Luca and Diego!",
+      "parentUuid": "78776763_8c8d80be",
       "revId": "db911c50c6d87d92da8f0c78dcf9063974269a18",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

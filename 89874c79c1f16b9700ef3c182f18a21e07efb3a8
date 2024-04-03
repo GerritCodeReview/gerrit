@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd12c976_657637c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-04-03T21:29:49Z",
+      "side": 1,
+      "message": "I\u0027m not sure this change makes anything worse, but is there a way we can omit them from the WAR artifact but include them in the plugin-api.jar? Currently standalone plugins have to include the auto-value libraries in their external dependencies and keep the versions up to date.",
+      "revId": "89874c79c1f16b9700ef3c182f18a21e07efb3a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

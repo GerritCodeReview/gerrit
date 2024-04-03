@@ -22,6 +22,30 @@
       },
       "revId": "aeeaef9e3b9c85c4a15b937f8588fc32364a4654",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29e21d18_ca402e86",
+        "filename": "tools/setup_gjf.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-04-03T16:24:00Z",
+      "side": 1,
+      "message": "Up to 1.9, they didn\u0027t use .0. Since 1.10 they\u0027ve done it like 1.10.0.",
+      "parentUuid": "4e59545d_38a7447c",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 6
+      },
+      "revId": "aeeaef9e3b9c85c4a15b937f8588fc32364a4654",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

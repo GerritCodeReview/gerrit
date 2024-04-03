@@ -22,6 +22,47 @@
       },
       "revId": "b7afcf1926a0b9e53df70acef411be195a4f1d8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6e24c68_04a75487",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-04-03T00:04:00Z",
+      "side": 1,
+      "message": "I agree with @david.ostrovsky@gmail.com and thanks to his Change 289467 this isn\u0027t anymore a valid use-case, because the GitHub plugin will use Bazel from now on 👍",
+      "parentUuid": "d7a7d7e3_e8a5b0a9",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 40
+      },
+      "revId": "b7afcf1926a0b9e53df70acef411be195a4f1d8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8278d28_5ff02e97",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-04-03T00:04:00Z",
+      "side": 1,
+      "message": "Not sure this will be needed in the future, the GitHub plugin is transitioning to Bazel.",
+      "revId": "b7afcf1926a0b9e53df70acef411be195a4f1d8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

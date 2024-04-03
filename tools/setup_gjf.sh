@@ -32,6 +32,9 @@ case "$VERSION" in
 1.7)
     SHA1="b6d34a51e579b08db7c624505bdf9af4397f1702"
     ;;
+1.22.0)
+    SHA1="693d8fd04656886a2287cfe1d7a118c4697c3a57"
+    ;;
 *)
     echo "unknown google-java-format version: $VERSION"
     exit 1
@@ -48,7 +51,7 @@ dir="$root/tools/format"
 mkdir -p "$dir"
 
 name="google-java-format-$VERSION-all-deps.jar"
-url="https://github.com/google/google-java-format/releases/download/google-java-format-$VERSION/$name"
+url="https://github.com/google/google-java-format/releases/download/v$VERSION/$name"
 "$root/tools/download_file.py" -o "$dir/$name" -u "$url" -v "$SHA1"
 
 launcher="$dir/google-java-format-$VERSION"

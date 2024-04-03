@@ -125,7 +125,7 @@ public class DeleteChangeOp implements BatchUpdateOp {
   }
 
   private void cleanUpReferences(ChangeData cd) throws IOException {
-    accountPatchReviewStore.run(s -> s.clearReviewed(cd.getId()));
+    accountPatchReviewStore.run(s -> s.clearReviewed(cd.virtualId()));
 
     // Non-atomic operation on All-Users refs; not much we can do to make it atomic.
     starredChangesWriter.unstarAllForChangeDeletion(cd.virtualId());

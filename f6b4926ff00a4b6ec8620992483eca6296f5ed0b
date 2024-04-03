@@ -16,6 +16,24 @@
       "message": "Is it expected to update this in this merge?",
       "revId": "f6b4926ff00a4b6ec8620992483eca6296f5ed0b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "09a45419_a2923ae4",
+        "filename": "modules/jgit",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-04-03T19:33:24Z",
+      "side": 1,
+      "message": "Yes, due to `c12196bc Bump JGit to c0b415fb0` being submitted on stable-3.7.",
+      "parentUuid": "2c962884_0e43a615",
+      "revId": "f6b4926ff00a4b6ec8620992483eca6296f5ed0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

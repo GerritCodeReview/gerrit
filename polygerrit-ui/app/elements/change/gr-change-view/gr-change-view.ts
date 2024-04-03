@@ -2361,13 +2361,6 @@ export class GrChangeView extends LitElement {
     }, delay * 1000);
   }
 
-  private cancelUpdateCheckTimer() {
-    if (this.updateCheckTimerHandle) {
-      window.clearTimeout(this.updateCheckTimerHandle);
-    }
-    this.updateCheckTimerHandle = null;
-  }
-
   private readonly handleVisibilityChange = () => {
     if (document.hidden && this.updateCheckTimerHandle) {
       this.cancelUpdateCheckTimer();

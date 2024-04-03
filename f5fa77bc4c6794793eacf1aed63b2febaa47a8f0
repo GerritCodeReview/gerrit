@@ -50,6 +50,41 @@
       "message": "388179: Add an option to the query changes API to allow skipping faulty records | https://gerrit-review.googlesource.com/c/gerrit/+/388179",
       "revId": "f5fa77bc4c6794793eacf1aed63b2febaa47a8f0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1352710f_5dc8fc58",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3373360
+      },
+      "writtenOn": "2024-04-03T01:02:19Z",
+      "side": 1,
+      "message": "388179: Add an option to the query changes API to allow skipping faulty records | https://gerrit-review.googlesource.com/c/gerrit/+/388179",
+      "revId": "f5fa77bc4c6794793eacf1aed63b2febaa47a8f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e0c94bd_a3938c77",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3373360
+      },
+      "writtenOn": "2024-04-03T01:02:19Z",
+      "side": 1,
+      "message": "\u003e 388179: Add an option to the query changes API to allow skipping faulty records | https://gerrit-review.googlesource.com/c/gerrit/+/388179",
+      "parentUuid": "52f31886_e46ffc03",
+      "revId": "f5fa77bc4c6794793eacf1aed63b2febaa47a8f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

@@ -16,6 +16,24 @@
       "message": "I\u0027m not sure this change makes anything worse, but is there a way we can omit them from the WAR artifact but include them in the plugin-api.jar? Currently standalone plugins have to include the auto-value libraries in their external dependencies and keep the versions up to date.",
       "revId": "89874c79c1f16b9700ef3c182f18a21e07efb3a8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3dedfc7d_09792d73",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2024-04-04T05:27:32Z",
+      "side": 1,
+      "message": "\u003e I\u0027m not sure this change makes anything worse, but is there a way we can omit them from the WAR artifact but include them in the plugin-api.jar?\n\nThis change actually does change that. Before this change `auto-values` were shaded in in plugin-api and can be consumed in standalone build. To demonstrate that, I fixed `task` plugin to consume `auto-value` annotation processor from the plugin-api: [1] and removed fetching it separately.\n\nAfter this change this wouldn\u0027t work any more, because `auto-values` wouldn\u0027t be shaded any more:\n\nBefore:\n\n```\n  $\u003e bazel build //plugins:plugin-api_deploy.jar\n  $\u003e unzip -t bazel-bin/plugins/plugin-api_deploy.jar | grep auto- | wc -l\n  15\n```\n\nAfter:\n\n```\n  $\u003e bazel build //plugins:plugin-api_deploy.jar\n  $\u003e unzip -t bazel-bin/plugins/plugin-api_deploy.jar | grep auto- | wc -l\n  0\n```\n\nI updated the commit message correspondingly and mentioned this side effect.\n\nI guess now, that you know it works, you would like to preserve the current behavior 😊 ?\n\n[1]: https://gerrit-review.googlesource.com/c/plugins/task/+/417561/1",
+      "parentUuid": "dd12c976_657637c2",
+      "revId": "89874c79c1f16b9700ef3c182f18a21e07efb3a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

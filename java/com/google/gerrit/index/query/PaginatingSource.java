@@ -103,6 +103,7 @@ public class PaginatingSource<T> implements DataSource<T> {
               int nextStart = pageResultSize;
               while (pageResultSize == limit && r.size() < limit) {
                 ResultSet<T> next = p.restart(nextStart);
+                pageResultSize = 0;
                 for (T data : buffer(next)) {
                   if (match(data)) {
                     r.add(data);

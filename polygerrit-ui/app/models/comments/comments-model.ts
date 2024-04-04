@@ -25,9 +25,12 @@ import {
   convertToCommentInput,
   createNew,
   createNewPatchsetLevel,
+  getFirstComment,
+  hasSuggestion,
   id,
   isDraftThread,
   isNewThread,
+  isUnresolved,
   reportingDetails,
 } from '../../utils/comment-util';
 import {deepEqual} from '../../utils/deep-util';
@@ -427,6 +430,17 @@ export class CommentsModel extends Model<CommentState> {
 
   public readonly draftThreadsSaved$ = select(this.threads$, threads =>
     threads.filter(t => !isNewThread(t) && isDraftThread(t))
+  );
+
+  public readonly threadsWithSuggestions$ = select(
+    combineLatest([this.threads$, this.changeModel.latestPatchNum$]),
+    ([threads, latestPs]) =>
+      threads.filter(
+        t =>
+          isUnresolved(t) &&
+          hasSuggestion(t) &&
+          getFirstComment(t)?.patch_set === latestPs
+      )
   );
 
   public readonly commentedPaths$ = select(

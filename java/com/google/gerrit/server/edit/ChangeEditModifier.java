@@ -566,7 +566,8 @@ public class ChangeEditModifier {
 
     if (!successful) {
       throw new MergeConflictException(
-          "The existing change edit could not be merged with another tree.");
+          "Rebasing change edit onto another patchset results in merge conflicts. Download the edit"
+              + " patchset and rebase manually to preserve changes.");
     }
     return threeWayMerger.getResultTreeId();
   }

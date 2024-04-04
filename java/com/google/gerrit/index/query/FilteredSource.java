@@ -21,6 +21,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.IndexConfig;
+import com.google.gerrit.index.QueryOptions;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,11 +52,36 @@ public class FilteredSource<T> implements DataSource<T> {
     return new LazyResultSet<>(
         () -> {
           List<T> r = new ArrayList<>();
+          T last = null;
+          int pageResultSize = 0;
           for (T data : buffer(resultSet)) {
             if (!isMatchable() || match(data)) {
               r.add(data);
             }
+            last = data;
+            pageResultSize++;
           }
+
+          if (last != null && source instanceof Paginated) {
+            // Restart source and continue if we have not filled the
+            // full limit the caller wants.
+            Paginated<T> p = (Paginated<T>) source;
+            QueryOptions opts = p.getOptions();
+            final int limit = opts.limit();
+            int nextStart = pageResultSize;
+            while (pageResultSize == limit && r.size() < limit) {
+              ResultSet<T> next = p.restart(nextStart);
+              pageResultSize = 0;
+              for (T data : buffer(next)) {
+                if (match(data)) {
+                  r.add(data);
+                }
+                pageResultSize++;
+              }
+              nextStart += pageResultSize;
+            }
+          }
+
           if (start >= r.size()) {
             return ImmutableList.of();
           } else if (start > 0) {

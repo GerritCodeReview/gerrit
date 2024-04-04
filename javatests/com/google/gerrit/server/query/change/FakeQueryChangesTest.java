@@ -26,6 +26,8 @@ import static org.junit.Assume.assumeTrue;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.UseClockStep;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -90,7 +92,45 @@ public abstract class FakeQueryChangesTest extends AbstractQueryChangesTest {
     @SuppressWarnings("unused")
     var unused = newQuery("status:new").withLimit(5).get();
 
+    // Since the limit of the query (i.e. 5) is more than the total number of changes (i.e. 4),
+    // only 1 index search is expected.
     assertThatSearchQueryWasNotPaginated(idx.getQueryCount());
+  }
+
+  @Test
+  @UseClockStep
+  public void queryRightNumberOfTimes() throws Exception {
+    Project.NameKey project = Project.nameKey("repo");
+    TestRepository<Repository> repo = createAndOpenProject(project);
+    Account.Id user2 =
+        accountManager.authenticate(authRequestFactory.createForUser("anotheruser")).getAccountId();
+
+    // create 1 visible change
+    Change visibleChange1 = insert(project, newChangeWithStatus(repo, Change.Status.NEW));
+
+    // create 4 private changes
+    Change invisibleChange2 = insert(project, newChangeWithStatus(repo, Change.Status.NEW), user2);
+    Change invisibleChange3 = insert(project, newChangeWithStatus(repo, Change.Status.NEW), user2);
+    Change invisibleChange4 = insert(project, newChangeWithStatus(repo, Change.Status.NEW), user2);
+    Change invisibleChange5 = insert(project, newChangeWithStatus(repo, Change.Status.NEW), user2);
+    gApi.changes().id(invisibleChange2.getKey().get()).setPrivate(true, null);
+    gApi.changes().id(invisibleChange3.getKey().get()).setPrivate(true, null);
+    gApi.changes().id(invisibleChange4.getKey().get()).setPrivate(true, null);
+    gApi.changes().id(invisibleChange5.getKey().get()).setPrivate(true, null);
+
+    AbstractFakeIndex<?, ?, ?> idx =
+        (AbstractFakeIndex<?, ?, ?>) changeIndexCollection.getSearchIndex();
+    idx.resetQueryCount();
+    List<ChangeInfo> queryResult = newQuery("status:new").withLimit(2).get();
+    assertThat(queryResult).hasSize(1);
+    assertThat(queryResult.get(0).changeId).isEqualTo(visibleChange1.getKey().get());
+
+    // Since the limit of the query (i.e. 2), 2 index searches are expected in fact:
+    // 1: The first query will return invisibleChange5, invisibleChange4 and invisibleChange3,
+    // 2: Another query is needed to back-fill the limit requested by the user.
+    // even if one result in the second query is skipped because it is not visible,
+    // there are no more results to query.
+    assertThatSearchQueryWasPaginated(idx.getQueryCount(), 2);
   }
 
   @Test
@@ -139,39 +179,7 @@ public abstract class FakeQueryChangesTest extends AbstractQueryChangesTest {
 
   @Test
   @UseClockStep
-  public void invisibleChangesNotPaginatedWithNonePaginationType() throws Exception {
-    assumeTrue(PaginationType.NONE == getCurrentPaginationType());
-    AbstractFakeIndex<?, ?, ?> idx = setupRepoWithFourChanges();
-    final int LIMIT = 3;
-
-    projectOperations
-        .project(allProjectsName)
-        .forUpdate()
-        .removeAllAccessSections()
-        .add(allow(Permission.READ).ref("refs/*").group(SystemGroupBackend.REGISTERED_USERS))
-        .update();
-
-    // Set queryLimit to 3
-    projectOperations
-        .project(allProjects)
-        .forUpdate()
-        .add(allowCapability(QUERY_LIMIT).group(ANONYMOUS_USERS).range(0, LIMIT))
-        .update();
-
-    @SuppressWarnings("unused")
-    var unused = requestContext.setContext(anonymousUserProvider::get);
-
-    List<ChangeInfo> result = newQuery("status:new").withLimit(LIMIT).get();
-    assertThat(result.size()).isEqualTo(0);
-    assertThatSearchQueryWasNotPaginated(idx.getQueryCount());
-    assertThat(idx.getResultsSizes().get(0)).isEqualTo(LIMIT + 1);
-  }
-
-  @Test
-  @UseClockStep
   public void invisibleChangesPaginatedWithPagination() throws Exception {
-    assumeFalse(PaginationType.NONE == getCurrentPaginationType());
-
     AbstractFakeIndex<?, ?, ?> idx = setupRepoWithFourChanges();
     final int LIMIT = 3;
 

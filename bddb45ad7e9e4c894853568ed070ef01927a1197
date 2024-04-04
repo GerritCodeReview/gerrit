@@ -34,6 +34,24 @@
       "parentUuid": "c3b649ff_e23e50fd",
       "revId": "bddb45ad7e9e4c894853568ed070ef01927a1197",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8296d879_cff0d8a2",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/SshTraceIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-04-04T10:46:58Z",
+      "side": 1,
+      "message": "s/FYI/FWIW",
+      "parentUuid": "1e383c65_4e46d914",
+      "revId": "bddb45ad7e9e4c894853568ed070ef01927a1197",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

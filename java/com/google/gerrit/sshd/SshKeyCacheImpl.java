@@ -19,6 +19,7 @@ import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USE
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.exceptions.InvalidSshKeyException;
 import com.google.gerrit.server.account.AccountSshKey;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.account.externalids.ExternalId;
@@ -144,7 +145,16 @@ public class SshKeyCacheImpl implements SshKeyCache {
         // to do with the key object, and instead we must abort this load.
         //
         throw e;
-      } catch (Exception e) {
+      } catch (InvalidKeyAlgorithmException e) {
+        logger.atWarning().withCause(e).log(
+            "SSH key %d of account %s has an invalid algorithm %s: fixing the algorithm to %s",
+            k.seq(), k.accountId(), e.getInvalidKeyAlgo(), e.getExpectedKeyAlgo());
+        if (fixKeyAlgorithm(k, e.getExpectedKeyAlgo())) {
+          kl.add(new SshKeyCacheEntry(k.accountId(), e.getPublicKey()));
+        } else {
+          markInvalid(k);
+        }
+      } catch (Throwable e) {
         markInvalid(k);
       }
     }
@@ -156,6 +166,21 @@ public class SshKeyCacheImpl implements SshKeyCache {
       } catch (IOException | ConfigInvalidException e) {
         logger.atSevere().withCause(e).log(
             "Failed to mark SSH key %d of account %s invalid", k.seq(), k.accountId());
+      }
+    }
+
+    private boolean fixKeyAlgorithm(AccountSshKey k, String keyAlgo) {
+      try {
+        logger.atInfo().log(
+            "Fixing SSH key %d of account %s algorithm to %s", k.seq(), k.accountId(), keyAlgo);
+        authorizedKeys.deleteKey(k.accountId(), k.seq());
+        String sshKey = k.sshPublicKey();
+        authorizedKeys.addKey(k.accountId(), keyAlgo + sshKey.substring(sshKey.indexOf(' ')));
+        return true;
+      } catch (IOException | ConfigInvalidException | InvalidSshKeyException e) {
+        logger.atSevere().withCause(e).log(
+            "Failed to fix SSH key %d of account %s with algo %s", k.seq(), k.accountId(), keyAlgo);
+        return false;
       }
     }
   }

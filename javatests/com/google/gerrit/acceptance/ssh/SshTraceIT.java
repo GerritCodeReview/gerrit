@@ -32,6 +32,7 @@ import com.google.gerrit.server.project.CreateProjectArgs;
 import com.google.gerrit.server.validators.ProjectCreationValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
+import java.time.Instant;
 import org.junit.Test;
 
 @UseSsh
@@ -123,7 +124,7 @@ public class SshTraceIT extends AbstractDaemonTest {
     private ImmutableList.Builder<PerformanceLogEntry> logEntries = ImmutableList.builder();
 
     @Override
-    public void log(String operation, long durationMs, Metadata metadata) {
+    public void log(String operation, long durationMs, Instant endTime, Metadata metadata) {
       logEntries.add(PerformanceLogEntry.create(operation, metadata));
     }
 

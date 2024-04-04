@@ -15,6 +15,7 @@
 package com.google.gerrit.server.logging;
 
 import com.google.auto.value.AutoValue;
+import java.time.Instant;
 import java.util.Optional;
 
 /**
@@ -33,7 +34,8 @@ public abstract class PerformanceLogRecord {
    * @return the performance log record
    */
   public static PerformanceLogRecord create(String operation, long durationMs) {
-    return new AutoValue_PerformanceLogRecord(operation, durationMs, Optional.empty());
+    return new AutoValue_PerformanceLogRecord(
+        operation, durationMs, Instant.now(), Optional.empty());
   }
 
   /**
@@ -45,20 +47,23 @@ public abstract class PerformanceLogRecord {
    * @return the performance log record
    */
   public static PerformanceLogRecord create(String operation, long durationMs, Metadata metadata) {
-    return new AutoValue_PerformanceLogRecord(operation, durationMs, Optional.of(metadata));
+    return new AutoValue_PerformanceLogRecord(
+        operation, durationMs, Instant.now(), Optional.of(metadata));
   }
 
   public abstract String operation();
 
   public abstract long durationMs();
 
+  public abstract Instant endTime();
+
   public abstract Optional<Metadata> metadata();
 
   void writeTo(PerformanceLogger performanceLogger) {
     if (metadata().isPresent()) {
-      performanceLogger.log(operation(), durationMs(), metadata().get());
+      performanceLogger.log(operation(), durationMs(), endTime(), metadata().get());
     } else {
-      performanceLogger.log(operation(), durationMs());
+      performanceLogger.log(operation(), durationMs(), endTime());
     }
   }
 }

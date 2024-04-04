@@ -868,14 +868,11 @@ public class ChangeJson {
         TraceContext.newTimer(
             "Get change meta ref",
             Metadata.builder().changeId(cd.change().getId().get()).build())) {
-      if (cd.getRefStates() != null) {
-        String metaName = RefNames.changeMetaRef(cd.getId());
-        Optional<RefState> metaState =
-            cd.getRefStates().values().stream().filter(r -> r.ref().equals(metaName)).findAny();
-        return metaState.map(RefState::id);
-      }
+      String metaName = RefNames.changeMetaRef(cd.getId());
+      Optional<RefState> metaState =
+          cd.getRefStates().values().stream().filter(r -> r.ref().equals(metaName)).findAny();
+      return metaState.map(RefState::id);
     }
-    return Optional.empty();
   }
 
   private Boolean isReviewedByCurrentUser(ChangeData cd, CurrentUser user) {

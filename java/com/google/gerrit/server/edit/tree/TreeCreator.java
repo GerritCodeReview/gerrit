@@ -18,9 +18,11 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.common.UsedAt;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEditor;
@@ -39,26 +41,41 @@ public class TreeCreator {
 
   private final ObjectId baseTreeId;
   private final ImmutableList<? extends ObjectId> baseParents;
-  private final List<TreeModification> treeModifications = new ArrayList<>();
+  private final Optional<ObjectInserter> objectInserter;
+  private final List<com.google.gerrit.server.edit.tree.TreeModification> treeModifications = new ArrayList<>();
 
   public static TreeCreator basedOn(RevCommit baseCommit) {
     requireNonNull(baseCommit, "baseCommit is required");
-    return new TreeCreator(baseCommit.getTree(), ImmutableList.copyOf(baseCommit.getParents()));
+    return new TreeCreator(
+        baseCommit.getTree(), ImmutableList.copyOf(baseCommit.getParents()), Optional.empty());
+  }
+
+  @UsedAt(UsedAt.Project.GOOGLE)
+  public static TreeCreator basedOn(RevCommit baseCommit, ObjectInserter objectInserter) {
+    requireNonNull(baseCommit, "baseCommit is required");
+    return new TreeCreator(
+        baseCommit.getTree(),
+        ImmutableList.copyOf(baseCommit.getParents()),
+        Optional.of(objectInserter));
   }
 
   public static TreeCreator basedOnTree(
       ObjectId baseTreeId, ImmutableList<? extends ObjectId> baseParents) {
     requireNonNull(baseTreeId, "baseTreeId is required");
-    return new TreeCreator(baseTreeId, baseParents);
+    return new TreeCreator(baseTreeId, baseParents, Optional.empty());
   }
 
   public static TreeCreator basedOnEmptyTree() {
-    return new TreeCreator(ObjectId.zeroId(), ImmutableList.of());
+    return new TreeCreator(ObjectId.zeroId(), ImmutableList.of(), Optional.empty());
   }
 
-  private TreeCreator(ObjectId baseTreeId, ImmutableList<? extends ObjectId> baseParents) {
+  private TreeCreator(
+      ObjectId baseTreeId,
+      ImmutableList<? extends ObjectId> baseParents,
+      Optional<ObjectInserter> objectInserter) {
     this.baseTreeId = requireNonNull(baseTreeId, "baseTree is required");
     this.baseParents = baseParents;
+    this.objectInserter = objectInserter;
   }
 
   /**
@@ -66,12 +83,12 @@ public class TreeCreator {
    * times, the modifications are applied subsequently in exactly the order they were provided
    * (though JGit applies some internal optimizations which involve sorting, too).
    *
-   * <p><strong>Beware:</strong> All provided {@link TreeModification}s (even from previous calls of
+   * <p><strong>Beware:</strong> All provided {@link com.google.gerrit.server.edit.tree.TreeModification}s (even from previous calls of
    * this method) must touch different file paths!
    *
    * @param treeModifications modifications which should be applied to the base tree
    */
-  public void addTreeModifications(List<TreeModification> treeModifications) {
+  public void addTreeModifications(List<com.google.gerrit.server.edit.tree.TreeModification> treeModifications) {
     requireNonNull(treeModifications, "treeModifications must not be null");
     this.treeModifications.addAll(treeModifications);
   }
@@ -134,24 +151,26 @@ public class TreeCreator {
 
   private List<DirCacheEditor.PathEdit> getPathEdits(Repository repository) throws IOException {
     List<DirCacheEditor.PathEdit> pathEdits = new ArrayList<>();
-    for (TreeModification treeModification : treeModifications) {
+    for (com.google.gerrit.server.edit.tree.TreeModification treeModification : treeModifications) {
       pathEdits.addAll(
           treeModification.getPathEdits(repository, baseTreeId, ImmutableList.copyOf(baseParents)));
     }
     return pathEdits;
   }
 
+  private ObjectId writeAndGetId(Repository repository, DirCache tree) throws IOException {
+    ObjectInserter oi = objectInserter.orElse(repository.newObjectInserter());
+      ObjectId treeId = tree.writeTree(oi);
+      oi.flush();
+      if(objectInserter.isEmpty()) {
+        oi.close();
+      }
+      return treeId;
+  }
+
   private static void applyPathEdits(DirCache tree, List<DirCacheEditor.PathEdit> pathEdits) {
     DirCacheEditor dirCacheEditor = tree.editor();
     pathEdits.forEach(dirCacheEditor::add);
     dirCacheEditor.finish();
-  }
-
-  private static ObjectId writeAndGetId(Repository repository, DirCache tree) throws IOException {
-    try (ObjectInserter objectInserter = repository.newObjectInserter()) {
-      ObjectId treeId = tree.writeTree(objectInserter);
-      objectInserter.flush();
-      return treeId;
-    }
   }
 }

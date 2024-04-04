@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "723e7d90_9a7be8fc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-04-04T11:15:26Z",
+      "side": 1,
+      "message": "@frankborden@google.com are you aware of any sample plugins to reference in the release-notes? Is the content outline sidebar plugin used on gerrit-review published anywhere?",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 48
+      },
+      "revId": "d7ad5e3e43b6a98d50d9f9460dba006f0c3b4cbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0637491e_5872be13",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
         "patchSetId": 2

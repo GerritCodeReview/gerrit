@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95658af7_d9b9b263",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2024-04-04T16:13:06Z",
+      "side": 1,
+      "message": "@ekempin@google.com Can this issue be made public so it can be included in the release notes?",
+      "revId": "48b299e2c0a6c8f91c41484e2b87b1bc317b5625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.logging;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
+import java.time.Instant;
 
 /**
  * Extension point for logging performance records.
@@ -35,8 +36,8 @@ public interface PerformanceLogger {
    * @param operation operation that was performed
    * @param durationMs time that the execution of the operation took (in milliseconds)
    */
-  default void log(String operation, long durationMs) {
-    log(operation, durationMs, Metadata.empty());
+  default void log(String operation, long durationMs, Instant endTime) {
+    log(operation, durationMs, endTime, Metadata.empty());
   }
 
   /**
@@ -46,5 +47,5 @@ public interface PerformanceLogger {
    * @param durationMs time that the execution of the operation took (in milliseconds)
    * @param metadata metadata
    */
-  void log(String operation, long durationMs, Metadata metadata);
+  void log(String operation, long durationMs, Instant endTime, Metadata metadata);
 }

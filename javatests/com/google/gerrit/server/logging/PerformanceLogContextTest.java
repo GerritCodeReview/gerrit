@@ -32,6 +32,7 @@ import com.google.gerrit.testing.InMemoryModule;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import java.time.Instant;
 import java.util.concurrent.CopyOnWriteArrayList;
 import org.eclipse.jgit.lib.Config;
 import org.junit.After;
@@ -364,7 +365,7 @@ public class PerformanceLogContextTest {
     private ImmutableList.Builder<PerformanceLogEntry> logEntries = ImmutableList.builder();
 
     @Override
-    public void log(String operation, long durationMs, Metadata metadata) {
+    public void log(String operation, long durationMs, Instant endTime, Metadata metadata) {
       logEntries.add(PerformanceLogEntry.create(operation, metadata));
     }
 

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f7a4180_56303f93",
+        "filename": "java/com/google/gerrit/server/edit/tree/TreeCreator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-04-04T12:12:24Z",
+      "side": 1,
+      "message": "Doesn\u0027t this auto-close the provided ObjectInserter?\nI think if an ObjectInserter is provided by the caller it should be their responsibility to close it.",
+      "range": {
+        "startLine": 162,
+        "startChar": 4,
+        "endLine": 162,
+        "endChar": 43
+      },
+      "revId": "a04436e3f108ba5ecd5d8c5f207ec40325339376",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

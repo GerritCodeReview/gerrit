@@ -1753,8 +1753,12 @@ export class GrComment extends LitElement {
   }
 
   private trackGeneratedSuggestionEdit() {
+    const hasUserSuggestion = this.messageText.includes(
+      USER_SUGGESTION_START_PATTERN
+    );
     const wasGeneratedSuggestionEdited =
       this.addedGeneratedSuggestion &&
+      hasUserSuggestion &&
       !this.messageText.includes(this.addedGeneratedSuggestion);
     if (wasGeneratedSuggestionEdited) {
       this.reporting.reportInteraction(Interaction.GENERATE_SUGGESTION_EDITED, {

@@ -204,4 +204,8 @@ public abstract class QueryOptions {
         allowIncompleteResults(),
         filter.apply(this));
   }
+
+  public int getLimitBasedOnPaginationType() {
+    return PaginationType.NONE == config().paginationType() ? limit() : pageSize();
+  }
 }

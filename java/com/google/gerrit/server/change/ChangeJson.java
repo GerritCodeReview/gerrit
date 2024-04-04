@@ -1091,7 +1091,11 @@ public class ChangeJson {
   private ImmutableListMultimap<Change.Id, PluginDefinedInfo> getPluginInfos(
       Collection<ChangeData> cds) {
     if (pluginDefinedInfosFactory.isPresent()) {
-      return pluginDefinedInfosFactory.get().createPluginDefinedInfos(cds);
+      try (TraceTimer timer =
+          TraceContext.newTimer(
+              "Get plugin infos", Metadata.builder().resourceCount(cds.size()).build())) {
+        return pluginDefinedInfosFactory.get().createPluginDefinedInfos(cds);
+      }
     }
     return ImmutableListMultimap.of();
   }

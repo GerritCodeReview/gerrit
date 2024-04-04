@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a567a84_c91c6766",
+        "filename": "java/com/google/gerrit/server/restapi/change/CreateChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2024-04-04T20:05:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "585fe529_360cd9c9",
+      "range": {
+        "startLine": 452,
+        "startChar": 8,
+        "endLine": 457,
+        "endChar": 52
+      },
+      "revId": "cf07d4aa58526412a6ce030e80073bc6e66bc961",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "98ee9a91_bf5426c8",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-04-04T12:07:25Z",
       "side": 1,
       "message": "Should this method also check that mergeTip is not null?",
+      "range": {
+        "startLine": 707,
+        "startChar": 62,
+        "endLine": 707,
+        "endChar": 70
+      },
+      "revId": "cf07d4aa58526412a6ce030e80073bc6e66bc961",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ff6c218_16d0f423",
+        "filename": "java/com/google/gerrit/server/restapi/change/CreateChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 707,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2024-04-04T20:05:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "98ee9a91_bf5426c8",
       "range": {
         "startLine": 707,
         "startChar": 62,

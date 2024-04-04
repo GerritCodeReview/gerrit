@@ -50,7 +50,6 @@ import com.google.gerrit.entities.LabelTypes;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.entities.SubmitRecord;
@@ -450,7 +449,7 @@ public class ChangeData {
   private Integer totalCommentCount;
   private LabelTypes labelTypes;
   private Optional<Instant> mergedOn;
-  private ImmutableSetMultimap<NameKey, RefState> refStates;
+  private ImmutableSetMultimap<Project.NameKey, RefState> refStates;
   private ImmutableList<byte[]> refStatePatterns;
   private String gerritServerId;
   private String changeServerId;
@@ -692,10 +691,10 @@ public class ChangeData {
     return this;
   }
 
-  public ObjectId metaRevisionOrThrow() {
+  public Optional<ObjectId> metaRevision() {
     if (notes == null) {
       if (metaRevision != null) {
-        return metaRevision;
+        return Optional.of(metaRevision);
       }
       if (refStates != null) {
         ImmutableSet<RefState> refs = refStates.get(project);
@@ -703,17 +702,25 @@ public class ChangeData {
           String metaRef = RefNames.changeMetaRef(getId());
           for (RefState r : refs) {
             if (r.ref().equals(metaRef)) {
-              return r.id();
+              return Optional.of(r.id());
             }
           }
         }
       }
-      throwIfNotLazyLoad("metaRevision");
+      if (!lazyload()) {
+        return Optional.empty();
+      }
 
       @SuppressWarnings("unused")
       var unused = notes();
     }
-    return notes.getRevision();
+    metaRevision = notes.getRevision();
+    return Optional.of(metaRevision);
+  }
+
+  public ObjectId metaRevisionOrThrow() {
+    return metaRevision()
+        .orElseThrow(() -> new IllegalStateException("'metaRevision' field not populated"));
   }
 
   boolean fastIsVisibleTo(CurrentUser user) {
@@ -1499,13 +1506,14 @@ public class ChangeData {
     }
   }
 
-  public SetMultimap<NameKey, RefState> getRefStates() {
+  public SetMultimap<Project.NameKey, RefState> getRefStates() {
     if (refStates == null) {
       if (!lazyload()) {
         return ImmutableSetMultimap.of();
       }
 
-      ImmutableSetMultimap.Builder<NameKey, RefState> result = ImmutableSetMultimap.builder();
+      ImmutableSetMultimap.Builder<Project.NameKey, RefState> result =
+          ImmutableSetMultimap.builder();
       for (Table.Cell<Account.Id, PatchSet.Id, Ref> edit : editRefs().cellSet()) {
         result.put(
             project,

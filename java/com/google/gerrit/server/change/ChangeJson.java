@@ -63,7 +63,6 @@ import com.google.gerrit.entities.LegacySubmitRequirement;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.entities.SubmitRecord.Status;
 import com.google.gerrit.entities.SubmitRequirementResult;
@@ -86,7 +85,6 @@ import com.google.gerrit.extensions.common.SubmitRecordInfo;
 import com.google.gerrit.extensions.common.SubmitRequirementResultInfo;
 import com.google.gerrit.extensions.common.TrackingIdInfo;
 import com.google.gerrit.extensions.restapi.Url;
-import com.google.gerrit.index.RefState;
 import com.google.gerrit.index.query.QueryResult;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Description.Units;
@@ -868,14 +866,8 @@ public class ChangeJson {
         TraceContext.newTimer(
             "Get change meta ref",
             Metadata.builder().changeId(cd.change().getId().get()).build())) {
-      if (cd.getRefStates() != null) {
-        String metaName = RefNames.changeMetaRef(cd.getId());
-        Optional<RefState> metaState =
-            cd.getRefStates().values().stream().filter(r -> r.ref().equals(metaName)).findAny();
-        return metaState.map(RefState::id);
-      }
+      return cd.metaRevision();
     }
-    return Optional.empty();
   }
 
   private Boolean isReviewedByCurrentUser(ChangeData cd, CurrentUser user) {

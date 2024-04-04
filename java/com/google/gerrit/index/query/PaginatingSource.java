@@ -63,42 +63,55 @@ public class PaginatingSource<T> implements DataSource<T> {
             pageResultSize++;
           }
 
-          if (last != null
-              && source instanceof Paginated
-              // TODO: this fix is only for the stable branches and the real refactoring would be to
-              // restore the logic
-              // for the filtering in AndSource (L58 - 64) as per
-              // https://gerrit-review.googlesource.com/c/gerrit/+/345634/9
-              && !indexConfig.paginationType().equals(PaginationType.NONE)) {
+          if (last != null && source instanceof Paginated) {
             // Restart source and continue if we have not filled the
             // full limit the caller wants.
-            //
             @SuppressWarnings("unchecked")
             Paginated<T> p = (Paginated<T>) source;
             QueryOptions opts = p.getOptions();
             final int limit = opts.limit();
-            int pageSize = opts.pageSize();
-            int pageSizeMultiplier = opts.pageSizeMultiplier();
-            Object searchAfter = resultSet.searchAfter();
-            int nextStart = pageResultSize;
-            while (pageResultSize == pageSize && r.size() <= limit) { // get 1 more than the limit
-              pageSize = getNextPageSize(pageSize, pageSizeMultiplier);
-              ResultSet<T> next =
-                  indexConfig.paginationType().equals(PaginationType.SEARCH_AFTER)
-                      ? p.restart(searchAfter, pageSize)
-                      : p.restart(nextStart, pageSize);
-              pageResultSize = 0;
-              for (T data : buffer(next)) {
-                if (match(data)) {
-                  r.add(data);
+
+            // TODO: this fix is only for the stable branches and the real refactoring would be to
+            // restore the logic
+            // for the filtering in AndSource (L58 - 64) as per
+            // https://gerrit-review.googlesource.com/c/gerrit/+/345634/9
+            if (!indexConfig.paginationType().equals(PaginationType.NONE)) {
+              int pageSize = opts.pageSize();
+              int pageSizeMultiplier = opts.pageSizeMultiplier();
+              Object searchAfter = resultSet.searchAfter();
+              int nextStart = pageResultSize;
+              while (pageResultSize == pageSize && r.size() <= limit) { // get 1 more than the limit
+                pageSize = getNextPageSize(pageSize, pageSizeMultiplier);
+                ResultSet<T> next =
+                    indexConfig.paginationType().equals(PaginationType.SEARCH_AFTER)
+                        ? p.restart(searchAfter, pageSize)
+                        : p.restart(nextStart, pageSize);
+                pageResultSize = 0;
+                for (T data : buffer(next)) {
+                  if (match(data)) {
+                    r.add(data);
+                  }
+                  pageResultSize++;
+                  if (r.size() > limit) {
+                    break;
+                  }
                 }
-                pageResultSize++;
-                if (r.size() > limit) {
-                  break;
-                }
+                nextStart += pageResultSize;
+                searchAfter = next.searchAfter();
               }
-              nextStart += pageResultSize;
-              searchAfter = next.searchAfter();
+            } else {
+              int nextStart = pageResultSize;
+              while (pageResultSize == limit && r.size() < limit) {
+                ResultSet<T> next = p.restart(nextStart);
+                pageResultSize = 0;
+                for (T data : buffer(next)) {
+                  if (match(data)) {
+                    r.add(data);
+                  }
+                  pageResultSize++;
+                }
+                nextStart += pageResultSize;
+              }
             }
           }
 

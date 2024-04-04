@@ -22,6 +22,30 @@
       },
       "revId": "fd53a156fdfe13f092996e07ac877dc767f91073",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aad0c28b_ffc4c613",
+        "filename": "javatests/com/google/gerrit/server/query/change/FakeQueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-04-04T15:58:34Z",
+      "side": 0,
+      "message": "That is correct, in fact the test `invisibleChangesPaginatedWithPagination` at line 168 in the merge does execute the test for all the paginaation types, that in this case they have the same behaviour. \nPlease see the comment on the merge into 3.6 [1].\n\n[1]: https://gerrit-review.googlesource.com/c/gerrit/+/417541/comment/692d56c8_0702ef85/",
+      "parentUuid": "1b01999f_be25849f",
+      "range": {
+        "startLine": 169,
+        "startChar": 14,
+        "endLine": 169,
+        "endChar": 64
+      },
+      "revId": "fd53a156fdfe13f092996e07ac877dc767f91073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

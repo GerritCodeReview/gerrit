@@ -50,7 +50,6 @@ import com.google.gerrit.entities.LabelTypes;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.entities.SubmitRecord;
@@ -450,7 +449,7 @@ public class ChangeData {
   private Integer totalCommentCount;
   private LabelTypes labelTypes;
   private Optional<Instant> mergedOn;
-  private ImmutableSetMultimap<NameKey, RefState> refStates;
+  private ImmutableSetMultimap<Project.NameKey, RefState> refStates;
   private ImmutableList<byte[]> refStatePatterns;
   private String gerritServerId;
   private String changeServerId;
@@ -1499,13 +1498,14 @@ public class ChangeData {
     }
   }
 
-  public SetMultimap<NameKey, RefState> getRefStates() {
+  public SetMultimap<Project.NameKey, RefState> getRefStates() {
     if (refStates == null) {
       if (!lazyload()) {
         return ImmutableSetMultimap.of();
       }
 
-      ImmutableSetMultimap.Builder<NameKey, RefState> result = ImmutableSetMultimap.builder();
+      ImmutableSetMultimap.Builder<Project.NameKey, RefState> result =
+          ImmutableSetMultimap.builder();
       for (Table.Cell<Account.Id, PatchSet.Id, Ref> edit : editRefs().cellSet()) {
         result.put(
             project,

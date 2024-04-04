@@ -46,6 +46,30 @@
       },
       "revId": "fd53a156fdfe13f092996e07ac877dc767f91073",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d158c1f_008cf56e",
+        "filename": "javatests/com/google/gerrit/server/query/change/FakeQueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-04-04T16:22:54Z",
+      "side": 0,
+      "message": "In other words, removing the statement `assumeFalse(PaginationType.NONE \u003d\u003d getCurrentPaginationType());` in the test `invisibleChangesPaginatedWithPagination` makes the test `invisibleChangesNotPaginatedWithNonePaginationType` redundant.",
+      "parentUuid": "aad0c28b_ffc4c613",
+      "range": {
+        "startLine": 169,
+        "startChar": 14,
+        "endLine": 169,
+        "endChar": 64
+      },
+      "revId": "fd53a156fdfe13f092996e07ac877dc767f91073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

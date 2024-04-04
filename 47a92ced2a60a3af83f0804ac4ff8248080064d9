@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "662ef342_f49d9ae4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-04-04T17:01:47Z",
+      "side": 1,
+      "message": "Yes, thanks. Fixed",
+      "parentUuid": "8566497d_9f09695c",
+      "range": {
+        "startLine": 16,
+        "startChar": 20,
+        "endLine": 16,
+        "endChar": 32
+      },
+      "revId": "47a92ced2a60a3af83f0804ac4ff8248080064d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "22aa0c74_5e7e244f",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-04-04T12:42:03Z",
       "side": 1,
       "message": "Do I understand correctly that with this change we will always use \"/fix:apply\"? Does that mean that another flow that you mention above needs to be cleaned up? If so can we leave a TODO or do it in this change?",
+      "range": {
+        "startLine": 17,
+        "startChar": 10,
+        "endLine": 17,
+        "endChar": 25
+      },
+      "revId": "47a92ced2a60a3af83f0804ac4ff8248080064d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "08622f4c_3ff27af8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-04-04T17:01:47Z",
+      "side": 1,
+      "message": "Added todo. We are waiting for b/227463363 for cleaning up this logic.",
+      "parentUuid": "22aa0c74_5e7e244f",
       "range": {
         "startLine": 17,
         "startChar": 10,

@@ -39,6 +39,7 @@ import {
 import {
   createDefaultDiffPrefs,
   DiffViewMode,
+  SpecialFilePath,
 } from '../../../constants/constants';
 import {
   assertIsDefined,
@@ -2259,11 +2260,41 @@ suite('gr-file-list tests', () => {
       element.editMode = true;
       await element.updateComplete;
 
-      // Commit message should not have edit controls.
+      // Commit message can have edit controls.
       const editControls = Array.from(
         queryAll(element, '.row:not(.header-row)')
       ).map(row => row.querySelector('gr-edit-file-controls'));
-      assert.isTrue(editControls[0]!.classList.contains('invisible'));
+      assert.isFalse(editControls[0]!.classList.contains('invisible'));
+    });
+  });
+
+  suite('computeClass', () => {
+    test('works', () => {
+      assert.equal(
+        element.computeClass(
+          '',
+          SpecialFilePath.MERGE_LIST,
+          /* showForCommitMessage */ true
+        ),
+        'invisible'
+      );
+      assert.equal(
+        element.computeClass(
+          '',
+          SpecialFilePath.COMMIT_MESSAGE,
+          /* showForCommitMessage */ true
+        ),
+        ''
+      );
+      assert.equal(
+        element.computeClass(
+          '',
+          SpecialFilePath.COMMIT_MESSAGE,
+          /* showForCommitMessage */ false
+        ),
+        'invisible'
+      );
+      assert.equal(element.computeClass('', 'file.java'), '');
     });
   });
 });

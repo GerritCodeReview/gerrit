@@ -26,15 +26,18 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.entities.converter.ChangeInputProtoConverter;
 import com.google.gerrit.exceptions.InvalidMergeStrategyException;
 import com.google.gerrit.exceptions.MergeWithConflictsNotSupportedException;
 import com.google.gerrit.extensions.api.accounts.AccountInput;
+import com.google.gerrit.extensions.api.changes.ApplyPatchInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.ListChangesOption;
@@ -52,6 +55,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestCollectionModifyView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.proto.Entities;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
@@ -96,6 +100,7 @@ import java.time.ZoneId;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.InvalidObjectIdException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -118,6 +123,8 @@ import org.eclipse.jgit.util.ChangeIdUtil;
 public class CreateChange
     implements RestCollectionModifyView<TopLevelResource, ChangeResource, ChangeInput> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+  private static final ChangeInputProtoConverter CHANGE_INPUT_PROTO_CONVERTER =
+      ChangeInputProtoConverter.INSTANCE;
 
   private final BatchUpdate.Factory updateFactory;
   private final String anonymousCowardName;
@@ -191,9 +198,49 @@ public class CreateChange
     return execute(updateFactory, input, projectsCollection.parse(input.project));
   }
 
-  /** Creates the changes in the given project. This is public for reuse in the project API. */
+  @UsedAt(UsedAt.Project.GOOGLE)
+  @FunctionalInterface
+  public interface CommitTreeSupplier {
+    @NonNull
+    ObjectId get(Repository repo, ObjectInserter oi, ChangeInput input, RevCommit mergeTip)
+        throws IOException, RestApiException;
+  }
+
+  /**
+   * Creates the changes in the given project, using the proto representation of ChangeInput -
+   * {@link com.google.gerrit.proto.Entities.ChangeInput}.
+   */
+  @UsedAt(UsedAt.Project.GOOGLE)
+  public Response<ChangeInfo> execute(
+      BatchUpdate.Factory updateFactory,
+      Entities.ChangeInput input,
+      CommitTreeSupplier commitTreeSupplier)
+      throws IOException, RestApiException, UpdateException, PermissionBackendException,
+          ConfigInvalidException {
+    return execute(
+        updateFactory,
+        CHANGE_INPUT_PROTO_CONVERTER.fromProto(input),
+        projectsCollection.parse(input.getProject()),
+        Optional.of(commitTreeSupplier));
+  }
+
+  /**
+   * Creates the changes in the given project, using the java-class representation of ChangeInput -
+   * {@link com.google.gerrit.extensions.common.ChangeInput}. This is public for reuse in the
+   * project API.
+   */
   public Response<ChangeInfo> execute(
       BatchUpdate.Factory updateFactory, ChangeInput input, ProjectResource projectResource)
+      throws IOException, RestApiException, UpdateException, PermissionBackendException,
+          ConfigInvalidException {
+    return execute(updateFactory, input, projectResource, Optional.empty());
+  }
+
+  private Response<ChangeInfo> execute(
+      BatchUpdate.Factory updateFactory,
+      ChangeInput input,
+      ProjectResource projectResource,
+      Optional<CommitTreeSupplier> commitTreeSupplier)
       throws IOException, RestApiException, UpdateException, PermissionBackendException,
           ConfigInvalidException {
     if (!user.get().isIdentifiedUser()) {
@@ -204,14 +251,15 @@ public class CreateChange
     projectState.checkStatePermitsWrite();
 
     IdentifiedUser me = user.get().asIdentifiedUser();
-    checkAndSanitizeChangeInput(input, me);
+    checkAndSanitizeChangeInput(input, me, commitTreeSupplier);
 
     Project.NameKey project = projectResource.getNameKey();
     contributorAgreements.check(project, user.get());
 
     checkRequiredPermissions(project, input.branch, input.author);
 
-    ChangeInfo newChange = createNewChange(input, me, projectState, updateFactory);
+    ChangeInfo newChange =
+        createNewChange(input, me, projectState, updateFactory, commitTreeSupplier);
     return Response.created(newChange);
   }
 
@@ -225,7 +273,8 @@ public class CreateChange
    * @param me the user who sent the current request to create a change.
    * @throws BadRequestException if the input is not legal.
    */
-  private void checkAndSanitizeChangeInput(ChangeInput input, IdentifiedUser me)
+  private void checkAndSanitizeChangeInput(
+      ChangeInput input, IdentifiedUser me, Optional<CommitTreeSupplier> commitTreeSupplier)
       throws RestApiException, PermissionBackendException, IOException {
     if (Strings.isNullOrEmpty(input.branch)) {
       throw new BadRequestException("branch must be non-empty");
@@ -303,6 +352,11 @@ public class CreateChange
       throw new BadRequestException("Only one of `merge` and `patch` arguments can be set.");
     }
 
+    if ((input.merge != null || input.patch != null) && commitTreeSupplier.isPresent()) {
+      throw new BadRequestException(
+          "`CommitTreeSupplier` cannot be provided along with `merge` or `patch` arguments");
+    }
+
     if (input.author != null
         && (Strings.isNullOrEmpty(input.author.email)
             || Strings.isNullOrEmpty(input.author.name))) {
@@ -332,7 +386,8 @@ public class CreateChange
       ChangeInput input,
       IdentifiedUser me,
       ProjectState projectState,
-      BatchUpdate.Factory updateFactory)
+      BatchUpdate.Factory updateFactory,
+      Optional<CommitTreeSupplier> commitTreeSupplier)
       throws RestApiException, PermissionBackendException, IOException, ConfigInvalidException,
           UpdateException {
     try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
@@ -404,31 +459,22 @@ public class CreateChange
           }
         } else if (input.patch != null) {
           // create a commit with the given patch.
-          if (mergeTip == null) {
-            throw new BadRequestException("Cannot apply patch on top of an empty tree.");
-          }
-          PatchApplier.Result applyResult =
-              ApplyPatchUtil.applyPatch(git, oi, input.patch, mergeTip);
-          ObjectId treeId = applyResult.getTreeId();
-          logger.atFine().log("tree ID after applying patch: %s", treeId.name());
-          String appliedPatchCommitMessage =
-              getCommitMessage(
-                  ApplyPatchUtil.buildCommitMessage(
-                      input.subject,
-                      ImmutableList.of(),
-                      input.patch.patch,
-                      ApplyPatchUtil.getResultPatch(git, reader, mergeTip, rw.lookupTree(treeId)),
-                      applyResult.getErrors()),
-                  me);
           c =
-              rw.parseCommit(
-                  CommitUtil.createCommitWithTree(
-                      oi,
-                      author,
-                      committer,
-                      ImmutableList.of(mergeTip),
-                      appliedPatchCommitMessage,
-                      treeId));
+              createCommitWithPatch(
+                  git, reader, oi, rw, mergeTip, input.patch, input.subject, author, committer, me);
+        } else if (commitTreeSupplier.isPresent()) {
+          c =
+              createCommitWithSuppliedTree(
+                  git,
+                  oi,
+                  rw,
+                  mergeTip,
+                  input,
+                  commitTreeSupplier.get(),
+                  author,
+                  committer,
+                  commitMessage);
+
         } else {
           // create an empty commit.
           c = createEmptyCommit(oi, rw, author, committer, mergeTip, commitMessage);
@@ -613,6 +659,63 @@ public class CreateChange
     return rw.parseCommit(
         CommitUtil.createCommitWithTree(
             oi, authorIdent, committerIdent, parents, commitMessage, treeId));
+  }
+
+  private CodeReviewCommit createCommitWithPatch(
+      Repository repo,
+      ObjectReader reader,
+      ObjectInserter oi,
+      CodeReviewRevWalk rw,
+      RevCommit mergeTip,
+      ApplyPatchInput patch,
+      String subject,
+      PersonIdent authorIdent,
+      PersonIdent committerIdent,
+      IdentifiedUser me)
+      throws IOException, RestApiException {
+    if (mergeTip == null) {
+      throw new BadRequestException("Cannot apply patch on top of an empty tree.");
+    }
+    PatchApplier.Result applyResult = ApplyPatchUtil.applyPatch(repo, oi, patch, mergeTip);
+    ObjectId treeId = applyResult.getTreeId();
+    logger.atFine().log("tree ID after applying patch: %s", treeId.name());
+    String appliedPatchCommitMessage =
+        getCommitMessage(
+            ApplyPatchUtil.buildCommitMessage(
+                subject,
+                ImmutableList.of(),
+                patch.patch,
+                ApplyPatchUtil.getResultPatch(repo, reader, mergeTip, rw.lookupTree(treeId)),
+                applyResult.getErrors()),
+            me);
+    return rw.parseCommit(
+        CommitUtil.createCommitWithTree(
+            oi,
+            authorIdent,
+            committerIdent,
+            ImmutableList.of(mergeTip),
+            appliedPatchCommitMessage,
+            treeId));
+  }
+
+  private static CodeReviewCommit createCommitWithSuppliedTree(
+      Repository repo,
+      ObjectInserter oi,
+      CodeReviewRevWalk rw,
+      RevCommit mergeTip,
+      ChangeInput input,
+      CommitTreeSupplier commitTreeSupplier,
+      PersonIdent authorIdent,
+      PersonIdent committerIdent,
+      String commitMessage)
+      throws IOException, RestApiException {
+    if (mergeTip == null) {
+      throw new BadRequestException("`CommitTreeSupplier` cannot be used on top of an empty tree.");
+    }
+    ObjectId treeId = commitTreeSupplier.get(repo, oi, input, mergeTip);
+    return rw.parseCommit(
+        CommitUtil.createCommitWithTree(
+            oi, authorIdent, committerIdent, ImmutableList.of(mergeTip), commitMessage, treeId));
   }
 
   private static ObjectId emptyTreeId(ObjectInserter inserter) throws IOException {

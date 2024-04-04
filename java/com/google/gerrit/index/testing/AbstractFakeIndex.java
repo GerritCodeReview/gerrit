@@ -149,10 +149,14 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
                     .findFirst()
                     .orElse(-1)
                 + 1;
-        int toIndex = Math.min(fromIndex + opts.pageSize(), valueList.size());
+        int toIndex = Math.min(fromIndex + opts.getLimitBasedOnPaginationType(), valueList.size());
         results = valueList.subList(fromIndex, toIndex);
       } else {
-        results = valueStream.skip(opts.start()).limit(opts.pageSize()).collect(toImmutableList());
+        results =
+            valueStream
+                .skip(opts.start())
+                .limit(opts.getLimitBasedOnPaginationType())
+                .collect(toImmutableList());
       }
       queryCount++;
       resultsSizes.add(results.size());

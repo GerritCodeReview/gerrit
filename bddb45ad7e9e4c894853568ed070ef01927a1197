@@ -16,6 +16,24 @@
       "message": "Should PerformanceLogEntry.create take endTime as a parameter?",
       "revId": "bddb45ad7e9e4c894853568ed070ef01927a1197",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e383c65_4e46d914",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/SshTraceIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-04-04T10:45:54Z",
+      "side": 1,
+      "message": "Sure, done.\n\nFYI I thought it\u0027s not necessary to extend the local PerformanceLogEntry test class since no test makes any assertion of the end time, but it can\u0027t harm to add it there.",
+      "parentUuid": "c3b649ff_e23e50fd",
+      "revId": "bddb45ad7e9e4c894853568ed070ef01927a1197",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

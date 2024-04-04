@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3205f899_5e538280",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2024-04-04T16:18:58Z",
+      "side": 1,
+      "message": "@ekempin@google.com could this issue be made public so I can include it in the release notes for 3.10?",
+      "revId": "21d3d701026c81d63f7b8906d7682803822a1427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

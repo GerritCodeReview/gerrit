@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb2ea8b9_fc36377d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-04-04T14:57:08Z",
+      "side": 1,
+      "message": "Missing documentation here [1]\n\n[1]: https://gerrit.googlesource.com/gerrit/+/refs/heads/master/Documentation/pgm-passwd.txt",
+      "revId": "faae2c593afdb55c28a8702f231abd8deab3f67f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53a87b2f_992ff3dd",
+        "filename": "java/com/google/gerrit/pgm/SetPasswd.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-04-04T14:57:08Z",
+      "side": 1,
+      "message": "nit: `@Nullable`",
+      "range": {
+        "startLine": 32,
+        "startChar": 34,
+        "endLine": 32,
+        "endChar": 51
+      },
+      "revId": "faae2c593afdb55c28a8702f231abd8deab3f67f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

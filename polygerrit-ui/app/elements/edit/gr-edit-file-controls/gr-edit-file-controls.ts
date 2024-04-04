@@ -11,6 +11,7 @@ import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
 import {fire} from '../../../utils/event-util';
 import {DropdownLink} from '../../../types/common';
+import {SpecialFilePath} from '../../../constants/constants';
 
 interface EditAction {
   label: string;
@@ -76,12 +77,18 @@ export class GrEditFileControls extends LitElement {
 
   _computeFileActions(actions: EditAction[]): DropdownLink[] {
     // TODO(kaspern): conditionally disable some actions based on file status.
-    return actions.map(action => {
-      return {
-        name: action.label,
-        id: action.id,
-      };
-    });
+    return actions
+      .filter(
+        action =>
+          this.filePath !== SpecialFilePath.COMMIT_MESSAGE ||
+          action.label === GrEditConstants.Actions.OPEN.label
+      )
+      .map(action => {
+        return {
+          name: action.label,
+          id: action.id,
+        };
+      });
   }
 }
 

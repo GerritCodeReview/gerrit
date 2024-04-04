@@ -1489,7 +1489,11 @@ export class GrFileList extends LitElement {
         this.editMode,
         () => html`
           <gr-edit-file-controls
-            class=${this.computeClass('', file.__path)}
+            class=${this.computeClass(
+              '',
+              file.__path,
+              /* showForCommitMessage */ true
+            )}
             .filePath=${file.__path}
           ></gr-edit-file-controls>
         `
@@ -2276,11 +2280,17 @@ export class GrFileList extends LitElement {
     return delta > 0 ? 'added' : 'removed';
   }
 
-  private computeClass(baseClass?: string, path?: string) {
-    const classes = [];
-    if (baseClass) classes.push(baseClass);
-    if (isMagicPath(path)) classes.push('invisible');
-    return classes.join(' ');
+  // Private but used in tests.
+  computeClass(baseClass = '', path?: string, showForCommitMessage = false) {
+    const classes = [baseClass];
+    if (
+      !(showForCommitMessage && path === SpecialFilePath.COMMIT_MESSAGE) &&
+      isMagicPath(path)
+    ) {
+      classes.push('invisible');
+    }
+
+    return classes.join(' ').trim();
   }
 
   private computePathClass(path: string | undefined) {

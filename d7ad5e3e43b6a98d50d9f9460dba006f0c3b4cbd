@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1250b45_9be6f855",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2024-04-04T11:21:04Z",
+      "side": 1,
+      "message": "Sorry, it\u0027s closed 😞. The commit message here is a summary of all needed steps to integrate, though.",
+      "parentUuid": "723e7d90_9a7be8fc",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 48
+      },
+      "revId": "d7ad5e3e43b6a98d50d9f9460dba006f0c3b4cbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0637491e_5872be13",

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b01999f_be25849f",
+        "filename": "javatests/com/google/gerrit/server/query/change/FakeQueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-04-04T15:32:26Z",
+      "side": 0,
+      "message": "Where has this test gone in stable-3.9?",
+      "range": {
+        "startLine": 169,
+        "startChar": 14,
+        "endLine": 169,
+        "endChar": 64
+      },
+      "revId": "fd53a156fdfe13f092996e07ac877dc767f91073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

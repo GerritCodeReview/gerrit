@@ -13,6 +13,16 @@ import {StorageService} from '../../../services/storage/gr-storage';
 import {storageServiceToken} from '../../../services/storage/gr-storage_impl';
 import {testResolver} from '../../../test/common-test-setup';
 import {GrDropdownList} from '../gr-dropdown-list/gr-dropdown-list';
+import {
+  NavigationService,
+  navigationToken,
+} from '../../core/gr-navigation/gr-navigation';
+import {SinonStubbedMember} from 'sinon';
+import {
+  NumericChangeId,
+  RepoName,
+  RevisionPatchSetNum,
+} from '../../../api/rest-api';
 
 const emails = [
   {
@@ -179,6 +189,27 @@ suite('gr-editable-content tests', () => {
       assert.isFalse(
         queryAndAssert<GrButton>(element, 'gr-button[primary]').disabled
       );
+    });
+
+    suite('in editMode', () => {
+      test('click opens edit url', async () => {
+        const setUrlStub = sinon.stub(testResolver(navigationToken), 'setUrl');
+        element.editMode = true;
+        element.changeNum = 42 as NumericChangeId;
+        element.repoName = 'Test Repo' as RepoName;
+        element.patchNum = '1' as RevisionPatchSetNum;
+        await element.updateComplete;
+        const editButton = queryAndAssert<GrButton>(
+          element,
+          'gr-button.edit-commit-message'
+        );
+        editButton.click();
+        assert.isTrue(setUrlStub.called);
+        assert.equal(
+          setUrlStub.lastCall.args[0],
+          '/c/Test+Repo/+/42/1//COMMIT_MSG,edit'
+        );
+      });
     });
   });
 

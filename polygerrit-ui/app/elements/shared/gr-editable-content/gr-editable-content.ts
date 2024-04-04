@@ -12,10 +12,11 @@ import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../../plugins/gr-endpoint-slot/gr-endpoint-slot';
 import {subscribe} from '../../lit/subscription-controller';
 import {changeModelToken} from '../../../models/change/change-model';
+import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {fire, fireAlert} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
 import {debounce, DelayedTask} from '../../../utils/async-util';
-import {queryAndAssert} from '../../../utils/common-util';
+import {assertIsDefined, queryAndAssert} from '../../../utils/common-util';
 import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import {Interaction} from '../../../constants/reporting';
 import {LitElement, html} from 'lit';
@@ -28,7 +29,13 @@ import {
   EditableContentSaveEvent,
   ValueChangedEvent,
 } from '../../../types/events';
-import {EmailInfo, GitPersonInfo} from '../../../types/common';
+import {
+  EmailInfo,
+  GitPersonInfo,
+  NumericChangeId,
+  RepoName,
+  RevisionPatchSetNum,
+} from '../../../types/common';
 import {nothing} from 'lit';
 import {classMap} from 'lit/directives/class-map.js';
 import {when} from 'lit/directives/when.js';
@@ -36,6 +43,8 @@ import {fontStyles} from '../../../styles/gr-font-styles';
 import {storageServiceToken} from '../../../services/storage/gr-storage_impl';
 import {resolve} from '../../../models/dependency';
 import {formStyles} from '../../../styles/form-styles';
+import {createEditUrl} from '../../../models/views/change';
+import {SpecialFilePath} from '../../../constants/constants';
 
 const RESTORED_MESSAGE = 'Content restored from a previous edit.';
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
@@ -101,6 +110,14 @@ export class GrEditableContent extends LitElement {
   @state()
   latestCommitter?: GitPersonInfo;
 
+  @state() editMode = false;
+
+  @state() repoName?: RepoName;
+
+  @state() changeNum?: NumericChangeId;
+
+  @state() patchNum?: RevisionPatchSetNum;
+
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly getChangeModel = resolve(this, changeModelToken);
@@ -108,6 +125,8 @@ export class GrEditableContent extends LitElement {
   private readonly getStorage = resolve(this, storageServiceToken);
 
   private readonly reporting = getAppContext().reportingService;
+
+  private readonly getNavigation = resolve(this, navigationToken);
 
   // Tests use this so needs to be non private
   storeTask?: DelayedTask;
@@ -118,6 +137,26 @@ export class GrEditableContent extends LitElement {
       this,
       () => this.getChangeModel().latestCommitter$,
       x => (this.latestCommitter = x)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().editMode$,
+      editMode => (this.editMode = editMode)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().repo$,
+      x => (this.repoName = x)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().changeNum$,
+      x => (this.changeNum = x)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().patchNum$,
+      x => (this.patchNum = x)
     );
   }
 
@@ -458,6 +497,20 @@ export class GrEditableContent extends LitElement {
   }
 
   async handleEditCommitMessage() {
+    if (this.editMode) {
+      assertIsDefined(this.changeNum, 'changeNum');
+      assertIsDefined(this.repoName, 'repoName');
+      this.getNavigation().setUrl(
+        createEditUrl({
+          changeNum: this.changeNum,
+          repo: this.repoName,
+          patchNum: this.patchNum,
+          editView: {path: SpecialFilePath.COMMIT_MESSAGE},
+        })
+      );
+
+      return;
+    }
     await this.loadEmails();
     this.editing = true;
     await this.updateComplete;

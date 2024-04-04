@@ -1175,12 +1175,7 @@ suite('gr-change-view tests', () => {
     assert.isTrue(
       element.computeHideEditCommitMessage(true, false, mergedChanged)
     );
-    assert.isTrue(
-      element.computeHideEditCommitMessage(true, false, change, true)
-    );
-    assert.isFalse(
-      element.computeHideEditCommitMessage(true, false, change, false)
-    );
+    assert.isFalse(element.computeHideEditCommitMessage(true, false, change));
   });
 
   test('handleCommitMessageSave trims trailing whitespace', async () => {

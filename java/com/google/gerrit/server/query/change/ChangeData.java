@@ -712,7 +712,8 @@ public class ChangeData {
       @SuppressWarnings("unused")
       var unused = notes();
     }
-    return notes.getRevision();
+    metaRevision = notes.getRevision();
+    return metaRevision;
   }
 
   boolean fastIsVisibleTo(CurrentUser user) {

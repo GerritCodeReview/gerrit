@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "692d56c8_0702ef85",
+        "filename": "javatests/com/google/gerrit/server/query/change/FakeQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-04-04T08:43:03Z",
+      "side": 0,
+      "message": "This test is no longer relevant.\nIn fact making the test `invisibleChangesPaginatedWithPagination` run for all pagination types by removing line 243 shows that also PaginationType NONE will query more for back filling the results that the user specified.",
+      "range": {
+        "startLine": 212,
+        "startChar": 0,
+        "endLine": 238,
+        "endChar": 3
+      },
+      "revId": "593cb7b848f09803036908e9e7c5a02cc0bb42aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

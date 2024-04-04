@@ -691,10 +691,10 @@ public class ChangeData {
     return this;
   }
 
-  public ObjectId metaRevisionOrThrow() {
+  public Optional<ObjectId> metaRevision() {
     if (notes == null) {
       if (metaRevision != null) {
-        return metaRevision;
+        return Optional.of(metaRevision);
       }
       if (refStates != null) {
         ImmutableSet<RefState> refs = refStates.get(project);
@@ -702,18 +702,25 @@ public class ChangeData {
           String metaRef = RefNames.changeMetaRef(getId());
           for (RefState r : refs) {
             if (r.ref().equals(metaRef)) {
-              return r.id();
+              return Optional.of(r.id());
             }
           }
         }
       }
-      throwIfNotLazyLoad("metaRevision");
+      if (!lazyload()) {
+        return Optional.empty();
+      }
 
       @SuppressWarnings("unused")
       var unused = notes();
     }
     metaRevision = notes.getRevision();
-    return metaRevision;
+    return Optional.of(metaRevision);
+  }
+
+  public ObjectId metaRevisionOrThrow() {
+    return metaRevision()
+        .orElseThrow(() -> new IllegalStateException("'metaRevision' field not populated"));
   }
 
   boolean fastIsVisibleTo(CurrentUser user) {

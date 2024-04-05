@@ -51,6 +51,7 @@ import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.entities.converter.ChangeInputProtoConverter;
 import com.google.gerrit.extensions.api.accounts.AccountInput;
 import com.google.gerrit.extensions.api.changes.ApplyPatchInput;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
@@ -82,7 +83,11 @@ import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.git.validators.CommitValidationMessage;
+import com.google.gerrit.server.restapi.change.ApplyPatchUtil;
+import com.google.gerrit.server.restapi.change.CreateChange;
+import com.google.gerrit.server.restapi.change.CreateChange.CommitTreeSupplier;
 import com.google.gerrit.server.submit.ChangeAlreadyMergedException;
+import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.gson.stream.JsonReader;
 import com.google.inject.Inject;
@@ -110,9 +115,13 @@ import org.junit.Test;
 
 @UseClockStep
 public class CreateChangeIT extends AbstractDaemonTest {
+  private static final ChangeInputProtoConverter CHANGE_INPUT_PROTO_CONVERTER =
+      ChangeInputProtoConverter.INSTANCE;
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private ExtensionRegistry extensionRegistry;
+  @Inject private CreateChange createChangeImpl;
+  @Inject private BatchUpdate.Factory updateFactory;;
 
   @Before
   public void addNonCommitHead() throws Exception {
@@ -1157,6 +1166,26 @@ public class CreateChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void createChangeWithCommitTreeSupplier_success() throws Exception {
+    createBranch(BranchNameKey.create(project, "other"));
+    ChangeInput input = newChangeInput(ChangeStatus.NEW);
+    input.branch = "other";
+    input.subject = "custom commit message";
+    ApplyPatchInput applyPatchInput = new ApplyPatchInput();
+    applyPatchInput.patch = PATCH_INPUT;
+    CommitTreeSupplier commitTreeSupplier =
+        (repo, oi, in, mergeTip) ->
+            ApplyPatchUtil.applyPatch(repo, oi, applyPatchInput, mergeTip).getTreeId();
+
+    ChangeInfo info = assertCreateWithCommitTreeSupplierSucceeds(input, commitTreeSupplier);
+
+    DiffInfo diff = gApi.changes().id(info.id).current().file(PATCH_FILE_NAME).diff();
+    assertDiffForNewFile(diff, info.currentRevision, PATCH_FILE_NAME, PATCH_NEW_FILE_CONTENT);
+    assertThat(info.revisions.get(info.currentRevision).commit.message)
+        .isEqualTo("custom commit message\n\nChange-Id: " + info.changeId + "\n");
+  }
+
+  @Test
   @UseSystemTime
   public void sha1sOfTwoNewChangesDiffer() throws Exception {
     ChangeInput changeInput = newChangeInput(ChangeStatus.NEW);
@@ -1348,6 +1377,18 @@ public class CreateChangeIT extends AbstractDaemonTest {
     // The original result doesn't contain any revision data.
     ChangeInfo out = gApi.changes().id(res.changeId).get(ALL_REVISIONS, CURRENT_COMMIT);
     validateCreateSucceeds(in, out);
+    return out;
+  }
+
+  private ChangeInfo assertCreateWithCommitTreeSupplierSucceeds(
+      ChangeInput input, CommitTreeSupplier commitTreeSupplier) throws Exception {
+    ChangeInfo res =
+        createChangeImpl
+            .execute(updateFactory, CHANGE_INPUT_PROTO_CONVERTER.toProto(input), commitTreeSupplier)
+            .value();
+    // The original result doesn't contain any revision data.
+    ChangeInfo out = gApi.changes().id(res.changeId).get(ALL_REVISIONS, CURRENT_COMMIT);
+    validateCreateSucceeds(input, out);
     return out;
   }
 

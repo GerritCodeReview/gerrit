@@ -315,6 +315,8 @@ export class GrApplyFixDialog extends LitElement {
           fixSuggestion.replacements
         );
       } else {
+        // TODO(b/227463363) Remove once Robot Comments are deprecated.
+        // We don't use this for user suggestions or comments.fix_suggestions.
         res = await this.restApiService.getRobotCommentFixPreview(
           this.changeNum,
           this.patchNum,

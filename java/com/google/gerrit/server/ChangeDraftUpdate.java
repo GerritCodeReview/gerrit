@@ -80,7 +80,9 @@ public interface ChangeDraftUpdate {
   default <UpdateT extends ChangeDraftUpdate> Optional<UpdateT> toOptionalChangeDraftUpdateSubtype(
       Class<UpdateT> subtype) {
     if (this.getClass().isAssignableFrom(subtype)) {
-      return Optional.of((UpdateT) this);
+      @SuppressWarnings("unchecked")
+      UpdateT update = (UpdateT) this;
+      return Optional.of(update);
     }
     return Optional.empty();
   }

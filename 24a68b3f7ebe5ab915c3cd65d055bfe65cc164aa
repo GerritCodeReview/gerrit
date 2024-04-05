@@ -70,6 +70,24 @@
       "parentUuid": "58afc1f1_912b285f",
       "revId": "24a68b3f7ebe5ab915c3cd65d055bfe65cc164aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "678a79e7_7c625627",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-04-05T16:27:00Z",
+      "side": 1,
+      "message": "\u003e Perhaps plugin could be adjusted, WDYT?\n\nThe plugin doesn\u0027t have data available to it other than the change number, so it can\u0027t be adjusted independently. Other systems providing data to the plugin would need to be changed to store the project in addition to the change number and likely would need at least some historical data backfilled.\n\n\u003e I would suggest to do the revert now and possibly deprecating it. A lookup by change number only could be ambiguous in Gerrit servers with multiple imported server-is.\n\nSince as you say it\u0027s only a concern in that case, should it even be deprecated?",
+      "parentUuid": "58afc1f1_912b285f",
+      "revId": "24a68b3f7ebe5ab915c3cd65d055bfe65cc164aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,24 @@
       "message": "@ekempin@google.com Can this issue be made public so it can be included in the release notes?",
       "revId": "48b299e2c0a6c8f91c41484e2b87b1bc317b5625",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2eeab65_4985e787",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-04-05T06:41:46Z",
+      "side": 1,
+      "message": "No, that\u0027s a Google-internal feature request that we cannot make public. The release notes generation should ignore \"Bug: Google ...\" footers. The commit message already contains all relevant information.",
+      "parentUuid": "95658af7_d9b9b263",
+      "revId": "48b299e2c0a6c8f91c41484e2b87b1bc317b5625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

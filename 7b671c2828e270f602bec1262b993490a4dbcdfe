@@ -535,6 +535,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3de0d516_7c01f2cb",
+        "filename": "java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
+        "patchSetId": 43
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2024-04-05T12:47:00Z",
+      "side": 1,
+      "message": "Should be correct now, @luca.milanesio@gmail.com please double check",
+      "parentUuid": "1e120626_becf4b2a",
+      "range": {
+        "startLine": 118,
+        "startChar": 34,
+        "endLine": 118,
+        "endChar": 46
+      },
+      "revId": "7b671c2828e270f602bec1262b993490a4dbcdfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3886733c_e0171388",
         "filename": "java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
         "patchSetId": 43

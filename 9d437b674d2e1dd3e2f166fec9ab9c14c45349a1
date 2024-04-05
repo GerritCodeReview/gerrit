@@ -100,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "222692d8_16eacb50",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-04-05T11:34:23Z",
+      "side": 1,
+      "message": "We don\u0027t have any evidence that the \"Load change data for lazyLoad options\" is a significant contributor to the change query latency. Hence abandoning this change for now.",
+      "parentUuid": "c315508a_d83ee141",
+      "revId": "9d437b674d2e1dd3e2f166fec9ab9c14c45349a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "216e611b_f9a6e784",

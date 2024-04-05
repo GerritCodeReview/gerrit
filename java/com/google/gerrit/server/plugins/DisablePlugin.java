@@ -53,7 +53,12 @@ public class DisablePlugin implements RestModifyView<PluginResource, Input> {
     if (mandatoryPluginsCollection.contains(name)) {
       throw new MethodNotAllowedException("Plugin " + name + " is mandatory");
     }
-    loader.disablePlugins(ImmutableSet.of(name));
+    try {
+      loader.disablePlugins(ImmutableSet.of(name));
+    } catch (PluginInstallException e) {
+      throw new MethodNotAllowedException("Plugin " + name + " cannot be disabled", e);
+    }
+
     return Response.ok(ListPlugins.toPluginInfo(loader.get(name)));
   }
 }

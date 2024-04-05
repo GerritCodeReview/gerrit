@@ -221,7 +221,7 @@ public class PluginLoader implements LifecycleListener {
     toCleanup.add(plugin);
   }
 
-  public void disablePlugins(Set<String> names) {
+  public void disablePlugins(Set<String> names) throws PluginInstallException {
     if (!isRemoteAdminEnabled()) {
       logger.atWarning().log(
           "Remote plugin administration is disabled, ignoring disablePlugins(%s)", names);
@@ -233,6 +233,12 @@ public class PluginLoader implements LifecycleListener {
         Plugin active = running.get(name);
         if (active == null) {
           continue;
+        }
+
+        if (active.getApiModule().isPresent()) {
+          throw new PluginInstallException(
+              String.format(
+                  "Plugin %s has registered an ApiModule therefore it cannot be disabled", name));
         }
 
         if (mandatoryPlugins.contains(name)) {
@@ -381,11 +387,14 @@ public class PluginLoader implements LifecycleListener {
         try {
           logger.atInfo().log("Reloading plugin %s", name);
           Plugin newPlugin = runPlugin(name, active.getSrcFile(), active);
-          logger.atInfo().log(
-              "Reloaded plugin %s%s, version %s",
-              newPlugin.getName(),
-              newPlugin.getApiModule().isPresent() ? " (w/ ApiModule)" : "",
-              newPlugin.getVersion());
+
+          if (newPlugin != active) {
+            logger.atInfo().log(
+                "Reloaded plugin %s%s, version %s",
+                newPlugin.getName(),
+                newPlugin.getApiModule().isPresent() ? " (w/ ApiModule)" : "",
+                newPlugin.getVersion());
+          }
         } catch (PluginInstallException e) {
           logger.atWarning().withCause(e.getCause()).log("Cannot reload plugin %s", name);
           throw e;
@@ -522,6 +531,13 @@ public class PluginLoader implements LifecycleListener {
         return oldPlugin;
       }
 
+      if (oldPlugin != null && oldPlugin.getApiModule().isPresent()) {
+        throw new PluginInstallException(
+            String.format(
+                "Plugin %s has registered an ApiModule therefore its restart/reload is not allowed",
+                name));
+      }
+
       Plugin newPlugin = loadPlugin(name, plugin, snapshot);
       if (newPlugin.getCleanupHandle() != null) {
         cleanupHandles.put(newPlugin, newPlugin.getCleanupHandle());
@@ -573,7 +589,13 @@ public class PluginLoader implements LifecycleListener {
       }
     }
     for (String name : unload) {
-      unloadPlugin(running.get(name));
+      Plugin runningPlugin = running.get(name);
+
+      if (runningPlugin.getApiModule().isPresent()) {
+        logger.atWarning().log("Cannot remove plugin %s as it has registered an ApiModule", name);
+      } else {
+        unloadPlugin(running.get(name));
+      }
     }
   }
 

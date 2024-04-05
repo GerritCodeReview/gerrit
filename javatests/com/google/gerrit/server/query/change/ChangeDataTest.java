@@ -34,8 +34,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ChangeDataTest {
-  private static final String GERRIT_SERVER_ID = UUID.randomUUID().toString();
-
   @Mock private ChangeNotes changeNotesMock;
 
   @Test
@@ -55,7 +53,7 @@ public class ChangeDataTest {
   @Test
   public void getChangeVirtualIdUsingAlgorithm() throws Exception {
     Project.NameKey project = Project.nameKey("project");
-    final int encodedChangeNum = 12345678;
+    final Change.Id encodedChangeNum = Change.id(12345678);
 
     when(changeNotesMock.getServerId()).thenReturn(UUID.randomUUID().toString());
 
@@ -65,11 +63,10 @@ public class ChangeDataTest {
             Change.id(1),
             1,
             ObjectId.zeroId(),
-            GERRIT_SERVER_ID,
             (s, c) -> encodedChangeNum,
             changeNotesMock);
 
-    assertThat(cd.getVirtualId().get()).isEqualTo(encodedChangeNum);
+    assertThat(cd.virtualId().get()).isEqualTo(encodedChangeNum.get());
   }
 
   private static PatchSet newPatchSet(Change.Id changeId, int num) {

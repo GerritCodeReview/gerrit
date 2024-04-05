@@ -69,7 +69,7 @@ public class StarredChanges
       throws RestApiException, PermissionBackendException, IOException {
     IdentifiedUser user = parent.getUser();
     ChangeResource change = changes.parse(TopLevelResource.INSTANCE, id);
-    if (starredChangesReader.isStarred(user.getAccountId(), change.getId())) {
+    if (starredChangesReader.isStarred(user.getAccountId(), change.getVirtualId())) {
       return new AccountResource.StarredChange(user, change);
     }
     throw new ResourceNotFoundException(id);
@@ -125,7 +125,7 @@ public class StarredChanges
       }
 
       try {
-        starredChangesWriter.star(self.get().getAccountId(), change.getId());
+        starredChangesWriter.star(self.get().getAccountId(), change.getVirtualId());
       } catch (DuplicateKeyException e) {
         return Response.none();
       }
@@ -168,7 +168,7 @@ public class StarredChanges
       if (!self.get().hasSameAccountId(rsrc.getUser())) {
         throw new AuthException("not allowed remove starred change");
       }
-      starredChangesWriter.unstar(self.get().getAccountId(), rsrc.getChange().getId());
+      starredChangesWriter.unstar(self.get().getAccountId(), rsrc.getVirtualId());
       return Response.none();
     }
   }

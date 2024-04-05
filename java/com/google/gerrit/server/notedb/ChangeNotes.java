@@ -553,7 +553,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     return getDraftComments(author, null);
   }
 
-  ImmutableList<HumanComment> getDraftComments(Account.Id author, @Nullable Ref ref) {
+  public ImmutableList<HumanComment> getDraftComments(Account.Id author, @Nullable Ref ref) {
     loadDraftComments(author, ref);
     // Filter out any zombie draft comments. These are drafts that are also in
     // the published map, and arise when the update to All-Users to delete them

@@ -57,6 +57,30 @@
       ],
       "revId": "d3b84d77200f4d46cad1973431eb662c1877c6e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a11cd0dc_4367dc48",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 500,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-04-05T11:45:54Z",
+      "side": 1,
+      "message": "Ignore the edit please, forgot to un-attach.",
+      "parentUuid": "eb02248c_bdd99cdd",
+      "range": {
+        "startLine": 500,
+        "startChar": 8,
+        "endLine": 500,
+        "endChar": 73
+      },
+      "revId": "d3b84d77200f4d46cad1973431eb662c1877c6e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -3,6 +3,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b8e51734_d47d3d44",
+        "filename": "java/com/google/gerrit/server/change/ChangeFinder.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-04-05T11:15:56Z",
+      "side": 1,
+      "message": "```suggestion\n    Set\u003cChange.Id\u003e seen \u003d Sets.newHashSetWithExpectedSize(cds.size());\n```",
+      "range": {
+        "startLine": 252,
+        "startChar": 8,
+        "endLine": 252,
+        "endChar": 14
+      },
+      "revId": "712edcf4908e925f9011c33ec6002b6e265a0ea0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab3174e4_7d56f07a",
+        "filename": "java/com/google/gerrit/server/change/ChangeFinder.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-04-05T11:15:56Z",
+      "side": 1,
+      "message": "```suggestion\n      if (seen.add(cd.virtualId())) {\n```",
+      "range": {
+        "startLine": 254,
+        "startChar": 22,
+        "endLine": 254,
+        "endChar": 31
+      },
+      "revId": "712edcf4908e925f9011c33ec6002b6e265a0ea0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "588cf14b_2945aff1",
         "filename": "java/com/google/gerrit/server/index/IndexUtils.java",
         "patchSetId": 45
@@ -42,6 +88,46 @@
         "startChar": 0,
         "endLine": 689,
         "endChar": 3
+      },
+      "revId": "712edcf4908e925f9011c33ec6002b6e265a0ea0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c9f9fbb_973e6c9c",
+        "filename": "java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-04-05T11:15:56Z",
+      "side": 1,
+      "message": "Not needed, if we use `cd.virtualId()` at L329\n\n\n```suggestion\n    Set\u003cChange.Id\u003e seen \u003d new HashSet\u003c\u003e();\n```",
+      "revId": "712edcf4908e925f9011c33ec6002b6e265a0ea0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29f6de37_a1131551",
+        "filename": "java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-04-05T11:15:56Z",
+      "side": 1,
+      "message": "```suggestion\n        if (!seen.add(cd.virtualId())) {\n```",
+      "range": {
+        "startLine": 329,
+        "startChar": 25,
+        "endLine": 329,
+        "endChar": 36
       },
       "revId": "712edcf4908e925f9011c33ec6002b6e265a0ea0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

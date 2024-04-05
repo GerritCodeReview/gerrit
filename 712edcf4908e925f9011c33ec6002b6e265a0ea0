@@ -3,6 +3,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "588cf14b_2945aff1",
+        "filename": "java/com/google/gerrit/server/index/IndexUtils.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-04-05T11:09:32Z",
+      "side": 1,
+      "message": "This creates one Set at runtime that are later discarded at L97.\nAlso, if the method exist at L94, the returned Set is mutable, whilst it shouln\u0027t.\n\n \n\n```suggestion\n    Set\u003cString\u003e requiredFields \u003d CHANGENUM_SPEC.getName() !\u003d null ?\n      ImmutableSet.of(NUMERIC_ID_STR_SPEC.getName(), PROJECT_SPEC.getName(), CHANGENUM_SPEC.getName()) :\n      ImmutableSet.of(NUMERIC_ID_STR_SPEC.getName(), PROJECT_SPEC.getName());\n```",
+      "range": {
+        "startLine": 86,
+        "startChar": 0,
+        "endLine": 91,
+        "endChar": 5
+      },
+      "revId": "712edcf4908e925f9011c33ec6002b6e265a0ea0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4fc38012_0f4b55a0",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 689,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-04-05T11:09:32Z",
+      "side": 1,
+      "message": "Not sure this is still needed: when using the `virtualId()` method we get a `Change.Id` which is unique.",
+      "range": {
+        "startLine": 687,
+        "startChar": 0,
+        "endLine": 689,
+        "endChar": 3
+      },
+      "revId": "712edcf4908e925f9011c33ec6002b6e265a0ea0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "47a3063c_e4f7e054",
         "filename": "java/com/google/gerrit/server/restapi/account/DeleteDraftCommentsUtil.java",
         "patchSetId": 45

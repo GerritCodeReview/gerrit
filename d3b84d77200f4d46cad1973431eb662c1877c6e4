@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fdc9dab5_b0e41b72",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-04-05T17:06:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "406312ce_d135e301",
+      "revId": "d3b84d77200f4d46cad1973431eb662c1877c6e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eb02248c_bdd99cdd",
@@ -73,6 +91,30 @@
       "side": 1,
       "message": "Ignore the edit please, forgot to un-attach.",
       "parentUuid": "eb02248c_bdd99cdd",
+      "range": {
+        "startLine": 500,
+        "startChar": 8,
+        "endLine": 500,
+        "endChar": 73
+      },
+      "revId": "d3b84d77200f4d46cad1973431eb662c1877c6e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c8da36a_6b949dae",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 500,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-04-05T17:06:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a11cd0dc_4367dc48",
       "range": {
         "startLine": 500,
         "startChar": 8,

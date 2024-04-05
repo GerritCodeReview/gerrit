@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbf380d3_d18c8cb1",
+        "filename": "java/com/google/gerrit/server/change/ChangeFinder.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2024-04-05T11:49:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8e51734_d47d3d44",
+      "range": {
+        "startLine": 252,
+        "startChar": 8,
+        "endLine": 252,
+        "endChar": 14
+      },
+      "revId": "712edcf4908e925f9011c33ec6002b6e265a0ea0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ab3174e4_7d56f07a",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-04-05T11:15:56Z",
       "side": 1,
       "message": "```suggestion\n      if (seen.add(cd.virtualId())) {\n```",
+      "range": {
+        "startLine": 254,
+        "startChar": 22,
+        "endLine": 254,
+        "endChar": 31
+      },
+      "revId": "712edcf4908e925f9011c33ec6002b6e265a0ea0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9696366b_4c4fd914",
+        "filename": "java/com/google/gerrit/server/change/ChangeFinder.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2024-04-05T11:49:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab3174e4_7d56f07a",
       "range": {
         "startLine": 254,
         "startChar": 22,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb0771f4_fcc5d25f",
+        "filename": "java/com/google/gerrit/server/index/IndexUtils.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2024-04-05T11:49:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "588cf14b_2945aff1",
+      "range": {
+        "startLine": 86,
+        "startChar": 0,
+        "endLine": 91,
+        "endChar": 5
+      },
+      "revId": "712edcf4908e925f9011c33ec6002b6e265a0ea0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4fc38012_0f4b55a0",
@@ -83,6 +155,30 @@
       "writtenOn": "2024-04-05T11:09:32Z",
       "side": 1,
       "message": "Not sure this is still needed: when using the `virtualId()` method we get a `Change.Id` which is unique.",
+      "range": {
+        "startLine": 687,
+        "startChar": 0,
+        "endLine": 689,
+        "endChar": 3
+      },
+      "revId": "712edcf4908e925f9011c33ec6002b6e265a0ea0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "52c36f31_2dfd5229",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 689,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2024-04-05T11:49:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4fc38012_0f4b55a0",
       "range": {
         "startLine": 687,
         "startChar": 0,
@@ -110,6 +206,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d268903c_2be00813",
+        "filename": "java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2024-04-05T11:49:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c9f9fbb_973e6c9c",
+      "revId": "712edcf4908e925f9011c33ec6002b6e265a0ea0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "29f6de37_a1131551",
@@ -123,6 +237,30 @@
       "writtenOn": "2024-04-05T11:15:56Z",
       "side": 1,
       "message": "```suggestion\n        if (!seen.add(cd.virtualId())) {\n```",
+      "range": {
+        "startLine": 329,
+        "startChar": 25,
+        "endLine": 329,
+        "endChar": 36
+      },
+      "revId": "712edcf4908e925f9011c33ec6002b6e265a0ea0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de281a95_96be4769",
+        "filename": "java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2024-04-05T11:49:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "29f6de37_a1131551",
       "range": {
         "startLine": 329,
         "startChar": 25,
@@ -150,6 +288,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3f279c3_13ba3038",
+        "filename": "java/com/google/gerrit/server/restapi/account/DeleteDraftCommentsUtil.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2024-04-05T11:49:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47a3063c_e4f7e054",
+      "revId": "712edcf4908e925f9011c33ec6002b6e265a0ea0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "83fe4ef6_ac3851d8",
@@ -167,6 +323,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "421522d1_2fea67b5",
+        "filename": "java/com/google/gerrit/server/restapi/account/DeleteDraftCommentsUtil.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2024-04-05T11:49:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "83fe4ef6_ac3851d8",
+      "revId": "712edcf4908e925f9011c33ec6002b6e265a0ea0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3409408f_085961e9",
@@ -180,6 +354,24 @@
       "writtenOn": "2024-04-05T10:33:09Z",
       "side": 1,
       "message": "Unused, can be removed.",
+      "revId": "712edcf4908e925f9011c33ec6002b6e265a0ea0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "df47b0b3_9987afaa",
+        "filename": "java/com/google/gerrit/server/restapi/account/DeleteDraftCommentsUtil.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2024-04-05T11:49:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3409408f_085961e9",
       "revId": "712edcf4908e925f9011c33ec6002b6e265a0ea0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

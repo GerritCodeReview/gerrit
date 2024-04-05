@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e27aed1_aa97e852",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 46
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-04-05T12:28:18Z",
+      "side": 1,
+      "message": "This is effectively unused: should be removed as a separate change and rebase this changed on top of it.",
+      "range": {
+        "startLine": 222,
+        "startChar": 29,
+        "endLine": 222,
+        "endChar": 51
+      },
+      "revId": "a943ab5dc123d8b951cc85a9bdeb294e952ea7c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2475d06d_b07d9b0b",
+        "filename": "java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
+        "patchSetId": 46
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-04-05T12:28:18Z",
+      "side": 1,
+      "message": "This looks wrong: it should be IMHO `.idStr()` as it should be still using the legacy id.",
+      "range": {
+        "startLine": 118,
+        "startChar": 34,
+        "endLine": 118,
+        "endChar": 46
+      },
+      "revId": "a943ab5dc123d8b951cc85a9bdeb294e952ea7c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe2e2170_b4e4661d",
+        "filename": "java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
+        "patchSetId": 46
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-04-05T12:28:18Z",
+      "side": 1,
+      "message": "This should be using the `changeNumber` query.\n\nAlso, we should change in Gerrit from `byLegacyChangeId` to `byChangeNumber` when the id is a change number and not a virtual id.",
+      "range": {
+        "startLine": 122,
+        "startChar": 34,
+        "endLine": 122,
+        "endChar": 39
+      },
+      "revId": "a943ab5dc123d8b951cc85a9bdeb294e952ea7c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

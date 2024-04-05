@@ -22,6 +22,30 @@
       },
       "revId": "962cb155efbfe8ef93e8e0f0c89a34d64aaa8d69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b9f6ced_3cc964f9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-04-05T06:39:34Z",
+      "side": 1,
+      "message": "No, that\u0027s a Google-internal tracking issue that we cannot make public. The release notes generation should ignore \"Bug: Google ...\" footers. The commit message already contains all relevant information.",
+      "parentUuid": "a1082654_76159f9d",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 23
+      },
+      "revId": "962cb155efbfe8ef93e8e0f0c89a34d64aaa8d69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

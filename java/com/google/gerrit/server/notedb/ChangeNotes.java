@@ -214,23 +214,6 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       return changes.get(0).notes();
     }
 
-    /**
-     * Create change notes based on a list of {@link com.google.gerrit.entities.Change.Id}s. This
-     * requires using the Change index and should only be used when {@link
-     * com.google.gerrit.entities.Project.NameKey} and the numeric change ID are not available.
-     */
-    public List<ChangeNotes> createUsingIndexLookup(Collection<Change.Id> changeIds) {
-      List<ChangeNotes> notes = new ArrayList<>();
-      for (Change.Id changeId : changeIds) {
-        try {
-          notes.add(createCheckedUsingIndexLookup(changeId));
-        } catch (NoSuchChangeException e) {
-          // Ignore missing changes to match Access#get(Iterable) behavior.
-        }
-      }
-      return notes;
-    }
-
     public List<ChangeNotes> create(
         Repository repo,
         Project.NameKey project,

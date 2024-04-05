@@ -98,6 +98,7 @@ import {ChangeComments} from '../elements/diff/gr-comment-api/gr-comment-api';
 import {EditRevisionInfo, ParsedChangeInfo} from '../types/types';
 import {
   DetailedLabelInfo,
+  PatchSetNumber,
   QuickLabelInfo,
   SubmitRequirementExpressionInfo,
   SubmitRequirementResultInfo,
@@ -428,6 +429,7 @@ export function createChange(partial: Partial<ChangeInfo> = {}): ChangeInfo {
     owner: createAccountWithId(),
     // This is documented as optional, but actually always set.
     reviewers: createReviewers(),
+    current_revision_number: 1 as PatchSetNumber,
     ...partial,
   };
 }

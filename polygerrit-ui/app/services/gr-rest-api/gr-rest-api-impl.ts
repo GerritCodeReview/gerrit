@@ -1271,7 +1271,6 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
     // This list MUST be kept in sync with
     // ChangeIT#changeDetailsDoesNotRequireIndex and IndexPreloadingUtil#CHANGE_DETAIL_OPTIONS
-    // This list MUST be kept in sync with getResponseFormatOptions
     const options = [
       ListChangesOption.ALL_COMMITS,
       ListChangesOption.ALL_REVISIONS,
@@ -1291,35 +1290,6 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     }
     if (config?.receive?.enable_signed_push) {
       options.push(ListChangesOption.PUSH_CERTIFICATES);
-    }
-    return options;
-  }
-
-  async getResponseFormatOptions(): Promise<string[]> {
-    const config = await this.getConfig(false);
-
-    // This list MUST be kept in sync with
-    // ChangeIT#changeDetailsDoesNotRequireIndex and IndexPreloadingUtil#CHANGE_DETAIL_OPTIONS
-    // This list MUST be kept in sync with getChangeOptions
-    const options = [
-      'ALL_COMMITS',
-      'ALL_REVISIONS',
-      'CHANGE_ACTIONS',
-      'DETAILED_LABELS',
-      'DETAILED_ACCOUNTS',
-      'DOWNLOAD_COMMANDS',
-      'MESSAGES',
-      'REVIEWER_UPDATES',
-      'SUBMITTABLE',
-      'WEB_LINKS',
-      'SKIP_DIFFSTAT',
-      'SUBMIT_REQUIREMENTS',
-    ];
-    if (this.flagService.isEnabled(KnownExperimentId.REVISION_PARENTS_DATA)) {
-      options.push('PARENTS');
-    }
-    if (config?.receive?.enable_signed_push) {
-      options.push('PUSH_CERTIFICATES');
     }
     return options;
   }
@@ -2037,6 +2007,20 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     });
   }
 
+  getSaveReviewChangeOptions(): string[] {
+    const options = [
+      'CHANGE_ACTIONS',
+      'DETAILED_LABELS',
+      'DETAILED_ACCOUNTS',
+      'MESSAGES',
+      'REVIEWER_UPDATES',
+      'SUBMITTABLE',
+      'SKIP_DIFFSTAT',
+      'SUBMIT_REQUIREMENTS',
+    ];
+    return options;
+  }
+
   async saveChangeReview(
     changeNum: NumericChangeId,
     patchNum: PatchSetNum,
@@ -2045,7 +2029,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     fetchDetail?: boolean
   ): Promise<ReviewResult | undefined> {
     if (fetchDetail) {
-      review.response_format_options = await this.getResponseFormatOptions();
+      review.response_format_options = this.getSaveReviewChangeOptions();
     }
     const promises: [Promise<void>, Promise<string>] = [
       this.awaitPendingDiffDrafts(),

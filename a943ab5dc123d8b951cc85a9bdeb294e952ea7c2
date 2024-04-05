@@ -49,6 +49,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "78e14925_bc247f8a",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 46
+      },
+      "lineNbr": 1880,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-04-05T12:39:38Z",
+      "side": 1,
+      "message": "```suggestion\n      return args.queryProvider.get().byChangeNumber(id.get());\n```",
+      "range": {
+        "startLine": 1880,
+        "startChar": 38,
+        "endLine": 1880,
+        "endChar": 54
+      },
+      "revId": "a943ab5dc123d8b951cc85a9bdeb294e952ea7c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2475d06d_b07d9b0b",
         "filename": "java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
         "patchSetId": 46

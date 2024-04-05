@@ -1,0 +1,62 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "406312ce_d135e301",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-04-05T11:45:09Z",
+      "side": 1,
+      "message": "Is it possible to add a test for this?",
+      "revId": "d3b84d77200f4d46cad1973431eb662c1877c6e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb02248c_bdd99cdd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 500,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-04-05T11:45:09Z",
+      "side": 1,
+      "message": "should we be asserting these are all defined?\n\nOr is it sometimes expected some of them are actually undefined?",
+      "range": {
+        "startLine": 500,
+        "startChar": 8,
+        "endLine": 500,
+        "endChar": 73
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "8555704a_89676ec0",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.ts",
+              "range": {
+                "startLine": 500,
+                "startChar": 0,
+                "endLine": 501,
+                "endChar": 0
+              },
+              "replacement": "    if (this.editMode \u0026\u0026 this.changeNum !\u003d\u003d undefined \u0026\u0026 this.repoName !\u003d\u003d undefined \u0026\u0026 this.patchNum !\u003d\u003d undefined) {\n"
+            }
+          ]
+        }
+      ],
+      "revId": "d3b84d77200f4d46cad1973431eb662c1877c6e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

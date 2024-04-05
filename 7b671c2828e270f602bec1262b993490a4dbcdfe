@@ -191,6 +191,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b35ac953_ce329b54",
+        "filename": "java/com/google/gerrit/server/query/change/ChangePredicates.java",
+        "patchSetId": 43
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2024-04-05T12:02:04Z",
+      "side": 1,
+      "message": "I think it\u0027s already addressed",
+      "parentUuid": "e2957912_cc6b28eb",
+      "range": {
+        "startLine": 112,
+        "startChar": 0,
+        "endLine": 121,
+        "endChar": 3
+      },
+      "revId": "7b671c2828e270f602bec1262b993490a4dbcdfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "34455560_2574951e",
         "filename": "java/com/google/gerrit/server/query/change/ChangePredicates.java",
         "patchSetId": 43
@@ -226,6 +250,30 @@
       "side": 1,
       "message": "True, I will rebase on top of the changes ones they are merged and reassess.",
       "parentUuid": "34455560_2574951e",
+      "range": {
+        "startLine": 145,
+        "startChar": 0,
+        "endLine": 152,
+        "endChar": 3
+      },
+      "revId": "7b671c2828e270f602bec1262b993490a4dbcdfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f6bc083_9c80f1ef",
+        "filename": "java/com/google/gerrit/server/query/change/ChangePredicates.java",
+        "patchSetId": 43
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2024-04-05T12:02:04Z",
+      "side": 1,
+      "message": "I think it\u0027s already addressed",
+      "parentUuid": "58587ee1_bc80ffd9",
       "range": {
         "startLine": 145,
         "startChar": 0,

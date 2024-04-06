@@ -78,6 +78,7 @@ public class ChangeProtoConverterTest {
             .setWorkInProgress(true)
             .setReviewStarted(true)
             .setRevertOf(Entities.Change_Id.newBuilder().setId(180))
+            .setServerId(TEST_SERVER_ID)
             .build();
     assertThat(proto).isEqualTo(expectedProto);
   }
@@ -91,7 +92,6 @@ public class ChangeProtoConverterTest {
             Account.id(35),
             BranchNameKey.create(Project.nameKey("project 67"), "branch-74"),
             Instant.ofEpochMilli(987654L));
-    change.setServerId(TEST_SERVER_ID);
 
     Entities.Change proto = changeProtoConverter.toProto(change);
 
@@ -151,6 +151,7 @@ public class ChangeProtoConverterTest {
             .setIsPrivate(false)
             .setWorkInProgress(false)
             .setReviewStarted(false)
+            .setServerId(TEST_SERVER_ID)
             .build();
     assertThat(proto).isEqualTo(expectedProto);
   }
@@ -189,12 +190,13 @@ public class ChangeProtoConverterTest {
             .setIsPrivate(false)
             .setWorkInProgress(false)
             .setReviewStarted(false)
+            .setServerId(TEST_SERVER_ID)
             .build();
     assertThat(proto).isEqualTo(expectedProto);
   }
 
   @Test
-  public void allValuesConvertedToProtoAndBackAgainExceptServerId() {
+  public void allValuesConvertedToProtoAndBackAgainExceptNullServerId() {
     Change change =
         new Change(
             Change.key("change 1"),
@@ -202,7 +204,7 @@ public class ChangeProtoConverterTest {
             Account.id(35),
             BranchNameKey.create(Project.nameKey("project 67"), "branch-74"),
             Instant.ofEpochMilli(987654L));
-    change.setServerId(TEST_SERVER_ID);
+    change.setServerId(null);
     change.setLastUpdatedOn(Instant.ofEpochMilli(1234567L));
     change.setStatus(Change.Status.MERGED);
     change.setCurrentPatchSet(
@@ -215,11 +217,6 @@ public class ChangeProtoConverterTest {
     change.setRevertOf(Change.id(180));
 
     Change convertedChange = changeProtoConverter.fromProto(changeProtoConverter.toProto(change));
-
-    // Change serverId is not one of the protobuf definitions, hence is not supposed to be converted
-    // from proto
-    assertThat(convertedChange.getServerId()).isNull();
-    change.setServerId(null);
     assertEqualChange(convertedChange, change);
   }
 

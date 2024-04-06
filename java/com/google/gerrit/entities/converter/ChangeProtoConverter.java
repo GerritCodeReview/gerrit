@@ -79,6 +79,10 @@ public enum ChangeProtoConverter implements ProtoConverter<Entities.Change, Chan
     if (cherryPickOf != null) {
       builder.setCherryPickOf(patchSetIdConverter.toProto(cherryPickOf));
     }
+    String serverId = change.getServerId();
+    if (serverId != null) {
+      builder.setServerId(serverId);
+    }
     return builder.build();
   }
 
@@ -118,6 +122,9 @@ public enum ChangeProtoConverter implements ProtoConverter<Entities.Change, Chan
     }
     if (proto.hasCherryPickOf()) {
       change.setCherryPickOf(patchSetIdConverter.fromProto(proto.getCherryPickOf()));
+    }
+    if (proto.hasServerId()) {
+      change.setServerId(proto.getServerId());
     }
     return change;
   }

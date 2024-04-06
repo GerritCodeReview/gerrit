@@ -62,7 +62,7 @@ public class ChangeNotesCache {
             .weigher(Weigher.class)
             .maximumWeight(10 << 20)
             .diskLimit(-1)
-            .version(10)
+            .version(11)
             .keySerializer(Key.Serializer.INSTANCE)
             .valueSerializer(ChangeNotesState.Serializer.INSTANCE);
       }

@@ -1,6 +1,52 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc71b110_40fa2de2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 40
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-04-07T18:44:57Z",
+      "side": 1,
+      "message": "removed",
+      "range": {
+        "startLine": 9,
+        "startChar": 19,
+        "endLine": 9,
+        "endChar": 25
+      },
+      "revId": "7aa27576f0a159c3a2b93209a1b25a650fd90bbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba57d812_f4082a9f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 40
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-04-07T18:44:57Z",
+      "side": 1,
+      "message": "I can\u0027t find an issue with this number in the gerrit issue tracker",
+      "range": {
+        "startLine": 23,
+        "startChar": 15,
+        "endLine": 23,
+        "endChar": 17
+      },
+      "revId": "7aa27576f0a159c3a2b93209a1b25a650fd90bbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "50c890a2_891fd0fe",
@@ -14,6 +60,333 @@
       "writtenOn": "2024-04-02T17:37:55Z",
       "side": 1,
       "message": "@luca.milanesio@gmail.com will you be able to have a look at this?",
+      "revId": "7aa27576f0a159c3a2b93209a1b25a650fd90bbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "065bed4c_5ff3c0f1",
+        "filename": "java/com/google/gerrit/server/group/db/GroupNameNotes.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-04-07T18:44:57Z",
+      "side": 1,
+      "message": "the group",
+      "range": {
+        "startLine": 174,
+        "startChar": 21,
+        "endLine": 174,
+        "endChar": 26
+      },
+      "revId": "7aa27576f0a159c3a2b93209a1b25a650fd90bbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b726b02_10670ae2",
+        "filename": "java/com/google/gerrit/server/group/db/GroupNameNotes.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-04-07T18:44:57Z",
+      "side": 1,
+      "message": "did you mean deletion ?",
+      "range": {
+        "startLine": 180,
+        "startChar": 83,
+        "endLine": 180,
+        "endChar": 91
+      },
+      "revId": "7aa27576f0a159c3a2b93209a1b25a650fd90bbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65fdf940_61412d6d",
+        "filename": "java/com/google/gerrit/server/group/db/GroupNameNotes.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-04-07T18:44:57Z",
+      "side": 1,
+      "message": "why the postfix Op ?",
+      "range": {
+        "startLine": 191,
+        "startChar": 29,
+        "endLine": 191,
+        "endChar": 44
+      },
+      "revId": "7aa27576f0a159c3a2b93209a1b25a650fd90bbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "073971ee_b7595da4",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-04-07T18:44:57Z",
+      "side": 1,
+      "message": "a",
+      "range": {
+        "startLine": 319,
+        "startChar": 12,
+        "endLine": 319,
+        "endChar": 24
+      },
+      "revId": "7aa27576f0a159c3a2b93209a1b25a650fd90bbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f500930_f76e584d",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-04-07T18:44:57Z",
+      "side": 1,
+      "message": "I\u0027d shorten this to just `group`",
+      "range": {
+        "startLine": 446,
+        "startChar": 22,
+        "endLine": 446,
+        "endChar": 34
+      },
+      "revId": "7aa27576f0a159c3a2b93209a1b25a650fd90bbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26f9d09d_261c56cc",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-04-07T18:44:57Z",
+      "side": 1,
+      "message": "this can be inlined",
+      "range": {
+        "startLine": 447,
+        "startChar": 29,
+        "endLine": 447,
+        "endChar": 45
+      },
+      "revId": "7aa27576f0a159c3a2b93209a1b25a650fd90bbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b7fade3_1f08e20f",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 458,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-04-07T18:44:57Z",
+      "side": 1,
+      "message": "aren\u0027t groups always under REFS_GROUPS ?",
+      "range": {
+        "startLine": 458,
+        "startChar": 47,
+        "endLine": 458,
+        "endChar": 70
+      },
+      "revId": "7aa27576f0a159c3a2b93209a1b25a650fd90bbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a56f4445_7df43b85",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-04-07T18:44:57Z",
+      "side": 1,
+      "message": "declare this variable in line 468 ?",
+      "revId": "7aa27576f0a159c3a2b93209a1b25a650fd90bbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7320abc9_301c90e7",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-04-07T18:44:57Z",
+      "side": 1,
+      "message": "this will never occur in Gerrit as it only hosts bare repositories which don\u0027t have a current branch since checkout is a non-existing concept in a bare repository",
+      "revId": "7aa27576f0a159c3a2b93209a1b25a650fd90bbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20be59fb_f71d5f0c",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-04-07T18:44:57Z",
+      "side": 1,
+      "message": "this method uses a DeleteResult.Builder to build a DeleteResult hence I would name this method `buildDeleteResult`",
+      "range": {
+        "startLine": 528,
+        "startChar": 30,
+        "endLine": 528,
+        "endChar": 46
+      },
+      "revId": "7aa27576f0a159c3a2b93209a1b25a650fd90bbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "817ab12a_d7ecb118",
+        "filename": "java/com/google/gerrit/server/restapi/group/DeleteGroup.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-04-07T18:44:57Z",
+      "side": 1,
+      "message": "I would sort this method immediately after its only caller #apply\nafter the methods called by this method in the order they are used in this method.\nThis simplifies reading the implementation.",
+      "revId": "7aa27576f0a159c3a2b93209a1b25a650fd90bbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07df03cb_5d585cfb",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 741,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-04-07T18:44:57Z",
+      "side": 1,
+      "message": "deleteGroup",
+      "range": {
+        "startLine": 741,
+        "startChar": 14,
+        "endLine": 741,
+        "endChar": 26
+      },
+      "revId": "7aa27576f0a159c3a2b93209a1b25a650fd90bbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3500219b_7906eeb4",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 750,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-04-07T18:44:57Z",
+      "side": 1,
+      "message": "deleteGroupOwnsOtherGroup",
+      "range": {
+        "startLine": 750,
+        "startChar": 14,
+        "endLine": 750,
+        "endChar": 38
+      },
+      "revId": "7aa27576f0a159c3a2b93209a1b25a650fd90bbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd75f2ff_799a3f35",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 769,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-04-07T18:44:57Z",
+      "side": 1,
+      "message": "deleteGroupIsReferenced",
+      "range": {
+        "startLine": 769,
+        "startChar": 14,
+        "endLine": 769,
+        "endChar": 43
+      },
+      "revId": "7aa27576f0a159c3a2b93209a1b25a650fd90bbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a17a5547_5ae61193",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 799,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-04-07T18:44:57Z",
+      "side": 1,
+      "message": "deleteGroupIsSubgroup",
+      "range": {
+        "startLine": 799,
+        "startChar": 14,
+        "endLine": 799,
+        "endChar": 41
+      },
       "revId": "7aa27576f0a159c3a2b93209a1b25a650fd90bbc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

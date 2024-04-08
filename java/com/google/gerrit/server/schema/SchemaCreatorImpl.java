@@ -104,7 +104,7 @@ public class SchemaCreatorImpl implements SchemaCreator {
 
       try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
         createAdminsGroup(allUsersRepo, admins);
-        createBatchUsersGroup(allUsersRepo, serviceUsers, admins.getUUID());
+        createServiceUsersGroup(allUsersRepo, serviceUsers, admins.getUUID());
       }
     }
   }
@@ -127,7 +127,7 @@ public class SchemaCreatorImpl implements SchemaCreator {
     createGroup(allUsersRepo, groupCreation, groupDelta);
   }
 
-  private void createBatchUsersGroup(
+  private void createServiceUsersGroup(
       Repository allUsersRepo, GroupReference groupReference, AccountGroup.UUID adminsGroupUuid)
       throws IOException, ConfigInvalidException {
     InternalGroupCreation groupCreation = getGroupCreation(groupReference);

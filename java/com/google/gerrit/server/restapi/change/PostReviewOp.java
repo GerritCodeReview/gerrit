@@ -427,11 +427,14 @@ public class PostReviewOp implements BatchUpdateOp {
   }
 
   /**
-   * Returns the subset of {@code inputComments} that do not have a matching comment (with same id)
-   * neither in {@code existingComments} nor in {@code drafts}.
+   * Returns the subset of {@code inputComments} that should be added to the change.
    *
-   * <p>Entries in {@code drafts} that have a matching entry in {@code inputComments} will be
-   * removed.
+   * <p>If the matching comment (with the same id) already exists in {@code existingComments} then
+   * the comment is filtered out. This assumes that the comment has been already published earlier.
+   *
+   * <p>If the matching comment is found in {@code drafts}, then it's removed from drafts and the
+   * comment is kept in the output. This assumes that the comment in the input is the newer version
+   * of the previously existing draft.
    *
    * @param inputComments new comments provided as {@link CommentInput} entries in the API.
    * @param existingComments existing published comments in the database.
@@ -466,6 +469,7 @@ public class PostReviewOp implements BatchUpdateOp {
           comment.writtenOn = Timestamp.from(ctx.getWhen());
           comment.side = inputComment.side();
           comment.message = inputComment.message;
+          comment.unresolved = inputComment.unresolved;
         }
 
         commentsUtil.setCommentCommitId(comment, ctx.getChange(), ps);

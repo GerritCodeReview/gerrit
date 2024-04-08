@@ -49,6 +49,7 @@ import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.account.ServiceUserClassifier;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.group.db.GroupDelta;
 import com.google.gerrit.server.group.db.GroupsUpdate;
@@ -239,13 +240,14 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
 
   @Test
   public void byIsVisibleToAll() throws Exception {
-    assertQuery("is:visibletoall");
+    GroupInfo serviceUsersGroupInfo = gApi.groups().id(ServiceUserClassifier.SERVICE_USERS).get();
+    assertQuery("is:visibletoall", serviceUsersGroupInfo);
 
     GroupInfo groupThatIsVisibleToAll =
         createGroupThatIsVisibleToAll(name("group-that-is-visible-to-all"));
     createGroup(name("group"));
 
-    assertQuery("is:visibletoall", groupThatIsVisibleToAll);
+    assertQuery("is:visibletoall", groupThatIsVisibleToAll, serviceUsersGroupInfo);
   }
 
   @Test

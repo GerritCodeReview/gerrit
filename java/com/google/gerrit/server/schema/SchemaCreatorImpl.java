@@ -135,6 +135,7 @@ public class SchemaCreatorImpl implements SchemaCreator {
         GroupDelta.builder()
             .setDescription("Users who perform batch actions on Gerrit")
             .setOwnerGroupUUID(adminsGroupUuid)
+            .setVisibleToAll(true)
             .build();
 
     createGroup(allUsersRepo, groupCreation, groupDelta);

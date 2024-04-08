@@ -20,6 +20,7 @@ import static org.junit.Assume.assumeTrue;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.index.PaginationType;
 import com.google.gerrit.index.testing.AbstractFakeIndex;
+import com.google.gerrit.server.account.ServiceUserClassifier;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gerrit.testing.InMemoryModule;
 import com.google.inject.Guice;
@@ -52,14 +53,15 @@ public abstract class AbstractFakeQueryGroupsTest extends AbstractQueryGroupsTes
   public void internalQueriesDoNotPaginateWithNonePaginationType() throws Exception {
     assumeTrue(PaginationType.NONE == getCurrentPaginationType());
 
-    final int GROUPS_CREATED_SIZE = 2;
-    List<GroupInfo> groupsCreated = new ArrayList<>();
-    for (int i = 0; i < GROUPS_CREATED_SIZE; i++) {
-      groupsCreated.add(createGroupThatIsVisibleToAll(name("group-" + i)));
+    List<GroupInfo> groupsVisibleToAll = new ArrayList<>();
+    groupsVisibleToAll.add(gApi.groups().id(ServiceUserClassifier.SERVICE_USERS).get());
+
+    for (int i = 0; i < 2; i++) {
+      groupsVisibleToAll.add(createGroupThatIsVisibleToAll(name("group-" + i)));
     }
 
-    List<GroupInfo> result = assertQuery(newQuery("is:visibletoall"), groupsCreated);
-    assertThat(result.size()).isEqualTo(GROUPS_CREATED_SIZE);
+    List<GroupInfo> result = assertQuery(newQuery("is:visibletoall"), groupsVisibleToAll);
+    assertThat(result.size()).isEqualTo(groupsVisibleToAll.size());
     assertThat(result.get(result.size() - 1)._moreGroups).isNull();
     assertThatSearchQueryWasNotPaginated();
   }

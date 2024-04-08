@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd689124_06eb7c99",
+        "filename": "javatests/com/google/gerrit/entities/converter/ChangeProtoConverterTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-04-08T06:08:37Z",
+      "side": 1,
+      "message": "Server Id is not a mandatory field (and hence shouldn\u0027t be set in this test), is it?",
+      "revId": "9ca001665852f73920a0ad634652e01fd102dc0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bee319eb_be33e76f",
+        "filename": "proto/cache.proto",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-04-08T06:08:37Z",
+      "side": 1,
+      "message": "Why is there no code making use of these fields?",
+      "range": {
+        "startLine": 136,
+        "startChar": 1,
+        "endLine": 137,
+        "endChar": 28
+      },
+      "revId": "9ca001665852f73920a0ad634652e01fd102dc0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

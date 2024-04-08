@@ -129,6 +129,30 @@
       },
       "revId": "9ca001665852f73920a0ad634652e01fd102dc0d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c937885_4189f099",
+        "filename": "proto/cache.proto",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-04-08T06:41:33Z",
+      "side": 1,
+      "message": "This diff is not about ChangeColumns. How could an earlier change even make use of proto fields which are added by a later change? I don\u0027t think that works? :) \n\nWhat I expected are modification to:\n* ChangeNotesState.create\n* ChangeNotesState.Serializer.toChangeColumns and toChangeColumnsProto\n* ChangeNotesState.copyNonConstructorColumnsTo\n* ChangeNotesStateTest.changeColumnsMethods",
+      "parentUuid": "9da25d7f_00ae0eed",
+      "range": {
+        "startLine": 136,
+        "startChar": 1,
+        "endLine": 137,
+        "endChar": 28
+      },
+      "revId": "9ca001665852f73920a0ad634652e01fd102dc0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -395,6 +395,7 @@ export declare interface ChangeInfo {
   pending_reviewers?: AccountInfo[];
   reviewer_updates?: ReviewerUpdateInfo[];
   messages?: ChangeMessageInfo[];
+  current_revision_number: PatchSetNumber;
   current_revision?: CommitId;
   revisions?: {[revisionId: string]: RevisionInfo};
   tracking_ids?: TrackingIdInfo[];

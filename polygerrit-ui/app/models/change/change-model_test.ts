@@ -23,6 +23,7 @@ import {
 } from '../../test/test-utils';
 import {
   BasePatchSetNum,
+  ChangeInfo,
   CommitId,
   EDIT,
   NumericChangeId,
@@ -101,6 +102,7 @@ suite('change model tests', () => {
   let changeViewModel: ChangeViewModel;
   let changeModel: ChangeModel;
   let knownChange: ParsedChangeInfo;
+  let knownChangeNoRevision: ChangeInfo;
   const testCompleted = new Subject<void>();
 
   async function waitForLoadingStatus(
@@ -123,15 +125,19 @@ suite('change model tests', () => {
       testResolver(pluginLoaderToken),
       getAppContext().reportingService
     );
-    knownChange = {
+    knownChangeNoRevision = {
       ...createChange(),
+      status: ChangeStatus.NEW,
+      current_revision_number: 2 as PatchSetNumber,
+      messages: [],
+    };
+    knownChange = {
+      ...knownChangeNoRevision,
       revisions: {
         sha1: {...createRevision(1), description: 'patch 1'},
         sha2: {...createRevision(2), description: 'patch 2'},
       },
-      status: ChangeStatus.NEW,
       current_revision: 'abc' as CommitId,
-      messages: [],
     };
   });
 
@@ -377,7 +383,7 @@ suite('change model tests', () => {
   });
 
   test('changeModel.fetchChangeUpdates on latest', async () => {
-    stubRestApi('getChangeDetail').returns(Promise.resolve(knownChange));
+    stubRestApi('getChange').returns(Promise.resolve(knownChangeNoRevision));
     const result = await changeModel.fetchChangeUpdates(knownChange);
     assert.isTrue(result.isLatest);
     assert.isNotOk(result.newStatus);
@@ -386,17 +392,10 @@ suite('change model tests', () => {
 
   test('changeModel.fetchChangeUpdates not on latest', async () => {
     const actualChange = {
-      ...knownChange,
-      revisions: {
-        ...knownChange.revisions,
-        sha3: {
-          ...createRevision(3),
-          description: 'patch 3',
-          _number: 3 as PatchSetNumber,
-        },
-      },
+      ...knownChangeNoRevision,
+      current_revision_number: 3 as PatchSetNumber,
     };
-    stubRestApi('getChangeDetail').returns(Promise.resolve(actualChange));
+    stubRestApi('getChange').returns(Promise.resolve(actualChange));
     const result = await changeModel.fetchChangeUpdates(knownChange);
     assert.isFalse(result.isLatest);
     assert.isNotOk(result.newStatus);
@@ -405,10 +404,10 @@ suite('change model tests', () => {
 
   test('changeModel.fetchChangeUpdates new status', async () => {
     const actualChange = {
-      ...knownChange,
+      ...knownChangeNoRevision,
       status: ChangeStatus.MERGED,
     };
-    stubRestApi('getChangeDetail').returns(Promise.resolve(actualChange));
+    stubRestApi('getChange').returns(Promise.resolve(actualChange));
     const result = await changeModel.fetchChangeUpdates(knownChange);
     assert.isTrue(result.isLatest);
     assert.equal(result.newStatus, ChangeStatus.MERGED);
@@ -417,10 +416,10 @@ suite('change model tests', () => {
 
   test('changeModel.fetchChangeUpdates new messages', async () => {
     const actualChange = {
-      ...knownChange,
+      ...knownChangeNoRevision,
       messages: [{...createChangeMessageInfo(), message: 'blah blah'}],
     };
-    stubRestApi('getChangeDetail').returns(Promise.resolve(actualChange));
+    stubRestApi('getChange').returns(Promise.resolve(actualChange));
     const result = await changeModel.fetchChangeUpdates(knownChange);
     assert.isTrue(result.isLatest);
     assert.isNotOk(result.newStatus);

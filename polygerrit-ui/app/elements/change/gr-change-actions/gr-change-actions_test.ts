@@ -2443,6 +2443,7 @@ suite('gr-change-actions tests', () => {
         element.latestPatchNum = 12 as PatchSetNumber;
         element.change = {
           ...createChangeViewChange(),
+          current_revision_number: element.latestPatchNum,
           revisions: createRevisions(element.latestPatchNum as number),
           messages: createChangeMessages(1),
         };
@@ -2458,11 +2459,11 @@ suite('gr-change-actions tests', () => {
       suite('happy path', () => {
         let executeChangeActionStub: sinon.SinonStub;
         setup(() => {
-          stubRestApi('getChangeDetail').returns(
+          stubRestApi('getChange').returns(
             Promise.resolve({
               ...createChangeViewChange(),
               // element has latest info
-              revisions: createRevisions(element.latestPatchNum as number),
+              current_revision_number: element.latestPatchNum!,
               messages: createChangeMessages(1),
             })
           );
@@ -2535,9 +2536,6 @@ suite('gr-change-actions tests', () => {
               })
             );
             executeChangeActionStub.resolves(response);
-            stubRestApi('getChange').returns(
-              Promise.resolve(createChangeViewChange())
-            );
             await element.send(
               HttpMethod.POST,
               {message: 'Revert'},
@@ -2625,13 +2623,12 @@ suite('gr-change-actions tests', () => {
 
       suite('failure modes', () => {
         test('non-latest', () => {
-          stubRestApi('getChangeDetail').returns(
+          stubRestApi('getChange').returns(
             Promise.resolve({
               ...createChangeViewChange(),
               // new patchset was uploaded
-              revisions: createRevisions(
-                (element.latestPatchNum as number) + 1
-              ),
+              current_revision_number: (element.latestPatchNum! +
+                1) as PatchSetNumber,
               messages: createChangeMessages(1),
             })
           );
@@ -2655,11 +2652,11 @@ suite('gr-change-actions tests', () => {
         });
 
         test('send fails', () => {
-          stubRestApi('getChangeDetail').returns(
+          stubRestApi('getChange').returns(
             Promise.resolve({
               ...createChangeViewChange(),
               // element has latest info
-              revisions: createRevisions(element.latestPatchNum as number),
+              current_revision_number: element.latestPatchNum!,
               messages: createChangeMessages(1),
             })
           );
@@ -2692,14 +2689,29 @@ suite('gr-change-actions tests', () => {
         });
 
         test('revert single change change not reachable', async () => {
-          stubRestApi('getChangeDetail').returns(
-            Promise.resolve({
-              ...createChangeViewChange(),
-              // element has latest info
-              revisions: createRevisions(element.latestPatchNum as number),
-              messages: createChangeMessages(1),
-            })
-          );
+          let getChangeCall = 0;
+          let errorFired = false;
+          stubRestApi('getChange').callsFake((_, errFn) => {
+            ++getChangeCall;
+            if (getChangeCall === 1) {
+              return Promise.resolve({
+                ...createChangeViewChange(),
+                // element has latest info
+                current_revision_number: element.latestPatchNum!,
+                messages: createChangeMessages(1),
+              });
+            } else {
+              // Mimics the behaviour of gr-rest-api-impl: If errFn is passed
+              // call it and return undefined, otherwise call fireNetworkError
+              // or fireServerError.
+              if (errFn) {
+                errFn.call(undefined);
+              } else {
+                errorFired = true;
+              }
+              return Promise.resolve(undefined);
+            }
+          });
           const setUrlStub = sinon.stub(
             testResolver(navigationToken),
             'setUrl'
@@ -2715,18 +2727,6 @@ suite('gr-change-actions tests', () => {
               _number: 12345,
             })
           );
-          let errorFired = false;
-          // Mimics the behaviour of gr-rest-api-impl: If errFn is passed call
-          // it and return undefined, otherwise call fireNetworkError or
-          // fireServerError.
-          stubRestApi('getChange').callsFake((_, errFn) => {
-            if (errFn) {
-              errFn.call(undefined);
-            } else {
-              errorFired = true;
-            }
-            return Promise.resolve(undefined);
-          });
 
           await element.send(
             HttpMethod.POST,

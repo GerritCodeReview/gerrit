@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc41ade8_f5d28b15",
+        "filename": "javatests/com/google/gerrit/entities/converter/ChangeProtoConverterTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-04-08T06:22:30Z",
+      "side": 1,
+      "message": "True, done.",
+      "parentUuid": "cd689124_06eb7c99",
+      "revId": "9ca001665852f73920a0ad634652e01fd102dc0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bee319eb_be33e76f",
@@ -31,6 +49,30 @@
       "writtenOn": "2024-04-08T06:08:37Z",
       "side": 1,
       "message": "Why is there no code making use of these fields?",
+      "range": {
+        "startLine": 136,
+        "startChar": 1,
+        "endLine": 137,
+        "endChar": 28
+      },
+      "revId": "9ca001665852f73920a0ad634652e01fd102dc0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64086fe5_7c17a5b8",
+        "filename": "proto/cache.proto",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-04-08T06:22:30Z",
+      "side": 1,
+      "message": "What about ChangeNotesState.java:367?",
+      "parentUuid": "bee319eb_be33e76f",
       "range": {
         "startLine": 136,
         "startChar": 1,

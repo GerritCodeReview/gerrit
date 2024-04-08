@@ -1290,8 +1290,7 @@ export class GrChangeView extends LitElement {
     const hideEditCommitMessage = this.computeHideEditCommitMessage(
       this.loggedIn,
       this.editingCommitMessage,
-      this.change,
-      this.editMode
+      this.change
     );
     return html` <div class="changeInfo">
       <div class="changeInfo-column changeMetadata">
@@ -1708,14 +1707,12 @@ export class GrChangeView extends LitElement {
   computeHideEditCommitMessage(
     loggedIn: boolean,
     editing: boolean,
-    change?: ParsedChangeInfo,
-    editMode?: boolean
+    change?: ParsedChangeInfo
   ) {
     if (
       !loggedIn ||
       editing ||
-      (change && change.status === ChangeStatus.MERGED) ||
-      editMode
+      (change && change.status === ChangeStatus.MERGED)
     ) {
       return true;
     }

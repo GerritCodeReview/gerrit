@@ -153,6 +153,30 @@
       },
       "revId": "9ca001665852f73920a0ad634652e01fd102dc0d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a68e187_e5fe273b",
+        "filename": "proto/cache.proto",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-04-08T15:37:55Z",
+      "side": 1,
+      "message": "\u003e This diff is not about ChangeColumns. How could an earlier change even make use of proto fields which are added by a later change? I don\u0027t think that works? :) \n\nTrue, the serverId was there already done by DavidO in I9b43f84792 and works as expected. The `ChangeNotesState` proto definition doesn\u0027t need changes.",
+      "parentUuid": "2c937885_4189f099",
+      "range": {
+        "startLine": 136,
+        "startChar": 1,
+        "endLine": 137,
+        "endChar": 28
+      },
+      "revId": "9ca001665852f73920a0ad634652e01fd102dc0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

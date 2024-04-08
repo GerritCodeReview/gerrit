@@ -105,6 +105,30 @@
       },
       "revId": "9ca001665852f73920a0ad634652e01fd102dc0d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9da25d7f_00ae0eed",
+        "filename": "proto/cache.proto",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-04-08T06:32:18Z",
+      "side": 1,
+      "message": "\u003e Yes, that\u0027s the file I would expect to be changed, but it\u0027s not touched in this change: https://imgur.com/a/Cf3GIkv\n\nIt was done in the earlier change below:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/410579/14/java/com/google/gerrit/server/notedb/ChangeNotesState.java\n\nBecause the change was made in a stable branch, I did not amend the cache definition, with the known issue that the cached values won\u0027t have been effective in getting the server-id.\n\nFrom v3.10 we can accept a change in the cache version and, from now, the data will be there and used.",
+      "parentUuid": "5e439cd1_7328935c",
+      "range": {
+        "startLine": 136,
+        "startChar": 1,
+        "endLine": 137,
+        "endChar": 28
+      },
+      "revId": "9ca001665852f73920a0ad634652e01fd102dc0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

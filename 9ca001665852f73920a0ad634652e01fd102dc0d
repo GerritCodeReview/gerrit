@@ -81,6 +81,30 @@
       },
       "revId": "9ca001665852f73920a0ad634652e01fd102dc0d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e439cd1_7328935c",
+        "filename": "proto/cache.proto",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-04-08T06:25:54Z",
+      "side": 1,
+      "message": "Yes, that\u0027s the file I would expect to be changed, but it\u0027s not touched in this change: https://imgur.com/a/Cf3GIkv",
+      "parentUuid": "64086fe5_7c17a5b8",
+      "range": {
+        "startLine": 136,
+        "startChar": 1,
+        "endLine": 137,
+        "endChar": 28
+      },
+      "revId": "9ca001665852f73920a0ad634652e01fd102dc0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

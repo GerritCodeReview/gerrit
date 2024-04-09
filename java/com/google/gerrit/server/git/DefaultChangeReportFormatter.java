@@ -54,7 +54,7 @@ public class DefaultChangeReportFormatter implements ChangeReportFormatter {
         urlFormatter
             .get()
             .getChangeViewUrl(c.getProject(), c.getId())
-            .orElse(c.getId().toString()));
+            .orElseGet(() -> c.getId().toString()));
   }
 
   protected String cropSubject(String subject) {

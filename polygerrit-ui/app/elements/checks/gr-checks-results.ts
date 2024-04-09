@@ -495,7 +495,7 @@ export class GrResultRow extends LitElement {
     return html`
       <div class="label ${status}">
         <span>${label} ${valueStr}</span>
-        <paper-tooltip offset="5" ?fitToVisibleBounds=${true}>
+        <paper-tooltip offset="5" .fitToVisibleBounds=${true}>
           The check result has (probably) influenced this label vote.
         </paper-tooltip>
       </div>
@@ -607,7 +607,7 @@ export class GrResultRow extends LitElement {
       @click=${(e: MouseEvent) => this.tagClick(e, tag.name)}
     >
       <span>${tag.name}</span>
-      <paper-tooltip offset="5" ?fitToVisibleBounds=${true}>
+      <paper-tooltip offset="5" .fitToVisibleBounds=${true}>
         ${tag.tooltip ??
         'A category tag for this check result. Click to filter.'}
       </paper-tooltip>

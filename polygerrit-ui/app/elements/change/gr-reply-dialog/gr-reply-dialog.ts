@@ -1486,6 +1486,7 @@ export class GrReplyDialog extends LitElement {
 
         this.patchsetLevelDraftMessage = '';
         this.includeComments = true;
+        fireNoBubble(this, 'send', {});
         fireIronAnnounce(this, 'Reply sent');
         this.getPluginLoader().jsApiService.handleReplySent();
       })

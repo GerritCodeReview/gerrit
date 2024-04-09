@@ -98,12 +98,14 @@ public class ParentDataProvider {
   private Optional<ParentCommitData> getFromGerritChange(
       Project.NameKey project, ObjectId parentCommitId, String targetBranch) {
     List<ChangeData> changeData = queryProvider.get().byCommit(parentCommitId.name());
-    if (changeData.size() != 1) {
+    if (changeData.size() > 1) {
       logger.atWarning().log(
-          "Did not find a single change associated with parent revision %s (project: %s). Found changes %s.",
+          "Found more than one change associated with parent revision %s (project: %s). Found changes %s.",
           parentCommitId.name(),
           project.get(),
           changeData.stream().map(ChangeData::getId).collect(ImmutableList.toImmutableList()));
+    }
+    if (changeData.size() != 1) {
       return Optional.empty();
     }
     ChangeData singleData = changeData.get(0);

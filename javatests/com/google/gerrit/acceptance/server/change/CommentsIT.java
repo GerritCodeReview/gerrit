@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance.server.change;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
@@ -757,7 +758,7 @@ public class CommentsIT extends AbstractDaemonTest {
     ReviewInput reviewInput = new ReviewInput();
     reviewInput.drafts = DraftHandling.KEEP;
     reviewInput.message = "foo";
-    CommentInput comment = CommentsUtil.newComment(file, Side.REVISION, 0, "comment", false);
+    CommentInput comment = CommentsUtil.newComment(file, Side.REVISION, 0, "text", true);
     // Replace the existing draft.
     comment.id = draftInfo.id;
     reviewInput.comments = new HashMap<>();
@@ -767,6 +768,15 @@ public class CommentsIT extends AbstractDaemonTest {
     // DraftHandling.KEEP is ignored on publishing a comment.
     drafts = getDraftComments(changeId, revId);
     assertThat(drafts).isEmpty();
+
+    // Verify the comment
+    ImmutableList<CommentInfo> comments =
+        gApi.changes().id(changeId).commentsRequest().get().values().stream()
+            .flatMap(l -> l.stream())
+            .collect(toImmutableList());
+    assertThat(comments).hasSize(1);
+    assertThat(comments.get(0).message).isEqualTo("text");
+    assertThat(comments.get(0).unresolved).isEqualTo(true);
   }
 
   @Test

@@ -15,6 +15,7 @@ import {
   PatchSetNum,
   BasePatchSetNum,
   FilePathToDiffInfoMap,
+  PatchSetNumber,
 } from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {PROVIDED_FIX_ID} from '../../../utils/comment-util';
@@ -71,6 +72,8 @@ export class GrApplyFixDialog extends LitElement {
 
   @state()
   patchNum?: PatchSetNum;
+
+  @state() latestPatchNum?: PatchSetNumber;
 
   @state()
   currentFix?: FixSuggestionInfo;
@@ -145,6 +148,11 @@ export class GrApplyFixDialog extends LitElement {
       this,
       () => this.getChangeModel().changeNum$,
       changeNum => (this.changeNum = changeNum)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().latestPatchNum$,
+      x => (this.latestPatchNum = x)
     );
   }
 
@@ -383,18 +391,14 @@ export class GrApplyFixDialog extends LitElement {
 
   private computeTooltip() {
     if (!this.change || !this.patchNum) return '';
-    const latestPatchNum =
-      this.change.revisions[this.change.current_revision]._number;
-    return latestPatchNum !== this.patchNum
+    return this.latestPatchNum !== this.patchNum
       ? 'You cannot apply this fix because it is from a previous patchset'
       : '';
   }
 
   private computeDisableApplyFixButton() {
     if (!this.change || !this.patchNum) return true;
-    const latestPatchNum =
-      this.change.revisions[this.change.current_revision]._number;
-    return this.patchNum !== latestPatchNum || this.isApplyFixLoading;
+    return this.patchNum !== this.latestPatchNum || this.isApplyFixLoading;
   }
 
   // visible for testing

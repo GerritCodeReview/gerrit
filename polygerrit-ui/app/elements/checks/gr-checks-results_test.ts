@@ -45,12 +45,7 @@ suite('gr-result-row test', () => {
       /* HTML */ `
         <div class="approved label">
           <span> test-label +1 </span>
-          <paper-tooltip
-            fittovisiblebounds=""
-            offset="5"
-            role="tooltip"
-            tabindex="-1"
-          >
+          <paper-tooltip offset="5" role="tooltip" tabindex="-1">
             The check result has (probably) influenced this label vote.
           </paper-tooltip>
         </div>
@@ -92,7 +87,6 @@ suite('gr-result-row test', () => {
             <button class="tag">
               <span> OBSOLETE </span>
               <paper-tooltip
-                fittovisiblebounds=""
                 offset="5"
                 role="tooltip"
                 tabindex="-1"
@@ -103,7 +97,6 @@ suite('gr-result-row test', () => {
             <button class="tag">
               <span> E2E </span>
               <paper-tooltip
-                fittovisiblebounds=""
                 offset="5"
                 role="tooltip"
                 tabindex="-1"

@@ -158,7 +158,11 @@ export class GrFixSuggestions extends LitElement {
         };
       }),
       patchNum: this.comment.patch_set,
-      onCloseFixPreviewCallbacks: [],
+      onCloseFixPreviewCallbacks: [
+        fixApplied => {
+          if (fixApplied) fire(this, 'apply-user-suggestion', {});
+        },
+      ],
     };
     fire(this, 'open-fix-preview', eventDetail);
   }

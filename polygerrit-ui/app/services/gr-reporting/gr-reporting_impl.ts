@@ -676,6 +676,12 @@ export class GrReporting implements ReportingService, Finalizable {
   time(name: Timing) {
     this._baselines[name] = now();
     window.performance.mark(`${name}-start`);
+    // When time(Timing.DASHBOARD_DISPLAYED) is called gr-dashboard-view
+    // we need to clean-up slowRpcList, otherwise it can accumulate to big size
+    if (name === Timing.DASHBOARD_DISPLAYED) {
+      this.slowRpcList = [];
+      this.hiddenDurationTimer.reset();
+    }
   }
 
   /**

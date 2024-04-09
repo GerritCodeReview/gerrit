@@ -22,6 +22,30 @@
       },
       "revId": "4a9fe61af9df708048dc18ae4ef183fdf6953643",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7be68035_26119aad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-04-09T07:58:32Z",
+      "side": 1,
+      "message": "I did this when responding to https://gerrit-review.git.corp.google.com/c/gerrit/+/418000/comment/8da96bac_5ef26238/ Which was after a +2, so didn\u0027t have opportunity for another look probably",
+      "parentUuid": "d0f5e116_091706fc",
+      "range": {
+        "startLine": 9,
+        "startChar": 53,
+        "endLine": 10,
+        "endChar": 27
+      },
+      "revId": "4a9fe61af9df708048dc18ae4ef183fdf6953643",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

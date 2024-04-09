@@ -46,7 +46,6 @@ suite('gr-result-row test', () => {
         <div class="approved label">
           <span> test-label +1 </span>
           <paper-tooltip
-            fittovisiblebounds=""
             offset="5"
             role="tooltip"
             tabindex="-1"
@@ -95,7 +94,6 @@ suite('gr-result-row test', () => {
             <button class="tag">
               <span> OBSOLETE </span>
               <paper-tooltip
-                fittovisiblebounds=""
                 offset="5"
                 role="tooltip"
                 tabindex="-1"
@@ -106,7 +104,6 @@ suite('gr-result-row test', () => {
             <button class="tag">
               <span> E2E </span>
               <paper-tooltip
-                fittovisiblebounds=""
                 offset="5"
                 role="tooltip"
                 tabindex="-1"

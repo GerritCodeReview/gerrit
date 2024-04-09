@@ -11,7 +11,7 @@ import {
 } from '../../core/gr-navigation/gr-navigation';
 import {queryAndAssert, stubRestApi} from '../../../test/test-utils';
 import {GrApplyFixDialog} from './gr-apply-fix-dialog';
-import {PatchSetNum} from '../../../types/common';
+import {PatchSetNum, PatchSetNumber} from '../../../types/common';
 import {
   createFixSuggestionInfo,
   createParsedChange,
@@ -73,6 +73,8 @@ suite('gr-apply-fix-dialog tests', () => {
     };
     element.changeNum = change._number;
     element.patchNum = change.revisions[change.current_revision]._number;
+    element.latestPatchNum = change.revisions[change.current_revision]
+      ._number as PatchSetNumber;
     element.change = change;
     element.diffPrefs = {
       ...createDefaultDiffPrefs(),
@@ -169,6 +171,9 @@ suite('gr-apply-fix-dialog tests', () => {
         revisions: createRevisions(2),
         current_revision: getCurrentRevision(0),
       };
+      element.latestPatchNum = element.change.revisions[
+        element.change.current_revision
+      ]._number as PatchSetNumber;
       await open(TWO_FIXES);
       const button = getConfirmButton();
       assert.isTrue(button.hasAttribute('disabled'));

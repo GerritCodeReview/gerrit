@@ -88,7 +88,7 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
     caches = new ArrayList<>();
     schedule =
         ScheduleConfig.createSchedule(cfg, "cachePruning")
-            .orElse(Schedule.createOrFail(Duration.ofDays(1).toMillis(), "01:00"));
+            .orElseGet(() -> Schedule.createOrFail(Duration.ofDays(1).toMillis(), "01:00"));
     logger.atInfo().log("Scheduling cache pruning with schedule %s", schedule);
     this.cacheMap = cacheMap;
     this.isOfflineReindex =

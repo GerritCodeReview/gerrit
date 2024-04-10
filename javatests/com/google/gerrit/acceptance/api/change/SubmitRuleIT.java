@@ -98,6 +98,7 @@ public class SubmitRuleIT extends AbstractDaemonTest {
     assertThat(recordLabels).contains(needCustomLabel);
   }
 
+  @SuppressWarnings("deprecation")
   private void setupCustomBlockingLabel() throws Exception {
     try (ProjectConfigUpdate u = updateProject(project)) {
       u.getConfig()

@@ -1904,14 +1904,15 @@ public abstract class AbstractDaemonTest {
 
   protected AutoCloseable installPlugin(String pluginName, Class<? extends Module> sysModuleClass)
       throws Exception {
-    return installPlugin(pluginName, sysModuleClass, null, null);
+    return installPlugin(pluginName, sysModuleClass, null, null, null);
   }
 
   protected AutoCloseable installPlugin(
       String pluginName,
       @Nullable Class<? extends Module> sysModuleClass,
       @Nullable Class<? extends Module> httpModuleClass,
-      @Nullable Class<? extends Module> sshModuleClass)
+      @Nullable Class<? extends Module> sshModuleClass,
+      @Nullable Class<? extends Module> apiModuleClass)
       throws Exception {
     checkStatic(sysModuleClass);
     checkStatic(httpModuleClass);
@@ -1925,6 +1926,7 @@ public abstract class AbstractDaemonTest {
             sysModuleClass != null ? sysModuleClass.getName() : null,
             httpModuleClass != null ? httpModuleClass.getName() : null,
             sshModuleClass != null ? sshModuleClass.getName() : null,
+            apiModuleClass != null ? apiModuleClass.getName() : null,
             sitePaths.data_dir.resolve(pluginName));
     plugin.start(pluginGuiceEnvironment);
     pluginGuiceEnvironment.onStartPlugin(plugin);

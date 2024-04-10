@@ -1613,6 +1613,7 @@ public abstract class AbstractDaemonTest {
     configLabel(project, label, func, ImmutableList.of(), value);
   }
 
+  @SuppressWarnings("deprecation")
   private void configLabel(
       Project.NameKey project,
       String label,

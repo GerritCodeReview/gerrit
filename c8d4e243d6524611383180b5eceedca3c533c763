@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "18765200_120602e1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-04-10T21:56:43Z",
+      "side": 1,
+      "message": "\u003e The issue happened without NFS, so I believe it would be a distraction mentioning it.\n\nAck.",
+      "parentUuid": "6356fcb2_ffafe16d",
+      "revId": "c8d4e243d6524611383180b5eceedca3c533c763",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f1c2a51e_62423fea",
@@ -49,6 +67,24 @@
       "writtenOn": "2023-11-11T01:36:20Z",
       "side": 1,
       "message": "I\u0027ve added the Issue 309098227 as a reference:\n- We have experienced split-brains between threads (global-refdb prevented them from causing corruption)\n- I managed to corrupt a local repository by simply pushing and running concurrent GCs.",
+      "revId": "c8d4e243d6524611383180b5eceedca3c533c763",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22436345_f660884a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-04-10T21:56:43Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "f1c2a51e_62423fea",
       "revId": "c8d4e243d6524611383180b5eceedca3c533c763",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

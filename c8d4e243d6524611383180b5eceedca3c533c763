@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6356fcb2_ffafe16d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-04-10T19:26:08Z",
+      "side": 1,
+      "message": "The issue happened without NFS, so I believe it would be a distraction mentioning it. We should remove it IMHO.",
+      "parentUuid": "9306145f_5f72eb03",
+      "revId": "c8d4e243d6524611383180b5eceedca3c533c763",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f1c2a51e_62423fea",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

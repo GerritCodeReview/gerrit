@@ -124,6 +124,24 @@
       "parentUuid": "93b13515_598a3aea",
       "revId": "293a424d8aca089bedf86b6f620660d6bc5e3f05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "338121d0_08b8872e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-04-10T19:26:08Z",
+      "side": 1,
+      "message": "\u003e Maybe if we can\u0027t find \u0026 fix the bug with GC or if other buggy cases are found and not fixed before 3.9.0 would be released, we switch to disabled by default in 3.8.X and 3.9.0?\n\n@nasser.grainawi@linaro.org do you believe the bug is fixed now on stable-3.8?",
+      "parentUuid": "af5a5c8a_bc7e4df0",
+      "revId": "293a424d8aca089bedf86b6f620660d6bc5e3f05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

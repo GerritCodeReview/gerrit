@@ -229,9 +229,9 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
   }
 
   void prune() {
-    logger.atInfo().log("Pruning cache %s...", cacheName);
+    logger.atFine().log("Pruning cache %s...", cacheName);
     store.prune(mem);
-    logger.atInfo().log("Finished pruning cache %s...", cacheName);
+    logger.atFine().log("Finished pruning cache %s...", cacheName);
   }
 
   static class ValueHolder<V> {

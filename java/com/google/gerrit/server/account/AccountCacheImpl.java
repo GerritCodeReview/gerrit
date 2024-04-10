@@ -127,7 +127,7 @@ public class AccountCacheImpl implements AccountCache {
 
   @Override
   public AccountState getEvenIfMissing(Account.Id accountId) {
-    return get(accountId).orElse(missing(accountId));
+    return get(accountId).orElseGet(() -> missing(accountId));
   }
 
   @Override

@@ -159,7 +159,7 @@ public class TreeCreator {
   }
 
   private ObjectId writeAndGetId(Repository repository, DirCache tree) throws IOException {
-    ObjectInserter oi = objectInserter.orElse(repository.newObjectInserter());
+    ObjectInserter oi = objectInserter.orElseGet(() -> repository.newObjectInserter());
     try {
       ObjectId treeId = tree.writeTree(oi);
       oi.flush();

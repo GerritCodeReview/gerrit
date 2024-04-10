@@ -61,7 +61,7 @@ public class PatchFile {
             .filter(f -> f.getKey().equals(fileName))
             .map(Map.Entry::getValue)
             .findFirst()
-            .orElse(FileDiffOutput.empty(fileName, ObjectId.zeroId(), ObjectId.zeroId()));
+            .orElseGet(() -> FileDiffOutput.empty(fileName, ObjectId.zeroId(), ObjectId.zeroId()));
 
     if (Patch.PATCHSET_LEVEL.equals(fileName)) {
       aTree = null;

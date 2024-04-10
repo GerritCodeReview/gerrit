@@ -105,10 +105,7 @@ public class ListTags implements RestReadView<ProjectResource> {
     this.matchRegex = matchRegex;
   }
 
-  @Option(
-      name = "--sort-by",
-      aliases = {"-sortby"},
-      usage = "sort the tags")
+  @Option(name = "--sort-by", usage = "sort the tags")
   private void setSortBy(ListTagSortOption sortBy) {
     this.sortBy = sortBy;
   }

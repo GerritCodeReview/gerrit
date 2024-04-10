@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3876ceea_9810fad9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-04-10T19:27:33Z",
+      "side": 1,
+      "message": "Going to abandon this as i\u0027m not sure if it\u0027ll cause a regression or if i\u0027ll miss a change. https://gerrit-review.googlesource.com/c/gerrit/+/383441 doesn\u0027t backport cleanly.",
+      "revId": "d492efc3423fa15678cd645a518960e804be6d1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -90,10 +90,10 @@ suite('gr-admin-view tests', () => {
     assert.isNotOk(element.filteredLinks![0].subsection);
 
     // Groups
-    assert.isNotOk(element.filteredLinks![0].subsection);
+    assert.isNotOk(element.filteredLinks![1].subsection);
 
     // Plugins
-    assert.isNotOk(element.filteredLinks![0].subsection);
+    assert.isNotOk(element.filteredLinks![2].subsection);
   });
 
   test('filteredLinks non admin authenticated', async () => {
@@ -102,7 +102,7 @@ suite('gr-admin-view tests', () => {
     // Repos
     assert.isNotOk(element.filteredLinks![0].subsection);
     // Groups
-    assert.isNotOk(element.filteredLinks![0].subsection);
+    assert.isNotOk(element.filteredLinks![1].subsection);
   });
 
   test('filteredLinks non admin unathenticated', async () => {
@@ -239,6 +239,7 @@ suite('gr-admin-view tests', () => {
 
   test('Needs reload when changing from repo to group', async () => {
     element.repoName = 'Test Repo' as RepoName;
+    element.view = GerritView.REPO;
     stubRestApi('getAccount').returns(
       Promise.resolve({
         name: 'test-user',
@@ -255,9 +256,12 @@ suite('gr-admin-view tests', () => {
     const groupId = '1' as GroupId;
     element.view = GerritView.GROUP;
     element.groupViewState = {groupId, view: GerritView.GROUP};
+    // Check for reload before update. This would normally be done as part of
+    // subscribe method that updates the view/viewState.
+    assert.isTrue(element.needsReload());
+    element.reload();
     await element.updateComplete;
 
-    assert.isTrue(element.needsReload());
     assert.equal(element.groupId, groupId);
   });
 

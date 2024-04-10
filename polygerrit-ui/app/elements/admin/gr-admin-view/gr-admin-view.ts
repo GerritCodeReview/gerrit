@@ -73,8 +73,6 @@ export interface AdminSubsectionLink {
 
 @customElement('gr-admin-view')
 export class GrAdminView extends LitElement {
-  private account?: AccountDetailInfo;
-
   @state()
   view?: GerritView;
 
@@ -458,13 +456,18 @@ export class GrAdminView extends LitElement {
   async reload() {
     try {
       this.reloading = true;
+      // There is async barrier inside reload function, we need to clear
+      // subsectionLinks now, because the element might render while waiting for
+      // RestApi responses breaking the invariant that this.view is part of
+      // subsectionLinks if non-empty.
+      this.subsectionLinks = [];
       const promises: [Promise<AccountDetailInfo | undefined>, Promise<void>] =
         [
           this.restApiService.getAccount(),
           this.getPluginLoader().awaitPluginsLoaded(),
         ];
       const result = await Promise.all(promises);
-      this.account = result[0];
+      const account = result[0];
       let options: AdminNavLinksOption | undefined = undefined;
       if (this.repoName) {
         options = {repoName: this.repoName};
@@ -483,7 +486,7 @@ export class GrAdminView extends LitElement {
       }
 
       const res = await getAdminLinks(
-        this.account,
+        account,
         () =>
           this.restApiService.getAccountCapabilities().then(capabilities => {
             if (!capabilities) {
@@ -500,7 +503,6 @@ export class GrAdminView extends LitElement {
         : '';
 
       if (!res.expandedSection) {
-        this.subsectionLinks = [];
         return;
       }
       this.subsectionLinks = [res.expandedSection]

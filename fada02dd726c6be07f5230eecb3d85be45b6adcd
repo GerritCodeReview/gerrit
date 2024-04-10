@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "461f493f_9bb2ce75",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-04-10T08:31:05Z",
+      "side": 1,
+      "message": "Please add this footer to satisfy the \"Release-Notes\" submit requirement:\n\n```\nRelease-Notes: skip\n```",
+      "revId": "fada02dd726c6be07f5230eecb3d85be45b6adcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

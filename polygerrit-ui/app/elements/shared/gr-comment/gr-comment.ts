@@ -87,6 +87,7 @@ import {configModelToken} from '../../../models/config/config-model';
 import {getFileExtension} from '../../../utils/file-util';
 import {storageServiceToken} from '../../../services/storage/gr-storage_impl';
 import {deepEqual} from '../../../utils/deep-util';
+import {ifDefined} from 'lit/directives/if-defined.js';
 
 // visible for testing
 export const AUTO_SAVE_DEBOUNCE_DELAY_MS = 2000;
@@ -217,6 +218,12 @@ export class GrComment extends LitElement {
   /* The 'dirty' state of !comment.unresolved, which will be saved on demand. */
   @state()
   unresolved = true;
+
+  @state()
+  iron = false;
+
+  @state()
+  onedev = false;
 
   @state()
   generateSuggestion = true;
@@ -857,10 +864,17 @@ export class GrComment extends LitElement {
   }
 
   private renderEditingTextarea() {
+    return html` ${this.renderTextarea(this.iron, this.onedev)} `;
+  }
+
+  private renderTextarea(iron = false, onedev = false) {
+    const id = iron ? 'editTextarea' : undefined;
     if (!this.editing || this.collapsed) return;
     return html`
       <gr-textarea
-        id="editTextarea"
+        .iron=${iron}
+        .onedev=${onedev}
+        id=${ifDefined(id)}
         class="editMessage"
         autocomplete="on"
         code=""
@@ -916,6 +930,28 @@ export class GrComment extends LitElement {
       <div class="actions">
         <div class="leftActions">
           <div class="action resolve">
+            <label>
+              <input
+                type="checkbox"
+                id="ironCheckbox"
+                .checked=${this.iron}
+                @change=${() => {
+                  this.iron = !this.iron;
+                }}
+              />
+              Iron
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                id="onedevCheckbox"
+                .checked=${this.onedev}
+                @change=${() => {
+                  this.onedev = !this.onedev;
+                }}
+              />
+              OneDev
+            </label>
             <label>
               <input
                 type="checkbox"

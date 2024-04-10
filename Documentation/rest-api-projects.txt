@@ -2514,12 +2514,12 @@ Sort the returned tags in descending order.
   ]
 ----
 
-SortBy(sortby)::
+SortBy(sort-by)::
 Sort the returned tags by one of the supported sort options: ref (default), creation_time.
 +
 .Request
 ----
-  GET /projects/work%2Fmy-project/tags?sortby=creation_time HTTP/1.0
+  GET /projects/work%2Fmy-project/tags?sort-by=creation_time HTTP/1.0
 ----
 +
 .Response

@@ -123,6 +123,7 @@ public class CreateLabel
    * @throws BadRequestException if there was invalid data in the input
    * @throws ResourceConflictException if the label cannot be created due to a conflict
    */
+  @SuppressWarnings("deprecation")
   public LabelType createLabel(ProjectConfig config, String label, LabelDefinitionInput input)
       throws BadRequestException, ResourceConflictException {
     if (config.getLabelSections().containsKey(label)) {

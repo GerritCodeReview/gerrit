@@ -167,7 +167,7 @@ public class AuditLogFormatter {
         .map(Account::getName)
         // Historically, the database did not enforce relational integrity, so it is
         // possible for groups to have non-existing members.
-        .orElse("No Account for Id #" + accountId);
+        .orElseGet(() -> "No Account for Id #" + accountId);
   }
 
   private PersonIdent getParsableAuthorIdent(

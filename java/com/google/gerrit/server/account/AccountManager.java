@@ -235,7 +235,7 @@ public class AccountManager {
           "Unable to deactivate account %s",
           authRequest
               .getUserName()
-              .orElse(" for external ID key " + authRequest.getExternalIdKey().get()));
+              .orElseGet(() -> " for external ID key " + authRequest.getExternalIdKey().get()));
     }
   }
 

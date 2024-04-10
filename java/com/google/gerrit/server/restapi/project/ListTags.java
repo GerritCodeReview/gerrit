@@ -107,7 +107,6 @@ public class ListTags implements RestReadView<ProjectResource> {
 
   @Option(
       name = "--sort-by",
-      aliases = {"-sortby"},
       usage = "sort the tags")
   private void setSortBy(ListTagSortOption sortBy) {
     this.sortBy = sortBy;

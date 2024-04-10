@@ -3,6 +3,7 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import './onedev-textarea';
 import '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
 import '../gr-cursor-manager/gr-cursor-manager';
 import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
@@ -22,6 +23,7 @@ import {customElement, property, query, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {PropertyValues} from 'lit';
 import {classMap} from 'lit/directives/class-map.js';
+import {ifDefined} from 'lit/directives/if-defined.js';
 import {NumericChangeId, ServerInfo} from '../../../api/rest-api';
 import {subscribe} from '../../lit/subscription-controller';
 import {resolve} from '../../../models/dependency';
@@ -31,6 +33,7 @@ import {ShortcutController} from '../../lit/shortcut-controller';
 import {getAccountDisplayName} from '../../../utils/display-name-util';
 import {configModelToken} from '../../../models/config/config-model';
 import {formStyles} from '../../../styles/form-styles';
+import {OnedevTextarea} from './onedev-textarea';
 
 const MAX_ITEMS_DROPDOWN = 10;
 
@@ -77,7 +80,7 @@ export class GrTextarea extends LitElement {
   /**
    * @event bind-value-changed
    */
-  @query('#textarea') textarea?: IronAutogrowTextareaElement;
+  @query('#textarea') textarea?: HTMLElement;
 
   @query('#emojiSuggestions') emojiSuggestions?: GrAutocompleteDropdown;
 
@@ -90,6 +93,10 @@ export class GrTextarea extends LitElement {
   @property() autocomplete?: string;
 
   @property({type: Boolean}) disabled?: boolean;
+
+  @property({type: Boolean}) iron?: boolean;
+
+  @property({type: Boolean}) onedev?: boolean;
 
   @property({type: Number}) rows?: number;
 
@@ -206,13 +213,21 @@ export class GrTextarea extends LitElement {
         #textarea {
           background-color: var(--view-background-color);
           width: 100%;
+          color: var(--primary-text-color);
+          border: 1px solid var(--border-color);
+          border-radius: var(--border-radius);
+          padding: 0;
+          box-sizing: border-box;
+          position: relative;
+          --onedev-textarea-padding: var(--spacing-m);
+          --iron-autogrow-textarea_-_padding: var(--spacing-m);
+        }
+        textarea#textarea {
+          padding: var(--spacing-m);
         }
         #hiddenText #emojiSuggestions {
           visibility: visible;
           white-space: normal;
-        }
-        iron-autogrow-textarea {
-          position: relative;
         }
         #textarea.noBorder {
           border: none;
@@ -237,7 +252,13 @@ export class GrTextarea extends LitElement {
       it is set as the positionTarget for the emojiSuggestions dropdown. -->
       <span id="caratSpan"></span>
       ${this.renderEmojiDropdown()} ${this.renderMentionsDropdown()}
-      <iron-autogrow-textarea
+      ${this.renderArea()}
+    `;
+  }
+
+  private renderArea() {
+    if (this.iron)
+      return html`<iron-autogrow-textarea
         id="textarea"
         class=${classMap({noBorder: this.hideBorder})}
         .autocomplete=${this.autocomplete}
@@ -249,8 +270,35 @@ export class GrTextarea extends LitElement {
         @value-changed=${(e: ValueChangedEvent) => {
           this.text = e.detail.value;
         }}
-      ></iron-autogrow-textarea>
-    `;
+      ></iron-autogrow-textarea>`;
+
+    if (this.onedev)
+      return html`<onedev-textarea
+        id="textarea"
+        putCursorAtEndOnFocus
+        class=${classMap({noBorder: this.hideBorder})}
+        .placeholder=${this.placeholder}
+        ?disabled=${this.disabled}
+        .value=${this.text}
+        @input=${(e: InputEvent) => {
+          const value = (e.target as OnedevTextarea).value;
+          this.text = value ?? '';
+        }}
+      ></onedev-textarea>`;
+
+    return html`<textarea
+      id="textarea"
+      class=${classMap({noBorder: this.hideBorder})}
+      autocomplete=${ifDefined(this.autocomplete)}
+      placeholder=${ifDefined(this.placeholder)}
+      ?disabled=${this.disabled}
+      rows=${ifDefined(this.rows)}
+      .value=${this.text}
+      @input=${(e: InputEvent) => {
+        const value = (e.target as HTMLInputElement).value;
+        this.text = value;
+      }}
+    ></textarea>`;
   }
 
   private renderEmojiDropdown() {
@@ -296,21 +344,46 @@ export class GrTextarea extends LitElement {
   }
 
   getNativeTextarea() {
-    return this.textarea!.textarea;
+    if (this.iron) {
+      return (this.textarea as IronAutogrowTextareaElement)?.textarea;
+    } else if (this.onedev) {
+      return (this.textarea as OnedevTextarea)?.editableDivElement;
+    } else {
+      return this.textarea as HTMLTextAreaElement;
+    }
+  }
+
+  isFocused() {
+    if (this.iron) {
+      return (this.textarea as IronAutogrowTextareaElement)?.focused;
+    } else if (this.onedev) {
+      return (this.textarea as OnedevTextarea)?.isFocused;
+    } else {
+      return document.activeElement === (this.textarea as HTMLTextAreaElement);
+    }
   }
 
   override focus() {
     // Note that this may not work as intended, because the textarea is not
     // rendered yet.
-    this.textarea?.textarea.focus();
+    if (this.iron || !this.onedev) {
+      return this.getNativeTextarea()?.focus();
+    } else if (this.onedev) {
+      return (this.textarea as OnedevTextarea)?.focus();
+    }
   }
 
   putCursorAtEnd() {
-    const textarea = this.getNativeTextarea();
     // Put the cursor at the end always.
-    textarea.selectionStart = textarea.value.length;
-    textarea.selectionEnd = textarea.selectionStart;
-    textarea.focus();
+    // onedev-textarea does that on focus (see putCursorAtEndOnFocus)
+    if (!this.onedev) {
+      const textarea = this.getNativeTextarea() as HTMLTextAreaElement;
+      if (!textarea) return;
+      const length = this.text.length;
+      textarea.selectionStart = length;
+      textarea.selectionEnd = length;
+    }
+    this.focus();
   }
 
   private getVisibleDropdown() {
@@ -433,9 +506,27 @@ export class GrTextarea extends LitElement {
     // below needs to happen after iron-autogrow-textarea has set the
     // incorrect value.
     await this.updateComplete;
-    this.textarea!.selectionStart = specialCharIndex + text.length + move;
-    this.textarea!.selectionEnd = specialCharIndex + text.length + move;
+    this.setCursorPosition(specialCharIndex + text.length + move);
     this.resetDropdown();
+  }
+
+  private getCursorPosition(): number {
+    if (this.iron || !this.onedev) {
+      const textarea = this.getNativeTextarea() as HTMLTextAreaElement;
+      return textarea?.selectionStart ?? -1;
+    } else {
+      return (this.textarea as OnedevTextarea)?.getCursorPosition();
+    }
+  }
+
+  private setCursorPosition(pos: number) {
+    if (this.iron || !this.onedev) {
+      const textarea = this.getNativeTextarea() as HTMLTextAreaElement;
+      textarea.selectionStart = pos;
+      textarea.selectionEnd = pos;
+    } else if (this.onedev) {
+      (this.textarea as OnedevTextarea)?.setCursorPosition(pos);
+    }
   }
 
   private addValueToText(value: string) {
@@ -456,12 +547,11 @@ export class GrTextarea extends LitElement {
    * private but used in test
    */
   updateCaratPosition() {
-    if (typeof this.textarea!.value === 'string') {
-      this.hiddenText!.textContent = this.textarea!.value.substring(
-        0,
-        this.textarea!.selectionStart
-      );
+    let position = this.getCursorPosition();
+    if (position === -1) {
+      position = this.text.length;
     }
+    this.hiddenText!.textContent = this.text.substring(0, position);
 
     const caratSpan = this.caratSpan!;
     this.hiddenText!.appendChild(caratSpan);
@@ -474,9 +564,9 @@ export class GrTextarea extends LitElement {
     // - The search string is an space or new line
     // - The colon has been removed
     // - There are no suggestions that match the search string
+    const position = this.getCursorPosition();
     return (
-      this.textarea!.selectionStart !==
-        (this.currentSearchString ?? '').length + charIndex + 1 ||
+      position !== (this.currentSearchString ?? '').length + charIndex + 1 ||
       this.currentSearchString === ' ' ||
       this.currentSearchString === '\n' ||
       !(text[charIndex] === char)
@@ -522,7 +612,7 @@ export class GrTextarea extends LitElement {
       )
     ) {
       this.resetDropdown();
-    } else if (activeDropdown!.isHidden && this.textarea!.focused) {
+    } else if (activeDropdown!.isHidden && this.isFocused()) {
       // Otherwise open the dropdown and set the position to be just below the
       // cursor.
       // Do not open dropdown if textarea is not focused
@@ -544,7 +634,10 @@ export class GrTextarea extends LitElement {
   }
 
   private computeIndexAndSearchString() {
-    const currentCarat = this.textarea?.selectionStart ?? this.text.length;
+    let currentCarat = this.getCursorPosition();
+    if (currentCarat === -1) {
+      currentCarat = this.text.length;
+    }
     const m = this.text
       .substring(0, currentCarat)
       .match(/(?:^|\s)([:@][\S]*)$/);
@@ -643,10 +736,8 @@ export class GrTextarea extends LitElement {
     // When nothing is selected, selectionStart is the caret position. We want
     // the indentation level of the current line, not the end of the text which
     // may be different.
-    const currentLine = this.textarea!.textarea.value.substring(
-      0,
-      this.textarea!.selectionStart
-    )
+    const currentLine = this.text
+      .substring(0, this.getCursorPosition())
       .split('\n')
       .pop();
     const currentLineIndentation = currentLine?.match(/^\s*/)?.[0];

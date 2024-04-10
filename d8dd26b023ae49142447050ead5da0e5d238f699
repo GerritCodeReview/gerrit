@@ -34,6 +34,24 @@
       "parentUuid": "0df54912_40617fa9",
       "revId": "d8dd26b023ae49142447050ead5da0e5d238f699",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "914b4929_db31a53b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-04-10T22:25:41Z",
+      "side": 1,
+      "message": "\u003e since a couple of months we are using master :-)\n\u003e \n\u003e From a jgit maintenance perspective an update to a recent 6.x version would help.\n\u003e How about 6.9 ?\n\nLGTM",
+      "parentUuid": "55643f04_7a160f91",
+      "revId": "d8dd26b023ae49142447050ead5da0e5d238f699",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

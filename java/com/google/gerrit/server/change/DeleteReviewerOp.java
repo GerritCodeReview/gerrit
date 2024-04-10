@@ -212,7 +212,7 @@ public class DeleteReviewerOp extends ReviewerOp {
             reviewerDeleted.fire(
                 ctx.getChangeData(currChange),
                 patchSet,
-                accountCache.get(reviewer.id()).orElse(AccountState.forAccount(reviewer)),
+                accountCache.get(reviewer.id()).orElseGet(() -> AccountState.forAccount(reviewer)),
                 ctx.getAccount(),
                 mailMessage,
                 newApprovals,

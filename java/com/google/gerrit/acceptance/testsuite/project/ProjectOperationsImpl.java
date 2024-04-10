@@ -88,7 +88,7 @@ public class ProjectOperationsImpl implements ProjectOperations {
   }
 
   private Project.NameKey createNewProject(TestProjectCreation projectCreation) throws Exception {
-    String name = projectCreation.name().orElse(RandomStringUtils.randomAlphabetic(8));
+    String name = projectCreation.name().orElseGet(() -> RandomStringUtils.randomAlphabetic(8));
 
     CreateProjectArgs args = new CreateProjectArgs();
     args.setProjectName(name);

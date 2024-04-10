@@ -333,7 +333,7 @@ public class GerritServer implements AutoCloseable {
     String configuredIndexBackend = cfg.getString("index", null, "type");
     if (configuredIndexBackend == null) {
       // Propagate index type to pgms that run off of the gerrit.config file on local disk.
-      IndexType indexType = IndexType.fromEnvironment().orElse(new IndexType("fake"));
+      IndexType indexType = IndexType.fromEnvironment().orElseGet(() -> new IndexType("fake"));
       gerritConfig.setString("index", null, "type", indexType.isLucene() ? "lucene" : "fake");
     }
     gerritConfig.save();
@@ -511,7 +511,7 @@ public class GerritServer implements AutoCloseable {
     IndexType indexType =
         (configuredIndexBackend != null)
             ? new IndexType(configuredIndexBackend)
-            : IndexType.fromEnvironment().orElse(new IndexType("fake"));
+            : IndexType.fromEnvironment().orElseGet(() -> new IndexType("fake"));
     daemon.setIndexModule(createIndexModule(indexType, baseConfig, testIndexModule));
 
     daemon.setEnableHttpd(desc.httpd());

@@ -2033,10 +2033,10 @@ class ReceiveCommits {
       magicBranch.dest = BranchNameKey.create(project.getNameKey(), ref);
       magicBranch.perm = permissions.ref(ref);
 
-      Optional<AuthException> err =
-          checkRefPermission(magicBranch.perm, RefPermission.READ)
-              .map(Optional::of)
-              .orElse(checkRefPermission(magicBranch.perm, RefPermission.CREATE_CHANGE));
+      Optional<AuthException> err = checkRefPermission(magicBranch.perm, RefPermission.READ);
+      if (err.isEmpty()) {
+        err = checkRefPermission(magicBranch.perm, RefPermission.CREATE_CHANGE);
+      }
       if (err.isPresent()) {
         rejectProhibited(cmd, err.get());
         return;

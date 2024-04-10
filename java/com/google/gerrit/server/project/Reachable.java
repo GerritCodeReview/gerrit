@@ -74,7 +74,7 @@ public class Reachable {
       Collection<Ref> filtered =
           optionalUserProvider
               .map(permissionBackend::user)
-              .orElse(permissionBackend.currentUser())
+              .orElseGet(() -> permissionBackend.currentUser())
               .project(project)
               .filter(refs, repo, RefFilterOptions.defaults());
       Collection<RevCommit> visible = new ArrayList<>();

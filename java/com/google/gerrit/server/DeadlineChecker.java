@@ -180,12 +180,14 @@ public class DeadlineChecker implements RequestStateProvider {
     this.timeoutName =
         clientedProvidedTimeout
             .map(clientTimeout -> "client.timeout")
-            .orElse(
-                serverSideDeadline
-                    .map(serverDeadline -> serverDeadline.id() + ".timeout")
-                    .orElse("timeout"));
+            .orElseGet(
+                () ->
+                    serverSideDeadline
+                        .map(serverDeadline -> serverDeadline.id() + ".timeout")
+                        .orElse("timeout"));
     this.timeout =
-        clientedProvidedTimeout.orElse(serverSideDeadline.map(ServerDeadline::timeout).orElse(0L));
+        clientedProvidedTimeout.orElseGet(
+            () -> serverSideDeadline.map(ServerDeadline::timeout).orElse(0L));
     this.deadline = timeout > 0 ? Optional.of(start + timeout) : Optional.empty();
   }
 

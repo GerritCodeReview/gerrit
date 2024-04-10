@@ -142,7 +142,7 @@ public class AbstractGroupTest {
               return GroupConfig.loadForGroup(allUsersName, allUsersRepo, uuid)
                   .getLoadedGroup()
                   .map(InternalGroup::getName)
-                  .orElse("Group " + uuid);
+                  .orElseGet(() -> "Group " + uuid);
             } catch (IOException | ConfigInvalidException e) {
               return "Group " + uuid;
             }

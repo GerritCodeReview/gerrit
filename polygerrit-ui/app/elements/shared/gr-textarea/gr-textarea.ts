@@ -3,6 +3,7 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import './onedev-textarea';
 import '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
 import '../gr-cursor-manager/gr-cursor-manager';
 import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
@@ -22,6 +23,7 @@ import {customElement, property, query, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {PropertyValues} from 'lit';
 import {classMap} from 'lit/directives/class-map.js';
+import {ifDefined} from 'lit/directives/if-defined.js';
 import {NumericChangeId, ServerInfo} from '../../../api/rest-api';
 import {subscribe} from '../../lit/subscription-controller';
 import {resolve} from '../../../models/dependency';
@@ -31,6 +33,7 @@ import {ShortcutController} from '../../lit/shortcut-controller';
 import {getAccountDisplayName} from '../../../utils/display-name-util';
 import {configModelToken} from '../../../models/config/config-model';
 import {formStyles} from '../../../styles/form-styles';
+import {OnedevTextarea} from './onedev-textarea';
 
 const MAX_ITEMS_DROPDOWN = 10;
 
@@ -77,7 +80,7 @@ export class GrTextarea extends LitElement {
   /**
    * @event bind-value-changed
    */
-  @query('#textarea') textarea?: IronAutogrowTextareaElement;
+  @query('#textarea') textarea?: HTMLElement;
 
   @query('#emojiSuggestions') emojiSuggestions?: GrAutocompleteDropdown;
 
@@ -90,6 +93,10 @@ export class GrTextarea extends LitElement {
   @property() autocomplete?: string;
 
   @property({type: Boolean}) disabled?: boolean;
+
+  @property({type: Boolean}) iron?: boolean;
+
+  @property({type: Boolean}) onedev?: boolean;
 
   @property({type: Number}) rows?: number;
 
@@ -237,7 +244,13 @@ export class GrTextarea extends LitElement {
       it is set as the positionTarget for the emojiSuggestions dropdown. -->
       <span id="caratSpan"></span>
       ${this.renderEmojiDropdown()} ${this.renderMentionsDropdown()}
-      <iron-autogrow-textarea
+      ${this.renderArea()}
+    `;
+  }
+
+  private renderArea() {
+    if (this.iron)
+      return html`<iron-autogrow-textarea
         id="textarea"
         class=${classMap({noBorder: this.hideBorder})}
         .autocomplete=${this.autocomplete}
@@ -249,8 +262,35 @@ export class GrTextarea extends LitElement {
         @value-changed=${(e: ValueChangedEvent) => {
           this.text = e.detail.value;
         }}
-      ></iron-autogrow-textarea>
-    `;
+      ></iron-autogrow-textarea>`;
+
+    if (this.onedev)
+      return html`<onedev-textarea
+        id="textarea"
+        putCursorAtEndOnFocus
+        class=${classMap({noBorder: this.hideBorder})}
+        .placeholder=${this.placeholder}
+        ?disabled=${this.disabled}
+        .value=${this.text}
+        @input=${(e: InputEvent) => {
+          const value = (e.target as OnedevTextarea).value;
+          this.text = value ?? '';
+        }}
+      ></onedev-textarea>`;
+
+    return html`<textarea
+      id="textarea"
+      class=${classMap({noBorder: this.hideBorder})}
+      autocomplete=${ifDefined(this.autocomplete)}
+      placeholder=${ifDefined(this.placeholder)}
+      ?disabled=${this.disabled}
+      rows=${ifDefined(this.rows)}
+      .value=${this.text}
+      @input=${(e: InputEvent) => {
+        const value = (e.target as HTMLInputElement).value;
+        this.text = value;
+      }}
+    ></textarea>`;
   }
 
   private renderEmojiDropdown() {
@@ -296,21 +336,37 @@ export class GrTextarea extends LitElement {
   }
 
   getNativeTextarea() {
-    return this.textarea!.textarea;
+    if (this.iron) {
+      return (this.textarea as IronAutogrowTextareaElement)?.textarea;
+    } else if (this.onedev) {
+      return (this.textarea as OnedevTextarea)?.editableDivElement;
+    } else {
+      return this.textarea as HTMLTextAreaElement;
+    }
   }
 
   override focus() {
     // Note that this may not work as intended, because the textarea is not
     // rendered yet.
-    this.textarea?.textarea.focus();
+    if (this.iron) {
+      return this.getNativeTextarea()?.focus();
+    } else if (this.onedev) {
+      return (this.textarea as OnedevTextarea)?.focus();
+    } else {
+      return this.getNativeTextarea()?.focus();
+    }
   }
 
   putCursorAtEnd() {
-    const textarea = this.getNativeTextarea();
     // Put the cursor at the end always.
-    textarea.selectionStart = textarea.value.length;
-    textarea.selectionEnd = textarea.selectionStart;
-    textarea.focus();
+    // onedev-textarea does that on focus (see putCursorAtEndOnFocus)
+    if (!this.onedev) {
+      const textarea = this.getNativeTextarea() as HTMLTextAreaElement;
+      if (!textarea) return;
+      textarea.selectionStart = textarea.value.length;
+      textarea.selectionEnd = textarea.selectionStart;
+    }
+    this.focus();
   }
 
   private getVisibleDropdown() {
@@ -433,8 +489,9 @@ export class GrTextarea extends LitElement {
     // below needs to happen after iron-autogrow-textarea has set the
     // incorrect value.
     await this.updateComplete;
-    this.textarea!.selectionStart = specialCharIndex + text.length + move;
-    this.textarea!.selectionEnd = specialCharIndex + text.length + move;
+    const textarea = this.textarea as IronAutogrowTextareaElement;
+    textarea.selectionStart = specialCharIndex + text.length + move;
+    textarea.selectionEnd = specialCharIndex + text.length + move;
     this.resetDropdown();
   }
 

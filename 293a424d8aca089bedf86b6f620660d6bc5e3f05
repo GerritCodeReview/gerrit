@@ -178,6 +178,24 @@
       "parentUuid": "afca835e_87c7ba1e",
       "revId": "293a424d8aca089bedf86b6f620660d6bc5e3f05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c13710c4_a0011c2c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-04-10T22:18:59Z",
+      "side": 1,
+      "message": "We had to disable this cache since it caused events not to be sent in HA setup with 2 primaries using high-availability plugin, see https://issues.gerritcodereview.com/issues/324314565\n\nwe are using Gerrit from the master branch",
+      "parentUuid": "0f284aab_6ad372d6",
+      "revId": "293a424d8aca089bedf86b6f620660d6bc5e3f05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

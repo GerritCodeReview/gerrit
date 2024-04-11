@@ -45,7 +45,6 @@ import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.GroupCollector;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.MergeUtilFactory;
-import com.google.gerrit.server.logging.CallerFinder;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -99,7 +98,6 @@ public class RebaseChangeOp implements BatchUpdateOp {
   private final RebaseUtil rebaseUtil;
   private final ChangeResource.Factory changeResourceFactory;
   private final ChangeNotes.Factory notesFactory;
-  private final CallerFinder callerFinder;
 
   private final ChangeNotes notes;
   private final PatchSet originalPatchSet;
@@ -201,7 +199,6 @@ public class RebaseChangeOp implements BatchUpdateOp {
     this.notes = notes;
     this.projectName = notes.getProjectName();
     this.originalPatchSet = originalPatchSet;
-    this.callerFinder = CallerFinder.builder().addTarget(RebaseChangeOp.class).build();
   }
 
   @CanIgnoreReturnValue
@@ -500,8 +497,8 @@ public class RebaseChangeOp implements BatchUpdateOp {
       filesWithGitConflicts = null;
       tree = merger.getResultTreeId();
       logger.atFine().log(
-          "tree of rebased commit: %s (no conflicts, inserter: %s, caller: %s)",
-          tree.name(), merger.getObjectInserter(), callerFinder.findCallerLazy());
+          "tree of rebased commit: %s (no conflicts, inserter: %s)",
+          tree.name(), merger.getObjectInserter());
     } else {
       List<String> conflicts = ImmutableList.of();
       Map<String, ResolveMerger.MergeFailureReason> failed = ImmutableMap.of();
@@ -560,8 +557,8 @@ public class RebaseChangeOp implements BatchUpdateOp {
               ctx.getRevWalk().parseCommit(base),
               mergeResults);
       logger.atFine().log(
-          "tree of rebased commit: %s (with conflicts, inserter: %s, caller: %s)",
-          tree.name(), ctx.getInserter(), callerFinder.findCallerLazy());
+          "tree of rebased commit: %s (with conflicts, inserter: %s)",
+          tree.name(), ctx.getInserter());
     }
 
     List<ObjectId> parents = new ArrayList<>();

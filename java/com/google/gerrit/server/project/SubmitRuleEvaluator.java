@@ -21,14 +21,11 @@ import com.google.common.collect.Streams;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.entities.SubmitTypeRecord;
 import com.google.gerrit.exceptions.StorageException;
-import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Description.Units;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.Timer0;
-import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.index.OnlineReindexMode;
-import com.google.gerrit.server.logging.CallerFinder;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
@@ -80,7 +77,6 @@ public class SubmitRuleEvaluator {
   private final PluginSetContext<SubmitRule> submitRules;
   private final Metrics metrics;
   private final SubmitRuleOptions opts;
-  private final CallerFinder callerFinder;
 
   @Inject
   private SubmitRuleEvaluator(
@@ -95,15 +91,6 @@ public class SubmitRuleEvaluator {
     this.metrics = metrics;
 
     this.opts = options;
-
-    this.callerFinder =
-        CallerFinder.builder()
-            .addTarget(ChangeApi.class)
-            .addTarget(ChangeJson.class)
-            .addTarget(ChangeData.class)
-            .addTarget(SubmitRequirementsEvaluatorImpl.class)
-            .addTarget(SubmitRequirementsAdapter.class)
-            .build();
   }
 
   /**
@@ -117,10 +104,7 @@ public class SubmitRuleEvaluator {
     try (TraceTimer timer =
             TraceContext.newTimer(
                 "Evaluate submit rules",
-                Metadata.builder()
-                    .changeId(cd.change().getId().get())
-                    .caller(callerFinder.findCaller())
-                    .build());
+                Metadata.builder().changeId(cd.change().getId().get()).build());
         Timer0.Context ignored = metrics.submitRuleEvaluationLatency.start()) {
       if (cd.change() == null) {
         throw new StorageException("Change not found");

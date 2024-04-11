@@ -40,7 +40,6 @@ import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.Timer1;
-import com.google.gerrit.server.logging.CallerFinder;
 import com.google.gerrit.server.logging.Metadata;
 import java.util.ArrayList;
 import java.util.List;
@@ -83,7 +82,6 @@ public abstract class QueryProcessor<T> {
   private final IndexRewriter<T> rewriter;
   private final String limitField;
   private final IntSupplier userQueryLimit;
-  private final CallerFinder callerFinder;
 
   // This class is not generally thread-safe, but programmer error may result in it being shared
   // across threads. At least ensure the bit for checking if it's been used is threadsafe.
@@ -113,13 +111,6 @@ public abstract class QueryProcessor<T> {
     this.limitField = limitField;
     this.userQueryLimit = userQueryLimit;
     this.used = new AtomicBoolean(false);
-    this.callerFinder =
-        CallerFinder.builder()
-            .addTarget(InternalQuery.class)
-            .addTarget(QueryProcessor.class)
-            .matchSubClasses(true)
-            .skip(1)
-            .build();
   }
 
   @CanIgnoreReturnValue
@@ -242,9 +233,7 @@ public abstract class QueryProcessor<T> {
       return disabledResults(queryStrings, queries);
     }
 
-    logger.atFine().log(
-        "Executing %d %s index queries for %s",
-        cnt, schemaDef.getName(), callerFinder.findCallerLazy());
+    logger.atFine().log("Executing %d %s index queries", cnt, schemaDef.getName());
     List<QueryResult<T>> out;
     try {
       // Parse and rewrite all queries.

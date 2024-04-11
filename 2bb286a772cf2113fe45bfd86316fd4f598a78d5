@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf12449d_a96c07e7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-04-11T09:53:48Z",
+      "side": 1,
+      "message": "Please add a non-skip release footer, as we\u0027ll need to cherry-pick this to stable-3.10 later (since the bad changes got included there).",
+      "revId": "2bb286a772cf2113fe45bfd86316fd4f598a78d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

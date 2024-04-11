@@ -41,14 +41,11 @@ import com.google.gerrit.server.account.externalids.DuplicateExternalIdKeyExcept
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdCache;
 import com.google.gerrit.server.account.externalids.ExternalIdUpsertPreprocessor;
-import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.git.meta.VersionedMetaData;
 import com.google.gerrit.server.index.account.AccountIndexer;
-import com.google.gerrit.server.logging.CallerFinder;
-import com.google.gerrit.server.update.RetryHelper;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -361,7 +358,6 @@ public class ExternalIdNotes extends VersionedMetaData {
   private final Counter0 updateCount;
   private final Repository repo;
   private final DynamicMap<ExternalIdUpsertPreprocessor> upsertPreprocessors;
-  private final CallerFinder callerFinder;
   private final ExternalIdFactoryNoteDbImpl externalIdFactory;
 
   private NoteMap noteMap;
@@ -415,19 +411,6 @@ public class ExternalIdNotes extends VersionedMetaData {
     this.allUsersName = requireNonNull(allUsersName, "allUsersRepo");
     this.repo = requireNonNull(allUsersRepo, "allUsersRepo");
     this.upsertPreprocessors = upsertPreprocessors;
-    this.callerFinder =
-        CallerFinder.builder()
-            // 1. callers that come through ExternalIds
-            .addTarget(ExternalIds.class)
-
-            // 2. callers that come through AccountsUpdate
-            .addTarget(AccountsUpdate.class)
-            .addIgnoredPackage("com.github.rholder.retry")
-            .addIgnoredClass(RetryHelper.class)
-
-            // 3. direct callers
-            .addTarget(ExternalIdNotes.class)
-            .build();
     this.externalIdFactory = externalIdFactory;
     this.isUserNameCaseInsensitiveMigrationMode = isUserNameCaseInsensitiveMigrationMode;
   }
@@ -852,8 +835,6 @@ public class ExternalIdNotes extends VersionedMetaData {
   @Override
   protected void onLoad() throws IOException, ConfigInvalidException {
     if (revision != null) {
-      logger.atFine().log(
-          "Reading external ID note map (caller: %s)", callerFinder.findCallerLazy());
       noteMap = NoteMap.read(reader, revision);
     } else {
       noteMap = NoteMap.newEmptyMap();

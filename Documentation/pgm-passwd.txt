@@ -27,9 +27,9 @@ provided in the command line argument.
 
 == ARGUMENTS
 
-SECTION.KEY::
-	Section and key in the `secure.config` file for setting or editing the
-	password value.
+SECTION.[SUBSECTION.]KEY::
+	Section, subsection and key separated by a dot of the
+	password to set. Subsection is optional.
 
 PASSWORD::
 	New password to set in `secure.config` associated to the section and key.

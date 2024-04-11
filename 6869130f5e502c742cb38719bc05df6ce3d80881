@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7163e132_bba45680",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-04-11T10:01:46Z",
+      "side": 1,
+      "message": "Reverts the bad changes https://gerrit-review.googlesoucre.com/c/gerrit/+/412199 and https://gerrit-review.googlesource.com/c/gerrit/+/414340.",
+      "revId": "6869130f5e502c742cb38719bc05df6ce3d80881",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

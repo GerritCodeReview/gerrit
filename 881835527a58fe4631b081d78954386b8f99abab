@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c3c66de_f41e8866",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-04-11T09:03:26Z",
+      "side": 1,
+      "message": "This will break the Check Access endpoint which we need to debug access rights. Removing the non-lazy finder of callers as done in gerrit-review.googlesource.com/c/gerrit/+/418701 should be enough.",
+      "revId": "881835527a58fe4631b081d78954386b8f99abab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

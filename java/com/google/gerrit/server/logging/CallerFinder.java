@@ -108,6 +108,9 @@ import java.util.Optional;
  * brings some significant benefit.
  *
  * <p>Based on {@link com.google.common.flogger.util.CallerFinder}.
+ *
+ * <p><strong>Warning:</strong>Finding a caller can take up to 100ms, hence finding callers must
+ * only be done lazily so that it's only done when needed (e.g. when fine logging is enabled).
  */
 @AutoValue
 public abstract class CallerFinder {

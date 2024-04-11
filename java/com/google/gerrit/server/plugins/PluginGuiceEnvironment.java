@@ -52,6 +52,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.internal.UniqueAnnotations;
+import com.google.inject.util.Modules;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;
 import java.util.Collections;
@@ -175,16 +176,7 @@ public class PluginGuiceEnvironment {
     final Module db = copy(dbInjector);
     final Module cm = copy(cfgInjector);
     final Module sm = copy(sysInjector);
-    sysModule =
-        new AbstractModule() {
-          @Override
-          protected void configure() {
-            install(copyConfigModule);
-            install(db);
-            install(cm);
-            install(sm);
-          }
-        };
+    sysModule = Modules.combine(copyConfigModule, db, cm, sm);
   }
 
   public void setSshInjector(Injector injector) {

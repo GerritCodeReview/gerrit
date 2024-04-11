@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1186dda4_148a6e83",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-04-11T10:46:48Z",
+      "side": 1,
+      "message": "Internally this was uploaded as cl/623484778, applying this upstream with this change.",
+      "revId": "0a0e60045fa618fb872544451ffb20ebf616d0f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

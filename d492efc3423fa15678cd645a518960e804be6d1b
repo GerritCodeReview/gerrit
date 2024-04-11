@@ -16,6 +16,23 @@
       "message": "Going to abandon this as i\u0027m not sure if it\u0027ll cause a regression or if i\u0027ll miss a change. https://gerrit-review.googlesource.com/c/gerrit/+/383441 doesn\u0027t backport cleanly.",
       "revId": "d492efc3423fa15678cd645a518960e804be6d1b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b411b7fb_c3835f57",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3386122
+      },
+      "writtenOn": "2024-04-11T07:11:48Z",
+      "side": 1,
+      "message": " HTTP/1.1 200 OK\n  Content-Disposition: attachment\n  Content-Type: application/json; charset\u003dUTF-8\n\n  )]}\u0027\n  {\n    \"id\": \"6a1e70e1a88782771a91808c8af9bbb7a9871389\",\n    \"name\": \"Administrators\",\n    \"url\": \"#/admin/groups/uuid-6a1e70e1a88782771a91808c8af9bbb7a9871389\",\n    \"options\": {\n    },\n    \"description\": \"Gerrit Site Administrators\",\n    \"group_id\": 1,\n    \"owner\": \"Administrators\",\n    \"owner_id\": \"6a1e70e1a88782771a91808c8af9bbb7a9871389\",\n    \"created_on\": \"2013-02-01 09:59:32.126000000\"\n  }",
+      "revId": "d492efc3423fa15678cd645a518960e804be6d1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

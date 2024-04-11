@@ -444,7 +444,7 @@ class RefControl {
                   pr.getGroup().getUUID().get(),
                   pr);
           LoggingContext.getInstance().addAclLogRecord(logMessage);
-          logger.atFine().log(logMessage);
+          logger.atFine().log("%s", logMessage);
         }
         return true;
       }
@@ -460,7 +460,7 @@ class RefControl {
               projectControl.getProject().getName(),
               refName);
       LoggingContext.getInstance().addAclLogRecord(logMessage);
-      logger.atFine().log(logMessage);
+      logger.atFine().log("%s", logMessage);
     }
     return false;
   }

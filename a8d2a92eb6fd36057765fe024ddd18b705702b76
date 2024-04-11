@@ -16,6 +16,24 @@
       "message": "What\u0027s the plan from the ESC on proceeding with this change? Do you want to make a new release that includes this fix before making it public, or should we just submit this change so that it gets included into the next release?",
       "revId": "a8d2a92eb6fd36057765fe024ddd18b705702b76",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa4e6fcb_c3858e46",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-04-11T15:12:03Z",
+      "side": 1,
+      "message": "\u003e What\u0027s the plan from the ESC on proceeding with this change? Do you want to make a new release that includes this fix before making it public, or should we just submit this change so that it gets included into the next release?\n\nMy proposal is:\n\n1. Cherry-pick this private change to stable-3.7, stable-3.8, stable-3.9 and stable-3.10\n2. I\u0027ll prepare the releases and publish them based on the private changes\n3. We can publish the changes *and* announce the releases at the same time\n\n@ekempin@google.com @sasa.zivkov@sap.com @hiesel@google.com how does it sounds?\n@ekempin@google.com could you take care of the cherry-picks and I\u0027ll prepare the releases.",
+      "parentUuid": "2a5f24ee_8f2a7477",
+      "revId": "a8d2a92eb6fd36057765fe024ddd18b705702b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

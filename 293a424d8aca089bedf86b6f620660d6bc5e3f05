@@ -196,6 +196,24 @@
       "parentUuid": "0f284aab_6ad372d6",
       "revId": "293a424d8aca089bedf86b6f620660d6bc5e3f05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f88ae6f_e5cec311",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-04-11T05:47:23Z",
+      "side": 1,
+      "message": "@luca.milanesio@gmail.com is this enabled for gerrithub? do we see any issues? if not do you want to give it a try?\n@matthias.sohn@gmail.com are you OK with having it enabled by default?",
+      "parentUuid": "c13710c4_a0011c2c",
+      "revId": "293a424d8aca089bedf86b6f620660d6bc5e3f05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

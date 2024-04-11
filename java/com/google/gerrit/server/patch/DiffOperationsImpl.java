@@ -33,7 +33,6 @@ import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.logging.CallerFinder;
 import com.google.gerrit.server.patch.diff.ModifiedFilesCache;
 import com.google.gerrit.server.patch.diff.ModifiedFilesCacheImpl;
 import com.google.gerrit.server.patch.diff.ModifiedFilesCacheKey;
@@ -84,7 +83,6 @@ public class DiffOperationsImpl implements DiffOperations {
   private final ModifiedFilesLoader.Factory modifiedFilesLoaderFactory;
   private final FileDiffCache fileDiffCache;
   private final BaseCommitUtil baseCommitUtil;
-  private final CallerFinder callerFinder;
 
   public static Module module() {
     return new CacheModule() {
@@ -113,11 +111,6 @@ public class DiffOperationsImpl implements DiffOperations {
     this.modifiedFilesLoaderFactory = modifiedFilesLoaderFactory;
     this.fileDiffCache = fileDiffCache;
     this.baseCommitUtil = baseCommit;
-    this.callerFinder =
-        CallerFinder.builder()
-            .addTarget(DiffOperations.class)
-            .addTarget(DiffOperationsImpl.class)
-            .build();
   }
 
   @Override

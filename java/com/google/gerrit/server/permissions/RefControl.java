@@ -31,7 +31,6 @@ import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.logging.CallerFinder;
 import com.google.gerrit.server.logging.LoggingContext;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackend.ForChange;
@@ -61,8 +60,6 @@ class RefControl {
   /** All permissions that apply to this reference. */
   private final PermissionCollection relevant;
 
-  private final CallerFinder callerFinder;
-
   // The next 4 members are cached canPerform() permissions.
 
   private Boolean owner;
@@ -83,13 +80,6 @@ class RefControl {
     this.repositoryManager = repositoryManager;
     this.refName = ref;
     this.relevant = relevant;
-    this.callerFinder =
-        CallerFinder.builder()
-            .addTarget(PermissionBackend.class)
-            .matchSubClasses(true)
-            .matchInnerClasses(true)
-            .skip(1)
-            .build();
   }
 
   ProjectControl getProjectControl() {
@@ -435,7 +425,6 @@ class RefControl {
                 projectControl.getProject().getName(),
                 refName);
         LoggingContext.getInstance().addAclLogRecord(logMessage);
-        logger.atFine().log("%s (caller: %s)", logMessage, callerFinder.findCallerLazy());
       }
       return false;
     }
@@ -455,7 +444,7 @@ class RefControl {
                   pr.getGroup().getUUID().get(),
                   pr);
           LoggingContext.getInstance().addAclLogRecord(logMessage);
-          logger.atFine().log("%s (caller: %s)", logMessage, callerFinder.findCallerLazy());
+          logger.atFine().log(logMessage);
         }
         return true;
       }
@@ -471,7 +460,7 @@ class RefControl {
               projectControl.getProject().getName(),
               refName);
       LoggingContext.getInstance().addAclLogRecord(logMessage);
-      logger.atFine().log("%s (caller: %s)", logMessage, callerFinder.findCallerLazy());
+      logger.atFine().log(logMessage);
     }
     return false;
   }

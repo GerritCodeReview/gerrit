@@ -385,7 +385,7 @@ that the update doesn't introduce a regression.
 == Escalation channel to Google
 
 If anything urgent is blocking that requires the attention of a Googler you may
-escalate this by writing an email to Han-Wen Nienhuys: hanwen@google.com
+escalate this by writing an email to Chris Poucet: poucet@google.com
 
 [[deprecating-features]]
 == Deprecating features

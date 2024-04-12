@@ -93,31 +93,39 @@ public class RemoveReviewerControl {
       return false;
     }
 
-    if (canRemoveReviewerWithoutPermissionCheck(
-        permissionBackend, cd.change(), currentUser, reviewer, value)) {
+    if (canRemoveReviewerWithoutPermissionCheck(cd.change(), currentUser, reviewer, value)) {
       return true;
     }
-    return permissionBackend.user(currentUser).change(cd).test(ChangePermission.REMOVE_REVIEWER);
+
+    // Users with the remove reviewer permission, the branch owner, project
+    // owner and site admin can remove anyone
+    PermissionBackend.WithUser withUser = permissionBackend.user(currentUser);
+    PermissionBackend.ForProject forProject = withUser.project(cd.project());
+    return (forProject.ref(cd.change().getDest().branch()).test(RefPermission.WRITE_CONFIG)
+            || withUser.test(GlobalPermission.ADMINISTRATE_SERVER))
+        || withUser.change(cd).test(ChangePermission.REMOVE_REVIEWER);
   }
 
   private void checkRemoveReviewer(
       ChangeNotes notes, CurrentUser currentUser, Account.Id reviewer, int value)
       throws PermissionBackendException, AuthException {
-    if (canRemoveReviewerWithoutPermissionCheck(
-        permissionBackend, notes.getChange(), currentUser, reviewer, value)) {
+    if (canRemoveReviewerWithoutPermissionCheck(notes.getChange(), currentUser, reviewer, value)) {
       return;
     }
 
+    // Users with the remove reviewer permission, the branch owner, project
+    // owner and site admin can remove anyone
+    PermissionBackend.WithUser withUser = permissionBackend.user(currentUser);
+    PermissionBackend.ForProject forProject = withUser.project(notes.getProjectName());
+    if (forProject.ref(notes.getChange().getDest().branch()).test(RefPermission.WRITE_CONFIG)
+        || withUser.test(GlobalPermission.ADMINISTRATE_SERVER)) {
+      return;
+    }
     permissionBackend.user(currentUser).change(notes).check(ChangePermission.REMOVE_REVIEWER);
   }
 
   private static boolean canRemoveReviewerWithoutPermissionCheck(
-      PermissionBackend permissionBackend,
-      Change change,
-      CurrentUser currentUser,
-      Account.Id reviewer,
-      int value)
-      throws PermissionBackendException {
+      Change change, CurrentUser currentUser, Account.Id reviewer, int value) {
     if (currentUser.isIdentifiedUser()) {
       Account.Id aId = currentUser.getAccountId();
       if (aId.equals(reviewer)) {
@@ -127,14 +135,6 @@ public class RemoveReviewerControl {
       }
     }
 
-    // Users with the remove reviewer permission, the branch owner, project
-    // owner and site admin can remove anyone
-    PermissionBackend.WithUser withUser = permissionBackend.user(currentUser);
-    PermissionBackend.ForProject forProject = withUser.project(change.getProject());
-    if (forProject.ref(change.getDest().branch()).test(RefPermission.WRITE_CONFIG)
-        || withUser.test(GlobalPermission.ADMINISTRATE_SERVER)) {
-      return true;
-    }
     return false;
   }
 }

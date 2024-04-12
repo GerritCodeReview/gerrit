@@ -214,6 +214,24 @@
       "parentUuid": "c13710c4_a0011c2c",
       "revId": "293a424d8aca089bedf86b6f620660d6bc5e3f05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd1765e8_87b1e099",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-04-12T15:37:49Z",
+      "side": 1,
+      "message": "\u003e We had to disable this cache since it caused events not to be sent in HA setup with 2 primaries using high-availability plugin, see https://issues.gerritcodereview.com/issues/324314565\n\n@matthias.sohn@gmail.com Do you have a way to re-test now that you have a JGit with the fix mentioned above and `trustLooseRefStat \u003d after_open`?\n\nI remembered there was another other issue we\u0027ve come across that we think was related to enabling the per request ref cache. `ChangeIndexer` [de-duplicates async index tasks](https://gerrit.googlesource.com/gerrit/+/refs/heads/stable-3.8/java/com/google/gerrit/server/index/change/ChangeIndexer.java#148) based on the assumption that any task still in the queue will see the newest change meta ref value when it runs. I think it\u0027s possible that with the ref cache enabled it could read previously cached data from packed-refs and not see an update from another thread.\n\nWe have `reindexIfStale` enabled, so I don\u0027t think we actually see this issue now in production (and possibly because reindexIfStale uses the batch executor?), but I had looked at trying to rework ChangeIndexer to ignore any per request caching when the task runs. I haven\u0027t looked at it in a few months though, so I might be mis-remembering details here. I\u0027m also not entirely sure on where the scope of the ThreadLocal used for the per request ref cache ends, so perhaps it\u0027s already ignored when the indexing task is running. I\u0027m happy to try and create tests for any of this if someone has advice for how to approach it. We do have some multi-primary tests based on change 363054 as well as stress tests we run internally against a production-like environment, but we\u0027ve had issues in production that we didn\u0027t find with those tests, so they\u0027re obviously not perfect.",
+      "parentUuid": "1f88ae6f_e5cec311",
+      "revId": "293a424d8aca089bedf86b6f620660d6bc5e3f05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

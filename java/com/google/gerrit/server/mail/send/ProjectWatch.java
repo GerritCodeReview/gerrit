@@ -267,8 +267,8 @@ public class ProjectWatch {
     return p == null || p.asMatchable().match(changeData);
   }
 
-  private static class WatcherChangeQueryBuilder extends ChangeQueryBuilder {
-    private WatcherChangeQueryBuilder(Arguments args) {
+  public static class WatcherChangeQueryBuilder extends ChangeQueryBuilder {
+    public WatcherChangeQueryBuilder(Arguments args) {
       super(args);
     }
 
@@ -300,6 +300,17 @@ public class ProjectWatch {
       // Adapt the capacity of the "predicates" list when adding more default
       // predicates.
       return Predicate.or(predicates);
+    }
+
+    @Override
+    public Predicate<ChangeData> is(String value) throws QueryParseException {
+      if ("watched".equalsIgnoreCase(value)) {
+        // project watches cannot use "is:watched" as this would trigger an endless loop in
+        // IsWatchedByPredicate
+        throw new QueryParseException(
+            String.format("Operator 'is:watched' cannot be used in project watches."));
+      }
+      return super.is(value);
     }
   }
 }

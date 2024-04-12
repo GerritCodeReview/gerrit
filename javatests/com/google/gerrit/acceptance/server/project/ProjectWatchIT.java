@@ -694,4 +694,26 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     assertThat(m.body()).contains("Change subject: TRIGGER\n");
     assertThat(m.body()).contains("Gerrit-PatchSet: 1\n");
   }
+
+  @Test
+  public void watchThatUsesIsWatchedDoesntMatchAnything() throws Exception {
+    String watchedProject = projectOperations.newProject().create().get();
+
+    // configure a project watch for user that uses "is:watched"
+    requestScopeOperations.setApiUser(user.id());
+    watch(watchedProject, "is:watched");
+
+    // create a change as admin user that may trigger the project watch
+    requestScopeOperations.setApiUser(admin.id());
+    TestRepository<InMemoryRepository> watchedRepo =
+        cloneProject(Project.nameKey(watchedProject), admin);
+    PushOneCommit.Result r =
+        pushFactory
+            .create(admin.newIdent(), watchedRepo, "subject", "a.txt", "a1")
+            .to("refs/for/master");
+    r.assertOkStatus();
+
+    // assert that there was no email notification for user
+    assertThat(sender.getMessages()).isEmpty();
+  }
 }

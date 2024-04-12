@@ -52,6 +52,24 @@
       "parentUuid": "fa4e6fcb_c3858e46",
       "revId": "a8d2a92eb6fd36057765fe024ddd18b705702b76",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e0893e0_fa057196",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-04-12T14:04:16Z",
+      "side": 1,
+      "message": "Cool, kicking off all releases from v3.8 onwards, they should be out in a matter of 1-2h max.",
+      "parentUuid": "c4e62f78_1cf5edd0",
+      "revId": "a8d2a92eb6fd36057765fe024ddd18b705702b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

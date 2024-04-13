@@ -34,6 +34,24 @@
       "parentUuid": "08282543_95819664",
       "revId": "a7abcbf6c68c53b8ca81c8bdb684c880a01e3172",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "137616fb_f8b98e0f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-04-13T20:06:28Z",
+      "side": 1,
+      "message": "I\u0027ve verified that without this revert, Gitiles breaks. This revert fixes the issue. Let\u0027s release for now and then re-discuss next week the possible solutions.",
+      "parentUuid": "12884793_854c2ce8",
+      "revId": "a7abcbf6c68c53b8ca81c8bdb684c880a01e3172",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

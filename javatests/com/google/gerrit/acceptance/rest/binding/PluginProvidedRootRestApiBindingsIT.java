@@ -208,16 +208,14 @@ public class PluginProvidedRootRestApiBindingsIT extends AbstractDaemonTest {
 
   @Test
   public void testEndpoints() throws Exception {
-    try (AutoCloseable ignored =
-        installPlugin(PLUGIN_NAME, null, MyPluginHttpModule.class, null, null)) {
+    try (AutoCloseable ignored = installPlugin(PLUGIN_NAME, null, MyPluginHttpModule.class, null)) {
       RestApiCallHelper.execute(adminRestSession, TEST_CALLS.asList());
     }
   }
 
   @Test
   public void testOptionOnSingletonIsIgnored() throws Exception {
-    try (AutoCloseable ignored =
-        installPlugin(PLUGIN_NAME, null, MyPluginHttpModule.class, null, null)) {
+    try (AutoCloseable ignored = installPlugin(PLUGIN_NAME, null, MyPluginHttpModule.class, null)) {
       RestApiCallHelper.execute(
           adminRestSession,
           RestCall.get("/plugins/" + PLUGIN_NAME + "/test-collection/1/detail?crash=xyz"));

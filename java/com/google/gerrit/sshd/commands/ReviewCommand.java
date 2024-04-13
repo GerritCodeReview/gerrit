@@ -255,7 +255,6 @@ public class ReviewCommand extends SshCommand {
   private void applyReview(PatchSet patchSet, ReviewInput review) throws Exception {
     Changes changesApi = gApi.changes();
     int changeNumber = patchSet.id().changeId().get();
-    String projectName;
     if (projectState == null) {
       logger.atWarning().log(
           "Deprecated usage of review command: missing project for change number %d, patchset %d",
@@ -280,10 +279,7 @@ public class ReviewCommand extends SshCommand {
                 ActionType.CHANGE_UPDATE,
                 "applyReview",
                 () -> {
-                  changesApi
-                      .id(projectName, changeNumber)
-                      .revision(patchSet.number())
-                      .review(review);
+                  getRevisionApi(patchSet).review(review);
                   return null;
                 })
             .call();
@@ -321,11 +317,11 @@ public class ReviewCommand extends SshCommand {
         AbandonInput input = new AbandonInput();
         input.message = Strings.emptyToNull(changeComment);
         applyReview(patchSet, review);
-        changeApi(patchSet).abandon(input);
+        getChangeApi(patchSet).abandon(input);
       } else if (restoreChange) {
         RestoreInput input = new RestoreInput();
         input.message = Strings.emptyToNull(changeComment);
-        changeApi(patchSet).restore(input);
+        getChangeApi(patchSet).restore(input);
         applyReview(patchSet, review);
       } else {
         applyReview(patchSet, review);
@@ -335,15 +331,15 @@ public class ReviewCommand extends SshCommand {
         MoveInput moveInput = new MoveInput();
         moveInput.destinationBranch = moveToBranch;
         moveInput.message = Strings.emptyToNull(changeComment);
-        changeApi(patchSet).move(moveInput);
+        getChangeApi(patchSet).move(moveInput);
       }
 
       if (rebaseChange) {
-        revisionApi(patchSet).rebase();
+        getRevisionApi(patchSet).rebase();
       }
 
       if (submitChange) {
-        revisionApi(patchSet).submit();
+        getRevisionApi(patchSet).submit();
       }
 
     } catch (IllegalStateException | RestApiException e) {
@@ -351,12 +347,19 @@ public class ReviewCommand extends SshCommand {
     }
   }
 
-  private ChangeApi changeApi(PatchSet patchSet) throws RestApiException {
-    return gApi.changes().id(patchSet.id().changeId().get());
+  private ChangeApi getChangeApi(PatchSet patchSet) throws RestApiException {
+    if (projectState != null) {
+      return gApi.changes().id(projectState.getName(), patchSet.id().changeId().get());
+    }
+    /* Since we didn't get a project from the CLI we have to use the ambiguous
+     * Changes#id(String) that may fail to identify one single change and throw
+     * an exception.
+     */
+    return gApi.changes().id(String.valueOf(patchSet.id().changeId().get()));
   }
 
-  private RevisionApi revisionApi(PatchSet patchSet) throws RestApiException {
-    return changeApi(patchSet).revision(patchSet.commitId().name());
+  private RevisionApi getRevisionApi(PatchSet patchSet) throws RestApiException {
+    return getChangeApi(patchSet).revision(patchSet.commitId().name());
   }
 
   @Override

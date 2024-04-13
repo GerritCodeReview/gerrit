@@ -22,7 +22,6 @@ import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.PluginUser;
 import com.google.inject.AbstractModule;
-import com.google.inject.Module;
 import com.google.inject.Provides;
 import com.google.inject.ProvisionException;
 import java.io.File;
@@ -52,10 +51,6 @@ class ServerPluginInfoModule extends AbstractModule {
         .annotatedWith(PluginCanonicalWebUrl.class)
         .toInstance(plugin.getPluginCanonicalWebUrl());
     bind(Plugin.class).toInstance(plugin);
-    bindNonNull(plugin.batchModule);
-    bindNonNull(plugin.sysModule);
-    bindNonNull(plugin.sshModule);
-    bindNonNull(plugin.httpModule);
 
     install(
         new LifecycleModule() {
@@ -99,11 +94,5 @@ class ServerPluginInfoModule extends AbstractModule {
   @PluginData
   File getPluginDataAsFile(@PluginData Path pluginData) {
     return pluginData.toFile();
-  }
-
-  private void bindNonNull(Class<? extends Module> module) {
-    if (module != null) {
-      bind(module);
-    }
   }
 }

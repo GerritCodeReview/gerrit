@@ -169,7 +169,7 @@ public class PluginProvidedChildRestApiBindingsIT extends AbstractDaemonTest {
   @Test
   public void testRevisionEndpoints() throws Exception {
     PatchSet.Id patchSetId = createChange().getPatchSetId();
-    try (AutoCloseable ignored = installPlugin(PLUGIN_NAME, MyPluginSysModule.class)) {
+    try (AutoCloseable ignored = installPlugin(PLUGIN_NAME, MyPluginSysModule.class, null, null)) {
       RestApiCallHelper.execute(
           adminRestSession,
           REVISION_TEST_CALLS.asList(),
@@ -182,7 +182,7 @@ public class PluginProvidedChildRestApiBindingsIT extends AbstractDaemonTest {
   public void testRobotCommentEndpoints() throws Exception {
     PatchSet.Id patchSetId = createChange().getPatchSetId();
     String robotCommentUuid = createRobotComment(patchSetId.changeId());
-    try (AutoCloseable ignored = installPlugin(PLUGIN_NAME, MyPluginSysModule.class)) {
+    try (AutoCloseable ignored = installPlugin(PLUGIN_NAME, MyPluginSysModule.class, null, null)) {
       RestApiCallHelper.execute(
           adminRestSession,
           ROBOTCOMMENT_TEST_CALLS.asList(),

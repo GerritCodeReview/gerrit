@@ -23,7 +23,6 @@ public class TestServerPlugin extends ServerPlugin {
   private String sysName;
   private String httpName;
   private String sshName;
-  private String apiName;
 
   public TestServerPlugin(
       String name,
@@ -33,7 +32,6 @@ public class TestServerPlugin extends ServerPlugin {
       String sysName,
       String httpName,
       String sshName,
-      String apiName,
       Path dataDir)
       throws InvalidPluginException {
     super(
@@ -51,7 +49,6 @@ public class TestServerPlugin extends ServerPlugin {
     this.sysName = sysName;
     this.httpName = httpName;
     this.sshName = sshName;
-    this.apiName = apiName;
     loadGuiceModules();
   }
 
@@ -60,7 +57,6 @@ public class TestServerPlugin extends ServerPlugin {
       this.sysModule = load(sysName, classLoader);
       this.httpModule = load(httpName, classLoader);
       this.sshModule = load(sshName, classLoader);
-      this.apiModuleClass = load(apiName, classLoader);
     } catch (ClassNotFoundException e) {
       throw new InvalidPluginException("Unable to load plugin Guice Modules", e);
     }

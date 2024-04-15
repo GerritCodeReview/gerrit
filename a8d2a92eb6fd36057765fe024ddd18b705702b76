@@ -88,6 +88,24 @@
       "parentUuid": "5e0893e0_fa057196",
       "revId": "a8d2a92eb6fd36057765fe024ddd18b705702b76",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a5c1703_d5716ba3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-04-15T12:11:13Z",
+      "side": 1,
+      "message": "\u003e Awesome, thanks much!\n\nThanks to you for fixing the issue ! All released, announced and done !",
+      "parentUuid": "171ffbca_57356ed3",
+      "revId": "a8d2a92eb6fd36057765fe024ddd18b705702b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

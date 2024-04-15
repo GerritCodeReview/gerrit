@@ -124,7 +124,7 @@ public class RemoveReviewerControl {
     permissionBackend.user(currentUser).change(notes).check(ChangePermission.REMOVE_REVIEWER);
   }
 
-  private static boolean canRemoveReviewerWithoutPermissionCheck(
+  public static boolean canRemoveReviewerWithoutPermissionCheck(
       Change change, CurrentUser currentUser, Account.Id reviewer, int value) {
     if (currentUser.isIdentifiedUser()) {
       Account.Id aId = currentUser.getAccountId();

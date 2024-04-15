@@ -28,6 +28,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Optional;
 
 @SuppressWarnings("ProvidesMethodOutsideOfModule")
 class ServerPluginInfoModule extends AbstractModule {
@@ -51,6 +52,8 @@ class ServerPluginInfoModule extends AbstractModule {
         .annotatedWith(PluginCanonicalWebUrl.class)
         .toInstance(plugin.getPluginCanonicalWebUrl());
     bind(Plugin.class).toInstance(plugin);
+    Optional.ofNullable(plugin.batchModule).ifPresent(module -> bind(module));
+    Optional.ofNullable(plugin.sysModule).ifPresent(module -> bind(module));
 
     install(
         new LifecycleModule() {

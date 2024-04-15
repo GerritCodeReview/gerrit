@@ -45,6 +45,7 @@ public class LightweightPluginDaemonTest extends AbstractDaemonTest {
             testPlugin.sysModule(),
             testPlugin.httpModule(),
             testPlugin.sshModule(),
+            testPlugin.apiModule(),
             tempDataDir.getRoot().toPath());
 
     plugin.start(env);

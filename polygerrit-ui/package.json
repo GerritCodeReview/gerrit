@@ -14,7 +14,7 @@
     "@web/test-runner-playwright": "^0.9.0",
     "@web/test-runner-visual-regression": "^0.7.1",
     "accessibility-developer-tools": "^2.12.0",
-    "karma": "^6.4.2",
+    "karma": "^6.4.3",
     "karma-chrome-launcher": "^3.2.0",
     "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",

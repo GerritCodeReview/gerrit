@@ -87,6 +87,7 @@ import {configModelToken} from '../../../models/config/config-model';
 import {getFileExtension} from '../../../utils/file-util';
 import {storageServiceToken} from '../../../services/storage/gr-storage_impl';
 import {deepEqual} from '../../../utils/deep-util';
+import {GrSuggestionDiffPreview} from '../gr-suggestion-diff-preview/gr-suggestion-diff-preview';
 
 // visible for testing
 export const AUTO_SAVE_DEBOUNCE_DELAY_MS = 2000;
@@ -154,6 +155,9 @@ export class GrComment extends LitElement {
 
   @query('#confirmDeleteCommentDialog')
   confirmDeleteDialog?: GrConfirmDeleteCommentDialog;
+
+  @query('#suggestionDiffPreview')
+  suggestionDiffPreview?: GrSuggestionDiffPreview;
 
   @property({type: Object})
   comment?: Comment;
@@ -1059,6 +1063,7 @@ export class GrComment extends LitElement {
 
     if (this.generatedFixSuggestion) {
       return html`<gr-suggestion-diff-preview
+        id="suggestionDiffPreview"
         .fixSuggestionInfo=${this.generatedFixSuggestion}
       ></gr-suggestion-diff-preview>`;
     } else if (this.generatedSuggestion) {
@@ -1682,7 +1687,8 @@ export class GrComment extends LitElement {
       isError(this.comment) ||
       this.messageText.trimEnd() !== this.comment.message ||
       this.unresolved !== this.comment.unresolved ||
-      !deepEqual(this.comment.fix_suggestions, this.getFixSuggestions())
+      ((this.editing || !this.generateSuggestion) &&
+        !deepEqual(this.comment.fix_suggestions, this.getFixSuggestions()))
     );
   }
 
@@ -1690,15 +1696,15 @@ export class GrComment extends LitElement {
   private rawSave(options: {showToast: boolean}) {
     assert(isDraft(this.comment), 'only drafts are editable');
     assert(!isSaving(this.comment), 'saving already in progress');
-    return this.getCommentsModel().saveDraft(
-      {
-        ...this.comment,
-        message: this.messageText.trimEnd(),
-        unresolved: this.unresolved,
-        fix_suggestions: this.getFixSuggestions(),
-      },
-      options.showToast
-    );
+    const draft: DraftInfo = {
+      ...this.comment,
+      message: this.messageText.trimEnd(),
+      unresolved: this.unresolved,
+    };
+    if (this.editing || !this.generateSuggestion) {
+      draft.fix_suggestions = this.getFixSuggestions();
+    }
+    return this.getCommentsModel().saveDraft(draft, options.showToast);
   }
 
   getFixSuggestions(): FixSuggestionInfo[] | undefined {
@@ -1708,6 +1714,13 @@ export class GrComment extends LitElement {
     if (!this.generatedFixSuggestion) return undefined;
     // Disable fix suggestions when the comment already has a user suggestion
     if (this.comment && hasUserSuggestion(this.comment)) return undefined;
+    // we ignore fixSuggestions until they are previewed.
+    if (
+      this.suggestionDiffPreview &&
+      !this.suggestionDiffPreview?.previewed &&
+      !this.suggestionLoading
+    )
+      return undefined;
     return [this.generatedFixSuggestion];
   }
 

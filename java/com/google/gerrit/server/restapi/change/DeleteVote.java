@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.api.changes.DeleteVoteInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -79,6 +80,9 @@ public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput>
     ReviewerResource r = rsrc.getReviewer();
     Change change = r.getChange();
 
+    if (change.isMerged()) {
+      throw new ResourceConflictException("cannot remove votes from merged change");
+    }
     if (r.getRevisionResource() != null && !r.getRevisionResource().isCurrent()) {
       throw new MethodNotAllowedException("Cannot delete vote on non-current patch set");
     }

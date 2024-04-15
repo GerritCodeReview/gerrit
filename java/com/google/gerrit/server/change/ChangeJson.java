@@ -977,8 +977,12 @@ public class ChangeJson {
         }
         for (ApprovalInfo ai : label.all) {
           Account.Id id = Account.id(ai._accountId);
-          int value = MoreObjects.firstNonNull(ai.value, 0);
+          if (fixed.contains(id)) {
+            // we already found that this reviewer cannot be removed, no need to check again
+            continue;
+          }
 
+          int value = MoreObjects.firstNonNull(ai.value, 0);
           if ((cd.change().isMerged() && value != 0)
               || (!canRemoveAnyReviewer
                   && !RemoveReviewerControl.canRemoveReviewerWithoutPermissionCheck(

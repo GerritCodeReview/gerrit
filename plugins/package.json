@@ -32,7 +32,7 @@
     "@polymer/polymer": "^3.5.1",
     "@web/dev-server-esbuild": "^0.3.6",
     "@web/test-runner": "^0.15.3",
-    "lit": "^3.1.0",
+    "lit": "^3.1.2",
     "rxjs": "^6.6.7",
     "sinon": "^13.0.2"
   },

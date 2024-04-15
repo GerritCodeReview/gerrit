@@ -24,10 +24,9 @@ import {
   createComment,
   createCommentThread,
 } from '../test/test-data-generators';
-import {CommentSide} from '../constants/constants';
+import {CommentSide, SpecialFilePath} from '../constants/constants';
 import {
   Comment,
-  DraftInfo,
   SavingState,
   PARENT,
   RevisionPatchSetNum,
@@ -35,7 +34,6 @@ import {
   UrlEncodedCommentId,
 } from '../types/common';
 import {assert} from '@open-wc/testing';
-import {FILE} from '../api/diff';
 
 suite('comment-util', () => {
   test('isUnresolved', () => {
@@ -144,31 +142,159 @@ suite('comment-util', () => {
   });
 
   test('comments sorting', () => {
+    const updated = '2023-12-24 12:00:00.123000000' as Timestamp;
     const comments: Comment[] = [
       {
-        id: 'new_draft' as UrlEncodedCommentId,
-        message: 'i do not like either of you',
-        savingState: SavingState.OK,
-        updated: '2015-12-20 15:01:20.396000000' as Timestamp,
-      } as DraftInfo,
-      {
-        id: 'sallys_confession' as UrlEncodedCommentId,
-        message: 'i like you, jack',
-        updated: '2015-12-23 15:00:20.396000000' as Timestamp,
-        line: 1,
+        id: 'pslevel' as UrlEncodedCommentId,
+        path: SpecialFilePath.PATCHSET_LEVEL_COMMENTS,
+        updated,
       },
       {
-        id: 'jacks_reply' as UrlEncodedCommentId,
-        message: 'i like you, too',
-        updated: '2015-12-24 15:01:20.396000000' as Timestamp,
+        id: 'commit-message' as UrlEncodedCommentId,
+        path: SpecialFilePath.COMMIT_MESSAGE,
+        updated,
+      },
+      {
+        id: 'path2-id1-updated-earlier' as UrlEncodedCommentId,
+        path: 'path2',
+        updated: '2023-12-23 12:00:00.123000000' as Timestamp,
+      },
+      {
+        id: 'path2-id1' as UrlEncodedCommentId,
+        path: 'path2',
+        updated,
+      },
+      {
+        id: 'path2-id2' as UrlEncodedCommentId,
+        path: 'path2',
+        updated,
+      },
+      {
+        id: 'path2-id1-updated-later' as UrlEncodedCommentId,
+        path: 'path2',
+        updated: '2023-12-24 15:55:00.123000000' as Timestamp,
+      },
+      {
+        id: 'path2-line1' as UrlEncodedCommentId,
+        path: 'path2',
         line: 1,
-        in_reply_to: 'sallys_confession' as UrlEncodedCommentId,
+        updated,
+      },
+      {
+        id: 'path2-line2' as UrlEncodedCommentId,
+        path: 'path2',
+        line: 2,
+        updated,
+      },
+      {
+        id: 'range-1-0-2-0' as UrlEncodedCommentId,
+        path: 'path2',
+        line: 2,
+        range: {
+          start_line: 1,
+          start_character: 0,
+          end_line: 2,
+          end_character: 0,
+        },
+        updated,
+      },
+      {
+        id: 'range-1-0-3-0' as UrlEncodedCommentId,
+        path: 'path2',
+        line: 2,
+        range: {
+          start_line: 1,
+          start_character: 0,
+          end_line: 3,
+          end_character: 0,
+        },
+        updated,
+      },
+      {
+        id: 'range-2-0-3-0' as UrlEncodedCommentId,
+        path: 'path2',
+        line: 2,
+        range: {
+          start_line: 2,
+          start_character: 0,
+          end_line: 3,
+          end_character: 0,
+        },
+        updated,
+      },
+      {
+        id: 'range-2-0-3-5' as UrlEncodedCommentId,
+        path: 'path2',
+        line: 2,
+        range: {
+          start_line: 2,
+          start_character: 0,
+          end_line: 3,
+          end_character: 5,
+        },
+        updated,
+      },
+      {
+        id: 'range-2-5-3-5' as UrlEncodedCommentId,
+        path: 'path2',
+        line: 2,
+        range: {
+          start_line: 2,
+          start_character: 5,
+          end_line: 3,
+          end_character: 5,
+        },
+        updated,
+      },
+      {
+        id: 'path2-line2-ps1' as UrlEncodedCommentId,
+        path: 'path2',
+        line: 2,
+        patch_set: 1 as RevisionPatchSetNum,
+        updated,
+      },
+      {
+        id: 'path2-line2-ps2' as UrlEncodedCommentId,
+        path: 'path2',
+        line: 2,
+        patch_set: 2 as RevisionPatchSetNum,
+        updated,
+      },
+      {
+        id: 'path2-line2-ps2-updated-later' as UrlEncodedCommentId,
+        path: 'path2',
+        line: 2,
+        patch_set: 2 as RevisionPatchSetNum,
+        updated,
+      },
+      {
+        client_id: 'new1' as UrlEncodedCommentId,
+        client_created_ms: 1,
+        savingState: SavingState.OK,
+        path: 'path2',
+        line: 2,
+        patch_set: 2 as RevisionPatchSetNum,
+      },
+      {
+        client_id: 'new2' as UrlEncodedCommentId,
+        client_created_ms: 2,
+        savingState: SavingState.OK,
+        path: 'path2',
+        line: 2,
+        patch_set: 2 as RevisionPatchSetNum,
+      },
+      {
+        client_id: 'new2-sort-by-id' as UrlEncodedCommentId,
+        client_created_ms: 2,
+        savingState: SavingState.OK,
+        path: 'path2',
+        line: 2,
+        patch_set: 2 as RevisionPatchSetNum,
       },
     ];
-    const sortedComments = sortComments(comments);
-    assert.equal(sortedComments[0], comments[1]);
-    assert.equal(sortedComments[1], comments[2]);
-    assert.equal(sortedComments[2], comments[0]);
+    const shuffled = [...comments].sort(() => Math.random() - 0.5);
+    const sorted = sortComments(shuffled);
+    assert.sameOrderedMembers(comments, sorted);
   });
 
   suite('createCommentThreads', () => {
@@ -196,6 +322,7 @@ suite('comment-util', () => {
           message: 'i do not like either of you' as UrlEncodedCommentId,
           savingState: SavingState.OK,
           updated: '2015-12-20 15:01:20.396000000' as Timestamp,
+          line: 1,
           patch_set: 1 as RevisionPatchSetNum,
           path: 'some/path',
         },
@@ -214,7 +341,7 @@ suite('comment-util', () => {
       assert.equal(actualThreads[1].comments.length, 1);
       assert.deepEqual(actualThreads[1].comments[0], comments[2]);
       assert.equal(actualThreads[1].patchNum, 1 as RevisionPatchSetNum);
-      assert.equal(actualThreads[1].line, FILE);
+      assert.equal(actualThreads[1].line, 1);
     });
 
     test('derives patchNum and range', () => {

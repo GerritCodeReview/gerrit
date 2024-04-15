@@ -817,6 +817,10 @@ export type DraftInfo = Omit<CommentInfo, 'id' | 'updated'> & {
   // Must be set for new drafts created in this session.
   // Use the id() utility function for uniquely identifying drafts.
   client_id?: UrlEncodedCommentId;
+  // Must be set for new drafts created in this session.
+  // Timestamp in milliseconds (Date.now()) of when this draft was created in
+  // this session. Allows stable sorting of new comments on the same range.
+  client_created_ms?: number;
   // Must be set for drafts known to the backend.
   // Use the id() utility function for uniquely identifying drafts.
   id?: UrlEncodedCommentId;
@@ -827,6 +831,7 @@ export type DraftInfo = Omit<CommentInfo, 'id' | 'updated'> & {
 
 export interface NewDraftInfo extends DraftInfo {
   client_id: UrlEncodedCommentId;
+  client_created_ms: number;
   id: undefined;
   updated: undefined;
 }
@@ -873,7 +878,7 @@ export function isError<T extends Comment>(
  */
 export function isNew<T extends Comment>(
   x: T | DraftInfo | undefined
-): boolean {
+): x is NewDraftInfo {
   return !!x && !!(x as DraftInfo).client_id && !(x as DraftInfo).id;
 }
 

@@ -55,6 +55,8 @@ enum SortDropdownState {
 export const __testOnly_SortDropdownState = SortDropdownState;
 
 /**
+ * TODO: Maybe reconcile this with `compareComments()` in comment-util.
+ *
  * Order as follows:
  * - Patchset level threads (descending based on patchset number)
  * - unresolved

@@ -32,6 +32,7 @@ import {
 } from '../types/common';
 import {CommentSide, SpecialFilePath} from '../constants/constants';
 import {parseDate} from './date-util';
+import {specialFilePathCompare} from './path-list-util';
 import {isMergeParent, getParentIndex} from './patch-set-util';
 import {DiffInfo} from '../types/diff';
 import {FormattedReviewerUpdateInfo} from '../types/types';
@@ -79,26 +80,93 @@ export function id(comment: Comment): UrlEncodedCommentId {
 }
 
 export function sortComments<T extends Comment>(comments: T[]): T[] {
-  return comments.slice(0).sort((c1, c2) => {
-    const n1 = isNew(c1);
-    const n2 = isNew(c2);
-    if (n1 !== n2) return n1 ? 1 : -1;
+  return comments.slice(0).sort(compareComments);
+}
 
-    const d1 = isDraft(c1);
-    const d2 = isDraft(c2);
-    if (d1 !== d2) return d1 ? 1 : -1;
-
-    if (c1.updated && c2.updated) {
-      const date1 = parseDate(c1.updated);
-      const date2 = parseDate(c2.updated);
-      const dateDiff = date1.valueOf() - date2.valueOf();
-      if (dateDiff !== 0) return dateDiff;
+/**
+ * Sorts comments in this order by:
+ * - file path
+ * - patchset
+ * - line/range
+ * - created/updated timestamp
+ * - id
+ */
+export function compareComments(c1: Comment, c2: Comment) {
+  const path1 = c1.path ?? '';
+  const path2 = c2.path ?? '';
+  if (path1 !== path2) {
+    // TODO: Why is this logic not part of specialFilePathCompare()?
+    // '/PATCHSET' will not come before '/COMMIT' when sorting
+    // alphabetically so move it to the front explicitly
+    if (path1 === SpecialFilePath.PATCHSET_LEVEL_COMMENTS) {
+      return -1;
     }
+    if (path2 === SpecialFilePath.PATCHSET_LEVEL_COMMENTS) {
+      return 1;
+    }
+    return specialFilePathCompare(path1, path2);
+  }
 
-    const id1 = id(c1);
-    const id2 = id(c2);
-    return id1.localeCompare(id2);
-  });
+  const ps1 = typeof c1.patch_set === 'number' ? c1.patch_set : undefined;
+  const ps2 = typeof c2.patch_set === 'number' ? c2.patch_set : undefined;
+  const psComp = compareNumber(ps1, ps2);
+  if (psComp !== 0) return psComp;
+
+  const line1 = c1.line ?? c1?.range?.end_line;
+  const line2 = c2.line ?? c2?.range?.end_line;
+  const lineComp = compareNumber(line1, line2);
+  if (lineComp !== 0) return lineComp;
+
+  const startLine = compareNumber(c1.range?.start_line, c2.range?.start_line);
+  if (startLine !== 0) return startLine;
+  const endCharComp = compareNumber(
+    c1.range?.end_character,
+    c2.range?.end_character
+  );
+  if (endCharComp !== 0) return endCharComp;
+  const startCharComp = compareNumber(
+    c1.range?.start_character,
+    c2.range?.start_character
+  );
+  if (startCharComp !== 0) return startCharComp;
+
+  // At this point we know that the comment is about the exact same location:
+  // Same file, same patchset, same range.
+
+  // Drafts after published comments.
+  if (isDraft(c1) !== isDraft(c2)) return isDraft(c1) ? 1 : -1;
+  const draft = isDraft(c1);
+
+  // For drafts we have to be careful that saving a draft multiple times does
+  // not affect the sorting. So instead of `updated` we are inspecting the
+  // creation time for newly created drafts in this session. Or alternatively
+  // just use the comment id.
+  if (draft) {
+    const created1 = isNew(c1) ? c1.client_created_ms : undefined;
+    const created2 = isNew(c2) ? c2.client_created_ms : undefined;
+    const createdComp = compareNumber(created1, created2);
+    if (createdComp !== 0) return createdComp;
+  } else {
+    const updated1 =
+      c1.updated !== undefined ? parseDate(c1.updated).getTime() : undefined;
+    const updated2 =
+      c2.updated !== undefined ? parseDate(c2.updated).getTime() : undefined;
+    const updatedComp = compareNumber(updated1, updated2);
+    if (updatedComp !== 0) return updatedComp;
+  }
+
+  const id1 = id(c1);
+  const id2 = id(c2);
+  return id1.localeCompare(id2);
+}
+
+export function compareNumber(n1?: number, n2?: number): number {
+  if (n1 === n2) return 0;
+  if (n1 === undefined) return -1;
+  if (n2 === undefined) return 1;
+  if (Number.isNaN(n1)) return -1;
+  if (Number.isNaN(n2)) return 1;
+  return n1 < n2 ? -1 : 1;
 }
 
 export function createNew(
@@ -108,6 +176,7 @@ export function createNew(
   const newDraft: NewDraftInfo = {
     savingState: SavingState.OK,
     client_id: uuid() as UrlEncodedCommentId,
+    client_created_ms: Date.now(),
     id: undefined,
     updated: undefined,
   };

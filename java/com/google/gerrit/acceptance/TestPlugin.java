@@ -30,4 +30,6 @@ public @interface TestPlugin {
   String httpModule() default "";
 
   String sshModule() default "";
+
+  String apiModule() default "";
 }

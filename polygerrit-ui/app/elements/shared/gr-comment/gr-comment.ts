@@ -87,6 +87,7 @@ import {configModelToken} from '../../../models/config/config-model';
 import {getFileExtension} from '../../../utils/file-util';
 import {storageServiceToken} from '../../../services/storage/gr-storage_impl';
 import {deepEqual} from '../../../utils/deep-util';
+import {GrSuggestionDiffPreview} from '../gr-suggestion-diff-preview/gr-suggestion-diff-preview';
 
 // visible for testing
 export const AUTO_SAVE_DEBOUNCE_DELAY_MS = 2000;
@@ -154,6 +155,9 @@ export class GrComment extends LitElement {
 
   @query('#confirmDeleteCommentDialog')
   confirmDeleteDialog?: GrConfirmDeleteCommentDialog;
+
+  @query('#suggestionDiffPreview')
+  suggestionDiffPreview?: GrSuggestionDiffPreview;
 
   @property({type: Object})
   comment?: Comment;
@@ -1059,6 +1063,7 @@ export class GrComment extends LitElement {
 
     if (this.generatedFixSuggestion) {
       return html`<gr-suggestion-diff-preview
+        id="suggestionDiffPreview"
         .fixSuggestionInfo=${this.generatedFixSuggestion}
       ></gr-suggestion-diff-preview>`;
     } else if (this.generatedSuggestion) {
@@ -1682,7 +1687,7 @@ export class GrComment extends LitElement {
       isError(this.comment) ||
       this.messageText.trimEnd() !== this.comment.message ||
       this.unresolved !== this.comment.unresolved ||
-      !deepEqual(this.comment.fix_suggestions, this.getFixSuggestions())
+      this.isFixSuggestionChanged()
     );
   }
 
@@ -1699,6 +1704,16 @@ export class GrComment extends LitElement {
       },
       options.showToast
     );
+  }
+
+  isFixSuggestionChanged(): boolean {
+    const isFixSuggestionPreviewed = this.suggestionDiffPreview?.previewed;
+    const fixSuggestion = this.getFixSuggestions();
+    // we ignore fixSuggestions until they are previewed.
+    if (!isFixSuggestionPreviewed && fixSuggestion !== undefined) {
+      return false;
+    }
+    return !deepEqual(this.comment?.fix_suggestions, fixSuggestion);
   }
 
   getFixSuggestions(): FixSuggestionInfo[] | undefined {

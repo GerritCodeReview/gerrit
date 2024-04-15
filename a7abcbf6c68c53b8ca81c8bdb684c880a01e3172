@@ -52,6 +52,24 @@
       "parentUuid": "12884793_854c2ce8",
       "revId": "a7abcbf6c68c53b8ca81c8bdb684c880a01e3172",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1cb7734_7be11979",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-04-15T15:17:36Z",
+      "side": 1,
+      "message": "\u003e Can you also verify on your side?\n\nThanks for sharing the issue. I\u0027ll take a look today. At first glance this seems to indicate that `GitilesUrls` doesn\u0027t get an implementation bound from either `env.sysModule` or `plugins.gitiles.HttpModule`.",
+      "parentUuid": "137616fb_f8b98e0f",
+      "revId": "a7abcbf6c68c53b8ca81c8bdb684c880a01e3172",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

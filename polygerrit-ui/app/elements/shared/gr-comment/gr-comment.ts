@@ -90,7 +90,7 @@ import {deepEqual} from '../../../utils/deep-util';
 
 // visible for testing
 export const AUTO_SAVE_DEBOUNCE_DELAY_MS = 2000;
-export const GENERATE_SUGGESTION_DEBOUNCE_DELAY_MS = 1500;
+export const GENERATE_SUGGESTION_DEBOUNCE_DELAY_MS = 500;
 export const ENABLE_GENERATE_SUGGESTION_STORAGE_KEY =
   'enableGenerateSuggestionStorageKeyForCommentWithId-';
 

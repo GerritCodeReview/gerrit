@@ -834,6 +834,11 @@ without having the `Remove Vote` access right assigned).
 
 Users without this access right can still remove their own votes.
 
+Note, removing votes is generally disallowed for merged changes as this could
+remove approvals that were necessary for the submission and it's confusing to
+see a merged change which doesn't have the necessary approvals to fulfill the
+submit requirements.
+
 [[category_remove_reviewer]]
 === Remove Reviewer
 

@@ -10,7 +10,7 @@
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
-// limitations under the Licens
+// limitations under the License
 
 package com.google.gerrit.server.account;
 
@@ -410,7 +410,8 @@ public abstract class AccountDelta {
      * @return the builder
      */
     @CanIgnoreReturnValue
-    public Builder updateProjectWatches(Map<ProjectWatchKey, Set<NotifyType>> projectWatches) {
+    public Builder updateProjectWatches(
+        Map<ProjectWatchKey, ? extends Set<NotifyType>> projectWatches) {
       updatedProjectWatchesBuilder().putAll(projectWatches);
       return this;
     }
@@ -615,7 +616,8 @@ public abstract class AccountDelta {
       }
 
       @Override
-      public Builder updateProjectWatches(Map<ProjectWatchKey, Set<NotifyType>> projectWatches) {
+      public Builder updateProjectWatches(
+          Map<ProjectWatchKey, ? extends Set<NotifyType>> projectWatches) {
         delegate.updateProjectWatches(projectWatches);
         return this;
       }

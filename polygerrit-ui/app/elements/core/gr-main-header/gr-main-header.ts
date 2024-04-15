@@ -205,6 +205,7 @@ export class GrMainHeader extends LitElement {
         nav {
           align-items: center;
           display: flex;
+          flex-wrap: wrap;
         }
         .bigTitle {
           color: var(--header-text-color);

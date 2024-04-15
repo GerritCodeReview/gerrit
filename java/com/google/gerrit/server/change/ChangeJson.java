@@ -942,7 +942,12 @@ public class ChangeJson {
       // of "fixed" from "removable", because not all of their approvals can be
       // removed.
       Collection<LabelInfo> labels = out.labels.values();
-      Set<Account.Id> fixed = Sets.newHashSetWithExpectedSize(labels.size());
+      Set<Account.Id> fixed = new HashSet<>();
+
+      // the submitter cannot be removed since the submission is recorded by a SUBM approval which
+      // must not be removed by removing the submitter
+      cd.getSubmitApproval().ifPresent(submitApproval -> fixed.add(submitApproval.accountId()));
+
       Set<Account.Id> removable = new HashSet<>();
 
       // Add all reviewers, which will later be removed if they are in the "fixed" set.
@@ -966,10 +971,12 @@ public class ChangeJson {
         }
         for (ApprovalInfo ai : label.all) {
           Account.Id id = Account.id(ai._accountId);
+          int value = MoreObjects.firstNonNull(ai.value, 0);
 
-          if (!canRemoveAnyReviewer
-              && !removeReviewerControl.testRemoveReviewer(
-                  cd, userProvider.get(), id, MoreObjects.firstNonNull(ai.value, 0))) {
+          if ((cd.change().isMerged() && value != 0)
+              || (!canRemoveAnyReviewer
+                  && !removeReviewerControl.testRemoveReviewer(
+                      cd, userProvider.get(), id, value))) {
             fixed.add(id);
           }
         }

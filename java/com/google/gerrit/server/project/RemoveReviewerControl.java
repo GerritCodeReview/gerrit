@@ -18,6 +18,7 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
@@ -45,10 +46,16 @@ public class RemoveReviewerControl {
    *
    * @throws AuthException if this user is not allowed to remove this approval.
    * @throws PermissionBackendException on failure of permission checks.
+   * @throws ResourceConflictException if the approval cannot be removed because the change is
+   *     merged
    */
   public void checkRemoveReviewer(
       ChangeNotes notes, CurrentUser currentUser, PatchSetApproval approval)
-      throws PermissionBackendException, AuthException {
+      throws PermissionBackendException, AuthException, ResourceConflictException {
+    if (notes.getChange().isMerged() && approval.value() != 0) {
+      throw new ResourceConflictException("cannot remove votes from merged change");
+    }
+
     checkRemoveReviewer(notes, currentUser, approval.accountId(), approval.value());
   }
 
@@ -82,6 +89,10 @@ public class RemoveReviewerControl {
   public boolean testRemoveReviewer(
       ChangeData cd, CurrentUser currentUser, Account.Id reviewer, int value)
       throws PermissionBackendException {
+    if (cd.change().isMerged() && value != 0) {
+      return false;
+    }
+
     if (canRemoveReviewerWithoutPermissionCheck(
         permissionBackend, cd.change(), currentUser, reviewer, value)) {
       return true;
@@ -90,10 +101,10 @@ public class RemoveReviewerControl {
   }
 
   private void checkRemoveReviewer(
-      ChangeNotes notes, CurrentUser currentUser, Account.Id reviewer, int val)
+      ChangeNotes notes, CurrentUser currentUser, Account.Id reviewer, int value)
       throws PermissionBackendException, AuthException {
     if (canRemoveReviewerWithoutPermissionCheck(
-        permissionBackend, notes.getChange(), currentUser, reviewer, val)) {
+        permissionBackend, notes.getChange(), currentUser, reviewer, value)) {
       return;
     }
 
@@ -107,10 +118,6 @@ public class RemoveReviewerControl {
       Account.Id reviewer,
       int value)
       throws PermissionBackendException {
-    if (change.isMerged() && value != 0) {
-      return false;
-    }
-
     if (currentUser.isIdentifiedUser()) {
       Account.Id aId = currentUser.getAccountId();
       if (aId.equals(reviewer)) {

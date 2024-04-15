@@ -838,7 +838,7 @@ Users without this access right can still remove their own votes.
 === Remove Reviewer
 
 This category permits users to remove other users from the list of
-reviewers on a change.
+reviewers on a change, including their votes.
 
 Change owners can always remove reviewers who have given a zero or positive
 score (even without having the `Remove Reviewer` access right assigned).
@@ -848,6 +848,11 @@ without having the `Remove Reviewer` access right assigned).
 
 Users without this access right can only remove themselves from the
 reviewer list on a change.
+
+Note, removing reviewers with non-zero votes is generally disallowed for merged
+changes as this could remove approvals that were necessary for the submission
+and it's confusing to see a merged change which doesn't have the necessary
+approvals to fulfill the submit requirements.
 
 
 [[category_review_labels]]

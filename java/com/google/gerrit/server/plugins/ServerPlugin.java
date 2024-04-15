@@ -24,6 +24,7 @@ import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.server.PluginUser;
 import com.google.gerrit.server.config.GerritRuntime;
 import com.google.gerrit.server.util.RequestContext;
+import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
@@ -51,7 +52,7 @@ public class ServerPlugin extends Plugin {
   protected Class<? extends Module> batchModule;
   protected Class<? extends Module> sshModule;
   protected Class<? extends Module> httpModule;
-  private Class<? extends Module> apiModuleClass;
+  protected Class<? extends Module> apiModuleClass;
 
   private Injector apiInjector;
   private Injector sysInjector;
@@ -230,7 +231,21 @@ public class ServerPlugin extends Plugin {
     serverManager.add(baseInjector);
 
     if (sysModule != null) {
-      sysInjector = baseInjector.createChildInjector(baseInjector.getInstance(sysModule));
+      List<Module> modules = new ArrayList<>();
+      modules.add(
+          new AbstractModule() {
+            @Override
+            protected void configure() {
+              if (env.hasSshModule() && sshModule != null) {
+                bind(sshModule);
+              }
+              if (env.hasHttpModule() && httpModule != null) {
+                bind(httpModule);
+              }
+            }
+          });
+      modules.add(baseInjector.getInstance(sysModule));
+      sysInjector = baseInjector.createChildInjector(modules);
       serverManager.add(sysInjector);
     } else if (auto != null && auto.sysModule != null) {
       sysInjector = baseInjector.createChildInjector(auto.sysModule);
@@ -284,6 +299,20 @@ public class ServerPlugin extends Plugin {
       }
     }
     modules.add(new ServerPluginInfoModule(this, env.getServerMetrics()));
+    if (sysModule == null) {
+      modules.add(
+          new AbstractModule() {
+            @Override
+            protected void configure() {
+              if (env.hasSshModule() && sshModule != null) {
+                bind(sshModule);
+              }
+              if (env.hasHttpModule() && httpModule != null) {
+                bind(httpModule);
+              }
+            }
+          });
+    }
     return apiInjector
         .map(injector -> injector.createChildInjector(modules))
         .orElseGet(() -> Guice.createInjector(modules));

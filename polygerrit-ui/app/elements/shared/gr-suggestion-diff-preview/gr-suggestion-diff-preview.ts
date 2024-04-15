@@ -62,6 +62,9 @@ export class GrSuggestionDiffPreview extends LitElement {
   @property({type: Boolean})
   showAddSuggestionButton = false;
 
+  @property({type: Boolean, attribute: 'previewed', reflect: true})
+  previewed = false;
+
   @property({type: String})
   uuid?: string;
 
@@ -270,6 +273,7 @@ export class GrSuggestionDiffPreview extends LitElement {
     )
       return;
 
+    this.previewed = false;
     this.reporting.time(Timing.PREVIEW_FIX_LOAD);
     const res = await this.restApiService.getFixPreview(
       this.changeNum,
@@ -287,6 +291,7 @@ export class GrSuggestionDiffPreview extends LitElement {
     if (currentPreviews.length > 0) {
       this.preview = currentPreviews[0];
       this.previewLoadedFor = this.fixSuggestionInfo;
+      this.previewed = true;
     }
 
     return res;

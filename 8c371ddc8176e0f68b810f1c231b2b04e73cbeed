@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1c210d6_3ff3953d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-04-15T14:58:38Z",
+      "side": 1,
+      "message": "Going to abandon because of https://gerrit-review.googlesource.com/c/gerrit/+/420277",
+      "revId": "8c371ddc8176e0f68b810f1c231b2b04e73cbeed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

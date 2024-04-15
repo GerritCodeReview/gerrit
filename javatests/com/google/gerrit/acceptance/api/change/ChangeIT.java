@@ -2320,7 +2320,7 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void removeReviewerSelfFromMergedChangeNotPermitted() throws Exception {
+  public void removeReviewerSelfFromMergedChangeNotPossible() throws Exception {
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
 
@@ -2332,11 +2332,11 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes().id(changeId).revision(r.getCommit().name()).submit();
 
     requestScopeOperations.setApiUser(user.id());
-    AuthException thrown =
+    ResourceConflictException thrown =
         assertThrows(
-            AuthException.class,
+            ResourceConflictException.class,
             () -> gApi.changes().id(r.getChangeId()).reviewer("self").remove());
-    assertThat(thrown).hasMessageThat().contains("remove reviewer not permitted");
+    assertThat(thrown).hasMessageThat().contains("cannot remove votes from merged change");
   }
 
   @Test

@@ -40,7 +40,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.change.AbandonUtil;
+import com.google.gerrit.server.change.ChangeCleanupRunner;
 import com.google.gerrit.server.config.ChangeCleanupConfig;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testing.TestTimeUtil;
@@ -53,7 +53,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
 
 public class AbandonIT extends AbstractDaemonTest {
-  @Inject private AbandonUtil abandonUtil;
+  @Inject private ChangeCleanupRunner.Factory cleanupRunner;
   @Inject private ChangeCleanupConfig cleanupConfig;
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
@@ -140,7 +140,7 @@ public class AbandonIT extends AbstractDaemonTest {
     assertThat(toChangeNumbers(query("is:open"))).containsExactly(id1, id2, id3);
     assertThat(query("is:abandoned")).isEmpty();
 
-    abandonUtil.abandonInactiveOpenChanges(batchUpdateFactory);
+    cleanupRunner.create().run();
     assertThat(toChangeNumbers(query("is:open"))).containsExactly(id3);
     assertThat(toChangeNumbers(query("is:abandoned"))).containsExactly(id1, id2);
   }
@@ -182,7 +182,7 @@ public class AbandonIT extends AbstractDaemonTest {
     assertThat(toChangeNumbers(query("is:merged"))).containsExactly(id3);
     assertThat(toChangeNumbers(query("-is:mergeable"))).containsExactly(id4);
 
-    abandonUtil.abandonInactiveOpenChanges(batchUpdateFactory);
+    cleanupRunner.create().run();
     assertThat(toChangeNumbers(query("is:open"))).containsExactly(id5, id2, id1);
     assertThat(toChangeNumbers(query("is:abandoned"))).containsExactly(id4);
   }
@@ -229,7 +229,7 @@ public class AbandonIT extends AbstractDaemonTest {
         assertThrows(BadRequestException.class, () -> query("-is:mergeable"));
     assertThat(thrown).hasMessageThat().contains("operator is not supported");
 
-    abandonUtil.abandonInactiveOpenChanges(batchUpdateFactory);
+    cleanupRunner.create().run();
     assertThat(toChangeNumbers(query("is:open"))).containsExactly(id5);
     assertThat(toChangeNumbers(query("is:abandoned"))).containsExactly(id4, id2, id1);
   }

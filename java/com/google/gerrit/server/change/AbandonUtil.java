@@ -23,7 +23,6 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.InternalUser;
-import com.google.gerrit.server.config.ChangeCleanupConfig;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeQueryProcessor;
@@ -40,7 +39,6 @@ import java.util.concurrent.TimeUnit;
 public class AbandonUtil {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private final ChangeCleanupConfig cfg;
   private final Provider<ChangeQueryProcessor> queryProvider;
   private final Supplier<ChangeQueryBuilder> queryBuilderSupplier;
   private final BatchAbandon batchAbandon;
@@ -48,27 +46,27 @@ public class AbandonUtil {
 
   @Inject
   AbandonUtil(
-      ChangeCleanupConfig cfg,
       InternalUser.Factory internalUserFactory,
       Provider<ChangeQueryProcessor> queryProvider,
       Provider<ChangeQueryBuilder> queryBuilderProvider,
       BatchAbandon batchAbandon) {
-    this.cfg = cfg;
     this.queryProvider = queryProvider;
     this.queryBuilderSupplier = Suppliers.memoize(queryBuilderProvider::get);
     this.batchAbandon = batchAbandon;
     internalUser = internalUserFactory.create();
   }
 
-  public void abandonInactiveOpenChanges(BatchUpdate.Factory updateFactory) {
-    if (cfg.getAbandonAfter() <= 0) {
+  public void abandonInactiveOpenChanges(
+      BatchUpdate.Factory updateFactory,
+      long abandonAfterMillis,
+      boolean abandonIfMergeable,
+      String message) {
+    if (abandonAfterMillis <= 0) {
       return;
     }
-
     try {
-      String query =
-          "status:new age:" + TimeUnit.MILLISECONDS.toMinutes(cfg.getAbandonAfter()) + "m";
-      if (!cfg.getAbandonIfMergeable()) {
+      String query = "status:new age:" + TimeUnit.MILLISECONDS.toMinutes(abandonAfterMillis) + "m";
+      if (!abandonIfMergeable) {
         query += " -is:mergeable";
       }
 
@@ -86,7 +84,6 @@ public class AbandonUtil {
 
       int count = 0;
       ImmutableListMultimap<Project.NameKey, ChangeData> abandons = builder.build();
-      String message = cfg.getAbandonMessage();
       for (Project.NameKey project : abandons.keySet()) {
         List<ChangeData> changes = getValidChanges(abandons.get(project), query);
         try {

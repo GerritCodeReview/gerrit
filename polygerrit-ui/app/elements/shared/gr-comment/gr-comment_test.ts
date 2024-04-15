@@ -1081,7 +1081,7 @@ suite('gr-comment tests', () => {
       await element.updateComplete;
       assert.dom.equal(
         queryAndAssert(element, 'gr-suggestion-diff-preview'),
-        /* HTML */ '<gr-suggestion-diff-preview> </gr-suggestion-diff-preview>'
+        /* HTML */ '<gr-suggestion-diff-preview id="suggestionDiffPreview"> </gr-suggestion-diff-preview>'
       );
     });
   });

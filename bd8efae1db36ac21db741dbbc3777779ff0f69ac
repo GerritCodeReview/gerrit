@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "20d0ddc6_12c46581",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-04-16T21:58:39Z",
+      "side": 1,
+      "message": "That makes sense; however, the use of `virtual_id_number` by a non-Gerrit client should be discouraged, because it may expose internal implementation details.\n\nDo you want to add that note also?",
+      "range": {
+        "startLine": 11,
+        "startChar": 33,
+        "endLine": 11,
+        "endChar": 52
+      },
+      "revId": "bd8efae1db36ac21db741dbbc3777779ff0f69ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "bdfb1403_06360bd8",

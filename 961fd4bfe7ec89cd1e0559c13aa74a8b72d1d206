@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "203fa025_1e54c758",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-04-16T06:36:53Z",
+      "side": 1,
+      "message": "nit: add note why the variable was renamed.",
+      "revId": "961fd4bfe7ec89cd1e0559c13aa74a8b72d1d206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa21e583_711b61e8",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6735,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-04-16T06:36:53Z",
+      "side": 1,
+      "message": "nit: rephrase to\n\n\u003e The virtual id number is globally unique. For local changes, it is equal to the\n`_number` attribute.",
+      "range": {
+        "startLine": 6734,
+        "startChar": 0,
+        "endLine": 6735,
+        "endChar": 27
+      },
+      "revId": "961fd4bfe7ec89cd1e0559c13aa74a8b72d1d206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

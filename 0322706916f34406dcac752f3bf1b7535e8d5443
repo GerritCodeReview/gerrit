@@ -16,6 +16,24 @@
       "message": "Can you also mention the rationale and explanation of the additional fixes you have included?\n\nExamples: ServerPlugin.java: L234 and L302.",
       "revId": "0322706916f34406dcac752f3bf1b7535e8d5443",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24759575_3c1726aa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-04-16T23:11:45Z",
+      "side": 1,
+      "message": "\u003e Can you also mention the rationale and explanation of the additional fixes you have included?\n\u003e \n\u003e Examples: ServerPlugin.java: L234 and L302.\n\nSure. Those aren\u0027t so much \"additional fixes\" as a corrected version of the original fix. If you look at the [PS1-\u003ePS3 diff][diff] of `ServerPluginInfoModule`, you can see the sshModule and httpModule aren\u0027t bound there now. That\u0027s because their injectors are created from the `sysInjector` in `ServerPlugin`. However, the sysInjector itself can be either the root injector or an injector created from the plugin\u0027s sysModule (if it defines one).\n\nThe new code in ServerPlugin handles binding the plugin\u0027s ssh and http modules into whichever injector is eventually used to get an instance of the respective module. That\u0027s actually the general rule for this whole change: Make sure we bind each plugin module in the injector we\u0027ll use to create an instance of that module. Not doing that results in bindings being promoted to an ancestor injector (such as the plugin apiModule).\n\nI\u0027ll try to reword all of that into the commit message.\n\nTwo reasons I\u0027m still not 100% confident in this change are:\n 1. I didn\u0027t add any code to `newRootInjectorWithApiModule()` because I don\u0027t yet have any tests that I could create a failure there with, but I do think that method should have similar code\n 2. I\u0027m not doing any explicit binding for the plugin apiModule yet. For #2, I wasn\u0027t sure what to do about how `ServerPlugin.java#327` could use the `env.apiInjector` as the baseInjector to get an instance of the apiModule class. Maybe @david.ostrovsky@gmail.com knows a way ([OptionalBinder](https://github.com/google/guice/wiki/Multibindings)?), but I don\u0027t how we could add bindings for a new plugin to an existing injector and we can\u0027t know about new plugins before they\u0027re installed.\n\n[diff]: https://gerrit-review.googlesource.com/c/gerrit/+/420397/1..3/java/com/google/gerrit/server/plugins/ServerPluginInfoModule.java",
+      "parentUuid": "c6dca9e4_7e37d7cb",
+      "revId": "0322706916f34406dcac752f3bf1b7535e8d5443",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

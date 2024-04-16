@@ -1113,7 +1113,7 @@ export class GrComment extends LitElement {
             }}
           />
           ${this.flagsService.isEnabled(KnownExperimentId.ML_SUGGESTED_EDIT_V2)
-            ? 'Attach ML-suggested edit'
+            ? 'Attach AI-suggested fix'
             : 'Generate Suggestion'}
           ${when(
             this.suggestionLoading,

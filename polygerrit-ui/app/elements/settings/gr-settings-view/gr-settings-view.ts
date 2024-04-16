@@ -896,10 +896,11 @@ export class GrSettingsView extends LitElement {
       <section id="allowSuggestCodeWhileCommentingSection">
         <div class="title">
           <label for="allowSuggestCodeWhileCommenting"
-            >Allow generating suggestions while commenting</label
+            >AI suggested fixes while commenting</label
           >
           <a
-            href=${getDocUrl(
+            href=${this.suggestionsProvider.getDocumentationLink?.() ||
+            getDocUrl(
               this.docsBaseUrl,
               'user-suggest-edits.html#_generate_suggestion'
             )}

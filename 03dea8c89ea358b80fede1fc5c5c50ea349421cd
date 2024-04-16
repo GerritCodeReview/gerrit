@@ -1,5 +1,29 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12fa483e_f0302326",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-04-16T14:52:17Z",
+      "side": 1,
+      "message": "Using `--parse` here means we now require Git v2.15+. That doesn\u0027t seem to be in line with the comments on lines 68/69 in the base version and partially kept on line 73 in PS3. Those seem to indicate we were trying to keep support for something like Ubuntu 16.04 with Git v2.7.4.\n\nGiven that this change is present in all non-EOL stable releases, maybe we should leave it and declare that we require v2.15+?",
+      "range": {
+        "startLine": 69,
+        "startChar": 26,
+        "endLine": 69,
+        "endChar": 33
+      },
+      "revId": "03dea8c89ea358b80fede1fc5c5c50ea349421cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

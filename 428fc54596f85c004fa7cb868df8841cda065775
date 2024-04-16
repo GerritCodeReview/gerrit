@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f458c80_eada0810",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 947,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2024-04-16T08:40:23Z",
+      "side": 1,
+      "message": "please remove this. right-sizing sets is performance wise not a huge win. doing it when the size is trivial to understand seems OK but here we need to explain the +1 which adds complexity.",
+      "range": {
+        "startLine": 946,
+        "startChar": 10,
+        "endLine": 947,
+        "endChar": 37
+      },
+      "revId": "428fc54596f85c004fa7cb868df8841cda065775",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

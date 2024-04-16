@@ -110,6 +110,7 @@ export class GrUserSuggestionsFix extends LitElement {
             text=${code}
             multiline
             copyTargetName="Suggested edit"
+            buttonTitle="Copy Suggested edit to clipboard"
           ></gr-copy-clipboard>
         </div>
         <div>

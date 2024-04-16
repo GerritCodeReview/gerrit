@@ -19,19 +19,10 @@ set -eu
 # Keep this version in sync with dev-contributing.txt.
 VERSION=${1:-1.7}
 
-TAG_PREFIX="google-java-format-"
 case "$VERSION" in
-1.3)
-    SHA1="a73cfe6f9af01bd6ff150c0b50c9d620400f784c"
-    ;;
-1.5)
-    SHA1="b1f79e4d39a3c501f07c0ce7e8b03ac6964ed1f1"
-    ;;
-1.6)
-    SHA1="02b3e84e52d2473e2c4868189709905a51647d03"
-    ;;
 1.7)
     SHA1="b6d34a51e579b08db7c624505bdf9af4397f1702"
+    TAG_PREFIX="google-java-format-"
     ;;
 1.22.0)
     SHA1="693d8fd04656886a2287cfe1d7a118c4697c3a57"

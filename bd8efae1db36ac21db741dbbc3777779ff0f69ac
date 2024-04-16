@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bdfb1403_06360bd8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-04-16T21:56:28Z",
+      "side": 1,
+      "message": "Thanks @geminica.programs@gmail.com for the documentation update. Can you also indicate the change in the _(potentially) Breaking Changes_ of v3.8.5 and v3.9.4?",
+      "revId": "bd8efae1db36ac21db741dbbc3777779ff0f69ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

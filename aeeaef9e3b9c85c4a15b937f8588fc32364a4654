@@ -87,6 +87,24 @@
       "message": "This breaks codestyle checks trying to still use google-java-format 1.7 since the tag name pattern changed with 1.10. Before tag names used the format `google-java-format-$VERSION`, since 1.10 they use `v$VERSION`.",
       "revId": "aeeaef9e3b9c85c4a15b937f8588fc32364a4654",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64a272f1_141f1cd9",
+        "filename": "tools/setup_gjf.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-04-16T10:41:20Z",
+      "side": 1,
+      "message": "here is a fix: Ifcb7c1d02472bd0f806708bf0ae31b03d2936a8a",
+      "parentUuid": "e4b557ef_0ea59f7c",
+      "revId": "aeeaef9e3b9c85c4a15b937f8588fc32364a4654",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

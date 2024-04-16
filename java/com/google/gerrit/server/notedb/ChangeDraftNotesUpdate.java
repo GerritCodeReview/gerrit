@@ -123,7 +123,7 @@ public class ChangeDraftNotesUpdate extends AbstractChangeUpdate implements Chan
     private final CurrentUser currentUser;
     private final AllUsersAsyncUpdate updateAllUsersAsync;
     private OpenRepo allUsersRepo;
-    private boolean shouldAllowFastForward = false;
+    private boolean shouldAllowNonFastForward = false;
 
     @Inject
     Executor(
@@ -146,9 +146,9 @@ public class ChangeDraftNotesUpdate extends AbstractChangeUpdate implements Chan
           filterTypedUpdates(updaters, ChangeDraftNotesUpdate.class);
       if (canRunAsync(noteDbUpdaters.values())) {
         updateAllUsersAsync.setDraftUpdates(noteDbUpdaters);
+        shouldAllowNonFastForward = true;
       } else {
         initAllUsersRepoIfNull();
-        shouldAllowFastForward = true;
         allUsersRepo.addUpdatesNoLimits(noteDbUpdaters);
       }
     }
@@ -187,7 +187,7 @@ public class ChangeDraftNotesUpdate extends AbstractChangeUpdate implements Chan
         return noteDbUpdateExecutor.execute(
             allUsersRepo,
             dryRun,
-            shouldAllowFastForward,
+            shouldAllowNonFastForward,
             /* batchUpdateListeners= */ ImmutableList.of(),
             /* pushCert= */ null,
             refLogIdent,

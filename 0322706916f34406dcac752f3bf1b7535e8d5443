@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6dca9e4_7e37d7cb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-04-16T22:21:51Z",
+      "side": 1,
+      "message": "Can you also mention the rationale and explanation of the additional fixes you have included?\n\nExamples: ServerPlugin.java: L234 and L302.",
+      "revId": "0322706916f34406dcac752f3bf1b7535e8d5443",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

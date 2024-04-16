@@ -61,6 +61,7 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.ReviewerUpdateInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.server.change.ReviewerModifier;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.gson.stream.JsonReader;
@@ -726,11 +727,11 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     gApi.changes().id(r.getChangeId()).current().submit();
 
     assertThat(gApi.changes().id(r.getChangeId()).get().removableReviewers).isEmpty();
-    AuthException thrown =
+    ResourceConflictException thrown =
         assertThrows(
-            AuthException.class,
+            ResourceConflictException.class,
             () -> gApi.changes().id(r.getChangeId()).reviewer(user.email()).remove());
-    assertThat(thrown).hasMessageThat().contains("remove reviewer not permitted");
+    assertThat(thrown).hasMessageThat().contains("cannot remove votes from merged change");
   }
 
   @Test
@@ -753,11 +754,11 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(user.id());
     assertThat(gApi.changes().id(r.getChangeId()).get().removableReviewers).isEmpty();
 
-    AuthException thrown =
+    ResourceConflictException thrown =
         assertThrows(
-            AuthException.class,
+            ResourceConflictException.class,
             () -> gApi.changes().id(r.getChangeId()).reviewer(user.email()).remove());
-    assertThat(thrown).hasMessageThat().contains("remove reviewer not permitted");
+    assertThat(thrown).hasMessageThat().contains("cannot remove votes from merged change");
   }
 
   @Test
@@ -835,8 +836,79 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void removeReviewerWithVoteFromMergedChangeFailsWithRemoveReviewerPermission()
+      throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            allowLabel(LabelId.CODE_REVIEW)
+                .ref("refs/heads/*")
+                .group(REGISTERED_USERS)
+                .range(-2, 2))
+        .add(allow(Permission.REMOVE_REVIEWER).ref(RefNames.REFS + "*").group(REGISTERED_USERS))
+        .update();
+
+    PushOneCommit.Result r = createChange();
+
+    requestScopeOperations.setApiUser(user.id());
+    gApi.changes()
+        .id(r.getChangeId())
+        .current()
+        .review(new ReviewInput().label(LabelId.CODE_REVIEW, 2));
+
+    requestScopeOperations.setApiUser(admin.id());
+    gApi.changes().id(r.getChangeId()).current().submit();
+
+    TestAccount newUser = createAccounts(1, name("foo")).get(0);
+    requestScopeOperations.setApiUser(newUser.id());
+    assertThat(gApi.changes().id(r.getChangeId()).get().removableReviewers).isEmpty();
+
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.changes().id(r.getChangeId()).reviewer(user.email()).remove());
+    assertThat(thrown).hasMessageThat().contains("cannot remove votes from merged change");
+  }
+
+  @Test
+  public void removeSubmitterFromMergedChangeFailsWithRemoveReviewerPermission() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            allowLabel(LabelId.CODE_REVIEW)
+                .ref("refs/heads/*")
+                .group(REGISTERED_USERS)
+                .range(-2, 2))
+        .add(allow(Permission.REMOVE_REVIEWER).ref(RefNames.REFS + "*").group(REGISTERED_USERS))
+        .update();
+
+    PushOneCommit.Result r = createChange();
+
+    requestScopeOperations.setApiUser(user.id());
+    gApi.changes()
+        .id(r.getChangeId())
+        .current()
+        .review(new ReviewInput().label(LabelId.CODE_REVIEW, 2));
+
+    requestScopeOperations.setApiUser(admin.id());
+    gApi.changes().id(r.getChangeId()).current().submit();
+
+    TestAccount newUser = createAccounts(1, name("foo")).get(0);
+    requestScopeOperations.setApiUser(newUser.id());
+    assertThat(gApi.changes().id(r.getChangeId()).get().removableReviewers).isEmpty();
+
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.changes().id(r.getChangeId()).reviewer(admin.email()).remove());
+    assertThat(thrown).hasMessageThat().contains("cannot remove votes from merged change");
+  }
+
+  @Test
   @Sandboxed
-  public void removeReviewerWithoutVoteWithPermissionSucceeds() throws Exception {
+  public void removeReviewerWithoutVoteFromOpenChangeWithPermissionSucceeds() throws Exception {
     PushOneCommit.Result r = createChange();
     // This test creates a new user so that it can explicitly check the REMOVE_REVIEWER permission
     // rather than bypassing the check because of project or ref ownership.

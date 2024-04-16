@@ -2320,7 +2320,7 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void removeReviewerSelfFromMergedChangeNotPermitted() throws Exception {
+  public void removeReviewerSelfFromMergedChangeNotPossible() throws Exception {
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
 
@@ -2332,11 +2332,11 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes().id(changeId).revision(r.getCommit().name()).submit();
 
     requestScopeOperations.setApiUser(user.id());
-    AuthException thrown =
+    ResourceConflictException thrown =
         assertThrows(
-            AuthException.class,
+            ResourceConflictException.class,
             () -> gApi.changes().id(r.getChangeId()).reviewer("self").remove());
-    assertThat(thrown).hasMessageThat().contains("remove reviewer not permitted");
+    assertThat(thrown).hasMessageThat().contains("cannot remove votes from merged change");
   }
 
   @Test
@@ -2521,7 +2521,25 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void deleteVoteAlwaysPermittedForSelfVotes() throws Exception {
+  public void deleteVoteFromMergedChangeNotPossible() throws Exception {
+    PushOneCommit.Result r = createChange();
+    approve(r.getChangeId());
+    gApi.changes().id(r.getChangeId()).current().submit();
+
+    requestScopeOperations.setApiUser(user.id());
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () ->
+                gApi.changes()
+                    .id(r.getChangeId())
+                    .reviewer(admin.id().toString())
+                    .deleteVote(LabelId.CODE_REVIEW));
+    assertThat(thrown).hasMessageThat().contains("cannot remove votes from merged change");
+  }
+
+  @Test
+  public void deleteVoteFromOpenChangeAlwaysPermittedForSelfVotes() throws Exception {
     projectOperations
         .project(project)
         .forUpdate()
@@ -2542,7 +2560,7 @@ public class ChangeIT extends AbstractDaemonTest {
     String changeId = r.getChangeId();
 
     requestScopeOperations.setApiUser(user.id());
-    gApi.changes().id(changeId).revision(r.getCommit().name()).review(ReviewInput.approve());
+    approve(changeId);
 
     gApi.changes()
         .id(r.getChangeId())
@@ -2551,7 +2569,38 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void deleteVoteAlwaysPermittedForAdmin() throws Exception {
+  public void deleteVoteFromClosedChangeNotPossibleForSelfVotes() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.SUBMIT).ref("refs/heads/*").group(REGISTERED_USERS))
+        .add(
+            allowLabel(LabelId.CODE_REVIEW)
+                .ref("refs/heads/*")
+                .group(REGISTERED_USERS)
+                .range(-2, 2))
+        .update();
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    requestScopeOperations.setApiUser(user.id());
+    approve(changeId);
+    gApi.changes().id(changeId).current().submit();
+
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () ->
+                gApi.changes()
+                    .id(r.getChangeId())
+                    .reviewer(user.id().toString())
+                    .deleteVote(LabelId.CODE_REVIEW));
+    assertThat(thrown).hasMessageThat().contains("cannot remove votes from merged change");
+  }
+
+  @Test
+  public void deleteVoteFromOpenChangeAlwaysPermittedForAdmin() throws Exception {
     projectOperations
         .project(project)
         .forUpdate()
@@ -2572,13 +2621,45 @@ public class ChangeIT extends AbstractDaemonTest {
     String changeId = r.getChangeId();
 
     requestScopeOperations.setApiUser(user.id());
-    gApi.changes().id(changeId).revision(r.getCommit().name()).review(ReviewInput.approve());
+    approve(changeId);
 
     requestScopeOperations.setApiUser(admin.id());
     gApi.changes()
         .id(r.getChangeId())
         .reviewer(user.id().toString())
         .deleteVote(LabelId.CODE_REVIEW);
+  }
+
+  @Test
+  public void deleteVoteFromMergedChangeNotPossibleForAdmin() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            allowLabel(LabelId.CODE_REVIEW)
+                .ref("refs/heads/*")
+                .group(REGISTERED_USERS)
+                .range(-2, 2))
+        .update();
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    requestScopeOperations.setApiUser(user.id());
+    approve(changeId);
+
+    requestScopeOperations.setApiUser(admin.id());
+    gApi.changes().id(changeId).current().submit();
+
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () ->
+                gApi.changes()
+                    .id(r.getChangeId())
+                    .reviewer(user.id().toString())
+                    .deleteVote(LabelId.CODE_REVIEW));
+    assertThat(thrown).hasMessageThat().contains("cannot remove votes from merged change");
   }
 
   @Test

@@ -112,8 +112,10 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.permissions.ChangePermission;
+import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.RemoveReviewerControl;
 import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -942,7 +944,12 @@ public class ChangeJson {
       // of "fixed" from "removable", because not all of their approvals can be
       // removed.
       Collection<LabelInfo> labels = out.labels.values();
-      Set<Account.Id> fixed = Sets.newHashSetWithExpectedSize(labels.size());
+      Set<Account.Id> fixed = new HashSet<>();
+
+      // the submitter cannot be removed since the submission is recorded by a SUBM approval which
+      // must not be removed by removing the submitter
+      cd.getSubmitApproval().ifPresent(submitApproval -> fixed.add(submitApproval.accountId()));
+
       Set<Account.Id> removable = new HashSet<>();
 
       // Add all reviewers, which will later be removed if they are in the "fixed" set.
@@ -953,23 +960,33 @@ public class ChangeJson {
               .collect(Collectors.toSet()));
 
       // Check if the user has the permission to remove a reviewer. This means we can bypass the
-      // testRemoveReviewer check for a specific reviewer in the loop saving potentially many
-      // permission checks.
+      // permission checks for a specific reviewer in the loop saving potentially many permission
+      // checks.
+      PermissionBackend.WithUser withUser = permissionBackend.user(userProvider.get());
       boolean canRemoveAnyReviewer =
-          permissionBackend
-              .user(userProvider.get())
-              .change(cd)
-              .test(ChangePermission.REMOVE_REVIEWER);
+          withUser.change(cd).test(ChangePermission.REMOVE_REVIEWER)
+              || withUser
+                  .project(cd.project())
+                  .ref(cd.change().getDest().branch())
+                  .test(RefPermission.WRITE_CONFIG)
+              || withUser.test(GlobalPermission.ADMINISTRATE_SERVER);
+
       for (LabelInfo label : labels) {
         if (label.all == null) {
           continue;
         }
         for (ApprovalInfo ai : label.all) {
           Account.Id id = Account.id(ai._accountId);
+          if (fixed.contains(id)) {
+            // we already found that this reviewer cannot be removed, no need to check again
+            continue;
+          }
 
-          if (!canRemoveAnyReviewer
-              && !removeReviewerControl.testRemoveReviewer(
-                  cd, userProvider.get(), id, MoreObjects.firstNonNull(ai.value, 0))) {
+          int value = MoreObjects.firstNonNull(ai.value, 0);
+          if ((cd.change().isMerged() && value != 0)
+              || (!canRemoveAnyReviewer
+                  && !RemoveReviewerControl.canRemoveReviewerWithoutPermissionCheck(
+                      cd.change(), userProvider.get(), id, value))) {
             fixed.add(id);
           }
         }

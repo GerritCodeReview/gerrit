@@ -18,6 +18,7 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
@@ -45,10 +46,16 @@ public class RemoveReviewerControl {
    *
    * @throws AuthException if this user is not allowed to remove this approval.
    * @throws PermissionBackendException on failure of permission checks.
+   * @throws ResourceConflictException if the approval cannot be removed because the change is
+   *     merged
    */
   public void checkRemoveReviewer(
       ChangeNotes notes, CurrentUser currentUser, PatchSetApproval approval)
-      throws PermissionBackendException, AuthException {
+      throws PermissionBackendException, AuthException, ResourceConflictException {
+    if (notes.getChange().isMerged() && approval.value() != 0) {
+      throw new ResourceConflictException("cannot remove votes from merged change");
+    }
+
     checkRemoveReviewer(notes, currentUser, approval.accountId(), approval.value());
   }
 
@@ -82,35 +89,43 @@ public class RemoveReviewerControl {
   public boolean testRemoveReviewer(
       ChangeData cd, CurrentUser currentUser, Account.Id reviewer, int value)
       throws PermissionBackendException {
-    if (canRemoveReviewerWithoutPermissionCheck(
-        permissionBackend, cd.change(), currentUser, reviewer, value)) {
-      return true;
-    }
-    return permissionBackend.user(currentUser).change(cd).test(ChangePermission.REMOVE_REVIEWER);
-  }
-
-  private void checkRemoveReviewer(
-      ChangeNotes notes, CurrentUser currentUser, Account.Id reviewer, int val)
-      throws PermissionBackendException, AuthException {
-    if (canRemoveReviewerWithoutPermissionCheck(
-        permissionBackend, notes.getChange(), currentUser, reviewer, val)) {
-      return;
-    }
-
-    permissionBackend.user(currentUser).change(notes).check(ChangePermission.REMOVE_REVIEWER);
-  }
-
-  private static boolean canRemoveReviewerWithoutPermissionCheck(
-      PermissionBackend permissionBackend,
-      Change change,
-      CurrentUser currentUser,
-      Account.Id reviewer,
-      int value)
-      throws PermissionBackendException {
-    if (change.isMerged() && value != 0) {
+    if (cd.change().isMerged() && value != 0) {
       return false;
     }
 
+    if (canRemoveReviewerWithoutPermissionCheck(cd.change(), currentUser, reviewer, value)) {
+      return true;
+    }
+
+    // Users with the remove reviewer permission, the branch owner, project
+    // owner and site admin can remove anyone
+    PermissionBackend.WithUser withUser = permissionBackend.user(currentUser);
+    PermissionBackend.ForProject forProject = withUser.project(cd.project());
+    return (forProject.ref(cd.change().getDest().branch()).test(RefPermission.WRITE_CONFIG)
+            || withUser.test(GlobalPermission.ADMINISTRATE_SERVER))
+        || withUser.change(cd).test(ChangePermission.REMOVE_REVIEWER);
+  }
+
+  private void checkRemoveReviewer(
+      ChangeNotes notes, CurrentUser currentUser, Account.Id reviewer, int value)
+      throws PermissionBackendException, AuthException {
+    if (canRemoveReviewerWithoutPermissionCheck(notes.getChange(), currentUser, reviewer, value)) {
+      return;
+    }
+
+    // Users with the remove reviewer permission, the branch owner, project
+    // owner and site admin can remove anyone
+    PermissionBackend.WithUser withUser = permissionBackend.user(currentUser);
+    PermissionBackend.ForProject forProject = withUser.project(notes.getProjectName());
+    if (forProject.ref(notes.getChange().getDest().branch()).test(RefPermission.WRITE_CONFIG)
+        || withUser.test(GlobalPermission.ADMINISTRATE_SERVER)) {
+      return;
+    }
+    permissionBackend.user(currentUser).change(notes).check(ChangePermission.REMOVE_REVIEWER);
+  }
+
+  public static boolean canRemoveReviewerWithoutPermissionCheck(
+      Change change, CurrentUser currentUser, Account.Id reviewer, int value) {
     if (currentUser.isIdentifiedUser()) {
       Account.Id aId = currentUser.getAccountId();
       if (aId.equals(reviewer)) {
@@ -120,14 +135,6 @@ public class RemoveReviewerControl {
       }
     }
 
-    // Users with the remove reviewer permission, the branch owner, project
-    // owner and site admin can remove anyone
-    PermissionBackend.WithUser withUser = permissionBackend.user(currentUser);
-    PermissionBackend.ForProject forProject = withUser.project(change.getProject());
-    if (forProject.ref(change.getDest().branch()).test(RefPermission.WRITE_CONFIG)
-        || withUser.test(GlobalPermission.ADMINISTRATE_SERVER)) {
-      return true;
-    }
     return false;
   }
 }

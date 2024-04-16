@@ -16,7 +16,7 @@ import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
 import {GrSuggestionDiffPreview} from '../gr-suggestion-diff-preview/gr-suggestion-diff-preview';
 import {changeModelToken} from '../../../models/change/change-model';
-import {Comment, isDraft, PatchSetNumber} from '../../../types/common';
+import {Comment, PatchSetNumber} from '../../../types/common';
 import {OpenFixPreviewEventDetail} from '../../../types/events';
 import {pluginLoaderToken} from '../gr-js-api-interface/gr-plugin-loader';
 import {SuggestionsProvider} from '../../../api/suggestions';
@@ -187,7 +187,6 @@ export class GrFixSuggestions extends LitElement {
 
   private isApplyEditDisabled() {
     if (this.comment?.patch_set === undefined) return true;
-    if (isDraft(this.comment)) return true;
     return this.comment.patch_set !== this.latestPatchNum;
   }
 

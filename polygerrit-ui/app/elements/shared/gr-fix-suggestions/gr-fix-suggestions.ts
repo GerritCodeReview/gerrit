@@ -21,6 +21,7 @@ import {OpenFixPreviewEventDetail} from '../../../types/events';
 import {pluginLoaderToken} from '../gr-js-api-interface/gr-plugin-loader';
 import {SuggestionsProvider} from '../../../api/suggestions';
 import {PROVIDED_FIX_ID} from '../../../utils/comment-util';
+import {when} from 'lit/directives/when.js';
 
 /**
  * gr-fix-suggestions is UI for comment.fix_suggestions.
@@ -44,6 +45,8 @@ export class GrFixSuggestions extends LitElement {
   @state()
   suggestionsProvider?: SuggestionsProvider;
 
+  @state() private isOwner = false;
+
   private readonly getConfigModel = resolve(this, configModelToken);
 
   private readonly getChangeModel = resolve(this, changeModelToken);
@@ -61,6 +64,11 @@ export class GrFixSuggestions extends LitElement {
       this,
       () => this.getChangeModel().latestPatchNum$,
       x => (this.latestPatchNum = x)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().isOwner$,
+      x => (this.isOwner = x)
     );
   }
 
@@ -126,17 +134,21 @@ export class GrFixSuggestions extends LitElement {
           >
             Show edit
           </gr-button>
-          <gr-button
-            secondary
-            flatten
-            .loading=${this.applyingFix}
-            .disabled=${this.isApplyEditDisabled()}
-            class="action show-fix"
-            @click=${this.handleApplyFix}
-            .title=${this.computeApplyEditTooltip()}
-          >
-            Apply edit
-          </gr-button>
+          ${when(
+            this.isOwner,
+            () =>
+              html`<gr-button
+                secondary
+                flatten
+                .loading=${this.applyingFix}
+                .disabled=${this.isApplyEditDisabled()}
+                class="action show-fix"
+                @click=${this.handleApplyFix}
+                .title=${this.computeApplyEditTooltip()}
+              >
+                Apply edit
+              </gr-button>`
+          )}
         </div>
       </div>
       <gr-suggestion-diff-preview

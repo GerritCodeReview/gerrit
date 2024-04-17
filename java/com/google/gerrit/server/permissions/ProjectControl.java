@@ -42,6 +42,9 @@ import com.google.gerrit.server.config.GitReceivePackGroups;
 import com.google.gerrit.server.config.GitUploadPackGroups;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.logging.Metadata;
+import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackend.ForChange;
 import com.google.gerrit.server.permissions.PermissionBackend.ForProject;
@@ -290,24 +293,29 @@ class ProjectControl {
   }
 
   private boolean canPerformOnAllRefs(String permission, Set<String> ignore) {
-    boolean canPerform = false;
-    Set<String> patterns = allRefPatterns(permission);
-    if (patterns.contains(ALL)) {
-      // Only possible if granted on the pattern that
-      // matches every possible reference.  Check all
-      // patterns also have the permission.
-      //
-      for (String pattern : patterns) {
-        if (controlForRef(pattern).canPerform(permission)) {
-          canPerform = true;
-        } else if (ignore.contains(pattern)) {
-          continue;
-        } else {
-          return false;
+    try (TraceTimer timer =
+        TraceContext.newTimer(
+            "ProjectControl#canPerformOnAllRefs",
+            Metadata.builder().projectName(getProject().getName()).build())) {
+      boolean canPerform = false;
+      Set<String> patterns = allRefPatterns(permission);
+      if (patterns.contains(ALL)) {
+        // Only possible if granted on the pattern that
+        // matches every possible reference.  Check all
+        // patterns also have the permission.
+        //
+        for (String pattern : patterns) {
+          if (controlForRef(pattern).canPerform(permission)) {
+            canPerform = true;
+          } else if (ignore.contains(pattern)) {
+            continue;
+          } else {
+            return false;
+          }
         }
       }
+      return canPerform;
     }
-    return canPerform;
   }
 
   private Set<String> allRefPatterns(String permissionName) {

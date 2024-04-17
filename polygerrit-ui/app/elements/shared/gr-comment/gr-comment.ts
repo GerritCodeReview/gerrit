@@ -1680,9 +1680,9 @@ export class GrComment extends LitElement {
     if (!this.comment) return false;
     return (
       isError(this.comment) ||
-      this.messageText.trimEnd() !== this.comment?.message ||
+      this.messageText.trimEnd() !== this.comment.message ||
       this.unresolved !== this.comment.unresolved ||
-      !deepEqual(this.comment?.fix_suggestions, this.getFixSuggestions())
+      !deepEqual(this.comment.fix_suggestions, this.getFixSuggestions())
     );
   }
 
@@ -1706,6 +1706,8 @@ export class GrComment extends LitElement {
       return undefined;
     if (!this.generateSuggestion) return undefined;
     if (!this.generatedFixSuggestion) return undefined;
+    // Disable fix suggestions when the comment already has a user suggestion
+    if (this.comment && hasUserSuggestion(this.comment)) return undefined;
     return [this.generatedFixSuggestion];
   }
 

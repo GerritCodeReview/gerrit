@@ -788,8 +788,11 @@ export class GrReplyDialog extends LitElement {
               name="change"
               .value=${this.change}
             ></gr-endpoint-param>
-            ${this.renderAttentionSummarySection()}
-            ${this.renderAttentionDetailsSection()}
+            ${when(
+              this.attentionExpanded,
+              () => this.renderAttentionDetailsSection(),
+              () => this.renderAttentionSummarySection()
+            )}
             <gr-endpoint-slot name="above-actions"></gr-endpoint-slot>
             ${this.renderActionsSection()}
           </gr-endpoint-decorator>
@@ -990,7 +993,6 @@ export class GrReplyDialog extends LitElement {
   }
 
   private renderAttentionSummarySection() {
-    if (this.attentionExpanded) return;
     return html`
       <section class="attention">
         <div class="attentionSummary">
@@ -1057,7 +1059,6 @@ export class GrReplyDialog extends LitElement {
   }
 
   private renderAttentionDetailsSection() {
-    if (!this.attentionExpanded) return;
     return html`
       <section class="attention-detail">
         <div class="attentionDetailsTitle">
@@ -1741,8 +1742,10 @@ export class GrReplyDialog extends LitElement {
       ),
     ]);
     // Possibly expand if need be, never collapse as this is jarring to the user.
+    // For long account lists (10 or more), avoid automatic expansion.
     this.attentionExpanded =
-      this.attentionExpanded || this.computeShowAttentionTip(1);
+      this.attentionExpanded ||
+      (allAccountIds.length < 10 && this.computeShowAttentionTip(1));
   }
 
   computeShowAttentionTip(minimum: number) {

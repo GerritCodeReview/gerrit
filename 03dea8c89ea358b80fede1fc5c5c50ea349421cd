@@ -22,6 +22,30 @@
       },
       "revId": "03dea8c89ea358b80fede1fc5c5c50ea349421cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f44372e_a2392ffe",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2024-04-17T06:27:34Z",
+      "side": 1,
+      "message": "Those lines were added in 2018 when 2.15 was fairly new (October 2017):\nhttps://gerrit-review.googlesource.com/c/gerrit/+/188770/17/resources/com/google/gerrit/server/tools/root/hooks/commit-msg\nhttps://github.com/git/git/tree/v2.15.0\nWe should however mention it in the release notes that we now require the git version not to be ancient.",
+      "parentUuid": "12fa483e_f0302326",
+      "range": {
+        "startLine": 69,
+        "startChar": 26,
+        "endLine": 69,
+        "endChar": 33
+      },
+      "revId": "03dea8c89ea358b80fede1fc5c5c50ea349421cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

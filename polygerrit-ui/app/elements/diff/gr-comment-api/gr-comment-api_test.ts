@@ -463,7 +463,7 @@ suite('ChangeComments tests', () => {
           ...createRobotComment(),
           id: '01' as UrlEncodedCommentId,
           patch_set: 2 as RevisionPatchSetNum,
-          path: 'file/one',
+          path: 'file/1',
           side: CommentSide.PARENT,
           line: 1,
           updated: makeTime(1),
@@ -479,7 +479,7 @@ suite('ChangeComments tests', () => {
           id: '02' as UrlEncodedCommentId,
           in_reply_to: '04' as UrlEncodedCommentId,
           patch_set: 2 as RevisionPatchSetNum,
-          path: 'file/one',
+          path: 'file/1',
           unresolved: true,
           line: 1,
           updated: makeTime(3),
@@ -488,7 +488,7 @@ suite('ChangeComments tests', () => {
           ...createComment(),
           id: '03' as UrlEncodedCommentId,
           patch_set: 2 as RevisionPatchSetNum,
-          path: 'file/one',
+          path: 'file/1',
           side: CommentSide.PARENT,
           line: 2,
           updated: makeTime(1),
@@ -497,7 +497,7 @@ suite('ChangeComments tests', () => {
           ...createComment(),
           id: '04' as UrlEncodedCommentId,
           patch_set: 2 as RevisionPatchSetNum,
-          path: 'file/one',
+          path: 'file/1',
           line: 1,
           updated: makeTime(1),
         },
@@ -563,7 +563,7 @@ suite('ChangeComments tests', () => {
           side: CommentSide.PARENT,
           line: 1,
           updated: makeTime(3),
-          path: 'file/one',
+          path: 'file/1',
         },
         {
           ...createDraft(),
@@ -574,29 +574,29 @@ suite('ChangeComments tests', () => {
           // Draft gets lower timestamp than published comment, because we
           // want to test that the draft still gets sorted to the end.
           updated: makeTime(2),
-          path: 'file/one',
+          path: 'file/1',
         },
         {
           ...createDraft(),
           id: '14' as UrlEncodedCommentId,
           patch_set: 3 as RevisionPatchSetNum,
           line: 1,
-          path: 'file/two',
+          path: 'file/2',
           updated: makeTime(3),
         },
       ] as const;
       const drafts: {[path: string]: DraftInfo[]} = {
-        'file/one': [comments[11], comments[12]],
-        'file/two': [comments[13]],
+        'file/1': [comments[11], comments[12]],
+        'file/2': [comments[13]],
       };
       const robotComments: {[path: string]: RobotCommentInfo[]} = {
-        'file/one': [comments[0], comments[1]],
+        'file/1': [comments[0], comments[1]],
       };
       const commentsByFile: {[path: string]: CommentInfo[]} = {
-        'file/one': [comments[2], comments[3]],
-        'file/two': [comments[4], comments[5]],
-        'file/three': [comments[6], comments[7], comments[8]],
-        'file/four': [comments[9], comments[10]],
+        'file/1': [comments[2], comments[3]],
+        'file/2': [comments[4], comments[5]],
+        'file/3': [comments[6], comments[7], comments[8]],
+        'file/4': [comments[9], comments[10]],
       };
 
       function makeTime(mins: number) {
@@ -624,23 +624,23 @@ suite('ChangeComments tests', () => {
         patchRange.basePatchNum = PARENT;
         patchRange.patchNum = 3 as RevisionPatchSetNum;
         paths = changeComments.getPaths(patchRange);
-        assert.notProperty(paths, 'file/one');
-        assert.property(paths, 'file/two');
-        assert.property(paths, 'file/three');
-        assert.notProperty(paths, 'file/four');
+        assert.notProperty(paths, 'file/1');
+        assert.property(paths, 'file/2');
+        assert.property(paths, 'file/3');
+        assert.notProperty(paths, 'file/4');
 
         patchRange.patchNum = 2 as RevisionPatchSetNum;
         paths = changeComments.getPaths(patchRange);
-        assert.property(paths, 'file/one');
-        assert.property(paths, 'file/two');
-        assert.property(paths, 'file/three');
-        assert.notProperty(paths, 'file/four');
+        assert.property(paths, 'file/1');
+        assert.property(paths, 'file/2');
+        assert.property(paths, 'file/3');
+        assert.notProperty(paths, 'file/4');
 
         paths = changeComments.getPaths();
-        assert.property(paths, 'file/one');
-        assert.property(paths, 'file/two');
-        assert.property(paths, 'file/three');
-        assert.property(paths, 'file/four');
+        assert.property(paths, 'file/1');
+        assert.property(paths, 'file/2');
+        assert.property(paths, 'file/3');
+        assert.property(paths, 'file/4');
       });
 
       test('getCommentsForPath', () => {
@@ -648,7 +648,7 @@ suite('ChangeComments tests', () => {
           basePatchNum: 1 as BasePatchSetNum,
           patchNum: 3 as RevisionPatchSetNum,
         };
-        let path = 'file/one';
+        let path = 'file/1';
         let comments = changeComments.getCommentsForPath(path, patchRange);
         assert.equal(
           comments.filter(c => isInBaseOfPatchRange(c, patchRange)).length,
@@ -659,7 +659,7 @@ suite('ChangeComments tests', () => {
           0
         );
 
-        path = 'file/two';
+        path = 'file/2';
         comments = changeComments.getCommentsForPath(path, patchRange);
         assert.equal(
           comments.filter(c => isInBaseOfPatchRange(c, patchRange)).length,
@@ -682,7 +682,7 @@ suite('ChangeComments tests', () => {
         );
 
         patchRange.basePatchNum = PARENT;
-        path = 'file/three';
+        path = 'file/3';
         comments = changeComments.getCommentsForPath(path, patchRange);
         assert.equal(
           comments.filter(c => isInBaseOfPatchRange(c, patchRange)).length,
@@ -695,10 +695,10 @@ suite('ChangeComments tests', () => {
       });
 
       test('getAllCommentsForPath', () => {
-        let path = 'file/one';
+        let path = 'file/1';
         let comments = changeComments.getAllCommentsForPath(path);
         assert.equal(comments.length, 4);
-        path = 'file/two';
+        path = 'file/2';
         comments = changeComments.getAllCommentsForPath(path, 2 as PatchSetNum);
         assert.equal(comments.length, 1);
         const aCopyOfComments = changeComments.getAllCommentsForPath(
@@ -710,7 +710,7 @@ suite('ChangeComments tests', () => {
       });
 
       test('getAllDraftsForPath', () => {
-        const path = 'file/one';
+        const path = 'file/1';
         const drafts = changeComments.getAllDraftsForPath(path);
         assert.equal(drafts.length, 2);
       });
@@ -719,21 +719,21 @@ suite('ChangeComments tests', () => {
         assert.equal(
           changeComments.computeUnresolvedNum({
             patchNum: 2 as PatchSetNum,
-            path: 'file/one',
+            path: 'file/1',
           }),
           0
         );
         assert.equal(
           changeComments.computeUnresolvedNum({
             patchNum: 1 as PatchSetNum,
-            path: 'file/one',
+            path: 'file/1',
           }),
           0
         );
         assert.equal(
           changeComments.computeUnresolvedNum({
             patchNum: 2 as PatchSetNum,
-            path: 'file/three',
+            path: 'file/3',
           }),
           1
         );
@@ -914,21 +914,21 @@ suite('ChangeComments tests', () => {
         assert.equal(
           changeComments.computeCommentThreads({
             patchNum: 2 as PatchSetNum,
-            path: 'file/one',
+            path: 'file/1',
           }).length,
           3
         );
         assert.deepEqual(
           changeComments.computeCommentThreads({
             patchNum: 1 as PatchSetNum,
-            path: 'file/one',
+            path: 'file/1',
           }),
           []
         );
         assert.equal(
           changeComments.computeCommentThreads({
             patchNum: 2 as PatchSetNum,
-            path: 'file/three',
+            path: 'file/3',
           }).length,
           1
         );
@@ -937,15 +937,15 @@ suite('ChangeComments tests', () => {
       test('computeCommentThreads - check content', () => {
         const expectedThreads: CommentThread[] = [
           {
-            ...createCommentThread([{...comments[9], path: 'file/four'}]),
+            ...createCommentThread([{...comments[9], path: 'file/4'}]),
           },
           {
-            ...createCommentThread([{...comments[10], path: 'file/four'}]),
+            ...createCommentThread([{...comments[10], path: 'file/4'}]),
           },
         ];
         assert.deepEqual(
           changeComments.computeCommentThreads({
-            path: 'file/four',
+            path: 'file/4',
           }),
           expectedThreads
         );
@@ -955,21 +955,21 @@ suite('ChangeComments tests', () => {
         assert.equal(
           changeComments.computeDraftCount({
             patchNum: 2 as PatchSetNum,
-            path: 'file/one',
+            path: 'file/1',
           }),
           2
         );
         assert.equal(
           changeComments.computeDraftCount({
             patchNum: 1 as PatchSetNum,
-            path: 'file/one',
+            path: 'file/1',
           }),
           0
         );
         assert.equal(
           changeComments.computeDraftCount({
             patchNum: 2 as PatchSetNum,
-            path: 'file/three',
+            path: 'file/3',
           }),
           0
         );
@@ -979,79 +979,83 @@ suite('ChangeComments tests', () => {
       test('getAllPublishedComments', () => {
         let publishedComments = changeComments.getAllPublishedComments();
         assert.equal(Object.keys(publishedComments).length, 4);
-        assert.equal(Object.keys(publishedComments['file/one']).length, 4);
-        assert.equal(Object.keys(publishedComments['file/two']).length, 2);
+        assert.equal(Object.keys(publishedComments['file/1']).length, 4);
+        assert.equal(Object.keys(publishedComments['file/2']).length, 2);
         publishedComments = changeComments.getAllPublishedComments(
           2 as PatchSetNum
         );
-        assert.equal(Object.keys(publishedComments['file/one']).length, 4);
-        assert.equal(Object.keys(publishedComments['file/two']).length, 1);
+        assert.equal(Object.keys(publishedComments['file/1']).length, 4);
+        assert.equal(Object.keys(publishedComments['file/2']).length, 1);
       });
 
       test('getAllComments', () => {
         let comments = changeComments.getAllComments();
         assert.equal(Object.keys(comments).length, 4);
-        assert.equal(Object.keys(comments['file/one']).length, 4);
-        assert.equal(Object.keys(comments['file/two']).length, 2);
+        assert.equal(Object.keys(comments['file/1']).length, 4);
+        assert.equal(Object.keys(comments['file/2']).length, 2);
         comments = changeComments.getAllComments(false, 2 as PatchSetNum);
         assert.equal(Object.keys(comments).length, 4);
-        assert.equal(Object.keys(comments['file/one']).length, 4);
-        assert.equal(Object.keys(comments['file/two']).length, 1);
+        assert.equal(Object.keys(comments['file/1']).length, 4);
+        assert.equal(Object.keys(comments['file/2']).length, 1);
         // Include drafts
         comments = changeComments.getAllComments(true);
         assert.equal(Object.keys(comments).length, 4);
-        assert.equal(Object.keys(comments['file/one']).length, 6);
-        assert.equal(Object.keys(comments['file/two']).length, 3);
+        assert.equal(Object.keys(comments['file/1']).length, 6);
+        assert.equal(Object.keys(comments['file/2']).length, 3);
         comments = changeComments.getAllComments(true, 2 as PatchSetNum);
         assert.equal(Object.keys(comments).length, 4);
-        assert.equal(Object.keys(comments['file/one']).length, 6);
-        assert.equal(Object.keys(comments['file/two']).length, 1);
+        assert.equal(Object.keys(comments['file/1']).length, 6);
+        assert.equal(Object.keys(comments['file/2']).length, 1);
       });
 
       test('computeAllThreads', () => {
         const expectedThreads: CommentThread[] = [
           {
-            ...createCommentThread([{...comments[0], path: 'file/one'}]),
-          },
-          {
-            ...createCommentThread([{...comments[2], path: 'file/one'}]),
-          },
-          {
             ...createCommentThread([
-              {...comments[3], path: 'file/one'},
-              {...comments[1], path: 'file/one'},
-              {...comments[12], path: 'file/one'},
+              {...comments[3], path: 'file/1'},
+              {...comments[1], path: 'file/1'},
+              {...comments[12], path: 'file/1'},
             ]),
           },
           {
-            ...createCommentThread([{...comments[4], path: 'file/two'}]),
+            ...createCommentThread([{...comments[11], path: 'file/1'}]),
           },
           {
-            ...createCommentThread([{...comments[5], path: 'file/two'}]),
+            ...createCommentThread([{...comments[0], path: 'file/1'}]),
+          },
+          {
+            ...createCommentThread([{...comments[2], path: 'file/1'}]),
+          },
+          {
+            ...createCommentThread([{...comments[4], path: 'file/2'}]),
+          },
+          {
+            ...createCommentThread([{...comments[13], path: 'file/2'}]),
+          },
+          {
+            ...createCommentThread([{...comments[5], path: 'file/2'}]),
           },
           {
             ...createCommentThread([
-              {...comments[6], path: 'file/three'},
-              {...comments[7], path: 'file/three'},
+              {...comments[6], path: 'file/3'},
+              {...comments[7], path: 'file/3'},
             ]),
           },
           {
-            ...createCommentThread([{...comments[8], path: 'file/three'}]),
+            ...createCommentThread([{...comments[8], path: 'file/3'}]),
           },
           {
-            ...createCommentThread([{...comments[9], path: 'file/four'}]),
+            ...createCommentThread([{...comments[9], path: 'file/4'}]),
           },
           {
-            ...createCommentThread([{...comments[10], path: 'file/four'}]),
-          },
-          {
-            ...createCommentThread([{...comments[11], path: 'file/one'}]),
-          },
-          {
-            ...createCommentThread([{...comments[13], path: 'file/two'}]),
+            ...createCommentThread([{...comments[10], path: 'file/4'}]),
           },
         ];
         const threads = changeComments.getAllThreadsForChange();
+        assert.deepEqual(
+          threads.map(t => t.rootId),
+          expectedThreads.map(t => t.rootId)
+        );
         assert.deepEqual(threads, expectedThreads);
       });
     });

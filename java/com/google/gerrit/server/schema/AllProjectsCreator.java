@@ -163,8 +163,8 @@ public class AllProjectsCreator {
             input
                 .serviceUsersGroup()
                 .ifPresent(
-                    batchUsersGroup ->
-                        initDefaultAclsForBatchUsers(capabilities, config, batchUsersGroup)));
+                    serviceUsersGroup ->
+                        initDefaultAclsForServiceUsers(capabilities, config, serviceUsersGroup)));
 
     input
         .administratorsGroup()
@@ -192,13 +192,13 @@ public class AllProjectsCreator {
         });
   }
 
-  private void initDefaultAclsForBatchUsers(
-      AccessSection.Builder capabilities, ProjectConfig config, GroupReference batchUsersGroup) {
+  private void initDefaultAclsForServiceUsers(
+      AccessSection.Builder capabilities, ProjectConfig config, GroupReference serviceUsersGroup) {
     Permission.Builder priority = capabilities.upsertPermission(GlobalCapability.PRIORITY);
-    priority.add(rule(config, batchUsersGroup).setAction(Action.BATCH));
+    priority.add(rule(config, serviceUsersGroup).setAction(Action.BATCH));
 
     Permission.Builder stream = capabilities.upsertPermission(GlobalCapability.STREAM_EVENTS);
-    stream.add(rule(config, batchUsersGroup));
+    stream.add(rule(config, serviceUsersGroup));
   }
 
   private void initDefaultAclsForAdmins(

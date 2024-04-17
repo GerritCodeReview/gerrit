@@ -46,6 +46,30 @@
       },
       "revId": "03dea8c89ea358b80fede1fc5c5c50ea349421cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7968bb8_d45d2f63",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2024-04-17T06:28:40Z",
+      "side": 1,
+      "message": "...aaaand now I see that that\u0027s exactly what you suggested. Sorry for the noise...",
+      "parentUuid": "7f44372e_a2392ffe",
+      "range": {
+        "startLine": 69,
+        "startChar": 26,
+        "endLine": 69,
+        "endChar": 33
+      },
+      "revId": "03dea8c89ea358b80fede1fc5c5c50ea349421cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

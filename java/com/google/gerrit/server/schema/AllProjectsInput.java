@@ -92,6 +92,9 @@ public abstract class AllProjectsInput {
   /** Whether initializing default access sections in All-Projects. */
   public abstract boolean initDefaultAcls();
 
+  /** Whether default submit requirements should be initialized in All-Projects. */
+  public abstract boolean initDefaultSubmitRequirements();
+
   public abstract Builder toBuilder();
 
   public static Builder builder() {
@@ -99,7 +102,8 @@ public abstract class AllProjectsInput {
         new AutoValue_AllProjectsInput.Builder()
             .codeReviewLabel(getDefaultCodeReviewLabel())
             .firstChangeIdForNoteDb(Sequences.FIRST_CHANGE_ID)
-            .initDefaultAcls(true);
+            .initDefaultAcls(true)
+            .initDefaultSubmitRequirements(true);
     DEFAULT_BOOLEAN_PROJECT_CONFIGS.forEach(builder::addBooleanProjectConfig);
 
     return builder;
@@ -139,6 +143,8 @@ public abstract class AllProjectsInput {
 
     @UsedAt(UsedAt.Project.GOOGLE)
     public abstract Builder initDefaultAcls(boolean initDefaultACLs);
+
+    public abstract Builder initDefaultSubmitRequirements(boolean initDefaultSubmitRequirements);
 
     public abstract AllProjectsInput build();
   }

@@ -18,6 +18,7 @@ import static com.google.gerrit.server.schema.AllProjectsInput.getDefaultCodeRev
 import static com.google.gerrit.server.schema.testing.AllProjectsCreatorTestUtil.assertSectionEquivalent;
 import static com.google.gerrit.server.schema.testing.AllProjectsCreatorTestUtil.assertTwoConfigsEquivalent;
 import static com.google.gerrit.server.schema.testing.AllProjectsCreatorTestUtil.getAllProjectsWithoutDefaultAcls;
+import static com.google.gerrit.server.schema.testing.AllProjectsCreatorTestUtil.getAllProjectsWithoutDefaultSubmitRequirements;
 import static com.google.gerrit.server.schema.testing.AllProjectsCreatorTestUtil.getDefaultAllProjectsWithAllDefaultSections;
 import static com.google.gerrit.server.schema.testing.AllProjectsCreatorTestUtil.readAllProjectsConfig;
 import static com.google.gerrit.truth.ConfigSubject.assertThat;
@@ -141,6 +142,7 @@ public class AllProjectsCreatorTest {
             .addBooleanProjectConfig(
                 BooleanProjectConfig.REJECT_EMPTY_COMMIT, InheritableBoolean.TRUE)
             .initDefaultAcls(true)
+            .initDefaultSubmitRequirements(true)
             .build();
     allProjectsCreator.create(allProjectsInput);
 
@@ -160,6 +162,26 @@ public class AllProjectsCreatorTest {
   }
 
   @Test
+  public void createAllProjectsWithoutInitializingDefaultSubmitRequirements() throws Exception {
+    GroupReference adminsGroup = createGroupReference("Administrators");
+    GroupReference serviceUsersGroup = createGroupReference(ServiceUserClassifier.SERVICE_USERS);
+    GroupReference blockedUsersGroup = createGroupReference("Blocked Users");
+    AllProjectsInput allProjectsInput =
+        AllProjectsInput.builder()
+            .administratorsGroup(adminsGroup)
+            .serviceUsersGroup(serviceUsersGroup)
+            .blockedUsersGroup(blockedUsersGroup)
+            .initDefaultSubmitRequirements(false)
+            .build();
+    allProjectsCreator.create(allProjectsInput);
+
+    Config expectedConfig = new Config();
+    expectedConfig.fromText(getAllProjectsWithoutDefaultSubmitRequirements());
+    Config config = readAllProjectsConfig(repoManager, allProjectsName);
+    assertTwoConfigsEquivalent(config, expectedConfig);
+  }
+
+  @Test
   public void createAllProjectsOnlyInitializingProjectDescription() throws Exception {
     String description = "a project.config with just a project description";
     AllProjectsInput allProjectsInput =
@@ -167,6 +189,7 @@ public class AllProjectsCreatorTest {
             .firstChangeIdForNoteDb(Sequences.FIRST_CHANGE_ID)
             .projectDescription(description)
             .initDefaultAcls(false)
+            .initDefaultSubmitRequirements(false)
             .build();
     allProjectsCreator.create(allProjectsInput);
 

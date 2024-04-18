@@ -92,6 +92,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.util.RawParseUtils;
+import org.junit.Before;
 import org.junit.Test;
 
 @NoHttpd
@@ -102,6 +103,11 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private ExtensionRegistry extensionRegistry;
   @Inject private IndexOperations.Change changeIndexOperations;
+
+  @Before
+  public void setup() throws RestApiException {
+    removeDefaultSubmitRequirements();
+  }
 
   @Test
   public void submitRecords() throws Exception {
@@ -3159,5 +3165,9 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
             .to("refs/for/refs/meta/config");
     r.assertOkStatus();
     return r;
+  }
+
+  private void removeDefaultSubmitRequirements() throws RestApiException {
+    gApi.projects().name(allProjects.get()).submitRequirement("No-Unresolved-Comments").delete();
   }
 }

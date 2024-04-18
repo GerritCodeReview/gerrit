@@ -75,6 +75,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
 
   @Before
   public void setUp() throws Exception {
+    removeDefaultSubmitRequirements();
     PushOneCommit.Result pushResult =
         createChange(testRepo, "refs/heads/master", "Fix a bug", "file.txt", "content", "topic");
     changeData = pushResult.getChange();
@@ -974,6 +975,10 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
         .setOverrideExpression(SubmitRequirementExpression.of(overrideExpr))
         .setAllowOverrideInChildProjects(allowOverrideInChildProjects)
         .build();
+  }
+
+  private void removeDefaultSubmitRequirements() throws RestApiException {
+    gApi.projects().name(allProjects.get()).submitRequirement("No-Unresolved-Comments").delete();
   }
 
   /** Submit requirement predicate that always throws an error on match. */

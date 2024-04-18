@@ -34,6 +34,8 @@ import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.PermissionRule.Action;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.entities.SubmitRequirement;
+import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.Sequence;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -45,6 +47,7 @@ import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.inject.Inject;
 import java.io.IOException;
+import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.BatchRefUpdate;
@@ -132,9 +135,14 @@ public class AllProjectsCreator {
       // init labels.
       input.codeReviewLabel().ifPresent(codeReviewLabel -> config.upsertLabelType(codeReviewLabel));
 
+      // init access sections.
       if (input.initDefaultAcls()) {
-        // init access sections.
         initDefaultAcls(config, input);
+      }
+
+      // init submit requirement sections.
+      if (input.initDefaultSubmitRequirements()) {
+        initDefaultSubmitRequirements(config);
       }
 
       // commit all the above configs as a commit in "refs/meta/config" branch of the All-Projects.
@@ -174,6 +182,18 @@ public class AllProjectsCreator {
     input
         .administratorsGroup()
         .ifPresent(adminsGroup -> initDefaultAclsForAdmins(config, codeReviewLabel, adminsGroup));
+  }
+
+  private void initDefaultSubmitRequirements(ProjectConfig config) {
+    config.upsertSubmitRequirement(
+        SubmitRequirement.builder()
+            .setName("No-Unresolved-Comments")
+            .setDescription(
+                Optional.of("Changes that have unresolved comments are not submittable."))
+            .setApplicabilityExpression(SubmitRequirementExpression.of("has:unresolved"))
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("-has:unresolved"))
+            .setAllowOverrideInChildProjects(false)
+            .build());
   }
 
   private void initDefaultAclsForRegisteredUsers(

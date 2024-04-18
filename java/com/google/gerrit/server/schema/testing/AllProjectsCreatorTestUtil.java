@@ -109,6 +109,13 @@ public class AllProjectsCreatorTestUtil {
           "  value = 0 No score",
           "  value = +1 Looks good to me, but someone else must approve",
           "  value = +2 Looks good to me, approved");
+  private static final ImmutableList<String> DEFAULT_ALL_PROJECTS_SUBMIT_REQUIREMENT_SECTION =
+      ImmutableList.of(
+          "[submit-requirement \"No-Unresolved-Comments\"]",
+          "  description = Changes that have unresolved comments are not submittable.",
+          "  applicableIf = has:unresolved",
+          "  submittableIf = -has:unresolved",
+          "  canOverrideInChildProjects = false");
 
   public static String getDefaultAllProjectsWithAllDefaultSections() {
     return Streams.stream(
@@ -118,7 +125,8 @@ public class AllProjectsCreatorTestUtil {
                 DEFAULT_ALL_PROJECTS_SUBMIT_SECTION,
                 DEFAULT_ALL_PROJECTS_CAPABILITY_SECTION,
                 DEFAULT_ALL_PROJECTS_ACCESS_SECTION,
-                DEFAULT_ALL_PROJECTS_LABEL_SECTION))
+                DEFAULT_ALL_PROJECTS_LABEL_SECTION,
+                DEFAULT_ALL_PROJECTS_SUBMIT_REQUIREMENT_SECTION))
         .collect(Collectors.joining("\n"));
   }
 
@@ -128,6 +136,19 @@ public class AllProjectsCreatorTestUtil {
                 DEFAULT_ALL_PROJECTS_PROJECT_SECTION,
                 DEFAULT_ALL_PROJECTS_RECEIVE_SECTION,
                 DEFAULT_ALL_PROJECTS_SUBMIT_SECTION,
+                DEFAULT_ALL_PROJECTS_LABEL_SECTION,
+                DEFAULT_ALL_PROJECTS_SUBMIT_REQUIREMENT_SECTION))
+        .collect(Collectors.joining("\n"));
+  }
+
+  public static String getAllProjectsWithoutDefaultSubmitRequirements() {
+    return Streams.stream(
+            Iterables.concat(
+                DEFAULT_ALL_PROJECTS_PROJECT_SECTION,
+                DEFAULT_ALL_PROJECTS_RECEIVE_SECTION,
+                DEFAULT_ALL_PROJECTS_SUBMIT_SECTION,
+                DEFAULT_ALL_PROJECTS_CAPABILITY_SECTION,
+                DEFAULT_ALL_PROJECTS_ACCESS_SECTION,
                 DEFAULT_ALL_PROJECTS_LABEL_SECTION))
         .collect(Collectors.joining("\n"));
   }

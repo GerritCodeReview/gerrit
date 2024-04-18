@@ -966,6 +966,7 @@ export class GrDiffView extends LitElement {
   }
 
   private renderDialogs() {
+<<<<<<< HEAD   (7e93b9 Fix buttons on header disappearing)
     return html` <gr-apply-fix-dialog
         id="applyFixDialog"
         .change=${this.change}
@@ -976,6 +977,11 @@ export class GrDiffView extends LitElement {
         id="diffPreferencesDialog"
         @reload-diff-preference=${this.handleReloadingDiffPreference}
       >
+=======
+    return html`
+      <gr-apply-fix-dialog id="applyFixDialog"></gr-apply-fix-dialog>
+      <gr-diff-preferences-dialog id="diffPreferencesDialog">
+>>>>>>> CHANGE (e81286 Remove reload-diff-preference unneeded event)
       </gr-diff-preferences-dialog>
       <dialog id="downloadModal" tabindex="-1">
         <gr-download-dialog
@@ -1729,10 +1735,6 @@ export class GrDiffView extends LitElement {
       file => file === this.path || hasComment(file)
     );
     this.navToFile(filesWithComments, 1, true);
-  }
-
-  private handleReloadingDiffPreference() {
-    this.getUserModel().getDiffPreferences();
   }
 
   private computeCanEdit() {

@@ -928,10 +928,7 @@ export class GrFileList extends LitElement {
       <h3 class="assistive-tech-only">File list</h3>
       ${this.renderContainer()} ${this.renderChangeTotals(patchChange)}
       ${this.renderBinaryTotals(patchChange)} ${this.renderControlRow()}
-      <gr-diff-preferences-dialog
-        id="diffPreferencesDialog"
-        @reload-diff-preference=${this.handleReloadingDiffPreference}
-      >
+      <gr-diff-preferences-dialog id="diffPreferencesDialog">
       </gr-diff-preferences-dialog>
     `;
   }
@@ -2626,6 +2623,7 @@ export class GrFileList extends LitElement {
     return this.filesExpanded === FilesExpandedState.NONE;
   }
 
+<<<<<<< HEAD   (7e93b9 Fix buttons on header disappearing)
   /**
    * Method to call via binding when each file list row is rendered. This
    * allows approximate detection of when the dom-repeat has completed
@@ -2648,6 +2646,8 @@ export class GrFileList extends LitElement {
     this.getUserModel().getDiffPreferences();
   }
 
+=======
+>>>>>>> CHANGE (e81286 Remove reload-diff-preference unneeded event)
   private getOldPath(file: NormalizedFileInfo) {
     // The gr-endpoint-decorator is waiting until all gr-endpoint-param
     // values are updated.

@@ -110,7 +110,7 @@ public abstract class AllProjectsInput {
   public abstract static class Builder {
     public abstract Builder administratorsGroup(GroupReference adminGroup);
 
-    public abstract Builder serviceUsersGroup(GroupReference serviceGroup);
+    public abstract Builder serviceUsersGroup(GroupReference serviceUsersGroup);
 
     public abstract Builder commitMessage(String commitMessage);
 

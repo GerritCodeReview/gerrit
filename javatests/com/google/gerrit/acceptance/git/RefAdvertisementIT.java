@@ -87,7 +87,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   @Inject private IndexOperations.Change changeIndexOperations;
 
   private AccountGroup.UUID admins;
-  private AccountGroup.UUID nonInteractiveUsers;
+  private AccountGroup.UUID serviceUsers;
 
   private RevCommit rcMaster;
   private RevCommit rcBranch;
@@ -118,7 +118,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   @Before
   public void setUp() throws Exception {
     admins = adminGroupUuid();
-    nonInteractiveUsers = groupUuid(ServiceUserClassifier.SERVICE_USERS);
+    serviceUsers = groupUuid(ServiceUserClassifier.SERVICE_USERS);
     setUpPermissions();
     setUpChanges();
   }
@@ -1239,7 +1239,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
       assertThat(getGroupRefs(git))
           .containsExactly(
               RefNames.refsGroups(admins),
-              RefNames.refsGroups(nonInteractiveUsers),
+              RefNames.refsGroups(serviceUsers),
               RefNames.refsGroups(users));
     }
   }
@@ -1261,7 +1261,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
       assertThat(getGroupRefs(git))
           .containsExactly(
               RefNames.refsGroups(admins),
-              RefNames.refsGroups(nonInteractiveUsers),
+              RefNames.refsGroups(serviceUsers),
               RefNames.refsGroups(users));
     }
   }
@@ -1413,7 +1413,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
             RefNames.REFS_EXTERNAL_IDS,
             RefNames.REFS_GROUPNAMES,
             RefNames.refsGroups(admins),
-            RefNames.refsGroups(nonInteractiveUsers),
+            RefNames.refsGroups(serviceUsers),
             RefNames.REFS_SEQUENCES + Sequence.NAME_ACCOUNTS,
             RefNames.REFS_SEQUENCES + Sequence.NAME_GROUPS,
             RefNames.REFS_CONFIG,

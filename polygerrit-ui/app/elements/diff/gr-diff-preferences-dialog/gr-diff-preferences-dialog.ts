@@ -120,7 +120,7 @@ export class GrDiffPreferencesDialog extends LitElement {
   private async handleSaveDiffPreferences() {
     assertIsDefined(this.diffPreferences, 'diffPreferences');
     assertIsDefined(this.diffPrefsModal, 'diffPrefsModal');
-    await this.diffPreferences.save();
+    this.diffPreferences.save();
     fireNoBubble(this, 'reload-diff-preference', {});
     this.diffPrefsModal.close();
   }

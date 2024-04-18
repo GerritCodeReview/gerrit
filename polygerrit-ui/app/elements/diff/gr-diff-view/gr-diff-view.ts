@@ -972,10 +972,7 @@ export class GrDiffView extends LitElement {
         .changeNum=${this.changeNum}
       >
       </gr-apply-fix-dialog>
-      <gr-diff-preferences-dialog
-        id="diffPreferencesDialog"
-        @reload-diff-preference=${this.handleReloadingDiffPreference}
-      >
+      <gr-diff-preferences-dialog id="diffPreferencesDialog">
       </gr-diff-preferences-dialog>
       <dialog id="downloadModal" tabindex="-1">
         <gr-download-dialog
@@ -1729,10 +1726,6 @@ export class GrDiffView extends LitElement {
       file => file === this.path || hasComment(file)
     );
     this.navToFile(filesWithComments, 1, true);
-  }
-
-  private handleReloadingDiffPreference() {
-    this.getUserModel().getDiffPreferences();
   }
 
   private computeCanEdit() {

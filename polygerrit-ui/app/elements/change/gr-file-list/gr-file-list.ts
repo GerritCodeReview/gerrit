@@ -928,10 +928,7 @@ export class GrFileList extends LitElement {
       <h3 class="assistive-tech-only">File list</h3>
       ${this.renderContainer()} ${this.renderChangeTotals(patchChange)}
       ${this.renderBinaryTotals(patchChange)} ${this.renderControlRow()}
-      <gr-diff-preferences-dialog
-        id="diffPreferencesDialog"
-        @reload-diff-preference=${this.handleReloadingDiffPreference}
-      >
+      <gr-diff-preferences-dialog id="diffPreferencesDialog">
       </gr-diff-preferences-dialog>
     `;
   }
@@ -2642,10 +2639,6 @@ export class GrFileList extends LitElement {
         });
       }, 1);
     }
-  }
-
-  private handleReloadingDiffPreference() {
-    this.getUserModel().getDiffPreferences();
   }
 
   private getOldPath(file: NormalizedFileInfo) {

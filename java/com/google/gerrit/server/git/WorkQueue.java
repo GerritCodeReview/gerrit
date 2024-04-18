@@ -575,7 +575,7 @@ public class WorkQueue {
       return all.values();
     }
 
-    public void onStart(Task<?> task) {
+    public void waitUntilReadyToStart(Task<?> task) {
       if (!isReadyToStart(task)) {
         incrementCorePoolSizeBy(1);
         ParkedTask parkedTask = new ParkedTask(task);
@@ -586,7 +586,9 @@ public class WorkQueue {
           logger.atSevere().withCause(e).log("Parked Task(%s) Interrupted", task);
         }
       }
+    }
 
+    public void onStart(Task<?> task) {
       listeners.runEach(extension -> extension.getProvider().get().onStart(task));
     }
 
@@ -686,6 +688,7 @@ public class WorkQueue {
      *   <li>{@link #RUNNING}: actively executing on a worker thread.
      *   <li>{@link #STOPPING}: onStop() actively executing on a worker thread.
      *   <li>{@link #DONE}: finished executing, if not periodic.
+     *   <li>{@link #PARKED}: waiting on external condition.
      * </ol>
      */
     public enum State {
@@ -699,6 +702,7 @@ public class WorkQueue {
       STOPPING,
       RUNNING,
       STARTING,
+      PARKED,
       READY,
       SLEEPING,
       OTHER
@@ -830,9 +834,11 @@ public class WorkQueue {
 
     @Override
     public void run() {
-      if (runningState.compareAndSet(null, State.STARTING)) {
+      if (runningState.compareAndSet(null, State.PARKED)) {
         String oldThreadName = Thread.currentThread().getName();
         try {
+          executor.waitUntilReadyToStart(this);
+          runningState.set(State.STARTING);
           executor.onStart(this);
           runningState.set(State.RUNNING);
           Thread.currentThread().setName(oldThreadName + "[" + this + "]");

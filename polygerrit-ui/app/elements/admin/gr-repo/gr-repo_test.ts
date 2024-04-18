@@ -42,7 +42,7 @@ import {
 import {PageErrorEvent} from '../../../types/events';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrSelect} from '../../shared/gr-select/gr-select';
-import {GrTextarea} from '../../shared/gr-textarea/gr-textarea';
+import {GrSuggestionTextarea} from '../../shared/gr-suggestion-textarea/gr-suggestion-textarea';
 import {IronInputElement} from '@polymer/iron-input/iron-input';
 import {fixture, html, assert} from '@open-wc/testing';
 
@@ -199,7 +199,7 @@ suite('gr-repo tests', () => {
             <fieldset>
               <h3 class="heading-3" id="Description">Description</h3>
               <fieldset>
-                <gr-textarea
+                <gr-suggestion-textarea
                   autocomplete="on"
                   class="description monospace"
                   disabled=""
@@ -208,7 +208,7 @@ suite('gr-repo tests', () => {
                   placeholder="<Insert repo description here>"
                   rows="4"
                 >
-                </gr-textarea>
+                </gr-suggestion-textarea>
               </fieldset>
               <h3 class="heading-3" id="Options">Repository Options</h3>
               <fieldset id="options">
@@ -728,7 +728,7 @@ suite('gr-repo tests', () => {
           '#Title'
         ).classList.contains('edited')
       );
-      queryAndAssert<GrTextarea>(element, '#descriptionInput').text =
+      queryAndAssert<GrSuggestionTextarea>(element, '#descriptionInput').text =
         configInputObj.description;
       queryAndAssert<GrSelect>(element, '#stateSelect').bindValue =
         configInputObj.state;

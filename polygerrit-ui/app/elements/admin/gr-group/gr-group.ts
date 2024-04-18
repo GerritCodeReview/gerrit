@@ -7,7 +7,7 @@ import '../../shared/gr-autocomplete/gr-autocomplete';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
 import '../../shared/gr-select/gr-select';
-import '../../shared/gr-textarea/gr-textarea';
+import '../../shared/gr-suggestion-textarea/gr-suggestion-textarea';
 import {
   AutocompleteSuggestion,
   AutocompleteQuery,
@@ -222,7 +222,7 @@ export class GrGroup extends LitElement {
       </h3>
       <fieldset>
         <div>
-          <gr-textarea
+          <gr-suggestion-textarea
             class="description"
             autocomplete="on"
             rows="4"
@@ -230,7 +230,7 @@ export class GrGroup extends LitElement {
             ?disabled=${this.computeGroupDisabled()}
             .text=${this.groupConfig?.description ?? ''}
             @text-changed=${this.handleDescriptionTextChanged}
-          ></gr-textarea>
+          ></gr-suggestion-textarea>
         </div>
         <span class="value">
           <gr-button

@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../../test/common-test-setup';
-import './gr-textarea';
-import {GrTextarea} from './gr-textarea';
+import './gr-suggestion-textarea';
+import {GrSuggestionTextarea} from './gr-suggestion-textarea';
 import {
   Item,
   ItemSelectedEventDetail,
@@ -20,11 +20,13 @@ import {fixture, html, assert} from '@open-wc/testing';
 import {createAccountWithEmail} from '../../../test/test-data-generators';
 import {Key} from '../../../utils/dom-util';
 
-suite('gr-textarea tests', () => {
-  let element: GrTextarea;
+suite('gr-suggestion-textarea tests', () => {
+  let element: GrSuggestionTextarea;
 
   setup(async () => {
-    element = await fixture<GrTextarea>(html`<gr-textarea></gr-textarea>`);
+    element = await fixture<GrSuggestionTextarea>(
+      html`<gr-suggestion-textarea></gr-suggestion-textarea>`
+    );
     sinon.stub(element.reporting, 'reportInteraction');
     await element.updateComplete;
   });
@@ -706,12 +708,12 @@ suite('gr-textarea tests', () => {
     });
   });
 
-  suite('gr-textarea monospace', () => {
-    let element: GrTextarea;
+  suite('gr-suggestion-textarea monospace', () => {
+    let element: GrSuggestionTextarea;
 
     setup(async () => {
-      element = await fixture<GrTextarea>(
-        html`<gr-textarea monospace></gr-textarea>`
+      element = await fixture<GrSuggestionTextarea>(
+        html`<gr-suggestion-textarea monospace></gr-suggestion-textarea>`
       );
       await element.updateComplete;
     });
@@ -721,12 +723,12 @@ suite('gr-textarea tests', () => {
     });
   });
 
-  suite('gr-textarea hideBorder', () => {
-    let element: GrTextarea;
+  suite('gr-suggestion-textarea hideBorder', () => {
+    let element: GrSuggestionTextarea;
 
     setup(async () => {
-      element = await fixture<GrTextarea>(
-        html`<gr-textarea hide-border></gr-textarea>`
+      element = await fixture<GrSuggestionTextarea>(
+        html`<gr-suggestion-textarea hide-border></gr-suggestion-textarea>`
       );
       await element.updateComplete;
     });

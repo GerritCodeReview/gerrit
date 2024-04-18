@@ -406,7 +406,7 @@ suite('gr-comment tests', () => {
                 </div>
               </div>
               <div class="body">
-                <gr-textarea
+                <gr-suggestion-textarea
                   autocomplete="on"
                   class="code editMessage"
                   code=""
@@ -414,7 +414,7 @@ suite('gr-comment tests', () => {
                   rows="4"
                   text="This is the test comment message."
                 >
-                </gr-textarea>
+                </gr-suggestion-textarea>
                 <gr-endpoint-slot name="above-actions"></gr-endpoint-slot>
                 <div class="actions">
                   <div class="leftActions">

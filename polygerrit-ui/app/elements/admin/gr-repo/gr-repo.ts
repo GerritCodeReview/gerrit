@@ -9,7 +9,7 @@ import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-download-commands/gr-download-commands';
 import '../../shared/gr-select/gr-select';
-import '../../shared/gr-textarea/gr-textarea';
+import '../../shared/gr-suggestion-textarea/gr-suggestion-textarea';
 import '../gr-repo-plugin-config/gr-repo-plugin-config';
 import {
   ConfigInfo,
@@ -244,7 +244,7 @@ export class GrRepo extends LitElement {
     return html`
       <h3 id="Description" class="heading-3">Description</h3>
       <fieldset>
-        <gr-textarea
+        <gr-suggestion-textarea
           id="descriptionInput"
           class="description"
           autocomplete="on"
@@ -254,7 +254,7 @@ export class GrRepo extends LitElement {
           ?disabled=${this.readOnly}
           .text=${this.repoConfig.description ?? ''}
           @text-changed=${this.handleDescriptionTextChanged}
-        ></gr-textarea>
+        ></gr-suggestion-textarea>
       </fieldset>
     `;
   }

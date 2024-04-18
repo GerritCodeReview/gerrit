@@ -72,8 +72,8 @@ declare global {
   }
 }
 
-@customElement('gr-textarea')
-export class GrTextarea extends LitElement {
+@customElement('gr-suggestion-textarea')
+export class GrSuggestionTextarea extends LitElement {
   /**
    * @event bind-value-changed
    */
@@ -669,6 +669,6 @@ export class GrTextarea extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'gr-textarea': GrTextarea;
+    'gr-suggestion-textarea': GrSuggestionTextarea;
   }
 }

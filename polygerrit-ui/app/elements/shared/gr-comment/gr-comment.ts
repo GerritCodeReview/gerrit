@@ -10,7 +10,7 @@ import '../gr-button/gr-button';
 import '../gr-dialog/gr-dialog';
 import '../gr-formatted-text/gr-formatted-text';
 import '../gr-icon/gr-icon';
-import '../gr-textarea/gr-textarea';
+import '../gr-suggestion-textarea/gr-suggestion-textarea';
 import '../gr-tooltip-content/gr-tooltip-content';
 import '../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog';
 import '../gr-account-label/gr-account-label';
@@ -20,7 +20,7 @@ import {getAppContext} from '../../../services/app-context';
 import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {provide, resolve} from '../../../models/dependency';
-import {GrTextarea} from '../gr-textarea/gr-textarea';
+import {GrSuggestionTextarea} from '../gr-suggestion-textarea/gr-suggestion-textarea';
 import {
   AccountDetailInfo,
   DraftInfo,
@@ -141,7 +141,7 @@ export class GrComment extends LitElement {
    */
 
   @query('#editTextarea')
-  textarea?: GrTextarea;
+  textarea?: GrSuggestionTextarea;
 
   @query('#container')
   container?: HTMLElement;
@@ -859,7 +859,7 @@ export class GrComment extends LitElement {
   private renderEditingTextarea() {
     if (!this.editing || this.collapsed) return;
     return html`
-      <gr-textarea
+      <gr-suggestion-textarea
         id="editTextarea"
         class="editMessage"
         autocomplete="on"
@@ -876,7 +876,7 @@ export class GrComment extends LitElement {
           this.autoSaveTrigger$.next();
           this.generateSuggestionTrigger$.next();
         }}
-      ></gr-textarea>
+      ></gr-suggestion-textarea>
     `;
   }
 

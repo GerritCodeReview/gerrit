@@ -54,6 +54,7 @@ public class AllProjectsCreatorTestUtil {
       ImmutableList.of(
           "[access \"refs/*\"]",
           "  read = group Administrators",
+          "  read = block group Blocked Users",
           "[access \"refs/for/*\"]",
           "  addPatchSet = group Registered Users",
           "[access \"refs/for/refs/*\"]",

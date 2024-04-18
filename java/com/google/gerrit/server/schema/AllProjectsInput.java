@@ -69,6 +69,9 @@ public abstract class AllProjectsInput {
   /** The group which gets stream-events permission granted and appropriate properties set. */
   public abstract Optional<GroupReference> serviceUsersGroup();
 
+  /** The group for which read access gets blocked. */
+  public abstract Optional<GroupReference> blockedUsersGroup();
+
   /** The commit message used when commit the project config change. */
   public abstract Optional<String> commitMessage();
 
@@ -111,6 +114,8 @@ public abstract class AllProjectsInput {
     public abstract Builder administratorsGroup(GroupReference adminGroup);
 
     public abstract Builder serviceUsersGroup(GroupReference serviceUsersGroup);
+
+    public abstract Builder blockedUsersGroup(GroupReference blockedUsersGroup);
 
     public abstract Builder commitMessage(String commitMessage);
 

@@ -19,6 +19,7 @@ import static com.google.gerrit.entities.RefNames.REFS_SEQUENCES;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.PROJECT_OWNERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.server.schema.AclUtil.block;
 import static com.google.gerrit.server.schema.AclUtil.grant;
 import static com.google.gerrit.server.schema.AclUtil.rule;
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.INIT_REPO;
@@ -167,6 +168,10 @@ public class AllProjectsCreator {
                         initDefaultAclsForServiceUsers(capabilities, config, serviceUsersGroup)));
 
     input
+        .blockedUsersGroup()
+        .ifPresent(blockedUsersGrouo -> initDefaultAclsForBlockedUsers(config, blockedUsersGrouo));
+
+    input
         .administratorsGroup()
         .ifPresent(adminsGroup -> initDefaultAclsForAdmins(config, codeReviewLabel, adminsGroup));
   }
@@ -199,6 +204,12 @@ public class AllProjectsCreator {
 
     Permission.Builder stream = capabilities.upsertPermission(GlobalCapability.STREAM_EVENTS);
     stream.add(rule(config, serviceUsersGroup));
+  }
+
+  private void initDefaultAclsForBlockedUsers(
+      ProjectConfig config, GroupReference blockedUsersGroup) {
+    config.upsertAccessSection(
+        AccessSection.ALL, all -> block(config, all, Permission.READ, blockedUsersGroup));
   }
 
   private void initDefaultAclsForAdmins(

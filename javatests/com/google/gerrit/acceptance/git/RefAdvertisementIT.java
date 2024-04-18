@@ -88,6 +88,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
   private AccountGroup.UUID admins;
   private AccountGroup.UUID serviceUsers;
+  private AccountGroup.UUID blockedUsers;
 
   private RevCommit rcMaster;
   private RevCommit rcBranch;
@@ -119,6 +120,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   public void setUp() throws Exception {
     admins = adminGroupUuid();
     serviceUsers = groupUuid(ServiceUserClassifier.SERVICE_USERS);
+    blockedUsers = groupUuid("Blocked Users");
     setUpPermissions();
     setUpChanges();
   }
@@ -1240,6 +1242,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
           .containsExactly(
               RefNames.refsGroups(admins),
               RefNames.refsGroups(serviceUsers),
+              RefNames.refsGroups(blockedUsers),
               RefNames.refsGroups(users));
     }
   }
@@ -1262,6 +1265,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
           .containsExactly(
               RefNames.refsGroups(admins),
               RefNames.refsGroups(serviceUsers),
+              RefNames.refsGroups(blockedUsers),
               RefNames.refsGroups(users));
     }
   }
@@ -1414,6 +1418,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
             RefNames.REFS_GROUPNAMES,
             RefNames.refsGroups(admins),
             RefNames.refsGroups(serviceUsers),
+            RefNames.refsGroups(blockedUsers),
             RefNames.REFS_SEQUENCES + Sequence.NAME_ACCOUNTS,
             RefNames.REFS_SEQUENCES + Sequence.NAME_GROUPS,
             RefNames.REFS_CONFIG,

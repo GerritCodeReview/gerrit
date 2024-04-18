@@ -90,10 +90,12 @@ public class AllProjectsCreatorTest {
 
     GroupReference adminsGroup = createGroupReference("Administrators");
     GroupReference serviceUsersGroup = createGroupReference(ServiceUserClassifier.SERVICE_USERS);
+    GroupReference blockedUsersGroup = createGroupReference("Blocked Users");
     AllProjectsInput allProjectsInput =
         AllProjectsInput.builder()
             .administratorsGroup(adminsGroup)
             .serviceUsersGroup(serviceUsersGroup)
+            .blockedUsersGroup(blockedUsersGroup)
             .build();
     allProjectsCreator.create(allProjectsInput);
 

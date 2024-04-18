@@ -99,8 +99,9 @@ to those groups. These UUIDs are different on different Gerrit sites.
 
 Gerrit comes with two predefined groups:
 
-* Administrators
-* Service Users
+* link:#administrators[Administrators]
+* link:#service_users[Service Users]
+* link:#blocked_users[Blocked Users]
 
 
 [[administrators]]
@@ -137,6 +138,15 @@ users. This ensures that the interactive users can keep working when
 resources are tight.
 
 Before Gerrit 3.3, the 'Service Users' group was named 'Non-Interactive Users'.
+
+[[blocked_users]]
+=== Blocked Users
+
+This is a predefined group, created on Gerrit site initialization, for which
+the link:#category_read[Read] access right is globally blocked.
+
+link:#administrators[Administrators] can add spammers to this group in order to
+block them from accessing Gerrit so that they cannot post any further spam.
 
 == Account Groups
 

@@ -474,7 +474,6 @@ export class GrDiffHost extends LitElement {
         ?hidden=${this.hidden}
         .noAutoRender=${this.noAutoRender}
         .path=${this.path}
-        .prefs=${this.prefs}
         .noRenderOnPrefsChange=${this.noRenderOnPrefsChange}
         .renderPrefs=${this.renderPrefs}
         .lineWrapping=${this.lineWrapping}

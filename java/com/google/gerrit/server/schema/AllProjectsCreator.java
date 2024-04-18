@@ -208,18 +208,16 @@ public class AllProjectsCreator {
 
   private void initDefaultAclsForRegisteredUsers(
       AccessSection.Builder heads, LabelType codeReviewLabel, ProjectConfig config) {
-    config.upsertAccessSection(
-        "refs/for/*", refsFor -> grant(config, refsFor, Permission.ADD_PATCH_SET, registered));
-
     grant(config, heads, codeReviewLabel, -1, 1, registered);
     grant(config, heads, Permission.FORGE_AUTHOR, registered);
     grant(config, heads, Permission.REVERT, registered);
 
     config.upsertAccessSection(
-        "refs/for/" + AccessSection.ALL,
-        magic -> {
-          grant(config, magic, Permission.PUSH, registered);
-          grant(config, magic, Permission.PUSH_MERGE, registered);
+        "refs/for/*",
+        refsFor -> {
+          grant(config, refsFor, Permission.ADD_PATCH_SET, registered);
+          grant(config, refsFor, Permission.PUSH, registered);
+          grant(config, refsFor, Permission.PUSH_MERGE, registered);
         });
   }
 

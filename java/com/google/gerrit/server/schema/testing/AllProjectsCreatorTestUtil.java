@@ -57,7 +57,6 @@ public class AllProjectsCreatorTestUtil {
           "  read = block group Blocked Users",
           "[access \"refs/for/*\"]",
           "  addPatchSet = group Registered Users",
-          "[access \"refs/for/refs/*\"]",
           "  push = group Registered Users",
           "  pushMerge = group Registered Users",
           "[access \"refs/heads/*\"]",

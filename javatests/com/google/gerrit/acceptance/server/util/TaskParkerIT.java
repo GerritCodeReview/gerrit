@@ -180,7 +180,7 @@ public class TaskParkerIT extends AbstractDaemonTest {
 
     parker.isReadyToStart.assertCalledEventually();
     assertTaskCountIs(1);
-    assertStateIs(State.STARTING);
+    assertStateIs(State.READY);
     parker.onNotReadyToStart.assertUncalled();
     parker.onStart.assertUncalled();
     runnable.run.assertUncalled();
@@ -237,6 +237,7 @@ public class TaskParkerIT extends AbstractDaemonTest {
     // park runnable1
     parker.isReadyToStart.complete(false);
     assertCorePoolSizeIsEventually(2);
+    assertStateIs(task1, State.PARKED);
 
     runnable2.run.assertCalledEventually();
     assertTaskCountIs(2);
@@ -244,6 +245,7 @@ public class TaskParkerIT extends AbstractDaemonTest {
     parker.onStart.assertUncalled();
     runnable1.run.assertUncalled();
     parker.onStop.assertUncalled();
+    assertStateIs(task1, State.PARKED);
 
     assertCounterIsEventually(forwarder.isReadyToStartCounter, 2);
     assertCounter(forwarder.onNotReadyToStartCounter, 0);
@@ -296,6 +298,7 @@ public class TaskParkerIT extends AbstractDaemonTest {
     executor.execute(runnable1);
     parker.isReadyToStart.assertCalledEventuallyThenComplete(false);
     Task<?> task1 = forwarder.task; // task for runnable1
+    assertStateIsEventually(task1, State.PARKED);
     assertCounterIsEventually(forwarder.isReadyToStartCounter, 1);
     assertCounter(forwarder.onNotReadyToStartCounter, 0);
     assertTaskCountIsEventually(1);
@@ -306,6 +309,7 @@ public class TaskParkerIT extends AbstractDaemonTest {
     executor.execute(runnable2);
     parker.isReadyToStart.assertCalledEventuallyThenComplete(false);
     Task<?> task2 = forwarder.task; // task for runnable2
+    assertStateIsEventually(task2, State.PARKED);
 
     assertCounterIsEventually(forwarder.isReadyToStartCounter, 2);
     assertCounter(forwarder.onNotReadyToStartCounter, 0);
@@ -321,7 +325,7 @@ public class TaskParkerIT extends AbstractDaemonTest {
     assertCounter(forwarder.onNotReadyToStartCounter, 0);
     parker.isReadyToStart.assertCalledEventually();
     Task<?> task3 = forwarder.task; // task for runnable3
-    assertStateIs(task3, State.STARTING);
+    assertStateIs(task3, State.READY);
     parker.isReadyToStart.complete(true);
     parker.onStart.assertCalledEventually();
     assertStateIs(task3, State.STARTING);
@@ -343,6 +347,7 @@ public class TaskParkerIT extends AbstractDaemonTest {
     assertCounterIsEventually(forwarder.isReadyToStartCounter, 4);
     assertCounter(forwarder.onNotReadyToStartCounter, 0);
     runnable2.run.assertUncalled();
+    assertStateIs(task2, State.PARKED);
     runnable1.run.complete();
     assertCorePoolSizeIsEventually(2);
     assertTaskCountIsEventually(1);
@@ -381,6 +386,7 @@ public class TaskParkerIT extends AbstractDaemonTest {
     assertCounterIsEventually(forwarder2.isReadyToStartCounter, 1);
     assertCounter(forwarder2.onNotReadyToStartCounter, 0);
     Task<?> task1 = forwarder.task; // task for runnable1
+    assertStateIsEventually(task1, State.PARKED);
 
     // set parker2 to ready and execute runnable-2
     parker2.isReadyToStart.set(true);
@@ -432,7 +438,9 @@ public class TaskParkerIT extends AbstractDaemonTest {
     forwarder.resetDelegate(parker);
     executor.execute(runnable2);
     parker.isReadyToStart.assertCalledEventually();
-    assertCorePoolSizeIsEventually(3); // asserts runnable2 is parked
+    assertCorePoolSizeIsEventually(3);
+    Task<?> task2 = forwarder.task; // task for runnable2
+    assertStateIs(task2, State.PARKED);
 
     forwarder.resetDelegate(parker);
     runnable1.run.complete(); // unblock runnable1
@@ -451,6 +459,7 @@ public class TaskParkerIT extends AbstractDaemonTest {
     executor.execute(runnable1);
     parker.isReadyToStart.assertCalledEventuallyThenComplete(false);
     assertCorePoolSizeIsEventually(2);
+    assertStateIsEventually(forwarder.task, State.PARKED);
 
     // interrupt the thread with parked task
     for (Thread t : Thread.getAllStackTraces().keySet()) {
@@ -473,6 +482,7 @@ public class TaskParkerIT extends AbstractDaemonTest {
     parker.isReadyToStart.assertCalledEventuallyThenComplete(false);
     assertCorePoolSizeIsEventually(2);
     Task<?> task = forwarder.task;
+    assertStateIsEventually(task, State.PARKED);
 
     // cancel parked task
     task.cancel(true);
@@ -524,5 +534,14 @@ public class TaskParkerIT extends AbstractDaemonTest {
 
   private void assertStateIs(Task<?> task, Task.State state) {
     TaskListenerIT.assertStateIs(task, state);
+  }
+
+  private void assertStateIsEventually(Task<?> task, Task.State state) throws InterruptedException {
+    long ms = 0;
+    assertThat(task).isNotNull();
+    while (!task.getState().equals(state)) {
+      assertThat(ms++).isLessThan(TIMEOUT);
+      TimeUnit.MILLISECONDS.sleep(1);
+    }
   }
 }

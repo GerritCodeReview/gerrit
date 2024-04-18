@@ -88,6 +88,7 @@ import {subscribe} from '../../../elements/lit/subscription-controller';
 import {GrDiffSection} from '../gr-diff-builder/gr-diff-section';
 import {GrDiffRow} from '../gr-diff-builder/gr-diff-row';
 import {GrDiffElement} from './gr-diff-element';
+import {userModelToken} from '../../../models/user/user-model';
 
 const TRAILING_WHITESPACE_PATTERN = /\s+$/;
 
@@ -152,9 +153,6 @@ export class GrDiff extends LitElement implements GrDiffApi {
 
   @property({type: String})
   path?: string;
-
-  @property({type: Object})
-  prefs?: DiffPreferencesInfo;
 
   @property({type: Object})
   renderPrefs: RenderPreferences = {};
@@ -238,6 +236,9 @@ export class GrDiff extends LitElement implements GrDiffApi {
   @property({type: Boolean})
   useNewImageDiffUi = false;
 
+  @state()
+  diffPrefs?: DiffPreferencesInfo;
+
   // Private but used in tests.
   @state()
   diffLength?: number;
@@ -283,6 +284,9 @@ export class GrDiff extends LitElement implements GrDiffApi {
     side: Side
   ) => void;
 
+  // visible for testing
+  readonly getUserModel = resolve(this, userModelToken);
+
   static override get styles() {
     return [
       iconStyles,
@@ -316,6 +320,13 @@ export class GrDiff extends LitElement implements GrDiffApi {
       this,
       () => this.diffModel.groups$,
       groups => (this.groups = groups)
+    );
+    subscribe(
+      this,
+      () => this.getUserModel().diffPreferences$,
+      diffPreferences => {
+        this.prefs = diffPreferences;
+      }
     );
     this.addEventListener('moved-link-clicked', (e: MovedLinkClickedEvent) => {
       this.diffModel.selectLine(e.detail.lineNum, e.detail.side);
@@ -367,10 +378,10 @@ export class GrDiff extends LitElement implements GrDiffApi {
       changedProperties.has('useNewImageDiffUi') ||
       changedProperties.has('showNewlineWarningLeft') ||
       changedProperties.has('showNewlineWarningRight') ||
-      changedProperties.has('prefs') ||
+      changedProperties.has('diffPrefs') ||
       changedProperties.has('lineOfInterest')
     ) {
-      if (this.diff && this.prefs) {
+      if (this.diff && this.diffPrefs) {
         const renderPrefs = {...(this.renderPrefs ?? {})};
         // TODO: Migrate users to using render preferences directly. Then removes these overrides.
         if (renderPrefs.view_mode === undefined) {
@@ -392,7 +403,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
           diff: this.diff,
           path: this.path,
           renderPrefs,
-          diffPrefs: this.prefs,
+          diffPrefs: this.diffPrefs,
           lineOfInterest: this.lineOfInterest,
         });
       }
@@ -408,7 +419,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
       changedProperties.has('lineWrapping') ||
       changedProperties.has('viewMode') ||
       changedProperties.has('useNewImageDiffUi') ||
-      changedProperties.has('prefs')
+      changedProperties.has('diffPrefs')
     ) {
       this.prefsChanged();
     }
@@ -559,29 +570,29 @@ export class GrDiff extends LitElement implements GrDiffApi {
   }
 
   private prefsChanged() {
-    if (!this.prefs) return;
+    if (!this.diffPrefs) return;
     this.updatePreferenceStyles();
 
-    if (!Number.isInteger(this.prefs.tab_size) || this.prefs.tab_size <= 0) {
+    if (!Number.isInteger(this.diffPrefs.tab_size) || this.diffPrefs.tab_size <= 0) {
       this.handlePreferenceError('tab size');
     }
     if (
-      !Number.isInteger(this.prefs.line_length) ||
-      this.prefs.line_length <= 0
+      !Number.isInteger(this.diffPrefs.line_length) ||
+      this.diffPrefs.line_length <= 0
     ) {
       this.handlePreferenceError('diff width');
     }
   }
 
   private updatePreferenceStyles() {
-    assertIsDefined(this.prefs, 'prefs');
+    assertIsDefined(this.diffPrefs, 'diffPrefs');
     const lineLength =
       this.path === COMMIT_MSG_PATH
         ? COMMIT_MSG_LINE_LENGTH
-        : this.prefs.line_length;
+        : this.diffPrefs.line_length;
     const sideBySide = this.viewMode === 'SIDE_BY_SIDE';
 
-    const responsiveMode = getResponsiveMode(this.prefs, this.renderPrefs);
+    const responsiveMode = getResponsiveMode(this.diffPrefs, this.renderPrefs);
     const responsive = isResponsive(responsiveMode);
     const lineLimit = `${lineLength}ch`;
     this.style.setProperty(
@@ -600,7 +611,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
       const contentWidth = `${sideBySide ? 2 : 1} * ${lineLimit}`;
 
       // We always have 2 columns for line number
-      const lineNumberWidth = `2 * ${getLineNumberCellWidth(this.prefs)}px`;
+      const lineNumberWidth = `2 * ${getLineNumberCellWidth(this.diffPrefs)}px`;
 
       // border-right in ".section" css definition (in gr-diff_html.ts)
       const sectionRightBorder = '1px';
@@ -627,8 +638,8 @@ export class GrDiff extends LitElement implements GrDiffApi {
     } else {
       this.style.setProperty('--diff-max-width', 'none');
     }
-    if (this.prefs.font_size) {
-      this.style.setProperty('--font-size', `${this.prefs.font_size}px`);
+    if (this.diffPrefs.font_size) {
+      this.style.setProperty('--font-size', `${this.diffPrefs.font_size}px`);
     }
   }
 
@@ -642,7 +653,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
       !!this.renderPrefs.hide_line_length_indicator
     );
     this.classList.toggle('with-sign-col', !!this.renderPrefs.show_sign_col);
-    if (this.prefs) {
+    if (this.diffPrefs) {
       this.updatePreferenceStyles();
     }
   }
@@ -761,7 +772,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
    * @param side The side the line number refer to.
    */
   unhideLine(lineNum: number, side: Side) {
-    assertIsDefined(this.prefs, 'prefs');
+    assertIsDefined(this.diffPrefs, 'diffPrefs');
     const group = this.findGroup(side, lineNum);
     // Cannot unhide a line that is not part of the diff.
     if (!group) return;
@@ -837,7 +848,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
 
   // visible for testing
   createTabIndicatorLayer(): DiffLayer {
-    const show = () => this.prefs?.show_tabs;
+    const show = () => this.diffPrefs?.show_tabs;
     return {
       annotate(contentEl: HTMLElement, _: HTMLElement, line: GrDiffLine) {
         if (!show()) return;
@@ -864,7 +875,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
 
   // visible for testing
   createTrailingWhitespaceLayer(): DiffLayer {
-    const show = () => this.prefs?.show_whitespace_errors;
+    const show = () => this.diffPrefs?.show_whitespace_errors;
     return {
       annotate(contentEl: HTMLElement, _: HTMLElement, line: GrDiffLine) {
         if (!show()) return;

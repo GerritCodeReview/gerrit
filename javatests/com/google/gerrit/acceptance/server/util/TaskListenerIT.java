@@ -310,12 +310,17 @@ public class TaskListenerIT extends AbstractDaemonTest {
     }
   }
 
+  public static void assertStateIs(Task<?> task, Task.State state) {
+    assertThat(task).isNotNull();
+    assertThat(task.getState()).isEqualTo(state);
+  }
+
   public void assertTaskCountIsEventually(int count) throws InterruptedException {
     TaskListenerIT.assertTaskCountIsEventually(workQueue, count);
   }
 
-  private void assertStateIs(Task.State state) {
-    assertThat(forwarder.task.getState()).isEqualTo(state);
+  public void assertStateIs(Task.State state) {
+    assertStateIs(forwarder.task, state);
   }
 
   private int assertQueueBlockedOnExecution(Runnable runnable) {

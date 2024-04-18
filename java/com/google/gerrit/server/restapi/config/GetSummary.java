@@ -77,6 +77,7 @@ public class GetSummary implements RestReadView<ConfigResource> {
     int tasksTotal = pending.size();
     int tasksStopping = 0;
     int tasksRunning = 0;
+    int tasksParked = 0;
     int tasksStarting = 0;
     int tasksReady = 0;
     int tasksSleeping = 0;
@@ -87,6 +88,9 @@ public class GetSummary implements RestReadView<ConfigResource> {
           break;
         case RUNNING:
           tasksRunning++;
+          break;
+        case PARKED:
+          tasksParked++;
           break;
         case STARTING:
           tasksStarting++;
@@ -108,6 +112,7 @@ public class GetSummary implements RestReadView<ConfigResource> {
     taskSummary.total = toInteger(tasksTotal);
     taskSummary.stopping = toInteger(tasksStopping);
     taskSummary.running = toInteger(tasksRunning);
+    taskSummary.parked = toInteger(tasksParked);
     taskSummary.starting = toInteger(tasksStarting);
     taskSummary.ready = toInteger(tasksReady);
     taskSummary.sleeping = toInteger(tasksSleeping);
@@ -245,6 +250,7 @@ public class GetSummary implements RestReadView<ConfigResource> {
     public Integer total;
     public Integer stopping;
     public Integer running;
+    public Integer parked;
     public Integer starting;
     public Integer ready;
     public Integer sleeping;

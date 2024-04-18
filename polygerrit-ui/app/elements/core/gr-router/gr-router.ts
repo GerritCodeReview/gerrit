@@ -454,7 +454,9 @@ export class GrRouter implements Finalizable, NavigationService {
     // app.
     assign(
       window.location,
-      '/login/' + encodeURIComponent(returnUrl.substring(basePath.length))
+      `${basePath}/login/${encodeURIComponent(
+        returnUrl.substring(basePath.length)
+      )}`
     );
   }
 

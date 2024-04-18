@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.api.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
@@ -413,6 +414,12 @@ public class RevertIT extends AbstractDaemonTest {
   @Test
   @GerritConfig(name = "accounts.visibility", value = "SAME_GROUP")
   public void revertWithNonVisibleUsers() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.REVERT).ref("refs/*").group(REGISTERED_USERS))
+        .update();
+
     // Define readable names for the users we use in this test.
     TestAccount reverter = user;
     TestAccount changeOwner = admin; // must be admin, since admin cloned testRepo

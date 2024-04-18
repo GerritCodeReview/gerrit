@@ -2369,6 +2369,12 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
 
   @Test
   public void revertChangeByOwner() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.REVERT).ref("refs/*").group(REGISTERED_USERS))
+        .update();
+
     StagedChange sc = stageChange();
     revert(sc, sc.owner);
 
@@ -2394,6 +2400,12 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
 
   @Test
   public void revertChangeByOwnerCcingSelf() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.REVERT).ref("refs/*").group(REGISTERED_USERS))
+        .update();
+
     StagedChange sc = stageChange();
     revert(sc, sc.owner, CC_ON_OWN_COMMENTS);
 
@@ -2420,6 +2432,12 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
 
   @Test
   public void revertChangeByOther() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.REVERT).ref("refs/*").group(REGISTERED_USERS))
+        .update();
+
     StagedChange sc = stageChange();
     revert(sc, other);
 
@@ -2446,6 +2464,12 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
 
   @Test
   public void revertChangeByOtherCcingSelf() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.REVERT).ref("refs/*").group(REGISTERED_USERS))
+        .update();
+
     StagedChange sc = stageChange();
     revert(sc, other, CC_ON_OWN_COMMENTS);
 

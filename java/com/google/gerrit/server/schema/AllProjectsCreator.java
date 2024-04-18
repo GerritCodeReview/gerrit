@@ -164,7 +164,10 @@ public class AllProjectsCreator {
 
     config.upsertAccessSection(
         AccessSection.HEADS,
-        heads -> initDefaultAclsForRegisteredUsers(heads, codeReviewLabel, config));
+        heads -> {
+          initDefaultAclsForAnonymousUsers(heads, config);
+          initDefaultAclsForRegisteredUsers(heads, codeReviewLabel, config);
+        });
 
     config.upsertAccessSection(
         AccessSection.GLOBAL_CAPABILITIES,
@@ -196,17 +199,20 @@ public class AllProjectsCreator {
             .build());
   }
 
+  private void initDefaultAclsForAnonymousUsers(AccessSection.Builder heads, ProjectConfig config) {
+    grant(config, heads, Permission.READ, anonymous);
+
+    config.upsertAccessSection(
+        "refs/meta/version", version -> grant(config, version, Permission.READ, anonymous));
+  }
+
   private void initDefaultAclsForRegisteredUsers(
       AccessSection.Builder heads, LabelType codeReviewLabel, ProjectConfig config) {
     config.upsertAccessSection(
         "refs/for/*", refsFor -> grant(config, refsFor, Permission.ADD_PATCH_SET, registered));
 
-    config.upsertAccessSection(
-        "refs/meta/version", version -> grant(config, version, Permission.READ, anonymous));
-
     grant(config, heads, codeReviewLabel, -1, 1, registered);
     grant(config, heads, Permission.FORGE_AUTHOR, registered);
-    grant(config, heads, Permission.READ, anonymous);
     grant(config, heads, Permission.REVERT, registered);
 
     config.upsertAccessSection(

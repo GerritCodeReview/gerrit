@@ -29,6 +29,7 @@ import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.ScheduleConfig.Schedule;
+import com.google.gerrit.server.git.WorkQueue.Task.State;
 import com.google.gerrit.server.logging.LoggingContext;
 import com.google.gerrit.server.logging.LoggingContextAwareRunnable;
 import com.google.gerrit.server.plugincontext.PluginMapContext;
@@ -574,11 +575,12 @@ public class WorkQueue {
       return all.values();
     }
 
-    public void onStart(Task<?> task) {
+    public void waitUntilReadyToStart(Task<?> task) {
       if (!listeners.isEmpty() && !isReadyToStart(task)) {
         incrementCorePoolSizeBy(1);
         ParkedTask parkedTask = new ParkedTask(task);
         parked.offer(parkedTask);
+        task.runningState.set(State.PARKED);
         try {
           parkedTask.latch.await();
         } catch (InterruptedException e) {
@@ -587,6 +589,9 @@ public class WorkQueue {
           incrementCorePoolSizeBy(-1);
         }
       }
+    }
+
+    public void onStart(Task<?> task) {
       listeners.runEach(extension -> extension.get().onStart(task));
     }
 
@@ -697,13 +702,14 @@ public class WorkQueue {
       // Ordered like this so ordinal matches the order we would
       // prefer to see tasks sorted in: done before running,
       // stopping before running, running before starting,
-      // starting before ready, ready before sleeping.
+      // starting before parked, parked before ready, ready before sleeping.
       //
       DONE,
       CANCELLED,
       STOPPING,
       RUNNING,
       STARTING,
+      PARKED,
       READY,
       SLEEPING,
       OTHER
@@ -835,9 +841,11 @@ public class WorkQueue {
 
     @Override
     public void run() {
-      if (runningState.compareAndSet(null, State.STARTING)) {
+      if (runningState.compareAndSet(null, State.READY)) {
         String oldThreadName = Thread.currentThread().getName();
         try {
+          executor.waitUntilReadyToStart(this);
+          runningState.set(State.STARTING);
           executor.onStart(this);
           runningState.set(State.RUNNING);
           Thread.currentThread().setName(oldThreadName + "[" + this + "]");

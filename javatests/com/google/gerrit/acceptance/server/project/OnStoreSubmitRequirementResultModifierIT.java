@@ -33,6 +33,7 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.SubmitRequirementResultInfo;
 import com.google.gerrit.extensions.common.SubmitRequirementResultInfo.Status;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.change.TestSubmitInput;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.OnStoreSubmitRequirementResultModifier;
@@ -64,6 +65,7 @@ public class OnStoreSubmitRequirementResultModifierIT extends AbstractDaemonTest
 
   @Before
   public void setUp() throws Exception {
+    removeDefaultSubmitRequirements();
     TEST_ON_STORE_SUBMIT_REQUIREMENT_RESULT_MODIFIER.hide(false);
     configSubmitRequirement(
         project,
@@ -241,5 +243,9 @@ public class OnStoreSubmitRequirementResultModifierIT extends AbstractDaemonTest
                             && result.isLegacy == isLegacy)
                 .count())
         .isEqualTo(1);
+  }
+
+  private void removeDefaultSubmitRequirements() throws RestApiException {
+    gApi.projects().name(allProjects.get()).submitRequirement("No-Unresolved-Comments").delete();
   }
 }

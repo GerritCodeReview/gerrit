@@ -19,6 +19,7 @@ import static com.google.gerrit.entities.RefNames.REFS_SEQUENCES;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.PROJECT_OWNERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.server.schema.AclUtil.block;
 import static com.google.gerrit.server.schema.AclUtil.grant;
 import static com.google.gerrit.server.schema.AclUtil.rule;
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.INIT_REPO;
@@ -33,6 +34,8 @@ import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.PermissionRule.Action;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.entities.SubmitRequirement;
+import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.Sequence;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -44,6 +47,7 @@ import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.inject.Inject;
 import java.io.IOException;
+import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.BatchRefUpdate;
@@ -131,9 +135,14 @@ public class AllProjectsCreator {
       // init labels.
       input.codeReviewLabel().ifPresent(codeReviewLabel -> config.upsertLabelType(codeReviewLabel));
 
+      // init access sections.
       if (input.initDefaultAcls()) {
-        // init access sections.
         initDefaultAcls(config, input);
+      }
+
+      // init submit requirement sections.
+      if (input.initDefaultSubmitRequirements()) {
+        initDefaultSubmitRequirements(config);
       }
 
       // commit all the above configs as a commit in "refs/meta/config" branch of the All-Projects.
@@ -155,7 +164,10 @@ public class AllProjectsCreator {
 
     config.upsertAccessSection(
         AccessSection.HEADS,
-        heads -> initDefaultAclsForRegisteredUsers(heads, codeReviewLabel, config));
+        heads -> {
+          initDefaultAclsForAnonymousUsers(heads, config);
+          initDefaultAclsForRegisteredUsers(heads, codeReviewLabel, config);
+        });
 
     config.upsertAccessSection(
         AccessSection.GLOBAL_CAPABILITIES,
@@ -167,28 +179,45 @@ public class AllProjectsCreator {
                         initDefaultAclsForServiceUsers(capabilities, config, serviceUsersGroup)));
 
     input
+        .blockedUsersGroup()
+        .ifPresent(blockedUsersGrouo -> initDefaultAclsForBlockedUsers(config, blockedUsersGrouo));
+
+    input
         .administratorsGroup()
         .ifPresent(adminsGroup -> initDefaultAclsForAdmins(config, codeReviewLabel, adminsGroup));
   }
 
-  private void initDefaultAclsForRegisteredUsers(
-      AccessSection.Builder heads, LabelType codeReviewLabel, ProjectConfig config) {
-    config.upsertAccessSection(
-        "refs/for/*", refsFor -> grant(config, refsFor, Permission.ADD_PATCH_SET, registered));
+  private void initDefaultSubmitRequirements(ProjectConfig config) {
+    config.upsertSubmitRequirement(
+        SubmitRequirement.builder()
+            .setName("No-Unresolved-Comments")
+            .setDescription(
+                Optional.of("Changes that have unresolved comments are not submittable."))
+            .setApplicabilityExpression(SubmitRequirementExpression.of("has:unresolved"))
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("-has:unresolved"))
+            .setAllowOverrideInChildProjects(false)
+            .build());
+  }
+
+  private void initDefaultAclsForAnonymousUsers(AccessSection.Builder heads, ProjectConfig config) {
+    grant(config, heads, Permission.READ, anonymous);
 
     config.upsertAccessSection(
         "refs/meta/version", version -> grant(config, version, Permission.READ, anonymous));
+  }
 
+  private void initDefaultAclsForRegisteredUsers(
+      AccessSection.Builder heads, LabelType codeReviewLabel, ProjectConfig config) {
     grant(config, heads, codeReviewLabel, -1, 1, registered);
     grant(config, heads, Permission.FORGE_AUTHOR, registered);
-    grant(config, heads, Permission.READ, anonymous);
     grant(config, heads, Permission.REVERT, registered);
 
     config.upsertAccessSection(
-        "refs/for/" + AccessSection.ALL,
-        magic -> {
-          grant(config, magic, Permission.PUSH, registered);
-          grant(config, magic, Permission.PUSH_MERGE, registered);
+        "refs/for/*",
+        refsFor -> {
+          grant(config, refsFor, Permission.ADD_PATCH_SET, registered);
+          grant(config, refsFor, Permission.PUSH, registered);
+          grant(config, refsFor, Permission.PUSH_MERGE, registered);
         });
   }
 
@@ -199,6 +228,12 @@ public class AllProjectsCreator {
 
     Permission.Builder stream = capabilities.upsertPermission(GlobalCapability.STREAM_EVENTS);
     stream.add(rule(config, serviceUsersGroup));
+  }
+
+  private void initDefaultAclsForBlockedUsers(
+      ProjectConfig config, GroupReference blockedUsersGroup) {
+    config.upsertAccessSection(
+        AccessSection.ALL, all -> block(config, all, Permission.READ, blockedUsersGroup));
   }
 
   private void initDefaultAclsForAdmins(

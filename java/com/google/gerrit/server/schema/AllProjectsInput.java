@@ -69,6 +69,9 @@ public abstract class AllProjectsInput {
   /** The group which gets stream-events permission granted and appropriate properties set. */
   public abstract Optional<GroupReference> serviceUsersGroup();
 
+  /** The group for which read access gets blocked. */
+  public abstract Optional<GroupReference> blockedUsersGroup();
+
   /** The commit message used when commit the project config change. */
   public abstract Optional<String> commitMessage();
 
@@ -89,6 +92,9 @@ public abstract class AllProjectsInput {
   /** Whether initializing default access sections in All-Projects. */
   public abstract boolean initDefaultAcls();
 
+  /** Whether default submit requirements should be initialized in All-Projects. */
+  public abstract boolean initDefaultSubmitRequirements();
+
   public abstract Builder toBuilder();
 
   public static Builder builder() {
@@ -96,7 +102,8 @@ public abstract class AllProjectsInput {
         new AutoValue_AllProjectsInput.Builder()
             .codeReviewLabel(getDefaultCodeReviewLabel())
             .firstChangeIdForNoteDb(Sequences.FIRST_CHANGE_ID)
-            .initDefaultAcls(true);
+            .initDefaultAcls(true)
+            .initDefaultSubmitRequirements(true);
     DEFAULT_BOOLEAN_PROJECT_CONFIGS.forEach(builder::addBooleanProjectConfig);
 
     return builder;
@@ -110,7 +117,9 @@ public abstract class AllProjectsInput {
   public abstract static class Builder {
     public abstract Builder administratorsGroup(GroupReference adminGroup);
 
-    public abstract Builder serviceUsersGroup(GroupReference serviceGroup);
+    public abstract Builder serviceUsersGroup(GroupReference serviceUsersGroup);
+
+    public abstract Builder blockedUsersGroup(GroupReference blockedUsersGroup);
 
     public abstract Builder commitMessage(String commitMessage);
 
@@ -134,6 +143,8 @@ public abstract class AllProjectsInput {
 
     @UsedAt(UsedAt.Project.GOOGLE)
     public abstract Builder initDefaultAcls(boolean initDefaultACLs);
+
+    public abstract Builder initDefaultSubmitRequirements(boolean initDefaultSubmitRequirements);
 
     public abstract AllProjectsInput build();
   }

@@ -50,6 +50,24 @@
       "message": "Can this be rebased, also need to fill out https://gerrit-review.googlesource.com/Documentation/dev-processes.html#upgrading-libraries for google.",
       "revId": "0765adaf4945cf9b26d6485d8b9bf11208bf4030",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e3d726c_b0189dc7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-04-19T14:58:30Z",
+      "side": 1,
+      "message": "Not sure if we want to just go straight to 11/12. Also update to latest v10 if we\u0027re going to stick with that one for now.",
+      "parentUuid": "63a783eb_e82a89dc",
+      "revId": "0765adaf4945cf9b26d6485d8b9bf11208bf4030",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

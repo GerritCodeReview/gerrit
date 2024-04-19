@@ -1276,7 +1276,7 @@ export class GrComment extends LitElement {
     }
     this.generatedFixSuggestion = suggestion;
     try {
-      waitUntil(() => this.getFixSuggestions() !== undefined);
+      await waitUntil(() => this.getFixSuggestions() !== undefined);
       this.autoSaveTrigger$.next();
     } catch (error) {
       // Error is ok in some cases like quick save by user.

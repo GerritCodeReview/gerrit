@@ -250,7 +250,6 @@ public class AllProjectsCreator {
         heads -> {
           grant(config, heads, codeReviewLabel, -2, 2, adminsGroup, owners);
           grant(config, heads, Permission.CREATE, adminsGroup, owners);
-          grant(config, heads, Permission.PUSH, adminsGroup, owners);
           grant(config, heads, Permission.SUBMIT, adminsGroup, owners);
           grant(config, heads, Permission.FORGE_COMMITTER, adminsGroup, owners);
           grant(config, heads, Permission.EDIT_TOPIC_NAME, true, adminsGroup, owners);
@@ -272,7 +271,6 @@ public class AllProjectsCreator {
           grant(config, meta, Permission.READ, adminsGroup, owners);
           grant(config, meta, codeReviewLabel, -2, 2, adminsGroup, owners);
           grant(config, meta, Permission.CREATE, adminsGroup, owners);
-          grant(config, meta, Permission.PUSH, adminsGroup, owners);
           grant(config, meta, Permission.SUBMIT, adminsGroup, owners);
         });
   }

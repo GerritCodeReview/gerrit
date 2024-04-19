@@ -22,4 +22,6 @@ export enum KnownExperimentId {
   ML_SUGGESTED_EDIT = 'UiFeature__ml_suggested_edit',
   ML_SUGGESTED_EDIT_V2 = 'UiFeature__ml_suggested_edit_v2',
   REVISION_PARENTS_DATA = 'UiFeature__revision_parents_data',
+  COMMENT_AUTOCOMPLETION = 'UiFeature__comment_autocompletion_enabled',
+  GR_TEXTAREA = 'UiFeature__gr_textarea_enabled',
 }

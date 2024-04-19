@@ -26,6 +26,7 @@ import com.google.common.base.Ticker;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest.TestTicker;
 import com.google.gerrit.acceptance.FakeGroupAuditService.FakeGroupAuditServiceModule;
+import com.google.gerrit.acceptance.GrantDirectPushPermissionsOnStartup.GrantDirectPushPermissionsOnStartupModule;
 import com.google.gerrit.acceptance.ReindexGroupsAtStartup.ReindexGroupsAtStartupModule;
 import com.google.gerrit.acceptance.ReindexProjectsAtStartup.ReindexProjectsAtStartupModule;
 import com.google.gerrit.acceptance.config.ConfigAnnotationParser;
@@ -529,7 +530,9 @@ public class GerritServer implements AutoCloseable {
             },
             new ConfigExperimentFeaturesModule()));
     daemon.addAdditionalSysModuleForTesting(
-        new ReindexProjectsAtStartupModule(), new ReindexGroupsAtStartupModule());
+        new GrantDirectPushPermissionsOnStartupModule(),
+        new ReindexProjectsAtStartupModule(),
+        new ReindexGroupsAtStartupModule());
     daemon.start();
     return new GerritServer(desc, null, createTestInjector(daemon), Optional.of(daemon), null);
   }
@@ -554,7 +557,9 @@ public class GerritServer implements AutoCloseable {
       throws Exception {
     requireNonNull(site);
     daemon.addAdditionalSysModuleForTesting(
-        new ReindexProjectsAtStartupModule(), new ReindexGroupsAtStartupModule());
+        new GrantDirectPushPermissionsOnStartupModule(),
+        new ReindexProjectsAtStartupModule(),
+        new ReindexGroupsAtStartupModule());
     ExecutorService daemonService = Executors.newSingleThreadExecutor();
     String[] args =
         Stream.concat(

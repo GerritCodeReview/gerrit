@@ -16,6 +16,8 @@ package com.google.gerrit.acceptance.api.accounts;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Comparator.comparing;
@@ -26,6 +28,7 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.UseClockStep;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.entities.AccountGroup;
@@ -33,6 +36,7 @@ import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.ContributorAgreement;
 import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.entities.InternalGroup;
+import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.PermissionRule;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -63,6 +67,7 @@ public class AgreementsIT extends AbstractDaemonTest {
   private ContributorAgreement caAutoVerify;
   private ContributorAgreement caNoAutoVerify;
   @Inject private GroupOperations groupOperations;
+  @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
 
   protected void setUseContributorAgreements(InheritableBoolean value) throws Exception {
@@ -298,6 +303,11 @@ public class AgreementsIT extends AbstractDaemonTest {
     gApi.changes().id(change.changeId).current().submit(new SubmitInput());
 
     // Revert in excluded project is allowed even when CLA is required but not signed
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.REVERT).ref("refs/*").group(REGISTERED_USERS))
+        .update();
     requestScopeOperations.setApiUser(user.id());
     setUseContributorAgreements(InheritableBoolean.TRUE);
     gApi.changes().id(change.changeId).revert();

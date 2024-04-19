@@ -13,6 +13,7 @@
 import '../api/embed';
 import '../scripts/bundled-polymer';
 import './diff/gr-diff/gr-diff';
+import './gr-textarea';
 import './diff/gr-diff-cursor/gr-diff-cursor';
 import {TokenHighlightLayer} from './diff/gr-diff-builder/token-highlight-layer';
 import {GrDiffCursor} from './diff/gr-diff-cursor/gr-diff-cursor';

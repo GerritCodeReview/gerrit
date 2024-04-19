@@ -3842,6 +3842,9 @@ describes the reviewer.
 
 Adds one user or all members of one group as reviewer to the change.
 
+NOTE: Adding multiple reviewers at once is possible via the
+link:#set-review[Set Review] REST endpoint.
+
 The reviewer to be added to the change must be provided in the request
 body as a link:#reviewer-input[ReviewerInput] entity.
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6917db4c_ce39279b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2024-04-19T08:42:51Z",
+      "side": 1,
+      "message": "Maybe mention in the commit message that owners can still revert their own changes.",
+      "revId": "5858e9350ce4bc2456f42bd1fb5b63766e06358d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

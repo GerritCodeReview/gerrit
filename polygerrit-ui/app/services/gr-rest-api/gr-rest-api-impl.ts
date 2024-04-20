@@ -335,7 +335,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   saveRepoConfig(repo: RepoName, config: ConfigInput): Promise<Response> {
-    const url = `/projects/${encodeURIComponent(repo)}/config`;
+    const url = `${getBaseUrl()}/projects/${encodeURIComponent(repo)}/config`;
     this._cache.delete(url);
     return this._restApiHelper.fetch({
       fetchOptions: getFetchOptions({
@@ -664,6 +664,9 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   savePreferences(
     prefs: PreferencesInput
   ): Promise<PreferencesInfo | undefined> {
+    // Invalidate the cache.
+    this._cache.delete(`${getBaseUrl()}/accounts/self/preferences.diff`);
+
     // Note (Issue 5142): normalize the download scheme with lower case before
     // saving.
     if (prefs.download_scheme) {
@@ -682,7 +685,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   saveDiffPreferences(prefs: DiffPreferenceInput): Promise<Response> {
     // Invalidate the cache.
-    this._cache.delete('/accounts/self/preferences.diff');
+    this._cache.delete(`${getBaseUrl()}/accounts/self/preferences.diff`);
     return this._restApiHelper.fetch({
       fetchOptions: getFetchOptions({
         method: HttpMethod.PUT,
@@ -696,7 +699,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   saveEditPreferences(prefs: EditPreferencesInfo): Promise<Response> {
     // Invalidate the cache.
-    this._cache.delete('/accounts/self/preferences.edit');
+    this._cache.delete(`${getBaseUrl()}/accounts/self/preferences.edit`);
     return this._restApiHelper.fetch({
       fetchOptions: getFetchOptions({
         method: HttpMethod.PUT,
@@ -714,7 +717,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       reportUrlAsIs: true,
       errFn: resp => {
         if (!resp || resp.status === 403) {
-          this._cache.delete('/accounts/self/detail');
+          this._cache.delete(`${getBaseUrl()}/accounts/self/detail`);
         }
       },
     }) as Promise<AccountDetailInfo | undefined>;
@@ -726,7 +729,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       reportUrlAsIs: true,
       errFn: resp => {
         if (!resp || resp.status === 403) {
-          this._cache.delete('/accounts/self/avatar.change.url');
+          this._cache.delete(`${getBaseUrl()}/accounts/self/avatar.change.url`);
         }
       },
     }) as Promise<string | undefined>;
@@ -838,7 +841,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     // If result of getAccountEmails is in cache, update it in the cache
     // so we don't have to invalidate it.
     const cachedEmails = this._cache.get(
-      '/accounts/self/emails'
+      `${getBaseUrl()}/accounts/self/emails`
     ) as unknown as EmailInfo[];
     if (cachedEmails) {
       const emails = cachedEmails.map(entry => {
@@ -848,17 +851,25 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
           return {email: entry.email, preferred: false};
         }
       });
-      this._cache.set('/accounts/self/emails', emails as unknown as ParsedJSON);
+      this._cache.set(
+        `${getBaseUrl()}/accounts/self/emails`,
+        emails as unknown as ParsedJSON
+      );
     }
   }
 
   _updateCachedAccount(obj: Partial<AccountDetailInfo>): void {
     // If result of getAccount is in cache, update it in the cache
     // so we don't have to invalidate it.
-    const cachedAccount = this._cache.get('/accounts/self/detail');
+    const cachedAccount = this._cache.get(
+      `${getBaseUrl()}/accounts/self/detail`
+    );
     if (cachedAccount) {
       // Replace object in cache with new object to force UI updates.
-      this._cache.set('/accounts/self/detail', {...cachedAccount, ...obj});
+      this._cache.set(`${getBaseUrl()}/accounts/self/detail`, {
+        ...cachedAccount,
+        ...obj,
+      });
     }
   }
 

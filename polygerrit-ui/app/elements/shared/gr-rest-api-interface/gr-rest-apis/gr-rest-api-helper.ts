@@ -66,44 +66,53 @@ export class SiteBasedCache {
       // TODO(kamilm): This implies very strict format of what is stored in
       //   INITIAL_DATA which is not clear from the name, consider renaming.
       Object.entries(window.INITIAL_DATA).forEach(e =>
-        this._cache().set(e[0], e[1] as unknown as ParsedJSON)
+        this._cache().set(
+          this.addOrRemoveBaseUrl(e[0]),
+          e[1] as unknown as ParsedJSON
+        )
       );
     }
   }
 
   // Returns the cache for the current canonical path.
   _cache(): Map<string, ParsedJSON> {
-    const canonical_path = window.CANONICAL_PATH ?? '';
-    if (!this.data.has(canonical_path)) {
-      this.data.set(canonical_path, new Map<string, ParsedJSON>());
+    if (!this.data.has(getBaseUrl())) {
+      this.data.set(getBaseUrl(), new Map<string, ParsedJSON>());
     }
-    return this.data.get(canonical_path)!;
+    return this.data.get(getBaseUrl())!;
   }
 
   has(key: string) {
-    return this._cache().has(key);
+    return this._cache().has(this.addOrRemoveBaseUrl(key));
   }
 
   get(key: string): ParsedJSON | undefined {
-    return this._cache().get(key);
+    return this._cache().get(this.addOrRemoveBaseUrl(key));
   }
 
   set(key: string, value: ParsedJSON) {
-    this._cache().set(key, value);
+    this._cache().set(this.addOrRemoveBaseUrl(key), value);
   }
 
   delete(key: string) {
-    this._cache().delete(key);
+    this._cache().delete(this.addOrRemoveBaseUrl(key));
   }
 
   invalidatePrefix(prefix: string) {
     const newMap = new Map<string, ParsedJSON>();
     for (const [key, value] of this._cache().entries()) {
-      if (!key.startsWith(prefix)) {
+      if (!key.startsWith(this.addOrRemoveBaseUrl(prefix))) {
         newMap.set(key, value);
       }
     }
-    this.data.set(window.CANONICAL_PATH ?? '', newMap);
+    this.data.set(getBaseUrl(), newMap);
+  }
+
+  // Adds base url if not added in cache key
+  // or removes it if it's already included.
+  private addOrRemoveBaseUrl(key: string) {
+    if (key.startsWith(getBaseUrl())) return key.slice(getBaseUrl().length);
+    return getBaseUrl() + key;
   }
 }
 

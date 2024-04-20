@@ -144,6 +144,10 @@ export class FetchPromisesCache {
     this.data[key] = value;
   }
 
+  delete(key: string) {
+    delete this.data[key];
+  }
+
   invalidatePrefix(prefix: string) {
     const newData: FetchPromisesCacheData = {};
     Object.entries(this.data).forEach(([key, value]) => {

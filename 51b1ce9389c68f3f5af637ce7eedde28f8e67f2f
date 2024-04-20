@@ -16,6 +16,24 @@
       "message": "This fixes the bug and is the correct way to fix it anyways. But another issue is that preferences cache isn\u0027t getting invalidated in gr-rest-api. Seperate issue to fix that i have no idea how to.",
       "revId": "51b1ce9389c68f3f5af637ce7eedde28f8e67f2f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56b36552_d75416e7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-04-20T21:29:44Z",
+      "side": 1,
+      "message": "Found a fix: https://gerrit-review.googlesource.com/c/gerrit/+/421279",
+      "parentUuid": "62264878_bd1c846e",
+      "revId": "51b1ce9389c68f3f5af637ce7eedde28f8e67f2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

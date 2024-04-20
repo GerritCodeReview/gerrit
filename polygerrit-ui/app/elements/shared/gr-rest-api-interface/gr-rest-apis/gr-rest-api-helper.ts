@@ -59,6 +59,13 @@ export function parsePrefixedJSON(jsonWithPrefix: string): ParsedJSON {
   return JSON.parse(jsonWithPrefix.substring(JSON_PREFIX.length)) as ParsedJSON;
 }
 
+// Adds base url if not added in cache key
+// or doesn't add it if it already is there.
+function addBaseUrl(key: string) {
+  if (!getBaseUrl()) return key;
+  return key.startsWith(getBaseUrl()) ? key : getBaseUrl() + key;
+}
+
 /**
  * Wrapper around Map for caching server responses. Site-based so that
  * changes to CANONICAL_PATH will result in a different cache going into
@@ -78,29 +85,40 @@ export class SiteBasedCache {
       // so that we spare more round trips to the server when the app loads
       // initially.
       Object.entries(window.INITIAL_DATA).forEach(e =>
-        this._cache().set(e[0], e[1] as unknown as ParsedJSON)
+        this._cache().set(addBaseUrl(e[0]), e[1] as unknown as ParsedJSON)
       );
     }
   }
 
   // Returns the cache for the current canonical path.
+<<<<<<< HEAD   (86be8e Remove reload-diff-preference unneeded event)
   _cache(): Map<string, unknown> {
     if (!this.data.has(window.CANONICAL_PATH)) {
       this.data.set(
         window.CANONICAL_PATH,
         new Map<string, ParsedJSON | null>()
       );
+=======
+  _cache(): Map<string, ParsedJSON> {
+    if (!this.data.has(getBaseUrl())) {
+      this.data.set(getBaseUrl(), new Map<string, ParsedJSON>());
+>>>>>>> CHANGE (6915b8 Fix clearing cache in gr-rest-api)
     }
+<<<<<<< HEAD   (86be8e Remove reload-diff-preference unneeded event)
     return this.data.get(window.CANONICAL_PATH) as Map<
       string,
       ParsedJSON | null
     >;
+=======
+    return this.data.get(getBaseUrl())!;
+>>>>>>> CHANGE (6915b8 Fix clearing cache in gr-rest-api)
   }
 
   has(key: string) {
-    return this._cache().has(key);
+    return this._cache().has(addBaseUrl(key));
   }
 
+<<<<<<< HEAD   (86be8e Remove reload-diff-preference unneeded event)
   get(key: '/accounts/self/emails'): EmailInfo[] | null;
 
   get(key: '/accounts/self/detail'): AccountDetailInfo | null;
@@ -109,8 +127,13 @@ export class SiteBasedCache {
 
   get(key: string): unknown {
     return this._cache().get(key);
+=======
+  get(key: string): ParsedJSON | undefined {
+    return this._cache().get(addBaseUrl(key));
+>>>>>>> CHANGE (6915b8 Fix clearing cache in gr-rest-api)
   }
 
+<<<<<<< HEAD   (86be8e Remove reload-diff-preference unneeded event)
   set(key: '/accounts/self/emails', value: EmailInfo[]): void;
 
   set(key: '/accounts/self/detail', value: AccountDetailInfo): void;
@@ -119,20 +142,28 @@ export class SiteBasedCache {
 
   set(key: string, value: unknown) {
     this._cache().set(key, value);
+=======
+  set(key: string, value: ParsedJSON) {
+    this._cache().set(addBaseUrl(key), value);
+>>>>>>> CHANGE (6915b8 Fix clearing cache in gr-rest-api)
   }
 
   delete(key: string) {
-    this._cache().delete(key);
+    this._cache().delete(addBaseUrl(key));
   }
 
   invalidatePrefix(prefix: string) {
     const newMap = new Map<string, unknown>();
     for (const [key, value] of this._cache().entries()) {
-      if (!key.startsWith(prefix)) {
+      if (!key.startsWith(addBaseUrl(prefix))) {
         newMap.set(key, value);
       }
     }
+<<<<<<< HEAD   (86be8e Remove reload-diff-preference unneeded event)
     this.data.set(window.CANONICAL_PATH, newMap);
+=======
+    this.data.set(getBaseUrl(), newMap);
+>>>>>>> CHANGE (6915b8 Fix clearing cache in gr-rest-api)
   }
 }
 
@@ -155,11 +186,11 @@ export class FetchPromisesCache {
    * @return true only if a value for a key sets and it is not undefined
    */
   has(key: string): boolean {
-    return !!this.data[key];
+    return !!this.data[addBaseUrl(key)];
   }
 
   get(key: string) {
-    return this.data[key];
+    return this.data[addBaseUrl(key)];
   }
 
   /**
@@ -167,13 +198,13 @@ export class FetchPromisesCache {
    *     mark key as deleted.
    */
   set(key: string, value: Promise<ParsedJSON | undefined> | undefined) {
-    this.data[key] = value;
+    this.data[addBaseUrl(key)] = value;
   }
 
   invalidatePrefix(prefix: string) {
     const newData: FetchPromisesCacheData = {};
     Object.entries(this.data).forEach(([key, value]) => {
-      if (!key.startsWith(prefix)) {
+      if (!key.startsWith(addBaseUrl(prefix))) {
         newData[key] = value;
       }
     });

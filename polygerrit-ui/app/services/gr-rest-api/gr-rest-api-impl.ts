@@ -686,6 +686,9 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   savePreferences(
     prefs: PreferencesInput
   ): Promise<PreferencesInfo | undefined> {
+    // Invalidate the cache.
+    this._cache.delete('/accounts/self/preferences');
+
     // Note (Issue 5142): normalize the download scheme with lower case before
     // saving.
     if (prefs.download_scheme) {
@@ -834,7 +837,10 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     const cachedAccount = this._cache.get('/accounts/self/detail');
     if (cachedAccount) {
       // Replace object in cache with new object to force UI updates.
-      this._cache.set('/accounts/self/detail', {...cachedAccount, ...obj});
+      this._cache.set('/accounts/self/detail', {
+        ...cachedAccount,
+        ...obj,
+      });
     }
   }
 

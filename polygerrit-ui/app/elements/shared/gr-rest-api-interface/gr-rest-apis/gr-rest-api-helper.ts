@@ -335,11 +335,16 @@ export class GrRestApiHelper {
    * that happen during the request, but doesn't inspect the status of the
    * received response unless req.reportServerError = true.
    *
+   * @param eraseCache - invalidates cache
    * @return Promise resolves to a native Response.
    *     If an error occurs when performing a request, promise rejects.
    */
-  async fetch(req: FetchRequest): Promise<Response> {
+  async fetch(req: FetchRequest, eraseCache?: boolean): Promise<Response> {
     const urlWithParams = this.urlWithParams(req.url, req.params);
+    if (eraseCache) {
+      this._cache.delete(urlWithParams);
+      this._fetchPromisesCache.delete(urlWithParams);
+    }
     const fetchReq: FetchRequest = {
       url: urlWithParams,
       fetchOptions: req.fetchOptions,
@@ -379,12 +384,19 @@ export class GrRestApiHelper {
    * If JSON parsing fails the promise rejects.
    *
    * @param noAcceptHeader - don't add default accept json header
+   * @param eraseCache - invalidates cache
    * @return Promise that resolves to a parsed response.
    */
   async fetchJSON(
     req: FetchRequest,
-    noAcceptHeader?: boolean
+    noAcceptHeader?: boolean,
+    eraseCache?: boolean
   ): Promise<ParsedJSON | undefined> {
+    if (eraseCache) {
+      const urlWithParams = this.urlWithParams(req.url, req.params);
+      this._cache.delete(urlWithParams);
+      this._fetchPromisesCache.delete(urlWithParams);
+    }
     if (!noAcceptHeader) {
       req = this.addAcceptJsonHeader(req);
     }

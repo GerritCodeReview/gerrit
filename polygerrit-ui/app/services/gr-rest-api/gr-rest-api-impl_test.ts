@@ -56,6 +56,7 @@ import {assert} from '@open-wc/testing';
 import {AuthService} from '../gr-auth/gr-auth';
 import {GrAuthMock} from '../gr-auth/gr-auth_mock';
 import {FlagsServiceImplementation} from '../flags/flags_impl';
+import {getBaseUrl} from '../../utils/url-util';
 
 const EXPECTED_QUERY_OPTIONS = listChangesOptionsToHex(
   ListChangesOption.CHANGE_ACTIONS,
@@ -318,7 +319,7 @@ suite('gr-rest-api-service-impl tests', () => {
   });
 
   test('saveDiffPreferences invalidates cache line', () => {
-    const cacheKey = '/accounts/self/preferences.diff';
+    const cacheKey = `${getBaseUrl()}/accounts/self/preferences.diff`;
     const fetchStub = sinon.stub(element._restApiHelper, 'fetch');
     element._cache.set(cacheKey, {tab_size: 4} as unknown as ParsedJSON);
     element.saveDiffPreferences({
@@ -393,7 +394,7 @@ suite('gr-rest-api-service-impl tests', () => {
   });
 
   test('getAccount when resp is undefined clears cache', async () => {
-    const cacheKey = '/accounts/self/detail';
+    const cacheKey = `${getBaseUrl()}/accounts/self/detail`;
     const account = createAccountDetailWithId();
     element._cache.set(cacheKey, account as unknown as ParsedJSON);
     const stub = sinon
@@ -410,7 +411,7 @@ suite('gr-rest-api-service-impl tests', () => {
   });
 
   test('getAccount when status is 403 clears cache', async () => {
-    const cacheKey = '/accounts/self/detail';
+    const cacheKey = `${getBaseUrl()}/accounts/self/detail`;
     const account = createAccountDetailWithId();
     element._cache.set(cacheKey, account as unknown as ParsedJSON);
     const stub = sinon
@@ -587,7 +588,7 @@ suite('gr-rest-api-service-impl tests', () => {
     const email2 = 'email2@example.com';
     const encodedEmail = encodeURIComponent(email2);
     const sendStub = sinon.stub(element._restApiHelper, 'fetch').resolves();
-    element._cache.set('/accounts/self/emails', [
+    element._cache.set(`${getBaseUrl()}/accounts/self/emails`, [
       {email: email1, preferred: true},
       {email: email2, preferred: false},
     ] as unknown as ParsedJSON);
@@ -602,10 +603,13 @@ suite('gr-rest-api-service-impl tests', () => {
       sendStub.lastCall.args[0].url,
       `/accounts/self/emails/${encodedEmail}/preferred`
     );
-    assert.deepEqual(element._cache.get('/accounts/self/emails'), [
-      {email: email1, preferred: false},
-      {email: email2, preferred: true},
-    ] as unknown as ParsedJSON);
+    assert.deepEqual(
+      element._cache.get(`${getBaseUrl()}/accounts/self/emails`),
+      [
+        {email: email1, preferred: false},
+        {email: email2, preferred: true},
+      ] as unknown as ParsedJSON
+    );
   });
 
   test('setAccountUsername', async () => {
@@ -613,7 +617,7 @@ suite('gr-rest-api-service-impl tests', () => {
       .stub(element._restApiHelper, 'fetch')
       .resolves(new Response(makePrefixedJSON('john')));
     element._cache.set(
-      '/accounts/self/detail',
+      `${getBaseUrl()}/accounts/self/detail`,
       createAccountDetailWithId() as unknown as ParsedJSON
     );
     await element.setAccountUsername('john');
@@ -629,7 +633,7 @@ suite('gr-rest-api-service-impl tests', () => {
     );
     assert.deepEqual(
       (element._cache.get(
-        '/accounts/self/detail'
+        `${getBaseUrl()}/accounts/self/detail`
       ) as unknown as AccountDetailInfo)!.username,
       'john'
     );
@@ -639,7 +643,7 @@ suite('gr-rest-api-service-impl tests', () => {
     const fetchStub = sinon
       .stub(element._restApiHelper, 'fetch')
       .resolves(new Response(undefined, {status: 204}));
-    element._cache.set('/accounts/self/detail', {
+    element._cache.set(`${getBaseUrl()}/accounts/self/detail`, {
       ...createAccountDetailWithId(),
       username: 'john',
     } as unknown as ParsedJSON);
@@ -651,7 +655,7 @@ suite('gr-rest-api-service-impl tests', () => {
     );
     assert.isUndefined(
       (element._cache.get(
-        '/accounts/self/detail'
+        `${getBaseUrl()}/accounts/self/detail`
       ) as unknown as AccountDetailInfo)!.username
     );
   });
@@ -661,7 +665,7 @@ suite('gr-rest-api-service-impl tests', () => {
       .stub(element._restApiHelper, 'fetch')
       .resolves(new Response(makePrefixedJSON('john')));
     element._cache.set(
-      '/accounts/self/detail',
+      `${getBaseUrl()}/accounts/self/detail`,
       createAccountDetailWithId() as unknown as ParsedJSON
     );
     await element.setAccountDisplayName('john');
@@ -677,7 +681,7 @@ suite('gr-rest-api-service-impl tests', () => {
     );
     assert.deepEqual(
       (element._cache.get(
-        '/accounts/self/detail'
+        `${getBaseUrl()}/accounts/self/detail`
       ) as unknown as AccountDetailInfo)!.display_name,
       'john'
     );
@@ -687,7 +691,7 @@ suite('gr-rest-api-service-impl tests', () => {
     const fetchStub = sinon
       .stub(element._restApiHelper, 'fetch')
       .resolves(new Response(undefined, {status: 204}));
-    element._cache.set('/accounts/self/detail', {
+    element._cache.set(`${getBaseUrl()}/accounts/self/detail`, {
       ...createAccountDetailWithId(),
       display_name: 'john',
     } as unknown as ParsedJSON);
@@ -699,7 +703,7 @@ suite('gr-rest-api-service-impl tests', () => {
     );
     assert.isUndefined(
       (element._cache.get(
-        '/accounts/self/detail'
+        `${getBaseUrl()}/accounts/self/detail`
       ) as unknown as AccountDetailInfo)!.display_name
     );
   });
@@ -709,7 +713,7 @@ suite('gr-rest-api-service-impl tests', () => {
       .stub(element._restApiHelper, 'fetch')
       .resolves(new Response(makePrefixedJSON('john')));
     element._cache.set(
-      '/accounts/self/detail',
+      `${getBaseUrl()}/accounts/self/detail`,
       createAccountDetailWithId() as unknown as ParsedJSON
     );
     await element.setAccountName('john');
@@ -725,7 +729,7 @@ suite('gr-rest-api-service-impl tests', () => {
     );
     assert.deepEqual(
       (element._cache.get(
-        '/accounts/self/detail'
+        `${getBaseUrl()}/accounts/self/detail`
       ) as unknown as AccountDetailInfo)!.name,
       'john'
     );
@@ -735,7 +739,7 @@ suite('gr-rest-api-service-impl tests', () => {
     const fetchStub = sinon
       .stub(element._restApiHelper, 'fetch')
       .resolves(new Response(undefined, {status: 204}));
-    element._cache.set('/accounts/self/detail', {
+    element._cache.set(`${getBaseUrl()}/accounts/self/detail`, {
       ...createAccountDetailWithId(),
       name: 'john',
     } as unknown as ParsedJSON);
@@ -747,7 +751,7 @@ suite('gr-rest-api-service-impl tests', () => {
     );
     assert.isUndefined(
       (element._cache.get(
-        '/accounts/self/detail'
+        `${getBaseUrl()}/accounts/self/detail`
       ) as unknown as AccountDetailInfo)!.name
     );
   });
@@ -757,7 +761,7 @@ suite('gr-rest-api-service-impl tests', () => {
       .stub(element._restApiHelper, 'fetch')
       .resolves(new Response(makePrefixedJSON('OOO')));
     element._cache.set(
-      '/accounts/self/detail',
+      `${getBaseUrl()}/accounts/self/detail`,
       createAccountDetailWithId() as unknown as ParsedJSON
     );
     await element.setAccountStatus('OOO');
@@ -773,7 +777,7 @@ suite('gr-rest-api-service-impl tests', () => {
     );
     assert.deepEqual(
       (element._cache.get(
-        '/accounts/self/detail'
+        `${getBaseUrl()}/accounts/self/detail`
       ) as unknown as AccountDetailInfo)!.status,
       'OOO'
     );
@@ -783,7 +787,7 @@ suite('gr-rest-api-service-impl tests', () => {
     const fetchStub = sinon
       .stub(element._restApiHelper, 'fetch')
       .resolves(new Response(undefined, {status: 204}));
-    element._cache.set('/accounts/self/detail', {
+    element._cache.set(`${getBaseUrl()}/accounts/self/detail`, {
       ...createAccountDetailWithId(),
       status: 'OOO',
     } as unknown as ParsedJSON);
@@ -795,7 +799,7 @@ suite('gr-rest-api-service-impl tests', () => {
     );
     assert.isUndefined(
       (element._cache.get(
-        '/accounts/self/detail'
+        `${getBaseUrl()}/accounts/self/detail`
       ) as unknown as AccountDetailInfo)!.status
     );
   });

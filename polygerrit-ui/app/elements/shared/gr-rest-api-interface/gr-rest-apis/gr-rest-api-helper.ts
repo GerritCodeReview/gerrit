@@ -74,6 +74,7 @@ export class SiteBasedCache {
   // Returns the cache for the current canonical path.
   _cache(): Map<string, ParsedJSON> {
     const canonical_path = window.CANONICAL_PATH ?? '';
+    console.log(canonical_path)
     if (!this.data.has(canonical_path)) {
       this.data.set(canonical_path, new Map<string, ParsedJSON>());
     }

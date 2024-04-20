@@ -670,6 +670,10 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       prefs.download_scheme = prefs.download_scheme.toLowerCase();
     }
 
+    // Invalidate the cache.
+    this._cache.delete('/accounts/self/preferences');
+    this._sharedFetchPromises.delete('/accounts/self/preferences');
+
     return this._restApiHelper.fetchJSON({
       fetchOptions: getFetchOptions({
         method: HttpMethod.PUT,
@@ -683,6 +687,8 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   saveDiffPreferences(prefs: DiffPreferenceInput): Promise<Response> {
     // Invalidate the cache.
     this._cache.delete('/accounts/self/preferences.diff');
+    this._sharedFetchPromises.delete('/accounts/self/preferences.diff');
+
     return this._restApiHelper.fetch({
       fetchOptions: getFetchOptions({
         method: HttpMethod.PUT,
@@ -697,6 +703,8 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   saveEditPreferences(prefs: EditPreferencesInfo): Promise<Response> {
     // Invalidate the cache.
     this._cache.delete('/accounts/self/preferences.edit');
+    this._sharedFetchPromises.delete('/accounts/self/preferences.edit');
+
     return this._restApiHelper.fetch({
       fetchOptions: getFetchOptions({
         method: HttpMethod.PUT,

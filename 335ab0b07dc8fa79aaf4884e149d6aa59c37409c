@@ -22,6 +22,30 @@
       },
       "revId": "335ab0b07dc8fa79aaf4884e149d6aa59c37409c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7dd69b8_3145fbba",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-04-21T22:25:29Z",
+      "side": 1,
+      "message": "Thanks, done.\n\nBonus, i found another bug and fixed it. It\u0027s with INITIAL_DATA. We didn\u0027t set a base url with it so now do.",
+      "parentUuid": "efe9357d_2fc92626",
+      "range": {
+        "startLine": 339,
+        "startChar": 26,
+        "endLine": 339,
+        "endChar": 36
+      },
+      "revId": "335ab0b07dc8fa79aaf4884e149d6aa59c37409c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

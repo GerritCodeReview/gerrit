@@ -7,6 +7,7 @@ import '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
 import '../gr-cursor-manager/gr-cursor-manager';
 import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import '../../../styles/shared-styles';
+import '../../../embed/gr-textarea';
 import {getAppContext} from '../../../services/app-context';
 import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import {
@@ -17,7 +18,7 @@ import {
 import {Key} from '../../../utils/dom-util';
 import {ValueChangedEvent} from '../../../types/events';
 import {fire} from '../../../utils/event-util';
-import {LitElement, css, html} from 'lit';
+import {LitElement, TemplateResult, css, html} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {PropertyValues} from 'lit';
@@ -31,6 +32,8 @@ import {ShortcutController} from '../../lit/shortcut-controller';
 import {getAccountDisplayName} from '../../../utils/display-name-util';
 import {configModelToken} from '../../../models/config/config-model';
 import {formStyles} from '../../../styles/form-styles';
+import {KnownExperimentId} from '../../../services/flags/flags';
+import {GrTextarea} from '../../../embed/gr-textarea';
 
 const MAX_ITEMS_DROPDOWN = 10;
 
@@ -58,6 +61,135 @@ const ALL_SUGGESTIONS: EmojiSuggestion[] = [
   {value: '😜', match: 'winking tongue ;)'},
 ];
 
+/** Allows us to swap out <iron-autogrow-textare> for <gr-textarea>. */
+abstract class TextAreaWrapper {
+  constructor(readonly el: GrSuggestionTextarea) {}
+
+  abstract render(): TemplateResult;
+
+  abstract getNativeTextarea(): HTMLElement | undefined;
+
+  abstract isFocused(): boolean;
+
+  abstract focus(): void;
+
+  abstract putCursorAtEnd(): void;
+
+  abstract getCursorPosition(): number;
+
+  abstract setCursorPosition(pos: number): void;
+}
+
+class IronWrapper extends TextAreaWrapper {
+  override render() {
+    return html`
+      <iron-autogrow-textarea
+        id="textarea"
+        class=${classMap({noBorder: this.el.hideBorder})}
+        .autocomplete=${this.el.autocomplete}
+        .placeholder=${this.el.placeholder}
+        ?disabled=${this.el.disabled}
+        .rows=${this.el.rows}
+        .maxRows=${this.el.maxRows}
+        .value=${this.el.text}
+        @value-changed=${(e: ValueChangedEvent) => {
+          this.el.text = e.detail.value;
+        }}
+      ></iron-autogrow-textarea>
+    `;
+  }
+
+  getIronTextarea(): IronAutogrowTextareaElement | undefined {
+    return this.el.textarea as IronAutogrowTextareaElement | undefined;
+  }
+
+  getNativeTextarea(): HTMLTextAreaElement | undefined {
+    return this.getIronTextarea()?.textarea;
+  }
+
+  isFocused() {
+    return !!this.getIronTextarea()?.focused;
+  }
+
+  focus() {
+    this.getNativeTextarea()?.focus();
+  }
+
+  putCursorAtEnd() {
+    console.log(`${Date.now() % 100000} asdf putCursorAtEnd`);
+    const textarea = this.getNativeTextarea();
+    if (!textarea) return;
+    const length = this.el.text.length;
+    textarea.selectionStart = length;
+    textarea.selectionEnd = length;
+    this.focus();
+  }
+
+  getCursorPosition(): number {
+    return this.getNativeTextarea()?.selectionStart ?? -1;
+  }
+
+  setCursorPosition(pos: number) {
+    const textarea = this.getNativeTextarea();
+    if (!textarea) return;
+    textarea.selectionStart = pos;
+    textarea.selectionEnd = pos;
+  }
+}
+
+class GrWrapper extends TextAreaWrapper {
+  override render() {
+    console.log(
+      `${Date.now() % 100000} asdf GrWrapper render() text:'${this.el.text}'`
+    );
+    return html`<gr-textarea
+      id="textarea"
+      putCursorAtEndOnFocus
+      class=${classMap({noBorder: this.el.hideBorder})}
+      .placeholder=${this.el.placeholder}
+      ?disabled=${this.el.disabled}
+      .value=${this.el.text}
+      @input=${(e: InputEvent) => {
+        const value = (e.target as GrTextarea).value;
+        this.el.text = value ?? '';
+      }}
+    ></gr-textarea>`;
+  }
+
+  getGrTextarea(): GrTextarea | undefined {
+    return this.el.textarea as GrTextarea | undefined;
+  }
+
+  getNativeTextarea() {
+    return this.getGrTextarea()?.editableDivElement;
+  }
+
+  isFocused() {
+    return !!this.getGrTextarea()?.isFocused;
+  }
+
+  focus() {
+    this.getNativeTextarea()?.focus();
+  }
+
+  putCursorAtEnd() {
+    console.log(`${Date.now() % 100000} asdf putCursorAtEnd`);
+    // see `putCursorAtEndOnFocus` property
+    this.focus();
+  }
+
+  getCursorPosition(): number {
+    return this.getGrTextarea()?.getCursorPosition() ?? -1;
+  }
+
+  setCursorPosition(pos: number) {
+    console.log(`${Date.now() % 100000} asdf setCursorPosition wrapper ${pos}`);
+    this.getGrTextarea()?.setCursorPosition(pos);
+    // this.el.computeIndexAndSearchString();
+    // this.el.handleTextChanged();
+  }
+}
+
 export interface EmojiSuggestion extends Item {
   match: string;
 }
@@ -77,7 +209,9 @@ export class GrSuggestionTextarea extends LitElement {
   /**
    * @event bind-value-changed
    */
-  @query('#textarea') textarea?: IronAutogrowTextareaElement;
+  @query('#textarea') textarea?:
+    | (IronAutogrowTextareaElement & LitElement)
+    | GrTextarea;
 
   @query('#emojiSuggestions') emojiSuggestions?: GrAutocompleteDropdown;
 
@@ -113,6 +247,8 @@ export class GrSuggestionTextarea extends LitElement {
   // Accessed in tests.
   readonly reporting = getAppContext().reportingService;
 
+  private readonly flagService = getAppContext().flagsService;
+
   private readonly getChangeModel = resolve(this, changeModelToken);
 
   private readonly restApiService = getAppContext().restApiService;
@@ -130,6 +266,8 @@ export class GrSuggestionTextarea extends LitElement {
   // Represents the current search string being used to query either emoji or mention suggestions.
   // private but used in tests
   currentSearchString?: string;
+
+  wrapper: TextAreaWrapper = new IronWrapper(this);
 
   private readonly shortcuts = new ShortcutController(this);
 
@@ -170,6 +308,10 @@ export class GrSuggestionTextarea extends LitElement {
 
   override connectedCallback() {
     super.connectedCallback();
+
+    const gr = this.flagService.isEnabled(KnownExperimentId.GR_TEXTAREA);
+    this.wrapper = gr ? new GrWrapper(this) : new IronWrapper(this);
+
     if (this.monospace) {
       this.classList.add('monospace');
     }
@@ -206,13 +348,19 @@ export class GrSuggestionTextarea extends LitElement {
         #textarea {
           background-color: var(--view-background-color);
           width: 100%;
+          color: var(--primary-text-color);
+          border: 1px solid var(--border-color);
+          border-radius: var(--border-radius);
+          padding: 0;
+          box-sizing: border-box;
+          position: relative;
+          --gr-textarea-padding: var(--spacing-m);
+          --gr-textarea-border-width: 0px;
+          --iron-autogrow-textarea_-_padding: var(--spacing-m);
         }
         #hiddenText #emojiSuggestions {
           visibility: visible;
           white-space: normal;
-        }
-        iron-autogrow-textarea {
-          position: relative;
         }
         #textarea.noBorder {
           border: none;
@@ -237,19 +385,7 @@ export class GrSuggestionTextarea extends LitElement {
       it is set as the positionTarget for the emojiSuggestions dropdown. -->
       <span id="caratSpan"></span>
       ${this.renderEmojiDropdown()} ${this.renderMentionsDropdown()}
-      <iron-autogrow-textarea
-        id="textarea"
-        class=${classMap({noBorder: this.hideBorder})}
-        .autocomplete=${this.autocomplete}
-        .placeholder=${this.placeholder}
-        ?disabled=${this.disabled}
-        .rows=${this.rows}
-        .maxRows=${this.maxRows}
-        .value=${this.text}
-        @value-changed=${(e: ValueChangedEvent) => {
-          this.text = e.detail.value;
-        }}
-      ></iron-autogrow-textarea>
+      ${this.wrapper.render()}
     `;
   }
 
@@ -282,9 +418,6 @@ export class GrSuggestionTextarea extends LitElement {
   override updated(changedProperties: PropertyValues) {
     if (changedProperties.has('text')) {
       this.fireChangedEvents();
-      // Add to updated because we want this.textarea.selectionStart and
-      // this.textarea is null in the willUpdate lifecycle
-      this.computeIndexAndSearchString();
       this.handleTextChanged();
     }
   }
@@ -295,22 +428,8 @@ export class GrSuggestionTextarea extends LitElement {
     this.emojiSuggestions?.close();
   }
 
-  getNativeTextarea() {
-    return this.textarea!.textarea;
-  }
-
   override focus() {
-    // Note that this may not work as intended, because the textarea is not
-    // rendered yet.
-    this.textarea?.textarea.focus();
-  }
-
-  putCursorAtEnd() {
-    const textarea = this.getNativeTextarea();
-    // Put the cursor at the end always.
-    textarea.selectionStart = textarea.value.length;
-    textarea.selectionEnd = textarea.selectionStart;
-    textarea.focus();
+    this.wrapper.focus();
   }
 
   private getVisibleDropdown() {
@@ -415,6 +534,11 @@ export class GrSuggestionTextarea extends LitElement {
   }
 
   private async setValue(text: string) {
+    console.log(
+      `${Date.now() % 100000} asdf setValue ${text} ${
+        this.specialCharIndex
+      } ${this.isEmojiDropdownActive()}`
+    );
     if (this.specialCharIndex === -1) {
       return;
     }
@@ -433,12 +557,18 @@ export class GrSuggestionTextarea extends LitElement {
     // below needs to happen after iron-autogrow-textarea has set the
     // incorrect value.
     await this.updateComplete;
-    this.textarea!.selectionStart = specialCharIndex + text.length + move;
-    this.textarea!.selectionEnd = specialCharIndex + text.length + move;
+    this.wrapper.setCursorPosition(specialCharIndex + text.length + move);
     this.resetDropdown();
   }
 
   private addValueToText(value: string) {
+    console.log(
+      `${
+        Date.now() % 100000
+      } asdf addValueToText value:${value} specialCharIndex:${
+        this.specialCharIndex
+      } currentSearchString:${this.currentSearchString}`
+    );
     if (!this.text) return '';
     const specialCharIndex = this.specialCharIndex ?? 0;
     const beforeSearchString = this.text.substring(0, specialCharIndex);
@@ -456,12 +586,14 @@ export class GrSuggestionTextarea extends LitElement {
    * private but used in test
    */
   updateCaratPosition() {
-    if (typeof this.textarea!.value === 'string') {
-      this.hiddenText!.textContent = this.textarea!.value.substring(
-        0,
-        this.textarea!.selectionStart
-      );
+    let position = this.wrapper.getCursorPosition();
+    if (position === -1) {
+      position = this.text.length;
     }
+    this.hiddenText!.textContent = this.text.substring(0, position);
+    console.log(
+      `${Date.now() % 100000} asdf updateCaratPosition ${this.text} ${position}`
+    );
 
     const caratSpan = this.caratSpan!;
     this.hiddenText!.appendChild(caratSpan);
@@ -474,9 +606,9 @@ export class GrSuggestionTextarea extends LitElement {
     // - The search string is an space or new line
     // - The colon has been removed
     // - There are no suggestions that match the search string
+    const position = this.wrapper.getCursorPosition();
     return (
-      this.textarea!.selectionStart !==
-        (this.currentSearchString ?? '').length + charIndex + 1 ||
+      position !== (this.currentSearchString ?? '').length + charIndex + 1 ||
       this.currentSearchString === ' ' ||
       this.currentSearchString === '\n' ||
       !(text[charIndex] === char)
@@ -501,6 +633,13 @@ export class GrSuggestionTextarea extends LitElement {
   }
 
   private openOrResetDropdown() {
+    console.log(
+      `${
+        Date.now() % 100000
+      } asdf openOrResetDropdown ${this.isEmojiDropdownActive()} ${
+        this.specialCharIndex
+      } '${this.text}'`
+    );
     let activeDropdown: GrAutocompleteDropdown;
     let activate: () => void;
     if (this.isEmojiDropdownActive()) {
@@ -521,14 +660,29 @@ export class GrSuggestionTextarea extends LitElement {
         this.text[this.specialCharIndex]
       )
     ) {
+      console.log(`${Date.now() % 100000} asdf openOrResetDropdown reset`);
       this.resetDropdown();
-    } else if (activeDropdown!.isHidden && this.textarea!.focused) {
+    } else if (activeDropdown!.isHidden && this.wrapper.isFocused()) {
       // Otherwise open the dropdown and set the position to be just below the
       // cursor.
       // Do not open dropdown if textarea is not focused
       activeDropdown.setPositionTarget(this.updateCaratPosition());
+      console.log(`${Date.now() % 100000} asdf openOrResetDropdown activate`);
       activate();
+    } else {
+      console.log(
+        `${Date.now() % 100000} asdf openOrResetDropdown nothing isHidden:${
+          activeDropdown!.isHidden
+        } isFocused:${this.wrapper.isFocused()}`
+      );
     }
+    console.log(
+      `${
+        Date.now() % 100000
+      } asdf openOrResetDropdown emojiSuggestions.isHidden:${
+        this.emojiSuggestions!.isHidden
+      }`
+    );
   }
 
   private isMentionsDropdownActive() {
@@ -543,12 +697,30 @@ export class GrSuggestionTextarea extends LitElement {
     );
   }
 
-  private computeIndexAndSearchString() {
-    const currentCarat = this.textarea?.selectionStart ?? this.text.length;
+  public computeIndexAndSearchString() {
+    let currentCarat = this.wrapper.getCursorPosition();
+    console.log(
+      `${
+        Date.now() % 100000
+      } asdf computeIndexAndSearchString carat: ${currentCarat}`
+    );
+    if (currentCarat === -1) {
+      currentCarat = this.text.length;
+    }
     const m = this.text
       .substring(0, currentCarat)
       .match(/(?:^|\s)([:@][\S]*)$/);
+    console.log(
+      `${Date.now() % 100000} asdf computeIndexAndSearchString match: ${
+        this.text
+      } ${currentCarat}`
+    );
     if (!m) {
+      console.log(
+        `${
+          Date.now() % 100000
+        } asdf computeIndexAndSearchString -1 ${currentCarat}`
+      );
       this.specialCharIndex = -1;
       this.currentSearchString = undefined;
       return;
@@ -556,11 +728,18 @@ export class GrSuggestionTextarea extends LitElement {
     this.currentSearchString = m[1].substring(1);
     if (this.specialCharIndex !== -1) return;
 
+    console.log(
+      `${Date.now() % 100000} asdf computeIndexAndSearchString ${
+        currentCarat - m[1].length
+      }`
+    );
     this.specialCharIndex = currentCarat - m[1].length;
   }
 
   // Private but used in tests.
   async handleTextChanged() {
+    console.log(`${Date.now() % 100000} asdf handleTextChanged`);
+    this.computeIndexAndSearchString();
     await this.computeSuggestions();
     this.openOrResetDropdown();
     this.focus();
@@ -628,6 +807,11 @@ export class GrSuggestionTextarea extends LitElement {
     this.requestUpdate();
     this.currentSearchString = '';
     this.closeDropdown();
+    console.log(
+      `${Date.now() % 100000} asdf resetDropdown ${this.specialCharIndex} ${
+        this.text
+      }`
+    );
     this.specialCharIndex = -1;
     this.focus();
   }
@@ -637,19 +821,27 @@ export class GrSuggestionTextarea extends LitElement {
   }
 
   private indent(e: KeyboardEvent): void {
+    console.log(
+      `${Date.now() % 100000} asdf indent ${document.queryCommandSupported(
+        'insertText'
+      )}`
+    );
     if (!document.queryCommandSupported('insertText')) {
       return;
     }
     // When nothing is selected, selectionStart is the caret position. We want
     // the indentation level of the current line, not the end of the text which
     // may be different.
-    const currentLine = this.textarea!.textarea.value.substring(
-      0,
-      this.textarea!.selectionStart
-    )
+    const currentLine = this.text
+      .substring(0, this.wrapper.getCursorPosition())
       .split('\n')
       .pop();
     const currentLineIndentation = currentLine?.match(/^\s*/)?.[0];
+    console.log(
+      `${Date.now() % 100000} asdf indent currentLineIndentation '${
+        this.text
+      }' '${currentLine}' '${currentLineIndentation}'`
+    );
     if (!currentLineIndentation) {
       return;
     }

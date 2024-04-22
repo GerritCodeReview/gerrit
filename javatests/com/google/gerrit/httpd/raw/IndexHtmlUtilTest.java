@@ -114,7 +114,7 @@ public class IndexHtmlUtilTest {
     when(gerritApi.accounts()).thenReturn(accountsApi);
     when(gerritApi.config()).thenReturn(configApi);
 
-    assertThat(dynamicTemplateData(gerritApi, "/c/project/+/123"))
+    assertThat(dynamicTemplateData(gerritApi, "/c/project/+/123", ""))
         .containsAtLeast(
             "defaultChangeDetailHex", "1916314",
             "changeRequestsPath", "changes/project~123");

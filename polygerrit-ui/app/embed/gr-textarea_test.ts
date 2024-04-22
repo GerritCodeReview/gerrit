@@ -115,7 +115,7 @@ suite('gr-textarea test', () => {
       cursorPosition = detail.position;
     });
 
-    await element.setCursorPosition(0);
+    element.setCursorPosition(0);
     await cursorPositionChangeEventPromise;
 
     assert.equal(cursorPosition, 0);
@@ -137,7 +137,7 @@ suite('gr-textarea test', () => {
 
     element.value = 'Some value';
     await element.updateComplete;
-    await element.setCursorPosition(1);
+    element.setCursorPosition(1);
     await cursorPositionChangeEventPromise;
 
     assert.equal(cursorPosition, 1);
@@ -159,7 +159,7 @@ suite('gr-textarea test', () => {
 
     element.value = 'Some \n\n\n value';
     await element.updateComplete;
-    await element.setCursorPosition(7);
+    element.setCursorPosition(7);
     await cursorPositionChangeEventPromise;
 
     assert.equal(cursorPosition, 7);

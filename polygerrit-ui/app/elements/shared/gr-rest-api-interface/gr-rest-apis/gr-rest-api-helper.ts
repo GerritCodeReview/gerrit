@@ -45,6 +45,13 @@ export function parsePrefixedJSON(jsonWithPrefix: string): ParsedJSON {
   return JSON.parse(jsonWithPrefix.substring(JSON_PREFIX.length)) as ParsedJSON;
 }
 
+// Adds base url if not added in cache key
+// or doesn't add it if it already is there.
+function addBaseUrl(key: string) {
+  if (!getBaseUrl()) return key;
+  return key.startsWith(getBaseUrl()) ? key : getBaseUrl() + key;
+}
+
 /**
  * Wrapper around Map for caching server responses. Site-based so that
  * changes to CANONICAL_PATH will result in a different cache going into
@@ -66,44 +73,43 @@ export class SiteBasedCache {
       // TODO(kamilm): This implies very strict format of what is stored in
       //   INITIAL_DATA which is not clear from the name, consider renaming.
       Object.entries(window.INITIAL_DATA).forEach(e =>
-        this._cache().set(e[0], e[1] as unknown as ParsedJSON)
+        this._cache().set(addBaseUrl(e[0]), e[1] as unknown as ParsedJSON)
       );
     }
   }
 
   // Returns the cache for the current canonical path.
   _cache(): Map<string, ParsedJSON> {
-    const canonical_path = window.CANONICAL_PATH ?? '';
-    if (!this.data.has(canonical_path)) {
-      this.data.set(canonical_path, new Map<string, ParsedJSON>());
+    if (!this.data.has(getBaseUrl())) {
+      this.data.set(getBaseUrl(), new Map<string, ParsedJSON>());
     }
-    return this.data.get(canonical_path)!;
+    return this.data.get(getBaseUrl())!;
   }
 
   has(key: string) {
-    return this._cache().has(key);
+    return this._cache().has(addBaseUrl(key));
   }
 
   get(key: string): ParsedJSON | undefined {
-    return this._cache().get(key);
+    return this._cache().get(addBaseUrl(key));
   }
 
   set(key: string, value: ParsedJSON) {
-    this._cache().set(key, value);
+    this._cache().set(addBaseUrl(key), value);
   }
 
   delete(key: string) {
-    this._cache().delete(key);
+    this._cache().delete(addBaseUrl(key));
   }
 
   invalidatePrefix(prefix: string) {
     const newMap = new Map<string, ParsedJSON>();
     for (const [key, value] of this._cache().entries()) {
-      if (!key.startsWith(prefix)) {
+      if (!key.startsWith(addBaseUrl(prefix))) {
         newMap.set(key, value);
       }
     }
-    this.data.set(window.CANONICAL_PATH ?? '', newMap);
+    this.data.set(getBaseUrl(), newMap);
   }
 }
 
@@ -129,11 +135,11 @@ export class FetchPromisesCache {
    * @return true only if a value for a key sets and it is not undefined
    */
   has(key: string): boolean {
-    return !!this.data[key];
+    return !!this.data[addBaseUrl(key)];
   }
 
   get(key: string) {
-    return this.data[key];
+    return this.data[addBaseUrl(key)];
   }
 
   /**
@@ -141,13 +147,13 @@ export class FetchPromisesCache {
    *     mark key as deleted.
    */
   set(key: string, value: Promise<ParsedJSON | undefined> | undefined) {
-    this.data[key] = value;
+    this.data[addBaseUrl(key)] = value;
   }
 
   invalidatePrefix(prefix: string) {
     const newData: FetchPromisesCacheData = {};
     Object.entries(this.data).forEach(([key, value]) => {
-      if (!key.startsWith(prefix)) {
+      if (!key.startsWith(addBaseUrl(prefix))) {
         newData[key] = value;
       }
     });

@@ -4,7 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {LitElement, html, css} from 'lit';
-import {customElement, property, query, queryAsync} from 'lit/decorators.js';
+import {
+  customElement,
+  property,
+  query,
+  queryAsync,
+  state,
+} from 'lit/decorators.js';
 import {classMap} from 'lit/directives/class-map.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {
@@ -59,7 +65,7 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
   // is used for calls for scrollTop as if it is undefined then we can fallback
   // to 0. For other usecases use editableDiv.
   @query('.editableDiv')
-  private readonly editableDivElement?: HTMLDivElement;
+  public readonly editableDivElement?: HTMLDivElement;
 
   @queryAsync('.editableDiv')
   private readonly editableDiv?: Promise<HTMLDivElement>;
@@ -120,7 +126,6 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
     const oldVal = this.value;
     if (oldVal !== newValue) {
       this.innerValue = newValue;
-      this.updateValueInDom();
     }
   }
 
@@ -167,7 +172,7 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
     return this.editableDivElement?.scrollTop ?? 0;
   }
 
-  private innerValue: string | undefined;
+  @state() private innerValue: string | undefined;
 
   private innerHint: string | undefined;
 
@@ -194,19 +199,20 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
 
         .editableDiv {
           background-color: var(--input-field-bg, white);
-          border: 2px solid var(--onedev-textarea-border-color, white);
+          border: var(--gr-textarea-border-width, 2px) solid
+            var(--gr-textarea-border-color, white);
           border-radius: 4px;
           box-sizing: border-box;
           color: var(--text-default, black);
-          max-height: var(--onedev-textarea-max-height, 16em);
-          min-height: var(--onedev-textarea-min-height, 4em);
+          max-height: var(--gr-textarea-max-height, 16em);
+          min-height: var(--gr-textarea-min-height, 4em);
           overflow-x: auto;
-          padding: 12px;
+          padding: var(--gr-textarea-padding, 12px);
           white-space: pre-wrap;
           width: 100%;
 
           &:focus-visible {
-            border-color: var(--onedev-textarea-focus-outline-color, black);
+            border-color: var(--gr-textarea-focus-outline-color, black);
             outline: none;
           }
 
@@ -262,6 +268,7 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
     // Chrome supports non-standard "contenteditable=plaintext-only",
     // which prevents HTML from being inserted into a contenteditable element.
     // https://github.com/w3c/editing/issues/162
+    /* prettier-ignore */
     return html`<div
       aria-disabled=${this.disabled}
       aria-multiline="true"
@@ -278,7 +285,7 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
       @keyup=${this.handleKeyUp}
       @mouseup=${this.handleMouseUp}
       @scroll=${this.handleScroll}
-    ></div>`;
+    >${this.innerValue ?? ''}</div>`;
   }
 
   /**
@@ -317,8 +324,17 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
 
     range.detach();
 
-    await this.onCursorPositionChange(null);
+    this.onCursorPositionChange(null);
   }
+
+  public setCursorPosition(position: number) {
+    this.setCursorPositionForDiv(position, this.editableDivElement);
+  }
+
+  // private async setCursorPositionAsync(position: number) {
+  //   const editableDivElement = await this.editableDiv;
+  //   this.setCursorPositionForDiv(position, editableDivElement);
+  // }
 
   /**
    * Sets cursor position to given position and scrolls the content to cursor
@@ -327,22 +343,34 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
    * If position is out of bounds of value of textarea then cursor is places at
    * end of content of textarea.
    */
-  async setCursorPosition(position: number) {
+  private setCursorPositionForDiv(
+    position: number,
+    editableDivElement?: HTMLDivElement
+  ) {
     // This will keep track of remaining offset to place the cursor.
     let remainingOffset = position;
     let isOnFreshLine = true;
     let nodeToFocusOn: Node | null = null;
-    const editableDivElement = await this.editableDiv;
     const selection = this.getSelection();
 
     if (!editableDivElement || !selection) {
+      console.log(
+        `${
+          Date.now() % 100000
+        } asdf gr setCursorPosition NOOP ${editableDivElement} ${selection}`
+      );
       return;
     }
+    console.log(`${Date.now() % 100000} asdf gr setCursorPosition ${position}`);
     editableDivElement.focus();
     const findNodeToFocusOn = (childNodes: Node[]) => {
       for (let i = 0; i < childNodes.length; i++) {
         const childNode = childNodes[i];
         let currentNodeLength = 0;
+
+        if (childNode.nodeType === Node.COMMENT_NODE) {
+          continue;
+        }
 
         if (childNode.nodeName === 'BR') {
           currentNodeLength++;
@@ -372,10 +400,17 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
       }
     };
 
-    // Find the node to focus on.
-    findNodeToFocusOn(Array.from(editableDivElement.childNodes));
+    const childNodes = Array.from(editableDivElement.childNodes);
+    findNodeToFocusOn(childNodes);
 
-    await this.setFocusOnNode(
+    console.log(
+      `${
+        Date.now() % 100000
+      } asdf gr setCursorPosition setFocusOnNode #children:${
+        childNodes.length
+      } offset:${remainingOffset}`
+    );
+    this.setFocusOnNode(
       selection,
       editableDivElement,
       nodeToFocusOn,
@@ -402,12 +437,18 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
       : 'true';
   }
 
-  private async setFocusOnNode(
+  private setFocusOnNode(
     selection: Selection,
     editableDivElement: Node,
     nodeToFocusOn: Node | null,
     remainingOffset: number
   ) {
+    console.log(
+      `${Date.now() % 100000} asdf setFocusOnNode1 text:'${
+        (editableDivElement as HTMLElement).innerHTML
+      }' ${nodeToFocusOn} offset:${remainingOffset}`
+    );
+
     const range = document.createRange();
     // If node is null or undefined then fallback to focus event which will put
     // cursor at the end of content.
@@ -426,12 +467,20 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
     selection.removeAllRanges();
     selection.addRange(range);
 
+    console.log(
+      `${
+        Date.now() % 100000
+      } asdf setFocusOnNode2 ${nodeToFocusOn} offset:${remainingOffset} ${
+        range.startOffset
+      }`
+    );
+
     // Scroll the content to cursor position.
     this.scrollToCursorPosition(range);
 
     range.detach();
 
-    await this.onCursorPositionChange(null);
+    this.onCursorPositionChange(null);
   }
 
   private async onInput(event: Event) {
@@ -450,15 +499,15 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
     );
   }
 
-  private async onFocus(event: Event) {
+  private onFocus(event: Event) {
     this.focused = true;
-    await this.onCursorPositionChange(event);
+    this.onCursorPositionChange(event);
   }
 
-  private async onBlur(event: Event) {
+  private onBlur(event: Event) {
     this.focused = false;
     this.removeHintSpanIfShown();
-    await this.onCursorPositionChange(event);
+    this.onCursorPositionChange(event);
   }
 
   private async handleKeyDown(event: KeyboardEvent) {
@@ -482,12 +531,12 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
     await this.toggleHintVisibilityIfAny();
   }
 
-  private async handleKeyUp(event: KeyboardEvent) {
-    await this.onCursorPositionChange(event);
+  private handleKeyUp(event: KeyboardEvent) {
+    this.onCursorPositionChange(event);
   }
 
   private async handleMouseUp(event: MouseEvent) {
-    await this.onCursorPositionChange(event);
+    this.onCursorPositionChange(event);
     await this.toggleHintVisibilityIfAny();
   }
 
@@ -531,7 +580,7 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
 
     const editableDivElement = await this.editableDiv;
     const currentValue = (await this.getValue()) ?? '';
-    const cursorPosition = await this.getCursorPosition();
+    const cursorPosition = await this.getCursorPositionAsync();
     if (
       !editableDivElement ||
       (this.placeholderHint && !currentValue) ||
@@ -597,24 +646,17 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
     return this.shadowRoot?.querySelector('.' + AUTOCOMPLETE_HINT_CLASS);
   }
 
-  private async onCursorPositionChange(event: Event | null) {
+  private onCursorPositionChange(event: Event | null) {
     event?.preventDefault();
     event?.stopImmediatePropagation();
 
     this.dispatchEvent(
       new CustomEvent('cursorPositionChange', {
         detail: {
-          position: await this.getCursorPosition(),
+          position: this.getCursorPosition(),
         },
       })
     );
-  }
-
-  private async updateValueInDom() {
-    const editableDivElement = await this.editableDiv;
-    if (editableDivElement) {
-      editableDivElement.innerText = this.value || '';
-    }
   }
 
   private async updateHintInDomIfRendered() {
@@ -664,9 +706,17 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
     return [textValue, isLastBr];
   }
 
-  private async getCursorPosition() {
-    const selection = this.getSelection();
+  public getCursorPosition() {
+    return this.getCursorPositionForDiv(this.editableDivElement);
+  }
+
+  private async getCursorPositionAsync() {
     const editableDivElement = await this.editableDiv;
+    return this.getCursorPositionForDiv(editableDivElement);
+  }
+
+  private getCursorPositionForDiv(editableDivElement?: HTMLDivElement) {
+    const selection = this.getSelection();
 
     // Cursor position is -1 (not available) if
     //
@@ -728,6 +778,9 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
       findCursorPosition(Array.from(editableDivElement.childNodes));
     }
 
+    console.log(
+      `${Date.now() % 100000} asdf getCursorPosition ${cursorPosition}`
+    );
     return cursorPosition;
   }
 

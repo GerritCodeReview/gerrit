@@ -50,7 +50,7 @@ public class GrantDirectPushPermissionsOnStartup implements LifecycleListener {
   private final Groups groups;
 
   @Inject
-  public GrantDirectPushPermissionsOnStartup(
+  GrantDirectPushPermissionsOnStartup(
       AllProjectsName allProjects,
       MetaDataUpdate.Server metaDataUpdateFactory,
       ProjectConfig.Factory projectConfigFactory,
@@ -63,19 +63,17 @@ public class GrantDirectPushPermissionsOnStartup implements LifecycleListener {
 
   @Override
   public void start() {
-    try (RefUpdateContext ctx = openTestRefUpdateContext()) {
-      try (MetaDataUpdate metaDataUpdate = metaDataUpdateFactory.create(allProjects)) {
-        ProjectConfig projectConfig = projectConfigFactory.read(metaDataUpdate);
-        GroupReference adminGroupRef = findAdminGroup().orElseThrow();
-        adminGroupRef = projectConfig.resolve(adminGroupRef);
-        PermissionRule.Builder rule = PermissionRule.builder(adminGroupRef);
-        rule.setAction(Action.ALLOW);
-        projectConfig.upsertAccessSection(
-            RefNames.REFS_HEADS + "*", as -> as.upsertPermission(Permission.PUSH).add(rule));
-        projectConfig.upsertAccessSection(
-            RefNames.REFS_CONFIG, as -> as.upsertPermission(Permission.PUSH).add(rule));
-        projectConfig.commit(metaDataUpdate);
-      }
+    try (RefUpdateContext ctx = openTestRefUpdateContext();
+        MetaDataUpdate metaDataUpdate = metaDataUpdateFactory.create(allProjects)) {
+      ProjectConfig projectConfig = projectConfigFactory.read(metaDataUpdate);
+      GroupReference adminGroupRef = findAdminGroup().orElseThrow();
+      adminGroupRef = projectConfig.resolve(adminGroupRef);
+      PermissionRule.Builder rule = PermissionRule.builder(adminGroupRef).setAction(Action.ALLOW);
+      projectConfig.upsertAccessSection(
+          RefNames.REFS_HEADS + "*", as -> as.upsertPermission(Permission.PUSH).add(rule));
+      projectConfig.upsertAccessSection(
+          RefNames.REFS_CONFIG, as -> as.upsertPermission(Permission.PUSH).add(rule));
+      projectConfig.commit(metaDataUpdate);
     } catch (IOException | ConfigInvalidException e) {
       throw new IllegalStateException(
           "Unable to assign direct push permissions, tests may fail", e);

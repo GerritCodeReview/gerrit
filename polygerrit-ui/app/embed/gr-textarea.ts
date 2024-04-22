@@ -194,19 +194,20 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
 
         .editableDiv {
           background-color: var(--input-field-bg, white);
-          border: 2px solid var(--onedev-textarea-border-color, white);
+          border: var(--gr-textarea-border-width, 2px) solid
+            var(--gr-textarea-border-color, white);
           border-radius: 4px;
           box-sizing: border-box;
           color: var(--text-default, black);
-          max-height: var(--onedev-textarea-max-height, 16em);
-          min-height: var(--onedev-textarea-min-height, 4em);
+          max-height: var(--gr-textarea-max-height, 16em);
+          min-height: var(--gr-textarea-min-height, 4em);
           overflow-x: auto;
-          padding: 12px;
+          padding: var(--gr-textarea-padding, 12px);
           white-space: pre-wrap;
           width: 100%;
 
           &:focus-visible {
-            border-color: var(--onedev-textarea-focus-outline-color, black);
+            border-color: var(--gr-textarea-focus-outline-color, black);
             outline: none;
           }
 

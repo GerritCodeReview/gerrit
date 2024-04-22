@@ -31,3 +31,39 @@ declare global {
     };
   }
 }
+
+/** <gr-textarea> input event */
+export declare interface InputEventDetail {
+  value: string;
+}
+
+/** <gr-textarea> event for current cursor position */
+export declare interface CursorPositionChangeEventDetail {
+  position: number;
+}
+
+/** <gr-textarea> event when showing a hint */
+export declare interface HintShownEventDetail {
+  hint: string;
+}
+
+/** <gr-textarea> event when a hint was dismissed */
+export declare interface HintDismissedEventDetail {
+  hint: string;
+}
+
+/** <gr-textarea> event when a hint was applied */
+export declare interface HintAppliedEventDetail {
+  hint: string;
+  oldValue: string;
+}
+
+/** <gr-textarea> interface that external users can rely on */
+export declare interface GrTextarea extends HTMLElement {
+  value?: string;
+  nativeElement?: HTMLElement;
+  placeholder?: string;
+  placeholderHint?: string;
+  hint?: string;
+  setRangeText: (replacement: string, start: number, end: number) => void;
+}

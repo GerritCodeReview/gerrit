@@ -22,6 +22,30 @@
       },
       "revId": "047307385a39b0c8e9580cf6aaa79c00e265c474",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "02222149_6e0efd59",
+        "filename": "package.json",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-04-22T14:05:27Z",
+      "side": 1,
+      "message": "I\u0027ve improved things by using https://github.com/GerritCodeReview/gerrit-ci-scripts/blob/23744347f246c66a8cf95f47bbd04f142703b236/jenkins/gerrit-codestyle-gjf.sh#L7 and changing it to fit our needs.\n\nAlso created a direct shell script so people don\u0027t need to use npm if they don\u0027t want to.",
+      "parentUuid": "8aa3092b_360652f1",
+      "range": {
+        "startLine": 42,
+        "startChar": 163,
+        "endLine": 42,
+        "endChar": 166
+      },
+      "revId": "047307385a39b0c8e9580cf6aaa79c00e265c474",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

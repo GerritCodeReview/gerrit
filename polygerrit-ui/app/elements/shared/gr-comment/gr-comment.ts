@@ -1377,7 +1377,7 @@ export class GrComment extends LitElement {
         // comment to become visible soonish. If that does not happen, then we
         // will be waiting indefinitely and grab focus at some point in the
         // distant future.
-        whenVisible(this, () => this.textarea?.putCursorAtEnd());
+        whenVisible(this, () => this.textarea?.wrapper.putCursorAtEnd());
       }
     }
     if (

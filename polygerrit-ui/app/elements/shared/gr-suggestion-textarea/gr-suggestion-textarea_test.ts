@@ -13,17 +13,39 @@ import {
 import {
   mockPromise,
   pressKey,
+  stubFlags,
   stubRestApi,
   waitUntil,
 } from '../../../test/test-utils';
 import {fixture, html, assert} from '@open-wc/testing';
 import {createAccountWithEmail} from '../../../test/test-data-generators';
 import {Key} from '../../../utils/dom-util';
+import {KnownExperimentId} from '../../../services/flags/flags';
 
-suite('gr-suggestion-textarea tests', () => {
+suite('gr-suggestion-textarea tests with <gr-textarea>', () =>
+  createSuite(true)
+);
+
+suite('gr-suggestion-textarea tests with <iron-autogrow-textarea>', () =>
+  createSuite(false)
+);
+
+function createSuite(grTextareaEnabled: boolean) {
   let element: GrSuggestionTextarea;
 
+  const setText = async (text: string) => {
+    element.text = text;
+    await element.updateComplete;
+    await element.textarea!.updateComplete;
+    element.wrapper.setCursorPosition(text.length);
+    element.handleTextChanged();
+    await element.updateComplete;
+  };
+
   setup(async () => {
+    stubFlags('isEnabled')
+      .withArgs(KnownExperimentId.GR_TEXTAREA)
+      .returns(grTextareaEnabled);
     element = await fixture<GrSuggestionTextarea>(
       html`<gr-suggestion-textarea></gr-suggestion-textarea>`
     );
@@ -32,6 +54,18 @@ suite('gr-suggestion-textarea tests', () => {
   });
 
   test('renders', () => {
+    const textareaHtml = grTextareaEnabled
+      ? /* HTML */ `
+          <gr-textarea putcursoratendonfocus id="textarea"> </gr-textarea>
+        `
+      : /* HTML */ `
+          <iron-autogrow-textarea
+            aria-disabled="false"
+            focused=""
+            id="textarea"
+          >
+          </iron-autogrow-textarea>
+        `;
     assert.shadowDom.equal(
       element,
       /* HTML */ `<div id="hiddenText"></div>
@@ -44,8 +78,7 @@ suite('gr-suggestion-textarea tests', () => {
           role="listbox"
         >
         </gr-autocomplete-dropdown>
-        <iron-autogrow-textarea aria-disabled="false" focused="" id="textarea">
-        </iron-autogrow-textarea>`,
+        ${textareaHtml}`,
       {
         // gr-autocomplete-dropdown sizing seems to vary between local & CI
         ignoreAttributes: [
@@ -68,17 +101,14 @@ suite('gr-suggestion-textarea tests', () => {
         ])
       );
       element.textarea!.focus();
-      await waitUntil(() => element.textarea!.focused === true);
-
-      element.textarea!.selectionStart = 1;
-      element.textarea!.selectionEnd = 1;
-      element.text = '@';
+      await waitUntil(() => element.wrapper.isFocused() === true);
+      await setText('@');
 
       await waitUntil(() => element.suggestions.length > 0);
       await element.updateComplete;
 
       assert.equal(listenerStub.lastCall.args[0].detail.value, '@');
-      assert.isTrue(element.textarea!.focused);
+      assert.isTrue(element.wrapper.isFocused());
 
       assert.isTrue(element.emojiSuggestions!.isHidden);
       assert.isFalse(element.mentionsSuggestions!.isHidden);
@@ -87,8 +117,7 @@ suite('gr-suggestion-textarea tests', () => {
       assert.isFalse(element.mentionsSuggestions!.isHidden);
       assert.equal(element.currentSearchString, '');
 
-      element.text = '@abc@google.com';
-      await element.updateComplete;
+      await setText('@abc@google.com');
 
       assert.equal(element.currentSearchString, 'abc@google.com');
       assert.equal(element.specialCharIndex, 0);
@@ -106,11 +135,9 @@ suite('gr-suggestion-textarea tests', () => {
         ])
       );
       element.textarea!.focus();
-      await waitUntil(() => element.textarea!.focused === true);
+      await waitUntil(() => element.wrapper.isFocused() === true);
 
-      element.textarea!.selectionStart = 1;
-      element.textarea!.selectionEnd = 1;
-      element.text = '\n@';
+      await setText('\n@');
 
       await waitUntil(() => element.suggestions.length > 0);
       await element.updateComplete;
@@ -134,14 +161,12 @@ suite('gr-suggestion-textarea tests', () => {
       const promise = mockPromise<Item[]>();
       stubRestApi('queryAccounts').returns(promise);
       element.textarea!.focus();
-      await waitUntil(() => element.textarea!.focused === true);
+      await waitUntil(() => element.wrapper.isFocused() === true);
 
       element.suggestions = [
         {dataValue: 'prior@google.com', text: 'Prior suggestion'},
       ];
-      element.textarea!.selectionStart = 1;
-      element.textarea!.selectionEnd = 1;
-      element.text = '@';
+      await setText('@');
 
       await element.updateComplete;
       assert.equal(element.suggestions.length, 0);
@@ -169,16 +194,13 @@ suite('gr-suggestion-textarea tests', () => {
       const suggestionStub = stubRestApi('queryAccounts');
       suggestionStub.returns(promise1);
       element.textarea!.focus();
-      await waitUntil(() => element.textarea!.focused === true);
+      await waitUntil(() => element.wrapper.isFocused() === true);
 
-      element.textarea!.selectionStart = 1;
-      element.textarea!.selectionEnd = 1;
-      element.text = '@';
-      await element.updateComplete;
+      await setText('@');
       assert.equal(element.currentSearchString, '');
 
       suggestionStub.returns(promise2);
-      element.text = '@abc@google.com';
+      await setText('@abc@google.com');
       // None of suggestions returned yet.
       assert.equal(element.suggestions.length, 0);
       await element.updateComplete;
@@ -231,11 +253,9 @@ suite('gr-suggestion-textarea tests', () => {
       );
 
       element.textarea!.focus();
-      await waitUntil(() => element.textarea!.focused === true);
+      await waitUntil(() => element.wrapper.isFocused() === true);
 
-      element.textarea!.selectionStart = 1;
-      element.textarea!.selectionEnd = 1;
-      element.text = '@';
+      await setText('@');
 
       await waitUntil(() => element.suggestions.length > 0);
       await element.updateComplete;
@@ -255,7 +275,6 @@ suite('gr-suggestion-textarea tests', () => {
     test('emoji dropdown does not open if mention dropdown is open', async () => {
       const listenerStub = sinon.stub();
       element.addEventListener('text-changed', listenerStub);
-      const resetSpy = sinon.spy(element, 'resetDropdown');
       stubRestApi('queryAccounts').returns(
         Promise.resolve([
           createAccountWithEmail('abc@google.com'),
@@ -263,11 +282,9 @@ suite('gr-suggestion-textarea tests', () => {
         ])
       );
       element.textarea!.focus();
-      await waitUntil(() => element.textarea!.focused === true);
+      await waitUntil(() => element.wrapper.isFocused() === true);
 
-      element.textarea!.selectionStart = 1;
-      element.textarea!.selectionEnd = 1;
-      element.text = '@';
+      await setText('@');
       element.suggestions = [
         {
           name: 'a',
@@ -277,30 +294,28 @@ suite('gr-suggestion-textarea tests', () => {
       await waitUntil(() => element.suggestions.length > 0);
       await element.updateComplete;
 
-      assert.isFalse(resetSpy.called);
-
       assert.isTrue(element.emojiSuggestions!.isHidden);
       assert.isFalse(element.mentionsSuggestions!.isHidden);
 
-      element.text = '@h';
+      await setText('@h');
       await waitUntil(() => element.suggestions.length > 0);
       await element.updateComplete;
       assert.isTrue(element.emojiSuggestions!.isHidden);
       assert.isFalse(element.mentionsSuggestions!.isHidden);
 
-      element.text = '@h';
+      await setText('@h');
       await waitUntil(() => element.suggestions.length > 0);
       await element.updateComplete;
       assert.isTrue(element.emojiSuggestions!.isHidden);
       assert.isFalse(element.mentionsSuggestions!.isHidden);
 
-      element.text = '@h:';
+      await setText('@h:');
       await waitUntil(() => element.suggestions.length > 0);
       await element.updateComplete;
       assert.isTrue(element.emojiSuggestions!.isHidden);
       assert.isFalse(element.mentionsSuggestions!.isHidden);
 
-      element.text = '@h:D';
+      await setText('@h:D');
       await waitUntil(() => element.suggestions.length > 0);
       await element.updateComplete;
       assert.isTrue(element.emojiSuggestions!.isHidden);
@@ -311,11 +326,9 @@ suite('gr-suggestion-textarea tests', () => {
       const listenerStub = sinon.stub();
       element.addEventListener('text-changed', listenerStub);
       element.textarea!.focus();
-      await waitUntil(() => element.textarea!.focused === true);
+      await waitUntil(() => element.wrapper.isFocused() === true);
 
-      element.textarea!.selectionStart = 1;
-      element.textarea!.selectionEnd = 1;
-      element.text = ':';
+      await setText(':');
       element.suggestions = [
         {
           name: 'a',
@@ -327,23 +340,23 @@ suite('gr-suggestion-textarea tests', () => {
       assert.isFalse(element.emojiSuggestions!.isHidden);
       assert.isTrue(element.mentionsSuggestions!.isHidden);
 
-      element.text = ':D';
+      await setText(':D');
       await element.updateComplete;
       assert.isFalse(element.emojiSuggestions!.isHidden);
       assert.isTrue(element.mentionsSuggestions!.isHidden);
 
-      element.text = ':D@';
+      await setText(':D@');
       await element.updateComplete;
       // emoji dropdown hidden since we have no more suggestions
       assert.isFalse(element.emojiSuggestions!.isHidden);
       assert.isTrue(element.mentionsSuggestions!.isHidden);
 
-      element.text = ':D@b';
+      await setText(':D@b');
       await element.updateComplete;
       assert.isFalse(element.emojiSuggestions!.isHidden);
       assert.isTrue(element.mentionsSuggestions!.isHidden);
 
-      element.text = ':D@b ';
+      await setText(':D@b ');
       await element.updateComplete;
       assert.isTrue(element.emojiSuggestions!.isHidden);
       assert.isTrue(element.mentionsSuggestions!.isHidden);
@@ -358,11 +371,9 @@ suite('gr-suggestion-textarea tests', () => {
       );
 
       element.textarea!.focus();
-      await waitUntil(() => element.textarea!.focused === true);
+      await waitUntil(() => element.wrapper.isFocused() === true);
 
-      element.textarea!.selectionStart = 1;
-      element.textarea!.selectionEnd = 1;
-      element.text = '@';
+      await setText('@');
 
       await waitUntil(() => element.suggestions.length > 0);
       await element.updateComplete;
@@ -387,8 +398,7 @@ suite('gr-suggestion-textarea tests', () => {
     // by default textarea has focus when rendered
     // explicitly remove focus from the element for the test
     element.blur();
-    element.textarea!.selectionStart = 1;
-    element.textarea!.selectionEnd = 1;
+    element.wrapper.setCursorPosition(1);
     element.text = ':';
     await element.updateComplete;
     assert.isTrue(element.emojiSuggestions!.isHidden);
@@ -396,9 +406,8 @@ suite('gr-suggestion-textarea tests', () => {
 
   test('emoji selector is not open when a general text is entered', async () => {
     element.textarea!.focus();
-    await waitUntil(() => element.textarea!.focused === true);
-    element.textarea!.selectionStart = 9;
-    element.textarea!.selectionEnd = 9;
+    await waitUntil(() => element.wrapper.isFocused() === true);
+    element.wrapper.setCursorPosition(9);
     element.text = 'some text';
     await element.updateComplete;
     assert.isTrue(element.emojiSuggestions!.isHidden);
@@ -410,13 +419,13 @@ suite('gr-suggestion-textarea tests', () => {
     const listenerStub = sinon.stub();
     element.addEventListener('text-changed', listenerStub);
     element.textarea!.focus();
-    await waitUntil(() => element.textarea!.focused === true);
-    element.textarea!.selectionStart = 1;
-    element.textarea!.selectionEnd = 1;
-    element.text = ':';
-    await element.updateComplete;
+    await waitUntil(() => element.wrapper.isFocused() === true);
+    await setText(':');
     assert.equal(listenerStub.lastCall.args[0].detail.value, ':');
-    assert.isTrue(element.textarea!.focused);
+    assert.isTrue(element.wrapper.isFocused());
+    await element.updateComplete;
+    await element.textarea!.updateComplete;
+    await element.emojiSuggestions!.updateComplete;
     assert.isFalse(element.emojiSuggestions!.isHidden);
     assert.equal(element.specialCharIndex, 0);
     assert.isTrue(!element.emojiSuggestions!.isHidden);
@@ -425,13 +434,8 @@ suite('gr-suggestion-textarea tests', () => {
 
   test('emoji selector opens when a colon is typed after space', async () => {
     element.textarea!.focus();
-    await waitUntil(() => element.textarea!.focused === true);
-    // Needed for Safari tests. selectionStart is not updated when text is
-    // updated.
-    element.textarea!.selectionStart = 2;
-    element.textarea!.selectionEnd = 2;
-    element.text = ' :';
-    await element.updateComplete;
+    await waitUntil(() => element.wrapper.isFocused() === true);
+    await setText(' :');
     assert.isFalse(element.emojiSuggestions!.isHidden);
     assert.equal(element.specialCharIndex, 1);
     assert.isTrue(!element.emojiSuggestions!.isHidden);
@@ -440,30 +444,17 @@ suite('gr-suggestion-textarea tests', () => {
 
   test('emoji selector doesn`t open when a colon is typed after character', async () => {
     element.textarea!.focus();
-    await waitUntil(() => element.textarea!.focused === true);
-    // Needed for Safari tests. selectionStart is not updated when text is
-    // updated.
-    element.textarea!.selectionStart = 5;
-    element.textarea!.selectionEnd = 5;
-    element.text = 'test:';
-    await element.updateComplete;
+    await waitUntil(() => element.wrapper.isFocused() === true);
+    await setText('test:');
     assert.isTrue(element.emojiSuggestions!.isHidden);
     assert.isTrue(element.emojiSuggestions!.isHidden);
   });
 
   test('emoji selector opens when a colon is typed and some substring', async () => {
     element.textarea!.focus();
-    await waitUntil(() => element.textarea!.focused === true);
-    // Needed for Safari tests. selectionStart is not updated when text is
-    // updated.
-    element.textarea!.selectionStart = 1;
-    element.textarea!.selectionEnd = 1;
-    element.text = ':';
-    await element.updateComplete;
-    element.textarea!.selectionStart = 2;
-    element.textarea!.selectionEnd = 2;
-    element.text = ':t';
-    await element.updateComplete;
+    await waitUntil(() => element.wrapper.isFocused() === true);
+    await setText(':');
+    await setText(':t');
     assert.isFalse(element.emojiSuggestions!.isHidden);
     assert.equal(element.specialCharIndex, 0);
     assert.isTrue(!element.emojiSuggestions!.isHidden);
@@ -474,19 +465,11 @@ suite('gr-suggestion-textarea tests', () => {
     element.textarea!.focus();
     // Needed for Safari tests. selectionStart is not updated when text is
     // updated.
-    element.textarea!.selectionStart = 1;
-    element.textarea!.selectionEnd = 1;
+    element.wrapper.setCursorPosition(1);
     // Since selectionStart is on Chrome set always on end of text, we
     // stub it to 1
     const text = ': hello';
-    sinon.stub(element, 'textarea').value({
-      selectionStart: 1,
-      value: text,
-      focused: true,
-      textarea: {
-        focus: () => {},
-      },
-    });
+    sinon.stub(element.wrapper, 'getCursorPosition').returns(1);
     element.text = text;
     await element.updateComplete;
     assert.isFalse(element.emojiSuggestions!.isHidden);
@@ -497,25 +480,14 @@ suite('gr-suggestion-textarea tests', () => {
 
   test('emoji selector closes when text changes before the colon', async () => {
     element.textarea!.focus();
-    await waitUntil(() => element.textarea!.focused === true);
-    await element.updateComplete;
-    element.textarea!.selectionStart = 10;
-    element.textarea!.selectionEnd = 10;
-    element.text = 'test test ';
-    await element.updateComplete;
-    element.textarea!.selectionStart = 12;
-    element.textarea!.selectionEnd = 12;
-
-    element.text = 'test test :';
-    await element.updateComplete;
+    await waitUntil(() => element.wrapper.isFocused() === true);
+    await setText('test test ');
+    await setText('test test :');
 
     // typing : opens the selector
     assert.isFalse(element.emojiSuggestions!.isHidden);
 
-    element.textarea!.selectionStart = 15;
-    element.textarea!.selectionEnd = 15;
-    element.text = 'test test :smi';
-    await element.updateComplete;
+    await setText('test test :smi');
 
     assert.equal(element.currentSearchString, 'smi');
     assert.isFalse(element.emojiSuggestions!.isHidden);
@@ -573,10 +545,12 @@ suite('gr-suggestion-textarea tests', () => {
   });
 
   test('handleDropdownItemSelect', async () => {
-    element.textarea!.selectionStart = 16;
-    element.textarea!.selectionEnd = 16;
     element.text = 'test test :tears';
+    await element.updateComplete;
+    await element.textarea!.updateComplete;
+    element.wrapper.setCursorPosition(16);
     element.specialCharIndex = 10;
+    element.handleTextChanged();
     await element.updateComplete;
     const selectedItem = {dataset: {value: '😂'}} as unknown as HTMLElement;
     const event = new CustomEvent<ItemSelectedEventDetail>('item-selected', {
@@ -587,46 +561,37 @@ suite('gr-suggestion-textarea tests', () => {
 
     // wait for reset dropdown to finish
     await waitUntil(() => element.specialCharIndex === -1);
-    element.textarea!.selectionStart = 16;
-    element.textarea!.selectionEnd = 16;
     element.text = 'test test :tears';
-    element.specialCharIndex = 10;
     await element.updateComplete;
+    await element.textarea!.updateComplete;
+    element.wrapper.setCursorPosition(16);
+    await element.updateComplete;
+    element.specialCharIndex = 10;
+    element.handleTextChanged();
     // move the cursor to the left while the suggestion popup is open
-    element.textarea!.selectionStart = 0;
+    element.wrapper.setCursorPosition(0);
     element.handleDropdownItemSelect(event);
     assert.equal(element.text, 'test test 😂');
 
     // wait for reset dropdown to finish
     await waitUntil(() => element.specialCharIndex === -1);
-    element.textarea!.selectionStart = 16;
-    element.textarea!.selectionEnd = 16;
+    element.wrapper.setCursorPosition(16);
     const text = 'test test :tears happy';
     // Since selectionStart is on Chrome set always on end of text, we
     // stub it to 16
-    const stub = sinon.stub(element, 'textarea').value({
-      selectionStart: 16,
-      value: text,
-      focused: true,
-      textarea: {
-        focus: () => {},
-      },
-    });
+    const stub = sinon.stub(element.wrapper, 'getCursorPosition').returns(16);
     element.text = text;
     element.specialCharIndex = 10;
     await element.updateComplete;
     stub.restore();
     // move the cursor to the right while the suggestion popup is open
-    element.textarea!.selectionStart = 22;
+    element.wrapper.setCursorPosition(22);
     element.handleDropdownItemSelect(event);
     assert.equal(element.text, 'test test 😂 happy');
   });
 
   test('updateCaratPosition', async () => {
-    element.textarea!.selectionStart = 4;
-    element.textarea!.selectionEnd = 4;
-    element.text = 'test';
-    await element.updateComplete;
+    await setText('test');
     element.updateCaratPosition();
     assert.deepEqual(
       element.hiddenText!.innerHTML,
@@ -636,7 +601,7 @@ suite('gr-suggestion-textarea tests', () => {
 
   test('newline receives matching indentation', async () => {
     const indentCommand = sinon.stub(document, 'execCommand');
-    element.textarea!.value = '    a';
+    await setText('    a');
     element.handleEnterByKey(new KeyboardEvent('keydown', {key: 'Enter'}));
     await element.updateComplete;
     assert.deepEqual(indentCommand.args[0], ['insertText', false, '\n    ']);
@@ -655,24 +620,11 @@ suite('gr-suggestion-textarea tests', () => {
   });
 
   suite('keyboard shortcuts', async () => {
-    async function setupDropdown() {
-      element.textarea!.focus();
-      element.textarea!.selectionStart = 1;
-      element.textarea!.selectionEnd = 1;
-      element.text = ':';
-      await element.updateComplete;
-      element.textarea!.selectionStart = 1;
-      element.textarea!.selectionEnd = 2;
-      element.text = ':1';
-      await element.emojiSuggestions!.updateComplete;
-      await element.updateComplete;
-    }
-
     test('escape key', async () => {
       const resetSpy = sinon.spy(element, 'resetDropdown');
       pressKey(element.textarea! as HTMLElement, Key.ESC);
       assert.isFalse(resetSpy.called);
-      await setupDropdown();
+      await setText(':1');
       pressKey(element.textarea! as HTMLElement, Key.ESC);
       assert.isTrue(resetSpy.called);
       assert.isTrue(element.emojiSuggestions!.isHidden);
@@ -682,7 +634,7 @@ suite('gr-suggestion-textarea tests', () => {
       const upSpy = sinon.spy(element.emojiSuggestions!, 'cursorUp');
       pressKey(element.textarea! as HTMLElement, 'ArrowUp');
       assert.isFalse(upSpy.called);
-      await setupDropdown();
+      await setText(':1');
       pressKey(element.textarea! as HTMLElement, 'ArrowUp');
       assert.isTrue(upSpy.called);
     });
@@ -691,7 +643,7 @@ suite('gr-suggestion-textarea tests', () => {
       const downSpy = sinon.spy(element.emojiSuggestions!, 'cursorDown');
       pressKey(element.textarea! as HTMLElement, 'ArrowDown');
       assert.isFalse(downSpy.called);
-      await setupDropdown();
+      await setText(':1');
       pressKey(element.textarea! as HTMLElement, 'ArrowDown');
       assert.isTrue(downSpy.called);
     });
@@ -700,7 +652,7 @@ suite('gr-suggestion-textarea tests', () => {
       const enterSpy = sinon.spy(element.emojiSuggestions!, 'getCursorTarget');
       pressKey(element.textarea! as HTMLElement, Key.ENTER);
       assert.isFalse(enterSpy.called);
-      await setupDropdown();
+      await setText(':1');
       pressKey(element.textarea! as HTMLElement, Key.ENTER);
       assert.isTrue(enterSpy.called);
       await element.updateComplete;
@@ -737,4 +689,4 @@ suite('gr-suggestion-textarea tests', () => {
       assert.isTrue(element.textarea!.classList.contains('noBorder'));
     });
   });
-});
+}

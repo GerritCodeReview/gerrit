@@ -58,6 +58,11 @@ const ALL_SUGGESTIONS: EmojiSuggestion[] = [
   {value: '😜', match: 'winking tongue ;)'},
 ];
 
+/** Allows us to swap out <iron-autogrow-textare> for <gr-textarea>. */
+interface TextAreaWrapper {
+  match: string;
+}
+
 export interface EmojiSuggestion extends Item {
   match: string;
 }
@@ -206,6 +211,15 @@ export class GrSuggestionTextarea extends LitElement {
         #textarea {
           background-color: var(--view-background-color);
           width: 100%;
+          color: var(--primary-text-color);
+          border: 1px solid var(--border-color);
+          border-radius: var(--border-radius);
+          padding: 0;
+          box-sizing: border-box;
+          position: relative;
+          --onedev-textarea-padding: var(--spacing-m);
+          --onedev-textarea-border-width: 0px;
+          --iron-autogrow-textarea_-_padding: var(--spacing-m);
         }
         #hiddenText #emojiSuggestions {
           visibility: visible;

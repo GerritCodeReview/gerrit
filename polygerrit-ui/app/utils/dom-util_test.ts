@@ -309,6 +309,14 @@ suite('dom-util tests', () => {
       });
     });
 
+    test('suppress shortcut event from <div contenteditable>', async () => {
+      const el = document.createElement('div');
+      el.setAttribute('contenteditable', '');
+      await keyEventOn(el, e => {
+        assert.isTrue(shouldSuppress(e));
+      });
+    });
+
     test('suppress shortcut event from <input>', async () => {
       await keyEventOn(document.createElement('input'), e => {
         assert.isTrue(shouldSuppress(e));
@@ -317,6 +325,12 @@ suite('dom-util tests', () => {
 
     test('suppress shortcut event from <textarea>', async () => {
       await keyEventOn(document.createElement('textarea'), e => {
+        assert.isTrue(shouldSuppress(e));
+      });
+    });
+
+    test('suppress shortcut event from <gr-textarea>', async () => {
+      await keyEventOn(document.createElement('gr-textarea'), e => {
         assert.isTrue(shouldSuppress(e));
       });
     });

@@ -89,9 +89,9 @@ public class IndexServletTest {
     assertThat(output)
         .contains(
             "window.INITIAL_DATA = JSON.parse("
-                + "'\\x7b\\x22\\/config\\/server\\/version\\x22: \\x22123\\x22, "
-                + "\\x22\\/config\\/server\\/info\\x22: \\x7b\\x22default_theme\\x22:"
-                + "\\x22my-default-theme\\x22\\x7d, \\x22\\/config\\/server\\/top-menus\\x22: "
+                + "'\\x7b\\x22\\/foo-url\\/config\\/server\\/version\\x22: \\x22123\\x22, "
+                + "\\x22\\/foo-url\\/config\\/server\\/info\\x22: \\x7b\\x22default_theme\\x22:"
+                + "\\x22my-default-theme\\x22\\x7d, \\x22\\/foo-url\\/config\\/server\\/top-menus\\x22: "
                 + "\\x5b\\x5d\\x7d');");
     ImmutableSet<String> enabledDefaults =
         ExperimentFeaturesConstants.DEFAULT_ENABLED_FEATURES.stream()

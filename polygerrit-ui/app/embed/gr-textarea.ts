@@ -7,6 +7,13 @@ import {LitElement, html, css} from 'lit';
 import {customElement, property, query, queryAsync} from 'lit/decorators.js';
 import {classMap} from 'lit/directives/class-map.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
+import {
+  GrTextarea as GrTextareaApi,
+  HintAppliedEventDetail,
+  HintShownEventDetail,
+  HintDismissedEventDetail,
+  CursorPositionChangeEventDetail,
+} from '../api/embed';
 
 /**
  * Waits for the next animation frame.
@@ -33,35 +40,6 @@ function supportsPlainTextEditing() {
   }
 }
 
-/** Input custom event detail object. */
-export interface InputEventDetail {
-  value: string;
-}
-
-/** Cursor position change custom event detail object.
- *
- * The current position of the cursor.
- */
-export interface CursorPositionChangeEventDetail {
-  position: number;
-}
-
-/** hint shown custom event detail object */
-export interface HintShownEventDetail {
-  hint: string;
-}
-
-/** hint dismissed custom event detail object */
-export interface HintDismissedEventDetail {
-  hint: string;
-}
-
-/** hint applied custom event detail object */
-export interface HintAppliedEventDetail {
-  hint: string;
-  oldValue: string;
-}
-
 /** Class for autocomplete hint */
 export const AUTOCOMPLETE_HINT_CLASS = 'autocomplete-hint';
 
@@ -76,7 +54,7 @@ const ACCEPT_PLACEHOLDER_HINT_LABEL =
  * <gr-textarea></gr-textarea>
  */
 @customElement('gr-textarea')
-export class GrTextarea extends LitElement {
+export class GrTextarea extends LitElement implements GrTextareaApi {
   // editableDivElement is available right away where it may be undefined. This
   // is used for calls for scrollTop as if it is undefined then we can fallback
   // to 0. For other usecases use editableDiv.

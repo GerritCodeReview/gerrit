@@ -248,10 +248,12 @@ export class GrAutocompleteDropdown extends LitElement {
   }
 
   close() {
+    console.log(`${Date.now() % 100000} asdf autocomplete close`);
     this.isHidden = true;
   }
 
   open() {
+    console.log(`${Date.now() % 100000} asdf autocomplete open`);
     this.isHidden = false;
   }
 

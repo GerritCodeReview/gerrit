@@ -437,13 +437,16 @@ export function shouldSuppress(e: KeyboardEvent): boolean {
   if (!isElementTarget(rootTarget)) return false;
   const tagName = rootTarget.tagName;
   const type = rootTarget.getAttribute('type');
+  const editable = rootTarget.hasAttribute('contenteditable');
 
   if (
+    editable ||
     // Suppress shortcuts on <input> and <textarea>, but not on
     // checkboxes, because we want to enable workflows like 'click
     // mark-reviewed and then press ] to go to the next file'.
     (tagName === 'INPUT' && type !== 'checkbox') ||
     tagName === 'TEXTAREA' ||
+    tagName === 'GR-TEXTAREA' ||
     (e.key === 'Enter' &&
       (tagName === 'A' ||
         tagName === 'BUTTON' ||

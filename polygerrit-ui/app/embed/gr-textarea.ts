@@ -59,7 +59,7 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
   // is used for calls for scrollTop as if it is undefined then we can fallback
   // to 0. For other usecases use editableDiv.
   @query('.editableDiv')
-  private readonly editableDivElement?: HTMLDivElement;
+  public readonly editableDivElement?: HTMLDivElement;
 
   @queryAsync('.editableDiv')
   private readonly editableDiv?: Promise<HTMLDivElement>;
@@ -194,19 +194,20 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
 
         .editableDiv {
           background-color: var(--input-field-bg, white);
-          border: 2px solid var(--onedev-textarea-border-color, white);
+          border: var(--gr-textarea-border-width, 2px) solid
+            var(--gr-textarea-border-color, white);
           border-radius: 4px;
           box-sizing: border-box;
           color: var(--text-default, black);
-          max-height: var(--onedev-textarea-max-height, 16em);
-          min-height: var(--onedev-textarea-min-height, 4em);
+          max-height: var(--gr-textarea-max-height, 16em);
+          min-height: var(--gr-textarea-min-height, 4em);
           overflow-x: auto;
-          padding: 12px;
+          padding: var(--gr-textarea-padding, 12px);
           white-space: pre-wrap;
           width: 100%;
 
           &:focus-visible {
-            border-color: var(--onedev-textarea-focus-outline-color, black);
+            border-color: var(--gr-textarea-focus-outline-color, black);
             outline: none;
           }
 
@@ -531,7 +532,7 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
 
     const editableDivElement = await this.editableDiv;
     const currentValue = (await this.getValue()) ?? '';
-    const cursorPosition = await this.getCursorPosition();
+    const cursorPosition = await this.getCursorPositionAsync();
     if (
       !editableDivElement ||
       (this.placeholderHint && !currentValue) ||
@@ -604,7 +605,7 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
     this.dispatchEvent(
       new CustomEvent('cursorPositionChange', {
         detail: {
-          position: await this.getCursorPosition(),
+          position: await this.getCursorPositionAsync(),
         },
       })
     );
@@ -664,9 +665,17 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
     return [textValue, isLastBr];
   }
 
-  private async getCursorPosition() {
-    const selection = this.getSelection();
+  public getCursorPosition() {
+    return this.getCursorPositionForDiv(this.editableDivElement);
+  }
+
+  private async getCursorPositionAsync() {
     const editableDivElement = await this.editableDiv;
+    return this.getCursorPositionForDiv(editableDivElement);
+  }
+
+  private getCursorPositionForDiv(editableDivElement?: HTMLDivElement) {
+    const selection = this.getSelection();
 
     // Cursor position is -1 (not available) if
     //

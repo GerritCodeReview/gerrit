@@ -70,6 +70,30 @@
       },
       "revId": "03dea8c89ea358b80fede1fc5c5c50ea349421cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "153c5009_95988c7f",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1007145
+      },
+      "writtenOn": "2024-04-23T03:36:03Z",
+      "side": 1,
+      "message": "Ubuntu 16.04 (Xenial) ends in Apr 2026.  it has git-2.7.\n\nRHEL 7 ends in Jun 2028.  considering RHEL 7 was released in 2013, i\u0027m pretty sure they\u0027re shipping git-1.x ... i wonder if the script works with that even before this change.  i wonder if it really even works at all in the wider world.\n\nRHEL 8 was released in 2019, so hopefully we can assume it has newer than git-2.15 and we can forget about it.\n\nthat said, it seems like this was all predicted and already resolved.  look at https://gerrit-review.googlesource.com/c/263053 which called out git-2.15 issues in this script and that was merged in 2020.\n\nwe should add comments to the top of this file clearly documenting the expected version requirements, and what distros we\u0027re aiming to support.  in this case, Ubuntu LTS \u0026 RHEL are prob the only long lived things we need to consider.",
+      "parentUuid": "f7968bb8_d45d2f63",
+      "range": {
+        "startLine": 69,
+        "startChar": 26,
+        "endLine": 69,
+        "endChar": 33
+      },
+      "revId": "03dea8c89ea358b80fede1fc5c5c50ea349421cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

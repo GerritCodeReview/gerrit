@@ -3,11 +3,9 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {Subscription} from 'rxjs';
 import '@polymer/paper-tabs/paper-tab';
 import '@polymer/paper-tabs/paper-tabs';
 import '../gr-shell-command/gr-shell-command';
-import {getAppContext} from '../../../services/app-context';
 import {queryAndAssert} from '../../../utils/common-util';
 import {GrShellCommand} from '../gr-shell-command/gr-shell-command';
 import {paperStyles} from '../../../styles/gr-paper-styles';
@@ -18,6 +16,7 @@ import {fire} from '../../../utils/event-util';
 import {BindValueChangeEvent} from '../../../types/events';
 import {resolve} from '../../../models/dependency';
 import {userModelToken} from '../../../models/user/user-model';
+import {subscribe} from '../../lit/subscription-controller';
 
 declare global {
   interface HTMLElementEventMap {
@@ -55,35 +54,27 @@ export class GrDownloadCommands extends LitElement {
   @property({type: Boolean, attribute: 'show-keyboard-shortcut-tooltips'})
   showKeyboardShortcutTooltips = false;
 
-  private readonly restApiService = getAppContext().restApiService;
-
   // Private but used in tests.
   readonly getUserModel = resolve(this, userModelToken);
 
-  private subscriptions: Subscription[] = [];
-
-  override connectedCallback() {
-    super.connectedCallback();
-    this.restApiService.getLoggedIn().then(loggedIn => {
-      this.loggedIn = loggedIn;
-    });
-    this.subscriptions.push(
-      this.getUserModel().preferences$.subscribe(prefs => {
+  constructor() {
+    super();
+    subscribe(
+      this,
+      () => this.getUserModel().loggedIn$,
+      x => (this.loggedIn = x)
+    );
+    subscribe(
+      this,
+      () => this.getUserModel().preferences$,
+      prefs => {
         if (prefs?.download_scheme) {
           // Note (issue 5180): normalize the download scheme with lower-case.
           this.selectedScheme = prefs.download_scheme.toLowerCase();
           fire(this, 'selected-scheme-changed', {value: this.selectedScheme});
         }
-      })
+      }
     );
-  }
-
-  override disconnectedCallback() {
-    for (const s of this.subscriptions) {
-      s.unsubscribe();
-    }
-    this.subscriptions = [];
-    super.disconnectedCallback();
   }
 
   static override get styles() {

@@ -50,6 +50,9 @@ import {resolve} from '../../../models/dependency';
 import {createChangeUrl} from '../../../models/views/change';
 import {fire} from '../../../utils/event-util';
 import {ChangeMessageDeletedEventDetail} from '../../../types/events';
+import {configModelToken} from '../../../models/config/config-model';
+import {userModelToken} from '../../../models/user/user-model';
+import {subscribe} from '../../lit/subscription-controller';
 
 const UPLOADED_NEW_PATCHSET_PATTERN = /Uploaded patch set (\d+)./;
 const MERGED_PATCHSET_PATTERN = /(\d+) is the latest approved patch-set/;
@@ -97,9 +100,6 @@ export class GrMessage extends LitElement {
     return this.message?.author || this.message?.updated_by;
   }
 
-  @property({type: Object})
-  config?: ServerInfo;
-
   @property({type: Boolean})
   hideAutomated = false;
 
@@ -110,11 +110,14 @@ export class GrMessage extends LitElement {
   @property({type: Object})
   labelExtremes?: LabelExtreme;
 
-  @property({type: Boolean})
+  @state()
   loggedIn = false;
 
   @state()
-  private isAdmin = false;
+  config?: ServerInfo;
+
+  @state()
+  isAdmin = false;
 
   @state()
   private isDeletingChangeMsg = false;
@@ -123,22 +126,28 @@ export class GrMessage extends LitElement {
 
   private readonly getNavigation = resolve(this, navigationToken);
 
+  private readonly getConfigModel = resolve(this, configModelToken);
+
+  private readonly getUserModel = resolve(this, userModelToken);
+
   constructor() {
     super();
     this.addEventListener('click', e => this.handleClick(e));
-  }
-
-  override connectedCallback() {
-    super.connectedCallback();
-    this.restApiService.getConfig().then(config => {
-      this.config = config;
-    });
-    this.restApiService.getLoggedIn().then(loggedIn => {
-      this.loggedIn = loggedIn;
-    });
-    this.restApiService.getIsAdmin().then(isAdmin => {
-      this.isAdmin = !!isAdmin;
-    });
+    subscribe(
+      this,
+      () => this.getConfigModel().serverConfig$,
+      x => (this.config = x)
+    );
+    subscribe(
+      this,
+      () => this.getUserModel().loggedIn$,
+      x => (this.loggedIn = x)
+    );
+    subscribe(
+      this,
+      () => this.getUserModel().isAdmin$,
+      x => (this.isAdmin = x)
+    );
   }
 
   static override get styles() {

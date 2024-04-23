@@ -30,6 +30,7 @@ import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {fire} from '../../../utils/event-util';
 import {Interaction, Timing} from '../../../constants/reporting';
 import {createChangeUrl} from '../../../models/views/change';
+import {getFileExtension} from '../../../utils/file-util';
 
 declare global {
   interface HTMLElementEventMap {
@@ -343,6 +344,9 @@ export class GrSuggestionDiffPreview extends LitElement {
     this.reporting.timeEnd(Timing.APPLY_FIX_LOAD, {
       method: '1-click',
       description: fixSuggestion.description,
+      fileExtension: getFileExtension(
+        fixSuggestion?.replacements?.[0].path ?? ''
+      ),
     });
     if (res?.ok) {
       this.getNavigation().setUrl(

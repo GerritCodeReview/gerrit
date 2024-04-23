@@ -41,6 +41,7 @@ import {fireReload} from '../../../utils/event-util';
 import {when} from 'lit/directives/when.js';
 import {Timing} from '../../../constants/reporting';
 import {changeModelToken} from '../../../models/change/change-model';
+import {getFileExtension} from '../../../utils/file-util';
 
 export interface FilePreview {
   filepath: string;
@@ -441,6 +442,9 @@ export class GrApplyFixDialog extends LitElement {
     this.reporting.timeEnd(Timing.APPLY_FIX_LOAD, {
       method: 'apply-fix-dialog',
       description: this.fixSuggestions?.[0].description,
+      fileExtension: getFileExtension(
+        this.fixSuggestions?.[0].replacements?.[0].path ?? ''
+      ),
     });
   }
 }

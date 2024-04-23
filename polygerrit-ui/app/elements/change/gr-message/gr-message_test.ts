@@ -49,8 +49,8 @@ suite('gr-message tests', () => {
 
   suite('when admin and logged in', () => {
     setup(async () => {
-      stubRestApi('getIsAdmin').returns(Promise.resolve(true));
       element = await fixture<GrMessage>(html`<gr-message></gr-message>`);
+      element.isAdmin = true;
     });
 
     test('can see delete button', async () => {

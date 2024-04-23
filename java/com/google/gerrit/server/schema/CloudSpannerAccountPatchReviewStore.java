@@ -28,9 +28,7 @@ import org.eclipse.jgit.lib.Config;
 @Singleton
 public class CloudSpannerAccountPatchReviewStore extends JdbcAccountPatchReviewStore {
 
-  private static final int ERR_DUP_KEY = 1022;
-  private static final int ERR_DUP_ENTRY = 1062;
-  private static final int ERR_DUP_UNIQUE = 1169;
+  private static final int ERR_DUP_KEY = 6;
 
   @Inject
   CloudSpannerAccountPatchReviewStore(
@@ -44,8 +42,6 @@ public class CloudSpannerAccountPatchReviewStore extends JdbcAccountPatchReviewS
   public StorageException convertError(String op, SQLException err) {
     switch (err.getErrorCode()) {
       case ERR_DUP_KEY:
-      case ERR_DUP_ENTRY:
-      case ERR_DUP_UNIQUE:
         return new DuplicateKeyException("ACCOUNT_PATCH_REVIEWS", err);
 
       default:

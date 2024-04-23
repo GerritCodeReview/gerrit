@@ -3,7 +3,6 @@
  * Copyright 2018 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {Subscription} from 'rxjs';
 import '@polymer/iron-a11y-announcer/iron-a11y-announcer';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-icon/gr-icon';
@@ -17,6 +16,7 @@ import {css, html, LitElement} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {userModelToken} from '../../../models/user/user-model';
 import {ironAnnouncerRequestAvailability} from '../../polymer-util';
+import {subscribe} from '../../lit/subscription-controller';
 
 @customElement('gr-diff-mode-selector')
 export class GrDiffModeSelector extends LitElement {
@@ -36,28 +36,18 @@ export class GrDiffModeSelector extends LitElement {
 
   private readonly getUserModel = resolve(this, userModelToken);
 
-  private subscriptions: Subscription[] = [];
-
   constructor() {
     super();
+    subscribe(
+      this,
+      () => this.getBrowserModel().diffViewMode$,
+      x => (this.mode = x)
+    );
   }
 
   override connectedCallback() {
     super.connectedCallback();
     ironAnnouncerRequestAvailability();
-    this.subscriptions.push(
-      this.getBrowserModel().diffViewMode$.subscribe(
-        diffView => (this.mode = diffView)
-      )
-    );
-  }
-
-  override disconnectedCallback() {
-    for (const s of this.subscriptions) {
-      s.unsubscribe();
-    }
-    this.subscriptions = [];
-    super.disconnectedCallback();
   }
 
   static override get styles() {

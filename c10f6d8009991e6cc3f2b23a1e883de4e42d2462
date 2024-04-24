@@ -1,0 +1,177 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "666f854f_531333d0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-04-24T17:44:17Z",
+      "side": 1,
+      "message": "gr-textarea is already part of Gerrit I think?\n\nWhat does it mean \"it can be integrated into Gerrit\"?",
+      "range": {
+        "startLine": 17,
+        "startChar": 1,
+        "endLine": 18,
+        "endChar": 6
+      },
+      "revId": "c10f6d8009991e6cc3f2b23a1e883de4e42d2462",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b8bf5a0_f574bd9c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-suggestion-textarea/gr-suggestion-textarea.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-04-24T17:44:17Z",
+      "side": 1,
+      "message": "why is this cast required?\nCan we return the actual type here?",
+      "range": {
+        "startLine": 101,
+        "startChar": 11,
+        "endLine": 101,
+        "endChar": 58
+      },
+      "revId": "c10f6d8009991e6cc3f2b23a1e883de4e42d2462",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16185fbe_75adde78",
+        "filename": "polygerrit-ui/app/elements/shared/gr-suggestion-textarea/gr-suggestion-textarea.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-04-24T17:44:17Z",
+      "side": 1,
+      "message": "can we return undefined instead of \"-1\"?",
+      "range": {
+        "startLine": 126,
+        "startChar": 55,
+        "endLine": 126,
+        "endChar": 57
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "1d20e1c2_d43228ea",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-suggestion-textarea/gr-suggestion-textarea.ts",
+              "range": {
+                "startLine": 76,
+                "startChar": 0,
+                "endLine": 77,
+                "endChar": 0
+              },
+              "replacement": "  abstract getCursorPosition(): number|undefined;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-suggestion-textarea/gr-suggestion-textarea.ts",
+              "range": {
+                "startLine": 125,
+                "startChar": 0,
+                "endLine": 127,
+                "endChar": 0
+              },
+              "replacement": "  getCursorPosition(): number|undefined {\n    return this.getNativeTextarea()?.selectionStart;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-suggestion-textarea/gr-suggestion-textarea.ts",
+              "range": {
+                "startLine": 170,
+                "startChar": 0,
+                "endLine": 172,
+                "endChar": 0
+              },
+              "replacement": "  getCursorPosition(): number|undefined {\n    return this.getGrTextarea()?.getCursorPosition();\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-suggestion-textarea/gr-suggestion-textarea.ts",
+              "range": {
+                "startLine": 564,
+                "startChar": 0,
+                "endLine": 565,
+                "endChar": 0
+              },
+              "replacement": "    if (position \u003d\u003d\u003d undefined) {\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-suggestion-textarea/gr-suggestion-textarea.ts",
+              "range": {
+                "startLine": 651,
+                "startChar": 0,
+                "endLine": 652,
+                "endChar": 0
+              },
+              "replacement": "    if (currentCarat \u003d\u003d\u003d undefined) {\n"
+            }
+          ]
+        }
+      ],
+      "revId": "c10f6d8009991e6cc3f2b23a1e883de4e42d2462",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac0e7080_31769a23",
+        "filename": "polygerrit-ui/app/elements/shared/gr-suggestion-textarea/gr-suggestion-textarea.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-04-24T17:44:17Z",
+      "side": 1,
+      "message": "I think instead of calling a method X to get a side effect Y from \u003cgr-textarea\u003e, perhaps we can make it explicit in \u003cgr-textarea\u003e by exposing a `putCursorAtEnd` method?\n\nRight now callers need to know that doing focus puts cursor at end which is not immediately obvious why",
+      "range": {
+        "startLine": 166,
+        "startChar": 4,
+        "endLine": 167,
+        "endChar": 17
+      },
+      "revId": "c10f6d8009991e6cc3f2b23a1e883de4e42d2462",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35339f76_c7db4278",
+        "filename": "polygerrit-ui/app/elements/shared/gr-suggestion-textarea/gr-suggestion-textarea.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-04-24T17:44:17Z",
+      "side": 1,
+      "message": "inline?\nThis variable name doesn\u0027t seem to be that meaningful",
+      "range": {
+        "startLine": 298,
+        "startChar": 10,
+        "endLine": 298,
+        "endChar": 12
+      },
+      "revId": "c10f6d8009991e6cc3f2b23a1e883de4e42d2462",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -163,6 +163,30 @@
       },
       "revId": "1504b5aded88d2ea9ee69eca4f1761761baf0ae6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "83771d3c_e04b5a50",
+        "filename": "java/com/google/gerrit/server/restapi/change/PatchSetCreator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-04-24T09:01:22Z",
+      "side": 1,
+      "message": "Thanks, sounds good!",
+      "parentUuid": "fc21abf8_54856064",
+      "range": {
+        "startLine": 131,
+        "startChar": 16,
+        "endLine": 131,
+        "endChar": 43
+      },
+      "revId": "1504b5aded88d2ea9ee69eca4f1761761baf0ae6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

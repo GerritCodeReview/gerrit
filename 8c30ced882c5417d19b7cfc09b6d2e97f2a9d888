@@ -16,6 +16,23 @@
       "message": "Nice! ❤️",
       "revId": "8c30ced882c5417d19b7cfc09b6d2e97f2a9d888",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56a270b9_5553b204",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-04-24T08:03:18Z",
+      "side": 1,
+      "message": "Great, thanks for better detection of unsaved changes",
+      "revId": "8c30ced882c5417d19b7cfc09b6d2e97f2a9d888",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

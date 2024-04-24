@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a054bf78_9d0879b2",
+        "filename": "java/com/google/gerrit/server/restapi/change/PatchSetCreator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-04-24T06:46:17Z",
+      "side": 1,
+      "message": "nit: Please do not import NameKey classes, but use the qualified type instead (\"Project.NameKey\"). We think this improves readability.",
+      "revId": "1504b5aded88d2ea9ee69eca4f1761761baf0ae6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea72baf8_eeca3a3b",
+        "filename": "java/com/google/gerrit/server/restapi/change/PatchSetCreator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-04-24T06:46:17Z",
+      "side": 1,
+      "message": "Should this be annotated with @Singleton?",
+      "revId": "1504b5aded88d2ea9ee69eca4f1761761baf0ae6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab8ebfe2_68136386",
+        "filename": "java/com/google/gerrit/server/restapi/change/PatchSetCreator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-04-24T06:46:17Z",
+      "side": 1,
+      "message": "[optional] This is a jgit annotation, not sure if it has any effect beyond documentation. We usually do not use it in Gerrit, but it\u0027s fine to keep it if you want.\nIf you want to check for non null maybe consider using java.util.Objects.requireNonNull.",
+      "range": {
+        "startLine": 84,
+        "startChar": 6,
+        "endLine": 84,
+        "endChar": 14
+      },
+      "revId": "1504b5aded88d2ea9ee69eca4f1761761baf0ae6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5832b526_294de725",
+        "filename": "java/com/google/gerrit/server/restapi/change/PatchSetCreator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-04-24T06:46:17Z",
+      "side": 1,
+      "message": "destChange being null looks like a programming error. Hence we should throw an exception that results in a 500 ISE response. PreconditionFailedException is a REST API exception that will cause the HTTP response code to be 412 Precondition Failed, which is indicating a user error. Maybe just use java.util.Objects.requireNonNull",
+      "range": {
+        "startLine": 131,
+        "startChar": 16,
+        "endLine": 131,
+        "endChar": 43
+      },
+      "revId": "1504b5aded88d2ea9ee69eca4f1761761baf0ae6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -103,10 +103,12 @@ public class ChangeEditIT extends AbstractDaemonTest {
   private static final String FILE_NAME = "foo";
   private static final String FILE_NAME2 = "foo2";
   private static final String FILE_NAME3 = "foo3";
+  private static final String BASE_CHANGE_FILE_NAME = "base_file";
   private static final int FILE_MODE = 100644;
   private static final byte[] CONTENT_OLD = "bar".getBytes(UTF_8);
   private static final byte[] CONTENT_NEW = "baz".getBytes(UTF_8);
   private static final String CONTENT_NEW2_STR = "quxÄÜÖßµ";
+  private static final String BASE_CHANGE_FILE_CONTENT = "base file content";
   private static final byte[] CONTENT_NEW2 = CONTENT_NEW2_STR.getBytes(UTF_8);
   private static final String CONTENT_BINARY_ENCODED_NEW =
       "data:text/plain;base64,SGVsbG8sIFdvcmxkIQ==";
@@ -130,6 +132,11 @@ public class ChangeEditIT extends AbstractDaemonTest {
 
   @Before
   public void setUp() throws Exception {
+    String baseChangeId =
+        newChangeWithFile(admin.newIdent(), BASE_CHANGE_FILE_NAME, BASE_CHANGE_FILE_CONTENT);
+    gApi.changes().id(baseChangeId).current().review(ReviewInput.approve());
+    gApi.changes().id(baseChangeId).current().submit();
+
     changeId = newChange(admin.newIdent());
     ps = getCurrentPatchSet(changeId);
     assertThat(ps).isNotNull();
@@ -1372,7 +1379,6 @@ public class ChangeEditIT extends AbstractDaemonTest {
   @Test
   public void canCombineEdits() throws Exception {
     createEmptyEditFor(changeId);
-
     // update author
     gApi.changes()
         .id(changeId)
@@ -1394,8 +1400,11 @@ public class ChangeEditIT extends AbstractDaemonTest {
         .modifyIdentity(
             "Test Committer", "test.committer@example.com", ChangeEditIdentityType.COMMITTER);
 
-    // delete file
+    // delete previous patch set file
     gApi.changes().id(changeId).edit().deleteFile(FILE_NAME);
+
+    // delete base file
+    gApi.changes().id(changeId).edit().deleteFile(BASE_CHANGE_FILE_NAME);
 
     // rename file
     gApi.changes().id(changeId).edit().renameFile(FILE_NAME2, FILE_NAME3);
@@ -1419,7 +1428,11 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertThat(currentCommit.author.name).isEqualTo("Test Author");
     assertThat(currentCommit.author.email).isEqualTo("test.author@example.com");
     assertThat(currentCommit.message).isEqualTo(msg);
-    assertThat(currentRevision.files.keySet()).containsExactly(newFile, FILE_NAME3);
+    assertThat(currentRevision.files.keySet())
+        .containsExactly(newFile, FILE_NAME3, BASE_CHANGE_FILE_NAME);
+    assertThat(currentRevision.files.get(newFile).status).isEqualTo('A');
+    assertThat(currentRevision.files.get(FILE_NAME3).status).isEqualTo('A');
+    assertThat(currentRevision.files.get(BASE_CHANGE_FILE_NAME).status).isEqualTo('D');
   }
 
   private void createArbitraryEditFor(String changeId) throws Exception {
@@ -1448,6 +1461,13 @@ public class ChangeEditIT extends AbstractDaemonTest {
     PushOneCommit push =
         pushFactory.create(
             ident, testRepo, PushOneCommit.SUBJECT, FILE_NAME, new String(CONTENT_OLD, UTF_8));
+    return push.to("refs/for/master").getChangeId();
+  }
+
+  private String newChangeWithFile(PersonIdent ident, String filePath, String fileContent)
+      throws Exception {
+    PushOneCommit push =
+        pushFactory.create(ident, testRepo, PushOneCommit.SUBJECT, filePath, fileContent);
     return push.to("refs/for/master").getChangeId();
   }
 

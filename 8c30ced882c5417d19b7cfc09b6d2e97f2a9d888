@@ -58,6 +58,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bdbca0aa_53a2e31b",
+        "filename": "polygerrit-ui/app/elements/settings/gr-preferences/gr-preferences.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-04-24T11:29:16Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "dae740d4_e6d40b6c",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 47
+      },
+      "revId": "8c30ced882c5417d19b7cfc09b6d2e97f2a9d888",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "47e423b3_b0c04de3",
@@ -71,6 +95,30 @@
       "writtenOn": "2024-04-24T08:30:25Z",
       "side": 1,
       "message": "Could we please have a docstring for the component, explaining what it is, what it\u0027s for, etc.\n\nSince the change is about the code structure improvement, I would prefer that we also have documentation that helps the code structure be more understandable.",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 48
+      },
+      "revId": "8c30ced882c5417d19b7cfc09b6d2e97f2a9d888",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "94757241_83915cf3",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-04-24T11:29:16Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "47e423b3_b0c04de3",
       "range": {
         "startLine": 66,
         "startChar": 0,

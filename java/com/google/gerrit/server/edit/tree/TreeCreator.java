@@ -42,40 +42,49 @@ public class TreeCreator {
   private final ObjectId baseTreeId;
   private final ImmutableList<? extends ObjectId> baseParents;
   private final Optional<ObjectInserter> objectInserter;
+  private final Optional<ObjectReader> objectReader;
   private final List<TreeModification> treeModifications = new ArrayList<>();
 
   public static TreeCreator basedOn(RevCommit baseCommit) {
     requireNonNull(baseCommit, "baseCommit is required");
     return new TreeCreator(
-        baseCommit.getTree(), ImmutableList.copyOf(baseCommit.getParents()), Optional.empty());
+        baseCommit.getTree(),
+        ImmutableList.copyOf(baseCommit.getParents()),
+        Optional.empty(),
+        Optional.empty());
   }
 
   @UsedAt(UsedAt.Project.GOOGLE)
-  public static TreeCreator basedOn(RevCommit baseCommit, ObjectInserter objectInserter) {
+  public static TreeCreator basedOn(
+      RevCommit baseCommit, ObjectInserter objectInserter, ObjectReader objectReader) {
     requireNonNull(baseCommit, "baseCommit is required");
     return new TreeCreator(
         baseCommit.getTree(),
         ImmutableList.copyOf(baseCommit.getParents()),
-        Optional.of(objectInserter));
+        Optional.of(objectInserter),
+        Optional.of(objectReader));
   }
 
   public static TreeCreator basedOnTree(
       ObjectId baseTreeId, ImmutableList<? extends ObjectId> baseParents) {
     requireNonNull(baseTreeId, "baseTreeId is required");
-    return new TreeCreator(baseTreeId, baseParents, Optional.empty());
+    return new TreeCreator(baseTreeId, baseParents, Optional.empty(), Optional.empty());
   }
 
   public static TreeCreator basedOnEmptyTree() {
-    return new TreeCreator(ObjectId.zeroId(), ImmutableList.of(), Optional.empty());
+    return new TreeCreator(
+        ObjectId.zeroId(), ImmutableList.of(), Optional.empty(), Optional.empty());
   }
 
   private TreeCreator(
       ObjectId baseTreeId,
       ImmutableList<? extends ObjectId> baseParents,
-      Optional<ObjectInserter> objectInserter) {
+      Optional<ObjectInserter> objectInserter,
+      Optional<ObjectReader> objectReader) {
     this.baseTreeId = requireNonNull(baseTreeId, "baseTree is required");
     this.baseParents = baseParents;
     this.objectInserter = objectInserter;
+    this.objectReader = objectReader;
   }
 
   /**
@@ -138,14 +147,22 @@ public class TreeCreator {
   }
 
   private DirCache readBaseTree(Repository repository) throws IOException {
-    try (ObjectReader objectReader = repository.newObjectReader()) {
-      DirCache dirCache = DirCache.newInCore();
+    ObjectReader or = objectReader.orElseGet(() -> repository.newObjectReader());
+    try {
+      DirCache dirCache =
+          ObjectId.zeroId().equals(baseTreeId)
+              ? DirCache.newInCore()
+              : DirCache.read(or, baseTreeId);
       DirCacheBuilder dirCacheBuilder = dirCache.builder();
       if (!ObjectId.zeroId().equals(baseTreeId)) {
-        dirCacheBuilder.addTree(new byte[0], DirCacheEntry.STAGE_0, objectReader, baseTreeId);
+        dirCacheBuilder.addTree(new byte[0], DirCacheEntry.STAGE_0, or, baseTreeId);
       }
       dirCacheBuilder.finish();
       return dirCache;
+    } finally {
+      if (objectReader.isEmpty()) {
+        or.close();
+      }
     }
   }
 

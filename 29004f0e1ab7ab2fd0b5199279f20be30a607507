@@ -70,6 +70,30 @@
       },
       "revId": "29004f0e1ab7ab2fd0b5199279f20be30a607507",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd8e9aa0_53ed06cd",
+        "filename": "javatests/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2024-04-24T11:15:16Z",
+      "side": 1,
+      "message": "I was digging a bit into it. For new edits, the `modificationTarget` is-\n1. Defined [here](https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/edit/ModificationIntention.java#68) to be the current patch set.\n2. Validated [here](https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/edit/ChangeEditModifier.java#799) to have the same change ID as the edited change (i.e. it cannot be a base change).\n3. Then, the [2nd parameter here](https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/edit/ChangeEditModifier.java#418) is passed as the base commit.\n\nAs for this specific test - I tend to say it was buggy. There are quite a few bugs in this test file.",
+      "parentUuid": "4515c2d5_7bbbafb3",
+      "range": {
+        "startLine": 425,
+        "startChar": 20,
+        "endLine": 425,
+        "endChar": 30
+      },
+      "revId": "29004f0e1ab7ab2fd0b5199279f20be30a607507",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

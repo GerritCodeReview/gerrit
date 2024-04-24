@@ -19,6 +19,9 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.InternalGroup;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.logging.Metadata;
+import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.Scopes;
@@ -63,41 +66,43 @@ public class ServiceUserClassifierImpl implements ServiceUserClassifier {
 
   @Override
   public boolean isServiceUser(Account.Id user) {
-    Optional<InternalGroup> maybeGroup = groupCache.get(AccountGroup.nameKey(SERVICE_USERS));
-    if (!maybeGroup.isPresent()) {
+    try (TraceTimer timer = TraceContext.newTimer("isServiceUser", Metadata.empty())) {
+      Optional<InternalGroup> maybeGroup = groupCache.get(AccountGroup.nameKey(SERVICE_USERS));
+      if (!maybeGroup.isPresent()) {
+        return false;
+      }
+      List<AccountGroup.UUID> toTraverse = new ArrayList<>();
+      toTraverse.add(maybeGroup.get().getGroupUUID());
+      Set<AccountGroup.UUID> seen = new HashSet<>();
+      while (!toTraverse.isEmpty()) {
+        InternalGroup currentGroup =
+            groupCache
+                .get(toTraverse.remove(0))
+                .orElseThrow(() -> new IllegalStateException("invalid subgroup"));
+        if (seen.contains(currentGroup.getGroupUUID())) {
+          logger.atFine().log(
+              "Skipping %s because it's a cyclic subgroup", currentGroup.getGroupUUID());
+          continue;
+        }
+        seen.add(currentGroup.getGroupUUID());
+        if (currentGroup.getMembers().contains(user)) {
+          // The user is a member of the 'Service Users' group or a subgroup.
+          return true;
+        }
+        boolean hasExternalSubgroup =
+            currentGroup.getSubgroups().stream().anyMatch(g -> !internalGroupBackend.handles(g));
+        if (hasExternalSubgroup) {
+          // 'Service Users or a subgroup of Service User' contains an external subgroup, so we have
+          // to default to the more expensive evaluation of getting all of the user's group
+          // memberships.
+          return identifiedUserFactory
+              .create(user)
+              .getEffectiveGroups()
+              .contains(maybeGroup.get().getGroupUUID());
+        }
+        toTraverse.addAll(currentGroup.getSubgroups());
+      }
       return false;
     }
-    List<AccountGroup.UUID> toTraverse = new ArrayList<>();
-    toTraverse.add(maybeGroup.get().getGroupUUID());
-    Set<AccountGroup.UUID> seen = new HashSet<>();
-    while (!toTraverse.isEmpty()) {
-      InternalGroup currentGroup =
-          groupCache
-              .get(toTraverse.remove(0))
-              .orElseThrow(() -> new IllegalStateException("invalid subgroup"));
-      if (seen.contains(currentGroup.getGroupUUID())) {
-        logger.atFine().log(
-            "Skipping %s because it's a cyclic subgroup", currentGroup.getGroupUUID());
-        continue;
-      }
-      seen.add(currentGroup.getGroupUUID());
-      if (currentGroup.getMembers().contains(user)) {
-        // The user is a member of the 'Service Users' group or a subgroup.
-        return true;
-      }
-      boolean hasExternalSubgroup =
-          currentGroup.getSubgroups().stream().anyMatch(g -> !internalGroupBackend.handles(g));
-      if (hasExternalSubgroup) {
-        // 'Service Users or a subgroup of Service User' contains an external subgroup, so we have
-        // to default to the more expensive evaluation of getting all of the user's group
-        // memberships.
-        return identifiedUserFactory
-            .create(user)
-            .getEffectiveGroups()
-            .contains(maybeGroup.get().getGroupUUID());
-      }
-      toTraverse.addAll(currentGroup.getSubgroups());
-    }
-    return false;
   }
 }

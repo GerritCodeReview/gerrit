@@ -9,8 +9,12 @@ import {getAppContext} from '../../../services/app-context';
 import {grFormStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, css, html} from 'lit';
-import {customElement, property, query} from 'lit/decorators.js';
+import {customElement, query, state} from 'lit/decorators.js';
 import {modalStyles} from '../../../styles/gr-modal-styles';
+import {resolve} from '../../../models/dependency';
+import {configModelToken} from '../../../models/config/config-model';
+import {userModelToken} from '../../../models/user/user-model';
+import {subscribe} from '../../lit/subscription-controller';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -23,47 +27,48 @@ export class GrHttpPassword extends LitElement {
   @query('#generatedPasswordModal')
   generatedPasswordModal?: HTMLDialogElement;
 
-  @property({type: String})
+  @state()
   username?: string;
 
-  @property({type: String})
+  @state()
   generatedPassword?: string;
 
-  @property({type: String})
+  @state()
   status?: string;
 
-  @property({type: String})
+  @state()
   passwordUrl: string | null = null;
 
   private readonly restApiService = getAppContext().restApiService;
 
-  override connectedCallback() {
-    super.connectedCallback();
-    this.loadData();
-  }
+  // Private but used in test
+  readonly getConfigModel = resolve(this, configModelToken);
 
-  loadData() {
-    const promises = [];
+  // Private but used in test
+  readonly getUserModel = resolve(this, userModelToken);
 
-    promises.push(
-      this.restApiService.getAccount().then(account => {
-        if (account) {
-          this.username = account.username;
-        }
-      })
-    );
-
-    promises.push(
-      this.restApiService.getConfig().then(info => {
+  constructor() {
+    super();
+    subscribe(
+      this,
+      () => this.getConfigModel().serverConfig$,
+      info => {
         if (info) {
           this.passwordUrl = info.auth.http_password_url || null;
         } else {
           this.passwordUrl = null;
         }
-      })
+      }
     );
-
-    return Promise.all(promises);
+    subscribe(
+      this,
+      () => this.getUserModel().account$,
+      account => {
+        if (account) {
+          this.username = account.username;
+        }
+      }
+    );
   }
 
   static override get styles() {

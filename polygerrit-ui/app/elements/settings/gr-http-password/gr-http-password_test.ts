@@ -14,7 +14,7 @@ import {
 import {AccountDetailInfo, ServerInfo} from '../../../types/common';
 import {queryAndAssert} from '../../../test/test-utils';
 import {GrButton} from '../../shared/gr-button/gr-button';
-import {fixture, html, assert} from '@open-wc/testing';
+import {fixture, html, assert, waitUntil} from '@open-wc/testing';
 
 suite('gr-http-password tests', () => {
   let element: GrHttpPassword;
@@ -29,7 +29,12 @@ suite('gr-http-password tests', () => {
     stubRestApi('getConfig').returns(Promise.resolve(config));
 
     element = await fixture(html`<gr-http-password></gr-http-password>`);
-    await element.loadData();
+    await waitUntil(
+      () => element.getUserModel().getState().account === account
+    );
+    await waitUntil(
+      () => element.getConfigModel().getState().serverConfig === config
+    );
     await waitEventLoop();
   });
 
@@ -121,7 +126,8 @@ suite('gr-http-password tests', () => {
 
   test('with http_password_url', async () => {
     config.auth.http_password_url = 'http://example.com/';
-    await element.loadData();
+    element.passwordUrl = config.auth.http_password_url;
+    await element.updateComplete;
     assert.isNotNull(element.passwordUrl);
     assert.equal(element.passwordUrl, config.auth.http_password_url);
   });

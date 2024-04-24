@@ -255,6 +255,7 @@ export class GrSuggestionDiffPreview extends LitElement {
     });
     this.reporting.timeEnd(Timing.PREVIEW_FIX_LOAD, {
       uuid: this.uuid,
+      commentId: this.comment?.id ?? '',
     });
     if (currentPreviews.length > 0) {
       this.preview = currentPreviews[0];
@@ -287,6 +288,7 @@ export class GrSuggestionDiffPreview extends LitElement {
     });
     this.reporting.timeEnd(Timing.PREVIEW_FIX_LOAD, {
       uuid: this.uuid,
+      commentId: this.comment?.id ?? '',
     });
     if (currentPreviews.length > 0) {
       this.preview = currentPreviews[0];
@@ -343,6 +345,7 @@ export class GrSuggestionDiffPreview extends LitElement {
     this.reporting.timeEnd(Timing.APPLY_FIX_LOAD, {
       method: '1-click',
       description: fixSuggestion.description,
+      commentId: this.comment?.id ?? '',
     });
     if (res?.ok) {
       this.getNavigation().setUrl(
@@ -371,6 +374,7 @@ export class GrSuggestionDiffPreview extends LitElement {
     if (!this.suggestion) return;
     this.reporting.reportInteraction(Interaction.GENERATE_SUGGESTION_ADDED, {
       uuid: this.uuid,
+      commentId: this.comment?.id ?? '',
     });
     fire(this, 'add-generated-suggestion', {code: this.suggestion});
   }

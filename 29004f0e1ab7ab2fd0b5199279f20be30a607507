@@ -22,6 +22,30 @@
       },
       "revId": "29004f0e1ab7ab2fd0b5199279f20be30a607507",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9111e0cd_0903ad58",
+        "filename": "javatests/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2024-04-24T10:30:40Z",
+      "side": 1,
+      "message": "AFAIU, the root commit might not have any parent, but the parent of the edit should always be the current patchset.\n\n`retrieveEdit` test below is also testing for the same.",
+      "parentUuid": "cf130ab7_2c84fb8f",
+      "range": {
+        "startLine": 425,
+        "startChar": 20,
+        "endLine": 425,
+        "endChar": 30
+      },
+      "revId": "29004f0e1ab7ab2fd0b5199279f20be30a607507",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

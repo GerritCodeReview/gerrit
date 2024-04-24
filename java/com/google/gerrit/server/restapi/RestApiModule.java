@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi;
 
+import com.google.gerrit.server.change.ChangeCleanupRunner.ChangeCleanupRunnerModule;
 import com.google.gerrit.server.plugins.PluginRestApiModule;
 import com.google.gerrit.server.restapi.access.AccessRestApiModule;
 import com.google.gerrit.server.restapi.account.AccountRestApiModule;
@@ -42,5 +43,6 @@ public class RestApiModule extends AbstractModule {
     install(new PluginRestApiModule());
     install(new ProjectRestApiModule());
     install(new ProjectRestApiModule.BatchModule());
+    install(new ChangeCleanupRunnerModule());
   }
 }

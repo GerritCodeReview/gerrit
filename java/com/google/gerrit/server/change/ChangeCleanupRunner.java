@@ -15,6 +15,7 @@
 package com.google.gerrit.server.change;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.lifecycle.LifecycleModule;
@@ -25,6 +26,8 @@ import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 
 /** Runnable to enable scheduling change cleanups to run periodically */
 public class ChangeCleanupRunner implements Runnable {
@@ -34,7 +37,14 @@ public class ChangeCleanupRunner implements Runnable {
     @Override
     protected void configure() {
       listener().to(Lifecycle.class);
+      factory(Factory.class);
     }
+  }
+
+  public interface Factory {
+    ChangeCleanupRunner create();
+
+    ChangeCleanupRunner create(long abandonAfterMillis, boolean abandonIfMergeable, String message);
   }
 
   static class Lifecycle implements LifecycleListener {
@@ -43,9 +53,9 @@ public class ChangeCleanupRunner implements Runnable {
     private final ChangeCleanupConfig cfg;
 
     @Inject
-    Lifecycle(WorkQueue queue, ChangeCleanupRunner runner, ChangeCleanupConfig cfg) {
+    Lifecycle(WorkQueue queue, ChangeCleanupRunner.Factory runner, ChangeCleanupConfig cfg) {
       this.queue = queue;
-      this.runner = runner;
+      this.runner = runner.create();
       this.cfg = cfg;
     }
 
@@ -63,13 +73,38 @@ public class ChangeCleanupRunner implements Runnable {
   private final OneOffRequestContext oneOffRequestContext;
   private final AbandonUtil abandonUtil;
   private final RetryHelper retryHelper;
+  private final long abandonAfterMillis;
+  private final boolean abandonIfMergeable;
+  @Nullable private final String message;
 
-  @Inject
+  @AssistedInject
   ChangeCleanupRunner(
-      OneOffRequestContext oneOffRequestContext, AbandonUtil abandonUtil, RetryHelper retryHelper) {
+      OneOffRequestContext oneOffRequestContext,
+      AbandonUtil abandonUtil,
+      RetryHelper retryHelper,
+      @Assisted long abandonAfterMillis,
+      @Assisted boolean abandonIfMergeable,
+      @Assisted @Nullable String message) {
     this.oneOffRequestContext = oneOffRequestContext;
     this.abandonUtil = abandonUtil;
     this.retryHelper = retryHelper;
+    this.abandonAfterMillis = abandonAfterMillis;
+    this.abandonIfMergeable = abandonIfMergeable;
+    this.message = message;
+  }
+
+  @AssistedInject
+  ChangeCleanupRunner(
+      OneOffRequestContext oneOffRequestContext,
+      AbandonUtil abandonUtil,
+      RetryHelper retryHelper,
+      ChangeCleanupConfig cfg) {
+    this.oneOffRequestContext = oneOffRequestContext;
+    this.abandonUtil = abandonUtil;
+    this.retryHelper = retryHelper;
+    this.abandonAfterMillis = cfg.getAbandonAfter();
+    this.abandonIfMergeable = cfg.getAbandonIfMergeable();
+    this.message = cfg.getAbandonMessage();
   }
 
   @Override
@@ -85,7 +120,8 @@ public class ChangeCleanupRunner implements Runnable {
               .changeUpdate(
                   "abandonInactiveOpenChanges",
                   updateFactory -> {
-                    abandonUtil.abandonInactiveOpenChanges(updateFactory);
+                    abandonUtil.abandonInactiveOpenChanges(
+                        updateFactory, abandonAfterMillis, abandonIfMergeable, message);
                     return null;
                   })
               .call();

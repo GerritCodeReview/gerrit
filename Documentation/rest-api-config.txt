@@ -1770,6 +1770,33 @@ documents and whether to notifyListeners or not.
   )]}'
 ----
 
+[[cleanup.changes]]
+=== Cleanup of stale changes
+
+This endpoint allows Gerrit administrators to abandon changes older than some given
+time. This allows to run change cleanup manually outside of the configured schedule or
+if change cleanup has been deactivated.
+
+The change cleanup will run asynchronously.
+
+.Request
+----
+  POST /config/server/cleanup.changes HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "after": "3 months",
+    "if_mergeable": true,
+    "message": "Abandoning stale changes."
+  }
+----
+
+.Response
+----
+  HTTP/1.1 202 Accepted
+  Content-Disposition: attachment
+----
+
 [[experiment-endpoints]]
 == Experiment Endpoints
 
@@ -2636,6 +2663,22 @@ link:config-gerrit.html#user.anonymousCoward[Username] that is
 displayed in the Gerrit Web UI and in e-mail notifications if the full
 name of the user is not set.
 |====================================
+
+[[clean-changes-input]]
+=== CleanChanges.Input
+The `CleanChanges.Input` entity is being used to configure a run
+of change cleanup.
+
+[options="header",cols="1,^1,5"]
+|=============================
+|Field Name||Description
+|`after`||Abandon all changes that weren't updated in the
+timespan given here
+|`if_mergeable`|default: `false`|Whether to also abandon changes
+that are mergeable
+|`message`|optional|Message to post to changes abandoned by the
+cleanup
+|=============================
 
 
 GERRIT

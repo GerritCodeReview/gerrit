@@ -57,6 +57,7 @@ import com.google.gerrit.server.api.projects.ProjectQueryBuilderModule;
 import com.google.gerrit.server.audit.AuditModule;
 import com.google.gerrit.server.cache.h2.H2CacheModule;
 import com.google.gerrit.server.cache.mem.DefaultMemoryCacheModule;
+import com.google.gerrit.server.change.ChangeCleanupRunner.ChangeCleanupRunnerModule;
 import com.google.gerrit.server.change.FileInfoJsonModule;
 import com.google.gerrit.server.config.AllProjectsConfigProvider;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -209,6 +210,7 @@ public class InMemoryModule extends FactoryModule {
     install(new RepoSequenceModule());
     install(new NoteDbDraftCommentsModule());
     install(new NoteDbStarredChangesModule());
+    install(new ChangeCleanupRunnerModule());
 
     AuthConfig authConfig = cfgInjector.getInstance(AuthConfig.class);
     install(new AuthModule(authConfig));

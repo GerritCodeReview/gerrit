@@ -94,6 +94,30 @@
       },
       "revId": "29004f0e1ab7ab2fd0b5199279f20be30a607507",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab496e5f_4f26ffb3",
+        "filename": "javatests/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-04-24T11:31:24Z",
+      "side": 1,
+      "message": "But modificationTarget is something different than the parent, isn\u0027t it?\nIIUC modificationTarget is the patch set (base) from which the edit was created (e.g. the edit is initialised with the tree from the modificationTarget). So semantically this is the base to which the modifications should be applied in order to create the new patch set, but the new patch set should still have the same parent as the old patch set (e.g. it should be based on the same commit from the target branch as the old patch set, or have no parent in case the old patch set was a root commit). So I think this test is correct and should be preserved.\n\nI mean your code modification in TreeCreator is a no-op and shouldn\u0027t change any test assertion. The assertion here is only broken because you changed the precondition for the test (the repo is no longer empty at the start of the test). If the test setup is fixed, also this assertion will be working again.",
+      "parentUuid": "fd8e9aa0_53ed06cd",
+      "range": {
+        "startLine": 425,
+        "startChar": 20,
+        "endLine": 425,
+        "endChar": 30
+      },
+      "revId": "29004f0e1ab7ab2fd0b5199279f20be30a607507",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

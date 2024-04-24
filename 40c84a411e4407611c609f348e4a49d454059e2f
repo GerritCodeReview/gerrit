@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe0669ac_0a943659",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 42
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-04-24T19:22:09Z",
+      "side": 1,
+      "message": "Can you add a link to the ESC minutes mentioned in the comments here ?\n\nhttps://www.gerritcodereview.com/2019-10-01-esc-minutes.html#support-for-deletion-of-groups",
+      "revId": "40c84a411e4407611c609f348e4a49d454059e2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "14241e80_21ad594a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 42
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-04-24T19:22:09Z",
+      "side": 1,
+      "message": "LGTM\n\nI\u0027ll ping Googlers if they want to review this change in lieu of Alice who is no longer on the project",
+      "revId": "40c84a411e4407611c609f348e4a49d454059e2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

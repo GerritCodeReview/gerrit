@@ -46,6 +46,30 @@
       },
       "revId": "29004f0e1ab7ab2fd0b5199279f20be30a607507",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4515c2d5_7bbbafb3",
+        "filename": "javatests/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-04-24T10:42:06Z",
+      "side": 1,
+      "message": "\u003e but the parent of the edit should always be the current patchset.\n\nI\u0027m not sure this is correct, patch sets never depend on each other and the edit is just a patch set that is not published yet (i.e. the edit should have the same parent as the patch set it is based on).\n\n\u003e retrieveEdit test below is also testing for the same.\n\nThe difference is that the retrieveEdit test is not annotated with \"@TestProjectInput(createEmptyCommit \u003d false)\", so the repo is initially not empty, but contains a initial empty commit, which is then the parent of the created change and its edit.\n\nThe name of this test suggests that it is testing the root commit. This is why the test  is annotated with \"@TestProjectInput(createEmptyCommit \u003d false)\" so that initially the repo is empty and the created change is for the root commit.\n\nNow with the changed test setup that creates a base change this is no longer true (the repo is not empty at the beginning of the test), which is why the assertion below that checked that the edit had no parents had to be changed.",
+      "parentUuid": "9111e0cd_0903ad58",
+      "range": {
+        "startLine": 425,
+        "startChar": 20,
+        "endLine": 425,
+        "endChar": 30
+      },
+      "revId": "29004f0e1ab7ab2fd0b5199279f20be30a607507",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

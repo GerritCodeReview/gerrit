@@ -142,6 +142,30 @@
       },
       "revId": "29004f0e1ab7ab2fd0b5199279f20be30a607507",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3023ba6a_149239c5",
+        "filename": "javatests/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2024-04-24T12:09:29Z",
+      "side": 1,
+      "message": "\u003e But modificationTarget is something different than the parent, isn\u0027t it?\n\nThanks! I got confused by the overloading of `baseRevision` in `EditInfoSubject`, which is being used at [this test](https://gerrit.googlesource.com/gerrit/+/refs/heads/master/javatests/com/google/gerrit/acceptance/edit/ChangeEditIT.java#785).\n\n\u003e If the test setup is fixed, also this assertion will be working again.\n\nThanks! Fixed.",
+      "parentUuid": "ab496e5f_4f26ffb3",
+      "range": {
+        "startLine": 425,
+        "startChar": 20,
+        "endLine": 425,
+        "endChar": 30
+      },
+      "revId": "29004f0e1ab7ab2fd0b5199279f20be30a607507",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

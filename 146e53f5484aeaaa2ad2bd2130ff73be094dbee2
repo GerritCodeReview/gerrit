@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f79c00ab_47daecd3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 43
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-04-24T21:22:00Z",
+      "side": 1,
+      "message": "Good job @tran.tuan.khai.phan@ericsson.com, just a couple of nits. I\u0027ve moved the target branch to stable-3.10, so that we can have this new (long awaited) feature from v3.10.0 🎉",
+      "revId": "146e53f5484aeaaa2ad2bd2130ff73be094dbee2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc3fdd74_0e5655cd",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 43
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-04-24T21:22:00Z",
+      "side": 1,
+      "message": "Would it be safer to remove it from the index once *all* cache evictions are done?\n\nThe index logic tries to perform a lookup of the group and, if not found, removes it from the index.",
+      "range": {
+        "startLine": 592,
+        "startChar": 4,
+        "endLine": 592,
+        "endChar": 54
+      },
+      "revId": "146e53f5484aeaaa2ad2bd2130ff73be094dbee2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

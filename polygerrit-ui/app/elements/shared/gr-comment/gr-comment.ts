@@ -1216,6 +1216,7 @@ export class GrComment extends LitElement {
     this.reporting.reportInteraction(Interaction.GENERATE_SUGGESTION_RESPONSE, {
       uuid: this.generatedSuggestionId,
       type: 'suggest-code',
+      commentId: this.comment.id,
       response: suggestionResponse.responseCode,
       numSuggestions: suggestionResponse.suggestions.length,
       hasNewRange: suggestionResponse.suggestions?.[0]?.newRange !== undefined,
@@ -1267,6 +1268,7 @@ export class GrComment extends LitElement {
     this.reporting.reportInteraction(Interaction.GENERATE_SUGGESTION_RESPONSE, {
       uuid: this.generatedSuggestionId,
       type: 'suggest-fix',
+      commentId: this.comment.id,
       response: suggestionResponse.responseCode,
       numSuggestions: suggestionResponse.fix_suggestions.length,
     });

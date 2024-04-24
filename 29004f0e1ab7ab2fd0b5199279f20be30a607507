@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf130ab7_2c84fb8f",
+        "filename": "javatests/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-04-24T09:39:20Z",
+      "side": 1,
+      "message": "IIUC this test intends to verify that things work with the root commit (which has no parent), but due to the base change creation in the setUp it\u0027s no longer tested here.",
+      "range": {
+        "startLine": 425,
+        "startChar": 20,
+        "endLine": 425,
+        "endChar": 30
+      },
+      "revId": "29004f0e1ab7ab2fd0b5199279f20be30a607507",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

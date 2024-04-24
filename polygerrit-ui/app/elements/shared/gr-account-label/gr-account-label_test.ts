@@ -154,11 +154,11 @@ suite('gr-account-label tests', () => {
   suite('attention set', () => {
     setup(async () => {
       element.highlightAttention = true;
-      element._config = {
+      element.config = {
         ...createServerInfo(),
         user: {anonymous_coward_name: 'Anonymous Coward'},
       };
-      element._selfAccount = kermit;
+      element.selfAccount = kermit;
       element.account = {
         ...createAccountDetailWithIdNameAndEmail(42),
         name: 'ernie',

@@ -202,7 +202,8 @@ public class CreateChange
   @FunctionalInterface
   public interface CommitTreeSupplier {
     @NonNull
-    ObjectId get(Repository repo, ObjectInserter oi, ChangeInput input, RevCommit mergeTip)
+    ObjectId get(
+        Repository repo, ObjectInserter oi, ObjectReader or, ChangeInput input, RevCommit mergeTip)
         throws IOException, RestApiException;
   }
 
@@ -467,6 +468,7 @@ public class CreateChange
               createCommitWithSuppliedTree(
                   git,
                   oi,
+                  reader,
                   rw,
                   mergeTip,
                   input,
@@ -701,6 +703,7 @@ public class CreateChange
   private static CodeReviewCommit createCommitWithSuppliedTree(
       Repository repo,
       ObjectInserter oi,
+      ObjectReader or,
       CodeReviewRevWalk rw,
       RevCommit mergeTip,
       ChangeInput input,
@@ -712,7 +715,7 @@ public class CreateChange
     if (mergeTip == null) {
       throw new BadRequestException("`CommitTreeSupplier` cannot be used on top of an empty tree.");
     }
-    ObjectId treeId = commitTreeSupplier.get(repo, oi, input, mergeTip);
+    ObjectId treeId = commitTreeSupplier.get(repo, oi, or, input, mergeTip);
     return rw.parseCommit(
         CommitUtil.createCommitWithTree(
             oi, authorIdent, committerIdent, ImmutableList.of(mergeTip), commitMessage, treeId));

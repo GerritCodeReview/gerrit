@@ -1174,7 +1174,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
     ApplyPatchInput applyPatchInput = new ApplyPatchInput();
     applyPatchInput.patch = PATCH_INPUT;
     CommitTreeSupplier commitTreeSupplier =
-        (repo, oi, in, mergeTip) ->
+        (repo, oi, or, in, mergeTip) ->
             ApplyPatchUtil.applyPatch(repo, oi, applyPatchInput, mergeTip).getTreeId();
 
     ChangeInfo info = assertCreateWithCommitTreeSupplierSucceeds(input, commitTreeSupplier);

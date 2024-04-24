@@ -7,12 +7,14 @@ import '../../shared/gr-dropdown/gr-dropdown';
 import '../../shared/gr-avatar/gr-avatar';
 import {getUserName} from '../../../utils/display-name-util';
 import {AccountInfo, DropdownLink, ServerInfo} from '../../../types/common';
-import {getAppContext} from '../../../services/app-context';
 import {fire} from '../../../utils/event-util';
 import {DropdownContent} from '../../shared/gr-dropdown/gr-dropdown';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, css, html} from 'lit';
-import {customElement, property} from 'lit/decorators.js';
+import {customElement, property, state} from 'lit/decorators.js';
+import {resolve} from '../../../models/dependency';
+import {configModelToken} from '../../../models/config/config-model';
+import {subscribe} from '../../lit/subscription-controller';
 
 const INTERPOLATE_URL_PATTERN = /\${([\w]+)}/g;
 
@@ -30,34 +32,44 @@ export class GrAccountDropdown extends LitElement {
   @property({type: Object})
   account?: AccountInfo;
 
-  @property({type: Object})
+  // Private but used in test
+  @state()
   config?: ServerInfo;
 
-  @property({type: String})
-  _path = '/';
+  @state()
+  private path = '/';
 
-  @property({type: Boolean})
-  _hasAvatars = false;
+  @state()
+  private hasAvatars = false;
 
-  @property({type: String})
-  _switchAccountUrl = '';
+  @state()
+  private switchAccountUrl = '';
 
-  private readonly restApiService = getAppContext().restApiService;
+  // Private but used in test
+  readonly getConfigModel = resolve(this, configModelToken);
+
+  constructor() {
+    super();
+    subscribe(
+      this,
+      () => this.getConfigModel().serverConfig$,
+      cfg => {
+        this.config = cfg;
+
+        if (cfg && cfg.auth && cfg.auth.switch_account_url) {
+          this.switchAccountUrl = cfg.auth.switch_account_url;
+        } else {
+          this.switchAccountUrl = '';
+        }
+        this.hasAvatars = !!(cfg && cfg.plugin && cfg.plugin.has_avatars);
+      }
+    );
+  }
 
   override connectedCallback() {
     super.connectedCallback();
     this.handleLocationChange();
     document.addEventListener('location-change', this.handleLocationChange);
-    this.restApiService.getConfig().then(cfg => {
-      this.config = cfg;
-
-      if (cfg && cfg.auth && cfg.auth.switch_account_url) {
-        this._switchAccountUrl = cfg.auth.switch_account_url;
-      } else {
-        this._switchAccountUrl = '';
-      }
-      this._hasAvatars = !!(cfg && cfg.plugin && cfg.plugin.has_avatars);
-    });
   }
 
   override disconnectedCallback() {
@@ -88,15 +100,13 @@ export class GrAccountDropdown extends LitElement {
       link=""
       .items=${this.links}
       .topContent=${this.topContent}
-      @tap-item-shortcuts=${this._handleShortcutsTap}
+      @tap-item-shortcuts=${this.handleShortcutsTap}
       .horizontalAlign=${'right'}
     >
-      <span ?hidden=${this._hasAvatars}
-        >${this._accountName(this.account)}</span
-      >
+      <span ?hidden=${this.hasAvatars}>${this.accountName(this.account)}</span>
       <gr-avatar
         .account=${this.account}
-        ?hidden=${!this._hasAvatars}
+        ?hidden=${!this.hasAvatars}
         .imageSize=${56}
         aria-label="Account avatar"
       ></gr-avatar>
@@ -104,14 +114,15 @@ export class GrAccountDropdown extends LitElement {
   }
 
   get links(): DropdownLink[] | undefined {
-    return this._getLinks(this._switchAccountUrl, this._path);
+    return this.getLinks(this.switchAccountUrl, this.path);
   }
 
   get topContent(): DropdownContent[] | undefined {
-    return this._getTopContent(this.account);
+    return this.getTopContent(this.account);
   }
 
-  _getLinks(switchAccountUrl?: string, path?: string) {
+  // Private but used in test
+  getLinks(switchAccountUrl?: string, path?: string) {
     if (switchAccountUrl === undefined || path === undefined) {
       return undefined;
     }
@@ -121,37 +132,39 @@ export class GrAccountDropdown extends LitElement {
     links.push({name: 'Keyboard Shortcuts', id: 'shortcuts'});
     if (switchAccountUrl) {
       const replacements = {path};
-      const url = this._interpolateUrl(switchAccountUrl, replacements);
+      const url = this.interpolateUrl(switchAccountUrl, replacements);
       links.push({name: 'Switch account', url, external: true});
     }
     links.push({name: 'Sign out', id: 'signout', url: '/logout'});
     return links;
   }
 
-  _getTopContent(account?: AccountInfo) {
+  // Private but used in test
+  getTopContent(account?: AccountInfo) {
     return [
-      {text: this._accountName(account), bold: true},
+      {text: this.accountName(account), bold: true},
       {text: account?.email ? account.email : ''},
     ] as DropdownContent[];
   }
 
-  _handleShortcutsTap() {
+  private handleShortcutsTap() {
     fire(this, 'show-keyboard-shortcuts', {});
   }
 
   private readonly handleLocationChange = () => {
-    this._path =
+    this.path =
       window.location.pathname + window.location.search + window.location.hash;
   };
 
-  _interpolateUrl(url: string, replacements: {[key: string]: string}) {
+  // Private but used in test
+  interpolateUrl(url: string, replacements: {[key: string]: string}) {
     return url.replace(
       INTERPOLATE_URL_PATTERN,
       (_, p1) => replacements[p1] || ''
     );
   }
 
-  _accountName(account?: AccountInfo) {
+  private accountName(account?: AccountInfo) {
     return getUserName(this.config, account);
   }
 }

@@ -78,14 +78,14 @@ suite('gr-account-dropdown tests', () => {
 
   test('switch account', () => {
     // Missing params.
-    assert.isUndefined(element._getLinks());
-    assert.isUndefined(element._getLinks(undefined));
+    assert.isUndefined(element.getLinks());
+    assert.isUndefined(element.getLinks(undefined));
 
     // No switch account link.
-    assert.equal(element._getLinks('', '')!.length, 3);
+    assert.equal(element.getLinks('', '')!.length, 3);
 
     // Unparameterized switch account link.
-    let links = element._getLinks('/switch-account', '')!;
+    let links = element.getLinks('/switch-account', '')!;
     assert.equal(links.length, 4);
     assert.deepEqual(links[2], {
       name: 'Switch account',
@@ -94,7 +94,7 @@ suite('gr-account-dropdown tests', () => {
     });
 
     // Parameterized switch account link.
-    links = element._getLinks('/switch-account${path}', '/c/123')!;
+    links = element.getLinks('/switch-account${path}', '/c/123')!;
     assert.equal(links.length, 4);
     assert.deepEqual(links[2], {
       name: 'Switch account',
@@ -103,13 +103,13 @@ suite('gr-account-dropdown tests', () => {
     });
   });
 
-  test('_interpolateUrl', () => {
+  test('interpolateUrl', () => {
     const replacements = {
       foo: 'bar',
       test: 'TEST',
     };
     const interpolate = (url: string) =>
-      element._interpolateUrl(url, replacements);
+      element.interpolateUrl(url, replacements);
 
     assert.equal(interpolate('test'), 'test');
     assert.equal(interpolate('${test}'), 'TEST');

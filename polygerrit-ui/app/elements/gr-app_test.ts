@@ -48,7 +48,7 @@ suite('gr-app tests', () => {
 
   setup(async () => {
     appStartedStub = sinon.stub(getAppContext().reportingService, 'appStarted');
-    stubElement('gr-account-dropdown', '_getTopContent');
+    stubElement('gr-account-dropdown', 'getTopContent');
     routerStartStub = sinon.stub(GrRouter.prototype, 'start');
     stubRestApi('getAccount').returns(Promise.resolve(undefined));
     stubRestApi('getAccountCapabilities').returns(Promise.resolve({}));

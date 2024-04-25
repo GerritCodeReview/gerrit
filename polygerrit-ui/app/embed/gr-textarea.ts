@@ -318,7 +318,16 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
 
     range.detach();
 
-    await this.onCursorPositionChange(null);
+    this.onCursorPositionChange(null);
+  }
+
+  public setCursorPosition(position: number) {
+    this.setCursorPositionForDiv(position, this.editableDivElement);
+  }
+
+  public async setCursorPositionAsync(position: number) {
+    const editableDivElement = await this.editableDiv;
+    this.setCursorPositionForDiv(position, editableDivElement);
   }
 
   /**
@@ -328,12 +337,14 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
    * If position is out of bounds of value of textarea then cursor is places at
    * end of content of textarea.
    */
-  async setCursorPosition(position: number) {
+  private setCursorPositionForDiv(
+    position: number,
+    editableDivElement?: HTMLDivElement
+  ) {
     // This will keep track of remaining offset to place the cursor.
     let remainingOffset = position;
     let isOnFreshLine = true;
     let nodeToFocusOn: Node | null = null;
-    const editableDivElement = await this.editableDiv;
     const selection = this.getSelection();
 
     if (!editableDivElement || !selection) {
@@ -344,6 +355,10 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
       for (let i = 0; i < childNodes.length; i++) {
         const childNode = childNodes[i];
         let currentNodeLength = 0;
+
+        if (childNode.nodeType === Node.COMMENT_NODE) {
+          continue;
+        }
 
         if (childNode.nodeName === 'BR') {
           currentNodeLength++;
@@ -373,10 +388,9 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
       }
     };
 
-    // Find the node to focus on.
     findNodeToFocusOn(Array.from(editableDivElement.childNodes));
 
-    await this.setFocusOnNode(
+    this.setFocusOnNode(
       selection,
       editableDivElement,
       nodeToFocusOn,
@@ -403,7 +417,7 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
       : 'true';
   }
 
-  private async setFocusOnNode(
+  private setFocusOnNode(
     selection: Selection,
     editableDivElement: Node,
     nodeToFocusOn: Node | null,
@@ -432,7 +446,7 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
 
     range.detach();
 
-    await this.onCursorPositionChange(null);
+    this.onCursorPositionChange(null);
   }
 
   private async onInput(event: Event) {
@@ -451,15 +465,15 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
     );
   }
 
-  private async onFocus(event: Event) {
+  private onFocus(event: Event) {
     this.focused = true;
-    await this.onCursorPositionChange(event);
+    this.onCursorPositionChange(event);
   }
 
-  private async onBlur(event: Event) {
+  private onBlur(event: Event) {
     this.focused = false;
     this.removeHintSpanIfShown();
-    await this.onCursorPositionChange(event);
+    this.onCursorPositionChange(event);
   }
 
   private async handleKeyDown(event: KeyboardEvent) {
@@ -483,12 +497,12 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
     await this.toggleHintVisibilityIfAny();
   }
 
-  private async handleKeyUp(event: KeyboardEvent) {
-    await this.onCursorPositionChange(event);
+  private handleKeyUp(event: KeyboardEvent) {
+    this.onCursorPositionChange(event);
   }
 
   private async handleMouseUp(event: MouseEvent) {
-    await this.onCursorPositionChange(event);
+    this.onCursorPositionChange(event);
     await this.toggleHintVisibilityIfAny();
   }
 
@@ -532,7 +546,7 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
 
     const editableDivElement = await this.editableDiv;
     const currentValue = (await this.getValue()) ?? '';
-    const cursorPosition = await this.getCursorPosition();
+    const cursorPosition = await this.getCursorPositionAsync();
     if (
       !editableDivElement ||
       (this.placeholderHint && !currentValue) ||
@@ -598,21 +612,22 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
     return this.shadowRoot?.querySelector('.' + AUTOCOMPLETE_HINT_CLASS);
   }
 
-  private async onCursorPositionChange(event: Event | null) {
+  private onCursorPositionChange(event: Event | null) {
     event?.preventDefault();
     event?.stopImmediatePropagation();
 
     this.dispatchEvent(
       new CustomEvent('cursorPositionChange', {
         detail: {
-          position: await this.getCursorPosition(),
+          position: this.getCursorPosition(),
         },
       })
     );
   }
 
   private async updateValueInDom() {
-    const editableDivElement = await this.editableDiv;
+    const editableDivElement =
+      this.editableDivElement ?? (await this.editableDiv);
     if (editableDivElement) {
       editableDivElement.innerText = this.value || '';
     }
@@ -665,9 +680,17 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
     return [textValue, isLastBr];
   }
 
-  private async getCursorPosition() {
-    const selection = this.getSelection();
+  public getCursorPosition() {
+    return this.getCursorPositionForDiv(this.editableDivElement);
+  }
+
+  public async getCursorPositionAsync() {
     const editableDivElement = await this.editableDiv;
+    return this.getCursorPositionForDiv(editableDivElement);
+  }
+
+  private getCursorPositionForDiv(editableDivElement?: HTMLDivElement) {
+    const selection = this.getSelection();
 
     // Cursor position is -1 (not available) if
     //

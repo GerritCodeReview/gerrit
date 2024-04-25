@@ -41,7 +41,9 @@ public class Index implements RestModifyView<ChangeResource, Input> {
   @Override
   public Response<Object> apply(ChangeResource rsrc, Input input)
       throws IOException, AuthException, PermissionBackendException {
-    permissionBackend.currentUser().check(GlobalPermission.MAINTAIN_SERVER);
+    if (!rsrc.isUserOwner()) {
+      permissionBackend.currentUser().check(GlobalPermission.MAINTAIN_SERVER);
+    }
     indexer.index(rsrc.getNotes());
     return Response.none();
   }

@@ -94,6 +94,30 @@
       },
       "revId": "03dea8c89ea358b80fede1fc5c5c50ea349421cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "febdd795_73e824e6",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-04-25T18:25:41Z",
+      "side": 1,
+      "message": "\u003e RHEL 8 was released in 2019, so hopefully we can assume it has newer than git-2.15 and we can forget about it.\n\nYeah, someone in discord shared https://pkgs.org/search/?q\u003dgit\u0026on\u003dprovides as a good breakdown of what git versions are being shipped by which distros.\n\n\u003e that said, it seems like this was all predicted and already resolved.  look at https://gerrit-review.googlesource.com/c/263053 which called out git-2.15 issues in this script and that was merged in 2020.\n\nThanks for finding and sharing that. I agree it looks like that handles this concern already and I\u0027ll resolve this thread.\n\n\u003e \n\u003e we should add comments to the top of this file clearly documenting the expected version requirements, and what distros we\u0027re aiming to support.  in this case, Ubuntu LTS \u0026 RHEL are prob the only long lived things we need to consider.\n\nI agree that would be good, along with a pointer to that `-legacy` version for anyone who needs old git support.",
+      "parentUuid": "153c5009_95988c7f",
+      "range": {
+        "startLine": 69,
+        "startChar": 26,
+        "endLine": 69,
+        "endChar": 33
+      },
+      "revId": "03dea8c89ea358b80fede1fc5c5c50ea349421cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

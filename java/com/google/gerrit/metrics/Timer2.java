@@ -88,7 +88,7 @@ public abstract class Timer2<F1, F2> implements RegistrationHandle {
    * @param unit time unit of the value
    */
   public final void record(F1 fieldValue1, F2 fieldValue2, long value, TimeUnit unit) {
-    long durationMs = unit.toMillis(value);
+    long durationNanos = unit.toNanos(value);
 
     Metadata.Builder metadataBuilder = Metadata.builder();
     field1.metadataMapper().accept(metadataBuilder, fieldValue1);
@@ -96,10 +96,10 @@ public abstract class Timer2<F1, F2> implements RegistrationHandle {
     Metadata metadata = metadataBuilder.build();
 
     LoggingContext.getInstance()
-        .addPerformanceLogRecord(() -> PerformanceLogRecord.create(name, durationMs, metadata));
+        .addPerformanceLogRecord(() -> PerformanceLogRecord.create(name, durationNanos, metadata));
     logger.atFinest().log(
-        "%s (%s = %s, %s = %s) took %dms",
-        name, field1.name(), fieldValue1, field2.name(), fieldValue2, durationMs);
+        "%s (%s = %s, %s = %s) took %.2f ms",
+        name, field1.name(), fieldValue1, field2.name(), fieldValue2, durationNanos / 1000.0);
 
     doRecord(fieldValue1, fieldValue2, value, unit);
     RequestStateContext.abortIfCancelled();

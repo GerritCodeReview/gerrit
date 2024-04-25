@@ -386,7 +386,8 @@ public class TraceIT extends AbstractDaemonTest {
         extensionRegistry.newRegistration().add(testPerformanceLogger)) {
       RestResponse response = adminRestSession.put("/projects/new10");
       assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
-      verify(testPerformanceLogger, timeout(5000).atLeastOnce()).log(anyString(), anyLong(), any());
+      verify(testPerformanceLogger, timeout(5000).atLeastOnce())
+          .logNanos(anyString(), anyLong(), any());
     }
   }
 
@@ -399,7 +400,8 @@ public class TraceIT extends AbstractDaemonTest {
       PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
       PushOneCommit.Result r = push.to("refs/heads/master");
       r.assertOkStatus();
-      verify(testPerformanceLogger, timeout(5000).atLeastOnce()).log(anyString(), anyLong(), any());
+      verify(testPerformanceLogger, timeout(5000).atLeastOnce())
+          .logNanos(anyString(), anyLong(), any());
     }
   }
 

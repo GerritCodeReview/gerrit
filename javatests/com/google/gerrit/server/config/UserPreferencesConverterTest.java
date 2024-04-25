@@ -18,6 +18,9 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableMap.toImmutableMap;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.extensions.proto.ProtoTruth.assertThat;
+import static com.google.gerrit.server.config.UserPreferencesConverter.DiffPreferencesInfoConverter.DIFF_PREFERENCES_INFO_CONVERTER;
+import static com.google.gerrit.server.config.UserPreferencesConverter.EditPreferencesInfoConverter.EDIT_PREFERENCES_INFO_CONVERTER;
+import static com.google.gerrit.server.config.UserPreferencesConverter.GeneralPreferencesInfoConverter.GENERAL_PREFERENCES_INFO_CONVERTER;
 import static java.util.Arrays.stream;
 
 import com.google.common.collect.ImmutableList;
@@ -35,9 +38,6 @@ import com.google.gerrit.proto.Entities.UserPreferences.GeneralPreferencesInfo.E
 import com.google.gerrit.proto.Entities.UserPreferences.GeneralPreferencesInfo.MenuItem;
 import com.google.gerrit.proto.Entities.UserPreferences.GeneralPreferencesInfo.Theme;
 import com.google.gerrit.proto.Entities.UserPreferences.GeneralPreferencesInfo.TimeFormat;
-import com.google.gerrit.server.config.UserPreferencesConverter.DiffPreferencesInfoConverter;
-import com.google.gerrit.server.config.UserPreferencesConverter.EditPreferencesInfoConverter;
-import com.google.gerrit.server.config.UserPreferencesConverter.GeneralPreferencesInfoConverter;
 import com.google.protobuf.Descriptors.Descriptor;
 import com.google.protobuf.Descriptors.EnumDescriptor;
 import java.util.EnumSet;
@@ -112,8 +112,8 @@ public class UserPreferencesConverterTest {
             .setDiffPageSidebar("plugin-insight")
             .build();
     UserPreferences.GeneralPreferencesInfo resProto =
-        GeneralPreferencesInfoConverter.toProto(
-            GeneralPreferencesInfoConverter.fromProto(originalProto));
+        GENERAL_PREFERENCES_INFO_CONVERTER.toProto(
+            GENERAL_PREFERENCES_INFO_CONVERTER.fromProto(originalProto));
     assertThat(resProto).isEqualTo(originalProto);
   }
 
@@ -125,7 +125,8 @@ public class UserPreferencesConverterTest {
             new com.google.gerrit.extensions.client.MenuItem(
                 " name1 ", " url1 ", " target1 ", " id1 "),
             new com.google.gerrit.extensions.client.MenuItem(null, " url2 ", null, null));
-    UserPreferences.GeneralPreferencesInfo resProto = GeneralPreferencesInfoConverter.toProto(info);
+    UserPreferences.GeneralPreferencesInfo resProto =
+        GENERAL_PREFERENCES_INFO_CONVERTER.toProto(info);
     assertThat(resProto)
         .isEqualTo(
             UserPreferences.GeneralPreferencesInfo.newBuilder()
@@ -155,7 +156,7 @@ public class UserPreferencesConverterTest {
                         .build(),
                     MenuItem.newBuilder().setUrl(" url2 ").build()))
             .build();
-    GeneralPreferencesInfo info = GeneralPreferencesInfoConverter.fromProto(originalProto);
+    GeneralPreferencesInfo info = GENERAL_PREFERENCES_INFO_CONVERTER.fromProto(originalProto);
     assertThat(info.my)
         .containsExactly(
             new com.google.gerrit.extensions.client.MenuItem("name1", "url1", "target1", "id1"),
@@ -165,14 +166,14 @@ public class UserPreferencesConverterTest {
   @Test
   public void generalPreferencesInfo_emptyJavaToProto() {
     GeneralPreferencesInfo info = new GeneralPreferencesInfo();
-    UserPreferences.GeneralPreferencesInfo res = GeneralPreferencesInfoConverter.toProto(info);
+    UserPreferences.GeneralPreferencesInfo res = GENERAL_PREFERENCES_INFO_CONVERTER.toProto(info);
     assertThat(res).isEqualToDefaultInstance();
   }
 
   @Test
   public void generalPreferencesInfo_defaultJavaToProto() {
     GeneralPreferencesInfo info = GeneralPreferencesInfo.defaults();
-    UserPreferences.GeneralPreferencesInfo res = GeneralPreferencesInfoConverter.toProto(info);
+    UserPreferences.GeneralPreferencesInfo res = GENERAL_PREFERENCES_INFO_CONVERTER.toProto(info);
     assertThat(res)
         .ignoringFieldAbsence()
         .isEqualTo(UserPreferences.GeneralPreferencesInfo.getDefaultInstance());
@@ -182,7 +183,7 @@ public class UserPreferencesConverterTest {
   public void generalPreferencesInfo_emptyProtoToJava() {
     UserPreferences.GeneralPreferencesInfo proto =
         UserPreferences.GeneralPreferencesInfo.getDefaultInstance();
-    GeneralPreferencesInfo res = GeneralPreferencesInfoConverter.fromProto(proto);
+    GeneralPreferencesInfo res = GENERAL_PREFERENCES_INFO_CONVERTER.fromProto(proto);
     assertThat(res).isEqualTo(new GeneralPreferencesInfo());
   }
 
@@ -238,21 +239,22 @@ public class UserPreferencesConverterTest {
             .setSkipUncommented(false)
             .build();
     UserPreferences.DiffPreferencesInfo resProto =
-        DiffPreferencesInfoConverter.toProto(DiffPreferencesInfoConverter.fromProto(originalProto));
+        DIFF_PREFERENCES_INFO_CONVERTER.toProto(
+            DIFF_PREFERENCES_INFO_CONVERTER.fromProto(originalProto));
     assertThat(resProto).isEqualTo(originalProto);
   }
 
   @Test
   public void diffPreferencesInfo_emptyJavaToProto() {
     DiffPreferencesInfo info = new DiffPreferencesInfo();
-    UserPreferences.DiffPreferencesInfo res = DiffPreferencesInfoConverter.toProto(info);
+    UserPreferences.DiffPreferencesInfo res = DIFF_PREFERENCES_INFO_CONVERTER.toProto(info);
     assertThat(res).isEqualToDefaultInstance();
   }
 
   @Test
   public void diffPreferencesInfo_defaultJavaToProto() {
     DiffPreferencesInfo info = DiffPreferencesInfo.defaults();
-    UserPreferences.DiffPreferencesInfo res = DiffPreferencesInfoConverter.toProto(info);
+    UserPreferences.DiffPreferencesInfo res = DIFF_PREFERENCES_INFO_CONVERTER.toProto(info);
     assertThat(res)
         .ignoringFieldAbsence()
         .isEqualTo(UserPreferences.DiffPreferencesInfo.getDefaultInstance());
@@ -262,7 +264,7 @@ public class UserPreferencesConverterTest {
   public void diffPreferencesInfo_emptyProtoToJava() {
     UserPreferences.DiffPreferencesInfo proto =
         UserPreferences.DiffPreferencesInfo.getDefaultInstance();
-    DiffPreferencesInfo res = DiffPreferencesInfoConverter.fromProto(proto);
+    DiffPreferencesInfo res = DIFF_PREFERENCES_INFO_CONVERTER.fromProto(proto);
     assertThat(res).isEqualTo(new DiffPreferencesInfo());
   }
 
@@ -308,21 +310,22 @@ public class UserPreferencesConverterTest {
             .setShowBase(false)
             .build();
     UserPreferences.EditPreferencesInfo resProto =
-        EditPreferencesInfoConverter.toProto(EditPreferencesInfoConverter.fromProto(originalProto));
+        EDIT_PREFERENCES_INFO_CONVERTER.toProto(
+            EDIT_PREFERENCES_INFO_CONVERTER.fromProto(originalProto));
     assertThat(resProto).isEqualTo(originalProto);
   }
 
   @Test
   public void editPreferencesInfo_emptyJavaToProto() {
     EditPreferencesInfo info = new EditPreferencesInfo();
-    UserPreferences.EditPreferencesInfo res = EditPreferencesInfoConverter.toProto(info);
+    UserPreferences.EditPreferencesInfo res = EDIT_PREFERENCES_INFO_CONVERTER.toProto(info);
     assertThat(res).isEqualToDefaultInstance();
   }
 
   @Test
   public void editPreferencesInfo_defaultJavaToProto() {
     EditPreferencesInfo info = EditPreferencesInfo.defaults();
-    UserPreferences.EditPreferencesInfo res = EditPreferencesInfoConverter.toProto(info);
+    UserPreferences.EditPreferencesInfo res = EDIT_PREFERENCES_INFO_CONVERTER.toProto(info);
     assertThat(res)
         .ignoringFieldAbsence()
         .isEqualTo(UserPreferences.EditPreferencesInfo.getDefaultInstance());
@@ -332,7 +335,7 @@ public class UserPreferencesConverterTest {
   public void editPreferencesInfo_emptyProtoToJava() {
     UserPreferences.EditPreferencesInfo proto =
         UserPreferences.EditPreferencesInfo.getDefaultInstance();
-    EditPreferencesInfo res = EditPreferencesInfoConverter.fromProto(proto);
+    EditPreferencesInfo res = EDIT_PREFERENCES_INFO_CONVERTER.fromProto(proto);
     assertThat(res).isEqualTo(new EditPreferencesInfo());
   }
 

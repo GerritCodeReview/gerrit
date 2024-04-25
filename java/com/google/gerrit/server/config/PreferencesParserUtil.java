@@ -17,6 +17,9 @@ package com.google.gerrit.server.config;
 import static com.google.gerrit.server.config.ConfigUtil.loadSection;
 import static com.google.gerrit.server.config.ConfigUtil.mergeWithDefaults;
 import static com.google.gerrit.server.config.ConfigUtil.skipField;
+import static com.google.gerrit.server.config.UserPreferencesConverter.DiffPreferencesInfoConverter.DIFF_PREFERENCES_INFO_CONVERTER;
+import static com.google.gerrit.server.config.UserPreferencesConverter.EditPreferencesInfoConverter.EDIT_PREFERENCES_INFO_CONVERTER;
+import static com.google.gerrit.server.config.UserPreferencesConverter.GeneralPreferencesInfoConverter.GENERAL_PREFERENCES_INFO_CONVERTER;
 import static com.google.gerrit.server.git.UserConfigSections.CHANGE_TABLE;
 import static com.google.gerrit.server.git.UserConfigSections.CHANGE_TABLE_COLUMN;
 import static com.google.gerrit.server.git.UserConfigSections.KEY_ID;
@@ -350,8 +353,7 @@ public class PreferencesParserUtil {
 
     @Override
     public GeneralPreferencesInfo fromUserPreferences(UserPreferences p) {
-      return UserPreferencesConverter.GeneralPreferencesInfoConverter.fromProto(
-          p.getGeneralPreferencesInfo());
+      return GENERAL_PREFERENCES_INFO_CONVERTER.fromProto(p.getGeneralPreferencesInfo());
     }
 
     @Override
@@ -381,8 +383,7 @@ public class PreferencesParserUtil {
 
     @Override
     public EditPreferencesInfo fromUserPreferences(UserPreferences p) {
-      return UserPreferencesConverter.EditPreferencesInfoConverter.fromProto(
-          p.getEditPreferencesInfo());
+      return EDIT_PREFERENCES_INFO_CONVERTER.fromProto(p.getEditPreferencesInfo());
     }
 
     @Override
@@ -412,8 +413,7 @@ public class PreferencesParserUtil {
 
     @Override
     public DiffPreferencesInfo fromUserPreferences(UserPreferences p) {
-      return UserPreferencesConverter.DiffPreferencesInfoConverter.fromProto(
-          p.getDiffPreferencesInfo());
+      return DIFF_PREFERENCES_INFO_CONVERTER.fromProto(p.getDiffPreferencesInfo());
     }
 
     @Override

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ff2e675_7972bb54",
+        "filename": "Documentation/cmd-index-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1071857
+      },
+      "writtenOn": "2024-04-25T12:42:08Z",
+      "side": 1,
+      "message": "Relevant part.",
+      "range": {
+        "startLine": 19,
+        "startChar": 51,
+        "endLine": 20,
+        "endChar": 13
+      },
+      "revId": "4a421d27421afc63506dd8034dd4f95f16cdbfd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

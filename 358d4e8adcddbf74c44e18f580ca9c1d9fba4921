@@ -1,5 +1,29 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a1e7e4e_96b2e92e",
+        "filename": "polygerrit-ui/app/utils/dom-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 3227329
+      },
+      "writtenOn": "2024-04-25T19:38:42Z",
+      "side": 1,
+      "message": "I think https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/isContentEditable is a better check as rootTarget.hasAttribute(\u0027contenteditable\u0027); will evaluate to true even when contenteditable\u003dfalse. In this case element may be disabled/readonly.\n```suggestion\n  const editable \u003d rootTarget.isContentEditable;\n```",
+      "range": {
+        "startLine": 440,
+        "startChar": 19,
+        "endLine": 440,
+        "endChar": 62
+      },
+      "revId": "358d4e8adcddbf74c44e18f580ca9c1d9fba4921",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

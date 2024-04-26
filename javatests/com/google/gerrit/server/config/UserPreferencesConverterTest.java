@@ -70,6 +70,35 @@ public class UserPreferencesConverterTest {
     }
   }
 
+  /**
+   * If this test fails, it's likely that you added a field to {@link GeneralPreferencesInfo}, or
+   * that you have changed the default value for such a field. Please update the {@link
+   * UserPreferences.GeneralPreferencesInfo} proto accordingly.
+   */
+  @Test
+  public void generalPreferencesInfo_javaDefaultsKeptOnDoubleConversion() {
+    GeneralPreferencesInfo orig = GeneralPreferencesInfo.defaults();
+    GeneralPreferencesInfo res =
+        GENERAL_PREFERENCES_INFO_CONVERTER.fromProto(
+            GENERAL_PREFERENCES_INFO_CONVERTER.toProto(orig));
+    assertThat(res).isEqualTo(orig);
+  }
+
+  /**
+   * If this test fails, it's likely that you added a field to {@link
+   * UserPreferences.GeneralPreferencesInfo}, or that you have changed the default value for such a
+   * field. Please update the {@link GeneralPreferencesInfo} class accordingly.
+   */
+  @Test
+  public void generalPreferencesInfo_protoDefaultsKeptOnDoubleConversion() {
+    UserPreferences.GeneralPreferencesInfo orig =
+        UserPreferences.GeneralPreferencesInfo.getDefaultInstance();
+    UserPreferences.GeneralPreferencesInfo res =
+        GENERAL_PREFERENCES_INFO_CONVERTER.toProto(
+            GENERAL_PREFERENCES_INFO_CONVERTER.fromProto(orig));
+    assertThat(res).isEqualTo(orig);
+  }
+
   @Test
   public void generalPreferencesInfo_doubleConversionWithAllFieldsSet() {
     UserPreferences.GeneralPreferencesInfo originalProto =
@@ -209,6 +238,33 @@ public class UserPreferencesConverterTest {
     }
   }
 
+  /**
+   * If this test fails, it's likely that you added a field to {@link DiffPreferencesInfo}, or that
+   * you have changed the default value for such a field. Please update the {@link
+   * UserPreferences.DiffPreferencesInfo} proto accordingly.
+   */
+  @Test
+  public void diffPreferencesInfo_javaDefaultsKeptOnDoubleConversion() {
+    DiffPreferencesInfo orig = DiffPreferencesInfo.defaults();
+    DiffPreferencesInfo res =
+        DIFF_PREFERENCES_INFO_CONVERTER.fromProto(DIFF_PREFERENCES_INFO_CONVERTER.toProto(orig));
+    assertThat(res).isEqualTo(orig);
+  }
+
+  /**
+   * If this test fails, it's likely that you added a field to {@link
+   * UserPreferences.DiffPreferencesInfo}, or that you have changed the default value for such a
+   * field. Please update the {@link DiffPreferencesInfo} class accordingly.
+   */
+  @Test
+  public void diffPreferencesInfo_protoDefaultsKeptOnDoubleConversion() {
+    UserPreferences.DiffPreferencesInfo orig =
+        UserPreferences.DiffPreferencesInfo.getDefaultInstance();
+    UserPreferences.DiffPreferencesInfo res =
+        DIFF_PREFERENCES_INFO_CONVERTER.toProto(DIFF_PREFERENCES_INFO_CONVERTER.fromProto(orig));
+    assertThat(res).isEqualTo(orig);
+  }
+
   @Test
   public void diffPreferencesInfo_doubleConversionWithAllFieldsSet() {
     UserPreferences.DiffPreferencesInfo originalProto =
@@ -288,6 +344,33 @@ public class UserPreferencesConverterTest {
           javaEnums.get(enumName).stream().map(Enum::name).collect(toImmutableList());
       assertThat(protoEnumValues).containsExactlyElementsIn(javaEnumValues);
     }
+  }
+
+  /**
+   * If this test fails, it's likely that you added a field to {@link EditPreferencesInfo}, or that
+   * you have changed the default value for such a field. Please update the {@link
+   * UserPreferences.EditPreferencesInfo} proto accordingly.
+   */
+  @Test
+  public void editPreferencesInfo_javaDefaultsKeptOnDoubleConversion() {
+    EditPreferencesInfo orig = EditPreferencesInfo.defaults();
+    EditPreferencesInfo res =
+        EDIT_PREFERENCES_INFO_CONVERTER.fromProto(EDIT_PREFERENCES_INFO_CONVERTER.toProto(orig));
+    assertThat(res).isEqualTo(orig);
+  }
+
+  /**
+   * If this test fails, it's likely that you added a field to {@link
+   * UserPreferences.EditPreferencesInfo}, or that you have changed the default value for such a
+   * field. Please update the {@link EditPreferencesInfo} class accordingly.
+   */
+  @Test
+  public void editPreferencesInfo_protoDefaultsKeptOnDoubleConversion() {
+    UserPreferences.EditPreferencesInfo orig =
+        UserPreferences.EditPreferencesInfo.getDefaultInstance();
+    UserPreferences.EditPreferencesInfo res =
+        EDIT_PREFERENCES_INFO_CONVERTER.toProto(EDIT_PREFERENCES_INFO_CONVERTER.fromProto(orig));
+    assertThat(res).isEqualTo(orig);
   }
 
   @Test

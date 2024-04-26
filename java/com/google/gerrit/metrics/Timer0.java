@@ -72,11 +72,11 @@ public abstract class Timer0 implements RegistrationHandle {
    * @param unit time unit of the value
    */
   public final void record(long value, TimeUnit unit) {
-    long durationMs = unit.toMillis(value);
+    long durationNanos = unit.toNanos(value);
 
     LoggingContext.getInstance()
-        .addPerformanceLogRecord(() -> PerformanceLogRecord.create(name, durationMs));
-    logger.atFinest().log("%s took %dms", name, durationMs);
+        .addPerformanceLogRecord(() -> PerformanceLogRecord.create(name, durationNanos));
+    logger.atFinest().log("%s took %.2f ms", name, durationNanos / 1000.0);
 
     doRecord(value, unit);
     RequestStateContext.abortIfCancelled();

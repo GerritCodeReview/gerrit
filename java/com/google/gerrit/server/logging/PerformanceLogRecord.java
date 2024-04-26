@@ -30,30 +30,31 @@ public abstract class PerformanceLogRecord {
    * Creates a performance log record without meta data.
    *
    * @param operation the name of operation the is was performed
-   * @param durationMs the execution time in milliseconds
+   * @param durationNanos the execution time in nanoseconds
    * @return the performance log record
    */
-  public static PerformanceLogRecord create(String operation, long durationMs) {
+  public static PerformanceLogRecord create(String operation, long durationNanos) {
     return new AutoValue_PerformanceLogRecord(
-        operation, durationMs, Instant.now(), Optional.empty());
+        operation, durationNanos, Instant.now(), Optional.empty());
   }
 
   /**
    * Creates a performance log record with meta data.
    *
    * @param operation the name of operation the is was performed
-   * @param durationMs the execution time in milliseconds
+   * @param durationNanos the execution time in nanoseconds
    * @param metadata metadata
    * @return the performance log record
    */
-  public static PerformanceLogRecord create(String operation, long durationMs, Metadata metadata) {
+  public static PerformanceLogRecord create(
+      String operation, long durationNanos, Metadata metadata) {
     return new AutoValue_PerformanceLogRecord(
-        operation, durationMs, Instant.now(), Optional.of(metadata));
+        operation, durationNanos, Instant.now(), Optional.of(metadata));
   }
 
   public abstract String operation();
 
-  public abstract long durationMs();
+  public abstract long durationNanos();
 
   public abstract Instant endTime();
 
@@ -61,9 +62,9 @@ public abstract class PerformanceLogRecord {
 
   void writeTo(PerformanceLogger performanceLogger) {
     if (metadata().isPresent()) {
-      performanceLogger.log(operation(), durationMs(), endTime(), metadata().get());
+      performanceLogger.logNanos(operation(), durationNanos(), endTime(), metadata().get());
     } else {
-      performanceLogger.log(operation(), durationMs(), endTime());
+      performanceLogger.logNanos(operation(), durationNanos(), endTime());
     }
   }
 }

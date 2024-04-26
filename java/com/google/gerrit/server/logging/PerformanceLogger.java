@@ -16,6 +16,7 @@ package com.google.gerrit.server.logging;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import java.time.Instant;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Extension point for logging performance records.
@@ -36,6 +37,7 @@ public interface PerformanceLogger {
    * @param operation operation that was performed
    * @param durationMs time that the execution of the operation took (in milliseconds)
    */
+  @Deprecated
   default void log(String operation, long durationMs, Instant endTime) {
     log(operation, durationMs, endTime, Metadata.empty());
   }
@@ -47,5 +49,27 @@ public interface PerformanceLogger {
    * @param durationMs time that the execution of the operation took (in milliseconds)
    * @param metadata metadata
    */
+  @Deprecated
   void log(String operation, long durationMs, Instant endTime, Metadata metadata);
+
+  /**
+   * Record the execution time of an operation in a performance log.
+   *
+   * @param operation operation that was performed
+   * @param durationNanos time that the execution of the operation took (in nanoseconds)
+   */
+  default void logNanos(String operation, long durationNanos, Instant endTime) {
+    logNanos(operation, durationNanos, endTime, Metadata.empty());
+  }
+
+  /**
+   * Record the execution time of an operation in a performance log.
+   *
+   * @param operation operation that was performed
+   * @param durationNanos time that the execution of the operation took (in nanoseconds)
+   * @param metadata metadata
+   */
+  default void logNanos(String operation, long durationNanos, Instant endTime, Metadata metadata) {
+    log(operation, TimeUnit.NANOSECONDS.toMillis(durationNanos), endTime, metadata);
+  }
 }

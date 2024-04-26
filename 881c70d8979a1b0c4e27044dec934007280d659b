@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57df3079_4e2fc8de",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-04-26T08:25:43Z",
+      "side": 1,
+      "message": "I think we would rather like to update the documentation to match the implementation, as there should be no need for change owners to index changes on their own.",
+      "revId": "881c70d8979a1b0c4e27044dec934007280d659b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

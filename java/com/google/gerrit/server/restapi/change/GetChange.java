@@ -45,6 +45,7 @@ import java.util.Collection;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import org.eclipse.jgit.errors.InvalidObjectIdException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -105,8 +106,9 @@ public class GetChange
   public Response<ChangeInfo> apply(ChangeResource rsrc) throws RestApiException {
     try {
       Change change = rsrc.getChange();
-      ObjectId changeMetaRevId = getMetaRevId(change);
-      return Response.withMustRevalidate(newChangeJson().format(change, changeMetaRevId));
+      Optional<ObjectId> changeMetaRevId = getMetaRevId(change);
+      return Response.withMustRevalidate(
+          newChangeJson().format(change, changeMetaRevId.orElse(null)));
     } catch (MissingMetaObjectException e) {
       throw new PreconditionFailedException(e.getMessage());
     }
@@ -116,10 +118,9 @@ public class GetChange
     return Response.withMustRevalidate(newChangeJson().format(rsrc));
   }
 
-  @Nullable
-  private ObjectId getMetaRevId(Change change) throws RestApiException {
+  private Optional<ObjectId> getMetaRevId(Change change) throws RestApiException {
     if (metaRevId.isEmpty()) {
-      return null;
+      return Optional.empty();
     }
 
     // It might be interesting to also allow {SHA1}^^, so callers can walk back into history
@@ -144,10 +145,10 @@ public class GetChange
         cds, this, Streams.stream(pdiFactories.entries()));
   }
 
-  @Nullable
-  private ObjectId verifyMetaId(Change change, @Nullable ObjectId id) throws RestApiException {
+  private Optional<ObjectId> verifyMetaId(Change change, @Nullable ObjectId id)
+      throws RestApiException {
     if (id == null) {
-      return null;
+      return Optional.empty();
     }
 
     String changeMetaRefName = RefNames.changeMetaRef(change.getId());
@@ -159,7 +160,7 @@ public class GetChange
       rw.markStart(tip);
       for (RevCommit rev : rw) {
         if (id.equals(rev)) {
-          return id;
+          return Optional.of(id);
         }
       }
     } catch (IOException e) {

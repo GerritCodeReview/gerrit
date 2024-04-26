@@ -27,6 +27,7 @@ import org.junit.Test;
 
 public class PluginOrderComparatorTest {
   private static final String API_MODULE = "Gerrit-ApiModule: com.google.gerrit.UnitTest";
+  private static final String LOAD_PRIORITY = "Gerrit-LoadPriority: 1";
 
   private static final Path FIRST_PLUGIN_PATH = Paths.get("01-plugin.jar");
   private static final Path LAST_PLUGIN_PATH = Paths.get("99-plugin.jar");
@@ -36,6 +37,9 @@ public class PluginOrderComparatorTest {
 
   private static final Manifest EMPTY_MANIFEST = newManifest("");
   private static final Manifest API_MODULE_MANIFEST = newManifest(API_MODULE);
+  private static final Manifest LOAD_PRIORITY_MANIFEST = newManifest(LOAD_PRIORITY);
+  private static final Manifest API_MODULE_AND_PRIOIRITY_MANIFEST =
+      newManifest(API_MODULE + "\n" + LOAD_PRIORITY);
 
   @Test
   public void shouldOrderPluginsBasedOnFileName() {
@@ -49,6 +53,39 @@ public class PluginOrderComparatorTest {
   public void shouldReturnPluginWithApiModuleFirst() {
     // return empty manifest for the first plugin and manifest with ApiModule for the last
     PluginOrderComparator.ManifestLoader loader = customLoader(EMPTY_MANIFEST, API_MODULE_MANIFEST);
+
+    PluginOrderComparator comparator = new PluginOrderComparator(loader);
+
+    assertThat(comparator.compare(FIRST_ENTRY, SECOND_ENTRY)).isEqualTo(1);
+    assertThat(comparator.compare(SECOND_ENTRY, FIRST_ENTRY)).isEqualTo(-1);
+  }
+
+  @Test
+  public void shouldReturnPriorityPluginFirst() {
+    PluginOrderComparator.ManifestLoader loader =
+        customLoader(EMPTY_MANIFEST, LOAD_PRIORITY_MANIFEST);
+
+    PluginOrderComparator comparator = new PluginOrderComparator(loader);
+
+    assertThat(comparator.compare(FIRST_ENTRY, SECOND_ENTRY)).isEqualTo(1);
+    assertThat(comparator.compare(SECOND_ENTRY, FIRST_ENTRY)).isEqualTo(-1);
+  }
+
+  @Test
+  public void shouldReturnApiModuleBeforePriority() {
+    PluginOrderComparator.ManifestLoader loader =
+        customLoader(LOAD_PRIORITY_MANIFEST, API_MODULE_MANIFEST);
+
+    PluginOrderComparator comparator = new PluginOrderComparator(loader);
+
+    assertThat(comparator.compare(FIRST_ENTRY, SECOND_ENTRY)).isEqualTo(1);
+    assertThat(comparator.compare(SECOND_ENTRY, FIRST_ENTRY)).isEqualTo(-1);
+  }
+
+  @Test
+  public void shouldReturnApiModuleWithPriorityFirst() {
+    PluginOrderComparator.ManifestLoader loader =
+        customLoader(API_MODULE_MANIFEST, API_MODULE_AND_PRIOIRITY_MANIFEST);
 
     PluginOrderComparator comparator = new PluginOrderComparator(loader);
 

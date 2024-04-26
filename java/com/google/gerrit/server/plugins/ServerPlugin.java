@@ -39,6 +39,7 @@ import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 public class ServerPlugin extends Plugin {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   public static final String API_MODULE = "Gerrit-ApiModule";
+  public static final String LOAD_PRIORITY = "Gerrit-LoadPriority";
 
   private final Manifest manifest;
   private final PluginContentScanner scanner;

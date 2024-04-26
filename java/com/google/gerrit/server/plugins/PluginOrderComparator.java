@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.plugins;
 
+import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.flogger.FluentLogger;
@@ -50,15 +51,20 @@ class PluginOrderComparator implements Comparator<Map.Entry<String, Path>> {
 
   @Override
   public int compare(Map.Entry<String, Path> e1, Map.Entry<String, Path> e2) {
-    Path n1 = e1.getValue().getFileName();
-    Path n2 = e2.getValue().getFileName();
+    Path e1Path = e1.getValue();
+    Path e2Path = e2.getValue();
+    Path n1 = e1Path.getFileName();
+    Path n2 = e2Path.getFileName();
 
     try {
-      boolean e1IsApi = isApi(e1.getValue());
-      boolean e2IsApi = isApi(e2.getValue());
+      boolean e1IsApi = isApi(e1Path);
+      boolean e2IsApi = isApi(e2Path);
+      int e1Priority = getLoadPriority(e1Path);
+      int e2Priority = getLoadPriority(e2Path);
       return ComparisonChain.start()
           .compareTrueFirst(e1IsApi, e2IsApi)
           .compareTrueFirst(isJar(n1), isJar(n2))
+          .compare(e2Priority, e1Priority)
           .compare(n1, n2)
           .result();
     } catch (IOException ioe) {
@@ -78,5 +84,19 @@ class PluginOrderComparator implements Comparator<Map.Entry<String, Path>> {
   private boolean hasApiModuleEntryInManifest(Path pluginPath) throws IOException {
     return !Strings.isNullOrEmpty(
         manifestLoader.load(pluginPath).getMainAttributes().getValue(ServerPlugin.API_MODULE));
+  }
+
+  private int getLoadPriority(Path pluginPath) throws IOException {
+    if (!isJar(pluginPath)) {
+      return 0;
+    }
+
+    return Optional.fromNullable(
+            manifestLoader
+                .load(pluginPath)
+                .getMainAttributes()
+                .getValue(ServerPlugin.LOAD_PRIORITY))
+        .transform(Integer::parseInt)
+        .or(0);
   }
 }

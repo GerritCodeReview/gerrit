@@ -195,6 +195,23 @@ pluginPipeline(
   extraPlugins: ['plugin-B'])
 ```
 
+=== Plugin Load Priority
+
+A plugin can optionally declare its load priority.
+
+Default: 0
+
+---
+Gerrit-LoadPriority: 1
+---
+
+In situations when one plugin depends on another one, either via build dependency or
+cross-plugin communication. It may be crucial to enforce the load order of plugins.
+
+The `Gerrit-LoadPriority`, gives an option to influence the plugin load order. The
+values above 0 will increase the load priority, meaning the plugin will be loaded
+earlier, values below 0 will decrease the priority.
+
 [[plugin_name]]
 === Plugin Name
 

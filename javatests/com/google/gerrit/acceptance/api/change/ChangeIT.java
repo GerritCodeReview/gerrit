@@ -4676,6 +4676,11 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes().id(change.getChangeId()).addReviewer(user.email());
 
     int number = gApi.changes().id(change.getChangeId()).get()._number;
+
+    // Note: Computing the description of some UI actions does access the index. If the index is
+    // disabled computing these descriptions fails. UiActions#describe catches and ignores these
+    // exceptions so that the request is still successful. In this case the description of the UI
+    // action is omitted in the response.
     try (AutoCloseable ignored = changeIndexOperations.disableReadsAndWrites()) {
       assertThat(gApi.changes().id(project.get(), number).get(options).changeId)
           .isEqualTo(change.getChangeId());

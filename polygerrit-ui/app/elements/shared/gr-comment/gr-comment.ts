@@ -219,6 +219,9 @@ export class GrComment extends LitElement {
   @state()
   messageText = '';
 
+  /** An autocompletion autocompleteHint for the comment message from pluigin suggestion providers. */
+  @state() autocompleteHint = '';
+
   /* The 'dirty' state of !comment.unresolved, which will be saved on demand. */
   @state()
   unresolved = true;
@@ -391,6 +394,16 @@ export class GrComment extends LitElement {
       this,
       () => this.getConfigModel().docsBaseUrl$,
       docsBaseUrl => (this.docsBaseUrl = docsBaseUrl)
+    );
+    subscribe(
+      this,
+      () =>
+        this.generateSuggestionTrigger$.pipe(
+          debounceTime(GENERATE_SUGGESTION_DEBOUNCE_DELAY_MS)
+        ),
+      () => {
+        this.autocompleteComment();
+      }
     );
     if (
       this.flagsService.isEnabled(KnownExperimentId.ML_SUGGESTED_EDIT) ||
@@ -872,12 +885,16 @@ export class GrComment extends LitElement {
         rows="4"
         .placeholder=${this.messagePlaceholder}
         text=${this.messageText}
+        autocompleteHint=${this.autocompleteHint}
         @text-changed=${(e: ValueChangedEvent) => {
           // TODO: This is causing a re-render of <gr-comment> on every key
           // press. Try to avoid always setting `this.messageText` or at least
           // debounce it. Most of the code can just inspect the current value
           // of the textare instead of needing a dedicated property.
           this.messageText = e.detail.value;
+          // As soon as the user changes the next the hint for autocompletion
+          // is invalidated.
+          this.autocompleteHint = '';
           this.autoSaveTrigger$.next();
           this.generateSuggestionTrigger$.next();
         }}
@@ -1284,6 +1301,34 @@ export class GrComment extends LitElement {
       // Error is ok in some cases like quick save by user.
       console.warn(error);
     }
+  }
+
+  private async autocompleteComment() {
+    const suggestionsProvider = this.suggestionsProvider;
+    const changeInfo = this.getChangeModel().getChange();
+    if (
+      !suggestionsProvider?.autocompleteComment ||
+      !changeInfo ||
+      !this.comment?.patch_set ||
+      !this.comment.path ||
+      this.messageText.length === 0
+    ) {
+      return;
+    }
+    const commentText = this.messageText;
+    const response = await suggestionsProvider.autocompleteComment({
+      commentText,
+      changeInfo: changeInfo as ChangeInfo,
+      patchsetNumber: this.comment?.patch_set,
+      filePath: this.comment.path,
+      range: this.comment.range,
+      lineNumber: this.comment.line,
+    });
+    // If between request and response the user has changed the message, then
+    // ignore the suggestion for the old message text.
+    if (this.messageText !== commentText) return;
+    if (!response?.completion) return;
+    this.autocompleteHint = response.completion;
   }
 
   private renderRobotActions() {

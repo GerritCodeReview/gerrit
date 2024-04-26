@@ -70,6 +70,24 @@
       "parentUuid": "6ed1c7cc_439e1bd8",
       "revId": "881c70d8979a1b0c4e27044dec934007280d659b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a106b13_aafbaaba",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1071857
+      },
+      "writtenOn": "2024-04-26T08:55:15Z",
+      "side": 1,
+      "message": "I think we can close https://issues.gerritcodereview.com/issues/40014040 with a reference to this change as well.",
+      "parentUuid": "fc8b0a91_c4709cee",
+      "revId": "881c70d8979a1b0c4e27044dec934007280d659b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

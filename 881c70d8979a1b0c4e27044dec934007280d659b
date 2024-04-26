@@ -34,6 +34,24 @@
       "parentUuid": "57df3079_4e2fc8de",
       "revId": "881c70d8979a1b0c4e27044dec934007280d659b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ed1c7cc_439e1bd8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1071857
+      },
+      "writtenOn": "2024-04-26T08:47:24Z",
+      "side": 1,
+      "message": "Done\n\nThis also aligns with Shawns change in https://gerrit-review.googlesource.com/c/gerrit/+/104390\nThe documentation just lagged behind.",
+      "parentUuid": "b988a714_26fbb349",
+      "revId": "881c70d8979a1b0c4e27044dec934007280d659b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

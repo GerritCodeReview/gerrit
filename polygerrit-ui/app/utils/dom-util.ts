@@ -437,7 +437,7 @@ export function shouldSuppress(e: KeyboardEvent): boolean {
   if (!isElementTarget(rootTarget)) return false;
   const tagName = rootTarget.tagName;
   const type = rootTarget.getAttribute('type');
-  const editable = rootTarget.hasAttribute('contenteditable');
+  const editable = !!(rootTarget as HTMLElement).isContentEditable;
 
   if (
     editable ||

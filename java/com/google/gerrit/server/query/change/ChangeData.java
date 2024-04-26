@@ -35,7 +35,6 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Table;
 import com.google.common.flogger.FluentLogger;
-import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.UsedAt;
@@ -51,7 +50,6 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
-import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementResult;
@@ -113,7 +111,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -417,7 +414,6 @@ public class ChangeData {
   private List<String> currentFiles;
   private Optional<DiffSummary> diffSummary;
   private List<HumanComment> publishedComments;
-  private List<RobotComment> robotComments;
   private CurrentUser visibleTo;
   private List<ChangeMessage> messages;
   private Optional<ChangedLines> changedLines;
@@ -1125,16 +1121,6 @@ public class ChangeData {
     return publishedComments;
   }
 
-  public Collection<RobotComment> robotComments() {
-    if (robotComments == null) {
-      if (!lazyload()) {
-        return Collections.emptyList();
-      }
-      robotComments = commentsUtil.robotCommentsByChange(notes());
-    }
-    return robotComments;
-  }
-
   @Nullable
   public Integer unresolvedCommentCount() {
     if (unresolvedCommentCount == null) {
@@ -1142,8 +1128,7 @@ public class ChangeData {
         return null;
       }
 
-      List<Comment> comments =
-          Stream.concat(publishedComments().stream(), robotComments().stream()).collect(toList());
+      List<Comment> comments = publishedComments().stream().collect(toList());
 
       ImmutableSet<CommentThread<Comment>> commentThreads =
           CommentThreads.forComments(comments).getThreads();
@@ -1166,8 +1151,7 @@ public class ChangeData {
       }
 
       // Fail on overflow.
-      totalCommentCount =
-          Ints.checkedCast((long) publishedComments().size() + robotComments().size());
+      totalCommentCount = publishedComments().size();
     }
     return totalCommentCount;
   }

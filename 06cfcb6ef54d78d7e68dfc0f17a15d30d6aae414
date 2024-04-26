@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8d18208_0e237b6a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-04-26T18:45:04Z",
+      "side": 1,
+      "message": "Deferring +2 to a FE maintainer.",
+      "revId": "06cfcb6ef54d78d7e68dfc0f17a15d30d6aae414",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -9,6 +9,7 @@ java_library(
     srcs = glob(["**/*.java"]),
     deps = [
         "//java/com/google/gerrit/common:annotations",
+        "//java/com/google/gerrit/common:common_interfaces",
         "//java/com/google/gerrit/extensions:api",
         "//lib:gson",
         "//lib:guava",

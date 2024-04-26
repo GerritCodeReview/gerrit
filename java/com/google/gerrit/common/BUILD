@@ -5,6 +5,10 @@ ANNOTATIONS = [
     "UsedAt.java",
 ]
 
+COMMON_INTERFACES = [
+    "ConvertibleToProto.java",
+]
+
 java_library(
     name = "annotations",
     srcs = ANNOTATIONS,
@@ -13,14 +17,21 @@ java_library(
 )
 
 java_library(
+    name = "common_interfaces",
+    srcs = COMMON_INTERFACES,
+    visibility = ["//visibility:public"],
+)
+
+java_library(
     name = "server",
     srcs = glob(
         ["**/*.java"],
-        exclude = ANNOTATIONS,
+        exclude = ANNOTATIONS + COMMON_INTERFACES,
     ),
     visibility = ["//visibility:public"],
     deps = [
         ":annotations",
+        ":common_interfaces",
         "//java/com/google/gerrit/entities",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/launcher",

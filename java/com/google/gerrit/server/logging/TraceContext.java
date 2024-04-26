@@ -192,7 +192,7 @@ public class TraceContext implements AutoCloseable {
             LoggingContext.getInstance()
                 .addPerformanceLogRecord(
                     () -> PerformanceLogRecord.create(operation, elapsedNanos));
-            logger.atFine().log("%s done (%.2f ms)", operation, elapsedNanos / 1000.0);
+            logger.atFine().log("%s done (%.2f ms)", operation, elapsedNanos / 1000000.0);
           });
     }
 
@@ -207,7 +207,7 @@ public class TraceContext implements AutoCloseable {
                     () -> PerformanceLogRecord.create(operation, elapsedNanos, metadata));
             logger.atFine().log(
                 "%s (%s) done (%.2f ms)",
-                operation, metadata.toStringForLoggingLazy(), elapsedNanos / 1000.0);
+                operation, metadata.toStringForLoggingLazy(), elapsedNanos / 1000000.0);
           });
     }
 

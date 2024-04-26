@@ -90,7 +90,7 @@ public abstract class Timer1<F1> implements RegistrationHandle {
     LoggingContext.getInstance()
         .addPerformanceLogRecord(() -> PerformanceLogRecord.create(name, durationNanos, metadata));
     logger.atFinest().log(
-        "%s (%s = %s) took %.2f ms", name, field.name(), fieldValue, durationNanos / 1000.0);
+        "%s (%s = %s) took %.2f ms", name, field.name(), fieldValue, durationNanos / 1000000.0);
 
     doRecord(fieldValue, value, unit);
     RequestStateContext.abortIfCancelled();

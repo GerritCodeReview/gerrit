@@ -115,7 +115,7 @@ public abstract class Timer3<F1, F2, F3> implements RegistrationHandle {
         fieldValue2,
         field3.name(),
         fieldValue3,
-        durationNanos / 1000.0);
+        durationNanos / 1000000.0);
 
     doRecord(fieldValue1, fieldValue2, fieldValue3, value, unit);
     RequestStateContext.abortIfCancelled();

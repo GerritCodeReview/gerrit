@@ -37,6 +37,9 @@ import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.PluginDefinedAttributesFactories;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.logging.Metadata;
+import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.notedb.MissingMetaObjectException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
@@ -127,16 +130,20 @@ public class GetChange
       return Optional.empty();
     }
 
-    // It might be interesting to also allow {SHA1}^^, so callers can walk back into history
-    // without having to fetch the entire /meta ref. If we do so, we have to be careful that
-    // the error messages can't be abused to fetch hidden data.
-    ObjectId metaRevObjectId;
-    try {
-      metaRevObjectId = ObjectId.fromString(metaRevId);
-    } catch (InvalidObjectIdException e) {
-      throw new BadRequestException("invalid meta SHA1: " + metaRevId, e);
+    try (TraceTimer timer =
+        TraceContext.newTimer(
+            "Get meta rev ID", Metadata.builder().changeId(change.getId().get()).build())) {
+      // It might be interesting to also allow {SHA1}^^, so callers can walk back into history
+      // without having to fetch the entire /meta ref. If we do so, we have to be careful that
+      // the error messages can't be abused to fetch hidden data.
+      ObjectId metaRevObjectId;
+      try {
+        metaRevObjectId = ObjectId.fromString(metaRevId);
+      } catch (InvalidObjectIdException e) {
+        throw new BadRequestException("invalid meta SHA1: " + metaRevId, e);
+      }
+      return verifyMetaId(change, metaRevObjectId);
     }
-    return verifyMetaId(change, metaRevObjectId);
   }
 
   private ChangeJson newChangeJson() {

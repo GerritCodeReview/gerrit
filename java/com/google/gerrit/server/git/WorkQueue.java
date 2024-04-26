@@ -504,11 +504,11 @@ public class WorkQueue {
     }
 
     public void onStart(Task<?> task) {
-      listeners.runEach(extension -> extension.getProvider().get().onStart(task));
+      listeners.runEach(extension -> extension.get().onStart(task));
     }
 
     public void onStop(Task<?> task) {
-      listeners.runEach(extension -> extension.getProvider().get().onStop(task));
+      listeners.runEach(extension -> extension.get().onStop(task));
     }
   }
 

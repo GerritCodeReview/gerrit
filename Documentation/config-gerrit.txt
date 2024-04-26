@@ -1562,13 +1562,6 @@ the change.
 +
 Default is true.
 
-[[change.showAssigneeInChangesTable]]change.showAssigneeInChangesTable::
-+
-Show assignee field in changes table. If set to false, assignees will
-not be visible in changes table.
-+
-Default is false.
-
 [[change.strictLabels]]change.strictLabels::
 +
 Reject invalid label votes: invalid labels or invalid values. This

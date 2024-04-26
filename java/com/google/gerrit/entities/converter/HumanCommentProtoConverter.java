@@ -35,7 +35,7 @@ import org.eclipse.jgit.lib.ObjectId;
  */
 @Immutable
 public enum HumanCommentProtoConverter
-    implements ProtoConverter<Entities.HumanComment, HumanComment> {
+    implements SafeProtoConverter<Entities.HumanComment, HumanComment> {
   INSTANCE;
 
   private final ProtoConverter<Entities.Account_Id, Account.Id> accountIdConverter =
@@ -141,5 +141,15 @@ public enum HumanCommentProtoConverter
   @Override
   public Parser<Entities.HumanComment> getParser() {
     return Entities.HumanComment.parser();
+  }
+
+  @Override
+  public Class<Entities.HumanComment> getProtoClass() {
+    return Entities.HumanComment.class;
+  }
+
+  @Override
+  public Class<HumanComment> getEntityClass() {
+    return HumanComment.class;
   }
 }

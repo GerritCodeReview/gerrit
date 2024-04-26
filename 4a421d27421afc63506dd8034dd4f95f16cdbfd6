@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "215e7c70_3006c6b8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1071857
+      },
+      "writtenOn": "2024-04-26T08:12:30Z",
+      "side": 1,
+      "message": "Partially related to this old issue: \nhttps://issues.gerritcodereview.com/issues/40014040 \n\nExcept it no longer works for SSH or REST API\n\nCreated a new issue that more correctly corresponds to this.",
+      "parentUuid": "61bb6d18_05e74125",
+      "revId": "4a421d27421afc63506dd8034dd4f95f16cdbfd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0cd45983_a23b6e6b",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-04-26T07:23:45Z",
       "side": 1,
       "message": "Missing `Release-Notes` footer.\n\n```\nRelease-Notes: Allow change owners to reindex changes to match documented behavior.\n```",
+      "revId": "4a421d27421afc63506dd8034dd4f95f16cdbfd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f44d8fc_dc193aba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1071857
+      },
+      "writtenOn": "2024-04-26T08:12:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0cd45983_a23b6e6b",
       "revId": "4a421d27421afc63506dd8034dd4f95f16cdbfd6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

@@ -20,7 +20,7 @@ import com.google.gerrit.proto.Entities;
 import com.google.protobuf.Parser;
 
 @Immutable
-public enum AccountIdProtoConverter implements ProtoConverter<Entities.Account_Id, Account.Id> {
+public enum AccountIdProtoConverter implements SafeProtoConverter<Entities.Account_Id, Account.Id> {
   INSTANCE;
 
   @Override
@@ -36,5 +36,15 @@ public enum AccountIdProtoConverter implements ProtoConverter<Entities.Account_I
   @Override
   public Parser<Entities.Account_Id> getParser() {
     return Entities.Account_Id.parser();
+  }
+
+  @Override
+  public Class<Entities.Account_Id> getProtoClass() {
+    return Entities.Account_Id.class;
+  }
+
+  @Override
+  public Class<Account.Id> getEntityClass() {
+    return Account.Id.class;
   }
 }

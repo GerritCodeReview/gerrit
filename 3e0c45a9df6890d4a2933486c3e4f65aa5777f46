@@ -73,6 +73,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0632cc65_ca8b408f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-04-26T14:48:13Z",
+      "side": 1,
+      "message": "\u003e Shouldn\u0027t that be a default behaviour of the `pull-replication` plugin when it\u0027s used with `multi-site`?\n\nWell, the plugin developer of `pull-replication` doesn\u0027t even have a clue what `multi-site` is, and the other way around 😊\n\n\u003e I\u0027m not fond of admins resorting to renaming files (as this is error-prone and can be easily undone by other team members unknowingly).\n\nSure, that\u0027s agreed as cumbersome workaround.\n\n\u003e IMO the burden of such _cross-dependencies_ is on plugin authors. We should strive to provide API for them that makes those types of resolutions easy. IMO simply adding `Depends-On` and automatic plugin dependency resolution is not enough. We also need a mechanism to advertise that crucial parts of the plugin startup process are finished.\n\nPlease read the description of Issue 335744331 carefully about the problem that I\u0027ve raised. If you are trying to address a different problem, that is absolutely fine but Issue 335744331 needs to be removed from the change message because it is misleading.",
+      "parentUuid": "09fff5e6_7096d96c",
+      "range": {
+        "startLine": 12,
+        "startChar": 39,
+        "endLine": 12,
+        "endChar": 68
+      },
+      "revId": "3e0c45a9df6890d4a2933486c3e4f65aa5777f46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "90d33b7a_2db371fe",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -295,6 +319,23 @@
       "writtenOn": "2024-04-26T11:39:45Z",
       "side": 1,
       "message": "Blocking the submission for now: see the reasons on the commit message\u0027s comments. I believe we need first to discuss the problem we are trying to resolve :-)\n\nI recognise that my definition of the Issue 335744331 was ambiguous and I\u0027ve updated it now, including also a real-life example.\n\nThe problem isn\u0027t a `ClassNotFoundError` which would be easy to spot for the Gerrit admin, but rather a more unpredictable behaviour at runtime depending on the plugin loading order.\n\nAlso, we are talking about *plugins* and not `ApiModule`, which a _special category_ that is loaded always before all plugins.",
+      "revId": "3e0c45a9df6890d4a2933486c3e4f65aa5777f46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0967dd24_1af7c310",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-04-26T14:48:13Z",
+      "side": 1,
+      "message": "Just a small comment, then let\u0027s have a discussion because I believe there is a misunderstanding of what Issue 335744331 (that I have raised) really means.",
       "revId": "3e0c45a9df6890d4a2933486c3e4f65aa5777f46",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

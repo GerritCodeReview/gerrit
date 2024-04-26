@@ -262,12 +262,19 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
   @Deprecated static final Schema<ChangeData> V85 = schema(V84);
 
   /** Add ChangeNumber field */
+  @Deprecated
   static final Schema<ChangeData> V86 =
       new Schema.Builder<ChangeData>()
           .add(V85)
           .addIndexedFields(ChangeField.CHANGENUM_FIELD)
           .addSearchSpecs(ChangeField.CHANGENUM_SPEC)
           .build();
+
+  /**
+   * Update how total comment count and unresolved comment count are computed (robot comments are no
+   * longer taken into account)
+   */
+  static final Schema<ChangeData> V87 = schema(V86);
 
   /**
    * Name of the change index to be used when contacting index backends or loading configurations.

@@ -7225,9 +7225,11 @@ Number of inserted lines.
 |`deletions`          ||
 Number of deleted lines.
 |`total_comment_count`  ||
-Total number of inline comments across all patch sets.
+Total number of inline comments across all patch sets (doesn't include robot
+comments).
 |`unresolved_comment_count`  ||
-Number of unresolved inline comment threads across all patch sets.
+Number of unresolved inline comment threads across all patch sets (doesn't
+include robot comments).
 |`_number`            ||
 The change number. (The underscore is just a relict of a prior
 attempt to deprecate the change number.)

@@ -1440,7 +1440,9 @@ public class RobotCommentsIT extends AbstractDaemonTest {
       // if we allow users to resolve a robot comment, then this test should
       // be modified.
       assertThat(result.unresolvedCommentCount).isEqualTo(0);
-      assertThat(result.totalCommentCount).isEqualTo(1);
+
+      // totalCommentCount doesn't take robot comments into account
+      assertThat(result.totalCommentCount).isEqualTo(0);
     }
   }
 

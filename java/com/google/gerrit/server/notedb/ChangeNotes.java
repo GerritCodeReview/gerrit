@@ -54,6 +54,9 @@ import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.git.RefCache;
+import com.google.gerrit.server.logging.Metadata;
+import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -595,8 +598,12 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   private void loadRobotComments() {
     if (robotCommentNotes == null) {
-      robotCommentNotes = new RobotCommentNotes(args, change);
-      robotCommentNotes.load();
+      try (TraceTimer timer =
+          TraceContext.newTimer(
+              "Load Robot Comments", Metadata.builder().changeId(change.getId().get()).build())) {
+        robotCommentNotes = new RobotCommentNotes(args, change);
+        robotCommentNotes.load();
+      }
     }
   }
 

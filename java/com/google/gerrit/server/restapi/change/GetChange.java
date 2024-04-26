@@ -105,10 +105,14 @@ public class GetChange
   @Override
   public Response<ChangeInfo> apply(ChangeResource rsrc) throws RestApiException {
     try {
-      Change change = rsrc.getChange();
-      Optional<ObjectId> changeMetaRevId = getMetaRevId(change);
-      return Response.withMustRevalidate(
-          newChangeJson().format(change, changeMetaRevId.orElse(null)));
+      Optional<ObjectId> changeMetaRevId = getMetaRevId(rsrc.getChange());
+      ChangeInfo changeInfo;
+      if (changeMetaRevId.isPresent()) {
+        changeInfo = newChangeJson().format(rsrc.getChange(), changeMetaRevId.get());
+      } else {
+        changeInfo = newChangeJson().format(rsrc.getChangeData());
+      }
+      return Response.withMustRevalidate(changeInfo);
     } catch (MissingMetaObjectException e) {
       throw new PreconditionFailedException(e.getMessage());
     }

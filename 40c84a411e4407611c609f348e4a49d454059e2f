@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1746117b_2e5aa9cc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 42
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1152600
+      },
+      "writtenOn": "2024-04-26T04:56:55Z",
+      "side": 1,
+      "message": "I thought only need add to ticket. I am adding it here also",
+      "parentUuid": "7e0fd8f7_bcfe13ec",
+      "revId": "40c84a411e4407611c609f348e4a49d454059e2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cfab380c_76c78f29",

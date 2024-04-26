@@ -1,0 +1,182 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23874acd_168736bb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-04-26T11:39:45Z",
+      "side": 1,
+      "message": "True, if a plugin that requires an `ApiModule` is installed in a Gerrit setup without its prerequisites.",
+      "range": {
+        "startLine": 10,
+        "startChar": 31,
+        "endLine": 11,
+        "endChar": 27
+      },
+      "revId": "3e0c45a9df6890d4a2933486c3e4f65aa5777f46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "02201854_83bc99ea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-04-26T11:39:45Z",
+      "side": 1,
+      "message": "That\u0027s not true: Gerrit from v3.9 onwards assures that all `ApiModule` are loaded before all plugins.\n\nPlugins are then loaded into their sandboxed injectors and class loaders and do not see each other.\n\nThe problem here is different IMHO: a Gerrit admin may want to decide, because of its organisation of the rest of the pipeline, the order of generation of events, which is defined by the order of loading of the plugins.\n\nExample: if you load the `pull-replication.jar` and then the `multi-site.jar`, the ref updated event happens *after* the sync replication, therefore the CI/CD would see the change immediately without waits and the reindexing can happen without retries. If you load them in the inverted order, you may end up with failed builds and indexes could take more time to catch-up.\n\nIn the above example, even if the `multi-site.jar` and `pull-replication.jar` do not have direct class dependencies, they still need to be loaded in a very specific order at startup.",
+      "range": {
+        "startLine": 12,
+        "startChar": 39,
+        "endLine": 12,
+        "endChar": 68
+      },
+      "revId": "3e0c45a9df6890d4a2933486c3e4f65aa5777f46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90d33b7a_2db371fe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-04-26T11:39:45Z",
+      "side": 1,
+      "message": "That looks like a _hack_ rather than a fix :-)\n`ApiModule` is designed to expose APIs to other plugins and *NOT* to share implementation classes with other plugins.\n\n_[Abu]Using_ the `ApiModule` just for the reason of assuring ordering is wrong.",
+      "range": {
+        "startLine": 14,
+        "startChar": 15,
+        "endLine": 15,
+        "endChar": 24
+      },
+      "revId": "3e0c45a9df6890d4a2933486c3e4f65aa5777f46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "02c47b11_66483170",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-04-26T11:39:45Z",
+      "side": 1,
+      "message": "I believe this _solution_ should be dropped from the commit message, because it is hack that won\u0027t work not even is a short-term solution anyway.\n\nThe current solution to this problem is using symlinks, exactly as Linux [init.d system works](https://www.baeldung.com/linux/systemd-etc-init-d-scripts).\n\nThat is the way the ordering of the plugins is currently achieved, which has one advantage and two main drawbacks:\n\n**Plus**: easy to understand, just list the links in alphabetical order\n\n**Drawbacks**: it\u0027s very manual and prone to errors, also the reloading of the plugins would change the ordering at runtime.",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 41
+      },
+      "revId": "3e0c45a9df6890d4a2933486c3e4f65aa5777f46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "375c7c11_44540122",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-04-26T11:39:45Z",
+      "side": 1,
+      "message": "Well, only partially: the author of the plugin may be unaware of the deployment infrastructure at runtime.\n\nExample: as Open-Source contributor @maczech@gmail.com wrote the `pull-replication.jar` but he is unaware that client XYZ has a sync configuration with a CI/CD that needs to trigger *exactly* at `ref-updated` without delays.",
+      "range": {
+        "startLine": 20,
+        "startChar": 29,
+        "endLine": 21,
+        "endChar": 22
+      },
+      "revId": "3e0c45a9df6890d4a2933486c3e4f65aa5777f46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ccc7e5f4_bc866abe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-04-26T11:39:45Z",
+      "side": 1,
+      "message": "The `MANIFEST.MF` is a good default for that information, however, we should allow the Gerrit admin to override that decision without having to repackage the plugin manually.",
+      "range": {
+        "startLine": 22,
+        "startChar": 23,
+        "endLine": 22,
+        "endChar": 45
+      },
+      "revId": "3e0c45a9df6890d4a2933486c3e4f65aa5777f46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4e69603_47e14fcd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-04-26T11:39:45Z",
+      "side": 1,
+      "message": "No, `ApiModule`s are already loaded *before* all plugins, why do they need to define a load priority at all?",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 21
+      },
+      "revId": "3e0c45a9df6890d4a2933486c3e4f65aa5777f46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e13f1a34_c00c24af",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-04-26T11:39:45Z",
+      "side": 1,
+      "message": "Blocking the submission for now: see the reasons on the commit message\u0027s comments. I believe we need first to discuss the problem we are trying to resolve :-)\n\nI recognise that my definition of the Issue 335744331 was ambiguous and I\u0027ve updated it now, including also a real-life example.\n\nThe problem isn\u0027t a `ClassNotFoundError` which would be easy to spot for the Gerrit admin, but rather a more unpredictable behaviour at runtime depending on the plugin loading order.\n\nAlso, we are talking about *plugins* and not `ApiModule`, which a _special category_ that is loaded always before all plugins.",
+      "revId": "3e0c45a9df6890d4a2933486c3e4f65aa5777f46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

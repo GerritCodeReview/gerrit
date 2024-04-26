@@ -7224,12 +7224,10 @@ Only set if link:#submittable[requested].
 Number of inserted lines.
 |`deletions`          ||
 Number of deleted lines.
-|`total_comment_count`  |optional|
-Total number of inline comments across all patch sets. Not set if the current
-change index doesn't have the data.
-|`unresolved_comment_count`  |optional|
-Number of unresolved inline comment threads across all patch sets. Not set if
-the current change index doesn't have the data.
+|`total_comment_count`  ||
+Total number of inline comments across all patch sets.
+|`unresolved_comment_count`  ||
+Number of unresolved inline comment threads across all patch sets.
 |`_number`            ||
 The change number. (The underscore is just a relict of a prior
 attempt to deprecate the change number.)

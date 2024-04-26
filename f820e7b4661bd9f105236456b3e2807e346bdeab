@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0e5ef4e_fb9680c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1071857
+      },
+      "writtenOn": "2024-04-26T08:54:11Z",
+      "side": 1,
+      "message": "@luca.milanesio@gmail.com\n\nThis has been wrong since ~ Gerrit v2.15.\nI don\u0027t know how you want to handle release notes for a documentation fix that applies so many version back.\n\nIt might be confusing to mention it.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 2
+      },
+      "revId": "f820e7b4661bd9f105236456b3e2807e346bdeab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

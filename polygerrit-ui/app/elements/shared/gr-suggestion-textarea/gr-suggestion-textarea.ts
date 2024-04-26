@@ -143,6 +143,7 @@ class GrWrapper extends TextAreaWrapper {
       .placeholder=${this.el.placeholder}
       ?disabled=${this.el.disabled}
       .value=${this.el.text}
+      .hint=${this.el.hint}
       @input=${(e: InputEvent) => {
         const value = (e.target as GrTextarea).value;
         this.el.text = value ?? '';
@@ -227,6 +228,8 @@ export class GrSuggestionTextarea extends LitElement {
     standard monospace font. */
   @property({type: Boolean}) code = false;
 
+  @property({type: String}) hint = '';
+
   @state() suggestions: (Item | EmojiSuggestion)[] = [];
 
   // Accessed in tests.
@@ -294,7 +297,8 @@ export class GrSuggestionTextarea extends LitElement {
   override connectedCallback() {
     super.connectedCallback();
 
-    const enabled = this.flagService.isEnabled(KnownExperimentId.GR_TEXTAREA);
+    const enabled =
+      this.flagService.isEnabled(KnownExperimentId.GR_TEXTAREA) || true;
     this.wrapper = enabled ? new GrWrapper(this) : new IronWrapper(this);
 
     if (this.monospace) {

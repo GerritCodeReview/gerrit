@@ -219,6 +219,8 @@ export class GrComment extends LitElement {
   @state()
   messageText = '';
 
+  @state() hint = '';
+
   /* The 'dirty' state of !comment.unresolved, which will be saved on demand. */
   @state()
   unresolved = true;
@@ -392,6 +394,16 @@ export class GrComment extends LitElement {
       () => this.getConfigModel().docsBaseUrl$,
       docsBaseUrl => (this.docsBaseUrl = docsBaseUrl)
     );
+    subscribe(
+      this,
+      () =>
+        this.generateSuggestionTrigger$.pipe(
+          debounceTime(GENERATE_SUGGESTION_DEBOUNCE_DELAY_MS)
+        ),
+      () => {
+        this.autocompleteComment();
+      }
+    );
     if (
       this.flagsService.isEnabled(KnownExperimentId.ML_SUGGESTED_EDIT) ||
       this.flagsService.isEnabled(KnownExperimentId.ML_SUGGESTED_EDIT_V2)
@@ -431,6 +443,11 @@ export class GrComment extends LitElement {
           this.getPluginLoader().pluginsModel.getState().suggestionsPlugins;
         // We currently support results from only 1 provider.
         this.suggestionsProvider = suggestionsPlugins?.[0]?.provider;
+        console.log(
+          `${Date.now() % 100000} asdf <gr-comment> provider assigned ${
+            this.suggestionsProvider?.autocompleteComment
+          }`
+        );
       });
 
     if (this.comment?.id) {
@@ -872,6 +889,7 @@ export class GrComment extends LitElement {
         rows="4"
         .placeholder=${this.messagePlaceholder}
         text=${this.messageText}
+        hint=${this.hint}
         @text-changed=${(e: ValueChangedEvent) => {
           // TODO: This is causing a re-render of <gr-comment> on every key
           // press. Try to avoid always setting `this.messageText` or at least
@@ -879,6 +897,9 @@ export class GrComment extends LitElement {
           // of the textare instead of needing a dedicated property.
           this.messageText = e.detail.value;
           this.autoSaveTrigger$.next();
+          console.log(
+            `${Date.now() % 100000} asdf generateSuggestionTrigger.next()`
+          );
           this.generateSuggestionTrigger$.next();
         }}
       ></gr-suggestion-textarea>
@@ -1284,6 +1305,52 @@ export class GrComment extends LitElement {
       // Error is ok in some cases like quick save by user.
       console.warn(error);
     }
+  }
+
+  private async autocompleteComment() {
+    const suggestionsProvider = this.suggestionsProvider;
+    const changeInfo = this.getChangeModel().getChange();
+    console.log(
+      `${Date.now() % 100000} asdf <gr-comment> autocompleteComment 1 ${
+        this.messageText
+      }`
+    );
+    if (
+      !suggestionsProvider?.autocompleteComment ||
+      !changeInfo ||
+      !this.comment ||
+      !this.comment.patch_set ||
+      !this.comment.path ||
+      this.messageText.length === 0
+    )
+      return;
+    console.log(
+      `${
+        Date.now() % 100000
+      } asdf <gr-comment> autocompleteComment making a call`
+    );
+    const response = await suggestionsProvider.autocompleteComment({
+      commentText: this.messageText,
+      changeInfo: changeInfo as ChangeInfo,
+      patchsetNumber: this.comment?.patch_set,
+      filePath: this.comment.path,
+      range: this.comment.range,
+      lineNumber: this.comment.line,
+    });
+    console.log(
+      `${
+        Date.now() % 100000
+      } asdf <gr-comment> autocompleteComment response ${JSON.stringify(
+        response
+      )}`
+    );
+    if (!response) return;
+
+    const completion = response.completion;
+    if (!completion) {
+      return;
+    }
+    this.hint = completion;
   }
 
   private renderRobotActions() {

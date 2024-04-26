@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ef5b8d3_5a796c71",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-04-26T04:43:19Z",
+      "side": 1,
+      "message": "Needs Release-Notes footer",
+      "revId": "409f9cb6f7b2f420e4de34c65c4c62ea104ee93a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d3eaa58_545c5b40",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-04-26T04:43:19Z",
+      "side": 1,
+      "message": "```suggestion\n      // starting before parked, parked before ready, ready before sleeping.\n```",
+      "range": {
+        "startLine": 698,
+        "startChar": 9,
+        "endLine": 698,
+        "endChar": 54
+      },
+      "revId": "409f9cb6f7b2f420e4de34c65c4c62ea104ee93a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c788b4c_82868f85",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 837,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-04-26T04:43:19Z",
+      "side": 1,
+      "message": "I\u0027m not sure if we should transition to `PARKED` here since it seems a little strange to start the flow with `PARKED`. Isn\u0027t this where `READY` should be used? `READY` doesn\u0027t seem to be used in runningState anywhere yet, but I think this is a good use for it. We just need to make sure this is consistent with how `getState()` uses `READY` above https://gerrit.googlesource.com/gerrit/+/refs/changes/34/248034/3/java/com/google/gerrit/server/git/WorkQueue.java#753",
+      "range": {
+        "startLine": 837,
+        "startChar": 49,
+        "endLine": 837,
+        "endChar": 55
+      },
+      "revId": "409f9cb6f7b2f420e4de34c65c4c62ea104ee93a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "message": "I think we would rather like to update the documentation to match the implementation, as there should be no need for change owners to index changes on their own.",
       "revId": "881c70d8979a1b0c4e27044dec934007280d659b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b988a714_26fbb349",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1071857
+      },
+      "writtenOn": "2024-04-26T08:39:31Z",
+      "side": 1,
+      "message": "Fair. We have a case where it would be beneficial if the user could, but I agree that it shouldn\u0027t be necessary.\n\nI will rework the change to be a documentation fix.",
+      "parentUuid": "57df3079_4e2fc8de",
+      "revId": "881c70d8979a1b0c4e27044dec934007280d659b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

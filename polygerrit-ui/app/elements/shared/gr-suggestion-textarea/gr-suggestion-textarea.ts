@@ -143,6 +143,7 @@ class GrWrapper extends TextAreaWrapper {
       .placeholder=${this.el.placeholder}
       ?disabled=${this.el.disabled}
       .value=${this.el.text}
+      .hint=${this.el.autocompleteHint}
       @input=${(e: InputEvent) => {
         const value = (e.target as GrTextarea).value;
         this.el.text = value ?? '';
@@ -226,6 +227,12 @@ export class GrSuggestionTextarea extends LitElement {
   /** Text input should be rendered in code font, which is smaller than the
     standard monospace font. */
   @property({type: Boolean}) code = false;
+
+  /**
+   * An autocompletion hint that is passed to <gr-textarea>, which will allow\
+   * the user to accept it by pressing tab.
+   */
+  @property({type: String}) autocompleteHint = '';
 
   @state() suggestions: (Item | EmojiSuggestion)[] = [];
 

@@ -408,6 +408,7 @@ suite('gr-comment tests', () => {
               <div class="body">
                 <gr-suggestion-textarea
                   autocomplete="on"
+                  autocompletehint=""
                   class="code editMessage"
                   code=""
                   id="editTextarea"

@@ -194,7 +194,6 @@ export class GrMainHeader extends LitElement {
         nav {
           align-items: center;
           display: flex;
-          flex-wrap: wrap;
         }
         .bigTitle {
           color: var(--header-text-color);
@@ -290,6 +289,7 @@ export class GrMainHeader extends LitElement {
           display: inline;
         }
         .accountContainer {
+          flex: 0 0 auto;
           align-items: center;
           display: flex;
           margin: 0 calc(0 - var(--spacing-m)) 0 var(--spacing-m);

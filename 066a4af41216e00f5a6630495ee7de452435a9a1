@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1de0b14_0d7731a6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2024-04-29T10:10:01Z",
+      "side": 1,
+      "message": "I just found out about [ClassSanityTester](https://www.javadoc.io/doc/com.google.guava/guava-testlib/21.0/com/google/common/testing/ClassSanityTester.html), so I\u0027m going to try to replace most of the Java reflections code with it.",
+      "revId": "066a4af41216e00f5a6630495ee7de452435a9a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

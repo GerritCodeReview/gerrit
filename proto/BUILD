@@ -1,5 +1,6 @@
 load("@rules_java//java:defs.bzl", "java_proto_library")
 load("@rules_proto//proto:defs.bzl", "proto_library")
+load("//third_party/bazel_rules/rules_cc/cc:defs.bzl", "cc_proto_library")
 
 proto_library(
     name = "cache_proto",
@@ -21,5 +22,14 @@ proto_library(
 java_proto_library(
     name = "entities_java_proto",
     visibility = ["//visibility:public"],
+    deps = [":entities_proto"],
+)
+
+cc_proto_library(
+    name = "entities_cc_proto",
+    visibility = [
+        ":visibility",
+        "//devtools/cog/gerritlib:__pkg__",
+    ],
     deps = [":entities_proto"],
 )

@@ -199,27 +199,6 @@ export class GrChangeView extends LitElement {
 
   @query('#commitMessageEditor') commitMessageEditor?: GrEditableContent;
 
-  @query('#includedInModal') includedInModal?: HTMLDialogElement;
-
-  @query('#includedInDialog') includedInDialog?: GrIncludedInDialog;
-
-  @query('#downloadModal') downloadModal?: HTMLDialogElement;
-
-  @query('#downloadDialog') downloadDialog?: GrDownloadDialog;
-
-  @query('#actions') actions?: GrChangeActions;
-
-  @query('#commitMessage') commitMessage?: HTMLDivElement;
-
-  @query('#commitAndRelated') commitAndRelated?: HTMLDivElement;
-
-  @query('#metadata') metadata?: GrChangeMetadata;
-
-  @query('#mainChangeInfo') mainChangeInfo?: HTMLDivElement;
-
-  @query('#replyBtn') replyBtn?: GrButton;
-
-  @query('#tabs') tabs?: PaperTabsElement;
 
   @query('gr-messages-list') messagesList?: GrMessagesList;
 

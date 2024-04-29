@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b21f572_ff2f0e65",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1332,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-04-29T08:58:23Z",
+      "side": 1,
+      "message": "Do you need logging? Or do you plan to do it later?",
+      "range": {
+        "startLine": 1332,
+        "startChar": 10,
+        "endLine": 1332,
+        "endChar": 18
+      },
+      "revId": "d84537def496d792c3fc1bd462a053c1f28ac570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

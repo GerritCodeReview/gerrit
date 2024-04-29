@@ -23,3 +23,9 @@ java_proto_library(
     visibility = ["//visibility:public"],
     deps = [":entities_proto"],
 )
+
+cc_proto_library(
+    name = "entities_cc_proto",
+    visibility = ["//visibility:public"],
+    deps = [":entities_proto"],
+)

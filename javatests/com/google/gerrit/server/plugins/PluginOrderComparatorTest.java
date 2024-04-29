@@ -17,6 +17,7 @@ package com.google.gerrit.server.plugins;
 import static com.google.common.truth.Truth.assertThat;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -32,9 +33,14 @@ public class PluginOrderComparatorTest {
   private static final String API_MODULE = "Gerrit-ApiModule: com.google.gerrit.UnitTest";
 
   private static final Path FIRST_PLUGIN_PATH = Paths.get("01-first.jar");
+  private static final Path SECOND_PLUGIN_PATH = Paths.get("20-second.jar");
+  private static final Path THIRD_PLUGIN_PATH = Paths.get("30-third.jar");
   private static final Path LAST_PLUGIN_PATH = Paths.get("99-last.jar");
 
   private static final Map.Entry<String, Path> FIRST_ENTRY = Map.entry("first", FIRST_PLUGIN_PATH);
+  private static final Map.Entry<String, Path> SECOND_ENTRY =
+      Map.entry("second", SECOND_PLUGIN_PATH);
+  private static final Map.Entry<String, Path> THIRD_ENTRY = Map.entry("third", THIRD_PLUGIN_PATH);
   private static final Map.Entry<String, Path> LAST_ENTRY = Map.entry("last", LAST_PLUGIN_PATH);
 
   private static final Manifest EMPTY_MANIFEST = newManifest("");
@@ -42,7 +48,8 @@ public class PluginOrderComparatorTest {
 
   @Test
   public void shouldOrderPluginsBasedOnFileName() {
-    PluginOrderComparator comparator = new PluginOrderComparator(pluginPath -> EMPTY_MANIFEST);
+    PluginOrderComparator comparator =
+        new PluginOrderComparator(ImmutableList.of(), pluginPath -> EMPTY_MANIFEST);
 
     assertOrder(comparator, List.of(FIRST_ENTRY, LAST_ENTRY), List.of(FIRST_ENTRY, LAST_ENTRY));
   }
@@ -52,9 +59,51 @@ public class PluginOrderComparatorTest {
     // return empty manifest for the first plugin and manifest with ApiModule for the last
     PluginOrderComparator.ManifestLoader loader = customLoader(EMPTY_MANIFEST, API_MODULE_MANIFEST);
 
-    PluginOrderComparator comparator = new PluginOrderComparator(loader);
+    PluginOrderComparator comparator = new PluginOrderComparator(ImmutableList.of(), loader);
 
     assertOrder(comparator, List.of(FIRST_ENTRY, LAST_ENTRY), List.of(LAST_ENTRY, FIRST_ENTRY));
+  }
+
+  @Test
+  public void shouldUseOrderFromOverrideListBasedOnFileName() {
+    ImmutableList<String> pluginOrderOverrides = ImmutableList.of("last", "first");
+
+    PluginOrderComparator comparator =
+        new PluginOrderComparator(pluginOrderOverrides, pluginPath -> EMPTY_MANIFEST);
+
+    assertOrder(comparator, List.of(FIRST_ENTRY, LAST_ENTRY), List.of(LAST_ENTRY, FIRST_ENTRY));
+  }
+
+  @Test
+  public void shouldCombineOrderOverridesAndNaturalFileNaming() {
+    ImmutableList<String> pluginOrderOverrides = ImmutableList.of("third", "second");
+
+    PluginOrderComparator comparator =
+        new PluginOrderComparator(pluginOrderOverrides, pluginPath -> EMPTY_MANIFEST);
+
+    assertOrder(
+        comparator,
+        List.of(FIRST_ENTRY, SECOND_ENTRY, THIRD_ENTRY, LAST_ENTRY),
+        List.of(THIRD_ENTRY, SECOND_ENTRY, FIRST_ENTRY, LAST_ENTRY));
+  }
+
+  @Test
+  public void shouldReturnApiModuleFirstWithOrderOverrides() {
+    ImmutableList<String> pluginOrderOverrides = ImmutableList.of("third", "second");
+    PluginOrderComparator.ManifestLoader loader =
+        pluginPath -> {
+          if (pluginPath.equals(LAST_PLUGIN_PATH)) {
+            return API_MODULE_MANIFEST;
+          }
+          return EMPTY_MANIFEST;
+        };
+
+    PluginOrderComparator comparator = new PluginOrderComparator(pluginOrderOverrides, loader);
+
+    assertOrder(
+        comparator,
+        List.of(FIRST_ENTRY, SECOND_ENTRY, THIRD_ENTRY, LAST_ENTRY),
+        List.of(LAST_ENTRY, THIRD_ENTRY, SECOND_ENTRY, FIRST_ENTRY));
   }
 
   private void assertOrder(

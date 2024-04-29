@@ -16,6 +16,7 @@ package com.google.gerrit.server.plugins;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ComparisonChain;
+import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -39,13 +40,16 @@ class PluginOrderComparator implements Comparator<Map.Entry<String, Path>> {
   }
 
   private final ManifestLoader manifestLoader;
+  private final ImmutableList<String> pluginLoadOrderOverrides;
 
-  PluginOrderComparator() {
-    this(DEFAULT_LOADER);
+  PluginOrderComparator(ImmutableList<String> pluginLoadOrderOverrides) {
+    this(pluginLoadOrderOverrides, DEFAULT_LOADER);
   }
 
-  PluginOrderComparator(ManifestLoader manifestLoader) {
+  PluginOrderComparator(
+      ImmutableList<String> pluginLoadOrderOverrides, ManifestLoader manifestLoader) {
     this.manifestLoader = manifestLoader;
+    this.pluginLoadOrderOverrides = pluginLoadOrderOverrides;
   }
 
   @Override
@@ -59,6 +63,7 @@ class PluginOrderComparator implements Comparator<Map.Entry<String, Path>> {
       return ComparisonChain.start()
           .compareTrueFirst(e1IsApi, e2IsApi)
           .compareTrueFirst(isJar(n1), isJar(n2))
+          .compare(loadOrderOverrides(e1.getKey()), loadOrderOverrides(e2.getKey()))
           .compare(n1, n2)
           .result();
     } catch (IOException ioe) {
@@ -78,5 +83,13 @@ class PluginOrderComparator implements Comparator<Map.Entry<String, Path>> {
   private boolean hasApiModuleEntryInManifest(Path pluginPath) throws IOException {
     return !Strings.isNullOrEmpty(
         manifestLoader.load(pluginPath).getMainAttributes().getValue(ServerPlugin.API_MODULE));
+  }
+
+  private int loadOrderOverrides(String pluginName) throws IOException {
+    int pluginNameIndex = pluginLoadOrderOverrides.indexOf(pluginName);
+    if (pluginNameIndex > -1) {
+      return pluginNameIndex - pluginLoadOrderOverrides.size();
+    }
+    return 0;
   }
 }

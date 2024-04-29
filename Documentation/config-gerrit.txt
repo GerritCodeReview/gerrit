@@ -4648,6 +4648,37 @@ options even if they are not registered by any plugin(e.g. "myplugin~foo").
 This config can be used when gerrit migrates from a deprecated plugin to the new one. The new plugin
 can (temporary) accept push options of the old plugin without registering such options.
 
+[[plugins.loadPriority]]plugins.loadPriority::
++
+List of `pluginName`s required to have a specific loading order during Gerrit startup.
++
+Each entry should contain a plugin name defined in the `MANIFEST.MF` under
+`Gerrit-PluginName` or a plugin JAR file name. During the Gerrit startup
+the `loadPriority` will influence the loading sequence of the JAR plugins.
++
+NOTE: Non-JAR plugins (e.g. Scripting, PolyGerrit plugins, ApiModule) are not
+influenced by this setting.
++
+Gerrit will always load plugins defining `Gerrit-ApiModule` in their
+`MANIFEST.MF` first. Then will load other plugins according to:
+
+ * the order of `plugins.loadPriority` in `gerrit.config`,
+ * the natural order of plugin JAR file names in `plugins/` directory.
++
+Example:
+Assuming we have three plugins: `a-plugin.jar`, `b-plugin.jar`, `c-plugin.jar`
+deployed to `plugins/` directory. By default Gerrit will load them in the same order
+as they are listed above, as that follows the _natural storing order_. Now assume
+the below configuration
+
+----
+[plugins]
+  loadPriority = c-plugin
+  loadPriority = a-plugin
+----
+
+Gerrit will load `c-plugin` first, followed-up by `a-plugin` and `b-plugin` last.
+
 [[receive]]
 === Section receive
 

@@ -119,7 +119,10 @@ public class PluginLoader implements LifecycleListener {
     remoteAdmin = cfg.getBoolean("plugins", null, "allowRemoteAdmin", false);
     mandatoryPlugins = mpc;
     this.gerritRuntime = gerritRuntime;
-    pluginOrderComparator = new PluginOrderComparator();
+
+    ImmutableList<String> pluginOrderOverrides =
+        ImmutableList.copyOf(cfg.getStringList("plugins", null, "loadPriority"));
+    pluginOrderComparator = new PluginOrderComparator(pluginOrderOverrides);
 
     long checkFrequency =
         ConfigUtil.getTimeUnit(

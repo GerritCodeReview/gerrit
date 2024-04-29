@@ -207,14 +207,6 @@ export class GrChangeView extends LitElement {
 
   @query('#downloadDialog') downloadDialog?: GrDownloadDialog;
 
-  @query('#replyModal') replyModal?: HTMLDialogElement;
-
-  @query('#replyDialog') replyDialog?: GrReplyDialog;
-
-  @query('#mainContent') mainContent?: HTMLDivElement;
-
-  @query('#changeStar') changeStar?: GrChangeStar;
-
   @query('#actions') actions?: GrChangeActions;
 
   @query('#commitMessage') commitMessage?: HTMLDivElement;

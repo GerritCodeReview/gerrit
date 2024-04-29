@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f1d2fd0_9ab85ce3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-04-29T18:43:46Z",
+      "side": 1,
+      "message": "two nits:\n\n1. release notes are usual past-tense (unlike the rest of the commit message) so I think you want to omit `will` from this line\n2. `parked` will also appear in the REST API output and maybe other places too, so I would leave out `in show-queue`\n\nAddressing those and adding a couple words for improved understanding:\n```\nRelease-Notes: Tasks blocked from running by TaskParker implementations show their state as \u0027parked\u0027\n```",
+      "range": {
+        "startLine": 13,
+        "startChar": 15,
+        "endLine": 13,
+        "endChar": 100
+      },
+      "revId": "4808c2dc39b1b243a1759964e9e79e8e26e0ce20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82d11ae4_63c85352",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-04-29T18:43:46Z",
+      "side": 1,
+      "message": "Do you actually need this import?",
+      "revId": "4808c2dc39b1b243a1759964e9e79e8e26e0ce20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db8edb66_7e89e48b",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 847,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-04-29T18:43:46Z",
+      "side": 1,
+      "message": "nit: Add a comment here indicating this will move to PARKED if necessary?\n```suggestion\n          executor.waitUntilReadyToStart(this); // Transitions to PARKED while not ready to start\n```",
+      "revId": "4808c2dc39b1b243a1759964e9e79e8e26e0ce20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e487cc7_1609ec79",
+        "filename": "javatests/com/google/gerrit/acceptance/server/util/TaskParkerIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-04-29T18:43:46Z",
+      "side": 1,
+      "message": "We should (also?) be able to assert this before doing anything related to runnable2 and very soon after asserting the core pool size has increased to 2. Move or copy it up to line 211?",
+      "revId": "4808c2dc39b1b243a1759964e9e79e8e26e0ce20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e8d5053_568d67b8",
+        "filename": "javatests/com/google/gerrit/acceptance/server/util/TaskParkerIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-04-29T18:43:46Z",
+      "side": 1,
+      "message": "You could move this to TaskListener, update TaskListener\u0027s `assertStateIs` to use it, and make them both public. Then you could also replace all the `assertStateIs(forwarder.task, \u003cstate\u003e)` calls here with `assertStateIs(\u003cstate\u003e)`.",
+      "revId": "4808c2dc39b1b243a1759964e9e79e8e26e0ce20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

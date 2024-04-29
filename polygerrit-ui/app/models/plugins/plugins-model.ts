@@ -89,6 +89,11 @@ export class PluginsModel extends Model<PluginsState> {
 
   public coveragePlugins$ = select(this.state$, state => state.coveragePlugins);
 
+  public suggestionsPlugins$ = select(
+    this.state$,
+    state => state.suggestionsPlugins
+  );
+
   public pluginsLoaded$ = select(this.state$, state => state.pluginsLoaded);
 
   constructor() {

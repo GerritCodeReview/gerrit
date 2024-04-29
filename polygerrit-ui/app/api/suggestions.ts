@@ -27,7 +27,21 @@ export declare interface SuggestCodeRequest {
   lineNumber?: number;
 }
 
+export declare interface AutocompleteCommentRequest {
+  id: string;
+  commentText: string;
+  changeInfo: ChangeInfo;
+  patchsetNumber: RevisionPatchSetNum;
+  filePath: string;
+  range?: CommentRange;
+  lineNumber?: number;
+}
+
 export declare interface SuggestionsProvider {
+  autocompleteComment?(
+    req: AutocompleteCommentRequest
+  ): Promise<AutocompleteCommentResponse>;
+
   /**
    * Gerrit calls these methods when ...
    * - ... user types a comment draft
@@ -53,6 +67,11 @@ export declare interface SuggestionsProvider {
    * List of supported file extensions. If undefined, all file extensions supported.
    */
   supportedFileExtensions?: string[];
+}
+
+export declare interface AutocompleteCommentResponse {
+  responseCode: ResponseCode;
+  completion?: string;
 }
 
 export declare interface SuggestCodeResponse {

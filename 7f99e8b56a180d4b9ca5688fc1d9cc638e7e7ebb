@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7d23d30_184a215c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-04-29T16:16:37Z",
+      "side": 1,
+      "message": "@brohlfs@google.com screenshots: https://cdn.discordapp.com/attachments/1019941974842806302/1234531450984992839/Screenshot_2024-04-29_at_16.47.04.png?ex\u003d66311282\u0026is\u003d662fc102\u0026hm\u003db52fac23c463cd2f1c0650363269a040abf06ee459b22cbd78b81ca283ca7d88\u0026 and https://cdn.discordapp.com/attachments/1019941974842806302/1234531451442303016/Screenshot_2024-04-29_at_16.47.11.png?ex\u003d66311282\u0026is\u003d662fc102\u0026hm\u003da173e05e0e83ff728d4ad34dd0ee029308c8e9be877dc249ccfd7770190eb259\u0026 .\n\nNot sure if it\u0027s good enough for you.",
+      "revId": "7f99e8b56a180d4b9ca5688fc1d9cc638e7e7ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

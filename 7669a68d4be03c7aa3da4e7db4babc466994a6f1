@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75670d12_c4afd1ff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 45
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2024-04-30T05:49:13Z",
+      "side": 1,
+      "message": "I cannot see any restrictions for calling the API, am I missing something?",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 38
+      },
+      "revId": "7669a68d4be03c7aa3da4e7db4babc466994a6f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e67e2616_cc1261b8",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 820,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2024-04-30T05:49:13Z",
+      "side": 1,
+      "message": "No test-case to verify that those who aren\u0027t supposed to be able to delete a group cannot do so?\n\n```\n  @Test\n  public void nonAdminAreNotAllowedToDeleteGroup() throws Exception {\n  ...\n```",
+      "revId": "7669a68d4be03c7aa3da4e7db4babc466994a6f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

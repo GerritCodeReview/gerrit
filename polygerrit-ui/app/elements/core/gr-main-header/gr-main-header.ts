@@ -440,19 +440,20 @@ export class GrMainHeader extends LitElement {
   private renderAccount() {
     return html`
       <div class="accountContainer" id="accountContainer">
-        <div>
-          <gr-icon
-            id="mobileSearch"
-            icon="search"
-            @click=${(e: Event) => {
-              this.onMobileSearchTap(e);
-            }}
-            role="button"
-            aria-label=${this.mobileSearchHidden
-              ? 'Show Searchbar'
-              : 'Hide Searchbar'}
-          ></gr-icon>
-        </div>
+        <a
+          class="searchButton"
+          href=""
+          @click=${(e: Event) => {
+            this.onMobileSearchTap(e);
+          }}
+          title="Search"
+          aria-label=${this.mobileSearchHidden
+            ? 'Show Searchbar'
+            : 'Hide Searchbar'}
+          role="button"
+        >
+          <gr-icon icon="search" filled></gr-icon>
+        </a>
         ${this.renderRegister()}
         <gr-endpoint-decorator name="auth-link">
           <a class="loginButton" href=${this.loginUrl}>${this.loginText}</a>

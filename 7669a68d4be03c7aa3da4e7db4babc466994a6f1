@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2553383_fcf7b846",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 45
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1152600
+      },
+      "writtenOn": "2024-04-30T23:52:13Z",
+      "side": 1,
+      "message": "I have added administrate_capabilities for this change, in the follow change I added a new permission for deleting groups",
+      "parentUuid": "9730e27e_ea8bd72a",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 38
+      },
+      "revId": "7669a68d4be03c7aa3da4e7db4babc466994a6f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e67e2616_cc1261b8",

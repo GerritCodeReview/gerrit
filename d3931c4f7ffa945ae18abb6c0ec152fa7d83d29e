@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90c7a9ba_bbc1d1da",
+        "filename": "java/com/google/gerrit/server/account/GroupControl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2024-04-30T06:15:52Z",
+      "side": 1,
+      "message": "```suggestion\n  }\n  \n  public boolean canDeleteGroup() {\n    canAdministrateServer() || hasDeleteGroup();\n  }\n  \n  private boolean hasDeleteGroup() {\n    try {\n      return perm.test(GlobalPermission.DELETE_GROUP);\n    } catch (PermissionBackendException e) {\n      logger.atFine().log(\n          \"Failed to check %s global capability for user %s\",\n          GlobalPermission.DELETE_GROUP, user.getLoggableName());\n      return false;\n    }\n  }\n```",
+      "revId": "d3931c4f7ffa945ae18abb6c0ec152fa7d83d29e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6860e16b_b250fbf2",
+        "filename": "java/com/google/gerrit/server/restapi/group/DeleteGroup.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2024-04-30T06:15:52Z",
+      "side": 1,
+      "message": "Users with ADMINISTRATE_SERVER should also be allowed to delete groups?",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 50
+      },
+      "revId": "d3931c4f7ffa945ae18abb6c0ec152fa7d83d29e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "279fc915_dc2a4ef6",
+        "filename": "java/com/google/gerrit/server/restapi/group/DeleteGroup.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2024-04-30T06:15:52Z",
+      "side": 1,
+      "message": "```suggestion\n    final GroupControl control \u003d resource.getControl();\n    if (!control.canDeleteGroup()) {\n      throw new AuthException(\"Cannot delete group \" + internalGroup.getName());\n    }\n    groupDeletionPrecondition(internalGroup);\n```",
+      "revId": "d3931c4f7ffa945ae18abb6c0ec152fa7d83d29e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

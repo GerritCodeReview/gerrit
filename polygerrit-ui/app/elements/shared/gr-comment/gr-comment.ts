@@ -454,6 +454,15 @@ export class GrComment extends LitElement {
 
   override connectedCallback() {
     super.connectedCallback();
+    this.getPluginLoader()
+      .awaitPluginsLoaded()
+      .then(() => {
+        const suggestionsPlugins =
+          this.getPluginLoader().pluginsModel.getState().suggestionsPlugins;
+        // We currently support results from only 1 provider.
+        this.suggestionsProvider = suggestionsPlugins?.[0]?.provider;
+      });
+
     if (this.comment?.id) {
       const generateSuggestionStoredContent =
         this.getStorage().getEditableContentItem(

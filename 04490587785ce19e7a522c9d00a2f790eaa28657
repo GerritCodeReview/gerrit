@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c1e9937_9ba1a3ca",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 40
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2024-04-30T05:16:19Z",
+      "side": 1,
+      "message": "@luca.milanesio@gmail.com, @hiesel@google.com: Can we move forward with this change, or discuss the timeline in next ESC meeting?",
+      "revId": "04490587785ce19e7a522c9d00a2f790eaa28657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

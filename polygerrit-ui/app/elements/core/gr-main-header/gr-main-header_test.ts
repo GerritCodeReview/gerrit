@@ -78,15 +78,16 @@ suite('gr-main-header tests', () => {
             </gr-endpoint-decorator>
           </div>
           <div class="accountContainer" id="accountContainer">
-            <div>
-              <gr-icon
-                aria-label="Hide Searchbar"
-                icon="search"
-                id="mobileSearch"
-                role="button"
-              >
-              </gr-icon>
-            </div>
+            <a
+              aria-label="Hide Searchbar"
+              class="searchButton"
+              id="mobileSearch"
+              href=""
+              role="button"
+              title="Search"
+            >
+              <gr-icon filled="" icon="search"> </gr-icon>
+            </a>
             <gr-endpoint-decorator name="auth-link">
               <a class="loginButton" href="/login"> Sign in </a>
             </gr-endpoint-decorator>

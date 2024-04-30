@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f56dc47e_fa29d566",
+        "filename": "java/com/google/gerrit/server/account/GroupControl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1152600
+      },
+      "writtenOn": "2024-04-30T19:36:02Z",
+      "side": 1,
+      "message": "As I mentioned in another comment, user with administrate server permission can delete group",
+      "parentUuid": "90c7a9ba_bbc1d1da",
+      "revId": "d3931c4f7ffa945ae18abb6c0ec152fa7d83d29e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6860e16b_b250fbf2",
@@ -41,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6dc97119_2610b83c",
+        "filename": "java/com/google/gerrit/server/restapi/group/DeleteGroup.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1152600
+      },
+      "writtenOn": "2024-04-30T19:36:02Z",
+      "side": 1,
+      "message": "Yes, users with ADMINISTRATE_SERVER should be allowed to delete groups",
+      "parentUuid": "6860e16b_b250fbf2",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 50
+      },
+      "revId": "d3931c4f7ffa945ae18abb6c0ec152fa7d83d29e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "279fc915_dc2a4ef6",
@@ -54,6 +96,24 @@
       "writtenOn": "2024-04-30T06:15:52Z",
       "side": 1,
       "message": "```suggestion\n    final GroupControl control \u003d resource.getControl();\n    if (!control.canDeleteGroup()) {\n      throw new AuthException(\"Cannot delete group \" + internalGroup.getName());\n    }\n    groupDeletionPrecondition(internalGroup);\n```",
+      "revId": "d3931c4f7ffa945ae18abb6c0ec152fa7d83d29e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "faa21f05_2da3f11b",
+        "filename": "java/com/google/gerrit/server/restapi/group/DeleteGroup.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1152600
+      },
+      "writtenOn": "2024-04-30T19:36:02Z",
+      "side": 1,
+      "message": "Not necessary with @RequiresCapability(GlobalCapability.DELETE_GROUP) should be able to delete group",
+      "parentUuid": "279fc915_dc2a4ef6",
       "revId": "d3931c4f7ffa945ae18abb6c0ec152fa7d83d29e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

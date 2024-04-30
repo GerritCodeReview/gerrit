@@ -398,7 +398,6 @@ export class GrAppElement extends LitElement {
         id="mainHeader"
         @mobile-search=${this.mobileSearchToggle}
         @show-keyboard-shortcuts=${this.showKeyboardShortcuts}
-        .mobileSearchHidden=${!this.mobileSearch}
       >
       </gr-main-header>
     `;

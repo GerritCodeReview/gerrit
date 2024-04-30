@@ -22,6 +22,30 @@
       },
       "revId": "f820e7b4661bd9f105236456b3e2807e346bdeab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "134520bc_b2ac7173",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-04-30T14:06:27Z",
+      "side": 1,
+      "message": "The fix should go to stable-3.7 and then merged up then. We are not planning any releases before v3.7 ... and certainly not on v2.15 😊",
+      "parentUuid": "b0e5ef4e_fb9680c1",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 2
+      },
+      "revId": "f820e7b4661bd9f105236456b3e2807e346bdeab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

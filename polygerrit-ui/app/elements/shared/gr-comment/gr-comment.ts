@@ -894,21 +894,48 @@ export class GrComment extends LitElement {
         .placeholder=${this.messagePlaceholder}
         text=${this.messageText}
         autocompleteHint=${this.autocompleteHint}
-        @text-changed=${(e: ValueChangedEvent) => {
-          // TODO: This is causing a re-render of <gr-comment> on every key
-          // press. Try to avoid always setting `this.messageText` or at least
-          // debounce it. Most of the code can just inspect the current value
-          // of the textare instead of needing a dedicated property.
-          this.messageText = e.detail.value;
-          // As soon as the user changes the next the hint for autocompletion
-          // is invalidated.
-          this.autocompleteHint = '';
-          this.autoSaveTrigger$.next();
-          this.generateSuggestionTrigger$.next();
-          this.autocompleteTrigger$.next();
-        }}
+        @text-changed=${this.handleTextChanged}
       ></gr-suggestion-textarea>
     `;
+  }
+
+  private handleTextChanged(e: ValueChangedEvent) {
+    const oldValue = this.messageText;
+    const newValue = e.detail.value;
+    if (oldValue === newValue) return;
+    // TODO: This is causing a re-render of <gr-comment> on every key
+    // press. Try to avoid always setting `this.messageText` or at least
+    // debounce it. Most of the code can just inspect the current value
+    // of the textare instead of needing a dedicated property.
+    this.messageText = newValue;
+
+    this.handleTextChangedForAutocomplete(oldValue, newValue);
+    this.autoSaveTrigger$.next();
+    this.generateSuggestionTrigger$.next();
+  }
+
+  // visible for testing
+  handleTextChangedForAutocomplete(oldValue: string, newValue: string) {
+    if (oldValue === newValue) return;
+    // As soon as the user changes the text the hint for autocompletion
+    // is invalidated, *if* what the user typed does not match the
+    // autocompletion!
+    const charsAdded = newValue.length - oldValue.length;
+    if (
+      charsAdded > 0 &&
+      newValue.startsWith(oldValue) &&
+      this.autocompleteHint.startsWith(newValue.substring(oldValue.length))
+    ) {
+      // What the user typed matches the hint, so we keep the hint, but shorten
+      // it accordingly.
+      this.autocompleteHint = this.autocompleteHint.substring(charsAdded);
+      return;
+    }
+
+    // The default behavior is to reset the hint and to generate a new
+    // autocomplete suggestion.
+    this.autocompleteHint = '';
+    this.autocompleteTrigger$.next();
   }
 
   private renderCommentMessage() {

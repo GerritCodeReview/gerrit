@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f32d93c6_1a2c7f5c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-04-30T12:10:50Z",
+      "side": 1,
+      "message": "Revert this please.",
+      "revId": "255a37690929b6f14a2a7034bf80755fc1342802",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

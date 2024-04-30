@@ -14,6 +14,7 @@
 
 package com.google.gerrit.entities;
 
+import com.google.gerrit.common.ConvertibleToProto;
 import java.time.Instant;
 import java.util.Objects;
 
@@ -26,6 +27,7 @@ import java.util.Objects;
  *
  * <p>Consider updating {@link #getApproximateSize()} when adding/changing fields.
  */
+@ConvertibleToProto
 public class HumanComment extends Comment {
 
   public boolean unresolved;

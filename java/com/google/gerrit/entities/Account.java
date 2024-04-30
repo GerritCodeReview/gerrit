@@ -22,6 +22,7 @@ import com.google.auto.value.AutoValue;
 import com.google.common.base.MoreObjects;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.gerrit.common.ConvertibleToProto;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import java.time.Instant;
@@ -58,6 +59,7 @@ public abstract class Account {
 
   /** Key local to Gerrit to identify a user. */
   @AutoValue
+  @ConvertibleToProto
   public abstract static class Id implements Comparable<Id> {
     /** Parse an Account.Id out of a string representation. */
     public static Optional<Id> tryParse(String str) {

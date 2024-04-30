@@ -126,7 +126,7 @@ export class GrMainHeader extends LitElement {
   @state() loginText = '';
 
   @property({type: Boolean})
-  mobileSearchHidden = false;
+  mobileSearchHidden = true;
 
   // private but used in test
   @state() account?: AccountDetailInfo;
@@ -283,6 +283,9 @@ export class GrMainHeader extends LitElement {
         .settingsButton {
           margin-left: var(--spacing-m);
         }
+        .searchButton {
+          margin-left: var(--spacing-m);
+        }
         .feedbackButton {
           margin-left: var(--spacing-s);
         }
@@ -357,7 +360,7 @@ export class GrMainHeader extends LitElement {
             display: none;
           }
           #mobileSearch {
-            display: inline-flex;
+            display: inline;
           }
           .accountContainer {
             margin-left: var(--spacing-m) !important;
@@ -440,19 +443,21 @@ export class GrMainHeader extends LitElement {
   private renderAccount() {
     return html`
       <div class="accountContainer" id="accountContainer">
-        <div>
-          <gr-icon
-            id="mobileSearch"
-            icon="search"
-            @click=${(e: Event) => {
-              this.onMobileSearchTap(e);
-            }}
-            role="button"
-            aria-label=${this.mobileSearchHidden
-              ? 'Show Searchbar'
-              : 'Hide Searchbar'}
-          ></gr-icon>
-        </div>
+        <a
+          class="searchButton"
+          id="mobileSearch"
+          href=""
+          @click=${(e: Event) => {
+            this.onMobileSearchTap(e);
+          }}
+          title="Search"
+          aria-label=${this.mobileSearchHidden
+            ? 'Show Searchbar'
+            : 'Hide Searchbar'}
+          role="button"
+        >
+          <gr-icon icon="search" filled></gr-icon>
+        </a>
         ${this.renderRegister()}
         <gr-endpoint-decorator name="auth-link">
           <a class="loginButton" href=${this.loginUrl}>${this.loginText}</a>
@@ -635,6 +640,7 @@ export class GrMainHeader extends LitElement {
   private onMobileSearchTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
+    this.mobileSearchHidden = !this.mobileSearchHidden;
     fire(this, 'mobile-search', {});
   }
 }

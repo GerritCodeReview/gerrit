@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "95dc67ed_bdb4bf31",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1152600
+      },
+      "writtenOn": "2024-04-30T00:06:30Z",
+      "side": 1,
+      "message": "I by accident pushed a new change, and it doesn\u0027t allow me to move the previous change since the IDs are the same",
+      "revId": "e1e4857dce4cb13aac284d7764e69a2d816c7607",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

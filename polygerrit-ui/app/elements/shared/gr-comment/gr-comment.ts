@@ -928,6 +928,7 @@ export class GrComment extends LitElement {
   private renderCopyLinkIcon() {
     // Only show the icon when the thread contains a published comment.
     if (!this.comment?.in_reply_to && isDraft(this.comment)) return;
+    if (this.editing) return;
     return html`
       <gr-icon
         icon="link"
@@ -971,6 +972,7 @@ export class GrComment extends LitElement {
         ${this.renderDiscardButton()} ${this.renderEditButton()}
         ${this.renderCancelButton()} ${this.renderSaveButton()}
         ${this.renderCopyLinkIcon()}
+        <gr-endpoint-slot name="draft-actions-end"></gr-endpoint-slot>
       </div>
     `;
   }

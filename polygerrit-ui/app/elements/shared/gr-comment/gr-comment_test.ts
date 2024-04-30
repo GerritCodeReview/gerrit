@@ -342,6 +342,8 @@ suite('gr-comment tests', () => {
                     >
                       Edit
                     </gr-button>
+                    <gr-endpoint-slot name="draft-actions-end">
+                    </gr-endpoint-slot>
                   </div>
                 </div>
               </div>
@@ -445,6 +447,8 @@ suite('gr-comment tests', () => {
                     >
                       Save
                     </gr-button>
+                    <gr-endpoint-slot name="draft-actions-end">
+                    </gr-endpoint-slot>
                   </div>
                 </div>
               </div>

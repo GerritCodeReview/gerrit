@@ -892,6 +892,32 @@ suite('gr-comment tests', () => {
     });
   });
 
+  suite('handleTextChangedForAutocomplete', () => {
+    test('foo -> foo with asdf', async () => {
+      element.autocompleteHint = 'asdf';
+      element.handleTextChangedForAutocomplete('foo', 'foo');
+      assert.equal(element.autocompleteHint, 'asdf');
+    });
+
+    test('foo -> bar with asdf', async () => {
+      element.autocompleteHint = 'asdf';
+      element.handleTextChangedForAutocomplete('foo', 'bar');
+      assert.equal(element.autocompleteHint, '');
+    });
+
+    test('foo -> foofoo with asdf', async () => {
+      element.autocompleteHint = 'asdf';
+      element.handleTextChangedForAutocomplete('foo', 'foofoo');
+      assert.equal(element.autocompleteHint, '');
+    });
+
+    test('foo -> foofoo with foomore', async () => {
+      element.autocompleteHint = 'foomore';
+      element.handleTextChangedForAutocomplete('foo', 'foofoo');
+      assert.equal(element.autocompleteHint, 'more');
+    });
+  });
+
   suite('suggest edit', () => {
     let element: GrComment;
     setup(async () => {

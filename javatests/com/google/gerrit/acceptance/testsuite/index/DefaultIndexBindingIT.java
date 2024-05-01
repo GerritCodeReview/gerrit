@@ -23,7 +23,7 @@ import com.google.gerrit.index.IndexType;
 import com.google.gerrit.index.testing.AbstractFakeIndex;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.testing.SystemPropertiesTestRule;
-import javax.inject.Inject;
+import com.google.inject.Inject;
 import org.junit.ClassRule;
 import org.junit.Test;
 

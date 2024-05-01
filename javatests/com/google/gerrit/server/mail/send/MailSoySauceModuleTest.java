@@ -30,11 +30,11 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Key;
+import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
 import com.google.template.soy.jbcsrc.api.SoySauce;
 import java.nio.file.Path;
-import javax.inject.Provider;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 

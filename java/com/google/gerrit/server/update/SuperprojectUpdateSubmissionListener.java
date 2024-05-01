@@ -21,12 +21,12 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.submit.MergeOpRepoManager;
 import com.google.gerrit.server.submit.SubmoduleOp;
 import com.google.inject.AbstractModule;
+import com.google.inject.Inject;
 import com.google.inject.Provides;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import javax.inject.Inject;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
 /** Update superprojects after submission is done */

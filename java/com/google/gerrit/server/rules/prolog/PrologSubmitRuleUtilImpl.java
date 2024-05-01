@@ -20,8 +20,8 @@ import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.entities.SubmitTypeRecord;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.rules.PrologSubmitRuleUtil;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import javax.inject.Inject;
 
 /** Implementation of {@link PrologSubmitRuleUtil}. */
 @Singleton

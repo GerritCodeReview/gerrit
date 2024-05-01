@@ -24,10 +24,10 @@ import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.entities.EmailHeader;
 import com.google.gerrit.entities.EmailHeader.StringEmailHeader;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.inject.Inject;
 import java.net.URI;
 import java.nio.file.Files;
 import java.util.Map;
-import javax.inject.Inject;
 import org.junit.Test;
 
 @UseLocalDisk

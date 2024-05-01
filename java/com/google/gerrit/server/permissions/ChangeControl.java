@@ -31,12 +31,12 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.PermissionBackend.ForChange;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.Map;
 import java.util.Set;
-import javax.inject.Inject;
 
 /** Access control management for a user accessing a single change. */
 public class ChangeControl {

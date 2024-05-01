@@ -325,6 +325,7 @@ public final class GerritLauncher {
     List<URL> extapi = new ArrayList<>();
     move(jars, "gerrit-extension-api-", extapi);
     move(jars, "guice-", extapi);
+    move(jars, "jakarta.inject-api-2.0.1.jar", extapi);
     move(jars, "javax.inject-1.jar", extapi);
     move(jars, "aopalliance-1.0.jar", extapi);
     move(jars, "guice-servlet-", extapi);

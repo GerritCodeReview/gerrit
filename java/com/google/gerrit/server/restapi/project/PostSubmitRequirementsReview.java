@@ -25,8 +25,8 @@ import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.restapi.project.RepoMetaDataUpdater.ConfigChangeCreator;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import java.io.IOException;
-import javax.inject.Singleton;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton

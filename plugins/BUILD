@@ -1,3 +1,4 @@
+load("@build_bazel_rules_nodejs//:index.bzl", "nodejs_test")
 load("@rules_java//java:defs.bzl", "java_binary", "java_library")
 load("//tools/bzl:genrule2.bzl", "genrule2")
 load("//tools/bzl:javadoc.bzl", "java_doc")
@@ -6,7 +7,6 @@ load(
     "CORE_PLUGINS",
     "CUSTOM_PLUGINS",
 )
-load("@build_bazel_rules_nodejs//:index.bzl", "nodejs_test")
 
 package(default_visibility = ["//visibility:public"])
 
@@ -80,7 +80,6 @@ EXPORTS = [
     "//lib/guice:guice",
     "//lib/guice:guice-assistedinject",
     "//lib/guice:guice-servlet",
-    "//lib/guice:javax_inject",
     "//lib/httpcomponents:httpclient",
     "//lib/httpcomponents:httpcore",
     "//lib:jgit-servlet",

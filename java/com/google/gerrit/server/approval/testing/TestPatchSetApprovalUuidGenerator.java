@@ -19,9 +19,9 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.PatchSetApproval.UUID;
 import com.google.gerrit.server.approval.PatchSetApprovalUuidGenerator;
+import com.google.inject.Singleton;
 import java.time.Instant;
 import java.util.Locale;
-import javax.inject.Singleton;
 
 /**
  * Implementation of {@link PatchSetApprovalUuidGenerator} that returns predictable {@link UUID}.

@@ -63,13 +63,13 @@ def archive_dependencies():
             "sha256": "117af61ee2f1b9b014dcac7c9146f374875551abb8a30e51d1b3c5946d25b142",
         },
         {
-            "name": "ubuntu2204_jdk17",
-            "strip_prefix": "rbe_autoconfig-5.1.0",
+            "name": "ubuntu2204_jdk21",
+            "strip_prefix": "rbe_autoconfig-5.2.0",
             "urls": [
-                "https://gerrit-bazel.storage.googleapis.com/rbe_autoconfig/v5.1.0.tar.gz",
-                "https://github.com/davido/rbe_autoconfig/releases/download/v5.1.0/v5.1.0.tar.gz",
+                "https://gerrit-bazel.storage.googleapis.com/rbe_autoconfig/v5.2.0.tar.gz",
+                "https://github.com/davido/rbe_autoconfig/releases/download/v5.2.0/v5.2.0.tar.gz",
             ],
-            "sha256": "8ea82b81c9707e535ff93ef5349d11e55b2a23c62bcc3b0faaec052144aed87d",
+            "sha256": "294e5d4adea036da243f3c007b098d97229cc02a14bf10d256bd82d5b62a56d9",
         },
     ]
 

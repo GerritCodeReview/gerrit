@@ -23,13 +23,13 @@ import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.server.CacheRefreshExecutor;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import com.google.template.soy.jbcsrc.api.SoySauce;
 import java.time.Duration;
 import java.util.concurrent.ExecutionException;
-import javax.inject.Provider;
 
 /**
  * Provides support for soy templates

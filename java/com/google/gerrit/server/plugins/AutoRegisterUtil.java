@@ -23,9 +23,6 @@ public final class AutoRegisterUtil {
   public static Annotation calculateBindAnnotation(Class<Object> impl) {
     Annotation n = impl.getAnnotation(Export.class);
     if (n == null) {
-      n = impl.getAnnotation(javax.inject.Named.class);
-    }
-    if (n == null) {
       n = impl.getAnnotation(com.google.inject.name.Named.class);
     }
     if (n == null) {

@@ -26,8 +26,8 @@ import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.mail.MailMessage;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.util.time.TimeUtil;
+import com.google.inject.Inject;
 import java.time.Instant;
-import javax.inject.Inject;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.Test;
 

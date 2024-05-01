@@ -22,7 +22,6 @@ java_plugin(
         "@auto-value//jar",
         "@guava//jar",
         "@javapoet//jar",
-        "@javax_inject//jar",
     ],
 )
 

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b93358bd_08b867d9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2024-05-01T17:18:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f1d2fd0_9ab85ce3",
+      "range": {
+        "startLine": 13,
+        "startChar": 15,
+        "endLine": 13,
+        "endChar": 100
+      },
+      "revId": "4808c2dc39b1b243a1759964e9e79e8e26e0ce20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "82d11ae4_63c85352",
@@ -37,6 +61,24 @@
       "writtenOn": "2024-04-29T18:43:46Z",
       "side": 1,
       "message": "Do you actually need this import?",
+      "revId": "4808c2dc39b1b243a1759964e9e79e8e26e0ce20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d4883cd_ca7212f7",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2024-05-01T17:18:56Z",
+      "side": 1,
+      "message": "Yes, for L583",
+      "parentUuid": "82d11ae4_63c85352",
       "revId": "4808c2dc39b1b243a1759964e9e79e8e26e0ce20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -58,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc3ceb80_828df094",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 847,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2024-05-01T17:18:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db8edb66_7e89e48b",
+      "revId": "4808c2dc39b1b243a1759964e9e79e8e26e0ce20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8e487cc7_1609ec79",
@@ -75,6 +135,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "67211007_0fda3df6",
+        "filename": "javatests/com/google/gerrit/acceptance/server/util/TaskParkerIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2024-05-01T17:18:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e487cc7_1609ec79",
+      "revId": "4808c2dc39b1b243a1759964e9e79e8e26e0ce20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3e8d5053_568d67b8",
@@ -88,6 +166,24 @@
       "writtenOn": "2024-04-29T18:43:46Z",
       "side": 1,
       "message": "You could move this to TaskListener, update TaskListener\u0027s `assertStateIs` to use it, and make them both public. Then you could also replace all the `assertStateIs(forwarder.task, \u003cstate\u003e)` calls here with `assertStateIs(\u003cstate\u003e)`.",
+      "revId": "4808c2dc39b1b243a1759964e9e79e8e26e0ce20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f5f2428_bb9bbec9",
+        "filename": "javatests/com/google/gerrit/acceptance/server/util/TaskParkerIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2024-05-01T17:18:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e8d5053_568d67b8",
       "revId": "4808c2dc39b1b243a1759964e9e79e8e26e0ce20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

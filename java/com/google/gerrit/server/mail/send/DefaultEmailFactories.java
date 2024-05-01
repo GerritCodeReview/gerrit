@@ -30,12 +30,12 @@ import com.google.gerrit.server.mail.send.ChangeEmail.ChangeEmailDecorator;
 import com.google.gerrit.server.mail.send.InboundEmailRejectionEmailDecorator.InboundEmailError;
 import com.google.gerrit.server.mail.send.OutgoingEmail.EmailDecorator;
 import com.google.gerrit.server.patch.filediff.FileDiffOutput;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import org.eclipse.jgit.lib.ObjectId;
 
 /** Default versions of Gerrit email notifications. */

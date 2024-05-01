@@ -20,8 +20,8 @@ import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.common.UsedAt.Project;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.ImplementedBy;
-import javax.inject.Inject;
-import javax.inject.Singleton;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 @Singleton
 public class ExternalIdKeyFactory {

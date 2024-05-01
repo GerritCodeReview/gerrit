@@ -23,6 +23,7 @@ import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.inject.AbstractModule;
+import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Scopes;
 import com.google.inject.Singleton;
@@ -31,7 +32,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import javax.inject.Inject;
 
 /**
  * An implementation of {@link ServiceUserClassifier} that will consider a user to be a robot if

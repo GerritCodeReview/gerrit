@@ -286,7 +286,7 @@ export class GrEditorView extends LitElement {
           ></gr-endpoint-param>
           <gr-endpoint-param
             name="fileType"
-            .value=${this.type}
+            .value=${this.type ?? ''}
           ></gr-endpoint-param>
           <gr-endpoint-param
             name="lineNum"

@@ -29,8 +29,8 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.ChangeData;
-import javax.inject.Inject;
-import javax.inject.Singleton;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import org.eclipse.jgit.lib.Constants;
 
 /**

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f5a6085_eacce6a1",
+        "filename": "java/com/google/gerrit/server/restapi/group/DeleteGroup.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2024-05-02T06:57:05Z",
+      "side": 1,
+      "message": "As mentioned in previous change: update [GroupControl](https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/account/GroupControl.java) and use that instead. This class handles access to groups and is used by all other group related REST API endpoints.",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 50
+      },
+      "revId": "92780921f04d89e28767fa8e72771e713fadea04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a584fb3e_96dff2bc",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 845,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2024-05-02T06:57:05Z",
+      "side": 1,
+      "message": "Use TestProjectUpdate:\n```\n  projectOperations\n    .allProjectsForUpdate() \n    .add(allowCapability(GlobalCapability.DELETE_GROUP).group(REGISTERED_USERS))\n    .update();\n```",
+      "range": {
+        "startLine": 842,
+        "startChar": 0,
+        "endLine": 845,
+        "endChar": 64
+      },
+      "revId": "92780921f04d89e28767fa8e72771e713fadea04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

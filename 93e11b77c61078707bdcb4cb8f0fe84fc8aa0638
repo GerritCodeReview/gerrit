@@ -22,6 +22,30 @@
       },
       "revId": "93e11b77c61078707bdcb4cb8f0fe84fc8aa0638",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8aa869ff_7083715f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 927,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-05-02T07:25:55Z",
+      "side": 1,
+      "message": "JavaScript\u0027s `startsWith()` and `substring()` for strings are quite fast. Compared to other stuff that the browser has to do for rendering this is negligible.",
+      "parentUuid": "269964a3_6ea18ce4",
+      "range": {
+        "startLine": 926,
+        "startChar": 5,
+        "endLine": 927,
+        "endChar": 75
+      },
+      "revId": "93e11b77c61078707bdcb4cb8f0fe84fc8aa0638",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

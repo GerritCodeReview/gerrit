@@ -16,6 +16,24 @@
       "message": "This can be updated to version 12 now that we bumped java requirement to version 17.",
       "revId": "1a0c927154f57a8cca8e57d05b078570a3368fa6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5cc05dd_2020cf3e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2024-05-02T14:12:32Z",
+      "side": 1,
+      "message": "Let\u0027s first migrate to Jetty 11. It\u0027s already complicated process.",
+      "parentUuid": "c2c52f48_abd501ce",
+      "revId": "1a0c927154f57a8cca8e57d05b078570a3368fa6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

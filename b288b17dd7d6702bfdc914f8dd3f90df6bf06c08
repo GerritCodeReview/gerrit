@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b7d87fa_569c829b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2024-05-02T14:12:32Z",
+      "side": 1,
+      "message": "One test is failing [1]:\n\n  //javatests/com/google/gerrit/acceptance/rest/binding:rest_bindings\n\n\n[1]: https://paste.openstack.org/show/bNXFxO6o8Amok706n1lF/",
+      "revId": "b288b17dd7d6702bfdc914f8dd3f90df6bf06c08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

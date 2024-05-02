@@ -34,6 +34,24 @@
       "parentUuid": "c6dca9e4_7e37d7cb",
       "revId": "0322706916f34406dcac752f3bf1b7535e8d5443",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fbc07f1f_8775ebaf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-05-02T04:54:51Z",
+      "side": 1,
+      "message": "I updated the message. I\u0027ll create a new comment to track my open items.",
+      "parentUuid": "24759575_3c1726aa",
+      "revId": "0322706916f34406dcac752f3bf1b7535e8d5443",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9c3d03e_a6825027",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-05-02T04:54:51Z",
+      "side": 1,
+      "message": "Two reasons I\u0027m still not 100% confident in this change are:\n\n1. I didn\u0027t add any code to `newRootInjectorWithApiModule()` because I\n   don\u0027t yet have any tests that I could create a failure there with,\n   but I do think that method should have similar code.\n2. I\u0027m not doing any explicit binding for the plugin apiModule yet.\n\nFor #2, I wasn\u0027t sure what to do about how [ServerPlugin.java#327](https://gerrit.googlesource.com/gerrit/+/refs/changes/97/420397/4/java/com/google/gerrit/server/plugins/ServerPlugin.java#327) can use the `env.apiInjector` as the `baseInjector` to get an instance of the apiModule class. Maybe someone ( @david.ostrovsky@gmail.com ?) knows a way, but I don\u0027t how we could add bindings for a new plugin to an existing injector and we can\u0027t possibly know about new plugins before they\u0027re installed.",
+      "revId": "4f0b2f984959bbd0828255e6834f52d3ca23fbf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -7,17 +7,6 @@ load("@rules_java//java:defs.bzl", "java_package_configuration")
 
 exports_files(["nongoogle.bzl"])
 
-default_java_toolchain(
-    name = "error_prone_warnings_toolchain_java11",
-    configuration = NONPREBUILT_TOOLCHAIN_CONFIGURATION,
-    package_configuration = [
-        ":error_prone",
-    ],
-    source_version = "11",
-    target_version = "11",
-    visibility = ["//visibility:public"],
-)
-
 [default_java_toolchain(
     name = "error_prone_warnings_toolchain_java" + VERSION,
     configuration = dict(),

@@ -26,7 +26,7 @@
     "@codemirror/search": "^6.5.4",
     "@codemirror/state": "^6.2.1",
     "@codemirror/view": "^6.20.2",
-    "@gerritcodereview/typescript-api": "3.8.0",
+    "@gerritcodereview/typescript-api": "3.9.1",
     "@open-wc/testing": "^3.2.0",
     "@polymer/decorators": "^3.0.0",
     "@polymer/polymer": "^3.5.1",

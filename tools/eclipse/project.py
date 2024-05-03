@@ -97,6 +97,7 @@ def _build_bazel_cmd(*args):
         cmd.append(arg)
     if custom_java:
         cmd.append('--config=java%s' % custom_java)
+    cmd.append('--remote_download_outputs=all')
     return cmd
 
 

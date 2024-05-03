@@ -7223,6 +7223,12 @@ the current change index doesn't have the data.
 |`_number`            ||
 The change number. (The underscore is just a relict of a prior
 attempt to deprecate the change number.)
+|`virtual_id_number`  ||
+The virtual id number is globally unique. For local changes, it is equal to the
+`_number` attribute. For imported changes, the original `_number` is processed
+through a function designed to prevent conflicts with local change numbers.
+Note that its usage is intended solely for Gerrit's internals and UI, and
+adoption outside these scenarios is not advised.
 |`owner`              ||
 The owner of the change as an link:rest-api-accounts.html#account-info[
 AccountInfo] entity.

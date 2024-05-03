@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21100318_a1172a83",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-05-03T13:12:11Z",
+      "side": 1,
+      "message": "You need to update the yarn lock file but also this was done on 3.9 so you can just merge up.",
+      "revId": "ceb843b63a0946746d326ae637c24155c3a65898",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

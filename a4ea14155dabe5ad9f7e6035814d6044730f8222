@@ -16,6 +16,24 @@
       "message": "When running the release, the plugins/yarn.lock has the typescript-api reverted to 3.8.0",
       "revId": "a4ea14155dabe5ad9f7e6035814d6044730f8222",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e64468b5_ba491faa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-05-03T12:13:02Z",
+      "side": 1,
+      "message": "Fixed.",
+      "parentUuid": "70570055_a765fbfd",
+      "revId": "a4ea14155dabe5ad9f7e6035814d6044730f8222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7df20448_1b12d79d",
+        "filename": "plugins/codemirror-editor",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-05-03T09:31:26Z",
+      "side": 0,
+      "message": "I cannot find this commit in the plugin [1], just the new pointer [2]\n\nCan you think of any reason why?\n\n[1] https://gerrit.googlesource.com/plugins/codemirror-editor/+/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391\n\n[2] https://gerrit.googlesource.com/plugins/codemirror-editor/+/06719abee6c38d17008599f074050db5153bffa3",
+      "range": {
+        "startLine": 1,
+        "startChar": 18,
+        "endLine": 1,
+        "endChar": 58
+      },
+      "revId": "2923ceec06607b6b2a040deacde125d8e5a3845b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

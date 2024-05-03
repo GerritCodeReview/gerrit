@@ -774,7 +774,7 @@ public class ChangeJson {
               .collect(toList());
     }
 
-    out._virtualIdNumber = cd.virtualId().get();
+    out.virtualIdNumber = cd.virtualId().get();
 
     return out;
   }
@@ -967,7 +967,7 @@ public class ChangeJson {
     // repository only once
     try (Repository allUsersRepo = repoManager.openRepository(allUsers)) {
       List<Change.Id> changeIds =
-          changeInfos.stream().map(c -> Change.id(c._virtualIdNumber)).collect(Collectors.toList());
+          changeInfos.stream().map(c -> Change.id(c.virtualIdNumber)).collect(Collectors.toList());
       Set<Change.Id> starredChanges =
           starredChangesUtil.areStarred(
               allUsersRepo, changeIds, userProvider.get().asIdentifiedUser().getAccountId());
@@ -975,7 +975,7 @@ public class ChangeJson {
         return;
       }
       changeInfos.stream()
-          .forEach(c -> c.starred = starredChanges.contains(Change.id(c._virtualIdNumber)));
+          .forEach(c -> c.starred = starredChanges.contains(Change.id(c.virtualIdNumber)));
     } catch (IOException e) {
       logger.atWarning().withCause(e).log("Failed to open All-Users repo.");
     }

@@ -286,6 +286,7 @@ public class ChangesByProjectCacheImpl implements ChangesByProjectCache {
       int size = 0;
       size += JavaWeights.OBJECT; // change
       size += JavaWeights.REFERENCE + GerritWeights.KEY_INT; // changeId
+      size += JavaWeights.REFERENCE + c.getServerId().length();
       size += JavaWeights.REFERENCE + JavaWeights.OBJECT + 40; // changeKey;
       size += JavaWeights.REFERENCE + GerritWeights.TIMESTAMP; // createdOn;
       size += JavaWeights.REFERENCE + GerritWeights.TIMESTAMP; // lastUpdatedOn;
@@ -303,12 +304,12 @@ public class ChangesByProjectCacheImpl implements ChangesByProjectCache {
               + (c.getOriginalSubject().equals(c.getSubject()) ? 0 : c.getSubject().length());
       size +=
           JavaWeights.REFERENCE + (c.getSubmissionId() == null ? 0 : c.getSubmissionId().length());
-      size += JavaWeights.REFERENCE + GerritWeights.ACCOUNT_ID; // assignee;
       size += JavaWeights.REFERENCE + JavaWeights.BOOLEAN; // isPrivate;
       size += JavaWeights.REFERENCE + JavaWeights.BOOLEAN; // workInProgress;
       size += JavaWeights.REFERENCE + JavaWeights.BOOLEAN; // reviewStarted;
-      size += JavaWeights.REFERENCE + GerritWeights.CHANGE_NUM; // revertOf;
-      size += JavaWeights.REFERENCE + GerritWeights.PACTCH_SET_ID; // cherryPickOf;
+      size += JavaWeights.REFERENCE + (c.getRevertOf() == null ? 0 : GerritWeights.CHANGE_NUM);
+      size +=
+          JavaWeights.REFERENCE + (c.getCherryPickOf() == null ? 0 : GerritWeights.PACTCH_SET_ID);
       return size;
     }
 

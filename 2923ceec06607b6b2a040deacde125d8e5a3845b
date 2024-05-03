@@ -22,6 +22,30 @@
       },
       "revId": "2923ceec06607b6b2a040deacde125d8e5a3845b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39d47a5a_573ff009",
+        "filename": "plugins/codemirror-editor",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-05-03T10:21:52Z",
+      "side": 0,
+      "message": "@thomasmulhall410@yahoo.com cherry-picked a master fix `06719ab` twice:\n- on stable-3.8 as `6f91568`\n- on stable-3.9 as `ce9838b`\n\nI believe we need to keep the `ce9838b`, let me fix it, good catch.",
+      "parentUuid": "7df20448_1b12d79d",
+      "range": {
+        "startLine": 1,
+        "startChar": 18,
+        "endLine": 1,
+        "endChar": 58
+      },
+      "revId": "2923ceec06607b6b2a040deacde125d8e5a3845b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

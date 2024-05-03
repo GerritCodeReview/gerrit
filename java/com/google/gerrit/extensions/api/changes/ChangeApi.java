@@ -133,7 +133,7 @@ public interface ChangeApi {
   /**
    * Create a new change that reverts this change.
    *
-   * @see Changes#id(int)
+   * @see Changes#id(String, int)
    */
   default ChangeApi revert() throws RestApiException {
     return revert(new RevertInput());
@@ -142,7 +142,7 @@ public interface ChangeApi {
   /**
    * Create a new change that reverts this change.
    *
-   * @see Changes#id(int)
+   * @see Changes#id(String, int)
    */
   ChangeApi revert(RevertInput in) throws RestApiException;
 

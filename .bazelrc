@@ -32,25 +32,6 @@ build:remote_gcp --config=remote
 build:remote_bb --config=config_bb
 build:remote_bb --config=build_shared
 
-# Define configuration using remotejdk_11, executes using remotejdk_11 or local_jdk
-build:build_java11_shared --java_language_version=11
-build:build_java11_shared --java_runtime_version=remotejdk_11
-build:build_java11_shared --tool_java_language_version=11
-build:build_java11_shared --tool_java_runtime_version=remotejdk_11
-
-build:java11 --config=build_java11_shared
-
-# Builds and executes on Google GCP RBE using remotejdk_11
-build:remote11 --config=config_gcp
-build:remote11 --config=build_java11_shared
-
-# Define remote11 configuration alias
-build:remote11_gcp --config=remote11
-
-# Builds and executes on BuildBuddy RBE using remotejdk_11
-build:remote11_bb --config=config_bb
-build:remote11_bb --config=build_java11_shared
-
 # Builds using remotejdk_21, executes using remotejdk_21 or local_jdk
 build:build_java21_shared --java_language_version=21
 build:build_java21_shared --java_runtime_version=remotejdk_21

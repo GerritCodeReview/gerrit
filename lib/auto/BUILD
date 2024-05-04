@@ -23,7 +23,7 @@ java_plugin(
         "@external_deps//:com_google_auto_value_auto_value_annotations",
         "@external_deps//:com_google_guava_guava",
         "@external_deps//:com_squareup_javapoet",
-        "@external_deps//:javax_inject_javax_inject",
+        "@external_deps//:jakarta_inject_jakarta_inject_api",
     ],
 )
 

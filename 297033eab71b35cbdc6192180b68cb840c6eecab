@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb447994_f63a6f90",
+        "filename": "java/com/google/gerrit/server/plugins/PluginGuiceEnvironment.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 658,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2024-05-04T08:17:11Z",
+      "side": 0,
+      "message": "The base version should be restored.",
+      "revId": "297033eab71b35cbdc6192180b68cb840c6eecab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -21,8 +21,8 @@ java_plugin(
         "@auto-value-annotations//jar",
         "@auto-value//jar",
         "@guava//jar",
+        "@jakarta-inject-api//jar",
         "@javapoet//jar",
-        "@javax_inject//jar",
     ],
 )
 

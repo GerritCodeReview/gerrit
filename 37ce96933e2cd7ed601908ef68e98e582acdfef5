@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb8dfefd_0ab476b5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-05-04T09:10:06Z",
+      "side": 1,
+      "message": "Can you point the line numbers in `ServerPluginInfoModule` where we bind the plugin\u0027s `sysModule` and `sshModule`? I could not locate the point where we are doing it.",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 17
+      },
+      "revId": "37ce96933e2cd7ed601908ef68e98e582acdfef5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1a19e12_4be61ae3",
+        "filename": "java/com/google/gerrit/server/plugins/ServerPluginInfoModule.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-05-04T09:10:06Z",
+      "side": 1,
+      "message": "Although this would solve the issue, I am unsure it is the right place. The `ServerPluginInfoModule` is responsible for providing the plugin with its own information. Binding the `batchModule` and `sysModule` is unrelated to the purpose of the class IMHO.",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 76
+      },
+      "revId": "37ce96933e2cd7ed601908ef68e98e582acdfef5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

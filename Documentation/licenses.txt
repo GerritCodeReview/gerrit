@@ -72,6 +72,7 @@ Apache2.0
 * jetty:security
 * jetty:server
 * jetty:servlet
+* jetty:session
 * jetty:util
 * jetty:util-ajax
 * log:log4j

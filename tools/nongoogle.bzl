@@ -182,6 +182,40 @@ def declare_nongoogle_deps():
     # no concern about version skew.
 
     maven_jar(
+        name = "auto-common",
+        artifact = "com.google.auto:auto-common:1.2.1",
+        sha1 = "f6da26895f759010f5f170c8044e84c1b17ef83e",
+    )
+
+    AUTO_FACTORY_VERSION = "1.0.1"
+
+    maven_jar(
+        name = "auto-factory",
+        artifact = "com.google.auto.factory:auto-factory:" + AUTO_FACTORY_VERSION,
+        sha1 = "f81ece06b6525085da217cd900116f44caafe877",
+    )
+
+    maven_jar(
+        name = "auto-service-annotations",
+        artifact = "com.google.auto.service:auto-service-annotations:" + AUTO_FACTORY_VERSION,
+        sha1 = "ac86dacc0eb9285ea9d42eee6aad8629ca3a7432",
+    )
+
+    AUTO_VALUE_VERSION = "1.10.4"
+
+    maven_jar(
+        name = "auto-value",
+        artifact = "com.google.auto.value:auto-value:" + AUTO_VALUE_VERSION,
+        sha1 = "90f9629eaa123f88551cc26a64bc386967ee24cc",
+    )
+
+    maven_jar(
+        name = "auto-value-annotations",
+        artifact = "com.google.auto.value:auto-value-annotations:" + AUTO_VALUE_VERSION,
+        sha1 = "9679de8286eb0a151db6538ba297a8951c4a1224",
+    )
+
+    maven_jar(
         name = "error-prone-annotations",
         artifact = "com.google.errorprone:error_prone_annotations:2.22.0",
         sha1 = "bfb9e4281a4cea34f0ec85b3acd47621cfab35b4",

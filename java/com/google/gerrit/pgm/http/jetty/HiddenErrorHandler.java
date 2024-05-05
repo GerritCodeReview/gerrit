@@ -25,9 +25,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import org.eclipse.jetty.http.HttpHeader;
 import org.eclipse.jetty.http.HttpStatus;
-import org.eclipse.jetty.server.HttpConnection;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.ErrorHandler;
+import org.eclipse.jetty.server.internal.HttpConnection;
 
 class HiddenErrorHandler extends ErrorHandler {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();

@@ -25,6 +25,7 @@ java_library(
     visibility = ["//visibility:public"],
     exports = [
         ":http",
+        ":session",
         "@jetty-server//jar",
     ],
 )
@@ -62,6 +63,12 @@ java_library(
     name = "util",
     data = ["//lib:LICENSE-Apache2.0"],
     exports = ["@jetty-util//jar"],
+)
+
+java_library(
+    name = "session",
+    data = ["//lib:LICENSE-Apache2.0"],
+    exports = ["@jetty-session//jar"],
 )
 
 java_library(

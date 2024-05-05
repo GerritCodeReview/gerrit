@@ -36,7 +36,6 @@ import jakarta.servlet.DispatcherType;
 import jakarta.servlet.Filter;
 import jakarta.servlet.http.HttpSessionEvent;
 import jakarta.servlet.http.HttpSessionListener;
-import java.lang.management.ManagementFactory;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
@@ -50,10 +49,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
-import org.eclipse.jetty.http.HttpScheme;
-import org.eclipse.jetty.http.HttpURI;
+import org.eclipse.jetty.ee10.servlet.DefaultServlet;
+import org.eclipse.jetty.ee10.servlet.FilterHolder;
+import org.eclipse.jetty.ee10.servlet.ServletContextHandler;
+import org.eclipse.jetty.ee10.servlet.ServletHolder;
+import org.eclipse.jetty.ee10.servlet.SessionHandler;
 import org.eclipse.jetty.io.ConnectionStatistics;
-import org.eclipse.jetty.jmx.MBeanContainer;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.ForwardedRequestCustomizer;
 import org.eclipse.jetty.server.Handler;
@@ -65,15 +66,8 @@ import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.server.SslConnectionFactory;
 import org.eclipse.jetty.server.handler.ContextHandler;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
-import org.eclipse.jetty.server.handler.RequestLogHandler;
 import org.eclipse.jetty.server.handler.StatisticsHandler;
-import org.eclipse.jetty.server.session.SessionHandler;
-import org.eclipse.jetty.servlet.DefaultServlet;
-import org.eclipse.jetty.servlet.FilterHolder;
-import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.BlockingArrayQueue;
-import org.eclipse.jetty.util.log.Log;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.eclipse.jgit.lib.Config;
@@ -258,17 +252,15 @@ public class JettyServer {
 
     Handler app = makeContext(env, cfg, sessionHandler);
     if (cfg.getBoolean("httpd", "requestLog", !reverseProxy)) {
-      RequestLogHandler handler = new RequestLogHandler();
-      handler.setRequestLog(httpLogFactory.get());
-      handler.setHandler(app);
-      app = handler;
+      httpd.setRequestLog(httpLogFactory.get());
     }
-    if (cfg.getBoolean("httpd", "registerMBeans", false)) {
-      MBeanContainer mbean = new MBeanContainer(ManagementFactory.getPlatformMBeanServer());
-      httpd.addEventListener(mbean);
-      httpd.addBean(Log.getRootLogger());
-      httpd.addBean(mbean);
-    }
+    // TODO(davido): Find out how to migrate it to Jetty 12
+    //    if (cfg.getBoolean("httpd", "registerMBeans", false)) {
+    //      MBeanContainer mbean = new MBeanContainer(ManagementFactory.getPlatformMBeanServer());
+    //      httpd.addEventListener(mbean);
+    //      httpd.addBean(Log.getRootLogger());
+    //      httpd.addBean(mbean);
+    //    }
 
     long gracefulStopTimeout =
         cfg.getTimeUnit("httpd", null, "gracefulStopTimeout", 0L, TimeUnit.MILLISECONDS);
@@ -372,11 +364,13 @@ public class JettyServer {
       } else if ("proxy-https".equals(u.getScheme())) {
         defaultPort = 8080;
         config.addCustomizer(new ForwardedRequestCustomizer());
-        config.addCustomizer(
-            (connector, channelConfig, request) -> {
-              request.setHttpURI(HttpURI.build(request.getHttpURI()).scheme(HttpScheme.HTTPS));
-              request.setSecure(true);
-            });
+        // TODO(davido): Find out how to migrate it to Jetty 12
+        //        config.addCustomizer(
+        //            (connector, channelConfig, request) -> {
+        //
+        // request.setHttpURI(HttpURI.build(request.getHttpURI()).scheme(HttpScheme.HTTPS));
+        //              request.setSecure(true);
+        //            });
         c = newServerConnector(server, acceptors, config);
 
       } else {
@@ -528,7 +522,7 @@ public class JettyServer {
     // for Gerrit plug-ins to enable user-level sessions.
     //
     app.setSessionHandler(sessionHandler);
-    app.setErrorHandler(new HiddenErrorHandler());
+    // app.setErrorHandler(new HiddenErrorHandler());
 
     // This is the path we are accessed by clients within our domain.
     //

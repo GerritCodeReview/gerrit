@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8870b9d7_d6f57c13",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-05-05T09:22:03Z",
+      "side": 1,
+      "message": "Needs `Release-Notes: skip`",
+      "revId": "8e1d1f745e271ff4660ea0604a9c4e7734d679ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

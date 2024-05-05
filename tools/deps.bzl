@@ -90,12 +90,6 @@ def java_dependencies():
     )
 
     maven_jar(
-        name = "gson",
-        artifact = "com.google.code.gson:gson:2.9.0",
-        sha1 = "8a1167e089096758b49f9b34066ef98b2f4b37aa",
-    )
-
-    maven_jar(
         name = "caffeine",
         artifact = "com.github.ben-manes.caffeine:caffeine:" + CAFFEINE_VERS,
         sha1 = "0a17ed335e0ce2d337750772c0709b79af35a842",

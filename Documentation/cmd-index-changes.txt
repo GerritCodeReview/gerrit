@@ -16,8 +16,7 @@ Changes can be specified in the link:rest-api-changes.html#change-id[same format
 supported by the REST API.
 
 == ACCESS
-Caller must have the 'Maintain Server' capability, or be the owner of the change
-to be indexed.
+Caller must have the 'Maintain Server' capability.
 
 == SCRIPTING
 This command is intended to be used in scripts.

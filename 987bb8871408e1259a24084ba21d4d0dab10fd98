@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8d49393_482acdae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2024-05-05T06:59:59Z",
+      "side": 1,
+      "message": "Google gson is internal Google project and should actually be exempted from the LC label requirement (like Google guava). We should also move this dependency from `tools/deps.bzl` to `tools/nongoogle.bzl`.",
+      "revId": "987bb8871408e1259a24084ba21d4d0dab10fd98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

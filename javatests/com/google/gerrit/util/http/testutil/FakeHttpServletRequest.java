@@ -29,6 +29,7 @@ import com.google.gerrit.common.Nullable;
 import jakarta.servlet.AsyncContext;
 import jakarta.servlet.DispatcherType;
 import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletConnection;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletInputStream;
 import jakarta.servlet.ServletRequest;
@@ -206,12 +207,6 @@ public class FakeHttpServletRequest implements HttpServletRequest {
 
   @Override
   public BufferedReader getReader() {
-    throw new UnsupportedOperationException();
-  }
-
-  @Override
-  @Deprecated
-  public String getRealPath(String path) {
     throw new UnsupportedOperationException();
   }
 
@@ -409,8 +404,17 @@ public class FakeHttpServletRequest implements HttpServletRequest {
   }
 
   @Override
-  @Deprecated
-  public boolean isRequestedSessionIdFromUrl() {
+  public String getRequestId() {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public String getProtocolRequestId() {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public ServletConnection getServletConnection() {
     throw new UnsupportedOperationException();
   }
 

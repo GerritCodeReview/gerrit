@@ -20,6 +20,7 @@ flogger
 flogger-google-extensions
 flogger-log4j-backend
 flogger-system-backend
+gson
 guava
 guava-testlib
 guice-assistedinject

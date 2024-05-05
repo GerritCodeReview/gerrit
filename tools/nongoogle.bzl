@@ -252,6 +252,12 @@ def declare_nongoogle_deps():
         sha1 = "6e9ccb00926325c7a9293ed05a2eaf56ea15d60e",
     )
 
+    maven_jar(
+        name = "gson",
+        artifact = "com.google.code.gson:gson:2.9.0",
+        sha1 = "8a1167e089096758b49f9b34066ef98b2f4b37aa",
+    )
+
     # Test-only dependencies below.
     maven_jar(
         name = "cglib-3_2",

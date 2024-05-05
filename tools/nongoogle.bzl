@@ -7,6 +7,12 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 load("@bazel_tools//tools/build_defs/repo:utils.bzl", "maybe")
 load("//tools/bzl:maven_jar.bzl", "maven_jar")
 
+AUTO_COMMON_VERSION = "1.2.1"
+
+AUTO_FACTORY_VERSION = "1.0.1"
+
+AUTO_VALUE_VERSION = "1.10.4"
+
 GUAVA_VERSION = "33.0.0-jre"
 
 GUAVA_BIN_SHA1 = "161ba27964a62f241533807a46b8711b13c1d94b"
@@ -180,6 +186,36 @@ def declare_nongoogle_deps():
 
     # Google internal dependencies: these are developed at Google, so there is
     # no concern about version skew.
+
+    maven_jar(
+        name = "auto-common",
+        artifact = "com.google.auto:auto-common:" + AUTO_COMMON_VERSION,
+        sha1 = "f6da26895f759010f5f170c8044e84c1b17ef83e",
+    )
+
+    maven_jar(
+        name = "auto-factory",
+        artifact = "com.google.auto.factory:auto-factory:" + AUTO_FACTORY_VERSION,
+        sha1 = "f81ece06b6525085da217cd900116f44caafe877",
+    )
+
+    maven_jar(
+        name = "auto-service-annotations",
+        artifact = "com.google.auto.service:auto-service-annotations:" + AUTO_FACTORY_VERSION,
+        sha1 = "ac86dacc0eb9285ea9d42eee6aad8629ca3a7432",
+    )
+
+    maven_jar(
+        name = "auto-value",
+        artifact = "com.google.auto.value:auto-value:" + AUTO_VALUE_VERSION,
+        sha1 = "90f9629eaa123f88551cc26a64bc386967ee24cc",
+    )
+
+    maven_jar(
+        name = "auto-value-annotations",
+        artifact = "com.google.auto.value:auto-value-annotations:" + AUTO_VALUE_VERSION,
+        sha1 = "9679de8286eb0a151db6538ba297a8951c4a1224",
+    )
 
     maven_jar(
         name = "error-prone-annotations",

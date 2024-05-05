@@ -11,6 +11,11 @@ TMP=$(mktemp -d || mktemp -d -t /tmp/tmp.XXXXXX)
 grep 'name = "[^"]*"' ${bzl} | sed 's|^[^"]*"||g;s|".*$||g' | sort > $TMP/names
 
 cat << EOF > $TMP/want
+auto-common
+auto-factory
+auto-service-annotations
+auto-value
+auto-value-annotations
 cglib-3_2
 commons-io
 dropwizard-core

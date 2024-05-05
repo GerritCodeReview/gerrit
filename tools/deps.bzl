@@ -11,9 +11,6 @@ GREENMAIL_VERS = "1.5.5"
 MAIL_VERS = "1.6.0"
 MIME4J_VERS = "0.8.1"
 OW2_VERS = "9.2"
-AUTO_COMMON_VERSION = "1.2.1"
-AUTO_FACTORY_VERSION = "1.0.1"
-AUTO_VALUE_VERSION = "1.10.4"
 AUTO_VALUE_GSON_VERSION = "1.3.1"
 PROLOG_VERS = "1.4.4"
 PROLOG_REPO = GERRIT
@@ -274,36 +271,6 @@ def java_dependencies():
         name = "ow2-asm-util",
         artifact = "org.ow2.asm:asm-util:" + OW2_VERS,
         sha1 = "fbc178fc5ba3dab50fd7e8a5317b8b647c8e8946",
-    )
-
-    maven_jar(
-        name = "auto-common",
-        artifact = "com.google.auto:auto-common:" + AUTO_COMMON_VERSION,
-        sha1 = "f6da26895f759010f5f170c8044e84c1b17ef83e",
-    )
-
-    maven_jar(
-        name = "auto-factory",
-        artifact = "com.google.auto.factory:auto-factory:" + AUTO_FACTORY_VERSION,
-        sha1 = "f81ece06b6525085da217cd900116f44caafe877",
-    )
-
-    maven_jar(
-        name = "auto-service-annotations",
-        artifact = "com.google.auto.service:auto-service-annotations:" + AUTO_FACTORY_VERSION,
-        sha1 = "ac86dacc0eb9285ea9d42eee6aad8629ca3a7432",
-    )
-
-    maven_jar(
-        name = "auto-value",
-        artifact = "com.google.auto.value:auto-value:" + AUTO_VALUE_VERSION,
-        sha1 = "90f9629eaa123f88551cc26a64bc386967ee24cc",
-    )
-
-    maven_jar(
-        name = "auto-value-annotations",
-        artifact = "com.google.auto.value:auto-value-annotations:" + AUTO_VALUE_VERSION,
-        sha1 = "9679de8286eb0a151db6538ba297a8951c4a1224",
     )
 
     maven_jar(

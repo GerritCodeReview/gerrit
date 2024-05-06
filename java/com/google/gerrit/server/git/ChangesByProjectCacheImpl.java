@@ -286,7 +286,7 @@ public class ChangesByProjectCacheImpl implements ChangesByProjectCache {
       int size = 0;
       size += JavaWeights.OBJECT; // change
       size += JavaWeights.REFERENCE + GerritWeights.KEY_INT; // changeId
-      size += JavaWeights.REFERENCE + c.getServerId().length();
+      size += JavaWeights.REFERENCE + (c.getServerId() == null ? 0 : c.getServerId().length());
       size += JavaWeights.REFERENCE + JavaWeights.OBJECT + 40; // changeKey;
       size += JavaWeights.REFERENCE + GerritWeights.TIMESTAMP; // createdOn;
       size += JavaWeights.REFERENCE + GerritWeights.TIMESTAMP; // lastUpdatedOn;

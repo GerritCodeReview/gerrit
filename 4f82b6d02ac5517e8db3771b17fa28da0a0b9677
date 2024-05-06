@@ -16,6 +16,24 @@
       "message": "Why is this needed? This is not used in Gerrit open source build tool chain, right? And could be removed at any time. \n\nIf Google build toolchain depends on it, should we start adding comment, a lá `Used@Google`, like we do in Java source code?",
       "revId": "4f82b6d02ac5517e8db3771b17fa28da0a0b9677",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9ff330e_50764885",
+        "filename": "proto/BUILD",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2024-05-06T08:17:05Z",
+      "side": 1,
+      "message": "Thanks for pointing that out! Sent If32b5768d9d74b8f7bcec41cf6e6a3ed153a48a2 to revert this change.",
+      "parentUuid": "e87e610d_aeed27ed",
+      "revId": "4f82b6d02ac5517e8db3771b17fa28da0a0b9677",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

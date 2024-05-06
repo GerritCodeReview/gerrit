@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8845cd78_ee2c9d54",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-05-06T07:54:36Z",
+      "side": 1,
+      "message": "See below the NPE upon clone:\n\n```\njava.lang.NullPointerException: Cannot invoke \"String.length()\" because the return value of \"com.google.gerrit.entities.Change.getServerId()\" is null\n        at com.google.gerrit.server.git.ChangesByProjectCacheImpl$PrivateChange.weigh(ChangesByProjectCacheImpl.java:289)\n        at com.google.gerrit.server.git.ChangesByProjectCacheImpl$PrivateChange.weigh(ChangesByProjectCacheImpl.java:279)\n        at com.google.gerrit.server.git.ChangesByProjectCacheImpl$CachedProjectChanges.weigh(ChangesByProjectCacheImpl.java:260)\n        at com.google.gerrit.server.git.ChangesByProjectCacheImpl$ChangesByProjetCacheWeigher.weigh(ChangesByProjectCacheImpl.java:337)\n        at com.google.gerrit.server.git.ChangesByProjectCacheImpl$ChangesByProjetCacheWeigher.weigh(ChangesByProjectCacheImpl.java:331)\n        at com.google.gerrit.server.cache.mem.DefaultMemoryCacheFactory.lambda$newWeigher$1(DefaultMemoryCacheFactory.java:164)\n        at com.github.benmanes.caffeine.cache.BoundedWeigher.weigh(Weigher.java:93)\n```",
+      "revId": "22d77a88dd2127b6251f67249fec020ccd9147e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

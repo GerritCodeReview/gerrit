@@ -286,7 +286,7 @@ public class ServerPlugin extends Plugin {
     modules.add(new ServerPluginInfoModule(this, env.getServerMetrics()));
     return apiInjector
         .map(injector -> injector.createChildInjector(modules))
-        .orElse(Guice.createInjector(modules));
+        .orElseGet(() -> Guice.createInjector(modules));
   }
 
   private Injector newRootInjectorWithApiModule(

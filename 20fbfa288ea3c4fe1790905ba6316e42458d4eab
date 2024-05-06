@@ -16,6 +16,24 @@
       "message": "We are now in feature-freeze for stable-3.10: either we move this change to master *OR* we will target v3.10.1, @tran.tuan.khai.phan@ericsson.com which one would you prefer?",
       "revId": "20fbfa288ea3c4fe1790905ba6316e42458d4eab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "792952c0_fa3ebfa8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 49
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1152600
+      },
+      "writtenOn": "2024-05-06T20:52:09Z",
+      "side": 1,
+      "message": "I would prefer targeting stable-3.10.1, if possible",
+      "parentUuid": "890ef6f7_ca1d73fa",
+      "revId": "20fbfa288ea3c4fe1790905ba6316e42458d4eab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

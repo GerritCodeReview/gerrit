@@ -53,6 +53,9 @@
       "That causes tests to fail claiming that 'sanitizeHtml' is not exported from safevalues."
     ]
   },
+  "resolutions": {
+    "canvas": "Automattic/node-canvas#f934f226fc01b2ccb4554d0056718a24279ac087"
+  },
   "license": "Apache-2.0",
   "private": true
 }

@@ -16,6 +16,29 @@
       "message": "This caused the stable-3.10 be merged into stable-3.8 :-(",
       "revId": "f34b770a62f2e0d753c00bcaac79fc89fd35c8d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c53154af_50dece60",
+        "filename": "java/com/google/gerrit/server/git/ChangesByProjectCacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-05-06T19:13:44Z",
+      "side": 1,
+      "message": "Sorry about this. I even fixed the missing null checks for revertOf and cherryPickOf in the same change, but those have the annotations on the class members, so I wasn\u0027t looking at the getter method signature 😞",
+      "range": {
+        "startLine": 289,
+        "startChar": 0,
+        "endLine": 289,
+        "endChar": 95
+      },
+      "revId": "f34b770a62f2e0d753c00bcaac79fc89fd35c8d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

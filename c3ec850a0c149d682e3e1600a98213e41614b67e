@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "84c3bdf6_5bcf980d",
+        "filename": "java/com/google/gerrit/server/api/groups/GroupApiImpl.java",
+        "patchSetId": 48
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1152600
+      },
+      "writtenOn": "2024-05-06T19:46:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "05cc6e54_80415fc5",
+      "range": {
+        "startLine": 172,
+        "startChar": 0,
+        "endLine": 174,
+        "endChar": 77
+      },
+      "revId": "c3ec850a0c149d682e3e1600a98213e41614b67e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3e825b57_8a2b7e6c",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-05-03T06:22:49Z",
       "side": 1,
       "message": "Use GroupOperations?",
+      "range": {
+        "startLine": 808,
+        "startChar": 0,
+        "endLine": 812,
+        "endChar": 37
+      },
+      "revId": "c3ec850a0c149d682e3e1600a98213e41614b67e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "610ba7fb_a6db66e2",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 48
+      },
+      "lineNbr": 812,
+      "author": {
+        "id": 1152600
+      },
+      "writtenOn": "2024-05-06T19:46:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e825b57_8a2b7e6c",
       "range": {
         "startLine": 808,
         "startChar": 0,

@@ -5,21 +5,6 @@
  */
 import {BehaviorSubject} from 'rxjs';
 import '../gr-copy-links/gr-copy-links';
-import '@polymer/paper-tabs/paper-tabs';
-import '../../../styles/gr-a11y-styles';
-import '../../../styles/gr-paper-styles';
-import '../../../styles/shared-styles';
-import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
-import '../../plugins/gr-endpoint-param/gr-endpoint-param';
-import '../../shared/gr-button/gr-button';
-import '../../shared/gr-change-star/gr-change-star';
-import '../../shared/gr-change-status/gr-change-status';
-import '../../shared/gr-editable-content/gr-editable-content';
-import '../../shared/gr-formatted-text/gr-formatted-text';
-import '../../shared/gr-tooltip-content/gr-tooltip-content';
-import '../gr-change-actions/gr-change-actions';
-import '../gr-change-summary/gr-change-summary';
-import '../gr-change-metadata/gr-change-metadata';
 import '../gr-commit-info/gr-commit-info';
 import '../gr-download-dialog/gr-download-dialog';
 import '../gr-file-list-header/gr-file-list-header';

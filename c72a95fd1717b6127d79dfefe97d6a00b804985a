@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "221ad982_5aa3310b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-05-06T11:53:21Z",
+      "side": 1,
+      "message": "missing the `Release-Notes:` footer",
+      "revId": "c72a95fd1717b6127d79dfefe97d6a00b804985a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -132,13 +132,21 @@ public interface ChangeApi {
     setReadyForReview(null);
   }
 
-  /** Create a new change that reverts this change. */
+  /**
+   * Create a new change that reverts this change.
+   *
+   * @see Changes#id(String, int)
+   */
   @CanIgnoreReturnValue
   default ChangeApi revert() throws RestApiException {
     return revert(new RevertInput());
   }
 
-  /** Create a new change that reverts this change. */
+  /**
+   * Create a new change that reverts this change.
+   *
+   * @see Changes#id(String, int)
+   */
   @CanIgnoreReturnValue
   ChangeApi revert(RevertInput in) throws RestApiException;
 

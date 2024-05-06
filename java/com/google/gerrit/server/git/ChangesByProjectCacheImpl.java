@@ -301,7 +301,9 @@ public class ChangesByProjectCacheImpl implements ChangesByProjectCache {
       size += JavaWeights.REFERENCE + (c.getTopic() == null ? 0 : c.getTopic().length());
       size +=
           JavaWeights.REFERENCE
-              + (c.getOriginalSubject().equals(c.getSubject()) ? 0 : c.getSubject().length());
+              + (c.getOriginalSubject().equals(c.getSubject())
+                  ? 0
+                  : c.getOriginalSubject().length());
       size +=
           JavaWeights.REFERENCE + (c.getSubmissionId() == null ? 0 : c.getSubmissionId().length());
       size += JavaWeights.REFERENCE + JavaWeights.BOOLEAN; // isPrivate;

@@ -57,6 +57,30 @@
       ],
       "revId": "5f322202daf340306a9653d8d7c06260d04ebe16",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0aa9d576_9f5b0320",
+        "filename": "polygerrit-ui/app/elements/settings/gr-watched-projects-editor/gr-watched-projects-editor.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-05-07T18:48:13Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "1bf4b5db_de91b976",
+      "range": {
+        "startLine": 218,
+        "startChar": 8,
+        "endLine": 218,
+        "endChar": 51
+      },
+      "revId": "5f322202daf340306a9653d8d7c06260d04ebe16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

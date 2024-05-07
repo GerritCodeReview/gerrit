@@ -24,7 +24,6 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.cache.CacheModule;
-import com.google.gerrit.server.git.ChangesByProjectCache.UseIndex;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
@@ -301,7 +300,9 @@ public class ChangesByProjectCacheImpl implements ChangesByProjectCache {
       size += JavaWeights.REFERENCE + (c.getTopic() == null ? 0 : c.getTopic().length());
       size +=
           JavaWeights.REFERENCE
-              + (c.getOriginalSubject().equals(c.getSubject()) ? 0 : c.getSubject().length());
+              + (c.getOriginalSubject().equals(c.getSubject())
+                  ? 0
+                  : c.getOriginalSubject().length());
       size +=
           JavaWeights.REFERENCE + (c.getSubmissionId() == null ? 0 : c.getSubmissionId().length());
       size += JavaWeights.REFERENCE + JavaWeights.BOOLEAN; // isPrivate;
@@ -309,7 +310,7 @@ public class ChangesByProjectCacheImpl implements ChangesByProjectCache {
       size += JavaWeights.REFERENCE + JavaWeights.BOOLEAN; // reviewStarted;
       size += JavaWeights.REFERENCE + (c.getRevertOf() == null ? 0 : GerritWeights.CHANGE_NUM);
       size +=
-          JavaWeights.REFERENCE + (c.getCherryPickOf() == null ? 0 : GerritWeights.PACTCH_SET_ID);
+          JavaWeights.REFERENCE + (c.getCherryPickOf() == null ? 0 : GerritWeights.PATCH_SET_ID);
       return size;
     }
 
@@ -343,7 +344,7 @@ public class ChangesByProjectCacheImpl implements ChangesByProjectCache {
     public static final int KEY_INT = JavaWeights.OBJECT + JavaWeights.INT; // IntKey
     public static final int CHANGE_NUM = KEY_INT;
     public static final int ACCOUNT_ID = KEY_INT;
-    public static final int PACTCH_SET_ID =
+    public static final int PATCH_SET_ID =
         JavaWeights.OBJECT
             + (JavaWeights.REFERENCE + GerritWeights.CHANGE_NUM) // PatchSet.Id.changeId
             + JavaWeights.INT; // PatchSet.Id patch_num;

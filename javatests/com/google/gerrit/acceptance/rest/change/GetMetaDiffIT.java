@@ -42,15 +42,15 @@ public class GetMetaDiffIT extends AbstractDaemonTest {
 
   @Test
   public void metaDiff() throws Exception {
-    PushOneCommit.Result ch = createChange();
-    ChangeApi chApi = gApi.changes().id(ch.getChangeId());
-    chApi.topic(TOPIC);
-    ChangeInfo oldInfo = chApi.get();
-    chApi.topic(TOPIC + "-2");
-    chApi.setHashtags(new HashtagsInput(ImmutableSet.of(HASHTAG)));
-    ChangeInfo newInfo = chApi.get();
+    String changeId = createChange().getChangeId();
+    gApi.changes().id(changeId).topic(TOPIC);
+    ChangeInfo oldInfo = gApi.changes().id(changeId).get();
+    gApi.changes().id(changeId).topic(TOPIC + "-2");
+    gApi.changes().id(changeId).setHashtags(new HashtagsInput(ImmutableSet.of(HASHTAG)));
+    ChangeInfo newInfo = gApi.changes().id(changeId).get();
 
-    ChangeInfoDifference difference = chApi.metaDiff(oldInfo.metaRevId, newInfo.metaRevId);
+    ChangeInfoDifference difference =
+        gApi.changes().id(changeId).metaDiff(oldInfo.metaRevId, newInfo.metaRevId);
 
     assertThat(difference.added().topic).isEqualTo(newInfo.topic);
     assertThat(difference.added().hashtags).isNotNull();
@@ -161,13 +161,12 @@ public class GetMetaDiffIT extends AbstractDaemonTest {
 
   @Test
   public void metaDiffNoOldMetaGivenUsesPatchSetBeforeNew() throws Exception {
-    PushOneCommit.Result ch = createChange();
-    ChangeApi chApi = gApi.changes().id(ch.getChangeId());
-    chApi.topic(TOPIC);
-    ChangeInfo newInfo = chApi.get();
-    chApi.topic(TOPIC + "2");
+    String changeId = createChange().getChangeId();
+    gApi.changes().id(changeId).topic(TOPIC);
+    ChangeInfo newInfo = gApi.changes().id(changeId).get();
+    gApi.changes().id(changeId).topic(TOPIC + "2");
 
-    ChangeInfoDifference difference = chApi.metaDiff(null, newInfo.metaRevId);
+    ChangeInfoDifference difference = gApi.changes().id(changeId).metaDiff(null, newInfo.metaRevId);
 
     assertThat(difference.added().topic).isEqualTo(TOPIC);
     assertThat(difference.removed().topic).isNull();
@@ -202,17 +201,18 @@ public class GetMetaDiffIT extends AbstractDaemonTest {
 
   @Test
   public void metaDiffWithOptionIncludesExtraInformation() throws Exception {
-    PushOneCommit.Result ch = createChange();
-    ChangeApi chApi = gApi.changes().id(ch.getChangeId());
-    ChangeInfo oldInfo = chApi.get(ListChangesOption.CURRENT_REVISION);
-    amendChange(ch.getChangeId());
-    ChangeInfo newInfo = chApi.get(ListChangesOption.CURRENT_REVISION);
+    String changeId = createChange().getChangeId();
+    ChangeInfo oldInfo = gApi.changes().id(changeId).get(ListChangesOption.CURRENT_REVISION);
+    amendChange(changeId);
+    ChangeInfo newInfo = gApi.changes().id(changeId).get(ListChangesOption.CURRENT_REVISION);
 
     ChangeInfoDifference difference =
-        chApi.metaDiff(
-            oldInfo.metaRevId,
-            newInfo.metaRevId,
-            ImmutableSet.of(ListChangesOption.CURRENT_REVISION));
+        gApi.changes()
+            .id(changeId)
+            .metaDiff(
+                oldInfo.metaRevId,
+                newInfo.metaRevId,
+                ImmutableSet.of(ListChangesOption.CURRENT_REVISION));
 
     assertThat(newInfo.currentRevision).isNotNull();
     assertThat(oldInfo.currentRevision).isNotNull();

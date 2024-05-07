@@ -37,6 +37,9 @@ import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.PluginDefinedAttributesFactories;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.logging.Metadata;
+import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.notedb.MissingMetaObjectException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
@@ -45,6 +48,7 @@ import java.util.Collection;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import org.eclipse.jgit.errors.InvalidObjectIdException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -104,9 +108,14 @@ public class GetChange
   @Override
   public Response<ChangeInfo> apply(ChangeResource rsrc) throws RestApiException {
     try {
-      Change change = rsrc.getChange();
-      ObjectId changeMetaRevId = getMetaRevId(change);
-      return Response.withMustRevalidate(newChangeJson().format(change, changeMetaRevId));
+      Optional<ObjectId> changeMetaRevId = getMetaRevId(rsrc.getChange());
+      ChangeInfo changeInfo;
+      if (changeMetaRevId.isPresent()) {
+        changeInfo = newChangeJson().format(rsrc.getChange(), changeMetaRevId.get());
+      } else {
+        changeInfo = newChangeJson().format(rsrc.getChangeData());
+      }
+      return Response.withMustRevalidate(changeInfo);
     } catch (MissingMetaObjectException e) {
       throw new PreconditionFailedException(e.getMessage());
     }
@@ -116,22 +125,25 @@ public class GetChange
     return Response.withMustRevalidate(newChangeJson().format(rsrc));
   }
 
-  @Nullable
-  private ObjectId getMetaRevId(Change change) throws RestApiException {
+  private Optional<ObjectId> getMetaRevId(Change change) throws RestApiException {
     if (metaRevId.isEmpty()) {
-      return null;
+      return Optional.empty();
     }
 
-    // It might be interesting to also allow {SHA1}^^, so callers can walk back into history
-    // without having to fetch the entire /meta ref. If we do so, we have to be careful that
-    // the error messages can't be abused to fetch hidden data.
-    ObjectId metaRevObjectId;
-    try {
-      metaRevObjectId = ObjectId.fromString(metaRevId);
-    } catch (InvalidObjectIdException e) {
-      throw new BadRequestException("invalid meta SHA1: " + metaRevId, e);
+    try (TraceTimer timer =
+        TraceContext.newTimer(
+            "Get meta rev ID", Metadata.builder().changeId(change.getId().get()).build())) {
+      // It might be interesting to also allow {SHA1}^^, so callers can walk back into history
+      // without having to fetch the entire /meta ref. If we do so, we have to be careful that
+      // the error messages can't be abused to fetch hidden data.
+      ObjectId metaRevObjectId;
+      try {
+        metaRevObjectId = ObjectId.fromString(metaRevId);
+      } catch (InvalidObjectIdException e) {
+        throw new BadRequestException("invalid meta SHA1: " + metaRevId, e);
+      }
+      return verifyMetaId(change, metaRevObjectId);
     }
-    return verifyMetaId(change, metaRevObjectId);
   }
 
   private ChangeJson newChangeJson() {
@@ -144,10 +156,10 @@ public class GetChange
         cds, this, Streams.stream(pdiFactories.entries()));
   }
 
-  @Nullable
-  private ObjectId verifyMetaId(Change change, @Nullable ObjectId id) throws RestApiException {
+  private Optional<ObjectId> verifyMetaId(Change change, @Nullable ObjectId id)
+      throws RestApiException {
     if (id == null) {
-      return null;
+      return Optional.empty();
     }
 
     String changeMetaRefName = RefNames.changeMetaRef(change.getId());
@@ -159,7 +171,7 @@ public class GetChange
       rw.markStart(tip);
       for (RevCommit rev : rw) {
         if (id.equals(rev)) {
-          return id;
+          return Optional.of(id);
         }
       }
     } catch (IOException e) {

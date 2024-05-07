@@ -1,0 +1,62 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "224b482a_087a5571",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-05-07T18:43:10Z",
+      "side": 1,
+      "message": "Looks like nice change!",
+      "revId": "5f322202daf340306a9653d8d7c06260d04ebe16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1bf4b5db_de91b976",
+        "filename": "polygerrit-ui/app/elements/settings/gr-watched-projects-editor/gr-watched-projects-editor.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-05-07T18:43:10Z",
+      "side": 1,
+      "message": "You can use includes",
+      "range": {
+        "startLine": 218,
+        "startChar": 8,
+        "endLine": 218,
+        "endChar": 51
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "9bf0ca13_97ebbbbe",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/settings/gr-watched-projects-editor/gr-watched-projects-editor.ts",
+              "range": {
+                "startLine": 218,
+                "startChar": 0,
+                "endLine": 219,
+                "endChar": 0
+              },
+              "replacement": "    if (this.originalProjects.includes(project))\n"
+            }
+          ]
+        }
+      ],
+      "revId": "5f322202daf340306a9653d8d7c06260d04ebe16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

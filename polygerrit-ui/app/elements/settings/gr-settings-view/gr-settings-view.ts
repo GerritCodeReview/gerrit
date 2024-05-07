@@ -462,7 +462,6 @@ export class GrSettingsView extends LitElement {
           <fieldset id="email">
             <gr-email-editor
               id="emailEditor"
-              ?hasUnsavedChanges=${this.emailsChanged}
               @has-unsaved-changes-changed=${(
                 e: ValueChangedEvent<boolean>
               ) => {

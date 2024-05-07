@@ -8,15 +8,16 @@ import '../../shared/gr-button/gr-button';
 import {EmailInfo} from '../../../types/common';
 import {getAppContext} from '../../../services/app-context';
 import {LitElement, css, html} from 'lit';
-import {customElement, property, state} from 'lit/decorators.js';
+import {customElement, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {grFormStyles} from '../../../styles/gr-form-styles';
 import {ValueChangedEvent} from '../../../types/events';
 import {fire} from '../../../utils/event-util';
+import {notDeepEqual} from '../../../utils/deep-util';
 
 @customElement('gr-email-editor')
 export class GrEmailEditor extends LitElement {
-  @property({type: Boolean}) hasUnsavedChanges = false;
+  @state() private originalEmails: EmailInfo[] = [];
 
   /* private but used in test */
   @state() emails: EmailInfo[] = [];
@@ -110,7 +111,8 @@ export class GrEmailEditor extends LitElement {
 
   loadData() {
     return this.restApiService.getAccountEmails().then(emails => {
-      this.emails = emails ?? [];
+      this.originalEmails = emails ?? [];
+      this.emails = emails ? [...emails] : [];
     });
   }
 
@@ -128,9 +130,10 @@ export class GrEmailEditor extends LitElement {
     }
 
     return Promise.all(promises).then(() => {
+      this.originalEmails = this.emails;
       this.emailsToRemove = [];
       this.newPreferred = '';
-      this.setHasUnsavedChanges(false);
+      this.setHasUnsavedChanges();
     });
   }
 
@@ -141,10 +144,12 @@ export class GrEmailEditor extends LitElement {
     if (indexStr === null) return;
     const index = Number(indexStr);
     const email = this.emails[index];
-    this.emailsToRemove = [...this.emailsToRemove, email];
+    // Don't add project to emailsToRemove if it wasn't in
+    // originalEmails.
+    if (this.originalEmails.includes(email)) this.emailsToRemove.push(email);
     this.emails.splice(index, 1);
     this.requestUpdate();
-    this.setHasUnsavedChanges(true);
+    this.setHasUnsavedChanges();
   }
 
   private handlePreferredControlClick(e: Event) {
@@ -165,7 +170,7 @@ export class GrEmailEditor extends LitElement {
         this.emails[i].preferred = true;
         this.requestUpdate();
         this.newPreferred = preferred;
-        this.setHasUnsavedChanges(true);
+        this.setHasUnsavedChanges();
       } else if (this.emails[i].preferred) {
         this.emails[i].preferred = false;
         this.requestUpdate();
@@ -177,9 +182,11 @@ export class GrEmailEditor extends LitElement {
     return preferred ?? false;
   }
 
-  private setHasUnsavedChanges(value: boolean) {
-    this.hasUnsavedChanges = value;
-    fire(this, 'has-unsaved-changes-changed', {value});
+  private setHasUnsavedChanges() {
+    const hasUnsavedChanges =
+      notDeepEqual(this.originalEmails, this.emails) ||
+      this.emailsToRemove.length > 0;
+    fire(this, 'has-unsaved-changes-changed', {value: hasUnsavedChanges});
   }
 }
 

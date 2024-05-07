@@ -123,6 +123,12 @@ suite('gr-email-editor tests', () => {
   });
 
   test('renders', () => {
+    const hasUnsavedChangesSpy = sinon.spy();
+    element.addEventListener(
+      'has-unsaved-changes-changed',
+      hasUnsavedChangesSpy
+    );
+
     const rows = element
       .shadowRoot!.querySelector('table')!
       .querySelectorAll('tbody tr');
@@ -144,15 +150,21 @@ suite('gr-email-editor tests', () => {
     );
     assert.isNotOk(rows[2].querySelector('gr-button')!.disabled);
 
-    assert.isFalse(element.hasUnsavedChanges);
+    assert.isFalse(hasUnsavedChangesSpy.called);
   });
 
   test('edit preferred', () => {
+    const hasUnsavedChangesSpy = sinon.spy();
+    element.addEventListener(
+      'has-unsaved-changes-changed',
+      hasUnsavedChangesSpy
+    );
+
     const radios = element
       .shadowRoot!.querySelector('table')!
       .querySelectorAll<HTMLInputElement>('input[type=radio]');
 
-    assert.isFalse(element.hasUnsavedChanges);
+    assert.isFalse(hasUnsavedChangesSpy.called);
     assert.isNotOk(element.newPreferred);
     assert.equal(element.emailsToRemove.length, 0);
     assert.equal(element.emails.length, 3);
@@ -162,7 +174,7 @@ suite('gr-email-editor tests', () => {
 
     radios[0].click();
 
-    assert.isTrue(element.hasUnsavedChanges);
+    assert.isTrue(hasUnsavedChangesSpy.called);
     assert.isOk(element.newPreferred);
     assert.equal(element.emailsToRemove.length, 0);
     assert.equal(element.emails.length, 3);
@@ -172,18 +184,24 @@ suite('gr-email-editor tests', () => {
   });
 
   test('delete email', () => {
+    const hasUnsavedChangesSpy = sinon.spy();
+    element.addEventListener(
+      'has-unsaved-changes-changed',
+      hasUnsavedChangesSpy
+    );
+
     const buttons = element
       .shadowRoot!.querySelector('table')!
       .querySelectorAll('gr-button');
 
-    assert.isFalse(element.hasUnsavedChanges);
+    assert.isFalse(hasUnsavedChangesSpy.called);
     assert.isNotOk(element.newPreferred);
     assert.equal(element.emailsToRemove.length, 0);
     assert.equal(element.emails.length, 3);
 
     buttons[2].click();
 
-    assert.isTrue(element.hasUnsavedChanges);
+    assert.isTrue(hasUnsavedChangesSpy.called);
     assert.isNotOk(element.newPreferred);
     assert.equal(element.emailsToRemove.length, 1);
     assert.equal(element.emails.length, 2);
@@ -192,6 +210,12 @@ suite('gr-email-editor tests', () => {
   });
 
   test('save changes', async () => {
+    const hasUnsavedChangesSpy = sinon.spy();
+    element.addEventListener(
+      'has-unsaved-changes-changed',
+      hasUnsavedChangesSpy
+    );
+
     const deleteEmailSpy = spyRestApi('deleteAccountEmail');
     const setPreferredSpy = spyRestApi('setPreferredAccountEmail');
 
@@ -199,7 +223,7 @@ suite('gr-email-editor tests', () => {
       .shadowRoot!.querySelector('table')!
       .querySelectorAll('tbody tr');
 
-    assert.isFalse(element.hasUnsavedChanges);
+    assert.isFalse(hasUnsavedChangesSpy.called);
     assert.isNotOk(element.newPreferred);
     assert.equal(element.emailsToRemove.length, 0);
     assert.equal(element.emails.length, 3);
@@ -208,7 +232,8 @@ suite('gr-email-editor tests', () => {
     rows[0].querySelector('gr-button')!.click();
     rows[2].querySelector<HTMLInputElement>('input[type=radio]')!.click();
 
-    assert.isTrue(element.hasUnsavedChanges);
+    assert.isTrue(hasUnsavedChangesSpy.called);
+    assert.isTrue(hasUnsavedChangesSpy.lastCall.args[0].detail.value);
     assert.equal(element.newPreferred, 'email@three.com');
     assert.equal(element.emailsToRemove.length, 1);
     assert.equal(element.emailsToRemove[0].email, 'email@one.com');
@@ -219,5 +244,6 @@ suite('gr-email-editor tests', () => {
     assert.equal(deleteEmailSpy.getCall(0).args[0], 'email@one.com');
     assert.isTrue(setPreferredSpy.called);
     assert.equal(setPreferredSpy.getCall(0).args[0], 'email@three.com');
+    assert.isFalse(hasUnsavedChangesSpy.lastCall.args[0].detail.value);
   });
 });

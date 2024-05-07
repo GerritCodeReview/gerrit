@@ -3,6 +3,7 @@ load("@rules_java//java:defs.bzl", "java_library")
 ANNOTATIONS = [
     "Nullable.java",
     "UsedAt.java",
+    "ConvertibleToProto.java",
 ]
 
 java_library(

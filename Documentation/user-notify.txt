@@ -245,11 +245,11 @@ In comment emails, the has-comments footer states whether inline
 comments had been posted in that notification using "Yes" or "No", for
 example `Gerrit-HasComments: Yes`.
 
-[[Gerrit-HasLabels]]Gerrit-HasLabels::
+[[Gerrit-Has-Labels]]Gerrit-Has-Labels::
 
 In comment emails, the has-labels footer states whether label votes had
 been posted in that notification using "Yes" or "No", for
-example `Gerrit-HasLabels: No`.
+example `Gerrit-Has-Labels: No`.
 
 [[Gerrit-Comment-In-Reply-To]]Gerrit-Comment-In-Reply-To::
 

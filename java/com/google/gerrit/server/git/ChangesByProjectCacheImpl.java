@@ -24,7 +24,6 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.cache.CacheModule;
-import com.google.gerrit.server.git.ChangesByProjectCache.UseIndex;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;

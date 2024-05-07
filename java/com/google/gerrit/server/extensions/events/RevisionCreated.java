@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.extensions.events;
 
+import com.google.common.base.Suppliers;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.exceptions.StorageException;
@@ -25,6 +26,7 @@ import com.google.gerrit.extensions.events.RevisionCreatedListener;
 import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.change.NotifyResolver;
+import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
@@ -37,6 +39,8 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.time.Instant;
+import java.util.Optional;
+import java.util.function.Supplier;
 
 /** Helper class to fire an event when a revision has been created for a change. */
 @Singleton
@@ -77,12 +81,15 @@ public class RevisionCreated {
     if (listeners.isEmpty()) {
       return;
     }
+	  Supplier<Optional<Event>> event =
+		  Suppliers.memoize(
+			  () -> {
     try (TraceTimer timer =
         TraceContext.newTimer(
             "Fire RevisionCreated",
             Metadata.builder().changeId(changeData.getId().get()).build())) {
       try {
-        Event event =
+        return Optional.of(
             new Event(
                 util.changeInfo(changeData),
                 util.revisionInfo(changeData, patchSet),
@@ -92,14 +99,22 @@ public class RevisionCreated {
         listeners.runEach(l -> l.onRevisionCreated(event));
       } catch (PatchListObjectTooLargeException e) {
         logger.atWarning().log("Couldn't fire event: %s", e.getMessage());
+	      return Optional.empty();
       } catch (PatchListNotAvailableException
           | GpgException
           | IOException
           | StorageException
           | PermissionBackendException e) {
         logger.atSevere().withCause(e).log("Couldn't fire event");
+	      return Optional.empty();
+
       }
-    }
+    });
+				  listeners.runEach(
+					  l -> {
+						  System.out.println(String.format("Running listener %s on event", l.toString()));
+						  event.get().ifPresent(l::onRevisionCreated);
+					  });
   }
 
   /** Event to be fired when a revision has been created for a change. */

@@ -437,7 +437,6 @@ export class GrSettingsView extends LitElement {
           </h2>
           <fieldset id="watchedProjects">
             <gr-watched-projects-editor
-              ?hasUnsavedChanges=${this.watchedProjectsChanged}
               @has-unsaved-changes-changed=${(
                 e: ValueChangedEvent<boolean>
               ) => {

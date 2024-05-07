@@ -6,7 +6,7 @@
 import '@polymer/iron-input/iron-input';
 import '../../shared/gr-autocomplete/gr-autocomplete';
 import '../../shared/gr-button/gr-button';
-import {customElement, property, query} from 'lit/decorators.js';
+import {customElement, query, state} from 'lit/decorators.js';
 import {
   AutocompleteQuery,
   GrAutocomplete,
@@ -22,6 +22,7 @@ import {when} from 'lit/directives/when.js';
 import {fire} from '../../../utils/event-util';
 import {PropertiesOfType} from '../../../utils/type-util';
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
+import {notDeepEqual} from '../../../utils/deep-util';
 
 type NotificationKey = PropertiesOfType<Required<ProjectWatchInfo>, boolean>;
 
@@ -43,13 +44,13 @@ export class GrWatchedProjectsEditor extends LitElement {
   @query('#newProject')
   newProject?: GrAutocomplete;
 
-  @property({type: Boolean})
-  hasUnsavedChanges = false;
+  @state()
+  originalProjects?: ProjectWatchInfo[];
 
-  @property({type: Array})
+  @state()
   projects?: ProjectWatchInfo[];
 
-  @property({type: Array})
+  @state()
   projectsToRemove: ProjectWatchInfo[] = [];
 
   private readonly query: AutocompleteQuery = input =>
@@ -163,7 +164,8 @@ export class GrWatchedProjectsEditor extends LitElement {
 
   loadData() {
     return this.restApiService.getWatchedProjects().then(projs => {
-      this.projects = projs;
+      this.originalProjects = projs;
+      this.projects = projs ? [...projs] : [];
     });
   }
 
@@ -186,9 +188,10 @@ export class GrWatchedProjectsEditor extends LitElement {
         }
       })
       .then(projects => {
-        this.projects = projects;
+        this.originalProjects = projects;
+        this.projects = projects ? [...projects] : [];
         this.projectsToRemove = [];
-        this.setHasUnsavedChanges(false);
+        this.setHasUnsavedChanges();
       });
   }
 
@@ -206,13 +209,16 @@ export class GrWatchedProjectsEditor extends LitElement {
   }
 
   private handleRemoveProject(project: ProjectWatchInfo) {
-    if (!this.projects) return;
+    if (!this.projects || !this.originalProjects) return;
     const index = this.projects.indexOf(project);
     if (index < 0) return;
     this.projects.splice(index, 1);
-    this.projectsToRemove.push(project);
+    // Don't add project to projectsToRemove if it wasn't in
+    // originalProjects.
+    if (this.originalProjects.includes(project))
+      this.projectsToRemove.push(project);
     this.requestUpdate();
-    this.setHasUnsavedChanges(true);
+    this.setHasUnsavedChanges();
   }
 
   // private but used in tests.
@@ -288,7 +294,7 @@ export class GrWatchedProjectsEditor extends LitElement {
 
     this.newProject.clear();
     this.newFilter.value = '';
-    this.setHasUnsavedChanges(true);
+    this.setHasUnsavedChanges();
   }
 
   private handleCheckboxChange(
@@ -300,7 +306,7 @@ export class GrWatchedProjectsEditor extends LitElement {
     const checked = el.checked;
     project[key] = !!checked;
     this.requestUpdate();
-    this.setHasUnsavedChanges(true);
+    this.setHasUnsavedChanges();
   }
 
   private handleNotifCellClick(e: Event) {
@@ -311,9 +317,11 @@ export class GrWatchedProjectsEditor extends LitElement {
     }
   }
 
-  private setHasUnsavedChanges(value: boolean) {
-    this.hasUnsavedChanges = value;
-    fire(this, 'has-unsaved-changes-changed', {value});
+  private setHasUnsavedChanges() {
+    const hasUnsavedChanges =
+      notDeepEqual(this.originalProjects, this.projects) ||
+      this.projectsToRemove.length > 0;
+    fire(this, 'has-unsaved-changes-changed', {value: hasUnsavedChanges});
   }
 
   isFilterDefined(filter: string | null | undefined) {

@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c136fe98_a439d38c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 49
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2024-05-07T07:58:48Z",
+      "side": 1,
+      "message": "This needs to be reordered, currently only `Change-Id` is considered a valid footer. Only key-values in the last paragraph are considered footers, there\u0027s currently a new-line between `Release-Notes`,`Bug` and `Change-Id`.\nAlso this is more a feature than a bug. Suggestion:\n\n```\nESC meeting minutes:\nhttps://www.gerritcodereview.com/2019-10-01-esc-minutes.html#support-for-deletion-of-groups\n\nRelease-Notes: Implement a new REST-API to remove Gerrit groups\nFeature: Issue 40000131\nChange-Id: I4ca85843f6d24740d1431f5cdd4462e4ffc0bd0c\n```",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 52
+      },
+      "revId": "20fbfa288ea3c4fe1790905ba6316e42458d4eab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "890ef6f7_ca1d73fa",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 49
@@ -32,6 +55,23 @@
       "side": 1,
       "message": "I would prefer targeting stable-3.10.1, if possible",
       "parentUuid": "890ef6f7_ca1d73fa",
+      "revId": "20fbfa288ea3c4fe1790905ba6316e42458d4eab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc29ba80_b5dbb8b5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 49
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2024-05-07T07:58:48Z",
+      "side": 1,
+      "message": "It\u0027s just the format of the commit-message that needs to be fixed now as far as I\u0027m concerned.\nAwesome feature, thanks for contributing.",
       "revId": "20fbfa288ea3c4fe1790905ba6316e42458d4eab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

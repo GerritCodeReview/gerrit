@@ -231,7 +231,7 @@ export interface RestApiService extends Finalizable {
 
   saveEditPreferences(prefs: EditPreferencesInfo): Promise<Response>;
 
-  getAccountEmails(): Promise<EmailInfo[] | undefined>;
+  getAccountEmails(noCache?: boolean): Promise<EmailInfo[] | undefined>;
   getAccountEmailsFor(
     email: string,
     errFn?: ErrorCallback

@@ -1565,6 +1565,10 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     this._restApiHelper.invalidateFetchPromisesPrefix('/accounts/self/detail');
   }
 
+  invalidateAccountsEmailCache() {
+    this._restApiHelper.invalidateFetchPromisesPrefix('/accounts/self/emails');
+  }
+
   getGroups(filter: string, groupsPerPage: number, offset?: number) {
     const url = this._getGroupsUrl(filter, groupsPerPage, offset);
 

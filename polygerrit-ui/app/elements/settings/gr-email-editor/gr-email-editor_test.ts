@@ -11,6 +11,7 @@ import {fixture, html, assert} from '@open-wc/testing';
 
 suite('gr-email-editor tests', () => {
   let element: GrEmailEditor;
+  let accountEmailStub: sinon.SinonStub;
 
   setup(async () => {
     const emails = [
@@ -19,13 +20,14 @@ suite('gr-email-editor tests', () => {
       {email: 'email@three.com'},
     ];
 
-    stubRestApi('getAccountEmails').returns(Promise.resolve(emails));
+    accountEmailStub = stubRestApi('getAccountEmails').returns(
+      Promise.resolve(emails)
+    );
 
     element = await fixture<GrEmailEditor>(
       html`<gr-email-editor></gr-email-editor>`
     );
 
-    await element.loadData();
     await element.updateComplete;
   });
 
@@ -45,20 +47,17 @@ suite('gr-email-editor tests', () => {
             <tr>
               <td class="emailColumn">email@one.com</td>
               <td class="preferredControl">
-                <iron-input class="preferredRadio">
-                  <input
-                    class="preferredRadio"
-                    name="preferred"
-                    type="radio"
-                    value="email@one.com"
-                  />
-                </iron-input>
+                <input
+                  class="preferredRadio"
+                  name="preferred"
+                  type="radio"
+                  value="email@one.com"
+                />
               </td>
               <td>
                 <gr-button
                   aria-disabled="false"
                   class="remove-button"
-                  data-index="0"
                   role="button"
                   tabindex="0"
                 >
@@ -69,21 +68,17 @@ suite('gr-email-editor tests', () => {
             <tr>
               <td class="emailColumn">email@two.com</td>
               <td class="preferredControl">
-                <iron-input class="preferredRadio">
-                  <input
-                    checked=""
-                    class="preferredRadio"
-                    name="preferred"
-                    type="radio"
-                    value="email@two.com"
-                  />
-                </iron-input>
+                <input
+                  class="preferredRadio"
+                  name="preferred"
+                  type="radio"
+                  value="email@two.com"
+                />
               </td>
               <td>
                 <gr-button
                   aria-disabled="true"
                   class="remove-button"
-                  data-index="1"
                   disabled=""
                   role="button"
                   tabindex="-1"
@@ -95,20 +90,17 @@ suite('gr-email-editor tests', () => {
             <tr>
               <td class="emailColumn">email@three.com</td>
               <td class="preferredControl">
-                <iron-input class="preferredRadio">
-                  <input
-                    class="preferredRadio"
-                    name="preferred"
-                    type="radio"
-                    value="email@three.com"
-                  />
-                </iron-input>
+                <input
+                  class="preferredRadio"
+                  name="preferred"
+                  type="radio"
+                  value="email@three.com"
+                />
               </td>
               <td>
                 <gr-button
                   aria-disabled="false"
                   class="remove-button"
-                  data-index="2"
                   role="button"
                   tabindex="0"
                 >
@@ -238,6 +230,12 @@ suite('gr-email-editor tests', () => {
     assert.equal(element.emailsToRemove.length, 1);
     assert.equal(element.emailsToRemove[0].email, 'email@one.com');
     assert.equal(element.emails.length, 2);
+
+    accountEmailStub.restore();
+
+    accountEmailStub = stubRestApi('getAccountEmails').returns(
+      Promise.resolve(element.emails)
+    );
 
     await element.save();
     assert.equal(deleteEmailSpy.callCount, 1);

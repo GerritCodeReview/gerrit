@@ -770,23 +770,26 @@ export class GrReporting implements ReportingService, Finalizable {
   /**
    * Finish named timer and report it to server.
    */
-  timeEnd(name: Timing, eventDetails?: EventDetails) {
+  timeEnd(name: Timing, eventDetails?: EventDetails): number {
     if (!hasOwnProperty(this._baselines, name)) {
-      return;
+      return 0;
     }
-    const baseTime = this._baselines[name];
+    const begin = this._baselines[name];
     delete this._baselines[name];
-    this._reportTiming(name, now() - baseTime, eventDetails);
+    const end = now();
+    const elapsed = end - begin;
+    this._reportTiming(name, elapsed, eventDetails);
 
     // Finalize the interval. Either from a registered start mark or
     // the navigation start time (if baseTime is 0).
-    if (baseTime !== 0) {
+    if (begin !== 0) {
       window.performance.measure(name, `${name}-start`);
     } else {
       // Microsoft Edge does not handle the 2nd param correctly
       // (if undefined).
       window.performance.measure(name);
     }
+    return elapsed;
   }
 
   /**

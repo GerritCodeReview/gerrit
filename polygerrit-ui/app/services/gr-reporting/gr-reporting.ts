@@ -55,7 +55,7 @@ export interface ReportingService extends Finalizable {
   /**
    * Finish named timer and report it to server.
    */
-  timeEnd(name: Timing, eventDetails?: EventDetails): void;
+  timeEnd(name: Timing, eventDetails?: EventDetails): number;
   /**
    * Get a timer object for reporting a user timing. The start time will be
    * the time that the object has been created, and the end time will be the

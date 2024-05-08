@@ -456,13 +456,7 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
     const value = await this.getValue();
     this.innerValue = value;
 
-    this.dispatchEvent(
-      new CustomEvent('input', {
-        detail: {
-          value: this.value,
-        },
-      })
-    );
+    this.fire('input', {value: this.value});
   }
 
   private onFocus(event: Event) {
@@ -492,7 +486,7 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
       (event.ctrlKey || event.metaKey)
     ) {
       event.preventDefault();
-      this.dispatchEvent(new CustomEvent('saveShortcut'));
+      this.fire('saveShortcut');
     }
     await this.toggleHintVisibilityIfAny();
   }
@@ -507,7 +501,13 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
   }
 
   private handleScroll() {
-    this.dispatchEvent(new CustomEvent('scroll'));
+    this.fire('scroll');
+  }
+
+  private fire<T>(type: string, detail?: T) {
+    this.dispatchEvent(
+      new CustomEvent(type, {detail, bubbles: true, composed: true})
+    );
   }
 
   private async handleTabKeyPress(event: KeyboardEvent) {
@@ -529,14 +529,7 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
     await this.putCursorAtEnd();
     await this.onInput(event);
 
-    this.dispatchEvent(
-      new CustomEvent('hintApplied', {
-        detail: {
-          hint,
-          oldValue,
-        },
-      })
-    );
+    this.fire('hintApplied', {hint, oldValue});
   }
 
   private async toggleHintVisibilityIfAny() {
@@ -572,6 +565,7 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
   }
 
   private addHintSpanAtEndOfContent(editableDivElement: Node, hint: string) {
+    const oldValue = this.value ?? '';
     const hintSpan = document.createElement('span');
     hintSpan.classList.add(AUTOCOMPLETE_HINT_CLASS);
     hintSpan.setAttribute('role', 'alert');
@@ -581,26 +575,16 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
     );
     hintSpan.dataset['hint'] = hint;
     editableDivElement.appendChild(hintSpan);
-    this.dispatchEvent(
-      new CustomEvent('hintShown', {
-        detail: {
-          hint,
-        },
-      })
-    );
+    this.fire('hintShown', {hint, oldValue});
   }
 
   private removeHintSpanIfShown() {
     const hintSpan = this.hintSpan();
     if (hintSpan) {
       hintSpan.remove();
-      this.dispatchEvent(
-        new CustomEvent('hintDismissed', {
-          detail: {
-            hint: (hintSpan as HTMLElement).dataset['hint'],
-          },
-        })
-      );
+      this.fire('hintDismissed', {
+        hint: (hintSpan as HTMLElement).dataset['hint'],
+      });
     }
   }
 
@@ -616,13 +600,7 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
     event?.preventDefault();
     event?.stopImmediatePropagation();
 
-    this.dispatchEvent(
-      new CustomEvent('cursorPositionChange', {
-        detail: {
-          position: this.getCursorPosition(),
-        },
-      })
-    );
+    this.fire('cursorPositionChange', {position: this.getCursorPosition()});
   }
 
   private async updateValueInDom() {

@@ -13,7 +13,7 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {grFormStyles} from '../../../styles/gr-form-styles';
 import {ValueChangedEvent} from '../../../types/events';
 import {fire} from '../../../utils/event-util';
-import {notDeepEqual} from '../../../utils/deep-util';
+import {deepClone} from '../../../utils/deep-util';
 
 @customElement('gr-email-editor')
 export class GrEmailEditor extends LitElement {
@@ -111,8 +111,9 @@ export class GrEmailEditor extends LitElement {
 
   loadData() {
     return this.restApiService.getAccountEmails().then(emails => {
-      this.originalEmails = emails ?? [];
-      this.emails = emails ? [...emails] : [];
+      if (!emails) return;
+      this.originalEmails = deepClone(emails);
+      this.emails = emails;
     });
   }
 
@@ -146,7 +147,12 @@ export class GrEmailEditor extends LitElement {
     const email = this.emails[index];
     // Don't add project to emailsToRemove if it wasn't in
     // originalEmails.
-    if (this.originalEmails.includes(email)) this.emailsToRemove.push(email);
+    // We have to use JSON.stringify as we cloned the array
+    // so the reference is not the same.
+    const emails = this.originalEmails.some(
+      x => JSON.stringify(email) === JSON.stringify(x)
+    );
+    if (emails) this.emailsToRemove.push(email);
     this.emails.splice(index, 1);
     this.requestUpdate();
     this.setHasUnsavedChanges();
@@ -172,7 +178,8 @@ export class GrEmailEditor extends LitElement {
         this.newPreferred = preferred;
         this.setHasUnsavedChanges();
       } else if (this.emails[i].preferred) {
-        this.emails[i].preferred = false;
+        delete this.emails[i].preferred;
+        this.setHasUnsavedChanges();
         this.requestUpdate();
       }
     }
@@ -184,7 +191,7 @@ export class GrEmailEditor extends LitElement {
 
   private setHasUnsavedChanges() {
     const hasUnsavedChanges =
-      notDeepEqual(this.originalEmails, this.emails) ||
+      JSON.stringify(this.originalEmails) !== JSON.stringify(this.emails) ||
       this.emailsToRemove.length > 0;
     fire(this, 'has-unsaved-changes-changed', {value: hasUnsavedChanges});
   }

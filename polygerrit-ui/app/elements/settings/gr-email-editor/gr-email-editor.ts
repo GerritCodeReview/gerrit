@@ -14,6 +14,9 @@ import {grFormStyles} from '../../../styles/gr-form-styles';
 import {ValueChangedEvent} from '../../../types/events';
 import {fire} from '../../../utils/event-util';
 import {deepClone, notDeepEqual} from '../../../utils/deep-util';
+import {userModelToken} from '../../../models/user/user-model';
+import {resolve} from '../../../models/dependency';
+import {subscribe} from '../../lit/subscription-controller';
 
 @customElement('gr-email-editor')
 export class GrEmailEditor extends LitElement {
@@ -29,6 +32,21 @@ export class GrEmailEditor extends LitElement {
   @state() newPreferred = '';
 
   readonly restApiService = getAppContext().restApiService;
+
+  private readonly getUserModel = resolve(this, userModelToken);
+
+  constructor() {
+    super();
+    subscribe(
+      this,
+      () => this.getUserModel().emails$,
+      x => {
+        if (!x) return;
+        this.originalEmails = deepClone(x);
+        this.emails = x;
+      }
+    );
+  }
 
   static override get styles() {
     return [
@@ -109,14 +127,6 @@ export class GrEmailEditor extends LitElement {
     </tr>`;
   }
 
-  loadData() {
-    return this.restApiService.getAccountEmails().then(emails => {
-      if (!emails) return;
-      this.originalEmails = deepClone(emails);
-      this.emails = emails;
-    });
-  }
-
   save() {
     const promises: Promise<unknown>[] = [];
 
@@ -131,7 +141,7 @@ export class GrEmailEditor extends LitElement {
     }
 
     return Promise.all(promises).then(() => {
-      this.originalEmails = this.emails;
+      this.getUserModel().setAccountEmails(this.emails);
       this.emailsToRemove = [];
       this.newPreferred = '';
       this.setHasUnsavedChanges();

@@ -776,7 +776,10 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     }) as Promise<AccountDetailInfo | undefined>;
   }
 
-  async getAccountEmails() {
+  async getAccountEmails(noCache?: boolean) {
+    if (noCache) {
+      this._cache.delete('/accounts/self/emails');
+    }
     const isloggedIn = await this.getLoggedIn();
     if (isloggedIn) {
       return this._restApiHelper.fetchCacheJSON({

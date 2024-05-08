@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e61cf2a_451180b6",
+        "filename": "polygerrit-ui/app/elements/settings/gr-email-editor/gr-email-editor.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-05-08T22:59:44Z",
+      "side": 1,
+      "message": "I could only get the tests to work when i used deepClone for emails as well. I\u0027m not sure why there was an issue tho with just using x directly.",
+      "revId": "6b43ab0abf32e7f776a3ab5cb71a94a2dc6a2bb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

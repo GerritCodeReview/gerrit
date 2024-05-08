@@ -173,6 +173,7 @@ export class GrEmailEditor extends LitElement {
         this.setHasUnsavedChanges();
       } else if (this.emails[i].preferred) {
         this.emails[i].preferred = false;
+        this.setHasUnsavedChanges();
         this.requestUpdate();
       }
     }

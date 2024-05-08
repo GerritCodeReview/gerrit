@@ -2,7 +2,7 @@ package com.google.gerrit.entities.converter;
 
 import com.google.errorprone.annotations.Immutable;
 import com.google.gerrit.common.ConvertibleToProto;
-import com.google.protobuf.MessageLite;
+import com.google.protobuf.Message;
 
 /**
  * An extension to {@link ProtoConverter} that enforces the Entity class and the Proto class to stay
@@ -21,7 +21,7 @@ import com.google.protobuf.MessageLite;
  * setters, there is no need to explicitly test your safe converter.
  */
 @Immutable
-public interface SafeProtoConverter<P extends MessageLite, C> extends ProtoConverter<P, C> {
+public interface SafeProtoConverter<P extends Message, C> extends ProtoConverter<P, C> {
 
   Class<P> getProtoClass();
 

@@ -13,6 +13,7 @@ import {
   AccountCapabilityInfo,
   AccountDetailInfo,
   EditPreferencesInfo,
+  EmailInfo,
   PreferencesInfo,
   TopMenuItemInfo,
 } from '../../types/common';
@@ -48,6 +49,7 @@ export interface UserState {
    * `account` is known, then use `accountLoaded` below.
    */
   account?: AccountDetailInfo;
+  emails?: EmailInfo[];
   /**
    * Starts as `false` and switches to `true` after the first `getAccount` call.
    * A common use case for this is to wait with loading or doing something until
@@ -80,6 +82,11 @@ export class UserModel extends Model<UserState> {
   readonly account$: Observable<AccountDetailInfo | undefined> = select(
     this.state$,
     userState => userState.account
+  );
+
+  readonly emails$: Observable<EmailInfo[] | undefined> = select(
+    this.state$,
+    userState => userState.emails
   );
 
   /**
@@ -152,6 +159,11 @@ export class UserModel extends Model<UserState> {
       from(this.restApiService.getAccount()).subscribe(
         (account?: AccountDetailInfo) => {
           this.setAccount(account);
+        }
+      ),
+      from(this.restApiService.getAccountEmails()).subscribe(
+        (emails?: EmailInfo[]) => {
+          this.setAccountEmails(emails);
         }
       ),
       this.loadedAccount$
@@ -260,5 +272,15 @@ export class UserModel extends Model<UserState> {
 
   setAccount(account?: AccountDetailInfo) {
     this.updateState({account, accountLoaded: true});
+  }
+
+  setAccountEmails(emails?: EmailInfo[]) {
+    this.updateState({emails});
+  }
+
+  getAccountEmails() {
+    return this.restApiService.getAccountEmails(true).then(emails => {
+      this.setAccountEmails(emails);
+    });
   }
 }

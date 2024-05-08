@@ -45,6 +45,7 @@ export declare interface CursorPositionChangeEventDetail {
 /** <gr-textarea> event when showing a hint */
 export declare interface HintShownEventDetail {
   hint: string;
+  oldValue: string;
 }
 
 /** <gr-textarea> event when a hint was dismissed */

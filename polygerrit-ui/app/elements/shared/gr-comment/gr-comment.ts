@@ -79,8 +79,12 @@ import {
   commentModelToken,
 } from '../gr-comment-model/gr-comment-model';
 import {formStyles} from '../../../styles/form-styles';
-import {Interaction} from '../../../constants/reporting';
-import {Suggestion, SuggestionsProvider} from '../../../api/suggestions';
+import {Interaction, Timing} from '../../../constants/reporting';
+import {
+  AutocompleteCommentResponse,
+  Suggestion,
+  SuggestionsProvider,
+} from '../../../api/suggestions';
 import {when} from 'lit/directives/when.js';
 import {getDocUrl} from '../../../utils/url-util';
 import {configModelToken} from '../../../models/config/config-model';
@@ -89,7 +93,12 @@ import {storageServiceToken} from '../../../services/storage/gr-storage_impl';
 import {deepEqual} from '../../../utils/deep-util';
 import {GrSuggestionDiffPreview} from '../gr-suggestion-diff-preview/gr-suggestion-diff-preview';
 import {waitUntil} from '../../../utils/async-util';
-import {AutocompleteCache} from '../../../utils/autocomplete-cache';
+import {
+  AutocompleteCache,
+  AutocompletionContext,
+} from '../../../utils/autocomplete-cache';
+import {HintAppliedEventDetail, HintShownEventDetail} from '../../../api/embed';
+import {editDistance} from '../../../utils/string-util';
 
 // visible for testing
 export const AUTO_SAVE_DEBOUNCE_DELAY_MS = 2000;
@@ -225,7 +234,9 @@ export class GrComment extends LitElement {
    * An hint for autocompleting the comment message from plugin suggestion
    * providers.
    */
-  @state() autocompleteHint = '';
+  @state() autocompleteHint?: AutocompletionContext;
+
+  private autocompleteAcceptedHints: string[] = [];
 
   /** Based on user preferences. */
   @state() autocompleteEnabled = true;
@@ -446,7 +457,7 @@ export class GrComment extends LitElement {
         this,
         () => this.getUserModel().preferences$,
         prefs => {
-          this.autocompleteEnabled = !!prefs.allow_autocompleting_comments;
+          this.autocompleteEnabled = true; //!!prefs.allow_autocompleting_comments;
           if (
             this.generateSuggestion !==
             !!prefs.allow_suggest_code_while_commenting
@@ -900,10 +911,63 @@ export class GrComment extends LitElement {
         rows="4"
         .placeholder=${this.messagePlaceholder}
         text=${this.messageText}
-        autocompleteHint=${this.autocompleteHint}
+        autocompleteHint=${this.autocompleteHint?.commentCompletion ?? ''}
         @text-changed=${this.handleTextChanged}
+        @hintShown=${this.handleHintShown}
+        @hintApplied=${this.handleHintApplied}
       ></gr-suggestion-textarea>
     `;
+  }
+
+  private handleHintShown(e: CustomEvent<HintShownEventDetail>) {
+    this.reportHintInteraction(
+      e.detail.oldValue,
+      e.detail.hint,
+      Interaction.COMMENT_COMPLETION_SUGGESTION_SHOWN
+    );
+  }
+
+  private handleHintApplied(e: CustomEvent<HintAppliedEventDetail>) {
+    this.autocompleteAcceptedHints.push(e.detail.hint);
+    this.reportHintInteraction(
+      e.detail.oldValue,
+      e.detail.hint,
+      Interaction.COMMENT_COMPLETION_SUGGESTION_ACCEPTED
+    );
+  }
+
+  private reportHintInteraction(
+    draftContent: string,
+    commentCompletion: string,
+    interaction: Interaction
+  ) {
+    const context = this.autocompleteCache.get(draftContent);
+    if (context?.commentCompletion === commentCompletion) {
+      this.reporting.reportInteraction(interaction, context);
+    }
+  }
+
+  private reportHintInteractionSaved() {
+    const content = this.messageText.trimEnd();
+    const acceptedHintsConcatenated = this.autocompleteAcceptedHints.join('');
+    const numExtraCharacters =
+      content.length - acceptedHintsConcatenated.length;
+    let distance = editDistance(acceptedHintsConcatenated, content);
+    if (numExtraCharacters > 0) {
+      distance -= numExtraCharacters;
+    }
+    const context = {
+      ...this.createAutocompletionBaseContext(),
+      similarCharacters: acceptedHintsConcatenated.length - distance,
+      maxSimilarCharacters: acceptedHintsConcatenated.length,
+      acceptedSuggestionsCount: this.autocompleteAcceptedHints.length,
+      totalAcceptedCharacters: acceptedHintsConcatenated.length,
+      savedDraftLength: content.length,
+    };
+    this.reporting.reportInteraction(
+      Interaction.COMMENT_COMPLETION_SAVE_DRAFT,
+      context
+    );
   }
 
   private handleTextChanged(e: ValueChangedEvent) {
@@ -927,7 +991,7 @@ export class GrComment extends LitElement {
     if (cachedHint) {
       this.autocompleteHint = cachedHint;
     } else {
-      this.autocompleteHint = '';
+      this.autocompleteHint = undefined;
       this.autocompleteTrigger$.next();
     }
   }
@@ -1353,6 +1417,7 @@ export class GrComment extends LitElement {
       return;
     }
     const commentText = this.messageText;
+    this.reporting.time(Timing.COMMENT_COMPLETION);
     const response = await suggestionsProvider.autocompleteComment({
       id: id(this.comment),
       commentText,
@@ -1362,10 +1427,55 @@ export class GrComment extends LitElement {
       range: this.comment.range,
       lineNumber: this.comment.line,
     });
+    const elapsed = this.reporting.timeEnd(Timing.COMMENT_COMPLETION);
+    const context = this.createAutocompletionContext(
+      commentText,
+      response,
+      elapsed
+    );
+    this.reporting.reportInteraction(
+      Interaction.COMMENT_COMPLETION_SUGGESTION_FETCHED,
+      context
+    );
     if (!response?.completion) return;
-    // Note that we are setting for `commentText` and getting for `this.messageText`.
-    this.autocompleteCache.set(commentText, response.completion);
-    this.autocompleteHint = this.autocompleteCache.get(this.messageText) ?? '';
+    // Note that we are setting the cache value for `commentText` and getting the value
+    // for `this.messageText`.
+    this.autocompleteCache.set(context);
+    this.autocompleteHint = this.autocompleteCache.get(this.messageText);
+  }
+
+  private createAutocompletionBaseContext() {
+    const change = this.getChangeModel().getChange();
+    return {
+      commentId: id(this.comment!),
+      commentNumber: this.comments?.length ?? 0,
+      filePath: this.comment!.path,
+      fileExtension: getFileExtension(this.comment!.path ?? ''),
+      changeNumber: change?._number,
+      authorName: change?.owner.name,
+      reviewerName: this.account?.name,
+    };
+  }
+
+  private createAutocompletionContext(
+    draftContent: string,
+    response: AutocompleteCommentResponse,
+    requestDurationMs: number
+  ): AutocompletionContext {
+    const commentCompletion = response.completion ?? '';
+    return {
+      ...this.createAutocompletionBaseContext(),
+
+      draftContent,
+      draftContentLength: draftContent.length,
+      commentCompletion,
+      commentCompletionLength: commentCompletion.length,
+
+      isFullCommentPrediction: draftContent.length === 0,
+      draftInSyncWithSuggestionLength: 0,
+      modelVersion: response.modelVersion ?? '',
+      requestDurationMs,
+    };
   }
 
   private renderRobotActions() {
@@ -1766,6 +1876,7 @@ export class GrComment extends LitElement {
       // No need to make a backend call when nothing has changed.
       while (this.somethingToSave()) {
         this.trackGeneratedSuggestionEdit();
+        this.reportHintInteractionSaved();
         this.comment = await this.rawSave({showToast: true});
         if (isError(this.comment)) return;
       }

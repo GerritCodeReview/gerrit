@@ -115,3 +115,36 @@ export function diffFilePaths(filePath: string, otherFilePath?: string) {
     fileName: fileNameSection,
   };
 }
+
+/**
+ * Computes the Levenshtein edit distance between two strings.
+ */
+export function editDistance(a: string, b: string) {
+  if (a === b) return 0;
+  if (!a.length || !b.length) {
+    return Math.max(a.length, b.length);
+  }
+
+  const v0 = [];
+  const v1 = [];
+  for (let i = 0; i < b.length + 1; i++) {
+    v0[i] = i;
+  }
+
+  for (let i = 0; i < a.length; i++) {
+    v1[0] = i + 1;
+
+    for (let j = 0; j < b.length; j++) {
+      const cost = Number(a[i] != b[j]);
+      // Cost for the substring is the minimum of adding one character, removing
+      // one character, or a swap.
+      v1[j + 1] = Math.min(v1[j] + 1, v0[j + 1] + 1, v0[j] + cost);
+    }
+
+    for (let j = 0; j < v0.length; j++) {
+      v0[j] = v1[j];
+    }
+  }
+
+  return v1[b.length];
+}

@@ -72,6 +72,7 @@ export declare interface SuggestionsProvider {
 export declare interface AutocompleteCommentResponse {
   responseCode: ResponseCode;
   completion?: string;
+  modelVersion?: string;
 }
 
 export declare interface SuggestCodeResponse {

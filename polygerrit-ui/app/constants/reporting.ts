@@ -102,6 +102,8 @@ export enum Timing {
   APPLY_FIX_LOAD = 'ApplyFixLoad',
   // Time to copy target to clipboard
   COPY_TO_CLIPBOARD = 'CopyToClipboard',
+  // Time to autocomplete a comment
+  COMMENT_COMPLETION = 'CommentCompletion',
 }
 
 export enum Interaction {
@@ -156,4 +158,9 @@ export enum Interaction {
   // The very first reporting event with `ChangeId` set when visiting a change
   // related page. Can be used as a starting point for user journeys.
   CHANGE_ID_CHANGED = 'change-id-changed',
+
+  COMMENT_COMPLETION_SUGGESTION_SHOWN = 'comment-completion-suggestion-shown',
+  COMMENT_COMPLETION_SUGGESTION_ACCEPTED = 'comment-completion-suggestion-accepted',
+  COMMENT_COMPLETION_SAVE_DRAFT = 'comment-completion-save-draft',
+  COMMENT_COMPLETION_SUGGESTION_FETCHED = 'comment-completion-suggestion-fetched',
 }

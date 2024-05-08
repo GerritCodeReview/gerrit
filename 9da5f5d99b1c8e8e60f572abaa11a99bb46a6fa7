@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7edc306a_54c0a328",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1156016
+      },
+      "writtenOn": "2024-05-08T08:45:04Z",
+      "side": 1,
+      "message": "Thanks for the quick reviews, could you also mark b/291061494 as fixed (I don\u0027t have permissions to do so).",
+      "revId": "9da5f5d99b1c8e8e60f572abaa11a99bb46a6fa7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

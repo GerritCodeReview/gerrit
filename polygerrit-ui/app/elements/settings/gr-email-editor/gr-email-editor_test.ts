@@ -25,7 +25,6 @@ suite('gr-email-editor tests', () => {
       html`<gr-email-editor></gr-email-editor>`
     );
 
-    await element.loadData();
     await element.updateComplete;
   });
 

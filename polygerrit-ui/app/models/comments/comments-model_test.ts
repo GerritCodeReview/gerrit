@@ -28,7 +28,7 @@ import {getAppContext} from '../../services/app-context';
 import {changeModelToken} from '../change/change-model';
 import {assert} from '@open-wc/testing';
 import {testResolver} from '../../test/common-test-setup';
-import {accountsModelToken} from '../accounts-model/accounts-model';
+import {accountsModelToken} from '../accounts/accounts-model';
 import {ChangeComments} from '../../elements/diff/gr-comment-api/gr-comment-api';
 import {changeViewModelToken} from '../views/change';
 import {navigationToken} from '../../elements/core/gr-navigation/gr-navigation';

@@ -17,7 +17,7 @@ import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
 import {subscribe} from '../../lit/subscription-controller';
 import {getDisplayName} from '../../../utils/display-name-util';
-import {accountsModelToken} from '../../../models/accounts-model/accounts-model';
+import {accountsModelToken} from '../../../models/accounts/accounts-model';
 import {isDefined} from '../../../types/types';
 import {when} from 'lit/directives/when.js';
 

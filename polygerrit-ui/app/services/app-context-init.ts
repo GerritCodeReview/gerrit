@@ -34,7 +34,7 @@ import {
 import {
   AccountsModel,
   accountsModelToken,
-} from '../models/accounts-model/accounts-model';
+} from '../models/accounts/accounts-model';
 import {
   DashboardViewModel,
   dashboardViewModelToken,

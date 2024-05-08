@@ -123,7 +123,7 @@ import {ShortcutController} from '../../lit/shortcut-controller';
 import {Key, Modifier, whenVisible} from '../../../utils/dom-util';
 import {GrThreadList} from '../gr-thread-list/gr-thread-list';
 import {userModelToken} from '../../../models/user/user-model';
-import {accountsModelToken} from '../../../models/accounts-model/accounts-model';
+import {accountsModelToken} from '../../../models/accounts/accounts-model';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {modalStyles} from '../../../styles/gr-modal-styles';
 import {ironAnnouncerRequestAvailability} from '../../polymer-util';

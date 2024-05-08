@@ -21,7 +21,7 @@ import {classMap} from 'lit/directives/class-map.js';
 import {getRemovedByIconClickReason} from '../../../utils/attention-set-util';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {createSearchUrl} from '../../../models/views/search';
-import {accountsModelToken} from '../../../models/accounts-model/accounts-model';
+import {accountsModelToken} from '../../../models/accounts/accounts-model';
 import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
 import {userModelToken} from '../../../models/user/user-model';

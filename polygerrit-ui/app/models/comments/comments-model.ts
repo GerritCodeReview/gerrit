@@ -56,7 +56,7 @@ import {Model} from '../base/model';
 import {Deduping} from '../../api/reporting';
 import {extractMentionedUsers, getUserId} from '../../utils/account-util';
 import {SpecialFilePath} from '../../constants/constants';
-import {AccountsModel} from '../accounts-model/accounts-model';
+import {AccountsModel} from '../accounts/accounts-model';
 import {
   distinctUntilChanged,
   map,

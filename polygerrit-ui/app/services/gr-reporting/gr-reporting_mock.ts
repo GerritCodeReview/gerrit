@@ -71,5 +71,5 @@ export const grReportingMock: ReportingService & Finalizable = {
   setRepoName: () => {},
   setChangeId: () => {},
   time: () => {},
-  timeEnd: () => {},
+  timeEnd: () => 0,
 };

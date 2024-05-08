@@ -2,6 +2,7 @@ package com.google.gerrit.entities.converter;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.extensions.proto.ProtoTruth.assertThat;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.primitives.Primitives;
@@ -10,6 +11,8 @@ import com.google.common.reflect.ClassPath.ClassInfo;
 import com.google.common.testing.ArbitraryInstances;
 import com.google.gerrit.common.ConvertibleToProto;
 import com.google.gerrit.common.Nullable;
+import com.google.protobuf.Descriptors.FieldDescriptor;
+import com.google.protobuf.Message;
 import com.google.protobuf.MessageLite;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -26,7 +29,6 @@ import java.util.Map;
 import java.util.Optional;
 import javax.annotation.Nonnull;
 import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -36,7 +38,7 @@ import org.junit.runners.Parameterized.Parameters;
 @RunWith(Parameterized.class)
 public class SafeProtoConverterTest {
   @Parameter(0)
-  public SafeProtoConverter<MessageLite, Object> converter;
+  public SafeProtoConverter<Message, Object> converter;
 
   @Parameter(1)
   public String converterName;
@@ -49,7 +51,7 @@ public class SafeProtoConverterTest {
         .filter(SafeProtoConverter.class::isAssignableFrom)
         .filter(clz -> !SafeProtoConverter.class.equals(clz))
         .filter(Class::isEnum)
-        .map(clz -> (SafeProtoConverter<MessageLite, Object>) clz.getEnumConstants()[0])
+        .map(clz -> (SafeProtoConverter<Message, Object>) clz.getEnumConstants()[0])
         .map(clz -> new Object[] {clz, clz.getClass().getSimpleName()})
         .collect(toImmutableList());
   }
@@ -104,8 +106,16 @@ public class SafeProtoConverterTest {
    * update the corresponding Java class accordingly.
    */
   @Test
-  @Ignore("TODO(b/335372403) - implement")
-  public void protoDefaultsKeptOnDoubleConversion() {}
+  public void protoDefaultsKeptOnDoubleConversion() {
+    Message defaultInstance = getProtoDefaultInstance(converter.getProtoClass());
+    Message preFilled = explicitlyFillProtoDefaults(defaultInstance);
+    Message resFromDefault =
+        converter.toProto(converter.fromProto(converter.getProtoClass().cast(preFilled)));
+    Message resFromPrefilled =
+        converter.toProto(converter.fromProto(converter.getProtoClass().cast(preFilled)));
+    assertThat(resFromDefault).isEqualTo(preFilled);
+    assertThat(resFromPrefilled).isEqualTo(preFilled);
+  }
 
   @Nullable
   private static Object buildObjectWithFullFieldsOrThrow(Class<?> clz) throws Exception {
@@ -206,5 +216,33 @@ public class SafeProtoConverterTest {
         || Primitives.isWrapperType(c)
         || String.class.isAssignableFrom(c)
         || Timestamp.class.isAssignableFrom(c);
+  }
+
+  /**
+   * Returns the default instance for the given MessageLite class, if it has the {@code
+   * getDefaultInstance} static method.
+   *
+   * @param type the protobuf message class
+   * @throws IllegalArgumentException if the given class doesn't have the static {@code
+   *     getDefaultInstance} method
+   */
+  public static <T extends MessageLite> T getProtoDefaultInstance(Class<T> type) {
+    try {
+      return type.cast(type.getMethod("getDefaultInstance").invoke(null));
+    } catch (ReflectiveOperationException | ClassCastException e) {
+      throw new IllegalStateException("Cannot get default instance for " + type, e);
+    }
+  }
+
+  private static Message explicitlyFillProtoDefaults(Message defaultInstance) {
+    Message.Builder res = defaultInstance.toBuilder();
+    for (FieldDescriptor f : defaultInstance.getDescriptorForType().getFields()) {
+      if (f.getType().equals(FieldDescriptor.Type.MESSAGE)) {
+        res.setField(f, explicitlyFillProtoDefaults((Message) defaultInstance.getField(f)));
+      } else {
+        res.setField(f, defaultInstance.getField(f));
+      }
+    }
+    return res.build();
   }
 }

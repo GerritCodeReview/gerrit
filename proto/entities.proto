@@ -277,7 +277,7 @@ message Branch_NameKey {
 // Next ID: 2
 message ObjectId {
   // Hex string representation of the ID.
-  optional string name = 1;
+  optional string name = 1 [default="0000000000000000000000000000000000000000"];
 }
 
 // Serialized form of a continuation token used for pagination.
@@ -453,11 +453,11 @@ message HumanComment {
     optional Side side = 2 [default = REVISION];
     message Range {
       // 1-based
-      optional int32 start_line = 1;
+      optional int32 start_line = 1 [default = 1];
       // 0-based
       optional int32 start_char = 2;
       // 1-based
-      optional int32 end_line = 3;
+      optional int32 end_line = 3 [default = 1];
       // 0-based
       optional int32 end_char = 4;
     }
@@ -466,7 +466,7 @@ message HumanComment {
     // number is identical to the range's end line.
     optional Range position_range = 3;
     // 1-based
-    optional int32 line_number = 4;
+    optional int32 line_number = 4 [default = 1];
   }
 
   // If not set, the comment is on the patchset level.

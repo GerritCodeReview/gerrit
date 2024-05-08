@@ -442,6 +442,7 @@ export const grRestApiMock: RestApiService = {
   invalidateGroupsCache(): void {},
   invalidateReposCache(): void {},
   invalidateAccountsDetailCache(): void {},
+  invalidateAccountsEmailCache(): void {},
   probePath(): Promise<boolean> {
     return Promise.resolve(true);
   },

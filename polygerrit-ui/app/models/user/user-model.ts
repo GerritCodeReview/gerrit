@@ -13,6 +13,7 @@ import {
   AccountCapabilityInfo,
   AccountDetailInfo,
   EditPreferencesInfo,
+  EmailInfo,
   PreferencesInfo,
   TopMenuItemInfo,
 } from '../../types/common';
@@ -48,6 +49,7 @@ export interface UserState {
    * `account` is known, then use `accountLoaded` below.
    */
   account?: AccountDetailInfo;
+  emails?: EmailInfo[];
   /**
    * Starts as `false` and switches to `true` after the first `getAccount` call.
    * A common use case for this is to wait with loading or doing something until
@@ -80,6 +82,11 @@ export class UserModel extends Model<UserState> {
   readonly account$: Observable<AccountDetailInfo | undefined> = select(
     this.state$,
     userState => userState.account
+  );
+
+  readonly emails$: Observable<EmailInfo[] | undefined> = select(
+    this.state$,
+    userState => userState.emails
   );
 
   /**
@@ -149,11 +156,8 @@ export class UserModel extends Model<UserState> {
       accountLoaded: false,
     });
     this.subscriptions = [
-      from(this.restApiService.getAccount()).subscribe(
-        (account?: AccountDetailInfo) => {
-          this.setAccount(account);
-        }
-      ),
+      from(this.loadAccount()).subscribe(),
+      from(this.loadEmails()).subscribe(),
       this.loadedAccount$
         .pipe(
           switchMap(account => {
@@ -260,5 +264,23 @@ export class UserModel extends Model<UserState> {
 
   setAccount(account?: AccountDetailInfo) {
     this.updateState({account, accountLoaded: true});
+  }
+
+  private setAccountEmails(emails?: EmailInfo[]) {
+    this.updateState({emails});
+  }
+
+  loadAccount(noCache?: boolean) {
+    if (noCache) this.restApiService.invalidateAccountsDetailCache();
+    return this.restApiService.getAccount().then(account => {
+      this.setAccount(account);
+    });
+  }
+
+  loadEmails(noCache?: boolean) {
+    if (noCache) this.restApiService.invalidateAccountsEmailCache();
+    return this.restApiService.getAccountEmails().then(emails => {
+      this.setAccountEmails(emails);
+    });
   }
 }

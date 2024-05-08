@@ -542,6 +542,7 @@ export interface RestApiService extends Finalizable {
   invalidateReposCache(): void;
   invalidateAccountsCache(): void;
   invalidateAccountsDetailCache(): void;
+  invalidateAccountsEmailCache(): void;
   removeFromAttentionSet(
     changeNum: NumericChangeId,
     user: AccountId,

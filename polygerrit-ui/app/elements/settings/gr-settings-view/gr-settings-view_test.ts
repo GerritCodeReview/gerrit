@@ -331,12 +331,6 @@ suite('gr-settings-view tests', () => {
     assert.isNotOk(element.lastSentVerificationEmail);
   });
 
-  test('emails are loaded without emailToken', () => {
-    const emailEditorLoadDataStub = sinon.stub(element.emailEditor, 'loadData');
-    element.firstUpdated();
-    assert.isTrue(emailEditorLoadDataStub.calledOnce);
-  });
-
   test('handleSaveChangeTable', () => {
     let newColumns = ['Owner', 'Project', 'Branch'];
     element.localChangeTableColumns = newColumns.slice(0);
@@ -387,10 +381,8 @@ suite('gr-settings-view tests', () => {
       value: string | PromiseLike<string | null> | null
     ) => void;
     let confirmEmailStub: sinon.SinonStub;
-    let emailEditorLoadDataStub: sinon.SinonStub;
 
     setup(() => {
-      emailEditorLoadDataStub = sinon.stub(element.emailEditor, 'loadData');
       confirmEmailStub = stubRestApi('confirmEmail').returns(
         new Promise(resolve => {
           resolveConfirm = resolve;
@@ -404,16 +396,6 @@ suite('gr-settings-view tests', () => {
     test('it is used to confirm email via rest API', () => {
       assert.isTrue(confirmEmailStub.calledOnce);
       assert.isTrue(confirmEmailStub.calledWith('foo'));
-    });
-
-    test('emails are not loaded initially', () => {
-      assert.isFalse(emailEditorLoadDataStub.called);
-    });
-
-    test('user emails are loaded after email confirmed', async () => {
-      resolveConfirm('bar');
-      await element._testOnly_loadingPromise;
-      assert.isTrue(emailEditorLoadDataStub.calledOnce);
     });
 
     test('show-alert is fired when email is confirmed', async () => {

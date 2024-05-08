@@ -11,6 +11,7 @@ import {fixture, html, assert} from '@open-wc/testing';
 
 suite('gr-email-editor tests', () => {
   let element: GrEmailEditor;
+  let accountEmailStub: sinon.SinonStub;
 
   setup(async () => {
     const emails = [
@@ -19,13 +20,14 @@ suite('gr-email-editor tests', () => {
       {email: 'email@three.com'},
     ];
 
-    stubRestApi('getAccountEmails').returns(Promise.resolve(emails));
+    accountEmailStub = stubRestApi('getAccountEmails').returns(
+      Promise.resolve(emails)
+    );
 
     element = await fixture<GrEmailEditor>(
       html`<gr-email-editor></gr-email-editor>`
     );
 
-    await element.loadData();
     await element.updateComplete;
   });
 
@@ -238,6 +240,12 @@ suite('gr-email-editor tests', () => {
     assert.equal(element.emailsToRemove.length, 1);
     assert.equal(element.emailsToRemove[0].email, 'email@one.com');
     assert.equal(element.emails.length, 2);
+
+    accountEmailStub.restore();
+
+    accountEmailStub = stubRestApi('getAccountEmails').returns(
+      Promise.resolve(element.emails)
+    );
 
     await element.save();
     assert.equal(deleteEmailSpy.callCount, 1);

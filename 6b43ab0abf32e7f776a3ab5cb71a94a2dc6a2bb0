@@ -16,6 +16,128 @@
       "message": "I could only get the tests to work when i used deepClone for emails as well. I\u0027m not sure why there was an issue tho with just using x directly.",
       "revId": "6b43ab0abf32e7f776a3ab5cb71a94a2dc6a2bb0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7925ba79_63c80aee",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-05-10T06:32:35Z",
+      "side": 1,
+      "message": "Maybe remove `async` in both lines. It does not matter whether it is added here or not.",
+      "range": {
+        "startLine": 473,
+        "startChar": 8,
+        "endLine": 474,
+        "endChar": 46
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "d7b7b66e_2362142e",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.ts",
+              "range": {
+                "startLine": 473,
+                "startChar": 0,
+                "endLine": 475,
+                "endChar": 0
+              },
+              "replacement": "              @click\u003d${() \u003d\u003e {\n                this.emailEditor.save();\n"
+            }
+          ]
+        }
+      ],
+      "revId": "6b43ab0abf32e7f776a3ab5cb71a94a2dc6a2bb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b24f5238_00623f04",
+        "filename": "polygerrit-ui/app/models/user/user-model.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-05-10T06:32:35Z",
+      "side": 1,
+      "message": "I am not sure why we are using a from/subscribe pattern here. I think instead we could just load the data once. Then you could just call `loadEmails()` and `loadAccount()`.",
+      "range": {
+        "startLine": 159,
+        "startChar": 6,
+        "endLine": 168,
+        "endChar": 8
+      },
+      "revId": "6b43ab0abf32e7f776a3ab5cb71a94a2dc6a2bb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63e51141_6b49f0ae",
+        "filename": "polygerrit-ui/app/models/user/user-model.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-05-10T06:32:35Z",
+      "side": 1,
+      "message": "private",
+      "range": {
+        "startLine": 277,
+        "startChar": 2,
+        "endLine": 277,
+        "endChar": 18
+      },
+      "revId": "6b43ab0abf32e7f776a3ab5cb71a94a2dc6a2bb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6723d70b_8dcc70c1",
+        "filename": "polygerrit-ui/app/models/user/user-model.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-05-10T06:32:35Z",
+      "side": 1,
+      "message": "Maybe rename to `loadEmails`.",
+      "fixSuggestions": [
+        {
+          "fixId": "08cd362a_a436bbd7",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/models/user/user-model.ts",
+              "range": {
+                "startLine": 281,
+                "startChar": 0,
+                "endLine": 282,
+                "endChar": 0
+              },
+              "replacement": "  loadEmails() {\n"
+            }
+          ]
+        }
+      ],
+      "revId": "6b43ab0abf32e7f776a3ab5cb71a94a2dc6a2bb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

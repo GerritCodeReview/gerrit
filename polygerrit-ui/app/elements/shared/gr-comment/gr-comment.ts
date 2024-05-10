@@ -89,6 +89,7 @@ import {storageServiceToken} from '../../../services/storage/gr-storage_impl';
 import {deepEqual} from '../../../utils/deep-util';
 import {GrSuggestionDiffPreview} from '../gr-suggestion-diff-preview/gr-suggestion-diff-preview';
 import {waitUntil} from '../../../utils/async-util';
+import {AutocompleteCache} from '../../../utils/autocomplete-cache';
 
 // visible for testing
 export const AUTO_SAVE_DEBOUNCE_DELAY_MS = 2000;
@@ -225,6 +226,8 @@ export class GrComment extends LitElement {
    * providers.
    */
   @state() autocompleteHint = '';
+
+  readonly autocompleteCache = new AutocompleteCache();
 
   /* The 'dirty' state of !comment.unresolved, which will be saved on demand. */
   @state()
@@ -909,33 +912,20 @@ export class GrComment extends LitElement {
     // of the textare instead of needing a dedicated property.
     this.messageText = newValue;
 
-    this.handleTextChangedForAutocomplete(oldValue, newValue);
+    this.handleTextChangedForAutocomplete();
     this.autoSaveTrigger$.next();
     this.generateSuggestionTrigger$.next();
   }
 
   // visible for testing
-  handleTextChangedForAutocomplete(oldValue: string, newValue: string) {
-    if (oldValue === newValue) return;
-    // As soon as the user changes the text the hint for autocompletion
-    // is invalidated, *if* what the user typed does not match the
-    // autocompletion!
-    const charsAdded = newValue.length - oldValue.length;
-    if (
-      charsAdded > 0 &&
-      newValue.startsWith(oldValue) &&
-      this.autocompleteHint.startsWith(newValue.substring(oldValue.length))
-    ) {
-      // What the user typed matches the hint, so we keep the hint, but shorten
-      // it accordingly.
-      this.autocompleteHint = this.autocompleteHint.substring(charsAdded);
-      return;
+  handleTextChangedForAutocomplete() {
+    const cachedHint = this.autocompleteCache.get(this.messageText);
+    if (cachedHint) {
+      this.autocompleteHint = cachedHint;
+    } else {
+      this.autocompleteHint = '';
+      this.autocompleteTrigger$.next();
     }
-
-    // The default behavior is to reset the hint and to generate a new
-    // autocomplete suggestion.
-    this.autocompleteHint = '';
-    this.autocompleteTrigger$.next();
   }
 
   private renderCommentMessage() {
@@ -1367,11 +1357,10 @@ export class GrComment extends LitElement {
       range: this.comment.range,
       lineNumber: this.comment.line,
     });
-    // If between request and response the user has changed the message, then
-    // ignore the suggestion for the old message text.
-    if (this.messageText !== commentText) return;
     if (!response?.completion) return;
-    this.autocompleteHint = response.completion;
+    // Note that we are setting for `commentText` and getting for `this.messageText`.
+    this.autocompleteCache.set(commentText, response.completion);
+    this.autocompleteHint = this.autocompleteCache.get(this.messageText) ?? '';
   }
 
   private renderRobotActions() {

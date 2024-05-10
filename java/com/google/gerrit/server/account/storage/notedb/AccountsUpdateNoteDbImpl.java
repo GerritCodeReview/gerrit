@@ -380,7 +380,8 @@ public class AccountsUpdateNoteDbImpl extends AccountsUpdate {
   }
 
   @Override
-  protected ImmutableList<Optional<AccountState>> executeUpdates(List<UpdateArguments> updates)
+  @VisibleForTesting
+  public ImmutableList<Optional<AccountState>> executeUpdates(List<UpdateArguments> updates)
       throws ConfigInvalidException, IOException {
     return execute(updates.stream().map(this::createExecutableUpdate).collect(toImmutableList()));
   }

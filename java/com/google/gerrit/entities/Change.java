@@ -434,7 +434,7 @@ public final class Change {
   private Id changeId;
 
   /** ServerId of the Gerrit instance that has created the change */
-  private String serverId;
+  @Nullable private String serverId;
 
   /** Globally assigned unique identifier of the change */
   private Key changeKey;
@@ -545,7 +545,8 @@ public final class Change {
    * ServerId of the Gerrit instance that created the change. It could be null when the change is
    * not fetched from NoteDb but obtained through protobuf deserialisation.
    */
-  public @Nullable String getServerId() {
+  @Nullable
+  public String getServerId() {
     return serverId;
   }
 
@@ -607,6 +608,7 @@ public final class Change {
     return originalSubject != null ? originalSubject : subject;
   }
 
+  @Nullable
   public String getOriginalSubjectOrNull() {
     return originalSubject;
   }
@@ -652,6 +654,7 @@ public final class Change {
     originalSubject = null;
   }
 
+  @Nullable
   public String getSubmissionId() {
     return submissionId;
   }
@@ -684,6 +687,7 @@ public final class Change {
     return isAbandoned() || isMerged();
   }
 
+  @Nullable
   public String getTopic() {
     return topic;
   }
@@ -720,10 +724,12 @@ public final class Change {
     this.revertOf = revertOf;
   }
 
+  @Nullable
   public Id getRevertOf() {
     return this.revertOf;
   }
 
+  @Nullable
   public PatchSet.Id getCherryPickOf() {
     return cherryPickOf;
   }

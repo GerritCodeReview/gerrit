@@ -22,6 +22,7 @@ import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.annotations.VisibleForTesting.Visibility;
 import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
@@ -380,7 +381,8 @@ public class AccountsUpdateNoteDbImpl extends AccountsUpdate {
   }
 
   @Override
-  protected ImmutableList<Optional<AccountState>> executeUpdates(List<UpdateArguments> updates)
+  @VisibleForTesting(productionVisibility = Visibility.PROTECTED)
+  public ImmutableList<Optional<AccountState>> executeUpdates(List<UpdateArguments> updates)
       throws ConfigInvalidException, IOException {
     return execute(updates.stream().map(this::createExecutableUpdate).collect(toImmutableList()));
   }

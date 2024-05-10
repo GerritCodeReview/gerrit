@@ -209,10 +209,16 @@ export class GrMainHeader extends LitElement {
         .bigTitle {
           color: var(--header-text-color);
           font-size: var(--header-title-font-size);
+          line-height: calc(var(--header-title-font-size) * 1.2);
           text-decoration: none;
         }
         .bigTitle:hover {
           text-decoration: underline;
+        }
+        .titleText {
+          /* Vertical alignment of icons and text with just block/inline display is too troublesome. */
+          display: flex;
+          align-items: center;
         }
         .titleText::before {
           --icon-width: var(--header-icon-width, var(--header-icon-size, 0));
@@ -221,14 +227,15 @@ export class GrMainHeader extends LitElement {
           background-size: var(--icon-width) var(--icon-height);
           background-repeat: no-repeat;
           content: '';
-          display: inline-block;
+          /* Any direct child of a flex element implicitly has 'display: block', but let's make that explicit here. */
+          display: block;
+          width: var(--icon-width);
           height: var(--icon-height);
           /* If size or height are set, then use 'spacing-m', 0px otherwise. */
           margin-right: clamp(0px, var(--icon-height), var(--spacing-m));
-          vertical-align: text-bottom;
-          width: var(--icon-width);
         }
         .titleText::after {
+          /* The height will be determined by the line-height of the .bigTitle element. */
           content: var(--header-title-content);
           white-space: nowrap;
         }
@@ -368,7 +375,7 @@ export class GrMainHeader extends LitElement {
   <nav>
     <a href=${`//${window.location.host}${getBaseUrl()}/`} class="bigTitle">
       <gr-endpoint-decorator name="header-title">
-        <span class="titleText"></span>
+        <div class="titleText"></div>
       </gr-endpoint-decorator>
     </a>
     <ul class="links">

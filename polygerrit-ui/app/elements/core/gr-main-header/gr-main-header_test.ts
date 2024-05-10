@@ -42,7 +42,7 @@ suite('gr-main-header tests', () => {
         <nav>
           <a class="bigTitle" href="//localhost:9876/">
             <gr-endpoint-decorator name="header-title">
-              <span class="titleText"> </span>
+              <div class="titleText"></div>
             </gr-endpoint-decorator>
           </a>
           <ul class="links">

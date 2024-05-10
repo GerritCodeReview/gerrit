@@ -21,6 +21,7 @@ import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.Account;
@@ -97,6 +98,14 @@ public abstract class AccountsUpdate {
       this.message = message;
       this.accountId = accountId;
       this.configureDeltaFromState = configureDeltaFromState;
+    }
+
+    @Override
+    public String toString() {
+      return MoreObjects.toStringHelper(this)
+          .add("message", message)
+          .add("accountId", accountId)
+          .toString();
     }
   }
 

@@ -22,6 +22,18 @@ exports_files(["nongoogle.bzl"])
     "21",
 ]]
 
+default_java_toolchain(
+    name = "error_prone_warnings_toolchain_java22",
+    configuration = dict(),
+    java_runtime = "@openjdk_canary_linux//:jdk",
+    package_configuration = [
+        ":error_prone",
+    ],
+    source_version = "22",
+    target_version = "22",
+    visibility = ["//visibility:public"],
+)
+
 # Error Prone errors enabled by default; see ../.bazelrc for how this is
 # enabled. This warnings list is originally based on:
 # https://github.com/bazelbuild/BUILD_file_generator/blob/master/tools/bazel_defs/java.bzl

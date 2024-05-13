@@ -40,6 +40,11 @@ build:build_java21_shared --tool_java_runtime_version=remotejdk_21
 
 build:java21 --config=build_java21_shared
 
+build:java22 --java_language_version=22
+build:java22 --java_runtime_version=openjdk_canary_22
+build:java22 --tool_java_language_version=22
+build:java22 --tool_java_runtime_version=openjdk_canary_22
+
 # Builds and executes on RBE using remotejdk_21
 build:remote21 --config=config_gcp
 build:remote21 --config=build_java21_shared

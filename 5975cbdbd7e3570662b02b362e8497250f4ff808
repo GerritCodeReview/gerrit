@@ -22,6 +22,30 @@
       },
       "revId": "5975cbdbd7e3570662b02b362e8497250f4ff808",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f96552a_72398790",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-05-13T22:39:06Z",
+      "side": 1,
+      "message": "I don\u0027t care since the ticket based process to get LC approval from a Googler seems not to work in practice",
+      "parentUuid": "4c92386a_4fb3b172",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 20
+      },
+      "revId": "5975cbdbd7e3570662b02b362e8497250f4ff808",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

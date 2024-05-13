@@ -348,6 +348,12 @@ export class GrSuggestionTextarea extends LitElement {
           position: relative;
           --gr-textarea-padding: var(--spacing-s);
           --gr-textarea-border-width: 0px;
+          --gr-textarea-border-color: var(--border-color);
+          --input-field-bg: var(--view-background-color);
+          --input-field-disabled-bg: var(--view-background-color);
+          --secondary-bg-color: var(--background-color-secondary);
+          --text-default: var(--primary-text-color);
+          --text-disabled: var(--deemphasized-text-color);
           --text-secondary: var(--deemphasized-text-color);
           --iron-autogrow-textarea_-_padding: var(--spacing-s);
         }

@@ -1,5 +1,29 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34c92513_f0caca5d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 830,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-05-13T10:39:53Z",
+      "side": 1,
+      "message": "Let\u0027s show this check only when `this.numberOfThreadsWithSuggestions() \u003e 0,` as well.",
+      "range": {
+        "startLine": 830,
+        "startChar": 12,
+        "endLine": 830,
+        "endChar": 51
+      },
+      "revId": "7c84f7e85791e221cff4c3f157714a5ab8913982",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

@@ -112,7 +112,7 @@ export class GrEmailEditor extends LitElement {
   loadData() {
     return this.restApiService.getAccountEmails().then(emails => {
       if (!emails) return;
-      this.originalEmails = deepClone(emails);
+      this.originalEmails = deepClone(emails) as EmailInfo[];
       this.emails = emails;
     });
   }

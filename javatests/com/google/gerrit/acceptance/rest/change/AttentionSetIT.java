@@ -2629,8 +2629,8 @@ public class AttentionSetIT extends AbstractDaemonTest {
             String.format(
                 "Attention is currently required from: %s, %s.\n"
                     + "\n"
-                    + "%s has posted comments on this change.",
-                admin.fullName(), user.fullName(), approver.fullName()));
+                    + "%s has posted comments on this change by %s.",
+                admin.fullName(), user.fullName(), approver.fullName(), admin.fullName()));
     assertThat(message.body()).doesNotContain("\nPatch Set 2: Code-Review+2\n");
     assertThat(message.body())
         .contains("The change is no longer submittable: Code-Review is unsatisfied now.\n");
@@ -2715,8 +2715,8 @@ public class AttentionSetIT extends AbstractDaemonTest {
             String.format(
                 "Attention is currently required from: %s, %s.\n"
                     + "\n"
-                    + "%s has posted comments on this change.",
-                admin.fullName(), user.fullName(), approver.fullName()));
+                    + "%s has posted comments on this change by %s.",
+                admin.fullName(), user.fullName(), approver.fullName(), admin.fullName()));
     assertThat(message.body()).doesNotContain("\nPatch Set 2: Code-Review+2\n");
     assertThat(message.body()).contains("\nPatch Set 2: Code-Review+1\n");
     assertThat(message.body())
@@ -2803,8 +2803,8 @@ public class AttentionSetIT extends AbstractDaemonTest {
             String.format(
                 "Attention is currently required from: %s, %s.\n"
                     + "\n"
-                    + "%s has posted comments on this change.",
-                admin.fullName(), user.fullName(), approver.fullName()));
+                    + "%s has posted comments on this change by %s.",
+                admin.fullName(), user.fullName(), approver.fullName(), admin.fullName()));
     assertThat(message.body()).contains("\nPatch Set 2: Code-Review-2\n");
     assertThat(message.body())
         .contains("The change is no longer submittable: Code-Review is unsatisfied now.\n");

@@ -815,7 +815,7 @@ export class GrRepo extends LitElement {
         config.max_object_size_limit.configured_value = '';
       }
       this.repoConfig = config;
-      this.originalConfig = deepClone(config) as ConfigInfo;
+      this.originalConfig = deepClone<ConfigInfo>(config);
       this.loading = false;
     };
     promises.push(repoConfigHelper());
@@ -920,7 +920,7 @@ export class GrRepo extends LitElement {
       this.repo,
       this.formatRepoConfigForSave(this.repoConfig)
     );
-    this.originalConfig = deepClone(this.repoConfig) as ConfigInfo;
+    this.originalConfig = deepClone<ConfigInfo>(this.repoConfig);
     this.pluginConfigChanged = false;
     return;
   }

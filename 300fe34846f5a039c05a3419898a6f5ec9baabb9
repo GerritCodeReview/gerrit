@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d6887d2_774a1b06",
+        "filename": "polygerrit-ui/app/models/user/user-model.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-05-13T09:46:18Z",
+      "side": 1,
+      "message": "My only concern here is that this will now be loaded on every web app load. Before it was only loaded when the user was using the settings page.",
+      "revId": "300fe34846f5a039c05a3419898a6f5ec9baabb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

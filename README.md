@@ -8,6 +8,8 @@ management tool for Git based projects.
 
 ## Objective
 
+Adding a major new objective for this project is important.
+
 Gerrit makes reviews easier by showing changes in a side-by-side display,
 and allowing inline comments to be added by any reviewer.
 

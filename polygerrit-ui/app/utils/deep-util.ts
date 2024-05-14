@@ -84,5 +84,5 @@ export function notDeepEqual<T>(a: T, b: T): boolean {
  */
 export function deepClone<T>(obj: T): T {
   if (!obj) throw new Error('undefined object for deepClone');
-  return JSON.parse(JSON.stringify(obj));
+  return JSON.parse(JSON.stringify(obj)) as T;
 }

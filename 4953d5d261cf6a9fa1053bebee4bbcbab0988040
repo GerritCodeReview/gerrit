@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "28ace7d2_50e466ab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-05-14T11:28:36Z",
+      "side": 1,
+      "message": "Needs Release-Notes footer.",
+      "revId": "4953d5d261cf6a9fa1053bebee4bbcbab0988040",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

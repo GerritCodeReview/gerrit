@@ -70,6 +70,24 @@
       "parentUuid": "d4da95a4_b0eb1962",
       "revId": "300fe34846f5a039c05a3419898a6f5ec9baabb9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2cb480c_fc1653e8",
+        "filename": "polygerrit-ui/app/models/user/user-model.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-05-14T11:44:22Z",
+      "side": 1,
+      "message": "I was thinking that you could maybe remove the `loadEmails()` call from the constructor and instead move it into a side effect of the observable itself. Then it won\u0027t be called until some consumer actually subscribes to `emails$`.\n\n```\n  readonly emails$: Observable\u003cEmailInfo[] | undefined\u003e \u003d select(\n    this.state$,\n    userState \u003d\u003e userState.emails\n  ).pipe(\n    tap(emails \u003d\u003e {\n      if (emails \u003d\u003d\u003d undefined) this.loadEmails();\n    })\n  );\n```\n\nI did not test this and I think we do not have an existing pattern for that. So that would require some (manual) testing to make sure that this works as intended.",
+      "parentUuid": "68d45f1b_7cde57c0",
+      "revId": "300fe34846f5a039c05a3419898a6f5ec9baabb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

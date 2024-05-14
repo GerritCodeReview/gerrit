@@ -20,6 +20,8 @@ import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.Account;
@@ -97,6 +99,14 @@ public abstract class AccountsUpdate {
       this.accountId = accountId;
       this.configureDeltaFromState = configureDeltaFromState;
     }
+
+    @Override
+    public String toString() {
+      return MoreObjects.toStringHelper(this)
+          .add("message", message)
+          .add("accountId", accountId)
+          .toString();
+    }
   }
 
   /**
@@ -145,7 +155,7 @@ public abstract class AccountsUpdate {
    * would only contain the account ID).
    */
   @CanIgnoreReturnValue
-  public AccountState insert(
+  public final AccountState insert(
       String message, Account.Id accountId, Consumer<AccountDelta.Builder> init)
       throws IOException, ConfigInvalidException {
     return insert(message, accountId, AccountsUpdate.fromConsumer(init));
@@ -171,7 +181,7 @@ public abstract class AccountsUpdate {
    * instead, i.e. the update does not depend on the current account state.
    */
   @CanIgnoreReturnValue
-  public Optional<AccountState> update(
+  public final Optional<AccountState> update(
       String message, Account.Id accountId, Consumer<AccountDelta.Builder> update)
       throws IOException, ConfigInvalidException {
     return update(message, accountId, AccountsUpdate.fromConsumer(update));
@@ -193,7 +203,7 @@ public abstract class AccountsUpdate {
    * @throws ConfigInvalidException if any of the account fields has an invalid value
    */
   @CanIgnoreReturnValue
-  public Optional<AccountState> update(
+  public final Optional<AccountState> update(
       String message, Account.Id accountId, ConfigureDeltaFromState configureDeltaFromState)
       throws IOException, ConfigInvalidException {
     return updateBatch(
@@ -212,7 +222,7 @@ public abstract class AccountsUpdate {
    * together have this property) will always prevent the entire batch from being executed.
    */
   @CanIgnoreReturnValue
-  public ImmutableList<Optional<AccountState>> updateBatch(List<UpdateArguments> updates)
+  public final ImmutableList<Optional<AccountState>> updateBatch(List<UpdateArguments> updates)
       throws IOException, ConfigInvalidException {
     checkArgument(
         updates.stream().map(u -> u.accountId.get()).distinct().count() == updates.size(),
@@ -231,7 +241,8 @@ public abstract class AccountsUpdate {
   public abstract void delete(String message, Account.Id accountId)
       throws IOException, ConfigInvalidException;
 
-  protected abstract ImmutableList<Optional<AccountState>> executeUpdates(
+  @VisibleForTesting // productionVisibility: protected
+  public abstract ImmutableList<Optional<AccountState>> executeUpdates(
       List<UpdateArguments> updates) throws ConfigInvalidException, IOException;
 
   private static PersonIdent createPersonIdent(

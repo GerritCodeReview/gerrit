@@ -46,6 +46,47 @@
       },
       "revId": "5975cbdbd7e3570662b02b362e8497250f4ff808",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54e5ba1c_882c1f95",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2024-05-14T03:14:13Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "2f96552a_72398790",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 20
+      },
+      "revId": "5975cbdbd7e3570662b02b362e8497250f4ff808",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5d5b69c_1767e7db",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2024-05-14T03:14:13Z",
+      "side": 1,
+      "message": "Someone else would need to approve this, because I\u0027ve uploaded the last patch set.",
+      "revId": "5975cbdbd7e3570662b02b362e8497250f4ff808",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

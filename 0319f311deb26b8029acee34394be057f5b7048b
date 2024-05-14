@@ -33,6 +33,24 @@
       "message": "We are in the final week of the release, we should not merge new features. What about moving this to master?",
       "revId": "0319f311deb26b8029acee34394be057f5b7048b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc18c1ed_9f32702b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 51
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2024-05-14T06:26:40Z",
+      "side": 1,
+      "message": "Being that it is a new feature that does not affect the core functionality and that it is default disabled I, personally, feel that it would be safe to include it in 3.10 as an experimental feature.",
+      "parentUuid": "eb157df7_81df2987",
+      "revId": "0319f311deb26b8029acee34394be057f5b7048b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

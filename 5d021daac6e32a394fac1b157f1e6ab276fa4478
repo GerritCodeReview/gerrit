@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22516069_36bcf64c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2024-05-15T12:11:38Z",
+      "side": 1,
+      "message": "Dmitrii, please set your diff preferences to ignore whitespaces. This is actually a tiny change.",
+      "revId": "5d021daac6e32a394fac1b157f1e6ab276fa4478",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

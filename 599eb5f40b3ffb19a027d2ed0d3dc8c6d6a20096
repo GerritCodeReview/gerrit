@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90d1b0b6_2235074d",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetPatch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2024-05-15T12:29:19Z",
+      "side": 0,
+      "message": "Please readd this check with parentNum \u003d\u003d null.",
+      "revId": "599eb5f40b3ffb19a027d2ed0d3dc8c6d6a20096",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

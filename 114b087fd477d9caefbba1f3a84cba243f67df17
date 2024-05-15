@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec61c33c_eb361b03",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2024-05-15T12:29:19Z",
+      "side": 1,
+      "message": "Please also add tests for the parents amount checks.",
+      "revId": "114b087fd477d9caefbba1f3a84cba243f67df17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b101ee7b_a9321743",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1203,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2024-05-15T12:29:19Z",
+      "side": 1,
+      "message": "This test explicitly sets `parent\u003d1`, so it\u0027s not the \"Default parent\". Please duplicate this test - with actual default (\u003dno parent set) and with the current test impl.",
+      "range": {
+        "startLine": 1203,
+        "startChar": 26,
+        "endLine": 1203,
+        "endChar": 33
+      },
+      "revId": "114b087fd477d9caefbba1f3a84cba243f67df17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -263,11 +263,18 @@ suite('account-util tests', () => {
   test('isDetailedAccount', () => {
     assert.isFalse(isDetailedAccount({_account_id: 12345 as AccountId}));
     assert.isFalse(isDetailedAccount({email: 'abcd' as EmailAddress}));
+    assert.isFalse(isDetailedAccount({name: 'Kermit'}));
 
     assert.isTrue(
       isDetailedAccount({
         _account_id: 12345 as AccountId,
         email: 'abcd' as EmailAddress,
+      })
+    );
+    assert.isTrue(
+      isDetailedAccount({
+        _account_id: 12345 as AccountId,
+        name: 'Kermit',
       })
     );
   });

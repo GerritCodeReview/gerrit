@@ -1186,6 +1186,39 @@ public class CreateChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void changePatch_forSecondParent_success() throws Exception {
+    changeInTwoBranches("branchA", "a.txt", "branchB", "b.txt");
+    ChangeInput in = newMergeChangeInput("branchA", "branchB", "");
+    ChangeInfo change = assertCreateSucceeds(in);
+
+    // Get the patch with parent=2 specified
+    RestResponse patchResp = userRestSession.get(
+        "/changes/" + change.id + "/revisions/current/patch?parent=2"
+    );
+    patchResp.assertOK();
+    assertThat(new String(Base64.decode(patchResp.getEntityContent()), UTF_8)).contains("+A content");
+  }
+
+  @Test
+  public void changePatch_defaultParent_success() throws Exception {
+    changeInTwoBranches("branchA", "a.txt", "branchB", "b.txt");
+    ChangeInput in = newMergeChangeInput("branchA", "branchB", "");
+    ChangeInfo change = assertCreateSucceeds(in);
+
+    RestResponse patchResp = userRestSession.get(
+        "/changes/" + change.id + "/revisions/current/patch"
+    );
+    patchResp.assertOK();
+    RestResponse patchResp1 = userRestSession.get(
+        "/changes/" + change.id + "/revisions/current/patch?parent=1"
+    );
+    patchResp1.assertOK();
+    assertThat(new String(Base64.decode(patchResp.getEntityContent()), UTF_8)).isEqualTo(
+        new String(Base64.decode(patchResp1.getEntityContent()), UTF_8)
+    );
+  }
+
+  @Test
   @UseSystemTime
   public void sha1sOfTwoNewChangesDiffer() throws Exception {
     ChangeInput changeInput = newChangeInput(ChangeStatus.NEW);

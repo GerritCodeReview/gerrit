@@ -42,7 +42,7 @@ export class AccountsModel extends Model<AccountsState> {
   ): Promise<AccountDetailInfo | AccountInfo> {
     const current = this.getState();
     const id = getUserId(partialAccount);
-    if (hasOwnProperty(current.accounts, id)) return current.accounts[id];
+    if (hasOwnProperty(current.accounts, id)) return {...current.accounts[id]};
     // It is possible to add emails to CC when they don't have a Gerrit
     // account. In this case getAccountDetails will return a 404 error then
     // we at least use what is in partialAccount.

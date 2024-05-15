@@ -16,6 +16,24 @@
       "message": "Needs a Release-Notes footer, probably `Release-Notes: skip`",
       "revId": "ecb60a42b0a5cabf42afac3f60b35dcaa8380312",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ddca990_f678e141",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 3432947
+      },
+      "writtenOn": "2024-05-15T00:32:29Z",
+      "side": 1,
+      "message": "Thanks for the pointer. Done.",
+      "parentUuid": "db48290d_96560c87",
+      "revId": "ecb60a42b0a5cabf42afac3f60b35dcaa8380312",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

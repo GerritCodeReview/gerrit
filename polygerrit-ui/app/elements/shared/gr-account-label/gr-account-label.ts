@@ -10,7 +10,11 @@ import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import {getAppContext} from '../../../services/app-context';
 import {getDisplayName} from '../../../utils/display-name-util';
-import {isSelf, isServiceUser} from '../../../utils/account-util';
+import {
+  isDetailedAccount,
+  isSelf,
+  isServiceUser,
+} from '../../../utils/account-util';
 import {ChangeInfo, AccountInfo, ServerInfo} from '../../../types/common';
 import {assertIsDefined, hasOwnProperty} from '../../../utils/common-util';
 import {fire} from '../../../utils/event-util';
@@ -200,13 +204,20 @@ export class GrAccountLabel extends LitElement {
 
   override async updated() {
     assertIsDefined(this.account, 'account');
+    if (isDetailedAccount(this.account)) return;
     const account = await this.getAccountsModel().fillDetails(this.account);
+    if (!isDetailedAccount(account)) return;
     // AccountInfo returned by fillDetails has the email property set
     // to the primary email of the account. This poses a problem in
     // cases where a secondary email is used as the committer or author
-    // email. Therefore, only fill in the missing details to avoid
-    // displaying incorrect author or committer email.
-    if (account) this.account = Object.assign(account, this.account);
+    // email. Therefore, only fill in the *missing* properties.
+    if (
+      account &&
+      account !== this.account &&
+      account._account_id === this.account._account_id
+    ) {
+      this.account = {...account, ...this.account};
+    }
   }
 
   override render() {

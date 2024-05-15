@@ -140,10 +140,10 @@ export function uniqueAccountId(
 
 export function isDetailedAccount(account?: AccountInfo) {
   // In case ChangeInfo is requested without DetailedAccount option, the
-  // reviewer entry is returned as just {_account_id: 123}
-  // This object should also be treated as not detailed account if they have
-  // an AccountId and no email
-  return !!account?.email && !!account?._account_id;
+  // reviewer entry is returned as just {_account_id: 123}.
+  // At least a name or an email must be set for the account to be treated as
+  // "detailed".
+  return (!!account?.email || !!account?.name) && !!account?._account_id;
 }
 
 /**

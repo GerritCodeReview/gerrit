@@ -39,6 +39,30 @@
       },
       "revId": "114b087fd477d9caefbba1f3a84cba243f67df17",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9275e6a_6de27fca",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1203,
+      "author": {
+        "id": 1159339
+      },
+      "writtenOn": "2024-05-15T13:50:26Z",
+      "side": 1,
+      "message": "Modified this test, hope it helps. Not sure what you mean by \"duplicate with the current impl\".",
+      "parentUuid": "b101ee7b_a9321743",
+      "range": {
+        "startLine": 1203,
+        "startChar": 26,
+        "endLine": 1203,
+        "endChar": 33
+      },
+      "revId": "114b087fd477d9caefbba1f3a84cba243f67df17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

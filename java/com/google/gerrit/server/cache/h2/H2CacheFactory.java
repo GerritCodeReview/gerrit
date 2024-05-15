@@ -61,6 +61,24 @@ import org.eclipse.jgit.lib.Config;
 class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleListener {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  static class PeriodicCachePruner implements Runnable {
+    private final H2CacheImpl<?, ?> cache;
+
+    PeriodicCachePruner(H2CacheImpl<?, ?> cache) {
+      this.cache = cache;
+    }
+
+    @Override
+    public String toString() {
+      return "Disk Cache Pruner (" + cache.getCacheName() + ")";
+    }
+
+    @Override
+    public void run() {
+      cache.prune();
+    }
+  }
+
   private final List<H2CacheImpl<?, ?>> caches;
   private final DynamicMap<Cache<?, ?>> cacheMap;
   private final ExecutorService executor;
@@ -118,13 +136,13 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
           if (pruneOnStartup) {
             @SuppressWarnings("unused")
             Future<?> possiblyIgnoredError =
-                cleanup.schedule(() -> cache.prune(), 30, TimeUnit.SECONDS);
+                cleanup.schedule(new PeriodicCachePruner(cache), 30, TimeUnit.SECONDS);
           }
 
           @SuppressWarnings("unused")
           Future<?> possiblyIgnoredError =
               cleanup.scheduleAtFixedRate(
-                  () -> cache.prune(),
+                  new PeriodicCachePruner(cache),
                   schedule.initialDelay(),
                   schedule.interval(),
                   TimeUnit.MILLISECONDS);

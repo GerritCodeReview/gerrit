@@ -234,6 +234,10 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     logger.atFine().log("Finished pruning cache %s...", cacheName);
   }
 
+  String getCacheName() {
+    return cacheName;
+  }
+
   static class ValueHolder<V> {
     final V value;
     final Instant created;

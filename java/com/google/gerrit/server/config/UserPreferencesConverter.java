@@ -17,7 +17,7 @@ package com.google.gerrit.server.config;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.entities.converter.ProtoConverter;
+import com.google.gerrit.entities.converter.SafeProtoConverter;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
@@ -36,7 +36,8 @@ import java.util.function.Function;
  */
 public final class UserPreferencesConverter {
   public enum GeneralPreferencesInfoConverter
-      implements ProtoConverter<UserPreferences.GeneralPreferencesInfo, GeneralPreferencesInfo> {
+      implements
+          SafeProtoConverter<UserPreferences.GeneralPreferencesInfo, GeneralPreferencesInfo> {
     GENERAL_PREFERENCES_INFO_CONVERTER;
 
     @Override
@@ -118,6 +119,14 @@ public final class UserPreferencesConverter {
       builder =
           setIfNotNull(
               builder, builder::setAllowBrowserNotifications, info.allowBrowserNotifications);
+      builder =
+          setIfNotNull(
+              builder,
+              builder::setAllowSuggestCodeWhileCommenting,
+              info.allowSuggestCodeWhileCommenting);
+      builder =
+          setIfNotNull(
+              builder, builder::setAllowAutocompletingComments, info.allowAutocompletingComments);
       builder = setIfNotNull(builder, builder::setDiffPageSidebar, info.diffPageSidebar);
       return builder.build();
     }
@@ -180,6 +189,12 @@ public final class UserPreferencesConverter {
       res.changeTable = proto.getChangeTableCount() != 0 ? proto.getChangeTableList() : null;
       res.allowBrowserNotifications =
           proto.hasAllowBrowserNotifications() ? proto.getAllowBrowserNotifications() : null;
+      res.allowSuggestCodeWhileCommenting =
+          proto.hasAllowSuggestCodeWhileCommenting()
+              ? proto.getAllowSuggestCodeWhileCommenting()
+              : null;
+      res.allowAutocompletingComments =
+          proto.hasAllowAutocompletingComments() ? proto.getAllowAutocompletingComments() : null;
       res.diffPageSidebar = proto.hasDiffPageSidebar() ? proto.getDiffPageSidebar() : null;
       return res;
     }
@@ -212,10 +227,20 @@ public final class UserPreferencesConverter {
           proto.hasTarget() ? proto.getTarget().trim() : null,
           proto.hasId() ? proto.getId().trim() : null);
     }
+
+    @Override
+    public Class<UserPreferences.GeneralPreferencesInfo> getProtoClass() {
+      return UserPreferences.GeneralPreferencesInfo.class;
+    }
+
+    @Override
+    public Class<GeneralPreferencesInfo> getEntityClass() {
+      return GeneralPreferencesInfo.class;
+    }
   }
 
   public enum DiffPreferencesInfoConverter
-      implements ProtoConverter<UserPreferences.DiffPreferencesInfo, DiffPreferencesInfo> {
+      implements SafeProtoConverter<UserPreferences.DiffPreferencesInfo, DiffPreferencesInfo> {
     DIFF_PREFERENCES_INFO_CONVERTER;
 
     @Override
@@ -295,10 +320,20 @@ public final class UserPreferencesConverter {
     public Parser<UserPreferences.DiffPreferencesInfo> getParser() {
       return UserPreferences.DiffPreferencesInfo.parser();
     }
+
+    @Override
+    public Class<UserPreferences.DiffPreferencesInfo> getProtoClass() {
+      return UserPreferences.DiffPreferencesInfo.class;
+    }
+
+    @Override
+    public Class<DiffPreferencesInfo> getEntityClass() {
+      return DiffPreferencesInfo.class;
+    }
   }
 
   public enum EditPreferencesInfoConverter
-      implements ProtoConverter<UserPreferences.EditPreferencesInfo, EditPreferencesInfo> {
+      implements SafeProtoConverter<UserPreferences.EditPreferencesInfo, EditPreferencesInfo> {
     EDIT_PREFERENCES_INFO_CONVERTER;
 
     @Override
@@ -346,6 +381,16 @@ public final class UserPreferencesConverter {
     @Override
     public Parser<UserPreferences.EditPreferencesInfo> getParser() {
       return UserPreferences.EditPreferencesInfo.parser();
+    }
+
+    @Override
+    public Class<UserPreferences.EditPreferencesInfo> getProtoClass() {
+      return UserPreferences.EditPreferencesInfo.class;
+    }
+
+    @Override
+    public Class<EditPreferencesInfo> getEntityClass() {
+      return EditPreferencesInfo.class;
     }
   }
 

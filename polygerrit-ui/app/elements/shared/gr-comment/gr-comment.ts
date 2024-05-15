@@ -227,6 +227,9 @@ export class GrComment extends LitElement {
    */
   @state() autocompleteHint = '';
 
+  /** Based on user preferences. */
+  @state() autocompleteEnabled = true;
+
   readonly autocompleteCache = new AutocompleteCache();
 
   /* The 'dirty' state of !comment.unresolved, which will be saved on demand. */
@@ -443,6 +446,7 @@ export class GrComment extends LitElement {
         this,
         () => this.getUserModel().preferences$,
         prefs => {
+          this.autocompleteEnabled = !!prefs.allow_autocompleting_comments;
           if (
             this.generateSuggestion !==
             !!prefs.allow_suggest_code_while_commenting
@@ -1339,6 +1343,7 @@ export class GrComment extends LitElement {
     const change = this.getChangeModel().getChange();
     if (
       !enabled ||
+      !this.autocompleteEnabled ||
       !suggestionsProvider?.autocompleteComment ||
       !change ||
       !this.comment?.patch_set ||

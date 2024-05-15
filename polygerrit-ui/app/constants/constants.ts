@@ -264,6 +264,7 @@ export function createDefaultPreferences(): PreferencesInfo {
     default_base_for_merges: DefaultBase.AUTO_MERGE,
     allow_browser_notifications: false,
     allow_suggest_code_while_commenting: true,
+    allow_autocompleting_comments: true,
     diff_page_sidebar: 'NONE',
   };
 }

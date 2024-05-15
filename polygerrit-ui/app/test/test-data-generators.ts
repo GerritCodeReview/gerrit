@@ -712,6 +712,7 @@ export function createPreferences(): PreferencesInfo {
     email_strategy: EmailStrategy.ENABLED,
     allow_browser_notifications: true,
     allow_suggest_code_while_commenting: true,
+    allow_autocompleting_comments: true,
   };
 }
 

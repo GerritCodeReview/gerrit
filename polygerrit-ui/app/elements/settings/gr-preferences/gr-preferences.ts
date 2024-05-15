@@ -57,6 +57,9 @@ export class GrPreferences extends LitElement {
   @query('#allowSuggestCodeWhileCommenting')
   allowSuggestCodeWhileCommenting?: HTMLInputElement;
 
+  @query('#allowAiCommentAutocompletion')
+  allowAiCommentAutocompletion?: HTMLInputElement;
+
   @query('#defaultBaseForMergesSelect')
   defaultBaseForMergesSelect!: HTMLInputElement;
 
@@ -284,6 +287,7 @@ export class GrPreferences extends LitElement {
           </section>
           ${this.renderBrowserNotifications()}
           ${this.renderGenerateSuggestionWhenCommenting()}
+          ${this.renderAiCommentAutocompletion()}
           ${this.renderDefaultBaseForMerges()}
           <section>
             <label class="title" for="relativeDateInChangeTable"
@@ -511,6 +515,37 @@ export class GrPreferences extends LitElement {
             @change=${() => {
               this.prefs!.allow_suggest_code_while_commenting =
                 this.allowSuggestCodeWhileCommenting!.checked;
+              this.requestUpdate();
+            }}
+          />
+        </span>
+      </section>
+    `;
+  }
+
+  // When the experiment is over, move this back to render(),
+  // removing this function.
+  private renderAiCommentAutocompletion() {
+    if (
+      !this.flagsService.isEnabled(KnownExperimentId.COMMENT_AUTOCOMPLETION) ||
+      !this.suggestionsProvider
+    )
+      return nothing;
+    return html`
+      <section id="allowAiCommentAutocompletionSection">
+        <div class="title">
+          <label for="allowAiCommentAutocompletion"
+            >AI suggested text completions while commenting</label
+          >
+        </div>
+        <span class="value">
+          <input
+            id="allowAiCommentAutocompletion"
+            type="checkbox"
+            ?checked=${this.prefs?.allow_autocompleting_comments}
+            @change=${() => {
+              this.prefs!.allow_autocompleting_comments =
+                this.allowAiCommentAutocompletion!.checked;
               this.requestUpdate();
             }}
           />

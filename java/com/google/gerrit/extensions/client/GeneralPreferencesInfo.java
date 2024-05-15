@@ -143,6 +143,7 @@ public class GeneralPreferencesInfo {
   public List<String> changeTable;
   public Boolean allowBrowserNotifications;
   public Boolean allowSuggestCodeWhileCommenting;
+  public Boolean allowAutocompletingComments;
   /**
    * The sidebar section that the user prefers to have open on the diff page, or "NONE" if all
    * sidebars should be closed.
@@ -298,6 +299,7 @@ public class GeneralPreferencesInfo {
     p.allowBrowserNotifications = true;
     p.diffPageSidebar = "NONE";
     p.allowSuggestCodeWhileCommenting = true;
+    p.allowAutocompletingComments = true;
     return p;
   }
 }

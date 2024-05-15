@@ -1317,6 +1317,7 @@ any account.
     "work_in_progress_by_default": true,
     "allow_browser_notifications": true,
     "allow_suggest_code_while_commenting": true,
+    "allow_autocompleting_comments": true,
     "diff_page_sidebar": "plugin-foo",
     "default_base_for_merges": "FIRST_PARENT",
     "my": [
@@ -1372,6 +1373,7 @@ link:#preferences-input[PreferencesInput] entity.
     "disable_token_highlighting": true,
     "allow_browser_notifications": false,
     "allow_suggest_code_while_commenting": false,
+    "allow_autocompleting_comments": false,
     "diff_page_sidebar": "NONE",
     "diff_view": "SIDE_BY_SIDE",
     "mute_common_path_prefixes": true,
@@ -2723,6 +2725,9 @@ Whether to prompt user to enable browser notification in browser.
 |`allow_suggest_code_while_commenting`  |not set if `false`|
 Whether to receive suggested code while writing comments. This feature needs
 a plugin implementation.
+|`allow_autocompleting_comments`  |not set if `false`|
+Whether to receive autocompletions while writing comments. This feature needs
+a plugin implementation.
 |`diff_page_sidebar`            |optional|
 String indicating which sidebar should be open on the diff page. Set to "NONE"
 if no sidebars should be open. Plugin-supplied sidebars will be prefixed with
@@ -2800,6 +2805,9 @@ inline edit feature.
 Whether to prompt user to enable browser notification in browser.
 |`allow_suggest_code_while_commenting`  |not set if `false`|
 Whether to receive suggested code while writing comments. This feature needs
+a plugin implementation.
+|`allow_autocompleting_comments`  |not set if `false`|
+Whether to receive autocompletions while writing comments. This feature needs
 a plugin implementation.
 |`diff_page_sidebar`            |optional|
 String indicating which sidebar should be open on the diff page. Set to "NONE"

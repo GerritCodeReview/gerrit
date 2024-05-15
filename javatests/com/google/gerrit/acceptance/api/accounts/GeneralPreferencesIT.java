@@ -85,6 +85,7 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
     i.signedOffBy ^= true;
     i.allowBrowserNotifications ^= false;
     i.allowSuggestCodeWhileCommenting ^= false;
+    i.allowAutocompletingComments ^= false;
     i.diffPageSidebar = "plugin-insight";
     i.diffView = DiffView.UNIFIED_DIFF;
     i.my = new ArrayList<>();
@@ -99,6 +100,7 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
     assertThat(o.theme).isEqualTo(i.theme);
     assertThat(o.allowBrowserNotifications).isEqualTo(i.allowBrowserNotifications);
     assertThat(o.allowSuggestCodeWhileCommenting).isEqualTo(i.allowSuggestCodeWhileCommenting);
+    assertThat(o.allowAutocompletingComments).isEqualTo(i.allowAutocompletingComments);
     assertThat(o.diffPageSidebar).isEqualTo(i.diffPageSidebar);
     assertThat(o.disableKeyboardShortcuts).isEqualTo(i.disableKeyboardShortcuts);
   }

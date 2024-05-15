@@ -97,7 +97,7 @@ exist in NoteDb under refs/meta/group-names (like normal groups) but predefined
 groups are created on Gerrit site initialization and unique UUIDs are assigned
 to those groups. These UUIDs are different on different Gerrit sites.
 
-Gerrit comes with two predefined groups:
+Gerrit comes with three predefined groups:
 
 * link:#administrators[Administrators]
 * link:#service_users[Service Users]

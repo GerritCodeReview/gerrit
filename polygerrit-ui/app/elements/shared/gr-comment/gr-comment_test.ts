@@ -899,25 +899,33 @@ suite('gr-comment tests', () => {
   suite('handleTextChangedForAutocomplete', () => {
     test('foo -> foo with asdf', async () => {
       element.autocompleteHint = 'asdf';
-      element.handleTextChangedForAutocomplete('foo', 'foo');
+      element.autocompleteCache.set('foo', 'asdf');
+      element.messageText = 'foo';
+      element.handleTextChangedForAutocomplete();
       assert.equal(element.autocompleteHint, 'asdf');
     });
 
     test('foo -> bar with asdf', async () => {
       element.autocompleteHint = 'asdf';
-      element.handleTextChangedForAutocomplete('foo', 'bar');
+      element.autocompleteCache.set('foo', 'asdf');
+      element.messageText = 'bar';
+      element.handleTextChangedForAutocomplete();
       assert.equal(element.autocompleteHint, '');
     });
 
     test('foo -> foofoo with asdf', async () => {
       element.autocompleteHint = 'asdf';
-      element.handleTextChangedForAutocomplete('foo', 'foofoo');
+      element.autocompleteCache.set('foo', 'asdf');
+      element.messageText = 'foofoo';
+      element.handleTextChangedForAutocomplete();
       assert.equal(element.autocompleteHint, '');
     });
 
     test('foo -> foofoo with foomore', async () => {
       element.autocompleteHint = 'foomore';
-      element.handleTextChangedForAutocomplete('foo', 'foofoo');
+      element.autocompleteCache.set('foo', 'foomore');
+      element.messageText = 'foofoo';
+      element.handleTextChangedForAutocomplete();
       assert.equal(element.autocompleteHint, 'more');
     });
   });

@@ -1186,6 +1186,58 @@ public class CreateChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void changePatch_forSecondParent_success() throws Exception {
+    changeInTwoBranches("branchA", "a.txt", "branchB", "b.txt");
+    ChangeInput in = newMergeChangeInput("branchA", "branchB", "");
+    ChangeInfo change = assertCreateSucceeds(in);
+
+    // Get the patch with parent=2 specified
+    RestResponse patchResp = userRestSession.get(
+        "/changes/" + change.id + "/revisions/current/patch?parent=2"
+    );
+    patchResp.assertOK();
+    assertThat(new String(Base64.decode(patchResp.getEntityContent()), UTF_8)).contains("+A content");
+  }
+
+  @Test
+  public void changePatch_defaultIs1_success() throws Exception {
+    changeInTwoBranches("branchA", "a.txt", "branchB", "b.txt");
+    ChangeInput in = newMergeChangeInput("branchA", "branchB", "");
+    ChangeInfo change = assertCreateSucceeds(in);
+
+    RestResponse patchResp = userRestSession.get(
+        "/changes/" + change.id + "/revisions/current/patch"
+    );
+    patchResp.assertOK();
+    String patch = new String(Base64.decode(patchResp.getEntityContent()), UTF_8);
+    assertThat(patch).contains("+B content");
+
+    RestResponse patchResp1 = userRestSession.get(
+        "/changes/" + change.id + "/revisions/current/patch?parent=1"
+    );
+    patchResp1.assertOK();
+    String patch1 = new String(Base64.decode(patchResp1.getEntityContent()), UTF_8);
+    assertThat(patch).isEqualTo(patch1);
+  }
+
+  @Test
+  public void changePatch_parent_badRequest() throws Exception {
+    changeInTwoBranches("branchA", "a.txt", "branchB", "b.txt");
+    ChangeInput in = newMergeChangeInput("branchA", "branchB", "");
+    ChangeInfo change = assertCreateSucceeds(in);
+
+    RestResponse patchResp = userRestSession.get(
+        "/changes/" + change.id + "/revisions/current/patch?parent=3"
+    );
+    patchResp.assertBadRequest();
+
+    patchResp = userRestSession.get(
+        "/changes/" + change.id + "/revisions/current/patch?parent=0"
+    );
+    patchResp.assertBadRequest();
+  }
+
+  @Test
   @UseSystemTime
   public void sha1sOfTwoNewChangesDiffer() throws Exception {
     ChangeInput changeInput = newChangeInput(ChangeStatus.NEW);

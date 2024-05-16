@@ -22,7 +22,7 @@ import {AuthType} from '../../../constants/constants';
 import {getAppContext} from '../../../services/app-context';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css} from 'lit';
-import {customElement, property, state} from 'lit/decorators.js';
+import {customElement, property, query, state} from 'lit/decorators.js';
 import {fire} from '../../../utils/event-util';
 import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
@@ -149,6 +149,12 @@ export class GrMainHeader extends LitElement {
   // private but used in test
   @state() feedbackURL = '';
 
+  @state() hamburgerClose? = false;
+
+  @query('.nav-sidebar') navSidebar?: HTMLDivElement;
+
+  @query('.modelBackground') modelBackground?: HTMLDivElement;
+
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly getPluginLoader = resolve(this, pluginLoaderToken);
@@ -202,10 +208,29 @@ export class GrMainHeader extends LitElement {
         :host {
           display: block;
         }
-        nav {
+        .hideOnDesktop {
+          display: none;
+        }
+
+        nav.hideOnMobile {
           align-items: center;
           display: flex;
         }
+        nav.hideOnMobile ul {
+          list-style: none;
+          padding-left: var(--spacing-l);
+        }
+        nav.hideOnMobile .links > li {
+          cursor: default;
+          display: inline-block;
+          padding: 0;
+          position: relative;
+        }
+
+        .mobileTitle {
+          display: none;
+        }
+
         .bigTitle {
           color: var(--header-text-color);
           font-size: var(--header-title-font-size);
@@ -215,7 +240,8 @@ export class GrMainHeader extends LitElement {
         .bigTitle:hover {
           text-decoration: underline;
         }
-        .titleText {
+        .titleText,
+        .mobileTitleText {
           /* Vertical alignment of icons and text with just block/inline display is too troublesome. */
           display: flex;
           align-items: center;
@@ -239,16 +265,41 @@ export class GrMainHeader extends LitElement {
           content: var(--header-title-content);
           white-space: nowrap;
         }
-        ul {
-          list-style: none;
-          padding-left: var(--spacing-l);
+
+        .mobileTitleText::before {
+          --icon-width: var(
+            --header-icon-width,
+            var(--header-mobile-icon-size, var(--header-icon-size, 0))
+          );
+          --icon-height: var(
+            --header-icon-height,
+            var(--header-mobile-icon-size, var(--header-icon-size, 0))
+          );
+          background-image: var(--header-mobile-icon, var(--header-icon));
+          background-size: var(--mobile-icon-width, var(--icon-width))
+            var(--mobile-icon-height, var(--icon-height));
+          background-repeat: no-repeat;
+          content: '';
+          /* Any direct child of a flex element implicitly has 'display: block', but let's make that explicit here. */
+          display: block;
+          width: var(--mobile-icon-width, var(--icon-width));
+          height: var(--mobile-icon-height, var(--icon-height));
+          /* If size or height are set, then use 'spacing-m', 0px otherwise. */
+          margin-right: clamp(
+            0px,
+            var(--mobile-icon-height, var(--icon-height)),
+            var(--spacing-m)
+          );
         }
-        .links > li {
-          cursor: default;
-          display: inline-block;
-          padding: 0;
-          position: relative;
+        .mobileTitleText::after {
+          /* The height will be determined by the line-height of the .bigTitle element. */
+          content: var(
+            --header-mobile-title-content,
+            var(--header-title-content)
+          );
+          white-space: nowrap;
         }
+
         .linksTitle {
           display: inline-block;
           font-weight: var(--font-weight-bold);
@@ -264,7 +315,24 @@ export class GrMainHeader extends LitElement {
           flex: 1;
           justify-content: flex-end;
         }
-        .rightItems gr-endpoint-decorator:not(:empty) {
+        .mobileRightItems {
+          align-items: center;
+          justify-content: flex-end;
+
+          display: inline-block;
+          vertical-align: middle;
+          cursor: pointer;
+          position: relative;
+          top: 0px;
+          right: 0px;
+          margin-right: 0;
+          margin-left: auto;
+          min-height: 50px;
+          padding-top: 12px;
+        }
+
+        .rightItems gr-endpoint-decorator:not(:empty),
+        .mobileRightItems gr-endpoint-decorator:not(:empty) {
           margin-left: var(--spacing-l);
         }
         gr-smart-search {
@@ -299,11 +367,15 @@ export class GrMainHeader extends LitElement {
         }
         :host([loading]) .accountContainer,
         :host([loggedIn]) .loginButton,
-        :host([loggedIn]) .registerButton {
+        :host([loggedIn]) .registerButton,
+        :host([loggedIn]) .moreMenu {
           display: none;
         }
         :host([loggedIn]) .settingsButton,
         :host([loggedIn]) gr-account-dropdown {
+          display: inline;
+        }
+        :host:not([loggedIn]) .moreMenu {
           display: inline;
         }
         .accountContainer {
@@ -365,14 +437,124 @@ export class GrMainHeader extends LitElement {
           gr-dropdown {
             padding: var(--spacing-m) 0 var(--spacing-m) var(--spacing-m);
           }
+          .nav-sidebar {
+            background: #fff;
+            width: 200px;
+            height: 100%;
+            display: block;
+            position: fixed;
+            left: -200px;
+            top: 0px;
+            transition: left 0.25s ease;
+            margin: 0;
+            border: 0;
+            overflow-y: auto;
+            overflow-x: hidden;
+            height: 100%;
+            margin-bottom: 15px 0;
+            box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+            border-radius: 3px;
+            z-index: 2;
+          }
+          .nav-sidebar.visible {
+            left: 0px;
+            transition: left 0.25s ease;
+            width: 80%;
+            z-index: 200;
+          }
+          .mobileTitle {
+            position: relative;
+            display: flex;
+            top: 10px;
+            font-size: 20px;
+            left: 100px;
+            right: 100px;
+            text-align: center;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            width: 50%;
+          }
+
+          .nav-header {
+            display: flex;
+          }
+
+          .hamburger {
+            display: inline-block;
+            vertical-align: middle;
+            height: 50px;
+            cursor: pointer;
+            margin: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 12px;
+            z-index: 200;
+          }
+
+          .nav-sidebar ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: block;
+            padding-top: 50px;
+          }
+
+          .nav-sidebar li {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: inline-block;
+            position: relative;
+            font-size: 14;
+            color: #def1f0;
+            display: block;
+          }
+          .cover {
+            background: rgba(0, 0, 0, 0.5);
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            overflow: none;
+            z-index: 199;
+          }
+          .hideOnDesktop {
+            display: block;
+          }
+          nav.hideOnMobile {
+            display: none;
+          }
+
+          .links li:not(:last-child) {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+          }
+          .links li {
+            margin: 0 10px;
+            position: relative;
+          }
+          nav.hideOnDesktop ul li gr-dropdown {
+            width: 100%;
+          }
+
+          nav.hideOnDesktop .mobileRightItems gr-dropdown {
+            padding: 0 var(--spacing-m);
+            --gr-button-text-color: var(--header-text-color);
+            --gr-dropdown-item-color: var(--primary-text-color);
+          }
         }
       `,
     ];
   }
 
   override render() {
+    return html` ${this.renderDesktop()} ${this.renderMobile()} `;
+  }
+
+  private renderDesktop() {
     return html`
-  <nav>
+    <nav class="hideOnMobile">
     <a href=${`//${window.location.host}${getBaseUrl()}/`} class="bigTitle">
       <gr-endpoint-decorator name="header-title">
         <div class="titleText"></div>
@@ -380,7 +562,7 @@ export class GrMainHeader extends LitElement {
     </a>
     <ul class="links">
       ${this.computeLinks(this.userLinks, this.adminLinks, this.topMenus).map(
-        linkGroup => this.renderLinkGroup(linkGroup)
+        linkGroup => this.renderLinkGroup(linkGroup, 'left')
       )}
     </ul>
     <div class="rightItems">
@@ -403,14 +585,111 @@ export class GrMainHeader extends LitElement {
     `;
   }
 
-  private renderLinkGroup(linkGroup: MainHeaderLinkGroup) {
+  private renderMobile() {
+    const moreMenu: MainHeaderLink[] = [
+      {
+        name: this.registerText,
+        url: this.registerURL,
+      },
+      {
+        name: this.loginText,
+        url: this.loginUrl,
+      },
+    ];
+    if (!this.registerURL) {
+      moreMenu.shift();
+    }
+    if (this.feedbackURL) {
+      moreMenu.push({
+        name: 'Feedback',
+        url: this.feedbackURL,
+        external: true,
+      });
+    }
+
+    return html`
+      <nav class="hideOnDesktop">
+        <div class="nav-sidebar">
+          <ul class="links">
+            ${this.computeLinks(
+              this.userLinks,
+              this.adminLinks,
+              this.topMenus,
+              true
+            ).map(linkGroup => this.renderLinkGroup(linkGroup, 'center'))}
+          </ul>
+        </div>
+        <div class="nav-header">
+          <a
+            class="hamburger"
+            href=""
+            title="Hamburger"
+            aria-label="${!this.hamburgerClose ? 'Open' : 'Close'} hamburger"
+            role="button"
+            @click=${() => {
+              this.handleHamburger();
+            }}
+          >
+            ${!this.hamburgerClose
+              ? html`<gr-icon icon="menu" filled></gr-icon>`
+              : html`<gr-icon icon="menu_open" filled></gr-icon>`}
+          </a>
+          <a
+            href=${`//${window.location.host}${getBaseUrl()}/`}
+            class="mobileTitle bigTitle"
+          >
+            <gr-endpoint-decorator name="header-mobile-title">
+              <div class="mobileTitleText"></div>
+            </gr-endpoint-decorator>
+          </a>
+          <div class="mobileRightItems">
+            <a
+              class="searchButton"
+              href=""
+              title="Search"
+              @click=${(e: Event) => {
+                this.onMobileSearchTap(e);
+              }}
+              role="button"
+              aria-label=${this.mobileSearchHidden
+                ? 'Show Searchbar'
+                : 'Hide Searchbar'}
+            >
+              <gr-icon icon="search" filled></gr-icon>
+            </a>
+            <gr-dropdown
+              class="moreMenu"
+              link=""
+              .items=${moreMenu}
+              horizontal-align="center"
+            >
+              <span class="linksTitle">
+                <gr-icon icon="more_horiz" filled></gr-icon>
+              </span>
+            </gr-dropdown>
+            ${this.renderAccountDropdown(true)}
+          </div>
+        </div>
+      </nav>
+      <div
+        class="modelBackground"
+        @click=${this.handleCloseHamburger}
+        @scroll=${this.handleStopScroll}
+      ></div>
+    `;
+  }
+
+  private renderLinkGroup(
+    linkGroup: MainHeaderLinkGroup,
+    horizontalAlign: string
+  ) {
     return html`
       <li class=${linkGroup.class ?? ''}>
         <gr-dropdown
           link
           down-arrow
           .items=${linkGroup.links}
-          horizontal-align="left"
+          horizontal-align=${horizontalAlign}
         >
           <span class="linksTitle" id=${linkGroup.title}>
             ${linkGroup.title}
@@ -432,7 +711,7 @@ export class GrMainHeader extends LitElement {
         rel="noopener noreferrer"
         role="button"
       >
-        <gr-icon icon="bug_report" filled></gr-icon>
+        <gr-icon icon="bug_report" filled></gr-icon>Feedback
       </a>
     `;
   }
@@ -483,17 +762,60 @@ export class GrMainHeader extends LitElement {
     `;
   }
 
-  private renderAccountDropdown() {
+  private renderAccountDropdown(showOnMobile?: boolean) {
     if (!this.account) return;
 
     return html`
-      <gr-account-dropdown .account=${this.account}></gr-account-dropdown>
+      <gr-account-dropdown
+        .account=${this.account}
+        ?showMobile=${showOnMobile}
+      ></gr-account-dropdown>
     `;
   }
 
   override firstUpdated(changedProperties: PropertyValues) {
     super.firstUpdated(changedProperties);
     if (!this.getAttribute('role')) this.setAttribute('role', 'banner');
+  }
+
+  handleHamburger() {
+    if (!this.navSidebar?.classList.contains('visible')) {
+      this.navSidebar?.classList.add('visible');
+    } else {
+      this.navSidebar?.classList.remove('visible');
+    }
+    if (!this.modelBackground?.classList.contains('cover')) {
+      this.modelBackground?.classList.add('cover');
+      if (document.getElementsByTagName('html')) {
+        document.getElementsByTagName('html')[0].style.overflow = 'hidden';
+      }
+    } else {
+      this.modelBackground?.classList.remove('cover');
+      if (document.getElementsByTagName('html')) {
+        document.getElementsByTagName('html')[0].style.overflow = '';
+      }
+    }
+
+    if (!this.hamburgerClose) {
+      this.hamburgerClose = true;
+    } else {
+      this.hamburgerClose = false;
+    }
+  }
+
+  handleCloseHamburger() {
+    if (this.modelBackground?.classList.contains('cover')) {
+      this.modelBackground?.classList.remove('cover');
+      this.navSidebar?.classList.remove('visible');
+      if (document.getElementsByTagName('html')) {
+        document.getElementsByTagName('html')[0].style.overflow = '';
+      }
+      this.hamburgerClose = false;
+    }
+  }
+
+  handleStopScroll(e: Event) {
+    e.preventDefault();
   }
 
   reload() {
@@ -505,6 +827,7 @@ export class GrMainHeader extends LitElement {
     userLinks?: MainHeaderLink[],
     adminLinks?: NavLink[],
     topMenus?: TopMenuEntryInfo[],
+    isMobile?: boolean,
     // defaultLinks parameter is used in tests only
     defaultLinks = DEFAULT_LINKS
   ) {
@@ -533,7 +856,7 @@ export class GrMainHeader extends LitElement {
       links.push({
         title: 'Documentation',
         links: docLinks,
-        class: 'hideOnMobile',
+        class: isMobile ? undefined : 'hideOnMobile',
       });
     }
     links.push({

@@ -39,7 +39,7 @@ suite('gr-main-header tests', () => {
     assert.shadowDom.equal(
       element,
       /* HTML */ `
-        <nav>
+        <nav class="hideOnMobile">
           <a class="bigTitle" href="//localhost:9876/">
             <gr-endpoint-decorator name="header-title">
               <div class="titleText"></div>
@@ -101,6 +101,62 @@ suite('gr-main-header tests', () => {
             </a>
           </div>
         </nav>
+        <nav class="hideOnDesktop">
+          <div class="nav-sidebar">
+            <ul class="links">
+              <li>
+                <gr-dropdown down-arrow="" horizontal-align="center" link="">
+                  <span class="linksTitle" id="Changes"> Changes </span>
+                </gr-dropdown>
+              </li>
+              <li>
+                <gr-dropdown down-arrow="" horizontal-align="center" link="">
+                  <span class="linksTitle" id="Documentation">
+                    Documentation
+                  </span>
+                </gr-dropdown>
+              </li>
+              <li>
+                <gr-dropdown down-arrow="" horizontal-align="center" link="">
+                  <span class="linksTitle" id="Browse"> Browse </span>
+                </gr-dropdown>
+              </li>
+            </ul>
+          </div>
+          <div class="nav-header">
+            <a
+              aria-label="Open hamburger"
+              class="hamburger"
+              href=""
+              role="button"
+              title="Hamburger"
+            >
+              <gr-icon filled="" icon="menu"> </gr-icon>
+            </a>
+            <a class="bigTitle mobileTitle" href="//localhost:9876/">
+              <gr-endpoint-decorator name="header-mobile-title">
+                <div class="mobileTitleText"></div>
+              </gr-endpoint-decorator>
+            </a>
+            <div class="mobileRightItems">
+              <a
+                aria-label="Hide Searchbar"
+                class="searchButton"
+                href=""
+                role="button"
+                title="Search"
+              >
+                <gr-icon filled="" icon="search"> </gr-icon>
+              </a>
+              <gr-dropdown class="moreMenu" horizontal-align="center" link="">
+                <span class="linksTitle">
+                  <gr-icon filled="" icon="more_horiz"> </gr-icon>
+                </span>
+              </gr-dropdown>
+            </div>
+          </div>
+        </nav>
+        <div class="modelBackground"></div>
       `
     );
   });
@@ -178,6 +234,7 @@ suite('gr-main-header tests', () => {
           /* userLinks= */ [],
           adminLinks,
           /* topMenus= */ [],
+          /* isMobile=*/ false,
           defaultLinks
         )
         .find(i => i.title === 'Faves'),
@@ -185,7 +242,13 @@ suite('gr-main-header tests', () => {
     );
     assert.deepEqual(
       element
-        .computeLinks(userLinks, adminLinks, /* topMenus= */ [], defaultLinks)
+        .computeLinks(
+          userLinks,
+          adminLinks,
+          /* topMenus= */ [],
+          /* isMobile=*/ false,
+          defaultLinks
+        )
         .find(i => i.title === 'Your'),
       {
         title: 'Your',
@@ -247,6 +310,7 @@ suite('gr-main-header tests', () => {
         /* userLinks= */ [],
         adminLinks,
         topMenus,
+        /* isMobile=*/ false,
         /* defaultLinks= */ []
       )[2],
       {
@@ -291,6 +355,7 @@ suite('gr-main-header tests', () => {
         /* userLinks= */ [],
         adminLinks,
         topMenus,
+        /* isMobile=*/ false,
         /* defaultLinks= */ []
       )[2],
       {
@@ -340,6 +405,7 @@ suite('gr-main-header tests', () => {
         /* userLinks= */ [],
         adminLinks,
         topMenus,
+        /* isMobile=*/ false,
         /* defaultLinks= */ []
       )[2],
       {
@@ -387,6 +453,7 @@ suite('gr-main-header tests', () => {
         /* userLinks= */ [],
         /* adminLinks= */ [],
         topMenus,
+        /* isMobile=*/ false,
         defaultLinks
       )[0],
       {
@@ -426,6 +493,7 @@ suite('gr-main-header tests', () => {
         userLinks,
         /* adminLinks= */ [],
         topMenus,
+        /* isMobile=*/ false,
         /* defaultLinks= */ []
       )[0],
       {
@@ -470,6 +538,7 @@ suite('gr-main-header tests', () => {
         /* userLinks= */ [],
         adminLinks,
         topMenus,
+        /* isMobile=*/ false,
         /* defaultLinks= */ []
       )[1],
       {

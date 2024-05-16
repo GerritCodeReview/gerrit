@@ -16,7 +16,7 @@ import {
   isServiceUser,
 } from '../../../utils/account-util';
 import {ChangeInfo, AccountInfo, ServerInfo} from '../../../types/common';
-import {assertIsDefined, hasOwnProperty} from '../../../utils/common-util';
+import {hasOwnProperty} from '../../../utils/common-util';
 import {fire} from '../../../utils/event-util';
 import {isInvolved} from '../../../utils/change-util';
 import {LitElement, css, html, TemplateResult} from 'lit';
@@ -202,20 +202,27 @@ export class GrAccountLabel extends LitElement {
     ];
   }
 
-  override async updated() {
-    assertIsDefined(this.account, 'account');
+  override updated() {
+    this.computeDetailedAccount();
+  }
+
+  private async computeDetailedAccount() {
+    if (!this.account) return;
+    // If this.account is already a detailed object, then there is no need to fill it.
     if (isDetailedAccount(this.account)) return;
     const account = await this.getAccountsModel().fillDetails(this.account);
-    if (!isDetailedAccount(account)) return;
-    // AccountInfo returned by fillDetails has the email property set
-    // to the primary email of the account. This poses a problem in
-    // cases where a secondary email is used as the committer or author
-    // email. Therefore, only fill in the *missing* properties.
     if (
       account &&
+      // If we were not able to get a detailed object, then there is no point in updating the
+      // account.
+      isDetailedAccount(account) &&
       account !== this.account &&
       account._account_id === this.account._account_id
     ) {
+      // AccountInfo returned by fillDetails has the email property set
+      // to the primary email of the account. This poses a problem in
+      // cases where a secondary email is used as the committer or author
+      // email. Therefore, only fill in the *missing* properties.
       this.account = {...account, ...this.account};
     }
   }

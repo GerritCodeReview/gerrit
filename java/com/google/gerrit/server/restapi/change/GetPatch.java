@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.change;
 import static com.google.gerrit.git.ObjectIds.abbreviateName;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -51,6 +52,10 @@ public class GetPatch implements RestReadView<RevisionResource> {
   @Option(name = "--path")
   private String path;
 
+  /** 1-based index of the parent's position in the commit object. */
+  @Option(name = "--parent", metaVar = "parent-number")
+  private Integer parentNum;
+
   @Inject
   GetPatch(GitRepositoryManager repoManager) {
     this.repoManager = repoManager;
@@ -58,7 +63,8 @@ public class GetPatch implements RestReadView<RevisionResource> {
 
   @Override
   public Response<BinaryResult> apply(RevisionResource rsrc)
-      throws ResourceConflictException, IOException, ResourceNotFoundException {
+      throws BadRequestException, ResourceConflictException, IOException,
+          ResourceNotFoundException {
     final Repository repo = repoManager.openRepository(rsrc.getProject());
     boolean close = true;
     try {
@@ -67,12 +73,16 @@ public class GetPatch implements RestReadView<RevisionResource> {
       try {
         final RevCommit commit = rw.parseCommit(rsrc.getPatchSet().commitId());
         RevCommit[] parents = commit.getParents();
-        if (parents.length > 1) {
+        if (parentNum == null && parents.length > 1) {
           throw new ResourceConflictException("Revision has more than 1 parent.");
-        } else if (parents.length == 0) {
+        }
+        if (parents.length == 0) {
           throw new ResourceConflictException("Revision has no parent.");
         }
-        final RevCommit base = parents[0];
+        if (parentNum != null && (parentNum < 1 || parentNum > parents.length)) {
+          throw new BadRequestException(String.format("invalid parent number: %d", parentNum));
+        }
+        final RevCommit base = parents[parentNum == null ? 0 : parentNum - 1];
         rw.parseBody(base);
 
         bin =

@@ -1186,6 +1186,52 @@ public class CreateChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void changePatch_multipleParents_success() throws Exception {
+    changeInTwoBranches("branchA", "a.txt", "branchB", "b.txt");
+    ChangeInput in = newMergeChangeInput("branchA", "branchB", "");
+    ChangeInfo change = assertCreateSucceeds(in);
+
+    RestResponse patchResp =
+        userRestSession.get("/changes/" + change.id + "/revisions/current/patch?parent=1");
+    patchResp.assertOK();
+    assertThat(new String(Base64.decode(patchResp.getEntityContent()), UTF_8))
+        .contains("+B content");
+
+    patchResp = userRestSession.get("/changes/" + change.id + "/revisions/current/patch?parent=2");
+    patchResp.assertOK();
+    assertThat(new String(Base64.decode(patchResp.getEntityContent()), UTF_8))
+        .contains("+A content");
+  }
+
+  @Test
+  public void changePatch_multipleParents_failure() throws Exception {
+    changeInTwoBranches("branchA", "a.txt", "branchB", "b.txt");
+    ChangeInput in = newMergeChangeInput("branchA", "branchB", "");
+    ChangeInfo change = assertCreateSucceeds(in);
+
+    RestResponse patchResp =
+        userRestSession.get("/changes/" + change.id + "/revisions/current/patch");
+    // Maintaining historic logic of failing with 409 Conflict in this case.
+    patchResp.assertConflict();
+  }
+
+  @Test
+  public void changePatch_parent_badRequest() throws Exception {
+    changeInTwoBranches("branchA", "a.txt", "branchB", "b.txt");
+    ChangeInput in = newMergeChangeInput("branchA", "branchB", "");
+    ChangeInfo change = assertCreateSucceeds(in);
+
+    RestResponse patchResp =
+        userRestSession.get("/changes/" + change.id + "/revisions/current/patch?parent=3");
+    // Parent 3 does not exist.
+    patchResp.assertBadRequest();
+
+    patchResp = userRestSession.get("/changes/" + change.id + "/revisions/current/patch?parent=0");
+    // Parent 0 does not exist.
+    patchResp.assertBadRequest();
+  }
+
+  @Test
   @UseSystemTime
   public void sha1sOfTwoNewChangesDiffer() throws Exception {
     ChangeInput changeInput = newChangeInput(ChangeStatus.NEW);

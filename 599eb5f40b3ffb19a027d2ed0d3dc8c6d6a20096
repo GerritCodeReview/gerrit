@@ -34,6 +34,24 @@
       "parentUuid": "90d1b0b6_2235074d",
       "revId": "599eb5f40b3ffb19a027d2ed0d3dc8c6d6a20096",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "104fbb3e_cc0fc7f1",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetPatch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2024-05-16T07:04:12Z",
+      "side": 0,
+      "message": "When `parentNum` is not provided, and there is more than 1 parent, we want to throw, as we did until this change. Maybe rephrase the error to `\"Revision has more than 1 parent, and no \u0026parent argument was provided.\"`\n\nThe defaulting that you added for computing `base` should of course remain.",
+      "parentUuid": "aae24827_f2051b11",
+      "revId": "599eb5f40b3ffb19a027d2ed0d3dc8c6d6a20096",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

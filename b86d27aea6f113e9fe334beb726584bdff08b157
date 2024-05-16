@@ -1,0 +1,83 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e860eb32_8c475017",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1189,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2024-05-16T07:04:12Z",
+      "side": 1,
+      "message": "One missing test case: successful call with single parent and no `\u0026parent` argument.",
+      "revId": "b86d27aea6f113e9fe334beb726584bdff08b157",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a6b04d4_31381846",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1213,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2024-05-16T07:04:12Z",
+      "side": 1,
+      "message": "Please add a comment for why this is failing.",
+      "revId": "b86d27aea6f113e9fe334beb726584bdff08b157",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1b3de39_a8047dea",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1225,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2024-05-16T07:04:12Z",
+      "side": 1,
+      "message": "Please add a comment saying this parent does not exists.",
+      "fixSuggestions": [
+        {
+          "fixId": "c7c77af3_cec928ec",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+              "range": {
+                "startLine": 1225,
+                "startChar": 0,
+                "endLine": 1225,
+                "endChar": 0
+              },
+              "replacement": "    // parent 3 does not exist\n"
+            },
+            {
+              "path": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+              "range": {
+                "startLine": 1230,
+                "startChar": 0,
+                "endLine": 1230,
+                "endChar": 0
+              },
+              "replacement": "    // parent 0 does not exist\n"
+            }
+          ]
+        }
+      ],
+      "revId": "b86d27aea6f113e9fe334beb726584bdff08b157",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

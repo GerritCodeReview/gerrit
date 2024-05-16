@@ -80,6 +80,9 @@ public final class ApplyPatchUtil {
     }
     try {
       PatchApplier applier = new PatchApplier(repo, tip, oi);
+      if (input.allowConflicts != null && input.allowConflicts) {
+        applier.allowConflicts();
+      }
       PatchApplier.Result applyResult = applier.applyPatch(patch);
       return applyResult;
     } catch (IOException e) {

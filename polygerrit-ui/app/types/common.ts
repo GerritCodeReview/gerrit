@@ -1344,6 +1344,7 @@ export interface PreferencesInfo {
   email_format?: EmailFormat;
   allow_browser_notifications?: boolean;
   allow_suggest_code_while_commenting?: boolean;
+  allow_autocompleting_comments?: boolean;
   diff_page_sidebar?: DiffPageSidebar;
 }
 

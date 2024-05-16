@@ -262,10 +262,22 @@ public class SafeProtoConverterTest {
     private static Message explicitlyFillProtoDefaults(Message defaultInstance) {
       Message.Builder res = defaultInstance.toBuilder();
       for (FieldDescriptor f : defaultInstance.getDescriptorForType().getFields()) {
-        if (f.getType().equals(FieldDescriptor.Type.MESSAGE)) {
-          res.setField(f, explicitlyFillProtoDefaults((Message) defaultInstance.getField(f)));
-        } else {
-          res.setField(f, defaultInstance.getField(f));
+        try {
+          if (f.getType().equals(FieldDescriptor.Type.MESSAGE)) {
+            if (f.isRepeated()) {
+              res.addRepeatedField(
+                  f,
+                  explicitlyFillProtoDefaults(
+                      explicitlyFillProtoDefaults(
+                          getProtoDefaultInstance(res.newBuilderForField(f).build().getClass()))));
+            } else {
+              res.setField(f, explicitlyFillProtoDefaults((Message) defaultInstance.getField(f)));
+            }
+          } else {
+            res.setField(f, defaultInstance.getField(f));
+          }
+        } catch (Exception e) {
+          throw new IllegalStateException("Failed to fill default instance for " + f.getName(), e);
         }
       }
       return res.build();

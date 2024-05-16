@@ -15,9 +15,11 @@
 package com.google.gerrit.extensions.client;
 
 import com.google.common.base.MoreObjects;
+import com.google.gerrit.common.ConvertibleToProto;
 import java.util.Objects;
 
 /* This class is stored in Git config file. */
+@ConvertibleToProto
 public class EditPreferencesInfo {
   public Integer tabSize;
   public Integer lineLength;

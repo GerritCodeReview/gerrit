@@ -15,8 +15,10 @@
 package com.google.gerrit.extensions.client;
 
 import com.google.common.base.MoreObjects;
+import com.google.gerrit.common.ConvertibleToProto;
 import java.util.Objects;
 
+@ConvertibleToProto
 public class DiffPreferencesInfo {
 
   /** Default number of lines of context. */

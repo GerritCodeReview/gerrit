@@ -289,7 +289,7 @@ message PaginationToken {
 // Proto representation of the User preferences classes
 // Next ID: 4
 message UserPreferences {
-  // Next ID: 24
+  // Next ID: 26
   message GeneralPreferencesInfo {
     // Number of changes to show in a screen.
     optional int32 changes_per_page = 1 [default = 25];
@@ -368,6 +368,8 @@ message UserPreferences {
 
     repeated string change_table = 18;
     optional bool allow_browser_notifications = 19 [default = true];
+    optional bool allow_suggest_code_while_commenting = 24 [default = true];
+    optional bool allow_autocompleting_comments = 25 [default = true];
     optional string diff_page_sidebar = 23 [default = "NONE"];
   }
   optional GeneralPreferencesInfo general_preferences_info = 1;

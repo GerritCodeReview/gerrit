@@ -16,6 +16,24 @@
       "message": "Please add `Google-Bug-Id: b/340796490` footer.",
       "revId": "462badf6358867153d6b731793f43024dc0369a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "764cc87a_1a05f493",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1159339
+      },
+      "writtenOn": "2024-05-16T10:26:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37b762de_b5433e62",
+      "revId": "462badf6358867153d6b731793f43024dc0369a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

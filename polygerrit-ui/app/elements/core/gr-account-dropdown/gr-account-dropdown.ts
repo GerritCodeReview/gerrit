@@ -32,6 +32,9 @@ export class GrAccountDropdown extends LitElement {
   @property({type: Object})
   account?: AccountInfo;
 
+  @property({type: Boolean})
+  showMobile?: boolean;
+
   // Private but used in test
   @state()
   config?: ServerInfo;
@@ -45,6 +48,9 @@ export class GrAccountDropdown extends LitElement {
   @state()
   private switchAccountUrl = '';
 
+  // private but used in test
+  @state() feedbackURL = '';
+
   // Private but used in test
   readonly getConfigModel = resolve(this, configModelToken);
 
@@ -55,6 +61,10 @@ export class GrAccountDropdown extends LitElement {
       () => this.getConfigModel().serverConfig$,
       cfg => {
         this.config = cfg;
+
+        if (cfg?.gerrit?.report_bug_url) {
+          this.feedbackURL = cfg?.gerrit.report_bug_url;
+        }
 
         if (cfg && cfg.auth && cfg.auth.switch_account_url) {
           this.switchAccountUrl = cfg.auth.switch_account_url;
@@ -103,7 +113,11 @@ export class GrAccountDropdown extends LitElement {
       @tap-item-shortcuts=${this.handleShortcutsTap}
       .horizontalAlign=${'right'}
     >
-      <span ?hidden=${this.hasAvatars}>${this.accountName(this.account)}</span>
+      ${this.showMobile && !this.hasAvatars
+        ? html`<gr-icon icon="account_circle" filled></gr-icon>`
+        : html`<span ?hidden=${this.hasAvatars}
+            >${this.accountName(this.account)}</span
+          >`}
       <gr-avatar
         .account=${this.account}
         ?hidden=${!this.hasAvatars}
@@ -134,6 +148,15 @@ export class GrAccountDropdown extends LitElement {
       const replacements = {path};
       const url = this.interpolateUrl(switchAccountUrl, replacements);
       links.push({name: 'Switch account', url, external: true});
+    }
+    if (this.showMobile && this.feedbackURL) {
+      links.push({
+        name: 'Feedback',
+        id: 'feedback',
+        url: this.feedbackURL,
+        external: true,
+        target: '_blank',
+      });
     }
     links.push({name: 'Sign out', id: 'signout', url: '/logout'});
     return links;

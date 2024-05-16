@@ -39,7 +39,7 @@ suite('gr-main-header tests', () => {
     assert.shadowDom.equal(
       element,
       /* HTML */ `
-        <nav>
+        <nav class="hideOnMobile">
           <a class="bigTitle" href="//localhost:9876/">
             <gr-endpoint-decorator name="header-title">
               <div class="titleText"></div>
@@ -51,7 +51,7 @@ suite('gr-main-header tests', () => {
                 <span class="linksTitle" id="Changes"> Changes </span>
               </gr-dropdown>
             </li>
-            <li class="hideOnMobile">
+            <li>
               <gr-dropdown down-arrow="" horizontal-align="left" link="">
                 <span class="linksTitle" id="Documentation">Documentation</span>
               </gr-dropdown>
@@ -101,6 +101,169 @@ suite('gr-main-header tests', () => {
             </a>
           </div>
         </nav>
+        <nav class="hideOnDesktop">
+          <div class="nav-sidebar">
+            <ul class="menu">
+              <li class="has-collapsible">
+                <a class="main" data-title="Changes" href="">
+                  Changes
+                  <gr-icon class="arrow-down" icon="arrow_drop_down"> </gr-icon>
+                </a>
+                <ul class="dropdown">
+                  <li tabindex="-1">
+                    <span hidden="" tabindex="-1"> Open </span>
+                    <a
+                      class="itemAction"
+                      href="//localhost:9876/q/status:open+-is:wip"
+                      tabindex="-1"
+                    >
+                      Open
+                    </a>
+                  </li>
+                  <li tabindex="-1">
+                    <span hidden="" tabindex="-1"> Merged </span>
+                    <a
+                      class="itemAction"
+                      href="//localhost:9876/q/status:merged"
+                      tabindex="-1"
+                    >
+                      Merged
+                    </a>
+                  </li>
+                  <li tabindex="-1">
+                    <span hidden="" tabindex="-1"> Abandoned </span>
+                    <a
+                      class="itemAction"
+                      href="//localhost:9876/q/status:abandoned"
+                      tabindex="-1"
+                    >
+                      Abandoned
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="has-collapsible">
+                <a class="main" data-title="Documentation" href="">
+                  Documentation
+                  <gr-icon class="arrow-down" icon="arrow_drop_down"> </gr-icon>
+                </a>
+                <ul class="dropdown">
+                  <li tabindex="-1">
+                    <span hidden="" tabindex="-1"> Table of Contents </span>
+                    <a
+                      class="itemAction"
+                      href="https://gerrit-review.googlesource.com/Documentation/index.html"
+                      rel="noopener"
+                      tabindex="-1"
+                      target="_blank"
+                    >
+                      Table of Contents
+                    </a>
+                  </li>
+                  <li tabindex="-1">
+                    <span hidden="" tabindex="-1"> Searching </span>
+                    <a
+                      class="itemAction"
+                      href="https://gerrit-review.googlesource.com/Documentation/user-search.html"
+                      rel="noopener"
+                      tabindex="-1"
+                      target="_blank"
+                    >
+                      Searching
+                    </a>
+                  </li>
+                  <li tabindex="-1">
+                    <span hidden="" tabindex="-1"> Uploading </span>
+                    <a
+                      class="itemAction"
+                      href="https://gerrit-review.googlesource.com/Documentation/user-upload.html"
+                      rel="noopener"
+                      tabindex="-1"
+                      target="_blank"
+                    >
+                      Uploading
+                    </a>
+                  </li>
+                  <li tabindex="-1">
+                    <span hidden="" tabindex="-1"> Access Control </span>
+                    <a
+                      class="itemAction"
+                      href="https://gerrit-review.googlesource.com/Documentation/access-control.html"
+                      rel="noopener"
+                      tabindex="-1"
+                      target="_blank"
+                    >
+                      Access Control
+                    </a>
+                  </li>
+                  <li tabindex="-1">
+                    <span hidden="" tabindex="-1"> REST API </span>
+                    <a
+                      class="itemAction"
+                      href="https://gerrit-review.googlesource.com/Documentation/rest-api.html"
+                      rel="noopener"
+                      tabindex="-1"
+                      target="_blank"
+                    >
+                      REST API
+                    </a>
+                  </li>
+                  <li tabindex="-1">
+                    <span hidden="" tabindex="-1"> Project Owner Guide </span>
+                    <a
+                      class="itemAction"
+                      href="https://gerrit-review.googlesource.com/Documentation/intro-project-owner.html"
+                      rel="noopener"
+                      tabindex="-1"
+                      target="_blank"
+                    >
+                      Project Owner Guide
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="has-collapsible">
+                <a class="main" data-title="Browse" href="">
+                  Browse
+                  <gr-icon class="arrow-down" icon="arrow_drop_down"> </gr-icon>
+                </a>
+                <ul class="dropdown"></ul>
+              </li>
+            </ul>
+          </div>
+          <div class="nav-header">
+            <a
+              aria-label="Open hamburger"
+              class="hamburger"
+              href=""
+              role="button"
+              title="Hamburger"
+            >
+              <gr-icon filled="" icon="menu"> </gr-icon>
+            </a>
+            <a class="bigTitle mobileTitle" href="//localhost:9876/">
+              <gr-endpoint-decorator name="header-mobile-title">
+                <div class="mobileTitleText"></div>
+              </gr-endpoint-decorator>
+            </a>
+            <div class="mobileRightItems">
+              <a
+                aria-label="Hide Searchbar"
+                class="searchButton"
+                role="button"
+                title="Search"
+              >
+                <gr-icon filled="" icon="search"> </gr-icon>
+              </a>
+              <gr-dropdown class="moreMenu" horizontal-align="center" link="">
+                <span class="linksTitle">
+                  <gr-icon filled="" icon="more_horiz"> </gr-icon>
+                </span>
+              </gr-dropdown>
+            </div>
+          </div>
+        </nav>
+        <div class="modelBackground"></div>
       `
     );
   });

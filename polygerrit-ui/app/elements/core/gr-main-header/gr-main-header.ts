@@ -22,13 +22,14 @@ import {AuthType} from '../../../constants/constants';
 import {getAppContext} from '../../../services/app-context';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css} from 'lit';
-import {customElement, property, state} from 'lit/decorators.js';
+import {customElement, property, query, state} from 'lit/decorators.js';
 import {fire} from '../../../utils/event-util';
 import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
 import {userModelToken} from '../../../models/user/user-model';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {subscribe} from '../../lit/subscription-controller';
+import {ifDefined} from 'lit/directives/if-defined.js';
 
 type MainHeaderLink = RequireProperties<DropdownLink, 'url' | 'name'>;
 
@@ -104,6 +105,9 @@ const AUTH_TYPES_WITH_REGISTER_URL: Set<AuthType> = new Set([
   AuthType.CUSTOM_EXTENSION,
 ]);
 
+const REL_NOOPENER = 'noopener';
+const REL_EXTERNAL = 'external';
+
 declare global {
   interface HTMLElementTagNameMap {
     'gr-main-header': GrMainHeader;
@@ -148,6 +152,15 @@ export class GrMainHeader extends LitElement {
 
   // private but used in test
   @state() feedbackURL = '';
+
+  @state() hamburgerClose? = false;
+
+  @query('.nav-sidebar') navSidebar?: HTMLDivElement;
+
+  @query('.modelBackground') modelBackground?: HTMLDivElement;
+
+  @query('.has-collapsible.active')
+  hasCollapsibleActive?: HTMLLIElement;
 
   private readonly restApiService = getAppContext().restApiService;
 
@@ -202,10 +215,29 @@ export class GrMainHeader extends LitElement {
         :host {
           display: block;
         }
-        nav {
+        .hideOnDesktop {
+          display: none;
+        }
+
+        nav.hideOnMobile {
           align-items: center;
           display: flex;
         }
+        nav.hideOnMobile ul {
+          list-style: none;
+          padding-left: var(--spacing-l);
+        }
+        nav.hideOnMobile .links > li {
+          cursor: default;
+          display: inline-block;
+          padding: 0;
+          position: relative;
+        }
+
+        .mobileTitle {
+          display: none;
+        }
+
         .bigTitle {
           color: var(--header-text-color);
           font-size: var(--header-title-font-size);
@@ -215,7 +247,8 @@ export class GrMainHeader extends LitElement {
         .bigTitle:hover {
           text-decoration: underline;
         }
-        .titleText {
+        .titleText,
+        .mobileTitleText {
           /* Vertical alignment of icons and text with just block/inline display is too troublesome. */
           display: flex;
           align-items: center;
@@ -239,16 +272,41 @@ export class GrMainHeader extends LitElement {
           content: var(--header-title-content);
           white-space: nowrap;
         }
-        ul {
-          list-style: none;
-          padding-left: var(--spacing-l);
+
+        .mobileTitleText::before {
+          --icon-width: var(
+            --header-icon-width,
+            var(--header-mobile-icon-size, var(--header-icon-size, 0))
+          );
+          --icon-height: var(
+            --header-icon-height,
+            var(--header-mobile-icon-size, var(--header-icon-size, 0))
+          );
+          background-image: var(--header-mobile-icon, var(--header-icon));
+          background-size: var(--mobile-icon-width, var(--icon-width))
+            var(--mobile-icon-height, var(--icon-height));
+          background-repeat: no-repeat;
+          content: '';
+          /* Any direct child of a flex element implicitly has 'display: block', but let's make that explicit here. */
+          display: block;
+          width: var(--mobile-icon-width, var(--icon-width));
+          height: var(--mobile-icon-height, var(--icon-height));
+          /* If size or height are set, then use 'spacing-m', 0px otherwise. */
+          margin-right: clamp(
+            0px,
+            var(--mobile-icon-height, var(--icon-height)),
+            var(--spacing-m)
+          );
         }
-        .links > li {
-          cursor: default;
-          display: inline-block;
-          padding: 0;
-          position: relative;
+        .mobileTitleText::after {
+          /* The height will be determined by the line-height of the .bigTitle element. */
+          content: var(
+            --header-mobile-title-content,
+            var(--header-title-content)
+          );
+          white-space: nowrap;
         }
+
         .linksTitle {
           display: inline-block;
           font-weight: var(--font-weight-bold);
@@ -264,7 +322,24 @@ export class GrMainHeader extends LitElement {
           flex: 1;
           justify-content: flex-end;
         }
-        .rightItems gr-endpoint-decorator:not(:empty) {
+        .mobileRightItems {
+          align-items: center;
+          justify-content: flex-end;
+
+          display: inline-block;
+          vertical-align: middle;
+          cursor: pointer;
+          position: relative;
+          top: 0px;
+          right: 0px;
+          margin-right: 0;
+          margin-left: auto;
+          min-height: 50px;
+          padding-top: 12px;
+        }
+
+        .rightItems gr-endpoint-decorator:not(:empty),
+        .mobileRightItems gr-endpoint-decorator:not(:empty) {
           margin-left: var(--spacing-l);
         }
         gr-smart-search {
@@ -299,11 +374,15 @@ export class GrMainHeader extends LitElement {
         }
         :host([loading]) .accountContainer,
         :host([loggedIn]) .loginButton,
-        :host([loggedIn]) .registerButton {
+        :host([loggedIn]) .registerButton,
+        :host([loggedIn]) .moreMenu {
           display: none;
         }
         :host([loggedIn]) .settingsButton,
         :host([loggedIn]) gr-account-dropdown {
+          display: inline;
+        }
+        :host:not([loggedIn]) .moreMenu {
           display: inline;
         }
         .accountContainer {
@@ -363,7 +442,158 @@ export class GrMainHeader extends LitElement {
             margin-left: var(--spacing-m) !important;
           }
           gr-dropdown {
-            padding: var(--spacing-m) 0 var(--spacing-m) var(--spacing-m);
+            padding: 0 var(--spacing-m);
+          }
+          .nav-sidebar {
+            background: var(--table-header-background-color);
+            width: 200px;
+            height: 100%;
+            display: block;
+            position: fixed;
+            left: -200px;
+            top: 0px;
+            transition: left 0.25s ease;
+            margin: 0;
+            border: 0;
+            overflow-y: auto;
+            overflow-x: hidden;
+            height: 100%;
+            margin-bottom: 15px 0;
+            box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+            border-radius: 3px;
+            z-index: 2;
+          }
+          .nav-sidebar.visible {
+            left: 0px;
+            transition: left 0.25s ease;
+            width: 80%;
+            z-index: 200;
+          }
+          .mobileTitle {
+            position: relative;
+            display: flex;
+            top: 10px;
+            font-size: 20px;
+            left: 100px;
+            right: 100px;
+            text-align: center;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            width: 50%;
+          }
+          .nav-header {
+            display: flex;
+          }
+          .hamburger {
+            display: inline-block;
+            vertical-align: middle;
+            height: 50px;
+            cursor: pointer;
+            margin: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 12px;
+            z-index: 200;
+          }
+          .nav-sidebar ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: block;
+            padding-top: 50px;
+          }
+          .nav-sidebar li {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: inline-block;
+            position: relative;
+            font-size: 14;
+            color: var(--primary-text-color);
+            display: block;
+          }
+          .cover {
+            background: rgba(0, 0, 0, 0.5);
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            overflow: none;
+            z-index: 199;
+          }
+          .hideOnDesktop {
+            display: block;
+          }
+          nav.hideOnMobile {
+            display: none;
+          }
+          .nav-sidebar .menu ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: block;
+            padding-top: 50px;
+          }
+          .nav-sidebar .menu li {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: inline-block;
+            position: relative;
+            font-size: 14;
+            color: var(--primary-text-color);
+            display: block;
+          }
+          .nav-sidebar .menu li a {
+            padding: 15px 20px;
+            font-size: 14;
+            outline: 0;
+            display: block;
+            color: var(--primary-text-color);
+            font-weight: 600;
+          }
+          .nav-sidebar .menu li.active ul.dropdown {
+            display: block;
+          }
+          .nav-sidebar .menu li ul.dropdown {
+            position: absolute;
+            display: none;
+            width: 100%;
+            box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+            padding-top: 0;
+            position: relative;
+          }
+          .nav-sidebar .menu li ul.dropdown li {
+            display: block;
+            list-style-type: none;
+          }
+          .nav-sidebar .menu li ul.dropdown li a {
+            padding: 15px 20px;
+            font-size: 15px;
+            display: block;
+            font-weight: 400;
+            border-bottom: none;
+            padding: 10px 10px 10px 30px;
+          }
+          .nav-sidebar .menu li ul.dropdown li:last-child a {
+            border-bottom: none;
+          }
+          .nav-sidebar .menu a {
+            text-decoration: none;
+          }
+          .nav-sidebar .menu li.active:first-child a {
+            border-radius: 3px 0 0 3px;
+            border-radius: 0;
+          }
+          .nav-sidebar .menu li ul.dropdown li.active:first-child a {
+            border-radius: 0;
+          }
+          .arrow-down {
+            position: absolute;
+            top: 10px;
+            right: 10px;
           }
         }
       `,
@@ -371,35 +601,130 @@ export class GrMainHeader extends LitElement {
   }
 
   override render() {
+    return html` ${this.renderDesktop()} ${this.renderMobile()} `;
+  }
+
+  private renderDesktop() {
     return html`
-  <nav>
-    <a href=${`//${window.location.host}${getBaseUrl()}/`} class="bigTitle">
-      <gr-endpoint-decorator name="header-title">
-        <div class="titleText"></div>
-      </gr-endpoint-decorator>
-    </a>
-    <ul class="links">
-      ${this.computeLinks(this.userLinks, this.adminLinks, this.topMenus).map(
-        linkGroup => this.renderLinkGroup(linkGroup)
-      )}
-    </ul>
-    <div class="rightItems">
-      <gr-endpoint-decorator
-        class="hideOnMobile"
-        name="header-small-banner"
-      ></gr-endpoint-decorator>
-      <gr-smart-search id="search"></gr-smart-search>
-      <gr-endpoint-decorator
-        class="hideOnMobile"
-        name="header-top-right"
-      ></gr-endpoint-decorator>
-      <gr-endpoint-decorator class="feedbackButton" name="header-feedback">
-        ${this.renderFeedback()}
-      </gr-endpoint-decorator>
-      </div>
-      ${this.renderAccount()}
-    </div>
-  </nav>
+      <nav class="hideOnMobile">
+        <a href=${`//${window.location.host}${getBaseUrl()}/`} class="bigTitle">
+          <gr-endpoint-decorator name="header-title">
+            <div class="titleText"></div>
+          </gr-endpoint-decorator>
+        </a>
+        <ul class="links">
+          ${this.computeLinks(
+            this.userLinks,
+            this.adminLinks,
+            this.topMenus
+          ).map(linkGroup => this.renderLinkGroup(linkGroup))}
+        </ul>
+        <div class="rightItems">
+          <gr-endpoint-decorator
+            class="hideOnMobile"
+            name="header-small-banner"
+          ></gr-endpoint-decorator>
+          <gr-smart-search id="search"></gr-smart-search>
+          <gr-endpoint-decorator
+            class="hideOnMobile"
+            name="header-top-right"
+          ></gr-endpoint-decorator>
+          <gr-endpoint-decorator class="feedbackButton" name="header-feedback">
+            ${this.renderFeedback()}
+          </gr-endpoint-decorator>
+          </div>
+          ${this.renderAccount()}
+        </div>
+      </nav>
+    `;
+  }
+
+  private renderMobile() {
+    const moreMenu: MainHeaderLink[] = [
+      {
+        name: this.registerText,
+        url: this.registerURL,
+      },
+      {
+        name: this.loginText,
+        url: this.loginUrl,
+      },
+    ];
+    if (!this.registerURL) {
+      moreMenu.shift();
+    }
+    if (this.feedbackURL) {
+      moreMenu.push({
+        name: 'Feedback',
+        url: this.feedbackURL,
+        external: true,
+        target: '_blank',
+      });
+    }
+
+    return html`
+      <nav class="hideOnDesktop">
+        <div class="nav-sidebar">
+          <ul class="menu">
+            ${this.computeLinks(
+              this.userLinks,
+              this.adminLinks,
+              this.topMenus
+            ).map(linkGroup => this.renderLinkGroupMobile(linkGroup))}
+          </ul>
+        </div>
+        <div class="nav-header">
+          <a
+            class="hamburger"
+            href=""
+            title="Hamburger"
+            aria-label="${!this.hamburgerClose ? 'Open' : 'Close'} hamburger"
+            role="button"
+            @click=${() => {
+              this.handleSidebar();
+            }}
+          >
+            ${!this.hamburgerClose
+              ? html`<gr-icon icon="menu" filled></gr-icon>`
+              : html`<gr-icon icon="menu_open" filled></gr-icon>`}
+          </a>
+          <a
+            href=${`//${window.location.host}${getBaseUrl()}/`}
+            class="mobileTitle bigTitle"
+          >
+            <gr-endpoint-decorator name="header-mobile-title">
+              <div class="mobileTitleText"></div>
+            </gr-endpoint-decorator>
+          </a>
+          <div class="mobileRightItems">
+            <a
+              class="searchButton"
+              title="Search"
+              @click=${(e: Event) => {
+                this.onMobileSearchTap(e);
+              }}
+              role="button"
+              aria-label=${this.mobileSearchHidden
+                ? 'Show Searchbar'
+                : 'Hide Searchbar'}
+            >
+              <gr-icon icon="search" filled></gr-icon>
+            </a>
+            <gr-dropdown
+              class="moreMenu"
+              link=""
+              .items=${moreMenu}
+              horizontal-align="center"
+            >
+              <span class="linksTitle">
+                <gr-icon icon="more_horiz" filled></gr-icon>
+              </span>
+            </gr-dropdown>
+            ${this.renderAccountDropdown(true)}
+          </div>
+        </div>
+      </nav>
+      <div class="modelBackground" @click=${() => this.handleSidebar()}></div>
     `;
   }
 
@@ -416,6 +741,41 @@ export class GrMainHeader extends LitElement {
             ${linkGroup.title}
           </span>
         </gr-dropdown>
+      </li>
+    `;
+  }
+
+  private renderLinkGroupMobile(linkGroup: MainHeaderLinkGroup) {
+    return html`
+      <li class="has-collapsible" @click=${this.handleCollapsible}>
+        <a class="main" href="" data-title=${linkGroup.title}
+          >${linkGroup.title}<gr-icon
+            icon="arrow_drop_down"
+            class="arrow-down"
+          ></gr-icon
+        ></a>
+        <ul class="dropdown">
+          ${linkGroup.links.map(link => this.renderLinkMobile(link))}
+        </ul>
+      </li>
+    `;
+  }
+
+  private renderLinkMobile(link: DropdownLink) {
+    return html`
+      <li tabindex="-1">
+        <span ?hidden=${!!link.url} tabindex="-1">${link.name}</span>
+        <a
+          class="itemAction"
+          href=${this.computeLinkURL(link)}
+          ?download=${!!link.download}
+          rel=${ifDefined(this.computeLinkRel(link) ?? undefined)}
+          target=${ifDefined(link.target ?? undefined)}
+          ?hidden=${!link.url}
+          tabindex="-1"
+          @click=${() => this.handleSidebar()}
+          >${link.name}</a
+        >
       </li>
     `;
   }
@@ -483,11 +843,14 @@ export class GrMainHeader extends LitElement {
     `;
   }
 
-  private renderAccountDropdown() {
+  private renderAccountDropdown(showOnMobile?: boolean) {
     if (!this.account) return;
 
     return html`
-      <gr-account-dropdown .account=${this.account}></gr-account-dropdown>
+      <gr-account-dropdown
+        .account=${this.account}
+        ?showMobile=${showOnMobile}
+      ></gr-account-dropdown>
     `;
   }
 
@@ -533,7 +896,6 @@ export class GrMainHeader extends LitElement {
       links.push({
         title: 'Documentation',
         links: docLinks,
-        class: 'hideOnMobile',
       });
     }
     links.push({
@@ -636,5 +998,97 @@ export class GrMainHeader extends LitElement {
     e.preventDefault();
     e.stopPropagation();
     fire(this, 'mobile-search', {});
+  }
+
+  /**
+   * Build a URL for the given host and path. The base URL will be only added,
+   * if it is not already included in the path.
+   *
+   * TODO: Move to util handler to remove duplication.
+   * @return The scheme-relative URL.
+   */
+  private computeURLHelper(host: string, path: string) {
+    const base = path.startsWith(getBaseUrl()) ? '' : getBaseUrl();
+    return '//' + host + base + path;
+  }
+
+  /**
+   * Build a scheme-relative URL for the current host. Will include the base
+   * URL if one is present. Note: the URL will be scheme-relative but absolute
+   * with regard to the host.
+   *
+   * TODO: Move to util handler to remove duplication.
+   * @param path The path for the URL.
+   * @return The scheme-relative URL.
+   */
+  private computeRelativeURL(path: string) {
+    const host = window.location.host;
+    return this.computeURLHelper(host, path);
+  }
+
+  /**
+   * Compute the URL for a link object.
+   *
+   * Private but used in tests.
+   *
+   * TODO: Move to util handler to remove duplication.
+   */
+  private computeLinkURL(link: DropdownLink) {
+    if (typeof link.url === 'undefined') {
+      return '';
+    }
+    if (link.target || !link.url.startsWith('/')) {
+      return link.url;
+    }
+    return this.computeRelativeURL(link.url);
+  }
+
+  /**
+   * Compute the value for the rel attribute of an anchor for the given link
+   * object. If the link has a target value, then the rel must be "noopener"
+   * for security reasons.
+   * Private but used in tests.
+   *
+   * TODO: Move to util handler to remove duplication.
+   */
+  private computeLinkRel(link: DropdownLink) {
+    // Note: noopener takes precedence over external.
+    if (link.target) {
+      return REL_NOOPENER;
+    }
+    if (link.external) {
+      return REL_EXTERNAL;
+    }
+    return null;
+  }
+
+  private handleCollapsible(e: MouseEvent) {
+    const target = e.target as HTMLSpanElement;
+    if (target.hasAttribute('data-title')) {
+      if (target.parentElement?.classList.contains('active')) {
+        target.parentElement.classList.remove('active');
+      } else {
+        if (this.hasCollapsibleActive) {
+          this.hasCollapsibleActive.classList.remove('active');
+        }
+        target.parentElement?.classList.toggle('active');
+      }
+    }
+  }
+
+  private handleSidebar() {
+    this.navSidebar?.classList.toggle('visible');
+    if (!this.modelBackground?.classList.contains('cover')) {
+      if (document.getElementsByTagName('html')) {
+        document.getElementsByTagName('html')[0].style.overflow = 'hidden';
+      }
+    } else {
+      if (document.getElementsByTagName('html')) {
+        document.getElementsByTagName('html')[0].style.overflow = '';
+      }
+    }
+    this.modelBackground?.classList.toggle('cover');
+    this.hasCollapsibleActive?.classList.remove('active');
+    this.hamburgerClose = !this.hamburgerClose;
   }
 }

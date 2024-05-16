@@ -167,7 +167,7 @@ suite('gr-revision-parents tests', () => {
        The diff below may not be meaningful and may<br/>
        even be hiding relevant changes.
        <a href="/Documentation/user-review-ui.html#hazardous-rebases">Learn more</a>
-       </p><p><gr-button link="">Show details</gr-button></p></div></div>`
+       </p><p><gr-button aria-disabled="false" link="" role="button" tabindex="0">Show details</gr-button></p></div></div>`
     );
   });
 
@@ -183,7 +183,7 @@ suite('gr-revision-parents tests', () => {
             The diff below may not be meaningful and may<br/>
             even be hiding relevant changes.
             <a href="/Documentation/user-review-ui.html#hazardous-rebases">Learn more</a>
-            </p><p><gr-button link="">Show details</gr-button></p></div></div>`
+            </p><p><gr-button aria-disabled="false" link="" role="button" tabindex="0">Show details</gr-button></p></div></div>`
     );
   });
 
@@ -235,7 +235,7 @@ suite('gr-revision-parents tests', () => {
        The diff below may not be meaningful and may<br/>
        even be hiding relevant changes.
        <a href="/Documentation/user-review-ui.html#hazardous-rebases">Learn more</a>
-       </p><p><gr-button link="">Show details</gr-button></p></div></div>`
+       </p><p><gr-button aria-disabled="false" link="" role="button" tabindex="0">Show details</gr-button></p></div></div>`
     );
   });
 });

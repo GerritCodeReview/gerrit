@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0cbbdc09_c3bda18e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-05-16T23:34:31Z",
+      "side": 1,
+      "message": "(Reposting to make sure it\u0027s obvious i commented): An issue i found was with the logo text (if long enough). But i couldn\u0027t find a good enough solution apart from the current one. I found white-space but then half the logo is hidden. If anyone has any solution to this please comment :)",
+      "revId": "77362a486f6e22787f597fb11e8528393448a56b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

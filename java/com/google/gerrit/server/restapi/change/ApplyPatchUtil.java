@@ -80,6 +80,9 @@ public final class ApplyPatchUtil {
     }
     try {
       PatchApplier applier = new PatchApplier(repo, tip, oi);
+      if (Boolean.TRUE.equals(input.allowConflicts)) {
+        applier.allowConflicts();
+      }
       PatchApplier.Result applyResult = applier.applyPatch(patch);
       return applyResult;
     } catch (IOException e) {
@@ -105,7 +108,7 @@ public final class ApplyPatchUtil {
    *
    * @param message the first message piece, excluding footers
    * @param footerLines footer lines to append to the message
-   * @param originalPatch to compare the result patch to
+   * @param patchInput API input that triggered this action
    * @param resultPatch to validate accuracy for
    * @return the commit message
    * @throws BadRequestException if the commit message cannot be sanitized
@@ -113,7 +116,7 @@ public final class ApplyPatchUtil {
   public static String buildCommitMessage(
       String message,
       List<FooterLine> footerLines,
-      String originalPatch,
+      ApplyPatchInput patchInput,
       String resultPatch,
       List<PatchApplier.Result.Error> errors)
       throws BadRequestException {
@@ -121,13 +124,20 @@ public final class ApplyPatchUtil {
 
     boolean appendOriginalPatch = false;
     boolean appendResultPatch = false;
-    String decodedOriginalPatch = decodeIfNecessary(originalPatch);
+    String decodedOriginalPatch = decodeIfNecessary(patchInput.patch);
     if (!errors.isEmpty()) {
-      res.append(
-          "\n\nNOTE FOR REVIEWERS - errors occurred while applying the patch."
-              + "\nPLEASE REVIEW CAREFULLY.\nErrors:\n"
-              + errors.stream().map(Objects::toString).collect(Collectors.joining("\n")));
-      appendOriginalPatch = true;
+      if (Boolean.TRUE.equals(patchInput.allowConflicts)) {
+        res.append(
+            "\n\nNOTE FOR REVIEWERS - conflicts or errors occurred while applying the patch.\n"
+                + "PLEASE REVIEW CAREFULLY.\nOriginal patch:\n");
+        appendOriginalPatch = true;
+      } else {
+        res.append(
+            "\n\nNOTE FOR REVIEWERS - errors occurred while applying the patch."
+                + "\nPLEASE REVIEW CAREFULLY.\nErrors:\n"
+                + errors.stream().map(Objects::toString).collect(Collectors.joining("\n")));
+        appendOriginalPatch = true;
+      }
     } else {
       // Only surface the diff if no explicit errors occurred.
       Optional<String> patchDiff = verifyAppliedPatch(decodedOriginalPatch, resultPatch);

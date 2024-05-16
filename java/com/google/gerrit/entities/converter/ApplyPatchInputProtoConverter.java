@@ -36,6 +36,9 @@ public enum ApplyPatchInputProtoConverter
     if (applyPatchInput.patch != null) {
       builder.setPatch(applyPatchInput.patch);
     }
+    if (applyPatchInput.allowConflicts != null) {
+      builder.setAllowConflicts(applyPatchInput.allowConflicts);
+    }
     return builder.build();
   }
 
@@ -44,6 +47,9 @@ public enum ApplyPatchInputProtoConverter
     ApplyPatchInput applyPatchInput = new ApplyPatchInput();
     if (proto.hasPatch()) {
       applyPatchInput.patch = proto.getPatch();
+    }
+    if (proto.hasAllowConflicts()) {
+      applyPatchInput.allowConflicts = proto.getAllowConflicts();
     }
     return applyPatchInput;
   }

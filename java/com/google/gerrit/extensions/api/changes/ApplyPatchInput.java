@@ -14,6 +14,8 @@
 
 package com.google.gerrit.extensions.api.changes;
 
+import com.google.gerrit.common.Nullable;
+
 /** Information about a patch to apply. */
 public class ApplyPatchInput {
   /**
@@ -22,4 +24,10 @@ public class ApplyPatchInput {
    * <p>Must be compatible with `git diff` output. For example, Gerrit API `Get Patch` output.
    */
   public String patch;
+
+  /**
+   * If {@code true}, the operation will succeed if a conflict is detected. Conflict markers will be
+   * added to the conflicting files.
+   */
+  @Nullable public Boolean allowConflicts;
 }

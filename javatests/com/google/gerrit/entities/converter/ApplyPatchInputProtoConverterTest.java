@@ -36,10 +36,14 @@ public class ApplyPatchInputProtoConverterTest {
   public void allValuesConvertedToProto() {
     ApplyPatchInput applyPatchInput = new ApplyPatchInput();
     applyPatchInput.patch = "test-patch";
+    applyPatchInput.allowConflicts = true;
     Entities.ApplyPatchInput proto = applyPatchInputProtoConverter.toProto(applyPatchInput);
 
     Entities.ApplyPatchInput expectedProto =
-        Entities.ApplyPatchInput.newBuilder().setPatch("test-patch").build();
+        Entities.ApplyPatchInput.newBuilder()
+            .setPatch("test-patch")
+            .setAllowConflicts(true)
+            .build();
     assertThat(proto).isEqualTo(expectedProto);
   }
 
@@ -47,18 +51,24 @@ public class ApplyPatchInputProtoConverterTest {
   public void allValuesConvertedToProtoAndBackAgain() {
     ApplyPatchInput applyPatchInput = new ApplyPatchInput();
     applyPatchInput.patch = "test-patch";
+    applyPatchInput.allowConflicts = true;
 
     ApplyPatchInput convertedApplyPatchInput =
         applyPatchInputProtoConverter.fromProto(
             applyPatchInputProtoConverter.toProto(applyPatchInput));
 
     assertThat(Objects.equals(applyPatchInput.patch, convertedApplyPatchInput.patch)).isTrue();
+    assertThat(applyPatchInput.allowConflicts).isEqualTo(convertedApplyPatchInput.allowConflicts);
   }
 
   /** See {@link SerializedClassSubject} for background and what to do if this test fails. */
   @Test
   public void methodsExistAsExpected() {
     assertThatSerializedClass(ApplyPatchInput.class)
-        .hasFields(ImmutableMap.<String, Type>builder().put("patch", String.class).build());
+        .hasFields(
+            ImmutableMap.<String, Type>builder()
+                .put("patch", String.class)
+                .put("allowConflicts", Boolean.class)
+                .build());
   }
 }

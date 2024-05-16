@@ -3,6 +3,8 @@
  * Copyright 2023 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import '../gr-commit-info/gr-commit-info';
+import '../../shared/gr-button/gr-button';
 import {customElement, state} from 'lit/decorators.js';
 import {css, html, HTMLTemplateResult, LitElement} from 'lit';
 import {resolve} from '../../../models/dependency';

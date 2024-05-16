@@ -52,6 +52,24 @@
       "parentUuid": "aae24827_f2051b11",
       "revId": "599eb5f40b3ffb19a027d2ed0d3dc8c6d6a20096",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7941d162_29048d5d",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetPatch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1159339
+      },
+      "writtenOn": "2024-05-16T09:12:14Z",
+      "side": 0,
+      "message": "People already depend on this error message - https://source.corp.google.com/search?q\u003d%22Revision%20has%20more%20than%201%20parent%22 - so I suggest we don\u0027t change it. Keeping the old throw logic for multiple parents when no parent specified.",
+      "parentUuid": "104fbb3e_cc0fc7f1",
+      "revId": "599eb5f40b3ffb19a027d2ed0d3dc8c6d6a20096",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2890d39_39ffcf5f",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1189,
+      "author": {
+        "id": 1159339
+      },
+      "writtenOn": "2024-05-16T09:12:14Z",
+      "side": 1,
+      "message": "There\u0027s already one - createPatchApplyingChange_fromGerritPatchUsingRest_success",
+      "parentUuid": "e860eb32_8c475017",
+      "revId": "b86d27aea6f113e9fe334beb726584bdff08b157",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8a6b04d4_31381846",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-05-16T07:04:12Z",
       "side": 1,
       "message": "Please add a comment for why this is failing.",
+      "revId": "b86d27aea6f113e9fe334beb726584bdff08b157",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a436ee2_578d9263",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1213,
+      "author": {
+        "id": 1159339
+      },
+      "writtenOn": "2024-05-16T09:12:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a6b04d4_31381846",
       "revId": "b86d27aea6f113e9fe334beb726584bdff08b157",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -76,6 +112,24 @@
           ]
         }
       ],
+      "revId": "b86d27aea6f113e9fe334beb726584bdff08b157",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a146649_a5152a8d",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/CreateChangeIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1225,
+      "author": {
+        "id": 1159339
+      },
+      "writtenOn": "2024-05-16T09:12:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d1b3de39_a8047dea",
       "revId": "b86d27aea6f113e9fe334beb726584bdff08b157",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

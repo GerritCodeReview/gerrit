@@ -6985,6 +6985,8 @@ A new commit will be created from the patch, and saved as a new patch set.
 |=================================
 |Field Name          ||Description
 |`patch`             |required|
+|`allow_conflicts`    |optional|
+If true, tolerate conflicts and add conflict markers where required.
 The patch to be applied. Must be compatible with `git diff` output.
 For example, link:#get-patch[Get Patch] output.
 The patch must be provided as UTF-8 text, either directly or base64-encoded.

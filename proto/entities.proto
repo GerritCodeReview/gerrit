@@ -125,9 +125,10 @@ message MergeInput {
 }
 
 // Serialized form of com.google.gerrit.extensions.api.changes.ApplyPatchInput.
-// Next ID: 2
+// Next ID: 3
 message ApplyPatchInput {
  optional string patch = 1;
+ optional bool allow_conflicts = 2;
 }
 
 // Serialized form of com.google.gerrit.extensions.api.accounts.AccountInput.

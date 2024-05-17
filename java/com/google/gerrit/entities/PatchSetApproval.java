@@ -16,6 +16,7 @@ package com.google.gerrit.entities;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.primitives.Shorts;
+import com.google.gerrit.common.ConvertibleToProto;
 import java.time.Instant;
 import java.util.Optional;
 
@@ -27,6 +28,7 @@ public abstract class PatchSetApproval {
   }
 
   @AutoValue
+  @ConvertibleToProto
   public abstract static class Key {
     public abstract PatchSet.Id patchSetId();
 

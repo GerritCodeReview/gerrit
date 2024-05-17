@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa2fc049_03b5f051",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-05-17T16:47:42Z",
+      "side": 1,
+      "message": "Good point. Done.",
+      "parentUuid": "069216c9_faa17cec",
+      "revId": "273ddd4dc3ba92c104e6f3c260e600d478952cb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d74a6a4c_4e24fc16",
@@ -31,6 +49,30 @@
       "writtenOn": "2024-05-17T11:19:00Z",
       "side": 1,
       "message": "Do not forget to revert this",
+      "range": {
+        "startLine": 460,
+        "startChar": 37,
+        "endLine": 460,
+        "endChar": 62
+      },
+      "revId": "273ddd4dc3ba92c104e6f3c260e600d478952cb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca593ee0_fefec865",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-05-17T16:47:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d74a6a4c_4e24fc16",
       "range": {
         "startLine": 460,
         "startChar": 37,
@@ -132,6 +174,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cbadf0b2_d8709112",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 943,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-05-17T16:47:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c245b0ca_1c2fd1b5",
+      "range": {
+        "startLine": 939,
+        "startChar": 0,
+        "endLine": 943,
+        "endChar": 5
+      },
+      "revId": "273ddd4dc3ba92c104e6f3c260e600d478952cb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a00de616_d08317ee",
@@ -145,6 +211,30 @@
       "writtenOn": "2024-05-17T11:19:00Z",
       "side": 1,
       "message": "Is it ok to leak commentText to loggers? Do you need it?",
+      "range": {
+        "startLine": 1432,
+        "startChar": 6,
+        "endLine": 1432,
+        "endChar": 17
+      },
+      "revId": "273ddd4dc3ba92c104e6f3c260e600d478952cb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "82dc672f_7e5d22f5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1432,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-05-17T16:47:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a00de616_d08317ee",
       "range": {
         "startLine": 1432,
         "startChar": 6,
@@ -178,6 +268,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb948a11_936f826f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1451,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-05-17T16:47:42Z",
+      "side": 1,
+      "message": "Comment length sounds like the length of the comment. What we have here is the length of the thread (number of replies).\n\nI am using `commentNumber` here to be consistent with another internal product.",
+      "parentUuid": "31f93d00_2c4fc84a",
+      "range": {
+        "startLine": 1451,
+        "startChar": 6,
+        "endLine": 1451,
+        "endChar": 19
+      },
+      "revId": "273ddd4dc3ba92c104e6f3c260e600d478952cb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8109aabc_b50e8ee4",
@@ -191,6 +305,30 @@
       "writtenOn": "2024-05-17T11:19:00Z",
       "side": 1,
       "message": "changeNumber is already filled as different field. And it\u0027s PII.\n\ncontext is not PII but authorName, and reviewerName are.",
+      "range": {
+        "startLine": 1454,
+        "startChar": 0,
+        "endLine": 1456,
+        "endChar": 39
+      },
+      "revId": "273ddd4dc3ba92c104e6f3c260e600d478952cb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da767b1b_314ba96f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1456,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-05-17T16:47:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8109aabc_b50e8ee4",
       "range": {
         "startLine": 1454,
         "startChar": 0,

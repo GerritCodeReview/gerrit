@@ -59,6 +59,9 @@ public interface ProjectApi {
   @CanIgnoreReturnValue
   ConfigInfo config(ConfigInput in) throws RestApiException;
 
+  @CanIgnoreReturnValue
+  ChangeInfo configReview(ConfigInput in) throws RestApiException;
+
   Map<String, Set<String>> commitsIn(Collection<String> commits, Collection<String> refs)
       throws RestApiException;
 
@@ -341,6 +344,11 @@ public interface ProjectApi {
 
     @Override
     public ConfigInfo config(ConfigInput in) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public ChangeInfo configReview(ConfigInput in) throws RestApiException {
       throw new NotImplementedException();
     }
 

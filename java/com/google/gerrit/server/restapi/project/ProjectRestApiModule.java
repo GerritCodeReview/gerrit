@@ -84,6 +84,7 @@ public class ProjectRestApiModule extends RestApiModule {
 
     get(PROJECT_KIND, "config").to(GetConfig.class);
     put(PROJECT_KIND, "config").to(PutConfig.class);
+    put(PROJECT_KIND, "config:review").to(PutConfigReview.class);
 
     post(PROJECT_KIND, "create.change").to(CreateChange.class);
 

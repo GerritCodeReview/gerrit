@@ -88,6 +88,7 @@ import com.google.gerrit.server.restapi.project.ListTags;
 import com.google.gerrit.server.restapi.project.PostLabels;
 import com.google.gerrit.server.restapi.project.ProjectsCollection;
 import com.google.gerrit.server.restapi.project.PutConfig;
+import com.google.gerrit.server.restapi.project.PutConfigReview;
 import com.google.gerrit.server.restapi.project.PutDescription;
 import com.google.gerrit.server.restapi.project.SetAccess;
 import com.google.gerrit.server.restapi.project.SetHead;
@@ -127,6 +128,7 @@ public class ProjectApiImpl implements ProjectApi {
   private final CreateAccessChange createAccessChange;
   private final GetConfig getConfig;
   private final PutConfig putConfig;
+  private final PutConfigReview putConfigReview;
   private final CommitsIncludedInRefs commitsIncludedInRefs;
   private final Provider<ListBranches> listBranches;
   private final Provider<ListTags> listTags;
@@ -168,6 +170,7 @@ public class ProjectApiImpl implements ProjectApi {
       CreateAccessChange createAccessChange,
       GetConfig getConfig,
       PutConfig putConfig,
+      PutConfigReview putConfigReview,
       CommitsIncludedInRefs commitsIncludedInRefs,
       Provider<ListBranches> listBranches,
       Provider<ListTags> listTags,
@@ -208,6 +211,7 @@ public class ProjectApiImpl implements ProjectApi {
         createAccessChange,
         getConfig,
         putConfig,
+        putConfigReview,
         commitsIncludedInRefs,
         listBranches,
         listTags,
@@ -252,6 +256,7 @@ public class ProjectApiImpl implements ProjectApi {
       CreateAccessChange createAccessChange,
       GetConfig getConfig,
       PutConfig putConfig,
+      PutConfigReview putConfigReview,
       CommitsIncludedInRefs commitsIncludedInRefs,
       Provider<ListBranches> listBranches,
       Provider<ListTags> listTags,
@@ -292,6 +297,7 @@ public class ProjectApiImpl implements ProjectApi {
         createAccessChange,
         getConfig,
         putConfig,
+        putConfigReview,
         commitsIncludedInRefs,
         listBranches,
         listTags,
@@ -335,6 +341,7 @@ public class ProjectApiImpl implements ProjectApi {
       CreateAccessChange createAccessChange,
       GetConfig getConfig,
       PutConfig putConfig,
+      PutConfigReview putConfigReview,
       CommitsIncludedInRefs commitsIncludedInRefs,
       Provider<ListBranches> listBranches,
       Provider<ListTags> listTags,
@@ -375,6 +382,7 @@ public class ProjectApiImpl implements ProjectApi {
     this.setAccess = setAccess;
     this.getConfig = getConfig;
     this.putConfig = putConfig;
+    this.putConfigReview = putConfigReview;
     this.commitsIncludedInRefs = commitsIncludedInRefs;
     this.listBranches = listBranches;
     this.listTags = listTags;
@@ -515,6 +523,15 @@ public class ProjectApiImpl implements ProjectApi {
       return putConfig.apply(checkExists(), in).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot list tags", e);
+    }
+  }
+
+  @Override
+  public ChangeInfo configReview(ConfigInput p) throws RestApiException {
+    try {
+      return putConfigReview.apply(checkExists(), p).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot put config change", e);
     }
   }
 

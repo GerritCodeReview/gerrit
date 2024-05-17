@@ -15,8 +15,10 @@
 package com.google.gerrit.entities;
 
 import com.google.auto.value.AutoValue;
+import com.google.gerrit.common.ConvertibleToProto;
 
 @AutoValue
+@ConvertibleToProto
 public abstract class LabelId {
   public static final String LEGACY_SUBMIT_NAME = "SUBM";
   public static final String CODE_REVIEW = "Code-Review";

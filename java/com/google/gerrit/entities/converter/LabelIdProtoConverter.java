@@ -20,7 +20,7 @@ import com.google.gerrit.proto.Entities;
 import com.google.protobuf.Parser;
 
 @Immutable
-public enum LabelIdProtoConverter implements ProtoConverter<Entities.LabelId, LabelId> {
+public enum LabelIdProtoConverter implements SafeProtoConverter<Entities.LabelId, LabelId> {
   INSTANCE;
 
   @Override
@@ -36,5 +36,15 @@ public enum LabelIdProtoConverter implements ProtoConverter<Entities.LabelId, La
   @Override
   public Parser<Entities.LabelId> getParser() {
     return Entities.LabelId.parser();
+  }
+
+  @Override
+  public Class<Entities.LabelId> getProtoClass() {
+    return Entities.LabelId.class;
+  }
+
+  @Override
+  public Class<LabelId> getEntityClass() {
+    return LabelId.class;
   }
 }

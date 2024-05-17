@@ -18,10 +18,12 @@ import com.google.errorprone.annotations.Immutable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.proto.Entities;
+import com.google.gerrit.proto.Entities.PatchSet_Id;
 import com.google.protobuf.Parser;
 
 @Immutable
-public enum PatchSetIdProtoConverter implements ProtoConverter<Entities.PatchSet_Id, PatchSet.Id> {
+public enum PatchSetIdProtoConverter
+    implements SafeProtoConverter<Entities.PatchSet_Id, PatchSet.Id> {
   INSTANCE;
 
   private final ProtoConverter<Entities.Change_Id, Change.Id> changeIdConverter =
@@ -43,5 +45,15 @@ public enum PatchSetIdProtoConverter implements ProtoConverter<Entities.PatchSet
   @Override
   public Parser<Entities.PatchSet_Id> getParser() {
     return Entities.PatchSet_Id.parser();
+  }
+
+  @Override
+  public Class<PatchSet_Id> getProtoClass() {
+    return PatchSet_Id.class;
+  }
+
+  @Override
+  public Class<PatchSet.Id> getEntityClass() {
+    return PatchSet.Id.class;
   }
 }

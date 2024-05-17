@@ -1,0 +1,204 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "069216c9_faa17cec",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-05-17T11:19:00Z",
+      "side": 1,
+      "message": "event details shouldn\u0027t contain PII information. You need to introduce a new field for this. To get changeId needs special access in logs.",
+      "revId": "273ddd4dc3ba92c104e6f3c260e600d478952cb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d74a6a4c_4e24fc16",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-05-17T11:19:00Z",
+      "side": 1,
+      "message": "Do not forget to revert this",
+      "range": {
+        "startLine": 460,
+        "startChar": 37,
+        "endLine": 460,
+        "endChar": 62
+      },
+      "revId": "273ddd4dc3ba92c104e6f3c260e600d478952cb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c245b0ca_1c2fd1b5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 943,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-05-17T11:19:00Z",
+      "side": 1,
+      "message": "Nit: I would prefer interaction as first parameter so it is as reportInteraction method",
+      "range": {
+        "startLine": 939,
+        "startChar": 0,
+        "endLine": 943,
+        "endChar": 5
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "f7e45946_998c44cc",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+              "range": {
+                "startLine": 924,
+                "startChar": 0,
+                "endLine": 924,
+                "endChar": 0
+              },
+              "replacement": "      Interaction.COMMENT_COMPLETION_SUGGESTION_SHOWN,\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+              "range": {
+                "startLine": 925,
+                "startChar": 0,
+                "endLine": 927,
+                "endChar": 0
+              },
+              "replacement": "      e.detail.hint\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+              "range": {
+                "startLine": 933,
+                "startChar": 0,
+                "endLine": 933,
+                "endChar": 0
+              },
+              "replacement": "      Interaction.COMMENT_COMPLETION_SUGGESTION_ACCEPTED,\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+              "range": {
+                "startLine": 934,
+                "startChar": 0,
+                "endLine": 936,
+                "endChar": 0
+              },
+              "replacement": "      e.detail.hint\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+              "range": {
+                "startLine": 940,
+                "startChar": 0,
+                "endLine": 940,
+                "endChar": 0
+              },
+              "replacement": "    interaction: Interaction,\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+              "range": {
+                "startLine": 941,
+                "startChar": 0,
+                "endLine": 943,
+                "endChar": 0
+              },
+              "replacement": "    commentCompletion: string\n"
+            }
+          ]
+        }
+      ],
+      "revId": "273ddd4dc3ba92c104e6f3c260e600d478952cb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a00de616_d08317ee",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1432,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-05-17T11:19:00Z",
+      "side": 1,
+      "message": "Is it ok to leak commentText to loggers? Do you need it?",
+      "range": {
+        "startLine": 1432,
+        "startChar": 6,
+        "endLine": 1432,
+        "endChar": 17
+      },
+      "revId": "273ddd4dc3ba92c104e6f3c260e600d478952cb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31f93d00_2c4fc84a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1451,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-05-17T11:19:00Z",
+      "side": 1,
+      "message": "commentLength?",
+      "range": {
+        "startLine": 1451,
+        "startChar": 6,
+        "endLine": 1451,
+        "endChar": 19
+      },
+      "revId": "273ddd4dc3ba92c104e6f3c260e600d478952cb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8109aabc_b50e8ee4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1456,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-05-17T11:19:00Z",
+      "side": 1,
+      "message": "changeNumber is already filled as different field. And it\u0027s PII.\n\ncontext is not PII but authorName, and reviewerName are.",
+      "range": {
+        "startLine": 1454,
+        "startChar": 0,
+        "endLine": 1456,
+        "endChar": 39
+      },
+      "revId": "273ddd4dc3ba92c104e6f3c260e600d478952cb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -15,10 +15,12 @@
 package com.google.gerrit.extensions.api.changes;
 
 import com.google.common.base.MoreObjects;
+import com.google.gerrit.common.ConvertibleToProto;
 import java.util.List;
 import java.util.Objects;
 
 /** Detailed information about who should be notified about an update. */
+@ConvertibleToProto
 public class NotifyInfo {
   public List<String> accounts;
 

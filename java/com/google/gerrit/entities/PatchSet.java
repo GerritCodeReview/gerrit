@@ -32,6 +32,7 @@ import org.eclipse.jgit.lib.ObjectId;
 
 /** A single revision of a {@link Change}. */
 @AutoValue
+@ConvertibleToProto
 public abstract class PatchSet {
   /** Is the reference name a change reference? */
   public static boolean isChangeRef(String name) {

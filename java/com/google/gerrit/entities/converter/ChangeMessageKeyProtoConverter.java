@@ -18,11 +18,12 @@ import com.google.errorprone.annotations.Immutable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.proto.Entities;
+import com.google.gerrit.proto.Entities.ChangeMessage_Key;
 import com.google.protobuf.Parser;
 
 @Immutable
 public enum ChangeMessageKeyProtoConverter
-    implements ProtoConverter<Entities.ChangeMessage_Key, ChangeMessage.Key> {
+    implements SafeProtoConverter<Entities.ChangeMessage_Key, ChangeMessage.Key> {
   INSTANCE;
 
   private final ProtoConverter<Entities.Change_Id, Change.Id> changeIdConverter =
@@ -44,5 +45,15 @@ public enum ChangeMessageKeyProtoConverter
   @Override
   public Parser<Entities.ChangeMessage_Key> getParser() {
     return Entities.ChangeMessage_Key.parser();
+  }
+
+  @Override
+  public Class<ChangeMessage_Key> getProtoClass() {
+    return ChangeMessage_Key.class;
+  }
+
+  @Override
+  public Class<ChangeMessage.Key> getEntityClass() {
+    return ChangeMessage.Key.class;
   }
 }

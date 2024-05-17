@@ -26,7 +26,8 @@ import com.google.protobuf.Parser;
  * com.google.gerrit.proto.Entities.NotifyInfo}.
  */
 @Immutable
-public enum NotifyInfoProtoConverter implements ProtoConverter<Entities.NotifyInfo, NotifyInfo> {
+public enum NotifyInfoProtoConverter
+    implements SafeProtoConverter<Entities.NotifyInfo, NotifyInfo> {
   INSTANCE;
 
   @Override
@@ -46,5 +47,15 @@ public enum NotifyInfoProtoConverter implements ProtoConverter<Entities.NotifyIn
   @Override
   public Parser<Entities.NotifyInfo> getParser() {
     return Entities.NotifyInfo.parser();
+  }
+
+  @Override
+  public Class<Entities.NotifyInfo> getProtoClass() {
+    return Entities.NotifyInfo.class;
+  }
+
+  @Override
+  public Class<NotifyInfo> getEntityClass() {
+    return NotifyInfo.class;
   }
 }

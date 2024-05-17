@@ -48,6 +48,7 @@ import com.google.gerrit.extensions.api.projects.SubmitRequirementApi;
 import com.google.gerrit.extensions.api.projects.TagApi;
 import com.google.gerrit.extensions.api.projects.TagInfo;
 import com.google.gerrit.extensions.common.BatchLabelInput;
+import com.google.gerrit.extensions.common.BatchSubmitRequirementInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.common.LabelDefinitionInfo;
@@ -87,6 +88,8 @@ import com.google.gerrit.server.restapi.project.ListSubmitRequirements;
 import com.google.gerrit.server.restapi.project.ListTags;
 import com.google.gerrit.server.restapi.project.PostLabels;
 import com.google.gerrit.server.restapi.project.PostLabelsReview;
+import com.google.gerrit.server.restapi.project.PostSubmitRequirements;
+import com.google.gerrit.server.restapi.project.PostSubmitRequirementsReview;
 import com.google.gerrit.server.restapi.project.ProjectsCollection;
 import com.google.gerrit.server.restapi.project.PutConfig;
 import com.google.gerrit.server.restapi.project.PutConfigReview;
@@ -151,6 +154,9 @@ public class ProjectApiImpl implements ProjectApi {
   private final Provider<ListSubmitRequirements> listSubmitRequirements;
   private final PostLabels postLabels;
   private final PostLabelsReview postLabelsReview;
+
+  private final PostSubmitRequirements postSubmitRequirements;
+  private final PostSubmitRequirementsReview postSubmitRequirementsReview;
   private final LabelApiImpl.Factory labelApi;
   private final SubmitRequirementApiImpl.Factory submitRequirementApi;
 
@@ -196,6 +202,8 @@ public class ProjectApiImpl implements ProjectApi {
       PostLabelsReview postLabelsReview,
       LabelApiImpl.Factory labelApi,
       SubmitRequirementApiImpl.Factory submitRequirementApi,
+      PostSubmitRequirements postSubmitRequirements,
+      PostSubmitRequirementsReview postSubmitRequirementsReview,
       @Assisted ProjectResource project) {
     this(
         permissionBackend,
@@ -239,6 +247,8 @@ public class ProjectApiImpl implements ProjectApi {
         postLabelsReview,
         labelApi,
         submitRequirementApi,
+        postSubmitRequirements,
+        postSubmitRequirementsReview,
         null);
   }
 
@@ -284,6 +294,8 @@ public class ProjectApiImpl implements ProjectApi {
       PostLabelsReview postLabelsReview,
       LabelApiImpl.Factory labelApi,
       SubmitRequirementApiImpl.Factory submitRequirementApi,
+      PostSubmitRequirements postSubmitRequirements,
+      PostSubmitRequirementsReview postSubmitRequirementsReview,
       @Assisted String name) {
     this(
         permissionBackend,
@@ -327,6 +339,8 @@ public class ProjectApiImpl implements ProjectApi {
         postLabelsReview,
         labelApi,
         submitRequirementApi,
+        postSubmitRequirements,
+        postSubmitRequirementsReview,
         name);
   }
 
@@ -372,6 +386,8 @@ public class ProjectApiImpl implements ProjectApi {
       PostLabelsReview postLabelsReview,
       LabelApiImpl.Factory labelApi,
       SubmitRequirementApiImpl.Factory submitRequirementApi,
+      PostSubmitRequirements postSubmitRequirements,
+      PostSubmitRequirementsReview postSubmitRequirementsReview,
       String name) {
     this.permissionBackend = permissionBackend;
     this.createProject = createProject;
@@ -415,6 +431,8 @@ public class ProjectApiImpl implements ProjectApi {
     this.postLabelsReview = postLabelsReview;
     this.labelApi = labelApi;
     this.submitRequirementApi = submitRequirementApi;
+    this.postSubmitRequirements = postSubmitRequirements;
+    this.postSubmitRequirementsReview = postSubmitRequirementsReview;
   }
 
   @Override
@@ -846,6 +864,26 @@ public class ProjectApiImpl implements ProjectApi {
       return postLabelsReview.apply(checkExists(), input).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot create change for labels update", e);
+    }
+  }
+
+  @Override
+  public void submitRequirements(BatchSubmitRequirementInput input) throws RestApiException {
+    try {
+      @SuppressWarnings("unused")
+      var unused = postSubmitRequirements.apply(checkExists(), input);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot update submit requirements", e);
+    }
+  }
+
+  @Override
+  public ChangeInfo submitRequirementsReview(BatchSubmitRequirementInput input)
+      throws RestApiException {
+    try {
+      return postSubmitRequirementsReview.apply(checkExists(), input).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot create change for submit requirements update", e);
     }
   }
 }

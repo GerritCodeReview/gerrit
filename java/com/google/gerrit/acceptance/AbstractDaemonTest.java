@@ -75,6 +75,7 @@ import com.google.gerrit.entities.PermissionRule.Action;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.SubmitRequirement;
+import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -1585,6 +1586,18 @@ public abstract class AbstractDaemonTest {
   protected RevCommit parseCurrentRevision(RevWalk rw, String changeId) throws Exception {
     return rw.parseCommit(
         ObjectId.fromString(get(changeId, ListChangesOption.CURRENT_REVISION).currentRevision));
+  }
+
+  /** Creates a submit requirement with all required field. */
+  protected void configSubmitRequirement(Project.NameKey project, String name) throws Exception {
+    configSubmitRequirement(
+        project,
+        SubmitRequirement.builder()
+            .setName(name)
+            .setAllowOverrideInChildProjects(true)
+            .setSubmittabilityExpression(
+                SubmitRequirementExpression.create("-label:Code-Review=MIN"))
+            .build());
   }
 
   protected void configSubmitRequirement(

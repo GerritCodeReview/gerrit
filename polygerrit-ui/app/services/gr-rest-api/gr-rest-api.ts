@@ -645,6 +645,10 @@ export interface RestApiService extends Finalizable {
   deleteRepoTags(repo: RepoName, ref: GitRef): Promise<Response>;
   deleteRepoBranches(repo: RepoName, ref: GitRef): Promise<Response>;
   saveRepoConfig(repo: RepoName, config: ConfigInput): Promise<Response>;
+  saveRepoConfigForReview(
+    repo: RepoName,
+    config: ConfigInput
+  ): Promise<ChangeInfo | undefined>;
 
   getRelatedChanges(
     changeNum: NumericChangeId,

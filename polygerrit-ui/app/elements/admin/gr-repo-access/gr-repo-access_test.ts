@@ -157,12 +157,13 @@ suite('gr-repo-access tests', () => {
                 Edit
               </gr-button>
               <gr-button
-                aria-disabled="false"
+                aria-disabled="true"
+                disabled=""
                 class="invisible"
                 id="saveBtn"
                 primary=""
                 role="button"
-                tabindex="0"
+                tabindex="-1"
               >
                 Save
               </gr-button>
@@ -1445,9 +1446,18 @@ suite('gr-repo-access tests', () => {
       );
 
       element.repo = 'test-repo' as RepoName;
+      await element.updateComplete;
       sinon.stub(element, 'computeAddAndRemove').returns(repoAccessInput);
-
+      assert.equal(
+        queryAndAssert<GrButton>(element, '#saveBtn').hasAttribute('disabled'),
+        true
+      );
       element.modified = true;
+      await element.updateComplete;
+      assert.equal(
+        queryAndAssert<GrButton>(element, '#saveBtn').hasAttribute('disabled'),
+        false
+      );
       queryAndAssert<GrButton>(element, '#saveBtn').click();
       await element.updateComplete;
       assert.equal(
@@ -1458,6 +1468,58 @@ suite('gr-repo-access tests', () => {
       await element.updateComplete;
       assert.isTrue(saveStub.called);
       assert.isTrue(setUrlStub.notCalled);
+    });
+
+    test('saveBtn remains disabled when require_change_for_config_update is set', async () => {
+      const repoAccessInput = {
+        add: {
+          'refs/*': {
+            permissions: {
+              owner: {
+                rules: {
+                  123: {action: 'DENY', modified: true},
+                },
+              },
+            },
+          },
+        },
+        remove: {
+          'refs/*': {
+            permissions: {
+              owner: {
+                rules: {
+                  123: {},
+                },
+              },
+            },
+          },
+        },
+      };
+      stubRestApi('getRepoAccessRights').returns(
+        Promise.resolve(
+          JSON.parse(
+            JSON.stringify({
+              ...accessRes,
+              require_change_for_config_update: true,
+            })
+          )
+        )
+      );
+
+      element.repo = 'test-repo' as RepoName;
+      await element.updateComplete;
+      sinon.stub(element, 'computeAddAndRemove').returns(repoAccessInput);
+      assert.equal(
+        queryAndAssert<GrButton>(element, '#saveBtn').hasAttribute('disabled'),
+        true
+      );
+      element.modified = true;
+      await element.updateComplete;
+      assert.equal(element.disableSaveWithoutReview, true);
+      assert.equal(
+        queryAndAssert<GrButton>(element, '#saveBtn').hasAttribute('disabled'),
+        true
+      );
     });
 
     test('handleSaveForReview', async () => {

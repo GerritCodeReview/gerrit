@@ -11,6 +11,7 @@ import '../../shared/gr-download-commands/gr-download-commands';
 import '../../shared/gr-select/gr-select';
 import '../../shared/gr-suggestion-textarea/gr-suggestion-textarea';
 import '../gr-repo-plugin-config/gr-repo-plugin-config';
+import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {
   ConfigInfo,
   RepoName,
@@ -39,11 +40,14 @@ import {BindValueChangeEvent} from '../../../types/events';
 import {deepClone} from '../../../utils/deep-util';
 import {LitElement, PropertyValues, css, html, nothing} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
+import {createChangeUrl} from '../../../models/views/change';
 import {when} from 'lit/directives/when.js';
 import {subscribe} from '../../lit/subscription-controller';
 import {createSearchUrl} from '../../../models/views/search';
 import {userModelToken} from '../../../models/user/user-model';
 import {resolve} from '../../../models/dependency';
+import {GrButton} from '../../shared/gr-button/gr-button';
+import {KnownExperimentId} from '../../../services/flags/flags';
 
 const STATES = {
   active: {value: RepoState.ACTIVE, label: 'Active'},
@@ -101,6 +105,11 @@ export class GrRepo extends LitElement {
   // private but used in test
   @state() readOnly = true;
 
+  @state() showSaveForReviewButton = false;
+
+  // private but used in test
+  @state() disableSaveWithoutReview = true;
+
   @state() private states = Object.values(STATES);
 
   @state() private originalConfig?: ConfigInfo;
@@ -114,9 +123,13 @@ export class GrRepo extends LitElement {
 
   @state() private pluginConfigChanged = false;
 
+  private readonly flagsService = getAppContext().flagsService;
+
   private readonly getUserModel = resolve(this, userModelToken);
 
   private readonly restApiService = getAppContext().restApiService;
+
+  private readonly getNavigation = resolve(this, navigationToken);
 
   constructor() {
     super();
@@ -195,9 +208,19 @@ export class GrRepo extends LitElement {
                 ${this.renderDescription()} ${this.renderRepoOptions()}
                 ${this.renderPluginConfig()}
                 <gr-button
-                  ?disabled=${this.readOnly || !configChanged}
+                  id="saveBtn"
+                  ?disabled=${this.readOnly ||
+                  this.disableSaveWithoutReview ||
+                  !configChanged}
                   @click=${this.handleSaveRepoConfig}
                   >Save changes</gr-button
+                >
+                <gr-button
+                  id="saveReviewBtn"
+                  ?disabled=${this.readOnly || !configChanged}
+                  ?hidden=${!this.showSaveForReviewButton}
+                  @click=${this.handleSaveRepoConfigForReview}
+                  >Save for review</gr-button
                 >
               </fieldset>
               <gr-endpoint-decorator name="repo-config">
@@ -781,6 +804,11 @@ export class GrRepo extends LitElement {
 
             // If the user is not an owner, is_owner is not a property.
             this.readOnly = !access[repo]?.is_owner;
+            this.showSaveForReviewButton = this.flagsService.isEnabled(
+              KnownExperimentId.SAVE_PROJECT_CONFIG_FOR_REVIEW
+            );
+            this.disableSaveWithoutReview =
+              !!access[repo]?.require_change_for_config_update;
           });
         }
       })
@@ -923,6 +951,32 @@ export class GrRepo extends LitElement {
     this.originalConfig = deepClone<ConfigInfo>(this.repoConfig);
     this.pluginConfigChanged = false;
     return;
+  }
+
+  async handleSaveRepoConfigForReview(e: Event) {
+    if (!this.repoConfig || !this.repo)
+      return Promise.reject(new Error('undefined repoConfig or repo'));
+    const button = e && (e.target as GrButton);
+    if (button) {
+      button.loading = true;
+    }
+
+    return this.restApiService
+      .saveRepoConfigForReview(
+        this.repo,
+        this.formatRepoConfigForSave(this.repoConfig)
+      )
+      .then(change => {
+        // Don't navigate on server error.
+        if (change) {
+          this.getNavigation().setUrl(createChangeUrl({change}));
+        }
+      })
+      .finally(() => {
+        if (button) {
+          button.loading = false;
+        }
+      });
   }
 
   private isEdited(

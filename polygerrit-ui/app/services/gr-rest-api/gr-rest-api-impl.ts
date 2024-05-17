@@ -348,6 +348,22 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     });
   }
 
+  saveRepoConfigForReview(
+    repo: RepoName,
+    config: ConfigInput
+  ): Promise<ChangeInfo | undefined> {
+    const url = `/projects/${encodeURIComponent(repo)}/config:review`;
+    return this._restApiHelper.fetchJSON({
+      fetchOptions: getFetchOptions({
+        method: HttpMethod.PUT,
+        body: config,
+      }),
+      url,
+      anonymizedUrl: '/projects/*/config',
+      reportServerError: true,
+    }) as unknown as Promise<ChangeInfo | undefined>;
+  }
+
   runRepoGC(repo: RepoName): Promise<Response> {
     const encodeName = encodeURIComponent(repo);
     return this._restApiHelper.fetch({

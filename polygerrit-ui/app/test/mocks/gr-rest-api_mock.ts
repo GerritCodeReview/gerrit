@@ -519,6 +519,9 @@ export const grRestApiMock: RestApiService = {
   saveRepoConfig(): Promise<Response> {
     return Promise.resolve(new Response());
   },
+  saveRepoConfigForReview(): Promise<ChangeInfo | undefined> {
+    throw new Error('saveRepoConfigForReview() not implemented by mock.');
+  },
   saveWatchedProjects(): Promise<ProjectWatchInfo[] | undefined> {
     return Promise.resolve([]);
   },

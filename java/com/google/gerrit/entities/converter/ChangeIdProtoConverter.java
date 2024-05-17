@@ -17,10 +17,11 @@ package com.google.gerrit.entities.converter;
 import com.google.errorprone.annotations.Immutable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.proto.Entities;
+import com.google.gerrit.proto.Entities.Change_Id;
 import com.google.protobuf.Parser;
 
 @Immutable
-public enum ChangeIdProtoConverter implements ProtoConverter<Entities.Change_Id, Change.Id> {
+public enum ChangeIdProtoConverter implements SafeProtoConverter<Entities.Change_Id, Change.Id> {
   INSTANCE;
 
   @Override
@@ -36,5 +37,15 @@ public enum ChangeIdProtoConverter implements ProtoConverter<Entities.Change_Id,
   @Override
   public Parser<Entities.Change_Id> getParser() {
     return Entities.Change_Id.parser();
+  }
+
+  @Override
+  public Class<Change_Id> getProtoClass() {
+    return Change_Id.class;
+  }
+
+  @Override
+  public Class<Change.Id> getEntityClass() {
+    return Change.Id.class;
   }
 }

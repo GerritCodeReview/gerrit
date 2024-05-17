@@ -18,6 +18,7 @@ import static com.google.gerrit.entities.RefNames.REFS_CHANGES;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.primitives.Ints;
+import com.google.gerrit.common.ConvertibleToProto;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gson.Gson;
@@ -104,6 +105,7 @@ public final class Change {
 
   /** The numeric change ID */
   @AutoValue
+  @ConvertibleToProto
   public abstract static class Id {
     /**
      * Parse a Change.Id out of a string representation.

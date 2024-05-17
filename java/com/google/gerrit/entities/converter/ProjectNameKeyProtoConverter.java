@@ -16,12 +16,14 @@ package com.google.gerrit.entities.converter;
 
 import com.google.errorprone.annotations.Immutable;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.proto.Entities;
+import com.google.gerrit.proto.Entities.Project_NameKey;
 import com.google.protobuf.Parser;
 
 @Immutable
 public enum ProjectNameKeyProtoConverter
-    implements ProtoConverter<Entities.Project_NameKey, Project.NameKey> {
+    implements SafeProtoConverter<Entities.Project_NameKey, Project.NameKey> {
   INSTANCE;
 
   @Override
@@ -37,5 +39,15 @@ public enum ProjectNameKeyProtoConverter
   @Override
   public Parser<Entities.Project_NameKey> getParser() {
     return Entities.Project_NameKey.parser();
+  }
+
+  @Override
+  public Class<Project_NameKey> getProtoClass() {
+    return Project_NameKey.class;
+  }
+
+  @Override
+  public Class<NameKey> getEntityClass() {
+    return NameKey.class;
   }
 }

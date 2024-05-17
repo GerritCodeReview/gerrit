@@ -18,6 +18,7 @@ import com.google.common.base.Strings;
 import com.google.gerrit.extensions.api.projects.DescriptionInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -43,7 +44,7 @@ public class PutDescription implements RestModifyView<ProjectResource, Descripti
   @Override
   public Response<String> apply(ProjectResource resource, DescriptionInput input)
       throws AuthException, ResourceConflictException, ResourceNotFoundException, IOException,
-          PermissionBackendException, BadRequestException {
+          PermissionBackendException, BadRequestException, MethodNotAllowedException {
     if (input == null) {
       input = new DescriptionInput(); // Delete would set description to null.
     }

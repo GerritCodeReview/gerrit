@@ -18,6 +18,7 @@ import com.google.common.base.Strings;
 import com.google.gerrit.extensions.common.AbstractBatchInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestCollectionModifyView;
@@ -49,7 +50,8 @@ public abstract class AbstractPostCollection<
   @Override
   public Response<?> apply(ProjectResource rsrc, TBatchInput input)
       throws AuthException, UnprocessableEntityException, PermissionBackendException, IOException,
-          ConfigInvalidException, BadRequestException, ResourceConflictException {
+          ConfigInvalidException, BadRequestException, ResourceConflictException,
+          MethodNotAllowedException {
     if (!user.get().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }

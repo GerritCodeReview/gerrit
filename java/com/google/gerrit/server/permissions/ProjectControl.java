@@ -22,6 +22,7 @@ import static com.google.gerrit.server.util.MagicBranch.NEW_CHANGE;
 
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.BranchNameKey;
@@ -38,6 +39,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GitReceivePackGroups;
 import com.google.gerrit.server.config.GitUploadPackGroups;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -62,6 +64,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 
@@ -86,6 +89,7 @@ class ProjectControl {
   private List<SectionMatcher> allSections;
   private Map<String, RefControl> refControls;
   private Boolean declaredOwner;
+  private Config cfg;
 
   @Inject
   ProjectControl(
@@ -98,6 +102,7 @@ class ProjectControl {
       DefaultRefFilter.Factory refFilterFactory,
       ChangeData.Factory changeDataFactory,
       AllUsersName allUsersName,
+      @GerritServerConfig Config cfg,
       @Assisted CurrentUser who,
       @Assisted ProjectState ps) {
     this.uploadGroups = uploadGroups;
@@ -109,6 +114,7 @@ class ProjectControl {
     this.refFilterFactory = refFilterFactory;
     this.changeDataFactory = changeDataFactory;
     this.allUsersName = allUsersName;
+    this.cfg = cfg;
     user = who;
     state = ps;
   }
@@ -476,8 +482,18 @@ class ProjectControl {
         case READ_REFLOG:
         case WRITE_CONFIG:
           return isOwner();
+
+        case UPDATE_CONFIG_WITHOUT_CREATING_CHANGE:
+          return canUpdateConfigWithoutCreatingChange();
       }
       throw new PermissionBackendException(perm + " unsupported");
+    }
+
+    @UsedAt(UsedAt.Project.GOOGLE)
+    protected boolean canUpdateConfigWithoutCreatingChange() {
+      // In google, the implementation use more complicated logic - this is why it is placed inside
+      // a ProjectControl.
+      return !cfg.getBoolean("gerrit", "requireChangeForConfigUpdate", false);
     }
   }
 }

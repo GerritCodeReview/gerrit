@@ -32,6 +32,7 @@ import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.GlobalCapability;
@@ -57,6 +58,7 @@ import com.google.gerrit.extensions.config.CapabilityDefinition;
 import com.google.gerrit.extensions.config.PluginProjectPermissionDefinition;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.webui.FileHistoryWebLink;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
@@ -1177,6 +1179,33 @@ public class AccessIT extends AbstractDaemonTest {
     assertEquals(
         rules.get(registeredUsers.getUUID().get()),
         new PermissionRuleInfo(PermissionRuleInfo.Action.DENY, false));
+  }
+
+  @Test
+  public void canUpdateConfigWithoutCreatingChangeNullByDefault() throws Exception {
+    assertThat(pApi().access().requireChangeForConfigUpdate).isNull();
+    assertThat(gApi.projects().name(allProjects.get()).access().requireChangeForConfigUpdate)
+        .isNull();
+  }
+
+  @Test
+  @GerritConfig(name = "gerrit.requireChangeForConfigUpdate", value = "true")
+  public void canUpdateConfigWithoutCreatingChangeUsesConfigValue() throws Exception {
+    assertThat(pApi().access().requireChangeForConfigUpdate).isTrue();
+    assertThat(gApi.projects().name(allProjects.get()).access().requireChangeForConfigUpdate)
+        .isTrue();
+  }
+
+  @Test
+  @GerritConfig(name = "gerrit.requireChangeForConfigUpdate", value = "true")
+  public void requireChangeForConfigUpdate_postAccessRejected() {
+    ProjectAccessInput accessInput = newProjectAccessInput();
+    AccessSectionInfo accessSectionInfo = createDefaultAccessSectionInfo();
+
+    accessInput.add.put(REFS_HEADS, accessSectionInfo);
+    MethodNotAllowedException e =
+        assertThrows(MethodNotAllowedException.class, () -> pApi().access(accessInput));
+    assertThat(e.getMessage()).contains("Updating project config without review is disabled");
   }
 
   private ProjectApi pApi() throws Exception {

@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.common.LabelDefinitionInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestCollectionCreateView;
@@ -57,7 +58,8 @@ public class CreateLabel
   public Response<LabelDefinitionInfo> apply(
       ProjectResource rsrc, IdString id, LabelDefinitionInput input)
       throws AuthException, BadRequestException, ResourceConflictException,
-          PermissionBackendException, IOException, ConfigInvalidException {
+          PermissionBackendException, IOException, ConfigInvalidException,
+          MethodNotAllowedException {
     if (input == null) {
       input = new LabelDefinitionInput();
     }

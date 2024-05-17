@@ -24,6 +24,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.projects.ParentInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -84,14 +85,14 @@ public class SetParent
   public Response<String> apply(ProjectResource rsrc, ParentInput input)
       throws AuthException, ResourceConflictException, ResourceNotFoundException,
           UnprocessableEntityException, IOException, PermissionBackendException,
-          BadRequestException {
+          BadRequestException, MethodNotAllowedException {
     return Response.ok(apply(rsrc, input, true));
   }
 
   public String apply(ProjectResource rsrc, ParentInput input, boolean checkIfAdmin)
       throws AuthException, ResourceConflictException, ResourceNotFoundException,
           UnprocessableEntityException, IOException, PermissionBackendException,
-          BadRequestException {
+          BadRequestException, MethodNotAllowedException {
     IdentifiedUser user = rsrc.getUser().asIdentifiedUser();
     String parentName =
         MoreObjects.firstNonNull(Strings.emptyToNull(input.parent), allProjects.get());

@@ -21,12 +21,14 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.inject.Inject;
 import org.junit.Test;
@@ -122,5 +124,15 @@ public class DeleteLabelIT extends AbstractDaemonTest {
     // Assert no throws.
     @SuppressWarnings("unused")
     var unused = gApi.changes().id(changeId).get(DETAILED_LABELS);
+  }
+
+  @Test
+  @GerritConfig(name = "gerrit.requireChangeForConfigUpdate", value = "true")
+  public void requireChangeForConfigUpdate_deleteLabelRejected() {
+    MethodNotAllowedException e =
+        assertThrows(
+            MethodNotAllowedException.class,
+            () -> gApi.projects().name(allProjects.get()).label(LabelId.CODE_REVIEW).delete());
+    assertThat(e.getMessage()).contains("Updating project config without review is disabled");
   }
 }

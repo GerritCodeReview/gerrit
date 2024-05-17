@@ -15,14 +15,17 @@
 package com.google.gerrit.acceptance.api.project;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.common.BatchSubmitRequirementInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.SubmitRequirementInput;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.inject.Inject;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
@@ -58,6 +61,25 @@ public class SubmitRequirementsReviewIT extends AbstractDaemonTest {
         .isEqualTo("topic:foo");
     assertThat(config.getString("submit-requirement", "Foo", "submittableIf"))
         .isEqualTo("label:code-review=+2");
+  }
+
+  @Test
+  @GerritConfig(name = "gerrit.requireChangeForConfigUpdate", value = "true")
+  public void requireChangeForConfigUpdate_batchUpdateRejected() {
+    Project.NameKey testProject = projectOperations.newProject().create();
+    SubmitRequirementInput fooSR = new SubmitRequirementInput();
+    fooSR.name = "Foo";
+    fooSR.description = "SR description";
+    fooSR.applicabilityExpression = "topic:foo";
+    fooSR.submittabilityExpression = "label:code-review=+2";
+    BatchSubmitRequirementInput input = new BatchSubmitRequirementInput();
+    input.create = ImmutableList.of(fooSR);
+
+    MethodNotAllowedException e =
+        assertThrows(
+            MethodNotAllowedException.class,
+            () -> gApi.projects().name(testProject.get()).submitRequirements(input));
+    assertThat(e.getMessage()).contains("Updating project config without review is disabled");
   }
 
   @Test

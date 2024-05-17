@@ -36,6 +36,7 @@ import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -125,7 +126,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
 
   public ConfigInfo apply(ProjectState projectState, ConfigInput input)
       throws ResourceNotFoundException, BadRequestException, ResourceConflictException,
-          PermissionBackendException, AuthException {
+          PermissionBackendException, AuthException, MethodNotAllowedException {
     Project.NameKey projectName = projectState.getNameKey();
     if (input == null) {
       throw new BadRequestException("config is required");

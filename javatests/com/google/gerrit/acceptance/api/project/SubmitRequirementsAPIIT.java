@@ -20,15 +20,21 @@ import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.b
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.Permission;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.common.BatchSubmitRequirementInput;
+import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.SubmitRequirementInfo;
 import com.google.gerrit.extensions.common.SubmitRequirementInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.inject.Inject;
@@ -639,6 +645,53 @@ public class SubmitRequirementsAPIIT extends AbstractDaemonTest {
     assertThat(names(infos)).containsExactly("verified");
   }
 
+  @Test
+  @GerritConfig(name = "gerrit.requireChangeForConfigUpdate", value = "true")
+  public void requireChangeForConfigUpdate_createSubmitRequirementRejected() {
+    SubmitRequirementInput input = new SubmitRequirementInput();
+    input.name = "code-review";
+    input.description = "At least one +2 vote to the code-review label";
+    input.submittabilityExpression = "label:code-review=+2";
+    input.overrideExpression = "label:build-cop-override=+1";
+
+    MethodNotAllowedException e =
+        assertThrows(
+            MethodNotAllowedException.class,
+            () ->
+                gApi.projects().name(project.get()).submitRequirement("code-review").create(input));
+    assertThat(e.getMessage()).contains("Updating project config without review is disabled");
+  }
+
+  @Test
+  @GerritConfig(name = "gerrit.requireChangeForConfigUpdate", value = "true")
+  public void requireChangeForConfigUpdate_updateSubmitRequirementRejected() throws Exception {
+    createSubmitRequirementWithReview(project.get(), "code-review");
+
+    SubmitRequirementInput input = new SubmitRequirementInput();
+    input.name = "code-review";
+    input.applicabilityExpression = "topic:foo";
+    input.submittabilityExpression = "label:code-review=+2";
+
+    MethodNotAllowedException e =
+        assertThrows(
+            MethodNotAllowedException.class,
+            () ->
+                gApi.projects().name(project.get()).submitRequirement("code-review").update(input));
+    assertThat(e.getMessage()).contains("Updating project config without review is disabled");
+  }
+
+  @Test
+  @GerritConfig(name = "gerrit.requireChangeForConfigUpdate", value = "true")
+  public void requireChangeForConfigUpdate_deleteSubmitRequirementRejected() throws Exception {
+    createSubmitRequirementWithReview(project.get(), "code-review");
+
+    MethodNotAllowedException e =
+        assertThrows(
+            MethodNotAllowedException.class,
+            () -> gApi.projects().name(project.get()).submitRequirement("code-review").delete());
+    assertThat(e.getMessage()).contains("Updating project config without review is disabled");
+  }
+
   private SubmitRequirementInfo createSubmitRequirement(String srName) throws RestApiException {
     return createSubmitRequirement(project.get(), srName);
   }
@@ -650,6 +703,21 @@ public class SubmitRequirementsAPIIT extends AbstractDaemonTest {
     input.submittabilityExpression = "label:dummy=+2";
 
     return gApi.projects().name(project).submitRequirement(srName).create(input).get();
+  }
+
+  private void createSubmitRequirementWithReview(String project, String srName)
+      throws RestApiException {
+    SubmitRequirementInput input = new SubmitRequirementInput();
+    input.name = srName;
+    input.submittabilityExpression = "label:dummy=+2";
+    BatchSubmitRequirementInput batchInput = new BatchSubmitRequirementInput();
+    batchInput.create = ImmutableList.of(input);
+
+    ChangeInfo change = gApi.projects().name(project).submitRequirementsReview(batchInput);
+    ReviewInput reviewInput = new ReviewInput();
+    reviewInput.label("Code-Review", 2);
+    gApi.changes().id(change.project, change._number).current().review(reviewInput);
+    gApi.changes().id(change.project, change._number).current().submit();
   }
 
   private List<String> names(List<SubmitRequirementInfo> infos) {

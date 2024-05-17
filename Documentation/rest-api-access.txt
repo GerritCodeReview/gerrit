@@ -415,6 +415,9 @@ be invisible to the caller.
 Links to the history of the configuration file governing this project's access
 rights as list of link:rest-api-changes.html#web-link-info[WebLinkInfo]
 entities.
+|`require_change_for_config_update`       |not set if `false`|
+Whether the calling user must create a change for updating project config.
+If true, all API requests which directly update project config are rejected.
 |==================================
 
 

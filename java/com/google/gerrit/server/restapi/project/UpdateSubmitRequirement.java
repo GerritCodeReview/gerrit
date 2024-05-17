@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.common.SubmitRequirementInfo;
 import com.google.gerrit.extensions.common.SubmitRequirementInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -56,7 +57,8 @@ public class UpdateSubmitRequirement
   @Override
   public Response<SubmitRequirementInfo> apply(
       SubmitRequirementResource rsrc, SubmitRequirementInput input)
-      throws AuthException, BadRequestException, PermissionBackendException, IOException {
+      throws AuthException, BadRequestException, PermissionBackendException, IOException,
+          MethodNotAllowedException {
     if (input == null) {
       input = new SubmitRequirementInput();
     }

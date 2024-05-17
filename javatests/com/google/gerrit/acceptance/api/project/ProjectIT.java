@@ -70,6 +70,7 @@ import com.google.gerrit.extensions.events.ChangeIndexedListener;
 import com.google.gerrit.extensions.events.ProjectIndexedListener;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.config.ProjectConfigEntry;
@@ -391,6 +392,17 @@ public class ProjectIT extends AbstractDaemonTest {
     assertThat(info.defaultSubmitType.inheritedValue).isEqualTo(SubmitType.MERGE_IF_NECESSARY);
     assertThat(info.defaultSubmitType.configuredValue).isEqualTo(input.submitType);
     assertThat(info.state).isEqualTo(input.state);
+  }
+
+  @Test
+  @GerritConfig(name = "gerrit.requireChangeForConfigUpdate", value = "true")
+  public void requireChangeForConfigUpdate_setConfigRejected() {
+    ConfigInput input = createTestConfigInput();
+    MethodNotAllowedException e =
+        assertThrows(
+            MethodNotAllowedException.class,
+            () -> gApi.projects().name(project.get()).config(input));
+    assertThat(e.getMessage()).contains("Updating project config without review is disabled");
   }
 
   @SuppressWarnings("deprecation")

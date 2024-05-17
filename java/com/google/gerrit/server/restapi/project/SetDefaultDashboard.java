@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.restapi.project;
 
-import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.api.projects.DashboardInfo;
 import com.google.gerrit.extensions.api.projects.SetDashboardInput;
@@ -25,12 +24,8 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.server.git.meta.MetaDataUpdate;
-import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.project.DashboardResource;
-import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.inject.Inject;
@@ -41,30 +36,21 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.kohsuke.args4j.Option;
 
 class SetDefaultDashboard implements RestModifyView<DashboardResource, SetDashboardInput> {
-  private final ProjectCache cache;
-  private final MetaDataUpdate.Server updateFactory;
   private final DashboardsCollection dashboards;
   private final Provider<GetDashboard> get;
-  private final PermissionBackend permissionBackend;
-  private final ProjectConfig.Factory projectConfigFactory;
+  private final RepoMetaDataUpdater repoMetaDataUpdater;
 
   @Option(name = "--inherited", usage = "set dashboard inherited by children")
   boolean inherited;
 
   @Inject
   SetDefaultDashboard(
-      ProjectCache cache,
-      MetaDataUpdate.Server updateFactory,
       DashboardsCollection dashboards,
       Provider<GetDashboard> get,
-      PermissionBackend permissionBackend,
-      ProjectConfig.Factory projectConfigFactory) {
-    this.cache = cache;
-    this.updateFactory = updateFactory;
+      RepoMetaDataUpdater repoMetaDataUpdater) {
     this.dashboards = dashboards;
     this.get = get;
-    this.permissionBackend = permissionBackend;
-    this.projectConfigFactory = projectConfigFactory;
+    this.repoMetaDataUpdater = repoMetaDataUpdater;
   }
 
   @Override
@@ -74,11 +60,6 @@ class SetDefaultDashboard implements RestModifyView<DashboardResource, SetDashbo
       input = new SetDashboardInput(); // Delete would set input to null.
     }
     input.id = Strings.emptyToNull(input.id);
-
-    permissionBackend
-        .user(rsrc.getUser())
-        .project(rsrc.getProjectState().getNameKey())
-        .check(ProjectPermission.WRITE_CONFIG);
 
     DashboardResource target = null;
     if (input.id != null) {
@@ -93,29 +74,22 @@ class SetDefaultDashboard implements RestModifyView<DashboardResource, SetDashbo
         throw new ResourceConflictException(e.getMessage());
       }
     }
+    String defaultMessage =
+        input.id == null
+            ? "Removed default dashboard.\n"
+            : String.format("Changed default dashboard to %s.\n", input.id);
 
-    try (MetaDataUpdate md = updateFactory.create(rsrc.getProjectState().getNameKey())) {
-      ProjectConfig config = projectConfigFactory.read(md);
+    try (var configUpdater =
+        repoMetaDataUpdater.configUpdater(
+            rsrc.getProjectState().getNameKey(), input.commitMessage, defaultMessage)) {
+      ProjectConfig config = configUpdater.getConfig();
       String id = input.id;
       if (inherited) {
         config.updateProject(p -> p.setDefaultDashboard(id));
       } else {
         config.updateProject(p -> p.setLocalDefaultDashboard(id));
       }
-
-      String msg =
-          MoreObjects.firstNonNull(
-              Strings.emptyToNull(input.commitMessage),
-              input.id == null
-                  ? "Removed default dashboard.\n"
-                  : String.format("Changed default dashboard to %s.\n", input.id));
-      if (!msg.endsWith("\n")) {
-        msg += "\n";
-      }
-      md.setAuthor(rsrc.getUser().asIdentifiedUser());
-      md.setMessage(msg);
-      config.commit(md);
-      cache.evictAndReindex(rsrc.getProjectState().getProject());
+      configUpdater.commitConfigUpdate();
 
       if (target != null) {
         Response<DashboardInfo> response = get.get().apply(target);

@@ -14,24 +14,18 @@
 
 package com.google.gerrit.server.restapi.project;
 
-import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.api.projects.DescriptionInput;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.git.meta.MetaDataUpdate;
-import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.ProjectPermission;
-import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -39,53 +33,30 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 
 @Singleton
 public class PutDescription implements RestModifyView<ProjectResource, DescriptionInput> {
-  private final ProjectCache cache;
-  private final Provider<MetaDataUpdate.Server> updateFactory;
-  private final PermissionBackend permissionBackend;
-  private final ProjectConfig.Factory projectConfigFactory;
+  private final RepoMetaDataUpdater repoMetaDataUpdater;
 
   @Inject
-  PutDescription(
-      ProjectCache cache,
-      Provider<MetaDataUpdate.Server> updateFactory,
-      PermissionBackend permissionBackend,
-      ProjectConfig.Factory projectConfigFactory) {
-    this.cache = cache;
-    this.updateFactory = updateFactory;
-    this.permissionBackend = permissionBackend;
-    this.projectConfigFactory = projectConfigFactory;
+  PutDescription(RepoMetaDataUpdater repoMetaDataUpdater) {
+    this.repoMetaDataUpdater = repoMetaDataUpdater;
   }
 
   @Override
   public Response<String> apply(ProjectResource resource, DescriptionInput input)
       throws AuthException, ResourceConflictException, ResourceNotFoundException, IOException,
-          PermissionBackendException {
+          PermissionBackendException, BadRequestException {
     if (input == null) {
       input = new DescriptionInput(); // Delete would set description to null.
     }
 
-    IdentifiedUser user = resource.getUser().asIdentifiedUser();
-    permissionBackend
-        .user(user)
-        .project(resource.getNameKey())
-        .check(ProjectPermission.WRITE_CONFIG);
-
-    try (MetaDataUpdate md = updateFactory.get().create(resource.getNameKey())) {
-      ProjectConfig config = projectConfigFactory.read(md);
+    try (var configUpdater =
+        repoMetaDataUpdater.configUpdater(
+            resource.getNameKey(), input.commitMessage, "Update description")) {
+      ProjectConfig config = configUpdater.getConfig();
       String desc = input.description;
       config.updateProject(p -> p.setDescription(Strings.emptyToNull(desc)));
 
-      String msg =
-          MoreObjects.firstNonNull(
-              Strings.emptyToNull(input.commitMessage), "Update description\n");
-      if (!msg.endsWith("\n")) {
-        msg += "\n";
-      }
-      md.setAuthor(user);
-      md.setMessage(msg);
-      config.commit(md);
-      cache.evictAndReindex(resource.getProjectState().getProject());
-      md.getRepository().setGitwebDescription(config.getProject().getDescription());
+      configUpdater.commitConfigUpdate();
+      configUpdater.getRepository().setGitwebDescription(config.getProject().getDescription());
 
       return Strings.isNullOrEmpty(config.getProject().getDescription())
           ? Response.none()

@@ -86,6 +86,7 @@ import com.google.gerrit.server.restapi.project.ListLabels;
 import com.google.gerrit.server.restapi.project.ListSubmitRequirements;
 import com.google.gerrit.server.restapi.project.ListTags;
 import com.google.gerrit.server.restapi.project.PostLabels;
+import com.google.gerrit.server.restapi.project.PostLabelsReview;
 import com.google.gerrit.server.restapi.project.ProjectsCollection;
 import com.google.gerrit.server.restapi.project.PutConfig;
 import com.google.gerrit.server.restapi.project.PutConfigReview;
@@ -149,6 +150,7 @@ public class ProjectApiImpl implements ProjectApi {
   private final Provider<ListLabels> listLabels;
   private final Provider<ListSubmitRequirements> listSubmitRequirements;
   private final PostLabels postLabels;
+  private final PostLabelsReview postLabelsReview;
   private final LabelApiImpl.Factory labelApi;
   private final SubmitRequirementApiImpl.Factory submitRequirementApi;
 
@@ -191,6 +193,7 @@ public class ProjectApiImpl implements ProjectApi {
       Provider<ListLabels> listLabels,
       Provider<ListSubmitRequirements> listSubmitRequirements,
       PostLabels postLabels,
+      PostLabelsReview postLabelsReview,
       LabelApiImpl.Factory labelApi,
       SubmitRequirementApiImpl.Factory submitRequirementApi,
       @Assisted ProjectResource project) {
@@ -233,6 +236,7 @@ public class ProjectApiImpl implements ProjectApi {
         listLabels,
         listSubmitRequirements,
         postLabels,
+        postLabelsReview,
         labelApi,
         submitRequirementApi,
         null);
@@ -277,6 +281,7 @@ public class ProjectApiImpl implements ProjectApi {
       Provider<ListLabels> listLabels,
       Provider<ListSubmitRequirements> listSubmitRequirements,
       PostLabels postLabels,
+      PostLabelsReview postLabelsReview,
       LabelApiImpl.Factory labelApi,
       SubmitRequirementApiImpl.Factory submitRequirementApi,
       @Assisted String name) {
@@ -319,6 +324,7 @@ public class ProjectApiImpl implements ProjectApi {
         listLabels,
         listSubmitRequirements,
         postLabels,
+        postLabelsReview,
         labelApi,
         submitRequirementApi,
         name);
@@ -363,6 +369,7 @@ public class ProjectApiImpl implements ProjectApi {
       Provider<ListLabels> listLabels,
       Provider<ListSubmitRequirements> listSubmitRequirements,
       PostLabels postLabels,
+      PostLabelsReview postLabelsReview,
       LabelApiImpl.Factory labelApi,
       SubmitRequirementApiImpl.Factory submitRequirementApi,
       String name) {
@@ -405,6 +412,7 @@ public class ProjectApiImpl implements ProjectApi {
     this.listLabels = listLabels;
     this.listSubmitRequirements = listSubmitRequirements;
     this.postLabels = postLabels;
+    this.postLabelsReview = postLabelsReview;
     this.labelApi = labelApi;
     this.submitRequirementApi = submitRequirementApi;
   }
@@ -829,6 +837,15 @@ public class ProjectApiImpl implements ProjectApi {
       var unused = postLabels.apply(checkExists(), input);
     } catch (Exception e) {
       throw asRestApiException("Cannot update labels", e);
+    }
+  }
+
+  @Override
+  public ChangeInfo labelsReview(BatchLabelInput input) throws RestApiException {
+    try {
+      return postLabelsReview.apply(checkExists(), input).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot create change for labels update", e);
     }
   }
 }

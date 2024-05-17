@@ -14,138 +14,76 @@
 
 package com.google.gerrit.server.restapi.project;
 
-import com.google.common.base.Strings;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.extensions.common.BatchLabelInput;
 import com.google.gerrit.extensions.common.LabelDefinitionInput;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.extensions.restapi.Response;
-import com.google.gerrit.extensions.restapi.RestCollectionModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.git.meta.MetaDataUpdate;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.project.LabelResource;
-import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
-import com.google.gerrit.server.project.ProjectResource;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import java.io.IOException;
-import java.util.Map;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 
 /** REST endpoint that allows to add, update and delete label definitions in a batch. */
 @Singleton
 public class PostLabels
-    implements RestCollectionModifyView<ProjectResource, LabelResource, BatchLabelInput> {
-  private final Provider<CurrentUser> user;
-  private final PermissionBackend permissionBackend;
-  private final MetaDataUpdate.User updateFactory;
-  private final ProjectConfig.Factory projectConfigFactory;
+    extends AbstractPostCollection<String, LabelResource, LabelDefinitionInput, BatchLabelInput> {
   private final DeleteLabel deleteLabel;
   private final CreateLabel createLabel;
   private final SetLabel setLabel;
-  private final ProjectCache projectCache;
 
   @Inject
   public PostLabels(
       Provider<CurrentUser> user,
-      PermissionBackend permissionBackend,
-      MetaDataUpdate.User updateFactory,
-      ProjectConfig.Factory projectConfigFactory,
       DeleteLabel deleteLabel,
       CreateLabel createLabel,
       SetLabel setLabel,
-      ProjectCache projectCache) {
-    this.user = user;
-    this.permissionBackend = permissionBackend;
-    this.updateFactory = updateFactory;
-    this.projectConfigFactory = projectConfigFactory;
+      RepoMetaDataUpdater updater) {
+    super(updater, user);
     this.deleteLabel = deleteLabel;
     this.createLabel = createLabel;
     this.setLabel = setLabel;
-    this.projectCache = projectCache;
   }
 
   @Override
-  public Response<?> apply(ProjectResource rsrc, BatchLabelInput input)
-      throws AuthException, UnprocessableEntityException, PermissionBackendException, IOException,
-          ConfigInvalidException, BadRequestException, ResourceConflictException {
-    if (!user.get().isIdentifiedUser()) {
-      throw new AuthException("Authentication required");
+  public String defaultCommitMessage() {
+    return "Update labels";
+  }
+
+  @Override
+  protected boolean updateItem(ProjectConfig config, String name, LabelDefinitionInput resource)
+      throws BadRequestException, ResourceConflictException, UnprocessableEntityException {
+    LabelType labelType = config.getLabelSections().get(name);
+    if (labelType == null) {
+      throw new UnprocessableEntityException(String.format("label %s not found", name));
+    }
+    if (resource.commitMessage != null) {
+      throw new BadRequestException("commit message on label definition input not supported");
     }
 
-    permissionBackend
-        .currentUser()
-        .project(rsrc.getNameKey())
-        .check(ProjectPermission.WRITE_CONFIG);
+    return setLabel.updateLabel(config, labelType, resource);
+  }
 
-    if (input == null) {
-      input = new BatchLabelInput();
+  @Override
+  protected void createItem(ProjectConfig config, LabelDefinitionInput labelInput)
+      throws BadRequestException, ResourceConflictException {
+    if (labelInput.name == null || labelInput.name.trim().isEmpty()) {
+      throw new BadRequestException("label name is required for new label");
     }
-
-    try (MetaDataUpdate md = updateFactory.create(rsrc.getNameKey())) {
-      boolean dirty = false;
-
-      ProjectConfig config = projectConfigFactory.read(md);
-
-      if (input.delete != null && !input.delete.isEmpty()) {
-        for (String labelName : input.delete) {
-          if (!deleteLabel.deleteLabel(config, labelName.trim())) {
-            throw new UnprocessableEntityException(String.format("label %s not found", labelName));
-          }
-        }
-        dirty = true;
-      }
-
-      if (input.create != null && !input.create.isEmpty()) {
-        for (LabelDefinitionInput labelInput : input.create) {
-          if (labelInput.name == null || labelInput.name.trim().isEmpty()) {
-            throw new BadRequestException("label name is required for new label");
-          }
-          if (labelInput.commitMessage != null) {
-            throw new BadRequestException("commit message on label definition input not supported");
-          }
-          @SuppressWarnings("unused")
-          var unused = createLabel.createLabel(config, labelInput.name.trim(), labelInput);
-        }
-        dirty = true;
-      }
-
-      if (input.update != null && !input.update.isEmpty()) {
-        for (Map.Entry<String, LabelDefinitionInput> e : input.update.entrySet()) {
-          LabelType labelType = config.getLabelSections().get(e.getKey().trim());
-          if (labelType == null) {
-            throw new UnprocessableEntityException(String.format("label %s not found", e.getKey()));
-          }
-          if (e.getValue().commitMessage != null) {
-            throw new BadRequestException("commit message on label definition input not supported");
-          }
-
-          if (setLabel.updateLabel(config, labelType, e.getValue())) {
-            dirty = true;
-          }
-        }
-      }
-
-      if (input.commitMessage != null) {
-        md.setMessage(Strings.emptyToNull(input.commitMessage.trim()));
-      } else {
-        md.setMessage("Update labels");
-      }
-
-      if (dirty) {
-        config.commit(md);
-        projectCache.evictAndReindex(rsrc.getProjectState().getProject());
-      }
+    if (labelInput.commitMessage != null) {
+      throw new BadRequestException("commit message on label definition input not supported");
     }
+    @SuppressWarnings("unused")
+    var unused = createLabel.createLabel(config, labelInput.name.trim(), labelInput);
+  }
 
-    return Response.ok("");
+  @Override
+  protected void deleteItem(ProjectConfig config, String name) throws UnprocessableEntityException {
+    if (!deleteLabel.deleteLabel(config, name)) {
+      throw new UnprocessableEntityException(String.format("label %s not found", name));
+    }
   }
 }

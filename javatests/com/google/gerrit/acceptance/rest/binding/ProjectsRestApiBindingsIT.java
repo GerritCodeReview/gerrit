@@ -83,6 +83,7 @@ public class ProjectsRestApiBindingsIT extends AbstractDaemonTest {
           RestCall.post("/projects/%s/index.changes"),
           RestCall.get("/projects/%s/labels"),
           RestCall.post("/projects/%s/labels/"),
+          RestCall.post("/projects/%s/labels:review"),
           RestCall.put("/projects/%s/labels/new-label"),
           RestCall.get("/projects/%s/parent"),
           RestCall.put("/projects/%s/parent"),

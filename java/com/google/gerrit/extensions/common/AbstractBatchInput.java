@@ -1,4 +1,4 @@
-// Copyright (C) 2019 The Android Open Source Project
+// Copyright (C) 2024 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,5 +14,13 @@
 
 package com.google.gerrit.extensions.common;
 
-/** Input for the REST API that describes additions, updates and deletions of label definitions. */
-public class BatchLabelInput extends AbstractBatchInput<LabelDefinitionInput> {}
+import java.util.List;
+import java.util.Map;
+
+/** Input for the REST API that describes additions, updates and deletions items in a collection. */
+public abstract class AbstractBatchInput<T> {
+  public String commitMessage;
+  public List<String> delete;
+  public List<T> create;
+  public Map<String, T> update;
+}

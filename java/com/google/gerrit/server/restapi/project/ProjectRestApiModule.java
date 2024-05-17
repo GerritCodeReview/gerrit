@@ -103,10 +103,11 @@ public class ProjectRestApiModule extends RestApiModule {
 
     child(PROJECT_KIND, "labels").to(LabelsCollection.class);
     create(LABEL_KIND).to(CreateLabel.class);
-    postOnCollection(LABEL_KIND).to(PostLabels.class);
     get(LABEL_KIND).to(GetLabel.class);
     put(LABEL_KIND).to(SetLabel.class);
     delete(LABEL_KIND).to(DeleteLabel.class);
+    postOnCollection(LABEL_KIND).to(PostLabels.class);
+    post(PROJECT_KIND, "labels:review").to(PostLabelsReview.class);
 
     get(PROJECT_KIND, "parent").to(GetParent.class);
     put(PROJECT_KIND, "parent").to(SetParent.class);

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f124913_d0f2d70e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2024-05-17T06:46:28Z",
+      "side": 1,
+      "message": "The warning message would be even more overwhelming than the current one, showing the original patch, followed by the applied one with the conflict markers (meaning head+original+a lot of markers).\n\nI think we should replace this message with something like \"there were conflicts when applying this patch. Look for `\u003c\u003c\u003c\u003c\u003c\u003c\u003c HEAD` to locate them.\"",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 34
+      },
+      "revId": "639e24af356feb6ecd35b3b5cb557daec5b0b5a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

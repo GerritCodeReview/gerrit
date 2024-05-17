@@ -106,6 +106,24 @@
       "parentUuid": "63410e20_55df371e",
       "revId": "6417b42739da738dff9b6eda04aeee2ca0cad9cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24e8a6f2_0b698a51",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-05-17T22:52:23Z",
+      "side": 1,
+      "message": "\u003e Anyone with a x86? My platform is different from Matthias\u0027 one.\n\nWorks for me on my x86 Mac with 14.4.1 and command line tools version 15.3.0.0.1.1708646388.",
+      "parentUuid": "95a07e3b_afc2fc6f",
+      "revId": "6417b42739da738dff9b6eda04aeee2ca0cad9cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

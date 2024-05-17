@@ -20,11 +20,12 @@ import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.proto.Entities;
+import com.google.gerrit.proto.Entities.PatchSetApproval_Key;
 import com.google.protobuf.Parser;
 
 @Immutable
 public enum PatchSetApprovalKeyProtoConverter
-    implements ProtoConverter<Entities.PatchSetApproval_Key, PatchSetApproval.Key> {
+    implements SafeProtoConverter<Entities.PatchSetApproval_Key, PatchSetApproval.Key> {
   INSTANCE;
 
   private final ProtoConverter<Entities.PatchSet_Id, PatchSet.Id> patchSetIdConverter =
@@ -54,5 +55,15 @@ public enum PatchSetApprovalKeyProtoConverter
   @Override
   public Parser<Entities.PatchSetApproval_Key> getParser() {
     return Entities.PatchSetApproval_Key.parser();
+  }
+
+  @Override
+  public Class<PatchSetApproval_Key> getProtoClass() {
+    return PatchSetApproval_Key.class;
+  }
+
+  @Override
+  public Class<PatchSetApproval.Key> getEntityClass() {
+    return PatchSetApproval.Key.class;
   }
 }

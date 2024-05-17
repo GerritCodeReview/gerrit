@@ -273,6 +273,7 @@ public final class Change {
    * "Ixxxxxx...", and is stored in the Change-Id footer of a commit.
    */
   @AutoValue
+  @ConvertibleToProto
   public abstract static class Key {
     // TODO(dborowitz): This hardly seems worth it: why would someone pass a URL-encoded change key?
     // Ideally the standard key() factory method would enforce the format and throw IAE.

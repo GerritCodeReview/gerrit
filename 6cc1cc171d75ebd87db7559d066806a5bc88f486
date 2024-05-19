@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a17817e3_20eecabe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-05-19T18:28:35Z",
+      "side": 1,
+      "message": "I guess this can be abandoned? As merges up have happened since i think.",
+      "revId": "6cc1cc171d75ebd87db7559d066806a5bc88f486",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

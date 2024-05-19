@@ -252,6 +252,7 @@ export class GrSettingsView extends LitElement {
       css`
         :host {
           color: var(--primary-text-color);
+          overflow: auto;
         }
         h2 {
           font-family: var(--header-font-family);

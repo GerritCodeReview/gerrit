@@ -23,6 +23,7 @@ const LANGUAGE_MAP = new Map<string, string>([
   ['application/typescript', 'typescript'],
   ['application/xml', 'xml'],
   ['application/xquery', 'xquery'],
+  ['application/x-epp', 'epp'],
   ['application/x-erb', 'erb'],
   ['text/css', 'css'],
   ['text/html', 'html'],

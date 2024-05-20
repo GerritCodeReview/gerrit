@@ -152,8 +152,15 @@ export class GrSuggestionDiffPreview extends LitElement {
   static override get styles() {
     return [
       css`
+        :host {
+          display: block;
+        }
         .buttons {
           text-align: right;
+        }
+        .diff-container {
+          border: 1px solid var(--border-color);
+          border-top: none;
         }
         code {
           max-width: var(--gr-formatted-text-prose-max-width, none);
@@ -221,14 +228,16 @@ export class GrSuggestionDiffPreview extends LitElement {
     if (!anyLineTooLong(diff)) {
       this.syntaxLayer.process(diff);
     }
-    return html`<gr-diff
-      .prefs=${this.overridePartialDiffPrefs()}
-      .path=${this.preview.filepath}
-      .diff=${diff}
-      .layers=${this.layers}
-      .renderPrefs=${this.renderPrefs}
-      .viewMode=${DiffViewMode.UNIFIED}
-    ></gr-diff>`;
+    return html`<div class="diff-container">
+      <gr-diff
+        .prefs=${this.overridePartialDiffPrefs()}
+        .path=${this.preview.filepath}
+        .diff=${diff}
+        .layers=${this.layers}
+        .renderPrefs=${this.renderPrefs}
+        .viewMode=${DiffViewMode.UNIFIED}
+      ></gr-diff>
+    </div>`;
   }
 
   private async fetchFixPreview() {

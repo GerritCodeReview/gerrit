@@ -87,6 +87,9 @@ export class GrFixSuggestions extends LitElement {
   static override get styles() {
     return [
       css`
+        :host {
+          display: block;
+        }
         .header {
           background-color: var(--background-color-primary);
           border: 1px solid var(--border-color);

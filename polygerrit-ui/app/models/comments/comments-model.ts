@@ -432,7 +432,7 @@ export class CommentsModel extends Model<CommentState> {
     threads.filter(t => !isNewThread(t) && isDraftThread(t))
   );
 
-  public readonly threadsWithSuggestions$ = select(
+  public readonly threadsWithUnappliedSuggestions$ = select(
     combineLatest([this.threads$, this.changeModel.latestPatchNum$]),
     ([threads, latestPs]) =>
       threads.filter(

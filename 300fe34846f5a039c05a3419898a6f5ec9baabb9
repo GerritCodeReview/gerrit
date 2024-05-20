@@ -88,6 +88,24 @@
       "parentUuid": "68d45f1b_7cde57c0",
       "revId": "300fe34846f5a039c05a3419898a6f5ec9baabb9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9fd9150d_4a6c4a29",
+        "filename": "polygerrit-ui/app/models/user/user-model.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-05-20T13:35:33Z",
+      "side": 1,
+      "message": "Seems to work. Thanks! (Also this is pretty cool).",
+      "parentUuid": "a2cb480c_fc1653e8",
+      "revId": "300fe34846f5a039c05a3419898a6f5ec9baabb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

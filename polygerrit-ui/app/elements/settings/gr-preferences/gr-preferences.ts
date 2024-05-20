@@ -121,18 +121,18 @@ export class GrPreferences extends LitElement {
       () => this.getConfigModel().docsBaseUrl$,
       docsBaseUrl => (this.docsBaseUrl = docsBaseUrl)
     );
-  }
-
-  override connectedCallback() {
-    super.connectedCallback();
-    this.getPluginLoader()
-      .awaitPluginsLoaded()
-      .then(() => {
-        const suggestionsPlugins =
-          this.getPluginLoader().pluginsModel.getState().suggestionsPlugins;
+    if (
+      this.flagsService.isEnabled(KnownExperimentId.ML_SUGGESTED_EDIT) ||
+      this.flagsService.isEnabled(KnownExperimentId.ML_SUGGESTED_EDIT_V2)
+    ) {
+      subscribe(
+        this,
+        () => this.getPluginLoader().pluginsModel.suggestionsPlugins$,
         // We currently support results from only 1 provider.
-        this.suggestionsProvider = suggestionsPlugins?.[0]?.provider;
-      });
+        suggestionsPlugins =>
+          (this.suggestionsProvider = suggestionsPlugins?.[0]?.provider)
+      );
+    }
   }
 
   static override get styles() {
@@ -480,11 +480,7 @@ export class GrPreferences extends LitElement {
   // When the experiment is over, move this back to render(),
   // removing this function.
   private renderGenerateSuggestionWhenCommenting() {
-    if (
-      !this.flagsService.isEnabled(KnownExperimentId.ML_SUGGESTED_EDIT) ||
-      !this.suggestionsProvider
-    )
-      return nothing;
+    if (!this.suggestionsProvider) return nothing;
     return html`
       <section id="allowSuggestCodeWhileCommentingSection">
         <div class="title">

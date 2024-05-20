@@ -2105,8 +2105,16 @@ export class GrChangeActions
   }
 
   private handlePublishEditTap() {
-    assertIsDefined(this.confirmPublishEditDialog, 'confirmPublishEditDialog');
-    this.showActionDialog(this.confirmPublishEditDialog);
+    if (this.numberOfThreadsWithSuggestions() > 0) {
+      assertIsDefined(
+        this.confirmPublishEditDialog,
+        'confirmPublishEditDialog'
+      );
+      this.showActionDialog(this.confirmPublishEditDialog);
+    } else {
+      // Skip confirmation dialog and publish immediately.
+      this.handlePublishEditConfirm();
+    }
   }
 
   private handleRebaseEditTap() {

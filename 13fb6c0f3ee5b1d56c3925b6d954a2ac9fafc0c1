@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2911b4fe_8ec86248",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 3599,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-05-20T17:34:44Z",
+      "side": 1,
+      "message": "I don\u0027t think this is the correct place for this update. Several places in this doc use `{commit-id}` in ways that the `{branch-id}~` prefix wouldn\u0027t be applicable.",
+      "revId": "13fb6c0f3ee5b1d56c3925b6d954a2ac9fafc0c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2879398a_75006fd4",
         "filename": "java/com/google/gerrit/server/restapi/project/CommitsCollection.java",
         "patchSetId": 7

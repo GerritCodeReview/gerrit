@@ -678,6 +678,10 @@ export class GrComment extends LitElement {
           /* Making up for the 2px reduced height above. */
           top: 1px;
         }
+        gr-suggestion-diff-preview,
+        gr-fix-suggestions {
+          margin-top: var(--spacing-s);
+        }
       `,
     ];
   }

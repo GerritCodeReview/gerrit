@@ -26,12 +26,7 @@ import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestCollectionCreateView;
-import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.git.meta.MetaDataUpdate;
-import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.ProjectPermission;
-import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.SubmitRequirementExpressionsValidator;
@@ -39,7 +34,6 @@ import com.google.gerrit.server.project.SubmitRequirementJson;
 import com.google.gerrit.server.project.SubmitRequirementResource;
 import com.google.gerrit.server.project.SubmitRequirementsUtil;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Optional;
@@ -50,42 +44,42 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 public class CreateSubmitRequirement
     implements RestCollectionCreateView<
         ProjectResource, SubmitRequirementResource, SubmitRequirementInput> {
-  private final Provider<CurrentUser> user;
-  private final PermissionBackend permissionBackend;
-  private final MetaDataUpdate.User updateFactory;
-  private final ProjectConfig.Factory projectConfigFactory;
-  private final ProjectCache projectCache;
   private final SubmitRequirementExpressionsValidator submitRequirementExpressionsValidator;
+  private final RepoMetaDataUpdater updater;
 
   @Inject
   public CreateSubmitRequirement(
-      Provider<CurrentUser> user,
-      PermissionBackend permissionBackend,
-      MetaDataUpdate.User updateFactory,
-      ProjectConfig.Factory projectConfigFactory,
-      ProjectCache projectCache,
-      SubmitRequirementExpressionsValidator submitRequirementExpressionsValidator) {
-    this.user = user;
-    this.permissionBackend = permissionBackend;
-    this.updateFactory = updateFactory;
-    this.projectConfigFactory = projectConfigFactory;
-    this.projectCache = projectCache;
+      SubmitRequirementExpressionsValidator submitRequirementExpressionsValidator,
+      RepoMetaDataUpdater updater) {
     this.submitRequirementExpressionsValidator = submitRequirementExpressionsValidator;
+    this.updater = updater;
   }
 
   @Override
   public Response<SubmitRequirementInfo> apply(
       ProjectResource rsrc, IdString id, SubmitRequirementInput input)
       throws AuthException, BadRequestException, IOException, PermissionBackendException {
-    if (!user.get().isIdentifiedUser()) {
-      throw new AuthException("Authentication required");
+    String defaultMessage = String.format("Create Submit Requirement %s", id.get());
+    try (var configUpdater =
+        updater.configUpdater(
+            rsrc.getNameKey(),
+            /** message= */
+            null,
+            defaultMessage)) {
+      ProjectConfig config = configUpdater.getConfig();
+      SubmitRequirement submitRequirement = updateConfig(config, id, input);
+
+      configUpdater.commitConfigUpdate();
+      return Response.created(SubmitRequirementJson.format(submitRequirement));
+    } catch (ConfigInvalidException e) {
+      throw new IOException("Failed to read project config", e);
+    } catch (ResourceConflictException e) {
+      throw new BadRequestException("Failed to create submit requirement", e);
     }
+  }
 
-    permissionBackend
-        .currentUser()
-        .project(rsrc.getNameKey())
-        .check(ProjectPermission.WRITE_CONFIG);
-
+  SubmitRequirement updateConfig(ProjectConfig config, IdString id, SubmitRequirementInput input)
+      throws ResourceConflictException, BadRequestException {
     if (input == null) {
       input = new SubmitRequirementInput();
     }
@@ -93,23 +87,7 @@ public class CreateSubmitRequirement
     if (input.name != null && !input.name.equals(id.get())) {
       throw new BadRequestException("name in input must match name in URL");
     }
-
-    try (MetaDataUpdate md = updateFactory.create(rsrc.getNameKey())) {
-      ProjectConfig config = projectConfigFactory.read(md);
-
-      SubmitRequirement submitRequirement = createSubmitRequirement(config, id.get(), input);
-
-      md.setMessage(String.format("Create Submit Requirement %s", submitRequirement.name()));
-      config.commit(md);
-
-      projectCache.evict(rsrc.getProjectState().getProject().getNameKey());
-
-      return Response.created(SubmitRequirementJson.format(submitRequirement));
-    } catch (ConfigInvalidException e) {
-      throw new IOException("Failed to read project config", e);
-    } catch (ResourceConflictException e) {
-      throw new BadRequestException("Failed to create submit requirement", e);
-    }
+    return createSubmitRequirement(config, id.get(), input);
   }
 
   public SubmitRequirement createSubmitRequirement(

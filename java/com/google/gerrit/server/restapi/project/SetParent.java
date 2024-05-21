@@ -38,7 +38,6 @@ import com.google.gerrit.server.config.ConfigUpdatedEvent.ConfigUpdateEntry;
 import com.google.gerrit.server.config.ConfigUpdatedEvent.UpdateResult;
 import com.google.gerrit.server.config.GerritConfigListener;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -48,7 +47,6 @@ import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -60,29 +58,26 @@ public class SetParent
     implements RestModifyView<ProjectResource, ParentInput>, GerritConfigListener {
   private final ProjectCache cache;
   private final PermissionBackend permissionBackend;
-  private final Provider<MetaDataUpdate.Server> updateFactory;
   private final AllProjectsName allProjects;
   private final AllUsersName allUsers;
-  private final ProjectConfig.Factory projectConfigFactory;
+  private final RepoMetaDataUpdater repoMetaDataUpdater;
   private volatile boolean allowProjectOwnersToChangeParent;
 
   @Inject
   SetParent(
       ProjectCache cache,
       PermissionBackend permissionBackend,
-      Provider<MetaDataUpdate.Server> updateFactory,
       AllProjectsName allProjects,
       AllUsersName allUsers,
-      ProjectConfig.Factory projectConfigFactory,
-      @GerritServerConfig Config config) {
+      @GerritServerConfig Config config,
+      RepoMetaDataUpdater repoMetaDataUpdater) {
     this.cache = cache;
     this.permissionBackend = permissionBackend;
-    this.updateFactory = updateFactory;
     this.allProjects = allProjects;
     this.allUsers = allUsers;
-    this.projectConfigFactory = projectConfigFactory;
     this.allowProjectOwnersToChangeParent =
         config.getBoolean("receive", "allowProjectOwnersToChangeParent", false);
+    this.repoMetaDataUpdater = repoMetaDataUpdater;
   }
 
   @Override
@@ -101,20 +96,14 @@ public class SetParent
     String parentName =
         MoreObjects.firstNonNull(Strings.emptyToNull(input.parent), allProjects.get());
     validateParentUpdate(rsrc.getProjectState().getNameKey(), user, parentName, checkIfAdmin);
-    try (MetaDataUpdate md = updateFactory.get().create(rsrc.getNameKey())) {
-      ProjectConfig config = projectConfigFactory.read(md);
+    try (var configUpdater =
+        repoMetaDataUpdater.configUpdaterWithoutPermissionsCheck(
+            rsrc.getNameKey(),
+            input.commitMessage,
+            String.format("Changed parent to %s.\n", parentName))) {
+      ProjectConfig config = configUpdater.getConfig();
       config.updateProject(p -> p.setParent(parentName));
-
-      String msg = Strings.emptyToNull(input.commitMessage);
-      if (msg == null) {
-        msg = String.format("Changed parent to %s.\n", parentName);
-      } else if (!msg.endsWith("\n")) {
-        msg += "\n";
-      }
-      md.setAuthor(user);
-      md.setMessage(msg);
-      config.commit(md);
-      cache.evictAndReindex(rsrc.getProjectState().getProject());
+      configUpdater.commitConfigUpdate();
 
       Project.NameKey parent = config.getProject().getParent(allProjects);
       requireNonNull(parent);

@@ -1550,6 +1550,17 @@ public abstract class AbstractDaemonTest {
     assertThat(res).isEqualTo(expectedContent);
   }
 
+  protected void assertLastCommitAuthorAndShortMessage(
+      String refName, String expectedAuthor, String expectedShortMessage) throws Exception {
+    try (Repository repo = repoManager.openRepository(project);
+        RevWalk rw = new RevWalk(repo)) {
+      Ref exactRef = repo.exactRef(refName);
+      RevCommit revCommit = rw.parseCommit(exactRef.getObjectId());
+      assertThat(revCommit.getAuthorIdent().getName()).isEqualTo(expectedAuthor);
+      assertThat(revCommit.getShortMessage()).isEqualTo(expectedShortMessage);
+    }
+  }
+
   @CanIgnoreReturnValue
   protected RevCommit createNewCommitWithoutChangeId(String branch, String file, String content)
       throws Exception {

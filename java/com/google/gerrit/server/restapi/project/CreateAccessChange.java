@@ -14,10 +14,8 @@
 
 package com.google.gerrit.server.restapi.project;
 
-import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.AccessSection;
-import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.InvalidNameException;
 import com.google.gerrit.extensions.api.access.ProjectAccessInput;
@@ -27,9 +25,10 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectResource;
+import com.google.gerrit.server.restapi.project.RepoMetaDataUpdater.ConfigChangeCreator;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -39,23 +38,18 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 @Singleton
 public class CreateAccessChange implements RestModifyView<ProjectResource, ProjectAccessInput> {
   private final SetAccessUtil setAccess;
-  private final ChangeJson.Factory jsonFactory;
   private final RepoMetaDataUpdater repoMetaDataUpdater;
 
   @Inject
-  CreateAccessChange(
-      SetAccessUtil accessUtil,
-      ChangeJson.Factory jsonFactory,
-      RepoMetaDataUpdater repoMetaDataUpdater) {
+  CreateAccessChange(SetAccessUtil accessUtil, RepoMetaDataUpdater repoMetaDataUpdater) {
     this.setAccess = accessUtil;
-    this.jsonFactory = jsonFactory;
     this.repoMetaDataUpdater = repoMetaDataUpdater;
   }
 
   @Override
   public Response<ChangeInfo> apply(ProjectResource rsrc, ProjectAccessInput input)
-      throws PermissionBackendException, IOException, ConfigInvalidException, InvalidNameException,
-          UpdateException, RestApiException {
+      throws PermissionBackendException, IOException, ConfigInvalidException, UpdateException,
+          RestApiException {
     ImmutableList<AccessSection> removals =
         setAccess.getAccessSections(input.remove, /* rejectNonResolvableGroups= */ false);
     ImmutableList<AccessSection> additions =
@@ -63,28 +57,23 @@ public class CreateAccessChange implements RestModifyView<ProjectResource, Proje
 
     Project.NameKey newParentProjectName =
         input.parent == null ? null : Project.nameKey(input.parent);
-    String message = !Strings.isNullOrEmpty(input.message) ? input.message : "Review access change";
-    try {
-      Change change =
-          repoMetaDataUpdater.updateAndCreateChangeForReview(
-              rsrc.getNameKey(),
-              rsrc.getUser(),
-              message,
-              config -> {
-                setAccess.validateChanges(config, removals, additions);
-                setAccess.applyChanges(config, removals, additions);
-                try {
-                  setAccess.setParentName(
-                      rsrc.getUser().asIdentifiedUser(),
-                      config,
-                      rsrc.getNameKey(),
-                      newParentProjectName,
-                      false);
-                } catch (AuthException e) {
-                  throw new IllegalStateException(e);
-                }
-              });
-      return Response.created(jsonFactory.noOptions().format(change));
+    try (ConfigChangeCreator creator =
+        repoMetaDataUpdater.configChangeCreator(
+            rsrc.getNameKey(), input.message, "Review access change")) {
+      ProjectConfig config = creator.getConfig();
+      setAccess.validateChanges(config, removals, additions);
+      setAccess.applyChanges(config, removals, additions);
+      try {
+        setAccess.setParentName(
+            rsrc.getUser().asIdentifiedUser(),
+            config,
+            rsrc.getNameKey(),
+            newParentProjectName,
+            false);
+      } catch (AuthException e) {
+        throw new IllegalStateException(e);
+      }
+      return creator.createChange();
     } catch (InvalidNameException e) {
       throw new BadRequestException(e.toString());
     }

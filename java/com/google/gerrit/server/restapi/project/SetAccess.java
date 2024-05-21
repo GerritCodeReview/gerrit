@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.restapi.project;
 
-import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.entities.AccessSection;
@@ -29,12 +28,15 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.server.CreateGroupPermissionSyncer;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.RefPermission;
+import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectResource;
+import com.google.gerrit.server.restapi.project.RepoMetaDataUpdater.ConfigUpdater;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -49,6 +51,7 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
   private final Provider<IdentifiedUser> identifiedUser;
   private final SetAccessUtil accessUtil;
   private final RepoMetaDataUpdater repoMetaDataUpdater;
+  private final CreateGroupPermissionSyncer createGroupPermissionSyncer;
 
   @Inject
   private SetAccess(
@@ -57,6 +60,7 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
       GetAccess getAccess,
       Provider<IdentifiedUser> identifiedUser,
       SetAccessUtil accessUtil,
+      CreateGroupPermissionSyncer createGroupPermissionSyncer,
       RepoMetaDataUpdater repoMetaDataUpdater) {
     this.groupBackend = groupBackend;
     this.permissionBackend = permissionBackend;
@@ -64,6 +68,7 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
     this.identifiedUser = identifiedUser;
     this.accessUtil = accessUtil;
     this.repoMetaDataUpdater = repoMetaDataUpdater;
+    this.createGroupPermissionSyncer = createGroupPermissionSyncer;
   }
 
   @Override
@@ -75,42 +80,40 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
         accessUtil.getAccessSections(input.remove, /* rejectNonResolvableGroups= */ false);
     ImmutableList<AccessSection> additions =
         accessUtil.getAccessSections(input.add, /* rejectNonResolvableGroups= */ true);
-    String message = !Strings.isNullOrEmpty(input.message) ? input.message : "Modify access rules";
-    try {
-      this.repoMetaDataUpdater.updateWithoutReview(
+
+    try (ConfigUpdater updater =
+        repoMetaDataUpdater.configUpdaterWithoutPermissionsCheck(
+            rsrc.getNameKey(), input.message, "Modify access rules")) {
+      ProjectConfig config = updater.getConfig();
+      boolean checkedAdmin = false;
+      for (AccessSection section : Iterables.concat(additions, removals)) {
+        boolean isGlobalCapabilities = AccessSection.GLOBAL_CAPABILITIES.equals(section.getName());
+        if (isGlobalCapabilities) {
+          if (!checkedAdmin) {
+            permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
+            checkedAdmin = true;
+          }
+        } else {
+          permissionBackend
+              .currentUser()
+              .project(rsrc.getNameKey())
+              .ref(section.getName())
+              .check(RefPermission.WRITE_CONFIG);
+        }
+      }
+
+      accessUtil.validateChanges(config, removals, additions);
+      accessUtil.applyChanges(config, removals, additions);
+
+      accessUtil.setParentName(
+          identifiedUser.get(),
+          config,
           rsrc.getNameKey(),
-          message,
-          /*skipPermissionsCheck=*/ true,
-          config -> {
-            // Check that the user has the right permissions.
-            boolean checkedAdmin = false;
-            for (AccessSection section : Iterables.concat(additions, removals)) {
-              boolean isGlobalCapabilities =
-                  AccessSection.GLOBAL_CAPABILITIES.equals(section.getName());
-              if (isGlobalCapabilities) {
-                if (!checkedAdmin) {
-                  permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
-                  checkedAdmin = true;
-                }
-              } else {
-                permissionBackend
-                    .currentUser()
-                    .project(rsrc.getNameKey())
-                    .ref(section.getName())
-                    .check(RefPermission.WRITE_CONFIG);
-              }
-            }
+          input.parent == null ? null : Project.nameKey(input.parent),
+          !checkedAdmin);
 
-            accessUtil.validateChanges(config, removals, additions);
-            accessUtil.applyChanges(config, removals, additions);
-
-            accessUtil.setParentName(
-                identifiedUser.get(),
-                config,
-                rsrc.getNameKey(),
-                input.parent == null ? null : Project.nameKey(input.parent),
-                !checkedAdmin);
-          });
+      updater.commitConfigUpdate();
+      createGroupPermissionSyncer.syncIfNeeded();
     } catch (InvalidNameException e) {
       throw new BadRequestException(e.toString());
     } catch (ConfigInvalidException e) {

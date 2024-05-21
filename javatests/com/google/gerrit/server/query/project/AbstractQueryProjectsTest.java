@@ -47,6 +47,7 @@ import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountManager;
@@ -99,6 +100,8 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
   @Inject protected IdentifiedUser.GenericFactory userFactory;
 
   @Inject private Provider<AnonymousUser> anonymousUser;
+
+  @Inject private InternalUser.Factory internalUserFactory;
 
   @Inject protected SchemaCreator schemaCreator;
 
@@ -168,6 +171,11 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
   protected void setAnonymous() {
     @SuppressWarnings("unused")
     var unused = requestContext.setContext(anonymousUser::get);
+  }
+
+  protected void setInternalUser() {
+    @SuppressWarnings("unused")
+    var unused = requestContext.setContext(internalUserFactory::create);
   }
 
   @After
@@ -406,6 +414,21 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
 
     setAnonymous();
     assertQuery("name:" + project.name);
+  }
+
+  @Test
+  public void asInternalUser() throws Exception {
+    ProjectInfo project1 = createProject(name("project1"));
+    ProjectInfo project2 = createProject(name("project2"));
+    ProjectInfo project3 = createProject(name("project3"));
+
+    setInternalUser();
+
+    String query =
+        "name:" + project1.name + " OR name:" + project2.name + " OR name:" + project3.name;
+    List<ProjectInfo> result =
+        assertQuery(gApi.projects().query(query).withLimit(1), project1, project2, project3);
+    assertThat(Iterables.getLast(result)._moreProjects).isNull();
   }
 
   private Account.Id createAccount(String username, String fullName, String email, boolean active)

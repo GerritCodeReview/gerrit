@@ -305,6 +305,10 @@ export class GrMainHeader extends LitElement {
             var(--header-title-content)
           );
           white-space: nowrap;
+          text-overflow: ellipsis;
+          flex: 1;
+          overflow: hidden;
+          min-width: 0;
         }
 
         .linksTitle {
@@ -471,7 +475,7 @@ export class GrMainHeader extends LitElement {
           }
           .mobileTitle {
             position: relative;
-            display: flex;
+            display: block;
             top: 10px;
             font-size: 20px;
             left: 100px;

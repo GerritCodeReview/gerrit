@@ -1,0 +1,56 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b583e484_22cfcb33",
+        "filename": "polygerrit-ui/app/elements/settings/gr-preferences/gr-preferences.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2024-05-21T11:22:10Z",
+      "side": 1,
+      "message": "What about making this subscription conditional on this.flagsService.isEnabled(KnownExperimentId.ML_SUGGESTED_EDIT) || this.flagsService.isEnabled(KnownExperimentId.ML_SUGGESTED_EDIT_V2)",
+      "fixSuggestions": [
+        {
+          "fixId": "cb968cb1_45214373",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/settings/gr-preferences/gr-preferences.ts",
+              "range": {
+                "startLine": 124,
+                "startChar": 0,
+                "endLine": 131,
+                "endChar": 0
+              },
+              "replacement": "    if (\n      this.flagsService.isEnabled(KnownExperimentId.ML_SUGGESTED_EDIT) ||\n      this.flagsService.isEnabled(KnownExperimentId.ML_SUGGESTED_EDIT_V2)\n    ) {\n      subscribe(\n        this,\n        () \u003d\u003e this.getPluginLoader().pluginsModel.suggestionsPlugins$,\n        // We currently support results from only 1 provider.\n        suggestionsPlugins \u003d\u003e\n          (this.suggestionsProvider \u003d suggestionsPlugins?.[0]?.provider)\n      );\n    }\n"
+            }
+          ]
+        }
+      ],
+      "revId": "3f8a64d1dcd7acaec9980136aeea0535153e2adc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca1d3eca_909d9b0b",
+        "filename": "polygerrit-ui/app/elements/settings/gr-preferences/gr-preferences.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2024-05-21T11:22:10Z",
+      "side": 1,
+      "message": "What about only checking for the !this.suggestionsProvider\n\nAnd instead check for the 2 experiments during the subscription to it.",
+      "revId": "3f8a64d1dcd7acaec9980136aeea0535153e2adc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -485,7 +485,7 @@ export class GrChangeActions
 
   @state() pluginsLoaded = false;
 
-  @state() threadsWithSuggestions?: CommentThread[];
+  @state() threadsWithUnappliedSuggestions?: CommentThread[];
 
   private readonly restApiService = getAppContext().restApiService;
 
@@ -579,8 +579,8 @@ export class GrChangeActions
     );
     subscribe(
       this,
-      () => this.getCommentsModel().threadsWithSuggestions$,
-      x => (this.threadsWithSuggestions = x)
+      () => this.getCommentsModel().threadsWithUnappliedSuggestions$,
+      x => (this.threadsWithUnappliedSuggestions = x)
     );
   }
 
@@ -820,11 +820,11 @@ export class GrChangeActions
           <div class="header" slot="header">Publish Change Edit</div>
           <div class="main" slot="main">
             ${when(
-              this.numberOfThreadsWithSuggestions() > 0,
+              this.numberOfThreadsWithUnappliedSuggestions() > 0,
               () => html`<p class="info">
                 <gr-icon id="icon" icon="info" small></gr-icon>
-                Heads Up! ${this.numberOfThreadsWithSuggestions()} comments have
-                suggestions you can apply before publishing
+                Heads Up! ${this.numberOfThreadsWithUnappliedSuggestions()}
+                comments have suggestions you can apply before publishing
               </p>`
             )}
             Do you really want to publish the edit?
@@ -2105,8 +2105,16 @@ export class GrChangeActions
   }
 
   private handlePublishEditTap() {
-    assertIsDefined(this.confirmPublishEditDialog, 'confirmPublishEditDialog');
-    this.showActionDialog(this.confirmPublishEditDialog);
+    if (this.numberOfThreadsWithUnappliedSuggestions() > 0) {
+      assertIsDefined(
+        this.confirmPublishEditDialog,
+        'confirmPublishEditDialog'
+      );
+      this.showActionDialog(this.confirmPublishEditDialog);
+    } else {
+      // Skip confirmation dialog and publish immediately.
+      this.handlePublishEditConfirm();
+    }
   }
 
   private handleRebaseEditTap() {
@@ -2264,9 +2272,9 @@ export class GrChangeActions
     fireNoBubbleNoCompose(this, 'stop-edit-tap', {});
   }
 
-  private numberOfThreadsWithSuggestions() {
-    if (!this.threadsWithSuggestions) return 0;
-    return this.threadsWithSuggestions.length;
+  private numberOfThreadsWithUnappliedSuggestions() {
+    if (!this.threadsWithUnappliedSuggestions) return 0;
+    return this.threadsWithUnappliedSuggestions.length;
   }
 }
 

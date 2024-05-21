@@ -59,6 +59,7 @@ public abstract class QueryOptions {
         pageSize,
         pageSizeMultiplier,
         limit,
+        /* isInternalUser= */ false,
         /* allowIncompleteResults= */ false,
         fields);
   }
@@ -72,7 +73,15 @@ public abstract class QueryOptions {
       boolean allowIncompleteResults,
       Set<String> fields) {
     return create(
-        config, start, null, pageSize, pageSizeMultiplier, limit, allowIncompleteResults, fields);
+        config,
+        start,
+        null,
+        pageSize,
+        pageSizeMultiplier,
+        limit,
+        false,
+        allowIncompleteResults,
+        fields);
   }
 
   public static QueryOptions create(
@@ -82,6 +91,7 @@ public abstract class QueryOptions {
       int pageSize,
       int pageSizeMultiplier,
       int limit,
+      boolean isInternalUser,
       boolean allowIncompleteResults,
       Set<String> fields) {
     checkArgument(start >= 0, "start must be nonnegative: %s", start);
@@ -96,6 +106,7 @@ public abstract class QueryOptions {
         pageSize,
         pageSizeMultiplier,
         limit,
+        isInternalUser,
         allowIncompleteResults,
         ImmutableSet.copyOf(fields));
   }
@@ -103,13 +114,17 @@ public abstract class QueryOptions {
   public QueryOptions convertForBackend() {
     // Increase the limit rather than skipping, since we don't know how many
     // skipped results would have been filtered out by the enclosing AndSource.
-    int backendLimit = config().maxLimit();
-    int limit = Ints.saturatedCast((long) limit() + start());
-    limit = Math.min(limit, backendLimit);
-    int pageSize =
-        Math.min(
-            Math.min(Ints.saturatedCast((long) pageSize() + start()), config().maxPageSize()),
-            backendLimit);
+    int limit = limit();
+    int pageSize = pageSize();
+    if (!isInternalUser()) {
+      int backendLimit = config().maxLimit();
+      limit = Ints.saturatedCast((long) limit() + start());
+      limit = Math.min(limit, backendLimit);
+      pageSize =
+          Math.min(
+              Math.min(Ints.saturatedCast((long) pageSize() + start()), config().maxPageSize()),
+              backendLimit);
+    }
     return create(
         config(),
         0,
@@ -117,6 +132,7 @@ public abstract class QueryOptions {
         pageSize,
         pageSizeMultiplier(),
         limit,
+        isInternalUser(),
         allowIncompleteResults(),
         fields());
   }
@@ -134,6 +150,8 @@ public abstract class QueryOptions {
 
   public abstract int limit();
 
+  public abstract boolean isInternalUser();
+
   /**
    * When set to true, entities that fail to get parsed from the index are replaced with a canonical
    * erroneous record. If false, parsing would throw an exception.
@@ -150,6 +168,7 @@ public abstract class QueryOptions {
         pageSize,
         pageSizeMultiplier(),
         limit(),
+        isInternalUser(),
         allowIncompleteResults(),
         fields());
   }
@@ -162,6 +181,20 @@ public abstract class QueryOptions {
         pageSize(),
         pageSizeMultiplier(),
         newLimit,
+        isInternalUser(),
+        allowIncompleteResults(),
+        fields());
+  }
+
+  public QueryOptions withInternalUser(boolean isInternalUser) {
+    return create(
+        config(),
+        start(),
+        searchAfter(),
+        pageSize(),
+        pageSizeMultiplier(),
+        limit(),
+        isInternalUser,
         allowIncompleteResults(),
         fields());
   }
@@ -174,6 +207,7 @@ public abstract class QueryOptions {
         pageSize(),
         pageSizeMultiplier(),
         limit(),
+        isInternalUser(),
         allowIncompleteResults(),
         fields());
   }
@@ -188,6 +222,7 @@ public abstract class QueryOptions {
             pageSize(),
             pageSizeMultiplier(),
             limit(),
+            isInternalUser(),
             allowIncompleteResults(),
             fields())
         .withStart(0);
@@ -201,6 +236,7 @@ public abstract class QueryOptions {
         pageSize(),
         pageSizeMultiplier(),
         limit(),
+        isInternalUser(),
         allowIncompleteResults(),
         filter.apply(this));
   }

@@ -92,6 +92,7 @@ public abstract class QueryProcessor<T> {
   private boolean enforceVisibility = true;
   private int userProvidedLimit;
   private boolean isNoLimit;
+  private boolean isInternalUser = false;
   private boolean allowIncompleteResults;
   private Set<String> requestedFields;
 
@@ -169,6 +170,12 @@ public abstract class QueryProcessor<T> {
   @CanIgnoreReturnValue
   public QueryProcessor<T> setNoLimit(boolean isNoLimit) {
     this.isNoLimit = isNoLimit;
+    return this;
+  }
+
+  @CanIgnoreReturnValue
+  public QueryProcessor<T> setIsInternalUser(boolean isInternalUser) {
+    this.isInternalUser = isInternalUser;
     return this;
   }
 
@@ -276,17 +283,21 @@ public abstract class QueryProcessor<T> {
 
         QueryOptions opts =
             createOptions(
-                indexConfig,
-                start,
-                initialPageSize,
-                pageSizeMultiplier,
-                // Always bump limit by 1, even if this results in exceeding the permitted
-                // max for this user. The only way to see if there are more entities is to
-                // ask for one more result from the query.
-                // NOTE: This is consistent to the behaviour before the introduction of pagination.`
-                limit == getBackendSupportedLimit() ? limit : Ints.saturatedCast((long) limit + 1),
-                allowIncompleteResults,
-                getRequestedFields());
+                    indexConfig,
+                    start,
+                    initialPageSize,
+                    pageSizeMultiplier,
+                    // Always bump limit by 1, even if this results in exceeding the permitted
+                    // max for this user. The only way to see if there are more entities is to
+                    // ask for one more result from the query.
+                    // NOTE: This is consistent to the behaviour before the introduction of
+                    // pagination.`
+                    limit == getBackendSupportedLimit()
+                        ? limit
+                        : Ints.saturatedCast((long) limit + 1),
+                    allowIncompleteResults,
+                    getRequestedFields())
+                .withInternalUser(isInternalUser);
         logger.atFine().log("Query options: %s", opts);
         // Apply index-specific rewrite first
         Predicate<T> pred = rewriter.rewrite(q, opts);
@@ -430,9 +441,10 @@ public abstract class QueryProcessor<T> {
   }
 
   public int getEffectiveLimit(Predicate<T> p) {
-    if (isNoLimit == true) {
+    if (isNoLimit == true || isInternalUser) {
       return Integer.MAX_VALUE;
     }
+
     List<Integer> possibleLimits = new ArrayList<>(4);
     possibleLimits.add(getBackendSupportedLimit());
     possibleLimits.add(getPermittedLimit());

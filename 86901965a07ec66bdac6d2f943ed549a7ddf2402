@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16415d07_8c513877",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 2108,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-05-21T07:16:37Z",
+      "side": 1,
+      "message": "Commit message mentions `publishing an edit when there are unapplied suggestions` but here we check that `numberOfThreadsWithSuggestions \u003e 0`.\n\nShould we be checking that **un**applied fixes are pending?",
+      "range": {
+        "startLine": 2108,
+        "startChar": 8,
+        "endLine": 2108,
+        "endChar": 49
+      },
+      "revId": "86901965a07ec66bdac6d2f943ed549a7ddf2402",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

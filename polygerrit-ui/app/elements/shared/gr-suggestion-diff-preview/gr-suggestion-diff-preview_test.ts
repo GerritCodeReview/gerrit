@@ -103,10 +103,12 @@ suite('gr-suggestion-diff-preview tests', () => {
     assert.shadowDom.equal(
       element,
       /* HTML */ `
-        <gr-diff
-          class="disable-context-control-buttons hide-line-length-indicator"
-        >
-        </gr-diff>
+        <div class="diff-container">
+          <gr-diff
+            class="disable-context-control-buttons hide-line-length-indicator"
+          >
+          </gr-diff>
+        </div>
       `,
       {ignoreAttributes: ['style']}
     );

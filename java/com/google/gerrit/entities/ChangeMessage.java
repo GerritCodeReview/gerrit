@@ -15,6 +15,7 @@
 package com.google.gerrit.entities;
 
 import com.google.auto.value.AutoValue;
+import com.google.gerrit.common.ConvertibleToProto;
 import com.google.gerrit.common.Nullable;
 import java.time.Instant;
 import java.util.Objects;
@@ -34,6 +35,7 @@ public final class ChangeMessage {
   }
 
   @AutoValue
+  @ConvertibleToProto
   public abstract static class Key {
     public abstract Change.Id changeId();
 

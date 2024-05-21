@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e886d68b_5071ce16",
+        "filename": "polygerrit-ui/app/elements/settings/gr-preferences/gr-preferences.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-05-21T12:06:05Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "b583e484_22cfcb33",
+      "revId": "3f8a64d1dcd7acaec9980136aeea0535153e2adc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ca1d3eca_909d9b0b",
@@ -49,6 +67,24 @@
       "writtenOn": "2024-05-21T11:22:10Z",
       "side": 1,
       "message": "What about only checking for the !this.suggestionsProvider\n\nAnd instead check for the 2 experiments during the subscription to it.",
+      "revId": "3f8a64d1dcd7acaec9980136aeea0535153e2adc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "27d70280_b0f5c306",
+        "filename": "polygerrit-ui/app/elements/settings/gr-preferences/gr-preferences.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-05-21T12:06:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca1d3eca_909d9b0b",
       "revId": "3f8a64d1dcd7acaec9980136aeea0535153e2adc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

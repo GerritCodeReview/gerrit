@@ -898,35 +898,39 @@ suite('gr-comment tests', () => {
 
   suite('handleTextChangedForAutocomplete', () => {
     test('foo -> foo with asdf', async () => {
-      element.autocompleteHint = 'asdf';
-      element.autocompleteCache.set('foo', 'asdf');
+      const ctx = {draftContent: 'foo', commentCompletion: 'asdf'};
+      element.autocompleteHint = ctx;
+      element.autocompleteCache.set(ctx);
       element.messageText = 'foo';
       element.handleTextChangedForAutocomplete();
-      assert.equal(element.autocompleteHint, 'asdf');
+      assert.equal(element.autocompleteHint.commentCompletion, 'asdf');
     });
 
     test('foo -> bar with asdf', async () => {
-      element.autocompleteHint = 'asdf';
-      element.autocompleteCache.set('foo', 'asdf');
+      const ctx = {draftContent: 'foo', commentCompletion: 'asdf'};
+      element.autocompleteHint = ctx;
+      element.autocompleteCache.set(ctx);
       element.messageText = 'bar';
       element.handleTextChangedForAutocomplete();
-      assert.equal(element.autocompleteHint, '');
+      assert.isUndefined(element.autocompleteHint);
     });
 
     test('foo -> foofoo with asdf', async () => {
-      element.autocompleteHint = 'asdf';
-      element.autocompleteCache.set('foo', 'asdf');
+      const ctx = {draftContent: 'foo', commentCompletion: 'asdf'};
+      element.autocompleteHint = ctx;
+      element.autocompleteCache.set(ctx);
       element.messageText = 'foofoo';
       element.handleTextChangedForAutocomplete();
-      assert.equal(element.autocompleteHint, '');
+      assert.isUndefined(element.autocompleteHint);
     });
 
     test('foo -> foofoo with foomore', async () => {
-      element.autocompleteHint = 'foomore';
-      element.autocompleteCache.set('foo', 'foomore');
+      const ctx = {draftContent: 'foo', commentCompletion: 'foomore'};
+      element.autocompleteHint = ctx;
+      element.autocompleteCache.set(ctx);
       element.messageText = 'foofoo';
       element.handleTextChangedForAutocomplete();
-      assert.equal(element.autocompleteHint, 'more');
+      assert.equal(element.autocompleteHint.commentCompletion, 'more');
     });
   });
 

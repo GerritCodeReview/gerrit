@@ -46,6 +46,7 @@ import com.google.gerrit.index.project.ProjectIndexCollection;
 import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.WebLinks;
+import com.google.gerrit.server.account.AccountLimits;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -187,6 +188,7 @@ public class ListProjectsImpl extends AbstractListProjects {
   private final Provider<QueryProjects> queryProjectsProvider;
   private final boolean listProjectsFromIndex;
   private final ProjectIndexCollection projectIndexes;
+  private AccountLimits.Factory accountLimitsFactory;
 
   @Inject
   protected ListProjectsImpl(
@@ -200,7 +202,8 @@ public class ListProjectsImpl extends AbstractListProjects {
       WebLinks webLinks,
       Provider<QueryProjects> queryProjectsProvider,
       @GerritServerConfig Config config,
-      ProjectIndexCollection projectIndexes) {
+      ProjectIndexCollection projectIndexes,
+      AccountLimits.Factory accountLimitsFactory) {
     this.currentUser = currentUser;
     this.projectCache = projectCache;
     this.groupResolver = groupResolver;
@@ -212,6 +215,7 @@ public class ListProjectsImpl extends AbstractListProjects {
     this.queryProjectsProvider = queryProjectsProvider;
     this.listProjectsFromIndex = config.getBoolean("gerrit", "listProjectsFromIndex", false);
     this.projectIndexes = projectIndexes;
+    this.accountLimitsFactory = accountLimitsFactory;
   }
 
   public List<String> getShowBranch() {
@@ -379,7 +383,12 @@ public class ListProjectsImpl extends AbstractListProjects {
     final TreeMap<Project.NameKey, ProjectNode> treeMap = new TreeMap<>();
     ProjectInfo lastInfo = null;
     try {
-      Iterator<ProjectState> projectStatesIt = filter(perm).iterator();
+      if (!currentUser.isInternalUser()) {
+        limit = accountLimitsFactory.create(currentUser).getQueryLimit();
+      }
+
+      Iterator<ProjectState> projectStatesIt = filter(perm, limit).iterator();
+
       while (projectStatesIt.hasNext()) {
         ProjectState e = projectStatesIt.next();
         Project.NameKey projectName = e.getNameKey();
@@ -560,7 +569,17 @@ public class ListProjectsImpl extends AbstractListProjects {
     }
   }
 
-  private Stream<ProjectState> filter(PermissionBackend.WithUser perm) throws BadRequestException {
+  private Stream<ProjectState> filter(PermissionBackend.WithUser perm, int limit)
+      throws BadRequestException {
+    if (limit > 0) {
+      return StreamSupport.stream(scan().spliterator(), false)
+          .map(projectCache::get)
+          .filter(Optional::isPresent)
+          .map(Optional::get)
+          .filter(p -> permissionCheck(p, perm))
+          .limit(limit + 1); // So that we can identify a page overflow
+    }
+
     return StreamSupport.stream(scan().spliterator(), false)
         .map(projectCache::get)
         .filter(Optional::isPresent)

@@ -38,7 +38,7 @@ import {
 import {GrSshEditor} from '../gr-ssh-editor/gr-ssh-editor';
 import {GrGpgEditor} from '../gr-gpg-editor/gr-gpg-editor';
 import {GrEmailEditor} from '../gr-email-editor/gr-email-editor';
-import {fireAlert, fireTitleChange} from '../../../utils/event-util';
+import {fire, fireAlert, fireTitleChange} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
 import {BindValueChangeEvent, ValueChangedEvent} from '../../../types/events';
 import {LitElement, css, html} from 'lit';
@@ -190,7 +190,7 @@ export class GrSettingsView extends LitElement {
     const message = await this.restApiService.confirmEmail(this.emailToken);
     if (message) fireAlert(this, message);
     this.getViewModel().clearToken();
-    await this.emailEditor.loadData();
+    await this.getUserModel().loadEmails(true);
   }
 
   override connectedCallback() {
@@ -229,8 +229,6 @@ export class GrSettingsView extends LitElement {
         return Promise.all(configPromises);
       })
     );
-
-    promises.push(this.emailEditor.loadData());
 
     this._testOnly_loadingPromise = Promise.all(promises).then(() => {
       this.loading = false;
@@ -340,6 +338,9 @@ export class GrSettingsView extends LitElement {
               ?hasUnsavedChanges=${this.accountInfoChanged}
               @unsaved-changes-changed=${(e: ValueChangedEvent<boolean>) => {
                 this.accountInfoChanged = e.detail.value;
+              }}
+              @account-detail-update=${() => {
+                fire(this, 'account-detail-update', {});
               }}
             ></gr-account-info>
             <gr-button
@@ -470,8 +471,8 @@ export class GrSettingsView extends LitElement {
               }}
             ></gr-email-editor>
             <gr-button
-              @click=${() => {
-                this.emailEditor.save();
+              @click=${async () => {
+                await this.emailEditor.save();
               }}
               ?disabled=${!this.emailsChanged}
               >Save changes</gr-button
@@ -604,7 +605,7 @@ export class GrSettingsView extends LitElement {
   };
 
   reloadAccountDetail() {
-    Promise.all([this.accountInfo.loadData(), this.emailEditor.loadData()]);
+    Promise.all([this.accountInfo.loadData()]);
   }
 
   // private but used in test
@@ -642,7 +643,7 @@ export class GrSettingsView extends LitElement {
     if (!this.isNewEmailValid(this.newEmail)) return;
 
     this.addingEmail = true;
-    this.restApiService.addAccountEmail(this.newEmail).then(response => {
+    this.restApiService.addAccountEmail(this.newEmail).then(async response => {
       this.addingEmail = false;
 
       // If it was unsuccessful.
@@ -652,6 +653,8 @@ export class GrSettingsView extends LitElement {
 
       this.lastSentVerificationEmail = this.newEmail;
       this.newEmail = '';
+
+      await this.getUserModel().loadEmails(true);
     });
   }
 

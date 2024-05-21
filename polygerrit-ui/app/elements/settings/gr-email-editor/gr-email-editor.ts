@@ -3,7 +3,6 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/iron-input/iron-input';
 import '../../shared/gr-button/gr-button';
 import {EmailInfo} from '../../../types/common';
 import {getAppContext} from '../../../services/app-context';
@@ -14,6 +13,9 @@ import {grFormStyles} from '../../../styles/gr-form-styles';
 import {ValueChangedEvent} from '../../../types/events';
 import {fire} from '../../../utils/event-util';
 import {deepClone} from '../../../utils/deep-util';
+import {userModelToken} from '../../../models/user/user-model';
+import {resolve} from '../../../models/dependency';
+import {subscribe} from '../../lit/subscription-controller';
 
 @customElement('gr-email-editor')
 export class GrEmailEditor extends LitElement {
@@ -29,6 +31,21 @@ export class GrEmailEditor extends LitElement {
   @state() newPreferred = '';
 
   readonly restApiService = getAppContext().restApiService;
+
+  private readonly getUserModel = resolve(this, userModelToken);
+
+  constructor() {
+    super();
+    subscribe(
+      this,
+      () => this.getUserModel().emails$,
+      x => {
+        if (!x) return;
+        this.originalEmails = deepClone<EmailInfo[]>(x);
+        this.emails = deepClone<EmailInfo[]>(x);
+      }
+    );
+  }
 
   static override get styles() {
     return [
@@ -83,38 +100,26 @@ export class GrEmailEditor extends LitElement {
     return html`<tr>
       <td class="emailColumn">${email.email}</td>
       <td class="preferredControl" @click=${this.handlePreferredControlClick}>
-        <iron-input
+        <!-- We have to use \`.checked\` rather then \`?checked\` as there
+              appears to be an issue when deleting, checked doesn't work correctly. -->
+        <input
           class="preferredRadio"
+          type="radio"
+          name="preferred"
+          .value=${email.email}
+          .checked=${email.preferred}
           @change=${this.handlePreferredChange}
-          .bindValue=${email.email}
-        >
-          <input
-            class="preferredRadio"
-            type="radio"
-            @change=${this.handlePreferredChange}
-            name="preferred"
-            ?checked=${email.preferred}
-          />
-        </iron-input>
+        />
       </td>
       <td>
         <gr-button
-          data-index=${index}
-          @click=${this.handleDeleteButton}
+          @click=${() => this.handleDeleteButton(index)}
           ?disabled=${this.checkPreferred(email.preferred)}
           class="remove-button"
           >Delete</gr-button
         >
       </td>
     </tr>`;
-  }
-
-  loadData() {
-    return this.restApiService.getAccountEmails().then(emails => {
-      if (!emails) return;
-      this.originalEmails = deepClone<EmailInfo[]>(emails);
-      this.emails = emails;
-    });
   }
 
   save() {
@@ -130,26 +135,21 @@ export class GrEmailEditor extends LitElement {
       );
     }
 
-    return Promise.all(promises).then(() => {
-      this.originalEmails = this.emails;
+    return Promise.all(promises).then(async () => {
       this.emailsToRemove = [];
       this.newPreferred = '';
+      await this.getUserModel().loadEmails(true);
       this.setHasUnsavedChanges();
     });
   }
 
-  private handleDeleteButton(e: Event) {
-    const target = e.target;
-    if (!(target instanceof Element)) return;
-    const indexStr = target.getAttribute('data-index');
-    if (indexStr === null) return;
-    const index = Number(indexStr);
+  private handleDeleteButton(index: number) {
     const email = this.emails[index];
     // Don't add project to emailsToRemove if it wasn't in
-    // originalEmails.
+    // emails.
     // We have to use JSON.stringify as we cloned the array
     // so the reference is not the same.
-    const emails = this.originalEmails.some(
+    const emails = this.emails.some(
       x => JSON.stringify(email) === JSON.stringify(x)
     );
     if (emails) this.emailsToRemove.push(email);

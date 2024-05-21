@@ -23,6 +23,7 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.InlineMe;
+import com.google.gerrit.common.ConvertibleToProto;
 import com.google.gerrit.common.Nullable;
 import java.time.Instant;
 import java.util.List;
@@ -31,6 +32,7 @@ import org.eclipse.jgit.lib.ObjectId;
 
 /** A single revision of a {@link Change}. */
 @AutoValue
+@ConvertibleToProto
 public abstract class PatchSet {
   /** Is the reference name a change reference? */
   public static boolean isChangeRef(String name) {
@@ -67,6 +69,7 @@ public abstract class PatchSet {
   }
 
   @AutoValue
+  @ConvertibleToProto
   public abstract static class Id implements Comparable<Id> {
     /** Parse a PatchSet.Id out of a string representation. */
     public static Id parse(String str) {

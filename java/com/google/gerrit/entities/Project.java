@@ -20,6 +20,7 @@ import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableMap;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.Immutable;
+import com.google.gerrit.common.ConvertibleToProto;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ProjectState;
@@ -57,6 +58,7 @@ public abstract class Project {
    * <p>This class is immutable and thread safe.
    */
   @Immutable
+  @ConvertibleToProto
   public static class NameKey implements Serializable, Comparable<NameKey> {
     private static final long serialVersionUID = 1L;
 

@@ -24,7 +24,7 @@ import java.time.Instant;
 import org.eclipse.jgit.lib.ObjectId;
 
 @Immutable
-public enum PatchSetProtoConverter implements ProtoConverter<Entities.PatchSet, PatchSet> {
+public enum PatchSetProtoConverter implements SafeProtoConverter<Entities.PatchSet, PatchSet> {
   INSTANCE;
 
   private final ProtoConverter<Entities.PatchSet_Id, PatchSet.Id> patchSetIdConverter =
@@ -102,5 +102,15 @@ public enum PatchSetProtoConverter implements ProtoConverter<Entities.PatchSet, 
   @Override
   public Parser<Entities.PatchSet> getParser() {
     return Entities.PatchSet.parser();
+  }
+
+  @Override
+  public Class<Entities.PatchSet> getProtoClass() {
+    return Entities.PatchSet.class;
+  }
+
+  @Override
+  public Class<PatchSet> getEntityClass() {
+    return PatchSet.class;
   }
 }

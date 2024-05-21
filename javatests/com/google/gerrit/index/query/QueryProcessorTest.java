@@ -29,6 +29,8 @@ public class QueryProcessorTest {
 
   private boolean noLimit = false;
 
+  private boolean isInternalUser = false;
+
   private int userQueryLimit = 1000;
 
   private int userProvidedLimit = 0;
@@ -71,6 +73,7 @@ public class QueryProcessorTest {
           }
         };
     processor.setNoLimit(noLimit);
+    processor.setIsInternalUser(isInternalUser);
     processor.setUserProvidedLimit(userProvidedLimit, /* applyDefaultLimit */ true);
     return processor;
   }
@@ -142,6 +145,19 @@ public class QueryProcessorTest {
     assertThat(createProcessor().getEffectiveLimit(Predicate.any())).isEqualTo(Integer.MAX_VALUE);
 
     // noLimit has precedence over all other limits
+    userProvidedLimit = 1;
+    userQueryLimit = 1;
+    maxLimit = 1;
+    defaultLimit = 1;
+    assertThat(createProcessor().getEffectiveLimit(Predicate.any())).isEqualTo(Integer.MAX_VALUE);
+  }
+
+  @Test
+  public void getEffectiveLimit_InternalUser() {
+    isInternalUser = true;
+    assertThat(createProcessor().getEffectiveLimit(Predicate.any())).isEqualTo(Integer.MAX_VALUE);
+
+    // all limits are ignored for an internal user
     userProvidedLimit = 1;
     userQueryLimit = 1;
     maxLimit = 1;

@@ -423,6 +423,10 @@ export class GrMainHeader extends LitElement {
           --gr-button-text-color: var(--header-text-color);
           color: var(--header-text-color);
         }
+        .hamburger-open {
+          --gr-button-text-color: var(--primary-text-color);
+          color: var(--primary-text-color);
+        }
         #mobileSearch {
           display: none;
         }
@@ -690,7 +694,11 @@ export class GrMainHeader extends LitElement {
           >
             ${!this.hamburgerClose
               ? html`<gr-icon icon="menu" filled></gr-icon>`
-              : html`<gr-icon icon="menu_open" filled></gr-icon>`}
+              : html`<gr-icon
+                  class="hamburger-open"
+                  icon="menu_open"
+                  filled
+                ></gr-icon>`}
           </a>
           <a
             href=${`//${window.location.host}${getBaseUrl()}/`}

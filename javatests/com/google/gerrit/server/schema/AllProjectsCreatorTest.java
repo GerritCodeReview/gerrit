@@ -91,7 +91,7 @@ public class AllProjectsCreatorTest {
 
     GroupReference adminsGroup = createGroupReference("Administrators");
     GroupReference serviceUsersGroup = createGroupReference(ServiceUserClassifier.SERVICE_USERS);
-    GroupReference blockedUsersGroup = createGroupReference("Blocked Users");
+    GroupReference blockedUsersGroup = createGroupReference(SchemaCreatorImpl.BLOCKED_USERS);
     AllProjectsInput allProjectsInput =
         AllProjectsInput.builder()
             .administratorsGroup(adminsGroup)
@@ -165,7 +165,7 @@ public class AllProjectsCreatorTest {
   public void createAllProjectsWithoutInitializingDefaultSubmitRequirements() throws Exception {
     GroupReference adminsGroup = createGroupReference("Administrators");
     GroupReference serviceUsersGroup = createGroupReference(ServiceUserClassifier.SERVICE_USERS);
-    GroupReference blockedUsersGroup = createGroupReference("Blocked Users");
+    GroupReference blockedUsersGroup = createGroupReference(SchemaCreatorImpl.BLOCKED_USERS);
     AllProjectsInput allProjectsInput =
         AllProjectsInput.builder()
             .administratorsGroup(adminsGroup)

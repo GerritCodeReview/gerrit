@@ -54,6 +54,8 @@ import org.eclipse.jgit.lib.Repository;
 // confusing and could stand to be reworked. Another smell is that this is an interface only for
 // testing purposes.
 public class SchemaCreatorImpl implements SchemaCreator {
+  public static final String BLOCKED_USERS = "Blocked Users";
+
   private final GitRepositoryManager repoManager;
   private final AllProjectsCreator allProjectsCreator;
   private final AllUsersCreator allUsersCreator;
@@ -92,7 +94,7 @@ public class SchemaCreatorImpl implements SchemaCreator {
     try (RefUpdateContext ctx = RefUpdateContext.open(RefUpdateType.INIT_REPO)) {
       GroupReference admins = createGroupReference("Administrators");
       GroupReference serviceUsers = createGroupReference(ServiceUserClassifier.SERVICE_USERS);
-      GroupReference blockedUsers = createGroupReference("Blocked Users");
+      GroupReference blockedUsers = createGroupReference(BLOCKED_USERS);
 
       AllProjectsInput allProjectsInput =
           AllProjectsInput.builder()

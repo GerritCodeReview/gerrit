@@ -57,6 +57,7 @@ import com.google.gerrit.server.git.receive.testing.TestRefAdvertiser;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.schema.SchemaCreatorImpl;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Inject;
 import java.util.ArrayList;
@@ -120,7 +121,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   public void setUp() throws Exception {
     admins = adminGroupUuid();
     serviceUsers = groupUuid(ServiceUserClassifier.SERVICE_USERS);
-    blockedUsers = groupUuid("Blocked Users");
+    blockedUsers = groupUuid(SchemaCreatorImpl.BLOCKED_USERS);
     setUpPermissions();
     setUpChanges();
   }

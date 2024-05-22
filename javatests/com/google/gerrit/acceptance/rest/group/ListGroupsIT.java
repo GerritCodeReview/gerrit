@@ -20,6 +20,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.server.account.ServiceUserClassifier;
+import com.google.gerrit.server.schema.SchemaCreatorImpl;
 import com.google.gson.reflect.TypeToken;
 import java.util.Map;
 import org.junit.Test;
@@ -34,6 +35,7 @@ public class ListGroupsIT extends AbstractDaemonTest {
         newGson()
             .fromJson(response.getReader(), new TypeToken<Map<String, GroupInfo>>() {}.getType());
     assertThat(groupMap.keySet())
-        .containsExactly("Administrators", "Blocked Users", ServiceUserClassifier.SERVICE_USERS);
+        .containsExactly(
+            "Administrators", SchemaCreatorImpl.BLOCKED_USERS, ServiceUserClassifier.SERVICE_USERS);
   }
 }

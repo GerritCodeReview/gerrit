@@ -984,6 +984,68 @@ ConfigInfo] entity.
   }
 ----
 
+[[create-config-change]]
+=== Create Config Change for review.
+--
+'PUT /projects/link:#project-name[\{project-name\}]/config:review'
+--
+
+Sets the configuration of a project.
+
+This takes the same input as link:#set-config[Set Config], but creates a pending
+change for review. Like link:#create-change[Create Change], it returns
+a link:#change-info[ChangeInfo] entity describing the resulting change.
+
+.Request
+----
+  PUT /projects/myproject/config:review HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "description": "demo project",
+    "use_contributor_agreements": "FALSE",
+    "use_content_merge": "INHERIT",
+    "use_signed_off_by": "INHERIT",
+    "create_new_change_for_all_not_in_target": "INHERIT",
+    "enable_signed_push": "INHERIT",
+    "require_signed_push": "INHERIT",
+    "reject_implicit_merges": "INHERIT",
+    "require_change_id": "TRUE",
+    "max_object_size_limit": "10m",
+    "submit_type": "REBASE_IF_NECESSARY",
+    "state": "ACTIVE"
+  }
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "id": "testproj~refs%2Fmeta%2Fconfig~Ieaf185bf90a1fc3b58461e399385e158a20b31a2",
+    "project": "testproj",
+    "branch": "refs/meta/config",
+    "hashtags": [],
+    "change_id": "Ieaf185bf90a1fc3b58461e399385e158a20b31a2",
+    "subject": "Review access change",
+    "status": "NEW",
+    "created": "2017-09-07 14:31:11.852000000",
+    "updated": "2017-09-07 14:31:11.852000000",
+    "submit_type": "CHERRY_PICK",
+    "mergeable": true,
+    "insertions": 2,
+    "deletions": 0,
+    "unresolved_comment_count": 0,
+    "has_review_started": true,
+    "_number": 7,
+    "owner": {
+      "_account_id": 1000000
+    }
+  }
+----
+
 [[run-gc]]
 === Run GC
 --
@@ -4171,11 +4233,13 @@ of parameter names to values.
 Whether empty commits should be rejected when a change is merged.
 Can be `TRUE`, `FALSE` or `INHERIT`. +
 If not set, this setting is not updated.
-|commentlinks                              |optional|
+|`commentlinks`                              |optional|
 Map of commentlink names to link:#commentlink-input[CommentLinkInput]
 entities to add or update on the project. If the given commentlink
 already exists, it will be updated with the given values, otherwise
 it will be created. If the value is null, that entry is deleted.
+|`message`           |optional|
+A commit message for this change.
 |======================================================
 
 [[config-parameter-info]]

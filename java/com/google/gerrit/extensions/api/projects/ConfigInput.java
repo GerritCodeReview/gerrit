@@ -40,4 +40,5 @@ public class ConfigInput {
   public ProjectState state;
   public Map<String, Map<String, ConfigValue>> pluginConfigValues;
   public Map<String, CommentLinkInput> commentLinks;
+  public String commitMessage;
 }

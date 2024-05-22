@@ -63,6 +63,30 @@
       },
       "revId": "b4731a5bd9c87667d3f4c3535359e5ab9830f28e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d189bfab_5bc1e107",
+        "filename": "java/com/google/gerrit/server/account/AccountLimits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-05-22T22:29:54Z",
+      "side": 1,
+      "message": "I\u0027ve also verified that this would also fix the situation where the `index.maxLimit` is restricted to a lower limit. However, there is a bug when `index.paginationType \u003d NONE`, will raise a separate bug for that.",
+      "parentUuid": "f952544a_b8c6710f",
+      "range": {
+        "startLine": 101,
+        "startChar": 11,
+        "endLine": 101,
+        "endChar": 59
+      },
+      "revId": "b4731a5bd9c87667d3f4c3535359e5ab9830f28e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

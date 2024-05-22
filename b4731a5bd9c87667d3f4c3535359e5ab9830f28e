@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "783a591f_45c802f9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-05-22T18:27:30Z",
+      "side": 1,
+      "message": "I do not believe we need all this complication. @diego.sessona@gmail.com did a lot of work on the QueryProcessor and should recall how the _user effective limits_ system works.\n\nI believe the solution must be a lot simpler and lies on the way the `AccountLimits` should handle the internal user.",
+      "revId": "b4731a5bd9c87667d3f4c3535359e5ab9830f28e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

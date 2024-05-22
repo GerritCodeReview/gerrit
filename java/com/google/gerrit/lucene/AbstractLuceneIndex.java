@@ -48,11 +48,13 @@ import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.index.query.ListResultSet;
 import com.google.gerrit.index.query.ResultSet;
 import com.google.gerrit.proto.Protos;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.options.AutoFlush;
 import com.google.gerrit.server.logging.LoggingContextAwareExecutorService;
 import com.google.gerrit.server.logging.LoggingContextAwareScheduledExecutorService;
+import com.google.inject.Provider;
 import com.google.protobuf.MessageLite;
 import java.io.IOException;
 import java.nio.file.FileAlreadyExistsException;
@@ -116,6 +118,7 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
   private final AutoFlush autoFlush;
   private ScheduledExecutorService autoCommitExecutor;
   private final Function<V, K> valueToKeyFunction;
+  private final Provider<CurrentUser> currentUserProvider;
 
   @SuppressWarnings("ThreadPriorityCheck")
   AbstractLuceneIndex(
@@ -128,7 +131,8 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
       GerritIndexWriterConfig writerConfig,
       SearcherFactory searcherFactory,
       AutoFlush autoFlush,
-      Function<V, K> valueToKeyFunction)
+      Function<V, K> valueToKeyFunction,
+      Provider<CurrentUser> currentUserProvider)
       throws IOException {
     this.schema = schema;
     this.sitePaths = sitePaths;
@@ -137,6 +141,7 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
     this.skipFields = skipFields;
     this.autoFlush = autoFlush;
     this.valueToKeyFunction = valueToKeyFunction;
+    this.currentUserProvider = currentUserProvider;
     String index = Joiner.on('_').skipNulls().join(name, subIndex);
     long commitPeriod = writerConfig.getCommitWithinMs();
 
@@ -587,6 +592,9 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
         int realLimit =
             Ints.saturatedCast(
                 (long) getLimitBasedOnPaginationType(opts, opts.pageSize()) + opts.start());
+        if(currentUserProvider.get().isInternalUser()) {
+           realLimit = Integer.MAX_VALUE;
+        }
         TopFieldDocs docs =
             opts.searchAfter() != null
                 ? searcher.searchAfter((ScoreDoc) opts.searchAfter(), query, realLimit, sort, false)

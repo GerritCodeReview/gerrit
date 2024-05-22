@@ -30,6 +30,7 @@ import com.google.gerrit.index.SchemaFieldDefs.SchemaField;
 import com.google.gerrit.index.query.DataSource;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -96,6 +97,7 @@ public class LuceneAccountIndex extends AbstractLuceneIndex<Account.Id, AccountS
       @GerritServerConfig Config cfg,
       SitePaths sitePaths,
       Provider<AccountCache> accountCache,
+      Provider<CurrentUser> currentUserProvider,
       @Assisted Schema<AccountState> schema,
       AutoFlush autoFlush)
       throws IOException {
@@ -109,7 +111,7 @@ public class LuceneAccountIndex extends AbstractLuceneIndex<Account.Id, AccountS
         new GerritIndexWriterConfig(cfg, ACCOUNTS),
         new SearcherFactory(),
         autoFlush,
-        AccountIndex.ENTITY_TO_KEY);
+        AccountIndex.ENTITY_TO_KEY, currentUserProvider);
     this.accountCache = accountCache;
 
     indexWriterConfig = new GerritIndexWriterConfig(cfg, ACCOUNTS);

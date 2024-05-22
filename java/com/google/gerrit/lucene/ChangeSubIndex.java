@@ -30,11 +30,13 @@ import com.google.gerrit.index.query.DataSource;
 import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.options.AutoFlush;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.inject.Provider;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.sql.Timestamp;
@@ -53,7 +55,8 @@ public class ChangeSubIndex extends AbstractLuceneIndex<Change.Id, ChangeData>
       ImmutableSet<String> skipFields,
       GerritIndexWriterConfig writerConfig,
       SearcherFactory searcherFactory,
-      AutoFlush autoFlush)
+      AutoFlush autoFlush,
+      Provider<CurrentUser> currentUserProvider)
       throws IOException {
     this(
         schema,
@@ -63,7 +66,7 @@ public class ChangeSubIndex extends AbstractLuceneIndex<Change.Id, ChangeData>
         skipFields,
         writerConfig,
         searcherFactory,
-        autoFlush);
+        autoFlush, currentUserProvider);
   }
 
   ChangeSubIndex(
@@ -74,7 +77,8 @@ public class ChangeSubIndex extends AbstractLuceneIndex<Change.Id, ChangeData>
       ImmutableSet<String> skipFields,
       GerritIndexWriterConfig writerConfig,
       SearcherFactory searcherFactory,
-      AutoFlush autoFlush)
+      AutoFlush autoFlush,
+      Provider<CurrentUser> currentUserProvider)
       throws IOException {
     super(
         schema,
@@ -86,7 +90,7 @@ public class ChangeSubIndex extends AbstractLuceneIndex<Change.Id, ChangeData>
         writerConfig,
         searcherFactory,
         autoFlush,
-        ChangeIndex.ENTITY_TO_KEY);
+        ChangeIndex.ENTITY_TO_KEY, currentUserProvider);
   }
 
   @Override

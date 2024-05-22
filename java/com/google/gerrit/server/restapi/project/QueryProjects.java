@@ -30,6 +30,7 @@ import com.google.gerrit.index.project.ProjectIndexCollection;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.index.query.QueryResult;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.project.ProjectJson;
 import com.google.gerrit.server.query.project.ProjectQueryBuilder;
 import com.google.gerrit.server.query.project.ProjectQueryProcessor;
@@ -44,6 +45,7 @@ public class QueryProjects implements RestReadView<TopLevelResource> {
   private final ProjectIndexCollection indexes;
   private final ProjectQueryBuilder queryBuilder;
   private final Provider<ProjectQueryProcessor> queryProcessorProvider;
+  private final Provider<CurrentUser> currentUserProvider;
   private final ProjectJson json;
 
   private String query;
@@ -87,11 +89,12 @@ public class QueryProjects implements RestReadView<TopLevelResource> {
       ProjectIndexCollection indexes,
       ProjectQueryBuilder queryBuilder,
       Provider<ProjectQueryProcessor> queryProcessorProvider,
-      ProjectJson json) {
+      ProjectJson json, Provider<CurrentUser> currentUserProvider) {
     this.indexes = indexes;
     this.queryBuilder = queryBuilder;
     this.queryProcessorProvider = queryProcessorProvider;
     this.json = json;
+    this.currentUserProvider = currentUserProvider;
   }
 
   @Override
@@ -117,6 +120,7 @@ public class QueryProjects implements RestReadView<TopLevelResource> {
     }
 
     queryProcessor.setUserProvidedLimit(limit, /* applyDefaultLimit */ true);
+    queryProcessor.setNoLimit(currentUserProvider.get().isInternalUser());
 
     try {
       QueryResult<ProjectData> result =

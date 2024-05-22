@@ -50,6 +50,7 @@ import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.index.query.ResultSet;
 import com.google.gerrit.proto.Protos;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.MergeabilityComputationBehavior;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
@@ -62,6 +63,7 @@ import com.google.gerrit.server.index.options.AutoFlush;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.protobuf.MessageLite;
 import java.io.IOException;
@@ -135,6 +137,7 @@ public class LuceneChangeIndex implements ChangeIndex {
       SitePaths sitePaths,
       @IndexExecutor(INTERACTIVE) ListeningExecutorService executor,
       ChangeData.Factory changeDataFactory,
+      Provider<CurrentUser> currentUserProvider,
       @Assisted Schema<ChangeData> schema,
       AutoFlush autoFlush)
       throws IOException {
@@ -162,7 +165,7 @@ public class LuceneChangeIndex implements ChangeIndex {
               skipFields,
               openConfig,
               searcherFactory,
-              autoFlush);
+              autoFlush, currentUserProvider);
       closedIndex =
           new ChangeSubIndex(
               schema,
@@ -172,7 +175,7 @@ public class LuceneChangeIndex implements ChangeIndex {
               skipFields,
               closedConfig,
               searcherFactory,
-              autoFlush);
+              autoFlush, currentUserProvider);
     } else {
       Path dir = LuceneVersionManager.getDir(sitePaths, CHANGES, schema);
       openIndex =
@@ -183,7 +186,7 @@ public class LuceneChangeIndex implements ChangeIndex {
               skipFields,
               openConfig,
               searcherFactory,
-              autoFlush);
+              autoFlush, currentUserProvider);
       closedIndex =
           new ChangeSubIndex(
               schema,
@@ -192,7 +195,7 @@ public class LuceneChangeIndex implements ChangeIndex {
               skipFields,
               closedConfig,
               searcherFactory,
-              autoFlush);
+              autoFlush, currentUserProvider);
     }
   }
 

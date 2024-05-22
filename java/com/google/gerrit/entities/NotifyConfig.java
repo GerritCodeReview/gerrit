@@ -19,6 +19,7 @@ import com.google.auto.value.extension.memoized.Memoized;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.gerrit.common.ConvertibleToProto;
 import com.google.gerrit.common.Nullable;
 import java.util.EnumSet;
 import java.util.Set;
@@ -31,6 +32,7 @@ public abstract class NotifyConfig implements Comparable<NotifyConfig> {
     BCC
   }
 
+  @ConvertibleToProto
   public enum NotifyType {
     // sort by name, except 'ALL' which should stay last
     ABANDONED_CHANGES,

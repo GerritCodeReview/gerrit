@@ -29,6 +29,7 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Sets;
+import com.google.gerrit.common.ConvertibleToProto;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.NotifyConfig;
@@ -79,6 +80,7 @@ import org.eclipse.jgit.lib.Config;
  */
 public class ProjectWatches {
   @AutoValue
+  @ConvertibleToProto
   public abstract static class ProjectWatchKey {
 
     public static ProjectWatchKey create(Project.NameKey project, @Nullable String filter) {

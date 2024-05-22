@@ -941,6 +941,7 @@ export class GrComment extends LitElement {
   }
 
   private reportHintInteractionSaved() {
+    if (this.autocompleteAcceptedHints.length === 0) return;
     const content = this.messageText.trimEnd();
     const acceptedHintsConcatenated = this.autocompleteAcceptedHints.join('');
     const numExtraCharacters =
@@ -1440,7 +1441,7 @@ export class GrComment extends LitElement {
     );
     this.reportHintInteraction(
       Interaction.COMMENT_COMPLETION_SUGGESTION_FETCHED,
-      context
+      {...context, hasDraftChanged: this.messageText !== commentText}
     );
     if (!response?.completion) return;
     // Note that we are setting the cache value for `commentText` and getting the value

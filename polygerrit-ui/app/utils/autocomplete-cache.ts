@@ -24,6 +24,8 @@ export interface AutocompletionContext {
   acceptedSuggestionsCount?: number;
   totalAcceptedCharacters?: number;
   savedDraftLength?: number;
+
+  hasDraftChanged?: boolean;
 }
 
 /**

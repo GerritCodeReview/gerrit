@@ -287,6 +287,10 @@ public interface ProjectApi {
    */
   void labels(BatchLabelInput input) throws RestApiException;
 
+  /** Same as {@link #labels(BatchLabelInput)}, but creates a change with required updates. */
+  @CanIgnoreReturnValue
+  ChangeInfo labelsReview(BatchLabelInput input) throws RestApiException;
+
   /**
    * A default implementation which allows source compatibility when adding new methods to the
    * interface.
@@ -495,6 +499,11 @@ public interface ProjectApi {
 
     @Override
     public void labels(BatchLabelInput input) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public ChangeInfo labelsReview(BatchLabelInput input) throws RestApiException {
       throw new NotImplementedException();
     }
   }

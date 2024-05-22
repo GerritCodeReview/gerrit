@@ -39,6 +39,30 @@
       },
       "revId": "b4731a5bd9c87667d3f4c3535359e5ab9830f28e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f952544a_b8c6710f",
+        "filename": "java/com/google/gerrit/server/account/AccountLimits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-05-22T22:00:37Z",
+      "side": 1,
+      "message": "I have verified with this simple one-liner that:\n\n1. Before this one-liner, the query for projects from an internal user was *NOT* being able to leverage the ACL (`InternalUser` isn\u0027t member of any group, not even the `AnonymousUsers`) and always hardcoded to `500` entries.\n\n2. After this one-liner, the query for projects from an internal user returns all the projects (by default the Lucene index backend has no limits).",
+      "parentUuid": "afb8c20f_bea1a316",
+      "range": {
+        "startLine": 101,
+        "startChar": 11,
+        "endLine": 101,
+        "endChar": 59
+      },
+      "revId": "b4731a5bd9c87667d3f4c3535359e5ab9830f28e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

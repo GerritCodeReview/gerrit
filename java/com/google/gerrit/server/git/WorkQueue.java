@@ -636,15 +636,16 @@ public class WorkQueue {
 
     public void waitUntilReadyToStart(Task<?> task) {
       if (!listeners.isEmpty() && !isReadyToStart(task)) {
-        incrementCorePoolSizeBy(1);
         ParkedTask parkedTask = new ParkedTask(task);
         parked.offer(parkedTask);
         task.runningState.set(Task.State.PARKED);
+        incrementCorePoolSizeBy(1);
         try {
           parkedTask.latch.await();
         } catch (InterruptedException e) {
           logger.atSevere().withCause(e).log("Parked Task(%s) Interrupted", task);
           parked.remove(parkedTask);
+        } finally {
           incrementCorePoolSizeBy(-1);
         }
       }
@@ -702,7 +703,6 @@ public class WorkQueue {
       parked.addAll(notReady);
 
       if (ready != null) {
-        incrementCorePoolSizeBy(-1);
         ready.latch.countDown();
       }
     }

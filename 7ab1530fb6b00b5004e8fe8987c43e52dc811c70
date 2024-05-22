@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "099307b9_8f24419a",
+        "filename": "java/com/google/gerrit/server/plugins/ServerPlugin.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-05-22T23:16:06Z",
+      "side": 1,
+      "message": "I am bit puzzled on why this is needed.\n\nIf you notice at L264 and. L279. the instances of `sshModule` and `httpModule` classes are created through a `sysInjector.getInstance()` which means that the Guice `Injector` object of the modules will be `sysInjector`.\n\nThe above are explicitly binding the `sshModule` and `httpModule` to the same `sysInjector`, which is also assured here below.\n\nHowever, I you want to make sure that the `sshModule` and `httpModule` are *NOT* actually bound to the potentially hierarchical `sysInjector` but rather to the top-level `baseInjector`. Then it would make sense to just instantiate the `sshModule` and `httpModule` in this if() condition rather than checking again from L257 onwards.",
+      "range": {
+        "startLine": 235,
+        "startChar": 0,
+        "endLine": 246,
+        "endChar": 13
+      },
+      "revId": "7ab1530fb6b00b5004e8fe8987c43e52dc811c70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7b18673_06589fbb",
+        "filename": "java/com/google/gerrit/server/plugins/ServerPlugin.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-05-22T23:16:06Z",
+      "side": 1,
+      "message": "Shouldn\u0027t you do the same _magic_ as above? You may auto-register modules, but still they could come from a hierarchical injector and you may end up again with the same _just-in-time_ binding duplication issue.",
+      "range": {
+        "startLine": 251,
+        "startChar": 0,
+        "endLine": 251,
+        "endChar": 69
+      },
+      "revId": "7ab1530fb6b00b5004e8fe8987c43e52dc811c70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07269a1e_47675c83",
+        "filename": "java/com/google/gerrit/server/plugins/ServerPlugin.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-05-22T23:16:06Z",
+      "side": 1,
+      "message": "That is already done at L234, why do you also need to bind the `sshModule` and `httpModule` to the root injector?",
+      "range": {
+        "startLine": 302,
+        "startChar": 0,
+        "endLine": 315,
+        "endChar": 5
+      },
+      "revId": "7ab1530fb6b00b5004e8fe8987c43e52dc811c70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

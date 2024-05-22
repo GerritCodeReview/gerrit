@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "34580559_aca46f3c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-05-22T23:16:06Z",
+      "side": 1,
+      "message": "Understood, it would be useful to mention that happened in commit 22145cb21b9346.",
+      "parentUuid": "b21db455_18a4b8f8",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 17
+      },
+      "revId": "37ce96933e2cd7ed601908ef68e98e582acdfef5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "2ef110fa_56f4f20b",
@@ -102,6 +126,30 @@
       "side": 1,
       "message": "I\u0027m open to moving it if you have a recommendation for a better place. This seemed to have most of the other plugin bindings and so I thought it was the most appropriate.",
       "parentUuid": "f1a19e12_4be61ae3",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 76
+      },
+      "revId": "37ce96933e2cd7ed601908ef68e98e582acdfef5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a546d80d_7cf0f6c1",
+        "filename": "java/com/google/gerrit/server/plugins/ServerPluginInfoModule.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-05-22T23:16:06Z",
+      "side": 1,
+      "message": "It is done already in `ServerPlugin.java:L239`, that should suffice isn\u0027t it?",
+      "parentUuid": "42de0e24_3b544189",
       "range": {
         "startLine": 55,
         "startChar": 0,

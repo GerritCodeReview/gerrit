@@ -34,6 +34,24 @@
       "parentUuid": "2536e7c4_dc6cf8d3",
       "revId": "7b49b697e336fa9e68eb0bcf1e4b1f5ab1825bfa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b76cbe59_c93888ce",
+        "filename": "javatests/com/google/gerrit/acceptance/server/util/TaskParkerIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2024-05-22T22:34:18Z",
+      "side": 1,
+      "message": "\u003e \u003e This assertion seems to be flaky.\n\u003e \n\u003e Yeah, looks like either this should be using `assertStateIsEventually()` or we should move the core pool size increment a few lines lower so that it\u0027s after setting the runningState to PARKED: https://gerrit.googlesource.com/gerrit/+/refs/changes/34/248034/8/java/com/google/gerrit/server/git/WorkQueue.java#639\n\n\nDoing to the increment after updating the state is preferred.\n\n426317: WorkQueue: Increment core pool size after task is in PARKED state | https://gerrit-review.googlesource.com/c/gerrit/+/426317",
+      "parentUuid": "89df7945_363a20a7",
+      "revId": "7b49b697e336fa9e68eb0bcf1e4b1f5ab1825bfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

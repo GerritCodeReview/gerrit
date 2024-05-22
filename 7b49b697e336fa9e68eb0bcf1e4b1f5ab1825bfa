@@ -16,6 +16,24 @@
       "message": "This assertion seems to be flaky.\n\nLocally I can see this test failure:\n\n1) parkFirstSoSecondRuns(com.google.gerrit.acceptance.server.util.TaskParkerIT)\nvalue of: getState()\nexpected: PARKED\nbut was : READY\n\tat com.google.gerrit.acceptance.server.util.TaskListenerIT.assertStateIs(TaskListenerIT.java:325)\n\tat com.google.gerrit.acceptance.server.util.TaskParkerIT.assertStateIs(TaskParkerIT.java:537)\n\tat com.google.gerrit.acceptance.server.util.TaskParkerIT.parkFirstSoSecondRuns(TaskParkerIT.java:241)",
       "revId": "7b49b697e336fa9e68eb0bcf1e4b1f5ab1825bfa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89df7945_363a20a7",
+        "filename": "javatests/com/google/gerrit/acceptance/server/util/TaskParkerIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-05-22T17:06:45Z",
+      "side": 1,
+      "message": "\u003e This assertion seems to be flaky.\n\nYeah, looks like either this should be using `assertStateIsEventually()` or we should move the core pool size increment a few lines lower so that it\u0027s after setting the runningState to PARKED: https://gerrit.googlesource.com/gerrit/+/refs/changes/34/248034/8/java/com/google/gerrit/server/git/WorkQueue.java#639",
+      "parentUuid": "2536e7c4_dc6cf8d3",
+      "revId": "7b49b697e336fa9e68eb0bcf1e4b1f5ab1825bfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

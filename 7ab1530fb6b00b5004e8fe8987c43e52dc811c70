@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ec787032_cf7ba65d",
+        "filename": "java/com/google/gerrit/server/plugins/ServerPlugin.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-05-22T23:43:41Z",
+      "side": 1,
+      "message": "\u003e If you notice at L264 and. L279. the instances of `sshModule` and `httpModule` classes are created through a `sysInjector.getInstance()` which means that the Guice `Injector` object of the modules will be `sysInjector`.\n\nSadly, that\u0027s not true and that\u0027s the whole problem. Guice will by default bind to the higher parent, the baseInjector in this case, and not to the sysInjector like you would expect based on `sysInjector.getInstance()`. You **must** have the `bind()` calls to force that binding to the sysInjector. It\u0027s the whole reason this change is needed. I explained this more in L33-39 of this change\u0027s commit message and also in the original pre-revert [commit message](https://gerrit-review.googlesource.com/c/gerrit/+/417915/5//COMMIT_MSG).",
+      "parentUuid": "099307b9_8f24419a",
+      "range": {
+        "startLine": 235,
+        "startChar": 0,
+        "endLine": 246,
+        "endChar": 13
+      },
+      "revId": "7ab1530fb6b00b5004e8fe8987c43e52dc811c70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e7b18673_06589fbb",
         "filename": "java/com/google/gerrit/server/plugins/ServerPlugin.java",
         "patchSetId": 6
@@ -49,6 +73,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "84b9cccc_202f80a2",
+        "filename": "java/com/google/gerrit/server/plugins/ServerPlugin.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-05-22T23:43:41Z",
+      "side": 1,
+      "message": "Probably? There\u0027s a general lack of test coverage for the auto-registration code and I meant to go back and add some, but I didn\u0027t get to that and forgot to mention it in the commit message. Do you know any plugins that use this?",
+      "parentUuid": "e7b18673_06589fbb",
+      "range": {
+        "startLine": 251,
+        "startChar": 0,
+        "endLine": 251,
+        "endChar": 69
+      },
+      "revId": "7ab1530fb6b00b5004e8fe8987c43e52dc811c70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "07269a1e_47675c83",
         "filename": "java/com/google/gerrit/server/plugins/ServerPlugin.java",
         "patchSetId": 6
@@ -60,6 +108,30 @@
       "writtenOn": "2024-05-22T23:16:06Z",
       "side": 1,
       "message": "That is already done at L234, why do you also need to bind the `sshModule` and `httpModule` to the root injector?",
+      "range": {
+        "startLine": 302,
+        "startChar": 0,
+        "endLine": 315,
+        "endChar": 5
+      },
+      "revId": "7ab1530fb6b00b5004e8fe8987c43e52dc811c70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4827dca6_4c1c868f",
+        "filename": "java/com/google/gerrit/server/plugins/ServerPlugin.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-05-22T23:43:41Z",
+      "side": 1,
+      "message": "L234 is when `sysModule !\u003d null` and here we have to deal with when `sysModule \u003d\u003d null`. I explain this fun bit I found on L29-31 in the commit message.",
+      "parentUuid": "07269a1e_47675c83",
       "range": {
         "startLine": 302,
         "startChar": 0,

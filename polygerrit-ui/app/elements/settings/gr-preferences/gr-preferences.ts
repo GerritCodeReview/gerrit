@@ -600,6 +600,8 @@ export class GrPreferences extends LitElement {
         Boolean(this.prefs?.allow_browser_notifications) ||
       Boolean(this.originalPrefs?.allow_suggest_code_while_commenting) !==
         Boolean(this.prefs?.allow_suggest_code_while_commenting) ||
+      Boolean(this.originalPrefs?.allow_autocompleting_comments) !==
+        Boolean(this.prefs?.allow_autocompleting_comments) ||
       this.originalPrefs?.default_base_for_merges !==
         this.prefs?.default_base_for_merges ||
       Boolean(this.originalPrefs?.relative_date_in_change_table) !==

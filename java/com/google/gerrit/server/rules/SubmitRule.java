@@ -43,4 +43,14 @@ public interface SubmitRule {
    * Optional#empty()} if the SubmitRule was a no-op.
    */
   Optional<SubmitRecord> evaluate(ChangeData changeData);
+
+  /**
+   * Whether this submit rule may return submit records that have labels set.
+   *
+   * <p>Return {@code false} only if {@link #evaluate(ChangeData)} never returns submit records
+   * where {@link SubmitRecord#labels} may be set.
+   */
+  default boolean mayReturnLabels() {
+    return true;
+  }
 }

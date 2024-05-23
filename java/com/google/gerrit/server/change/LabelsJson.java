@@ -15,10 +15,12 @@
 package com.google.gerrit.server.change;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static java.util.stream.Collectors.toList;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedHashMultimap;
@@ -397,10 +399,7 @@ public class LabelsJson {
       LabelTypes labelTypes,
       boolean includeAccountInfo) {
     Map<String, LabelWithStatus> labels = new TreeMap<>(labelTypes.nameComparator());
-    for (SubmitRecord rec : submitRecords(cd)) {
-      if (rec.labels == null) {
-        continue;
-      }
+    for (SubmitRecord rec : submitRecordsWithLabels(cd)) {
       for (SubmitRecord.Label r : rec.labels) {
         LabelWithStatus p = labels.get(r.label);
         if (p == null || p.status().compareTo(r.status) < 0) {
@@ -547,8 +546,16 @@ public class LabelsJson {
     }
   }
 
-  private List<SubmitRecord> submitRecords(ChangeData cd) {
-    return cd.submitRecords(ChangeJson.SUBMIT_RULE_OPTIONS_LENIENT);
+  private ImmutableList<SubmitRecord> submitRecordsWithLabels(ChangeData cd) {
+    return cd
+        .submitRecords(
+            ChangeJson.SUBMIT_RULE_OPTIONS_LENIENT
+                .toBuilder()
+                .skipRulesThatDoNotReturnLabels(true)
+                .build())
+        .stream()
+        .filter(rec -> rec.labels != null && !rec.labels.isEmpty())
+        .collect(toImmutableList());
   }
 
   private Map<String, VotingRangeInfo> getPermittedVotingRanges(

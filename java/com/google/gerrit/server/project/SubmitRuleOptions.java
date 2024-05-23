@@ -15,6 +15,7 @@
 package com.google.gerrit.server.project;
 
 import com.google.auto.value.AutoValue;
+import com.google.gerrit.server.rules.SubmitRule;
 
 /**
  * Stable identifier for options passed to a particular submit rule evaluator.
@@ -25,7 +26,10 @@ import com.google.auto.value.AutoValue;
 @AutoValue
 public abstract class SubmitRuleOptions {
   private static final SubmitRuleOptions defaults =
-      new AutoValue_SubmitRuleOptions.Builder().recomputeOnClosedChanges(false).build();
+      new AutoValue_SubmitRuleOptions.Builder()
+          .recomputeOnClosedChanges(false)
+          .skipRulesThatDoNotReturnLabels(false)
+          .build();
 
   public static SubmitRuleOptions defaults() {
     return defaults;
@@ -40,11 +44,16 @@ public abstract class SubmitRuleOptions {
    */
   public abstract boolean recomputeOnClosedChanges();
 
+  /** Skip submit rules that may not return labels (see {@link SubmitRule#mayReturnLabels()}). */
+  public abstract boolean skipRulesThatDoNotReturnLabels();
+
   public abstract Builder toBuilder();
 
   @AutoValue.Builder
   public abstract static class Builder {
     public abstract SubmitRuleOptions.Builder recomputeOnClosedChanges(boolean allowClosed);
+
+    public abstract SubmitRuleOptions.Builder skipRulesThatDoNotReturnLabels(boolean skip);
 
     public abstract SubmitRuleOptions build();
   }

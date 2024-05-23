@@ -143,6 +143,7 @@ public class SubmitRuleEvaluator {
               projectState.hasPrologRules() && prologSubmitRuleUtil.isProjectRulesEnabled()
                   ? rule -> !(rule.get() instanceof DefaultSubmitRule)
                   : rule -> true)
+          .filter(rule -> !opts.skipRulesThatDoNotReturnLabels() || rule.get().mayReturnLabels())
           .map(
               c ->
                   c.call(

@@ -117,6 +117,8 @@ public class ProjectRestApiModule extends RestApiModule {
     put(SUBMIT_REQUIREMENT_KIND).to(UpdateSubmitRequirement.class);
     get(SUBMIT_REQUIREMENT_KIND).to(GetSubmitRequirement.class);
     delete(SUBMIT_REQUIREMENT_KIND).to(DeleteSubmitRequirement.class);
+    postOnCollection(SUBMIT_REQUIREMENT_KIND).to(PostSubmitRequirements.class);
+    post(PROJECT_KIND, "submit_requirements:review").to(PostSubmitRequirementsReview.class);
 
     child(PROJECT_KIND, "tags").to(TagsCollection.class);
     create(TAG_KIND).to(CreateTag.class);

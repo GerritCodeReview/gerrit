@@ -3917,6 +3917,103 @@ If a submit requirement was deleted the response is "`204 No Content`".
   HTTP/1.1 204 No Content
 ----
 
+[[batch-update-submit-requirements]]
+=== Batch Update Submit Requirements
+--
+'POST /projects/link:#project-name[\{project-name\}]/submit_requirements/'
+--
+
+Creates/updates/deletes multiple submit requirements definitions in this project at once.
+
+The calling user must have write access to the `refs/meta/config` branch of the
+project.
+
+The updates must be specified in the request body as
+link:#batch-submit-requirement-input[BatchSubmitRequirementInput] entity.
+
+The updates are processed in the following order:
+
+1. submit requirements deletions
+2. submit requirements creations
+3. submit requirements updates
+
+.Request
+----
+  POST /projects/My-Project/submit_requirements/ HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "commit_message": "Update Submit Requirements",
+    "delete": [
+      "Old-Review",
+      "Unused-Review"
+    ]
+  }
+----
+
+If the submit requirements updates were done successfully the response is "`200 OK`".
+
+.Response
+----
+  HTTP/1.1 200 OK
+----
+
+[[create-submit-requirements-change]]
+=== Create Submit Requirements Change for review.
+--
+'POST /projects/link:#project-name[\{project-name\}]/submit_requirements:review'
+--
+
+Creates/updates/deletes multiple submit requirements definitions in this project at once.
+
+This takes the same input as link:#batch-update-submit-requirements[Batch Update Submit Requirements],
+but creates a pending change for review. Like
+link:#create-change[Create Change], it returns a link:#change-info[ChangeInfo]
+entity describing the resulting change.
+
+.Request
+----
+  POST /projects/testproj/submit_requirements:review HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "commit_message": "Update Submit Requirements",
+    "delete": [
+      "Old-Review",
+      "Unused-Review"
+    ]
+  }
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "id": "testproj~refs%2Fmeta%2Fconfig~Ieaf185bf90a1fc3b58461e399385e158a20b31a2",
+    "project": "testproj",
+    "branch": "refs/meta/config",
+    "hashtags": [],
+    "change_id": "Ieaf185bf90a1fc3b58461e399385e158a20b31a2",
+    "subject": "Review access change",
+    "status": "NEW",
+    "created": "2017-09-07 14:31:11.852000000",
+    "updated": "2017-09-07 14:31:11.852000000",
+    "submit_type": "CHERRY_PICK",
+    "mergeable": true,
+    "insertions": 2,
+    "deletions": 0,
+    "unresolved_comment_count": 0,
+    "has_review_started": true,
+    "_number": 7,
+    "owner": {
+      "_account_id": 1000000
+    }
+  }
+----
+
 [[ids]]
 == IDs
 
@@ -4659,6 +4756,27 @@ describe labels that should be created.
 |`update`        |optional|
 Map of label names to link:#label-definition-input[LabelDefinitionInput]
 entities that describe the updates that should be done for the labels.
+|=============================
+
+[[batch-submit-requirement-input]]
+=== BatchSubmitRequirementInput
+The `BatchSubmitRequirementInput` entity contains information for batch updating submit requirements
+definitions in a project.
+
+[options="header",cols="1,^2,4"]
+|=============================
+|Field Name      ||Description
+|`commit_message`|optional|
+Message that should be used to commit the submit requirements updates in the
+`project.config` file to the `refs/meta/config` branch.
+|`delete`        |optional|
+List of submit requirements that should be deleted.
+|`create`        |optional|
+List of link:#submit-requirement-input[SubmitRequirementInput] entities that
+describe submit requirements that should be created.
+|`update`        |optional|
+Map of label names to link:#submit-requirement-input[SubmitRequirementInput]
+entities that describe the updates that should be done for the submit requirements.
 |=============================
 
 [[project-access-input]]

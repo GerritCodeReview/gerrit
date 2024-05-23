@@ -24,8 +24,8 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.SubmitRequirementResource;
 import com.google.inject.Provider;
-import jakarta.inject.Singleton;
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 public class PostSubmitRequirements

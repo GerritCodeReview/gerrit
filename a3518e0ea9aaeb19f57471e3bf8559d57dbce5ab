@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86ef15b8_9229d65c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-05-23T11:23:56Z",
+      "side": 1,
+      "message": "Missing `Release-Notes: ...` footer.",
+      "revId": "a3518e0ea9aaeb19f57471e3bf8559d57dbce5ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "33c51fa2_b45ec54f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-05-23T11:23:56Z",
+      "side": 1,
+      "message": "👍 do you see any easy way to add one test for this?",
+      "revId": "a3518e0ea9aaeb19f57471e3bf8559d57dbce5ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

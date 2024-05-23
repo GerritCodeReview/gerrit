@@ -98,7 +98,9 @@ public class AccountLimits {
    * @return limit according to {@link GlobalCapability#QUERY_LIMIT}.
    */
   public int getQueryLimit() {
-    return getRange(GlobalCapability.QUERY_LIMIT).getMax();
+    return user.isInternalUser()
+        ? Integer.MAX_VALUE
+        : getRange(GlobalCapability.QUERY_LIMIT).getMax();
   }
 
   /** Returns true if the user has a permission rule specifying the range. */

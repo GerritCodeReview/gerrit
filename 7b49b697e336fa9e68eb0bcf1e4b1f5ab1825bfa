@@ -52,6 +52,24 @@
       "parentUuid": "89df7945_363a20a7",
       "revId": "7b49b697e336fa9e68eb0bcf1e4b1f5ab1825bfa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f1b538f_fa31d2a5",
+        "filename": "javatests/com/google/gerrit/acceptance/server/util/TaskParkerIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-05-23T05:43:30Z",
+      "side": 1,
+      "message": "Thanks much for the quick fix!",
+      "parentUuid": "b76cbe59_c93888ce",
+      "revId": "7b49b697e336fa9e68eb0bcf1e4b1f5ab1825bfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

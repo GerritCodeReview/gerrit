@@ -1480,6 +1480,7 @@ export class GrComment extends LitElement {
       isFullCommentPrediction: draftContent.length === 0,
       draftInSyncWithSuggestionLength: 0,
       modelVersion: response.modelVersion ?? '',
+      outcome: response.outcome,
       requestDurationMs,
     };
   }

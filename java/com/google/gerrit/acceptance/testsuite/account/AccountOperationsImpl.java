@@ -28,12 +28,12 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.AccountsUpdate.ConfigureDeltaFromState;
+import com.google.gerrit.server.account.AccountsUpdate.ConfigureStatelessDelta;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdFactory;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.Optional;
-import java.util.function.Consumer;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 /**
@@ -73,7 +73,7 @@ public class AccountOperationsImpl implements AccountOperations {
 
   protected Account.Id createAccount(TestAccountCreation testAccountCreation) throws Exception {
     Account.Id accountId = Account.id(seq.nextAccountId());
-    Consumer<AccountDelta.Builder> accountCreation =
+    ConfigureStatelessDelta accountCreation =
         deltaBuilder -> initAccountDelta(deltaBuilder, testAccountCreation, accountId);
     AccountState createdAccount =
         accountsUpdate.insert("Create Test Account", accountId, accountCreation);

@@ -38,6 +38,7 @@ import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.ServerInitiated;
+import com.google.gerrit.server.account.AccountsUpdate.ConfigureStatelessDelta;
 import com.google.gerrit.server.account.externalids.DuplicateExternalIdKeyException;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdFactory;
@@ -60,7 +61,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.function.Consumer;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 
@@ -269,7 +269,7 @@ public class AccountManager {
   private void update(AuthRequest who, ExternalId extId)
       throws IOException, ConfigInvalidException, AccountException {
     IdentifiedUser user = userFactory.create(extId.accountId());
-    List<Consumer<AccountDelta.Builder>> accountUpdates = new ArrayList<>();
+    List<ConfigureStatelessDelta> accountUpdates = new ArrayList<>();
 
     // If the email address was modified by the authentication provider,
     // update our records to match the changed email.
@@ -311,7 +311,7 @@ public class AccountManager {
               .update(
                   "Update Account on Login",
                   user.getAccountId(),
-                  AccountsUpdate.joinConsumers(accountUpdates));
+                  AccountsUpdate.joinDeltaConfigures(accountUpdates));
       if (!updatedAccount.isPresent()) {
         throw new StorageException("Account " + user.getAccountId() + " has been deleted");
       }

@@ -35,7 +35,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Consumer;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.PersonIdent;
 
@@ -51,6 +50,7 @@ import org.eclipse.jgit.lib.PersonIdent;
  * <p>See the implementing classes for more information.
  */
 public abstract class AccountsUpdate {
+  /** Loader for {@link AccountsUpdate}s. */
   public interface AccountsUpdateLoader {
     /**
      * Creates an {@code AccountsUpdate} which uses the identity of the specified user as author for
@@ -89,15 +89,18 @@ public abstract class AccountsUpdate {
   public static class UpdateArguments {
     public final String message;
     public final Account.Id accountId;
-    public final AccountsUpdate.ConfigureDeltaFromState configureDeltaFromState;
+    public final ConfigureDeltaFromState configureDelta;
 
     public UpdateArguments(
-        String message,
-        Account.Id accountId,
-        AccountsUpdate.ConfigureDeltaFromState configureDeltaFromState) {
+        String message, Account.Id accountId, ConfigureStatelessDelta configureDelta) {
+      this(message, accountId, (a, u) -> configureDelta.configure(u));
+    }
+
+    public UpdateArguments(
+        String message, Account.Id accountId, ConfigureDeltaFromState configureDelta) {
       this.message = message;
       this.accountId = accountId;
-      this.configureDeltaFromState = configureDeltaFromState;
+      this.configureDelta = configureDelta;
     }
 
     @Override
@@ -110,11 +113,31 @@ public abstract class AccountsUpdate {
   }
 
   /**
-   * Account updates are commonly performed by evaluating the current account state and creating a
-   * delta to be applied to it in a later step. This is done by implementing this interface.
+   * The most basic interface for updating the account delta, providing no state.
    *
-   * <p>If the current account state is not needed, use a {@link Consumer} of {@link
-   * com.google.gerrit.server.account.AccountDelta.Builder} instead.
+   * <p>Account updates that do not need to know the current account state should use this
+   * interface.
+   *
+   * <p>If the current {@link AccountState} is needed, use {@link ConfigureDeltaFromState} instead.
+   */
+  @FunctionalInterface
+  public interface ConfigureStatelessDelta {
+    /**
+     * Configures an {@link com.google.gerrit.server.account.AccountDelta.Builder} with changes to
+     * the account.
+     *
+     * @param delta the changes to be applied
+     */
+    void configure(AccountDelta.Builder delta);
+  }
+
+  /**
+   * Interface for updating the account delta, providing the current state.
+   *
+   * <p>Account updates are commonly performed by evaluating the current account state and creating
+   * a delta to be applied to it in a later step. This is done by implementing this interface.
+   *
+   * <p>If the current account state is not needed, use {@link ConfigureStatelessDelta} instead.
    */
   @FunctionalInterface
   public interface ConfigureDeltaFromState {
@@ -129,13 +152,9 @@ public abstract class AccountsUpdate {
   }
 
   /** Returns an instance that runs all specified consumers. */
-  public static ConfigureDeltaFromState joinConsumers(
-      List<Consumer<AccountDelta.Builder>> consumers) {
-    return (accountStateIgnored, update) -> consumers.forEach(c -> c.accept(update));
-  }
-
-  static ConfigureDeltaFromState fromConsumer(Consumer<AccountDelta.Builder> consumer) {
-    return (a, u) -> consumer.accept(u);
+  public static ConfigureStatelessDelta joinDeltaConfigures(
+      List<ConfigureStatelessDelta> deltaConfigures) {
+    return (update) -> deltaConfigures.forEach(c -> c.configure(update));
   }
 
   protected final PersonIdent committerIdent;
@@ -150,19 +169,10 @@ public abstract class AccountsUpdate {
   }
 
   /**
-   * Like {@link #insert(String, Account.Id, ConfigureDeltaFromState)}, but using a {@link Consumer}
-   * instead, i.e. the update does not depend on the current account state (which, for insertion,
-   * would only contain the account ID).
-   */
-  @CanIgnoreReturnValue
-  public final AccountState insert(
-      String message, Account.Id accountId, Consumer<AccountDelta.Builder> init)
-      throws IOException, ConfigInvalidException {
-    return insert(message, accountId, AccountsUpdate.fromConsumer(init));
-  }
-
-  /**
    * Inserts a new account.
+   *
+   * <p>If the current account state is not needed, use {@link #insert(String, Account.Id,
+   * ConfigureStatelessDelta)} instead.
    *
    * @param message commit message for the account creation, must not be {@code null or empty}
    * @param accountId ID of the new account
@@ -172,19 +182,20 @@ public abstract class AccountsUpdate {
    * @throws IOException if creating the user branch fails due to an IO error
    * @throws ConfigInvalidException if any of the account fields has an invalid value
    */
+  @CanIgnoreReturnValue
   public abstract AccountState insert(
       String message, Account.Id accountId, ConfigureDeltaFromState init)
       throws IOException, ConfigInvalidException;
 
   /**
-   * Like {@link #update(String, Account.Id, ConfigureDeltaFromState)}, but using a {@link Consumer}
-   * instead, i.e. the update does not depend on the current account state.
+   * Like {@link #insert(String, Account.Id, ConfigureDeltaFromState)}, but using {@link
+   * ConfigureStatelessDelta} instead. I.e. the update does not depend on the current account state.
    */
   @CanIgnoreReturnValue
-  public final Optional<AccountState> update(
-      String message, Account.Id accountId, Consumer<AccountDelta.Builder> update)
+  public final AccountState insert(
+      String message, Account.Id accountId, ConfigureStatelessDelta init)
       throws IOException, ConfigInvalidException {
-    return update(message, accountId, AccountsUpdate.fromConsumer(update));
+    return insert(message, accountId, (a, u) -> init.configure(u));
   }
 
   /**
@@ -192,10 +203,12 @@ public abstract class AccountsUpdate {
    *
    * <p>Changing the registration date of an account is not supported.
    *
+   * <p>If the current account state is not needed, use {@link #update(String, Account.Id,
+   * ConfigureStatelessDelta)} instead.
+   *
    * @param message commit message for the account update, must not be {@code null or empty}
    * @param accountId ID of the account
-   * @param configureDeltaFromState deltaBuilder to update the account, only invoked if the account
-   *     exists
+   * @param configureDelta deltaBuilder to update the account, only invoked if the account exists
    * @return the updated account, {@link Optional#empty} if the account doesn't exist
    * @throws IOException if updating the user branch fails due to an IO error
    * @throws LockFailureException if updating the user branch still fails due to concurrent updates
@@ -204,11 +217,22 @@ public abstract class AccountsUpdate {
    */
   @CanIgnoreReturnValue
   public final Optional<AccountState> update(
-      String message, Account.Id accountId, ConfigureDeltaFromState configureDeltaFromState)
+      String message, Account.Id accountId, ConfigureDeltaFromState configureDelta)
       throws IOException, ConfigInvalidException {
-    return updateBatch(
-            ImmutableList.of(new UpdateArguments(message, accountId, configureDeltaFromState)))
+    return updateBatch(ImmutableList.of(new UpdateArguments(message, accountId, configureDelta)))
         .get(0);
+  }
+
+  /**
+   * Like {@link #update(String, Account.Id, ConfigureDeltaFromState)} , but using {@link
+   * ConfigureStatelessDelta} instead. I.e. the update does not depend on the current account state,
+   * nor requires any extra storage reads/writes.
+   */
+  @CanIgnoreReturnValue
+  public final Optional<AccountState> update(
+      String message, Account.Id accountId, ConfigureStatelessDelta configureDelta)
+      throws IOException, ConfigInvalidException {
+    return update(message, accountId, (a, u) -> configureDelta.configure(u));
   }
 
   /**

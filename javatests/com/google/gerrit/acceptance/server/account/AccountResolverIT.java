@@ -433,7 +433,7 @@ public class AccountResolverIT extends AbstractDaemonTest {
     Optional<AccountState> result =
         accountsUpdateProvider
             .get()
-            .update("Force set preferred email", id, (s, u) -> u.setPreferredEmail(email));
+            .update("Force set preferred email", id, u -> u.setPreferredEmail(email));
     assertThat(result.map(a -> a.account().preferredEmail())).hasValue(email);
   }
 }

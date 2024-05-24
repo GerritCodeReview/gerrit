@@ -33,7 +33,6 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdFactory;
-import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -63,7 +62,6 @@ public class PutPreferred implements RestModifyView<AccountResource.Email, Input
   private final Provider<CurrentUser> self;
   private final PermissionBackend permissionBackend;
   private final Provider<AccountsUpdate> accountsUpdateProvider;
-  private final ExternalIds externalIds;
   private final ExternalIdFactory externalIdFactory;
 
   @Inject
@@ -71,12 +69,10 @@ public class PutPreferred implements RestModifyView<AccountResource.Email, Input
       Provider<CurrentUser> self,
       PermissionBackend permissionBackend,
       @ServerInitiated Provider<AccountsUpdate> accountsUpdateProvider,
-      ExternalIds externalIds,
       ExternalIdFactory externalIdFactory) {
     this.self = self;
     this.permissionBackend = permissionBackend;
     this.accountsUpdateProvider = accountsUpdateProvider;
-    this.externalIds = externalIds;
     this.externalIdFactory = externalIdFactory;
   }
 
@@ -99,7 +95,7 @@ public class PutPreferred implements RestModifyView<AccountResource.Email, Input
             .update(
                 "Set Preferred Email via API",
                 user.getAccountId(),
-                (a, u) -> {
+                (r, a, u) -> {
                   if (preferredEmail.equals(a.account().preferredEmail())) {
                     alreadyPreferred.set(true);
                   } else {
@@ -125,7 +121,7 @@ public class PutPreferred implements RestModifyView<AccountResource.Email, Input
                       if (user.hasEmailAddress(preferredEmail)) {
                         // but Realm says the user is allowed to use this email
                         ImmutableSet<ExternalId> existingExtIdsWithThisEmail =
-                            externalIds.byEmail(preferredEmail);
+                            r.externalIdsReader().byEmail(preferredEmail);
                         if (!existingExtIdsWithThisEmail.isEmpty()) {
                           // but the email is already assigned to another account
                           logger.atWarning().log(

@@ -12,6 +12,7 @@ export interface AutocompletionContext {
   isFullCommentPrediction?: boolean;
   draftInSyncWithSuggestionLength?: number;
   modelVersion?: string;
+  outcome?: number;
   requestDurationMs?: number;
 
   commentId?: string;

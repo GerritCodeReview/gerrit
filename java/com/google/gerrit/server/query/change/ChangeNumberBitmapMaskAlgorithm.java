@@ -19,6 +19,9 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.server.config.GerritImportedServerIds;
 import com.google.gerrit.server.config.GerritServerId;
+import com.google.gerrit.server.logging.Metadata;
+import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.inject.Inject;
 import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
@@ -68,20 +71,24 @@ public class ChangeNumberBitmapMaskAlgorithm implements ChangeNumberVirtualIdAlg
     }
 
     int changeNum = changeNumId.get();
+    try (TraceTimer timer =
+        TraceContext.newTimer(
+            "ChangeNumberBitmapMaskAlgorithm", Metadata.builder().changeId(changeNum).build())) {
+      if ((changeNum & LEGACY_ID_BIT_MASK) != changeNum) {
+        throw new IllegalArgumentException(
+            String.format(
+                "Change number %d is too large to be converted into a virtual id", changeNum));
+      }
 
-    if ((changeNum & LEGACY_ID_BIT_MASK) != changeNum) {
-      throw new IllegalArgumentException(
-          String.format(
-              "Change number %d is too large to be converted into a virtual id", changeNum));
+      Integer encodedServerId = serverIdCodes.get(changeServerId);
+      if (encodedServerId == null) {
+        throw new IllegalArgumentException(
+            String.format(
+                "ServerId %s is not part of the GerritImportedServerIds", changeServerId));
+      }
+      int virtualId = (changeNum & LEGACY_ID_BIT_MASK) | (encodedServerId << CHANGE_NUM_BIT_LEN);
+
+      return Change.id(virtualId);
     }
-
-    Integer encodedServerId = serverIdCodes.get(changeServerId);
-    if (encodedServerId == null) {
-      throw new IllegalArgumentException(
-          String.format("ServerId %s is not part of the GerritImportedServerIds", changeServerId));
-    }
-    int virtualId = (changeNum & LEGACY_ID_BIT_MASK) | (encodedServerId << CHANGE_NUM_BIT_LEN);
-
-    return Change.id(virtualId);
   }
 }

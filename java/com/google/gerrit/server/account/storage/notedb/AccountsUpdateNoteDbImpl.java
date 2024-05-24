@@ -271,7 +271,7 @@ public class AccountsUpdateNoteDbImpl extends AccountsUpdate {
       PersonIdent committerIdent,
       Runnable afterReadRevision,
       Runnable beforeCommit) {
-    super(committerIdent, currentUser);
+    super(committerIdent, currentUser, externalIds);
     this.repoManager = requireNonNull(repoManager, "repoManager");
     this.gitRefUpdated = requireNonNull(gitRefUpdated, "gitRefUpdated");
     this.allUsersName = requireNonNull(allUsersName, "allUsersName");
@@ -285,7 +285,8 @@ public class AccountsUpdateNoteDbImpl extends AccountsUpdate {
   }
 
   @Override
-  public AccountState insert(String message, Account.Id accountId, ConfigureDeltaFromState init)
+  public AccountState insert(
+      String message, Account.Id accountId, ConfigureDeltaFromStateAndContext init)
       throws IOException, ConfigInvalidException {
     return execute(
             ImmutableList.of(
@@ -294,7 +295,7 @@ public class AccountsUpdateNoteDbImpl extends AccountsUpdate {
                   Account account = accountConfig.getNewAccount(committerIdent.getWhenAsInstant());
                   AccountState accountState = AccountState.forAccount(account);
                   AccountDelta.Builder deltaBuilder = AccountDelta.builder();
-                  init.configure(accountState, deltaBuilder);
+                  configureDelta(init, accountState, deltaBuilder);
 
                   AccountDelta accountDelta = deltaBuilder.build();
                   accountConfig.setAccountDelta(accountDelta);
@@ -330,7 +331,7 @@ public class AccountsUpdateNoteDbImpl extends AccountsUpdate {
       }
 
       AccountDelta.Builder deltaBuilder = AccountDelta.builder();
-      updateArguments.configureDelta.configure(accountState.get(), deltaBuilder);
+      configureDelta(updateArguments.configureDelta, accountState.get(), deltaBuilder);
 
       AccountDelta delta = deltaBuilder.build();
       updateExternalIdNotes(

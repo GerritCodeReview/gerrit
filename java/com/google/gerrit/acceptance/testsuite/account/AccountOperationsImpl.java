@@ -234,7 +234,7 @@ public class AccountOperationsImpl implements AccountOperations {
 
       if (testAccountInvalidation.preferredEmailWithoutExternalId().isPresent()) {
         updateAccount(
-            (account, deltaBuilder) ->
+            (unusedState, deltaBuilder) ->
                 deltaBuilder.setPreferredEmail(
                     testAccountInvalidation.preferredEmailWithoutExternalId().get()));
       }

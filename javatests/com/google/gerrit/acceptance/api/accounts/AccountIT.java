@@ -2765,10 +2765,10 @@ public class AccountIT extends AbstractDaemonTest {
     int initialCommits = countExternalIdsCommits();
     AccountsUpdate.UpdateArguments ua1 =
         new AccountsUpdate.UpdateArguments(
-            "Add External ID", admin.id(), (a, u) -> u.addExternalId(extId1));
+            "Add External ID", admin.id(), u -> u.addExternalId(extId1));
     AccountsUpdate.UpdateArguments ua2 =
         new AccountsUpdate.UpdateArguments(
-            "Add External ID", user.id(), (a, u) -> u.addExternalId(extId2));
+            "Add External ID", user.id(), u -> u.addExternalId(extId2));
     ImmutableList<Optional<AccountState>> accountStates =
         accountsUpdateProvider.get().updateBatch(ImmutableList.of(ua1, ua2));
     assertThat(accountStates).hasSize(2);
@@ -2811,11 +2811,11 @@ public class AccountIT extends AbstractDaemonTest {
 
     AccountsUpdate.UpdateArguments ua1 =
         new AccountsUpdate.UpdateArguments(
-            "Add External ID", admin.id(), (a, u) -> u.addExternalId(extId1));
+            "Add External ID", admin.id(), u -> u.addExternalId(extId1));
     // Another update for the same account is not allowed.
     AccountsUpdate.UpdateArguments ua2 =
         new AccountsUpdate.UpdateArguments(
-            "Add External ID", admin.id(), (a, u) -> u.addExternalId(extId2));
+            "Add External ID", admin.id(), u -> u.addExternalId(extId2));
     IllegalArgumentException e =
         assertThrows(
             IllegalArgumentException.class,
@@ -2834,10 +2834,10 @@ public class AccountIT extends AbstractDaemonTest {
 
     AccountsUpdate.UpdateArguments ua1 =
         new AccountsUpdate.UpdateArguments(
-            "Add External ID", admin.id(), (a, u) -> u.addExternalId(extIdAdmin));
+            "Add External ID", admin.id(), u -> u.addExternalId(extIdAdmin));
     AccountsUpdate.UpdateArguments ua2 =
         new AccountsUpdate.UpdateArguments(
-            "Add External ID", user.id(), (a, u) -> u.addExternalId(extIdUser));
+            "Add External ID", user.id(), u -> u.addExternalId(extIdUser));
     DuplicateExternalIdKeyException e =
         assertThrows(
             DuplicateExternalIdKeyException.class,
@@ -2856,10 +2856,10 @@ public class AccountIT extends AbstractDaemonTest {
 
     AccountsUpdate.UpdateArguments ua1 =
         new AccountsUpdate.UpdateArguments(
-            "first message", admin.id(), (a, u) -> u.addExternalId(extId1));
+            "first message", admin.id(), u -> u.addExternalId(extId1));
     AccountsUpdate.UpdateArguments ua2 =
         new AccountsUpdate.UpdateArguments(
-            "second message", user.id(), (a, u) -> u.addExternalId(extId2));
+            "second message", user.id(), u -> u.addExternalId(extId2));
     accountsUpdateProvider.get().updateBatch(ImmutableList.of(ua1, ua2));
 
     try (Repository allUsersRepo = repoManager.openRepository(allUsers);
@@ -2877,7 +2877,7 @@ public class AccountIT extends AbstractDaemonTest {
         getExternalIdFactory()
             .createWithEmail(externalIdKeyFactory.parse("foo:bar"), admin.id(), "1@foo.com");
 
-    accountsUpdateProvider.get().update("foobar", admin.id(), (a, u) -> u.addExternalId(extId));
+    accountsUpdateProvider.get().update("foobar", admin.id(), u -> u.addExternalId(extId));
 
     try (Repository allUsersRepo = repoManager.openRepository(allUsers);
         RevWalk rw = new RevWalk(allUsersRepo)) {
@@ -2997,7 +2997,7 @@ public class AccountIT extends AbstractDaemonTest {
     ExternalId externalId = getExternalIdFactory().create("custom", "value", admin.id());
     accountsUpdateProvider
         .get()
-        .update("Add External ID", admin.id(), (a, u) -> u.addExternalId(externalId));
+        .update("Add External ID", admin.id(), u -> u.addExternalId(externalId));
     assertExternalIds(
         admin.id(), ImmutableSet.of("mailto:admin@example.com", "username:admin", "custom:value"));
 
@@ -3013,7 +3013,7 @@ public class AccountIT extends AbstractDaemonTest {
     ExternalId externalId = createEmailExternalId(admin.id(), "admin@example.com");
     accountsUpdateProvider
         .get()
-        .update("Remove External ID", admin.id(), (a, u) -> u.deleteExternalId(externalId));
+        .update("Remove External ID", admin.id(), u -> u.deleteExternalId(externalId));
     assertExternalIds(admin.id(), ImmutableSet.of("username:admin"));
 
     AccountState updatedState = accountCache.get(admin.id()).get();
@@ -3031,7 +3031,7 @@ public class AccountIT extends AbstractDaemonTest {
                 SCHEME_MAILTO, "secondary@non.google", admin.id(), "secondary@non.google");
     accountsUpdateProvider
         .get()
-        .update("Update External ID", admin.id(), (a, u) -> u.updateExternalId(externalId));
+        .update("Update External ID", admin.id(), u -> u.updateExternalId(externalId));
     assertExternalIds(
         admin.id(),
         ImmutableSet.of(
@@ -3055,11 +3055,7 @@ public class AccountIT extends AbstractDaemonTest {
     accountsUpdateProvider
         .get()
         .update(
-            "Replace External ID",
-            admin.id(),
-            (a, u) -> {
-              u.replaceExternalId(oldExternalId, externalId);
-            });
+            "Replace External ID", admin.id(), u -> u.replaceExternalId(oldExternalId, externalId));
     assertExternalIds(admin.id(), ImmutableSet.of("mailto:secondary@non.google", "username:admin"));
 
     AccountState updatedState = accountCache.get(admin.id()).get();
@@ -3089,10 +3085,10 @@ public class AccountIT extends AbstractDaemonTest {
 
     AccountsUpdate.UpdateArguments ua1 =
         new AccountsUpdate.UpdateArguments(
-            "Add External ID", admin.id(), (a, u) -> u.addExternalId(extId1));
+            "Add External ID", admin.id(), u -> u.addExternalId(extId1));
     AccountsUpdate.UpdateArguments ua2 =
         new AccountsUpdate.UpdateArguments(
-            "Add External ID", user.id(), (a, u) -> u.addExternalId(extId2));
+            "Add External ID", user.id(), u -> u.addExternalId(extId2));
     AccountIndexedCounter accountIndexedCounter = getAccountIndexedCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(accountIndexedCounter)) {
@@ -3129,12 +3125,12 @@ public class AccountIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(admin.id());
     AccountsUpdate.UpdateArguments ua1 =
         new AccountsUpdate.UpdateArguments(
-            "Update Display Name", admin.id(), (a, u) -> u.setDisplayName("DN"));
+            "Update Display Name", admin.id(), u -> u.setDisplayName("DN"));
     AccountsUpdate.UpdateArguments ua2 =
         new AccountsUpdate.UpdateArguments(
             "Remove external Id",
             user.id(),
-            (a, u) -> u.deleteExternalId(createEmailExternalId(user.id(), user.email())));
+            u -> u.deleteExternalId(createEmailExternalId(user.id(), user.email())));
     AccountIndexedCounter accountIndexedCounter = getAccountIndexedCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(accountIndexedCounter)) {

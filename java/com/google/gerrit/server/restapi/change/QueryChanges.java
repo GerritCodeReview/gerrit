@@ -40,10 +40,14 @@ import com.google.gerrit.server.query.change.ChangeQueryProcessor;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
 import org.kohsuke.args4j.Option;
 
 public class QueryChanges implements RestReadView<TopLevelResource>, DynamicOptions.BeanReceiver {
@@ -155,6 +159,7 @@ public class QueryChanges implements RestReadView<TopLevelResource>, DynamicOpti
       throws BadRequestException, AuthException, PermissionBackendException {
     List<List<ChangeInfo>> out;
     try {
+      applyPermissionBackendFilter();
       out = query();
     } catch (QueryRequiresAuthException e) {
       throw new AuthException("Must be signed-in to use this operator", e);
@@ -163,6 +168,15 @@ public class QueryChanges implements RestReadView<TopLevelResource>, DynamicOpti
       throw new BadRequestException(e.getMessage(), e);
     }
     return Response.ok(out.size() == 1 ? out.get(0) : out);
+  }
+
+  private void applyPermissionBackendFilter() {
+    String queryFilter = permissionBackend.currentUser().filterQueryChanges();
+    if(queryFilter != null) {
+      for(int i=0; i<queries.size(); i++) {
+        queries.set(i, queries.get(i) + " " + queryFilter);
+      }
+    }
   }
 
   private List<List<ChangeInfo>> query()

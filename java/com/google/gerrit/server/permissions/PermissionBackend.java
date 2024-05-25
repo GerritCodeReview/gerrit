@@ -21,6 +21,8 @@ import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.LabelType;
@@ -260,6 +262,19 @@ public abstract class PermissionBackend {
         }
       }
       return allowed;
+    }
+
+    /**
+     * Additional filter for changes query for reducing the cardinality of the results for current
+     * user.
+     *
+     * @return additional query filter to add to all user's change queries, null if no filters are
+     *     required.
+     * @since 3.11
+     */
+    @UsedAt(UsedAt.Project.MODULE_VIRTUALHOST)
+    public @Nullable String filterQueryChanges() {
+      return null;
     }
   }
 

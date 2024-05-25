@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.client.ListChangesOption;
@@ -155,6 +156,7 @@ public class QueryChanges implements RestReadView<TopLevelResource>, DynamicOpti
       throws BadRequestException, AuthException, PermissionBackendException {
     List<List<ChangeInfo>> out;
     try {
+      applyPermissionBackendFilter();
       out = query();
     } catch (QueryRequiresAuthException e) {
       throw new AuthException("Must be signed-in to use this operator", e);
@@ -163,6 +165,22 @@ public class QueryChanges implements RestReadView<TopLevelResource>, DynamicOpti
       throw new BadRequestException(e.getMessage(), e);
     }
     return Response.ok(out.size() == 1 ? out.get(0) : out);
+  }
+
+  private void applyPermissionBackendFilter() {
+    String queryFilter = permissionBackend.currentUser().filterQueryChanges();
+    if (Strings.isNullOrEmpty(queryFilter)) {
+      return;
+    }
+
+    if (queries == null || queries.isEmpty()) {
+      addQuery(queryFilter);
+      return;
+    }
+
+    for (int i = 0; i < queries.size(); i++) {
+      queries.set(i, queries.get(i) + " " + queryFilter);
+    }
   }
 
   private List<List<ChangeInfo>> query()

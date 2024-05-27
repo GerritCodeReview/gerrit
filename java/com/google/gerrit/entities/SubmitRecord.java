@@ -63,7 +63,7 @@ public class SubmitRecord {
      */
     RULE_ERROR;
 
-    private boolean allowsSubmission() {
+    public boolean allowsSubmission() {
       return this == OK || this == FORCED;
     }
   }

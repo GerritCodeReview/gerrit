@@ -62,10 +62,10 @@ public class SubmitRequirementsAdapter {
     ObjectId commitId = cd.currentPatchSet().commitId();
     Map<String, List<SubmitRequirementResult>> srsByName =
         records.stream()
-            // Filter out the "FORCED" submit record. This is a marker submit record that was just
-            // used to indicate that all other records were forced. "FORCED" means that the change
-            // was pushed with the %submit option bypassing submit rules.
-            .filter(r -> !SubmitRecord.Status.FORCED.equals(r.status))
+            // Filter out the submit records that would allow submission which means that either
+                // the change was pushed with the %submit option bypassing submit rules or a custom
+                // Prolog expression made the whole rule to pass.
+            .filter(r -> !r.status.allowsSubmission())
             .map(r -> createResult(r, labelTypes, commitId, areForced))
             .flatMap(List::stream)
             .collect(Collectors.groupingBy(sr -> sr.submitRequirement().name()));

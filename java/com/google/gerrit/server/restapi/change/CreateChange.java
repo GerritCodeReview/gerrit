@@ -686,7 +686,7 @@ public class CreateChange
             ApplyPatchUtil.buildCommitMessage(
                 subject,
                 ImmutableList.of(),
-                patch.patch,
+                patch,
                 ApplyPatchUtil.getResultPatch(repo, reader, mergeTip, rw.lookupTree(treeId)),
                 applyResult.getErrors()),
             me);

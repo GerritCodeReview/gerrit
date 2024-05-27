@@ -205,7 +205,7 @@ public class ApplyPatch implements RestModifyView<ChangeResource, ApplyPatchPatc
     }
     String commitMessage =
         ApplyPatchUtil.buildCommitMessage(
-            messageWithNoFooters, footerLines, input.patch.patch, resultPatch, errors);
+            messageWithNoFooters, footerLines, input.patch, resultPatch, errors);
 
     boolean changeIdRequired =
         projectCache

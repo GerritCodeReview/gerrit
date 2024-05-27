@@ -103,6 +103,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
   private static final String FILE_NAME = "foo";
   private static final String FILE_NAME2 = "foo2";
   private static final String FILE_NAME3 = "foo3";
+  private static final String FILE_NAME4 = "foo4";
   private static final int FILE_MODE = 100644;
   private static final byte[] CONTENT_OLD = "bar".getBytes(UTF_8);
   private static final byte[] CONTENT_NEW = "baz".getBytes(UTF_8);
@@ -345,6 +346,16 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertThat(getEdit(changeId)).isPresent();
     ensureSameBytes(getFileContentOfEdit(changeId, FILE_NAME), CONTENT_NEW);
     ensureSameBytes(getFileContentOfEdit(changeId, FILE_NAME), CONTENT_NEW);
+  }
+
+  @Test
+  public void updateMultipleExistingFiles() throws Exception {
+    createEmptyEditFor(changeId);
+    gApi.changes().id(changeId).edit().modifyFile(FILE_NAME, RawInputUtil.create(CONTENT_NEW));
+    gApi.changes().id(changeId).edit().modifyFile(FILE_NAME2, RawInputUtil.create(CONTENT_NEW));
+    assertThat(getEdit(changeId)).isPresent();
+    ensureSameBytes(getFileContentOfEdit(changeId, FILE_NAME), CONTENT_NEW);
+    ensureSameBytes(getFileContentOfEdit(changeId, FILE_NAME2), CONTENT_NEW);
   }
 
   @Test
@@ -1179,6 +1190,41 @@ public class ChangeEditIT extends AbstractDaemonTest {
         .files()
         .keys()
         .containsExactly(COMMIT_MSG, FILE_NAME, FILE_NAME2, FILE_NAME3);
+  }
+
+  @Test
+  public void addMultipleNewFiles() throws Exception {
+    createEmptyEditFor(changeId);
+    Optional<EditInfo> originalEdit =
+        gApi.changes()
+            .id(changeId)
+            .edit()
+            .detail()
+            .withOption(ChangeEditDetailOption.LIST_FILES)
+            .get();
+    assertThat(originalEdit)
+        .value()
+        .files()
+        .keys()
+        .containsExactly(COMMIT_MSG, FILE_NAME, FILE_NAME2);
+
+    gApi.changes().id(changeId).edit().modifyFile(FILE_NAME3, RawInputUtil.create(CONTENT_NEW));
+    ensureSameBytes(getFileContentOfEdit(changeId, FILE_NAME3), CONTENT_NEW);
+    gApi.changes().id(changeId).edit().modifyFile(FILE_NAME4, RawInputUtil.create(CONTENT_NEW));
+    ensureSameBytes(getFileContentOfEdit(changeId, FILE_NAME4), CONTENT_NEW);
+
+    Optional<EditInfo> adjustedEdit =
+        gApi.changes()
+            .id(changeId)
+            .edit()
+            .detail()
+            .withOption(ChangeEditDetailOption.LIST_FILES)
+            .get();
+    assertThat(adjustedEdit)
+        .value()
+        .files()
+        .keys()
+        .containsExactly(COMMIT_MSG, FILE_NAME, FILE_NAME2, FILE_NAME3, FILE_NAME4);
   }
 
   @Test

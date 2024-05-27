@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5aa16da0_3be402b7",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/QueryChangesFilterPermissionBackendIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-05-27T05:59:43Z",
+      "side": 1,
+      "message": "add `@Singleton` so that `setExtraQueryFilter` value is kept and used when PermissionBackend is called and test passes",
+      "revId": "984e40cf42bc419fcdb2afefe01401f011c6cf52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4825b23_fd24d6e0",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/QueryChangesFilterPermissionBackendIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-05-27T05:59:43Z",
+      "side": 1,
+      "message": "is the annotation needed?",
+      "revId": "984e40cf42bc419fcdb2afefe01401f011c6cf52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

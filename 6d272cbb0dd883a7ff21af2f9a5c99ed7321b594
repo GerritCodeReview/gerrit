@@ -16,6 +16,81 @@
       "message": "Adding Edwin as Nitzan is OOO",
       "revId": "6d272cbb0dd883a7ff21af2f9a5c99ed7321b594",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f97bc3ba_72b06340",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 6988,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-05-27T12:44:34Z",
+      "side": 1,
+      "message": "nit: allow_conflicts (JSON uses lowercase_underscore)",
+      "range": {
+        "startLine": 6988,
+        "startChar": 2,
+        "endLine": 6988,
+        "endChar": 16
+      },
+      "revId": "6d272cbb0dd883a7ff21af2f9a5c99ed7321b594",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b6816cf_6b23d261",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatchUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-05-27T12:44:34Z",
+      "side": 1,
+      "message": "nit: long line, please wrap",
+      "fixSuggestions": [
+        {
+          "fixId": "63aa2d7f_6735d016",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "java/com/google/gerrit/server/restapi/change/ApplyPatchUtil.java",
+              "range": {
+                "startLine": 131,
+                "startChar": 0,
+                "endLine": 132,
+                "endChar": 0
+              },
+              "replacement": "            \"\\n\\nNOTE FOR REVIEWERS - conflicts or errors occurred while applying the patch.\\n\"\n                + \"PLEASE REVIEW CAREFULLY.\\nOriginal patch:\\n\");\n"
+            }
+          ]
+        }
+      ],
+      "revId": "6d272cbb0dd883a7ff21af2f9a5c99ed7321b594",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fcfd4c7f_8be69bce",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ApplyPatchIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-05-27T12:44:34Z",
+      "side": 1,
+      "message": "Should there be an assertion that checks that result.contains_git_conflicts is true?\n\nIs setting this flag already implemented?",
+      "revId": "6d272cbb0dd883a7ff21af2f9a5c99ed7321b594",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

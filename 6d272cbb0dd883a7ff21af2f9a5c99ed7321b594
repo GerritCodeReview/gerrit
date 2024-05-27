@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "44aab653_b36b1b71",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 6988,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2024-05-27T12:54:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f97bc3ba_72b06340",
+      "range": {
+        "startLine": 6988,
+        "startChar": 2,
+        "endLine": 6988,
+        "endChar": 16
+      },
+      "revId": "6d272cbb0dd883a7ff21af2f9a5c99ed7321b594",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7b6816cf_6b23d261",
@@ -76,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "483c84db_834c55db",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatchUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2024-05-27T12:54:08Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "7b6816cf_6b23d261",
+      "revId": "6d272cbb0dd883a7ff21af2f9a5c99ed7321b594",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fcfd4c7f_8be69bce",
@@ -89,6 +131,24 @@
       "writtenOn": "2024-05-27T12:44:34Z",
       "side": 1,
       "message": "Should there be an assertion that checks that result.contains_git_conflicts is true?\n\nIs setting this flag already implemented?",
+      "revId": "6d272cbb0dd883a7ff21af2f9a5c99ed7321b594",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ecf3729c_20a0ded3",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ApplyPatchIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2024-05-27T12:54:08Z",
+      "side": 1,
+      "message": "Good idea. This has not been implemented, but we need a JGit API change to make that happen.",
+      "parentUuid": "fcfd4c7f_8be69bce",
       "revId": "6d272cbb0dd883a7ff21af2f9a5c99ed7321b594",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

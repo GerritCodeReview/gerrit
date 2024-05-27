@@ -22,6 +22,30 @@
       },
       "revId": "639e24af356feb6ecd35b3b5cb557daec5b0b5a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2ee7bc5_7e0e5845",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2024-05-27T09:00:37Z",
+      "side": 1,
+      "message": "Done. I can\u0027t reliably distinguish conflicts from errors, so I had to keep the message a bit more general. I trimmed it down by removing the errors but keeping the patch.\n\nI think the whole concept of using the commit message to communicate errors is not idea, but that seems out of scope for the allowConflicts feature.",
+      "parentUuid": "3f124913_d0f2d70e",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 34
+      },
+      "revId": "639e24af356feb6ecd35b3b5cb557daec5b0b5a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

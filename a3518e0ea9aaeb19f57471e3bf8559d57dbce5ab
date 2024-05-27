@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "0ec8d2d5_f26565cf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2024-05-27T12:16:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86ef15b8_9229d65c",
+      "revId": "a3518e0ea9aaeb19f57471e3bf8559d57dbce5ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "33c51fa2_b45ec54f",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
@@ -31,6 +49,24 @@
       "writtenOn": "2024-05-23T11:23:56Z",
       "side": 1,
       "message": "👍 do you see any easy way to add one test for this?",
+      "revId": "a3518e0ea9aaeb19f57471e3bf8559d57dbce5ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b89fe8f5_45d0c57f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2024-05-27T12:16:01Z",
+      "side": 1,
+      "message": "Testing E2E as a part of `com.google.gerrit.acceptance.api.project.ProjectIT` test suite is quite difficult because `InternalUser` was always using default limit which is 500. So to test it properly I would have to create more than 500 repositories. That\u0027s why I decided to add test which is covering `AccountLimits` class",
+      "parentUuid": "33c51fa2_b45ec54f",
       "revId": "a3518e0ea9aaeb19f57471e3bf8559d57dbce5ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

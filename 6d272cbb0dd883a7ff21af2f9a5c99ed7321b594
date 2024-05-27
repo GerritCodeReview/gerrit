@@ -151,6 +151,24 @@
       "parentUuid": "fcfd4c7f_8be69bce",
       "revId": "6d272cbb0dd883a7ff21af2f9a5c99ed7321b594",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9fdd7c90_e02ca115",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ApplyPatchIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2024-05-27T14:13:09Z",
+      "side": 1,
+      "message": "Done in https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1195305/1",
+      "parentUuid": "ecf3729c_20a0ded3",
+      "revId": "6d272cbb0dd883a7ff21af2f9a5c99ed7321b594",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

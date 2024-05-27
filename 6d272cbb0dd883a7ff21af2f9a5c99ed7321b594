@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c7b78bf_7ba7ecc6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2024-05-27T12:08:26Z",
+      "side": 1,
+      "message": "Adding Edwin as Nitzan is OOO",
+      "revId": "6d272cbb0dd883a7ff21af2f9a5c99ed7321b594",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

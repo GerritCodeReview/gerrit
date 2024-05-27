@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.gerrit.server.experiments.ExperimentFeaturesConstants.DISABLE_CHANGE_ETAGS;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -36,6 +37,7 @@ import com.google.gerrit.server.StarredChangesReader;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.approval.ApprovalsUtil;
+import com.google.gerrit.server.experiments.ExperimentFeatures;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
@@ -72,6 +74,7 @@ public class ChangeResource implements RestResource, HasETag {
 
   private static final String ZERO_ID_STRING = ObjectId.zeroId().name();
 
+  private final ExperimentFeatures experimentFeatures;
   private final AccountCache accountCache;
   private final ApprovalsUtil approvalUtil;
   private final PatchSetUtil patchSetUtil;
@@ -84,6 +87,7 @@ public class ChangeResource implements RestResource, HasETag {
 
   @AssistedInject
   ChangeResource(
+      ExperimentFeatures experimentFeatures,
       AccountCache accountCache,
       ApprovalsUtil approvalUtil,
       PatchSetUtil patchSetUtil,
@@ -94,6 +98,7 @@ public class ChangeResource implements RestResource, HasETag {
       ChangeData.Factory changeDataFactory,
       @Assisted ChangeNotes notes,
       @Assisted CurrentUser user) {
+    this.experimentFeatures = experimentFeatures;
     this.accountCache = accountCache;
     this.approvalUtil = approvalUtil;
     this.patchSetUtil = patchSetUtil;
@@ -107,6 +112,7 @@ public class ChangeResource implements RestResource, HasETag {
 
   @AssistedInject
   ChangeResource(
+      ExperimentFeatures experimentFeatures,
       AccountCache accountCache,
       ApprovalsUtil approvalUtil,
       PatchSetUtil patchSetUtil,
@@ -116,6 +122,7 @@ public class ChangeResource implements RestResource, HasETag {
       PluginSetContext<ChangeETagComputation> changeETagComputation,
       @Assisted ChangeData changeData,
       @Assisted CurrentUser user) {
+    this.experimentFeatures = experimentFeatures;
     this.accountCache = accountCache;
     this.approvalUtil = approvalUtil;
     this.patchSetUtil = patchSetUtil;
@@ -231,7 +238,12 @@ public class ChangeResource implements RestResource, HasETag {
   }
 
   @Override
+  @Nullable
   public String getETag() {
+    if (experimentFeatures.isFeatureEnabled(DISABLE_CHANGE_ETAGS)) {
+      return null;
+    }
+
     try (TraceTimer ignored =
         TraceContext.newTimer(
             "Compute change ETag",

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99e803ab_fefbbe93",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-05-28T18:18:33Z",
+      "side": 1,
+      "message": "Post-merge -1, this has broken the Prolog rules submit records using the ok() expression, from v3.6 onwards.",
+      "revId": "2b7dd2298429e0d94793ad5730a4983446e72919",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42de699b_dcdf48ea",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsAdapter.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-05-28T18:18:33Z",
+      "side": 1,
+      "message": "This would add all the labels associated with the SubmitRecord, including the ones that would block the submission of the change, causing the Issue 343218480.\n\nYou should check the SubmitRecord.status and if that is OK then all the blocking requirements need to be filtered out, otherwise the change won\u0027t be submittable as it was before v3.6.",
+      "range": {
+        "startLine": 106,
+        "startChar": 22,
+        "endLine": 106,
+        "endChar": 40
+      },
+      "revId": "2b7dd2298429e0d94793ad5730a4983446e72919",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

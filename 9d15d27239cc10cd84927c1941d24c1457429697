@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7686ad38_16f2c641",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-05-28T15:00:09Z",
+      "side": 1,
+      "message": "Sorry, that\u0027s an internal issue that cannot be shared. It\u0027s an automatic report from running a generic test that looks for data races, there are no details about this particular issue.",
+      "parentUuid": "74eaca89_0806e342",
+      "range": {
+        "startLine": 10,
+        "startChar": 15,
+        "endLine": 10,
+        "endChar": 55
+      },
+      "revId": "9d15d27239cc10cd84927c1941d24c1457429697",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f8308217_2b3b410a",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "145138b7_b3b3c3e9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-05-28T15:00:09Z",
+      "side": 1,
+      "message": "Sorry, I have no idea if this can cause issues in production, but we are not aware of related issues in production.",
+      "parentUuid": "f8308217_2b3b410a",
+      "range": {
+        "startLine": 11,
+        "startChar": 9,
+        "endLine": 11,
+        "endChar": 58
+      },
+      "revId": "9d15d27239cc10cd84927c1941d24c1457429697",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cf49c88c_1dc80cca",
@@ -60,6 +108,30 @@
       "writtenOn": "2024-05-28T14:54:14Z",
       "side": 1,
       "message": "As we don\u0027t have access to the Google bug and there is no further hint to the release notes, how can we communicate to the Gerrit admins the benefit of this change? How was the problem appearing to the admin? Did it cause some user-facing effect or issue?",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 23
+      },
+      "revId": "9d15d27239cc10cd84927c1941d24c1457429697",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "274d999f_83feb264",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-05-28T15:00:09Z",
+      "side": 1,
+      "message": "As explained in the other comments there are no details about this issue. It\u0027s just a generic test looking for data races and this is how it can be fixed. I tried my best to explain my understanding of the issue in the commit message, but I\u0027m not fully understanding it either. No user-facing effects are known to me.",
+      "parentUuid": "cf49c88c_1dc80cca",
       "range": {
         "startLine": 17,
         "startChar": 0,

@@ -143,7 +143,7 @@ public class ProjectCacheImpl implements ProjectCache {
             .maximumWeight(0);
 
         cache(CACHE_LIST, ListKey.class, new TypeLiteral<ImmutableSortedSet<Project.NameKey>>() {})
-            .maximumWeight(1)
+            .maximumWeight(4)
             .loader(Lister.class);
 
         bind(ProjectCacheImpl.class);

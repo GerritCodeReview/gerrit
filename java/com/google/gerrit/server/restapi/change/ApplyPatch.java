@@ -56,6 +56,7 @@ import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.patch.PatchApplier;
+import org.eclipse.jgit.patch.PatchApplier.Result.Error;
 import org.eclipse.jgit.revwalk.FooterLine;
 import org.eclipse.jgit.revwalk.RevCommit;
 
@@ -171,6 +172,10 @@ public class ApplyPatch implements RestModifyView<ChangeResource, ApplyPatchPatc
               revWalk,
               applyResult.getTreeId(),
               commitMessage);
+      if (changeInfo.containsGitConflicts == null
+          && applyResult.getErrors().stream().anyMatch(Error::isGitConflict)) {
+        changeInfo.containsGitConflicts = true;
+      }
       return Response.ok(changeInfo);
     }
   }

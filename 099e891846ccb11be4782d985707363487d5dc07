@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84c49dd3_6bb14696",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-05-28T13:13:47Z",
+      "side": 1,
+      "message": "`Release-Notes`",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 13
+      },
+      "revId": "099e891846ccb11be4782d985707363487d5dc07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "557baa03_de5d3b7e",
+        "filename": "javatests/com/google/gerrit/acceptance/server/account/AccountLimitsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-05-28T13:13:47Z",
+      "side": 1,
+      "message": "```suggestion\n  @Inject private AccountLimits.Factory accountLimitsFactory;\n```",
+      "revId": "099e891846ccb11be4782d985707363487d5dc07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

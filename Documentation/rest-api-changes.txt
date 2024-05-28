@@ -7358,9 +7358,10 @@ markers to indicate the conflicts. +
 Only set if this change info is returned in response to a request that
 creates a new change or patch set and conflicts are allowed. In
 particular this field is only populated if the change info is returned
-by one of the following REST endpoints: link:#create-change[Create
-Change], link:#create-merge-patch-set-for-change[Create Merge Patch Set
-For Change], link:#cherry-pick[Cherry Pick Revision],
+by one of the following REST endpoints:link:#apply-patch[Apply Patch],
+link:#create-change[Create Change],
+link:#create-merge-patch-set-for-change[Create Merge Patch Set For Change],
+link:#cherry-pick[Cherry Pick Revision],
 link:rest-api-project.html#cherry-pick-commit[Cherry Pick Commit],
 link:#rebase-change[Rebase Change]
 |==================================

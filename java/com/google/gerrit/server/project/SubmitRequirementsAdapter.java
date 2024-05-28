@@ -186,7 +186,12 @@ public class SubmitRequirementsAdapter {
     }
     ImmutableList.Builder<SubmitRequirementResult> result = ImmutableList.builder();
     for (Label label : record.labels) {
-      if (skipSubmitRequirementFor(label)) {
+      if (skipSubmitRequirementFor(label)
+          ||
+          // If SubmitRecord is a PASS, then skip all the requirements
+          // that are not a PASS as they would block the overall submit requirement
+          // status from being a PASS
+          (mapStatus(record) == Status.PASS && mapStatus(label) != Status.PASS)) {
         continue;
       }
       String expressionString = String.format("label:%s=%s", label.label, ruleName);

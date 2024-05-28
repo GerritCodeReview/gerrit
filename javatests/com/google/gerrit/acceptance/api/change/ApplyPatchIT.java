@@ -389,8 +389,9 @@ public class ApplyPatchIT extends AbstractDaemonTest {
                 + ">>>>>>> PATCH");
     assertThat(gApi.changes().id(result.id).current().commit(false).message)
         .contains(
-            "NOTE FOR REVIEWERS - conflicts or errors occurred while applying the patch.\n"
-                + "PLEASE REVIEW CAREFULLY.");
+            "ATTENTION: Conflicts occurred while applying the patch.\n"
+                + "Please resolve conflict markers.");
+    assertThat(result.containsGitConflicts).isTrue();
   }
 
   @Test

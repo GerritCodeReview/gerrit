@@ -1,6 +1,7 @@
 # TODO(davido): Migrate all dependencies from WORKSPACE to MODULE.bazel
 # https://issues.gerritcodereview.com/issues/303819949
 common --noenable_bzlmod
+common --incompatible_enable_proto_toolchain_resolution
 
 build --workspace_status_command="python3 ./tools/workspace_status.py"
 build --repository_cache=~/.gerritcodereview/bazel-cache/repository
@@ -50,10 +51,6 @@ build:remote21_gcp --config=remote21
 # Builds and executes on BuildBuddy RBE using remotejdk_11
 build:remote21_bb --config=config_bb
 build:remote21_bb --config=build_java21_shared
-
-# Enable modern C++ features
-build --cxxopt=-std=c++17
-build --host_cxxopt=-std=c++17
 
 # Enable strict_action_env flag to. For more information on this feature see
 # https://groups.google.com/forum/#!topic/bazel-discuss/_VmRfMyyHBk.

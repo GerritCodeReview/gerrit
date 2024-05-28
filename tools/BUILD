@@ -4,8 +4,17 @@ load(
     "default_java_toolchain",
 )
 load("@rules_java//java:defs.bzl", "java_package_configuration")
+load("@rules_proto//proto:defs.bzl", "proto_lang_toolchain")
 
 exports_files(["nongoogle.bzl"])
+
+proto_lang_toolchain(
+    name = "protoc_java_toolchain",
+    command_line = "--java_out=%s",
+    progress_message = "Generating Java proto_library %{label}",
+    runtime = "@protobuf-java//jar",
+    toolchain_type = "@rules_java//java/proto:toolchain_type",
+)
 
 [default_java_toolchain(
     name = "error_prone_warnings_toolchain_java" + VERSION,

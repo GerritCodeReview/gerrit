@@ -333,6 +333,21 @@ public class SubmitRequirementsAdapterTest {
   }
 
   @Test
+  public void customSubmitRule_WithLabels_WithStatusReady() {
+    SubmitRecord submitRecord =
+        createSubmitRecord(
+            "gerrit~PrologRule",
+            Status.OK,
+            Arrays.asList(
+                createLabel("custom-label-1", Label.Status.NEED),
+                createLabel("custom-label-2", Label.Status.REJECT)));
+
+    List<SubmitRequirementResult> requirements =
+        SubmitRequirementsAdapter.createResult(submitRecord, labelTypes, psCommitId);
+
+    assertThat(requirements).isEmpty();
+  }
+
   public void customSubmitRule_withMixOfPassingAndFailingLabels() {
     SubmitRecord submitRecord =
         createSubmitRecord(

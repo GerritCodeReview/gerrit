@@ -43,6 +43,7 @@ mina-core
 nekohtml
 objenesis
 openid-consumer
+protobuf-java
 soy
 sshd-mina
 sshd-osgi

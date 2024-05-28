@@ -18,27 +18,43 @@ GUAVA_DOC_URL = "https://google.github.io/guava/releases/" + GUAVA_VERSION + "/a
 def archive_dependencies():
     return [
         {
-            "name": "com_google_protobuf",
-            "sha256": "9bd87b8280ef720d3240514f884e56a712f2218f0d693b48050c836028940a42",
-            "strip_prefix": "protobuf-25.1",
-            "urls": [
-                "https://github.com/protocolbuffers/protobuf/archive/v25.1.tar.gz",
-            ],
-        },
-        {
             "name": "platforms",
             "urls": [
-                "https://mirror.bazel.build/github.com/bazelbuild/platforms/releases/download/0.0.7/platforms-0.0.7.tar.gz",
-                "https://github.com/bazelbuild/platforms/releases/download/0.0.7/platforms-0.0.7.tar.gz",
+                "https://mirror.bazel.build/github.com/bazelbuild/platforms/releases/download/0.0.10/platforms-0.0.10.tar.gz",
+                "https://github.com/bazelbuild/platforms/releases/download/0.0.10/platforms-0.0.10.tar.gz",
             ],
-            "sha256": "3a561c99e7bdbe9173aa653fd579fe849f1d8d67395780ab4770b1f381431d51",
+            "sha256": "218efe8ee736d26a3572663b374a253c012b716d8af0c07e842e82f238a0a7ee",
+        },
+        {
+            "name": "bazel_features",
+            "strip_prefix": "bazel_features-1.11.0",
+            "urls": [
+                "https://github.com/bazel-contrib/bazel_features/releases/download/v1.11.0/bazel_features-v1.11.0.tar.gz",
+            ],
+            "sha256": "2cd9e57d4c38675d321731d65c15258f3a66438ad531ae09cb8bb14217dc8572",
         },
         {
             "name": "rules_java",
             "urls": [
-                "https://github.com/bazelbuild/rules_java/releases/download/7.3.1/rules_java-7.3.1.tar.gz",
+                "https://github.com/bazelbuild/rules_java/releases/download/7.6.1/rules_java-7.6.1.tar.gz",
             ],
-            "sha256": "4018e97c93f97680f1650ffd2a7530245b864ac543fd24fae8c02ba447cb2864",
+            "sha256": "f8ae9ed3887df02f40de9f4f7ac3873e6dd7a471f9cddf63952538b94b59aeb3",
+        },
+        {
+            "name": "rules_proto",
+            "strip_prefix": "rules_proto-6.0.0",
+            "urls": [
+                "https://github.com/bazelbuild/rules_proto/releases/download/6.0.0/rules_proto-6.0.0.tar.gz",
+            ],
+            "sha256": "303e86e722a520f6f326a50b41cfc16b98fe6d1955ce46642a5b7a67c11c0f5d",
+        },
+        {
+            "name": "toolchains_protoc",
+            "strip_prefix": "toolchains_protoc-0.3.0",
+            "urls": [
+                "https://github.com/aspect-build/toolchains_protoc/releases/download/v0.3.0/toolchains_protoc-v0.3.0.tar.gz",
+            ],
+            "sha256": "117af61ee2f1b9b014dcac7c9146f374875551abb8a30e51d1b3c5946d25b142",
         },
         {
             "name": "ubuntu2204_jdk17",
@@ -250,6 +266,12 @@ def declare_nongoogle_deps():
         name = "soy",
         artifact = "com.google.template:soy:2024-01-30",
         sha1 = "6e9ccb00926325c7a9293ed05a2eaf56ea15d60e",
+    )
+
+    maven_jar(
+        name = "protobuf-java",
+        artifact = "com.google.protobuf:protobuf-java:3.25.3",
+        sha1 = "d3200261955f3298e0d85c9892201e70492ce8eb",
     )
 
     # Test-only dependencies below.

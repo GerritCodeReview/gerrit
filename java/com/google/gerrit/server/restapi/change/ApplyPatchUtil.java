@@ -41,6 +41,7 @@ import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.patch.Patch;
 import org.eclipse.jgit.patch.PatchApplier;
+import org.eclipse.jgit.patch.PatchApplier.Result.Error;
 import org.eclipse.jgit.revwalk.FooterLine;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTree;
@@ -126,11 +127,10 @@ public final class ApplyPatchUtil {
     boolean appendResultPatch = false;
     String decodedOriginalPatch = decodeIfNecessary(patchInput.patch);
     if (!errors.isEmpty()) {
-      if (Boolean.TRUE.equals(patchInput.allowConflicts)) {
+      if (errors.stream().allMatch(Error::isGitConflict)) {
         res.append(
-            "\n\nNOTE FOR REVIEWERS - conflicts or errors occurred while applying the patch.\n"
-                + "PLEASE REVIEW CAREFULLY.\nOriginal patch:\n");
-        appendOriginalPatch = true;
+            "\n\nATTENTION: Conflicts occurred while applying the patch.\n"
+                + "Please resolve conflict markers.");
       } else {
         res.append(
             "\n\nNOTE FOR REVIEWERS - errors occurred while applying the patch."

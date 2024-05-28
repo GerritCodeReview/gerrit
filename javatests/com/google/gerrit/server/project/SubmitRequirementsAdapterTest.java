@@ -337,6 +337,29 @@ public class SubmitRequirementsAdapterTest {
   }
 
   @Test
+  public void customSubmitRule_withLabels_withStatusOk() {
+    SubmitRecord submitRecord =
+        createSubmitRecord(
+            "gerrit~PrologRule",
+            Status.OK,
+            Arrays.asList(
+                createLabel("custom-need-label-1", Label.Status.NEED),
+                createLabel("custom-pass-label-2", Label.Status.OK),
+                createLabel("custom-may-label-3", Label.Status.MAY)));
+
+    List<SubmitRequirementResult> requirements =
+        SubmitRequirementsAdapter.createResult(submitRecord, labelTypes, psCommitId, false);
+
+    assertThat(requirements).hasSize(1);
+    assertResult(
+        requirements.get(0),
+        /* reqName= */ "custom-pass-label-2",
+        /* submitExpression= */ "label:custom-pass-label-2=gerrit~PrologRule",
+        SubmitRequirementResult.Status.SATISFIED,
+        SubmitRequirementExpressionResult.Status.PASS);
+  }
+
+  @Test
   public void customSubmitRule_withMixOfPassingAndFailingLabels() {
     SubmitRecord submitRecord =
         createSubmitRecord(

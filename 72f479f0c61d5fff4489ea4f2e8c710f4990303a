@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd39bad2_04867733",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-05-28T22:35:04Z",
+      "side": 1,
+      "message": "What do you mean exactly? Can you mention one example here?",
+      "range": {
+        "startLine": 15,
+        "startChar": 22,
+        "endLine": 15,
+        "endChar": 43
+      },
+      "revId": "72f479f0c61d5fff4489ea4f2e8c710f4990303a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4fbc2e85_f5b7292c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-05-28T22:35:04Z",
+      "side": 1,
+      "message": "That looks a big limitation and would reduce the ability to use it in real terms. What\u0027s the rationale of putting this limitation?",
+      "range": {
+        "startLine": 20,
+        "startChar": 4,
+        "endLine": 20,
+        "endChar": 64
+      },
+      "revId": "72f479f0c61d5fff4489ea4f2e8c710f4990303a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "658e3ec2_f5a2d5cd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-05-28T22:35:04Z",
+      "side": 1,
+      "message": "I saw this as just a _special case_ of a dynamic item, where you fail if any plugin would try to re-bind the item a second time.\n\nDo we really a brand-new type?",
+      "revId": "72f479f0c61d5fff4489ea4f2e8c710f4990303a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

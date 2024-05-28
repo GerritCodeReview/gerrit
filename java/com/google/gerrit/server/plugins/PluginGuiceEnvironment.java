@@ -17,6 +17,7 @@ package com.google.gerrit.server.plugins;
 import static com.google.gerrit.extensions.registration.PrivateInternals_DynamicTypes.dynamicItemsOf;
 import static com.google.gerrit.extensions.registration.PrivateInternals_DynamicTypes.dynamicMapsOf;
 import static com.google.gerrit.extensions.registration.PrivateInternals_DynamicTypes.dynamicSetsOf;
+import static com.google.gerrit.extensions.registration.PrivateInternals_DynamicTypes.staticItemsOf;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableList;
@@ -34,6 +35,7 @@ import com.google.gerrit.extensions.registration.PrivateInternals_DynamicMapImpl
 import com.google.gerrit.extensions.registration.PrivateInternals_DynamicTypes;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.registration.ReloadableRegistrationHandle;
+import com.google.gerrit.extensions.registration.StaticItem;
 import com.google.gerrit.extensions.systemstatus.ServerInformation;
 import com.google.gerrit.extensions.webui.WebUiPlugin;
 import com.google.gerrit.index.IndexCollection;
@@ -100,6 +102,11 @@ public class PluginGuiceEnvironment {
   private Map<TypeLiteral<?>, DynamicItem<?>> httpItems;
   private Map<TypeLiteral<?>, DynamicItem<?>> apiItems;
 
+  private Map<TypeLiteral<?>, StaticItem<?>> sysStaticItems;
+  private Map<TypeLiteral<?>, StaticItem<?>> sshStaticItems;
+  private Map<TypeLiteral<?>, StaticItem<?>> httpStaticItems;
+  private Map<TypeLiteral<?>, StaticItem<?>> apiStaticItems;
+
   private Map<TypeLiteral<?>, DynamicSet<?>> sysSets;
   private Map<TypeLiteral<?>, DynamicSet<?>> sshSets;
   private Map<TypeLiteral<?>, DynamicSet<?>> httpSets;
@@ -134,10 +141,12 @@ public class PluginGuiceEnvironment {
     onReload.addAll(listeners(sysInjector, ReloadPluginListener.class));
 
     sysItems = dynamicItemsOf(sysInjector);
+    sysStaticItems = staticItemsOf(sysInjector);
     sysSets = dynamicSetsOf(sysInjector);
     sysMaps = dynamicMapsOf(sysInjector);
 
     apiSets = new HashMap<>();
+    apiStaticItems = new HashMap<>();
     apiItems = new HashMap<>();
     apiMaps = new HashMap<>();
   }
@@ -154,6 +163,12 @@ public class PluginGuiceEnvironment {
     return sysItems.containsKey(type)
         || (sshItems != null && sshItems.containsKey(type))
         || (httpItems != null && httpItems.containsKey(type));
+  }
+
+  boolean hasStaticItem(TypeLiteral<?> type) {
+    return sysStaticItems.containsKey(type)
+        || (sshStaticItems != null && sshStaticItems.containsKey(type))
+        || (httpStaticItems != null && httpStaticItems.containsKey(type));
   }
 
   boolean hasDynamicSet(TypeLiteral<?> type) {
@@ -183,6 +198,7 @@ public class PluginGuiceEnvironment {
     sshModule = copy(injector);
     sshGen = injector.getProvider(ModuleGenerator.class);
     sshItems = dynamicItemsOf(injector);
+    sshStaticItems = staticItemsOf(injector);
     sshSets = dynamicSetsOf(injector);
     sshMaps = dynamicMapsOf(injector);
     onStart.addAll(listeners(injector, StartPluginListener.class));
@@ -206,6 +222,7 @@ public class PluginGuiceEnvironment {
     httpModule = copy(injector);
     httpGen = injector.getProvider(ModuleGenerator.class);
     httpItems = dynamicItemsOf(injector);
+    httpStaticItems = staticItemsOf(injector);
     httpSets = httpDynamicSetsOf(injector);
     httpMaps = dynamicMapsOf(injector);
     onStart.addAll(listeners(injector, StartPluginListener.class));
@@ -254,6 +271,10 @@ public class PluginGuiceEnvironment {
       attachItem(sshItems, plugin.getSshInjector(), plugin);
       attachItem(httpItems, plugin.getHttpInjector(), plugin);
 
+      attachStaticItem(sysStaticItems, plugin.getSysInjector(), plugin);
+      attachStaticItem(sshStaticItems, plugin.getSshInjector(), plugin);
+      attachStaticItem(httpStaticItems, plugin.getHttpInjector(), plugin);
+
       attachSet(sysSets, plugin.getSysInjector(), plugin);
       attachSet(sshSets, plugin.getSshInjector(), plugin);
       attachSet(httpSets, plugin.getHttpInjector(), plugin);
@@ -266,6 +287,7 @@ public class PluginGuiceEnvironment {
 
       if (apiInjector != null) {
         apiItems.putAll(dynamicItemsOf(apiInjector));
+        apiStaticItems.putAll(staticItemsOf(apiInjector));
         apiSets.putAll(dynamicSetsOf(apiInjector));
         apiMaps.putAll(dynamicMapsOf(apiInjector));
 
@@ -273,6 +295,7 @@ public class PluginGuiceEnvironment {
             listOfInjectors(
                 plugin.getSysInjector(), plugin.getSshInjector(), plugin.getHttpInjector());
         allPluginInjectors.forEach(i -> attachItem(apiItems, i, plugin));
+        allPluginInjectors.forEach(i -> attachStaticItem(apiStaticItems, i, plugin));
         allPluginInjectors.forEach(i -> attachSet(apiSets, i, plugin));
         allPluginInjectors.forEach(i -> attachMap(apiMaps, i, plugin));
       }
@@ -307,6 +330,14 @@ public class PluginGuiceEnvironment {
       Map<TypeLiteral<?>, DynamicItem<?>> items, @Nullable Injector src, Plugin plugin) {
     for (RegistrationHandle h :
         PrivateInternals_DynamicTypes.attachItems(src, plugin.getName(), items)) {
+      plugin.add(h);
+    }
+  }
+
+  private void attachStaticItem(
+      Map<TypeLiteral<?>, StaticItem<?>> items, @Nullable Injector src, Plugin plugin) {
+    for (RegistrationHandle h :
+        PrivateInternals_DynamicTypes.attachStaticItems(src, plugin.getName(), items)) {
       plugin.add(h);
     }
   }

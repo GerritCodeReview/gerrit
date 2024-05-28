@@ -47,6 +47,23 @@ public class PrivateInternals_DynamicTypes {
     return Collections.unmodifiableMap(m);
   }
 
+  public static Map<TypeLiteral<?>, StaticItem<?>> staticItemsOf(Injector src) {
+    Map<TypeLiteral<?>, StaticItem<?>> m = new HashMap<>();
+    for (Map.Entry<Key<?>, Binding<?>> e : src.getBindings().entrySet()) {
+      TypeLiteral<?> type = e.getKey().getTypeLiteral();
+      if (type.getRawType() == StaticItem.class) {
+        ParameterizedType p = (ParameterizedType) type.getType();
+        m.put(
+            TypeLiteral.get(p.getActualTypeArguments()[0]),
+            (StaticItem<?>) e.getValue().getProvider().get());
+      }
+    }
+    if (m.isEmpty()) {
+      return Collections.emptyMap();
+    }
+    return Collections.unmodifiableMap(m);
+  }
+
   public static Map<TypeLiteral<?>, DynamicSet<?>> dynamicSetsOf(Injector src) {
     Map<TypeLiteral<?>, DynamicSet<?>> m = new HashMap<>();
     for (Map.Entry<Key<?>, Binding<?>> e : src.getBindings().entrySet()) {
@@ -98,6 +115,35 @@ public class PrivateInternals_DynamicTypes {
 
         for (Binding<Object> b : bindings(src, type)) {
           handles.add(item.set(b.getKey(), b.getProvider(), pluginName));
+        }
+      }
+    } catch (RuntimeException | Error e) {
+      remove(handles);
+      throw e;
+    }
+    return ImmutableList.copyOf(handles);
+  }
+
+  public static ImmutableList<RegistrationHandle> attachStaticItems(
+      Injector src, String pluginName, Map<TypeLiteral<?>, StaticItem<?>> items) {
+    if (src == null || items == null || items.isEmpty()) {
+      return ImmutableList.of();
+    }
+
+    List<RegistrationHandle> handles = new ArrayList<>(4);
+    try {
+      for (Map.Entry<TypeLiteral<?>, StaticItem<?>> e : items.entrySet()) {
+        @SuppressWarnings("unchecked")
+        TypeLiteral<Object> type = (TypeLiteral<Object>) e.getKey();
+
+        @SuppressWarnings("unchecked")
+        StaticItem<Object> item = (StaticItem<Object>) e.getValue();
+        if (!item.implPluginName.equals(pluginName)) {
+          continue;
+        }
+
+        for (Binding<Object> b : bindings(src, type)) {
+          item.setProvider(b.getProvider());
         }
       }
     } catch (RuntimeException | Error e) {

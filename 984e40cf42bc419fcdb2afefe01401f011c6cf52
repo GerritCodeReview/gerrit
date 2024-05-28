@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "69377e30_bbd175b4",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/QueryChangesFilterPermissionBackendIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-05-28T23:08:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5aa16da0_3be402b7",
+      "revId": "984e40cf42bc419fcdb2afefe01401f011c6cf52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e4825b23_fd24d6e0",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-05-27T05:59:43Z",
       "side": 1,
       "message": "is the annotation needed?",
+      "revId": "984e40cf42bc419fcdb2afefe01401f011c6cf52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a31d1b9_4f169234",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/QueryChangesFilterPermissionBackendIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-05-28T23:08:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4825b23_fd24d6e0",
       "revId": "984e40cf42bc419fcdb2afefe01401f011c6cf52",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

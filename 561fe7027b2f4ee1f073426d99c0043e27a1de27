@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee85668e_0d8a1ad6",
+        "filename": "java/com/google/gerrit/server/change/RebaseUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-05-29T16:54:17Z",
+      "side": 1,
+      "message": "https://cs.opensource.google/search?q\u003d%22git.getRefDatabase().exactRef%22\u0026ss\u003dgerrit\n\nThere are other usages of this method so looks all good.",
+      "range": {
+        "startLine": 425,
+        "startChar": 14,
+        "endLine": 425,
+        "endChar": 43
+      },
+      "revId": "561fe7027b2f4ee1f073426d99c0043e27a1de27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

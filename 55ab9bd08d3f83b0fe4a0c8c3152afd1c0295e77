@@ -1,0 +1,65 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1af03ecf_29bd84a7",
+        "filename": "java/com/google/gerrit/server/change/RebaseUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2024-05-29T13:41:48Z",
+      "side": 1,
+      "message": "This will iterate over O(millions) of refs. Please use\n\nexactRef(...) instead.",
+      "range": {
+        "startLine": 427,
+        "startChar": 28,
+        "endLine": 427,
+        "endChar": 47
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "0f1c5e3f_355cf71d",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "java/com/google/gerrit/server/change/RebaseUtil.java",
+              "range": {
+                "startLine": 54,
+                "startChar": 0,
+                "endLine": 55,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "java/com/google/gerrit/server/change/RebaseUtil.java",
+              "range": {
+                "startLine": 426,
+                "startChar": 0,
+                "endLine": 431,
+                "endChar": 0
+              },
+              "replacement": "    Ref ref \u003d git.getRefDatabase().exactRef(inputBase);\n    if (ref !\u003d null\n"
+            },
+            {
+              "path": "java/com/google/gerrit/server/change/RebaseUtil.java",
+              "range": {
+                "startLine": 432,
+                "startChar": 0,
+                "endLine": 434,
+                "endChar": 0
+              },
+              "replacement": "            rw, ObjectId.toString(ref.getObjectId()), git, change.getDest())) {\n      return ref.getObjectId();\n"
+            }
+          ]
+        }
+      ],
+      "revId": "55ab9bd08d3f83b0fe4a0c8c3152afd1c0295e77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

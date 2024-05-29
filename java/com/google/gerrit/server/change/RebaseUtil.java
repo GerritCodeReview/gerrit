@@ -51,6 +51,7 @@ import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
+import java.util.Optional;
 import org.eclipse.jgit.errors.InvalidObjectIdException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -420,6 +421,18 @@ public class RebaseUtil {
       // Gerrit change.
       return ObjectId.fromString(inputBase);
     }
+
+    // Support "refs/heads/..."
+    Optional<Ref> ref =
+        git.getRefDatabase().getRefs().stream()
+            .filter(r -> r.getName().equals(inputBase))
+            .findAny();
+    if (ref.isPresent()
+        && isBaseRevisionInDestBranch(
+            rw, ObjectId.toString(ref.get().getObjectId()), git, change.getDest())) {
+      return ref.get().getObjectId();
+    }
+
     throw new ResourceConflictException(
         "base revision is missing from the destination branch: " + inputBase);
   }

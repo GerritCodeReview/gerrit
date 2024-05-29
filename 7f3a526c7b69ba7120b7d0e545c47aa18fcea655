@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b2bad6b_fef7978e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-05-29T07:21:48Z",
+      "side": 1,
+      "message": "Thanks @david.ostrovsky@gmail.com for this, building protobuf from source has been my nightmare in any OS upgrades, because of the incompatibilities between the source code and the latest XCode versions.\n\nCan you look at the build failure 🙏?",
+      "revId": "7f3a526c7b69ba7120b7d0e545c47aa18fcea655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

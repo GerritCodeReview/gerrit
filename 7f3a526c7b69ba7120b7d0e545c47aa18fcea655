@@ -16,6 +16,24 @@
       "message": "Thanks @david.ostrovsky@gmail.com for this, building protobuf from source has been my nightmare in any OS upgrades, because of the incompatibilities between the source code and the latest XCode versions.\n\nCan you look at the build failure 🙏?",
       "revId": "7f3a526c7b69ba7120b7d0e545c47aa18fcea655",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c2eab70_1b590fb3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2024-05-29T08:03:39Z",
+      "side": 1,
+      "message": "Actually thank you, @luca.milanesio@gmail.com for uploading this change 400937 and starting this discussion. This inspired me to start to work on the fix.\n\n\u003e Can you look at the build failure?\n\nDone, I missed to update `nongoogle_test`. It\u0027s needed now, because we consume `protobuf-java` ourself and not transitively through standard `@com_google_protobuf` toolchain, as we did before this change.",
+      "parentUuid": "0b2bad6b_fef7978e",
+      "revId": "7f3a526c7b69ba7120b7d0e545c47aa18fcea655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

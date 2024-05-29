@@ -60,6 +60,30 @@
       ],
       "revId": "55ab9bd08d3f83b0fe4a0c8c3152afd1c0295e77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ba8add9_75486e8a",
+        "filename": "java/com/google/gerrit/server/change/RebaseUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1159339
+      },
+      "writtenOn": "2024-05-29T14:02:46Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "1af03ecf_29bd84a7",
+      "range": {
+        "startLine": 427,
+        "startChar": 28,
+        "endLine": 427,
+        "endChar": 47
+      },
+      "revId": "55ab9bd08d3f83b0fe4a0c8c3152afd1c0295e77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

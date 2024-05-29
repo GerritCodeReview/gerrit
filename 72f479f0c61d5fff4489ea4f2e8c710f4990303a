@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5f84977e_3c439742",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-05-29T07:09:07Z",
+      "side": 1,
+      "message": "TBH I would remove the whole sentence as too generic",
+      "parentUuid": "bd39bad2_04867733",
+      "range": {
+        "startLine": 15,
+        "startChar": 22,
+        "endLine": 15,
+        "endChar": 43
+      },
+      "revId": "72f479f0c61d5fff4489ea4f2e8c710f4990303a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4fbc2e85_f5b7292c",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -42,6 +66,53 @@
         "startChar": 4,
         "endLine": 20,
         "endChar": 64
+      },
+      "revId": "72f479f0c61d5fff4489ea4f2e8c710f4990303a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21a83a9a_d96d19a5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-05-29T07:09:07Z",
+      "side": 1,
+      "message": "_I guess_ that it follows the `DynamicItem` pattern here which (if not provided) AFAICT falls back to `PluginName.GERRIT` - perhaps we could do the same?",
+      "parentUuid": "4fbc2e85_f5b7292c",
+      "range": {
+        "startLine": 20,
+        "startChar": 4,
+        "endLine": 20,
+        "endChar": 64
+      },
+      "revId": "72f479f0c61d5fff4489ea4f2e8c710f4990303a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16edc87d_d1826997",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-05-29T07:09:07Z",
+      "side": 1,
+      "message": "Can we perhaps have a `Provider` that gets it once so that we could just use the instance of `MyPluginApi` in the code? It is a _static_ item hence it shouldn\u0027t change and there shouldn\u0027t be a need to call `StaticItem.get()` over and over again...",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 15
       },
       "revId": "72f479f0c61d5fff4489ea4f2e8c710f4990303a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

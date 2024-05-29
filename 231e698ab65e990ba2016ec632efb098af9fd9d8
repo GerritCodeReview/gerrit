@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "76f2b880_335de833",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-05-29T19:34:34Z",
+      "side": 1,
+      "message": "Amazing @david.ostrovsky@gmail.com hope this is merged soon 🎉",
+      "revId": "231e698ab65e990ba2016ec632efb098af9fd9d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

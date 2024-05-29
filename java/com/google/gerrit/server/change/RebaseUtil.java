@@ -420,6 +420,15 @@ public class RebaseUtil {
       // Gerrit change.
       return ObjectId.fromString(inputBase);
     }
+
+    // Support "refs/heads/..."
+    Ref ref = git.getRefDatabase().exactRef(inputBase);
+    if (ref != null
+        && isBaseRevisionInDestBranch(
+            rw, ObjectId.toString(ref.getObjectId()), git, change.getDest())) {
+      return ref.getObjectId();
+    }
+
     throw new ResourceConflictException(
         "base revision is missing from the destination branch: " + inputBase);
   }

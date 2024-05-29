@@ -858,6 +858,24 @@ public class RebaseIT {
     }
 
     @Test
+    public void rebaseChangeWithRefsHeadsMaster() throws Exception {
+      RevCommit desiredBase =
+          createNewCommitWithoutChangeId(/*branch=*/ "refs/heads/master", "file", "content");
+      PushOneCommit.Result child = createChange();
+      RebaseInput ri = new RebaseInput();
+
+      // rebase child onto desiredBase (referenced by ref)
+      ri.base = "refs/heads/master";
+      rebaseCallWithInput.call(child.getChangeId(), ri);
+
+      PatchSet ps2 = child.getPatchSet();
+      assertThat(ps2.id().get()).isEqualTo(2);
+      RevisionInfo childInfo =
+          get(child.getChangeId(), CURRENT_REVISION, CURRENT_COMMIT).getCurrentRevision();
+      assertThat(childInfo.commit.parents.get(0).commit).isEqualTo(desiredBase.name());
+    }
+
+    @Test
     public void cannotRebaseChangeWithInvalidBaseCommit() throws Exception {
       // Create another branch and push the desired parent commit to it.
       String branchName = "foo";

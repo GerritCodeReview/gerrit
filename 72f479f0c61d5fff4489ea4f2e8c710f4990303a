@@ -97,6 +97,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0e062b20_b9abbbba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-05-30T22:50:48Z",
+      "side": 1,
+      "message": "\u003e That looks a big limitation and would reduce the ability to use it in real terms. What\u0027s the rationale of putting this limitation?\n\nThe `StaticItem` is a plugin public API and by definition, it\u0027s not an \"extension point\". It\u0027s a concrete API that the plugin exposes to other plugins that should not be replaced by other plugins.\n\nAs described in the first paragraph the intention here is to expose the plugin\u0027s internal state, like configuration, caches, queues, and state data. I can\u0027t imagine other plugins providing an implementation for the same purposes.\n\n\u003e I guess that it follows the DynamicItem pattern here which (if not provided) AFAICT falls back to PluginName.GERRIT - perhaps we could do the same?\n\nNo, we should not fall back to anything, what\u0027s more, I\u0027d argue that we should rather fail the startup process when the `StaticItem` is not set. This should indicate a misconfiguration, eg. the \"api.jar\" file is installed and the \"plugin.jar\" is not.\n\nThe driving use case here is the `ReplicationRemotesUpdater` which exposes configuration internal to the `replication` plugin. Since the `replication` plugin is now split into `replication-api.jar` (that binds `DynamicItem`s) and `replication.jar` (that contains plugin \"business logic\"). We need a \"bridge\" that would allow us to \"declare an interface\", that later will be bound by the main plugin JAR. In this case, we give access to other plugins to modify the `replication` plugin configuration, which is its internal state. I can\u0027t think of any valid reason why another plugin should be able to provide that implementation.",
+      "parentUuid": "21a83a9a_d96d19a5",
+      "range": {
+        "startLine": 20,
+        "startChar": 4,
+        "endLine": 20,
+        "endChar": 64
+      },
+      "revId": "72f479f0c61d5fff4489ea4f2e8c710f4990303a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "16edc87d_d1826997",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -108,6 +132,30 @@
       "writtenOn": "2024-05-29T07:09:07Z",
       "side": 1,
       "message": "Can we perhaps have a `Provider` that gets it once so that we could just use the instance of `MyPluginApi` in the code? It is a _static_ item hence it shouldn\u0027t change and there shouldn\u0027t be a need to call `StaticItem.get()` over and over again...",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 15
+      },
+      "revId": "72f479f0c61d5fff4489ea4f2e8c710f4990303a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b43b900_46be7524",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-05-30T22:50:48Z",
+      "side": 1,
+      "message": "That was my initial idea, that consumer plugins could just inject `Provider` that would either return `null` or an concrete implementation.\n\nUnfortunatley, this seems to be impossible, as we\u0027re working with `Injectors` not binders, which means that dependency resolution is already finished and we can\u0027t replace one of them.\n\nWe need that `StaticItem` wrapper, so that we can set the provider instance on it, when plugin loads, and then call that provider on `StaticItem.get`.\n\nI was contemplating, dynamic creation of child injectors for each `StaticItem` but this feels too complicated for a feature that could only be used once. We also need to remember that plugins can be loaded while Gerrit is running and re-binding everything is simply impossible then.",
+      "parentUuid": "16edc87d_d1826997",
       "range": {
         "startLine": 41,
         "startChar": 0,
@@ -131,6 +179,24 @@
       "writtenOn": "2024-05-28T22:35:04Z",
       "side": 1,
       "message": "I saw this as just a _special case_ of a dynamic item, where you fail if any plugin would try to re-bind the item a second time.\n\nDo we really a brand-new type?",
+      "revId": "72f479f0c61d5fff4489ea4f2e8c710f4990303a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7549efc0_e5049f2e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-05-30T22:50:48Z",
+      "side": 1,
+      "message": "I\u0027m not found of _special cases_, having new type is more descriptive, it also better documents the code and is isolated meaning that we won\u0027t _accidentally break `DynamicItem`_.",
+      "parentUuid": "658e3ec2_f5a2d5cd",
       "revId": "72f479f0c61d5fff4489ea4f2e8c710f4990303a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

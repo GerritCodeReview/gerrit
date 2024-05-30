@@ -39,6 +39,7 @@ public class XsrfCookieFilter implements Filter {
   private final Provider<CurrentUser> user;
   private final DynamicItem<WebSession> session;
   private final AuthConfig authConfig;
+  private final boolean rememberMe = Boolean.getBoolean("ghs.gerrit.auth.remember-me");
 
   @Inject
   XsrfCookieFilter(
@@ -67,7 +68,10 @@ public class XsrfCookieFilter implements Filter {
     c.setSecure(authConfig.getCookieSecure() && isSecure(req));
     c.setMaxAge(
         v != null
-            ? -1 // Set the cookie for this browser session.
+            ? (rememberMe
+                ? session.getMaxAge()
+                : -1) // Set the cookie for this browser session or the GerritAccount cookie
+                      // validity
             : 0); // Remove the cookie (expire immediately).
     rsp.addCookie(c);
   }

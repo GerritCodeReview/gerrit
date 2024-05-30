@@ -275,4 +275,9 @@ public abstract class CacheBasedWebSession extends WebSession {
   private static boolean isSecure(HttpServletRequest req) {
     return req.isSecure() || "https".equals(req.getScheme());
   }
+
+  @Override
+  public int getMaxAge() {
+    return manager.getCookieAge(val);
+  }
 }

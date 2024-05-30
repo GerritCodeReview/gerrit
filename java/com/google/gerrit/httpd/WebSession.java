@@ -73,4 +73,6 @@ public abstract class WebSession {
   public void resetRefUpdatedEvents() {
     refUpdatedEvents.clear();
   }
+
+  public abstract int getMaxAge();
 }

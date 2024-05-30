@@ -65,6 +65,7 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
   private final Provider<InternalAccountQuery> queryProvider;
   private final ExternalIdKeyFactory externalIdKeyFactory;
   private final AuthRequest.Factory authRequestFactory;
+  private final boolean rememberMe = Boolean.getBoolean("ghs.gerrit.auth.remember-me");
 
   @Inject
   BecomeAnyAccountLoginServlet(
@@ -122,7 +123,7 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
     }
 
     if (res != null) {
-      webSession.get().login(res, false);
+      webSession.get().login(res, rememberMe);
       final StringBuilder rdr = new StringBuilder();
       rdr.append(req.getContextPath());
       rdr.append("/");

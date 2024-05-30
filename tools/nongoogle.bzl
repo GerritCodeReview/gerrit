@@ -7,7 +7,7 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 load("@bazel_tools//tools/build_defs/repo:utils.bzl", "maybe")
 load("//tools/bzl:maven_jar.bzl", "maven_jar")
 
-AUTO_COMMON_VERSION = "1.2.1"
+AUTO_COMMON_VERSION = "1.2.2"
 
 AUTO_FACTORY_VERSION = "1.0.1"
 
@@ -190,7 +190,7 @@ def declare_nongoogle_deps():
     maven_jar(
         name = "auto-common",
         artifact = "com.google.auto:auto-common:" + AUTO_COMMON_VERSION,
-        sha1 = "f6da26895f759010f5f170c8044e84c1b17ef83e",
+        sha1 = "9d38f10e22411681cf1d1ee3727e002af19f2c9e",
     )
 
     maven_jar(

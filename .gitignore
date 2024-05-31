@@ -15,6 +15,7 @@ js-to-ts.sh
 /.classpath
 /.factorypath
 /.idea
+/.aswb
 /.ijwb
 /.metadata
 /.project

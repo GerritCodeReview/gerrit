@@ -71,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e5e11d1_b64686ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-05-31T08:42:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9ae8a15_9fe18a0f",
+      "range": {
+        "startLine": 10,
+        "startChar": 34,
+        "endLine": 10,
+        "endChar": 40
+      },
+      "revId": "9d15d27239cc10cd84927c1941d24c1457429697",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f8308217_2b3b410a",
@@ -219,6 +243,24 @@
       "writtenOn": "2024-05-31T07:34:00Z",
       "side": 1,
       "message": "As discussed, I created a ticket for the caffeine library - https://github.com/ben-manes/caffeine/issues/1698.\nCould you please add it to the change message too.",
+      "revId": "9d15d27239cc10cd84927c1941d24c1457429697",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad849885_fcfb634d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-05-31T08:42:18Z",
+      "side": 1,
+      "message": "Thanks a lot for reporting this to the Caffeine team!\n\nDone, included the link into the commit message.",
+      "parentUuid": "f9f58eb9_99dffca6",
       "revId": "9d15d27239cc10cd84927c1941d24c1457429697",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

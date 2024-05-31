@@ -252,6 +252,7 @@ import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.transport.ReceiveCommand;
+import org.eclipse.jgit.transport.ReceiveCommand.Type;
 import org.eclipse.jgit.transport.ReceivePack;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.Option;
@@ -3192,7 +3193,10 @@ class ReceiveCommits {
             // replace edit
             cmd =
                 new ReceiveCommand(
-                    edit.get().getEditCommit(), newCommitId, edit.get().getRefName());
+                    edit.get().getEditCommit(),
+                    newCommitId,
+                    edit.get().getRefName(),
+                    Type.UPDATE_NONFASTFORWARD);
           } else {
             // delete old edit ref on rebase
             prev =

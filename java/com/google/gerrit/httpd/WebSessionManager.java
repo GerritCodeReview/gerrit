@@ -154,6 +154,8 @@ public class WebSessionManager {
   Val get(Key key) {
     Val val = self.getIfPresent(key.token);
     if (val != null && val.expiresAt <= nowMs()) {
+      logger.atWarning().log(
+          "******** DEBUG - Invalidating %s. ExpiresAt: ", key.token, val.expiresAt);
       self.invalidate(key.token);
       return null;
     }

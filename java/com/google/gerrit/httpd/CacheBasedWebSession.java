@@ -18,6 +18,7 @@ import static java.util.concurrent.TimeUnit.HOURS;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.Account;
@@ -40,6 +41,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jgit.http.server.GitSmartHttpTools;
 
 public abstract class CacheBasedWebSession extends WebSession {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   @VisibleForTesting public static final String ACCOUNT_COOKIE = "GerritAccount";
 
   @UsedAt(UsedAt.Project.PLUGIN_WEBSESSION_FLATFILE)
@@ -102,6 +104,9 @@ public abstract class CacheBasedWebSession extends WebSession {
   private void authFromCookie(String cookie) {
     key = new WebSessionManager.Key(cookie);
     val = manager.get(key);
+    if (val == null) {
+      logger.atWarning().log("******** DEBUG - Invalidated by authFromCookie %s", key.getToken());
+    }
     String token = request.getHeader(XsrfConstants.XSRF_HEADER_NAME);
     if (val != null && token != null && token.equals(val.getAuth())) {
       okPaths.add(AccessPath.REST_API);
@@ -111,6 +116,10 @@ public abstract class CacheBasedWebSession extends WebSession {
   private void authFromQueryParameter(String accessToken) {
     key = new WebSessionManager.Key(accessToken);
     val = manager.get(key);
+    if (val == null) {
+      logger.atWarning().log(
+          "******** DEBUG - Invalidated by authFromQueryParameter %s", key.getToken());
+    }
     if (val != null) {
       okPaths.add(AccessPath.REST_API);
     }
@@ -187,6 +196,9 @@ public abstract class CacheBasedWebSession extends WebSession {
     ExternalId.Key identity = res.getExternalId();
 
     if (val != null) {
+      logger.atWarning().log(
+          "******** DEBUG - login called for %s, destroying session %s",
+          id, key.getToken());
       manager.destroy(key);
     }
 
@@ -212,6 +224,8 @@ public abstract class CacheBasedWebSession extends WebSession {
   @Override
   public void logout() {
     if (val != null) {
+      logger.atWarning().log(
+          "******** DEBUG - logout called for %s, destroying session", key.getToken());
       manager.destroy(key);
       key = null;
       val = null;

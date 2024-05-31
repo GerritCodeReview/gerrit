@@ -1031,6 +1031,38 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
+  public void pushForMasterAsEdit_updateExistingEdit() throws Exception {
+    PushOneCommit.Result r = pushTo("refs/for/master");
+    r.assertOkStatus();
+    Optional<EditInfo> edit = getEdit(r.getChangeId());
+    assertThat(edit).isAbsent();
+    assertThat(query("has:edit")).isEmpty();
+
+    // specify edit as option
+    r = amendChange(r.getChangeId(), "refs/for/master%edit");
+    r.assertOkStatus();
+
+    // update the existing edit
+    r = amendChange(r.getChangeId(), "refs/for/master%edit");
+    r.assertOkStatus();
+    edit = getEdit(r.getChangeId());
+    assertThat(edit).isPresent();
+    EditInfo editInfo = edit.get();
+    r.assertMessage(
+        canonicalWebUrl.get()
+            + "c/"
+            + project.get()
+            + "/+/"
+            + r.getChange().getId()
+            + " "
+            + editInfo.commit.subject
+            + " [EDIT]\n");
+
+    // verify that the re-indexing was triggered for the change
+    assertThat(query("has:edit")).hasSize(1);
+  }
+
+  @Test
   public void pushForMasterWithMessage() throws Exception {
     PushOneCommit.Result r = pushTo("refs/for/master%m=my_test_message");
     r.assertOkStatus();

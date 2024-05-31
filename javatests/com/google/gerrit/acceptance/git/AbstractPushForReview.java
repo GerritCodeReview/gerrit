@@ -1028,6 +1028,19 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
     // verify that the re-indexing was triggered for the change
     assertThat(query("has:edit")).hasSize(1);
+
+    // update the existing edit
+    r = amendChange(r.getChangeId(), "refs/for/master%edit");
+    r.assertOkStatus();
+    r.assertMessage(
+        canonicalWebUrl.get()
+            + "c/"
+            + project.get()
+            + "/+/"
+            + r.getChange().getId()
+            + " "
+            + editInfo.commit.subject
+            + " [EDIT]\n");
   }
 
   @Test

@@ -9,7 +9,7 @@ load("//tools/bzl:maven_jar.bzl", "maven_jar")
 
 AUTO_COMMON_VERSION = "1.2.2"
 
-AUTO_FACTORY_VERSION = "1.0.1"
+AUTO_FACTORY_VERSION = "1.1.0"
 
 AUTO_SERVICE_VERSION = "1.1.1"
 
@@ -198,7 +198,7 @@ def declare_nongoogle_deps():
     maven_jar(
         name = "auto-factory",
         artifact = "com.google.auto.factory:auto-factory:" + AUTO_FACTORY_VERSION,
-        sha1 = "f81ece06b6525085da217cd900116f44caafe877",
+        sha1 = "a385e1618f6abd83bf5983d66c9fab4d9664cbd8",
     )
 
     maven_jar(

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d0e8281e_dc23bdc8",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-06-02T11:47:21Z",
+      "side": 1,
+      "message": "tools/run_gjf.sh could be updated to follow this.",
+      "revId": "c63f2439c8b8baaf723f662fc76b6129f393b046",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

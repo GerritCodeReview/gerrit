@@ -22,6 +22,7 @@ import java.sql.Timestamp;
 /** Bridge to recover fields from the fake index. */
 public class FakeStoredValue implements StoredValue {
   private final Object field;
+
   /**
    * Some index implementations store protos, some convert them to bytes first.
    *

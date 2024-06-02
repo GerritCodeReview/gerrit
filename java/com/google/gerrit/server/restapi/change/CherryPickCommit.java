@@ -64,8 +64,12 @@ public class CherryPickCommit implements RestModifyView<CommitResource, CherryPi
 
   @Override
   public Response<ChangeInfo> apply(CommitResource rsrc, CherryPickInput input)
-      throws IOException, UpdateException, RestApiException, PermissionBackendException,
-          ConfigInvalidException, NoSuchProjectException {
+      throws IOException,
+          UpdateException,
+          RestApiException,
+          PermissionBackendException,
+          ConfigInvalidException,
+          NoSuchProjectException {
     String destination = Strings.nullToEmpty(input.destination).trim();
     input.parent = input.parent == null ? 1 : input.parent;
     Project.NameKey projectName = rsrc.getProjectState().getNameKey();

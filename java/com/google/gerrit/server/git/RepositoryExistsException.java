@@ -30,7 +30,9 @@ public class RepositoryExistsException extends IOException {
         String.format("Repository %s exists and cannot be created. %s", projectName.get(), reason));
   }
 
-  /** @param projectName name of the project that cannot be created */
+  /**
+   * @param projectName name of the project that cannot be created
+   */
   public RepositoryExistsException(Project.NameKey projectName) {
     super(String.format("Repository %s exists and cannot be created.", projectName.get()));
   }

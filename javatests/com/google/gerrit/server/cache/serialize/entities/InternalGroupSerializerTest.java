@@ -43,8 +43,7 @@ public class InternalGroupSerializerTest {
           .build();
 
   static final InternalGroup ALL_VALUES_SET =
-      MINIMAL_VALUES_SET
-          .toBuilder()
+      MINIMAL_VALUES_SET.toBuilder()
           .setDescription("description")
           .setRefState(ObjectId.fromString("12345678deadbeefdeadbeefdeadbeefdeadbeef"))
           .build();

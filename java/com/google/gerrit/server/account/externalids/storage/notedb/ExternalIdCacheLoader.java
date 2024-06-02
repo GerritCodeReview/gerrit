@@ -195,7 +195,8 @@ public class ExternalIdCacheLoader {
         Set<String> additionKeys =
             additions.keySet().stream().map(AnyObjectId::getName).collect(Collectors.toSet());
         logger.atSevere().withCause(e).log(
-            "Failed to load external ID cache. Repository ref is %s, cache ref is %s, additions are %s",
+            "Failed to load external ID cache. Repository ref is %s, cache ref is %s, additions are"
+                + " %s",
             extIdRef.getObjectId().getName(), parentWithCacheValue.getId().getName(), additionKeys);
         throw e;
       }

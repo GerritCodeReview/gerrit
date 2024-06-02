@@ -100,7 +100,8 @@ public class ParentDataProvider {
     List<ChangeData> changeData = queryProvider.get().byCommit(parentCommitId.name());
     if (changeData.size() > 1) {
       logger.atWarning().log(
-          "Found more than one change associated with parent revision %s (project: %s). Found changes %s.",
+          "Found more than one change associated with parent revision %s (project: %s). Found"
+              + " changes %s.",
           parentCommitId.name(),
           project.get(),
           changeData.stream().map(ChangeData::getId).collect(ImmutableList.toImmutableList()));

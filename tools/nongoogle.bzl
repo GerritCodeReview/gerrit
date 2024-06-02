@@ -373,8 +373,8 @@ def declare_nongoogle_deps():
 
     maven_jar(
         name = "google-java-format",
-        artifact = "com.google.googlejavaformat:google-java-format:1.7:all-deps",
-        sha1 = "b6d34a51e579b08db7c624505bdf9af4397f1702",
+        artifact = "com.google.googlejavaformat:google-java-format:1.22.0:all-deps",
+        sha1 = "693d8fd04656886a2287cfe1d7a118c4697c3a57",
     )
     
     # JGit's transitive dependencies

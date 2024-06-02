@@ -156,7 +156,8 @@ public class InMemoryRepositoryManager implements GitRepositoryManager {
           checkState(
               allowedRefUpdateTypes.get().stream().anyMatch(RefUpdateContext::hasOpen)
                   || isTestRepoCall(),
-              "Special ref '%s' is updated outside of the expected operation. Wrap code in the correct RefUpdateContext or fix allowed update types",
+              "Special ref '%s' is updated outside of the expected operation. Wrap code in the"
+                  + " correct RefUpdateContext or fix allowed update types",
               refName);
           return;
         }
@@ -168,7 +169,8 @@ public class InMemoryRepositoryManager implements GitRepositoryManager {
                 // Plugin can update any ref
                 || RefUpdateContext.hasOpen(PLUGIN)
                 || isTestRepoCall(),
-            "Ordinary ref '%s' is updated outside of the expected operation. Wrap code in the correct RefUpdateContext or add the ref as a special ref.",
+            "Ordinary ref '%s' is updated outside of the expected operation. Wrap code in the"
+                + " correct RefUpdateContext or add the ref as a special ref.",
             refName);
       }
 
@@ -188,7 +190,8 @@ public class InMemoryRepositoryManager implements GitRepositoryManager {
                 .collect(toList());
         checkState(
             allowedTypes.size() <= 1,
-            "refName matches more than 1 predicate. Please fix the specialRefs list, so each reference has no more than one match.");
+            "refName matches more than 1 predicate. Please fix the specialRefs list, so each"
+                + " reference has no more than one match.");
         if (allowedTypes.size() == 0) {
           return Optional.empty();
         }

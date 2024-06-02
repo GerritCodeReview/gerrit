@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa79eac1_28d9039c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-06-02T21:22:05Z",
+      "side": 1,
+      "message": "this test fails:\n\nMailSenderIT.outgoingMailHasCustomReplyToHeader()",
+      "revId": "ad8126ce6a705d5587a34bea7c9a98cb776c6bf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

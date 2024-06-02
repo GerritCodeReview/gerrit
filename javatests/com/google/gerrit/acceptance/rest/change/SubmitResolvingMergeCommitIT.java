@@ -304,7 +304,9 @@ public class SubmitResolvingMergeCommitIT extends AbstractDaemonTest {
   }
 
   private void assertChangeSetMergeable(ChangeData change, boolean expected)
-      throws MissingObjectException, IncorrectObjectTypeException, IOException,
+      throws MissingObjectException,
+          IncorrectObjectTypeException,
+          IOException,
           PermissionBackendException {
     ChangeSet cs =
         mergeSuperSet

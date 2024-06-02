@@ -112,7 +112,8 @@ public class SafeProtoConverterTest {
       } catch (Exception e) {
         throw new IllegalStateException(
             String.format(
-                "Failed to build object for type %s, this likely means the buildObjectWithFullFieldsOrThrow should be adapted.",
+                "Failed to build object for type %s, this likely means the"
+                    + " buildObjectWithFullFieldsOrThrow should be adapted.",
                 converter.getEntityClass().getName()),
             e);
       }

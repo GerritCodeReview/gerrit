@@ -158,8 +158,7 @@ public abstract class FileDiffOutput implements Serializable {
    */
   public static FileDiffOutput createNegative(
       String filePath, ObjectId oldCommitId, ObjectId newCommitId) {
-    return empty(filePath, oldCommitId, newCommitId)
-        .toBuilder()
+    return empty(filePath, oldCommitId, newCommitId).toBuilder()
         .negative(Optional.of(true))
         .build();
   }

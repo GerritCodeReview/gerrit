@@ -44,8 +44,12 @@ public class PutOptions implements RestModifyView<GroupResource, GroupOptionsInf
 
   @Override
   public Response<GroupOptionsInfo> apply(GroupResource resource, GroupOptionsInfo input)
-      throws NotInternalGroupException, AuthException, BadRequestException,
-          ResourceNotFoundException, IOException, ConfigInvalidException {
+      throws NotInternalGroupException,
+          AuthException,
+          BadRequestException,
+          ResourceNotFoundException,
+          IOException,
+          ConfigInvalidException {
     GroupDescription.Internal internalGroup =
         resource.asInternalGroup().orElseThrow(NotInternalGroupException::new);
     if (!resource.getControl().isOwner()) {

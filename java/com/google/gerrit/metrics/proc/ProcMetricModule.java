@@ -286,7 +286,8 @@ public class ProcMetricModule extends MetricModule {
         "proc/jvm/thread/num_total_started",
         Long.class,
         new Description(
-                "Total number of threads created and also started since the Java virtual machine started")
+                "Total number of threads created and also started since the Java virtual machine"
+                    + " started")
             .setGauge()
             .setUnit("threads"),
         thread::getTotalStartedThreadCount);
@@ -295,7 +296,8 @@ public class ProcMetricModule extends MetricModule {
           "proc/jvm/thread/num_deadlocked_threads",
           Integer.class,
           new Description(
-                  "number of threads that are deadlocked waiting for object monitors or ownable synchronizers")
+                  "number of threads that are deadlocked waiting for object monitors or ownable"
+                      + " synchronizers")
               .setGauge()
               .setUnit("threads"),
           () -> {

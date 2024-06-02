@@ -33,6 +33,7 @@ import java.util.regex.Pattern;
 public abstract class AccessSection implements Comparable<AccessSection> {
   /** Special name given to the global capabilities; not a valid reference. */
   public static final String GLOBAL_CAPABILITIES = "GLOBAL_CAPABILITIES";
+
   /** Pattern that matches all references in a project. */
   public static final String ALL = "refs/*";
 

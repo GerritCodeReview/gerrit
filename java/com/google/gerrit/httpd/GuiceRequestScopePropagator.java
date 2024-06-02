@@ -54,7 +54,9 @@ public class GuiceRequestScopePropagator extends RequestScopePropagator {
     urlProvider.setHttpServletRequest(request);
   }
 
-  /** @see RequestScopePropagator#wrap(Callable) */
+  /**
+   * @see RequestScopePropagator#wrap(Callable)
+   */
   // ServletScopes#continueRequest is deprecated, but it's not obvious their
   // recommended replacement is an appropriate drop-in solution; see
   // https://gerrit-review.googlesource.com/83971

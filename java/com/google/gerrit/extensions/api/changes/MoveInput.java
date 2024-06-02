@@ -17,6 +17,7 @@ package com.google.gerrit.extensions.api.changes;
 public class MoveInput {
   public String message;
   public String destinationBranch;
+
   /**
    * Whether or not to keep all votes in the destination branch. Keeping the votes can be confusing
    * in the context of the destination branch, see

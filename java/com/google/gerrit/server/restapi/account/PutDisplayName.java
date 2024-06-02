@@ -63,7 +63,10 @@ public class PutDisplayName implements RestModifyView<AccountResource, DisplayNa
 
   @Override
   public Response<String> apply(AccountResource rsrc, @Nullable DisplayNameInput input)
-      throws AuthException, ResourceNotFoundException, IOException, PermissionBackendException,
+      throws AuthException,
+          ResourceNotFoundException,
+          IOException,
+          PermissionBackendException,
           ConfigInvalidException {
     IdentifiedUser user = rsrc.getUser();
     if (!self.get().hasSameAccountId(user)) {

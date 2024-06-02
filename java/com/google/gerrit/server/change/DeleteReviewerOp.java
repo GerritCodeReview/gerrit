@@ -118,8 +118,11 @@ public class DeleteReviewerOp extends ReviewerOp {
 
   @Override
   public boolean updateChange(ChangeContext ctx)
-      throws AuthException, ResourceNotFoundException, PermissionBackendException,
-          ResourceConflictException, IOException {
+      throws AuthException,
+          ResourceNotFoundException,
+          PermissionBackendException,
+          ResourceConflictException,
+          IOException {
     Account.Id reviewerId = reviewer.id();
     // Check of removing this reviewer (even if there is no vote processed by the loop below) is OK
     removeReviewerControl.checkRemoveReviewer(ctx.getNotes(), ctx.getUser(), reviewerId);

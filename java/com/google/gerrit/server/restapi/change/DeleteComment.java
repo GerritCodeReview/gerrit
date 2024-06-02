@@ -75,7 +75,10 @@ public class DeleteComment implements RestModifyView<HumanCommentResource, Delet
 
   @Override
   public Response<CommentInfo> apply(HumanCommentResource rsrc, DeleteCommentInput input)
-      throws RestApiException, IOException, ConfigInvalidException, PermissionBackendException,
+      throws RestApiException,
+          IOException,
+          ConfigInvalidException,
+          PermissionBackendException,
           UpdateException {
     CurrentUser user = userProvider.get();
     permissionBackend.user(user).check(GlobalPermission.ADMINISTRATE_SERVER);

@@ -68,7 +68,10 @@ public class RevisionReviewers implements ChildCollection<RevisionResource, Revi
 
   @Override
   public ReviewerResource parse(RevisionResource rsrc, IdString id)
-      throws ResourceNotFoundException, AuthException, MethodNotAllowedException, IOException,
+      throws ResourceNotFoundException,
+          AuthException,
+          MethodNotAllowedException,
+          IOException,
           ConfigInvalidException {
     if (!rsrc.isCurrent()) {
       throw new MethodNotAllowedException("Cannot access on non-current patch set");

@@ -16,6 +16,24 @@
       "message": "The idea was to move this change to the oldest stable branch, where we still run Gerrit CI with style check, and merge it up to master.\n\nAfter merging the change 428159 in `gerrit-ci-scripts` to de-couple the CI from using specific GJF version it would be trivial to use different GJF releases on different `gerrit` branches, see for example the follow-up change 428139, where I\u0027ve bumped GJF version to 1.22.0.",
       "revId": "997041c5cd3a7b98fa9c2486a9588b6e191fe79c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec50b6c2_076935a8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2024-06-02T20:02:15Z",
+      "side": 1,
+      "message": "A less intrusive approach is to continue to use `google-java-format` JARs installed on the build agents for now and switch to using `bazel run tool:gjf` later.\n\n@ekempin@google.com tried this approach already in this change: [1]. I uploaded an alternative change for review: [2].\n\n[1]: https://gerrit-review.googlesource.com/c/gerrit-ci-scripts/+/333885\n[2]: https://gerrit-review.googlesource.com/c/gerrit-ci-scripts/+/428140",
+      "parentUuid": "96dd73a2_e4b6849b",
+      "revId": "997041c5cd3a7b98fa9c2486a9588b6e191fe79c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

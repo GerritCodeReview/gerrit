@@ -16,6 +16,24 @@
       "message": "tools/run_gjf.sh could be updated to follow this.",
       "revId": "c63f2439c8b8baaf723f662fc76b6129f393b046",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "035eb9f4_d5bc9056",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2024-06-02T11:51:34Z",
+      "side": 1,
+      "message": "Very good point. May be add another `tool/run_gjf_bazel.sh` to offer both versions for now?",
+      "parentUuid": "d0e8281e_dc23bdc8",
+      "revId": "c63f2439c8b8baaf723f662fc76b6129f393b046",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -140,7 +140,9 @@ public class GitPositionTransformer {
     Set<String> newFiles = newFilesPerOldFile.get(oldFilePath);
     if (newFiles.isEmpty()) {
       // File was deleted.
-      return positionConflictStrategy.getOnFileConflict(entity.position()).map(entity::withPosition)
+      return positionConflictStrategy
+          .getOnFileConflict(entity.position())
+          .map(entity::withPosition)
           .stream();
     }
     return newFiles.stream().map(entity::withFilePath);

@@ -16,8 +16,8 @@
 
 set -eu
 
-# Keep this version in sync with dev-contributing.txt.
-VERSION=${1:-1.7}
+# Keep this version in sync with dev-crafting-changes.txt.
+VERSION=${1:-1.22.0}
 
 case "$VERSION" in
 1.7)

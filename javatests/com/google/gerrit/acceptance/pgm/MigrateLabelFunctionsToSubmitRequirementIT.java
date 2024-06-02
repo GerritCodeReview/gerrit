@@ -50,7 +50,7 @@ public class MigrateLabelFunctionsToSubmitRequirementIT extends AbstractDaemonTe
   @Test
   public void migrateBlockingLabel_maxWithBlock() throws Exception {
     createLabel("Foo", "MaxWithBlock", /* ignoreSelfApproval= */ false);
-    assertNonExistentSr(/* srName = */ "Foo");
+    assertNonExistentSr(/* srName= */ "Foo");
 
     TestUpdateUI updateUI = runMigration(/* expectedResult= */ Status.MIGRATED);
     assertThat(updateUI.newlyCreatedSrs).isEqualTo(1);
@@ -67,7 +67,7 @@ public class MigrateLabelFunctionsToSubmitRequirementIT extends AbstractDaemonTe
   @Test
   public void migrateBlockingLabel_maxNoBlock() throws Exception {
     createLabel("Foo", "MaxNoBlock", /* ignoreSelfApproval= */ false);
-    assertNonExistentSr(/* srName = */ "Foo");
+    assertNonExistentSr(/* srName= */ "Foo");
 
     TestUpdateUI updateUI = runMigration(/* expectedResult= */ Status.MIGRATED);
     assertThat(updateUI.newlyCreatedSrs).isEqualTo(1);
@@ -84,7 +84,7 @@ public class MigrateLabelFunctionsToSubmitRequirementIT extends AbstractDaemonTe
   @Test
   public void migrateBlockingLabel_anyWithBlock() throws Exception {
     createLabel("Foo", "AnyWithBlock", /* ignoreSelfApproval= */ false);
-    assertNonExistentSr(/* srName = */ "Foo");
+    assertNonExistentSr(/* srName= */ "Foo");
 
     TestUpdateUI updateUI = runMigration(/* expectedResult= */ Status.MIGRATED);
     assertThat(updateUI.newlyCreatedSrs).isEqualTo(1);
@@ -101,7 +101,7 @@ public class MigrateLabelFunctionsToSubmitRequirementIT extends AbstractDaemonTe
   @Test
   public void migrateBlockingLabel_maxWithBlock_withIgnoreSelfApproval() throws Exception {
     createLabel("Foo", "MaxWithBlock", /* ignoreSelfApproval= */ true);
-    assertNonExistentSr(/* srName = */ "Foo");
+    assertNonExistentSr(/* srName= */ "Foo");
 
     TestUpdateUI updateUI = runMigration(/* expectedResult= */ Status.MIGRATED);
     assertThat(updateUI.newlyCreatedSrs).isEqualTo(1);
@@ -118,7 +118,7 @@ public class MigrateLabelFunctionsToSubmitRequirementIT extends AbstractDaemonTe
   @Test
   public void migrateBlockingLabel_maxNoBlock_withIgnoreSelfApproval() throws Exception {
     createLabel("Foo", "MaxNoBlock", /* ignoreSelfApproval= */ true);
-    assertNonExistentSr(/* srName = */ "Foo");
+    assertNonExistentSr(/* srName= */ "Foo");
 
     TestUpdateUI updateUI = runMigration(/* expectedResult= */ Status.MIGRATED);
     assertThat(updateUI.newlyCreatedSrs).isEqualTo(1);
@@ -137,7 +137,7 @@ public class MigrateLabelFunctionsToSubmitRequirementIT extends AbstractDaemonTe
     // NoBlock labels are left as is, i.e. we don't create a "submit requirement" for them. Those
     // labels will then be treated as trigger votes in the change page.
     createLabel("Foo", "NoBlock", /* ignoreSelfApproval= */ false);
-    assertNonExistentSr(/* srName = */ "Foo");
+    assertNonExistentSr(/* srName= */ "Foo");
 
     TestUpdateUI updateUI = runMigration(/* expectedResult= */ Status.NO_CHANGE);
     assertThat(updateUI.newlyCreatedSrs).isEqualTo(0);
@@ -154,7 +154,7 @@ public class MigrateLabelFunctionsToSubmitRequirementIT extends AbstractDaemonTe
     // NoOp labels are left as is, i.e. we don't create a "submit requirement" for them. Those
     // labels will then be treated as trigger votes in the change page.
     createLabel("Foo", "NoOp", /* ignoreSelfApproval= */ false);
-    assertNonExistentSr(/* srName = */ "Foo");
+    assertNonExistentSr(/* srName= */ "Foo");
 
     TestUpdateUI updateUI = runMigration(/* expectedResult= */ Status.MIGRATED);
     assertThat(updateUI.newlyCreatedSrs).isEqualTo(0);
@@ -171,7 +171,7 @@ public class MigrateLabelFunctionsToSubmitRequirementIT extends AbstractDaemonTe
     // Labels that have a single "zero" value are skipped in the project. The migrator creates
     // non-applicable SR for these labels.
     createLabel("Foo", "NoBlock", /* ignoreSelfApproval= */ false, ImmutableMap.of("0", "No vote"));
-    assertNonExistentSr(/* srName = */ "Foo");
+    assertNonExistentSr(/* srName= */ "Foo");
 
     TestUpdateUI updateUI = runMigration(/* expectedResult= */ Status.MIGRATED);
     assertThat(updateUI.newlyCreatedSrs).isEqualTo(1);
@@ -193,7 +193,7 @@ public class MigrateLabelFunctionsToSubmitRequirementIT extends AbstractDaemonTe
     // non-applicable SRs for these labels.
     createLabel(
         "Foo", "MaxWithBlock", /* ignoreSelfApproval= */ false, ImmutableMap.of("0", "No vote"));
-    assertNonExistentSr(/* srName = */ "Foo");
+    assertNonExistentSr(/* srName= */ "Foo");
 
     TestUpdateUI updateUI = runMigration(/* expectedResult= */ Status.MIGRATED);
     assertThat(updateUI.newlyCreatedSrs).isEqualTo(1);
@@ -226,14 +226,14 @@ public class MigrateLabelFunctionsToSubmitRequirementIT extends AbstractDaemonTe
   @Test
   public void migrateNonBlockingLabel_patchSetLock_doesNothing() throws Exception {
     createLabel("Foo", "PatchSetLock", /* ignoreSelfApproval= */ false);
-    assertNonExistentSr(/* srName = */ "Foo");
+    assertNonExistentSr(/* srName= */ "Foo");
 
     TestUpdateUI updateUI = runMigration(/* expectedResult= */ Status.NO_CHANGE);
     // No submit requirement created for the patchset lock label function
     assertThat(updateUI.newlyCreatedSrs).isEqualTo(0);
     assertThat(updateUI.existingSrsMismatchingWithMigration).isEqualTo(0);
 
-    assertNonExistentSr(/* srName = */ "Foo");
+    assertNonExistentSr(/* srName= */ "Foo");
     assertLabelFunction("Foo", "PatchSetLock");
   }
 
@@ -241,7 +241,7 @@ public class MigrateLabelFunctionsToSubmitRequirementIT extends AbstractDaemonTe
   public void migrationIsCommittedWithServerIdent() throws Exception {
     RevCommit oldMetaCommit = projectOperations.project(project).getHead(RefNames.REFS_CONFIG);
     createLabel("Foo", "MaxWithBlock", /* ignoreSelfApproval= */ false);
-    assertNonExistentSr(/* srName = */ "Foo");
+    assertNonExistentSr(/* srName= */ "Foo");
 
     TestUpdateUI updateUI = runMigration(/* expectedResult= */ Status.MIGRATED);
     assertThat(updateUI.newlyCreatedSrs).isEqualTo(1);
@@ -268,7 +268,7 @@ public class MigrateLabelFunctionsToSubmitRequirementIT extends AbstractDaemonTe
         /* ignoreSelfApproval= */ false,
         ImmutableList.of("refs/heads/master"));
 
-    assertNonExistentSr(/* srName = */ "Foo");
+    assertNonExistentSr(/* srName= */ "Foo");
 
     TestUpdateUI updateUI = runMigration(/* expectedResult= */ Status.MIGRATED);
     assertThat(updateUI.newlyCreatedSrs).isEqualTo(1);
@@ -290,7 +290,7 @@ public class MigrateLabelFunctionsToSubmitRequirementIT extends AbstractDaemonTe
         /* ignoreSelfApproval= */ false,
         ImmutableList.of("refs/heads/master", "refs/heads/develop"));
 
-    assertNonExistentSr(/* srName = */ "Foo");
+    assertNonExistentSr(/* srName= */ "Foo");
 
     TestUpdateUI updateUI = runMigration(/* expectedResult= */ Status.MIGRATED);
     assertThat(updateUI.newlyCreatedSrs).isEqualTo(1);
@@ -313,7 +313,7 @@ public class MigrateLabelFunctionsToSubmitRequirementIT extends AbstractDaemonTe
         /* ignoreSelfApproval= */ false,
         ImmutableList.of("^refs/heads/main-.*"));
 
-    assertNonExistentSr(/* srName = */ "Foo");
+    assertNonExistentSr(/* srName= */ "Foo");
 
     TestUpdateUI updateUI = runMigration(/* expectedResult= */ Status.MIGRATED);
     assertThat(updateUI.newlyCreatedSrs).isEqualTo(1);
@@ -335,7 +335,7 @@ public class MigrateLabelFunctionsToSubmitRequirementIT extends AbstractDaemonTe
         /* ignoreSelfApproval= */ false,
         ImmutableList.of("refs/heads/master", "^refs/heads/main-.*"));
 
-    assertNonExistentSr(/* srName = */ "Foo");
+    assertNonExistentSr(/* srName= */ "Foo");
 
     TestUpdateUI updateUI = runMigration(/* expectedResult= */ Status.MIGRATED);
     assertThat(updateUI.newlyCreatedSrs).isEqualTo(1);
@@ -357,7 +357,7 @@ public class MigrateLabelFunctionsToSubmitRequirementIT extends AbstractDaemonTe
       oldRefsConfigId = repo.exactRef(RefNames.REFS_CONFIG).getObjectId().toString();
     }
     createLabel("Foo", "MaxWithBlock", /* ignoreSelfApproval= */ false);
-    assertNonExistentSr(/* srName = */ "Foo");
+    assertNonExistentSr(/* srName= */ "Foo");
 
     // Running the migration causes REFS_CONFIG to change.
     TestUpdateUI updateUI = runMigration(/* expectedResult= */ Status.MIGRATED);

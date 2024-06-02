@@ -30,7 +30,8 @@ public final class CommentVerifier {
     checkAccountId(accountId, authorIdent);
     checkArgument(
         c.author.getId().equals(accountId),
-        "The author for the following comment does not match the author of this CommentVerifier (%s): %s",
+        "The author for the following comment does not match the author of this CommentVerifier"
+            + " (%s): %s",
         accountId,
         c);
     checkArgument(

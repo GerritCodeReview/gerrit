@@ -322,7 +322,7 @@ public class ChangeNotesParseApprovalUtil {
   private static void checkFooter(boolean expr, FooterKey footer, String actual)
       throws ConfigInvalidException {
     if (!expr) {
-      throw parseException(footer, actual, /*cause=*/ null);
+      throw parseException(footer, actual, /* cause= */ null);
     }
   }
 

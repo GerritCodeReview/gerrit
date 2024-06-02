@@ -52,9 +52,9 @@ public class GitObjectVisibilityChecker implements CommitValidationListener {
         if (!reader.has(receiveEvent.commit)) {
           throw new IllegalStateException(
               String.format(
-                  "Commit %s was not visible using a new object reader in the repo. "
-                      + "This creates an illegal state for commit validators. You must flush any ObjectReaders "
-                      + "before performing the ref transaction.",
+                  "Commit %s was not visible using a new object reader in the repo. This creates an"
+                      + " illegal state for commit validators. You must flush any ObjectReaders"
+                      + " before performing the ref transaction.",
                   receiveEvent.commit));
         }
       }

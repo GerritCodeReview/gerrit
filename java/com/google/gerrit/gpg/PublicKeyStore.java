@@ -151,7 +151,9 @@ public class PublicKeyStore implements AutoCloseable {
   private Map<Fingerprint, PGPPublicKeyRing> toAdd;
   private Set<Fingerprint> toRemove;
 
-  /** @param repo repository to read keys from. */
+  /**
+   * @param repo repository to read keys from.
+   */
   public PublicKeyStore(Repository repo) {
     this.repo = repo;
     toAdd = new HashMap<>();

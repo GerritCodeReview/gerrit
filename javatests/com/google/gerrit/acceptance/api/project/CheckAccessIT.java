@@ -286,7 +286,8 @@ public class CheckAccessIT extends AbstractDaemonTest {
                         + "')",
                     "'user1' cannot perform 'read' with force=false on project '"
                         + secretRefProject.get()
-                        + "' for ref 'refs/heads/secret/master' because this permission is blocked")),
+                        + "' for ref 'refs/heads/secret/master' because this permission is"
+                        + " blocked")),
             // Test 5
             TestCase.projectRef(
                 privilegedUser.email(),
@@ -353,7 +354,8 @@ public class CheckAccessIT extends AbstractDaemonTest {
                         + "' for ref 'refs/heads/*' (allowed for group '"
                         + SystemGroupBackend.ANONYMOUS_USERS.get()
                         + "' by rule 'group Anonymous Users')",
-                    "'privilegedUser' can perform 'viewPrivateChanges' with force=false on project '"
+                    "'privilegedUser' can perform 'viewPrivateChanges' with force=false on project"
+                        + " '"
                         + normalProject.get()
                         + "' for ref 'refs/heads/master' (allowed for group '"
                         + privilegedGroupUuid.get()
@@ -375,7 +377,8 @@ public class CheckAccessIT extends AbstractDaemonTest {
                         + "' for ref 'refs/heads/*' (allowed for group '"
                         + SystemGroupBackend.ANONYMOUS_USERS.get()
                         + "' by rule 'group Anonymous Users')",
-                    "'privilegedUser' can perform 'forgeServerAsCommitter' with force=false on project '"
+                    "'privilegedUser' can perform 'forgeServerAsCommitter' with force=false on"
+                        + " project '"
                         + normalProject.get()
                         + "' for ref 'refs/heads/master' (allowed for group '"
                         + privilegedGroupUuid.get()

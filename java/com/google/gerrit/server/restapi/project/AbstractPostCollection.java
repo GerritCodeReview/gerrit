@@ -48,8 +48,13 @@ public abstract class AbstractPostCollection<
 
   @Override
   public Response<?> apply(ProjectResource rsrc, TBatchInput input)
-      throws AuthException, UnprocessableEntityException, PermissionBackendException, IOException,
-          ConfigInvalidException, BadRequestException, ResourceConflictException {
+      throws AuthException,
+          UnprocessableEntityException,
+          PermissionBackendException,
+          IOException,
+          ConfigInvalidException,
+          BadRequestException,
+          ResourceConflictException {
     if (!user.get().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }

@@ -40,8 +40,12 @@ public class DeleteLabel implements RestModifyView<LabelResource, InputWithCommi
 
   @Override
   public Response<?> apply(LabelResource rsrc, InputWithCommitMessage input)
-      throws AuthException, ResourceNotFoundException, PermissionBackendException, IOException,
-          ConfigInvalidException, BadRequestException {
+      throws AuthException,
+          ResourceNotFoundException,
+          PermissionBackendException,
+          IOException,
+          ConfigInvalidException,
+          BadRequestException {
     if (input == null) {
       input = new InputWithCommitMessage();
     }

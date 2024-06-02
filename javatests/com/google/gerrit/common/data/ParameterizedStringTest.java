@@ -172,7 +172,8 @@ public class ParameterizedStringTest {
   public void undefinedFunctionName() {
     ParameterizedString p =
         new ParameterizedString(
-            "hi, ${userName.toUpperCase},your eamil address is '${email.toLowerCase.localPart}'.right?");
+            "hi, ${userName.toUpperCase},your eamil address is"
+                + " '${email.toLowerCase.localPart}'.right?");
     assertThat(p.getParameterNames()).containsExactly("userName", "email");
 
     Map<String, String> a = new HashMap<>();

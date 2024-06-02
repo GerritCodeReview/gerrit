@@ -62,7 +62,8 @@ public class AccountDeactivator implements Runnable {
           queue.scheduleAtFixedRate(deactivator, schedule.get());
         } else {
           logger.atWarning().log(
-              "Not scheduling AccountDeactivator because auth.autoUpdateAccountActiveStatus is false");
+              "Not scheduling AccountDeactivator because auth.autoUpdateAccountActiveStatus is"
+                  + " false");
         }
       }
     }

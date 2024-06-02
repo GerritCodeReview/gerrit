@@ -42,7 +42,9 @@ public class ValidationMessage {
   private final String message;
   private final Type type;
 
-  /** @see ValidationMessage */
+  /**
+   * @see ValidationMessage
+   */
   public ValidationMessage(String message, Type type) {
     this.message = message;
     this.type = type;

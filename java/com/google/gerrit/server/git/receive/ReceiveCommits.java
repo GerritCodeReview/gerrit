@@ -3192,7 +3192,10 @@ class ReceiveCommits {
             // replace edit
             cmd =
                 new ReceiveCommand(
-                    edit.get().getEditCommit(), newCommitId, edit.get().getRefName());
+                    edit.get().getEditCommit(),
+                    newCommitId,
+                    edit.get().getRefName(),
+                    ReceiveCommand.Type.UPDATE_NONFASTFORWARD);
           } else {
             // delete old edit ref on rebase
             prev =

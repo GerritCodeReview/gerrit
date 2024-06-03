@@ -1320,4 +1320,5 @@ export interface FixSuggestionInfo extends FixSuggestionInfoInput {
   fix_id: FixId;
   description: string;
   replacements: FixReplacementInfo[];
+  log_probability?: number;
 }

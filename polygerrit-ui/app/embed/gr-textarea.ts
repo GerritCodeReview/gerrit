@@ -318,7 +318,7 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
 
     range.detach();
 
-    this.onCursorPositionChange(null);
+    this.onCursorPositionChange();
   }
 
   public setCursorPosition(position: number) {
@@ -446,7 +446,7 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
 
     range.detach();
 
-    this.onCursorPositionChange(null);
+    this.onCursorPositionChange();
   }
 
   private async onInput(event: Event) {
@@ -459,15 +459,15 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
     this.fire('input', {value: this.value});
   }
 
-  private onFocus(event: Event) {
+  private onFocus() {
     this.focused = true;
-    this.onCursorPositionChange(event);
+    this.onCursorPositionChange();
   }
 
-  private onBlur(event: Event) {
+  private onBlur() {
     this.focused = false;
     this.removeHintSpanIfShown();
-    this.onCursorPositionChange(event);
+    this.onCursorPositionChange();
   }
 
   private async handleKeyDown(event: KeyboardEvent) {
@@ -491,12 +491,12 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
     await this.toggleHintVisibilityIfAny();
   }
 
-  private handleKeyUp(event: KeyboardEvent) {
-    this.onCursorPositionChange(event);
+  private handleKeyUp() {
+    this.onCursorPositionChange();
   }
 
-  private async handleMouseUp(event: MouseEvent) {
-    this.onCursorPositionChange(event);
+  private async handleMouseUp() {
+    this.onCursorPositionChange();
     await this.toggleHintVisibilityIfAny();
   }
 
@@ -596,10 +596,7 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
     return this.shadowRoot?.querySelector('.' + AUTOCOMPLETE_HINT_CLASS);
   }
 
-  private onCursorPositionChange(event: Event | null) {
-    event?.preventDefault();
-    event?.stopImmediatePropagation();
-
+  private onCursorPositionChange() {
     this.fire('cursorPositionChange', {position: this.getCursorPosition()});
   }
 

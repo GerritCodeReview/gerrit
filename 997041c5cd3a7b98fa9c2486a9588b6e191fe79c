@@ -34,6 +34,24 @@
       "parentUuid": "96dd73a2_e4b6849b",
       "revId": "997041c5cd3a7b98fa9c2486a9588b6e191fe79c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a19dba75_9b7e1f8a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-06-03T06:03:07Z",
+      "side": 1,
+      "message": "Thanks much David!",
+      "parentUuid": "ec50b6c2_076935a8",
+      "revId": "997041c5cd3a7b98fa9c2486a9588b6e191fe79c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

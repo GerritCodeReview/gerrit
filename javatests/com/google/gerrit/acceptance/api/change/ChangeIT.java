@@ -171,7 +171,11 @@ import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeMessages;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.testing.TestChangeETagComputation;
+import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.ChangeMessageModifier;
+import com.google.gerrit.server.git.validators.CommitValidationException;
+import com.google.gerrit.server.git.validators.CommitValidationListener;
+import com.google.gerrit.server.git.validators.CommitValidationMessage;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
@@ -4285,6 +4289,24 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void changeCommitMessageInvokesCommitValidators() throws Exception {
+    PushOneCommit.Result r = createChange();
+    r.assertOkStatus();
+    assertThat(getCommitMessage(r.getChangeId()))
+        .isEqualTo("test commit\n\nChange-Id: " + r.getChangeId() + "\n");
+
+    requestScopeOperations.setApiUser(admin.id());
+    String newMessage = "modified commit message\nChange-Id: " + r.getChangeId() + "\n";
+
+    TestCommitValidationListener testCommitValidationListener = new TestCommitValidationListener();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(testCommitValidationListener)) {
+      gApi.changes().id(r.getChangeId()).setMessage(newMessage);
+      assertThat(testCommitValidationListener.receiveEvent).isNotNull();
+    }
+  }
+
+  @Test
   public void fourByteEmoji() throws Exception {
     // U+1F601 GRINNING FACE WITH SMILING EYES
     String smile = new String(Character.toChars(0x1f601));
@@ -4931,5 +4953,16 @@ public class ChangeIT extends AbstractDaemonTest {
 
   private void voteLabel(String changeId, String labelName, int score) throws RestApiException {
     gApi.changes().id(changeId).current().review(new ReviewInput().label(labelName, score));
+  }
+
+  private static class TestCommitValidationListener implements CommitValidationListener {
+    public CommitReceivedEvent receiveEvent;
+
+    @Override
+    public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
+        throws CommitValidationException {
+      this.receiveEvent = receiveEvent;
+      return ImmutableList.of();
+    }
   }
 }

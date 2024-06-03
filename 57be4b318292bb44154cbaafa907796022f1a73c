@@ -33,6 +33,24 @@
       "message": "The compiler/linter complains about:\n`polygerrit-ui/app/embed/gr-textarea.ts(599,34): error TS6133: \u0027event\u0027 is declared but its value is never read.`\n\n```suggestion\n  private onCursorPositionChange() {\n```",
       "revId": "57be4b318292bb44154cbaafa907796022f1a73c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b757ba42_efb83b8c",
+        "filename": "polygerrit-ui/app/embed/gr-textarea.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 3227329
+      },
+      "writtenOn": "2024-06-03T14:54:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a060673_63737ef5",
+      "revId": "57be4b318292bb44154cbaafa907796022f1a73c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

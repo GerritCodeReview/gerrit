@@ -597,9 +597,6 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
   }
 
   private onCursorPositionChange(event: Event | null) {
-    event?.preventDefault();
-    event?.stopImmediatePropagation();
-
     this.fire('cursorPositionChange', {position: this.getCursorPosition()});
   }
 

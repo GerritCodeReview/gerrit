@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.GitUtil.deleteRef;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
@@ -39,6 +40,8 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.inject.Inject;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.transport.PushResult;
+import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -206,6 +209,15 @@ public class DeleteBranchIT extends AbstractDaemonTest {
 
     eventRecorder.assertRefUpdatedEvents(project.get(), refsForBranch.branch(), branchRev, null);
     assertThrows(ResourceNotFoundException.class, () -> branch(refsForBranch).get());
+  }
+
+  @Test
+  public void deleteNonExistingBranchByPush() throws Exception {
+    String nonExistingRef = "refs/heads/non-existing";
+    PushResult r = deleteRef(testRepo, nonExistingRef);
+    RemoteRefUpdate refUpdate = r.getRemoteUpdate(nonExistingRef);
+    assertThat(refUpdate.getStatus()).isEqualTo(RemoteRefUpdate.Status.NON_EXISTING);
+    assertThat(refUpdate.getMessage()).isNull();
   }
 
   private void blockForcePush() throws Exception {

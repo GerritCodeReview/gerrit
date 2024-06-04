@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c77f3f8_707506e4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2024-06-04T09:31:16Z",
+      "side": 1,
+      "message": "you just need a \"Release-Notes:\" footer, then you should be able to merge",
+      "revId": "632dbb6d19003df84ed52a7ae9ec817e85d43539",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

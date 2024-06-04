@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c40c4803_900eb3b8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-06-04T22:38:10Z",
+      "side": 1,
+      "message": "JGit update to jetty 11.0.20 was submitted on next branch\nhttps://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/189213\nwhich will be merged to JGit\u0027s master branch soon with\nhttps://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1195683",
+      "revId": "49cc467d42c7146727e2a31c3f99d13888c3a65b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

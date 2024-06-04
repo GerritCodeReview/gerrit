@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "11b774e0_095b17b5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-06-04T22:34:14Z",
+      "side": 1,
+      "message": "dependency to auto-factory was moved to tools/nongoogle.bzl",
+      "revId": "513a0387fdcf1ce77e0796ed4ff53fb92d7191d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

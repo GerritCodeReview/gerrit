@@ -27,10 +27,12 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.LabelTypes;
 import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.entities.PatchSet.Id;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.index.query.QueryParseException;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.change.LabelNormalizer;
 import com.google.gerrit.server.logging.Metadata;
@@ -52,6 +54,7 @@ import com.google.inject.Singleton;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
@@ -345,6 +348,14 @@ class ApprovalInference {
     }
   }
 
+  private boolean isPatchSetApprovalStale(ChangeNotes notes, PatchSetApproval psa) {
+    Map.Entry<PatchSet.Id, PatchSet> nextPatchSet = notes.load().getPatchSets().higherEntry(psa.patchSetId());
+    if(nextPatchSet != null && psa.granted().after(nextPatchSet.getValue().createdOn())) {
+      return true;
+    }
+    return false;
+  }
+
   private Collection<PatchSetApproval> getForPatchSetWithoutNormalization(
       ChangeNotes notes,
       ProjectState project,
@@ -410,7 +421,7 @@ class ApprovalInference {
     Map<String, FileDiffOutput> priorVsCurrent = null;
     LabelTypes labelTypes = project.getLabelTypes();
     for (PatchSetApproval psa : priorApprovals) {
-      if (resultByUser.contains(psa.label(), psa.accountId())) {
+      if (resultByUser.contains(psa.label(), psa.accountId()) || isPatchSetApprovalStale(notes, psa)) {
         continue;
       }
       Optional<LabelType> type = labelTypes.byLabel(psa.labelId());

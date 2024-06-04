@@ -31,6 +31,7 @@ import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.index.query.QueryParseException;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.change.LabelNormalizer;
 import com.google.gerrit.server.logging.Metadata;
@@ -360,9 +361,17 @@ class ApprovalInference {
     PatchSet.Id psId = patchSet.id();
     // Add approvals on the given patch set to the result
     Table<String, Account.Id, PatchSetApproval> resultByUser = HashBasedTable.create();
+
     ImmutableList<PatchSetApproval> approvalsForGivenPatchSet =
         notes.load().getApprovals().get(patchSet.id());
-    approvalsForGivenPatchSet.forEach(psa -> resultByUser.put(psa.label(), psa.accountId(), psa));
+    PatchSet nextPatchSet = notes.getPatchSets().get(ChangeUtil.nextPatchSetId(psId));
+    for (PatchSetApproval psa : approvalsForGivenPatchSet) {
+      // Ignore approvals granted on the patch-set after it is no longer the current patch-set
+      if (nextPatchSet != null && psa.granted().after(nextPatchSet.createdOn())) {
+        continue;
+      }
+      resultByUser.put(psa.label(), psa.accountId(), psa);
+    }
 
     // Bail out immediately if this is the first patch set. Return only approvals granted on the
     // given patch set.

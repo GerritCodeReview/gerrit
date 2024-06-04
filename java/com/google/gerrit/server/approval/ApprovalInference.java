@@ -345,6 +345,12 @@ class ApprovalInference {
     }
   }
 
+  private boolean isPatchSetApprovalStale(ChangeNotes notes, PatchSetApproval psa) {
+    Map.Entry<PatchSet.Id, PatchSet> nextPatchSet =
+        notes.load().getPatchSets().higherEntry(psa.patchSetId());
+    return nextPatchSet != null && psa.granted().after(nextPatchSet.getValue().createdOn());
+  }
+
   private Collection<PatchSetApproval> getForPatchSetWithoutNormalization(
       ChangeNotes notes,
       ProjectState project,
@@ -410,7 +416,8 @@ class ApprovalInference {
     Map<String, FileDiffOutput> priorVsCurrent = null;
     LabelTypes labelTypes = project.getLabelTypes();
     for (PatchSetApproval psa : priorApprovals) {
-      if (resultByUser.contains(psa.label(), psa.accountId())) {
+      if (resultByUser.contains(psa.label(), psa.accountId())
+          || isPatchSetApprovalStale(notes, psa)) {
         continue;
       }
       Optional<LabelType> type = labelTypes.byLabel(psa.labelId());

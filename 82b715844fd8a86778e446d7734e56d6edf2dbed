@@ -50,6 +50,24 @@
       "message": "+1",
       "revId": "82b715844fd8a86778e446d7734e56d6edf2dbed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a01abf6_1fcb13a3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-06-04T08:00:47Z",
+      "side": 1,
+      "message": "Sorry, for the breakage. Hopefully Release Notes were helpful in tracking down the root-cause\n\nSince the usage has been deprecated, I\u0027d suggest updating the plugin. The values got moved to enums, which are exposed as part of https://www.npmjs.com/package/@gerritcodereview/typescript-api (change-actions.ts). Alternatively, you can simple replace it with a corresponding string",
+      "parentUuid": "7cd54c93_e936d487",
+      "revId": "82b715844fd8a86778e446d7734e56d6edf2dbed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

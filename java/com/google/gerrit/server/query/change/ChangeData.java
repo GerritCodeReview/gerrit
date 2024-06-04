@@ -132,7 +132,12 @@ import org.eclipse.jgit.revwalk.RevWalk;
  */
 public class ChangeData {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-  private static final boolean skipDiffSummaryComputation = Boolean.getBoolean("ghs.gerrit.change.skip-diff-summary");
+  private static final boolean skipDiffSummaryComputation =
+      Boolean.getBoolean("ghs.gerrit.change.skip-diff-summary");
+  private static final boolean skipEditRefs =
+      Boolean.getBoolean("ghs.gerrit.change.skip-edit-refs");
+  private static final Table<Account.Id, PatchSet.Id, Ref> EMPTY_HASH_BASED_TABLE =
+      HashBasedTable.create();
 
   public enum StorageConstraint {
     /**
@@ -1350,13 +1355,16 @@ public class ChangeData {
   }
 
   public Table<Account.Id, PatchSet.Id, Ref> editRefs() {
+    if (skipEditRefs) {
+      return EMPTY_HASH_BASED_TABLE;
+    }
     if (editRefsByUser == null) {
       if (!lazyload()) {
-        return HashBasedTable.create();
+        return EMPTY_HASH_BASED_TABLE;
       }
       Change c = change();
       if (c == null) {
-        return HashBasedTable.create();
+        return EMPTY_HASH_BASED_TABLE;
       }
       editRefsByUser = HashBasedTable.create();
       Change.Id id = requireNonNull(change.getId());

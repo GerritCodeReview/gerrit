@@ -1156,6 +1156,7 @@ export class GrChangeMetadata extends LitElement {
           .flatMap(change => change.hashtags ?? [])
           .filter(isDefined)
           .filter(unique)
+          .filter(hashtag => hashtag.includes(input))
           .map(hashtag => {
             return {name: hashtag, value: hashtag};
           })

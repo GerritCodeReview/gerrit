@@ -68,6 +68,24 @@
       "parentUuid": "7cd54c93_e936d487",
       "revId": "82b715844fd8a86778e446d7734e56d6edf2dbed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2b77f44_3bdddbe3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1016037
+      },
+      "writtenOn": "2024-06-04T15:02:55Z",
+      "side": 1,
+      "message": "Thanks for the hint Kamil! yes, that\u0027s what I figured out (first with the string `\u0027change\u0027`, then how to import the new enum, I\u0027m glad you confirmed this is the go-to approach.\n\nOn the release notes, yes the presence of ActionType in the 3.10 highlights was useful, maybe it would be helpful to move it into the \"Breaking changes\" section?",
+      "parentUuid": "9a01abf6_1fcb13a3",
+      "revId": "82b715844fd8a86778e446d7734e56d6edf2dbed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

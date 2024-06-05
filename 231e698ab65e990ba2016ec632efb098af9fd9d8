@@ -67,6 +67,23 @@
       "message": "LC+1 is only needed because this change adds `protobuf-java` to `tools/nongoogle.bzl` which shouldn\u0027t be an issue, because we have excluded Google Protobuf from LC already in this change 399537, with this commit message:\n\n```\nGoogle protocol buffers is a Google project and every released\nversion is already included in Google\u0027s monorepo, so that no LC label is\nrequired (similarly to Google guava library).\n```",
       "revId": "231e698ab65e990ba2016ec632efb098af9fd9d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb66f8d9_84b8b8ed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-05T19:55:38Z",
+      "side": 1,
+      "message": "🎉 kudos to @david.ostrovsky@gmail.com",
+      "revId": "231e698ab65e990ba2016ec632efb098af9fd9d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

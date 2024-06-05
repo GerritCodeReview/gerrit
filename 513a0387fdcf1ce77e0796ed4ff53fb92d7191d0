@@ -16,6 +16,24 @@
       "message": "dependency to auto-factory was moved to tools/nongoogle.bzl",
       "revId": "513a0387fdcf1ce77e0796ed4ff53fb92d7191d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ca656ac_14ccb0aa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2024-06-05T12:37:35Z",
+      "side": 1,
+      "message": "I have rebased and resolved conflicts.",
+      "parentUuid": "11b774e0_095b17b5",
+      "revId": "513a0387fdcf1ce77e0796ed4ff53fb92d7191d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

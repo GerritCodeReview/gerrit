@@ -210,6 +210,9 @@ export class GrAccountLabel extends LitElement {
     if (!this.account) return;
     // If this.account is already a detailed object, then there is no need to fill it.
     if (isDetailedAccount(this.account)) return;
+  override async updated() {
+    assertIsDefined(this.account, 'account');
+    if (isDetailedAccount(this.account)) return;
     const account = await this.getAccountsModel().fillDetails(this.account);
     if (
       account &&

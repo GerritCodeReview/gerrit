@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2d66813_809f772c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-06-05T20:35:31Z",
+      "side": 1,
+      "message": "maybe we should also link the Guice 7.0 release notes at https://github.com/google/guice/wiki/Guice700",
+      "revId": "e18862d363eab49e2286392f6d8661d6ea8d2ad6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "41a9632d_c9ae182e",

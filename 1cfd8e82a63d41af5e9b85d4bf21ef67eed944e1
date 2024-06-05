@@ -16,6 +16,24 @@
       "message": "the other autocompletes don\u0027t support regex afaik, will you add it there for consistency? eg. topics.",
       "revId": "1cfd8e82a63d41af5e9b85d4bf21ef67eed944e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ea73e04_38b93076",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2024-06-05T09:27:45Z",
+      "side": 1,
+      "message": "It\u0027s the filter I added that nullifies the regex matches. Input `^pine.*` would find `pineapple` but it would be filtered out since `pineapple` doesn\u0027t inclunde `^pine.*`. That\u0027s why I think it affects only the hashtag suggest.",
+      "parentUuid": "f41d0b80_24a091ea",
+      "revId": "1cfd8e82a63d41af5e9b85d4bf21ef67eed944e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

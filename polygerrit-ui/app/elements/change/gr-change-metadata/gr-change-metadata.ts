@@ -1265,6 +1265,7 @@ export class GrChangeMetadata extends LitElement {
   private getHashtagSuggestions(
     input: string
   ): Promise<AutocompleteSuggestion[]> {
+    const inputReg = input.startsWith('^') ? new RegExp(input) : null;
     return this.restApiService
       .getChangesWithSimilarHashtag(input, throwingErrorCallback)
       .then(response =>
@@ -1272,6 +1273,9 @@ export class GrChangeMetadata extends LitElement {
           .flatMap(change => change.hashtags ?? [])
           .filter(isDefined)
           .filter(unique)
+          .filter(hashtag =>
+            inputReg ? inputReg.test(hashtag) : hashtag.includes(input)
+          )
           .map(hashtag => {
             return {name: hashtag, value: hashtag};
           })

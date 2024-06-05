@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2bca9d23_7d93a02a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1165,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2024-06-05T09:36:30Z",
+      "side": 1,
+      "message": "Is the new call in a .filter optimized or should we do something like:\n\n```suggestion\n    const inputReg \u003d input.startsWith(\u0027^\u0027) ? new RegExp(input) : null;\n    return this.restApiService\n      .getChangesWithSimilarHashtag(input, throwingErrorCallback)\n      .then(response \u003d\u003e\n        (response ?? [])\n          .flatMap(change \u003d\u003e change.hashtags ?? [])\n          .filter(isDefined)\n          .filter(unique)\n          .filter(hashtag \u003d\u003e\n            inputReg ? inputReg.test(hashtag) : hashtag.includes(input)\n          )\n          .map(hashtag \u003d\u003e {\n            return {name: hashtag, value: hashtag};\n          })\n      );\n```",
+      "range": {
+        "startLine": 1152,
+        "startChar": 0,
+        "endLine": 1165,
+        "endChar": 8
+      },
+      "revId": "5249f8ce9faf795fcb3974e6251a8d66cdfc8552",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.common.LabelDefinitionInfo;
 import com.google.gerrit.extensions.common.LabelDefinitionInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -50,7 +51,8 @@ public class SetLabel implements RestModifyView<LabelResource, LabelDefinitionIn
   @Override
   public Response<LabelDefinitionInfo> apply(LabelResource rsrc, LabelDefinitionInput input)
       throws AuthException, BadRequestException, ResourceConflictException,
-          PermissionBackendException, IOException, ConfigInvalidException {
+          PermissionBackendException, IOException, ConfigInvalidException,
+          MethodNotAllowedException {
     if (input == null) {
       input = new LabelDefinitionInput();
     }

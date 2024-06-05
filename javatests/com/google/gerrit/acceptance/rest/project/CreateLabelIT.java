@@ -23,6 +23,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.LabelFunction;
@@ -33,6 +34,7 @@ import com.google.gerrit.extensions.common.LabelDefinitionInfo;
 import com.google.gerrit.extensions.common.LabelDefinitionInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.inject.Inject;
 import org.junit.Test;
@@ -511,5 +513,19 @@ public class CreateLabelIT extends AbstractDaemonTest {
     gApi.projects().name(project.get()).label("Foo").create(input);
     assertThat(projectOperations.project(project).getHead(RefNames.REFS_CONFIG).getShortMessage())
         .isEqualTo("Add Foo Label");
+  }
+
+  @Test
+  @GerritConfig(name = "gerrit.requireChangeForConfigUpdate", value = "true")
+  public void requireChangeForConfigUpdate_createLabelRejected() {
+    LabelDefinitionInput input = new LabelDefinitionInput();
+    input.values = ImmutableMap.of("+1", "Looks Good", " 0", "Don't Know", "-1", "Looks Bad");
+    input.description = "Foo label description";
+
+    MethodNotAllowedException e =
+        assertThrows(
+            MethodNotAllowedException.class,
+            () -> gApi.projects().name(project.get()).label("Foo").create(input));
+    assertThat(e.getMessage()).contains("Updating project config without review is disabled");
   }
 }

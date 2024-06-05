@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.api.projects.ParentInput;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
@@ -129,7 +130,10 @@ final class SetParentCommand extends SshCommand {
         err.append("error: insuffient access rights to change parent of '")
             .append(name)
             .append("'\n");
-      } catch (ResourceConflictException | ResourceNotFoundException | BadRequestException e) {
+      } catch (ResourceConflictException
+          | ResourceNotFoundException
+          | BadRequestException
+          | MethodNotAllowedException e) {
         err.append("error: ").append(e.getMessage()).append("'\n");
       } catch (UnprocessableEntityException | IOException e) {
         throw new Failure(1, "failure in request", e);

@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.project;
 import static com.google.gerrit.server.permissions.GlobalPermission.ADMINISTRATE_SERVER;
 import static com.google.gerrit.server.permissions.ProjectPermission.CREATE_REF;
 import static com.google.gerrit.server.permissions.ProjectPermission.CREATE_TAG_REF;
+import static com.google.gerrit.server.permissions.ProjectPermission.UPDATE_CONFIG_WITHOUT_CREATING_CHANGE;
 import static com.google.gerrit.server.permissions.RefPermission.CREATE_CHANGE;
 import static com.google.gerrit.server.permissions.RefPermission.READ;
 import static com.google.gerrit.server.permissions.RefPermission.WRITE_CONFIG;
@@ -269,6 +270,8 @@ public class GetAccess implements RestReadView<ProjectResource> {
     info.canAdd = toBoolean(perm.testOrFalse(CREATE_REF));
     info.canAddTags = toBoolean(perm.testOrFalse(CREATE_TAG_REF));
     info.configVisible = canReadConfig || canWriteConfig;
+    info.requireChangeForConfigUpdate =
+        toBoolean(!perm.testOrFalse(UPDATE_CONFIG_WITHOUT_CREATING_CHANGE));
 
     info.groups =
         groups.entrySet().stream()

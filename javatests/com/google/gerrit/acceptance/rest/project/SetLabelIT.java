@@ -23,6 +23,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.LabelFunction;
@@ -33,6 +34,7 @@ import com.google.gerrit.extensions.common.LabelDefinitionInfo;
 import com.google.gerrit.extensions.common.LabelDefinitionInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.inject.Inject;
@@ -670,5 +672,17 @@ public class SetLabelIT extends AbstractDaemonTest {
     assertThat(
             projectOperations.project(allProjects).getHead(RefNames.REFS_CONFIG).getShortMessage())
         .isEqualTo("Set NoOp function");
+  }
+
+  @Test
+  @GerritConfig(name = "gerrit.requireChangeForConfigUpdate", value = "true")
+  public void requireChangeForConfigUpdate_setLabelRejected() {
+    LabelDefinitionInput input = new LabelDefinitionInput();
+    input.function = LabelFunction.NO_OP.getFunctionName();
+    MethodNotAllowedException e =
+        assertThrows(
+            MethodNotAllowedException.class,
+            () -> gApi.projects().name(allProjects.get()).label(LabelId.CODE_REVIEW).update(input));
+    assertThat(e.getMessage()).contains("Updating project config without review is disabled");
   }
 }

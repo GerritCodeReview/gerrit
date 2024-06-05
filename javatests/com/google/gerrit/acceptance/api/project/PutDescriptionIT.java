@@ -15,10 +15,13 @@
 package com.google.gerrit.acceptance.api.project;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.projects.DescriptionInput;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import org.junit.Test;
 
 public class PutDescriptionIT extends AbstractDaemonTest {
@@ -43,5 +46,17 @@ public class PutDescriptionIT extends AbstractDaemonTest {
         .isEqualTo("test project description with test commit message");
     assertLastCommitAuthorAndShortMessage(
         RefNames.REFS_CONFIG, "Administrator", "test commit message");
+  }
+
+  @Test
+  @GerritConfig(name = "gerrit.requireChangeForConfigUpdate", value = "true")
+  public void requireChangeForConfigUpdate_setDescription() throws Exception {
+    DescriptionInput input = new DescriptionInput();
+    input.description = "test project description";
+    MethodNotAllowedException e =
+        assertThrows(
+            MethodNotAllowedException.class,
+            () -> gApi.projects().name(project.get()).description(input));
+    assertThat(e.getMessage()).contains("Updating project config without review is disabled");
   }
 }

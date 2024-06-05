@@ -31,6 +31,7 @@ public class ProjectAccessInfo {
   public Boolean canAdd;
   public Boolean canAddTags;
   public Boolean configVisible;
+  public Boolean requireChangeForConfigUpdate;
   public Map<String, GroupInfo> groups;
   public List<WebLinkInfo> configWebLinks;
 }

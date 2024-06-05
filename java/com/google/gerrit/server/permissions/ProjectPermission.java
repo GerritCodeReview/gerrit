@@ -100,7 +100,10 @@ public enum ProjectPermission implements CoreOrPluginProjectPermission {
   READ_REFLOG,
 
   /** Can push to at least one reference within the repository. */
-  PUSH_AT_LEAST_ONE_REF("push to at least one ref");
+  PUSH_AT_LEAST_ONE_REF("push to at least one ref"),
+
+  /** Can use restapi to update project config without review. */
+  UPDATE_CONFIG_WITHOUT_CREATING_CHANGE("update config without creating a change using rest api");
 
   private final String description;
 

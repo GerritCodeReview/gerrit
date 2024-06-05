@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.common.SubmitRequirementInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestCollectionCreateView;
@@ -58,7 +59,8 @@ public class CreateSubmitRequirement
   @Override
   public Response<SubmitRequirementInfo> apply(
       ProjectResource rsrc, IdString id, SubmitRequirementInput input)
-      throws AuthException, BadRequestException, IOException, PermissionBackendException {
+      throws AuthException, BadRequestException, IOException, PermissionBackendException,
+          MethodNotAllowedException {
     String defaultMessage = String.format("Create Submit Requirement %s", id.get());
     try (var configUpdater =
         updater.configUpdater(

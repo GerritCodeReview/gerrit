@@ -2741,6 +2741,13 @@ ignored.
 +
 By default empty.
 
+[[gerrit.requireChangeForConfigUpdate]]gerrit.requireChangeForConfigUpdate::
++
+If true, all attempts to update a project config directly using any REST API are rejected.
+Instead, users should always use APIs which create a config change (for review).
++
+By default `false`.
+
 [[gerrit.serverId]]gerrit.serverId::
 +
 Used by NoteDb to, amongst other things, identify author identities from

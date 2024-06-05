@@ -23,6 +23,7 @@ import static java.util.stream.Collectors.toList;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.RefNames;
@@ -31,6 +32,7 @@ import com.google.gerrit.extensions.api.projects.DashboardInfo;
 import com.google.gerrit.extensions.api.projects.DashboardSectionInfo;
 import com.google.gerrit.extensions.api.projects.ProjectApi;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -109,6 +111,16 @@ public class DashboardIT extends AbstractDaemonTest {
         String.format("Changed default dashboard to %s.", info.id));
     assertThat(project().dashboard(info.id).get().isDefault).isTrue();
     assertThat(project().defaultDashboard().get().id).isEqualTo(info.id);
+  }
+
+  @Test
+  @GerritConfig(name = "gerrit.requireChangeForConfigUpdate", value = "true")
+  public void requireChangeForConfigUpdate_setDefaultDashboardReject() throws Exception {
+    DashboardInfo info = createTestDashboard();
+    MethodNotAllowedException e =
+        assertThrows(
+            MethodNotAllowedException.class, () -> project().dashboard(info.id).setDefault());
+    assertThat(e.getMessage()).contains("Updating project config without review is disabled");
   }
 
   @Test

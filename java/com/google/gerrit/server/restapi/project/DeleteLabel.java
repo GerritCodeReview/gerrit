@@ -18,6 +18,7 @@ import com.google.gerrit.extensions.common.InputWithCommitMessage;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -41,7 +42,7 @@ public class DeleteLabel implements RestModifyView<LabelResource, InputWithCommi
   @Override
   public Response<?> apply(LabelResource rsrc, InputWithCommitMessage input)
       throws AuthException, ResourceNotFoundException, PermissionBackendException, IOException,
-          ConfigInvalidException, BadRequestException {
+          ConfigInvalidException, BadRequestException, MethodNotAllowedException {
     if (input == null) {
       input = new InputWithCommitMessage();
     }

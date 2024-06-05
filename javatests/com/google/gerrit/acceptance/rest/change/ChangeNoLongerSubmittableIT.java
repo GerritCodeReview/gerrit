@@ -83,8 +83,8 @@ public class ChangeNoLongerSubmittableIT extends AbstractDaemonTest {
             String.format(
                 "Attention is currently required from: %s, %s.\n"
                     + "\n"
-                    + "%s has posted comments on this change.",
-                admin.fullName(), user.fullName(), approver.fullName()));
+                    + "%s has posted comments on this change by %s.",
+                admin.fullName(), user.fullName(), approver.fullName(), admin.fullName()));
     assertThat(message.body())
         .contains("The change is no longer submittable: Code-Review is unsatisfied now.\n");
     assertThat(message.htmlBody())
@@ -127,8 +127,8 @@ public class ChangeNoLongerSubmittableIT extends AbstractDaemonTest {
             String.format(
                 "Attention is currently required from: %s, %s.\n"
                     + "\n"
-                    + "%s has posted comments on this change.",
-                admin.fullName(), user.fullName(), approver.fullName()));
+                    + "%s has posted comments on this change by %s.",
+                admin.fullName(), user.fullName(), approver.fullName(), admin.fullName()));
     assertThat(message.body())
         .contains("The change is no longer submittable: Code-Review is unsatisfied now.\n");
     assertThat(message.htmlBody())
@@ -172,8 +172,8 @@ public class ChangeNoLongerSubmittableIT extends AbstractDaemonTest {
             String.format(
                 "Attention is currently required from: %s, %s.\n"
                     + "\n"
-                    + "%s has posted comments on this change.",
-                admin.fullName(), user.fullName(), approver.fullName()));
+                    + "%s has posted comments on this change by %s.",
+                admin.fullName(), user.fullName(), approver.fullName(), admin.fullName()));
     assertThat(message.body())
         .contains("The change is no longer submittable: Code-Review is unsatisfied now.\n");
     assertThat(message.htmlBody())
@@ -263,8 +263,8 @@ public class ChangeNoLongerSubmittableIT extends AbstractDaemonTest {
             String.format(
                 "Attention is currently required from: %s, %s.\n"
                     + "\n"
-                    + "%s has posted comments on this change.",
-                admin.fullName(), user.fullName(), approver.fullName()));
+                    + "%s has posted comments on this change by %s.",
+                admin.fullName(), user.fullName(), approver.fullName(), admin.fullName()));
     assertThat(message.body())
         .contains(
             "The change is no longer submittable:"
@@ -315,8 +315,8 @@ public class ChangeNoLongerSubmittableIT extends AbstractDaemonTest {
             String.format(
                 "Attention is currently required from: %s, %s.\n"
                     + "\n"
-                    + "%s has posted comments on this change.",
-                admin.fullName(), user.fullName(), approver.fullName()));
+                    + "%s has posted comments on this change by %s.",
+                admin.fullName(), user.fullName(), approver.fullName(), admin.fullName()));
     assertThat(message.body()).doesNotContain("The change is no longer submittable");
     assertThat(message.htmlBody()).doesNotContain("The change is no longer submittable");
   }
@@ -361,8 +361,8 @@ public class ChangeNoLongerSubmittableIT extends AbstractDaemonTest {
             String.format(
                 "Attention is currently required from: %s, %s.\n"
                     + "\n"
-                    + "%s has posted comments on this change.",
-                admin.fullName(), user.fullName(), approver.fullName()));
+                    + "%s has posted comments on this change by %s.",
+                admin.fullName(), user.fullName(), approver.fullName(), admin.fullName()));
     assertThat(message.body()).doesNotContain("The change is no longer submittable");
     assertThat(message.htmlBody()).doesNotContain("The change is no longer submittable");
   }
@@ -398,8 +398,8 @@ public class ChangeNoLongerSubmittableIT extends AbstractDaemonTest {
             String.format(
                 "Attention is currently required from: %s, %s.\n"
                     + "\n"
-                    + "%s has posted comments on this change.",
-                admin.fullName(), user.fullName(), approver.fullName()));
+                    + "%s has posted comments on this change by %s.",
+                admin.fullName(), user.fullName(), approver.fullName(), admin.fullName()));
     assertThat(message.body()).doesNotContain("The change is no longer submittable");
     assertThat(message.htmlBody()).doesNotContain("The change is no longer submittable");
   }
@@ -435,8 +435,8 @@ public class ChangeNoLongerSubmittableIT extends AbstractDaemonTest {
             String.format(
                 "Attention is currently required from: %s, %s.\n"
                     + "\n"
-                    + "%s has posted comments on this change.",
-                admin.fullName(), user.fullName(), approver.fullName()));
+                    + "%s has posted comments on this change by %s.",
+                admin.fullName(), user.fullName(), approver.fullName(), admin.fullName()));
     assertThat(message.body()).doesNotContain("The change is no longer submittable");
     assertThat(message.htmlBody()).doesNotContain("The change is no longer submittable");
   }

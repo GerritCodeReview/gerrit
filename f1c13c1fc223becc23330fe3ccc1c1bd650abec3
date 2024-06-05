@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "505ead87_d6d60b90",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2024-06-05T09:23:04Z",
+      "side": 1,
+      "message": "The issue comes from a real use case and the workaround I have found has been to override the type defined in the @gerritcodereview/typescript-api module:\n```\n/**\n * @typedef { import(\"@gerritcodereview/typescript-api/hook\").PluginElement } PluginElement\n *\n * Plumbing for `HookApi` which is a generic type. We create a new local\n * type `PluginElementHook` which has what we know will be a PluginElement\n * It is hacky but works locally!!\n *\n * @typedef { import(\"@gerritcodereview/typescript-api/hook\").HookApi\u003cPluginElement\u003e } PluginElementHook\n */\n\nwindow.Gerrit.install(plugin \u003d\u003e {\n  /** @type {PluginElementHook} */\n  const domHook \u003d plugin.hook( \u0027commit-container\u0027 );\n\n  domHook.onAttached( element \u003d\u003e {\n    // \"element\" is recognized by TypeScript as a PluginElement \\o/\n    element.content;\n    element.change;\n    element.revision;\n  } );\n\n});\n```\n\nhttps://gerrit.wikimedia.org/r/c/operations/software/gerrit/+/1038465/3..4/plugins/wm-schedule-deployment.js\n\n\nUpdating the API (HTMLElement) to match the reality (PluginElement) would fixes it and save us from having to do that type overloading above.",
+      "revId": "f1c13c1fc223becc23330fe3ccc1c1bd650abec3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

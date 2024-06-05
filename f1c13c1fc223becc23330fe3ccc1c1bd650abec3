@@ -55,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5790d8bc_f15d575e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-06-05T11:45:03Z",
+      "side": 1,
+      "message": "We just rarely go through this procedure, so this is also a matter of getting back into context. And a matter of assessing the risk of messing something up compared to the potential benefit.\n\nAnd if you want to take over the task, then we would have to grant you the permissions.\n\nMaybe as a compromise we can submit it to master. Then I can publish it and see how time consuming it actually was. Maybe I would then be fine with cpicks into older stable branches. SG?",
+      "parentUuid": "c90b62fb_c6d1f39b",
+      "revId": "f1c13c1fc223becc23330fe3ccc1c1bd650abec3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "180e9f8c_eea15cc6",
         "filename": "polygerrit-ui/app/api/plugin.ts",
         "patchSetId": 1

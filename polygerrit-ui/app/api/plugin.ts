@@ -9,6 +9,7 @@ import {AttributeHelperPluginApi} from './attribute-helper';
 import {ChangeReplyPluginApi} from './change-reply';
 import {ChecksPluginApi} from './checks';
 import {EventHelperPluginApi} from './event-helper';
+import {PluginElement} from './hook';
 import {PopupPluginApi} from './popup';
 import {ReportingPluginApi} from './reporting';
 import {ChangeActionsPluginApi} from './change-actions';
@@ -62,7 +63,7 @@ export declare interface PluginApi {
   checks(): ChecksPluginApi;
   eventHelper(element: Node): EventHelperPluginApi;
   getPluginName(): string;
-  hook<T extends HTMLElement>(
+  hook<T extends PluginElement>(
     endpointName: string,
     opt_options?: RegisterOptions
   ): HookApi<T>;

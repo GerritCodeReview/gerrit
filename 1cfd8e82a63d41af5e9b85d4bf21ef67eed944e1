@@ -52,6 +52,24 @@
       "parentUuid": "1ea73e04_38b93076",
       "revId": "1cfd8e82a63d41af5e9b85d4bf21ef67eed944e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "03dd4ac1_9f69e5e4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1135623
+      },
+      "writtenOn": "2024-06-05T11:22:40Z",
+      "side": 1,
+      "message": "Nevermind, topic regex suggestions work. I must have tested it wrongly the first time.\nSo no additional work is needed for topic suggestions.",
+      "parentUuid": "4245f2f3_f3db84ed",
+      "revId": "1cfd8e82a63d41af5e9b85d4bf21ef67eed944e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

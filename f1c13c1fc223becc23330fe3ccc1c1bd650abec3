@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c90b62fb_c6d1f39b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2024-06-05T11:40:59Z",
+      "side": 1,
+      "message": "That was going to be next question! I have noticed the npm module `@gerritcodereview/typescript-api` is only released once when a new Gerrit is released and it is not updated after that and thus ends up lagging behind.\n\nLooks like one has to bump the version in the `package.json` for each branches and once merged run `polygerrit-ui/app/api/publish.sh --upload`?   Short of that being automatized, I don\u0027t mind crafting all the changes and checking the resulting module makes sense.\n\nElse yeah I will move it to `master` (given the 3.10 npm module already got published).",
+      "parentUuid": "9548b500_b3c562c7",
+      "revId": "f1c13c1fc223becc23330fe3ccc1c1bd650abec3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "180e9f8c_eea15cc6",
         "filename": "polygerrit-ui/app/api/plugin.ts",
         "patchSetId": 1
@@ -48,6 +66,30 @@
       "writtenOn": "2024-06-05T09:42:58Z",
       "side": 1,
       "message": "You can change this to PluginElement, as well.",
+      "range": {
+        "startLine": 75,
+        "startChar": 36,
+        "endLine": 75,
+        "endChar": 47
+      },
+      "revId": "f1c13c1fc223becc23330fe3ccc1c1bd650abec3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "12ca0aa3_acb21f94",
+        "filename": "polygerrit-ui/app/api/plugin.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2024-06-05T11:40:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "180e9f8c_eea15cc6",
       "range": {
         "startLine": 75,
         "startChar": 36,
@@ -89,6 +131,24 @@
           ]
         }
       ],
+      "revId": "f1c13c1fc223becc23330fe3ccc1c1bd650abec3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "09ba6a7d_e9deed13",
+        "filename": "polygerrit-ui/app/api/plugin.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2024-06-05T11:40:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1919afc7_967ac862",
       "revId": "f1c13c1fc223becc23330fe3ccc1c1bd650abec3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

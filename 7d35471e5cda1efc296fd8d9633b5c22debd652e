@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65467c19_ff0a39f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-06-05T18:26:18Z",
+      "side": 1,
+      "message": "I got different commit list and looking at the `Merge List` below it kind of makes sense as all `Set version...` commits were skipped from the list. Also in the meantime `stable-3.10` progressed hence I have uploaded newer version ;)",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 47
+      },
+      "revId": "7d35471e5cda1efc296fd8d9633b5c22debd652e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

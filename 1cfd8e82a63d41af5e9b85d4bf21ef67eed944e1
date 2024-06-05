@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f41d0b80_24a091ea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2024-06-05T09:21:36Z",
+      "side": 1,
+      "message": "the other autocompletes don\u0027t support regex afaik, will you add it there for consistency? eg. topics.",
+      "revId": "1cfd8e82a63d41af5e9b85d4bf21ef67eed944e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -34,6 +34,24 @@
       "parentUuid": "f41d0b80_24a091ea",
       "revId": "1cfd8e82a63d41af5e9b85d4bf21ef67eed944e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4245f2f3_f3db84ed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1135623
+      },
+      "writtenOn": "2024-06-05T10:01:59Z",
+      "side": 1,
+      "message": "I did not plan to add regex for the other cases. I thought they worked in the same way. The inhashtag REST endpoint supports regex but the the intopic REST endpoint does not. So the endpoint/s needs to be rewritten to get regex support.",
+      "parentUuid": "1ea73e04_38b93076",
+      "revId": "1cfd8e82a63d41af5e9b85d4bf21ef67eed944e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -84,6 +84,24 @@
       "message": "🎉 kudos to @david.ostrovsky@gmail.com",
       "revId": "231e698ab65e990ba2016ec632efb098af9fd9d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e61789ff_8deff88b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-06-05T20:09:02Z",
+      "side": 1,
+      "message": "yes, I second. This change improves the carbon footprint of Gerrit development by speeding up the build and saving energy :-)",
+      "parentUuid": "eb66f8d9_84b8b8ed",
+      "revId": "231e698ab65e990ba2016ec632efb098af9fd9d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

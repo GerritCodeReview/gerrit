@@ -22,6 +22,30 @@
       },
       "revId": "7d35471e5cda1efc296fd8d9633b5c22debd652e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ecd79e50_f94a5377",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-06-06T07:59:46Z",
+      "side": 1,
+      "message": "I removed all the `Set version...` manually because I thought they were not relevant, thank you for updating the merge.",
+      "parentUuid": "65467c19_ff0a39f6",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 47
+      },
+      "revId": "7d35471e5cda1efc296fd8d9633b5c22debd652e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

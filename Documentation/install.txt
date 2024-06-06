@@ -6,9 +6,7 @@
 
 To run the Gerrit service, the following requirement must be met on the host:
 
-* JRE, versions 1.8 or 11 http://www.oracle.com/technetwork/java/javase/downloads/index.html[Download,role=external,window=_blank]
-+
-Gerrit is not yet compatible with Java 13 or newer at this time.
+* JRE, versions 17 or 21 https://www.oracle.com/java/technologies/downloads/?er=221886[Download,role=external,window=_blank]
 
 [[download]]
 == Download Gerrit

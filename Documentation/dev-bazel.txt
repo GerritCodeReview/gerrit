@@ -18,11 +18,11 @@ should generate a .war file under `bazel-bin/gerrit.war`.
 To build Gerrit from source, you need:
 
 * A Linux or macOS system (Windows is not supported at this time)
-* A JDK for Java 11 or Java 17
+* A JDK for Java 17 or Java 21
 * Python 3
 * link:https://github.com/nodesource/distributions/blob/master/README.md[Node.js (including npm),role=external,window=_blank]
-* Bower (`npm install -g bower`)
-* link:https://docs.bazel.build/versions/master/install.html[Bazel,role=external,window=_blank] -launched with
+* Yarn (`npm install -g yarn`)
+* link:https://bazel.build/install[Bazel,role=external,window=_blank] -launched with
 link:https://github.com/bazelbuild/bazelisk[Bazelisk,role=external,window=_blank]
 * Maven
 * zip, unzip
@@ -40,7 +40,7 @@ using Bazelisk is that you can jump between different versions of Gerrit and not
 worry about which version of Bazel you need.
 
 Bazelisk can be installed in different ways:
-link:https://docs.bazel.build/install-bazelisk.html[Bazelisk Installation,role=external,window=_blank].
+link:https://bazel.build/install/bazelisk[Bazelisk Installation,role=external,window=_blank].
 To execute the correct version of Bazel using Bazelisk you simply replace
 the `bazel` command with `bazelisk`.
 
@@ -54,13 +54,13 @@ To check the installed version of Java, open a terminal window and run:
 
 `java -version`
 
-[[java-11]]
-==== Java 11 support
+[[java-21]]
+==== Java 21 support
 
-To build Gerrit with Java 11 language level, run:
+To build Gerrit with Java 21 language level, run:
 
 ```
-  $ bazelisk build --config=java11 :release
+  $ bazelisk build --config=java21 :release
 ```
 
 [[java-17]]

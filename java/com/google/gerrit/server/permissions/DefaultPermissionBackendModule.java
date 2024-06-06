@@ -14,23 +14,32 @@
 
 package com.google.gerrit.server.permissions;
 
-import com.google.gerrit.extensions.config.FactoryModule;
-import com.google.inject.AbstractModule;
+import com.google.inject.PrivateModule;
+import com.google.inject.assistedinject.FactoryModuleBuilder;
 
 /** Binds the default {@link PermissionBackend}. */
-public class DefaultPermissionBackendModule extends AbstractModule {
+public class DefaultPermissionBackendModule extends PrivateModule {
+
   @Override
   protected void configure() {
-    install(new LegacyControlsModule());
+    // TODO(hiesel) Hide ProjectControl, RefControl, ChangeControl related bindings.
+    install(new FactoryModuleBuilder().build(DefaultRefFilter.Factory.class));
+    installRefControlFactory();
+    installChangeControlFactory();
+    installProjectControlFactory();
+    // Expose only ProjectControl.Factory, so other modules can't use RefControl and ChangeControl.
+    expose(ProjectControl.Factory.class);
   }
 
-  /** Binds legacy ProjectControl, RefControl, ChangeControl. */
-  public static class LegacyControlsModule extends FactoryModule {
-    @Override
-    protected void configure() {
-      // TODO(hiesel) Hide ProjectControl, RefControl, ChangeControl related bindings.
-      factory(ProjectControl.Factory.class);
-      factory(DefaultRefFilter.Factory.class);
-    }
+  protected void installProjectControlFactory() {
+    install(new FactoryModuleBuilder().build(ProjectControl.Factory.class));
+  }
+
+  protected void installChangeControlFactory() {
+    install(new FactoryModuleBuilder().build(ChangeControl.Factory.class));
+  }
+
+  protected void installRefControlFactory() {
+    install(new FactoryModuleBuilder().build(RefControl.Factory.class));
   }
 }

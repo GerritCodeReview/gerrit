@@ -37,6 +37,8 @@ import com.google.gerrit.server.permissions.PermissionBackend.ForChange;
 import com.google.gerrit.server.permissions.PermissionBackend.ForRef;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.util.MagicBranch;
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.EnumSet;
@@ -47,8 +49,17 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 
-/** Manages access control for Git references (aka branches, tags). */
-class RefControl {
+/**
+ * Manages access control for Git references (aka branches, tags).
+ *
+ * <p>Do not use this class directly - instead use {@link ProjectControl} class. This class is
+ * public only because it is extended in google-owned implementation.
+ */
+public class RefControl {
+  public interface Factory {
+    RefControl create(ProjectControl projectControl, String ref, PermissionCollection relevant);
+  }
+
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final ChangeData.Factory changeDataFactory;
@@ -67,27 +78,32 @@ class RefControl {
   private Boolean canForgeCommitter;
   private Boolean hasReadPermissionOnRef;
 
-  RefControl(
+  @Inject
+  protected RefControl(
       ChangeData.Factory changeDataFactory,
       RefVisibilityControl refVisibilityControl,
-      ProjectControl projectControl,
       GitRepositoryManager repositoryManager,
-      String ref,
-      PermissionCollection relevant) {
+      @Assisted ProjectControl projectControl,
+      @Assisted String ref,
+      @Assisted PermissionCollection relevant) {
     this.changeDataFactory = changeDataFactory;
     this.refVisibilityControl = refVisibilityControl;
-    this.projectControl = projectControl;
     this.repositoryManager = repositoryManager;
+    this.projectControl = projectControl;
     this.refName = ref;
     this.relevant = relevant;
   }
 
-  ProjectControl getProjectControl() {
+  protected ProjectControl getProjectControl() {
     return projectControl;
   }
 
   CurrentUser getUser() {
     return projectControl.getUser();
+  }
+
+  protected String getRefName() {
+    return refName;
   }
 
   /** Is this user a ref owner? */
@@ -139,7 +155,7 @@ class RefControl {
   }
 
   /** Returns true if this user can submit patch sets to this ref */
-  boolean canSubmit(boolean isChangeOwner) {
+  protected boolean canSubmit(boolean isChangeOwner) {
     if (RefNames.REFS_CONFIG.equals(refName)) {
       // Always allow project owners to submit configuration changes.
       // Submitting configuration changes modifies the access control
@@ -297,7 +313,7 @@ class RefControl {
     return pr.getAction() == Action.BLOCK && (!pr.getForce() || withForce);
   }
 
-  private PermissionRange toRange(String permissionName, boolean isChangeOwner) {
+  protected PermissionRange toRange(String permissionName, boolean isChangeOwner) {
     int blockAllowMin = Integer.MIN_VALUE, blockAllowMax = Integer.MAX_VALUE;
 
     projectLoop:
@@ -609,98 +625,98 @@ class RefControl {
     public BooleanCondition testCond(RefPermission perm) {
       return new PermissionBackendCondition.ForRef(this, perm, getUser());
     }
+  }
 
-    private boolean can(RefPermission perm) throws PermissionBackendException {
-      switch (perm) {
-        case READ:
-          /* Internal users such as plugin users should be able to read all refs. */
-          if (getUser().isInternalUser()) {
-            return true;
-          }
-          if (refName.startsWith(Constants.R_TAGS)) {
-            return isTagVisible();
-          }
-          return refVisibilityControl.isVisible(projectControl, refName);
-        case CREATE:
-          // TODO This isn't an accurate test.
-          return canPerform(refPermissionName(perm));
-        case DELETE:
-          return canDelete();
-        case UPDATE:
-          return canUpdate();
-        case FORCE_UPDATE:
-          return canForceUpdate();
-        case SET_HEAD:
-          return projectControl.isOwner();
+  protected boolean can(RefPermission perm) throws PermissionBackendException {
+    switch (perm) {
+      case READ:
+        /* Internal users such as plugin users should be able to read all refs. */
+        if (getUser().isInternalUser()) {
+          return true;
+        }
+        if (refName.startsWith(Constants.R_TAGS)) {
+          return isTagVisible();
+        }
+        return refVisibilityControl.isVisible(projectControl, refName);
+      case CREATE:
+        // TODO This isn't an accurate test.
+        return canPerform(refPermissionName(perm));
+      case DELETE:
+        return canDelete();
+      case UPDATE:
+        return canUpdate();
+      case FORCE_UPDATE:
+        return canForceUpdate();
+      case SET_HEAD:
+        return projectControl.isOwner();
 
-        case FORGE_AUTHOR:
-          return canForgeAuthor();
-        case FORGE_COMMITTER:
-          return canForgeCommitter();
-        case FORGE_SERVER:
-          return canForgeGerritServerIdentity();
-        case MERGE:
-          return canUploadMerges();
+      case FORGE_AUTHOR:
+        return canForgeAuthor();
+      case FORGE_COMMITTER:
+        return canForgeCommitter();
+      case FORGE_SERVER:
+        return canForgeGerritServerIdentity();
+      case MERGE:
+        return canUploadMerges();
 
-        case CREATE_CHANGE:
-          return canUpload();
+      case CREATE_CHANGE:
+        return canUpload();
 
-        case CREATE_TAG:
-        case CREATE_SIGNED_TAG:
-          return canPerform(refPermissionName(perm));
+      case CREATE_TAG:
+      case CREATE_SIGNED_TAG:
+        return canPerform(refPermissionName(perm));
 
-        case UPDATE_BY_SUBMIT:
-          return projectControl.controlForRef(MagicBranch.NEW_CHANGE + refName).canSubmit(true);
+      case UPDATE_BY_SUBMIT:
+        return projectControl.controlForRef(MagicBranch.NEW_CHANGE + refName).canSubmit(true);
 
-        case READ_PRIVATE_CHANGES:
-          return canPerform(Permission.VIEW_PRIVATE_CHANGES);
+      case READ_PRIVATE_CHANGES:
+        return canPerform(Permission.VIEW_PRIVATE_CHANGES);
 
-        case READ_CONFIG:
-          return projectControl
-              .controlForRef(RefNames.REFS_CONFIG)
-              .canPerform(RefPermission.READ.name());
-        case WRITE_CONFIG:
-          return isOwner();
+      case READ_CONFIG:
+        return projectControl
+            .controlForRef(RefNames.REFS_CONFIG)
+            .canPerform(RefPermission.READ.name());
+      case WRITE_CONFIG:
+        return isOwner();
 
-        case SKIP_VALIDATION:
-          return canForgeAuthor()
-              && canForgeCommitter()
-              && canForgeGerritServerIdentity()
-              && canUploadMerges();
-      }
-      throw new PermissionBackendException(perm + " unsupported");
+      case SKIP_VALIDATION:
+        return canForgeAuthor()
+            && canForgeCommitter()
+            && canForgeGerritServerIdentity()
+            && canUploadMerges();
+    }
+    throw new PermissionBackendException(perm + " unsupported");
+  }
+
+  private boolean isTagVisible() throws PermissionBackendException {
+    if (projectControl.asForProject().test(ProjectPermission.READ)) {
+      // The user has READ on refs/* with no effective block permission. This is the broadest
+      // permission one can assign. There is no way to grant access to (specific) tags in Gerrit,
+      // so we have to assume that these users can see all tags because there could be tags that
+      // aren't reachable by any visible ref while the user can see all non-Gerrit refs. This
+      // matches Gerrit's historic behavior.
+      // This makes it so that these users could see commits that they can't see otherwise
+      // (e.g. a private change ref) if a tag was attached to it. Tags are meant to be used on
+      // the regular Git tree that users interact with, not on any of the Gerrit trees, so this
+      // is a negligible risk.
+      return true;
     }
 
-    private boolean isTagVisible() throws PermissionBackendException {
-      if (projectControl.asForProject().test(ProjectPermission.READ)) {
-        // The user has READ on refs/* with no effective block permission. This is the broadest
-        // permission one can assign. There is no way to grant access to (specific) tags in Gerrit,
-        // so we have to assume that these users can see all tags because there could be tags that
-        // aren't reachable by any visible ref while the user can see all non-Gerrit refs. This
-        // matches Gerrit's historic behavior.
-        // This makes it so that these users could see commits that they can't see otherwise
-        // (e.g. a private change ref) if a tag was attached to it. Tags are meant to be used on
-        // the regular Git tree that users interact with, not on any of the Gerrit trees, so this
-        // is a negligible risk.
-        return true;
+    try (Repository repo =
+        repositoryManager.openRepository(projectControl.getProject().getNameKey())) {
+      // Tag visibility requires going through RefFilter because it entails loading all taggable
+      // refs and filtering them all by visibility.
+      Ref resolvedRef = repo.getRefDatabase().exactRef(refName);
+      if (resolvedRef == null) {
+        return false;
       }
-
-      try (Repository repo =
-          repositoryManager.openRepository(projectControl.getProject().getNameKey())) {
-        // Tag visibility requires going through RefFilter because it entails loading all taggable
-        // refs and filtering them all by visibility.
-        Ref resolvedRef = repo.getRefDatabase().exactRef(refName);
-        if (resolvedRef == null) {
-          return false;
-        }
-        return projectControl.asForProject()
-            .filter(
-                ImmutableList.of(resolvedRef), repo, PermissionBackend.RefFilterOptions.defaults())
-            .stream()
-            .anyMatch(r -> refName.equals(r.getName()));
-      } catch (IOException e) {
-        throw new PermissionBackendException(e);
-      }
+      return projectControl.asForProject()
+          .filter(
+              ImmutableList.of(resolvedRef), repo, PermissionBackend.RefFilterOptions.defaults())
+          .stream()
+          .anyMatch(r -> refName.equals(r.getName()));
+    } catch (IOException e) {
+      throw new PermissionBackendException(e);
     }
   }
 

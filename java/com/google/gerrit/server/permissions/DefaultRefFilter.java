@@ -57,10 +57,10 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 
-class DefaultRefFilter {
+public class DefaultRefFilter {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  interface Factory {
+  public interface Factory {
     DefaultRefFilter create(ProjectControl projectControl);
   }
 

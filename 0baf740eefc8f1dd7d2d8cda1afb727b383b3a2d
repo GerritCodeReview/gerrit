@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e60b007_731d80c6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2024-06-06T03:30:25Z",
+      "side": 1,
+      "message": "Quoting Matthias Sohn\u0027s message in Discord `jgit` channel:\n\n```\nWe cannot rebase the update to Jetty 11 https://gerrit-review.googlesource.com/c/gerrit/+/327195\nonto gerrit master since master depends on a new method\norg.eclipse.jgit.patch.PatchApplier.Result.Error.isGitConflict()\nwhich was introduced on jgit master after JGit was updated to jetty 12 on the next branch:\nhttps://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1195305/4/org.eclipse.jgit/src/org/eclipse/jgit/patch/PatchApplier.java\n\njava/com/google/gerrit/server/restapi/change/CreateChange.java:489: error: invalid method reference\nhasGitConflicts \u003d applyResult.getErrors().stream().anyMatch(Error::isGitConflict);\n^\ncannot find symbol\nsymbol: method isGitConflict(T)\nlocation: class Error\nwhere T is a type-variable:\nT extends Object declared in interface Stream\n\nThere is no JGit commit which uses jetty 11 and has this new method.\nHence I squashed the gerrit updates to jetty 11 and 12.\nWe still need to also update gitiles to jetty 12 and fix the failing tests\nI propose we abandon https://gerrit-review.googlesource.com/c/gerrit/+/327195\n\n```",
+      "revId": "0baf740eefc8f1dd7d2d8cda1afb727b383b3a2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

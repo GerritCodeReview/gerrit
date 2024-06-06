@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b032862_a4ecf451",
+        "filename": "java/com/google/gerrit/server/permissions/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2024-06-06T11:23:45Z",
+      "side": 1,
+      "message": "Same as https://gerrit-review.git.corp.google.com/c/gerrit/+/428778/comment/152afd94_9b926dfb/",
+      "parentUuid": "c612c806_d221d9e7",
+      "revId": "3916bd391965472fc006e367f02fd56b541a7600",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8ce698bf_16732969",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "30f130bb_e7397a5b",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2024-06-06T11:23:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8ce698bf_16732969",
+      "revId": "3916bd391965472fc006e367f02fd56b541a7600",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "152afd94_9b926dfb",
@@ -48,6 +84,24 @@
       "writtenOn": "2024-06-06T09:59:19Z",
       "side": 1,
       "message": "Consider using @AutoFactory instead.",
+      "revId": "3916bd391965472fc006e367f02fd56b541a7600",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f96e9b8b_fd6baaf8",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2024-06-06T11:23:45Z",
+      "side": 1,
+      "message": "AutoFactory doesn\u0027t work well when a descendant of a class should be created instead of an original class.",
+      "parentUuid": "152afd94_9b926dfb",
       "revId": "3916bd391965472fc006e367f02fd56b541a7600",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

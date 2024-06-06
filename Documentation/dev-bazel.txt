@@ -18,11 +18,11 @@ should generate a .war file under `bazel-bin/gerrit.war`.
 To build Gerrit from source, you need:
 
 * A Linux or macOS system (Windows is not supported at this time)
-* A JDK for Java 11 or Java 17
+* A JDK for Java 17
 * Python 3
 * link:https://github.com/nodesource/distributions/blob/master/README.md[Node.js (including npm),role=external,window=_blank]
-* Bower (`npm install -g bower`)
-* link:https://docs.bazel.build/versions/master/install.html[Bazel,role=external,window=_blank] -launched with
+* Yarn (`npm install -g yarn`)
+* link:https://bazel.build/install[Bazel,role=external,window=_blank] -launched with
 link:https://github.com/bazelbuild/bazelisk[Bazelisk,role=external,window=_blank]
 * Maven
 * zip, unzip
@@ -43,40 +43,6 @@ Bazelisk can be installed in different ways:
 link:https://docs.bazel.build/install-bazelisk.html[Bazelisk Installation,role=external,window=_blank].
 To execute the correct version of Bazel using Bazelisk you simply replace
 the `bazel` command with `bazelisk`.
-
-[[java]]
-=== Java
-
-Ensure that the link:install.html#Requirements[required Java version]
-is installed and that `JAVA_HOME` is set to it.
-
-To check the installed version of Java, open a terminal window and run:
-
-`java -version`
-
-[[java-11]]
-==== Java 11 support
-
-To build Gerrit with Java 11 language level, run:
-
-```
-  $ bazelisk build --config=java11 :release
-```
-
-[[java-17]]
-==== Java 17 support
-
-Java 17 is supported. To build Gerrit with Java 17, run:
-
-```
-  $ bazelisk build :release
-```
-
-To run the tests with Java 17, run:
-
-```
-  $ bazelisk test //...
-```
 
 === Node.js and npm packages
 See link:https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/README.md#installing-node_js-and-npm-packages[Installing Node.js and npm packages,role=external,window=_blank].

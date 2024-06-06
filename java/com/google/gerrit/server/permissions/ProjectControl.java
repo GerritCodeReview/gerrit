@@ -42,7 +42,6 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GitReceivePackGroups;
 import com.google.gerrit.server.config.GitUploadPackGroups;
-import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
@@ -69,22 +68,21 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 
 /** Access control management for a user accessing a project's data. */
-class ProjectControl {
-  interface Factory {
+public class ProjectControl {
+  public interface Factory {
     ProjectControl create(CurrentUser who, ProjectState ps);
   }
 
   private final Set<AccountGroup.UUID> uploadGroups;
   private final Set<AccountGroup.UUID> receiveGroups;
   private final PermissionBackend permissionBackend;
-  private final RefVisibilityControl refVisibilityControl;
-  private final GitRepositoryManager repositoryManager;
   private final CurrentUser user;
   private final ProjectState state;
   private final PermissionCollection.Factory permissionFilter;
   private final DefaultRefFilter.Factory refFilterFactory;
-  private final ChangeData.Factory changeDataFactory;
   private final AllUsersName allUsersName;
+  private final RefControl.Factory refControlFactory;
+  private final ChangeControl.Factory changeControlFactory;
 
   private List<SectionMatcher> allSections;
   private Map<String, RefControl> refControls;
@@ -92,29 +90,27 @@ class ProjectControl {
   private Config cfg;
 
   @Inject
-  ProjectControl(
+  protected ProjectControl(
       @GitUploadPackGroups Set<AccountGroup.UUID> uploadGroups,
       @GitReceivePackGroups Set<AccountGroup.UUID> receiveGroups,
       PermissionCollection.Factory permissionFilter,
       PermissionBackend permissionBackend,
-      RefVisibilityControl refVisibilityControl,
-      GitRepositoryManager repositoryManager,
       DefaultRefFilter.Factory refFilterFactory,
-      ChangeData.Factory changeDataFactory,
       AllUsersName allUsersName,
       @GerritServerConfig Config cfg,
+      RefControl.Factory refControlFactory,
+      ChangeControl.Factory changeControlFactory,
       @Assisted CurrentUser who,
       @Assisted ProjectState ps) {
     this.uploadGroups = uploadGroups;
     this.receiveGroups = receiveGroups;
     this.permissionFilter = permissionFilter;
     this.permissionBackend = permissionBackend;
-    this.refVisibilityControl = refVisibilityControl;
-    this.repositoryManager = repositoryManager;
     this.refFilterFactory = refFilterFactory;
-    this.changeDataFactory = changeDataFactory;
     this.allUsersName = allUsersName;
     this.cfg = cfg;
+    this.refControlFactory = refControlFactory;
+    this.changeControlFactory = changeControlFactory;
     user = who;
     state = ps;
   }
@@ -124,7 +120,7 @@ class ProjectControl {
   }
 
   ChangeControl controlFor(ChangeData cd) {
-    return new ChangeControl(controlForRef(cd.branchOrThrow()), cd);
+    return changeControlFactory.create(controlForRef(cd.branchOrThrow()), cd);
   }
 
   RefControl controlForRef(BranchNameKey ref) {
@@ -138,19 +134,17 @@ class ProjectControl {
     RefControl ctl = refControls.get(refName);
     if (ctl == null) {
       PermissionCollection relevant = permissionFilter.filter(access(), refName, user);
-      ctl =
-          new RefControl(
-              changeDataFactory, refVisibilityControl, this, repositoryManager, refName, relevant);
+      ctl = refControlFactory.create(this, refName, relevant);
       refControls.put(refName, ctl);
     }
     return ctl;
   }
 
-  CurrentUser getUser() {
+  protected CurrentUser getUser() {
     return user;
   }
 
-  ProjectState getProjectState() {
+  protected ProjectState getProjectState() {
     return state;
   }
 
@@ -361,6 +355,13 @@ class ProjectControl {
     }
   }
 
+  @UsedAt(UsedAt.Project.GOOGLE)
+  protected boolean canUpdateConfigWithoutCreatingChange() {
+    // In google, the implementation use more complicated logic - this is why it is placed inside
+    // a ProjectControl.
+    return !cfg.getBoolean("gerrit", "requireChangeForConfigUpdate", false);
+  }
+
   private class ForProjectImpl extends ForProject {
     private String resourcePath;
 
@@ -487,13 +488,6 @@ class ProjectControl {
           return canUpdateConfigWithoutCreatingChange();
       }
       throw new PermissionBackendException(perm + " unsupported");
-    }
-
-    @UsedAt(UsedAt.Project.GOOGLE)
-    protected boolean canUpdateConfigWithoutCreatingChange() {
-      // In google, the implementation use more complicated logic - this is why it is placed inside
-      // a ProjectControl.
-      return !cfg.getBoolean("gerrit", "requireChangeForConfigUpdate", false);
     }
   }
 }

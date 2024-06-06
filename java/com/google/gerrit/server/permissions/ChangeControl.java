@@ -31,19 +31,26 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.PermissionBackend.ForChange;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.inject.assistedinject.Assisted;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.Map;
 import java.util.Set;
+import javax.inject.Inject;
 
 /** Access control management for a user accessing a single change. */
-class ChangeControl {
+public class ChangeControl {
+  public interface Factory {
+    ChangeControl create(RefControl refControl, ChangeData changeData);
+  }
+
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final RefControl refControl;
   private final ChangeData changeData;
 
-  ChangeControl(RefControl refControl, ChangeData changeData) {
+  @Inject
+  protected ChangeControl(@Assisted RefControl refControl, @Assisted ChangeData changeData) {
     this.refControl = refControl;
     this.changeData = changeData;
   }

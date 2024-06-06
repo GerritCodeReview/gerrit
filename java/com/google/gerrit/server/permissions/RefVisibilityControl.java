@@ -38,7 +38,7 @@ import org.eclipse.jgit.lib.Constants;
  * authoritatively tell if a ref is accessible by a user.
  */
 @Singleton
-class RefVisibilityControl {
+public class RefVisibilityControl {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final PermissionBackend permissionBackend;

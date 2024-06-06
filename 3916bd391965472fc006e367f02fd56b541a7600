@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c612c806_d221d9e7",
+        "filename": "java/com/google/gerrit/server/permissions/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2024-06-06T09:59:19Z",
+      "side": 1,
+      "message": "Consider using `@AutoFactory` instead.",
+      "revId": "3916bd391965472fc006e367f02fd56b541a7600",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ce698bf_16732969",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2024-06-06T09:59:19Z",
+      "side": 1,
+      "message": "Maybe add another line about why it\u0027s a public class?",
+      "revId": "3916bd391965472fc006e367f02fd56b541a7600",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "152afd94_9b926dfb",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2024-06-06T09:59:19Z",
+      "side": 1,
+      "message": "Consider using @AutoFactory instead.",
+      "revId": "3916bd391965472fc006e367f02fd56b541a7600",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -199,6 +199,24 @@
       "parentUuid": "658e3ec2_f5a2d5cd",
       "revId": "72f479f0c61d5fff4489ea4f2e8c710f4990303a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1dc1df4_2729ffa7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-07T22:00:21Z",
+      "side": 1,
+      "message": "Well, but also `StaticItem` doesn\u0027t tell the true story, because the association isn\u0027t static but dynamic: the implementation is bound at runtime dynamically and may not be bound at all. I still believe it makes sense to make the `DynamicItem` more intelligent rather than copy \u0026 pasting its code and renaming it.\n\nWhat we want to achieve is a `DynamicItem` that can _stick_ to the dynamic association to its first implementation.",
+      "parentUuid": "7549efc0_e5049f2e",
+      "revId": "72f479f0c61d5fff4489ea4f2e8c710f4990303a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

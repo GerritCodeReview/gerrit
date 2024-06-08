@@ -14,9 +14,12 @@
 
 package com.google.gerrit.extensions.registration;
 
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.inject.Binder;
+import com.google.inject.BindingAnnotation;
 import com.google.inject.Key;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
@@ -25,6 +28,9 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.binder.LinkedBindingBuilder;
 import com.google.inject.util.Providers;
 import com.google.inject.util.Types;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -36,6 +42,15 @@ import java.util.concurrent.atomic.AtomicReference;
  * exception is thrown.
  */
 public class DynamicItem<T> {
+
+  /** Annotate a DynamicItem to be final and being bound at most once. */
+  @Target({ElementType.TYPE})
+  @Retention(RUNTIME)
+  @BindingAnnotation
+  public @interface Final {
+    String implementedByPlugin() default "";
+  }
+
   /**
    * Declare a singleton {@code DynamicItem<T>} with a binder.
    *

@@ -14,12 +14,14 @@
 
 package com.google.gerrit.extensions.registration;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.inject.Binding;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Key;
+import com.google.inject.ProvisionException;
 import com.google.inject.TypeLiteral;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
@@ -97,6 +99,26 @@ public class PrivateInternals_DynamicTypes {
         DynamicItem<Object> item = (DynamicItem<Object>) e.getValue();
 
         for (Binding<Object> b : bindings(src, type)) {
+          Class<? super Object> rawType = type.getRawType();
+          DynamicItem.Final annotation = rawType.getAnnotation(DynamicItem.Final.class);
+          if (annotation != null) {
+            Object existingBinding = item.get();
+            if (existingBinding != null) {
+              throw new ProvisionException(
+                  String.format(
+                      "Attempting to bind a @DynamicItem.Final %s twice: it was already bound to %s and tried to bind again to %s",
+                      rawType.getName(), existingBinding, b));
+            }
+
+            String implementedByPlugin = annotation.implementedByPlugin();
+            if (!Strings.isNullOrEmpty(implementedByPlugin)
+                && !implementedByPlugin.equals(pluginName)) {
+              throw new ProvisionException(
+                  String.format(
+                      "Attempting to bind a @DynamicItem.Final %s to unexpected plugin: it was supposed to be bound to %s plugin but tried bind to %s plugin",
+                      rawType.getName(), implementedByPlugin, pluginName));
+            }
+          }
           handles.add(item.set(b.getKey(), b.getProvider(), pluginName));
         }
       }

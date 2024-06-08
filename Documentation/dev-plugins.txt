@@ -144,6 +144,40 @@ can also define and provide interfaces and concrete classes for other plugins.
 This enables plugins to influence other plugins by customizing or extending the
 their behaviour.
 
+When a plugin wants to expose an API that *must* not be further overridden by
+other plugins, it could use the additional annotation `@DynamicItem.Final` which
+also gives the option to further limit the name of the plugin that is designated
+to bind the only implementation available.
+
+For example, a `plugin B` may declare an API as `@DynamicItem.Final` which is then
+bound in its `ApiModule`.
+
+```
+ @DynamicItem.Final(implementedByPlugin = "plugin-b-impl")
+ public interface PluginAPI {}
+
+ public class PluginApiModule extends AbstractModule {
+   @Override
+   protected void configure() {
+      DynamicItem.itemOf(binder(), PluginAPI.class);
+   }
+ }
+```
+
+The above definition of the `PluginApi` would be allowed to bound only by
+the `plugin-b-impl` which would associate its implementation class.
+
+```
+public class PluginImpl implements PluginAPI {}
+
+ public class PluginImplModule extends AbstractModule {
+   @Override
+   protected void configure() {
+      DynamicItem.bind(binder(), PluginAPI.class).to(PluginImpl.class);
+   }
+ }
+```
+
 *Gotchas and Limitations*:
 
 - A `plugin A` depending on a `plugin B` (declaring a `Gerrit-ApiModule`),

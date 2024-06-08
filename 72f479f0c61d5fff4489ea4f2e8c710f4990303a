@@ -121,6 +121,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8b274bae_863d476a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-08T00:37:50Z",
+      "side": 1,
+      "message": "Well, the `ApiModule` and the `Plugin` that provide the implementation for the `DynamicItem` are technically two different jars and have two different plugin names.\n\nI would start with a simpler approach where we just _annotate_ the `DynamicItem` to be immutable once bound and then honour that flag in `PrivateInternal_DynamicTypes.attachItems()`.\n\nWDYT @geminica.programs@gmail.com and @dariusz.luksza@gmail.com?",
+      "parentUuid": "0e062b20_b9abbbba",
+      "range": {
+        "startLine": 20,
+        "startChar": 4,
+        "endLine": 20,
+        "endChar": 64
+      },
+      "revId": "72f479f0c61d5fff4489ea4f2e8c710f4990303a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "16edc87d_d1826997",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

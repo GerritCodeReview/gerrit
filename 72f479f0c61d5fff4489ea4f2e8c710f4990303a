@@ -241,6 +241,23 @@
       "parentUuid": "7549efc0_e5049f2e",
       "revId": "72f479f0c61d5fff4489ea4f2e8c710f4990303a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d7fee6d_69ced0e6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-08T01:06:32Z",
+      "side": 1,
+      "message": "@dariusz.luksza@gmail.com @geminica.programs@gmail.com what do you think about the Ie7edf73e2 simpler approach? The idea is that you simply annotate the interface with DynamicItem.Final and then the attempt to re-bind a DynamicItem would fail.",
+      "revId": "72f479f0c61d5fff4489ea4f2e8c710f4990303a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

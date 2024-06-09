@@ -145,6 +145,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0398dc95_b06b35d4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-06-09T12:46:43Z",
+      "side": 1,
+      "message": "Making `DynamicItem` immutable, dosen\u0027t solve:\n\n* the fact that everyone can bind that item and which implementation is bound depends on the plugin load orderin\n* what happen in case the \"plugin\" is unloaded\n\n\u003e Well, the ApiModule and the Plugin that provide the implementation for the DynamicItem are technically two different jars and have two different plugin names.\n\nI don\u0027t see them as two different plugins. There are \"extension point definition\" and \"implementation\". In case of the `replication` plugin we made those two separate, to solve _other limitations_, now IMO we created more challenges to solve.",
+      "parentUuid": "8b274bae_863d476a",
+      "range": {
+        "startLine": 20,
+        "startChar": 4,
+        "endLine": 20,
+        "endChar": 64
+      },
+      "revId": "72f479f0c61d5fff4489ea4f2e8c710f4990303a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "16edc87d_d1826997",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -256,6 +280,42 @@
       "writtenOn": "2024-06-08T01:06:32Z",
       "side": 1,
       "message": "@dariusz.luksza@gmail.com @geminica.programs@gmail.com what do you think about the Ie7edf73e2 simpler approach? The idea is that you simply annotate the interface with DynamicItem.Final and then the attempt to re-bind a DynamicItem would fail.",
+      "revId": "72f479f0c61d5fff4489ea4f2e8c710f4990303a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d246ff36_379f4d4c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-06-09T12:46:43Z",
+      "side": 1,
+      "message": "Please see my comments on the `DynamicItem.Final` change.\n\nIMO we created all those problems for ourselves and now are digging the hole even deeper trying to solve them. I think we should step back and look at the bigger picture because with `StaticItem` and `DynamicItem.Finall` we don\u0027t see the forest for the trees.",
+      "parentUuid": "5d7fee6d_69ced0e6",
+      "revId": "72f479f0c61d5fff4489ea4f2e8c710f4990303a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25d47ad7_98c2c43a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-06-09T12:46:43Z",
+      "side": 1,
+      "message": "I feel like we created this problem articially, by splitting the `replication` plugin into the `api` and `plugin` JARs and now try to workaround this for the \"plugin public API\".\n\nIMO when plugin exposes the \"public API\" it should provide that API (with implementation) in the `ApiModule`. This is how Guice and dependency injection work. Splitting the \"interface\" and \"implementation\" into separate (dynamically loaded) JARs makes things harder, as both will be loaded in different class loades.\n\nAdditionally, we create anohet problem connected to the fact that plugin could be reloaded (or even uninstalled). What then we should do with `StaticItem` (or `DynamicItem.Final`)? Shall we simply block plugins that expose \"public plugin API\" from being reloades? If yes, then how does that differ to the `ApiModule` that is already blocked from being unloaded.\n\n\u003e What we want to achieve is a DynamicItem that can stick to the dynamic association to its first implementation.\n\nI don\u0027t agree with this, as IMO the interface should also declare who can bind it. This should not relay on the plugin load order.\n\nWe should bare in mind that \"plugin public API\" could expose ways to store secrets (like in case of `RemoveCOnfigUpdater` from `replication` plugin, stores credentials for remote repositories). It would be bad when _someone else_ could get those secrets and forward _somewhere_.",
+      "parentUuid": "d1dc1df4_2729ffa7",
       "revId": "72f479f0c61d5fff4489ea4f2e8c710f4990303a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

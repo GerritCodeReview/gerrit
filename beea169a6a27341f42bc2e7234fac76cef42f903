@@ -16,6 +16,24 @@
       "message": "@brohlfs@google.com IIRC, you did something related to limits in b/289166403. Could you please double check that this change doesn\u0027t return the issue back?",
       "revId": "beea169a6a27341f42bc2e7234fac76cef42f903",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03b9bc1d_2f599165",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-06-10T10:44:34Z",
+      "side": 1,
+      "message": "I don\u0027t see an issue with this change.\n\nHowever, I am surprised that this change was required, because a QueryProcessor is typically instantiated with `enforcedVisibility` set to `false`, if an internal query is being made:\n\nhttps://cs.opensource.google/gerrit/gerrit/gerrit/+/master:java/com/google/gerrit/index/query/QueryProcessor.java;l\u003d425;drc\u003dad7f8a6e70e5f69e2b8f5dec3c275c4f14696fd9\n\n@maczech@gmail.com Can you check how QueryProcessor is instantiated in the code path that you are fixing? Maybe we can revert this change and instead keep relying on `enforcedVisibility` being set.",
+      "parentUuid": "01fa95ef_726453e7",
+      "revId": "beea169a6a27341f42bc2e7234fac76cef42f903",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

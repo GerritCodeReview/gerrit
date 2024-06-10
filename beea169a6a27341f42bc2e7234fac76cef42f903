@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01fa95ef_726453e7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2024-06-10T10:27:41Z",
+      "side": 1,
+      "message": "@brohlfs@google.com IIRC, you did something related to limits in b/289166403. Could you please double check that this change doesn\u0027t return the issue back?",
+      "revId": "beea169a6a27341f42bc2e7234fac76cef42f903",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

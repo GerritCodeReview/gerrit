@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0fa529b7_2bc8ef18",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2024-06-10T15:24:51Z",
+      "side": 1,
+      "message": "Firefox behaves slightly differently than Chromium when handling `position: absolute` and it seems to have some requirement on the parent element.  We found that one immediately after upgrading from 3.8.6 to 3.9.5.  My guess is it is related to the diff view being changed from tables to div/grid layout which would have a different behavior in Firefox.\n\nSee a video pf the bug at https://phabricator.wikimedia.org/T367029#9874536",
+      "revId": "64b80e501a1698ee982d984a79cd74f6cc6f5453",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

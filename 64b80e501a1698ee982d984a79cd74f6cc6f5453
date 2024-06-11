@@ -50,6 +50,24 @@
       "message": "Nice find! And thanks for the fix.\n\nI think it would be slightly nicer to specify `display:block` within the element itself, see here for an example: https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog.ts;l\u003d76;drc\u003daa1c08b7c7ddad8bad696b70c09ed566cd1c8a59\n\n`display:block` should actually be the default for 99% of all webcomponents. If it missing, then this was probably just forgotten ...",
       "revId": "64b80e501a1698ee982d984a79cd74f6cc6f5453",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db330bfb_8c104597",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2024-06-11T09:47:19Z",
+      "side": 1,
+      "message": "I did consider adding the style directly on `\u003cgr-diff-element\u003e` but that looked like a lot of boiler plate.  I eventually found the shared style and that makes the fix a one line patch which is conveniently placed next to the `position: relative` which is also for positionning `\u003cgr-selection-action-box\u003e`.",
+      "parentUuid": "1491a1cb_04d429da",
+      "revId": "64b80e501a1698ee982d984a79cd74f6cc6f5453",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d08ad59_45e6c103",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2024-06-11T13:56:46Z",
+      "side": 1,
+      "message": "We do not use Google fonts on our setup and solely rely on the fonts released within the gerrit.war.  After upgrading to 3.9 some UI icon went missing which is due to the Material font being outdated: https://phabricator.wikimedia.org/T367135\n\nI went to the URL mentioned line 3 ( https://fonts.googleapis.com/css2?family\u003dMaterial+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0..1,0 ), download the source URL using `curl -o lib/fonts/material-icons.woff2 \u003curl\u003e` et voilà!\n\n\nThat would fix our issue in `stable-3.9`, I have proposed it for `stable-3.8` since that might fix some other icons (but I haven\u0027t checked).",
+      "revId": "a63562c103840a11632cf08cecc3dfd07897f379",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5785b4c_c6d973a3",
+        "filename": "polygerrit-ui/app/styles/material-icons.css",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2024-06-11T13:56:46Z",
+      "side": 1,
+      "message": "Note the URL provided on line 3 selects a weight of `400` rather than a range of `100..700` to get all weight. I believe that is done intentionally to reduce the size of the woff2 size.\n\nI thought maybe the `font-weight` in CSS should be adjusted to match, then I imagine there is a good reason for it to be set to the whole range.",
+      "range": {
+        "startLine": 10,
+        "startChar": 2,
+        "endLine": 10,
+        "endChar": 23
+      },
+      "revId": "a63562c103840a11632cf08cecc3dfd07897f379",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

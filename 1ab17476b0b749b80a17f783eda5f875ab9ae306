@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a807539f_cbbf6a23",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 2213,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-06-11T11:06:32Z",
+      "side": 1,
+      "message": "nit: Can we add a docstring for this method. Without it\u0027s unclear why it does, what it does.",
+      "range": {
+        "startLine": 2213,
+        "startChar": 2,
+        "endLine": 2213,
+        "endChar": 33
+      },
+      "revId": "1ab17476b0b749b80a17f783eda5f875ab9ae306",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91ad8a59_81727094",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 2215,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-06-11T11:06:32Z",
+      "side": 1,
+      "message": "this.editMode is redundant, as previous check already checks for undefined",
+      "range": {
+        "startLine": 2215,
+        "startChar": 8,
+        "endLine": 2215,
+        "endChar": 25
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "ff257a63_881d42ea",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+              "range": {
+                "startLine": 2215,
+                "startChar": 0,
+                "endLine": 2216,
+                "endChar": 0
+              },
+              "replacement": "     if (path !\u003d\u003d SpecialFilePath.MERGE_LIST) {\n"
+            }
+          ]
+        }
+      ],
+      "revId": "1ab17476b0b749b80a17f783eda5f875ab9ae306",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dbd9a1e7_41ba98b2",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 2216,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-06-11T11:06:32Z",
+      "side": 1,
+      "message": "diffUrl also uses `path`. This check should probably be moved out of this `if`",
+      "range": {
+        "startLine": 2216,
+        "startChar": 6,
+        "endLine": 2216,
+        "endChar": 37
+      },
+      "revId": "1ab17476b0b749b80a17f783eda5f875ab9ae306",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eea85a75_8c363efb",
+        "filename": "polygerrit-ui/app/models/views/change.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-06-11T11:06:32Z",
+      "side": 1,
+      "message": "nit: Let\u0027s add return type. To make it clear it\u0027s a string and not Url",
+      "range": {
+        "startLine": 385,
+        "startChar": 2,
+        "endLine": 385,
+        "endChar": 47
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "162914e4_938f0932",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/models/views/change.ts",
+              "range": {
+                "startLine": 385,
+                "startChar": 0,
+                "endLine": 386,
+                "endChar": 0
+              },
+              "replacement": "  diffUrl(override: Partial\u003cChangeViewState\u003e): string {\n"
+            },
+            {
+              "path": "polygerrit-ui/app/models/views/change.ts",
+              "range": {
+                "startLine": 404,
+                "startChar": 0,
+                "endLine": 405,
+                "endChar": 0
+              },
+              "replacement": "  editUrl(override: Partial\u003cChangeViewState\u003e): string {\n"
+            }
+          ]
+        }
+      ],
+      "revId": "1ab17476b0b749b80a17f783eda5f875ab9ae306",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4069df22_4bb220e2",
+        "filename": "polygerrit-ui/app/models/views/change.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-06-11T11:06:32Z",
+      "side": 1,
+      "message": "Should there be a check, that basePatchNum is not ahead of patchNum? Which can happen, where it wasn\u0027t before, if only the patchNum was provided (and the base is carried over)",
+      "range": {
+        "startLine": 394,
+        "startChar": 6,
+        "endLine": 394,
+        "endChar": 65
+      },
+      "revId": "1ab17476b0b749b80a17f783eda5f875ab9ae306",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

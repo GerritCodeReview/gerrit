@@ -24,6 +24,8 @@ import com.google.gerrit.server.restapi.change.ChangesCollection;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -58,9 +60,11 @@ public class NumericChangeIdRedirectServlet extends HttpServlet {
     int commentIdx = uriPath.indexOf("/comment");
     String idString = commentIdx == -1 ? uriPath : uriPath.substring(0, commentIdx);
 
-    if (idString.endsWith("/")) {
-      idString = idString.substring(0, idString.length() - 1);
-    }
+    List<String> uriSegments = Arrays.stream(idString.split("/")).toList();
+
+    idString = uriSegments.get(0);
+    String psString = (uriSegments.size() > 1) ? uriSegments.get(1) : null;
+
     Optional<Change.Id> id = Change.Id.tryParse(idString);
     if (!id.isPresent()) {
       rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
@@ -81,6 +85,8 @@ public class NumericChangeIdRedirectServlet extends HttpServlet {
     if (commentIdx > -1) {
       // path already contain a trailing /, hence we start from "commentIdx + 1"
       path = path + uriPath.substring(commentIdx + 1);
+    } else if (psString != null) {
+      path += psString;
     }
     UrlModule.toGerrit(path, req, rsp);
   }

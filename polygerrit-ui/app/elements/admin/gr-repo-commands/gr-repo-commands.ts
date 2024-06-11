@@ -208,7 +208,7 @@ export class GrRepoCommands extends LitElement {
       return;
 
     return html`
-      <h3 class="heading-3">${this.repoConfig?.actions['gc']?.label}</h3>
+      <h2 class="heading-2">${this.repoConfig?.actions['gc']?.label}</h2>
       <gr-button
         title=${this.repoConfig?.actions['gc']?.title || ''}
         ?loading=${this.runningGC}

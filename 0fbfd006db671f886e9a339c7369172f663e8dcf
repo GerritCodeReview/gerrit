@@ -16,6 +16,24 @@
       "message": "Should we not just do `^(?:/c)?/([1-9][0-9]*)/?.*` to mirror CHANGE_NUMBER_URI_REGEX?\n\nSince you can do /1,1 (PatchNum)",
       "revId": "0fbfd006db671f886e9a339c7369172f663e8dcf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8959d31_750cf76d",
+        "filename": "java/com/google/gerrit/httpd/UrlModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-06-11T19:22:18Z",
+      "side": 1,
+      "message": "Oh, never mind to `/1,1 (PatchNum)`. Think i misread the class. But my other point reminds in doing .*.",
+      "parentUuid": "59de2f44_eb2b967e",
+      "revId": "0fbfd006db671f886e9a339c7369172f663e8dcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

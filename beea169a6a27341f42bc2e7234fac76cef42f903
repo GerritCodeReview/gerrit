@@ -34,6 +34,24 @@
       "parentUuid": "01fa95ef_726453e7",
       "revId": "beea169a6a27341f42bc2e7234fac76cef42f903",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "035d70df_d32e8605",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-11T21:49:02Z",
+      "side": 1,
+      "message": "The `enforceVisibility` can be set only if the caller is an administrator and only when querying changes.\n\nHere the purpose is different: an `InternalUser` can never be associated to any group, therefore would never be member of the administrators. However, `InternalUser` by definition should not be subject to ACLs.\n\nHence, this change is needed when a plugin, using its `PluginUser` which is an `InternalUser`, wants to perform a query without ACLs on query limits.\n\nHope that clarifies the context.",
+      "parentUuid": "03b9bc1d_2f599165",
+      "revId": "beea169a6a27341f42bc2e7234fac76cef42f903",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

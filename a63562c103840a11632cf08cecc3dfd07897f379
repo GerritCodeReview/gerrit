@@ -80,6 +80,30 @@
       },
       "revId": "a63562c103840a11632cf08cecc3dfd07897f379",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2fdc4b7c_24b6073f",
+        "filename": "polygerrit-ui/app/styles/material-icons.css",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2024-06-11T14:35:10Z",
+      "side": 1,
+      "message": "I have absolutely no idea what it might affect, maybe Chris would know :)\n\nThank you for the quick review!",
+      "parentUuid": "5e56f800_2087877d",
+      "range": {
+        "startLine": 10,
+        "startChar": 2,
+        "endLine": 10,
+        "endChar": 23
+      },
+      "revId": "a63562c103840a11632cf08cecc3dfd07897f379",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

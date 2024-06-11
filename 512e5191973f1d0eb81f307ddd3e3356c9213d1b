@@ -16,6 +16,29 @@
       "message": "This broke redirecting /c/\u003cchangeNum\u003e/\u003cpatchNum\u003e.\n\nIt works if i revert the change you did in StaticModule (removing .*) but then the tests break.",
       "revId": "512e5191973f1d0eb81f307ddd3e3356c9213d1b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b619cca_3433c3e3",
+        "filename": "javatests/com/google/gerrit/httpd/raw/StaticModuleTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-11T11:57:09Z",
+      "side": 1,
+      "message": "We should have checked also:\n`/c/1234567/5` as an example.",
+      "range": {
+        "startLine": 27,
+        "startChar": 12,
+        "endLine": 27,
+        "endChar": 33
+      },
+      "revId": "512e5191973f1d0eb81f307ddd3e3356c9213d1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

@@ -137,9 +137,9 @@ suite('gr-diff-view tests', () => {
       stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
       stubRestApi('getPortedComments').returns(Promise.resolve({}));
 
-      element = await fixture(html`<gr-diff-view></gr-diff-view>`);
       viewModel = testResolver(changeViewModelToken);
       viewModel.setState(createDiffViewState());
+      element = await fixture(html`<gr-diff-view></gr-diff-view>`);
       await waitUntil(() => element.changeNum === TEST_NUMERIC_CHANGE_ID);
       element.path = 'some/path.txt';
       element.change = createParsedChange();
@@ -188,16 +188,18 @@ suite('gr-diff-view tests', () => {
 
     test('renders', async () => {
       browserModel.setScreenWidth(0);
-      element.patchNum = 10 as RevisionPatchSetNum;
+      const patchNum = 10 as RevisionPatchSetNum;
+      element.patchNum = patchNum;
       element.basePatchNum = PARENT;
       const change = {
         ...createParsedChange(),
         _number: 42 as NumericChangeId,
         revisions: {
-          a: createRevision(10),
+          a: createRevision(patchNum),
         },
       };
       changeModel.updateStateChange(change);
+      viewModel.updateState({patchNum});
       element.files = getFilesFromFileList([
         'chell.go',
         'glados.txt',
@@ -1012,14 +1014,16 @@ suite('gr-diff-view tests', () => {
       });
 
       test('prev/up/next links', async () => {
+        const patchNum = 10 as RevisionPatchSetNum;
         viewModel.setState({
           ...createDiffViewState(),
+          patchNum,
         });
         const change = {
           ...createParsedChange(),
           _number: 42 as NumericChangeId,
           revisions: {
-            a: createRevision(10),
+            a: createRevision(patchNum),
           },
         };
         changeModel.updateStateChange(change);

@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "83d73ae3_553f942a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-06-11T10:49:19Z",
+      "side": 1,
+      "message": "This broke redirecting /c/\u003cchangeNum\u003e/\u003cpatchNum\u003e.\n\nIt works if i revert the change you did in StaticModule (removing .*) but then the tests break.",
+      "revId": "512e5191973f1d0eb81f307ddd3e3356c9213d1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1277b13b_9c3ebf47",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-06-11T14:11:21Z",
+      "side": 1,
+      "message": "Thanks!",
+      "revId": "a63562c103840a11632cf08cecc3dfd07897f379",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c5785b4c_c6d973a3",
@@ -31,6 +48,30 @@
       "writtenOn": "2024-06-11T13:56:46Z",
       "side": 1,
       "message": "Note the URL provided on line 3 selects a weight of `400` rather than a range of `100..700` to get all weight. I believe that is done intentionally to reduce the size of the woff2 size.\n\nI thought maybe the `font-weight` in CSS should be adjusted to match, then I imagine there is a good reason for it to be set to the whole range.",
+      "range": {
+        "startLine": 10,
+        "startChar": 2,
+        "endLine": 10,
+        "endChar": 23
+      },
+      "revId": "a63562c103840a11632cf08cecc3dfd07897f379",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e56f800_2087877d",
+        "filename": "polygerrit-ui/app/styles/material-icons.css",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-06-11T14:11:21Z",
+      "side": 1,
+      "message": "Maybe you are right that this should be adjusted, but I don\u0027t know. And the risk that this might break something in too high for a stable branch IMO. Maybe change the master branch?",
+      "parentUuid": "c5785b4c_c6d973a3",
       "range": {
         "startLine": 10,
         "startChar": 2,

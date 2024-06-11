@@ -465,6 +465,8 @@ export const grDiffStyles = css`
   gr-diff-element {
     /* for gr-selection-action-box positioning */
     position: relative;
+    /* Firefox requires a block to position child elements absolutely */
+    display: block;
   }
   #diffTable:focus {
     outline: none;

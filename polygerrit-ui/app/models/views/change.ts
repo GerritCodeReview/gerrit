@@ -15,7 +15,7 @@ import {
 import {Tab} from '../../constants/constants';
 import {GerritView} from '../../services/router/router-model';
 import {UrlEncodedCommentId} from '../../types/common';
-import {toggleSet} from '../../utils/common-util';
+import {assertIsDefined, toggleSet} from '../../utils/common-util';
 import {select} from '../../utils/observable-util';
 import {
   encodeURL,
@@ -376,6 +376,25 @@ export class ChangeViewModel extends Model<ChangeViewState | undefined> {
     } else {
       super.setState(state);
     }
+  }
+
+  /**
+   * Wrapper around createDiffUrl() that falls back to the current state for all
+   * properties that are not explicitly provided as an override.
+   */
+  diffUrl(override: Partial<ChangeViewState>) {
+    const current = this.getState();
+    assertIsDefined(current?.changeNum);
+    assertIsDefined(current?.repo);
+
+    return createDiffUrl({
+      changeNum: override.changeNum ?? current.changeNum,
+      repo: override.repo ?? current.repo,
+      patchNum: override.patchNum ?? current.patchNum,
+      basePatchNum: override.basePatchNum ?? current.basePatchNum,
+      checksPatchset: override.checksPatchset ?? current.checksPatchset,
+      diffView: override.diffView ?? current.diffView,
+    });
   }
 
   toggleSelectedCheckRun(checkName: string) {

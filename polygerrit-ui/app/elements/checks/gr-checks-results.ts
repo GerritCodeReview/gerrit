@@ -78,7 +78,7 @@ import {getAppContext} from '../../services/app-context';
 import {when} from 'lit/directives/when.js';
 import {DropdownItem} from '../shared/gr-dropdown-list/gr-dropdown-list';
 import './gr-checks-attempt';
-import {createDiffUrl, changeViewModelToken} from '../../models/views/change';
+import {changeViewModelToken} from '../../models/views/change';
 import {formStyles} from '../../styles/form-styles';
 
 /**
@@ -635,6 +635,8 @@ class GrResultExpanded extends LitElement {
 
   private getChangeModel = resolve(this, changeModelToken);
 
+  private readonly getViewModel = resolve(this, changeViewModelToken);
+
   static override get styles() {
     return [
       sharedStyles,
@@ -719,9 +721,7 @@ class GrResultExpanded extends LitElement {
       return {
         icon: LinkIcon.CODE,
         tooltip: `${path}${rangeText}`,
-        url: createDiffUrl({
-          changeNum: change._number,
-          repo: change.project,
+        url: this.getViewModel().diffUrl({
           patchNum: patchset,
           checksPatchset: patchset,
           diffView: {path, lineNum: line},

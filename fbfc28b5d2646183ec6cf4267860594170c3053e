@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "493acd0a_8b9e9c01",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-06-11T13:49:02Z",
+      "side": 1,
+      "message": "Tests fail and i\u0027m not sure if this is the correct fix. Looking underneith i see the problem is in NumericChangeIdRedirectServlet. getPathInfo contains the patchNum so it\u0027s changeNum/patchNum",
+      "revId": "fbfc28b5d2646183ec6cf4267860594170c3053e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

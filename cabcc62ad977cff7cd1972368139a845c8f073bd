@@ -16,6 +16,24 @@
       "message": "Add test?",
       "revId": "cabcc62ad977cff7cd1972368139a845c8f073bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14a67aeb_7c6b5d5d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-06-11T18:10:37Z",
+      "side": 1,
+      "message": "The test would be throwaway code since this behavior is expected to change in later versions when approval copying happens at the time of voting on an outdated patchset. Instead, create a bug and add a Bug footer.",
+      "parentUuid": "28e1d7c2_26ddc370",
+      "revId": "cabcc62ad977cff7cd1972368139a845c8f073bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

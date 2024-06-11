@@ -43,7 +43,7 @@ import {fontStyles} from '../../../styles/gr-font-styles';
 import {storageServiceToken} from '../../../services/storage/gr-storage_impl';
 import {resolve} from '../../../models/dependency';
 import {formStyles} from '../../../styles/form-styles';
-import {createEditUrl} from '../../../models/views/change';
+import {changeViewModelToken} from '../../../models/views/change';
 import {SpecialFilePath} from '../../../constants/constants';
 
 const RESTORED_MESSAGE = 'Content restored from a previous edit.';
@@ -127,6 +127,8 @@ export class GrEditableContent extends LitElement {
   private readonly reporting = getAppContext().reportingService;
 
   private readonly getNavigation = resolve(this, navigationToken);
+
+  private readonly getViewModel = resolve(this, changeViewModelToken);
 
   // Tests use this so needs to be non private
   storeTask?: DelayedTask;
@@ -501,10 +503,7 @@ export class GrEditableContent extends LitElement {
       assertIsDefined(this.changeNum, 'changeNum');
       assertIsDefined(this.repoName, 'repoName');
       this.getNavigation().setUrl(
-        createEditUrl({
-          changeNum: this.changeNum,
-          repo: this.repoName,
-          patchNum: this.patchNum,
+        this.getViewModel().editUrl({
           editView: {path: SpecialFilePath.COMMIT_MESSAGE},
         })
       );

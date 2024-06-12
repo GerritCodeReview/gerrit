@@ -145,7 +145,6 @@ import {
   changeViewModelToken,
   ChangeViewState,
   createChangeUrl,
-  createEditUrl,
 } from '../../../models/views/change';
 import {rootUrl} from '../../../utils/url-util';
 import {userModelToken} from '../../../models/user/user-model';
@@ -2399,13 +2398,10 @@ export class GrChangeView extends LitElement {
         controls.openDeleteDialog(path);
         break;
       case GrEditConstants.Actions.OPEN.id:
-        assertIsDefined(this.patchNum, 'patchset number');
         this.getNavigation().setUrl(
-          createEditUrl({
-            changeNum: this.change._number,
-            repo: this.change.project,
-            patchNum: this.patchNum,
+          this.getViewModel().editUrl({
             editView: {path},
+            patchNum: this.patchNum,
           })
         );
         break;

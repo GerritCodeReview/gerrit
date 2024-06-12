@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0530eeb1_dc66fd74",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-styles.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 757,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-06-12T21:27:20Z",
+      "side": 1,
+      "message": "Re-add this.",
+      "revId": "23ddb3ca74c9c67f438de3d078e461227f5f8e1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

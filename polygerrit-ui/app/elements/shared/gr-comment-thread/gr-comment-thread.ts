@@ -70,7 +70,11 @@ import {resolve} from '../../../models/dependency';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {changeModelToken} from '../../../models/change/change-model';
 import {whenRendered} from '../../../utils/dom-util';
-import {createChangeUrl, createDiffUrl} from '../../../models/views/change';
+import {
+  changeViewModelToken,
+  createChangeUrl,
+  createDiffUrl,
+} from '../../../models/views/change';
 import {userModelToken} from '../../../models/user/user-model';
 import {highlightServiceToken} from '../../../services/highlight/highlight-service';
 import {noAwait, waitUntil} from '../../../utils/async-util';
@@ -247,6 +251,8 @@ export class GrCommentThread extends LitElement {
   private readonly getChangeModel = resolve(this, changeModelToken);
 
   private readonly getUserModel = resolve(this, userModelToken);
+
+  private readonly getViewModel = resolve(this, changeViewModelToken);
 
   private readonly shortcuts = new ShortcutController(this);
 
@@ -709,9 +715,7 @@ export class GrCommentThread extends LitElement {
     if (!this.changeNum || !this.repoName || !this.thread?.path) {
       return undefined;
     }
-    return createDiffUrl({
-      changeNum: this.changeNum,
-      repo: this.repoName,
+    return this.getViewModel().diffUrl({
       patchNum: this.thread.patchNum,
       diffView: {path: this.thread.path},
     });

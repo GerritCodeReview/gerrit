@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "457a1300_a3a18f30",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-06-12T13:15:04Z",
+      "side": 1,
+      "message": "This should be reopened and updated to match https://gerrit-review.googlesource.com/c/gerrit/+/429600\n\nThe bug exists on 3.9+",
+      "revId": "0fbfd006db671f886e9a339c7369172f663e8dcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "59de2f44_eb2b967e",

@@ -80,9 +80,8 @@ import {classMap} from 'lit/directives/class-map.js';
 import {incrementalRepeat} from '../../lit/incremental-repeat';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {
-  createDiffUrl,
-  createEditUrl,
   createChangeUrl,
+  changeViewModelToken,
 } from '../../../models/views/change';
 import {userModelToken} from '../../../models/user/user-model';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
@@ -212,7 +211,7 @@ export class GrFileList extends LitElement {
   diffViewMode?: DiffViewMode;
 
   @property({type: Boolean})
-  editMode?: boolean;
+  editMode = false;
 
   private _filesExpanded = FilesExpandedState.NONE;
 
@@ -312,6 +311,8 @@ export class GrFileList extends LitElement {
   shortcutsController = new ShortcutController(this);
 
   private readonly getNavigation = resolve(this, navigationToken);
+
+  private readonly getViewModel = resolve(this, changeViewModelToken);
 
   // private but used in test
   fileCursor = new GrCursorManager();
@@ -2167,15 +2168,13 @@ export class GrFileList extends LitElement {
   // Private but used in tests.
   openCursorFile() {
     const diff = this.diffCursor?.getTargetDiffElement();
-    if (!this.change || !diff || !this.patchRange || !diff.path) {
-      throw new Error('change, diff and patchRange must be all set and valid');
+    if (!this.change || !diff || !this.patchNum || !diff.path) {
+      throw new Error('change, diff and pacthNum must be all set and valid');
     }
     this.getNavigation().setUrl(
-      createDiffUrl({
-        change: this.change,
-        patchNum: this.patchRange.patchNum,
-        basePatchNum: this.patchRange.basePatchNum,
+      this.getViewModel().diffUrl({
         diffView: {path: diff.path},
+        patchNum: this.patchNum,
       })
     );
   }
@@ -2188,15 +2187,13 @@ export class GrFileList extends LitElement {
     if (!this.files[this.fileCursor.index]) {
       return;
     }
-    if (!this.change || !this.patchRange) {
+    if (!this.change || !this.patchNum) {
       throw new Error('change and patchRange must be set');
     }
     this.getNavigation().setUrl(
-      createDiffUrl({
-        change: this.change,
-        patchNum: this.patchRange.patchNum,
-        basePatchNum: this.patchRange.basePatchNum,
+      this.getViewModel().diffUrl({
         diffView: {path: this.files[this.fileCursor.index].__path},
+        patchNum: this.patchNum,
       })
     );
   }
@@ -2214,30 +2211,21 @@ export class GrFileList extends LitElement {
     );
   }
 
+  /** Returns an edit or diff URL depending on `editMode`. */
   // Private but used in tests
-  computeDiffURL(path?: string) {
-    if (
-      this.change === undefined ||
-      this.patchRange?.patchNum === undefined ||
-      path === undefined ||
-      this.editMode === undefined
-    ) {
-      return;
-    }
+  computeDiffURL(path?: string): string | undefined {
+    if (path === undefined) return;
+    if (this.patchNum === undefined) return;
+
     if (this.editMode && path !== SpecialFilePath.MERGE_LIST) {
-      return createEditUrl({
-        changeNum: this.change._number,
-        repo: this.change.project,
-        patchNum: this.patchRange.patchNum,
+      return this.getViewModel().editUrl({
+        patchNum: this.patchNum,
         editView: {path},
       });
     }
-    return createDiffUrl({
-      changeNum: this.change._number,
-      repo: this.change.project,
-      patchNum: this.patchRange.patchNum,
-      basePatchNum: this.patchRange.basePatchNum,
+    return this.getViewModel().diffUrl({
       diffView: {path},
+      patchNum: this.patchNum,
     });
   }
 

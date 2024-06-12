@@ -62,7 +62,7 @@ public class NumericChangeIdRedirectServlet extends HttpServlet {
       idString = idString.substring(0, idString.length() - 1);
     }
     Optional<Change.Id> id = Change.Id.tryParse(idString);
-    if (!id.isPresent()) {
+    if (id.isEmpty()) {
       rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
       return;
     }

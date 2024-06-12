@@ -47,8 +47,11 @@ public class TestConfigRule implements TestRule {
       @Override
       public void evaluate() throws Throwable {
         setTestConfigFromDescription(description);
-        statement.evaluate();
-        clear();
+        try {
+          statement.evaluate();
+        } finally {
+          clear();
+        }
       }
     };
   }

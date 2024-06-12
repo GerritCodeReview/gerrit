@@ -11,11 +11,12 @@ import {
   ChangeInfo,
   PatchSetNumber,
   EDIT,
+  PARENT,
 } from '../../api/rest-api';
 import {Tab} from '../../constants/constants';
 import {GerritView} from '../../services/router/router-model';
 import {UrlEncodedCommentId} from '../../types/common';
-import {toggleSet} from '../../utils/common-util';
+import {assertIsDefined, toggleSet} from '../../utils/common-util';
 import {select} from '../../utils/observable-util';
 import {
   encodeURL,
@@ -26,6 +27,7 @@ import {AttemptChoice} from '../checks/checks-util';
 import {define} from '../dependency';
 import {Model} from '../base/model';
 import {ViewState} from './base';
+import {isNumber} from '../../utils/patch-set-util';
 
 export enum ChangeChildView {
   OVERVIEW = 'OVERVIEW',
@@ -85,7 +87,7 @@ export interface ChangeViewState extends ViewState {
 
   /** These properties apply to the DIFF child view only. */
   diffView?: {
-    path?: string;
+    path: string;
     // TODO: Use LineNumber as a type, i.e. accept FILE and LOST.
     lineNum?: number;
     leftSide?: boolean;
@@ -93,10 +95,27 @@ export interface ChangeViewState extends ViewState {
 
   /** These properties apply to the EDIT child view only. */
   editView?: {
-    path?: string;
+    path: string;
     lineNum?: number;
   };
 }
+
+export type DiffViewState = Partial<ChangeViewState> & {
+  patchNum: RevisionPatchSetNum;
+  diffView: {
+    path: string;
+    lineNum?: number;
+    leftSide?: boolean;
+  };
+};
+
+export type EditViewState = Partial<ChangeViewState> & {
+  patchNum: RevisionPatchSetNum;
+  editView: {
+    path: string;
+    lineNum?: number;
+  };
+};
 
 /**
  * This is a convenience type such that you can pass a `ChangeInfo` object
@@ -145,7 +164,7 @@ export function createChangeViewUrl(state: ChangeViewState): string {
 
 export function createChangeUrl(
   obj: CreateChangeUrlObject | Omit<ChangeViewState, 'view' | 'childView'>
-) {
+): string {
   const state: ChangeViewState = objToState({
     ...obj,
     childView: ChangeChildView.OVERVIEW,
@@ -198,7 +217,7 @@ export function createChangeUrl(
 
 export function createDiffUrl(
   obj: CreateChangeUrlObject | Omit<ChangeViewState, 'view' | 'childView'>
-) {
+): string {
   const state: ChangeViewState = objToState({
     ...obj,
     childView: ChangeChildView.DIFF,
@@ -376,6 +395,49 @@ export class ChangeViewModel extends Model<ChangeViewState | undefined> {
     } else {
       super.setState(state);
     }
+  }
+
+  /**
+   * Wrapper around createDiffUrl() that falls back to the current state for all
+   * properties that are not explicitly provided as an override.
+   */
+  diffUrl(override: DiffViewState): string {
+    const current = this.getState();
+    assertIsDefined(current?.changeNum);
+    assertIsDefined(current?.repo);
+
+    const patchNum = override.patchNum ?? current.patchNum;
+    let basePatchNum = override.basePatchNum ?? current.basePatchNum;
+    if (isNumber(basePatchNum) && isNumber(patchNum)) {
+      if ((patchNum as number) <= (basePatchNum as number)) {
+        basePatchNum = PARENT;
+      }
+    }
+    return createDiffUrl({
+      changeNum: override.changeNum ?? current.changeNum,
+      repo: override.repo ?? current.repo,
+      patchNum,
+      basePatchNum,
+      checksPatchset: override.checksPatchset ?? current.checksPatchset,
+      diffView: override.diffView ?? current.diffView,
+    });
+  }
+
+  /**
+   * Wrapper around createEditUrl() that falls back to the current state for all
+   * properties that are not explicitly provided as an override.
+   */
+  editUrl(override: EditViewState): string {
+    const current = this.getState();
+    assertIsDefined(current?.changeNum);
+    assertIsDefined(current?.repo);
+
+    return createEditUrl({
+      changeNum: override.changeNum ?? current.changeNum,
+      repo: override.repo ?? current.repo,
+      patchNum: override.patchNum ?? current.patchNum,
+      editView: override.editView ?? current.editView,
+    });
   }
 
   toggleSelectedCheckRun(checkName: string) {

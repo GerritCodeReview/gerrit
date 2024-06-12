@@ -754,7 +754,6 @@ export const grDiffImageStyles = css`
   .image-diff td.content {
     background-color: var(--diff-blank-background-color);
   }
-`;
 
 // Styles related to the binary diffs.
 export const grDiffBinaryStyles = css`

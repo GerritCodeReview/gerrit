@@ -33,6 +33,7 @@ import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.httpd.restapi.ParameterParser;
 import com.google.gerrit.httpd.restapi.RestApiServlet;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.regex.Pattern;
@@ -445,6 +446,19 @@ public class RestApiServletIT extends AbstractDaemonTest {
 
     anonymousRestSession
         .get(String.format("/c/%s/comment/%s", changeNumber, commentId))
+        .assertTemporaryRedirect(redirectUri);
+  }
+
+  @Test
+  public void testNumericChangeIdWithExtraSegments() throws Exception {
+    ChangeData changeData = createChange().getChange();
+    int changeNumber = changeData.getId().get();
+
+    String finalSegment = "any/Thing";
+
+    String redirectUri = String.format("/c/%s/+/%d/%s", project.get(), changeNumber, finalSegment);
+    anonymousRestSession
+        .get(String.format("/c/%d/%s", changeNumber, finalSegment))
         .assertTemporaryRedirect(redirectUri);
   }
 

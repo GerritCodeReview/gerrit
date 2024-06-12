@@ -32,11 +32,6 @@ import {
   changeModelToken,
 } from '../../../models/change/change-model';
 import {SinonStubbedMember} from 'sinon';
-import {
-  ChangeChildView,
-  changeViewModelToken,
-} from '../../../models/views/change';
-import {GerritView} from '../../../services/router/router-model';
 
 suite('gr-edit-controls tests', () => {
   let element: GrEditControls;
@@ -50,13 +45,6 @@ suite('gr-edit-controls tests', () => {
   >;
 
   setup(async () => {
-    testResolver(changeViewModelToken).setState({
-      view: GerritView.CHANGE,
-      childView: ChangeChildView.OVERVIEW,
-      changeNum: 42 as NumericChangeId,
-      repo: 'gerrit' as RepoName,
-    });
-
     element = await fixture<GrEditControls>(html`
       <gr-edit-controls></gr-edit-controls>
     `);

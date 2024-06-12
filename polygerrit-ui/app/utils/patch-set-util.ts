@@ -70,7 +70,7 @@ export function convertToPatchSetNum(
   return patchset as PatchSetNum;
 }
 
-export function isNumber(psn?: PatchSetNum): psn is PatchSetNumber {
+export function isNumber(psn: PatchSetNum): psn is PatchSetNumber {
   return typeof psn === 'number';
 }
 

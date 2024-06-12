@@ -29,7 +29,7 @@ import {LitElement, html, css} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {BindValueChangeEvent} from '../../../types/events';
 import {IronInputElement} from '@polymer/iron-input/iron-input';
-import {changeViewModelToken} from '../../../models/views/change';
+import {createEditUrl} from '../../../models/views/change';
 import {resolve} from '../../../models/dependency';
 import {modalStyles} from '../../../styles/gr-modal-styles';
 import {whenVisible} from '../../../utils/dom-util';
@@ -80,8 +80,6 @@ export class GrEditControls extends LitElement {
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly getChangeModel = resolve(this, changeModelToken);
-
-  private readonly getViewModel = resolve(this, changeViewModelToken);
 
   private readonly getNavigation = resolve(this, navigationToken);
 
@@ -433,7 +431,13 @@ export class GrEditControls extends LitElement {
       return;
     }
     assertIsDefined(this.patchNum, 'patchset number');
-    const url = this.getViewModel().editUrl({editView: {path: this.path}});
+    const url = createEditUrl({
+      changeNum: this.change._number,
+      repo: this.change.project,
+      patchNum: this.patchNum,
+      editView: {path: this.path},
+    });
+
     this.getNavigation().setUrl(url);
     this.closeDialog(this.getDialogFromEvent(e));
   };

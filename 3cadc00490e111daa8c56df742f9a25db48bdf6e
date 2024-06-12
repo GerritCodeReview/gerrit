@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1eb5ce0_fce501a5",
+        "filename": "java/com/google/gerrit/server/plugins/PluginGuiceEnvironment.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-06-12T13:52:54Z",
+      "side": 1,
+      "message": "Errorprone warns:\n\n```\njava/com/google/gerrit/server/plugins/PluginGuiceEnvironment.java:366: error: [PreferredInterfaceType] Variable type should use the immutable type (such as ImmutableList) instead of the general collection interface type (such as List).\n        List\u003cInjector\u003e allPluginInjectors \u003d\n            ^\n    (see https://errorprone.info/bugpattern/PreferredInterfaceType)\n  Did you mean \u0027ImmutableList\u003cInjector\u003e allPluginInjectors \u003d\u0027?\n```\n\n```suggestion\n        ImmutableList \u003cInjector\u003e allPluginInjectors \u003d\n```",
+      "revId": "3cadc00490e111daa8c56df742f9a25db48bdf6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

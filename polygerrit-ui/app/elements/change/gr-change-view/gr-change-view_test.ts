@@ -73,10 +73,7 @@ import {fixture, html, assert} from '@open-wc/testing';
 import {Modifier} from '../../../utils/dom-util';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrCopyLinks} from '../gr-copy-links/gr-copy-links';
-import {
-  ChangeChildView,
-  changeViewModelToken,
-} from '../../../models/views/change';
+import {ChangeChildView} from '../../../models/views/change';
 import {rootUrl} from '../../../utils/url-util';
 import {testResolver} from '../../../test/common-test-setup';
 import {UserModel, userModelToken} from '../../../models/user/user-model';
@@ -311,12 +308,6 @@ suite('gr-change-view tests', () => {
 
   setup(async () => {
     setUrlStub = sinon.stub(testResolver(navigationToken), 'setUrl');
-    sinon
-      .stub(testResolver(changeViewModelToken), 'editUrl')
-      .returns('fakeEditUrl');
-    sinon
-      .stub(testResolver(changeViewModelToken), 'diffUrl')
-      .returns('fakeDiffUrl');
 
     stubRestApi('getConfig').returns(
       Promise.resolve({

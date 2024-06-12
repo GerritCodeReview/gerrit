@@ -46,6 +46,8 @@ import {
   ChangeChildView,
   ChangeViewModel,
   createChangeUrl,
+  createDiffUrl,
+  createEditUrl,
 } from '../views/change';
 import {NavigationService} from '../../elements/core/gr-navigation/gr-navigation';
 import {getRevertCreatedChangeIds} from '../../utils/message-util';
@@ -655,12 +657,27 @@ export class ChangeModel extends Model<ChangeState> {
     return this.getState().change;
   }
 
+  diffUrl(
+    diffView: {path: string; lineNum?: number},
+    patchNum = this.patchNum,
+    basePatchNum = this.basePatchNum
+  ) {
+    if (!this.change) return;
+    if (!this.patchNum) return;
+    return createDiffUrl({
+      change: this.change,
+      patchNum,
+      basePatchNum,
+      diffView,
+    });
+  }
+
   navigateToDiff(
     diffView: {path: string; lineNum?: number},
     patchNum = this.patchNum,
     basePatchNum = this.basePatchNum
   ) {
-    const url = this.viewModel.diffUrl({diffView, patchNum, basePatchNum});
+    const url = this.diffUrl(diffView, patchNum, basePatchNum);
     if (!url) return;
     this.navigation.setUrl(url);
   }
@@ -698,8 +715,18 @@ export class ChangeModel extends Model<ChangeState> {
     this.navigation.setUrl(url);
   }
 
+  editUrl(editView: {path: string; lineNum?: number}) {
+    if (!this.change) return;
+    return createEditUrl({
+      changeNum: this.change._number,
+      repo: this.change.project,
+      patchNum: this.patchNum,
+      editView,
+    });
+  }
+
   navigateToEdit(editView: {path: string; lineNum?: number}) {
-    const url = this.viewModel.editUrl({editView});
+    const url = this.editUrl(editView);
     if (!url) return;
     this.navigation.setUrl(url);
   }

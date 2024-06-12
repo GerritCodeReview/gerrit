@@ -22,6 +22,7 @@ import static org.apache.http.HttpStatus.SC_OK;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.config.GerritConfig;
@@ -470,6 +471,21 @@ public class RestApiServletIT extends AbstractDaemonTest {
     String redirectUri = String.format("/c/%s/+/%d/%d", project.get(), changeNumber, psNumber);
     anonymousRestSession
         .get(String.format("/c/%d/%d/", changeNumber, psNumber))
+        .assertTemporaryRedirect(redirectUri);
+  }
+
+  @Test
+  public void testNumericChangeIdWithPSRange() throws Exception {
+    ChangeData changeData = createChange().getChange();
+    int ps1 = changeData.currentPatchSet().id().get();
+    int changeNumber = changeData.getId().get();
+
+    PushOneCommit.Result r = amendChange(changeData.change().getKey().toString());
+    int ps2 = r.getChange().currentPatchSet().id().get();
+
+    String redirectUri = String.format("/c/%s/+/%d/%d..%d", project.get(), changeNumber, ps1, ps2);
+    anonymousRestSession
+        .get(String.format("/c/%d/%d..%d", changeNumber, ps1, ps2))
         .assertTemporaryRedirect(redirectUri);
   }
 

@@ -92,6 +92,7 @@ import {ifDefined} from 'lit/directives/if-defined.js';
 import {when} from 'lit/directives/when.js';
 import {styleMap} from 'lit/directives/style-map.js';
 import {
+  createDiffUrl,
   ChangeChildView,
   changeViewModelToken,
 } from '../../../models/views/change';
@@ -1456,7 +1457,7 @@ export class GrDiffView extends LitElement {
     if (!newPath) return;
     if (newPath.up) return this.getChangeModel().changeUrl();
     if (!newPath.path) return;
-    return this.getViewModel().diffUrl({diffView: {path: newPath.path}});
+    return this.getChangeModel().diffUrl({path: newPath.path});
   }
 
   private goToEditFile() {
@@ -1503,8 +1504,15 @@ export class GrDiffView extends LitElement {
   }
 
   private updateUrlToDiffUrl(lineNum?: number, leftSide?: boolean) {
+    if (!this.change) return;
+    if (!this.patchNum) return;
+    if (!this.changeNum) return;
     if (!this.path) return;
-    const url = this.getViewModel().diffUrl({
+    const url = createDiffUrl({
+      changeNum: this.changeNum,
+      repo: this.change.project,
+      patchNum: this.patchNum,
+      basePatchNum: this.basePatchNum,
       diffView: {
         path: this.path,
         lineNum,

@@ -80,8 +80,9 @@ import {classMap} from 'lit/directives/class-map.js';
 import {incrementalRepeat} from '../../lit/incremental-repeat';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {
+  createDiffUrl,
+  createEditUrl,
   createChangeUrl,
-  changeViewModelToken,
 } from '../../../models/views/change';
 import {userModelToken} from '../../../models/user/user-model';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
@@ -211,7 +212,7 @@ export class GrFileList extends LitElement {
   diffViewMode?: DiffViewMode;
 
   @property({type: Boolean})
-  editMode = false;
+  editMode?: boolean;
 
   private _filesExpanded = FilesExpandedState.NONE;
 
@@ -311,8 +312,6 @@ export class GrFileList extends LitElement {
   shortcutsController = new ShortcutController(this);
 
   private readonly getNavigation = resolve(this, navigationToken);
-
-  private readonly getViewModel = resolve(this, changeViewModelToken);
 
   // private but used in test
   fileCursor = new GrCursorManager();
@@ -2172,7 +2171,10 @@ export class GrFileList extends LitElement {
       throw new Error('change, diff and patchRange must be all set and valid');
     }
     this.getNavigation().setUrl(
-      this.getViewModel().diffUrl({
+      createDiffUrl({
+        change: this.change,
+        patchNum: this.patchRange.patchNum,
+        basePatchNum: this.patchRange.basePatchNum,
         diffView: {path: diff.path},
       })
     );
@@ -2190,7 +2192,10 @@ export class GrFileList extends LitElement {
       throw new Error('change and patchRange must be set');
     }
     this.getNavigation().setUrl(
-      this.getViewModel().diffUrl({
+      createDiffUrl({
+        change: this.change,
+        patchNum: this.patchRange.patchNum,
+        basePatchNum: this.patchRange.basePatchNum,
         diffView: {path: this.files[this.fileCursor.index].__path},
       })
     );
@@ -2209,16 +2214,31 @@ export class GrFileList extends LitElement {
     );
   }
 
-  /** Returns an edit or diff URL depending on `editMode`. */
   // Private but used in tests
-  computeDiffURL(path?: string): string | undefined {
-    if (path === undefined) {
+  computeDiffURL(path?: string) {
+    if (
+      this.change === undefined ||
+      this.patchRange?.patchNum === undefined ||
+      path === undefined ||
+      this.editMode === undefined
+    ) {
       return;
     }
     if (this.editMode && path !== SpecialFilePath.MERGE_LIST) {
-      return this.getViewModel().editUrl({editView: {path}});
+      return createEditUrl({
+        changeNum: this.change._number,
+        repo: this.change.project,
+        patchNum: this.patchRange.patchNum,
+        editView: {path},
+      });
     }
-    return this.getViewModel().diffUrl({diffView: {path}});
+    return createDiffUrl({
+      changeNum: this.change._number,
+      repo: this.change.project,
+      patchNum: this.patchRange.patchNum,
+      basePatchNum: this.patchRange.basePatchNum,
+      diffView: {path},
+    });
   }
 
   // Private but used in tests.

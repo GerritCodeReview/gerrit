@@ -355,6 +355,23 @@ public class PluginGuiceEnvironment {
       reattachItem(old, sysItems, newPlugin.getSysInjector(), newPlugin);
       reattachItem(old, sshItems, newPlugin.getSshInjector(), newPlugin);
       reattachItem(old, httpItems, newPlugin.getHttpInjector(), newPlugin);
+
+      apiInjector = Optional.ofNullable(newPlugin.getApiInjector()).orElse(apiInjector);
+
+      if (apiInjector != null) {
+        apiItems.putAll(dynamicItemsOf(apiInjector));
+        apiSets.putAll(dynamicSetsOf(apiInjector));
+        apiMaps.putAll(dynamicMapsOf(apiInjector));
+
+        ImmutableList<Injector> allPluginInjectors =
+            listOfInjectors(
+                newPlugin.getSysInjector(),
+                newPlugin.getSshInjector(),
+                newPlugin.getHttpInjector());
+        allPluginInjectors.forEach(i -> reattachItem(old, apiItems, i, newPlugin));
+        allPluginInjectors.forEach(i -> reattachSet(old, apiSets, i, newPlugin));
+        allPluginInjectors.forEach(i -> reattachMap(old, apiMaps, i, newPlugin));
+      }
     } finally {
       exit(oldContext);
     }

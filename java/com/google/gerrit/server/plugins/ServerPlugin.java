@@ -58,7 +58,6 @@ public class ServerPlugin extends Plugin {
   private Injector sshInjector;
   private Injector httpInjector;
   private LifecycleManager serverManager;
-  private List<ReloadableRegistrationHandle<?>> reloadableHandles;
 
   private Optional<Module> apiModule = Optional.empty();
 

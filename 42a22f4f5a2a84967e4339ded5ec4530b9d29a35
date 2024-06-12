@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8c99684_69059e41",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 2217,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-06-12T07:59:57Z",
+      "side": 1,
+      "message": "nit: else is redundant, since we return in the if statements",
+      "range": {
+        "startLine": 2217,
+        "startChar": 5,
+        "endLine": 2217,
+        "endChar": 11
+      },
+      "revId": "42a22f4f5a2a84967e4339ded5ec4530b9d29a35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

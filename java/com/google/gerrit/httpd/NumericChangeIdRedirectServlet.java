@@ -66,7 +66,7 @@ public class NumericChangeIdRedirectServlet extends HttpServlet {
     String psString = (uriSegments.size() > 1) ? uriSegments.get(1) : null;
 
     Optional<Change.Id> id = Change.Id.tryParse(idString);
-    if (!id.isPresent()) {
+    if (id.isEmpty()) {
       rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
       return;
     }

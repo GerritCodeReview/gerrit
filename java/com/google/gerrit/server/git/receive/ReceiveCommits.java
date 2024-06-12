@@ -1592,6 +1592,15 @@ class ReceiveCommits {
       } else {
         rejectProhibited(cmd, err.get());
       }
+      if (ObjectId.zeroId().equals(cmd.getOldId())) {
+        // Git CLI sends DELETE 0..0 0...0 when the server doesn't send the deleted ref during
+        // negotiation. The server usually doesn't send it when ref doesn't exist or when it
+        // is not visible to a caller - so the message that the ref doesn't exist should be ok
+        // here.
+        // Without this check, such delete always fails with the "internal error" message, caused
+        // by the checkArgument in the  ChainedReceiveCommands#add.
+        reject(cmd, String.format("The ref %s doesn't exist", cmd.getRefName()));
+      }
     }
   }
 

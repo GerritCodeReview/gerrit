@@ -78,7 +78,7 @@ public abstract class Plugin {
 
   protected LifecycleManager manager;
 
-  private List<ReloadableRegistrationHandle<?>> reloadableHandles;
+  protected List<ReloadableRegistrationHandle<?>> reloadableHandles;
 
   public Plugin(
       String name, Path srcPath, PluginUser pluginUser, FileSnapshot snapshot, ApiType apiType) {

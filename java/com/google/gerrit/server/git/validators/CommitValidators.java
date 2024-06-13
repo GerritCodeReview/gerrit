@@ -356,6 +356,7 @@ public class CommitValidators {
           throw new CommitValidationException(MISSING_CHANGE_ID_MSG, messages);
         }
       } else if (idList.size() > 1) {
+        messages.add(getMultipleChangeIdsErrorMsg(idList));
         throw new CommitValidationException(MULTIPLE_CHANGE_ID_MSG, messages);
       } else {
         String v = idList.get(0).trim();
@@ -388,6 +389,24 @@ public class CommitValidators {
               + "and then amend the commit:\n"
               + "  git commit --amend --no-edit\n"
               + "Finally, push your changes again\n",
+          ValidationMessage.Type.ERROR);
+    }
+
+    private CommitValidationMessage getMultipleChangeIdsErrorMsg(List<String> idList) {
+      return new CommitValidationMessage(
+          MULTIPLE_CHANGE_ID_MSG
+              + "\n"
+              + "\nHint: the following Change-Ids were found:\n"
+              + idList.stream()
+                  .map(
+                      id ->
+                          "* "
+                              + id
+                              + " ["
+                              + (CHANGE_ID.matcher(id.trim()).matches() ? "VALID" : "INVALID")
+                              + "]")
+                  .collect(Collectors.joining("\n"))
+              + "\n",
           ValidationMessage.Type.ERROR);
     }
 

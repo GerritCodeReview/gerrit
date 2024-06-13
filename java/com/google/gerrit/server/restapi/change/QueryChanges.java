@@ -179,7 +179,7 @@ public class QueryChanges implements RestReadView<TopLevelResource>, DynamicOpti
     }
 
     for (int i = 0; i < queries.size(); i++) {
-      queries.set(i, queries.get(i) + " " + queryFilter);
+      queries.set(i, "(" + queries.get(i) + ") AND (" + queryFilter + ")");
     }
   }
 

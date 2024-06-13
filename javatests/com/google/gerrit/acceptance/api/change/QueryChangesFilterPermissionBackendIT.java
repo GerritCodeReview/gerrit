@@ -135,13 +135,14 @@ public class QueryChangesFilterPermissionBackendIT extends AbstractDaemonTest {
     TestRepository<InMemoryRepository> hiddenRepo = cloneProject(hiddenProject, admin);
     createChange(hiddenRepo);
 
-    assertThat(gApi.changes().query().get()).hasSize(2);
+    String changeQuery = "author:self OR status:open";
+    assertThat(gApi.changes().query(changeQuery).get()).hasSize(2);
 
     server
         .getTestInjector()
         .getInstance(TestPermissionBackend.class)
         .setExtraQueryFilter("-project:" + hiddenProject);
-    List<ChangeInfo> projectChanges = gApi.changes().query().get();
+    List<ChangeInfo> projectChanges = gApi.changes().query(changeQuery).get();
     assertThat(projectChanges.stream().map(c -> c.changeId)).containsExactly(projectChangeId);
   }
 }

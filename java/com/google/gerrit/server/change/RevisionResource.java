@@ -14,26 +14,20 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.common.hash.Hasher;
-import com.google.common.hash.Hashing;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.restapi.RestResource;
-import com.google.gerrit.extensions.restapi.RestResource.HasETag;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.edit.ChangeEdit;
-import com.google.gerrit.server.logging.Metadata;
-import com.google.gerrit.server.logging.TraceContext;
-import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.inject.TypeLiteral;
 import java.util.Optional;
 
-public class RevisionResource implements RestResource, HasETag {
+public class RevisionResource implements RestResource {
   public static final TypeLiteral<RestView<RevisionResource>> REVISION_KIND =
       new TypeLiteral<>() {};
 
@@ -88,28 +82,6 @@ public class RevisionResource implements RestResource, HasETag {
 
   public PatchSet getPatchSet() {
     return ps;
-  }
-
-  @Override
-  public String getETag() {
-    try (TraceTimer ignored =
-        TraceContext.newTimer(
-            "Compute revision ETag",
-            Metadata.builder()
-                .changeId(changeResource.getId().get())
-                .patchSetId(ps.number())
-                .projectName(changeResource.getProject().get())
-                .build())) {
-      Hasher h = Hashing.murmur3_128().newHasher();
-      prepareETag(h, getUser());
-      return h.hash().toString();
-    }
-  }
-
-  public void prepareETag(Hasher h, CurrentUser user) {
-    // Conservative estimate: refresh the revision if its parent change has changed, so we don't
-    // have to check whether a given modification affected this revision specifically.
-    changeResource.prepareETag(h, user);
   }
 
   public Account.Id getAccountId() {

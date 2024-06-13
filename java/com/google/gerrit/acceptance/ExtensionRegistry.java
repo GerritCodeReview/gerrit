@@ -45,7 +45,6 @@ import com.google.gerrit.extensions.webui.PatchSetWebLink;
 import com.google.gerrit.extensions.webui.ResolveConflictsWebLink;
 import com.google.gerrit.server.ExceptionHook;
 import com.google.gerrit.server.account.GroupBackend;
-import com.google.gerrit.server.change.ChangeETagComputation;
 import com.google.gerrit.server.change.FilterIncludedIn;
 import com.google.gerrit.server.change.ReviewerSuggestion;
 import com.google.gerrit.server.config.ProjectConfigEntry;
@@ -81,7 +80,6 @@ public class ExtensionRegistry {
   private final DynamicSet<SubmitRule> submitRules;
   private final DynamicSet<SubmitRequirement> submitRequirements;
   private final DynamicSet<ChangeMessageModifier> changeMessageModifiers;
-  private final DynamicSet<ChangeETagComputation> changeETagComputations;
   private final DynamicSet<ActionVisitor> actionVisitors;
   private final DynamicMap<DownloadScheme> downloadSchemes;
   private final DynamicSet<RefOperationValidationListener> refOperationValidationListeners;
@@ -128,7 +126,6 @@ public class ExtensionRegistry {
       DynamicSet<SubmitRule> submitRules,
       DynamicSet<SubmitRequirement> submitRequirements,
       DynamicSet<ChangeMessageModifier> changeMessageModifiers,
-      DynamicSet<ChangeETagComputation> changeETagComputations,
       DynamicSet<ActionVisitor> actionVisitors,
       DynamicMap<DownloadScheme> downloadSchemes,
       DynamicSet<RefOperationValidationListener> refOperationValidationListeners,
@@ -170,7 +167,6 @@ public class ExtensionRegistry {
     this.submitRules = submitRules;
     this.submitRequirements = submitRequirements;
     this.changeMessageModifiers = changeMessageModifiers;
-    this.changeETagComputations = changeETagComputations;
     this.actionVisitors = actionVisitors;
     this.downloadSchemes = downloadSchemes;
     this.refOperationValidationListeners = refOperationValidationListeners;
@@ -283,11 +279,6 @@ public class ExtensionRegistry {
     @CanIgnoreReturnValue
     public Registration add(ChangeMessageModifier changeMessageModifier, String exportName) {
       return add(changeMessageModifiers, changeMessageModifier, exportName);
-    }
-
-    @CanIgnoreReturnValue
-    public Registration add(ChangeETagComputation changeETagComputation) {
-      return add(changeETagComputations, changeETagComputation);
     }
 
     @CanIgnoreReturnValue

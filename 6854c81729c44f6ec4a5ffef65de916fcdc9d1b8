@@ -16,6 +16,24 @@
       "message": "Why was the mailmap file considered stale?  Its purpose was to map variants of committers\u0027 names so that they appear in the git shortlog with a single canonical name.\n\nFor example sfter this removal, Shawn appears twice with slightly different names:\n\n```\ngerrit $ git shortlog -n -s\n  9201  David Pursehouse\n  7658  Edwin Kempin\n  3993  Dave Borowitz\n  3446  Shawn Pearce\n  3388  Ben Rohlfs\n  3038  Shawn O. Pearce\n  ```\n  \n  and paladox appears 3 times:\n  \n  ```\n  gerrit $ git shortlog -n -s | grep aladox\n  1585\tPaladox none\n   137\tpaladox\n   128\tPaladox\n ```",
       "revId": "6854c81729c44f6ec4a5ffef65de916fcdc9d1b8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a082609e_1aec657e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-06-13T09:49:03Z",
+      "side": 1,
+      "message": "Yeah, I think we want to keep the mailmap file. Let\u0027s revert this change.",
+      "parentUuid": "91bf9863_776c41bb",
+      "revId": "6854c81729c44f6ec4a5ffef65de916fcdc9d1b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

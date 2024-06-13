@@ -40,7 +40,8 @@ import com.google.gerrit.extensions.annotations.ExtensionPoint;
  * thus ensure that the ETag changes when the plugin data was changed. This way it is ensured that
  * callers do not see outdated ChangeInfos.
  *
- * @see ChangeResource#getETag()
+ * @see ChangeResource#prepareETag(com.google.common.hash.Hasher,
+ *     com.google.gerrit.server.CurrentUser)
  */
 @ExtensionPoint
 public interface ChangeETagComputation {

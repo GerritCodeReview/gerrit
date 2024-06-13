@@ -146,14 +146,10 @@ public class GetRelatedIT extends AbstractDaemonTest {
     testRepo.reset(c1_1);
     pushHead(testRepo, "refs/for/master", false);
     PatchSet.Id ps1_1 = getPatchSetId(c1_1);
-    String oldETag = changes.parse(ps1_1.changeId()).getETag();
 
     testRepo.reset(c2_1);
     pushHead(testRepo, "refs/for/master", false);
     PatchSet.Id ps2_1 = getPatchSetId(c2_1);
-
-    // Push of change 2 should not affect groups (or anything else) of change 1.
-    assertThat(changes.parse(ps1_1.changeId()).getETag()).isEqualTo(oldETag);
 
     for (PatchSet.Id ps : ImmutableList.of(ps2_1, ps1_1)) {
       assertRelated(ps, changeAndCommit(ps2_1, c2_1, 1), changeAndCommit(ps1_1, c1_1, 1));

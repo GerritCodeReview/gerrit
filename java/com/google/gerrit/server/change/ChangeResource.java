@@ -14,13 +14,11 @@
 
 package com.google.gerrit.server.change;
 
-import static com.google.gerrit.server.experiments.ExperimentFeaturesConstants.DISABLE_CHANGE_ETAGS;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.hash.Hasher;
-import com.google.common.hash.Hashing;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
@@ -29,18 +27,12 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.RestResource;
-import com.google.gerrit.extensions.restapi.RestResource.HasETag;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PatchSetUtil;
-import com.google.gerrit.server.StarredChangesReader;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.approval.ApprovalsUtil;
-import com.google.gerrit.server.experiments.ExperimentFeatures;
-import com.google.gerrit.server.logging.Metadata;
-import com.google.gerrit.server.logging.TraceContext;
-import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
@@ -55,7 +47,7 @@ import java.util.Optional;
 import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
 
-public class ChangeResource implements RestResource, HasETag {
+public class ChangeResource implements RestResource {
   /**
    * JSON format version number for ETag computations.
    *
@@ -74,12 +66,10 @@ public class ChangeResource implements RestResource, HasETag {
 
   private static final String ZERO_ID_STRING = ObjectId.zeroId().name();
 
-  private final ExperimentFeatures experimentFeatures;
   private final AccountCache accountCache;
   private final ApprovalsUtil approvalUtil;
   private final PatchSetUtil patchSetUtil;
   private final PermissionBackend permissionBackend;
-  private final StarredChangesReader starredChangesReader;
   private final ProjectCache projectCache;
   private final PluginSetContext<ChangeETagComputation> changeETagComputation;
   private final ChangeData changeData;
@@ -87,23 +77,19 @@ public class ChangeResource implements RestResource, HasETag {
 
   @AssistedInject
   ChangeResource(
-      ExperimentFeatures experimentFeatures,
       AccountCache accountCache,
       ApprovalsUtil approvalUtil,
       PatchSetUtil patchSetUtil,
       PermissionBackend permissionBackend,
-      StarredChangesReader starredChangesReader,
       ProjectCache projectCache,
       PluginSetContext<ChangeETagComputation> changeETagComputation,
       ChangeData.Factory changeDataFactory,
       @Assisted ChangeNotes notes,
       @Assisted CurrentUser user) {
-    this.experimentFeatures = experimentFeatures;
     this.accountCache = accountCache;
     this.approvalUtil = approvalUtil;
     this.patchSetUtil = patchSetUtil;
     this.permissionBackend = permissionBackend;
-    this.starredChangesReader = starredChangesReader;
     this.projectCache = projectCache;
     this.changeETagComputation = changeETagComputation;
     this.changeData = changeDataFactory.create(notes);
@@ -112,22 +98,18 @@ public class ChangeResource implements RestResource, HasETag {
 
   @AssistedInject
   ChangeResource(
-      ExperimentFeatures experimentFeatures,
       AccountCache accountCache,
       ApprovalsUtil approvalUtil,
       PatchSetUtil patchSetUtil,
       PermissionBackend permissionBackend,
-      StarredChangesReader starredChangesReader,
       ProjectCache projectCache,
       PluginSetContext<ChangeETagComputation> changeETagComputation,
       @Assisted ChangeData changeData,
       @Assisted CurrentUser user) {
-    this.experimentFeatures = experimentFeatures;
     this.accountCache = accountCache;
     this.approvalUtil = approvalUtil;
     this.patchSetUtil = patchSetUtil;
     this.permissionBackend = permissionBackend;
-    this.starredChangesReader = starredChangesReader;
     this.projectCache = projectCache;
     this.changeETagComputation = changeETagComputation;
     this.changeData = changeData;
@@ -235,29 +217,6 @@ public class ChangeResource implements RestResource, HasETag {
             h.putString(pluginETag, UTF_8);
           }
         });
-  }
-
-  @Override
-  @Nullable
-  public String getETag() {
-    if (experimentFeatures.isFeatureEnabled(DISABLE_CHANGE_ETAGS)) {
-      return null;
-    }
-
-    try (TraceTimer ignored =
-        TraceContext.newTimer(
-            "Compute change ETag",
-            Metadata.builder()
-                .changeId(changeData.getId().get())
-                .projectName(changeData.project().get())
-                .build())) {
-      Hasher h = Hashing.murmur3_128().newHasher();
-      if (user.isIdentifiedUser()) {
-        h.putBoolean(starredChangesReader.isStarred(user.getAccountId(), getVirtualId()));
-      }
-      prepareETag(h, user);
-      return h.hash().toString();
-    }
   }
 
   private void hashObjectId(Hasher h, @Nullable ObjectId id, byte[] buf) {

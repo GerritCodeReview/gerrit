@@ -60,7 +60,4 @@ public class ExperimentFeaturesConstants {
   /** Whether we allow fix suggestions in HumanComments. */
   public static final String ALLOW_FIX_SUGGESTIONS_IN_COMMENTS =
       "GerritBackendFeature__allow_fix_suggestions_in_comments";
-
-  /** Whether etags should be disabled for change resources. */
-  public static final String DISABLE_CHANGE_ETAGS = "GerritBackendFeature__disable_change_etags";
 }

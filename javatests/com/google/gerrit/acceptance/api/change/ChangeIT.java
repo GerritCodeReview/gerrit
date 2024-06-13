@@ -111,7 +111,6 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.api.accounts.DeleteDraftCommentsInput;
 import com.google.gerrit.extensions.api.changes.AttentionSetInput;
@@ -170,7 +169,6 @@ import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeMessages;
 import com.google.gerrit.server.change.ChangeResource;
-import com.google.gerrit.server.change.testing.TestChangeETagComputation;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.ChangeMessageModifier;
 import com.google.gerrit.server.git.validators.CommitValidationException;
@@ -1543,7 +1541,6 @@ public class ChangeIT extends AbstractDaemonTest {
   private void testAddReviewerViaPostReview(AddReviewerCaller addReviewer) throws Exception {
     PushOneCommit.Result r = createChange();
     ChangeResource rsrc = parseResource(r);
-    String oldETag = rsrc.getETag();
     Instant oldTs = rsrc.getChange().getLastUpdatedOn();
 
     addReviewer.call(r.getChangeId(), user.email());
@@ -1567,16 +1564,9 @@ public class ChangeIT extends AbstractDaemonTest {
     // Nobody was added as CC.
     assertThat(c.reviewers.get(CC)).isNull();
 
-    // Ensure ETag and lastUpdatedOn are updated.
+    // Ensure lastUpdatedOn is updated.
     rsrc = parseResource(r);
-    assertThat(rsrc.getETag()).isNotEqualTo(oldETag);
     assertThat(rsrc.getChange().getLastUpdatedOn()).isNotEqualTo(oldTs);
-
-    // Change status of reviewer and ensure ETag is updated.
-    oldETag = rsrc.getETag();
-    accountOperations.account(user.id()).forUpdate().status("new status").update();
-    rsrc = parseResource(r);
-    assertThat(rsrc.getETag()).isNotEqualTo(oldETag);
   }
 
   @Test
@@ -1659,7 +1649,6 @@ public class ChangeIT extends AbstractDaemonTest {
   public void addReviewerThatIsNotPerfectMatch() throws Exception {
     PushOneCommit.Result r = createChange();
     ChangeResource rsrc = parseResource(r);
-    String oldETag = rsrc.getETag();
     Instant oldTs = rsrc.getChange().getLastUpdatedOn();
 
     // create a group named "ab" with one user: testUser
@@ -1697,9 +1686,8 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(reviewers).hasSize(1);
     assertThat(reviewers.iterator().next()._accountId).isEqualTo(accountIdOfTestUser.get());
 
-    // Ensure ETag and lastUpdatedOn are updated.
+    // Ensure lastUpdatedOn is updated.
     rsrc = parseResource(r);
-    assertThat(rsrc.getETag()).isNotEqualTo(oldETag);
     assertThat(rsrc.getChange().getLastUpdatedOn()).isNotEqualTo(oldTs);
   }
 
@@ -1708,7 +1696,6 @@ public class ChangeIT extends AbstractDaemonTest {
   public void addGroupAsReviewersWhenANotPerfectMatchedUserExists() throws Exception {
     PushOneCommit.Result r = createChange();
     ChangeResource rsrc = parseResource(r);
-    String oldETag = rsrc.getETag();
     Instant oldTs = rsrc.getChange().getLastUpdatedOn();
 
     // create a group named "kobe" with one user: lee
@@ -1758,9 +1745,8 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(reviewers).hasSize(1);
     assertThat(reviewers.iterator().next()._accountId).isEqualTo(accountIdOfGroupUser.get());
 
-    // Ensure ETag and lastUpdatedOn are updated.
+    // Ensure lastUpdatedOn is updated.
     rsrc = parseResource(r);
-    assertThat(rsrc.getETag()).isNotEqualTo(oldETag);
     assertThat(rsrc.getChange().getLastUpdatedOn()).isNotEqualTo(oldTs);
   }
 
@@ -1809,7 +1795,6 @@ public class ChangeIT extends AbstractDaemonTest {
   public void addSelfAsReviewer() throws Exception {
     PushOneCommit.Result r = createChange();
     ChangeResource rsrc = parseResource(r);
-    String oldETag = rsrc.getETag();
     Instant oldTs = rsrc.getChange().getLastUpdatedOn();
 
     ReviewerInput in = new ReviewerInput();
@@ -1827,9 +1812,8 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(reviewers).hasSize(1);
     assertThat(reviewers.iterator().next()._accountId).isEqualTo(user.id().get());
 
-    // Ensure ETag and lastUpdatedOn are updated.
+    // Ensure lastUpdatedOn is updated.
     rsrc = parseResource(r);
-    assertThat(rsrc.getETag()).isNotEqualTo(oldETag);
     assertThat(rsrc.getChange().getLastUpdatedOn()).isNotEqualTo(oldTs);
   }
 
@@ -1917,56 +1901,6 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(reviewerIt.next()._accountId).isEqualTo(admin.id().get());
     assertThat(reviewerIt.next()._accountId).isEqualTo(user.id().get());
     assertThat(c.reviewers).doesNotContainKey(CC);
-  }
-
-  @Test
-  public void eTagChangesWhenOwnerUpdatesAccountStatus() throws Exception {
-    PushOneCommit.Result r = createChange();
-    ChangeResource rsrc = parseResource(r);
-    String oldETag = rsrc.getETag();
-
-    accountOperations.account(admin.id()).forUpdate().status("new status").update();
-    rsrc = parseResource(r);
-    assertThat(rsrc.getETag()).isNotEqualTo(oldETag);
-  }
-
-  @Test
-  public void pluginCanContributeToETagComputation() throws Exception {
-    PushOneCommit.Result r = createChange();
-    String oldETag = parseResource(r).getETag();
-
-    try (Registration registration =
-        extensionRegistry.newRegistration().add(TestChangeETagComputation.withETag("foo"))) {
-      assertThat(parseResource(r).getETag()).isNotEqualTo(oldETag);
-    }
-
-    assertThat(parseResource(r).getETag()).isEqualTo(oldETag);
-  }
-
-  @Test
-  public void returningNullFromETagComputationDoesNotBreakGerrit() throws Exception {
-    PushOneCommit.Result r = createChange();
-    String oldETag = parseResource(r).getETag();
-
-    try (Registration registration =
-        extensionRegistry.newRegistration().add(TestChangeETagComputation.withETag(null))) {
-      assertThat(parseResource(r).getETag()).isEqualTo(oldETag);
-    }
-  }
-
-  @Test
-  public void throwingExceptionFromETagComputationDoesNotBreakGerrit() throws Exception {
-    PushOneCommit.Result r = createChange();
-    String oldETag = parseResource(r).getETag();
-
-    try (Registration registration =
-        extensionRegistry
-            .newRegistration()
-            .add(
-                TestChangeETagComputation.withException(
-                    new StorageException("exception during test")))) {
-      assertThat(parseResource(r).getETag()).isEqualTo(oldETag);
-    }
   }
 
   @Test

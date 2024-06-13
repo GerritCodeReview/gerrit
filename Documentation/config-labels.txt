@@ -339,7 +339,7 @@ This logic is triggered whenever a new patch set is uploaded.
 Gerrit currently supports the following predicates:
 
 [[changekind]]
-==== changekind:{NO_CHANGE,NO_CODE_CHANGE,MERGE_FIRST_PARENT_UPDATE,REWORK,TRIVIAL_REBASE}
+==== changekind:{NO_CHANGE,NO_CODE_CHANGE,MERGE_FIRST_PARENT_UPDATE,REWORK,TRIVIAL_REBASE,TRIVIAL_REBASE_WITH_MESSAGE_UPDATE}
 
 Matches if the diff between two patch sets was of a certain change kind:
 
@@ -409,6 +409,10 @@ turn-around for trivial rebases prior to submitting a change.
 +
 For the pre-installed Code-Review label this predicate is used by
 default.
+
+* [[trivial_rebase_with_message_update]]`TRIVIAL_REBASE_WITH_MESSAGE_UPDATE`:
++
+Same as TRIVIAL_REBASE, but commit message can be different.
 
 * [[rework]]`REWORK`:
 +

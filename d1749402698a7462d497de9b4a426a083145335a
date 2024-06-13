@@ -40,6 +40,30 @@
       ],
       "revId": "d1749402698a7462d497de9b4a426a083145335a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "62f20107_866f6f86",
+        "filename": "java/com/google/gerrit/server/restapi/change/QueryChanges.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-13T13:55:42Z",
+      "side": 1,
+      "message": "Thanks @dmfilippov@google.com for your feedback and looking at this change.\nGood point, let me upload this amendment as a follow-up.\n\nI believe I also need to increase the coverage by tests to cover this scenario with I94dea44d5 and, once demonstrated that the test fail, I\u0027ll upload a new PS with the fix.\n\nThanks for reporting it.",
+      "parentUuid": "b7d7c697_b33873f7",
+      "range": {
+        "startLine": 182,
+        "startChar": 21,
+        "endLine": 182,
+        "endChar": 55
+      },
+      "revId": "d1749402698a7462d497de9b4a426a083145335a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

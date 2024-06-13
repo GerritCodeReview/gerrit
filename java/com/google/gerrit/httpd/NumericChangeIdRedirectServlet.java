@@ -14,6 +14,9 @@
 
 package com.google.gerrit.httpd;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
+
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -25,7 +28,6 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -60,7 +62,8 @@ public class NumericChangeIdRedirectServlet extends HttpServlet {
     int commentIdx = uriPath.indexOf("/comment");
     String idString = commentIdx == -1 ? uriPath : uriPath.substring(0, commentIdx);
 
-    List<String> uriSegments = Arrays.stream(idString.split("/")).toList();
+    ImmutableList<String> uriSegments =
+        Arrays.stream(idString.split("/")).collect(toImmutableList());
 
     idString = uriSegments.get(0);
     String psString = (uriSegments.size() > 1) ? uriSegments.get(1) : null;

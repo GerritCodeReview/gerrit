@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bb3d9273_05b1d6ce",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-06-13T09:17:11Z",
+      "side": 1,
+      "message": "I think we can stub NavigationService.setUrl, in the test and verify that correct url is being passed in",
+      "parentUuid": "31118547_5ae05f75",
+      "revId": "f197b173eae9116e399062020c328c59ebec36c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "07eca956_1215fc8e",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
         "patchSetId": 4

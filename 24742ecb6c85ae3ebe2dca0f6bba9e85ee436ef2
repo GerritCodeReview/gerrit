@@ -34,6 +34,24 @@
       "parentUuid": "8978e38d_adcc2386",
       "revId": "24742ecb6c85ae3ebe2dca0f6bba9e85ee436ef2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba7f5583_568a1e6e",
+        "filename": "tools/run_gjf.sh",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-06-13T23:47:42Z",
+      "side": 1,
+      "message": "Should the commands with this same option in the commit message and `Documentation/dev-crafting-changes.txt` be updated too?",
+      "parentUuid": "711b96ac_cbe6b92d",
+      "revId": "24742ecb6c85ae3ebe2dca0f6bba9e85ee436ef2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

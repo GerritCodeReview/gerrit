@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d9f412b_9b3a4a17",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-06-13T08:37:06Z",
+      "side": 1,
+      "message": "Can we add a test that would\u0027ve caught the previous failure? I see that some of the tests were updated in this revert, but none of them are new, so I think we are still missing a test that would\u0027ve caught the issue in the reverted change.",
+      "revId": "f197b173eae9116e399062020c328c59ebec36c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07eca956_1215fc8e",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 2191,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-06-13T08:37:06Z",
+      "side": 1,
+      "message": "pacthNum",
+      "range": {
+        "startLine": 2191,
+        "startChar": 34,
+        "endLine": 2191,
+        "endChar": 44
+      },
+      "revId": "f197b173eae9116e399062020c328c59ebec36c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

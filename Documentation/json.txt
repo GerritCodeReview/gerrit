@@ -118,7 +118,11 @@ kind:: Kind of change uploaded.
 
   REWORK;; Nontrivial content changes.
 
-  TRIVIAL_REBASE;; Conflict-free merge between the new parent and the prior patch set.
+  TRIVIAL_REBASE;; Conflict-free merge between the new parent and the prior patch set; same commit
+  message.
+
+  TRIVIAL_REBASE_WITH_MESSAGE_UPDATE;; Conflict-free merge between the new parent and the prior
+  patch set.
 
   MERGE_FIRST_PARENT_UPDATE;; Conflict-free change of first (left) parent of a merge commit.
 

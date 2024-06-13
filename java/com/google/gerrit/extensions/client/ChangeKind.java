@@ -22,6 +22,12 @@ public enum ChangeKind {
   /** Conflict-free merge between the new parent and the prior patch set. */
   TRIVIAL_REBASE,
 
+  /**
+   * Conflict-free merge between the new parent and the prior patch set, accompanied with a change
+   * to commit message.
+   */
+  TRIVIAL_REBASE_WITH_MESSAGE_UPDATE,
+
   /** Conflict-free change of first (left) parent of a merge commit. */
   MERGE_FIRST_PARENT_UPDATE,
 
@@ -39,6 +45,8 @@ public enum ChangeKind {
         return true;
       case TRIVIAL_REBASE:
         return isTrivialRebase();
+      case TRIVIAL_REBASE_WITH_MESSAGE_UPDATE:
+        return isTrivialRebaseWithMessageUpdate();
       case MERGE_FIRST_PARENT_UPDATE:
         return isMergeFirstParentUpdate(isMerge);
       case NO_CHANGE:
@@ -57,6 +65,14 @@ public enum ChangeKind {
   public boolean isTrivialRebase() {
     // NO_CHANGE is a more trivial case of TRIVIAL_REBASE and hence matched as well
     return this == NO_CHANGE || this == TRIVIAL_REBASE;
+  }
+
+  public boolean isTrivialRebaseWithMessageUpdate() {
+    // TRIVIAL_REBASE is more strict condition and hence matched as well
+    return this == NO_CHANGE
+        || this == NO_CODE_CHANGE
+        || this == TRIVIAL_REBASE
+        || this == TRIVIAL_REBASE_WITH_MESSAGE_UPDATE;
   }
 
   public boolean isMergeFirstParentUpdate(boolean isMerge) {

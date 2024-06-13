@@ -193,7 +193,7 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
     @Override
     public ChangeKind call() throws IOException {
       if (Objects.equals(key.prior(), key.next())) {
-        return ChangeKind.NO_CODE_CHANGE;
+        return ChangeKind.NO_CHANGE;
       }
 
       RevWalk rw = alreadyOpenRw;
@@ -210,15 +210,10 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
         RevCommit next = rw.parseCommit(key.next());
         rw.parseBody(next);
 
-        if (!next.getFullMessage().equals(prior.getFullMessage())) {
-          if (isSameDeltaAndTree(rw, prior, next)) {
-            return ChangeKind.NO_CODE_CHANGE;
-          }
-          return ChangeKind.REWORK;
-        }
+        boolean commitMessageChanged = !next.getFullMessage().equals(prior.getFullMessage());
 
         if (isSameDeltaAndTree(rw, prior, next)) {
-          return ChangeKind.NO_CHANGE;
+          return commitMessageChanged ? ChangeKind.NO_CODE_CHANGE : ChangeKind.NO_CHANGE;
         }
 
         if (prior.getParentCount() == 0 || next.getParentCount() == 0) {
@@ -243,9 +238,11 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
           if (merger.merge(next.getParent(0), prior)
               && merger.getResultTreeId().equals(next.getTree())) {
             if (prior.getParentCount() == 1) {
-              return ChangeKind.TRIVIAL_REBASE;
+              return commitMessageChanged
+                  ? ChangeKind.TRIVIAL_REBASE_WITH_MESSAGE_UPDATE
+                  : ChangeKind.TRIVIAL_REBASE;
             }
-            return ChangeKind.MERGE_FIRST_PARENT_UPDATE;
+            return commitMessageChanged ? ChangeKind.REWORK : ChangeKind.MERGE_FIRST_PARENT_UPDATE;
           }
         } catch (LargeObjectException e) {
           // Some object is too large for the merge attempt to succeed. Assume

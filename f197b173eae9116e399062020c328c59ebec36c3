@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "11e246e2_b97697c0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-06-13T10:34:18Z",
+      "side": 1,
+      "message": "OK, so what we want to test is that gr-file-list produces the correct URL in the case of the previous failure.\n\nI think we can best do this directly by focusing on the `diff url file list` unit test suite that already exists. The href, the click and what ends up in `setUrl()` directly depends on that.\n\nThe primary user journey that was untested is that the patchset is not set in the view model, i.e. the user looks at the latest patchset in the change view. We can enforce that by removing line 93, which was setting the patchset of the view state explicitly to a number.\n\nI have gone back to patchset 1 and have verified that removing line 93 causes the tests to fail as expected by the regression that we have observed. So with removing line 93 I think we can call this test case covered. Agreed?",
+      "parentUuid": "bb3d9273_05b1d6ce",
+      "revId": "f197b173eae9116e399062020c328c59ebec36c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "07eca956_1215fc8e",

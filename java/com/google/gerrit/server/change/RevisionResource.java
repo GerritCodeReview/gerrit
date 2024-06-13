@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.common.hash.Hasher;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
@@ -83,12 +82,6 @@ public class RevisionResource implements RestResource {
 
   public PatchSet getPatchSet() {
     return ps;
-  }
-
-  public void prepareETag(Hasher h, CurrentUser user) {
-    // Conservative estimate: refresh the revision if its parent change has changed, so we don't
-    // have to check whether a given modification affected this revision specifically.
-    changeResource.prepareETag(h, user);
   }
 
   public Account.Id getAccountId() {

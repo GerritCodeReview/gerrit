@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "31118547_5ae05f75",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-06-13T09:05:48Z",
+      "side": 1,
+      "message": "We are enforcing `patchNum` to be set in the `DiffViewState` type, so on a lower level it is not really useful to test that `patchNum` is actually set, because TypeScript enforces it now.\n\nOn a higher level we really need integration tests: User opens change page, clicks on file row, then should end up on a the diff page.\n\nWe could add to the prober or scuba tests. Is that what you had in mind?",
+      "parentUuid": "2d9f412b_9b3a4a17",
+      "revId": "f197b173eae9116e399062020c328c59ebec36c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "07eca956_1215fc8e",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
         "patchSetId": 4
@@ -31,6 +49,30 @@
       "writtenOn": "2024-06-13T08:37:06Z",
       "side": 1,
       "message": "pacthNum",
+      "range": {
+        "startLine": 2191,
+        "startChar": 34,
+        "endLine": 2191,
+        "endChar": 44
+      },
+      "revId": "f197b173eae9116e399062020c328c59ebec36c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "118a9e67_6d5541ec",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 2191,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-06-13T09:05:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07eca956_1215fc8e",
       "range": {
         "startLine": 2191,
         "startChar": 34,

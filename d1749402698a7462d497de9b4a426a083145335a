@@ -1,5 +1,47 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7d7c697_b33873f7",
+        "filename": "java/com/google/gerrit/server/restapi/change/QueryChanges.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2024-06-13T08:13:45Z",
+      "side": 1,
+      "message": "Do I understand correctly that it should generate a query which matches both queries.get(i) AND queryFilter?\nIf so, should it wrap the queries.get(i) in parentheses?\nE.g. the following 2 queries returns different results:\nauthor:me OR status:merged before:2024-01-01\n(author:me OR status:merged) before:2024-01-01",
+      "range": {
+        "startLine": 182,
+        "startChar": 21,
+        "endLine": 182,
+        "endChar": 55
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "b272769f_2dc7ab3e",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "java/com/google/gerrit/server/restapi/change/QueryChanges.java",
+              "range": {
+                "startLine": 182,
+                "startChar": 0,
+                "endLine": 183,
+                "endChar": 0
+              },
+              "replacement": "      queries.set(i, \"(\" + queries.get(i) + \") \" + queryFilter);\n"
+            }
+          ]
+        }
+      ],
+      "revId": "d1749402698a7462d497de9b4a426a083145335a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

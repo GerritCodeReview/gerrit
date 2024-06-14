@@ -473,9 +473,11 @@ export class GrResultRow extends LitElement {
     this.toggleExpanded();
   }
 
-  private toggleExpanded() {
+  /** Toggles the expanded state, or if `setExpanded` is provided sets it to the desired state. */
+  toggleExpanded(setExpanded?: boolean) {
     if (!this.isExpandable) return;
-    this.isExpanded = !this.isExpanded;
+    this.isExpanded =
+      setExpanded === undefined ? !this.isExpanded : setExpanded;
     this.reporting.reportInteraction(Interaction.CHECKS_RESULT_ROW_TOGGLE, {
       expanded: this.isExpanded,
       checkName: this.result?.checkName,
@@ -1103,6 +1105,8 @@ export class GrChecksResults extends LitElement {
       // moment before trying to find a child element in it.
       setTimeout(() => {
         if (el) (el as HTMLElement).focus();
+        // If the target element is a <gr-result-row>, then expand it.
+        (el as GrResultRow)?.toggleExpanded(true);
         // <gr-result-row> has display:contents and cannot be scrolled into view
         // itself. Thus we are preferring to scroll the first child into view.
         el = el?.shadowRoot?.firstElementChild ?? el;

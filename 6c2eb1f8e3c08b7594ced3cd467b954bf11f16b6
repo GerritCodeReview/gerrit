@@ -16,6 +16,23 @@
       "message": "Cool idea!",
       "revId": "6c2eb1f8e3c08b7594ced3cd467b954bf11f16b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "91e43a8c_57d85202",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2024-06-14T12:56:28Z",
+      "side": 1,
+      "message": "hi, I have noticed that `hovercard-links` endpoint via the release notes, it might be worth adding a few lines to the documentation to ease discovery: `Documentation/pg-plugin-endpoints.txt`.\n\nI\u0027d also rename it since there are other some other hovercards in the UI such as for submit requirements or check runs).",
+      "revId": "6c2eb1f8e3c08b7594ced3cd467b954bf11f16b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

@@ -475,6 +475,7 @@ export class GrChecksRuns extends LitElement {
     return [
       sharedStyles,
       fontStyles,
+      formStyles,
       css`
         :host {
           display: block;

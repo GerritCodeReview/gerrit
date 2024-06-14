@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "60ca2d3b_e6f804a6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2024-06-14T23:09:19Z",
+      "side": 1,
+      "message": "Thanks, @luca.milanesio@gmail.com for finalizing bazel build for github plugin. This change is not needed any more.",
+      "parentUuid": "f6e24c68_04a75487",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 40
+      },
+      "revId": "b7afcf1926a0b9e53df70acef411be195a4f1d8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "e8278d28_5ff02e97",

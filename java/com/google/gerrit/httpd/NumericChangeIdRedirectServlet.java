@@ -58,15 +58,12 @@ public class NumericChangeIdRedirectServlet extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
     String uriPath = req.getPathInfo();
-    // Check if we are processing a comment url, like "/c/1/comment/ff3303fd_8341647b/".
-    int commentIdx = uriPath.indexOf("/comment");
-    String idString = commentIdx == -1 ? uriPath : uriPath.substring(0, commentIdx);
 
     ImmutableList<String> uriSegments =
-        Arrays.stream(idString.split("/")).collect(toImmutableList());
+        Arrays.stream(uriPath.split("/", 2)).collect(toImmutableList());
 
-    idString = uriSegments.get(0);
-    String psString = (uriSegments.size() > 1) ? uriSegments.get(1) : null;
+    String idString = uriSegments.get(0);
+    String finalSegment = (uriSegments.size() > 1) ? uriSegments.get(1) : null;
 
     Optional<Change.Id> id = Change.Id.tryParse(idString);
     if (id.isEmpty()) {
@@ -85,11 +82,8 @@ public class NumericChangeIdRedirectServlet extends HttpServlet {
     }
     String path =
         PageLinks.toChange(changeResource.getProject(), changeResource.getChange().getId());
-    if (commentIdx > -1) {
-      // path already contain a trailing /, hence we start from "commentIdx + 1"
-      path = path + uriPath.substring(commentIdx + 1);
-    } else if (psString != null) {
-      path += psString;
+    if (finalSegment != null) {
+      path += finalSegment;
     }
     UrlModule.toGerrit(path, req, rsp);
   }

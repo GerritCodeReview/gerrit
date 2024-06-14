@@ -450,26 +450,15 @@ public class RestApiServletIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testNumericChangeIdWithPSRedirectWithPrefix() throws Exception {
+  public void testNumericChangeIdWithExtraSegments() throws Exception {
     ChangeData changeData = createChange().getChange();
-    int psNumber = changeData.currentPatchSet().id().get();
     int changeNumber = changeData.getId().get();
 
-    String redirectUri = String.format("/c/%s/+/%d/%d", project.get(), changeNumber, psNumber);
-    anonymousRestSession
-        .get(String.format("/c/%d/%d", changeNumber, psNumber))
-        .assertTemporaryRedirect(redirectUri);
-  }
+    String finalSegment = "any/Thing";
 
-  @Test
-  public void testNumericChangeIdWithPSAndSlashRedirectWithPrefix() throws Exception {
-    ChangeData changeData = createChange().getChange();
-    int psNumber = changeData.currentPatchSet().id().get();
-    int changeNumber = changeData.getId().get();
-
-    String redirectUri = String.format("/c/%s/+/%d/%d", project.get(), changeNumber, psNumber);
+    String redirectUri = String.format("/c/%s/+/%d/%s", project.get(), changeNumber, finalSegment);
     anonymousRestSession
-        .get(String.format("/c/%d/%d/", changeNumber, psNumber))
+        .get(String.format("/c/%d/%s", changeNumber, finalSegment))
         .assertTemporaryRedirect(redirectUri);
   }
 

@@ -70,6 +70,24 @@
       "parentUuid": "9c481556_05a7a337",
       "revId": "bba2ee004bf4aa7247c64ae324964663c6d4758b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9bb683d_402e43d3",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 630,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-15T22:06:33Z",
+      "side": 1,
+      "message": "I\u0027ve uploaded I2c2e8ed6f as a workaround, even though it may break again should you decide to reduce its visibility further.",
+      "parentUuid": "dfa89290_5eb562f4",
+      "revId": "bba2ee004bf4aa7247c64ae324964663c6d4758b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

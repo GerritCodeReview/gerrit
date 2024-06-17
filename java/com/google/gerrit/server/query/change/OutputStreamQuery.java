@@ -286,12 +286,13 @@ public class OutputStreamQuery {
     }
 
     RevWalk rw = null;
+    Repository repo = null;
     if (includePatchSets || includeCurrentPatchSet || includeDependencies) {
       Project.NameKey p = d.change().getProject();
       rw = revWalks.get(p);
       // Cache and reuse repos and revwalks.
       if (rw == null) {
-        Repository repo = repoManager.openRepository(p);
+        repo = repoManager.openRepository(p);
         checkState(repos.put(p, repo) == null);
         rw = new RevWalk(repo);
         revWalks.put(p, rw);
@@ -301,11 +302,11 @@ public class OutputStreamQuery {
     if (includePatchSets) {
       eventFactory.addPatchSets(
           rw,
+          repo != null ? repo.getConfig() : repos.get(d.change().getProject()).getConfig(),
           c,
-          d.patchSets(),
           includeApprovals ? d.conditionallyLoadApprovalsWithCopied().asMap() : null,
           includeFiles,
-          d.change(),
+          d,
           labelTypes,
           accountLoader);
     }
@@ -313,7 +314,12 @@ public class OutputStreamQuery {
     if (includeCurrentPatchSet) {
       PatchSet current = d.currentPatchSet();
       if (current != null) {
-        c.currentPatchSet = eventFactory.asPatchSetAttribute(rw, d.change(), current);
+        c.currentPatchSet =
+            eventFactory.asPatchSetAttribute(
+                rw,
+                repo != null ? repo.getConfig() : repos.get(d.change().getProject()).getConfig(),
+                d,
+                current);
         eventFactory.addApprovals(
             c.currentPatchSet, d.currentApprovals(), labelTypes, accountLoader);
 
@@ -331,11 +337,11 @@ public class OutputStreamQuery {
       if (includePatchSets) {
         eventFactory.addPatchSets(
             rw,
+            repo != null ? repo.getConfig() : repos.get(d.change().getProject()).getConfig(),
             c,
-            d.patchSets(),
             includeApprovals ? d.approvals().asMap() : null,
             includeFiles,
-            d.change(),
+            d,
             labelTypes,
             accountLoader);
         for (PatchSetAttribute attribute : c.patchSets) {

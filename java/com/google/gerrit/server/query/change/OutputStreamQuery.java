@@ -284,63 +284,60 @@ public class OutputStreamQuery {
       eventFactory.addCommitMessage(c, d.commitMessage());
     }
 
-    RevWalk rw = null;
-    Repository repo = null;
     if (includePatchSets || includeCurrentPatchSet || includeDependencies) {
       Project.NameKey p = d.change().getProject();
-      rw = revWalks.get(p);
+      Repository repo;
+      RevWalk rw = revWalks.get(p);
       // Cache and reuse repos and revwalks.
       if (rw == null) {
         repo = repoManager.openRepository(p);
         checkState(repos.put(p, repo) == null);
         rw = new RevWalk(repo);
         revWalks.put(p, rw);
+      } else {
+        repo = repos.get(p);
       }
-    }
 
-    if (includePatchSets) {
-      eventFactory.addPatchSets(
-          rw,
-          repo != null ? repo.getConfig() : repos.get(d.change().getProject()).getConfig(),
-          c,
-          includeApprovals ? d.conditionallyLoadApprovalsWithCopied().asMap() : null,
-          includeFiles,
-          d,
-          accountLoader);
-      if (includeComments) {
-        for (PatchSetAttribute attribute : c.patchSets) {
-          eventFactory.addPatchSetComments(attribute, d.publishedComments(), accountLoader);
-        }
-      }
-    }
-
-    if (includeCurrentPatchSet) {
-      PatchSet current = d.currentPatchSet();
-      if (current != null) {
-        c.currentPatchSet =
-            eventFactory.asPatchSetAttribute(
-                rw,
-                repo != null ? repo.getConfig() : repos.get(d.change().getProject()).getConfig(),
-                d,
-                current);
-        eventFactory.addApprovals(
-            c.currentPatchSet, d.currentApprovals(), d.getLabelTypes(), accountLoader);
-
-        if (includeFiles) {
-          eventFactory.addPatchSetFileNames(c.currentPatchSet, d.change(), d.currentPatchSet());
-        }
+      if (includePatchSets) {
+        eventFactory.addPatchSets(
+            rw,
+            repo.getConfig(),
+            c,
+            includeApprovals ? d.conditionallyLoadApprovalsWithCopied().asMap() : null,
+            includeFiles,
+            d,
+            accountLoader);
         if (includeComments) {
-          eventFactory.addPatchSetComments(c.currentPatchSet, d.publishedComments(), accountLoader);
+          for (PatchSetAttribute attribute : c.patchSets) {
+            eventFactory.addPatchSetComments(attribute, d.publishedComments(), accountLoader);
+          }
         }
+      }
+
+      if (includeCurrentPatchSet) {
+        PatchSet current = d.currentPatchSet();
+        if (current != null) {
+          c.currentPatchSet = eventFactory.asPatchSetAttribute(rw, repo.getConfig(), d, current);
+          eventFactory.addApprovals(
+              c.currentPatchSet, d.currentApprovals(), d.getLabelTypes(), accountLoader);
+
+          if (includeFiles) {
+            eventFactory.addPatchSetFileNames(c.currentPatchSet, d.change(), d.currentPatchSet());
+          }
+          if (includeComments) {
+            eventFactory.addPatchSetComments(
+                c.currentPatchSet, d.publishedComments(), accountLoader);
+          }
+        }
+      }
+
+      if (includeDependencies) {
+        eventFactory.addDependencies(rw, c, d.change(), d.currentPatchSet());
       }
     }
 
     if (includeComments) {
       eventFactory.addComments(c, d.messages(), accountLoader);
-    }
-
-    if (includeDependencies) {
-      eventFactory.addDependencies(rw, c, d.change(), d.currentPatchSet());
     }
 
     ImmutableList<PluginDefinedInfo> pluginInfos = pluginInfosByChange.get(d.getId());

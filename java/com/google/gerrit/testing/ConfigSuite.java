@@ -244,7 +244,7 @@ public class ConfigSuite extends Suite {
     try {
       result.add(
           new ConfigRunner(
-              clazz, parameterField, nameField, null, callConfigMethod(defaultConfig)));
+              clazz, parameterField, nameField, DEFAULT, callConfigMethod(defaultConfig)));
       for (Method m : configs) {
         result.add(
             new ConfigRunner(clazz, parameterField, nameField, m.getName(), callConfigMethod(m)));

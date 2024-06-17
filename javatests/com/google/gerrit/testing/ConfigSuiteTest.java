@@ -124,8 +124,8 @@ public class ConfigSuiteTest {
     new ConfigSuite(ConfigBasedTest.class).run(notifier);
     verify(configBasedTestListener, Mockito.times(6)).testExecuted(any(), any(), any());
 
-    verify(configBasedTestListener, Mockito.times(1)).testExecuted("test1", "default", null);
-    verify(configBasedTestListener, Mockito.times(1)).testExecuted("test2", "default", null);
+    verify(configBasedTestListener, Mockito.times(1)).testExecuted("test1", "default", "default");
+    verify(configBasedTestListener, Mockito.times(1)).testExecuted("test2", "default", "default");
     verify(configBasedTestListener, Mockito.times(1))
         .testExecuted("test1", "firstValue", "firstConfig");
     verify(configBasedTestListener, Mockito.times(1))

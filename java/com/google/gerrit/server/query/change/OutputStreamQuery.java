@@ -336,15 +336,6 @@ public class OutputStreamQuery {
     if (includeComments) {
       eventFactory.addComments(c, d.messages(), accountLoader);
       if (includePatchSets) {
-        eventFactory.addPatchSets(
-            rw,
-            repo != null ? repo.getConfig() : repos.get(d.change().getProject()).getConfig(),
-            c,
-            includeApprovals ? d.approvals().asMap() : null,
-            includeFiles,
-            d,
-            labelTypes,
-            accountLoader);
         for (PatchSetAttribute attribute : c.patchSets) {
           eventFactory.addPatchSetComments(attribute, d.publishedComments(), accountLoader);
         }

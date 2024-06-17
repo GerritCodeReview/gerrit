@@ -65,6 +65,7 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.plugincontext.PluginItemContext;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -149,6 +150,7 @@ public class StreamEventsApiListener
   private final PatchSetUtil psUtil;
   private final ChangeNotes.Factory changeNotesFactory;
   private final boolean enableDraftCommentEvents;
+  private final ChangeData.Factory changeDataFactory;
 
   private final String gerritInstanceId;
 
@@ -161,7 +163,8 @@ public class StreamEventsApiListener
       PatchSetUtil psUtil,
       ChangeNotes.Factory changeNotesFactory,
       @GerritServerConfig Config config,
-      @Nullable @GerritInstanceId String gerritInstanceId) {
+      @Nullable @GerritInstanceId String gerritInstanceId,
+      ChangeData.Factory changeDataFactory) {
     this.dispatcher = dispatcher;
     this.eventFactory = eventFactory;
     this.projectCache = projectCache;
@@ -171,6 +174,7 @@ public class StreamEventsApiListener
     this.enableDraftCommentEvents =
         config.getBoolean("event", "stream-events", "enableDraftCommentEvents", false);
     this.gerritInstanceId = gerritInstanceId;
+    this.changeDataFactory = changeDataFactory;
   }
 
   private ChangeNotes getNotes(ChangeInfo info) {
@@ -206,12 +210,13 @@ public class StreamEventsApiListener
   }
 
   private Supplier<PatchSetAttribute> patchSetAttributeSupplier(
-      final Change change, PatchSet patchSet) {
+      final ChangeData changeData, PatchSet patchSet) {
     return Suppliers.memoize(
         () -> {
-          try (Repository repo = repoManager.openRepository(change.getProject());
+          try (Repository repo = repoManager.openRepository(changeData.change().getProject());
               RevWalk revWalk = new RevWalk(repo)) {
-            return eventFactory.asPatchSetAttribute(revWalk, change, patchSet);
+            return eventFactory.asPatchSetAttribute(
+                revWalk, repo.getConfig(), changeData, patchSet);
           } catch (IOException e) {
             throw new RuntimeException(e);
           }
@@ -301,7 +306,7 @@ public class StreamEventsApiListener
       PatchSetCreatedEvent event = new PatchSetCreatedEvent(change);
 
       event.change = changeAttributeSupplier(change, notes);
-      event.patchSet = patchSetAttributeSupplier(change, patchSet);
+      event.patchSet = patchSetAttributeSupplier(changeDataFactory.create(notes), patchSet);
       event.uploader = accountAttributeSupplier(ev.getWho());
 
       dispatcher.run(d -> d.postEvent(change, event));
@@ -317,7 +322,8 @@ public class StreamEventsApiListener
       Change change = notes.getChange();
       ReviewerDeletedEvent event = new ReviewerDeletedEvent(change);
       event.change = changeAttributeSupplier(change, notes);
-      event.patchSet = patchSetAttributeSupplier(change, psUtil.current(notes));
+      event.patchSet =
+          patchSetAttributeSupplier(changeDataFactory.create(notes), psUtil.current(notes));
       event.reviewer = accountAttributeSupplier(ev.getReviewer());
       event.remover = accountAttributeSupplier(ev.getWho());
       event.comment = ev.getComment();
@@ -338,7 +344,8 @@ public class StreamEventsApiListener
       ReviewerAddedEvent event = new ReviewerAddedEvent(change);
 
       event.change = changeAttributeSupplier(change, notes);
-      event.patchSet = patchSetAttributeSupplier(change, psUtil.current(notes));
+      event.patchSet =
+          patchSetAttributeSupplier(changeDataFactory.create(notes), psUtil.current(notes));
       event.adder = accountAttributeSupplier(ev.getWho());
       for (AccountInfo reviewer : ev.getReviewers()) {
         event.reviewer = accountAttributeSupplier(reviewer);
@@ -466,7 +473,7 @@ public class StreamEventsApiListener
 
       event.change = changeAttributeSupplier(change, notes);
       event.author = accountAttributeSupplier(ev.getWho());
-      event.patchSet = patchSetAttributeSupplier(change, ps);
+      event.patchSet = patchSetAttributeSupplier(changeDataFactory.create(notes), ps);
       event.comment = ev.getComment();
       event.approvals = approvalsAttributeSupplier(change, ev.getApprovals(), ev.getOldApprovals());
 
@@ -485,7 +492,8 @@ public class StreamEventsApiListener
 
       event.change = changeAttributeSupplier(change, notes);
       event.restorer = accountAttributeSupplier(ev.getWho());
-      event.patchSet = patchSetAttributeSupplier(change, psUtil.current(notes));
+      event.patchSet =
+          patchSetAttributeSupplier(changeDataFactory.create(notes), psUtil.current(notes));
       event.reason = ev.getReason();
 
       dispatcher.run(d -> d.postEvent(change, event));
@@ -503,7 +511,8 @@ public class StreamEventsApiListener
 
       event.change = changeAttributeSupplier(change, notes);
       event.submitter = accountAttributeSupplier(ev.getWho());
-      event.patchSet = patchSetAttributeSupplier(change, psUtil.current(notes));
+      event.patchSet =
+          patchSetAttributeSupplier(changeDataFactory.create(notes), psUtil.current(notes));
       event.newRev = ev.getNewRevisionId();
 
       dispatcher.run(d -> d.postEvent(change, event));
@@ -521,7 +530,8 @@ public class StreamEventsApiListener
 
       event.change = changeAttributeSupplier(change, notes);
       event.abandoner = accountAttributeSupplier(ev.getWho());
-      event.patchSet = patchSetAttributeSupplier(change, psUtil.current(notes));
+      event.patchSet =
+          patchSetAttributeSupplier(changeDataFactory.create(notes), psUtil.current(notes));
       event.reason = ev.getReason();
 
       dispatcher.run(d -> d.postEvent(change, event));
@@ -540,7 +550,7 @@ public class StreamEventsApiListener
 
       event.change = changeAttributeSupplier(change, notes);
       event.changer = accountAttributeSupplier(ev.getWho());
-      event.patchSet = patchSetAttributeSupplier(change, patchSet);
+      event.patchSet = patchSetAttributeSupplier(changeDataFactory.create(notes), patchSet);
 
       dispatcher.run(d -> d.postEvent(change, event));
     } catch (StorageException e) {
@@ -558,7 +568,7 @@ public class StreamEventsApiListener
 
       event.change = changeAttributeSupplier(change, notes);
       event.changer = accountAttributeSupplier(ev.getWho());
-      event.patchSet = patchSetAttributeSupplier(change, patchSet);
+      event.patchSet = patchSetAttributeSupplier(changeDataFactory.create(notes), patchSet);
 
       dispatcher.run(d -> d.postEvent(change, event));
     } catch (StorageException e) {
@@ -574,7 +584,8 @@ public class StreamEventsApiListener
       VoteDeletedEvent event = new VoteDeletedEvent(change);
 
       event.change = changeAttributeSupplier(change, notes);
-      event.patchSet = patchSetAttributeSupplier(change, psUtil.current(notes));
+      event.patchSet =
+          patchSetAttributeSupplier(changeDataFactory.create(notes), psUtil.current(notes));
       event.comment = ev.getMessage();
       event.reviewer = accountAttributeSupplier(ev.getReviewer());
       event.remover = accountAttributeSupplier(ev.getWho());

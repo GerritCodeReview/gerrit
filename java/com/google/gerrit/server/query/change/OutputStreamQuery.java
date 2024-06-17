@@ -309,6 +309,11 @@ public class OutputStreamQuery {
           d,
           labelTypes,
           accountLoader);
+      if (includeComments) {
+        for (PatchSetAttribute attribute : c.patchSets) {
+          eventFactory.addPatchSetComments(attribute, d.publishedComments(), accountLoader);
+        }
+      }
     }
 
     if (includeCurrentPatchSet) {
@@ -334,11 +339,6 @@ public class OutputStreamQuery {
 
     if (includeComments) {
       eventFactory.addComments(c, d.messages(), accountLoader);
-      if (includePatchSets) {
-        for (PatchSetAttribute attribute : c.patchSets) {
-          eventFactory.addPatchSetComments(attribute, d.publishedComments(), accountLoader);
-        }
-      }
     }
 
     if (includeDependencies) {

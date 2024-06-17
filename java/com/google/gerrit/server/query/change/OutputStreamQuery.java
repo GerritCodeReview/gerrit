@@ -317,7 +317,8 @@ public class OutputStreamQuery {
       if (includeCurrentPatchSet) {
         PatchSet current = d.currentPatchSet();
         if (current != null) {
-          c.currentPatchSet = eventFactory.asPatchSetAttribute(rw, repo.getConfig(), d, current);
+          c.currentPatchSet =
+              eventFactory.asPatchSetAttribute(rw, repo.getConfig(), d, current, accountLoader);
           eventFactory.addApprovals(
               c.currentPatchSet, d.currentApprovals(), d.getLabelTypes(), accountLoader);
 

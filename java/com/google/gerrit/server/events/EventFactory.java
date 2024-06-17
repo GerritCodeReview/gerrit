@@ -364,7 +364,6 @@ public class EventFactory {
       Map<PatchSet.Id, Collection<PatchSetApproval>> approvals,
       boolean includeFiles,
       ChangeData changeData,
-      LabelTypes labelTypes,
       AccountAttributeLoader accountLoader) {
     if (!changeData.patchSets().isEmpty()) {
       ca.patchSets = new ArrayList<>(changeData.patchSets().size());
@@ -372,7 +371,7 @@ public class EventFactory {
         PatchSetAttribute psa =
             asPatchSetAttribute(revWalk, repoConfig, changeData, p, accountLoader);
         if (approvals != null) {
-          addApprovals(psa, p.id(), approvals, labelTypes, accountLoader);
+          addApprovals(psa, p.id(), approvals, changeData.getLabelTypes(), accountLoader);
         }
         ca.patchSets.add(psa);
         if (includeFiles) {

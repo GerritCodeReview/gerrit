@@ -1316,6 +1316,7 @@ export class GrComment extends LitElement {
       uuid: this.generatedSuggestionId,
       type: 'suggest-code',
       commentId: this.comment.id,
+      fileExtension: getFileExtension(this.comment.path ?? ''),
     });
     this.suggestionLoading = true;
     let suggestionResponse;
@@ -1343,6 +1344,7 @@ export class GrComment extends LitElement {
       response: suggestionResponse.responseCode,
       numSuggestions: suggestionResponse.suggestions.length,
       hasNewRange: suggestionResponse.suggestions?.[0]?.newRange !== undefined,
+      fileExtension: getFileExtension(this.comment.path ?? ''),
     });
     const suggestion = suggestionResponse.suggestions?.[0];
     if (!suggestion?.replacement) return;

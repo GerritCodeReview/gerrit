@@ -21,7 +21,6 @@ import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.entities.LabelTypes;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
@@ -261,7 +260,6 @@ public class OutputStreamQuery {
       Map<Project.NameKey, RevWalk> revWalks,
       AccountAttributeLoader accountLoader)
       throws IOException {
-    LabelTypes labelTypes = d.getLabelTypes();
     ChangeAttribute c = eventFactory.asChangeAttribute(d.change(), accountLoader);
     c.hashtags = Lists.newArrayList(d.hashtags());
     eventFactory.extend(c, d.change());
@@ -307,7 +305,6 @@ public class OutputStreamQuery {
           includeApprovals ? d.conditionallyLoadApprovalsWithCopied().asMap() : null,
           includeFiles,
           d,
-          labelTypes,
           accountLoader);
       if (includeComments) {
         for (PatchSetAttribute attribute : c.patchSets) {
@@ -326,7 +323,7 @@ public class OutputStreamQuery {
                 d,
                 current);
         eventFactory.addApprovals(
-            c.currentPatchSet, d.currentApprovals(), labelTypes, accountLoader);
+            c.currentPatchSet, d.currentApprovals(), d.getLabelTypes(), accountLoader);
 
         if (includeFiles) {
           eventFactory.addPatchSetFileNames(c.currentPatchSet, d.change(), d.currentPatchSet());

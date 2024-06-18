@@ -54,32 +54,36 @@ public class MergeMetrics {
                 .setRate());
   }
 
-  public void countChangesThatWereSubmittedWithRebaserApproval(ChangeData cd) {
-    if (isRebaseOnBehalfOfUploader(cd)
-        && hasCodeReviewApprovalOfRealUploader(cd)
-        && !hasCodeReviewApprovalOfUserThatIsNotTheRealUploader(cd)
-        && ignoresCodeReviewApprovalsOfUploader(cd)) {
-      // 1. The patch set that is being submitted was created by rebasing on behalf of the uploader.
-      // The uploader of the patch set is the original uploader on whom's behalf the rebase was
-      // done. The real uploader is the user that did the rebase on behalf of the uploader (e.g. by
-      // clicking on the rebase button).
-      //
-      // 2. The change has a Code-Review approval of the real uploader (aka the rebaser).
-      //
-      // 3. The change doesn't have a Code-Review approval of any other user (a user that is not the
-      // real uploader).
-      //
-      // 4. Code-Review approvals of the uploader are ignored.
-      //
-      // If instead of a rebase on behalf of the uploader a normal rebase would have been done the
-      // rebaser would have been the uploader of the patch set. In this case the Code-Review
-      // approval of the rebaser would not have counted since Code-Review approvals of the uploader
-      // are ignored.
-      //
-      // In this case we assume that the change would not be submittable if a normal rebase had been
-      // done. This is not always correct (e.g. if there are approvals of multiple reviewers) but
-      // it's good enough for the metric.
-      countChangesThatWereSubmittedWithRebaserApproval.increment();
+  public void countChangesThatWereSubmittedWithRebaserApproval(ChangeSet cs) {
+    for (ChangeData cd : cs.changes()) {
+      if (isRebaseOnBehalfOfUploader(cd)
+          && hasCodeReviewApprovalOfRealUploader(cd)
+          && !hasCodeReviewApprovalOfUserThatIsNotTheRealUploader(cd)
+          && ignoresCodeReviewApprovalsOfUploader(cd)) {
+        // 1. The patch set that is being submitted was created by rebasing on behalf of the
+        // uploader.
+        //
+        // The uploader of the patch set is the original uploader on whose behalf the rebase was
+        // done. The real uploader is the user that did the rebase on behalf of the uploader (e.g.
+        // by clicking on the rebase button).
+        //
+        // 2. The change has a Code-Review approval of the real uploader (aka the rebaser).
+        //
+        // 3. The change doesn't have a Code-Review approval of any other user (a user that is not
+        // the real uploader).
+        //
+        // 4. Code-Review approvals of the uploader are ignored.
+        //
+        // If instead of a rebase on behalf of the uploader a normal rebase would have been done the
+        // rebaser would have been the uploader of the patch set. In this case the Code-Review
+        // approval of the rebaser would not have counted since Code-Review approvals of the
+        // uploader are ignored.
+        //
+        // In this case we assume that the change would not be submittable if a normal rebase had
+        // been done. This is not always correct (e.g. if there are approvals of multiple reviewers)
+        // but it's good enough for the metric.
+        countChangesThatWereSubmittedWithRebaserApproval.increment();
+      }
     }
   }
 

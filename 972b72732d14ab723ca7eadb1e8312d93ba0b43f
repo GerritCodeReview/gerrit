@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "722da780_e1cf3214",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2024-06-18T21:16:24Z",
+      "side": 1,
+      "message": "Thank you Haamed! We have enabled the diff3 feature as part of ugprading to 3.9 and we are quite happy about it. ( ref https://phabricator.wikimedia.org/T359821 ).\n\n\\o/",
+      "revId": "972b72732d14ab723ca7eadb1e8312d93ba0b43f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

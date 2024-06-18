@@ -100,7 +100,8 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
         "Failed to submit 2 changes due to the following problems:\n"
             + "Change "
             + id1
-            + ": submit requirement 'Code-Review' is unsatisfied.");
+            + ": Change 8 must be submitted with change 7 but 7 is not ready: "
+            + "submit requirement 'Code-Review' is unsatisfied.");
 
     RevCommit updatedHead = projectOperations.project(project).getHead("master");
     assertThat(updatedHead.getId()).isEqualTo(initialHead.getId());

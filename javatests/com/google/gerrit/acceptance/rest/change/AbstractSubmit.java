@@ -589,7 +589,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
             + num
             + ": Change "
             + num
-            + " is work in progress");
+            + " is marked work in progress");
   }
 
   @Test
@@ -607,7 +607,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
               + num
               + ": Change "
               + num
-              + " is work in progress");
+              + " is marked work in progress");
     }
   }
 

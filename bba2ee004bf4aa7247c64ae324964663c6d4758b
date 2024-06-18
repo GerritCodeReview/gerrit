@@ -88,6 +88,24 @@
       "parentUuid": "dfa89290_5eb562f4",
       "revId": "bba2ee004bf4aa7247c64ae324964663c6d4758b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "122e6a18_7c044f6e",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 630,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-18T15:44:40Z",
+      "side": 1,
+      "message": "@dmfilippov@google.com looks like more plugins are broken because of this reduced visibility. Could you share the rationale behind it? It is not specified in the commit message and we don\u0027t have access to the Google internal issue tracker, it\u0027s very difficult to understand what you wanted to achieve.",
+      "parentUuid": "b9bb683d_402e43d3",
+      "revId": "bba2ee004bf4aa7247c64ae324964663c6d4758b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

@@ -22,6 +22,30 @@
       },
       "revId": "2a36d7cec7e7cc3b12dc0396aa9c93e51d0c2cb5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09970f18_3419924a",
+        "filename": "java/com/google/gerrit/server/query/change/OutputStreamQuery.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-06-19T19:12:33Z",
+      "side": 1,
+      "message": "Good point. I\u0027ll do that.",
+      "parentUuid": "438e969c_c80e4da0",
+      "range": {
+        "startLine": 309,
+        "startChar": 10,
+        "endLine": 309,
+        "endChar": 27
+      },
+      "revId": "2a36d7cec7e7cc3b12dc0396aa9c93e51d0c2cb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

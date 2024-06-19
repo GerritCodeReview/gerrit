@@ -316,18 +316,28 @@ public class OutputStreamQuery {
       if (includeCurrentPatchSet) {
         PatchSet current = d.currentPatchSet();
         if (current != null) {
-          c.currentPatchSet =
-              eventFactory.asPatchSetAttribute(rw, repo.getConfig(), d, current, accountLoader);
+          if (includePatchSets) {
+            for (PatchSetAttribute attribute : c.patchSets) {
+              if (attribute.number == current.number()) {
+                c.currentPatchSet = attribute.shallowClone();
+                // approvals will be populated later using different logic than --patch-sets uses
+                c.currentPatchSet.approvals = null;
+                break;
+              }
+            }
+          } else {
+            c.currentPatchSet =
+                eventFactory.asPatchSetAttribute(rw, repo.getConfig(), d, current, accountLoader);
+            if (includeFiles) {
+              eventFactory.addPatchSetFileNames(c.currentPatchSet, d.change(), d.currentPatchSet());
+            }
+            if (includeComments) {
+              eventFactory.addPatchSetComments(
+                  c.currentPatchSet, d.publishedComments(), accountLoader);
+            }
+          }
           eventFactory.addApprovals(
               c.currentPatchSet, d.currentApprovals(), d.getLabelTypes(), accountLoader);
-
-          if (includeFiles) {
-            eventFactory.addPatchSetFileNames(c.currentPatchSet, d.change(), d.currentPatchSet());
-          }
-          if (includeComments) {
-            eventFactory.addPatchSetComments(
-                c.currentPatchSet, d.publishedComments(), accountLoader);
-          }
         }
       }
 

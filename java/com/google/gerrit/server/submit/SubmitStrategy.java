@@ -38,6 +38,7 @@ import com.google.gerrit.server.change.LabelNormalizer;
 import com.google.gerrit.server.change.RebaseChangeOp;
 import com.google.gerrit.server.change.SetPrivateOp;
 import com.google.gerrit.server.change.TestSubmitInput;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.extensions.events.ChangeMerged;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
@@ -66,6 +67,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
@@ -115,6 +117,7 @@ public abstract class SubmitStrategy {
     final EmailMerge.Factory mergedSenderFactory;
     final GitRepositoryManager repoManager;
     final LabelNormalizer labelNormalizer;
+    final Config cfg;
     final PatchSetInfoFactory patchSetInfoFactory;
     final PatchSetUtil psUtil;
     final ProjectCache projectCache;
@@ -158,6 +161,7 @@ public abstract class SubmitStrategy {
         MergeUtilFactory mergeUtilFactory,
         PatchSetInfoFactory patchSetInfoFactory,
         PatchSetUtil psUtil,
+        @GerritServerConfig Config cfg,
         @GerritPersonIdent PersonIdent serverIdent,
         ProjectCache projectCache,
         RebaseChangeOp.Factory rebaseFactory,
@@ -189,6 +193,7 @@ public abstract class SubmitStrategy {
       this.cmUtil = cmUtil;
       this.labelNormalizer = labelNormalizer;
       this.projectConfigFactory = projectConfigFactory;
+      this.cfg = cfg;
       this.patchSetInfoFactory = patchSetInfoFactory;
       this.psUtil = psUtil;
       this.projectCache = projectCache;

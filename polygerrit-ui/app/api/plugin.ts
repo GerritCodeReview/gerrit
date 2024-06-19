@@ -9,6 +9,7 @@ import {AttributeHelperPluginApi} from './attribute-helper';
 import {ChangeReplyPluginApi} from './change-reply';
 import {ChecksPluginApi} from './checks';
 import {EventHelperPluginApi} from './event-helper';
+import {PluginElement} from './hook';
 import {PopupPluginApi} from './popup';
 import {ReportingPluginApi} from './reporting';
 import {ChangeActionsPluginApi} from './change-actions';
@@ -63,7 +64,7 @@ export declare interface PluginApi {
   suggestions(): SuggestionsPluginApi;
   eventHelper(element: Node): EventHelperPluginApi;
   getPluginName(): string;
-  hook<T extends HTMLElement>(
+  hook<T extends PluginElement>(
     endpointName: string,
     opt_options?: RegisterOptions
   ): HookApi<T>;
@@ -72,12 +73,12 @@ export declare interface PluginApi {
   popup(): Promise<PopupPluginApi>;
   popup(moduleName: string): Promise<PopupPluginApi>;
   popup(moduleName?: string): Promise<PopupPluginApi | null>;
-  registerCustomComponent<T extends HTMLElement>(
+  registerCustomComponent<T extends PluginElement>(
     endpointName: string,
     moduleName?: string,
     options?: RegisterOptions
   ): HookApi<T>;
-  registerDynamicCustomComponent<T extends HTMLElement>(
+  registerDynamicCustomComponent<T extends PluginElement>(
     endpointName: string,
     moduleName?: string,
     options?: RegisterOptions

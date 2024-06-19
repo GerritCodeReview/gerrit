@@ -71,6 +71,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb9c9203_3a7de887",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2024-06-19T07:46:22Z",
+      "side": 1,
+      "message": "Sorry I have somehow messed up my email rules and missed your reply!  My guess is that I am one of the very few people relying on the released node module, so it might not be worth the hassle. But if I can learn how to deal the paperwork, I can probably self serve (short of actually having the permission to publish which sounds scary).\n\nI could not find how to \"Move change\" to the `master` branch, I have thus cherry-picked and created https://gerrit-review.googlesource.com/c/gerrit/+/430619\n\nI am abandoning this change since it is targetting an EOL branch anyway.\n\nThank you Ben!",
+      "parentUuid": "5790d8bc_f15d575e",
+      "revId": "f1c13c1fc223becc23330fe3ccc1c1bd650abec3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "180e9f8c_eea15cc6",

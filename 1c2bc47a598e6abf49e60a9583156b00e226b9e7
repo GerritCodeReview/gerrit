@@ -16,6 +16,23 @@
       "message": "Adding Frank who introduced the JavaScript dev web server (thank you for that!) in I0840563c4c2eec46be2461bd10e123e5675cc12b . My guess is that the cors never worked in my use case or the browsers have become more strict ;)",
       "revId": "1c2bc47a598e6abf49e60a9583156b00e226b9e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c716cbaf_4de905d5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2024-06-19T22:01:02Z",
+      "side": 1,
+      "message": "Thank you Franck for the reviews!",
+      "revId": "1c2bc47a598e6abf49e60a9583156b00e226b9e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

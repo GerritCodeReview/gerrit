@@ -448,6 +448,15 @@ the feature is still contained, but marked as deprecated.
 See link:dev-processes.html#deprecating-features[Deprecating features] for
 details.
 
+=== Drop old stable version from CI
+
+Upload changes to remove the now end of life stable version:
+
+* link:https://gerrit-review.googlesource.com/admin/repos/gerrit-ci-scripts[gerrit-ci-scripts
+  project,role=external,window=_blank]
+* link:https://gerrit-review.googlesource.com/admin/repos/zuul/jobs[zuul/jobs
+  project,role=external,window=_blank]
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

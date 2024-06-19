@@ -84,9 +84,11 @@ public class CherryPick extends SubmitStrategy {
     private PatchSet.Id psId;
     private CodeReviewCommit newCommit;
     private PatchSetInfo patchSetInfo;
+    private final boolean useDiff3;
 
     private CherryPickOneOp(CodeReviewCommit toMerge) {
       super(CherryPick.this.args, toMerge);
+      this.useDiff3 = args.cfg.getBoolean("change", null, "diff3ConflictView", false);
     }
 
     @Override
@@ -119,7 +121,8 @@ public class CherryPick extends SubmitStrategy {
                 args.rw,
                 0,
                 false,
-                false);
+                false,
+                useDiff3);
       } catch (MergeConflictException mce) {
         // Keep going in the case of a single merge failure; the goal is to
         // cherry-pick as many commits as possible.

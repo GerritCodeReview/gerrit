@@ -40,6 +40,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.IdentifiedUser.GenericFactory;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.RebaseUtil.Base;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.GroupCollector;
@@ -67,6 +68,7 @@ import java.util.Optional;
 import org.eclipse.jgit.diff.Sequence;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.merge.MergeResult;
@@ -121,6 +123,7 @@ public class RebaseChangeOp implements BatchUpdateOp {
   private ImmutableListMultimap<String, String> validationOptions = ImmutableListMultimap.of();
   private String mergeStrategy;
   private boolean verifyNeedsRebase = true;
+  private final boolean useDiff3;
 
   private CodeReviewCommit rebasedCommit;
   private PatchSet.Id rebasedPatchSetId;
@@ -136,6 +139,7 @@ public class RebaseChangeOp implements BatchUpdateOp {
       ChangeNotes.Factory notesFactory,
       GenericFactory identifiedUserFactory,
       ProjectCache projectCache,
+      @GerritServerConfig Config cfg,
       @Assisted ChangeNotes notes,
       @Assisted PatchSet originalPatchSet,
       @Assisted ObjectId baseCommitId) {
@@ -147,6 +151,7 @@ public class RebaseChangeOp implements BatchUpdateOp {
         notesFactory,
         identifiedUserFactory,
         projectCache,
+        cfg,
         notes,
         originalPatchSet);
     this.baseCommitId = baseCommitId;
@@ -162,6 +167,7 @@ public class RebaseChangeOp implements BatchUpdateOp {
       ChangeNotes.Factory notesFactory,
       GenericFactory identifiedUserFactory,
       ProjectCache projectCache,
+      @GerritServerConfig Config cfg,
       @Assisted ChangeNotes notes,
       @Assisted PatchSet originalPatchSet,
       @Assisted Change.Id baseChangeId) {
@@ -173,6 +179,7 @@ public class RebaseChangeOp implements BatchUpdateOp {
         notesFactory,
         identifiedUserFactory,
         projectCache,
+        cfg,
         notes,
         originalPatchSet);
     this.baseChangeId = baseChangeId;
@@ -187,6 +194,7 @@ public class RebaseChangeOp implements BatchUpdateOp {
       ChangeNotes.Factory notesFactory,
       GenericFactory identifiedUserFactory,
       ProjectCache projectCache,
+      @GerritServerConfig Config cfg,
       ChangeNotes notes,
       PatchSet originalPatchSet) {
     this.patchSetInserterFactory = patchSetInserterFactory;
@@ -199,6 +207,7 @@ public class RebaseChangeOp implements BatchUpdateOp {
     this.notes = notes;
     this.projectName = notes.getProjectName();
     this.originalPatchSet = originalPatchSet;
+    this.useDiff3 = cfg.getBoolean("change", null, "diff3ConflictView", false);
   }
 
   @CanIgnoreReturnValue
@@ -555,7 +564,8 @@ public class RebaseChangeOp implements BatchUpdateOp {
               original,
               "BASE",
               ctx.getRevWalk().parseCommit(base),
-              mergeResults);
+              mergeResults,
+              useDiff3);
       logger.atFine().log(
           "tree of rebased commit: %s (with conflicts, inserter: %s)",
           tree.name(), ctx.getInserter());

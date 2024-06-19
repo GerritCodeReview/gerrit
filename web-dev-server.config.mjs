@@ -1,5 +1,7 @@
 import { esbuildPlugin } from "@web/dev-server-esbuild";
 import cors from "@koa/cors";
+import path from 'node:path';
+import fs from 'node:fs';
 
 /** @type {import('@web/dev-server').DevServerConfig} */
 export default {
@@ -18,6 +20,20 @@ export default {
     // (ex: gerrit-review.googlesource.com), which happens during local
     // development with Gerrit FE Helper extension.
     cors({ origin: "*" }),
+    // Map some static assets.
+    // When creating the bundle, the files are moved by polygerrit_bundle() in
+    // polygerrit-ui/app/rules.bzl
+    async (context, next) => {
+
+      if ( context.url.includes("/bower_components/webcomponentsjs/webcomponents-lite.js") ) {
+        context.response.redirect("/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js");
+
+      } else if ( context.url.startsWith( "/fonts/" ) ) {
+        const fontFile = path.join( "lib/fonts", path.basename(context.url) );
+        context.body = fs.createReadStream( fontFile );
+      }
+      await next();
+    },
     // The issue solved here is that our production index.html does not load
     // 'gr-app.js' as an ESM module due to our build process, but in development
     // all our source code is written as ESM modules. When using the Gerrit FE

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4114cad9_d21a2ad6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2024-06-19T21:33:41Z",
+      "side": 1,
+      "message": "This is a work in progress for https://phabricator.wikimedia.org/T180297 . I have targetted `stable-3.10` to avoid rebuilding over and over when targetting `master` it also depends on a series of unrelated changes I have done to the web dev server which target stable-3.8.\n\nEssentially, this is not ready at all and is a mere proof of concept.",
+      "revId": "9e72a6d5e7077081fc22e9bc3233d7664fb01256",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

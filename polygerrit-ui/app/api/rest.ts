@@ -3,7 +3,12 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {AccountDetailInfo, ProjectInfoWithName, ServerInfo} from './rest-api';
+import {
+  AccountDetailInfo,
+  ProjectInfoWithName,
+  RepoState,
+  ServerInfo,
+} from './rest-api';
 
 export type RequestPayload = string | object;
 
@@ -34,7 +39,8 @@ export declare interface RestPluginApi {
   getRepos(
     filter: string,
     reposPerPage: number,
-    offset?: number
+    offset?: number,
+    state?: RepoState
   ): Promise<ProjectInfoWithName[] | undefined>;
 
   fetch(

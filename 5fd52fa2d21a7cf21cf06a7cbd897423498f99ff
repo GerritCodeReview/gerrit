@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5410ce17_61fb0097",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2024-06-19T22:30:47Z",
+      "side": 1,
+      "message": "I have redone the merge locally cause the parent ( https://gerrit-review.googlesource.com/c/gerrit/+/430857 ) missed a `Release-Notes: skip` in the commit message ;)",
+      "revId": "5fd52fa2d21a7cf21cf06a7cbd897423498f99ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

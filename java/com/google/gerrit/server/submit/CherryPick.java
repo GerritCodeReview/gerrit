@@ -26,6 +26,7 @@ import com.google.gerrit.entities.PatchSetInfo;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.MergeTip;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -35,6 +36,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -84,9 +86,11 @@ public class CherryPick extends SubmitStrategy {
     private PatchSet.Id psId;
     private CodeReviewCommit newCommit;
     private PatchSetInfo patchSetInfo;
+    private final boolean useDiff3;
 
-    private CherryPickOneOp(CodeReviewCommit toMerge) {
+    private CherryPickOneOp(CodeReviewCommit toMerge, @GerritServerConfig Config cfg) {
       super(CherryPick.this.args, toMerge);
+      this.useDiff3 = cfg.getBoolean("change", null, "diff3ConflictView", false);
     }
 
     @Override
@@ -119,7 +123,8 @@ public class CherryPick extends SubmitStrategy {
                 args.rw,
                 0,
                 false,
-                false);
+                false,
+                useDiff3);
       } catch (MergeConflictException mce) {
         // Keep going in the case of a single merge failure; the goal is to
         // cherry-pick as many commits as possible.

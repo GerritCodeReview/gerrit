@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca7a16e4_35e7e371",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2024-06-19T19:07:46Z",
+      "side": 1,
+      "message": "That is merely to mute a warning in the console (at least under Firefox)",
+      "revId": "50a07a549f3f4501971f7c3c1a45af6a3c76c89c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

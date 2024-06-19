@@ -78,7 +78,7 @@ public class RevisionCreated {
       Event event =
           new Event(
               util.changeInfo(changeData),
-              util.revisionInfo(changeData.project(), patchSet),
+              util.revisionInfo(changeData, patchSet),
               util.accountInfo(uploader),
               when,
               notify.handling());

@@ -96,7 +96,12 @@ public class EventUtil {
   public RevisionInfo revisionInfo(Project.NameKey project, PatchSet ps)
       throws PatchListNotAvailableException, GpgException, IOException, PermissionBackendException {
     ChangeData cd = changeDataFactory.create(project, ps.id().changeId());
-    return revisionJsonFactory.create(changeOptions).getRevisionInfo(cd, ps);
+    return revisionInfo(cd, ps);
+  }
+
+  public RevisionInfo revisionInfo(ChangeData changeData, PatchSet ps)
+      throws PatchListNotAvailableException, GpgException, IOException, PermissionBackendException {
+    return revisionJsonFactory.create(changeOptions).getRevisionInfo(changeData, ps);
   }
 
   @Nullable

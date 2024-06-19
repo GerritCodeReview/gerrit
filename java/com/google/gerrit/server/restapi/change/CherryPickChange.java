@@ -45,6 +45,7 @@ import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.change.ResetCherryPickOp;
 import com.google.gerrit.server.change.SetCherryPickOp;
 import com.google.gerrit.server.change.ValidationOptionsUtil;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.CommitUtil;
@@ -78,6 +79,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -116,11 +118,13 @@ public class CherryPickChange {
   private final ApprovalsUtil approvalsUtil;
   private final NotifyResolver notifyResolver;
   private final BatchUpdate.Factory batchUpdateFactory;
+  private final boolean useDiff3;
 
   @Inject
   CherryPickChange(
       Sequences seq,
       Provider<InternalChangeQuery> queryProvider,
+      @GerritServerConfig Config cfg,
       @GerritPersonIdent PersonIdent myIdent,
       GitRepositoryManager gitManager,
       Provider<IdentifiedUser> user,
@@ -147,6 +151,7 @@ public class CherryPickChange {
     this.approvalsUtil = approvalsUtil;
     this.notifyResolver = notifyResolver;
     this.batchUpdateFactory = batchUpdateFactory;
+    this.useDiff3 = cfg.getBoolean("change", null, "diff3ConflictView", false);
   }
 
   /**
@@ -376,7 +381,8 @@ public class CherryPickChange {
                 revWalk,
                 input.parent - 1,
                 input.allowEmpty,
-                input.allowConflicts);
+                input.allowConflicts,
+                useDiff3);
         logger.atFine().log("flushing inserter %s", oi);
         oi.flush();
       } catch (MergeIdenticalTreeException | MergeConflictException e) {

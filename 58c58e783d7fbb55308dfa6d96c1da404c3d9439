@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "321a6909_ceccb6f3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-06-19T11:09:27Z",
+      "side": 1,
+      "message": "I missed one test in the previous patchset, please re-approve",
+      "revId": "58c58e783d7fbb55308dfa6d96c1da404c3d9439",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

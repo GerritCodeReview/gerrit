@@ -122,6 +122,7 @@ import {
   createDefaultEditPrefs,
   createDefaultPreferences,
   HttpMethod,
+  RepoState,
   ReviewerState,
 } from '../../constants/constants';
 import {firePageError, fireServerError} from '../../utils/event-util';
@@ -1556,27 +1557,34 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   _getReposUrl(
     filter: string | undefined,
     reposPerPage: number,
-    offset?: number
+    offset?: number,
+    state?: RepoState.ACTIVE | RepoState.READ_ONLY | undefined
   ): [boolean, string] {
     const defaultFilter = '';
     offset = offset || 0;
     filter ??= defaultFilter;
     const encodedFilter = encodeURIComponent(filter);
 
+    let isQuery = false;
+    let url;
+
     if (filter.includes(':')) {
       // If the filter includes a semicolon, the user is using a more complex
       // query so we trust them and don't do any magic under the hood.
-      return [
-        true,
+      isQuery = true;
+      url =
         `/projects/?n=${reposPerPage + 1}&S=${offset}` +
-          `&query=${encodedFilter}`,
-      ];
+        `&query=${encodedFilter}`;
+    } else {
+      url =
+        `/projects/?n=${reposPerPage + 1}&S=${offset}` +
+        `&d=&m=${encodedFilter}`;
+    }
+    if (state !== undefined) {
+      url += '&state=' + encodeURIComponent(state);
     }
 
-    return [
-      false,
-      `/projects/?n=${reposPerPage + 1}&S=${offset}` + `&d=&m=${encodedFilter}`,
-    ];
+    return [isQuery, url];
   }
 
   invalidateGroupsCache() {
@@ -1608,9 +1616,15 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     filter: string | undefined,
     reposPerPage: number,
     offset?: number,
+    state?: RepoState.ACTIVE | RepoState.READ_ONLY | undefined,
     errFn?: ErrorCallback
   ): Promise<ProjectInfoWithName[] | undefined> {
-    const [isQuery, url] = this._getReposUrl(filter, reposPerPage, offset);
+    const [isQuery, url] = this._getReposUrl(
+      filter,
+      reposPerPage,
+      offset,
+      state
+    );
     // If the request is a query then return the response directly as the result
     // will already be the expected array. If it is not a query, transform the
     // map to an array.

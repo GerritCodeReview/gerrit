@@ -30,6 +30,7 @@ import {
   CommentSide,
   createDefaultEditPrefs,
   HttpMethod,
+  RepoState,
 } from '../../constants/constants';
 import {
   AccountDetailInfo,
@@ -1104,6 +1105,33 @@ suite('gr-rest-api-service-impl tests', () => {
     assert.equal(
       element._getReposUrl('inname:test', 25, 25).toString(),
       [true, '/projects/?n=26&S=25&query=inname%3Atest'].toString()
+    );
+
+    assert.equal(
+      element
+        ._getReposUrl(undefined, 25, undefined, RepoState.ACTIVE)
+        .toString(),
+      [
+        false,
+        `/projects/?n=26&S=0&d=&m=${defaultQuery}&state=ACTIVE`,
+      ].toString()
+    );
+
+    assert.equal(
+      element
+        ._getReposUrl('inname:test', 25, undefined, RepoState.ACTIVE)
+        .toString(),
+      [true, `/projects/?n=26&S=0&query=inname%3Atest&state=ACTIVE`].toString()
+    );
+
+    assert.equal(
+      element
+        ._getReposUrl(undefined, 25, undefined, RepoState.READ_ONLY)
+        .toString(),
+      [
+        false,
+        `/projects/?n=26&S=0&d=&m=${defaultQuery}&state=READ_ONLY`,
+      ].toString()
     );
   });
 

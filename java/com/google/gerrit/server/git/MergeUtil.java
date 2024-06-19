@@ -225,6 +225,34 @@ public class MergeUtil {
       boolean allowConflicts)
       throws IOException, MergeIdenticalTreeException, MergeConflictException,
           MethodNotAllowedException, InvalidMergeStrategyException {
+    return createCherryPickFromCommit(
+        inserter,
+        repoConfig,
+        mergeTip,
+        originalCommit,
+        cherryPickCommitterIdent,
+        commitMsg,
+        rw,
+        parentIndex,
+        ignoreIdenticalTree,
+        allowConflicts,
+        false);
+  }
+
+  public CodeReviewCommit createCherryPickFromCommit(
+      ObjectInserter inserter,
+      Config repoConfig,
+      RevCommit mergeTip,
+      RevCommit originalCommit,
+      PersonIdent cherryPickCommitterIdent,
+      String commitMsg,
+      CodeReviewRevWalk rw,
+      int parentIndex,
+      boolean ignoreIdenticalTree,
+      boolean allowConflicts,
+      boolean diff3Format)
+      throws IOException, MergeIdenticalTreeException, MergeConflictException,
+          MethodNotAllowedException, InvalidMergeStrategyException {
 
     ThreeWayMerger m = newThreeWayMerger(inserter, repoConfig);
     m.setBase(originalCommit.getParent(parentIndex));
@@ -300,7 +328,15 @@ public class MergeUtil {
 
       tree =
           mergeWithConflicts(
-              rw, inserter, dc, "HEAD", mergeTip, "CHANGE", originalCommit, mergeResults);
+              rw,
+              inserter,
+              dc,
+              "HEAD",
+              mergeTip,
+              "CHANGE",
+              originalCommit,
+              mergeResults,
+              diff3Format);
       logger.atFine().log(
           "AutoMerge treeId=%s (with conflicts, inserter: %s)", tree.name(), inserter);
     }

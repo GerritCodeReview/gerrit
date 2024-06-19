@@ -376,7 +376,8 @@ public class CherryPickChange {
                 revWalk,
                 input.parent - 1,
                 input.allowEmpty,
-                input.allowConflicts);
+                input.allowConflicts,
+                false);
         logger.atFine().log("flushing inserter %s", oi);
         oi.flush();
       } catch (MergeIdenticalTreeException | MergeConflictException e) {

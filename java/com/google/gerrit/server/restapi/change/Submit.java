@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.git.ObjectIds.abbreviateName;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.util.stream.Collectors.joining;
@@ -71,10 +72,10 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -99,8 +100,6 @@ public class Submit
       "Submit all ${topicSize} changes of the same topic "
           + "(${submitSize} changes including ancestors and other "
           + "changes related by topic)";
-  private static final String BLOCKED_HIDDEN_SUBMIT_TOOLTIP =
-      "This change depends on other hidden changes which are not ready";
   private static final String CLICK_FAILURE_TOOLTIP = "Clicking the button would fail";
   private static final String CHANGE_UNMERGEABLE = "Problems with integrating this change";
 
@@ -240,48 +239,15 @@ public class Submit
    */
   @Nullable
   private String problemsForSubmittingChangeset(ChangeData cd, ChangeSet cs, CurrentUser user) {
-    try {
-      if (cs.furtherHiddenChanges()) {
-        logger.atFine().log(
-            "Change %d cannot be submitted by user %s because it depends on hidden changes: %s",
-            cd.getId().get(), user.getLoggableName(), cs.nonVisibleChanges());
-        return BLOCKED_HIDDEN_SUBMIT_TOOLTIP;
-      }
-      for (ChangeData c : cs.changes()) {
-        Set<ChangePermission> can =
-            permissionBackend
-                .user(user)
-                .change(c)
-                .test(EnumSet.of(ChangePermission.READ, ChangePermission.SUBMIT));
-        if (!can.contains(ChangePermission.READ)) {
-          logger.atFine().log(
-              "Change %d cannot be submitted by user %s because it depends on change %d which the user cannot read",
-              cd.getId().get(), user.getLoggableName(), c.getId().get());
-          return BLOCKED_HIDDEN_SUBMIT_TOOLTIP;
-        }
-        if (!can.contains(ChangePermission.SUBMIT)) {
-          return "You don't have permission to submit change " + c.getId();
-        }
-        if (c.change().isWorkInProgress()) {
-          return "Change " + c.getId() + " is marked work in progress";
-        }
-        try {
-          // The data in the change index may be stale (e.g. if submit requirements have been
-          // changed). For that one change for which the submit action is computed, use the
-          // freshly loaded ChangeData instance 'cd' instead of the potentially stale ChangeData
-          // instance 'c' that was loaded from the index. This makes a difference if the ChangeSet
-          // 'cs' only contains this one single change. If the ChangeSet contains further changes
-          // those may still be stale.
-          MergeOp.checkSubmitRequirements(cd.getId().equals(c.getId()) ? cd : c);
-        } catch (ResourceConflictException e) {
-          return (c.getId() == cd.getId())
-              ? String.format("Change %s is not ready: %s", cd.getId(), e.getMessage())
-              : String.format(
-                  "Change %s must be submitted with change %s but %s is not ready: %s",
-                  cd.getId(), c.getId(), c.getId(), e.getMessage());
-        }
-      }
+    Optional<String> reason =
+        MergeOp.checkCommonSubmitProblems(cd.change(), cs, false, permissionBackend, user).stream()
+            .findFirst()
+            .map(MergeOp.ChangeProblem::getProblem);
+    if (reason.isPresent()) {
+      return reason.get();
+    }
 
+    try {
       if (!useMergeabilityCheck) {
         return null;
       }
@@ -298,7 +264,7 @@ public class Submit
         return "Problems with change(s): "
             + unmergeable.stream().map(c -> c.getId().toString()).collect(joining(", "));
       }
-    } catch (PermissionBackendException | IOException e) {
+    } catch (IOException e) {
       logger.atSevere().withCause(e).log("Error checking if change is submittable");
       throw new StorageException("Could not determine problems for the change", e);
     }
@@ -331,14 +297,21 @@ public class Submit
         mergeSuperSet
             .get()
             .completeChangeSet(cd.change(), resource.getUser(), /*includingTopicClosure= */ false);
+    // Replace potentially stale ChangeData for the current change with the fresher one.
+    cs =
+        new ChangeSet(
+            cs.changes().stream()
+                .map(csChange -> csChange.getId().equals(cd.getId()) ? cd : csChange)
+                .collect(toImmutableList()),
+            cs.nonVisibleChanges());
+    String submitProblems = problemsForSubmittingChangeset(cd, cs, resource.getUser());
+
     String topic = change.getTopic();
     int topicSize = 0;
     if (!Strings.isNullOrEmpty(topic)) {
       topicSize = queryProvider.get().noFields().byTopicOpen(topic).size();
     }
     boolean treatWithTopic = submitWholeTopic && !Strings.isNullOrEmpty(topic) && topicSize > 1;
-
-    String submitProblems = problemsForSubmittingChangeset(cd, cs, resource.getUser());
 
     if (submitProblems != null) {
       return new UiAction.Description()

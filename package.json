@@ -9,7 +9,7 @@
     "@bazel/typescript": "^5.5.0"
   },
   "devDependencies": {
-    "@koa/cors": "^3.3.0",
+    "@koa/cors": "^5.0.0",
     "@types/page": "^1.11.5",
     "@typescript-eslint/eslint-plugin": "^5.27.0",
     "@web/dev-server": "^0.1.33",

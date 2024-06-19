@@ -1,0 +1,79 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0edbe06f_cefd1ba7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-06-19T09:10:49Z",
+      "side": 1,
+      "message": "Thanks for the great commit message and for making the code cleaner!",
+      "revId": "c5756349c5f74b6526b6698b435acfa2235f11af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eecd7d53_039c7437",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-06-19T09:10:49Z",
+      "side": 1,
+      "message": "Code looks good, but the test issues seem to be related.",
+      "revId": "c5756349c5f74b6526b6698b435acfa2235f11af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2376abd9_75b0b13f",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-06-19T09:10:49Z",
+      "side": 1,
+      "message": "nit: Should this be the opposite?",
+      "range": {
+        "startLine": 449,
+        "startChar": 24,
+        "endLine": 449,
+        "endChar": 28
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "66950494_bbe81ff9",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "java/com/google/gerrit/server/submit/MergeOp.java",
+              "range": {
+                "startLine": 449,
+                "startChar": 0,
+                "endLine": 450,
+                "endChar": 0
+              },
+              "replacement": "   * @param allowMerged True if change being already merged is not a problem to be reported\n"
+            }
+          ]
+        }
+      ],
+      "revId": "c5756349c5f74b6526b6698b435acfa2235f11af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

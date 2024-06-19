@@ -395,6 +395,7 @@ export class GrRepoAccess extends LitElement {
         this.inheritFromFilter,
         MAX_AUTOCOMPLETE_RESULTS,
         /* offset=*/ undefined,
+        /* state=*/ undefined,
         throwingErrorCallback
       )
       .then(response => {

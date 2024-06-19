@@ -98,7 +98,7 @@ import {
 } from '../../types/diff';
 import {Finalizable, ParsedChangeInfo} from '../../types/types';
 import {ErrorCallback} from '../../api/rest';
-import {FixReplacementInfo} from '../../api/rest-api';
+import {FixReplacementInfo, RepoState} from '../../api/rest-api';
 
 export interface GetDiffCommentsOutput {
   baseComments: CommentInfo[];
@@ -126,6 +126,7 @@ export interface RestApiService extends Finalizable {
     filter: string | undefined,
     reposPerPage: number,
     offset?: number,
+    state?: RepoState,
     errFn?: ErrorCallback
   ): Promise<ProjectInfoWithName[] | undefined>;
 

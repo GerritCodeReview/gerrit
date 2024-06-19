@@ -1730,10 +1730,12 @@ Default is 5 minutes.
 
 [[change.diff3ConflictView]]change.diff3ConflictView::
 +
-Use the diff3 formatter for merge commits with conflicts. With diff3 when
-the conflicts are shown in the "Auto Merge" view, the base section from the
-common parents will be shown as well.
+Use the diff3 formatter for merge, rebase and cherry-picking commits with conflicts.
++
+For merge commits with diff3 when the conflicts are shown in the "Auto Merge" view,
+the base section from the common parents will be shown as well.
 This setting takes effect when generating the automerge, which happens on upload.
+Also the setting takes effect when using rebase or cherry-picking in Gerrit Web UI.
 Changing the setting leaves existing changes unaffected.
 +
 Default is `false`.

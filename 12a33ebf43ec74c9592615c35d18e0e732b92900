@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98a671f2_840f65d8",
+        "filename": "java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-06-19T16:25:42Z",
+      "side": 1,
+      "message": "I think it is safe to share the RevWalk here because EventFactory only uses it for `parseCommit()` and no other \"state\".",
+      "range": {
+        "startLine": 479,
+        "startChar": 45,
+        "endLine": 479,
+        "endChar": 52
+      },
+      "revId": "12a33ebf43ec74c9592615c35d18e0e732b92900",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

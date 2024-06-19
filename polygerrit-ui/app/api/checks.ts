@@ -177,6 +177,13 @@ export declare interface CheckRun {
   checkLink?: string;
 
   /**
+   * Indicates that the check run is powered by Aritificial Intelligence. This
+   * allows the UI to add special treatment, e.g. an icon to be added to the
+   * check name. Defaults to `false`.
+   */
+  isAiPowered?: boolean;
+
+  /**
    * RUNNABLE:  Not run (yet). Mostly useful for runs that the user can trigger
    *            (see actions) and for indicating that a check was not run at a
    *            later attempt. Cannot contain results.

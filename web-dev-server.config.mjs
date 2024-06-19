@@ -40,6 +40,7 @@ export default {
       await next();
 
       if (!isGrAppMjs && context.url.includes("gr-app.js")) {
+        context.set('Content-Type', 'application/javascript; charset=utf-8');
         context.body = "import('./gr-app.mjs')";
       }
     },

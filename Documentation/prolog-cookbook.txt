@@ -3,7 +3,8 @@
 
 [WARNING]
 Prolog rules are no longer supported in Gerrit. Existing usages of prolog rules
-can be modified or deleted, but uploading new "rules.pl" files are rejected.
+can be modified or deleted. Uploading new "rules.pl" files will result in
+a warning being emitted.
 Please use link:config-submit-requirements.html[submit requirements] instead.
 Note that the link:#SubmitType[Submit Type] being deprecated in this
 documentation page currently has no substitution in submit requirements.

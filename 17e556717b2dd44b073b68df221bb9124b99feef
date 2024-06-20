@@ -16,6 +16,46 @@
       "message": "GIT-VIM.SCM",
       "revId": "17e556717b2dd44b073b68df221bb9124b99feef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5858297a_a3df87a6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-20T21:56:19Z",
+      "side": 1,
+      "message": "For some reasons that I don\u0027t fully understand yet, this change broke all tests that were inspecting metrics.",
+      "revId": "17e556717b2dd44b073b68df221bb9124b99feef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4883e36e_3065166d",
+        "filename": "java/com/google/gerrit/testing/ConfigSuite.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-20T21:56:19Z",
+      "side": 1,
+      "message": "This would add a `[default]` suffix to any test\u0027s method name.\n\nBefore this change, a test `fooTest` would have received a `org.junit.runner.Description.getMethodName()` of `fooTest`; after this change, a test `fooTest` receives `fooTest[default]`.\n\nI believe this should be mentioned in the release notes, as plugins using Gerrit test framework may not expect a method name with a `[default]` suffix.",
+      "range": {
+        "startLine": 247,
+        "startChar": 48,
+        "endLine": 247,
+        "endChar": 55
+      },
+      "revId": "17e556717b2dd44b073b68df221bb9124b99feef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

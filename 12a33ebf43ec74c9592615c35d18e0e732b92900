@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5fed266c_8031be33",
+        "filename": "java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-06-20T14:21:06Z",
+      "side": 1,
+      "message": "Thanks for taking a look!",
+      "parentUuid": "8b68a35f_f4195f19",
+      "range": {
+        "startLine": 479,
+        "startChar": 45,
+        "endLine": 479,
+        "endChar": 52
+      },
+      "revId": "12a33ebf43ec74c9592615c35d18e0e732b92900",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c8bb8df3_f9f5a65f",
@@ -61,6 +85,24 @@
       "writtenOn": "2024-06-20T05:42:05Z",
       "side": 1,
       "message": "Could this always be \"repos.get(d.change().getProject()).getConfig()\"?\n\nOr maybe add a repoConfig var similar to the rw var that gets set above.",
+      "revId": "12a33ebf43ec74c9592615c35d18e0e732b92900",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4fe6621_d3466feb",
+        "filename": "java/com/google/gerrit/server/query/change/OutputStreamQuery.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-06-20T14:21:06Z",
+      "side": 1,
+      "message": "Yeah, but it\u0027s cleaned up even more in the later change in the series [1], so I\u0027ll leave it like this for now.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/430781/2/java/com/google/gerrit/server/query/change/OutputStreamQuery.java",
+      "parentUuid": "c8bb8df3_f9f5a65f",
       "revId": "12a33ebf43ec74c9592615c35d18e0e732b92900",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -22,6 +22,47 @@
       },
       "revId": "12a33ebf43ec74c9592615c35d18e0e732b92900",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b68a35f_f4195f19",
+        "filename": "java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-06-20T05:42:05Z",
+      "side": 1,
+      "message": "LGTM, but I remember doing similar assumptions in the past and then everything broke, but in this case all tests are green, so I guess it should be fine.",
+      "parentUuid": "98a671f2_840f65d8",
+      "range": {
+        "startLine": 479,
+        "startChar": 45,
+        "endLine": 479,
+        "endChar": 52
+      },
+      "revId": "12a33ebf43ec74c9592615c35d18e0e732b92900",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8bb8df3_f9f5a65f",
+        "filename": "java/com/google/gerrit/server/query/change/OutputStreamQuery.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-06-20T05:42:05Z",
+      "side": 1,
+      "message": "Could this always be \"repos.get(d.change().getProject()).getConfig()\"?\n\nOr maybe add a repoConfig var similar to the rw var that gets set above.",
+      "revId": "12a33ebf43ec74c9592615c35d18e0e732b92900",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

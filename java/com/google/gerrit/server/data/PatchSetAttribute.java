@@ -17,7 +17,7 @@ package com.google.gerrit.server.data;
 import com.google.gerrit.extensions.client.ChangeKind;
 import java.util.List;
 
-public class PatchSetAttribute {
+public class PatchSetAttribute implements Cloneable {
   public int number;
   public String revision;
   public List<String> parents;
@@ -32,4 +32,12 @@ public class PatchSetAttribute {
   public List<PatchAttribute> files;
   public int sizeInsertions;
   public int sizeDeletions;
+
+  public PatchSetAttribute shallowClone() {
+    try {
+      return (PatchSetAttribute) super.clone();
+    } catch (CloneNotSupportedException e) {
+      throw new AssertionError(e);
+    }
+  }
 }

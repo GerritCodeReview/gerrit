@@ -76,6 +76,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -358,33 +359,23 @@ public class EventFactory {
 
   public void addPatchSets(
       RevWalk revWalk,
+      Config repoConfig,
       ChangeAttribute ca,
-      Collection<PatchSet> ps,
-      Map<PatchSet.Id, Collection<PatchSetApproval>> approvals,
-      LabelTypes labelTypes,
-      AccountAttributeLoader accountLoader) {
-    addPatchSets(revWalk, ca, ps, approvals, false, null, labelTypes, accountLoader);
-  }
-
-  public void addPatchSets(
-      RevWalk revWalk,
-      ChangeAttribute ca,
-      Collection<PatchSet> ps,
       Map<PatchSet.Id, Collection<PatchSetApproval>> approvals,
       boolean includeFiles,
-      Change change,
-      LabelTypes labelTypes,
+      ChangeData changeData,
       AccountAttributeLoader accountLoader) {
-    if (!ps.isEmpty()) {
-      ca.patchSets = new ArrayList<>(ps.size());
-      for (PatchSet p : ps) {
-        PatchSetAttribute psa = asPatchSetAttribute(revWalk, change, p, accountLoader);
+    if (!changeData.patchSets().isEmpty()) {
+      ca.patchSets = new ArrayList<>(changeData.patchSets().size());
+      for (PatchSet p : changeData.patchSets()) {
+        PatchSetAttribute psa =
+            asPatchSetAttribute(revWalk, repoConfig, changeData, p, accountLoader);
         if (approvals != null) {
-          addApprovals(psa, p.id(), approvals, labelTypes, accountLoader);
+          addApprovals(psa, p.id(), approvals, changeData.getLabelTypes(), accountLoader);
         }
         ca.patchSets.add(psa);
         if (includeFiles) {
-          addPatchSetFileNames(psa, change, p);
+          addPatchSetFileNames(psa, changeData.change(), p);
         }
       }
     }
@@ -441,13 +432,18 @@ public class EventFactory {
     }
   }
 
-  public PatchSetAttribute asPatchSetAttribute(RevWalk revWalk, Change change, PatchSet patchSet) {
-    return asPatchSetAttribute(revWalk, change, patchSet, null);
+  public PatchSetAttribute asPatchSetAttribute(
+      RevWalk revWalk, Config repoConfig, ChangeData changeData, PatchSet patchSet) {
+    return asPatchSetAttribute(revWalk, repoConfig, changeData, patchSet, null);
   }
 
   /** Create a PatchSetAttribute for the given patchset suitable for serialization to JSON. */
   public PatchSetAttribute asPatchSetAttribute(
-      RevWalk revWalk, Change change, PatchSet patchSet, AccountAttributeLoader accountLoader) {
+      RevWalk revWalk,
+      Config repoConfig,
+      ChangeData changeData,
+      PatchSet patchSet,
+      AccountAttributeLoader accountLoader) {
     PatchSetAttribute p = new PatchSetAttribute();
     p.revision = patchSet.commitId().name();
     p.number = patchSet.number();
@@ -474,12 +470,12 @@ public class EventFactory {
 
       Map<String, FileDiffOutput> modifiedFiles =
           diffOperations.listModifiedFilesAgainstParent(
-              change.getProject(), patchSet.commitId(), /* parentNum= */ 0, DiffOptions.DEFAULTS);
+              changeData.project(), patchSet.commitId(), /* parentNum= */ 0, DiffOptions.DEFAULTS);
       for (FileDiffOutput fileDiff : modifiedFiles.values()) {
         p.sizeDeletions += fileDiff.deletions();
         p.sizeInsertions += fileDiff.insertions();
       }
-      p.kind = changeKindCache.getChangeKind(change, patchSet);
+      p.kind = changeKindCache.getChangeKind(revWalk, repoConfig, changeData, patchSet);
     } catch (IOException | StorageException e) {
       logger.atSevere().withCause(e).log("Cannot load patch set data for %s", patchSet.id());
     } catch (DiffNotAvailableException e) {

@@ -22,7 +22,6 @@ import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.entities.LabelTypes;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
@@ -262,7 +261,6 @@ public class OutputStreamQuery {
       Map<Project.NameKey, RevWalk> revWalks,
       AccountAttributeLoader accountLoader)
       throws IOException {
-    LabelTypes labelTypes = d.getLabelTypes();
     ChangeAttribute c = eventFactory.asChangeAttribute(d.change(), accountLoader);
     c.hashtags = Lists.newArrayList(d.hashtags());
     eventFactory.extend(c, d.change());
@@ -286,67 +284,71 @@ public class OutputStreamQuery {
       eventFactory.addCommitMessage(c, d.commitMessage());
     }
 
-    RevWalk rw = null;
     if (includePatchSets || includeCurrentPatchSet || includeDependencies) {
       Project.NameKey p = d.change().getProject();
-      rw = revWalks.get(p);
+      Repository repo;
+      RevWalk rw = revWalks.get(p);
       // Cache and reuse repos and revwalks.
       if (rw == null) {
-        Repository repo = repoManager.openRepository(p);
+        repo = repoManager.openRepository(p);
         checkState(repos.put(p, repo) == null);
         rw = new RevWalk(repo);
         revWalks.put(p, rw);
+      } else {
+        repo = repos.get(p);
       }
-    }
 
-    if (includePatchSets) {
-      eventFactory.addPatchSets(
-          rw,
-          c,
-          d.patchSets(),
-          includeApprovals ? d.conditionallyLoadApprovalsWithCopied().asMap() : null,
-          includeFiles,
-          d.change(),
-          labelTypes,
-          accountLoader);
-    }
-
-    if (includeCurrentPatchSet) {
-      PatchSet current = d.currentPatchSet();
-      if (current != null) {
-        c.currentPatchSet = eventFactory.asPatchSetAttribute(rw, d.change(), current);
-        eventFactory.addApprovals(
-            c.currentPatchSet, d.currentApprovals(), labelTypes, accountLoader);
-
-        if (includeFiles) {
-          eventFactory.addPatchSetFileNames(c.currentPatchSet, d.change(), d.currentPatchSet());
-        }
+      if (includePatchSets) {
+        eventFactory.addPatchSets(
+            rw,
+            repo.getConfig(),
+            c,
+            includeApprovals ? d.conditionallyLoadApprovalsWithCopied().asMap() : null,
+            includeFiles,
+            d,
+            accountLoader);
         if (includeComments) {
-          eventFactory.addPatchSetComments(c.currentPatchSet, d.publishedComments(), accountLoader);
+          for (PatchSetAttribute attribute : c.patchSets) {
+            eventFactory.addPatchSetComments(attribute, d.publishedComments(), accountLoader);
+          }
         }
+      }
+
+      if (includeCurrentPatchSet) {
+        PatchSet current = d.currentPatchSet();
+        if (current != null) {
+          if (includePatchSets) {
+            for (PatchSetAttribute attribute : c.patchSets) {
+              if (attribute.number == current.number()) {
+                c.currentPatchSet = attribute.shallowClone();
+                // approvals will be populated later using different logic than --patch-sets uses
+                c.currentPatchSet.approvals = null;
+                break;
+              }
+            }
+          } else {
+            c.currentPatchSet =
+                eventFactory.asPatchSetAttribute(rw, repo.getConfig(), d, current, accountLoader);
+            if (includeFiles) {
+              eventFactory.addPatchSetFileNames(c.currentPatchSet, d.change(), d.currentPatchSet());
+            }
+            if (includeComments) {
+              eventFactory.addPatchSetComments(
+                  c.currentPatchSet, d.publishedComments(), accountLoader);
+            }
+          }
+          eventFactory.addApprovals(
+              c.currentPatchSet, d.currentApprovals(), d.getLabelTypes(), accountLoader);
+        }
+      }
+
+      if (includeDependencies) {
+        eventFactory.addDependencies(rw, c, d.change(), d.currentPatchSet());
       }
     }
 
     if (includeComments) {
       eventFactory.addComments(c, d.messages(), accountLoader);
-      if (includePatchSets) {
-        eventFactory.addPatchSets(
-            rw,
-            c,
-            d.patchSets(),
-            includeApprovals ? d.approvals().asMap() : null,
-            includeFiles,
-            d.change(),
-            labelTypes,
-            accountLoader);
-        for (PatchSetAttribute attribute : c.patchSets) {
-          eventFactory.addPatchSetComments(attribute, d.publishedComments(), accountLoader);
-        }
-      }
-    }
-
-    if (includeDependencies) {
-      eventFactory.addDependencies(rw, c, d.change(), d.currentPatchSet());
     }
 
     ImmutableList<PluginDefinedInfo> pluginInfos = pluginInfosByChange.get(d.getId());

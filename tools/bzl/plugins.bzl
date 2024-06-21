@@ -7,6 +7,7 @@ CORE_PLUGINS = [
     "hooks",
     "plugin-manager",
     "replication",
+    "replication:replication-api",
     "reviewnotes",
     "singleusergroup",
     "webhooks",

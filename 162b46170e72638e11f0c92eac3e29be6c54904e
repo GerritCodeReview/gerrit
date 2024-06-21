@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d784baf6_85039079",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2024-06-21T14:07:07Z",
+      "side": 1,
+      "message": "See https://phabricator.wikimedia.org/F55478312 for a screenshot :)",
+      "revId": "162b46170e72638e11f0c92eac3e29be6c54904e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

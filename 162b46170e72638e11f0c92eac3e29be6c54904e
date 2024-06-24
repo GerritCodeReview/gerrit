@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a8fc67c_9ff2b89a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-06-24T08:50:07Z",
+      "side": 1,
+      "message": "Please include a screenshot and more explanation in the commit message: why is it useful, details of implementation (that a checkbox is being added), etc.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 47
+      },
+      "revId": "162b46170e72638e11f0c92eac3e29be6c54904e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "d784baf6_85039079",
@@ -14,6 +37,29 @@
       "writtenOn": "2024-06-21T14:07:07Z",
       "side": 1,
       "message": "See https://phabricator.wikimedia.org/F55478312 for a screenshot :)",
+      "revId": "162b46170e72638e11f0c92eac3e29be6c54904e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5962e71d_f3e67f97",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 1561,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-06-24T08:50:07Z",
+      "side": 1,
+      "message": "Why specifically only ACTIVE and READ_ONLY? Why do we specify it here, but not in the gr-rest-api.ts?",
+      "range": {
+        "startLine": 1561,
+        "startChar": 12,
+        "endLine": 1561,
+        "endChar": 50
+      },
       "revId": "162b46170e72638e11f0c92eac3e29be6c54904e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

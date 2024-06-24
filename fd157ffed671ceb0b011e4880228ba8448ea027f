@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b36313f6_e14fc1f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-24T10:11:21Z",
+      "side": 1,
+      "message": "Missing `Release-Notes: Use constant-time comparison for hashed password validation, for increased security`",
+      "revId": "fd157ffed671ceb0b011e4880228ba8448ea027f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "906a3ec4_60b72250",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-24T10:11:21Z",
+      "side": 1,
+      "message": "Good point",
+      "revId": "fd157ffed671ceb0b011e4880228ba8448ea027f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

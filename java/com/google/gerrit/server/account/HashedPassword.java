@@ -136,6 +136,6 @@ public class HashedPassword {
 
   public boolean checkPassword(String password) {
     // Constant-time comparison, because we're paranoid.
-    return Arrays.areEqual(hashPassword(password, salt, cost, nullTerminate), hashed);
+    return Arrays.constantTimeAreEqual(hashPassword(password, salt, cost, nullTerminate), hashed);
   }
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "270cf075_28052b51",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-06-25T14:04:18Z",
+      "side": 1,
+      "message": "This will need manual +1 for CS + Verified as there is no CI for this branch.",
+      "revId": "ab7e3b0ae4f5dc586fe4817fea3130ffd4844c30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

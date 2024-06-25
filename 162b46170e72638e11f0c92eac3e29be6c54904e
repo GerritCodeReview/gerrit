@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "db53d1cb_1808187f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2024-06-25T12:19:34Z",
+      "side": 1,
+      "message": "Out of habit, I am usually sending bug fixes (and thus targetting stable branches). This is most probably the first new feature I am proposing.   I will do it against `master` and abandon this change.",
+      "parentUuid": "42e9797e_d3314bf8",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 6
+      },
+      "revId": "162b46170e72638e11f0c92eac3e29be6c54904e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1a8fc67c_9ff2b89a",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-06-24T08:50:07Z",
       "side": 1,
       "message": "Please include a screenshot and more explanation in the commit message: why is it useful, details of implementation (that a checkbox is being added), etc.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 47
+      },
+      "revId": "162b46170e72638e11f0c92eac3e29be6c54904e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1321af3_8ff29fde",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2024-06-25T12:19:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a8fc67c_9ff2b89a",
       "range": {
         "startLine": 7,
         "startChar": 0,
@@ -64,6 +112,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d410c2f_8ee30a0c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2024-06-25T12:19:34Z",
+      "side": 1,
+      "message": "Thank you for the review! I have amended my patch and send it against the `master` branch at https://gerrit-review.googlesource.com/c/gerrit/+/431200 :)",
+      "revId": "162b46170e72638e11f0c92eac3e29be6c54904e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5962e71d_f3e67f97",
@@ -77,6 +142,30 @@
       "writtenOn": "2024-06-24T08:50:07Z",
       "side": 1,
       "message": "Why specifically only ACTIVE and READ_ONLY? Why do we specify it here, but not in the gr-rest-api.ts?",
+      "range": {
+        "startLine": 1561,
+        "startChar": 12,
+        "endLine": 1561,
+        "endChar": 50
+      },
+      "revId": "162b46170e72638e11f0c92eac3e29be6c54904e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dfbf208f_8ddd47f4",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 1561,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2024-06-25T12:19:34Z",
+      "side": 1,
+      "message": "The search project `state` operator does not accept \u0027hidden\u0027 and would throw: *state operator must be either \u0027active\u0027 or \u0027read-only\u0027*.\n\nI have adjusted all the types to restrict to ACTIVE / READ_ONLY / undefined.",
+      "parentUuid": "5962e71d_f3e67f97",
       "range": {
         "startLine": 1561,
         "startChar": 12,

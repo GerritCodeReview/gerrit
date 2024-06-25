@@ -324,7 +324,6 @@ export class GrChangeView extends LitElement {
   @state()
   replyDisabled = true;
 
-  @state()
   private updateCheckTimerHandle?: number | null;
 
   @state() editMode = false;

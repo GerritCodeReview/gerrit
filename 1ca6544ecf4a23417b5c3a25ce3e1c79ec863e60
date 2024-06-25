@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "99fa0975_858e559a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-06-25T11:29:13Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "fa078236_2c80c4cf",
+      "revId": "1ca6544ecf4a23417b5c3a25ce3e1c79ec863e60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "dc1161d5_a05ff17f",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 8
@@ -48,6 +66,24 @@
       "writtenOn": "2024-06-25T06:23:46Z",
       "side": 1,
       "message": "Nice!\n\nCan you please update the documentation at https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#change.diff3ConflictView to say there that this config setting also applies for rebase and cherry-picking?",
+      "revId": "1ca6544ecf4a23417b5c3a25ce3e1c79ec863e60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ca7de46_c1261f00",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-06-25T11:29:13Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "b5eb1f97_36aec80c",
       "revId": "1ca6544ecf4a23417b5c3a25ce3e1c79ec863e60",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

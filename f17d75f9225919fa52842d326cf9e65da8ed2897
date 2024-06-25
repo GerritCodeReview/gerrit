@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e31ca99_cc2d6966",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 1737,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-06-25T12:28:37Z",
+      "side": 1,
+      "message": "This is not very clear. E.g. the first sentence talks about merge, rebase and cherry-picking, but the second sentence only applies to the merge case, then again the third sentence talks about automerge, rebase and cherry-picking, but it also says it happens on upload which is only true for the automerge, but not for rebase and cherry-picking.\n\nCan you please rephrase to make this clearer?",
+      "range": {
+        "startLine": 1733,
+        "startChar": 0,
+        "endLine": 1737,
+        "endChar": 56
+      },
+      "revId": "f17d75f9225919fa52842d326cf9e65da8ed2897",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

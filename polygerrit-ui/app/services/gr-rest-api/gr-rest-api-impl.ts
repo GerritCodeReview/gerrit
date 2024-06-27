@@ -2732,17 +2732,15 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   _fetchB64File(url: string): Promise<Base64File> {
-    return this._restApiHelper
-      .fetch({url: getBaseUrl() + url})
-      .then(response => {
-        if (!response.ok) {
-          return Promise.reject(new Error(response.statusText));
-        }
-        const type = response.headers.get('X-FYI-Content-Type');
-        return response.text().then(text => {
-          return {body: text, type};
-        });
+    return this._restApiHelper.fetch({url}).then(response => {
+      if (!response.ok) {
+        return Promise.reject(new Error(response.statusText));
+      }
+      const type = response.headers.get('X-FYI-Content-Type');
+      return response.text().then(text => {
+        return {body: text, type};
       });
+    });
   }
 
   getB64FileContents(

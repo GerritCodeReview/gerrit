@@ -19,8 +19,11 @@ import {
 } from '../../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {GrReviewerUpdatesParser} from '../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {parseDate} from '../../utils/date-util';
+<<<<<<< HEAD   (fd88f0 Use constant time comparison)
 import {getBaseUrl} from '../../utils/url-util';
 import {Finalizable} from '../registry';
+=======
+>>>>>>> CHANGE (8af6b1 gr-rest-api-impl: Remove duplicate base url from _fetchB64Fi)
 import {getParentIndex, isMergeParent} from '../../utils/patch-set-util';
 import {
   ListChangesOption,
@@ -2732,17 +2735,15 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   _fetchB64File(url: string): Promise<Base64File> {
-    return this._restApiHelper
-      .fetch({url: getBaseUrl() + url})
-      .then(response => {
-        if (!response.ok) {
-          return Promise.reject(new Error(response.statusText));
-        }
-        const type = response.headers.get('X-FYI-Content-Type');
-        return response.text().then(text => {
-          return {body: text, type};
-        });
+    return this._restApiHelper.fetch({url}).then(response => {
+      if (!response.ok) {
+        return Promise.reject(new Error(response.statusText));
+      }
+      const type = response.headers.get('X-FYI-Content-Type');
+      return response.text().then(text => {
+        return {body: text, type};
       });
+    });
   }
 
   getB64FileContents(

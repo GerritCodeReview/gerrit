@@ -16,6 +16,29 @@
       "message": "Needs someone with LC.",
       "revId": "fa9344363add1133cbb15bdb64f0237496c08911",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b72fbcb5_d9f4f06c",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-06-27T23:45:59Z",
+      "side": 1,
+      "message": "Can we remove downloading both artifacts now and go back to how it was before change I610f0063fa70f?",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 1
+      },
+      "revId": "fa9344363add1133cbb15bdb64f0237496c08911",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

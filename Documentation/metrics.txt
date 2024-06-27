@@ -98,6 +98,11 @@ The following metrics are reported.
 ** `type`:
    The type of the update (CREATE, UPDATE, CREATE/UPDATE, UPDATE_NONFASTFORWARD,
    DELETE).
+* `receivecommits/reject_count`: number of rejected pushes
+** `kind`:
+   The push kind (magic or direct).
+** `reason`:
+   The rejection reason.
 
 === Process
 

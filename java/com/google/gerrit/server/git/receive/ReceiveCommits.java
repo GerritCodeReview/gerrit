@@ -103,6 +103,7 @@ import com.google.gerrit.extensions.validators.CommentValidationContext;
 import com.google.gerrit.extensions.validators.CommentValidationFailure;
 import com.google.gerrit.extensions.validators.CommentValidator;
 import com.google.gerrit.metrics.Counter0;
+import com.google.gerrit.metrics.Counter2;
 import com.google.gerrit.metrics.Counter3;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Field;
@@ -333,6 +334,7 @@ class ReceiveCommits {
   private static class Metrics {
     private final Counter0 psRevisionMissing;
     private final Counter3<String, String, String> pushCount;
+    private final Counter2<String, String> rejectCount;
 
     @Inject
     Metrics(MetricMaker metricMaker) {
@@ -356,6 +358,16 @@ class ReceiveCommits {
                   .description(
                       "The type of the update (CREATE, UPDATE, CREATE/UPDATE,"
                           + " UPDATE_NONFASTFORWARD, DELETE).")
+                  .build());
+      rejectCount =
+          metricMaker.newCounter(
+              "receivecommits/reject_count",
+              new Description("number of rejected pushes"),
+              Field.ofString("kind", (metadataBuilder, fieldValue) -> {})
+                  .description("The push kind (direct vs. magic).")
+                  .build(),
+              Field.ofString("reason", (metadataBuilder, fieldValue) -> {})
+                  .description("The rejection reason.")
                   .build());
     }
   }
@@ -3701,16 +3713,18 @@ class ReceiveCommits {
     return TraceContext.newTimer(clazz.getSimpleName() + "#" + name, metadataBuilder.build());
   }
 
-  private static void reject(ReceiveCommand cmd, String why) {
+  private void reject(ReceiveCommand cmd, String why) {
     logger.atFine().log("Rejecting command '%s': %s", cmd, why);
+    metrics.rejectCount.increment(
+        MagicBranch.isMagicBranch(cmd.getRefName()) ? "magic" : "direct", why);
     cmd.setResult(REJECTED_OTHER_REASON, why);
   }
 
-  private static void rejectRemaining(Collection<ReceiveCommand> commands, String why) {
+  private void rejectRemaining(Collection<ReceiveCommand> commands, String why) {
     rejectRemaining(commands.stream(), why);
   }
 
-  private static void rejectRemaining(Stream<ReceiveCommand> commands, String why) {
+  private void rejectRemaining(Stream<ReceiveCommand> commands, String why) {
     commands.filter(cmd -> cmd.getResult() == NOT_ATTEMPTED).forEach(cmd -> reject(cmd, why));
   }
 

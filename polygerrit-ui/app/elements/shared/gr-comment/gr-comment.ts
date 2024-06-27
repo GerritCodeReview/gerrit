@@ -1714,9 +1714,6 @@ export class GrComment extends LitElement {
   }
 
   isFixSuggestionChanged(): boolean {
-    // Check to not change fix suggestion when draft is not being edited only
-    // when user quickly disable generating suggestions and click save
-    if (!this.editing && this.generateSuggestion) return false;
     return !deepEqual(this.comment?.fix_suggestions, this.getFixSuggestions());
   }
 

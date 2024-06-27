@@ -40,7 +40,7 @@ import {ReplyToCommentEvent} from '../../../types/events';
 import {GrConfirmDeleteCommentDialog} from '../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog';
 import {assertIsDefined} from '../../../utils/common-util';
 import {Key, Modifier} from '../../../utils/dom-util';
-import {SinonStubbedMember} from 'sinon';
+import {SinonStub, SinonStubbedMember} from 'sinon';
 import {fixture, html, assert} from '@open-wc/testing';
 import {GrButton} from '../gr-button/gr-button';
 import {testResolver} from '../../../test/common-test-setup';
@@ -49,6 +49,7 @@ import {
   commentsModelToken,
 } from '../../../models/comments/comments-model';
 import {KnownExperimentId} from '../../../services/flags/flags';
+import {GrSuggestionDiffPreview} from '../gr-suggestion-diff-preview/gr-suggestion-diff-preview';
 
 suite('gr-comment tests', () => {
   let element: GrComment;
@@ -1083,6 +1084,73 @@ suite('gr-comment tests', () => {
         queryAndAssert(element, 'gr-suggestion-diff-preview'),
         /* HTML */ '<gr-suggestion-diff-preview id="suggestionDiffPreview"> </gr-suggestion-diff-preview>'
       );
+    });
+
+    suite('save', () => {
+      const savePromise = mockPromise<DraftInfo>();
+      let saveDraftStub: SinonStub;
+      const textToSave = 'something, not important';
+      setup(async () => {
+        const comment = createDraft();
+        element = await fixture(
+          html`<gr-comment
+            .account=${account}
+            .showPatchset=${true}
+            .comment=${comment}
+            .initiallyCollapsed=${false}
+          ></gr-comment>`
+        );
+        saveDraftStub = sinon
+          .stub(commentsModel, 'saveDraft')
+          .returns(savePromise);
+        sinon.stub(element, 'showGeneratedSuggestion').returns(true);
+        element.editing = true;
+        await element.updateComplete;
+        element.messageText = textToSave;
+        element.unresolved = true;
+        element.generateSuggestion = true;
+        element.generatedFixSuggestion = generatedFixSuggestion;
+        await element.updateComplete;
+      });
+
+      test('save fix suggestion when previewed', async () => {
+        const suggestionDiffPreview = queryAndAssert<GrSuggestionDiffPreview>(
+          element,
+          '#suggestionDiffPreview'
+        );
+        suggestionDiffPreview.previewed = true;
+        await element.updateComplete;
+        element.save();
+        await element.updateComplete;
+        waitUntilCalled(saveDraftStub, 'saveDraft()');
+        assert.equal(
+          saveDraftStub.lastCall.firstArg.fix_suggestions[0]?.fix_id,
+          generatedFixSuggestion.fix_id
+        );
+        assert.isFalse(element.editing);
+
+        savePromise.resolve();
+      });
+
+      test("don't save fix suggestion when not previewed", async () => {
+        const suggestionDiffPreview = queryAndAssert<GrSuggestionDiffPreview>(
+          element,
+          '#suggestionDiffPreview'
+        );
+        suggestionDiffPreview.previewed = false;
+        await element.updateComplete;
+        element.save();
+        await element.updateComplete;
+        waitUntilCalled(saveDraftStub, 'saveDraft()');
+        assert.equal(saveDraftStub.lastCall.firstArg.message, textToSave);
+        assert.equal(
+          saveDraftStub.lastCall.firstArg.fix_suggestions,
+          undefined
+        );
+        assert.isFalse(element.editing);
+
+        savePromise.resolve();
+      });
     });
   });
 });

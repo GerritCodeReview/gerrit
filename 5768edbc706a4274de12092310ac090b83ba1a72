@@ -1,0 +1,206 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f09d8300_90fb0328",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-06-27T13:50:18Z",
+      "side": 1,
+      "message": "if you remove # then the change gets linkified",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 14
+      },
+      "revId": "5768edbc706a4274de12092310ac090b83ba1a72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb84ae0f_81c4c04e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-06-27T13:50:18Z",
+      "side": 1,
+      "message": "I don\u0027t follow this\n\nAI comments are auto attached now",
+      "range": {
+        "startLine": 9,
+        "startChar": 15,
+        "endLine": 10,
+        "endChar": 6
+      },
+      "revId": "5768edbc706a4274de12092310ac090b83ba1a72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1953307a_97a049c6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-06-27T13:50:18Z",
+      "side": 1,
+      "message": "what issue?\nCan you describe the issue in more detail?",
+      "range": {
+        "startLine": 10,
+        "startChar": 46,
+        "endLine": 11,
+        "endChar": 38
+      },
+      "revId": "5768edbc706a4274de12092310ac090b83ba1a72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8728ba46_74d46ae8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-06-27T13:50:18Z",
+      "side": 1,
+      "message": "which calls `isFixSuggestionChanged`\n\n`somethingToSave` calls the method and not `Save`.",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 29
+      },
+      "revId": "5768edbc706a4274de12092310ac090b83ba1a72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dceabd4f_3d0de7b1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1147,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-06-27T13:50:18Z",
+      "side": 1,
+      "message": "remove?\nThere is an await in line #1150 below?",
+      "range": {
+        "startLine": 1147,
+        "startChar": 8,
+        "endLine": 1147,
+        "endChar": 37
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "eecc9b75_d24f826b",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment_test.ts",
+              "range": {
+                "startLine": 1147,
+                "startChar": 0,
+                "endLine": 1148,
+                "endChar": 0
+              },
+              "replacement": ""
+            }
+          ]
+        }
+      ],
+      "revId": "5768edbc706a4274de12092310ac090b83ba1a72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9573074_31613036",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1156,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-06-27T13:50:18Z",
+      "side": 1,
+      "message": "this is done in both tests\nMove to the common setup then?",
+      "range": {
+        "startLine": 1154,
+        "startChar": 8,
+        "endLine": 1156,
+        "endChar": 37
+      },
+      "revId": "5768edbc706a4274de12092310ac090b83ba1a72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cfb25a2d_17309b9a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1173,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-06-27T13:50:18Z",
+      "side": 1,
+      "message": "remove?",
+      "range": {
+        "startLine": 1173,
+        "startChar": 8,
+        "endLine": 1173,
+        "endChar": 37
+      },
+      "revId": "5768edbc706a4274de12092310ac090b83ba1a72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b5330c5_9413269b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1176,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-06-27T13:50:18Z",
+      "side": 1,
+      "message": "are these tests related to the commit message or the code changes in this CL?\n\nI don\u0027t see any code changes wrt the `previewing` part.\n\nIf they\u0027re just added unrelated to the main code change, please mention in the commit message",
+      "range": {
+        "startLine": 1176,
+        "startChar": 12,
+        "endLine": 1176,
+        "endChar": 56
+      },
+      "revId": "5768edbc706a4274de12092310ac090b83ba1a72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

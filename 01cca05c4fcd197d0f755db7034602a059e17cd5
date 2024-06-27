@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41ef10cc_2c72e108",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1926,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-06-27T13:50:18Z",
+      "side": 0,
+      "message": "what does this setting mean?\nIs this setting checking if the user has the `generateSuggestion` flag enabled?\n\nI don\u0027t understand this code before but given you mention it made no sense in your commit message, I guess it\u0027s fine to remove it.",
+      "range": {
+        "startLine": 1926,
+        "startChar": 25,
+        "endLine": 1926,
+        "endChar": 48
+      },
+      "revId": "01cca05c4fcd197d0f755db7034602a059e17cd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

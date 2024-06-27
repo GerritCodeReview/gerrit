@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4697adb_cfdaa4a2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2024-06-27T21:58:16Z",
+      "side": 1,
+      "message": "That happens on our instance that has a `/r` prefix in the URL: https://gerrit.wikimedia.org/r/\n\nAn example this change fixes is: https://gerrit.wikimedia.org/r/c/operations/mediawiki-config/+/902211/1/static/images/project-logos/dkwikimedia.png  .\n\nThat is similar to a fix I have made for the downloadable link in  I74b0a3efe152359c2469606d71d54f4adb218454\n\n\nThe good news is apparently that got broken since at least stable-3.5 and that was never reported to us. I imagine barely anyone does an image diff on our instance :)",
+      "revId": "8af6b1049602d90ba04b8e634bf01b35ad027b64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

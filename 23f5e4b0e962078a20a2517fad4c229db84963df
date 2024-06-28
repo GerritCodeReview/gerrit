@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b112310_1d17eccd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-06-28T12:12:13Z",
+      "side": 1,
+      "message": "@thomasmulhall410@yahoo.com for the future consider using this GWSQ which will only add one Googler reviewer for changes like these.\n\nI don\u0027t think this requires 2. It\u0027s called `GerritFESingleReviewer`.\nWe use it internally as well.\n\nhttps://imgur.com/a/xNhVva3",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 5
+      },
+      "revId": "23f5e4b0e962078a20a2517fad4c229db84963df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -138,6 +138,23 @@
       "message": "Hi, I tried to find a way to move this to master. But I could find a way\n to move it. It seems there should be a button to move the change to \nanother branch in a 3 dots button",
       "revId": "0319f311deb26b8029acee34394be057f5b7048b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "26b3b021_bbbb8398",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 51
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-06-28T14:41:58Z",
+      "side": 1,
+      "message": "AFAIK the move button in the UI was disabled to prevent implicit merges which did bite us several times already. Protection against implicit merges isn\u0027t yet in place when the move is triggered in the UI.\n\nRebase this series to master in your clone and then push it for master to create a new series there. Then abandon this changes pushed for stable-3.10",
+      "revId": "0319f311deb26b8029acee34394be057f5b7048b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

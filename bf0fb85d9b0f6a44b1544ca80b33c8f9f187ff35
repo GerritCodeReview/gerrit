@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5eacdfe0_40d79f36",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-28T16:38:04Z",
+      "side": 1,
+      "message": "The failure is fixed with Ia2141535fc and it is related to the additional core plugin \u0027replication-api\u0027 in release.war.",
+      "revId": "bf0fb85d9b0f6a44b1544ca80b33c8f9f187ff35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

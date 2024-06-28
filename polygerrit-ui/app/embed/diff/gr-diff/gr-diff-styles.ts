@@ -75,6 +75,8 @@ export const grDiffElementStyles = css`
   gr-diff-element {
     /* for gr-selection-action-box positioning */
     position: relative;
+    /* Firefox requires a block to position child elements absolutely */
+    display: block;
   }
   gr-diff-element gr-selection-action-box {
     /* Needs z-index to appear above wrapped content, since it's inserted

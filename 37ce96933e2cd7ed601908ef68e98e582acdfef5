@@ -206,6 +206,30 @@
       },
       "revId": "37ce96933e2cd7ed601908ef68e98e582acdfef5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d76c2ceb_df49a6a1",
+        "filename": "java/com/google/gerrit/server/plugins/ServerPluginInfoModule.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-28T23:50:15Z",
+      "side": 1,
+      "message": "Yes, either a new `PluginBindingsModule` or just a simple utility method that creates it anonymously.\n\nExample:\n```\n  private void addSingleClassBindModule(List\u003cModule\u003e modules, @Nullable Class\u003c?\u003e clazz) {\n    if(clazz !\u003d null) {\n      modules.add(new AbstractModule() {\n        @Override\n        protected void configure() {\n          bind(clazz);\n        }\n      });\n    }\n  }\n```",
+      "parentUuid": "75942920_44cb0f30",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 76
+      },
+      "revId": "37ce96933e2cd7ed601908ef68e98e582acdfef5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

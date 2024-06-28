@@ -34,6 +34,453 @@
       "parentUuid": "4a835019_68193571",
       "revId": "23c42149e9497c6d70be2b0504f53cad10f3fc21",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2dc4bb98_e62a9336",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-28T23:50:15Z",
+      "side": 1,
+      "message": "Thanks @Nasser for your patience, I do have now a much better understanding of the problem and the danger associated with hierarchical injectors and just-in-time bindings.\n\nPlease see my comments and thorough review with plenty of suggestions :-)\n\nFeel free to address them differently, they are just hints.",
+      "revId": "23c42149e9497c6d70be2b0504f53cad10f3fc21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71062ab2_cf2309df",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1916,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-28T23:50:15Z",
+      "side": 1,
+      "message": "We should also allow the caller to make assertions on the newly created `TestServerPlugin`, so that you won\u0027t be forced to put your assertions in the Module definition which is not very readable.\n\n\n\n```suggestion\n      @Nullable Class\u003c? extends Module\u003e apiModuleClass,\n      @Nullable Consumer\u003cTestServerPlugin\u003e pluginConsumer)\n```",
+      "range": {
+        "startLine": 1916,
+        "startChar": 0,
+        "endLine": 1916,
+        "endChar": 55
+      },
+      "revId": "23c42149e9497c6d70be2b0504f53cad10f3fc21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "784ef608_38cb94e7",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1933,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-28T23:50:15Z",
+      "side": 1,
+      "message": "```suggestion\n    pluginGuiceEnvironment.onStartPlugin(plugin);\n    if (pluginConsumer !\u003d null) {\n      pluginConsumer.accept(plugin);\n    }\n```",
+      "revId": "23c42149e9497c6d70be2b0504f53cad10f3fc21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eca59254_1e4628ed",
+        "filename": "java/com/google/gerrit/server/plugins/ServerPlugin.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-28T23:50:15Z",
+      "side": 1,
+      "message": "I find this hard to read, what about expressing their intention by extracting a self-documented method and splitting this into two calls?\n\nAlso, we should mention the issue here and why we are doing this.\nA comment is typically required when the intention of the code isn\u0027t clear.\n\nThe culprit here is making sure that the injector passed to the `sshModule` and `httpModule` constructors is *exactly* the same as in `sysInjector`, otherwise it could be the top-level injector (when ApiModule is used and creates a hierarchy) and that would result in implicit just-in-time bindings at the wrong level.\n\n\n\n```suggestion\n      if(env.hasSshModule()) {\n        addSingleClassBindModule(modules, sshModule);\n      }\n      if(env.hasHttpModule()) {\n        addSingleClassBindModule(modules, httpModule);\n      }\n```",
+      "range": {
+        "startLine": 234,
+        "startChar": 0,
+        "endLine": 245,
+        "endChar": 13
+      },
+      "revId": "23c42149e9497c6d70be2b0504f53cad10f3fc21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f5ee678_09a024de",
+        "filename": "java/com/google/gerrit/server/plugins/ServerPlugin.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-28T23:50:15Z",
+      "side": 1,
+      "message": "```suggestion\n  private void addSingleClassBindModule(List\u003cModule\u003e modules, @Nullable Class\u003c?\u003e clazz) {\n    if (clazz !\u003d null) {\n      modules.add(new AbstractModule() {\n        @Override\n        protected void configure() {\n          bind(clazz);\n        }\n      });\n    }\n  }\n```",
+      "revId": "23c42149e9497c6d70be2b0504f53cad10f3fc21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f4bd7f2_bf9cbb8a",
+        "filename": "java/com/google/gerrit/server/plugins/ServerPlugin.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-28T23:50:15Z",
+      "side": 1,
+      "message": "It isn\u0027t clear to me why this is needed. If I disable this part of the code all tests are still passing.\n\nCan you explain further?",
+      "range": {
+        "startLine": 301,
+        "startChar": 0,
+        "endLine": 314,
+        "endChar": 5
+      },
+      "revId": "23c42149e9497c6d70be2b0504f53cad10f3fc21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b4093c5_d263302b",
+        "filename": "java/com/google/gerrit/server/plugins/ServerPluginInfoModule.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-28T23:50:15Z",
+      "side": 1,
+      "message": "This is effectively unneeded for two reasons:\n1. We haven\u0027t demonstrated with tests that it is actually needed: if you comment out this line, all the tests are still passing\n2. We do not currently support or have any evidence that ApiModule actually works with batch programs, therefore there will be no hierarchy there",
+      "range": {
+        "startLine": 55,
+        "startChar": 4,
+        "endLine": 55,
+        "endChar": 78
+      },
+      "revId": "23c42149e9497c6d70be2b0504f53cad10f3fc21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1c49fdc_2b98384c",
+        "filename": "javatests/com/google/gerrit/acceptance/server/plugins/PluginBindingsIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-28T23:50:15Z",
+      "side": 1,
+      "message": "You can dry-out all the `try() {}` in all tests and leave the automatic closure of the TestServerPlugin to the `@After` annotation.\n\nIt would allow to avoid all the distractions to the reader of the test.\n\n```suggestion\n  private AutoCloseable autoClosePlugin;\n\n  @After\n  public void tearDown() throws Exception {\n    if(autoClosePlugin !\u003d null) {\n      autoClosePlugin.close();\n    }\n  }\n```",
+      "revId": "23c42149e9497c6d70be2b0504f53cad10f3fc21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "004a1db0_52648a8a",
+        "filename": "javatests/com/google/gerrit/acceptance/server/plugins/PluginBindingsIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-28T23:50:15Z",
+      "side": 1,
+      "message": "```suggestion\n    public String getInjector() {\n      return injector;\n    }  \n```",
+      "revId": "23c42149e9497c6d70be2b0504f53cad10f3fc21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23e589e9_d155ea1f",
+        "filename": "javatests/com/google/gerrit/acceptance/server/plugins/PluginBindingsIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-28T23:50:15Z",
+      "side": 1,
+      "message": "It would be best to move all the assertion logic into the test method and not in the module. Typically the reader of a test is expecting the body to have the assertion, not jumping up and down in the file.\n\nBear in mind that the only code that isn\u0027t tested is the test itself: tests are to be read and understood by the reader, if they are hard to read, they are potentially wrong.\n\nAlso, having the assertion in the modules has led to the incorrect tests on the SshModule, but you did not realise the problem because the assertion wasn\u0027t in the body and therefore was never triggered.\n\n```suggestion\n   // Empty body: the assertions on the injected injector are in the tests body\n```",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 66
+      },
+      "revId": "23c42149e9497c6d70be2b0504f53cad10f3fc21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23b59945_6cc97a24",
+        "filename": "javatests/com/google/gerrit/acceptance/server/plugins/PluginBindingsIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-28T23:50:15Z",
+      "side": 1,
+      "message": "Isn\u0027t enough verifying the pluginName? Is there any value in the second verification?\n\nAlso, I would recommend to put the assertions in the body of the test method, as it looks not obvious and not very readable to have the assertions in the GuiceModule.",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 65
+      },
+      "revId": "23c42149e9497c6d70be2b0504f53cad10f3fc21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3c796ae_3a56cf0f",
+        "filename": "javatests/com/google/gerrit/acceptance/server/plugins/PluginBindingsIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-28T23:50:15Z",
+      "side": 1,
+      "message": "This can be left to the `@After` annotation to cleanup.",
+      "range": {
+        "startLine": 123,
+        "startChar": 0,
+        "endLine": 123,
+        "endChar": 32
+      },
+      "revId": "23c42149e9497c6d70be2b0504f53cad10f3fc21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51d2ac61_96afb3a0",
+        "filename": "javatests/com/google/gerrit/acceptance/server/plugins/PluginBindingsIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-28T23:50:15Z",
+      "side": 1,
+      "message": "This pattern looks unnatural: typically to have a body in the test that expresses the expectations.\n\nIn this case, the body is empty and you just give success if there are no exceptions. All the other tests do the same.\n\nBy reading the implementation of PluginInjectsInjectorModule at L50 you can then see the expectations.\n\nIt would be more readable if the module just exposes the values and you put the expectations in the body here.\n\n\n\n```suggestion\n    String testPluginName \u003d \"my-plugin-injecting-injector\";\n    autoClosePlugin \u003d installPlugin(testPluginName, PluginInjectsInjectorModule.class, null, null, null,\n            (plugin) -\u003e assertThatInjectedPluginName(plugin).isEqualTo(testPluginName));\n```",
+      "range": {
+        "startLine": 124,
+        "startChar": 0,
+        "endLine": 125,
+        "endChar": 54
+      },
+      "revId": "23c42149e9497c6d70be2b0504f53cad10f3fc21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "841177b5_1927c91c",
+        "filename": "javatests/com/google/gerrit/acceptance/server/plugins/PluginBindingsIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-28T23:50:15Z",
+      "side": 1,
+      "message": "You can make the assertions more readable with a higher-level assertion on the injected plugin name.\n\n```suggestion\n    Key\u003cString\u003e pluginNameKey \u003d Key.get(String.class, PluginName.class);\n    PluginInjectsInjectorModule pluginModule \u003d plugin.getSysInjector().getInstance(PluginInjectsInjectorModule.class);\n    return assertThat(pluginModule.getInjector().getInstance(pluginNameKey));\n```",
+      "revId": "23c42149e9497c6d70be2b0504f53cad10f3fc21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7af54ae_09402aa8",
+        "filename": "javatests/com/google/gerrit/acceptance/server/plugins/PluginBindingsIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-28T23:50:15Z",
+      "side": 1,
+      "message": "```suggestion\n  @Test\n  @Sandboxed\n  public void testCanInstallPluginInjectingInjectorInHttpModule() throws Exception {\n    String testPluginName \u003d \"my-plugin-injecting-injector\";\n    autoClosePlugin \u003d installPlugin(testPluginName, null, PluginInjectsInjectorModule.class, null, null,\n            (plugin) -\u003e assertThatInjectedPluginName(plugin).isEqualTo(testPluginName));\n  }\n```",
+      "range": {
+        "startLine": 129,
+        "startChar": 0,
+        "endLine": 137,
+        "endChar": 3
+      },
+      "revId": "23c42149e9497c6d70be2b0504f53cad10f3fc21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08904086_fa61f37c",
+        "filename": "javatests/com/google/gerrit/acceptance/server/plugins/PluginBindingsIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-28T23:50:15Z",
+      "side": 1,
+      "message": "This method is not directly asserting anything but just expecting that no exceptions are thrown.\n\nHowever, not having exceptions thrown doesn\u0027t mean *working*. In fact, this test isn\u0027t working because it is not annotated with `@UseSsh`.\n\nIf you rewrite the test with explicit assertions, you\u0027ll notice that the test is failing. Then, adding `@UseSsh` the test will succeed.\n\n\n\n```suggestion\n  @Test\n  @Sandboxed\n  @UseSsh\n  public void testCanInstallPluginInjectingInjectorInSshModule() throws Exception {\n    String testPluginName \u003d \"my-plugin-injecting-injector\";\n    autoClosePlugin \u003d installPlugin(testPluginName, null, null, PluginInjectsInjectorModule.class, null,\n            (plugin) -\u003e assertThatInjectedPluginName(plugin).isEqualTo(testPluginName));\n  }\n```",
+      "range": {
+        "startLine": 139,
+        "startChar": 0,
+        "endLine": 147,
+        "endChar": 3
+      },
+      "revId": "23c42149e9497c6d70be2b0504f53cad10f3fc21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6bdc5397_7a838d1f",
+        "filename": "javatests/com/google/gerrit/acceptance/server/plugins/PluginBindingsIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-28T23:50:15Z",
+      "side": 1,
+      "message": "```suggestion\n      String testPluginName \u003d \"my-plugin-injecting-injector\";\n      autoClosePlugin \u003d installPlugin(testPluginName, PluginInjectsInjectorModule.class, null, null, null,\n              (plugin) -\u003e assertThatInjectedPluginName(plugin).isEqualTo(testPluginName));\n```",
+      "range": {
+        "startLine": 155,
+        "startChar": 0,
+        "endLine": 158,
+        "endChar": 7
+      },
+      "revId": "23c42149e9497c6d70be2b0504f53cad10f3fc21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3c870db_7a5e7bf7",
+        "filename": "javatests/com/google/gerrit/acceptance/server/plugins/PluginBindingsIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-28T23:50:15Z",
+      "side": 1,
+      "message": "This isn\u0027t relevant, because they key point of this test is having the `ApiModule`.\n\nIf you include a sys module or not, does not change anything in the api module base injector.",
+      "range": {
+        "startLine": 430,
+        "startChar": 29,
+        "endLine": 430,
+        "endChar": 54
+      },
+      "revId": "23c42149e9497c6d70be2b0504f53cad10f3fc21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b25065f1_d39372ec",
+        "filename": "javatests/com/google/gerrit/acceptance/server/plugins/PluginBindingsIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 439,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-28T23:50:15Z",
+      "side": 1,
+      "message": "As in the other tests, it would be best to have the assertions in the test body rather than in the modules.",
+      "range": {
+        "startLine": 431,
+        "startChar": 0,
+        "endLine": 439,
+        "endChar": 7
+      },
+      "revId": "23c42149e9497c6d70be2b0504f53cad10f3fc21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0270a292_054165dc",
+        "filename": "javatests/com/google/gerrit/acceptance/server/plugins/PluginBindingsIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 550,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-28T23:50:15Z",
+      "side": 1,
+      "message": "The exception is a consequence of where you have put the test logic and not of the underlying Guice problem.\n\nI would suggest to expect `com.google.inject.ConfigurationException` and move the assertion logic into the body of the test.",
+      "range": {
+        "startLine": 550,
+        "startChar": 8,
+        "endLine": 550,
+        "endChar": 32
+      },
+      "revId": "23c42149e9497c6d70be2b0504f53cad10f3fc21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae81c223_1702b1c0",
+        "filename": "javatests/com/google/gerrit/acceptance/server/plugins/PluginBindingsIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 557,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-28T23:50:15Z",
+      "side": 1,
+      "message": "Add the assertion logic here:\n\n\n\n```suggestion\n                PluginInjectsInjectorModule.class, PluginBindingsIT::assertThatInjectedPluginName));\n```",
+      "range": {
+        "startLine": 557,
+        "startChar": 0,
+        "endLine": 557,
+        "endChar": 52
+      },
+      "revId": "23c42149e9497c6d70be2b0504f53cad10f3fc21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,5 +1,29 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b5ddeed_06fd6a5c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2024-06-28T08:11:35Z",
+      "side": 1,
+      "message": "This made a change to `polygerrit-ui/app/embed/diff/gr-diff/gr-diff-styles.ts` but was not included in this merge commit for some reason. It had to be later cherry-picked with https://gerrit-review.googlesource.com/c/gerrit/+/431657",
+      "range": {
+        "startLine": 15,
+        "startChar": 2,
+        "endLine": 15,
+        "endChar": 40
+      },
+      "revId": "a90bd5ebb7e4c3c919912b3897f177ae61b6f08c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

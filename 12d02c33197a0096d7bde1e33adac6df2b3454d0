@@ -33,6 +33,24 @@
       "message": "What I don\u0027t get is the fix https://gerrit-review.googlesource.com/c/gerrit/+/429157 was merged on June 11th in `stable-3.9` and that branch has since been merged in `stable-3.10`.  The commit is in `stable-3.10` already and the snapshot of it we are running on Wikimedia does not have it yet.\n\nI think this change will end up being empty since the commit is already in thebranch.",
       "revId": "12d02c33197a0096d7bde1e33adac6df2b3454d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd12ff64_0447d707",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-06-28T08:02:01Z",
+      "side": 1,
+      "message": "I don\u0027t think the file is empty. This is a cherry-pick and if you click on the gitiles link you will see the file is changed. I had to fix merge conflicts so i guess that\u0027s why it wasn\u0027t merged up. But anyways if you cherry-pick this locally you can see it changes a file. It\u0027ll only be empty if the file was changed already which it wasn\u0027t as the change isn\u0027t in it.",
+      "parentUuid": "4c0857f8_020f0e19",
+      "revId": "12d02c33197a0096d7bde1e33adac6df2b3454d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -51,6 +51,23 @@
       "parentUuid": "4c0857f8_020f0e19",
       "revId": "12d02c33197a0096d7bde1e33adac6df2b3454d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "45574660_51d800e6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2024-06-28T08:09:35Z",
+      "side": 1,
+      "message": "The merge commit: https://gerrit-review.googlesource.com/c/gerrit/+/429757\n\nThen looking at the diff against the first parent https://gerrit-review.googlesource.com/c/gerrit/+/429757/-1..3 , the fix is not in `polygerrit-ui/app/embed/diff/gr-diff/gr-diff-styles.ts` so my guess is the merge was not properly done :/",
+      "revId": "12d02c33197a0096d7bde1e33adac6df2b3454d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

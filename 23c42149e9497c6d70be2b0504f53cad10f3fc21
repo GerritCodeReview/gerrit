@@ -16,6 +16,24 @@
       "message": "I\u0027ve stumbled upon this problem also between the replication and pull-replication plugin and the delete-project plugin. If the pull-replication plugin is loaded *before* then it throws the following exception:\n\n```\n[2024-06-26T23:33:05.754+01:00] [main] WARN  com.google.gerrit.server.plugins.PluginLoader : Cannot load plugin delete-project\ncom.google.inject.CreationException: Unable to create injector, see the following errors:\n\n1) [Guice/JitBindingAlreadySet]: A just-in-time binding to CacheDeleteHandler was already configured on a parent injector.\n  at PluginModule.configure(PluginModule.java:49)\n\n1 error\n\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nFull classname legend:\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nCacheDeleteHandler: \"com.googlesource.gerrit.plugins.deleteproject.cache.CacheDeleteHandler\"\nPluginModule:       \"com.googlesource.gerrit.plugins.deleteproject.PluginModule\"\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nEnd of classname legend:\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\n```\n\nThat happens *ONLY IF* there is at least one ApiModule loaded and therefore a hierarchical base injector.\n\nI tried to apply this fix but it did not work. Will look more into it tomorrow and revert back with more insights.",
       "revId": "23c42149e9497c6d70be2b0504f53cad10f3fc21",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c13682c_4de7c535",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-28T17:26:09Z",
+      "side": 1,
+      "message": "Basically, the errors I had on the replication plugin were just a genuine bug, with the fix uploaded at I2bf9dab0d2. The problem told me how dangerous are _just-in-time_ bindings because they may happen without control and will to create them by the caller.",
+      "parentUuid": "4a835019_68193571",
+      "revId": "23c42149e9497c6d70be2b0504f53cad10f3fc21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

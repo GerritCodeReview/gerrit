@@ -39,6 +39,30 @@
       },
       "revId": "fa9344363add1133cbb15bdb64f0237496c08911",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e1d7c7d_51d027e5",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2024-06-29T12:03:01Z",
+      "side": 1,
+      "message": "I\u0027ve added only one additional artifact in I610f0063fa70f, that I removed now. I\u0027ve also documented this in the commit message. Let me know if you prefer a clean revert. Done.",
+      "parentUuid": "b72fbcb5_d9f4f06c",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 1
+      },
+      "revId": "fa9344363add1133cbb15bdb64f0237496c08911",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

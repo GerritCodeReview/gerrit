@@ -53,7 +53,7 @@ public class HttpPasswordUpdateEmailDecorator implements EmailDecorator {
     email.addSoyEmailDataParam("email", getEmail());
     email.addSoyEmailDataParam("userNameEmail", email.getUserNameEmailFor(user.getAccountId()));
     email.addSoyEmailDataParam("operation", operation);
-    email.addSoyEmailDataParam("httpPasswordSettingsUrl", email.getSettingsUrl("http-password"));
+    email.addSoyEmailDataParam("httpPasswordSettingsUrl", email.getSettingsUrl("HTTPCredentials"));
 
     email.appendText(email.textTemplate("HttpPasswordUpdate"));
     if (email.useHtml()) {

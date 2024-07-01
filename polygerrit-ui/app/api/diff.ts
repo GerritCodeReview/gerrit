@@ -401,6 +401,7 @@ export declare type ImageDiffAction =
       value: boolean;
       source: 'controls' | 'magnifier';
     }
+  | {type: 'diff-setting-changed'; settings: string}
   | {type: 'zoom-level-changed'; scale: number | 'fit'}
   | {type: 'follow-mouse-changed'; value: boolean}
   | {type: 'background-color-changed'; value: string}

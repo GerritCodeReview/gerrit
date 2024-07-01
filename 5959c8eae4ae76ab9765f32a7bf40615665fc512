@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d35db87_111b2a29",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-07-01T18:10:41Z",
+      "side": 1,
+      "message": "JGit is still on 2.12.1, should we update to that instead?",
+      "revId": "5959c8eae4ae76ab9765f32a7bf40615665fc512",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

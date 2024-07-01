@@ -112,6 +112,8 @@ export class GrImageViewer extends LitElement {
 
   @state() protected showHighlight = false;
 
+  @state() protected strictDiff = false;
+
   private ownsMouseDown = false;
 
   private centerOnDown: Point = {x: 0, y: 0};
@@ -299,6 +301,9 @@ export class GrImageViewer extends LitElement {
         }
         #highlight-changes {
           margin: var(--spacing-m) var(--spacing-xl);
+        }
+        #strict-diff {
+          margin: var(--spacing-m) var(--spacing-xxl);
         }
         gr-overview-image {
           min-width: 200px;
@@ -491,6 +496,19 @@ export class GrImageViewer extends LitElement {
         `
       : '';
 
+    const strictDiffSwitcher = this.diffHighlightSrc
+      ? html`
+          <paper-checkbox
+            id="strict-diff"
+            ?checked=${this.strictDiff}
+            ?disabled=${!this.showHighlight}
+            @change=${this.strictDiffChanged}
+          >
+            Strict difference
+          </paper-checkbox>
+        `
+      : '';
+
     const overviewImage = html`
       <gr-overview-image
         .frameRect=${this.overviewFrame}
@@ -638,7 +656,8 @@ export class GrImageViewer extends LitElement {
       </div>
 
       <paper-card class="controls">
-        ${versionSwitcher} ${highlightSwitcher} ${overviewImage} ${zoomControl}
+        ${versionSwitcher} ${highlightSwitcher} ${strictDiffSwitcher}
+        ${overviewImage} ${zoomControl}
         ${!this.scaledSelected ? followMouse : ''} ${backgroundPicker}
       </paper-card>
     `;
@@ -675,7 +694,9 @@ export class GrImageViewer extends LitElement {
     }
     if (
       this.canHighlightDiffs &&
-      (changedProperties.has('baseUrl') || changedProperties.has('revisionUrl'))
+      (changedProperties.has('baseUrl') ||
+        changedProperties.has('revisionUrl') ||
+        changedProperties.has('strictDiff'))
     ) {
       this.computeDiffImage();
     }
@@ -683,17 +704,17 @@ export class GrImageViewer extends LitElement {
 
   private computeDiffImage() {
     if (!(this.baseUrl && this.revisionUrl)) return;
-    window
-      .resemble(this.baseUrl)
-      .compareTo(this.revisionUrl)
-      // By default Resemble.js applies some color / alpha tolerance as well as
-      // min / max brightness beyond which to ignore changes. Until we have
-      // controls to let the user affect these options, always highlight all
-      // changed pixels.
-      .ignoreNothing()
-      .onComplete(result => {
-        this.diffHighlightSrc = result.getImageDataUrl();
-      });
+    const comparer = window.resemble(this.baseUrl).compareTo(this.revisionUrl);
+
+    if (this.strictDiff) {
+      comparer.ignoreNothing();
+    } else {
+      comparer.ignoreLess();
+    }
+
+    comparer.onComplete(result => {
+      this.diffHighlightSrc = result.getImageDataUrl();
+    });
   }
 
   fireAction(detail: ImageDiffAction) {
@@ -764,6 +785,18 @@ export class GrImageViewer extends LitElement {
       type: 'highlight-changes-changed',
       value: this.showHighlight,
       source,
+    });
+  }
+
+  strictDiffChanged() {
+    this.toggleStrictDiff();
+  }
+
+  private toggleStrictDiff() {
+    this.strictDiff = !this.strictDiff;
+    this.fireAction({
+      type: 'strict-diff-changed',
+      value: this.strictDiff,
     });
   }
 

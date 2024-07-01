@@ -35,6 +35,14 @@ const DEFAULT_AUTOMATIC_BLINK_TIME_MS = 1000;
 
 const AUTOMATIC_BLINK_BUTTON_ACTIVE_AREA_PIXELS = 350;
 
+enum RESEMBLEJS_BUILTIN_SETTINGS {
+  ignoreNothing = 'Nothing',
+  ignoreLess = 'Less',
+  ignoreAntialiasing = 'Anti-aliasing',
+  ignoreColors = 'Colors',
+  ignoreAlpha = 'Alpha',
+}
+
 /**
  * This components allows the user to rapidly switch between two given images
  * rendered in the same location, to make subtle differences more noticeable.
@@ -53,6 +61,9 @@ export class GrImageViewer extends LitElement {
    * are available.
    */
   @property({type: Boolean}) automaticBlink = false;
+
+  @property({type: String})
+  selectedSettings?: keyof RESEMBLEJS_BUILTIN_SETTINGS;
 
   @state() protected baseSelected = false;
 
@@ -300,6 +311,12 @@ export class GrImageViewer extends LitElement {
         #highlight-changes {
           margin: var(--spacing-m) var(--spacing-xl);
         }
+        #diff-intro {
+          margin: 0 var(--spacing-xl);
+        }
+        .diffSetting {
+          margin: 0 var(--spacing-xxl);
+        }
         gr-overview-image {
           min-width: 200px;
           min-height: 150px;
@@ -491,6 +508,31 @@ export class GrImageViewer extends LitElement {
         `
       : '';
 
+    let diffSettingsRadioGroup = html`<span id="diff-intro">Ignore:</span>`;
+    if (this.diffHighlightSrc) {
+      for (const [settings, description] of Object.entries(
+        RESEMBLEJS_BUILTIN_SETTINGS
+      ) as [keyof RESEMBLEJS_BUILTIN_SETTINGS, RESEMBLEJS_BUILTIN_SETTINGS][]) {
+        const id = `diff-${String(settings)}`;
+        diffSettingsRadioGroup = html`
+          ${diffSettingsRadioGroup}
+          <div id=${id} class="diffSetting">
+            <input
+              id="${id}-input"
+              type="radio"
+              name="diffSettings"
+              ?checked=${(this.selectedSettings ?? 'ignoreLess') === settings}
+              ?disabled=${!this.showHighlight}
+              @click=${() => {
+                this.selectDiffSettings(settings);
+              }}
+            />
+            <label id="${id}-label" for="${id}-input"> ${description} </label>
+          </div>
+        `;
+      }
+    }
+
     const overviewImage = html`
       <gr-overview-image
         .frameRect=${this.overviewFrame}
@@ -638,7 +680,8 @@ export class GrImageViewer extends LitElement {
       </div>
 
       <paper-card class="controls">
-        ${versionSwitcher} ${highlightSwitcher} ${overviewImage} ${zoomControl}
+        ${versionSwitcher} ${highlightSwitcher} ${diffSettingsRadioGroup}
+        ${overviewImage} ${zoomControl}
         ${!this.scaledSelected ? followMouse : ''} ${backgroundPicker}
       </paper-card>
     `;
@@ -675,7 +718,9 @@ export class GrImageViewer extends LitElement {
     }
     if (
       this.canHighlightDiffs &&
-      (changedProperties.has('baseUrl') || changedProperties.has('revisionUrl'))
+      (changedProperties.has('baseUrl') ||
+        changedProperties.has('revisionUrl') ||
+        changedProperties.has('selectedSettings'))
     ) {
       this.computeDiffImage();
     }
@@ -683,17 +728,21 @@ export class GrImageViewer extends LitElement {
 
   private computeDiffImage() {
     if (!(this.baseUrl && this.revisionUrl)) return;
-    window
-      .resemble(this.baseUrl)
-      .compareTo(this.revisionUrl)
-      // By default Resemble.js applies some color / alpha tolerance as well as
-      // min / max brightness beyond which to ignore changes. Until we have
-      // controls to let the user affect these options, always highlight all
-      // changed pixels.
-      .ignoreNothing()
-      .onComplete(result => {
-        this.diffHighlightSrc = result.getImageDataUrl();
-      });
+    const comparer = window.resemble(this.baseUrl).compareTo(this.revisionUrl);
+
+    if (
+      this.selectedSettings !== undefined &&
+      this.selectedSettings in RESEMBLEJS_BUILTIN_SETTINGS
+    ) {
+      // @ts-ignore: Comparison type is from ResembleJS and we only allow a subset of them
+      comparer[this.selectedSettings]();
+    } else {
+      comparer.ignoreLess();
+    }
+
+    comparer.onComplete(result => {
+      this.diffHighlightSrc = result.getImageDataUrl();
+    });
   }
 
   fireAction(detail: ImageDiffAction) {
@@ -764,6 +813,14 @@ export class GrImageViewer extends LitElement {
       type: 'highlight-changes-changed',
       value: this.showHighlight,
       source,
+    });
+  }
+
+  selectDiffSettings(settings: keyof RESEMBLEJS_BUILTIN_SETTINGS) {
+    this.selectedSettings = settings;
+    this.fireAction({
+      type: 'diff-setting-changed',
+      settings: String(this.selectedSettings),
     });
   }
 

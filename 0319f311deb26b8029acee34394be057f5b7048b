@@ -155,6 +155,24 @@
       "message": "AFAIK the move button in the UI was disabled to prevent implicit merges which did bite us several times already. Protection against implicit merges isn\u0027t yet in place when the move is triggered in the UI.\n\nRebase this series to master in your clone and then push it for master to create a new series there. Then abandon this changes pushed for stable-3.10",
       "revId": "0319f311deb26b8029acee34394be057f5b7048b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "31d8fa38_fb0b8c80",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 51
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1152600
+      },
+      "writtenOn": "2024-07-01T18:31:10Z",
+      "side": 1,
+      "message": "Done, https://gerrit-review.googlesource.com/c/gerrit/+/431917/2",
+      "parentUuid": "26b3b021_bbbb8398",
+      "revId": "0319f311deb26b8029acee34394be057f5b7048b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

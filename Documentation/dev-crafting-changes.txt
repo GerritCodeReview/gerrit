@@ -119,7 +119,7 @@ To set up git's remote for easy pushing, run the following:
 
 The HTTPS access requires proper username and password; this can be obtained
 by clicking the 'Obtain Password' link on the
-link:https://gerrit-review.googlesource.com/#/settings/http-password[HTTP
+link:https://gerrit-review.googlesource.com/settings/#HTTPCredentials[HTTP
 Password tab of the user settings page,role=external,window=_blank].
 
 Alternately, you may use the

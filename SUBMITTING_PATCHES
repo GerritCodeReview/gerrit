@@ -62,11 +62,11 @@ Ensure you have completed one of the necessary contributor
 agreements, providing documentation to the project maintainers that
 they have right to redistribute your work under the Apache License:
 
-  https://gerrit-review.googlesource.com/#/settings/agreements
+  https://gerrit-review.googlesource.com/settings/#Agreements
 
 Ensure you have obtained a unique HTTP password to identify yourself:
 
-  https://gerrit-review.googlesource.com/#/settings/http-password
+  https://gerrit-review.googlesource.com/settings/#HTTPCredentials
 
 Ensure you have installed the commit-msg hook that automatically
 generates and inserts a Change-Id line during "git commit".  This can

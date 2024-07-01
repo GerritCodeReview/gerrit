@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c395964_6f246a51",
+        "filename": "polygerrit-ui/app/api/diff.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2024-07-01T21:53:35Z",
+      "side": 1,
+      "message": "That should be of the same type as Resemble.ComparisonOptions.ignore:\n```\nignore?: ComparisonIgnoreOption | ComparisonIgnoreOption[] | undefined;\n```\n```\ntype ComparisonIgnoreOption \u003d \"nothing\" | \"less\" | \"antialiasing\" | \"colors\" | \"alpha\";\n```",
+      "revId": "d43aa53e19c7c011596c57ec6b0d0fad3c766d66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45549c94_2c432e82",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-image-viewer/gr-image-viewer.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2024-07-01T21:53:35Z",
+      "side": 1,
+      "message": "That is the name of the methods exposed when calling `window.resemble()`. There is another function `compare()` which can be given an `ignore` setting with:\n\n  type ComparisonIgnoreOption \u003d \"nothing\" | \"less\" | \"antialiasing\" | \"colors\" | \"alpha\";\n\nWhich is a nicer interface to use. My guess is that those can be referred to using `Resemble.ComparisonIgnoreOption`.",
+      "revId": "d43aa53e19c7c011596c57ec6b0d0fad3c766d66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

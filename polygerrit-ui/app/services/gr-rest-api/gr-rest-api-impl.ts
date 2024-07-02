@@ -1125,6 +1125,38 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   /**
+   * Depending on an experiment this will either use `getChangesForMultipleQueries()`, which
+   * makes just one request to the REST API. Or it will fan out into multiple parallel
+   * requests and call `getChanges()` for each query.
+   */
+  async getChangesForDashboard(
+    changesPerPage?: number,
+    queries?: string[],
+    offset?: 'n,z' | number,
+    options?: string
+  ): Promise<ChangeInfo[][] | undefined> {
+    const parallelRequests = !this.flagService.isEnabled(
+      KnownExperimentId.PARALLEL_DASHBOARD_REQUESTS
+    );
+    if (parallelRequests && queries && queries.length > 1) {
+      const requestPromises = queries.map(query =>
+        this.getChanges(changesPerPage, query, offset, options)
+      );
+      return Promise.all(requestPromises).then(results => {
+        if (results.includes(undefined)) return undefined;
+        return results as ChangeInfo[][];
+      });
+    } else {
+      return this.getChangesForMultipleQueries(
+        changesPerPage,
+        queries,
+        offset,
+        options
+      );
+    }
+  }
+
+  /**
    * For every query fetches the matching changes.
    *
    * If options is undefined then default options (see getListChangesOptionsHex) is

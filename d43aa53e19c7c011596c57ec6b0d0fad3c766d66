@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e037058_1a4e32f1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-07-02T08:30:50Z",
+      "side": 1,
+      "message": "Nice! ❤️",
+      "revId": "d43aa53e19c7c011596c57ec6b0d0fad3c766d66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9c395964_6f246a51",
@@ -31,6 +48,40 @@
       "writtenOn": "2024-07-01T21:53:35Z",
       "side": 1,
       "message": "That is the name of the methods exposed when calling `window.resemble()`. There is another function `compare()` which can be given an `ignore` setting with:\n\n  type ComparisonIgnoreOption \u003d \"nothing\" | \"less\" | \"antialiasing\" | \"colors\" | \"alpha\";\n\nWhich is a nicer interface to use. My guess is that those can be referred to using `Resemble.ComparisonIgnoreOption`.",
+      "revId": "d43aa53e19c7c011596c57ec6b0d0fad3c766d66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0977babc_b4d750b6",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-image-viewer/gr-image-viewer.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-07-02T08:30:50Z",
+      "side": 1,
+      "message": "Maybe just remove this caption line. And instead add a description to each option that is self explanatory.",
+      "revId": "d43aa53e19c7c011596c57ec6b0d0fad3c766d66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80fe5778_75847b71",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-image-viewer/gr-image-viewer.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-07-02T08:30:50Z",
+      "side": 1,
+      "message": "I would prefer to only show the radio group, if `this.showHighlight` is true.",
       "revId": "d43aa53e19c7c011596c57ec6b0d0fad3c766d66",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

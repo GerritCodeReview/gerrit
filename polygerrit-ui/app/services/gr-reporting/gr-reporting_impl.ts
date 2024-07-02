@@ -3,7 +3,7 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {FlagsService} from '../flags/flags';
+import {FlagsService, KnownExperimentId} from '../flags/flags';
 import {EventValue, ReportingService, Timer} from './gr-reporting';
 import {hasOwnProperty} from '../../utils/common-util';
 import {NumericChangeId} from '../../types/common';
@@ -360,6 +360,7 @@ interface PageLoadDetails {
   screenSize?: {width: number; height: number};
   viewport?: {width: number; height: number};
   usedJSHeapSizeMb?: number;
+  parallelRequestsEnabled?: boolean;
 }
 
 interface SlowRpcCall {
@@ -687,6 +688,9 @@ export class GrReporting implements ReportingService, Finalizable {
     const details: PageLoadDetails = {
       rpcList: this.slowRpcSnapshot,
       hiddenDurationMs: this.hiddenDurationTimer.accHiddenDurationMs,
+      parallelRequestsEnabled: this._flagsService.isEnabled(
+        KnownExperimentId.PARALLEL_DASHBOARD_REQUESTS
+      ),
     };
 
     if (window.screen) {

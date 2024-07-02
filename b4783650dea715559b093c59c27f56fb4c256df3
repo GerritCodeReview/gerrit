@@ -16,6 +16,24 @@
       "message": "Needs Release-Notes footer",
       "revId": "b4783650dea715559b093c59c27f56fb4c256df3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "992d16de_36659316",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2024-07-02T16:58:24Z",
+      "side": 1,
+      "message": "I have added a release note:\n\n\u003e Allow picking different ignore mode in UiFeature__new_image_diff_ui experiment view",
+      "parentUuid": "10c5bf27_df3da1fd",
+      "revId": "b4783650dea715559b093c59c27f56fb4c256df3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

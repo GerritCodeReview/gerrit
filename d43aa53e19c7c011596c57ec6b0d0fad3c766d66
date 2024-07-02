@@ -52,6 +52,41 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2358204c_d4d50c4f",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-image-viewer/gr-image-viewer.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2024-07-02T16:11:52Z",
+      "side": 1,
+      "message": "I have made the change with Iee772b7cb2ebcaedd29dd2a91bd71f5ab3b53479 and will rebase this change on top of it.",
+      "parentUuid": "45549c94_2c432e82",
+      "revId": "d43aa53e19c7c011596c57ec6b0d0fad3c766d66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a118df80_54ed2f0d",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-image-viewer/gr-image-viewer.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2024-07-02T16:11:52Z",
+      "side": 1,
+      "message": "I was not happy with that plural `settings`.  Instead I have renamed as `ignoreOption` matching upstream semantic.",
+      "revId": "d43aa53e19c7c011596c57ec6b0d0fad3c766d66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0977babc_b4d750b6",
@@ -71,6 +106,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "22fea484_df26c7ea",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-image-viewer/gr-image-viewer.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2024-07-02T16:11:52Z",
+      "side": 1,
+      "message": "I have spent a good chunk of last night trying to figure out description such:\n\n* Everything\n* Loose\n* Ignore anti-aliasing\n* Ignore colors\n* Ignore alpha\n\nI disliked:\n\n* repeating Ignore for the last three options\n* I kept confusing Everything/Loose with Nothing/Less from upstream\n\nI felt it was nicer to use a small label and keep each option small, non repetitive and in sync with upstream.\n\nNot appearing in this change, there is another setting influencing the output which might come up below as another set of radio button (OutputErrorType) and the labels would help separate the two groups.\n\nI am inclined to keep the label around :)",
+      "parentUuid": "0977babc_b4d750b6",
+      "revId": "d43aa53e19c7c011596c57ec6b0d0fad3c766d66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "80fe5778_75847b71",
         "filename": "polygerrit-ui/app/embed/diff/gr-diff-image-viewer/gr-image-viewer.ts",
         "patchSetId": 5
@@ -82,6 +135,24 @@
       "writtenOn": "2024-07-02T08:30:50Z",
       "side": 1,
       "message": "I would prefer to only show the radio group, if `this.showHighlight` is true.",
+      "revId": "d43aa53e19c7c011596c57ec6b0d0fad3c766d66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c413ba1c_9c323b9a",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-image-viewer/gr-image-viewer.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2024-07-02T16:11:52Z",
+      "side": 1,
+      "message": "Excellent idea. I have updated the screenshot in the link given in the commit message. The refresh screenshot with radio buttons hidden is: https://phabricator.wikimedia.org/F56174818",
+      "parentUuid": "80fe5778_75847b71",
       "revId": "d43aa53e19c7c011596c57ec6b0d0fad3c766d66",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f52c6c2_b22f6e87",
+        "filename": "polygerrit-ui/app/api/diff.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2024-07-02T16:13:43Z",
+      "side": 1,
+      "message": "Done after having changed to the `compare()` API which lets us pass the options as strings instead of using a chainable method.",
+      "parentUuid": "9c395964_6f246a51",
+      "revId": "d43aa53e19c7c011596c57ec6b0d0fad3c766d66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "45549c94_2c432e82",

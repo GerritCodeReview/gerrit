@@ -174,6 +174,7 @@ suite('gr-reporting tests', () => {
         },
         usedJSHeapSizeMb: 1,
         hiddenDurationMs: 0,
+        parallelRequestsEnabled: false,
       })
     );
   });

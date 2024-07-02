@@ -447,7 +447,7 @@ export class GrDashboardView extends LitElement {
       }
     }
 
-    const changes = await this.restApiService.getChangesForMultipleQueries(
+    const changes = await this.restApiService.getChangesForDashboard(
       undefined,
       queries
     );

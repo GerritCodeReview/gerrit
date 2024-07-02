@@ -42,11 +42,11 @@ suite('gr-dashboard-view tests', () => {
   let element: GrDashboardView;
 
   let getChangesStub: SinonStubbedMember<
-    RestApiService['getChangesForMultipleQueries']
+    RestApiService['getChangesForDashboard']
   >;
 
   setup(async () => {
-    getChangesStub = stubRestApi('getChangesForMultipleQueries');
+    getChangesStub = stubRestApi('getChangesForDashboard');
     stubRestApi('getLoggedIn').returns(Promise.resolve(false));
     stubRestApi('getAccountDetails').returns(
       Promise.resolve({

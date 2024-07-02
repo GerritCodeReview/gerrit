@@ -493,6 +493,12 @@ export interface RestApiService extends Finalizable {
     options?: string,
     errFn?: ErrorCallback
   ): Promise<ChangeInfo[] | undefined>;
+  getChangesForDashboard(
+    changesPerPage?: number,
+    query?: string[],
+    offset?: 'n,z' | number,
+    options?: string
+  ): Promise<ChangeInfo[][] | undefined>;
   getChangesForMultipleQueries(
     changesPerPage?: number,
     query?: string[],

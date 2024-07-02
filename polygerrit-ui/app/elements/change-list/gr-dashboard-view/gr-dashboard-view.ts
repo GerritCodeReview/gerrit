@@ -377,8 +377,8 @@ export class GrDashboardView extends LitElement {
    *
    * private but used in test
    */
-  reload() {
-    if (!this.viewState) return Promise.resolve();
+  async reload() {
+    if (!this.viewState) return;
 
     // See `firstTimeLoad` comment above.
     if (!this.firstTimeLoad) {
@@ -398,27 +398,23 @@ export class GrDashboardView extends LitElement {
     // Otherwise sending a query for 'owner:self' will result in an error.
     const isLoggedInUserDashboard =
       !project && !!this.loggedInUser && user === 'self';
-    return dashboardPromise
-      .then(res => {
-        if (res && res.title) {
-          fireTitleChange(res.title);
-        }
-        return this.fetchDashboardChanges(res, isLoggedInUserDashboard);
-      })
-      .then(() => {
-        this.maybeShowDraftsBanner();
-        // Only report the metric for the default personal dashboard.
-        if (type === DashboardType.USER && isLoggedInUserDashboard) {
-          this.reporting.dashboardDisplayed();
-        }
-      })
-      .catch(err => {
-        fireTitleChange(title || this.computeTitle(user));
-        this.reporting.error('Dashboard reload', err);
-      })
-      .finally(() => {
-        this.loading = false;
-      });
+    try {
+      const res = await dashboardPromise;
+      if (res && res.title) {
+        fireTitleChange(res.title);
+      }
+      await this.fetchDashboardChanges(res, isLoggedInUserDashboard);
+      this.maybeShowDraftsBanner();
+      // Only report the metric for the default personal dashboard.
+      if (type === DashboardType.USER && isLoggedInUserDashboard) {
+        this.reporting.dashboardDisplayed();
+      }
+    } catch (err) {
+      fireTitleChange(title || this.computeTitle(user));
+      this.reporting.error('Dashboard reload', err as Error);
+    } finally {
+      this.loading = false;
+    }
   }
 
   /**
@@ -427,14 +423,11 @@ export class GrDashboardView extends LitElement {
    *
    * private but used in test
    */
-  fetchDashboardChanges(
+  async fetchDashboardChanges(
     res: UserDashboard | undefined,
     isLoggedInUserDashboard: boolean
-  ): Promise<void> {
-    if (!res) {
-      return Promise.resolve();
-    }
-
+  ) {
+    if (!res) return;
     let queries: string[];
 
     if (window.PRELOADED_QUERIES && window.PRELOADED_QUERIES.dashboardQuery) {
@@ -454,36 +447,34 @@ export class GrDashboardView extends LitElement {
       }
     }
 
-    return this.restApiService
-      .getChangesForMultipleQueries(undefined, queries)
-      .then(changes => {
-        if (!changes) {
-          throw new Error('getChanges returns undefined');
-        }
-        if (isLoggedInUserDashboard) {
-          // Last query ('owner:self limit:1') is only for evaluation if
-          // the user is "New" ie. haven't created any changes yet.
-          const lastResultSet = changes.pop();
-          this.showNewUserHelp = lastResultSet!.length === 0;
-        }
-        this.results = changes
-          .map((results, i) => {
-            return {
-              name: res.sections[i].name,
-              countLabel: this.computeSectionCountLabel(results),
-              query: res.sections[i].query,
-              results: this.maybeSortResults(res.sections[i].name, results),
-              emptyStateSlotName: slotNameBySectionName.get(
-                res.sections[i].name
-              ),
-            };
-          })
-          .filter(
-            (section, i) =>
-              i < res.sections.length &&
-              (!res.sections[i].hideIfEmpty || section.results.length)
-          );
-      });
+    const changes = await this.restApiService.getChangesForMultipleQueries(
+      undefined,
+      queries
+    );
+    if (!changes) {
+      throw new Error('getChanges returns undefined');
+    }
+    if (isLoggedInUserDashboard) {
+      // Last query ('owner:self limit:1') is only for evaluation if
+      // the user is "New" ie. haven't created any changes yet.
+      const lastResultSet = changes.pop();
+      this.showNewUserHelp = lastResultSet!.length === 0;
+    }
+    this.results = changes
+      .map((results, i) => {
+        return {
+          name: res.sections[i].name,
+          countLabel: this.computeSectionCountLabel(results),
+          query: res.sections[i].query,
+          results: this.maybeSortResults(res.sections[i].name, results),
+          emptyStateSlotName: slotNameBySectionName.get(res.sections[i].name),
+        };
+      })
+      .filter(
+        (section, i) =>
+          i < res.sections.length &&
+          (!res.sections[i].hideIfEmpty || section.results.length)
+      );
   }
 
   /**

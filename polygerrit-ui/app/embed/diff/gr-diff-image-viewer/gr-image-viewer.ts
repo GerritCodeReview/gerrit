@@ -683,17 +683,21 @@ export class GrImageViewer extends LitElement {
 
   private computeDiffImage() {
     if (!(this.baseUrl && this.revisionUrl)) return;
-    window
-      .resemble(this.baseUrl)
-      .compareTo(this.revisionUrl)
+
+    window.resemble.compare(
+      this.baseUrl,
+      this.revisionUrl,
       // By default Resemble.js applies some color / alpha tolerance as well as
       // min / max brightness beyond which to ignore changes. Until we have
       // controls to let the user affect these options, always highlight all
       // changed pixels.
-      .ignoreNothing()
-      .onComplete(result => {
-        this.diffHighlightSrc = result.getImageDataUrl();
-      });
+      {
+        ignore: 'nothing',
+      },
+      (_err, data) => {
+        this.diffHighlightSrc = data.getImageDataUrl();
+      }
+    );
   }
 
   fireAction(detail: ImageDiffAction) {

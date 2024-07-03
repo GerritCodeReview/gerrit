@@ -142,6 +142,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7b7268f9_d8652e0e",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-image-viewer/gr-image-viewer.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-07-03T07:24:27Z",
+      "side": 1,
+      "message": "Maybe it is a matter of taste (and I did not see the screenshots yet), but I think I prefer \"Ignore\" to be repeated 3 times instead of having a label.",
+      "parentUuid": "22fea484_df26c7ea",
+      "revId": "d43aa53e19c7c011596c57ec6b0d0fad3c766d66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "80fe5778_75847b71",
         "filename": "polygerrit-ui/app/embed/diff/gr-diff-image-viewer/gr-image-viewer.ts",
         "patchSetId": 5
@@ -171,6 +189,24 @@
       "side": 1,
       "message": "Excellent idea. I have updated the screenshot in the link given in the commit message. The refresh screenshot with radio buttons hidden is: https://phabricator.wikimedia.org/F56174818",
       "parentUuid": "80fe5778_75847b71",
+      "revId": "d43aa53e19c7c011596c57ec6b0d0fad3c766d66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15f3141b_d8f2a033",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-image-viewer/gr-image-viewer.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-07-03T07:24:27Z",
+      "side": 1,
+      "message": "I cannot see any screenshots. Access denied.\n\nI have created an account. Maybe you can grant access to \"Brohlfs\". :-)",
+      "parentUuid": "c413ba1c_9c323b9a",
       "revId": "d43aa53e19c7c011596c57ec6b0d0fad3c766d66",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

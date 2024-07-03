@@ -16,6 +16,23 @@
       "message": "Needs Release-Notes footer",
       "revId": "0bfdf3cfaee787af52b5c0ead45d5991962f9d2f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f098e17e_e4316ca1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2024-07-03T16:14:42Z",
+      "side": 1,
+      "message": "That is for child change Ie09b2c2b85991e875b7753430996f9d97fd1b296",
+      "revId": "0bfdf3cfaee787af52b5c0ead45d5991962f9d2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

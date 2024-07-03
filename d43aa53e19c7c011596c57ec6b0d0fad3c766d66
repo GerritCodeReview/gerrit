@@ -160,6 +160,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "957d8c3c_1a2da94f",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-image-viewer/gr-image-viewer.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2024-07-03T08:57:30Z",
+      "side": 1,
+      "message": "Let me know which option you end up preferring after having seen the screenshots (though I haven\u0027t uploaded any with \"Ignore\" repeated 3+ times",
+      "parentUuid": "7b7268f9_d8652e0e",
+      "revId": "d43aa53e19c7c011596c57ec6b0d0fad3c766d66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "80fe5778_75847b71",
         "filename": "polygerrit-ui/app/embed/diff/gr-diff-image-viewer/gr-image-viewer.ts",
         "patchSetId": 5
@@ -207,6 +225,24 @@
       "side": 1,
       "message": "I cannot see any screenshots. Access denied.\n\nI have created an account. Maybe you can grant access to \"Brohlfs\". :-)",
       "parentUuid": "c413ba1c_9c323b9a",
+      "revId": "d43aa53e19c7c011596c57ec6b0d0fad3c766d66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23c88b0b_1c81c4da",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-image-viewer/gr-image-viewer.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2024-07-03T08:57:30Z",
+      "side": 1,
+      "message": "Anything should be anonymously readable by default, one of the exception is when I drag\u0027n drop a file while editing a comment which then requires the file to be explicitly marked public. It is a glitch in the matrix!  I have fixed it and confirmed the screenshots show up when browsing in Incognito mode:\n\n* https://phabricator.wikimedia.org/T341291#9939660",
+      "parentUuid": "15f3141b_d8f2a033",
       "revId": "d43aa53e19c7c011596c57ec6b0d0fad3c766d66",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

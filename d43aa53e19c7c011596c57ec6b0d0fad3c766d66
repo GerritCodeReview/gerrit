@@ -196,6 +196,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0579a857_ec94ee1a",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-image-viewer/gr-image-viewer.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2024-07-03T14:05:25Z",
+      "side": 1,
+      "message": "I have updated the options descriptions based on your list, thank you for that! \n\nI have made a single screenshot https://phabricator.wikimedia.org/F56201840 , I will update the rest of the screenshots later this evening or tomorrow.",
+      "parentUuid": "8c652019_4edf4162",
+      "revId": "d43aa53e19c7c011596c57ec6b0d0fad3c766d66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "80fe5778_75847b71",
         "filename": "polygerrit-ui/app/embed/diff/gr-diff-image-viewer/gr-image-viewer.ts",
         "patchSetId": 5

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "77bbe976_c7383284",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2024-07-03T16:13:46Z",
+      "side": 1,
+      "message": "There is the parent Iee772b7cb2ebcaedd29dd2a91bd71f5ab3b53479 which is changing the way Resemble.js is invoked to make it easier to set the ignore option ;)",
+      "revId": "ed49277380be92135587c53cf4ffa6aa7aada96f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

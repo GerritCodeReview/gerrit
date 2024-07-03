@@ -203,6 +203,12 @@ export class GrEditableContent extends LitElement {
         }
         .editor iron-autogrow-textarea {
           background-color: var(--view-background-color);
+          background-image: linear-gradient(
+            to right,
+            transparent 69ch,
+            #ccc 70ch,
+            transparent 71ch
+          ); /* Visual indicator at 70 chars */
           width: 100%;
           display: block;
           --iron-autogrow-textarea_-_padding: var(--spacing-m);

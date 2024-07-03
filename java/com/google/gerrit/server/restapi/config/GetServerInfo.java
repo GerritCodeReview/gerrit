@@ -296,6 +296,8 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.primaryWeblinkName = config.getString("gerrit", null, "primaryWeblinkName");
     info.instanceId = instanceId;
     info.defaultBranch = config.getString("gerrit", null, "defaultBranch");
+    info.projectStatePredicateEnabled =
+        config.getBoolean("gerrit", null, "projectStatePredicateEnabled", true);
     return info;
   }
 

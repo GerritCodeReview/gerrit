@@ -708,6 +708,7 @@ export declare interface GerritInfo {
   doc_search: boolean;
   doc_url?: string;
   edit_gpg_keys?: boolean;
+  project_state_predicate_enabled: boolean;
   report_bug_url?: string;
   // The following property is missed in doc
   primary_weblink_name?: string;

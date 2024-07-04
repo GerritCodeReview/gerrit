@@ -212,6 +212,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0aec33e7_e40a5ebd",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-image-viewer/gr-image-viewer.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2024-07-04T08:03:19Z",
+      "side": 1,
+      "message": "I have refresh the screenshots with the new menu entries. https://phabricator.wikimedia.org/T341291#9939660",
+      "parentUuid": "0579a857_ec94ee1a",
+      "revId": "d43aa53e19c7c011596c57ec6b0d0fad3c766d66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "80fe5778_75847b71",

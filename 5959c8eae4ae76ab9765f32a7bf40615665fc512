@@ -69,6 +69,24 @@
       "message": "Fixes https://issues.gerritcodereview.com/issues/40014106",
       "revId": "5959c8eae4ae76ab9765f32a7bf40615665fc512",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e211a45b_be705a4b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-07-04T08:14:25Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "6d019a00_b4228eb3",
+      "revId": "5959c8eae4ae76ab9765f32a7bf40615665fc512",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

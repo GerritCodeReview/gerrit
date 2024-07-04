@@ -103,6 +103,8 @@ The following metrics are reported.
    The push kind (magic or direct).
 ** `reason`:
    The rejection reason.
+** `status`:
+   The HTTP status code.
 
 === Process
 

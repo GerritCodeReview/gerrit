@@ -26,6 +26,7 @@ java_library(
         "//lib:args4j",
         "//lib:guava",
         "//lib:jgit",
+        "//lib:servlet-api",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
         "//lib/errorprone:annotations",

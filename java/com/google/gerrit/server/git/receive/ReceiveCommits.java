@@ -103,7 +103,6 @@ import com.google.gerrit.extensions.validators.CommentValidationContext;
 import com.google.gerrit.extensions.validators.CommentValidationFailure;
 import com.google.gerrit.extensions.validators.CommentValidator;
 import com.google.gerrit.metrics.Counter0;
-import com.google.gerrit.metrics.Counter2;
 import com.google.gerrit.metrics.Counter3;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Field;
@@ -336,7 +335,7 @@ class ReceiveCommits {
   private static class Metrics {
     private final Counter0 psRevisionMissing;
     private final Counter3<String, String, String> pushCount;
-    private final Counter2<String, String> rejectCount;
+    private final Counter3<String, String, Integer> rejectCount;
 
     @Inject
     Metrics(MetricMaker metricMaker) {
@@ -370,6 +369,9 @@ class ReceiveCommits {
                   .build(),
               Field.ofString("reason", (metadataBuilder, fieldValue) -> {})
                   .description("The rejection reason.")
+                  .build(),
+              Field.ofInteger("status", (metadataBuilder, fieldValue) -> {})
+                  .description("The HTTP status code.")
                   .build());
     }
   }
@@ -731,8 +733,21 @@ class ReceiveCommits {
               String.format(
                   " (%s)", requestCancelledException.get().getCancellationMessage().get()));
         }
-        rejectRemaining(
-            commands, RejectionReason.create(MetricBucket.REQUEST_CANCELLED, msg.toString()));
+
+        MetricBucket metricBucket = MetricBucket.INTERNAL_SERVER_ERROR;
+        switch (requestCancelledException.get().getCancellationReason()) {
+          case CLIENT_CLOSED_REQUEST:
+            metricBucket = MetricBucket.CLIENT_CLOSED_REQUEST;
+            break;
+          case CLIENT_PROVIDED_DEADLINE_EXCEEDED:
+            metricBucket = MetricBucket.CLIENT_PROVIDED_DEADLINE_EXCEEDED;
+            break;
+          case SERVER_DEADLINE_EXCEEDED:
+            metricBucket = MetricBucket.SERVER_DEADLINE_EXCEEDED;
+            break;
+        }
+
+        rejectRemaining(commands, RejectionReason.create(metricBucket, msg.toString()));
       }
 
       // This sends error messages before the 'done' string of the progress monitor is sent.
@@ -3897,7 +3912,8 @@ class ReceiveCommits {
     logger.atFine().log("Rejecting command '%s': %s", cmd, reason.why());
     metrics.rejectCount.increment(
         MagicBranch.isMagicBranch(cmd.getRefName()) ? "magic" : "direct",
-        reason.metricBucket().name());
+        reason.metricBucket().name(),
+        reason.metricBucket().statusCode());
     cmd.setResult(REJECTED_OTHER_REASON, reason.why());
   }
 

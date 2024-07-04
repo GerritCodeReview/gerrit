@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "627f15d8_6e33530e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2024-07-04T04:02:00Z",
+      "side": 1,
+      "message": "Can you add screenshots ?",
+      "revId": "7d1f73b7aadbde65b162a0a4a6ad47a06676f522",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

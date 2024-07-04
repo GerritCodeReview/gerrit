@@ -8,10 +8,10 @@ import {css} from 'lit';
 const $_documentContainer = document.createElement('template');
 
 export const grRangedCommentTheme = css`
-  .rangeHighlight {
+  gr-diff-text hl.rangeHighlight {
     background-color: var(--diff-highlight-range-color);
   }
-  .rangeHoverHighlight {
+  gr-diff-text hl.rangeHoverHighlight {
     background-color: var(--diff-highlight-range-hover-color);
   }
 `;

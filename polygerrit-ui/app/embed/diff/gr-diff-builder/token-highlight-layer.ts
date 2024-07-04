@@ -233,6 +233,10 @@ export class TokenHighlightLayer implements DiffLayer {
     // it's a shadow dom.
     const {element} = this.findTokenAncestor(e.composedPath()[0]);
     if (element) return;
+    this.removeHighlight();
+  }
+
+  private removeHighlight() {
     this.hoveredElement = undefined;
     this.updateTokenTask?.cancel();
     this.updateTokenHighlight(undefined, 0, undefined);

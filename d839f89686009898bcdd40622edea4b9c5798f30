@@ -16,6 +16,24 @@
       "message": "can you add a screenshot?",
       "revId": "d839f89686009898bcdd40622edea4b9c5798f30",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "887d1284_f2afffe9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-07-04T14:49:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "92dbd4a3_2861074d",
+      "revId": "d839f89686009898bcdd40622edea4b9c5798f30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

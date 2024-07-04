@@ -64,6 +64,7 @@ import com.google.gerrit.server.extensions.events.CommentAdded;
 import com.google.gerrit.server.extensions.events.RevisionCreated;
 import com.google.gerrit.server.git.MergedByPushOp;
 import com.google.gerrit.server.git.receive.ReceiveCommits.MagicBranchInput;
+import com.google.gerrit.server.git.receive.RejectionReason.MetricBucket;
 import com.google.gerrit.server.git.validators.TopicValidator;
 import com.google.gerrit.server.mail.MailUtil.MailRecipients;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -158,7 +159,7 @@ public class ReplaceOp implements BatchUpdateOp {
   private ChangeKind changeKind;
   private String mailMessage;
   private ApprovalCopier.Result approvalCopierResult;
-  private String rejectMessage;
+  private RejectionReason rejectionReason;
   private MergedByPushOp mergedByPushOp;
   private ReviewerModificationList reviewerAdditions;
   private MailRecipients oldRecipients;
@@ -262,7 +263,7 @@ public class ReplaceOp implements BatchUpdateOp {
     notes = ctx.getNotes();
     Change change = notes.getChange();
     if (change == null || change.isClosed()) {
-      rejectMessage = CHANGE_IS_CLOSED;
+      rejectionReason = RejectionReason.create(MetricBucket.CHANGE_IS_CLOSED, CHANGE_IS_CLOSED);
       return false;
     }
     if (groups.isEmpty()) {
@@ -590,8 +591,8 @@ public class ReplaceOp implements BatchUpdateOp {
     return notes.getChange();
   }
 
-  public String getRejectMessage() {
-    return rejectMessage;
+  public Optional<RejectionReason> getRejectionReason() {
+    return Optional.ofNullable(rejectionReason);
   }
 
   public Optional<String> getOutdatedApprovalsMessage() {

@@ -217,7 +217,8 @@ export class GrAccountLabel extends LitElement {
       // account.
       isDetailedAccount(account) &&
       account !== this.account &&
-      account._account_id === this.account._account_id
+      (!this.account._account_id ||
+        account._account_id === this.account._account_id)
     ) {
       // AccountInfo returned by fillDetails has the email property set
       // to the primary email of the account. This poses a problem in

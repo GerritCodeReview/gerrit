@@ -35,15 +35,6 @@ const DEFAULT_AUTOMATIC_BLINK_TIME_MS = 1000;
 
 const AUTOMATIC_BLINK_BUTTON_ACTIVE_AREA_PIXELS = 350;
 
-const IGNORE_OPTION_DESCRIPTIONS = {
-  // resemble.ComparisonIgnoreOption: string
-  nothing: 'All differences',
-  less: 'Only substantial differences',
-  colors: 'Ignore colors changes',
-  alpha: 'Ignore alpha channel changes',
-  antialiasing: 'Ignore anti-aliasing changes',
-};
-
 /**
  * This components allows the user to rapidly switch between two given images
  * rendered in the same location, to make subtle differences more noticeable.
@@ -62,9 +53,6 @@ export class GrImageViewer extends LitElement {
    * are available.
    */
   @property({type: Boolean}) automaticBlink = false;
-
-  @property({type: String})
-  ignoreOption: resemble.ComparisonIgnoreOption = 'less';
 
   @state() protected baseSelected = false;
 
@@ -312,12 +300,6 @@ export class GrImageViewer extends LitElement {
         #highlight-changes {
           margin: var(--spacing-m) var(--spacing-xl);
         }
-        #ignore-option-intro {
-          margin: 0 var(--spacing-xl);
-        }
-        .ignoreOption {
-          margin: 0 var(--spacing-xxl);
-        }
         gr-overview-image {
           min-width: 200px;
           min-height: 150px;
@@ -509,31 +491,6 @@ export class GrImageViewer extends LitElement {
         `
       : '';
 
-    let ignoreOptionRadioGroup;
-    if (this.diffHighlightSrc && this.showHighlight) {
-      for (const [ignoreOption, description] of Object.entries(
-        IGNORE_OPTION_DESCRIPTIONS
-      ) as [resemble.ComparisonIgnoreOption, String][]) {
-        const id = `ignore-${String(ignoreOption)}`;
-        ignoreOptionRadioGroup = html`
-          ${ignoreOptionRadioGroup}
-          <div id=${id} class="ignoreOption">
-            <input
-              id="${id}-input"
-              type="radio"
-              name="ignoreOption"
-              ?checked=${ignoreOption === this.ignoreOption}
-              ?disabled=${!this.showHighlight}
-              @click=${() => {
-                this.selectIgnoreOption(ignoreOption);
-              }}
-            />
-            <label id="${id}-label" for="${id}-input">${description}</label>
-          </div>
-        `;
-      }
-    }
-
     const overviewImage = html`
       <gr-overview-image
         .frameRect=${this.overviewFrame}
@@ -681,8 +638,7 @@ export class GrImageViewer extends LitElement {
       </div>
 
       <paper-card class="controls">
-        ${versionSwitcher} ${highlightSwitcher} ${ignoreOptionRadioGroup}
-        ${overviewImage} ${zoomControl}
+        ${versionSwitcher} ${highlightSwitcher} ${overviewImage} ${zoomControl}
         ${!this.scaledSelected ? followMouse : ''} ${backgroundPicker}
       </paper-card>
     `;
@@ -719,9 +675,7 @@ export class GrImageViewer extends LitElement {
     }
     if (
       this.canHighlightDiffs &&
-      (changedProperties.has('baseUrl') ||
-        changedProperties.has('revisionUrl') ||
-        changedProperties.has('ignoreOption'))
+      (changedProperties.has('baseUrl') || changedProperties.has('revisionUrl'))
     ) {
       this.computeDiffImage();
     }
@@ -733,8 +687,12 @@ export class GrImageViewer extends LitElement {
     window.resemble.compare(
       this.baseUrl,
       this.revisionUrl,
+      // By default Resemble.js applies some color / alpha tolerance as well as
+      // min / max brightness beyond which to ignore changes. Until we have
+      // controls to let the user affect these options, always highlight all
+      // changed pixels.
       {
-        ignore: this.ignoreOption,
+        ignore: 'nothing',
       },
       (_err, data) => {
         this.diffHighlightSrc = data.getImageDataUrl();
@@ -810,14 +768,6 @@ export class GrImageViewer extends LitElement {
       type: 'highlight-changes-changed',
       value: this.showHighlight,
       source,
-    });
-  }
-
-  selectIgnoreOption(ignoreOption: resemble.ComparisonIgnoreOption) {
-    this.ignoreOption = ignoreOption;
-    this.fireAction({
-      type: 'ignore-option-changed',
-      ignoreOption: this.ignoreOption,
     });
   }
 

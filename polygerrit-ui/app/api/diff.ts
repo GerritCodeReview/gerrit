@@ -403,7 +403,7 @@ export declare type ImageDiffAction =
     }
   | {
       type: 'ignore-option-changed';
-      ignoreOption: resemble.ComparisonIgnoreOption;
+      ignoreOption: string;
     }
   | {type: 'zoom-level-changed'; scale: number | 'fit'}
   | {type: 'follow-mouse-changed'; value: boolean}

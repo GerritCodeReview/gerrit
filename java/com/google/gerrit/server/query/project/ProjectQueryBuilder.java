@@ -23,6 +23,8 @@ import java.util.List;
  * Provides methods required for parsing projects queries.
  *
  * <p>Internally (at google), this interface has a different implementation, comparing to upstream.
+ * For example, Google disables the `state` predicate which can expose it by setting
+ * `gerrit.projectStatePredicateEnabled = false`.
  */
 public interface ProjectQueryBuilder {
   String FIELD_LIMIT = "limit";

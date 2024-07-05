@@ -490,6 +490,7 @@ export function createGerritInfo(): GerritInfo {
     all_projects: 'All-Projects',
     all_users: 'All-Users',
     doc_search: false,
+    project_state_predicate_enabled: true,
   };
 }
 

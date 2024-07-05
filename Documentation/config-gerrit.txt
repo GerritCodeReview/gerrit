@@ -2595,6 +2595,18 @@ the **list is limited** by the global capability
 link:access-control.html#capability_queryLimit[queryLimit]
 which is defaulted to 500 entries.
 
+[[gerrit.projectStatePredicateEnabled]]
++
+Indicates whether the link:rest-api-projects.html[/projects/] REST API endpoint
+supports filtering projects by state. The value is exposed in
+link:rest-api-config.html[/config/server/info] REST API endpoint.
++
+Instances having a custom implementation of ProjectQueryBuilder might have
+disabled the `state` predicate in which case the setting should be set to
+`false`.
++
+Default: `true`.
+
 [[gerrit.primaryWeblinkName]]gerrit.primaryWeblinkName::
 +
 Name of the link:dev-plugins.html#links-to-external-tools[Weblink] that should

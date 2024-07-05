@@ -25,4 +25,5 @@ public class GerritInfo {
   public String primaryWeblinkName;
   public String instanceId;
   public String defaultBranch;
+  public Boolean projectStatePredicateEnabled;
 }

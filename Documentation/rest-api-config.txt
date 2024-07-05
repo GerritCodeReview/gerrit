@@ -152,7 +152,8 @@ As result a link:#server-info[ServerInfo] entity is returned.
     "gerrit": {
       "all_projects": "All-Projects",
       "all_users": "All-Users"
-      "doc_search": true
+      "doc_search": true,
+      "project_state_predicate_enabled": true
     },
     "sshd": {},
     "suggest": {
@@ -2296,6 +2297,8 @@ Custom base URL where Gerrit server documentation is located.
 Gerrit base path even if this value is unset.)
 |`edit_gpg_keys`     |not set if `false`|
 Whether to enable the web UI for editing GPG keys.
+|`project_state_predicate_enabled` ||
+link:config-gerrit.html#gerrit.projectStatePredicateEnabled[Whether the instance supports filtering projects by state].
 |`report_bug_url`    |optional|
 link:config-gerrit.html#gerrit.reportBugUrl[URL to report bugs].
 |`instance_id`       |optional|

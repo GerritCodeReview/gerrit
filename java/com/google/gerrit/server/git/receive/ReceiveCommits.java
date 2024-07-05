@@ -38,6 +38,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
+import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.NOT_ATTEMPTED;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.OK;
@@ -112,6 +113,7 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CreateGroupPermissionSyncer;
 import com.google.gerrit.server.DeadlineChecker;
 import com.google.gerrit.server.DraftCommentsReader;
+import com.google.gerrit.server.ExceptionHook;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InvalidDeadlineException;
 import com.google.gerrit.server.PatchSetUtil;
@@ -387,6 +389,7 @@ class ReceiveCommits {
   private final BatchUpdates batchUpdates;
   private final CancellationMetrics cancellationMetrics;
   private final ChangeEditUtil editUtil;
+  private final PluginSetContext<ExceptionHook> exceptionHooks;
   private final ChangeIndexer indexer;
   private final ChangeInserter.Factory changeInserterFactory;
   private final ChangeNotes.Factory notesFactory;
@@ -478,6 +481,7 @@ class ReceiveCommits {
       ProjectConfig.Factory projectConfigFactory,
       @GerritServerConfig Config config,
       ChangeEditUtil editUtil,
+      PluginSetContext<ExceptionHook> exceptionHooks,
       ChangeIndexer indexer,
       ChangeInserter.Factory changeInserterFactory,
       ChangeNotes.Factory notesFactory,
@@ -545,6 +549,7 @@ class ReceiveCommits {
     this.deadlineCheckerFactory = deadlineCheckerFactory;
     this.diffOperationsForCommitValidationFactory = diffOperationsForCommitValidationFactory;
     this.editUtil = editUtil;
+    this.exceptionHooks = exceptionHooks;
     this.hashtagsFactory = hashtagsFactory;
     this.setTopicFactory = setTopicFactory;
     this.indexer = indexer;
@@ -758,9 +763,22 @@ class ReceiveCommits {
       commandProgress.end();
       loggingTags = traceContext.getTags();
       logger.atFine().log("Processing commands done.");
+    } catch (RuntimeException e) {
+      String formattedCause = getFormattedCause(e).orElse(e.getClass().getSimpleName());
+      logger.atFine().withCause(e).log("ReceiveCommits failed due to %s", formattedCause);
+      metrics.rejectCount.increment("n/a", formattedCause, SC_INTERNAL_SERVER_ERROR);
+      throw e;
     }
     progress.end();
     return result.build();
+  }
+
+  private Optional<String> getFormattedCause(Throwable t) {
+    return exceptionHooks.stream()
+        .map(h -> h.formatCause(t))
+        .filter(Optional::isPresent)
+        .map(Optional::get)
+        .findFirst();
   }
 
   // Process as many commands as possible, but may leave some commands in state NOT_ATTEMPTED.

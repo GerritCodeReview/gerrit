@@ -100,7 +100,8 @@ The following metrics are reported.
    DELETE).
 * `receivecommits/reject_count`: number of rejected pushes
 ** `kind`:
-   The push kind (magic or direct).
+   The push kind ('magic' if it was a push for code review, 'direct' if it was
+   a direct push or 'n/a' if the push kind couldn't be detected).
 ** `reason`:
    The rejection reason.
 ** `status`:

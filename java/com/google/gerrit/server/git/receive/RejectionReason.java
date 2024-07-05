@@ -24,6 +24,8 @@ import static javax.servlet.http.HttpServletResponse.SC_OK;
 import static javax.servlet.http.HttpServletResponse.SC_REQUEST_TIMEOUT;
 
 import com.google.auto.value.AutoValue;
+import com.google.gerrit.server.permissions.PermissionDeniedException;
+import java.util.Locale;
 
 @AutoValue
 public abstract class RejectionReason {
@@ -90,17 +92,29 @@ public abstract class RejectionReason {
     private MetricBucket(int statusCode) {
       this.statusCode = statusCode;
     }
-
-    public int statusCode() {
-      return statusCode;
-    }
   }
 
-  static RejectionReason create(MetricBucket metricBucket, String why) {
-    return new AutoValue_RejectionReason(metricBucket, why);
+  public static RejectionReason create(MetricBucket metricBucket, String why) {
+    return new AutoValue_RejectionReason(metricBucket.statusCode, metricBucket.name(), why);
   }
 
-  public abstract MetricBucket metricBucket();
+  public static RejectionReason create(PermissionDeniedException permissionDenied) {
+    return new AutoValue_RejectionReason(
+        SC_FORBIDDEN,
+        "CANNOT_"
+            + permissionDenied
+                .getPermission()
+                .permissionName()
+                .toUpperCase(Locale.US)
+                .replaceAll(" ", "_"),
+        "prohibited by Gerrit: "
+            + PermissionDeniedException.MESSAGE_PREFIX
+            + permissionDenied.describePermission());
+  }
+
+  public abstract int statusCode();
+
+  public abstract String metricBucket();
 
   public abstract String why();
 }

@@ -52,6 +52,11 @@ public class PluginPermission implements GlobalOrPluginPermission {
   }
 
   @Override
+  public String permissionName() {
+    return pluginName + "~" + capability;
+  }
+
+  @Override
   public int hashCode() {
     return Objects.hash(pluginName, capability);
   }

@@ -54,6 +54,11 @@ public final class PluginProjectPermission implements CoreOrPluginProjectPermiss
   }
 
   @Override
+  public String permissionName() {
+    return pluginName + "~" + permission;
+  }
+
+  @Override
   public int hashCode() {
     return Objects.hash(pluginName, permission);
   }

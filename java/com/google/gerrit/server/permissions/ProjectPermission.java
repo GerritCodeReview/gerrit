@@ -119,4 +119,9 @@ public enum ProjectPermission implements CoreOrPluginProjectPermission {
   public String describeForException() {
     return description != null ? description : GerritPermission.describeEnumValue(this);
   }
+
+  @Override
+  public String permissionName() {
+    return GerritPermission.describeEnumValue(this);
+  }
 }

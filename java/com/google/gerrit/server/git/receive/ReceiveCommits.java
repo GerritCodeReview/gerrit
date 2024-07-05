@@ -1757,21 +1757,21 @@ class ReceiveCommits {
 
   private void rejectProhibited(ReceiveCommand cmd, AuthException err) {
     err.getAdvice().ifPresent(a -> errors.put(a, cmd.getRefName()));
-    reject(cmd, RejectionReason.create(MetricBucket.PROHIBITED, prohibited(err, cmd.getRefName())));
+    reject(cmd, prohibited(err, cmd.getRefName()));
   }
 
-  private static String prohibited(AuthException e, String alreadyDisplayedResource) {
-    String msg = e.getMessage();
+  private static RejectionReason prohibited(AuthException e, String alreadyDisplayedResource) {
     if (e instanceof PermissionDeniedException) {
       PermissionDeniedException pde = (PermissionDeniedException) e;
       if (pde.getResource().isPresent()
           && pde.getResource().get().equals(alreadyDisplayedResource)) {
         // Avoid repeating resource name if exactly the given name was already displayed by the
         // generic git push machinery.
-        msg = PermissionDeniedException.MESSAGE_PREFIX + pde.describePermission();
+        return RejectionReason.create(pde);
       }
     }
-    return "prohibited by Gerrit: " + msg;
+    return RejectionReason.create(
+        MetricBucket.PROHIBITED, "prohibited by Gerrit: " + e.getMessage());
   }
 
   static class MagicBranchInput {
@@ -3912,8 +3912,8 @@ class ReceiveCommits {
     logger.atFine().log("Rejecting command '%s': %s", cmd, reason.why());
     metrics.rejectCount.increment(
         MagicBranch.isMagicBranch(cmd.getRefName()) ? "magic" : "direct",
-        reason.metricBucket().name(),
-        reason.metricBucket().statusCode());
+        reason.metricBucket(),
+        reason.statusCode());
     cmd.setResult(REJECTED_OTHER_REASON, reason.why());
   }
 

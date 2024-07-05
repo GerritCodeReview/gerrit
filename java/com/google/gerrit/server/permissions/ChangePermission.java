@@ -101,6 +101,11 @@ public enum ChangePermission implements ChangePermissionOrLabel {
   }
 
   @Override
+  public String permissionName() {
+    return GerritPermission.describeEnumValue(this);
+  }
+
+  @Override
   public Optional<String> hintForException() {
     return Optional.ofNullable(hint);
   }

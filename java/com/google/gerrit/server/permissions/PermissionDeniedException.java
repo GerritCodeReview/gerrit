@@ -55,4 +55,8 @@ public class PermissionDeniedException extends AuthException {
   public Optional<String> getResource() {
     return resource;
   }
+
+  public GerritPermission getPermission() {
+    return permission;
+  }
 }

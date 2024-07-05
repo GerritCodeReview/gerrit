@@ -27,6 +27,8 @@ public interface GerritPermission {
    */
   String describeForException();
 
+  String permissionName();
+
   static String describeEnumValue(Enum<?> value) {
     return value.name().toLowerCase(Locale.US).replace('_', ' ');
   }

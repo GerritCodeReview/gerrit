@@ -53,7 +53,8 @@ public abstract class AbstractLabelPermission implements ChangePermissionOrLabel
 
   protected abstract String permissionPrefix();
 
-  protected String permissionName() {
+  @Override
+  public String permissionName() {
     if (forUser == ON_BEHALF_OF) {
       return permissionPrefix() + "As";
     }
@@ -118,8 +119,6 @@ public abstract class AbstractLabelPermission implements ChangePermissionOrLabel
     public short value() {
       return label.value();
     }
-
-    public abstract String permissionName();
 
     @Override
     public final String describeForException() {

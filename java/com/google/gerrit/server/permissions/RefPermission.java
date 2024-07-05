@@ -88,4 +88,9 @@ public enum RefPermission implements GerritPermission {
   public String describeForException() {
     return description != null ? description : GerritPermission.describeEnumValue(this);
   }
+
+  @Override
+  public String permissionName() {
+    return GerritPermission.describeEnumValue(this);
+  }
 }

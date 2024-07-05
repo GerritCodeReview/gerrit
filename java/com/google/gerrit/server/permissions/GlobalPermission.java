@@ -160,4 +160,9 @@ public enum GlobalPermission implements GlobalOrPluginPermission {
   public String describeForException() {
     return GerritPermission.describeEnumValue(this);
   }
+
+  @Override
+  public String permissionName() {
+    return GerritPermission.describeEnumValue(this);
+  }
 }

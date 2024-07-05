@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e73c8d7a_4d9d1f2a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-07-05T11:04:59Z",
+      "side": 1,
+      "message": "The \u0027RBE BB Build/Tests\u0027 job doesn\u0027t look healthy (i.e. it seems to hanging). Hence verifying manually.",
+      "revId": "d045f0181d90571535222be1a9ba724b5d699119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

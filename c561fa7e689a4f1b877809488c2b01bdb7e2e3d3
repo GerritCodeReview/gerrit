@@ -16,6 +16,23 @@
       "message": "I have amended the commit message to add the `Release-Notes` and apparently the submit rule considered I have changed \"a file\" which thus removed the Code-Review label :/",
       "revId": "c561fa7e689a4f1b877809488c2b01bdb7e2e3d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "88e6e219_5e3fa337",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3520408
+      },
+      "writtenOn": "2024-07-06T20:20:16Z",
+      "side": 1,
+      "message": "Comment removed by: Edwin Kempin; Reason: spam",
+      "revId": "c561fa7e689a4f1b877809488c2b01bdb7e2e3d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

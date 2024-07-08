@@ -231,7 +231,8 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
         maxSize,
         expireAfterWrite,
         refreshAfterWrite,
-        buildBloomFilter);
+        buildBloomFilter,
+        isOfflineReindex);
   }
 
   private boolean has(String name, String var) {

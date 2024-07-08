@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33b963a7_0a8e54f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-07-08T07:48:28Z",
+      "side": 1,
+      "message": "add the shortlog to the commit message ?",
+      "revId": "18a72adbb4677ae7871199d94de915a5e668fc23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

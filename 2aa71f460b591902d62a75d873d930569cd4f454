@@ -16,6 +16,24 @@
       "message": "Is this expected?",
       "revId": "2aa71f460b591902d62a75d873d930569cd4f454",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef6a8e68_388e3af4",
+        "filename": "modules/jgit",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-07-08T21:06:44Z",
+      "side": 1,
+      "message": "Yes. 3.8/3.9/3.10 are all being updated from `c0b415fb028b4c1f29b6df749323bbb11599495d` to `76ce6d91a2e07fdfcbfc8df6970c9e98a98e36a0`.",
+      "parentUuid": "c34df499_9ad621c3",
+      "revId": "2aa71f460b591902d62a75d873d930569cd4f454",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

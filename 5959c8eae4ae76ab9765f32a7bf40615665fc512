@@ -87,6 +87,23 @@
       "parentUuid": "6d019a00_b4228eb3",
       "revId": "5959c8eae4ae76ab9765f32a7bf40615665fc512",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "152288cc_587cd533",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1109429
+      },
+      "writtenOn": "2024-07-08T10:19:34Z",
+      "side": 1,
+      "message": "I noticed that using a Gerrit built with Mina SSHd \u003e2.13.1 that OpenSSH can\u0027t KEX (https://github.com/apache/mina-sshd/issues/525). I\u0027m not sure if this is just a property of my build environment but figured I would note it here just in case.",
+      "revId": "5959c8eae4ae76ab9765f32a7bf40615665fc512",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

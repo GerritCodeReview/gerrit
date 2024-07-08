@@ -359,6 +359,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     private volatile BloomFilter<K> bloomFilter;
     private int estimatedSize;
     private boolean buildBloomFilter;
+    private boolean isOfflineReindex;
 
     SqlStore(
         String jdbcUrl,
@@ -369,7 +370,8 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         long maxSize,
         @Nullable Duration expireAfterWrite,
         @Nullable Duration refreshAfterWrite,
-        boolean buildBloomFilter) {
+        boolean buildBloomFilter,
+        boolean isOfflineReindex) {
       this.url = jdbcUrl;
       this.keyType = createKeyType(keyType, keySerializer);
       this.valueSerializer = valueSerializer;
@@ -378,6 +380,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       this.expireAfterWrite = expireAfterWrite;
       this.refreshAfterWrite = refreshAfterWrite;
       this.buildBloomFilter = buildBloomFilter;
+      this.isOfflineReindex = isOfflineReindex;
 
       int cores = Runtime.getRuntime().availableProcessors();
       int keep = Math.min(cores, 16);
@@ -501,7 +504,9 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
           ValueHolder<V> h = new ValueHolder<>(val, created.toInstant());
           h.clean = true;
           hitCount.incrementAndGet();
-          touch(c, key);
+          if (!isOfflineReindex) {
+            touch(c, key);
+          }
           return h;
         } finally {
           c.get.clearParameters();

@@ -1745,6 +1745,10 @@ to changes which reference it.  The second configuration 'bugzilla'
 will hyperlink terms such as 'bug 42' to an external bug tracker,
 supplying the argument record number '42' for display.
 
+Before matching is done the relevant contents are html-escaped. If 'match' needs
+to contain `&`, `<`, `>`, `"` or  `'`, replace them with `&amp;`, `&gt;`,
+`&lt;`, `&quot;` and `&apos;` respectively.
+
 commentlinks supports link:#reloadConfig[configuration reloads]. Though a
 link:cmd-flush-caches.html[flush-caches] of "projects" is needed for the
 commentlinks to be immediately available in the UI.

@@ -36,7 +36,7 @@ function getRewriteResultsFromConfig(
   );
   // Always linkify URLs starting with https?://
   enabledRewrites.push({
-    match: '(https?://\\S+[\\w/])',
+    match: '(https?://((?!&(gt|lt|amp|quot|apos);)\\S)+[\\w/~-])',
     link: '$1',
   });
   return enabledRewrites.flatMap(rewrite => {

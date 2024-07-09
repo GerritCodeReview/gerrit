@@ -1760,6 +1760,10 @@ supplying the argument record number '42' for display.  The third
 configuration 'tracker' uses raw HTML to more precisely control
 how the replacement is displayed to the user.
 
+Before matching is done the relevant contents are html-escaped. If 'match' needs
+to contain `&`, `<`, `>`, `"` or  `'`, replace them with `&amp;`, `&gt;`,
+`&lt;`, `&quot;` and `&apos;` respectively.
+
 commentlinks supports link:#reloadConfig[configuration reloads]. Though a
 link:cmd-flush-caches.html[flush-caches] of "projects" is needed for the
 commentlinks to be immediately available in the UI.

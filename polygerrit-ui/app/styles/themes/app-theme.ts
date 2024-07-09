@@ -417,8 +417,8 @@ const appThemeCss = safeStyleSheet`
     --diff-context-control-background-color: #fff7d4;
     --diff-context-control-border-color: #f6e6a5;
     --diff-context-control-color: var(--default-button-text-color);
-    --diff-highlight-range-color: rgba(255, 213, 0, 0.5);
-    --diff-highlight-range-hover-color: rgba(255, 255, 0, 0.5);
+    --diff-highlight-range-color: rgba(255, 220, 0, 0.5);
+    --diff-highlight-range-hover-color: rgba(255, 190, 0, 0.5);
     --diff-selection-background-color: #c7dbf9;
     --diff-tab-indicator-color: var(--deemphasized-text-color);
     --diff-trailing-whitespace-indicator: #ff9ad2;

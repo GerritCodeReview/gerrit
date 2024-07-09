@@ -670,8 +670,16 @@ export const grDiffSelectionStyles = css`
 
 // Styles related to the <gr-diff-text> component.
 export const grDiffTextStyles = css`
-  gr-diff-text .token-highlight {
+  /* The background color for tokens of the "token-highlight-layer". */
+  gr-diff-text hl.token-highlight {
     background-color: var(--token-highlighting-color, #fffd54);
+  }
+  /* We do not want token highlighting to override the "rangeHighlight"
+    color, so let's make sure that there are no "rangeHighlight" element
+    parents that wrap the "token-highlight" element.
+  */
+  gr-diff-text hl.rangeHighlight hl.token-highlight {
+    background-color: transparent;
   }
   /* Describes two states of semantic tokens: whenever a token has a
      definition that can be navigated to (navigable) and whenever

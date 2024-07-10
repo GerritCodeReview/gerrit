@@ -414,7 +414,6 @@ class ReceiveCommits {
   private final DynamicSet<PerformanceLogger> performanceLoggers;
   private final PermissionBackend permissionBackend;
   private final ProjectCache projectCache;
-  private final Provider<InternalChangeQuery> queryProvider;
   private final Provider<MergeOp> mergeOpProvider;
   private final Provider<MergeOpRepoManager> ormProvider;
   private final ReceiveConfig receiveConfig;
@@ -505,7 +504,6 @@ class ReceiveCommits {
       DynamicSet<PerformanceLogger> performanceLoggers,
       PermissionBackend permissionBackend,
       ProjectCache projectCache,
-      Provider<InternalChangeQuery> queryProvider,
       Provider<MergeOp> mergeOpProvider,
       Provider<MergeOpRepoManager> ormProvider,
       PublishCommentsOp.Factory publishCommentsOp,
@@ -568,7 +566,6 @@ class ReceiveCommits {
     this.psUtil = psUtil;
     this.performanceLoggers = performanceLoggers;
     this.publishCommentsOp = publishCommentsOp;
-    this.queryProvider = queryProvider;
     this.receiveConfig = receiveConfig;
     this.refValidatorsFactory = refValidatorsFactory;
     this.replaceOpFactory = replaceOpFactory;
@@ -2931,18 +2928,27 @@ class ReceiveCommits {
 
   private ChangeLookup lookupByChangeKey(RevCommit c, Change.Key key) {
     try (TraceTimer traceTimer = newTimer("lookupByChangeKey")) {
-      List<ChangeData> byBranchKeyExactMatch =
-          queryProvider.get().byBranchKey(magicBranch.dest, key).stream()
-              .filter(cd -> cd.change().getKey().equals(key))
-              .collect(toList());
-      return new ChangeLookup(c, key, byBranchKeyExactMatch);
+      List<ChangeData> byBranchKey =
+          retryHelper
+              .changeIndexQuery(
+                  "lookupByChangeKey",
+                  q ->
+                      q.byBranchKey(magicBranch.dest, key).stream()
+                          .filter(cd -> cd.change().getKey().equals(key))
+                          .collect(toList()))
+              .call();
+      return new ChangeLookup(c, key, byBranchKey);
     }
   }
 
   private ChangeLookup lookupByCommit(RevCommit c) {
     try (TraceTimer traceTimer = newTimer("lookupByCommit")) {
-      return new ChangeLookup(
-          c, null, queryProvider.get().byBranchCommit(magicBranch.dest, c.getName()));
+      List<ChangeData> byBranchCommit =
+          retryHelper
+              .changeIndexQuery(
+                  "lookupByCommit", q -> q.byBranchCommit(magicBranch.dest, c.getName()))
+              .call();
+      return new ChangeLookup(c, null, byBranchCommit);
     }
   }
 

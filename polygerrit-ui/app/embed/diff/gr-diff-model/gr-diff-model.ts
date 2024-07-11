@@ -10,6 +10,7 @@ import {
   DiffInfo,
   DiffLayer,
   DiffPreferencesInfo,
+  DiffRangesToFocus,
   DiffResponsiveMode,
   DiffViewMode,
   DisplayLine,
@@ -51,6 +52,7 @@ export interface DiffState {
   renderPrefs: RenderPreferences;
   diffPrefs: DiffPreferencesInfo;
   lineOfInterest?: DisplayLine;
+  diffRangesToFocus?: DiffRangesToFocus;
   comments: GrDiffCommentThread[];
   groups: GrDiffGroup[];
   /** how much context to show for large files */
@@ -211,6 +213,9 @@ export class DiffModel extends Model<DiffState> {
       computeKeyLocations(diffState.lineOfInterest, diffState.comments ?? [])
   );
 
+  readonly diffRangesToFocus$: Observable<DiffRangesToFocus | undefined> =
+    select(this.state$, diffState => diffState.diffRangesToFocus);
+
   constructor(
     /**
      * Normally a reference to the <gr-diff> component. Used for firing events
@@ -232,23 +237,31 @@ export class DiffModel extends Model<DiffState> {
   }
 
   processDiff() {
-    return combineLatest([this.diff$, this.context$, this.renderPrefs$])
+    return combineLatest([
+      this.diff$,
+      this.context$,
+      this.renderPrefs$,
+      this.diffRangesToFocus$,
+    ])
       .pipe(
         withLatestFrom(this.keyLocations$),
         debounceTime(1),
-        map(([[diff, context, renderPrefs], keyLocations]) => {
-          const options: ProcessingOptions = {
-            context,
-            keyLocations,
-            isBinary: !!(isImageDiff(diff) || diff.binary),
-          };
-          if (renderPrefs?.num_lines_rendered_at_once) {
-            options.asyncThreshold = renderPrefs.num_lines_rendered_at_once;
-          }
+        map(
+          ([[diff, context, renderPrefs, diffRangesToFocus], keyLocations]) => {
+            const options: ProcessingOptions = {
+              context,
+              keyLocations,
+              isBinary: !!(isImageDiff(diff) || diff.binary),
+              diffRangesToFocus,
+            };
+            if (renderPrefs?.num_lines_rendered_at_once) {
+              options.asyncThreshold = renderPrefs.num_lines_rendered_at_once;
+            }
 
-          const processor = new GrDiffProcessor(options);
-          return processor.process(diff.content);
-        })
+            const processor = new GrDiffProcessor(options);
+            return processor.process(diff.content);
+          }
+        )
       )
       .subscribe(groups => {
         this.updateState({groups});

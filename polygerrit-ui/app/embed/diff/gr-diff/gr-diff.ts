@@ -44,6 +44,7 @@ import {
   RenderPreferences,
   GrDiff as GrDiffApi,
   DisplayLine,
+  DiffRangesToFocus,
   LineNumber,
   ContentLoadNeededEventDetail,
   DiffContextExpandedExternalDetail,
@@ -181,6 +182,9 @@ export class GrDiff extends LitElement implements GrDiffApi {
 
   @property({type: Object})
   lineOfInterest?: DisplayLine;
+
+  @property({type: Object})
+  diffRangesToFocus?: DiffRangesToFocus;
 
   /**
    * True when diff is changed, until the content is done rendering.
@@ -368,7 +372,8 @@ export class GrDiff extends LitElement implements GrDiffApi {
       changedProperties.has('showNewlineWarningLeft') ||
       changedProperties.has('showNewlineWarningRight') ||
       changedProperties.has('prefs') ||
-      changedProperties.has('lineOfInterest')
+      changedProperties.has('lineOfInterest') ||
+      changedProperties.has('diffRangesToFocus')
     ) {
       if (this.diff && this.prefs) {
         const renderPrefs = {...(this.renderPrefs ?? {})};
@@ -394,6 +399,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
           renderPrefs,
           diffPrefs: this.prefs,
           lineOfInterest: this.lineOfInterest,
+          diffRangesToFocus: this.diffRangesToFocus,
         });
       }
     }

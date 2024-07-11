@@ -552,3 +552,13 @@ export declare interface GrDiffCursor {
     intentionalMove?: boolean
   ): void;
 }
+
+/**
+ * Represents a list of ranges in a diff that should be focused.
+ *
+ * This is used to collapse diff chunks that are not in focus.
+ */
+export declare interface DiffRangesToFocus {
+  left: {start: number; end: number}[];
+  right: {start: number; end: number}[];
+}

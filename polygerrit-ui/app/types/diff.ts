@@ -16,6 +16,7 @@ import {
   DiffFileMetaInfo as DiffFileMetaInfoApi,
   DiffInfo as DiffInfoApi,
   DiffIntralineInfo,
+  DiffRangesToFocus,
   DiffResponsiveMode,
   DiffPreferencesInfo as DiffPreferenceInfoApi,
   IgnoreWhitespaceType,
@@ -27,6 +28,7 @@ import {
 export type {
   ChangeType,
   DiffIntralineInfo,
+  DiffRangesToFocus,
   DiffResponsiveMode,
   IgnoreWhitespaceType,
   MarkLength,

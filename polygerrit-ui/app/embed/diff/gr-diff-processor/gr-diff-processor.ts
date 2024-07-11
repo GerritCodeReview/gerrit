@@ -9,7 +9,7 @@ import {
   GrDiffGroupType,
   hideInContextControl,
 } from '../gr-diff/gr-diff-group';
-import {DiffContent} from '../../../types/diff';
+import {DiffContent, DiffRangesToFocus} from '../../../types/diff';
 import {Side} from '../../../constants/constants';
 import {getStringLength} from '../gr-diff-highlight/gr-annotation';
 import {GrDiffLineType, LineNumber} from '../../../api/diff';
@@ -41,6 +41,7 @@ export interface ProcessingOptions {
   keyLocations?: KeyLocations;
   asyncThreshold?: number;
   isBinary?: boolean;
+  diffRangesToFocus?: DiffRangesToFocus;
 }
 
 /**

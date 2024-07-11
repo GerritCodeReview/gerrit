@@ -1,0 +1,114 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52e7a2eb_7337a63c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-07-11T11:44:36Z",
+      "side": 1,
+      "message": "gr-diff",
+      "range": {
+        "startLine": 7,
+        "startChar": 34,
+        "endLine": 7,
+        "endChar": 41
+      },
+      "revId": "333630b79b493836bd371be4044430ae25e8d674",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a618ff0c_e294fa52",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-07-11T11:44:36Z",
+      "side": 1,
+      "message": "You should use max 72 characters per line\n\nhttps://wiki.openstack.org/wiki/GitCommitMessages#Information_in_commit_messages:~:text\u003dSubsequent%20lines%20should%20be%20wrapped%20at%2072%20characters",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 145
+      },
+      "revId": "333630b79b493836bd371be4044430ae25e8d674",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00fa4843_8fd96a11",
+        "filename": "polygerrit-ui/app/api/diff.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 565,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-07-11T11:44:36Z",
+      "side": 1,
+      "message": "We use [], so I recommend and also in MoveDetails there is range with just start, end - maybe that\u0027s enough, but startLine and endLine is ok.\n\n\n```suggestion\nexport interface DiffRangesToFocus {\n    left: { start: number; end: number }[];\n    right: { start: number; end: number }[];\n}\n\n```",
+      "range": {
+        "startLine": 561,
+        "startChar": 0,
+        "endLine": 565,
+        "endChar": 0
+      },
+      "revId": "333630b79b493836bd371be4044430ae25e8d674",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f32041b_f7b7dafb",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-07-11T11:44:36Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be outside?",
+      "range": {
+        "startLine": 375,
+        "startChar": 6,
+        "endLine": 377,
+        "endChar": 7
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "737e0951_df64b75f",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+              "range": {
+                "startLine": 375,
+                "startChar": 0,
+                "endLine": 378,
+                "endChar": 0
+              },
+              "replacement": "      changedProperties.has(\u0027lineOfInterest\u0027) ||\n      changedProperties.has(\u0027diffRangesToFocus\u0027)\n"
+            }
+          ]
+        }
+      ],
+      "revId": "333630b79b493836bd371be4044430ae25e8d674",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

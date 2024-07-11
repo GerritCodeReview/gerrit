@@ -124,7 +124,7 @@ public class SshTraceIT extends AbstractDaemonTest {
     private ImmutableList.Builder<PerformanceLogEntry> logEntries = ImmutableList.builder();
 
     @Override
-    public void log(String operation, long durationMs, Instant endTime, Metadata metadata) {
+    public void logNanos(String operation, long durationNanos, Instant endTime, Metadata metadata) {
       logEntries.add(PerformanceLogEntry.create(operation, endTime, metadata));
     }
 

@@ -688,6 +688,27 @@ export function createContextGroup(options: {offset?: number; count?: number}) {
   });
 }
 
+export function createContextGroupWithDelta() {
+  return new GrDiffGroup({
+    type: GrDiffGroupType.CONTEXT_CONTROL,
+    contextGroups: [
+      new GrDiffGroup({
+        type: GrDiffGroupType.DELTA,
+        lines: [
+          new GrDiffLine(GrDiffLineType.REMOVE, 8),
+          new GrDiffLine(GrDiffLineType.ADD, 0, 10),
+          new GrDiffLine(GrDiffLineType.REMOVE, 9),
+          new GrDiffLine(GrDiffLineType.ADD, 0, 11),
+          new GrDiffLine(GrDiffLineType.REMOVE, 10),
+          new GrDiffLine(GrDiffLineType.ADD, 0, 12),
+          new GrDiffLine(GrDiffLineType.REMOVE, 11),
+          new GrDiffLine(GrDiffLineType.ADD, 0, 13),
+        ],
+      }),
+    ],
+  });
+}
+
 export function createBlame(): BlameInfo {
   return {
     author: 'test-author',

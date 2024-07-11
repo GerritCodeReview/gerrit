@@ -438,6 +438,11 @@ export class GrDiffGroup {
     );
   }
 
+  /** Returns true if it contains a DELTA group. */
+  hasDeltaGroup() {
+    return this.contextGroups?.some(g => g.type === GrDiffGroupType.DELTA);
+  }
+
   containsLine(side: Side, line: LineNumber) {
     if (typeof line !== 'number') {
       // For FILE and LOST, beforeNumber and afterNumber are the same

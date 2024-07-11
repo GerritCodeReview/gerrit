@@ -10,7 +10,10 @@ import {GrContextControls} from './gr-context-controls';
 import {SyntaxBlock} from '../../../api/diff';
 import {fixture, html, assert} from '@open-wc/testing';
 import {waitEventLoop} from '../../../test/test-utils';
-import {createContextGroup} from '../../../test/test-data-generators';
+import {
+  createContextGroup,
+  createContextGroupWithDelta,
+} from '../../../test/test-data-generators';
 
 suite('gr-context-control tests', () => {
   let element: GrContextControls;
@@ -332,5 +335,17 @@ suite('gr-context-control tests', () => {
     );
     assert.equal(tooltipAbove.getAttribute('position'), 'top');
     assert.equal(tooltipBelow.getAttribute('position'), 'bottom');
+  });
+
+  test('context control with delta group', async () => {
+    element.group = createContextGroupWithDelta();
+    await waitEventLoop();
+
+    const buttons = element.shadowRoot!.querySelectorAll(
+      'paper-button.showContext'
+    );
+    assert.equal(buttons.length, 1);
+    assert.equal(buttons[0].textContent!.trim(), '+ Unrelated changes');
+    assert.include([...buttons[0].classList.values()], 'unrelatedChanges');
   });
 });

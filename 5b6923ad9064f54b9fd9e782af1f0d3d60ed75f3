@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74b92c53_9783f861",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-07-12T12:19:28Z",
+      "side": 1,
+      "message": "s/which has/with",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 9
+      },
+      "revId": "5b6923ad9064f54b9fd9e782af1f0d3d60ed75f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4943061b_63b7992d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-07-12T12:19:28Z",
+      "side": 1,
+      "message": "s/has/had",
+      "range": {
+        "startLine": 13,
+        "startChar": 15,
+        "endLine": 13,
+        "endChar": 18
+      },
+      "revId": "5b6923ad9064f54b9fd9e782af1f0d3d60ed75f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f6c329b_335e30a4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-07-12T12:19:28Z",
+      "side": 1,
+      "message": "You can use 72 characters. Even for first line.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 5
+      },
+      "revId": "5b6923ad9064f54b9fd9e782af1f0d3d60ed75f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1df2177a_2e3572f9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-07-12T12:19:28Z",
+      "side": 1,
+      "message": "I don\u0027t understand this change. Can you please add more context?",
+      "revId": "5b6923ad9064f54b9fd9e782af1f0d3d60ed75f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e786e5d_98d3f2ad",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-processor/gr-diff-processor.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-07-12T12:19:28Z",
+      "side": 1,
+      "message": "Why we need common when ignoredWhitespaceOnly is same?",
+      "range": {
+        "startLine": 269,
+        "startChar": 5,
+        "endLine": 271,
+        "endChar": 29
+      },
+      "revId": "5b6923ad9064f54b9fd9e782af1f0d3d60ed75f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a32d04ff_48811e20",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-group.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-07-12T12:19:28Z",
+      "side": 1,
+      "message": "Do you mean \"even\"?\n\n```suggestion\n   * True means even if it is a delta group it will be still considered as\n```",
+      "range": {
+        "startLine": 339,
+        "startChar": 16,
+        "endLine": 339,
+        "endChar": 21
+      },
+      "revId": "5b6923ad9064f54b9fd9e782af1f0d3d60ed75f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eeed442f_1590b965",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-group.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-07-12T12:19:28Z",
+      "side": 1,
+      "message": "shouldn\u0027t be called differently when it is useful only for delta group?",
+      "range": {
+        "startLine": 342,
+        "startChar": 2,
+        "endLine": 342,
+        "endChar": 35
+      },
+      "revId": "5b6923ad9064f54b9fd9e782af1f0d3d60ed75f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -762,7 +762,7 @@ class ReceiveCommits {
       logger.atFine().log("Processing commands done.");
     } catch (RuntimeException e) {
       String formattedCause = getFormattedCause(e).orElse(e.getClass().getSimpleName());
-      logger.atFine().withCause(e).log("ReceiveCommits failed due to %s", formattedCause);
+      logger.atSevere().withCause(e).log("ReceiveCommits failed due to %s", formattedCause);
       metrics.rejectCount.increment("n/a", formattedCause, SC_INTERNAL_SERVER_ERROR);
       throw e;
     }

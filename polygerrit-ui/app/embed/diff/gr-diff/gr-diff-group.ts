@@ -165,7 +165,8 @@ function splitGroupInTwo(
  * Groups where all lines are before or all lines are after the split will be
  * retained as is and put into the first or second list respectively. Groups
  * with some lines before and some lines after the split will be split into
- * two groups, which will be put into the first and second list.
+ * two groups, which will be put into the first and second list. Groups with
+ * type DELTA which are not common will not be split.
  *
  * @param split A line number offset relative to the first group's
  *     start line at which the groups should be split.
@@ -179,31 +180,41 @@ function splitCommonGroups(
   if (groups.length === 0) return [[], []];
   const leftSplit = groups[0].lineRange.left.start_line + split;
   const rightSplit = groups[0].lineRange.right.start_line + split;
-
+  let isSplitDone = false;
   const beforeGroups = [];
   const afterGroups = [];
   for (const group of groups) {
-    const isCompletelyBefore =
-      group.lineRange.left.end_line < leftSplit ||
-      group.lineRange.right.end_line < rightSplit;
-    const isCompletelyAfter =
-      leftSplit <= group.lineRange.left.start_line ||
-      rightSplit <= group.lineRange.right.start_line;
-    if (isCompletelyBefore) {
-      beforeGroups.push(group);
-    } else if (isCompletelyAfter) {
+    if (isSplitDone) {
       afterGroups.push(group);
+    } else if (
+      group.type === GrDiffGroupType.DELTA &&
+      !group.ignoredWhitespaceOnly
+    ) {
+      beforeGroups.push(group);
     } else {
-      const {beforeSplit, afterSplit} = splitGroupInTwo(
-        group,
-        leftSplit,
-        rightSplit
-      );
-      if (beforeSplit) {
-        beforeGroups.push(beforeSplit);
-      }
-      if (afterSplit) {
-        afterGroups.push(afterSplit);
+      const isCompletelyBefore =
+        group.lineRange.left.end_line < leftSplit ||
+        group.lineRange.right.end_line < rightSplit;
+      const isCompletelyAfter =
+        leftSplit <= group.lineRange.left.start_line ||
+        rightSplit <= group.lineRange.right.start_line;
+      if (isCompletelyBefore) {
+        beforeGroups.push(group);
+      } else if (isCompletelyAfter) {
+        afterGroups.push(group);
+      } else {
+        const {beforeSplit, afterSplit} = splitGroupInTwo(
+          group,
+          leftSplit,
+          rightSplit
+        );
+        if (beforeSplit) {
+          beforeGroups.push(beforeSplit);
+        }
+        if (afterSplit) {
+          afterGroups.push(afterSplit);
+        }
+        isSplitDone = true;
       }
     }
   }
@@ -438,9 +449,13 @@ export class GrDiffGroup {
     );
   }
 
-  /** Returns true if it contains a DELTA group. */
-  hasDeltaGroup() {
-    return this.contextGroups?.some(g => g.type === GrDiffGroupType.DELTA);
+  /** Returns true if it contains a DELTA group excluding whitespace only
+   * changes.
+   */
+  hasNonCommonDeltaGroup() {
+    return this.contextGroups?.some(
+      g => g.type === GrDiffGroupType.DELTA && !g.ignoredWhitespaceOnly
+    );
   }
 
   containsLine(side: Side, line: LineNumber) {

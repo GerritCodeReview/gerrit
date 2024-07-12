@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea2d9d9f_60755664",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 3227329
+      },
+      "writtenOn": "2024-07-12T14:14:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "74b92c53_9783f861",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 9
+      },
+      "revId": "5b6923ad9064f54b9fd9e782af1f0d3d60ed75f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4943061b_63b7992d",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-07-12T12:19:28Z",
       "side": 1,
       "message": "s/has/had",
+      "range": {
+        "startLine": 13,
+        "startChar": 15,
+        "endLine": 13,
+        "endChar": 18
+      },
+      "revId": "5b6923ad9064f54b9fd9e782af1f0d3d60ed75f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "911c52b0_cc08ed11",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 3227329
+      },
+      "writtenOn": "2024-07-12T14:14:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4943061b_63b7992d",
       "range": {
         "startLine": 13,
         "startChar": 15,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c598927f_29cf59c5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 3227329
+      },
+      "writtenOn": "2024-07-12T14:14:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f6c329b_335e30a4",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 5
+      },
+      "revId": "5b6923ad9064f54b9fd9e782af1f0d3d60ed75f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1df2177a_2e3572f9",
@@ -87,6 +159,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "639107ea_3ba6f2cc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3227329
+      },
+      "writtenOn": "2024-07-12T14:14:59Z",
+      "side": 1,
+      "message": "Added a link to doc where I have added more context. Also tagged you for this specific change.",
+      "parentUuid": "1df2177a_2e3572f9",
+      "revId": "5b6923ad9064f54b9fd9e782af1f0d3d60ed75f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1e786e5d_98d3f2ad",
@@ -100,6 +190,30 @@
       "writtenOn": "2024-07-12T12:19:28Z",
       "side": 1,
       "message": "Why we need common when ignoredWhitespaceOnly is same?",
+      "range": {
+        "startLine": 269,
+        "startChar": 5,
+        "endLine": 271,
+        "endChar": 29
+      },
+      "revId": "5b6923ad9064f54b9fd9e782af1f0d3d60ed75f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "83588d9f_5456fd35",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-processor/gr-diff-processor.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 3227329
+      },
+      "writtenOn": "2024-07-12T14:14:59Z",
+      "side": 1,
+      "message": "Looking at chunk definition i thought there may be some other case then white space where it will be used but now looking at code in detail ignoredWhitespaceOnly for group is take common property itself\n\nRemoved the new common property",
+      "parentUuid": "1e786e5d_98d3f2ad",
       "range": {
         "startLine": 269,
         "startChar": 5,
@@ -133,6 +247,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "90a05e06_e859c29e",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-group.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 3227329
+      },
+      "writtenOn": "2024-07-12T14:14:59Z",
+      "side": 1,
+      "message": "Removed",
+      "parentUuid": "a32d04ff_48811e20",
+      "range": {
+        "startLine": 339,
+        "startChar": 16,
+        "endLine": 339,
+        "endChar": 21
+      },
+      "revId": "5b6923ad9064f54b9fd9e782af1f0d3d60ed75f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eeed442f_1590b965",
@@ -146,6 +284,30 @@
       "writtenOn": "2024-07-12T12:19:28Z",
       "side": 1,
       "message": "shouldn\u0027t be called differently when it is useful only for delta group?",
+      "range": {
+        "startLine": 342,
+        "startChar": 2,
+        "endLine": 342,
+        "endChar": 35
+      },
+      "revId": "5b6923ad9064f54b9fd9e782af1f0d3d60ed75f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc2fbfbf_64fc407a",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-group.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 3227329
+      },
+      "writtenOn": "2024-07-12T14:14:59Z",
+      "side": 1,
+      "message": "Removed",
+      "parentUuid": "eeed442f_1590b965",
       "range": {
         "startLine": 342,
         "startChar": 2,

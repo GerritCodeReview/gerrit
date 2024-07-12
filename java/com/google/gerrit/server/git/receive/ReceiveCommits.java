@@ -234,6 +234,7 @@ import java.util.TreeSet;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
+import java.util.logging.Level;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -762,8 +763,11 @@ class ReceiveCommits {
       logger.atFine().log("Processing commands done.");
     } catch (RuntimeException e) {
       String formattedCause = getFormattedCause(e).orElse(e.getClass().getSimpleName());
-      logger.atSevere().withCause(e).log("ReceiveCommits failed due to %s", formattedCause);
-      metrics.rejectCount.increment("n/a", formattedCause, SC_INTERNAL_SERVER_ERROR);
+      int statusCode =
+          getStatus(e).map(ExceptionHook.Status::statusCode).orElse(SC_INTERNAL_SERVER_ERROR);
+      logger.at(statusCode < SC_INTERNAL_SERVER_ERROR ? Level.INFO : Level.SEVERE).withCause(e).log(
+          "ReceiveCommits failed due to %s", formattedCause);
+      metrics.rejectCount.increment("n/a", formattedCause, statusCode);
       throw e;
     }
     progress.end();
@@ -773,6 +777,14 @@ class ReceiveCommits {
   private Optional<String> getFormattedCause(Throwable t) {
     return exceptionHooks.stream()
         .map(h -> h.formatCause(t))
+        .filter(Optional::isPresent)
+        .map(Optional::get)
+        .findFirst();
+  }
+
+  private Optional<ExceptionHook.Status> getStatus(Throwable err) {
+    return exceptionHooks.stream()
+        .map(h -> h.getStatus(err))
         .filter(Optional::isPresent)
         .map(Optional::get)
         .findFirst();

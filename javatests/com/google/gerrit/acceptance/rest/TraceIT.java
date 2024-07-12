@@ -38,6 +38,7 @@ import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.config.GerritConfig;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.SubmitRecord;
@@ -68,6 +69,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import org.apache.http.message.BasicHeader;
+import org.eclipse.jgit.junit.TestRepository;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -91,6 +93,7 @@ public class TraceIT extends AbstractDaemonTest {
 
   @Inject private ExtensionRegistry extensionRegistry;
   @Inject private WorkQueue workQueue;
+  @Inject private ProjectOperations projectOperations;
 
   @Test
   public void restCallWithoutTrace() throws Exception {
@@ -590,6 +593,40 @@ public class TraceIT extends AbstractDaemonTest {
 
       // The logging tag with the project name is also set if tracing is off.
       assertThat(projectCreationListener.tags.get("project")).containsExactly("new20");
+    }
+  }
+
+  @Test
+  @GerritConfig(name = "tracing.issue123.requestType", value = "GIT_RECEIVE")
+  @GerritConfig(name = "tracing.issue123.projectPattern", value = "traced-project")
+  public void traceGitReceiveForProject() throws Exception {
+    Project.NameKey tracedProject = projectOperations.newProject().name("traced-project").create();
+    TestRepository<?> tracedRepo = cloneProject(tracedProject);
+
+    TraceValidatingCommitValidationListener commitValidationListener =
+        new TraceValidatingCommitValidationListener();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(commitValidationListener)) {
+      PushOneCommit push = pushFactory.create(admin.newIdent(), tracedRepo);
+      PushOneCommit.Result r = push.to("refs/for/master");
+      r.assertOkStatus();
+      assertThat(commitValidationListener.traceId).isEqualTo("issue123");
+      assertThat(commitValidationListener.isLoggingForced).isTrue();
+      assertThat(commitValidationListener.tags.get("project")).containsExactly(tracedProject.get());
+    }
+
+    // other project is not traced
+    commitValidationListener = new TraceValidatingCommitValidationListener();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(commitValidationListener)) {
+      PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
+      PushOneCommit.Result r = push.to("refs/for/master");
+      r.assertOkStatus();
+      assertThat(commitValidationListener.traceId).isNull();
+      assertThat(commitValidationListener.isLoggingForced).isFalse();
+
+      // The logging tag with the project name is also set if tracing is off.
+      assertThat(commitValidationListener.tags.get("project")).containsExactly(project.get());
     }
   }
 

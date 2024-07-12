@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d05c8dcd_3cc3ccd4",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-group.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-07-12T18:57:56Z",
+      "side": 1,
+      "message": "So we assume that groups are sorted. Before this change, algorithm worked also with no-sorted groups. That\u0027s ok, I am just pointing it out.",
+      "range": {
+        "startLine": 187,
+        "startChar": 4,
+        "endLine": 188,
+        "endChar": 30
+      },
+      "revId": "48d92a220a05be085020676f7f73c9fb6e8dfa30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db19e666_b5b44a85",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-group.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-07-12T18:57:56Z",
+      "side": 1,
+      "message": "But what if this group is isCompletelyAfter? what if it\u0027s called only as with one group and split is before group lineRange?\n\nI actually debug this method and I haven\u0027t encounter real life diff where splitCommonGroups was called with groups.length \u003e 1. It\u0027s mostly groups.length \u003d 1\n\n\nIf I understand what you are trying to do, I would do it simply like \n```\nfor (const group of groups) {\n    const isCompletelyBefore \u003d\n      group.lineRange.left.end_line \u003c leftSplit ||\n      group.lineRange.right.end_line \u003c rightSplit;\n    const isCompletelyAfter \u003d\n      leftSplit \u003c\u003d group.lineRange.left.start_line ||\n      rightSplit \u003c\u003d group.lineRange.right.start_line;\n    if (isCompletelyBefore) {\n      beforeGroups.push(group);\n    } else if (isCompletelyAfter) {\n      afterGroups.push(group);\n    // do not split Delta that is not common (not only with ignoredWhitespaceOnly)\n    } else if (group.type \u003d\u003d\u003d GrDiffGroupType.DELTA \u0026\u0026\n      !group.ignoredWhitespaceOnly) {\n      beforeGroups.push(group);\n    } else {\n      const {beforeSplit, afterSplit} \u003d splitGroupInTwo(\n        group,\n        leftSplit,\n        rightSplit\n      );\n      if (beforeSplit) {\n        beforeGroups.push(beforeSplit);\n      }\n      if (afterSplit) {\n        afterGroups.push(afterSplit);\n      }\n    }\n  }\n```",
+      "range": {
+        "startLine": 190,
+        "startChar": 6,
+        "endLine": 193,
+        "endChar": 31
+      },
+      "revId": "48d92a220a05be085020676f7f73c9fb6e8dfa30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

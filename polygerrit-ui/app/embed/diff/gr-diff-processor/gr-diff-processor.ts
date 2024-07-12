@@ -268,6 +268,7 @@ export class GrDiffProcessor {
       dueToRebase: !!chunk.due_to_rebase,
       ignoredWhitespaceOnly: !!chunk.common,
       keyLocation: !!chunk.keyLocation,
+      common: !!chunk.common,
     };
     if (chunk.skip !== undefined) {
       return new GrDiffGroup({

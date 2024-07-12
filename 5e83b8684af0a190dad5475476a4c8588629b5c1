@@ -22,6 +22,30 @@
       },
       "revId": "5e83b8684af0a190dad5475476a4c8588629b5c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f247bf78_1a661b5c",
+        "filename": "polygerrit-ui/app/embed/diff/gr-context-controls/gr-context-controls.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 3227329
+      },
+      "writtenOn": "2024-07-12T09:57:04Z",
+      "side": 1,
+      "message": "The number of lines hidden will different on both side of diff. So for first iteration to keep it simple we are not showing [eg. 6 lines on left and 1 line on right] by going further if users want we can add this information.",
+      "parentUuid": "547443a9_f46f2229",
+      "range": {
+        "startLine": 384,
+        "startChar": 8,
+        "endLine": 386,
+        "endChar": 40
+      },
+      "revId": "5e83b8684af0a190dad5475476a4c8588629b5c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

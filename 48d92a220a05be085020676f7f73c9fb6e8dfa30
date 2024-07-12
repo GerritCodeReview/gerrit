@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e8506f72_bfa80476",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-group.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 3227329
+      },
+      "writtenOn": "2024-07-12T20:03:46Z",
+      "side": 1,
+      "message": "In case input was unsorted and then lets assume split happened in first so before will be [1Group_firstPart] and after will be [1Group_secondPart] and now lets say second group is completely before then [1Group_firstPart, secondGroup] and after will be [1Group_secondPart]\n\nNow as we know these groups are rendered in order in UI making [1Group_firstPart, secondGroup, 1Group_secondPart] as a result which will not be correct. As wherever a split happens it has to be rendered in order. \n\nSo my assumption is this method is always called for sorted groups and that\u0027s what I have seen in gr-diff-processor.",
+      "parentUuid": "d05c8dcd_3cc3ccd4",
+      "range": {
+        "startLine": 187,
+        "startChar": 4,
+        "endLine": 188,
+        "endChar": 30
+      },
+      "revId": "48d92a220a05be085020676f7f73c9fb6e8dfa30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "db19e666_b5b44a85",
         "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-group.ts",
         "patchSetId": 15
@@ -37,6 +61,30 @@
       "writtenOn": "2024-07-12T18:57:56Z",
       "side": 1,
       "message": "But what if this group is isCompletelyAfter? what if it\u0027s called only as with one group and split is before group lineRange?\n\nI actually debug this method and I haven\u0027t encounter real life diff where splitCommonGroups was called with groups.length \u003e 1. It\u0027s mostly groups.length \u003d 1\n\n\nIf I understand what you are trying to do, I would do it simply like \n```\nfor (const group of groups) {\n    const isCompletelyBefore \u003d\n      group.lineRange.left.end_line \u003c leftSplit ||\n      group.lineRange.right.end_line \u003c rightSplit;\n    const isCompletelyAfter \u003d\n      leftSplit \u003c\u003d group.lineRange.left.start_line ||\n      rightSplit \u003c\u003d group.lineRange.right.start_line;\n    if (isCompletelyBefore) {\n      beforeGroups.push(group);\n    } else if (isCompletelyAfter) {\n      afterGroups.push(group);\n    // do not split Delta that is not common (not only with ignoredWhitespaceOnly)\n    } else if (group.type \u003d\u003d\u003d GrDiffGroupType.DELTA \u0026\u0026\n      !group.ignoredWhitespaceOnly) {\n      beforeGroups.push(group);\n    } else {\n      const {beforeSplit, afterSplit} \u003d splitGroupInTwo(\n        group,\n        leftSplit,\n        rightSplit\n      );\n      if (beforeSplit) {\n        beforeGroups.push(beforeSplit);\n      }\n      if (afterSplit) {\n        afterGroups.push(afterSplit);\n      }\n    }\n  }\n```",
+      "range": {
+        "startLine": 190,
+        "startChar": 6,
+        "endLine": 193,
+        "endChar": 31
+      },
+      "revId": "48d92a220a05be085020676f7f73c9fb6e8dfa30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc1f88f8_7697b69e",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-group.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 3227329
+      },
+      "writtenOn": "2024-07-12T20:03:46Z",
+      "side": 1,
+      "message": "1. I agree mostly this is called for only 1 group which is also unchanged as any changed group before or after will not be considered for collapse. Only cases where multiple groups will come is when there is a common group (ignoreWhiteSpace) or there is a skip group.\n\n2. Going with the assumption that wherever a split happens the end result should be \n[..something1, ...something2, splittedGroup_firstPart] and after should be [splittedGroup_secondPart, something3, something3] so this makes sure once a split is done, nothing should be added to beforeGroup and it can only go in afterGroup.\n\n3. Now going with above point, in case split is not done till now, the only place a delta should go is beforeGroup or else if we put this in afterGroup then when a split is done afterGroup will look like [delta_which_is_not_split, splitGroup_seconfPart] thus agin breaking the assumption of from a split first part should be last element of beforeGroup and secondPart of split should be first group of afterGroups.\n\n\n\nNow what you have suggested (code) was my earlier solution but this breaks down for cases like [Only additions] thus it will not have start_line or end_line on left side making delta group to be pushed to beforeGroup even though split was done it should go in afterGroup.\n\nRule that I am following is: Wherever a split happens, its first part should be last entry of beforeGroup and second part should be first entry of afterGroup.",
+      "parentUuid": "db19e666_b5b44a85",
       "range": {
         "startLine": 190,
         "startChar": 6,

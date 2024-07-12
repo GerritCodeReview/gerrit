@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "547443a9_f46f2229",
+        "filename": "polygerrit-ui/app/embed/diff/gr-context-controls/gr-context-controls.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-07-12T09:30:17Z",
+      "side": 1,
+      "message": "Nit: Shouldn\u0027t we show number of lines hidden under this like we show in expand?",
+      "range": {
+        "startLine": 384,
+        "startChar": 8,
+        "endLine": 386,
+        "endChar": 40
+      },
+      "revId": "5e83b8684af0a190dad5475476a4c8588629b5c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -271,6 +271,16 @@ export class GrContextControls extends LitElement {
         .breadcrumbTooltip {
           white-space: nowrap;
         }
+        .unrelatedChanges {
+          color: var(--primary-button-text-color);
+          background-color: var(--primary-button-background-color);
+
+          &:hover {
+            // TODO(anuragpathak): Update hover colors as per specification.
+            color: var(--primary-button-text-color);
+            background-color: var(--primary-button-background-color);
+          }
+        }
       `,
     ];
   }
@@ -370,8 +380,14 @@ export class GrContextControls extends LitElement {
     let classes = 'contextControlButton showContext ';
 
     if (type === ContextButtonType.ALL) {
-      text = `+${pluralize(linesToExpand, 'common line')}`;
-      ariaLabel = `Show ${pluralize(linesToExpand, 'common line')}`;
+      if (this.group.hasDeltaGroup()) {
+        text = '+ Unrelated changes';
+        ariaLabel = 'Show unrelated changes';
+        classes += ' unrelatedChanges ';
+      } else {
+        text = `+${pluralize(linesToExpand, 'common line')}`;
+        ariaLabel = `Show ${pluralize(linesToExpand, 'common line')}`;
+      }
       classes += this.showBoth()
         ? 'centeredButton'
         : this.showAbove()
@@ -483,7 +499,7 @@ export class GrContextControls extends LitElement {
    * Creates a container div with partial (+10) expansion buttons (above and/or below).
    */
   private createPartialExpansionButtons() {
-    if (!this.showPartialLinks()) {
+    if (!this.showPartialLinks() || this.group?.hasDeltaGroup()) {
       return undefined;
     }
     let aboveButton;
@@ -515,7 +531,8 @@ export class GrContextControls extends LitElement {
     if (
       !this.showPartialLinks() ||
       !this.renderPreferences?.use_block_expansion ||
-      this.group?.hasSkipGroup()
+      this.group?.hasSkipGroup() ||
+      this.group?.hasDeltaGroup()
     ) {
       return undefined;
     }

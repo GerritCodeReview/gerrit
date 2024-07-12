@@ -380,7 +380,7 @@ export class GrContextControls extends LitElement {
     let classes = 'contextControlButton showContext ';
 
     if (type === ContextButtonType.ALL) {
-      if (this.group.hasDeltaGroup()) {
+      if (this.group.hasDeltaGroupWhichAreNotCommon()) {
         text = '+ Unrelated changes';
         ariaLabel = 'Show unrelated changes';
         classes += ' unrelatedChanges ';

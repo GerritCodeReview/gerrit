@@ -29,9 +29,9 @@ import org.kohsuke.args4j.Option;
 public class SuggestReviewers {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private static final int DEFAULT_MAX_SUGGESTED = 10;
+  public static final boolean DEFAULT_SKIP_SERVICE_USERS = true;
 
-  private static final boolean DEFAULT_SKIP_SERVICE_USERS = true;
+  private static final int DEFAULT_MAX_SUGGESTED = 10;
 
   protected final ReviewersUtil reviewersUtil;
 

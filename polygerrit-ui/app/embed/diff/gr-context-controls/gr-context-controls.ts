@@ -380,7 +380,7 @@ export class GrContextControls extends LitElement {
     let classes = 'contextControlButton showContext ';
 
     if (type === ContextButtonType.ALL) {
-      if (this.group.hasDeltaGroup()) {
+      if (this.group.hasNonCommonDeltaGroup()) {
         text = '+ Unrelated changes';
         ariaLabel = 'Show unrelated changes';
         classes += ' unrelatedChanges ';
@@ -499,7 +499,7 @@ export class GrContextControls extends LitElement {
    * Creates a container div with partial (+10) expansion buttons (above and/or below).
    */
   private createPartialExpansionButtons() {
-    if (!this.showPartialLinks() || this.group?.hasDeltaGroup()) {
+    if (!this.showPartialLinks() || this.group?.hasNonCommonDeltaGroup()) {
       return undefined;
     }
     let aboveButton;
@@ -532,7 +532,7 @@ export class GrContextControls extends LitElement {
       !this.showPartialLinks() ||
       !this.renderPreferences?.use_block_expansion ||
       this.group?.hasSkipGroup() ||
-      this.group?.hasDeltaGroup()
+      this.group?.hasNonCommonDeltaGroup()
     ) {
       return undefined;
     }

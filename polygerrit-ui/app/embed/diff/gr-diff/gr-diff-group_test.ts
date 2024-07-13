@@ -97,6 +97,8 @@ suite('gr-diff-group tests', () => {
 
   suite('hideInContextControl', () => {
     let groups: GrDiffGroup[];
+    let groupsWithDelta: GrDiffGroup[];
+    let groupsWithWhiteSpaceOnlyChange: GrDiffGroup[];
     setup(() => {
       groups = [
         new GrDiffGroup({
@@ -107,6 +109,46 @@ suite('gr-diff-group tests', () => {
             new GrDiffLine(GrDiffLineType.BOTH, 7, 9),
           ],
         }),
+        new GrDiffGroup({
+          type: GrDiffGroupType.BOTH,
+          lines: [
+            new GrDiffLine(GrDiffLineType.BOTH, 8, 10),
+            new GrDiffLine(GrDiffLineType.BOTH, 9, 11),
+            new GrDiffLine(GrDiffLineType.BOTH, 10, 12),
+            new GrDiffLine(GrDiffLineType.BOTH, 11, 13),
+          ],
+        }),
+        new GrDiffGroup({
+          type: GrDiffGroupType.BOTH,
+          lines: [
+            new GrDiffLine(GrDiffLineType.BOTH, 12, 14),
+            new GrDiffLine(GrDiffLineType.BOTH, 13, 15),
+            new GrDiffLine(GrDiffLineType.BOTH, 14, 16),
+          ],
+        }),
+      ];
+
+      groupsWithWhiteSpaceOnlyChange = [
+        groups[0],
+        new GrDiffGroup({
+          type: GrDiffGroupType.DELTA,
+          lines: [
+            new GrDiffLine(GrDiffLineType.REMOVE, 8),
+            new GrDiffLine(GrDiffLineType.ADD, 0, 10),
+            new GrDiffLine(GrDiffLineType.REMOVE, 9),
+            new GrDiffLine(GrDiffLineType.ADD, 0, 11),
+            new GrDiffLine(GrDiffLineType.REMOVE, 10),
+            new GrDiffLine(GrDiffLineType.ADD, 0, 12),
+            new GrDiffLine(GrDiffLineType.REMOVE, 11),
+            new GrDiffLine(GrDiffLineType.ADD, 0, 13),
+          ],
+          ignoredWhitespaceOnly: true,
+        }),
+        groups[2],
+      ];
+
+      groupsWithDelta = [
+        groups[0],
         new GrDiffGroup({
           type: GrDiffGroupType.DELTA,
           lines: [
@@ -120,14 +162,7 @@ suite('gr-diff-group tests', () => {
             new GrDiffLine(GrDiffLineType.ADD, 0, 13),
           ],
         }),
-        new GrDiffGroup({
-          type: GrDiffGroupType.BOTH,
-          lines: [
-            new GrDiffLine(GrDiffLineType.BOTH, 12, 14),
-            new GrDiffLine(GrDiffLineType.BOTH, 13, 15),
-            new GrDiffLine(GrDiffLineType.BOTH, 14, 16),
-          ],
-        }),
+        groups[2],
       ];
     });
 
@@ -144,29 +179,33 @@ suite('gr-diff-group tests', () => {
       assert.equal(collapsedGroups[2], groups[2]);
     });
 
+    test('does not hides when split is at delta group in context control', () => {
+      const collapsedGroups = hideInContextControl(groupsWithDelta, 3, 7);
+      assert.equal(collapsedGroups.length, 3);
+
+      assert.equal(collapsedGroups[0], groupsWithDelta[0]);
+      assert.equal(collapsedGroups[1], groupsWithDelta[1]);
+      assert.equal(collapsedGroups[2], groupsWithDelta[2]);
+    });
+
     test('splits partially hidden groups', () => {
       const collapsedGroups = hideInContextControl(groups, 4, 8);
       assert.equal(collapsedGroups.length, 4);
       assert.equal(collapsedGroups[0], groups[0]);
 
-      assert.equal(collapsedGroups[1].type, GrDiffGroupType.DELTA);
-      assert.deepEqual(collapsedGroups[1].adds, [groups[1].adds[0]]);
-      assert.deepEqual(collapsedGroups[1].removes, [groups[1].removes[0]]);
+      assert.equal(collapsedGroups[1].type, GrDiffGroupType.BOTH);
+      assert.deepEqual(collapsedGroups[1].lines, [groups[1].lines[0]]);
 
       assert.equal(collapsedGroups[2].type, GrDiffGroupType.CONTEXT_CONTROL);
       assert.equal(collapsedGroups[2].contextGroups.length, 2);
 
       assert.equal(
         collapsedGroups[2].contextGroups[0].type,
-        GrDiffGroupType.DELTA
+        GrDiffGroupType.BOTH
       );
       assert.deepEqual(
-        collapsedGroups[2].contextGroups[0].adds,
-        groups[1].adds.slice(1)
-      );
-      assert.deepEqual(
-        collapsedGroups[2].contextGroups[0].removes,
-        groups[1].removes.slice(1)
+        collapsedGroups[2].contextGroups[0].lines,
+        groups[1].lines.slice(1)
       );
 
       assert.equal(
@@ -179,6 +218,54 @@ suite('gr-diff-group tests', () => {
 
       assert.equal(collapsedGroups[3].type, GrDiffGroupType.BOTH);
       assert.deepEqual(collapsedGroups[3].lines, groups[2].lines.slice(1));
+    });
+
+    test('splits partially hidden common delta groups', () => {
+      const collapsedGroups = hideInContextControl(
+        groupsWithWhiteSpaceOnlyChange,
+        4,
+        8
+      );
+      assert.equal(collapsedGroups.length, 4);
+      assert.equal(collapsedGroups[0], groupsWithWhiteSpaceOnlyChange[0]);
+
+      assert.equal(collapsedGroups[1].type, GrDiffGroupType.DELTA);
+      assert.deepEqual(collapsedGroups[1].adds, [
+        groupsWithWhiteSpaceOnlyChange[1].adds[0],
+      ]);
+      assert.deepEqual(collapsedGroups[1].removes, [
+        groupsWithWhiteSpaceOnlyChange[1].removes[0],
+      ]);
+
+      assert.equal(collapsedGroups[2].type, GrDiffGroupType.CONTEXT_CONTROL);
+      assert.equal(collapsedGroups[2].contextGroups.length, 2);
+
+      assert.equal(
+        collapsedGroups[2].contextGroups[0].type,
+        GrDiffGroupType.DELTA
+      );
+      assert.deepEqual(
+        collapsedGroups[2].contextGroups[0].adds,
+        groupsWithWhiteSpaceOnlyChange[1].adds.slice(1)
+      );
+      assert.deepEqual(
+        collapsedGroups[2].contextGroups[0].removes,
+        groupsWithWhiteSpaceOnlyChange[1].removes.slice(1)
+      );
+
+      assert.equal(
+        collapsedGroups[2].contextGroups[1].type,
+        GrDiffGroupType.BOTH
+      );
+      assert.deepEqual(collapsedGroups[2].contextGroups[1].lines, [
+        groupsWithWhiteSpaceOnlyChange[2].lines[0],
+      ]);
+
+      assert.equal(collapsedGroups[3].type, GrDiffGroupType.BOTH);
+      assert.deepEqual(
+        collapsedGroups[3].lines,
+        groupsWithWhiteSpaceOnlyChange[2].lines.slice(1)
+      );
     });
 
     suite('with skip chunks', () => {

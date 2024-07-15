@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "79e07f90_dfbd6c22",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-07-15T18:09:15Z",
+      "side": 1,
+      "message": "It looks nice.\nOverlap seems like nice util function but we don\u0027t calculate overlap in other places in gerrit so it can be just here. \nIt\u0027s cool that old unit test works without any modification.",
+      "revId": "85bcc4490e416c8f3942115c82076a30f559131b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

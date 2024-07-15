@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "98421db8_9d875050",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-07-15T13:13:33Z",
+      "side": 1,
+      "message": "The default linux screen reader Orca, is not great, so my setup is flawed. For me it reads the name of the change, not \"title\". But the `title` right now is set for the entire `table`, where with the screenreader I would expect you would want to have information about a specific line. \n\nSo if `title` was set for accessibility for this section I don\u0027t think it\u0027s working as intended. And from the code it seems title was used mostly as a property of the child component (especially considering we don\u0027t use it for the same purpose in other places). I can add `aria-label` to the entries, if you prefer. But since I don\u0027t use screenreaders myself, I am not sure which label would be useful here.",
+      "parentUuid": "ae79daf1_72bed62a",
+      "range": {
+        "startLine": 12,
+        "startChar": 16,
+        "endLine": 12,
+        "endChar": 68
+      },
+      "revId": "11e3dd763ae29b9fd0b7fb432c783af82f83eb96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c8d99c4c_9355ca2a",
@@ -73,6 +97,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ef077f3a_d85ecfdb",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-07-15T13:13:33Z",
+      "side": 1,
+      "message": "Not sure I understand, the tooltip says that parent changes come after child changes, what\u0027s the ambiguity?",
+      "parentUuid": "c8d99c4c_9355ca2a",
+      "range": {
+        "startLine": 281,
+        "startChar": 15,
+        "endLine": 281,
+        "endChar": 61
+      },
+      "revId": "11e3dd763ae29b9fd0b7fb432c783af82f83eb96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c9586304_5e335999",
         "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.ts",
         "patchSetId": 2
@@ -84,6 +132,30 @@
       "writtenOn": "2024-07-15T12:42:51Z",
       "side": 1,
       "message": "Is this guaranteed?\nIf so, what is the source?",
+      "range": {
+        "startLine": 347,
+        "startChar": 8,
+        "endLine": 347,
+        "endChar": 62
+      },
+      "revId": "11e3dd763ae29b9fd0b7fb432c783af82f83eb96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5aa2453f_8038e3e9",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-07-15T13:13:33Z",
+      "side": 1,
+      "message": "Yes: https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:java/com/google/gerrit/server/change/RelatedChangesSorter.java?q\u003dRelatedChangesSorter.java",
+      "parentUuid": "c9586304_5e335999",
       "range": {
         "startLine": 347,
         "startChar": 8,

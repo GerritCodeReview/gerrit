@@ -124,6 +124,7 @@ import com.google.gerrit.server.RequestListener;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.AccountResolver.UnresolvableAccountException;
+import com.google.gerrit.server.account.ServiceUserClassifier;
 import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.cancellation.RequestCancelledException;
 import com.google.gerrit.server.cancellation.RequestStateContext;
@@ -234,6 +235,7 @@ import java.util.TreeSet;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
+import java.util.logging.Level;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -426,6 +428,7 @@ class ReceiveCommits {
   private final Sequences seq;
   private final SetHashtagsOp.Factory hashtagsFactory;
   private final SetTopicOp.Factory setTopicFactory;
+  private final ServiceUserClassifier serviceUserClassifier;
   private final ImmutableList<SubmissionListener> superprojectUpdateSubmissionListeners;
   private final TagCache tagCache;
   private final ProjectConfig.Factory projectConfigFactory;
@@ -516,6 +519,7 @@ class ReceiveCommits {
       Sequences seq,
       SetHashtagsOp.Factory hashtagsFactory,
       SetTopicOp.Factory setTopicFactory,
+      ServiceUserClassifier serviceUserClassifier,
       @SuperprojectUpdateOnSubmission
           ImmutableList<SubmissionListener> superprojectUpdateSubmissionListeners,
       TagCache tagCache,
@@ -550,6 +554,7 @@ class ReceiveCommits {
     this.exceptionHooks = exceptionHooks;
     this.hashtagsFactory = hashtagsFactory;
     this.setTopicFactory = setTopicFactory;
+    this.serviceUserClassifier = serviceUserClassifier;
     this.indexer = indexer;
     this.initializers = initializers;
     this.mergeOpProvider = mergeOpProvider;
@@ -762,8 +767,15 @@ class ReceiveCommits {
       logger.atFine().log("Processing commands done.");
     } catch (RuntimeException e) {
       String formattedCause = getFormattedCause(e).orElse(e.getClass().getSimpleName());
-      logger.atFine().withCause(e).log("ReceiveCommits failed due to %s", formattedCause);
-      metrics.rejectCount.increment("n/a", formattedCause, SC_INTERNAL_SERVER_ERROR);
+      int statusCode =
+          getStatus(e).map(ExceptionHook.Status::statusCode).orElse(SC_INTERNAL_SERVER_ERROR);
+      logger.at(statusCode < SC_INTERNAL_SERVER_ERROR ? Level.INFO : Level.SEVERE).withCause(e).log(
+          "ReceiveCommits failed due to %s", formattedCause);
+      String pushKind = "magic or direct push";
+      if (serviceUserClassifier.isServiceUser(user.getAccountId())) {
+        pushKind += " by service user";
+      }
+      metrics.rejectCount.increment(pushKind, formattedCause, statusCode);
       throw e;
     }
     progress.end();
@@ -773,6 +785,14 @@ class ReceiveCommits {
   private Optional<String> getFormattedCause(Throwable t) {
     return exceptionHooks.stream()
         .map(h -> h.formatCause(t))
+        .filter(Optional::isPresent)
+        .map(Optional::get)
+        .findFirst();
+  }
+
+  private Optional<ExceptionHook.Status> getStatus(Throwable err) {
+    return exceptionHooks.stream()
+        .map(h -> h.getStatus(err))
         .filter(Optional::isPresent)
         .map(Optional::get)
         .findFirst();
@@ -3934,10 +3954,13 @@ class ReceiveCommits {
 
   private void reject(ReceiveCommand cmd, RejectionReason reason) {
     logger.atFine().log("Rejecting command '%s': %s", cmd, reason.why());
-    metrics.rejectCount.increment(
-        MagicBranch.isMagicBranch(cmd.getRefName()) ? "magic" : "direct",
-        reason.metricBucket(),
-        reason.statusCode());
+
+    String pushKind = (MagicBranch.isMagicBranch(cmd.getRefName()) ? "magic push" : "direct push");
+    if (serviceUserClassifier.isServiceUser(user.getAccountId())) {
+      pushKind += " by service user";
+    }
+    metrics.rejectCount.increment(pushKind, reason.metricBucket(), reason.statusCode());
+
     cmd.setResult(REJECTED_OTHER_REASON, reason.why());
   }
 

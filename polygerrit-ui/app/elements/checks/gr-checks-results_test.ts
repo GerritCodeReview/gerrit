@@ -123,6 +123,21 @@ suite('gr-result-row test', () => {
     `
     );
   });
+
+  test('click summary, toggle expand', async () => {
+    element.isExpandable = true;
+    await element.updateComplete;
+    assert.isFalse(element.isExpanded);
+
+    const summaryDiv = element.shadowRoot!.querySelector('.summary')!;
+    summaryDiv.click();
+    await element.updateComplete;
+    assert.isTrue(element.isExpanded);
+
+    summaryDiv.click();
+    await element.updateComplete;
+    assert.isFalse(element.isExpanded);
+  });
 });
 
 suite('gr-checks-results test', () => {

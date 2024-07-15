@@ -119,6 +119,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "58f74315_48425798",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-07-15T13:57:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef077f3a_d85ecfdb",
+      "range": {
+        "startLine": 281,
+        "startChar": 15,
+        "endLine": 281,
+        "endChar": 61
+      },
+      "revId": "11e3dd763ae29b9fd0b7fb432c783af82f83eb96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c9586304_5e335999",
@@ -156,6 +180,30 @@
       "side": 1,
       "message": "Yes: https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:java/com/google/gerrit/server/change/RelatedChangesSorter.java?q\u003dRelatedChangesSorter.java",
       "parentUuid": "c9586304_5e335999",
+      "range": {
+        "startLine": 347,
+        "startChar": 8,
+        "endLine": 347,
+        "endChar": 62
+      },
+      "revId": "11e3dd763ae29b9fd0b7fb432c783af82f83eb96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7168ec4c_89f7dfc2",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-07-15T13:57:40Z",
+      "side": 1,
+      "message": "Update the commit message and maybe also explain why \"Submitted together\" follows this same pattern.\n\nBased on the name. submitted together !\u003d\u003d related changes",
+      "parentUuid": "5aa2453f_8038e3e9",
       "range": {
         "startLine": 347,
         "startChar": 8,

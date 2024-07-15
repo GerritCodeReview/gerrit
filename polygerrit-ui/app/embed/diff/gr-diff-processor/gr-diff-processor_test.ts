@@ -933,6 +933,128 @@ suite('gr-diff-processor tests', () => {
           );
         });
       });
+
+      suite('with diffRangesToFocus', () => {
+        let state: State;
+        let chunks: DiffContent[];
+
+        setup(() => {
+          state = {
+            lineNums: {left: 0, right: 0},
+            chunkIndex: 0,
+          };
+          processor.context = 3;
+          processor.diffRangesToFocus = {
+            left: [{start: 6, end: 7}],
+            right: [{start: 6, end: 6}],
+          };
+          chunks = [
+            {
+              ab: Array.from<string>({length: 5}).fill(
+                'all work and no play make jill a dull boy'
+              ),
+            },
+            {
+              a: ['Old ', ' Change!'],
+              b: ['New Change'],
+            },
+            {
+              ab: Array.from<string>({length: 5}).fill(
+                'all work and no play make jack a dull boy'
+              ),
+            },
+            {
+              a: ['Old ', ' Change!', '1'],
+              b: ['New Change', '2'],
+            },
+          ];
+        });
+
+        test('focussed group is not collapsed in context control group', () => {
+          const result = processor.processNext(state, chunks);
+
+          // This should consider second delta group as focussed and not collapse it.
+          // This result is first chunk itself.
+          assert.equal(result.groups.length, 1);
+          assert.equal(result.groups[0].type, GrDiffGroupType.BOTH);
+          assert.equal(result.groups[0].lines.length, 5);
+        });
+
+        test('collapsing delta group at end in context control group', () => {
+          state = {
+            lineNums: {left: 7, right: 6},
+            chunkIndex: 2,
+          };
+          const result = processor.processNext(state, [
+            ...chunks,
+            {
+              ab: Array.from<string>({length: 5}).fill(
+                'all work and no play make jack a dull boy'
+              ),
+            },
+          ]);
+
+          // The first chunk is split into two groups:
+          // 1) A common group which is rendered before contextControl group
+          // 2) Second group is a context control which contains split from 4th chunk
+          // and the delta group and the last unchanged group.
+          assert.equal(result.groups.length, 2);
+          assert.equal(result.groups[0].type, GrDiffGroupType.BOTH);
+          assert.equal(result.groups[0].lines.length, 3);
+          assert.equal(result.groups[1].type, GrDiffGroupType.CONTEXT_CONTROL);
+          assert.equal(result.groups[1].contextGroups.length, 3);
+          assert.equal(result.groups[1].contextGroups[0].lines.length, 2);
+          assert.equal(
+            result.groups[1].contextGroups[1].type,
+            GrDiffGroupType.DELTA
+          );
+          assert.equal(
+            result.groups[1].contextGroups[2].type,
+            GrDiffGroupType.BOTH
+          );
+        });
+
+        test('collapsing delta group in middle in context control group', () => {
+          state = {
+            lineNums: {left: 7, right: 6},
+            chunkIndex: 2,
+          };
+          const result = processor.processNext(state, chunks);
+
+          // The first chunk is split into two groups:
+          // 1) A common group which is rendered before contextControl group
+          // 2) Second group is a context control which contains split from 4th chunk
+          // and the delta group.
+          assert.equal(result.groups.length, 2);
+          assert.equal(result.groups[0].type, GrDiffGroupType.BOTH);
+          assert.equal(result.groups[0].lines.length, 3);
+          assert.equal(result.groups[1].type, GrDiffGroupType.CONTEXT_CONTROL);
+          assert.equal(result.groups[1].contextGroups.length, 2);
+          assert.equal(result.groups[1].contextGroups[0].lines.length, 2);
+          assert.equal(
+            result.groups[1].contextGroups[1].type,
+            GrDiffGroupType.DELTA
+          );
+        });
+
+        test('do not collapse if there are not enough context lines', () => {
+          processor.context = 10;
+          state = {
+            lineNums: {left: 7, right: 6},
+            chunkIndex: 2,
+          };
+          const result = processor.processNext(state, chunks);
+
+          // The first chunk is split into two groups:
+          // 1) A common group which is rendered before contextControl group
+          // 2) Second group is a context control which contains split from 4th chunk
+          // and the delta group.
+          assert.equal(result.groups.length, 2);
+          assert.equal(result.groups[0].type, GrDiffGroupType.BOTH);
+          assert.equal(result.groups[0].lines.length, 5);
+          assert.equal(result.groups[1].type, GrDiffGroupType.DELTA);
+        });
+      });
     });
 
     suite('gr-diff-processor helpers', () => {

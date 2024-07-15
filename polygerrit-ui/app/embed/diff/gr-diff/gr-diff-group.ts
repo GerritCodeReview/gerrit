@@ -42,40 +42,56 @@ export interface GrDiffLinePair {
  * @param hiddenStart The first element to be hidden, as a
  *     non-negative line number offset relative to the first group's start
  *     line, left and right respectively.
- * @param hiddenEnd The first visible element after the hidden range,
- *     as a non-negative line number offset relative to the first group's
- *     start line, left and right respectively.
+ * @param hiddenEndLeft The first visible element after the hidden range,
+ *     as a non-negative line number offset for left side relative to the first
+ *     group's start line.
+ * @param hiddenEndRight The first visible element after the hidden range,
+ *     as a non-negative line number offset for right side relative to the first
+ *     group's start line. If not provided hiddenEndLeft will be used.
  */
 export function hideInContextControl(
   groups: readonly GrDiffGroup[],
   hiddenStart: number,
-  hiddenEnd: number
+  hiddenEndLeft: number,
+  hiddenEndRight?: number
 ): GrDiffGroup[] {
   if (groups.length === 0) return [];
   // Clamp hiddenStart and hiddenEnd - inspired by e.g. substring
   hiddenStart = Math.max(hiddenStart, 0);
-  hiddenEnd = Math.max(hiddenEnd, hiddenStart);
+  hiddenEndLeft = Math.max(hiddenEndLeft, hiddenStart);
+  hiddenEndRight = Math.max(hiddenEndRight ?? hiddenEndLeft, hiddenStart);
 
   let before: GrDiffGroup[] = [];
   let hidden = groups;
   let after: readonly GrDiffGroup[] = [];
 
-  const numHidden = hiddenEnd - hiddenStart;
+  const numHiddenLeft = hiddenEndLeft - hiddenStart;
+  const numHiddenRight = hiddenEndRight - hiddenStart;
 
   // Showing a context control row for less than 4 lines does not make much,
   // because then that row would consume as much space as the collapsed code.
-  if (numHidden > 3) {
+  if (numHiddenLeft > 3 && numHiddenRight > 3) {
     if (hiddenStart) {
-      [before, hidden] = splitCommonGroups(hidden, hiddenStart);
+      [before, hidden] = splitCommonGroups(hidden, hiddenStart, hiddenStart);
     }
-    if (hiddenEnd) {
-      let beforeLength = 0;
+    if (hiddenEndLeft && hiddenEndRight) {
+      let beforeLengthLeft = 0;
+      let beforeLengthRight = 0;
       if (before.length > 0) {
-        const beforeStart = before[0].lineRange.left.start_line;
-        const beforeEnd = before[before.length - 1].lineRange.left.end_line;
-        beforeLength = beforeEnd - beforeStart + 1;
+        const beforeStartLeft = before[0].lineRange.left.start_line;
+        const beforeEndLeft = before[before.length - 1].lineRange.left.end_line;
+        beforeLengthLeft = beforeEndLeft - beforeStartLeft + 1;
+
+        const beforeStartRight = before[0].lineRange.right.start_line;
+        const beforeEndRight =
+          before[before.length - 1].lineRange.right.end_line;
+        beforeLengthRight = beforeEndRight - beforeStartRight + 1;
       }
-      [hidden, after] = splitCommonGroups(hidden, hiddenEnd - beforeLength);
+      [hidden, after] = splitCommonGroups(
+        hidden,
+        hiddenEndLeft - beforeLengthLeft,
+        hiddenEndRight - beforeLengthRight
+      );
     }
   } else {
     [hidden, after] = [[], hidden];
@@ -168,18 +184,21 @@ function splitGroupInTwo(
  * two groups, which will be put into the first and second list. Groups with
  * type DELTA which are not common will not be split.
  *
- * @param split A line number offset relative to the first group's
- *     start line at which the groups should be split.
+ * @param splitLeft A line number offset for left side relative to the first
+ *     group's start line at which the groups should be split.
+ * @param splitRight A line number offset for right side relative to the first
+ *     group's start line at which the groups should be split.
  * @return The outer array has 2 elements, the
  *   list of groups before and the list of groups after the split.
  */
 function splitCommonGroups(
   groups: readonly GrDiffGroup[],
-  split: number
+  splitLeft: number,
+  splitRight: number
 ): GrDiffGroup[][] {
   if (groups.length === 0) return [[], []];
-  const leftSplit = groups[0].lineRange.left.start_line + split;
-  const rightSplit = groups[0].lineRange.right.start_line + split;
+  const leftSplit = groups[0].lineRange.left.start_line + splitLeft;
+  const rightSplit = groups[0].lineRange.right.start_line + splitRight;
   let isSplitDone = false;
   const beforeGroups = [];
   const afterGroups = [];

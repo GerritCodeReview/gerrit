@@ -489,7 +489,7 @@ export class GrResultRow extends LitElement {
     return html`
       <!-- The &nbsp; is for being able to shrink a tiny amount without
        the text itself getting shrunk with an ellipsis. -->
-      <div class="summary" @click=${this.toggleExpanded} title=${text}>
+      <div class="summary" @click=${this.toggleExpandedClick} title=${text}>
         ${text}&nbsp;
       </div>
     `;

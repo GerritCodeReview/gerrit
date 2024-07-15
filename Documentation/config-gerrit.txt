@@ -5976,6 +5976,19 @@ May be specified multiple times.
 +
 By default, unset (all projects are matched).
 
+[[tracing.metric]]
+==== Subsection tracing.metric
+
+Section to control for which operations latency and counts should be recorded
+in the link:metrics.html#performance[performance metrics].
+
+[[tracing.metric.operation]]tracing.metric.operation::
++
+Name of a Gerrit operation for which latency and counts should be recorded in
+the link:metrics.html#performance[performance metrics].
++
+The operation name must match the operation name that is used with TraceTimer.
+
 [[deadline.id]]
 ==== Subsection deadline.<id>
 

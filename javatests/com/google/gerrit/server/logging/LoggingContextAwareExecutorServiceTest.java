@@ -52,7 +52,8 @@ public class LoggingContextAwareExecutorServiceTest {
     testPerformanceLogger =
         new PerformanceLogger() {
           @Override
-          public void log(String operation, long durationMs, Instant endTime, Metadata metadata) {
+          public void logNanos(
+              String operation, long durationNanos, Instant endTime, Metadata metadata) {
             // do nothing
           }
         };

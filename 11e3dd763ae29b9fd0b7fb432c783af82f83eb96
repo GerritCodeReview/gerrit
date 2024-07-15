@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae79daf1_72bed62a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-07-15T12:42:51Z",
+      "side": 1,
+      "message": "this might have something to do with a11y\n\nIIUC title is used to \"announce\" the element to the screen reader.\n\nCan you verify that this works after this change as well?",
+      "range": {
+        "startLine": 12,
+        "startChar": 16,
+        "endLine": 12,
+        "endChar": 68
+      },
+      "revId": "11e3dd763ae29b9fd0b7fb432c783af82f83eb96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8d99c4c_9355ca2a",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-07-15T12:42:51Z",
+      "side": 1,
+      "message": "FWIW I am not able to parse this sentence personally\n\nI still have no idea after this sentence which item should come first or what the order of the changes are.",
+      "range": {
+        "startLine": 281,
+        "startChar": 15,
+        "endLine": 281,
+        "endChar": 61
+      },
+      "revId": "11e3dd763ae29b9fd0b7fb432c783af82f83eb96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9586304_5e335999",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-07-15T12:42:51Z",
+      "side": 1,
+      "message": "Is this guaranteed?\nIf so, what is the source?",
+      "range": {
+        "startLine": 347,
+        "startChar": 8,
+        "endLine": 347,
+        "endChar": 62
+      },
+      "revId": "11e3dd763ae29b9fd0b7fb432c783af82f83eb96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

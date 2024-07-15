@@ -200,7 +200,10 @@ suite('gr-related-changes-list', () => {
             <gr-endpoint-param name="change"> </gr-endpoint-param>
             <gr-endpoint-slot name="top"> </gr-endpoint-slot>
             <section id="relatedChanges">
-              <gr-related-collapse class="first" title="Relation chain">
+              <gr-related-collapse
+                class="first"
+                title="parent changes are ordered after child changes"
+              >
                 <div class="relatedChangeLine show-when-collapsed">
                   <span class="marker space"> </span>
                   <gr-related-change
@@ -213,7 +216,9 @@ suite('gr-related-changes-list', () => {
               </gr-related-collapse>
             </section>
             <section id="submittedTogether">
-              <gr-related-collapse title="Submitted together">
+              <gr-related-collapse
+                title="parent changes are ordered after child changes"
+              >
                 <div class="relatedChangeLine selected show-when-collapsed">
                   <span
                     aria-label="Arrow marking current change"
@@ -236,7 +241,7 @@ suite('gr-related-changes-list', () => {
               <div class="note" hidden="">(+ )</div>
             </section>
             <section id="cherryPicks">
-              <gr-related-collapse title="Cherry picks">
+              <gr-related-collapse>
                 <div class="relatedChangeLine show-when-collapsed">
                   <span class="marker space"> </span>
                   <gr-related-change show-change-status="">

@@ -18,7 +18,7 @@ export const DEFAULT_NUM_CHANGES_WHEN_COLLAPSED = 3;
 @customElement('gr-related-collapse')
 export class GrRelatedCollapse extends LitElement {
   @property()
-  override title = '';
+  name = '';
 
   @property({type: Boolean})
   showAll = false;
@@ -64,7 +64,7 @@ export class GrRelatedCollapse extends LitElement {
   }
 
   override render() {
-    const title = html`<h3 class="title heading-3">${this.title}</h3>`;
+    const title = html`<h3 class="title heading-3">${this.name}</h3>`;
 
     const collapsible = this.length > this.numChangesWhenCollapsed;
     this.collapsed = !this.showAll && collapsible;
@@ -88,7 +88,7 @@ export class GrRelatedCollapse extends LitElement {
     e.stopPropagation();
     this.showAll = !this.showAll;
     this.reporting.reportInteraction(Interaction.TOGGLE_SHOW_ALL_BUTTON, {
-      sectionName: this.title,
+      sectionName: this.name,
       toState: this.showAll ? 'Show all' : 'Show less',
     });
   }

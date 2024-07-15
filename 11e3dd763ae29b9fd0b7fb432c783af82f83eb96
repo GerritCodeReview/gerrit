@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "55a5033a_b3eb19f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-07-15T12:51:34Z",
+      "side": 1,
+      "message": "https://www.a11yproject.com/posts/title-attributes/\n\nActually this mentions the opposite, so now I\u0027m not really sure.\n😄\n\n@milutin@google.com any ideas? Is this change a11y safe?",
+      "parentUuid": "ae79daf1_72bed62a",
+      "range": {
+        "startLine": 12,
+        "startChar": 16,
+        "endLine": 12,
+        "endChar": 68
+      },
+      "revId": "11e3dd763ae29b9fd0b7fb432c783af82f83eb96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c8d99c4c_9355ca2a",
         "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.ts",
         "patchSetId": 2

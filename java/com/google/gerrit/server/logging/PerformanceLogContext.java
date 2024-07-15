@@ -92,6 +92,7 @@ public class PerformanceLogContext implements AutoCloseable {
             p -> {
               try (TraceContext traceContext = newPluginTrace(p)) {
                 performanceLogRecords.forEach(r -> r.writeTo(p.get()));
+                p.get().done();
               } catch (RuntimeException e) {
                 logger.atWarning().withCause(e).log(
                     "Failure in %s of plugin %s", p.get().getClass(), p.getPluginName());

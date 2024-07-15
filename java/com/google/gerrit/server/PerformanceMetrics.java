@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server;
 
+import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.metrics.Counter3;
@@ -26,20 +27,23 @@ import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.PerformanceLogger;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import java.time.Instant;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
 
 /** Performance logger that records the execution times as a metric. */
-@Singleton
 public class PerformanceMetrics implements PerformanceLogger {
   private static final String OPERATION_LATENCY_METRIC_NAME = "performance/operations";
   private static final String OPERATION_COUNT_METRIC_NAME = "performance/operations_count";
 
   private final ImmutableList<String> tracedOperations;
-  public final Timer3<String, String, String> operationsLatency;
-  public final Counter3<String, String, String> operationsCounter;
+  private final Timer3<String, String, String> operationsLatency;
+  private final Counter3<String, String, String> operationsCounter;
+  private final Timer3<String, String, String> operationsRequestLatency;
+
+  private final Map<MetricKey, Long> perRequestLatencyNanos = new HashMap<>();
 
   @Inject
   PerformanceMetrics(@GerritServerConfig Config cfg, MetricMaker metricMaker) {
@@ -82,6 +86,17 @@ public class PerformanceMetrics implements PerformanceLogger {
             operationNameField,
             requestField,
             pluginField);
+    this.operationsRequestLatency =
+        metricMaker
+            .newTimer(
+                OPERATION_LATENCY_METRIC_NAME,
+                new Description("Per request latency of performing operations")
+                    .setCumulative()
+                    .setUnit(Description.Units.MILLISECONDS),
+                operationNameField,
+                requestField,
+                pluginField)
+            .suppressLogging();
   }
 
   @Override
@@ -100,5 +115,36 @@ public class PerformanceMetrics implements PerformanceLogger {
     String pluginTag = TraceContext.getPluginTag().orElse("");
     operationsLatency.record(operation, requestTag, pluginTag, durationNanos, TimeUnit.NANOSECONDS);
     operationsCounter.increment(operation, requestTag, pluginTag);
+
+    perRequestLatencyNanos.compute(
+        MetricKey.create(operation, requestTag, pluginTag),
+        (metricKey, latencyNanos) ->
+            (latencyNanos == null) ? durationNanos : latencyNanos + durationNanos);
+  }
+
+  @Override
+  public void done() {
+    perRequestLatencyNanos.forEach(
+        (metricKey, latencyNanos) ->
+            operationsRequestLatency.record(
+                metricKey.operation(),
+                metricKey.requestTag(),
+                metricKey.pluginTag(),
+                latencyNanos,
+                TimeUnit.NANOSECONDS));
+    perRequestLatencyNanos.clear();
+  }
+
+  @AutoValue
+  abstract static class MetricKey {
+    abstract String operation();
+
+    abstract String requestTag();
+
+    abstract String pluginTag();
+
+    public static MetricKey create(String operation, String requestTag, String pluginTag) {
+      return new AutoValue_PerformanceMetrics_MetricKey(operation, requestTag, pluginTag);
+    }
   }
 }

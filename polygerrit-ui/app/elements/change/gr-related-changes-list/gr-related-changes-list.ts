@@ -277,7 +277,8 @@ export class GrRelatedChangesList extends LitElement {
 
     return html`<section id="relatedChanges">
       <gr-related-collapse
-        title="Relation chain"
+        .name=${'Relation chain'}
+        title="parent changes are ordered after child changes"
         class=${classMap({first: isFirst})}
         .length=${this.relatedChanges.length}
         .numChangesWhenCollapsed=${sectionSize(Section.RELATED_CHANGES)}
@@ -342,7 +343,8 @@ export class GrRelatedChangesList extends LitElement {
     );
     return html`<section id="submittedTogether">
       <gr-related-collapse
-        title="Submitted together"
+        .name=${'Submitted together'}
+        title="parent changes are ordered after child changes"
         class=${classMap({first: isFirst})}
         .length=${submittedTogetherChanges.length}
         .numChangesWhenCollapsed=${sectionSize(Section.SUBMITTED_TOGETHER)}
@@ -405,7 +407,7 @@ export class GrRelatedChangesList extends LitElement {
     );
     return html`<section id="sameTopic">
       <gr-related-collapse
-        title="Same topic"
+        .name=${'Same topic'}
         class=${classMap({first: isFirst})}
         .length=${this.sameTopicChanges.length}
         .numChangesWhenCollapsed=${sectionSize(Section.SAME_TOPIC)}
@@ -445,7 +447,7 @@ export class GrRelatedChangesList extends LitElement {
     );
     return html`<section id="mergeConflicts">
       <gr-related-collapse
-        title="Merge conflicts"
+        .name=${'Merge conflicts'}
         class=${classMap({first: isFirst})}
         .length=${this.conflictingChanges.length}
         .numChangesWhenCollapsed=${sectionSize(Section.MERGE_CONFLICTS)}
@@ -490,7 +492,7 @@ export class GrRelatedChangesList extends LitElement {
     );
     return html`<section id="cherryPicks">
       <gr-related-collapse
-        title="Cherry picks"
+        .name=${'Cherry picks'}
         class=${classMap({first: isFirst})}
         .length=${this.cherryPickChanges.length}
         .numChangesWhenCollapsed=${sectionSize(Section.CHERRY_PICKS)}

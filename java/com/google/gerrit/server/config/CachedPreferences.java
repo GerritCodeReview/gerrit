@@ -126,10 +126,8 @@ public abstract class CachedPreferences {
       CachedPreferencesProto userPreferencesProto = userPreferences.config();
       switch (userPreferencesProto.getPreferencesCase()) {
         case USER_PREFERENCES:
-          PreferencesT pref =
-              preferencesParser.fromUserPreferences(
-                  userPreferencesProto.getUserPreferences(), configOrNull(defaultPreferences));
-          return preferencesParser.parse(pref, configOrNull(defaultPreferences));
+          return preferencesParser.fromUserPreferences(
+              userPreferencesProto.getUserPreferences(), configOrNull(defaultPreferences));
         case LEGACY_GIT_CONFIG:
           return preferencesParser.parse(
               userPreferences.asConfig(), configOrNull(defaultPreferences), null);

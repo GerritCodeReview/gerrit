@@ -320,13 +320,14 @@ public class PreferencesParserUtil {
   }
 
   /** Provides methods for parsing user configs */
-  public interface PreferencesParser<T> {
+  interface PreferencesParser<T> {
     T parse(Config cfg, @Nullable Config defaultConfig, @Nullable T input)
         throws ConfigInvalidException;
 
     T parse(T cfg, @Nullable Config defaultConfig) throws ConfigInvalidException;
 
-    T fromUserPreferences(UserPreferences userPreferences);
+    T fromUserPreferences(UserPreferences userPreferences, @Nullable Config defaultCfg)
+        throws ConfigInvalidException;
 
     T getJavaDefaults();
   }
@@ -352,8 +353,10 @@ public class PreferencesParserUtil {
     }
 
     @Override
-    public GeneralPreferencesInfo fromUserPreferences(UserPreferences p) {
-      return GENERAL_PREFERENCES_INFO_CONVERTER.fromProto(p.getGeneralPreferencesInfo());
+    public GeneralPreferencesInfo fromUserPreferences(
+        UserPreferences p, @Nullable Config defaultCfg) throws ConfigInvalidException {
+      return PreferencesParserUtil.parseGeneralPreferences(
+          GENERAL_PREFERENCES_INFO_CONVERTER.fromProto(p.getGeneralPreferencesInfo()), defaultCfg);
     }
 
     @Override
@@ -382,8 +385,10 @@ public class PreferencesParserUtil {
     }
 
     @Override
-    public EditPreferencesInfo fromUserPreferences(UserPreferences p) {
-      return EDIT_PREFERENCES_INFO_CONVERTER.fromProto(p.getEditPreferencesInfo());
+    public EditPreferencesInfo fromUserPreferences(UserPreferences p, @Nullable Config defaultCfg)
+        throws ConfigInvalidException {
+      return PreferencesParserUtil.parseEditPreferences(
+          EDIT_PREFERENCES_INFO_CONVERTER.fromProto(p.getEditPreferencesInfo()), defaultCfg);
     }
 
     @Override
@@ -412,8 +417,10 @@ public class PreferencesParserUtil {
     }
 
     @Override
-    public DiffPreferencesInfo fromUserPreferences(UserPreferences p) {
-      return DIFF_PREFERENCES_INFO_CONVERTER.fromProto(p.getDiffPreferencesInfo());
+    public DiffPreferencesInfo fromUserPreferences(UserPreferences p, @Nullable Config defaultCfg)
+        throws ConfigInvalidException {
+      return PreferencesParserUtil.parseDiffPreferences(
+          DIFF_PREFERENCES_INFO_CONVERTER.fromProto(p.getDiffPreferencesInfo()), defaultCfg);
     }
 
     @Override

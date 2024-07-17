@@ -151,6 +151,58 @@ public class CachedPreferencesTest {
   }
 
   @Test
+  public void bothPreferencesTypes_getGeneralPreferencesAreEqual() throws Exception {
+    UserPreferences originalProto =
+        UserPreferences.newBuilder()
+            .setGeneralPreferencesInfo(
+                UserPreferences.GeneralPreferencesInfo.newBuilder().setChangesPerPage(19))
+            .build();
+    Config originalCfg = new Config();
+    originalCfg.fromText("[general]\n\tchangesPerPage = 19");
+
+    CachedPreferences protoPref = CachedPreferences.fromUserPreferencesProto(originalProto);
+    GeneralPreferencesInfo protoGeneral = CachedPreferences.general(Optional.empty(), protoPref);
+    CachedPreferences cfgPref = CachedPreferences.fromLegacyConfig(originalCfg);
+    GeneralPreferencesInfo cfgGeneral = CachedPreferences.general(Optional.empty(), cfgPref);
+
+    assertThat(protoGeneral).isEqualTo(cfgGeneral);
+  }
+
+  @Test
+  public void bothPreferencesTypes_getDiffPreferencesAreEqual() throws Exception {
+    UserPreferences originalProto =
+        UserPreferences.newBuilder()
+            .setDiffPreferencesInfo(UserPreferences.DiffPreferencesInfo.newBuilder().setContext(23))
+            .build();
+    Config originalCfg = new Config();
+    originalCfg.fromText("[diff]\n\tcontext = 23");
+
+    CachedPreferences protoPref = CachedPreferences.fromUserPreferencesProto(originalProto);
+    DiffPreferencesInfo protoDiff = CachedPreferences.diff(Optional.empty(), protoPref);
+    CachedPreferences cfgPref = CachedPreferences.fromLegacyConfig(originalCfg);
+    DiffPreferencesInfo cfgDiff = CachedPreferences.diff(Optional.empty(), cfgPref);
+
+    assertThat(protoDiff).isEqualTo(cfgDiff);
+  }
+
+  @Test
+  public void bothPreferencesTypes_getEditPreferencesAreEqual() throws Exception {
+    UserPreferences originalProto =
+        UserPreferences.newBuilder()
+            .setEditPreferencesInfo(UserPreferences.EditPreferencesInfo.newBuilder().setTabSize(27))
+            .build();
+    Config originalCfg = new Config();
+    originalCfg.fromText("[edit]\n\ttabSize = 27");
+
+    CachedPreferences protoPref = CachedPreferences.fromUserPreferencesProto(originalProto);
+    EditPreferencesInfo protoEdit = CachedPreferences.edit(Optional.empty(), protoPref);
+    CachedPreferences cfgPref = CachedPreferences.fromLegacyConfig(originalCfg);
+    EditPreferencesInfo cfgEdit = CachedPreferences.edit(Optional.empty(), cfgPref);
+
+    assertThat(protoEdit).isEqualTo(cfgEdit);
+  }
+
+  @Test
   public void defaultPreferences_acceptingGitConfig() throws Exception {
     Config cfg = new Config();
     cfg.fromText("[general]\n\tchangesPerPage = 19");

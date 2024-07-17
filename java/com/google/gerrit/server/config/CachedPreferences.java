@@ -47,6 +47,7 @@ public abstract class CachedPreferences {
   public Optional<CachedPreferencesProto> nonEmptyConfig() {
     return config().equals(EMPTY.config()) ? Optional.empty() : Optional.of(config());
   }
+
   /** Returns a cache-able representation of the preferences proto. */
   public static CachedPreferences fromUserPreferencesProto(UserPreferences proto) {
     return fromCachedPreferencesProto(
@@ -126,7 +127,8 @@ public abstract class CachedPreferences {
       switch (userPreferencesProto.getPreferencesCase()) {
         case USER_PREFERENCES:
           PreferencesT pref =
-              preferencesParser.fromUserPreferences(userPreferencesProto.getUserPreferences());
+              preferencesParser.fromUserPreferences(
+                  userPreferencesProto.getUserPreferences(), configOrNull(defaultPreferences));
           return preferencesParser.parse(pref, configOrNull(defaultPreferences));
         case LEGACY_GIT_CONFIG:
           return preferencesParser.parse(

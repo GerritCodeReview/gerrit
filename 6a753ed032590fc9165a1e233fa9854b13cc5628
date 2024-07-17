@@ -16,6 +16,24 @@
       "message": "Is this expected?",
       "revId": "6a753ed032590fc9165a1e233fa9854b13cc5628",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ac63cdb_8ed08e94",
+        "filename": "modules/jgit",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-07-17T22:36:46Z",
+      "side": 1,
+      "message": "Yes, same as in https://gerrit-review.googlesource.com/c/gerrit/+/433277",
+      "parentUuid": "2bbf1279_83727558",
+      "revId": "6a753ed032590fc9165a1e233fa9854b13cc5628",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

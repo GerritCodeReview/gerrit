@@ -25,9 +25,9 @@ import java.util.Set;
 public class AssertUtil {
   public static <T> void assertPrefs(T actual, T expected, String... fieldsToExclude)
       throws IllegalArgumentException, IllegalAccessException {
-    Set<String> exludedFields = new HashSet<>(Arrays.asList(fieldsToExclude));
+    Set<String> excludedFields = new HashSet<>(Arrays.asList(fieldsToExclude));
     for (Field field : actual.getClass().getDeclaredFields()) {
-      if (exludedFields.contains(field.getName()) || skipField(field)) {
+      if (excludedFields.contains(field.getName()) || skipField(field)) {
         continue;
       }
       Object actualVal = field.get(actual);

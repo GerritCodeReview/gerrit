@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.api.accounts;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.AssertUtil.assertPrefs;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -60,7 +61,7 @@ public class EditPreferencesIT extends AbstractDaemonTest {
 
     EditPreferencesInfo info = gApi.accounts().id(admin.id().get()).setEditPreferences(out);
 
-    assertEditPreferences(info, out);
+    assertPrefs(info, out);
 
     // Partially filled input record
     EditPreferencesInfo in = new EditPreferencesInfo();
@@ -69,24 +70,6 @@ public class EditPreferencesIT extends AbstractDaemonTest {
     info = gApi.accounts().id(admin.id().get()).setEditPreferences(in);
 
     out.tabSize = in.tabSize;
-    assertEditPreferences(info, out);
-  }
-
-  private void assertEditPreferences(EditPreferencesInfo out, EditPreferencesInfo in)
-      throws Exception {
-    assertThat(out.lineLength).isEqualTo(in.lineLength);
-    assertThat(out.indentUnit).isEqualTo(in.indentUnit);
-    assertThat(out.tabSize).isEqualTo(in.tabSize);
-    assertThat(out.cursorBlinkRate).isEqualTo(in.cursorBlinkRate);
-    assertThat(out.hideTopMenu).isEqualTo(in.hideTopMenu);
-    assertThat(out.showTabs).isNull();
-    assertThat(out.showWhitespaceErrors).isEqualTo(in.showWhitespaceErrors);
-    assertThat(out.syntaxHighlighting).isNull();
-    assertThat(out.hideLineNumbers).isEqualTo(in.hideLineNumbers);
-    assertThat(out.matchBrackets).isNull();
-    assertThat(out.lineWrapping).isEqualTo(in.lineWrapping);
-    assertThat(out.indentWithTabs).isEqualTo(in.indentWithTabs);
-    assertThat(out.autoCloseBrackets).isEqualTo(in.autoCloseBrackets);
-    assertThat(out.showBase).isEqualTo(in.showBase);
+    assertPrefs(info, out);
   }
 }

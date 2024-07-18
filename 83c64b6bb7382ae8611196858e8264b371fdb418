@@ -16,6 +16,23 @@
       "message": "# An AccessSection\n  [access \"refs/heads/stable/*\"]\n     exclusiveGroupPermissions \u003d create\n\n     # Each of the following lines corresponds to a PermissionRule\n     # The next two PermissionRule together form the \"read\" Permission\n     read \u003d group Administrators\n     read \u003d group Registered Users\n\n     # A Permission with a block and block-override\n     create \u003d block group Registered Users\n     create \u003d group Project Owners\n\n     # A Permission and PermissionRule for a label\n     label-Code-Review \u003d -2..+2 group Project Owners",
       "revId": "83c64b6bb7382ae8611196858e8264b371fdb418",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1dabfbb3_ba29f2de",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3539902
+      },
+      "writtenOn": "2024-07-18T14:59:07Z",
+      "side": 1,
+      "message": "for..",
+      "revId": "83c64b6bb7382ae8611196858e8264b371fdb418",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

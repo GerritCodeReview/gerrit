@@ -75,6 +75,7 @@ import {
   grDiffTextStyles,
 } from './gr-diff-styles';
 import {GrCoverageLayer} from '../gr-coverage-layer/gr-coverage-layer';
+import {GrFocusLayer} from '../gr-focus-layer/gr-focus-layer';
 import {
   GrAnnotationImpl,
   getStringLength,
@@ -275,6 +276,8 @@ export class GrDiff extends LitElement implements GrDiffApi {
 
   private coverageLayerRight = new GrCoverageLayer(Side.RIGHT);
 
+  private focusLayer = new GrFocusLayer();
+
   private rangeLayer = new GrRangedCommentLayer();
 
   @state() groups: GrDiffGroup[] = [];
@@ -439,6 +442,9 @@ export class GrDiff extends LitElement implements GrDiffApi {
     }
     if (changedProperties.has('lineOfInterest')) {
       this.lineOfInterestChanged();
+    }
+    if (changedProperties.has('diffRangesToFocus')) {
+      this.updateFocusRanges(this.diffRangesToFocus);
     }
   }
 
@@ -720,6 +726,10 @@ export class GrDiff extends LitElement implements GrDiffApi {
     this.coverageLayerRight.setRanges(rs.filter(r => r?.side === Side.RIGHT));
   }
 
+  private updateFocusRanges(rs?: DiffRangesToFocus) {
+    this.focusLayer.setRanges(rs);
+  }
+
   private onDiffContextExpanded = (
     e: CustomEvent<DiffContextExpandedEventDetail>
   ) => {
@@ -746,6 +756,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
       this.rangeLayer,
       this.coverageLayerLeft,
       this.coverageLayerRight,
+      this.focusLayer,
     ];
     this.layersChanged();
   }

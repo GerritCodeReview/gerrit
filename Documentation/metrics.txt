@@ -93,10 +93,6 @@ The following metrics are reported.
 ** `plugin`:
    The name of the plugin that performed the operation.
 
-Performance metrics can be enabled via the
-link:config.gerrit.html#tracing.exportPerformanceMetrics[`tracing.exportPerformanceMetrics`]
-setting.
-
 === Pushes
 
 * `receivecommits/changes`: histogram of number of changes processed in a single

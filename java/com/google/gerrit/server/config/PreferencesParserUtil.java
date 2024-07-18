@@ -324,8 +324,6 @@ public class PreferencesParserUtil {
     T parse(Config cfg, @Nullable Config defaultConfig, @Nullable T input)
         throws ConfigInvalidException;
 
-    T parse(T cfg, @Nullable Config defaultConfig) throws ConfigInvalidException;
-
     T fromUserPreferences(UserPreferences userPreferences, @Nullable Config defaultCfg)
         throws ConfigInvalidException;
 
@@ -344,12 +342,6 @@ public class PreferencesParserUtil {
         Config cfg, @Nullable Config defaultCfg, @Nullable GeneralPreferencesInfo input)
         throws ConfigInvalidException {
       return PreferencesParserUtil.parseGeneralPreferences(cfg, defaultCfg, input);
-    }
-
-    @Override
-    public GeneralPreferencesInfo parse(GeneralPreferencesInfo cfg, @Nullable Config defaultCfg)
-        throws ConfigInvalidException {
-      return PreferencesParserUtil.parseGeneralPreferences(cfg, defaultCfg);
     }
 
     @Override
@@ -379,12 +371,6 @@ public class PreferencesParserUtil {
     }
 
     @Override
-    public EditPreferencesInfo parse(EditPreferencesInfo cfg, @Nullable Config defaultCfg)
-        throws ConfigInvalidException {
-      return PreferencesParserUtil.parseEditPreferences(cfg, defaultCfg);
-    }
-
-    @Override
     public EditPreferencesInfo fromUserPreferences(UserPreferences p, @Nullable Config defaultCfg)
         throws ConfigInvalidException {
       return PreferencesParserUtil.parseEditPreferences(
@@ -408,12 +394,6 @@ public class PreferencesParserUtil {
         Config cfg, @Nullable Config defaultCfg, @Nullable DiffPreferencesInfo input)
         throws ConfigInvalidException {
       return PreferencesParserUtil.parseDiffPreferences(cfg, defaultCfg, input);
-    }
-
-    @Override
-    public DiffPreferencesInfo parse(DiffPreferencesInfo cfg, @Nullable Config defaultCfg)
-        throws ConfigInvalidException {
-      return PreferencesParserUtil.parseDiffPreferences(cfg, defaultCfg);
     }
 
     @Override

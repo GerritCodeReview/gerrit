@@ -15,7 +15,9 @@
 package com.google.gerrit.server.cancellation;
 
 import com.google.common.base.Throwables;
+import com.google.common.collect.Streams;
 import com.google.gerrit.common.Nullable;
+import java.util.Arrays;
 import java.util.Optional;
 import org.apache.commons.text.WordUtils;
 
@@ -28,7 +30,9 @@ public class RequestCancelledException extends RuntimeException {
    * {@link RequestCancelledException} is returned. If not, {@link Optional#empty()} is returned.
    */
   public static Optional<RequestCancelledException> getFromCausalChain(Throwable e) {
-    return Throwables.getCausalChain(e).stream()
+    return Streams.concat(
+            Throwables.getCausalChain(e).stream(),
+            Throwables.getCausalChain(e).stream().flatMap(t -> Arrays.stream(t.getSuppressed())))
         .filter(RequestCancelledException.class::isInstance)
         .map(RequestCancelledException.class::cast)
         .findFirst();

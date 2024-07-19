@@ -41,8 +41,7 @@ public class DefaultSubmitRequirementsIT extends AbstractDaemonTest {
         .isEqualTo(
             String.format(
                 "Failed to submit 1 change due to the following problems:\n"
-                    + "Change %1$s: Change %1$s is not ready: "
-                    + "submit requirement 'No-Unresolved-Comments' is unsatisfied.",
+                    + "Change %s: submit requirement 'No-Unresolved-Comments' is unsatisfied.",
                 r.getChange().getId().get()));
 
     // Resolve the comment and check that the change can be submitted now.

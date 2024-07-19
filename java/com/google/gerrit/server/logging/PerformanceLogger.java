@@ -48,4 +48,10 @@ public interface PerformanceLogger {
    * @param metadata metadata
    */
   void logNanos(String operation, long durationNanos, Instant endTime, Metadata metadata);
+
+  /**
+   * Called after all performance events of a request have been logged via {@link #logNanos(String,
+   * long, Instant)} or {@link #logNanos(String, long, Instant, Metadata)}.
+   */
+  default void done() {}
 }

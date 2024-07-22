@@ -1,0 +1,380 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c394f4f_96dcc6fd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-07-22T10:13:23Z",
+      "side": 1,
+      "message": "We prefer longer commit messages like https://gerrit-review.git.corp.google.com/c/gerrit/+/433357\nand https://gerrit-review.git.corp.google.com/c/gerrit/+/433318\nand I wasn\u0027t picking changes.\n\nCould you please add more context. \nFor example that this new layer gr-focus-layer is partly based on gr-coverage-layer.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 63
+      },
+      "revId": "73909b8441fc1d128c426af9c2b93037c26dd1f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "09abdc37_10963941",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-07-22T10:13:23Z",
+      "side": 1,
+      "message": "Sorry for late review - I was OOO on Friday",
+      "revId": "73909b8441fc1d128c426af9c2b93037c26dd1f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6fd763e_8cae3cbc",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-styles.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-07-22T10:13:23Z",
+      "side": 1,
+      "message": "Cool, first :has in gerrit. I hope it already has support. - I am checking this one",
+      "range": {
+        "startLine": 370,
+        "startChar": 6,
+        "endLine": 370,
+        "endChar": 9
+      },
+      "revId": "73909b8441fc1d128c426af9c2b93037c26dd1f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4f9dfce_838ba259",
+        "filename": "polygerrit-ui/app/embed/diff/gr-focus-layer/gr-focus-layer.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-07-22T10:13:23Z",
+      "side": 1,
+      "message": "```suggestion\n * Copyright 2024 Google LLC\n```",
+      "range": {
+        "startLine": 3,
+        "startChar": 13,
+        "endLine": 3,
+        "endChar": 17
+      },
+      "revId": "73909b8441fc1d128c426af9c2b93037c26dd1f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "157b3899_37568c62",
+        "filename": "polygerrit-ui/app/embed/diff/gr-focus-layer/gr-focus-layer.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-07-22T10:13:23Z",
+      "side": 1,
+      "message": "Why half-open? \n\nHow does it compare with other ranges?\nTextrange - closed range?\nCommentRage range - is half open?\nif it is like commentRange - that\u0027s fine\n\nIs it 1-based?\n\nMaybe you add that this is about lines.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 0
+      },
+      "revId": "73909b8441fc1d128c426af9c2b93037c26dd1f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65b65ac6_0c64c646",
+        "filename": "polygerrit-ui/app/embed/diff/gr-focus-layer/gr-focus-layer.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-07-22T10:13:23Z",
+      "side": 1,
+      "message": "```suggestion\n  private previousUnfocusedRanges?: DiffRangesToFocus;\n```\n\nI think it\u0027s just with one s. Same in jsdoc",
+      "range": {
+        "startLine": 21,
+        "startChar": 10,
+        "endLine": 21,
+        "endChar": 34
+      },
+      "revId": "73909b8441fc1d128c426af9c2b93037c26dd1f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17c34e6f_6e249b08",
+        "filename": "polygerrit-ui/app/embed/diff/gr-focus-layer/gr-focus-layer.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-07-22T10:13:23Z",
+      "side": 1,
+      "message": "Maybe this can be focusedRanges",
+      "range": {
+        "startLine": 96,
+        "startChar": 8,
+        "endLine": 96,
+        "endChar": 14
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "d77fa28f_23d520da",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/embed/diff/gr-focus-layer/gr-focus-layer.ts",
+              "range": {
+                "startLine": 96,
+                "startChar": 0,
+                "endLine": 97,
+                "endChar": 0
+              },
+              "replacement": "    let focusedRanges: Range[] \u003d [];\n"
+            },
+            {
+              "path": "polygerrit-ui/app/embed/diff/gr-focus-layer/gr-focus-layer.ts",
+              "range": {
+                "startLine": 98,
+                "startChar": 0,
+                "endLine": 99,
+                "endChar": 0
+              },
+              "replacement": "      focusedRanges \u003d this.diffRangesToFocus.left;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/embed/diff/gr-focus-layer/gr-focus-layer.ts",
+              "range": {
+                "startLine": 100,
+                "startChar": 0,
+                "endLine": 101,
+                "endChar": 0
+              },
+              "replacement": "      focusedRanges \u003d this.diffRangesToFocus.right;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/embed/diff/gr-focus-layer/gr-focus-layer.ts",
+              "range": {
+                "startLine": 103,
+                "startChar": 0,
+                "endLine": 104,
+                "endChar": 0
+              },
+              "replacement": "      focusedRanges.find(\n"
+            }
+          ]
+        }
+      ],
+      "revId": "73909b8441fc1d128c426af9c2b93037c26dd1f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "238d0278_d87ed637",
+        "filename": "polygerrit-ui/app/embed/diff/gr-focus-layer/gr-focus-layer.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-07-22T10:13:23Z",
+      "side": 1,
+      "message": "gr-coverage-layer is more efficient because it uses that ranges are sorted. Why it\u0027s not done like that for focusedRanges?",
+      "range": {
+        "startLine": 102,
+        "startChar": 1,
+        "endLine": 102,
+        "endChar": 8
+      },
+      "revId": "73909b8441fc1d128c426af9c2b93037c26dd1f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ca23a10_60a0002d",
+        "filename": "polygerrit-ui/app/embed/diff/gr-focus-layer/gr-focus-layer.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-07-22T10:13:23Z",
+      "side": 1,
+      "message": "I think it\u0027s better to use some",
+      "range": {
+        "startLine": 103,
+        "startChar": 13,
+        "endLine": 103,
+        "endChar": 17
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "9f198bbc_bb5ffa0e",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/embed/diff/gr-focus-layer/gr-focus-layer.ts",
+              "range": {
+                "startLine": 103,
+                "startChar": 0,
+                "endLine": 104,
+                "endChar": 0
+              },
+              "replacement": "      !ranges.some(\n"
+            },
+            {
+              "path": "polygerrit-ui/app/embed/diff/gr-focus-layer/gr-focus-layer.ts",
+              "range": {
+                "startLine": 106,
+                "startChar": 0,
+                "endLine": 107,
+                "endChar": 0
+              },
+              "replacement": "      )\n"
+            }
+          ]
+        }
+      ],
+      "revId": "73909b8441fc1d128c426af9c2b93037c26dd1f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0348da8_2442eac4",
+        "filename": "polygerrit-ui/app/embed/diff/gr-focus-layer/gr-focus-layer.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-07-22T10:13:23Z",
+      "side": 1,
+      "message": "Maybe with ternary operator it is more readable",
+      "range": {
+        "startLine": 114,
+        "startChar": 4,
+        "endLine": 127,
+        "endChar": 5
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "d62a66d9_3603a1cb",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/embed/diff/gr-focus-layer/gr-focus-layer.ts",
+              "range": {
+                "startLine": 114,
+                "startChar": 0,
+                "endLine": 128,
+                "endChar": 0
+              },
+              "replacement": "    this.previousUnfocussedRanges \u003d {\n      left: side \u003d\u003d\u003d Side.LEFT\n        ? this.addToRange(lineNumber, this.previousUnfocussedRanges?.left)\n        : this.previousUnfocussedRanges?.left ?? [],\n      right: side \u003d\u003d\u003d Side.RIGHT\n        ? this.addToRange(lineNumber, this.previousUnfocussedRanges?.right)\n        : this.previousUnfocussedRanges?.right ?? [],\n    };\n"
+            }
+          ]
+        }
+      ],
+      "revId": "73909b8441fc1d128c426af9c2b93037c26dd1f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5760fa9_2ef20fcc",
+        "filename": "polygerrit-ui/app/embed/diff/gr-focus-layer/gr-focus-layer.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-07-22T10:13:23Z",
+      "side": 1,
+      "message": "Maybe create new array to avoid side effects?",
+      "range": {
+        "startLine": 131,
+        "startChar": 4,
+        "endLine": 131,
+        "endChar": 48
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "30a0e9a5_ccb73628",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/embed/diff/gr-focus-layer/gr-focus-layer.ts",
+              "range": {
+                "startLine": 131,
+                "startChar": 0,
+                "endLine": 132,
+                "endChar": 0
+              },
+              "replacement": "    const previousRange: Range[] \u003d [];\n    if (ranges) {\n      previousRange.push(...ranges);\n    }\n"
+            }
+          ]
+        }
+      ],
+      "revId": "73909b8441fc1d128c426af9c2b93037c26dd1f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6cc4ae39_17138722",
+        "filename": "polygerrit-ui/app/embed/diff/gr-focus-layer/gr-focus-layer_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-07-22T10:13:23Z",
+      "side": 1,
+      "message": "```suggestion\n * Copyright 2024 Google LLC\n```",
+      "revId": "73909b8441fc1d128c426af9c2b93037c26dd1f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

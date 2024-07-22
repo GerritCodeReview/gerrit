@@ -367,10 +367,16 @@ export const grDiffRowStyles = css`
   gr-diff-row td.sign.add.no-intraline-info,
   gr-diff-section tbody.delta.total gr-diff-row td.content.add div.contentText {
     background-color: var(--dark-add-highlight-color);
+    &:has(.is-out-of-focus-range) {
+      background-color: transparent;
+    }
   }
   gr-diff-row td.content.add div.contentText,
   gr-diff-row td.sign.add {
     background-color: var(--light-add-highlight-color);
+    &:has(.is-out-of-focus-range) {
+      background-color: transparent;
+    }
   }
   /* If there are no intraline info, consider everything changed */
   gr-diff-row td.content.remove div.contentText .intraline,
@@ -382,10 +388,16 @@ export const grDiffRowStyles = css`
     div.contentText,
   gr-diff-row td.sign.remove.no-intraline-info {
     background-color: var(--dark-remove-highlight-color);
+    &:has(.is-out-of-focus-range) {
+      background-color: transparent;
+    }
   }
   gr-diff-row td.content.remove div.contentText,
   gr-diff-row td.sign.remove {
     background-color: var(--light-remove-highlight-color);
+    &:has(.is-out-of-focus-range) {
+      background-color: transparent;
+    }
   }
   gr-diff-element table.responsive gr-diff-row td.content div.contentText {
     white-space: break-spaces;

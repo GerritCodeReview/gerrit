@@ -573,11 +573,11 @@ export class GrDiffRow extends LitElement {
     // Note that `this.layersApplied` will wipe away the <gr-diff-text>, and
     // another rendering cycle will be initiated in `updated()`.
     // prettier-ignore
-    const textElement = line?.text && !this.layersApplied
+    const textElement = !this.layersApplied
       ? html`<gr-diff-text
           ${ref(this.contentRef(side))}
           data-side=${ifDefined(side)}
-          .text=${line?.text}
+          .text=${line?.text ?? ''}
           .tabSize=${this.tabSize}
           .lineLimit=${this.lineLength}
           .isResponsive=${isResponsive(this.responsiveMode)}

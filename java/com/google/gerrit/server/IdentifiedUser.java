@@ -16,7 +16,6 @@ package com.google.gerrit.server;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
-import static com.google.common.flogger.LazyArgs.lazy;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableSet;
@@ -422,13 +421,9 @@ public class IdentifiedUser extends CurrentUser {
     if (effectiveGroups == null) {
       if (authConfig.isIdentityTrustable(state().externalIds())) {
         effectiveGroups = groupBackend.membershipsOf(this);
-        logger.atFinest().log(
-            "Known groups of %s: %s", getLoggableName(), lazy(effectiveGroups::getKnownGroups));
       } else {
         effectiveGroups = registeredGroups;
-        logger.atFinest().log(
-            "%s has a non-trusted identity, falling back to %s as known groups",
-            getLoggableName(), lazy(registeredGroups::getKnownGroups));
+        logger.atFinest().log("%s has a non-trusted identity", getLoggableName());
       }
     }
     return effectiveGroups;

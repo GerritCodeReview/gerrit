@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ed10dc6_a69c0877",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-07-22T11:37:15Z",
+      "side": 1,
+      "message": "Thanks, just there should be a title as first line and then paragraph.",
+      "parentUuid": "4d3bfb66_931db04e",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 63
+      },
+      "revId": "73909b8441fc1d128c426af9c2b93037c26dd1f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "09abdc37_10963941",
@@ -102,6 +126,30 @@
       "side": 1,
       "message": "Its supported in all major browsers some browsers like Baidu or Opera Mini does not support it.",
       "parentUuid": "b6fd763e_8cae3cbc",
+      "range": {
+        "startLine": 370,
+        "startChar": 6,
+        "endLine": 370,
+        "endChar": 9
+      },
+      "revId": "73909b8441fc1d128c426af9c2b93037c26dd1f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51bd2b54_209e48a6",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-styles.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-07-22T11:37:15Z",
+      "side": 1,
+      "message": "Yes, I asked in team and it\u0027s for 6 months in Chrome so we should be good.",
+      "parentUuid": "1d3bcd5c_c8d74f37",
       "range": {
         "startLine": 370,
         "startChar": 6,

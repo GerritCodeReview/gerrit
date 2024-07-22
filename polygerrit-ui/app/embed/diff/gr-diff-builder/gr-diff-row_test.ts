@@ -164,7 +164,9 @@ suite('gr-diff-row test', () => {
             >
               <td class="blankLineNum left"></td>
               <td class="blank left no-intraline-info">
-                <div class="contentText" data-side="left"></div>
+                <div class="contentText" data-side="left">
+                  <gr-diff-text data-side="left"></gr-diff-text>
+                </div>
               </td>
               <td class="lineNum right" data-value="1">
                 <button
@@ -226,7 +228,9 @@ suite('gr-diff-row test', () => {
               </td>
               <td class="blankLineNum right"></td>
               <td class="blank no-intraline-info right">
-                <div class="contentText" data-side="right"></div>
+                <div class="contentText" data-side="right">
+                  <gr-diff-text data-side="right"></gr-diff-text>
+                </div>
               </td>
             </tr>
             <slot name="post-left-line-1"></slot>

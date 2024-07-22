@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "4d3bfb66_931db04e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 3227329
+      },
+      "writtenOn": "2024-07-22T11:31:20Z",
+      "side": 1,
+      "message": "Thank you for the reference, Added more context. Good to know that this is a common practice in git",
+      "parentUuid": "0c394f4f_96dcc6fd",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 63
+      },
+      "revId": "73909b8441fc1d128c426af9c2b93037c26dd1f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "09abdc37_10963941",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 5
@@ -66,6 +90,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1d3bcd5c_c8d74f37",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-styles.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 3227329
+      },
+      "writtenOn": "2024-07-22T11:31:20Z",
+      "side": 1,
+      "message": "Its supported in all major browsers some browsers like Baidu or Opera Mini does not support it.",
+      "parentUuid": "b6fd763e_8cae3cbc",
+      "range": {
+        "startLine": 370,
+        "startChar": 6,
+        "endLine": 370,
+        "endChar": 9
+      },
+      "revId": "73909b8441fc1d128c426af9c2b93037c26dd1f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a4f9dfce_838ba259",
         "filename": "polygerrit-ui/app/embed/diff/gr-focus-layer/gr-focus-layer.ts",
         "patchSetId": 5
@@ -77,6 +125,30 @@
       "writtenOn": "2024-07-22T10:13:23Z",
       "side": 1,
       "message": "```suggestion\n * Copyright 2024 Google LLC\n```",
+      "range": {
+        "startLine": 3,
+        "startChar": 13,
+        "endLine": 3,
+        "endChar": 17
+      },
+      "revId": "73909b8441fc1d128c426af9c2b93037c26dd1f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3140c1f8_cc192fec",
+        "filename": "polygerrit-ui/app/embed/diff/gr-focus-layer/gr-focus-layer.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 3227329
+      },
+      "writtenOn": "2024-07-22T11:31:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4f9dfce_838ba259",
       "range": {
         "startLine": 3,
         "startChar": 13,
@@ -110,6 +182,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe7e452b_f0556d14",
+        "filename": "polygerrit-ui/app/embed/diff/gr-focus-layer/gr-focus-layer.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 3227329
+      },
+      "writtenOn": "2024-07-22T11:31:20Z",
+      "side": 1,
+      "message": "By mistake copied it from gr-coverage-range, updated the comment to be inline with its usage here.",
+      "parentUuid": "157b3899_37568c62",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 0
+      },
+      "revId": "73909b8441fc1d128c426af9c2b93037c26dd1f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "65b65ac6_0c64c646",
@@ -123,6 +219,30 @@
       "writtenOn": "2024-07-22T10:13:23Z",
       "side": 1,
       "message": "```suggestion\n  private previousUnfocusedRanges?: DiffRangesToFocus;\n```\n\nI think it\u0027s just with one s. Same in jsdoc",
+      "range": {
+        "startLine": 21,
+        "startChar": 10,
+        "endLine": 21,
+        "endChar": 34
+      },
+      "revId": "73909b8441fc1d128c426af9c2b93037c26dd1f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ce5d73b_6428067f",
+        "filename": "polygerrit-ui/app/embed/diff/gr-focus-layer/gr-focus-layer.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 3227329
+      },
+      "writtenOn": "2024-07-22T11:31:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65b65ac6_0c64c646",
       "range": {
         "startLine": 21,
         "startChar": 10,
@@ -204,6 +324,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d97d7ab_94b02c3c",
+        "filename": "polygerrit-ui/app/embed/diff/gr-focus-layer/gr-focus-layer.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 3227329
+      },
+      "writtenOn": "2024-07-22T11:31:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17c34e6f_6e249b08",
+      "range": {
+        "startLine": 96,
+        "startChar": 8,
+        "endLine": 96,
+        "endChar": 14
+      },
+      "revId": "73909b8441fc1d128c426af9c2b93037c26dd1f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "238d0278_d87ed637",
@@ -217,6 +361,30 @@
       "writtenOn": "2024-07-22T10:13:23Z",
       "side": 1,
       "message": "gr-coverage-layer is more efficient because it uses that ranges are sorted. Why it\u0027s not done like that for focusedRanges?",
+      "range": {
+        "startLine": 102,
+        "startChar": 1,
+        "endLine": 102,
+        "endChar": 8
+      },
+      "revId": "73909b8441fc1d128c426af9c2b93037c26dd1f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "18a30797_82146cda",
+        "filename": "polygerrit-ui/app/embed/diff/gr-focus-layer/gr-focus-layer.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 3227329
+      },
+      "writtenOn": "2024-07-22T11:31:20Z",
+      "side": 1,
+      "message": "Added a comment to handle optimization in next change.",
+      "parentUuid": "238d0278_d87ed637",
       "range": {
         "startLine": 102,
         "startChar": 1,
@@ -278,6 +446,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3af84700_432428cb",
+        "filename": "polygerrit-ui/app/embed/diff/gr-focus-layer/gr-focus-layer.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 3227329
+      },
+      "writtenOn": "2024-07-22T11:31:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ca23a10_60a0002d",
+      "range": {
+        "startLine": 103,
+        "startChar": 13,
+        "endLine": 103,
+        "endChar": 17
+      },
+      "revId": "73909b8441fc1d128c426af9c2b93037c26dd1f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b0348da8_2442eac4",
@@ -315,6 +507,30 @@
           ]
         }
       ],
+      "revId": "73909b8441fc1d128c426af9c2b93037c26dd1f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dfa50862_2502e35e",
+        "filename": "polygerrit-ui/app/embed/diff/gr-focus-layer/gr-focus-layer.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 3227329
+      },
+      "writtenOn": "2024-07-22T11:31:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0348da8_2442eac4",
+      "range": {
+        "startLine": 114,
+        "startChar": 4,
+        "endLine": 127,
+        "endChar": 5
+      },
       "revId": "73909b8441fc1d128c426af9c2b93037c26dd1f4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -360,6 +576,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "246bcaaa_e9182d5b",
+        "filename": "polygerrit-ui/app/embed/diff/gr-focus-layer/gr-focus-layer.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 3227329
+      },
+      "writtenOn": "2024-07-22T11:31:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b5760fa9_2ef20fcc",
+      "range": {
+        "startLine": 131,
+        "startChar": 4,
+        "endLine": 131,
+        "endChar": 48
+      },
+      "revId": "73909b8441fc1d128c426af9c2b93037c26dd1f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6cc4ae39_17138722",
@@ -373,6 +613,24 @@
       "writtenOn": "2024-07-22T10:13:23Z",
       "side": 1,
       "message": "```suggestion\n * Copyright 2024 Google LLC\n```",
+      "revId": "73909b8441fc1d128c426af9c2b93037c26dd1f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae18a92d_f14b9e41",
+        "filename": "polygerrit-ui/app/embed/diff/gr-focus-layer/gr-focus-layer_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 3227329
+      },
+      "writtenOn": "2024-07-22T11:31:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6cc4ae39_17138722",
       "revId": "73909b8441fc1d128c426af9c2b93037c26dd1f4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

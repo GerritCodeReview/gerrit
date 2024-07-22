@@ -187,12 +187,12 @@ public class TraceContext implements AutoCloseable {
 
     private TraceTimer(String operation) {
       this(
-          () -> logger.atFine().log("Starting timer for %s", operation),
+          () -> logger.atFine().log("Starting timer %s", operation),
           elapsedNanos -> {
             LoggingContext.getInstance()
                 .addPerformanceLogRecord(
                     () -> PerformanceLogRecord.create(operation, elapsedNanos));
-            logger.atFine().log("%s done (%.2f ms)", operation, elapsedNanos / 1000000.0);
+            logger.atFine().log("timer %s took %.2f ms", operation, elapsedNanos / 1000000.0);
           });
     }
 
@@ -200,13 +200,13 @@ public class TraceContext implements AutoCloseable {
       this(
           () ->
               logger.atFine().log(
-                  "Starting timer for %s (%s)", operation, metadata.toStringForLogging()),
+                  "Starting timer %s (%s)", operation, metadata.toStringForLogging()),
           elapsedNanos -> {
             LoggingContext.getInstance()
                 .addPerformanceLogRecord(
                     () -> PerformanceLogRecord.create(operation, elapsedNanos, metadata));
             logger.atFine().log(
-                "%s (%s) done (%.2f ms)",
+                "timer %s (%s) took %.2f ms",
                 operation, metadata.toStringForLogging(), elapsedNanos / 1000000.0);
           });
     }

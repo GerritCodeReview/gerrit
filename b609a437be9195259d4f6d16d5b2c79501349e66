@@ -16,6 +16,24 @@
       "message": "Can someone from Google comment on the situation with LC vote here?",
       "revId": "b609a437be9195259d4f6d16d5b2c79501349e66",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a9cf53d_cceb6be3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-07-23T05:40:00Z",
+      "side": 1,
+      "message": "Please file a ticket for this as described at: \nhttps://gerrit-review.googlesource.com/Documentation/dev-processes.html#upgrading-libraries\n\nThen it will show up in Google’s triage queue and the current person who is on duty should look into this.",
+      "parentUuid": "d2a2e3ae_53479270",
+      "revId": "b609a437be9195259d4f6d16d5b2c79501349e66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

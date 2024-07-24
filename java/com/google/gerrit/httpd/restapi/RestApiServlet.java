@@ -1649,8 +1649,6 @@ public class RestApiServlet extends HttpServlet {
             clientProvidedDeadline ->
                 logger.atFine().log("%s = %s", X_GERRIT_DEADLINE, clientProvidedDeadline));
     logger.atFinest().log("Calling user: %s", globals.currentUser.get().getLoggableName());
-    logger.atFinest().log(
-        "Groups: %s", lazy(() -> globals.currentUser.get().getEffectiveGroups().getKnownGroups()));
   }
 
   private boolean isDelete(HttpServletRequest req) {

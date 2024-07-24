@@ -14,10 +14,7 @@
 
 package com.google.gerrit.server;
 
-import static com.google.common.flogger.LazyArgs.lazy;
-
 import com.google.common.collect.ImmutableSet;
-import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.externalids.ExternalId;
@@ -34,8 +31,6 @@ import java.util.Collection;
  * <p>This class is thread-safe.
  */
 public class ExternalUser extends CurrentUser {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
   public interface Factory {
     ExternalUser create(
         Collection<String> emailAddresses,
@@ -76,8 +71,6 @@ public class ExternalUser extends CurrentUser {
     synchronized (this) {
       if (effectiveGroups == null) {
         effectiveGroups = groupBackend.membershipsOf(this);
-        logger.atFinest().log(
-            "Known groups of %s: %s", getLoggableName(), lazy(effectiveGroups::getKnownGroups));
       }
     }
     return effectiveGroups;

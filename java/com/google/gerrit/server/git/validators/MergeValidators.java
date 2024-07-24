@@ -50,6 +50,7 @@ import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Ref;
@@ -99,7 +100,8 @@ public class MergeValidators {
       ProjectState destProject,
       BranchNameKey destBranch,
       PatchSet.Id patchSetId,
-      IdentifiedUser caller)
+      IdentifiedUser activeUser,
+      Optional<IdentifiedUser> mergeAsUser)
       throws MergeValidationException {
     ImmutableList<MergeValidationListener> validators =
         ImmutableList.of(
@@ -110,7 +112,8 @@ public class MergeValidators {
             new DestBranchRefValidator());
 
     for (MergeValidationListener validator : validators) {
-      validator.onPreMerge(repo, revWalk, commit, destProject, destBranch, patchSetId, caller);
+      validator.onPreMerge(
+          repo, revWalk, commit, destProject, destBranch, patchSetId, activeUser, mergeAsUser);
     }
   }
 
@@ -178,7 +181,8 @@ public class MergeValidators {
         ProjectState destProject,
         BranchNameKey destBranch,
         PatchSet.Id patchSetId,
-        IdentifiedUser caller)
+        IdentifiedUser activeUser,
+        Optional<IdentifiedUser> mergeAsUser)
         throws MergeValidationException {
       if (RefNames.REFS_CONFIG.equals(destBranch.branch())) {
         final Project.NameKey newParent;
@@ -196,7 +200,9 @@ public class MergeValidators {
             if (!oldParent.equals(newParent)) {
               if (!allowProjectOwnersToChangeParent) {
                 try {
-                  if (!permissionBackend.user(caller).test(GlobalPermission.ADMINISTRATE_SERVER)) {
+                  if (!permissionBackend
+                      .user(activeUser)
+                      .test(GlobalPermission.ADMINISTRATE_SERVER)) {
                     throw new MergeValidationException(SET_BY_ADMIN);
                   }
                 } catch (PermissionBackendException e) {
@@ -206,7 +212,7 @@ public class MergeValidators {
               } else {
                 try {
                   permissionBackend
-                      .user(caller)
+                      .user(activeUser)
                       .project(destProject.getNameKey())
                       .check(ProjectPermission.WRITE_CONFIG);
                 } catch (AuthException e) {
@@ -270,10 +276,20 @@ public class MergeValidators {
         ProjectState destProject,
         BranchNameKey destBranch,
         PatchSet.Id patchSetId,
-        IdentifiedUser caller)
+        IdentifiedUser activeUser,
+        Optional<IdentifiedUser> mergeAsUser)
         throws MergeValidationException {
       mergeValidationListeners.runEach(
-          l -> l.onPreMerge(repo, revWalk, commit, destProject, destBranch, patchSetId, caller),
+          l ->
+              l.onPreMerge(
+                  repo,
+                  revWalk,
+                  commit,
+                  destProject,
+                  destBranch,
+                  patchSetId,
+                  activeUser,
+                  mergeAsUser),
           MergeValidationException.class);
     }
   }
@@ -305,7 +321,8 @@ public class MergeValidators {
         ProjectState destProject,
         BranchNameKey destBranch,
         PatchSet.Id patchSetId,
-        IdentifiedUser caller)
+        IdentifiedUser activeUser,
+        Optional<IdentifiedUser> mergeAsUser)
         throws MergeValidationException {
       Account.Id accountId = Account.Id.fromRef(destBranch.branch());
       if (!allUsersName.equals(destProject.getNameKey()) || accountId == null) {
@@ -360,7 +377,8 @@ public class MergeValidators {
         ProjectState destProject,
         BranchNameKey destBranch,
         PatchSet.Id patchSetId,
-        IdentifiedUser caller)
+        IdentifiedUser activeUser,
+        Optional<IdentifiedUser> mergeAsUser)
         throws MergeValidationException {
       // Groups are stored inside the 'All-Users' repository.
       if (!allUsersName.equals(destProject.getNameKey())
@@ -407,7 +425,8 @@ public class MergeValidators {
         ProjectState destProject,
         BranchNameKey destBranch,
         PatchSet.Id patchSetId,
-        IdentifiedUser caller)
+        IdentifiedUser activeUser,
+        Optional<IdentifiedUser> mergeAsUser)
         throws MergeValidationException {
       try {
         Ref ref = repo.exactRef(destBranch.branch());

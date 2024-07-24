@@ -87,6 +87,14 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
 
+/**
+ * REST API handler for triggering submit of the specific revision of the change.
+ *
+ * <p>See /Documentation/rest-api-changes.html#submit-revision for more information.
+ *
+ * <p>Even though the endpoint is defined for url including a revision, only revision corresponding
+ * to the latest patch set is allowed.
+ */
 @Singleton
 public class Submit
     implements RestModifyView<RevisionResource, SubmitInput>, UiAction<RevisionResource> {
@@ -179,23 +187,26 @@ public class Submit
       input = new SubmitInput();
     }
     input.onBehalfOf = Strings.emptyToNull(input.onBehalfOf);
-    IdentifiedUser submitter;
-    if (input.onBehalfOf != null) {
-      submitter = onBehalfOf(rsrc, input);
-    } else {
-      rsrc.permissions().check(ChangePermission.SUBMIT);
-      submitter = rsrc.getUser().asIdentifiedUser();
-    }
+    IdentifiedUser caller = rsrc.getUser().asIdentifiedUser();
+    // It's possible that the user does not have permission to submit all changes in the superset,
+    // but we check the current change for an early exit.
+    rsrc.permissions().check(ChangePermission.SUBMIT);
+    Optional<IdentifiedUser> mergeAs =
+        input.onBehalfOf != null ? Optional.of(onBehalfOf(rsrc, input)) : Optional.empty();
     projectCache
         .get(rsrc.getProject())
         .orElseThrow(illegalState(rsrc.getProject()))
         .checkStatePermitsWrite();
 
-    return Response.ok(json.noOptions().format(mergeChange(rsrc, submitter, input)));
+    return Response.ok(json.noOptions().format(mergeChange(rsrc, caller, mergeAs, input)));
   }
 
   @UsedAt(UsedAt.Project.GOOGLE)
-  public Change mergeChange(RevisionResource rsrc, IdentifiedUser submitter, SubmitInput input)
+  public Change mergeChange(
+      RevisionResource rsrc,
+      IdentifiedUser caller,
+      Optional<IdentifiedUser> mergeAs,
+      SubmitInput input)
       throws RestApiException, IOException, UpdateException, ConfigInvalidException,
           PermissionBackendException {
     Change change = rsrc.getChange();
@@ -212,9 +223,7 @@ public class Submit
     }
 
     try (MergeOp op = mergeOpProvider.get()) {
-      Change updatedChange;
-
-      updatedChange = op.merge(change, submitter, true, input, false);
+      Change updatedChange = op.merge(change, caller, true, input, false, mergeAs);
       if (updatedChange.isMerged()) {
         return updatedChange;
       }
@@ -240,7 +249,9 @@ public class Submit
   @Nullable
   private String problemsForSubmittingChangeset(ChangeData cd, ChangeSet cs, CurrentUser user) {
     Optional<String> reason =
-        MergeOp.checkCommonSubmitProblems(cd.change(), cs, false, permissionBackend, user).stream()
+        MergeOp.checkCommonSubmitProblems(
+                cd.change(), cs, false, permissionBackend, user, Optional.empty())
+            .stream()
             .findFirst()
             .map(MergeOp.ChangeProblem::getProblem);
     if (reason.isPresent()) {
@@ -296,7 +307,7 @@ public class Submit
     ChangeSet cs =
         mergeSuperSet
             .get()
-            .completeChangeSet(cd.change(), resource.getUser(), /*includingTopicClosure= */ false);
+            .completeChangeSet(cd.change(), resource.getUser(), /* includingTopicClosure= */ false);
     // Replace potentially stale ChangeData for the current change with the fresher one.
     cs =
         new ChangeSet(
@@ -437,7 +448,8 @@ public class Submit
       throws AuthException, UnprocessableEntityException, PermissionBackendException, IOException,
           ConfigInvalidException {
     PermissionBackend.ForChange perm = rsrc.permissions();
-    perm.check(ChangePermission.SUBMIT);
+    // It's possible that the current user or on-behalf-of user does not have permission for all
+    // changes in the superset, but we check the current change for an early exit.
     perm.check(ChangePermission.SUBMIT_AS);
 
     CurrentUser caller = rsrc.getUser();
@@ -449,9 +461,17 @@ public class Submit
       throw new UnprocessableEntityException(
           String.format("on_behalf_of account %s cannot see change", submitter.getAccountId()), e);
     }
+    logger.atFine().log(
+        "Change %d is being submitted by %s on behalf of %s",
+        rsrc.getChange().getChangeId(), rsrc.getUser().getUserName(), submitter.getUserName());
     return submitter;
   }
 
+  /**
+   * Change-level REST API endpoint that calls submit for the latest revision on a change.
+   *
+   * <p>See /Documentation/rest-api-changes.html#submit-change for more information.
+   */
   public static class CurrentRevision implements RestModifyView<ChangeResource, SubmitInput> {
     private final Submit submit;
     private final PatchSetUtil psUtil;

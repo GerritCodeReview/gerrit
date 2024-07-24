@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/** Wrapper class for calling BatchUpdates.execute() that manages calls to submission listeners. */
 public class SubmissionExecutor {
   private final BatchUpdates batchUpdates;
   private final ImmutableList<SubmissionListener> submissionListeners;

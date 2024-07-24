@@ -95,12 +95,15 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
     PushOneCommit.Result change2 = createChange();
 
     Change.Id id1 = change1.getPatchSetId().changeId();
+    Change.Id id2 = change2.getPatchSetId().changeId();
     submitWithConflict(
         change2.getChangeId(),
-        "Failed to submit 2 changes due to the following problems:\n"
-            + "Change "
-            + id1
-            + ": submit requirement 'Code-Review' is unsatisfied.");
+        String.format(
+            "Failed to submit 2 changes due to the following problems:\n"
+                + "Change %d"
+                + ": Change %d must be submitted with change %d but %d is not ready: "
+                + "submit requirement 'Code-Review' is unsatisfied.",
+            id1.get(), id2.get(), id1.get(), id1.get()));
 
     RevCommit updatedHead = projectOperations.project(project).getHead("master");
     assertThat(updatedHead.getId()).isEqualTo(initialHead.getId());

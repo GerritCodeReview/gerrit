@@ -21,6 +21,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.project.ProjectState;
+import java.util.Optional;
 import org.eclipse.jgit.lib.Repository;
 
 /**
@@ -41,8 +42,12 @@ public interface MergeValidationListener {
    * @param patchSetId the patch set ID
    * @param caller the user who initiated the merge request
    * @throws MergeValidationException if the commit fails to validate
+   * @deprecated use {@link #onPreMerge(Repository, CodeReviewRevWalk, CodeReviewCommit,
+   *     ProjectState, BranchNameKey, PatchSet.Id, IdentifiedUser, Optional<IdentifiedUser>)}
+   *     instead.
    */
-  void onPreMerge(
+  @Deprecated
+  default void onPreMerge(
       Repository repo,
       CodeReviewRevWalk revWalk,
       CodeReviewCommit commit,
@@ -50,5 +55,35 @@ public interface MergeValidationListener {
       BranchNameKey destBranch,
       PatchSet.Id patchSetId,
       IdentifiedUser caller)
-      throws MergeValidationException;
+      throws MergeValidationException {
+    onPreMerge(
+        repo, revWalk, commit, destProject, destBranch, patchSetId, caller, Optional.empty());
+  }
+
+  /**
+   * Validate a commit before it is merged.
+   *
+   * @param repo the repository
+   * @param revWalk the rev walk
+   * @param commit commit details
+   * @param destProject the destination project
+   * @param destBranch the destination branch
+   * @param patchSetId the patch set ID
+   * @param activeUser the user who initiated the merge request
+   * @param mergeAsUser the user who will be recorded as submitter of the commit instead of
+   *     activeUser
+   * @throws MergeValidationException if the commit fails to validate
+   */
+  default void onPreMerge(
+      Repository repo,
+      CodeReviewRevWalk revWalk,
+      CodeReviewCommit commit,
+      ProjectState destProject,
+      BranchNameKey destBranch,
+      PatchSet.Id patchSetId,
+      IdentifiedUser activeUser,
+      Optional<IdentifiedUser> mergeAsUser)
+      throws MergeValidationException {
+    onPreMerge(repo, revWalk, commit, destProject, destBranch, patchSetId, activeUser);
+  }
 }

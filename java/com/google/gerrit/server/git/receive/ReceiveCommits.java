@@ -3117,7 +3117,7 @@ class ReceiveCommits {
         submitInput.notifyDetails.put(
             RecipientType.BCC,
             new NotifyInfo(magicBranch.notifyBcc.stream().map(Object::toString).collect(toList())));
-        op.merge(tipChange, user, false, submitInput, false);
+        op.merge(tipChange, user, false, submitInput, false, Optional.empty());
       }
     }
   }

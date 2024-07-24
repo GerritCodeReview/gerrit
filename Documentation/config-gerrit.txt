@@ -5896,6 +5896,11 @@ subsection must specify at least one of `requestUriPattern`, `account` and
 `projectPattern`, or otherwise it is ignored. The subsection name is used as
 trace ID. Using this trace ID administrators can find matching log entries.
 
+[WARNING] Tracing requests can make them more expensive. To avoid performance
+issues trace configs should match as little requests as possible and only be
+added temporarily. Enabling tracing for too many requests can severely impact
+the performance and the availability of the server.
+
 [[tracing.traceid.requestType]]tracing.<trace-id>.requestType::
 +
 Type of request for which request tracing should be always enabled (can

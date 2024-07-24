@@ -196,7 +196,9 @@ public class MergeValidators {
             if (!oldParent.equals(newParent)) {
               if (!allowProjectOwnersToChangeParent) {
                 try {
-                  if (!permissionBackend.user(caller).test(GlobalPermission.ADMINISTRATE_SERVER)) {
+                  if (!permissionBackend
+                      .user(caller.getRealUser())
+                      .test(GlobalPermission.ADMINISTRATE_SERVER)) {
                     throw new MergeValidationException(SET_BY_ADMIN);
                   }
                 } catch (PermissionBackendException e) {
@@ -206,7 +208,7 @@ public class MergeValidators {
               } else {
                 try {
                   permissionBackend
-                      .user(caller)
+                      .user(caller.getRealUser())
                       .project(destProject.getNameKey())
                       .check(ProjectPermission.WRITE_CONFIG);
                 } catch (AuthException e) {

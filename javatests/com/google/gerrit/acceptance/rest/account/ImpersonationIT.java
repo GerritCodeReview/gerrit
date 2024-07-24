@@ -689,6 +689,15 @@ public class ImpersonationIT extends AbstractDaemonTest {
   }
 
   @Test
+  @UseLocalDisk
+  public void submitOnBehalfOf_usersSubmitPermissionIgnored() throws Exception {
+    // user is part of the newGroup, block their submit permission
+    blockSubmit(newGroup);
+
+    testSubmitOnBehalfOf(project, admin2, user);
+  }
+
+  @Test
   public void submitOnBehalfOfFailsWhenUserCannotSeeDestinationRef() throws Exception {
     blockRead(newGroup);
 
@@ -923,6 +932,14 @@ public class ImpersonationIT extends AbstractDaemonTest {
         .project(project)
         .forUpdate()
         .add(block(Permission.READ).ref("refs/heads/master").group(AccountGroup.uuid(group.id)))
+        .update();
+  }
+
+  private void blockSubmit(GroupInfo group) throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.SUBMIT).ref("refs/heads/*").group(AccountGroup.uuid(group.id)))
         .update();
   }
 

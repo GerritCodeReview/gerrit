@@ -87,6 +87,14 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
 
+/**
+ * REST API handler for triggering submit of the specific revision of the change.
+ *
+ * <p>See /Documentation/rest-api-changes.html#submit-revision for more information.
+ *
+ * <p>Even though the endpoint is defined for url including a revision, only revision corresponding
+ * to the latest patch set is allowed.
+ */
 @Singleton
 public class Submit
     implements RestModifyView<RevisionResource, SubmitInput>, UiAction<RevisionResource> {
@@ -179,12 +187,12 @@ public class Submit
       input = new SubmitInput();
     }
     input.onBehalfOf = Strings.emptyToNull(input.onBehalfOf);
-    IdentifiedUser submitter;
+    IdentifiedUser submitter = rsrc.getUser().asIdentifiedUser();
+    // It's possible that the user does not have permission to submit all changes in the superset,
+    // but we check the current change for an early exit.
+    rsrc.permissions().check(ChangePermission.SUBMIT);
     if (input.onBehalfOf != null) {
       submitter = onBehalfOf(rsrc, input);
-    } else {
-      rsrc.permissions().check(ChangePermission.SUBMIT);
-      submitter = rsrc.getUser().asIdentifiedUser();
     }
     projectCache
         .get(rsrc.getProject())
@@ -212,9 +220,7 @@ public class Submit
     }
 
     try (MergeOp op = mergeOpProvider.get()) {
-      Change updatedChange;
-
-      updatedChange = op.merge(change, submitter, true, input, false);
+      Change updatedChange = op.merge(change, submitter, true, input, false);
       if (updatedChange.isMerged()) {
         return updatedChange;
       }
@@ -296,7 +302,7 @@ public class Submit
     ChangeSet cs =
         mergeSuperSet
             .get()
-            .completeChangeSet(cd.change(), resource.getUser(), /*includingTopicClosure= */ false);
+            .completeChangeSet(cd.change(), resource.getUser(), /* includingTopicClosure= */ false);
     // Replace potentially stale ChangeData for the current change with the fresher one.
     cs =
         new ChangeSet(
@@ -437,7 +443,8 @@ public class Submit
       throws AuthException, UnprocessableEntityException, PermissionBackendException, IOException,
           ConfigInvalidException {
     PermissionBackend.ForChange perm = rsrc.permissions();
-    perm.check(ChangePermission.SUBMIT);
+    // It's possible that the current user or on-behalf-of user does not have permission for all
+    // changes in the superset, but we check the current change for an early exit.
     perm.check(ChangePermission.SUBMIT_AS);
 
     CurrentUser caller = rsrc.getUser();
@@ -449,9 +456,17 @@ public class Submit
       throw new UnprocessableEntityException(
           String.format("on_behalf_of account %s cannot see change", submitter.getAccountId()), e);
     }
+    logger.atFine().log(
+        "Change %d is being submitted by %s on behalf of %s",
+        rsrc.getChange().getChangeId(), rsrc.getUser().getUserName(), submitter.getUserName());
     return submitter;
   }
 
+  /**
+   * Change-level REST API endpoint that calls submit for the latest revision on a change.
+   *
+   * <p>See /Documentation/rest-api-changes.html#submit-change for more information.
+   */
   public static class CurrentRevision implements RestModifyView<ChangeResource, SubmitInput> {
     private final Submit submit;
     private final PatchSetUtil psUtil;

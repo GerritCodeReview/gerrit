@@ -918,6 +918,9 @@ permission to submit changes on behalf of another user, by using the
 `on_behalf_of` field in link:rest-api-changes.html#submit-input[SubmitInput]
 when link:rest-api-changes.html#submit-change[submitting using the REST API].
 
+The user in the `on_behalf_of` field, does not need to have `Submit` permission
+themselves, however they should be able to `read` the changes being submitted.
+
 Note that this permission is named `submitAs` in the `project.config`
 file.
 

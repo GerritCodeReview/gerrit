@@ -39,7 +39,8 @@ public interface MergeValidationListener {
    * @param destProject the destination project
    * @param destBranch the destination branch
    * @param patchSetId the patch set ID
-   * @param caller the user who initiated the merge request
+   * @param caller the identity of the user that is recorded as the one performing the merge. In
+   *     case of impersonation {@code caller.getRealUser()} contains the user triggering the merge.
    * @throws MergeValidationException if the commit fails to validate
    */
   void onPreMerge(

@@ -16,7 +16,6 @@ package com.google.gerrit.server.permissions;
 
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
-import static com.google.common.flogger.LazyArgs.lazy;
 import static com.google.gerrit.entities.RefNames.REFS_CONFIG;
 import static java.util.stream.Collectors.toCollection;
 
@@ -130,7 +129,6 @@ public class DefaultRefFilter {
         "Filter refs for repository %s by visibility (options = %s, refs = %s)",
         projectState.getNameKey(), opts, refs);
     logger.atFinest().log("Calling user: %s", user.getLoggableName());
-    logger.atFinest().log("Groups: %s", lazy(() -> user.getEffectiveGroups().getKnownGroups()));
     logger.atFinest().log(
         "auth.skipFullRefEvaluationIfAllRefsAreVisible = %s",
         skipFullRefEvaluationIfAllRefsAreVisible);

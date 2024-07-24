@@ -37,7 +37,7 @@ public class TraceRequestListener implements RequestListener {
 
   @Inject
   TraceRequestListener(@GerritServerConfig Config cfg) {
-    this.traceConfigs = RequestConfig.parseConfigs(cfg, SECTION_TRACING);
+    this.traceConfigs = RequestConfig.parseTraceConfigs(cfg, SECTION_TRACING);
   }
 
   @Override

@@ -803,9 +803,6 @@ class ReceiveCommits {
       Collection<ReceiveCommand> commands, MultiProgressMonitor progress) {
     logger.atFine().log("Calling user: %s, commands: %d", user.getLoggableName(), commands.size());
 
-    // If the list of groups is large, the log entry may get dropped, so separate out.
-    logger.atFine().log("Groups: %s", lazy(() -> user.getEffectiveGroups().getKnownGroups()));
-
     if (!projectState.getProject().getState().permitsWrite()) {
       for (ReceiveCommand cmd : commands) {
         reject(

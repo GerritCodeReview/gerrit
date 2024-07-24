@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1340e33f_8da6c60f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2024-07-24T18:41:07Z",
+      "side": 1,
+      "message": "nit:s/togetehr/together/",
+      "range": {
+        "startLine": 26,
+        "startChar": 56,
+        "endLine": 26,
+        "endChar": 64
+      },
+      "revId": "7724da1900577b80767aa0a00a213681ae56934b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e59bc4d_e62f4734",
+        "filename": "java/com/google/gerrit/server/git/validators/MergeValidationListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2024-07-24T18:41:07Z",
+      "side": 1,
+      "message": "Optional parameters are frowned upon, I\u0027d suggest using @nullable instead.",
+      "range": {
+        "startLine": 85,
+        "startChar": 6,
+        "endLine": 85,
+        "endChar": 42
+      },
+      "revId": "7724da1900577b80767aa0a00a213681ae56934b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

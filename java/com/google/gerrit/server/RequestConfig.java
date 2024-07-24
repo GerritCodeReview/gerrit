@@ -247,10 +247,14 @@ public abstract class RequestConfig {
       }
     }
 
-    // For any match criteria (request type, request URI pattern, request query string pattern,
-    // header, account, project pattern) that was specified in the request config, at least one of
-    // the configured value matched the request.
-    return true;
+    // All specified match criteria (request type, request URI pattern, request query string
+    // pattern, header, account, project pattern) did match. To prevent that misconfigured
+    // tracing configs (e.g. empty configs) cause tracing of too many requests, require that at
+    // least one of the following match criteria have been specified: request URI pattern, account,
+    // project pattern
+    return !requestUriPatterns().isEmpty()
+        || !accountIds().isEmpty()
+        || !projectPatterns().isEmpty();
   }
 
   @AutoValue.Builder

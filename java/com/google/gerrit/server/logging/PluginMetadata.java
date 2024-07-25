@@ -15,6 +15,7 @@
 package com.google.gerrit.server.logging;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.base.MoreObjects;
 import com.google.gerrit.common.Nullable;
 import java.util.Optional;
 
@@ -36,4 +37,8 @@ public abstract class PluginMetadata {
   public abstract String key();
 
   public abstract Optional<String> value();
+
+  public String toStringForLogging() {
+    return MoreObjects.toStringHelper("PluginMetadata").add(key(), value().orElse(null)).toString();
+  }
 }

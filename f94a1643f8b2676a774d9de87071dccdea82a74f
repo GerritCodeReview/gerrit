@@ -34,6 +34,24 @@
       "parentUuid": "024b72a9_a3b859d9",
       "revId": "f94a1643f8b2676a774d9de87071dccdea82a74f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96a10ece_dfac3283",
+        "filename": "java/com/google/gerrit/server/restapi/change/Submit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-07-25T12:41:15Z",
+      "side": 0,
+      "message": "I\u0027m not sure this is working correctly. The Submit check in the apply condition is for the onbehalf of user, but it should be done for the real user.",
+      "parentUuid": "9d7b44d1_0b96e027",
+      "revId": "f94a1643f8b2676a774d9de87071dccdea82a74f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

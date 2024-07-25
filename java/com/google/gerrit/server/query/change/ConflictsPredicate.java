@@ -15,7 +15,6 @@
 package com.google.gerrit.server.query.change;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
-import static com.google.common.flogger.LazyArgs.lazy;
 import static com.google.gerrit.server.project.ProjectCache.noSuchProject;
 import static java.util.concurrent.TimeUnit.MINUTES;
 
@@ -148,7 +147,7 @@ public class ConflictsPredicate {
             "Merge failure checking conflicts of change %s in %s (%s): %s",
             id,
             firstNonNull(otherProject, "unknown project"),
-            lazy(() -> finalOther != null ? finalOther.name() : "unknown commit"),
+            finalOther != null ? finalOther.name() : "unknown commit",
             e.getMessage());
         return false;
       }
@@ -237,9 +236,9 @@ public class ConflictsPredicate {
         warnWithOccasionalStackTrace(
             e,
             "Failure when loading conflicts of change %s in %s (%s): %s",
-            lazy(changeData::getId),
-            lazy(() -> firstNonNull(otherChange.getProject(), "unknown project")),
-            lazy(() -> other != null ? other.name() : "unknown commit"),
+            changeData.getId(),
+            firstNonNull(otherChange.getProject(), "unknown project"),
+            other != null ? other.name() : "unknown commit",
             e.getMessage());
         return false;
       }

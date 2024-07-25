@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.change;
 
-import static com.google.common.flogger.LazyArgs.lazy;
-
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Change;
@@ -88,13 +86,11 @@ public class DeleteChangeOp implements BatchUpdateOp {
         "Deleting change %s, current patch set %d is commit %s",
         id,
         ctx.getChange().currentPatchSetId().get(),
-        lazy(
-            () ->
-                patchSets.stream()
-                    .filter(p -> p.number() == ctx.getChange().currentPatchSetId().get())
-                    .findAny()
-                    .map(p -> p.commitId().name())
-                    .orElse("n/a")));
+        patchSets.stream()
+            .filter(p -> p.number() == ctx.getChange().currentPatchSetId().get())
+            .findAny()
+            .map(p -> p.commitId().name())
+            .orElse("n/a"));
     ctx.deleteChange();
     changeDeleted.fire(cd, ctx.getAccount(), ctx.getWhen());
     return true;

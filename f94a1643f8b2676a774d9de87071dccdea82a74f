@@ -70,6 +70,24 @@
       "parentUuid": "96a10ece_dfac3283",
       "revId": "f94a1643f8b2676a774d9de87071dccdea82a74f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b519f85_359e332f",
+        "filename": "java/com/google/gerrit/server/restapi/change/Submit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-07-25T12:49:45Z",
+      "side": 0,
+      "message": "Right, thanks for explaining! Permission checks for onbehalfof are so confusing :/\nBut LGTM now.",
+      "parentUuid": "b8313059_6ee5eab0",
+      "revId": "f94a1643f8b2676a774d9de87071dccdea82a74f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

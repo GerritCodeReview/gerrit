@@ -45,6 +45,109 @@
       },
       "revId": "7724da1900577b80767aa0a00a213681ae56934b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78a943aa_5fe46d15",
+        "filename": "java/com/google/gerrit/server/git/validators/MergeValidationListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-07-25T06:51:42Z",
+      "side": 1,
+      "message": "I think it should be sufficient to provide the one IdentifiedUser that is for the mergeAs/onBehalfOf user, as the realUser (this is what you call activeUser) can be retrieved from IdentifiedUser#getRealUser() (only if the IdentifiedUser isstance is created via runAs, see my comment in Submit.java).\n\nThe same applies for all other signatures where you have 2 IdentifiedUsers now, I think it should be only one IdentifiedUser instance there too.",
+      "range": {
+        "startLine": 84,
+        "startChar": 5,
+        "endLine": 85,
+        "endChar": 43
+      },
+      "revId": "7724da1900577b80767aa0a00a213681ae56934b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d55a192_f9fe92ee",
+        "filename": "java/com/google/gerrit/server/restapi/change/Submit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-07-25T06:51:42Z",
+      "side": 1,
+      "message": "To create an IdentifiedUser that represents both the onBehalfOf user and the real user, you can create it via IdentifiedUser.GenericFactory.runAs (you can find an example for this in the Rebase REST endpoint, which supports rebasing on behalf of another user).",
+      "range": {
+        "startLine": 190,
+        "startChar": 3,
+        "endLine": 195,
+        "endChar": 91
+      },
+      "revId": "7724da1900577b80767aa0a00a213681ae56934b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22fb8b51_79f14a4f",
+        "filename": "java/com/google/gerrit/server/restapi/change/Submit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-07-25T06:51:42Z",
+      "side": 1,
+      "message": "This is confusing me, I thought we are checking the submit permission only for the real user, but not for the on-behalf-of user?",
+      "range": {
+        "startLine": 451,
+        "startChar": 43,
+        "endLine": 451,
+        "endChar": 63
+      },
+      "revId": "7724da1900577b80767aa0a00a213681ae56934b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82345f5d_9930a3bc",
+        "filename": "java/com/google/gerrit/server/restapi/change/Submit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-07-25T06:51:42Z",
+      "side": 1,
+      "message": "Should the SUBMIT_AS permission only be checked if a submit on behalf of another user is done?",
+      "revId": "7724da1900577b80767aa0a00a213681ae56934b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "909357ff_1e685e27",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 678,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-07-25T06:51:42Z",
+      "side": 1,
+      "message": "FWIW SubmitDryRun implements dry run for submit, but it doesn\u0027t use this method. I agree this dryrun flag should probably be dropped here.",
+      "revId": "7724da1900577b80767aa0a00a213681ae56934b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

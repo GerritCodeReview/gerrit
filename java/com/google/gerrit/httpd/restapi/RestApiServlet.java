@@ -18,7 +18,6 @@ package com.google.gerrit.httpd.restapi;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
-import static com.google.common.flogger.LazyArgs.lazy;
 import static com.google.common.net.HttpHeaders.CONTENT_TYPE;
 import static java.math.RoundingMode.CEILING;
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
@@ -145,7 +144,6 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.util.Providers;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.ByteArrayOutputStream;
 import java.io.EOFException;
 import java.io.FilterOutputStream;
 import java.io.IOException;
@@ -210,6 +208,7 @@ public class RestApiServlet extends HttpServlet {
   private static final int HEAP_EST_SIZE = 10 * 8 * 1024; // Presize 10 blocks.
   private static final String PLAIN_TEXT = "text/plain";
   private static final Pattern TYPE_SPLIT_PATTERN = Pattern.compile("[ ,;][ ,;]*");
+  private static final long ONE_KB = 1024;
 
   /**
    * Garbage prefix inserted before JSON output to prevent XSSI.
@@ -1246,22 +1245,12 @@ public class RestApiServlet extends HttpServlet {
     w.write('\n');
     w.flush();
 
-    if (allowTracing) {
-      logger.atFinest().log(
-          "JSON response body:\n%s",
-          lazy(
-              () -> {
-                try {
-                  ByteArrayOutputStream debugOut = new ByteArrayOutputStream();
-                  buf.writeTo(debugOut, null);
-                  return debugOut.toString(UTF_8.name());
-                } catch (IOException e) {
-                  return "<JSON formatting failed>";
-                }
-              }));
+    BinaryResult binaryResult = asBinaryResult(buf);
+    if (allowTracing && binaryResult.getContentLength() <= ONE_KB) {
+      logger.atFinest().log("JSON response body:\n%s", binaryResult.asString());
     }
     return replyBinaryResult(
-        req, res, asBinaryResult(buf).setContentType(JSON_TYPE).setCharacterEncoding(UTF_8));
+        req, res, binaryResult.setContentType(JSON_TYPE).setCharacterEncoding(UTF_8));
   }
 
   private static Gson newGson(ListMultimap<String, String> config) {

@@ -14,7 +14,6 @@
 
 package com.google.gerrit.common;
 
-import static com.google.common.flogger.LazyArgs.lazy;
 import static com.google.gerrit.common.FileUtil.lastModified;
 import static java.util.stream.Collectors.joining;
 
@@ -36,7 +35,7 @@ public final class SiteLibraryLoaderUtil {
     try {
       List<Path> jars = listJars(libdir);
       JarUtil.loadJars(jars);
-      logger.atFine().log("Loaded site libraries: %s", lazy(() -> jarList(jars)));
+      logger.atFine().log("Loaded site libraries: %s", jarList(jars));
     } catch (IOException e) {
       logger.atSevere().withCause(e).log("Error scanning lib directory %s", libdir);
     }

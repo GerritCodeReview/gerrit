@@ -19,7 +19,6 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableListMultimap.toImmutableListMultimap;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
-import static com.google.common.flogger.LazyArgs.lazy;
 import static com.google.gerrit.entities.RefNames.REFS_CHANGES;
 import static com.google.gerrit.entities.RefNames.isConfigRef;
 import static com.google.gerrit.entities.RefNames.isRefsUsersSelf;
@@ -905,7 +904,7 @@ class ReceiveCommits {
 
       logger.atFine().log(
           "Command results: %s",
-          lazy(() -> commands.stream().map(ReceiveCommits::commandToString).collect(joining(","))));
+          commands.stream().map(ReceiveCommits::commandToString).collect(joining(",")));
     }
   }
 

@@ -200,14 +200,14 @@ public class TraceContext implements AutoCloseable {
       this(
           () ->
               logger.atFine().log(
-                  "Starting timer for %s (%s)", operation, metadata.toStringForLoggingLazy()),
+                  "Starting timer for %s (%s)", operation, metadata.toStringForLogging()),
           elapsedNanos -> {
             LoggingContext.getInstance()
                 .addPerformanceLogRecord(
                     () -> PerformanceLogRecord.create(operation, elapsedNanos, metadata));
             logger.atFine().log(
                 "%s (%s) done (%.2f ms)",
-                operation, metadata.toStringForLoggingLazy(), elapsedNanos / 1000000.0);
+                operation, metadata.toStringForLogging(), elapsedNanos / 1000000.0);
           });
     }
 

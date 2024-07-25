@@ -14,19 +14,13 @@
 
 package com.google.gerrit.server.logging;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
+
 import com.google.auto.value.AutoValue;
 import com.google.common.base.MoreObjects;
-import com.google.common.base.MoreObjects.ToStringHelper;
 import com.google.common.collect.ImmutableList;
-import com.google.common.flogger.LazyArg;
-import com.google.common.flogger.LazyArgs;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.Optional;
 
 /** Metadata that is provided to {@link PerformanceLogger}s as context for performance records. */
@@ -187,8 +181,7 @@ public abstract class Metadata {
   public abstract Optional<String> username();
 
   /**
-   * Returns a string representation of this instance that is suitable for logging. This is wrapped
-   * in a {@link LazyArg} because it is expensive to evaluate.
+   * Returns a string representation of this instance that is suitable for logging.
    *
    * <p>{@link #toString()} formats the {@link Optional} fields as {@code key=Optional[value]} or
    * {@code key=Optional.empty}. Since this class has many optional fields from which usually only a
@@ -221,72 +214,68 @@ public abstract class Metadata {
    * <p>For the example given above the formatted string would look like this:
    *
    * <pre>
-   * Metadata{changeId=9212550, indexVersion=0, pluginMetadata=[]}
+   * Metadata{changeId=9212550, indexVersion=0}
    * </pre>
    *
    * @return string representation of this instance that is suitable for logging
    */
-  LazyArg<String> toStringForLoggingLazy() {
-    // Don't use a lambda because different compilers generate different method names for lambdas,
-    // e.g. "lambda$myFunction$0" vs. just "lambda$0" in Eclipse. We need to identify the method
-    // by name to skip it and avoid infinite recursion.
-    return LazyArgs.lazy(this::toStringForLoggingImpl);
-  }
-
-  private String toStringForLoggingImpl() {
-    // Append class name.
-    String className = getClass().getSimpleName();
-    if (className.startsWith("AutoValue_")) {
-      className = className.substring(10);
-    }
-    ToStringHelper stringHelper = MoreObjects.toStringHelper(className);
-
-    // Append key-value pairs for field which are set.
-    Method[] methods = Metadata.class.getDeclaredMethods();
-    Arrays.sort(methods, Comparator.comparing(Method::getName));
-    for (Method method : methods) {
-      if (Modifier.isStatic(method.getModifiers())) {
-        // skip static method
-        continue;
-      }
-
-      if (method.getName().equals("toStringForLoggingLazy")
-          || method.getName().equals("toStringForLoggingImpl")) {
-        // Don't call myself in infinite recursion.
-        continue;
-      }
-
-      if (method.getReturnType().equals(Void.TYPE) || method.getParameterCount() > 0) {
-        // skip method since it's not a getter
-        continue;
-      }
-
-      method.setAccessible(true);
-
-      Object returnValue;
-      try {
-        returnValue = method.invoke(this);
-      } catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
-        // should never happen
-        throw new IllegalStateException(e);
-      }
-
-      if (returnValue instanceof Optional) {
-        Optional<?> fieldValueOptional = (Optional<?>) returnValue;
-        if (!fieldValueOptional.isPresent()) {
-          // drop this key-value pair
-          continue;
-        }
-
-        // format as 'key=value' instead of 'key=Optional[value]'
-        stringHelper.add(method.getName(), fieldValueOptional.get());
-      } else {
-        // not an Optional value, keep as is
-        stringHelper.add(method.getName(), returnValue);
-      }
-    }
-
-    return stringHelper.toString();
+  public String toStringForLogging() {
+    return MoreObjects.toStringHelper("Metadata")
+        .omitNullValues()
+        .add("accountId", accountId().orElse(null))
+        .add("actionType", actionType().orElse(null))
+        .add("attempt", attempt().orElse(null))
+        .add("authDomainName", authDomainName().orElse(null))
+        .add("branchName", branchName().orElse(null))
+        .add("cacheKey", cacheKey().orElse(null))
+        .add("cacheName", cacheName().orElse(null))
+        .add("caller", caller().orElse(null))
+        .add("className", className().orElse(null))
+        .add("cancellationReason", cancellationReason().orElse(null))
+        .add("changeId", changeId().orElse(null))
+        .add("changeIdType", changeIdType().orElse(null))
+        .add("cause", cause().orElse(null))
+        .add("commentSide", commentSide().orElse(null))
+        .add("commit", commit().orElse(null))
+        .add("diffAlgorithm", diffAlgorithm().orElse(null))
+        .add("eventType", eventType().orElse(null))
+        .add("exportValue", exportValue().orElse(null))
+        .add("filePath", filePath().orElse(null))
+        .add("garbageCollectorName", garbageCollectorName().orElse(null))
+        .add("gitOperation", gitOperation().orElse(null))
+        .add("groupId", groupId().orElse(null))
+        .add("groupName", groupName().orElse(null))
+        .add("groupSystem", groupSystem().orElse(null))
+        .add("groupUuid", groupUuid().orElse(null))
+        .add("httpStatus", httpStatus().orElse(null))
+        .add("indexName", indexName().orElse(null))
+        .add("memoryPoolName", memoryPoolName().orElse(null))
+        .add("methodName", methodName().orElse(null))
+        .add("multiple", multiple().orElse(null))
+        .add("operationName", operationName().orElse(null))
+        .add("partial", partial().orElse(null))
+        .add("outdated", outdated().orElse(null))
+        .add("noteDbFilePath", noteDbFilePath().orElse(null))
+        .add("noteDbRefName", noteDbRefName().orElse(null))
+        .add("noteDbSequenceType", noteDbSequenceType().orElse(null))
+        .add("patchSetId", patchSetId().orElse(null))
+        .add(
+            "pluginMetadata",
+            !pluginMetadata().isEmpty()
+                ? pluginMetadata().stream()
+                    .map(PluginMetadata::toStringForLogging)
+                    .collect(toImmutableList())
+                : null)
+        .add("pluginName", pluginName().orElse(null))
+        .add("projectName", projectName().orElse(null))
+        .add("pushType", pushType().orElse(null))
+        .add("requestType", requestType().orElse(null))
+        .add("resourceCount", resourceCount().orElse(null))
+        .add("restViewName", restViewName().orElse(null))
+        .add("submitRequirementName", submitRequirementName().orElse(null))
+        .add("revision", revision().orElse(null))
+        .add("username", username().orElse(null))
+        .toString();
   }
 
   public static Metadata.Builder builder() {

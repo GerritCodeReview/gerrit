@@ -16,6 +16,24 @@
       "message": "Is it intended that this check was dropped?",
       "revId": "f94a1643f8b2676a774d9de87071dccdea82a74f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d7b44d1_0b96e027",
+        "filename": "java/com/google/gerrit/server/restapi/change/Submit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-07-25T11:25:58Z",
+      "side": 0,
+      "message": "Yes, I moved out the Submit check out of if condition in `apply`. Because it is shared between both flows.",
+      "parentUuid": "024b72a9_a3b859d9",
+      "revId": "f94a1643f8b2676a774d9de87071dccdea82a74f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -34,6 +34,24 @@
       "parentUuid": "d2a2e3ae_53479270",
       "revId": "b609a437be9195259d4f6d16d5b2c79501349e66",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "022398b6_362bc480",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2024-07-26T04:14:39Z",
+      "side": 1,
+      "message": "Thanks for the hint, I filed Issue 355451185 and updated the commit message. Done",
+      "parentUuid": "9a9cf53d_cceb6be3",
+      "revId": "b609a437be9195259d4f6d16d5b2c79501349e66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

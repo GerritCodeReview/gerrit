@@ -967,6 +967,7 @@ public class TraceIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "retry.timeout", value = "1s")
   @GerritConfig(name = "retry.retryWithTraceOnFailure", value = "true")
   public void noAutoRetryIfExceptionCausesNormalRetrying() throws Exception {
     String changeId = createChange().getChangeId();

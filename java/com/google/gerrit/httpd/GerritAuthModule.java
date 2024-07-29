@@ -47,6 +47,7 @@ public class GerritAuthModule extends ServletModule {
     } else {
       authFilter =
           authConfig.getGitBasicAuthPolicy() == GitBasicAuthPolicy.OAUTH
+                  || authConfig.getGitBasicAuthPolicy() == GitBasicAuthPolicy.HTTP_OAUTH
               ? ProjectOAuthFilter.class
               : ProjectBasicAuthFilter.class;
     }

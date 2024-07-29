@@ -1076,8 +1076,6 @@ export declare interface ServerInfo {
   change: ChangeConfigInfo;
   download: DownloadInfo;
   gerrit: GerritInfo;
-  // docs mentions index property, but it doesn't exists in Java class
-  // index: IndexConfigInfo;
   note_db_enabled?: boolean;
   plugin: PluginConfigInfo;
   receive?: ReceiveInfo;

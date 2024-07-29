@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.server.account.AuthTokenVerifier.MAX_PASSWORD_LENGTH_ACCORDING_TO_BCRYPT_LIMITS;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.doReturn;
@@ -36,6 +37,7 @@ import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
+import com.google.gerrit.server.account.AuthTokenVerifier;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.gerrit.server.config.AuthConfig;
@@ -96,6 +98,8 @@ public class ProjectOAuthFilterTest {
 
   @Mock private DynamicMap<OAuthLoginProvider> pluginsProvider;
 
+  @Mock private AuthTokenVerifier tokenVerifier;
+
   private WebSession webSession;
   private FakeHttpServletRequest req;
   private HttpServletResponse res;
@@ -143,8 +147,10 @@ public class ProjectOAuthFilterTest {
             pluginsProvider,
             accountCache,
             accountManager,
+            authConfig,
             gerritConfig,
-            authRequestFactory);
+            authRequestFactory,
+            tokenVerifier);
 
     oAuthFilter.init(null);
     oAuthFilter.doFilter(req, res, chain);
@@ -166,8 +172,10 @@ public class ProjectOAuthFilterTest {
             pluginsProvider,
             accountCache,
             accountManager,
+            authConfig,
             gerritConfig,
-            authRequestFactory);
+            authRequestFactory,
+            tokenVerifier);
 
     oAuthFilter.init(null);
     oAuthFilter.doFilter(req, res, chain);
@@ -190,8 +198,10 @@ public class ProjectOAuthFilterTest {
             pluginsProvider,
             accountCache,
             accountManager,
+            authConfig,
             gerritConfig,
-            authRequestFactory);
+            authRequestFactory,
+            tokenVerifier);
 
     oAuthFilter.init(null);
     oAuthFilter.doFilter(req, res, chain);
@@ -213,8 +223,10 @@ public class ProjectOAuthFilterTest {
             pluginsProvider,
             accountCache,
             accountManager,
+            authConfig,
             gerritConfig,
-            authRequestFactory);
+            authRequestFactory,
+            tokenVerifier);
 
     oAuthFilter.init(null);
     oAuthFilter.doFilter(req, res, chain);
@@ -235,8 +247,10 @@ public class ProjectOAuthFilterTest {
             pluginsProvider,
             accountCache,
             accountManager,
+            authConfig,
             gerritConfig,
-            authRequestFactory);
+            authRequestFactory,
+            tokenVerifier);
 
     oAuthFilter.init(null);
     oAuthFilter.doFilter(req, res, chain);
@@ -256,8 +270,10 @@ public class ProjectOAuthFilterTest {
             pluginsProvider,
             accountCache,
             accountManager,
+            authConfig,
             gerritConfig,
-            authRequestFactory);
+            authRequestFactory,
+            tokenVerifier);
 
     oAuthFilter.init(null);
     oAuthFilter.doFilter(req, res, chain);
@@ -282,14 +298,160 @@ public class ProjectOAuthFilterTest {
             pluginsProvider,
             accountCache,
             accountManager,
+            authConfig,
             gerritConfig,
-            authRequestFactory);
+            authRequestFactory,
+            tokenVerifier);
 
     oAuthFilter.init(null);
     oAuthFilter.doFilter(req, res, chain);
 
     verify(accountManager).authenticate(any());
 
+    verify(chain, never()).doFilter(any(), any());
+    assertThat(res.getStatus()).isEqualTo(HttpServletResponse.SC_UNAUTHORIZED);
+  }
+
+  @Test
+  public void shouldAuthenticateWithHttpPasswordWhenHttpOAuthPolicy() throws Exception {
+    initAccount();
+    initWebSession();
+    String httpPassword = "http-password-123";
+    requestBasicAuth(req, httpPassword);
+    res.setStatus(HttpServletResponse.SC_OK);
+
+    doReturn(com.google.gerrit.extensions.client.GitBasicAuthPolicy.HTTP_OAUTH)
+        .when(authConfig)
+        .getGitBasicAuthPolicy();
+    doReturn(true).when(tokenVerifier).checkToken(AUTH_ACCOUNT_ID, httpPassword);
+
+    ProjectOAuthFilter oAuthFilter =
+        new ProjectOAuthFilter(
+            webSessionItem,
+            pluginsProvider,
+            accountCache,
+            accountManager,
+            authConfig,
+            gerritConfig,
+            authRequestFactory,
+            tokenVerifier);
+
+    oAuthFilter.init(null);
+    oAuthFilter.doFilter(req, res, chain);
+
+    // Verify HTTP password was checked and succeeded
+    verify(tokenVerifier).checkToken(AUTH_ACCOUNT_ID, httpPassword);
+    // Verify OAuth authentication was NOT attempted (early return)
+    verify(accountManager, never()).authenticate(any());
+    // Verify request succeeded
+    verify(chain).doFilter(eq(req), any());
+    assertThat(res.getStatus()).isEqualTo(HttpServletResponse.SC_OK);
+  }
+
+  @Test
+  public void shouldFallbackToOAuthWhenHttpPasswordFails() throws Exception {
+    initAccount();
+    initWebSession();
+    requestBasicAuth(req, OAUTH_TOKEN);
+    res.setStatus(HttpServletResponse.SC_OK);
+
+    doReturn(com.google.gerrit.extensions.client.GitBasicAuthPolicy.HTTP_OAUTH)
+        .when(authConfig)
+        .getGitBasicAuthPolicy();
+    doReturn(false).when(tokenVerifier).checkToken(eq(AUTH_ACCOUNT_ID), any());
+
+    ProjectOAuthFilter oAuthFilter =
+        new ProjectOAuthFilter(
+            webSessionItem,
+            pluginsProvider,
+            accountCache,
+            accountManager,
+            authConfig,
+            gerritConfig,
+            authRequestFactory,
+            tokenVerifier);
+
+    oAuthFilter.init(null);
+    oAuthFilter.doFilter(req, res, chain);
+
+    // Verify HTTP password was checked first
+    verify(tokenVerifier).checkToken(eq(AUTH_ACCOUNT_ID), any());
+    // Verify OAuth authentication was attempted as fallback
+    verify(accountManager).authenticate(any());
+    // Verify request succeeded via OAuth
+    verify(chain).doFilter(eq(req), any());
+    assertThat(res.getStatus()).isEqualTo(HttpServletResponse.SC_OK);
+  }
+
+  @Test
+  public void shouldSkipHttpPasswordCheckForLongPasswords() throws Exception {
+    initAccount();
+    initWebSession();
+    // Create a password longer than MAX_PASSWORD_LENGTH_ACCORDING_TO_BCRYPT_LIMITS
+    String longPassword = "a".repeat(MAX_PASSWORD_LENGTH_ACCORDING_TO_BCRYPT_LIMITS + 1);
+    requestBasicAuth(req, longPassword);
+    res.setStatus(HttpServletResponse.SC_OK);
+
+    doReturn(com.google.gerrit.extensions.client.GitBasicAuthPolicy.HTTP_OAUTH)
+        .when(authConfig)
+        .getGitBasicAuthPolicy();
+
+    ProjectOAuthFilter oAuthFilter =
+        new ProjectOAuthFilter(
+            webSessionItem,
+            pluginsProvider,
+            accountCache,
+            accountManager,
+            authConfig,
+            gerritConfig,
+            authRequestFactory,
+            tokenVerifier);
+
+    oAuthFilter.init(null);
+    oAuthFilter.doFilter(req, res, chain);
+
+    // Verify HTTP password check was skipped due to length
+    verify(tokenVerifier, never()).checkToken(any(), any());
+    // Verify OAuth authentication was attempted directly
+    verify(accountManager).authenticate(any());
+    verify(chain).doFilter(eq(req), any());
+    assertThat(res.getStatus()).isEqualTo(HttpServletResponse.SC_OK);
+  }
+
+  @Test
+  public void shouldFailWhenBothHttpAndOAuthFail() throws Exception {
+    initAccount();
+    initWebSession();
+    String password = "invalid-password";
+    requestBasicAuth(req, password);
+
+    doReturn(com.google.gerrit.extensions.client.GitBasicAuthPolicy.HTTP_OAUTH)
+        .when(authConfig)
+        .getGitBasicAuthPolicy();
+    doReturn(false).when(tokenVerifier).checkToken(AUTH_ACCOUNT_ID, password);
+    doThrow(new AccountException("OAuth authentication failed"))
+        .when(accountManager)
+        .authenticate(any());
+
+    ProjectOAuthFilter oAuthFilter =
+        new ProjectOAuthFilter(
+            webSessionItem,
+            pluginsProvider,
+            accountCache,
+            accountManager,
+            authConfig,
+            gerritConfig,
+            authRequestFactory,
+            tokenVerifier);
+
+    oAuthFilter.init(null);
+    oAuthFilter.doFilter(req, res, chain);
+
+    // Verify HTTP password was checked first
+    verify(tokenVerifier).checkToken(AUTH_ACCOUNT_ID, password);
+    // Verify OAuth authentication was attempted as fallback
+    verify(accountManager).authenticate(any());
+    // Verify request failed
     verify(chain, never()).doFilter(any(), any());
     assertThat(res.getStatus()).isEqualTo(HttpServletResponse.SC_UNAUTHORIZED);
   }

@@ -306,12 +306,12 @@ export declare interface CoverageRange {
   code_range: LineRange;
 }
 
-export interface FileRange {
+export declare interface FileRange {
   basePath?: string;
   path: string;
 }
 
-export interface PatchRange {
+export declare interface PatchRange {
   patchNum: RevisionPatchSetNum;
   basePatchNum: BasePatchSetNum;
 }

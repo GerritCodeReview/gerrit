@@ -522,7 +522,7 @@ export declare interface ConfigInfo {
  * The CommentInfo entity contains information about an inline comment.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#comment-info
  */
-export interface CommentInfo {
+export declare interface CommentInfo {
   id: UrlEncodedCommentId;
   updated: Timestamp;
   // TODO(TS): Make this required. Every comment must have patch_set set.
@@ -613,7 +613,7 @@ export declare interface ConfigParameterInfoBase {
  * The ContextLine entity contains the line number and line text of a single line of the source file content.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#context-line
  */
-export interface ContextLine {
+export declare interface ContextLine {
   line_number: number;
   context_line: string;
 }
@@ -1301,7 +1301,7 @@ export type UrlEncodedCommentId = BrandType<string, '_urlEncodedCommentId'>;
  * The FixSuggestionInfo entity represents a suggested fix
  * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#fix-suggestion-info
  */
-export interface FixSuggestionInfoInput {
+export declare interface FixSuggestionInfoInput {
   description: string;
   replacements: FixReplacementInfo[];
 }
@@ -1310,7 +1310,7 @@ export interface FixSuggestionInfoInput {
  * The FixReplacementInfo entity describes how the content of a file should be replaced by another content
  * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#fix-replacement-info
  */
-export interface FixReplacementInfo {
+export declare interface FixReplacementInfo {
   path: string;
   range: CommentRange;
   replacement: string;
@@ -1318,7 +1318,7 @@ export interface FixReplacementInfo {
 // The UUID of the suggested fix.
 export type FixId = BrandType<string, '_fixId'>;
 
-export interface FixSuggestionInfo extends FixSuggestionInfoInput {
+export declare interface FixSuggestionInfo extends FixSuggestionInfoInput {
   fix_id: FixId;
   description: string;
   replacements: FixReplacementInfo[];

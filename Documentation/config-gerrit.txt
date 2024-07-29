@@ -4229,6 +4229,12 @@ On Windows servers the registry key `HKEY_LOCAL_MACHINE\System\CurrentControlSet
 must have the DWORD value `allowtgtsessionkey` set to 1 and the account must not
 have local administrator privileges.
 
+**NOTE**: Windows is not recommended as a server-side platform for
+running Gerrit Code Review, because of the lack of adoption from the Gerrit Community,
+incomplete functional validation and lack of security testing. Gerrit on
+Windows Server is not actively supported even though it may still be
+fully or partially functioning as expected.
+
 [[ldap.useConnectionPooling]]ldap.useConnectionPooling::
 +
 _(Optional)_ Enable the LDAP connection pooling or not.

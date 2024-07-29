@@ -211,6 +211,12 @@ contents: `bin/` `lib/` `site/`
 
 copy the contents of lib into `msysgit/lib/perl5/5.8.8` and overwrite existing files.
 
+**NOTE**: Windows is not recommended as a server-side platform for
+running Gerrit Code Review, because of the lack of adoption from the Gerrit Community,
+incomplete functional validation and lack of security testing. Gerrit on
+Windows Server is not actively supported even though it may still be
+fully or partially functioning as expected.
+
 ==== Enable Gitweb Integration
 
 To enable the external gitweb integration, set

@@ -160,7 +160,8 @@ class ProjectBasicAuthFilter implements Filter {
     AccountState who = accountState.get();
     GitBasicAuthPolicy gitBasicAuthPolicy = authConfig.getGitBasicAuthPolicy();
     if (gitBasicAuthPolicy == GitBasicAuthPolicy.HTTP
-        || gitBasicAuthPolicy == GitBasicAuthPolicy.HTTP_LDAP) {
+        || gitBasicAuthPolicy == GitBasicAuthPolicy.HTTP_LDAP
+        || gitBasicAuthPolicy == GitBasicAuthPolicy.HTTP_OAUTH) {
       if (passwordVerifier.checkPassword(who.externalIds(), username, password)) {
         logger.atFine().log(
             "HTTP:%s %s username/password authentication succeeded",

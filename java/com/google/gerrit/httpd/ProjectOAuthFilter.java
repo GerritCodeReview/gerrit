@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd;
 
 import static com.google.gerrit.httpd.ProjectBasicAuthFilter.authenticationFailedMsg;
+import static com.google.gerrit.server.account.AuthTokenVerifier.MAX_PASSWORD_LENGTH_ACCORDING_TO_BCRYPT_LIMITS;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
@@ -26,6 +27,7 @@ import com.google.common.io.BaseEncoding;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.auth.oauth.OAuthLoginProvider;
+import com.google.gerrit.extensions.client.GitBasicAuthPolicy;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.Extension;
@@ -36,7 +38,9 @@ import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
+import com.google.gerrit.server.account.AuthTokenVerifier;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -80,6 +84,8 @@ class ProjectOAuthFilter implements Filter {
   private final String gitOAuthProvider;
   private final boolean userNameToLowerCase;
   private final AuthRequest.Factory authRequestFactory;
+  private final AuthTokenVerifier tokenVerifier;
+  private final GitBasicAuthPolicy gitBasicAuthPolicy;
 
   private String defaultAuthPlugin;
   private String defaultAuthProvider;
@@ -90,15 +96,19 @@ class ProjectOAuthFilter implements Filter {
       DynamicMap<OAuthLoginProvider> pluginsProvider,
       AccountCache accountCache,
       AccountManager accountManager,
+      AuthConfig authConfig,
       @GerritServerConfig Config gerritConfig,
-      AuthRequest.Factory authRequestFactory) {
+      AuthRequest.Factory authRequestFactory,
+      AuthTokenVerifier tokenVerifier) {
     this.session = session;
     this.loginProviders = pluginsProvider;
     this.accountCache = accountCache;
     this.accountManager = accountManager;
+    this.gitBasicAuthPolicy = authConfig.getGitBasicAuthPolicy();
     this.gitOAuthProvider = gerritConfig.getString("auth", null, "gitOAuthProvider");
     this.userNameToLowerCase = gerritConfig.getBoolean("auth", null, "userNameToLowerCase", false);
     this.authRequestFactory = authRequestFactory;
+    this.tokenVerifier = tokenVerifier;
   }
 
   @Override
@@ -152,6 +162,18 @@ class ProjectOAuthFilter implements Filter {
         if (accountState == null) {
           return false;
         }
+
+        if (gitBasicAuthPolicy == GitBasicAuthPolicy.HTTP_OAUTH
+            && authInfo.tokenOrSecret.length() <= MAX_PASSWORD_LENGTH_ACCORDING_TO_BCRYPT_LIMITS) {
+          if (tokenVerifier.checkToken(accountState.account().id(), authInfo.tokenOrSecret)) {
+            logger.atFine().log(
+                "HTTP:%s %s username/password authentication succeeded",
+                req.getMethod(), req.getRequestURI());
+            succeedAuthentication(accountState.account().id());
+            return true;
+          }
+        }
+
         authRequest = createRequestForUser(authInfo, accountState);
       }
     }
@@ -183,10 +205,7 @@ class ProjectOAuthFilter implements Filter {
 
     try {
       AuthResult authResult = accountManager.authenticate(authRequest);
-      WebSession ws = session.get();
-      ws.setUserAccountId(authResult.getAccountId());
-      ws.setAccessPathOk(AccessPath.GIT, true);
-      ws.setAccessPathOk(AccessPath.REST_API, true);
+      succeedAuthentication(authResult.getAccountId());
       return true;
     } catch (AccountException e) {
       logger.atWarning().withCause(e).log("%s", authenticationFailedMsg(authInfo.username, req));
@@ -220,6 +239,13 @@ class ProjectOAuthFilter implements Filter {
       return null;
     }
     return who.get();
+  }
+
+  private void succeedAuthentication(Account.Id id) {
+    WebSession ws = session.get();
+    ws.setUserAccountId(id);
+    ws.setAccessPathOk(AccessPath.GIT, true);
+    ws.setAccessPathOk(AccessPath.REST_API, true);
   }
 
   /**

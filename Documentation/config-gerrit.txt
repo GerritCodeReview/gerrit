@@ -603,6 +603,11 @@ requests.
 The password in the request is first checked against the HTTP password and, if
 it does not match, it is then validated against the `LDAP` password.
 +
+*`HTTP_OAUTH`
++
+The password in the request is first checked against the HTTP password and, if
+it does not match, it is then validated as an OAUTH token.
++
 By default this is set to `LDAP` when link:#auth.type[`auth.type`] is `LDAP`
 and `OAUTH` when link:#auth.type[`auth.type`] is `OAUTH`.
 Otherwise, the default value is `HTTP`.

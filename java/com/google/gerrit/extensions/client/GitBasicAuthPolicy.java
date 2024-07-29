@@ -28,5 +28,11 @@ public enum GitBasicAuthPolicy {
   HTTP_LDAP,
 
   /** Only the `OAUTH` authentication is allowed when doing Git over HTTP and REST API requests. */
-  OAUTH
+  OAUTH,
+
+  /**
+   * Password is first checked against HTTP password and if doesn't match, it's validated as an
+   * OAUTH token.
+   */
+  HTTP_OAUTH
 }

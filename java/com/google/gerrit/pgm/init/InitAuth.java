@@ -16,6 +16,7 @@ package com.google.gerrit.pgm.init;
 
 import static com.google.gerrit.extensions.client.GitBasicAuthPolicy.HTTP;
 import static com.google.gerrit.extensions.client.GitBasicAuthPolicy.HTTP_LDAP;
+import static com.google.gerrit.extensions.client.GitBasicAuthPolicy.HTTP_OAUTH;
 import static com.google.gerrit.extensions.client.GitBasicAuthPolicy.LDAP;
 import static com.google.gerrit.extensions.client.GitBasicAuthPolicy.OAUTH;
 import static com.google.gerrit.pgm.init.api.InitUtil.dnOf;
@@ -104,9 +105,12 @@ class InitAuth implements InitStep {
         {
           GitBasicAuthPolicy gitBasicAuth =
               auth.select(
-                  "Git/HTTP authentication", "gitBasicAuthPolicy", HTTP, EnumSet.of(HTTP, OAUTH));
+                  "Git/HTTP authentication",
+                  "gitBasicAuthPolicy",
+                  HTTP,
+                  EnumSet.of(HTTP, OAUTH, HTTP_OAUTH));
 
-          if (gitBasicAuth == OAUTH) {
+          if (gitBasicAuth == OAUTH || gitBasicAuth == HTTP_OAUTH) {
             ui.message(
                 "*WARNING* Please make sure that your chosen OAuth provider\n"
                     + "supports Git token authentication.\n");

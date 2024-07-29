@@ -1633,7 +1633,7 @@ export interface TagInfo {
  * The RelatedChangesInfo entity contains information about related changes.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#related-changes-info
  */
-export interface RelatedChangesInfo {
+export declare interface RelatedChangesInfo {
   changes: RelatedChangeAndCommitInfo[];
 }
 
@@ -1641,7 +1641,7 @@ export interface RelatedChangesInfo {
  * The RelatedChangeAndCommitInfo entity contains information about a related change and commit.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#related-change-and-commit-info
  */
-export interface RelatedChangeAndCommitInfo {
+export declare interface RelatedChangeAndCommitInfo {
   project: RepoName;
   change_id?: ChangeId;
   commit: CommitInfoWithRequiredCommit;

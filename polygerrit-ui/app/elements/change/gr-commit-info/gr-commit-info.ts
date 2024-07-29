@@ -30,7 +30,6 @@ declare global {
 
 @customElement('gr-commit-info')
 export class GrCommitInfo extends LitElement {
-  // TODO(TS): Maybe limit to StandaloneCommitInfo.
   @property({type: Object})
   commitInfo?: Partial<CommitInfo>;
 

@@ -16,6 +16,24 @@
       "message": "Please add to the commit message, that this are the types from Gerrit Server code and REST Api endpoint, but the endpoints are not used in the WebUI",
       "revId": "b77371d0833101e071d742529bc628a757d8a7b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3059e1c_34063b6f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-07-29T09:48:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e4fbcae_edab6a73",
+      "revId": "b77371d0833101e071d742529bc628a757d8a7b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

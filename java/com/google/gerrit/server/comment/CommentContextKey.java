@@ -64,7 +64,7 @@ public abstract class CommentContextKey {
 
     public abstract Builder patchset(Integer patchset);
 
-    public abstract Builder contextPadding(Integer numLines);
+    public abstract Builder contextPadding(int numLines);
 
     public abstract CommentContextKey build();
   }

@@ -87,7 +87,7 @@ public abstract class GitFileDiffCacheKey {
 
     public abstract Builder newFilePath(String value);
 
-    public abstract Builder renameScore(Integer value);
+    public abstract Builder renameScore(int value);
 
     public Builder disableRenameDetection() {
       renameScore(-1);

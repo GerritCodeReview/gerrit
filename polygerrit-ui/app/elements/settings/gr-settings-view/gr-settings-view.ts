@@ -61,7 +61,7 @@ import {GrEditPreferences} from '../gr-edit-preferences/gr-edit-preferences';
 import {GrAuthToken} from '../gr-auth-token/gr-auth-token';
 import '@material/web/textfield/outlined-text-field';
 
-const HTTP_AUTH = ['HTTP', 'HTTP_LDAP'];
+const HTTP_AUTH = ['HTTP', 'HTTP_LDAP', 'HTTP_OAUTH'];
 
 /**
  * This provides an interface to show all settings for a user profile.

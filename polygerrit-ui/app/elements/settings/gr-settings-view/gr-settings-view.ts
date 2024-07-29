@@ -71,7 +71,7 @@ const GERRIT_DOCS_FILTER_PATH = '/user-notify.html';
 const ABSOLUTE_URL_PATTERN = /^https?:/;
 const TRAILING_SLASH_PATTERN = /\/$/;
 
-const HTTP_AUTH = ['HTTP', 'HTTP_LDAP'];
+const HTTP_AUTH = ['HTTP', 'HTTP_LDAP', 'HTTP_OAUTH'];
 
 enum CopyPrefsDirection {
   PrefsToLocalPrefs,

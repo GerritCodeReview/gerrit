@@ -145,6 +145,10 @@ public class CreateRefControl {
       } else {
         forRef.check(RefPermission.CREATE_TAG);
       }
+    } else {
+      throw new AuthException(
+          String.format(
+              "Ref creation not allowed. Object %s is neither Commit or Tag.", object.getId()));
     }
   }
 

@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b5246061_b438db35",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2024-07-30T16:14:16Z",
+      "side": 1,
+      "message": "More than likely. :)",
+      "range": {
+        "startLine": 12,
+        "startChar": 19,
+        "endLine": 12,
+        "endChar": 25
+      },
+      "revId": "a224b9cd3bde69445e2c980e962bce669407e1e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "42d8881e_bb23c058",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -14,6 +37,24 @@
       "writtenOn": "2024-07-30T12:37:30Z",
       "side": 1,
       "message": "Would it be easy to write a test to verify this?",
+      "revId": "a224b9cd3bde69445e2c980e962bce669407e1e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eeb948de_ae1217dc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2024-07-30T16:14:16Z",
+      "side": 1,
+      "message": "+1 - this area is subtle enough that I think we\u0027d be glad to have it.\n\nSee https://gerrit-review.googlesource.com/c/gerrit/+/347139 for a previous example that tightened permissions with a test.",
+      "parentUuid": "42d8881e_bb23c058",
       "revId": "a224b9cd3bde69445e2c980e962bce669407e1e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -78,6 +119,30 @@
           ]
         }
       ],
+      "revId": "a224b9cd3bde69445e2c980e962bce669407e1e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "687c4368_1afe2b0e",
+        "filename": "java/com/google/gerrit/server/project/CreateRefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2024-07-30T16:14:16Z",
+      "side": 1,
+      "message": "A few thoughts:\n- AuthException seems more consistent to me with the other ways we could run into the user not being permitted to create a ref. For example, if I run into this code path by running `git push`, I\u0027m not sure how a ResourceConflictException would show up in the client, versus a message saying that I was not allowed based on permissions would be clearer, I think\n- do we want any users to be permitted this? For example, should administrators be allowed? I\u0027m fine with \"no\" (in a YAGNI sense), just wanted to ask in case we have thoughts about that\n- in the same spirit: in the `forPush` case, `checkCreateCommit` calls `forRef.check(RefPermission.UPDATE)` to see if the caller is allowed to set the ref to an arbitrary value; in that scenario, do we want to permit this? We could use similar logic - for example,\n\n```java\n  if (!forPush) { // this shouldn\u0027t happen\n    throw new IllegalStateException(); // or whatever exception seems appropriate\n  }\n  forRef.check(RefPermission.UPDATE);\n```",
+      "parentUuid": "23213d88_f61c2c98",
+      "range": {
+        "startLine": 149,
+        "startChar": 16,
+        "endLine": 149,
+        "endChar": 29
+      },
       "revId": "a224b9cd3bde69445e2c980e962bce669407e1e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

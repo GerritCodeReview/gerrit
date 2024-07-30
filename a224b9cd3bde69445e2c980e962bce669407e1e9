@@ -1,0 +1,85 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42d8881e_bb23c058",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2024-07-30T12:37:30Z",
+      "side": 1,
+      "message": "Would it be easy to write a test to verify this?",
+      "revId": "a224b9cd3bde69445e2c980e962bce669407e1e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4080972_a6fe2500",
+        "filename": "java/com/google/gerrit/server/project/CreateRefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2024-07-30T12:37:30Z",
+      "side": 1,
+      "message": "nit [optional]: for better readability, we can write this explicitly above L93 as:\n\nif (!(object instanceof RevCommit || object instanceof RevTag)) {\n  throw ...\n}",
+      "range": {
+        "startLine": 148,
+        "startChar": 6,
+        "endLine": 148,
+        "endChar": 10
+      },
+      "revId": "a224b9cd3bde69445e2c980e962bce669407e1e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23213d88_f61c2c98",
+        "filename": "java/com/google/gerrit/server/project/CreateRefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2024-07-30T12:37:30Z",
+      "side": 1,
+      "message": "AuthException does not sound matching with the error type happening here. I think ResourceConflictException is more appropriate.\n\nResourceConflictException in JavaDocs:\n\"Resource state does not permit requested operation (HTTP 409 Conflict).\"",
+      "range": {
+        "startLine": 149,
+        "startChar": 16,
+        "endLine": 149,
+        "endChar": 29
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "cd142381_c69eaf49",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "java/com/google/gerrit/server/project/CreateRefControl.java",
+              "range": {
+                "startLine": 149,
+                "startChar": 0,
+                "endLine": 150,
+                "endChar": 0
+              },
+              "replacement": "      throw new ResourceConflictException(\n"
+            }
+          ]
+        }
+      ],
+      "revId": "a224b9cd3bde69445e2c980e962bce669407e1e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

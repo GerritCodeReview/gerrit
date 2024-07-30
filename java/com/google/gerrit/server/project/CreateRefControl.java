@@ -112,7 +112,9 @@ public class CreateRefControl {
                 RefPermission.READ.describeForException()));
         throw e;
       }
-    } else if (object instanceof RevTag) {
+      return;
+    }
+    if (object instanceof RevTag) {
       RevTag tag = (RevTag) object;
       try (RevWalk rw = new RevWalk(repo)) {
         rw.parseBody(tag);
@@ -145,7 +147,11 @@ public class CreateRefControl {
       } else {
         forRef.check(RefPermission.CREATE_TAG);
       }
+      return;
     }
+    throw new AuthException(
+        String.format(
+            "Ref creation not allowed. Object %s is neither Commit or Tag.", object.getId()));
   }
 
   /**

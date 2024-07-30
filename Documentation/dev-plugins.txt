@@ -2248,7 +2248,7 @@ by implementing `com.google.gerrit.extensions.config.ExternalIncludedIn`,
 e.g. a plugin can provide a list of servers on which the change was
 deployed.
 
-Plugins can filter the branches and tags that are inlcuded by implementing
+Plugins can filter the branches and tags that are included by implementing
 `com.google.gerrit.server.change.FilterIncludedIn`.
 
 [source, java]
@@ -2281,7 +2281,6 @@ And register your class:
 
 [source, java]
 ----
-import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.change.FilterIncludedIn;
 import com.google.inject.AbstractModule;

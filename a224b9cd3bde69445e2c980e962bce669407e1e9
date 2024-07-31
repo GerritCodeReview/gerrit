@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d44ecc86_b1de4b75",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-07-31T09:38:14Z",
+      "side": 1,
+      "message": "Removed \"likely\"",
+      "parentUuid": "b5246061_b438db35",
+      "range": {
+        "startLine": 12,
+        "startChar": 19,
+        "endLine": 12,
+        "endChar": 25
+      },
+      "revId": "a224b9cd3bde69445e2c980e962bce669407e1e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "42d8881e_bb23c058",
@@ -61,6 +85,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "c0bf216f_f57fa35d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-07-31T09:38:14Z",
+      "side": 1,
+      "message": "Added a test",
+      "parentUuid": "eeb948de_ae1217dc",
+      "revId": "a224b9cd3bde69445e2c980e962bce669407e1e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "e4080972_a6fe2500",
         "filename": "java/com/google/gerrit/server/project/CreateRefControl.java",
         "patchSetId": 1
@@ -72,6 +114,30 @@
       "writtenOn": "2024-07-30T12:37:30Z",
       "side": 1,
       "message": "nit [optional]: for better readability, we can write this explicitly above L93 as:\n\nif (!(object instanceof RevCommit || object instanceof RevTag)) {\n  throw ...\n}",
+      "range": {
+        "startLine": 148,
+        "startChar": 6,
+        "endLine": 148,
+        "endChar": 10
+      },
+      "revId": "a224b9cd3bde69445e2c980e962bce669407e1e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f7c7d2d_aaeeb77f",
+        "filename": "java/com/google/gerrit/server/project/CreateRefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-07-31T09:38:14Z",
+      "side": 1,
+      "message": "I disagree. The idea of this change is make sure all branches are checked.\n\nRemoved all \"else\" statements and added \"returns\" to make this more clear.",
+      "parentUuid": "e4080972_a6fe2500",
       "range": {
         "startLine": 148,
         "startChar": 6,
@@ -137,6 +203,30 @@
       "side": 1,
       "message": "A few thoughts:\n- AuthException seems more consistent to me with the other ways we could run into the user not being permitted to create a ref. For example, if I run into this code path by running `git push`, I\u0027m not sure how a ResourceConflictException would show up in the client, versus a message saying that I was not allowed based on permissions would be clearer, I think\n- do we want any users to be permitted this? For example, should administrators be allowed? I\u0027m fine with \"no\" (in a YAGNI sense), just wanted to ask in case we have thoughts about that\n- in the same spirit: in the `forPush` case, `checkCreateCommit` calls `forRef.check(RefPermission.UPDATE)` to see if the caller is allowed to set the ref to an arbitrary value; in that scenario, do we want to permit this? We could use similar logic - for example,\n\n```java\n  if (!forPush) { // this shouldn\u0027t happen\n    throw new IllegalStateException(); // or whatever exception seems appropriate\n  }\n  forRef.check(RefPermission.UPDATE);\n```",
       "parentUuid": "23213d88_f61c2c98",
+      "range": {
+        "startLine": 149,
+        "startChar": 16,
+        "endLine": 149,
+        "endChar": 29
+      },
+      "revId": "a224b9cd3bde69445e2c980e962bce669407e1e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "20b2ea1b_3bd87b96",
+        "filename": "java/com/google/gerrit/server/project/CreateRefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-07-31T09:38:14Z",
+      "side": 1,
+      "message": "\u003e \"Resource state does not permit requested operation (HTTP 409 Conflict).\"\n\nThis is not an incompatible state, rather it\u0027s an invalid argument. But IllegalArgumentException gets converted to \"Internal error\" in the end, so in this case I would keep AuthException .\n\n\u003e do we want any users to be permitted this? For example, should administrators be allowed? I\u0027m fine with \"no\" (in a YAGNI sense), just wanted to ask in case we have thoughts about that\n\nWell my current thought, is that it\u0027s simply not supported. And so far I have not heard compelling arguments against it. In any case, if we want to support it, that should be a separate change. For now we closing up the gap, that was clearly simply not accounted for before.\n\n\u003e In the same spirit: in the forPush case, checkCreateCommit calls forRef.check(RefPermission.UPDATE) to see if the caller is allowed to set the ref to an arbitrary value; in that scenario, do we want to permit this? We could use similar logic - for example,\n\nI don\u0027t understand the suggestion. From looking at `checkCreateCommit` it seems that the `forPush` case is for short-circuiting more fine-grained checks if the wider check is sufficient. I am also not sure what do you mean, by \"do we want to permit this\"? Isn\u0027t this a normal behaviour for users that need to move branch tip from one commit to a different one?\n\nResolving the comment thread. Feel free to re-open if there is something that needs addressing",
+      "parentUuid": "687c4368_1afe2b0e",
       "range": {
         "startLine": 149,
         "startChar": 16,

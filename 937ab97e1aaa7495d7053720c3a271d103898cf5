@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7df3d58_d495658a",
+        "filename": "javatests/com/google/gerrit/acceptance/server/plugins/PluginBindingsIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-07-31T22:21:14Z",
+      "side": 1,
+      "message": "I\u0027m leaning towards thinking this (and maybe some of the other modules below) is too close to testing Guice and not Gerrit. I think using the ModuleInjectorTester to get an instance of the `GerritIsReplica` boolean is probably sufficient to cover injecting it via the constructor too. If others agree, I\u0027ll remove the duplicate tests.",
+      "range": {
+        "startLine": 99,
+        "startChar": 22,
+        "endLine": 99,
+        "endChar": 54
+      },
+      "revId": "937ab97e1aaa7495d7053720c3a271d103898cf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

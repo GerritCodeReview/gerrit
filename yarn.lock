@@ -1680,10 +1680,10 @@ eslint-plugin-jsdoc@^44.2.7:
     semver "^7.5.1"
     spdx-expression-parse "^3.0.1"
 
-eslint-plugin-lit@^1.11.0:
-  version "1.11.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-lit/-/eslint-plugin-lit-1.11.0.tgz#32fc1c58b476e5b9aa1c7b6ba9de295641bd4e9b"
-  integrity sha512-jVqy2juQTAtOzj1ILf+ZW5GpDobXlSw0kvpP2zu2r8ZbW7KISt7ikj1Gw9DhNeirEU1UlSJR0VIWpdr4lzjayw==
+eslint-plugin-lit@^1.14.0:
+  version "1.14.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-lit/-/eslint-plugin-lit-1.14.0.tgz#afd10b93dd6fed3dc851f9c375c3d7f6c32c59fa"
+  integrity sha512-J4w+CgO31621GreLFCdTUbTr5yeV2/RJ/M0myw0dykD5p9FGGIRLityQiNa6SG+JpVbmeQTQPJy4pNFmiurJ/w==
   dependencies:
     parse5 "^6.0.1"
     parse5-htmlparser2-tree-adapter "^6.0.1"

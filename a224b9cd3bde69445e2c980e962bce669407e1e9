@@ -235,6 +235,30 @@
       },
       "revId": "a224b9cd3bde69445e2c980e962bce669407e1e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01e3a158_9b6d7f09",
+        "filename": "java/com/google/gerrit/server/project/CreateRefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2024-07-31T11:24:49Z",
+      "side": 1,
+      "message": "thanks @jrn@google.com for explaining. I\u0027m fine both ways.\n\n\u003e AuthException seems more consistent to me with the other ways we could run into the user not being permitted to create a ref. For example, if I run into this code path by running git push, I\u0027m not sure how a ResourceConflictException would show up in the client, versus a message saying that I was not allowed based on permissions would be clearer\n\nI quickly checked many usages of ResourceConflictException where this exception is thrown, and it\u0027s mainly used with gerrit entities and the rest API. It designates that an operation is not allowed because the underlying resource cannot do it. Examples:\n  * create a change with ID that already exists\n  * abandon a merged change\n  * set ready for review for a change that\u0027s not in state \u0027NEW\u0027\n  * etc...\n  \nHowever, there are also references to ResourceConflictException from ChangeInserter [1], BatchUpdates [2] which are invoked down the stack with a \u0027git push\u0027. The \u0027git push\u0027 path is handled by ReceiveCommits, which translates the ResourceConflictException into a proper error [3]. The error cause should be visible on the client I think - need to try it myself to verify, but probably the error codes will be different (i.e. also our categorization of errors).\n\n[1] https://gerrit.googlesource.com/gerrit/+/18f309b5fa632d4834deeb501bfeada048e2c10e/java/com/google/gerrit/server/change/ChangeInserter.java#448\n\n[2] https://gerrit.googlesource.com/gerrit/+/18f309b5fa632d4834deeb501bfeada048e2c10e/java/com/google/gerrit/server/update/BatchUpdates.java#185\n\n[3] https://gerrit.googlesource.com/gerrit/+/18f309b5fa632d4834deeb501bfeada048e2c10e/java/com/google/gerrit/server/git/receive/ReceiveCommits.java#1164",
+      "parentUuid": "20b2ea1b_3bd87b96",
+      "range": {
+        "startLine": 149,
+        "startChar": 16,
+        "endLine": 149,
+        "endChar": 29
+      },
+      "revId": "a224b9cd3bde69445e2c980e962bce669407e1e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

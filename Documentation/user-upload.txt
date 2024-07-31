@@ -205,6 +205,15 @@ Other users (e.g. project owners) who have configured Gerrit to
 notify them of new changes will be automatically sent an email
 message when the push is completed.
 
+Pushing for review requires that the target branch exists, except for
+the branch to which "HEAD" points, e.g. "master", and the
+"link:config-project-config.html#refs-meta-config[refs/meta/config]"
+branch that contains the link:config-project-config.html[project
+configuration]. For these branches Gerrit allows pushing an initial
+commit for review even if they don't exist yet. The push creates a
+change for the initial commit and when this change gets submitted the
+target branch gets created automatically.
+
 [[push_options]]
 === Push Options
 

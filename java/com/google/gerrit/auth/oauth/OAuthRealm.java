@@ -38,13 +38,18 @@ import org.eclipse.jgit.lib.Config;
 
 @Singleton
 public class OAuthRealm extends AbstractRealm {
+  private final AuthRequest.Factory authRequestFactory;
   private final DynamicMap<OAuthLoginProvider> loginProviders;
   private final Set<AccountFieldName> editableAccountFields;
 
   @Inject
-  OAuthRealm(DynamicMap<OAuthLoginProvider> loginProviders, @GerritServerConfig Config config) {
+  OAuthRealm(
+      AuthRequest.Factory authRequestFactory,
+      DynamicMap<OAuthLoginProvider> loginProviders,
+      @GerritServerConfig Config config) {
     this.loginProviders = loginProviders;
     this.editableAccountFields = new HashSet<>();
+    this.authRequestFactory = authRequestFactory;
     // User name should be always editable, because not all OAuth providers
     // expose them
     editableAccountFields.add(AccountFieldName.USER_NAME);
@@ -93,6 +98,7 @@ public class OAuthRealm extends AbstractRealm {
     OAuthUserInfo userInfo;
     try {
       userInfo = loginProvider.login(who.getUserName().orElse(null), who.getPassword());
+      who = authRequestFactory.createForOAuthUser(userInfo.getExternalId());
     } catch (IOException e) {
       throw new AccountException("Cannot authenticate", e);
     }

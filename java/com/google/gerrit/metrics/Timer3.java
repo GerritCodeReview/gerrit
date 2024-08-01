@@ -84,6 +84,11 @@ public abstract class Timer3<F1, F2, F3> implements RegistrationHandle {
    */
   public Context<F1, F2, F3> start(F1 fieldValue1, F2 fieldValue2, F3 fieldValue3) {
     RequestStateContext.abortIfCancelled();
+    if (!suppressLogging) {
+      logger.atFine().log(
+          "Starting timer %s (%s = %s, %s = %s, %s = %s)",
+          name, field1.name(), fieldValue1, field2.name(), fieldValue2, field3.name(), fieldValue3);
+    }
     return new Context<>(this, fieldValue1, fieldValue2, fieldValue3);
   }
 

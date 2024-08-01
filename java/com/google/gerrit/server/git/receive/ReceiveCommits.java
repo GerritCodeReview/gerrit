@@ -19,7 +19,6 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableListMultimap.toImmutableListMultimap;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
-import static com.google.common.flogger.LazyArgs.lazy;
 import static com.google.gerrit.entities.RefNames.REFS_CHANGES;
 import static com.google.gerrit.entities.RefNames.isConfigRef;
 import static com.google.gerrit.entities.RefNames.isRefsUsersSelf;
@@ -803,9 +802,6 @@ class ReceiveCommits {
       Collection<ReceiveCommand> commands, MultiProgressMonitor progress) {
     logger.atFine().log("Calling user: %s, commands: %d", user.getLoggableName(), commands.size());
 
-    // If the list of groups is large, the log entry may get dropped, so separate out.
-    logger.atFine().log("Groups: %s", lazy(() -> user.getEffectiveGroups().getKnownGroups()));
-
     if (!projectState.getProject().getState().permitsWrite()) {
       for (ReceiveCommand cmd : commands) {
         reject(
@@ -908,7 +904,7 @@ class ReceiveCommits {
 
       logger.atFine().log(
           "Command results: %s",
-          lazy(() -> commands.stream().map(ReceiveCommits::commandToString).collect(joining(","))));
+          commands.stream().map(ReceiveCommits::commandToString).collect(joining(",")));
     }
   }
 

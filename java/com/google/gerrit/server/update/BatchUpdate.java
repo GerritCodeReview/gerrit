@@ -17,7 +17,6 @@ package com.google.gerrit.server.update;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
-import static com.google.common.flogger.LazyArgs.lazy;
 import static com.google.gerrit.common.UsedAt.Project.GOOGLE;
 import static java.util.Comparator.comparing;
 import static java.util.Objects.requireNonNull;
@@ -699,7 +698,7 @@ public class BatchUpdate implements AutoCloseable {
           "Applying %d ops for change %s: %s",
           e.getValue().size(),
           id,
-          lazy(() -> e.getValue().stream().map(op -> op.getClass().getName()).collect(toSet())));
+          e.getValue().stream().map(op -> op.getClass().getName()).collect(toSet()));
       for (OpData<BatchUpdateOp> opData : e.getValue()) {
         if (ctx == null) {
           ctx = newChangeContext(opData.user(), id);

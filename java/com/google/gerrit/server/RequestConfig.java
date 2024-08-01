@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
+
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -53,6 +55,27 @@ public abstract class RequestConfig {
     }
 
     return requestConfigs.build();
+  }
+
+  public static ImmutableList<RequestConfig> parseTraceConfigs(Config cfg, String section) {
+    // To prevent that misconfigured tracing configs (e.g. empty configs) cause tracing of too many
+    // requests, require that at least one of the following match criteria have been specified:
+    // request URI pattern, account, project pattern
+    return parseConfigs(cfg, section).stream()
+        .filter(
+            requestConfig -> {
+              if (!requestConfig.requestUriPatterns().isEmpty()
+                  || !requestConfig.accountIds().isEmpty()
+                  || !requestConfig.projectPatterns().isEmpty()) {
+                return true;
+              }
+              logger.atWarning().log(
+                  "Ignoring tracing configuration %s because it is too broad (needs to set at"
+                      + " least one of: requestUriPattern, account, projectPattern)",
+                  section);
+              return false;
+            })
+        .collect(toImmutableList());
   }
 
   private static ImmutableSet<String> parseRequestTypes(Config cfg, String section, String id) {
@@ -247,9 +270,8 @@ public abstract class RequestConfig {
       }
     }
 
-    // For any match criteria (request type, request URI pattern, request query string pattern,
-    // header, account, project pattern) that was specified in the request config, at least one of
-    // the configured value matched the request.
+    // All specified match criteria (request type, request URI pattern, request query string
+    // pattern, header, account, project pattern) did match.
     return true;
   }
 

@@ -48,7 +48,7 @@ public class PerformanceMetrics implements PerformanceLogger {
   @Inject
   PerformanceMetrics(@GerritServerConfig Config cfg, MetricMaker metricMaker) {
     this.tracedOperations =
-        ImmutableList.copyOf(cfg.getStringList("tracing", "metric", "operation"));
+        ImmutableList.copyOf(cfg.getStringList("performance", "metric", "operation"));
 
     Field<String> operationNameField =
         Field.ofString(

@@ -14,7 +14,6 @@
 
 package com.google.gerrit.gpg;
 
-import static com.google.common.flogger.LazyArgs.lazy;
 import static com.google.gerrit.extensions.common.GpgKeyInfo.Status.BAD;
 import static com.google.gerrit.extensions.common.GpgKeyInfo.Status.OK;
 import static com.google.gerrit.extensions.common.GpgKeyInfo.Status.TRUSTED;
@@ -306,8 +305,7 @@ public class PublicKeyChecker {
         // signature.
         logger.atInfo().log(
             "Key %s is revoked by %s, which is not in the store. Assuming revocation is valid.",
-            lazy(() -> Fingerprint.toString(key.getFingerprint())),
-            lazy(() -> Fingerprint.toString(rfp)));
+            Fingerprint.toString(key.getFingerprint()), Fingerprint.toString(rfp));
         problems.add(reasonToString(getRevocationReason(revocation)));
         continue;
       }

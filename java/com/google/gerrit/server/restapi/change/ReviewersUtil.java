@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import static com.google.common.flogger.LazyArgs.lazy;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Strings;
@@ -242,8 +241,7 @@ public class ReviewersUtil {
             visibilityControl,
             excludeGroups,
             filteredRecommendations);
-    logger.atFine().log(
-        "Suggested reviewers: %s", lazy(() -> formatSuggestedReviewers(suggestedReviewers)));
+    logger.atFine().log("Suggested reviewers: %s", formatSuggestedReviewers(suggestedReviewers));
     return suggestedReviewers;
   }
 

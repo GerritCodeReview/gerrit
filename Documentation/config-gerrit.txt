@@ -5123,6 +5123,22 @@ When set to 0, a direct executor will be used.
 +
 By default, 25 which means that formatting happens in the caller thread.
 
+[[performance]]
+=== Section performance
+
+[[performance.metric]]
+==== Subsection performance.metric
+
+Section to control for which operations latency and counts should be recorded
+in the link:metrics.html#performance[performance metrics].
+
+[[performance.metric.operation]]performance.metric.operation::
++
+Name of a Gerrit operation for which latency and counts should be recorded in
+the link:metrics.html#performance[performance metrics].
++
+The operation name must match the operation name that is used with TraceTimer.
+
 [[receiveemail]]
 === Section receiveemail
 
@@ -5891,9 +5907,15 @@ By default, `false`.
 
 There can be multiple `tracing.<trace-id>` subsections to configure
 automatic tracing of requests. To be traced a request must match all
-conditions of one `tracing.<trace-id>` subsection. The subsection name
-is used as trace ID. Using this trace ID administrators can find
-matching log entries.
+conditions of one `tracing.<trace-id>` subsection. A `tracing.<trace-id>`
+subsection must specify at least one of `requestUriPattern`, `account` and
+`projectPattern`, or otherwise it is ignored. The subsection name is used as
+trace ID. Using this trace ID administrators can find matching log entries.
+
+[WARNING] Tracing requests can make them more expensive. To avoid performance
+issues trace configs should match as little requests as possible and only be
+added temporarily. Enabling tracing for too many requests can severely impact
+the performance and the availability of the server.
 
 [[tracing.traceid.requestType]]tracing.<trace-id>.requestType::
 +
@@ -5975,19 +5997,6 @@ should be always enabled.
 May be specified multiple times.
 +
 By default, unset (all projects are matched).
-
-[[tracing.metric]]
-==== Subsection tracing.metric
-
-Section to control for which operations latency and counts should be recorded
-in the link:metrics.html#performance[performance metrics].
-
-[[tracing.metric.operation]]tracing.metric.operation::
-+
-Name of a Gerrit operation for which latency and counts should be recorded in
-the link:metrics.html#performance[performance metrics].
-+
-The operation name must match the operation name that is used with TraceTimer.
 
 [[deadline.id]]
 ==== Subsection deadline.<id>

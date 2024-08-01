@@ -16,6 +16,24 @@
       "message": "Maybe \"timer %s took...\", so we can filter logs by \"timer %s\", getting both start and end time?",
       "revId": "50ec94c1f47feb1e6d7313fd5b59a08705038eb2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1261ff71_d8f96699",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-08-01T13:27:00Z",
+      "side": 1,
+      "message": "Good idea! Done.",
+      "parentUuid": "249ed861_78655866",
+      "revId": "50ec94c1f47feb1e6d7313fd5b59a08705038eb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

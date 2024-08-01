@@ -45,6 +45,7 @@ import org.eclipse.jgit.lib.BlobBasedConfig;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
@@ -403,6 +404,33 @@ public class PushPermissionsIT extends AbstractDaemonTest {
         .isRejected("invalid project configuration: only Gerrit admin can set parent");
     assertThat(r).hasNoMessages();
     assertThat(r).hasProcessed(ImmutableMap.of("refs", 1));
+  }
+
+  @Test
+  public void pushTreeIsNotAllowed() throws Exception {
+    RevCommit commit = testRepo.branch("HEAD").commit().create();
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.CREATE).ref("refs/*").group(REGISTERED_USERS))
+        .add(allow(Permission.PUSH).ref("refs/*").group(REGISTERED_USERS))
+        .update();
+
+    // We use "refs/main" instead of "refs/heads/main", because the latter only allows commits.
+    {
+      // An extra colon (:) makes it a tree reference
+      PushResult r = push(commit.getId().getName() + "::refs/main");
+      RemoteRefUpdate refUpdate = r.getRemoteUpdates().stream().findFirst().get();
+      assertThat(refUpdate.getStatus()).isEqualTo(Status.REJECTED_OTHER_REASON);
+      assertThat(refUpdate.getMessage()).contains("is neither Commit or Tag");
+    }
+
+    {
+      PushResult r = push(commit.getTree().getId().getName() + ":refs/main");
+      RemoteRefUpdate refUpdate = r.getRemoteUpdates().stream().findFirst().get();
+      assertThat(refUpdate.getStatus()).isEqualTo(Status.REJECTED_OTHER_REASON);
+      assertThat(refUpdate.getMessage()).contains("is neither Commit or Tag");
+    }
   }
 
   private static void removeAllBranchPermissions(ProjectConfig cfg, String... permissions) {

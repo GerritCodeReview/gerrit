@@ -68,9 +68,14 @@ public class AuthRequest {
     }
 
     public AuthRequest createForOAuthUser(String userName) {
-      AuthRequest r =
-          new AuthRequest(
-              externalIdKeyFactory.create(SCHEME_GOOGLE_OAUTH, userName), externalIdKeyFactory);
+
+      ExternalId.Key externalId;
+      if (userName.contains(":")) {
+        externalId = externalIdKeyFactory.create("", userName);
+      } else {
+        externalId = externalIdKeyFactory.create(SCHEME_GOOGLE_OAUTH, userName);
+      }
+      AuthRequest r = new AuthRequest(externalId, externalIdKeyFactory);
       r.setUserName(userName);
       return r;
     }

@@ -16,6 +16,24 @@
       "message": "Remove extra line.",
       "revId": "36c7b4f217fa9542e79c8bd818da365bd8b318b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4378583b_fdec103e",
+        "filename": "plugins/package.json",
+        "patchSetId": 6
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-08-02T07:53:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3aaba283_11571a88",
+      "revId": "36c7b4f217fa9542e79c8bd818da365bd8b318b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

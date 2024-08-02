@@ -1,12 +1,9 @@
 {
   "checks": {
     "gerritforge:codestyle-a6a0e4682515f3521897c5f950d1394f4619d928": {
-      "state": "FAILED",
-      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-codestyle/3173/console",
-      "started": "2024-07-03T13:00:31Z",
-      "finished": "2024-07-03T13:03:33Z",
+      "state": "NOT_STARTED",
       "created": "2024-07-03T13:00:31Z",
-      "updated": "2024-07-03T13:03:34Z"
+      "updated": "2024-08-02T18:59:05Z"
     },
     "gerritforge:polygerrit-a6a0e4682515f3521897c5f950d1394f4619d928": {
       "state": "FAILED",

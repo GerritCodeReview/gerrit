@@ -2804,7 +2804,9 @@ suite('gr-diff-element tests', () => {
                 <tbody class="binary-diff">
                   <tr>
                     <td colspan="4">
-                      <span> Difference in binary files </span>
+                      <span>
+                        ${'Difference in binary files. Download commit to view (shortcut:\n              d)'}
+                      </span>
                     </td>
                   </tr>
                 </tbody>
@@ -3370,7 +3372,7 @@ suite('gr-diff-element tests', () => {
       const body = queryAndAssert(element, 'tbody.binary-diff');
       assert.lightDom.equal(
         body,
-        /* HTML */ '<span>Difference in binary files</span>'
+        /* HTML */ '<span>Difference in binary files. Download commit to view (shortcut:\n              d)</span>'
       );
     });
   });

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {Observable, combineLatest} from 'rxjs';
-import {debounceTime, filter, map, withLatestFrom} from 'rxjs/operators';
+import {debounceTime, filter, map} from 'rxjs/operators';
 import {
   CreateCommentEventDetail,
   DiffInfo,
@@ -242,26 +242,24 @@ export class DiffModel extends Model<DiffState> {
       this.context$,
       this.renderPrefs$,
       this.diffRangesToFocus$,
+      this.keyLocations$,
     ])
       .pipe(
-        withLatestFrom(this.keyLocations$),
         debounceTime(1),
-        map(
-          ([[diff, context, renderPrefs, diffRangesToFocus], keyLocations]) => {
-            const options: ProcessingOptions = {
-              context,
-              keyLocations,
-              isBinary: !!(isImageDiff(diff) || diff.binary),
-              diffRangesToFocus,
-            };
-            if (renderPrefs?.num_lines_rendered_at_once) {
-              options.asyncThreshold = renderPrefs.num_lines_rendered_at_once;
-            }
-
-            const processor = new GrDiffProcessor(options);
-            return processor.process(diff.content);
+        map(([diff, context, renderPrefs, diffRangesToFocus, keyLocations]) => {
+          const options: ProcessingOptions = {
+            context,
+            keyLocations,
+            isBinary: !!(isImageDiff(diff) || diff.binary),
+            diffRangesToFocus,
+          };
+          if (renderPrefs?.num_lines_rendered_at_once) {
+            options.asyncThreshold = renderPrefs.num_lines_rendered_at_once;
           }
-        )
+
+          const processor = new GrDiffProcessor(options);
+          return processor.process(diff.content);
+        })
       )
       .subscribe(groups => {
         this.updateState({groups});

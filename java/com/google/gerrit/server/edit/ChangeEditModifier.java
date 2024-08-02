@@ -17,7 +17,6 @@ package com.google.gerrit.server.edit;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
 
-import com.google.common.base.Charsets;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.BooleanProjectConfig;
@@ -59,6 +58,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.util.List;
@@ -716,9 +716,10 @@ public class ChangeEditModifier {
         throws MergeConflictException {
       MergeAlgorithm mergeAlgorithm =
           new MergeAlgorithm(DiffAlgorithm.getAlgorithm(SupportedAlgorithm.MYERS));
-      RawText baseMessage = new RawText(commitToModify.getFullMessage().getBytes(Charsets.UTF_8));
-      RawText oldMessage = new RawText(editCommitMessage.getBytes(Charsets.UTF_8));
-      RawText newMessage = new RawText(newCommitMessage.getBytes(Charsets.UTF_8));
+      RawText baseMessage =
+          new RawText(commitToModify.getFullMessage().getBytes(StandardCharsets.UTF_8));
+      RawText oldMessage = new RawText(editCommitMessage.getBytes(StandardCharsets.UTF_8));
+      RawText newMessage = new RawText(newCommitMessage.getBytes(StandardCharsets.UTF_8));
       RawTextComparator textComparator = RawTextComparator.DEFAULT;
       MergeResult<RawText> mergeResult =
           mergeAlgorithm.merge(textComparator, baseMessage, oldMessage, newMessage);

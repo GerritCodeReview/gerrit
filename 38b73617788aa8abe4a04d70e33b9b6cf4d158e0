@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4adc9a53_0e1e3cc8",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-model/gr-diff-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-08-05T07:14:11Z",
+      "side": 1,
+      "message": "I think this change is dangerous, because it will recompute the diff much more often than the user would like and thus resetting the entire diff.\n\nThis is how `keyLocations$` is computed:\n```\n  readonly keyLocations$: Observable\u003cKeyLocations\u003e \u003d select(\n    this.state$,\n    diffState \u003d\u003e\n      computeKeyLocations(diffState.lineOfInterest, diffState.comments ?? [])\n  );\n```\n\nThis means that any diffState change will trigger the observable to fire.\n\nAlso `diffState.comments` may change all the time (new comment, changed comments, ...).\n\nSo I think this change needs very careful and thorough testing.",
+      "revId": "38b73617788aa8abe4a04d70e33b9b6cf4d158e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

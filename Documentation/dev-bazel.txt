@@ -17,7 +17,7 @@ should generate a .war file under `bazel-bin/gerrit.war`.
 
 To build Gerrit from source, you need:
 
-* A Linux or macOS system (Windows is not supported at this time)
+* A Linux or macOS system (Windows is not supported)
 * A JDK for Java 17 or Java 21
 * Python 3
 * link:https://github.com/nodesource/distributions/blob/master/README.md[Node.js (including npm),role=external,window=_blank]

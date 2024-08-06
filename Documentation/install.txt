@@ -178,6 +178,12 @@ Sample install command:
         --StopClass=com.google.gerrit.launcher.GerritLauncher --StopMethod=daemonStop
 ====
 
+**NOTE**: Windows is not recommended as a server-side platform for
+running Gerrit Code Review, because of the lack of adoption from the Gerrit Community,
+incomplete functional validation and lack of security testing. Gerrit on
+Windows Server is not actively supported even though it may still be
+fully or partially functioning as expected.
+
 [[customize]]
 == Site Customization
 

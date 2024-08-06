@@ -205,7 +205,8 @@ export class GrAccountLabel extends LitElement {
     if (
       account &&
       account !== this.account &&
-      account._account_id === this.account._account_id
+      (!this.account._account_id ||
+        account._account_id === this.account._account_id)
     ) {
       this.account = {...account, ...this.account};
     }

@@ -41,7 +41,7 @@ public abstract class ParentCommitData {
   public abstract Optional<ObjectId> commitId();
 
   /** Whether the parent commit is merged in the target branch {@link #branchName()}. */
-  public abstract Boolean isMergedInTargetBranch();
+  public abstract boolean isMergedInTargetBranch();
 
   /**
    * Change key of the parent commit. Only set if the parent commit is a patch-set of another gerrit
@@ -79,7 +79,7 @@ public abstract class ParentCommitData {
 
     public abstract Builder commitId(Optional<ObjectId> commitId);
 
-    public abstract Builder isMergedInTargetBranch(Boolean isMerged);
+    public abstract Builder isMergedInTargetBranch(boolean isMerged);
 
     public abstract Builder changeKey(Optional<Change.Key> changeKey);
 

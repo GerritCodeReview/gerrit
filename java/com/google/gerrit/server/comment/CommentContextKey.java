@@ -40,7 +40,7 @@ public abstract class CommentContextKey {
   /** File path at which the comment was written. */
   abstract String path();
 
-  abstract Integer patchset();
+  abstract int patchset();
 
   /** Number of extra lines of context that should be added before and after the comment range. */
   abstract int contextPadding();
@@ -62,7 +62,7 @@ public abstract class CommentContextKey {
 
     public abstract Builder path(String path);
 
-    public abstract Builder patchset(Integer patchset);
+    public abstract Builder patchset(int patchset);
 
     public abstract Builder contextPadding(int numLines);
 

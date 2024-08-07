@@ -464,7 +464,7 @@ public class GitFileDiffCacheImpl implements GitFileDiffCache {
     private static DiffOptions create(
         ObjectId oldTree,
         ObjectId newTree,
-        Integer renameScore,
+        int renameScore,
         Whitespace whitespace,
         DiffAlgorithm diffAlgorithm) {
       return new AutoValue_GitFileDiffCacheImpl_DiffOptions(
@@ -475,7 +475,7 @@ public class GitFileDiffCacheImpl implements GitFileDiffCache {
 
     abstract ObjectId newTree();
 
-    abstract Integer renameScore();
+    abstract int renameScore();
 
     abstract Whitespace whitespace();
 

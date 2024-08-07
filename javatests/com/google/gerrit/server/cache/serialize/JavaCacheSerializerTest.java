@@ -43,7 +43,7 @@ public class JavaCacheSerializerTest {
   abstract static class MyType implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    abstract Integer anInt();
+    abstract int anInt();
 
     abstract String aString();
   }

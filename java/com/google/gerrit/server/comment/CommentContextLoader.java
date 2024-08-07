@@ -285,10 +285,10 @@ public class CommentContextLoader {
      * The 1-based line number where the comment is written. A value 0 means that the line number is
      * not available for this comment.
      */
-    abstract Integer lineNumber();
+    abstract int lineNumber();
 
     /** Number of extra lines of context that should be added before and after the comment range. */
-    abstract Integer contextPadding();
+    abstract int contextPadding();
 
     @AutoValue.Builder
     public abstract static class Builder {
@@ -299,9 +299,9 @@ public class CommentContextLoader {
 
       public abstract Builder range(@Nullable Comment.Range range);
 
-      public abstract Builder lineNumber(Integer lineNumber);
+      public abstract Builder lineNumber(int lineNumber);
 
-      public abstract Builder contextPadding(Integer contextPadding);
+      public abstract Builder contextPadding(int contextPadding);
 
       public abstract ContextInput build();
     }

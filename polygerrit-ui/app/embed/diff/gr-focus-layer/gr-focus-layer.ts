@@ -83,6 +83,7 @@ export class GrFocusLayer implements DiffLayer {
     _line: GrDiffLine,
     side: Side
   ) {
+    this.annotated = true;
     if (!lineNumberEl || !textEl || !this.diffRangesToFocus) {
       return;
     }

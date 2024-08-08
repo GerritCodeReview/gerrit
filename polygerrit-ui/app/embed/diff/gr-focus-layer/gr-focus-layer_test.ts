@@ -117,6 +117,11 @@ suite('gr-focus-layer', () => {
       layer.setRanges(RANGES);
     });
 
+    test('annotated is true after annotate', () => {
+      assert.isFalse(hasOutOfFocusClass(1, Side.LEFT));
+      assert.isTrue(layer.annotated);
+    });
+
     test('line 1-2 are focussed on both sides', () => {
       assert.isFalse(hasOutOfFocusClass(1, Side.LEFT));
       assert.isFalse(hasOutOfFocusClass(2, Side.RIGHT));

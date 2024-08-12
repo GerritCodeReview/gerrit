@@ -15,17 +15,11 @@ link:pgm-init.html[init]::
 link:pgm-daemon.html[daemon]::
 	Gerrit HTTP, SSH network server.
 
-link:pgm-prolog-shell.html[prolog-shell]::
-	Simple interactive Prolog interpreter.
-
 link:pgm-reindex.html[reindex]::
 	Rebuild the secondary index.
 
 link:pgm-SwitchSecureStore.html[SwitchSecureStore]::
 	Change used SecureStore implementation.
-
-link:pgm-rulec.html[rulec]::
-	Compile project-specific Prolog rules to JARs.
 
 version::
 	Display the release version of Gerrit Code Review.
@@ -43,6 +37,14 @@ link:pgm-ChangeExternalIdCaseSensitivity.html[ChangeExternalIdCaseSensitivity]::
 
 link:pgm-MigrateAccountPatchReviewDb.html[MigrateAccountPatchReviewDb]::
 	Migrates AccountPatchReviewDb from one database backend to another.
+
+=== Prolog Utilities (DEPRECATED)
+
+link:pgm-prolog-shell.html[prolog-shell]::
+	Simple interactive Prolog interpreter.
+
+link:pgm-rulec.html[rulec]::
+	Compile project-specific Prolog rules to JARs.
 
 GERRIT
 ------

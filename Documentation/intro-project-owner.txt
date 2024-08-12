@@ -285,10 +285,6 @@ development branches. You likely want to start with
 more restrictive policy if you are facing issues with the build and
 test stability of the destination branches.
 
-It is also possible to define the submit type dynamically via
-link:#prolog-submit-type[Prolog]. This way you can use different submit
-types for different branches.
-
 Please note that there are other submit types available; they are
 described in the link:config-project-config.html#submit-type[Submit Type]
 section.
@@ -307,13 +303,11 @@ project-specific workflows. For example if a project requires an IP
 approval from a special IP-team, it can define an `IP-Review` label
 and grant permissions to the IP-team to vote on this label.
 
-The behavior of a label can be controlled by its
-link:config-labels.html#label_function[function], e.g. it can be
-configured whether a max positive voting on the label is required for
-submit or if the voting on the label is optional.
-
-By using a custom link:#submit-rules[submit rule] it can be controlled
-per change whether a label is required for submit or not.
+The behavior of a label can be controlled by
+link:config-submit-requirements.html#labels[submit requirements], e.g. it can
+be configured whether a max positive voting on the label is required for
+submit or if only votes from certain users count or if the voting on
+the label is optional.
 
 A useful feature on labels is the possibility to automatically copy
 scores forward to new patch sets if it was a
@@ -321,45 +315,25 @@ link:config-labels.html#trivial_rebase[trivial rebase] or if
 link:config-labels.html#no_code_change[there was no code change] (e.g.
 only the commit message was edited).
 
-[[submit-rules]]
-== Submit Rules
+[[submit-requirements]]
+== Submit requirements
 
-A link:prolog-cookbook.html#SubmitRule[submit rule] in Gerrit is logic
-that defines when a change is submittable. By default, a change is
-submittable when it gets at least one highest vote on each label and
-has no lowest vote (aka veto vote) on any label.
+Submit requirements is a powerful and lightweight way of configuring, per
+project, what is required for a change to be submittable.
+It replaces legacy ways of configuring submittability (such as prolog rules and
+label functions).
 
-The submit rules in Gerrit are implemented in link:prolog-cookbook.html[
-Prolog] and projects that need more flexibility can define their own
-submit rules to decide when a change should be submittable. A good
-link:prolog-cookbook.html#NonAuthorCodeReview[example] from the Prolog
-cookbook shows how to allow submit only if a change has a
-`Code-Review+2` vote from a person that is not the change author. This
-way a four-eyes principle for the reviews can be enforced.
+Read more in the
+link:config-submit-requirements.html[Submit Requirements documentation].
 
-A Prolog submit rule has access to link:prolog-change-facts.html[
-information] about the change for which it is testing the
-submittability. Among others the list of the modified files can be
-accessed, which allows special logic if certain files are touched. For
-example, a common practice is to require a vote on an additional label,
-like `Library-Compliance`, if the dependencies of the project are
-changed.
+== Prolog Submit Rules (DEPRECATED)
 
-[[prolog-submit-type]]
-It is also possible to control the link:prolog-cookbook.html#SubmitType[
-submit type] from Prolog. For example this can be used to define a more
-restrictive submit type such as `Fast Forward Only` for stable branches
-while using a more liberal submit type, e.g. `Merge If Necessary` with
-content merge, for development branches. How this can be done can be
-seen from an link:prolog-cookbook.html#SubmitTypePerBranch[example] in
-the Prolog cookbook.
+The ability to configure submit rules with prolog is deprecated and replaced
+by link:#submit-requirements[Submit Requirements].
 
-Submit rules are maintained in the link:prolog-cookbook.html#RulesFile[
-rules.pl] file in the `refs/meta/config` branch of the project. How to
-write submit rules is explained in the
-link:prolog-cookbook.html#HowToWriteSubmitRules[Prolog cookbook]. There
-is also good support for link:prolog-cookbook.html#TestingSubmitRules[
-testing submit rules] while developing them.
+If you wish to read more about the deprecated feature, read about it in
+link:prolog-cookbook.html[the Prolog cookbook].
+
 
 [[continuous-integration]]
 == Continuous Integration

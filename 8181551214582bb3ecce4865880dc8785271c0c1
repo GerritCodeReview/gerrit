@@ -22,6 +22,30 @@
       },
       "revId": "8181551214582bb3ecce4865880dc8785271c0c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "147d0388_a939213b",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-element.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-08-13T14:37:18Z",
+      "side": 1,
+      "message": "Moved the message to gr-diff-host",
+      "parentUuid": "4d8f3ab0_166e7a44",
+      "range": {
+        "startLine": 366,
+        "startChar": 52,
+        "endLine": 366,
+        "endChar": 58
+      },
+      "revId": "8181551214582bb3ecce4865880dc8785271c0c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -40,10 +40,6 @@ import {GrDiffGroup} from './gr-diff-group';
 import {subscribe} from '../../../elements/lit/subscription-controller';
 import {GrDiffSection} from '../gr-diff-builder/gr-diff-section';
 import {repeat} from 'lit/directives/repeat.js';
-import {
-  Shortcut,
-  shortcutsServiceToken,
-} from '../../../services/shortcuts/shortcuts-service';
 
 const LARGE_DIFF_THRESHOLD_LINES = 10000;
 
@@ -81,8 +77,6 @@ export class GrDiffElement extends LitElement {
   @state() columnCount = 0;
 
   private getDiffModel = resolve(this, diffModelToken);
-
-  private readonly getShortcutsService = resolve(this, shortcutsServiceToken);
 
   /**
    * The browser API for handling selection does not (yet) work for selection
@@ -369,10 +363,8 @@ export class GrDiffElement extends LitElement {
         <tr>
           <td colspan=${this.columnCount}>
             <span
-              >Difference in binary files. Download commit to view (shortcut:
-              ${this.getShortcutsService().getShortcut(
-                Shortcut.OPEN_DOWNLOAD_DIALOG
-              )})</span
+              >Difference in binary files. Download commit to view the file
+              locally</span
             >
           </td>
         </tr>

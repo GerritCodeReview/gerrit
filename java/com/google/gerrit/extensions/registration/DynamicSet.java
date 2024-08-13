@@ -122,7 +122,7 @@ public class DynamicSet<T> implements Iterable<T> {
    */
   public static <T> LinkedBindingBuilder<T> bind(Binder binder, Class<T> type, Named name) {
     binder.disableCircularProxies();
-    return bind(binder, TypeLiteral.get(type));
+    return bind(binder, TypeLiteral.get(type), name);
   }
 
   /**

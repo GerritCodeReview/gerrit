@@ -24,7 +24,7 @@ import {
 } from '../../../constants/constants';
 import {fire} from '../../../utils/event-util';
 import {RenderPreferences, LOST, DiffResponsiveMode} from '../../../api/diff';
-import {query, queryAll, state} from 'lit/decorators.js';
+import {property, query, queryAll, state} from 'lit/decorators.js';
 import {html, LitElement, nothing} from 'lit';
 import {when} from 'lit/directives/when.js';
 import {classMap} from 'lit/directives/class-map.js';
@@ -40,10 +40,6 @@ import {GrDiffGroup} from './gr-diff-group';
 import {subscribe} from '../../../elements/lit/subscription-controller';
 import {GrDiffSection} from '../gr-diff-builder/gr-diff-section';
 import {repeat} from 'lit/directives/repeat.js';
-import {
-  Shortcut,
-  shortcutsServiceToken,
-} from '../../../services/shortcuts/shortcuts-service';
 
 const LARGE_DIFF_THRESHOLD_LINES = 10000;
 
@@ -80,9 +76,11 @@ export class GrDiffElement extends LitElement {
 
   @state() columnCount = 0;
 
-  private getDiffModel = resolve(this, diffModelToken);
+  // Extra message shown if files are binary to help users investigate contents.
+  @property({type: String})
+  binaryDiffHint = '';
 
-  private readonly getShortcutsService = resolve(this, shortcutsServiceToken);
+  private getDiffModel = resolve(this, diffModelToken);
 
   /**
    * The browser API for handling selection does not (yet) work for selection
@@ -368,12 +366,7 @@ export class GrDiffElement extends LitElement {
       <tbody class="binary-diff">
         <tr>
           <td colspan=${this.columnCount}>
-            <span
-              >Difference in binary files. Download commit to view (shortcut:
-              ${this.getShortcutsService().getShortcut(
-                Shortcut.OPEN_DOWNLOAD_DIALOG
-              )})</span
-            >
+            <span>Difference in binary files.${this.binaryDiffHint}</span>
           </td>
         </tr>
       </tbody>

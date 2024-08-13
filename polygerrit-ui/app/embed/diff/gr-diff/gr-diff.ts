@@ -187,6 +187,10 @@ export class GrDiff extends LitElement implements GrDiffApi {
   @property({type: Object})
   diffRangesToFocus?: DiffRangesToFocus;
 
+  // Extra message shown if files are binary to help users investigate contents.
+  @property({type: String})
+  binaryDiffHint = '';
+
   /**
    * True when diff is changed, until the content is done rendering.
    * Use getter/setter loading instead of this.
@@ -467,7 +471,9 @@ export class GrDiff extends LitElement implements GrDiffApi {
   }
 
   override render() {
-    return html`<gr-diff-element></gr-diff-element>`;
+    return html`<gr-diff-element
+      .binaryDiffHint=${this.binaryDiffHint}
+    ></gr-diff-element>`;
   }
 
   private addSelectionListeners() {

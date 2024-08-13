@@ -2804,9 +2804,7 @@ suite('gr-diff-element tests', () => {
                 <tbody class="binary-diff">
                   <tr>
                     <td colspan="4">
-                      <span>
-                        ${'Difference in binary files. Download commit to view (shortcut:\n              d)'}
-                      </span>
+                      <span> Difference in binary files. </span>
                     </td>
                   </tr>
                 </tbody>
@@ -3368,11 +3366,12 @@ suite('gr-diff-element tests', () => {
 
     test('binary', async () => {
       element.diff = {...createEmptyDiff(), content, binary: true};
+      element.binaryDiffHint = ' Download commit to view (shortcut: d)';
       await element.updateComplete;
       const body = queryAndAssert(element, 'tbody.binary-diff');
       assert.lightDom.equal(
         body,
-        /* HTML */ '<span>Difference in binary files. Download commit to view (shortcut:\n              d)</span>'
+        /* HTML */ '<span>Difference in binary files. Download commit to view (shortcut: d)</span>'
       );
     });
   });

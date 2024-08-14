@@ -654,7 +654,7 @@ public class MergeOp implements AutoCloseable {
    * @param change the change to be merged.
    * @param caller the identity of the user that is recorded as the one performing the merge. In
    *     case of impersonation {@code caller.getRealUser()} contains the user triggering the merge.
-   * @param checkSubmitRules whether the prolog submit rules should be evaluated
+   * @param checkSubmitRules whether submit rules and submit requirements should be evaluated.
    * @param submitInput parameters regarding the merge
    * @param dryrun if true, this includes calculating all projects affected by the submission,
    *     checking for possible submission problems (ACLs, merge conflicts, etc) but not the merge

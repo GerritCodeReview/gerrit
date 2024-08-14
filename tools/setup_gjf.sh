@@ -19,6 +19,8 @@ set -eu
 # Keep this version in sync with dev-contributing.txt.
 VERSION=${1:-1.7}
 
+TAG_PREFIX=google-java-format-
+
 case "$VERSION" in
 1.3)
     SHA1="a73cfe6f9af01bd6ff150c0b50c9d620400f784c"
@@ -34,6 +36,7 @@ case "$VERSION" in
     ;;
 1.22.0)
     SHA1="693d8fd04656886a2287cfe1d7a118c4697c3a57"
+    TAG_PREFIX=v
     ;;
 *)
     echo "unknown google-java-format version: $VERSION"
@@ -51,7 +54,7 @@ dir="$root/tools/format"
 mkdir -p "$dir"
 
 name="google-java-format-$VERSION-all-deps.jar"
-url="https://github.com/google/google-java-format/releases/download/v$VERSION/$name"
+url="https://github.com/google/google-java-format/releases/download/$TAG_PREFIX$VERSION/$name"
 "$root/tools/download_file.py" -o "$dir/$name" -u "$url" -v "$SHA1"
 
 launcher="$dir/google-java-format-$VERSION"

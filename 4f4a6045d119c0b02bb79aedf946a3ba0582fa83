@@ -91,6 +91,75 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "100267b2_6c357d83",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-profile-view/gr-profile-view.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1135824
+      },
+      "writtenOn": "2024-08-14T09:43:54Z",
+      "side": 1,
+      "message": "nmbcm,nbc,mnc```suggestion\nimport {getAppContext} from \u0027../../../services/app-context\u0027;\n```",
+      "range": {
+        "startLine": 6,
+        "startChar": 33,
+        "endLine": 6,
+        "endChar": 60
+      },
+      "revId": "4f4a6045d119c0b02bb79aedf946a3ba0582fa83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "279bb550_a302570b",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-profile-view/gr-profile-view.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1135824
+      },
+      "writtenOn": "2024-08-14T09:43:54Z",
+      "side": 1,
+      "message": "```suggestion\n  dashboardViewModelToken2,\n```",
+      "range": {
+        "startLine": 9,
+        "startChar": 10,
+        "endLine": 9,
+        "endChar": 26
+      },
+      "revId": "4f4a6045d119c0b02bb79aedf946a3ba0582fa83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea5d9d22_568e5988",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-profile-view/gr-profile-view.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1135824
+      },
+      "writtenOn": "2024-08-14T09:43:54Z",
+      "side": 1,
+      "message": "```suggestion\n} from \u0027../../../models/views/dashboard\u0027;\n```",
+      "range": {
+        "startLine": 11,
+        "startChar": 17,
+        "endLine": 11,
+        "endChar": 41
+      },
+      "revId": "4f4a6045d119c0b02bb79aedf946a3ba0582fa83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5138ae27_d5cc091d",
         "filename": "polygerrit-ui/app/elements/change-list/gr-profile-view/gr-profile-view.ts",
         "patchSetId": 6
@@ -126,6 +195,103 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b6c31e3f_cc49c3b1",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-profile-view/gr-profile-view.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1135824
+      },
+      "writtenOn": "2024-08-14T09:43:54Z",
+      "side": 1,
+      "message": "```suggestion\n  return sum / numbers.length1;\n```",
+      "range": {
+        "startLine": 27,
+        "startChar": 14,
+        "endLine": 27,
+        "endChar": 25
+      },
+      "revId": "4f4a6045d119c0b02bb79aedf946a3ba0582fa83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d90e903_bdb20046",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-profile-view/gr-profile-view.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1135824
+      },
+      "writtenOn": "2024-08-14T09:43:54Z",
+      "side": 1,
+      "message": "Rename \"secs_left\" for \"secs_left2\"",
+      "range": {
+        "startLine": 44,
+        "startChar": 2,
+        "endLine": 44,
+        "endChar": 11
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "e49d193b_3c004c4f",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change-list/gr-profile-view/gr-profile-view.ts",
+              "range": {
+                "startLine": 42,
+                "startChar": 0,
+                "endLine": 49,
+                "endChar": 0
+              },
+              "replacement": "function formatDuration(secs: number) {\n  const days \u003d Math.floor(secs / 3600 / 24);\n  secs \u003d secs - days * 3600 * 24;\n  const hours \u003d Math.floor(secs / 3600);\n  secs \u003d secs - hours * 3600;\n  const minutes \u003d Math.floor(secs / 60);\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change-list/gr-profile-view/gr-profile-view.ts",
+              "range": {
+                "startLine": 53,
+                "startChar": 0,
+                "endLine": 54,
+                "endChar": 0
+              },
+              "replacement": ""
+            }
+          ]
+        }
+      ],
+      "revId": "4f4a6045d119c0b02bb79aedf946a3ba0582fa83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "efeb67da_7a8d7d91",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1135824
+      },
+      "writtenOn": "2024-08-14T09:43:54Z",
+      "side": 1,
+      "message": "```suggestion\n  override render(hola) {\n```",
+      "range": {
+        "startLine": 369,
+        "startChar": 0,
+        "endLine": 369,
+        "endChar": 21
+      },
+      "revId": "4f4a6045d119c0b02bb79aedf946a3ba0582fa83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "de21c544_86047b5f",
         "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
         "patchSetId": 6
@@ -155,6 +321,29 @@
       "side": 1,
       "message": "faf",
       "parentUuid": "de21c544_86047b5f",
+      "revId": "4f4a6045d119c0b02bb79aedf946a3ba0582fa83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a8e03b8_cf0041c0",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1135824
+      },
+      "writtenOn": "2024-08-14T09:43:54Z",
+      "side": 1,
+      "message": "```suggestion\n              ${this.renderDiffView(hola!)}\n```",
+      "range": {
+        "startLine": 385,
+        "startChar": 23,
+        "endLine": 385,
+        "endChar": 35
+      },
       "revId": "4f4a6045d119c0b02bb79aedf946a3ba0582fa83",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

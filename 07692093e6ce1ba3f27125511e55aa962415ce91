@@ -1,0 +1,65 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0610fa67_3e89eb52",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-profile-view/gr-profile-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1135824
+      },
+      "writtenOn": "2024-08-14T09:43:54Z",
+      "side": 1,
+      "message": "Rename \"average\" for \"average2\"",
+      "range": {
+        "startLine": 21,
+        "startChar": 9,
+        "endLine": 21,
+        "endChar": 16
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "257534cf_be0bda15",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change-list/gr-profile-view/gr-profile-view.ts",
+              "range": {
+                "startLine": 21,
+                "startChar": 0,
+                "endLine": 22,
+                "endChar": 0
+              },
+              "replacement": "function average2(numbers: Array\u003cnumber\u003e) {\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change-list/gr-profile-view/gr-profile-view.ts",
+              "range": {
+                "startLine": 164,
+                "startChar": 0,
+                "endLine": 165,
+                "endChar": 0
+              },
+              "replacement": "          \u003cdiv class\u003d\"average\"\u003e${formatDuration(average2(tts))}\u003c/div\u003e\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change-list/gr-profile-view/gr-profile-view.ts",
+              "range": {
+                "startLine": 176,
+                "startChar": 0,
+                "endLine": 177,
+                "endChar": 0
+              },
+              "replacement": "          \u003cdiv class\u003d\"average\"\u003e${round2Digits(average2(comments))}\u003c/div\u003e\n"
+            }
+          ]
+        }
+      ],
+      "revId": "07692093e6ce1ba3f27125511e55aa962415ce91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

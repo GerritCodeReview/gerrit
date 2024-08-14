@@ -48,6 +48,7 @@ import {
   secondaryLinks,
   tooltipForLink,
   computeIsExpandable,
+  rectifyFix,
 } from '../../models/checks/checks-util';
 import {assertIsDefined, assert, unique} from '../../utils/common-util';
 import {modifierPressed, whenVisible} from '../../utils/dom-util';
@@ -79,6 +80,7 @@ import {getAppContext} from '../../services/app-context';
 import {when} from 'lit/directives/when.js';
 import {DropdownItem} from '../shared/gr-dropdown-list/gr-dropdown-list';
 import './gr-checks-attempt';
+import './gr-checks-fix-preview';
 import {changeViewModelToken} from '../../models/views/change';
 import {formStyles} from '../../styles/form-styles';
 
@@ -562,8 +564,11 @@ export class GrResultRow extends LitElement {
 
   private renderActions() {
     const actions = [...(this.result?.actions ?? [])];
-    const fixAction = createFixAction(this, this.result);
-    if (fixAction) actions.unshift(fixAction);
+    let fixAction: Action | undefined = undefined;
+    if (!this.isExpanded) {
+      fixAction = createFixAction(this, this.result);
+      if (fixAction) actions.unshift(fixAction);
+    }
     if (actions.length === 0) return;
     const overflowItems = actions.slice(2).map(action => {
       return {...action, id: action.name};
@@ -657,6 +662,10 @@ class GrResultExpanded extends LitElement {
         .message {
           padding: var(--spacing-m) 0;
         }
+        gr-checks-fix-preview {
+          margin: var(--spacing-l) 0;
+          max-width: 800px;
+        }
       `,
     ];
   }
@@ -681,6 +690,7 @@ class GrResultExpanded extends LitElement {
           .content=${this.result.message ?? ''}
         ></gr-formatted-text>
       </gr-endpoint-decorator>
+      ${this.renderFix()}
     `;
   }
 
@@ -736,6 +746,20 @@ class GrResultExpanded extends LitElement {
     return links.map(
       link => html`<div class="links">${this.renderLink(link, false)}</div>`
     );
+  }
+
+  private renderFix() {
+    const fixSuggestionInfo = rectifyFix(
+      this.result?.fixes?.[0],
+      this.result?.checkName
+    );
+    if (!fixSuggestionInfo) return;
+    return html`
+      <gr-checks-fix-preview
+        .fixSuggestionInfo=${fixSuggestionInfo}
+        .patchSet=${this.result?.patchset}
+      ></gr-checks-fix-preview>
+    `;
   }
 
   private renderLink(link?: Link, targetBlank = true) {

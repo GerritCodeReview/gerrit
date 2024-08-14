@@ -1,0 +1,274 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aae312ee_f317474a",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-fix-preview.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-08-14T19:05:56Z",
+      "side": 1,
+      "message": "Consider covering this file with unit tests.",
+      "revId": "b99fafa11eb17906c265932762508e27fa30c96d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71fc7431_46afb64f",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-fix-preview.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-08-14T19:05:56Z",
+      "side": 1,
+      "message": "Looks like this is branched from `GrSuggestionDiffPreview`?\n\nWorth marking as such to make the diff easier to parse?\n\nCSS for ex is the same as\nhttps://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/shared/gr-suggestion-diff-preview/gr-suggestion-diff-preview.ts;l\u003d152?q\u003dgr-suggestion\u0026ss\u003dgerrit",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 50
+      },
+      "revId": "b99fafa11eb17906c265932762508e27fa30c96d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ebcb97e_44571260",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-fix-preview.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-08-14T19:05:56Z",
+      "side": 1,
+      "message": "any reason this is `updated` and not `willUpdate`?\n\nMy (limited) understanding is that we use `willUpdate` for performing computations when properties change.",
+      "range": {
+        "startLine": 163,
+        "startChar": 2,
+        "endLine": 163,
+        "endChar": 18
+      },
+      "revId": "b99fafa11eb17906c265932762508e27fa30c96d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad3cc40b_efcdc1b9",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-fix-preview.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-08-14T19:05:56Z",
+      "side": 1,
+      "message": "possible to fix formatting of the html?",
+      "range": {
+        "startLine": 214,
+        "startChar": 15,
+        "endLine": 223,
+        "endChar": 11
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "bee3adc2_ce7a141a",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/checks/gr-checks-fix-preview.ts",
+              "range": {
+                "startLine": 214,
+                "startChar": 0,
+                "endLine": 224,
+                "endChar": 0
+              },
+              "replacement": "    return html`\n      \u003cdiv class\u003d\"diff-container\"\u003e\n        \u003cgr-diff\n          .prefs\u003d${this.overridePartialDiffPrefs()}\n          .path\u003d${this.preview.filepath}\n          .diff\u003d${diff}\n          .layers\u003d${this.layers}\n          .renderPrefs\u003d${this.renderPrefs}\n          .viewMode\u003d${DiffViewMode.UNIFIED}\n        \u003e\u003c/gr-diff\u003e\n      \u003c/div\u003e\n    `;\n"
+            }
+          ]
+        }
+      ],
+      "revId": "b99fafa11eb17906c265932762508e27fa30c96d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5390896a_b3e70d95",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-fix-preview.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-08-14T19:05:56Z",
+      "side": 1,
+      "message": "can you document what this method is doing?\n\n```\nconst currentPreviews \u003d Object.keys(res).map(key \u003d\u003e {\n      return {filepath: key, preview: res[key]};\n    });\n```\n\nThis part is not super clear to me.",
+      "range": {
+        "startLine": 226,
+        "startChar": 2,
+        "endLine": 226,
+        "endChar": 31
+      },
+      "revId": "b99fafa11eb17906c265932762508e27fa30c96d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a243795_11ea9c37",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-fix-preview.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-08-14T19:05:56Z",
+      "side": 1,
+      "message": "method name says `fetch` but we are also assigning to `this.preview` here.\n\nConsider moving this out of this method or renaming",
+      "range": {
+        "startLine": 240,
+        "startChar": 6,
+        "endLine": 240,
+        "endChar": 40
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "a83dc383_f1d861de",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/checks/gr-checks-fix-preview.ts",
+              "range": {
+                "startLine": 165,
+                "startChar": 0,
+                "endLine": 166,
+                "endChar": 0
+              },
+              "replacement": "      this.fetchAndAssignFixPreview();\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/checks/gr-checks-fix-preview.ts",
+              "range": {
+                "startLine": 226,
+                "startChar": 0,
+                "endLine": 227,
+                "endChar": 0
+              },
+              "replacement": "  private async fetchAndAssignFixPreview() {\n"
+            }
+          ]
+        }
+      ],
+      "revId": "b99fafa11eb17906c265932762508e27fa30c96d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "216878b3_b55bacba",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-fix-preview.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-08-14T19:05:56Z",
+      "side": 1,
+      "message": "can you document this method as well?\n\n`rectifyFix` I am not sure what \"rectifying\" a method called `showFix` is doing.",
+      "range": {
+        "startLine": 246,
+        "startChar": 2,
+        "endLine": 246,
+        "endChar": 21
+      },
+      "revId": "b99fafa11eb17906c265932762508e27fa30c96d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f10bd4ac_5ac240ad",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-fix-preview.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-08-14T19:05:56Z",
+      "side": 1,
+      "message": "document this method as well\n\nTo me it is not immediately obvious that we navigate to the Edit patchset after applying a fix",
+      "range": {
+        "startLine": 258,
+        "startChar": 2,
+        "endLine": 258,
+        "endChar": 28
+      },
+      "revId": "b99fafa11eb17906c265932762508e27fa30c96d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a453ae3_ec09f73d",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-fix-preview.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-08-14T19:05:56Z",
+      "side": 1,
+      "message": "Maybe pull this out into a method with a name, `navigateToEditPatchset` or something?",
+      "range": {
+        "startLine": 270,
+        "startChar": 4,
+        "endLine": 278,
+        "endChar": 39
+      },
+      "revId": "b99fafa11eb17906c265932762508e27fa30c96d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88eb33b4_208269bc",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-fix-preview.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-08-14T19:05:56Z",
+      "side": 1,
+      "message": "why is the word \"Partial\" in this method?\n\nIs it because we override only a few properties?\n\nPlease document here as well why we are doing this.",
+      "range": {
+        "startLine": 282,
+        "startChar": 10,
+        "endLine": 282,
+        "endChar": 34
+      },
+      "revId": "b99fafa11eb17906c265932762508e27fa30c96d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

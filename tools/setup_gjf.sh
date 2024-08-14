@@ -19,6 +19,8 @@ set -eu
 # Keep this version in sync with dev-contributing.txt.
 VERSION=${1:-1.7}
 
+TAG_PREFIX=google-java-format-
+
 case "$VERSION" in
 1.7)
     SHA1="b6d34a51e579b08db7c624505bdf9af4397f1702"
@@ -26,7 +28,7 @@ case "$VERSION" in
     ;;
 1.22.0)
     SHA1="693d8fd04656886a2287cfe1d7a118c4697c3a57"
-    TAG_PREFIX="v"
+    TAG_PREFIX=v
     ;;
 *)
     echo "unknown google-java-format version: $VERSION"

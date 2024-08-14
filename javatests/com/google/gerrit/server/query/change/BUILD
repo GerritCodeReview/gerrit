@@ -14,7 +14,6 @@ java_library(
     visibility = ["//visibility:public"],
     runtime_deps = [
         "//java/com/google/gerrit/lucene",
-        "//prolog:gerrit-prolog-common",
     ],
     deps = [
         "//java/com/google/gerrit/acceptance:lib",

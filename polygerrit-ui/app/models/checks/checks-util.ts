@@ -136,9 +136,9 @@ export function createFixAction(
 
 export function rectifyFix(
   fix: Fix | undefined,
-  checkName: string
+  checkName: string | undefined
 ): FixSuggestionInfo | undefined {
-  if (!fix?.replacements) return undefined;
+  if (!fix?.replacements || !checkName) return undefined;
   const replacements = fix.replacements
     .map(rectifyReplacement)
     .filter(isDefined);

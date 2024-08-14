@@ -30,7 +30,6 @@ junit_tests(
     runtime_deps = [
         "//java/com/google/gerrit/lucene",
         "//lib/bouncycastle:bcprov",
-        "//prolog:gerrit-prolog-common",
     ],
     deps = [
         ":custom-truth-subjects",

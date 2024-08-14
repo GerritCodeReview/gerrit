@@ -15,7 +15,7 @@ import {
   LifeCycle,
   Timing,
 } from '../../constants/reporting';
-import {onCLS, onFID, onLCP, Metric, onINP} from 'web-vitals';
+import {onCLS, onLCP, Metric, onINP} from 'web-vitals';
 import {getEventPath, isElementTarget} from '../../utils/dom-util';
 import {Finalizable} from '../../types/types';
 
@@ -290,7 +290,6 @@ export function initWebVitals(reportingService: ReportingService) {
   }
 
   onCLS(metric => reportWebVitalMetric(Timing.CLS, metric));
-  onFID(metric => reportWebVitalMetric(Timing.FID, metric));
   onLCP(metric => reportWebVitalMetric(Timing.LCP, metric));
   onINP(metric => reportWebVitalMetric(Timing.INP, metric));
 }

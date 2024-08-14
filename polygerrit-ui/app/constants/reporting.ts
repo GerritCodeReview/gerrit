@@ -90,8 +90,6 @@ export enum Timing {
   CHECKS_LOAD = 'ChecksLoad',
   // Webvitals - Cumulative Layout Shift (CLS): measures visual stability
   CLS = 'CLS',
-  // WebVitals - First Input Delay (FID): measures interactivity
-  FID = 'FID',
   // WebVitals - Largest Contentful Paint (LCP): measures loading performance.
   LCP = 'LCP',
   // WebVitals - Interaction to Next Paint (INP): measures responsiveness

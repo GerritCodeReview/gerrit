@@ -6,7 +6,6 @@ junit_tests(
     srcs = glob(["*.java"]),
     runtime_deps = [
         "//java/com/google/gerrit/lucene",
-        "//prolog:gerrit-prolog-common",
     ],
     deps = [
         "//java/com/google/gerrit/common:annotations",

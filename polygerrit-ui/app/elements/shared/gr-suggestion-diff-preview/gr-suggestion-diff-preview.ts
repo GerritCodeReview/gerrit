@@ -22,7 +22,7 @@ import {highlightServiceToken} from '../../../services/highlight/highlight-servi
 import {FixSuggestionInfo, NumericChangeId} from '../../../api/rest-api';
 import {changeModelToken} from '../../../models/change/change-model';
 import {subscribe} from '../../lit/subscription-controller';
-import {FilePreview} from '../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog';
+import {DiffPreview} from '../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog';
 import {userModelToken} from '../../../models/user/user-model';
 import {createUserFixSuggestion} from '../../../utils/comment-util';
 import {commentModelToken} from '../gr-comment-model/gr-comment-model';
@@ -87,7 +87,7 @@ export class GrSuggestionDiffPreview extends LitElement {
   changeNum?: NumericChangeId;
 
   @state()
-  preview?: FilePreview;
+  preview?: DiffPreview;
 
   @state()
   diffPrefs?: DiffPreferencesInfo;

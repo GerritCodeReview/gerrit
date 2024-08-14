@@ -90,7 +90,7 @@ export const fakeRun1: CheckRun = {
   checkName: 'FAKE Super Check',
   startedTimestamp: new Date(new Date().getTime() - 5 * 60 * 1000),
   finishedTimestamp: new Date(new Date().getTime() + 5 * 60 * 1000),
-  patchset: 1,
+  patchset: 3,
   labelName: 'Verified',
   isSingleAttempt: true,
   isLatestAttempt: true,
@@ -159,16 +159,16 @@ export const fakeRun1: CheckRun = {
     {
       internalResultId: 'f1r2',
       category: Category.ERROR,
-      summary: 'Suspicious Date',
-      message: 'That was a holiday, you know.',
+      summary: 'Test Size Checker',
+      message: 'The test seems to be of large size, not medium.',
       codePointers: [
         {
-          path: '/COMMIT_MSG',
+          path: 'plugins/BUILD',
           range: {
-            start_line: 3,
-            start_character: 0,
-            end_line: 3,
-            end_character: 0,
+            start_line: 186,
+            start_character: 12,
+            end_line: 186,
+            end_character: 18,
           },
         },
       ],
@@ -177,14 +177,14 @@ export const fakeRun1: CheckRun = {
           description: 'This is the way to do it.',
           replacements: [
             {
-              path: 'BUILD',
+              path: 'plugins/BUILD',
               range: {
-                start_line: 1,
-                start_character: 0,
-                end_line: 1,
-                end_character: 0,
+                start_line: 186,
+                start_character: 12,
+                end_line: 186,
+                end_character: 18,
               },
-              replacement: '# This is now fixed.\n',
+              replacement: 'large',
             },
           ],
         },

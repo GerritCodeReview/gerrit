@@ -779,6 +779,7 @@ export class ChecksModel extends Model<ChecksState> {
 
   register(checksPlugin: ChecksPlugin) {
     const {pluginName, provider, config} = checksPlugin;
+    if (pluginName === 'findings') return;
     if (this.providers[pluginName]) {
       console.warn(
         `Plugin '${pluginName}' was trying to register twice as a Checks UI provider. Ignored.`

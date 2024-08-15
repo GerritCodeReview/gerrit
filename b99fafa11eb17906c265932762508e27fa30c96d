@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf818880_c52a9dc6",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-fix-preview.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-08-15T08:39:04Z",
+      "side": 1,
+      "message": "That is why I have not sent it to eng for review. :-)\nDone.",
+      "parentUuid": "aae312ee_f317474a",
+      "revId": "b99fafa11eb17906c265932762508e27fa30c96d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "71fc7431_46afb64f",
@@ -41,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0da1fb6e_b5b9b12d",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-fix-preview.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-08-15T08:39:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71fc7431_46afb64f",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 50
+      },
+      "revId": "b99fafa11eb17906c265932762508e27fa30c96d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3ebcb97e_44571260",
@@ -54,6 +96,30 @@
       "writtenOn": "2024-08-14T19:05:56Z",
       "side": 1,
       "message": "any reason this is `updated` and not `willUpdate`?\n\nMy (limited) understanding is that we use `willUpdate` for performing computations when properties change.",
+      "range": {
+        "startLine": 163,
+        "startChar": 2,
+        "endLine": 163,
+        "endChar": 18
+      },
+      "revId": "b99fafa11eb17906c265932762508e27fa30c96d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "71e235bd_df264526",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-fix-preview.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-08-15T08:39:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ebcb97e_44571260",
       "range": {
         "startLine": 163,
         "startChar": 2,
@@ -105,6 +171,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "14178c30_19d4e6bf",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-fix-preview.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-08-15T08:39:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad3cc40b_efcdc1b9",
+      "range": {
+        "startLine": 214,
+        "startChar": 15,
+        "endLine": 223,
+        "endChar": 11
+      },
+      "revId": "b99fafa11eb17906c265932762508e27fa30c96d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5390896a_b3e70d95",
@@ -118,6 +208,30 @@
       "writtenOn": "2024-08-14T19:05:56Z",
       "side": 1,
       "message": "can you document what this method is doing?\n\n```\nconst currentPreviews \u003d Object.keys(res).map(key \u003d\u003e {\n      return {filepath: key, preview: res[key]};\n    });\n```\n\nThis part is not super clear to me.",
+      "range": {
+        "startLine": 226,
+        "startChar": 2,
+        "endLine": 226,
+        "endChar": 31
+      },
+      "revId": "b99fafa11eb17906c265932762508e27fa30c96d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9c6e927_ae35d0ab",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-fix-preview.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-08-15T08:39:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5390896a_b3e70d95",
       "range": {
         "startLine": 226,
         "startChar": 2,
@@ -179,6 +293,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a57886a_8e335871",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-fix-preview.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-08-15T08:39:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a243795_11ea9c37",
+      "range": {
+        "startLine": 240,
+        "startChar": 6,
+        "endLine": 240,
+        "endChar": 40
+      },
+      "revId": "b99fafa11eb17906c265932762508e27fa30c96d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "216878b3_b55bacba",
@@ -192,6 +330,30 @@
       "writtenOn": "2024-08-14T19:05:56Z",
       "side": 1,
       "message": "can you document this method as well?\n\n`rectifyFix` I am not sure what \"rectifying\" a method called `showFix` is doing.",
+      "range": {
+        "startLine": 246,
+        "startChar": 2,
+        "endLine": 246,
+        "endChar": 21
+      },
+      "revId": "b99fafa11eb17906c265932762508e27fa30c96d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2b3f4c7_01c3d75e",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-fix-preview.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-08-15T08:39:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "216878b3_b55bacba",
       "range": {
         "startLine": 246,
         "startChar": 2,
@@ -225,6 +387,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9338fe60_09ee9bd3",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-fix-preview.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-08-15T08:39:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f10bd4ac_5ac240ad",
+      "range": {
+        "startLine": 258,
+        "startChar": 2,
+        "endLine": 258,
+        "endChar": 28
+      },
+      "revId": "b99fafa11eb17906c265932762508e27fa30c96d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1a453ae3_ec09f73d",
@@ -248,6 +434,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "657b027d_03c8c63f",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-fix-preview.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-08-15T08:39:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a453ae3_ec09f73d",
+      "range": {
+        "startLine": 270,
+        "startChar": 4,
+        "endLine": 278,
+        "endChar": 39
+      },
+      "revId": "b99fafa11eb17906c265932762508e27fa30c96d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "88eb33b4_208269bc",
@@ -261,6 +471,30 @@
       "writtenOn": "2024-08-14T19:05:56Z",
       "side": 1,
       "message": "why is the word \"Partial\" in this method?\n\nIs it because we override only a few properties?\n\nPlease document here as well why we are doing this.",
+      "range": {
+        "startLine": 282,
+        "startChar": 10,
+        "endLine": 282,
+        "endChar": 34
+      },
+      "revId": "b99fafa11eb17906c265932762508e27fa30c96d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8ca1939_7eb46cdc",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-fix-preview.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-08-15T08:39:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "88eb33b4_208269bc",
       "range": {
         "startLine": 282,
         "startChar": 10,

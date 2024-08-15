@@ -1,5 +1,29 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64144ca3_7eb9e301",
+        "filename": "java/com/google/gerrit/server/account/HashedPassword.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1028062
+      },
+      "writtenOn": "2024-08-15T12:01:57Z",
+      "side": 1,
+      "message": "ouch; sorry about that. I must have thought BouncyCastle being crypto would be constant-time by default.",
+      "range": {
+        "startLine": 139,
+        "startChar": 18,
+        "endLine": 139,
+        "endChar": 38
+      },
+      "revId": "ecae8657d6dc43032154789f68e2f2e8697543f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

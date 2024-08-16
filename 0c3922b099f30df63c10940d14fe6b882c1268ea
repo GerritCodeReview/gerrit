@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "af62fa89_481d5d7f",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-fix-preview.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-08-16T08:10:15Z",
+      "side": 1,
+      "message": "Tracking in b/360288262.",
+      "parentUuid": "19c5a369_9ac67661",
+      "range": {
+        "startLine": 52,
+        "startChar": 15,
+        "endLine": 54,
+        "endChar": 10
+      },
+      "revId": "0c3922b099f30df63c10940d14fe6b882c1268ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b814be69_ef6b7b70",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-08-16T05:37:57Z",
       "side": 1,
       "message": "```\nthis.fetchDiffPreview().then(diff \u003d\u003e (this.diff \u003d diff));\n```\n\nIt\u0027s assigned by this LOC but type is called \"FilePreview\" instead of \"DiffPreview\"?\n\nPerhaps the type should be renamed?",
+      "range": {
+        "startLine": 77,
+        "startChar": 9,
+        "endLine": 77,
+        "endChar": 20
+      },
+      "revId": "0c3922b099f30df63c10940d14fe6b882c1268ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "201bf8e7_c4937e02",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-fix-preview.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-08-16T08:10:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b814be69_ef6b7b70",
       "range": {
         "startLine": 77,
         "startChar": 9,
@@ -118,6 +166,24 @@
           ]
         }
       ],
+      "revId": "0c3922b099f30df63c10940d14fe6b882c1268ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8de14cd_00bae700",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-fix-preview_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-08-16T08:10:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c403c2c_1fc7310e",
       "revId": "0c3922b099f30df63c10940d14fe6b882c1268ea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

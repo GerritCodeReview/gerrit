@@ -236,6 +236,7 @@ export class GrDiffCheckResult extends LitElement {
   }
 
   private renderShowFixButton() {
+    if (this.isExpanded) return nothing;
     const action = createFixAction(this, this.result);
     if (!action) return nothing;
     return html`

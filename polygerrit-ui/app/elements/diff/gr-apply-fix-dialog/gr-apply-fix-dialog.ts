@@ -43,7 +43,7 @@ import {Timing} from '../../../constants/reporting';
 import {changeModelToken} from '../../../models/change/change-model';
 import {getFileExtension} from '../../../utils/file-util';
 
-export interface FilePreview {
+export interface DiffPreview {
   filepath: string;
   preview: DiffInfo;
 }
@@ -80,7 +80,7 @@ export class GrApplyFixDialog extends LitElement {
   currentFix?: FixSuggestionInfo;
 
   @state()
-  currentPreviews: FilePreview[] = [];
+  currentPreviews: DiffPreview[] = [];
 
   @state()
   fixSuggestions?: FixSuggestionInfo[];
@@ -233,7 +233,7 @@ export class GrApplyFixDialog extends LitElement {
     return html`<div slot="main">${items}</div>`;
   }
 
-  private renderDiff(preview: FilePreview) {
+  private renderDiff(preview: DiffPreview) {
     const diff = preview.preview;
     if (!anyLineTooLong(diff)) {
       this.syntaxLayer.process(diff);

@@ -1,0 +1,125 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19c5a369_9ac67661",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-fix-preview.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-08-16T05:37:57Z",
+      "side": 1,
+      "message": "For me this does not seem like a good enough reason to not invent into the cleanup.\n\nMaybe create a tracking bug for this effort and then try to compute the effort required for this there to see if it\u0027s worth it or not?",
+      "range": {
+        "startLine": 52,
+        "startChar": 15,
+        "endLine": 54,
+        "endChar": 10
+      },
+      "revId": "0c3922b099f30df63c10940d14fe6b882c1268ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b814be69_ef6b7b70",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-fix-preview.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-08-16T05:37:57Z",
+      "side": 1,
+      "message": "```\nthis.fetchDiffPreview().then(diff \u003d\u003e (this.diff \u003d diff));\n```\n\nIt\u0027s assigned by this LOC but type is called \"FilePreview\" instead of \"DiffPreview\"?\n\nPerhaps the type should be renamed?",
+      "range": {
+        "startLine": 77,
+        "startChar": 9,
+        "endLine": 77,
+        "endChar": 20
+      },
+      "revId": "0c3922b099f30df63c10940d14fe6b882c1268ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c403c2c_1fc7310e",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-fix-preview_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-08-16T05:37:57Z",
+      "side": 1,
+      "message": "`show-fix` and `apply-fix` tests are missing from here I think",
+      "fixSuggestions": [
+        {
+          "fixId": "29210385_2332ce56",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/checks/gr-checks-fix-preview_test.ts",
+              "range": {
+                "startLine": 8,
+                "startChar": 0,
+                "endLine": 8,
+                "endChar": 0
+              },
+              "replacement": "\nimport {assert} from \u0027@open-wc/testing\u0027;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/checks/gr-checks-fix-preview_test.ts",
+              "range": {
+                "startLine": 9,
+                "startChar": 0,
+                "endLine": 10,
+                "endChar": 0
+              },
+              "replacement": "\nimport {rectifyFix} from \u0027../../models/checks/checks-util\u0027;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/checks/gr-checks-fix-preview_test.ts",
+              "range": {
+                "startLine": 11,
+                "startChar": 0,
+                "endLine": 11,
+                "endChar": 0
+              },
+              "replacement": "\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/checks/gr-checks-fix-preview_test.ts",
+              "range": {
+                "startLine": 12,
+                "startChar": 0,
+                "endLine": 13,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "polygerrit-ui/app/elements/checks/gr-checks-fix-preview_test.ts",
+              "range": {
+                "startLine": 63,
+                "startChar": 0,
+                "endLine": 63,
+                "endChar": 0
+              },
+              "replacement": "\n  test(\u0027show-fix\u0027, async () \u003d\u003e {\n    element.showFix();\n    assert.isTrue(element.showFixPreview);\n  });\n\n  test(\u0027apply-fix\u0027, async () \u003d\u003e {\n    element.applyFix();\n    assert.isTrue(element.applyFixPreview);\n  });\n"
+            }
+          ]
+        }
+      ],
+      "revId": "0c3922b099f30df63c10940d14fe6b882c1268ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

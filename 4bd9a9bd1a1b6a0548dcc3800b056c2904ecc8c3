@@ -16,6 +16,24 @@
       "message": "I haven\u0027t added a test for this since I am really not sure where to *put* one. There is currently no test coverage of this feature to begin with, and the existing tests like ChangeIT seem to be operating on a model of the API rather than an actual REST server as would be necessary to test this feature.\n\nCan someone help me figure out how to do that?",
       "revId": "4bd9a9bd1a1b6a0548dcc3800b056c2904ecc8c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7fb0909_2a5f6e54",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-08-19T07:11:05Z",
+      "side": 1,
+      "message": "I\u0027m just passing by randomly. You are right that most of the tests directly use the test API which doesn\u0027t trigger any actual REST calls. But there are tests that cover the REST API too. AbstractDaemonTest opens RestSession\u0027s, see fields adminRestSession, userRestSession and anonymousRestSession. You may search for usages of these sessions in sub classes to find examples of REST API tests.\n\nHTH",
+      "parentUuid": "41ae8314_f0fbabc6",
+      "revId": "4bd9a9bd1a1b6a0548dcc3800b056c2904ecc8c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

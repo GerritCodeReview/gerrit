@@ -78,9 +78,13 @@ public class HttpResponse {
   }
 
   public String getEntityContent() throws IOException {
+    var buf = getRawContent();
+    return RawParseUtils.decode(buf.array(), buf.arrayOffset(), buf.limit()).trim();
+  }
+
+  public ByteBuffer getRawContent() throws IOException {
     requireNonNull(response, "Response is not initialized.");
     requireNonNull(response.getEntity(), "Response.Entity is not initialized.");
-    ByteBuffer buf = IO.readWholeStream(response.getEntity().getContent(), 1024);
-    return RawParseUtils.decode(buf.array(), buf.arrayOffset(), buf.limit()).trim();
+    return IO.readWholeStream(response.getEntity().getContent(), 1024);
   }
 }

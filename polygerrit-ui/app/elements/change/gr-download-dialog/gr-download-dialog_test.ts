@@ -132,6 +132,7 @@ suite('gr-download-dialog', () => {
           <div>
             <a download="" href="" id="download"> </a>
             <a download="" href=""> </a>
+            <a download="" href=""> </a>
           </div>
         </div>
         <div class="archivesContainer">

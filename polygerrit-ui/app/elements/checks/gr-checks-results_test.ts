@@ -5,11 +5,19 @@
  */
 import '../../test/common-test-setup';
 import './gr-checks-results';
-import {GrChecksResults, GrResultRow} from './gr-checks-results';
+import {
+  GrChecksResults,
+  GrResultExpanded,
+  GrResultRow,
+} from './gr-checks-results';
 import {html} from 'lit';
 import {fixture, assert} from '@open-wc/testing';
-import {checksModelToken} from '../../models/checks/checks-model';
-import {fakeRun0, setAllFakeRuns} from '../../models/checks/checks-fakes';
+import {checksModelToken, RunResult} from '../../models/checks/checks-model';
+import {
+  fakeRun0,
+  fakeRun1,
+  setAllFakeRuns,
+} from '../../models/checks/checks-fakes';
 import {resolve} from '../../models/dependency';
 import {createLabelInfo} from '../../test/test-data-generators';
 import {queryAndAssert, query, assertIsDefined} from '../../utils/common-util';
@@ -138,6 +146,137 @@ suite('gr-result-row test', () => {
     summaryDiv.click();
     await element.updateComplete;
     assert.isFalse(element.isExpanded);
+  });
+});
+
+suite('gr-result-expanded test', () => {
+  let element: GrResultExpanded;
+
+  setup(async () => {
+    element = await fixture<GrResultExpanded>(
+      html`<gr-result-expanded></gr-result-expanded>`
+    );
+    await element.updateComplete;
+  });
+
+  test('renders fake result 1 of run 0', async () => {
+    element.result = {...fakeRun0, ...fakeRun0.results![1]} as RunResult;
+    await element.updateComplete;
+
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <div class="links">
+          <a
+            href="https://google.com"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <gr-icon class="link" icon="download"> </gr-icon>
+            <span> Download </span>
+          </a>
+          <a
+            href="https://google.com"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <gr-icon class="link" icon="system_update"> </gr-icon>
+            <span> Download </span>
+          </a>
+          <a
+            href="https://google.com"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <gr-icon class="link" filled="" icon="image"> </gr-icon>
+            <span> Link to image </span>
+          </a>
+          <a
+            href="https://google.com"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <gr-icon class="link" filled="" icon="image"> </gr-icon>
+            <span> Link to image </span>
+          </a>
+          <a
+            href="https://google.com"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <gr-icon class="link" filled="" icon="bug_report"> </gr-icon>
+            <span> Link for reporting a problem </span>
+          </a>
+          <a
+            href="https://google.com"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <gr-icon class="link" icon="help"> </gr-icon>
+            <span> Link to help page </span>
+          </a>
+          <a
+            href="https://google.com"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <gr-icon class="link" icon="history"> </gr-icon>
+            <span> Link to result history </span>
+          </a>
+        </div>
+        <div class="links">
+          <a
+            href="https://google.com"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <gr-icon class="link" icon="open_in_new"> </gr-icon>
+            <span> Link to details </span>
+          </a>
+          <a
+            href="https://google.com"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <gr-icon class="link" filled="" icon="image"> </gr-icon>
+            <span> Link to image </span>
+          </a>
+        </div>
+        <gr-endpoint-decorator name="check-result-expanded">
+          <gr-endpoint-param name="run"> </gr-endpoint-param>
+          <gr-endpoint-param name="result"> </gr-endpoint-param>
+          <gr-formatted-text class="message"> </gr-formatted-text>
+        </gr-endpoint-decorator>
+        <div class="useful">
+          <div class="title">Was this helpful?</div>
+          <gr-checks-action icon="thumb_up"> </gr-checks-action>
+          <gr-checks-action icon="thumb_down"> </gr-checks-action>
+        </div>
+      `
+    );
+  });
+
+  test('renders fake result 2 of run 1', async () => {
+    element.result = {...fakeRun1, ...fakeRun1.results![2]} as RunResult;
+    await element.updateComplete;
+
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <div class="links"></div>
+        <gr-endpoint-decorator name="check-result-expanded">
+          <gr-endpoint-param name="run"> </gr-endpoint-param>
+          <gr-endpoint-param name="result"> </gr-endpoint-param>
+          <gr-formatted-text class="message"> </gr-formatted-text>
+        </gr-endpoint-decorator>
+        <gr-checks-fix-preview> </gr-checks-fix-preview>
+        <div class="useful">
+          <div class="title">Was this helpful?</div>
+          <gr-checks-action icon="thumb_up"> </gr-checks-action>
+          <gr-checks-action icon="thumb_down"> </gr-checks-action>
+        </div>
+      `
+    );
   });
 });
 

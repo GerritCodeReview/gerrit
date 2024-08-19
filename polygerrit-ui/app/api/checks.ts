@@ -276,6 +276,12 @@ export declare interface Action {
   callback: ActionCallback;
 }
 
+/**
+ * Action names that get special UI treatment.
+ */
+export const USEFUL = 'useful';
+export const NOT_USEFUL = 'not-useful';
+
 export type ActionCallback = (
   change: number,
   patchset: number,
@@ -433,6 +439,9 @@ export declare interface CheckResult {
    * plugin. Actions are rendered as buttons. If there are more than two actions
    * per result, then further actions are put into an overflow menu. Sort order
    * is defined by the data provider.
+   *
+   * The actions with the names 'useful' and 'not-useful' will get special UI
+   * treatment (clickable thumbs-up and thumbs-down icons).
    *
    * Examples:
    * Acknowledge/Dismiss, Delete, Report a bug, Report as not useful,

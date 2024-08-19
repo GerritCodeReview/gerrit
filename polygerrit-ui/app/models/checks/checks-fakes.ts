@@ -62,6 +62,16 @@ export const fakeRun0: CheckRun = {
           primary: false,
           callback: () => Promise.resolve({message: 'fake "upload" triggered'}),
         },
+        {
+          name: 'useful',
+          callback: () =>
+            Promise.resolve({message: 'fake "useful report" triggered'}),
+        },
+        {
+          name: 'not-useful',
+          callback: () =>
+            Promise.resolve({message: 'fake "not useful report" triggered'}),
+        },
       ],
       tags: [{name: 'INTERRUPTED', color: TagColor.BROWN}, {name: 'WINDOWS'}],
       links: [
@@ -170,6 +180,18 @@ export const fakeRun1: CheckRun = {
             end_line: 186,
             end_character: 18,
           },
+        },
+      ],
+      actions: [
+        {
+          name: 'useful',
+          callback: () =>
+            Promise.resolve({message: 'fake "useful report" triggered'}),
+        },
+        {
+          name: 'not-useful',
+          callback: () =>
+            Promise.resolve({message: 'fake "not useful report" triggered'}),
         },
       ],
       fixes: [

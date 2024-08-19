@@ -24,8 +24,10 @@ import {
   Category,
   Link,
   LinkIcon,
+  NOT_USEFUL,
   RunStatus,
   Tag,
+  USEFUL,
 } from '../../api/checks';
 import {sharedStyles} from '../../styles/shared-styles';
 import {CheckRun, RunResult, runResult} from '../../models/checks/checks-model';
@@ -563,7 +565,9 @@ export class GrResultRow extends LitElement {
   }
 
   private renderActions() {
-    const actions = [...(this.result?.actions ?? [])];
+    const actions = [...(this.result?.actions ?? [])].filter(
+      action => action.name !== USEFUL && action.name !== NOT_USEFUL
+    );
     let fixAction: Action | undefined = undefined;
     if (!this.isExpanded) {
       fixAction = createFixAction(this, this.result);
@@ -634,7 +638,7 @@ export class GrResultRow extends LitElement {
 }
 
 @customElement('gr-result-expanded')
-class GrResultExpanded extends LitElement {
+export class GrResultExpanded extends LitElement {
   @property({attribute: false})
   result?: RunResult;
 
@@ -666,6 +670,18 @@ class GrResultExpanded extends LitElement {
           margin: var(--spacing-l) 0;
           max-width: 800px;
         }
+        .useful {
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+          margin: var(--spacing-s) 0;
+        }
+        .useful .title {
+          margin-right: var(--spacing-s);
+        }
+        .useful gr-checks-action {
+          display: block;
+        }
       `,
     ];
   }
@@ -690,7 +706,7 @@ class GrResultExpanded extends LitElement {
           .content=${this.result.message ?? ''}
         ></gr-formatted-text>
       </gr-endpoint-decorator>
-      ${this.renderFix()}
+      ${this.renderFix()} ${this.renderNotUseful()}
     `;
   }
 
@@ -727,7 +743,7 @@ class GrResultExpanded extends LitElement {
       if (start) rangeText += `#${start}`;
       if (end && start !== end) rangeText += `-${end}`;
       const change = this.getChangeModel().getChange();
-      assertIsDefined(change);
+      if (!change) return undefined;
       const path = pointer.path;
       const patchset = this.result?.patchset as PatchSetNumber;
       const line = pointer?.range?.start_line;
@@ -759,6 +775,20 @@ class GrResultExpanded extends LitElement {
         .fixSuggestionInfo=${fixSuggestionInfo}
         .patchSet=${this.result?.patchset}
       ></gr-checks-fix-preview>
+    `;
+  }
+
+  private renderNotUseful() {
+    const actions = this.result?.actions ?? [];
+    const useful = actions.find(a => a.name === USEFUL);
+    const notUseful = actions.find(a => a.name === NOT_USEFUL);
+    if (!useful || !notUseful) return;
+    return html`
+      <div class="useful">
+        <div class="title">Was this helpful?</div>
+        <gr-checks-action .action=${useful}></gr-checks-action>
+        <gr-checks-action .action=${notUseful}></gr-checks-action>
+      </div>
     `;
   }
 

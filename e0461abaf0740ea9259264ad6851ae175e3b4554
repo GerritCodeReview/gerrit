@@ -1,0 +1,154 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "464793d9_bee06428",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-08-19T13:25:14Z",
+      "side": 1,
+      "message": "LGTM",
+      "revId": "e0461abaf0740ea9259264ad6851ae175e3b4554",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ebe0278_af80802f",
+        "filename": "polygerrit-ui/app/api/checks.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-08-19T13:25:14Z",
+      "side": 1,
+      "message": "typo",
+      "range": {
+        "startLine": 280,
+        "startChar": 3,
+        "endLine": 280,
+        "endChar": 46
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "7b7e34f0_e88d986c",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/api/checks.ts",
+              "range": {
+                "startLine": 280,
+                "startChar": 0,
+                "endLine": 281,
+                "endChar": 0
+              },
+              "replacement": " * Action names that get special UI treatment.\n"
+            }
+          ]
+        }
+      ],
+      "revId": "e0461abaf0740ea9259264ad6851ae175e3b4554",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35804308_f5d010d7",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-08-19T13:25:14Z",
+      "side": 1,
+      "message": "Is this only place where we need to filter these actions?",
+      "range": {
+        "startLine": 568,
+        "startChar": 52,
+        "endLine": 570,
+        "endChar": 6
+      },
+      "revId": "e0461abaf0740ea9259264ad6851ae175e3b4554",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4dc1b610_d7ddbe23",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 781,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-08-19T13:25:14Z",
+      "side": 1,
+      "message": "Optional: Maybe add unit test (dom check) for fakeRun0?",
+      "range": {
+        "startLine": 781,
+        "startChar": 10,
+        "endLine": 781,
+        "endChar": 25
+      },
+      "revId": "e0461abaf0740ea9259264ad6851ae175e3b4554",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36c0680d_c68d6b2e",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 788,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-08-19T13:25:14Z",
+      "side": 1,
+      "message": "Why past tense?",
+      "range": {
+        "startLine": 788,
+        "startChar": 27,
+        "endLine": 788,
+        "endChar": 30
+      },
+      "revId": "e0461abaf0740ea9259264ad6851ae175e3b4554",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea1e2a85_5f7cc4c2",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 791,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-08-19T13:25:14Z",
+      "side": 1,
+      "message": "Nit: Why is it called once helpful and then useful? Maybe at least rename renderIsHelpfulActions? to be consistent with css?",
+      "range": {
+        "startLine": 787,
+        "startChar": 12,
+        "endLine": 791,
+        "endChar": 12
+      },
+      "revId": "e0461abaf0740ea9259264ad6851ae175e3b4554",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

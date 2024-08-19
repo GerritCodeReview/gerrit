@@ -309,8 +309,13 @@ public class RestApiServlet extends HttpServlet {
       throws ServletException, IOException {
     final long startNanos = System.nanoTime();
     long auditStartTs = TimeUtil.nowMs();
-    res.setHeader("Content-Disposition", "attachment");
     res.setHeader("X-Content-Type-Options", "nosniff");
+    // Nobody should be loading HTML from our API server, but if for some reason that happens, stop
+    // it having any capabilities
+    res.setHeader("Content-Security-Policy", "default-src 'none'; sandbox");
+    res.setHeader("Referrer-Policy", "no-referrer");
+    // Nobody should be iframing our API server.
+    res.setHeader("X-Frame-Options", "deny");
     int statusCode = SC_OK;
     long responseBytes = -1;
     Optional<Exception> cause = Optional.empty();
@@ -1077,9 +1082,15 @@ public class RestApiServlet extends HttpServlet {
 
   @Nullable
   private Object parseRequest(HttpServletRequest req, Type type)
-      throws IOException, BadRequestException, SecurityException, IllegalArgumentException,
-          NoSuchMethodException, IllegalAccessException, InstantiationException,
-          InvocationTargetException, MethodNotAllowedException {
+      throws IOException,
+          BadRequestException,
+          SecurityException,
+          IllegalArgumentException,
+          NoSuchMethodException,
+          IllegalAccessException,
+          InstantiationException,
+          InvocationTargetException,
+          MethodNotAllowedException {
     // HTTP/1.1 requires consuming the request body before writing non-error response (less than
     // 400). Consume the request body for all but raw input request types here.
     if (isType(JSON_TYPE, req.getContentType())) {
@@ -1156,8 +1167,12 @@ public class RestApiServlet extends HttpServlet {
   }
 
   private Object parseRawInput(HttpServletRequest req, Type type)
-      throws SecurityException, NoSuchMethodException, IllegalArgumentException,
-          InstantiationException, IllegalAccessException, InvocationTargetException,
+      throws SecurityException,
+          NoSuchMethodException,
+          IllegalArgumentException,
+          InstantiationException,
+          IllegalAccessException,
+          InvocationTargetException,
           MethodNotAllowedException {
     Object obj = createInstance(type);
     for (Field f : obj.getClass().getDeclaredFields()) {
@@ -1171,8 +1186,12 @@ public class RestApiServlet extends HttpServlet {
   }
 
   private Object parseString(String value, Type type)
-      throws BadRequestException, SecurityException, NoSuchMethodException,
-          IllegalArgumentException, IllegalAccessException, InstantiationException,
+      throws BadRequestException,
+          SecurityException,
+          NoSuchMethodException,
+          IllegalArgumentException,
+          IllegalAccessException,
+          InstantiationException,
           InvocationTargetException {
     if (type == String.class) {
       return value;
@@ -1194,7 +1213,9 @@ public class RestApiServlet extends HttpServlet {
   }
 
   private static Object createInstance(Type type)
-      throws NoSuchMethodException, InstantiationException, IllegalAccessException,
+      throws NoSuchMethodException,
+          InstantiationException,
+          IllegalAccessException,
           InvocationTargetException {
     if (type instanceof Class) {
       Class<?> clazz = (Class<?>) type;

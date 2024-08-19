@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29806cfc_0f168c5d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-08-19T12:25:48Z",
+      "side": 1,
+      "message": "Can you elaborate on why this is annoying?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 24
+      },
+      "revId": "f449e79c158e08a4f55f74af173c5894a51b80db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0be8538_ea91967c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-08-19T12:25:48Z",
+      "side": 1,
+      "message": "Can you point out the resource that says that this header is now obsolete and should not be used anymore?",
+      "range": {
+        "startLine": 11,
+        "startChar": 42,
+        "endLine": 12,
+        "endChar": 34
+      },
+      "revId": "f449e79c158e08a4f55f74af173c5894a51b80db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ee8e53f_d75b16ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-08-19T12:25:48Z",
+      "side": 1,
+      "message": "Missing `Release-Notes` footer.",
+      "revId": "f449e79c158e08a4f55f74af173c5894a51b80db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -24,6 +24,8 @@ import {ParsedChangeInfo} from '../../../types/types';
 import {configModelToken} from '../../../models/config/config-model';
 import {shorten} from '../../../utils/patch-set-util';
 
+type DownloadKind = 'zip' | 'raw' | 'base64';
+
 @customElement('gr-download-dialog')
 export class GrDownloadDialog extends LitElement {
   /**
@@ -181,11 +183,14 @@ export class GrDownloadDialog extends LitElement {
       <div class="patchFiles">
         <label>Patch file</label>
         <div>
-          <a id="download" .href=${this.computeDownloadLink()} download>
-            ${this.computeDownloadFilename()}
+          <a id="download" .href=${this.computeDownloadLink('raw')} download>
+            ${this.computeDownloadFilename('raw')}
           </a>
-          <a .href=${this.computeDownloadLink(true)} download>
-            ${this.computeDownloadFilename(true)}
+          <a .href=${this.computeDownloadLink('base64')} download>
+            ${this.computeDownloadFilename('base64')}
+          </a>
+          <a .href=${this.computeDownloadLink('zip')} download>
+            ${this.computeDownloadFilename('zip')}
           </a>
         </div>
       </div>
@@ -283,24 +288,49 @@ export class GrDownloadDialog extends LitElement {
     return commands;
   }
 
-  private computeDownloadLink(zip?: boolean) {
+  private computeDownloadLink(kind: DownloadKind) {
     if (this.change === undefined || this.patchNum === undefined) {
       return '';
+    }
+    let urlParam;
+    switch (kind) {
+      case 'zip':
+        urlParam = '&zip';
+        break;
+      case 'raw':
+        urlParam = '&raw';
+        break;
+      case 'base64':
+        urlParam = '';
+        break;
     }
     return (
       changeBaseURL(this.change.project, this.change._number, this.patchNum) +
-      '/patch?' +
-      (zip ? 'zip' : 'download')
+      '/patch?download' +
+      urlParam
     );
   }
 
-  private computeDownloadFilename(zip?: boolean) {
+  private computeDownloadFilename(kind: DownloadKind) {
     if (this.change === undefined || this.patchNum === undefined) {
       return '';
     }
 
+    let ext;
+    switch (kind) {
+      case 'zip':
+        ext = '.zip';
+        break;
+      case 'raw':
+        ext = '';
+        break;
+      case 'base64':
+        ext = '.base64';
+        break;
+    }
+
     const rev = getRevisionKey(this.change, this.patchNum) ?? '';
-    return shorten(rev)! + '.diff.' + (zip ? 'zip' : 'base64');
+    return shorten(rev)! + '.diff' + ext;
   }
 
   // private but used in test

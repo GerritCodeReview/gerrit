@@ -318,8 +318,13 @@ public class RestApiServlet extends HttpServlet {
       throws ServletException, IOException {
     final long startNanos = System.nanoTime();
     long auditStartTs = TimeUtil.nowMs();
-    res.setHeader("Content-Disposition", "attachment");
     res.setHeader("X-Content-Type-Options", "nosniff");
+    // Nobody should be loading HTML from our API server, but if for some reason that happens, stop
+    // it having any capabilities
+    res.setHeader("Content-Security-Policy", "default-src 'none'; sandbox");
+    res.setHeader("Referrer-Policy", "no-referrer");
+    // Nobody should be iframing our API server.
+    res.setHeader("X-Frame-Options", "deny");
     int statusCode = SC_OK;
     long responseBytes = -1;
     Optional<Exception> cause = Optional.empty();

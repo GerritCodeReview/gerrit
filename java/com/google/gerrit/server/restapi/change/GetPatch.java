@@ -43,10 +43,29 @@ import org.kohsuke.args4j.Option;
 public class GetPatch implements RestReadView<RevisionResource> {
   private final GitRepositoryManager repoManager;
 
-  @Option(name = "--zip")
+  /**
+   * What is this base64 and zip business doing here? Just give me a patch file!
+   *
+   * <p>The reason these legacy types are here is to force paleolithic browsers like IE6 to not do
+   * cross site scripting. We have since invented X-Content-Type-Options: nosniff, which every
+   * browser released since IE8 supports, making this madness unnecessary in the modern era, thus
+   * the raw mode being available.
+   *
+   * <p>The only reason raw is not default is to not break old scripts.
+   */
+  private enum OutputType {
+    ZIP,
+    BASE64,
+    RAW,
+  }
+
+  @Option(name = "--zip", usage = "retrieve a zip file with one patch file inside it")
   private boolean zip;
 
-  @Option(name = "--download")
+  @Option(name = "--raw", usage = "retrieve a plain-text patch file rather than base64")
+  private boolean raw;
+
+  @Option(name = "--download", usage = "send the file with a download hint")
   private boolean download;
 
   @Option(name = "--path")
@@ -67,6 +86,18 @@ public class GetPatch implements RestReadView<RevisionResource> {
           ResourceConflictException,
           IOException,
           ResourceNotFoundException {
+    if (raw && zip) {
+      throw new BadRequestException("raw and zip options are mutually exclusive");
+    }
+    final OutputType outputType;
+    if (raw) {
+      outputType = OutputType.RAW;
+    } else if (zip) {
+      outputType = OutputType.ZIP;
+    } else {
+      outputType = OutputType.BASE64;
+    }
+
     final Repository repo = repoManager.openRepository(rsrc.getProject());
     boolean close = true;
     try {
@@ -91,16 +122,20 @@ public class GetPatch implements RestReadView<RevisionResource> {
             new BinaryResult() {
               @Override
               public void writeTo(OutputStream out) throws IOException {
-                if (zip) {
-                  ZipOutputStream zos = new ZipOutputStream(out);
-                  ZipEntry e = new ZipEntry(fileName(rw, commit));
-                  e.setTime(commit.getCommitTime() * 1000L);
-                  zos.putNextEntry(e);
-                  format(zos);
-                  zos.closeEntry();
-                  zos.finish();
-                } else {
-                  format(out);
+                switch (outputType) {
+                  case ZIP:
+                    ZipOutputStream zos = new ZipOutputStream(out);
+                    ZipEntry e = new ZipEntry(fileName(rw, commit));
+                    e.setTime(commit.getCommitTime() * 1000L);
+                    zos.putNextEntry(e);
+                    format(zos);
+                    zos.closeEntry();
+                    zos.finish();
+                    break;
+                  case RAW:
+                  case BASE64:
+                    format(out);
+                    break;
                 }
               }
 
@@ -123,14 +158,21 @@ public class GetPatch implements RestReadView<RevisionResource> {
           throw new ResourceNotFoundException(String.format("File not found: %s.", path));
         }
 
-        if (zip) {
-          bin.disableGzip()
-              .setContentType("application/zip")
-              .setAttachmentName(fileName(rw, commit) + ".zip");
-        } else {
-          bin.base64()
-              .setContentType("application/mbox")
-              .setAttachmentName(download ? fileName(rw, commit) + ".base64" : null);
+        switch (outputType) {
+          case ZIP:
+            bin.disableGzip()
+                .setContentType("application/zip")
+                .setAttachmentName(fileName(rw, commit) + ".zip");
+            break;
+          case BASE64:
+            bin.base64()
+                .setContentType("application/mbox")
+                .setAttachmentName(download ? fileName(rw, commit) + ".base64" : null);
+            break;
+          case RAW:
+            bin.setContentType("text/plain")
+                .setAttachmentName(download ? fileName(rw, commit) : null);
+            break;
         }
 
         close = false;

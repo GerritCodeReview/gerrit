@@ -5039,6 +5039,9 @@ returns the patch as a single file inside of a ZIP archive. Clients
 can expand the ZIP to obtain the plain text patch, avoiding the
 need for a base64 decoding step. This option implies `download`.
 
+Adding query parameter `raw` (for example `/changes/.../patch?raw`) will return
+the patch as a plain-text patch file.
+
 Query parameter `download` (e.g. `/changes/.../patch?download`)
 will suggest the browser save the patch as `commitsha1.diff.base64`,
 for later processing by command line tools.

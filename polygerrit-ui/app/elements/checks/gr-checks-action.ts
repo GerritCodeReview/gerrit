@@ -3,9 +3,9 @@
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {LitElement, css, html} from 'lit';
+import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
-import {Action} from '../../api/checks';
+import {Action, NOT_USEFUL, USEFUL} from '../../api/checks';
 import {assertIsDefined} from '../../utils/common-util';
 import {resolve} from '../../models/dependency';
 import {checksModelToken} from '../../models/checks/checks-model';
@@ -21,6 +21,9 @@ export class GrChecksAction extends LitElement {
   @property({type: String})
   context = 'unknown';
 
+  @property({type: String, reflect: true})
+  icon?: string;
+
   private getChecksModel = resolve(this, checksModelToken);
 
   override connectedCallback() {
@@ -35,6 +38,10 @@ export class GrChecksAction extends LitElement {
           display: inline-block;
           white-space: nowrap;
         }
+        :host([icon*='thumb']) gr-button {
+          display: block;
+          --gr-button-padding: 0 var(--spacing-s);
+        }
         gr-button {
           --gr-button-padding: var(--spacing-s) var(--spacing-m);
         }
@@ -48,6 +55,16 @@ export class GrChecksAction extends LitElement {
     ];
   }
 
+  override willUpdate(_changedProperties: PropertyValues): void {
+    if (this.action.name === USEFUL) {
+      this.icon = 'thumb_up';
+    } else if (this.action.name === NOT_USEFUL) {
+      this.icon = 'thumb_down';
+    } else {
+      this.icon = undefined;
+    }
+  }
+
   override render() {
     return html`
       <gr-button
@@ -56,10 +73,15 @@ export class GrChecksAction extends LitElement {
         class="action"
         @click=${(e: Event) => this.handleClick(e)}
       >
-        ${this.action.name}
+        ${this.renderName()}
       </gr-button>
       ${this.renderTooltip()}
     `;
+  }
+
+  private renderName() {
+    if (!this.icon) return html`${this.action.name}`;
+    return html` <gr-icon icon=${this.icon}></gr-icon> `;
   }
 
   private renderTooltip() {

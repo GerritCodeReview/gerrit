@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97b398ff_9c07ab04",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1135824
+      },
+      "writtenOn": "2024-08-19T09:28:12Z",
+      "side": 1,
+      "message": "Thanks for the screencast. I have a doubt that maybe you can help me to solve:\n1.- Is there any reason why this fix: https://screenshot.googleplex.com/AaU2634diaCsbgj is not included in a card with the problem included like the mock from Arnab: https://screenshot.googleplex.com/gy2oG9awXVC3C5M\nI\u0027m asking because we will use it in a card like this one in Critique too, and we should keep consistency across both ecosystems. But maybe cards is not the way that Gerrit shows other analyzers.\n\n2.- This a NIT but is there any reason why the suggestion doesn\u0027t cover 100% of the width of the card? https://screenshot.googleplex.com/9j3zogWCY5Gefr3\n\n3.- Are you keeping consistency on the way you show fixes between findings cards and comments cards?\n\n4.- I like the idea of having a red card for errors, blue for info and yellow for warnings, but this will be inconsistent with Critique findings (Blue card) + the card looks different as well. https://screenshot.googleplex.com/9Sw2wAkz6k8yTxs\nWe can think about changing the blue card  for something like the one you implemented but I\u0027d like to avoid differences between Critique and Gerrit (Leads are asking to keep the same UI in both ecosystems), So I\u0027d like to involve Katja to talk about a potential \"Findings\" re-thinking for both tools, and also to know if is OK to keep this inconsistency for now or not.\n\nWe can do an implementation review if you want (This is requierement from UX before going GA, but we can start working on this) and I can send you the feedback in a doc to work on this offline. Similar to:  https://docs.google.com/document/d/1Zct8LdDsl0F3wG0m8fjHLTBm4v3eVb7LLDzdyowd4H4/edit?tab\u003dt.0#heading\u003dh.qzjhd0dt3tys",
+      "revId": "84293a796c6000ed4f181b5667589ff3a529798a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

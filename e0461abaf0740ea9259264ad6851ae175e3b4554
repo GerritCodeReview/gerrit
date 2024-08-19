@@ -59,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4ebc893_0ebb7201",
+        "filename": "polygerrit-ui/app/api/checks.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-08-19T14:03:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ebe0278_af80802f",
+      "range": {
+        "startLine": 280,
+        "startChar": 3,
+        "endLine": 280,
+        "endChar": 46
+      },
+      "revId": "e0461abaf0740ea9259264ad6851ae175e3b4554",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "35804308_f5d010d7",
@@ -72,6 +96,30 @@
       "writtenOn": "2024-08-19T13:25:14Z",
       "side": 1,
       "message": "Is this only place where we need to filter these actions?",
+      "range": {
+        "startLine": 568,
+        "startChar": 52,
+        "endLine": 570,
+        "endChar": 6
+      },
+      "revId": "e0461abaf0740ea9259264ad6851ae175e3b4554",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6cb0cc41_19285e2c",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-08-19T14:03:43Z",
+      "side": 1,
+      "message": "Yes, I have just double-checked that.",
+      "parentUuid": "35804308_f5d010d7",
       "range": {
         "startLine": 568,
         "startChar": 52,
@@ -105,6 +153,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b985ce6_96154e24",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 781,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-08-19T14:03:43Z",
+      "side": 1,
+      "message": "Good point. Done.",
+      "parentUuid": "4dc1b610_d7ddbe23",
+      "range": {
+        "startLine": 781,
+        "startChar": 10,
+        "endLine": 781,
+        "endChar": 25
+      },
+      "revId": "e0461abaf0740ea9259264ad6851ae175e3b4554",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "36c0680d_c68d6b2e",
@@ -128,6 +200,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc0d98a5_cfc5a597",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 788,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-08-19T14:03:43Z",
+      "side": 1,
+      "message": "No idea. Consistent with Critique. What the mocks say. :-)",
+      "parentUuid": "36c0680d_c68d6b2e",
+      "range": {
+        "startLine": 788,
+        "startChar": 27,
+        "endLine": 788,
+        "endChar": 30
+      },
+      "revId": "e0461abaf0740ea9259264ad6851ae175e3b4554",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ea1e2a85_5f7cc4c2",
@@ -141,6 +237,30 @@
       "writtenOn": "2024-08-19T13:25:14Z",
       "side": 1,
       "message": "Nit: Why is it called once helpful and then useful? Maybe at least rename renderIsHelpfulActions? to be consistent with css?",
+      "range": {
+        "startLine": 787,
+        "startChar": 12,
+        "endLine": 791,
+        "endChar": 12
+      },
+      "revId": "e0461abaf0740ea9259264ad6851ae175e3b4554",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2dc199b8_1f7b4d43",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 791,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-08-19T14:03:43Z",
+      "side": 1,
+      "message": "I have renamed to `useful` everywhere other than the actual text message.",
+      "parentUuid": "ea1e2a85_5f7cc4c2",
       "range": {
         "startLine": 787,
         "startChar": 12,

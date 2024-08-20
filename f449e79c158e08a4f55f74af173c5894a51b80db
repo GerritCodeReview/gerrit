@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9cc2284_19569638",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 3503399
+      },
+      "writtenOn": "2024-08-20T01:51:38Z",
+      "side": 1,
+      "message": "changed commit message to mention it. it interferes with experimenting with the REST API from the browser.",
+      "parentUuid": "29806cfc_0f168c5d",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 24
+      },
+      "revId": "f449e79c158e08a4f55f74af173c5894a51b80db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f0be8538_ea91967c",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "22a9e389_fc36f421",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 3503399
+      },
+      "writtenOn": "2024-08-20T01:51:38Z",
+      "side": 1,
+      "message": "It is not that it is obsolete, it is that it was a hack for lack of better tools for the purpose it was being used for in the first place: preventing HTML, if rendered, from resulting in XSS, by instead causing the HTML to get downloaded.\n\n*That* can be prevented by two means, both of which we employ (the second of which I added after trying to contemplate if there was any way this could ever cause security bugs and deciding to apply another mitigation):\n- Disabling MIME type sniffing so the only HTML that gets loaded is deliberate on the part of the server (which could not be disabled in IE6)\n- Content-Security-Policy preventing loading any scripts even if we *do* serve something as text/html.\n\nMDN does not mention it having a security use case here, for example: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition.\n\nLooking around online, it *does* seem like it was intended for security at one point, but we have better tools, and nobody else does this (e.g. api.github.com does not).",
+      "parentUuid": "f0be8538_ea91967c",
+      "range": {
+        "startLine": 11,
+        "startChar": 42,
+        "endLine": 12,
+        "endChar": 34
+      },
+      "revId": "f449e79c158e08a4f55f74af173c5894a51b80db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0ee8e53f_d75b16ef",
@@ -60,6 +108,24 @@
       "writtenOn": "2024-08-19T12:25:48Z",
       "side": 1,
       "message": "Missing `Release-Notes` footer.",
+      "revId": "f449e79c158e08a4f55f74af173c5894a51b80db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d884652_6dca1604",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 3503399
+      },
+      "writtenOn": "2024-08-20T01:51:38Z",
+      "side": 1,
+      "message": "oops, fixed.",
+      "parentUuid": "0ee8e53f_d75b16ef",
       "revId": "f449e79c158e08a4f55f74af173c5894a51b80db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

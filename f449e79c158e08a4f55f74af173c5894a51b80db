@@ -128,6 +128,24 @@
       "parentUuid": "0ee8e53f_d75b16ef",
       "revId": "f449e79c158e08a4f55f74af173c5894a51b80db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "338af302_6e9910c5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 3503399
+      },
+      "writtenOn": "2024-08-20T01:58:09Z",
+      "side": 1,
+      "message": "fyi: this is not actually listed anywhere in the repo in a contribution guide or so, so I didn\u0027t actually know it was a thing besides from reading old commit messages (which I forgot about).",
+      "parentUuid": "7d884652_6dca1604",
+      "revId": "f449e79c158e08a4f55f74af173c5894a51b80db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

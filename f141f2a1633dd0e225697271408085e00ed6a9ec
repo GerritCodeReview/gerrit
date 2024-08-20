@@ -16,6 +16,24 @@
       "message": "Thanks for working on this, can you show me a screencast of what happens when the user click on the feedback mechanism?",
       "revId": "f141f2a1633dd0e225697271408085e00ed6a9ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f566eac3_1510184c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1135824
+      },
+      "writtenOn": "2024-08-20T16:21:06Z",
+      "side": 1,
+      "message": "Making it unresolved",
+      "parentUuid": "24654351_c9a92ba7",
+      "revId": "f141f2a1633dd0e225697271408085e00ed6a9ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

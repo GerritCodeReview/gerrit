@@ -52,6 +52,24 @@
       "parentUuid": "f566eac3_1510184c",
       "revId": "f141f2a1633dd0e225697271408085e00ed6a9ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f86a2f2_163ac37a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1135824
+      },
+      "writtenOn": "2024-08-21T09:04:47Z",
+      "side": 1,
+      "message": "Thanks Ben!\nOn your screencast is not clear if you are just :hover on the buttons or click in on them.\nCan you confirm that this is working like Critique? Here are the specs (slide 5: Material Design) https://docs.google.com/presentation/d/1FwB9jGds1ysLaPOtIG4JmA_vZY1H2-IhPVisttuVEys/edit#slide\u003did.g21a4c2914bb_0_59\n\n- After clicking on the thumb-up/down is filled\n- Do you have a dropdown when you click on the negative feedback? If yes which option did you add there?\n- I saw that on hover the buttons are square, is this normal in Gerrit? Usually on Material design icon-buttons are round (You can see it in the demo in the slide 8).\n\nThanks!",
+      "parentUuid": "00759424_0e3cbef0",
+      "revId": "f141f2a1633dd0e225697271408085e00ed6a9ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

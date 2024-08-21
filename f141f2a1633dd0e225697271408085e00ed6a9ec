@@ -70,6 +70,24 @@
       "parentUuid": "00759424_0e3cbef0",
       "revId": "f141f2a1633dd0e225697271408085e00ed6a9ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "067339e2_f0046316",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-08-21T09:47:32Z",
+      "side": 1,
+      "message": "I click on them in the screencast, see also the toasts appearing the bottom left corner of the screen.\n\nWorking like Critique? I see some differences:\n1 We are showing a toast. Critique does not.\n2 Critique changes from outlined icon to filled icon. Gerrit does not.\n3 Critique has a tooltip when hovering over the icons.\n4 Critique changes the text to \"Sorry about that\" or \"Thanks\". Gerrit does not change the text.\n\nShall I address 2,3,4? What about 1? Should I remove the toast then?\n\nWe don\u0027t have a dropdown for negative feedback. I would consider that an additional feature request for a separate iteration, because that also involves some additional technical work.\n\nYes, all hover elements on Gerrit buttons are square. We are generally stuck with a rather old widget library and no plans for upgrading.",
+      "parentUuid": "7f86a2f2_163ac37a",
+      "revId": "f141f2a1633dd0e225697271408085e00ed6a9ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

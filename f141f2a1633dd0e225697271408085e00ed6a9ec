@@ -88,6 +88,24 @@
       "parentUuid": "7f86a2f2_163ac37a",
       "revId": "f141f2a1633dd0e225697271408085e00ed6a9ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "320bcd49_3f68ee1f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1135824
+      },
+      "writtenOn": "2024-08-21T11:58:46Z",
+      "side": 1,
+      "message": "To answer to all your questions: Is the feedback machanism in Gerrit used somewhere else or is this a new component in the tool?. If is the latest (new component) then let\u0027s keep consistency across both ecosystems. But if this pattern is already used somewhere else in the tool, keep it as it is (sorry for don\u0027t knowing about this)",
+      "parentUuid": "067339e2_f0046316",
+      "revId": "f141f2a1633dd0e225697271408085e00ed6a9ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

@@ -107,6 +107,7 @@ import com.google.gerrit.metrics.Counter3;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
+import com.google.gerrit.server.AclInfoController;
 import com.google.gerrit.server.CancellationMetrics;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CreateGroupPermissionSyncer;
@@ -385,6 +386,7 @@ class ReceiveCommits {
 
   // Injected fields.
   private final AccountResolver accountResolver;
+  private final AclInfoController aclInfoController;
   private final AllProjectsName allProjectsName;
   private final BatchUpdate.Factory batchUpdateFactory;
   private final BatchUpdates batchUpdates;
@@ -453,6 +455,8 @@ class ReceiveCommits {
   /** Multimap of error text to refnames that produced that error. */
   private final ListMultimap<String, String> errors;
 
+  private final LinkedHashMap<ReceiveCommand, RejectionReason> rejectionReasons;
+
   private final ListMultimap<String, String> pushOptions;
   private final ReceivePackRefCache receivePackRefCache;
   private final Map<Change.Id, ReplaceRequest> replaceByChange;
@@ -475,6 +479,7 @@ class ReceiveCommits {
   @Inject
   ReceiveCommits(
       AccountResolver accountResolver,
+      AclInfoController aclInfoController,
       AllProjectsName allProjectsName,
       BatchUpdate.Factory batchUpdateFactory,
       BatchUpdates batchUpdates,
@@ -534,6 +539,7 @@ class ReceiveCommits {
       throws IOException {
     // Injected fields.
     this.accountResolver = accountResolver;
+    this.aclInfoController = aclInfoController;
     this.allProjectsName = allProjectsName;
     this.batchUpdateFactory = batchUpdateFactory;
     this.batchUpdates = batchUpdates;
@@ -600,6 +606,7 @@ class ReceiveCommits {
 
     // Collections populated during processing.
     errors = MultimapBuilder.linkedHashKeys().arrayListValues().build();
+    rejectionReasons = new LinkedHashMap<>();
     messages = new ConcurrentLinkedQueue<>();
     pushOptions = LinkedListMultimap.create();
     replaceByChange = new LinkedHashMap<>();
@@ -704,6 +711,8 @@ class ReceiveCommits {
       requestListeners.runEach(l -> l.onRequest(requestInfo));
       traceContext.addTag(RequestId.Type.RECEIVE_ID, new RequestId(project.getNameKey().get()));
 
+      aclInfoController.enableAclLoggingIfUserCanViewAccess(traceContext);
+
       // Log the push options here, rather than in parsePushOptions(), so that they are included
       // into the trace if tracing is enabled.
       logger.atFine().log("push options: %s", receivePack.getPushOptions());
@@ -761,10 +770,18 @@ class ReceiveCommits {
       // successfully.
       sendErrorMessages();
 
+      // If there was a permission issue send ACL infos to the client (if ACL logging was turned
+      // on).
+      if (rejectionReasons.values().stream()
+          .map(RejectionReason::statusCode)
+          .anyMatch(statusCode -> statusCode == 403)) {
+        aclInfoController.getAclInfoMessage().ifPresent(this::addMessage);
+      }
+
       commandProgress.end();
       loggingTags = traceContext.getTags();
       logger.atFine().log("Processing commands done.");
-    } catch (RuntimeException e) {
+    } catch (PermissionBackendException | RuntimeException e) {
       String formattedCause = getFormattedCause(e).orElse(e.getClass().getSimpleName());
       int statusCode =
           getStatus(e).map(ExceptionHook.Status::statusCode).orElse(SC_INTERNAL_SERVER_ERROR);
@@ -775,7 +792,13 @@ class ReceiveCommits {
         pushKind += " by service user";
       }
       metrics.rejectCount.increment(pushKind, formattedCause, statusCode);
-      throw e;
+
+      // Re-throw any RuntimeException as they are.
+      Throwables.throwIfUnchecked(e);
+
+      // Wrap any checked exception (e.g. PermissionBackendException) into a StorageException, which
+      // is an unchecked exception, as we cannot throw checked exceptions from this method.
+      throw new StorageException(e);
     }
     progress.end();
     return result.build();
@@ -3958,6 +3981,8 @@ class ReceiveCommits {
     metrics.rejectCount.increment(pushKind, reason.metricBucket(), reason.statusCode());
 
     cmd.setResult(REJECTED_OTHER_REASON, reason.why());
+
+    rejectionReasons.put(cmd, reason);
   }
 
   private void rejectRemaining(Collection<ReceiveCommand> commands, RejectionReason reason) {

@@ -9,6 +9,7 @@ import {customElement, property, state} from 'lit/decorators.js';
 import {getAppContext} from '../../services/app-context';
 import {EDIT, BasePatchSetNum, RepoName} from '../../types/common';
 import {anyLineTooLong} from '../../utils/diff-util';
+import {Timing} from '../../constants/reporting';
 import {
   DiffInfo,
   DiffLayer,
@@ -88,6 +89,8 @@ export class GrChecksFixPreview extends LitElement {
     show_file_comment_button: false,
     hide_line_length_indicator: true,
   };
+
+  private readonly reporting = getAppContext().reportingService;
 
   private readonly restApiService = getAppContext().restApiService;
 
@@ -265,12 +268,17 @@ export class GrChecksFixPreview extends LitElement {
     if (!changeNum || !basePatchNum || !this.fixSuggestionInfo) return;
 
     this.applyingFix = true;
+    this.reporting.time(Timing.APPLY_FIX_LOAD);
     const res = await this.restApiService.applyFixSuggestion(
       changeNum,
       basePatchNum,
       this.fixSuggestionInfo.replacements
     );
     this.applyingFix = false;
+    this.reporting.timeEnd(Timing.APPLY_FIX_LOAD, {
+      method: '1-click',
+      description: this.fixSuggestionInfo.description,
+    });
     if (res?.ok) this.navigateToEditPatchset();
   }
 

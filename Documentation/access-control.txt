@@ -1564,7 +1564,12 @@ link:cmd-stream-events.html[stream Gerrit events via ssh].
 
 Allow checking access rights for arbitrary (user, project) pairs,
 using the link:rest-api-projects.html#check-access[check.access]
-endpoint
+endpoint.
+
+In addition, for users that have this capability an ACL info is returned for
+requests that fail due to permission errors that informs about the permissions
+rules that have been checked. This allows the user to understand due to which
+permission rule the request has been rejected.
 
 [[capability_viewAllAccounts]]
 === View All Accounts

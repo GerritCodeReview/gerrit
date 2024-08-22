@@ -173,6 +173,8 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
 
   private focused = false;
 
+  private currentCursorPosition = -1;
+
   private readonly isPlaintextOnlySupported = supportsPlainTextEditing();
 
   static override get styles() {
@@ -488,6 +490,19 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
       event.preventDefault();
       this.fire('saveShortcut');
     }
+    // Prevent looping of cursor position when CTRL+ARROW_LEFT/ARROW_RIGHT is
+    // pressed.
+    if (event.ctrlKey || event.metaKey || event.altKey) {
+      if (event.key === 'ArrowLeft' && this.currentCursorPosition === 0) {
+        event.preventDefault();
+      }
+      if (
+        event.key === 'ArrowRight' &&
+        this.currentCursorPosition === (this.value?.length ?? 0)
+      ) {
+        event.preventDefault();
+      }
+    }
     await this.toggleHintVisibilityIfAny();
   }
 
@@ -597,7 +612,9 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
   }
 
   private onCursorPositionChange() {
-    this.fire('cursorPositionChange', {position: this.getCursorPosition()});
+    const cursorPosition = this.getCursorPosition();
+    this.fire('cursorPositionChange', {position: cursorPosition});
+    this.currentCursorPosition = cursorPosition;
   }
 
   private async updateValueInDom() {

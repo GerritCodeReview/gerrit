@@ -535,6 +535,13 @@ will be transmitted only over HTTPS protocol.
 +
 By default, `false`.
 
+[[auth.cookieHttpOnly]]auth.cookieHttpOnly::
++
+Sets "httpOnly" flag of the authentication cookie. If `true`, cookie
+values can't be accessed by client side scripts.
++
+By default, `false`.
+
 [[auth.emailFormat]]auth.emailFormat::
 +
 Optional format string to construct user email addresses out of

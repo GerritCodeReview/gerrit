@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93ad33bc_9ee168ae",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1572,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-08-22T14:04:40Z",
+      "side": 1,
+      "message": "nit: To many \"that\", I would rewrite for ease-of-reading\n\n\"\"\"\nIn addition, when a request fails due to permission errors and the caller has this capability, ACL info is returned that contains information about the permissions rules that have been checked. This allows the user to understand which permissions rule caused request to be rejected.\n\"\"\"",
+      "range": {
+        "startLine": 1569,
+        "startChar": 0,
+        "endLine": 1572,
+        "endChar": 46
+      },
+      "revId": "1f6148ddced38886b169ed9fbcd1cb199f2ae3c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3b42668_afe5f270",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 458,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-08-22T14:04:40Z",
+      "side": 1,
+      "message": "Can be a more specific type HashMap, it\u0027s not part of the input arguments, so this would not hurt and increase clarity throughout the code.\n\nOptional: Google-internally we prefer go/java-practices/choosing-collections#deterministic containers with deterministic iteration order, ie. LinkedHashMap",
+      "range": {
+        "startLine": 458,
+        "startChar": 16,
+        "endLine": 458,
+        "endChar": 19
+      },
+      "revId": "1f6148ddced38886b169ed9fbcd1cb199f2ae3c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca405109_69ddcfc8",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 773,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-08-22T14:04:40Z",
+      "side": 1,
+      "message": "was turned on",
+      "range": {
+        "startLine": 773,
+        "startChar": 85,
+        "endLine": 773,
+        "endChar": 96
+      },
+      "revId": "1f6148ddced38886b169ed9fbcd1cb199f2ae3c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52d97e2b_459130dd",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 795,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-08-22T14:04:40Z",
+      "side": 1,
+      "message": "why is this needed?",
+      "range": {
+        "startLine": 794,
+        "startChar": 6,
+        "endLine": 795,
+        "endChar": 36
+      },
+      "revId": "1f6148ddced38886b169ed9fbcd1cb199f2ae3c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

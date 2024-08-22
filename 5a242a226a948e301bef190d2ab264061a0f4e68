@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a4c7f537_34494374",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-08-22T12:40:13Z",
+      "side": 1,
+      "message": "Release-Notes footer is missing",
+      "revId": "5a242a226a948e301bef190d2ab264061a0f4e68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dcb4f315_34612716",
         "filename": "java/com/google/gerrit/server/config/AuthConfig.java",
         "patchSetId": 1

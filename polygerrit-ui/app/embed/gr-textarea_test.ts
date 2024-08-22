@@ -232,4 +232,56 @@ suite('gr-textarea test', () => {
 
     assert.equal(element.value, oldValue + hint);
   });
+
+  test('when cursor is at end, Mod + ArrowRight does not change cursor position', async () => {
+    const CURSOR_POSITION_CHANGE_EVENT = 'cursorPositionChange';
+    let cursorPosition = -1;
+    const value = 'Hola amigos';
+    const editableDiv = element.shadowRoot!.querySelector(
+      '.editableDiv'
+    ) as HTMLDivElement;
+    element.addEventListener(CURSOR_POSITION_CHANGE_EVENT, (event: Event) => {
+      const detail = (event as CustomEvent<CursorPositionChangeEventDetail>)
+        .detail;
+      cursorPosition = detail.position;
+    });
+    await element.updateComplete;
+    element.value = value;
+    await element.putCursorAtEnd();
+    await element.updateComplete;
+
+    editableDiv.dispatchEvent(
+      new KeyboardEvent('keydown', {key: 'ArrowRight', metaKey: true})
+    );
+    await element.updateComplete;
+    await rafPromise();
+
+    assert.equal(cursorPosition, value.length);
+  });
+
+  test('when cursor is at 0, Mod + ArrowLeft does not change cursor position', async () => {
+    const CURSOR_POSITION_CHANGE_EVENT = 'cursorPositionChange';
+    let cursorPosition = -1;
+    const value = 'Hola amigos';
+    const editableDiv = element.shadowRoot!.querySelector(
+      '.editableDiv'
+    ) as HTMLDivElement;
+    element.addEventListener(CURSOR_POSITION_CHANGE_EVENT, (event: Event) => {
+      const detail = (event as CustomEvent<CursorPositionChangeEventDetail>)
+        .detail;
+      cursorPosition = detail.position;
+    });
+    await element.updateComplete;
+    element.value = value;
+    element.setCursorPosition(0);
+    await element.updateComplete;
+
+    editableDiv.dispatchEvent(
+      new KeyboardEvent('keydown', {key: 'ArrowLeft', metaKey: true})
+    );
+    await element.updateComplete;
+    await rafPromise();
+
+    assert.equal(cursorPosition, 0);
+  });
 });

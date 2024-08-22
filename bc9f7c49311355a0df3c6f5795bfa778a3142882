@@ -16,6 +16,23 @@
       "message": "I\u0027d prefer secure by default https://en.wikipedia.org/wiki/Secure_by_default",
       "revId": "bc9f7c49311355a0df3c6f5795bfa778a3142882",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6ba8a85_3009322b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-08-22T12:52:54Z",
+      "side": 1,
+      "message": "@brohlfs@google.com Is the UI using the cookie values in any way? In that case, IIUC this would be broken, when enabling the option added by this change.",
+      "revId": "bc9f7c49311355a0df3c6f5795bfa778a3142882",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,24 @@
       "message": "Can you add screenshots ?",
       "revId": "7d1f73b7aadbde65b162a0a4a6ad47a06676f522",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0b11f3d_5e7502d0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2024-08-22T17:14:57Z",
+      "side": 1,
+      "message": "I dont think you can upload pictures here",
+      "parentUuid": "627f15d8_6e33530e",
+      "revId": "7d1f73b7aadbde65b162a0a4a6ad47a06676f522",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

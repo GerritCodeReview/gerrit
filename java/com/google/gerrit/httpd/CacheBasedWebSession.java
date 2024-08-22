@@ -269,6 +269,7 @@ public abstract class CacheBasedWebSession extends WebSession {
     outCookie.setPath(path);
     outCookie.setMaxAge(ageSeconds);
     outCookie.setSecure(authConfig.getCookieSecure());
+    outCookie.setHttpOnly(authConfig.getCookieHttpOnly());
     response.addCookie(outCookie);
   }
 

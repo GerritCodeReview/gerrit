@@ -345,7 +345,6 @@ export class GrChangeMetadata extends LitElement {
       ${this.renderMergedAs()} ${this.renderShowRevertCreatedAs()}
       ${this.renderTopic()} ${this.renderCherryPickOf()}
       ${this.renderRevertOf()} ${this.renderStrategy()} ${this.renderHashTags()}
-      ${this.renderSubmitRequirements()} ${this.renderWeblinks()}
       <gr-endpoint-decorator name="change-metadata-item">
         <gr-endpoint-param
           name="labels"
@@ -359,6 +358,8 @@ export class GrChangeMetadata extends LitElement {
           name="revision"
           .value=${this.revision}
         ></gr-endpoint-param>
+        <gr-endpoint-slot name="above-submit-requirements"></gr-endpoint-slot>
+        ${this.renderSubmitRequirements()} ${this.renderWeblinks()}
       </gr-endpoint-decorator>
     </div>`;
   }

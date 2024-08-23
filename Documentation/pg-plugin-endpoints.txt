@@ -69,10 +69,24 @@ current revision displayed, an instance of
 link:rest-api-changes.html#revision-info[RevisionInfo]
 
 === change-metadata-item
-The `change-metadata-item` extension point is located on the bottom of the
-change view left panel, under the `Label Status` and `Links` sections. Its width
-is equal to the left panel's, and its primary purpose is to allow plugins to add
-sections of metadata to the left panel.
+The `change-metadata-item` extension point is located on the change view
+left panel, below the `Submit Requirements` and `Links` sections by default.
+Its width is equal to the left panel's, and its primary purpose is to allow
+plugins to add sections of metadata to the left panel.
+
+Plugins can set `slot` to `above-submit-requirements` to place the item above
+the `Submit Requirements` and `Links` sections.
+
+Sample code which sets the `slot`:
+
+``` js
+Gerrit.install(
+  plugin => {
+    plugin.registerCustomComponent(
+      'change-metadata-item', 'module-name',
+        {'slot': "above-submit-requirements"});
+});
+```
 
 In addition to default parameters, the following are available:
 

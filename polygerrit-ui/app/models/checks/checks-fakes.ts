@@ -5,6 +5,7 @@
  */
 import {
   Action,
+  ActionResult,
   Category,
   Link,
   LinkIcon,
@@ -186,12 +187,22 @@ export const fakeRun1: CheckRun = {
         {
           name: 'useful',
           callback: () =>
-            Promise.resolve({message: 'fake "useful report" triggered'}),
+            new Promise(resolve => {
+              setTimeout(
+                () => resolve({message: 'Feedback recorded.'} as ActionResult),
+                1000
+              );
+            }),
         },
         {
           name: 'not-useful',
           callback: () =>
-            Promise.resolve({message: 'fake "not useful report" triggered'}),
+            new Promise(resolve => {
+              setTimeout(
+                () => resolve({message: 'Feedback recorded.'} as ActionResult),
+                1000
+              );
+            }),
         },
       ],
       fixes: [

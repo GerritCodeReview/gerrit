@@ -16,6 +16,23 @@
       "message": "Please add a test for this. I am worried, that while the correct string gets matched the resulting url might not be correct (contain escaped \u0026amp; instead \"\u0026\")",
       "revId": "37bd29751c83d8cf2828569f3103cc97cdc6f9a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ced4488_d6b9069c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-08-23T08:29:34Z",
+      "side": 1,
+      "message": "The change is superseded by https://gerrit-review.git.corp.google.com/c/gerrit/+/435697",
+      "revId": "37bd29751c83d8cf2828569f3103cc97cdc6f9a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,23 @@
       "message": "Also, noting some feedback on the tooling to contribute to gerrit: the version of the code formatter apparently used by the CI system is probably several versions older than the one I have locally (judging by the fact that it is 1.7 and the one I saw in nixpkgs is 1.23.0, though I don\u0027t know what the intellij plugin is using), so even though I followed the intellij setup guide, if I hit the format button on RestApiServlet.java, it produces a formatting result considered unacceptable by CI and reformatted unrelated code.\n\nI just kind of guessed at the change necessary to fix the CI format check.",
       "revId": "471a63f3f97ae013ea4ebf29ffd66a9c409bb435",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8fb56850_c91034f8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3586881
+      },
+      "writtenOn": "2024-08-25T22:03:10Z",
+      "side": 1,
+      "message": "12",
+      "revId": "471a63f3f97ae013ea4ebf29ffd66a9c409bb435",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

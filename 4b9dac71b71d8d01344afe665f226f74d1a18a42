@@ -22,6 +22,30 @@
       },
       "revId": "4b9dac71b71d8d01344afe665f226f74d1a18a42",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5223421_8c195d64",
+        "filename": "java/com/google/gerrit/httpd/CacheBasedWebSession.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-08-26T08:57:17Z",
+      "side": 1,
+      "message": "I missed that.\nMy thoughts were rather along the line: If you enable the use of HTTP but use secure Cookies, it doesn\u0027t make sense. If you perform an HTTP request, sending the cookie via HTTPS doesn\u0027t make sense and as I now know, wouldn\u0027t even work. But if it doesn\u0027t work, in that case the UI would be unusable, since users wouldn\u0027t be able to have a cookie-based web session in that scenario.\n\nWhile I believe that this change should then be reverted, I believe:\n\n- we should adapt the same behaviour for the XsrfCookie, which I used as a template for what I did in this change.\n- we should consider whether we should not simplify the configuration over all, e.g. if HTTPS is being used (https or proxy-https in listenAddress), use secure cookies, instead of using separate configuration options, which just complicate things and lead to insecure configurations, because users just miss it.",
+      "parentUuid": "2629b754_4ed436fc",
+      "range": {
+        "startLine": 270,
+        "startChar": 52,
+        "endLine": 270,
+        "endChar": 73
+      },
+      "revId": "4b9dac71b71d8d01344afe665f226f74d1a18a42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

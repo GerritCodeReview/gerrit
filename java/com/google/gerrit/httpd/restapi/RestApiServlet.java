@@ -89,6 +89,7 @@ import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.httpd.restapi.ParameterParser.QueryParams;
 import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.server.AccessPath;
+import com.google.gerrit.server.AclInfoController;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CancellationMetrics;
 import com.google.gerrit.server.CurrentUser;
@@ -243,6 +244,7 @@ public class RestApiServlet extends HttpServlet {
     final DynamicMap<DynamicOptions.DynamicBean> dynamicBeans;
     final DeadlineChecker.Factory deadlineCheckerFactory;
     final CancellationMetrics cancellationMetrics;
+    final AclInfoController aclInfoController;
 
     @Inject
     Globals(
@@ -262,7 +264,8 @@ public class RestApiServlet extends HttpServlet {
         Injector injector,
         DynamicMap<DynamicOptions.DynamicBean> dynamicBeans,
         DeadlineChecker.Factory deadlineCheckerFactory,
-        CancellationMetrics cancellationMetrics) {
+        CancellationMetrics cancellationMetrics,
+        AclInfoController aclInfoController) {
       this.currentUser = currentUser;
       this.webSession = webSession;
       this.paramParser = paramParser;
@@ -281,6 +284,7 @@ public class RestApiServlet extends HttpServlet {
       this.dynamicBeans = dynamicBeans;
       this.deadlineCheckerFactory = deadlineCheckerFactory;
       this.cancellationMetrics = cancellationMetrics;
+      this.aclInfoController = aclInfoController;
     }
   }
 
@@ -327,6 +331,8 @@ public class RestApiServlet extends HttpServlet {
         List<IdString> path = splitPath(req);
         RequestInfo requestInfo = createRequestInfo(traceContext, req, requestUri, path);
         globals.requestListeners.runEach(l -> l.onRequest(requestInfo));
+
+        globals.aclInfoController.enableAclLoggingIfUserCanViewAccess(traceContext);
 
         // It's important that the PerformanceLogContext is closed before the response is sent to
         // the client. Only this way it is ensured that the invocation of the PerformanceLogger
@@ -629,9 +635,16 @@ public class RestApiServlet extends HttpServlet {
                 req, res, statusCode = SC_BAD_REQUEST, messageOr(e, "Bad Request"), e.caching(), e);
       } catch (AuthException e) {
         cause = Optional.of(e);
+
+        StringBuilder messageBuilder = new StringBuilder(messageOr(e, "Forbidden"));
+        globals
+            .aclInfoController
+            .getAclInfoMessage()
+            .ifPresent(aclInfo -> messageBuilder.append("\n\n").append(aclInfo));
+
         responseBytes =
             replyError(
-                req, res, statusCode = SC_FORBIDDEN, messageOr(e, "Forbidden"), e.caching(), e);
+                req, res, statusCode = SC_FORBIDDEN, messageBuilder.toString(), e.caching(), e);
       } catch (AmbiguousViewException e) {
         cause = Optional.of(e);
         responseBytes =

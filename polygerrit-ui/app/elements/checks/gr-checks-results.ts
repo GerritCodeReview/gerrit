@@ -645,6 +645,9 @@ export class GrResultExpanded extends LitElement {
   @property({type: Boolean})
   hideCodePointers = false;
 
+  @state()
+  notUsefulLabel = 'Was this helpful?';
+
   private getChangeModel = resolve(this, changeModelToken);
 
   private readonly getViewModel = resolve(this, changeViewModelToken);
@@ -785,9 +788,15 @@ export class GrResultExpanded extends LitElement {
     if (!useful || !notUseful) return;
     return html`
       <div class="useful">
-        <div class="title">Was this helpful?</div>
-        <gr-checks-action .action=${useful}></gr-checks-action>
-        <gr-checks-action .action=${notUseful}></gr-checks-action>
+        <div class="title">${this.notUsefulLabel}</div>
+        <gr-checks-action
+          @click=${() => (this.notUsefulLabel = 'Thanks!')}
+          .action=${useful}
+        ></gr-checks-action>
+        <gr-checks-action
+          @click=${() => (this.notUsefulLabel = 'Sorry about that')}
+          .action=${notUseful}
+        ></gr-checks-action>
       </div>
     `;
   }

@@ -9,20 +9,11 @@ import {ErrorCallback, RestPluginApi} from '../../../api/rest';
 import {PluginApi} from '../../../api/plugin';
 import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
-import {readJSONResponsePayload} from '../gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
+import {readJSONResponsePayload, throwingErrorCallback} from '../gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 
 async function getErrorMessage(response: Response): Promise<string> {
   const text = await response.text();
   return text || `${response.status}`;
-}
-
-// This is an internal error, that must never be visible outside of this
-// file. It is used only inside GrPluginRestApi.send method. See detailed
-// explanation in the GrPluginRestApi.send method.
-class ResponseError extends Error {
-  public constructor(readonly response: Response) {
-    super();
-  }
 }
 
 export class GrPluginRestApi implements RestPluginApi {
@@ -120,26 +111,7 @@ export class GrPluginRestApi implements RestPluginApi {
     contentType?: string
   ) {
     this.reporting.trackApi(this.plugin, 'rest', 'send');
-    // Plugins typically don't want Gerrit to show error dialogs for failed
-    // requests. So we are defining a default errFn here, even if it is not
-    // explicitly set by the caller.
-    // TODO: We are soon getting rid of the `errFn` altogether. There are only
-    // 2 known usages of errFn in plugins: delete-project and verify-status.
-    errFn =
-      errFn ??
-      ((response: Response | null | undefined, error?: Error) => {
-        if (error) throw error;
-        // Some plugins show an error message if send is failed, smth like:
-        // pluginApi.send(...).catch(err => showError(err));
-        // The response can contain an error text, but getting this text is
-        // an asynchronous operation. At the same time, the errFn must be a
-        // synchronous function.
-        // As a workaround, we throw an ResponseError here and then catch
-        // it inside a catch block below and read the message.
-        if (response) throw new ResponseError(response);
-        throw new Error('Generic REST API error.');
-      });
-    return this.fetch(method, url, payload, errFn, contentType)
+    return this.fetch(method, url, payload, errFn ?? throwingErrorCallback, contentType)
       .then(response => {
         // Will typically not happen. The response can only be unset, if the
         // errFn handles the error and then returns void or undefined or null.
@@ -158,14 +130,6 @@ export class GrPluginRestApi implements RestPluginApi {
             obj => obj.parsed
           ) as Promise<T>;
         }
-      })
-      .catch(err => {
-        if (err instanceof ResponseError) {
-          return getErrorMessage(err.response).then(msg => {
-            throw new Error(msg);
-          });
-        }
-        throw err;
       });
   }
 

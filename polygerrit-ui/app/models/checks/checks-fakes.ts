@@ -186,6 +186,7 @@ export const fakeRun1: CheckRun = {
       actions: [
         {
           name: 'useful',
+          tooltip: 'This check result was helpful',
           callback: () =>
             new Promise(resolve => {
               setTimeout(
@@ -196,6 +197,7 @@ export const fakeRun1: CheckRun = {
         },
         {
           name: 'not-useful',
+          tooltip: 'This check result was not helpful',
           callback: () =>
             new Promise(resolve => {
               setTimeout(

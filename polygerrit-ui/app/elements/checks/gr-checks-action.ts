@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {LitElement, PropertyValues, css, html} from 'lit';
-import {customElement, property} from 'lit/decorators.js';
+import {customElement, property, state} from 'lit/decorators.js';
 import {Action, NOT_USEFUL, USEFUL} from '../../api/checks';
 import {assertIsDefined} from '../../utils/common-util';
 import {resolve} from '../../models/dependency';
@@ -23,6 +23,9 @@ export class GrChecksAction extends LitElement {
 
   @property({type: String, reflect: true})
   icon?: string;
+
+  @state()
+  clicked = false;
 
   private getChecksModel = resolve(this, checksModelToken);
 
@@ -81,7 +84,9 @@ export class GrChecksAction extends LitElement {
 
   private renderName() {
     if (!this.icon) return html`${this.action.name}`;
-    return html` <gr-icon icon=${this.icon}></gr-icon> `;
+    return html`
+      <gr-icon ?filled=${this.clicked} icon=${this.icon}></gr-icon>
+    `;
   }
 
   private renderTooltip() {
@@ -94,7 +99,13 @@ export class GrChecksAction extends LitElement {
   }
 
   handleClick(e: Event) {
-    e.stopPropagation();
+    if (this.action.name === USEFUL || this.action.name === NOT_USEFUL) {
+      this.clicked = true;
+    } else {
+      // For useful clicks the parent wants to receive the click for changing
+      // the "Was this helpful?" label.
+      e.stopPropagation();
+    }
     this.getChecksModel().triggerAction(this.action, undefined, this.context);
   }
 }

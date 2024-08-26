@@ -153,7 +153,7 @@ public class WebLinks {
    * @param project Project name.
    * @param revision Name of the revision (e.g. branch or commit ID)
    * @param hash SHA1 of revision.
-   * @param file File name.
+   * @param file File path (without leading slash)
    */
   public ImmutableList<WebLinkInfo> getFileLinks(
       String project, String revision, String hash, String file) {

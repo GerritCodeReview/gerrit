@@ -106,6 +106,24 @@
       "parentUuid": "067339e2_f0046316",
       "revId": "f141f2a1633dd0e225697271408085e00ed6a9ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2db04a7b_f653eb5b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-08-26T09:42:02Z",
+      "side": 1,
+      "message": "The feedback widget is new, so yes, let\u0027s stay consistent. Working on it ... Will send you a separate change for review fixing 2,3,4.\n\nI think showing a toast is nice, because that is consistent with other Gerrit Checks Actions.",
+      "parentUuid": "320bcd49_3f68ee1f",
+      "revId": "f141f2a1633dd0e225697271408085e00ed6a9ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

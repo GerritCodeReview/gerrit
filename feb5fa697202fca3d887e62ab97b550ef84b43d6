@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "efdfc087_7dd4bde5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-08-26T13:13:24Z",
+      "side": 1,
+      "message": "If plugins cannot pass an errFn, then how do they access the HTTP response code?\n\nCan you have a look at these 3 plugins that are using errFn? Maybe remove the errFn usage first and then remove it from the API?\n\n.../gerritcodereview/plugins/findings/web/checks-fetcher.ts\n.../gerritcodereview/plugins/code_owners/web/code-owners-api.ts\n.../builds/elements/suggest_code_reviewers_plugin/suggest_code_reviewers_state.ts",
+      "revId": "feb5fa697202fca3d887e62ab97b550ef84b43d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

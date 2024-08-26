@@ -187,6 +187,30 @@
       },
       "revId": "1f6148ddced38886b169ed9fbcd1cb199f2ae3c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e082329d_4e63fe04",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 795,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-08-26T08:24:24Z",
+      "side": 1,
+      "message": "Thanks for the explanation. Can you add some of the explanation, for why we are wrapping in a StorageException, to the comment in the code. Otherwise it\u0027s bound to cause confusion for the future reader of the code.",
+      "parentUuid": "b78306ae_c785f2d6",
+      "range": {
+        "startLine": 794,
+        "startChar": 6,
+        "endLine": 795,
+        "endChar": 36
+      },
+      "revId": "1f6148ddced38886b169ed9fbcd1cb199f2ae3c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

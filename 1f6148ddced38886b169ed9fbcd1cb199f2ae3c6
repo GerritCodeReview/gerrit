@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6dd1531_fb5896aa",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1572,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-08-26T07:53:28Z",
+      "side": 1,
+      "message": "Much nicer! Thanks for helping me phrasing this better!",
+      "parentUuid": "93ad33bc_9ee168ae",
+      "range": {
+        "startLine": 1569,
+        "startChar": 0,
+        "endLine": 1572,
+        "endChar": 46
+      },
+      "revId": "1f6148ddced38886b169ed9fbcd1cb199f2ae3c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e3b42668_afe5f270",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-08-22T14:04:40Z",
       "side": 1,
       "message": "Can be a more specific type HashMap, it\u0027s not part of the input arguments, so this would not hurt and increase clarity throughout the code.\n\nOptional: Google-internally we prefer go/java-practices/choosing-collections#deterministic containers with deterministic iteration order, ie. LinkedHashMap",
+      "range": {
+        "startLine": 458,
+        "startChar": 16,
+        "endLine": 458,
+        "endChar": 19
+      },
+      "revId": "1f6148ddced38886b169ed9fbcd1cb199f2ae3c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3d186ce_66106e84",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 458,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-08-26T07:53:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e3b42668_afe5f270",
       "range": {
         "startLine": 458,
         "startChar": 16,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b319510_b09b4536",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 773,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-08-26T07:53:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca405109_69ddcfc8",
+      "range": {
+        "startLine": 773,
+        "startChar": 85,
+        "endLine": 773,
+        "endChar": 96
+      },
+      "revId": "1f6148ddced38886b169ed9fbcd1cb199f2ae3c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "52d97e2b_459130dd",
@@ -83,6 +155,30 @@
       "writtenOn": "2024-08-22T14:04:40Z",
       "side": 1,
       "message": "why is this needed?",
+      "range": {
+        "startLine": 794,
+        "startChar": 6,
+        "endLine": 795,
+        "endChar": 36
+      },
+      "revId": "1f6148ddced38886b169ed9fbcd1cb199f2ae3c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b78306ae_c785f2d6",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 795,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-08-26T07:53:28Z",
+      "side": 1,
+      "message": "This is re-throwing the caught exception as it is if it is an unchecked exception (aka a RuntimeException), otherwise the caught exception is wrapped in a StorageException. \n\nprocessCommands only allows to throw RuntimeExceptions, but we need to handle PermissionBackendException now which is a checked exception, so to throw it from here we need to wrap it in a RuntimeException, e.g. into StorageException.\n\nStorageException is intended to be used for \"Any read/write error in a storage layer\", but in practise we use it in Gerrit whenever we need to convert any checked exception into an unchecked exception, e.g. line 3894 in this file is an example where PermissionBackendException is wrapped into a StorageException.\n\nOriginally Gerrit only used checked exceptions, but at some point we concluded that using (more) unchecked exceptions is better (for Googlers: go/gerrit-unchecked-exceptions), but we didn\u0027t get far with it except replacing the checked exception for the storage layer: originally OrmException (checked), now StorageException (unchecked).\n\nDoes this make sense?",
+      "parentUuid": "52d97e2b_459130dd",
       "range": {
         "startLine": 794,
         "startChar": 6,

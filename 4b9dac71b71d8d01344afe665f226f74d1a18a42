@@ -1,5 +1,29 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2629b754_4ed436fc",
+        "filename": "java/com/google/gerrit/httpd/CacheBasedWebSession.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2024-08-26T08:22:56Z",
+      "side": 1,
+      "message": "The setSecure sets the last value (i.e. before the fix, the isSecure wasn\u0027t used at all).\nBefore - for an http request, the value is always set to the authConfig.getCookieSecure (last setSecure call). If authConfig.getCookieSecure is true, the auth cookie is not stored/accepted by a client at all (https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies#block_access_to_your_cookies - \"Insecure sites (with http: in the URL) can\u0027t set cookies with the Secure attribute\").\nIn other words, if owner wants secure cookies and the owner sets auth.cookiesecure to true, then (even if the server is accessible by http) the cookies are safe.\n\nAfter - now if auth.cookiesecure is true and client makes http request - the \"secure\" flag is not set for cookies. So a) they will be stored on the client b) they will not be marked as secure and will be transferred back to server with http requests too (not only with https).\n\nAm I missed something? Maybe just keep the last line:\n  outCookie.setSecure(authConfig.getCookieSecure());\n?",
+      "range": {
+        "startLine": 270,
+        "startChar": 52,
+        "endLine": 270,
+        "endChar": 73
+      },
+      "revId": "4b9dac71b71d8d01344afe665f226f74d1a18a42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

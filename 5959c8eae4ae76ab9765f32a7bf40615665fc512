@@ -157,6 +157,24 @@
       "parentUuid": "1617db28_ce73cf93",
       "revId": "5959c8eae4ae76ab9765f32a7bf40615665fc512",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "52d4b8a4_367ef418",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-08-27T22:42:27Z",
+      "side": 1,
+      "message": "ok, maybe we should revert the update to 2.13.1 until a release fixing this issue is available ?",
+      "parentUuid": "ba47e2a2_6a8b1cb0",
+      "revId": "5959c8eae4ae76ab9765f32a7bf40615665fc512",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

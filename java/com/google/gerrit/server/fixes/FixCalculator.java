@@ -258,6 +258,20 @@ public class FixCalculator {
       } else {
         contentProcessor.processToEndOfLine(append);
         contentProcessor.processMultiline(toLine, append);
+        if (contentProcessor.endOfSource
+            && toLine == contentProcessor.srcPosition.line + 1
+            && toColumn == 0) {
+          // There is a special case, when the file doesn't have EOL mark at the end.
+          // The end of a fix replacement range can be expressed in 2 ways:
+          // 1) Line number = the last line number, column = the length of the last line (i.e. a
+          // character after the end of the string)
+          // Or
+          // 2) Line number = the last line number + 1, column = 0  (so it points to a non-existing
+          // line after the last line).
+          // This should be treated as a valid case, but processLineToColumn shouldn't be called
+          // (otherwise it throws an exceptions).
+          return;
+        }
         contentProcessor.processLineToColumn(toColumn, append);
       }
     }

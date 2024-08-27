@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a85baae_4d8ea6d2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-08-27T11:01:56Z",
+      "side": 1,
+      "message": "Thanks for upstreaming this!",
+      "revId": "aeb384323bb940280e4bcc35e224effad8d96afa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b51d9b4_38a4f0a7",
+        "filename": "javatests/com/google/gerrit/server/notedb/CommentTimestampAdapterTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-08-27T11:01:56Z",
+      "side": 1,
+      "message": "IIUC this test verifies that timestamps that have been written with legacyGson can be parsed with the new adapter. So far legacyGson produced \"\\\\\"Feb 7, 2017 2:20:30 AM\\\\\"\", so timestamps in this format exist in our data and we should be able to parse them. If the behaviour of legacyGson is changing now so that it produces \"\\\\\"Feb 7, 2017, 2:20:30 AM\\\\\"\" then this doesn\u0027t change the format of timestamps that already exist in our data, e.g. there the format is still \\\\\"Feb 7, 2017 2:20:30 AM\\\\\"\". Since timestamps in this format exists in our data shouldn\u0027t we continue to test against that format, rather than testing that the new format can be parsed? Or maybe we need to test that both formats can be parsed?",
+      "revId": "aeb384323bb940280e4bcc35e224effad8d96afa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

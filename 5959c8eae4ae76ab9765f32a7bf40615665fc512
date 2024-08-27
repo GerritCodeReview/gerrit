@@ -121,6 +121,24 @@
       "message": "With this change the SSH connectivity test fails:\n* build and initialize Gerrit using --batch --dev\n* test\n$ ssh -p29418 admin@localhost\nWarning: Permanently added \u0027[localhost]:29418\u0027 (ED25519) to the list of known hosts.\nssh_dispatch_run_fatal: Connection to ::1 port 29418: incorrect signature",
       "revId": "5959c8eae4ae76ab9765f32a7bf40615665fc512",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1617db28_ce73cf93",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-08-27T16:05:24Z",
+      "side": 1,
+      "message": "looks like we need to update to 2.13.2, see https://github.com/apache/mina-sshd/issues/525",
+      "parentUuid": "53049e21_8345ffa1",
+      "revId": "5959c8eae4ae76ab9765f32a7bf40615665fc512",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

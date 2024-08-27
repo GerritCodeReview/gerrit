@@ -57,7 +57,7 @@ public class CommentTimestampAdapterTest {
    * Ambiguous string representation of {@link #MID_DST_MS} that was actually stored in NoteDb for
    * this comment.
    */
-  private static final String MID_DST_STR = "Nov 3, 2013 1:10:24 AM";
+  private static final String MID_DST_STR = "Nov 3, 2013, 1:10:24 AM";
 
   private TimeZone systemTimeZone;
   private Gson legacyGson;
@@ -82,7 +82,7 @@ public class CommentTimestampAdapterTest {
   public void legacyGsonBehavesAsExpectedDuringDstTransition() {
     long oneHourMs = TimeUnit.HOURS.toMillis(1);
 
-    String beforeJson = "\"Nov 3, 2013 12:10:24 AM\"";
+    String beforeJson = "\"Nov 3, 2013, 12:10:24 AM\"";
     Timestamp beforeTs = new Timestamp(MID_DST_MS - oneHourMs);
     assertThat(legacyGson.toJson(beforeTs)).isEqualTo(beforeJson);
 
@@ -103,7 +103,7 @@ public class CommentTimestampAdapterTest {
 
   @Test
   public void legacyAdapterViaZonedDateTime() {
-    assertThat(legacyGson.toJson(NON_DST_TS)).isEqualTo("\"Feb 7, 2017 2:20:30 AM\"");
+    assertThat(legacyGson.toJson(NON_DST_TS)).isEqualTo("\"Feb 7, 2017, 2:20:30 AM\"");
   }
 
   @Test
@@ -117,7 +117,15 @@ public class CommentTimestampAdapterTest {
   @Test
   public void newAdapterCanParseOutputOfLegacyAdapter() {
     String legacyJson = legacyGson.toJson(NON_DST_TS);
-    assertThat(legacyJson).isEqualTo("\"Feb 7, 2017 2:20:30 AM\"");
+    assertThat(legacyJson).isEqualTo("\"Feb 7, 2017, 2:20:30 AM\"");
+    assertThat(gson.fromJson(legacyJson, Timestamp.class))
+        .isEqualTo(new Timestamp(NON_DST_TS.getTime() / 1000 * 1000));
+  }
+
+  @Test
+  public void newAdapterCanParseOutputOfLegacyAdapterFromOldJDK() {
+    // The old JDK8 formatted the date time without a comma after the year.
+    String legacyJson = "\"Feb 7, 2017 2:20:30 AM\"";
     assertThat(gson.fromJson(legacyJson, Timestamp.class))
         .isEqualTo(new Timestamp(NON_DST_TS.getTime() / 1000 * 1000));
   }

@@ -114,6 +114,7 @@ import com.google.gerrit.extensions.api.config.ConsistencyCheckInput.CheckAccoun
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.common.AccountDetailInfo;
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.common.AccountStateInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.EmailInfo;
@@ -134,10 +135,12 @@ import com.google.gerrit.gpg.PublicKeyStore;
 import com.google.gerrit.gpg.testing.TestKey;
 import com.google.gerrit.httpd.CacheBasedWebSession;
 import com.google.gerrit.server.ExceptionHook;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.Sequence;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.AccountControl;
+import com.google.gerrit.server.account.AccountLimits;
 import com.google.gerrit.server.account.AccountProperties;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AccountsUpdate;
@@ -163,6 +166,7 @@ import com.google.gerrit.server.index.account.StalenessChecker;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.project.RefPattern;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
+import com.google.gerrit.server.restapi.account.GetCapabilities;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.server.validators.AccountActivationValidationListener;
@@ -263,8 +267,9 @@ public class AccountIT extends AbstractDaemonTest {
   @Inject private AuthConfig authConfig;
   @Inject private AccountControl.Factory accountControlFactory;
   @Inject private AccountOperations accountOperations;
-
+  @Inject private AccountLimits.Factory limitsFactory;
   @Inject private AccountPatchReviewStore accountPatchReviewStore;
+  @Inject private IdentifiedUser.GenericFactory genericUserFactory;
 
   private BasicCookieStore httpCookieStore;
   private CloseableHttpClient httpclient;
@@ -3451,6 +3456,68 @@ public class AccountIT extends AbstractDaemonTest {
     AuthException thrown =
         assertThrows(AuthException.class, () -> gApi.accounts().id(deleted.id().get()).delete());
     assertThat(thrown).hasMessageThat().isEqualTo("Delete account is only permitted for self");
+  }
+
+  @Test
+  public void getOwnAccountState() throws Exception {
+    String email = "preferred@example.com";
+    String name = "Foo";
+    String username = name("foo");
+    TestAccount foo = accountCreator.create(username, email, name, null);
+    String secondaryEmail = "secondary@example.com";
+    EmailInput input = newEmailInput(secondaryEmail);
+    gApi.accounts().id(foo.id().get()).addEmail(input);
+
+    String status = "OOO";
+    gApi.accounts().id(foo.id().get()).setStatus(status);
+
+    String groupName = "SomeGroup";
+    groupOperations.newGroup().name(groupName).addMember(foo.id()).create();
+
+    requestScopeOperations.setApiUser(foo.id());
+    AccountStateInfo state = gApi.accounts().id(foo.id().get()).state();
+
+    AccountDetailInfo detail = state.account;
+    assertThat(detail._accountId).isEqualTo(foo.id().get());
+    assertThat(detail.name).isEqualTo(name);
+    if (server.isUsernameSupported()) {
+      assertThat(detail.username).isEqualTo(username);
+    }
+    assertThat(detail.email).isEqualTo(email);
+    assertThat(detail.secondaryEmails).containsExactly(secondaryEmail);
+    assertThat(detail.status).isEqualTo(status);
+    assertThat(detail.registeredOn.getTime())
+        .isEqualTo(getAccount(foo.id()).registeredOn().toEpochMilli());
+    assertThat(detail.inactive).isNull();
+    assertThat(detail._moreAccounts).isNull();
+
+    AccountLimits limits = limitsFactory.create(genericUserFactory.create(foo.id()));
+    GetCapabilities.Range queryLimitRange =
+        new GetCapabilities.Range(limits.getRange("queryLimit"));
+    assertThat(state.capabilities)
+        .containsExactly("emailReviewers", true, "queryLimit", queryLimitRange);
+
+    assertThat(state.groups)
+        .comparingElementsUsing(getGroupToNameCorrespondence())
+        .containsAtLeast("Anonymous Users", "Registered Users", groupName);
+
+    assertThat(state.externalIds.stream().map(e -> e.identity).collect(toImmutableSet()))
+        .containsExactly("mailto:" + email, "username:" + username, "mailto:" + secondaryEmail);
+  }
+
+  @Test
+  public void cannotGetAccountStateOfOtherUser() throws Exception {
+    AuthException thrown =
+        assertThrows(AuthException.class, () -> gApi.accounts().id(user.id().get()).state());
+    assertThat(thrown).hasMessageThat().isEqualTo("not allowed to get account state of other user");
+  }
+
+  @Test
+  public void getAccountStateRequiresAuthentication() throws Exception {
+    requestScopeOperations.setApiUserAnonymous();
+    AuthException thrown =
+        assertThrows(AuthException.class, () -> gApi.accounts().id(user.id().get()).state());
+    assertThat(thrown).hasMessageThat().isEqualTo("Authentication required");
   }
 
   private TestGroupBackend createTestGroupBackendWithAllUsersGroup(String nameOfAllUsersGroup)

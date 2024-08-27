@@ -19,6 +19,7 @@ import static com.google.gerrit.server.permissions.DefaultPermissionMappings.glo
 import static com.google.gerrit.server.permissions.DefaultPermissionMappings.globalPermissionName;
 import static com.google.gerrit.server.permissions.DefaultPermissionMappings.pluginCapabilityName;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.PermissionRange;
@@ -47,6 +48,7 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import org.kohsuke.args4j.Option;
 
@@ -144,7 +146,8 @@ public class GetCapabilities implements RestReadView<AccountResource> {
     }
   }
 
-  private static class Range {
+  @VisibleForTesting
+  public static class Range {
     private transient PermissionRange range;
 
     @SuppressWarnings("unused")
@@ -153,7 +156,8 @@ public class GetCapabilities implements RestReadView<AccountResource> {
     @SuppressWarnings("unused")
     private int max;
 
-    Range(PermissionRange r) {
+    @VisibleForTesting
+    public Range(PermissionRange r) {
       range = r;
       min = r.getMin();
       max = r.getMax();
@@ -162,6 +166,20 @@ public class GetCapabilities implements RestReadView<AccountResource> {
     @Override
     public String toString() {
       return range.toString();
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(min, max);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+      if (o instanceof Range) {
+        Range range = (Range) o;
+        return min == range.min && max == range.max;
+      }
+      return false;
     }
   }
 

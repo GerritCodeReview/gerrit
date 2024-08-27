@@ -36,6 +36,7 @@ import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.common.AccountDetailInfo;
 import com.google.gerrit.extensions.common.AccountExternalIdInfo;
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.common.AccountStateInfo;
 import com.google.gerrit.extensions.common.AgreementInfo;
 import com.google.gerrit.extensions.common.EmailInfo;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
@@ -72,6 +73,7 @@ import com.google.gerrit.server.restapi.account.GetExternalIds;
 import com.google.gerrit.server.restapi.account.GetGroups;
 import com.google.gerrit.server.restapi.account.GetPreferences;
 import com.google.gerrit.server.restapi.account.GetSshKeys;
+import com.google.gerrit.server.restapi.account.GetState;
 import com.google.gerrit.server.restapi.account.GetWatchedProjects;
 import com.google.gerrit.server.restapi.account.Index;
 import com.google.gerrit.server.restapi.account.PostWatchedProjects;
@@ -100,6 +102,7 @@ public class AccountApiImpl implements AccountApi {
   private final AccountResource account;
   private final ChangesCollection changes;
   private final AccountLoader.Factory accountLoaderFactory;
+  private final GetState getState;
   private final GetDetail getDetail;
   private final GetAvatar getAvatar;
   private final GetPreferences getPreferences;
@@ -142,6 +145,7 @@ public class AccountApiImpl implements AccountApi {
   AccountApiImpl(
       AccountLoader.Factory ailf,
       ChangesCollection changes,
+      GetState getState,
       GetDetail getDetail,
       GetAvatar getAvatar,
       GetPreferences getPreferences,
@@ -183,6 +187,7 @@ public class AccountApiImpl implements AccountApi {
     this.account = account;
     this.accountLoaderFactory = ailf;
     this.changes = changes;
+    this.getState = getState;
     this.getDetail = getDetail;
     this.getAvatar = getAvatar;
     this.getPreferences = getPreferences;
@@ -240,6 +245,15 @@ public class AccountApiImpl implements AccountApi {
       return getDetail.apply(account).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot get detail", e);
+    }
+  }
+
+  @Override
+  public AccountStateInfo state() throws RestApiException {
+    try {
+      return getState.apply(account).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot get state", e);
     }
   }
 

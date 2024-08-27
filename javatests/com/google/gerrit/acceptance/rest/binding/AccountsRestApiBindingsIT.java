@@ -104,6 +104,7 @@ public class AccountsRestApiBindingsIT extends AbstractDaemonTest {
           RestCall.get("/accounts/%s/sshkeys/"),
           RestCall.post("/accounts/%s/sshkeys/"),
           RestCall.get("/accounts/%s/starred.changes"),
+          RestCall.get("/accounts/%s/state"),
           RestCall.get("/accounts/%s/status"),
           RestCall.put("/accounts/%s/status"),
           RestCall.get("/accounts/%s/username"),

@@ -175,6 +175,24 @@
       "parentUuid": "ba47e2a2_6a8b1cb0",
       "revId": "5959c8eae4ae76ab9765f32a7bf40615665fc512",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de68b3db_88ac0b32",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-08-27T22:48:01Z",
+      "side": 1,
+      "message": "That might be best unless the ESC has concluded on a path for allowing some library upgrades to happen ahead of Google internally upgrading (so long as the upgrade doesn\u0027t require code changes).",
+      "parentUuid": "52d4b8a4_367ef418",
+      "revId": "5959c8eae4ae76ab9765f32a7bf40615665fc512",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

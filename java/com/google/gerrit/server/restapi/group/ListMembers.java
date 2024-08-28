@@ -78,6 +78,12 @@ public class ListMembers implements RestReadView<GroupResource> {
     return Response.ok(getDirectMembers(group, resource.getControl()));
   }
 
+  protected boolean canSeeGroup(InternalGroup group) {
+    InternalGroupDescription internalGroup = new InternalGroupDescription(group);
+    GroupControl groupControl = groupControlFactory.controlFor(internalGroup);
+    return groupControl.canSeeGroup();
+  }
+
   public List<AccountInfo> getTransitiveMembers(AccountGroup.UUID groupUuid)
       throws PermissionBackendException {
     Optional<InternalGroup> group = groupCache.get(groupUuid);

@@ -14,6 +14,11 @@
 
 package com.google.gerrit.server.restapi.account;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
+
+import com.google.common.collect.ImmutableList;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.extensions.common.AccountMetadataInfo;
 import com.google.gerrit.extensions.common.AccountStateInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -21,11 +26,15 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountResource;
+import com.google.gerrit.server.account.AccountStateProvider;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Comparator;
 
 /**
  * REST endpoint to retrieve the superset of all information related to an account. This information
@@ -41,6 +50,7 @@ public class GetState implements RestReadView<AccountResource> {
   private final GetDetail getDetail;
   private final GetGroups getGroups;
   private final GetExternalIds getExternalIds;
+  private final PluginSetContext<AccountStateProvider> accountStateProviders;
 
   @Inject
   GetState(
@@ -48,12 +58,14 @@ public class GetState implements RestReadView<AccountResource> {
       Provider<GetCapabilities> getCapabilities,
       GetDetail getDetail,
       GetGroups getGroups,
-      GetExternalIds getExternalIds) {
+      GetExternalIds getExternalIds,
+      PluginSetContext<AccountStateProvider> accountStateProviders) {
     this.self = self;
     this.getCapabilities = getCapabilities;
     this.getDetail = getDetail;
     this.getGroups = getGroups;
     this.getExternalIds = getExternalIds;
+    this.accountStateProviders = accountStateProviders;
   }
 
   @Override
@@ -72,6 +84,18 @@ public class GetState implements RestReadView<AccountResource> {
     accountState.capabilities = getCapabilities.get().apply(rsrc).value();
     accountState.groups = getGroups.apply(rsrc).value();
     accountState.externalIds = getExternalIds.apply(rsrc).value();
+    accountState.metadata = getMetadata(rsrc.getUser().getAccountId());
     return Response.ok(accountState);
+  }
+
+  private ImmutableList<AccountMetadataInfo> getMetadata(Account.Id accountId) {
+    ArrayList<AccountMetadataInfo> metadataList = new ArrayList<>();
+    accountStateProviders.runEach(
+        accountStateProvider -> metadataList.addAll(accountStateProvider.getMetadata(accountId)));
+    return metadataList.stream()
+        .sorted(
+            Comparator.comparing((AccountMetadataInfo metadata) -> metadata.name)
+                .thenComparing((AccountMetadataInfo metadata) -> metadata.value))
+        .collect(toImmutableList());
   }
 }

@@ -114,6 +114,7 @@ import com.google.gerrit.extensions.api.config.ConsistencyCheckInput.CheckAccoun
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.common.AccountDetailInfo;
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.common.AccountMetadataInfo;
 import com.google.gerrit.extensions.common.AccountStateInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
@@ -143,6 +144,7 @@ import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.account.AccountLimits;
 import com.google.gerrit.server.account.AccountProperties;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.account.AccountStateProvider;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.Emails;
 import com.google.gerrit.server.account.GroupMembership;
@@ -3474,35 +3476,50 @@ public class AccountIT extends AbstractDaemonTest {
     String groupName = "SomeGroup";
     groupOperations.newGroup().name(groupName).addMember(foo.id()).create();
 
-    requestScopeOperations.setApiUser(foo.id());
-    AccountStateInfo state = gApi.accounts().id(foo.id().get()).state();
+    TestAccountStateProvider testAccountStateProvider = new TestAccountStateProvider();
+    AccountMetadataInfo metadata1 =
+        testAccountStateProvider.addMetadata("employee_id", "123456", null);
+    AccountMetadataInfo metadata2 = testAccountStateProvider.addMetadata("role", null, "role name");
+    AccountMetadataInfo metadata3 =
+        testAccountStateProvider.addMetadata("team", "Bar", "team name");
+    AccountMetadataInfo metadata4 =
+        testAccountStateProvider.addMetadata("team", "Foo", "team name");
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(testAccountStateProvider)) {
+      requestScopeOperations.setApiUser(foo.id());
+      AccountStateInfo state = gApi.accounts().id(foo.id().get()).state();
 
-    AccountDetailInfo detail = state.account;
-    assertThat(detail._accountId).isEqualTo(foo.id().get());
-    assertThat(detail.name).isEqualTo(name);
-    if (server.isUsernameSupported()) {
-      assertThat(detail.username).isEqualTo(username);
+      AccountDetailInfo detail = state.account;
+      assertThat(detail._accountId).isEqualTo(foo.id().get());
+      assertThat(detail.name).isEqualTo(name);
+      if (server.isUsernameSupported()) {
+        assertThat(detail.username).isEqualTo(username);
+      }
+      assertThat(detail.email).isEqualTo(email);
+      assertThat(detail.secondaryEmails).containsExactly(secondaryEmail);
+      assertThat(detail.status).isEqualTo(status);
+      assertThat(detail.registeredOn.getTime())
+          .isEqualTo(getAccount(foo.id()).registeredOn().toEpochMilli());
+      assertThat(detail.inactive).isNull();
+      assertThat(detail._moreAccounts).isNull();
+
+      AccountLimits limits = limitsFactory.create(genericUserFactory.create(foo.id()));
+      GetCapabilities.Range queryLimitRange =
+          new GetCapabilities.Range(limits.getRange("queryLimit"));
+      assertThat(state.capabilities)
+          .containsExactly("emailReviewers", true, "queryLimit", queryLimitRange);
+
+      assertThat(state.groups)
+          .comparingElementsUsing(getGroupToNameCorrespondence())
+          .containsAtLeast("Anonymous Users", "Registered Users", groupName);
+
+      assertThat(state.externalIds.stream().map(e -> e.identity).collect(toImmutableSet()))
+          .containsExactly("mailto:" + email, "username:" + username, "mailto:" + secondaryEmail);
+
+      assertThat(state.metadata)
+          .containsExactly(metadata1, metadata2, metadata3, metadata4)
+          .inOrder();
     }
-    assertThat(detail.email).isEqualTo(email);
-    assertThat(detail.secondaryEmails).containsExactly(secondaryEmail);
-    assertThat(detail.status).isEqualTo(status);
-    assertThat(detail.registeredOn.getTime())
-        .isEqualTo(getAccount(foo.id()).registeredOn().toEpochMilli());
-    assertThat(detail.inactive).isNull();
-    assertThat(detail._moreAccounts).isNull();
-
-    AccountLimits limits = limitsFactory.create(genericUserFactory.create(foo.id()));
-    GetCapabilities.Range queryLimitRange =
-        new GetCapabilities.Range(limits.getRange("queryLimit"));
-    assertThat(state.capabilities)
-        .containsExactly("emailReviewers", true, "queryLimit", queryLimitRange);
-
-    assertThat(state.groups)
-        .comparingElementsUsing(getGroupToNameCorrespondence())
-        .containsAtLeast("Anonymous Users", "Registered Users", groupName);
-
-    assertThat(state.externalIds.stream().map(e -> e.identity).collect(toImmutableSet()))
-        .containsExactly("mailto:" + email, "username:" + username, "mailto:" + secondaryEmail);
   }
 
   @Test
@@ -3890,6 +3907,25 @@ public class AccountIT extends AbstractDaemonTest {
     @UsedAt(UsedAt.Project.GOOGLE)
     protected boolean isRefSupported(String expectedRefEntryKey) {
       return true;
+    }
+  }
+
+  public static class TestAccountStateProvider implements AccountStateProvider {
+    private ArrayList<AccountMetadataInfo> metadataList = new ArrayList<>();
+
+    public AccountMetadataInfo addMetadata(
+        String name, @Nullable String value, @Nullable String description) {
+      AccountMetadataInfo metadata = new AccountMetadataInfo();
+      metadata.name = name;
+      metadata.value = value;
+      metadata.description = description;
+      metadataList.add(metadata);
+      return metadata;
+    }
+
+    @Override
+    public ImmutableList<AccountMetadataInfo> getMetadata(Account.Id accountId) {
+      return ImmutableList.copyOf(metadataList);
     }
   }
 }

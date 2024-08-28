@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "18090cc3_3f7dc73f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2024-08-28T13:33:35Z",
+      "side": 1,
+      "message": "What\u0027s the need behind the change? The exactSearchers is only used in `resolveExact()`, which is unused in the Gerrit upstream project. You can use the `resolve()` method if you want to search by username.\n\nWe use exact resolution to query accounts only with IDs, email or self, and we do it intentionally to limit the format to query the account API (also because other searchers are more expensive).",
+      "revId": "95dd1731142841839315e745cfeb7095d78208f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

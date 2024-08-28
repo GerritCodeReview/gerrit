@@ -74,7 +74,7 @@ public class ListMembersCommand extends SshCommand {
       Optional<InternalGroup> group = groupCache.get(AccountGroup.nameKey(name));
       String errorText = "Group not found or not visible\n";
 
-      if (!group.isPresent()) {
+      if (!group.isPresent() || !canSeeGroup(group.get())) {
         writer.write(errorText);
         writer.flush();
         return;

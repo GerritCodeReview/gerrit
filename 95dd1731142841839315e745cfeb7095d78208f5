@@ -34,6 +34,24 @@
       "parentUuid": "18090cc3_3f7dc73f",
       "revId": "95dd1731142841839315e745cfeb7095d78208f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d02ec7a8_31ae0f06",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1135623
+      },
+      "writtenOn": "2024-08-28T14:56:11Z",
+      "side": 1,
+      "message": "I have rewritten the commit message.\nIn my case I need this change to fix https://gerrit-review.googlesource.com/c/plugins/reviewers/+/434044",
+      "parentUuid": "4669a868_2661a6a6",
+      "revId": "95dd1731142841839315e745cfeb7095d78208f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

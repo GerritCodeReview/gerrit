@@ -102,6 +102,7 @@ public class AccountInfo {
           && Objects.equals(avatars, accountInfo.avatars)
           && Objects.equals(_moreAccounts, accountInfo._moreAccounts)
           && Objects.equals(status, accountInfo.status)
+          && Objects.equals(inactive, accountInfo.inactive)
           && Objects.equals(tags, accountInfo.tags);
     }
     return false;
@@ -115,6 +116,7 @@ public class AccountInfo {
         .add("displayname", displayName)
         .add("email", email)
         .add("username", username)
+        .add("inactive", inactive)
         .add("tags", tags)
         .toString();
   }
@@ -131,6 +133,7 @@ public class AccountInfo {
         avatars,
         _moreAccounts,
         status,
+        inactive,
         tags);
   }
 

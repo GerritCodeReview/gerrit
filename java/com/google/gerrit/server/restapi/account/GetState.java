@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.restapi.account;
 
+import com.google.common.collect.ImmutableMap;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.common.AccountStateInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -21,7 +23,9 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountResource;
+import com.google.gerrit.server.account.AccountStateProvider;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -41,6 +45,7 @@ public class GetState implements RestReadView<AccountResource> {
   private final GetDetail getDetail;
   private final GetGroups getGroups;
   private final GetExternalIds getExternalIds;
+  private final PluginSetContext<AccountStateProvider> accountStateProviders;
 
   @Inject
   GetState(
@@ -48,12 +53,14 @@ public class GetState implements RestReadView<AccountResource> {
       Provider<GetCapabilities> getCapabilities,
       GetDetail getDetail,
       GetGroups getGroups,
-      GetExternalIds getExternalIds) {
+      GetExternalIds getExternalIds,
+      PluginSetContext<AccountStateProvider> accountStateProviders) {
     this.self = self;
     this.getCapabilities = getCapabilities;
     this.getDetail = getDetail;
     this.getGroups = getGroups;
     this.getExternalIds = getExternalIds;
+    this.accountStateProviders = accountStateProviders;
   }
 
   @Override
@@ -72,6 +79,15 @@ public class GetState implements RestReadView<AccountResource> {
     accountState.capabilities = getCapabilities.get().apply(rsrc).value();
     accountState.groups = getGroups.apply(rsrc).value();
     accountState.externalIds = getExternalIds.apply(rsrc).value();
+    accountState.metadata = getMetadata(rsrc.getUser().getAccountId());
     return Response.ok(accountState);
+  }
+
+  private ImmutableMap<String, String> getMetadata(Account.Id accountId) {
+    ImmutableMap.Builder<String, String> metadataBuilder = ImmutableMap.builder();
+    accountStateProviders.runEach(
+        accountStateProvider ->
+            metadataBuilder.putAll(accountStateProvider.getMetadata(accountId)));
+    return metadataBuilder.build();
   }
 }

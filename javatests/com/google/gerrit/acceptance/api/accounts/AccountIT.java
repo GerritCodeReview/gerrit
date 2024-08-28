@@ -143,6 +143,7 @@ import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.account.AccountLimits;
 import com.google.gerrit.server.account.AccountProperties;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.account.AccountStateProvider;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.Emails;
 import com.google.gerrit.server.account.GroupMembership;
@@ -3474,35 +3475,44 @@ public class AccountIT extends AbstractDaemonTest {
     String groupName = "SomeGroup";
     groupOperations.newGroup().name(groupName).addMember(foo.id()).create();
 
-    requestScopeOperations.setApiUser(foo.id());
-    AccountStateInfo state = gApi.accounts().id(foo.id().get()).state();
+    TestAccountStateProvider testAccountStateProvider = new TestAccountStateProvider();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(testAccountStateProvider)) {
+      requestScopeOperations.setApiUser(foo.id());
+      AccountStateInfo state = gApi.accounts().id(foo.id().get()).state();
 
-    AccountDetailInfo detail = state.account;
-    assertThat(detail._accountId).isEqualTo(foo.id().get());
-    assertThat(detail.name).isEqualTo(name);
-    if (server.isUsernameSupported()) {
-      assertThat(detail.username).isEqualTo(username);
+      AccountDetailInfo detail = state.account;
+      assertThat(detail._accountId).isEqualTo(foo.id().get());
+      assertThat(detail.name).isEqualTo(name);
+      if (server.isUsernameSupported()) {
+        assertThat(detail.username).isEqualTo(username);
+      }
+      assertThat(detail.email).isEqualTo(email);
+      assertThat(detail.secondaryEmails).containsExactly(secondaryEmail);
+      assertThat(detail.status).isEqualTo(status);
+      assertThat(detail.registeredOn.getTime())
+          .isEqualTo(getAccount(foo.id()).registeredOn().toEpochMilli());
+      assertThat(detail.inactive).isNull();
+      assertThat(detail._moreAccounts).isNull();
+
+      AccountLimits limits = limitsFactory.create(genericUserFactory.create(foo.id()));
+      GetCapabilities.Range queryLimitRange =
+          new GetCapabilities.Range(limits.getRange("queryLimit"));
+      assertThat(state.capabilities)
+          .containsExactly("emailReviewers", true, "queryLimit", queryLimitRange);
+
+      assertThat(state.groups)
+          .comparingElementsUsing(getGroupToNameCorrespondence())
+          .containsAtLeast("Anonymous Users", "Registered Users", groupName);
+
+      assertThat(state.externalIds.stream().map(e -> e.identity).collect(toImmutableSet()))
+          .containsExactly("mailto:" + email, "username:" + username, "mailto:" + secondaryEmail);
+
+      assertThat(state.metadata)
+          .containsExactly(
+              TestAccountStateProvider.EMPLOYEE_ID,
+              TestAccountStateProvider.getEmployeeId(foo.id()));
     }
-    assertThat(detail.email).isEqualTo(email);
-    assertThat(detail.secondaryEmails).containsExactly(secondaryEmail);
-    assertThat(detail.status).isEqualTo(status);
-    assertThat(detail.registeredOn.getTime())
-        .isEqualTo(getAccount(foo.id()).registeredOn().toEpochMilli());
-    assertThat(detail.inactive).isNull();
-    assertThat(detail._moreAccounts).isNull();
-
-    AccountLimits limits = limitsFactory.create(genericUserFactory.create(foo.id()));
-    GetCapabilities.Range queryLimitRange =
-        new GetCapabilities.Range(limits.getRange("queryLimit"));
-    assertThat(state.capabilities)
-        .containsExactly("emailReviewers", true, "queryLimit", queryLimitRange);
-
-    assertThat(state.groups)
-        .comparingElementsUsing(getGroupToNameCorrespondence())
-        .containsAtLeast("Anonymous Users", "Registered Users", groupName);
-
-    assertThat(state.externalIds.stream().map(e -> e.identity).collect(toImmutableSet()))
-        .containsExactly("mailto:" + email, "username:" + username, "mailto:" + secondaryEmail);
   }
 
   @Test
@@ -3890,6 +3900,19 @@ public class AccountIT extends AbstractDaemonTest {
     @UsedAt(UsedAt.Project.GOOGLE)
     protected boolean isRefSupported(String expectedRefEntryKey) {
       return true;
+    }
+  }
+
+  public static class TestAccountStateProvider implements AccountStateProvider {
+    public static final String EMPLOYEE_ID = "employee_id";
+
+    @Override
+    public ImmutableMap<String, String> getMetadata(Account.Id accountId) {
+      return ImmutableMap.of(EMPLOYEE_ID, getEmployeeId(accountId));
+    }
+
+    public static String getEmployeeId(Account.Id accountId) {
+      return Integer.toString(accountId.get() * 10);
     }
   }
 }

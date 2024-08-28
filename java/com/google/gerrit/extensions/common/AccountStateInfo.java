@@ -34,4 +34,7 @@ public class AccountStateInfo {
 
   /** The external IDs of the account. */
   public List<AccountExternalIdInfo> externalIds;
+
+  /** Account metadata populated by plugins. */
+  public Map<String, String> metadata;
 }

@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "9bf01cdb_41b989ad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-08-28T20:09:06Z",
+      "side": 1,
+      "message": "mitigate the impact of XSS attacks, rather than preventing them.",
+      "range": {
+        "startLine": 9,
+        "startChar": 21,
+        "endLine": 9,
+        "endChar": 28
+      },
+      "revId": "bc9f7c49311355a0df3c6f5795bfa778a3142882",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "8a6e5a90_63e07ecd",
@@ -31,6 +54,29 @@
       "writtenOn": "2024-08-22T12:52:54Z",
       "side": 1,
       "message": "@brohlfs@google.com Is the UI using the cookie values in any way? In that case, IIUC this would be broken, when enabling the option added by this change.",
+      "revId": "bc9f7c49311355a0df3c6f5795bfa778a3142882",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d77426b_2ab8cf48",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 543,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-08-28T20:09:06Z",
+      "side": 1,
+      "message": "Why would anyone want this disabled? I would rather set this by default to `true` and leave to the Gerrit admin that wants *explicitly* use XSS access to the cookie to voluntary and consciously expose the vulnerability.",
+      "range": {
+        "startLine": 543,
+        "startChar": 13,
+        "endLine": 543,
+        "endChar": 18
+      },
       "revId": "bc9f7c49311355a0df3c6f5795bfa778a3142882",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

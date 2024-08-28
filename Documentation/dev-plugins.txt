@@ -2916,6 +2916,28 @@ public class MyPlugin implements AccountTagProvider {
 }
 ----
 
+[[account-state-provider]]
+== Account State Provider
+
+Gerrit provides an extension point that enables plugins to supply additional
+data for account states which are returned from the
+link:rest-api-accounts.html#get-state[Get Account State] REST endpoint (see
+`metadata` field in
+link:rest-api-accounts.html#account-state-info[AccountStateInfo]).
+
+[source, java]
+----
+import com.google.common.collect.ImmutableMap;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.server.account.AccountStateProvider;
+
+public class MyPlugin implements AccountStateProvider {
+  public ImmutableList<AccountMetadataInfo> getMetadata(Account.Id accountId) {
+    // Implement your logic here
+  }
+}
+----
+
 [[ssh-command-creation-interception]]
 == SSH Command Creation Interception
 

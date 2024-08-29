@@ -14,8 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import static java.util.stream.Collectors.toMap;
-
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.extensions.common.CommitMessageInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -26,7 +25,7 @@ import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import org.eclipse.jgit.revwalk.FooterLine;
+import java.util.HashMap;
 
 @Singleton
 public class GetMessage implements RestReadView<ChangeResource> {
@@ -45,9 +44,20 @@ public class GetMessage implements RestReadView<ChangeResource> {
 
     ChangeData cd = changeDataFactory.create(resource.getNotes());
     commitMessageInfo.fullMessage = cd.commitMessage();
-    commitMessageInfo.footers =
-        cd.commitFooters().stream().collect(toMap(FooterLine::getKey, FooterLine::getValue));
-
+    commitMessageInfo.footers = getFooters(cd);
     return Response.ok(commitMessageInfo);
+  }
+
+  /**
+   * Gets the footers of the change.
+   *
+   * <p>If there are multiple footers with the same key, only the last footer with that key is
+   * returned.
+   */
+  private ImmutableMap<String, String> getFooters(ChangeData cd) {
+    HashMap<String, String> footers = new HashMap<>();
+    cd.commitFooters()
+        .forEach(footerLine -> footers.put(footerLine.getKey(), footerLine.getValue()));
+    return ImmutableMap.copyOf(footers);
   }
 }

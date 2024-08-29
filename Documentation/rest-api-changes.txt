@@ -7736,7 +7736,8 @@ message of a change.
 message).
 |`full_message` |Full commit message of the change.
 |`footers`      |The footers from the commit message as a map of
-key-value pairs.
+key-value pairs. If there are multiple footers with the same key, only the last
+footer with that key is returned.
 |============================
 
 [[commit-message-input]]

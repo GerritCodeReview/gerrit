@@ -4054,6 +4054,24 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void getCommitMessageThatHasDuplicateFooters() throws Exception {
+    String subject = "Change Subject";
+    String changeId = "I" + ObjectId.toString(CommitMessageUtil.generateChangeId());
+    String commitMessage =
+        String.format(
+            "%s\n\nFirst Paragraph.\n\nSecond Paragraph\n\nFoo: Bar\nFoo: Baz\nChange-Id: %s\n",
+            subject, changeId);
+    changeOperations.newChange().project(project).commitMessage(commitMessage).create();
+
+    CommitMessageInfo commitMessageInfo = gApi.changes().id(changeId).getMessage();
+    assertThat(commitMessageInfo.subject).isEqualTo(subject);
+    assertThat(commitMessageInfo.fullMessage).isEqualTo(commitMessage);
+
+    // only the last "Foo" footer is returned
+    assertThat(commitMessageInfo.footers).containsExactly("Foo", "Baz", "Change-Id", changeId);
+  }
+
+  @Test
   public void changeCommitMessage() throws Exception {
     // Tests mutating the commit message as both the owner of the change and a regular user with
     // addPatchSet permission. Asserts that both cases succeed.

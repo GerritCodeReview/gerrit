@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "07d0baf0_d3c43189",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1135623
+      },
+      "writtenOn": "2024-08-29T08:20:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19b0e278_6dc90e18",
+      "revId": "9400d01bf70a8d45402e520ea7c85b52732cac26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5687ecf0_5306f6fb",
@@ -31,6 +49,30 @@
       "writtenOn": "2024-08-28T15:06:10Z",
       "side": 1,
       "message": "I think the \"Release-Notes\" footer needs to be a single line (even if that exceeds the max chars per line)",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 22
+      },
+      "revId": "9400d01bf70a8d45402e520ea7c85b52732cac26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c64d59e5_1afd6b27",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1135623
+      },
+      "writtenOn": "2024-08-29T08:20:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5687ecf0_5306f6fb",
       "range": {
         "startLine": 17,
         "startChar": 0,

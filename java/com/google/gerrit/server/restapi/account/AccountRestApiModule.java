@@ -90,6 +90,7 @@ public class AccountRestApiModule extends RestApiModule {
     put(STARRED_CHANGE_KIND).to(StarredChanges.Put.class);
     delete(STARRED_CHANGE_KIND).to(StarredChanges.Delete.class);
 
+    get(ACCOUNT_KIND, "state").to(GetState.class);
     get(ACCOUNT_KIND, "status").to(GetStatus.class);
     put(ACCOUNT_KIND, "status").to(PutStatus.class);
     get(ACCOUNT_KIND, "username").to(GetUsername.class);

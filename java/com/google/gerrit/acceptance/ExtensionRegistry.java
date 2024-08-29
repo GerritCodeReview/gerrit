@@ -44,6 +44,7 @@ import com.google.gerrit.extensions.webui.FileWebLink;
 import com.google.gerrit.extensions.webui.PatchSetWebLink;
 import com.google.gerrit.extensions.webui.ResolveConflictsWebLink;
 import com.google.gerrit.server.ExceptionHook;
+import com.google.gerrit.server.account.AccountStateProvider;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.change.FilterIncludedIn;
 import com.google.gerrit.server.change.ReviewerSuggestion;
@@ -106,6 +107,7 @@ public class ExtensionRegistry {
   private final DynamicSet<OnPostReview> onPostReviews;
   private final DynamicSet<ReviewerAddedListener> reviewerAddedListeners;
   private final DynamicSet<ReviewerDeletedListener> reviewerDeletedListeners;
+  private final DynamicSet<AccountStateProvider> accountStateProviders;
   private final DynamicSet<AttentionSetListener> attentionSetListeners;
 
   private final DynamicMap<ChangeHasOperandFactory> hasOperands;
@@ -153,6 +155,7 @@ public class ExtensionRegistry {
       DynamicSet<ReviewerDeletedListener> reviewerDeletedListeners,
       DynamicMap<ChangeHasOperandFactory> hasOperands,
       DynamicMap<ChangeIsOperandFactory> isOperands,
+      DynamicSet<AccountStateProvider> accountStateProviders,
       DynamicSet<AttentionSetListener> attentionSetListeners,
       DynamicMap<ReviewerSuggestion> reviewerSuggestions) {
     this.accountIndexedListeners = accountIndexedListeners;
@@ -194,6 +197,7 @@ public class ExtensionRegistry {
     this.reviewerDeletedListeners = reviewerDeletedListeners;
     this.hasOperands = hasOperands;
     this.isOperands = isOperands;
+    this.accountStateProviders = accountStateProviders;
     this.attentionSetListeners = attentionSetListeners;
     this.reviewerSuggestions = reviewerSuggestions;
   }
@@ -370,6 +374,11 @@ public class ExtensionRegistry {
     @CanIgnoreReturnValue
     public Registration add(WorkInProgressStateChangedListener workInProgressStateChangedListener) {
       return add(workInProgressStateChangedListeners, workInProgressStateChangedListener);
+    }
+
+    @CanIgnoreReturnValue
+    public Registration add(AccountStateProvider accountStateProvider) {
+      return add(accountStateProviders, accountStateProvider);
     }
 
     @CanIgnoreReturnValue

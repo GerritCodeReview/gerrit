@@ -97,6 +97,7 @@ import com.google.gerrit.server.account.AccountDeactivator;
 import com.google.gerrit.server.account.AccountExternalIdCreator;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountModule;
+import com.google.gerrit.server.account.AccountStateProvider;
 import com.google.gerrit.server.account.AccountTagProvider;
 import com.google.gerrit.server.account.AccountVisibilityProvider;
 import com.google.gerrit.server.account.CapabilityCollection;
@@ -464,6 +465,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), MailSoyTemplateProvider.class);
     DynamicSet.setOf(binder(), OnPostReview.class);
     DynamicMap.mapOf(binder(), AccountTagProvider.class);
+    DynamicSet.setOf(binder(), AccountStateProvider.class);
     DynamicSet.setOf(binder(), AttentionSetListener.class);
 
     DynamicMap.mapOf(binder(), MailFilter.class);

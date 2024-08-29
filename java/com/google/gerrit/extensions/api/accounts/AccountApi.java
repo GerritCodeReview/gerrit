@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.common.AccountDetailInfo;
 import com.google.gerrit.extensions.common.AccountExternalIdInfo;
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.common.AccountStateInfo;
 import com.google.gerrit.extensions.common.AgreementInfo;
 import com.google.gerrit.extensions.common.EmailInfo;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
@@ -36,6 +37,8 @@ public interface AccountApi {
   AccountInfo get() throws RestApiException;
 
   AccountDetailInfo detail() throws RestApiException;
+
+  AccountStateInfo state() throws RestApiException;
 
   boolean getActive() throws RestApiException;
 
@@ -148,6 +151,11 @@ public interface AccountApi {
 
     @Override
     public AccountDetailInfo detail() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public AccountStateInfo state() throws RestApiException {
       throw new NotImplementedException();
     }
 

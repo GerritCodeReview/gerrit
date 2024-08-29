@@ -611,6 +611,91 @@ If there is no token available, or the token has already expired,
 "`404 Not Found`" is returned as response. Requests to obtain an access
 token of another user are rejected with "`403 Forbidden`".
 
+[[get-state]]
+=== Get Account State
+--
+'GET /accounts/link:#account-id[\{account-id\}]/state'
+--
+
+Retrieves the superset of all information related to an account. This
+information is useful to inspect issues with the account and its permissions.
+The account state is returned as an link:#account-state-info[AccountStateInfo]
+entity.
+
+Users can only get the own account state. Getting the account state of other
+users is not allowed. To invoke the REST endpoint users can use 'self' as
+account-id in the URL, which resolves to the calling user.
+
+.Request
+----
+  GET /accounts/self/state HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "account": {
+      "registered_on": "2015-07-23 07:01:09.296000000",
+      "_account_id": 1000096,
+      "name": "John Doe",
+      "email": "john.doe@example.com",
+      "secondary_emails": [],
+      "username": "john",
+      "display_name": "Super John"
+    },
+    "capabilities": {
+      "queryLimit": {
+        "min": 0,
+        "max": 500
+      },
+      "emailReviewers": true
+    },
+    "groups": [
+      {
+        "options": {},
+        "id": "global%3AAnonymous-Users",
+        "name": "Anonymous Users"
+      },
+      {
+        "options": {},
+        "id": "global%3ARegistered-Users",
+        "name": "Registered Users"
+      },
+      {
+        "url": "#/admin/groups/uuid-834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7",
+        "options": {
+          "visible_to_all": true,
+        },
+        "description": "Users that maintain the project",
+        "group_id": 6,
+        "owner": "Administrators",
+        "owner_id": "834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7"
+        "created_on": "2023-08-08 15:53:56.000000000",
+        "id": "834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7",
+        "name": "Maintainers"
+      }
+    ],
+    "external_ids": [
+      {
+        "identity": "username:john",
+        "trusted": true
+      },
+      {
+        "identity": "mailto:john.doe@example.com",
+        "email_address": "john.doe@example.com",
+        "trusted": true,
+        "can_delete": true
+      }
+    ],
+    "metadata": {}
+  }
+----
+
 [[list-account-emails]]
 === List Account Emails
 --
@@ -2249,6 +2334,19 @@ A list of link:rest-api-groups.html#group-id[group IDs] that identify
 the groups to which the user should be added.
 |============================
 
+[[account-metadata-info]]
+=== AccountMetadataInfo
+The `AccountMetadataInfo` entity contains account metadata.
+
+[options="header",cols="1,^2,4"]
+|==========================
+|Field Name   ||Description
+|`name`       ||The metadata name. Not guaranteed to be unique, e.g. for one
+account multiple metadata entries with the same name may be returned.
+|`value`      |optional|The metadata value.
+|`description`|optional|A description of the metadata.
+|==========================
+
 [[account-name-input]]
 === AccountNameInput
 The `AccountNameInput` entity contains information for setting a name
@@ -2260,6 +2358,31 @@ for an account.
 |`name`     |optional|The new full name of the account. +
 If not set or if set to an empty string, the account name is deleted.
 |=============================
+
+[[account-state-info]]
+=== AccountStateInfo
+The `AccountStateInfo` entity contains the superset of all information related
+to an account.
+
+[options="header",cols="1,^2,4"]
+|==========================
+|Field Name    |Description
+|`account`     |
+The account details as link:#account-detail-info[AccountDetailInfo] entity.
+|`capabilities`|
+The global capabilities of the account as a
+link:#capability-info[CapabilityInfo] entity.
+|`groups`      |
+The groups that contain the account as a member as a list of
+link:rest-api-groups.html#group-info[GroupInfo] entries.
+|`external_ids`|
+The external IDs of the account as a list of
+link:#account-external-id-info[AccountExternalIdInfo] entities.
+|`metadata`    |
+Optional account metadata as a list of
+link:account-metadata-info[AccountMetadataInfo] entities. If and which metadata
+is provided depends on the Gerrit setup.
+|==========================
 
 [[account-status-input]]
 === AccountStatusInput

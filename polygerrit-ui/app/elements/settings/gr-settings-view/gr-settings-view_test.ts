@@ -125,35 +125,68 @@ suite('gr-settings-view tests', () => {
             </gr-button>
             <gr-button
               aria-disabled="false"
-              class="delete-account-button"
+              class="account-button"
               role="button"
               tabindex="0"
             >
               Delete Account
             </gr-button>
+            <gr-button
+              aria-disabled="false"
+              class="account-button"
+              role="button"
+              tabindex="0"
+            >
+              Dump Account State
+            </gr-button>
             <dialog id="confirm-account-deletion">
-            <gr-dialog role="dialog">
-              <div
-                class="confirm-account-deletion-header"
-                slot="header"
+              <gr-dialog role="dialog">
+                <div
+                  class="confirm-account-deletion-header"
+                  slot="header"
+                >
+                Are you sure you wish to delete your account?
+                </div>
+                <div
+                  class="confirm-account-deletion-main"
+                  slot="main"
+                >
+                  <ul>
+                    <li>
+                      Deleting your account is not reversible.
+                    </li>
+                    <li>
+                      Deleting your account will not delete your changes.
+                    </li>
+                  </ul>
+                </div>
+              </gr-dialog>
+            </dialog>
+            <dialog id="dump-account-state">
+              <gr-dialog
+                cancel-label=""
+                confirm-label="OK"
+                confirm-on-enter=""
+                role="dialog"
               >
-              Are you sure you wish to delete your account?
-              </div>
-              <div
-                class="confirm-account-deletion-main"
-                slot="main"
-              >
-                <ul>
-                  <li>
-                    Deleting your account is not reversible.
-                  </li>
-                  <li>
-                    Deleting your account will not delete your changes.
-                  </li>
-                </ul>
-              </div>
-            </gr-dialog>
-          </dialog>
+                <div slot="header">
+                  Account State:
+                </div>
+                <div slot="main">
+                  <textarea
+                    class="account-state-output"
+                    readonly=""
+                  >
+                    <!----><!---->
+                  </textarea>
+                  <p class="account-state-note">
+                    Note: The account state may contain sensitive data (e.g.
+                    deadnames). Share it with others only on a need to know
+                    basis (e.g. for debugging account or permission issues).
+                  </p>
+                </div>
+              </gr-dialog>
+            </dialog>
           </fieldset>
           <gr-preferences id="preferences"> </gr-preferences>
           <h2 id="DiffPreferences">Diff Preferences</h2>

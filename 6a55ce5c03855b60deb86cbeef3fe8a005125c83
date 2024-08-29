@@ -42,6 +42,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e0c9f0d_88ff05f4",
+        "filename": "java/com/google/gerrit/server/account/AccountStateProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-08-29T07:00:54Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "d2c25d41_14baa149",
+      "range": {
+        "startLine": 23,
+        "startChar": 50,
+        "endLine": 24,
+        "endChar": 90
+      },
+      "revId": "6a55ce5c03855b60deb86cbeef3fe8a005125c83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2edbf297_2af2fd20",

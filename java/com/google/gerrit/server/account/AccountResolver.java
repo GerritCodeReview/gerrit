@@ -591,6 +591,7 @@ public class AccountResolver {
           .add(new BySelf())
           .add(new ByExactAccountId())
           .add(new ByEmail())
+          .add(new ByUsername())
           .build();
 
   private final AccountCache accountCache;

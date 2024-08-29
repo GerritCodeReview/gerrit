@@ -1,0 +1,68 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2c25d41_14baa149",
+        "filename": "java/com/google/gerrit/server/account/AccountStateProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-08-29T06:30:39Z",
+      "side": 1,
+      "message": "nit: you can simplify wording a bit\n\n.. that should be included in the response of the \u003cGetState\u003e REST endpoint",
+      "range": {
+        "startLine": 23,
+        "startChar": 50,
+        "endLine": 24,
+        "endChar": 90
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "fe0935be_e620e268",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "java/com/google/gerrit/server/account/AccountStateProvider.java",
+              "range": {
+                "startLine": 23,
+                "startChar": 0,
+                "endLine": 25,
+                "endChar": 0
+              },
+              "replacement": " * Extension point to retrieve account state that should be included in the response of the {@link\n * com.google.gerrit.server.restapi.account.GetState} REST endpoint.\n"
+            }
+          ]
+        }
+      ],
+      "revId": "6a55ce5c03855b60deb86cbeef3fe8a005125c83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2edbf297_2af2fd20",
+        "filename": "java/com/google/gerrit/server/restapi/account/GetState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-08-29T06:30:39Z",
+      "side": 1,
+      "message": "Can we call stream on the accountStateProviders itself. (I can see that it\u0027s defined), but I am not entirely sure, if there is some caveat why it wouldn\u0027t work.\n\n```suggestion\n    return accountStateProviders.stream()\n        .flatMap(accountStateProvider -\u003e accountStateProvider.getMetadata(accountId).stream())\n        .collect(toImmutableList());\n```",
+      "range": {
+        "startLine": 92,
+        "startChar": 4,
+        "endLine": 99,
+        "endChar": 36
+      },
+      "revId": "6a55ce5c03855b60deb86cbeef3fe8a005125c83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

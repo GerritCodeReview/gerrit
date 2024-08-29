@@ -114,6 +114,7 @@ export interface RestApiService extends Finalizable {
   getConfig(noCache?: boolean): Promise<ServerInfo | undefined>;
   getLoggedIn(): Promise<boolean>;
   getPreferences(): Promise<PreferencesInfo | undefined>;
+  getAccountState(): Promise<string>;
   getVersion(): Promise<string | undefined>;
   getAccount(): Promise<AccountDetailInfo | undefined>;
   getAccountCapabilities(

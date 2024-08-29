@@ -63,6 +63,30 @@
       },
       "revId": "6a55ce5c03855b60deb86cbeef3fe8a005125c83",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2f95277_6d6096af",
+        "filename": "java/com/google/gerrit/server/restapi/account/GetState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-08-29T06:31:29Z",
+      "side": 1,
+      "message": "Realized, that there is special wrapping implemented for runEach, that does logging of plugin calls. Resolving",
+      "parentUuid": "2edbf297_2af2fd20",
+      "range": {
+        "startLine": 92,
+        "startChar": 4,
+        "endLine": 99,
+        "endChar": 36
+      },
+      "revId": "6a55ce5c03855b60deb86cbeef3fe8a005125c83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

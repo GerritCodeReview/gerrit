@@ -98,6 +98,24 @@
       "message": "Thanks, LGTM, but I\u0027ll let Youssef approve.",
       "revId": "9400d01bf70a8d45402e520ea7c85b52732cac26",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1833c7fc_e58a2ae3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2024-08-29T10:49:00Z",
+      "side": 1,
+      "message": "Thanks!",
+      "parentUuid": "05148dc0_1de10493",
+      "revId": "9400d01bf70a8d45402e520ea7c85b52732cac26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

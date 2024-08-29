@@ -233,7 +233,8 @@ AccountDetailInfo] entity.
     "_account_id": 1000096,
     "name": "John Doe",
     "email": "john.doe@example.com",
-    "username": "john"
+    "secondary_emails": [],
+    "username": "john",
     "display_name": "Super John"
   }
 ----

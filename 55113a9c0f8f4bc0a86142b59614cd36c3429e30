@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0418c360_3cc2d65b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-08-29T14:22:48Z",
+      "side": 1,
+      "message": "LGTM, thanks that looks quite useful",
+      "revId": "55113a9c0f8f4bc0a86142b59614cd36c3429e30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5e53778_a53216e1",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1514,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-08-29T14:22:48Z",
+      "side": 1,
+      "message": "In Files I think we show Collapse ALL if some file is expanded. Would it be a lot of work to have consistency with it?",
+      "range": {
+        "startLine": 1514,
+        "startChar": 16,
+        "endLine": 1514,
+        "endChar": 27
+      },
+      "revId": "55113a9c0f8f4bc0a86142b59614cd36c3429e30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

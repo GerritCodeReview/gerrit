@@ -1279,31 +1279,27 @@ entries is returned.
   )]}'
   [
     {
+      "options": {},
       "id": "global%3AAnonymous-Users",
-      "url": "#/admin/groups/uuid-global%3AAnonymous-Users",
-      "options": {
-      },
-      "description": "Any user, signed-in or not",
-      "group_id": 2,
-      "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389"
+      "name": "Anonymous Users"
     },
     {
-      "id": "834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7",
+      "options": {},
+      "id": "global%3ARegistered-Users",
+      "name": "Registered Users"
+    },
+    {
       "url": "#/admin/groups/uuid-834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7",
       "options": {
         "visible_to_all": true,
       },
+      "description": "Gerrit Site Administrators",
       "group_id": 6,
+      "owner": "Administrators",
       "owner_id": "834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7"
-    },
-    {
-      "id": "global%3ARegistered-Users",
-      "url": "#/admin/groups/uuid-global%3ARegistered-Users",
-      "options": {
-      },
-      "description": "Any signed-in user",
-      "group_id": 3,
-      "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389"
+      "created_on": "2023-08-08 15:53:56.000000000",
+      "id": "834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7",
+      "name": "Administrators"
     }
   ]
 ----

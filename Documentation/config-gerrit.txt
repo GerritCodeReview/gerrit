@@ -4883,7 +4883,7 @@ be specified using standard time unit abbreviations ('ms', 'sec',
 'min', etc.).
 +
 After the timeout is exceeded the task processing the receive gets a
-cancellation signal that allows the tast to finish gracefully.
+cancellation signal that allows the task to finish gracefully.
 link:#receive.cancellationTimeout[receive.cancellationTimeout]
 defines how much time the task has to react to the cancellation signal
 before it is focefully cancelled.

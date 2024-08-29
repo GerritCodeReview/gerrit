@@ -81,6 +81,9 @@ export class GrSettingsView extends LitElement {
   @query('#confirm-account-deletion')
   private deleteAccountConfirmationDialog?: HTMLDialogElement;
 
+  @query('#dump-account-state')
+  private dumpAccountStateConfirmationDialog?: HTMLDialogElement;
+
   @query('#watchedProjectsEditor', true)
   watchedProjectsEditor!: GrWatchedProjectsEditor;
 
@@ -138,6 +141,8 @@ export class GrSettingsView extends LitElement {
   @state() account?: AccountDetailInfo;
 
   @state() isDeletingAccount = false;
+
+  @state() accountState?: string;
 
   // private but used in test
   public _testOnly_loadingPromise?: Promise<void>;
@@ -199,6 +204,15 @@ export class GrSettingsView extends LitElement {
     // we need to manually calling scrollIntoView when hash changed
     document.addEventListener('location-change', this.handleLocationChange);
     fireTitleChange('Settings');
+  }
+
+  private async getAccountState() {
+    const state = await this.restApiService.getAccountState();
+    if (state) {
+      this.accountState = JSON.stringify(state, null, 2);
+    } else {
+      this.accountState = 'ERROR: failed to get account state';
+    }
   }
 
   override firstUpdated() {
@@ -276,8 +290,18 @@ export class GrSettingsView extends LitElement {
           margin-bottom: var(--spacing-l);
           margin-right: var(--spacing-l);
         }
-        .delete-account-button {
+        .account-button {
           margin-left: var(--spacing-l);
+        }
+        .account-state-output {
+          width: 100vh;
+          max-width: calc(100% - var(--spacing-xl));
+          height: 50vh;
+          margin-bottom: var(--spacing-l);
+        }
+        .account-state-note {
+          width: 100vh;
+          max-width: calc(100% - var(--spacing-xl));
         }
         .confirm-account-deletion-main ul {
           list-style: disc inside;
@@ -351,11 +375,18 @@ export class GrSettingsView extends LitElement {
               >Save changes</gr-button
             >
             <gr-button
-              class="delete-account-button"
+              class="account-button"
               @click=${() => {
                 this.confirmDeleteAccount();
               }}
               >Delete Account</gr-button
+            >
+            <gr-button
+              class="account-button"
+              @click=${() => {
+                this.dumpAccountState();
+              }}
+              >Dump Account State</gr-button
             >
             <dialog id="confirm-account-deletion">
               <gr-dialog
@@ -373,6 +404,27 @@ export class GrSettingsView extends LitElement {
                     <li>Deleting your account is not reversible.</li>
                     <li>Deleting your account will not delete your changes.</li>
                   </ul>
+                </div>
+              </gr-dialog>
+            </dialog>
+            <dialog id="dump-account-state">
+              <gr-dialog
+                cancel-label=""
+                @confirm=${() =>
+                  this.dumpAccountStateConfirmationDialog?.close()}
+                confirm-label="OK"
+                confirm-on-enter=""
+              >
+                <div slot="header">Account State:</div>
+                <div slot="main">
+                  <textarea class="account-state-output" readonly>
+${this.accountState}</textarea
+                  >
+                  <p class="account-state-note">
+                    Note: The account state may contain sensitive data (e.g.
+                    deadnames). Share it with others only on a need to know
+                    basis (e.g. for debugging account or permission issues).
+                  </p>
                 </div>
               </gr-dialog>
             </dialog>
@@ -668,6 +720,11 @@ export class GrSettingsView extends LitElement {
     this.isDeletingAccount = false;
     this.deleteAccountConfirmationDialog?.close();
     this.getNavigation().setUrl(rootUrl());
+  }
+
+  private async dumpAccountState() {
+    await this.getAccountState();
+    this.dumpAccountStateConfirmationDialog?.showModal();
   }
 
   // private but used in test

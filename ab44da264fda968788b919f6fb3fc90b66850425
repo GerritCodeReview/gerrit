@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9dc82a9_445ca0e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-08-29T21:26:22Z",
+      "side": 1,
+      "message": "Need `Release-Notes:` footer",
+      "revId": "ab44da264fda968788b919f6fb3fc90b66850425",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

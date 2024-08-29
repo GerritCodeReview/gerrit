@@ -18,6 +18,7 @@ import {
   AccountExternalIdInfo,
   AccountId,
   AccountInfo,
+  AccountStateInfo,
   ActionNameToActionInfoMap,
   Base64File,
   Base64FileContent,
@@ -1056,6 +1057,13 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       }
       return createDefaultPreferences();
     });
+  }
+
+  getAccountState(): Promise<AccountStateInfo | undefined> {
+    return this._restApiHelper.fetchJSON({
+      url: '/accounts/self/state',
+      reportUrlAsIs: true,
+    }) as Promise<AccountStateInfo | undefined>;
   }
 
   getWatchedProjects() {

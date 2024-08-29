@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "455d946d_063b281e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-08-29T13:46:16Z",
+      "side": 1,
+      "message": "While this seems to work, the dialog doesn\u0027t look any good and I can figure out how to fix it with css (e.g. how to increase the size of the output box and how to hide the superfluous horizontal scrollbar):\nhttps://i.imgur.com/MYe263B.png\n\n@kamilm@google.com: Maybe you can give me a pointer how to make this look better. I believe the problem may be that the elements are under \"#shadow-root\".",
+      "revId": "1c83aa4de34a58e93914f296a53c70f348ea2215",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

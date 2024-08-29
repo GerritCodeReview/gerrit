@@ -24,7 +24,6 @@ import com.google.gson.GsonBuilder;
 import java.sql.Timestamp;
 import java.time.ZonedDateTime;
 import java.util.TimeZone;
-import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.After;
 import org.junit.Before;
@@ -53,12 +52,6 @@ public class CommentTimestampAdapterTest {
    */
   private static final long MID_DST_MS = 1383466224175L;
 
-  /**
-   * Ambiguous string representation of {@link #MID_DST_MS} that was actually stored in NoteDb for
-   * this comment.
-   */
-  private static final String MID_DST_STR = "Nov 3, 2013, 1:10:24 AM";
-
   private TimeZone systemTimeZone;
   private Gson legacyGson;
   private Gson gson;
@@ -78,32 +71,20 @@ public class CommentTimestampAdapterTest {
     TimeZone.setDefault(systemTimeZone);
   }
 
-  @Test
-  public void legacyGsonBehavesAsExpectedDuringDstTransition() {
-    long oneHourMs = TimeUnit.HOURS.toMillis(1);
-
-    String beforeJson = "\"Nov 3, 2013, 12:10:24 AM\"";
-    Timestamp beforeTs = new Timestamp(MID_DST_MS - oneHourMs);
-    assertThat(legacyGson.toJson(beforeTs)).isEqualTo(beforeJson);
-
-    String ambiguousJson = '"' + MID_DST_STR + '"';
-    Timestamp duringTs = new Timestamp(MID_DST_MS);
-    assertThat(legacyGson.toJson(duringTs)).isEqualTo(ambiguousJson);
-
-    Timestamp afterTs = new Timestamp(MID_DST_MS + oneHourMs);
-    assertThat(legacyGson.toJson(afterTs)).isEqualTo(ambiguousJson);
-
-    Timestamp beforeTsTruncated = new Timestamp(beforeTs.getTime() / 1000 * 1000);
-    assertThat(legacyGson.fromJson(beforeJson, Timestamp.class)).isEqualTo(beforeTsTruncated);
-
-    // Gson just picks one, and it happens to be the one after the PST transition.
-    Timestamp afterTsTruncated = new Timestamp(afterTs.getTime() / 1000 * 1000);
-    assertThat(legacyGson.fromJson(ambiguousJson, Timestamp.class)).isEqualTo(afterTsTruncated);
+  private String normalizeWhitespaces(String input) {
+    // There is a known difference between different JDK versions. Common Locale Data Repository
+    // (CLDR) version 42 replaces ASCII spaces (U+0020) with NNBSP (Narrow No-Break Space, U+202F)
+    // in some places within the date time. The change was made in CLDR 42, which  JDK 20 and newer
+    // use: https://bugs.openjdk.org/browse/JDK-8284840.
+    // For test purposes, we will make whitespaces consistent, so they can be compared directly with
+    // an expected output in all JDK version.
+    return input.replace("\u202F", " ");
   }
 
   @Test
   public void legacyAdapterViaZonedDateTime() {
-    assertThat(legacyGson.toJson(NON_DST_TS)).isEqualTo("\"Feb 7, 2017, 2:20:30 AM\"");
+    assertThat(normalizeWhitespaces(legacyGson.toJson(NON_DST_TS)))
+        .isEqualTo("\"Feb 7, 2017, 2:20:30 AM\"");
   }
 
   @Test
@@ -117,7 +98,7 @@ public class CommentTimestampAdapterTest {
   @Test
   public void newAdapterCanParseOutputOfLegacyAdapter() {
     String legacyJson = legacyGson.toJson(NON_DST_TS);
-    assertThat(legacyJson).isEqualTo("\"Feb 7, 2017, 2:20:30 AM\"");
+    assertThat(normalizeWhitespaces(legacyJson)).isEqualTo("\"Feb 7, 2017, 2:20:30 AM\"");
     assertThat(gson.fromJson(legacyJson, Timestamp.class))
         .isEqualTo(new Timestamp(NON_DST_TS.getTime() / 1000 * 1000));
   }

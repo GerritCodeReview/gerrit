@@ -16,6 +16,24 @@
       "message": "While this seems to work, the dialog doesn\u0027t look any good and I can figure out how to fix it with css (e.g. how to increase the size of the output box and how to hide the superfluous horizontal scrollbar):\nhttps://i.imgur.com/MYe263B.png\n\n@kamilm@google.com: Maybe you can give me a pointer how to make this look better. I believe the problem may be that the elements are under \"#shadow-root\".",
       "revId": "1c83aa4de34a58e93914f296a53c70f348ea2215",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8754e615_68eecde0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-08-29T15:40:23Z",
+      "side": 1,
+      "message": "I couldn\u0027t figure it out. I will look at it again tomorrow morning\n\nAs far as I can tell\n- the problem here is with the gr-copy-clipboard, which is having wrong sizes. Giving it `diplay:inline-block` gets rid of the scrollbar at the bottom\n- It still leaves the textarea too small though. I think there is a bug in how gr-copy-clipboard is implemented for \"multiline\", which makes it hard to specify the size of it. As far as I could tell, we don\u0027t use multiline anywhere (the only place we do use, we don\u0027t actually show the content), so it can easily be broken, without anyone knowing. But I didn\u0027t quite figure out what\u0027s the issue here (or if I am using it wrong)",
+      "parentUuid": "455d946d_063b281e",
+      "revId": "1c83aa4de34a58e93914f296a53c70f348ea2215",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

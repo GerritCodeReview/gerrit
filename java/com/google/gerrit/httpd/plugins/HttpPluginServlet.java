@@ -353,7 +353,7 @@ class HttpPluginServlet extends HttpServlet implements StartPluginListener, Relo
   }
 
   private boolean isOriginAllowed(String origin) {
-    return allowOrigin == null || allowOrigin.matcher(origin).matches();
+    return allowOrigin != null && allowOrigin.matcher(origin).matches();
   }
 
   private boolean hasUpToDateCachedResource(Resource cachedResource, long lastUpdateTime) {

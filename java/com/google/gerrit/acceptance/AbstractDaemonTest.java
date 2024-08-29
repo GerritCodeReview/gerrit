@@ -138,6 +138,7 @@ import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeNotesCommit;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
+import com.google.gerrit.server.plugins.PluginContentScanner;
 import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
 import com.google.gerrit.server.plugins.TestServerPlugin;
 import com.google.gerrit.server.project.ProjectCache;
@@ -1801,6 +1802,16 @@ public abstract class AbstractDaemonTest {
       @Nullable Class<? extends Module> httpModuleClass,
       @Nullable Class<? extends Module> sshModuleClass)
       throws Exception {
+    return installPlugin(pluginName, sysModuleClass, httpModuleClass, sshModuleClass, null);
+  }
+
+  protected AutoCloseable installPlugin(
+      String pluginName,
+      @Nullable Class<? extends Module> sysModuleClass,
+      @Nullable Class<? extends Module> httpModuleClass,
+      @Nullable Class<? extends Module> sshModuleClass,
+      PluginContentScanner scanner)
+      throws Exception {
     checkStatic(sysModuleClass);
     checkStatic(httpModuleClass);
     checkStatic(sshModuleClass);
@@ -1809,6 +1820,7 @@ public abstract class AbstractDaemonTest {
             pluginName,
             "http://example.com/" + pluginName,
             pluginUserFactory.create(pluginName),
+            scanner,
             getClass().getClassLoader(),
             sysModuleClass != null ? sysModuleClass.getName() : null,
             httpModuleClass != null ? httpModuleClass.getName() : null,

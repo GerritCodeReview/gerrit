@@ -417,16 +417,25 @@ suite('gr-checks-results test', () => {
           </div>
         </div>
         <div class="body">
-          <div class="expanded">
-            <h3 class="categoryHeader error heading-3">
-              <gr-icon icon="expand_less" class="expandIcon"></gr-icon>
-              <div class="statusIconWrapper">
-                <gr-icon icon="error" filled class="error statusIcon"></gr-icon>
-                <span class="title"> error </span>
-                <span class="count"> (3) </span>
-                <paper-tooltip offset="5"> </paper-tooltip>
+          <div class="error expanded">
+            <div class="categoryHeader error">
+              <h3 class="left heading-3">
+                <gr-icon icon="expand_less" class="expandIcon"></gr-icon>
+                <div class="statusIconWrapper">
+                  <gr-icon
+                    icon="error"
+                    filled
+                    class="error statusIcon"
+                  ></gr-icon>
+                  <span class="title"> error </span>
+                  <span class="count"> (3) </span>
+                  <paper-tooltip offset="5"> </paper-tooltip>
+                </div>
+              </h3>
+              <div class="right">
+                <gr-button link=""> Expand All </gr-button>
               </div>
-            </h3>
+            </div>
             <gr-result-row
               class="FAKEErrorFinderFinderFinderFinderFinderFinderFinder"
             >
@@ -448,17 +457,22 @@ suite('gr-checks-results test', () => {
               <tbody></tbody>
             </table>
           </div>
-          <div class="expanded">
-            <h3 class="categoryHeader heading-3 warning">
-              <gr-icon icon="expand_less" class="expandIcon"></gr-icon>
-              <div class="statusIconWrapper">
-                <gr-icon icon="warning" filled class="warning statusIcon">
-                </gr-icon>
-                <span class="title"> warning </span>
-                <span class="count"> (1) </span>
-                <paper-tooltip offset="5"> </paper-tooltip>
+          <div class="expanded warning">
+            <div class="categoryHeader warning">
+              <h3 class="left heading-3">
+                <gr-icon icon="expand_less" class="expandIcon"></gr-icon>
+                <div class="statusIconWrapper">
+                  <gr-icon icon="warning" filled class="warning statusIcon">
+                  </gr-icon>
+                  <span class="title"> warning </span>
+                  <span class="count"> (1) </span>
+                  <paper-tooltip offset="5"> </paper-tooltip>
+                </div>
+              </h3>
+              <div class="right">
+                <gr-button link=""> Expand All </gr-button>
               </div>
-            </h3>
+            </div>
             <gr-result-row class="FAKESuperCheck" isexpandable> </gr-result-row>
             <table class="resultsTable">
               <thead>
@@ -471,28 +485,38 @@ suite('gr-checks-results test', () => {
               <tbody></tbody>
             </table>
           </div>
-          <div class="collapsed">
-            <h3 class="categoryHeader heading-3 info">
-              <gr-icon icon="expand_more" class="expandIcon"></gr-icon>
-              <div class="statusIconWrapper">
-                <gr-icon icon="info" class="info statusIcon"></gr-icon>
-                <span class="title"> info </span>
-                <span class="count"> (3) </span>
-                <paper-tooltip offset="5"> </paper-tooltip>
+          <div class="collapsed info">
+            <div class="categoryHeader info">
+              <h3 class="left heading-3">
+                <gr-icon icon="expand_more" class="expandIcon"></gr-icon>
+                <div class="statusIconWrapper">
+                  <gr-icon icon="info" class="info statusIcon"></gr-icon>
+                  <span class="title"> info </span>
+                  <span class="count"> (3) </span>
+                  <paper-tooltip offset="5"> </paper-tooltip>
+                </div>
+              </h3>
+              <div class="right">
+                <gr-button hidden="" link=""> Expand All </gr-button>
               </div>
-            </h3>
+            </div>
           </div>
-          <div class="collapsed">
-            <h3 class="categoryHeader empty heading-3 success">
-              <gr-icon icon="expand_more" class="expandIcon"></gr-icon>
-              <div class="statusIconWrapper">
-                <gr-icon icon="check_circle" class="statusIcon success">
-                </gr-icon>
-                <span class="title"> success </span>
-                <span class="count"> (0) </span>
-                <paper-tooltip offset="5"> </paper-tooltip>
+          <div class="collapsed success">
+            <div class="categoryHeader empty success">
+              <h3 class="left heading-3">
+                <gr-icon icon="expand_more" class="expandIcon"></gr-icon>
+                <div class="statusIconWrapper">
+                  <gr-icon icon="check_circle" class="statusIcon success">
+                  </gr-icon>
+                  <span class="title"> success </span>
+                  <span class="count"> (0) </span>
+                  <paper-tooltip offset="5"> </paper-tooltip>
+                </div>
+              </h3>
+              <div class="right">
+                <gr-button hidden="" link=""> Expand All </gr-button>
               </div>
-            </h3>
+            </div>
           </div>
         </div>
       `,

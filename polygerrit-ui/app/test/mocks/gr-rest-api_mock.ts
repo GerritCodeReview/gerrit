@@ -199,6 +199,9 @@ export const grRestApiMock: RestApiService = {
   getAccountSSHKeys(): Promise<SshKeyInfo[] | undefined> {
     return Promise.resolve([]);
   },
+  getAccountState(): Promise<string> {
+    return Promise.resolve('');
+  },
   getAccountStatus(): Promise<string | undefined> {
     return Promise.resolve('');
   },

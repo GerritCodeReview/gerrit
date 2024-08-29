@@ -1058,6 +1058,18 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     });
   }
 
+  getAccountState(): Promise<string> {
+    return this.getLoggedIn().then(loggedIn => {
+      if (loggedIn) {
+        const req = {url: '/accounts/self/state', reportUrlAsIs: true};
+        return this._restApiHelper.fetchJSON(req).then(res => {
+          return JSON.stringify(res, null, 2);
+        });
+      }
+      return "login required";
+    });
+  }
+
   getWatchedProjects() {
     return this._restApiHelper.fetchCacheJSON({
       url: '/accounts/self/watched.projects',

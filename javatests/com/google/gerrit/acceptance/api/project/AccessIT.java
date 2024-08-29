@@ -17,6 +17,8 @@ package com.google.gerrit.acceptance.api.project;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
+import static com.google.gerrit.extensions.client.ProjectState.ACTIVE;
+import static com.google.gerrit.extensions.client.ProjectState.HIDDEN;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.schema.AclUtil.grant;
@@ -49,6 +51,7 @@ import com.google.gerrit.extensions.api.access.PermissionRuleInfo;
 import com.google.gerrit.extensions.api.access.ProjectAccessInfo;
 import com.google.gerrit.extensions.api.access.ProjectAccessInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.api.projects.ProjectApi;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -1197,7 +1200,6 @@ public class AccessIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(name = "gerrit.requireChangeForConfigUpdate", value = "true")
   public void requireChangeForConfigUpdate_postAccessRejected() {
     ProjectAccessInput accessInput = newProjectAccessInput();
     AccessSectionInfo accessSectionInfo = createDefaultAccessSectionInfo();
@@ -1206,6 +1208,37 @@ public class AccessIT extends AbstractDaemonTest {
     MethodNotAllowedException e =
         assertThrows(MethodNotAllowedException.class, () -> pApi().access(accessInput));
     assertThat(e.getMessage()).contains("Updating project config without review is disabled");
+  }
+
+  @Test
+  @GerritConfig(name = "gerrit.requireChangeForConfigUpdate", value = "true")
+  public void canUnhideHiddenProject() throws Exception {
+    ConfigInput ci = new ConfigInput();
+    ci.state = HIDDEN;
+    gApi.projects().name(project.get()).config(ci);
+    assertThat(gApi.projects().name(project.get()).get().state).isEqualTo(HIDDEN);
+
+    ConfigInput ci2 = new ConfigInput();
+    ci2.state = ACTIVE;
+    gApi.projects().name(project.get()).config(ci);
+    assertThat(gApi.projects().name(project.get()).get().state).isEqualTo(ACTIVE);
+  }
+
+  @Test
+  @GerritConfig(name = "gerrit.requireChangeForConfigUpdate", value = "true")
+  public void requireChangeForConfigUpdate_cantUnhideHiddenProjectWithoutReview() throws Exception {
+    ConfigInput ci = new ConfigInput();
+    ci.state = HIDDEN;
+    gApi.projects().name(project.get()).config(ci);
+    assertThat(gApi.projects().name(project.get()).get().state).isEqualTo(HIDDEN);
+
+    ConfigInput ci2 = new ConfigInput();
+    ci2.state = ACTIVE;
+    MethodNotAllowedException e =
+        assertThrows(
+            MethodNotAllowedException.class, () -> gApi.projects().name(project.get()).config(ci));
+    assertThat(e.getMessage()).contains("Updating project config without review is disabled");
+    assertThat(gApi.projects().name(project.get()).get().state).isEqualTo(HIDDEN);
   }
 
   private ProjectApi pApi() throws Exception {

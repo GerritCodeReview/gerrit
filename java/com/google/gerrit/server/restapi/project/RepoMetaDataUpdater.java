@@ -140,8 +140,8 @@ public class RepoMetaDataUpdater {
       } catch (AuthException denied) {
         throw new AuthException("cannot create change for " + RefNames.REFS_CONFIG, denied);
       }
+      projectCache.get(projectName).orElseThrow(illegalState(projectName)).checkStatePermitsWrite();
     }
-    projectCache.get(projectName).orElseThrow(illegalState(projectName)).checkStatePermitsWrite();
     // The MetaDataUpdate instance gets closed in the ConfigChangeCreator.close() method.
     MetaDataUpdate md = metaDataUpdateFactory.get().create(projectName);
     try {

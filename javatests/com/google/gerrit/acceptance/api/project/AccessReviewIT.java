@@ -15,17 +15,22 @@
 package com.google.gerrit.acceptance.api.project;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.extensions.client.ProjectState.ACTIVE;
+import static com.google.gerrit.extensions.client.ProjectState.HIDDEN;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.access.AccessSectionInfo;
 import com.google.gerrit.extensions.api.access.PermissionInfo;
 import com.google.gerrit.extensions.api.access.PermissionRuleInfo;
 import com.google.gerrit.extensions.api.access.ProjectAccessInput;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.inject.Inject;
@@ -69,6 +74,24 @@ public class AccessReviewIT extends AbstractDaemonTest {
             .query("project:" + defaultMessageProject.get() + " AND ref:refs/meta/config")
             .get();
     assertThat(Iterables.getOnlyElement(result).subject).isEqualTo("Review access change");
+  }
+
+  @Test
+  @GerritConfig(name = "gerrit.requireChangeForConfigUpdate", value = "true")
+  public void canUnhideHiddenProject() throws Exception {
+    ConfigInput ci = new ConfigInput();
+    ci.state = HIDDEN;
+    ChangeInfo changeInfo = gApi.projects().name(project.get()).configReview(ci);
+    gApi.changes().id(changeInfo.id).current().review(ReviewInput.approve());
+    gApi.changes().id(changeInfo.id).current().submit();
+    assertThat(gApi.projects().name(project.get()).get().state).isEqualTo(HIDDEN);
+
+    ConfigInput ci2 = new ConfigInput();
+    ci2.state = ACTIVE;
+    ChangeInfo changeInfo2 = gApi.projects().name(project.get()).configReview(ci2);
+    gApi.changes().id(changeInfo2.id).current().review(ReviewInput.approve());
+    gApi.changes().id(changeInfo2.id).current().submit();
+    assertThat(gApi.projects().name(project.get()).get().state).isEqualTo(HIDDEN);
   }
 
   @Test

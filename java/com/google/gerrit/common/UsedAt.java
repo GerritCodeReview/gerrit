@@ -11,7 +11,6 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
 package com.google.gerrit.common;
 
 import static java.lang.annotation.ElementType.CONSTRUCTOR;
@@ -45,6 +44,7 @@ public @interface UsedAt {
     PLUGIN_HIGH_AVAILABILITY,
     PLUGIN_MULTI_SITE,
     PLUGIN_PULL_REPLICATION,
+    PLUGIN_REVIEWERS,
     PLUGIN_SERVICEUSER,
     PLUGIN_WEBSESSION_FLATFILE,
     MODULE_GIT_REFS_FILTER,

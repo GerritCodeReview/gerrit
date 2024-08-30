@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2097311b_cadb11d5",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 717,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-08-30T13:17:54Z",
+      "side": 1,
+      "message": "nit: add a comment, that this is async it will populate the info in the opened dialog as soon as the request is done.\n\nAlternatively you can add \"await\" here to wait until the data is ready.",
+      "range": {
+        "startLine": 717,
+        "startChar": 4,
+        "endLine": 717,
+        "endChar": 27
+      },
+      "revId": "3b042728e89be86623a6176a4c2a7985edba9c2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -34,6 +34,24 @@
       "parentUuid": "455d946d_063b281e",
       "revId": "1c83aa4de34a58e93914f296a53c70f348ea2215",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1dce5d09_a92d0ae6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-08-30T09:54:43Z",
+      "side": 1,
+      "message": "Something like this: https://gerrit-review.git.corp.google.com/c/gerrit/+/436117\nCan fix the size of the text area. However\n\nThe copy icon looks awkward on the side. So since it doesn\u0027t actually look good. I would suggest just replacing gr-copy-clipboard with a standard \u003ctextarea\u003e, it would simplify everything, and then you can style this textarea directly easily.",
+      "parentUuid": "8754e615_68eecde0",
+      "revId": "1c83aa4de34a58e93914f296a53c70f348ea2215",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

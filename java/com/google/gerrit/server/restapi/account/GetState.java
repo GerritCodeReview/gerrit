@@ -27,6 +27,7 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountStateProvider;
+import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.inject.Inject;
@@ -45,6 +46,7 @@ import java.util.Comparator;
  */
 @Singleton
 public class GetState implements RestReadView<AccountResource> {
+  private final PermissionBackend permissionBackend;
   private final Provider<CurrentUser> self;
   private final Provider<GetCapabilities> getCapabilities;
   private final GetDetail getDetail;
@@ -54,12 +56,14 @@ public class GetState implements RestReadView<AccountResource> {
 
   @Inject
   GetState(
+      PermissionBackend permissionBackend,
       Provider<CurrentUser> self,
       Provider<GetCapabilities> getCapabilities,
       GetDetail getDetail,
       GetGroups getGroups,
       GetExternalIds getExternalIds,
       PluginSetContext<AccountStateProvider> accountStateProviders) {
+    this.permissionBackend = permissionBackend;
     this.self = self;
     this.getCapabilities = getCapabilities;
     this.getDetail = getDetail;
@@ -81,7 +85,11 @@ public class GetState implements RestReadView<AccountResource> {
 
     AccountStateInfo accountState = new AccountStateInfo();
     accountState.account = getDetail.apply(rsrc).value();
-    accountState.capabilities = getCapabilities.get().apply(rsrc).value();
+
+    if (permissionBackend.usesDefaultCapabilities()) {
+      accountState.capabilities = getCapabilities.get().apply(rsrc).value();
+    }
+
     accountState.groups = getGroups.apply(rsrc).value();
     accountState.externalIds = getExternalIds.apply(rsrc).value();
     accountState.metadata = getMetadata(rsrc.getUser().getAccountId());

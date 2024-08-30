@@ -2363,19 +2363,20 @@ to an account.
 
 [options="header",cols="1,^2,4"]
 |==========================
-|Field Name    |Description
-|`account`     |
+|Field Name    ||Description
+|`account`     ||
 The account details as link:#account-detail-info[AccountDetailInfo] entity.
-|`capabilities`|
+|`capabilities`|optional|
 The global capabilities of the account as a
-link:#capability-info[CapabilityInfo] entity.
-|`groups`      |
+link:#capability-info[CapabilityInfo] entity. Not set if the permission backend
+doesn't use default capabilities.
+|`groups`      ||
 The groups that contain the account as a member as a list of
 link:rest-api-groups.html#group-info[GroupInfo] entries.
-|`external_ids`|
+|`external_ids`||
 The external IDs of the account as a list of
 link:#account-external-id-info[AccountExternalIdInfo] entities.
-|`metadata`    |
+|`metadata`    ||
 Optional account metadata as a list of
 link:account-metadata-info[AccountMetadataInfo] entities. If and which metadata
 is provided depends on the Gerrit setup.

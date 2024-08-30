@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d53a9c4d_47059e75",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-08-30T12:54:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "507ccd61_d8c9d1b0",
+      "range": {
+        "startLine": 209,
+        "startChar": 2,
+        "endLine": 213,
+        "endChar": 3
+      },
+      "revId": "c0ecdd7005515ff04717c17e490fabdc973b7925",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e2e58f39_e8c576b7",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-08-29T15:40:23Z",
       "side": 1,
       "message": "This currently executes on page load. Is this intended?\n\nIf you want this on page load, I would put in the `connectedCallback`. If you want this to load when dialog is shown, I would simply put this in dumpAccountState()",
+      "range": {
+        "startLine": 406,
+        "startChar": 16,
+        "endLine": 406,
+        "endChar": 22
+      },
+      "revId": "c0ecdd7005515ff04717c17e490fabdc973b7925",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1dbd067_417fe4e8",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-08-30T12:54:02Z",
+      "side": 1,
+      "message": "No, not intended. It should be called only when the button is pressed.\n\n\u003e I would simply put this in dumpAccountState()\n\nThanks, done.",
+      "parentUuid": "e2e58f39_e8c576b7",
       "range": {
         "startLine": 406,
         "startChar": 16,
@@ -88,6 +136,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f99470c6_18d6c53e",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1065,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-08-30T12:54:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b132de47_198a861e",
+      "range": {
+        "startLine": 1065,
+        "startChar": 55,
+        "endLine": 1065,
+        "endChar": 58
+      },
+      "revId": "c0ecdd7005515ff04717c17e490fabdc973b7925",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cc08bd1d_4e6b7231",
@@ -101,6 +173,30 @@
       "writtenOn": "2024-08-29T15:40:23Z",
       "side": 1,
       "message": "I think the pretty printing of the output should be in gr-settings-view, where-as this method should return the structured data. From perspective of gr-rest-api being a wrapper around REST API, it doesn\u0027t really make sense to restrict the method to pretty-printed string",
+      "range": {
+        "startLine": 1066,
+        "startChar": 17,
+        "endLine": 1066,
+        "endChar": 46
+      },
+      "revId": "c0ecdd7005515ff04717c17e490fabdc973b7925",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "080afac2_df707e7c",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1066,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-08-30T12:54:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cc08bd1d_4e6b7231",
       "range": {
         "startLine": 1066,
         "startChar": 17,
@@ -134,6 +230,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "59ed8e69_ff94f298",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1071,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-08-30T12:54:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b7a4a03_60021d0e",
+      "range": {
+        "startLine": 1061,
+        "startChar": 2,
+        "endLine": 1071,
+        "endChar": 3
+      },
+      "revId": "c0ecdd7005515ff04717c17e490fabdc973b7925",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "103fccb4_09ae817d",
@@ -147,6 +267,30 @@
       "writtenOn": "2024-08-29T15:40:23Z",
       "side": 1,
       "message": "Please add a docstring referencing REST API endpoint (see examples in the file below).\n\nWe don\u0027t have it for everything, but we are slowly adding these docstrings, whenever we have to touch these definitions.",
+      "range": {
+        "startLine": 117,
+        "startChar": 2,
+        "endLine": 117,
+        "endChar": 37
+      },
+      "revId": "c0ecdd7005515ff04717c17e490fabdc973b7925",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "78b9b2c5_3b7c9af9",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-08-30T12:54:02Z",
+      "side": 1,
+      "message": "Makes sense. Done.",
+      "parentUuid": "103fccb4_09ae817d",
       "range": {
         "startLine": 117,
         "startChar": 2,

@@ -52,6 +52,24 @@
       "parentUuid": "8754e615_68eecde0",
       "revId": "1c83aa4de34a58e93914f296a53c70f348ea2215",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2f9fd0b_4a0ee894",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-08-30T12:54:02Z",
+      "side": 1,
+      "message": "Thanks a lot for all your help with this change! Alone I wouldn\u0027t be able to get this right!\n\nI haven\u0027t had time to look more into this issue yet, will check this next week.\n\nIn the meantime, I hope I fixed the other issues with the new patch set.",
+      "parentUuid": "1dce5d09_a92d0ae6",
+      "revId": "1c83aa4de34a58e93914f296a53c70f348ea2215",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

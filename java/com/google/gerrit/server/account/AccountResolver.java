@@ -750,6 +750,11 @@ public class AccountResolver {
         input, searchers, self.get(), this::allVisiblePredicate, AccountResolver::isActive);
   }
 
+  public Result resolveExactIgnoreVisibility(String input) throws ConfigInvalidException, IOException {
+    return searchImpl(
+        input, exactSearchers, self.get(), this::allVisiblePredicate, AccountResolver::isActive);
+  }
+
   public Result resolveAsUserIgnoreVisibility(CurrentUser asUser, String input)
       throws ConfigInvalidException, IOException {
     return resolveAsUserIgnoreVisibility(asUser, input, AccountResolver::isActive);

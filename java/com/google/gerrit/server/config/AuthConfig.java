@@ -92,7 +92,7 @@ public class AuthConfig {
     cookiePath = cfg.getString("auth", null, "cookiepath");
     cookieDomain = cfg.getString("auth", null, "cookiedomain");
     cookieSecure = cfg.getBoolean("auth", "cookiesecure", false);
-    cookieHttpOnly = cfg.getBoolean("auth", "cookiehttponly", false);
+    cookieHttpOnly = cfg.getBoolean("auth", "cookiehttponly", true);
     trustContainerAuth = cfg.getBoolean("auth", "trustContainerAuth", false);
     enableRunAs = cfg.getBoolean("auth", null, "enableRunAs", true);
     gitBasicAuthPolicy = getBasicAuthPolicy(cfg);

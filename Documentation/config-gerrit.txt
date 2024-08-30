@@ -540,7 +540,7 @@ By default, `false`.
 Sets "httpOnly" flag of the authentication cookie. If `true`, cookie
 values can't be accessed by client side scripts.
 +
-By default, `false`.
+By default, `true`.
 
 [[auth.emailFormat]]auth.emailFormat::
 +

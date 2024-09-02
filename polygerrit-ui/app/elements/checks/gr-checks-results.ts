@@ -876,6 +876,10 @@ export class GrChecksResults extends LitElement {
   @state()
   isShowAll: Map<Category, boolean> = new Map();
 
+  /** Maintains the state of which result sections has all results expanded. */
+  @state()
+  allResultsExpanded: Map<Category, boolean> = new Map();
+
   /**
    * This is the current state of whether a section is expanded or not. As long
    * as isSectionExpandedByUser is false this will be computed by a default rule
@@ -1045,6 +1049,9 @@ export class GrChecksResults extends LitElement {
           padding: var(--spacing-s) var(--spacing-m);
         }
         .categoryHeader {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-end;
           margin-top: var(--spacing-l);
           margin-left: var(--spacing-l);
           cursor: default;
@@ -1461,6 +1468,8 @@ export class GrChecksResults extends LitElement {
     const expandedClass = expanded ? 'expanded' : 'collapsed';
 
     const isShowAll = this.isShowAll.get(category) ?? false;
+    const allExpanded = this.allResultsExpanded.get(category) ?? false;
+    const hasExpandableResults = filtered.some(computeIsExpandable);
     const resultCount = filtered.length;
     const empty = resultCount === 0 ? 'empty' : '';
     const resultLimit = isShowAll ? 1000 : 20;
@@ -1472,28 +1481,40 @@ export class GrChecksResults extends LitElement {
     );
     const icon = iconFor(category);
     return html`
-      <div class=${expandedClass}>
-        <h3
-          class="categoryHeader ${catString} ${empty} heading-3"
+      <div class="${expandedClass} ${catString}">
+        <div
+          class="categoryHeader ${catString} ${empty}"
           @click=${() => this.toggleExpanded(category)}
         >
-          <gr-icon
-            class="expandIcon"
-            icon=${expanded ? 'expand_less' : 'expand_more'}
-          ></gr-icon>
-          <div class="statusIconWrapper">
+          <h3 class="left heading-3">
             <gr-icon
-              icon=${icon.name}
-              ?filled=${icon.filled}
-              class="statusIcon ${catString}"
+              class="expandIcon"
+              icon=${expanded ? 'expand_less' : 'expand_more'}
             ></gr-icon>
-            <span class="title">${catString}</span>
-            <span class="count">${this.renderCount(all, filtered)}</span>
-            <paper-tooltip offset="5"
-              >${CATEGORY_TOOLTIPS.get(category)}</paper-tooltip
+            <div class="statusIconWrapper">
+              <gr-icon
+                icon=${icon.name}
+                ?filled=${icon.filled}
+                class="statusIcon ${catString}"
+              ></gr-icon>
+              <span class="title">${catString}</span>
+              <span class="count">${this.renderCount(all, filtered)}</span>
+              <paper-tooltip offset="5"
+                >${CATEGORY_TOOLTIPS.get(category)}</paper-tooltip
+              >
+            </div>
+          </h3>
+          <div class="right">
+            <gr-button
+              link
+              ?hidden=${!expanded || !hasExpandableResults}
+              @click=${(e: MouseEvent) =>
+                this.toggleResultsExpanded(e, category)}
+            >
+              ${allExpanded ? 'Collapse All' : 'Expand All'}</gr-button
             >
           </div>
-        </h3>
+        </div>
         ${when(expanded, () =>
           this.renderResults(
             all,
@@ -1525,6 +1546,24 @@ export class GrChecksResults extends LitElement {
         </td>
       </tr>
     `;
+  }
+
+  toggleResultsExpanded(e: MouseEvent, category: Category) {
+    e.preventDefault();
+    // Clicking the header row would otherwise collapse the entire section.
+    e.stopPropagation();
+    const catString = category.toString().toLowerCase();
+    const current = this.allResultsExpanded.get(category) ?? false;
+    const desired = !current;
+    this.allResultsExpanded.set(category, desired);
+    // this.allResultsExpanded stays the same object, but changes its content
+    this.requestUpdate();
+    const rows = this.shadowRoot!.querySelectorAll<GrResultRow>(
+      `.${catString} gr-result-row`
+    );
+    for (const row of rows) {
+      row.toggleExpanded(desired);
+    }
   }
 
   toggleShowAll(category: Category) {

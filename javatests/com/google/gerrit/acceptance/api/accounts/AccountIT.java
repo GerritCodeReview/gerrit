@@ -165,6 +165,7 @@ import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.testing.TestGroupBackend;
 import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gerrit.server.index.account.StalenessChecker;
+import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.project.RefPattern;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
@@ -272,6 +273,7 @@ public class AccountIT extends AbstractDaemonTest {
   @Inject private AccountLimits.Factory limitsFactory;
   @Inject private AccountPatchReviewStore accountPatchReviewStore;
   @Inject private IdentifiedUser.GenericFactory genericUserFactory;
+  @Inject private PermissionBackend permissionBackend;
 
   private BasicCookieStore httpCookieStore;
   private CloseableHttpClient httpclient;
@@ -3503,11 +3505,15 @@ public class AccountIT extends AbstractDaemonTest {
       assertThat(detail.inactive).isNull();
       assertThat(detail._moreAccounts).isNull();
 
-      AccountLimits limits = limitsFactory.create(genericUserFactory.create(foo.id()));
-      GetCapabilities.Range queryLimitRange =
-          new GetCapabilities.Range(limits.getRange("queryLimit"));
-      assertThat(state.capabilities)
-          .containsExactly("emailReviewers", true, "queryLimit", queryLimitRange);
+      if (permissionBackend.usesDefaultCapabilities()) {
+        AccountLimits limits = limitsFactory.create(genericUserFactory.create(foo.id()));
+        GetCapabilities.Range queryLimitRange =
+            new GetCapabilities.Range(limits.getRange("queryLimit"));
+        assertThat(state.capabilities)
+            .containsExactly("emailReviewers", true, "queryLimit", queryLimitRange);
+      } else {
+        assertThat(state.capabilities).isNull();
+      }
 
       assertThat(state.groups)
           .comparingElementsUsing(getGroupToNameCorrespondence())

@@ -16,6 +16,23 @@
       "message": "Comment removed by: Edwin Kempin; Reason: spam",
       "revId": "b0dd78b32edc33eb360493e0aa724b9b38055f3b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ade5d27_55f7e529",
+        "filename": "java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 753,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-09-02T08:35:09Z",
+      "side": 1,
+      "message": "Should this be annotated with @UsedAt so that it\u0027s not being removed as unused later?",
+      "revId": "b0dd78b32edc33eb360493e0aa724b9b38055f3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

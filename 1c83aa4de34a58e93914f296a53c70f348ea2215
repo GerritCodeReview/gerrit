@@ -70,6 +70,24 @@
       "parentUuid": "1dce5d09_a92d0ae6",
       "revId": "1c83aa4de34a58e93914f296a53c70f348ea2215",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "73d48271_948c4d92",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-09-02T10:35:10Z",
+      "side": 1,
+      "message": "Thanks, using a standard textarea is much easier and should do the job.",
+      "parentUuid": "e2f9fd0b_4a0ee894",
+      "revId": "1c83aa4de34a58e93914f296a53c70f348ea2215",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

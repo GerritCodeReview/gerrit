@@ -9,6 +9,7 @@ import {
   AccountDetailInfo,
   AccountExternalIdInfo,
   AccountInfo,
+  AccountStateInfo,
   ServerInfo,
   ProjectInfo,
   AccountCapabilityInfo,
@@ -198,6 +199,9 @@ export const grRestApiMock: RestApiService = {
   },
   getAccountSSHKeys(): Promise<SshKeyInfo[] | undefined> {
     return Promise.resolve([]);
+  },
+  getAccountState(): Promise<AccountStateInfo | undefined> {
+    throw new Error('getAccountState() not implemented by RestApiMock.');
   },
   getAccountStatus(): Promise<string | undefined> {
     return Promise.resolve('');

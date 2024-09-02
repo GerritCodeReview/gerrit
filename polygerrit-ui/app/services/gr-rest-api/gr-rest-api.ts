@@ -10,6 +10,7 @@ import {
   AccountExternalIdInfo,
   AccountId,
   AccountInfo,
+  AccountStateInfo,
   ActionNameToActionInfoMap,
   Base64FileContent,
   BasePatchSetNum,
@@ -114,6 +115,13 @@ export interface RestApiService extends Finalizable {
   getConfig(noCache?: boolean): Promise<ServerInfo | undefined>;
   getLoggedIn(): Promise<boolean>;
   getPreferences(): Promise<PreferencesInfo | undefined>;
+
+  /**
+   * Fetch the account state of the current user.
+   * https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#get-state
+   */
+  getAccountState(): Promise<AccountStateInfo | undefined>;
+
   getVersion(): Promise<string | undefined>;
   getAccount(): Promise<AccountDetailInfo | undefined>;
   getAccountCapabilities(

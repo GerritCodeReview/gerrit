@@ -372,6 +372,29 @@ export interface AccountExternalIdInfo {
 }
 
 /**
+ * The AccountStateInfo entity contains the superset of all information related
+ * to an account.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#account-state-info
+ */
+export interface AccountStateInfo {
+  account: AccountInfo;
+  capabilities?: AccountCapabilityInfo;
+  groups: GroupInfo[];
+  external_ids: AccountExternalIdInfo[];
+  metadata: AccountMetadataInfo[];
+}
+
+/**
+ * The `AccountMetadataInfo` entity contains account metadata.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#account-metadata-info
+ */
+export interface AccountMetadataInfo {
+  name: string;
+  value?: string;
+  description?: string;
+}
+
+/**
  * The GroupAuditEventInfo entity contains information about an auditevent of a group.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-groups.html#group-audit-event-info
  */

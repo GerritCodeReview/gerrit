@@ -39,6 +39,30 @@
       },
       "revId": "55113a9c0f8f4bc0a86142b59614cd36c3429e30",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b393231_47ae8e6d",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1514,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-09-02T10:00:43Z",
+      "side": 1,
+      "message": "Yes, I think it would be substantial complexity that I think is not worth it here.",
+      "parentUuid": "e5e53778_a53216e1",
+      "range": {
+        "startLine": 1514,
+        "startChar": 16,
+        "endLine": 1514,
+        "endChar": 27
+      },
+      "revId": "55113a9c0f8f4bc0a86142b59614cd36c3429e30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0b6d126_0487aaa1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-09-02T08:40:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "367a1608_19601136",
+      "range": {
+        "startLine": 9,
+        "startChar": 5,
+        "endLine": 9,
+        "endChar": 17
+      },
+      "revId": "bed8a89c9e6d32d4f9cf3853fd08c3b48e4ee2b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d6bccba0_700168f9",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b32a0bd_59436455",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-09-02T08:40:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6bccba0_700168f9",
+      "range": {
+        "startLine": 9,
+        "startChar": 66,
+        "endLine": 10,
+        "endChar": 47
+      },
+      "revId": "bed8a89c9e6d32d4f9cf3853fd08c3b48e4ee2b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1d1784f3_5bb72252",
@@ -60,6 +108,24 @@
       "writtenOn": "2024-08-30T09:24:23Z",
       "side": 1,
       "message": "Add Release-Notes footer:\n\n```\nRelease-Notes: Change default of auth.cookieHttpOnly to true\n```",
+      "revId": "bed8a89c9e6d32d4f9cf3853fd08c3b48e4ee2b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "95d09ccf_69e5553f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-09-02T08:40:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d1784f3_5bb72252",
       "revId": "bed8a89c9e6d32d4f9cf3853fd08c3b48e4ee2b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

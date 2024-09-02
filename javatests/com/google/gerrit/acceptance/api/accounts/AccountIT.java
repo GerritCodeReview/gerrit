@@ -3466,7 +3466,7 @@ public class AccountIT extends AbstractDaemonTest {
     String name = "Foo";
     String username = name("foo");
     TestAccount foo = accountCreator.create(username, email, name, null);
-    String secondaryEmail = "secondary@example.com";
+    String secondaryEmail = "secondary@non.google";
     EmailInput input = newEmailInput(secondaryEmail);
     gApi.accounts().id(foo.id().get()).addEmail(input);
 
@@ -3513,8 +3513,9 @@ public class AccountIT extends AbstractDaemonTest {
           .comparingElementsUsing(getGroupToNameCorrespondence())
           .containsAtLeast("Anonymous Users", "Registered Users", groupName);
 
-      assertThat(state.externalIds.stream().map(e -> e.identity).collect(toImmutableSet()))
-          .containsExactly("mailto:" + email, "username:" + username, "mailto:" + secondaryEmail);
+      assertExternalIds(
+          state.externalIds.stream().map(e -> e.identity).collect(toImmutableSet()),
+          ImmutableSet.of("mailto:" + email, "username:" + username, "mailto:" + secondaryEmail));
 
       assertThat(state.metadata)
           .containsExactly(metadata1, metadata2, metadata3, metadata4)
@@ -3585,13 +3586,19 @@ public class AccountIT extends AbstractDaemonTest {
     return testGroupBackend;
   }
 
-  protected void assertExternalIds(Account.Id accountId, ImmutableSet<String> extIds)
+  private void assertExternalIds(Account.Id accountId, ImmutableSet<String> extIds)
       throws Exception {
-    assertThat(
-            gApi.accounts().id(accountId.get()).getExternalIds().stream()
-                .map(e -> e.identity)
-                .collect(toImmutableSet()))
-        .isEqualTo(extIds);
+    assertExternalIds(
+        gApi.accounts().id(accountId.get()).getExternalIds().stream()
+            .map(e -> e.identity)
+            .collect(toImmutableSet()),
+        extIds);
+  }
+
+  protected void assertExternalIds(
+      ImmutableSet<String> actualExternalIds, ImmutableSet<String> expectedExternalIds)
+      throws Exception {
+    assertThat(actualExternalIds).isEqualTo(expectedExternalIds);
   }
 
   private void assertExternalEmails(Account.Id accountId, ImmutableSet<String> extIds)

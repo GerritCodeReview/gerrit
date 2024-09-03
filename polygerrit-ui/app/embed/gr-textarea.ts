@@ -533,6 +533,22 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
     } else if (this.hasHintSpan()) {
       event.preventDefault();
       await this.appendHint(this.hint!, event);
+    } else {
+      // Add tab \t to cursor position if inside a code snippet ```
+      const cursorPosition = await this.getCursorPositionAsync();
+      const textValue = await this.getValue();
+
+      const startCodeSnippet = textValue.lastIndexOf('```', cursorPosition - 1);
+      const endCodeSnippet = textValue.indexOf('```', cursorPosition);
+
+      if (
+        startCodeSnippet !== -1 &&
+        endCodeSnippet !== -1 &&
+        endCodeSnippet > startCodeSnippet
+      ) {
+        event.preventDefault();
+        this.setRangeText('\t', cursorPosition, cursorPosition);
+      }
     }
   }
 

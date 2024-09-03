@@ -284,4 +284,24 @@ suite('gr-textarea test', () => {
 
     assert.equal(cursorPosition, 0);
   });
+
+  test('when TAB is pressed inside a code snippet, a tab is added', async () => {
+    const editableDiv = element.shadowRoot!.querySelector(
+      '.editableDiv'
+    ) as HTMLDivElement;
+    const textContent = 'Some text\n```\ncode snippet\n```\nMore text';
+
+    element.value = textContent;
+    await element.updateComplete;
+
+    // Set cursor position inside the code snippet
+    element.setCursorPosition(19); // Position after 'code '
+
+    editableDiv.dispatchEvent(new KeyboardEvent('keydown', {key: 'Tab'}));
+    await element.updateComplete;
+    await rafPromise();
+
+    const expectedValue = 'Some text\n```\ncode \tsnippet\n```\nMore text';
+    assert.equal(element.value, expectedValue);
+  });
 });

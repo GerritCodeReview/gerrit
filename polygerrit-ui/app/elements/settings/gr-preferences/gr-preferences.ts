@@ -124,10 +124,7 @@ export class GrPreferences extends LitElement {
       () => this.getConfigModel().docsBaseUrl$,
       docsBaseUrl => (this.docsBaseUrl = docsBaseUrl)
     );
-    if (
-      this.flagsService.isEnabled(KnownExperimentId.ML_SUGGESTED_EDIT) ||
-      this.flagsService.isEnabled(KnownExperimentId.ML_SUGGESTED_EDIT_V2)
-    ) {
+    if (this.flagsService.isEnabled(KnownExperimentId.ML_SUGGESTED_EDIT_V2)) {
       subscribe(
         this,
         () => this.getPluginLoader().pluginsModel.suggestionsPlugins$,

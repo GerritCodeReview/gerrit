@@ -3530,10 +3530,19 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void cannotGetAccountStateOfOtherUser() throws Exception {
+  public void nonAdminCannotGetAccountStateOfOtherUser() throws Exception {
+    requestScopeOperations.setApiUser(user.id());
     AuthException thrown =
-        assertThrows(AuthException.class, () -> gApi.accounts().id(user.id().get()).state());
-    assertThat(thrown).hasMessageThat().isEqualTo("not allowed to get account state of other user");
+        assertThrows(AuthException.class, () -> gApi.accounts().id(admin.id().get()).state());
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo("cannot get account state of other user: administrate server not permitted");
+  }
+
+  @Test
+  public void adminCanGetAccountStateOfOtherUser() throws Exception {
+    AccountStateInfo state = gApi.accounts().id(user.id().get()).state();
+    assertThat(state.account._accountId).isEqualTo(user.id().get());
   }
 
   @Test

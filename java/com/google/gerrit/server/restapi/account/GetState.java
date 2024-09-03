@@ -27,6 +27,7 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountStateProvider;
+import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
@@ -80,7 +81,12 @@ public class GetState implements RestReadView<AccountResource> {
     }
 
     if (!rsrc.getUser().hasSameAccountId(self.get())) {
-      throw new AuthException("not allowed to get account state of other user");
+      try {
+        permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
+      } catch (AuthException e) {
+        throw new AuthException(
+            String.format("cannot get account state of other user: %s", e.getMessage()));
+      }
     }
 
     AccountStateInfo accountState = new AccountStateInfo();

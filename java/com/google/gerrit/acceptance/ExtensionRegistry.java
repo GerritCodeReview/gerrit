@@ -44,6 +44,7 @@ import com.google.gerrit.extensions.webui.FileWebLink;
 import com.google.gerrit.extensions.webui.PatchSetWebLink;
 import com.google.gerrit.extensions.webui.ResolveConflictsWebLink;
 import com.google.gerrit.server.ExceptionHook;
+import com.google.gerrit.server.ServerStateProvider;
 import com.google.gerrit.server.account.AccountStateProvider;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.change.FilterIncludedIn;
@@ -107,6 +108,7 @@ public class ExtensionRegistry {
   private final DynamicSet<OnPostReview> onPostReviews;
   private final DynamicSet<ReviewerAddedListener> reviewerAddedListeners;
   private final DynamicSet<ReviewerDeletedListener> reviewerDeletedListeners;
+  private final DynamicSet<ServerStateProvider> serverStateProviders;
   private final DynamicSet<AccountStateProvider> accountStateProviders;
   private final DynamicSet<AttentionSetListener> attentionSetListeners;
 
@@ -155,6 +157,7 @@ public class ExtensionRegistry {
       DynamicSet<ReviewerDeletedListener> reviewerDeletedListeners,
       DynamicMap<ChangeHasOperandFactory> hasOperands,
       DynamicMap<ChangeIsOperandFactory> isOperands,
+      DynamicSet<ServerStateProvider> serverStateProviders,
       DynamicSet<AccountStateProvider> accountStateProviders,
       DynamicSet<AttentionSetListener> attentionSetListeners,
       DynamicMap<ReviewerSuggestion> reviewerSuggestions) {
@@ -197,6 +200,7 @@ public class ExtensionRegistry {
     this.reviewerDeletedListeners = reviewerDeletedListeners;
     this.hasOperands = hasOperands;
     this.isOperands = isOperands;
+    this.serverStateProviders = serverStateProviders;
     this.accountStateProviders = accountStateProviders;
     this.attentionSetListeners = attentionSetListeners;
     this.reviewerSuggestions = reviewerSuggestions;
@@ -374,6 +378,11 @@ public class ExtensionRegistry {
     @CanIgnoreReturnValue
     public Registration add(WorkInProgressStateChangedListener workInProgressStateChangedListener) {
       return add(workInProgressStateChangedListeners, workInProgressStateChangedListener);
+    }
+
+    @CanIgnoreReturnValue
+    public Registration add(ServerStateProvider serverStateProvider) {
+      return add(serverStateProviders, serverStateProvider);
     }
 
     @CanIgnoreReturnValue

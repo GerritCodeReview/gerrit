@@ -2331,19 +2331,6 @@ A list of link:rest-api-groups.html#group-id[group IDs] that identify
 the groups to which the user should be added.
 |============================
 
-[[account-metadata-info]]
-=== AccountMetadataInfo
-The `AccountMetadataInfo` entity contains account metadata.
-
-[options="header",cols="1,^2,4"]
-|==========================
-|Field Name   ||Description
-|`name`       ||The metadata name. Not guaranteed to be unique, e.g. for one
-account multiple metadata entries with the same name may be returned.
-|`value`      |optional|The metadata value.
-|`description`|optional|A description of the metadata.
-|==========================
-
 [[account-name-input]]
 === AccountNameInput
 The `AccountNameInput` entity contains information for setting a name
@@ -2378,8 +2365,8 @@ The external IDs of the account as a list of
 link:#account-external-id-info[AccountExternalIdInfo] entities.
 |`metadata`    ||
 Optional account metadata as a list of
-link:account-metadata-info[AccountMetadataInfo] entities. If and which metadata
-is provided depends on the Gerrit setup.
+link:rest-api-config.html#metadata-info[MetadataInfo] entities. If and which
+metadata is provided depends on the Gerrit setup.
 |==========================
 
 [[account-status-input]]

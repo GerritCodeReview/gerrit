@@ -2399,6 +2399,19 @@ The maximal memory size. The value is returned with a unit abbreviation
 The number of open files.
 |============================
 
+[[metadata-info]]
+=== MetadataInfo
+The `MetadataInfo` entity contains metadata provided by plugins.
+
+[options="header",cols="1,^2,4"]
+|==========================
+|Field Name   ||Description
+|`name`       ||The metadata name. Not guaranteed to be unique, e.g. multiple
+metadata entries with the same name may be returned.
+|`value`      |optional|The metadata value.
+|`description`|optional|A description of the metadata.
+|==========================
+
 [[plugin-config-info]]
 === PluginConfigInfo
 The `PluginConfigInfo` entity contains information about Gerrit
@@ -2502,6 +2515,9 @@ Located in `/static/gerrit-theme.js` by default.
 The list of submit requirement names that should be displayed as separate
 columns in the dashboard. If empty, the default is to display all submit
 requirements that are applicable for changes appearing in the dashboard.
+|`metadata`                ||
+Optional server metadata as a list of link:#metadata-info[MetadataInfo]
+entities. If and which metadata is provided depends on the Gerrit setup.
 |=======================================
 
 [[snapshot-index-input]]

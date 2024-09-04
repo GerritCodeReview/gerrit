@@ -22,6 +22,11 @@ import {pluginLoaderToken} from '../gr-js-api-interface/gr-plugin-loader';
 import {SuggestionsProvider} from '../../../api/suggestions';
 import {PROVIDED_FIX_ID} from '../../../utils/comment-util';
 import {when} from 'lit/directives/when.js';
+import {storageServiceToken} from '../../../services/storage/gr-storage_impl';
+import {getAppContext} from '../../../services/app-context';
+import {Interaction} from '../../../constants/reporting';
+
+export const COLLAPSE_SUGGESTION_STORAGE_KEY = 'collapseSuggestionStorageKey';
 
 /**
  * gr-fix-suggestions is UI for comment.fix_suggestions.
@@ -47,11 +52,21 @@ export class GrFixSuggestions extends LitElement {
 
   @state() private isOwner = false;
 
+  /**
+   * This is just a reflected property such that css rules can be based on it.
+   */
+  @property({type: Boolean, reflect: true})
+  collapsed = false;
+
   private readonly getConfigModel = resolve(this, configModelToken);
 
   private readonly getChangeModel = resolve(this, changeModelToken);
 
   private readonly getPluginLoader = resolve(this, pluginLoaderToken);
+
+  private readonly getStorage = resolve(this, storageServiceToken);
+
+  private readonly reporting = getAppContext().reportingService;
 
   constructor() {
     super();
@@ -82,6 +97,16 @@ export class GrFixSuggestions extends LitElement {
         // We currently support results from only 1 provider.
         this.suggestionsProvider = suggestionsPlugins?.[0]?.provider;
       });
+
+    if (this.comment?.id) {
+      const generateSuggestionStoredContent =
+        this.getStorage().getEditableContentItem(
+          COLLAPSE_SUGGESTION_STORAGE_KEY + this.comment.id
+        );
+      if (generateSuggestionStoredContent?.message === 'true') {
+        this.collapsed = true;
+      }
+    }
   }
 
   static override get styles() {
@@ -90,17 +115,39 @@ export class GrFixSuggestions extends LitElement {
         :host {
           display: block;
         }
+        :host([collapsed]) gr-suggestion-diff-preview {
+          display: none;
+        }
+        .show-hide {
+          margin-left: var(--spacing-s);
+        }
+        /* just for a11y */
+        input.show-hide {
+          display: none;
+        }
+        label.show-hide {
+          cursor: pointer;
+          display: block;
+        }
+        label.show-hide gr-icon {
+          vertical-align: top;
+        }
         .header {
           background-color: var(--background-color-primary);
           border: 1px solid var(--border-color);
           padding: var(--spacing-xs) var(--spacing-xl);
           display: flex;
+          justify-content: space-between;
           align-items: center;
           border-top-left-radius: var(--border-radius);
           border-top-right-radius: var(--border-radius);
         }
         .header .title {
           flex: 1;
+        }
+        .headerMiddle {
+          display: flex;
+          align-items: center;
         }
         .copyButton {
           margin-right: var(--spacing-l);
@@ -128,7 +175,7 @@ export class GrFixSuggestions extends LitElement {
             ><gr-icon icon="help" title="read documentation"></gr-icon
           ></a>
         </div>
-        <div>
+        <div class="headerMiddle">
           <gr-button
             secondary
             flatten
@@ -138,7 +185,7 @@ export class GrFixSuggestions extends LitElement {
             Show edit
           </gr-button>
           ${when(
-            this.isOwner,
+            this.isOwner && !this.collapsed,
             () =>
               html`<gr-button
                 secondary
@@ -152,11 +199,47 @@ export class GrFixSuggestions extends LitElement {
                 Apply edit
               </gr-button>`
           )}
+          ${this.renderToggle()}
         </div>
       </div>
       <gr-suggestion-diff-preview
         .fixSuggestionInfo=${this.comment?.fix_suggestions?.[0]}
       ></gr-suggestion-diff-preview>`;
+  }
+
+  private renderToggle() {
+    const icon = this.collapsed ? 'expand_more' : 'expand_less';
+    const ariaLabel = this.collapsed ? 'Expand' : 'Collapse';
+    return html`
+      <div class="show-hide" tabindex="0">
+        <label class="show-hide" aria-label=${ariaLabel}>
+          <input
+            type="checkbox"
+            class="show-hide"
+            .checked=${this.collapsed}
+            @change=${() => {
+              this.collapsed = !this.collapsed;
+              if (this.collapsed) {
+                this.reporting.reportInteraction(
+                  Interaction.GENERATE_SUGGESTION_COLLAPSED
+                );
+              } else {
+                this.reporting.reportInteraction(
+                  Interaction.GENERATE_SUGGESTION_EXPANDED
+                );
+              }
+              if (this.comment?.id) {
+                this.getStorage().setEditableContentItem(
+                  COLLAPSE_SUGGESTION_STORAGE_KEY + this.comment.id,
+                  this.collapsed.toString()
+                );
+              }
+            }}
+          />
+          <gr-icon icon=${icon} id="icon"></gr-icon>
+        </label>
+      </div>
+    `;
   }
 
   handleShowFix() {

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d79561f_0e540456",
+        "filename": "Documentation/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-09-04T07:07:58Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be introduced by [1] instead?\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/436258",
+      "range": {
+        "startLine": 120,
+        "startChar": 0,
+        "endLine": 128,
+        "endChar": 1
+      },
+      "revId": "63d730c745e3bf50e9d6d3d1864c8b7ca19c8315",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

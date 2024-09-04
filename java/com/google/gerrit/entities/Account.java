@@ -159,7 +159,12 @@ public abstract class Account {
   @Nullable
   public abstract String status();
 
-  /** ID of the user branch from which the account was read. */
+  /**
+   * ID of the user branch from which the account was read.
+   *
+   * <p>Note, for most use cases, use {@link #uniqueTag()} instead. This method should only be used
+   * when dealing with the ref storage.
+   */
   @Nullable
   public abstract String metaId();
 

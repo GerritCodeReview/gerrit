@@ -19,7 +19,6 @@ export enum KnownExperimentId {
   CHECKS_DEVELOPER = 'UiFeature__checks_developer',
   PUSH_NOTIFICATIONS_DEVELOPER = 'UiFeature__push_notifications_developer',
   PUSH_NOTIFICATIONS = 'UiFeature__push_notifications',
-  ML_SUGGESTED_EDIT = 'UiFeature__ml_suggested_edit',
   ML_SUGGESTED_EDIT_V2 = 'UiFeature__ml_suggested_edit_v2',
   REVISION_PARENTS_DATA = 'UiFeature__revision_parents_data',
   COMMENT_AUTOCOMPLETION = 'UiFeature__comment_autocompletion_enabled',

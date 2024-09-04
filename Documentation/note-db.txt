@@ -54,7 +54,7 @@ A change 12345 has its review metadata under
 The metadata is a notes branch. The commit messages on the branch hold
 modifications to global data of the change (votes, global comments). The inline
 comments are in a
-link:https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/\+/master/org.eclipse.jgit/src/org/eclipse/jgit/notes/NoteMap.java[NoteMap],
+link:https://eclipse.gerrithub.io/plugins/gitiles/eclipse-jgit/jgit/\+/refs/heads/master/org.eclipse.jgit/src/org/eclipse/jgit/notes/NoteMap.java[NoteMap],
 where the key is the commit SHA-1 of the patchset
 that the comment refers to, and the value is JSON data. The format of the
 JSON is in the

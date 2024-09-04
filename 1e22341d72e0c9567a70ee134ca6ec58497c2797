@@ -1,0 +1,45 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d93ee11_4b9893f9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-fix-suggestions/gr-fix-suggestions.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2024-09-04T11:38:24Z",
+      "side": 1,
+      "message": "I believe using the property with `.checked\u003d` is more correct than setting the attribute since the attribute only controls the **default** value of the checkbox. I had some bugs before from using the attribute in bulk actions select-all checkboxes, but it may not trigger a bug in your exact case here. https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#checked",
+      "range": {
+        "startLine": 219,
+        "startChar": 12,
+        "endLine": 219,
+        "endChar": 20
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "ece8e988_b936f058",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-fix-suggestions/gr-fix-suggestions.ts",
+              "range": {
+                "startLine": 219,
+                "startChar": 0,
+                "endLine": 220,
+                "endChar": 0
+              },
+              "replacement": "            .checked\u003d${this.collapsed}\n"
+            }
+          ]
+        }
+      ],
+      "revId": "1e22341d72e0c9567a70ee134ca6ec58497c2797",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -3523,8 +3523,10 @@ public class AccountIT extends AbstractDaemonTest {
           state.externalIds.stream().map(e -> e.identity).collect(toImmutableSet()),
           ImmutableSet.of("mailto:" + email, "username:" + username, "mailto:" + secondaryEmail));
 
+      // Using containsAtLeast instead of containsExcatly because when the test is run internally at
+      // Google additional metadata is returned.
       assertThat(state.metadata)
-          .containsExactly(metadata1, metadata2, metadata3, metadata4)
+          .containsAtLeast(metadata1, metadata2, metadata3, metadata4)
           .inOrder();
     }
   }

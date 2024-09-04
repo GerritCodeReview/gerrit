@@ -31,4 +31,7 @@ public class ServerInfo {
   public ReceiveInfo receive;
   public String defaultTheme;
   public List<String> submitRequirementDashboardColumns;
+
+  /** Server metadata populated by plugins. */
+  public List<MetadataInfo> metadata;
 }

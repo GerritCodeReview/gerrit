@@ -14,11 +14,13 @@
 
 package com.google.gerrit.server.restapi.config;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableCollection;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.ContributorAgreement;
@@ -29,6 +31,7 @@ import com.google.gerrit.extensions.common.ChangeConfigInfo;
 import com.google.gerrit.extensions.common.DownloadInfo;
 import com.google.gerrit.extensions.common.DownloadSchemeInfo;
 import com.google.gerrit.extensions.common.GerritInfo;
+import com.google.gerrit.extensions.common.MetadataInfo;
 import com.google.gerrit.extensions.common.PluginConfigInfo;
 import com.google.gerrit.extensions.common.ReceiveInfo;
 import com.google.gerrit.extensions.common.ServerInfo;
@@ -42,6 +45,7 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.webui.WebUiPlugin;
 import com.google.gerrit.server.EnableSignedPush;
+import com.google.gerrit.server.ServerStateProvider;
 import com.google.gerrit.server.account.AccountVisibilityProvider;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.avatar.AvatarProvider;
@@ -68,6 +72,7 @@ import com.google.inject.Inject;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -94,6 +99,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   private final AgreementJson agreementJson;
   private final SitePaths sitePaths;
   private final @Nullable @GerritInstanceId String instanceId;
+  private final PluginSetContext<ServerStateProvider> serverStateProviders;
 
   @Inject
   public GetServerInfo(
@@ -116,7 +122,8 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
       ProjectCache projectCache,
       AgreementJson agreementJson,
       SitePaths sitePaths,
-      @Nullable @GerritInstanceId String instanceId) {
+      @Nullable @GerritInstanceId String instanceId,
+      PluginSetContext<ServerStateProvider> serverStateProviders) {
     this.config = config;
     this.accountVisibilityProvider = accountVisibilityProvider;
     this.accountDefaultDisplayName = accountDefaultDisplayName;
@@ -137,6 +144,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     this.agreementJson = agreementJson;
     this.sitePaths = sitePaths;
     this.instanceId = instanceId;
+    this.serverStateProviders = serverStateProviders;
   }
 
   @Override
@@ -156,6 +164,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.user = getUserInfo();
     info.receive = getReceiveInfo();
     info.submitRequirementDashboardColumns = getSubmitRequirementDashboardColumns();
+    info.metadata = getMetadata();
     return Response.ok(info);
   }
 
@@ -376,6 +385,17 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
 
   private List<String> getSubmitRequirementDashboardColumns() {
     return Arrays.asList(config.getStringList("dashboard", null, "submitRequirementColumns"));
+  }
+
+  private ImmutableList<MetadataInfo> getMetadata() {
+    ArrayList<MetadataInfo> metadataList = new ArrayList<>();
+    serverStateProviders.runEach(
+        serverStateProvider -> metadataList.addAll(serverStateProvider.getMetadata()));
+    return metadataList.stream()
+        .sorted(
+            Comparator.comparing((MetadataInfo metadata) -> metadata.name)
+                .thenComparing((MetadataInfo metadata) -> metadata.value))
+        .collect(toImmutableList());
   }
 
   @Nullable

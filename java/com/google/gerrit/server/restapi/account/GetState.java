@@ -18,8 +18,8 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.Account;
-import com.google.gerrit.extensions.common.AccountMetadataInfo;
 import com.google.gerrit.extensions.common.AccountStateInfo;
+import com.google.gerrit.extensions.common.MetadataInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -102,14 +102,14 @@ public class GetState implements RestReadView<AccountResource> {
     return Response.ok(accountState);
   }
 
-  private ImmutableList<AccountMetadataInfo> getMetadata(Account.Id accountId) {
-    ArrayList<AccountMetadataInfo> metadataList = new ArrayList<>();
+  private ImmutableList<MetadataInfo> getMetadata(Account.Id accountId) {
+    ArrayList<MetadataInfo> metadataList = new ArrayList<>();
     accountStateProviders.runEach(
         accountStateProvider -> metadataList.addAll(accountStateProvider.getMetadata(accountId)));
     return metadataList.stream()
         .sorted(
-            Comparator.comparing((AccountMetadataInfo metadata) -> metadata.name)
-                .thenComparing((AccountMetadataInfo metadata) -> metadata.value))
+            Comparator.comparing((MetadataInfo metadata) -> metadata.name)
+                .thenComparing((MetadataInfo metadata) -> metadata.value))
         .collect(toImmutableList());
   }
 }

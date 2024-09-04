@@ -114,13 +114,13 @@ import com.google.gerrit.extensions.api.config.ConsistencyCheckInput.CheckAccoun
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.common.AccountDetailInfo;
 import com.google.gerrit.extensions.common.AccountInfo;
-import com.google.gerrit.extensions.common.AccountMetadataInfo;
 import com.google.gerrit.extensions.common.AccountStateInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.EmailInfo;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
+import com.google.gerrit.extensions.common.MetadataInfo;
 import com.google.gerrit.extensions.common.SshKeyInfo;
 import com.google.gerrit.extensions.events.AccountActivationListener;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
@@ -3479,13 +3479,10 @@ public class AccountIT extends AbstractDaemonTest {
     groupOperations.newGroup().name(groupName).addMember(foo.id()).create();
 
     TestAccountStateProvider testAccountStateProvider = new TestAccountStateProvider();
-    AccountMetadataInfo metadata1 =
-        testAccountStateProvider.addMetadata("employee_id", "123456", null);
-    AccountMetadataInfo metadata2 = testAccountStateProvider.addMetadata("role", null, "role name");
-    AccountMetadataInfo metadata3 =
-        testAccountStateProvider.addMetadata("team", "Bar", "team name");
-    AccountMetadataInfo metadata4 =
-        testAccountStateProvider.addMetadata("team", "Foo", "team name");
+    MetadataInfo metadata1 = testAccountStateProvider.addMetadata("employee_id", "123456", null);
+    MetadataInfo metadata2 = testAccountStateProvider.addMetadata("role", null, "role name");
+    MetadataInfo metadata3 = testAccountStateProvider.addMetadata("team", "Bar", "team name");
+    MetadataInfo metadata4 = testAccountStateProvider.addMetadata("team", "Foo", "team name");
     try (Registration registration =
         extensionRegistry.newRegistration().add(testAccountStateProvider)) {
       requestScopeOperations.setApiUser(foo.id());
@@ -3935,11 +3932,11 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   public static class TestAccountStateProvider implements AccountStateProvider {
-    private ArrayList<AccountMetadataInfo> metadataList = new ArrayList<>();
+    private ArrayList<MetadataInfo> metadataList = new ArrayList<>();
 
-    public AccountMetadataInfo addMetadata(
+    public MetadataInfo addMetadata(
         String name, @Nullable String value, @Nullable String description) {
-      AccountMetadataInfo metadata = new AccountMetadataInfo();
+      MetadataInfo metadata = new MetadataInfo();
       metadata.name = name;
       metadata.value = value;
       metadata.description = description;
@@ -3948,7 +3945,7 @@ public class AccountIT extends AbstractDaemonTest {
     }
 
     @Override
-    public ImmutableList<AccountMetadataInfo> getMetadata(Account.Id accountId) {
+    public ImmutableList<MetadataInfo> getMetadata(Account.Id accountId) {
       return ImmutableList.copyOf(metadataList);
     }
   }

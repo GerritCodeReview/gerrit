@@ -19,15 +19,15 @@ import com.google.gerrit.common.Nullable;
 import java.util.Objects;
 
 /**
- * Account metadata populated by plugins, see {code
- * com.google.gerrit.server.account.AccountStateProvider}.
+ * Metadata populated by plugins, see {code com.google.gerrit.server.account.AccountStateProvider}
+ * and {code com.google.gerrit.server.ServerStateProvider}.
  */
-public class AccountMetadataInfo {
+public class MetadataInfo {
   /**
    * The metadata name.
    *
-   * <p>Not guaranteed to be unique, e.g. for one account multiple metadata entries with the same
-   * name may be returned.
+   * <p>Not guaranteed to be unique, e.g. multiple metadata entries with the same name may be
+   * returned.
    */
   public String name;
 
@@ -53,8 +53,8 @@ public class AccountMetadataInfo {
 
   @Override
   public boolean equals(Object o) {
-    if (o instanceof AccountMetadataInfo) {
-      AccountMetadataInfo metadata = (AccountMetadataInfo) o;
+    if (o instanceof MetadataInfo) {
+      MetadataInfo metadata = (MetadataInfo) o;
       return Objects.equals(name, metadata.name)
           && Objects.equals(value, metadata.value)
           && Objects.equals(description, metadata.description);

@@ -12,22 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.account;
+package com.google.gerrit.server;
 
 import com.google.common.collect.ImmutableList;
-import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.extensions.common.MetadataInfo;
 
 /**
- * Extension point to retrieve account state that should be included in the response of the {@link
- * com.google.gerrit.server.restapi.account.GetState} REST endpoint.
+ * Extension point to retrieve server state that should be included in the response of the {@link
+ * com.google.gerrit.server.restapi.config.GetServerInfo} REST endpoint.
  */
 @ExtensionPoint
-public interface AccountStateProvider {
+public interface ServerStateProvider {
   /**
-   * Returns metadata to populate {@link
-   * com.google.gerrit.extensions.common.AccountStateInfo#metadata}.
+   * Returns metadata to populate {@link com.google.gerrit.extensions.common.ServerInfo#metadata}.
    */
-  public ImmutableList<MetadataInfo> getMetadata(Account.Id accountId);
+  public ImmutableList<MetadataInfo> getMetadata();
 }

@@ -36,5 +36,5 @@ public class AccountStateInfo {
   public List<AccountExternalIdInfo> externalIds;
 
   /** Account metadata populated by plugins. */
-  public List<AccountMetadataInfo> metadata;
+  public List<MetadataInfo> metadata;
 }

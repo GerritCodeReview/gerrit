@@ -2929,10 +2929,32 @@ link:rest-api-accounts.html#account-state-info[AccountStateInfo]).
 ----
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.extensions.common.MetadataInfo;
 import com.google.gerrit.server.account.AccountStateProvider;
 
 public class MyPlugin implements AccountStateProvider {
-  public ImmutableList<AccountMetadataInfo> getMetadata(Account.Id accountId) {
+  public ImmutableList<MetadataInfo> getMetadata(Account.Id accountId) {
+    // Implement your logic here
+  }
+}
+----
+
+[[server-state-provider]]
+== Server State Provider
+
+Gerrit provides an extension point that enables plugins to supply additional
+data for server states which are returned from the
+link:rest-api-config.html#get-info[Get Server State] REST endpoint (see
+`metadata` field in link:rest-api-config.html#server-info[ServerInfo]).
+
+[source, java]
+----
+import com.google.common.collect.ImmutableMap;
+import com.google.gerrit.extensions.common.MetadataInfo;
+import com.google.gerrit.server.ServerStateProvider;
+
+public class MyPlugin implements ServerStateProvider {
+  public ImmutableList<MetadataInfo> getMetadata() {
     // Implement your logic here
   }
 }

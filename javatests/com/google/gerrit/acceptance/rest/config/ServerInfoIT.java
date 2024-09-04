@@ -18,21 +18,29 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.config.GerritInstanceIdProvider.INSTANCE_ID_SYSTEM_PROPERTY;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.ExtensionRegistry;
+import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.config.GerritSystemProperty;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.extensions.api.plugins.InstallPluginInput;
 import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.extensions.common.AccountDefaultDisplayName;
 import com.google.gerrit.extensions.common.AccountVisibility;
+import com.google.gerrit.extensions.common.MetadataInfo;
 import com.google.gerrit.extensions.common.ServerInfo;
+import com.google.gerrit.server.ServerStateProvider;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
+import com.google.inject.Inject;
+import java.util.ArrayList;
 import org.junit.Test;
 
 @NoHttpd
@@ -40,6 +48,8 @@ import org.junit.Test;
 public class ServerInfoIT extends AbstractDaemonTest {
   private static final byte[] JS_PLUGIN_CONTENT =
       "Gerrit.install(function(self){});\n".getBytes(UTF_8);
+
+  @Inject protected ExtensionRegistry extensionRegistry;
 
   @Test
   // accounts
@@ -233,5 +243,43 @@ public class ServerInfoIT extends AbstractDaemonTest {
   public void instanceIdFromSystemProperty() throws Exception {
     ServerInfo i = gApi.config().server().getInfo();
     assertThat(i.gerrit.instanceId).isEqualTo("sysPropInstanceId");
+  }
+
+  @Test
+  public void getMetadata() throws Exception {
+    TestServerStateProvider testServerStateProvider = new TestServerStateProvider();
+    MetadataInfo metadata1 = testServerStateProvider.addMetadata("bugComponent", "123456", null);
+    MetadataInfo metadata2 =
+        testServerStateProvider.addMetadata("email", null, "email to contact the host owners");
+    MetadataInfo metadata3 =
+        testServerStateProvider.addMetadata("ownerGroup", "Bar", "group that owns the host");
+    MetadataInfo metadata4 =
+        testServerStateProvider.addMetadata("ownerGroup", "Foo", "group that owns the host");
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(testServerStateProvider)) {
+      ServerInfo serverInfo = gApi.config().server().getInfo();
+      assertThat(serverInfo.metadata)
+          .containsExactly(metadata1, metadata2, metadata3, metadata4)
+          .inOrder();
+    }
+  }
+
+  public static class TestServerStateProvider implements ServerStateProvider {
+    private ArrayList<MetadataInfo> metadataList = new ArrayList<>();
+
+    public MetadataInfo addMetadata(
+        String name, @Nullable String value, @Nullable String description) {
+      MetadataInfo metadata = new MetadataInfo();
+      metadata.name = name;
+      metadata.value = value;
+      metadata.description = description;
+      metadataList.add(metadata);
+      return metadata;
+    }
+
+    @Override
+    public ImmutableList<MetadataInfo> getMetadata() {
+      return ImmutableList.copyOf(metadataList);
+    }
   }
 }

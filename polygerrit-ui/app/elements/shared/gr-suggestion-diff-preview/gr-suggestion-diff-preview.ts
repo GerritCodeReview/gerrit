@@ -68,6 +68,8 @@ export class GrSuggestionDiffPreview extends LitElement {
 
   @state() repo?: RepoName;
 
+  @state() hasEdit = false;
+
   @state()
   changeNum?: NumericChangeId;
 
@@ -107,6 +109,14 @@ export class GrSuggestionDiffPreview extends LitElement {
       this,
       () => this.getChangeModel().changeNum$,
       changeNum => (this.changeNum = changeNum)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().revisions$,
+      revisions =>
+        (this.hasEdit = Object.values(revisions).some(
+          info => info._number === EDIT
+        ))
     );
     subscribe(
       this,
@@ -339,6 +349,7 @@ export class GrSuggestionDiffPreview extends LitElement {
           repo: this.repo!,
           patchNum: EDIT,
           basePatchNum,
+          forceReload: !this.hasEdit,
         })
       );
       fire(this, 'apply-user-suggestion', {});

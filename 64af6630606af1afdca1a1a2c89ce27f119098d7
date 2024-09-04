@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "867ffed9_be3c2f9d",
+        "filename": "java/com/google/gerrit/metrics/dropwizard/CallbackMetricImpl1.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-09-04T07:26:25Z",
+      "side": 0,
+      "message": "I don\u0027t think this should be removed in favour of \n\n```\ncom.google.common.base.Function;\n```\n\nIntroduced at `L18`.\n\nWas this intentional?",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 35
+      },
+      "revId": "64af6630606af1afdca1a1a2c89ce27f119098d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

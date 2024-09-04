@@ -406,12 +406,6 @@ def java_dependencies():
     )
 
     maven_jar(
-        name = "h2",
-        artifact = "com.h2database:h2:1.3.176",
-        sha1 = "fd369423346b2f1525c413e33f8cf95b09c92cbd",
-    )
-
-    maven_jar(
         name = "fluent-hc",
         artifact = "org.apache.httpcomponents:fluent-hc:" + HTTPCOMP_VERS,
         sha1 = "81a16abc0d5acb5016d5b46d4b197b53c3d6eb93",

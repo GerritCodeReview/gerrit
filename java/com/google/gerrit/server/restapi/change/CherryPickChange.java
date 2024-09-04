@@ -412,6 +412,7 @@ public class CherryPickChange {
                     destChange.notes(),
                     cherryPickCommit,
                     sourceChange,
+                    sourceCommit,
                     newTopic,
                     input,
                     workInProgress);
@@ -445,6 +446,7 @@ public class CherryPickChange {
       ChangeNotes destNotes,
       CodeReviewCommit cherryPickCommit,
       @Nullable Change sourceChange,
+      @Nullable ObjectId sourceCommit,
       String topic,
       CherryPickInput input,
       @Nullable Boolean workInProgress)
@@ -452,7 +454,10 @@ public class CherryPickChange {
     Change destChange = destNotes.getChange();
     PatchSet.Id psId = ChangeUtil.nextPatchSetId(git, destChange.currentPatchSetId());
     PatchSetInserter inserter = patchSetInserterFactory.create(destNotes, psId, cherryPickCommit);
-    inserter.setMessage("Uploaded patch set " + inserter.getPatchSetId().get() + ".");
+    BranchNameKey sourceBranch = sourceChange == null ? null : sourceChange.getDest();
+    inserter.setMessage(
+        messageForDestinationChange(
+            inserter.getPatchSetId(), sourceBranch, sourceCommit, cherryPickCommit));
     inserter.setTopic(topic);
     if (workInProgress != null) {
       inserter.setWorkInProgress(workInProgress);

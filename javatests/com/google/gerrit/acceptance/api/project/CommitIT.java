@@ -376,7 +376,9 @@ public class CommitIT extends AbstractDaemonTest {
     Iterator<ChangeMessageInfo> messageIterator = cherryPickResult.messages.iterator();
 
     assertThat(messageIterator.next().message).isEqualTo("Uploaded patch set 1.");
-    assertThat(messageIterator.next().message).isEqualTo("Uploaded patch set 2.");
+    String expectedMessage =
+        String.format("Patch Set 2: Cherry Picked from commit %s.", commitToCherryPick);
+    assertThat(messageIterator.next().message).isEqualTo(expectedMessage);
     // Cherry-pick of is not set, because the source change was not provided.
     assertThat(cherryPickResult.cherryPickOfChange).isNull();
     assertThat(cherryPickResult.cherryPickOfPatchSet).isNull();
@@ -426,8 +428,11 @@ public class CommitIT extends AbstractDaemonTest {
     Iterator<ChangeMessageInfo> messageIterator = cherryPickResult.messages.iterator();
 
     assertThat(messageIterator.next().message).isEqualTo("Uploaded patch set 1.");
-    assertThat(messageIterator.next().message).isEqualTo("Uploaded patch set 2.");
-    assertThat(messageIterator.next().message).isEqualTo("Uploaded patch set 3.");
+    assertThat(messageIterator.next().message)
+        .isEqualTo("Patch Set 2: Cherry Picked from branch master.");
+    String expectedMessage =
+        String.format("Patch Set 3: Cherry Picked from commit %s.", commitToCherryPick.getName());
+    assertThat(messageIterator.next().message).isEqualTo(expectedMessage);
     // Cherry-pick was reset to empty value.
     assertThat(cherryPickResult._number).isEqualTo(existingDestChange._number);
     assertThat(cherryPickResult.cherryPickOfChange).isNull();

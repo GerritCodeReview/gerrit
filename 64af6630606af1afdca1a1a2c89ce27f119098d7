@@ -22,6 +22,30 @@
       },
       "revId": "64af6630606af1afdca1a1a2c89ce27f119098d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66b1748a_f9e6e521",
+        "filename": "java/com/google/gerrit/metrics/dropwizard/CallbackMetricImpl1.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-09-05T17:21:24Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "867ffed9_be3c2f9d",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 35
+      },
+      "revId": "64af6630606af1afdca1a1a2c89ce27f119098d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

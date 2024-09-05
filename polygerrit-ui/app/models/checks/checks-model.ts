@@ -478,6 +478,10 @@ export class ChecksModel extends Model<ChecksState> {
       scheduledCount: 0,
       runningCount: 0,
       completedCount: 0,
+      errorWithFixCount: 0,
+      errorWithoutFixCount: 0,
+      warningWithFixCount: 0,
+      warningWithoutFixCount: 0,
     };
     const providers = Object.values(state);
     for (const provider of providers) {
@@ -492,8 +496,22 @@ export class ChecksModel extends Model<ChecksState> {
         if (run.status === RunStatus.RUNNING) stats.runningCount++;
         if (run.status === RunStatus.COMPLETED) stats.completedCount++;
         for (const result of run.results ?? []) {
-          if (result.category === Category.ERROR) stats.errorCount++;
-          if (result.category === Category.WARNING) stats.warningCount++;
+          if (result.category === Category.ERROR) {
+            stats.errorCount++;
+            if (result.fixes?.[0]) {
+              stats.errorWithFixCount++;
+            } else {
+              stats.errorWithoutFixCount++;
+            }
+          }
+          if (result.category === Category.WARNING) {
+            stats.warningCount++;
+            if (result.fixes?.[0]) {
+              stats.warningWithFixCount++;
+            } else {
+              stats.warningWithoutFixCount++;
+            }
+          }
           if (result.category === Category.INFO) stats.infoCount++;
           if (result.category === Category.SUCCESS) stats.successCount++;
         }

@@ -19,6 +19,7 @@ import {
   isError,
   isDraft,
   isNew,
+  PatchSetNumber,
 } from '../../types/common';
 import {
   addPath,
@@ -27,6 +28,7 @@ import {
   createNewPatchsetLevel,
   getFirstComment,
   hasSuggestion,
+  hasUserSuggestion,
   id,
   isDraftThread,
   isNewThread,
@@ -562,6 +564,14 @@ export class CommentsModel extends Model<CommentState> {
           })
         )
     );
+    this.subscriptions.push(
+      combineLatest([
+        this.comments$,
+        this.changeModel.latestPatchNum$,
+      ]).subscribe(([comments, latestPatchset]) => {
+        this.reportCommentStats(comments, latestPatchset);
+      })
+    );
   }
 
   // Note that this does *not* reload ported comments.
@@ -600,6 +610,44 @@ export class CommentsModel extends Model<CommentState> {
       details,
       {deduping: Deduping.EVENT_ONCE_PER_CHANGE}
     );
+  }
+
+  private reportCommentStats(
+    obj?: {[path: string]: CommentInfo[]},
+    latestPatchset?: PatchSetNumber
+  ) {
+    if (!obj || !latestPatchset) return;
+    const comments = Object.values(obj).flat();
+    if (comments.length === 0) return;
+    const commentsLatest = comments.filter(c => c.patch_set === latestPatchset);
+    const commentsFixes = comments
+      .map(c => c.fix_suggestions?.length ?? 0)
+      .filter(l => l > 0);
+    const commentsLatestFixes = commentsLatest
+      .map(c => c.fix_suggestions?.length ?? 0)
+      .filter(l => l > 0);
+    const commentsLatestUnresolved = commentsLatest.filter(c => c.unresolved);
+    const commentsLatestUnresolvedFixes = commentsLatestUnresolved
+      .map(c => c.fix_suggestions?.length ?? 0)
+      .filter(l => l > 0);
+    const details = {
+      countLatest: commentsLatest.length,
+      countLatestWithFix: commentsLatestFixes.length,
+      countLatestWithUserFix: commentsLatest.filter(c => hasUserSuggestion(c))
+        .length,
+      countLatestUnresolved: commentsLatestUnresolved.length,
+      countLatestUnresolvedWithFix: commentsLatestUnresolvedFixes.length,
+      countLatestUnresolvedWithUserFix: commentsLatestUnresolved.filter(c =>
+        hasUserSuggestion(c)
+      ).length,
+      countAll: comments.length,
+      countAllUnresolved: comments.filter(c => c.unresolved).length,
+      countAllWithFix: commentsFixes.length,
+      countAllWithUserFix: comments.filter(c => hasUserSuggestion(c)).length,
+    };
+    this.reporting.reportInteraction(Interaction.COMMENTS_STATS, details, {
+      deduping: Deduping.EVENT_ONCE_PER_CHANGE,
+    });
   }
 
   async restoreDraft(draftId: UrlEncodedCommentId) {

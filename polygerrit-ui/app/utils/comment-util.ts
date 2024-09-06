@@ -301,8 +301,8 @@ export function isUnresolved(thread: CommentThread): boolean {
 }
 
 export function isResolved(thread: CommentThread): boolean {
-  const lastUnresolved = getLastComment(thread)?.unresolved;
-  return !lastUnresolved ?? false;
+  const lastComment = getLastComment(thread);
+  return lastComment !== undefined ? !lastComment.unresolved : true;
 }
 
 export function isDraftThread(thread: CommentThread): boolean {

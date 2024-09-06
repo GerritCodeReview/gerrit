@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "455b0dd6_a1c1c204",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-09-06T14:08:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "00ac875d_5bda9303",
+      "revId": "74963e85279732392488e15a33ea7afe8d52330a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b25b305b_8c6c317e",
@@ -31,6 +49,30 @@
       "writtenOn": "2024-09-06T12:05:11Z",
       "side": 1,
       "message": "what is $m and $ct ?",
+      "range": {
+        "startLine": 92,
+        "startChar": 0,
+        "endLine": 93,
+        "endChar": 57
+      },
+      "revId": "74963e85279732392488e15a33ea7afe8d52330a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c65bf9f9_d77b511d",
+        "filename": "javatests/com/google/gerrit/acceptance/api/plugin/CorsForPluginsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-09-06T14:08:16Z",
+      "side": 1,
+      "message": "Ah, this is s copy/paste from `CorsIT`. Removed it now.",
+      "parentUuid": "b25b305b_8c6c317e",
       "range": {
         "startLine": 92,
         "startChar": 0,

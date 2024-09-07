@@ -100,4 +100,9 @@ public class RestResponse extends HttpResponse {
     assertStatus(SC_MOVED_TEMPORARILY);
     assertThat(URI.create(getHeader("Location")).getPath()).isEqualTo(path);
   }
+
+  public void assertTemporaryRedirectUri(String uri) throws Exception {
+    assertStatus(SC_MOVED_TEMPORARILY);
+    assertThat(getHeader("Location")).isEqualTo(uri);
+  }
 }

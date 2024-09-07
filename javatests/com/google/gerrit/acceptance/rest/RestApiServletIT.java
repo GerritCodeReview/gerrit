@@ -454,12 +454,21 @@ public class RestApiServletIT extends AbstractDaemonTest {
     ChangeData changeData = createChange().getChange();
     int changeNumber = changeData.getId().get();
 
-    String finalSegment = "any/Thing";
+    assertChangeNumberWithSuffixRedirected(changeNumber, "1..2");
+    assertChangeNumberWithSuffixRedirected(changeNumber, "2");
+    assertChangeNumberWithSuffixRedirected(changeNumber, "2/COMMIT_MSG");
+    assertChangeNumberWithSuffixRedirected(changeNumber, "2?foo=bar");
+    assertChangeNumberWithSuffixRedirected(changeNumber, "2/path/to/source/file/MyClass.java");
+  }
 
-    String redirectUri = String.format("/c/%s/+/%d/%s", project.get(), changeNumber, finalSegment);
+  private void assertChangeNumberWithSuffixRedirected(int changeNumber, String suffix)
+      throws Exception {
+    String redirectUri =
+        anonymousRestSession.getUrl(
+            String.format("/c/%s/+/%d/%s", project.get(), changeNumber, suffix));
     anonymousRestSession
-        .get(String.format("/c/%d/%s", changeNumber, finalSegment))
-        .assertTemporaryRedirect(redirectUri);
+        .get(String.format("/c/%d/%s", changeNumber, suffix))
+        .assertTemporaryRedirectUri(redirectUri);
   }
 
   @Test
@@ -467,12 +476,12 @@ public class RestApiServletIT extends AbstractDaemonTest {
     int changeNumber = createChange().getChange().getId().get();
     String commentId = "ff3303fd_8341647b";
 
-    String redirectUri =
+    String redirectPath =
         String.format("/c/%s/+/%d/comment/%s", project.get(), changeNumber, commentId);
 
     anonymousRestSession
         .get(String.format("/%s/comment/%s", changeNumber, commentId))
-        .assertTemporaryRedirect(redirectUri);
+        .assertTemporaryRedirect(redirectPath);
   }
 
   @Test

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c93eae53_608b439a",
+        "filename": "java/com/google/gerrit/httpd/UrlModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-09-07T22:59:12Z",
+      "side": 1,
+      "message": "This won\u0027t work when the project name is composed by only numbers.",
+      "range": {
+        "startLine": 75,
+        "startChar": 26,
+        "endLine": 75,
+        "endChar": 43
+      },
+      "revId": "59e9f0a7179a03c0459dcddc900639752e002de6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3d2e802_0fc0886e",
+        "filename": "java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-09-07T22:59:12Z",
+      "side": 1,
+      "message": "That\u0027s not enough IMHO, because you could actually have a project name composed only by numbers.",
+      "range": {
+        "startLine": 66,
+        "startChar": 66,
+        "endLine": 66,
+        "endChar": 83
+      },
+      "revId": "59e9f0a7179a03c0459dcddc900639752e002de6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

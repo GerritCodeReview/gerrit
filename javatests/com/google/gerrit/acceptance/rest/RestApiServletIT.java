@@ -483,6 +483,16 @@ public class RestApiServletIT extends AbstractDaemonTest {
     anonymousRestSession.get("/" + changeNumber).assertTemporaryRedirect(redirectUri);
   }
 
+  @Test
+  public void testNumericChangeIdWithWords() throws Exception {
+    ChangeData changeData = createChange().getChange();
+    int changeNumber = changeData.getId().get();
+
+    anonymousRestSession
+        .get(String.format("/c/" + changeNumber + "gerrit"))
+        .assertNotFound();
+  }
+
   private ObjectId getMetaRefSha1(Result change) {
     return change.getChange().notes().getRevision();
   }

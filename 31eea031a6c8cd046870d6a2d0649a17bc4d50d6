@@ -37,6 +37,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "af060eb6_15b6a0ae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-09-07T19:40:27Z",
+      "side": 1,
+      "message": "Removing serveRegex it still causes it to 404 so i\u0027m not sure how to fix it.",
+      "parentUuid": "4239ab3e_0a3c8ac9",
+      "revId": "31eea031a6c8cd046870d6a2d0649a17bc4d50d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "6683a2e2_c32d971b",
         "filename": "java/com/google/gerrit/httpd/UrlModule.java",
         "patchSetId": 7

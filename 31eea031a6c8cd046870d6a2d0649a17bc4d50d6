@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "236691e3_4946a836",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-09-07T13:31:55Z",
+      "side": 1,
+      "message": "https://gerrit.wikimedia.org/r/c/3d2png/+/1056199 is 404\u0027ing. If you search for 1056199 it works but as soon as you refresh it breaks.",
+      "revId": "31eea031a6c8cd046870d6a2d0649a17bc4d50d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

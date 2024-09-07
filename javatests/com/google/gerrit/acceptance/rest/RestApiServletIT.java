@@ -454,7 +454,7 @@ public class RestApiServletIT extends AbstractDaemonTest {
     ChangeData changeData = createChange().getChange();
     int changeNumber = changeData.getId().get();
 
-    String finalSegment = "any/Thing";
+    String finalSegment = "1..2";
 
     String redirectUri = String.format("/c/%s/+/%d/%s", project.get(), changeNumber, finalSegment);
     anonymousRestSession

@@ -454,11 +454,18 @@ public class RestApiServletIT extends AbstractDaemonTest {
     ChangeData changeData = createChange().getChange();
     int changeNumber = changeData.getId().get();
 
-    String finalSegment = "any/Thing";
+    assertChangeNumberWithSuffixRedirected(changeNumber, "1..2");
+    assertChangeNumberWithSuffixRedirected(changeNumber, "2");
+    assertChangeNumberWithSuffixRedirected(changeNumber, "2//COMMIT_MSG");
+    assertChangeNumberWithSuffixRedirected(changeNumber, "2?foo=bar");
+    assertChangeNumberWithSuffixRedirected(changeNumber, "2/path/to/source/file/MyClass.java");
+  }
 
-    String redirectUri = String.format("/c/%s/+/%d/%s", project.get(), changeNumber, finalSegment);
+  private void assertChangeNumberWithSuffixRedirected(int changeNumber, String suffix)
+      throws Exception {
+    String redirectUri = String.format("/c/%s/+/%d/%s", project.get(), changeNumber, suffix);
     anonymousRestSession
-        .get(String.format("/c/%d/%s", changeNumber, finalSegment))
+        .get(String.format("/c/%d/%s", changeNumber, suffix))
         .assertTemporaryRedirect(redirectUri);
   }
 

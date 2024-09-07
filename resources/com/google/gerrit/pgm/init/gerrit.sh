@@ -371,6 +371,10 @@ test -z "$GERRIT_STARTUP_TIMEOUT" && GERRIT_STARTUP_TIMEOUT=90  # seconds
 
 GERRIT_USER=`get_config --get container.user`
 
+if test "$(uname -s)" == "Darwin" ; then
+  JAVA_OPTIONS="$JAVA_OPTIONS -XX:-MaxFDLimit"
+fi
+
 #####################################################
 # Configure sane ulimits for a daemon of our size.
 #####################################################

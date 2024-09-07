@@ -24,10 +24,26 @@ public class StaticModuleTest {
   @Test
   public void doNotMatchPolyGerritIndex() {
     ImmutableList.of(
-            "/c/123456/anyString",
-            "/123456/anyString",
+            "/123456",
+            "/123456/",
+            "/123456/1",
+            "/123456/1/",
             "/c/123456/comment/9ab75172_67d798e1",
-            "/123456/comment/9ab75172_67d798e1")
+            "/123456/comment/9ab75172_67d798e1",
+            "/123456/comment/9ab75172_67d798e1/",
+            "/123456/1..2",
+            "/c/123456/1..2")
         .forEach(url -> assertThat(StaticModule.PolyGerritFilter.isPolyGerritIndex(url)).isFalse());
+  }
+
+  @Test
+  public void matchPolyGerritIndex() {
+    ImmutableList.of(
+            "/c/test/+/123456/anyString",
+            "/c/test/+/123456/comment/9ab75172_67d798e1",
+            "/c/321/+/123456/anyString",
+            "/c/321/+/123456/comment/9ab75172_67d798e1",
+            "/c/321/anyString")
+        .forEach(url -> assertThat(StaticModule.PolyGerritFilter.isPolyGerritIndex(url)).isTrue());
   }
 }

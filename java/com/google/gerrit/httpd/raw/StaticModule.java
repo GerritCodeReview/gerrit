@@ -63,7 +63,17 @@ import org.eclipse.jgit.lib.Config;
 
 public class StaticModule extends ServletModule {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-  public static final String CHANGE_NUMBER_URI_REGEX = "^(?:/c)?/([1-9][0-9]*)/?.*";
+  // This constant is copied and NOT reused from UrlModule because of the need for
+  // StaticModule and UrlModule to be used in isolation. The requirement comes
+  // from the way Google includes these two classes in their setup.
+  private static final String CHANGE_NUMBER_REGEX = "(?:/c)?/([1-9][0-9]*)";
+  // Regex matching the direct links to comments using only the change number
+  // 1234/comment/abc_def
+  public static final String CHANGE_NUMBER_URI_REGEX =
+      "^"
+          + CHANGE_NUMBER_REGEX
+          + "(/[1-9][0-9]*(\\.\\.[1-9][0-9]*)?(/[^+]*)?)?(/comment/[^+]+)?/?$";
+
   private static final Pattern CHANGE_NUMBER_URI_PATTERN = Pattern.compile(CHANGE_NUMBER_URI_REGEX);
 
   /**

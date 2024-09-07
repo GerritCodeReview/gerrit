@@ -45,6 +45,9 @@ import org.eclipse.jgit.lib.Constants;
 class UrlModule extends ServletModule {
   private AuthConfig authConfig;
 
+  private static final String CHANGE_NUMBER_REGEX = "(?:/c)?/([1-9][0-9]*)";
+  private static final String PATCH_SET_REGEX = "([1-9][0-9]*(\\.\\.[1-9][0-9]*)?)";
+
   UrlModule(AuthConfig authConfig) {
     this.authConfig = authConfig;
   }
@@ -72,7 +75,12 @@ class UrlModule extends ServletModule {
     serveRegex("^/settings/?$").with(screen(PageLinks.SETTINGS));
     serveRegex("^/register$").with(registerScreen(false));
     serveRegex("^/register/(.+)$").with(registerScreen(true));
-    serveRegex("^(?:/c)?/([1-9][0-9]*)/?.*$").with(NumericChangeIdRedirectServlet.class);
+    serveRegex("^" + CHANGE_NUMBER_REGEX + "(/" + PATCH_SET_REGEX + ")?/?$")
+        .with(NumericChangeIdRedirectServlet.class);
+    serveRegex("^" + CHANGE_NUMBER_REGEX + "/" + PATCH_SET_REGEX + "?/[^+]+$")
+        .with(NumericChangeIdRedirectServlet.class);
+    serveRegex("^" + CHANGE_NUMBER_REGEX + "/comment/\\w+/?$")
+        .with(NumericChangeIdRedirectServlet.class);
     serveRegex("^/p/(.*)$").with(queryProjectNew());
     serveRegex("^/r/(.+)/?$").with(DirectChangeByCommit.class);
 

@@ -93,6 +93,30 @@
       },
       "revId": "59e9f0a7179a03c0459dcddc900639752e002de6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa6cb853_d6fae8c1",
+        "filename": "java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-09-07T23:19:58Z",
+      "side": 1,
+      "message": "Hmm actually nope that won\u0027t work. I\u0027m not sure how to get it if the project only contains numbers.",
+      "parentUuid": "7061f132_08f9275e",
+      "range": {
+        "startLine": 66,
+        "startChar": 66,
+        "endLine": 66,
+        "endChar": 83
+      },
+      "revId": "59e9f0a7179a03c0459dcddc900639752e002de6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

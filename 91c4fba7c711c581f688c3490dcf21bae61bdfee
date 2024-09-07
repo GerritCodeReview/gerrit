@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "730546b8_c476e01d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-09-07T23:33:26Z",
+      "side": 1,
+      "message": "I believe I\u0027ve found the way, uploading an alternative fix shortly :-)",
+      "revId": "91c4fba7c711c581f688c3490dcf21bae61bdfee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

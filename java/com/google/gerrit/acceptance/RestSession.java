@@ -127,7 +127,7 @@ public class RestSession extends HttpSession {
     return execute(delete);
   }
 
-  private String getUrl(String endPoint) {
+  public String getUrl(String endPoint) {
     return url + (account != null ? "/a" : "") + endPoint;
   }
 }

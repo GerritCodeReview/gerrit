@@ -15,19 +15,33 @@
 package com.google.gerrit.httpd.raw;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.httpd.raw.StaticModule.PolyGerritFilter.isPolyGerritIndex;
 
-import com.google.common.collect.ImmutableList;
 import org.junit.Test;
 
 public class StaticModuleTest {
 
   @Test
   public void doNotMatchPolyGerritIndex() {
-    ImmutableList.of(
-            "/c/123456/anyString",
-            "/123456/anyString",
-            "/c/123456/comment/9ab75172_67d798e1",
-            "/123456/comment/9ab75172_67d798e1")
-        .forEach(url -> assertThat(StaticModule.PolyGerritFilter.isPolyGerritIndex(url)).isFalse());
+    assertThat(isPolyGerritIndex("/123456")).isFalse();
+    assertThat(isPolyGerritIndex("/123456/")).isFalse();
+    assertThat(isPolyGerritIndex("/123456/1")).isFalse();
+    assertThat(isPolyGerritIndex("/123456/1/")).isFalse();
+    assertThat(isPolyGerritIndex("/c/123456/comment/9ab75172_67d798e1")).isFalse();
+    assertThat(isPolyGerritIndex("/123456/comment/9ab75172_67d798e1")).isFalse();
+    assertThat(isPolyGerritIndex("/123456/comment/9ab75172_67d798e1/")).isFalse();
+    assertThat(isPolyGerritIndex("/123456/1..2")).isFalse();
+    assertThat(isPolyGerritIndex("/c/123456/1..2")).isFalse();
+    assertThat(isPolyGerritIndex("/c/2/1/COMMIT_MSG")).isFalse();
+    assertThat(isPolyGerritIndex("/c/2/1/path/to/source/file/MyClass.java")).isFalse();
+  }
+
+  @Test
+  public void matchPolyGerritIndex() {
+    assertThat(isPolyGerritIndex("/c/test/+/123456/anyString")).isTrue();
+    assertThat(isPolyGerritIndex("/c/test/+/123456/comment/9ab75172_67d798e1")).isTrue();
+    assertThat(isPolyGerritIndex("/c/321/+/123456/anyString")).isTrue();
+    assertThat(isPolyGerritIndex("/c/321/+/123456/comment/9ab75172_67d798e1")).isTrue();
+    assertThat(isPolyGerritIndex("/c/321/anyString")).isTrue();
   }
 }

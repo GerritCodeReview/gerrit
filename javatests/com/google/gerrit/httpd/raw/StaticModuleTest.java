@@ -30,4 +30,14 @@ public class StaticModuleTest {
             "/123456/comment/9ab75172_67d798e1")
         .forEach(url -> assertThat(StaticModule.PolyGerritFilter.isPolyGerritIndex(url)).isFalse());
   }
+
+  @Test
+  public void matchPolyGerritIndex() {
+    ImmutableList.of(
+            "/c/test/+/123456/anyString",
+            "/c/test/+/123456/comment/9ab75172_67d798e1",
+            "/c/3d2png/+/123456/anyString",
+            "/c/3d2png/+/123456/comment/9ab75172_67d798e1")
+        .forEach(url -> assertThat(StaticModule.PolyGerritFilter.isPolyGerritIndex(url)).isTrue());
+  }
 }

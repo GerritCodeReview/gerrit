@@ -16,6 +16,29 @@
       "message": "This is breaking valid urls with projects that start with [1-9]\nIssues 360705824",
       "revId": "2e6314d195a489a882b2f80fd2f6f9e274482cf1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "591dfbe9_3ebb6080",
+        "filename": "java/com/google/gerrit/httpd/UrlModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-09-07T22:37:30Z",
+      "side": 1,
+      "message": "This is the culprit: by doing `/?.*` you are basically saying _any string that starts with a number_ 😮",
+      "range": {
+        "startLine": 75,
+        "startChar": 38,
+        "endLine": 75,
+        "endChar": 42
+      },
+      "revId": "2e6314d195a489a882b2f80fd2f6f9e274482cf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

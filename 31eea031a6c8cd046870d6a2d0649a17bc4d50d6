@@ -51,6 +51,24 @@
       "parentUuid": "6683a2e2_c32d971b",
       "revId": "31eea031a6c8cd046870d6a2d0649a17bc4d50d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "04746d75_60640e49",
+        "filename": "java/com/google/gerrit/httpd/UrlModule.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-09-07T19:33:31Z",
+      "side": 1,
+      "message": "Seems there\u0027s `^(?:/c)?/(\\b[1-9][0-9]*\\b)/?.*$` (\\b)",
+      "parentUuid": "c1463db5_4e044225",
+      "revId": "31eea031a6c8cd046870d6a2d0649a17bc4d50d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

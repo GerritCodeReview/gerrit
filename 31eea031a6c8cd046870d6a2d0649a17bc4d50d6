@@ -16,6 +16,23 @@
       "message": "https://gerrit.wikimedia.org/r/c/3d2png/+/1056199 is 404\u0027ing. If you search for 1056199 it works but as soon as you refresh it breaks.",
       "revId": "31eea031a6c8cd046870d6a2d0649a17bc4d50d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6683a2e2_c32d971b",
+        "filename": "java/com/google/gerrit/httpd/UrlModule.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-09-07T15:07:15Z",
+      "side": 1,
+      "message": "Alternatively we can do `^(?:/c)?/([1-9][0-9]*)/(?:\\/+\\/)?.*$`. Not sure which one we prefer or if there\u0027s any other better fixes.",
+      "revId": "31eea031a6c8cd046870d6a2d0649a17bc4d50d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

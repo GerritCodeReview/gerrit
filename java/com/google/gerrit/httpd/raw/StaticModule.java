@@ -63,7 +63,8 @@ import org.eclipse.jgit.lib.Config;
 
 public class StaticModule extends ServletModule {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-  public static final String CHANGE_NUMBER_URI_REGEX = "^(?:/c)?/([1-9][0-9]*)/?.*";
+  public static final String CHANGE_NUMBER_URI_REGEX =
+      "^(?:/c)?/([1-9][0-9]*)(/comment/\\w+)?(/[1-9][0-9\\.^+]*(/[^+]*)?)?/?$";
   private static final Pattern CHANGE_NUMBER_URI_PATTERN = Pattern.compile(CHANGE_NUMBER_URI_REGEX);
 
   /**

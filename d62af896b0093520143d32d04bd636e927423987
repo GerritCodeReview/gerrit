@@ -22,6 +22,30 @@
       },
       "revId": "d62af896b0093520143d32d04bd636e927423987",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d6a43a0_889d86d8",
+        "filename": "javatests/com/google/gerrit/httpd/raw/StaticModuleTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-09-08T10:26:31Z",
+      "side": 0,
+      "message": "@ponch78@gmail.com do you have any background on why we were matching *any strings* instead of the ones we are interested into?\n\nIs there any other corner case other than:\n- link to patch-sets using the change number prefix\n- link to comments using the change number prefix",
+      "parentUuid": "3ca038d1_0acf8b2a",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 32
+      },
+      "revId": "d62af896b0093520143d32d04bd636e927423987",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

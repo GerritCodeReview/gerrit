@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d3e3dd9_1e211001",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-09-08T00:14:46Z",
+      "side": 1,
+      "message": "Add Bug: Issue 360705824",
+      "revId": "f23f671f37797566fccded127dd1f4eea3e722f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0fa2e51f_396f362c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-09-08T00:14:46Z",
+      "side": 1,
+      "message": "I\u0027ve tested this locally and it works although the tests break:\n\n```\n3) testNumericChangeIdWithExtraSegments[default](com.google.gerrit.acceptance.rest.RestApiServletIT)\nExpected status code 302\nvalue of: getStatusCode()\nexpected: 302\nbut was : 404\n\tat com.google.gerrit.acceptance.RestResponse.assertStatus(RestResponse.java:59)\n\tat com.google.gerrit.acceptance.RestResponse.assertTemporaryRedirect(RestResponse.java:103)\n\tat com.google.gerrit.acceptance.rest.RestApiServletIT.testNumericChangeIdWithExtraSegments(RestApiServletIT.java:462)\n```",
+      "revId": "f23f671f37797566fccded127dd1f4eea3e722f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

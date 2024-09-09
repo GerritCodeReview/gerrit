@@ -213,6 +213,30 @@
       },
       "revId": "d62af896b0093520143d32d04bd636e927423987",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "062c4a8e_f2ec5b4d",
+        "filename": "javatests/com/google/gerrit/httpd/raw/StaticModuleTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-09-09T21:44:51Z",
+      "side": 0,
+      "message": "\u003e \u003e Is there any other corner case other than:\n\u003e \u003e \n\u003e \u003e link to patch-sets using the change number prefix\n\u003e \u003e link to comments using the change number prefix\n\u003e \n\u003e For sure we need to cover these 2 cases:\n\u003e * patch range suffix [1] (see also your comment here [3])\n\u003e * patch number suffix [2]\n\u003e \n\u003e The reason why I ended up with a borader expression is to cover all the cases we couldn\u0027t think of with a trainling segment.\n\nI see, however, that wider scope created unwanted behaviours.\nI would suggest to cover the cases *we know* and just extend it by exception.",
+      "parentUuid": "5b691279_838aba6a",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 32
+      },
+      "revId": "d62af896b0093520143d32d04bd636e927423987",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

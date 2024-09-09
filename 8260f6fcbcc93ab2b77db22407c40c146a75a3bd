@@ -1,0 +1,45 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf484da7_b0949273",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-09-09T11:09:53Z",
+      "side": 1,
+      "message": "This needs to be true. If unresolved is undefined then resolved \u003d true",
+      "range": {
+        "startLine": 305,
+        "startChar": 58,
+        "endLine": 305,
+        "endChar": 63
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "7c7fe603_d783f711",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/utils/comment-util.ts",
+              "range": {
+                "startLine": 305,
+                "startChar": 0,
+                "endLine": 306,
+                "endChar": 0
+              },
+              "replacement": "  return lastUnresolved !\u003d\u003d undefined ? !lastUnresolved : true;\n"
+            }
+          ]
+        }
+      ],
+      "revId": "8260f6fcbcc93ab2b77db22407c40c146a75a3bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

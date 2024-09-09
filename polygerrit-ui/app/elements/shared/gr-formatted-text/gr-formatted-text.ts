@@ -113,6 +113,26 @@ export class GrFormattedText extends LitElement {
            should overflow in that case rather than wrapping or leaking out */
           overflow-x: auto;
         }
+        .link-wrapper {
+          position: relative; /* Allow positioning hovercard relative to this */
+          display: inline-block; /* So hovercard wraps correctly */
+        }
+
+        .hovercard {
+          display: none; /* Hidden by default */
+          position: absolute;
+          top: 100%; /* Position below the link */
+          left: 0;
+          background-color: white;
+          border: 1px solid #ccc;
+          padding: 10px;
+          z-index: 10; /* Ensure hovercard is above other content */
+        }
+
+        .link-wrapper:hover .hovercard {
+          display: block; /* Show on hover */
+        }
+
       `,
     ];
   }
@@ -142,16 +162,34 @@ export class GrFormattedText extends LitElement {
     }
   }
 
+  private wrapLinksWithHovercard(text: string): string {
+    const regex = /<a href="https:\/\/issuetracker\.google\.com\/(\d+)" rel="noopener noreferrer" target="_blank">b\/(\d+)<\/a>/g;
+    return text.replace(regex, (match, issueNumber) => {
+      return `<span class="link-wrapper">${match}<div class="hovercard">Hovercard content for issue ${issueNumber}</div></span>`;
+    });
+  }
+  
+
   private renderAsPlaintext() {
     const linkedText = linkifyUrlsAndApplyRewrite(
       htmlEscape(this.content).toString(),
       this.repoCommentLinks
     );
-
-    return html`
-      <pre class="plaintext">${sanitizeHtmlToFragment(linkedText)}</pre>
+  
+    const textWithHovercards = this.wrapLinksWithHovercard(linkedText);
+    console.log("text with hovercard");
+    console.log(textWithHovercards);
+    console.log("text without hovercard");
+    console.log(linkedText);
+  
+    const result = html`
+      <pre class="plaintext">${sanitizeHtmlToFragment(textWithHovercards)}</pre>
     `;
+    console.log("result");
+    console.log(result);
+    return result;
   }
+  
 
   private renderAsMarkdown() {
     // Bind `this` via closure.

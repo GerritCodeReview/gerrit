@@ -16,6 +16,7 @@ package com.google.gerrit.server;
 
 import static java.util.stream.Collectors.toList;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.options.AutoFlush;
@@ -58,7 +59,7 @@ public class LibModuleLoader {
       Method m =
           clazz.getMethod(
               "singleVersionWithExplicitVersions",
-              Map.class,
+              ImmutableMap.class,
               int.class,
               boolean.class,
               AutoFlush.class);

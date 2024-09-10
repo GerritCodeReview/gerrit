@@ -132,6 +132,7 @@ export enum Interaction {
   CHECKS_RUNS_SELECTED_TRIGGERED = 'checks-runs-selected-triggered',
   CHECKS_STATS = 'checks-stats',
   COMMENTS_STATS = 'comments-stats',
+  THREADS_STATS = 'threads-stats',
   CHANGE_ACTION_FIRED = 'change-action-fired',
   BUTTON_CLICK = 'button-click',
   LINK_CLICK = 'link-click',

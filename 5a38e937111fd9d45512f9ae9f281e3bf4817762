@@ -22,6 +22,30 @@
       },
       "revId": "5a38e937111fd9d45512f9ae9f281e3bf4817762",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "017a6d08_f3288313",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-09-10T23:29:11Z",
+      "side": 1,
+      "message": "Since Google is currently on 1.74, see Issue 359613380",
+      "parentUuid": "8c933173_5dc8cb7f",
+      "range": {
+        "startLine": 7,
+        "startChar": 23,
+        "endLine": 7,
+        "endChar": 27
+      },
+      "revId": "5a38e937111fd9d45512f9ae9f281e3bf4817762",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

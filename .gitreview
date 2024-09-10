@@ -1,5 +1,5 @@
 [gerrit]
-host=gerrit-review.googlesource.com
+host=gerrit-review.git.corp.google.com
 scheme=https
 project=gerrit.git
 defaultbranch=master

@@ -24,6 +24,8 @@ import {
   USER_SUGGESTION_INFO_STRING,
 } from '../../../utils/comment-util';
 import {sameOrigin} from '../../../utils/url-util';
+import { HtmlSanitizerBuilder } from 'safevalues';
+import '../gr-buganizer-hovercard/gr-buganizer-hovercard';
 
 /**
  * This element optionally renders markdown and also applies some regex
@@ -142,16 +144,51 @@ export class GrFormattedText extends LitElement {
     }
   }
 
+  private wrapLinksWithHovercard_old(text: string): string {
+    const regex = /<a href="https:\/\/issuetracker\.google\.com\/(\d+)" rel="noopener noreferrer" target="_blank">b\/(\d+)<\/a>/g;
+    return text.replace(regex, (match, issueNumber) => {
+      return `<span class="link-wrapper">${match}<div class="hovercard"><div class="hovercard-content"><div class="hovercard-item"><strong>This is title</strong></div><div class="hovercard-item"><strong>component:</strong> x>y</div><div class="hovercard-item"><strong>status:</strong> assigned</div><div class="hovercard-item"><strong>assignee:</strong> nihardamar</div><div class="hovercard-item"><strong>type:</strong> bug</div></div></div></span>`;
+    });
+  }
+  private wrapLinksWithHovercard(text: string): string {
+    const regex = /<a href="https:\/\/issuetracker\.google\.com\/(\d+)" rel="noopener noreferrer" target="_blank">b\/(\d+)<\/a>/g;
+    return text.replace(regex, (match, issueNumber) => {
+      return `<gr-buganizer-hovercard issueNumber="${issueNumber}" match="${match}"></gr-buganizer-hovercard>`;
+    });
+  }
+  
+
   private renderAsPlaintext() {
-    const linkedText = linkifyUrlsAndApplyRewrite(
+    let linkedText = linkifyUrlsAndApplyRewrite(
       htmlEscape(this.content).toString(),
       this.repoCommentLinks
     );
+    let sanitizedLinkedText = sanitizeHtmlToFragment(linkedText);
 
-    return html`
-      <pre class="plaintext">${sanitizeHtmlToFragment(linkedText)}</pre>
+    // Convert DocumentFragment to string before wrapping
+    const tempDiv = document.createElement('div');
+    tempDiv.appendChild(sanitizedLinkedText);
+    let sanitizedTextString = tempDiv.innerHTML;
+
+    // Wrap links with hovercards
+    sanitizedTextString = this.wrapLinksWithHovercard(sanitizedTextString);
+
+    console.log('Before sanitization:', linkedText);
+
+    // Create a temporary span element and set its innerHTML
+    const tempSpan = document.createElement('span');
+    tempSpan.innerHTML = sanitizedTextString;
+
+    const result = html`
+      <pre class="plaintext">${tempSpan}</pre>
     `;
+
+    return result;
   }
+
+
+
+  
 
   private renderAsMarkdown() {
     // Bind `this` via closure.

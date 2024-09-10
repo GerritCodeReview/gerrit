@@ -58,7 +58,7 @@ public class LibModuleLoader {
       Method m =
           clazz.getMethod(
               "singleVersionWithExplicitVersions",
-              Map.class,
+              com.google.common.collect.ImmutableMap.class,
               int.class,
               boolean.class,
               AutoFlush.class);

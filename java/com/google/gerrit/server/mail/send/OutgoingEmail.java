@@ -38,6 +38,7 @@ import com.google.gerrit.mail.MailHeader;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.change.NotifyResolver;
+import com.google.gerrit.server.mail.EmailFactories;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.update.RetryableAction.ActionType;
 import com.google.gerrit.server.validators.OutgoingEmailValidationListener;
@@ -751,6 +752,7 @@ public final class OutgoingEmail {
     }
 
     addSoyParam("messageClass", messageClass);
+    addSoyParam("messageClassDisplay", EmailFactories.messageClassDisplay(messageClass));
     addSoyParam("footers", footers);
     addSoyEmailDataParam("settingsUrl", getSettingsUrl());
     addSoyEmailDataParam("instanceName", getInstanceName());

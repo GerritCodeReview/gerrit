@@ -170,6 +170,10 @@ $messageClass::
 +
 A String containing the messageClass.
 
+$messageClassDisplay::
++
+A String containing the messageClass display text.
+
 === Change Emails
 
 Change related emails have the following template data available to them, in

@@ -66,6 +66,45 @@ public interface EmailFactories {
   String INBOUND_EMAIL_REJECTED = "error";
   String NEW_EMAIL_REGISTERED = "registernewemail";
 
+  public static String messageClassDisplay(String messageClass) {
+    switch (messageClass) {
+      case CHANGE_ABANDONED:
+        return "Abandoned";
+      case ATTENTION_SET_ADDED:
+        return "Added to Attention Set";
+      case ATTENTION_SET_REMOVED:
+        return "Removed from Attention Set";
+      case COMMENTS_ADDED:
+        return "Comments";
+      case REVIEWER_DELETED:
+        return "Reviewer Deleted";
+      case VOTE_DELETED:
+        return "Vote Deleted";
+      case CHANGE_MERGED:
+        return "Merged";
+      case NEW_PATCHSET_ADDED:
+        return "New Patchset";
+      case CHANGE_RESTORED:
+        return "Restored";
+      case CHANGE_REVERTED:
+        return "Reverted";
+      case REVIEW_REQUESTED:
+        return "Review Request";
+      case KEY_ADDED:
+        return "Key Added";
+      case KEY_DELETED:
+        return "Key Deleted";
+      case PASSWORD_UPDATED:
+        return "Password Updated";
+      case INBOUND_EMAIL_REJECTED:
+        return "Error";
+      case NEW_EMAIL_REGISTERED:
+        return "Email Registered";
+      default:
+        return messageClass;
+    }
+  }
+
   /** ChangeEmail decorator that adds information about change being abandoned to the email. */
   ChangeEmailDecorator createAbandonedChangeEmail();
 

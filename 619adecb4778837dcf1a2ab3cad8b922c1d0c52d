@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d290376b_cf5e10a0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1142566
+      },
+      "writtenOn": "2024-09-11T13:27:25Z",
+      "side": 1,
+      "message": "I don\u0027t see an easy way to add one. Please feel free to add one.",
+      "parentUuid": "055d7076_6dc83e62",
+      "revId": "619adecb4778837dcf1a2ab3cad8b922c1d0c52d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fbe681c8_8d0614d3",
@@ -31,6 +49,30 @@
       "writtenOn": "2024-09-11T13:02:58Z",
       "side": 1,
       "message": "I think there is no need to convert from seconds to millis and back:\n\n```suggestion\n        Duration.ofSeconds(\n            ConfigUtil.getTimeUnit(cfg, \"sshd\", null, \"loginGraceTime\", 120, SECONDS)));\n```",
+      "range": {
+        "startLine": 186,
+        "startChar": 0,
+        "endLine": 189,
+        "endChar": 27
+      },
+      "revId": "619adecb4778837dcf1a2ab3cad8b922c1d0c52d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7a19795_defa1942",
+        "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1142566
+      },
+      "writtenOn": "2024-09-11T13:27:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fbe681c8_8d0614d3",
       "range": {
         "startLine": 186,
         "startChar": 0,
@@ -58,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f210a6bb_17b4c744",
+        "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1142566
+      },
+      "writtenOn": "2024-09-11T13:27:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e99fd22f_0258258b",
+      "revId": "619adecb4778837dcf1a2ab3cad8b922c1d0c52d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8a584bd4_927324a6",
@@ -71,6 +131,24 @@
       "writtenOn": "2024-09-11T13:02:58Z",
       "side": 1,
       "message": "```suggestion\n    NIO2_READ_TIMEOUT.set(this, Duration.ofSeconds(idleTimeoutSeconds));\n```",
+      "revId": "619adecb4778837dcf1a2ab3cad8b922c1d0c52d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51a61d5a_691b3d84",
+        "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1142566
+      },
+      "writtenOn": "2024-09-11T13:27:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a584bd4_927324a6",
       "revId": "619adecb4778837dcf1a2ab3cad8b922c1d0c52d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -92,6 +170,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "74c4b650_e59c29e7",
+        "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1142566
+      },
+      "writtenOn": "2024-09-11T13:27:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2cbc53a3_76182676",
+      "revId": "619adecb4778837dcf1a2ab3cad8b922c1d0c52d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "97725595_e3f7e2a0",
@@ -105,6 +201,24 @@
       "writtenOn": "2024-09-11T13:02:58Z",
       "side": 1,
       "message": "```suggestion\n    WAIT_FOR_SPACE_TIMEOUT.set(this, Duration.ofSeconds(waitTimeoutSeconds));\n```",
+      "revId": "619adecb4778837dcf1a2ab3cad8b922c1d0c52d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e74bd3f0_5cdd0bc5",
+        "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1142566
+      },
+      "writtenOn": "2024-09-11T13:27:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97725595_e3f7e2a0",
       "revId": "619adecb4778837dcf1a2ab3cad8b922c1d0c52d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

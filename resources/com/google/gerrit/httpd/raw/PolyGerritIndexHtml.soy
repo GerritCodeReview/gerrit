@@ -24,6 +24,7 @@
   {@param? assetsPath: ?}  /** {string} URL to static assets root, if served from CDN. */
   {@param? assetsBundle: ?}  /** {string} Assets bundle .html file, served from $assetsPath. */
   {@param? faviconPath: ?}
+  {@param? manifestPath: ?}
   {@param? versionInfo: ?}
   {@param? polyfillCE: ?}
   {@param? useGoogleFonts: ?}
@@ -84,12 +85,12 @@
       window.ENABLED_EXPERIMENTS = JSON.parse({$enabledExperiments});
     {/if}
   </script>{\n}
-
   {if $faviconPath}
     <link rel="icon" type="image/x-icon" href="{$canonicalPath}/{$faviconPath}">{\n}
   {else}
     <link rel="icon" type="image/x-icon" href="{$canonicalPath}/favicon.ico">{\n}
   {/if}
+  <link rel="manifest" href="{$manifestPath}">{\n}
   {if $changeRequestsPath}
     {if $defaultChangeDetailHex}
       <link rel="preload" href="{$canonicalPath}/{$changeRequestsPath}/detail?O={$defaultChangeDetailHex}" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}

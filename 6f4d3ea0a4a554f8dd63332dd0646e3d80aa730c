@@ -16,6 +16,24 @@
       "message": "Approved a change. But FYI if you\u0027re working on incorporating this into your emails, a lot of emails in gerrit have category \"comment\" because it\u0027s the one which is trigerred by \"reply\" button in the UI. For example \u0027comment\u0027 email can also be just the votes, or just some message from CI",
       "revId": "6f4d3ea0a4a554f8dd63332dd0646e3d80aa730c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "08cb85c3_f3d50ebf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2024-09-11T13:26:19Z",
+      "side": 1,
+      "message": "I know, thank you. I already have a similar switch-case in my Soy template, I preferred to maintain it in core, closer to the definitions.",
+      "parentUuid": "989faeee_17c82f3f",
+      "revId": "6f4d3ea0a4a554f8dd63332dd0646e3d80aa730c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

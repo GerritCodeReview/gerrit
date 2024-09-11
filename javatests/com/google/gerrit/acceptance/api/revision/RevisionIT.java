@@ -786,6 +786,31 @@ public class RevisionIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void cherryPickToExistingChangeWithAllowConflictsSetsWIPOnConflict() throws Exception {
+    String tip = testRepo.getRepository().exactRef("HEAD").getObjectId().name();
+
+    String destBranch = "foo";
+    createBranch(BranchNameKey.create(project, destBranch));
+    PushOneCommit.Result existingChange =
+        createChange(testRepo, destBranch, SUBJECT, FILE_NAME, "some content", null);
+
+    testRepo.reset(tip);
+    PushOneCommit.Result srcChange =
+        createChange(testRepo, "master", SUBJECT, FILE_NAME, "other content", null);
+
+    CherryPickInput input = new CherryPickInput();
+    input.destination = destBranch;
+    input.base = existingChange.getCommit().name();
+    input.message = "cherry-pick to foo" + "\n\nChange-Id: " + existingChange.getChangeId();
+    input.allowConflicts = true;
+    ChangeInfo changeInfo =
+        change(srcChange).revision(srcChange.getCommit().name()).cherryPickAsInfo(input);
+
+    assertThat(changeInfo.containsGitConflicts).isTrue();
+    assertThat(changeInfo.workInProgress).isTrue();
+  }
+
+  @Test
   public void cherryPickWithValidationOptions() throws Exception {
     PushOneCommit.Result r = createChange();
 

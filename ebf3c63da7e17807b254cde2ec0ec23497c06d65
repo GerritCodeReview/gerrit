@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69810fa9_f6e61f43",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-09-11T19:33:19Z",
+      "side": 1,
+      "message": "This is Google specific and would need to be moved into a plugin.\n\nMaybe a design doc would be helpful to settle on the general direction.",
+      "revId": "ebf3c63da7e17807b254cde2ec0ec23497c06d65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

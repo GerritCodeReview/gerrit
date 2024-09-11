@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22e796d8_d7d07ba0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2024-09-11T15:57:03Z",
+      "side": 1,
+      "message": "`Duration.ofMillis` was in the first patchset but is no more used in the latest patchset. I\u0027d remove the line entirely.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 40
+      },
+      "revId": "a297f2df70d03763aa210948614418166a9379be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c837071_7b10e830",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2024-09-11T15:57:03Z",
+      "side": 1,
+      "message": "Given Ia4f033269440fe7e1ecc268c10b1fbd97631484c was released with v3.4.0 I guess it should be proposed to `stable-3.8` (the earliest still supported version)?",
+      "revId": "a297f2df70d03763aa210948614418166a9379be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

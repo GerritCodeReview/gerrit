@@ -16,7 +16,9 @@
 
 {namespace com.google.gerrit.httpd.raw}
 
-{template Index}
+   * @param? manifestPath
+   */
+  {template Index}
   {@param canonicalPath: ?}
   {@param staticResourcePath: ?}
   {@param gerritInitialData: /** {string} map of REST endpoint to response for startup. */ ?}
@@ -24,6 +26,7 @@
   {@param? assetsPath: ?}  /** {string} URL to static assets root, if served from CDN. */
   {@param? assetsBundle: ?}  /** {string} Assets bundle .html file, served from $assetsPath. */
   {@param? faviconPath: ?}
+  {@param? manifestPath: ?}
   {@param? versionInfo: ?}
   {@param? polyfillCE: ?}
   {@param? useGoogleFonts: ?}
@@ -41,11 +44,9 @@
   <meta name="description" content="Gerrit Code Review">{\n}
   <meta name="referrer" content="never">{\n}
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">{\n}
-
   <noscript>
     To use PolyGerrit, please enable JavaScript in your browser settings, and then refresh this page.
   </noscript>
-
   <script>
     window.polymerSkipLoadingFontRoboto = true;
     window.CLOSURE_NO_DEPS = true;
@@ -84,12 +85,12 @@
       window.ENABLED_EXPERIMENTS = JSON.parse({$enabledExperiments});
     {/if}
   </script>{\n}
-
   {if $faviconPath}
     <link rel="icon" type="image/x-icon" href="{$canonicalPath}/{$faviconPath}">{\n}
   {else}
     <link rel="icon" type="image/x-icon" href="{$canonicalPath}/favicon.ico">{\n}
   {/if}
+  <link rel="manifest" href="{$manifestPath}">{\n}
   {if $changeRequestsPath}
     {if $defaultChangeDetailHex}
       <link rel="preload" href="{$canonicalPath}/{$changeRequestsPath}/detail?O={$defaultChangeDetailHex}" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}

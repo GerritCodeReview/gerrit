@@ -183,24 +183,24 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     MAX_AUTH_REQUESTS.set(this, cfg.getInt("sshd", "maxAuthTries", 6));
     AUTH_TIMEOUT.set(
         this,
-        Duration.ofSeconds(
+        Duration.ofMillis(
             MILLISECONDS.convert(
                 ConfigUtil.getTimeUnit(cfg, "sshd", null, "loginGraceTime", 120, SECONDS),
                 SECONDS)));
 
     long idleTimeoutSeconds = ConfigUtil.getTimeUnit(cfg, "sshd", null, "idleTimeout", 0, SECONDS);
-    IDLE_TIMEOUT.set(this, Duration.ofSeconds(SECONDS.toMillis(idleTimeoutSeconds)));
-    NIO2_READ_TIMEOUT.set(this, Duration.ofSeconds(SECONDS.toMillis(idleTimeoutSeconds)));
+    IDLE_TIMEOUT.set(this, Duration.ofMillis(SECONDS.toMillis(idleTimeoutSeconds)));
+    NIO2_READ_TIMEOUT.set(this, Duration.ofMillis(SECONDS.toMillis(idleTimeoutSeconds)));
 
     long rekeyTimeLimit =
         ConfigUtil.getTimeUnit(cfg, "sshd", null, "rekeyTimeLimit", 3600, SECONDS);
-    REKEY_TIME_LIMIT.set(this, Duration.ofSeconds(SECONDS.toMillis(rekeyTimeLimit)));
+    REKEY_TIME_LIMIT.set(this, Duration.ofMillis(SECONDS.toMillis(rekeyTimeLimit)));
 
     REKEY_BYTES_LIMIT.set(
         this, cfg.getLong("sshd", "rekeyBytesLimit", 1024 * 1024 * 1024 /* 1GB */));
 
     long waitTimeoutSeconds = ConfigUtil.getTimeUnit(cfg, "sshd", null, "waitTimeout", 30, SECONDS);
-    WAIT_FOR_SPACE_TIMEOUT.set(this, Duration.ofSeconds(SECONDS.toMillis(waitTimeoutSeconds)));
+    WAIT_FOR_SPACE_TIMEOUT.set(this, Duration.ofMillis(SECONDS.toMillis(waitTimeoutSeconds)));
 
     final int maxConnectionsPerUser = cfg.getInt("sshd", "maxConnectionsPerUser", 64);
     if (0 < maxConnectionsPerUser) {

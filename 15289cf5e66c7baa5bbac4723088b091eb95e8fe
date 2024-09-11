@@ -16,6 +16,23 @@
       "message": "Test are not compiling, still need to fix them",
       "revId": "15289cf5e66c7baa5bbac4723088b091eb95e8fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8e95125_e1832750",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-09-11T09:09:57Z",
+      "side": 1,
+      "message": "@ponch78@gmail.com, should this change be abandoned?\nThe regression mentioned in the commit message (Ifce700d3e68b), for which this fix is about, was never merged to 3.4.",
+      "revId": "15289cf5e66c7baa5bbac4723088b091eb95e8fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

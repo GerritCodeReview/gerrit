@@ -172,7 +172,15 @@ export class GrFixSuggestions extends LitElement {
             ) || getDocUrl(this.docsBaseUrl, 'user-suggest-edits.html')}
             target="_blank"
             rel="noopener noreferrer"
-            ><gr-icon icon="help" title="read documentation"></gr-icon
+            ><gr-endpoint-decorator name="fix-suggestion-title-help">
+              <gr-endpoint-param
+                name="suggestion"
+                .value=${fix_suggestions}
+              ></gr-endpoint-param
+              ><gr-icon
+                icon="help"
+                title="read documentation"
+              ></gr-icon></gr-endpoint-decorator
           ></a>
         </div>
         <div class="headerMiddle">

@@ -16,7 +16,15 @@ package com.google.gerrit.httpd.raw;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.httpd.raw.StaticModule.PolyGerritFilter.isPolyGerritIndex;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
+import com.google.gerrit.httpd.raw.StaticModule.ManifestServlet;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.junit.Test;
 
 public class StaticModuleTest {
@@ -43,5 +51,23 @@ public class StaticModuleTest {
     assertThat(isPolyGerritIndex("/c/321/+/123456/anyString")).isTrue();
     assertThat(isPolyGerritIndex("/c/321/+/123456/comment/9ab75172_67d798e1")).isTrue();
     assertThat(isPolyGerritIndex("/c/321/anyString")).isTrue();
+  }
+
+  @Test
+  public void manifestServlet_servesManifest() throws Exception {
+    ManifestServlet servlet = new ManifestServlet("Gerrit", null);
+    HttpServletRequest req = mock(HttpServletRequest.class);
+    HttpServletResponse resp = mock(HttpServletResponse.class);
+    StringWriter stringWriter = new StringWriter();
+    PrintWriter printWriter = new PrintWriter(stringWriter);
+    when(resp.getWriter()).thenReturn(printWriter);
+
+    servlet.doGet(req, resp);
+
+    verify(resp).setContentType("application/manifest+json");
+    verify(resp).setHeader("Cache-Control", "public, max-age=900");
+    verify(resp).setStatus(HttpServletResponse.SC_OK);
+    assertThat(stringWriter.toString()).contains("\"start_url\":\"" + "." + "\"");
+    assertThat(stringWriter.toString()).contains("\"display\":\"" + "standalone" + "\"");
   }
 }

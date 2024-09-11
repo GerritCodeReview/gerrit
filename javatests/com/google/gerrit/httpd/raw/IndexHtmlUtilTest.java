@@ -43,7 +43,13 @@ public class IndexHtmlUtilTest {
     assertThat(
             staticTemplateData(
                 "http://example.com/", null, null, new HashMap<>(), IndexHtmlUtilTest::ordain))
-        .containsExactly("canonicalPath", "", "staticResourcePath", ordain(""));
+        .containsExactly(
+            "canonicalPath",
+            "",
+            "staticResourcePath",
+            ordain(""),
+            "manifestPath",
+            ordain("/manifest.webmanifest"));
   }
 
   @Test
@@ -55,7 +61,13 @@ public class IndexHtmlUtilTest {
                 null,
                 new HashMap<>(),
                 IndexHtmlUtilTest::ordain))
-        .containsExactly("canonicalPath", "/gerrit", "staticResourcePath", ordain("/gerrit"));
+        .containsExactly(
+            "canonicalPath",
+            "/gerrit",
+            "staticResourcePath",
+            ordain("/gerrit"),
+            "manifestPath",
+            ordain("/gerrit/manifest.webmanifest"));
   }
 
   @Test
@@ -68,7 +80,12 @@ public class IndexHtmlUtilTest {
                 new HashMap<>(),
                 IndexHtmlUtilTest::ordain))
         .containsExactly(
-            "canonicalPath", "", "staticResourcePath", ordain("http://my-cdn.com/foo/bar/"));
+            "canonicalPath",
+            "",
+            "staticResourcePath",
+            ordain("http://my-cdn.com/foo/bar/"),
+            "manifestPath",
+            ordain("/manifest.webmanifest"));
   }
 
   @Test
@@ -81,7 +98,12 @@ public class IndexHtmlUtilTest {
                 new HashMap<>(),
                 IndexHtmlUtilTest::ordain))
         .containsExactly(
-            "canonicalPath", "/gerrit", "staticResourcePath", ordain("http://my-cdn.com/foo/bar/"));
+            "canonicalPath",
+            "/gerrit",
+            "staticResourcePath",
+            ordain("http://my-cdn.com/foo/bar/"),
+            "manifestPath",
+            ordain("/gerrit/manifest.webmanifest"));
   }
 
   @Test
@@ -92,7 +114,14 @@ public class IndexHtmlUtilTest {
             staticTemplateData(
                 "http://example.com/", null, null, urlParms, IndexHtmlUtilTest::ordain))
         .containsExactly(
-            "canonicalPath", "", "staticResourcePath", ordain(""), "useGoogleFonts", "true");
+            "canonicalPath",
+            "",
+            "staticResourcePath",
+            ordain(""),
+            "manifestPath",
+            ordain("/manifest.webmanifest"),
+            "useGoogleFonts",
+            "true");
   }
 
   @Test

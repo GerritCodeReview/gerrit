@@ -27,9 +27,11 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.httpd.XsrfCookieFilter;
 import com.google.gerrit.httpd.raw.ResourceServlet.Resource;
+import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.launcher.GerritLauncher;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.GerritInstanceNameProvider;
 import com.google.gerrit.server.config.GerritOptions;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
@@ -47,6 +49,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.FileSystem;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -94,6 +100,8 @@ public class StaticModule extends ServletModule {
   private static final String DOC_SERVLET = "DocServlet";
   private static final String FAVICON_SERVLET = "FaviconServlet";
   private static final String SERVICE_WORKER_SERVLET = "ServiceWorkerServlet";
+  private static final String GERRIT_ICON_SERVLET = "GerritIconServlet";
+  private static final String MANIFEST_SERVLET = "ManifestServlet";
   private static final String POLYGERRIT_INDEX_SERVLET = "PolyGerritUiIndexServlet";
   private static final String ROBOTS_TXT_SERVLET = "RobotsTxtServlet";
 
@@ -161,7 +169,9 @@ public class StaticModule extends ServletModule {
     public void configureServlets() {
       serve("/robots.txt").with(named(ROBOTS_TXT_SERVLET));
       serve("/favicon.ico").with(named(FAVICON_SERVLET));
+      serve("/gerrit_icon.png").with(named(GERRIT_ICON_SERVLET));
       serve("/service-worker.js").with(named(SERVICE_WORKER_SERVLET));
+      serve("/manifest.webmanifest").with(named(MANIFEST_SERVLET));
     }
 
     @Provides
@@ -198,6 +208,17 @@ public class StaticModule extends ServletModule {
 
     @Provides
     @Singleton
+    @Named(GERRIT_ICON_SERVLET)
+    HttpServlet getGerritIconServlet(@Named(CACHE) Cache<Path, Resource> cache) {
+      Paths p = getPaths();
+      if (p.warFs != null) {
+        return new SingleFileServlet(cache, p.warFs.getPath("/gerrit_icon.png"), false);
+      }
+      return new SingleFileServlet(cache, webappSourcePath("gerrit_icon.png"), true);
+    }
+
+    @Provides
+    @Singleton
     @Named(SERVICE_WORKER_SERVLET)
     HttpServlet getServiceWorkerServlet(@Named(CACHE) Cache<Path, Resource> cache) {
       Paths p = getPaths();
@@ -207,6 +228,25 @@ public class StaticModule extends ServletModule {
       }
       return new SingleFileServlet(
           cache, webappSourcePath("polygerrit_ui/workers/service-worker.js"), true);
+    }
+
+    @Provides
+    @Singleton
+    @Named(MANIFEST_SERVLET)
+    HttpServlet getManifestServlet(
+        @GerritServerConfig Config cfg,
+        SitePaths sitePaths,
+        @Named(CACHE) Cache<Path, Resource> cache,
+        GerritInstanceNameProvider instanceNameProvider) {
+      Path configPath = sitePaths.resolve(cfg.getString("httpd", null, "webManifestFile"));
+      if (configPath != null) {
+        if (exists(configPath) && isReadable(configPath)) {
+          return new SingleFileServlet(cache, configPath, true);
+        }
+        logger.atWarning().log("Cannot read httpd.webManifestFile, using default");
+      }
+      return new ManifestServlet(
+          instanceNameProvider.get(), cfg.getString("gerrit", null, "faviconPath"));
     }
 
     private Path webappSourcePath(String name) {
@@ -433,6 +473,39 @@ public class StaticModule extends ServletModule {
         }
       }
       return false;
+    }
+  }
+
+  static class ManifestServlet extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+    private final String manifestJson;
+
+    ManifestServlet(String instanceName, String faviconPath) {
+      Map<String, Object> map = new HashMap<>();
+      map.put("name", instanceName);
+      map.put("short_name", instanceName);
+      map.put("start_url", ".");
+      map.put("display", "standalone");
+
+      Map<String, String> pngIcon = new HashMap<>();
+      pngIcon.put("src", "gerrit_icon.png");
+      pngIcon.put("sizes", "512x512");
+      pngIcon.put("type", "image/png");
+      pngIcon.put("purpose", "any");
+
+      List<Map<String, String>> icons = new ArrayList<>();
+      icons.add(pngIcon);
+      map.put("icons", icons);
+
+      this.manifestJson = OutputFormat.JSON_COMPACT.newGson().toJson(map);
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+      resp.setContentType("application/manifest+json");
+      resp.setHeader("Cache-Control", "public, max-age=900");
+      resp.setStatus(HttpServletResponse.SC_OK);
+      resp.getWriter().write(manifestJson);
     }
   }
 

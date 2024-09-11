@@ -152,6 +152,9 @@ public class StaticModule extends ServletModule {
       serve("/robots.txt").with(named(ROBOTS_TXT_SERVLET));
       serve("/favicon.ico").with(named(FAVICON_SERVLET));
       serve("/service-worker.js").with(named(SERVICE_WORKER_SERVLET));
+      // TODO(b/359964332): Generate this dynamically to link to the product's icon as
+      // well as populating the `short_name` and `name` from the product's name.
+      serve("/manifest.webmanifest").with(named(MANIFEST_SERVLET));
     }
 
     @Provides
@@ -197,6 +200,27 @@ public class StaticModule extends ServletModule {
       }
       return new SingleFileServlet(
           cache, webappSourcePath("polygerrit_ui/workers/service-worker.js"), true);
+    }
+
+    @Provides
+    @Singleton
+    @Named(MANIFEST_SERVLET)
+    HttpServlet getManifestServlet(
+        @GerritServerConfig Config cfg,
+        SitePaths sitePaths,
+        @Named(CACHE) Cache<Path, Resource> cache) {
+      Path configPath = sitePaths.resolve(cfg.getString("httpd", null, "webManifestFile"));
+      if (configPath != null) {
+        if (exists(configPath) && isReadable(configPath)) {
+          return new SingleFileServlet(cache, configPath, true);
+        }
+        logger.atWarning().log("Cannot read httpd.webManifestFile, using default");
+      }
+      Paths p = getPaths();
+      if (p.warFs != null) {
+        return new SingleFileServlet(cache, p.warFs.getPath("/manifest.webmanifest"), false);
+      }
+      return new SingleFileServlet(cache, webappSourcePath("manifest.webmanifest"), true);
     }
 
     private Path webappSourcePath(String name) {

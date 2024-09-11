@@ -451,9 +451,13 @@ public class CherryPickChange {
     inserter.setTopic(topic);
     if (workInProgress != null) {
       inserter.setWorkInProgress(workInProgress);
-    }
-    if (shouldSetToReady(cherryPickCommit, destNotes, workInProgress)) {
-      inserter.setWorkInProgress(false);
+    } else {
+      boolean shouldSetToWIP =
+          (sourceChange != null && sourceChange.isWorkInProgress())
+              || !cherryPickCommit.getFilesWithGitConflicts().isEmpty();
+      if (shouldSetToWIP != destNotes.getChange().isWorkInProgress()) {
+        inserter.setWorkInProgress(shouldSetToWIP);
+      }
     }
     inserter.setValidationOptions(
         ValidationOptionsUtil.getValidateOptionsAsMultimap(input.validationOptions));
@@ -468,20 +472,6 @@ public class CherryPickChange {
       bu.addOp(destChange.getId(), cherryPickOfUpdater);
     }
     return destChange.getId();
-  }
-
-  /**
-   * We should set the change to be "ready for review" if: 1. workInProgress is not already set on
-   * this request. 2. The patch-set doesn't have any git conflict markers. 3. The change used to be
-   * work in progress (because of a previous patch-set).
-   */
-  private boolean shouldSetToReady(
-      CodeReviewCommit cherryPickCommit,
-      ChangeNotes destChangeNotes,
-      @Nullable Boolean workInProgress) {
-    return workInProgress == null
-        && cherryPickCommit.getFilesWithGitConflicts().isEmpty()
-        && destChangeNotes.getChange().isWorkInProgress();
   }
 
   private Change.Id createNewChange(

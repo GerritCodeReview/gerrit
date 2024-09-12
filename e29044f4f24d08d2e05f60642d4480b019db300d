@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e07716b3_12e230c2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-09-12T05:11:38Z",
+      "side": 1,
+      "message": "Hi Ben, is it with decorator when I want to replace icon by different icon in plugin? I checked that it works with old icon without any plugin registering this decorator, that\u0027s good. But I haven\u0027t checked with plugin registering this decorator - but I guess it will work.",
+      "revId": "e29044f4f24d08d2e05f60642d4480b019db300d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

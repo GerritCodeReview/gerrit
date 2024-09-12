@@ -530,4 +530,5 @@ export enum LinkIcon {
   REPORT_BUG = 'report_bug',
   CODE = 'code',
   FILE_PRESENT = 'file_present',
+  VIEW_TIMELINE = 'view_timeline',
 }

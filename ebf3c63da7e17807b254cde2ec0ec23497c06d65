@@ -52,6 +52,24 @@
       "parentUuid": "7c1496b8_1854f100",
       "revId": "ebf3c63da7e17807b254cde2ec0ec23497c06d65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e52980fe_14c71ba0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-09-13T08:19:52Z",
+      "side": 1,
+      "message": "I think a more detailed design doc would be nice to have. Let\u0027s put this review on hold until we have alignment on the overall design.",
+      "parentUuid": "0f1e2d2a_24f6e96a",
+      "revId": "ebf3c63da7e17807b254cde2ec0ec23497c06d65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

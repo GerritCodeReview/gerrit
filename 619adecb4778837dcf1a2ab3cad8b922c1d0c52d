@@ -108,6 +108,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc8b3f9c_51d7b380",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-09-13T13:38:33Z",
+      "side": 1,
+      "message": "I\u0027d try to open a generic `org.apache.sshd.client.session.ClientSession` against test Gerrit and, after authentication, without sending any command, let it wait until the server closes the connection because the client is idling. Similar to mina-sshd\u0027s KeepAliveTest. I didn\u0027t figure out how to authenticate the session against Gerrit.\n\n```\ntry (ClientChannel channel \u003d session.createChannel(Channel.CHANNEL_SHELL)) {\n    long waitStart \u003d System.currentTimeMillis();\n    Collection\u003cClientChannelEvent\u003e result \u003d channel.waitFor(EnumSet.of(ClientChannelEvent.CLOSED), WAIT);\n    long waitEnd \u003d System.currentTimeMillis();\n    assertTrue(result.containsAll(EnumSet.of(ClientChannelEvent.CLOSED)),\n            \"Wrong channel state after wait of \" + (waitEnd - waitStart) + \" ms: \" + result);\n}\n```",
+      "parentUuid": "a207c913_ad4f7bd3",
+      "revId": "619adecb4778837dcf1a2ab3cad8b922c1d0c52d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fbe681c8_8d0614d3",

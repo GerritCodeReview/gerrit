@@ -90,6 +90,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a207c913_ad4f7bd3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1142566
+      },
+      "writtenOn": "2024-09-13T12:20:40Z",
+      "side": 1,
+      "message": "Based on the example tests you shared, my understanding is that we would need to have access to \"org.apache.sshd.client.session.ClientSession\" in SshDaemonIT. This means change in Jgit\u0027s SshdSession to expose ClientSession. This makes the change too invasive.\nOr did you have any other approach in mind when suggested and I misunderstood something?",
+      "parentUuid": "bbbac147_a20973ce",
+      "revId": "619adecb4778837dcf1a2ab3cad8b922c1d0c52d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fbe681c8_8d0614d3",

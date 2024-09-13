@@ -1,0 +1,49 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "845bc947_d725bb39",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1046,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-09-13T07:03:09Z",
+      "side": 1,
+      "message": "Use getFileExtension from util file-util",
+      "fixSuggestions": [
+        {
+          "fixId": "e3dd8abd_d68ee217",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+              "range": {
+                "startLine": 22,
+                "startChar": 0,
+                "endLine": 22,
+                "endChar": 0
+              },
+              "replacement": "import {getFileExtension} from \u0027../../../utils/file-util\u0027;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+              "range": {
+                "startLine": 1046,
+                "startChar": 0,
+                "endLine": 1047,
+                "endChar": 0
+              },
+              "replacement": "          getFileExtension(this.comment.path)\n"
+            }
+          ]
+        }
+      ],
+      "revId": "0339c734f150ccc66a75f7ff4a0806ae19826f6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -70,6 +70,24 @@
       "parentUuid": "0f1e2d2a_24f6e96a",
       "revId": "ebf3c63da7e17807b254cde2ec0ec23497c06d65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd0d725a_ef151c31",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3399425
+      },
+      "writtenOn": "2024-09-13T20:30:25Z",
+      "side": 1,
+      "message": "this one needs to be abandoned anyways since we don\u0027t want to change the front end ui for base gerrit.",
+      "parentUuid": "e52980fe_14c71ba0",
+      "revId": "ebf3c63da7e17807b254cde2ec0ec23497c06d65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

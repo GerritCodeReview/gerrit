@@ -22,7 +22,6 @@ import static com.google.gerrit.extensions.common.testing.DiffInfoSubject.assert
 import static com.google.gerrit.extensions.restapi.testing.BinaryResultSubject.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static com.google.gerrit.truth.MapSubject.assertThatMap;
-import static com.google.gerrit.truth.OptionalSubject.assertThat;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;

@@ -160,7 +160,7 @@ public enum ChangeInputProtoConverter implements ProtoConverter<Entities.ChangeI
       changeInput.author = accountInputConverter.fromProto(proto.getAuthor());
     }
     if (proto.getResponseFormatOptionsCount() > 0) {
-      changeInput.responseFormatOptions = new ArrayList<ListChangesOption>();
+      changeInput.responseFormatOptions = new ArrayList<>();
       for (Entities.ListChangesOption option : proto.getResponseFormatOptionsList()) {
         changeInput.responseFormatOptions.add(ListChangesOption.valueOf(option.name()));
       }
@@ -169,7 +169,7 @@ public enum ChangeInputProtoConverter implements ProtoConverter<Entities.ChangeI
     changeInput.notify = NotifyHandling.valueOf(proto.getNotify().name());
 
     if (proto.getNotifyDetailsCount() > 0) {
-      changeInput.notifyDetails = new HashMap<RecipientType, NotifyInfo>();
+      changeInput.notifyDetails = new HashMap<>();
       for (Map.Entry<String, Entities.NotifyInfo> entry : proto.getNotifyDetailsMap().entrySet()) {
         changeInput.notifyDetails.put(
             RecipientType.valueOf(entry.getKey()), notifyInfoConverter.fromProto(entry.getValue()));

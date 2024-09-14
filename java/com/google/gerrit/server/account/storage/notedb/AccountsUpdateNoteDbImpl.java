@@ -82,8 +82,9 @@ import org.eclipse.jgit.transport.ReceiveCommand;
  * com.google.gerrit.server.account.AccountsUpdate.ConfigureDeltaFromState}. The account updater
  * reads the current {@link AccountState} and prepares updates to the account by calling setters on
  * the provided {@link com.google.gerrit.server.account.AccountDelta.Builder}. If the current
- * account state is of no interest the caller may also provide a {@link ConfigureStatelessDelta}
- * instead of the account updater.
+ * account state is of no interest the caller may also provide a {@link
+ * com.google.gerrit.server.account.AccountsUpdate.ConfigureStatelessDelta} instead of the account
+ * updater.
  *
  * <p>The provided commit message is used for the update of the user branch. Using a precise and
  * unique commit message allows to identify the code from which an update was made when looking at a

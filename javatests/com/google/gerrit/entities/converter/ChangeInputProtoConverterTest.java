@@ -99,7 +99,7 @@ public class ChangeInputProtoConverterTest {
 
     changeInput.author = createAccountInput();
 
-    changeInput.responseFormatOptions = new ArrayList<ListChangesOption>();
+    changeInput.responseFormatOptions = new ArrayList<>();
     changeInput.responseFormatOptions.addAll(
         ImmutableList.of(ListChangesOption.LABELS, ListChangesOption.DETAILED_LABELS));
 

@@ -85,7 +85,7 @@ class PluginOrderComparator implements Comparator<Map.Entry<String, Path>> {
         manifestLoader.load(pluginPath).getMainAttributes().getValue(ServerPlugin.API_MODULE));
   }
 
-  private int loadOrderOverrides(String pluginName) throws IOException {
+  private int loadOrderOverrides(String pluginName) {
     int pluginNameIndex = pluginLoadOrderOverrides.indexOf(pluginName);
     if (pluginNameIndex > -1) {
       return pluginNameIndex - pluginLoadOrderOverrides.size();

@@ -412,6 +412,7 @@ public class CherryPickChange {
                     destChange.notes(),
                     cherryPickCommit,
                     sourceChange,
+                    sourceCommit,
                     newTopic,
                     input,
                     workInProgress);
@@ -445,6 +446,7 @@ public class CherryPickChange {
       ChangeNotes destNotes,
       CodeReviewCommit cherryPickCommit,
       @Nullable Change sourceChange,
+      @Nullable ObjectId sourceCommit,
       String topic,
       CherryPickInput input,
       @Nullable Boolean workInProgress)
@@ -452,13 +454,20 @@ public class CherryPickChange {
     Change destChange = destNotes.getChange();
     PatchSet.Id psId = ChangeUtil.nextPatchSetId(git, destChange.currentPatchSetId());
     PatchSetInserter inserter = patchSetInserterFactory.create(destNotes, psId, cherryPickCommit);
-    inserter.setMessage("Uploaded patch set " + inserter.getPatchSetId().get() + ".");
+    BranchNameKey sourceBranch = sourceChange == null ? null : sourceChange.getDest();
+    inserter.setMessage(
+        messageForDestinationChange(
+            inserter.getPatchSetId(), sourceBranch, sourceCommit, cherryPickCommit));
     inserter.setTopic(topic);
     if (workInProgress != null) {
       inserter.setWorkInProgress(workInProgress);
-    }
-    if (shouldSetToReady(cherryPickCommit, destNotes, workInProgress)) {
-      inserter.setWorkInProgress(false);
+    } else {
+      boolean shouldSetToWIP =
+          (sourceChange != null && sourceChange.isWorkInProgress())
+              || !cherryPickCommit.getFilesWithGitConflicts().isEmpty();
+      if (shouldSetToWIP != destNotes.getChange().isWorkInProgress()) {
+        inserter.setWorkInProgress(shouldSetToWIP);
+      }
     }
     inserter.setValidationOptions(
         ValidationOptionsUtil.getValidateOptionsAsMultimap(input.validationOptions));
@@ -473,20 +482,6 @@ public class CherryPickChange {
       bu.addOp(destChange.getId(), cherryPickOfUpdater);
     }
     return destChange.getId();
-  }
-
-  /**
-   * We should set the change to be "ready for review" if: 1. workInProgress is not already set on
-   * this request. 2. The patch-set doesn't have any git conflict markers. 3. The change used to be
-   * work in progress (because of a previous patch-set).
-   */
-  private boolean shouldSetToReady(
-      CodeReviewCommit cherryPickCommit,
-      ChangeNotes destChangeNotes,
-      @Nullable Boolean workInProgress) {
-    return workInProgress == null
-        && cherryPickCommit.getFilesWithGitConflicts().isEmpty()
-        && destChangeNotes.getChange().isWorkInProgress();
   }
 
   private Change.Id createNewChange(

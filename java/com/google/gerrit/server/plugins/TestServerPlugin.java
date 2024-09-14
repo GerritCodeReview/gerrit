@@ -34,13 +34,27 @@ public class TestServerPlugin extends ServerPlugin {
       String sshName,
       Path dataDir)
       throws InvalidPluginException {
+    this(name, pluginCanonicalWebUrl, user, null, classLoader, sysName, httpName, sshName, dataDir);
+  }
+
+  public TestServerPlugin(
+      String name,
+      String pluginCanonicalWebUrl,
+      PluginUser user,
+      PluginContentScanner scanner,
+      ClassLoader classLoader,
+      String sysName,
+      String httpName,
+      String sshName,
+      Path dataDir)
+      throws InvalidPluginException {
     super(
         name,
         pluginCanonicalWebUrl,
         user,
         null,
         null,
-        null,
+        scanner,
         dataDir,
         classLoader,
         null,
@@ -82,10 +96,5 @@ public class TestServerPlugin extends ServerPlugin {
   // Widen access modifier in derived class
   public void stop(PluginGuiceEnvironment env) {
     super.stop(env);
-  }
-
-  @Override
-  public PluginContentScanner getContentScanner() {
-    return null;
   }
 }

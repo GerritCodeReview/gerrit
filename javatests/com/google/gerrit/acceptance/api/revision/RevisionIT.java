@@ -588,7 +588,7 @@ public class RevisionIT extends AbstractDaemonTest {
     assertThat(cherryInfo._number).isEqualTo(change.get()._number);
     assertThat(cherryInfo.cherryPickOfPatchSet).isEqualTo(1);
     assertThat(cherryIt.next().message).isEqualTo("Uploaded patch set 1.");
-    assertThat(cherryIt.next().message).isEqualTo("Uploaded patch set 2.");
+    assertThat(cherryIt.next().message).isEqualTo("Patch Set 2: Cherry Picked from branch master.");
   }
 
   @Test
@@ -624,7 +624,7 @@ public class RevisionIT extends AbstractDaemonTest {
     assertThat(cherryInfo.messages).hasSize(2);
     Iterator<ChangeMessageInfo> cherryIt = cherryInfo.messages.iterator();
     assertThat(cherryIt.next().message).isEqualTo("Uploaded patch set 1.");
-    assertThat(cherryIt.next().message).isEqualTo("Uploaded patch set 2.");
+    assertThat(cherryIt.next().message).isEqualTo("Patch Set 2: Cherry Picked from branch master.");
 
     // Parent of change 2 should now be the change that was merged, i.e.
     // change 2 is rebased onto the head of the master branch.
@@ -783,6 +783,31 @@ public class RevisionIT extends AbstractDaemonTest {
                 + "The following files contain Git conflicts:\n"
                 + "* "
                 + PushOneCommit.FILE_NAME);
+  }
+
+  @Test
+  public void cherryPickToExistingChangeWithAllowConflictsSetsWIPOnConflict() throws Exception {
+    String tip = testRepo.getRepository().exactRef("HEAD").getObjectId().name();
+
+    String destBranch = "foo";
+    createBranch(BranchNameKey.create(project, destBranch));
+    PushOneCommit.Result existingChange =
+        createChange(testRepo, destBranch, SUBJECT, FILE_NAME, "some content", null);
+
+    testRepo.reset(tip);
+    PushOneCommit.Result srcChange =
+        createChange(testRepo, "master", SUBJECT, FILE_NAME, "other content", null);
+
+    CherryPickInput input = new CherryPickInput();
+    input.destination = destBranch;
+    input.base = existingChange.getCommit().name();
+    input.message = "cherry-pick to foo" + "\n\nChange-Id: " + existingChange.getChangeId();
+    input.allowConflicts = true;
+    ChangeInfo changeInfo =
+        change(srcChange).revision(srcChange.getCommit().name()).cherryPickAsInfo(input);
+
+    assertThat(changeInfo.containsGitConflicts).isTrue();
+    assertThat(changeInfo.workInProgress).isTrue();
   }
 
   @Test

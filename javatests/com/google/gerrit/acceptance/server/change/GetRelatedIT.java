@@ -50,7 +50,6 @@ import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.server.change.GetRelatedChangesUtil;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.restapi.change.ChangesCollection;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Inject;
 import java.util.ArrayList;
@@ -86,7 +85,6 @@ public class GetRelatedIT extends AbstractDaemonTest {
   @Inject private IndexOperations.Change changeIndexOperations;
 
   @Inject private IndexConfig indexConfig;
-  @Inject private ChangesCollection changes;
 
   @Test
   public void getRelatedNoResult() throws Exception {

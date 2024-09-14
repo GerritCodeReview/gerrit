@@ -186,7 +186,7 @@ public class RepoMetaDataUpdater {
   public ConfigUpdater configUpdater(
       Project.NameKey projectName, @Nullable String message, String defaultMessage)
       throws AuthException, PermissionBackendException, ConfigInvalidException, IOException,
-          BadRequestException, MethodNotAllowedException {
+          MethodNotAllowedException {
     if (!user.get().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }

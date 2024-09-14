@@ -35,7 +35,7 @@ public interface RequestScopeOperations {
    * the test and the account must have a username set.
    *
    * <p>The session associated with the returned context can be obtained by calling {@link
-   * com.google.gerrit.acceptance.AbstractDaemonTest#getOrCreateSshSessionForContext}.
+   * com.google.gerrit.acceptance.ServerTestRule#getOrCreateSshSessionForContext}.
    *
    * @param accountId account ID. Must exist; throws an unchecked exception otherwise.
    */
@@ -53,7 +53,7 @@ public interface RequestScopeOperations {
    * <p>In order to create and use the SSH session for the new context, SSH must be enabled in the
    * test and the account must have a username set. To get the session associated with the newly set
    * context use the {@link
-   * com.google.gerrit.acceptance.AbstractDaemonTest#getOrCreateSshSessionForContext} method.
+   * com.google.gerrit.acceptance.ServerTestRule#getOrCreateSshSessionForContext} method.
    *
    * @param accountId account ID. Must exist; throws an unchecked exception otherwise.
    */

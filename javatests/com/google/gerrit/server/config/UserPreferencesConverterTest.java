@@ -73,7 +73,7 @@ public class UserPreferencesConverterTest {
   /**
    * If this test fails, it's likely that you added a field to {@link GeneralPreferencesInfo}, or
    * that you have changed the default value for such a field. Please update the {@link
-   * UserPreferences.GeneralPreferencesInfo} proto accordingly.
+   * com.google.gerrit.proto.Entities.UserPreferences.GeneralPreferencesInfo} proto accordingly.
    */
   @Test
   public void generalPreferencesInfo_javaDefaultsKeptOnDoubleConversion() {
@@ -86,8 +86,9 @@ public class UserPreferencesConverterTest {
 
   /**
    * If this test fails, it's likely that you added a field to {@link
-   * UserPreferences.GeneralPreferencesInfo}, or that you have changed the default value for such a
-   * field. Please update the {@link GeneralPreferencesInfo} class accordingly.
+   * com.google.gerrit.proto.Entities.UserPreferences.GeneralPreferencesInfo}, or that you have
+   * changed the default value for such a field. Please update the {@link GeneralPreferencesInfo}
+   * class accordingly.
    */
   @Test
   public void generalPreferencesInfo_protoDefaultsKeptOnDoubleConversion() {
@@ -241,7 +242,7 @@ public class UserPreferencesConverterTest {
   /**
    * If this test fails, it's likely that you added a field to {@link DiffPreferencesInfo}, or that
    * you have changed the default value for such a field. Please update the {@link
-   * UserPreferences.DiffPreferencesInfo} proto accordingly.
+   * com.google.gerrit.proto.Entities.UserPreferences.DiffPreferencesInfo} proto accordingly.
    */
   @Test
   public void diffPreferencesInfo_javaDefaultsKeptOnDoubleConversion() {
@@ -253,8 +254,9 @@ public class UserPreferencesConverterTest {
 
   /**
    * If this test fails, it's likely that you added a field to {@link
-   * UserPreferences.DiffPreferencesInfo}, or that you have changed the default value for such a
-   * field. Please update the {@link DiffPreferencesInfo} class accordingly.
+   * com.google.gerrit.proto.Entities.UserPreferences.DiffPreferencesInfo}, or that you have changed
+   * the default value for such a field. Please update the {@link DiffPreferencesInfo} class
+   * accordingly.
    */
   @Test
   public void diffPreferencesInfo_protoDefaultsKeptOnDoubleConversion() {
@@ -349,7 +351,7 @@ public class UserPreferencesConverterTest {
   /**
    * If this test fails, it's likely that you added a field to {@link EditPreferencesInfo}, or that
    * you have changed the default value for such a field. Please update the {@link
-   * UserPreferences.EditPreferencesInfo} proto accordingly.
+   * com.google.gerrit.proto.Entities.UserPreferences.EditPreferencesInfo} proto accordingly.
    */
   @Test
   public void editPreferencesInfo_javaDefaultsKeptOnDoubleConversion() {
@@ -361,8 +363,9 @@ public class UserPreferencesConverterTest {
 
   /**
    * If this test fails, it's likely that you added a field to {@link
-   * UserPreferences.EditPreferencesInfo}, or that you have changed the default value for such a
-   * field. Please update the {@link EditPreferencesInfo} class accordingly.
+   * com.google.gerrit.proto.Entities.UserPreferences.EditPreferencesInfo}, or that you have changed
+   * the default value for such a field. Please update the {@link EditPreferencesInfo} class
+   * accordingly.
    */
   @Test
   public void editPreferencesInfo_protoDefaultsKeptOnDoubleConversion() {

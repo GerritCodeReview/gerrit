@@ -240,7 +240,10 @@ public class ChangeInputProtoConverterTest {
     assertChangeInputEquals(changeInput, convertedChangeInput);
   }
 
-  /** See {@link SerializedClassSubject} for background and what to do if this test fails. */
+  /**
+   * See {@link com.google.gerrit.proto.testing.SerializedClassSubject} for background and what to
+   * do if this test fails.
+   */
   @Test
   public void methodsExistAsExpected() {
     assertThatSerializedClass(ChangeInput.class)

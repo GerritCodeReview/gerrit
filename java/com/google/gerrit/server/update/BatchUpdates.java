@@ -52,8 +52,9 @@ import java.util.function.Function;
  * Runs execute methods of a collection of {@link BatchUpdate}s calling listeners when appropriate.
  *
  * <p>This class does not maintain any state about the updates it executes. The only reason it is
- * non-static is to provide convenient access to {@link ChangeData.Factory} without needing to
- * provide one as an argument.
+ * non-static is to provide convenient access to {@link
+ * com.google.gerrit.server.query.change.ChangeData.Factory} without needing to provide one as an
+ * argument.
  */
 @Singleton
 public class BatchUpdates {

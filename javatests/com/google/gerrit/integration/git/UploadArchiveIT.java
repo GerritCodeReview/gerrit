@@ -207,7 +207,7 @@ public class UploadArchiveIT extends StandaloneSiteTest {
     commit = gApi.changes().id(changeId).current().commit(false);
   }
 
-  private void assertEntries(ArchiveInputStream o) throws IOException {
+  private void assertEntries(ArchiveInputStream<?> o) throws IOException {
     Set<String> entryNames = new TreeSet<>();
     ArchiveEntry e;
     while ((e = o.getNextEntry()) != null) {

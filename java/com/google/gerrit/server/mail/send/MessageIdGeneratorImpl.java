@@ -34,7 +34,10 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 
-/** A generator class that creates a {@link MessageId} */
+/**
+ * A generator class that creates a {@link
+ * com.google.gerrit.server.mail.send.MessageIdGenerator.MessageId}
+ */
 public class MessageIdGeneratorImpl implements MessageIdGenerator {
   private final GitRepositoryManager repositoryManager;
   private final AllUsersName allUsersName;

@@ -52,7 +52,6 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.testing.BinaryResultSubject;
-import com.google.gerrit.server.experiments.ExperimentFeatures;
 import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.TestCommentHelper;
@@ -72,7 +71,6 @@ public class CommentWithFixIT extends AbstractDaemonTest {
   @Inject private ChangeOperations changeOperations;
   @Inject private AccountOperations accountOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
-  @Inject private ExperimentFeatures experimentFeatures;
 
   private static final String PLAIN_TEXT_CONTENT_TYPE = "text/plain";
   private static final String GERRIT_COMMIT_MESSAGE_TYPE = "text/x-gerrit-commit-message";

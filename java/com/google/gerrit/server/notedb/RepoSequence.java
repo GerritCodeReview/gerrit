@@ -178,9 +178,7 @@ public class RepoSequence implements Sequence {
   static RetryerBuilder<ImmutableList<Integer>> retryerBuilder() {
     return RetryerBuilder.<ImmutableList<Integer>>newBuilder()
         .retryIfException(
-            t ->
-                t instanceof StorageException
-                    && ((StorageException) t).getCause() instanceof LockFailureException)
+            t -> t instanceof StorageException && t.getCause() instanceof LockFailureException)
         .withWaitStrategy(
             WaitStrategies.join(
                 WaitStrategies.exponentialWait(5, TimeUnit.SECONDS),

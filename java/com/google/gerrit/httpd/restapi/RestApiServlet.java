@@ -522,7 +522,6 @@ public class RestApiServlet extends HttpServlet {
                       (RestReadView<RestResource>) viewData.view,
                       rsrc);
             } else if (viewData.view instanceof RestModifyView<?, ?>) {
-              @SuppressWarnings("unchecked")
               RestModifyView<RestResource, Object> m =
                   (RestModifyView<RestResource, Object>) viewData.view;
 
@@ -538,7 +537,6 @@ public class RestApiServlet extends HttpServlet {
                 }
               }
             } else if (viewData.view instanceof RestCollectionCreateView<?, ?, ?>) {
-              @SuppressWarnings("unchecked")
               RestCollectionCreateView<RestResource, RestResource, Object> m =
                   (RestCollectionCreateView<RestResource, RestResource, Object>) viewData.view;
 
@@ -553,7 +551,6 @@ public class RestApiServlet extends HttpServlet {
                 }
               }
             } else if (viewData.view instanceof RestCollectionDeleteMissingView<?, ?, ?>) {
-              @SuppressWarnings("unchecked")
               RestCollectionDeleteMissingView<RestResource, RestResource, Object> m =
                   (RestCollectionDeleteMissingView<RestResource, RestResource, Object>)
                       viewData.view;
@@ -569,7 +566,6 @@ public class RestApiServlet extends HttpServlet {
                 }
               }
             } else if (viewData.view instanceof RestCollectionModifyView<?, ?, ?>) {
-              @SuppressWarnings("unchecked")
               RestCollectionModifyView<RestResource, RestResource, Object> m =
                   (RestCollectionModifyView<RestResource, RestResource, Object>) viewData.view;
 

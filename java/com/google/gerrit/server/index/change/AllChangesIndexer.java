@@ -414,11 +414,11 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
 
     private class ProjectSliceCreator implements Callable<Void> {
       final Project.NameKey name;
-      final boolean notifyListeners;
+      final boolean doNotifyListeners;
 
       public ProjectSliceCreator(Project.NameKey name, boolean notifyListeners) {
         this.name = name;
-        this.notifyListeners = notifyListeners;
+        this.doNotifyListeners = notifyListeners;
       }
 
       @Override
@@ -444,9 +444,9 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
               if (reuseExistingDocuments) {
                 indexer =
                     indexerFactory.create(
-                        executor, index, stalenessCheckerFactory.create(index), notifyListeners);
+                        executor, index, stalenessCheckerFactory.create(index), doNotifyListeners);
               } else {
-                indexer = indexerFactory.create(executor, index, notifyListeners);
+                indexer = indexerFactory.create(executor, index, doNotifyListeners);
               }
               ListenableFuture<?> future =
                   executor.submit(reindexProjectSlice(indexer, projectSlice, doneTask, failedTask));

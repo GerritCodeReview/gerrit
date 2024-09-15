@@ -367,7 +367,7 @@ public class WorkQueue {
         latch.cancel();
       }
 
-      public boolean isEqualTo(Task task) {
+      public boolean isEqualTo(Task<?> task) {
         return this.task.taskId == task.taskId;
       }
     }

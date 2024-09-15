@@ -413,8 +413,8 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
     }
 
     private class ProjectSliceCreator implements Callable<Void> {
-      final Project.NameKey name;
-      final boolean doNotifyListeners;
+      private final Project.NameKey name;
+      private final boolean doNotifyListeners;
 
       public ProjectSliceCreator(Project.NameKey name, boolean notifyListeners) {
         this.name = name;

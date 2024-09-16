@@ -328,13 +328,17 @@ class HiddenDurationTimer {
       document.visibilityState === 'hidden' &&
       this.lastVisibleTimestampMs !== null
     ) {
+      console.log("Hidden duration for document.hidden");
       return this.accHiddenDurationMs + now() - this.lastVisibleTimestampMs;
     }
+    console.log("Hidden duration for document.visible");
     return this.accHiddenDurationMs;
   }
 }
 
 export function now() {
+  console.log(`window.performance ${JSON.stringify(Object.keys(window.performance), null, 2)}`);
+  console.log(`Calculating now ${window.performance.now()} | ${Math.round(window.performance.now())}`)
   return Math.round(window.performance.now());
 }
 
@@ -631,6 +635,7 @@ export class GrReporting implements ReportingService, Finalizable {
 
   dashboardDisplayed() {
     if (hasOwnProperty(this._baselines, Timing.STARTUP_DASHBOARD_DISPLAYED)) {
+      console.log("Reporting: STARTUP_DASHBOARD_DISPLAYED");
       this.timeEnd(Timing.STARTUP_DASHBOARD_DISPLAYED, this._pageLoadDetails());
     } else {
       this.timeEnd(Timing.DASHBOARD_DISPLAYED, this._pageLoadDetails());
@@ -774,6 +779,7 @@ export class GrReporting implements ReportingService, Finalizable {
    * Finish named timer and report it to server.
    */
   timeEnd(name: Timing, eventDetails?: EventDetails): number {
+    console.log(`timeEnd: ${name}, ${JSON.stringify(eventDetails, null, 2)}`);
     if (!hasOwnProperty(this._baselines, name)) {
       return 0;
     }

@@ -143,7 +143,7 @@ suite('gr-reporting tests', () => {
     assert.isTrue(service.timeEnd.calledWith('DashboardDisplayed'));
   });
 
-  test('dashboardDisplayed details', () => {
+  test.only('dashboardDisplayed details', () => {
     sinon.spy(service, 'timeEnd');
     sinon.stub(window, 'performance').value({
       memory: {
@@ -156,6 +156,45 @@ suite('gr-reporting tests', () => {
     });
     service.reportRpcTiming('/changes/*~*/comments', 500);
     service.dashboardDisplayed();
+    console.log(`Args passed: `, JSON.stringify(service.timeEnd.args[0], null, 2));
+    console.log(`Args expected: `, JSON.stringify({
+          rpcList: [
+            {
+              anonymizedUrl: '/changes/*~*/comments',
+              elapsed: 500,
+            },
+          ],
+          screenSize: {
+            width: window.screen.width,
+            height: window.screen.height,
+          },
+          viewport: {
+            width: document.documentElement.clientWidth,
+            height: document.documentElement.clientHeight,
+          },
+          usedJSHeapSizeMb: 1,
+          hiddenDurationMs: null,
+          parallelRequestsEnabled: false,
+        }, null, 2));
+    // assert.deepEqual(service.timeEnd.args[0][1], {
+    //   rpcList: [
+    //     {
+    //       anonymizedUrl: '/changes/*~*/comments',
+    //       elapsed: 500,
+    //     },
+    //   ],
+    //   screenSize: {
+    //     width: window.screen.width,
+    //     height: window.screen.height,
+    //   },
+    //   viewport: {
+    //     width: document.documentElement.clientWidth,
+    //     height: document.documentElement.clientHeight,
+    //   },
+    //   usedJSHeapSizeMb: 1,
+    //   hiddenDurationMs: null,
+    //   parallelRequestsEnabled: false,
+    // })
     assert.isTrue(
       service.timeEnd.calledWithExactly('StartupDashboardDisplayed', {
         rpcList: [

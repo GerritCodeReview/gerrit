@@ -385,6 +385,12 @@ suite('gr-admin-view tests', () => {
         url: '/admin/plugins',
         view: 'gr-plugin-list' as GerritView,
       },
+      {
+        name: 'Server Info',
+        section: 'Server Info',
+        url: '/admin/server-info',
+        view: 'gr-server-info' as GerritView,
+      },
     ];
     const expectedSubsectionLinks = [
       {
@@ -530,6 +536,11 @@ suite('gr-admin-view tests', () => {
               <li class="sectionTitle">
                 <a class="title" href="/admin/plugins" rel="noopener">
                   Plugins
+                </a>
+              </li>
+              <li class="sectionTitle">
+                <a class="title" href="/admin/server-info" rel="noopener">
+                  Server Info
                 </a>
               </li>
             </ul>

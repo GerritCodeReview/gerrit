@@ -18,6 +18,7 @@ export enum GerritView {
   PLUGIN_SCREEN = 'plugin-screen',
   REPO = 'repo',
   SEARCH = 'search',
+  SERVER_INFO = 'server-info',
   SETTINGS = 'settings',
 }
 

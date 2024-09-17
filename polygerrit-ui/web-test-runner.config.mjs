@@ -1,5 +1,6 @@
 import { esbuildPlugin } from "@web/dev-server-esbuild";
 import { defaultReporter, summaryReporter } from "@web/test-runner";
+import { playwrightLauncher } from '@web/test-runner-playwright';
 import { visualRegressionPlugin } from "@web/test-runner-visual-regression/plugin";
 
 function testRunnerHtmlFactory() {
@@ -22,6 +23,7 @@ function testRunnerHtmlFactory() {
 
 /** @type {import('@web/test-runner').TestRunnerConfig} */
 const config = {
+  browsers: [playwrightLauncher()],
   files: [
     "app/**/*_test.{ts,js}",
     "!**/node_modules/**/*",

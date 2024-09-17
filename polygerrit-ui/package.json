@@ -23,6 +23,7 @@
     "source-map-support": "^0.5.21"
   },
   "scripts": {
+    "test:setup": "playwright install chromium",
     "test": "web-test-runner",
     "test:screenshot": "web-test-runner --run-screenshots",
     "test:screenshot-update": "web-test-runner --update-screenshots --files",

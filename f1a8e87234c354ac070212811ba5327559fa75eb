@@ -105,6 +105,24 @@
       "parentUuid": "fd082039_f3917b21",
       "revId": "f1a8e87234c354ac070212811ba5327559fa75eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c709b25c_fa796e78",
+        "filename": "polygerrit-ui/app/elements/admin/gr-server-info/gr-server-info.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-09-17T21:19:23Z",
+      "side": 1,
+      "message": "Sorry forgot to include \\`\\`. \\`${createDocumentationUrl()}/config-gerrit.html#accounts.visibility\\`.",
+      "parentUuid": "e37c68b9_58ec3a57",
+      "revId": "f1a8e87234c354ac070212811ba5327559fa75eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

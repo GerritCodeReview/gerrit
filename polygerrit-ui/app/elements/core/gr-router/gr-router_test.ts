@@ -161,6 +161,7 @@ suite('gr-router tests', () => {
       'handlePluginListRoute',
       'handleRepoCommandsRoute',
       'handleRepoEditFileRoute',
+      'handleServerInfoRoute',
       'handleSettingsLegacyRoute',
       'handleSettingsRoute',
     ];

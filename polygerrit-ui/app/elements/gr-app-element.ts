@@ -517,7 +517,8 @@ export class GrAppElement extends LitElement {
     if (
       this.view !== GerritView.ADMIN &&
       this.view !== GerritView.GROUP &&
-      this.view !== GerritView.REPO
+      this.view !== GerritView.REPO &&
+      this.view !== GerritView.SERVER_INFO
     )
       return nothing;
     return html`<gr-admin-view></gr-admin-view>`;

@@ -59,10 +59,22 @@ export const PLUGIN_LIST_ROUTE: Route<AdminViewState> = {
   },
 };
 
+export const SERVER_INFO_ROUTE: Route<AdminViewState> = {
+  urlPattern: /^\/admin\/server-info$/,
+  createState: () => {
+    const state: AdminViewState = {
+      view: GerritView.ADMIN,
+      adminView: AdminChildView.SERVER_INFO,
+    };
+    return state;
+  },
+};
+
 export enum AdminChildView {
   REPOS = 'gr-repo-list',
   GROUPS = 'gr-admin-group-list',
   PLUGINS = 'gr-plugin-list',
+  SERVER_INFO = 'gr-server-info',
 }
 const ADMIN_LINKS: NavLink[] = [
   {
@@ -83,6 +95,12 @@ const ADMIN_LINKS: NavLink[] = [
     section: 'Plugins',
     url: createAdminUrl({adminView: AdminChildView.PLUGINS}),
     view: 'gr-plugin-list' as GerritView,
+  },
+  {
+    name: 'Server Info',
+    section: 'Server Info',
+    url: createAdminUrl({adminView: AdminChildView.SERVER_INFO}),
+    view: 'gr-server-info' as GerritView,
   },
 ];
 
@@ -277,6 +295,8 @@ export function createAdminUrl(state: Omit<AdminViewState, 'view'>) {
       return `${getBaseUrl()}/admin/groups`;
     case AdminChildView.PLUGINS:
       return `${getBaseUrl()}/admin/plugins`;
+    case AdminChildView.SERVER_INFO:
+      return `${getBaseUrl()}/admin/server-info`;
   }
 }
 

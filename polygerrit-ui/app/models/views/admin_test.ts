@@ -55,6 +55,11 @@ suite('admin links', () => {
       assert.isNotOk(res.links[2].subsection);
     }
 
+    if (expected.serverInfoShown) {
+      assert.equal(res.links[3].name, 'Server Info');
+      assert.isNotOk(res.links[3].subsection);
+    }
+
     if (expected.projectPageShown) {
       assert.isOk(res.links[0].subsection);
       assert.equal(res.links[0].subsection!.children!.length, 6);
@@ -116,6 +121,7 @@ suite('admin links', () => {
         groupListShown: false,
         groupPageShown: false,
         pluginListShown: false,
+        serverInfoShown: true,
       };
     });
 
@@ -162,8 +168,9 @@ suite('admin links', () => {
 
     setup(() => {
       expected = {
-        totalLength: 2,
+        totalLength: 3,
         pluginListShown: false,
+        serverInfoShown: true,
       };
       capabilityStub.returns(Promise.resolve({}));
     });
@@ -206,6 +213,7 @@ suite('admin links', () => {
         totalLength: 3,
         groupListShown: true,
         pluginListShown: true,
+        serverInfoShown: true,
       };
     });
 

@@ -46,6 +46,7 @@ import {
   AdminViewModel,
   AdminViewState,
   PLUGIN_LIST_ROUTE,
+  SERVER_INFO_ROUTE,
 } from '../../../models/views/admin';
 import {
   AgreementViewModel,
@@ -177,6 +178,9 @@ const RoutePattern = {
     /^\/admin\/repos\/(.+),branches\/?(?:\/q\/filter:(.*?))?(?:,(\d+))?$/,
   // Matches /admin/repos/$REPO,tags with optional filter and offset.
   TAG_LIST: /^\/admin\/repos\/(.+),tags\/?(?:\/q\/filter:(.*?))?(?:,(\d+))?$/,
+
+  // Matches /admin/server-info.
+  SERVER_INFO: /^\/admin\/server-info$/,
 
   QUERY: /^\/q\/(.+?)(,(\d+))?$/,
 
@@ -928,6 +932,13 @@ export class GrRouter implements Finalizable, NavigationService {
 
     this.mapRoute(RoutePattern.PLUGIN_SCREEN, 'handlePluginScreen', ctx =>
       this.handlePluginScreen(ctx)
+    );
+
+    this.mapRouteState(
+      SERVER_INFO_ROUTE,
+      this.adminViewModel,
+      'handleServerInfoRoute',
+      true
     );
 
     this.mapRoute(

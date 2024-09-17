@@ -84,7 +84,7 @@ suite('gr-admin-view tests', () => {
       Promise.resolve(createAdminCapabilities())
     );
     await element.reload();
-    assert.equal(element.filteredLinks!.length, 3);
+    assert.equal(element.filteredLinks!.length, 4);
 
     // Repos
     assert.isNotOk(element.filteredLinks![0].subsection);
@@ -98,7 +98,7 @@ suite('gr-admin-view tests', () => {
 
   test('filteredLinks non admin authenticated', async () => {
     await element.reload();
-    assert.equal(element.filteredLinks!.length, 2);
+    assert.equal(element.filteredLinks!.length, 3);
     // Repos
     assert.isNotOk(element.filteredLinks![0].subsection);
     // Groups
@@ -162,7 +162,7 @@ suite('gr-admin-view tests', () => {
     );
     await element.reload();
     await element.updateComplete;
-    assert.equal(queryAll<HTMLLIElement>(element, '.sectionTitle').length, 3);
+    assert.equal(queryAll<HTMLLIElement>(element, '.sectionTitle').length, 4);
     assert.equal(
       queryAndAssert<HTMLSpanElement>(element, '.breadcrumbText').innerText,
       'Test Repo'
@@ -189,7 +189,7 @@ suite('gr-admin-view tests', () => {
     );
     await element.reload();
     await element.updateComplete;
-    assert.equal(element.filteredLinks!.length, 3);
+    assert.equal(element.filteredLinks!.length, 4);
     // Repos
     assert.isNotOk(element.filteredLinks![0].subsection);
     // Groups
@@ -385,6 +385,12 @@ suite('gr-admin-view tests', () => {
         url: '/admin/plugins',
         view: 'gr-plugin-list' as GerritView,
       },
+      {
+        name: 'Server Info',
+        section: 'Server Info',
+        url: '/admin/server-info',
+        view: 'gr-server-info' as GerritView,
+      },
     ];
     const expectedSubsectionLinks = [
       {
@@ -530,6 +536,11 @@ suite('gr-admin-view tests', () => {
               <li class="sectionTitle">
                 <a class="title" href="/admin/plugins" rel="noopener">
                   Plugins
+                </a>
+              </li>
+              <li class="sectionTitle">
+                <a class="title" href="/admin/server-info" rel="noopener">
+                  Server Info
                 </a>
               </li>
             </ul>

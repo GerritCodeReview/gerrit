@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "027e562c_883265b6",
+        "filename": "polygerrit-ui/app/elements/admin/gr-server-info/gr-server-info.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-09-17T15:23:39Z",
+      "side": 1,
+      "message": "You can use the config-model for this. https://github.com/GerritCodeReview/gerrit/blob/bbf1c12d738bd8fe9a3e5de8edfaf4e4b67e79f0/polygerrit-ui/app/models/config/config-model.ts",
+      "revId": "f1a8e87234c354ac070212811ba5327559fa75eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29e1c093_f78dcfc4",
+        "filename": "polygerrit-ui/app/elements/admin/gr-server-info/gr-server-info.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-09-17T15:23:39Z",
+      "side": 1,
+      "message": "Probably want to use the local gerrit site doc site?",
+      "revId": "f1a8e87234c354ac070212811ba5327559fa75eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

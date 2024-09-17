@@ -252,14 +252,16 @@ public class ServerInfoIT extends AbstractDaemonTest {
     MetadataInfo metadata2 =
         testServerStateProvider.addMetadata("email", null, "email to contact the host owners");
     MetadataInfo metadata3 =
-        testServerStateProvider.addMetadata("ownerGroup", "Bar", "group that owns the host");
+        testServerStateProvider.addMetadata("ownerGroup", null, "group that owns the host");
     MetadataInfo metadata4 =
+        testServerStateProvider.addMetadata("ownerGroup", "Bar", "group that owns the host");
+    MetadataInfo metadata5 =
         testServerStateProvider.addMetadata("ownerGroup", "Foo", "group that owns the host");
     try (Registration registration =
         extensionRegistry.newRegistration().add(testServerStateProvider)) {
       ServerInfo serverInfo = gApi.config().server().getInfo();
       assertThat(serverInfo.metadata)
-          .containsExactly(metadata1, metadata2, metadata3, metadata4)
+          .containsExactly(metadata1, metadata2, metadata3, metadata4, metadata5)
           .inOrder();
     }
   }

@@ -394,7 +394,8 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     return metadataList.stream()
         .sorted(
             Comparator.comparing((MetadataInfo metadata) -> metadata.name)
-                .thenComparing((MetadataInfo metadata) -> metadata.value))
+                .thenComparing(
+                    (MetadataInfo metadata) -> metadata.value != null ? metadata.value : ""))
         .collect(toImmutableList());
   }
 

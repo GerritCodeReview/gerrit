@@ -23,6 +23,7 @@
     "source-map-support": "^0.5.21"
   },
   "scripts": {
+    "test:setup": "playwright install chromium",
     "test": "web-test-runner",
     "test:screenshot": "web-test-runner --run-screenshots",
     "test:screenshot-update": "web-test-runner --update-screenshots --files",
@@ -31,6 +32,9 @@
     "test:watch": "web-test-runner --watch",
     "test:single": "web-test-runner --watch --group default --files",
     "test:single:coverage": "web-test-runner --watch --coverage --files"
+  },
+  "resolutions": {
+    "**/playwright": "1.47.1"
   },
   "license": "Apache-2.0",
   "private": true

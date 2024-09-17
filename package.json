@@ -34,7 +34,7 @@
     "typescript": "^4.9.5"
   },
   "scripts": {
-    "setup": "yarn && yarn --cwd=polygerrit-ui && yarn --cwd=polygerrit-ui/app",
+    "setup": "yarn && yarn --cwd=polygerrit-ui && yarn --cwd=polygerrit-ui test:setup && yarn --cwd=polygerrit-ui/app",
     "clean": "git clean -fdx && bazel clean --expunge",
     "compile": "tsc --project ./polygerrit-ui/app/tsconfig.json",
     "compile:watch": "npm run compile -- --preserveWatchOutput --watch",

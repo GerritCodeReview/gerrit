@@ -389,13 +389,28 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
 
   private ImmutableList<MetadataInfo> getMetadata() {
     ArrayList<MetadataInfo> metadataList = new ArrayList<>();
+    MetadataInfo md1 = new MetadataInfo();
+    md1.name = "A.A";
+    md1.value = "value 1";
+    metadataList.add(md1);
+    MetadataInfo md2 = new MetadataInfo();
+    md2.name = "A.A";
+    md2.value = "value 2";
+    metadataList.add(md2);
+    MetadataInfo md3 = new MetadataInfo();
+    md3.name = "A.B";
+    md3.value = "value 3";
+    metadataList.add(md3);
+    MetadataInfo md4 = new MetadataInfo();
+    md4.name = "A.C";
+    md4.value = null;
+    metadataList.add(md4);
     serverStateProviders.runEach(
         serverStateProvider -> metadataList.addAll(serverStateProvider.getMetadata()));
     return metadataList.stream()
         .sorted(
             Comparator.comparing((MetadataInfo metadata) -> metadata.name)
-                .thenComparing(
-                    (MetadataInfo metadata) -> metadata.value != null ? metadata.value : ""))
+                .thenComparing((MetadataInfo metadata) -> metadata.value != null ? metadata.value : ""))
         .collect(toImmutableList());
   }
 

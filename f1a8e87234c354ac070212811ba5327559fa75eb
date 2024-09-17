@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cef34f10_4ffb1185",
+        "filename": "polygerrit-ui/app/elements/admin/gr-server-info/gr-server-info.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-09-17T16:39:31Z",
+      "side": 1,
+      "message": "You can do it like https://github.com/GerritCodeReview/gerrit/blob/bbf1c12d738bd8fe9a3e5de8edfaf4e4b67e79f0/polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.ts#L180 \u0026\u0026 https://github.com/GerritCodeReview/gerrit/blob/bbf1c12d738bd8fe9a3e5de8edfaf4e4b67e79f0/polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.ts#L140.\n\nIf you want it to use non cache, you could do something similar to this https://github.com/GerritCodeReview/gerrit/commit/54473d1c5333d8312983be7ca3260bf54bf92477#diff-00531ff3b79a12a0734efd5c30145da52389cd012dc15a6e873879bcd1281fd0.\n\nI can\u0027t say it\u0027ll work 100% but i think it will.",
+      "parentUuid": "693ca252_0150cce6",
+      "revId": "f1a8e87234c354ac070212811ba5327559fa75eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "29e1c093_f78dcfc4",
         "filename": "polygerrit-ui/app/elements/admin/gr-server-info/gr-server-info.ts",
         "patchSetId": 3
@@ -67,6 +85,24 @@
       "side": 1,
       "message": "Yes, I don\u0027t know yet how to do this. If you have a pointer to an example that would be great!",
       "parentUuid": "29e1c093_f78dcfc4",
+      "revId": "f1a8e87234c354ac070212811ba5327559fa75eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e37c68b9_58ec3a57",
+        "filename": "polygerrit-ui/app/elements/admin/gr-server-info/gr-server-info.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-09-17T16:39:31Z",
+      "side": 1,
+      "message": "You can use use `createDocumentationUrl()/config-gerrit.html#accounts.visibility`.\n\nSee https://github.com/GerritCodeReview/gerrit/blob/bbf1c12d738bd8fe9a3e5de8edfaf4e4b67e79f0/polygerrit-ui/app/models/views/documentation.ts#L21",
+      "parentUuid": "fd082039_f3917b21",
       "revId": "f1a8e87234c354ac070212811ba5327559fa75eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

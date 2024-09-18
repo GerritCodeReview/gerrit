@@ -22,6 +22,9 @@ function testRunnerHtmlFactory() {
 
 /** @type {import('@web/test-runner').TestRunnerConfig} */
 const config = {
+  // TODO: https://g-issues.gerritcodereview.com/issues/365565157 - undo the
+  // change once the underlying issue is fixed.
+  concurrency: 1,
   files: [
     "app/**/*_test.{ts,js}",
     "!**/node_modules/**/*",

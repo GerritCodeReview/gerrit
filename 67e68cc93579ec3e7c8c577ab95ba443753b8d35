@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba1b5bcd_a05751a1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-09-18T11:43:49Z",
+      "side": 1,
+      "message": "I think you should be able to test this using Dev Helper. To get a more realistic understanding of what it will look like. Let me know if you need help with how to do it.",
+      "range": {
+        "startLine": 21,
+        "startChar": 19,
+        "endLine": 21,
+        "endChar": 50
+      },
+      "revId": "67e68cc93579ec3e7c8c577ab95ba443753b8d35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c51d316b_946ff6a1",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-09-18T11:43:49Z",
+      "side": 1,
+      "message": "Something is wrong here. You are checking that the view is ADMIN, but you\u0027ve added SERVER_INFO to GerritView and a separate check for it in gr-app-element. Maybe the entry in GerritView is part of the earlier implementation and should be removed?",
+      "range": {
+        "startLine": 453,
+        "startChar": 4,
+        "endLine": 453,
+        "endChar": 55
+      },
+      "revId": "67e68cc93579ec3e7c8c577ab95ba443753b8d35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf9826f8_f6e290c9",
+        "filename": "polygerrit-ui/app/elements/admin/gr-server-info/gr-server-info.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-09-18T11:43:49Z",
+      "side": 1,
+      "message": "What you want here is map (https://lit.dev/docs/templates/directives/#map)",
+      "range": {
+        "startLine": 87,
+        "startChar": 8,
+        "endLine": 89,
+        "endChar": 10
+      },
+      "revId": "67e68cc93579ec3e7c8c577ab95ba443753b8d35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

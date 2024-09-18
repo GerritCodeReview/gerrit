@@ -16,6 +16,24 @@
       "message": "Unrelated but would be cool i guess to do at some point:\n\n```\n  browsers: [\n    playwrightLauncher({ product: \u0027chromium\u0027 }),\n    playwrightLauncher({ product: \u0027firefox\u0027 }),\n    playwrightLauncher({ product: \u0027webkit\u0027 }),\n  ],\n```",
       "revId": "2d3fca2462a83a12efa2bf4d0ec5ee7149fdd2f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e228844d_9914f547",
+        "filename": "polygerrit-ui/web-test-runner.config.mjs",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2024-09-18T10:44:25Z",
+      "side": 1,
+      "message": "yeah there is `yarn test:browsers` already that does this, but non-chrome doesn\u0027t pass. it doesn\u0027t run as part of CI. If you are looking at a non-chrome bug maybe it can help 😊",
+      "parentUuid": "6957c6bb_624c8275",
+      "revId": "2d3fca2462a83a12efa2bf4d0ec5ee7149fdd2f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

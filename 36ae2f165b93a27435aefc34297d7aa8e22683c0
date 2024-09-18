@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dcd3ba17_a964a188",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-09-18T21:21:58Z",
+      "side": 1,
+      "message": "Is this an endpoint that provides a way for a plugin to show a hovercard with rich details on a bug mentioned in a commit message (or other `gr-formatted-text` section - comments/messages/checks-results)?",
+      "revId": "36ae2f165b93a27435aefc34297d7aa8e22683c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42100e70_1fbb0117",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-09-18T21:21:58Z",
+      "side": 1,
+      "message": "Does this need to be buganizer specific or could the name be made generic? Does it even need to be scoped only to issue tracking or could plugins add hovercards for anything parsed from a `gr-formatted-text`?",
+      "range": {
+        "startLine": 139,
+        "startChar": 50,
+        "endLine": 139,
+        "endChar": 59
+      },
+      "revId": "36ae2f165b93a27435aefc34297d7aa8e22683c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3f7f35c_ece36afb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-09-18T21:21:58Z",
+      "side": 1,
+      "message": "Add a test for when a plugin of this new type is installed?",
+      "revId": "36ae2f165b93a27435aefc34297d7aa8e22683c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

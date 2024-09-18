@@ -47,6 +47,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae846776_2b40ed9a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-09-18T12:59:51Z",
+      "side": 1,
+      "message": "Right, adding SERVER_INFO to GerritView is not needed. I reverted the changes in gr-app-element.ts now.",
+      "parentUuid": "c51d316b_946ff6a1",
+      "range": {
+        "startLine": 453,
+        "startChar": 4,
+        "endLine": 453,
+        "endChar": 55
+      },
+      "revId": "67e68cc93579ec3e7c8c577ab95ba443753b8d35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bf9826f8_f6e290c9",
@@ -60,6 +84,30 @@
       "writtenOn": "2024-09-18T11:43:49Z",
       "side": 1,
       "message": "What you want here is map (https://lit.dev/docs/templates/directives/#map)",
+      "range": {
+        "startLine": 87,
+        "startChar": 8,
+        "endLine": 89,
+        "endChar": 10
+      },
+      "revId": "67e68cc93579ec3e7c8c577ab95ba443753b8d35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "78b5bf99_a7151721",
+        "filename": "polygerrit-ui/app/elements/admin/gr-server-info/gr-server-info.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-09-18T12:59:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf9826f8_f6e290c9",
       "range": {
         "startLine": 87,
         "startChar": 8,

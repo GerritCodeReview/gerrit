@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1120b553_b1948877",
+        "filename": "polygerrit-ui/app/elements/admin/gr-server-info/gr-server-info.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-09-18T08:53:09Z",
+      "side": 1,
+      "message": "Really nice! Thank you! I think this is working fine and makes the code much simpler.",
+      "parentUuid": "cef34f10_4ffb1185",
+      "revId": "f1a8e87234c354ac070212811ba5327559fa75eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "29e1c093_f78dcfc4",
@@ -121,6 +139,24 @@
       "side": 1,
       "message": "Sorry forgot to include \\`\\`. \\`${createDocumentationUrl()}/config-gerrit.html#accounts.visibility\\`.",
       "parentUuid": "e37c68b9_58ec3a57",
+      "revId": "f1a8e87234c354ac070212811ba5327559fa75eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b3279f2_7377443b",
+        "filename": "polygerrit-ui/app/elements/admin/gr-server-info/gr-server-info.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-09-18T08:53:09Z",
+      "side": 1,
+      "message": "Thank you very much. Unfortunately this didn\u0027t work as it only produced \"/Documentation/config-gerrit.html#accounts.visibility\" for me, not a full URL.\n\nI also tried \\`${rootUrl()}${createDocumentationUrl()}/config-gerrit.html#accounts.visibility\\`, but it didn\u0027t work either (the result was \u0027//Documentation/config-gerrit.html#accounts.visibility\u0027).\n\nI\u0027ve replaced the link with some text now. It\u0027s not as nice, but I don\u0027t want to spent more time on this aspect, as it\u0027s only nice to have.",
+      "parentUuid": "c709b25c_fa796e78",
       "revId": "f1a8e87234c354ac070212811ba5327559fa75eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

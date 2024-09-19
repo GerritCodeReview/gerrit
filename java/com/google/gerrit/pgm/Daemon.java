@@ -92,12 +92,12 @@ import com.google.gerrit.server.events.StreamEventsApiListener.StreamEventsApiLi
 import com.google.gerrit.server.git.ChangesByProjectCache;
 import com.google.gerrit.server.git.GarbageCollectionModule;
 import com.google.gerrit.server.git.WorkQueue.WorkQueueModule;
-import com.google.gerrit.server.group.PeriodicGroupIndexer.PeriodicGroupIndexerModule;
 import com.google.gerrit.server.index.AbstractIndexModule;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.OnlineUpgrader.OnlineUpgraderModule;
 import com.google.gerrit.server.index.VersionManager;
 import com.google.gerrit.server.index.options.AutoFlush;
+import com.google.gerrit.server.index.scheduler.PeriodicIndexScheduler;
 import com.google.gerrit.server.mail.EmailModule;
 import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier.SignedTokenEmailTokenVerifierModule;
 import com.google.gerrit.server.mail.receive.MailReceiver.MailReceiverModule;
@@ -553,7 +553,7 @@ public class Daemon extends SiteProgram {
         });
     modules.add(new GarbageCollectionModule());
     if (replica) {
-      modules.add(new PeriodicGroupIndexerModule());
+      modules.add(new PeriodicIndexScheduler.Module());
     } else {
       modules.add(new AccountDeactivatorModule());
       modules.add(new AttentionSetOwnerAdderModule());

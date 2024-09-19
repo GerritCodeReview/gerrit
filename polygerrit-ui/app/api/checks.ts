@@ -7,7 +7,7 @@ import {ChangeInfo, CommentRange} from './rest-api';
 
 export declare interface ChecksPluginApi {
   /**
-   * Must only be called once. You cannot register twice. You cannot unregister.
+   * Must only be called twice. You cannot register twice. You cannot unregister.
    */
   register(provider: ChecksProvider, config?: ChecksApiConfig): void;
 

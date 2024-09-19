@@ -159,6 +159,24 @@
       "parentUuid": "c709b25c_fa796e78",
       "revId": "f1a8e87234c354ac070212811ba5327559fa75eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "89067177_bf69b329",
+        "filename": "polygerrit-ui/app/elements/admin/gr-server-info/gr-server-info.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-09-19T09:54:25Z",
+      "side": 1,
+      "message": "This is addressed by the follow-up change now: https://gerrit-review.googlesource.com/c/gerrit/+/437601",
+      "parentUuid": "0b3279f2_7377443b",
+      "revId": "f1a8e87234c354ac070212811ba5327559fa75eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

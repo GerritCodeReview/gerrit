@@ -21,20 +21,12 @@ import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.GroupReference;
-import com.google.gerrit.extensions.events.LifecycleListener;
-import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.config.ScheduleConfig;
-import com.google.gerrit.server.config.ScheduleConfig.Schedule;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.group.db.GroupNameNotes;
 import com.google.gerrit.server.index.group.GroupIndexer;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import java.util.concurrent.TimeUnit;
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 
 /**
@@ -58,52 +50,6 @@ import org.eclipse.jgit.lib.Repository;
  */
 public class PeriodicGroupIndexer implements Runnable {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
-  public static class PeriodicGroupIndexerModule extends LifecycleModule {
-    @Override
-    protected void configure() {
-      listener().to(Lifecycle.class);
-    }
-  }
-
-  private static class Lifecycle implements LifecycleListener {
-    private final Config cfg;
-    private final WorkQueue queue;
-    private final PeriodicGroupIndexer runner;
-
-    @Inject
-    Lifecycle(@GerritServerConfig Config cfg, WorkQueue queue, PeriodicGroupIndexer runner) {
-      this.cfg = cfg;
-      this.queue = queue;
-      this.runner = runner;
-    }
-
-    @Override
-    public void start() {
-      boolean runOnStartup = cfg.getBoolean("index", "scheduledIndexer", "runOnStartup", true);
-      if (runOnStartup) {
-        runner.run();
-      }
-
-      boolean isEnabled = cfg.getBoolean("index", "scheduledIndexer", "enabled", true);
-      if (!isEnabled) {
-        logger.atWarning().log("index.scheduledIndexer is disabled");
-        return;
-      }
-
-      Schedule schedule =
-          ScheduleConfig.builder(cfg, "index")
-              .setSubsection("scheduledIndexer")
-              .buildSchedule()
-              .orElseGet(() -> Schedule.createOrFail(TimeUnit.MINUTES.toMillis(5), "00:00"));
-      queue.scheduleAtFixedRate(runner, schedule);
-    }
-
-    @Override
-    public void stop() {
-      // handled by WorkQueue.stop() already
-    }
-  }
 
   private final AllUsersName allUsersName;
   private final GitRepositoryManager repoManager;

@@ -17,6 +17,7 @@ import '../gr-repo-commands/gr-repo-commands';
 import '../gr-repo-dashboards/gr-repo-dashboards';
 import '../gr-repo-detail-list/gr-repo-detail-list';
 import '../gr-repo-list/gr-repo-list';
+import '../gr-server-info/gr-server-info';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {
   AccountDetailInfo,
@@ -213,6 +214,7 @@ export class GrAdminView extends LitElement {
       ${this.renderGroupMembers()} ${this.renderGroupAuditLog()}
       ${this.renderRepoDetailList()} ${this.renderRepoCommands()}
       ${this.renderRepoAccess()} ${this.renderRepoDashboards()}
+      ${this.renderServerInfo()}
     `;
   }
 
@@ -443,6 +445,18 @@ export class GrAdminView extends LitElement {
         <gr-repo-dashboards
           .repo=${this.repoViewState.repo}
         ></gr-repo-dashboards>
+      </div>
+    `;
+  }
+
+  private renderServerInfo() {
+    if (this.view !== GerritView.ADMIN) return nothing;
+    if (this.adminViewState?.adminView !== AdminChildView.SERVER_INFO)
+      return nothing;
+
+    return html`
+      <div class="main table">
+        <gr-server-info class="table"></gr-server-info>
       </div>
     `;
   }

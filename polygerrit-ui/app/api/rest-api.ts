@@ -1084,6 +1084,7 @@ export declare interface ServerInfo {
   user: UserConfigInfo;
   default_theme?: string;
   submit_requirement_dashboard_columns?: string[];
+  metadata?: MetadataInfo[];
 }
 
 /**
@@ -1093,6 +1094,17 @@ export declare interface ServerInfo {
  * in the ServerInfo entity means that SSHD is enabled on the server.
  */
 export type SshdInfo = {};
+
+/**
+ * The MetadataInfo entity contains contains metadata provided by plugins.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#metadata-info
+ */
+export declare interface MetadataInfo {
+  name: string;
+  value?: string;
+  description?: string;
+  web_links?: WebLinkInfo[];
+}
 
 // Timestamps are given in UTC and have the format
 // "'yyyy-mm-dd hh:mm:ss.fffffffff'"

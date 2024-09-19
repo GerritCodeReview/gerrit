@@ -81,6 +81,7 @@ import {
   LabelTypeInfoValues,
   LabelValueToDescriptionMap,
   MaxObjectSizeLimitInfo,
+  MetadataInfo,
   NumericChangeId,
   ParentCommitInfo,
   PARENT,
@@ -185,6 +186,7 @@ export type {
   LabelTypeInfoValues,
   LabelValueToDescriptionMap,
   MaxObjectSizeLimitInfo,
+  MetadataInfo,
   NumericChangeId,
   ParentCommitInfo,
   PatchRange,
@@ -381,17 +383,7 @@ export interface AccountStateInfo {
   capabilities?: AccountCapabilityInfo;
   groups: GroupInfo[];
   external_ids: AccountExternalIdInfo[];
-  metadata: AccountMetadataInfo[];
-}
-
-/**
- * The `AccountMetadataInfo` entity contains account metadata.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#account-metadata-info
- */
-export interface AccountMetadataInfo {
-  name: string;
-  value?: string;
-  description?: string;
+  metadata: MetadataInfo[];
 }
 
 /**

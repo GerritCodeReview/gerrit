@@ -15,7 +15,8 @@
  * limitations under the License.
  */
 
-import {MetadataInfo, ServerInfo} from '../../../types/common';
+import '../../shared/gr-weblink/gr-weblink';
+import {MetadataInfo, ServerInfo, WebLinkInfo} from '../../../types/common';
 import {configModelToken} from '../../../models/config/config-model';
 import {customElement, state} from 'lit/decorators.js';
 import {css, html, LitElement} from 'lit';
@@ -56,7 +57,8 @@ export class GrServerInfo extends LitElement {
         }
         .metadataDescription,
         .metadataName,
-        .metadataValue {
+        .metadataValue,
+        .metadataWebLinks {
           white-space: nowrap;
         }
         .placeholder {
@@ -79,6 +81,7 @@ export class GrServerInfo extends LitElement {
             <tr class="headerRow">
               <th class="metadataName topHeader">Name</th>
               <th class="metadataValue topHeader">Value</th>
+              <th class="metadataWebLinks topHeader">Links</th>
               <th class="metadataDescription topHeader">Description</th>
             </tr>
           </tbody>
@@ -107,6 +110,11 @@ export class GrServerInfo extends LitElement {
             ? metadata.value
             : html`<span class="placeholder">--</span>`}
         </td>
+        <td class="metadataWebLinks">
+          ${metadata.web_links
+            ? map(metadata.web_links, webLink => this.renderWebLink(webLink))
+            : ''}
+        </td>
         <td class="metadataDescription">
           ${metadata.description ? metadata.description : ''}
         </td>
@@ -114,16 +122,15 @@ export class GrServerInfo extends LitElement {
     `;
   }
 
+  private renderWebLink(info: WebLinkInfo) {
+    return html`<p><gr-weblink imageAndText .info=${info}></gr-weblink></p>`;
+  }
+
   private getServerInfoAsMetadataInfos() {
     let metadataList = new Array<MetadataInfo>();
 
-    if (this.serverInfo?.accounts?.visibility) {
-      const accountsVisibilityMetadata = {
-        name: 'accounts.visibility',
-        value: this.serverInfo.accounts.visibility,
-        description:
-          "Controls visibility of other users' dashboard pages and completion suggestions to web users.",
-      };
+    const accountsVisibilityMetadata = this.createAccountVisibilityMetadata();
+    if (accountsVisibilityMetadata) {
       metadataList.push(accountsVisibilityMetadata);
     }
 
@@ -132,6 +139,29 @@ export class GrServerInfo extends LitElement {
     }
 
     return metadataList;
+  }
+
+  private createAccountVisibilityMetadata(): MetadataInfo | undefined {
+    if (this.serverInfo?.accounts?.visibility) {
+      const accountsVisibilityMetadata = {
+        name: 'accounts.visibility',
+        value: this.serverInfo.accounts.visibility,
+        description:
+          "Controls visibility of other users' dashboard pages and completion suggestions to web users.",
+        web_links: new Array<WebLinkInfo>(),
+      };
+      if (this.serverInfo?.gerrit?.doc_url) {
+        const docWebLink = {
+          name: 'Documentation',
+          url:
+            this.serverInfo.gerrit.doc_url +
+            'config-gerrit.html#accounts.visibility',
+        };
+        accountsVisibilityMetadata.web_links.push(docWebLink);
+      }
+      return accountsVisibilityMetadata;
+    }
+    return undefined;
   }
 }
 

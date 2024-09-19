@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15e71dc0_7fa5c8e9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-09-19T17:46:41Z",
+      "side": 1,
+      "message": "Should this new endpoint be added to the [pg plugin endpoints doc](https://gerrit-review.googlesource.com/Documentation/pg-plugin-endpoints.html#_plugin_endpoints)?",
+      "revId": "2e3969df8bb68a38052cf93f07dfab3fe8dcb5f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a5d869c_3245a601",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-09-19T17:46:41Z",
+      "side": 1,
+      "message": "Does anything enforce this as `hovercard`-specific? It\u0027s unexpected to me that something named `hovercard` could have any kind of plugin content added to it. Should it be renamed even more generically, or can this somehow require plugins to extend `HovercardMixin` (I\u0027m guessing that would require a subclass of `GrEndpointDecorator`)?",
+      "range": {
+        "startLine": 139,
+        "startChar": 49,
+        "endLine": 139,
+        "endChar": 59
+      },
+      "revId": "2e3969df8bb68a38052cf93f07dfab3fe8dcb5f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

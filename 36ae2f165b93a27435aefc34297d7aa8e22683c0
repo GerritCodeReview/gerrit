@@ -116,6 +116,24 @@
       "parentUuid": "a3f7f35c_ece36afb",
       "revId": "36ae2f165b93a27435aefc34297d7aa8e22683c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a850884d_91ee7876",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-09-19T17:46:41Z",
+      "side": 1,
+      "message": "Yeah, ok. I guess there aren\u0027t typically more specific tests added in the classes where that decorator is used.",
+      "parentUuid": "e28ab61a_40a89c64",
+      "revId": "36ae2f165b93a27435aefc34297d7aa8e22683c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

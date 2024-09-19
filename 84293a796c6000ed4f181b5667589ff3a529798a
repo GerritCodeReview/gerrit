@@ -34,6 +34,23 @@
       "parentUuid": "97b398ff_9c07ab04",
       "revId": "84293a796c6000ed4f181b5667589ff3a529798a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e840518b_5ef302dc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1135824
+      },
+      "writtenOn": "2024-09-19T13:57:44Z",
+      "side": 1,
+      "message": "One more thing! I just realice there is an extra step for users: https://screenshot.googleplex.com/68U8XwKkDqCzsuQ\n\nAre users used to these actions? I feel is an extra step if you already press \"Apply fix\"",
+      "revId": "84293a796c6000ed4f181b5667589ff3a529798a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

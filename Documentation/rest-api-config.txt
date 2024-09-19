@@ -2410,6 +2410,8 @@ The `MetadataInfo` entity contains metadata provided by plugins.
 metadata entries with the same name may be returned.
 |`value`      |optional|The metadata value.
 |`description`|optional|A description of the metadata.
+|`web_links`  |optional|A list of web links as
+link:rest-api-changes.html#web-link-info[WebLinkInfo] entities.
 |==========================
 
 [[plugin-config-info]]

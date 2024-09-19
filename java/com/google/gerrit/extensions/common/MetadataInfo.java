@@ -16,6 +16,7 @@ package com.google.gerrit.extensions.common;
 
 import com.google.common.base.MoreObjects;
 import com.google.gerrit.common.Nullable;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -37,18 +38,22 @@ public class MetadataInfo {
   /** A description of the metadata. May be unset. */
   @Nullable public String description;
 
+  /** Web links. May be unset. */
+  @Nullable public List<WebLinkInfo> webLinks;
+
   @Override
   public String toString() {
     return MoreObjects.toStringHelper(this)
         .add("name", name)
         .add("value", value)
         .add("description", description)
+        .add("webLinks", webLinks)
         .toString();
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, value, description);
+    return Objects.hash(name, value, description, webLinks);
   }
 
   @Override
@@ -57,7 +62,8 @@ public class MetadataInfo {
       MetadataInfo metadata = (MetadataInfo) o;
       return Objects.equals(name, metadata.name)
           && Objects.equals(value, metadata.value)
-          && Objects.equals(description, metadata.description);
+          && Objects.equals(description, metadata.description)
+          && Objects.equals(webLinks, metadata.webLinks);
     }
     return false;
   }

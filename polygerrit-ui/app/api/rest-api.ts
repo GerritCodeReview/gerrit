@@ -1103,6 +1103,7 @@ export declare interface MetadataInfo {
   name: string;
   value?: string;
   description?: string;
+  web_links?: WebLinkInfo[];
 }
 
 // Timestamps are given in UTC and have the format

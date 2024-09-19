@@ -32,10 +32,25 @@
     "@gerritcodereview/typescript-api": "3.11.0",
     "@open-wc/testing": "^3.2.2",
     "@polymer/decorators": "^3.0.0",
+<<<<<<< PATCH SET (58ecf0 Add file-saver and jszip deps.)
+    "@polymer/polymer": "^3.5.1",
+    "@types/file-saver": "^2.0.7",
+||||||| BASE
+    "@polymer/polymer": "^3.5.1",
+=======
     "@polymer/polymer": "3.5.1",
+>>>>>>> BASE      (778638 CommitIT: Remove unnecessary allowConflicts flags in cherry )
     "@web/dev-server-esbuild": "^0.3.6",
     "@web/test-runner": "^0.15.3",
+<<<<<<< PATCH SET (58ecf0 Add file-saver and jszip deps.)
+    "@progress/jszip-esm": "^1.0.3",
+    "file-saver-es": "^2.0.5",
+    "lit": "^3.1.4",
+||||||| BASE
+    "lit": "^3.1.4",
+=======
     "lit": "^3.2.1",
+>>>>>>> BASE      (778638 CommitIT: Remove unnecessary allowConflicts flags in cherry )
     "rxjs": "^6.6.7",
     "sinon": "^13.0.2"
   },

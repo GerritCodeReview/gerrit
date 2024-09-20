@@ -30,6 +30,7 @@ import com.google.gerrit.pgm.init.Browser;
 import com.google.gerrit.pgm.init.InitPlugins;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.util.ErrorLogFile;
+import com.google.gerrit.server.config.GerritOptions;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.index.GerritIndexStatus;
@@ -159,6 +160,7 @@ public class Init extends BaseInit {
             bind(String.class)
                 .annotatedWith(SecureStoreClassName.class)
                 .toProvider(Providers.of(getConfiguredSecureStoreClass()));
+            bind(GerritOptions.class).toInstance(GerritOptions.DEFAULT);
           }
         });
     modules.add(new GerritServerConfigModule());

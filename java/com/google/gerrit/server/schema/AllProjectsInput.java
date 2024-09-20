@@ -95,6 +95,8 @@ public abstract class AllProjectsInput {
   /** Whether default submit requirements should be initialized in All-Projects. */
   public abstract boolean initDefaultSubmitRequirements();
 
+  public abstract ImmutableMap<String, GroupReference> globalCapabilities();
+
   public abstract Builder toBuilder();
 
   public static Builder builder() {
@@ -145,6 +147,15 @@ public abstract class AllProjectsInput {
     public abstract Builder initDefaultAcls(boolean initDefaultACLs);
 
     public abstract Builder initDefaultSubmitRequirements(boolean initDefaultSubmitRequirements);
+
+    public abstract ImmutableMap.Builder<String, GroupReference> globalCapabilitiesBuilder();
+
+    @UsedAt(UsedAt.Project.GOOGLE)
+    @CanIgnoreReturnValue
+    public Builder addGlobalCapability(String capabilityName, GroupReference groupReference) {
+      globalCapabilitiesBuilder().put(capabilityName, groupReference);
+      return this;
+    }
 
     public abstract AllProjectsInput build();
   }

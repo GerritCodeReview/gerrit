@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.schema;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.schema.AllProjectsInput.getDefaultCodeReviewLabel;
 import static com.google.gerrit.server.schema.testing.AllProjectsCreatorTestUtil.assertSectionEquivalent;
 import static com.google.gerrit.server.schema.testing.AllProjectsCreatorTestUtil.assertTwoConfigsEquivalent;
@@ -21,9 +22,11 @@ import static com.google.gerrit.server.schema.testing.AllProjectsCreatorTestUtil
 import static com.google.gerrit.server.schema.testing.AllProjectsCreatorTestUtil.getAllProjectsWithoutDefaultSubmitRequirements;
 import static com.google.gerrit.server.schema.testing.AllProjectsCreatorTestUtil.getDefaultAllProjectsWithAllDefaultSections;
 import static com.google.gerrit.server.schema.testing.AllProjectsCreatorTestUtil.readAllProjectsConfig;
+import static com.google.gerrit.server.schema.testing.AllProjectsCreatorTestUtil.readAllProjectsGroups;
 import static com.google.gerrit.truth.ConfigSubject.assertThat;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.GroupReference;
@@ -36,6 +39,7 @@ import com.google.gerrit.server.account.GroupUuid;
 import com.google.gerrit.server.account.ServiceUserClassifier;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.project.GroupList;
 import com.google.gerrit.testing.InMemoryModule;
 import com.google.inject.Inject;
 import org.eclipse.jgit.lib.Config;
@@ -197,5 +201,37 @@ public class AllProjectsCreatorTest {
     expectedConfig.setString("project", null, "description", description);
     Config config = readAllProjectsConfig(repoManager, allProjectsName);
     assertTwoConfigsEquivalent(config, expectedConfig);
+  }
+
+  @Test
+  public void createAllProjectsWithGlobalCapabilities() throws Exception {
+    GroupReference employeesGroup = createGroupReference("Employees");
+
+    AllProjectsInput allProjectsInput =
+        AllProjectsInput.builderWithNoDefault()
+            .firstChangeIdForNoteDb(Sequences.FIRST_CHANGE_ID)
+            .initDefaultAcls(false)
+            .initDefaultSubmitRequirements(false)
+            .addGlobalCapability(GlobalCapability.VIEW_ACCESS, employeesGroup)
+            .build();
+    allProjectsCreator.create(allProjectsInput);
+
+    Config expectedConfig = new Config();
+    expectedConfig.setString(
+        "project",
+        /* subsection= */ null,
+        "description",
+        "Access inherited by all other projects.");
+    expectedConfig.setString(
+        "capability",
+        /* subsection= */ null,
+        GlobalCapability.VIEW_ACCESS,
+        "group " + employeesGroup.getName());
+
+    Config config = readAllProjectsConfig(repoManager, allProjectsName);
+    assertTwoConfigsEquivalent(config, expectedConfig);
+
+    GroupList groupList = readAllProjectsGroups(repoManager, allProjectsName);
+    assertThat(groupList.byUUID(employeesGroup.getUUID())).isEqualTo(employeesGroup);
   }
 }

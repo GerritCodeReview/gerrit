@@ -23,14 +23,22 @@ import com.google.common.collect.Streams;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.project.GroupList;
 import java.io.IOException;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.BlobBasedConfig;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.util.RawParseUtils;
 
 public class AllProjectsCreatorTestUtil {
   private static final ImmutableList<String> DEFAULT_ALL_PROJECTS_PROJECT_SECTION =
@@ -156,6 +164,24 @@ public class AllProjectsCreatorTestUtil {
     try (Repository repo = repoManager.openRepository(allProjectsName)) {
       Ref configRef = repo.exactRef(RefNames.REFS_CONFIG);
       return new BlobBasedConfig(null, repo, configRef.getObjectId(), "project.config");
+    }
+  }
+
+  // Loads the "groups" list from the All-Projects repo.
+  public static GroupList readAllProjectsGroups(
+      GitRepositoryManager repoManager, AllProjectsName allProjectsName) throws IOException {
+    try (Repository repo = repoManager.openRepository(allProjectsName);
+        ObjectReader reader = repo.newObjectReader();
+        RevWalk rw = new RevWalk(reader)) {
+      Ref configRef = repo.exactRef(RefNames.REFS_CONFIG);
+      RevCommit revCommit = rw.parseCommit(configRef.getObjectId());
+      try (TreeWalk tw = TreeWalk.forPath(reader, "groups", revCommit.getTree())) {
+        ObjectLoader obj = reader.open(tw.getObjectId(0), Constants.OBJ_BLOB);
+        return GroupList.parse(
+            allProjectsName,
+            RawParseUtils.decode(obj.getCachedBytes(Integer.MAX_VALUE)),
+            error -> {});
+      }
     }
   }
 

@@ -26,6 +26,7 @@ import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdate
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.common.Version;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.AccessSection;
@@ -139,6 +140,8 @@ public class AllProjectsCreator {
       if (input.initDefaultAcls()) {
         initDefaultAcls(config, input);
       }
+
+      initGlobalCapabilities(config, input.globalCapabilities());
 
       // init submit requirement sections.
       if (input.initDefaultSubmitRequirements()) {
@@ -273,6 +276,18 @@ public class AllProjectsCreator {
           grant(config, meta, Permission.CREATE, adminsGroup, owners);
           grant(config, meta, Permission.SUBMIT, adminsGroup, owners);
         });
+  }
+
+  private void initGlobalCapabilities(
+      ProjectConfig config, ImmutableMap<String, GroupReference> globalCapabilities) {
+    globalCapabilities.forEach(
+        (capabilityName, groupReference) ->
+            config.upsertAccessSection(
+                AccessSection.GLOBAL_CAPABILITIES,
+                capabilities ->
+                    capabilities
+                        .upsertPermission(capabilityName)
+                        .add(rule(config, groupReference))));
   }
 
   private void initSequences(Repository git, BatchRefUpdate bru, int firstChangeId)

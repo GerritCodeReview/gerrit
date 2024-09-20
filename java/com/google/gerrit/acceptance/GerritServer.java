@@ -58,6 +58,7 @@ import com.google.gerrit.index.testing.FakeIndexModule;
 import com.google.gerrit.lucene.LuceneIndexModule;
 import com.google.gerrit.pgm.Daemon;
 import com.google.gerrit.pgm.Init;
+import com.google.gerrit.server.config.GerritOptions;
 import com.google.gerrit.server.config.GerritRuntime;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePath;
@@ -525,6 +526,7 @@ public class GerritServer implements AutoCloseable {
             new AbstractModule() {
               @Override
               protected void configure() {
+                bind(GerritOptions.class).toInstance(GerritOptions.DEFAULT);
                 bind(GerritRuntime.class).toInstance(GerritRuntime.DAEMON);
               }
             },

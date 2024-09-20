@@ -6,7 +6,7 @@ load("//tools/bzl:maven_jar.bzl", "GERRIT", "maven_jar")
 
 CAFFEINE_VERS = "2.9.2"
 ANTLR_VERS = "3.5.2"
-COMMONMARK_VERSION = "0.21.0"
+COMMONMARK_VERSION = "0.23.0"
 GREENMAIL_VERS = "1.5.5"
 MAIL_VERS = "1.6.0"
 MIME4J_VERS = "0.8.1"
@@ -177,26 +177,26 @@ def java_dependencies():
     maven_jar(
         name = "commonmark",
         artifact = "org.commonmark:commonmark:" + COMMONMARK_VERSION,
-        sha1 = "c98f0473b17c87fe4fa2fc62a7c6523a2fe018f0",
+        sha1 = "fef55c86ffcfa0ba482919c23cac3d7cd617f891",
     )
 
     maven_jar(
         name = "cm-autolink",
         artifact = "org.commonmark:commonmark-ext-autolink:" + COMMONMARK_VERSION,
-        sha1 = "55c0312cf443fa3d5af0daeeeca00d6deee3cf90",
+        sha1 = "b438f31817166adedd5b9f0e9f9a603c5c676eec",
     )
 
     maven_jar(
         name = "gfm-strikethrough",
         artifact = "org.commonmark:commonmark-ext-gfm-strikethrough:" + COMMONMARK_VERSION,
-        sha1 = "953f4b71e133a98fcca93f3c3f4e58b895b76d1f",
+        sha1 = "0659c062b30c0145d7a65e2deededad91d50420f",
     )
 
     maven_jar(
         name = "gfm-tables",
         artifact = "org.commonmark:commonmark-ext-gfm-tables:" + COMMONMARK_VERSION,
         attach_source = False,
-        sha1 = "fb7d65fa89a4cfcd2f51535d2549b570cf1dbd1a",
+        sha1 = "42a52264f710a93f9407f6ca46120b834c883d3c",
     )
 
     maven_jar(
@@ -209,8 +209,8 @@ def java_dependencies():
     # Transitive dependency of flexmark and gitiles
     maven_jar(
         name = "autolink",
-        artifact = "org.nibor.autolink:autolink:0.10.0",
-        sha1 = "6579ea7079be461e5ffa99f33222a632711cc671",
+        artifact = "org.nibor.autolink:autolink:0.11.0",
+        sha1 = "32abc7854d5801d19ff16be92362fa4c511d9a70",
     )
 
     maven_jar(

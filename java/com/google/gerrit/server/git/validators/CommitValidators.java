@@ -730,7 +730,7 @@ public class CommitValidators {
         try {
           if (!perm.test(RefPermission.FORGE_COMMITTER)) {
             throw new CommitValidationException(
-                "not Signed-off-by author/committer/uploader in message footer");
+                "email in Signed-off-by commit message footer is not author/committer/uploader of the change");
           }
         } catch (PermissionBackendException e) {
           logger.atSevere().withCause(e).log("cannot check FORGE_COMMITTER");

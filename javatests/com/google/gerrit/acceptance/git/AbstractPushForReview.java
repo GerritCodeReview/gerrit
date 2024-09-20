@@ -1633,7 +1633,8 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
         pushFactory.create(
             admin.newIdent(), testRepo, PushOneCommit.SUBJECT, "b.txt", "anotherContent");
     r = push.to("refs/for/master");
-    r.assertErrorStatus("not Signed-off-by author/committer/uploader in message footer");
+    r.assertErrorStatus(
+        "email in Signed-off-by footer is not author/committer/uploader of the change");
   }
 
   @Test

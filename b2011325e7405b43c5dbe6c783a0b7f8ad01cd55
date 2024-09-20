@@ -1,5 +1,46 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8420520_670f3b01",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-09-20T20:46:32Z",
+      "side": 1,
+      "message": "This change caused a P0 in Gerrit v3.8 for Gerrit setups having more than 1024 internal groups.",
+      "revId": "b2011325e7405b43c5dbe6c783a0b7f8ad01cd55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd94dcdc_ce70a869",
+        "filename": "java/com/google/gerrit/server/account/GroupIncludeCacheImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-09-20T20:46:32Z",
+      "side": 1,
+      "message": "We should have checked *IF* the number of groupIds was higher than the number of terms configured in Lucene.\n\nThis line has caused a P0 where Gerrit setups in v3.7 having more than 1024 groups (default in Lucene) will blow up after upgrading to v3.8.\n\nThe workaround is of course raising the `index.maxTerms` in `gerrit.config`, however, this was unwanted and unexpected by the Gerrit admin.\n\nThe correct solution IMHO should be splitting groupIds by buckets of `index.maxTerm` and run multiple queries.",
+      "range": {
+        "startLine": 148,
+        "startChar": 6,
+        "endLine": 148,
+        "endChar": 35
+      },
+      "revId": "b2011325e7405b43c5dbe6c783a0b7f8ad01cd55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

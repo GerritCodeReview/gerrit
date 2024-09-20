@@ -36,6 +36,7 @@ import com.google.gerrit.pgm.init.index.IndexManagerOnInit;
 import com.google.gerrit.pgm.init.index.IndexModuleOnInit;
 import com.google.gerrit.pgm.init.index.lucene.LuceneIndexModuleOnInit;
 import com.google.gerrit.pgm.util.SiteProgram;
+import com.google.gerrit.server.config.GerritOptions;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePaths;
@@ -275,6 +276,7 @@ public class BaseInit extends SiteProgram {
             bind(Boolean.class).annotatedWith(LibraryDownload.class).toInstance(skipAllDownloads());
 
             bind(MetricMaker.class).to(DisabledMetricMaker.class);
+            bind(GerritOptions.class).toInstance(GerritOptions.DEFAULT);
           }
         });
 

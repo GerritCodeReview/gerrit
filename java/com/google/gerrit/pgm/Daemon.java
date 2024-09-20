@@ -383,11 +383,11 @@ public class Daemon extends SiteProgram {
   @VisibleForTesting
   public void start() throws IOException {
     if (dbInjector == null) {
-      dbInjector = createDbInjector(true /* enableMetrics */);
+      dbInjector =
+          createDbInjector(true /* enableMetrics */, new GerritOptions(headless, replica, devCdn));
     }
     cfgInjector = createCfgInjector();
     config = cfgInjector.getInstance(Key.get(Config.class, GerritServerConfig.class));
-    config.setBoolean("container", null, "replica", replica);
     indexType = IndexModule.getIndexType(cfgInjector);
     sysInjector = createSysInjector();
     sysInjector.getInstance(PluginGuiceEnvironment.class).setDbCfgInjector(dbInjector, cfgInjector);
@@ -543,7 +543,6 @@ public class Daemon extends SiteProgram {
         new AbstractModule() {
           @Override
           protected void configure() {
-            bind(GerritOptions.class).toInstance(new GerritOptions(headless, replica, devCdn));
             if (inMemoryTest) {
               bind(String.class)
                   .annotatedWith(SecureStoreClassName.class)

@@ -20,8 +20,10 @@ import java.util.Optional;
 
 public class GerritOptions {
   private final boolean headless;
-  private final boolean slave;
+  private final boolean replica;
   private final Optional<String> devCdn;
+
+  public static GerritOptions DEFAULT = new GerritOptions(false, false);
 
   public GerritOptions(boolean headless, boolean slave) {
     this(headless, slave, null);
@@ -29,7 +31,7 @@ public class GerritOptions {
 
   public GerritOptions(boolean headless, boolean slave, @Nullable String devCdn) {
     this.headless = headless;
-    this.slave = slave;
+    this.replica = slave;
     this.devCdn = headless ? Optional.empty() : Optional.ofNullable(Strings.emptyToNull(devCdn));
   }
 
@@ -37,8 +39,12 @@ public class GerritOptions {
     return headless;
   }
 
+  public boolean replica() {
+    return replica;
+  }
+
   public boolean enableMasterFeatures() {
-    return !slave;
+    return !replica;
   }
 
   public Optional<String> devCdn() {

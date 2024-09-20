@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "722f48e5_f80d9d64",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-09-20T08:13:10Z",
+      "side": 1,
+      "message": "corresponding gitiles update: https://gerrit-review.googlesource.com/c/gitiles/+/437463",
+      "revId": "6950d7f0ccea61d753167552c2e2aefd49db1653",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

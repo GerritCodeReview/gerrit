@@ -52,6 +52,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a039dc3_53e079b3",
+        "filename": "java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 3630376
+      },
+      "writtenOn": "2024-09-21T06:39:07Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "9787d895_952f8f29",
+      "revId": "0e2d6b6fe38fac147484ec66e70f814bb15b5d3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "17220ae6_e6f4f7f6",
@@ -69,6 +87,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5a641a4_723d9496",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-user-header/gr-user-header.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3630376
+      },
+      "writtenOn": "2024-09-21T06:39:07Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "17220ae6_e6f4f7f6",
+      "revId": "0e2d6b6fe38fac147484ec66e70f814bb15b5d3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0995e0a5_fdc3b438",
@@ -82,6 +118,24 @@
       "writtenOn": "2024-09-13T08:27:51Z",
       "side": 1,
       "message": "Would it be an option to render this link directly into the index.html page instead of adding it programmatically later?",
+      "revId": "0e2d6b6fe38fac147484ec66e70f814bb15b5d3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "211ef3ee_36da17f5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-web-manifest/gr-web-manifest.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3630376
+      },
+      "writtenOn": "2024-09-21T06:39:07Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "0995e0a5_fdc3b438",
       "revId": "0e2d6b6fe38fac147484ec66e70f814bb15b5d3c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

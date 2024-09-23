@@ -58,6 +58,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e4701ff_6dda7085",
+        "filename": "java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-09-23T13:13:28Z",
+      "side": 1,
+      "message": "\u003e I am wondering if we need to be stricter here and ensure we really have a number as first segment. We would have covered the issue reported [1], where the project name is `3d3png`. However we would still have an issue with project with numeric names, i.e.: `123`\n\u003e \n\u003e [1]: https://issues.gerritcodereview.com/issues/360705824\n\nThe issue would still remain though, as a purely numeric project name is actually supported.",
+      "parentUuid": "c125ed44_ea0cb60b",
+      "range": {
+        "startLine": 67,
+        "startChar": 16,
+        "endLine": 67,
+        "endChar": 29
+      },
+      "revId": "662ac79a95e38c4c357fbd6f43f008195adf75e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c24c60b6_2cbd4487",
@@ -95,6 +119,30 @@
       "side": 1,
       "message": "cool, then I need to extend it with all of those.",
       "parentUuid": "c24c60b6_2cbd4487",
+      "range": {
+        "startLine": 457,
+        "startChar": 11,
+        "endLine": 457,
+        "endChar": 23
+      },
+      "revId": "662ac79a95e38c4c357fbd6f43f008195adf75e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "239589c8_88ce61c1",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/RestApiServletIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-09-23T13:13:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b13dc87_71d84541",
       "range": {
         "startLine": 457,
         "startChar": 11,

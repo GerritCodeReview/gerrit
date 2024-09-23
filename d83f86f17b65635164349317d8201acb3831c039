@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fcb1ff64_e2e2ee53",
+        "filename": "java/com/google/gerrit/httpd/UrlModule.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-09-23T20:40:38Z",
+      "side": 1,
+      "message": "You are right, they are quite confusing as they are listed now. Let me try to introduce more _self-documenting_ constants.",
+      "parentUuid": "c726f330_2c3977ed",
+      "range": {
+        "startLine": 75,
+        "startChar": 4,
+        "endLine": 78,
+        "endChar": 81
+      },
+      "revId": "d83f86f17b65635164349317d8201acb3831c039",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2514915b_7c63611f",
         "filename": "java/com/google/gerrit/httpd/raw/StaticModule.java",
         "patchSetId": 13
@@ -60,6 +84,54 @@
       "writtenOn": "2024-09-23T19:19:06Z",
       "side": 1,
       "message": "To double check I get it right:\n* matches a \"/comment/\"\n* followed by one or more word characters (letters, digits, or underscores)\n\nWe could be strichter on the comment id part, since they don\u0027t start with underscore. Something like: `[a-zA-Z0-9]+_[a-zA-Z0-9]+` . But probably it makes the regexp more complex to read for little benefit.",
+      "range": {
+        "startLine": 67,
+        "startChar": 29,
+        "endLine": 67,
+        "endChar": 45
+      },
+      "revId": "d83f86f17b65635164349317d8201acb3831c039",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e84d29e_25707aec",
+        "filename": "java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-09-23T20:40:38Z",
+      "side": 1,
+      "message": "\u003e Here we are matching:\n\u003e \n\u003e * leading non-zero digit (for example PS first number)\n\u003e * followed by any ocurrence of digits, the characters ., ^, or + (for example from the second digit of a PS, or ., ^, or +)\n\nNo, in Java regex the `^` indicates a negative match. So `^+` mean _everything but NOT `+`_\n\n\u003e \n\u003e Questions:\n\u003e * is this supposed to match PS ranges? 1..2\n\nYes, it does because it includes the `.` as well.\n\n\u003e * which case are `^` and `+` trying to match?\n\nSee above.\n\n\u003e If they are a real case we should probably add a test case for it. It seems we are matching cases like `/123456/1+2` or `/123456/1^2`. Is this intended?\n\nNo, I believe you read it wrongly :-)",
+      "parentUuid": "2514915b_7c63611f",
+      "range": {
+        "startLine": 67,
+        "startChar": 45,
+        "endLine": 67,
+        "endChar": 74
+      },
+      "revId": "d83f86f17b65635164349317d8201acb3831c039",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f579c116_80115369",
+        "filename": "java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-09-23T20:40:38Z",
+      "side": 1,
+      "message": "\u003e To double check I get it right:\n\u003e * matches a \"/comment/\"\n\u003e * followed by one or more word characters (letters, digits, or underscores)\n\nYes, see the test at:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/436677/12/javatests/com/google/gerrit/httpd/raw/StaticModuleTest.java\n\n\u003e We could be strichter on the comment id part, since they don\u0027t start with underscore. Something like: `[a-zA-Z0-9]+_[a-zA-Z0-9]+` . But probably it makes the regexp more complex to read for little benefit.\n\nWe could, but I don\u0027t believe it is strictly needed here.",
+      "parentUuid": "bec04509_8a8c2479",
       "range": {
         "startLine": 67,
         "startChar": 29,

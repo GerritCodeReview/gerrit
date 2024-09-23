@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c726f330_2c3977ed",
+        "filename": "java/com/google/gerrit/httpd/UrlModule.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-09-23T19:19:06Z",
+      "side": 1,
+      "message": "Might be worth moving the regexp in constants to DRY and making the regexp more readable. WDYT?",
+      "range": {
+        "startLine": 75,
+        "startChar": 4,
+        "endLine": 78,
+        "endChar": 81
+      },
+      "revId": "d83f86f17b65635164349317d8201acb3831c039",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2514915b_7c63611f",
+        "filename": "java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-09-23T19:19:06Z",
+      "side": 1,
+      "message": "Here we are matching:\n\n* leading non-zero digit (for example PS first number)\n* followed by any ocurrence of digits, the characters ., ^, or + (for example from the second digit of a PS, or ., ^, or +)\n\nQuestions:\n* is this supposed to match PS ranges? 1..2\n* which case are `^` and `+` trying to match? If they are a real case we should probably add a test case for it. It seems we are matching cases like `/123456/1+2` or `/123456/1^2`. Is this intended?",
+      "range": {
+        "startLine": 67,
+        "startChar": 45,
+        "endLine": 67,
+        "endChar": 74
+      },
+      "revId": "d83f86f17b65635164349317d8201acb3831c039",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bec04509_8a8c2479",
+        "filename": "java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-09-23T19:19:06Z",
+      "side": 1,
+      "message": "To double check I get it right:\n* matches a \"/comment/\"\n* followed by one or more word characters (letters, digits, or underscores)\n\nWe could be strichter on the comment id part, since they don\u0027t start with underscore. Something like: `[a-zA-Z0-9]+_[a-zA-Z0-9]+` . But probably it makes the regexp more complex to read for little benefit.",
+      "range": {
+        "startLine": 67,
+        "startChar": 29,
+        "endLine": 67,
+        "endChar": 45
+      },
+      "revId": "d83f86f17b65635164349317d8201acb3831c039",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c5a4756_b4d53c7d",
+        "filename": "javatests/com/google/gerrit/httpd/raw/StaticModuleTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-09-23T19:19:06Z",
+      "side": 1,
+      "message": "Why not keeping the for loop? If for any reason we want to get rid of it, it might be worth doing it in a folowup change",
+      "revId": "168bc302dba8ed366832cce6621f533a34244964",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

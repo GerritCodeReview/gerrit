@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "918372e9_4a5ac8dd",
+        "filename": "java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-09-23T19:19:06Z",
+      "side": 1,
+      "message": "Worth a comment listing the cases we are trying to match",
+      "revId": "9639c3ae0f6b7490b907d0b34cd715bb6a41447b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

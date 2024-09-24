@@ -1,0 +1,16 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[dev-packages]
+black = "*"
+pytest = "*"
+flake8 = "*"
+flake8-bugbear = "*"
+
+[requires]
+python_version = "3.12"
+
+[pipenv]
+allow_prereleases = true

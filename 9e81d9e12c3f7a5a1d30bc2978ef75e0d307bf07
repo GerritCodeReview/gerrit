@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d608bbae_fad4fd5a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-09-24T15:02:20Z",
+      "side": 1,
+      "message": "how do you plan to extend this so that gcplus can also wrap the jgit CLI ?",
+      "revId": "9e81d9e12c3f7a5a1d30bc2978ef75e0d307bf07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "264cb970_853565c6",
+        "filename": "contrib/gc/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-09-24T15:02:20Z",
+      "side": 1,
+      "message": "created",
+      "range": {
+        "startLine": 89,
+        "startChar": 56,
+        "endLine": 89,
+        "endChar": 63
+      },
+      "revId": "9e81d9e12c3f7a5a1d30bc2978ef75e0d307bf07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb58dd2e_eedb2fea",
+        "filename": "contrib/gc/src/gc.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-09-24T15:02:20Z",
+      "side": 1,
+      "message": "```suggestion\n            LOG.info(\"Found less than %d refs -\u003e skipping pack all refs\" % MAX_LOOSE_REF_COUNT)\n```",
+      "revId": "9e81d9e12c3f7a5a1d30bc2978ef75e0d307bf07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c685dfa_2cccc868",
+        "filename": "contrib/gc/src/gc.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-09-24T15:02:20Z",
+      "side": 1,
+      "message": "this comment should be moved to the `git.gc()` implementation in `contrib/gc/src/git/git.py`",
+      "revId": "9e81d9e12c3f7a5a1d30bc2978ef75e0d307bf07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad56c19d_34fea9c9",
+        "filename": "contrib/gc/tests/test_gc.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-09-24T15:02:20Z",
+      "side": 1,
+      "message": "```suggestion\ndef _modify_last_modified(file, time_delta):\n```",
+      "revId": "9e81d9e12c3f7a5a1d30bc2978ef75e0d307bf07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

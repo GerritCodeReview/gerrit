@@ -38,6 +38,7 @@ import com.google.gerrit.server.query.change.AndChangeSource;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeStatusPredicate;
+import com.google.gerrit.server.query.change.OrSource;
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.Set;
@@ -103,6 +104,22 @@ public class ChangeIndexRewriterTest {
                     ChangeStatusPredicate.forStatus(ABANDONED))),
             in)
         .inOrder();
+  }
+
+  @Test
+  public void nonIndexOrSourcePredicates() throws Exception {
+    Predicate<ChangeData> in = parse("baz:a OR baz:b");
+    Predicate<ChangeData> out = rewrite(in);
+    assertThat(out.getClass()).isSameInstanceAs(OrSource.class);
+    assertThat(out.getChildren()).containsExactly(parse("baz:a"), parse("baz:b")).inOrder();
+  }
+
+  @Test
+  public void nonIndexAndSourcePredicates() throws Exception {
+    Predicate<ChangeData> in = parse("baz:a baz:b");
+    Predicate<ChangeData> out = rewrite(in);
+    assertThat(out.getClass()).isSameInstanceAs(AndChangeSource.class);
+    assertThat(out.getChildren()).containsExactly(parse("baz:a"), parse("baz:b")).inOrder();
   }
 
   @Test

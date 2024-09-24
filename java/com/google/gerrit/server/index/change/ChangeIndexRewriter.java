@@ -221,6 +221,9 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
         isIndexed.set(i);
         newChildren.add(c);
       } else if (nc == null /* cannot rewrite c */) {
+        if (c instanceof ChangeDataSource) {
+          changeSource.set(i);
+        }
         notIndexed.set(i);
         newChildren.add(c);
       } else {
@@ -235,6 +238,9 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
     if (isIndexed.cardinality() == n) {
       return in; // All children are indexed, leave as-is for parent.
     } else if (notIndexed.cardinality() == n) {
+      if (changeSource.cardinality() == n) {
+        return copy(in, newChildren);
+      }
       return null; // Can't rewrite any children, so cannot rewrite in.
     } else if (rewritten.cardinality() == n) {
       // All children were rewritten.

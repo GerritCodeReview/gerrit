@@ -22,6 +22,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -52,8 +53,9 @@ public class AuthorizationCheckServlet extends HttpServlet {
         res.setContentType("image/svg+xml");
         res.setCharacterEncoding(UTF_8.name());
         res.setStatus(HttpServletResponse.SC_OK);
-        res.getWriter().write(responseToClient);
-        res.getWriter().flush();
+        PrintWriter writer = res.getWriter();
+        writer.write(responseToClient);
+        writer.flush();
       } else {
         res.setContentLength(0);
         res.setStatus(HttpServletResponse.SC_NO_CONTENT);

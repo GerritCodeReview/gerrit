@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3d71a6c_d60fbae2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-09-24T12:48:58Z",
+      "side": 1,
+      "message": "TODOs:\n- more tests\n- dev documentation\n- rethink package structure to make it usable in other tools and make reusable parts (e.g. git config parser) usable by other scripts",
+      "revId": "809fecae96941209f4b55aceb9418f48a19291fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

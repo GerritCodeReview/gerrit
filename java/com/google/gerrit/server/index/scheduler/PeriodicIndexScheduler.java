@@ -17,6 +17,7 @@ package com.google.gerrit.server.index.scheduler;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
+import com.google.gerrit.server.config.GerritIsReplica;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.ScheduleConfig;
 import com.google.gerrit.server.config.ScheduleConfig.Schedule;
@@ -39,23 +40,28 @@ public class PeriodicIndexScheduler implements LifecycleListener {
   private final Config cfg;
   private final WorkQueue queue;
   private final PeriodicGroupIndexer groupIndexer;
+  private final boolean isReplica;
 
   @Inject
   PeriodicIndexScheduler(
-      @GerritServerConfig Config cfg, WorkQueue queue, PeriodicGroupIndexer groupIndexer) {
+      @GerritServerConfig Config cfg,
+      WorkQueue queue,
+      PeriodicGroupIndexer groupIndexer,
+      @GerritIsReplica boolean isReplica) {
     this.cfg = cfg;
     this.queue = queue;
     this.groupIndexer = groupIndexer;
+    this.isReplica = isReplica;
   }
 
   @Override
   public void start() {
-    boolean runOnStartup = cfg.getBoolean("index", "scheduledIndexer", "runOnStartup", true);
+    boolean runOnStartup = cfg.getBoolean("index", "scheduledIndexer", "runOnStartup", isReplica);
     if (runOnStartup) {
       groupIndexer.run();
     }
 
-    boolean isEnabled = cfg.getBoolean("index", "scheduledIndexer", "enabled", true);
+    boolean isEnabled = cfg.getBoolean("index", "scheduledIndexer", "enabled", isReplica);
     if (!isEnabled) {
       logger.atWarning().log("index.scheduledIndexer is disabled");
       return;

@@ -51,6 +51,24 @@
       ],
       "revId": "694894fad9ed07004d28b0cfc858cf48bd852d1c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da223d5d_3bec7977",
+        "filename": "polygerrit-ui/app/elements/shared/gr-suggestion-textarea/gr-suggestion-textarea.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-09-25T14:48:50Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "df33e31e_544ab749",
+      "revId": "694894fad9ed07004d28b0cfc858cf48bd852d1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

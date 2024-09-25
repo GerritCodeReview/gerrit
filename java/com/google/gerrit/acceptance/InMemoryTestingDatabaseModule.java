@@ -25,6 +25,7 @@ import com.google.gerrit.metrics.MetricsReservoirConfig;
 import com.google.gerrit.server.config.AllProjectsConfigProvider;
 import com.google.gerrit.server.config.FileBasedAllProjectsConfigProvider;
 import com.google.gerrit.server.config.FileBasedGlobalPluginConfigProvider;
+import com.google.gerrit.server.config.GerritIsReplica;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GlobalPluginConfigProvider;
 import com.google.gerrit.server.config.MetricsReservoirConfigImpl;
@@ -83,6 +84,8 @@ class InMemoryTestingDatabaseModule extends LifecycleModule {
     install(new SchemaModule());
 
     install(new SshdModule());
+
+    bind(Boolean.class).annotatedWith(GerritIsReplica.class).toInstance(false);
   }
 
   static class CreateSchema implements LifecycleListener {

@@ -552,9 +552,8 @@ public class Daemon extends SiteProgram {
           }
         });
     modules.add(new GarbageCollectionModule());
-    if (replica) {
-      modules.add(new PeriodicIndexScheduler.Module());
-    } else {
+    modules.add(new PeriodicIndexScheduler.Module());
+    if (!replica) {
       modules.add(new AccountDeactivatorModule());
       modules.add(new AttentionSetOwnerAdderModule());
       modules.add(new ChangeCleanupRunnerModule());

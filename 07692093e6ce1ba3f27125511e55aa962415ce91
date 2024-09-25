@@ -1,6 +1,58 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d4ad968_5be19add",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2024-09-25T09:21:17Z",
+      "side": 1,
+      "message": "This is a message",
+      "revId": "07692093e6ce1ba3f27125511e55aa962415ce91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1172beb4_3b931942",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2024-09-25T09:21:17Z",
+      "side": 1,
+      "message": "This is a",
+      "fixSuggestions": [
+        {
+          "fixId": "c9852c44_2cc8eabf",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.ts",
+              "range": {
+                "startLine": 66,
+                "startChar": 0,
+                "endLine": 67,
+                "endChar": 0
+              },
+              "replacement": "  [OUTGOING.name, \u0027outgoing-slot\u0027], // This is a\n"
+            }
+          ]
+        }
+      ],
+      "revId": "07692093e6ce1ba3f27125511e55aa962415ce91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0610fa67_3e89eb52",
@@ -54,6 +106,41 @@
                 "endChar": 0
               },
               "replacement": "          \u003cdiv class\u003d\"average\"\u003e${round2Digits(average2(comments))}\u003c/div\u003e\n"
+            }
+          ]
+        }
+      ],
+      "revId": "07692093e6ce1ba3f27125511e55aa962415ce91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "811e39b1_1d625935",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 630,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2024-09-25T09:21:17Z",
+      "side": 1,
+      "message": "This should be refactored.",
+      "fixSuggestions": [
+        {
+          "fixId": "6c4a33f3_27973954",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+              "range": {
+                "startLine": 630,
+                "startChar": 0,
+                "endLine": 632,
+                "endChar": 0
+              },
+              "replacement": "    this.mapRoute(\n      RoutePattern.PROFILE,\n      \u0027handleProfileRoute\u0027,\n      ctx \u003d\u003e this.handleProfileRoute(ctx),\n      true\n"
             }
           ]
         }

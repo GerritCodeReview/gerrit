@@ -1,0 +1,39 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3cc5b4be_e5de1ee7",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2024-09-25T09:21:17Z",
+      "side": 0,
+      "message": "Rename to gr-dashboard-plan",
+      "fixSuggestions": [
+        {
+          "fixId": "80ac4dfc_ac5a439b",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.ts",
+              "range": {
+                "startLine": 69,
+                "startChar": 0,
+                "endLine": 70,
+                "endChar": 0
+              },
+              "replacement": "@customElement(\u0027gr-dashboard-plan\u0027)\n"
+            }
+          ]
+        }
+      ],
+      "revId": "6fc11049de28f3b4aa4002edfa08e3dd1711bea5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -24,6 +24,7 @@ import com.google.gerrit.server.config.ScheduleConfig.Schedule;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.group.PeriodicGroupIndexer;
 import com.google.inject.Inject;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
 
@@ -56,23 +57,42 @@ public class PeriodicIndexScheduler implements LifecycleListener {
 
   @Override
   public void start() {
-    boolean runOnStartup = cfg.getBoolean("index", "scheduledIndexer", "runOnStartup", isReplica);
+    Subsection s = determineConfigSubsection();
+    boolean runOnStartup = cfg.getBoolean(s.section, s.subsection, "runOnStartup", isReplica);
     if (runOnStartup) {
       groupIndexer.run();
     }
 
-    boolean isEnabled = cfg.getBoolean("index", "scheduledIndexer", "enabled", isReplica);
+    boolean isEnabled = cfg.getBoolean(s.section, s.subsection, "enabled", isReplica);
     if (!isEnabled) {
       logger.atWarning().log("index.scheduledIndexer is disabled");
       return;
     }
 
     Schedule schedule =
-        ScheduleConfig.builder(cfg, "index")
-            .setSubsection("scheduledIndexer")
+        ScheduleConfig.builder(cfg, s.section)
+            .setSubsection(s.subsection)
             .buildSchedule()
             .orElseGet(() -> Schedule.createOrFail(TimeUnit.MINUTES.toMillis(5), "00:00"));
     queue.scheduleAtFixedRate(groupIndexer, schedule);
+  }
+
+  private Subsection determineConfigSubsection() {
+    Set<String> scheduledIndexerConfig = cfg.getSubsections("scheduledIndexer");
+    if (scheduledIndexerConfig.contains("groups")) {
+      return new Subsection("scheduledIndexer", "groups");
+    }
+    return new Subsection("index", "scheduledIndexer");
+  }
+
+  private static class Subsection {
+    final String section;
+    final String subsection;
+
+    Subsection(String section, String subsection) {
+      this.section = section;
+      this.subsection = subsection;
+    }
   }
 
   @Override

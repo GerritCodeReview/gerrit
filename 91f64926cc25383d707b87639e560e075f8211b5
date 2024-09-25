@@ -1,0 +1,99 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1102043_1e201a98",
+        "filename": "polygerrit-ui/app/embed/gr-textarea.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2024-09-25T09:28:10Z",
+      "side": 1,
+      "message": "Remove log",
+      "fixSuggestions": [
+        {
+          "fixId": "b2322ca0_78f9a556",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/embed/gr-textarea.ts",
+              "range": {
+                "startLine": 350,
+                "startChar": 0,
+                "endLine": 355,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "polygerrit-ui/app/embed/gr-textarea.ts",
+              "range": {
+                "startLine": 356,
+                "startChar": 0,
+                "endLine": 357,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "polygerrit-ui/app/embed/gr-textarea.ts",
+              "range": {
+                "startLine": 432,
+                "startChar": 0,
+                "endLine": 437,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "polygerrit-ui/app/embed/gr-textarea.ts",
+              "range": {
+                "startLine": 468,
+                "startChar": 0,
+                "endLine": 469,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "polygerrit-ui/app/embed/gr-textarea.ts",
+              "range": {
+                "startLine": 587,
+                "startChar": 0,
+                "endLine": 590,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "polygerrit-ui/app/embed/gr-textarea.ts",
+              "range": {
+                "startLine": 646,
+                "startChar": 0,
+                "endLine": 649,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "polygerrit-ui/app/embed/gr-textarea.ts",
+              "range": {
+                "startLine": 711,
+                "startChar": 0,
+                "endLine": 712,
+                "endChar": 0
+              },
+              "replacement": ""
+            }
+          ]
+        }
+      ],
+      "revId": "91f64926cc25383d707b87639e560e075f8211b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

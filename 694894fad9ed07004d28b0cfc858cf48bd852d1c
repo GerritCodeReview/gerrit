@@ -1,5 +1,58 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "677f6be3_0be63978",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2024-09-25T09:28:10Z",
+      "side": 1,
+      "message": "This is a comment",
+      "revId": "694894fad9ed07004d28b0cfc858cf48bd852d1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df33e31e_544ab749",
+        "filename": "polygerrit-ui/app/elements/shared/gr-suggestion-textarea/gr-suggestion-textarea.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2024-09-25T09:28:10Z",
+      "side": 1,
+      "message": "Please sort the",
+      "fixSuggestions": [
+        {
+          "fixId": "016a743a_c166096e",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-suggestion-textarea/gr-suggestion-textarea.ts",
+              "range": {
+                "startLine": 21,
+                "startChar": 0,
+                "endLine": 22,
+                "endChar": 0
+              },
+              "replacement": "import {LitElement, css, html, TemplateResult} from \u0027lit\u0027;\n"
+            }
+          ]
+        }
+      ],
+      "revId": "694894fad9ed07004d28b0cfc858cf48bd852d1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

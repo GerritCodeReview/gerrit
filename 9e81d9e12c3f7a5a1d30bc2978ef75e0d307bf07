@@ -18,6 +18,42 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "81f8c295_26bb2c56",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-09-25T15:13:02Z",
+      "side": 1,
+      "message": "I don\u0027t believe tha twe can use the",
+      "parentUuid": "d608bbae_fad4fd5a",
+      "revId": "9e81d9e12c3f7a5a1d30bc2978ef75e0d307bf07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b13a74b8_60802183",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-09-25T15:13:02Z",
+      "side": 1,
+      "message": "I don\u0027t believe that we can use the `git-gcplus` CLI entrypoint for jgit, since the native git and jgit CLIs are too different, e.g. as I see the help output of the CLI, no `-c` support. Other than that, I would use the `GitGarbageCollectionProvider` to provide a different implementation or differently constructed `GitGarbageCollection`, i.e. using a different executable and set of init-/after-steps (e.g. preserving packs could be done directly using jgit)",
+      "parentUuid": "d608bbae_fad4fd5a",
+      "revId": "9e81d9e12c3f7a5a1d30bc2978ef75e0d307bf07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "264cb970_853565c6",
@@ -31,6 +67,30 @@
       "writtenOn": "2024-09-24T15:02:20Z",
       "side": 1,
       "message": "created",
+      "range": {
+        "startLine": 89,
+        "startChar": 56,
+        "endLine": 89,
+        "endChar": 63
+      },
+      "revId": "9e81d9e12c3f7a5a1d30bc2978ef75e0d307bf07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d06af65c_ad78c85c",
+        "filename": "contrib/gc/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-09-25T15:13:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "264cb970_853565c6",
       "range": {
         "startLine": 89,
         "startChar": 56,
@@ -58,6 +118,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "28bd87dd_c1cd18d6",
+        "filename": "contrib/gc/src/gc.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-09-25T15:13:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb58dd2e_eedb2fea",
+      "revId": "9e81d9e12c3f7a5a1d30bc2978ef75e0d307bf07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2c685dfa_2cccc868",
@@ -75,6 +153,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c54c067_0257e71c",
+        "filename": "contrib/gc/src/gc.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-09-25T15:13:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c685dfa_2cccc868",
+      "revId": "9e81d9e12c3f7a5a1d30bc2978ef75e0d307bf07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ad56c19d_34fea9c9",
@@ -88,6 +184,24 @@
       "writtenOn": "2024-09-24T15:02:20Z",
       "side": 1,
       "message": "```suggestion\ndef _modify_last_modified(file, time_delta):\n```",
+      "revId": "9e81d9e12c3f7a5a1d30bc2978ef75e0d307bf07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd51f35a_5fc60d1e",
+        "filename": "contrib/gc/tests/test_gc.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-09-25T15:13:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad56c19d_34fea9c9",
       "revId": "9e81d9e12c3f7a5a1d30bc2978ef75e0d307bf07",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

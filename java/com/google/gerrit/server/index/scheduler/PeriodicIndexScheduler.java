@@ -17,16 +17,14 @@ package com.google.gerrit.server.index.scheduler;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
-import com.google.gerrit.server.config.GerritIsReplica;
-import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.config.ScheduleConfig;
-import com.google.gerrit.server.config.ScheduleConfig.Schedule;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.group.PeriodicGroupIndexer;
+import com.google.gerrit.server.project.PeriodicProjectIndexer;
 import com.google.inject.Inject;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
-import org.eclipse.jgit.lib.Config;
+import com.google.inject.Scopes;
+import com.google.inject.TypeLiteral;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PeriodicIndexScheduler implements LifecycleListener {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -35,63 +33,47 @@ public class PeriodicIndexScheduler implements LifecycleListener {
     @Override
     protected void configure() {
       listener().to(PeriodicIndexScheduler.class);
+      bind(new TypeLiteral<Map<String, PeriodicIndexerConfig>>() {})
+          .toProvider(PeriodicIndexerConfigProvider.class)
+          .in(Scopes.SINGLETON);
     }
   }
 
-  private final Config cfg;
+  private final Map<String, PeriodicIndexerConfig> indexerConfigs;
   private final WorkQueue queue;
-  private final PeriodicGroupIndexer groupIndexer;
-  private final boolean isReplica;
+  private final Map<String, Runnable> indexers = new HashMap<>();
 
   @Inject
   PeriodicIndexScheduler(
-      @GerritServerConfig Config cfg,
+      Map<String, PeriodicIndexerConfig> indexerConfigs,
       WorkQueue queue,
       PeriodicGroupIndexer groupIndexer,
-      @GerritIsReplica boolean isReplica) {
-    this.cfg = cfg;
+      PeriodicProjectIndexer projectIndexer) {
+    this.indexerConfigs = indexerConfigs;
     this.queue = queue;
-    this.groupIndexer = groupIndexer;
-    this.isReplica = isReplica;
+    indexers.put("groups", groupIndexer);
+    indexers.put("projects", projectIndexer);
   }
 
   @Override
   public void start() {
-    Subsection s = determineConfigSubsection();
-    boolean runOnStartup = cfg.getBoolean(s.section, s.subsection, "runOnStartup", isReplica);
-    if (runOnStartup) {
-      groupIndexer.run();
-    }
+    for (Map.Entry<String, Runnable> e : indexers.entrySet()) {
+      String indexName = e.getKey();
+      if (indexerConfigs.containsKey(indexName)) {
+        Runnable indexer = e.getValue();
+        PeriodicIndexerConfig config = indexerConfigs.get(indexName);
 
-    boolean isEnabled = cfg.getBoolean(s.section, s.subsection, "enabled", isReplica);
-    if (!isEnabled) {
-      logger.atWarning().log("index.scheduledIndexer is disabled");
-      return;
-    }
+        if (config.runOnStartup()) {
+          indexer.run();
+        }
 
-    Schedule schedule =
-        ScheduleConfig.builder(cfg, s.section)
-            .setSubsection(s.subsection)
-            .buildSchedule()
-            .orElseGet(() -> Schedule.createOrFail(TimeUnit.MINUTES.toMillis(5), "00:00"));
-    queue.scheduleAtFixedRate(groupIndexer, schedule);
-  }
+        if (!config.enabled()) {
+          logger.atWarning().log("periodic reindexing for %s is disabled", indexName);
+          continue;
+        }
 
-  private Subsection determineConfigSubsection() {
-    Set<String> scheduledIndexerConfig = cfg.getSubsections("scheduledIndexer");
-    if (scheduledIndexerConfig.contains("groups")) {
-      return new Subsection("scheduledIndexer", "groups");
-    }
-    return new Subsection("index", "scheduledIndexer");
-  }
-
-  private static class Subsection {
-    final String section;
-    final String subsection;
-
-    Subsection(String section, String subsection) {
-      this.section = section;
-      this.subsection = subsection;
+        queue.scheduleAtFixedRate(indexer, config.schedule());
+      }
     }
   }
 

@@ -671,6 +671,16 @@ export declare interface DownloadSchemeInfo {
 export type EmailAddress = BrandType<string, '_emailAddress'>;
 
 /**
+ * The EmailInfo entity contains information about an email address of a user
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#email-info
+ */
+export declare interface EmailInfo {
+  email: EmailAddress;
+  preferred?: boolean;
+  pending_confirmation?: boolean;
+}
+
+/**
  * The FetchInfo entity contains information about how to fetch a patchset via
  * a certain protocol.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#fetch-info

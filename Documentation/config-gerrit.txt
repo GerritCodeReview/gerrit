@@ -3690,6 +3690,42 @@ Defaults to `false`.
 This section configures periodic indexing. Periodic indexing can be run
 on both primaries and replicas.
 
+Scheduled indexer is currently supported for projects and groups indexes.
+
+The default values for the following options may be different for the groups
+index on replicas. Check the
+link:#scheduledIndexer.groups[scheduledIndexer.groups] section for more info.
+
+[[scheduledIndexer.name.runOnStartup]]scheduledIndexer.<name>.runOnStartup::
++
+Whether the scheduled indexer should run once immediately on startup.
+If set to `true` the server startup is blocked until indexing finishes.
++
+Defaults to `false`.
+
+[[scheduledIndexer.name.enabled]]scheduledIndexer.<name>.enabled::
++
+Whether the periodic scheduled indexer is enabled.
++
+Defaults to `false`.
+
+[[scheduledIndexer.name.startTime]]scheduledIndexer.<name>.startTime::
++
+The link:#schedule-configuration-startTime[start time] for running
+the scheduled indexer.
++
+Defaults to `00:00`.
+
+[[scheduledIndexer.name.interval]]scheduledIndexer.<name>.interval::
++
+The link:#schedule-configuration-interval[interval] for running
+the scheduled indexer.
++
+Defaults to `5m`.
+
+link:#schedule-configuration-examples[Schedule examples] can be found
+in the link:#schedule-configuration[Schedule Configuration] section.
+
 
 [[scheduledIndexer.groups]]
 ==== Subsection scheduledIndexer.groups
@@ -3704,40 +3740,14 @@ index in replicas up-to-date the Gerrit replica periodically scans the
 group refs in the All-Users repository to reindex groups if they are
 stale.
 
-[[scheduledIndexer.groups.runOnStartup]]scheduledIndexer.groups.runOnStartup::
-+
-Whether the scheduled indexer should run once immediately on startup.
-If set to `true` the server startup is blocked until all stale groups
-were reindexed. Enabling this allows to prevent that servers that were
-offline for a longer period of time run with outdated group information
-until the first scheduled indexing is done.
-+
-Defaults to `true` for replicas, `false` for primaries.
-
 [[scheduledIndexer.groups.enabled]]scheduledIndexer.groups.enabled::
 +
 Whether the scheduled indexer is enabled. If the scheduled indexer is disabled
 you may need to implement other means to keep the groups index on replicas
 up-to-date.
+Whether the periodic scheduled indexer is enabled.
 +
 Defaults to `true` for replicas, `false` for primaries.
-
-[[scheduledIndexer.groups.startTime]]groups.scheduledIndexer.startTime::
-+
-The link:#schedule-configuration-startTime[start time] for running
-the scheduled indexer.
-+
-Defaults to `00:00`.
-
-[[scheduledIndexer.groups.interval]]scheduledIndexer.groups.interval::
-+
-The link:#schedule-configuration-interval[interval] for running
-the scheduled indexer.
-+
-Defaults to `5m`.
-
-link:#schedule-configuration-examples[Schedule examples] can be found
-in the link:#schedule-configuration[Schedule Configuration] section.
 
 
 [[index.scheduledIndexer]]

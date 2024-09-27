@@ -51,6 +51,24 @@
       "message": "LGTM on the code.\nIt is pretty harmless.",
       "revId": "f9721c4f1575b9ceec9c2970c471a17d8813cc36",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4fdd42f0_bd049252",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-09-27T13:13:20Z",
+      "side": 1,
+      "message": "A plugin wants to depend on the type.",
+      "parentUuid": "96789c0b_590b3718",
+      "revId": "f9721c4f1575b9ceec9c2970c471a17d8813cc36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

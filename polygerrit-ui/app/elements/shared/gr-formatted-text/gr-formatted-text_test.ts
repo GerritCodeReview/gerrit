@@ -87,7 +87,8 @@ suite('gr-formatted-text tests', () => {
       assert.shadowDom.equal(
         element,
         /* HTML */ `
-          <pre class="plaintext">
+          <gr-endpoint-decorator name="formatted-text-endpoint">
+            <pre class="plaintext">
             <a
               href="http://google.com/LinkRewriteMe"
               rel="noopener noreferrer"
@@ -96,6 +97,7 @@ suite('gr-formatted-text tests', () => {
             http://google.com/LinkRewriteMe
             </a>
           </pre>
+          </gr-endpoint-decorator>
         `
       );
     });
@@ -119,9 +121,11 @@ suite('gr-formatted-text tests', () => {
       assert.shadowDom.equal(
         element,
         /* HTML */ `
-          <pre class="plaintext">
+          <gr-endpoint-decorator name="formatted-text-endpoint">
+            <pre class="plaintext">
           FOO<a href="a.b.c" rel="noopener noreferrer" target="_blank">foo</a>
         </pre>
+          </gr-endpoint-decorator>
         `
       );
     });
@@ -147,7 +151,8 @@ suite('gr-formatted-text tests', () => {
       assert.shadowDom.equal(
         element,
         /* HTML */ `
-          <pre class="plaintext">
+          <gr-endpoint-decorator name="formatted-text-endpoint">
+            <pre class="plaintext">
             Start:
             <a href="bug/123" rel="noopener noreferrer" target="_blank">
               bug/123
@@ -156,6 +161,7 @@ suite('gr-formatted-text tests', () => {
               bug/456
             </a>
           </pre>
+          </gr-endpoint-decorator>
         `
       );
     });
@@ -170,7 +176,8 @@ suite('gr-formatted-text tests', () => {
       assert.shadowDom.equal(
         element,
         /* HTML */ `
-          <pre class="plaintext">
+          <gr-endpoint-decorator name="formatted-text-endpoint">
+            <pre class="plaintext">
           text with plain link:
           <a
             href="http://google.com"
@@ -196,6 +203,7 @@ suite('gr-formatted-text tests', () => {
               Link 12
             </a>
           </pre>
+          </gr-endpoint-decorator>
         `
       );
     });
@@ -207,7 +215,9 @@ suite('gr-formatted-text tests', () => {
       const escapedDiv = '&lt;div&gt;foo&lt;/div&gt;';
       assert.shadowDom.equal(
         element,
-        /* HTML */ `<pre class="plaintext">plain text ${escapedDiv}</pre>`
+        /* HTML */ `<gr-endpoint-decorator name="formatted-text-endpoint">
+          <pre class="plaintext">plain text ${escapedDiv}</pre>
+        </gr-endpoint-decorator>`
       );
     });
 
@@ -217,7 +227,10 @@ suite('gr-formatted-text tests', () => {
 
       assert.shadowDom.equal(
         element,
-        /* HTML */ '<pre class="plaintext"># A Markdown Heading</pre>'
+        /* HTML */
+        `<gr-endpoint-decorator name="formatted-text-endpoint">
+          <pre class="plaintext"># A Markdown Heading</pre>
+        </gr-endpoint-decorator>`
       );
     });
 
@@ -259,42 +272,44 @@ suite('gr-formatted-text tests', () => {
       assert.shadowDom.equal(
         element,
         /* HTML */ `
-          <marked-element>
-            <div slot="markdown-html" class="markdown-html">
-              <p>text</p>
-              <p>
-                text with plain link:
-                <a
-                  href="http://google.com"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  http://google.com
-                </a>
-              </p>
-              <p>
-                text with config link:
-                <a
-                  href="http://google.com/LinkRewriteMe"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  LinkRewriteMe
-                </a>
-              </p>
-              <p>text without a link: NotA Link 15 cats</p>
-              <p>
-                text with complex link: A
-                <a
-                  href="http://localhost/page?id=12"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  Link 12
-                </a>
-              </p>
-            </div>
-          </marked-element>
+          <gr-endpoint-decorator name="formatted-text-endpoint">
+            <marked-element>
+              <div slot="markdown-html" class="markdown-html">
+                <p>text</p>
+                <p>
+                  text with plain link:
+                  <a
+                    href="http://google.com"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    http://google.com
+                  </a>
+                </p>
+                <p>
+                  text with config link:
+                  <a
+                    href="http://google.com/LinkRewriteMe"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    LinkRewriteMe
+                  </a>
+                </p>
+                <p>text without a link: NotA Link 15 cats</p>
+                <p>
+                  text with complex link: A
+                  <a
+                    href="http://localhost/page?id=12"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Link 12
+                  </a>
+                </p>
+              </div>
+            </marked-element>
+          </gr-endpoint-decorator>
         `
       );
     });
@@ -311,7 +326,8 @@ suite('gr-formatted-text tests', () => {
       assert.shadowDom.equal(
         element,
         /* HTML */ `
-          <pre class="plaintext">
+          <gr-endpoint-decorator name="formatted-text-endpoint">
+            <pre class="plaintext">
           text
         text with plain link:
         <a
@@ -339,6 +355,7 @@ suite('gr-formatted-text tests', () => {
             Link 12
           </a>
         </pre>
+          </gr-endpoint-decorator>
         `
       );
     });
@@ -357,36 +374,38 @@ suite('gr-formatted-text tests', () => {
       assert.shadowDom.equal(
         element,
         /* HTML */ `
-          <marked-element>
-            <div slot="markdown-html" class="markdown-html">
-              <h1>h1-heading</h1>
-              <h2>h2-heading</h2>
-              <h3>h3-heading</h3>
-              <h4>h4-heading</h4>
-              <h5>h5-heading</h5>
-              <h6>h6-heading</h6>
-              <h1>
-                heading with plain link:
-                <a
-                  href="http://google.com"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  http://google.com
-                </a>
-              </h1>
-              <h1>
-                heading with config link:
-                <a
-                  href="http://google.com/LinkRewriteMe"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  LinkRewriteMe
-                </a>
-              </h1>
-            </div>
-          </marked-element>
+          <gr-endpoint-decorator name="formatted-text-endpoint">
+            <marked-element>
+              <div slot="markdown-html" class="markdown-html">
+                <h1>h1-heading</h1>
+                <h2>h2-heading</h2>
+                <h3>h3-heading</h3>
+                <h4>h4-heading</h4>
+                <h5>h5-heading</h5>
+                <h6>h6-heading</h6>
+                <h1>
+                  heading with plain link:
+                  <a
+                    href="http://google.com"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    http://google.com
+                  </a>
+                </h1>
+                <h1>
+                  heading with config link:
+                  <a
+                    href="http://google.com/LinkRewriteMe"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    LinkRewriteMe
+                  </a>
+                </h1>
+              </div>
+            </marked-element>
+          </gr-endpoint-decorator>
         `
       );
     });
@@ -400,19 +419,21 @@ suite('gr-formatted-text tests', () => {
       assert.shadowDom.equal(
         element,
         /* HTML */ `
-          <marked-element>
-            <div slot="markdown-html" class="markdown-html">
-              <p>
-                <code>inline code</code>
-              </p>
-              <p>
-                <code>inline code with plain link: google.com</code>
-              </p>
-              <p>
-                <code>inline code with config link: LinkRewriteMe</code>
-              </p>
-            </div>
-          </marked-element>
+          <gr-endpoint-decorator name="formatted-text-endpoint">
+            <marked-element>
+              <div slot="markdown-html" class="markdown-html">
+                <p>
+                  <code>inline code</code>
+                </p>
+                <p>
+                  <code>inline code with plain link: google.com</code>
+                </p>
+                <p>
+                  <code>inline code with config link: LinkRewriteMe</code>
+                </p>
+              </div>
+            </marked-element>
+          </gr-endpoint-decorator>
         `
       );
     });
@@ -426,19 +447,21 @@ suite('gr-formatted-text tests', () => {
       assert.shadowDom.equal(
         element,
         /* HTML */ `
-          <marked-element>
-            <div slot="markdown-html" class="markdown-html">
-              <pre>
+          <gr-endpoint-decorator name="formatted-text-endpoint">
+            <marked-element>
+              <div slot="markdown-html" class="markdown-html">
+                <pre>
               <code>multiline code</code>
             </pre>
-              <pre>
+                <pre>
               <code>multiline code with plain link: google.com</code>
             </pre>
-              <pre>
+                <pre>
               <code>multiline code with config link: LinkRewriteMe</code>
             </pre>
-            </div>
-          </marked-element>
+              </div>
+            </marked-element>
+          </gr-endpoint-decorator>
         `
       );
     });
@@ -450,11 +473,13 @@ suite('gr-formatted-text tests', () => {
       assert.shadowDom.equal(
         element,
         /* HTML */ `
-          <marked-element>
-            <div slot="markdown-html" class="markdown-html">
-              <p>![img](google.com/img.png)</p>
-            </div>
-          </marked-element>
+          <gr-endpoint-decorator name="formatted-text-endpoint">
+            <marked-element>
+              <div slot="markdown-html" class="markdown-html">
+                <p>![img](google.com/img.png)</p>
+              </div>
+            </marked-element>
+          </gr-endpoint-decorator>
         `
       );
     });
@@ -466,13 +491,15 @@ suite('gr-formatted-text tests', () => {
       assert.shadowDom.equal(
         element,
         /* HTML */ `
-          <marked-element>
-            <div slot="markdown-html" class="markdown-html">
-              <p>
-                <gr-account-chip></gr-account-chip>
-              </p>
-            </div>
-          </marked-element>
+          <gr-endpoint-decorator name="formatted-text-endpoint">
+            <marked-element>
+              <div slot="markdown-html" class="markdown-html">
+                <p>
+                  <gr-account-chip></gr-account-chip>
+                </p>
+              </div>
+            </marked-element>
+          </gr-endpoint-decorator>
         `
       );
       const accountChip = queryAndAssert<GrAccountChip>(
@@ -492,20 +519,22 @@ suite('gr-formatted-text tests', () => {
       assert.shadowDom.equal(
         element,
         /* HTML */ `
-          <marked-element>
-            <div slot="markdown-html" class="markdown-html">
-              <p>
-                <code>@</code>
-                <a
-                  href="mailto:someone@google.com"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  someone@google.com
-                </a>
-              </p>
-            </div>
-          </marked-element>
+          <gr-endpoint-decorator name="formatted-text-endpoint">
+            <marked-element>
+              <div slot="markdown-html" class="markdown-html">
+                <p>
+                  <code>@</code>
+                  <a
+                    href="mailto:someone@google.com"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    someone@google.com
+                  </a>
+                </p>
+              </div>
+            </marked-element>
+          </gr-endpoint-decorator>
         `
       );
     });
@@ -524,43 +553,45 @@ suite('gr-formatted-text tests', () => {
       assert.shadowDom.equal(
         element,
         /* HTML */ `
-          <marked-element>
-            <div slot="markdown-html" class="markdown-html">
-              <p>
-                <a
-                  href="https://www.google.com"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                  >myLink1</a
-                >
-                <br />
-                <a href="/destiny">myLink2</a>
-                <br />
-                <a href="${origin}/destiny">myLink3</a>
-                <br />
-                <a
-                  href="https://google.com"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                  >myLink4</a
-                >
-                <br />
-                <a
-                  href="http://google.com"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                  >myLink5</a
-                >
-                <br />
-                <a
-                  href="mailto:google@google.com"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                  >myLink6</a
-                >
-              </p>
-            </div>
-          </marked-element>
+          <gr-endpoint-decorator name="formatted-text-endpoint">
+            <marked-element>
+              <div slot="markdown-html" class="markdown-html">
+                <p>
+                  <a
+                    href="https://www.google.com"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                    >myLink1</a
+                  >
+                  <br />
+                  <a href="/destiny">myLink2</a>
+                  <br />
+                  <a href="${origin}/destiny">myLink3</a>
+                  <br />
+                  <a
+                    href="https://google.com"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                    >myLink4</a
+                  >
+                  <br />
+                  <a
+                    href="http://google.com"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                    >myLink5</a
+                  >
+                  <br />
+                  <a
+                    href="mailto:google@google.com"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                    >myLink6</a
+                  >
+                </p>
+              </div>
+            </marked-element>
+          </gr-endpoint-decorator>
         `
       );
     });
@@ -574,37 +605,39 @@ suite('gr-formatted-text tests', () => {
       assert.shadowDom.equal(
         element,
         /* HTML */ `
-          <marked-element>
-            <div slot="markdown-html" class="markdown-html">
-              <blockquote>
-                <p>block quote</p>
-              </blockquote>
-              <blockquote>
-                <p>
-                  block quote with plain link:
-                  <a
-                    href="http://google.com"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    http://google.com
-                  </a>
-                </p>
-              </blockquote>
-              <blockquote>
-                <p>
-                  block quote with config link:
-                  <a
-                    href="http://google.com/LinkRewriteMe"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    LinkRewriteMe
-                  </a>
-                </p>
-              </blockquote>
-            </div>
-          </marked-element>
+          <gr-endpoint-decorator name="formatted-text-endpoint">
+            <marked-element>
+              <div slot="markdown-html" class="markdown-html">
+                <blockquote>
+                  <p>block quote</p>
+                </blockquote>
+                <blockquote>
+                  <p>
+                    block quote with plain link:
+                    <a
+                      href="http://google.com"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      http://google.com
+                    </a>
+                  </p>
+                </blockquote>
+                <blockquote>
+                  <p>
+                    block quote with config link:
+                    <a
+                      href="http://google.com/LinkRewriteMe"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      LinkRewriteMe
+                    </a>
+                  </p>
+                </blockquote>
+              </div>
+            </marked-element>
+          </gr-endpoint-decorator>
         `
       );
     });
@@ -621,30 +654,32 @@ suite('gr-formatted-text tests', () => {
       assert.shadowDom.equal(
         element,
         /* HTML */ `
-          <marked-element>
-            <div slot="markdown-html" class="markdown-html">
-              <p>plain text ${escapedDiv}</p>
-              <p>
-                <code>inline code ${escapedDiv}</code>
-              </p>
-              <pre>
+          <gr-endpoint-decorator name="formatted-text-endpoint">
+            <marked-element>
+              <div slot="markdown-html" class="markdown-html">
+                <p>plain text ${escapedDiv}</p>
+                <p>
+                  <code>inline code ${escapedDiv}</code>
+                </p>
+                <pre>
               <code>
                 multiline code ${escapedDiv}
               </code>
             </pre>
-              <blockquote>
-                <p>block quote ${escapedDiv}</p>
-              </blockquote>
-              <p>
-                <a
-                  href="http://google.com"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                  >inline link ${escapedDiv}</a
-                >
-              </p>
-            </div>
-          </marked-element>
+                <blockquote>
+                  <p>block quote ${escapedDiv}</p>
+                </blockquote>
+                <p>
+                  <a
+                    href="http://google.com"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                    >inline link ${escapedDiv}</a
+                  >
+                </p>
+              </div>
+            </marked-element>
+          </gr-endpoint-decorator>
         `
       );
     });
@@ -656,17 +691,19 @@ suite('gr-formatted-text tests', () => {
       assert.shadowDom.equal(
         element,
         /* HTML */ `
-          <marked-element>
-            <div slot="markdown-html" class="markdown-html">
-              <blockquote>
+          <gr-endpoint-decorator name="formatted-text-endpoint">
+            <marked-element>
+              <div slot="markdown-html" class="markdown-html">
                 <blockquote>
                   <blockquote>
-                    <p>block quote</p>
+                    <blockquote>
+                      <p>block quote</p>
+                    </blockquote>
                   </blockquote>
                 </blockquote>
-              </blockquote>
-            </div>
-          </marked-element>
+              </div>
+            </marked-element>
+          </gr-endpoint-decorator>
         `
       );
     });
@@ -685,19 +722,21 @@ suite('gr-formatted-text tests', () => {
       assert.shadowDom.equal(
         element,
         /* HTML */ `
-          <marked-element>
-            <div slot="markdown-html" class="markdown-html">
-              <p>
-                I think
-                <a
-                  href="http://google.com"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                  >asterisks * rule</a
-                >
-              </p>
-            </div>
-          </marked-element>
+          <gr-endpoint-decorator name="formatted-text-endpoint">
+            <marked-element>
+              <div slot="markdown-html" class="markdown-html">
+                <p>
+                  I think
+                  <a
+                    href="http://google.com"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                    >asterisks * rule</a
+                  >
+                </p>
+              </div>
+            </marked-element>
+          </gr-endpoint-decorator>
         `
       );
     });
@@ -732,11 +771,16 @@ suite('gr-formatted-text tests', () => {
         await element.updateComplete;
         assert.shadowDom.equal(
           element,
-          /* HTML */ `<marked-element>
-            <div class="markdown-html" slot="markdown-html">
-              <gr-user-suggestion-fix>Hello World</gr-user-suggestion-fix>
-            </div>
-          </marked-element>`
+          /* HTML */
+          `
+            <gr-endpoint-decorator name="formatted-text-endpoint">
+              <marked-element>
+                <div class="markdown-html" slot="markdown-html">
+                  <gr-user-suggestion-fix>Hello World</gr-user-suggestion-fix>
+                </div>
+              </marked-element>
+            </gr-endpoint-decorator>
+          `
         );
       });
     });

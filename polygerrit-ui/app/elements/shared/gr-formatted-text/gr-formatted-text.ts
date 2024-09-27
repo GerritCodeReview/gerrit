@@ -135,11 +135,13 @@ export class GrFormattedText extends LitElement {
   }
 
   override render() {
-    if (this.markdown && this.content.length < this.MARKDOWN_LIMIT) {
-      return this.renderAsMarkdown();
-    } else {
-      return this.renderAsPlaintext();
-    }
+    return html`
+      <gr-endpoint-decorator name="formatted-text-endpoint">
+        ${this.markdown && this.content.length < this.MARKDOWN_LIMIT
+          ? this.renderAsMarkdown()
+          : this.renderAsPlaintext()}
+      </gr-endpoint-decorator>
+    `;
   }
 
   private renderAsPlaintext() {

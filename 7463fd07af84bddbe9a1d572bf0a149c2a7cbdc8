@@ -130,6 +130,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0efbb135_ea64e92b",
+        "filename": "javatests/com/google/gerrit/server/index/change/ChangeIndexRewriterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-09-27T17:36:55Z",
+      "side": 1,
+      "message": "\u003e If your intention was to add test for change 117790, we\u0027d need a query like below where A and B are subexpression that are re-written by `ChangeIndexRewriter`.\n\u003e ```\n\u003e (file:a bar:b) OR (file:c bar:d)\n\u003e ```\n\u003e That can be added in a follow-up change ?\n\nYes, that\u0027s what I was thinking of and yes, fine to do in a follow-up.",
+      "parentUuid": "7423113b_6594caa6",
+      "revId": "7463fd07af84bddbe9a1d572bf0a149c2a7cbdc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8ba62670_d23ac4a8",

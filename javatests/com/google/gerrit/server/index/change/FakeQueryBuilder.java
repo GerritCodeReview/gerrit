@@ -14,16 +14,48 @@
 
 package com.google.gerrit.server.index.change;
 
+import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.index.query.OperatorPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryBuilder;
+import com.google.gerrit.index.query.ResultSet;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Ignore;
 
 @Ignore
 public class FakeQueryBuilder extends ChangeQueryBuilder {
+  public static class FakeNonIndexSourcePredicate extends OperatorPredicate<ChangeData>
+      implements ChangeDataSource {
+    private static final String operator = "baz";
+
+    public FakeNonIndexSourcePredicate(String value) {
+      super(operator, value);
+    }
+
+    @Override
+    public ResultSet<ChangeData> read() {
+      return null;
+    }
+
+    @Override
+    public ResultSet<FieldBundle> readRaw() {
+      return null;
+    }
+
+    @Override
+    public int getCardinality() {
+      return 0;
+    }
+
+    @Override
+    public boolean hasChange() {
+      return false;
+    }
+  }
+
   FakeQueryBuilder(ChangeIndexCollection indexes) {
     super(
         new QueryBuilder.Definition<>(FakeQueryBuilder.class),
@@ -61,6 +93,11 @@ public class FakeQueryBuilder extends ChangeQueryBuilder {
             null,
             null,
             null));
+  }
+
+  @Operator
+  public Predicate<ChangeData> baz(String value) {
+    return new FakeNonIndexSourcePredicate(value);
   }
 
   @Operator

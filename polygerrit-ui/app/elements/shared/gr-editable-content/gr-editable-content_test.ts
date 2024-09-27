@@ -15,6 +15,7 @@ import {testResolver} from '../../../test/common-test-setup';
 import {GrDropdownList} from '../gr-dropdown-list/gr-dropdown-list';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {
+  EmailAddress,
   NumericChangeId,
   RepoName,
   RevisionPatchSetNum,
@@ -23,11 +24,11 @@ import {changeViewModelToken} from '../../../models/views/change';
 
 const emails = [
   {
-    email: 'primary@example.com',
+    email: 'primary@example.com' as EmailAddress,
     preferred: true,
   },
   {
-    email: 'secondary@example.com',
+    email: 'secondary@example.com' as EmailAddress,
     preferred: false,
   },
 ];

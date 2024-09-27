@@ -8,6 +8,7 @@ import './gr-email-editor';
 import {GrEmailEditor} from './gr-email-editor';
 import {spyRestApi, stubRestApi} from '../../../test/test-utils';
 import {fixture, html, assert} from '@open-wc/testing';
+import {EmailAddress} from '../../../api/rest-api';
 
 suite('gr-email-editor tests', () => {
   let element: GrEmailEditor;
@@ -15,9 +16,9 @@ suite('gr-email-editor tests', () => {
 
   setup(async () => {
     const emails = [
-      {email: 'email@one.com'},
-      {email: 'email@two.com', preferred: true},
-      {email: 'email@three.com'},
+      {email: 'email@one.com' as EmailAddress},
+      {email: 'email@two.com' as EmailAddress, preferred: true},
+      {email: 'email@three.com' as EmailAddress},
     ];
 
     accountEmailStub = stubRestApi('getAccountEmails').returns(

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "755e6c02_7d3dd097",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2024-09-27T10:42:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c99a7ac_9e88c54c",
+      "range": {
+        "startLine": 9,
+        "startChar": 56,
+        "endLine": 10,
+        "endChar": 10
+      },
+      "revId": "7463fd07af84bddbe9a1d572bf0a149c2a7cbdc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d1dcf043_e8742455",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-09-26T22:36:31Z",
       "side": 1,
       "message": "nit: s/is/are/",
+      "range": {
+        "startLine": 23,
+        "startChar": 60,
+        "endLine": 23,
+        "endChar": 62
+      },
+      "revId": "7463fd07af84bddbe9a1d572bf0a149c2a7cbdc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54545cf3_ed6449f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2024-09-27T10:42:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d1dcf043_e8742455",
       "range": {
         "startLine": 23,
         "startChar": 60,
@@ -66,6 +114,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7423113b_6594caa6",
+        "filename": "javatests/com/google/gerrit/server/index/change/ChangeIndexRewriterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2024-09-27T10:42:20Z",
+      "side": 1,
+      "message": "All index predicates are treated as sources and we already have `multipleIndexPredicates` test on line 176 to cover that case.\n\nIf your intention was to add test for change 117790, we\u0027d need a query like below where A and B are subexpression that are re-written by `ChangeIndexRewriter`.\n```\n(file:a bar:b) OR (file:c bar:d)\n```\nThat can be added in a follow-up change ?",
+      "parentUuid": "d777e60a_eed6505c",
+      "revId": "7463fd07af84bddbe9a1d572bf0a149c2a7cbdc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8ba62670_d23ac4a8",
         "filename": "javatests/com/google/gerrit/server/index/change/ChangeIndexRewriterTest.java",
         "patchSetId": 1
@@ -77,6 +143,24 @@
       "writtenOn": "2024-09-26T22:36:31Z",
       "side": 1,
       "message": "Do both of these new tests fail without the `ChangeIndexRewriter` modifications in this change?",
+      "revId": "7463fd07af84bddbe9a1d572bf0a149c2a7cbdc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb11d57d_eb9d8aad",
+        "filename": "javatests/com/google/gerrit/server/index/change/ChangeIndexRewriterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2024-09-27T10:42:20Z",
+      "side": 1,
+      "message": "Yes",
+      "parentUuid": "8ba62670_d23ac4a8",
       "revId": "7463fd07af84bddbe9a1d572bf0a149c2a7cbdc8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1faaafa9_d58aeef5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-09-27T20:00:49Z",
+      "side": 1,
+      "message": "Can you add a Release-Notes footer like:\n\n```\nRelease-Notes: Added new formatted-text-endpoint plugin endpoint\n```",
+      "revId": "65018efbf7e61a62efed11d2badce6c8ccfe8717",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -60,6 +60,7 @@ import {
   EDIT,
   EditPatchSet,
   EmailAddress,
+  EmailInfo,
   FetchInfo,
   FileInfo,
   GerritInfo,
@@ -163,6 +164,7 @@ export type {
   DownloadSchemeInfo,
   EditPatchSet,
   EmailAddress,
+  EmailInfo,
   FileInfo,
   FixId,
   FixSuggestionInfo,
@@ -1017,16 +1019,6 @@ export interface DiffPreferenceInput {
   font_size?: number;
   line_wrapping?: boolean;
   indent_with_tabs?: boolean;
-}
-
-/**
- * The EmailInfo entity contains information about an email address of a user
- * https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#email-info
- */
-export interface EmailInfo {
-  email: string;
-  preferred?: boolean;
-  pending_confirmation?: boolean;
 }
 
 /**

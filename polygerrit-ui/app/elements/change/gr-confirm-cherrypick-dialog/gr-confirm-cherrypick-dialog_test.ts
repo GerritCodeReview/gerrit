@@ -19,6 +19,7 @@ import {
   ChangeInfoId,
   ChangeStatus,
   CommitId,
+  EmailAddress,
   GitRef,
   HttpMethod,
   NumericChangeId,
@@ -67,11 +68,11 @@ const changes: ChangeInfo[] = [
 
 const emails = [
   {
-    email: 'primary@email.com',
+    email: 'primary@email.com' as EmailAddress,
     preferred: true,
   },
   {
-    email: 'secondary@email.com',
+    email: 'secondary@email.com' as EmailAddress,
     preferred: false,
   },
 ];

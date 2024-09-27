@@ -180,6 +180,9 @@ This endpoint wraps the textarea in the reply dialog.
 === reply-label-scores
 This endpoint decorator wraps the voting buttons in the reply dialog.
 
+=== formatted-text-endpoint
+This endpoint decorator wraps the formatted text.
+
 === header-title
 This endpoint wraps the title-text in the application header.
 

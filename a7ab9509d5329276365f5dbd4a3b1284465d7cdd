@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5aca3b7e_0aa405f5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3659999
+      },
+      "writtenOn": "2024-09-29T20:56:40Z",
+      "side": 1,
+      "message": "git fetch https://gerrit.googlesource.com/gerrit refs/changes/67/296867/3 \u0026\u0026 git checkout -b change-296867 FETCH_HEAD",
+      "revId": "a7ab9509d5329276365f5dbd4a3b1284465d7cdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e26949d3_d3b0c70b",

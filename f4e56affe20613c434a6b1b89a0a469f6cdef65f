@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3452985f_3fdf5248",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065558
+      },
+      "writtenOn": "2024-09-30T21:32:53Z",
+      "side": 1,
+      "message": "worth noting, that this might be relied to another bug:\nTrying to push/fetch lfs files from a repository with a number is failing in the POST call\n\n\n```\n\u003e POST /3d-bin/info/lfs/objects/batch HTTP/1.1\n[...]\n\u003c HTTP/1.1 405 Method Not Allowed\n```\n\nYou can test using \n1. `curl -x POST \u003cservername\u003e/\u003crepo starting with numbers\u003e/info/lfs/objects/batch`\n2. `curl -x POST \u003cservername\u003e/\u003crepo not starting with numbers\u003e/info/lfs/objects/batch`\n\n#1 should give you a \"Method not allowed\" while #2 won\u0027t",
+      "revId": "f4e56affe20613c434a6b1b89a0a469f6cdef65f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

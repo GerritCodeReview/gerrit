@@ -18,7 +18,9 @@ import argparse
 import logging
 import sys
 
-from git.gc import GitGarbageCollectionProvider, MAX_LOOSE_REF_COUNT
+import cli.gc
+
+from git.gc import GitGarbageCollectionProvider
 
 logging.basicConfig(
     level=logging.INFO,
@@ -31,47 +33,18 @@ def _run_gc(args):
     GitGarbageCollectionProvider.get(args[0].pack_refs).run(args=args[1])
 
 
-def cli():
+def main():
     parser = argparse.ArgumentParser(
-        prog="Execute Git Garbage Collection.",
-        description="""
-            Run Git GC with additional cleanup steps on repository.
-
-            To specify a one-time --aggressive git gc for a repository X, simply
-            create an empty file called 'gc-aggressive-once' in the `/path/to/X.git`
-            folder:
-
-                $ cd /path/to/X.git
-                $ touch gc-aggressive-once
-
-            On the next run, gc.sh will use --aggressive option for gc-ing this
-            repository *and* will remove this file. Next time, gc.sh again runs
-            normal gc for this repository.
-
-            To specify a permanent --aggressive git gc for a repository, create
-            an empty file named "gc-aggressive" in the same folder:
-
-                $ cd /path/to/X.git
-                $ touch gc-aggressive
-
-            Every next git gc on this repository will use --aggressive option.
-            """,
+        prog=cli.gc.PROG,
+        description=cli.gc.DESCRIPTION,
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
-    parser.add_argument(
-        "-r",
-        "--pack-all-refs",
-        help=(
-            "Whether to pack all refs, ",
-            f"if more than {MAX_LOOSE_REF_COUNT} loose refs exist.",
-        ),
-        dest="pack_refs",
-        action="store_true",
-    )
+
+    cli.gc.add_arguments(parser)
 
     args = parser.parse_known_args()
     _run_gc(args)
 
 
 if __name__ == "__main__":
-    cli()
+    main()

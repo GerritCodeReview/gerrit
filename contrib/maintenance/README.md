@@ -43,6 +43,93 @@ To execute tests, run:
 pipenv run pytest
 ```
 
+## Usage
+
+The gerrit-maintenance CLI provides a toolbox to run scripts for performing
+maintenance tasks on a Gerrit site. The CLI uses a nested command structure. The
+available commands will be described in the following sections.
+
+To start the CLI, run:
+
+```sh
+pipenv run python ./gerrit-maintenance.py -d $SITE -h
+```
+
+At this level, the path to the Gerrit site has to be provided.
+
+The next layer deals with the different aspects of a Gerrit site:
+
+### Projects
+
+This set of subcommands deals with maintaining the projects/repositories in
+the Gerrit site. To get an overview of available commands, run:
+
+```sh
+pipenv run python ./gerrit-maintenance.py -d $SITE projects -h
+```
+
+By default the selected subcommand will run on all projects in the site, but the
+list can be filtered by either selecting projects specifically
+
+```sh
+pipenv run python ./gerrit-maintenance.py \
+  -d $SITE \
+  projects \
+  --project All-Users \
+  --project All-Projects \
+  $CMD
+```
+
+or by skipping some projects
+
+```sh
+pipenv run python ./gerrit-maintenance.py \
+  -d $SITE \
+  projects \
+  --skip All-Users \
+  --skip All-Projects \
+  $CMD
+```
+
+The maintenance scripts available for projects are:
+
+#### Git Garbage Collection
+
+To run Git GC as part of the gerrit-maintenance CLI, run:
+
+```sh
+pipenv run python ./gerrit-maintenance.py \
+  -d $SITE \
+  projects \
+  gc
+```
+
+You may run it as well as a [standalone git extension](#extended-git-garbagecollection).
+
+You can provide git configuration options to git gc using the `-c` option:
+
+```sh
+pipenv run python ./gerrit-maintenance.py \
+  -d $SITE \
+  projects \
+  gc \
+  -c repack.writebitmaps=false
+```
+
+As with the standalone git extension, all arguments provided in addition to the
+ones known by the CLI will be forwarded to the `git gc` command, e.g. the following
+command will suppress all progress reports logged by git:
+
+```sh
+pipenv run python ./gerrit-maintenance.py \
+  -d $SITE \
+  projects \
+  gc \
+  --quiet
+```
+
+The CLI also includes all extended features mentioned in [this section](#extended-features).
+
 ## Extended Git GarbageCollection
 
 Git provides a GarbageCollection command (`git gc`) to clean up repositories.

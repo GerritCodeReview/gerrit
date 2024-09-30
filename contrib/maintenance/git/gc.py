@@ -169,20 +169,21 @@ DEFAULT_AFTER_STEPS = [
 
 class GitGarbageCollectionProvider:
     @staticmethod
-    def get(pack_refs=True):
+    def get(pack_refs=True, git_config=None):
         init_steps = DEFAULT_INIT_STEPS.copy()
         after_steps = DEFAULT_AFTER_STEPS.copy()
 
         if pack_refs:
             after_steps.append(PackAllRefsAfterStep())
 
-        return GitGarbageCollection(init_steps, after_steps)
+        return GitGarbageCollection(init_steps, after_steps, git_config)
 
 
 class GitGarbageCollection:
-    def __init__(self, init_steps, after_steps):
+    def __init__(self, init_steps, after_steps, git_config=None):
         self.init_steps = init_steps
         self.after_steps = after_steps
+        self.git_config = git_config
 
     def run(self, repo_dir=None, args=None):
         LOG.info("Started")
@@ -199,7 +200,7 @@ class GitGarbageCollection:
             args.append(AGGRESSIVE_FLAG)
 
         try:
-            repo.gc(repo_dir, args)
+            repo.gc(repo_dir, self.git_config, args)
         except repo.GitCommandException:
             LOG.error("Failed")
 

@@ -45,11 +45,16 @@ import {resolve} from '../../../models/dependency';
 import {formStyles} from '../../../styles/form-styles';
 import {changeViewModelToken} from '../../../models/views/change';
 import {SpecialFilePath} from '../../../constants/constants';
+<<<<<<< PATCH SET (517170 Add a `FORMAT` button for the commit message)
+import {formatCommitMessage} from '../../../utils/string-util';
+||||||| BASE
+=======
 import {
   detectFormattingErrorsInString,
   formatCommitMessageString,
   FormattingError,
 } from '../../../utils/commit-message-formatter-util';
+>>>>>>> BASE      (0034dd Merge "Fix applying incorrect Gerrit fix suggestion")
 
 const RESTORED_MESSAGE = 'Content restored from a previous edit.';
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
@@ -270,6 +275,9 @@ export class GrEditableContent extends LitElement {
           margin-left: var(--spacing-s);
           align-self: center;
         }
+        .format-button {
+          margin-right: var(--spacing-l);
+        }
         .cancel-button {
           margin-right: var(--spacing-l);
         }
@@ -338,6 +346,8 @@ export class GrEditableContent extends LitElement {
     if (!this.editing && !this.commitCollapsible && this.hideEditCommitMessage)
       return nothing;
 
+    const formattedContent = formatCommitMessage(this.newContent);
+    const formatDisabled = formattedContent === this.newContent;
     return html`
       <div class="show-all-container font-normal">
         ${when(
@@ -412,6 +422,13 @@ export class GrEditableContent extends LitElement {
                   !!this.lastFormattedContent
                 )}
                 >${this.lastFormattedContent ? 'Undo' : 'Format'}</gr-button
+              >
+              <gr-button
+                link
+                class="format-button"
+                @click=${this.handleFormat}
+                ?disabled=${formatDisabled}
+                >Format</gr-button
               >
               <gr-button
                 link
@@ -558,6 +575,11 @@ export class GrEditableContent extends LitElement {
     e.preventDefault();
     this.editing = false;
     fire(this, 'editable-content-cancel', {});
+  }
+
+  handleFormat(e: Event) {
+    e.preventDefault();
+    this.newContent = formatCommitMessage(this.newContent);
   }
 
   toggleCommitCollapsed() {

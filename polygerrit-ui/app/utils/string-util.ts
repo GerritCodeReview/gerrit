@@ -154,3 +154,64 @@ export function levenshteinDistance(str1: string, str2: string): number {
   // Return the final edit distance
   return dp[m][n];
 }
+
+export function formatCommitMessage(message: string): string {
+  const lines = message.split('\n').map(line => line.trim());
+  lines.push('');
+  const paragraphs: string[] = [];
+  let currentParagraph = '';
+  for (const line of lines) {
+    if (line === '') {
+      if (currentParagraph.length > 0) {
+        paragraphs.push(currentParagraph);
+        currentParagraph = '';
+      }
+      continue;
+    }
+    currentParagraph += ' ';
+    currentParagraph += line;
+  }
+
+  const formattedLines: string[] = [];
+  for (const paragraph of paragraphs) {
+    console.log(paragraph);
+    formattedLines.push(...wrapLine(paragraph, 72));
+    formattedLines.push('');
+  }
+  if (formattedLines[1] !== '') {
+    formattedLines.splice(1, 0, '');
+  }
+  if (formattedLines.length > 0 && formattedLines[length - 1] === '') {
+    formattedLines.pop();
+  }
+  if (formattedLines.length > 0 && formattedLines[0].length > 0) {
+    formattedLines[0] =
+      formattedLines[0].charAt(0).toUpperCase() + formattedLines[0].slice(1);
+    const length = formattedLines[0].length;
+    if (formattedLines[0].charAt(length - 1) === '.') {
+      formattedLines[0] = formattedLines[0].slice(0, length - 1).trim();
+    }
+  }
+  return formattedLines.join('\n');
+}
+
+export function wrapLine(line: string, maxLength: number): string[] {
+  const words = line.trim().split(' ');
+  const wrappedLines = [];
+  let currentLine = '';
+  for (const word of words) {
+    if (
+      currentLine === '' ||
+      currentLine.length + word.length + 1 <= maxLength
+    ) {
+      currentLine += (currentLine ? ' ' : '') + word;
+    } else {
+      wrappedLines.push(currentLine);
+      currentLine = word;
+    }
+  }
+  if (currentLine) {
+    wrappedLines.push(currentLine);
+  }
+  return wrappedLines.map(line => line.trim());
+}

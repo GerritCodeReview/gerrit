@@ -169,23 +169,24 @@ DEFAULT_AFTER_STEPS = [
 
 class GitGarbageCollectionProvider:
     @staticmethod
-    def get(pack_refs=True):
+    def get(pack_refs=True, git_config=None):
         init_steps = DEFAULT_INIT_STEPS.copy()
         after_steps = DEFAULT_AFTER_STEPS.copy()
 
         if pack_refs:
             after_steps.append(PackAllRefsAfterStep())
 
-        return GitGarbageCollection(init_steps, after_steps)
+        return GitGarbageCollection(init_steps, after_steps, git_config)
 
 
 class GitGarbageCollection:
-    def __init__(self, init_steps, after_steps):
+    def __init__(self, init_steps, after_steps, git_config=None):
         self.init_steps = init_steps
         self.after_steps = after_steps
+        self.git_config = git_config
 
     def run(self, repo_dir=None, args=None):
-        LOG.info("Started")
+        LOG.info("Started gc in %s", repo_dir)
         if not repo_dir:
             repo_dir = repo.git_dir()
         if not os.path.exists(repo_dir) or not os.path.isdir(repo_dir):
@@ -199,14 +200,14 @@ class GitGarbageCollection:
             args.append(AGGRESSIVE_FLAG)
 
         try:
-            repo.gc(repo_dir, args)
+            repo.gc(repo_dir, self.git_config, args)
         except repo.GitCommandException:
-            LOG.error("Failed")
+            LOG.error("Failed to run gc in %s", repo_dir)
 
         for after_step in self.after_steps:
             after_step.run(repo_dir)
 
-        LOG.info("Finished")
+        LOG.info("Finished gc in %s", repo_dir)
 
     def _is_aggressive(self, project_dir):
         if os.path.exists(os.path.join(project_dir, "gc-aggressive")):

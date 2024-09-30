@@ -117,8 +117,11 @@ def pack_refs(repo_dir, all=False):
         raise GitCommandException(f"Failed to pack refs in {repo_dir}")
 
 
-def gc(repo_dir, args):
-    cmd = "git gc"
+def gc(repo_dir, git_config=None, args=None):
+    cmd = "git "
+    if git_config:
+        cmd = cmd + "-c " + " -c ".join(git_config)
+    cmd += " gc"
     if args:
         cmd = cmd + " " + " ".join(args)
     try:

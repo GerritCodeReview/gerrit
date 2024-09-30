@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d063827_b9746bc9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-09-30T06:42:40Z",
+      "side": 1,
+      "message": "Let\u0027s wait for the design doc to be reviewed. Then we can resume the review here.",
+      "revId": "7d7a73913eb97288a57856397b3a59399a6ff96b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

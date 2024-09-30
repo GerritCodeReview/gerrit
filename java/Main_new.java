@@ -26,7 +26,7 @@ public final class Main {
 
   public static void main(String[] argv) throws Exception {
     if (onSupportedJavaVersion()) {
-      configureFloggerBackend();
+      configureFloggerBackends();
       com.google.gerrit.launcher.GerritLauncher.main(argv);
 
     } else {
@@ -44,7 +44,7 @@ public final class Main {
     return false;
   }
 
-  private static void configureFloggerBackend() {
+  private static void configureFloggerBackends() {
     System.setProperty(
         FLOGGER_LOGGING_CONTEXT, "com.google.gerrit.server.logging.LoggingContext#getInstance");
 

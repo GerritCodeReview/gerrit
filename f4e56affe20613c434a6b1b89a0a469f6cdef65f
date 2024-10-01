@@ -52,6 +52,24 @@
       "parentUuid": "d74c54e3_6ff90c2a",
       "revId": "f4e56affe20613c434a6b1b89a0a469f6cdef65f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c8514d7_0e0b464a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065558
+      },
+      "writtenOn": "2024-10-01T19:26:42Z",
+      "side": 1,
+      "message": "Yes, using the lfs plugin, but really, just the calls to curl -x POST I posted above would repro the issue. Would you giving curl a try, if still needed I will update our test server with this to test",
+      "parentUuid": "391fb253_9de48d50",
+      "revId": "f4e56affe20613c434a6b1b89a0a469f6cdef65f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

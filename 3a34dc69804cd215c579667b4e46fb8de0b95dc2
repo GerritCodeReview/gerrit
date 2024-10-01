@@ -70,6 +70,30 @@
       },
       "revId": "3a34dc69804cd215c579667b4e46fb8de0b95dc2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f64fb341_0583889b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-10-01T18:46:11Z",
+      "side": 1,
+      "message": "I discovered this issue when improving Gerrit\u0027s performance at the Git protocol level. The interactive index thread pool was my bottleneck. Querying for open changes isn\u0027t *very* expensive, assuming that you\u0027re not under pressure. Waiting for an async operation to complete from another pool through a future, is a lot of CPU cycles :-)",
+      "parentUuid": "3adb876b_d4afcedb",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 10
+      },
+      "revId": "3a34dc69804cd215c579667b4e46fb8de0b95dc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

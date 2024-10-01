@@ -111,6 +111,8 @@ export class GrChangeListSection extends LitElement {
 
   private isLoggedIn = false;
 
+  private shouldGetChangeDetails = false;
+
   static override get styles() {
     return [
       changeListStyles,
@@ -157,6 +159,13 @@ export class GrChangeListSection extends LitElement {
       () => this.bulkActionsModel.selectedChangeNums$,
       selectedChanges => {
         this.numSelected = selectedChanges.length;
+        if (!this.shouldGetChangeDetails && selectedChanges.length > 0) {
+          this.shouldGetChangeDetails = true;
+          this.bulkActionsModel.sync(
+            this.changeSection.results,
+            this.shouldGetChangeDetails
+          );
+        }
       }
     );
     subscribe(
@@ -176,7 +185,10 @@ export class GrChangeListSection extends LitElement {
       // In case the list of changes is updated due to auto reloading, we want
       // to ensure the model removes any stale change that is not a part of the
       // new section changes.
-      this.bulkActionsModel.sync(this.changeSection.results);
+      this.bulkActionsModel.sync(
+        this.changeSection.results,
+        this.shouldGetChangeDetails
+      );
     }
   }
 

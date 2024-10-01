@@ -111,6 +111,17 @@ export class GrChangeListSection extends LitElement {
 
   private isLoggedIn = false;
 
+  // with these two boolean flags it can be determined if details
+  // should be obtained from Gerrit
+  // isSelected | needsDetailsSync | shouldSync
+  // false      | true             | false
+  // true       | true             | true
+  // false      | false            | false
+  // true       | false            | false
+  private isSelected = false;
+
+  private needsDetailsSync = true;
+
   static override get styles() {
     return [
       changeListStyles,
@@ -157,6 +168,15 @@ export class GrChangeListSection extends LitElement {
       () => this.bulkActionsModel.selectedChangeNums$,
       selectedChanges => {
         this.numSelected = selectedChanges.length;
+        if (!this.isSelected && selectedChanges.length > 0) {
+          this.isSelected = true;
+          if (this.needsDetailsSync) {
+            this.bulkActionsModel.sync(this.changeSection.results, true);
+            this.needsDetailsSync = false;
+          }
+        } else if (this.isSelected && selectedChanges.length === 0) {
+          this.isSelected = false;
+        }
       }
     );
     subscribe(
@@ -176,7 +196,8 @@ export class GrChangeListSection extends LitElement {
       // In case the list of changes is updated due to auto reloading, we want
       // to ensure the model removes any stale change that is not a part of the
       // new section changes.
-      this.bulkActionsModel.sync(this.changeSection.results);
+      this.bulkActionsModel.sync(this.changeSection.results, this.isSelected);
+      this.needsDetailsSync = !this.isSelected;
     }
   }
 

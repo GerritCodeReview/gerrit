@@ -39,6 +39,30 @@
       },
       "revId": "b2011325e7405b43c5dbe6c783a0b7f8ad01cd55",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44165f8f_2c0f5cb0",
+        "filename": "java/com/google/gerrit/server/account/GroupIncludeCacheImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2024-10-01T12:16:33Z",
+      "side": 1,
+      "message": "SG, do you want to send a change for review?\n\nOur internal query limits are much higher than what Lucene has by default.",
+      "parentUuid": "dd94dcdc_ce70a869",
+      "range": {
+        "startLine": 148,
+        "startChar": 6,
+        "endLine": 148,
+        "endChar": 35
+      },
+      "revId": "b2011325e7405b43c5dbe6c783a0b7f8ad01cd55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

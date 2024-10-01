@@ -1315,7 +1315,9 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       return window.DEFAULT_DETAIL_HEXES.dashboardPage;
     }
     const options = [
-      ListChangesOption.LABELS,
+      ListChangesOption.DETAILED_LABELS,
+      ListChangesOption.CHANGE_ACTIONS,
+      ListChangesOption.CURRENT_REVISION,
       ListChangesOption.DETAILED_ACCOUNTS,
       ListChangesOption.SUBMIT_REQUIREMENTS,
       ListChangesOption.STAR,

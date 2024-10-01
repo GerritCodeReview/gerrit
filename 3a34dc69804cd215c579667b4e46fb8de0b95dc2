@@ -46,6 +46,30 @@
       },
       "revId": "3a34dc69804cd215c579667b4e46fb8de0b95dc2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3adb876b_d4afcedb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-10-01T15:07:39Z",
+      "side": 1,
+      "message": "\u003e We could do that, but secondary index lookups are really cheap and fast, so I doubt you\u0027ll get a measurable difference from this.\n\nThe secondary index search is a little more expensive when you factor in visibility checks.\n\n@luca.milanesio@gmail.com, trace logging should show exactly how much time is spent on that index search during this operation. Are you seeing a significant enough amount of time there that you think it would be noticeable to users?",
+      "parentUuid": "fba15578_464e5634",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 10
+      },
+      "revId": "3a34dc69804cd215c579667b4e46fb8de0b95dc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

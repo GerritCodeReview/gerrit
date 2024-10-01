@@ -47,6 +47,7 @@ import org.junit.Test;
 
 public class ChangeIndexRewriterTest {
   private static final IndexConfig CONFIG = IndexConfig.createDefault();
+  private static final int MAX_INDEX_QUERY_TERMS = 4;
 
   private FakeChangeIndex index;
   private ChangeIndexCollection indexes;
@@ -59,7 +60,9 @@ public class ChangeIndexRewriterTest {
     indexes = new ChangeIndexCollection();
     indexes.setSearchIndex(index);
     queryBuilder = new FakeQueryBuilder(indexes);
-    rewrite = new ChangeIndexRewriter(indexes, IndexConfig.builder().maxTerms(3).build());
+    rewrite =
+        new ChangeIndexRewriter(
+            indexes, IndexConfig.builder().maxTerms(MAX_INDEX_QUERY_TERMS).build());
   }
 
   @Test
@@ -72,7 +75,7 @@ public class ChangeIndexRewriterTest {
   public void nonIndexPredicate() throws Exception {
     Predicate<ChangeData> in = parse("foo:a");
     Predicate<ChangeData> out = rewrite(in);
-    assertThat(AndChangeSource.class).isSameInstanceAs(out.getClass());
+    assertThat(out.getClass()).isSameInstanceAs(AndChangeSource.class);
     assertThat(out.getChildren())
         .containsExactly(
             query(
@@ -91,10 +94,24 @@ public class ChangeIndexRewriterTest {
   }
 
   @Test
+  public void indexedOrSourceSubexpressions() throws Exception {
+    Predicate<ChangeData> in = parse("(file:a bar:b) OR (file:c bar:d)");
+    Predicate<ChangeData> out = rewrite(in);
+    assertThat(out.getClass()).isSameInstanceAs(OrSource.class);
+    assertThat(out.getChildCount()).isEqualTo(2);
+    assertThat(out.getChild(0).getChildren())
+        .containsExactly(query(parse("file:a")), parse("bar:b"))
+        .inOrder();
+    assertThat(out.getChild(1).getChildren())
+        .containsExactly(query(parse("file:c")), parse("bar:d"))
+        .inOrder();
+  }
+
+  @Test
   public void nonIndexPredicates() throws Exception {
     Predicate<ChangeData> in = parse("foo:a OR foo:b");
     Predicate<ChangeData> out = rewrite(in);
-    assertThat(AndChangeSource.class).isSameInstanceAs(out.getClass());
+    assertThat(out.getClass()).isSameInstanceAs(AndChangeSource.class);
     assertThat(out.getChildren())
         .containsExactly(
             query(
@@ -126,7 +143,7 @@ public class ChangeIndexRewriterTest {
   public void oneIndexPredicate() throws Exception {
     Predicate<ChangeData> in = parse("foo:a file:b");
     Predicate<ChangeData> out = rewrite(in);
-    assertThat(AndChangeSource.class).isSameInstanceAs(out.getClass());
+    assertThat(out.getClass()).isSameInstanceAs(AndChangeSource.class);
     assertThat(out.getChildren()).containsExactly(query(parse("file:b")), parse("foo:a")).inOrder();
   }
 
@@ -184,7 +201,7 @@ public class ChangeIndexRewriterTest {
   public void indexAndNonIndexPredicates() throws Exception {
     Predicate<ChangeData> in = parse("status:new bar:p file:a");
     Predicate<ChangeData> out = rewrite(in);
-    assertThat(AndChangeSource.class).isSameInstanceAs(out.getClass());
+    assertThat(out.getClass()).isSameInstanceAs(AndChangeSource.class);
     assertThat(out.getChildren())
         .containsExactly(query(andCardinal(parse("status:new"), parse("file:a"))), parse("bar:p"))
         .inOrder();
@@ -256,12 +273,12 @@ public class ChangeIndexRewriterTest {
 
   @Test
   public void tooManyTerms() throws Exception {
-    String q = "file:a OR file:b OR file:c";
+    String q = "file:a OR file:b OR file:c OR file:d";
     Predicate<ChangeData> in = parse(q);
     assertEquals(query(in), rewrite(in));
 
     QueryParseException thrown =
-        assertThrows(QueryParseException.class, () -> rewrite(parse(q + " OR file:d")));
+        assertThrows(QueryParseException.class, () -> rewrite(parse(q + " OR file:e")));
     assertThat(thrown).hasMessageThat().contains("too many terms in query");
   }
 

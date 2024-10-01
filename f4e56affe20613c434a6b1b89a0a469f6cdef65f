@@ -34,6 +34,24 @@
       "parentUuid": "3452985f_3fdf5248",
       "revId": "f4e56affe20613c434a6b1b89a0a469f6cdef65f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "391fb253_9de48d50",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-10-01T18:35:18Z",
+      "side": 1,
+      "message": "I believe you are right because before, it was assumed that *everything* starting with a number was a change number-based URL, which was wrong.\n\nCan you check if this fix solves your problem as well?",
+      "parentUuid": "d74c54e3_6ff90c2a",
+      "revId": "f4e56affe20613c434a6b1b89a0a469f6cdef65f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

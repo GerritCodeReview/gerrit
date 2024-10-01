@@ -5,10 +5,14 @@
  */
 import {css, html, LitElement, nothing} from 'lit';
 import {customElement, state} from 'lit/decorators.js';
-import {bulkActionsModelToken} from '../../../models/bulk-actions/bulk-actions-model';
+import {
+  bulkActionsModelToken,
+  LoadingState,
+} from '../../../models/bulk-actions/bulk-actions-model';
 import {resolve} from '../../../models/dependency';
 import {pluralize} from '../../../utils/string-util';
 import {subscribe} from '../../lit/subscription-controller';
+import {spinnerStyles} from '../../../styles/gr-spinner-styles';
 import '../../shared/gr-button/gr-button';
 import '../gr-change-list-reviewer-flow/gr-change-list-reviewer-flow';
 import '../gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow';
@@ -22,26 +26,37 @@ import '../gr-change-list-bulk-abandon-flow/gr-change-list-bulk-abandon-flow';
 @customElement('gr-change-list-action-bar')
 export class GrChangeListActionBar extends LitElement {
   static override get styles() {
-    return css`
-      :host {
-        display: contents;
-      }
-      td {
-        padding: 0;
-      }
-      .container {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-      .actionButtons {
-        margin-right: var(--spacing-l);
-      }
-    `;
+    return [
+      spinnerStyles,
+      css`
+        :host {
+          display: contents;
+        }
+        td {
+          padding: 0;
+        }
+        .container {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+        .actionButtons {
+          margin-right: var(--spacing-l);
+        }
+        /* The basics of .loadingSpin are defined in spinnerStyles. */
+        .loadingSpin {
+          vertical-align: text-top;
+          position: relative;
+        }
+      `,
+    ];
   }
 
   @state()
   private numSelected = 0;
+
+  @state()
+  private loading = false;
 
   private readonly getBulkActionsModel = resolve(this, bulkActionsModelToken);
 
@@ -51,6 +66,11 @@ export class GrChangeListActionBar extends LitElement {
       this,
       () => this.getBulkActionsModel().selectedChangeNums$,
       selectedChangeNums => (this.numSelected = selectedChangeNums.length)
+    );
+    subscribe(
+      this,
+      () => this.getBulkActionsModel().loadingState$,
+      loadingState => (this.loading = loadingState === LoadingState.LOADING)
     );
   }
 
@@ -72,6 +92,7 @@ export class GrChangeListActionBar extends LitElement {
               ? html`<span>${numSelectedLabel}</span>`
               : nothing}
           </div>
+          ${this.renderLoading()}
           <div class="actionButtons">
             <gr-change-list-bulk-vote-flow></gr-change-list-bulk-vote-flow>
             <gr-change-list-topic-flow></gr-change-list-topic-flow>
@@ -82,6 +103,11 @@ export class GrChangeListActionBar extends LitElement {
         </div>
       </td>
     `;
+  }
+
+  private renderLoading() {
+    if (this.loading) return html` <span class="loadingSpin"></span>`;
+    else return nothing;
   }
 }
 

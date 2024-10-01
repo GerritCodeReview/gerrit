@@ -154,8 +154,13 @@ export class GrChangeListBulkVoteFlow extends LitElement {
     const nonTriggerLabels = this.computeCommonPermittedLabels(
       permittedLabels
     ).filter(label => !triggerLabels.some(l => l.name === label.name));
+    const isFlowDisabled = this.selectedChanges.length === 0;
     return html`
-      <gr-button id="voteFlowButton" flatten @click=${this.openModal}
+      <gr-button
+        id="voteFlowButton"
+        flatten
+        @click=${this.openModal}
+        .disabled=${isFlowDisabled}
         >Vote</gr-button
       >
       <dialog id="actionModal" tabindex="-1">

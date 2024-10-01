@@ -69,7 +69,7 @@ suite('gr-change-list-hashtag-flow tests', () => {
     setup(async () => {
       stubRestApi('getDetailedChangesWithActions').resolves(changes);
       model = new BulkActionsModel(getAppContext().restApiService);
-      model.sync(changes);
+      model.sync(changes, true);
 
       element = (
         await fixture(
@@ -206,7 +206,7 @@ suite('gr-change-list-hashtag-flow tests', () => {
           .returns(promise);
       }
       model = new BulkActionsModel(getAppContext().restApiService);
-      model.sync(changes);
+      model.sync(changes, true);
 
       element = (
         await fixture(

@@ -104,7 +104,7 @@ suite('gr-change-list-item tests', () => {
   suite('checkbox', () => {
     test('bulk actions checkboxes', async () => {
       element.change = {...createChange(), _number: 1 as NumericChangeId};
-      bulkActionsModel.sync([element.change]);
+      bulkActionsModel.sync([element.change, true]);
       userModel.setAccount({
         ...createAccountWithEmail('abc@def.com'),
         registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
@@ -137,7 +137,7 @@ suite('gr-change-list-item tests', () => {
       element.triggerSelectionCallback = selectionCallback;
       element.globalIndex = 5;
       element.change = {...createChange(), _number: 1 as NumericChangeId};
-      bulkActionsModel.sync([element.change]);
+      bulkActionsModel.sync([element.change], true);
       userModel.setAccount({
         ...createAccountWithEmail('abc@def.com'),
         registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
@@ -163,7 +163,7 @@ suite('gr-change-list-item tests', () => {
       await element.updateComplete;
 
       element.change = {...createChange(), _number: 1 as NumericChangeId};
-      bulkActionsModel.sync([element.change]);
+      bulkActionsModel.sync([element.change], true);
       bulkActionsModel.addSelectedChangeNum(element.change._number);
       await element.updateComplete;
 
@@ -192,7 +192,7 @@ suite('gr-change-list-item tests', () => {
         {...createChange(), _number: 2 as NumericChangeId},
       ];
       element.change = changes[0];
-      bulkActionsModel.sync(changes);
+      bulkActionsModel.sync(changes, true);
       bulkActionsModel.addSelectedChangeNum(element.change._number);
       await element.updateComplete;
 
@@ -375,7 +375,7 @@ suite('gr-change-list-item tests', () => {
 
   test('renders', async () => {
     const change = createChange();
-    bulkActionsModel.sync([change]);
+    bulkActionsModel.sync([change], true);
     bulkActionsModel.addSelectedChangeNum(change._number);
     userModel.setAccount({
       ...createAccountWithEmail('abc@def.com'),

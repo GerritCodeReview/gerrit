@@ -130,7 +130,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
   test('renders', async () => {
     const changes: ChangeInfo[] = [change1];
     getChangesStub.returns(Promise.resolve(changes));
-    model.sync(changes);
+    model.sync(changes, true);
     await waitUntilObserved(
       model.loadingState$,
       state => state === LoadingState.LOADED
@@ -202,7 +202,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
   test('renders with errors', async () => {
     const changes: ChangeInfo[] = [change1];
     getChangesStub.returns(Promise.resolve(changes));
-    model.sync(changes);
+    model.sync(changes, true);
     await waitUntilObserved(
       model.loadingState$,
       state => state === LoadingState.LOADED
@@ -294,7 +294,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
   test('button state updates as changes are updated', async () => {
     const changes: ChangeInfo[] = [change1];
     getChangesStub.returns(Promise.resolve(changes));
-    model.sync(changes);
+    model.sync(changes, true);
     await waitUntilObserved(
       model.loadingState$,
       state => state === LoadingState.LOADED
@@ -322,7 +322,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
     changes.push({...c2});
     getChangesStub.restore();
     getChangesStub.returns(Promise.resolve(changes));
-    model.sync(changes);
+    model.sync(changes, true);
     await waitUntilObserved(
       model.loadingState$,
       state => state === LoadingState.LOADED
@@ -353,7 +353,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
     };
     const changes: ChangeInfo[] = [{...change}];
     getChangesStub.returns(Promise.resolve(changes));
-    model.sync(changes);
+    model.sync(changes, true);
     await waitUntilObserved(
       model.loadingState$,
       state => state === LoadingState.LOADED
@@ -452,7 +452,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
           })
       );
 
-      model.sync(changes);
+      model.sync(changes, true);
       await waitUntilObserved(
         model.loadingState$,
         state => state === LoadingState.LOADED
@@ -510,7 +510,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
           })
       );
 
-      model.sync(changes);
+      model.sync(changes, true);
       await waitUntilObserved(
         model.loadingState$,
         state => state === LoadingState.LOADED
@@ -529,7 +529,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
       const changes: ChangeInfo[] = [change1, change2];
       getChangesStub.returns(Promise.resolve(changes));
 
-      model.sync(changes);
+      model.sync(changes, true);
       await waitUntilObserved(
         model.loadingState$,
         state => state === LoadingState.LOADED
@@ -550,7 +550,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
 
     const changes: ChangeInfo[] = [change1];
     getChangesStub.returns(Promise.resolve(changes));
-    model.sync(changes);
+    model.sync(changes, true);
     await waitUntilObserved(
       model.loadingState$,
       state => state === LoadingState.LOADED
@@ -568,7 +568,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
 
     changes.push(change2);
     getChangesStub.returns(Promise.resolve(changes));
-    model.sync(changes);
+    model.sync(changes, true);
     await waitUntilObserved(
       model.loadingState$,
       state => state === LoadingState.LOADED
@@ -622,7 +622,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
     ];
     // Labels for each change are [a,b,c] [b,c,d] [c,d,e] [x,y,z]
     getChangesStub.returns(Promise.resolve(changes));
-    model.sync(changes);
+    model.sync(changes, true);
 
     await waitUntilObserved(
       model.loadingState$,

@@ -45,11 +45,12 @@ export class GrChangeListBulkAbandonFlow extends LitElement {
   }
 
   override render() {
+    const isFlowDisabled = this.selectedChanges.length === 0;
     return html`
       <gr-button
         id="abandon"
         flatten
-        .disabled=${!this.isEnabled()}
+        .disabled=${!this.isEnabled() || isFlowDisabled}
         @click=${() => this.actionModal.showModal()}
         >Abandon</gr-button
       >

@@ -42,7 +42,18 @@ suite('bulk actions model test', () => {
   test('does not request detailed changes when no changes are synced', () => {
     const detailedActionsStub = stubRestApi('getDetailedChangesWithActions');
 
-    bulkActionsModel.sync([]);
+    bulkActionsModel.sync([], true);
+
+    assert.isTrue(detailedActionsStub.notCalled);
+  });
+
+  test('does not request detailed changes when told not to do it', () => {
+    const detailedActionsStub = stubRestApi('getDetailedChangesWithActions');
+
+    const c1 = createChange();
+    c1._number = 1 as NumericChangeId;
+
+    bulkActionsModel.sync([c1], false);
 
     assert.isTrue(detailedActionsStub.notCalled);
   });
@@ -58,7 +69,7 @@ suite('bulk actions model test', () => {
     assert.throws(() => bulkActionsModel.addSelectedChangeNum(c1._number));
     assert.isEmpty(bulkActionsModel.getState().selectedChangeNums);
 
-    bulkActionsModel.sync([c1, c2]);
+    bulkActionsModel.sync([c1, c2], true);
 
     bulkActionsModel.addSelectedChangeNum(c2._number);
     assert.sameMembers(bulkActionsModel.getState().selectedChangeNums, [
@@ -74,7 +85,7 @@ suite('bulk actions model test', () => {
     c1._number = 1 as NumericChangeId;
     const c2 = createChange();
     c2._number = 2 as NumericChangeId;
-    bulkActionsModel.sync([c1, c2]);
+    bulkActionsModel.sync([c1, c2], true);
 
     assert.isEmpty(bulkActionsModel.getState().selectedChangeNums);
     assert.deepEqual(bulkActionsModel.getState().selectableChangeNums, [1, 2]);
@@ -104,7 +115,7 @@ suite('bulk actions model test', () => {
     change1._number = 1 as NumericChangeId;
     const change2 = createChange();
     change2._number = 2 as NumericChangeId;
-    bulkActionsModel.sync([change1, change2]);
+    bulkActionsModel.sync([change1, change2], true);
 
     // toggle first change on
     bulkActionsModel.toggleSelectedChangeNum(change1._number);
@@ -139,7 +150,7 @@ suite('bulk actions model test', () => {
     c1._number = 1 as NumericChangeId;
     const c2 = createChange();
     c2._number = 2 as NumericChangeId;
-    bulkActionsModel.sync([c1, c2]);
+    bulkActionsModel.sync([c1, c2], true);
     bulkActionsModel.addSelectedChangeNum(c1._number);
     bulkActionsModel.addSelectedChangeNum(c2._number);
     let selectedChangeNums = await waitUntilObserved(
@@ -172,7 +183,7 @@ suite('bulk actions model test', () => {
     c1._number = 1 as NumericChangeId;
     const c2 = createChange();
     c2._number = 2 as NumericChangeId;
-    bulkActionsModel.sync([c1, c2]);
+    bulkActionsModel.sync([c1, c2], true);
     let selectedChangeNums = await waitUntilObserved(
       bulkActionsModel.selectedChangeNums$,
       s => s.length === 0
@@ -216,7 +227,7 @@ suite('bulk actions model test', () => {
         ])
       );
 
-      bulkActionsModel.sync([c1, c2]);
+      bulkActionsModel.sync([c1, c2], true);
 
       bulkActionsModel.addSelectedChangeNum(c1._number);
       bulkActionsModel.addSelectedChangeNum(c2._number);
@@ -266,7 +277,7 @@ suite('bulk actions model test', () => {
         {...changes[0], actions: {abandon: {method: HttpMethod.POST}}},
         {...changes[1], status: ChangeStatus.ABANDONED},
       ]);
-      bulkActionsModel.sync(changes);
+      bulkActionsModel.sync(changes, true);
       bulkActionsModel.addSelectedChangeNum(changes[0]._number);
       bulkActionsModel.addSelectedChangeNum(changes[1]._number);
     });
@@ -340,7 +351,7 @@ suite('bulk actions model test', () => {
         ])
       );
 
-      await bulkActionsModel.sync([c1, c2]);
+      await bulkActionsModel.sync([c1, c2], true);
 
       bulkActionsModel.addSelectedChangeNum(c1._number);
       bulkActionsModel.addSelectedChangeNum(c2._number);
@@ -397,7 +408,7 @@ suite('bulk actions model test', () => {
       detailedActionsStub = stubRestApi('getDetailedChangesWithActions');
       detailedActionsStub.returns(Promise.resolve([change1, change2]));
 
-      await bulkActionsModel.sync([change1, change2]);
+      await bulkActionsModel.sync([change1, change2], true);
       bulkActionsModel.addSelectedChangeNum(change1._number);
       bulkActionsModel.addSelectedChangeNum(change2._number);
       stubRestApi('setChangeHashtag').resolves([existingHashtag, newHashtag]);
@@ -423,7 +434,7 @@ suite('bulk actions model test', () => {
     c1._number = 1 as NumericChangeId;
     const c2 = createChange();
     c2._number = 2 as NumericChangeId;
-    bulkActionsModel.sync([c1, c2]);
+    bulkActionsModel.sync([c1, c2], true);
 
     bulkActionsModel.addSelectedChangeNum(c1._number);
     bulkActionsModel.addSelectedChangeNum(c2._number);
@@ -440,7 +451,7 @@ suite('bulk actions model test', () => {
     assert.sameMembers(selectedChangeNums, [c1._number, c2._number]);
     assert.equal(totalChangeCount, 2);
 
-    bulkActionsModel.sync([c1]);
+    bulkActionsModel.sync([c1], true);
     selectedChangeNums = await waitUntilObserved(
       bulkActionsModel.selectedChangeNums$,
       s => s.length === 1
@@ -465,7 +476,7 @@ suite('bulk actions model test', () => {
       LoadingState.NOT_SYNCED
     );
 
-    bulkActionsModel.sync([c1, c2]);
+    bulkActionsModel.sync([c1, c2], true);
     await waitUntilObserved(
       bulkActionsModel.loadingState$,
       s => s === LoadingState.LOADING
@@ -498,7 +509,7 @@ suite('bulk actions model test', () => {
     const getChangesStub = stubRestApi(
       'getDetailedChangesWithActions'
     ).callsFake(() => promise);
-    bulkActionsModel.sync([c1]);
+    bulkActionsModel.sync([c1], true);
     assert.strictEqual(getChangesStub.callCount, 1);
     await waitUntilObserved(
       bulkActionsModel.loadingState$,
@@ -507,7 +518,7 @@ suite('bulk actions model test', () => {
     const responsePromise2 = mockPromise<ChangeInfo[]>();
 
     promise = responsePromise2;
-    bulkActionsModel.sync([c1, c2]);
+    bulkActionsModel.sync([c1, c2], true);
     assert.strictEqual(getChangesStub.callCount, 2);
 
     responsePromise2.resolve([

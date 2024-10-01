@@ -78,7 +78,7 @@ suite('gr-change-list-topic-flow tests', () => {
     setup(async () => {
       stubRestApi('getDetailedChangesWithActions').resolves(changes);
       model = new BulkActionsModel(getAppContext().restApiService);
-      model.sync(changes);
+      model.sync(changes, true);
 
       element = (
         await fixture(
@@ -202,7 +202,7 @@ suite('gr-change-list-topic-flow tests', () => {
           .returns(promise);
       }
       model = new BulkActionsModel(getAppContext().restApiService);
-      model.sync(changesWithTopics);
+      model.sync(changesWithTopics, true);
 
       element = (
         await fixture(
@@ -531,7 +531,7 @@ suite('gr-change-list-topic-flow tests', () => {
       }
 
       model = new BulkActionsModel(getAppContext().restApiService);
-      model.sync(changesWithNoTopics);
+      model.sync(changesWithNoTopics, true);
 
       element = (
         await fixture(

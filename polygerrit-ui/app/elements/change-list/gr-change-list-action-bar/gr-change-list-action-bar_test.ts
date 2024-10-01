@@ -38,7 +38,7 @@ suite('gr-change-list-action-bar tests', () => {
 
   setup(async () => {
     model = new BulkActionsModel(getAppContext().restApiService);
-    model.sync([change1, change2]);
+    model.sync([change1, change2], true);
 
     element = (
       await fixture(

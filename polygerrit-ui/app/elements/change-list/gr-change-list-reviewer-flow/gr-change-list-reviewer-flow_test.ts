@@ -92,7 +92,7 @@ suite('gr-change-list-reviewer-flow tests', () => {
     stubRestApi('getDetailedChangesWithActions').resolves(changes);
     reportingStub = stubReporting('reportInteraction');
     model = new BulkActionsModel(getAppContext().restApiService);
-    model.sync(changes);
+    model.sync(changes, true);
 
     element = (
       await fixture(

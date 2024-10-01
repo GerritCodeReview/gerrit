@@ -70,7 +70,7 @@ suite('gr-change-list-bulk-abandon-flow tests', () => {
   test('render', async () => {
     const changes: ChangeInfo[] = [{...change1, actions: {abandon: {}}}];
     getChangesStub.returns(changes);
-    model.sync(changes);
+    model.sync(changes, true);
     await waitUntilObserved(
       model.loadingState$,
       state => state === LoadingState.LOADED
@@ -118,7 +118,7 @@ suite('gr-change-list-bulk-abandon-flow tests', () => {
   test('button state updates as changes are updated', async () => {
     const changes: ChangeInfo[] = [{...change1, actions: {abandon: {}}}];
     getChangesStub.returns(changes);
-    model.sync(changes);
+    model.sync(changes, true);
     await waitUntilObserved(
       model.loadingState$,
       state => state === LoadingState.LOADED
@@ -131,7 +131,7 @@ suite('gr-change-list-bulk-abandon-flow tests', () => {
     changes.push({...change2, actions: {}});
     getChangesStub.restore();
     getChangesStub.returns(changes);
-    model.sync(changes);
+    model.sync(changes, true);
     await waitUntilObserved(
       model.loadingState$,
       state => state === LoadingState.LOADED
@@ -147,7 +147,7 @@ suite('gr-change-list-bulk-abandon-flow tests', () => {
       {...change1, actions: {}, status: ChangeStatus.ABANDONED},
     ];
     getChangesStub.returns(changes);
-    model.sync(changes);
+    model.sync(changes, true);
     await waitUntilObserved(
       model.loadingState$,
       state => state === LoadingState.LOADED
@@ -171,7 +171,7 @@ suite('gr-change-list-bulk-abandon-flow tests', () => {
   test('progress updates as request is resolved', async () => {
     const changes: ChangeInfo[] = [{...change1, actions: {abandon: {}}}];
     getChangesStub.returns(changes);
-    model.sync(changes);
+    model.sync(changes, true);
     await waitUntilObserved(
       model.loadingState$,
       state => state === LoadingState.LOADED
@@ -240,7 +240,7 @@ suite('gr-change-list-bulk-abandon-flow tests', () => {
   test('failures are reflected to the progress dialog', async () => {
     const changes: ChangeInfo[] = [{...change1, actions: {abandon: {}}}];
     getChangesStub.returns(changes);
-    model.sync(changes);
+    model.sync(changes, true);
     await waitUntilObserved(
       model.loadingState$,
       state => state === LoadingState.LOADED
@@ -319,7 +319,7 @@ suite('gr-change-list-bulk-abandon-flow tests', () => {
         })
     );
 
-    model.sync(changes);
+    model.sync(changes, true);
     await waitUntilObserved(
       model.loadingState$,
       state => state === LoadingState.LOADED

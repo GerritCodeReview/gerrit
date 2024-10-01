@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1477f89b_153c3bf6",
+        "filename": "java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-10-01T18:46:47Z",
+      "side": 1,
+      "message": "Can you re-use the constants you added in `UrlModule`?\n```suggestion\n      \"^\" + CHANGE_NUMBER_REGEX + \"(/[1-9][0-9]*(\\\\.\\\\.[1-9][0-9]*)?(/[^+]*)?)?(/comment/[^+]+)?/?$\";\n```\n\nAnd really...\nit\u0027s actually almost:\n```\n\"^\" + CHANGE_NUMBER_REGEX + \"(/\" + PATCH_SET_REGEX + \"(/[^+]*)?)?(/comment/[^+]+)?/?$\";\n```\n\nexcept `PATCH_SET_REGEX` has parens surrounding it that don\u0027t quite line up. Maybe change that so they can be shared?",
+      "revId": "5f7c45b2287b80d4bb8cbb45e200a29a8584f78f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

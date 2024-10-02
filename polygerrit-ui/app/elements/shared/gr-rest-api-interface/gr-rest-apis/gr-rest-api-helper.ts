@@ -355,12 +355,17 @@ export class GrRestApiHelper {
     try {
       resp = await this.fetchImpl(fetchReq);
     } catch (err) {
+      // Wrap the error to get more information about the stack.
+      const newErr = new Error(
+        `Network error when trying to fetch. Cause: ${(err as Error).message}`
+      );
+      newErr.stack = (newErr.stack ?? '') + '\n' + ((err as Error).stack ?? '');
       if (req.errFn) {
-        await req.errFn.call(undefined, null, err as Error);
+        await req.errFn.call(undefined, null, newErr);
       } else {
-        fireNetworkError(err as Error);
+        fireNetworkError(newErr);
       }
-      throw err;
+      throw newErr;
     }
     if (req.reportServerError && !resp.ok) {
       if (req.errFn) {

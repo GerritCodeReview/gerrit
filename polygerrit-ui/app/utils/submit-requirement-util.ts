@@ -36,12 +36,17 @@ function appendAllOccurrences(
       break;
     }
     searchStartIndex = index + match.length;
-    // Include unary minus.
+    // Check for unary minus *before* adding the match
+    let atomIsPassing = isPassing; // Use a local variable
     if (index !== 0 && text[index - 1] === '-') {
       --index;
-      isPassing = !isPassing;
+      atomIsPassing = !isPassing; // Negate only for this occurrence
     }
-    matchedAtoms.push({start: index, end: searchStartIndex, isPassing});
+    matchedAtoms.push({
+      start: index,
+      end: searchStartIndex,
+      isPassing: atomIsPassing,
+    });
   }
 }
 

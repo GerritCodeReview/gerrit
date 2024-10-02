@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5c3d167_49fca597",
+        "filename": "java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-10-02T07:51:28Z",
+      "side": 1,
+      "message": "Do we also need to check for `null` value here like in the 125?",
+      "revId": "454eef6c3e0f8499c5ea25dab9b0119a072d09e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

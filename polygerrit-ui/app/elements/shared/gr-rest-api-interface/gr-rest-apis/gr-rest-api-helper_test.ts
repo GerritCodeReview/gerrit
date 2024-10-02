@@ -206,7 +206,10 @@ suite('gr-rest-api-helper tests', () => {
         const promise = helper.fetchJSON({url: '/dummy/url'});
         await assertReadRequest();
         const err = await assertFails(promise);
-        assert.equal((err as Error).message, 'No response');
+        assert.equal(
+          (err as Error).message,
+          'Network error when trying to fetch. Cause: No response'
+        );
         await waitEventLoop();
         assert.isTrue(networkErrorCalled);
         assert.isFalse(serverErrorCalled);
@@ -221,7 +224,10 @@ suite('gr-rest-api-helper tests', () => {
         });
         await assertReadRequest();
         const err = await assertFails(promise);
-        assert.equal((err as Error).message, 'No response');
+        assert.equal(
+          (err as Error).message,
+          'Network error when trying to fetch. Cause: No response'
+        );
         await waitEventLoop();
         assert.isTrue(errFn.called);
         assert.isFalse(networkErrorCalled);

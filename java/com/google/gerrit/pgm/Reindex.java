@@ -104,6 +104,7 @@ public class Reindex extends SiteProgram {
   private Injector sysInjector;
   private Injector cfgInjector;
   private Config globalConfig;
+  private boolean reuseExistingDocuments;
 
   @Inject private Collection<IndexDefinition<?, ?, ?>> indexDefs;
   @Inject private DynamicMap<Cache<?, ?>> cacheMap;
@@ -120,6 +121,10 @@ public class Reindex extends SiteProgram {
     cfgInjector = dbInjector.createChildInjector();
     globalConfig = dbInjector.getInstance(Key.get(Config.class, GerritServerConfig.class));
     overrideConfig();
+    reuseExistingDocuments =
+        reuseExistingDocumentsOption != null
+            ? reuseExistingDocumentsOption
+            : globalConfig.getBoolean("index", null, "reuseExistingDocuments", false);
     LifecycleManager dbManager = new LifecycleManager();
     dbManager.add(dbInjector);
     dbManager.start();
@@ -221,7 +226,8 @@ public class Reindex extends SiteProgram {
             super.configure();
             OptionalBinder.newOptionalBinder(binder(), IsFirstInsertForEntry.class)
                 .setBinding()
-                .toInstance(IsFirstInsertForEntry.YES);
+                .toInstance(
+                    reuseExistingDocuments ? IsFirstInsertForEntry.NO : IsFirstInsertForEntry.YES);
             OptionalBinder.newOptionalBinder(binder(), BuildBloomFilter.class)
                 .setBinding()
                 .toInstance(buildBloomFilter ? BuildBloomFilter.TRUE : BuildBloomFilter.FALSE);
@@ -265,10 +271,6 @@ public class Reindex extends SiteProgram {
     requireNonNull(
         index, () -> String.format("no active search index configured for %s", def.getName()));
     index.markReady(false);
-    boolean reuseExistingDocuments =
-        reuseExistingDocumentsOption != null
-            ? reuseExistingDocumentsOption
-            : globalConfig.getBoolean("index", null, "reuseExistingDocuments", false);
 
     if (!reuseExistingDocuments) {
       index.deleteAll();

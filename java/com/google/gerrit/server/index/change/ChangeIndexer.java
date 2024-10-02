@@ -33,7 +33,7 @@ import com.google.gerrit.metrics.proc.ThreadMXBeanInterface;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.index.StalenessCheckResult;
-import com.google.gerrit.server.index.options.IsFirstInsertForEntry;
+import com.google.gerrit.server.index.options.IndexUpdateStrategy;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
@@ -95,7 +95,7 @@ public class ChangeIndexer {
   private final PluginSetContext<ChangeIndexedListener> indexedListeners;
   private final StalenessChecker stalenessChecker;
   private final boolean autoReindexIfStale;
-  private final IsFirstInsertForEntry isFirstInsertForEntry;
+  private final IndexUpdateStrategy isFirstInsertForEntry;
   private final boolean notifyListeners;
 
   private final Map<Change.Id, IndexTask> queuedIndexTasks = new ConcurrentHashMap<>();
@@ -113,7 +113,7 @@ public class ChangeIndexer {
       @IndexExecutor(BATCH) ListeningExecutorService batchExecutor,
       @Assisted ListeningExecutorService executor,
       @Assisted ChangeIndex index,
-      IsFirstInsertForEntry isFirstInsertForEntry) {
+      IndexUpdateStrategy isFirstInsertForEntry) {
     this(
         cfg,
         changeDataFactory,
@@ -140,7 +140,7 @@ public class ChangeIndexer {
       @Assisted ListeningExecutorService executor,
       @Assisted ChangeIndex index,
       @Assisted boolean notifyListeners,
-      IsFirstInsertForEntry isFirstInsertForEntry) {
+      IndexUpdateStrategy isFirstInsertForEntry) {
     this.executor = executor;
     this.changeDataFactory = changeDataFactory;
     this.notesFactory = notesFactory;
@@ -163,7 +163,7 @@ public class ChangeIndexer {
       ThreadLocalRequestContext context,
       PluginSetContext<ChangeIndexedListener> indexedListeners,
       @IndexExecutor(BATCH) ListeningExecutorService batchExecutor,
-      IsFirstInsertForEntry isFirstInsertForEntry,
+      IndexUpdateStrategy isFirstInsertForEntry,
       @Assisted ListeningExecutorService executor,
       @Assisted ChangeIndex index,
       @Assisted StalenessChecker stalenessChecker,
@@ -193,7 +193,7 @@ public class ChangeIndexer {
       @IndexExecutor(BATCH) ListeningExecutorService batchExecutor,
       @Assisted ListeningExecutorService executor,
       @Assisted ChangeIndexCollection indexes,
-      IsFirstInsertForEntry isFirstInsertForEntry) {
+      IndexUpdateStrategy isFirstInsertForEntry) {
     this(
         cfg,
         changeDataFactory,
@@ -220,7 +220,7 @@ public class ChangeIndexer {
       @Assisted ListeningExecutorService executor,
       @Assisted ChangeIndexCollection indexes,
       @Assisted boolean notifyListeners,
-      IsFirstInsertForEntry isFirstInsertForEntry) {
+      IndexUpdateStrategy isFirstInsertForEntry) {
     this.executor = executor;
     this.changeDataFactory = changeDataFactory;
     this.notesFactory = notesFactory;
@@ -333,7 +333,7 @@ public class ChangeIndexer {
                     .patchSetId(cd.currentPatchSet().number())
                     .indexVersion(i.getSchema().getVersion())
                     .build())) {
-          if (isFirstInsertForEntry.equals(IsFirstInsertForEntry.YES)) {
+          if (isFirstInsertForEntry.equals(IndexUpdateStrategy.INSERT)) {
             i.insert(cd);
           } else {
             i.replace(cd);

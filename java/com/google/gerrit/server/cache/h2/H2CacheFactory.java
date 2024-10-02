@@ -37,7 +37,7 @@ import com.google.gerrit.server.config.ScheduleConfig.Schedule;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.index.options.BuildBloomFilter;
-import com.google.gerrit.server.index.options.IsFirstInsertForEntry;
+import com.google.gerrit.server.index.options.IndexUpdateStrategy;
 import com.google.gerrit.server.logging.LoggingContextAwareExecutorService;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -97,7 +97,7 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
       SitePaths site,
       DynamicMap<Cache<?, ?>> cacheMap,
       WorkQueue queue,
-      @Nullable IsFirstInsertForEntry isFirstInsertForEntry,
+      @Nullable IndexUpdateStrategy isFirstInsertForEntry,
       @Nullable BuildBloomFilter buildBloomFilter) {
     super(memCacheFactory, cfg, site);
     h2CacheSize = cfg.getLong("cache", null, "h2CacheSize", -1);
@@ -110,7 +110,7 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
     logger.atInfo().log("Scheduling cache pruning with schedule %s", schedule);
     this.cacheMap = cacheMap;
     this.isOfflineReindex =
-        isFirstInsertForEntry != null && isFirstInsertForEntry.equals(IsFirstInsertForEntry.YES);
+        isFirstInsertForEntry != null && isFirstInsertForEntry.equals(IndexUpdateStrategy.INSERT);
     this.buildBloomFilter =
         !(buildBloomFilter != null && buildBloomFilter.equals(BuildBloomFilter.FALSE));
 

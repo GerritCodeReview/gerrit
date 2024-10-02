@@ -58,7 +58,7 @@ import com.google.gerrit.server.index.group.GroupIndexer;
 import com.google.gerrit.server.index.group.GroupIndexerImpl;
 import com.google.gerrit.server.index.group.GroupSchemaDefinitions;
 import com.google.gerrit.server.index.options.BuildBloomFilter;
-import com.google.gerrit.server.index.options.IsFirstInsertForEntry;
+import com.google.gerrit.server.index.options.IndexUpdateStrategy;
 import com.google.gerrit.server.index.project.ProjectIndexDefinition;
 import com.google.gerrit.server.index.project.ProjectIndexerImpl;
 import com.google.inject.Inject;
@@ -158,9 +158,9 @@ public class IndexModule extends LifecycleModule {
     }
 
     DynamicSet.setOf(binder(), OnlineUpgradeListener.class);
-    OptionalBinder.newOptionalBinder(binder(), IsFirstInsertForEntry.class)
+    OptionalBinder.newOptionalBinder(binder(), IndexUpdateStrategy.class)
         .setDefault()
-        .toInstance(IsFirstInsertForEntry.NO);
+        .toInstance(IndexUpdateStrategy.REPLACE);
     OptionalBinder.newOptionalBinder(binder(), BuildBloomFilter.class)
         .setDefault()
         .toInstance(BuildBloomFilter.TRUE);

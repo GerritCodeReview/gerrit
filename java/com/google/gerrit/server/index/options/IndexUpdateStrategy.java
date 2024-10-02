@@ -20,7 +20,7 @@ package com.google.gerrit.server.index.options;
  * com.google.gerrit.index.Index#insert(Object) insert()}) should be performed on a specific {@link
  * com.google.gerrit.index.Index index}.
  */
-public enum IsFirstInsertForEntry {
-  YES,
-  NO
+public enum IndexUpdateStrategy {
+  INSERT,
+  REPLACE
 }

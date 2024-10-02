@@ -27,7 +27,7 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.index.IndexExecutor;
-import com.google.gerrit.server.index.options.IsFirstInsertForEntry;
+import com.google.gerrit.server.index.options.IndexUpdateStrategy;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -51,14 +51,14 @@ public class AllAccountsIndexer extends SiteIndexer<Account.Id, AccountState, Ac
   private final ListeningExecutorService executor;
   private final Accounts accounts;
   private final AccountCache accountCache;
-  private final IsFirstInsertForEntry isFirstInsertForEntry;
+  private final IndexUpdateStrategy isFirstInsertForEntry;
 
   @Inject
   AllAccountsIndexer(
       @IndexExecutor(BATCH) ListeningExecutorService executor,
       Accounts accounts,
       AccountCache accountCache,
-      IsFirstInsertForEntry isFirstInsertForEntry) {
+      IndexUpdateStrategy isFirstInsertForEntry) {
     this.executor = executor;
     this.accounts = accounts;
     this.accountCache = accountCache;
@@ -96,7 +96,7 @@ public class AllAccountsIndexer extends SiteIndexer<Account.Id, AccountState, Ac
                 try {
                   Optional<AccountState> a = accountCache.get(id);
                   if (a.isPresent()) {
-                    if (isFirstInsertForEntry.equals(IsFirstInsertForEntry.YES)) {
+                    if (isFirstInsertForEntry.equals(IndexUpdateStrategy.INSERT)) {
                       index.insert(a.get());
                     } else {
                       index.replace(a.get());

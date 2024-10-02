@@ -27,7 +27,7 @@ import com.google.gerrit.index.SiteIndexer;
 import com.google.gerrit.index.project.ProjectData;
 import com.google.gerrit.index.project.ProjectIndex;
 import com.google.gerrit.server.index.IndexExecutor;
-import com.google.gerrit.server.index.options.IsFirstInsertForEntry;
+import com.google.gerrit.server.index.options.IndexUpdateStrategy;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -49,13 +49,13 @@ public class AllProjectsIndexer extends SiteIndexer<Project.NameKey, ProjectData
 
   private final ListeningExecutorService executor;
   private final ProjectCache projectCache;
-  private final IsFirstInsertForEntry isFirstInsertForEntry;
+  private final IndexUpdateStrategy isFirstInsertForEntry;
 
   @Inject
   AllProjectsIndexer(
       @IndexExecutor(BATCH) ListeningExecutorService executor,
       ProjectCache projectCache,
-      IsFirstInsertForEntry isFirstInsertForEntry) {
+      IndexUpdateStrategy isFirstInsertForEntry) {
     this.executor = executor;
     this.projectCache = projectCache;
     this.isFirstInsertForEntry = isFirstInsertForEntry;
@@ -86,7 +86,7 @@ public class AllProjectsIndexer extends SiteIndexer<Project.NameKey, ProjectData
                   projectCache.evict(name);
                   ProjectData projectData =
                       projectCache.get(name).orElseThrow(illegalState(name)).toProjectData();
-                  if (isFirstInsertForEntry.equals(IsFirstInsertForEntry.YES)) {
+                  if (isFirstInsertForEntry.equals(IndexUpdateStrategy.INSERT)) {
                     index.insert(projectData);
                   } else {
                     index.replace(projectData);

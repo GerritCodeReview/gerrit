@@ -44,7 +44,7 @@ import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
 import com.google.gerrit.server.index.options.AutoFlush;
 import com.google.gerrit.server.index.options.BuildBloomFilter;
-import com.google.gerrit.server.index.options.IsFirstInsertForEntry;
+import com.google.gerrit.server.index.options.IndexUpdateStrategy;
 import com.google.gerrit.server.notedb.NoteDbDraftCommentsModule;
 import com.google.gerrit.server.notedb.NoteDbStarredChangesModule;
 import com.google.gerrit.server.notedb.RepoSequence.RepoSequenceModule;
@@ -224,10 +224,12 @@ public class Reindex extends SiteProgram {
           @Override
           protected void configure() {
             super.configure();
-            OptionalBinder.newOptionalBinder(binder(), IsFirstInsertForEntry.class)
+            OptionalBinder.newOptionalBinder(binder(), IndexUpdateStrategy.class)
                 .setBinding()
                 .toInstance(
-                    reuseExistingDocuments ? IsFirstInsertForEntry.NO : IsFirstInsertForEntry.YES);
+                    reuseExistingDocuments
+                        ? IndexUpdateStrategy.REPLACE
+                        : IndexUpdateStrategy.INSERT);
             OptionalBinder.newOptionalBinder(binder(), BuildBloomFilter.class)
                 .setBinding()
                 .toInstance(buildBloomFilter ? BuildBloomFilter.TRUE : BuildBloomFilter.FALSE);

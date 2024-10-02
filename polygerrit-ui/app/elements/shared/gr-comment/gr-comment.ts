@@ -91,7 +91,7 @@ import {getFileExtension} from '../../../utils/file-util';
 import {storageServiceToken} from '../../../services/storage/gr-storage_impl';
 import {deepEqual} from '../../../utils/deep-util';
 import {GrSuggestionDiffPreview} from '../gr-suggestion-diff-preview/gr-suggestion-diff-preview';
-import {waitUntil} from '../../../utils/async-util';
+import {noAwait, waitUntil} from '../../../utils/async-util';
 import {
   AutocompleteCache,
   AutocompletionContext,
@@ -251,6 +251,10 @@ export class GrComment extends LitElement {
 
   @state()
   generatedFixSuggestion: FixSuggestionInfo | undefined =
+    this.comment?.fix_suggestions?.[0];
+
+  @state()
+  previewedGeneratedFixSuggestion: FixSuggestionInfo | undefined =
     this.comment?.fix_suggestions?.[0];
 
   @state()
@@ -1184,6 +1188,18 @@ export class GrComment extends LitElement {
     }
   }
 
+  // visible for testing
+  async waitPreviewForGeneratedSuggestion() {
+    const generatedFixSuggestion = this.generatedFixSuggestion;
+    if (!generatedFixSuggestion) return;
+    await waitUntil(
+      () =>
+        !!this.suggestionDiffPreview?.previewed &&
+        this.suggestionDiffPreview?.previewLoadedFor === generatedFixSuggestion
+    );
+    this.previewedGeneratedFixSuggestion = generatedFixSuggestion;
+  }
+
   private renderGenerateSuggestEditButton() {
     if (!this.showGeneratedSuggestion()) {
       return nothing;
@@ -1322,6 +1338,7 @@ export class GrComment extends LitElement {
       return;
     }
     this.generatedFixSuggestion = suggestion;
+    noAwait(this.waitPreviewForGeneratedSuggestion());
 
     try {
       await waitUntil(() => this.getFixSuggestions() !== undefined);
@@ -1558,6 +1575,9 @@ export class GrComment extends LitElement {
     assert(isDraft(this.comment), 'only drafts are editable');
     if (this.editing) return;
     this.editing = true;
+    // For quickly opening and closing the comment, the suggestion diff preview
+    // might not have time to load and preview.
+    noAwait(this.waitPreviewForGeneratedSuggestion());
   }
 
   // TODO: Move this out of gr-comment. gr-comment should not have a comments
@@ -1841,13 +1861,9 @@ export class GrComment extends LitElement {
     // Disable fix suggestions when the comment already has a user suggestion
     if (this.comment && hasUserSuggestion(this.comment)) return undefined;
     // we ignore fixSuggestions until they are previewed.
-    if (
-      this.suggestionDiffPreview &&
-      !this.suggestionDiffPreview?.previewed &&
-      !this.suggestionLoading
-    )
-      return undefined;
-    return [this.generatedFixSuggestion];
+    if (this.previewedGeneratedFixSuggestion)
+      return [this.previewedGeneratedFixSuggestion];
+    return undefined;
   }
 
   private handleToggleResolved() {

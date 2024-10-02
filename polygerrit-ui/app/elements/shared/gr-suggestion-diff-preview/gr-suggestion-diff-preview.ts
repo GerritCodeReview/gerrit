@@ -285,6 +285,7 @@ export class GrSuggestionDiffPreview extends LitElement {
     });
     if (currentPreviews.length > 0) {
       this.preview = currentPreviews[0];
+      this.previewed = true;
       this.previewLoadedFor = this.fixSuggestionInfo;
     }
 

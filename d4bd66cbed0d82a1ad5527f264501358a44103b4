@@ -33,6 +33,24 @@
       "message": "I think this could still be misunderstood, if I got it right `INSERT` means the old index is deleted and a new one is created from scratch by inserting new entries into an empty index. I\u0027d say this is would be perfectly described by the name `REPLACE`.\n\nHence maybe better name this strategy `REPLACE` for what was formerly called `YES` and `UPDATE` for the other one ?",
       "revId": "d4bd66cbed0d82a1ad5527f264501358a44103b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "910acfd9_84503660",
+        "filename": "java/com/google/gerrit/server/index/options/IndexUpdateStrategy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-10-02T17:30:19Z",
+      "side": 1,
+      "message": "\u003e I think this could still be misunderstood, if I got it right `INSERT` means the old index is deleted and a new one is created from scratch by inserting new entries into an empty index.\n\nI think you did get this right, but...\n\n\u003e I\u0027d say this is would be perfectly described by the name `REPLACE`.\n\n`REPLACE` is used as the method name when we want to replace an *existing* index entry with a new document, so I don\u0027t think you want to use that term for this scenario.\n\nIIRC ( @kaushik.lingarkar@linaro.org or @mfick@nvidia.com might recall it better), the intent with the `IsFirstInsertForEntry` naming was to encapsulate the indexing behavior/implementation (insert/replace) away from the indexing scenario (`YES`: expected to be inserting into an index that does not yet have this entry, or, `NO`: expect the index to possibly already have this entry) so that the index implementations could then choose the best behavior for those scenarios themselves. If you rename it to something else, I think we should still keep that separation/intent unless there\u0027s a good reason not to. I don\u0027t think `IndexUpdateStrategy` aligns with that intent, so I would prefer a different name if you\u0027re going to rename it.",
+      "parentUuid": "5cb3bfb9_b796f565",
+      "revId": "d4bd66cbed0d82a1ad5527f264501358a44103b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -113,4 +113,42 @@ suite('submit-requirement-util', () => {
       },
     ]);
   });
+
+  test('atomizeExpression b/370742469', () => {
+    const expression: SubmitRequirementExpressionInfo = {
+      expression:
+        '-is:android-cherry-pick_exemptedusers OR is:android-cherry-pick_exemptedusers',
+      passing_atoms: [
+        'is:android-cherry-pick_exemptedusers',
+        'is:android-cherry-pick_exemptedusers',
+        'project:platform/frameworks/support',
+      ],
+      failing_atoms: [
+        'label:Code-Review=MIN',
+        'label:Code-Review=MAX,user=non_uploader',
+        'label:Code-Review=MAX,count>=2',
+        'label:Code-Review=MAX',
+        'label:Exempt=+1',
+        'uploader:1474732',
+        'project:platform/developers/docs',
+      ],
+    };
+
+    assert.deepStrictEqual(atomizeExpression(expression), [
+      {
+        atomStatus: SubmitRequirementExpressionAtomStatus.FAILING,
+        isAtom: true,
+        value: '-is:android-cherry-pick_exemptedusers',
+      },
+      {
+        value: ' OR ',
+        isAtom: false,
+      },
+      {
+        atomStatus: SubmitRequirementExpressionAtomStatus.PASSING,
+        isAtom: true,
+        value: 'is:android-cherry-pick_exemptedusers',
+      },
+    ]);
+  });
 });

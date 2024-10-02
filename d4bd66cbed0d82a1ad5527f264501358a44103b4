@@ -16,6 +16,23 @@
       "message": "For now decided to stay with an enum over a boolean, since I struggled with finding a good and well understandable name for a boolean and found this more readable.",
       "revId": "d4bd66cbed0d82a1ad5527f264501358a44103b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5cb3bfb9_b796f565",
+        "filename": "java/com/google/gerrit/server/index/options/IndexUpdateStrategy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-10-02T13:21:57Z",
+      "side": 1,
+      "message": "I think this could still be misunderstood, if I got it right `INSERT` means the old index is deleted and a new one is created from scratch by inserting new entries into an empty index. I\u0027d say this is would be perfectly described by the name `REPLACE`.\n\nHence maybe better name this strategy `REPLACE` for what was formerly called `YES` and `UPDATE` for the other one ?",
+      "revId": "d4bd66cbed0d82a1ad5527f264501358a44103b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

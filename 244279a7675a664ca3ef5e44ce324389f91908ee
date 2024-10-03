@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad8c58ea_241f158b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2024-10-03T22:29:43Z",
+      "side": 1,
+      "message": "@luca.milanesio@gmail.com, since new release is coming, do you think we can have this feature?",
+      "revId": "244279a7675a664ca3ef5e44ce324389f91908ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5e5b57c4_73f948e3",

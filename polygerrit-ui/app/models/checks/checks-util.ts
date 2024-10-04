@@ -54,6 +54,8 @@ export function iconForLink(linkIcon?: LinkIcon): ChecksIcon {
       return {name: 'code'};
     case LinkIcon.FILE_PRESENT:
       return {name: 'file_present'};
+    case LinkIcon.VIEW_TIMELINE:
+      return {name: 'view_timeline'};
     default:
       // We don't throw an assertion error here, because plugins don't have to
       // be written in TypeScript, so we may encounter arbitrary strings for

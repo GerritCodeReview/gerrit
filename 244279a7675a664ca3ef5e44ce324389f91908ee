@@ -128,6 +128,30 @@
       },
       "revId": "244279a7675a664ca3ef5e44ce324389f91908ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29e12f1b_b6a850be",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 752,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2024-10-04T05:59:59Z",
+      "side": 1,
+      "message": "I feel that `groups.enableDeleteGroups` shouldn\u0027t be read by `RestApiModule` to decide whether or not to bind `DeleteGroup`. Instead it should be injected into `DeleteGroup` and if it is not enabled DeleteGroup should return a 400: \"Deletion of groups is not enabled\" or alternatively a 404.",
+      "parentUuid": "49074441_200905ad",
+      "range": {
+        "startLine": 752,
+        "startChar": 51,
+        "endLine": 752,
+        "endChar": 93
+      },
+      "revId": "244279a7675a664ca3ef5e44ce324389f91908ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

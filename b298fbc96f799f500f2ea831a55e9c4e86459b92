@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce0c9582_a6add4be",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-10-04T13:55:35Z",
+      "side": 1,
+      "message": "You\u0027d need to create a seperate commit in the codemirror plugin to use this.",
+      "revId": "b298fbc96f799f500f2ea831a55e9c4e86459b92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -110,7 +110,7 @@ import com.google.gerrit.server.notedb.RepoSequence.RepoSequenceModule;
 import com.google.gerrit.server.patch.DiffExecutor;
 import com.google.gerrit.server.permissions.DefaultPermissionBackendModule;
 import com.google.gerrit.server.plugins.ServerInformationImpl;
-import com.google.gerrit.server.project.DefaultProjectNameLockManager.DefaultProjectNameLockManagerModule;
+import com.google.gerrit.server.project.DefaultLockManager.DefaultLockManagerModule;
 import com.google.gerrit.server.restapi.RestApiModule;
 import com.google.gerrit.server.schema.JdbcAccountPatchReviewStore;
 import com.google.gerrit.server.schema.SchemaCreator;
@@ -297,7 +297,7 @@ public class InMemoryModule extends FactoryModule {
     bind(ServerInformation.class).to(ServerInformationImpl.class);
     install(new RestApiModule());
     install(new OAuthRestModule());
-    install(new DefaultProjectNameLockManagerModule());
+    install(new DefaultLockManagerModule());
     install(new FileInfoJsonModule());
     install(new ConfigExperimentFeaturesModule());
 

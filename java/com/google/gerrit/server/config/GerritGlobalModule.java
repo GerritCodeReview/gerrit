@@ -189,8 +189,8 @@ import com.google.gerrit.server.permissions.SectionSortCache;
 import com.google.gerrit.server.plugins.ReloadPluginListener;
 import com.google.gerrit.server.project.AccessControlModule;
 import com.google.gerrit.server.project.CommentLinkProvider;
+import com.google.gerrit.server.project.LockManager;
 import com.google.gerrit.server.project.ProjectCacheImpl;
-import com.google.gerrit.server.project.ProjectNameLockManager;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.PrologRulesWarningValidator;
 import com.google.gerrit.server.project.SubmitRequirementConfigValidator;
@@ -453,7 +453,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicItem.itemOf(binder(), AccountPatchReviewStore.class);
     DynamicSet.setOf(binder(), ActionVisitor.class);
     DynamicItem.itemOf(binder(), MergeSuperSetComputation.class);
-    DynamicItem.itemOf(binder(), ProjectNameLockManager.class);
+    DynamicItem.itemOf(binder(), LockManager.class);
     DynamicSet.setOf(binder(), SubmitRule.class);
     DynamicSet.setOf(binder(), SubmitRequirement.class);
     DynamicSet.setOf(binder(), QuotaEnforcer.class);

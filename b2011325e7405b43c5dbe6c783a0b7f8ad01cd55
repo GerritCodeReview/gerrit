@@ -87,6 +87,30 @@
       },
       "revId": "b2011325e7405b43c5dbe6c783a0b7f8ad01cd55",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18d5f416_6bc397ca",
+        "filename": "java/com/google/gerrit/server/account/GroupIncludeCacheImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-10-07T14:39:19Z",
+      "side": 1,
+      "message": "Fix for review at I070bbf117ea",
+      "parentUuid": "09a7a530_b80b775c",
+      "range": {
+        "startLine": 148,
+        "startChar": 6,
+        "endLine": 148,
+        "endChar": 35
+      },
+      "revId": "b2011325e7405b43c5dbe6c783a0b7f8ad01cd55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

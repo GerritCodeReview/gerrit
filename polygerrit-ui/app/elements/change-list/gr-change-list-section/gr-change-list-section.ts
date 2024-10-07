@@ -172,7 +172,7 @@ export class GrChangeListSection extends LitElement {
   }
 
   override willUpdate(changedProperties: PropertyValues) {
-    if (changedProperties.has('changeSection')) {
+    if (changedProperties.has('changeSection') && this.isLoggedIn) {
       // In case the list of changes is updated due to auto reloading, we want
       // to ensure the model removes any stale change that is not a part of the
       // new section changes.

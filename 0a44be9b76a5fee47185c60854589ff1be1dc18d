@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b84d4c2f_a160fc85",
+        "filename": "java/com/google/gerrit/server/account/GroupIncludeCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-10-07T22:45:29Z",
+      "side": 1,
+      "message": "\u003e     @Override\n\u003e     public List\u003cAccountGroup.UUID\u003e next() {\n\u003e       List\u003cAccountGroup.UUID\u003e batch \u003d new ArrayList\u003c\u003e(batchSize);\n\u003e       int count \u003d 0;\n\u003e       while (source.hasNext() \u0026\u0026 count++ \u003c batchSize) {\n\u003e         batch.add(source.next());\n\u003e       }\n\u003e       return batch;\n\u003e     }\n\u003e   }\n\u003e ```\n\u003e WDYT?\n\nI believe this also suffers from the same problem: we are creating a new array and copying the elements over. For reducing the memory consumption we should allocate a single array of batchSize and reuse it.\n\nI am wondering however if that could be simplified by just changing the input parameter from a `Set\u003c\u003e` to a `List\u003c\u003e`?",
+      "parentUuid": "79647d3e_1c5bcba0",
+      "range": {
+        "startLine": 157,
+        "startChar": 26,
+        "endLine": 157,
+        "endChar": 51
+      },
+      "revId": "0a44be9b76a5fee47185c60854589ff1be1dc18d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1635fdd1_bf072c21",
         "filename": "java/com/google/gerrit/server/account/GroupIncludeCacheImpl.java",
         "patchSetId": 4

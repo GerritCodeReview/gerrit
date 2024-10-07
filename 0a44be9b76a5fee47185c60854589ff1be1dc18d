@@ -16,6 +16,29 @@
       "message": "I have verified that:\n- *before* this patch, a default Gerrit setup with 1025 groups would fail with 500\n- *after* this patch, a default Gerrit setup with 1025 groups succeeds as expected",
       "revId": "0a44be9b76a5fee47185c60854589ff1be1dc18d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1635fdd1_bf072c21",
+        "filename": "java/com/google/gerrit/server/account/GroupIncludeCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-10-07T15:37:02Z",
+      "side": 1,
+      "message": "nit: consider using method reference:\n\n\n```suggestion\n        parentGroups.getAll(groupIdsBatch).values().forEach(parents::addAll);\n```",
+      "range": {
+        "startLine": 158,
+        "startChar": 0,
+        "endLine": 158,
+        "endChar": 84
+      },
+      "revId": "0a44be9b76a5fee47185c60854589ff1be1dc18d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b29a5f56_2e1a4c4a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-10-07T13:45:40Z",
+      "side": 1,
+      "message": "Needs to be put just above Change-Id to be detected.",
+      "revId": "008c12325a527e36d162c40a4c789b2030011437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

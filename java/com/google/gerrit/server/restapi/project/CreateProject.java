@@ -45,10 +45,10 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.plugincontext.PluginItemContext;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.project.CreateProjectArgs;
+import com.google.gerrit.server.project.LockManager;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectCreator;
 import com.google.gerrit.server.project.ProjectJson;
-import com.google.gerrit.server.project.ProjectNameLockManager;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.validators.ProjectCreationValidationListener;
@@ -78,7 +78,7 @@ public class CreateProject
   private final Provider<PutConfig> putConfig;
   private final AllProjectsName allProjects;
   private final AllUsersName allUsers;
-  private final PluginItemContext<ProjectNameLockManager> lockManager;
+  private final PluginItemContext<LockManager> lockManager;
   private final ProjectCreator projectCreator;
 
   private final Config gerritConfig;
@@ -94,7 +94,7 @@ public class CreateProject
       Provider<PutConfig> putConfig,
       AllProjectsName allProjects,
       AllUsersName allUsers,
-      PluginItemContext<ProjectNameLockManager> lockManager,
+      PluginItemContext<LockManager> lockManager,
       @GerritServerConfig Config gerritConfig) {
     this.projectsCollection = projectsCollection;
     this.projectCreator = projectCreator;
@@ -167,7 +167,7 @@ public class CreateProject
       throw new BadRequestException(e.getMessage());
     }
 
-    Lock nameLock = lockManager.call(lockManager -> lockManager.getLock(args.getProject()));
+    Lock nameLock = lockManager.call(lockManager -> lockManager.getLock(args.getProject().get()));
     nameLock.lock();
     try {
       try {

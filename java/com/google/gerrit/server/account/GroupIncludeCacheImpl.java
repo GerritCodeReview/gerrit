@@ -155,7 +155,7 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
       Set<AccountGroup.UUID> parents = new HashSet<>();
       for (List<AccountGroup.UUID> groupIdsBatch :
           Lists.partition(new ArrayList<>(groupIds), indexConfig.maxTerms())) {
-        parentGroups.getAll(groupIdsBatch).values().forEach(p -> parents.addAll(p));
+        parentGroups.getAll(groupIdsBatch).values().forEach(parents::addAll);
       }
       return parents;
     } catch (ExecutionException e) {

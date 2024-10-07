@@ -20,6 +20,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "79647d3e_1c5bcba0",
+        "filename": "java/com/google/gerrit/server/account/GroupIncludeCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-10-07T19:40:01Z",
+      "side": 1,
+      "message": "nit: if `groupIds` is big the we might consider iterating over it instead of copying it all to array e.g.\n```\n  @Override\n  public Collection\u003cAccountGroup.UUID\u003e parentGroupsOf(Set\u003cAccountGroup.UUID\u003e groupIds) {\n    try {\n      Set\u003cAccountGroup.UUID\u003e parents \u003d new HashSet\u003c\u003e();\n      for (BatchIterator iterator \u003d new BatchIterator(groupIds, indexConfig.maxTerms());\n          iterator.hasNext(); ) {\n        parentGroups.getAll(iterator.next()).values().forEach(p -\u003e parents.addAll(p));\n      }\n      return parents;\n    } catch (ExecutionException e) {\n      logger.atWarning().withCause(e).log(\"Cannot load included groups\");\n      return Collections.emptySet();\n    }\n  }\n\n  private static class BatchIterator implements Iterator\u003cList\u003cAccountGroup.UUID\u003e\u003e {\n    private final Iterator\u003cAccountGroup.UUID\u003e source;\n    private final int batchSize;\n\n    private BatchIterator(Set\u003cAccountGroup.UUID\u003e groupIds, int batchSize) {\n      this.source \u003d groupIds.iterator();\n      this.batchSize \u003d batchSize;\n    }\n\n    @Override\n    public boolean hasNext() {\n      return source.hasNext();\n    }\n\n    @Override\n    public List\u003cAccountGroup.UUID\u003e next() {\n      List\u003cAccountGroup.UUID\u003e batch \u003d new ArrayList\u003c\u003e(batchSize);\n      int count \u003d 0;\n      while (source.hasNext() \u0026\u0026 count++ \u003c batchSize) {\n        batch.add(source.next());\n      }\n      return batch;\n    }\n  }\n```\nWDYT?",
+      "range": {
+        "startLine": 157,
+        "startChar": 26,
+        "endLine": 157,
+        "endChar": 51
+      },
+      "revId": "0a44be9b76a5fee47185c60854589ff1be1dc18d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1635fdd1_bf072c21",
         "filename": "java/com/google/gerrit/server/account/GroupIncludeCacheImpl.java",
         "patchSetId": 4

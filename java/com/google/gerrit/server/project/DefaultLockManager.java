@@ -15,28 +15,26 @@
 package com.google.gerrit.server.project;
 
 import com.google.common.util.concurrent.Striped;
-import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 import java.util.concurrent.locks.Lock;
 
-/** In-memory lock for project names. */
+/** In-memory lock manager */
 @Singleton
-public class DefaultProjectNameLockManager implements ProjectNameLockManager {
+public class DefaultLockManager implements LockManager {
 
-  public static class DefaultProjectNameLockManagerModule extends AbstractModule {
+  public static class DefaultLockManagerModule extends AbstractModule {
     @Override
     protected void configure() {
-      DynamicItem.bind(binder(), ProjectNameLockManager.class)
-          .to(DefaultProjectNameLockManager.class);
+      DynamicItem.bind(binder(), LockManager.class).to(DefaultLockManager.class);
     }
   }
 
   Striped<Lock> locks = Striped.lock(10);
 
   @Override
-  public Lock getLock(Project.NameKey name) {
+  public Lock getLock(String name) {
     return locks.get(name);
   }
 }

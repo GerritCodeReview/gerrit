@@ -34,6 +34,24 @@
       "parentUuid": "9c5a4756_b4d53c7d",
       "revId": "168bc302dba8ed366832cce6621f533a34244964",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "17a29294_6d06e626",
+        "filename": "javatests/com/google/gerrit/httpd/raw/StaticModuleTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-10-07T18:00:28Z",
+      "side": 1,
+      "message": "Unless one calls class with `@RunWith(Parameterized.class)` so that each input is considered a separate unit test. Having said that I can do that in the follow-up, WDYT?",
+      "parentUuid": "d7a0147c_43182c0c",
+      "revId": "168bc302dba8ed366832cce6621f533a34244964",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

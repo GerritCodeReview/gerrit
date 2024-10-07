@@ -34,6 +34,24 @@
       "parentUuid": "1477f89b_153c3bf6",
       "revId": "5f7c45b2287b80d4bb8cbb45e200a29a8584f78f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "673a522f_a316251d",
+        "filename": "java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-10-07T18:00:28Z",
+      "side": 1,
+      "message": "I get that re-using is not possible but I believe that readability would still be improved if change number, patch set and comment regexes were extracted to their corresponding statics and combined together in `CHANGE_NUMBER_URI_REGEX`, WDYT?",
+      "parentUuid": "651321c0_2eb02b99",
+      "revId": "5f7c45b2287b80d4bb8cbb45e200a29a8584f78f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

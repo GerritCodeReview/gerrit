@@ -16,6 +16,24 @@
       "message": "Can you re-use the constants you added in `UrlModule`?\n```suggestion\n      \"^\" + CHANGE_NUMBER_REGEX + \"(/[1-9][0-9]*(\\\\.\\\\.[1-9][0-9]*)?(/[^+]*)?)?(/comment/[^+]+)?/?$\";\n```\n\nAnd really...\nit\u0027s actually almost:\n```\n\"^\" + CHANGE_NUMBER_REGEX + \"(/\" + PATCH_SET_REGEX + \"(/[^+]*)?)?(/comment/[^+]+)?/?$\";\n```\n\nexcept `PATCH_SET_REGEX` has parens surrounding it that don\u0027t quite line up. Maybe change that so they can be shared?",
       "revId": "5f7c45b2287b80d4bb8cbb45e200a29a8584f78f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "651321c0_2eb02b99",
+        "filename": "java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-10-07T15:42:52Z",
+      "side": 1,
+      "message": "In theory, yes, but in practice, no. Google uses StaticModule in isolation, without referring to UrlModule. It would be best therefore to keep the two classes fully independent as they are now.",
+      "parentUuid": "1477f89b_153c3bf6",
+      "revId": "5f7c45b2287b80d4bb8cbb45e200a29a8584f78f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -21,6 +21,7 @@ import static com.google.gerrit.extensions.client.ProjectState.HIDDEN;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.Iterables;
@@ -78,6 +79,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.NavigableSet;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -562,7 +564,19 @@ public class ListProjectsImpl extends AbstractListProjects {
 
   private Stream<ProjectState> filter(PermissionBackend.WithUser perm) throws BadRequestException {
     return StreamSupport.stream(scan().spliterator(), false)
-        .map(projectCache::get)
+        .map(
+            key -> {
+              try {
+                return projectCache.get(key);
+              } catch (StorageException e) {
+                if (Throwables.getCausalChain(e).stream().anyMatch(IOException.class::isInstance)) {
+                  logger.atWarning().log(
+                      "Unable to load project %s : %s", key.get(), e.getCause().getMessage());
+                }
+                return null;
+              }
+            })
+        .filter(Objects::nonNull)
         .filter(Optional::isPresent)
         .map(Optional::get)
         .filter(p -> permissionCheck(p, perm));

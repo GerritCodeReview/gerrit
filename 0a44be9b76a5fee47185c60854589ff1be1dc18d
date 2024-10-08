@@ -67,6 +67,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f1c473f4_e258ff4a",
+        "filename": "java/com/google/gerrit/server/account/GroupIncludeCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-10-08T06:52:40Z",
+      "side": 1,
+      "message": "\u003e I believe this also suffers from the same problem\n\nNot exactly as after each use the array is a subject of GC as it is no longer referenced whereas in the existing code whole array will be kept. Having `buffer` would be another improvement.\n\n\u003e I am wondering however if that could be simplified by just changing the input parameter from a Set\u003c\u003e to a List\u003c\u003e?\n\n_I guess_ that having `Set` eliminates duplicates (at least in the call to `parentGroupsOf`) so it would very much depend on how are groups set in sites...",
+      "parentUuid": "b84d4c2f_a160fc85",
+      "range": {
+        "startLine": 157,
+        "startChar": 26,
+        "endLine": 157,
+        "endChar": 51
+      },
+      "revId": "0a44be9b76a5fee47185c60854589ff1be1dc18d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1635fdd1_bf072c21",
         "filename": "java/com/google/gerrit/server/account/GroupIncludeCacheImpl.java",
         "patchSetId": 4

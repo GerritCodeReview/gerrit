@@ -23,11 +23,13 @@ import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.InternalGroup;
+import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.proto.Protos;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.proto.Cache.AllExternalGroupsProto;
@@ -44,9 +46,11 @@ import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
@@ -60,6 +64,8 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
   private static final String GROUPS_WITH_MEMBER_NAME = "groups_bymember";
   private static final String EXTERNAL_NAME = "groups_external";
   private static final String PERSISTED_EXTERNAL_NAME = "groups_external_persisted";
+
+  private final IndexConfig indexConfig;
 
   public static Module module() {
     return new CacheModule() {
@@ -114,10 +120,12 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
           LoadingCache<Account.Id, ImmutableSet<AccountGroup.UUID>> groupsWithMember,
       @Named(PARENT_GROUPS_NAME)
           LoadingCache<AccountGroup.UUID, ImmutableSet<AccountGroup.UUID>> parentGroups,
-      @Named(EXTERNAL_NAME) LoadingCache<String, ImmutableList<AccountGroup.UUID>> external) {
+      @Named(EXTERNAL_NAME) LoadingCache<String, ImmutableList<AccountGroup.UUID>> external,
+      IndexConfig indexConfig) {
     this.groupsWithMember = groupsWithMember;
     this.parentGroups = parentGroups;
     this.external = external;
+    this.indexConfig = indexConfig;
   }
 
   @Override
@@ -144,7 +152,10 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
   public Collection<AccountGroup.UUID> parentGroupsOf(Set<AccountGroup.UUID> groupIds) {
     try {
       Set<AccountGroup.UUID> parents = new HashSet<>();
-      parentGroups.getAll(groupIds).values().forEach(p -> parents.addAll(p));
+      for (List<AccountGroup.UUID> groupIdsBatch :
+          Lists.partition(new ArrayList<>(groupIds), indexConfig.maxTerms())) {
+        parentGroups.getAll(groupIdsBatch).values().forEach(p -> parents.addAll(p));
+      }
       return parents;
     } catch (ExecutionException e) {
       logger.atWarning().withCause(e).log("Cannot load included groups");

@@ -70,6 +70,24 @@
       "parentUuid": "391fb253_9de48d50",
       "revId": "f4e56affe20613c434a6b1b89a0a469f6cdef65f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5706ccef_49ff5315",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-10-08T21:59:40Z",
+      "side": 1,
+      "message": "Before this fix:\n\n```\ncurl -v -X POST http://localhost:8082/3d-bin/info/lfs/objects/batch\n* processing: http://localhost:8082/3d-bin/info/lfs/objects/batch\n*   Trying [::1]:8082...\n* Connected to localhost (::1) port 8082\n\u003e POST /3d-bin/info/lfs/objects/batch HTTP/1.1\n\u003e Host: localhost:8082\n\u003e User-Agent: curl/8.2.1\n\u003e Accept: */*\n\u003e\n\u003c HTTP/1.1 405 Method Not Allowed\n\u003c X-Frame-Options: DENY\n\u003c Content-Type: text/plain;charset\u003diso-8859-1\n\u003c Cache-Control: no-cache, no-store, max-age\u003d0, must-revalidate\n\u003c Pragma: no-cache\n\u003c Expires: Mon, 01 Jan 1990 00:00:00 GMT\n\u003c Date: Tue, 08 Oct 2024 21:51:45 GMT\n\u003c Content-Length: 18\n```\n\nAfter this fix:\n\n```\ncurl -v -X POST http://localhost:8082/3d-bin/info/lfs/objects/batch\n* processing: http://localhost:8082/3d-bin/info/lfs/objects/batch\n*   Trying [::1]:8082...\n* Connected to localhost (::1) port 8082\n\u003e POST /3d-bin/info/lfs/objects/batch HTTP/1.1\n\u003e Host: localhost:8082\n\u003e User-Agent: curl/8.2.1\n\u003e Accept: */*\n\u003e\n\u003c HTTP/1.1 501 Not Implemented\n\u003c Date: Tue, 08 Oct 2024 21:58:18 GMT\n\u003c X-Frame-Options: DENY\n\u003c Cache-Control: no-cache, no-store, max-age\u003d0, must-revalidate\n\u003c Pragma: no-cache\n\u003c Expires: Mon, 01 Jan 1990 00:00:00 GMT\n\u003c Content-Type: application/vnd.git-lfs+json; charset\u003dutf-8\n\u003c Transfer-Encoding: chunked\n\u003c\n* Connection #0 to host localhost left intact\n{\"message\":\"No LFS plugin is configured to handle LFS requests.\"}%\n```\n\nI would say that this fix also resolves your LFS issue.",
+      "parentUuid": "3c8514d7_0e0b464a",
+      "revId": "f4e56affe20613c434a6b1b89a0a469f6cdef65f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

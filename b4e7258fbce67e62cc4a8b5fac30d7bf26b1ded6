@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd1e39d9_e821e78b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1086560
+      },
+      "writtenOn": "2024-10-08T19:10:18Z",
+      "side": 1,
+      "message": "https://github.com/apache/mina-sshd/releases/tag/sshd-2.14.0 was released, containing a fix for the inverted filter logic.\n\nThey ask users of certain functions to review that code, details in the above link.",
+      "parentUuid": "46c9151f_3da3c20f",
+      "revId": "b4e7258fbce67e62cc4a8b5fac30d7bf26b1ded6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "9b73cafd_fb5b8f60",

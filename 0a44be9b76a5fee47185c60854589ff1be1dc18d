@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "538637a6_7dc651ee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-10-08T10:40:17Z",
+      "side": 1,
+      "message": "I believe we can merge this with 3x +2 on it (+6) 👍 thanks for the feedback; much appreciated!",
+      "revId": "0a44be9b76a5fee47185c60854589ff1be1dc18d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "79647d3e_1c5bcba0",
@@ -103,6 +120,30 @@
       "side": 1,
       "message": "I prefer the current code because of simplicity.",
       "parentUuid": "f1c473f4_e258ff4a",
+      "range": {
+        "startLine": 157,
+        "startChar": 26,
+        "endLine": 157,
+        "endChar": 51
+      },
+      "revId": "0a44be9b76a5fee47185c60854589ff1be1dc18d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8cb8281_41ae5737",
+        "filename": "java/com/google/gerrit/server/account/GroupIncludeCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-10-08T10:40:17Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "a3dcf495_9821bd38",
       "range": {
         "startLine": 157,
         "startChar": 26,

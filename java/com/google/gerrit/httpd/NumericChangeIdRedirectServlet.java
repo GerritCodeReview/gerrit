@@ -16,6 +16,7 @@ package com.google.gerrit.httpd;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.entities.Change;
@@ -85,6 +86,7 @@ public class NumericChangeIdRedirectServlet extends HttpServlet {
     if (finalSegment != null) {
       path += finalSegment;
     }
-    UrlModule.toGerrit(path, req, rsp);
+    String queryString = Strings.emptyToNull(req.getQueryString());
+    UrlModule.toGerrit(path + (queryString != null ? "?" + queryString : ""), req, rsp);
   }
 }

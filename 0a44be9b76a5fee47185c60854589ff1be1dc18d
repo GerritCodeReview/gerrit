@@ -91,6 +91,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a3dcf495_9821bd38",
+        "filename": "java/com/google/gerrit/server/account/GroupIncludeCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2024-10-08T07:05:17Z",
+      "side": 1,
+      "message": "I prefer the current code because of simplicity.",
+      "parentUuid": "f1c473f4_e258ff4a",
+      "range": {
+        "startLine": 157,
+        "startChar": 26,
+        "endLine": 157,
+        "endChar": 51
+      },
+      "revId": "0a44be9b76a5fee47185c60854589ff1be1dc18d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1635fdd1_bf072c21",
         "filename": "java/com/google/gerrit/server/account/GroupIncludeCacheImpl.java",
         "patchSetId": 4

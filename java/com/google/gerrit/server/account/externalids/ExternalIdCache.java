@@ -28,6 +28,12 @@ import java.util.Optional;
  * cache is up to date.
  *
  * <p>All returned collections are unmodifiable.
+ *
+ * <p>NOTE: Modules which bind {@link ExternalIdCache} by using modules other than {@link
+ * com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdCacheImpl.ExternalIdCacheBindingModule},
+ * should also provide an {@code Optional<}{@link
+ * com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdCacheImpl}{@code >}
+ * binding.
  */
 public interface ExternalIdCache {
   Optional<ExternalId> byKey(ExternalId.Key key) throws IOException;

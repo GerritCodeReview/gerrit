@@ -21,6 +21,8 @@ import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdCache;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
+import com.google.inject.Provides;
+import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Optional;
 
@@ -31,6 +33,12 @@ public class DisabledExternalIdCache implements ExternalIdCache {
       @Override
       protected void configure() {
         bind(ExternalIdCache.class).to(DisabledExternalIdCache.class);
+      }
+
+      @Provides
+      @Singleton
+      public static Optional<ExternalIdCacheImpl> provideNoteDbExternalIdCacheImpl() {
+        return Optional.empty();
       }
     };
   }

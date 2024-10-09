@@ -556,12 +556,17 @@ export function hasUserSuggestion(comment: Comment) {
   return comment.message?.includes(USER_SUGGESTION_START_PATTERN) ?? false;
 }
 
-export function getUserSuggestionFromString(content: string) {
-  const start =
-    content.indexOf(USER_SUGGESTION_START_PATTERN) +
-    USER_SUGGESTION_START_PATTERN.length;
-  const end = content.indexOf('\n```', start);
-  return content.substring(start, end);
+export function getUserSuggestionFromString(
+  content: string,
+  suggestionIndex = 0
+) {
+  const suggestions = content.split(USER_SUGGESTION_START_PATTERN).slice(1);
+  if (suggestions.length === 0) return '';
+
+  const targetIndex = Math.min(suggestionIndex, suggestions.length - 1);
+  const targetSuggestion = suggestions[targetIndex];
+  const end = targetSuggestion.indexOf('\n```');
+  return end !== -1 ? targetSuggestion.substring(0, end) : targetSuggestion;
 }
 
 export function getUserSuggestion(comment: Comment) {

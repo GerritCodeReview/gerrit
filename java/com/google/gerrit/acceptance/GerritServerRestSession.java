@@ -142,7 +142,8 @@ public class GerritServerRestSession extends HttpSession implements RestSession 
     return execute(delete);
   }
 
-  private String getUrl(String endPoint) {
+  @Override
+  public String getUrl(String endPoint) {
     return url + (account != null ? "/a" : "") + endPoint;
   }
 }

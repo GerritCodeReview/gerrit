@@ -52,4 +52,6 @@ public interface RestSession {
   RestResponse delete(String endPoint) throws Exception;
 
   RestResponse deleteWithHeaders(String endPoint, Header... headers) throws Exception;
+
+  String getUrl(String endPoint);
 }

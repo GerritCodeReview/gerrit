@@ -2,4 +2,4 @@
 # Used by :api_install and :api_deploy targets
 # when talking to the destination repository.
 #
-GERRIT_VERSION = "3.8.9"
+GERRIT_VERSION = "3.8.10-SNAPSHOT"

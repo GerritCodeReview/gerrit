@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b93a28d8_f5cec36d",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-action-bar/gr-change-list-action-bar.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-10-09T08:18:46Z",
+      "side": 1,
+      "message": "it results in the spinner being rendered in the middle of the header, ideally it would be sticked to either left of right but that is outside of my comfort zone so please chime in with suggestions 😊",
+      "range": {
+        "startLine": 46,
+        "startChar": 8,
+        "endLine": 50,
+        "endChar": 9
+      },
+      "revId": "b6c3d735062da19060d8518b91b8a48995ef3a0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

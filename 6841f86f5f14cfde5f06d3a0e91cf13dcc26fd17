@@ -16,6 +16,24 @@
       "message": "I guess that ideally we could keep the async nature of details call by firing it conditionally, when anything gets selected but that would require a better frontend engineer 😄 WDYT?",
       "revId": "6841f86f5f14cfde5f06d3a0e91cf13dcc26fd17",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "25e18b64_d939c0cc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-10-09T08:18:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc39de74_8924cb38",
+      "revId": "6841f86f5f14cfde5f06d3a0e91cf13dcc26fd17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

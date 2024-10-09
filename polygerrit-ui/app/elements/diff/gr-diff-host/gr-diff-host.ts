@@ -127,6 +127,7 @@ declare global {
     'line-selected': CustomEvent<LineSelectedEventDetail>;
     // Fired if being logged in is required.
     'show-auth-required': CustomEvent<{}>;
+    'reload-diff': CustomEvent<{path: string | undefined}>;
   }
 }
 
@@ -343,6 +344,11 @@ export class GrDiffHost extends LitElement {
     this.addEventListener('diff-context-expanded', event =>
       this.handleDiffContextExpanded(event)
     );
+    this.addEventListener('reload-diff', (e: CustomEvent) => {
+      if (e.detail.path === this.path) {
+        this.reload(false);
+      }
+    });
     subscribe(
       this,
       () => this.getBrowserModel().diffViewMode$,

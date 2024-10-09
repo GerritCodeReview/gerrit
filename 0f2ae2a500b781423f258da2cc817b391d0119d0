@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b96e6aa3_086f7720",
+        "filename": "plugins/external_plugin_deps.bzl",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-10-09T06:35:07Z",
+      "side": 1,
+      "message": "committed by mistake",
+      "revId": "0f2ae2a500b781423f258da2cc817b391d0119d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6adc09e_cd183c60",
+        "filename": "tools/bzl/plugins.bzl",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-10-09T06:35:07Z",
+      "side": 1,
+      "message": "committed by mistake",
+      "revId": "0f2ae2a500b781423f258da2cc817b391d0119d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

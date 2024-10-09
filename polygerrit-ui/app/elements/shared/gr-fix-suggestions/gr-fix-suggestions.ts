@@ -7,7 +7,7 @@ import '../../shared/gr-button/gr-button';
 import '../../shared/gr-icon/gr-icon';
 import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
 import '../gr-suggestion-diff-preview/gr-suggestion-diff-preview';
-import {css, html, LitElement} from 'lit';
+import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, state, query, property} from 'lit/decorators.js';
 import {fire} from '../../../utils/event-util';
 import {getDocUrl} from '../../../utils/url-util';
@@ -16,7 +16,7 @@ import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
 import {GrSuggestionDiffPreview} from '../gr-suggestion-diff-preview/gr-suggestion-diff-preview';
 import {changeModelToken} from '../../../models/change/change-model';
-import {Comment, PatchSetNumber} from '../../../types/common';
+import {Comment, NumericChangeId, PatchSetNumber} from '../../../types/common';
 import {OpenFixPreviewEventDetail} from '../../../types/events';
 import {pluginLoaderToken} from '../gr-js-api-interface/gr-plugin-loader';
 import {SuggestionsProvider} from '../../../api/suggestions';
@@ -25,6 +25,7 @@ import {when} from 'lit/directives/when.js';
 import {storageServiceToken} from '../../../services/storage/gr-storage_impl';
 import {getAppContext} from '../../../services/app-context';
 import {Interaction} from '../../../constants/reporting';
+import {isFileUnchanged} from '../../../utils/diff-util';
 
 export const COLLAPSE_SUGGESTION_STORAGE_KEY = 'collapseSuggestionStorageKey';
 
@@ -47,10 +48,14 @@ export class GrFixSuggestions extends LitElement {
 
   @state() latestPatchNum?: PatchSetNumber;
 
+  @state() changeNum?: NumericChangeId;
+
   @state()
   suggestionsProvider?: SuggestionsProvider;
 
   @state() private isOwner = false;
+
+  @state() private enableApplyOnUnModifiedFile = false;
 
   /**
    * This is just a reflected property such that css rules can be based on it.
@@ -67,6 +72,8 @@ export class GrFixSuggestions extends LitElement {
   private readonly getStorage = resolve(this, storageServiceToken);
 
   private readonly reporting = getAppContext().reportingService;
+
+  private readonly restApiService = getAppContext().restApiService;
 
   constructor() {
     super();
@@ -85,6 +92,17 @@ export class GrFixSuggestions extends LitElement {
       () => this.getChangeModel().isOwner$,
       x => (this.isOwner = x)
     );
+    subscribe(
+      this,
+      () => this.getChangeModel().changeNum$,
+      x => (this.changeNum = x)
+    );
+  }
+
+  override updated(changed: PropertyValues) {
+    if (changed.has('changeNum') || changed.has('latestPatchNum')) {
+      this.checkIfcanEnableApplyOnUnModifiedFile();
+    }
   }
 
   override connectedCallback() {
@@ -277,7 +295,9 @@ export class GrFixSuggestions extends LitElement {
     if (!this.comment?.fix_suggestions) return;
     this.applyingFix = true;
     try {
-      await this.suggestionDiffPreview?.applyFixSuggestion();
+      await this.suggestionDiffPreview?.applyFixSuggestion(
+        this.enableApplyOnUnModifiedFile
+      );
     } finally {
       this.applyingFix = false;
     }
@@ -285,6 +305,7 @@ export class GrFixSuggestions extends LitElement {
 
   private isApplyEditDisabled() {
     if (this.comment?.patch_set === undefined) return true;
+    if (this.enableApplyOnUnModifiedFile) return false;
     return this.comment.patch_set !== this.latestPatchNum;
   }
 
@@ -293,6 +314,29 @@ export class GrFixSuggestions extends LitElement {
     return this.comment.patch_set !== this.latestPatchNum
       ? 'You cannot apply this fix because it is from a previous patchset'
       : '';
+  }
+
+  private async checkIfcanEnableApplyOnUnModifiedFile() {
+    // if enabled we don't need to enable
+    if (!this.isApplyEditDisabled()) return;
+
+    const basePatchNum = this.comment?.patch_set;
+    const path = this.comment?.path;
+
+    if (!basePatchNum || !this.latestPatchNum || !path || !this.changeNum) {
+      return;
+    }
+
+    const diff = await this.restApiService.getDiff(
+      this.changeNum,
+      basePatchNum,
+      this.latestPatchNum,
+      path
+    );
+
+    if (diff && isFileUnchanged(diff)) {
+      this.enableApplyOnUnModifiedFile = true;
+    }
   }
 }
 

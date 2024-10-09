@@ -35,7 +35,10 @@ import {commentModelToken} from '../gr-comment-model/gr-comment-model';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {fire} from '../../../utils/event-util';
 import {Timing} from '../../../constants/reporting';
-import {createChangeUrl} from '../../../models/views/change';
+import {
+  createChangeUrl,
+  changeViewModelToken,
+} from '../../../models/views/change';
 import {getFileExtension} from '../../../utils/file-util';
 
 /**
@@ -105,6 +108,8 @@ export class GrSuggestionDiffPreview extends LitElement {
   private readonly getCommentModel = resolve(this, commentModelToken);
 
   private readonly getNavigation = resolve(this, navigationToken);
+
+  private readonly getViewModel = resolve(this, changeViewModelToken);
 
   private readonly syntaxLayer = new GrSyntaxLayerWorker(
     resolve(this, highlightServiceToken),
@@ -315,7 +320,7 @@ export class GrSuggestionDiffPreview extends LitElement {
    */
   public applyFixSuggestion(onLatestPatchset = false) {
     if (this.suggestion || !this.fixSuggestionInfo) return;
-    this.applyFix(this.fixSuggestionInfo, onLatestPatchset);
+    return this.applyFix(this.fixSuggestionInfo, onLatestPatchset);
   }
 
   /**
@@ -369,6 +374,9 @@ export class GrSuggestionDiffPreview extends LitElement {
           forceReload: !this.hasEdit,
         })
       );
+      this.getViewModel().updateState({
+        reloadDiffOnPath: this.comment?.path,
+      });
       fire(this, 'apply-user-suggestion', {});
     }
   }

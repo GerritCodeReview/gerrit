@@ -21,7 +21,6 @@ import com.google.common.collect.ImmutableSetMultimap;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.account.externalids.ExternalIdCache;
 import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.config.AuthConfig;
@@ -47,21 +46,15 @@ public class ExternalIdsNoteDbImpl implements ExternalIds {
   @Inject
   ExternalIdsNoteDbImpl(
       ExternalIdReader externalIdReader,
-      ExternalIdCache externalIdCache,
+      Optional<ExternalIdCacheImpl> externalIdCacheImpl,
       ExternalIdKeyFactory externalIdKeyFactory,
       AuthConfig authConfig) {
     this.externalIdReader = externalIdReader;
-    if (externalIdCache instanceof ExternalIdCacheImpl) {
-      this.externalIdCache = (ExternalIdCacheImpl) externalIdCache;
-    } else if (externalIdCache instanceof DisabledExternalIdCache) {
-      // Supported case for testing only. Non of the disabled cache methods should be called, so
-      // it's safe to not assign the var.
-      this.externalIdCache = null;
-    } else {
-      throw new IllegalStateException(
-          "The cache provided in ExternalIdsNoteDbImpl should be either ExternalIdCacheImpl or"
-              + " DisabledExternalIdCache");
-    }
+    this.externalIdCache =
+        externalIdCacheImpl.orElse(
+            // Supported case for tests or Google implementation. None of the disabled cache methods
+            // should be called from these flows, so it's safe to not assign the var.
+            null);
     this.externalIdKeyFactory = externalIdKeyFactory;
     this.authConfig = authConfig;
   }

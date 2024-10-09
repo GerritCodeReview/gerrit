@@ -28,6 +28,10 @@ import java.util.Optional;
  * cache is up to date.
  *
  * <p>All returned collections are unmodifiable.
+ *
+ * <p>NOTE: Modules which bind {@link ExternalIdCache} by using modules other than {@link
+ * com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdCacheImpl.ExternalIdCacheBindingModule},
+ * should also provide an {@code Optional<}{@link com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdCacheImpl}{@code >} binding.
  */
 public interface ExternalIdCache {
   Optional<ExternalId> byKey(ExternalId.Key key) throws IOException;
@@ -43,4 +47,13 @@ public interface ExternalIdCache {
   default ImmutableSet<ExternalId> byEmail(String email) throws IOException {
     return byEmails(email).get(email);
   }
+
+  /**
+   * If the implementation instance can be converted to the NoteDb impl - returns it. Otherwise -
+   * returns null.
+   *
+   * <p>This method should only be used by {@link
+   * com.google.gerrit.server.account.externalids.storage.notedb} package.
+   */
+  ExternalIdCache asNoteDbImpl();
 }

@@ -43,4 +43,13 @@ public interface ExternalIdCache {
   default ImmutableSet<ExternalId> byEmail(String email) throws IOException {
     return byEmails(email).get(email);
   }
+
+  /**
+   * If the implementation instance can be converted to the NoteDb impl - returns it. Otherwise -
+   * returns null.
+   *
+   * <p>This method should only be used by {@link
+   * com.google.gerrit.server.account.externalids.storage.notedb} package.
+   */
+  ExternalIdCache asNoteDbImpl();
 }

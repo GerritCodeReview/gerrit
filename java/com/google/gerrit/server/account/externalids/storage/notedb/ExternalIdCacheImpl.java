@@ -14,26 +14,72 @@
 
 package com.google.gerrit.server.account.externalids.storage.notedb;
 
+import static com.google.inject.Scopes.SINGLETON;
+
 import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdCache;
+import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.server.cache.serialize.ObjectIdCacheSerializer;
+import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import java.io.IOException;
+import java.time.Duration;
 import java.util.Optional;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
 
-/** Caches external IDs of all accounts. The external IDs are always loaded from NoteDb. */
-@Singleton
-class ExternalIdCacheImpl implements ExternalIdCache {
+/**
+ * Caches external IDs of all accounts. The external IDs are always loaded from NoteDb. *
+ *
+ * <p>This class should be bounded as a Singleton. However, due to internal limitations in Google,
+ * it cannot be marked as a singleton. The common installation pattern should therefore be:
+ *
+ * <pre>{@code
+ * * install(new ExternalIdCacheModule());
+ * * install(new ExternalIdCacheBindingModule());
+ * *
+ * }</pre>
+ */
+public class ExternalIdCacheImpl implements ExternalIdCache {
   public static final String CACHE_NAME = "external_ids_map";
+
+  public static class ExternalIdCacheModule extends CacheModule {
+    @Override
+    protected void configure() {
+      persist(CACHE_NAME, ObjectId.class, new TypeLiteral<AllExternalIds>() {})
+          // The cached data is potentially pretty large and we are always only interested
+          // in the latest value. However, due to a race condition, it is possible for different
+          // threads to observe different values of the meta ref, and hence request different keys
+          // from the cache. Extend the cache size by 1 to cover this case, but expire the extra
+          // object after a short period of time, since it may be a potentially large amount of
+          // memory.
+          // When loading a new value because the primary data advanced, we want to leverage the old
+          // cache state to recompute only what changed. This doesn't affect cache size though as
+          // Guava calls the loader first and evicts later on.
+          .maximumWeight(2)
+          .expireFromMemoryAfterAccess(Duration.ofMinutes(1))
+          .diskLimit(-1)
+          .version(1)
+          .keySerializer(ObjectIdCacheSerializer.INSTANCE)
+          .valueSerializer(AllExternalIds.Serializer.INSTANCE);
+    }
+  }
+
+  public static class ExternalIdCacheBindingModule extends AbstractModule {
+    @Override
+    protected void configure() {
+      bind(ExternalIdCacheImpl.class).in(SINGLETON);
+      bind(ExternalIdCache.class).to(ExternalIdCacheImpl.class).in(SINGLETON);
+    }
+  }
 
   private final Cache<ObjectId, AllExternalIds> extIdsByAccount;
   private final ExternalIdReader externalIdReader;
@@ -91,6 +137,11 @@ class ExternalIdCacheImpl implements ExternalIdCache {
   @Override
   public ImmutableSetMultimap<String, ExternalId> allByEmail() throws IOException {
     return get().byEmail();
+  }
+
+  @Override
+  public ExternalIdCache asNoteDbImpl() {
+    return this;
   }
 
   private AllExternalIds get() throws IOException {

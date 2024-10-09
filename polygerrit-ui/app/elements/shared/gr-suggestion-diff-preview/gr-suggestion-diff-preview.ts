@@ -7,7 +7,13 @@ import '../../../embed/diff/gr-diff/gr-diff';
 import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {getAppContext} from '../../../services/app-context';
-import {Comment, EDIT, BasePatchSetNum, RepoName} from '../../../types/common';
+import {
+  Comment,
+  EDIT,
+  BasePatchSetNum,
+  PatchSetNumber,
+  RepoName,
+} from '../../../types/common';
 import {anyLineTooLong} from '../../../utils/diff-util';
 import {
   DiffLayer,
@@ -79,6 +85,8 @@ export class GrSuggestionDiffPreview extends LitElement {
   @state()
   diffPrefs?: DiffPreferencesInfo;
 
+  @state() latestPatchNum?: PatchSetNumber;
+
   @state()
   renderPrefs: RenderPreferences = {
     disable_context_control_buttons: true,
@@ -117,6 +125,11 @@ export class GrSuggestionDiffPreview extends LitElement {
         (this.hasEdit = Object.values(revisions).some(
           info => info._number === EDIT
         ))
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().latestPatchNum$,
+      x => (this.latestPatchNum = x)
     );
     subscribe(
       this,
@@ -300,9 +313,9 @@ export class GrSuggestionDiffPreview extends LitElement {
    * Similar code flow is in gr-apply-fix-dialog.handleApplyFix
    * Used in gr-fix-suggestions
    */
-  public applyFixSuggestion() {
+  public applyFixSuggestion(onLatestPatchset = false) {
     if (this.suggestion || !this.fixSuggestionInfo) return;
-    this.applyFix(this.fixSuggestionInfo);
+    this.applyFix(this.fixSuggestionInfo, onLatestPatchset);
   }
 
   /**
@@ -324,7 +337,10 @@ export class GrSuggestionDiffPreview extends LitElement {
     this.applyFix(fixSuggestions[0]);
   }
 
-  private async applyFix(fixSuggestion: FixSuggestionInfo) {
+  private async applyFix(
+    fixSuggestion: FixSuggestionInfo,
+    onLatestPatchset = false
+  ) {
     const changeNum = this.changeNum;
     const basePatchNum = this.comment?.patch_set as BasePatchSetNum;
     if (!changeNum || !basePatchNum || !fixSuggestion) return;
@@ -332,7 +348,7 @@ export class GrSuggestionDiffPreview extends LitElement {
     this.reporting.time(Timing.APPLY_FIX_LOAD);
     const res = await this.restApiService.applyFixSuggestion(
       changeNum,
-      basePatchNum,
+      onLatestPatchset ? this.latestPatchNum ?? basePatchNum : basePatchNum,
       fixSuggestion.replacements
     );
     this.reporting.timeEnd(Timing.APPLY_FIX_LOAD, {

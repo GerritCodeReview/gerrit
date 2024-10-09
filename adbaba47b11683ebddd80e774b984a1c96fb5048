@@ -16,6 +16,23 @@
       "message": "Re-Check",
       "revId": "adbaba47b11683ebddd80e774b984a1c96fb5048",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e9edd21_f2f46548",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-10-09T00:38:53Z",
+      "side": 1,
+      "message": "corresponding change for JGit: https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1202340",
+      "revId": "adbaba47b11683ebddd80e774b984a1c96fb5048",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

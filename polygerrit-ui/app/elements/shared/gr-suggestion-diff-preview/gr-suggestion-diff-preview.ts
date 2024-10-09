@@ -315,7 +315,7 @@ export class GrSuggestionDiffPreview extends LitElement {
    */
   public applyFixSuggestion(onLatestPatchset = false) {
     if (this.suggestion || !this.fixSuggestionInfo) return;
-    this.applyFix(this.fixSuggestionInfo, onLatestPatchset);
+    return this.applyFix(this.fixSuggestionInfo, onLatestPatchset);
   }
 
   /**
@@ -369,6 +369,7 @@ export class GrSuggestionDiffPreview extends LitElement {
           forceReload: !this.hasEdit,
         })
       );
+      fire(this, 'reload-diff', {path: this.comment?.path});
       fire(this, 'apply-user-suggestion', {});
     }
   }

@@ -98,6 +98,8 @@ export interface ChangeViewState extends ViewState {
     path: string;
     lineNum?: number;
   };
+
+  reloadDiffOnPath?: string;
 }
 
 export type DiffViewState = Partial<ChangeViewState> & {
@@ -198,6 +200,9 @@ export function createChangeUrl(
   }
   if (state.usp) {
     queries.push(`usp=${state.usp}`);
+  }
+  if (state.reloadDiffOnPath) {
+    queries.push(`reloadDiffOnPath=${state.reloadDiffOnPath}`);
   }
   if (state.edit) {
     suffix += ',edit';
@@ -349,6 +354,11 @@ export class ChangeViewModel extends Model<ChangeViewState | undefined> {
   public readonly checksRunsSelected$ = select(
     this.state$,
     state => state?.checksRunsSelected ?? new Set<string>()
+  );
+
+  public readonly reloadDiffOnPath$ = select(
+    this.state$,
+    state => state?.reloadDiffOnPath ?? ''
   );
 
   constructor() {

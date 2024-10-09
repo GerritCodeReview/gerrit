@@ -867,6 +867,16 @@ export class GrFileList extends LitElement {
       () => this.getChangeModel().basePatchNum$,
       x => (this.basePatchNum = x)
     );
+    subscribe(
+      this,
+      () => this.getViewModel().reloadDiffOnPath$,
+      path => {
+        const diffElem = this.findDiffByPath(path, this.diffs);
+        if (diffElem) {
+          diffElem.reload();
+        }
+      }
+    );
   }
 
   override willUpdate(changedProperties: PropertyValues): void {

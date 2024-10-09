@@ -367,6 +367,7 @@ export class GrSuggestionDiffPreview extends LitElement {
           patchNum: EDIT,
           basePatchNum,
           forceReload: !this.hasEdit,
+          reloadDiffOnPath: this.comment?.path,
         })
       );
       fire(this, 'apply-user-suggestion', {});

@@ -294,6 +294,7 @@ export class GrFixSuggestions extends LitElement {
   async handleApplyFix() {
     if (!this.comment?.fix_suggestions) return;
     this.applyingFix = true;
+    this.requestUpdate();
     try {
       await this.suggestionDiffPreview?.applyFixSuggestion(
         this.enableApplyOnUnModifiedFile

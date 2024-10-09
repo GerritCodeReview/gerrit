@@ -59,4 +59,9 @@ public class DisabledExternalIdCache implements ExternalIdCache {
   public ImmutableSetMultimap<String, ExternalId> allByEmail() throws IOException {
     throw new UnsupportedOperationException();
   }
+
+  @Override
+  public ExternalIdCache asNoteDbImpl() {
+    return null;
+  }
 }

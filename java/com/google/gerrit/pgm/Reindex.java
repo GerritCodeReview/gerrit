@@ -33,6 +33,7 @@ import com.google.gerrit.pgm.util.BatchProgramModule;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.server.LibModuleLoader;
 import com.google.gerrit.server.ModuleOverloader;
+import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdCacheImpl;
 import com.google.gerrit.server.account.storage.notedb.AccountNoteDbReadStorageModule;
 import com.google.gerrit.server.account.storage.notedb.AccountNoteDbWriteStorageModule;
 import com.google.gerrit.server.cache.CacheDisplay;
@@ -243,6 +244,8 @@ public class Reindex extends SiteProgram {
         });
     modules.add(new AccountNoteDbWriteStorageModule());
     modules.add(new AccountNoteDbReadStorageModule());
+    modules.add(new ExternalIdCacheImpl.ExternalIdCacheModule());
+    modules.add(new ExternalIdCacheImpl.ExternalIdCacheBindingModule());
     modules.add(new RepoSequenceModule());
     modules.add(new NoteDbDraftCommentsModule());
     modules.add(new NoteDbStarredChangesModule());

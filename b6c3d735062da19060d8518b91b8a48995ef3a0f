@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d0719c2_81002914",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2024-10-09T13:24:28Z",
+      "side": 1,
+      "message": "Comment removed by: Frank Borden; Reason: oops",
+      "revId": "b6c3d735062da19060d8518b91b8a48995ef3a0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b93a28d8_f5cec36d",
@@ -19,6 +36,117 @@
         "startChar": 8,
         "endLine": 50,
         "endChar": 9
+      },
+      "revId": "b6c3d735062da19060d8518b91b8a48995ef3a0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "abe67112_79e91851",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-action-bar/gr-change-list-action-bar.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2024-10-09T13:24:28Z",
+      "side": 1,
+      "message": "the immediate children inside `\u003cdiv class\u003d\"container\"\u003e` are spaced out due to `justify-contents; space-between` in line 40.\n\nIf you want it always next to the stuff in `\u003cdiv class\u003d\"selectionInfo\"\u003e`, you can put `renderLoading()` inside that div instead of outside. You may need to add a css rule like:\n```\n.selectionInfo {\n  display: flex\n}\n```\nto make that div flow horizontally instead of vertically.",
+      "parentUuid": "b93a28d8_f5cec36d",
+      "range": {
+        "startLine": 46,
+        "startChar": 8,
+        "endLine": 50,
+        "endChar": 9
+      },
+      "revId": "b6c3d735062da19060d8518b91b8a48995ef3a0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99217c59_72259222",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-action-bar/gr-change-list-action-bar.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2024-10-09T13:24:28Z",
+      "side": 1,
+      "message": "I would worry also include the NOT_SYNCED state too here as loading\u003dtrue. If something gets selected we will start loading the details and show the action bar, but the order of those operations may not work out perfectly.",
+      "range": {
+        "startLine": 73,
+        "startChar": 68,
+        "endLine": 73,
+        "endChar": 75
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "10a099f3_fd9bb113",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change-list/gr-change-list-action-bar/gr-change-list-action-bar.ts",
+              "range": {
+                "startLine": 73,
+                "startChar": 0,
+                "endLine": 74,
+                "endChar": 0
+              },
+              "replacement": "      loadingState \u003d\u003e\n        (this.loading \u003d\n          loadingState \u003d\u003d\u003d LoadingState.LOADING ||\n          loadingState \u003d\u003d\u003d LoadingState.NOT_SYNCED)\n"
+            }
+          ]
+        }
+      ],
+      "revId": "b6c3d735062da19060d8518b91b8a48995ef3a0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7c37156_67202272",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-action-bar/gr-change-list-action-bar.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2024-10-09T13:24:28Z",
+      "side": 1,
+      "message": "maybe it is better to not show the action buttons when you are loading, rather than every flow needs to decide if it personally needs to be disabled.",
+      "range": {
+        "startLine": 96,
+        "startChar": 0,
+        "endLine": 103,
+        "endChar": 0
+      },
+      "revId": "b6c3d735062da19060d8518b91b8a48995ef3a0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20fbd874_44ae1e65",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2024-10-09T13:24:28Z",
+      "side": 1,
+      "message": "I think sync needs to be split into 2 operations:\n1. updating the set of basic CLs\n2. fetching the detailed version of the basic CLs\n\nThey are combined in this function because previously we always wanted them together, but now you want them to happen independently. This is better accomplished with 2 separate methods, rather than managing booleans externally and piping it deeper into here.\n\nThen the gr-section is only responsible for calling #1 when the CL set changes, and doesn\u0027t worry about #2.\nIn the constructor of this class you can subscribe to selectedChangeNums$ and use that to decide whether to call #2 based on loading status etc.\n\nI think this can cleanup a lot of the logic.",
+      "range": {
+        "startLine": 243,
+        "startChar": 8,
+        "endLine": 243,
+        "endChar": 12
       },
       "revId": "b6c3d735062da19060d8518b91b8a48995ef3a0f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

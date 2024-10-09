@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9bfa66f7_6a5cd17d",
+        "filename": "java/com/google/gerrit/extensions/registration/DynamicSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-10-09T12:55:11Z",
+      "side": 1,
+      "message": "I am really puzzled that we had completely forgotten to pass this downward, and everything worked?",
+      "range": {
+        "startLine": 125,
+        "startChar": 45,
+        "endLine": 125,
+        "endChar": 52
+      },
+      "revId": "997f753104955e1f635666a39b6f5b3e21ef262b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

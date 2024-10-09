@@ -51,16 +51,12 @@ public class ExternalIdsNoteDbImpl implements ExternalIds {
       ExternalIdKeyFactory externalIdKeyFactory,
       AuthConfig authConfig) {
     this.externalIdReader = externalIdReader;
-    if (externalIdCache instanceof ExternalIdCacheImpl) {
-      this.externalIdCache = (ExternalIdCacheImpl) externalIdCache;
-    } else if (externalIdCache instanceof DisabledExternalIdCache) {
-      // Supported case for testing only. Non of the disabled cache methods should be called, so
-      // it's safe to not assign the var.
-      this.externalIdCache = null;
+    if (externalIdCache.asNoteDbImpl() != null) {
+      this.externalIdCache = (ExternalIdCacheImpl) externalIdCache.asNoteDbImpl();
     } else {
-      throw new IllegalStateException(
-          "The cache provided in ExternalIdsNoteDbImpl should be either ExternalIdCacheImpl or"
-              + " DisabledExternalIdCache");
+      // Supported case for tests or Google implementation. None of the disabled cache methods
+      // should be called, so it's safe to not assign the var.
+      this.externalIdCache = null;
     }
     this.externalIdKeyFactory = externalIdKeyFactory;
     this.authConfig = authConfig;

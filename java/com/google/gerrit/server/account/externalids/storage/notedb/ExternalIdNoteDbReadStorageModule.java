@@ -28,5 +28,8 @@ public class ExternalIdNoteDbReadStorageModule extends AbstractModule {
     bind(ExternalIdsConsistencyChecker.class)
         .to(ExternalIdsConsistencyCheckerNoteDbImpl.class)
         .in(Singleton.class);
+    //
+    install(new ExternalIdCacheImpl.ExternalIdCacheModule());
+    install(new ExternalIdCacheImpl.ExternalIdCacheBindingModule());
   }
 }

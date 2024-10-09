@@ -22,6 +22,30 @@
       },
       "revId": "997f753104955e1f635666a39b6f5b3e21ef262b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7eb00a4_957faf54",
+        "filename": "java/com/google/gerrit/extensions/registration/DynamicSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-10-09T19:02:36Z",
+      "side": 1,
+      "message": "I also wondered about that, but then I looked and found that nothing in core uses it, so that\u0027s probably why we\u0027ve never seen an issue.\n\nI even had this sitting locally for a few weeks and hadn\u0027t pushed it because I really wasn\u0027t sure about it.",
+      "parentUuid": "9bfa66f7_6a5cd17d",
+      "range": {
+        "startLine": 125,
+        "startChar": 45,
+        "endLine": 125,
+        "endChar": 52
+      },
+      "revId": "997f753104955e1f635666a39b6f5b3e21ef262b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

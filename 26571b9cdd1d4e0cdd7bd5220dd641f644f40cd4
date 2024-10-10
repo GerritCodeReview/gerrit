@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c7bc8c7_59a53a7a",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2024-10-10T10:58:26Z",
+      "side": 1,
+      "message": "Possibly explain that `NoBlock` needs to be set since the default is `MaxWithBlock`  here as well?\n\n*In the best of all worlds the default would be set to `NoBlock` with a migration that sets `function \u003d MaxWithBlock` for labels that haven\u0027t set `function`. But I can see how it would be a hard sell to try to convince someone to implement 😊*",
+      "range": {
+        "startLine": 136,
+        "startChar": 17,
+        "endLine": 136,
+        "endChar": 24
+      },
+      "revId": "26571b9cdd1d4e0cdd7bd5220dd641f644f40cd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "718fb053_d3b5d16e",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2024-10-10T10:58:26Z",
+      "side": 1,
+      "message": "Clarify that Submit Requirements are not only a replacement for score but also branch and is much more flexible?\n\n\n```suggestion\ncondition(s) is required to make the change submittable:\n```",
+      "range": {
+        "startLine": 163,
+        "startChar": 0,
+        "endLine": 163,
+        "endChar": 5
+      },
+      "revId": "26571b9cdd1d4e0cdd7bd5220dd641f644f40cd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

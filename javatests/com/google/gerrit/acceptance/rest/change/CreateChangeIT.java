@@ -83,7 +83,7 @@ import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.git.validators.CommitValidationMessage;
-import com.google.gerrit.server.restapi.change.ApplyPatchUtil;
+import com.google.gerrit.server.patch.ApplyPatchUtil;
 import com.google.gerrit.server.restapi.change.CreateChange;
 import com.google.gerrit.server.restapi.change.CreateChange.CommitTreeSupplier;
 import com.google.gerrit.server.submit.ChangeAlreadyMergedException;

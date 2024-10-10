@@ -128,6 +128,10 @@ public class PreviewFix {
       if (applyProvidedFixInput.fixReplacementInfos == null) {
         throw new BadRequestException("applyProvidedFixInput.fixReplacementInfos is required");
       }
+      if (applyProvidedFixInput.originalPatchsetForFix > 0) {
+        throw new BadRequestException(
+            "applyProvidedFixInput.originalPatchsetForFix is not supported on preview.");
+      }
 
       PreviewFix previewFix = previewFixFactory.create(revisionResource);
 

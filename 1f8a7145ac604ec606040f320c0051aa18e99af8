@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b481dae_f312bb59",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2024-10-10T07:25:27Z",
+      "side": 1,
+      "message": "\u003e Structurally I think it would be better if this corresponded to a capability of the implementation and not to a specific class.\n\nI agree, but the required capacity is \"a cache based on the external-IDs blob which is stored in NoteDB\". I could make an interface out of it, with a single getter method similar to this one, but I\u0027m not sure it\u0027s more clear.\n\n\u003e In the current form, can\u0027t it be replaced by an \"instanceof\" check?\n\nUnfortunately not. Internally, this method will have some logic other than casting. I\u0027ll send you the internal change offline.",
+      "parentUuid": "968276ef_75b423d4",
+      "range": {
+        "startLine": 54,
+        "startChar": 2,
+        "endLine": 54,
+        "endChar": 33
+      },
+      "revId": "1f8a7145ac604ec606040f320c0051aa18e99af8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "90a1d3e3_931845a9",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-10-09T15:13:11Z",
       "side": 1,
       "message": "nit: technically this doesn\u0027t need to be a singleton. (ie. Provider\u003cExternalIdCache\u003e will call Provider\u003cExternalIdCacheImpl\u003e.get() which returns a singleton). But I guess it doesn\u0027t really hurt either",
+      "range": {
+        "startLine": 80,
+        "startChar": 63,
+        "endLine": 80,
+        "endChar": 77
+      },
+      "revId": "1f8a7145ac604ec606040f320c0051aa18e99af8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "605d2978_7ffd28d3",
+        "filename": "java/com/google/gerrit/server/account/externalids/storage/notedb/ExternalIdCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2024-10-10T07:25:27Z",
+      "side": 1,
+      "message": "If different scopes are involved, GUICE errors about accidental multibindings become a bit more noisy. So given it does not damage - I think it\u0027s better to keep it this way.",
+      "parentUuid": "90a1d3e3_931845a9",
       "range": {
         "startLine": 80,
         "startChar": 63,

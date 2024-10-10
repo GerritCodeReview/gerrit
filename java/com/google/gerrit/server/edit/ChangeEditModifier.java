@@ -532,7 +532,7 @@ public class ChangeEditModifier {
     return editBasePatchSet.id().equals(patchSet.id());
   }
 
-  private static ObjectId createNewTree(
+  public static ObjectId createNewTree(
       Repository repository, RevCommit baseCommit, List<TreeModification> treeModifications)
       throws BadRequestException, IOException, InvalidChangeOperationException {
     if (treeModifications.isEmpty()) {

@@ -338,22 +338,21 @@ public class ApplyProvidedFixIT extends AbstractDaemonTest {
   @Test
   public void applyProvidedFixOnPreviousPatchSetCannotBeApplied() throws Exception {
     // Remember patch set and add another one.
-    String previousRevision = gApi.changes().id(changeId).get().currentRevision;
-    amendChange(changeId);
+    int previousRevision = gApi.changes().id(changeId).get().currentRevisionNumber;
+    String modifiedFileContent = "New line at the start\n" + FILE_CONTENT;
+    amendChange(changeId, "refs/for/master", admin, testRepo, PushOneCommit.SUBJECT, FILE_NAME, modifiedFileContent);
     ApplyProvidedFixInput applyProvidedFixInput =
         createApplyProvidedFixInput(FILE_NAME, "Modified content", 3, 1, 3, 3);
+    applyProvidedFixInput.fixForPatchset = previousRevision;
+    gApi.changes().id(changeId).current().applyFix(applyProvidedFixInput);
 
-    ResourceConflictException thrown =
-        assertThrows(
-            ResourceConflictException.class,
-            () ->
-                gApi.changes()
-                    .id(changeId)
-                    .revision(previousRevision)
-                    .applyFix(applyProvidedFixInput));
-    assertThat(thrown)
-        .hasMessageThat()
-        .contains("A change edit may only be created for the current patch set");
+    Optional<BinaryResult> file = gApi.changes().id(changeId).edit().getFile(FILE_NAME);
+    BinaryResultSubject.assertThat(file)
+        .value()
+        .asString()
+        .isEqualTo(
+            "New line at the start\nFirst line\nSecond line\nTModified contentrd line\nFourth line\nFifth line\n"
+                + "Sixth line\nSeventh line\nEighth line\nNinth line\nTenth line\n");
   }
 
   @Test

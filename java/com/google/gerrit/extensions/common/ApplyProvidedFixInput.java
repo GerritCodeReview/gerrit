@@ -24,4 +24,5 @@ public class ApplyProvidedFixInput {
   public ApplyProvidedFixInput() {}
 
   public List<FixReplacementInfo> fixReplacementInfos;
+  public int fixForPatchset;
 }

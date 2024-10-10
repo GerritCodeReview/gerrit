@@ -83,9 +83,11 @@ public class ApplyProvidedFix implements RestModifyView<RevisionResource, ApplyP
     }
     Project.NameKey project = revisionResource.getProject();
     ProjectState projectState = projectCache.get(project).orElseThrow(illegalState(project));
-    PatchSet patchSet = revisionResource.getPatchSet();
+    PatchSet targetPatchSet = revisionResource.getPatchSet();
 
     ChangeNotes changeNotes = revisionResource.getNotes();
+    PatchSet originPatchSetForFix = applyProvidedFixInput.fixForPatchset > 0 ?     changeNotes.getPatchSets().get(PatchSet.id(revisionResource.getChange()
+        .getId(), applyProvidedFixInput.fixForPatchset)): targetPatchSet;
 
     List<FixReplacement> fixReplacements =
         applyProvidedFixInput.fixReplacementInfos.stream()
@@ -93,12 +95,12 @@ public class ApplyProvidedFix implements RestModifyView<RevisionResource, ApplyP
             .collect(Collectors.toList());
 
     try (Repository repository = gitRepositoryManager.openRepository(project)) {
-      CommitModification commitModification =
+      CommitModification originCommitModification =
           fixReplacementInterpreter.toCommitModification(
-              repository, projectState, patchSet.commitId(), fixReplacements);
+              repository, projectState, originPatchSetForFix.commitId(), fixReplacements);
       ChangeEdit changeEdit =
           changeEditModifier.combineWithModifiedPatchSetTree(
-              repository, changeNotes, patchSet, commitModification);
+              repository, changeNotes, targetPatchSet, originPatchSetForFix, originCommitModification);
 
       return Response.ok(changeEditJson.toEditInfo(changeEdit, false));
     } catch (InvalidChangeOperationException e) {

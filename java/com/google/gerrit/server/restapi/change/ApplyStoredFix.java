@@ -81,7 +81,7 @@ public class ApplyStoredFix implements RestModifyView<FixResource, Input> {
               repository, projectState, patchSet.commitId(), fixResource.getFixReplacements());
       ChangeEdit changeEdit =
           changeEditModifier.combineWithModifiedPatchSetTree(
-              repository, revisionResource.getNotes(), patchSet, commitModification);
+              repository, revisionResource.getNotes(), patchSet, patchSet, commitModification);
       return Response.ok(changeEditJson.toEditInfo(changeEdit, false));
     } catch (InvalidChangeOperationException e) {
       throw new ResourceConflictException(e.getMessage());

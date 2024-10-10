@@ -24,12 +24,14 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.extensions.api.changes.ApplyPatchInput;
 import com.google.gerrit.extensions.api.changes.ChangeEditIdentityType;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
 import com.google.gerrit.extensions.restapi.RawInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
@@ -46,6 +48,7 @@ import com.google.gerrit.server.edit.tree.TreeModification;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.patch.ApplyPatchUtil;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -82,6 +85,7 @@ import org.eclipse.jgit.merge.MergeChunk;
 import org.eclipse.jgit.merge.MergeResult;
 import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.merge.ThreeWayMerger;
+import org.eclipse.jgit.patch.PatchApplier;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -241,6 +245,7 @@ public class ChangeEditModifier {
         repository,
         notes,
         new ModificationIntention.LatestCommit(),
+        Optional.empty(),
         CommitModification.builder().newCommitMessage(newCommitMessage).build());
   }
 
@@ -261,7 +266,7 @@ public class ChangeEditModifier {
         cmb.newCommitter(identity);
         break;
     }
-    modifyCommit(repository, notes, new ModificationIntention.LatestCommit(), cmb.build());
+    modifyCommit(repository, notes, new ModificationIntention.LatestCommit(), Optional.empty(), cmb.build());
   }
 
   /**
@@ -290,6 +295,7 @@ public class ChangeEditModifier {
         repository,
         notes,
         new ModificationIntention.LatestCommit(),
+        Optional.empty(),
         CommitModification.builder()
             .addTreeModification(
                 new ChangeFileContentModification(filePath, newContent, newGitFileMode))
@@ -375,8 +381,8 @@ public class ChangeEditModifier {
    *
    * @param repository the affected Git repository
    * @param notes the {@link ChangeNotes} of the change to which the patch set belongs
-   * @param patchSet the {@code PatchSet} which should be modified
-   * @param commitModification the modifications which should be applied
+   * @param targetPatchSet the {@code PatchSet} which should be modified
+   * @param originCommitModification the modifications which should be applied
    * @return the resulting {@code ChangeEdit}
    * @throws AuthException if the user isn't authenticated or not allowed to use change edits
    * @throws InvalidChangeOperationException if the existing change edit is based on another patch
@@ -387,12 +393,22 @@ public class ChangeEditModifier {
   public ChangeEdit combineWithModifiedPatchSetTree(
       Repository repository,
       ChangeNotes notes,
-      PatchSet patchSet,
-      CommitModification commitModification)
+      PatchSet targetPatchSet,
+      PatchSet originPatchSetForFix,
+      CommitModification originCommitModification)
       throws AuthException, BadRequestException, IOException, InvalidChangeOperationException,
           PermissionBackendException, ResourceConflictException {
     return modifyCommit(
-        repository, notes, new ModificationIntention.PatchsetCommit(patchSet), commitModification);
+        repository, notes, new ModificationIntention.PatchsetCommit(targetPatchSet), Optional.of(originPatchSetForFix), originCommitModification);
+  }
+  @CanIgnoreReturnValue
+  private ChangeEdit modifyCommit(
+      Repository repository,
+      ChangeNotes notes,
+      ModificationIntention modificationIntention,
+      CommitModification originCommitModification) throws AuthException, BadRequestException, IOException, InvalidChangeOperationException,
+      PermissionBackendException, ResourceConflictException {
+    return modifyCommit(repository, notes, modificationIntention, Optional.empty(), originCommitModification);
   }
 
   @CanIgnoreReturnValue
@@ -400,7 +416,8 @@ public class ChangeEditModifier {
       Repository repository,
       ChangeNotes notes,
       ModificationIntention modificationIntention,
-      CommitModification commitModification)
+      Optional<PatchSet> originPatchSetForFix,
+      CommitModification originCommitModification)
       throws AuthException, BadRequestException, IOException, InvalidChangeOperationException,
           PermissionBackendException, ResourceConflictException {
     assertCanEdit(notes);
@@ -413,9 +430,30 @@ public class ChangeEditModifier {
     ModificationTarget modificationTarget =
         editBehavior.getModificationTarget(notes, modificationIntention);
 
-    RevCommit commitToModify = modificationTarget.getCommit(repository);
+    RevCommit commitToModify0 = new ModificationTarget.PatchsetCommit(originPatchSetForFix.get()).getCommit(repository); // fixPatchSet.commitId();modificationTarget.getCommit(repository);
     ObjectId newTreeId =
-        createNewTree(repository, commitToModify, commitModification.treeModifications());
+        createNewTree(repository, commitToModify0, originCommitModification.treeModifications());
+    String patch;
+
+   try (RevWalk rw = new RevWalk(repository)) {
+     patch = ApplyPatchUtil.getResultPatch(repository, repository.newObjectReader(), commitToModify0,
+         rw.lookupTree(newTreeId));
+   }
+    RevCommit commitToModify = modificationTarget.getCommit(repository);
+    ApplyPatchInput inp = new ApplyPatchInput();
+   inp.allowConflicts = false;
+   inp.patch = patch;
+   try {
+     try(ObjectInserter oi = repository.newObjectInserter()) {
+       PatchApplier.Result result = ApplyPatchUtil.applyPatch(repository,
+           oi, inp,
+           commitToModify);
+       newTreeId = result.getTreeId();
+       oi.flush();
+     }
+   }catch (RestApiException e) {
+     throw (IOException) e.getCause();
+   }
     newTreeId = editBehavior.mergeTreesIfNecessary(repository, newTreeId, commitToModify);
 
     PatchSet basePatchset = modificationTarget.getBasePatchset();
@@ -429,12 +467,12 @@ public class ChangeEditModifier {
     String currentChangeId = notes.getChange().getKey().get();
     String newCommitMessage =
         createNewCommitMessage(
-            changeIdRequired, currentChangeId, editBehavior, commitModification, commitToModify);
+            changeIdRequired, currentChangeId, editBehavior, originCommitModification, commitToModify);
     newCommitMessage = editBehavior.mergeCommitMessageIfNecessary(newCommitMessage, commitToModify);
     Instant nowTimestamp = TimeUtil.now();
-    PersonIdent author = getAuthor(commitModification, commitToModify, nowTimestamp);
+    PersonIdent author = getAuthor(originCommitModification, commitToModify, nowTimestamp);
     PersonIdent committer =
-        getCommitter(commitModification, commitToModify, basePatchsetCommit, nowTimestamp);
+        getCommitter(originCommitModification, commitToModify, basePatchsetCommit, nowTimestamp);
 
     Optional<ChangeEdit> unmodifiedEdit =
         editBehavior.getEditIfNoModification(
@@ -638,6 +676,7 @@ public class ChangeEditModifier {
         ChangeNotes notes, ModificationIntention targetIntention)
         throws InvalidChangeOperationException;
 
+    @SuppressWarnings("unused")
     ObjectId mergeTreesIfNecessary(
         Repository repository, ObjectId newTreeId, ObjectId commitToModify)
         throws IOException, MergeConflictException;

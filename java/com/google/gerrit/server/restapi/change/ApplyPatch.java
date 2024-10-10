@@ -37,6 +37,7 @@ import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.CommitUtil;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.patch.ApplyPatchUtil;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ContributorAgreementsChecker;
 import com.google.gerrit.server.project.InvalidChangeOperationException;

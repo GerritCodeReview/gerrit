@@ -147,7 +147,9 @@ export function rectifyFix(
   if (replacements.length === 0) return undefined;
 
   return {
-    description: fix.description || `Fix provided by ${checkName}`,
+    description: [fix.description, `Fix provided by ${checkName}`]
+      .filter(Boolean)
+      .join(' - '),
     fix_id: PROVIDED_FIX_ID,
     replacements,
   };

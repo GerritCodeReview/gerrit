@@ -305,11 +305,14 @@ export class GrFormattedText extends LitElement {
 
   private convertCodeToSuggestions() {
     const marks = this.renderRoot.querySelectorAll('mark');
-    for (const userSuggestionMark of marks) {
+    marks.forEach((userSuggestionMark, index) => {
       const userSuggestion = document.createElement('gr-user-suggestion-fix');
       // Temporary workaround for bug - tabs replacement
       if (this.content.includes('\t')) {
-        userSuggestion.textContent = getUserSuggestionFromString(this.content);
+        userSuggestion.textContent = getUserSuggestionFromString(
+          this.content,
+          index
+        );
       } else {
         userSuggestion.textContent = userSuggestionMark.textContent ?? '';
       }
@@ -317,7 +320,7 @@ export class GrFormattedText extends LitElement {
         userSuggestion,
         userSuggestionMark
       );
-    }
+    });
   }
 }
 

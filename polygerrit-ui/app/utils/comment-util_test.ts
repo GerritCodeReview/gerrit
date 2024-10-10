@@ -18,6 +18,7 @@ import {
   getMentionedThreads,
   isNewThread,
   createNew,
+  getUserSuggestionFromString,
 } from './comment-util';
 import {
   createAccountWithEmail,
@@ -531,6 +532,71 @@ suite('comment-util', () => {
           ],
         },
       ]);
+    });
+  });
+
+  suite('getUserSuggestionFromString', () => {
+    const createSuggestionContent = (suggestions: string[]) =>
+      suggestions
+        .map(s => `${USER_SUGGESTION_START_PATTERN}${s}\n\`\`\``)
+        .join('\n');
+
+    test('returns empty string for content without suggestions', () => {
+      const content = 'This is a comment without any suggestions.';
+      assert.equal(getUserSuggestionFromString(content), '');
+    });
+
+    test('returns first suggestion when no index is provided', () => {
+      const content = createSuggestionContent(['First suggestion']);
+      assert.equal(getUserSuggestionFromString(content), 'First suggestion');
+    });
+
+    test('returns correct suggestion for given index', () => {
+      const content = createSuggestionContent([
+        'First suggestion',
+        'Second suggestion',
+        'Third suggestion',
+      ]);
+      assert.equal(
+        getUserSuggestionFromString(content, 1),
+        'Second suggestion'
+      );
+    });
+
+    test('returns last suggestion when index is out of bounds', () => {
+      const content = createSuggestionContent([
+        'First suggestion',
+        'Second suggestion',
+      ]);
+      assert.equal(
+        getUserSuggestionFromString(content, 5),
+        'Second suggestion'
+      );
+    });
+
+    test('handles suggestion without closing backticks', () => {
+      const content = `${USER_SUGGESTION_START_PATTERN}Unclosed suggestion`;
+      assert.equal(getUserSuggestionFromString(content), 'Unclosed suggestion');
+    });
+
+    test('handles multiple suggestions with varying content', () => {
+      const content = createSuggestionContent([
+        'First\nMultiline\nSuggestion',
+        'Second suggestion',
+        'Third suggestion with `backticks`',
+      ]);
+      assert.equal(
+        getUserSuggestionFromString(content, 0),
+        'First\nMultiline\nSuggestion'
+      );
+      assert.equal(
+        getUserSuggestionFromString(content, 1),
+        'Second suggestion'
+      );
+      assert.equal(
+        getUserSuggestionFromString(content, 2),
+        'Third suggestion with `backticks`'
+      );
     });
   });
 });

@@ -16,6 +16,24 @@
       "message": "I would prefer not going through the application wide view model here.\n\nWhat about firing an event instead from here to be captured by gr-idff-host?",
       "revId": "fa7586201e5c07bde098f49d12a49893c93f57d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63602fa8_72f81ea9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-suggestion-diff-preview/gr-suggestion-diff-preview.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-10-10T14:02:51Z",
+      "side": 1,
+      "message": "Good idea, thanks. It works same, I checked E2E",
+      "parentUuid": "1e72233d_1589b7a4",
+      "revId": "fa7586201e5c07bde098f49d12a49893c93f57d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

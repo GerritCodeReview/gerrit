@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "7dca7f5e_e6eb8834",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-10-10T08:07:15Z",
+      "side": 1,
+      "message": "It makes more sense with internal version. I am still not sure this is the best way though.\n\nMy suggestions would be:\n1) Make ExternalIdsNoteDbImpl inject ExternalIdCacheImpl directly, since that\u0027s what it expects. If that causes issues when ExternalIdCacheImpl is not available, then bind null by default. That looks cleaner to me.\n2) The ExternalIdsNoteDbImpl says \"None of the disabled cache should be called, so it\u0027s safe to not assign the var\". If this is true, why do we need to worry about this at all? Sounds like we can not do anything and just leave ExternalIdCache as is, it\u0027s not getting called anyway?\n\nWDYT?",
+      "parentUuid": "2b481dae_f312bb59",
+      "range": {
+        "startLine": 54,
+        "startChar": 2,
+        "endLine": 54,
+        "endChar": 33
+      },
+      "revId": "1f8a7145ac604ec606040f320c0051aa18e99af8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "90a1d3e3_931845a9",

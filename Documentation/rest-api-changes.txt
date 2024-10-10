@@ -5816,7 +5816,12 @@ is returned.
 Applies a list of <<fix-replacement-info,FixReplacementInfo>> loaded from the
 <<apply-provided-fix-input,ApplyProvidedFixInput>> entity. The fixes are passed as part of the request body. The
 application of the fixes creates a new change edit. `Apply Provided Fix` can only be applied on the current
-patchset.
+patchset. To apply a fix that was suggested to a non-current patchset, set `originalPatchsetForFix` to a patchset
+number where the fix was suggested. When `originalPatchsetForFix` is set, gerrit generates a patch (using
+`fix-replacement-info` and `originalPatchsetForFix`) and then tries to apply it to the current patchset.
+If it is not possible to apply a patch, an error is returned (see below for the list of errors).
+If the provided fix modifies the commit message and the message was changed between `originalPatchsetForFix`
+and the current patchset, the request is rejected..
 
 If one of the secondary emails associated with the user performing the operation was used as the
 committer email in the current patch set, the same email will be used as the committer email in the

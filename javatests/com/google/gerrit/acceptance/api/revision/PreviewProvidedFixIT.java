@@ -29,6 +29,7 @@ import com.google.gerrit.extensions.common.ChangeType;
 import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.DiffInfo.IntraLineStatus;
 import com.google.gerrit.extensions.common.FixReplacementInfo;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import java.util.Arrays;
 import java.util.List;
@@ -166,6 +167,19 @@ public class PreviewProvidedFixIT extends AbstractDaemonTest {
         .containsExactly("2nd line", "3rd line", "");
     assertThat(diff2).content().element(2).linesOfA().isNull();
     assertThat(diff2).content().element(2).linesOfB().isNull();
+  }
+
+  @Test
+  public void previewFixForDifferentPatchset() throws Exception {
+    int previousRevision = gApi.changes().id(changeId).get().currentRevisionNumber;
+    amendChange(changeId);
+    ApplyProvidedFixInput applyProvidedFixInput =
+        createApplyProvidedFixInput(FILE_NAME, "Modified content\n", 1, 0, 2, 0);
+    applyProvidedFixInput.originalPatchsetForFix = previousRevision;
+
+    assertThrows(
+        BadRequestException.class,
+        () -> gApi.changes().id(changeId).current().getFixPreview(applyProvidedFixInput));
   }
 
   @Test

@@ -133,7 +133,7 @@ adding the following to `project.config` in `All-Projects`:
 
 ----
   [label "Verified"]
-      function = MaxWithBlock
+      function = NoBlock
       value = -1 Fails
       value = 0 No score
       value = +1 Verified
@@ -158,6 +158,23 @@ Didn't try to perform the verification tasks.
 Compiled (and ran tests) successfully.
 +
 *Any +1 enables submit.*
+
+Set the function to "NoBlock" to enable configuring submit-requirements.
+All other possible label function values are deprecated. The default is still
+"MaxWithBlock" which doesn't allow using the more flexible submit-requirements.
+
+Add a submit-requirement for the "Verified" label to define which
+conditions are required to make the change submittable:
+
+----
+  [submit-requirement "Verified"]
+    submittableIf = label:Verified=MAX AND -label:Verified=MIN
+    applicableIf = -branch:refs/meta/config
+----
+
+See the
+link:config-submit-requirements.html#examples[submit-requirements
+documentation] for more details.
 
 For a change to be submittable, the change must have a `+1 Verified`
 in this label, and no `-1 Fails`.  Thus, `-1 Fails` can block a submit,
@@ -568,11 +585,24 @@ but has different names/labels:
 
 ----
   [label "Copyright-Check"]
-      function = MaxWithBlock
+      function = NoBlock
       value = -1 Do not have copyright
       value = 0 No score
       value = +1 Copyright clear
 ----
+
+Add a submit-requirement for the "Copyright-Check" label to define which
+score is required to make the change submittable:
+
+----
+  [submit-requirement "Copyright-Check"]
+    submittableIf = label:Copyright-Check=MAX AND -label:Copyright-Check=MIN
+    applicableIf = -branch:refs/meta/config
+----
+
+See the
+link:config-submit-requirements.html#examples[submit-requirements
+documentation] for more details.
 
 The new column will appear at the end of the table, and `-1 Do not have
 copyright` will block submit, while `+1 Copyright clear` is required to

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31ece9b7_6d902088",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyProvidedFix.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2024-10-11T15:20:53Z",
+      "side": 1,
+      "message": "Something like this ?\n\n```suggestion\n   * basePatchSetForFix}. If the {@code targetPatchSetForFix} is different from the {@code\n   * basePatchSetForFix}, CommitModification is created from the {@link PatchApplier.Result},\n   * after applying the patch generated from {@code basePatchSetForFix} to the\n   * {@code targetPatchSetForFix}.\n```",
+      "range": {
+        "startLine": 136,
+        "startChar": 26,
+        "endLine": 139,
+        "endChar": 73
+      },
+      "revId": "9ac1bebacac4d9d2c2caf83914d3ef84719d9401",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3189c442_4826d02f",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyProvidedFix.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2024-10-11T15:20:53Z",
+      "side": 1,
+      "message": "```suggestion\n            originCommit,\n```",
+      "range": {
+        "startLine": 163,
+        "startChar": 12,
+        "endLine": 163,
+        "endChar": 64
+      },
+      "revId": "9ac1bebacac4d9d2c2caf83914d3ef84719d9401",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bf85bce2_3f511341",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-10-11T12:43:11Z",
+      "side": 1,
+      "message": "👍",
+      "parentUuid": "ab80add4_10ae4914",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 34
+      },
+      "revId": "a4f18f14e814c19c69d4d9a2f099ac6f3b48ae65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "92d446fb_bb2cd26b",
         "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
         "patchSetId": 9
@@ -66,6 +90,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d855af54_eee2a3c9",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-10-11T12:43:11Z",
+      "side": 1,
+      "message": "\u003e clearSelectedChangeNums() or selectAll()\n\nright, forgot about that cases during the refactoring 😞\n\nyet the idea is to not load details whenever selection changes, it is about loading details only when change is selected for the first time, consequent selection changes shouldn\u0027t result in details load as long as `sync` was not called... having said that I will follow the suggestion and try to react on event 😄",
+      "parentUuid": "92d446fb_bb2cd26b",
+      "range": {
+        "startLine": 98,
+        "startChar": 0,
+        "endLine": 98,
+        "endChar": 71
+      },
+      "revId": "a4f18f14e814c19c69d4d9a2f099ac6f3b48ae65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2bf441e4_9ae21fa3",
         "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
         "patchSetId": 9
@@ -77,6 +125,30 @@
       "writtenOn": "2024-10-11T10:50:15Z",
       "side": 1,
       "message": "I thought the point of the change is to not fetch details until selection changes? Then you would not want to call it from sync().\n\nThe first part of getdetails should be moved into sync (reset loading state, clear selected, set basic changes, set selectable changes)",
+      "range": {
+        "startLine": 258,
+        "startChar": 15,
+        "endLine": 258,
+        "endChar": 25
+      },
+      "revId": "a4f18f14e814c19c69d4d9a2f099ac6f3b48ae65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d0876b9_309bbdbf",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-10-11T12:43:11Z",
+      "side": 1,
+      "message": "\u003e I thought the point of the change is to not fetch details until selection changes?\n\nProbably I haven\u0027t described it properly so please bear with me 😊\nthe point of the change is to not get details when the list is loaded as not everyone intends to do bulk actions, yet in the moment when the first change is selected and as long as anything is selected it has to keep up with updated changes hence it has to be called from `sync` anyway...",
+      "parentUuid": "2bf441e4_9ae21fa3",
       "range": {
         "startLine": 258,
         "startChar": 15,

@@ -1,0 +1,45 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f349c08f_5a5bf60c",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyProvidedFix.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-10-11T10:40:46Z",
+      "side": 1,
+      "message": "I think originalPatchsetForFix should be optional. So API is backward compatible. Currently we do not set originalPatchsetForFix in requests.",
+      "range": {
+        "startLine": 103,
+        "startChar": 30,
+        "endLine": 103,
+        "endChar": 52
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "46bfc2d2_3f2d4781",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "java/com/google/gerrit/server/restapi/change/ApplyProvidedFix.java",
+              "range": {
+                "startLine": 103,
+                "startChar": 0,
+                "endLine": 104,
+                "endChar": 0
+              },
+              "replacement": "        applyProvidedFixInput.originalPatchsetForFix !\u003d null\n"
+            }
+          ]
+        }
+      ],
+      "revId": "5181e0df6943ef5600564aca4a66a26d34827f0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -59,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "56a8e239_f491e378",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyProvidedFix.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2024-10-11T11:01:07Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "f349c08f_5a5bf60c",
+      "range": {
+        "startLine": 103,
+        "startChar": 30,
+        "endLine": 103,
+        "endChar": 52
+      },
+      "revId": "5181e0df6943ef5600564aca4a66a26d34827f0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e53c0bce_759d7172",
@@ -96,6 +120,30 @@
           ]
         }
       ],
+      "revId": "5181e0df6943ef5600564aca4a66a26d34827f0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98b5c745_6714e28f",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyProvidedFix.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2024-10-11T11:01:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e53c0bce_759d7172",
+      "range": {
+        "startLine": 132,
+        "startChar": 91,
+        "endLine": 132,
+        "endChar": 93
+      },
       "revId": "5181e0df6943ef5600564aca4a66a26d34827f0c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

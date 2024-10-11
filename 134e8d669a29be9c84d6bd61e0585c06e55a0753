@@ -16,6 +16,24 @@
       "message": "This section needs to be updated as we now also support reindex of projects",
       "revId": "134e8d669a29be9c84d6bd61e0585c06e55a0753",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2afb9fb_9983e044",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3687,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-10-11T09:54:56Z",
+      "side": 1,
+      "message": "I mean in the follow-up change.",
+      "parentUuid": "bc3052b0_542e41ba",
+      "revId": "134e8d669a29be9c84d6bd61e0585c06e55a0753",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

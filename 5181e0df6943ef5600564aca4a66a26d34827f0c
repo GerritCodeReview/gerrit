@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ff59fe2_59458484",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-10-11T10:52:26Z",
+      "side": 1,
+      "message": "Thank you, this will be very helpful - since it enables an option to applying all possible suggestions (even from older patchsets)",
+      "revId": "5181e0df6943ef5600564aca4a66a26d34827f0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f349c08f_5a5bf60c",
@@ -34,6 +51,47 @@
                 "endChar": 0
               },
               "replacement": "        applyProvidedFixInput.originalPatchsetForFix !\u003d null\n"
+            }
+          ]
+        }
+      ],
+      "revId": "5181e0df6943ef5600564aca4a66a26d34827f0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e53c0bce_759d7172",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyProvidedFix.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-10-11T10:52:26Z",
+      "side": 1,
+      "message": "NIT: Two dots",
+      "range": {
+        "startLine": 132,
+        "startChar": 91,
+        "endLine": 132,
+        "endChar": 93
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "cba8adb0_2dc80183",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "java/com/google/gerrit/server/restapi/change/ApplyProvidedFix.java",
+              "range": {
+                "startLine": 132,
+                "startChar": 0,
+                "endLine": 133,
+                "endChar": 0
+              },
+              "replacement": "   * Returns CommitModification for fixes and rebase it if the fix is for an older patchset.\n"
             }
           ]
         }

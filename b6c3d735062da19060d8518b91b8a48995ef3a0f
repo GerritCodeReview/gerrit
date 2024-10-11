@@ -225,6 +225,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "488b919b_86312070",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-action-bar/gr-change-list-action-bar.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2024-10-11T10:50:15Z",
+      "side": 1,
+      "message": "I see what you mean. I think your fix is fine for now. Thanks",
+      "parentUuid": "18be9483_83a1a980",
+      "range": {
+        "startLine": 96,
+        "startChar": 0,
+        "endLine": 103,
+        "endChar": 0
+      },
+      "revId": "b6c3d735062da19060d8518b91b8a48995ef3a0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "20fbd874_44ae1e65",

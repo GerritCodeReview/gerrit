@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "067da93f_97186f76",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyProvidedFix.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2024-10-11T10:10:10Z",
+      "side": 1,
+      "message": "Added information why this limitation exists + updated the doc.",
+      "parentUuid": "6a9748a3_b9b16630",
+      "range": {
+        "startLine": 140,
+        "startChar": 8,
+        "endLine": 142,
+        "endChar": 79
+      },
+      "revId": "2ea329e17f2ad5cf4c305ac5bbd7dd87357e4704",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f5bbddca_650a4201",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-10-11T09:16:37Z",
       "side": 1,
       "message": "Remove this",
+      "range": {
+        "startLine": 473,
+        "startChar": 4,
+        "endLine": 474,
+        "endChar": 97
+      },
+      "revId": "2ea329e17f2ad5cf4c305ac5bbd7dd87357e4704",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c36d7f6_c7d661be",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/ApplyProvidedFixIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2024-10-11T10:10:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5bbddca_650a4201",
       "range": {
         "startLine": 473,
         "startChar": 4,

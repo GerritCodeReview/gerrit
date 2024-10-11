@@ -65,6 +65,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1516dec9_1e694376",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-action-bar/gr-change-list-action-bar.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-10-11T08:01:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "abe67112_79e91851",
+      "range": {
+        "startLine": 46,
+        "startChar": 8,
+        "endLine": 50,
+        "endChar": 9
+      },
+      "revId": "b6c3d735062da19060d8518b91b8a48995ef3a0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "99217c59_72259222",
@@ -106,6 +130,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ed8f6eb_49869e00",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-action-bar/gr-change-list-action-bar.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-10-11T08:01:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99217c59_72259222",
+      "range": {
+        "startLine": 73,
+        "startChar": 68,
+        "endLine": 73,
+        "endChar": 75
+      },
+      "revId": "b6c3d735062da19060d8518b91b8a48995ef3a0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf75f89e_9d662107",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-action-bar/gr-change-list-action-bar.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-10-11T08:01:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99217c59_72259222",
+      "range": {
+        "startLine": 73,
+        "startChar": 68,
+        "endLine": 73,
+        "endChar": 75
+      },
+      "revId": "b6c3d735062da19060d8518b91b8a48995ef3a0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a7c37156_67202272",
@@ -131,6 +203,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "18be9483_83a1a980",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-action-bar/gr-change-list-action-bar.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-10-11T08:01:05Z",
+      "side": 1,
+      "message": "The problem with this approach is that buttons are higher then information about selection hence it keeps dancing 😞 in order to circumvent that I have introduced a _loading_ class for `,selectionInfo` that is being set/unset depending on the loading state... suggestions are welcomed 🙏",
+      "parentUuid": "a7c37156_67202272",
+      "range": {
+        "startLine": 96,
+        "startChar": 0,
+        "endLine": 103,
+        "endChar": 0
+      },
+      "revId": "b6c3d735062da19060d8518b91b8a48995ef3a0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "20fbd874_44ae1e65",
         "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
         "patchSetId": 8
@@ -142,6 +238,30 @@
       "writtenOn": "2024-10-09T13:24:28Z",
       "side": 1,
       "message": "I think sync needs to be split into 2 operations:\n1. updating the set of basic CLs\n2. fetching the detailed version of the basic CLs\n\nThey are combined in this function because previously we always wanted them together, but now you want them to happen independently. This is better accomplished with 2 separate methods, rather than managing booleans externally and piping it deeper into here.\n\nThen the gr-section is only responsible for calling #1 when the CL set changes, and doesn\u0027t worry about #2.\nIn the constructor of this class you can subscribe to selectedChangeNums$ and use that to decide whether to call #2 based on loading status etc.\n\nI think this can cleanup a lot of the logic.",
+      "range": {
+        "startLine": 243,
+        "startChar": 8,
+        "endLine": 243,
+        "endChar": 12
+      },
+      "revId": "b6c3d735062da19060d8518b91b8a48995ef3a0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5aacc8b3_a8478913",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-10-11T08:01:05Z",
+      "side": 1,
+      "message": "Thanks for the suggestion it is not that simple but at least it doesn\u0027t leak out the component internals to the wild 👍",
+      "parentUuid": "20fbd874_44ae1e65",
       "range": {
         "startLine": 243,
         "startChar": 8,

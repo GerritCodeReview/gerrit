@@ -46,6 +46,30 @@
       },
       "revId": "4a6488b1442f15da7b1660121fbf8f5634ac9981",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14eff4a8_e1bcf5fd",
+        "filename": "tools/BUILD",
+        "patchSetId": 14
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-10-11T07:13:50Z",
+      "side": 1,
+      "message": "@hiesel@google.com do you have an updated timeline on when Google would be ready to make this switch?",
+      "parentUuid": "48a6d800_a152bd28",
+      "range": {
+        "startLine": 43,
+        "startChar": 3,
+        "endLine": 43,
+        "endChar": 26
+      },
+      "revId": "4a6488b1442f15da7b1660121fbf8f5634ac9981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

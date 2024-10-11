@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ab42d96_ae7a1894",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 5821,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2024-10-11T14:38:49Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "5d6db568_b8310e22",
+      "range": {
+        "startLine": 5821,
+        "startChar": 57,
+        "endLine": 5821,
+        "endChar": 60
+      },
+      "revId": "b208d36841b3f2030be656968f607a110bde4e5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c377884f_b1841163",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-10-11T14:29:01Z",
       "side": 1,
       "message": "```suggestion\nIf the provided fix modifies the commit message and the message was changed between `originalPatchsetForFix`\n```",
+      "range": {
+        "startLine": 5823,
+        "startChar": 52,
+        "endLine": 5823,
+        "endChar": 53
+      },
+      "revId": "b208d36841b3f2030be656968f607a110bde4e5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "319a1646_6360b428",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 5823,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2024-10-11T14:38:49Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "c377884f_b1841163",
       "range": {
         "startLine": 5823,
         "startChar": 52,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0141d00e_5db1f5d5",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 5824,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2024-10-11T14:38:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb665718_72122d3e",
+      "range": {
+        "startLine": 5824,
+        "startChar": 27,
+        "endLine": 5824,
+        "endChar": 58
+      },
+      "revId": "b208d36841b3f2030be656968f607a110bde4e5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6fc75d70_4b02caf9",
@@ -83,6 +155,30 @@
       "writtenOn": "2024-10-11T14:29:01Z",
       "side": 1,
       "message": "This is a bit hard to follow, can it be rephrased ?",
+      "range": {
+        "startLine": 138,
+        "startChar": 5,
+        "endLine": 139,
+        "endChar": 73
+      },
+      "revId": "b208d36841b3f2030be656968f607a110bde4e5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e317be4_d0e48c3a",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyProvidedFix.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2024-10-11T14:38:49Z",
+      "side": 1,
+      "message": "If you have a better suggestion - I would be happy to apply it.",
+      "parentUuid": "6fc75d70_4b02caf9",
       "range": {
         "startLine": 138,
         "startChar": 5,

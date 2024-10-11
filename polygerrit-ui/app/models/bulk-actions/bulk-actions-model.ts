@@ -52,6 +52,8 @@ const initialState: BulkActionsState = {
 };
 
 export class BulkActionsModel extends Model<BulkActionsState> {
+  private needsDetailsSync = true;
+
   constructor(private readonly restApiService: RestApiService) {
     super(initialState);
   }
@@ -81,9 +83,20 @@ export class BulkActionsModel extends Model<BulkActionsState> {
   });
 
   toggleSelectedChangeNum(changeNum: NumericChangeId) {
+    const wasSelected = this.getState().selectedChangeNums.length > 0;
     this.getState().selectedChangeNums.includes(changeNum)
       ? this.removeSelectedChangeNum(changeNum)
       : this.addSelectedChangeNum(changeNum);
+
+    const currentState = this.getState();
+    if (
+      this.needsDetailsSync &&
+      !wasSelected &&
+      currentState.selectedChangeNums.length > 0 &&
+      currentState.loadingState !== LoadingState.LOADING
+    ) {
+      this.getDetails(Array.from(this.getState().allChanges.values()));
+    }
   }
 
   addSelectedChangeNum(changeNum: NumericChangeId) {
@@ -241,22 +254,36 @@ export class BulkActionsModel extends Model<BulkActionsState> {
   }
 
   async sync(changes: ChangeInfo[]) {
+    this.needsDetailsSync = true;
+    await this.getDetails(changes);
+  }
+
+  async getDetails(changes: ChangeInfo[]) {
     const basicChanges = new Map(changes.map(c => [getChangeNumber(c), c]));
     let currentState = this.getState();
     const selectedChangeNums = currentState.selectedChangeNums.filter(
       changeNum => basicChanges.has(changeNum)
     );
+
     const selectableChangeNums = changes.map(c => getChangeNumber(c));
+    this.updateState({
+      ...currentState,
+      selectedChangeNums,
+      selectableChangeNums,
+      allChanges: basicChanges,
+    });
+
+    if (selectedChangeNums.length === 0) {
+      return;
+    }
+
     this.updateState({
       loadingState: LoadingState.LOADING,
       selectedChangeNums,
       selectableChangeNums,
-      allChanges: new Map(),
+      allChanges: basicChanges,
     });
 
-    if (changes.length === 0) {
-      return;
-    }
     const changeDetails =
       await this.restApiService.getDetailedChangesWithActions(
         changes.map(c => getChangeNumber(c))
@@ -275,6 +302,7 @@ export class BulkActionsModel extends Model<BulkActionsState> {
       loadingState: LoadingState.LOADED,
       allChanges: allDetailedChanges,
     });
+    this.needsDetailsSync = false;
   }
 
   private getNewReviewersToChange(

@@ -7,6 +7,7 @@ import {fixture, html, assert} from '@open-wc/testing';
 import {
   BulkActionsModel,
   bulkActionsModelToken,
+  LoadingState,
 } from '../../../models/bulk-actions/bulk-actions-model';
 import {wrapInProvider} from '../../../models/di-provider-element';
 import {getAppContext} from '../../../services/app-context';
@@ -28,10 +29,31 @@ suite('gr-change-list-action-bar tests', () => {
   let element: GrChangeListActionBar;
   let model: BulkActionsModel;
 
+  async function toggleChange(change: ChangeInfo) {
+    model.toggleSelectedChangeNum(change._number);
+    await waitUntilObserved(model.selectedChangeNums$, selectedChangeNums =>
+      selectedChangeNums.includes(change._number)
+    );
+    await waitUntilObserved(
+      model.loadingState$,
+      loadingState => loadingState === LoadingState.LOADED
+    );
+    await element.updateComplete;
+  }
+
   async function selectChange(change: ChangeInfo) {
     model.addSelectedChangeNum(change._number);
     await waitUntilObserved(model.selectedChangeNums$, selectedChangeNums =>
       selectedChangeNums.includes(change._number)
+    );
+    await element.updateComplete;
+  }
+
+  async function unselectChange(change: ChangeInfo) {
+    model.removeSelectedChangeNum(change._number);
+    await waitUntilObserved(
+      model.selectedChangeNums$,
+      selectedChangeNums => !selectedChangeNums.includes(change._number)
     );
     await element.updateComplete;
   }
@@ -60,8 +82,25 @@ suite('gr-change-list-action-bar tests', () => {
       /* HTML */ `
         <td>
           <div class="container">
+            <div class="selectionInfo selectionInfoLoading">
+              <span class="selectedChanges">1 change selected</span>
+              <span class="loadingSpin"></span>
+            </div>
+          </div>
+        </td>
+      `
+    );
+
+    await unselectChange(change1);
+    await toggleChange(change1);
+
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <td>
+          <div class="container">
             <div class="selectionInfo">
-              <span>1 change selected</span>
+              <span class="selectedChanges">1 change selected</span>
             </div>
             <div class="actionButtons">
               <gr-change-list-bulk-vote-flow></gr-change-list-bulk-vote-flow>
@@ -78,26 +117,23 @@ suite('gr-change-list-action-bar tests', () => {
 
   test('label reflects number of selected changes', async () => {
     // zero case
-    let numSelectedLabel = query<HTMLSpanElement>(
-      element,
-      '.selectionInfo span'
-    );
+    let numSelectedLabel = query<HTMLSpanElement>(element, '.selectedChanges');
     assert.isUndefined(numSelectedLabel);
 
     // single case
-    await selectChange(change1);
+    await toggleChange(change1);
     numSelectedLabel = queryAndAssert<HTMLSpanElement>(
       element,
-      '.selectionInfo span'
+      '.selectedChanges'
     );
     assert.equal(numSelectedLabel.innerText, '1 change selected');
 
     // plural case
-    await selectChange(change2);
+    await toggleChange(change2);
 
     numSelectedLabel = queryAndAssert<HTMLSpanElement>(
       element,
-      '.selectionInfo span'
+      '.selectedChanges'
     );
     assert.equal(numSelectedLabel.innerText, '2 changes selected');
   });

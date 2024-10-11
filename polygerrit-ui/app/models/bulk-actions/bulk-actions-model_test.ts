@@ -218,8 +218,8 @@ suite('bulk actions model test', () => {
 
       bulkActionsModel.sync([c1, c2]);
 
-      bulkActionsModel.addSelectedChangeNum(c1._number);
-      bulkActionsModel.addSelectedChangeNum(c2._number);
+      bulkActionsModel.toggleSelectedChangeNum(c1._number);
+      bulkActionsModel.toggleSelectedChangeNum(c2._number);
     });
 
     test('already abandoned change does not call executeChangeAction', () => {
@@ -454,7 +454,32 @@ suite('bulk actions model test', () => {
     assert.equal(totalChangeCount, 1);
   });
 
-  test('sync fetches new changes', async () => {
+  test('sync doesn not fetch details when no change is selected but populates the model', async () => {
+    const detailedActionsStub = stubRestApi('getDetailedChangesWithActions');
+    const c1 = createChange();
+    c1._number = 1 as NumericChangeId;
+
+    assert.equal(
+      bulkActionsModel.getState().loadingState,
+      LoadingState.NOT_SYNCED
+    );
+
+    bulkActionsModel.sync([c1]);
+    assert.isTrue(detailedActionsStub.notCalled);
+
+    assert.equal(
+      bulkActionsModel.getState().loadingState,
+      LoadingState.NOT_SYNCED
+    );
+
+    const model = bulkActionsModel.getState();
+    assert.strictEqual(
+      model.allChanges.get(1 as NumericChangeId)?.subject,
+      'Test subject'
+    );
+  });
+
+  test('sync fetches new changes when at least one change is selected', async () => {
     const c1 = createChange();
     c1._number = 1 as NumericChangeId;
     const c2 = createChange();
@@ -465,12 +490,20 @@ suite('bulk actions model test', () => {
       LoadingState.NOT_SYNCED
     );
 
+    // if nothing is selected then sync just populates the
+    // model with potentially selectable changes
+    bulkActionsModel.sync([c1, c2]);
+    assert.equal(
+      bulkActionsModel.getState().loadingState,
+      LoadingState.NOT_SYNCED
+    );
+
+    bulkActionsModel.addSelectedChangeNum(c1._number);
     bulkActionsModel.sync([c1, c2]);
     await waitUntilObserved(
       bulkActionsModel.loadingState$,
       s => s === LoadingState.LOADING
     );
-
     await waitUntilObserved(
       bulkActionsModel.loadingState$,
       s => s === LoadingState.LOADED
@@ -493,11 +526,17 @@ suite('bulk actions model test', () => {
     const c2 = createChange();
     c2._number = 2 as NumericChangeId;
 
+    // if nothing is selected then sync just populates the
+    // model with potentially selectable changes
+    bulkActionsModel.sync([c1]);
+
     const responsePromise1 = mockPromise<ChangeInfo[]>();
     let promise = responsePromise1;
     const getChangesStub = stubRestApi(
       'getDetailedChangesWithActions'
     ).callsFake(() => promise);
+
+    bulkActionsModel.addSelectedChangeNum(c1._number);
     bulkActionsModel.sync([c1]);
     assert.strictEqual(getChangesStub.callCount, 1);
     await waitUntilObserved(

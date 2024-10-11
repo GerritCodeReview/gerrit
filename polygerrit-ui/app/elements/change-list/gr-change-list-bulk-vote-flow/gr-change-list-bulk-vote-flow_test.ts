@@ -103,9 +103,13 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
   let reportingStub: SinonStubbedMember<ReportingService['reportInteraction']>;
 
   async function selectChange(change: ChangeInfo) {
-    model.addSelectedChangeNum(change._number);
+    model.toggleSelectedChangeNum(change._number);
     await waitUntilObserved(model.selectedChangeNums$, selectedChangeNums =>
       selectedChangeNums.includes(change._number)
+    );
+    await waitUntilObserved(
+      model.loadingState$,
+      loadingState => loadingState === LoadingState.LOADED
     );
     await element.updateComplete;
   }
@@ -131,10 +135,6 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
     const changes: ChangeInfo[] = [change1];
     getChangesStub.returns(Promise.resolve(changes));
     model.sync(changes);
-    await waitUntilObserved(
-      model.loadingState$,
-      state => state === LoadingState.LOADED
-    );
     await selectChange(change1);
     await element.updateComplete;
     assert.shadowDom.equal(
@@ -203,10 +203,6 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
     const changes: ChangeInfo[] = [change1];
     getChangesStub.returns(Promise.resolve(changes));
     model.sync(changes);
-    await waitUntilObserved(
-      model.loadingState$,
-      state => state === LoadingState.LOADED
-    );
     stubRestApi('saveChangeReview').callsFake(
       (_changeNum, _patchNum, _review, errFn) =>
         Promise.resolve(undefined).then(res => {
@@ -295,10 +291,6 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
     const changes: ChangeInfo[] = [change1];
     getChangesStub.returns(Promise.resolve(changes));
     model.sync(changes);
-    await waitUntilObserved(
-      model.loadingState$,
-      state => state === LoadingState.LOADED
-    );
     await selectChange(change1);
     await element.updateComplete;
     await waitEventLoop();
@@ -323,10 +315,6 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
     getChangesStub.restore();
     getChangesStub.returns(Promise.resolve(changes));
     model.sync(changes);
-    await waitUntilObserved(
-      model.loadingState$,
-      state => state === LoadingState.LOADED
-    );
     await selectChange(change2);
     await element.updateComplete;
 
@@ -354,10 +342,6 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
     const changes: ChangeInfo[] = [{...change}];
     getChangesStub.returns(Promise.resolve(changes));
     model.sync(changes);
-    await waitUntilObserved(
-      model.loadingState$,
-      state => state === LoadingState.LOADED
-    );
     await selectChange(change);
     await element.updateComplete;
     const saveChangeReview = mockPromise<ReviewResult>();
@@ -453,10 +437,6 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
       );
 
       model.sync(changes);
-      await waitUntilObserved(
-        model.loadingState$,
-        state => state === LoadingState.LOADED
-      );
       await selectChange(change1);
       await selectChange(change2);
       await element.updateComplete;
@@ -511,10 +491,6 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
       );
 
       model.sync(changes);
-      await waitUntilObserved(
-        model.loadingState$,
-        state => state === LoadingState.LOADED
-      );
       await selectChange(change1);
       await selectChange(c2);
       await element.updateComplete;
@@ -530,10 +506,6 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
       getChangesStub.returns(Promise.resolve(changes));
 
       model.sync(changes);
-      await waitUntilObserved(
-        model.loadingState$,
-        state => state === LoadingState.LOADED
-      );
       await selectChange(change1);
       await selectChange(change2);
       await element.updateComplete;
@@ -551,10 +523,6 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
     const changes: ChangeInfo[] = [change1];
     getChangesStub.returns(Promise.resolve(changes));
     model.sync(changes);
-    await waitUntilObserved(
-      model.loadingState$,
-      state => state === LoadingState.LOADED
-    );
     await selectChange(change1);
     await element.updateComplete;
 
@@ -569,10 +537,6 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
     changes.push(change2);
     getChangesStub.returns(Promise.resolve(changes));
     model.sync(changes);
-    await waitUntilObserved(
-      model.loadingState$,
-      state => state === LoadingState.LOADED
-    );
     await selectChange(change2);
     await element.updateComplete;
 
@@ -624,10 +588,6 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
     getChangesStub.returns(Promise.resolve(changes));
     model.sync(changes);
 
-    await waitUntilObserved(
-      model.loadingState$,
-      state => state === LoadingState.LOADED
-    );
     await selectChange(
       createChangeWithLabels(1 as NumericChangeId, ['a', 'triggerLabelB', 'c'])
     );

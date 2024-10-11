@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79e41048_cf6fee4e",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/ApplyProvidedFixIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-10-11T09:16:37Z",
+      "side": 0,
+      "message": "I think this test is still relevant. ie. you still can\u0027t pick an old patchset as \"target\" patchset",
+      "range": {
+        "startLine": 339,
+        "startChar": 14,
+        "endLine": 339,
+        "endChar": 63
+      },
+      "revId": "285efedc77b155015bedeea1ce7d6ac543360ad3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

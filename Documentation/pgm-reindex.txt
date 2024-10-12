@@ -44,6 +44,16 @@ Rebuilds the secondary index.
 	populated disk caches on large Gerrit sites, it is recommended that
 	bloom filters are disabled to improve performance.
 
+--reuse::
+	Reuse the change documents that already exist instead of
+	recreating the whole index from scratch. Each existing document in
+	the index will be checked and reindexed if found to be stale.
+
+	NOTE: Only supported when reindexing changes.
+
+	Use this option if offline reindexing is restarted or crashed.
+	Without this option a restart recreates the complete index
+	from scratch without reusing existing index documents.
 
 == CONTEXT
 The secondary index must be enabled. See

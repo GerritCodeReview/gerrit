@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "d42c2917_1b29f2ba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-10-12T06:42:33Z",
+      "side": 1,
+      "message": "I just included links to all the notes now. I do see specific items that appear relevant to Gerrit.",
+      "parentUuid": "5e77a019_8284d95a",
+      "range": {
+        "startLine": 14,
+        "startChar": 20,
+        "endLine": 14,
+        "endChar": 32
+      },
+      "revId": "23bd1d82121c6fdb8a8c491a7672a56faf6b3aee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "ebf45a58_0814498e",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1

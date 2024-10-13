@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dac8e0b8_591f058c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-10-13T10:53:11Z",
+      "side": 1,
+      "message": "Document \u0027reindex --resuse\"",
+      "range": {
+        "startLine": 9,
+        "startChar": 15,
+        "endLine": 9,
+        "endChar": 19
+      },
+      "revId": "c076942b36e07a1fcc0059047d42310434d5878c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "552683ed_9f4a60cf",
+        "filename": "Documentation/pgm-reindex.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-10-13T10:53:11Z",
+      "side": 1,
+      "message": "```suggestion\n\tReuse the change documents that already exist instead of\n\trecreating the whole index from scratch. Each existing document in the index\n```",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 68
+      },
+      "revId": "c076942b36e07a1fcc0059047d42310434d5878c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff4b9727_6cbb7696",
+        "filename": "Documentation/pgm-reindex.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-10-13T10:53:11Z",
+      "side": 1,
+      "message": "```suggestion\n\twill be checked and reindexed if found to be stale.\n```",
+      "range": {
+        "startLine": 50,
+        "startChar": 17,
+        "endLine": 50,
+        "endChar": 65
+      },
+      "revId": "c076942b36e07a1fcc0059047d42310434d5878c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80456df8_ab2b3682",
+        "filename": "Documentation/pgm-reindex.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-10-13T10:53:11Z",
+      "side": 1,
+      "message": "```suggestion\n\tNOTE: Only supported when reindexing the changes.\n```",
+      "range": {
+        "startLine": 52,
+        "startChar": 1,
+        "endLine": 52,
+        "endChar": 48
+      },
+      "revId": "c076942b36e07a1fcc0059047d42310434d5878c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

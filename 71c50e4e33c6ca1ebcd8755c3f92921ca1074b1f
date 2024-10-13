@@ -16,6 +16,23 @@
       "message": "https://gerrit-review.googlesource.com/c/gerrit/+/439281/comment/bf919650_7e59b4ab/",
       "revId": "71c50e4e33c6ca1ebcd8755c3f92921ca1074b1f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f15322a_f80dd0d8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3667425
+      },
+      "writtenOn": "2024-10-13T20:59:26Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/439281/comment/bf919650_7e59b4ab/",
+      "revId": "71c50e4e33c6ca1ebcd8755c3f92921ca1074b1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40220918_10e8f7db",
+        "filename": "contrib/hooks/ref-updated_repack-geometric.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2024-10-14T20:07:30Z",
+      "side": 1,
+      "message": "Adding the -n saves about 30s on one of my repos, and makes a NOOP go down to 6ms! It turns out that git update-server-info is expense when you have ~2Mrefs. Updating the server info is only useful for the http dumb protocol. Does Gerrit even support that?",
+      "revId": "eeaaae5f15b06adf242f1327383465924cb67352",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

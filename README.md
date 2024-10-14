@@ -16,6 +16,14 @@ authorized user to submit changes to the master Git repository, rather
 than requiring all approved changes to be merged in by hand by the project
 maintainer.
 
+## Self-Hosting
+
+### Elestio
+
+You can deploy Gerrit on Elestio using one-click deployment. Elestio handles version updates, maintenance, securtiy, backups, etc. Additionally, Elestio supports Gerrit by providing revenue share so go ahead and click below to deploy and start using.
+
+[![Deploy on Elestio](https://elest.io/images/logos/deploy-to-elestio-btn.png)](https://elest.io/open-source/gerrit)
+
 ## Documentation
 
 For information about how to install and use Gerrit, refer to

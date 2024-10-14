@@ -34,6 +34,24 @@
       "parentUuid": "bf919650_7e59b4ab",
       "revId": "532dd750f7c3283322318412dd85383a33fc10b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a03f3ff4_2b7a164e",
+        "filename": "plugins/replication",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2024-10-14T16:38:02Z",
+      "side": 0,
+      "message": "Below is the replication change that was merged recently.\n\n438982: synchronizePendingEvents: Fix stuck replaying flag | https://gerrit-review.googlesource.com/c/plugins/replication/+/438982\n\nSee https://gerrit-review.googlesource.com/c/gerrit/+/439281/-1..1/plugins/replication#1",
+      "parentUuid": "4f4dcc19_94d802c8",
+      "revId": "532dd750f7c3283322318412dd85383a33fc10b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -39,6 +39,30 @@
       },
       "revId": "df6d63e443ad65b6bdcfc11f7eff334aa485a28b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "594aa0a5_f9ff5495",
+        "filename": "contrib/hooks/ref-updated_repack-geometric.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2024-10-14T15:33:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "75dd4f46_7ff07aca",
+      "range": {
+        "startLine": 34,
+        "startChar": 8,
+        "endLine": 34,
+        "endChar": 12
+      },
+      "revId": "df6d63e443ad65b6bdcfc11f7eff334aa485a28b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

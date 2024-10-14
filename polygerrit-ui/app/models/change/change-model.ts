@@ -53,6 +53,7 @@ import {computeTruncatedPath} from '../../utils/path-list-util';
 import {PluginLoader} from '../../elements/shared/gr-js-api-interface/gr-plugin-loader';
 import {ReportingService} from '../../services/gr-reporting/gr-reporting';
 import {Timing} from '../../constants/reporting';
+import {FlagsService, KnownExperimentId} from '../../services/flags/flags';
 
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 
@@ -370,7 +371,8 @@ export class ChangeModel extends Model<ChangeState> {
     private readonly restApiService: RestApiService,
     private readonly userModel: UserModel,
     private readonly pluginLoader: PluginLoader,
-    private readonly reporting: ReportingService
+    private readonly reporting: ReportingService,
+    private readonly flagService: FlagsService
   ) {
     super(initialState);
     this.subscriptions = [
@@ -565,7 +567,14 @@ export class ChangeModel extends Model<ChangeState> {
         switchMap(changeNum => {
           this.updateStateLoading(changeNum);
           // if changeNum is undefined restApi calls return undefined.
-          const change = this.restApiService.getChangeDetail(changeNum);
+          const includeParentsData =
+            this.basePatchNum !== PARENT &&
+            this.flagService.isEnabled(KnownExperimentId.REVISION_PARENTS_DATA);
+            const change = this.restApiService.getChangeDetail(
+              changeNum,
+              undefined,
+              includeParentsData
+            );
           const edit = this.restApiService.getChangeEdit(changeNum);
           return forkJoin([change, edit]);
         }),

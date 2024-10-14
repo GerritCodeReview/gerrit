@@ -16,6 +16,29 @@
       "message": "LGTM for the basic functionality.\n\nThough I think on top of this change we need some contract how to manage lock namespaces to avoid we end up with semantic clashes e.g. between locks used to prevent duplicate project creation in `CreateProject` and e.g. running git gc on a repo where the project name would be also the natural choice for naming the lock.",
       "revId": "ad739129ce3af7778cd587513b8d2d3d3b7fa3c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c15ea02_28f92678",
+        "filename": "java/com/google/gerrit/server/project/LockManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-10-14T05:53:26Z",
+      "side": 1,
+      "message": "Please fix this ERROR reported by Common Typos: Common typo found: \"Manger\" -- should it be \"Manager\"?\n\nAnalyzer Description: Linter for catching common typos motivated by go/todo-fail and go/lol-codesearch. Shared with google3 common typos library go/common-typos.\nOwner: ayeaye-team@google.com\n\nCommon typo found: \"Manger\" -- should it be \"Manager\"?\nNote: a line containing \"common_typos_disable\" or \"common_typos_enable\" will turn off or on (respectively) the linter for subsequent lines in the file. Alternatively include the token \"NOTYPO\" within a line to skip typo linting that line or include \u0027No-Typo-Check: \u003creason\u003e\u0027in the commit message.",
+      "range": {
+        "startLine": 25,
+        "startChar": 42,
+        "endLine": 25,
+        "endChar": 48
+      },
+      "revId": "ad739129ce3af7778cd587513b8d2d3d3b7fa3c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

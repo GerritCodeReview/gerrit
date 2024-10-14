@@ -99,6 +99,24 @@
       "parentUuid": "a326536a_de0367e8",
       "revId": "eeaaae5f15b06adf242f1327383465924cb67352",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a8ba76a_ed9074f0",
+        "filename": "contrib/hooks/ref-updated_repack-geometric.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2024-10-14T20:56:09Z",
+      "side": 1,
+      "message": "Unfortunately, even with -c gc.packRefs\u003dfalse added to the git repack command, it still tries to update-server-info for refs (I don\u0027t believe is is repacking them, it is just updating the file for http dumb protocol). I suspect that this file cannot be used with ACLs, so Gerrit likely doesn\u0027t even support the http dumb protocol?",
+      "parentUuid": "a3726e60_c4be6524",
+      "revId": "eeaaae5f15b06adf242f1327383465924cb67352",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

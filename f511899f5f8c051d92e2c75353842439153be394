@@ -84,6 +84,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e4f1df68_3b66e478",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-10-14T12:49:34Z",
+      "side": 1,
+      "message": "We intend to enhance caches so that offline reindex can use them read-only to avoid this problem. Using this new to be implemented read-ony cache access the offline reindex will be able to use existing cache content populated by the running Gerrit server to speedup reindexing but wouldn\u0027t add changes to the caches.",
+      "parentUuid": "5c9e7699_12464e89",
+      "revId": "f511899f5f8c051d92e2c75353842439153be394",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5bc247e0_db03d735",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

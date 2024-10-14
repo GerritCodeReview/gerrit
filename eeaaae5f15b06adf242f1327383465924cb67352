@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "63e6702e_e2e2ae25",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-10-14T20:36:41Z",
+      "side": 1,
+      "message": "sample ?",
+      "range": {
+        "startLine": 7,
+        "startChar": 6,
+        "endLine": 7,
+        "endChar": 12
+      },
+      "revId": "eeaaae5f15b06adf242f1327383465924cb67352",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "40220918_10e8f7db",
         "filename": "contrib/hooks/ref-updated_repack-geometric.sh",
         "patchSetId": 3
@@ -32,6 +55,24 @@
       "side": 1,
       "message": "I feel like git should be fixed for this case, more info here: https://lore.kernel.org/git/LV8PR12MB9407CB282D1FD4998C659D29C2442@LV8PR12MB9407.namprd12.prod.outlook.com/T/#u",
       "parentUuid": "40220918_10e8f7db",
+      "revId": "eeaaae5f15b06adf242f1327383465924cb67352",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3726e60_c4be6524",
+        "filename": "contrib/hooks/ref-updated_repack-geometric.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-10-14T20:36:41Z",
+      "side": 1,
+      "message": "Good catch. That\u0027s an odd default, I don\u0027t think the dumb http protocol is still widely used.\n\nIf you set `gc.packRefs\u003dfalse` then git gc and git repack don\u0027t pack refs.\nSee https://git-scm.com/docs/git-config#Documentation/git-config.txt-gcpackRefs",
+      "parentUuid": "a326536a_de0367e8",
       "revId": "eeaaae5f15b06adf242f1327383465924cb67352",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -39,6 +39,30 @@
       },
       "revId": "ad739129ce3af7778cd587513b8d2d3d3b7fa3c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b41a13da_fa668cb1",
+        "filename": "java/com/google/gerrit/server/project/LockManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-10-14T12:13:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c15ea02_28f92678",
+      "range": {
+        "startLine": 25,
+        "startChar": 42,
+        "endLine": 25,
+        "endChar": 48
+      },
+      "revId": "ad739129ce3af7778cd587513b8d2d3d3b7fa3c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -123,7 +123,8 @@ suite('change model tests', () => {
       getAppContext().restApiService,
       testResolver(userModelToken),
       testResolver(pluginLoaderToken),
-      getAppContext().reportingService
+      getAppContext().reportingService,
+      getAppContext().flagsService
     );
     knownChangeNoRevision = {
       ...createChange(),

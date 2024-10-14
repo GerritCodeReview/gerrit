@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec59fa68_ad200500",
+        "filename": "java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-10-14T08:52:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4474b666_9569e84d",
+      "range": {
+        "startLine": 163,
+        "startChar": 49,
+        "endLine": 163,
+        "endChar": 81
+      },
+      "revId": "6c85248e2af373cd9fa19f6132b1ff55618fe785",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "df6ec569_58e4d047",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-10-14T07:10:42Z",
       "side": 1,
       "message": "rename this to `replica` as well?",
+      "range": {
+        "startLine": 32,
+        "startChar": 49,
+        "endLine": 32,
+        "endChar": 54
+      },
+      "revId": "6c85248e2af373cd9fa19f6132b1ff55618fe785",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "89dfce9a_472de5b0",
+        "filename": "java/com/google/gerrit/server/config/GerritOptions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-10-14T08:52:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df6ec569_58e4d047",
       "range": {
         "startLine": 32,
         "startChar": 49,

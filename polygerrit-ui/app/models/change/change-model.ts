@@ -17,8 +17,8 @@ import {
   CommitId,
   RevisionInfo,
 } from '../../types/common';
-import {ChangeStatus, DefaultBase} from '../../constants/constants';
-import {combineLatest, from, Observable, forkJoin, of} from 'rxjs';
+import { ChangeStatus, DefaultBase } from '../../constants/constants';
+import { combineLatest, from, Observable, forkJoin, of } from 'rxjs';
 import {
   map,
   filter,
@@ -33,26 +33,27 @@ import {
   findEdit,
   sortRevisions,
 } from '../../utils/patch-set-util';
-import {isDefined, LoadingStatus, ParsedChangeInfo} from '../../types/types';
-import {fireAlert, fireTitleChange} from '../../utils/event-util';
-import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
-import {select} from '../../utils/observable-util';
-import {assertIsDefined} from '../../utils/common-util';
-import {Model} from '../base/model';
-import {UserModel} from '../user/user-model';
-import {define} from '../dependency';
-import {isOwner} from '../../utils/change-util';
+import { isDefined, LoadingStatus, ParsedChangeInfo } from '../../types/types';
+import { fireAlert, fireTitleChange } from '../../utils/event-util';
+import { RestApiService } from '../../services/gr-rest-api/gr-rest-api';
+import { select } from '../../utils/observable-util';
+import { assertIsDefined } from '../../utils/common-util';
+import { Model } from '../base/model';
+import { UserModel } from '../user/user-model';
+import { define } from '../dependency';
+import { isOwner } from '../../utils/change-util';
 import {
   ChangeChildView,
   ChangeViewModel,
   createChangeUrl,
 } from '../views/change';
-import {NavigationService} from '../../elements/core/gr-navigation/gr-navigation';
-import {getRevertCreatedChangeIds} from '../../utils/message-util';
-import {computeTruncatedPath} from '../../utils/path-list-util';
-import {PluginLoader} from '../../elements/shared/gr-js-api-interface/gr-plugin-loader';
-import {ReportingService} from '../../services/gr-reporting/gr-reporting';
-import {Timing} from '../../constants/reporting';
+import { NavigationService } from '../../elements/core/gr-navigation/gr-navigation';
+import { getRevertCreatedChangeIds } from '../../utils/message-util';
+import { computeTruncatedPath } from '../../utils/path-list-util';
+import { PluginLoader } from '../../elements/shared/gr-js-api-interface/gr-plugin-loader';
+import { ReportingService } from '../../services/gr-reporting/gr-reporting';
+import { Timing } from '../../constants/reporting';
+import { FlagsService, KnownExperimentId } from '../../services/flags/flags';
 
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 
@@ -91,13 +92,13 @@ export interface ChangeState {
  */
 export function updateRevisionsWithCommitShas(changeInput?: ParsedChangeInfo) {
   if (!changeInput?.revisions) return changeInput;
-  const changeOutput = {...changeInput, revisions: {...changeInput.revisions}};
+  const changeOutput = { ...changeInput, revisions: { ...changeInput.revisions } };
   for (const sha of Object.keys(changeOutput.revisions)) {
     const revision = changeOutput.revisions[sha];
     if (revision?.commit && !revision.commit.commit) {
       changeOutput.revisions[sha] = {
         ...revision,
-        commit: {...revision.commit, commit: sha as CommitId},
+        commit: { ...revision.commit, commit: sha as CommitId },
       };
     }
   }
@@ -370,7 +371,8 @@ export class ChangeModel extends Model<ChangeState> {
     private readonly restApiService: RestApiService,
     private readonly userModel: UserModel,
     private readonly pluginLoader: PluginLoader,
-    private readonly reporting: ReportingService
+    private readonly reporting: ReportingService,
+    private readonly flagService: FlagsService
   ) {
     super(initialState);
     this.subscriptions = [
@@ -431,7 +433,7 @@ export class ChangeModel extends Model<ChangeState> {
           // `mergeable !== undefined` filter above, so this cannot happen.
           // It would be nice to change `ShowChangeDetail` to accept `undefined`
           // instaed of `null`, but that would be a Plugin API change ...
-          info: {mergeable: mergeable ?? null},
+          info: { mergeable: mergeable ?? null },
         });
       });
   }
@@ -556,16 +558,20 @@ export class ChangeModel extends Model<ChangeState> {
           );
         })
       )
-      .subscribe(mergeable => this.updateState({mergeable}));
+      .subscribe(mergeable => this.updateState({ mergeable }));
   }
 
   private loadChange() {
-    return this.viewModel.changeNum$
-      .pipe(
-        switchMap(changeNum => {
+    return combineLatest([
+      this.viewModel.changeNum$,
+      this.basePatchNum$,
+    ]).pipe(
+        switchMap(([changeNum, basePatchNum]) => {
+          console.log('basePatchNum', basePatchNum);
           this.updateStateLoading(changeNum);
+          const includeParentsData = basePatchNum !== PARENT && this.flagService.isEnabled(KnownExperimentId.REVISION_PARENTS_DATA);
           // if changeNum is undefined restApi calls return undefined.
-          const change = this.restApiService.getChangeDetail(changeNum);
+          const change = this.restApiService.getChangeDetail(changeNum, undefined, includeParentsData);
           const edit = this.restApiService.getChangeEdit(changeNum);
           return forkJoin([change, edit]);
         }),
@@ -575,7 +581,7 @@ export class ChangeModel extends Model<ChangeState> {
         ),
         catchError(err => {
           // Reset loading state and re-throw.
-          this.updateState({loadingStatus: LoadingStatus.NOT_LOADED});
+          this.updateState({ loadingStatus: LoadingStatus.NOT_LOADED });
           throw err;
         })
       )
@@ -592,7 +598,7 @@ export class ChangeModel extends Model<ChangeState> {
   }
 
   updateStateReviewedFiles(reviewedFiles: string[]) {
-    this.updateState({reviewedFiles});
+    this.updateState({ reviewedFiles });
   }
 
   updateStateFileReviewed(file: string, reviewed: boolean) {
@@ -615,7 +621,7 @@ export class ChangeModel extends Model<ChangeState> {
 
     if (reviewed) reviewedFiles.push(file);
     else reviewedFiles.splice(reviewedFiles.indexOf(file), 1);
-    this.updateState({reviewedFiles});
+    this.updateState({ reviewedFiles });
   }
 
   fetchReviewedFiles(patchNum: PatchSetNum, changeNum: NumericChangeId) {
@@ -656,12 +662,12 @@ export class ChangeModel extends Model<ChangeState> {
   }
 
   navigateToDiff(
-    diffView: {path: string; lineNum?: number},
+    diffView: { path: string; lineNum?: number },
     patchNum = this.patchNum,
     basePatchNum = this.basePatchNum
   ) {
     if (!patchNum) return;
-    const url = this.viewModel.diffUrl({diffView, patchNum, basePatchNum});
+    const url = this.viewModel.diffUrl({ diffView, patchNum, basePatchNum });
     if (!url) return;
     this.navigation.setUrl(url);
   }
@@ -694,14 +700,14 @@ export class ChangeModel extends Model<ChangeState> {
    */
   navigateToChangeResetReload() {
     if (!this.change) return;
-    const url = createChangeUrl({change: this.change, forceReload: true});
+    const url = createChangeUrl({ change: this.change, forceReload: true });
     if (!url) return;
     this.navigation.setUrl(url);
   }
 
-  navigateToEdit(editView: {path: string; lineNum?: number}) {
+  navigateToEdit(editView: { path: string; lineNum?: number }) {
     if (!this.patchNum) return;
-    const url = this.viewModel.editUrl({editView, patchNum: this.patchNum});
+    const url = this.viewModel.editUrl({ editView, patchNum: this.patchNum });
     if (!url) return;
     this.navigation.setUrl(url);
   }

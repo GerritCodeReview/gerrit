@@ -117,6 +117,24 @@
       "parentUuid": "a3726e60_c4be6524",
       "revId": "eeaaae5f15b06adf242f1327383465924cb67352",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13669ed3_75caf2f8",
+        "filename": "contrib/hooks/ref-updated_repack-geometric.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-10-14T21:44:05Z",
+      "side": 1,
+      "message": "The dumb protocol doesn\u0027t need a git server but just a web server. It only supports read (fetch, clone) but no write (push).\n\nInstead of dynamic negotiation between git client and the web server there is just a static info/refs file which the client can download using an HTTP GET request to discover the refs the dumb server has. This file is written by the update-server-info command (or repack as you found out). This means whenever a ref changes this file needs to be recomputed which is clearly a lot of overhead if there are many refs (like in Gerrit). See https://git-scm.com/book/en/v2/Git-Internals-Transfer-Protocols\n\nJGit client supports the dumb protocol, see https://github.com/eclipse-jgit/jgit/blob/master/org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/DumbClientDumbServerTest.java\n\nI don\u0027t know anyone using this ancient protocol.",
+      "parentUuid": "4a8ba76a_ed9074f0",
+      "revId": "eeaaae5f15b06adf242f1327383465924cb67352",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -96,7 +96,7 @@ import com.google.gerrit.server.patch.DiffExecutorModule;
 import com.google.gerrit.server.permissions.DefaultPermissionBackendModule;
 import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
 import com.google.gerrit.server.plugins.PluginModule;
-import com.google.gerrit.server.project.DefaultProjectNameLockManager.DefaultProjectNameLockManagerModule;
+import com.google.gerrit.server.project.DefaultLockManager.DefaultLockManagerModule;
 import com.google.gerrit.server.restapi.RestApiModule;
 import com.google.gerrit.server.schema.JdbcAccountPatchReviewStore.JdbcAccountPatchReviewStoreModule;
 import com.google.gerrit.server.schema.NoteDbSchemaVersionCheck;
@@ -370,7 +370,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     modules.add(new AttentionSetOwnerAdderModule());
     modules.add(new ChangeCleanupRunnerModule());
     modules.add(new AccountDeactivatorModule());
-    modules.add(new DefaultProjectNameLockManagerModule());
+    modules.add(new DefaultLockManagerModule());
     modules.add(new ExternalIdCaseSensitivityMigrator.ExternalIdCaseSensitivityMigratorModule());
     return dbInjector.createChildInjector(
         ModuleOverloader.override(

@@ -110,7 +110,7 @@ import com.google.gerrit.server.patch.DiffExecutorModule;
 import com.google.gerrit.server.permissions.DefaultPermissionBackendModule;
 import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
 import com.google.gerrit.server.plugins.PluginModule;
-import com.google.gerrit.server.project.DefaultProjectNameLockManager.DefaultProjectNameLockManagerModule;
+import com.google.gerrit.server.project.DefaultLockManager.DefaultLockManagerModule;
 import com.google.gerrit.server.restapi.RestApiModule;
 import com.google.gerrit.server.schema.JdbcAccountPatchReviewStore.JdbcAccountPatchReviewStoreModule;
 import com.google.gerrit.server.schema.NoteDbSchemaVersionCheck;
@@ -561,7 +561,7 @@ public class Daemon extends SiteProgram {
       modules.add(new ChangeCleanupRunnerModule());
     }
     modules.add(new LocalMergeSuperSetComputationModule());
-    modules.add(new DefaultProjectNameLockManagerModule());
+    modules.add(new DefaultLockManagerModule());
 
     List<Module> libModules =
         LibModuleLoader.loadModules(cfgInjector, LibModuleType.SYS_MODULE_TYPE);

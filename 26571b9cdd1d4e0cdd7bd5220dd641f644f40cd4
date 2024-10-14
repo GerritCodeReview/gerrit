@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "661fe20b_ae477774",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-10-14T05:50:05Z",
+      "side": 1,
+      "message": "Does this line wrapping work for footers?",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 27
+      },
+      "revId": "26571b9cdd1d4e0cdd7bd5220dd641f644f40cd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3c7bc8c7_59a53a7a",
         "filename": "Documentation/config-labels.txt",
         "patchSetId": 2

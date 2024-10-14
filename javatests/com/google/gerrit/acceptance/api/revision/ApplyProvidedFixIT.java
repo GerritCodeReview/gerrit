@@ -357,6 +357,142 @@ public class ApplyProvidedFixIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void applyProvidedFixesOnNewerPatchsetWithModifiedFile() throws Exception {
+    // Remember patch set and add another one.
+    int previousRevision = gApi.changes().id(changeId).get().currentRevisionNumber;
+    amendChange(
+        changeId,
+        "refs/for/master",
+        admin,
+        testRepo,
+        PushOneCommit.SUBJECT,
+        FILE_NAME,
+        "New line at the start\n" + FILE_CONTENT);
+    ApplyProvidedFixInput applyProvidedFixInput =
+        createApplyProvidedFixInput(FILE_NAME, "Modified content", 3, 1, 3, 3);
+    applyProvidedFixInput.originalPatchsetForFix = previousRevision;
+    gApi.changes().id(changeId).current().applyFix(applyProvidedFixInput);
+
+    Optional<BinaryResult> file = gApi.changes().id(changeId).edit().getFile(FILE_NAME);
+    BinaryResultSubject.assertThat(file)
+        .value()
+        .asString()
+        .isEqualTo(
+            "New line at the start\nFirst line\nSecond line\nTModified contentrd line\nFourth line\nFifth line\n"
+                + "Sixth line\nSeventh line\nEighth line\nNinth line\nTenth line\n");
+
+    applyProvidedFixInput = createApplyProvidedFixInput(FILE_NAME, "(1st)", 1, 5, 1, 5);
+    applyProvidedFixInput.originalPatchsetForFix = previousRevision;
+    gApi.changes().id(changeId).current().applyFix(applyProvidedFixInput);
+
+    file = gApi.changes().id(changeId).edit().getFile(FILE_NAME);
+    BinaryResultSubject.assertThat(file)
+        .value()
+        .asString()
+        .isEqualTo(
+            "New line at the start\nFirst(1st) line\nSecond line\nTModified contentrd line\nFourth line\nFifth line\n"
+                + "Sixth line\nSeventh line\nEighth line\nNinth line\nTenth line\n");
+  }
+
+  @Test
+  public void applyProvidedFixWithTwoFilesOnNewerPatchsetWithModifiedFile() throws Exception {
+    // Remember patch set and add another one.
+    int previousRevision = gApi.changes().id(changeId).get().currentRevisionNumber;
+    // Remove first 2 lines;
+    String modifiedContent =
+        FILE_CONTENT.substring(FILE_CONTENT.indexOf("\n", FILE_CONTENT.indexOf("\n") + 1) + 1);
+    amendChange(
+        changeId,
+        "refs/for/master",
+        admin,
+        testRepo,
+        PushOneCommit.SUBJECT,
+        FILE_NAME,
+        modifiedContent);
+    amendChange(
+        changeId,
+        "refs/for/master",
+        admin,
+        testRepo,
+        PushOneCommit.SUBJECT,
+        FILE_NAME2,
+        "New line at the start\n" + FILE_CONTENT2);
+    FixReplacementInfo fixReplacementInfo1 = new FixReplacementInfo();
+    fixReplacementInfo1.path = FILE_NAME;
+    fixReplacementInfo1.range = createRange(10, 0, 10, 0);
+    fixReplacementInfo1.replacement = "First modification\n";
+
+    FixReplacementInfo fixReplacementInfo2 = new FixReplacementInfo();
+    fixReplacementInfo2.path = FILE_NAME2;
+    fixReplacementInfo2.range = createRange(1, 0, 2, 0);
+    fixReplacementInfo2.replacement = "Different file modification\n";
+
+    ApplyProvidedFixInput applyProvidedFixInput = new ApplyProvidedFixInput();
+
+    applyProvidedFixInput.fixReplacementInfos =
+        Arrays.asList(fixReplacementInfo1, fixReplacementInfo2);
+    applyProvidedFixInput.originalPatchsetForFix = previousRevision;
+
+    gApi.changes().id(changeId).current().applyFix(applyProvidedFixInput);
+
+    Optional<BinaryResult> file = gApi.changes().id(changeId).edit().getFile(FILE_NAME);
+    BinaryResultSubject.assertThat(file)
+        .value()
+        .asString()
+        .isEqualTo(
+            "Third line\nFourth line\nFifth line\n"
+                + "Sixth line\nSeventh line\nEighth line\nNinth line\nFirst modification\nTenth line\n");
+    Optional<BinaryResult> file2 = gApi.changes().id(changeId).edit().getFile(FILE_NAME2);
+    BinaryResultSubject.assertThat(file2)
+        .value()
+        .asString()
+        .isEqualTo("New line at the start\nDifferent file modification\n2nd line\n3rd line\n");
+  }
+
+  @Test
+  public void applyProvidedFixOnCommitMessageCanBeAppliedToNewerPatchset() throws Exception {
+    // Set a dedicated commit message.
+    String footer = "\nChange-Id: " + changeId + "\n";
+    String originalCommitMessage = "Line 1 of commit message\nLine 2 of commit message\n" + footer;
+    gApi.changes().id(changeId).edit().modifyCommitMessage(originalCommitMessage);
+    gApi.changes().id(changeId).edit().publish();
+    int previousRevision = gApi.changes().id(changeId).get().currentRevisionNumber;
+    // Upload a new patchset with the same commit message.
+    amendChange(changeId, originalCommitMessage, FILE_NAME, "a" + FILE_CONTENT);
+    ApplyProvidedFixInput applyProvidedFixInput =
+        createApplyProvidedFixInput(Patch.COMMIT_MSG, "Modified line\n", 7, 0, 8, 0);
+    applyProvidedFixInput.originalPatchsetForFix = previousRevision;
+
+    gApi.changes().id(changeId).current().applyFix(applyProvidedFixInput);
+    String commitMessage = gApi.changes().id(changeId).edit().getCommitMessage();
+    assertThat(commitMessage).isEqualTo("Modified line\nLine 2 of commit message\n" + footer);
+  }
+
+  @Test
+  public void applyProvidedFixOnCommitMessageRejectedIfNewerPatchsetHasDifferentCommitMessage()
+      throws Exception {
+    // Set a dedicated commit message.
+    String footer = "\nChange-Id: " + changeId + "\n";
+    String originalCommitMessage = "Line 1 of commit message\nLine 2 of commit message\n" + footer;
+    gApi.changes().id(changeId).edit().modifyCommitMessage(originalCommitMessage);
+    gApi.changes().id(changeId).edit().publish();
+    int previousRevision = gApi.changes().id(changeId).get().currentRevisionNumber;
+    // Upload a new patchset with the same commit message.
+    amendChange(changeId, "a" + originalCommitMessage, FILE_NAME, "a" + FILE_CONTENT);
+    ApplyProvidedFixInput applyProvidedFixInput =
+        createApplyProvidedFixInput(Patch.COMMIT_MSG, "Modified line\n", 7, 0, 8, 0);
+    applyProvidedFixInput.originalPatchsetForFix = previousRevision;
+
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.changes().id(changeId).current().applyFix(applyProvidedFixInput));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("commit message has been updated in a newer patchset");
+  }
+
+  @Test
   public void applyProvidedFixOnCurrentPatchSetWithChangeEditOnPreviousPatchSetCannotBeApplied()
       throws Exception {
     // Create an empty change edit.

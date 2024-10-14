@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "76349f2e_1310939c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-10-14T20:24:42Z",
+      "side": 1,
+      "message": "I think so, https://git-scm.com/docs/git-interpret-trailers says: \n\n_The \u003cvalue\u003e may be split over multiple lines with each subsequent line starting with at least one whitespace, like the \"folding\" in RFC 822. Example:_\n```\nkey: This is a very long value, with spaces and\n  newlines in it.\n```",
+      "parentUuid": "661fe20b_ae477774",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 27
+      },
+      "revId": "26571b9cdd1d4e0cdd7bd5220dd641f644f40cd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3c7bc8c7_59a53a7a",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "01c9d17f_d9cf5c97",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-10-14T20:24:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c7bc8c7_59a53a7a",
+      "range": {
+        "startLine": 136,
+        "startChar": 17,
+        "endLine": 136,
+        "endChar": 24
+      },
+      "revId": "26571b9cdd1d4e0cdd7bd5220dd641f644f40cd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "718fb053_d3b5d16e",
@@ -60,6 +108,30 @@
       "writtenOn": "2024-10-10T10:58:26Z",
       "side": 1,
       "message": "Clarify that Submit Requirements are not only a replacement for score but also branch and is much more flexible?\n\n\n```suggestion\ncondition(s) is required to make the change submittable:\n```",
+      "range": {
+        "startLine": 163,
+        "startChar": 0,
+        "endLine": 163,
+        "endChar": 5
+      },
+      "revId": "26571b9cdd1d4e0cdd7bd5220dd641f644f40cd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbf46b2d_bd6c4039",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-10-14T20:24:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "718fb053_d3b5d16e",
       "range": {
         "startLine": 163,
         "startChar": 0,

@@ -1372,7 +1372,11 @@ export class GrRouter implements Finalizable, NavigationService {
       this.restApiService.getDiffComments(changeNum),
       this.restApiService.getDiffRobotComments(changeNum),
       this.restApiService.getDiffDrafts(changeNum),
-      this.restApiService.getChangeDetail(changeNum),
+      this.restApiService.getChangeDetail(
+        changeNum,
+        /* errFn = */ undefined,
+        /* includeParentsData = */ true
+      ),
     ]);
 
     const comment =

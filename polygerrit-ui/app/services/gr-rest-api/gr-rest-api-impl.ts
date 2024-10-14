@@ -1295,10 +1295,11 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   async getChangeDetail(
     changeNum?: NumericChangeId,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
+    includeParentsData?: boolean
   ): Promise<ParsedChangeInfo | undefined> {
     if (!changeNum) return;
-    const optionsHex = await this.getChangeOptionsHex();
+    const optionsHex = await this.getChangeOptionsHex(includeParentsData);
 
     return this._getChangeDetail(changeNum, optionsHex, errFn).then(detail =>
       // detail has ChangeViewChangeInfo type because the optionsHex always
@@ -1324,14 +1325,16 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     return listChangesOptionsToHex(...options);
   }
 
-  async getChangeOptionsHex(): Promise<string> {
+  async getChangeOptionsHex(includeParentsData?: boolean): Promise<string> {
     if (window.DEFAULT_DETAIL_HEXES && window.DEFAULT_DETAIL_HEXES.changePage) {
       return window.DEFAULT_DETAIL_HEXES.changePage;
     }
-    return listChangesOptionsToHex(...(await this.getChangeOptions()));
+    return listChangesOptionsToHex(
+      ...(await this.getChangeOptions(includeParentsData))
+    );
   }
 
-  async getChangeOptions(): Promise<number[]> {
+  async getChangeOptions(includeParentsData?: boolean): Promise<number[]> {
     const config = await this.getConfig(false);
 
     // This list MUST be kept in sync with
@@ -1350,7 +1353,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       ListChangesOption.SKIP_DIFFSTAT,
       ListChangesOption.SUBMIT_REQUIREMENTS,
     ];
-    if (this.flagService.isEnabled(KnownExperimentId.REVISION_PARENTS_DATA)) {
+    if (includeParentsData) {
       options.push(ListChangesOption.PARENTS);
     }
     if (config?.receive?.enable_signed_push) {

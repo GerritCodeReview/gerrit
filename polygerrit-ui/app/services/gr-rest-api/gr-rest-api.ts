@@ -211,7 +211,8 @@ export interface RestApiService extends Finalizable {
 
   getChangeDetail(
     changeNum?: number | string,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
+    includeParentsData?: boolean
   ): Promise<ParsedChangeInfo | undefined>;
 
   /**

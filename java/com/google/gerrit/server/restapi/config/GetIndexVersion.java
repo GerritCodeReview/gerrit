@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.config;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.index.Index;
 import com.google.gerrit.index.IndexCollection;
 import com.google.gerrit.server.config.IndexVersionResource;
 import com.google.gerrit.server.restapi.config.IndexInfo.IndexVersionInfo;
@@ -27,9 +28,10 @@ public class GetIndexVersion implements RestReadView<IndexVersionResource> {
   public Response<IndexVersionInfo> apply(IndexVersionResource rsrc)
       throws ResourceNotFoundException {
     IndexCollection<?, ?, ?> indexCollection = rsrc.getIndexDefinition().getIndexCollection();
-    int version = rsrc.getIndex().getSchema().getVersion();
+    Index<?, ?> i = rsrc.getIndex();
+    int version = i.getSchema().getVersion();
     boolean isSearch = indexCollection.getSearchIndex().getSchema().getVersion() == version;
     boolean isWrite = indexCollection.getWriteIndex(version) != null;
-    return Response.ok(IndexInfo.IndexVersionInfo.create(isWrite, isSearch));
+    return Response.ok(IndexInfo.IndexVersionInfo.create(isWrite, isSearch, i.numDocs()));
   }
 }

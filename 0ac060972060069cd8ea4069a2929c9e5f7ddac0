@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "838b66ef_a7265757",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3390,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2024-10-15T18:40:00Z",
+      "side": 1,
+      "message": "I just assumed even a simple reference is likely at least 8 bytes, but I\u0027m not sure how to get an accurate number for this? It would be really helpful if we knew how to figure this sort of thing out for all of our values. Do we need to make it a requirement to figure this out for any new auto value?",
+      "revId": "0ac060972060069cd8ea4069a2929c9e5f7ddac0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

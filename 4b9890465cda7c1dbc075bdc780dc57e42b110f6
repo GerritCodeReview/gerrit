@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e64f7c6c_f8c9ff52",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-10-15T22:27:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0307ef64_98743c88",
+      "range": {
+        "startLine": 176,
+        "startChar": 36,
+        "endLine": 176,
+        "endChar": 56
+      },
+      "revId": "4b9890465cda7c1dbc075bdc780dc57e42b110f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c18998da_f4e22f5f",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-10-15T20:48:30Z",
       "side": 1,
       "message": "Same comment as above",
+      "range": {
+        "startLine": 604,
+        "startChar": 36,
+        "endLine": 604,
+        "endChar": 56
+      },
+      "revId": "4b9890465cda7c1dbc075bdc780dc57e42b110f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae72d638_95f35591",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 604,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-10-15T22:27:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c18998da_f4e22f5f",
       "range": {
         "startLine": 604,
         "startChar": 36,

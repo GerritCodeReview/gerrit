@@ -26,6 +26,7 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.mail.MailUtil;
+import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -40,6 +41,13 @@ import org.eclipse.jgit.lib.PersonIdent;
 @Singleton
 public class FromAddressGeneratorProvider implements Provider<FromAddressGenerator> {
   private final FromAddressGenerator generator;
+
+  public static class UserAddressGenModule extends AbstractModule {
+    @Override
+    protected void configure() {
+      bind(UserAddressGenFactory.class).to(DefaultUserAddressGenFactory.class);
+    }
+  }
 
   /** A generic interface for creating user address generators. */
   public interface UserAddressGenFactory {

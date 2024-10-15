@@ -19,6 +19,7 @@ import static com.google.common.util.concurrent.MoreExecutors.newDirectExecutorS
 import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.server.mail.send.FromAddressGeneratorProvider;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.util.concurrent.ListeningExecutorService;
@@ -208,6 +209,7 @@ public class InMemoryModule extends FactoryModule {
     install(new AccountNoteDbWriteStorageModule());
     install(new AccountNoteDbReadStorageModule());
     install(new RepoSequenceModule());
+    install(new FromAddressGeneratorProvider.UserAddressGenModule());
     install(new NoteDbDraftCommentsModule());
     install(new NoteDbStarredChangesModule());
     install(new ChangeCleanupRunnerModule());

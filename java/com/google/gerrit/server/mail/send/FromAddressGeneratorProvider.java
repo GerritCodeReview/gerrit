@@ -41,6 +41,13 @@ import org.eclipse.jgit.lib.PersonIdent;
 public class FromAddressGeneratorProvider implements Provider<FromAddressGenerator> {
   private final FromAddressGenerator generator;
 
+  public static class UserAddressGenModule extends AbstractModule {
+    @Override
+    protected void configure() {
+      bind(UserAddressGenFactory.class).to(DefaultUserAddressGenFactory.class);
+    }
+  }
+
   /** A generic interface for creating user address generators. */
   public interface UserAddressGenFactory {
     FromAddressGenerator create(

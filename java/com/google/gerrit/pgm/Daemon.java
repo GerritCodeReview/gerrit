@@ -17,6 +17,7 @@ package com.google.gerrit.pgm;
 import static com.google.gerrit.common.Version.getVersion;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.gerrit.server.mail.send.FromAddressGeneratorProvider;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Joiner;
 import com.google.common.base.MoreObjects;
@@ -476,6 +477,7 @@ public class Daemon extends SiteProgram {
     modules.add(new AccountNoteDbWriteStorageModule());
     modules.add(new AccountNoteDbReadStorageModule());
     modules.add(new RepoSequenceModule());
+    modules.add(new FromAddressGeneratorProvider.UserAddressGenModule());
     modules.add(new NoteDbDraftCommentsModule());
     modules.add(new NoteDbStarredChangesModule());
     modules.add(cfgInjector.getInstance(GerritGlobalModule.class));

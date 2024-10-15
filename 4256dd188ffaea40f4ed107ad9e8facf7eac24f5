@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e227ba37_6f569d10",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-10-15T09:11:22Z",
+      "side": 1,
+      "message": "Testing the models is pretty hard.\n\nThe original CL go/grev/386503 does not add any tests as well and I am not sure given the existing state if it\u0027s possible to test.\n\nI tested it manually and it suffices for now. We should reconsider adding such code ideally if it\u0027s this difficult to test but that is outside of the scope of this CL.",
+      "parentUuid": "745cc7cf_4653df54",
+      "revId": "4256dd188ffaea40f4ed107ad9e8facf7eac24f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c2c0ddd7_d8d32a73",
@@ -41,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b55300b2_fb20d489",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 1331,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-10-15T09:11:22Z",
+      "side": 1,
+      "message": "My limited understanding is that it\u0027s based on the preloading logic which we send via the Soy template. \n\nThis is also existing code so I\u0027m not sure how relevant it is to this CL hence resolving.",
+      "parentUuid": "c2c0ddd7_d8d32a73",
+      "range": {
+        "startLine": 1329,
+        "startChar": 4,
+        "endLine": 1331,
+        "endChar": 5
+      },
+      "revId": "4256dd188ffaea40f4ed107ad9e8facf7eac24f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3476cb89_31443fe0",
@@ -54,6 +96,30 @@
       "writtenOn": "2024-10-15T07:53:49Z",
       "side": 1,
       "message": "you\u0027re changing flag value that was defaulted to true, to a boolean value that defaults to false. \n\nDoes this create problems anywhere, where the parameter is not set explicitly? If not, can you add the reasoning \"why\" to the commit message?",
+      "range": {
+        "startLine": 1356,
+        "startChar": 8,
+        "endLine": 1356,
+        "endChar": 26
+      },
+      "revId": "4256dd188ffaea40f4ed107ad9e8facf7eac24f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44e3a1f9_206110fe",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 1356,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-10-15T09:11:22Z",
+      "side": 1,
+      "message": "Good point.\n\nThe method is eventually called by `getChangeDetail` which has 2 callers\n\nhttps://cs.opensource.google/search?q\u003d%22getChangeDetail(%22%20f:gerrit%20language:ts\n\nSecond caller is `handleCommentRoute` which is when the user generates URLs for comments(which should be a fairly low case scenario) and the Base computation there happens after the change is fetched.\n\nhttps://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/core/gr-router/gr-router.ts;l\u003d1394?q\u003dhandleCommentRoute\u0026ss\u003dgerrit%2Fgerrit%2Fgerrit\n\nI reverted back to the original state of having includeParentsData \u003d true.",
+      "parentUuid": "3476cb89_31443fe0",
       "range": {
         "startLine": 1356,
         "startChar": 8,

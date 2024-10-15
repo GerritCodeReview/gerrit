@@ -55,12 +55,6 @@ export class GrServerInfo extends LitElement {
         .genericList tr th:last-of-type {
           text-align: left;
         }
-        .metadataDescription,
-        .metadataName,
-        .metadataValue,
-        .metadataWebLinks {
-          white-space: nowrap;
-        }
         .placeholder {
           color: var(--deemphasized-text-color);
         }

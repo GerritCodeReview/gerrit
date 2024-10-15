@@ -1516,6 +1516,7 @@ capability.
         "13": {
           "is_write": true,
           "is_search": true
+          "num_docs": 150000
         }
       }
     },
@@ -1525,10 +1526,12 @@ capability.
         "83": {
           "is_write": true,
           "is_search": true
+          "num_docs": 150000
         },
         "84": {
           "is_write": true,
           "is_search": false
+          "num_docs": 150000
         }
       }
     },
@@ -1538,6 +1541,7 @@ capability.
         "10": {
           "is_write": true,
           "is_search": true
+          "num_docs": 150000
         }
       }
     },
@@ -1547,6 +1551,7 @@ capability.
         "8": {
           "is_write": true,
           "is_search": true
+          "num_docs": 150000
         }
       }
     }
@@ -1578,10 +1583,12 @@ index version is used to search and which versions are written to.
       "83": {
         "is_write": true,
         "is_search": true
+        "num_docs": 150000
       },
       "84": {
         "is_write": true,
         "is_search": false
+        "num_docs": 150000
       }
     }
   }
@@ -1609,10 +1616,12 @@ Lists versions of an index used by Gerrit.
     "83": {
       "is_write": true,
       "is_search": true
+      "num_docs": 150000
     },
     "84": {
       "is_write": true,
       "is_search": false
+      "num_docs": 150000
     }
   }
 ----
@@ -1638,6 +1647,7 @@ Get info about one version of an index used by Gerrit.
   {
     "is_write": true,
     "is_search": false
+    "num_docs": 150000
   }
 ----
 

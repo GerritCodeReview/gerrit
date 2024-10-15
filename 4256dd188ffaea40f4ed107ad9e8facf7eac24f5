@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "745cc7cf_4653df54",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-10-15T07:53:49Z",
+      "side": 1,
+      "message": "I think it would be nice to have a test, that verifies the logic, that includeParents is true/false, based on left patchset (and maybe also that the flag is propagated correctly)",
+      "revId": "4256dd188ffaea40f4ed107ad9e8facf7eac24f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2c0ddd7_d8d32a73",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 1331,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-10-15T07:53:49Z",
+      "side": 1,
+      "message": "What do these include? and when are they set?",
+      "range": {
+        "startLine": 1329,
+        "startChar": 4,
+        "endLine": 1331,
+        "endChar": 5
+      },
+      "revId": "4256dd188ffaea40f4ed107ad9e8facf7eac24f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3476cb89_31443fe0",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 1356,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-10-15T07:53:49Z",
+      "side": 1,
+      "message": "you\u0027re changing flag value that was defaulted to true, to a boolean value that defaults to false. \n\nDoes this create problems anywhere, where the parameter is not set explicitly? If not, can you add the reasoning \"why\" to the commit message?",
+      "range": {
+        "startLine": 1356,
+        "startChar": 8,
+        "endLine": 1356,
+        "endChar": 26
+      },
+      "revId": "4256dd188ffaea40f4ed107ad9e8facf7eac24f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

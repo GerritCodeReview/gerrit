@@ -28,15 +28,18 @@ public abstract class IndexInfo {
       String name, IndexCollection<?, ?, ?> indexCollection) {
     ImmutableSortedMap.Builder<Integer, IndexVersionInfo> versions =
         ImmutableSortedMap.naturalOrder();
-    int searchIndexVersion = indexCollection.getSearchIndex().getSchema().getVersion();
+    Index<?, ?> searchIndex = indexCollection.getSearchIndex();
+    int searchIndexVersion = searchIndex.getSchema().getVersion();
     boolean searchIndexAdded = false;
     for (Index<?, ?> index : indexCollection.getWriteIndexes()) {
       boolean isSearchIndex = index.getSchema().getVersion() == searchIndexVersion;
-      versions.put(index.getSchema().getVersion(), IndexVersionInfo.create(true, isSearchIndex));
+      versions.put(
+          index.getSchema().getVersion(),
+          IndexVersionInfo.create(true, isSearchIndex, index.numDocs()));
       searchIndexAdded = searchIndexAdded || isSearchIndex;
     }
     if (!searchIndexAdded) {
-      versions.put(searchIndexVersion, IndexVersionInfo.create(false, true));
+      versions.put(searchIndexVersion, IndexVersionInfo.create(false, true, searchIndex.numDocs()));
     }
 
     return new AutoValue_IndexInfo(name, versions.build());
@@ -52,12 +55,14 @@ public abstract class IndexInfo {
 
   @AutoValue
   public abstract static class IndexVersionInfo {
-    static IndexVersionInfo create(boolean write, boolean search) {
-      return new AutoValue_IndexInfo_IndexVersionInfo(write, search);
+    static IndexVersionInfo create(boolean write, boolean search, int numDocs) {
+      return new AutoValue_IndexInfo_IndexVersionInfo(write, search, numDocs);
     }
 
     abstract boolean isWrite();
 
     abstract boolean isSearch();
+
+    abstract int numDocs();
   }
 }

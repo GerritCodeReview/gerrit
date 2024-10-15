@@ -21,6 +21,38 @@ Sample `etc/gerrit.config`:
   directory = /var/cache/gerrit
 ----
 
+== Auto Values ==
+
+Hard coded default values for some settings, particularly those which are
+expected to potentially grow with the size of an installation can be
+problematic. To help illustrate this, we can imagine various Gerrit server
+heap sizes, potentially spanning approximately 5 orders of magnitude like
+this:
+
+* Tiny heap: 500M
+* Small heap: 5G
+* Medium heap: 50G
+* Large heap: 500G
+* Huge heap: 5T
+
+Since many settings likely should grow together, and potentially with
+the heap size, Gerrit supports "auto" for some of these. If "auto" is
+supported for a setting, a formula will be mentioned for how that setting
+is calculated.
+
+=== AUTO_HEAP ===
+
+If an auto setting is based on heap size, it will be based on the
+AUTO_HEAP value, which is 1/10th the size of the heap setting. Auto
+values are calculated in a way that ensures that all the auto value
+configs together should not if summed up consume more than the
+AUTO_HEAP value in memory.
+
+The sum of AUTO_HEAP based values currently consists of:
+
+* httpd.maxQueued
+
+
 [[reloadConfig]]
 === Reload `etc/gerrit.config`
 Some properties support being reloaded without restart when a `reload config`
@@ -3353,6 +3385,9 @@ thread pool waiting for a worker thread to become available.
 0 sets the queue size to the Integer.MAX_VALUE.
 +
 By default 200.
++
+Auto value is AUTO_HEAP / 2.5M. Will use max 1/312.5K of AUTO_HEAP
+if a queued connection consumes 8 bytes.
 
 [[httpd.maxWait]]httpd.maxWait::
 +

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e125f0f_7f29aca7",
+        "filename": "contrib/hooks/ref-updated_repack-geometric.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2024-10-15T21:45:30Z",
+      "side": 1,
+      "message": "This should have a trap to cleanup the lock.",
+      "revId": "8ba46b0738688ec692980d3453eebeb101d99766",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -25,6 +25,7 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Address;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.mail.send.FromAddressGeneratorProvider.DefaultUserAddressGenFactory;
 import com.google.gerrit.server.util.time.TimeUtil;
 import java.util.Arrays;
 import java.util.List;
@@ -47,7 +48,9 @@ public class FromAddressGeneratorProviderTest {
   }
 
   private FromAddressGenerator create() {
-    return new FromAddressGeneratorProvider(config, "Anonymous Coward", ident, accountCache).get();
+    return new FromAddressGeneratorProvider(
+            config, "Anonymous Coward", ident, accountCache, new DefaultUserAddressGenFactory())
+        .get();
   }
 
   private void setFrom(String newFrom) {

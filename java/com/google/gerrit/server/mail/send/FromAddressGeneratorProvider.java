@@ -41,12 +41,36 @@ import org.eclipse.jgit.lib.PersonIdent;
 public class FromAddressGeneratorProvider implements Provider<FromAddressGenerator> {
   private final FromAddressGenerator generator;
 
+  /** A generic interface for creating user address generators. */
+  public interface UserAddressGenFactory {
+    FromAddressGenerator create(
+        AccountCache accountCache,
+        Pattern domainPattern,
+        String anonymousCowardName,
+        ParameterizedString nameRewriteTmpl,
+        Address serverAddress);
+  }
+
+  public static class DefaultUserAddressGenFactory implements UserAddressGenFactory {
+    @Override
+    public FromAddressGenerator create(
+        AccountCache accountCache,
+        Pattern domainPattern,
+        String anonymousCowardName,
+        ParameterizedString nameRewriteTmpl,
+        Address serverAddress) {
+      return new UserGen(
+          accountCache, domainPattern, anonymousCowardName, nameRewriteTmpl, serverAddress);
+    }
+  }
+
   @Inject
   FromAddressGeneratorProvider(
       @GerritServerConfig Config cfg,
       @AnonymousCowardName String anonymousCowardName,
       @GerritPersonIdent PersonIdent myIdent,
-      AccountCache accountCache) {
+      AccountCache accountCache,
+      UserAddressGenFactory userAddressGenFactory) {
     final String from = cfg.getString("sendemail", null, "from");
     final Address srvAddr = toAddress(myIdent);
 
@@ -58,7 +82,8 @@ public class FromAddressGeneratorProvider implements Provider<FromAddressGenerat
       Pattern domainPattern = MailUtil.glob(domains);
       ParameterizedString namePattern = new ParameterizedString("${user} (Code Review)");
       generator =
-          new UserGen(accountCache, domainPattern, anonymousCowardName, namePattern, srvAddr);
+          userAddressGenFactory.create(
+              accountCache, domainPattern, anonymousCowardName, namePattern, srvAddr);
     } else if ("SERVER".equalsIgnoreCase(from)) {
       generator = new ServerGen(srvAddr);
     } else {

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.query.change;
 
+import static java.util.stream.Collectors.toSet;
+
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
@@ -25,6 +27,7 @@ import com.google.gerrit.index.query.RangeUtil.Range;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.GroupBackend;
+import com.google.gerrit.server.account.ServiceUserClassifier;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.LabelVote;
@@ -54,6 +57,7 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
     protected final Integer count;
     protected final PredicateArgs.Operator countOp;
     protected final GroupBackend groupBackend;
+    protected final ServiceUserClassifier serviceUserClassifier;
 
     protected Args(
         AccountResolver accountResolver,
@@ -65,7 +69,8 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
         AccountGroup.UUID group,
         @Nullable Integer count,
         @Nullable PredicateArgs.Operator countOp,
-        GroupBackend groupBackend) {
+        GroupBackend groupBackend,
+        ServiceUserClassifier serviceUserClassifier) {
       this.accountResolver = accountResolver;
       this.projectCache = projectCache;
       this.permissionBackend = permissionBackend;
@@ -76,6 +81,7 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
       this.count = count;
       this.countOp = countOp;
       this.groupBackend = groupBackend;
+      this.serviceUserClassifier = serviceUserClassifier;
     }
   }
 
@@ -112,7 +118,8 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
                 group,
                 count,
                 countOp,
-                a.groupBackend)));
+                a.groupBackend,
+                a.serviceUserClassifier)));
     this.value = value;
   }
 
@@ -182,10 +189,40 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
     if (expVal != 0) {
       return equalsLabelPredicate(args, label, expVal, count);
     }
+    // If expVal=0 we cannot use equalsLabelPredicate as it would check for a patch set approval
+    // with value 0 and not match changes where not patch set approval is present.
     return noLabelQuery(args, label);
   }
 
   protected static Predicate<ChangeData> noLabelQuery(Args args, String label) {
+    // To match changes that have no approval on a label, we first use equalsLabelPredicate's to
+    // match changes that have any non-zero vote and then negate the result via the "not" operator.
+    // This doesn't work if "accounts" contains ChangeQueryBuilder.ALL_REVIEWERS_ACCOUNT_ID as that
+    // would make the equalsLabelPredicate's only match if all reviewers voted with the same value.
+    // To make it work we simply drop ChangeQueryBuilder.ALL_REVIEWERS_ACCOUNT_ID from "accounts".
+    // This is fine since "<label>:0,all_reviewers" (none of the reviewers voted on the label) is
+    // semantically the same as "<label>:0" (nobody voted on the label), as only reviewers can have
+    // votes.
+    args =
+        new Args(
+            args.accountResolver,
+            args.projectCache,
+            args.permissionBackend,
+            args.userFactory,
+            args.value,
+            args.accounts != null
+                ? args.accounts.stream()
+                    .filter(
+                        accountId ->
+                            !accountId.equals(ChangeQueryBuilder.HUMAN_REVIEWERS_ACCOUNT_ID))
+                    .collect(toSet())
+                : null,
+            args.group,
+            args.count,
+            args.countOp,
+            args.groupBackend,
+            args.serviceUserClassifier);
+
     List<Predicate<ChangeData>> r = Lists.newArrayListWithCapacity(2 * MAX_LABEL_VALUE);
     for (int i = 1; i <= MAX_LABEL_VALUE; i++) {
       r.add(equalsLabelPredicate(args, label, i, /* count= */ null));
@@ -200,11 +237,27 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
       // We can only get members of internal groups and negating an index search that doesn't
       // include the external group information leads to incorrect query results. Use a
       // PostFilterPredicate in this case instead.
-      return new EqualsLabelPredicates.PostFilterEqualsLabelPredicate(args, label, expVal, count);
+      return new EqualsLabelPredicates.PostFilterEqualsLabelPredicate(
+          args, label, expVal, /* account= */ null, count);
     }
+
+    if (args.accounts != null
+        && args.accounts.contains(ChangeQueryBuilder.HUMAN_REVIEWERS_ACCOUNT_ID)) {
+      // There is no field in the index against which we could match for "users=human_reviewers",
+      // hence we have to do the matching in a PostFilterPredicate.
+      List<Predicate<ChangeData>> r = new ArrayList<>();
+      for (Account.Id a : args.accounts) {
+        r.add(
+            new EqualsLabelPredicates.PostFilterEqualsLabelPredicate(
+                args, label, expVal, a, count));
+      }
+      return or(r);
+    }
+
     if (args.accounts == null || args.accounts.isEmpty()) {
       return new EqualsLabelPredicates.IndexEqualsLabelPredicate(args, label, expVal, count);
     }
+
     List<Predicate<ChangeData>> r = new ArrayList<>();
     for (Account.Id a : args.accounts) {
       r.add(new EqualsLabelPredicates.IndexEqualsLabelPredicate(args, label, expVal, a, count));
@@ -218,11 +271,25 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
       // We can only get members of internal groups and negating an index search that doesn't
       // include the external group information leads to incorrect query results. Use a
       // PostFilterPredicate in this case instead.
-      return new MagicLabelPredicates.PostFilterMagicLabelPredicate(args, mlv, count);
+      return new MagicLabelPredicates.PostFilterMagicLabelPredicate(
+          args, mlv, /* account= */ null, count);
     }
+
+    if (args.accounts != null
+        && args.accounts.contains(ChangeQueryBuilder.HUMAN_REVIEWERS_ACCOUNT_ID)) {
+      // There is no field in the index against which we could match for "users=human_reviewers",
+      // hence we have to do the matching in a PostFilterPredicate.
+      List<Predicate<ChangeData>> r = new ArrayList<>();
+      for (Account.Id a : args.accounts) {
+        return new MagicLabelPredicates.PostFilterMagicLabelPredicate(args, mlv, a, count);
+      }
+      return or(r);
+    }
+
     if (args.accounts == null || args.accounts.isEmpty()) {
       return new MagicLabelPredicates.IndexMagicLabelPredicate(args, mlv, count);
     }
+
     List<Predicate<ChangeData>> r = new ArrayList<>();
     for (Account.Id a : args.accounts) {
       r.add(new MagicLabelPredicates.IndexMagicLabelPredicate(args, mlv, a, count));

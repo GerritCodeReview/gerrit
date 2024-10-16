@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "896ede3e_f987e131",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2024-10-16T19:45:44Z",
+      "side": 1,
+      "message": "Would it make more sense in general to allow any two auth methods to be cascaded by specifying a comma separated list of auth methods instead?",
+      "revId": "fe55c0b8fff3beb588182d67f48c24b4ec7eb0c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -30,6 +30,7 @@ import com.google.gerrit.extensions.api.config.Server;
 import com.google.gerrit.extensions.client.ListOption;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.httpd.raw.IndexPreloadingUtil.RequestedPage;
 import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.server.experiments.ExperimentFeatures;
 import com.google.gson.Gson;
@@ -43,6 +44,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /** Helper for generating parts of {@code index.html}. */
 @UsedAt(Project.GOOGLE)
@@ -52,7 +55,8 @@ public class IndexHtmlUtil {
   private static final Gson GSON = OutputFormat.JSON_COMPACT.newGson();
 
   /**
-   * Returns both static and dynamic parameters of {@code index.html}. The result is to be used when
+   * Returns both static and dynamic parameters of {@code index.html}. The result
+   * is to be used when
    * rendering the soy template.
    */
   public static ImmutableMap<String, Object> templateData(
@@ -67,8 +71,8 @@ public class IndexHtmlUtil {
       throws URISyntaxException, RestApiException {
     ImmutableMap.Builder<String, Object> data = ImmutableMap.builder();
     data.putAll(
-            staticTemplateData(
-                canonicalURL, cdnPath, faviconPath, urlParameterMap, urlInScriptTagOrdainer))
+        staticTemplateData(
+            canonicalURL, cdnPath, faviconPath, urlParameterMap, urlInScriptTagOrdainer))
         .putAll(dynamicTemplateData(gerritApi, requestedURL, canonicalURL));
     Set<String> enabledExperiments = new HashSet<>();
     enabledExperiments.addAll(experimentFeatures.getEnabledExperimentFeatures());
@@ -102,8 +106,23 @@ public class IndexHtmlUtil {
     switch (page) {
       case CHANGE:
       case DIFF:
-        data.put(
-            "defaultChangeDetailHex", ListOption.toHex(IndexPreloadingUtil.CHANGE_DETAIL_OPTIONS));
+        Pattern p = Pattern.compile(IndexPreloadingUtil.CHANGE_URL_PATTERN);
+        Matcher matcher = p.matcher(requestedPath);
+        int basePatchNum = 0; // default for PARENT
+        if (matcher.matches()) {
+          try {
+            basePatchNum = matcher.group("basePatchNum");
+          } catch (llegalStateException e) {
+            // No basePatchNum specified which means it's equal to PARENT
+          }
+        }
+        if (basePatchNum == 0) {
+          data.put(
+              "defaultChangeDetailHex", ListOption.toHex(IndexPreloadingUtil.CHANGE_DETAIL_OPTIONS_WITHOUT_PARENTS));
+        } else {
+          data.put(
+              "defaultChangeDetailHex", ListOption.toHex(IndexPreloadingUtil.CHANGE_DETAIL_OPTIONS_WITH_PARENTS));
+        }
         data.put(
             "changeRequestsPath",
             IndexPreloadingUtil.computeChangeRequestsPath(requestedPath, page).get());
@@ -111,7 +130,8 @@ public class IndexHtmlUtil {
         break;
       case PROFILE:
       case DASHBOARD:
-        // Dashboard is preloaded queries are added later when we check user is authenticated.
+        // Dashboard is preloaded queries are added later when we check user is
+        // authenticated.
       case PAGE_WITHOUT_PRELOADING:
         break;
     }
@@ -218,5 +238,6 @@ public class IndexHtmlUtil {
     return uri.getPath().replaceAll("/$", "");
   }
 
-  private IndexHtmlUtil() {}
+  private IndexHtmlUtil() {
+  }
 }

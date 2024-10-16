@@ -7,7 +7,7 @@ import '../../shared/gr-button/gr-button';
 import '../../shared/gr-icon/gr-icon';
 import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
 import '../gr-suggestion-diff-preview/gr-suggestion-diff-preview';
-import {css, html, LitElement, nothing} from 'lit';
+import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {customElement, state, query} from 'lit/decorators.js';
 import {fire} from '../../../utils/event-util';
 import {getDocUrl} from '../../../utils/url-util';
@@ -18,6 +18,7 @@ import {GrSuggestionDiffPreview} from '../gr-suggestion-diff-preview/gr-suggesti
 import {changeModelToken} from '../../../models/change/change-model';
 import {Comment, PatchSetNumber} from '../../../types/common';
 import {commentModelToken} from '../gr-comment-model/gr-comment-model';
+import {waitUntil} from '../../../utils/async-util';
 
 declare global {
   interface HTMLElementEventMap {
@@ -43,6 +44,8 @@ export class GrUserSuggestionsFix extends LitElement {
   @state() latestPatchNum?: PatchSetNumber;
 
   @state() comment?: Comment;
+
+  @state() private previewLoaded = false;
 
   private readonly getConfigModel = resolve(this, configModelToken);
 
@@ -154,14 +157,30 @@ export class GrUserSuggestionsFix extends LitElement {
 
   private isApplyEditDisabled() {
     if (this.comment?.patch_set === undefined) return true;
-    return this.comment.patch_set !== this.latestPatchNum;
+    return !this.previewLoaded;
   }
 
   private computeApplyEditTooltip() {
     if (this.comment?.patch_set === undefined) return '';
-    return this.comment.patch_set !== this.latestPatchNum
-      ? 'You cannot apply this fix because it is from a previous patchset'
-      : '';
+    if (!this.previewLoaded) return 'Fix is still loading ...';
+    return '';
+  }
+
+  override updated(changedProperties: PropertyValues) {
+    super.updated(changedProperties);
+    if (changedProperties.has('textContent') && this.textContent) {
+      this.waitForPreviewToLoad();
+    }
+  }
+
+  private async waitForPreviewToLoad() {
+    this.previewLoaded = false;
+    try {
+      await waitUntil(() => !!this.suggestionDiffPreview?.preview);
+      this.previewLoaded = true;
+    } catch (error) {
+      console.error('Error waiting for preview to load:', error);
+    }
   }
 }
 

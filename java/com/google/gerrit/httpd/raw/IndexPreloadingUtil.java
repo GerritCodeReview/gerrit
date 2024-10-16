@@ -45,11 +45,11 @@ public class IndexPreloadingUtil {
   }
 
   public static final String CHANGE_CANONICAL_PATH = "/c/(?<project>.+)/\\+/(?<changeNum>\\d+)";
-  public static final String BASE_PATCH_NUM_PATH_PART = "(/(-?\\d+|edit)(\\.\\.(\\d+|edit))?)";
-  public static final Pattern CHANGE_URL_PATTERN =
-      Pattern.compile(CHANGE_CANONICAL_PATH + BASE_PATCH_NUM_PATH_PART + "?" + "/?$");
-  public static final Pattern DIFF_URL_PATTERN =
-      Pattern.compile(CHANGE_CANONICAL_PATH + BASE_PATCH_NUM_PATH_PART + "(/(.+))" + "/?$");
+  public static final String BASE_PATCH_NUM_PATH_PART = "(/(?<basePatchNum>-?\\d+|edit)(\\.\\.(\\d+|edit))?)";
+  public static final Pattern CHANGE_URL_PATTERN = Pattern
+      .compile(CHANGE_CANONICAL_PATH + BASE_PATCH_NUM_PATH_PART + "?" + "/?$");
+  public static final Pattern DIFF_URL_PATTERN = Pattern
+      .compile(CHANGE_CANONICAL_PATH + BASE_PATCH_NUM_PATH_PART + "(/(.+))" + "/?$");
   public static final Pattern DASHBOARD_PATTERN = Pattern.compile("/dashboard/self$");
   public static final Pattern PROFILE_PATTERN = Pattern.compile("/profile/self$");
   public static final String ROOT_PATH = "/";
@@ -58,53 +58,61 @@ public class IndexPreloadingUtil {
   // polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts
   public static final String DASHBOARD_HAS_UNPUBLISHED_DRAFTS_QUERY = "has:draft limit:10";
   public static final String YOUR_TURN = "attention:${user} limit:25";
-  public static final String DASHBOARD_WORK_IN_PROGRESS_QUERY =
-      "is:open owner:${user} is:wip limit:25";
+  public static final String DASHBOARD_WORK_IN_PROGRESS_QUERY = "is:open owner:${user} is:wip limit:25";
   public static final String DASHBOARD_OUTGOING_QUERY = "is:open owner:${user} -is:wip limit:25";
-  public static final String DASHBOARD_INCOMING_QUERY =
-      "is:open -owner:${user} -is:wip reviewer:${user} limit:25";
+  public static final String DASHBOARD_INCOMING_QUERY = "is:open -owner:${user} -is:wip reviewer:${user} limit:25";
   public static final String CC_QUERY = "is:open -is:wip cc:${user} limit:10";
-  public static final String DASHBOARD_RECENTLY_CLOSED_QUERY =
-      "is:closed (-is:wip OR owner:self) "
-          + "(owner:${user} OR reviewer:${user} OR cc:${user}) "
-          + "-age:4w limit:10";
+  public static final String DASHBOARD_RECENTLY_CLOSED_QUERY = "is:closed (-is:wip OR owner:self) "
+      + "(owner:${user} OR reviewer:${user} OR cc:${user}) "
+      + "-age:4w limit:10";
   public static final String NEW_USER = "owner:${user} limit:1";
 
-  public static final String SELF_DASHBOARD_HAS_UNPUBLISHED_DRAFTS_QUERY =
-      DASHBOARD_HAS_UNPUBLISHED_DRAFTS_QUERY.replaceAll("\\$\\{user}", "self");
+  public static final String SELF_DASHBOARD_HAS_UNPUBLISHED_DRAFTS_QUERY = DASHBOARD_HAS_UNPUBLISHED_DRAFTS_QUERY
+      .replaceAll("\\$\\{user}", "self");
   public static final String SELF_YOUR_TURN = YOUR_TURN.replaceAll("\\$\\{user}", "self");
-  public static final ImmutableList<String> SELF_DASHBOARD_QUERIES =
-      Stream.of(
-              DASHBOARD_WORK_IN_PROGRESS_QUERY,
-              DASHBOARD_OUTGOING_QUERY,
-              DASHBOARD_INCOMING_QUERY,
-              CC_QUERY,
-              DASHBOARD_RECENTLY_CLOSED_QUERY,
-              NEW_USER)
-          .map(query -> query.replaceAll("\\$\\{user}", "self"))
-          .collect(toImmutableList());
-  public static final ImmutableSet<ListChangesOption> DASHBOARD_OPTIONS =
-      ImmutableSet.of(
-          ListChangesOption.LABELS,
-          ListChangesOption.DETAILED_ACCOUNTS,
-          ListChangesOption.SUBMIT_REQUIREMENTS,
-          ListChangesOption.STAR);
+  public static final ImmutableList<String> SELF_DASHBOARD_QUERIES = Stream.of(
+      DASHBOARD_WORK_IN_PROGRESS_QUERY,
+      DASHBOARD_OUTGOING_QUERY,
+      DASHBOARD_INCOMING_QUERY,
+      CC_QUERY,
+      DASHBOARD_RECENTLY_CLOSED_QUERY,
+      NEW_USER)
+      .map(query -> query.replaceAll("\\$\\{user}", "self"))
+      .collect(toImmutableList());
+  public static final ImmutableSet<ListChangesOption> DASHBOARD_OPTIONS = ImmutableSet.of(
+      ListChangesOption.LABELS,
+      ListChangesOption.DETAILED_ACCOUNTS,
+      ListChangesOption.SUBMIT_REQUIREMENTS,
+      ListChangesOption.STAR);
 
-  public static final ImmutableSet<ListChangesOption> CHANGE_DETAIL_OPTIONS =
-      ImmutableSet.of(
-          ListChangesOption.ALL_COMMITS,
-          ListChangesOption.ALL_REVISIONS,
-          ListChangesOption.CHANGE_ACTIONS,
-          ListChangesOption.DETAILED_ACCOUNTS,
-          ListChangesOption.DETAILED_LABELS,
-          ListChangesOption.DOWNLOAD_COMMANDS,
-          ListChangesOption.MESSAGES,
-          ListChangesOption.REVIEWER_UPDATES,
-          ListChangesOption.SUBMITTABLE,
-          ListChangesOption.WEB_LINKS,
-          ListChangesOption.SKIP_DIFFSTAT,
-          ListChangesOption.SUBMIT_REQUIREMENTS,
-          ListChangesOption.PARENTS);
+  public static final ImmutableSet<ListChangesOption> CHANGE_DETAIL_OPTIONS_WITHOUT_PARENTS = ImmutableSet.of(
+      ListChangesOption.ALL_COMMITS,
+      ListChangesOption.ALL_REVISIONS,
+      ListChangesOption.CHANGE_ACTIONS,
+      ListChangesOption.DETAILED_ACCOUNTS,
+      ListChangesOption.DETAILED_LABELS,
+      ListChangesOption.DOWNLOAD_COMMANDS,
+      ListChangesOption.MESSAGES,
+      ListChangesOption.REVIEWER_UPDATES,
+      ListChangesOption.SUBMITTABLE,
+      ListChangesOption.WEB_LINKS,
+      ListChangesOption.SKIP_DIFFSTAT,
+      ListChangesOption.SUBMIT_REQUIREMENTS);
+
+  public static final ImmutableSet<ListChangesOption> CHANGE_DETAIL_OPTIONS_WITH_PARENTS = ImmutableSet.of(
+      ListChangesOption.ALL_COMMITS,
+      ListChangesOption.ALL_REVISIONS,
+      ListChangesOption.CHANGE_ACTIONS,
+      ListChangesOption.DETAILED_ACCOUNTS,
+      ListChangesOption.DETAILED_LABELS,
+      ListChangesOption.DOWNLOAD_COMMANDS,
+      ListChangesOption.MESSAGES,
+      ListChangesOption.REVIEWER_UPDATES,
+      ListChangesOption.SUBMITTABLE,
+      ListChangesOption.WEB_LINKS,
+      ListChangesOption.SKIP_DIFFSTAT,
+      ListChangesOption.SUBMIT_REQUIREMENTS,
+      ListChangesOption.PARENTS);
 
   @Nullable
   public static String getPath(@Nullable String requestedURL) throws URISyntaxException {
@@ -120,8 +128,7 @@ public class IndexPreloadingUtil {
       return RequestedPage.PAGE_WITHOUT_PRELOADING;
     }
 
-    Optional<String> changeRequestsPath =
-        computeChangeRequestsPath(requestedPath, RequestedPage.CHANGE);
+    Optional<String> changeRequestsPath = computeChangeRequestsPath(requestedPath, RequestedPage.CHANGE);
     if (changeRequestsPath.isPresent()) {
       return RequestedPage.CHANGE;
     }
@@ -208,5 +215,6 @@ public class IndexPreloadingUtil {
     return queryList;
   }
 
-  private IndexPreloadingUtil() {}
+  private IndexPreloadingUtil() {
+  }
 }

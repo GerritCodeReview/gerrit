@@ -20,6 +20,7 @@ import {
   createChange,
   createComment,
   createEditInfo,
+  createFixReplacementInfo,
   createParsedChange,
   createServerInfo,
   TEST_PROJECT_NAME,
@@ -1896,6 +1897,71 @@ suite('gr-rest-api-service-impl tests', () => {
       fetchOptions: {method: HttpMethod.DELETE},
       url: '/accounts/self/starred.changes/test~456',
       anonymizedUrl: '/accounts/self/starred.changes/*',
+    });
+  });
+  suite('applyFixSuggestion', () => {
+    const fixReplacementInfo = createFixReplacementInfo();
+    let fetchStub: sinon.SinonStub;
+    setup(() => {
+      element.addRepoNameToCache(123 as NumericChangeId, TEST_PROJECT_NAME);
+      fetchStub = sinon
+        .stub(element._restApiHelper, 'fetch')
+        .resolves(new Response(makePrefixedJSON({})));
+    });
+    test('applyFixSuggestion without targetPatchNum', async () => {
+      await element.applyFixSuggestion(
+        123 as NumericChangeId,
+        1 as PatchSetNum,
+        [fixReplacementInfo]
+      );
+      assert.isTrue(fetchStub.calledOnce);
+      assert.equal(
+        fetchStub.lastCall.args[0].url,
+        '/changes/test-project~123/revisions/1/fix:apply'
+      );
+      const body = JSON.parse(fetchStub.lastCall.args[0].fetchOptions.body);
+      assert.isTrue(
+        Object.keys(body).length === 1 &&
+          body.fix_replacement_infos.length === 1
+      );
+      assert.deepEqual(body.fix_replacement_infos[0], fixReplacementInfo);
+    });
+
+    test('applyFixSuggestion with same patchNum and targetPatchNum', async () => {
+      const fixReplacementInfo = createFixReplacementInfo();
+      await element.applyFixSuggestion(
+        123 as NumericChangeId,
+        1 as PatchSetNum,
+        [fixReplacementInfo],
+        1 as PatchSetNum
+      );
+      assert.isTrue(fetchStub.calledOnce);
+      assert.equal(
+        fetchStub.lastCall.args[0].url,
+        '/changes/test-project~123/revisions/1/fix:apply'
+      );
+      const body = JSON.parse(fetchStub.lastCall.args[0].fetchOptions.body);
+      assert.isTrue(Object.keys(body).length === 1);
+      assert.deepEqual(body.fix_replacement_infos[0], fixReplacementInfo);
+    });
+
+    test('applyFixSuggestion with targetPatchNum', async () => {
+      const fixReplacementInfo = createFixReplacementInfo();
+      await element.applyFixSuggestion(
+        123 as NumericChangeId,
+        1 as PatchSetNum,
+        [fixReplacementInfo],
+        2 as PatchSetNum
+      );
+      assert.isTrue(fetchStub.calledOnce);
+      assert.equal(
+        fetchStub.lastCall.args[0].url,
+        '/changes/test-project~123/revisions/2/fix:apply'
+      );
+      const body = JSON.parse(fetchStub.lastCall.args[0].fetchOptions.body);
+      assert.isTrue(Object.keys(body).length === 2);
+      assert.deepEqual(body.fix_replacement_infos[0], fixReplacementInfo);
+      assert.deepEqual(body.original_patchset_for_fix, 1);
     });
   });
 });

@@ -76,7 +76,7 @@ suite('gr-user-suggestion-fix tests', () => {
               role="button"
               tabindex="-1"
               flatten=""
-              title="You cannot apply this fix because it is from a previous patchset"
+              title="Fix is still loading ..."
               >Apply edit</gr-button
             >
           </div>

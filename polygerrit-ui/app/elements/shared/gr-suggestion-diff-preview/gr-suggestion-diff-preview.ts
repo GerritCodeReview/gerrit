@@ -313,9 +313,9 @@ export class GrSuggestionDiffPreview extends LitElement {
    * Similar code flow is in gr-apply-fix-dialog.handleApplyFix
    * Used in gr-fix-suggestions
    */
-  public applyFixSuggestion(onLatestPatchset = false) {
+  public applyFixSuggestion() {
     if (this.suggestion || !this.fixSuggestionInfo) return;
-    return this.applyFix(this.fixSuggestionInfo, onLatestPatchset);
+    return this.applyFix(this.fixSuggestionInfo);
   }
 
   /**
@@ -337,10 +337,7 @@ export class GrSuggestionDiffPreview extends LitElement {
     this.applyFix(fixSuggestions[0]);
   }
 
-  private async applyFix(
-    fixSuggestion: FixSuggestionInfo,
-    onLatestPatchset = false
-  ) {
+  private async applyFix(fixSuggestion: FixSuggestionInfo) {
     const changeNum = this.changeNum;
     const basePatchNum = this.comment?.patch_set as BasePatchSetNum;
     if (!changeNum || !basePatchNum || !fixSuggestion) return;
@@ -348,8 +345,9 @@ export class GrSuggestionDiffPreview extends LitElement {
     this.reporting.time(Timing.APPLY_FIX_LOAD);
     const res = await this.restApiService.applyFixSuggestion(
       changeNum,
-      onLatestPatchset ? this.latestPatchNum ?? basePatchNum : basePatchNum,
-      fixSuggestion.replacements
+      basePatchNum,
+      fixSuggestion.replacements,
+      this.latestPatchNum
     );
     this.reporting.timeEnd(Timing.APPLY_FIX_LOAD, {
       method: '1-click',

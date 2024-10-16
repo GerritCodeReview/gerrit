@@ -738,8 +738,9 @@ export interface RestApiService extends Finalizable {
    */
   applyFixSuggestion(
     changeNum: NumericChangeId,
-    patchNum: PatchSetNum,
-    fixReplacementInfos: FixReplacementInfo[]
+    fixPatchNum: PatchSetNum,
+    fixReplacementInfos: FixReplacementInfo[],
+    targetPatchNum?: PatchSetNum
   ): Promise<Response>;
 
   /**

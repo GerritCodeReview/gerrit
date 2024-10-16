@@ -1552,6 +1552,12 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void cannotUseUsersArgWithLabel() throws Exception {
+    assertFailingQuery(
+        "label:Code-Review=MAX,users=human_reviewers", "Cannot use the 'users' argument in search");
+  }
+
+  @Test
   public void byLabelMulti() throws Exception {
     Project.NameKey project = Project.nameKey("repo");
     repo = createAndOpenProject(project);

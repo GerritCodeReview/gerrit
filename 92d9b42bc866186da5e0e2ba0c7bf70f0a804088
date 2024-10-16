@@ -22,6 +22,30 @@
       },
       "revId": "92d9b42bc866186da5e0e2ba0c7bf70f0a804088",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "177198d3_e52def70",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListProjectsImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 1014257
+      },
+      "writtenOn": "2024-10-16T08:28:22Z",
+      "side": 1,
+      "message": "Yeah, that was my first attempt. Unfortunately this will not compile.",
+      "parentUuid": "0e4a8e48_d2f9b7ae",
+      "range": {
+        "startLine": 576,
+        "startChar": 0,
+        "endLine": 579,
+        "endChar": 33
+      },
+      "revId": "92d9b42bc866186da5e0e2ba0c7bf70f0a804088",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

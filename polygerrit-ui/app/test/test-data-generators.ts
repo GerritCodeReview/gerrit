@@ -98,6 +98,7 @@ import {ChangeComments} from '../elements/diff/gr-comment-api/gr-comment-api';
 import {EditRevisionInfo, ParsedChangeInfo} from '../types/types';
 import {
   DetailedLabelInfo,
+  FixReplacementInfo,
   PatchSetNumber,
   QuickLabelInfo,
   SubmitRequirementExpressionInfo,
@@ -1230,4 +1231,12 @@ export function createDetailedLabelInfo(): DetailedLabelInfo {
 
 export function createQuickLabelInfo(): QuickLabelInfo {
   return {};
+}
+
+export function createFixReplacementInfo(): FixReplacementInfo {
+  return {
+    path: 'test/path',
+    range: createRange(),
+    replacement: 'replacement',
+  };
 }

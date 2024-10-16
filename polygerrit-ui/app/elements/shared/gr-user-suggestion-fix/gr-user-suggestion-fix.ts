@@ -154,14 +154,13 @@ export class GrUserSuggestionsFix extends LitElement {
 
   private isApplyEditDisabled() {
     if (this.comment?.patch_set === undefined) return true;
-    return this.comment.patch_set !== this.latestPatchNum;
+    return !this.suggestionDiffPreview?.preview;
   }
 
   private computeApplyEditTooltip() {
     if (this.comment?.patch_set === undefined) return '';
-    return this.comment.patch_set !== this.latestPatchNum
-      ? 'You cannot apply this fix because it is from a previous patchset'
-      : '';
+    if (!this.suggestionDiffPreview?.preview) return 'Fix is still loading ...';
+    return '';
   }
 }
 

@@ -45,7 +45,8 @@ public class IndexPreloadingUtil {
   }
 
   public static final String CHANGE_CANONICAL_PATH = "/c/(?<project>.+)/\\+/(?<changeNum>\\d+)";
-  public static final String BASE_PATCH_NUM_PATH_PART = "(/(-?\\d+|edit)(\\.\\.(\\d+|edit))?)";
+  public static final String BASE_PATCH_NUM_PATH_PART =
+      "(/(?<basePatchNum>-?\\d+|edit)(\\.\\.(\\d+|edit))?)";
   public static final Pattern CHANGE_URL_PATTERN =
       Pattern.compile(CHANGE_CANONICAL_PATH + BASE_PATCH_NUM_PATH_PART + "?" + "/?$");
   public static final Pattern DIFF_URL_PATTERN =
@@ -90,7 +91,22 @@ public class IndexPreloadingUtil {
           ListChangesOption.SUBMIT_REQUIREMENTS,
           ListChangesOption.STAR);
 
-  public static final ImmutableSet<ListChangesOption> CHANGE_DETAIL_OPTIONS =
+  public static final ImmutableSet<ListChangesOption> CHANGE_DETAIL_OPTIONS_WITHOUT_PARENTS =
+      ImmutableSet.of(
+          ListChangesOption.ALL_COMMITS,
+          ListChangesOption.ALL_REVISIONS,
+          ListChangesOption.CHANGE_ACTIONS,
+          ListChangesOption.DETAILED_ACCOUNTS,
+          ListChangesOption.DETAILED_LABELS,
+          ListChangesOption.DOWNLOAD_COMMANDS,
+          ListChangesOption.MESSAGES,
+          ListChangesOption.REVIEWER_UPDATES,
+          ListChangesOption.SUBMITTABLE,
+          ListChangesOption.WEB_LINKS,
+          ListChangesOption.SKIP_DIFFSTAT,
+          ListChangesOption.SUBMIT_REQUIREMENTS);
+
+  public static final ImmutableSet<ListChangesOption> CHANGE_DETAIL_OPTIONS_WITH_PARENTS =
       ImmutableSet.of(
           ListChangesOption.ALL_COMMITS,
           ListChangesOption.ALL_REVISIONS,

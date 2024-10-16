@@ -21,6 +21,7 @@ import static java.util.stream.Collectors.toSet;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.flogger.FluentLogger;
+import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.common.UsedAt.Project;
@@ -30,6 +31,7 @@ import com.google.gerrit.extensions.api.config.Server;
 import com.google.gerrit.extensions.client.ListOption;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.httpd.raw.IndexPreloadingUtil.RequestedPage;
 import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.server.experiments.ExperimentFeatures;
 import com.google.gson.Gson;
@@ -43,6 +45,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.regex.Matcher;
 
 /** Helper for generating parts of {@code index.html}. */
 @UsedAt(Project.GOOGLE)
@@ -80,6 +83,23 @@ public class IndexHtmlUtil {
     return data.build();
   }
 
+  /**
+   * Returns the basePatchNum that was specified in the URL when present. If no basePatchNum is
+   * specified then it points to PARENT which is represented by 0
+   */
+  public static Integer computeBasePatchNum(@Nullable String requestedPath) {
+    if (requestedPath == null) return 0;
+    Matcher matcher = IndexPreloadingUtil.CHANGE_URL_PATTERN.matcher(requestedPath);
+    String basePatchNum = null;
+    if (matcher.matches()) {
+      basePatchNum = matcher.group("basePatchNum");
+    }
+    if (basePatchNum == null) return 0; // No match is found
+    Integer basePatchNumInt = Ints.tryParse(basePatchNum);
+    if (basePatchNumInt == null) return 0; // tryParse was unable to parse
+    return basePatchNumInt;
+  }
+
   /** Returns dynamic parameters of {@code index.html}. */
   public static ImmutableMap<String, Object> dynamicTemplateData(
       GerritApi gerritApi, String requestedURL, String canonicalURL)
@@ -99,11 +119,19 @@ public class IndexHtmlUtil {
 
     String requestedPath = IndexPreloadingUtil.getPath(requestedURL);
     IndexPreloadingUtil.RequestedPage page = IndexPreloadingUtil.parseRequestedPage(requestedPath);
+    Integer basePatchNum = computeBasePatchNum(requestedPath);
     switch (page) {
       case CHANGE:
       case DIFF:
-        data.put(
-            "defaultChangeDetailHex", ListOption.toHex(IndexPreloadingUtil.CHANGE_DETAIL_OPTIONS));
+        if (basePatchNum.equals(0)) {
+          data.put(
+              "defaultChangeDetailHex",
+              ListOption.toHex(IndexPreloadingUtil.CHANGE_DETAIL_OPTIONS_WITHOUT_PARENTS));
+        } else {
+          data.put(
+              "defaultChangeDetailHex",
+              ListOption.toHex(IndexPreloadingUtil.CHANGE_DETAIL_OPTIONS_WITH_PARENTS));
+        }
         data.put(
             "changeRequestsPath",
             IndexPreloadingUtil.computeChangeRequestsPath(requestedPath, page).get());
@@ -111,7 +139,8 @@ public class IndexHtmlUtil {
         break;
       case PROFILE:
       case DASHBOARD:
-        // Dashboard is preloaded queries are added later when we check user is authenticated.
+        // Dashboard is preloaded queries are added later when we check user is
+        // authenticated.
       case PAGE_WITHOUT_PRELOADING:
         break;
     }

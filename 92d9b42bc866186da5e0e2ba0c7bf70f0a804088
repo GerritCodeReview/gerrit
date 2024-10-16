@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e4a8e48_d2f9b7ae",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListProjectsImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2024-10-16T08:16:24Z",
+      "side": 1,
+      "message": "```suggestion\n                return Optional.empty();\n              }\n            })\n```",
+      "range": {
+        "startLine": 576,
+        "startChar": 0,
+        "endLine": 579,
+        "endChar": 33
+      },
+      "revId": "92d9b42bc866186da5e0e2ba0c7bf70f0a804088",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

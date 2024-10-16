@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "702287eb_5bad7d47",
+        "filename": "contrib/hooks/ref-updated_repack-geometric.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2024-10-16T15:51:16Z",
+      "side": 1,
+      "message": "Since this script used gc.pid to lock the repo against other git gcs, it means that this script could potentially starve any time based gc maintenance from happening on busy repos. It is therefore advisable for any such time based gc jobs which perform more maintenance work to spin for a while attempting to run if it cannot acquire the gc.pid lock to ensure that it gets a chance to run also.",
+      "revId": "8ba46b0738688ec692980d3453eebeb101d99766",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3e125f0f_7f29aca7",
         "filename": "contrib/hooks/ref-updated_repack-geometric.sh",
         "patchSetId": 4

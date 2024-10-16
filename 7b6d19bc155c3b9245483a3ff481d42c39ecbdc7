@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9e29c1d_a588b19f",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-10-16T18:17:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcd9a572_52a78f93",
+      "range": {
+        "startLine": 86,
+        "startChar": 2,
+        "endLine": 86,
+        "endChar": 67
+      },
+      "revId": "7b6d19bc155c3b9245483a3ff481d42c39ecbdc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "db9ec9b6_42f6f93e",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-10-16T15:04:04Z",
       "side": 1,
       "message": "nit: You don\u0027t need this initialization to 0, since you\u0027re returning 0 directly anyway",
+      "range": {
+        "startLine": 88,
+        "startChar": 4,
+        "endLine": 88,
+        "endChar": 52
+      },
+      "revId": "7b6d19bc155c3b9245483a3ff481d42c39ecbdc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "384e8ddd_ff5f2184",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-10-16T18:17:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db9ec9b6_42f6f93e",
       "range": {
         "startLine": 88,
         "startChar": 4,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d81131c6_76600712",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-10-16T18:17:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd5d40ce_d2dfc49d",
+      "range": {
+        "startLine": 92,
+        "startChar": 9,
+        "endLine": 92,
+        "endChar": 41
+      },
+      "revId": "7b6d19bc155c3b9245483a3ff481d42c39ecbdc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ae869c81_2456caf4",
@@ -83,6 +155,30 @@
       "writtenOn": "2024-10-16T15:04:04Z",
       "side": 1,
       "message": "Is it guaranteed that tryParse will succeed? If it\u0027s expected that this method can return null, please mark it as @Nullable or @CheckNull",
+      "range": {
+        "startLine": 97,
+        "startChar": 11,
+        "endLine": 97,
+        "endChar": 38
+      },
+      "revId": "7b6d19bc155c3b9245483a3ff481d42c39ecbdc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d137e724_edc15862",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-10-16T18:17:52Z",
+      "side": 1,
+      "message": "```\nUnlike {@link Integer#parseInt(String)}, this method returns {@code null} instead of\n   * throwing an exception if parsing fails\n```\n\nhttp://google3/third_party/java_src/google_common/current/java/com/google/common/primitives/Ints.java?rcl\u003d686573170\u0026l\u003d811\n\nSo I think in case of error we get `null`.\n\nAlso found an existing usage here\n\nhttps://cs.opensource.google/gerrit/gerrit/gerrit/+/master:java/com/google/gerrit/httpd/raw/IndexPreloadingUtil.java;l\u003d169?q\u003d%22Integer%20changeId%20%3D%20Ints.tryParse%22\u0026sq\u003d",
+      "parentUuid": "ae869c81_2456caf4",
       "range": {
         "startLine": 97,
         "startChar": 11,
@@ -130,6 +226,30 @@
           ]
         }
       ],
+      "revId": "7b6d19bc155c3b9245483a3ff481d42c39ecbdc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "352ee11c_98edad9a",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-10-16T18:17:52Z",
+      "side": 1,
+      "message": "I added the `.equals` check and also a check to convert `null` to 0 if `Ints.tryParse` is unable to parse the value and returns null.",
+      "parentUuid": "5349e796_cf4aa1ee",
+      "range": {
+        "startLine": 122,
+        "startChar": 12,
+        "endLine": 122,
+        "endChar": 51
+      },
       "revId": "7b6d19bc155c3b9245483a3ff481d42c39ecbdc7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

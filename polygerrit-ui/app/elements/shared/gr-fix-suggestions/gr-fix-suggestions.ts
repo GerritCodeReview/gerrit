@@ -295,9 +295,7 @@ export class GrFixSuggestions extends LitElement {
     if (!this.comment?.fix_suggestions) return;
     this.applyingFix = true;
     try {
-      await this.suggestionDiffPreview?.applyFixSuggestion(
-        this.enableApplyOnUnModifiedFile
-      );
+      await this.suggestionDiffPreview?.applyFixSuggestion();
     } finally {
       this.applyingFix = false;
     }
@@ -305,15 +303,13 @@ export class GrFixSuggestions extends LitElement {
 
   private isApplyEditDisabled() {
     if (this.comment?.patch_set === undefined) return true;
-    if (this.enableApplyOnUnModifiedFile) return false;
-    return this.comment.patch_set !== this.latestPatchNum;
+    return !this.suggestionDiffPreview?.preview;
   }
 
   private computeApplyEditTooltip() {
     if (this.comment?.patch_set === undefined) return '';
-    return this.comment.patch_set !== this.latestPatchNum
-      ? 'You cannot apply this fix because it is from a previous patchset'
-      : '';
+    if (!this.suggestionDiffPreview?.preview) return 'Fix is still loading ...';
+    return '';
   }
 
   private async checkIfcanEnableApplyOnUnModifiedFile() {

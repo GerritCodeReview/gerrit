@@ -557,7 +557,7 @@ Cannot be used since it will result in recursive evaluation of expressions.
 == Examples
 
 [[code-review-example]]
-=== Code-Review Example
+=== Require Code-Review approval from a non-uploader
 
 To define a submit requirement for code-review that requires a maximum vote for
 the “Code-Review” label from a non-uploader without a maximum negative vote:
@@ -571,7 +571,7 @@ the “Code-Review” label from a non-uploader without a maximum negative vote:
 ----
 
 [[exempt-branch-example]]
-=== Exempt a branch Example
+=== Exempt a branch
 
 We could exempt a submit requirement from certain branches. For example,
 project owners might want to skip the 'Code-Style' requirement from the
@@ -602,7 +602,7 @@ The following SR can be configured:
 ----
 
 [[require-footer-example]]
-=== Require a footer Example
+=== Require a footer
 
 It's possible to use a submit requirement to require a footer to be present in
 the commit message.
@@ -612,6 +612,46 @@ the commit message.
   description = Changes must include a 'Bug' footer
   applicableIf = -branch:refs/meta/config AND -hasfooter:\"Bug\"
   submittableIf = hasfooter:\"Bug\"
+----
+
+[[code-review-example]]
+=== Require Code-Review approvals from all reviewers
+
+The following submit requirement requires a 'Code-Review+MAX' approval
+from all human reviewers of the change (service users that are
+reviewers are ignored).
+
+The 'applicableIf' condition makes this submit requirement show up in
+the UI only if it is not satisfied.
+
+If a change has no human reviewers, this submit requirement is
+satisfied.
+
+----
+[submit-requirement "Want-Code-Review-From-All"]
+  description = A maximum 'Code-Review' vote is required from all \
+                human reviewers (service users that are reviewers \
+                are ignored).
+  applicableIf = -label:Code-Review=MAX,user=all_reviewers
+  submittableIf = label:Code-Review=MAX,user=all_reviewers
+----
+
+It is possible to configure the 'Want-Code-Review-From-All' submit
+requirement so that it only applies when a 'Want-LGTM: all' footer is
+present in the commit message. This way users can enable this submit
+requirement on demand by including this footer into their commit
+messages.
+
+Note, the footer key cannot contain underscores (e.g. using
+'Want_LGTM: all' as the footer does not work).
+
+----
+[submit-requirement "Want-Code-Review-From-All"]
+  description = A maximum 'Code-Review' vote is required from all \
+                human reviewers (service users that are reviewers \
+                are ignored).
+  applicableIf = footer:\"WANT-LGTM: all\" -label:Code-Review=MAX,user=all_reviewers
+  submittableIf = label:Code-Review=MAX,user=all_reviewers
 ----
 
 GERRIT

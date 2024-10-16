@@ -1,3 +1,5 @@
+load("@rules_java//java:defs.bzl", "JavaInfo")
+
 def _classpath_collector(ctx):
     all = []
     for d in ctx.attr.deps:

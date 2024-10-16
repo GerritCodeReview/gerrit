@@ -14,7 +14,11 @@
 
 package com.google.gerrit.server.query.change;
 
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
+
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
@@ -28,7 +32,9 @@ import com.google.gerrit.index.query.PostFilterPredicate;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.account.ServiceUserClassifier;
 import com.google.gerrit.server.index.change.ChangeField;
+import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -36,7 +42,9 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData.StorageConstraint;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 public class EqualsLabelPredicates {
@@ -46,9 +54,13 @@ public class EqualsLabelPredicates {
     private final Matcher matcher;
 
     public PostFilterEqualsLabelPredicate(
-        LabelPredicate.Args args, String label, int expVal, @Nullable Integer count) {
+        LabelPredicate.Args args,
+        String label,
+        int expVal,
+        @Nullable Account.Id account,
+        @Nullable Integer count) {
       super(ChangeQueryBuilder.FIELD_LABEL, ChangeField.formatLabel(label, expVal, count));
-      matcher = new Matcher(args, label, expVal, count);
+      matcher = new Matcher(args, label, expVal, account, count);
     }
 
     @Override
@@ -96,6 +108,7 @@ public class EqualsLabelPredicates {
     protected final ProjectCache projectCache;
     protected final PermissionBackend permissionBackend;
     protected final IdentifiedUser.GenericFactory userFactory;
+    protected final ServiceUserClassifier serviceUserClassifier;
     /** label name to be matched. */
     protected final String label;
     /** Expected vote value for the label. */
@@ -112,10 +125,6 @@ public class EqualsLabelPredicates {
 
     protected final AccountGroup.UUID group;
 
-    public Matcher(LabelPredicate.Args args, String label, int expVal, @Nullable Integer count) {
-      this(args, label, expVal, null, count);
-    }
-
     public Matcher(
         LabelPredicate.Args args,
         String label,
@@ -126,6 +135,7 @@ public class EqualsLabelPredicates {
       this.accountResolver = args.accountResolver;
       this.projectCache = args.projectCache;
       this.userFactory = args.userFactory;
+      this.serviceUserClassifier = args.serviceUserClassifier;
       this.group = args.group;
       this.label = label;
       this.expVal = expVal;
@@ -174,6 +184,7 @@ public class EqualsLabelPredicates {
 
       boolean hasVote = false;
       int matchingVotes = 0;
+      Set<Account.Id> matchingAccounts = new HashSet<>();
       StorageConstraint currentStorageConstraint = cd.getStorageConstraint();
       cd.setStorageConstraint(ChangeData.StorageConstraint.INDEX_PRIMARY_NOTEDB_SECONDARY);
       for (PatchSetApproval psa : cd.currentApprovals()) {
@@ -181,18 +192,58 @@ public class EqualsLabelPredicates {
           hasVote = true;
           if (match(cd, psa)) {
             matchingVotes += 1;
+            matchingAccounts.add(psa.accountId());
           }
         }
       }
       logger.atFine().log(
-          "found %s matching votes for %s=%s on change %s (current approvals = %s)",
-          matchingVotes, label, expVal, cd.change().getChangeId(), cd.currentApprovals());
+          "found %s matching votes for %s=%s on change %s (current approvals = %s, matching accounts = %s)",
+          matchingVotes,
+          label,
+          expVal,
+          cd.change().getChangeId(),
+          cd.currentApprovals(),
+          matchingAccounts);
       cd.setStorageConstraint(currentStorageConstraint);
       if (!hasVote && expVal == 0) {
         logger.atFine().log(
             "%s=%s matches change %s because there is no vote for label %s",
             label, expVal, cd.change().getChangeId(), label);
         return true;
+      }
+
+      if (account != null && account.equals(ChangeQueryBuilder.ALL_REVIEWERS_ACCOUNT_ID)) {
+        logger.atFine().log("requiring approvals from all reviewers");
+
+        if (!cd.reviewersByEmail().byState(ReviewerStateInternal.REVIEWER).isEmpty()) {
+          // Reviewers by email are reviewers that don't have a Gerrit account. Without Gerrit
+          // account they cannot vote on the change, which means changes that have any such
+          // reviewers never match when we expect a vote from all reviewers.
+          logger.atFine().log(
+              "change %s doesn't match since there are reviewers by email (that don't have a matching approval): %s",
+              cd.change().getChangeId(),
+              cd.reviewersByEmail().byState(ReviewerStateInternal.REVIEWER));
+          return false;
+        }
+
+        ImmutableSet<Account.Id> humanReviewers =
+            cd.reviewers().byState(ReviewerStateInternal.REVIEWER).stream()
+                // Ignore the change owner (if the change owner voted on the own change they are
+                // technically a reviewer).
+                .filter(accountId -> !accountId.equals(cd.change().getOwner()))
+                // Ignore reviewers that are service users.
+                .filter(accountId -> !serviceUserClassifier.isServiceUser(accountId))
+                .collect(toImmutableSet());
+        if (matchingAccounts.containsAll(humanReviewers)) {
+          logger.atFine().log(
+              "change %s matches because it has matching approvals from all human reviewers: %s",
+              cd.change().getChangeId(), humanReviewers);
+          return true;
+        }
+        logger.atFine().log(
+            "change %s doesn't match because it misses matching approvals from some human reviewers: %s",
+            cd.change().getChangeId(), Sets.difference(humanReviewers, matchingAccounts));
+        return false;
       }
 
       if (count == null) {
@@ -260,6 +311,7 @@ public class EqualsLabelPredicates {
           return false;
         }
 
+        // case when account in query = non_contributor
         if (account.equals(ChangeQueryBuilder.NON_CONTRIBUTOR_ACCOUNT_ID)) {
           if ((cd.currentPatchSet().uploader().equals(approver)
               || matchAccount(cd.getCommitter().getEmailAddress(), approver)
@@ -275,6 +327,10 @@ public class EqualsLabelPredicates {
             return false;
           }
         }
+
+        // case when account in query = all_reviewers
+        // (account.equals(ChangeQueryBuilder.ALL_REVIEWERS_ACCOUNT_ID)):
+        // nothing to do
       }
 
       IdentifiedUser reviewer = userFactory.create(approver);
@@ -325,7 +381,8 @@ public class EqualsLabelPredicates {
       return account != null
           && (account.equals(ChangeQueryBuilder.OWNER_ACCOUNT_ID)
               || account.equals(ChangeQueryBuilder.NON_UPLOADER_ACCOUNT_ID)
-              || account.equals(ChangeQueryBuilder.NON_CONTRIBUTOR_ACCOUNT_ID));
+              || account.equals(ChangeQueryBuilder.NON_CONTRIBUTOR_ACCOUNT_ID)
+              || account.equals(ChangeQueryBuilder.ALL_REVIEWERS_ACCOUNT_ID));
     }
   }
 

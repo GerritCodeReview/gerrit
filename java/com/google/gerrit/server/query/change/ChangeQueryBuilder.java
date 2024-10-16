@@ -68,6 +68,7 @@ import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupBackends;
 import com.google.gerrit.server.account.GroupMembers;
 import com.google.gerrit.server.account.QueryList;
+import com.google.gerrit.server.account.ServiceUserClassifier;
 import com.google.gerrit.server.account.VersionedAccountDestinations;
 import com.google.gerrit.server.account.VersionedAccountQueries;
 import com.google.gerrit.server.change.ChangeTriplet;
@@ -235,10 +236,12 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public static final String ARG_ID_OWNER = "owner";
   public static final String ARG_ID_NON_UPLOADER = "non_uploader";
   public static final String ARG_ID_NON_CONTRIBUTOR = "non_contributor";
+  public static final String ARG_ID_ALL_REVIEWERS = "all_reviewers";
   public static final String ARG_COUNT = "count";
   public static final Account.Id OWNER_ACCOUNT_ID = Account.id(0);
   public static final Account.Id NON_UPLOADER_ACCOUNT_ID = Account.id(-1);
   public static final Account.Id NON_CONTRIBUTOR_ACCOUNT_ID = Account.id(-2);
+  public static final Account.Id ALL_REVIEWERS_ACCOUNT_ID = Account.id(-3);
   public static final Account.Id NON_EXISTING_ACCOUNT_ID = Account.id(-1000);
 
   public static final String OPERATOR_MERGED_BEFORE = "mergedbefore";
@@ -285,6 +288,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     final ExperimentFeatures experimentFeatures;
     final HasOperandAliasConfig hasOperandAliasConfig;
     final PluginSetContext<SubmitRule> submitRules;
+    final ServiceUserClassifier serviceUserClassifier;
 
     private final Provider<CurrentUser> self;
 
@@ -325,7 +329,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
         HasOperandAliasConfig hasOperandAliasConfig,
         ChangeIsVisibleToPredicate.Factory changeIsVisbleToPredicateFactory,
         PluginSetContext<SubmitRule> submitRules,
-        EditByPredicateProvider editByPredicateProvider) {
+        EditByPredicateProvider editByPredicateProvider,
+        ServiceUserClassifier serviceUserClassifier) {
       this(
           queryProvider,
           rewriter,
@@ -360,7 +365,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
           hasOperandAliasConfig,
           changeIsVisbleToPredicateFactory,
           submitRules,
-          editByPredicateProvider);
+          editByPredicateProvider,
+          serviceUserClassifier);
     }
 
     private Arguments(
@@ -397,7 +403,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
         HasOperandAliasConfig hasOperandAliasConfig,
         ChangeIsVisibleToPredicate.Factory changeIsVisbleToPredicateFactory,
         PluginSetContext<SubmitRule> submitRules,
-        EditByPredicateProvider editByPredicateProvider) {
+        EditByPredicateProvider editByPredicateProvider,
+        ServiceUserClassifier serviceUserClassifier) {
       this.queryProvider = queryProvider;
       this.rewriter = rewriter;
       this.opFactories = opFactories;
@@ -432,6 +439,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       this.hasOperandAliasConfig = hasOperandAliasConfig;
       this.submitRules = submitRules;
       this.editByPredicateProvider = editByPredicateProvider;
+      this.serviceUserClassifier = serviceUserClassifier;
     }
 
     public Arguments asUser(CurrentUser otherUser) {
@@ -469,7 +477,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
           hasOperandAliasConfig,
           changeIsVisbleToPredicateFactory,
           submitRules,
-          editByPredicateProvider);
+          editByPredicateProvider,
+          serviceUserClassifier);
     }
 
     Arguments asUser(Account.Id otherId) {
@@ -1074,8 +1083,12 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
       // Disallow using the "count=" arg in conjunction with the "user=" or "group=" args. to avoid
       // unnecessary complexity.
-      assertDisjunctive(lblArgs, ARG_COUNT, ARG_ID_USER);
-      assertDisjunctive(lblArgs, ARG_COUNT, ARG_ID_GROUP);
+      assertDisjunctiveKeys(lblArgs, ARG_COUNT, ARG_ID_USER);
+      assertDisjunctiveKeys(lblArgs, ARG_COUNT, ARG_ID_GROUP);
+
+      // Disallow using the "user=all_reviewers"/"all_reviewers" arg in conjunction with "group=".
+      assertDisjunctiveKeyWithValueAndKey(lblArgs, ARG_ID_USER, ARG_ID_ALL_REVIEWERS, ARG_ID_GROUP);
+      assertDisjunctivePosionialAndKey(lblArgs, ARG_ID_ALL_REVIEWERS, ARG_ID_GROUP);
 
       for (Map.Entry<String, ValOp> pair : lblArgs.keyValue.entrySet()) {
         String key = pair.getKey();
@@ -1088,6 +1101,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
             accounts = Collections.singleton(NON_UPLOADER_ACCOUNT_ID);
           } else if (value.equals(ARG_ID_NON_CONTRIBUTOR)) {
             accounts = Collections.singleton(NON_CONTRIBUTOR_ACCOUNT_ID);
+          } else if (value.equals(ARG_ID_ALL_REVIEWERS)) {
+            accounts = Collections.singleton(ALL_REVIEWERS_ACCOUNT_ID);
           } else {
             accounts = parseAccountIgnoreVisibility(value);
           }
@@ -1123,6 +1138,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
           accounts = Collections.singleton(NON_UPLOADER_ACCOUNT_ID);
         } else if (value.equals(ARG_ID_NON_CONTRIBUTOR)) {
           accounts = Collections.singleton(NON_CONTRIBUTOR_ACCOUNT_ID);
+        } else if (value.equals(ARG_ID_ALL_REVIEWERS)) {
+          accounts = Collections.singleton(ALL_REVIEWERS_ACCOUNT_ID);
         } else {
           accounts = parseAccountIgnoreVisibility(value);
         }
@@ -1148,13 +1165,29 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     int eq = name.indexOf('=');
     if (eq > 0) {
       String statusName = name.substring(eq + 1).toUpperCase(Locale.US);
-      if (!isInt(statusName) && !MagicLabelValue.tryParse(statusName).isPresent()) {
+      Optional<MagicLabelValue> magicLabelValue = MagicLabelValue.tryParse(statusName);
+      if (!isInt(statusName) && !magicLabelValue.isPresent()) {
         SubmitRecord.Label.Status status =
             Enums.getIfPresent(SubmitRecord.Label.Status.class, statusName).orNull();
         if (status == null) {
           throw error("Invalid label status " + statusName + " in " + name);
         }
+        if (accounts != null && accounts.contains(ALL_REVIEWERS_ACCOUNT_ID)) {
+          throw error(
+              String.format(
+                  "Cannot use the '%s=%s' argument in conjunction with submit record label status '%s'",
+                  ARG_ID_USER, ARG_ID_ALL_REVIEWERS, status));
+        }
         return SubmitRecordPredicate.create(name.substring(0, eq), status, accounts);
+      }
+      if (accounts != null
+          && accounts.contains(ALL_REVIEWERS_ACCOUNT_ID)
+          && magicLabelValue.isPresent()
+          && magicLabelValue.get().equals(MagicLabelValue.ANY)) {
+        throw error(
+            String.format(
+                "Cannot use the '%s=%s' argument in conjunction with '%s'",
+                ARG_ID_USER, ARG_ID_ALL_REVIEWERS, magicLabelValue.get().name()));
       }
     }
 
@@ -1169,13 +1202,41 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   }
 
   /** Assert that keys {@code k1} and {@code k2} do not exist in {@code labelArgs} together. */
-  private void assertDisjunctive(PredicateArgs labelArgs, String k1, String k2)
+  private void assertDisjunctiveKeys(PredicateArgs labelArgs, String k1, String k2)
       throws QueryParseException {
     Map<String, ValOp> keyValArgs = labelArgs.keyValue;
     if (keyValArgs.containsKey(k1) && keyValArgs.containsKey(k2)) {
       throw new QueryParseException(
           String.format(
               "Cannot use the '%s' argument in conjunction with the '%s' argument", k1, k2));
+    }
+  }
+
+  /**
+   * Assert that arg {@code k1=v1} and key {@code k2} do not exist in {@code labelArgs} together.
+   */
+  private void assertDisjunctivePosionialAndKey(
+      PredicateArgs labelArgs, String positional, String key) throws QueryParseException {
+    if (labelArgs.positional.contains(positional) && labelArgs.keyValue.containsKey(key)) {
+      throw new QueryParseException(
+          String.format(
+              "Cannot use the '%s' argument in conjunction with the '%s' argument",
+              positional, key));
+    }
+  }
+
+  /**
+   * Assert that arg {@code k1=v1} and key {@code k2} do not exist in {@code labelArgs} together.
+   */
+  private void assertDisjunctiveKeyWithValueAndKey(
+      PredicateArgs labelArgs, String k1, String v1, String k2) throws QueryParseException {
+    Map<String, ValOp> keyValArgs = labelArgs.keyValue;
+    if (keyValArgs.containsKey(k1)
+        && v1.equals(keyValArgs.get(k1).value())
+        && keyValArgs.containsKey(k2)) {
+      throw new QueryParseException(
+          String.format(
+              "Cannot use the '%s=%s' argument in conjunction with the '%s' argument", k1, v1, k2));
     }
   }
 

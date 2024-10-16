@@ -59,6 +59,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.GroupDescription;
@@ -116,6 +117,7 @@ import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.ListGroupMembership;
+import com.google.gerrit.server.account.ServiceUserClassifier;
 import com.google.gerrit.server.account.VersionedAccountQueries;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdFactory;
@@ -1552,6 +1554,135 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void byLabelAllReviewers() throws Exception {
+    Project.NameKey project = Project.nameKey("repo");
+    repo = createAndOpenProject(project);
+    grantLabel(Project.nameKey("repo"), "refs/*", "Code-Review", -2, 2, REGISTERED_USERS);
+
+    Account.Id owner = createAccount("owner");
+    Account.Id reviewer1 = createAccount("reviewer1");
+    Account.Id reviewer2 = createAccount("reviewer2");
+    Account.Id reviewer3 = createAccount("reviewer3");
+
+    Account.Id serviceUser = createAccount("serviceUser");
+    gApi.groups().id(ServiceUserClassifier.SERVICE_USERS).addMembers(serviceUser.toString());
+
+    Change changeApprovedByAllReviewers = insert(project, newChange(repo), owner);
+    addReviewers(changeApprovedByAllReviewers, reviewer1, reviewer2, reviewer3);
+    addReviews(
+        changeApprovedByAllReviewers, ReviewInput.approve(), reviewer1, reviewer2, reviewer3);
+
+    Change changeApprovedBySomeReviewers = insert(project, newChange(repo), owner);
+    addReviewers(changeApprovedBySomeReviewers, reviewer1, reviewer2, reviewer3);
+    addReviews(changeApprovedBySomeReviewers, ReviewInput.approve(), reviewer1, reviewer2);
+
+    Change changeRecommendedByAllReviewers = insert(project, newChange(repo), owner);
+    addReviewers(changeRecommendedByAllReviewers, reviewer1, reviewer2, reviewer3);
+    addReviews(
+        changeRecommendedByAllReviewers, ReviewInput.recommend(), reviewer1, reviewer2, reviewer3);
+
+    Change changeRecommendedBySomeReviewers = insert(project, newChange(repo), owner);
+    addReviewers(changeRecommendedBySomeReviewers, reviewer1, reviewer2, reviewer3);
+    addReviews(changeRecommendedBySomeReviewers, ReviewInput.recommend(), reviewer1, reviewer2);
+
+    Change changeNoVotesByReviewers = insert(project, newChange(repo));
+    addReviewers(changeNoVotesByReviewers, reviewer1, reviewer2, reviewer3);
+
+    setRequestContextForUser(userId);
+
+    // query changes where all reviewers have the same vote
+    assertQuery("label:Code-Review=MAX,all_reviewers", changeApprovedByAllReviewers);
+    assertQuery("label:Code-Review=MAX,user=all_reviewers", changeApprovedByAllReviewers);
+    assertQuery("label:Code-Review=2,all_reviewers", changeApprovedByAllReviewers);
+    assertQuery("label:Code-Review=2,user=all_reviewers", changeApprovedByAllReviewers);
+    assertQuery("label:Code-Review=1,all_reviewers", changeRecommendedByAllReviewers);
+    assertQuery("label:Code-Review=1,user=all_reviewers", changeRecommendedByAllReviewers);
+    assertQuery(
+        "label:Code-Review<=2,user=all_reviewers",
+        changeNoVotesByReviewers,
+        changeRecommendedByAllReviewers,
+        changeApprovedByAllReviewers);
+    assertQuery(
+        "label:Code-Review<=1,user=all_reviewers",
+        changeNoVotesByReviewers,
+        changeRecommendedByAllReviewers);
+    assertQuery(
+        "label:Code-Review>=1,user=all_reviewers",
+        changeRecommendedByAllReviewers,
+        changeApprovedByAllReviewers);
+    assertQuery("label:Code-Review<1,user=all_reviewers", changeNoVotesByReviewers);
+    assertQuery("label:Code-Review>1,user=all_reviewers", changeApprovedByAllReviewers);
+
+    // query changes where no reviewer voted (same as "label:Code-Review=0")
+    assertQuery("label:Code-Review=0,user=all_reviewers", changeNoVotesByReviewers);
+
+    // votes of the change owners are ignored (as the change owner is not considered as a reviewer)
+    addReviews(changeApprovedByAllReviewers, ReviewInput.dislike(), owner);
+    assertQuery("label:Code-Review=MAX,all_reviewers", changeApprovedByAllReviewers);
+
+    // missing votes from service users are fine
+    addReviewers(changeApprovedByAllReviewers, serviceUser);
+    assertQuery("label:Code-Review=MAX,all_reviewers", changeApprovedByAllReviewers);
+
+    // votes from service users are ignored
+    addReviews(changeApprovedByAllReviewers, ReviewInput.dislike(), serviceUser);
+    assertQuery("label:Code-Review=MAX,all_reviewers", changeApprovedByAllReviewers);
+
+    // when reviewers by email are present changes do not match, unless the expected value is 0
+    try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
+      ProjectConfig cfg = projectConfigFactory.create(project);
+      cfg.load(md);
+      cfg.updateProject(
+          update ->
+              update.setBooleanConfig(
+                  BooleanProjectConfig.ENABLE_REVIEWER_BY_EMAIL, InheritableBoolean.TRUE));
+      cfg.commit(md);
+    }
+    projectCache.evictAndReindex(project);
+    getChangeApi(changeApprovedByAllReviewers).addReviewer("email-without-account@example.com");
+    getChangeApi(changeNoVotesByReviewers).addReviewer("email-without-account@example.com");
+    assertQuery("label:Code-Review=MAX,all_reviewers");
+    assertQuery("label:Code-Review=0,all_reviewers", changeNoVotesByReviewers);
+
+    // cannot combine user=all_reviewers" with "ANY"
+    assertFailingQuery(
+        "label:Code-Review=ANY,all_reviewers",
+        "Cannot use the 'user=all_reviewers' argument in conjunction with 'ANY'");
+    assertFailingQuery(
+        "label:Code-Review=ANY,user=all_reviewers",
+        "Cannot use the 'user=all_reviewers' argument in conjunction with 'ANY'");
+
+    // cannot combine user=all_reviewers" with submit record status
+    assertFailingQuery(
+        "label:Code-Review=ok,all_reviewers",
+        "Cannot use the 'user=all_reviewers' argument in conjunction with submit record label status 'OK'");
+    assertFailingQuery(
+        "label:Code-Review=ok,user=all_reviewers",
+        "Cannot use the 'user=all_reviewers' argument in conjunction with submit record label status 'OK'");
+
+    // cannot combine "user=all_reviewers" with another "user" arg
+    assertFailingQuery(
+        "label:Code-Review=MAX,all_reviewers,reviewer1",
+        "more than one user/group specified (reviewer1)");
+    assertFailingQuery(
+        "label:Code-Review=MAX,user=all_reviewers,reviewer1",
+        "more than one user/group specified (reviewer1)");
+    assertFailingQuery(
+        "label:Code-Review=MAX,all_reviewers,user=reviewer1",
+        "more than one user/group specified (all_reviewers)");
+    assertFailingQuery(
+        "label:Code-Review=MAX,user=all_reviewers,user=reviewer1", "Duplicate key user");
+
+    // cannot combine "user=all_reviewers" with a "group" arg
+    assertFailingQuery(
+        "label:Code-Review=MAX,all_reviewers,group=foo",
+        "Cannot use the 'all_reviewers' argument in conjunction with the 'group' argument");
+    assertFailingQuery(
+        "label:Code-Review=MAX,user=all_reviewers,group=foo",
+        "Cannot use the 'user=all_reviewers' argument in conjunction with the 'group' argument");
+  }
+
+  @Test
   public void byLabelMulti() throws Exception {
     Project.NameKey project = Project.nameKey("repo");
     repo = createAndOpenProject(project);
@@ -2807,6 +2938,33 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
             PermissionRule.Builder rule =
                 PermissionRule.builder(GroupReference.create(groupUUID, groupUUID.get()))
                     .setForce(force);
+            p.add(rule);
+          });
+
+      config.commit(md);
+      projectCache.evictAndReindex(config.getProject());
+    }
+  }
+
+  protected void grantLabel(
+      Project.NameKey project,
+      String ref,
+      String label,
+      int min,
+      int max,
+      AccountGroup.UUID groupUUID)
+      throws RepositoryNotFoundException, IOException, ConfigInvalidException {
+    String permission = Permission.forLabel(label);
+    try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
+      md.setMessage(String.format("Grant %s on %s", permission, ref));
+      ProjectConfig config = projectConfigFactory.read(md);
+      config.upsertAccessSection(
+          ref,
+          s -> {
+            Permission.Builder p = s.upsertPermission(permission);
+            PermissionRule.Builder rule =
+                PermissionRule.builder(GroupReference.create(groupUUID, groupUUID.get()))
+                    .setRange(min, max);
             p.add(rule);
           });
 
@@ -4592,6 +4750,20 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
           });
 
       return inserter.getChange();
+    }
+  }
+
+  protected void addReviewers(Change change, Account.Id... reviewers) throws Exception {
+    for (Account.Id reviewer : reviewers) {
+      getChangeApi(change).addReviewer(reviewer.toString());
+    }
+  }
+
+  protected void addReviews(Change change, ReviewInput reviewInput, Account.Id... reviewers)
+      throws Exception {
+    for (Account.Id reviewer : reviewers) {
+      setRequestContextForUser(reviewer);
+      getChangeApi(change).current().review(reviewInput);
     }
   }
 

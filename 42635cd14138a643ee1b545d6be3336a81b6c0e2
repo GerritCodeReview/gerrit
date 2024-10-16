@@ -94,6 +94,30 @@
       },
       "revId": "42635cd14138a643ee1b545d6be3336a81b6c0e2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5f6646e_98bc267e",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListProjectsImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 574,
+      "author": {
+        "id": 1014257
+      },
+      "writtenOn": "2024-10-16T07:20:05Z",
+      "side": 1,
+      "message": "Also I just realized that it probably should be an error and not a warning. Do you guys agree?",
+      "parentUuid": "7dc2f574_265b1ba9",
+      "range": {
+        "startLine": 573,
+        "startChar": 18,
+        "endLine": 574,
+        "endChar": 94
+      },
+      "revId": "42635cd14138a643ee1b545d6be3336a81b6c0e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

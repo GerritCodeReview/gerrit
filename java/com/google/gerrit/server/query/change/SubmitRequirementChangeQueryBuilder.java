@@ -28,13 +28,16 @@ import com.google.gerrit.server.submitrequirement.predicate.HasSubmoduleUpdatePr
 import com.google.gerrit.server.submitrequirement.predicate.RegexAuthorEmailPredicate;
 import com.google.gerrit.server.submitrequirement.predicate.RegexCommitterEmailPredicate;
 import com.google.gerrit.server.submitrequirement.predicate.RegexUploaderEmailPredicateFactory;
+import com.google.gerrit.server.submitrequirement.predicate.SubmitRequirementLabelExtensionPredicate;
 import com.google.inject.Inject;
+import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 /**
  * A query builder for submit requirement expressions that includes all {@link ChangeQueryBuilder}
@@ -48,6 +51,8 @@ public class SubmitRequirementChangeQueryBuilder extends ChangeQueryBuilder {
       new QueryBuilder.Definition<>(SubmitRequirementChangeQueryBuilder.class);
 
   private final DistinctVotersPredicate.Factory distinctVotersPredicateFactory;
+  private final SubmitRequirementLabelExtensionPredicate.Factory
+      submitRequirementLabelExtensionPredicateFactory;
   private final HasSubmoduleUpdatePredicate.Factory hasSubmoduleUpdateFactory;
 
   /**
@@ -70,11 +75,15 @@ public class SubmitRequirementChangeQueryBuilder extends ChangeQueryBuilder {
   SubmitRequirementChangeQueryBuilder(
       Arguments args,
       DistinctVotersPredicate.Factory distinctVotersPredicateFactory,
+      SubmitRequirementLabelExtensionPredicate.Factory
+          submitRequirementLabelExtensionPredicateFactory,
       FileEditsPredicate.Factory fileEditsPredicateFactory,
       HasSubmoduleUpdatePredicate.Factory hasSubmoduleUpdateFactory,
       RegexUploaderEmailPredicateFactory regexUploaderEmailPredicateFactory) {
     super(def, args);
     this.distinctVotersPredicateFactory = distinctVotersPredicateFactory;
+    this.submitRequirementLabelExtensionPredicateFactory =
+        submitRequirementLabelExtensionPredicateFactory;
     this.fileEditsPredicateFactory = fileEditsPredicateFactory;
     this.hasSubmoduleUpdateFactory = hasSubmoduleUpdateFactory;
     this.regexUploaderEmailPredicateFactory = regexUploaderEmailPredicateFactory;
@@ -148,6 +157,16 @@ public class SubmitRequirementChangeQueryBuilder extends ChangeQueryBuilder {
   @Operator
   public Predicate<ChangeData> distinctvoters(String value) throws QueryParseException {
     return distinctVotersPredicateFactory.create(value);
+  }
+
+  @Override
+  public Predicate<ChangeData> label(String value)
+      throws QueryParseException, IOException, ConfigInvalidException {
+    if (SubmitRequirementLabelExtensionPredicate.matches(value)) {
+      return submitRequirementLabelExtensionPredicateFactory.create(value);
+    }
+    SubmitRequirementLabelExtensionPredicate.validateIfNoMatch(value);
+    return super.label(value);
   }
 
   /**

@@ -14,6 +14,7 @@
 
 # War packaging.
 
+load("@rules_java//java:defs.bzl", "JavaInfo")
 load("//tools:deps.bzl", "AUTO_VALUE_GSON_VERSION")
 load("//tools:nongoogle.bzl", "AUTO_FACTORY_VERSION", "AUTO_VALUE_VERSION")
 

@@ -14,6 +14,8 @@
 
 # Javadoc rule.
 
+load("@rules_java//java:defs.bzl", "JavaInfo", "java_common")
+
 def _impl(ctx):
     zip_output = ctx.outputs.zip
 

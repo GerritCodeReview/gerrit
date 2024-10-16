@@ -96,6 +96,15 @@ public class IndexHtmlUtilTest {
   }
 
   @Test
+  public void computeBasePatchNum() throws Exception {
+    String requestedPath = "/c/gerrit/+/375216/4..6";
+    assertThat(
+            IndexHtmlUtil.computeBasePatchNum(requestedPath))
+        .isEqualTo(
+            4);
+  }
+
+  @Test
   public void usePreloadRest() throws Exception {
     Accounts accountsApi = mock(Accounts.class);
     when(accountsApi.self()).thenThrow(new AuthException("user needs to be authenticated"));

@@ -1162,7 +1162,8 @@ export class GrChangeView extends LitElement {
         <h1 class="assistive-tech-only">
           Change ${this.change?._number}: ${this.change?.subject}
         </h1>
-        ${this.renderHeaderTitle()} ${this.renderCommitActions()}
+        ${this.renderHeaderTitle()}
+        ${this.renderSync()}${this.renderCommitActions()}
       </div>
       <h2 class="assistive-tech-only">Change metadata</h2>
       ${this.renderChangeInfo()}
@@ -1267,6 +1268,11 @@ export class GrChangeView extends LitElement {
       });
     }
     return html`<gr-copy-links .copyLinks=${links}> </gr-copy-links>`;
+  }
+
+  private renderSync() {
+    if (!this.editMode) return nothing;
+    return html`Help with sync`;
   }
 
   private renderCommitActions() {

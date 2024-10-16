@@ -390,14 +390,13 @@ export class GrApplyFixDialog extends LitElement {
 
   private computeTooltip() {
     if (!this.change || !this.patchNum) return '';
-    return this.latestPatchNum !== this.patchNum
-      ? 'You cannot apply this fix because it is from a previous patchset'
-      : '';
+    if (this.isApplyFixLoading) return 'Fix is still loading ...';
+    return '';
   }
 
   private computeDisableApplyFixButton() {
     if (!this.change || !this.patchNum) return true;
-    return this.patchNum !== this.latestPatchNum || this.isApplyFixLoading;
+    return this.isApplyFixLoading;
   }
 
   // visible for testing
@@ -415,7 +414,8 @@ export class GrApplyFixDialog extends LitElement {
       res = await this.restApiService.applyFixSuggestion(
         changeNum,
         patchNum,
-        this.fixSuggestions[0].replacements
+        this.fixSuggestions[0].replacements,
+        this.latestPatchNum
       );
     } else {
       res = await this.restApiService.applyRobotFixSuggestion(

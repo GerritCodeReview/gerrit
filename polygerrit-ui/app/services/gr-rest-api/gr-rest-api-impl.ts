@@ -2369,14 +2369,27 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   async applyFixSuggestion(
     changeNum: NumericChangeId,
     patchNum: PatchSetNum,
-    fixReplacementInfos: FixReplacementInfo[]
+    fixReplacementInfos: FixReplacementInfo[],
+    targetPatchNum?: PatchSetNum
   ): Promise<Response> {
-    const url = await this._changeBaseURL(changeNum, patchNum);
+    const url = await this._changeBaseURL(
+      changeNum,
+      targetPatchNum ?? patchNum
+    );
+    const body: {
+      fix_replacement_infos: FixReplacementInfo[];
+      original_patchset_for_fix?: PatchSetNum;
+    } = {
+      fix_replacement_infos: fixReplacementInfos,
+    };
+    if (targetPatchNum !== patchNum) {
+      body.original_patchset_for_fix = patchNum;
+    }
     return this._restApiHelper.fetch({
       fetchOptions: getFetchOptions({
         method: HttpMethod.POST,
         headers: {Accept: 'application/json'},
-        body: {fix_replacement_infos: fixReplacementInfos},
+        body,
       }),
       url: `${url}/fix:apply`,
       anonymizedUrl: `${ANONYMIZED_REVISION_BASE_URL}/fix:apply`,

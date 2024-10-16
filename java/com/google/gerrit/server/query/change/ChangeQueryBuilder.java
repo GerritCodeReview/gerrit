@@ -236,6 +236,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public static final String ARG_ID_NON_UPLOADER = "non_uploader";
   public static final String ARG_ID_NON_CONTRIBUTOR = "non_contributor";
   public static final String ARG_COUNT = "count";
+  public static final String ARG_USERS = "users";
   public static final Account.Id OWNER_ACCOUNT_ID = Account.id(0);
   public static final Account.Id NON_UPLOADER_ACCOUNT_ID = Account.id(-1);
   public static final Account.Id NON_CONTRIBUTOR_ACCOUNT_ID = Account.id(-2);
@@ -1108,6 +1109,9 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
                     "count=%d is not allowed. Maximum allowed value for count is %d.",
                     count, LabelPredicate.MAX_COUNT));
           }
+        } else if (key.equalsIgnoreCase(ARG_USERS)) {
+          throw new QueryParseException(
+              String.format("Cannot use the '%s' argument in search", ARG_USERS));
         } else {
           throw new QueryParseException("Invalid argument identifier '" + pair.getKey() + "'");
         }

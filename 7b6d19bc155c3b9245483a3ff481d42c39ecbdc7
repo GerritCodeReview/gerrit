@@ -1,0 +1,137 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dcd9a572_52a78f93",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-10-16T15:04:04Z",
+      "side": 1,
+      "message": "please add docstring for public methods",
+      "range": {
+        "startLine": 86,
+        "startChar": 2,
+        "endLine": 86,
+        "endChar": 67
+      },
+      "revId": "7b6d19bc155c3b9245483a3ff481d42c39ecbdc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db9ec9b6_42f6f93e",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-10-16T15:04:04Z",
+      "side": 1,
+      "message": "nit: You don\u0027t need this initialization to 0, since you\u0027re returning 0 directly anyway",
+      "range": {
+        "startLine": 88,
+        "startChar": 4,
+        "endLine": 88,
+        "endChar": 52
+      },
+      "revId": "7b6d19bc155c3b9245483a3ff481d42c39ecbdc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd5d40ce_d2dfc49d",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-10-16T15:04:04Z",
+      "side": 1,
+      "message": "IllegalStateException is thrown if the matcher.matches() was not called, it\u0027s not about matching the specific group. When the group is not matched `null` is returned.",
+      "range": {
+        "startLine": 92,
+        "startChar": 9,
+        "endLine": 92,
+        "endChar": 41
+      },
+      "revId": "7b6d19bc155c3b9245483a3ff481d42c39ecbdc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae869c81_2456caf4",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-10-16T15:04:04Z",
+      "side": 1,
+      "message": "Is it guaranteed that tryParse will succeed? If it\u0027s expected that this method can return null, please mark it as @Nullable or @CheckNull",
+      "range": {
+        "startLine": 97,
+        "startChar": 11,
+        "endLine": 97,
+        "endChar": 38
+      },
+      "revId": "7b6d19bc155c3b9245483a3ff481d42c39ecbdc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5349e796_cf4aa1ee",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-10-16T15:04:04Z",
+      "side": 1,
+      "message": "computeBasePatchNum(requestedPath) \u003d\u003d 0, returns a boxed Integer value, you should not be comparing boxed primitive for equality using \u003d\u003d , instead equals() should b used. go/bugpattern/BoxedPrimitiveEquality\n\nNote: that if computeBasePatchNum is null, then calling equals() will throw NPE",
+      "range": {
+        "startLine": 122,
+        "startChar": 12,
+        "endLine": 122,
+        "endChar": 51
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "0669b4bc_4e4cfd20",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+              "range": {
+                "startLine": 122,
+                "startChar": 0,
+                "endLine": 123,
+                "endChar": 0
+              },
+              "replacement": "        if (computeBasePatchNum(requestedPath).equals(0)) {\n"
+            }
+          ]
+        }
+      ],
+      "revId": "7b6d19bc155c3b9245483a3ff481d42c39ecbdc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

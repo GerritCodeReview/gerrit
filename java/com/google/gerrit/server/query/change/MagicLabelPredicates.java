@@ -36,24 +36,31 @@ public class MagicLabelPredicates {
   public static class PostFilterMagicLabelPredicate extends PostFilterPredicate<ChangeData> {
     private static class PostFilterMatcher extends Matcher {
       public PostFilterMatcher(
-          LabelPredicate.Args args, MagicLabelVote magicLabelVote, @Nullable Integer count) {
-        super(args, magicLabelVote, count);
+          LabelPredicate.Args args,
+          MagicLabelVote magicLabelVote,
+          @Nullable Account.Id account,
+          @Nullable Integer count) {
+        super(args, magicLabelVote, account, count);
       }
 
       @Override
       protected Predicate<ChangeData> numericPredicate(String label, short value) {
-        return new EqualsLabelPredicates.PostFilterEqualsLabelPredicate(args, label, value, count);
+        return new EqualsLabelPredicates.PostFilterEqualsLabelPredicate(
+            args, label, value, account, count);
       }
     }
 
     private final PostFilterMatcher matcher;
 
     public PostFilterMagicLabelPredicate(
-        LabelPredicate.Args args, MagicLabelVote magicLabelVote, @Nullable Integer count) {
+        LabelPredicate.Args args,
+        MagicLabelVote magicLabelVote,
+        @Nullable Account.Id account,
+        @Nullable Integer count) {
       super(
           ChangeQueryBuilder.FIELD_LABEL,
           ChangeField.formatLabel(magicLabelVote.label(), magicLabelVote.value().name(), count));
-      this.matcher = new PostFilterMatcher(args, magicLabelVote, count);
+      this.matcher = new PostFilterMatcher(args, magicLabelVote, account, count);
     }
 
     @Override
@@ -130,11 +137,6 @@ public class MagicLabelPredicates {
     protected final MagicLabelVote magicLabelVote;
     @Nullable protected final Account.Id account;
     @Nullable protected final Integer count;
-
-    public Matcher(
-        LabelPredicate.Args args, MagicLabelVote magicLabelVote, @Nullable Integer count) {
-      this(args, magicLabelVote, null, count);
-    }
 
     public Matcher(
         LabelPredicate.Args args,

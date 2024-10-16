@@ -858,6 +858,22 @@ The special "non_uploader" parameter corresponds to any user who's not the
 uploader of the latest patchset. Matches all changes that have a +2 vote from
 a non upoader.
 
+[[all_reviewers]]
+`label:Code-Review=+2,user=all_reviewers`::
+`label:Code-Review=+2,all_reviewers`::
+`label:Code-Review=MAX,user=all_reviewers`::
+`label:Code-Review=MAX,all_reviewers`::
++
+The special "all_reviewers" parameter corresponds to all human reviewers of the
+change. Matches all changes that have a +2/MAX vote from all human reviewers
+(votes from service users and the change owner are ignored).
++
+If link:config-project-config.html#reviewer.enableByEmail[reviewers by email]
+are present then "user=all_reviewers" doesn't match if the expected value is
+other than 0. Reviewers by email are reviewers that don't have a Gerrit account.
+Without Gerrit account they cannot vote on the change, which means changes that
+have any such reviewers never match when a vote from all reviewers is expected.
+
 `label:Code-Review=+1,group=ldap/linux.workflow`::
 +
 Matches changes with a +1 code review where the reviewer is in the

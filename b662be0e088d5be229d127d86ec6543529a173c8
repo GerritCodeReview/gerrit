@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "29dda45f_521eba5e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-10-16T12:18:43Z",
+      "side": 1,
+      "message": "I am not sure if a multi-line release note would break the tooling. I shortened the line instead.",
+      "parentUuid": "2fad46fe_ac31b223",
+      "revId": "b662be0e088d5be229d127d86ec6543529a173c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "93933f80_365bf3d3",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3

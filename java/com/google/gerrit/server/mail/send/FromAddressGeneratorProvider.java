@@ -26,6 +26,7 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.mail.MailUtil;
+import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -41,12 +42,43 @@ import org.eclipse.jgit.lib.PersonIdent;
 public class FromAddressGeneratorProvider implements Provider<FromAddressGenerator> {
   private final FromAddressGenerator generator;
 
+  public static class UserAddressGenModule extends AbstractModule {
+    @Override
+    protected void configure() {
+      bind(UserAddressGenFactory.class).to(DefaultUserAddressGenFactory.class);
+    }
+  }
+
+  /** A generic interface for creating user address generators. */
+  public interface UserAddressGenFactory {
+    FromAddressGenerator create(
+        AccountCache accountCache,
+        Pattern domainPattern,
+        String anonymousCowardName,
+        ParameterizedString nameRewriteTmpl,
+        Address serverAddress);
+  }
+
+  public static class DefaultUserAddressGenFactory implements UserAddressGenFactory {
+    @Override
+    public FromAddressGenerator create(
+        AccountCache accountCache,
+        Pattern domainPattern,
+        String anonymousCowardName,
+        ParameterizedString nameRewriteTmpl,
+        Address serverAddress) {
+      return new UserGen(
+          accountCache, domainPattern, anonymousCowardName, nameRewriteTmpl, serverAddress);
+    }
+  }
+
   @Inject
   FromAddressGeneratorProvider(
       @GerritServerConfig Config cfg,
       @AnonymousCowardName String anonymousCowardName,
       @GerritPersonIdent PersonIdent myIdent,
-      AccountCache accountCache) {
+      AccountCache accountCache,
+      UserAddressGenFactory userAddressGenFactory) {
     final String from = cfg.getString("sendemail", null, "from");
     final Address srvAddr = toAddress(myIdent);
 
@@ -58,7 +90,8 @@ public class FromAddressGeneratorProvider implements Provider<FromAddressGenerat
       Pattern domainPattern = MailUtil.glob(domains);
       ParameterizedString namePattern = new ParameterizedString("${user} (Code Review)");
       generator =
-          new UserGen(accountCache, domainPattern, anonymousCowardName, namePattern, srvAddr);
+          userAddressGenFactory.create(
+              accountCache, domainPattern, anonymousCowardName, namePattern, srvAddr);
     } else if ("SERVER".equalsIgnoreCase(from)) {
       generator = new ServerGen(srvAddr);
     } else {

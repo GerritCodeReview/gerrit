@@ -101,6 +101,7 @@ import com.google.gerrit.server.index.options.AutoFlush;
 import com.google.gerrit.server.mail.EmailModule;
 import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier.SignedTokenEmailTokenVerifierModule;
 import com.google.gerrit.server.mail.receive.MailReceiver.MailReceiverModule;
+import com.google.gerrit.server.mail.send.FromAddressGeneratorProvider;
 import com.google.gerrit.server.mail.send.SmtpEmailSender.SmtpEmailSenderModule;
 import com.google.gerrit.server.mime.MimeUtil2Module;
 import com.google.gerrit.server.notedb.NoteDbDraftCommentsModule;
@@ -476,6 +477,7 @@ public class Daemon extends SiteProgram {
     modules.add(new AccountNoteDbWriteStorageModule());
     modules.add(new AccountNoteDbReadStorageModule());
     modules.add(new RepoSequenceModule());
+    modules.add(new FromAddressGeneratorProvider.UserAddressGenModule());
     modules.add(new NoteDbDraftCommentsModule());
     modules.add(new NoteDbStarredChangesModule());
     modules.add(cfgInjector.getInstance(GerritGlobalModule.class));

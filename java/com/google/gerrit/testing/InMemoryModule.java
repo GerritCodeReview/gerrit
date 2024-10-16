@@ -103,6 +103,7 @@ import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gerrit.server.index.group.GroupSchemaDefinitions;
 import com.google.gerrit.server.mail.EmailModule;
 import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier.SignedTokenEmailTokenVerifierModule;
+import com.google.gerrit.server.mail.send.FromAddressGeneratorProvider;
 import com.google.gerrit.server.notedb.NoteDbDraftCommentsModule;
 import com.google.gerrit.server.notedb.NoteDbStarredChangesModule;
 import com.google.gerrit.server.notedb.RepoSequence.DisabledGitRefUpdatedRepoGroupsSequenceProvider;
@@ -208,6 +209,7 @@ public class InMemoryModule extends FactoryModule {
     install(new AccountNoteDbWriteStorageModule());
     install(new AccountNoteDbReadStorageModule());
     install(new RepoSequenceModule());
+    install(new FromAddressGeneratorProvider.UserAddressGenModule());
     install(new NoteDbDraftCommentsModule());
     install(new NoteDbStarredChangesModule());
     install(new ChangeCleanupRunnerModule());

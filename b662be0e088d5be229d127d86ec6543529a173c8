@@ -51,6 +51,24 @@
       "message": "Should this have a corresponding documentation update?",
       "revId": "b662be0e088d5be229d127d86ec6543529a173c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77df2b7b_5fb3cf5b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-10-16T20:05:13Z",
+      "side": 1,
+      "message": "yes, I think the API documentation in Documentation/rest-api-config.txt should be updated",
+      "parentUuid": "93933f80_365bf3d3",
+      "revId": "b662be0e088d5be229d127d86ec6543529a173c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

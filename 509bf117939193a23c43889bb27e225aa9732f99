@@ -119,6 +119,23 @@
       "message": "Thanks much for the review!",
       "revId": "509bf117939193a23c43889bb27e225aa9732f99",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b9c7d7b_b6af0420",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3685522
+      },
+      "writtenOn": "2024-10-17T05:17:30Z",
+      "side": 1,
+      "message": "Comment removed by: Edwin Kempin; Reason: spam",
+      "revId": "509bf117939193a23c43889bb27e225aa9732f99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

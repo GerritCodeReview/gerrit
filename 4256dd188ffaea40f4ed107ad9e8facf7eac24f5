@@ -133,6 +133,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "47b4147e_953285de",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 1331,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-10-17T12:58:54Z",
+      "side": 1,
+      "message": "Yes, good point.\n\nI was not aware of this and the bug description also specified this task instead of updating the preloading query.\n\nI verified locally that it\u0027s the preloading query that needs updating and made Change 439702 for it.",
+      "parentUuid": "00f3ee41_88ba5e56",
+      "range": {
+        "startLine": 1329,
+        "startChar": 4,
+        "endLine": 1331,
+        "endChar": 5
+      },
+      "revId": "4256dd188ffaea40f4ed107ad9e8facf7eac24f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3476cb89_31443fe0",
         "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
         "patchSetId": 8

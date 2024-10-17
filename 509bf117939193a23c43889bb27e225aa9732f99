@@ -1,6 +1,109 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "50bfe897_8aaa3a74",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-10-17T02:27:03Z",
+      "side": 1,
+      "message": "tl;dr read the last paragraph with my `+\u003d`/`-\u003d` syntax suggestion\n\nWhile I see the logic to how you got here, I don\u0027t think we should put the \"match multiple votes\" functionality into `user\u003d`. So far the only bit of `label:` that can do a similar thing is `count\u003d`, and as you note below, we don\u0027t allow combining count with user or group. I think if we go this route it\u0027s going to be too magical, as I can already see happening with some of the caveats I commented on below.\n\nTo try and help us get there (and ignoring `count\u003d`), maybe if `user\u003d` indicates a single vote from a given user, then `users\u003d` would indicate a single vote from each of the given users? That could potentially be expressed as `users\u003dbob,jim,frank` and/or as `users\u003dbob,users\u003djim,users\u003dfrank`. If you then wanted to have a magic value and do `users\u003dreviewers`, that would be more intuitive to me, but I also wouldn\u0027t expect it to have any of the magic/exceptions you describe below. For example, you might want `users\u003dpermitted_reviewers` to indicate reviewers that can actually vote for that label+value.\n\nThen we could add a notion of `exclude` or `ignore` (maybe we use `!\u003d`?) that would let us rewrite `label:Code-Review\u003dMAX,user\u003dnon_uploader` as something like `label:Code-Review\u003dMAX,user!\u003duploader`.\n\nTaking that further, I think it would let you implement the policy you want for `WANT_LGTM\u003dall` as something like `label:Code-Review\u003dMAX,users\u003dpermitted_reviewers,users!\u003downer,groups!\u003d\"Service Users\"` where the `!\u003d` effect with `users` and `groups` is a little different in that it subtracts those users from the \"user collection\". I don\u0027t love that because you\u0027re basically giving a group as the value to `users\u003d` and then you want to both remove a single user from the group (the owner) and remove a group of users from the group (all bots) and you use `users!\u003d` for the single user in this case. It would make more sense to do `users!\u003d\"Service Users\"`, but then you need some syntax to remove the single user. My example above with users in a comma list has the same problem.\n\nAnother idea for syntax would be to make use of `+\u003d` and `-\u003d` to add to / remove from the user collection. That would let us continue to use `user` and `group` since the `+` concept would imply we\u0027re trying to match more than one vote record. That solves the problem I pointed out with my comma list example and allows for an expression like `user+\u003dbob,user+\u003djim,user+\u003dfrank,user-\u003downer` (meaning, I need votes from both bob and frank, but not jim since he\u0027s actually the owner). And then `WANT_LGTM\u003dall` looks like `label:Code-Review\u003dMAX,group+\u003dpermitted_reviewers,user-\u003downer,group-\u003d\"Service Users\"`. I think we would disallow combining `\u003d` and `+\u003d` and we wouldn\u0027t allow `-\u003d` without `+\u003d` (unless you can think of how either of those would work). I think we still wouldn\u0027t want to support `\u003clabel\u003e\u003dANY` since if you have rules requiring some group of users to vote, you\u0027d actually want `\u003clabel\u003e!\u003d0`. I like having `permitted_reviewers` as a magic group for users that are reviewers who can vote at least one of the given value. If you instead use that with a regular `group\u003dpermitted_reviewers` it has the same meaning, but you only need 1 vote to match. Overall this approach seems very flexible for future use cases and generally unsurprising for users.",
+      "revId": "509bf117939193a23c43889bb27e225aa9732f99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c90fa81_bda3c145",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-10-17T02:27:03Z",
+      "side": 1,
+      "message": "I\u0027ve actually been meaning to look at this restriction because I do have a use case for it. This team wants to require a +2 Code-Review vote from users in a certain group for a specific submit requirement, but they don\u0027t want to count +2 votes from the uploader. So they need something like `submittableIf \u003d label:Code-Review\u003d2,user\u003dnon_uploader,group\u003dldap/special.reviewers`. In this case the semantics would be the same as with other args where we do a boolean `AND`, so we require both the `user\u003d` and `group\u003d` args to match.",
+      "revId": "509bf117939193a23c43889bb27e225aa9732f99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01992fda_5d499969",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-10-17T02:27:03Z",
+      "side": 1,
+      "message": "This seems a little questionable, especially in the common case where the change owner is not the uploader.",
+      "range": {
+        "startLine": 108,
+        "startChar": 2,
+        "endLine": 109,
+        "endChar": 23
+      },
+      "revId": "509bf117939193a23c43889bb27e225aa9732f99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e779a4fe_da6c1933",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-10-17T02:27:03Z",
+      "side": 1,
+      "message": "This is even more questionable as a general rule. At least name it `all_human_reviewers` if you go this route. But I think my suggestions above should avoid the need for hidden policy logic like this.",
+      "range": {
+        "startLine": 115,
+        "startChar": 2,
+        "endLine": 116,
+        "endChar": 23
+      },
+      "revId": "509bf117939193a23c43889bb27e225aa9732f99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d22366c_4eb73acb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-10-17T02:27:03Z",
+      "side": 1,
+      "message": "So... would those service users even have permission to set Code-Review votes? I\u0027m guessing they can\u0027t.\n\nIt seems like you want to a way to indicate in the label operator that these users are able to give the expected vote value for the given label (i.e. the user(s) can set Code-Review +2).\n\nIf they have permission to set Code-Review +2 and legitimately need that, then maybe we need to rethink `label:` a bit more before the code becomes a bigger mess than it already is.",
+      "range": {
+        "startLine": 119,
+        "startChar": 60,
+        "endLine": 120,
+        "endChar": 40
+      },
+      "revId": "509bf117939193a23c43889bb27e225aa9732f99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "49c9f82c_134f8dd5",

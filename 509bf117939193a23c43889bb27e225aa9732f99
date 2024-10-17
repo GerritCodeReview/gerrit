@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "86ed36a7_9ae6cd74",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-10-17T07:32:08Z",
+      "side": 1,
+      "message": "OK, I addressed your concerns by changing the syntax to \"users\u003dhuman_reviewers\". Then it doesn\u0027t conflict with any of what you have described here, if anyone wants to implement this at a later point in time. My constraint for this change is that I have like max 1 more day that I can invest into this. So I have no time to implement any support for a +\u003d/-\u003d syntax.\n\nI don\u0027t think \"permitted_reviewers\" reviewers is a good idea, as this would require checking permissions from a post filter predicate, and at least for us we know that checking permissions for all reviewers when generating change details has poor performance.",
+      "parentUuid": "50bfe897_8aaa3a74",
+      "revId": "509bf117939193a23c43889bb27e225aa9732f99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9c90fa81_bda3c145",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f3f6e9b_36128604",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-10-17T07:32:08Z",
+      "side": 1,
+      "message": "\u003e In this case the semantics would be the same as with other args where we do\n\u003e a boolean AND, so we require both the user\u003d and group\u003d args to match.\n\nMakes sense, but supporting this is orthogonal to this change, e.g. this change doesn\u0027t prevent implementing this later. I\u0027ve updated the phrasing here accordingly.",
+      "parentUuid": "9c90fa81_bda3c145",
+      "revId": "509bf117939193a23c43889bb27e225aa9732f99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "01992fda_5d499969",
@@ -48,6 +84,30 @@
       "writtenOn": "2024-10-17T02:27:03Z",
       "side": 1,
       "message": "This seems a little questionable, especially in the common case where the change owner is not the uploader.",
+      "range": {
+        "startLine": 108,
+        "startChar": 2,
+        "endLine": 109,
+        "endChar": 23
+      },
+      "revId": "509bf117939193a23c43889bb27e225aa9732f99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "063a4743_d20f2013",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-10-17T07:32:08Z",
+      "side": 1,
+      "message": "My point here is that it should be consistent with the users that are shown as reviewers in the UI.\n\nIn the case where the change owner is not the uploader and then votes on the change, they are not shown as a reviewer [1], hence it makes sense to ignore them here in this case too. I updated the phrasing to make this clearer.\n\nI don\u0027t know, [1] may be a bug. If it ever gets fixed, we may adapt the logic here to keep this consistent.\n\n[1] https://i.imgur.com/i2wZBI3.png",
+      "parentUuid": "01992fda_5d499969",
       "range": {
         "startLine": 108,
         "startChar": 2,
@@ -81,6 +141,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "701f43d7_b69d3465",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-10-17T07:32:08Z",
+      "side": 1,
+      "message": "OK, naming it \u0027all_human_reviewers\u0027 or \u0027human_reviewers\u0027 sounds fine. Done.\n\nDone.",
+      "parentUuid": "e779a4fe_da6c1933",
+      "range": {
+        "startLine": 115,
+        "startChar": 2,
+        "endLine": 116,
+        "endChar": 23
+      },
+      "revId": "509bf117939193a23c43889bb27e225aa9732f99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9d22366c_4eb73acb",
@@ -94,6 +178,30 @@
       "writtenOn": "2024-10-17T02:27:03Z",
       "side": 1,
       "message": "So... would those service users even have permission to set Code-Review votes? I\u0027m guessing they can\u0027t.\n\nIt seems like you want to a way to indicate in the label operator that these users are able to give the expected vote value for the given label (i.e. the user(s) can set Code-Review +2).\n\nIf they have permission to set Code-Review +2 and legitimately need that, then maybe we need to rethink `label:` a bit more before the code becomes a bigger mess than it already is.",
+      "range": {
+        "startLine": 119,
+        "startChar": 60,
+        "endLine": 120,
+        "endChar": 40
+      },
+      "revId": "509bf117939193a23c43889bb27e225aa9732f99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dea96b20_f739d6c8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-10-17T07:32:08Z",
+      "side": 1,
+      "message": "I think renaming the magic value to \u0027human_reviewers\u0027 resolves this concern. If anyone wants to include service users they can add support for \u0027reviewers\u0027 later.\n\nAs said above, I don\u0027t think we should include any expensive permission checking in a predicate.",
+      "parentUuid": "9d22366c_4eb73acb",
       "range": {
         "startLine": 119,
         "startChar": 60,

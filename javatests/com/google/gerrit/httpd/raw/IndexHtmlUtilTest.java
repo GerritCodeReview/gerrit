@@ -96,7 +96,7 @@ public class IndexHtmlUtilTest {
   }
 
   @Test
-  public void usePreloadRest() throws Exception {
+  public void usePreloadRestWithBasePatchNum() throws Exception {
     Accounts accountsApi = mock(Accounts.class);
     when(accountsApi.self()).thenThrow(new AuthException("user needs to be authenticated"));
 
@@ -114,9 +114,40 @@ public class IndexHtmlUtilTest {
     when(gerritApi.accounts()).thenReturn(accountsApi);
     when(gerritApi.config()).thenReturn(configApi);
 
-    assertThat(dynamicTemplateData(gerritApi, "/c/project/+/123", ""))
+    String requestedPath = "/c/project/+/123/4..6";
+    assertThat(IndexHtmlUtil.computeBasePatchNum(requestedPath)).isEqualTo(4);
+
+    assertThat(dynamicTemplateData(gerritApi, requestedPath, ""))
         .containsAtLeast(
             "defaultChangeDetailHex", "9996394",
+            "changeRequestsPath", "changes/project~123");
+  }
+
+  @Test
+  public void usePreloadRestWithNoBasePatchNum() throws Exception {
+    Accounts accountsApi = mock(Accounts.class);
+    when(accountsApi.self()).thenThrow(new AuthException("user needs to be authenticated"));
+
+    Server serverApi = mock(Server.class);
+    when(serverApi.getVersion()).thenReturn("123");
+    when(serverApi.topMenus()).thenReturn(ImmutableList.of());
+    ServerInfo serverInfo = new ServerInfo();
+    serverInfo.defaultTheme = "my-default-theme";
+    when(serverApi.getInfo()).thenReturn(serverInfo);
+
+    Config configApi = mock(Config.class);
+    when(configApi.server()).thenReturn(serverApi);
+
+    GerritApi gerritApi = mock(GerritApi.class);
+    when(gerritApi.accounts()).thenReturn(accountsApi);
+    when(gerritApi.config()).thenReturn(configApi);
+
+    String requestedPath = "/c/project/+/123";
+    assertThat(IndexHtmlUtil.computeBasePatchNum(requestedPath)).isEqualTo(0);
+
+    assertThat(dynamicTemplateData(gerritApi, requestedPath, ""))
+        .containsAtLeast(
+            "defaultChangeDetailHex", "1996394",
             "changeRequestsPath", "changes/project~123");
   }
 

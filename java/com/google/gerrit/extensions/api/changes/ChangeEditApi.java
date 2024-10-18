@@ -96,7 +96,7 @@ public interface ChangeEditApi {
    * @param input params for rebasing the change edit
    * @throws RestApiException if the change edit couldn't be rebased or a change edit wasn't present
    */
-  void rebase(RebaseChangeEditInput input) throws RestApiException;
+  EditInfo rebase(RebaseChangeEditInput input) throws RestApiException;
 
   /**
    * Publishes the change edit using default settings. See {@link #publish(PublishChangeEditInput)}
@@ -246,7 +246,7 @@ public interface ChangeEditApi {
     }
 
     @Override
-    public void rebase(RebaseChangeEditInput input) throws RestApiException {
+    public EditInfo rebase(RebaseChangeEditInput input) throws RestApiException {
       throw new NotImplementedException();
     }
 

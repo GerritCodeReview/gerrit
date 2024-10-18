@@ -14,35 +14,51 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.common.base.Preconditions.checkState;
+
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.changes.RebaseChangeEditInput;
+import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.edit.ChangeEdit;
+import com.google.gerrit.server.edit.ChangeEditJson;
 import com.google.gerrit.server.edit.ChangeEditModifier;
+import com.google.gerrit.server.edit.ChangeEditUtil;
+import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.Optional;
 import org.eclipse.jgit.lib.Repository;
 
 @Singleton
 public class RebaseChangeEdit implements RestModifyView<ChangeResource, RebaseChangeEditInput> {
   private final GitRepositoryManager repositoryManager;
   private final ChangeEditModifier editModifier;
+  private final ChangeEditUtil editUtil;
+  private final ChangeEditJson editJson;
 
   @Inject
-  RebaseChangeEdit(GitRepositoryManager repositoryManager, ChangeEditModifier editModifier) {
+  RebaseChangeEdit(
+      GitRepositoryManager repositoryManager,
+      ChangeEditModifier editModifier,
+      ChangeEditUtil editUtil,
+      ChangeEditJson editJson) {
     this.repositoryManager = repositoryManager;
     this.editModifier = editModifier;
+    this.editUtil = editUtil;
+    this.editJson = editJson;
   }
 
   @Override
-  public Response<Object> apply(ChangeResource rsrc, RebaseChangeEditInput input)
+  public Response<EditInfo> apply(ChangeResource rsrc, RebaseChangeEditInput input)
       throws AuthException, ResourceConflictException, IOException, PermissionBackendException {
     if (input == null) {
       input = new RebaseChangeEditInput();
@@ -50,10 +66,18 @@ public class RebaseChangeEdit implements RestModifyView<ChangeResource, RebaseCh
 
     Project.NameKey project = rsrc.getProject();
     try (Repository repository = repositoryManager.openRepository(project)) {
-      editModifier.rebaseEdit(repository, rsrc.getNotes(), input);
+      CodeReviewCommit rebasedChangeEditCommit =
+          editModifier.rebaseEdit(repository, rsrc.getNotes(), input);
+
+      Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getNotes(), rsrc.getUser());
+      checkState(edit.isPresent(), "change edit missing after rebase");
+      EditInfo editInfo = editJson.toEditInfo(edit.get(), /* downloadCommands= */ false);
+      if (!rebasedChangeEditCommit.getFilesWithGitConflicts().isEmpty()) {
+        editInfo.containsGitConflicts = true;
+      }
+      return Response.ok(editInfo);
     } catch (InvalidChangeOperationException e) {
       throw new ResourceConflictException(e.getMessage());
     }
-    return Response.none();
   }
 }

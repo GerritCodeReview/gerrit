@@ -59,12 +59,12 @@ public class DeleteZombieCommentsRefsTest {
       Ref ref1 = createRefWithNonEmptyTreeCommit(usersRepo, 1, 1000001);
       Ref ref2 = createRefWithEmptyTreeCommit(usersRepo, 1, 1000002);
 
-      DeleteZombieCommentsRefs clean =
+      try (DeleteZombieCommentsRefs clean =
           new DeleteZombieCommentsRefs(
-              new AllUsersName("All-Users"), repoManager, null, (msg) -> {});
-      int deletedDrafts = clean.execute();
-      assertThat(deletedDrafts).isEqualTo(1);
-
+              new AllUsersName("All-Users"), repoManager, null, (msg) -> {})) {
+        int deletedDrafts = clean.execute();
+        assertThat(deletedDrafts).isEqualTo(1);
+      }
       /* Check that ref1 still exists, and ref2 is deleted */
       assertThat(usersRepo.exactRef(ref1.getName())).isNotNull();
       assertThat(usersRepo.exactRef(ref2.getName())).isNull();
@@ -81,21 +81,21 @@ public class DeleteZombieCommentsRefsTest {
       assertThat(usersRepo.getRefDatabase().getRefs()).hasSize(3);
 
       int cleanupPercentage = 50;
-      DeleteZombieCommentsRefs clean =
+      try (DeleteZombieCommentsRefs clean =
           new DeleteZombieCommentsRefs(
-              new AllUsersName("All-Users"), repoManager, cleanupPercentage, (msg) -> {});
-      int deletedDrafts = clean.execute();
-      assertThat(deletedDrafts).isEqualTo(1);
+              new AllUsersName("All-Users"), repoManager, cleanupPercentage, (msg) -> {})) {
+        int deletedDrafts = clean.execute();
+        assertThat(deletedDrafts).isEqualTo(1);
+        /* ref1 not deleted, ref2 deleted, ref3 not deleted because of the clean percentage */
+        assertThat(usersRepo.getRefDatabase().getRefs()).hasSize(2);
+        assertThat(usersRepo.exactRef(ref1.getName())).isNotNull();
+        assertThat(usersRepo.exactRef(ref2.getName())).isNull();
+        assertThat(usersRepo.exactRef(ref3.getName())).isNotNull();
 
-      /* ref1 not deleted, ref2 deleted, ref3 not deleted because of the clean percentage */
-      assertThat(usersRepo.getRefDatabase().getRefs()).hasSize(2);
-      assertThat(usersRepo.exactRef(ref1.getName())).isNotNull();
-      assertThat(usersRepo.exactRef(ref2.getName())).isNull();
-      assertThat(usersRepo.exactRef(ref3.getName())).isNotNull();
-
-      /* Re-execute the cleanup and make sure nothing's changed */
-      deletedDrafts = clean.execute();
-      assertThat(deletedDrafts).isEqualTo(0);
+        /* Re-execute the cleanup and make sure nothing's changed */
+        deletedDrafts = clean.execute();
+        assertThat(deletedDrafts).isEqualTo(0);
+      }
       assertThat(usersRepo.getRefDatabase().getRefs()).hasSize(2);
       assertThat(usersRepo.exactRef(ref1.getName())).isNotNull();
       assertThat(usersRepo.exactRef(ref2.getName())).isNull();
@@ -103,13 +103,13 @@ public class DeleteZombieCommentsRefsTest {
 
       /* Increase the cleanup percentage */
       cleanupPercentage = 70;
-      clean =
+      try (DeleteZombieCommentsRefs clean =
           new DeleteZombieCommentsRefs(
-              new AllUsersName("All-Users"), repoManager, cleanupPercentage, (msg) -> {});
+              new AllUsersName("All-Users"), repoManager, cleanupPercentage, (msg) -> {})) {
 
-      deletedDrafts = clean.execute();
-      assertThat(deletedDrafts).isEqualTo(1);
-
+        int deletedDrafts = clean.execute();
+        assertThat(deletedDrafts).isEqualTo(1);
+      }
       /* Now ref3 is deleted */
       assertThat(usersRepo.getRefDatabase().getRefs()).hasSize(1);
       assertThat(usersRepo.exactRef(ref1.getName())).isNotNull();
@@ -141,11 +141,12 @@ public class DeleteZombieCommentsRefsTest {
       assertThat(usersRepo.getRefDatabase().getRefs().size())
           .isEqualTo(goodRefs.size() + badRefs.size());
 
-      DeleteZombieCommentsRefs clean =
+      try (DeleteZombieCommentsRefs clean =
           new DeleteZombieCommentsRefs(
-              new AllUsersName("All-Users"), repoManager, null, (msg) -> {});
-      int deletedDrafts = clean.execute();
-      assertThat(deletedDrafts).isEqualTo(5001);
+              new AllUsersName("All-Users"), repoManager, null, (msg) -> {})) {
+        int deletedDrafts = clean.execute();
+        assertThat(deletedDrafts).isEqualTo(5001);
+      }
 
       assertThat(
               usersRepo.getRefDatabase().getRefs().stream()

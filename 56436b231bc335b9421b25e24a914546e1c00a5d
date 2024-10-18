@@ -65,6 +65,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee436a08_9f88a72f",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-fix-preview.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-10-18T06:48:37Z",
+      "side": 1,
+      "message": "I was thinking about it and maybe simplify it. Callers by default set latestPatchnum as targetPatchNum and API will figure out how to call rest API.\n\nThanks for comment about it.",
+      "parentUuid": "f252f949_3f6265d2",
+      "range": {
+        "startLine": 276,
+        "startChar": 45,
+        "endLine": 276,
+        "endChar": 64
+      },
+      "revId": "56436b231bc335b9421b25e24a914546e1c00a5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d82f7551_a0e11a90",

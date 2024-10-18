@@ -23,7 +23,6 @@ import com.google.common.hash.Hashing;
 import com.google.gerrit.extensions.api.changes.ApplyPatchInput;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.server.patch.DiffUtil;
 import com.google.gerrit.server.util.CommitMessageUtil;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

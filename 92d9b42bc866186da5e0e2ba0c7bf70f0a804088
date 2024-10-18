@@ -70,6 +70,30 @@
       },
       "revId": "92d9b42bc866186da5e0e2ba0c7bf70f0a804088",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "09f306d9_ab18482d",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListProjectsImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 1014257
+      },
+      "writtenOn": "2024-10-18T09:33:42Z",
+      "side": 1,
+      "message": "yes, that has worked. Thank you Yash.",
+      "parentUuid": "e48ddfa8_0c6e81c4",
+      "range": {
+        "startLine": 576,
+        "startChar": 0,
+        "endLine": 579,
+        "endChar": 33
+      },
+      "revId": "92d9b42bc866186da5e0e2ba0c7bf70f0a804088",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

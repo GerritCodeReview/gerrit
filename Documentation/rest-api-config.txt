@@ -1514,8 +1514,9 @@ capability.
       "name": "accounts",
       "versions": {
         "13": {
-          "write": true,
-          "search": true
+          "is_write": true,
+          "is_search": true,
+          "num_docs": 3250
         }
       }
     },
@@ -1523,12 +1524,14 @@ capability.
       "name": "changes",
       "versions": {
         "83": {
-          "write": true,
-          "search": true
+          "is_write": true,
+          "is_search": true,
+          "num_docs": 250000
         },
         "84": {
-          "write": true,
-          "search": false
+          "is_write": true,
+          "is_search": false,
+          "num_docs": 150000
         }
       }
     },
@@ -1536,8 +1539,9 @@ capability.
       "name": "groups",
       "versions": {
         "10": {
-          "write": true,
-          "search": true
+          "is_write": true,
+          "is_search": true,
+          "num_docs": 500
         }
       }
     },
@@ -1545,8 +1549,9 @@ capability.
       "name": "projects",
       "versions": {
         "8": {
-          "write": true,
-          "search": true
+          "is_write": true,
+          "is_search": true,
+          "num_docs": 90
         }
       }
     }
@@ -1576,12 +1581,14 @@ index version is used to search and which versions are written to.
     "name": "changes",
     "versions": {
       "83": {
-        "write": true,
-        "search": true
+        "is_write": true,
+        "is_search": true,
+        "num_docs": 250000
       },
       "84": {
-        "write": true,
-        "search": false
+        "is_write": true,
+        "is_search": false,
+        "num_docs": 150000
       }
     }
   }
@@ -1607,12 +1614,14 @@ Lists versions of an index used by Gerrit.
   )]}'
   {
     "83": {
-      "write": true,
-      "search": true
+      "is_write": true,
+      "is_search": true,
+      "num_docs": 250000
     },
     "84": {
-      "write": true,
-      "search": false
+      "is_write": true,
+      "is_search": false,
+      "num_docs": 150000
     }
   }
 ----
@@ -1636,8 +1645,9 @@ Get info about one version of an index used by Gerrit.
 
   )]}'
   {
-    "write": true,
-    "search": false
+    "is_write": true,
+    "is_search": false,
+    "num_docs": 150000
   }
 ----
 

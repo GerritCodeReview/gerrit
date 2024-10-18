@@ -75,6 +75,9 @@ public interface Index<K, V> {
   /** Delete all documents from the index. */
   void deleteAll();
 
+  /** Return the number of documents in this index */
+  int numDocs();
+
   /**
    * Convert the given operator predicate into a source searching the index and returning only the
    * documents matching that predicate.

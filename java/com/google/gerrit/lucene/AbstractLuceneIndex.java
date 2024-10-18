@@ -326,6 +326,21 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
     }
   }
 
+  @Override
+  public int numDocs() {
+    try {
+      IndexSearcher searcher = acquire();
+      try {
+        return searcher.getIndexReader().numDocs();
+      } finally {
+        release(searcher);
+      }
+    } catch (IOException e) {
+      logger.atSevere().withCause(e).log(e.getMessage());
+      throw new StorageException(e);
+    }
+  }
+
   public IndexWriter getWriter() {
     return writer;
   }

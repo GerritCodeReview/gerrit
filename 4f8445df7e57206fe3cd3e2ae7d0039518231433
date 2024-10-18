@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c1acb39_afe06d34",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 2371,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2024-10-18T11:25:23Z",
+      "side": 1,
+      "message": "optional: Maybe rename to fixPatchNum (and in gr-rest-api.ts) too.",
+      "range": {
+        "startLine": 2371,
+        "startChar": 4,
+        "endLine": 2371,
+        "endChar": 12
+      },
+      "revId": "4f8445df7e57206fe3cd3e2ae7d0039518231433",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

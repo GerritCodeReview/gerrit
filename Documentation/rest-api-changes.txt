@@ -3634,6 +3634,9 @@ As response "`204 No Content`" is returned.
 
 Rebases change edit on top of latest patch set.
 
+Optionally, input parameters may be specified in the request body as a
+link:#rebase-change-edit-input[RebaseChangeEditInput] entity.
+
 If one of the secondary emails associated with the user performing the operation was used as the
 committer email in the latest patch set, the same email will be used as the committer email in the
 new change edit commit; otherwise, the user's preferred email will be used.
@@ -8481,6 +8484,19 @@ The `RangeInfo` entity stores the coordinates of a range.
 |`start`      | First index.
 |`end`        | Last index.
 |===========================
+
+[[rebase-change-edit-input]]
+=== RebaseChangeEditInput
+The `RebaseChangeEditInput` entity contains information for rebasing a change edit.
+
+[options="header",cols="1,^1,5"]
+|====================================
+|Field Name             ||Description
+|`allow_conflicts`      |optional, defaults to false|
+If `true`, the rebase also succeeds if there are conflicts. +
+If there are conflicts the file contents of the rebased patch set contain
+git conflict markers to indicate the conflicts.
+|====================================
 
 [[rebase-input]]
 === RebaseInput

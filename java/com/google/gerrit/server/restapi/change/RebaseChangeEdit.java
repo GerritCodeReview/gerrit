@@ -15,7 +15,7 @@
 package com.google.gerrit.server.restapi.change;
 
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.extensions.common.Input;
+import com.google.gerrit.extensions.api.changes.RebaseChangeEditInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -31,7 +31,7 @@ import java.io.IOException;
 import org.eclipse.jgit.lib.Repository;
 
 @Singleton
-public class RebaseChangeEdit implements RestModifyView<ChangeResource, Input> {
+public class RebaseChangeEdit implements RestModifyView<ChangeResource, RebaseChangeEditInput> {
   private final GitRepositoryManager repositoryManager;
   private final ChangeEditModifier editModifier;
 
@@ -42,11 +42,15 @@ public class RebaseChangeEdit implements RestModifyView<ChangeResource, Input> {
   }
 
   @Override
-  public Response<Object> apply(ChangeResource rsrc, Input in)
+  public Response<Object> apply(ChangeResource rsrc, RebaseChangeEditInput input)
       throws AuthException, ResourceConflictException, IOException, PermissionBackendException {
+    if (input == null) {
+      input = new RebaseChangeEditInput();
+    }
+
     Project.NameKey project = rsrc.getProject();
     try (Repository repository = repositoryManager.openRepository(project)) {
-      editModifier.rebaseEdit(repository, rsrc.getNotes());
+      editModifier.rebaseEdit(repository, rsrc.getNotes(), input);
     } catch (InvalidChangeOperationException e) {
       throw new ResourceConflictException(e.getMessage());
     }

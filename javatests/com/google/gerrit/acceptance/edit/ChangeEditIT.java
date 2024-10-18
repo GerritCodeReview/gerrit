@@ -54,6 +54,7 @@ import com.google.gerrit.extensions.api.changes.ChangeEditIdentityType;
 import com.google.gerrit.extensions.api.changes.FileContentInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.PublishChangeEditInput;
+import com.google.gerrit.extensions.api.changes.RebaseChangeEditInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewerInput;
 import com.google.gerrit.extensions.client.ChangeEditDetailOption;
@@ -75,6 +76,7 @@ import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
 import com.google.gerrit.extensions.restapi.RawInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.git.ObjectIds;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.project.testing.TestLabels;
 import com.google.gerrit.server.restapi.change.ChangeEdits;
@@ -106,8 +108,10 @@ public class ChangeEditIT extends AbstractDaemonTest {
   private static final String FILE_NAME3 = "foo3";
   private static final String FILE_NAME4 = "foo4";
   private static final int FILE_MODE = 100644;
-  private static final byte[] CONTENT_OLD = "bar".getBytes(UTF_8);
-  private static final byte[] CONTENT_NEW = "baz".getBytes(UTF_8);
+  private static final String CONTENT_OLD_STR = "bar";
+  private static final byte[] CONTENT_OLD = CONTENT_OLD_STR.getBytes(UTF_8);
+  private static final String CONTENT_NEW_STR = "baz";
+  private static final byte[] CONTENT_NEW = CONTENT_NEW_STR.getBytes(UTF_8);
   private static final String CONTENT_NEW2_STR = "quxÄÜÖßµ";
   private static final byte[] CONTENT_NEW2 = CONTENT_NEW2_STR.getBytes(UTF_8);
   private static final String CONTENT_BINARY_ENCODED_NEW =
@@ -301,6 +305,48 @@ public class ChangeEditIT extends AbstractDaemonTest {
                     + "merge conflict(s):\n%s\n\n"
                     + "Download the edit patchset and rebase manually to preserve changes.",
                 FILE_NAME));
+  }
+
+  @Test
+  public void rebaseEditWithConflictsAllowed() throws Exception {
+    // Create change where FILE_NAME has OLD_CONTENT
+    String changeId = newChange(admin.newIdent());
+
+    PatchSet previousPatchSet = getCurrentPatchSet(changeId);
+    createEmptyEditFor(changeId);
+    gApi.changes().id(changeId).edit().modifyFile(FILE_NAME, RawInputUtil.create(CONTENT_NEW));
+
+    // add new patch set that touches the same file as the edit
+    addNewPatchSetWithModifiedFile(changeId, FILE_NAME, new String(CONTENT_NEW2, UTF_8));
+    PatchSet currentPatchSet = getCurrentPatchSet(changeId);
+
+    Optional<EditInfo> originalEdit = getEdit(changeId);
+    assertThat(originalEdit).value().baseRevision().isEqualTo(previousPatchSet.commitId().name());
+
+    Timestamp beforeRebase = originalEdit.get().commit.committer.date;
+
+    RebaseChangeEditInput input = new RebaseChangeEditInput();
+    input.allowConflicts = true;
+    gApi.changes().id(changeId).edit().rebase(input);
+
+    ensureSameBytes(
+        getFileContentOfEdit(changeId, FILE_NAME),
+        String.format(
+                "<<<<<<< PATCH SET (%s %s)\n"
+                    + "%s\n"
+                    + "=======\n"
+                    + "%s\n"
+                    + ">>>>>>> EDIT      (%s %s)\n",
+                ObjectIds.abbreviateName(currentPatchSet.commitId(), 6),
+                gApi.changes().id(changeId).get().subject,
+                CONTENT_NEW2_STR,
+                CONTENT_NEW_STR,
+                ObjectIds.abbreviateName(ObjectId.fromString(originalEdit.get().commit.commit), 6),
+                originalEdit.get().commit.subject)
+            .getBytes(UTF_8));
+    Optional<EditInfo> rebasedEdit = getEdit(changeId);
+    assertThat(rebasedEdit).value().baseRevision().isEqualTo(currentPatchSet.commitId().name());
+    assertThat(rebasedEdit).value().commit().committer().date().isNotEqualTo(beforeRebase);
   }
 
   @Test

@@ -72,6 +72,7 @@ import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
+import com.google.gerrit.extensions.restapi.MergeConflictException;
 import com.google.gerrit.extensions.restapi.RawInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.server.ChangeMessagesUtil;
@@ -275,6 +276,28 @@ public class ChangeEditIT extends AbstractDaemonTest {
     Optional<EditInfo> rebasedEdit = getEdit(changeId2);
     assertThat(rebasedEdit).value().baseRevision().isEqualTo(currentPatchSet.commitId().name());
     assertThat(rebasedEdit).value().commit().committer().date().isNotEqualTo(beforeRebase);
+  }
+
+  @Test
+  public void rebaseEditWithConflictsFails() throws Exception {
+    PatchSet previousPatchSet = getCurrentPatchSet(changeId2);
+    createEmptyEditFor(changeId2);
+    gApi.changes().id(changeId2).edit().modifyFile(FILE_NAME, RawInputUtil.create(CONTENT_NEW));
+
+    // add new patch set that touches the same file as the edit
+    addNewPatchSetWithModifiedFile(changeId2, FILE_NAME, new String(CONTENT_NEW2, UTF_8));
+
+    Optional<EditInfo> originalEdit = getEdit(changeId2);
+    assertThat(originalEdit).value().baseRevision().isEqualTo(previousPatchSet.commitId().name());
+
+    MergeConflictException exception =
+        assertThrows(
+            MergeConflictException.class, () -> gApi.changes().id(changeId2).edit().rebase());
+    assertThat(exception)
+        .hasMessageThat()
+        .isEqualTo(
+            "Rebasing change edit onto another patchset results in merge conflicts."
+                + " Download the edit patchset and rebase manually to preserve changes.");
   }
 
   @Test

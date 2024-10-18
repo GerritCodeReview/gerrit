@@ -39,6 +39,7 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.edit.tree.ChangeFileContentModification;
 import com.google.gerrit.server.edit.tree.DeleteFileModification;
 import com.google.gerrit.server.edit.tree.RenameFileModification;
@@ -77,6 +78,7 @@ import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.InvalidPathException;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -112,9 +114,11 @@ public class ChangeEditModifier {
   private final ProjectCache projectCache;
   private final NoteDbEdits noteDbEdits;
   private final ChangeUtil changeUtil;
+  private final boolean useDiff3;
 
   @Inject
   ChangeEditModifier(
+      @GerritServerConfig Config cfg,
       @GerritPersonIdent PersonIdent gerritIdent,
       ChangeIndexer indexer,
       Provider<CurrentUser> currentUser,
@@ -132,6 +136,9 @@ public class ChangeEditModifier {
     this.projectCache = projectCache;
     noteDbEdits = new NoteDbEdits(gitReferenceUpdated, zoneId, indexer, currentUser);
     this.changeUtil = changeUtil;
+    this.useDiff3 =
+        cfg.getBoolean(
+            "change", /* subsection= */ null, "diff3ConflictView", /* defaultValue= */ false);
   }
 
   /**
@@ -560,7 +567,7 @@ public class ChangeEditModifier {
     return newTreeId;
   }
 
-  private static ObjectId merge(
+  private ObjectId merge(
       Repository repository,
       ChangeEdit changeEdit,
       RevCommit basePatchSetCommit,
@@ -616,7 +623,7 @@ public class ChangeEditModifier {
                 "EDIT",
                 revWalk.parseCommit(editCommitId),
                 mergeResults,
-                /* diff3Format= */ false);
+                useDiff3);
         objectInserter.flush();
       }
       return newTreeId;

@@ -37,6 +37,7 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.UseClockStep;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
@@ -340,6 +341,52 @@ public class ChangeEditIT extends AbstractDaemonTest {
                 ObjectIds.abbreviateName(currentPatchSet.commitId(), 6),
                 gApi.changes().id(changeId).get().subject,
                 CONTENT_NEW2_STR,
+                CONTENT_NEW_STR,
+                ObjectIds.abbreviateName(ObjectId.fromString(originalEdit.get().commit.commit), 6),
+                originalEdit.get().commit.subject)
+            .getBytes(UTF_8));
+    Optional<EditInfo> rebasedEdit = getEdit(changeId);
+    assertThat(rebasedEdit).value().baseRevision().isEqualTo(currentPatchSet.commitId().name());
+    assertThat(rebasedEdit).value().commit().committer().date().isNotEqualTo(beforeRebase);
+  }
+
+  @Test
+  @GerritConfig(name = "change.diff3ConflictView", value = "true")
+  public void rebaseEditWithConflictsAllowedUsingDiff3() throws Exception {
+    // Create change where FILE_NAME has OLD_CONTENT
+    String changeId = newChange(admin.newIdent());
+
+    PatchSet previousPatchSet = getCurrentPatchSet(changeId);
+    createEmptyEditFor(changeId);
+    gApi.changes().id(changeId).edit().modifyFile(FILE_NAME, RawInputUtil.create(CONTENT_NEW));
+
+    // add new patch set that touches the same file as the edit
+    addNewPatchSetWithModifiedFile(changeId, FILE_NAME, new String(CONTENT_NEW2, UTF_8));
+    PatchSet currentPatchSet = getCurrentPatchSet(changeId);
+
+    Optional<EditInfo> originalEdit = getEdit(changeId);
+    assertThat(originalEdit).value().baseRevision().isEqualTo(previousPatchSet.commitId().name());
+
+    Timestamp beforeRebase = originalEdit.get().commit.committer.date;
+
+    RebaseChangeEditInput input = new RebaseChangeEditInput();
+    input.allowConflicts = true;
+    gApi.changes().id(changeId).edit().rebase(input);
+
+    ensureSameBytes(
+        getFileContentOfEdit(changeId, FILE_NAME),
+        String.format(
+                "<<<<<<< PATCH SET (%s %s)\n"
+                    + "%s\n"
+                    + "||||||| BASE\n"
+                    + "%s\n"
+                    + "=======\n"
+                    + "%s\n"
+                    + ">>>>>>> EDIT      (%s %s)\n",
+                ObjectIds.abbreviateName(currentPatchSet.commitId(), 6),
+                gApi.changes().id(changeId).get().subject,
+                CONTENT_NEW2_STR,
+                CONTENT_OLD_STR,
                 CONTENT_NEW_STR,
                 ObjectIds.abbreviateName(ObjectId.fromString(originalEdit.get().commit.commit), 6),
                 originalEdit.get().commit.subject)

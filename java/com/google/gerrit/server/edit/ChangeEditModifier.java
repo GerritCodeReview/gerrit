@@ -17,6 +17,7 @@ package com.google.gerrit.server.edit;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
 
+import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.BooleanProjectConfig;
@@ -44,6 +45,7 @@ import com.google.gerrit.server.edit.tree.RestoreFileModification;
 import com.google.gerrit.server.edit.tree.TreeCreator;
 import com.google.gerrit.server.edit.tree.TreeModification;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
@@ -81,6 +83,7 @@ import org.eclipse.jgit.merge.MergeAlgorithm;
 import org.eclipse.jgit.merge.MergeChunk;
 import org.eclipse.jgit.merge.MergeResult;
 import org.eclipse.jgit.merge.MergeStrategy;
+import org.eclipse.jgit.merge.ResolveMerger;
 import org.eclipse.jgit.merge.ThreeWayMerger;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -563,9 +566,17 @@ public class ChangeEditModifier {
     boolean successful = merger.merge(basePatchSetCommit, editCommitId);
 
     if (!successful) {
+      List<String> conflicts = ImmutableList.of();
+      if (merger instanceof ResolveMerger) {
+        conflicts = ((ResolveMerger) merger).getUnmergedPaths();
+      }
+
       throw new MergeConflictException(
-          "Rebasing change edit onto another patchset results in merge conflicts. Download the edit"
-              + " patchset and rebase manually to preserve changes.");
+          String.format(
+              "Rebasing change edit onto another patchset results in merge conflicts.\n\n"
+                  + "%s\n\n"
+                  + "Download the edit patchset and rebase manually to preserve changes.",
+              MergeUtil.createConflictMessage(conflicts)));
     }
     return merger.getResultTreeId();
   }

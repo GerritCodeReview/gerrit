@@ -83,7 +83,6 @@ import org.eclipse.jgit.merge.MergeResult;
 import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.merge.ThreeWayMerger;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
@@ -198,9 +197,7 @@ public class ChangeEditModifier {
     }
 
     RevCommit basePatchSetCommit = NoteDbEdits.lookupCommit(repository, currentPatchSet.commitId());
-    RevTree basePatchSetTree = basePatchSetCommit.getTree();
-
-    ObjectId newTreeId = merge(repository, changeEdit, basePatchSetTree);
+    ObjectId newTreeId = merge(repository, changeEdit, basePatchSetCommit);
     Instant nowTimestamp = TimeUtil.now();
     String commitMessage = currentEditCommit.getFullMessage();
     ObjectId newEditCommitId =
@@ -554,22 +551,41 @@ public class ChangeEditModifier {
     return newTreeId;
   }
 
-  private static ObjectId merge(Repository repository, ChangeEdit changeEdit, ObjectId newTreeId)
+  private static ObjectId merge(
+      Repository repository, ChangeEdit changeEdit, RevCommit basePatchSetCommit)
       throws IOException, MergeConflictException {
     PatchSet basePatchSet = changeEdit.getBasePatchSet();
     ObjectId basePatchSetCommitId = basePatchSet.commitId();
     ObjectId editCommitId = changeEdit.getEditCommit();
 
-    ThreeWayMerger threeWayMerger = MergeStrategy.RESOLVE.newMerger(repository, true);
-    threeWayMerger.setBase(basePatchSetCommitId);
-    boolean successful = threeWayMerger.merge(newTreeId, editCommitId);
+    ThreeWayMerger merger = MergeStrategy.RESOLVE.newMerger(repository, true);
+    merger.setBase(basePatchSetCommitId);
+    boolean successful = merger.merge(basePatchSetCommit, editCommitId);
 
     if (!successful) {
       throw new MergeConflictException(
           "Rebasing change edit onto another patchset results in merge conflicts. Download the edit"
               + " patchset and rebase manually to preserve changes.");
     }
-    return threeWayMerger.getResultTreeId();
+    return merger.getResultTreeId();
+  }
+
+  private static ObjectId mergeTrees(Repository repository, ChangeEdit changeEdit, ObjectId treeId)
+      throws IOException, MergeConflictException {
+    PatchSet basePatchSet = changeEdit.getBasePatchSet();
+    ObjectId basePatchSetCommitId = basePatchSet.commitId();
+    ObjectId editCommitId = changeEdit.getEditCommit();
+
+    ThreeWayMerger merger = MergeStrategy.RESOLVE.newMerger(repository, true);
+    merger.setBase(basePatchSetCommitId);
+    boolean successful = merger.merge(treeId, editCommitId);
+
+    if (!successful) {
+      throw new MergeConflictException(
+          "Rebasing change edit onto another patchset results in merge conflicts. Download the edit"
+              + " patchset and rebase manually to preserve changes.");
+    }
+    return merger.getResultTreeId();
   }
 
   private String createNewCommitMessage(
@@ -690,7 +706,7 @@ public class ChangeEditModifier {
       if (ObjectId.isEqual(changeEdit.getEditCommit(), commitToModify)) {
         return newTreeId;
       }
-      return merge(repository, changeEdit, newTreeId);
+      return mergeTrees(repository, changeEdit, newTreeId);
     }
 
     @Override

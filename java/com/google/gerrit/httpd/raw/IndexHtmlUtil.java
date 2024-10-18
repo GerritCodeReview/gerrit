@@ -88,15 +88,21 @@ public class IndexHtmlUtil {
    * specified then it points to PARENT which is represented by 0
    */
   public static Integer computeBasePatchNum(@Nullable String requestedPath) {
-    if (requestedPath == null) return 0;
+    if (requestedPath == null) {
+      return 0;
+    }
     Matcher matcher = IndexPreloadingUtil.CHANGE_URL_PATTERN.matcher(requestedPath);
     String basePatchNum = null;
     if (matcher.matches()) {
       basePatchNum = matcher.group("basePatchNum");
     }
-    if (basePatchNum == null) return 0; // No match is found
+    if (basePatchNum == null) {
+      return 0; // No match is found
+    }
     Integer basePatchNumInt = Ints.tryParse(basePatchNum);
-    if (basePatchNumInt == null) return 0; // tryParse was unable to parse
+    if (basePatchNumInt == null) {
+      return 0; // tryParse was unable to parse
+    }
     return basePatchNumInt;
   }
 

@@ -272,7 +272,8 @@ export class GrChecksFixPreview extends LitElement {
     const res = await this.restApiService.applyFixSuggestion(
       changeNum,
       basePatchNum,
-      this.fixSuggestionInfo.replacements
+      this.fixSuggestionInfo.replacements,
+      this.latestPatchNum
     );
     this.applyingFix = false;
     this.reporting.timeEnd(Timing.APPLY_FIX_LOAD, {
@@ -315,16 +316,14 @@ export class GrChecksFixPreview extends LitElement {
   }
 
   private isApplyEditDisabled() {
-    if (!this.diff || this.patchSet === undefined) return true;
-    return this.patchSet !== this.latestPatchNum;
+    if (this.patchSet === undefined) return true;
+    return !this.diff;
   }
 
   private computeApplyFixTooltip() {
     if (this.patchSet === undefined) return '';
     if (!this.diff) return 'Fix is still loading ...';
-    return this.patchSet !== this.latestPatchNum
-      ? 'You cannot apply this fix because it is from a previous patchset'
-      : '';
+    return '';
   }
 }
 

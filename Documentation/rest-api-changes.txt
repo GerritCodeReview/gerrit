@@ -3646,15 +3646,47 @@ new change edit commit; otherwise, the user's preferred email will be used.
   POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/edit:rebase HTTP/1.0
 ----
 
-When change was rebased on top of latest patch set, response
-"`204 No Content`" is returned. When change edit is already
-based on top of the latest patch set, the response
-"`409 Conflict`" is returned.
+When the change was rebased on top of latest patch set, the response code is
+"`200 OK`" and the rebased change edit is returned as an
+link:#edit-info[EditInfo] entity.
 
 .Response
 ----
-  HTTP/1.1 204 No Content
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "commit": {
+      "parents": [
+        {
+          "commit": "1eee2c9d8f352483781e772f35dc586a69ff5646",
+        }
+      ],
+      "author": {
+        "name": "Shawn O. Pearce",
+        "email": "sop@google.com",
+        "date": "2012-04-24 18:08:08.000000000",
+        "tz": -420
+       },
+       "committer": {
+         "name": "Shawn O. Pearce",
+         "email": "sop@google.com",
+         "date": "2012-04-24 18:08:08.000000000",
+         "tz": -420
+       },
+       "subject": "Use an EventBus to manage star icons",
+       "message": "Use an EventBus to manage star icons\n\nImage widgets that need to ..."
+    },
+    "base_patch_set_number": s,
+    "base_revision": "c35558e0925e6985c91f3a16921537d5e572b7a3",
+    "ref": "refs/users/01/1000001/edit-76482/2"
+  }
 ----
+
+When the change edit is already based on top of the latest patch set, the
+response code is "`409 Conflict`".
 
 [[delete-edit]]
 === Delete Change Edit
@@ -8027,6 +8059,12 @@ provided as a map that maps the protocol name ("`git`", "`http`",
 |`files`                |optional|
 The files of the change edit as a map that maps the file names to
 link:#file-info[FileInfo] entities.
+|`contains_git_conflicts`  |optional, not set if `false`|
+Whether the change edit contains conflicts. +
+If `true`, some of the file contents of the change edit contain git conflict
+markers to indicate the conflicts. +
+Only set if this edit info is returned in response to a request that
+link:#rebase-edit[rebases the change edit] and conflicts are allowed.
 |===========================
 
 [[fetch-info]]
@@ -8495,7 +8533,9 @@ The `RebaseChangeEditInput` entity contains information for rebasing a change ed
 |`allow_conflicts`      |optional, defaults to false|
 If `true`, the rebase also succeeds if there are conflicts. +
 If there are conflicts the file contents of the rebased patch set contain
-git conflict markers to indicate the conflicts.
+git conflict markers to indicate the conflicts. +
+Callers can find out whether there were conflicts by checking the
+`contains_git_conflicts` field in the returned link:#edit-info[EditInfo].
 |====================================
 
 [[rebase-input]]

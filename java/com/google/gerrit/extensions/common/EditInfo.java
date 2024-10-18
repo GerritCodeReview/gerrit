@@ -23,4 +23,16 @@ public class EditInfo {
   public String ref;
   public Map<String, FetchInfo> fetch;
   public Map<String, FileInfo> files;
+
+  /**
+   * Whether the change edit contains conflicts.
+   *
+   * <p>If {@code true}, some of the file contents of the change contain git conflict markers to
+   * indicate the conflicts.
+   *
+   * <p>Only set if this edit info is returned in response to a request that rebases the change edit
+   * (see {@link com.google.gerrit.server.restapi.change.RebaseChangeEdit}) and conflicts are
+   * allowed.
+   */
+  public Boolean containsGitConflicts;
 }

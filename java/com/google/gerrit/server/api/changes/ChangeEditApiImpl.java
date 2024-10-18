@@ -16,6 +16,7 @@ package com.google.gerrit.server.api.changes;
 
 import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.extensions.api.changes.ChangeEditApi;
 import com.google.gerrit.extensions.api.changes.ChangeEditIdentityType;
 import com.google.gerrit.extensions.api.changes.FileContentInput;
@@ -155,10 +156,10 @@ public class ChangeEditApiImpl implements ChangeEditApi {
   }
 
   @Override
-  public void rebase(RebaseChangeEditInput input) throws RestApiException {
+  @CanIgnoreReturnValue
+  public EditInfo rebase(RebaseChangeEditInput input) throws RestApiException {
     try {
-      @SuppressWarnings("unused")
-      var unused = rebaseChangeEdit.apply(changeResource, input);
+      return rebaseChangeEdit.apply(changeResource, input).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot rebase change edit", e);
     }

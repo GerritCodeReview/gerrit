@@ -275,12 +275,11 @@ public class ChangeEditIT extends AbstractDaemonTest {
     Optional<EditInfo> originalEdit = getEdit(changeId2);
     assertThat(originalEdit).value().baseRevision().isEqualTo(previousPatchSet.commitId().name());
     Timestamp beforeRebase = originalEdit.get().commit.committer.date;
-    gApi.changes().id(changeId2).edit().rebase();
+    EditInfo rebasedEdit = gApi.changes().id(changeId2).edit().rebase(new RebaseChangeEditInput());
     ensureSameBytes(getFileContentOfEdit(changeId2, FILE_NAME), CONTENT_NEW);
     ensureSameBytes(getFileContentOfEdit(changeId2, FILE_NAME2), CONTENT_NEW2);
-    Optional<EditInfo> rebasedEdit = getEdit(changeId2);
-    assertThat(rebasedEdit).value().baseRevision().isEqualTo(currentPatchSet.commitId().name());
-    assertThat(rebasedEdit).value().commit().committer().date().isNotEqualTo(beforeRebase);
+    assertThat(rebasedEdit).baseRevision().isEqualTo(currentPatchSet.commitId().name());
+    assertThat(rebasedEdit).commit().committer().date().isNotEqualTo(beforeRebase);
   }
 
   @Test
@@ -328,7 +327,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
 
     RebaseChangeEditInput input = new RebaseChangeEditInput();
     input.allowConflicts = true;
-    gApi.changes().id(changeId).edit().rebase(input);
+    EditInfo rebasedEdit = gApi.changes().id(changeId).edit().rebase(input);
 
     ensureSameBytes(
         getFileContentOfEdit(changeId, FILE_NAME),
@@ -345,9 +344,9 @@ public class ChangeEditIT extends AbstractDaemonTest {
                 ObjectIds.abbreviateName(ObjectId.fromString(originalEdit.get().commit.commit), 6),
                 originalEdit.get().commit.subject)
             .getBytes(UTF_8));
-    Optional<EditInfo> rebasedEdit = getEdit(changeId);
-    assertThat(rebasedEdit).value().baseRevision().isEqualTo(currentPatchSet.commitId().name());
-    assertThat(rebasedEdit).value().commit().committer().date().isNotEqualTo(beforeRebase);
+    assertThat(rebasedEdit).baseRevision().isEqualTo(currentPatchSet.commitId().name());
+    assertThat(rebasedEdit).commit().committer().date().isNotEqualTo(beforeRebase);
+    assertThat(rebasedEdit).containsGitConflicts().isTrue();
   }
 
   @Test
@@ -371,7 +370,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
 
     RebaseChangeEditInput input = new RebaseChangeEditInput();
     input.allowConflicts = true;
-    gApi.changes().id(changeId).edit().rebase(input);
+    EditInfo rebasedEdit = gApi.changes().id(changeId).edit().rebase(input);
 
     ensureSameBytes(
         getFileContentOfEdit(changeId, FILE_NAME),
@@ -391,9 +390,30 @@ public class ChangeEditIT extends AbstractDaemonTest {
                 ObjectIds.abbreviateName(ObjectId.fromString(originalEdit.get().commit.commit), 6),
                 originalEdit.get().commit.subject)
             .getBytes(UTF_8));
-    Optional<EditInfo> rebasedEdit = getEdit(changeId);
-    assertThat(rebasedEdit).value().baseRevision().isEqualTo(currentPatchSet.commitId().name());
-    assertThat(rebasedEdit).value().commit().committer().date().isNotEqualTo(beforeRebase);
+    assertThat(rebasedEdit).baseRevision().isEqualTo(currentPatchSet.commitId().name());
+    assertThat(rebasedEdit).commit().committer().date().isNotEqualTo(beforeRebase);
+    assertThat(rebasedEdit).containsGitConflicts().isTrue();
+  }
+
+  @Test
+  public void rebaseEditWithConflictsAllowedNoConflicts() throws Exception {
+    PatchSet previousPatchSet = getCurrentPatchSet(changeId2);
+    createEmptyEditFor(changeId2);
+    gApi.changes().id(changeId2).edit().modifyFile(FILE_NAME, RawInputUtil.create(CONTENT_NEW));
+    addNewPatchSet(changeId2);
+    PatchSet currentPatchSet = getCurrentPatchSet(changeId2);
+
+    Optional<EditInfo> originalEdit = getEdit(changeId2);
+    assertThat(originalEdit).value().baseRevision().isEqualTo(previousPatchSet.commitId().name());
+    Timestamp beforeRebase = originalEdit.get().commit.committer.date;
+    RebaseChangeEditInput input = new RebaseChangeEditInput();
+    input.allowConflicts = true;
+    EditInfo rebasedEdit = gApi.changes().id(changeId2).edit().rebase(input);
+    ensureSameBytes(getFileContentOfEdit(changeId2, FILE_NAME), CONTENT_NEW);
+    ensureSameBytes(getFileContentOfEdit(changeId2, FILE_NAME2), CONTENT_NEW2);
+    assertThat(rebasedEdit).baseRevision().isEqualTo(currentPatchSet.commitId().name());
+    assertThat(rebasedEdit).commit().committer().date().isNotEqualTo(beforeRebase);
+    assertThat(rebasedEdit).containsGitConflicts().isFalse();
   }
 
   @Test
@@ -431,7 +451,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     Optional<EditInfo> originalEdit = getEdit(changeId2);
     assertThat(originalEdit).value().baseRevision().isEqualTo(previousPatchSet.commitId().name());
     Timestamp beforeRebase = originalEdit.get().commit.committer.date;
-    adminRestSession.post(urlRebase(changeId2)).assertNoContent();
+    adminRestSession.post(urlRebase(changeId2)).assertOK();
     ensureSameBytes(getFileContentOfEdit(changeId2, FILE_NAME), CONTENT_NEW);
     ensureSameBytes(getFileContentOfEdit(changeId2, FILE_NAME2), CONTENT_NEW2);
     Optional<EditInfo> rebasedEdit = getEdit(changeId2);

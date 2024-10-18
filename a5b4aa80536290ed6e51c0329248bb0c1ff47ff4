@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5ffacea_13fcce2a",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1518,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-10-18T08:53:39Z",
+      "side": 1,
+      "message": "Missing `,` at the end",
+      "revId": "a5b4aa80536290ed6e51c0329248bb0c1ff47ff4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fb332596_8594026e",
@@ -14,6 +31,30 @@
       "writtenOn": "2024-10-17T17:20:40Z",
       "side": 1,
       "message": "A possible, but unlikely value for accounts? Maybe make each index have a different value to help illustrate that these are value of the different indices?",
+      "range": {
+        "startLine": 1519,
+        "startChar": 22,
+        "endLine": 1519,
+        "endChar": 28
+      },
+      "revId": "a5b4aa80536290ed6e51c0329248bb0c1ff47ff4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dadc925f_d965ec28",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1519,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-10-18T08:53:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb332596_8594026e",
       "range": {
         "startLine": 1519,
         "startChar": 22,

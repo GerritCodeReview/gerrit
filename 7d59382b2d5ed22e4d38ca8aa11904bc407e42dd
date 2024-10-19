@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c816a08_d0154851",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1169848
+      },
+      "writtenOn": "2024-10-19T04:26:02Z",
+      "side": 1,
+      "message": "repo sync -c -j8",
+      "revId": "7d59382b2d5ed22e4d38ca8aa11904bc407e42dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "24f2500f_90e584f2",

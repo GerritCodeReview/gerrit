@@ -14,9 +14,12 @@
 
 package com.google.gerrit.server.edit;
 
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.BooleanProjectConfig;
@@ -25,6 +28,7 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.ChangeEditIdentityType;
+import com.google.gerrit.extensions.api.changes.RebaseChangeEditInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
@@ -37,6 +41,7 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.edit.tree.ChangeFileContentModification;
 import com.google.gerrit.server.edit.tree.DeleteFileModification;
 import com.google.gerrit.server.edit.tree.RenameFileModification;
@@ -44,6 +49,9 @@ import com.google.gerrit.server.edit.tree.RestoreFileModification;
 import com.google.gerrit.server.edit.tree.TreeCreator;
 import com.google.gerrit.server.edit.tree.TreeModification;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.git.CodeReviewCommit;
+import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
+import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
@@ -62,15 +70,19 @@ import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import org.eclipse.jgit.diff.DiffAlgorithm;
 import org.eclipse.jgit.diff.DiffAlgorithm.SupportedAlgorithm;
 import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.diff.RawTextComparator;
+import org.eclipse.jgit.diff.Sequence;
+import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.InvalidPathException;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -81,9 +93,9 @@ import org.eclipse.jgit.merge.MergeAlgorithm;
 import org.eclipse.jgit.merge.MergeChunk;
 import org.eclipse.jgit.merge.MergeResult;
 import org.eclipse.jgit.merge.MergeStrategy;
+import org.eclipse.jgit.merge.ResolveMerger;
 import org.eclipse.jgit.merge.ThreeWayMerger;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
@@ -106,9 +118,11 @@ public class ChangeEditModifier {
   private final ProjectCache projectCache;
   private final NoteDbEdits noteDbEdits;
   private final ChangeUtil changeUtil;
+  private final boolean useDiff3;
 
   @Inject
   ChangeEditModifier(
+      @GerritServerConfig Config cfg,
       @GerritPersonIdent PersonIdent gerritIdent,
       ChangeIndexer indexer,
       Provider<CurrentUser> currentUser,
@@ -126,6 +140,9 @@ public class ChangeEditModifier {
     this.projectCache = projectCache;
     noteDbEdits = new NoteDbEdits(gitReferenceUpdated, zoneId, indexer, currentUser);
     this.changeUtil = changeUtil;
+    this.useDiff3 =
+        cfg.getBoolean(
+            "change", /* subsection= */ null, "diff3ConflictView", /* defaultValue= */ false);
   }
 
   /**
@@ -157,12 +174,15 @@ public class ChangeEditModifier {
    *
    * @param repository the affected Git repository
    * @param notes the {@link ChangeNotes} of the change whose change edit should be rebased
+   * @param input the request input
+   * @return the rebased change edit commit
    * @throws AuthException if the user isn't authenticated or not allowed to use change edits
    * @throws InvalidChangeOperationException if a change edit doesn't exist for the specified
    *     change, the change edit is already based on the latest patch set, or the change represents
    *     the root commit
    */
-  public void rebaseEdit(Repository repository, ChangeNotes notes)
+  public CodeReviewCommit rebaseEdit(
+      Repository repository, ChangeNotes notes, RebaseChangeEditInput input)
       throws AuthException, InvalidChangeOperationException, IOException,
           PermissionBackendException, ResourceConflictException {
     assertCanEdit(notes);
@@ -182,14 +202,16 @@ public class ChangeEditModifier {
               notes.getChangeId(), currentPatchSet.id()));
     }
 
-    rebase(notes.getProjectName(), repository, changeEdit, currentPatchSet);
+    return rebase(
+        notes.getProjectName(), repository, changeEdit, currentPatchSet, input.allowConflicts);
   }
 
-  private void rebase(
+  private CodeReviewCommit rebase(
       Project.NameKey project,
       Repository repository,
       ChangeEdit changeEdit,
-      PatchSet currentPatchSet)
+      PatchSet currentPatchSet,
+      boolean allowConflicts)
       throws IOException, MergeConflictException, InvalidChangeOperationException {
     RevCommit currentEditCommit = changeEdit.getEditCommit();
     if (currentEditCommit.getParentCount() == 0) {
@@ -197,20 +219,10 @@ public class ChangeEditModifier {
           "Rebase change edit against root commit not supported");
     }
 
-    RevCommit basePatchSetCommit = NoteDbEdits.lookupCommit(repository, currentPatchSet.commitId());
-    RevTree basePatchSetTree = basePatchSetCommit.getTree();
-
-    ObjectId newTreeId = merge(repository, changeEdit, basePatchSetTree);
     Instant nowTimestamp = TimeUtil.now();
-    String commitMessage = currentEditCommit.getFullMessage();
-    ObjectId newEditCommitId =
-        createCommit(
-            repository,
-            basePatchSetCommit,
-            newTreeId,
-            commitMessage,
-            currentEditCommit.getAuthorIdent(),
-            new PersonIdent(currentEditCommit.getCommitterIdent(), nowTimestamp));
+    RevCommit basePatchSetCommit = NoteDbEdits.lookupCommit(repository, currentPatchSet.commitId());
+    CodeReviewCommit newEditCommit =
+        merge(repository, changeEdit, basePatchSetCommit, nowTimestamp, allowConflicts);
 
     noteDbEdits.baseEditOnDifferentPatchset(
         project,
@@ -218,8 +230,10 @@ public class ChangeEditModifier {
         changeEdit,
         currentPatchSet,
         currentEditCommit,
-        newEditCommitId,
+        newEditCommit,
         nowTimestamp);
+
+    return newEditCommit;
   }
 
   /**
@@ -554,22 +568,106 @@ public class ChangeEditModifier {
     return newTreeId;
   }
 
-  private static ObjectId merge(Repository repository, ChangeEdit changeEdit, ObjectId newTreeId)
+  private CodeReviewCommit merge(
+      Repository repository,
+      ChangeEdit changeEdit,
+      RevCommit basePatchSetCommit,
+      Instant timestamp,
+      boolean allowConflicts)
       throws IOException, MergeConflictException {
     PatchSet basePatchSet = changeEdit.getBasePatchSet();
     ObjectId basePatchSetCommitId = basePatchSet.commitId();
     ObjectId editCommitId = changeEdit.getEditCommit();
 
-    ThreeWayMerger threeWayMerger = MergeStrategy.RESOLVE.newMerger(repository, true);
-    threeWayMerger.setBase(basePatchSetCommitId);
-    boolean successful = threeWayMerger.merge(newTreeId, editCommitId);
+    try (CodeReviewRevWalk revWalk = CodeReviewCommit.newRevWalk(repository);
+        ObjectInserter objectInserter = repository.newObjectInserter()) {
+      ThreeWayMerger merger = MergeStrategy.RESOLVE.newMerger(repository, true);
+      merger.setBase(basePatchSetCommitId);
+
+      DirCache dc = DirCache.newInCore();
+      if (allowConflicts && merger instanceof ResolveMerger) {
+        // The DirCache must be set on ResolveMerger before calling
+        // ResolveMerger#merge(AnyObjectId...) otherwise the entries in DirCache don't get
+        // populated.
+        ((ResolveMerger) merger).setDirCache(dc);
+      }
+
+      boolean successful = merger.merge(basePatchSetCommit, editCommitId);
+
+      ObjectId newTreeId;
+      ImmutableSet<String> filesWithGitConflicts;
+      if (successful) {
+        newTreeId = merger.getResultTreeId();
+        filesWithGitConflicts = null;
+      } else {
+        List<String> conflicts = ImmutableList.of();
+        if (merger instanceof ResolveMerger) {
+          conflicts = ((ResolveMerger) merger).getUnmergedPaths();
+        }
+
+        if (!allowConflicts || !(merger instanceof ResolveMerger)) {
+          throw new MergeConflictException(
+              String.format(
+                  "Rebasing change edit onto another patchset results in merge conflicts.\n\n"
+                      + "%s\n\n"
+                      + "Download the edit patchset and rebase manually to preserve changes.",
+                  MergeUtil.createConflictMessage(conflicts)));
+        }
+
+        Map<String, MergeResult<? extends Sequence>> mergeResults =
+            ((ResolveMerger) merger).getMergeResults();
+        filesWithGitConflicts =
+            mergeResults.entrySet().stream()
+                .filter(e -> e.getValue().containsConflicts())
+                .map(Map.Entry::getKey)
+                .collect(toImmutableSet());
+
+        newTreeId =
+            MergeUtil.mergeWithConflicts(
+                revWalk,
+                objectInserter,
+                dc,
+                "PATCH SET",
+                basePatchSetCommit,
+                "EDIT",
+                revWalk.parseCommit(editCommitId),
+                mergeResults,
+                useDiff3);
+        objectInserter.flush();
+      }
+
+      RevCommit currentEditCommit = changeEdit.getEditCommit();
+      ObjectId newEditCommitId =
+          createCommit(
+              objectInserter,
+              basePatchSetCommit,
+              newTreeId,
+              currentEditCommit.getFullMessage(),
+              currentEditCommit.getAuthorIdent(),
+              new PersonIdent(currentEditCommit.getCommitterIdent(), timestamp));
+
+      CodeReviewCommit newEditCommit = revWalk.parseCommit(newEditCommitId);
+      newEditCommit.setFilesWithGitConflicts(filesWithGitConflicts);
+      return newEditCommit;
+    }
+  }
+
+  private static ObjectId mergeTrees(Repository repository, ChangeEdit changeEdit, ObjectId treeId)
+      throws IOException, MergeConflictException {
+    PatchSet basePatchSet = changeEdit.getBasePatchSet();
+    ObjectId basePatchSetCommitId = basePatchSet.commitId();
+    ObjectId editCommitId = changeEdit.getEditCommit();
+
+    ThreeWayMerger merger = MergeStrategy.RESOLVE.newMerger(repository, true);
+    merger.setBase(basePatchSetCommitId);
+    boolean successful = merger.merge(treeId, editCommitId);
 
     if (!successful) {
       throw new MergeConflictException(
           "Rebasing change edit onto another patchset results in merge conflicts. Download the edit"
               + " patchset and rebase manually to preserve changes.");
     }
-    return threeWayMerger.getResultTreeId();
+    return merger.getResultTreeId();
   }
 
   private String createNewCommitMessage(
@@ -606,16 +704,28 @@ public class ChangeEditModifier {
       PersonIdent committer)
       throws IOException {
     try (ObjectInserter objectInserter = repository.newObjectInserter()) {
-      CommitBuilder builder = new CommitBuilder();
-      builder.setTreeId(tree);
-      builder.setParentIds(basePatchsetCommit.getParents());
-      builder.setAuthor(author);
-      builder.setCommitter(committer);
-      builder.setMessage(commitMessage);
-      ObjectId newCommitId = objectInserter.insert(builder);
-      objectInserter.flush();
-      return newCommitId;
+      return createCommit(
+          objectInserter, basePatchsetCommit, tree, commitMessage, author, committer);
     }
+  }
+
+  private ObjectId createCommit(
+      ObjectInserter objectInserter,
+      RevCommit basePatchsetCommit,
+      ObjectId tree,
+      String commitMessage,
+      PersonIdent author,
+      PersonIdent committer)
+      throws IOException {
+    CommitBuilder builder = new CommitBuilder();
+    builder.setTreeId(tree);
+    builder.setParentIds(basePatchsetCommit.getParents());
+    builder.setAuthor(author);
+    builder.setCommitter(committer);
+    builder.setMessage(commitMessage);
+    ObjectId newCommitId = objectInserter.insert(builder);
+    objectInserter.flush();
+    return newCommitId;
   }
 
   private PersonIdent getCommitterIdent(RevCommit basePatchsetCommit, Instant commitTimestamp) {
@@ -690,7 +800,7 @@ public class ChangeEditModifier {
       if (ObjectId.isEqual(changeEdit.getEditCommit(), commitToModify)) {
         return newTreeId;
       }
-      return merge(repository, changeEdit, newTreeId);
+      return mergeTrees(repository, changeEdit, newTreeId);
     }
 
     @Override

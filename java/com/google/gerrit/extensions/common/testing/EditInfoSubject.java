@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertAbout;
 import static com.google.gerrit.extensions.common.testing.CommitInfoSubject.commits;
 import static com.google.gerrit.truth.MapSubject.mapEntries;
 
+import com.google.common.truth.BooleanSubject;
 import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.StringSubject;
 import com.google.common.truth.Subject;
@@ -61,5 +62,11 @@ public class EditInfoSubject extends Subject {
   public MapSubject files() {
     isNotNull();
     return check("files").about(mapEntries()).that(editInfo.files);
+  }
+
+  public BooleanSubject containsGitConflicts() {
+    isNotNull();
+    return check("containsGitConflicts")
+        .that(editInfo.containsGitConflicts != null ? editInfo.containsGitConflicts : false);
   }
 }

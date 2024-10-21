@@ -135,6 +135,24 @@
       "parentUuid": "4a8ba76a_ed9074f0",
       "revId": "eeaaae5f15b06adf242f1327383465924cb67352",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1868d04_229815e3",
+        "filename": "contrib/hooks/ref-updated_repack-geometric.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2024-10-21T16:35:22Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "13669ed3_75caf2f8",
+      "revId": "eeaaae5f15b06adf242f1327383465924cb67352",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

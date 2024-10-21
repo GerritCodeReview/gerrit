@@ -59,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "42274a1c_65c6c86e",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ChangeEditApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-10-21T09:29:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b4563685_f77edb09",
+      "range": {
+        "startLine": 96,
+        "startChar": 12,
+        "endLine": 96,
+        "endChar": 23
+      },
+      "revId": "3b3b97475fc5fe81d6f83d69ad7b1b893a8ef099",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ab4a1109_6b325ff3",
@@ -82,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "07a847cf_6f27b458",
+        "filename": "java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-10-21T09:29:36Z",
+      "side": 1,
+      "message": "Nice, I didn\u0027t know this syntax yet.\n\n\u003e Are we in java 16?\n\nYes, I think so. At least the 3.10 release notes mention that the minimum Java version is 17 now [1] and Luca mentioned in [2] that with Gerrit 3.11 we will be moving to Java 21.\n\n[1] https://gerrit-review.git.corp.google.com/c/homepage/+/434977/1/pages/site/releases/3.10.md\n[2] https://groups.google.com/g/repo-discuss/c/u-U-0Qx0Mx0/m/DRVgKwGcAAAJ\n\nUnfortunately trying to use this syntax makes the Code-Style check fail, as we are still using google-java-format-1.7, which can\u0027t compile this. \n\nI see that there is already a change that added support for google-java-format-1.22.0, but it\u0027s not used by the CI yet.",
+      "parentUuid": "ab4a1109_6b325ff3",
+      "range": {
+        "startLine": 579,
+        "startChar": 6,
+        "endLine": 584,
+        "endChar": 7
+      },
+      "revId": "3b3b97475fc5fe81d6f83d69ad7b1b893a8ef099",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a607b770_a65afd57",
@@ -95,6 +143,30 @@
       "writtenOn": "2024-10-21T08:30:19Z",
       "side": 1,
       "message": "also here can you use `merger instanceof ResolveMerger resolveMerger`\n```suggestion\n        if (merger instanceof ResolveMerger resolveMerger) {\n          conflicts \u003d resolveMerger.getUnmergedPaths();\n        }\n\n```",
+      "range": {
+        "startLine": 593,
+        "startChar": 8,
+        "endLine": 596,
+        "endChar": 0
+      },
+      "revId": "3b3b97475fc5fe81d6f83d69ad7b1b893a8ef099",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3ca4548_1dbdb603",
+        "filename": "java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 596,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-10-21T09:29:36Z",
+      "side": 1,
+      "message": "Unfortunately can\u0027t use this yet, see comment above.",
+      "parentUuid": "a607b770_a65afd57",
       "range": {
         "startLine": 593,
         "startChar": 8,

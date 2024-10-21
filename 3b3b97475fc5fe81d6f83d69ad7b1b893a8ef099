@@ -1,0 +1,108 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a3eed20_898b6ddc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-10-21T08:30:19Z",
+      "side": 1,
+      "message": "Just few nits",
+      "revId": "3b3b97475fc5fe81d6f83d69ad7b1b893a8ef099",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4563685_f77edb09",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ChangeEditApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-10-21T08:30:19Z",
+      "side": 1,
+      "message": "nit: double input",
+      "range": {
+        "startLine": 96,
+        "startChar": 12,
+        "endLine": 96,
+        "endChar": 23
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "319ee894_fa619db3",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "java/com/google/gerrit/extensions/api/changes/ChangeEditApi.java",
+              "range": {
+                "startLine": 96,
+                "startChar": 0,
+                "endLine": 97,
+                "endChar": 0
+              },
+              "replacement": "   * @param input params for rebasing the change edit\n"
+            }
+          ]
+        }
+      ],
+      "revId": "3b3b97475fc5fe81d6f83d69ad7b1b893a8ef099",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab4a1109_6b325ff3",
+        "filename": "java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-10-21T08:30:19Z",
+      "side": 1,
+      "message": "Can you do `merger instanceof ResolveMerger resolveMerger`? Are we in java 16?\n```suggestion\n      if (allowConflicts \u0026\u0026 merger instanceof ResolveMerger resolveMerger) {\n        // The DirCache must be set on ResolveMerger before calling\n        // ResolveMerger#merge(AnyObjectId...) otherwise the entries in DirCache don\u0027t get\n        // populated.\n        resolveMerger.setDirCache(dc);\n      }\n```",
+      "range": {
+        "startLine": 579,
+        "startChar": 6,
+        "endLine": 584,
+        "endChar": 7
+      },
+      "revId": "3b3b97475fc5fe81d6f83d69ad7b1b893a8ef099",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a607b770_a65afd57",
+        "filename": "java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 596,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-10-21T08:30:19Z",
+      "side": 1,
+      "message": "also here can you use `merger instanceof ResolveMerger resolveMerger`\n```suggestion\n        if (merger instanceof ResolveMerger resolveMerger) {\n          conflicts \u003d resolveMerger.getUnmergedPaths();\n        }\n\n```",
+      "range": {
+        "startLine": 593,
+        "startChar": 8,
+        "endLine": 596,
+        "endChar": 0
+      },
+      "revId": "3b3b97475fc5fe81d6f83d69ad7b1b893a8ef099",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

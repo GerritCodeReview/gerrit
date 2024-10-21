@@ -22,6 +22,30 @@
       },
       "revId": "6b9a2505bdd377b99acc5356a26b181292d873e2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "916114df_9e436f98",
+        "filename": "java/com/google/gerrit/server/patch/AutoMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-10-21T10:16:36Z",
+      "side": 0,
+      "message": "IIUC this comment is explaining that we need to use an InMemoryInserter if we don\u0027t plan on saving results, rather than just an NonFlushingWrapper around a normal inserter. \n\nSince InMemoryInserter has an empty flush() method it shouldn\u0027t be needed to wrap the InMemoryInserter in a NonFlushingWrapper that suppresses flush by having an empty flush() method.\n\nSo I don\u0027t see a contradiction here.",
+      "parentUuid": "ff2195b9_8af97654",
+      "range": {
+        "startLine": 247,
+        "startChar": 7,
+        "endLine": 248,
+        "endChar": 71
+      },
+      "revId": "6b9a2505bdd377b99acc5356a26b181292d873e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

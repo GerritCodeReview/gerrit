@@ -20,23 +20,6 @@
  */
 
 /**
- * The authentication type that is configured on the server.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#auth-info
- */
-export enum AuthType {
-  OPENID = 'OPENID',
-  OPENID_SSO = 'OPENID_SSO',
-  OAUTH = 'OAUTH',
-  HTTP = 'HTTP',
-  HTTP_LDAP = 'HTTP_LDAP',
-  CLIENT_SSL_CERT_LDAP = 'CLIENT_SSL_CERT_LDAP',
-  LDAP = 'LDAP',
-  LDAP_BIND = 'LDAP_BIND',
-  CUSTOM_EXTENSION = 'CUSTOM_EXTENSION',
-  DEVELOPMENT_BECOME_ANY_ACCOUNT = 'DEVELOPMENT_BECOME_ANY_ACCOUNT',
-}
-
-/**
  * Specifies status for a change
  */
 export enum ChangeStatus {

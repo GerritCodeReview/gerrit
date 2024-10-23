@@ -98,6 +98,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "17a71742_d9bf8336",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-10-23T09:41:12Z",
+      "side": 1,
+      "message": "Thank you. I think it\u0027s better. Structurally this class is somewhat weird, but it\u0027s good enough and a larger refactor is not worth the effort.",
+      "parentUuid": "73a60158_8ab05a13",
+      "range": {
+        "startLine": 54,
+        "startChar": 2,
+        "endLine": 54,
+        "endChar": 33
+      },
+      "revId": "1f8a7145ac604ec606040f320c0051aa18e99af8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "90a1d3e3_931845a9",
         "filename": "java/com/google/gerrit/server/account/externalids/storage/notedb/ExternalIdCacheImpl.java",
         "patchSetId": 4

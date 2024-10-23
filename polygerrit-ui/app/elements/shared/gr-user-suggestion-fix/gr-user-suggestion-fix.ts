@@ -152,7 +152,15 @@ export class GrUserSuggestionsFix extends LitElement {
         </div>
       </div>
       <gr-suggestion-diff-preview
+<<<<<<< PATCH SET (c94821 Refactor gr-checks-fix-preview to use gr-suggestion-diff-pre)
+        .fixSuggestions=${fixSuggestions[0]}
+        .patchSet=${this.comment?.patch_set}
+        .commentId=${this.comment?.id}
+||||||| BASE
+        .fixSuggestions=${fixSuggestions[0]}
+=======
         .fixSuggestionInfo=${fixSuggestions[0]}
+>>>>>>> BASE      (697daf Fix apply-edit button on user suggestions)
         .codeText=${code}
         @preview-loaded=${() => (this.previewLoaded = true)}
       ></gr-suggestion-diff-preview>`;

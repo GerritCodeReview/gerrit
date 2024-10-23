@@ -1178,6 +1178,8 @@ export class GrComment extends LitElement {
       return html`<gr-suggestion-diff-preview
         id="suggestionDiffPreview"
         .fixSuggestionInfo=${this.generatedFixSuggestion}
+        .patchSet=${this.comment?.patch_set}
+        .commentId=${this.comment?.id}
       ></gr-suggestion-diff-preview>`;
     } else {
       return nothing;

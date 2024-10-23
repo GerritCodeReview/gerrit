@@ -215,6 +215,8 @@ export class GrFixSuggestions extends LitElement {
       </div>
       <gr-suggestion-diff-preview
         .fixSuggestionInfo=${this.comment?.fix_suggestions?.[0]}
+        .patchSet=${this.comment?.patch_set}
+        .commentId=${this.comment?.id}
       ></gr-suggestion-diff-preview>`;
   }
 

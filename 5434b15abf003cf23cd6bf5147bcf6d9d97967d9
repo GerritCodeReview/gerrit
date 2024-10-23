@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e5cb219_4f8c05ed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-10-23T18:58:29Z",
+      "side": 1,
+      "message": "As discussed in our meeting - as first step in refactoring",
+      "revId": "5434b15abf003cf23cd6bf5147bcf6d9d97967d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

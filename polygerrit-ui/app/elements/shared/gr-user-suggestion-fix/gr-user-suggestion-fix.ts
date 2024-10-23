@@ -19,6 +19,7 @@ import {changeModelToken} from '../../../models/change/change-model';
 import {Comment, PatchSetNumber} from '../../../types/common';
 import {commentModelToken} from '../gr-comment-model/gr-comment-model';
 import {waitUntil} from '../../../utils/async-util';
+import {createUserFixSuggestion} from '../../../utils/comment-util';
 
 declare global {
   interface HTMLElementEventMap {
@@ -47,6 +48,8 @@ export class GrUserSuggestionsFix extends LitElement {
 
   @state() private previewLoaded = false;
 
+  @state() commentedText?: string;
+
   private readonly getConfigModel = resolve(this, configModelToken);
 
   private readonly getChangeModel = resolve(this, changeModelToken);
@@ -69,6 +72,11 @@ export class GrUserSuggestionsFix extends LitElement {
       this,
       () => this.getCommentModel().comment$,
       comment => (this.comment = comment)
+    );
+    subscribe(
+      this,
+      () => this.getCommentModel().commentedText$,
+      commentedText => (this.commentedText = commentedText)
     );
   }
 
@@ -95,8 +103,14 @@ export class GrUserSuggestionsFix extends LitElement {
   }
 
   override render() {
-    if (!this.textContent) return nothing;
+    if (!this.textContent || !this.comment || !this.commentedText)
+      return nothing;
     const code = this.textContent;
+    const fixSuggestions = createUserFixSuggestion(
+      this.comment,
+      this.commentedText,
+      code
+    );
     return html`<div class="header">
         <div class="title">
           <span>Suggested edit</span>
@@ -139,7 +153,8 @@ export class GrUserSuggestionsFix extends LitElement {
         </div>
       </div>
       <gr-suggestion-diff-preview
-        .suggestion=${this.textContent}
+        .fixSuggestions=${fixSuggestions[0]}
+        .codeText=${code}
       ></gr-suggestion-diff-preview>`;
   }
 
@@ -151,7 +166,7 @@ export class GrUserSuggestionsFix extends LitElement {
   async handleApplyFix() {
     if (!this.textContent) return;
     this.applyingFix = true;
-    await this.suggestionDiffPreview?.applyUserSuggestedFix();
+    await this.suggestionDiffPreview?.applyFix();
     this.applyingFix = false;
   }
 

@@ -280,7 +280,7 @@ export class GrFixSuggestions extends LitElement {
     if (!this.comment?.fix_suggestions) return;
     this.applyingFix = true;
     try {
-      await this.suggestionDiffPreview?.applyFixSuggestion();
+      await this.suggestionDiffPreview?.applyFix();
     } finally {
       this.applyingFix = false;
     }

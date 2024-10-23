@@ -37,7 +37,7 @@ public class DisabledExternalIdCache implements ExternalIdCache {
 
       @Provides
       @Singleton
-      public static Optional<ExternalIdCacheImpl> provideNoteDbExternalIdCacheImpl() {
+      Optional<ExternalIdCacheImpl> provideNoteDbExternalIdCacheImpl() {
         return Optional.empty();
       }
     };

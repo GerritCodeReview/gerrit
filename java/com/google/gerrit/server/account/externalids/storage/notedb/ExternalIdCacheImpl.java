@@ -88,7 +88,7 @@ public class ExternalIdCacheImpl implements ExternalIdCache {
      */
     @Provides
     @Singleton
-    public static Optional<ExternalIdCacheImpl> provideNoteDbExternalIdCacheImpl(
+    Optional<ExternalIdCacheImpl> provideNoteDbExternalIdCacheImpl(
         ExternalIdCacheImpl externalIdCache) {
       return Optional.of(externalIdCache);
     }

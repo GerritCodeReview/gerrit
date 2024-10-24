@@ -16,6 +16,24 @@
       "message": "strange, my vote should have been copied from ps 6 since you didn\u0027t change any file in ps 7, it seems Gerrit didn\u0027t recognize you as a maintainer",
       "revId": "cc5d517a49e6a2a7a776c9edfb7cd150f30bc990",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec36b1ba_3d51d2f1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2024-10-24T21:52:36Z",
+      "side": 1,
+      "message": "Hmm, good point. Let me look into adding this account as a maintainer.",
+      "parentUuid": "4f418aa1_fa2d84e3",
+      "revId": "cc5d517a49e6a2a7a776c9edfb7cd150f30bc990",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

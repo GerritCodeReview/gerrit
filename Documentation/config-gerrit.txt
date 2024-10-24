@@ -1366,12 +1366,16 @@ Defaults to `true`.
 The link:#schedule-configuration-startTime[start time] for running
 cache pruning.
 +
+_Note: ignored when `interval` is not configured_
++
 Defaults to `01:00`.
 
 [[cachePruning.interval]]cachePruning.interval::
 +
 The link:#schedule-configuration-interval[interval] for running
 cache pruning.
++
+_Note: ignored when `startTime` is not configured_
 +
 Defaults to `1d`.
 

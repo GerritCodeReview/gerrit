@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16303dfe_f2d9e9a8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-10-24T12:36:03Z",
+      "side": 0,
+      "message": "unresolved draft",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 51
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "a995a7e7_000ad61c",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+              "range": {
+                "startLine": 26,
+                "startChar": 0,
+                "endLine": 27,
+                "endChar": 0
+              },
+              "replacement": "import {sameOrigin, isSameOrigin} from \u0027../../../utils/url-util\u0027;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+              "range": {
+                "startLine": 213,
+                "startChar": 0,
+                "endLine": 214,
+                "endChar": 0
+              },
+              "replacement": "          ${isSameOrigin(href) ? \u0027\u0027 : \u0027target\u003d\"_blank\" rel\u003d\"noopener noreferrer\"\u0027}\n"
+            }
+          ]
+        }
+      ],
+      "revId": "d4274a18752e878c4ef14c18f0b6cf7ee3b67bb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

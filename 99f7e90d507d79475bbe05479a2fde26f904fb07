@@ -1,0 +1,126 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6dbd8ea_a88c6415",
+        "filename": "java/com/google/gerrit/server/submitrequirement/predicate/SubmitRequirementLabelExtensionPredicate.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2024-10-25T08:16:09Z",
+      "side": 1,
+      "message": "Can we anchor the regex to the end of the string?",
+      "range": {
+        "startLine": 57,
+        "startChar": 80,
+        "endLine": 57,
+        "endChar": 95
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "9cb91b5b_f72d7488",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "java/com/google/gerrit/server/submitrequirement/predicate/SubmitRequirementLabelExtensionPredicate.java",
+              "range": {
+                "startLine": 57,
+                "startChar": 0,
+                "endLine": 58,
+                "endChar": 0
+              },
+              "replacement": "  private static final Pattern PATTERN \u003d\n      Pattern.compile(\"(?\u003clabel\u003e[^,]*),users\u003dhuman_reviewers$\");\n"
+            }
+          ]
+        }
+      ],
+      "revId": "99f7e90d507d79475bbe05479a2fde26f904fb07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28ff6f3f_242c6d51",
+        "filename": "java/com/google/gerrit/server/submitrequirement/predicate/SubmitRequirementLabelExtensionPredicate.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2024-10-25T08:16:09Z",
+      "side": 1,
+      "message": "super nit:\n\neasier to read if you use an early return and check for eq \u003c\u003d 0. instead.",
+      "range": {
+        "startLine": 95,
+        "startChar": 8,
+        "endLine": 95,
+        "endChar": 17
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "182f6e80_e5c813a7",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "java/com/google/gerrit/server/submitrequirement/predicate/SubmitRequirementLabelExtensionPredicate.java",
+              "range": {
+                "startLine": 95,
+                "startChar": 0,
+                "endLine": 106,
+                "endChar": 0
+              },
+              "replacement": "    if (eq \u003c\u003d 0) {\n      return label;\n    }\n\n    String statusName \u003d label.substring(eq + 1).toUpperCase(Locale.US);\n    SubmitRecord.Label.Status status \u003d\n        Enums.getIfPresent(SubmitRecord.Label.Status.class, statusName).orNull();\n    if (status !\u003d null) {\n      // We would need to use SubmitRecordPredicate but can\u0027t because it doesn\u0027t implement\n      // Matchable.\n      throw new QueryParseException(\n          \"Cannot use the \u0027users\u003dhuman_reviewers\u0027 argument in conjunction with a submit record\"\n              + \" label status\");\n"
+            }
+          ]
+        }
+      ],
+      "revId": "99f7e90d507d79475bbe05479a2fde26f904fb07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87f11132_bc7d81c9",
+        "filename": "java/com/google/gerrit/server/submitrequirement/predicate/SubmitRequirementLabelExtensionPredicate.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2024-10-25T08:16:09Z",
+      "side": 1,
+      "message": "This is an interesting definition. If I configure a WANT_LGTM\u003dall, then that would mean that if I add a reviewer-by-email, that change is unsubmittable?\n\nIf so, then I could only recover by removing the reviewer which seems like an undesired behavior?",
+      "revId": "99f7e90d507d79475bbe05479a2fde26f904fb07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "008acee0_66dba174",
+        "filename": "java/com/google/gerrit/server/submitrequirement/predicate/SubmitRequirementLabelExtensionPredicate.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2024-10-25T08:16:09Z",
+      "side": 1,
+      "message": "What is the desired behavior when there are no human reviewers?\n\nIt seems ATM, that would mean \"pass\"?\n\nInutitively, I would argue that the predicate should return false if we have 0 reviewers. At least that would seem like a safer default?",
+      "range": {
+        "startLine": 152,
+        "startChar": 5,
+        "endLine": 152,
+        "endChar": 16
+      },
+      "revId": "99f7e90d507d79475bbe05479a2fde26f904fb07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

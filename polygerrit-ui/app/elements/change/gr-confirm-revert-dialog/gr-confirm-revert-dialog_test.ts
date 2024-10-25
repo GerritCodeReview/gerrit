@@ -3,6 +3,7 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import * as sinon from 'sinon';
 import {fixture, html, assert} from '@open-wc/testing';
 import '../../../test/common-test-setup';
 import {createParsedChange} from '../../../test/test-data-generators';

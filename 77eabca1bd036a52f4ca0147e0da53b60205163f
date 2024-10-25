@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f450a1c1_7484458f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-10-25T19:56:13Z",
+      "side": 1,
+      "message": "So I was in favor of just fixing the docs, but then I looked at the docs and saw how many other references the docs have to ScheduleConfig and defaults. Maybe we should instead improve `ScheduleConfig` to support defaults?",
+      "revId": "77eabca1bd036a52f4ca0147e0da53b60205163f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

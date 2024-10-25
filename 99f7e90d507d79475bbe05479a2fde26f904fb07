@@ -42,6 +42,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "62f2ea8a_62e723a0",
+        "filename": "java/com/google/gerrit/server/submitrequirement/predicate/SubmitRequirementLabelExtensionPredicate.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-10-25T10:03:28Z",
+      "side": 1,
+      "message": "Yes, good idea. Done.",
+      "parentUuid": "c6dbd8ea_a88c6415",
+      "range": {
+        "startLine": 57,
+        "startChar": 80,
+        "endLine": 57,
+        "endChar": 95
+      },
+      "revId": "99f7e90d507d79475bbe05479a2fde26f904fb07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "28ff6f3f_242c6d51",
@@ -83,6 +107,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8868ec5_fd542a93",
+        "filename": "java/com/google/gerrit/server/submitrequirement/predicate/SubmitRequirementLabelExtensionPredicate.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-10-25T10:03:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28ff6f3f_242c6d51",
+      "range": {
+        "startLine": 95,
+        "startChar": 8,
+        "endLine": 95,
+        "endChar": 17
+      },
+      "revId": "99f7e90d507d79475bbe05479a2fde26f904fb07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "87f11132_bc7d81c9",
@@ -102,6 +150,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d29c28ca_3d99b4f3",
+        "filename": "java/com/google/gerrit/server/submitrequirement/predicate/SubmitRequirementLabelExtensionPredicate.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-10-25T10:03:28Z",
+      "side": 1,
+      "message": "The intended workflow is like this:\n\n1. The change owner adds a user that doesn\u0027t have a Gerrit account as a reviewer on the change (reviewer by email).\n2. The reviewer gets an email about the review request\n3. The user opens the review link and Gerrit asks them to create an account.\n4. The user creates an account.\n5. The user approves the change\n\nAt 4. or latest at 5. the \"reviewer by email\" should be converted (automatically) into a \"real reviewer\", so that at this point the submit requirement gets fulfilled.\n\nHowever what happens at the moment is that the user is listed twice as a reviewer now, once by email and once by their Gerrit account. I consider this a bug, but fixing this is out of scope for this change. For now this workflow requires to remove the reviewer by email manually after 5. to make the change submittable. Depending on how many users are affected, we should just fix this bug.\n\nDoes this make sense?",
+      "parentUuid": "87f11132_bc7d81c9",
+      "revId": "99f7e90d507d79475bbe05479a2fde26f904fb07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "008acee0_66dba174",
         "filename": "java/com/google/gerrit/server/submitrequirement/predicate/SubmitRequirementLabelExtensionPredicate.java",
         "patchSetId": 12
@@ -113,6 +179,30 @@
       "writtenOn": "2024-10-25T08:16:09Z",
       "side": 1,
       "message": "What is the desired behavior when there are no human reviewers?\n\nIt seems ATM, that would mean \"pass\"?\n\nInutitively, I would argue that the predicate should return false if we have 0 reviewers. At least that would seem like a safer default?",
+      "range": {
+        "startLine": 152,
+        "startChar": 5,
+        "endLine": 152,
+        "endChar": 16
+      },
+      "revId": "99f7e90d507d79475bbe05479a2fde26f904fb07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c61f0cb_d524fa0d",
+        "filename": "java/com/google/gerrit/server/submitrequirement/predicate/SubmitRequirementLabelExtensionPredicate.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-10-25T10:03:28Z",
+      "side": 1,
+      "message": "Yes, I was on the fence about this (pass sounds semantically correct, fail sounds more useful and is a safer default). I\u0027m fine with changing this to fail. Done.",
+      "parentUuid": "008acee0_66dba174",
       "range": {
         "startLine": 152,
         "startChar": 5,

@@ -69,6 +69,24 @@
       "parentUuid": "20678a3c_28a4da6a",
       "revId": "84293a796c6000ed4f181b5667589ff3a529798a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "30a5b0d9_4d069510",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-10-25T07:49:39Z",
+      "side": 1,
+      "message": "Yes, users are used to that. :-)",
+      "parentUuid": "e840518b_5ef302dc",
+      "revId": "84293a796c6000ed4f181b5667589ff3a529798a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

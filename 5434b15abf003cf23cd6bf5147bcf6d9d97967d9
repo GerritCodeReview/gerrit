@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "363c44b1_e56b2614",
+        "filename": "polygerrit-ui/app/elements/shared/gr-suggestion-diff-preview/gr-suggestion-diff-preview.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-10-25T12:44:28Z",
+      "side": 1,
+      "message": "That\u0027s bug. Thanks, I added uuid.",
+      "parentUuid": "7ae44b93_8beb4460",
+      "revId": "5434b15abf003cf23cd6bf5147bcf6d9d97967d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2dd1e21b_bc32ee0b",
@@ -48,6 +66,24 @@
       "writtenOn": "2024-10-25T08:32:01Z",
       "side": 1,
       "message": "Can this be a boolean now? Maybe add a comment?",
+      "revId": "5434b15abf003cf23cd6bf5147bcf6d9d97967d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7af87d00_4d1a695e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-suggestion-diff-preview/gr-suggestion-diff-preview.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-10-25T12:44:28Z",
+      "side": 1,
+      "message": "It\u0027s used in gr-comment to check if we loaded old or new suggestion. I added comment.",
+      "parentUuid": "2dd1e21b_bc32ee0b",
       "revId": "5434b15abf003cf23cd6bf5147bcf6d9d97967d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -3,6 +3,7 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import * as sinon from 'sinon';
 import '../../../test/common-test-setup';
 import './gr-confirm-abandon-dialog';
 import {GrConfirmAbandonDialog} from './gr-confirm-abandon-dialog';

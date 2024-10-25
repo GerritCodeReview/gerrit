@@ -3,6 +3,7 @@
  * Copyright 2015 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import * as sinon from 'sinon';
 import '../../../test/common-test-setup';
 import './gr-change-list';
 import {GrChangeList, computeRelativeIndex} from './gr-change-list';

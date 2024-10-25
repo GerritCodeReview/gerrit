@@ -3,6 +3,7 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import * as sinon from 'sinon';
 import '../../test/common-test-setup';
 import {assertFails, waitEventLoop} from '../../test/test-utils';
 import {Scheduler} from './scheduler';

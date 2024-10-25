@@ -3,6 +3,7 @@
  * Copyright 2018 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import * as sinon from 'sinon';
 import {ConfigParameterInfoType} from '../../../constants/constants';
 import '../../../test/common-test-setup';
 import './gr-plugin-config-array-editor';

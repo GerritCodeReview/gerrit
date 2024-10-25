@@ -3,6 +3,7 @@
  * Copyright 2019 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import * as sinon from 'sinon';
 import '../../test/common-test-setup';
 import {GrReviewerSuggestionsProvider} from './gr-reviewer-suggestions-provider';
 import {getAppContext} from '../app-context';

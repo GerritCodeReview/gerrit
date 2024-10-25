@@ -3,6 +3,7 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import * as sinon from 'sinon';
 import '../../../test/common-test-setup';
 import {assert, fixture, html} from '@open-wc/testing';
 import {changeModelToken} from '../../../models/change/change-model';

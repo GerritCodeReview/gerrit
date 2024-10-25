@@ -3,6 +3,7 @@
  * Copyright 2019 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import * as sinon from 'sinon';
 import '../../../test/common-test-setup';
 import {CoverageType, Side} from '../../../api/diff';
 import {GrCoverageLayer, mergeRanges} from './gr-coverage-layer';

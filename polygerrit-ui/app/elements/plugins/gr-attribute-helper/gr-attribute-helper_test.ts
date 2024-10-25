@@ -3,6 +3,7 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import * as sinon from 'sinon';
 import '../../../test/common-test-setup';
 import {Polymer} from '@polymer/polymer/lib/legacy/polymer-fn';
 import {fixture, html, assert} from '@open-wc/testing';

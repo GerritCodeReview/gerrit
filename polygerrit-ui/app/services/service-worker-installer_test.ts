@@ -3,6 +3,7 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import * as sinon from 'sinon';
 import {getAppContext} from './app-context';
 import '../test/common-test-setup';
 import {ServiceWorkerInstaller} from './service-worker-installer';

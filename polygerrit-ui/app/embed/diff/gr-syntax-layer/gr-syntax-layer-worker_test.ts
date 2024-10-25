@@ -3,6 +3,7 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import * as sinon from 'sinon';
 import {assert} from '@open-wc/testing';
 import {DiffInfo, GrDiffLineType, Side} from '../../../api/diff';
 import {getAppContext} from '../../../services/app-context';

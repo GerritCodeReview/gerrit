@@ -3,6 +3,7 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import * as sinon from 'sinon';
 import {assert} from '@open-wc/testing';
 import {HookApi, PluginElement} from '../../../api/hook';
 import {PluginApi} from '../../../api/plugin';

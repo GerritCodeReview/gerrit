@@ -3,6 +3,7 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import * as sinon from 'sinon';
 import '../../../test/common-test-setup';
 import './gr-messages-list';
 import {CombinedMessage, GrMessagesList, TEST_ONLY} from './gr-messages-list';

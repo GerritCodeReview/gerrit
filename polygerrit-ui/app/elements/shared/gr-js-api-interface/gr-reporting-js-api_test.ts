@@ -3,6 +3,7 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import * as sinon from 'sinon';
 import '../../../test/common-test-setup';
 import '../../change/gr-reply-dialog/gr-reply-dialog';
 import {getAppContext} from '../../../services/app-context';

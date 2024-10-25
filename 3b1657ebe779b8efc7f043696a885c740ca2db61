@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "632f0750_3ef638a9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-10-25T12:09:51Z",
+      "side": 1,
+      "message": "Sounds good!",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 49
+      },
+      "revId": "3b1657ebe779b8efc7f043696a885c740ca2db61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67af44ec_d9788874",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1788,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-10-25T12:09:51Z",
+      "side": 1,
+      "message": "What about commenters which miss permission to apply the max Code-Review vote? E.g. if a user can only vote with Code-Review+1 and they have already voted with Code-Review+1 then they shouldn\u0027t be added to the attention set. Or does \"max Code-Review vote\" mean the max vote that the user can give, rather than the max vote that is possible for the label?",
+      "range": {
+        "startLine": 1788,
+        "startChar": 18,
+        "endLine": 1788,
+        "endChar": 38
+      },
+      "revId": "3b1657ebe779b8efc7f043696a885c740ca2db61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -22,6 +22,7 @@ suite('gr-user-suggestion-fix tests', () => {
     const commentModel = new CommentModel(getAppContext().restApiService);
     commentModel.updateState({
       comment: createComment(),
+      commentedText: 'Hello World',
     });
     element = (
       await fixture<GrUserSuggestionsFix>(

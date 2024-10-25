@@ -1177,6 +1177,7 @@ export class GrComment extends LitElement {
     if (this.generatedFixSuggestion) {
       return html`<gr-suggestion-diff-preview
         id="suggestionDiffPreview"
+        .uuid=${this.generatedSuggestionId}
         .fixSuggestionInfo=${this.generatedFixSuggestion}
       ></gr-suggestion-diff-preview>`;
     } else {

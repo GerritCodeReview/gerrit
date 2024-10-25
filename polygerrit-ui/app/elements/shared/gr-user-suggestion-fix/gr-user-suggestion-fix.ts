@@ -20,6 +20,7 @@ import {Comment, PatchSetNumber} from '../../../types/common';
 import {commentModelToken} from '../gr-comment-model/gr-comment-model';
 import {waitUntil} from '../../../utils/async-util';
 import {createUserFixSuggestion} from '../../../utils/comment-util';
+import {SuggestionMixin} from '../../../mixins/suggestion-mixin/suggestion-mixin';
 
 declare global {
   interface HTMLElementEventMap {
@@ -34,40 +35,14 @@ export interface OpenUserSuggestionPreviewEventDetail {
 }
 
 @customElement('gr-user-suggestion-fix')
-export class GrUserSuggestionsFix extends LitElement {
+export class GrUserSuggestionsFix extends SuggestionMixin(LitElement) {
   @query('gr-suggestion-diff-preview')
   suggestionDiffPreview?: GrSuggestionDiffPreview;
 
-  @state() private docsBaseUrl = '';
-
   @state() private applyingFix = false;
-
-  @state() latestPatchNum?: PatchSetNumber;
-
-  @state() comment?: Comment;
-
-  @state() private previewLoaded = false;
-
-  @state() commentedText?: string;
-
-  private readonly getConfigModel = resolve(this, configModelToken);
-
-  private readonly getChangeModel = resolve(this, changeModelToken);
-
-  private readonly getCommentModel = resolve(this, commentModelToken);
 
   constructor() {
     super();
-    subscribe(
-      this,
-      () => this.getConfigModel().docsBaseUrl$,
-      docsBaseUrl => (this.docsBaseUrl = docsBaseUrl)
-    );
-    subscribe(
-      this,
-      () => this.getChangeModel().latestPatchNum$,
-      x => (this.latestPatchNum = x)
-    );
     subscribe(
       this,
       () => this.getCommentModel().comment$,
@@ -78,28 +53,6 @@ export class GrUserSuggestionsFix extends LitElement {
       () => this.getCommentModel().commentedText$,
       commentedText => (this.commentedText = commentedText)
     );
-  }
-
-  static override get styles() {
-    return [
-      css`
-        .header {
-          background-color: var(--background-color-primary);
-          border: 1px solid var(--border-color);
-          padding: var(--spacing-xs) var(--spacing-xl);
-          display: flex;
-          align-items: center;
-          border-top-left-radius: var(--border-radius);
-          border-top-right-radius: var(--border-radius);
-        }
-        .header .title {
-          flex: 1;
-        }
-        .copyButton {
-          margin-right: var(--spacing-l);
-        }
-      `,
-    ];
   }
 
   override render() {

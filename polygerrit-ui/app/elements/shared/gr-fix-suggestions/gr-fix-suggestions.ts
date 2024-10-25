@@ -26,8 +26,12 @@ import {storageServiceToken} from '../../../services/storage/gr-storage_impl';
 import {getAppContext} from '../../../services/app-context';
 import {Interaction} from '../../../constants/reporting';
 import {waitUntil} from '../../../utils/async-util';
+import {SuggestionMixin} from '../../../mixins/suggestion-mixin/suggestion-mixin';
 
 export const COLLAPSE_SUGGESTION_STORAGE_KEY = 'collapseSuggestionStorageKey';
+
+// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
+const base = SuggestionMixin(LitElement);
 
 /**
  * gr-fix-suggestions is UI for comment.fix_suggestions.
@@ -35,7 +39,7 @@ export const COLLAPSE_SUGGESTION_STORAGE_KEY = 'collapseSuggestionStorageKey';
  * to preview and apply fix and for giving a context about suggestion.
  */
 @customElement('gr-fix-suggestions')
-export class GrFixSuggestions extends LitElement {
+export class GrFixSuggestions extends base {
   @query('gr-suggestion-diff-preview')
   suggestionDiffPreview?: GrSuggestionDiffPreview;
 

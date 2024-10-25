@@ -1,0 +1,194 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c05920a0_87740cbb",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-fix-preview.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-10-25T08:43:18Z",
+      "side": 1,
+      "message": "remove blank line",
+      "fixSuggestions": [
+        {
+          "fixId": "47d1fd5e_70731f2a",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/checks/gr-checks-fix-preview.ts",
+              "range": {
+                "startLine": 24,
+                "startChar": 0,
+                "endLine": 25,
+                "endChar": 0
+              },
+              "replacement": ""
+            }
+          ]
+        }
+      ],
+      "revId": "58050816c92e02aa426ba28badd5f04459538e7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76b40634_3e38d045",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-fix-preview.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-10-25T08:43:18Z",
+      "side": 1,
+      "message": "`fixSuggestionInfo` does not really change, so maybe you can just wait once for the suggestionDiffPreview to be fire an event.",
+      "revId": "58050816c92e02aa426ba28badd5f04459538e7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54dccec5_ac8ebc20",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-fix-preview.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-10-25T08:43:18Z",
+      "side": 1,
+      "message": "Can `suggestionDiffPreview` fire an event instead?",
+      "revId": "58050816c92e02aa426ba28badd5f04459538e7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e61022b_34509863",
+        "filename": "polygerrit-ui/app/elements/shared/gr-suggestion-diff-preview/gr-suggestion-diff-preview.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-10-25T08:43:18Z",
+      "side": 1,
+      "message": "Add a comment.",
+      "revId": "58050816c92e02aa426ba28badd5f04459538e7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93593679_a8355b17",
+        "filename": "polygerrit-ui/app/elements/shared/gr-suggestion-diff-preview/gr-suggestion-diff-preview.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-10-25T08:43:18Z",
+      "side": 1,
+      "message": "Add a comment that this is for logging only.",
+      "revId": "58050816c92e02aa426ba28badd5f04459538e7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff81bd52_9791b091",
+        "filename": "polygerrit-ui/app/elements/shared/gr-suggestion-diff-preview/gr-suggestion-diff-preview.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-10-25T08:43:18Z",
+      "side": 1,
+      "message": "Not `string` anymore. Maybe boolean sufficient? Add a comment.",
+      "revId": "58050816c92e02aa426ba28badd5f04459538e7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b237a9cc_0a00fc2d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-suggestion-diff-preview/gr-suggestion-diff-preview.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-10-25T08:43:18Z",
+      "side": 1,
+      "message": "Also check for `patchSet`?",
+      "fixSuggestions": [
+        {
+          "fixId": "1be82cef_0f4b91b5",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-suggestion-diff-preview/gr-suggestion-diff-preview.ts",
+              "range": {
+                "startLine": 173,
+                "startChar": 0,
+                "endLine": 174,
+                "endChar": 0
+              },
+              "replacement": "    if (\n      changed.has(\u0027fixSuggestionInfo\u0027) ||\n      changed.has(\u0027changeNum\u0027) ||\n      changed.has(\u0027patchSet\u0027)\n    ) {\n"
+            }
+          ]
+        }
+      ],
+      "revId": "58050816c92e02aa426ba28badd5f04459538e7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9956824_cc9c25f5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-suggestion-diff-preview/gr-suggestion-diff-preview.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-10-25T08:43:18Z",
+      "side": 1,
+      "message": "I think you can just drop this `if`.",
+      "fixSuggestions": [
+        {
+          "fixId": "32d4b39b_02b1c877",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-suggestion-diff-preview/gr-suggestion-diff-preview.ts",
+              "range": {
+                "startLine": 174,
+                "startChar": 0,
+                "endLine": 177,
+                "endChar": 0
+              },
+              "replacement": "      this.fetchFixPreview();\n"
+            }
+          ]
+        }
+      ],
+      "revId": "58050816c92e02aa426ba28badd5f04459538e7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

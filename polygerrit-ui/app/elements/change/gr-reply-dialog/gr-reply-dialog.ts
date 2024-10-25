@@ -1687,9 +1687,10 @@ export class GrReplyDialog extends LitElement {
 
     if (this.change.status === ChangeStatus.NEW) {
       // Add everyone that the user is replying to in a comment thread.
-      this.computeCommentAccounts(draftCommentThreads).forEach(id =>
-        newAttention.add(id)
-      );
+      this.computeCommentAccountsForAttention(
+        draftCommentThreads,
+        isUploader
+      ).forEach(id => newAttention.add(id));
       // Remove the current user.
       newAttention.delete(this.account._account_id);
       // Add all new reviewers, but not the current reviewer, if they are also
@@ -1756,18 +1757,48 @@ export class GrReplyDialog extends LitElement {
     return this.isOwner && addedIds.length >= minimum;
   }
 
-  computeCommentAccounts(threads: CommentThread[]) {
+  /**
+   * Pick previous commenters for addition to attention set.
+   *
+   * For every thread:
+   *   - If owner replied and thread is unresolved: add all commenters.
+   *   - If owner replied and thread is resolved: add commenters who need to vote.
+   *   - If reviewer replied and thread is resolved: add commenters who need to vote.
+   *   - If reviewer replied and thread is unresolved: only add owner
+   *     (owner added outside this function).
+   */
+  computeCommentAccountsForAttention(
+    threads: CommentThread[],
+    isUploader: boolean
+  ) {
     const crLabel = this.change?.labels?.[StandardLabels.CODE_REVIEW];
     const maxCrVoteAccountIds = getMaxAccounts(crLabel).map(a => a._account_id);
     const accountIds = new Set<AccountId>();
     threads.forEach(thread => {
       const unresolved = isUnresolved(thread);
+      let ignoreVoteCheck = false;
+      if (unresolved) {
+        if (this.isOwner || isUploader) {
+          // Owner replied but didn't resolve, we assume clarification was asked
+          // add everyone on the thread to attention set.
+          ignoreVoteCheck = true;
+        } else {
+          // Reviewer replied owner is still the one to act. No need to add
+          // commenters.
+          return;
+        }
+      }
+      // If thread is resolved, we only bring back the commenters who have not
+      // yet left max Code-Review vote.
       thread.comments.forEach(comment => {
         if (comment.author) {
           // A comment author must have an account_id.
           const authorId = comment.author._account_id!;
-          const hasGivenMaxReviewVote = maxCrVoteAccountIds.includes(authorId);
-          if (unresolved || !hasGivenMaxReviewVote) accountIds.add(authorId);
+          const needsToVote =
+            !maxCrVoteAccountIds.includes(authorId) && // Didn't give max-vote
+            this.uploader?._account_id !== authorId && // Not uploader
+            this.change?.owner._account_id !== authorId; // Not owner
+          if (ignoreVoteCheck || needsToVote) accountIds.add(authorId);
         }
       });
     });

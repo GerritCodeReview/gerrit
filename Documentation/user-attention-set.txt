@@ -32,12 +32,20 @@ To help with the back and forth, Gerrit applies some basic automated rules for
 changing the attention set:
 
 * If reviewers are added to a change, then they are added to the attention set.
-  * Exception: A reviewer adding themselves along with a comment or vote.
+  ** Exception: A reviewer adding themselves along with a comment or vote.
 * If an active change is submitted, abandoned or reset to "work in progress",
   then all users are removed from the attention set.
 * Replying (commenting, voting or just writing a change message) removes the
   replying user from the attention set. And it adds all participants of comment
-  conversations that the user is replying to.
+  conversations that the user is replying to. Specifically
+  ** If owner is replying and thread is resolved: all participants who have not
+  given Code-Review yet, are added to the attention set.
+  ** If owner is replying and thread is unresolved: all participants are added
+  to the attention set.
+  ** If non-owner is replying and thread is unresolved: only owner is added to
+  the attention set.
+  ** If non-owner is replying and thread is resolved: all participants who have
+  not given Code-Review yet, are added to the attention set.
 * If a *reviewer* replies, then the change owner (and uploader) are added to the
   attention set.
 * For merged and abandoned changes the owner is added only when a human creates

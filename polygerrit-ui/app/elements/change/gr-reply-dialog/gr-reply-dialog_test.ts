@@ -1162,7 +1162,72 @@ suite('gr-reply-dialog tests', () => {
     );
   });
 
-  test('computeCommentAccounts', () => {
+  test('computeCommentAccountsForAttention owner comments', () => {
+    element.change = {
+      ...createChange(),
+      labels: {
+        'Code-Review': {
+          all: [
+            {_account_id: 1 as AccountId, value: 0},
+            {_account_id: 2 as AccountId, value: 1},
+            {_account_id: 3 as AccountId, value: 2},
+          ],
+          values: {
+            '-2': 'This shall not be submitted',
+            '-1': 'I would prefer this is not submitted as is',
+            ' 0': 'No score',
+            '+1': 'Looks good to me, but someone else must approve',
+            '+2': 'Looks good to me, approved',
+          },
+        },
+      },
+    };
+    element.isOwner = true;
+    const threads = [
+      {
+        ...createCommentThread([
+          {
+            ...createComment(),
+            id: '1' as UrlEncodedCommentId,
+            author: {_account_id: 1 as AccountId},
+            unresolved: false,
+          },
+          {
+            ...createComment(),
+            id: '2' as UrlEncodedCommentId,
+            in_reply_to: '1' as UrlEncodedCommentId,
+            author: {_account_id: 2 as AccountId},
+            unresolved: true,
+          },
+        ]),
+      },
+      {
+        ...createCommentThread([
+          {
+            ...createComment(),
+            id: '3' as UrlEncodedCommentId,
+            author: {_account_id: 3 as AccountId},
+            unresolved: false,
+          },
+          {
+            ...createComment(),
+            id: '4' as UrlEncodedCommentId,
+            in_reply_to: '3' as UrlEncodedCommentId,
+            author: {_account_id: 4 as AccountId},
+            unresolved: false,
+          },
+        ]),
+      },
+    ];
+    const actualAccounts = [
+      ...element.computeCommentAccountsForAttention(threads, false),
+    ];
+    // Account 3 is not included, because the comment is resolved *and* they
+    // have given the highest possible vote on the Code-Review label.
+    assert.sameMembers(actualAccounts, [1, 2, 4]);
+  });
+
+  test('computeCommentAccountsForAttention reviewer comments', () => {
     element.change = {
       ...createChange(),
       labels: {
@@ -1212,16 +1277,30 @@ suite('gr-reply-dialog tests', () => {
             ...createComment(),
             id: '4' as UrlEncodedCommentId,
             in_reply_to: '3' as UrlEncodedCommentId,
+            author: element.change.owner,
+            unresolved: false,
+          },
+          {
+            ...createComment(),
+            id: '5' as UrlEncodedCommentId,
+            in_reply_to: '4' as UrlEncodedCommentId,
             author: {_account_id: 4 as AccountId},
             unresolved: false,
           },
         ]),
       },
     ];
-    const actualAccounts = [...element.computeCommentAccounts(threads)];
+    const actualAccounts = [
+      ...element.computeCommentAccountsForAttention(threads, false),
+    ];
+    // Accounts 1 and 2 are not included, because the thread is still unresolved
+    // and the new comment is from another reviewer.
     // Account 3 is not included, because the comment is resolved *and* they
     // have given the highest possible vote on the Code-Review label.
-    assert.sameMembers(actualAccounts, [1, 2, 4]);
+    // element.change.owner is similarly not included, because they don't need
+    // to vote. (In the overall logic owner is added as part of
+    // computeNewAttention)
+    assert.sameMembers(actualAccounts, [4]);
   });
 
   test('label picker', async () => {

@@ -20,6 +20,7 @@ import com.google.common.base.Enums;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Ints;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.index.query.QueryParseException;
@@ -75,7 +76,7 @@ public class SubmitRequirementLabelExtensionPredicate extends SubmitRequirementP
   private final String label;
 
   @Inject
-  public SubmitRequirementLabelExtensionPredicate(
+  SubmitRequirementLabelExtensionPredicate(
       Arguments args, ServiceUserClassifier serviceUserClassifier, @Assisted String value)
       throws QueryParseException {
     super("label", value);
@@ -90,6 +91,7 @@ public class SubmitRequirementLabelExtensionPredicate extends SubmitRequirementP
     this.label = validateLabel(m.group("label"));
   }
 
+  @CanIgnoreReturnValue
   private String validateLabel(String label) throws QueryParseException {
     int eq = label.indexOf('=');
 

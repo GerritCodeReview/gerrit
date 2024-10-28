@@ -10,7 +10,6 @@ COMMONMARK_VERSION = "0.21.0"
 GREENMAIL_VERS = "1.5.5"
 MAIL_VERS = "1.6.0"
 MIME4J_VERS = "0.8.1"
-OW2_VERS = "9.7"
 AUTO_VALUE_GSON_VERSION = "1.3.1"
 PROLOG_VERS = "1.4.4"
 PROLOG_REPO = GERRIT
@@ -241,36 +240,6 @@ def java_dependencies():
         name = "jsoup",
         artifact = "org.jsoup:jsoup:1.14.3",
         sha1 = "c43a81e18e6d0eb71951aa031d55d5c293c531a6",
-    )
-
-    maven_jar(
-        name = "ow2-asm",
-        artifact = "org.ow2.asm:asm:" + OW2_VERS,
-        sha1 = "073d7b3086e14beb604ced229c302feff6449723",
-    )
-
-    maven_jar(
-        name = "ow2-asm-analysis",
-        artifact = "org.ow2.asm:asm-analysis:" + OW2_VERS,
-        sha1 = "e4a258b7eb96107106c0599f0061cfc1832fe07a",
-    )
-
-    maven_jar(
-        name = "ow2-asm-commons",
-        artifact = "org.ow2.asm:asm-commons:" + OW2_VERS,
-        sha1 = "e86dda4696d3c185fcc95d8d311904e7ce38a53f",
-    )
-
-    maven_jar(
-        name = "ow2-asm-tree",
-        artifact = "org.ow2.asm:asm-tree:" + OW2_VERS,
-        sha1 = "e446a17b175bfb733b87c5c2560ccb4e57d69f1a",
-    )
-
-    maven_jar(
-        name = "ow2-asm-util",
-        artifact = "org.ow2.asm:asm-util:" + OW2_VERS,
-        sha1 = "c0655519f24d92af2202cb681cd7c1569df6ead6",
     )
 
     maven_jar(

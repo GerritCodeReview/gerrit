@@ -49,6 +49,11 @@ mina-core
 nekohtml
 objenesis
 openid-consumer
+ow2-asm
+ow2-asm-analysis
+ow2-asm-commons
+ow2-asm-tree
+ow2-asm-util
 protobuf-java
 soy
 sshd-mina

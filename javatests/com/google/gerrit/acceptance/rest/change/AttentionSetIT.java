@@ -130,6 +130,11 @@ public class AttentionSetIT extends AbstractDaemonTest {
   @Before
   public void setUp() {
     TimeUtil.setCurrentMillisSupplier(fakeClock);
+    projectOperations
+        .project(allProjects)
+        .forUpdate()
+        .add(allowLabel("Code-Review").ref("refs/heads/*").group(REGISTERED_USERS).range(-2, 2))
+        .update();
   }
 
   @Test
@@ -1402,10 +1407,51 @@ public class AttentionSetIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void reviewAddsAllUsersInCommentThread() throws Exception {
+  public void ownerReplyResolvedAddsNonVotedInCommentThread() throws Exception {
     PushOneCommit.Result r = createChange();
     requestScopeOperations.setApiUser(user.id());
-    change(r).current().review(reviewWithComment());
+    ReviewInput ri = reviewWithComment();
+    ri.label("Code-Review", 2);
+    change(r).current().review(ri);
+
+    TestAccount user2 = accountCreator.user2();
+
+    requestScopeOperations.setApiUser(user2.id());
+    change(r)
+        .current()
+        .review(
+            reviewInReplyToComment(
+                Iterables.getOnlyElement(
+                        gApi.changes().id(r.getChangeId()).current().commentsAsList())
+                    .id));
+
+    change(r).attention(user.email()).remove(new AttentionSetInput("removal"));
+    requestScopeOperations.setApiUser(admin.id());
+    ri =
+        reviewInReplyToComment(
+            gApi.changes().id(r.getChangeId()).current().commentsAsList().get(1).id);
+    ri.comments.get(Patch.COMMIT_MSG).get(0).unresolved = false;
+    change(r).current().review(ri);
+
+    // First user already voted, no need to bring them back.
+    assertThat(getAttentionSetUpdatesForUser(r, user)).isEmpty();
+
+    AttentionSetUpdate attentionSet =
+        Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, user2));
+    assertThat(attentionSet).hasAccountIdThat().isEqualTo(user2.id());
+    assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.ADD);
+    assertThat(attentionSet)
+        .hasReasonThat()
+        .isEqualTo("Someone else replied on a comment you posted");
+  }
+
+  @Test
+  public void ownerReplyUnresolvedAddsAllUsersInCommentThread() throws Exception {
+    PushOneCommit.Result r = createChange();
+    requestScopeOperations.setApiUser(user.id());
+    ReviewInput ri = reviewWithComment();
+    ri.label("Code-Review", 2);
+    change(r).current().review(ri);
 
     TestAccount user2 = accountCreator.user2();
 
@@ -1435,6 +1481,71 @@ public class AttentionSetIT extends AbstractDaemonTest {
         .isEqualTo("Someone else replied on a comment you posted");
 
     attentionSet = Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, user2));
+    assertThat(attentionSet).hasAccountIdThat().isEqualTo(user2.id());
+    assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.ADD);
+    assertThat(attentionSet)
+        .hasReasonThat()
+        .isEqualTo("Someone else replied on a comment you posted");
+  }
+
+  @Test
+  public void reviewerReplyUnresolvedAddsOnlyOwner() throws Exception {
+    PushOneCommit.Result r = createChange();
+    requestScopeOperations.setApiUser(user.id());
+    change(r).current().review(reviewWithComment());
+
+    TestAccount user2 = accountCreator.user2();
+    change(r).attention(admin.email()).remove(new AttentionSetInput("removal"));
+    requestScopeOperations.setApiUser(user2.id());
+    change(r)
+        .current()
+        .review(
+            reviewInReplyToComment(
+                Iterables.getOnlyElement(
+                        gApi.changes().id(r.getChangeId()).current().commentsAsList())
+                    .id));
+
+    // First user is not needed, owner haven't addressed their comment yet.
+    assertThat(getAttentionSetUpdatesForUser(r, user)).isEmpty();
+
+    AttentionSetUpdate attentionSet =
+        Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, admin));
+    assertThat(attentionSet).hasAccountIdThat().isEqualTo(admin.id());
+    assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.ADD);
+    assertThat(attentionSet).hasReasonThat().isEqualTo("Someone else replied on the change");
+  }
+
+  @Test
+  public void reviewerReplyResolvedAddsNonVotedInCommentThread() throws Exception {
+    PushOneCommit.Result r = createChange();
+    requestScopeOperations.setApiUser(user.id());
+    ReviewInput ri = reviewWithComment();
+    ri.label("Code-Review", 2);
+    change(r).current().review(ri);
+
+    TestAccount user2 = accountCreator.user2();
+    requestScopeOperations.setApiUser(user2.id());
+    change(r)
+        .current()
+        .review(
+            reviewInReplyToComment(
+                Iterables.getOnlyElement(
+                        gApi.changes().id(r.getChangeId()).current().commentsAsList())
+                    .id));
+
+    TestAccount user3 = accountCreator.create("user3", "user3@example.com", "User3", null);
+    requestScopeOperations.setApiUser(user3.id());
+    ri =
+        reviewInReplyToComment(
+            gApi.changes().id(r.getChangeId()).current().commentsAsList().get(1).id);
+    ri.comments.get(Patch.COMMIT_MSG).get(0).unresolved = false;
+    change(r).current().review(ri);
+
+    // First user already voted, no need to bring them back.
+    assertThat(getAttentionSetUpdatesForUser(r, user)).isEmpty();
+
+    AttentionSetUpdate attentionSet =
+        Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, user2));
     assertThat(attentionSet).hasAccountIdThat().isEqualTo(user2.id());
     assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.ADD);
     assertThat(attentionSet)
@@ -3278,6 +3389,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
     comment.message = "comment";
     comment.setUpdated(TimeUtil.now());
     comment.inReplyTo = id;
+    comment.unresolved = true;
     ReviewInput reviewInput = new ReviewInput();
     reviewInput.comments = ImmutableMap.of(Patch.COMMIT_MSG, ImmutableList.of(comment));
     return reviewInput;

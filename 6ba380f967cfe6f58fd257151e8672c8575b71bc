@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ebf69469_9c760a1f",
+        "filename": "java/com/google/gerrit/server/index/scheduler/PeriodicIndexScheduler.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-10-28T15:26:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "80198957_873b80bf",
+      "range": {
+        "startLine": 62,
+        "startChar": 4,
+        "endLine": 63,
+        "endChar": 45
+      },
+      "revId": "6ba380f967cfe6f58fd257151e8672c8575b71bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f93f0921_5cec770a",
@@ -95,6 +119,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "97f59f6b_17118c34",
+        "filename": "java/com/google/gerrit/server/index/scheduler/PeriodicIndexScheduler.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-10-28T15:26:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "58f2cc70_1080cea6",
+      "range": {
+        "startLine": 70,
+        "startChar": 4,
+        "endLine": 72,
+        "endChar": 5
+      },
+      "revId": "6ba380f967cfe6f58fd257151e8672c8575b71bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "50d01161_3232144d",
@@ -132,6 +180,30 @@
       "side": 1,
       "message": "Indexer(s) are not responsible for parsing configuration, their only responsibility is to perform reindexing. Configuration parsing is a responsibility of the scheduler which then schedules period indexers as configured. What may be a bit confusing here is that the configuration parsing provides backward compatibility with the old config style which makes the parsing code look more complex than it should be.",
       "parentUuid": "50d01161_3232144d",
+      "range": {
+        "startLine": 103,
+        "startChar": 0,
+        "endLine": 134,
+        "endChar": 3
+      },
+      "revId": "6ba380f967cfe6f58fd257151e8672c8575b71bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5556821_29891fce",
+        "filename": "java/com/google/gerrit/server/index/scheduler/PeriodicIndexScheduler.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-10-28T15:26:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77cde20d_73435339",
       "range": {
         "startLine": 103,
         "startChar": 0,

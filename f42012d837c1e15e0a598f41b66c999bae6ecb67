@@ -16,6 +16,24 @@
       "message": "Why have separate FE and BE changes? Won\u0027t the FE change be obsoleted by the BE change?",
       "revId": "f42012d837c1e15e0a598f41b66c999bae6ecb67",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "11183c67_651396e6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-10-28T07:42:39Z",
+      "side": 1,
+      "message": "\u003e Why have separate FE and BE changes?\n\n- They are independent, ie. don\u0027t affect each other (just need to implement similar logic)\n- FE and BE at least for Google hosts have separate release schedule\n\n\u003e Won\u0027t the FE change be obsoleted by the BE change?\n\nNo they won\u0027t, because FE specifies reviewInput.ignore_automatic_attention_set_rules \u003d true;\n\nAnd just to be clear when I say FE vs. BE, I mean WebUI vs. Java code",
+      "parentUuid": "37ee982b_b0dfc876",
+      "revId": "f42012d837c1e15e0a598f41b66c999bae6ecb67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

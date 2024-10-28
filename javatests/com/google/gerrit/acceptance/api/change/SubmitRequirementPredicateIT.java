@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.api.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
@@ -39,13 +40,19 @@ import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelType;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.entities.SubmitRequirementExpressionResult;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.server.account.ServiceUserClassifier;
+import com.google.gerrit.server.git.meta.MetaDataUpdate;
+import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.SubmitRequirementsEvaluatorImpl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
@@ -467,6 +474,373 @@ public class SubmitRequirementPredicateIT extends AbstractDaemonTest {
     assertMatching("label:Code-Review=+2,user=non_contributor", r1.getChange().getId());
   }
 
+  @Test
+  public void label_requireVoteFromHumanReviewers() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allowLabel("Code-Review").ref("refs/*").group(REGISTERED_USERS).range(-2, 2))
+        .update();
+
+    Account.Id owner = accountCreator.create("owner").id();
+    Account.Id reviewer1 = accountCreator.create("reviewer1").id();
+    Account.Id reviewer2 = accountCreator.create("reviewer2").id();
+    Account.Id reviewer3 = accountCreator.create("reviewer3").id();
+
+    Account.Id serviceUser = accountCreator.create("serviceUser").id();
+    gApi.groups().id(ServiceUserClassifier.SERVICE_USERS).addMembers(serviceUser.toString());
+
+    Change.Id changeApprovedByAllReviewers =
+        changeOperations.newChange().project(project).owner(owner).create();
+    addReviewers(project, changeApprovedByAllReviewers, reviewer1, reviewer2, reviewer3);
+    addReviews(
+        project,
+        changeApprovedByAllReviewers,
+        ReviewInput.approve(),
+        reviewer1,
+        reviewer2,
+        reviewer3);
+
+    Change.Id changeApprovedBySomeReviewers =
+        changeOperations.newChange().project(project).owner(owner).create();
+    addReviewers(project, changeApprovedBySomeReviewers, reviewer1, reviewer2, reviewer3);
+    addReviews(project, changeApprovedBySomeReviewers, ReviewInput.approve(), reviewer1, reviewer2);
+
+    Change.Id changeRecommendedByAllReviewers =
+        changeOperations.newChange().project(project).owner(owner).create();
+    addReviewers(project, changeRecommendedByAllReviewers, reviewer1, reviewer2, reviewer3);
+    addReviews(
+        project,
+        changeRecommendedByAllReviewers,
+        ReviewInput.recommend(),
+        reviewer1,
+        reviewer2,
+        reviewer3);
+
+    Change.Id changeRecommendedBySomeReviewers =
+        changeOperations.newChange().project(project).owner(owner).create();
+    addReviewers(project, changeRecommendedBySomeReviewers, reviewer1, reviewer2, reviewer3);
+    addReviews(
+        project, changeRecommendedBySomeReviewers, ReviewInput.recommend(), reviewer1, reviewer2);
+
+    Change.Id changeNoVotesByReviewers =
+        changeOperations.newChange().project(project).owner(owner).create();
+    addReviewers(project, changeNoVotesByReviewers, reviewer1, reviewer2, reviewer3);
+
+    Change.Id changeWithoutReviewers =
+        changeOperations.newChange().project(project).owner(owner).create();
+
+    requestScopeOperations.setApiUser(user.id());
+
+    // change without reviewers doesn't match
+    assertNotMatching("label:Code-Review=MAX,users=human_reviewers", changeWithoutReviewers);
+
+    // match changes where all reviewers have the same vote
+    assertRequirement(
+        "label:Code-Review=MAX,users=human_reviewers",
+        ImmutableList.of(changeApprovedByAllReviewers),
+        ImmutableList.of(
+            changeApprovedBySomeReviewers,
+            changeRecommendedByAllReviewers,
+            changeRecommendedBySomeReviewers,
+            changeNoVotesByReviewers));
+    assertRequirement(
+        "label:Code-Review=2,users=human_reviewers",
+        ImmutableList.of(changeApprovedByAllReviewers),
+        ImmutableList.of(
+            changeApprovedBySomeReviewers,
+            changeRecommendedByAllReviewers,
+            changeRecommendedBySomeReviewers,
+            changeNoVotesByReviewers));
+    assertRequirement(
+        "label:Code-Review=1,users=human_reviewers",
+        ImmutableList.of(changeRecommendedByAllReviewers),
+        ImmutableList.of(
+            changeApprovedBySomeReviewers,
+            changeApprovedByAllReviewers,
+            changeRecommendedBySomeReviewers,
+            changeNoVotesByReviewers));
+
+    // match changes where no reviewer voted (same as "label:Code-Review=0")
+    assertRequirement(
+        "label:Code-Review=0,users=human_reviewers",
+        ImmutableList.of(changeNoVotesByReviewers),
+        ImmutableList.of(
+            changeApprovedByAllReviewers,
+            changeApprovedBySomeReviewers,
+            changeRecommendedByAllReviewers,
+            changeRecommendedBySomeReviewers));
+
+    // match changes where all reviewers have a vote <=, >=, < or >
+    assertRequirement(
+        "label:Code-Review<=2,users=human_reviewers",
+        ImmutableList.of(
+            changeApprovedByAllReviewers,
+            changeApprovedBySomeReviewers,
+            changeRecommendedByAllReviewers,
+            changeRecommendedBySomeReviewers,
+            changeNoVotesByReviewers),
+        ImmutableList.of());
+    assertRequirement(
+        "label:Code-Review<=1,users=human_reviewers",
+        ImmutableList.of(
+            changeRecommendedByAllReviewers,
+            changeRecommendedByAllReviewers,
+            changeRecommendedBySomeReviewers,
+            changeNoVotesByReviewers),
+        ImmutableList.of(changeApprovedByAllReviewers));
+    assertRequirement(
+        "label:Code-Review>=1,users=human_reviewers",
+        ImmutableList.of(changeApprovedByAllReviewers, changeRecommendedByAllReviewers),
+        ImmutableList.of(
+            changeApprovedBySomeReviewers,
+            changeRecommendedBySomeReviewers,
+            changeNoVotesByReviewers));
+    assertRequirement(
+        "label:Code-Review<1,users=human_reviewers",
+        ImmutableList.of(changeNoVotesByReviewers),
+        ImmutableList.of(
+            changeApprovedByAllReviewers,
+            changeApprovedBySomeReviewers,
+            changeRecommendedByAllReviewers,
+            changeRecommendedBySomeReviewers));
+    assertRequirement(
+        "label:Code-Review>1,users=human_reviewers",
+        ImmutableList.of(changeApprovedByAllReviewers),
+        ImmutableList.of(
+            changeApprovedBySomeReviewers,
+            changeRecommendedByAllReviewers,
+            changeRecommendedBySomeReviewers,
+            changeNoVotesByReviewers));
+
+    // match changes where all reviewers have any (non-zero) vote
+    assertRequirement(
+        "label:Code-Review=ANY,users=human_reviewers",
+        ImmutableList.of(changeApprovedByAllReviewers, changeRecommendedByAllReviewers),
+        ImmutableList.of(
+            changeApprovedBySomeReviewers,
+            changeRecommendedBySomeReviewers,
+            changeNoVotesByReviewers));
+
+    // votes of the change owners are ignored (as the change owner is not considered as a reviewer)
+    addReviews(project, changeApprovedByAllReviewers, ReviewInput.dislike(), owner);
+    assertRequirement(
+        "label:Code-Review=MAX,users=human_reviewers",
+        ImmutableList.of(changeApprovedByAllReviewers),
+        ImmutableList.of(
+            changeApprovedBySomeReviewers,
+            changeRecommendedByAllReviewers,
+            changeRecommendedBySomeReviewers,
+            changeNoVotesByReviewers));
+
+    // missing votes from service users are fine
+    addReviewers(project, changeApprovedByAllReviewers, serviceUser);
+    assertRequirement(
+        "label:Code-Review=MAX,users=human_reviewers",
+        ImmutableList.of(changeApprovedByAllReviewers),
+        ImmutableList.of(
+            changeApprovedBySomeReviewers,
+            changeRecommendedByAllReviewers,
+            changeRecommendedBySomeReviewers,
+            changeNoVotesByReviewers));
+
+    // votes from service users are ignored
+    addReviews(project, changeApprovedByAllReviewers, ReviewInput.dislike(), serviceUser);
+    assertRequirement(
+        "label:Code-Review=MAX,users=human_reviewers",
+        ImmutableList.of(changeApprovedByAllReviewers),
+        ImmutableList.of(
+            changeApprovedBySomeReviewers,
+            changeRecommendedByAllReviewers,
+            changeRecommendedBySomeReviewers,
+            changeNoVotesByReviewers));
+
+    // when reviewers by email are present changes do not match, unless the expected value is 0
+    try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
+      ProjectConfig cfg = projectConfigFactory.create(project);
+      cfg.load(md);
+      cfg.updateProject(
+          update ->
+              update.setBooleanConfig(
+                  BooleanProjectConfig.ENABLE_REVIEWER_BY_EMAIL, InheritableBoolean.TRUE));
+      cfg.commit(md);
+    }
+    projectCache.evictAndReindex(project);
+    Change.Id changeRecommendedByAllReviewersWithReviewersByEmail =
+        changeOperations.newChange().project(project).owner(owner).create();
+    addReviewers(
+        project,
+        changeRecommendedByAllReviewersWithReviewersByEmail,
+        reviewer1,
+        reviewer2,
+        reviewer3);
+    addReviews(
+        project,
+        changeRecommendedByAllReviewersWithReviewersByEmail,
+        ReviewInput.recommend(),
+        reviewer1,
+        reviewer2,
+        reviewer3);
+    addReviewer(
+        project,
+        changeRecommendedByAllReviewersWithReviewersByEmail,
+        "email-without-account@example.com");
+    Change.Id changeNoVotesByReviewersWithReviewersByEmail =
+        changeOperations.newChange().project(project).owner(owner).create();
+    addReviewers(
+        project, changeNoVotesByReviewersWithReviewersByEmail, reviewer1, reviewer2, reviewer3);
+    addReviewer(
+        project, changeNoVotesByReviewersWithReviewersByEmail, "email-without-account@example.com");
+    assertRequirement(
+        "label:Code-Review=MAX,users=human_reviewers",
+        ImmutableList.of(),
+        ImmutableList.of(
+            changeRecommendedByAllReviewersWithReviewersByEmail,
+            changeNoVotesByReviewersWithReviewersByEmail));
+    assertRequirement(
+        "label:Code-Review=2,users=human_reviewers",
+        ImmutableList.of(),
+        ImmutableList.of(
+            changeRecommendedByAllReviewersWithReviewersByEmail,
+            changeNoVotesByReviewersWithReviewersByEmail));
+    assertRequirement(
+        "label:Code-Review=ANY,users=human_reviewers",
+        ImmutableList.of(),
+        ImmutableList.of(
+            changeRecommendedByAllReviewersWithReviewersByEmail,
+            changeNoVotesByReviewersWithReviewersByEmail));
+    assertRequirement(
+        "label:Code-Review=0,users=human_reviewers",
+        ImmutableList.of(changeNoVotesByReviewersWithReviewersByEmail),
+        ImmutableList.of(changeRecommendedByAllReviewersWithReviewersByEmail));
+    assertRequirement(
+        "label:Code-Review<=2,users=human_reviewers",
+        ImmutableList.of(
+            changeRecommendedByAllReviewersWithReviewersByEmail,
+            changeNoVotesByReviewersWithReviewersByEmail),
+        ImmutableList.of());
+    assertRequirement(
+        "label:Code-Review<=0,users=human_reviewers",
+        ImmutableList.of(changeNoVotesByReviewersWithReviewersByEmail),
+        ImmutableList.of(changeRecommendedByAllReviewersWithReviewersByEmail));
+    assertRequirement(
+        "label:Code-Review<=-1,users=human_reviewers",
+        ImmutableList.of(),
+        ImmutableList.of(
+            changeRecommendedByAllReviewersWithReviewersByEmail,
+            changeNoVotesByReviewersWithReviewersByEmail));
+    assertRequirement(
+        "label:Code-Review<2,users=human_reviewers",
+        ImmutableList.of(
+            changeRecommendedByAllReviewersWithReviewersByEmail,
+            changeNoVotesByReviewersWithReviewersByEmail),
+        ImmutableList.of());
+    assertRequirement(
+        "label:Code-Review<1,users=human_reviewers",
+        ImmutableList.of(changeNoVotesByReviewersWithReviewersByEmail),
+        ImmutableList.of(changeRecommendedByAllReviewersWithReviewersByEmail));
+    assertRequirement(
+        "label:Code-Review<0,users=human_reviewers",
+        ImmutableList.of(),
+        ImmutableList.of(
+            changeRecommendedByAllReviewersWithReviewersByEmail,
+            changeNoVotesByReviewersWithReviewersByEmail));
+    assertRequirement(
+        "label:Code-Review>=0,users=human_reviewers",
+        ImmutableList.of(
+            changeRecommendedByAllReviewersWithReviewersByEmail,
+            changeNoVotesByReviewersWithReviewersByEmail),
+        ImmutableList.of());
+    assertRequirement(
+        "label:Code-Review>=1,users=human_reviewers",
+        ImmutableList.of(),
+        ImmutableList.of(
+            changeRecommendedByAllReviewersWithReviewersByEmail,
+            changeNoVotesByReviewersWithReviewersByEmail));
+    assertRequirement(
+        "label:Code-Review>-1,users=human_reviewers",
+        ImmutableList.of(
+            changeRecommendedByAllReviewersWithReviewersByEmail,
+            changeNoVotesByReviewersWithReviewersByEmail),
+        ImmutableList.of());
+    assertRequirement(
+        "label:Code-Review>0,users=human_reviewers",
+        ImmutableList.of(),
+        ImmutableList.of(
+            changeRecommendedByAllReviewersWithReviewersByEmail,
+            changeNoVotesByReviewersWithReviewersByEmail));
+
+    // cannot combine users=human_reviewers" with submit record status
+    assertError(
+        "label:Code-Review=ok,users=human_reviewers",
+        changeApprovedByAllReviewers,
+        "Cannot use the 'users=human_reviewers' argument in conjunction with a submit record label"
+            + " status");
+
+    // cannot combine "users" arg with a "user" arg
+    assertError(
+        "label:Code-Review=MAX,users=human_reviewers,user=reviewer1",
+        changeApprovedByAllReviewers,
+        "Cannot use the 'users' argument in conjunction with other arguments ('count', 'user',"
+            + " group')");
+
+    // cannot combine "users" arg with a "group" arg
+    assertError(
+        "label:Code-Review=MAX,users=human_reviewers,group=foo",
+        changeApprovedByAllReviewers,
+        "Cannot use the 'users' argument in conjunction with other arguments ('count', 'user',"
+            + " group')");
+
+    // cannot combine "users" arg with a positional arg
+    assertError(
+        "label:Code-Review=MAX,users=human_reviewers,reviewer1",
+        changeApprovedByAllReviewers,
+        "Cannot use the 'users' argument in conjunction with other arguments ('count', 'user',"
+            + " group')");
+    assertError(
+        "label:Code-Review=MAX,reviewer1,users=human_reviewers",
+        changeApprovedByAllReviewers,
+        "Cannot use the 'users' argument in conjunction with other arguments ('count', 'user',"
+            + " group')");
+
+    // label without "users=human_reviewers" still works
+    assertRequirement(
+        "label:Code-Review=MAX,user=reviewer1",
+        ImmutableList.of(changeApprovedByAllReviewers, changeApprovedBySomeReviewers),
+        ImmutableList.of(
+            changeRecommendedByAllReviewers,
+            changeRecommendedBySomeReviewers,
+            changeNoVotesByReviewers));
+    assertRequirement(
+        "label:Code-Review=MAX,reviewer1",
+        ImmutableList.of(changeApprovedByAllReviewers, changeApprovedBySomeReviewers),
+        ImmutableList.of(
+            changeRecommendedByAllReviewers,
+            changeRecommendedBySomeReviewers,
+            changeNoVotesByReviewers));
+  }
+
+  private void addReviewers(Project.NameKey project, Change.Id changeId, Account.Id... reviewers)
+      throws Exception {
+    for (Account.Id reviewer : reviewers) {
+      addReviewer(project, changeId, reviewer.toString());
+    }
+  }
+
+  private void addReviewer(Project.NameKey project, Change.Id changeId, String reviewer)
+      throws Exception {
+    gApi.changes().id(project.get(), changeId.get()).addReviewer(reviewer);
+  }
+
+  private void addReviews(
+      Project.NameKey project, Change.Id changeId, ReviewInput reviewInput, Account.Id... reviewers)
+      throws Exception {
+    for (Account.Id reviewer : reviewers) {
+      requestScopeOperations.setApiUser(reviewer);
+      gApi.changes().id(project.get(), changeId.get()).current().review(reviewInput);
+    }
+  }
+
   private void approveAsUser(String changeId, Account.Id userId) throws Exception {
     requestScopeOperations.setApiUser(userId);
     approve(changeId);
@@ -540,13 +914,28 @@ public class SubmitRequirementPredicateIT extends AbstractDaemonTest {
     return threeWayMerger.getResultTreeId();
   }
 
+  private void assertRequirement(
+      String requirement,
+      ImmutableList<Change.Id> matchingChanges,
+      ImmutableList<Change.Id> nonMatchingChanges) {
+    for (Change.Id matchingChange : matchingChanges) {
+      assertMatching(requirement, matchingChange);
+    }
+
+    for (Change.Id nonMatchingChange : nonMatchingChanges) {
+      assertNotMatching(requirement, nonMatchingChange);
+    }
+  }
+
   private void assertMatching(String requirement, Change.Id change) {
-    assertThat(evaluate(requirement, change).status())
+    assertWithMessage("requirement \"%s\" doesn't match change %s", requirement, change)
+        .that(evaluate(requirement, change).status())
         .isEqualTo(SubmitRequirementExpressionResult.Status.PASS);
   }
 
   private void assertNotMatching(String requirement, Change.Id change) {
-    assertThat(evaluate(requirement, change).status())
+    assertWithMessage("requirement \"%s\" matches change %s", requirement, change)
+        .that(evaluate(requirement, change).status())
         .isEqualTo(SubmitRequirementExpressionResult.Status.FAIL);
   }
 

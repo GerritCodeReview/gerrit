@@ -218,6 +218,7 @@ import com.google.gerrit.server.submit.SubscriptionGraph;
 import com.google.gerrit.server.submitrequirement.predicate.DistinctVotersPredicate;
 import com.google.gerrit.server.submitrequirement.predicate.FileEditsPredicate;
 import com.google.gerrit.server.submitrequirement.predicate.HasSubmoduleUpdatePredicate;
+import com.google.gerrit.server.submitrequirement.predicate.SubmitRequirementLabelExtensionPredicate;
 import com.google.gerrit.server.tools.ToolsCatalog;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.util.IdGenerator;
@@ -301,6 +302,7 @@ public class GerritGlobalModule extends FactoryModule {
     factory(ChangeJson.AssistedFactory.class);
     factory(ChangeIsVisibleToPredicate.Factory.class);
     factory(DistinctVotersPredicate.Factory.class);
+    factory(SubmitRequirementLabelExtensionPredicate.Factory.class);
     factory(HasSubmoduleUpdatePredicate.Factory.class);
     factory(DeadlineChecker.Factory.class);
     factory(EmailNewPatchSet.Factory.class);

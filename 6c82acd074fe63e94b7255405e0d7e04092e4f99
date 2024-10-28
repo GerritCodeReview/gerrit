@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2b2ad14_94e5c056",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2024-10-28T08:37:13Z",
+      "side": 1,
+      "message": "Nice! It feels good that we have safe defaults on this rule on multiple occasions.",
+      "revId": "6c82acd074fe63e94b7255405e0d7e04092e4f99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

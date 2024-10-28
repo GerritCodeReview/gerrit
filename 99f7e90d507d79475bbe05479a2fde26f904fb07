@@ -166,6 +166,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa7fb87e_c3273765",
+        "filename": "java/com/google/gerrit/server/submitrequirement/predicate/SubmitRequirementLabelExtensionPredicate.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2024-10-28T08:37:13Z",
+      "side": 1,
+      "message": "Thanks, that was my understanding as well (no auto conversion of by-email to regular reviews). Your plan SGTM because it\u0027s secure by default (leaning towards non submittable) and as you say, we can fix the auto-conversion bug.",
+      "parentUuid": "d29c28ca_3d99b4f3",
+      "revId": "99f7e90d507d79475bbe05479a2fde26f904fb07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "008acee0_66dba174",

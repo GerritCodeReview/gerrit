@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "267a2d30_179d2ae4",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-10-28T08:23:41Z",
+      "side": 1,
+      "message": "This is not true anymore after this change and we also would not like to prune caches, if we reindex while reusing documents.",
+      "revId": "d4bd66cbed0d82a1ad5527f264501358a44103b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5cb3bfb9_b796f565",
         "filename": "java/com/google/gerrit/server/index/options/IndexUpdateStrategy.java",
         "patchSetId": 1
@@ -49,6 +66,24 @@
       "side": 1,
       "message": "\u003e I think this could still be misunderstood, if I got it right `INSERT` means the old index is deleted and a new one is created from scratch by inserting new entries into an empty index.\n\nI think you did get this right, but...\n\n\u003e I\u0027d say this is would be perfectly described by the name `REPLACE`.\n\n`REPLACE` is used as the method name when we want to replace an *existing* index entry with a new document, so I don\u0027t think you want to use that term for this scenario.\n\nIIRC ( @kaushik.lingarkar@linaro.org or @mfick@nvidia.com might recall it better), the intent with the `IsFirstInsertForEntry` naming was to encapsulate the indexing behavior/implementation (insert/replace) away from the indexing scenario (`YES`: expected to be inserting into an index that does not yet have this entry, or, `NO`: expect the index to possibly already have this entry) so that the index implementations could then choose the best behavior for those scenarios themselves. If you rename it to something else, I think we should still keep that separation/intent unless there\u0027s a good reason not to. I don\u0027t think `IndexUpdateStrategy` aligns with that intent, so I would prefer a different name if you\u0027re going to rename it.",
       "parentUuid": "5cb3bfb9_b796f565",
+      "revId": "d4bd66cbed0d82a1ad5527f264501358a44103b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee6e9963_18e8ea9b",
+        "filename": "java/com/google/gerrit/server/index/options/IndexUpdateStrategy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-10-28T08:23:41Z",
+      "side": 1,
+      "message": "The use of `IndexUpdateStrategy` is not directly coupled to whether the index is deleted before creating it or not. It just determines whether the document is inserted (potentially creating duplicates) or whether a potentially already existing document is being replaced.\nSince there was no such coupling, my intention was to keep the naming as general as possible, since this would reflect this fact and allow reuse. However, I understand that this makes it a bit more complicated to read the code, since more knowledge about the reindex process is required.\nIf we would go for putting the index deletion at the beginning of reindexing under control of this enum (I mean the conditional around the deletion uses the enum to decide), the naming indeed doesn\u0027t match. Maybe we should rather use an enum that describes the state of the index:\n\n```\npublic enum IndexState {\n  NEW, // Index is being created from scratch, e.g. because it was never created or it was deleted to recreate it (use `index.insert()`)\n  NOT_READY, // Index already exists but is not complete (use `index.replace()`)\n  READY, // Index is ready and being used as search index, i.e. it is only updated by user actions (use `index.replace()`)\n}\n```\n\nThis is technically a bit overkill, since at the moment `NOT_READY` and `READY` would lead to the same result, but it is more descriptive.",
+      "parentUuid": "910acfd9_84503660",
       "revId": "d4bd66cbed0d82a1ad5527f264501358a44103b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

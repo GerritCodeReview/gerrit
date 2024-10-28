@@ -369,6 +369,9 @@ export const grDiffRowStyles = css`
     background-color: var(--dark-add-highlight-color);
     &:has(.is-out-of-focus-range) {
       background-color: transparent;
+      .intraline {
+        background-color: transparent;
+      }
     }
   }
   gr-diff-row td.content.add div.contentText,
@@ -376,6 +379,9 @@ export const grDiffRowStyles = css`
     background-color: var(--light-add-highlight-color);
     &:has(.is-out-of-focus-range) {
       background-color: transparent;
+      .intraline {
+        background-color: transparent;
+      }
     }
   }
   /* If there are no intraline info, consider everything changed */

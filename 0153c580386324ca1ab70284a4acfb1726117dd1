@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "18c5f015_bbed217c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-10-28T20:14:21Z",
+      "side": 1,
+      "message": "Alternatively, we could merge @david.ostrovsky@gmail.com\u0027s Change 433298.",
+      "revId": "0153c580386324ca1ab70284a4acfb1726117dd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

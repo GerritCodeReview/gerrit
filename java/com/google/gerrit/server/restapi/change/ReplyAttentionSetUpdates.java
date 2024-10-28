@@ -14,9 +14,11 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static java.util.Objects.requireNonNull;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Sets.SetView;
@@ -25,6 +27,8 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.HumanComment;
+import com.google.gerrit.entities.LabelId;
+import com.google.gerrit.entities.LabelValue;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.api.changes.AttentionSetInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -48,15 +52,17 @@ import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.util.AttentionSetUtil;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -76,6 +82,7 @@ public class ReplyAttentionSetUpdates {
   private final ServiceUserClassifier serviceUserClassifier;
   private final CommentsUtil commentsUtil;
   private final DraftCommentsReader draftCommentsReader;
+  private final ProjectCache projectCache;
 
   @Inject
   ReplyAttentionSetUpdates(
@@ -86,7 +93,8 @@ public class ReplyAttentionSetUpdates {
       AccountResolver accountResolver,
       ServiceUserClassifier serviceUserClassifier,
       CommentsUtil commentsUtil,
-      DraftCommentsReader draftCommentsReader) {
+      DraftCommentsReader draftCommentsReader,
+      ProjectCache projectCache) {
     this.permissionBackend = permissionBackend;
     this.addToAttentionSetOpFactory = addToAttentionSetOpFactory;
     this.removeFromAttentionSetOpFactory = removeFromAttentionSetOpFactory;
@@ -95,6 +103,7 @@ public class ReplyAttentionSetUpdates {
     this.serviceUserClassifier = serviceUserClassifier;
     this.commentsUtil = commentsUtil;
     this.draftCommentsReader = draftCommentsReader;
+    this.projectCache = projectCache;
   }
 
   /** Adjusts the attention set but only based on the automatic rules. */
@@ -235,7 +244,7 @@ public class ReplyAttentionSetUpdates {
 
     addOwnerAndUploaderToAttentionSetIfSomeoneElseReplied(
         bu, postReviewOp, changeNotes, currentUser, readyForReview, allNewComments);
-    addAllAuthorsOfCommentThreads(bu, changeNotes, allNewComments);
+    addAllAuthorsOfCommentThreads(bu, changeNotes, allNewComments, currentUser);
   }
 
   /**
@@ -329,17 +338,71 @@ public class ReplyAttentionSetUpdates {
 
   /** Adds all authors of all comment threads that received a reply during this update */
   private void addAllAuthorsOfCommentThreads(
-      BatchUpdate bu, ChangeNotes changeNotes, ImmutableSet<HumanComment> allNewComments) {
-    List<HumanComment> publishedComments = commentsUtil.publishedHumanCommentsByChange(changeNotes);
-    ImmutableSet<CommentThread<HumanComment>> repliedToCommentThreads =
-        CommentThreads.forComments(publishedComments).getThreadsForChildren(allNewComments);
+      BatchUpdate bu,
+      ChangeNotes changeNotes,
+      ImmutableSet<HumanComment> allNewComments,
+      CurrentUser currentUser) {
+    boolean isOwnerOrUploader =
+        currentUser.getAccountId().equals(changeNotes.getChange().getOwner())
+            || currentUser.getAccountId().equals(changeNotes.getCurrentPatchSet().uploader());
 
-    ImmutableSet<Account.Id> repliedToUsers =
-        repliedToCommentThreads.stream()
-            .map(CommentThread::comments)
-            .flatMap(Collection::stream)
-            .map(comment -> comment.author.getId())
-            .collect(toImmutableSet());
+    boolean noCRLabel = false;
+    Optional<LabelValue> maxCRValue =
+        projectCache
+            .get(changeNotes.getChange().getProject())
+            .orElseThrow(
+                () ->
+                    new IllegalStateException(
+                        String.format(
+                            "Couldn't find project \"%s\" for a change \"%s\"",
+                            changeNotes.getChange().getProject(), changeNotes.getChangeId())))
+            .getLabelTypes(changeNotes)
+            .byLabel(LabelId.CODE_REVIEW)
+            .map(l -> l.getMax());
+
+    ImmutableSet<Account.Id> maxCrApprovers;
+    if (maxCRValue.isPresent()) {
+      maxCrApprovers =
+          changeNotes.getApprovals().all().get(changeNotes.getCurrentPatchSet().id()).stream()
+              .filter(
+                  a ->
+                      a.label().equals(LabelId.CODE_REVIEW)
+                          && a.value() == maxCRValue.get().getValue())
+              .map(a -> a.accountId())
+              .collect(toImmutableSet());
+    } else {
+      noCRLabel = true;
+      maxCrApprovers = ImmutableSet.of();
+    }
+
+    // Include newly published comments, when building threads.
+    ImmutableList<HumanComment> relevantComments =
+        Stream.concat(
+                commentsUtil.publishedHumanCommentsByChange(changeNotes).stream(),
+                allNewComments.stream())
+            .collect(toImmutableList());
+    ImmutableSet<CommentThread<HumanComment>> repliedToCommentThreads =
+        CommentThreads.forComments(relevantComments).getThreadsForChildren(allNewComments);
+
+    LinkedHashSet<Account.Id> repliedToUsers = new LinkedHashSet<>();
+    for (CommentThread<HumanComment> thread : repliedToCommentThreads) {
+      // If thread is resolved, we only bring back the commenters who have not yet left max
+      // Code-Review vote.
+      // If Owner replied but didn't resolve, we assume clarification was asked add everyone on the
+      // thread to attention set.
+      boolean ignoreVoteCheck = noCRLabel || (thread.unresolved() && isOwnerOrUploader);
+      if (thread.unresolved() && !isOwnerOrUploader) {
+        // Reviewer replied. Owner is still the one to act. No need to add commenters.
+        continue;
+      }
+      thread.comments().stream()
+          .map(comment -> comment.author.getId())
+          .filter(
+              a ->
+                  !a.equals(currentUser.getAccountId())
+                      && (ignoreVoteCheck || !maxCrApprovers.contains(a)))
+          .forEach(repliedToUsers::add);
+    }
     ImmutableSet<Account.Id> possibleUsersToAdd = approvalsUtil.getReviewers(changeNotes).all();
     SetView<Account.Id> usersToAdd = Sets.intersection(possibleUsersToAdd, repliedToUsers);
 

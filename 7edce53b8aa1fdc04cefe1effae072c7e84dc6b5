@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "601bc0d9_91ea0322",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReplyAttentionSetUpdates.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-10-28T14:56:05Z",
+      "side": 1,
+      "message": "[optional] Theoretically there may be projects without a Code-Review label, but not sure if it\u0027s worth to handle this case gracefully.",
+      "range": {
+        "startLine": 361,
+        "startChar": 20,
+        "endLine": 364,
+        "endChar": 67
+      },
+      "revId": "7edce53b8aa1fdc04cefe1effae072c7e84dc6b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a688a5d_2614a342",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1410,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-10-28T14:56:05Z",
+      "side": 1,
+      "message": "[optional] Maybe better name this \"ownerReplyResolvedAddsNonVotedInCommentThread\" so that the difference to \"ownerReplyUnresolvedAddsAllUsersInCommentThread\" is more clear.",
+      "range": {
+        "startLine": 1410,
+        "startChar": 14,
+        "endLine": 1410,
+        "endChar": 51
+      },
+      "revId": "7edce53b8aa1fdc04cefe1effae072c7e84dc6b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

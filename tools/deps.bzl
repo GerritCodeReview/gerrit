@@ -10,7 +10,12 @@ COMMONMARK_VERSION = "0.21.0"
 GREENMAIL_VERS = "1.5.5"
 MAIL_VERS = "1.6.0"
 MIME4J_VERS = "0.8.1"
+<<<<<<< HEAD   (b19f7c Merge "RefUpdateUtilRepoTest: simplify setup of @Parameters")
 OW2_VERS = "9.7"
+||||||| BASE
+OW2_VERS = "9.2"
+=======
+>>>>>>> CHANGE (197987 Move OW2 from deps.bzl do google.bzl as not used by Google)
 AUTO_VALUE_GSON_VERSION = "1.3.1"
 PROLOG_VERS = "1.4.4"
 PROLOG_REPO = GERRIT
@@ -244,6 +249,7 @@ def java_dependencies():
     )
 
     maven_jar(
+<<<<<<< HEAD   (b19f7c Merge "RefUpdateUtilRepoTest: simplify setup of @Parameters")
         name = "ow2-asm",
         artifact = "org.ow2.asm:asm:" + OW2_VERS,
         sha1 = "073d7b3086e14beb604ced229c302feff6449723",
@@ -274,6 +280,39 @@ def java_dependencies():
     )
 
     maven_jar(
+||||||| BASE
+        name = "ow2-asm",
+        artifact = "org.ow2.asm:asm:" + OW2_VERS,
+        sha1 = "81a03f76019c67362299c40e0ba13405f5467bff",
+    )
+
+    maven_jar(
+        name = "ow2-asm-analysis",
+        artifact = "org.ow2.asm:asm-analysis:" + OW2_VERS,
+        sha1 = "7487dd756daf96cab9986e44b9d7bcb796a61c10",
+    )
+
+    maven_jar(
+        name = "ow2-asm-commons",
+        artifact = "org.ow2.asm:asm-commons:" + OW2_VERS,
+        sha1 = "f4d7f0fc9054386f2893b602454d48e07d4fbead",
+    )
+
+    maven_jar(
+        name = "ow2-asm-tree",
+        artifact = "org.ow2.asm:asm-tree:" + OW2_VERS,
+        sha1 = "d96c99a30f5e1a19b0e609dbb19a44d8518ac01e",
+    )
+
+    maven_jar(
+        name = "ow2-asm-util",
+        artifact = "org.ow2.asm:asm-util:" + OW2_VERS,
+        sha1 = "fbc178fc5ba3dab50fd7e8a5317b8b647c8e8946",
+    )
+
+    maven_jar(
+=======
+>>>>>>> CHANGE (197987 Move OW2 from deps.bzl do google.bzl as not used by Google)
         name = "auto-value-gson-runtime",
         artifact = "com.ryanharter.auto.value:auto-value-gson-runtime:" + AUTO_VALUE_GSON_VERSION,
         sha1 = "addda2ae6cce9f855788274df5de55dde4de7b71",

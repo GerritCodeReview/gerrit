@@ -21,6 +21,8 @@ GUAVA_TESTLIB_BIN_SHA1 = "cf21e00fcc92786094fb5b376500f50d06878b0b"
 
 GUAVA_DOC_URL = "https://google.github.io/guava/releases/" + GUAVA_VERSION + "/api/docs/"
 
+OW2_VERS = "9.2"
+
 def archive_dependencies():
     return [
         {
@@ -327,6 +329,36 @@ def declare_nongoogle_deps():
         name = "objenesis",
         artifact = "org.objenesis:objenesis:1.3",
         sha1 = "dc13ae4faca6df981fc7aeb5a522d9db446d5d50",
+    )
+
+    maven_jar(
+        name = "ow2-asm",
+        artifact = "org.ow2.asm:asm:" + OW2_VERS,
+        sha1 = "81a03f76019c67362299c40e0ba13405f5467bff",
+    )
+
+    maven_jar(
+        name = "ow2-asm-analysis",
+        artifact = "org.ow2.asm:asm-analysis:" + OW2_VERS,
+        sha1 = "7487dd756daf96cab9986e44b9d7bcb796a61c10",
+    )
+
+    maven_jar(
+        name = "ow2-asm-commons",
+        artifact = "org.ow2.asm:asm-commons:" + OW2_VERS,
+        sha1 = "f4d7f0fc9054386f2893b602454d48e07d4fbead",
+    )
+
+    maven_jar(
+        name = "ow2-asm-tree",
+        artifact = "org.ow2.asm:asm-tree:" + OW2_VERS,
+        sha1 = "d96c99a30f5e1a19b0e609dbb19a44d8518ac01e",
+    )
+
+    maven_jar(
+        name = "ow2-asm-util",
+        artifact = "org.ow2.asm:asm-util:" + OW2_VERS,
+        sha1 = "fbc178fc5ba3dab50fd7e8a5317b8b647c8e8946",
     )
 
     maven_jar(

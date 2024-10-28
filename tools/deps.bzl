@@ -10,7 +10,7 @@ COMMONMARK_VERSION = "0.21.0"
 GREENMAIL_VERS = "1.5.5"
 MAIL_VERS = "1.6.0"
 MIME4J_VERS = "0.8.1"
-OW2_VERS = "9.2"
+OW2_VERS = "9.5"
 AUTO_VALUE_GSON_VERSION = "1.3.1"
 PROLOG_VERS = "1.4.4"
 PROLOG_REPO = GERRIT
@@ -246,31 +246,31 @@ def java_dependencies():
     maven_jar(
         name = "ow2-asm",
         artifact = "org.ow2.asm:asm:" + OW2_VERS,
-        sha1 = "81a03f76019c67362299c40e0ba13405f5467bff",
+        sha1 = "dc6ea1875f4d64fbc85e1691c95b96a3d8569c90",
     )
 
     maven_jar(
         name = "ow2-asm-analysis",
         artifact = "org.ow2.asm:asm-analysis:" + OW2_VERS,
-        sha1 = "7487dd756daf96cab9986e44b9d7bcb796a61c10",
+        sha1 = "490bacc77de7cbc0be1a30bb3471072d705be4a4",
     )
 
     maven_jar(
         name = "ow2-asm-commons",
         artifact = "org.ow2.asm:asm-commons:" + OW2_VERS,
-        sha1 = "f4d7f0fc9054386f2893b602454d48e07d4fbead",
+        sha1 = "19ab5b5800a3910d30d3a3e64fdb00fd0cb42de0",
     )
 
     maven_jar(
         name = "ow2-asm-tree",
         artifact = "org.ow2.asm:asm-tree:" + OW2_VERS,
-        sha1 = "d96c99a30f5e1a19b0e609dbb19a44d8518ac01e",
+        sha1 = "fd33c8b6373abaa675be407082fdfda35021254a",
     )
 
     maven_jar(
         name = "ow2-asm-util",
         artifact = "org.ow2.asm:asm-util:" + OW2_VERS,
-        sha1 = "fbc178fc5ba3dab50fd7e8a5317b8b647c8e8946",
+        sha1 = "64b5a1fc8c1b15ed2efd6a063e976bc8d3dc5ffe",
     )
 
     maven_jar(

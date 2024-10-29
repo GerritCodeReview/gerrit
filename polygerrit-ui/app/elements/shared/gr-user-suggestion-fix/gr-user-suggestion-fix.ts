@@ -152,6 +152,8 @@ export class GrUserSuggestionsFix extends LitElement {
         </div>
       </div>
       <gr-suggestion-diff-preview
+        .patchSet=${this.comment?.patch_set}
+        .commentId=${this.comment?.id}
         .fixSuggestionInfo=${fixSuggestions[0]}
         .codeText=${code}
         @preview-loaded=${() => (this.previewLoaded = true)}

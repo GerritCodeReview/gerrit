@@ -8,7 +8,6 @@ import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {getAppContext} from '../../../services/app-context';
 import {
-  Comment,
   EDIT,
   BasePatchSetNum,
   PatchSetNumber,
@@ -30,7 +29,6 @@ import {changeModelToken} from '../../../models/change/change-model';
 import {subscribe} from '../../lit/subscription-controller';
 import {DiffPreview} from '../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog';
 import {userModelToken} from '../../../models/user/user-model';
-import {commentModelToken} from '../gr-comment-model/gr-comment-model';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {fire} from '../../../utils/event-util';
 import {Timing} from '../../../constants/reporting';
@@ -58,6 +56,8 @@ export class GrSuggestionDiffPreview extends LitElement {
   @property({type: Object})
   fixSuggestionInfo?: FixSuggestionInfo;
 
+  // Used to determine if the preview has been loaded
+  // this is identical to previewLoadedFor !== undefined and can be removed
   @property({type: Boolean, attribute: 'previewed', reflect: true})
   previewed = false;
 
@@ -65,8 +65,12 @@ export class GrSuggestionDiffPreview extends LitElement {
   @property({type: String})
   uuid?: string;
 
-  @state()
-  comment?: Comment;
+  @property({type: Number})
+  patchSet?: BasePatchSetNum;
+
+  // Optional. Used in logging.
+  @property({type: String})
+  commentId?: string;
 
   @state()
   layers: DiffLayer[] = [];
@@ -78,7 +82,7 @@ export class GrSuggestionDiffPreview extends LitElement {
    * fix suggestion info currently in gr-comment.
    */
   @state()
-  public previewLoadedFor?: string | FixSuggestionInfo;
+  public previewLoadedFor?: FixSuggestionInfo;
 
   @state() repo?: RepoName;
 
@@ -110,8 +114,6 @@ export class GrSuggestionDiffPreview extends LitElement {
 
   private readonly getUserModel = resolve(this, userModelToken);
 
-  private readonly getCommentModel = resolve(this, commentModelToken);
-
   private readonly getNavigation = resolve(this, navigationToken);
 
   private readonly syntaxLayer = new GrSyntaxLayerWorker(
@@ -128,14 +130,6 @@ export class GrSuggestionDiffPreview extends LitElement {
     );
     subscribe(
       this,
-      () => this.getChangeModel().revisions$,
-      revisions =>
-        (this.hasEdit = Object.values(revisions).some(
-          info => info._number === EDIT
-        ))
-    );
-    subscribe(
-      this,
       () => this.getChangeModel().latestPatchNum$,
       x => (this.latestPatchNum = x)
     );
@@ -147,11 +141,6 @@ export class GrSuggestionDiffPreview extends LitElement {
         this.diffPrefs = diffPreferences;
         this.syntaxLayer.setEnabled(!!this.diffPrefs.syntax_highlighting);
       }
-    );
-    subscribe(
-      this,
-      () => this.getCommentModel().comment$,
-      comment => (this.comment = comment)
     );
     subscribe(
       this,
@@ -198,11 +187,9 @@ export class GrSuggestionDiffPreview extends LitElement {
     if (
       changed.has('fixSuggestionInfo') ||
       changed.has('changeNum') ||
-      changed.has('comment')
+      changed.has('patchSet')
     ) {
-      if (this.previewLoadedFor !== this.fixSuggestionInfo) {
-        this.fetchFixPreview();
-      }
+      this.fetchFixPreview();
     }
   }
 
@@ -236,13 +223,12 @@ export class GrSuggestionDiffPreview extends LitElement {
   }
 
   private async fetchFixPreview() {
-    if (!this.changeNum || !this.comment?.patch_set || !this.fixSuggestionInfo)
-      return;
+    if (!this.changeNum || !this.patchSet || !this.fixSuggestionInfo) return;
 
     this.reporting.time(Timing.PREVIEW_FIX_LOAD);
     const res = await this.restApiService.getFixPreview(
       this.changeNum,
-      this.comment?.patch_set,
+      this.patchSet,
       this.fixSuggestionInfo.replacements
     );
     if (!res) return;
@@ -251,7 +237,7 @@ export class GrSuggestionDiffPreview extends LitElement {
     });
     this.reporting.timeEnd(Timing.PREVIEW_FIX_LOAD, {
       uuid: this.uuid,
-      commentId: this.comment?.id ?? '',
+      commentId: this.commentId ?? '',
     });
     if (currentPreviews.length > 0) {
       this.preview = currentPreviews[0];
@@ -276,7 +262,7 @@ export class GrSuggestionDiffPreview extends LitElement {
 
   public async applyFix() {
     const changeNum = this.changeNum;
-    const basePatchNum = this.comment?.patch_set as BasePatchSetNum;
+    const basePatchNum = this.patchSet;
     const fixSuggestion = this.fixSuggestionInfo;
     if (!changeNum || !basePatchNum || !fixSuggestion) return;
 
@@ -293,7 +279,7 @@ export class GrSuggestionDiffPreview extends LitElement {
       fileExtension: getFileExtension(
         fixSuggestion?.replacements?.[0].path ?? ''
       ),
-      commentId: this.comment?.id ?? '',
+      commentId: this.commentId ?? '',
     });
     if (res?.ok) {
       this.getNavigation().setUrl(
@@ -305,7 +291,7 @@ export class GrSuggestionDiffPreview extends LitElement {
           forceReload: !this.hasEdit,
         })
       );
-      fire(this, 'reload-diff', {path: this.comment?.path});
+      fire(this, 'reload-diff', {path: fixSuggestion.replacements[0].path});
       fire(this, 'apply-user-suggestion', {});
     }
   }

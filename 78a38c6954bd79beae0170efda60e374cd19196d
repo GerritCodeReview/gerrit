@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30c42296_28cde991",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3564,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-10-29T17:12:45Z",
+      "side": 1,
+      "message": "What happens if you set this to `false`? Would listeners ever be notified?",
+      "range": {
+        "startLine": 3564,
+        "startChar": 12,
+        "endLine": 3564,
+        "endChar": 16
+      },
+      "revId": "78a38c6954bd79beae0170efda60e374cd19196d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

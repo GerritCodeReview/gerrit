@@ -54,8 +54,6 @@ suite('gr-suggestion-diff-preview tests', () => {
     stubFlags('isEnabled').returns(true);
     element.codeText =
       '  private handleClick(e: MouseEvent) {\ne.stopPropagation();\ne.preventDefault();';
-    element.previewLoadedFor =
-      '  private handleClick(e: MouseEvent) {\ne.stopPropagation();\ne.preventDefault();';
     element.preview = {
       filepath:
         'polygerrit-ui/app/elements/change/gr-change-summary/gr-summary-chip_test.ts',

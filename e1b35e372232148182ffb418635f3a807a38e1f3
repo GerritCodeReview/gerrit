@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fabf9301_8320f91a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-10-29T15:27:04Z",
+      "side": 1,
+      "message": "Release-Notes",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 12
+      },
+      "revId": "e1b35e372232148182ffb418635f3a807a38e1f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

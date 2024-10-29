@@ -54,7 +54,8 @@ public class LuceneVersionManager extends VersionManager {
         listeners,
         defs,
         VersionManager.getOnlineUpgrade(cfg),
-        cfg.getBoolean("index", "reuseExistingDocuments", false));
+        cfg.getBoolean("index", "reuseExistingDocuments", false),
+        cfg.getBoolean("index", "notifyListeners", true));
   }
 
   @Override

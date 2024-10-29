@@ -52,9 +52,8 @@ suite('gr-suggestion-diff-preview tests', () => {
 
   test('render diff', async () => {
     stubFlags('isEnabled').returns(true);
+    element.previewLoadedFor = createFixSuggestionInfo();
     element.codeText =
-      '  private handleClick(e: MouseEvent) {\ne.stopPropagation();\ne.preventDefault();';
-    element.previewLoadedFor =
       '  private handleClick(e: MouseEvent) {\ne.stopPropagation();\ne.preventDefault();';
     element.preview = {
       filepath:

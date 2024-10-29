@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac633066_dd8fe6d6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-10-29T09:12:17Z",
+      "side": 1,
+      "message": "we already have https://gerrit-review.googlesource.com/c/gerrit/+/433298 waiting for LC+1 since July",
+      "revId": "d2ad218eedd5f39da7518678c059cf1373fb2daa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "message": "we already have https://gerrit-review.googlesource.com/c/gerrit/+/433298 waiting for LC+1 since July",
       "revId": "d2ad218eedd5f39da7518678c059cf1373fb2daa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9af8fab_e303cf3b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-10-29T09:14:34Z",
+      "side": 1,
+      "message": "\u003e we already have https://gerrit-review.googlesource.com/c/gerrit/+/433298 waiting for LC+1 since July\n\nI know and I need to understand why it is still pending LC +1. Is that a problem of the length of the bump? (9.7 is too much?)",
+      "parentUuid": "ac633066_dd8fe6d6",
+      "revId": "d2ad218eedd5f39da7518678c059cf1373fb2daa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

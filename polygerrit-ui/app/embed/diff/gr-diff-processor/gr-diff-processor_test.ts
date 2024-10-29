@@ -953,6 +953,7 @@ suite('gr-diff-processor tests', () => {
               ab: Array.from<string>({length: 5}).fill(
                 'all work and no play make jill a dull boy'
               ),
+              keyLocation: true,
             },
             {
               a: ['Old ', ' Change!'],

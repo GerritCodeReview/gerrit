@@ -1,0 +1,148 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "25317895_7374c159",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-fix-preview.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-10-29T16:15:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c05920a0_87740cbb",
+      "revId": "aaaa97dbeecb1fa77034a42fc6b31e435c5e86fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44de376f_e7e7021e",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-fix-preview.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-10-29T16:15:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "76b40634_3e38d045",
+      "revId": "aaaa97dbeecb1fa77034a42fc6b31e435c5e86fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f98ded24_eb8dda49",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-fix-preview.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-10-29T16:15:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "54dccec5_ac8ebc20",
+      "revId": "aaaa97dbeecb1fa77034a42fc6b31e435c5e86fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "24adf1c2_172b0d4f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-suggestion-diff-preview/gr-suggestion-diff-preview.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-10-29T16:15:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e61022b_34509863",
+      "revId": "aaaa97dbeecb1fa77034a42fc6b31e435c5e86fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "93c2f79f_02e5d347",
+        "filename": "polygerrit-ui/app/elements/shared/gr-suggestion-diff-preview/gr-suggestion-diff-preview.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-10-29T16:15:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "93593679_a8355b17",
+      "revId": "aaaa97dbeecb1fa77034a42fc6b31e435c5e86fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba357f81_dbf60334",
+        "filename": "polygerrit-ui/app/elements/shared/gr-suggestion-diff-preview/gr-suggestion-diff-preview.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-10-29T16:15:27Z",
+      "side": 1,
+      "message": "Yes, it\u0027s used in gr-comment. I prefer to have it to be sure.",
+      "parentUuid": "ff81bd52_9791b091",
+      "revId": "aaaa97dbeecb1fa77034a42fc6b31e435c5e86fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f273f030_d68c763d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-suggestion-diff-preview/gr-suggestion-diff-preview.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-10-29T16:15:27Z",
+      "side": 1,
+      "message": "Fix applied",
+      "parentUuid": "b237a9cc_0a00fc2d",
+      "revId": "aaaa97dbeecb1fa77034a42fc6b31e435c5e86fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2487ca30_1941c64a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-suggestion-diff-preview/gr-suggestion-diff-preview.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-10-29T16:15:27Z",
+      "side": 1,
+      "message": "Fix applied",
+      "parentUuid": "b9956824_cc9c25f5",
+      "revId": "aaaa97dbeecb1fa77034a42fc6b31e435c5e86fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

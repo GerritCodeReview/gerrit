@@ -1054,6 +1054,32 @@ suite('gr-diff-processor tests', () => {
           assert.equal(result.groups[0].lines.length, 5);
           assert.equal(result.groups[1].type, GrDiffGroupType.DELTA);
         });
+
+        test('collapse chunks with key locations if out of focus range', () => {
+          const keyLocationLineText = 'key location behind a context group';
+          state = {
+            lineNums: {left: 7, right: 6},
+            chunkIndex: 4,
+          };
+          const result = processor.processNext(state, [
+            ...chunks,
+            {
+              ab: Array.from<string>({length: 2}).fill(
+                'all work and no play make jill a dull boy'
+              ),
+              keyLocation: false,
+            },
+            {
+              ab: Array.from<string>({length: 5}).fill(keyLocationLineText),
+              keyLocation: true,
+            },
+          ]);
+          assert.equal(result.groups.length, 3);
+          assert.equal(
+            result.groups[2].contextGroups[0].lines[0].text,
+            keyLocationLineText
+          );
+        });
       });
     });
 

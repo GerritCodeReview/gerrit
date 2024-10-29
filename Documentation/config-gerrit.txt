@@ -3551,6 +3551,18 @@ and reindexed if found to be stale.
 +
 Defaults to false.
 
+[[index.notifyListeners]]index.notifyListeners::
++
+Whether to notify listeners for each indexed entity.
++
+Currently, only supported by the changes index.
++
+This feature can be used in, for example, high-availability scenario where we
+want to perform online reindexing on one node and avoid passing index-change
+messages to other nodes in the same high-availability cluster.
++
+Defaults to true.
+
 [[index.paginationType]]index.paginationType::
 +
 The pagination type to use when index queries are repeated to

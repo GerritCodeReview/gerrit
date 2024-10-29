@@ -112,7 +112,7 @@ public class OnlineReindexer<K, V, I extends Index<K, V>> {
     if (!reuseExistingDocuments && oldVersion != newVersion) {
       index.deleteAll();
     }
-    SiteIndexer.Result result = batchIndexer.indexAll(index);
+    SiteIndexer.Result result = batchIndexer.indexAll(index, false);
     if (!result.success()) {
       logger.atSevere().log(
           "Online reindex of %s schema version %s failed. Successfully"

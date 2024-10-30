@@ -70,6 +70,30 @@
       },
       "revId": "78a38c6954bd79beae0170efda60e374cd19196d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8bb0a6ff_cb37209d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3564,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-10-30T14:22:05Z",
+      "side": 1,
+      "message": "\u003e I remember I had that conversation with Hugo Ares many years ago and he mentioned he used that _feature_ for avoiding to run the reindexing on all the nodes of the HA.\n\nThat could work for small sites only. On big sites we need all the optimizations\nthat we have built in the meantime (running reindexing concurrently in chunks, etc) to get an acceptable perormance.\n\n\u003e However, I considered that _an issue_ rather than _a feature_, as it causes global workload on all nodes, which isn\u0027t a good thing as the overall system becomes more fragile.\n\nDo we agree that, for online reindexing of the whole site, we do not want to notify listeners and, therefore, do not even need an option to control that behaviour?",
+      "parentUuid": "837342f9_eb10157b",
+      "range": {
+        "startLine": 3564,
+        "startChar": 12,
+        "endLine": 3564,
+        "endChar": 16
+      },
+      "revId": "78a38c6954bd79beae0170efda60e374cd19196d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

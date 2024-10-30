@@ -181,18 +181,29 @@ export class GrDiffProcessor {
     return chunkIndex;
   }
 
+  /**
+   * Check if a chunk is collapsible.
+   *
+   * A chunk is collapsible if it is either common or skippable, and it is not
+   * a key location, or it is outside of the focus range.
+   *
+   * @param chunk The chunk to check.
+   * @param offsetLeft The offset of the left side of the chunk.
+   * @param offsetRight The offset of the right side of the chunk.
+   * @return True if the chunk is collapsible, false otherwise.
+   */
   private isCollapsibleChunk(
     chunk: DiffContent,
     offsetLeft: number,
     offsetRight: number
   ) {
-    return (
-      (chunk.ab ||
-        chunk.common ||
-        chunk.skip ||
-        this.isChunkOutsideOfFocusRange(chunk, offsetLeft, offsetRight)) &&
-      !chunk.keyLocation
+    const isCommonOrSkip = chunk.ab || chunk.common || chunk.skip;
+    const isOutsideOfFocusRange = this.isChunkOutsideOfFocusRange(
+      chunk,
+      offsetLeft,
+      offsetRight
     );
+    return (isCommonOrSkip && !chunk.keyLocation) || isOutsideOfFocusRange;
   }
 
   private isChunkOutsideOfFocusRange(

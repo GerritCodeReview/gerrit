@@ -45,6 +45,7 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.extensions.api.changes.PublishChangeEditInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -1641,6 +1642,35 @@ public class RobotCommentsIT extends AbstractDaemonTest {
         .containsExactly("2nd line", "3rd line", "");
     assertThat(diff2).content().element(2).linesOfA().isNull();
     assertThat(diff2).content().element(2).linesOfB().isNull();
+  }
+
+  @Test
+  public void previewStoredFix_additionalCommentWithNullFixes_noException() throws Exception {
+    FixReplacementInfo fixReplacementInfoFile1 = new FixReplacementInfo();
+    fixReplacementInfoFile1.path = FILE_NAME;
+    fixReplacementInfoFile1.replacement = "some replacement code";
+    fixReplacementInfoFile1.range = createRange(3, 9, 8, 4);
+
+    fixSuggestionInfo = createFixSuggestionInfo(fixReplacementInfoFile1);
+
+    withFixRobotCommentInput =
+        TestCommentHelper.createRobotCommentInput(FILE_NAME, fixSuggestionInfo);
+    testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput);
+
+    ReviewInput.CommentInput commentWithoutFix = new CommentInput();
+    commentWithoutFix.message = "Hello";
+    commentWithoutFix.patchSet = 1;
+    commentWithoutFix.path = FILE_NAME;
+    testCommentHelper.addComment(changeId, commentWithoutFix);
+    List<RobotCommentInfo> robotCommentInfos = getRobotComments();
+
+    List<String> fixIds = getFixIds(robotCommentInfos);
+    String fixId = Iterables.getOnlyElement(fixIds);
+
+    Map<String, DiffInfo> fixPreview = gApi.changes().id(changeId).current().getFixPreview(fixId);
+
+    assertThat(fixPreview).hasSize(1);
+    assertThat(fixPreview).containsKey(FILE_NAME);
   }
 
   @Test

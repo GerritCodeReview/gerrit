@@ -60,6 +60,9 @@ public class Fixes implements ChildCollection<RevisionResource, FixResource> {
     allComments.addAll(
         commentsUtil.robotCommentsByPatchSet(changeNotes, revisionResource.getPatchSet().id()));
     for (Comment comment : allComments) {
+      if (comment.fixSuggestions == null) {
+        continue;
+      }
       for (FixSuggestion fixSuggestion : comment.fixSuggestions) {
         if (Objects.equals(fixId, fixSuggestion.fixId)) {
           return new FixResource(revisionResource, fixSuggestion.replacements);

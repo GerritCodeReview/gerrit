@@ -77,7 +77,10 @@ public class GetAuditLog implements RestReadView<GroupResource> {
 
   @Override
   public Response<List<? extends GroupAuditEventInfo>> apply(GroupResource rsrc)
-      throws AuthException, NotInternalGroupException, IOException, ConfigInvalidException,
+      throws AuthException,
+          NotInternalGroupException,
+          IOException,
+          ConfigInvalidException,
           PermissionBackendException {
     GroupDescription.Internal group =
         rsrc.asInternalGroup().orElseThrow(NotInternalGroupException::new);

@@ -16,8 +16,10 @@
 
 set -eu
 
-# Keep this version in sync with dev-contributing.txt.
-VERSION=${1:-1.7}
+# Keep this version in sync with
+# - Documentation/dev-crafting-changes.txt
+# - Documentation/dev-eclipse.txt
+VERSION=${1:-1.24.0}
 
 
 case "$VERSION" in
@@ -25,8 +27,8 @@ case "$VERSION" in
     SHA1="b6d34a51e579b08db7c624505bdf9af4397f1702"
     TAG_PREFIX=google-java-format-
     ;;
-1.22.0)
-    SHA1="693d8fd04656886a2287cfe1d7a118c4697c3a57"
+1.24.0)
+    SHA1="3b55f08a70d53984ac4b3e7796dc992858d6bdd8"
     TAG_PREFIX=v
     ;;
 *)

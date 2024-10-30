@@ -42,6 +42,7 @@ public class ChangeInfo {
   public String project;
   public String branch;
   public String topic;
+
   /**
    * The <a href="https://www.gerritcodereview.com/design-docs/attention-set.html">attention set</a>
    * for this change. Keyed by account ID. We don't use {@link

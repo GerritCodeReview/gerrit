@@ -233,7 +233,7 @@ public class LabelsJson {
       boolean detailed)
       throws PermissionBackendException {
     Map<String, LabelWithStatus> labels =
-        initLabels(accountLoader, cd, labelTypes, /*includeAccountInfo=*/ standard || detailed);
+        initLabels(accountLoader, cd, labelTypes, /* includeAccountInfo= */ standard || detailed);
     setAllApprovals(accountLoader, cd, labels, detailed);
 
     for (Map.Entry<String, LabelWithStatus> e : labels.entrySet()) {

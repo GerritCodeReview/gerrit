@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5af90a9_c2341c8a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-10-30T14:21:29Z",
+      "side": 1,
+      "message": "\u003e I think it\u0027s better to keep this simple.\n\nYes I agree it\u0027s simple. CR +1 in my mental mode !\u003d\u003d approval.\n\nFrom the reviewer 1\u0027s perspective voting +1 and then reviewer2 votes +2 means author can now submit the CL even though R1 did not +2.\n\n\u003e Then you could define a submit requirement like \"label:Code-Review\u003dMAX,users\u003dhuman_approvers AND label:Code-Review\u003e\u003d1,users\u003dhuman_reviewers\".\n\nSGTM.\nWe can see what the users think if they ever run into this issue.",
+      "parentUuid": "85f360ec_4d025576",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 35
+      },
+      "revId": "3e6bdf4b1e3ea463751fc921a01f1aa2fcba31db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9e09bd4c_f2fe8c45",

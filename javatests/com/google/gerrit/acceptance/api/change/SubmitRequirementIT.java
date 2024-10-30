@@ -765,7 +765,7 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
             .setApplicabilityExpression(
                 Optional.of(
                     SubmitRequirementExpression.create(
-                        "footer:\"WANT-LGTM: all\" -label:Code-Review=MAX,users=human_reviewers")))
+                        "footer:\"Want-Code-Review: all\" -label:Code-Review=MAX,users=human_reviewers")))
             .setSubmittabilityExpression(
                 SubmitRequirementExpression.create("label:Code-Review=MAX,users=human_reviewers"))
             .setAllowOverrideInChildProjects(false)
@@ -792,20 +792,20 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
         /* isLegacy= */ false);
 
     // Want-Code-Review-From-All is not applicable since the commit message doesn't contain a
-    // "WANT-LGTM: all" footer.
+    // "Want-Code-Review: all" footer.
     assertSubmitRequirementStatus(
         gApi.changes().id(changeId).get().submitRequirements,
         "Want-Code-Review-From-All",
         Status.NOT_APPLICABLE,
         /* isLegacy= */ false);
 
-    // Amend the change to add a "WANT-LGTM: all" footer.
+    // Amend the change to add a "Want-Code-Review: all" footer.
     amendChange(
         changeId,
         PushOneCommit.SUBJECT
             + "\n\nSome Description\n\nChange-Id: "
             + changeId
-            + "\nWANT-LGTM: all\n",
+            + "\nWant-Code-Review: all\n",
         PushOneCommit.FILE_NAME,
         "content");
 
@@ -813,8 +813,8 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(reviewer1.id());
     voteLabel(changeId, "Code-Review", 2);
 
-    // Want-Code-Review-From-All is applicable since there is a "WANT-LGTM: all" footer and it is
-    // unsatisfied since there is no approval from reviewer2.
+    // Want-Code-Review-From-All is applicable since there is a "Want-Code-Review: all" footer and
+    // it is unsatisfied since there is no approval from reviewer2.
     assertSubmitRequirementStatus(
         gApi.changes().id(changeId).get().submitRequirements,
         "Want-Code-Review-From-All",

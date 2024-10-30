@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c130451_cd20c535",
+        "filename": "polygerrit-ui/app/elements/shared/gr-suggestion-diff-preview/gr-suggestion-diff-preview.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-10-30T17:54:30Z",
+      "side": 1,
+      "message": "Add a comment whether this is identical to `previewLoadedFor !\u003d\u003d undefined`.",
+      "revId": "41e66da8541e63b03fd9c8058bc20c9450cf7a55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -671,20 +671,20 @@ is present).
 ----
 
 It is possible to configure the 'Want-Code-Review-From-All' submit
-requirement so that it only applies when a 'Want-LGTM: all' footer is
-present in the commit message. This way users can enable this submit
-requirement on demand by including this footer into their commit
-messages.
+requirement so that it only applies when a 'Want-Code-Review: all'
+footer is present in the commit message. This way users can enable
+this submit requirement on demand by including this footer into their
+commit messages.
 
 Note, the footer key cannot contain underscores (e.g. using
-'Want_LGTM: all' as the footer does not work).
+'Want_Code_Review: all' as the footer does not work).
 
 ----
 [submit-requirement "Want-Code-Review-From-All"]
   description = A maximum 'Code-Review' vote is required from all \
                 human reviewers (service users that are reviewers \
                 are ignored).
-  applicableIf = footer:\"WANT-LGTM: all\" -label:Code-Review=MAX,users=human_reviewers
+  applicableIf = footer:\"Want-Code-Review: all\" -label:Code-Review=MAX,users=human_reviewers
   submittableIf = label:Code-Review=MAX,users=human_reviewers
 ----
 

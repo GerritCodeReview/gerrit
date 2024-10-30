@@ -697,7 +697,10 @@ public class WorkQueue {
       }
       List<ParkedTask> notReady = new ArrayList<>();
       while (ready != null && !isReadyToStart(ready.task)) {
-        notReady.add(ready);
+        // Do not add a cancelled task back into the parked queue
+        if (Task.State.PARKED.equals(ready.task.getState())) {
+          notReady.add(ready);
+        }
         ready = parked.poll();
       }
       parked.addAll(notReady);

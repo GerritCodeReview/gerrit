@@ -37,6 +37,9 @@ import {Timing} from '../../../constants/reporting';
 import {createChangeUrl} from '../../../models/views/change';
 import {getFileExtension} from '../../../utils/file-util';
 
+export interface PreviewLoadedDetail {
+  previewLoadedFor?: string | FixSuggestionInfo;
+}
 /**
  * Diff preview for
  * 1. code block suggestion vs commented Text
@@ -254,6 +257,10 @@ export class GrSuggestionDiffPreview extends LitElement {
       this.preview = currentPreviews[0];
       this.previewLoadedFor = this.fixSuggestionInfo;
       this.previewed = true;
+
+      fire(this, 'preview-loaded', {
+        previewLoadedFor: this.fixSuggestionInfo,
+      });
     }
 
     return res;
@@ -317,5 +324,8 @@ export class GrSuggestionDiffPreview extends LitElement {
 declare global {
   interface HTMLElementTagNameMap {
     'gr-suggestion-diff-preview': GrSuggestionDiffPreview;
+  }
+  interface HTMLElementEventMap {
+    'preview-loaded': CustomEvent<PreviewLoadedDetail>;
   }
 }

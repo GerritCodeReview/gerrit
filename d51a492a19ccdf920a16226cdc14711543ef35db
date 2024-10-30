@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40b053f8_9c450ddc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2024-10-30T22:37:09Z",
+      "side": 1,
+      "message": "This change is not worth mentioning in the release notes? or maybe we should improve it to provide better context.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 69
+      },
+      "revId": "d51a492a19ccdf920a16226cdc14711543ef35db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

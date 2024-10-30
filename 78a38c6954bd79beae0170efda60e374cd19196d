@@ -94,6 +94,30 @@
       },
       "revId": "78a38c6954bd79beae0170efda60e374cd19196d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1028d2c6_ccea03fc",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3564,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-10-30T14:25:53Z",
+      "side": 1,
+      "message": "\u003e Do we agree that, for online reindexing of the whole site, we do not want to notify listeners and, therefore, do not even need an option to control that behaviour?\n\n100% agreed on my side 👍",
+      "parentUuid": "8bb0a6ff_cb37209d",
+      "range": {
+        "startLine": 3564,
+        "startChar": 12,
+        "endLine": 3564,
+        "endChar": 16
+      },
+      "revId": "78a38c6954bd79beae0170efda60e374cd19196d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

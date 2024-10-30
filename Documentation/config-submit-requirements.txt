@@ -649,10 +649,11 @@ the commit message.
 [[require-code-review-approvals-from-all-human-reviewers-example]]
 === Require Code-Review approvals from all human reviewers
 
-The following submit requirement requires a 'Code-Review+MAX' approval
-from all human reviewers of the change. Votes from service users
-(members of the link:access-control.html#service_users[Service Users]
-group) and the change owner are ignored.
+The following submit requirement requires a 'Code-Review' approval
+('Code-Review+1' or 'Code-Review+2') from all human reviewers of the
+change. Votes from service users (members of the
+link:access-control.html#service_users[Service Users] group) and the
+change owner are ignored.
 
 The 'applicableIf' condition makes this submit requirement show up in
 the UI only if it is not satisfied.
@@ -663,11 +664,11 @@ is present).
 
 ----
 [submit-requirement "Want-Code-Review-From-All"]
-  description = A maximum 'Code-Review' vote is required from all \
-                human reviewers (service users that are reviewers \
-                are ignored).
-  applicableIf = -label:Code-Review=MAX,users=human_reviewers
-  submittableIf = label:Code-Review=MAX,users=human_reviewers
+  description = A 'Code-Review' vote is required from all human \
+                reviewers (service users that are reviewers are \
+                ignored).
+  applicableIf = -label:Code-Review>=1,users=human_reviewers
+  submittableIf = label:Code-Review>=1,users=human_reviewers
 ----
 
 It is possible to configure the 'Want-Code-Review-From-All' submit
@@ -681,11 +682,11 @@ Note, the footer key cannot contain underscores (e.g. using
 
 ----
 [submit-requirement "Want-Code-Review-From-All"]
-  description = A maximum 'Code-Review' vote is required from all \
-                human reviewers (service users that are reviewers \
-                are ignored).
-  applicableIf = footer:\"Want-Code-Review: all\" -label:Code-Review=MAX,users=human_reviewers
-  submittableIf = label:Code-Review=MAX,users=human_reviewers
+  description = A 'Code-Review' vote is required from all human \
+                reviewers (service users that are reviewers are \
+                ignored).
+  applicableIf = footer:\"Want-Code-Review: all\" -label:Code-Review>=1,users=human_reviewers
+  submittableIf = label:Code-Review>=1,users=human_reviewers
 ----
 
 For more information about the "users=human_reviewers" arg see

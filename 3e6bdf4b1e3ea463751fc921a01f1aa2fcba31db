@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "85f360ec_4d025576",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-10-30T13:31:57Z",
+      "side": 1,
+      "message": "\u003e if I vote +1 but can vote +2 then I have satisfied the requirement?\n\nYes. FWIW this is consistent with our internal \"Review-Enforcement\" submit requirement that is also satisfied by +1 or +2 approvals.\n\n\u003e Ideally it would check value\u003duserMax\n\nI\u0027m actually not sure that this would be better. This would make it much more complicated for users to understand when the submit requirement is satisfied/unsatisfied, i.e. just looking at the approvals on the change is not sufficient, but they also need to know what is the allowed voting range for each of the reviewers. I think it\u0027s better to keep this simple.\n\nAlso implementing this would require us to check permissions for all reviewers in the submit requirement predicate, which is expensive and hence we would not like to do this.\n\nIf we wanted to support this in the future, we would probably support a new value for the \"users\" arg, e.g. \"label:Code-Review\u003dMAX,users\u003dhuman_approvers\", to express that all users that can vote with Code-Review\u003dMAX are required to vote with Code-Review\u003dMAX. Then you could define a submit requirement like \"label:Code-Review\u003dMAX,users\u003dhuman_approvers AND label:Code-Review\u003e\u003d1,users\u003dhuman_reviewers\".\n\nDoes this make sense?",
+      "parentUuid": "a11939ce_e5459a22",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 35
+      },
+      "revId": "3e6bdf4b1e3ea463751fc921a01f1aa2fcba31db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9e09bd4c_f2fe8c45",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -37,6 +61,30 @@
       "writtenOn": "2024-10-30T13:16:15Z",
       "side": 1,
       "message": "from only one reviewer right?",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 34
+      },
+      "revId": "3e6bdf4b1e3ea463751fc921a01f1aa2fcba31db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "25a4a2c8_3a4b43f4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-10-30T13:31:57Z",
+      "side": 1,
+      "message": "Yes. This depends on how the Code-Review submit requirement is configured, by default it should be a Code-Review\u003dMAX approval from user that is not the uploader of the current patch set.",
+      "parentUuid": "9e09bd4c_f2fe8c45",
       "range": {
         "startLine": 13,
         "startChar": 0,

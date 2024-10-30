@@ -46,6 +46,30 @@
       },
       "revId": "78a38c6954bd79beae0170efda60e374cd19196d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "837342f9_eb10157b",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3564,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-10-30T14:08:12Z",
+      "side": 1,
+      "message": "\u003e No, they wouldn\u0027t, until this option is set to `true` again. I see your point.\n\u003e Maybe, instead of `index.notifyListeners`, we need that option on a more narrow scope like `onlineReindexer.notifyListeners` which would switch off listener notification only from indexing operations triggered from the online reindexer but would still notify listeners for other (interactive) indexing operations.\n\nYes, that would be more useful for the high-availability and multi-site use-case.\n\n\u003e Having said that, is there actually ever a case where we want online reindexer to notify listeners? Maybe we don\u0027t need a new option but simply skip listeners in that case?\n\nI remember I had that conversation with Hugo Ares many years ago and he mentioned he used that _feature_ for avoiding to run the reindexing on all the nodes of the HA. However, I considered that _an issue_ rather than _a feature_, as it causes global workload on all nodes, which isn\u0027t a good thing as the overall system becomes more fragile.",
+      "parentUuid": "4e892062_e70f2040",
+      "range": {
+        "startLine": 3564,
+        "startChar": 12,
+        "endLine": 3564,
+        "endChar": 16
+      },
+      "revId": "78a38c6954bd79beae0170efda60e374cd19196d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

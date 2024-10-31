@@ -16,6 +16,23 @@
       "message": "Let me first amend the CI scripts to dynamically get the GJF required.",
       "revId": "b95eaeab16e12c9ccfa41c7b3322a790b23f5406",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cbb4c60f_ee3f7409",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-10-31T10:25:56Z",
+      "side": 1,
+      "message": "Requires first I9d4eef842d for Code-Style validation on the CI",
+      "revId": "b95eaeab16e12c9ccfa41c7b3322a790b23f5406",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

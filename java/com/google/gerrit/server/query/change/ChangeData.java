@@ -412,6 +412,7 @@ public class ChangeData {
   private Boolean mergeable;
   private ObjectId metaRevision;
   private Set<String> hashtags;
+
   /**
    * Map from {@link com.google.gerrit.entities.Account.Id} to the tip of the edit ref for this
    * change and a given user.
@@ -419,6 +420,7 @@ public class ChangeData {
   private Table<Account.Id, PatchSet.Id, Ref> editRefsByUser;
 
   private Set<Account.Id> reviewedBy;
+
   /**
    * Map from {@link com.google.gerrit.entities.Account.Id} to the tip of the draft comments ref for
    * this change and the user.
@@ -1201,8 +1203,7 @@ public class ChangeData {
       if (!change().isClosed() && submitRecords.size() == 1) {
         // Cache the SubmitRecord with allowClosed = !allowClosed as the SubmitRecord are the same.
         submitRecords.put(
-            options
-                .toBuilder()
+            options.toBuilder()
                 .recomputeOnClosedChanges(!options.recomputeOnClosedChanges())
                 .build(),
             records);

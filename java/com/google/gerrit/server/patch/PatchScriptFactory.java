@@ -172,7 +172,10 @@ public class PatchScriptFactory implements Callable<PatchScript> {
 
   @Override
   public PatchScript call()
-      throws LargeObjectException, AuthException, InvalidChangeOperationException, IOException,
+      throws LargeObjectException,
+          AuthException,
+          InvalidChangeOperationException,
+          IOException,
           PermissionBackendException {
 
     if (!permissionBackend.user(currentUser).change(notes).test(ChangePermission.READ)) {

@@ -146,7 +146,9 @@ public class PRED_commit_edits_2 extends Predicate.P2 {
   }
 
   private Text load(@Nullable ObjectId tree, String path, ObjectReader reader)
-      throws MissingObjectException, IncorrectObjectTypeException, CorruptObjectException,
+      throws MissingObjectException,
+          IncorrectObjectTypeException,
+          CorruptObjectException,
           IOException {
     if (tree == null || path == null) {
       return Text.EMPTY;

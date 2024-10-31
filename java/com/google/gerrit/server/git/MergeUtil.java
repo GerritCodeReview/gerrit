@@ -217,8 +217,11 @@ public class MergeUtil {
       int parentIndex,
       boolean ignoreIdenticalTree,
       boolean allowConflicts)
-      throws IOException, MergeIdenticalTreeException, MergeConflictException,
-          MethodNotAllowedException, InvalidMergeStrategyException {
+      throws IOException,
+          MergeIdenticalTreeException,
+          MergeConflictException,
+          MethodNotAllowedException,
+          InvalidMergeStrategyException {
 
     ThreeWayMerger m = newThreeWayMerger(inserter, repoConfig);
     m.setBase(originalCommit.getParent(parentIndex));
@@ -388,7 +391,9 @@ public class MergeUtil {
       PersonIdent committerIdent,
       String commitMsg,
       CodeReviewRevWalk rw)
-      throws IOException, MergeIdenticalTreeException, MergeConflictException,
+      throws IOException,
+          MergeIdenticalTreeException,
+          MergeConflictException,
           InvalidMergeStrategyException {
     return createMergeCommit(
         inserter,
@@ -414,7 +419,9 @@ public class MergeUtil {
       PersonIdent committerIdent,
       String commitMsg,
       CodeReviewRevWalk rw)
-      throws IOException, MergeIdenticalTreeException, MergeConflictException,
+      throws IOException,
+          MergeIdenticalTreeException,
+          MergeConflictException,
           InvalidMergeStrategyException {
 
     if (!MergeStrategy.THEIRS.getName().equals(mergeStrategy)

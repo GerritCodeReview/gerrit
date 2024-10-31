@@ -245,7 +245,9 @@ public class PostReviewOp implements BatchUpdateOp {
 
   @Override
   public boolean updateChange(ChangeContext ctx)
-      throws ResourceConflictException, UnprocessableEntityException, IOException,
+      throws ResourceConflictException,
+          UnprocessableEntityException,
+          IOException,
           CommentsRejectedException {
     user = ctx.getIdentifiedUser();
     notes = ctx.getNotes();
@@ -699,8 +701,11 @@ public class PostReviewOp implements BatchUpdateOp {
 
   /** Approval is copied over if it doesn't exist in the approvals of the current patch-set. */
   private boolean isApprovalCopiedOver(PatchSetApproval patchSetApproval, ChangeNotes changeNotes) {
-    return !changeNotes.getApprovals().onlyNonCopied()
-        .get(changeNotes.getChange().currentPatchSetId()).stream()
+    return !changeNotes
+        .getApprovals()
+        .onlyNonCopied()
+        .get(changeNotes.getChange().currentPatchSetId())
+        .stream()
         .anyMatch(p -> p.equals(patchSetApproval));
   }
 

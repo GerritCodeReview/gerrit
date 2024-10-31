@@ -163,8 +163,8 @@ public class RefUpdateUtil {
       case LOCK_FAILURE:
         throw new LockFailureException("Failed to delete " + refName + ": " + ru.getResult(), ru);
 
-        // Not really failures, but should not be the result of a deletion, so the best option is to
-        // throw.
+      // Not really failures, but should not be the result of a deletion, so the best option is to
+      // throw.
       case NO_CHANGE:
       case FAST_FORWARD:
       case RENAMED:

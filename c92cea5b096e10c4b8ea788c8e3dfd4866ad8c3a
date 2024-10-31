@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7b54eadd_ab585e84",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 3693,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-10-31T14:52:47Z",
+      "side": 1,
+      "message": "This note is not only for the `runOnStartup` option but also for the `enabled` option. Therefore, it was put here before we document each option.",
+      "parentUuid": "c4e6cea7_cc60832e",
+      "revId": "c92cea5b096e10c4b8ea788c8e3dfd4866ad8c3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "34935795_aaa47c2f",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 7
@@ -48,6 +66,24 @@
       "writtenOn": "2024-10-31T13:08:03Z",
       "side": 1,
       "message": "I think this should mention for which indexes this is implemented (possible values for \u003cname\u003e). AFAICS groups and projects, but not yet for accounts, changes. Not sure if there\u0027s any use case for changes.",
+      "revId": "c92cea5b096e10c4b8ea788c8e3dfd4866ad8c3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "32cc9787_832312b7",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 3697,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-10-31T14:52:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34935795_aaa47c2f",
       "revId": "c92cea5b096e10c4b8ea788c8e3dfd4866ad8c3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

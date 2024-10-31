@@ -16,6 +16,24 @@
       "message": "nit: missing `Forward-Compatible: checked`",
       "revId": "e9efaaaed552d29a28e8d1d2bd7b2aab88f15995",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35bffa5e_c2c1271f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-10-31T12:14:23Z",
+      "side": 1,
+      "message": "why is this needed for a pure formatting change ?",
+      "parentUuid": "d73cbc39_6870f646",
+      "revId": "e9efaaaed552d29a28e8d1d2bd7b2aab88f15995",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

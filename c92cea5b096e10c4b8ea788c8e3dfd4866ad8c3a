@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46c5d906_19a48f5a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-10-31T13:08:03Z",
+      "side": 1,
+      "message": "reformat the commit message ?",
+      "revId": "c92cea5b096e10c4b8ea788c8e3dfd4866ad8c3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4e6cea7_cc60832e",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 3693,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-10-31T13:08:03Z",
+      "side": 1,
+      "message": "I\u0027d move this note to line 3702 and state the different default for groups index of replicas there explicitly",
+      "revId": "c92cea5b096e10c4b8ea788c8e3dfd4866ad8c3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34935795_aaa47c2f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 3697,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-10-31T13:08:03Z",
+      "side": 1,
+      "message": "I think this should mention for which indexes this is implemented (possible values for \u003cname\u003e). AFAICS groups and projects, but not yet for accounts, changes. Not sure if there\u0027s any use case for changes.",
+      "revId": "c92cea5b096e10c4b8ea788c8e3dfd4866ad8c3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

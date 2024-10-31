@@ -94,14 +94,14 @@ public class AclInfoRestIT extends AbstractDaemonTest {
             String.format(
                 "edit not permitted\n\n"
                     + "ACL info:\n"
-                    + "* '%s' can perform 'read' with force=false on project '%s'"
-                    + " for ref 'refs/heads/master'"
-                    + " (allowed for group 'global:Anonymous-Users' by rule 'group Anonymous Users')\n"
-                    + "* '%s' can perform 'push' with force=false on project '%s'"
-                    + " for ref 'refs/for/refs/heads/master'"
-                    + " (allowed for group 'global:Registered-Users' by rule 'group Registered Users')\n"
-                    + "* '%s' cannot perform 'addPatchSet' with force=false on project '%s'"
-                    + " for ref 'refs/for/refs/heads/master' because this permission is blocked",
+                    + "* '%s' can perform 'read' with force=false on project '%s' for ref"
+                    + " 'refs/heads/master' (allowed for group 'global:Anonymous-Users' by rule"
+                    + " 'group Anonymous Users')\n"
+                    + "* '%s' can perform 'push' with force=false on project '%s' for ref"
+                    + " 'refs/for/refs/heads/master' (allowed for group 'global:Registered-Users'"
+                    + " by rule 'group Registered Users')\n"
+                    + "* '%s' cannot perform 'addPatchSet' with force=false on project '%s' for ref"
+                    + " 'refs/for/refs/heads/master' because this permission is blocked",
                 user.username(), project, user.username(), project, user.username(), project));
 
     // with VIEW_ACCESS capability no ACL info is returned when the request doesn't fail due to a

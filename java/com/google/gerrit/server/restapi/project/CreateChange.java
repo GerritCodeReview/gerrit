@@ -54,8 +54,13 @@ public class CreateChange implements RestModifyView<ProjectResource, ChangeInput
 
   @Override
   public Response<ChangeInfo> apply(ProjectResource rsrc, ChangeInput input)
-      throws PermissionBackendException, IOException, ConfigInvalidException,
-          InvalidChangeOperationException, InvalidNameException, UpdateException, RestApiException {
+      throws PermissionBackendException,
+          IOException,
+          ConfigInvalidException,
+          InvalidChangeOperationException,
+          InvalidNameException,
+          UpdateException,
+          RestApiException {
     if (!user.get().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }

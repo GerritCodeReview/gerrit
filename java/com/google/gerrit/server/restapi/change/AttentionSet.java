@@ -59,7 +59,10 @@ public class AttentionSet implements ChildCollection<ChangeResource, AttentionSe
 
   @Override
   public AttentionSetEntryResource parse(ChangeResource changeResource, IdString idString)
-      throws ResourceNotFoundException, AuthException, IOException, ConfigInvalidException,
+      throws ResourceNotFoundException,
+          AuthException,
+          IOException,
+          ConfigInvalidException,
           BadRequestException {
     Account.Id accountId =
         AttentionSetUtil.resolveAccount(accountResolver, changeResource.getNotes(), idString.get());

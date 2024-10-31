@@ -45,7 +45,10 @@ public class PutDescription implements RestModifyView<GroupResource, Description
 
   @Override
   public Response<String> apply(GroupResource resource, DescriptionInput input)
-      throws AuthException, NotInternalGroupException, ResourceNotFoundException, IOException,
+      throws AuthException,
+          NotInternalGroupException,
+          ResourceNotFoundException,
+          IOException,
           ConfigInvalidException {
     if (input == null) {
       input = new DescriptionInput(); // Delete would set description to null.

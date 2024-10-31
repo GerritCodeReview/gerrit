@@ -127,8 +127,13 @@ public class CreateGroup
 
   @Override
   public Response<GroupInfo> apply(TopLevelResource resource, IdString id, GroupInput input)
-      throws AuthException, BadRequestException, UnprocessableEntityException,
-          ResourceConflictException, IOException, ConfigInvalidException, ResourceNotFoundException,
+      throws AuthException,
+          BadRequestException,
+          UnprocessableEntityException,
+          ResourceConflictException,
+          IOException,
+          ConfigInvalidException,
+          ResourceNotFoundException,
           PermissionBackendException {
     String name = id.get();
     if (input == null) {

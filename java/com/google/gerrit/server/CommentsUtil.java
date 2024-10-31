@@ -309,6 +309,7 @@ public class CommentsUtil {
         Optional.ofNullable(cm.getAuthor()).map(a -> a.get()),
         Optional.ofNullable(comment.author).map(a -> a._accountId));
   }
+
   /**
    * For the commit message the A side in a diff view is always empty when a comparison against an
    * ancestor is done, so there can't be any comments on this ancestor. However earlier we showed

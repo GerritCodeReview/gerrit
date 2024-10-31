@@ -92,6 +92,7 @@ public class FixCalculator {
     return String.format(
         "(%s:%s - %s:%s)", range.startLine, range.startChar, range.endLine, range.endChar);
   }
+
   /*
   Algorithm:
   Input:
@@ -437,6 +438,7 @@ public class FixCalculator {
   public static class FixResult {
     /** List of edits to transform an original text to a final text (with all fixes applied) */
     public final ImmutableList<Edit> edits;
+
     /** Final text with all applied fixes */
     public final Text text;
 

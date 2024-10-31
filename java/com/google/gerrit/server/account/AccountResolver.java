@@ -836,7 +836,9 @@ public class AccountResolver {
     return AccountResolver::allVisible;
   }
 
-  /** @param accountState account state for which the visibility should be checked */
+  /**
+   * @param accountState account state for which the visibility should be checked
+   */
   private static boolean allVisible(AccountState accountState) {
     return true;
   }

@@ -268,7 +268,7 @@ public class LabelConfigValidator implements CommitValidationListener {
           diffOperations.listModifiedFilesAgainstParent(
               receiveEvent.getProjectNameKey(),
               receiveEvent.commit,
-              /* parentNum=*/ 0,
+              /* parentNum= */ 0,
               DiffOptions.DEFAULTS);
     }
     return fileDiffOutputs.keySet().contains(fileName);

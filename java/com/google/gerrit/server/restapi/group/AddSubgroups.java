@@ -92,8 +92,12 @@ public class AddSubgroups implements RestModifyView<GroupResource, Input> {
 
   @Override
   public Response<List<GroupInfo>> apply(GroupResource resource, Input input)
-      throws NotInternalGroupException, AuthException, UnprocessableEntityException,
-          ResourceNotFoundException, IOException, ConfigInvalidException,
+      throws NotInternalGroupException,
+          AuthException,
+          UnprocessableEntityException,
+          ResourceNotFoundException,
+          IOException,
+          ConfigInvalidException,
           PermissionBackendException {
     GroupDescription.Internal group =
         resource.asInternalGroup().orElseThrow(NotInternalGroupException::new);

@@ -183,12 +183,14 @@ final class SetAccountCommand extends SshCommand {
 
     if (!user.hasSameAccountId(userProvider.get()) && !canModifyAccount) {
       throw die(
-          "Setting another user's account information requries 'modify account' or 'administrate server' capabilities.");
+          "Setting another user's account information requries 'modify account' or 'administrate"
+              + " server' capabilities.");
     }
     if (active || inactive) {
       if (!canModifyAccount) {
         throw die(
-            "--active and --inactive require 'modify account' or 'administrate server' capabilities.");
+            "--active and --inactive require 'modify account' or 'administrate server'"
+                + " capabilities.");
       }
       if (active && inactive) {
         throw die("--active and --inactive options are mutually exclusive.");
@@ -319,14 +321,20 @@ final class SetAccountCommand extends SshCommand {
   }
 
   private void deleteSshKey(SshKeyInfo i)
-      throws AuthException, RepositoryNotFoundException, IOException, ConfigInvalidException,
+      throws AuthException,
+          RepositoryNotFoundException,
+          IOException,
+          ConfigInvalidException,
           PermissionBackendException {
     AccountSshKey sshKey = AccountSshKey.create(user.getAccountId(), i.seq, i.sshPublicKey);
     deleteSshKey.apply(new AccountResource.SshKey(user.asIdentifiedUser(), sshKey), null);
   }
 
   private void addEmail(String email)
-      throws UnloggedFailure, RestApiException, IOException, ConfigInvalidException,
+      throws UnloggedFailure,
+          RestApiException,
+          IOException,
+          ConfigInvalidException,
           PermissionBackendException {
     EmailInput in = new EmailInput();
     in.email = email;

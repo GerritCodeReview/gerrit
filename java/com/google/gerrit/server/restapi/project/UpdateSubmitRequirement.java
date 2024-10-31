@@ -57,7 +57,10 @@ public class UpdateSubmitRequirement
   @Override
   public Response<SubmitRequirementInfo> apply(
       SubmitRequirementResource rsrc, SubmitRequirementInput input)
-      throws AuthException, BadRequestException, PermissionBackendException, IOException,
+      throws AuthException,
+          BadRequestException,
+          PermissionBackendException,
+          IOException,
           MethodNotAllowedException {
     if (input == null) {
       input = new SubmitRequirementInput();

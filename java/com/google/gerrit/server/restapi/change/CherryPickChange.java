@@ -171,8 +171,12 @@ public class CherryPickChange {
    * @throws NoSuchProjectException Can't find project state.
    */
   public Result cherryPick(Change change, PatchSet patch, CherryPickInput input, BranchNameKey dest)
-      throws IOException, InvalidChangeOperationException, UpdateException, RestApiException,
-          ConfigInvalidException, NoSuchProjectException {
+      throws IOException,
+          InvalidChangeOperationException,
+          UpdateException,
+          RestApiException,
+          ConfigInvalidException,
+          NoSuchProjectException {
     return cherryPick(
         change,
         change.getProject(),
@@ -212,8 +216,12 @@ public class CherryPickChange {
       ObjectId sourceCommit,
       CherryPickInput input,
       BranchNameKey dest)
-      throws IOException, InvalidChangeOperationException, UpdateException, RestApiException,
-          ConfigInvalidException, NoSuchProjectException {
+      throws IOException,
+          InvalidChangeOperationException,
+          UpdateException,
+          RestApiException,
+          ConfigInvalidException,
+          NoSuchProjectException {
     return cherryPick(
         sourceChange,
         project,
@@ -273,8 +281,12 @@ public class CherryPickChange {
       @Nullable Change.Id idForNewChange,
       @Nullable Boolean workInProgress,
       Optional<RevCommit> verifiedBaseCommit)
-      throws IOException, InvalidChangeOperationException, UpdateException, RestApiException,
-          ConfigInvalidException, NoSuchProjectException {
+      throws IOException,
+          InvalidChangeOperationException,
+          UpdateException,
+          RestApiException,
+          ConfigInvalidException,
+          NoSuchProjectException {
     IdentifiedUser identifiedUser = user.get();
     try (Repository git = gitManager.openRepository(project);
         // This inserter and revwalk *must* be passed to any BatchUpdates

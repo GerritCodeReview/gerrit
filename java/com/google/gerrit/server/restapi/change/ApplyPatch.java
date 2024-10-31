@@ -89,8 +89,13 @@ public class ApplyPatch implements RestModifyView<ChangeResource, ApplyPatchPatc
 
   @Override
   public Response<ChangeInfo> apply(ChangeResource rsrc, ApplyPatchPatchSetInput input)
-      throws IOException, UpdateException, RestApiException, PermissionBackendException,
-          ConfigInvalidException, NoSuchProjectException, InvalidChangeOperationException {
+      throws IOException,
+          UpdateException,
+          RestApiException,
+          PermissionBackendException,
+          ConfigInvalidException,
+          NoSuchProjectException,
+          InvalidChangeOperationException {
     if (input == null || input.patch == null || input.patch.patch == null) {
       throw new BadRequestException("patch required");
     }

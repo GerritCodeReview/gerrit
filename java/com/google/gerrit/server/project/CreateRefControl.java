@@ -83,7 +83,10 @@ public class CreateRefControl {
       RevObject object,
       boolean forPush,
       BranchNameKey... sourceBranches)
-      throws AuthException, PermissionBackendException, NoSuchProjectException, IOException,
+      throws AuthException,
+          PermissionBackendException,
+          NoSuchProjectException,
+          IOException,
           ResourceConflictException {
     ProjectState ps =
         projectCache.get(destBranch.project()).orElseThrow(noSuchProject(destBranch.project()));

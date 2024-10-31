@@ -454,6 +454,7 @@ class TagSet {
       return MoreObjects.toStringHelper(this).addValue(name()).add("refFlags", refFlags).toString();
     }
   }
+
   /** A ref along with its index into RoaringBitmap. */
   @VisibleForTesting
   static final class CachedRef extends AtomicReference<ObjectId> {

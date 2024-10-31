@@ -41,7 +41,10 @@ public class PutConfigReview implements RestModifyView<ProjectResource, ConfigIn
 
   @Override
   public Response<ChangeInfo> apply(ProjectResource rsrc, ConfigInput input)
-      throws PermissionBackendException, IOException, ConfigInvalidException, UpdateException,
+      throws PermissionBackendException,
+          IOException,
+          ConfigInvalidException,
+          UpdateException,
           RestApiException {
     try (ConfigChangeCreator creator =
         repoMetaDataUpdater.configChangeCreator(

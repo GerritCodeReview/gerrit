@@ -50,8 +50,12 @@ public class SetLabel implements RestModifyView<LabelResource, LabelDefinitionIn
 
   @Override
   public Response<LabelDefinitionInfo> apply(LabelResource rsrc, LabelDefinitionInput input)
-      throws AuthException, BadRequestException, ResourceConflictException,
-          PermissionBackendException, IOException, ConfigInvalidException,
+      throws AuthException,
+          BadRequestException,
+          ResourceConflictException,
+          PermissionBackendException,
+          IOException,
+          ConfigInvalidException,
           MethodNotAllowedException {
     if (input == null) {
       input = new LabelDefinitionInput();

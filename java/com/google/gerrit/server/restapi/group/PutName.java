@@ -47,8 +47,12 @@ public class PutName implements RestModifyView<GroupResource, NameInput> {
 
   @Override
   public Response<String> apply(GroupResource rsrc, NameInput input)
-      throws NotInternalGroupException, AuthException, BadRequestException,
-          ResourceConflictException, ResourceNotFoundException, IOException,
+      throws NotInternalGroupException,
+          AuthException,
+          BadRequestException,
+          ResourceConflictException,
+          ResourceNotFoundException,
+          IOException,
           ConfigInvalidException {
     GroupDescription.Internal internalGroup =
         rsrc.asInternalGroup().orElseThrow(NotInternalGroupException::new);
@@ -71,7 +75,9 @@ public class PutName implements RestModifyView<GroupResource, NameInput> {
   }
 
   private void renameGroup(GroupDescription.Internal group, String newName)
-      throws ResourceConflictException, ResourceNotFoundException, IOException,
+      throws ResourceConflictException,
+          ResourceNotFoundException,
+          IOException,
           ConfigInvalidException {
     AccountGroup.UUID groupUuid = group.getGroupUUID();
     GroupDelta groupDelta = GroupDelta.builder().setName(AccountGroup.nameKey(newName)).build();

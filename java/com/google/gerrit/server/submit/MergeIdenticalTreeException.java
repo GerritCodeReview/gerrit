@@ -23,7 +23,9 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 public class MergeIdenticalTreeException extends ResourceConflictException {
   private static final long serialVersionUID = 1L;
 
-  /** @param msg message to return to the client describing the error. */
+  /**
+   * @param msg message to return to the client describing the error.
+   */
   public MergeIdenticalTreeException(String msg) {
     super(msg);
   }

@@ -121,7 +121,8 @@ public class CreateChangeIT extends AbstractDaemonTest {
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private ExtensionRegistry extensionRegistry;
   @Inject private CreateChange createChangeImpl;
-  @Inject private BatchUpdate.Factory updateFactory;;
+  @Inject private BatchUpdate.Factory updateFactory;
+  ;
 
   @Before
   public void addNonCommitHead() throws Exception {

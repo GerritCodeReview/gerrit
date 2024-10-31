@@ -71,7 +71,9 @@ public class TasksCollection implements ChildCollection<ConfigResource, TaskReso
 
   @Override
   public TaskResource parse(ConfigResource parent, IdString id)
-      throws ResourceNotFoundException, AuthException, PermissionBackendException,
+      throws ResourceNotFoundException,
+          AuthException,
+          PermissionBackendException,
           ResourceConflictException {
     CurrentUser user = self.get();
     if (!user.isIdentifiedUser()) {

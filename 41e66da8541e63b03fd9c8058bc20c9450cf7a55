@@ -16,6 +16,24 @@
       "message": "Add a comment whether this is identical to `previewLoadedFor !\u003d\u003d undefined`.",
       "revId": "41e66da8541e63b03fd9c8058bc20c9450cf7a55",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b9d008d_23b6b618",
+        "filename": "polygerrit-ui/app/elements/shared/gr-suggestion-diff-preview/gr-suggestion-diff-preview.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-10-31T09:35:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c130451_cd20c535",
+      "revId": "41e66da8541e63b03fd9c8058bc20c9450cf7a55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

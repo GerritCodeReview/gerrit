@@ -63,7 +63,9 @@ public class GetPatch implements RestReadView<RevisionResource> {
 
   @Override
   public Response<BinaryResult> apply(RevisionResource rsrc)
-      throws BadRequestException, ResourceConflictException, IOException,
+      throws BadRequestException,
+          ResourceConflictException,
+          IOException,
           ResourceNotFoundException {
     final Repository repo = repoManager.openRepository(rsrc.getProject());
     boolean close = true;

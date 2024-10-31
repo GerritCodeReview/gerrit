@@ -95,8 +95,12 @@ public class PreviewFix {
 
     @Override
     public Response<Map<String, DiffInfo>> apply(FixResource fixResource)
-        throws PermissionBackendException, ResourceNotFoundException, ResourceConflictException,
-            AuthException, IOException, InvalidChangeOperationException {
+        throws PermissionBackendException,
+            ResourceNotFoundException,
+            ResourceConflictException,
+            AuthException,
+            IOException,
+            InvalidChangeOperationException {
 
       PreviewFix previewFix = previewFixFactory.create(fixResource.getRevisionResource());
 
@@ -120,8 +124,13 @@ public class PreviewFix {
     @Override
     public Response<Map<String, DiffInfo>> apply(
         RevisionResource revisionResource, ApplyProvidedFixInput applyProvidedFixInput)
-        throws BadRequestException, PermissionBackendException, ResourceNotFoundException,
-            ResourceConflictException, AuthException, IOException, InvalidChangeOperationException {
+        throws BadRequestException,
+            PermissionBackendException,
+            ResourceNotFoundException,
+            ResourceConflictException,
+            AuthException,
+            IOException,
+            InvalidChangeOperationException {
       if (applyProvidedFixInput == null) {
         throw new BadRequestException("applyProvidedFixInput is required");
       }
@@ -147,8 +156,12 @@ public class PreviewFix {
 
   private Map<String, DiffInfo> previewAllFiles(
       Map<String, List<FixReplacement>> fixReplacementsPerFilePath)
-      throws PermissionBackendException, ResourceNotFoundException, ResourceConflictException,
-          AuthException, IOException, InvalidChangeOperationException {
+      throws PermissionBackendException,
+          ResourceNotFoundException,
+          ResourceConflictException,
+          AuthException,
+          IOException,
+          InvalidChangeOperationException {
     Map<String, DiffInfo> result = new HashMap<>();
     try (Repository git = repoManager.openRepository(notes.getProjectName())) {
       for (Map.Entry<String, List<FixReplacement>> entry : fixReplacementsPerFilePath.entrySet()) {
@@ -167,8 +180,12 @@ public class PreviewFix {
 
   private DiffInfo previewSingleFile(
       Repository git, String fileName, ImmutableList<FixReplacement> fixReplacements)
-      throws PermissionBackendException, AuthException, LargeObjectException,
-          InvalidChangeOperationException, IOException, ResourceNotFoundException {
+      throws PermissionBackendException,
+          AuthException,
+          LargeObjectException,
+          InvalidChangeOperationException,
+          IOException,
+          ResourceNotFoundException {
     PatchScriptFactoryForAutoFix psf =
         patchScriptFactoryFactory.create(
             git, notes, fileName, patchSet, fixReplacements, DiffPreferencesInfo.defaults());

@@ -103,8 +103,11 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
 
     @Override
     public void updateRepoImpl(RepoContext ctx)
-        throws InvalidChangeOperationException, RestApiException, IOException,
-            PermissionBackendException, DiffNotAvailableException {
+        throws InvalidChangeOperationException,
+            RestApiException,
+            IOException,
+            PermissionBackendException,
+            DiffNotAvailableException {
       if (!rebaseAlways
           && args.mergeUtil.canFastForward(
               args.mergeSorter, args.mergeTip.getCurrentTip(), args.rw, toMerge)) {
@@ -146,7 +149,7 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
                   args.project.is(BooleanProjectConfig.MATCH_AUTHOR_TO_COMMITTER_DATE))
               // The votes are automatically copied and they don't count as copied votes. See
               // method's javadoc.
-              .setStoreCopiedVotes(/* storeCopiedVotes = */ false)
+              .setStoreCopiedVotes(/* storeCopiedVotes= */ false)
               .setVerifyNeedsRebase(/* verifyNeedsRebase= */ !rebaseAlways);
 
       try {

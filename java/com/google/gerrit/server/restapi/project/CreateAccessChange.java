@@ -48,7 +48,10 @@ public class CreateAccessChange implements RestModifyView<ProjectResource, Proje
 
   @Override
   public Response<ChangeInfo> apply(ProjectResource rsrc, ProjectAccessInput input)
-      throws PermissionBackendException, IOException, ConfigInvalidException, UpdateException,
+      throws PermissionBackendException,
+          IOException,
+          ConfigInvalidException,
+          UpdateException,
           RestApiException {
     ImmutableList<AccessSection> removals =
         setAccess.getAccessSections(input.remove, /* rejectNonResolvableGroups= */ false);

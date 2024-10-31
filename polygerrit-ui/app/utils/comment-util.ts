@@ -198,7 +198,10 @@ export function createNewPatchsetLevel(
 }
 
 export function createNewReply(
-  replyingTo: CommentInfo,
+  replyingTo: Pick<
+    CommentInfo,
+    'id' | 'path' | 'patch_set' | 'line' | 'range' | 'side' | 'parent'
+  >,
   message: string,
   unresolved: boolean
 ): DraftInfo {

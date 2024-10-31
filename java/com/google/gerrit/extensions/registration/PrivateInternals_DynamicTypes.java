@@ -106,7 +106,8 @@ public class PrivateInternals_DynamicTypes {
             if (existingBinding != null) {
               throw new ProvisionException(
                   String.format(
-                      "Attempting to bind a @DynamicItem.Final %s twice: it was already bound to %s and tried to bind again to %s",
+                      "Attempting to bind a @DynamicItem.Final %s twice: it was already bound to %s"
+                          + " and tried to bind again to %s",
                       rawType.getName(), existingBinding, b));
             }
 
@@ -115,7 +116,8 @@ public class PrivateInternals_DynamicTypes {
                 && !implementedByPlugin.equals(pluginName)) {
               throw new ProvisionException(
                   String.format(
-                      "Attempting to bind a @DynamicItem.Final %s to unexpected plugin: it was supposed to be bound to %s plugin but tried bind to %s plugin",
+                      "Attempting to bind a @DynamicItem.Final %s to unexpected plugin: it was"
+                          + " supposed to be bound to %s plugin but tried bind to %s plugin",
                       rawType.getName(), implementedByPlugin, pluginName));
             }
           }

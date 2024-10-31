@@ -727,7 +727,8 @@ public class ApprovalsUtil {
                       LabelVote.create(
                           approvalData.patchSetApproval().label(),
                           approvalData.patchSetApproval().value()))
-              .entries().stream()
+              .entries()
+              .stream()
               .collect(
                   toImmutableListMultimap(
                       e -> e.getKey(), e -> e.getValue().patchSetApproval().accountId()));
@@ -804,7 +805,10 @@ public class ApprovalsUtil {
     // request (e.g. a group used in this query might not be visible to the person sending this
     // request).
     try (ManualRequestContext ignored = requestContext.open()) {
-      return approvalQueryBuilderProvider.get().parse(copyCondition).getFlattenedPredicateList()
+      return approvalQueryBuilderProvider
+          .get()
+          .parse(copyCondition)
+          .getFlattenedPredicateList()
           .stream()
           .anyMatch(UserInPredicate.class::isInstance);
     }

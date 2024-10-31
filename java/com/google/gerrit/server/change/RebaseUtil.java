@@ -141,7 +141,9 @@ public class RebaseUtil {
    * @param rebaseInput the request input containing options for the rebase
    */
   public void checkCanRebaseOnBehalfOf(RevisionResource rsrc, RebaseInput rebaseInput)
-      throws IOException, PermissionBackendException, BadRequestException,
+      throws IOException,
+          PermissionBackendException,
+          BadRequestException,
           ResourceConflictException {
     if (rebaseInput.allowConflicts) {
       throw new BadRequestException(
@@ -157,7 +159,7 @@ public class RebaseUtil {
 
     CurrentUser caller = rsrc.getUser();
     Account.Id uploaderId = rsrc.getPatchSet().uploader();
-    IdentifiedUser uploader = userFactory.runAs(/*remotePeer= */ null, uploaderId, caller);
+    IdentifiedUser uploader = userFactory.runAs(/* remotePeer= */ null, uploaderId, caller);
     logger.atFine().log(
         "%s is rebasing patch set %s of project %s on behalf of uploader %s",
         caller.getLoggableName(),
@@ -189,7 +191,8 @@ public class RebaseUtil {
             rsrc.getNotes(),
             RefPermission.FORGE_AUTHOR,
             String.format(
-                "change %s: author of patch set %d is forged and the uploader %s cannot forge author",
+                "change %s: author of patch set %d is forged and the uploader %s cannot forge"
+                    + " author",
                 rsrc.getChange().getId(),
                 rsrc.getPatchSet().id().get(),
                 uploader.getLoggableName()));
@@ -200,8 +203,8 @@ public class RebaseUtil {
               rsrc.getNotes(),
               RefPermission.FORGE_SERVER,
               String.format(
-                  "change %s: author of patch set %d is the server identity and the uploader %s cannot forge"
-                      + " the server identity",
+                  "change %s: author of patch set %d is the server identity and the uploader %s"
+                      + " cannot forge the server identity",
                   rsrc.getChange().getId(),
                   rsrc.getPatchSet().id().get(),
                   uploader.getLoggableName()));

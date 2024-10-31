@@ -324,8 +324,11 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
 
     // Verify that the rebaser was recorded as realUser in NoteDb.
     Optional<FooterLine> realUserFooter =
-        projectOperations.project(project).getHead(RefNames.changeMetaRef(changeToBeRebased))
-            .getFooterLines().stream()
+        projectOperations
+            .project(project)
+            .getHead(RefNames.changeMetaRef(changeToBeRebased))
+            .getFooterLines()
+            .stream()
             .filter(footerLine -> footerLine.matches(FOOTER_REAL_USER))
             .findFirst();
     assertThat(realUserFooter.map(FooterLine::getValue))
@@ -822,7 +825,8 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
         .hasMessageThat()
         .isEqualTo(
             String.format(
-                "change %s: author of patch set 1 is forged and the uploader %s cannot forge author",
+                "change %s: author of patch set 1 is forged and the uploader %s cannot forge"
+                    + " author",
                 changeToBeRebased, uploaderEmail));
   }
 
@@ -968,8 +972,8 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
         .hasMessageThat()
         .isEqualTo(
             String.format(
-                "change %s: author of patch set 1 is the server identity and the uploader %s cannot forge"
-                    + " the server identity",
+                "change %s: author of patch set 1 is the server identity and the uploader %s cannot"
+                    + " forge the server identity",
                 changeToBeRebased, uploaderEmail));
   }
 

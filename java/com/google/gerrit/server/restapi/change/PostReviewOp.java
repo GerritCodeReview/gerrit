@@ -249,7 +249,9 @@ public class PostReviewOp implements BatchUpdateOp {
 
   @Override
   public boolean updateChange(ChangeContext ctx)
-      throws ResourceConflictException, UnprocessableEntityException, IOException,
+      throws ResourceConflictException,
+          UnprocessableEntityException,
+          IOException,
           CommentsRejectedException {
     user = ctx.getIdentifiedUser();
     notes = ctx.getNotes();
@@ -556,14 +558,16 @@ public class PostReviewOp implements BatchUpdateOp {
   }
 
   private Map<String, HumanComment> changeDrafts(ChangeContext ctx) {
-    return draftCommentsReader.getDraftsByChangeAndDraftAuthor(ctx.getNotes(), user.getAccountId())
+    return draftCommentsReader
+        .getDraftsByChangeAndDraftAuthor(ctx.getNotes(), user.getAccountId())
         .stream()
         .collect(Collectors.toMap(c -> c.key.uuid, c -> c));
   }
 
   private Map<String, HumanComment> patchSetDrafts(ChangeContext ctx) {
     return draftCommentsReader
-        .getDraftsByPatchSetAndDraftAuthor(ctx.getNotes(), psId, user.getAccountId()).stream()
+        .getDraftsByPatchSetAndDraftAuthor(ctx.getNotes(), psId, user.getAccountId())
+        .stream()
         .collect(Collectors.toMap(c -> c.key.uuid, c -> c));
   }
 
@@ -705,8 +709,11 @@ public class PostReviewOp implements BatchUpdateOp {
 
   /** Approval is copied over if it doesn't exist in the approvals of the current patch-set. */
   private boolean isApprovalCopiedOver(PatchSetApproval patchSetApproval, ChangeNotes changeNotes) {
-    return !changeNotes.getApprovals().onlyNonCopied()
-        .get(changeNotes.getChange().currentPatchSetId()).stream()
+    return !changeNotes
+        .getApprovals()
+        .onlyNonCopied()
+        .get(changeNotes.getChange().currentPatchSetId())
+        .stream()
         .anyMatch(p -> p.equals(patchSetApproval));
   }
 

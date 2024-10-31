@@ -119,6 +119,7 @@ public class GeneralPreferencesInfo {
 
   /** Number of changes to show in a screen. */
   public Integer changesPerPage;
+
   /** Type of download URL the user prefers to use. */
   public String downloadScheme;
 
@@ -142,6 +143,7 @@ public class GeneralPreferencesInfo {
   public List<MenuItem> my;
   public List<String> changeTable;
   public Boolean allowBrowserNotifications;
+
   /**
    * The sidebar section that the user prefers to have open on the diff page, or "NONE" if all
    * sidebars should be closed.

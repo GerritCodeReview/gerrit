@@ -57,7 +57,7 @@ public class RestSession extends HttpSession {
   }
 
   public RestResponse put(String endPoint) throws IOException {
-    return put(endPoint, /* content = */ null);
+    return put(endPoint, /* content= */ null);
   }
 
   public RestResponse put(String endPoint, Object content) throws IOException {
@@ -91,7 +91,7 @@ public class RestSession extends HttpSession {
   }
 
   public RestResponse post(String endPoint) throws IOException {
-    return post(endPoint, /* content = */ null);
+    return post(endPoint, /* content= */ null);
   }
 
   public RestResponse post(String endPoint, Object content) throws IOException {

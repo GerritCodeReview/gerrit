@@ -254,7 +254,9 @@ public class CreateMergePatchSet implements RestModifyView<ChangeResource, Merge
       RevCommit sourceCommit,
       PersonIdent author,
       ObjectId changeId)
-      throws ResourceNotFoundException, MergeIdenticalTreeException, MergeConflictException,
+      throws ResourceNotFoundException,
+          MergeIdenticalTreeException,
+          MergeConflictException,
           IOException {
 
     ObjectId parentCommit;

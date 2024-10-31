@@ -229,7 +229,10 @@ public class StarredChangesUtil {
             .map(c -> RefNames.refsStarredChanges(c, caller))
             .collect(Collectors.toList());
     try {
-      return allUsersRepo.getRefDatabase().exactRef(starRefs.toArray(new String[0])).keySet()
+      return allUsersRepo
+          .getRefDatabase()
+          .exactRef(starRefs.toArray(new String[0]))
+          .keySet()
           .stream()
           .map(r -> Change.Id.fromAllUsersRef(r))
           .collect(Collectors.toSet());

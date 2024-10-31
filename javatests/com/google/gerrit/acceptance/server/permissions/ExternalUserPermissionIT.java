@@ -288,7 +288,9 @@ public class ExternalUserPermissionIT extends AbstractDaemonTest {
 
   private ImmutableList<String> getVisibleRefNames(CurrentUser user) throws Exception {
     try (Repository repo = repoManager.openRepository(project)) {
-      return permissionBackend.user(user).project(project)
+      return permissionBackend
+          .user(user)
+          .project(project)
           .filter(
               repo.getRefDatabase().getRefs(), repo, PermissionBackend.RefFilterOptions.defaults())
           .stream()

@@ -266,7 +266,10 @@ public class RebaseChangeOp implements BatchUpdateOp {
 
   @Override
   public void updateRepo(RepoContext ctx)
-      throws InvalidChangeOperationException, RestApiException, IOException, NoSuchChangeException,
+      throws InvalidChangeOperationException,
+          RestApiException,
+          IOException,
+          NoSuchChangeException,
           PermissionBackendException {
     // Ok that originalPatchSet was not read in a transaction, since we just
     // need its revision.

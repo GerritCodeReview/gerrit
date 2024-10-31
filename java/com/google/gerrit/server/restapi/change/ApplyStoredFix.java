@@ -68,8 +68,12 @@ public class ApplyStoredFix implements RestModifyView<FixResource, Input> {
 
   @Override
   public Response<EditInfo> apply(FixResource fixResource, Input nothing)
-      throws AuthException, BadRequestException, ResourceConflictException, IOException,
-          ResourceNotFoundException, PermissionBackendException {
+      throws AuthException,
+          BadRequestException,
+          ResourceConflictException,
+          IOException,
+          ResourceNotFoundException,
+          PermissionBackendException {
     RevisionResource revisionResource = fixResource.getRevisionResource();
     Project.NameKey project = revisionResource.getProject();
     ProjectState projectState = projectCache.get(project).orElseThrow(illegalState(project));

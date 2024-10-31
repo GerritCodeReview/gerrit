@@ -544,7 +544,7 @@ public abstract class ChangeEmail extends OutgoingEmail {
             authors.add(patchSetInfo.getCommitter().getAccount());
           }
         }
-        // $FALL-THROUGH$
+      // $FALL-THROUGH$
       case OWNER_REVIEWERS:
       case OWNER:
         authors.add(change.getOwner());

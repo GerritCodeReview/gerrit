@@ -84,7 +84,10 @@ public class SuggestChangeReviewers extends SuggestReviewers
 
   @Override
   public Response<List<SuggestedReviewerInfo>> apply(ChangeResource rsrc)
-      throws AuthException, BadRequestException, IOException, ConfigInvalidException,
+      throws AuthException,
+          BadRequestException,
+          IOException,
+          ConfigInvalidException,
           PermissionBackendException {
     if (!self.get().isIdentifiedUser()) {
       throw new AuthException("Authentication required");

@@ -83,7 +83,7 @@ public class DiffOperationsTest {
 
     FileDiffOutput diffOutput =
         diffOperations.getModifiedFileAgainstParent(
-            testProjectName, newCommitId, /* parentNum=*/ 0, fileName2, /* whitespace=*/ null);
+            testProjectName, newCommitId, /* parentNum= */ 0, fileName2, /* whitespace= */ null);
 
     assertThat(diffOutput.oldCommitId()).isEqualTo(oldCommitId);
     assertThat(diffOutput.newCommitId()).isEqualTo(newCommitId);
@@ -113,7 +113,7 @@ public class DiffOperationsTest {
 
     Map<String, FileDiffOutput> changedFiles =
         diffOperations.listModifiedFilesAgainstParent(
-            testProjectName, merge, /* parentNum=*/ 0, DiffOptions.DEFAULTS);
+            testProjectName, merge, /* parentNum= */ 0, DiffOptions.DEFAULTS);
     assertThat(changedFiles.keySet()).containsExactly("/COMMIT_MSG", "/MERGE_LIST", "file_3.txt");
 
     assertThat(repo.getRefDatabase().exactRef(autoMergeRef)).isNull();
@@ -206,7 +206,7 @@ public class DiffOperationsTest {
     // This call loads modified files directly without going through the diff cache.
     Map<String, ModifiedFile> modifiedFiles =
         diffOperations.loadModifiedFilesAgainstParent(
-            testProjectName, newCommitId, /* parentNum=*/ 0, DiffOptions.DEFAULTS, rw, repoConfig);
+            testProjectName, newCommitId, /* parentNum= */ 0, DiffOptions.DEFAULTS, rw, repoConfig);
 
     assertThat(modifiedFiles)
         .containsExactly(

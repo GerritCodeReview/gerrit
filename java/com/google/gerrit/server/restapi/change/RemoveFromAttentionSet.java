@@ -62,7 +62,10 @@ public class RemoveFromAttentionSet
   @Override
   public Response<Object> apply(
       AttentionSetEntryResource attentionResource, AttentionSetInput input)
-      throws RestApiException, PermissionBackendException, IOException, ConfigInvalidException,
+      throws RestApiException,
+          PermissionBackendException,
+          IOException,
+          ConfigInvalidException,
           UpdateException {
     if (input == null) {
       throw new BadRequestException("input may not be null");

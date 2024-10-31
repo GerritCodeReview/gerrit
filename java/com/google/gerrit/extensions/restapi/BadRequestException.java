@@ -18,7 +18,9 @@ package com.google.gerrit.extensions.restapi;
 public class BadRequestException extends RestApiException {
   private static final long serialVersionUID = 1L;
 
-  /** @param msg error text for client describing how request is bad. */
+  /**
+   * @param msg error text for client describing how request is bad.
+   */
   public BadRequestException(String msg) {
     super(msg);
   }

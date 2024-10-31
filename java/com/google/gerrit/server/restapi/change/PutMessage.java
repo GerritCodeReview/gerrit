@@ -102,7 +102,10 @@ public class PutMessage implements RestModifyView<ChangeResource, CommitMessageI
 
   @Override
   public Response<String> apply(ChangeResource resource, CommitMessageInput input)
-      throws IOException, RestApiException, UpdateException, PermissionBackendException,
+      throws IOException,
+          RestApiException,
+          UpdateException,
+          PermissionBackendException,
           ConfigInvalidException {
     PatchSet ps = psUtil.current(resource.getNotes());
     if (ps == null) {

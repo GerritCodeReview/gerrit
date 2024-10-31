@@ -260,7 +260,13 @@ public class RevisionIT extends AbstractDaemonTest {
     revision(r).review(in);
 
     ApprovalInfo cr =
-        gApi.changes().id(changeId).get(DETAILED_LABELS).labels.get(LabelId.CODE_REVIEW).all
+        gApi
+            .changes()
+            .id(changeId)
+            .get(DETAILED_LABELS)
+            .labels
+            .get(LabelId.CODE_REVIEW)
+            .all
             .stream()
             .filter(a -> a._accountId == user.id().get())
             .findFirst()

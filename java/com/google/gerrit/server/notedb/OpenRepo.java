@@ -178,9 +178,10 @@ class OpenRepo implements AutoCloseable {
             && !update.bypassMaxUpdates()) {
           throw new LimitExceededException(
               String.format(
-                  "Change %s may not exceed %d updates. It may still be abandoned, submitted and you can add/remove"
-                      + " reviewers to/from the attention-set. To continue working on this change, recreate it with a new"
-                      + " Change-Id, then abandon this one.",
+                  "Change %s may not exceed %d updates. It may still be abandoned, submitted and"
+                      + " you can add/remove reviewers to/from the attention-set. To continue"
+                      + " working on this change, recreate it with a new Change-Id, then abandon"
+                      + " this one.",
                   update.getId(), maxUpdates.get()));
         }
         curr = next;

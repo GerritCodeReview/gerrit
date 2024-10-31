@@ -117,14 +117,22 @@ public class CreateAccount
   @Override
   public Response<AccountInfo> apply(
       TopLevelResource rsrc, IdString id, @Nullable AccountInput input)
-      throws BadRequestException, ResourceConflictException, UnprocessableEntityException,
-          IOException, ConfigInvalidException, PermissionBackendException {
+      throws BadRequestException,
+          ResourceConflictException,
+          UnprocessableEntityException,
+          IOException,
+          ConfigInvalidException,
+          PermissionBackendException {
     return apply(id, input != null ? input : new AccountInput());
   }
 
   public Response<AccountInfo> apply(IdString id, AccountInput input)
-      throws BadRequestException, ResourceConflictException, UnprocessableEntityException,
-          IOException, ConfigInvalidException, PermissionBackendException {
+      throws BadRequestException,
+          ResourceConflictException,
+          UnprocessableEntityException,
+          IOException,
+          ConfigInvalidException,
+          PermissionBackendException {
     String username = applyCaseOfUsername(id.get());
     if (input.username != null && !username.equals(applyCaseOfUsername(input.username))) {
       throw new BadRequestException("username must match URL");

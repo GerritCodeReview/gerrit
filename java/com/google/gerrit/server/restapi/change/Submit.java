@@ -170,8 +170,12 @@ public class Submit
 
   @Override
   public Response<ChangeInfo> apply(RevisionResource rsrc, @Nullable SubmitInput input)
-      throws RestApiException, RepositoryNotFoundException, IOException, PermissionBackendException,
-          UpdateException, ConfigInvalidException {
+      throws RestApiException,
+          RepositoryNotFoundException,
+          IOException,
+          PermissionBackendException,
+          UpdateException,
+          ConfigInvalidException {
     if (input == null) {
       input = new SubmitInput();
     }
@@ -193,7 +197,10 @@ public class Submit
 
   @UsedAt(UsedAt.Project.GOOGLE)
   public Change mergeChange(RevisionResource rsrc, IdentifiedUser submitter, SubmitInput input)
-      throws RestApiException, IOException, UpdateException, ConfigInvalidException,
+      throws RestApiException,
+          IOException,
+          UpdateException,
+          ConfigInvalidException,
           PermissionBackendException {
     Change change = rsrc.getChange();
     if (!change.isNew()) {
@@ -251,7 +258,8 @@ public class Submit
                 .test(EnumSet.of(ChangePermission.READ, ChangePermission.SUBMIT));
         if (!can.contains(ChangePermission.READ)) {
           logger.atFine().log(
-              "Change %d cannot be submitted by user %s because it depends on change %d which the user cannot read",
+              "Change %d cannot be submitted by user %s because it depends on change %d which the"
+                  + " user cannot read",
               cd.getId().get(), user.getLoggableName(), c.getId().get());
           return BLOCKED_HIDDEN_SUBMIT_TOOLTIP;
         }
@@ -323,7 +331,7 @@ public class Submit
     ChangeSet cs =
         mergeSuperSet
             .get()
-            .completeChangeSet(cd.change(), resource.getUser(), /*includingTopicClosure= */ false);
+            .completeChangeSet(cd.change(), resource.getUser(), /* includingTopicClosure= */ false);
     String topic = change.getTopic();
     int topicSize = 0;
     if (!Strings.isNullOrEmpty(topic)) {
@@ -454,7 +462,10 @@ public class Submit
   }
 
   private IdentifiedUser onBehalfOf(RevisionResource rsrc, SubmitInput in)
-      throws AuthException, UnprocessableEntityException, PermissionBackendException, IOException,
+      throws AuthException,
+          UnprocessableEntityException,
+          PermissionBackendException,
+          IOException,
           ConfigInvalidException {
     PermissionBackend.ForChange perm = rsrc.permissions();
     perm.check(ChangePermission.SUBMIT);

@@ -29,6 +29,7 @@ public interface ProjectQueryBuilder {
 
   /** See {@link com.google.gerrit.index.query.QueryBuilder#parse(String)}. */
   Predicate<ProjectData> parse(String query) throws QueryParseException;
+
   /** See {@link com.google.gerrit.index.query.QueryBuilder#parse(List)}. */
   List<Predicate<ProjectData>> parse(List<String> queries) throws QueryParseException;
 }

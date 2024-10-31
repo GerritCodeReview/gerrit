@@ -127,6 +127,7 @@ public class GeneralPreferencesInfo {
 
   /** Number of changes to show in a screen. */
   public Integer changesPerPage;
+
   /** Type of download URL the user prefers to use. */
   public String downloadScheme;
 

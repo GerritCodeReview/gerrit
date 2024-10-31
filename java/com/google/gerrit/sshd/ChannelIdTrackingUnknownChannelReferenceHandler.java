@@ -72,7 +72,8 @@ public class ChannelIdTrackingUnknownChannelReferenceHandler
     if ((lastTracked != null) && (channelId <= lastTracked.intValue())) {
       // Use TRACE level in order to avoid messages flooding
       logger.atFinest().log(
-          "handleUnknownChannelCommand(%s) apply default handling for %s on channel=%s (lastTracked=%s)",
+          "handleUnknownChannelCommand(%s) apply default handling for %s on channel=%s"
+              + " (lastTracked=%s)",
           session, SshConstants.getCommandMessageName(cmd), channelId, lastTracked);
       return super.handleUnknownChannelCommand(service, cmd, channelId, buffer);
     }

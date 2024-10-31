@@ -382,7 +382,8 @@ public class CommitValidators {
 
       String httpHook =
           String.format(
-              "f=\"$(git rev-parse --git-dir)/hooks/commit-msg\"; curl -o \"$f\" %stools/hooks/commit-msg ; chmod +x \"$f\"",
+              "f=\"$(git rev-parse --git-dir)/hooks/commit-msg\"; curl -o \"$f\""
+                  + " %stools/hooks/commit-msg ; chmod +x \"$f\"",
               webUrl.get());
 
       if (hostKeys.isEmpty()) {
@@ -416,7 +417,8 @@ public class CommitValidators {
 
       String sshHook =
           String.format(
-              "gitdir=$(git rev-parse --git-dir); scp -p -P %d %s@%s:hooks/commit-msg ${gitdir}/hooks/",
+              "gitdir=$(git rev-parse --git-dir); scp -p -P %d %s@%s:hooks/commit-msg"
+                  + " ${gitdir}/hooks/",
               sshPort, user.getUserName().orElse("<USERNAME>"), sshHost);
       return String.format("  %s\n%s\nor, for http(s):\n  %s", sshHook, scpFlagHint, httpHook);
     }

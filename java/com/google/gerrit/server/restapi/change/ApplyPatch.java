@@ -106,8 +106,13 @@ public class ApplyPatch implements RestModifyView<ChangeResource, ApplyPatchPatc
 
   @Override
   public Response<ChangeInfo> apply(ChangeResource rsrc, ApplyPatchPatchSetInput input)
-      throws IOException, UpdateException, RestApiException, PermissionBackendException,
-          ConfigInvalidException, NoSuchProjectException, InvalidChangeOperationException {
+      throws IOException,
+          UpdateException,
+          RestApiException,
+          PermissionBackendException,
+          ConfigInvalidException,
+          NoSuchProjectException,
+          InvalidChangeOperationException {
     NameKey project = rsrc.getProject();
     contributorAgreements.check(project, rsrc.getUser());
     BranchNameKey destBranch = rsrc.getChange().getDest();
@@ -153,7 +158,8 @@ public class ApplyPatch implements RestModifyView<ChangeResource, ApplyPatchPatc
         if (latestPatchset.getParentCount() != 1) {
           throw new BadRequestException(
               String.format(
-                  "Cannot parse base commit for a change with none or multiple parents. Change ID: %s.",
+                  "Cannot parse base commit for a change with none or multiple parents. Change ID:"
+                      + " %s.",
                   destChange.getId()));
         }
         baseCommit = revWalk.parseCommit(latestPatchset.getParent(0));

@@ -16,6 +16,23 @@
       "message": "Looks like I need to squash this with the actual reformatting and do this on every branch independently to make the codestyle check happy ?",
       "revId": "42deda2efb65a2a78f280545acbbc503083c0c48",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe18d5cf_c5632b66",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-10-31T11:03:25Z",
+      "side": 1,
+      "message": "This should be squashed with the actual reformatting of the code.",
+      "revId": "42deda2efb65a2a78f280545acbbc503083c0c48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -3157,6 +3157,26 @@ public class AccountIT extends AbstractDaemonTest {
         .isNotEqualTo(updatedUserState.account().metaId());
   }
 
+  @Test
+  public void accountUpdate_emptyStringsToUnset() throws Exception {
+    AccountState preUpdateState = accountCache.get(admin.id()).get();
+    requestScopeOperations.setApiUser(admin.id());
+
+    accountsUpdateProvider
+        .get()
+        .update(
+            "Replace External ID",
+            admin.id(),
+            u -> u.setFullName("").setDisplayName("").setPreferredEmail("").setStatus(""));
+
+    AccountState updatedState = accountCache.get(admin.id()).get();
+    assertThat(accountCache.get(admin.id()).get()).isNotSameInstanceAs(preUpdateState);
+    assertThat(updatedState.account().fullName()).isNull();
+    assertThat(updatedState.account().displayName()).isNull();
+    assertThat(updatedState.account().preferredEmail()).isNull();
+    assertThat(updatedState.account().status()).isNull();
+  }
+
   protected ExternalId createEmailExternalId(Account.Id accountId, String email) {
     return getExternalIdFactory().createWithEmail(SCHEME_MAILTO, email, accountId, email);
   }

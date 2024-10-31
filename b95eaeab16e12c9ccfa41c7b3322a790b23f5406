@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab8534e8_97661e1a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-10-31T10:07:56Z",
+      "side": 1,
+      "message": "Let me first amend the CI scripts to dynamically get the GJF required.",
+      "revId": "b95eaeab16e12c9ccfa41c7b3322a790b23f5406",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

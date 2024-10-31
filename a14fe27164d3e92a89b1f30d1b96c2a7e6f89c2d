@@ -16,6 +16,24 @@
       "message": "We probably want to do this on the non-EOL stable branches too? Otherwise I imagine we\u0027ll have extra merge conflicts.",
       "revId": "a14fe27164d3e92a89b1f30d1b96c2a7e6f89c2d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "96d15aef_7ce444aa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-10-31T09:48:09Z",
+      "side": 1,
+      "message": "ok, I split this change in two and moved it to stable-3.8 and merged it up to master, adding another change reformatting the source code on each branch.\nSee https://gerrit-review.googlesource.com/q/hashtag:%22gjf-1.24.0%22",
+      "parentUuid": "9c636df0_abd3891c",
+      "revId": "a14fe27164d3e92a89b1f30d1b96c2a7e6f89c2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

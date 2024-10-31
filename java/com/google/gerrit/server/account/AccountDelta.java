@@ -166,6 +166,7 @@ public abstract class AccountDelta {
         || !this.getDeletedExternalIds().isEmpty()
         || !this.getUpdatedExternalIds().isEmpty();
   }
+
   /**
    * Class to build an {@link AccountDelta}.
    *

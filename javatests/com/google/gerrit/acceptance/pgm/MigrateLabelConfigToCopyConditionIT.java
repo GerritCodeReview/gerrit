@@ -429,7 +429,8 @@ public class MigrateLabelConfigToCopyConditionIT extends AbstractDaemonTest {
     assertDeprecatedFieldsUnset(LabelId.CODE_REVIEW);
     assertThat(getCopyConditionOfCodeReviewLabel())
         .isEqualTo(
-            "(is:ANY AND (changekind:TRIVIAL_REBASE OR changekind:NO_CODE_CHANGE)) OR changekind:TRIVIAL_REBASE OR is:ANY");
+            "(is:ANY AND (changekind:TRIVIAL_REBASE OR changekind:NO_CODE_CHANGE)) OR"
+                + " changekind:TRIVIAL_REBASE OR is:ANY");
   }
 
   @Test

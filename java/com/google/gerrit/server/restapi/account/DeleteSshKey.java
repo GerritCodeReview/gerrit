@@ -69,7 +69,10 @@ public class DeleteSshKey implements RestModifyView<AccountResource.SshKey, Inpu
 
   @Override
   public Response<?> apply(AccountResource.SshKey rsrc, Input input)
-      throws AuthException, RepositoryNotFoundException, IOException, ConfigInvalidException,
+      throws AuthException,
+          RepositoryNotFoundException,
+          IOException,
+          ConfigInvalidException,
           PermissionBackendException {
     if (!self.get().hasSameAccountId(rsrc.getUser())) {
       permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);

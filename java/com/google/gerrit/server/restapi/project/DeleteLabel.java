@@ -59,7 +59,10 @@ public class DeleteLabel implements RestModifyView<LabelResource, InputWithCommi
 
   @Override
   public Response<?> apply(LabelResource rsrc, InputWithCommitMessage input)
-      throws AuthException, ResourceNotFoundException, PermissionBackendException, IOException,
+      throws AuthException,
+          ResourceNotFoundException,
+          PermissionBackendException,
+          IOException,
           ConfigInvalidException {
     if (!user.get().isIdentifiedUser()) {
       throw new AuthException("Authentication required");

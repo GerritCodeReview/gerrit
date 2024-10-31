@@ -396,7 +396,9 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
   }
 
   private String message(ChangeContext ctx, CodeReviewCommit commit, CommitMergeStatus s)
-      throws AuthException, IOException, PermissionBackendException,
+      throws AuthException,
+          IOException,
+          PermissionBackendException,
           InvalidChangeOperationException {
     requireNonNull(s, "CommitMergeStatus may not be null");
     String txt = s.getDescription();
@@ -438,7 +440,9 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
   }
 
   private String message(ChangeContext ctx, String body)
-      throws AuthException, IOException, PermissionBackendException,
+      throws AuthException,
+          IOException,
+          PermissionBackendException,
           InvalidChangeOperationException {
     stickyApprovalDiff = args.submitWithStickyApprovalDiff.apply(ctx.getNotes(), ctx.getUser());
     return body + stickyApprovalDiff;

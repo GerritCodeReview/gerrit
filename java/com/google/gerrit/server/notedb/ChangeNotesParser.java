@@ -154,8 +154,10 @@ class ChangeNotesParser {
   private final Table<Address, ReviewerStateInternal, Instant> reviewersByEmail;
   private final List<Account.Id> allPastReviewers;
   private final List<ReviewerStatusUpdate> reviewerUpdates;
+
   /** Holds only the most recent update per user. Older updates are discarded. */
   private final Map<Account.Id, AttentionSetUpdate> latestAttentionStatus;
+
   /** Holds all updates to attention set. */
   private final List<AttentionSetUpdate> allAttentionSetUpdates;
 

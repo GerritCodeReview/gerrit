@@ -692,6 +692,7 @@ public final class GerritLauncher {
   }
 
   static final String SOURCE_ROOT_RESOURCE = "/com/google/gerrit/launcher/workspace-root.txt";
+
   /**
    * Locate a path in the source tree.
    *

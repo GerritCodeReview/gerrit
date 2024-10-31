@@ -148,7 +148,8 @@ public class IndexedFieldTest {
               fieldToStoredValue) {
     Object docValue = fieldToStoredValue.getValue();
     IndexedField<TestIndexedData, StoredValue>.SearchSpec searchSpec = fieldToStoredValue.getKey();
-    StoredValue storedValue = new FakeStoredValue(fieldToStoredValue.getValue(), /*isProto=*/ true);
+    StoredValue storedValue =
+        new FakeStoredValue(fieldToStoredValue.getValue(), /* isProto= */ true);
     TestIndexedData testIndexedData = new TestIndexedData();
     searchSpec.setIfPossible(testIndexedData, storedValue);
     assertThat(testIndexedData.getTestField()).isEqualTo(docValue);

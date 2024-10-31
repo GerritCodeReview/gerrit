@@ -62,7 +62,10 @@ public class PostReviewers
 
   @Override
   public Response<ReviewerResult> apply(ChangeResource rsrc, ReviewerInput input)
-      throws IOException, RestApiException, UpdateException, PermissionBackendException,
+      throws IOException,
+          RestApiException,
+          UpdateException,
+          PermissionBackendException,
           ConfigInvalidException {
     if (input.reviewer == null) {
       throw new BadRequestException("missing reviewer field");

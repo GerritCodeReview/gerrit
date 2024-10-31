@@ -129,7 +129,10 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
     @Override
     public Response<Object> apply(
         ChangeResource resource, IdString id, FileContentInput fileContentInput)
-        throws AuthException, BadRequestException, ResourceConflictException, IOException,
+        throws AuthException,
+            BadRequestException,
+            ResourceConflictException,
+            IOException,
             PermissionBackendException {
       putEdit.apply(resource, id.get(), fileContentInput);
       return Response.none();
@@ -148,7 +151,10 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
 
     @Override
     public Response<Object> apply(ChangeResource rsrc, IdString id, Input input)
-        throws IOException, AuthException, BadRequestException, ResourceConflictException,
+        throws IOException,
+            AuthException,
+            BadRequestException,
+            ResourceConflictException,
             PermissionBackendException {
       return deleteContent.apply(rsrc, id.get());
     }
@@ -195,7 +201,10 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
 
     @Override
     public Response<EditInfo> apply(ChangeResource rsrc)
-        throws AuthException, IOException, ResourceNotFoundException, ResourceConflictException,
+        throws AuthException,
+            IOException,
+            ResourceNotFoundException,
+            ResourceConflictException,
             PermissionBackendException {
       Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getNotes(), rsrc.getUser());
       if (!edit.isPresent()) {
@@ -251,7 +260,10 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
 
     @Override
     public Response<Object> apply(ChangeResource resource, Post.Input postInput)
-        throws AuthException, BadRequestException, IOException, ResourceConflictException,
+        throws AuthException,
+            BadRequestException,
+            IOException,
+            ResourceConflictException,
             PermissionBackendException {
       Project.NameKey project = resource.getProject();
       try (Repository repository = repositoryManager.openRepository(project)) {
@@ -304,14 +316,20 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
 
     @Override
     public Response<Object> apply(ChangeEditResource rsrc, FileContentInput fileContentInput)
-        throws AuthException, BadRequestException, ResourceConflictException, IOException,
+        throws AuthException,
+            BadRequestException,
+            ResourceConflictException,
+            IOException,
             PermissionBackendException {
       return apply(rsrc.getChangeResource(), rsrc.getPath(), fileContentInput);
     }
 
     public Response<Object> apply(
         ChangeResource rsrc, String path, FileContentInput fileContentInput)
-        throws AuthException, BadRequestException, ResourceConflictException, IOException,
+        throws AuthException,
+            BadRequestException,
+            ResourceConflictException,
+            IOException,
             PermissionBackendException {
 
       if (fileContentInput.content == null && fileContentInput.binary_content == null) {
@@ -379,13 +397,19 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
 
     @Override
     public Response<Object> apply(ChangeEditResource rsrc, Input input)
-        throws AuthException, BadRequestException, ResourceConflictException, IOException,
+        throws AuthException,
+            BadRequestException,
+            ResourceConflictException,
+            IOException,
             PermissionBackendException {
       return apply(rsrc.getChangeResource(), rsrc.getPath());
     }
 
     public Response<Object> apply(ChangeResource rsrc, String filePath)
-        throws AuthException, BadRequestException, IOException, ResourceConflictException,
+        throws AuthException,
+            BadRequestException,
+            IOException,
+            ResourceConflictException,
             PermissionBackendException {
       try (Repository repository = repositoryManager.openRepository(rsrc.getProject())) {
         editModifier.deleteFile(repository, rsrc.getNotes(), filePath);
@@ -485,7 +509,10 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
 
     @Override
     public Response<Object> apply(ChangeResource rsrc, EditMessage.Input editMessageInput)
-        throws AuthException, IOException, BadRequestException, ResourceConflictException,
+        throws AuthException,
+            IOException,
+            BadRequestException,
+            ResourceConflictException,
             PermissionBackendException {
       if (editMessageInput == null || Strings.isNullOrEmpty(editMessageInput.message)) {
         throw new BadRequestException("commit message must be provided");

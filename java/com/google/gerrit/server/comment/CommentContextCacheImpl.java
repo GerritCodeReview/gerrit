@@ -108,8 +108,7 @@ public class CommentContextCacheImpl implements CommentContextCache {
                 Collectors.toMap(
                     Function.identity(),
                     k ->
-                        adjustMaxContextPadding(k)
-                            .toBuilder()
+                        adjustMaxContextPadding(k).toBuilder()
                             .path(Loader.hashPath(k.path()))
                             .build()));
 

@@ -96,8 +96,13 @@ public class CreateAccessChange implements RestModifyView<ProjectResource, Proje
 
   @Override
   public Response<ChangeInfo> apply(ProjectResource rsrc, ProjectAccessInput input)
-      throws PermissionBackendException, AuthException, IOException, ConfigInvalidException,
-          InvalidNameException, UpdateException, RestApiException {
+      throws PermissionBackendException,
+          AuthException,
+          IOException,
+          ConfigInvalidException,
+          InvalidNameException,
+          UpdateException,
+          RestApiException {
     PermissionBackend.ForProject forProject =
         permissionBackend.user(rsrc.getUser()).project(rsrc.getNameKey());
     if (!check(forProject, ProjectPermission.READ_CONFIG)) {

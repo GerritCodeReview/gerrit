@@ -17,7 +17,9 @@ package com.google.gerrit.extensions.common;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.RawInput;
 
-/** @deprecated use {@link com.google.gerrit.extensions.api.plugins.InstallPluginInput}. */
+/**
+ * @deprecated use {@link com.google.gerrit.extensions.api.plugins.InstallPluginInput}.
+ */
 @Deprecated
 public class InstallPluginInput {
   public @DefaultInput String url;

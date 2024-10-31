@@ -54,6 +54,7 @@ public class StoredValue<T> {
   public T getOrNull(Prolog engine) {
     return get((PrologEnvironment) engine.control);
   }
+
   /** Get the value from the engine, or throw SystemException. */
   public T get(Prolog engine) {
     T obj = getOrNull(engine);

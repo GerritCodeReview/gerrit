@@ -72,8 +72,12 @@ public class CommitsIncludedInRefs implements RestReadView<ProjectResource> {
 
   @Override
   public Response<Map<String, Set<String>>> apply(ProjectResource resource)
-      throws ResourceConflictException, BadRequestException, IOException,
-          PermissionBackendException, ResourceNotFoundException, AuthException {
+      throws ResourceConflictException,
+          BadRequestException,
+          IOException,
+          PermissionBackendException,
+          ResourceNotFoundException,
+          AuthException {
     if (commits.isEmpty()) {
       throw new BadRequestException("commit is required");
     }

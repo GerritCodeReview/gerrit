@@ -127,8 +127,12 @@ public class DashboardsCollection implements ChildCollection<ProjectResource, Da
 
   private DashboardResource parse(
       ProjectState parent, ProjectState current, CurrentUser user, DashboardInfo info)
-      throws ResourceNotFoundException, IOException, AmbiguousObjectException,
-          IncorrectObjectTypeException, ConfigInvalidException, PermissionBackendException,
+      throws ResourceNotFoundException,
+          IOException,
+          AmbiguousObjectException,
+          IncorrectObjectTypeException,
+          ConfigInvalidException,
+          PermissionBackendException,
           ResourceConflictException {
     String ref = normalizeDashboardRef(info.ref);
     try {

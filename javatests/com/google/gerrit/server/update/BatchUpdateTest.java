@@ -317,6 +317,7 @@ public class BatchUpdateTest {
     assertThat(getUpdateCount(id)).isEqualTo(MAX_UPDATES + 1);
     assertThat(getMetaId(id)).isNotEqualTo(oldMetaId);
   }
+
   // Not possible to write a variant of this test that submits first and adds a message second in
   // the same batch, since submit always comes last.
 

@@ -151,8 +151,11 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
 
     @Override
     public Response<?> apply(RevisionResource resource)
-        throws RestApiException, RepositoryNotFoundException, IOException,
-            PatchListNotAvailableException, PermissionBackendException {
+        throws RestApiException,
+            RepositoryNotFoundException,
+            IOException,
+            PatchListNotAvailableException,
+            PermissionBackendException {
       checkOptions();
       if (reviewed) {
         return Response.ok(reviewed(resource));

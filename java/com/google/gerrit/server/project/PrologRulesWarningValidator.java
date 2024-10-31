@@ -61,13 +61,15 @@ public class PrologRulesWarningValidator implements CommitValidationListener {
   private boolean isFileAdded(CommitReceivedEvent receiveEvent, String fileName)
       throws DiffNotAvailableException {
     List<Map.Entry<String, ModifiedFile>> matchingEntries =
-        receiveEvent.diffOperations
+        receiveEvent
+            .diffOperations
             .loadModifiedFilesAgainstParentIfNecessary(
                 receiveEvent.project.getNameKey(),
                 receiveEvent.commit,
-                /* parentNum=*/ 0,
+                /* parentNum= */ 0,
                 /* enableRenameDetection= */ true)
-            .entrySet().stream()
+            .entrySet()
+            .stream()
             .filter(e -> fileName.equals(e.getKey()))
             .collect(Collectors.toList());
     if (matchingEntries.size() != 1) {

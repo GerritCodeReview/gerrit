@@ -68,8 +68,12 @@ public class SetLabel implements RestModifyView<LabelResource, LabelDefinitionIn
 
   @Override
   public Response<LabelDefinitionInfo> apply(LabelResource rsrc, LabelDefinitionInput input)
-      throws AuthException, BadRequestException, ResourceConflictException,
-          PermissionBackendException, IOException, ConfigInvalidException {
+      throws AuthException,
+          BadRequestException,
+          ResourceConflictException,
+          PermissionBackendException,
+          IOException,
+          ConfigInvalidException {
     if (!user.get().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }

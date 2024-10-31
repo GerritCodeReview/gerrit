@@ -99,7 +99,7 @@ public class Rebase
     IdentifiedUser rebaseAsUser;
     if (input.onBehalfOfUploader && !rsrc.getPatchSet().uploader().equals(rsrc.getAccountId())) {
       rebaseAsUser =
-          userFactory.runAs(/*remotePeer= */ null, rsrc.getPatchSet().uploader(), rsrc.getUser());
+          userFactory.runAs(/* remotePeer= */ null, rsrc.getPatchSet().uploader(), rsrc.getUser());
       rsrc.permissions().check(ChangePermission.REBASE_ON_BEHALF_OF_UPLOADER);
       rebaseUtil.checkCanRebaseOnBehalfOf(rsrc, input);
     } else {

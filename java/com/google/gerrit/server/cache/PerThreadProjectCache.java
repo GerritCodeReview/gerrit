@@ -28,6 +28,7 @@ import java.util.function.Supplier;
 public class PerThreadProjectCache {
   private static final PerThreadCache.Key<PerThreadProjectCache> PER_THREAD_PROJECT_CACHE_KEY =
       PerThreadCache.Key.create(PerThreadProjectCache.class);
+
   /**
    * Cache at maximum 25 values per thread. This value was chosen arbitrarily. Some endpoints (like
    * ListProjects) break the assumption that the data cached in a request is limited. To prevent

@@ -281,7 +281,9 @@ public class DelegateRepository extends Repository {
 
   @Override
   public ObjectId resolve(String revstr)
-      throws AmbiguousObjectException, IncorrectObjectTypeException, RevisionSyntaxException,
+      throws AmbiguousObjectException,
+          IncorrectObjectTypeException,
+          RevisionSyntaxException,
           IOException {
     return delegate.resolve(revstr);
   }

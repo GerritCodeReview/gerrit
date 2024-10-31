@@ -33,16 +33,19 @@ import java.time.Instant;
 public abstract class MailMessage {
   // Unique Identifier
   public abstract String id();
+
   // Envelop Information
   public abstract Address from();
 
   public abstract ImmutableList<Address> to();
 
   public abstract ImmutableList<Address> cc();
+
   // Metadata
   public abstract Instant dateReceived();
 
   public abstract ImmutableList<String> additionalHeaders();
+
   // Content
   public abstract String subject();
 
@@ -51,6 +54,7 @@ public abstract class MailMessage {
 
   @Nullable
   public abstract String htmlContent();
+
   // Raw content as received over the wire
   @Nullable
   public abstract ImmutableList<Integer> rawContent();

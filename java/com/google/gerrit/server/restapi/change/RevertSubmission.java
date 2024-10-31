@@ -170,8 +170,13 @@ public class RevertSubmission
 
   @Override
   public Response<RevertSubmissionInfo> apply(ChangeResource changeResource, RevertInput input)
-      throws RestApiException, IOException, UpdateException, PermissionBackendException,
-          NoSuchProjectException, ConfigInvalidException, StorageException {
+      throws RestApiException,
+          IOException,
+          UpdateException,
+          PermissionBackendException,
+          NoSuchProjectException,
+          ConfigInvalidException,
+          StorageException {
 
     if (!changeResource.getChange().isMerged()) {
       throw new ResourceConflictException(
@@ -233,8 +238,12 @@ public class RevertSubmission
 
   private RevertSubmissionInfo revertSubmission(
       List<ChangeData> changeData, RevertInput revertInput)
-      throws RestApiException, IOException, UpdateException, ConfigInvalidException,
-          StorageException, PermissionBackendException {
+      throws RestApiException,
+          IOException,
+          UpdateException,
+          ConfigInvalidException,
+          StorageException,
+          PermissionBackendException {
 
     Multimap<BranchNameKey, ChangeData> changesPerProjectAndBranch = ArrayListMultimap.create();
     changeData.stream().forEach(c -> changesPerProjectAndBranch.put(c.change().getDest(), c));
@@ -280,7 +289,10 @@ public class RevertSubmission
       Iterator<PatchSetData> sortedChangesInProjectAndBranch,
       Set<ObjectId> commitIdsInProjectAndBranch,
       Instant timestamp)
-      throws IOException, RestApiException, UpdateException, ConfigInvalidException,
+      throws IOException,
+          RestApiException,
+          UpdateException,
+          ConfigInvalidException,
           PermissionBackendException {
     while (sortedChangesInProjectAndBranch.hasNext()) {
       ChangeNotes changeNotes = sortedChangesInProjectAndBranch.next().data().notes();

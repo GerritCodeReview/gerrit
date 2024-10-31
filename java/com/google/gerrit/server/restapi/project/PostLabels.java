@@ -75,8 +75,13 @@ public class PostLabels
 
   @Override
   public Response<?> apply(ProjectResource rsrc, BatchLabelInput input)
-      throws AuthException, UnprocessableEntityException, PermissionBackendException, IOException,
-          ConfigInvalidException, BadRequestException, ResourceConflictException {
+      throws AuthException,
+          UnprocessableEntityException,
+          PermissionBackendException,
+          IOException,
+          ConfigInvalidException,
+          BadRequestException,
+          ResourceConflictException {
     if (!user.get().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }

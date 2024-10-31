@@ -70,8 +70,12 @@ public class CherryPick
 
   @Override
   public Response<ChangeInfo> apply(RevisionResource rsrc, CherryPickInput input)
-      throws IOException, UpdateException, RestApiException, PermissionBackendException,
-          ConfigInvalidException, NoSuchProjectException {
+      throws IOException,
+          UpdateException,
+          RestApiException,
+          PermissionBackendException,
+          ConfigInvalidException,
+          NoSuchProjectException {
     input.parent = input.parent == null ? 1 : input.parent;
     if (input.destination == null || input.destination.trim().isEmpty()) {
       throw new BadRequestException("destination must be non-empty");

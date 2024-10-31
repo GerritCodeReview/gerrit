@@ -56,8 +56,13 @@ public class PutOwner implements RestModifyView<GroupResource, OwnerInput> {
 
   @Override
   public Response<GroupInfo> apply(GroupResource resource, OwnerInput input)
-      throws ResourceNotFoundException, NotInternalGroupException, AuthException,
-          BadRequestException, UnprocessableEntityException, IOException, ConfigInvalidException,
+      throws ResourceNotFoundException,
+          NotInternalGroupException,
+          AuthException,
+          BadRequestException,
+          UnprocessableEntityException,
+          IOException,
+          ConfigInvalidException,
           PermissionBackendException {
     GroupDescription.Internal internalGroup =
         resource.asInternalGroup().orElseThrow(NotInternalGroupException::new);

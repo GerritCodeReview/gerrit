@@ -311,8 +311,10 @@ public final class Change {
 
   /** Minimum database status constant for an open change. */
   private static final char MIN_OPEN = 'a';
+
   /** Database constant for {@link Status#NEW}. */
   public static final char STATUS_NEW = 'n';
+
   /** Maximum database status constant for an open change. */
   private static final char MAX_OPEN = 'z';
 

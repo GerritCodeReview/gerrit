@@ -189,8 +189,12 @@ public class CreateChange
 
   @Override
   public Response<ChangeInfo> apply(TopLevelResource parent, ChangeInput input)
-      throws IOException, InvalidChangeOperationException, RestApiException, UpdateException,
-          PermissionBackendException, ConfigInvalidException {
+      throws IOException,
+          InvalidChangeOperationException,
+          RestApiException,
+          UpdateException,
+          PermissionBackendException,
+          ConfigInvalidException {
     if (Strings.isNullOrEmpty(input.project)) {
       throw new BadRequestException("project must be non-empty");
     }
@@ -215,7 +219,10 @@ public class CreateChange
       BatchUpdate.Factory updateFactory,
       Entities.ChangeInput input,
       CommitTreeSupplier commitTreeSupplier)
-      throws IOException, RestApiException, UpdateException, PermissionBackendException,
+      throws IOException,
+          RestApiException,
+          UpdateException,
+          PermissionBackendException,
           ConfigInvalidException {
     return execute(
         updateFactory,
@@ -231,7 +238,10 @@ public class CreateChange
    */
   public Response<ChangeInfo> execute(
       BatchUpdate.Factory updateFactory, ChangeInput input, ProjectResource projectResource)
-      throws IOException, RestApiException, UpdateException, PermissionBackendException,
+      throws IOException,
+          RestApiException,
+          UpdateException,
+          PermissionBackendException,
           ConfigInvalidException {
     return execute(updateFactory, input, projectResource, Optional.empty());
   }
@@ -241,7 +251,10 @@ public class CreateChange
       ChangeInput input,
       ProjectResource projectResource,
       Optional<CommitTreeSupplier> commitTreeSupplier)
-      throws IOException, RestApiException, UpdateException, PermissionBackendException,
+      throws IOException,
+          RestApiException,
+          UpdateException,
+          PermissionBackendException,
           ConfigInvalidException {
     if (!user.get().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
@@ -388,7 +401,10 @@ public class CreateChange
       ProjectState projectState,
       BatchUpdate.Factory updateFactory,
       Optional<CommitTreeSupplier> commitTreeSupplier)
-      throws RestApiException, PermissionBackendException, IOException, ConfigInvalidException,
+      throws RestApiException,
+          PermissionBackendException,
+          IOException,
+          ConfigInvalidException,
           UpdateException {
     try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
       logger.atFine().log(
@@ -556,7 +572,9 @@ public class CreateChange
       @Nullable PatchSet basePatchSet,
       @Nullable String baseCommit,
       @Nullable MergeInput mergeInput)
-      throws BadRequestException, IOException, UnprocessableEntityException,
+      throws BadRequestException,
+          IOException,
+          UnprocessableEntityException,
           ResourceConflictException {
     if (basePatchSet != null) {
       return basePatchSet.commitId();

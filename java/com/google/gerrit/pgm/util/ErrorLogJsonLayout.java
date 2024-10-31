@@ -39,10 +39,13 @@ public class ErrorLogJsonLayout extends JsonLayout {
 
     /** Hostname of the machine running Gerrit. */
     public final String sourceHost;
+
     /** Logged message. */
     public final String message;
+
     /** File containing the code creating the log entry. */
     public final String file;
+
     /** Line number of code creating the log entry. */
     public final String lineNumber;
 
@@ -52,6 +55,7 @@ public class ErrorLogJsonLayout extends JsonLayout {
 
     /** Method from which the log entry was created. */
     public final String method;
+
     /** Name of the logger creating the log entry. */
     public final String loggerName;
 
@@ -61,8 +65,10 @@ public class ErrorLogJsonLayout extends JsonLayout {
 
     /** Nested diagnostic context. */
     public final String ndc;
+
     /** Logging level/severity. */
     public final String level;
+
     /** Thread executing the code creating the log entry. */
     public final String threadName;
 

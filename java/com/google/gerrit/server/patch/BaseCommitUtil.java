@@ -103,7 +103,8 @@ class BaseCommitUtil {
         if (current.getParentCount() == 2) {
           if (!saveAutomerge) {
             throw new IOException(
-                "diff against auto-merge commits is only supported if 'change.cacheAutomerge' config is set to true.");
+                "diff against auto-merge commits is only supported if 'change.cacheAutomerge'"
+                    + " config is set to true.");
           }
           // TODO(ghareeb): Avoid persisting auto-merge commits.
           return getAutoMergeFromGitOrCreate(repoView, ins, current);

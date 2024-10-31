@@ -64,7 +64,10 @@ public class GetWatchedProjects implements RestReadView<AccountResource> {
 
   @Override
   public Response<List<ProjectWatchInfo>> apply(AccountResource rsrc)
-      throws AuthException, IOException, ConfigInvalidException, PermissionBackendException,
+      throws AuthException,
+          IOException,
+          ConfigInvalidException,
+          PermissionBackendException,
           ResourceNotFoundException {
     if (!self.get().hasSameAccountId(rsrc.getUser())) {
       permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);

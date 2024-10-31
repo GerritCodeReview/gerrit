@@ -109,8 +109,13 @@ public class GetDiff implements RestReadView<FileResource> {
 
   @Override
   public Response<DiffInfo> apply(FileResource resource)
-      throws BadRequestException, ResourceConflictException, ResourceNotFoundException,
-          AuthException, InvalidChangeOperationException, IOException, PermissionBackendException {
+      throws BadRequestException,
+          ResourceConflictException,
+          ResourceNotFoundException,
+          AuthException,
+          InvalidChangeOperationException,
+          IOException,
+          PermissionBackendException {
     DiffPreferencesInfo prefs = new DiffPreferencesInfo();
     if (whitespace != null) {
       prefs.ignoreWhitespace = whitespace;

@@ -304,7 +304,12 @@ public class ListProjectsImpl extends AbstractListProjects {
 
   private SortedMap<String, ProjectInfo> applyAsQuery(String query) throws BadRequestException {
     try {
-      return queryProjectsProvider.get().withQuery(query).withStart(start).withLimit(limit).apply()
+      return queryProjectsProvider
+          .get()
+          .withQuery(query)
+          .withStart(start)
+          .withLimit(limit)
+          .apply()
           .stream()
           .collect(
               ImmutableSortedMap.toImmutableSortedMap(

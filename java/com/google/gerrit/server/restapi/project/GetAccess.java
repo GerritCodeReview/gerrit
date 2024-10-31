@@ -128,7 +128,9 @@ public class GetAccess implements RestReadView<ProjectResource> {
 
   @Override
   public Response<ProjectAccessInfo> apply(ProjectResource rsrc)
-      throws ResourceNotFoundException, ResourceConflictException, IOException,
+      throws ResourceNotFoundException,
+          ResourceConflictException,
+          IOException,
           PermissionBackendException {
     // Load the current configuration from the repository, ensuring it's the most
     // recent version available. If it differs from what was in the project

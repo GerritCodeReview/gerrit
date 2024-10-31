@@ -44,7 +44,8 @@ public class Passwd extends SiteProgram {
       index = 0,
       required = true,
       usage =
-          "Section, subsection and key separated by a dot of the password to set. Subsection is optional")
+          "Section, subsection and key separated by a dot of the password to set. Subsection is"
+              + " optional")
   private String sectionSubsectionAndKey;
 
   @Argument(metaVar = "PASSWORD", index = 1, required = false, usage = "Password to set")

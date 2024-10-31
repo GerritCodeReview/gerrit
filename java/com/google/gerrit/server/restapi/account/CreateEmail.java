@@ -111,8 +111,12 @@ public class CreateEmail
 
   @Override
   public Response<EmailInfo> apply(AccountResource rsrc, IdString id, EmailInput input)
-      throws RestApiException, EmailException, MethodNotAllowedException, IOException,
-          ConfigInvalidException, PermissionBackendException {
+      throws RestApiException,
+          EmailException,
+          MethodNotAllowedException,
+          IOException,
+          ConfigInvalidException,
+          PermissionBackendException {
     if (input == null) {
       input = new EmailInput();
     }
@@ -131,8 +135,12 @@ public class CreateEmail
   /** To be used from plugins that want to create emails without permission checks. */
   @UsedAt(UsedAt.Project.PLUGIN_SERVICEUSER)
   public EmailInfo apply(IdentifiedUser user, IdString id, EmailInput input)
-      throws RestApiException, EmailException, MethodNotAllowedException, IOException,
-          ConfigInvalidException, PermissionBackendException {
+      throws RestApiException,
+          EmailException,
+          MethodNotAllowedException,
+          IOException,
+          ConfigInvalidException,
+          PermissionBackendException {
     String email = id.get().trim();
 
     if (input == null) {

@@ -106,7 +106,9 @@ public class SubmitWithStickyApprovalDiff {
   }
 
   public String apply(ChangeNotes notes, CurrentUser currentUser)
-      throws AuthException, IOException, PermissionBackendException,
+      throws AuthException,
+          IOException,
+          PermissionBackendException,
           InvalidChangeOperationException {
     PatchSet currentPatchset = notes.getCurrentPatchSet();
 
@@ -191,7 +193,9 @@ public class SubmitWithStickyApprovalDiff {
       CurrentUser currentUser,
       @Nullable List<String> formatterResult,
       boolean isDiffTooLarge)
-      throws AuthException, InvalidChangeOperationException, IOException,
+      throws AuthException,
+          InvalidChangeOperationException,
+          IOException,
           PermissionBackendException {
     StringBuilder diff =
         new StringBuilder(

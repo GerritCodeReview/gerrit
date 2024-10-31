@@ -254,7 +254,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
                               value,
                               v.getKey()));
                     }
-                    // $FALL-THROUGH$
+                  // $FALL-THROUGH$
                   case STRING:
                     String valueToSet = value;
                     projectConfig.updatePluginConfig(

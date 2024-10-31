@@ -55,7 +55,10 @@ public class MembersCollection implements ChildCollection<GroupResource, MemberR
 
   @Override
   public MemberResource parse(GroupResource parent, IdString id)
-      throws NotInternalGroupException, AuthException, ResourceNotFoundException, IOException,
+      throws NotInternalGroupException,
+          AuthException,
+          ResourceNotFoundException,
+          IOException,
           ConfigInvalidException {
     GroupDescription.Internal group =
         parent.asInternalGroup().orElseThrow(NotInternalGroupException::new);

@@ -55,8 +55,12 @@ public class DeleteSubgroups implements RestModifyView<GroupResource, Input> {
 
   @Override
   public Response<?> apply(GroupResource resource, Input input)
-      throws AuthException, NotInternalGroupException, UnprocessableEntityException,
-          ResourceNotFoundException, IOException, ConfigInvalidException {
+      throws AuthException,
+          NotInternalGroupException,
+          UnprocessableEntityException,
+          ResourceNotFoundException,
+          IOException,
+          ConfigInvalidException {
     GroupDescription.Internal internalGroup =
         resource.asInternalGroup().orElseThrow(NotInternalGroupException::new);
     input = Input.init(input);
@@ -106,8 +110,12 @@ public class DeleteSubgroups implements RestModifyView<GroupResource, Input> {
 
     @Override
     public Response<?> apply(SubgroupResource resource, Input input)
-        throws AuthException, MethodNotAllowedException, UnprocessableEntityException,
-            ResourceNotFoundException, IOException, ConfigInvalidException {
+        throws AuthException,
+            MethodNotAllowedException,
+            UnprocessableEntityException,
+            ResourceNotFoundException,
+            IOException,
+            ConfigInvalidException {
       AddSubgroups.Input in = new AddSubgroups.Input();
       in.groups = ImmutableList.of(resource.getMember().get());
       return delete.get().apply(resource, in);

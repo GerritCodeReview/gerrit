@@ -76,7 +76,10 @@ public class AddSshKey
 
   @Override
   public Response<SshKeyInfo> apply(AccountResource rsrc, SshKeyInput input)
-      throws AuthException, BadRequestException, IOException, ConfigInvalidException,
+      throws AuthException,
+          BadRequestException,
+          IOException,
+          ConfigInvalidException,
           PermissionBackendException {
     if (!self.get().hasSameAccountId(rsrc.getUser())) {
       permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);

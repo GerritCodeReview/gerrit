@@ -77,7 +77,7 @@ public abstract class NewChangeSender extends ChangeEmail {
       default:
         extraCC.stream().forEach(cc -> addByAccountId(RecipientType.CC, cc));
         extraCCByEmail.stream().forEach(cc -> addByEmail(RecipientType.CC, cc));
-        // $FALL-THROUGH$
+      // $FALL-THROUGH$
       case OWNER_REVIEWERS:
         reviewers.stream().forEach(r -> addByAccountId(RecipientType.TO, r, true));
         reviewersByEmail.stream().forEach(r -> addByEmail(RecipientType.TO, r, true));

@@ -111,7 +111,7 @@ public class IndexHtmlUtil {
         break;
       case PROFILE:
       case DASHBOARD:
-        // Dashboard is preloaded queries are added later when we check user is authenticated.
+      // Dashboard is preloaded queries are added later when we check user is authenticated.
       case PAGE_WITHOUT_PRELOADING:
         break;
     }

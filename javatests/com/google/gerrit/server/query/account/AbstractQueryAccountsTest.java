@@ -638,7 +638,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
 
   @Test
   public void asAnonymous() throws Exception {
-    AccountInfo user1 = newAccount("user1", "user1@gerrit.com", /*active=*/ true);
+    AccountInfo user1 = newAccount("user1", "user1@gerrit.com", /* active= */ true);
 
     setAnonymous();
     assertQuery("9999999");

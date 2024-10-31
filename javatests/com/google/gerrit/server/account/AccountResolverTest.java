@@ -257,7 +257,9 @@ public class AccountResolverTest {
     assertThat(thrown)
         .hasMessageThat()
         .isEqualTo(
-            "Account 'foo' is ambiguous (at most 3 shown):\n1: Anonymous Name (1)\n2: Anonymous Name (2)");
+            "Account 'foo' is ambiguous (at most 3 shown):\n"
+                + "1: Anonymous Name (1)\n"
+                + "2: Anonymous Name (2)");
   }
 
   @Test
@@ -303,7 +305,9 @@ public class AccountResolverTest {
                     user)))
         .hasMessageThat()
         .isEqualTo(
-            "Account 'foo' is ambiguous (at most 3 shown):\n1: Anonymous Name (1)\n3: Anonymous Name (3)");
+            "Account 'foo' is ambiguous (at most 3 shown):\n"
+                + "1: Anonymous Name (1)\n"
+                + "3: Anonymous Name (3)");
   }
 
   @Test
@@ -368,7 +372,9 @@ public class AccountResolverTest {
     return AccountResolverTest::allVisible;
   }
 
-  /** @param accountState account state for which the visibility should be checked */
+  /**
+   * @param accountState account state for which the visibility should be checked
+   */
   private static boolean allVisible(AccountState accountState) {
     return true;
   }

@@ -444,7 +444,10 @@ public class MergeOp implements AutoCloseable {
       boolean checkSubmitRules,
       SubmitInput submitInput,
       boolean dryrun)
-      throws RestApiException, UpdateException, IOException, ConfigInvalidException,
+      throws RestApiException,
+          UpdateException,
+          IOException,
+          ConfigInvalidException,
           PermissionBackendException {
     this.submitInput = submitInput;
     this.notify =

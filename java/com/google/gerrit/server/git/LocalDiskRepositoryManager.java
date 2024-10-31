@@ -147,7 +147,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     Repository repo;
     try {
       // Try to open with mustExist, so that it does not attempt to create a repository.
-      repo = RepositoryCache.open(FileKey.lenient(dir, FS.DETECTED), /*mustExist=*/ true);
+      repo = RepositoryCache.open(FileKey.lenient(dir, FS.DETECTED), /* mustExist= */ true);
     } catch (RepositoryNotFoundException e) {
       return Status.NON_EXISTENT;
     } catch (IOException e) {

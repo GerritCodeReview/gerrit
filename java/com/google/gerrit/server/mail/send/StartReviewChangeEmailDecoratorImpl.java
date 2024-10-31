@@ -120,7 +120,7 @@ public class StartReviewChangeEmailDecoratorImpl implements StartReviewChangeEma
       default:
         extraCC.stream().forEach(cc -> email.addByAccountId(RecipientType.CC, cc));
         extraCCByEmail.stream().forEach(cc -> email.addByEmail(RecipientType.CC, cc));
-        // $FALL-THROUGH$
+      // $FALL-THROUGH$
       case OWNER_REVIEWERS:
         reviewers.stream().forEach(r -> email.addByAccountId(RecipientType.TO, r, true));
         reviewersByEmail.stream().forEach(r -> email.addByEmail(RecipientType.TO, r, true));

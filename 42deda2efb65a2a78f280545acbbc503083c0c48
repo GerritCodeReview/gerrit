@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2dbd64a2_50bc3942",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-10-31T10:55:35Z",
+      "side": 1,
+      "message": "Looks like I need to squash this with the actual reformatting and do this on every branch independently to make the codestyle check happy ?",
+      "revId": "42deda2efb65a2a78f280545acbbc503083c0c48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

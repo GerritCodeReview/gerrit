@@ -33,6 +33,24 @@
       "message": "This should be squashed with the actual reformatting of the code.",
       "revId": "42deda2efb65a2a78f280545acbbc503083c0c48",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2150ed76_818d8537",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-10-31T12:18:19Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "fe18d5cf_c5632b66",
+      "revId": "42deda2efb65a2a78f280545acbbc503083c0c48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

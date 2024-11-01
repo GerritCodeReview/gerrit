@@ -16,6 +16,24 @@
       "message": "It might make sense to integrate something like this into gerrit.sh, the simplest would be to add a jstack command along with start/stop?",
       "revId": "07f9e24e8f0380e4b222af7a91f32ed9dee998da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e07decd_fb3457f6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-11-01T17:32:47Z",
+      "side": 1,
+      "message": "It\u0027s already there. `./gerrit.sh threads`",
+      "parentUuid": "ea5f9718_7397058e",
+      "revId": "07f9e24e8f0380e4b222af7a91f32ed9dee998da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

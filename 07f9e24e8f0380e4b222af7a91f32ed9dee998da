@@ -34,6 +34,24 @@
       "parentUuid": "ea5f9718_7397058e",
       "revId": "07f9e24e8f0380e4b222af7a91f32ed9dee998da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62bd199c_0b27b03e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2024-11-01T18:08:14Z",
+      "side": 1,
+      "message": "Doh, that\u0027s embarrassing. Would it make sense to improve it so that it writes it to a timestamped file under site_dir/logs? Maybe only do that if a count is specified?",
+      "parentUuid": "8e07decd_fb3457f6",
+      "revId": "07f9e24e8f0380e4b222af7a91f32ed9dee998da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "79b5eab0_4b81ecd7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-11-01T23:48:27Z",
+      "side": 1,
+      "message": "no idea what\u0027s wrong with polygerrit tests on the stable-3.9 branch",
+      "revId": "148bd29c1b28ffc1043bfb3ed43ab601bc430632",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

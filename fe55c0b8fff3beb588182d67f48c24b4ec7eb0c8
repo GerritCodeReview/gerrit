@@ -16,6 +16,24 @@
       "message": "Would it make more sense in general to allow any two auth methods to be cascaded by specifying a comma separated list of auth methods instead?",
       "revId": "fe55c0b8fff3beb588182d67f48c24b4ec7eb0c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d58d249_d3b44c2b",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 3491318
+      },
+      "writtenOn": "2024-11-01T01:57:56Z",
+      "side": 1,
+      "message": "I based this on the `HTTP_LDAP` pattern, but I’m a bit hesitant about allowing a list of authentication methods. Each combination might need some extra research and work. Also, since `LDAP` and `OAUTH` can’t work together, I’m not really seeing a strong use case for having multiple auth methods here. Please let me know if you feel otherwise.",
+      "parentUuid": "896ede3e_f987e131",
+      "revId": "fe55c0b8fff3beb588182d67f48c24b4ec7eb0c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

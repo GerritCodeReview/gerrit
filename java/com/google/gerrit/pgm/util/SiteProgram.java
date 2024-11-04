@@ -25,6 +25,7 @@ import com.google.gerrit.metrics.dropwizard.DropWizardMetricMaker;
 import com.google.gerrit.server.LibModuleLoader;
 import com.google.gerrit.server.LibModuleType;
 import com.google.gerrit.server.ModuleOverloader;
+import com.google.gerrit.server.config.GerritOptions;
 import com.google.gerrit.server.config.GerritRuntime;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SitePath;
@@ -77,11 +78,11 @@ public abstract class SiteProgram extends AbstractProgram {
 
   /** Provides database connectivity and site path. */
   protected Injector createDbInjector() {
-    return createDbInjector(false);
+    return createDbInjector(false, GerritOptions.DEFAULT);
   }
 
   /** Provides database connectivity and site path. */
-  protected Injector createDbInjector(boolean enableMetrics) {
+  protected Injector createDbInjector(boolean enableMetrics, GerritOptions options) {
     List<Module> modules = new ArrayList<>();
 
     Module sitePathModule =
@@ -124,7 +125,15 @@ public abstract class SiteProgram extends AbstractProgram {
             bind(GerritRuntime.class).toInstance(getGerritRuntime());
           }
         });
-    Injector cfgInjector = Guice.createInjector(sitePathModule, configModule);
+    Module gerritOptionsModule =
+        new AbstractModule() {
+          @Override
+          protected void configure() {
+            bind(GerritOptions.class).toInstance(options);
+          }
+        };
+    modules.add(gerritOptionsModule);
+    Injector cfgInjector = Guice.createInjector(sitePathModule, configModule, gerritOptionsModule);
 
     modules.add(new SchemaModule());
     modules.add(cfgInjector.getInstance(GitRepositoryManagerModule.class));

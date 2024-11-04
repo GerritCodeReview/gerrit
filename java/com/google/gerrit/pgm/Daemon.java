@@ -93,12 +93,12 @@ import com.google.gerrit.server.events.StreamEventsApiListener.StreamEventsApiLi
 import com.google.gerrit.server.git.ChangesByProjectCache;
 import com.google.gerrit.server.git.GarbageCollectionModule;
 import com.google.gerrit.server.git.WorkQueue.WorkQueueModule;
-import com.google.gerrit.server.group.PeriodicGroupIndexer.PeriodicGroupIndexerModule;
 import com.google.gerrit.server.index.AbstractIndexModule;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.OnlineUpgrader.OnlineUpgraderModule;
 import com.google.gerrit.server.index.VersionManager;
 import com.google.gerrit.server.index.options.AutoFlush;
+import com.google.gerrit.server.index.scheduler.PeriodicIndexScheduler;
 import com.google.gerrit.server.mail.EmailModule;
 import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier.SignedTokenEmailTokenVerifierModule;
 import com.google.gerrit.server.mail.receive.MailReceiver.MailReceiverModule;
@@ -385,11 +385,11 @@ public class Daemon extends SiteProgram {
   @VisibleForTesting
   public void start() throws IOException {
     if (dbInjector == null) {
-      dbInjector = createDbInjector(true /* enableMetrics */);
+      dbInjector =
+          createDbInjector(true /* enableMetrics */, new GerritOptions(headless, replica, devCdn));
     }
     cfgInjector = createCfgInjector();
     config = cfgInjector.getInstance(Key.get(Config.class, GerritServerConfig.class));
-    config.setBoolean("container", null, "replica", replica);
     indexType = IndexModule.getIndexType(cfgInjector);
     sysInjector = createSysInjector();
     sysInjector.getInstance(PluginGuiceEnvironment.class).setDbCfgInjector(dbInjector, cfgInjector);
@@ -548,7 +548,6 @@ public class Daemon extends SiteProgram {
         new AbstractModule() {
           @Override
           protected void configure() {
-            bind(GerritOptions.class).toInstance(new GerritOptions(headless, replica, devCdn));
             if (inMemoryTest) {
               bind(String.class)
                   .annotatedWith(SecureStoreClassName.class)
@@ -558,9 +557,8 @@ public class Daemon extends SiteProgram {
           }
         });
     modules.add(new GarbageCollectionModule());
-    if (replica) {
-      modules.add(new PeriodicGroupIndexerModule());
-    } else {
+    modules.add(new PeriodicIndexScheduler.Module());
+    if (!replica) {
       modules.add(new AccountDeactivatorModule());
       modules.add(new AttentionSetOwnerAdderModule());
       modules.add(new ChangeCleanupRunnerModule());

@@ -26,14 +26,16 @@ import org.eclipse.jgit.lib.Config;
  */
 public final class GerritIsReplicaProvider implements Provider<Boolean> {
   private final Config config;
+  private final boolean replicaOption;
 
   @Inject
-  public GerritIsReplicaProvider(@GerritServerConfig Config config) {
+  public GerritIsReplicaProvider(@GerritServerConfig Config config, GerritOptions opts) {
     this.config = config;
+    this.replicaOption = opts.replica();
   }
 
   @Override
   public Boolean get() {
-    return ReplicaUtil.isReplica(config);
+    return replicaOption || ReplicaUtil.isReplica(config);
   }
 }

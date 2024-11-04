@@ -36,7 +36,7 @@ import {createChangeUrl} from '../../../models/views/change';
 import {getFileExtension} from '../../../utils/file-util';
 
 export interface PreviewLoadedDetail {
-  previewLoadedFor?: string | FixSuggestionInfo;
+  previewLoadedFor?: FixSuggestionInfo;
 }
 /**
  * Diff preview for

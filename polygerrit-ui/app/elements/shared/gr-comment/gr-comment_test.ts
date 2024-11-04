@@ -1155,7 +1155,7 @@ suite('gr-comment tests', () => {
         suggestionDiffPreview.previewed = true;
         suggestionDiffPreview.previewLoadedFor = generatedFixSuggestion;
         await element.updateComplete;
-        await element.waitPreviewForGeneratedSuggestion();
+        // await element.waitPreviewForGeneratedSuggestion();
         await element.updateComplete;
         element.save();
         await element.updateComplete;

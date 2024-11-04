@@ -90,8 +90,11 @@ import {configModelToken} from '../../../models/config/config-model';
 import {getFileExtension} from '../../../utils/file-util';
 import {storageServiceToken} from '../../../services/storage/gr-storage_impl';
 import {deepEqual} from '../../../utils/deep-util';
-import {GrSuggestionDiffPreview} from '../gr-suggestion-diff-preview/gr-suggestion-diff-preview';
-import {noAwait, waitUntil} from '../../../utils/async-util';
+import {
+  GrSuggestionDiffPreview,
+  PreviewLoadedDetail,
+} from '../gr-suggestion-diff-preview/gr-suggestion-diff-preview';
+import {waitUntil} from '../../../utils/async-util';
 import {
   AutocompleteCache,
   AutocompletionContext,
@@ -1181,22 +1184,13 @@ export class GrComment extends LitElement {
         .fixSuggestionInfo=${this.generatedFixSuggestion}
         .patchSet=${this.comment?.patch_set}
         .commentId=${this.comment?.id}
+        @preview-loaded=${(event: CustomEvent<PreviewLoadedDetail>) =>
+          (this.previewedGeneratedFixSuggestion =
+            event.detail.previewLoadedFor)}
       ></gr-suggestion-diff-preview>`;
     } else {
       return nothing;
     }
-  }
-
-  // visible for testing
-  async waitPreviewForGeneratedSuggestion() {
-    const generatedFixSuggestion = this.generatedFixSuggestion;
-    if (!generatedFixSuggestion) return;
-    await waitUntil(
-      () =>
-        !!this.suggestionDiffPreview?.previewed &&
-        this.suggestionDiffPreview?.previewLoadedFor === generatedFixSuggestion
-    );
-    this.previewedGeneratedFixSuggestion = generatedFixSuggestion;
   }
 
   private renderGenerateSuggestEditButton() {
@@ -1323,7 +1317,6 @@ export class GrComment extends LitElement {
       return;
     }
     this.generatedFixSuggestion = suggestion;
-    noAwait(this.waitPreviewForGeneratedSuggestion());
 
     try {
       await waitUntil(() => this.getFixSuggestions() !== undefined);
@@ -1560,9 +1553,6 @@ export class GrComment extends LitElement {
     assert(isDraft(this.comment), 'only drafts are editable');
     if (this.editing) return;
     this.editing = true;
-    // For quickly opening and closing the comment, the suggestion diff preview
-    // might not have time to load and preview.
-    noAwait(this.waitPreviewForGeneratedSuggestion());
   }
 
   // TODO: Move this out of gr-comment. gr-comment should not have a comments

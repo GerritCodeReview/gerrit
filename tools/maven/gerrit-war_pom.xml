@@ -2,7 +2,13 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.google.gerrit</groupId>
   <artifactId>gerrit-war</artifactId>
+<<<<<<< HEAD   (11c05a Change Range by Suggestion)
   <version>3.9.0-SNAPSHOT</version>
+||||||| BASE
+  <version>3.11.0-SNAPSHOT</version>
+=======
+  <version>3.11.0-rc2</version>
+>>>>>>> CHANGE (9be676 Set version to 3.11.0-rc2)
   <packaging>war</packaging>
   <name>Gerrit Code Review - WAR</name>
   <description>Gerrit WAR</description>

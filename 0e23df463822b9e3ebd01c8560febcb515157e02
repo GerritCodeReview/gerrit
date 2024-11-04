@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d2b291d_0cefac12",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 661,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-11-04T09:43:27Z",
+      "side": 1,
+      "message": "Did the main host that request this feature agree with the default value of this?\n\nGetting an overall consensus across hosts would be quite difficult but would be useful to quickly reach out to them and see what they prefer.\n\nI am personally fine with any default.",
+      "range": {
+        "startLine": 658,
+        "startChar": 0,
+        "endLine": 661,
+        "endChar": 0
+      },
+      "revId": "0e23df463822b9e3ebd01c8560febcb515157e02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

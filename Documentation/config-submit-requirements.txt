@@ -656,7 +656,8 @@ link:access-control.html#service_users[Service Users] group) and the
 change owner are ignored.
 
 The 'applicableIf' condition makes this submit requirement show up in
-the UI only if it is not satisfied.
+the UI only if it is not satisfied (to keep the submit requirement
+showing when it is satisfied omit the 'applicableIf' condition).
 
 If a change has no human reviewers, this submit requirement is
 unsatisfied (because a human review is required but no human reviewer
@@ -676,6 +677,12 @@ requirement so that it only applies when a 'Want-Code-Review: all'
 footer is present in the commit message. This way users can enable
 this submit requirement on demand by including this footer into their
 commit messages.
+
+The 'applicableIf' condition checks for the 'Want-Code-Review: all'
+footer and makes this submit requirement show up in the UI only if it
+is not satisfied (to keep the submit requirement showing when it is
+satisfied omit the '-label:Code-Review>=1,users=human_reviewers'
+predicate from the 'applicableIf' condition).
 
 Note, the footer key cannot contain underscores (e.g. using
 'Want_Code_Review: all' as the footer does not work).

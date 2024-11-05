@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e694ab6a_7da9efc2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-11-05T14:28:04Z",
+      "side": 1,
+      "message": "Abandoned in favour of these series: https://gerrit-review.googlesource.com/c/gerrit/+/439227",
+      "revId": "32d81c9bdf830d14e8e5dbce844017e0bf83a4a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

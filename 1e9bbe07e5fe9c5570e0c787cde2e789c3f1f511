@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82b62b29_f3ab65e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-11-05T21:03:34Z",
+      "side": 1,
+      "message": "Wrap long line.",
+      "range": {
+        "startLine": 13,
+        "startChar": 67,
+        "endLine": 13,
+        "endChar": 73
+      },
+      "revId": "1e9bbe07e5fe9c5570e0c787cde2e789c3f1f511",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed41fe8f_4391d346",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-11-05T21:03:34Z",
+      "side": 1,
+      "message": "matching",
+      "range": {
+        "startLine": 20,
+        "startChar": 45,
+        "endLine": 20,
+        "endChar": 53
+      },
+      "revId": "1e9bbe07e5fe9c5570e0c787cde2e789c3f1f511",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f32626ff_52602293",
+        "filename": "java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-11-05T21:03:34Z",
+      "side": 1,
+      "message": "Why is this needed?",
+      "range": {
+        "startLine": 297,
+        "startChar": 0,
+        "endLine": 299,
+        "endChar": 5
+      },
+      "revId": "1e9bbe07e5fe9c5570e0c787cde2e789c3f1f511",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39db835b_abc2677d",
+        "filename": "java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-11-05T21:03:34Z",
+      "side": 1,
+      "message": "Why do we need all this duplicate logic here?",
+      "range": {
+        "startLine": 399,
+        "startChar": 0,
+        "endLine": 405,
+        "endChar": 5
+      },
+      "revId": "1e9bbe07e5fe9c5570e0c787cde2e789c3f1f511",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

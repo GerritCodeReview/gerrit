@@ -553,9 +553,86 @@ public class AccountIT extends AbstractDaemonTest {
     AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(accountIndexedCounter)) {
-      AccountInfo info = gApi.accounts().id("admin").get();
-      AccountInfo infoByIntId = gApi.accounts().id(info._accountId).get();
-      assertThat(info.name).isEqualTo(infoByIntId.name);
+      assertAccountFound("admin");
+      accountIndexedCounter.assertNoReindex();
+    }
+  }
+
+  @Test
+  @GerritConfig(name = "accounts.caseInsensitiveLocalPart", value = "example.com")
+  public void getByEmailIdCaseInsensitive() throws Exception {
+    AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(accountIndexedCounter)) {
+
+      assertAccountFound("admin@example.com");
+      assertAccountFound("aDmIn@eXaMpLe.CoM");
+
+      accountIndexedCounter.assertNoReindex();
+    }
+  }
+
+  @Test
+  public void getByEmailIdCaseSensitive() throws Exception {
+    AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(accountIndexedCounter)) {
+
+      assertAccountFound("admin@example.com");
+
+      assertAccountNotFound("aDmIn@eXaMpLe.CoM");
+
+      accountIndexedCounter.assertNoReindex();
+    }
+  }
+
+  @Test
+  @GerritConfig(name = "accounts.caseInsensitiveLocalPart", value = "example.com")
+  public void lookUpByEmailCaseInsensitive() throws Exception {
+    assertThat(emails.getAccountFor(admin.email().toUpperCase(Locale.US))).isNotEmpty();
+  }
+
+  @Test
+  public void lookUpByEmailCaseSensitive() throws Exception {
+    assertThat(emails.getAccountFor(admin.email().toUpperCase(Locale.US))).isEmpty();
+  }
+
+  private void assertAccountNotFound(String mail) {
+    ResourceNotFoundException thrown =
+        assertThrows(ResourceNotFoundException.class, () -> gApi.accounts().id(mail));
+    assertThat(thrown).hasMessageThat().isEqualTo("Account '" + mail + "' not found");
+  }
+
+  @Test
+  @GerritConfig(name = "accounts.caseInsensitiveLocalPart", value = "example.com")
+  public void getByNameAndEmailIdCaseInsensitive() throws Exception {
+    AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(accountIndexedCounter)) {
+
+      assertAccountFound("Admin <admin@example.com>");
+      assertAccountFound("Admin <aDmIn@eXaMpLe.CoM>");
+
+      accountIndexedCounter.assertNoReindex();
+    }
+  }
+
+  private AccountInfo assertAccountFound(String id) throws RestApiException {
+    AccountInfo infoByEmailLowerCase = gApi.accounts().id(id).get();
+    AccountInfo infoByIntId = gApi.accounts().id(infoByEmailLowerCase._accountId).get();
+    assertThat(infoByEmailLowerCase.name).isEqualTo(infoByIntId.name);
+    return infoByIntId;
+  }
+
+  @Test
+  public void getByNameAndEmailIdCaseSensitive() throws Exception {
+    AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(accountIndexedCounter)) {
+
+      assertAccountFound("Admin <admin@example.com>");
+      assertAccountNotFound("Admin <aDmIn@eXaMpLe.CoM>");
+
       accountIndexedCounter.assertNoReindex();
     }
   }

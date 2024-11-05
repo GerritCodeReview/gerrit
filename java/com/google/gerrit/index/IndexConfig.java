@@ -79,6 +79,7 @@ public abstract class IndexConfig {
 
   @AutoValue.Builder
   public abstract static class Builder {
+
     public abstract Builder maxLimit(int maxLimit);
 
     public abstract int maxLimit();

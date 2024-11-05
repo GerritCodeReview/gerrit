@@ -561,6 +561,42 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "accounts.emailCaseInSensitive", value = "true")
+  public void getByEmailId() throws Exception {
+    AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(accountIndexedCounter)) {
+
+      AccountInfo infoByEmailLowerCase = gApi.accounts().id("admin@example.com").get();
+      AccountInfo infoByIntId = gApi.accounts().id(infoByEmailLowerCase._accountId).get();
+      assertThat(infoByEmailLowerCase.name).isEqualTo(infoByIntId.name);
+
+      AccountInfo infoByEmailMixedCase = gApi.accounts().id("aDmIn@eXaMpLe.CoM").get();
+      assertThat(infoByEmailMixedCase.name).isEqualTo(infoByIntId.name);
+
+      accountIndexedCounter.assertNoReindex();
+    }
+  }
+
+  @Test
+  @GerritConfig(name = "accounts.emailCaseInSensitive", value = "true")
+  public void getByNameAndEmailId() throws Exception {
+    AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(accountIndexedCounter)) {
+
+      AccountInfo infoByEmailLowerCase = gApi.accounts().id("Admin <admin@example.com>").get();
+      AccountInfo infoByIntId = gApi.accounts().id(infoByEmailLowerCase._accountId).get();
+      assertThat(infoByEmailLowerCase.name).isEqualTo(infoByIntId.name);
+
+      AccountInfo infoByEmailMixedCase = gApi.accounts().id("Admin <aDmIn@eXaMpLe.CoM>").get();
+      assertThat(infoByEmailMixedCase.name).isEqualTo(infoByIntId.name);
+
+      accountIndexedCounter.assertNoReindex();
+    }
+  }
+
+  @Test
   public void self() throws Exception {
     AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
     try (Registration registration =

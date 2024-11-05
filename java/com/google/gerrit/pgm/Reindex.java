@@ -39,6 +39,7 @@ import com.google.gerrit.server.account.storage.notedb.AccountNoteDbReadStorageM
 import com.google.gerrit.server.account.storage.notedb.AccountNoteDbWriteStorageModule;
 import com.google.gerrit.server.cache.CacheDisplay;
 import com.google.gerrit.server.cache.CacheInfoFactory;
+import com.google.gerrit.server.cache.h2.CacheAccessMode;
 import com.google.gerrit.server.cache.h2.CacheOptions;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -99,6 +100,9 @@ public class Reindex extends SiteProgram {
 
   @Option(name = "--build-bloom-filter", usage = "Build bloom filter for H2 disk caches.")
   private boolean buildBloomFilter;
+
+  @Option(name = "--read-only-caches", usage = "Don't update H2 disk caches.")
+  private boolean readOnlyCaches;
 
   private Boolean reuseExistingDocumentsOption;
 
@@ -230,6 +234,9 @@ public class Reindex extends SiteProgram {
                 .setBinding()
                 .toInstance(
                     reuseExistingDocuments ? IsFirstInsertForEntry.NO : IsFirstInsertForEntry.YES);
+            OptionalBinder.newOptionalBinder(binder(), CacheAccessMode.class)
+                .setBinding()
+                .toInstance(readOnlyCaches ? CacheAccessMode.READONLY : CacheAccessMode.READWRITE);
           }
         });
     ImmutableSet<CacheOptions> options =

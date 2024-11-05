@@ -19,6 +19,13 @@ link:user-search-accounts.html#_search_operators[query string] must be
 provided by the `q` parameter. The `n` parameter can be used to limit
 the returned results.
 
+If the domain of the queried email matches one in the configured
+link:config-gerrit.html#accounts.caseInsensitiveLocalPart[accounts.caseInsensitiveLocalPart]
+list, the local part of the
+email will be treated as case-insensitive. For example, User@mail.com
+and user@mail.com will be treated as equivalent.
+For domains not listed, the matching will remain case-sensitive.
+
 As result a list of link:#account-info[AccountInfo] entities is
 returned.
 

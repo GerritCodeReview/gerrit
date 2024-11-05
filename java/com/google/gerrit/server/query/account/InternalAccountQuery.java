@@ -34,10 +34,13 @@ import com.google.gerrit.index.query.InternalQuery;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
+import com.google.gerrit.server.config.AccountConfig;
 import com.google.gerrit.server.index.account.AccountField;
 import com.google.gerrit.server.index.account.AccountIndexCollection;
 import com.google.inject.Inject;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 /**
@@ -49,6 +52,7 @@ import java.util.Set;
 public class InternalAccountQuery extends InternalQuery<AccountState, InternalAccountQuery> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  private final AccountConfig accountConfig;
   private final ExternalIdKeyFactory externalIdKeyFactory;
 
   @Inject
@@ -56,8 +60,11 @@ public class InternalAccountQuery extends InternalQuery<AccountState, InternalAc
       AccountQueryProcessor queryProcessor,
       AccountIndexCollection indexes,
       IndexConfig indexConfig,
-      ExternalIdKeyFactory externalIdKeyFactory) {
+      ExternalIdKeyFactory externalIdKeyFactory,
+      AccountConfig accountConfig) {
+
     super(queryProcessor, indexes, indexConfig);
+    this.accountConfig = accountConfig;
     this.externalIdKeyFactory = externalIdKeyFactory;
   }
 
@@ -95,27 +102,36 @@ public class InternalAccountQuery extends InternalQuery<AccountState, InternalAc
   }
 
   /**
-   * Queries for accounts that have a preferred email that exactly matches the given email.
+   * Queries for accounts that have a preferred email that matches the given email.
+   *
+   * <p>The local part of the email is compared either in a case-insensitive or case-sensitive
+   * manner, depending on the configuration parameter {@code accounts.caseInsensitiveLocalPart}.
+   * Check the configuration documentation for more details.
    *
    * @param email preferred email by which accounts should be found
    * @return list of accounts that have a preferred email that exactly matches the given email
    */
   public List<AccountState> byPreferredEmail(String email) {
+    String normalizedEmail = normalizeEmailCase(email);
     if (hasPreferredEmailExact()) {
-      return query(AccountPredicates.preferredEmailExact(email));
+      return query(AccountPredicates.preferredEmailExact(normalizedEmail));
     }
 
     if (!hasPreferredEmail()) {
       return ImmutableList.of();
     }
 
-    return query(AccountPredicates.preferredEmail(email)).stream()
-        .filter(a -> a.account().preferredEmail().equals(email))
+    return query(AccountPredicates.preferredEmail(normalizedEmail)).stream()
+        .filter(a -> a.account().preferredEmail().equals(normalizedEmail))
         .collect(toList());
   }
 
   /**
-   * Makes multiple queries for accounts by preferred email (exact match).
+   * Makes multiple queries for accounts by preferred email.
+   *
+   * <p>The local part of the email is compared either in a case-insensitive or case-sensitive
+   * manner, depending on the configuration parameter {@code accounts.caseInsensitiveLocalPart}.
+   * Check the configuration documentation for more details.
    *
    * @param emails preferred emails by which accounts should be found
    * @return multimap of the given emails to accounts that have a preferred email that exactly
@@ -124,7 +140,10 @@ public class InternalAccountQuery extends InternalQuery<AccountState, InternalAc
   public Multimap<String, AccountState> byPreferredEmail(List<String> emails) {
     if (hasPreferredEmailExact()) {
       List<List<AccountState>> r =
-          query(emails.stream().map(AccountPredicates::preferredEmailExact).collect(toList()));
+          query(
+              emails.stream()
+                  .map(email -> AccountPredicates.preferredEmailExact(normalizeEmailCase(email)))
+                  .collect(toList()));
       ListMultimap<String, AccountState> accountsByEmail = ArrayListMultimap.create();
       for (int i = 0; i < emails.size(); i++) {
         accountsByEmail.putAll(emails.get(i), r.get(i));
@@ -165,5 +184,22 @@ public class InternalAccountQuery extends InternalQuery<AccountState, InternalAc
 
   private boolean hasPreferredEmailExact() {
     return hasField(AccountField.PREFERRED_EMAIL_EXACT_SPEC);
+  }
+
+  private String normalizeEmailCase(String email) {
+    return Arrays.asList(accountConfig.getCaseInsensitiveLocalParts())
+            .contains(getLowerCaseEmailDomain(email))
+        ? email.toLowerCase(Locale.US)
+        : email;
+  }
+
+  private String getLowerCaseEmailDomain(String email) {
+    String[] parts = email.split("@", 2);
+    // The caller method byPreferredEmail can be invoked with the local part
+    // of the email only. Handle this case by just returning it.
+    if (parts.length != 2) {
+      return email;
+    }
+    return parts[1].toLowerCase(Locale.US);
   }
 }

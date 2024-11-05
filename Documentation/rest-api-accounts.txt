@@ -19,6 +19,11 @@ link:user-search-accounts.html#_search_operators[query string] must be
 provided by the `q` parameter. The `n` parameter can be used to limit
 the returned results.
 
+[NOTE]
+Searching for accounts by email address can have different case sensitivity
+behavior depending on site configuration. See
+link:user-search-accounts.html#email[email operator] for details.
+
 As result a list of link:#account-info[AccountInfo] entities is
 returned.
 

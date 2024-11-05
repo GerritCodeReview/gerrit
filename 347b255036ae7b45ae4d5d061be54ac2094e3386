@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f9c3992_d9eafad2",
+        "filename": "plugins/delete-project",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-11-05T18:30:40Z",
+      "side": 1,
+      "message": "is this change related?",
+      "revId": "347b255036ae7b45ae4d5d061be54ac2094e3386",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee5b21b3_864e4b69",
+        "filename": "plugins/gitiles",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-11-05T18:30:40Z",
+      "side": 1,
+      "message": "is this change related?",
+      "revId": "347b255036ae7b45ae4d5d061be54ac2094e3386",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

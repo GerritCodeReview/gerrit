@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4cdd8c2_60855f8f",
+        "filename": "plugins/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-11-05T18:30:40Z",
+      "side": 0,
+      "message": "is this change related?",
+      "revId": "8a2b295e9e34b9e86797b6c1682080c3e5704c09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

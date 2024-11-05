@@ -44,6 +44,7 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -290,7 +291,11 @@ public class AccountResolver {
   abstract static class StringSearcher implements Searcher<String> {
     @Override
     public final Optional<String> tryParse(String input) {
-      return matches(input) ? Optional.of(input) : Optional.empty();
+      return matches(input) ? matchedString(input) : Optional.empty();
+    }
+
+    protected Optional<String> matchedString(String input) {
+      return Optional.of(input);
     }
 
     protected abstract boolean matches(String input);
@@ -391,6 +396,15 @@ public class AccountResolver {
     }
 
     @Override
+    protected Optional<String> matchedString(String input) {
+      int lt = input.indexOf('<');
+      int gt = input.indexOf('>');
+
+      String lowerCaseEmail = input.substring(lt + 1, gt).toLowerCase(Locale.US);
+      return Optional.of(String.format("%s<%s>", input.substring(0, lt), lowerCaseEmail));
+    }
+
+    @Override
     public Stream<AccountState> search(String nameOrEmail) throws IOException {
       // TODO(dborowitz): This would probably work as a Searcher<Address>
       int lt = nameOrEmail.indexOf('<');
@@ -425,6 +439,11 @@ public class AccountResolver {
     @Override
     public boolean requiresContextUser() {
       return true;
+    }
+
+    @Override
+    protected Optional<String> matchedString(String input) {
+      return Optional.of(input.toLowerCase(Locale.US));
     }
 
     @Override

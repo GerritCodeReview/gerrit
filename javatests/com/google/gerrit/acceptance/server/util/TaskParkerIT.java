@@ -93,7 +93,7 @@ public class TaskParkerIT extends AbstractDaemonTest {
 
     @Override
     public void onStop(Task<?> task) {
-      if (EXPENSIVE_TASK.equals(task.toString())) {
+      if (EXPENSIVE_TASK.equals(task.toString()) && !task.isCancelled()) {
         expensiveTaskSemaphore.release();
       }
       super.onStop(task);
@@ -492,6 +492,44 @@ public class TaskParkerIT extends AbstractDaemonTest {
     assertCorePoolSizeIsEventually(1);
     assertTaskCountIsEventually(0);
     assertStateIs(State.CANCELLED);
+  }
+
+  @Test
+  public void cancelParkedTaskDoesNotIncreasePermitCount() throws InterruptedException {
+    LatchedForeverRunnable runnable1 = new LatchedForeverRunnable("expensive-task");
+    LatchedRunnable runnable2 = new LatchedRunnable("expensive-task");
+    LatchedParker parker = new LatchedParker();
+    executor = workQueue.createQueue(2, "TaskParkers");
+    assertCorePoolSizeIs(2);
+
+    forwarder.resetDelegate(parker);
+    executor.execute(runnable1);
+    parker.isReadyToStart.complete();
+    parker.onStart.complete();
+    runnable1.run.assertCalledEventually();
+    assertTaskCountIsEventually(1);
+    Task<?> task1 = forwarder.task; // task for runnable1
+    assertStateIs(task1, State.RUNNING);
+
+    forwarder.resetDelegate(parker);
+    executor.execute(runnable2);
+    parker.isReadyToStart.assertCalledEventually();
+    assertCorePoolSizeIsEventually(3);
+    Task<?> task2 = forwarder.task; // task for runnable2
+    assertStateIs(task2, State.PARKED);
+
+    task2.cancel(true);
+    parker.onStart.complete();
+    parker.onStop.complete();
+    assertCorePoolSizeIsEventually(2);
+    assertTaskCountIsEventually(1);
+
+    forwarder.resetDelegate(parker);
+    runnable1.run.complete(); // unblock runnable1
+    parker.onStop.complete();
+    assertTaskCountIsEventually(0);
+
+    assertThat(parker.expensiveTaskSemaphore.availablePermits()).isEqualTo(1);
   }
 
   private void assertTaskCountIs(int size) {

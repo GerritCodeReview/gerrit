@@ -16,7 +16,6 @@ package com.google.gerrit.acceptance.api.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
-import static com.google.gerrit.entities.LabelFunction.NO_BLOCK;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.project.testing.TestLabels.label;
 import static com.google.gerrit.server.project.testing.TestLabels.labelBuilder;
@@ -603,7 +602,7 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
                       value(0, "No score"),
                       value(-1, "Negative"))
                   .toBuilder()
-                  .setFunction(NO_BLOCK)
+                  .setNoBlockFunction()
                   .build());
       u.save();
     }

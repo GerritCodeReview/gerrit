@@ -46,7 +46,6 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.entities.LabelFunction;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.PatchSet;
@@ -618,7 +617,7 @@ public class PostReviewIT extends AbstractDaemonTest {
       LabelType.Builder verified =
           labelBuilder(
                   LabelId.VERIFIED, value(1, "Passes"), value(0, "No score"), value(-1, "Failed"))
-              .setFunction(LabelFunction.NO_BLOCK);
+              .setNoBlockFunction();
       u.getConfig().upsertLabelType(verified.build());
       u.save();
     }

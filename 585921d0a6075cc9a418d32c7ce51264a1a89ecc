@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "fd84b07f_dc191b6b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-11-05T17:16:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86b7b4b4_fc4f5b2c",
+      "revId": "585921d0a6075cc9a418d32c7ce51264a1a89ecc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "e7698302_2478f7ac",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -48,6 +66,42 @@
       "writtenOn": "2024-11-05T16:07:24Z",
       "side": 1,
       "message": "I wonder if we should also bump servlet API to `6.1` and other corresponding libs (BC?) to be on the same page as JGit, WDYT?",
+      "revId": "585921d0a6075cc9a418d32c7ce51264a1a89ecc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c3c243a_cb7d69b6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-11-05T17:16:16Z",
+      "side": 1,
+      "message": "yeah, I think you might have a point @matthias.sohn@gmail.com\nHowever, this chain is on 3.11, so it should not affect Google directly (until merge up time, at least 😊)",
+      "parentUuid": "e7698302_2478f7ac",
+      "revId": "585921d0a6075cc9a418d32c7ce51264a1a89ecc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d847a0a_1c7535c9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-11-05T17:16:16Z",
+      "side": 1,
+      "message": "Yep, I considered that as well. However, however, that\u0027s not strictly required for this bump to work, AFAICT.\n\nPerhaps a follow-up change?",
+      "parentUuid": "0add4b97_cf499000",
       "revId": "585921d0a6075cc9a418d32c7ce51264a1a89ecc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

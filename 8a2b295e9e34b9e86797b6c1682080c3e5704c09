@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1dd27bb7_3c5fa676",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-11-05T11:27:54Z",
+      "side": 1,
+      "message": "@david.ostrovsky@gmail.com we are attempting to bump up the version of jgit in 3.11 so that we can use `master` there before the official cut.\n\nIt makes sense to move to jakarta as part of this, WDYT?",
+      "revId": "8a2b295e9e34b9e86797b6c1682080c3e5704c09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

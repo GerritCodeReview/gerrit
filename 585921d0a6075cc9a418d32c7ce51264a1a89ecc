@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7698302_2478f7ac",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-11-05T15:56:18Z",
+      "side": 1,
+      "message": "the tricky part of this review is to get LC+1 for the predecessor changes",
+      "revId": "585921d0a6075cc9a418d32c7ce51264a1a89ecc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

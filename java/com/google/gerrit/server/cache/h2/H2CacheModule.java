@@ -18,11 +18,15 @@ import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.ModuleImpl;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.PersistentCacheFactory;
+import com.google.inject.multibindings.OptionalBinder;
 
 @ModuleImpl(name = CacheModule.PERSISTENT_MODULE)
 public class H2CacheModule extends LifecycleModule {
   @Override
   protected void configure() {
+    OptionalBinder.newOptionalBinder(binder(), CacheAccessMode.class)
+        .setDefault()
+        .toInstance(CacheAccessMode.READWRITE);
     bind(PersistentCacheFactory.class).to(H2CacheFactory.class);
     listener().to(H2CacheFactory.class);
   }

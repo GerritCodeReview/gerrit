@@ -29,7 +29,6 @@ import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.MoreExecutors;
-import com.google.gerrit.server.cache.h2.H2CacheImpl.SqlStore;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.ValueHolder;
 import com.google.gerrit.server.cache.serialize.StringCacheSerializer;
 import com.google.gerrit.server.util.time.TimeUtil;
@@ -63,7 +62,7 @@ public class H2CacheTest {
       int version,
       @Nullable Duration expireAfterWrite,
       @Nullable Duration refreshAfterWrite) {
-    return new SqlStore<>(
+    return new ReadWriteSqlStore<>(
         "jdbc:h2:mem:Test_" + id,
         KEY_TYPE,
         StringCacheSerializer.INSTANCE,

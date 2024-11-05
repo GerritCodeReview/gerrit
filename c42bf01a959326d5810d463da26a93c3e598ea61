@@ -16,6 +16,46 @@
       "message": "TODOS:\n- tests\n- benchmark measurements",
       "revId": "c42bf01a959326d5810d463da26a93c3e598ea61",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2ea6888_cdf88719",
+        "filename": "java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-11-05T13:50:48Z",
+      "side": 1,
+      "message": "- use plural since this affects all persistent caches ?\n- maybe the option name should mention that it\u0027s about persistent caches, e.g. `--read-only-persistent-caches` or shorter `--read-only-h2-caches`",
+      "range": {
+        "startLine": 103,
+        "startChar": 18,
+        "endLine": 103,
+        "endChar": 35
+      },
+      "revId": "c42bf01a959326d5810d463da26a93c3e598ea61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dab59d90_a2e06fad",
+        "filename": "java/com/google/gerrit/server/cache/h2/SqlStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-11-05T13:50:48Z",
+      "side": 1,
+      "message": "nit: interface methods are public by default, hence `public` can be omitted",
+      "revId": "c42bf01a959326d5810d463da26a93c3e598ea61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

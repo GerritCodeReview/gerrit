@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c9f6ac3_20dcbac0",
+        "filename": "plugins/plugin-manager",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-11-05T18:43:12Z",
+      "side": 1,
+      "message": "is this change related?",
+      "revId": "8622f013eb7886ee833a557e6392f9251a3a822f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06c369ce_ca2acbc0",
+        "filename": "plugins/replication",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-11-05T18:43:12Z",
+      "side": 1,
+      "message": "is this change related?",
+      "revId": "8622f013eb7886ee833a557e6392f9251a3a822f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf25a5ce_d7e5f0d7",
+        "filename": "plugins/webhooks",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-11-05T18:43:12Z",
+      "side": 1,
+      "message": "is this change related?",
+      "revId": "8622f013eb7886ee833a557e6392f9251a3a822f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

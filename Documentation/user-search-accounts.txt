@@ -36,6 +36,11 @@ email:'EMAIL'::
 +
 Matches accounts that have the email address 'EMAIL' or an email
 address that starts with 'EMAIL'.
+If the domain of the queried email matches one in the configured
+link:config-gerrit.html#accounts.caseInsensitiveLocalPart[accounts.caseInsensitiveLocalPart]
+list, the local part of the email will be treated as case-insensitive.
+For example, User@mail.com and user@mail.com will be treated as equivalent.
+For domains not listed, the matching will remain case-sensitive.
 
 [[is]]
 [[is-active]]

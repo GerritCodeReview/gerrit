@@ -16,7 +16,7 @@ package com.google.gerrit.httpd.plugins;
 
 import static com.google.gerrit.extensions.api.lfs.LfsDefinitions.CONTENTTYPE_VND_GIT_LFS_JSON;
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static javax.servlet.http.HttpServletResponse.SC_NOT_IMPLEMENTED;
+import static jakarta.servlet.http.HttpServletResponse.SC_NOT_IMPLEMENTED;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
@@ -36,13 +36,13 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
-import javax.servlet.FilterChain;
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.eclipse.jgit.lib.Config;
 
 @Singleton

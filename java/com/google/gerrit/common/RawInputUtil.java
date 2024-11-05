@@ -21,7 +21,7 @@ import com.google.gerrit.extensions.restapi.RawInput;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 public class RawInputUtil {
   public static RawInput create(String content) {

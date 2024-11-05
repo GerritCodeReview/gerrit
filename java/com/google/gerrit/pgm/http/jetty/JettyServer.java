@@ -46,11 +46,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
-import javax.servlet.DispatcherType;
-import javax.servlet.Filter;
-import javax.servlet.http.HttpSessionEvent;
-import javax.servlet.http.HttpSessionListener;
+import jakarta.servlet.DispatcherType;
+import jakarta.servlet.Filter;
+import jakarta.servlet.http.HttpSessionEvent;
+import jakarta.servlet.http.HttpSessionListener;
 import org.eclipse.jetty.http.HttpScheme;
+import org.eclipse.jetty.http.HttpURI;
 import org.eclipse.jetty.io.ConnectionStatistics;
 import org.eclipse.jetty.jmx.MBeanContainer;
 import org.eclipse.jetty.server.Connector;
@@ -373,8 +374,11 @@ public class JettyServer {
         config.addCustomizer(new ForwardedRequestCustomizer());
         config.addCustomizer(
             (connector, channelConfig, request) -> {
-              request.setScheme(HttpScheme.HTTPS.asString());
+              HttpURI currentUri = request.getHttpURI();
+              HttpURI httpsUri =
+                  HttpURI.build(currentUri).scheme(HttpScheme.HTTPS.asString()).asImmutable();
               request.setSecure(true);
+              request.setHttpURI(httpsUri);
             });
         c = newServerConnector(server, acceptors, config);
 

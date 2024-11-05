@@ -34,7 +34,7 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
 import com.google.template.soy.jbcsrc.api.SoySauce;
 import java.nio.file.Path;
-import javax.inject.Provider;
+import jakarta.inject.Provider;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 

@@ -20,7 +20,7 @@ import static com.google.gerrit.httpd.restapi.RestApiServlet.XD_CONTENT_TYPE;
 import static com.google.gerrit.httpd.restapi.RestApiServlet.XD_METHOD;
 import static com.google.gerrit.httpd.restapi.RestApiServlet.replyBinaryResult;
 import static com.google.gerrit.httpd.restapi.RestApiServlet.replyError;
-import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
+import static jakarta.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
@@ -50,8 +50,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.kohsuke.args4j.CmdLineException;
 
 public class ParameterParser {

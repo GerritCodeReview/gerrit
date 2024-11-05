@@ -25,12 +25,12 @@ import com.google.inject.internal.UniqueAnnotations;
 import com.google.inject.servlet.ServletModule;
 import java.io.IOException;
 import java.util.Iterator;
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.FilterConfig;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
 
 /** Filters all HTTP requests passing through the server. */
 public abstract class AllRequestFilter implements Filter {

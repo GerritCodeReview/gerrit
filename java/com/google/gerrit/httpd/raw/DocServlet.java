@@ -22,8 +22,8 @@ import com.google.gerrit.server.experiments.ExperimentFeatures;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.Optional;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 abstract class DocServlet extends ResourceServlet {
   private static final long serialVersionUID = 1L;

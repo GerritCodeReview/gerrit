@@ -29,7 +29,7 @@ import com.google.inject.name.Named;
 import com.google.template.soy.jbcsrc.api.SoySauce;
 import java.time.Duration;
 import java.util.concurrent.ExecutionException;
-import javax.inject.Provider;
+import jakarta.inject.Provider;
 
 /**
  * Provides support for soy templates

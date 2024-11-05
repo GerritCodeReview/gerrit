@@ -28,7 +28,7 @@ import com.google.inject.servlet.ServletModule;
 import java.lang.annotation.Annotation;
 import java.util.HashMap;
 import java.util.Map;
-import javax.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServlet;
 
 @SuppressWarnings("MutableGuiceModule")
 class HttpAutoRegisterModuleGenerator extends ServletModule implements ModuleGenerator {

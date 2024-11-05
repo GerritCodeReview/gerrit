@@ -16,7 +16,7 @@ package com.google.gerrit.util.http;
 
 import com.google.common.base.Splitter;
 import java.util.List;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /** Utilities for manipulating HTTP request objects. */
 public class RequestUtil {

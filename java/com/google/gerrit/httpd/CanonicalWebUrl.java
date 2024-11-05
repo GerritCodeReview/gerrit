@@ -21,7 +21,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 public class CanonicalWebUrl {
   private final Provider<String> configured;

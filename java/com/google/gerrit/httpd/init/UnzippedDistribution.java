@@ -26,7 +26,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletContext;
 
 @Singleton
 class UnzippedDistribution implements PluginsDistribution {

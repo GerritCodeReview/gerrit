@@ -27,9 +27,9 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.Servlet;
-import javax.servlet.ServletContext;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.Servlet;
+import jakarta.servlet.ServletContext;
 
 class PluginServletContext {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();

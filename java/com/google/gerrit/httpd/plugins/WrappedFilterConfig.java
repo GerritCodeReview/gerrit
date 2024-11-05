@@ -17,8 +17,8 @@ package com.google.gerrit.httpd.plugins;
 import com.google.inject.servlet.GuiceFilter;
 import java.util.Collections;
 import java.util.Enumeration;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletContext;
+import jakarta.servlet.FilterConfig;
+import jakarta.servlet.ServletContext;
 
 class WrappedFilterConfig implements FilterConfig {
   private final ServletContext context;

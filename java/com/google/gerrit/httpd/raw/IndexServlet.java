@@ -15,7 +15,7 @@
 package com.google.gerrit.httpd.raw;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static javax.servlet.http.HttpServletResponse.SC_OK;
+import static jakarta.servlet.http.HttpServletResponse.SC_OK;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.io.Resources;
@@ -32,9 +32,9 @@ import java.io.OutputStream;
 import java.net.URISyntaxException;
 import java.util.Map;
 import java.util.function.Function;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 public class IndexServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;

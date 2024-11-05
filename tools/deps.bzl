@@ -14,13 +14,13 @@ OW2_VERS = "9.7"
 AUTO_VALUE_GSON_VERSION = "1.3.1"
 PROLOG_VERS = "1.4.4"
 PROLOG_REPO = GERRIT
-GITILES_VERS = "1.4.0"
+GITILES_VERS = "2.0.0"
 GITILES_REPO = GERRIT
 
 # When updating Bouncy Castle, also update it in bazlets.
 BC_VERS = "1.74"
 HTTPCOMP_VERS = "4.5.14"
-JETTY_VERS = "9.4.53.v20231009"
+JETTY_VERS = "11.0.20"
 BYTE_BUDDY_VERSION = "1.14.9"
 ROARING_BITMAP_VERSION = "0.9.44"
 
@@ -65,10 +65,16 @@ def java_dependencies():
         sha1 = "6975da39a7040257bd51d21a231b76c915872d38",
     )
 
+    #maven_jar(
+    #    name = "servlet-api",
+    #    artifact = "javax.servlet:javax.servlet-api:3.1.0",
+    #    sha1 = "3cd63d075497751784b2fa84be59432f4905bf7c",
+    #)
+
     maven_jar(
         name = "servlet-api",
-        artifact = "javax.servlet:javax.servlet-api:3.1.0",
-        sha1 = "3cd63d075497751784b2fa84be59432f4905bf7c",
+        artifact = "jakarta.servlet:jakarta.servlet-api:6.1.0",
+        sha1 = "1169a246913fe3823782af7943e7a103634867c5",
     )
 
     maven_jar(
@@ -359,14 +365,14 @@ def java_dependencies():
         artifact = "com.google.gitiles:blame-cache:" + GITILES_VERS,
         attach_source = False,
         repository = GITILES_REPO,
-        sha1 = "005e9a8cfcfc15f232c796dbf1c8fb5499abff9c",
+        sha1 = "8e6cf948c637ae1243d2f9c2a85087455a8d23a8",
     )
 
     maven_jar(
         name = "gitiles-servlet",
         artifact = "com.google.gitiles:gitiles-servlet:" + GITILES_VERS,
         repository = GITILES_REPO,
-        sha1 = "6fa0fe70154d09799ff7dc616727fec7342bb755",
+        sha1 = "bbb6c277b3eb6f4d81bbb3d18ce48a110db470b9",
     )
 
     maven_jar(
@@ -451,50 +457,56 @@ def java_dependencies():
     maven_jar(
         name = "jetty-servlet",
         artifact = "org.eclipse.jetty:jetty-servlet:" + JETTY_VERS,
-        sha1 = "6670d6a54cdcaedd8090e8cf420fd5dd7d08e859",
+        sha1 = "a1d845eb6cec5d4667daffd0028a642fb3a9103c",
+        src_sha1 = "61ff906fa41d8fe313148c32ed7af4750bfed989",
     )
 
     maven_jar(
         name = "jetty-security",
         artifact = "org.eclipse.jetty:jetty-security:" + JETTY_VERS,
-        sha1 = "6fbc8ebe9046954dc2f51d4ba69c8f8344b05f7f",
+        sha1 = "610df128b530f3edde46f784b42aa60bd46375c5",
+        src_sha1 = "21c82fbce2ddc9cf0e5bdd2de31e99312079b44c",
     )
 
     maven_jar(
         name = "jetty-server",
         artifact = "org.eclipse.jetty:jetty-server:" + JETTY_VERS,
-        sha1 = "8b0e761a0b359db59dae77c00b4213b0586cb994",
+        sha1 = "4b42686cc172c2dc68014ae62800ba49cef1fc68",
+        src_sha1 = "9df80a893fa573e0b1d4d186bf73db6966f26f64",
     )
 
     maven_jar(
         name = "jetty-jmx",
         artifact = "org.eclipse.jetty:jetty-jmx:" + JETTY_VERS,
-        sha1 = "f0392f756b59f65ea7d6be41bf7a2f7b2c7c98d5",
+        sha1 = "b69f423db4fee7a760121cfe4e0962cfadad86bc",
     )
 
     maven_jar(
         name = "jetty-http",
         artifact = "org.eclipse.jetty:jetty-http:" + JETTY_VERS,
-        sha1 = "87faf21eb322753f0527bcb88c43e67044786369",
+        sha1 = "1673815598a7932110813edbcd9b5be6f354937b",
+        src_sha1 = "d75c02dedd8bc91cc8ab5a175c7b4157d86d3996",
     )
 
     maven_jar(
         name = "jetty-io",
         artifact = "org.eclipse.jetty:jetty-io:" + JETTY_VERS,
-        sha1 = "70cf7649b27c964ad29bfddf58f3bfe0d30346cf",
+        sha1 = "2095d70a6089a6af5ad22d3c8ea0887e3d56f776",
+        src_sha1 = "cfd54d4686deb71272af25f01f150f035cf7e206",
     )
 
     maven_jar(
         name = "jetty-util",
         artifact = "org.eclipse.jetty:jetty-util:" + JETTY_VERS,
-        sha1 = "f72bb4f687b4454052c6f06528ba9910714df947",
+        sha1 = "6b72e01745c0fa15037d034ae699b059180862d9",
+        src_sha1 = "7dfc8ca46ba4f92a14a74d20f7c5842122da797f",
     )
 
     maven_jar(
         name = "jetty-util-ajax",
         artifact = "org.eclipse.jetty:jetty-util-ajax:" + JETTY_VERS,
-        sha1 = "4d20f6206eb7747293697c5f64c2dc5bf4bd54a4",
-        src_sha1 = "1aed8017c3c8a449323901639de6b4eb3b1f02ea",
+        sha1 = "2ca8b1f9ecf1f3c0d7456d6a7535df2c91f319ec",
+        src_sha1 = "b6166377c13014b299e69aa57af741d1fd4aaaa0",
     )
 
     maven_jar(

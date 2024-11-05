@@ -17,7 +17,7 @@ package com.google.gerrit.httpd;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.PageLinks;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 public class LoginUrlToken {
   private static final String DEFAULT_TOKEN = '#' + PageLinks.MINE;

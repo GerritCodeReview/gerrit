@@ -33,7 +33,7 @@ import com.google.gerrit.server.config.IndexVersionResource;
 import com.google.gerrit.server.restapi.config.ReindexIndexVersion;
 import com.google.inject.Inject;
 import java.util.Collection;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 import org.junit.Before;
 import org.junit.Test;
 

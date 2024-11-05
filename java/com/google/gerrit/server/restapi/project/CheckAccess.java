@@ -40,7 +40,7 @@ import com.google.gerrit.server.project.ProjectResource;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.Optional;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Repository;
 import org.kohsuke.args4j.Option;

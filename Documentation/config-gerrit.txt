@@ -104,6 +104,19 @@ Default is `30 seconds`.
 [[accounts]]
 === Section accounts
 
+[[accounts.caseInsensitiveLocalPart]]accounts.caseInsensitiveLocalPart::
++
+When querying by email, the case sensitivity of the email local part depends on the domains
+specified in the this list.
++
+Users can register emails with mixed case, and if the email’s domain matches one in the configured
+list, the local part is treated as case-insensitive.
+This ensures that emails with different cases, such as User@mail.com and user@mail.com, are
+associated with the same user.
+For domains not listed in the configuration, email matching remains case-sensitive.
++
+Default is unset.
+
 [[accounts.visibility]]accounts.visibility::
 +
 Controls visibility of other users' dashboard pages and

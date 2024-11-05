@@ -586,9 +586,100 @@ public class AccountIT extends AbstractDaemonTest {
     AccountIndexedCounter accountIndexedCounter = getAccountIndexedCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(accountIndexedCounter)) {
-      AccountInfo info = gApi.accounts().id(admin.id().get()).get();
-      AccountInfo infoByIntId = gApi.accounts().id(info._accountId).get();
-      assertThat(info.name).isEqualTo(infoByIntId.name);
+      assertAccountFound("admin");
+      accountIndexedCounter.assertNoReindex();
+    }
+  }
+
+  @Test
+  @GerritConfig(name = "accounts.caseInsensitiveLocalPart", value = "example.com")
+  public void getByEmailIdCaseInsensitive() throws Exception {
+    AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(accountIndexedCounter)) {
+
+      String email = "admin@example.com";
+      assertAccountFound(email);
+      assertAccountFound(email.toUpperCase(Locale.US));
+
+      accountIndexedCounter.assertNoReindex();
+    }
+  }
+
+  @Test
+  public void getByEmailIdCaseSensitive() throws Exception {
+    AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(accountIndexedCounter)) {
+
+      String email = "admin@example.com";
+      assertAccountFound(email);
+      assertAccountNotFound(email.toUpperCase(Locale.US));
+
+      accountIndexedCounter.assertNoReindex();
+    }
+  }
+
+  @Test
+  @GerritConfig(name = "accounts.caseInsensitiveLocalPart", value = "example.com")
+  public void lookUpByEmailCaseInsensitive() throws Exception {
+    assertThat(emails.getAccountFor(admin.email().toUpperCase(Locale.US))).isNotEmpty();
+  }
+
+  @Test
+  public void lookUpByEmailCaseSensitive() throws Exception {
+    assertThat(emails.getAccountFor(admin.email().toUpperCase(Locale.US))).isEmpty();
+  }
+
+  @Test
+  @GerritConfig(name = "accounts.caseInsensitiveLocalPart", value = "example.com")
+  public void lookUpByEmailsCaseInsensitive() throws Exception {
+    assertThat(emails.getAccountsFor(admin.email().toUpperCase(Locale.US))).isNotEmpty();
+  }
+
+  @Test
+  public void lookUpByEmailsCaseSensitive() throws Exception {
+    assertThat(emails.getAccountsFor(admin.email().toUpperCase(Locale.US))).isEmpty();
+  }
+
+  private void assertAccountNotFound(String mail) {
+    ResourceNotFoundException thrown =
+        assertThrows(ResourceNotFoundException.class, () -> gApi.accounts().id(mail));
+    assertThat(thrown).hasMessageThat().isEqualTo("Account '" + mail + "' not found");
+  }
+
+  @Test
+  @GerritConfig(name = "accounts.caseInsensitiveLocalPart", value = "example.com")
+  public void getByNameAndEmailIdCaseInsensitive() throws Exception {
+    AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(accountIndexedCounter)) {
+
+      String nameAndEmail = "Admin <admin@example.com>";
+      assertAccountFound(nameAndEmail);
+      assertAccountFound(nameAndEmail.toUpperCase(Locale.US));
+
+      accountIndexedCounter.assertNoReindex();
+    }
+  }
+
+  private AccountInfo assertAccountFound(String id) throws RestApiException {
+    AccountInfo infoByEmailLowerCase = gApi.accounts().id(id).get();
+    AccountInfo infoByIntId = gApi.accounts().id(infoByEmailLowerCase._accountId).get();
+    assertThat(infoByEmailLowerCase.name).isEqualTo(infoByIntId.name);
+    return infoByIntId;
+  }
+
+  @Test
+  public void getByNameAndEmailIdCaseSensitive() throws Exception {
+    AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(accountIndexedCounter)) {
+
+      String nameAndEmail = "Admin <admin@example.com>";
+      assertAccountFound(nameAndEmail);
+      assertAccountNotFound(nameAndEmail.toUpperCase(Locale.US));
+
       accountIndexedCounter.assertNoReindex();
     }
   }

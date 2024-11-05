@@ -33,10 +33,12 @@ import com.google.gerrit.index.query.InternalQuery;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
+import com.google.gerrit.server.config.AccountConfig;
 import com.google.gerrit.server.index.account.AccountField;
 import com.google.gerrit.server.index.account.AccountIndexCollection;
 import com.google.inject.Inject;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 /**
@@ -48,6 +50,7 @@ import java.util.Set;
 public class InternalAccountQuery extends InternalQuery<AccountState, InternalAccountQuery> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  private final AccountConfig accountConfig;
   private final ExternalIdKeyFactory externalIdKeyFactory;
 
   @Inject
@@ -55,8 +58,11 @@ public class InternalAccountQuery extends InternalQuery<AccountState, InternalAc
       AccountQueryProcessor queryProcessor,
       AccountIndexCollection indexes,
       IndexConfig indexConfig,
-      ExternalIdKeyFactory externalIdKeyFactory) {
+      ExternalIdKeyFactory externalIdKeyFactory,
+      AccountConfig accountConfig) {
+
     super(queryProcessor, indexes, indexConfig);
+    this.accountConfig = accountConfig;
     this.externalIdKeyFactory = externalIdKeyFactory;
   }
 
@@ -100,16 +106,17 @@ public class InternalAccountQuery extends InternalQuery<AccountState, InternalAc
    * @return list of accounts that have a preferred email that exactly matches the given email
    */
   public List<AccountState> byPreferredEmail(String email) {
+    String inputEmail = accountConfig.isEmailCaseSensitive() ? email : email.toLowerCase(Locale.US);
     if (hasPreferredEmailExact()) {
-      return query(AccountPredicates.preferredEmailExact(email));
+      return query(AccountPredicates.preferredEmailExact(inputEmail));
     }
 
     if (!hasPreferredEmail()) {
       return ImmutableList.of();
     }
 
-    return query(AccountPredicates.preferredEmail(email)).stream()
-        .filter(a -> a.account().preferredEmail().equals(email))
+    return query(AccountPredicates.preferredEmail(inputEmail)).stream()
+        .filter(a -> a.account().preferredEmail().equals(inputEmail))
         .collect(toList());
   }
 

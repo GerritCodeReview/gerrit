@@ -104,6 +104,16 @@ Default is `30 seconds`.
 [[accounts]]
 === Section accounts
 
+[[accounts.emailCaseInSensitive]]accounts.emailCaseInSensitive::
++
+When querying by email consider it case-insensitive.
+Users can register email with mixed case. When this flag is set
+emails with different cases will be associated to the same user.
+This will result, for example, in having change Committer and Author
+assigned to the same user if the email is matching.
++
+Default is `false`.
+
 [[accounts.visibility]]accounts.visibility::
 +
 Controls visibility of other users' dashboard pages and

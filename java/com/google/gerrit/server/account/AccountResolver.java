@@ -44,6 +44,7 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -290,7 +291,11 @@ public class AccountResolver {
   abstract static class StringSearcher implements Searcher<String> {
     @Override
     public final Optional<String> tryParse(String input) {
-      return matches(input) ? Optional.of(input) : Optional.empty();
+      return matches(input) ? matchedString(input) : Optional.empty();
+    }
+
+    protected Optional<String> matchedString(String input) {
+      return Optional.of(input);
     }
 
     protected abstract boolean matches(String input);
@@ -395,7 +400,8 @@ public class AccountResolver {
       // TODO(dborowitz): This would probably work as a Searcher<Address>
       int lt = nameOrEmail.indexOf('<');
       int gt = nameOrEmail.indexOf('>');
-      Set<Account.Id> ids = emails.getAccountFor(nameOrEmail.substring(lt + 1, gt));
+      Set<Account.Id> ids =
+          emails.getAccountFor(nameOrEmail.substring(lt + 1, gt).toLowerCase(Locale.US));
       ImmutableList<AccountState> allMatches = toAccountStates(ids).collect(toImmutableList());
       if (allMatches.isEmpty() || allMatches.size() == 1) {
         return allMatches.stream();
@@ -425,6 +431,11 @@ public class AccountResolver {
     @Override
     public boolean requiresContextUser() {
       return true;
+    }
+
+    @Override
+    protected Optional<String> matchedString(String input) {
+      return Optional.of(input.toLowerCase(Locale.US));
     }
 
     @Override

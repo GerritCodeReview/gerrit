@@ -14,48 +14,35 @@
 
 package com.google.gerrit.server.cache.h2;
 
-import com.google.common.base.Throwables;
 import com.google.common.cache.AbstractLoadingCache;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.CacheStats;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
-import com.google.common.hash.BloomFilter;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.extensions.common.CacheInfo;
 import com.google.gerrit.server.cache.PersistentCache;
-import com.google.gerrit.server.cache.serialize.CacheSerializer;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.TypeLiteral;
-import java.io.IOException;
-import java.io.InvalidClassException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Timestamp;
-import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
-import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Hybrid in-memory and database backed cache built on H2.
@@ -81,9 +68,6 @@ import java.util.concurrent.atomic.AtomicLong;
 public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements PersistentCache {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private static final ImmutableSet<String> OLD_CLASS_NAMES =
-      ImmutableSet.of("com.google.gerrit.server.change.ChangeKind");
-
   private final Executor executor;
   private final SqlStore<K, V> store;
   private final TypeLiteral<K> keyType;
@@ -99,7 +83,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     this.store = store;
     this.keyType = keyType;
     this.mem = mem;
-    this.cacheName = store.url.substring(store.url.lastIndexOf('/') + 1);
+    this.cacheName = store.getUrl().substring(store.getUrl().lastIndexOf('/') + 1);
   }
 
   @Nullable
@@ -342,406 +326,6 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
               store.put(entry.getKey(), new ValueHolder<>(entry.getValue(), instant));
             }
           });
-    }
-  }
-
-  static class SqlStore<K, V> {
-    private final String url;
-    private final KeyType<K> keyType;
-    private final CacheSerializer<V> valueSerializer;
-    private final int version;
-    private final long maxSize;
-    @Nullable private final Duration expireAfterWrite;
-    @Nullable private final Duration refreshAfterWrite;
-    private final BlockingQueue<SqlHandle> handles;
-    private final AtomicLong hitCount = new AtomicLong();
-    private final AtomicLong missCount = new AtomicLong();
-    private volatile BloomFilter<K> bloomFilter;
-    private int estimatedSize;
-    private boolean buildBloomFilter;
-    private boolean isOfflineReindex;
-
-    SqlStore(
-        String jdbcUrl,
-        TypeLiteral<K> keyType,
-        CacheSerializer<K> keySerializer,
-        CacheSerializer<V> valueSerializer,
-        int version,
-        long maxSize,
-        @Nullable Duration expireAfterWrite,
-        @Nullable Duration refreshAfterWrite,
-        boolean buildBloomFilter,
-        boolean isOfflineReindex) {
-      this.url = jdbcUrl;
-      this.keyType = createKeyType(keyType, keySerializer);
-      this.valueSerializer = valueSerializer;
-      this.version = version;
-      this.maxSize = maxSize;
-      this.expireAfterWrite = expireAfterWrite;
-      this.refreshAfterWrite = refreshAfterWrite;
-      this.buildBloomFilter = buildBloomFilter;
-      this.isOfflineReindex = isOfflineReindex;
-
-      int cores = Runtime.getRuntime().availableProcessors();
-      int keep = Math.min(cores, 16);
-      this.handles = new ArrayBlockingQueue<>(keep);
-    }
-
-    @SuppressWarnings("unchecked")
-    private static <T> KeyType<T> createKeyType(
-        TypeLiteral<T> type, CacheSerializer<T> serializer) {
-      if (type.getRawType() == String.class) {
-        return (KeyType<T>) StringKeyTypeImpl.INSTANCE;
-      }
-      return new ObjectKeyTypeImpl<>(serializer);
-    }
-
-    synchronized void open() {
-      if (buildBloomFilter && bloomFilter == null) {
-        bloomFilter = buildBloomFilter();
-      }
-    }
-
-    void close() {
-      SqlHandle h;
-      while ((h = handles.poll()) != null) {
-        h.close();
-      }
-    }
-
-    boolean mightContain(K key) {
-      BloomFilter<K> b = bloomFilter;
-      if (buildBloomFilter && b == null) {
-        synchronized (this) {
-          b = bloomFilter;
-          if (b == null) {
-            b = buildBloomFilter();
-            bloomFilter = b;
-          }
-        }
-      }
-      return b == null || b.mightContain(key);
-    }
-
-    @Nullable
-    private BloomFilter<K> buildBloomFilter() {
-      SqlHandle c = null;
-      try (TraceTimer ignored = TraceContext.newTimer("Build bloom filter", Metadata.empty())) {
-        c = acquire();
-        if (estimatedSize <= 0) {
-          try (PreparedStatement ps =
-              c.conn.prepareStatement("SELECT COUNT(*) FROM data WHERE version=?")) {
-            ps.setInt(1, version);
-            try (ResultSet r = ps.executeQuery()) {
-              estimatedSize = r.next() ? r.getInt(1) : 0;
-            }
-          }
-        }
-
-        BloomFilter<K> b = newBloomFilter();
-        try (PreparedStatement ps = c.conn.prepareStatement("SELECT k FROM data WHERE version=?")) {
-          ps.setInt(1, version);
-          try (ResultSet r = ps.executeQuery()) {
-            while (r.next()) {
-              b.put(keyType.get(r, 1));
-            }
-          }
-        } catch (Exception e) {
-          if (Throwables.getCausalChain(e).stream()
-              .anyMatch(InvalidClassException.class::isInstance)) {
-            // If deserialization failed using default Java serialization, this means we are using
-            // the old serialVersionUID-based invalidation strategy. In that case, authors are
-            // most likely bumping serialVersionUID rather than using the new versioning in the
-            // CacheBinding.  That's ok; we'll continue to support both for now.
-            // TODO(dborowitz): Remove this case when Java serialization is no longer used.
-            logger.atWarning().log(
-                "Entries cached for %s have an incompatible class and can't be deserialized. "
-                    + "Cache is flushed.",
-                url);
-            invalidateAll();
-          } else {
-            throw e;
-          }
-        }
-        return b;
-      } catch (IOException | SQLException e) {
-        logger.atWarning().log("Cannot build BloomFilter for %s: %s", url, e.getMessage());
-        c = close(c);
-        return null;
-      } finally {
-        release(c);
-      }
-    }
-
-    @Nullable
-    ValueHolder<V> getIfPresent(K key) {
-      SqlHandle c = null;
-      try {
-        c = acquire();
-        if (c.get == null) {
-          c.get = c.conn.prepareStatement("SELECT v, created FROM data WHERE k=? AND version=?");
-        }
-        keyType.set(c.get, 1, key);
-
-        // Silently no results when the only value in the database is an older version. This will
-        // result in put overwriting the stored value with the new version, which is intended.
-        c.get.setInt(2, version);
-
-        try (ResultSet r = c.get.executeQuery()) {
-          if (!r.next()) {
-            missCount.incrementAndGet();
-            return null;
-          }
-
-          Timestamp created = r.getTimestamp(2);
-          if (expired(created.toInstant())) {
-            invalidate(key);
-            missCount.incrementAndGet();
-            return null;
-          }
-
-          V val = valueSerializer.deserialize(r.getBytes(1));
-          ValueHolder<V> h = new ValueHolder<>(val, created.toInstant());
-          h.clean = true;
-          hitCount.incrementAndGet();
-          if (!isOfflineReindex) {
-            touch(c, key);
-          }
-          return h;
-        } finally {
-          c.get.clearParameters();
-        }
-      } catch (IOException | SQLException e) {
-        if (!isOldClassNameError(e)) {
-          logger.atWarning().withCause(e).log("Cannot read cache %s for %s", url, key);
-        }
-        c = close(c);
-        return null;
-      } finally {
-        release(c);
-      }
-    }
-
-    private static boolean isOldClassNameError(Throwable t) {
-      for (Throwable c : Throwables.getCausalChain(t)) {
-        if (c instanceof ClassNotFoundException && OLD_CLASS_NAMES.contains(c.getMessage())) {
-          return true;
-        }
-      }
-      return false;
-    }
-
-    private boolean expired(Instant created) {
-      if (expireAfterWrite == null) {
-        return false;
-      }
-      Duration age = Duration.between(created, TimeUtil.now());
-      return age.compareTo(expireAfterWrite) > 0;
-    }
-
-    private boolean needsRefresh(Instant created) {
-      if (refreshAfterWrite == null) {
-        return false;
-      }
-      Duration age = Duration.between(created, TimeUtil.now());
-      return age.compareTo(refreshAfterWrite) > 0;
-    }
-
-    private void touch(SqlHandle c, K key) throws IOException, SQLException {
-      if (c.touch == null) {
-        c.touch = c.conn.prepareStatement("UPDATE data SET accessed=? WHERE k=? AND version=?");
-      }
-      try {
-        c.touch.setTimestamp(1, new Timestamp(TimeUtil.nowMs()));
-        keyType.set(c.touch, 2, key);
-        c.touch.setInt(3, version);
-        c.touch.executeUpdate();
-      } finally {
-        c.touch.clearParameters();
-      }
-    }
-
-    void put(K key, ValueHolder<V> holder) {
-      if (holder.clean) {
-        return;
-      }
-
-      BloomFilter<K> b = bloomFilter;
-      if (b != null) {
-        b.put(key);
-        bloomFilter = b;
-      }
-
-      SqlHandle c = null;
-      try {
-        c = acquire();
-        if (c.put == null) {
-          c.put =
-              c.conn.prepareStatement(
-                  "MERGE INTO data (k, v, version, created, accessed) VALUES(?,?,?,?,?)");
-        }
-        try {
-          keyType.set(c.put, 1, key);
-          c.put.setBytes(2, valueSerializer.serialize(holder.value));
-          c.put.setInt(3, version);
-          c.put.setTimestamp(4, Timestamp.from(holder.created));
-          c.put.setTimestamp(5, new Timestamp(TimeUtil.nowMs()));
-          c.put.executeUpdate();
-          holder.clean = true;
-        } finally {
-          c.put.clearParameters();
-        }
-      } catch (IOException | SQLException e) {
-        logger.atWarning().withCause(e).log("Cannot put into cache %s", url);
-        c = close(c);
-      } finally {
-        release(c);
-      }
-    }
-
-    void invalidate(K key) {
-      SqlHandle c = null;
-      try {
-        c = acquire();
-        invalidate(c, key);
-      } catch (IOException | SQLException e) {
-        logger.atWarning().withCause(e).log("Cannot invalidate cache %s", url);
-        c = close(c);
-      } finally {
-        release(c);
-      }
-    }
-
-    private void invalidate(SqlHandle c, K key) throws IOException, SQLException {
-      if (c.invalidate == null) {
-        c.invalidate = c.conn.prepareStatement("DELETE FROM data WHERE k=? and version=?");
-      }
-      try {
-        keyType.set(c.invalidate, 1, key);
-        c.invalidate.setInt(2, version);
-        c.invalidate.executeUpdate();
-      } finally {
-        c.invalidate.clearParameters();
-      }
-    }
-
-    void invalidateAll() {
-      SqlHandle c = null;
-      try {
-        c = acquire();
-        try (Statement s = c.conn.createStatement()) {
-          s.executeUpdate("DELETE FROM data");
-        }
-        bloomFilter = newBloomFilter();
-      } catch (SQLException e) {
-        logger.atWarning().withCause(e).log("Cannot invalidate cache %s", url);
-        c = close(c);
-      } finally {
-        release(c);
-      }
-    }
-
-    void prune(Cache<K, ?> mem) {
-      SqlHandle c = null;
-      try {
-        c = acquire();
-        try (PreparedStatement ps = c.conn.prepareStatement("DELETE FROM data WHERE version!=?")) {
-          ps.setInt(1, version);
-          int oldEntries = ps.executeUpdate();
-          if (oldEntries > 0) {
-            logger.atInfo().log(
-                "Pruned %d entries not matching version %d from cache %s",
-                oldEntries, version, url);
-          }
-        }
-        try (Statement s = c.conn.createStatement()) {
-          // Compute size without restricting to version (although obsolete data was just pruned
-          // anyway).
-          long used;
-          try (ResultSet r = s.executeQuery("SELECT SUM(space) FROM data")) {
-            used = r.next() ? r.getLong(1) : 0;
-          }
-          String formattedMaxSize = CacheInfo.EntriesInfo.bytes(maxSize);
-          if (used <= maxSize) {
-            logger.atFine().log(
-                "Cache %s size (%s) is less than maxSize (%s), not pruning",
-                url, CacheInfo.EntriesInfo.bytes(used), formattedMaxSize);
-            return;
-          }
-
-          try (ResultSet r =
-              s.executeQuery("SELECT k, space, created FROM data ORDER BY accessed")) {
-            logger.atInfo().log(
-                "Cache %s size (%s) is greater than maxSize (%s), pruning",
-                url, CacheInfo.EntriesInfo.bytes(used), formattedMaxSize);
-            while (maxSize < used && r.next()) {
-              K key = keyType.get(r, 1);
-              Timestamp created = r.getTimestamp(3);
-              if (mem.getIfPresent(key) != null && !expired(created.toInstant())) {
-                touch(c, key);
-              } else {
-                invalidate(c, key);
-                used -= r.getLong(2);
-              }
-            }
-            logger.atInfo().log(
-                "Done pruning cache %s, size (%s) is now less than maxSize (%s)",
-                url, CacheInfo.EntriesInfo.bytes(used), formattedMaxSize);
-          }
-        }
-      } catch (IOException | SQLException e) {
-        logger.atWarning().withCause(e).log("Cannot prune cache %s", url);
-        c = close(c);
-      } finally {
-        release(c);
-      }
-    }
-
-    DiskStats diskStats() {
-      long size = 0;
-      long space = 0;
-      SqlHandle c = null;
-      try {
-        c = acquire();
-        try (Statement s = c.conn.createStatement();
-            // Stats include total size regardless of version.
-            ResultSet r = s.executeQuery("SELECT COUNT(*), SUM(space) FROM data")) {
-          if (r.next()) {
-            size = r.getLong(1);
-            space = r.getLong(2);
-          }
-        }
-      } catch (SQLException e) {
-        logger.atWarning().withCause(e).log("Cannot get DiskStats for %s", url);
-        c = close(c);
-      } finally {
-        release(c);
-      }
-      return new DiskStats(size, space, hitCount.get(), missCount.get());
-    }
-
-    private SqlHandle acquire() throws SQLException {
-      SqlHandle h = handles.poll();
-      return h != null ? h : new SqlHandle(url, keyType);
-    }
-
-    private void release(SqlHandle h) {
-      if (h != null && !handles.offer(h)) {
-        h.close();
-      }
-    }
-
-    @Nullable
-    private SqlHandle close(SqlHandle h) {
-      if (h != null) {
-        h.close();
-      }
-      return null;
-    }
-
-    private BloomFilter<K> newBloomFilter() {
-      int cnt = Math.max(64 * 1024, 2 * estimatedSize);
-      return BloomFilter.create(keyType.funnel(), cnt);
     }
   }
 

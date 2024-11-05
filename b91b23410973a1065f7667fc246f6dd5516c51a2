@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b88917b3_4557d612",
+        "filename": "javatests/com/google/gerrit/acceptance/server/util/TaskParkerIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2024-11-05T16:51:02Z",
+      "side": 1,
+      "message": "This actually skips releasing the permit in case a running task is cancelled, so it\u0027s not really the correct check.",
+      "range": {
+        "startLine": 96,
+        "startChar": 52,
+        "endLine": 96,
+        "endChar": 71
+      },
+      "revId": "b91b23410973a1065f7667fc246f6dd5516c51a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

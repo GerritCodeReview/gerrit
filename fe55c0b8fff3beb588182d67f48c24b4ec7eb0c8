@@ -34,6 +34,24 @@
       "parentUuid": "896ede3e_f987e131",
       "revId": "fe55c0b8fff3beb588182d67f48c24b4ec7eb0c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d11c0094_799f2e55",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2024-11-05T23:21:30Z",
+      "side": 1,
+      "message": "How about coding it up to work the way I describe (or even just using _ as a separator so it isn\u0027t really different configuration wise then what you got already), and then just creating a set of known good String combinations like: setof(\"HTTP_OAUTH\", \"HTTP_LDAP\") so that it can be easy in the future to enable other combos if someone is willing to test them out together?",
+      "parentUuid": "9d58d249_d3b44c2b",
+      "revId": "fe55c0b8fff3beb588182d67f48c24b4ec7eb0c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

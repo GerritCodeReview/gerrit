@@ -22,6 +22,30 @@
       },
       "revId": "b91b23410973a1065f7667fc246f6dd5516c51a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1db0636a_8961ddac",
+        "filename": "javatests/com/google/gerrit/acceptance/server/util/TaskParkerIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2024-11-05T16:55:41Z",
+      "side": 1,
+      "message": "Most likely we\u0027ll need to change the implementation to use BlockingQueue to fix the behavior.",
+      "parentUuid": "b88917b3_4557d612",
+      "range": {
+        "startLine": 96,
+        "startChar": 52,
+        "endLine": 96,
+        "endChar": 71
+      },
+      "revId": "b91b23410973a1065f7667fc246f6dd5516c51a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

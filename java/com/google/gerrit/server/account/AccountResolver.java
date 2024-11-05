@@ -44,6 +44,7 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -395,7 +396,8 @@ public class AccountResolver {
       // TODO(dborowitz): This would probably work as a Searcher<Address>
       int lt = nameOrEmail.indexOf('<');
       int gt = nameOrEmail.indexOf('>');
-      Set<Account.Id> ids = emails.getAccountFor(nameOrEmail.substring(lt + 1, gt));
+      Set<Account.Id> ids =
+          emails.getAccountFor(nameOrEmail.substring(lt + 1, gt).toLowerCase(Locale.US));
       ImmutableList<AccountState> allMatches = toAccountStates(ids).collect(toImmutableList());
       if (allMatches.isEmpty() || allMatches.size() == 1) {
         return allMatches.stream();
@@ -434,6 +436,7 @@ public class AccountResolver {
 
     @Override
     public Stream<AccountState> search(String input, CurrentUser asUser) throws IOException {
+      String lowerCaseEmail = input.toLowerCase(Locale.US);
       boolean canViewSecondaryEmails = false;
       try {
         if (permissionBackend.user(asUser).test(GlobalPermission.VIEW_SECONDARY_EMAILS)) {
@@ -444,7 +447,7 @@ public class AccountResolver {
       }
 
       if (canViewSecondaryEmails) {
-        return toAccountStates(emails.getAccountFor(input));
+        return toAccountStates(emails.getAccountFor(lowerCaseEmail));
       }
 
       // User cannot see secondary emails, hence search by preferred email only.
@@ -463,7 +466,7 @@ public class AccountResolver {
           if (accountState.externalIds().stream()
               .map(ExternalId::email)
               .filter(Objects::nonNull)
-              .anyMatch(email -> email.equals(input))) {
+              .anyMatch(email -> email.equals(lowerCaseEmail))) {
             return Stream.of(accountState);
           }
         }

@@ -28,7 +28,6 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.server.cache.MemoryCacheFactory;
 import com.google.gerrit.server.cache.PersistentCacheBaseFactory;
 import com.google.gerrit.server.cache.PersistentCacheDef;
-import com.google.gerrit.server.cache.h2.H2CacheImpl.SqlStore;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.ValueHolder;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -89,6 +88,7 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
   private final boolean buildBloomFilter;
   private final boolean pruneOnStartup;
   private final Schedule schedule;
+  private final CacheAccessMode accessMode;
 
   @Inject
   H2CacheFactory(
@@ -98,7 +98,8 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
       DynamicMap<Cache<?, ?>> cacheMap,
       WorkQueue queue,
       @Nullable IsFirstInsertForEntry isFirstInsertForEntry,
-      @Nullable BuildBloomFilter buildBloomFilter) {
+      @Nullable BuildBloomFilter buildBloomFilter,
+      @Nullable CacheAccessMode cacheAccessMode) {
     super(memCacheFactory, cfg, site);
     h2CacheSize = cfg.getLong("cache", null, "h2CacheSize", -1);
     h2AutoServer = cfg.getBoolean("cache", null, "h2AutoServer", false);
@@ -113,6 +114,7 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
         isFirstInsertForEntry != null && isFirstInsertForEntry.equals(IsFirstInsertForEntry.YES);
     this.buildBloomFilter =
         !(buildBloomFilter != null && buildBloomFilter.equals(BuildBloomFilter.FALSE));
+    this.accessMode = cacheAccessMode;
 
     if (diskEnabled) {
       executor =
@@ -251,7 +253,19 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
         expireAfterWrite = Duration.ofSeconds(expireAfterWriteInsec);
       }
     }
-    return new SqlStore<>(
+    if (accessMode.equals(CacheAccessMode.READONLY)) {
+      return new ReadOnlySqlStore<>(
+          url.toString(),
+          def.keyType(),
+          def.keySerializer(),
+          def.valueSerializer(),
+          def.version(),
+          expireAfterWrite,
+          refreshAfterWrite,
+          buildBloomFilter,
+          isOfflineReindex);
+    }
+    return new ReadWriteSqlStore<>(
         url.toString(),
         def.keyType(),
         def.keySerializer(),

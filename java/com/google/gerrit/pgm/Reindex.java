@@ -100,6 +100,9 @@ public class Reindex extends SiteProgram {
   @Option(name = "--build-bloom-filter", usage = "Build bloom filter for H2 disk caches.")
   private boolean buildBloomFilter;
 
+  @Option(name = "--read-only-caches", usage = "Don't update H2 disk caches.")
+  private boolean readOnlyCaches;
+
   private Boolean reuseExistingDocumentsOption;
 
   private Injector dbInjector;
@@ -233,6 +236,9 @@ public class Reindex extends SiteProgram {
             OptionalBinder.newOptionalBinder(binder(), BuildBloomFilter.class)
                 .setBinding()
                 .toInstance(buildBloomFilter ? BuildBloomFilter.TRUE : BuildBloomFilter.FALSE);
+            OptionalBinder.newOptionalBinder(binder(), CacheAccessMode.class)
+                .setBinding()
+                .toInstance(readOnlyCaches ? CacheAccessMode.READONLY : CacheAccessMode.READWRITE);
           }
         });
     modules.add(new BatchProgramModule(dbInjector));

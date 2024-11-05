@@ -207,11 +207,51 @@ public abstract class LabelType {
     public abstract Builder setDescription(Optional<String> description);
 
     /**
-     * @deprecated in favour of using submit requirements, except if it’s needed to set the value to
-     *     PatchSetLock
+     * @deprecated All label functions except {@code PATCH_SET_LOCK} are deprecated in favour of
+     *     using submit requirements. When submit requirements are used the label function needs to
+     *     be set to {@code NO_BLOCK} (or {@code NO_OP} which is semantically the same). This is to
+     *     override the default label function which is {@code MAX_WITH_BLOCK} and which should not
+     *     be used in combination with a submit requirement.
      */
     @Deprecated
     public abstract Builder setFunction(LabelFunction function);
+
+    /**
+     * Sets the label function to {@code NO_BLOCK}, e.g. to override the default label function
+     * which is {@code MAX_WITH_BLOCK} and which should not be used in combination with a submit
+     * requirement. .
+     *
+     * <p>In contrast to most other label functions {@code NO_BLOCK} is not deprecated.
+     *
+     * <p>Use this method to set the label function to {@code NO_BLOCK}, instead of calling {@code
+     * setFunction(NO_BLOCK)} which is deprecated.
+     *
+     * <p>Note, {@code NO_OP} is semantically the same as {@code NO_BLOCK}, hence this method should
+     * also be used, instead of calling {@code setFunction(NO_OP)}.
+     *
+     * @return the instance of this builder to allow chaining calls.
+     */
+    @CanIgnoreReturnValue
+    @SuppressWarnings("deprecation")
+    public Builder setNoBlockFunction() {
+      return setFunction(LabelFunction.NO_BLOCK);
+    }
+
+    /**
+     * Sets the label function to {@code PATCH_SET_LOCK}.
+     *
+     * <p>In contrast to most other label functions {@code PATCH_SET_LOCK} is not deprecated.
+     *
+     * <p>Use this method to set the label function to {@code PATCH_SET_LOCK}, instead of calling
+     * {@code setFunction(PATCH_SET_LOCK)} which is deprecated.
+     *
+     * @return the instance of this builder to allow chaining calls.
+     */
+    @CanIgnoreReturnValue
+    @SuppressWarnings("deprecation")
+    public Builder setPatchSetLockFunction() {
+      return setFunction(LabelFunction.PATCH_SET_LOCK);
+    }
 
     public abstract Builder setCanOverride(boolean canOverride);
 

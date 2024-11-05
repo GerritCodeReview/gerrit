@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.project.testing;
 
-import com.google.gerrit.entities.LabelFunction;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.LabelValue;
@@ -49,7 +48,7 @@ public class TestLabels {
     LabelType.Builder label =
         labelBuilder(
             "Patch-Set-Lock", value(1, "Patch Set Locked"), value(0, "Patch Set Unlocked"));
-    label.setFunction(LabelFunction.PATCH_SET_LOCK);
+    label.setPatchSetLockFunction();
     return label.build();
   }
 

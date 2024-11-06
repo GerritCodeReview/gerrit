@@ -20,6 +20,7 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.server.query.change.ChangeData;
+import org.eclipse.jgit.attributes.AttributesNodeProvider;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -35,11 +36,16 @@ public interface ChangeKindCache {
       Project.NameKey project,
       @Nullable RevWalk rw,
       @Nullable Config repoConfig,
+      @Nullable AttributesNodeProvider attributesNodeProvider,
       ObjectId prior,
       ObjectId next);
 
   ChangeKind getChangeKind(Change change, PatchSet patch);
 
   ChangeKind getChangeKind(
-      @Nullable RevWalk rw, @Nullable Config repoConfig, ChangeData cd, PatchSet patch);
+      @Nullable RevWalk rw,
+      @Nullable Config repoConfig,
+      @Nullable AttributesNodeProvider attributesNodeProvider,
+      ChangeData cd,
+      PatchSet patch);
 }

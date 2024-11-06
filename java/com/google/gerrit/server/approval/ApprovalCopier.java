@@ -287,6 +287,7 @@ public class ApprovalCopier {
                 changeNotes.getProjectName(),
                 revWalk,
                 repo.getConfig(),
+                repo.createAttributesNodeProvider(),
                 priorPatchSet.commitId(),
                 followUpPatchSet.commitId());
         boolean isMerge = isMerge(changeNotes.getProjectName(), revWalk, followUpPatchSet);
@@ -419,6 +420,7 @@ public class ApprovalCopier {
             projectName,
             repoView.getRevWalk(),
             repoView.getConfig(),
+            repoView.getAttributesNodeProvider(),
             priorPatchSet.getValue().commitId(),
             targetPatchSet.commitId());
     boolean isMerge = isMerge(projectName, repoView.getRevWalk(), targetPatchSet);

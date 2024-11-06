@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "faf988cc_530ebe43",
+        "filename": "java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-11-06T12:28:07Z",
+      "side": 1,
+      "message": "\u003e use plural since this affects all persistent caches ?\n\nDone\n\nNot sure about the second point. The option name is already pretty long.",
+      "parentUuid": "a2ea6888_cdf88719",
+      "range": {
+        "startLine": 103,
+        "startChar": 18,
+        "endLine": 103,
+        "endChar": 35
+      },
+      "revId": "c42bf01a959326d5810d463da26a93c3e598ea61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dab59d90_a2e06fad",
         "filename": "java/com/google/gerrit/server/cache/h2/SqlStore.java",
         "patchSetId": 1
@@ -54,6 +78,24 @@
       "writtenOn": "2024-11-05T13:50:48Z",
       "side": 1,
       "message": "nit: interface methods are public by default, hence `public` can be omitted",
+      "revId": "c42bf01a959326d5810d463da26a93c3e598ea61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a368557_d6b4f5d8",
+        "filename": "java/com/google/gerrit/server/cache/h2/SqlStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-11-06T12:28:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dab59d90_a2e06fad",
       "revId": "c42bf01a959326d5810d463da26a93c3e598ea61",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

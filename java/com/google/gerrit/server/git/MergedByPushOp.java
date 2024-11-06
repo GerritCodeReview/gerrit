@@ -41,6 +41,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
@@ -196,7 +197,8 @@ public class MergedByPushOp implements BatchUpdateOp {
                               ctx.getProject(),
                               psId.changeId(),
                               emailFactories.createMergedChangeEmail(
-                                  /* stickyApprovalDiff= */ Optional.empty()));
+                                  /* stickyApprovalDiff= */ Optional.empty(),
+                                  /* modifiedFiles= */ List.of()));
                       changeEmail.setPatchSet(patchSet, info);
                       OutgoingEmail outgoingEmail =
                           emailFactories.createOutgoingEmail(CHANGE_MERGED, changeEmail);

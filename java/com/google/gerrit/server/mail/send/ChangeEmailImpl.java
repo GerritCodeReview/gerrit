@@ -16,11 +16,13 @@ package com.google.gerrit.server.mail.send;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.server.util.AttentionSetUtil.additionsOnly;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.auto.factory.AutoFactory;
 import com.google.auto.factory.Provided;
 import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
+import com.google.common.io.BaseEncoding;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Address;
@@ -288,6 +290,10 @@ public class ChangeEmailImpl implements ChangeEmail {
       email.setHeader("In-Reply-To", changeMessageThreadId);
     }
     email.setHeader("References", changeMessageThreadId);
+    if (args.settings.includeThreadIndexHeader) {
+      email.setHeader(
+          "Thread-Index", BaseEncoding.base64Url().encode(changeMessageThreadId.getBytes(UTF_8)));
+    }
   }
 
   /** Get the text of the "cover letter". */

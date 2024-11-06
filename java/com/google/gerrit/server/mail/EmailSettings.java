@@ -23,8 +23,8 @@ import org.eclipse.jgit.lib.Config;
 
 @Singleton
 public class EmailSettings {
-  private static final String SEND_EMAL = "sendemail";
-  private static final String RECEIVE_EMAL = "receiveemail";
+  private static final String SEND_EMAIL = "sendemail";
+  private static final String RECEIVE_EMAIL = "receiveemail";
   // Send
   public final boolean html;
   public final boolean includeDiff;
@@ -38,27 +38,29 @@ public class EmailSettings {
   public final Encryption encryption;
   public final long fetchInterval; // in milliseconds
   public final boolean sendNewPatchsetEmails;
+  public final boolean includeThreadIndexHeader;
 
   @Inject
   EmailSettings(@GerritServerConfig Config cfg) {
     // Send
-    html = cfg.getBoolean(SEND_EMAL, "html", true);
-    includeDiff = cfg.getBoolean(SEND_EMAL, "includeDiff", false);
-    maximumDiffSize = cfg.getInt(SEND_EMAL, "maximumDiffSize", 256 << 10);
+    html = cfg.getBoolean(SEND_EMAIL, "html", true);
+    includeDiff = cfg.getBoolean(SEND_EMAIL, "includeDiff", false);
+    maximumDiffSize = cfg.getInt(SEND_EMAIL, "maximumDiffSize", 256 << 10);
     // Receive
-    protocol = cfg.getEnum(RECEIVE_EMAL, null, "protocol", Protocol.NONE);
-    host = cfg.getString(RECEIVE_EMAL, null, "host");
-    port = cfg.getInt(RECEIVE_EMAL, "port", 0);
-    username = cfg.getString(RECEIVE_EMAL, null, "username");
-    password = cfg.getString(RECEIVE_EMAL, null, "password");
-    encryption = cfg.getEnum(RECEIVE_EMAL, null, "encryption", Encryption.NONE);
+    protocol = cfg.getEnum(RECEIVE_EMAIL, null, "protocol", Protocol.NONE);
+    host = cfg.getString(RECEIVE_EMAIL, null, "host");
+    port = cfg.getInt(RECEIVE_EMAIL, "port", 0);
+    username = cfg.getString(RECEIVE_EMAIL, null, "username");
+    password = cfg.getString(RECEIVE_EMAIL, null, "password");
+    encryption = cfg.getEnum(RECEIVE_EMAIL, null, "encryption", Encryption.NONE);
     fetchInterval =
         cfg.getTimeUnit(
-            RECEIVE_EMAL,
+            RECEIVE_EMAIL,
             null,
             "fetchInterval",
             TimeUnit.MILLISECONDS.convert(60, TimeUnit.SECONDS),
             TimeUnit.MILLISECONDS);
     sendNewPatchsetEmails = cfg.getBoolean("change", null, "sendNewPatchsetEmails", true);
+    includeThreadIndexHeader = cfg.getBoolean(SEND_EMAIL, null, "includeThreadIndexHeader", true);
   }
 }

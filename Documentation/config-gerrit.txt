@@ -5508,7 +5508,6 @@ in the link:http://data.iana.org/TLD/[IANA list,role=external,window=_blank].
 +
 Defaults to an empty list, meaning no additional TLDs are allowed.
 
-
 [[sendemail.addInstanceNameInSubject]]sendemail.addInstanceNameInSubject::
 +
 When set to `true`, Gerrit will add its short name to the email subject, allowing recipients to quickly identify
@@ -5517,6 +5516,15 @@ what Gerrit instance the email came from.
 The short name can be customized via the gerrit.instanceName option.
 +
 Defaults to `false`.
+
+[[sendemail.includeThreadIndexHeader]]sendemail.includeThreadIndexHeader::
++
+When set to `true`, Gerrit will add the `Thread-Index` header to change emails
+the same as it does with the `References` header. The `Thread-Index` header is
+used by Microsoft email clients, so it's recommended to keep this `true` when
+users read emails from Gerrit using those clients.
++
+Defaults to `true`.
 
 
 [[site]]

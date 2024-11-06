@@ -33,6 +33,23 @@
       "message": "and remove the import of CacheAccessMode in Reindex",
       "revId": "8932a87f360802bf89a9642bbbd944b53787fbe4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d5ff49d_c768d339",
+        "filename": "java/com/google/gerrit/extensions/api/config/CachesApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-11-06T17:34:24Z",
+      "side": 1,
+      "message": "- this class seems unused, why is it needed ?\n- if it is needed, declare it `static final` ?",
+      "revId": "8932a87f360802bf89a9642bbbd944b53787fbe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

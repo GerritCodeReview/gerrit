@@ -57,32 +57,3 @@ export function getPluginNameFromUrl(url: URL | string) {
   return pathname.split('/')[2].split('.')[0];
 }
 
-export function send(
-  restApiService: RestApiService,
-  method: HttpMethod,
-  url: string,
-  callback?: (response: unknown) => void,
-  payload?: RequestPayload
-) {
-  return restApiService
-    .send(method, url, payload)
-    .then(response => {
-      if (response.status < 200 || response.status >= 300) {
-        return response.text().then((text: string | undefined) => {
-          if (text) {
-            return Promise.reject(new Error(text));
-          } else {
-            return Promise.reject(new Error(`${response.status}`));
-          }
-        });
-      } else {
-        return readJSONResponsePayload(response).then(obj => obj.parsed);
-      }
-    })
-    .then(response => {
-      if (callback) {
-        callback(response);
-      }
-      return response;
-    });
-}

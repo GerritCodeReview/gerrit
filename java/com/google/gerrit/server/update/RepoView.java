@@ -23,6 +23,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Optional;
+import org.eclipse.jgit.attributes.AttributesNodeProvider;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -49,6 +50,7 @@ public class RepoView {
   private final ObjectInserter inserterWrapper;
   private final ChainedReceiveCommands commands;
   private final boolean closeRepo;
+  private AttributesNodeProvider attributesNodeProvider;
 
   RepoView(GitRepositoryManager repoManager, Project.NameKey project) throws IOException {
     repo = repoManager.openRepository(project);
@@ -161,6 +163,20 @@ public class RepoView {
                 updateRefIfPrefixMatches(result, prefix, c.getRefName(), toOptional(c.getNewId())));
 
     return result;
+  }
+
+  /**
+   * Get the existing or create a new {@link org.eclipse.jgit.attributes.AttributesNodeProvider}.
+   *
+   * @return a new or existing {@link org.eclipse.jgit.attributes.AttributesNodeProvider}. This
+   *     {@link org.eclipse.jgit.attributes.AttributesNodeProvider} is lazy loaded only once for the
+   *     life of this RepoView.
+   */
+  public AttributesNodeProvider getAttributesNodeProvider() {
+    if (attributesNodeProvider == null) {
+      attributesNodeProvider = repo.createAttributesNodeProvider();
+    }
+    return attributesNodeProvider;
   }
 
   private static Optional<ObjectId> toOptional(ObjectId id) {

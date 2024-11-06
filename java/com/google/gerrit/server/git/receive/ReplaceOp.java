@@ -236,6 +236,7 @@ public class ReplaceOp implements BatchUpdateOp {
             projectState.getNameKey(),
             ctx.getRevWalk(),
             ctx.getRepoView().getConfig(),
+            ctx.getRepoView().getAttributesNodeProvider(),
             priorCommitId,
             commitId);
 
@@ -258,7 +259,10 @@ public class ReplaceOp implements BatchUpdateOp {
 
   @Override
   public boolean updateChange(ChangeContext ctx)
-      throws RestApiException, IOException, PermissionBackendException, ConfigInvalidException,
+      throws RestApiException,
+          IOException,
+          PermissionBackendException,
+          ConfigInvalidException,
           ValidationException {
     notes = ctx.getNotes();
     Change change = notes.getChange();

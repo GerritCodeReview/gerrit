@@ -312,8 +312,12 @@ public class RebaseChangeOp implements BatchUpdateOp {
 
   @Override
   public void updateRepo(RepoContext ctx)
-      throws InvalidChangeOperationException, RestApiException, IOException, NoSuchChangeException,
-          PermissionBackendException, DiffNotAvailableException {
+      throws InvalidChangeOperationException,
+          RestApiException,
+          IOException,
+          NoSuchChangeException,
+          PermissionBackendException,
+          DiffNotAvailableException {
     // Ok that originalPatchSet was not read in a transaction, since we just
     // need its revision.
     RevWalk rw = ctx.getRevWalk();
@@ -492,10 +496,17 @@ public class RebaseChangeOp implements BatchUpdateOp {
     }
 
     DirCache dc = DirCache.newInCore();
-    if (allowConflicts && merger instanceof ResolveMerger) {
-      // The DirCache must be set on ResolveMerger before calling
-      // ResolveMerger#merge(AnyObjectId...) otherwise the entries in DirCache don't get populated.
-      ((ResolveMerger) merger).setDirCache(dc);
+    if (merger instanceof ResolveMerger) {
+      // We need to set the attributes provider before attempting the merge in order to read and
+      // honor gitattributes merge settings correctly
+      ((ResolveMerger) merger)
+          .setAttributesNodeProvider(ctx.getRepoView().getAttributesNodeProvider());
+      if (allowConflicts) {
+        // The DirCache must be set on ResolveMerger before calling
+        // ResolveMerger#merge(AnyObjectId...) otherwise the entries in DirCache don't get
+        // populated.
+        ((ResolveMerger) merger).setDirCache(dc);
+      }
     }
 
     boolean success = merger.merge(original, base);

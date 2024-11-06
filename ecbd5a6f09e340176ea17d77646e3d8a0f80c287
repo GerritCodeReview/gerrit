@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "69c27793_3d7a5e04",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-11-06T16:58:44Z",
+      "side": 1,
+      "message": "\u003e I think that message is in the upstream code?\n\nYes correct. In the internal implementation we modify the later parts of this message based on the modifiedFiles.\n\nUpdated the commit message accordingly.",
+      "parentUuid": "7c3565e3_2953a8c3",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 80
+      },
+      "revId": "ecbd5a6f09e340176ea17d77646e3d8a0f80c287",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9cd3b00d_3218e573",
@@ -95,6 +119,30 @@
           ]
         }
       ],
+      "revId": "ecbd5a6f09e340176ea17d77646e3d8a0f80c287",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c726b3a_78a17262",
+        "filename": "java/com/google/gerrit/server/mail/EmailFactories.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-11-06T16:58:44Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "9cd3b00d_3218e573",
+      "range": {
+        "startLine": 130,
+        "startChar": 43,
+        "endLine": 130,
+        "endChar": 56
+      },
       "revId": "ecbd5a6f09e340176ea17d77646e3d8a0f80c287",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

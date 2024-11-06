@@ -43,6 +43,7 @@ import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.GroupCollector;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.patch.filediff.FileDiffOutput;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.ProjectConfig;
@@ -78,6 +79,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
   private CodeReviewCommit alreadyMergedCommit;
   private boolean changeAlreadyMerged;
   private String stickyApprovalDiff;
+  private List<FileDiffOutput> modifiedFiles;
 
   protected SubmitStrategyOp(SubmitStrategy.Arguments args, CodeReviewCommit toMerge) {
     this.args = args;
@@ -396,7 +398,9 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
   }
 
   private String message(ChangeContext ctx, CodeReviewCommit commit, CommitMergeStatus s)
-      throws AuthException, IOException, PermissionBackendException,
+      throws AuthException,
+          IOException,
+          PermissionBackendException,
           InvalidChangeOperationException {
     requireNonNull(s, "CommitMergeStatus may not be null");
     String txt = s.getDescription();
@@ -438,9 +442,14 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
   }
 
   private String message(ChangeContext ctx, String body)
-      throws AuthException, IOException, PermissionBackendException,
+      throws AuthException,
+          IOException,
+          PermissionBackendException,
           InvalidChangeOperationException {
-    stickyApprovalDiff = args.submitWithStickyApprovalDiff.apply(ctx.getNotes(), ctx.getUser());
+    modifiedFiles = args.submitWithStickyApprovalDiff.apply(ctx.getNotes(), ctx.getUser());
+    stickyApprovalDiff =
+        args.submitWithStickyApprovalDiff.computeDiffFromModifiedFiles(
+            ctx.getNotes(), ctx.getUser(), modifiedFiles);
     return body + stickyApprovalDiff;
   }
 
@@ -507,7 +516,8 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
               args.caller,
               ctx.getNotify(getId()),
               ctx.getRepoView(),
-              stickyApprovalDiff)
+              stickyApprovalDiff,
+              modifiedFiles)
           .sendAsync();
     } catch (Exception e) {
       logger.atSevere().withCause(e).log("Cannot email merged notification for %s", getId());

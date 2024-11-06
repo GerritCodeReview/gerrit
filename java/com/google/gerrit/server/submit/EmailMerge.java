@@ -29,12 +29,14 @@ import com.google.gerrit.server.mail.EmailFactories;
 import com.google.gerrit.server.mail.send.ChangeEmail;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.mail.send.OutgoingEmail;
+import com.google.gerrit.server.patch.filediff.FileDiffOutput;
 import com.google.gerrit.server.update.RepoView;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.inject.Inject;
 import com.google.inject.OutOfScopeException;
 import com.google.inject.assistedinject.Assisted;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
@@ -49,7 +51,8 @@ class EmailMerge implements Runnable, RequestContext {
         IdentifiedUser submitter,
         NotifyResolver.Result notify,
         RepoView repoView,
-        String stickyApprovalDiff);
+        String stickyApprovalDiff,
+        List<FileDiffOutput> modifiedFiles);
   }
 
   private final ExecutorService sendEmailsExecutor;
@@ -63,6 +66,7 @@ class EmailMerge implements Runnable, RequestContext {
   private final NotifyResolver.Result notify;
   private final RepoView repoView;
   private final String stickyApprovalDiff;
+  private final List<FileDiffOutput> modifiedFiles;
 
   @Inject
   EmailMerge(
@@ -75,7 +79,8 @@ class EmailMerge implements Runnable, RequestContext {
       @Assisted @Nullable IdentifiedUser submitter,
       @Assisted NotifyResolver.Result notify,
       @Assisted RepoView repoView,
-      @Assisted String stickyApprovalDiff) {
+      @Assisted String stickyApprovalDiff,
+      @Assisted List<FileDiffOutput> modifiedFiles) {
     this.sendEmailsExecutor = executor;
     this.emailFactories = emailFactories;
     this.requestContext = requestContext;
@@ -86,6 +91,7 @@ class EmailMerge implements Runnable, RequestContext {
     this.notify = notify;
     this.repoView = repoView;
     this.stickyApprovalDiff = stickyApprovalDiff;
+    this.modifiedFiles = modifiedFiles;
   }
 
   void sendAsync() {
@@ -102,7 +108,7 @@ class EmailMerge implements Runnable, RequestContext {
               project,
               change.getId(),
               emailFactories.createMergedChangeEmail(
-                  Optional.ofNullable(Strings.emptyToNull(stickyApprovalDiff))));
+                  Optional.ofNullable(Strings.emptyToNull(stickyApprovalDiff)), modifiedFiles));
       OutgoingEmail outgoingEmail = emailFactories.createOutgoingEmail(CHANGE_MERGED, changeEmail);
       if (submitter != null) {
         outgoingEmail.setFrom(submitter.getAccountId());

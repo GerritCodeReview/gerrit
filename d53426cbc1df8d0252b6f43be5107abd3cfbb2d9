@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c972816e_70161578",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-11-06T21:49:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3657abc4_fb25b380",
+      "revId": "d53426cbc1df8d0252b6f43be5107abd3cfbb2d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5394591d_7389f18e",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-11-06T20:57:48Z",
       "side": 1,
       "message": "Can you also show an example of the `build_args` as well? \n\n\n\n```suggestion\n  war_deploy\n  \nand build_args is the argument passed to the Bazel build command, e.g.,\n\n  --config:java21\n```",
+      "revId": "d53426cbc1df8d0252b6f43be5107abd3cfbb2d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8630a5a_00154b20",
+        "filename": "tools/maven/api.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-11-06T21:49:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5394591d_7389f18e",
       "revId": "d53426cbc1df8d0252b6f43be5107abd3cfbb2d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

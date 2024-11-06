@@ -22,6 +22,7 @@ import static java.util.Comparator.comparing;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.BranchNameKey;
@@ -43,6 +44,7 @@ import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.GroupCollector;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.patch.filediff.FileDiffOutput;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.ProjectConfig;
@@ -78,6 +80,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
   private CodeReviewCommit alreadyMergedCommit;
   private boolean changeAlreadyMerged;
   private String stickyApprovalDiff;
+  private ImmutableList<FileDiffOutput> modifiedFiles;
 
   protected SubmitStrategyOp(SubmitStrategy.Arguments args, CodeReviewCommit toMerge) {
     this.args = args;
@@ -440,7 +443,10 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
   private String message(ChangeContext ctx, String body)
       throws AuthException, IOException, PermissionBackendException,
           InvalidChangeOperationException {
-    stickyApprovalDiff = args.submitWithStickyApprovalDiff.apply(ctx.getNotes(), ctx.getUser());
+    modifiedFiles = args.submitWithStickyApprovalDiff.apply(ctx.getNotes(), ctx.getUser());
+    stickyApprovalDiff =
+        args.submitWithStickyApprovalDiff.computeDiffFromModifiedFiles(
+            ctx.getNotes(), ctx.getUser(), modifiedFiles);
     return body + stickyApprovalDiff;
   }
 
@@ -507,7 +513,8 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
               args.caller,
               ctx.getNotify(getId()),
               ctx.getRepoView(),
-              stickyApprovalDiff)
+              stickyApprovalDiff,
+              modifiedFiles)
           .sendAsync();
     } catch (Exception e) {
       logger.atSevere().withCause(e).log("Cannot email merged notification for %s", getId());

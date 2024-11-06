@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7c3565e3_2953a8c3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-11-06T15:15:22Z",
+      "side": 1,
+      "message": "I think that message is in the upstream code? AFAICT, that\u0027s used in SubmitStrategyOp to create the message.\n https://gerrit.googlesource.com/gerrit/+/master/java/com/google/gerrit/server/patch/SubmitWithStickyApprovalDiff.java#142",
+      "parentUuid": "5a7fc841_71fcc95c",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 80
+      },
+      "revId": "ecbd5a6f09e340176ea17d77646e3d8a0f80c287",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9cd3b00d_3218e573",
         "filename": "java/com/google/gerrit/server/mail/EmailFactories.java",
         "patchSetId": 9

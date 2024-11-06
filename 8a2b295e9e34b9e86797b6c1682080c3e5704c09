@@ -16,6 +16,24 @@
       "message": "@david.ostrovsky@gmail.com we are attempting to bump up the version of jgit in 3.11 so that we can use `master` there before the official cut.\n\nIt makes sense to move to jakarta as part of this, WDYT?",
       "revId": "8a2b295e9e34b9e86797b6c1682080c3e5704c09",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c091184_a2ec6cba",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-11-06T05:51:14Z",
+      "side": 1,
+      "message": "This feels like it\u0027s going to be a lot of churn right before the release... Our dev process docs say we shouldn\u0027t do this pre-release and instead should do it post-release on master.\n\nI would love to have stable-3.11 back on jgit master, but I\u0027d rather have a solid 3.11.0 release if I had to pick between the two.",
+      "parentUuid": "1dd27bb7_3c5fa676",
+      "revId": "8a2b295e9e34b9e86797b6c1682080c3e5704c09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -57,6 +57,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import org.eclipse.jgit.attributes.AttributesNodeProvider;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
@@ -216,13 +217,15 @@ public class OutputStreamQuery {
 
         Map<Project.NameKey, Repository> repos = new HashMap<>();
         Map<Project.NameKey, RevWalk> revWalks = new HashMap<>();
+        Map<Project.NameKey, AttributesNodeProvider> attributesNodeProviders = new HashMap<>();
         QueryResult<ChangeData> results = queryProcessor.query(queryBuilder.parse(queryString));
         pluginInfosByChange = queryProcessor.createPluginDefinedInfos(results.entities());
         try {
           AccountAttributeLoader accountLoader = accountAttributeLoaderFactory.create();
           List<ChangeAttribute> changeAttributes = new ArrayList<>();
           for (ChangeData d : results.entities()) {
-            changeAttributes.add(buildChangeAttribute(d, repos, revWalks, accountLoader));
+            changeAttributes.add(
+                buildChangeAttribute(d, repos, revWalks, accountLoader, attributesNodeProviders));
           }
           accountLoader.fill();
           changeAttributes.forEach(c -> show(c));
@@ -259,7 +262,8 @@ public class OutputStreamQuery {
       ChangeData d,
       Map<Project.NameKey, Repository> repos,
       Map<Project.NameKey, RevWalk> revWalks,
-      AccountAttributeLoader accountLoader)
+      AccountAttributeLoader accountLoader,
+      Map<Project.NameKey, AttributesNodeProvider> attributesNodeProviders)
       throws IOException {
     ChangeAttribute c = eventFactory.asChangeAttribute(d.change(), accountLoader);
     c.hashtags = Lists.newArrayList(d.hashtags());
@@ -287,21 +291,26 @@ public class OutputStreamQuery {
     if (includePatchSets || includeCurrentPatchSet || includeDependencies) {
       Project.NameKey p = d.change().getProject();
       Repository repo;
+      AttributesNodeProvider attributesNodeProvider;
       RevWalk rw = revWalks.get(p);
-      // Cache and reuse repos and revwalks.
+      // Cache and reuse repos, revWalks, and attributesNodeProviders.
       if (rw == null) {
         repo = repoManager.openRepository(p);
         checkState(repos.put(p, repo) == null);
         rw = new RevWalk(repo);
         revWalks.put(p, rw);
+        attributesNodeProvider = repo.createAttributesNodeProvider();
+        attributesNodeProviders.put(p, attributesNodeProvider);
       } else {
         repo = repos.get(p);
+        attributesNodeProvider = attributesNodeProviders.get(p);
       }
 
       if (includePatchSets) {
         eventFactory.addPatchSets(
             rw,
             repo.getConfig(),
+            attributesNodeProvider,
             c,
             includeApprovals ? d.conditionallyLoadApprovalsWithCopied().asMap() : null,
             includeFiles,
@@ -328,7 +337,13 @@ public class OutputStreamQuery {
             }
           } else {
             c.currentPatchSet =
-                eventFactory.asPatchSetAttribute(rw, repo.getConfig(), d, current, accountLoader);
+                eventFactory.asPatchSetAttribute(
+                    rw,
+                    repo.getConfig(),
+                    repo.createAttributesNodeProvider(),
+                    d,
+                    current,
+                    accountLoader);
             if (includeFiles) {
               eventFactory.addPatchSetFileNames(c.currentPatchSet, d.change(), d.currentPatchSet());
             }

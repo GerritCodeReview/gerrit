@@ -122,7 +122,8 @@ public class CherryPick extends SubmitStrategy {
                 0,
                 false,
                 false,
-                useDiff3);
+                useDiff3,
+                ctx.getRepoView().getAttributesNodeProvider());
       } catch (MergeConflictException mce) {
         // Keep going in the case of a single merge failure; the goal is to
         // cherry-pick as many commits as possible.
@@ -213,7 +214,8 @@ public class CherryPick extends SubmitStrategy {
                 ctx.getRepoView().getConfig(),
                 args.destBranch,
                 mergeTip.getCurrentTip(),
-                toMerge);
+                toMerge,
+                ctx.getRepoView().getAttributesNodeProvider());
         result = amendGitlink(result);
         mergeTip.moveTipTo(result, toMerge);
         args.mergeUtil.markCleanMerges(

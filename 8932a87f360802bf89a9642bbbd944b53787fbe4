@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd904d3b_d15abe66",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-11-06T17:22:45Z",
+      "side": 1,
+      "message": "you need to fix the import of CacheInfo in H2CacheImpl",
+      "revId": "8932a87f360802bf89a9642bbbd944b53787fbe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

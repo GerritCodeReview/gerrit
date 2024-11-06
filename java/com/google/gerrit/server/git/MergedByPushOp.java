@@ -17,6 +17,7 @@ package com.google.gerrit.server.git;
 import static com.google.gerrit.server.mail.EmailFactories.CHANGE_MERGED;
 import static java.util.Objects.requireNonNull;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelId;
@@ -196,7 +197,8 @@ public class MergedByPushOp implements BatchUpdateOp {
                               ctx.getProject(),
                               psId.changeId(),
                               emailFactories.createMergedChangeEmail(
-                                  /* stickyApprovalDiff= */ Optional.empty()));
+                                  /* stickyApprovalDiff= */ Optional.empty(),
+                                  /* modifiedFiles= */ ImmutableList.of()));
                       changeEmail.setPatchSet(patchSet, info);
                       OutgoingEmail outgoingEmail =
                           emailFactories.createOutgoingEmail(CHANGE_MERGED, changeEmail);

@@ -14,8 +14,10 @@
 
 package com.google.gerrit.server.patch;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.entities.LabelId;
@@ -105,33 +107,26 @@ public class SubmitWithStickyApprovalDiff {
             CommentCumulativeSizeValidator.DEFAULT_CUMULATIVE_COMMENT_SIZE_LIMIT);
   }
 
-  public String apply(ChangeNotes notes, CurrentUser currentUser)
+  public String computeDiffFromModifiedFiles(
+      ChangeNotes notes, CurrentUser currentUser, ImmutableList<FileDiffOutput> modifiedFilesList)
       throws AuthException, IOException, PermissionBackendException,
           InvalidChangeOperationException {
+
     PatchSet currentPatchset = notes.getCurrentPatchSet();
 
     Optional<PatchSet.Id> latestApprovedPatchsetId = getLatestApprovedPatchsetId(notes);
+
     if (latestApprovedPatchsetId.isEmpty()
         || latestApprovedPatchsetId.get().get() == currentPatchset.id().get()) {
       // If the latest approved patchset is the current patchset, no need to return anything.
       return "";
     }
+
     StringBuilder diff =
         new StringBuilder(
             String.format(
                 "\n\n%d is the latest approved patch-set.\n",
                 latestApprovedPatchsetId.get().get()));
-    Map<String, FileDiffOutput> modifiedFiles =
-        listModifiedFiles(
-            notes.getProjectName(),
-            currentPatchset,
-            notes.getPatchSets().get(latestApprovedPatchsetId.get()));
-
-    // To make the message a bit more concise, we skip the magic files.
-    List<FileDiffOutput> modifiedFilesList =
-        modifiedFiles.values().stream()
-            .filter(p -> !Patch.isMagic(p.newPath().orElse("")))
-            .collect(Collectors.toList());
 
     if (modifiedFilesList.isEmpty()) {
       diff.append(
@@ -140,6 +135,7 @@ public class SubmitWithStickyApprovalDiff {
     }
 
     diff.append("The change was submitted with unreviewed changes in the following files:\n\n");
+
     TemporaryBuffer.Heap buffer =
         new TemporaryBuffer.Heap(
             Math.min(HEAP_EST_SIZE, DEFAULT_POST_SUBMIT_SIZE_LIMIT),
@@ -182,7 +178,33 @@ public class SubmitWithStickyApprovalDiff {
                 isDiffTooLarge));
       }
     }
+
     return diff.toString();
+  }
+
+  /** Returns the list of modified files */
+  public ImmutableList<FileDiffOutput> apply(ChangeNotes notes, CurrentUser currentUser)
+      throws AuthException, IOException, PermissionBackendException,
+          InvalidChangeOperationException {
+    PatchSet currentPatchset = notes.getCurrentPatchSet();
+
+    Optional<PatchSet.Id> latestApprovedPatchsetId = getLatestApprovedPatchsetId(notes);
+    if (latestApprovedPatchsetId.isEmpty()
+        || latestApprovedPatchsetId.get().get() == currentPatchset.id().get()) {
+      // If the latest approved patchset is the current patchset, no need to return anything.
+      return ImmutableList.of();
+    }
+
+    Map<String, FileDiffOutput> modifiedFiles =
+        listModifiedFiles(
+            notes.getProjectName(),
+            currentPatchset,
+            notes.getPatchSets().get(latestApprovedPatchsetId.get()));
+
+    // To make the message a bit more concise, we skip the magic files.
+    return modifiedFiles.values().stream()
+        .filter(p -> !Patch.isMagic(p.newPath().orElse("")))
+        .collect(toImmutableList());
   }
 
   private String getDiffForFile(

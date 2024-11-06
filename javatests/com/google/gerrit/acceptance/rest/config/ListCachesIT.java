@@ -21,7 +21,7 @@ import com.google.common.collect.Ordering;
 import com.google.common.io.BaseEncoding;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.server.cache.CacheInfo;
+import com.google.gerrit.extensions.common.CacheInfo;
 import com.google.gson.reflect.TypeToken;
 import java.util.Arrays;
 import java.util.List;

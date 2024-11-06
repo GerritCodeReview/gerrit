@@ -26,6 +26,9 @@ where COMMAND is one of
   war_install
   war_deploy
 
+and build_args is the argument passed to the Bazel build command, e.g.,
+  --config:java21
+
 Set VERBOSE in the environment to get more information.
 
 EOF
@@ -69,4 +72,4 @@ fi
 ${BAZEL_CMD} build //tools/maven:gen_${command} "$@" || \
   { echo "${BAZEL_CMD} failed to build gen_${command}. Use VERBOSE=1 for more info" ; exit 1 ; }
 
-./bazel-bin/tools/maven/${command}.sh
+./bazel-bin/tools/maven/${command}.sh "$@"

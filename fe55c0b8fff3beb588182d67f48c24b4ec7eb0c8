@@ -52,6 +52,24 @@
       "parentUuid": "9d58d249_d3b44c2b",
       "revId": "fe55c0b8fff3beb588182d67f48c24b4ec7eb0c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d5c999f_161c2c79",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-11-06T22:16:52Z",
+      "side": 1,
+      "message": "we may consider to use an existing framework to support stacked authentication e.g.\n- Apache Shiro (https://shiro.apache.org)\n- Keycloak (https://www.keycloak.org)\n- JAAS (https://docs.oracle.com/en/java/javase/21/security/java-authentication-and-authorization-service-jaas-reference-guide.html)\n- Micronaut Security (https://guides.micronaut.io/latest/index.html#security)",
+      "parentUuid": "d11c0094_799f2e55",
+      "revId": "fe55c0b8fff3beb588182d67f48c24b4ec7eb0c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

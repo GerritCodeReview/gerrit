@@ -18,6 +18,7 @@ import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.common.Version;
+import com.google.gerrit.extensions.api.config.CachesApi;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInput;
 import com.google.gerrit.extensions.api.config.ExperimentApi;
@@ -25,18 +26,21 @@ import com.google.gerrit.extensions.api.config.Server;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
+import com.google.gerrit.extensions.common.CacheInfo;
 import com.google.gerrit.extensions.common.ExperimentInfo;
 import com.google.gerrit.extensions.common.ServerInfo;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.webui.TopMenu;
 import com.google.gerrit.server.config.ConfigResource;
+import com.google.gerrit.server.restapi.config.CachesCollection;
 import com.google.gerrit.server.restapi.config.CheckConsistency;
 import com.google.gerrit.server.restapi.config.ExperimentsCollection;
 import com.google.gerrit.server.restapi.config.GetDiffPreferences;
 import com.google.gerrit.server.restapi.config.GetEditPreferences;
 import com.google.gerrit.server.restapi.config.GetPreferences;
 import com.google.gerrit.server.restapi.config.GetServerInfo;
+import com.google.gerrit.server.restapi.config.ListCaches;
 import com.google.gerrit.server.restapi.config.ListExperiments;
 import com.google.gerrit.server.restapi.config.ListTopMenus;
 import com.google.gerrit.server.restapi.config.SetDiffPreferences;
@@ -46,6 +50,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.util.List;
+import java.util.Map;
 
 @Singleton
 public class ServerImpl implements Server {
@@ -61,6 +66,9 @@ public class ServerImpl implements Server {
   private final ExperimentApiImpl.Factory experimentApi;
   private final ExperimentsCollection experimentsCollection;
   private final Provider<ListExperiments> listExperimentsProvider;
+  private final CachesApiImpl.Factory cachesApi;
+  private final CachesCollection cachesCollection;
+  private final Provider<ListCaches> listCachesProvider;
 
   @Inject
   ServerImpl(
@@ -75,7 +83,10 @@ public class ServerImpl implements Server {
       ListTopMenus listTopMenus,
       ExperimentApiImpl.Factory experimentApi,
       ExperimentsCollection experimentsCollection,
-      Provider<ListExperiments> listExperimentsProvider) {
+      Provider<ListExperiments> listExperimentsProvider,
+      CachesApiImpl.Factory cachesApi,
+      CachesCollection cachesCollection,
+      Provider<ListCaches> listCachesProvider) {
     this.getPreferences = getPreferences;
     this.setPreferences = setPreferences;
     this.getDiffPreferences = getDiffPreferences;
@@ -88,6 +99,9 @@ public class ServerImpl implements Server {
     this.experimentApi = experimentApi;
     this.experimentsCollection = experimentsCollection;
     this.listExperimentsProvider = listExperimentsProvider;
+    this.cachesApi = cachesApi;
+    this.cachesCollection = cachesCollection;
+    this.listCachesProvider = listCachesProvider;
   }
 
   @Override
@@ -209,6 +223,27 @@ public class ServerImpl implements Server {
       return listExperiments.apply(new ConfigResource()).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot retrieve experiments", e);
+    }
+  }
+
+  @Override
+  public CachesApi caches(String name) throws RestApiException {
+    try {
+      return cachesApi.create(
+          cachesCollection.parse(new ConfigResource(), IdString.fromDecoded(name)));
+    } catch (Exception e) {
+      throw asRestApiException("Cannot parse cache", e);
+    }
+  }
+
+  @SuppressWarnings("unchecked")
+  @Override
+  public Map<String, CacheInfo> listCaches() throws RestApiException {
+    try {
+      ListCaches listCaches = listCachesProvider.get();
+      return (Map<String, CacheInfo>) listCaches.apply(new ConfigResource()).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot retrieve caches", e);
     }
   }
 }

@@ -19,11 +19,13 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
+import com.google.gerrit.extensions.common.CacheInfo;
 import com.google.gerrit.extensions.common.ExperimentInfo;
 import com.google.gerrit.extensions.common.ServerInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.webui.TopMenu;
 import java.util.List;
+import java.util.Map;
 
 public interface Server {
   /** Returns version of server. */
@@ -53,6 +55,10 @@ public interface Server {
   ExperimentApi experiment(String name) throws RestApiException;
 
   ListExperimentsRequest listExperiments() throws RestApiException;
+
+  CachesApi caches(String name) throws RestApiException;
+
+  Map<String, CacheInfo> listCaches() throws RestApiException;
 
   abstract class ListExperimentsRequest {
     private boolean enabledOnly;

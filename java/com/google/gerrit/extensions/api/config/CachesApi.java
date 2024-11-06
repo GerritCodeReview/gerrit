@@ -1,4 +1,4 @@
-// Copyright (C) 2014 The Android Open Source Project
+// Copyright (C) 2024 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,20 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.restapi.config;
+package com.google.gerrit.extensions.api.config;
 
 import com.google.gerrit.extensions.common.CacheInfo;
-import com.google.gerrit.extensions.restapi.Response;
-import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.server.cache.CacheInfoFactory;
-import com.google.gerrit.server.config.CacheResource;
-import com.google.inject.Singleton;
+import com.google.gerrit.extensions.restapi.RestApiException;
 
-@Singleton
-public class GetCache implements RestReadView<CacheResource> {
+public interface CachesApi {
+  CacheInfo get() throws RestApiException;
 
-  @Override
-  public Response<CacheInfo> apply(CacheResource rsrc) {
-    return Response.ok(CacheInfoFactory.create(rsrc.getName(), rsrc.getCache()));
-  }
+  void flush() throws RestApiException;
 }

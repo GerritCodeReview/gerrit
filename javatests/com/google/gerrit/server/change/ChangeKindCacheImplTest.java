@@ -87,7 +87,12 @@ public class ChangeKindCacheImplTest {
 
     assertThat(
             changeKindCache.getChangeKind(
-                p.getRepository().getDescription().getProject(), null, null, firstRev, secondRev))
+                p.getRepository().getDescription().getProject(),
+                null,
+                null,
+                null,
+                firstRev,
+                secondRev))
         .isEqualTo(ChangeKind.NO_CODE_CHANGE);
   }
 
@@ -100,7 +105,7 @@ public class ChangeKindCacheImplTest {
 
     assertThat(
             changeKindCache.getChangeKind(
-                p.getRepository().getDescription().getProject(), null, null, rev, rev))
+                p.getRepository().getDescription().getProject(), null, null, null, rev, rev))
         .isEqualTo(ChangeKind.NO_CHANGE);
   }
 
@@ -115,7 +120,12 @@ public class ChangeKindCacheImplTest {
 
     assertThat(
             changeKindCache.getChangeKind(
-                p.getRepository().getDescription().getProject(), null, null, firstRev, secondRev))
+                p.getRepository().getDescription().getProject(),
+                null,
+                null,
+                null,
+                firstRev,
+                secondRev))
         .isEqualTo(ChangeKind.NO_CHANGE);
   }
 
@@ -130,7 +140,12 @@ public class ChangeKindCacheImplTest {
 
     assertThat(
             changeKindCache.getChangeKind(
-                p.getRepository().getDescription().getProject(), null, null, firstRev, secondRev))
+                p.getRepository().getDescription().getProject(),
+                null,
+                null,
+                null,
+                firstRev,
+                secondRev))
         .isEqualTo(ChangeKind.REWORK);
   }
 
@@ -148,7 +163,12 @@ public class ChangeKindCacheImplTest {
 
     assertThat(
             changeKindCache.getChangeKind(
-                p.getRepository().getDescription().getProject(), null, null, firstRev, secondRev))
+                p.getRepository().getDescription().getProject(),
+                null,
+                null,
+                null,
+                firstRev,
+                secondRev))
         .isEqualTo(ChangeKind.REWORK);
   }
 
@@ -166,7 +186,12 @@ public class ChangeKindCacheImplTest {
 
     assertThat(
             changeKindCache.getChangeKind(
-                p.getRepository().getDescription().getProject(), null, null, firstRev, secondRev))
+                p.getRepository().getDescription().getProject(),
+                null,
+                null,
+                null,
+                firstRev,
+                secondRev))
         .isEqualTo(ChangeKind.REWORK);
   }
 
@@ -183,7 +208,12 @@ public class ChangeKindCacheImplTest {
 
     assertThat(
             changeKindCache.getChangeKind(
-                p.getRepository().getDescription().getProject(), null, null, firstRev, secondRev))
+                p.getRepository().getDescription().getProject(),
+                null,
+                null,
+                null,
+                firstRev,
+                secondRev))
         .isEqualTo(ChangeKind.TRIVIAL_REBASE);
   }
 
@@ -200,8 +230,41 @@ public class ChangeKindCacheImplTest {
 
     assertThat(
             changeKindCache.getChangeKind(
-                p.getRepository().getDescription().getProject(), null, null, firstRev, secondRev))
+                p.getRepository().getDescription().getProject(),
+                null,
+                null,
+                null,
+                firstRev,
+                secondRev))
         .isEqualTo(ChangeKind.TRIVIAL_REBASE_WITH_MESSAGE_UPDATE);
+  }
+
+  @Test
+  public void trivialRebaseUnionContentMerge() throws Exception {
+    TestRepository<Repo> p = newRepo("p");
+    RevCommit root =
+        p.commit().add("foo.txt", "foo-text").add(".gitattributes", "*.txt merge=union").create();
+    RevCommit firstRev =
+        p.commit().parent(root).message("Commit message").add("foo.txt", "bar-text").create();
+    // Same file was added.
+    RevCommit newRoot = p.commit().parent(root).add("foo.txt", "baz-text").create();
+    // Simulate the rebase adding content from both without conflict markers
+    RevCommit secondRev =
+        p.commit()
+            .parent(newRoot)
+            .message("Commit message")
+            .add("foo.txt", "baz-text\nbar-text")
+            .create();
+
+    assertThat(
+            changeKindCache.getChangeKind(
+                p.getRepository().getDescription().getProject(),
+                null,
+                null,
+                null,
+                firstRev,
+                secondRev))
+        .isEqualTo(ChangeKind.TRIVIAL_REBASE);
   }
 
   private TestRepository<Repo> newRepo(String name) throws Exception {

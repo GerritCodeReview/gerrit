@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "887d1af0_946d4010",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-11-06T09:49:08Z",
+      "side": 1,
+      "message": "I think you have a point @nasser.grainawi@oss.qualcomm.com.\nThis is too much for 3.11.\n\nLet\u0027s resume this work on master, perhaps @david.ostrovsky@gmail.com would like to  resume his work at [1].\n\nLet\u0027s abandon this chain.\n\n\n[1]https://gerrit-review.googlesource.com/q/topic:%22jakarta.servlet%22",
+      "parentUuid": "4978b704_ed5ffa38",
+      "revId": "8622f013eb7886ee833a557e6392f9251a3a822f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8c9f6ac3_20dcbac0",

@@ -31,6 +31,8 @@ import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.mail.send.ChangeEmail.ChangeEmailDecorator;
+import com.google.gerrit.server.patch.filediff.FileDiffOutput;
+import java.util.List;
 import java.util.Optional;
 
 /** Send notice about a change successfully merged. */
@@ -43,11 +45,18 @@ public class MergedChangeEmailDecorator implements ChangeEmailDecorator {
   protected LabelTypes labelTypes;
   protected final EmailArguments args;
   protected final Optional<String> stickyApprovalDiff;
+  // This is only used in google-internal override.
+  // It is helpful to keep this here, for bringing internal override into
+  // upstream later
+  protected final List<FileDiffOutput> modifiedFiles;
 
   public MergedChangeEmailDecorator(
-      @Provided EmailArguments args, Optional<String> stickyApprovalDiff) {
+      @Provided EmailArguments args,
+      Optional<String> stickyApprovalDiff,
+      List<FileDiffOutput> modifiedFiles) {
     this.args = args;
     this.stickyApprovalDiff = stickyApprovalDiff;
+    this.modifiedFiles = modifiedFiles;
   }
 
   @Override

@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "4264c8cf_1563f20b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-11-06T17:36:39Z",
+      "side": 1,
+      "message": "mention this new API in release notes",
+      "revId": "8932a87f360802bf89a9642bbbd944b53787fbe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "bd904d3b_d15abe66",

@@ -13,7 +13,6 @@ import {
   stubBaseUrl,
   waitEventLoop,
   waitUntilCalled,
-  assertFails,
 } from '../../../test/test-utils';
 import {assert} from '@open-wc/testing';
 import {testResolver} from '../../../test/common-test-setup';
@@ -23,7 +22,6 @@ import {GrJsApiInterface} from './gr-js-api-interface-element';
 import {Plugin} from './gr-public-js-api';
 import {
   ChangeInfo,
-  HttpMethod,
   NumericChangeId,
   PatchSetNum,
   RevisionPatchSetNum,
@@ -43,7 +41,6 @@ suite('GrJsApiInterface tests', () => {
   let errorStub: SinonStub;
   let pluginLoader: PluginLoader;
 
-  let sendStub: SinonStub;
   let clock: SinonFakeTimers;
 
   const throwErrFn = function () {
@@ -57,9 +54,6 @@ suite('GrJsApiInterface tests', () => {
       name: 'Judy Hopps',
       registered_on: '' as Timestamp,
     });
-    sendStub = stubRestApi('send').resolves(
-      new Response(undefined, {status: 200})
-    );
     pluginLoader = testResolver(pluginLoaderToken);
 
     // We are using the jsApiService as the implementation class rather than the
@@ -89,28 +83,6 @@ suite('GrJsApiInterface tests', () => {
       plugin.url('/static/test.js'),
       'http://test.com/plugins/testplugin/static/test.js'
     );
-  });
-
-  test('_send on failure rejects with response text', async () => {
-    sendStub.resolves({
-      status: 400,
-      text() {
-        return Promise.resolve('text');
-      },
-    });
-    const error = await assertFails<Error>(plugin._send(HttpMethod.POST, ''));
-    assert.equal(error.message, 'text');
-  });
-
-  test('_send on failure without text rejects with code', async () => {
-    sendStub.resolves({
-      status: 400,
-      text() {
-        return Promise.resolve(null);
-      },
-    });
-    const error = await assertFails<Error>(plugin._send(HttpMethod.POST, ''));
-    assert.equal(error.message, '400');
   });
 
   test('showchange event', async () => {

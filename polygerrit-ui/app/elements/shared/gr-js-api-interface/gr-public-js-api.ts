@@ -14,11 +14,9 @@ import {GrAnnotationActionsInterface} from './gr-annotation-actions-js-api';
 import {GrEventHelper} from '../../plugins/gr-event-helper/gr-event-helper';
 import {GrPluginRestApi} from './gr-plugin-rest-api';
 import {EndpointType, GrPluginEndpoints} from './gr-plugin-endpoints';
-import {getPluginNameFromUrl, send} from './gr-api-utils';
+import {getPluginNameFromUrl} from './gr-api-utils';
 import {GrReportingJsApi} from './gr-reporting-js-api';
 import {EventType, PluginApi, TargetElement} from '../../../api/plugin';
-import {RequestPayload} from '../../../types/common';
-import {HttpMethod} from '../../../constants/constants';
 import {GrChangeActions} from '../../change/gr-change-actions/gr-change-actions';
 import {GrChecksApi} from '../../plugins/gr-checks-api/gr-checks-api';
 import {AdminPluginApi} from '../../../api/admin';
@@ -178,15 +176,6 @@ export class Plugin implements PluginApi {
     const base = getBaseUrl();
     const tokenPart = screenName ? '/' + screenName : '';
     return `${origin}${base}/x/${this.getPluginName()}${tokenPart}`;
-  }
-
-  _send(
-    method: HttpMethod,
-    url: string,
-    callback?: SendCallback,
-    payload?: RequestPayload
-  ) {
-    return send(this.restApiService, method, this.url(url), callback, payload);
   }
 
   annotationApi(): AnnotationPluginApi {

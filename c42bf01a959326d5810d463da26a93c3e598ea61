@@ -65,6 +65,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b5c6677_eaab9a43",
+        "filename": "java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-11-06T17:36:04Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "faf988cc_530ebe43",
+      "range": {
+        "startLine": 103,
+        "startChar": 18,
+        "endLine": 103,
+        "endChar": 35
+      },
+      "revId": "c42bf01a959326d5810d463da26a93c3e598ea61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dab59d90_a2e06fad",

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "be5c42d7_00487583",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-11-06T08:16:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "82b62b29_f3ab65e0",
+      "range": {
+        "startLine": 13,
+        "startChar": 67,
+        "endLine": 13,
+        "endChar": 73
+      },
+      "revId": "1e9bbe07e5fe9c5570e0c787cde2e789c3f1f511",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ed41fe8f_4391d346",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-11-05T21:03:34Z",
       "side": 1,
       "message": "matching",
+      "range": {
+        "startLine": 20,
+        "startChar": 45,
+        "endLine": 20,
+        "endChar": 53
+      },
+      "revId": "1e9bbe07e5fe9c5570e0c787cde2e789c3f1f511",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "982606a1_562f5caf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-11-06T08:16:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed41fe8f_4391d346",
       "range": {
         "startLine": 20,
         "startChar": 45,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "962c327b_4190c65c",
+        "filename": "java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-11-06T08:16:28Z",
+      "side": 1,
+      "message": "Removed. Lowercasing input string directly in the `search` method.",
+      "parentUuid": "f32626ff_52602293",
+      "range": {
+        "startLine": 297,
+        "startChar": 0,
+        "endLine": 299,
+        "endChar": 5
+      },
+      "revId": "1e9bbe07e5fe9c5570e0c787cde2e789c3f1f511",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "39db835b_abc2677d",
@@ -83,6 +155,30 @@
       "writtenOn": "2024-11-05T21:03:34Z",
       "side": 1,
       "message": "Why do we need all this duplicate logic here?",
+      "range": {
+        "startLine": 399,
+        "startChar": 0,
+        "endLine": 405,
+        "endChar": 5
+      },
+      "revId": "1e9bbe07e5fe9c5570e0c787cde2e789c3f1f511",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f49efbda_26225d0d",
+        "filename": "java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-11-06T08:16:28Z",
+      "side": 1,
+      "message": "Removed. Lowercasing in the `search` method.",
+      "parentUuid": "39db835b_abc2677d",
       "range": {
         "startLine": 399,
         "startChar": 0,

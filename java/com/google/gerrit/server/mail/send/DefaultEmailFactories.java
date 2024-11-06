@@ -26,6 +26,7 @@ import com.google.gerrit.server.mail.EmailFactories;
 import com.google.gerrit.server.mail.send.ChangeEmail.ChangeEmailDecorator;
 import com.google.gerrit.server.mail.send.InboundEmailRejectionEmailDecorator.InboundEmailError;
 import com.google.gerrit.server.mail.send.OutgoingEmail.EmailDecorator;
+import com.google.gerrit.server.patch.filediff.FileDiffOutput;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -99,8 +100,9 @@ public class DefaultEmailFactories implements EmailFactories {
   }
 
   @Override
-  public ChangeEmailDecorator createMergedChangeEmail(Optional<String> stickyApprovalDiff) {
-    return mergedChangeEmailFactory.create(stickyApprovalDiff);
+  public ChangeEmailDecorator createMergedChangeEmail(
+      Optional<String> stickyApprovalDiff, List<FileDiffOutput> modifiedFiles) {
+    return mergedChangeEmailFactory.create(stickyApprovalDiff, modifiedFiles);
   }
 
   @Override

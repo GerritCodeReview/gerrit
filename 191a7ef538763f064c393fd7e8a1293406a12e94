@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2fbf156_b8fc74fd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-11-06T21:52:30Z",
+      "side": 1,
+      "message": "I believe this should be mentioned, as you may need to generate different API for different flavours of Java. If you are a Gerrit admin and you need to rebuild the APIs or some plugins.",
+      "range": {
+        "startLine": 27,
+        "startChar": 15,
+        "endLine": 27,
+        "endChar": 19
+      },
+      "revId": "191a7ef538763f064c393fd7e8a1293406a12e94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

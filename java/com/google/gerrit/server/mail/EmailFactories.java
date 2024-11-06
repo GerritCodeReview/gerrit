@@ -14,10 +14,10 @@
 
 package com.google.gerrit.server.mail;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.extensions.client.ChangeKind;
@@ -34,7 +34,7 @@ import com.google.gerrit.server.mail.send.OutgoingEmail.EmailDecorator;
 import com.google.gerrit.server.mail.send.RegisterNewEmailDecorator;
 import com.google.gerrit.server.mail.send.ReplacePatchSetChangeEmailDecorator;
 import com.google.gerrit.server.mail.send.StartReviewChangeEmailDecorator;
-import java.util.List;
+import com.google.gerrit.server.patch.filediff.FileDiffOutput;
 import java.util.Map;
 import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
@@ -125,7 +125,8 @@ public interface EmailFactories {
   ChangeEmailDecorator createDeleteVoteChangeEmail();
 
   /** ChangeEmail decorator that adds information about change being merged to the email. */
-  ChangeEmailDecorator createMergedChangeEmail(Optional<String> stickyApprovalDiff);
+  ChangeEmailDecorator createMergedChangeEmail(
+      Optional<String> stickyApprovalDiff, ImmutableList<FileDiffOutput> modifiedFiles);
 
   /** ChangeEmail decorator that adds information about a new patchset added to the change. */
   ReplacePatchSetChangeEmailDecorator createReplacePatchSetChangeEmail(

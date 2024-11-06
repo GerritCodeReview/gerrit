@@ -15,6 +15,7 @@
 package com.google.gerrit.server.cache;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.extensions.common.CacheInfo;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Collection;

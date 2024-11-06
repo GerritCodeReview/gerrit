@@ -23,7 +23,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.data.GlobalCapability;
-import com.google.gerrit.server.cache.CacheInfo;
+import com.google.gerrit.extensions.common.CacheInfo;
 import com.google.inject.Inject;
 import org.junit.Test;
 

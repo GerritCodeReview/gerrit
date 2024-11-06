@@ -24,12 +24,13 @@ import static java.util.stream.Collectors.joining;
 import com.google.common.cache.Cache;
 import com.google.common.collect.Streams;
 import com.google.gerrit.extensions.annotations.RequiresAnyCapability;
+import com.google.gerrit.extensions.common.CacheInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.server.cache.CacheInfo;
+import com.google.gerrit.server.cache.CacheInfoFactory;
 import com.google.gerrit.server.config.ConfigResource;
 import com.google.inject.Inject;
 import java.util.Map;
@@ -63,7 +64,8 @@ public class ListCaches implements RestReadView<ConfigResource> {
     Map<String, CacheInfo> cacheInfos = new TreeMap<>();
     for (Extension<Cache<?, ?>> e : cacheMap) {
       cacheInfos.put(
-          cacheNameOf(e.getPluginName(), e.getExportName()), new CacheInfo(e.getProvider().get()));
+          cacheNameOf(e.getPluginName(), e.getExportName()),
+          CacheInfoFactory.create(e.getProvider().get()));
     }
     return cacheInfos;
   }

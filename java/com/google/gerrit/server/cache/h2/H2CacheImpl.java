@@ -28,7 +28,7 @@ import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.server.cache.CacheInfo;
+import com.google.gerrit.extensions.common.CacheInfo;
 import com.google.gerrit.server.cache.PersistentCache;
 import com.google.gerrit.server.cache.serialize.CacheSerializer;
 import com.google.gerrit.server.logging.Metadata;

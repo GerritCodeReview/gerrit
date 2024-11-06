@@ -38,7 +38,7 @@ import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdCac
 import com.google.gerrit.server.account.storage.notedb.AccountNoteDbReadStorageModule;
 import com.google.gerrit.server.account.storage.notedb.AccountNoteDbWriteStorageModule;
 import com.google.gerrit.server.cache.CacheDisplay;
-import com.google.gerrit.server.cache.CacheInfo;
+import com.google.gerrit.server.cache.CacheInfoFactory;
 import com.google.gerrit.server.cache.h2.CacheOptions;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -303,7 +303,7 @@ public class Reindex extends SiteProgram {
       new CacheDisplay(
               sw,
               StreamSupport.stream(cacheMap.spliterator(), false)
-                  .map(e -> new CacheInfo(e.getExportName(), e.get()))
+                  .map(e -> CacheInfoFactory.create(e.getExportName(), e.get()))
                   .collect(Collectors.toList()))
           .displayCaches();
       System.out.print(sw.toString());

@@ -25,5 +25,6 @@ public class ConfigModule extends FactoryModule {
     bind(Server.class).to(ServerImpl.class);
 
     factory(ExperimentApiImpl.Factory.class);
+    factory(CachesApiImpl.Factory.class);
   }
 }

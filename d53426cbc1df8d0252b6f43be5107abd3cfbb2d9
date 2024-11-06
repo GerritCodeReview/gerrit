@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3657abc4_fb25b380",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-11-06T20:57:48Z",
+      "side": 1,
+      "message": "Missing `Release-Notes` footer",
+      "revId": "d53426cbc1df8d0252b6f43be5107abd3cfbb2d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5394591d_7389f18e",
+        "filename": "tools/maven/api.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-11-06T20:57:48Z",
+      "side": 1,
+      "message": "Can you also show an example of the `build_args` as well? \n\n\n\n```suggestion\n  war_deploy\n  \nand build_args is the argument passed to the Bazel build command, e.g.,\n\n  --config:java21\n```",
+      "revId": "d53426cbc1df8d0252b6f43be5107abd3cfbb2d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

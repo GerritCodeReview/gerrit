@@ -20,8 +20,6 @@ import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.l
 import static com.google.gerrit.entities.LabelFunction.ANY_WITH_BLOCK;
 import static com.google.gerrit.entities.LabelFunction.MAX_NO_BLOCK;
 import static com.google.gerrit.entities.LabelFunction.MAX_WITH_BLOCK;
-import static com.google.gerrit.entities.LabelFunction.NO_BLOCK;
-import static com.google.gerrit.entities.LabelFunction.NO_OP;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.extensions.client.ListChangesOption.LABELS;
 import static com.google.gerrit.extensions.client.ListChangesOption.SUBMITTABLE;
@@ -76,10 +74,9 @@ public class CustomLabelIT extends AbstractDaemonTest {
         .update();
   }
 
-  @SuppressWarnings("deprecation")
   @Test
   public void customLabelNoOp_NegativeVoteNotBlock() throws Exception {
-    saveLabelConfig(LABEL.toBuilder().setFunction(NO_OP));
+    saveLabelConfig(LABEL.toBuilder().setNoBlockFunction());
     PushOneCommit.Result r = createChange();
     revision(r).review(new ReviewInput().label(LABEL_NAME, -1));
     ChangeInfo c = getWithLabels(r);
@@ -92,10 +89,9 @@ public class CustomLabelIT extends AbstractDaemonTest {
     assertThat(q.blocking).isNull();
   }
 
-  @SuppressWarnings("deprecation")
   @Test
   public void customLabelNoBlock_NegativeVoteNotBlock() throws Exception {
-    saveLabelConfig(LABEL.toBuilder().setFunction(NO_BLOCK));
+    saveLabelConfig(LABEL.toBuilder().setNoBlockFunction());
     PushOneCommit.Result r = createChange();
     revision(r).review(new ReviewInput().label(LABEL_NAME, -1));
     ChangeInfo c = getWithLabels(r);
@@ -127,7 +123,8 @@ public class CustomLabelIT extends AbstractDaemonTest {
   @SuppressWarnings("deprecation")
   @Test
   public void customLabelMaxNoBlock_MaxVoteSubmittable() throws Exception {
-    saveLabelConfig(LABEL.toBuilder().setFunction(MAX_NO_BLOCK), P.toBuilder().setFunction(NO_OP));
+    saveLabelConfig(
+        LABEL.toBuilder().setFunction(MAX_NO_BLOCK), P.toBuilder().setNoBlockFunction());
     PushOneCommit.Result r = createChange();
     assertThat(info(r.getChangeId()).submittable).isNull();
     revision(r).review(ReviewInput.approve().label(LABEL_NAME, 1));
@@ -239,7 +236,7 @@ public class CustomLabelIT extends AbstractDaemonTest {
   @Test
   public void customLabelMaxWithBlock_MaxVoteSubmittable() throws Exception {
     saveLabelConfig(
-        LABEL.toBuilder().setFunction(MAX_WITH_BLOCK), P.toBuilder().setFunction(NO_OP));
+        LABEL.toBuilder().setFunction(MAX_WITH_BLOCK), P.toBuilder().setNoBlockFunction());
     PushOneCommit.Result r = createChange();
     assertThat(info(r.getChangeId()).submittable).isNull();
     revision(r).review(ReviewInput.approve().label(LABEL_NAME, 1));
@@ -272,12 +269,11 @@ public class CustomLabelIT extends AbstractDaemonTest {
     assertThat(q.blocking).isTrue();
   }
 
-  @SuppressWarnings("deprecation")
   @Test
   public void customLabel_DisallowPostSubmit() throws Exception {
     saveLabelConfig(
-        LABEL.toBuilder().setFunction(NO_OP).setAllowPostSubmit(false),
-        P.toBuilder().setFunction(NO_OP));
+        LABEL.toBuilder().setNoBlockFunction().setAllowPostSubmit(false),
+        P.toBuilder().setNoBlockFunction());
 
     PushOneCommit.Result r = createChange();
     revision(r).review(ReviewInput.approve());

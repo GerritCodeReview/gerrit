@@ -4,10 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {getBaseUrl} from '../../../utils/url-util';
-import {HttpMethod} from '../../../constants/constants';
-import {RequestPayload} from '../../../types/common';
-import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
-import {readJSONResponsePayload} from '../gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 
 export const PLUGIN_LOADING_TIMEOUT_MS = 10000;
 
@@ -55,34 +51,4 @@ export function getPluginNameFromUrl(url: URL | string) {
   // /plugins/PLUGINNAME.js
   // TODO(taoalpha): guard with a regex
   return pathname.split('/')[2].split('.')[0];
-}
-
-export function send(
-  restApiService: RestApiService,
-  method: HttpMethod,
-  url: string,
-  callback?: (response: unknown) => void,
-  payload?: RequestPayload
-) {
-  return restApiService
-    .send(method, url, payload)
-    .then(response => {
-      if (response.status < 200 || response.status >= 300) {
-        return response.text().then((text: string | undefined) => {
-          if (text) {
-            return Promise.reject(new Error(text));
-          } else {
-            return Promise.reject(new Error(`${response.status}`));
-          }
-        });
-      } else {
-        return readJSONResponsePayload(response).then(obj => obj.parsed);
-      }
-    })
-    .then(response => {
-      if (callback) {
-        callback(response);
-      }
-      return response;
-    });
 }

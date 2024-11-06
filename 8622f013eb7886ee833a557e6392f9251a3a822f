@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4978b704_ed5ffa38",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-11-06T05:54:24Z",
+      "side": 1,
+      "message": "I think this is too big to be doing after we\u0027ve already created the stable branch. See https://gerrit-review.googlesource.com/Documentation/dev-processes.html#upgrading-libraries",
+      "revId": "8622f013eb7886ee833a557e6392f9251a3a822f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8c9f6ac3_20dcbac0",

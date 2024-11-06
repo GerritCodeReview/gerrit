@@ -34,6 +34,24 @@
       "parentUuid": "1dd27bb7_3c5fa676",
       "revId": "8a2b295e9e34b9e86797b6c1682080c3e5704c09",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "80340281_59515618",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-11-06T09:51:39Z",
+      "side": 1,
+      "message": "See discussion at [1]\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/441363/comments/4978b704_ed5ffa38",
+      "parentUuid": "1c091184_a2ec6cba",
+      "revId": "8a2b295e9e34b9e86797b6c1682080c3e5704c09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

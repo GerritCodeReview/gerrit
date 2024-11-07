@@ -41,7 +41,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
@@ -616,10 +615,7 @@ public class WorkQueue {
     }
 
     void cancelIfParked(Task<?> task) {
-      Optional<ParkedTask> parkedTask = parked.stream().filter(p -> p.isEqualTo(task)).findFirst();
-      if (parkedTask.isPresent()) {
-        parkedTask.get().cancel();
-      }
+      parked.stream().filter(p -> p.isEqualTo(task)).findFirst().ifPresent(ParkedTask::cancel);
     }
 
     Task<?> getTask(int id) {
@@ -691,7 +687,7 @@ public class WorkQueue {
     }
 
     public void updateParked() {
-      ParkedTask ready = parked.poll();
+      ParkedTask ready = pollTaskToUnPark();
       if (ready == null) {
         return;
       }
@@ -706,7 +702,7 @@ public class WorkQueue {
         } else {
           notReady.add(ready);
         }
-        ready = parked.poll();
+        ready = pollTaskToUnPark();
       }
       parked.addAll(notReady);
 
@@ -722,6 +718,18 @@ public class WorkQueue {
     @Override
     public synchronized void setCorePoolSize(int s) {
       super.setCorePoolSize(s);
+    }
+
+    private ParkedTask pollTaskToUnPark() {
+      ParkedTask parkedTask = parked.poll();
+      while (parkedTask != null && Task.State.CANCELLED.equals(parkedTask.task.getState())) {
+        // If a cancelled task is polled before cancelIfParked invocation, it needs to be cancelled
+        // explicitly since it's no longer in the parked queue and ParkedTask::cancel won't be
+        // invoked for it. Otherwise, it'll take up a thread indefinitely
+        parkedTask.cancel();
+        parkedTask = parked.poll();
+      }
+      return parkedTask;
     }
   }
 

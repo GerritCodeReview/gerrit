@@ -48,7 +48,7 @@ build:remote21 --config=build_java21_shared
 # Define remote21 configuration alias
 build:remote21_gcp --config=remote21
 
-# Builds and executes on BuildBuddy RBE using remotejdk_11
+# Builds and executes on BuildBuddy RBE using remotejdk_21
 build:remote21_bb --config=config_bb
 build:remote21_bb --config=build_java21_shared
 

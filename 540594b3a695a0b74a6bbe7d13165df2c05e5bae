@@ -16,6 +16,24 @@
       "message": "Why do we need this as a config setting? This sounds like a bug.",
       "revId": "540594b3a695a0b74a6bbe7d13165df2c05e5bae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d24c9d04_a2a2ce99",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-11-07T17:03:53Z",
+      "side": 1,
+      "message": "Change Ib522a86 introduced an explicit test to ensure wrong case doesn\u0027t match.\nI guess it might be a legacy use case, however I am wanted to make sure to be back compatible.\n\n@ekempin@google.com do you recall what was the use case for that test?",
+      "parentUuid": "ae4a0f6e_d08c7480",
+      "revId": "540594b3a695a0b74a6bbe7d13165df2c05e5bae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

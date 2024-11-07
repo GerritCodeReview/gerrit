@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6210e5e0_d604bb8c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-11-07T06:05:37Z",
+      "side": 1,
+      "message": "some text but notice the AS component stays expanded",
+      "revId": "d13bd4e6423b3fdc728e94aa97374225d891dc6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c5a9a8d3_5d9732c4",
@@ -38,6 +55,30 @@
           ]
         }
       ],
+      "revId": "d13bd4e6423b3fdc728e94aa97374225d891dc6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d31aed6c_152d07d3",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1378,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-11-07T06:05:37Z",
+      "side": 1,
+      "message": "CommentsRoute maps from patchset where comment was left -\u003e latest patchset so I think it should remain true here.",
+      "parentUuid": "c5a9a8d3_5d9732c4",
+      "range": {
+        "startLine": 1378,
+        "startChar": 8,
+        "endLine": 1378,
+        "endChar": 39
+      },
       "revId": "d13bd4e6423b3fdc728e94aa97374225d891dc6c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

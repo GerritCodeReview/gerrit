@@ -698,7 +698,12 @@ public class WorkQueue {
       List<ParkedTask> notReady = new ArrayList<>();
       while (ready != null && !isReadyToStart(ready.task)) {
         // Do not add a cancelled task back into the parked queue
-        if (Task.State.PARKED.equals(ready.task.getState())) {
+        if (Task.State.CANCELLED.equals(ready.task.getState())) {
+          // If a task is cancelled after poll while evaluating isReadyToStart for listeners, it
+          // needs to be cancelled explicitly since it's no longer in the parked queue, otherwise
+          // it'll take up a thread indefinitely
+          ready.cancel();
+        } else {
           notReady.add(ready);
         }
         ready = parked.poll();

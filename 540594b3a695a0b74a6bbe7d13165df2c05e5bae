@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae4a0f6e_d08c7480",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-11-07T16:27:33Z",
+      "side": 1,
+      "message": "Why do we need this as a config setting? This sounds like a bug.",
+      "revId": "540594b3a695a0b74a6bbe7d13165df2c05e5bae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

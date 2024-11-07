@@ -43,8 +43,7 @@ public class BranchEmailUtils {
 
     // instanceAndProjectName is the instance's name followed by the abbreviated project path
     email.addSoyParam(
-        "instanceAndProjectName",
-        getInstanceAndProjectName(args.instanceNameProvider.get(), projectName));
+        "instanceAndProjectName", getInstanceAndProjectName(args.instanceName, projectName));
     email.addSoyParam("addInstanceNameInSubject", args.addInstanceNameInSubject);
 
     email.addSoyEmailDataParam("sshHost", getSshHost(email.getGerritHost(), args.sshAddresses));

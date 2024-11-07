@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "b5c7d2a6_2875fd17",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-11-07T07:48:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4264c8cf_1563f20b",
+      "revId": "8932a87f360802bf89a9642bbbd944b53787fbe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "bd904d3b_d15abe66",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -65,6 +83,24 @@
       "writtenOn": "2024-11-06T17:34:24Z",
       "side": 1,
       "message": "- this class seems unused, why is it needed ?\n- if it is needed, declare it `static final` ?",
+      "revId": "8932a87f360802bf89a9642bbbd944b53787fbe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8fa4bd54_a2206c3d",
+        "filename": "java/com/google/gerrit/extensions/api/config/CachesApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-11-07T07:48:36Z",
+      "side": 1,
+      "message": "Not sure. I have copied this pattern from other classes that assemble to the internal API client.",
+      "parentUuid": "0d5ff49d_c768d339",
       "revId": "8932a87f360802bf89a9642bbbd944b53787fbe4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -3,6 +3,98 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c6556591_037fb8de",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-11-07T22:13:10Z",
+      "side": 1,
+      "message": "Wrap long line",
+      "range": {
+        "startLine": 7,
+        "startChar": 63,
+        "endLine": 7,
+        "endChar": 74
+      },
+      "revId": "540594b3a695a0b74a6bbe7d13165df2c05e5bae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8872267f_0b20bb8c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-11-07T22:13:10Z",
+      "side": 1,
+      "message": "already exists with a different case?",
+      "range": {
+        "startLine": 14,
+        "startChar": 25,
+        "endLine": 14,
+        "endChar": 46
+      },
+      "revId": "540594b3a695a0b74a6bbe7d13165df2c05e5bae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "211b9100_65dd0345",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-11-07T22:13:10Z",
+      "side": 1,
+      "message": "We should use imperative in commit messages.\n\n_Introduce a flag_",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 21
+      },
+      "revId": "540594b3a695a0b74a6bbe7d13165df2c05e5bae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58439b5d_119a4ca5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-11-07T22:13:10Z",
+      "side": 1,
+      "message": "This is counterintuitive: I must set a `accounts.emailCaseSensitive` to have emails case insensitive?",
+      "range": {
+        "startLine": 17,
+        "startChar": 39,
+        "endLine": 17,
+        "endChar": 55
+      },
+      "revId": "540594b3a695a0b74a6bbe7d13165df2c05e5bae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ae4a0f6e_d08c7480",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 6
@@ -32,6 +124,110 @@
       "side": 1,
       "message": "Change Ib522a86 introduced an explicit test to ensure wrong case doesn\u0027t match.\nI guess it might be a legacy use case, however I am wanted to make sure to be back compatible.\n\n@ekempin@google.com do you recall what was the use case for that test?",
       "parentUuid": "ae4a0f6e_d08c7480",
+      "revId": "540594b3a695a0b74a6bbe7d13165df2c05e5bae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44563834_917ac07b",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-11-07T22:13:10Z",
+      "side": 1,
+      "message": "@nasser.grainawi@oss.qualcomm.com I believe this behaviour came from the transition of the accounts table into the `All-Users.git` repository, with the concept of having the e-mail as secondary id.\n\nIf you have User@Company.com and user@company.com in the external-ids, they will result in different notedb ids.\n\nHowever, Lucene returns case-insensitive matching, therefore @ekempin@google.com introduced a further check for exact matching as post-processing from Lucene.\n\nBottom line: we can\u0027t just _fix the bug_ as-is IMHO, as we\u0027ve been relying on this bug since Gerrit v2.14 (over 12 releases ago).",
+      "parentUuid": "d24c9d04_a2a2ce99",
+      "revId": "540594b3a695a0b74a6bbe7d13165df2c05e5bae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84ba64d1_30942f94",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-11-07T22:13:10Z",
+      "side": 1,
+      "message": "This is counter-intuitive: I would expect a feature to be enabled when you set a flag to true, but here we enable the case-insensitive matching when the flag is set to false.\n\nWe should be consistent with the approach we took for the case-insensitive username matching, see https://gerrit-documentation.storage.googleapis.com/Documentation/3.10.2/config-gerrit.html#auth.userNameCaseInsensitive",
+      "range": {
+        "startLine": 115,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 18
+      },
+      "revId": "540594b3a695a0b74a6bbe7d13165df2c05e5bae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "468cfa64_43a1dae5",
+        "filename": "java/com/google/gerrit/server/config/AccountConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-11-07T22:13:10Z",
+      "side": 1,
+      "message": "nit: remove empty line",
+      "revId": "540594b3a695a0b74a6bbe7d13165df2c05e5bae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9fe2c34_8683801c",
+        "filename": "java/com/google/gerrit/server/config/AccountConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-11-07T22:13:10Z",
+      "side": 1,
+      "message": "```suggestion\n    emailCaseInsensitive \u003d cfg.getBoolean(\"accounts\", null, \"emailCaseInsensitive\", false);\n```",
+      "range": {
+        "startLine": 29,
+        "startChar": 59,
+        "endLine": 29,
+        "endChar": 77
+      },
+      "revId": "540594b3a695a0b74a6bbe7d13165df2c05e5bae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca7ae483_8d4b0355",
+        "filename": "java/com/google/gerrit/server/query/account/InternalAccountQuery.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-11-07T22:13:10Z",
+      "side": 1,
+      "message": "Why using `preferredEmailExact` with a lowercase input? Why not using `preferredEmail` instead?",
+      "range": {
+        "startLine": 111,
+        "startChar": 37,
+        "endLine": 111,
+        "endChar": 56
+      },
       "revId": "540594b3a695a0b74a6bbe7d13165df2c05e5bae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

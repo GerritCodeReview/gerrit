@@ -280,6 +280,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1debc29e_89e30e43",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-11-08T14:54:43Z",
+      "side": 1,
+      "message": "Yes, but if e-mails with different case must be considered as different, Gerrit should allow two accounts (account1 and account2) having two e-mails that differ only in their case (account1 \u003d user@company.com; account2 \u003d User@company.com).\n\nThe above isn\u0027t allowed by Gerrit: two accounts cannot share the same e-mail even if they differ in their case.\n\nHere is the inconsistency:\na) Associating e-mails to accounts is done *case insensitive*\nb) Searching for accounts by e-mail is done *case sensitive*",
+      "parentUuid": "e6ed2e18_9847023c",
+      "revId": "540594b3a695a0b74a6bbe7d13165df2c05e5bae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "84ba64d1_30942f94",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 6

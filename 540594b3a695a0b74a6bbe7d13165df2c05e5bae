@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0993a04c_ee728de7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-11-08T08:03:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6556591_037fb8de",
+      "range": {
+        "startLine": 7,
+        "startChar": 63,
+        "endLine": 7,
+        "endChar": 74
+      },
+      "revId": "540594b3a695a0b74a6bbe7d13165df2c05e5bae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8872267f_0b20bb8c",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-11-07T22:13:10Z",
       "side": 1,
       "message": "already exists with a different case?",
+      "range": {
+        "startLine": 14,
+        "startChar": 25,
+        "endLine": 14,
+        "endChar": 46
+      },
+      "revId": "540594b3a695a0b74a6bbe7d13165df2c05e5bae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b40d3c4e_0f571afa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-11-08T08:03:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8872267f_0b20bb8c",
       "range": {
         "startLine": 14,
         "startChar": 25,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "52af2d17_8b7fbcdd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-11-08T08:03:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "211b9100_65dd0345",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 21
+      },
+      "revId": "540594b3a695a0b74a6bbe7d13165df2c05e5bae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "58439b5d_119a4ca5",
@@ -83,6 +155,30 @@
       "writtenOn": "2024-11-07T22:13:10Z",
       "side": 1,
       "message": "This is counterintuitive: I must set a `accounts.emailCaseSensitive` to have emails case insensitive?",
+      "range": {
+        "startLine": 17,
+        "startChar": 39,
+        "endLine": 17,
+        "endChar": 55
+      },
+      "revId": "540594b3a695a0b74a6bbe7d13165df2c05e5bae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "feb4b7aa_91d4af10",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-11-08T08:03:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "58439b5d_119a4ca5",
       "range": {
         "startLine": 17,
         "startChar": 39,
@@ -169,6 +265,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d3f65f6_52c30f4e",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-11-08T08:03:55Z",
+      "side": 1,
+      "message": "Amended for consistency with other \"casing\" features.\n\n\u003e I would expect a feature to be enabled when you set a flag to true, but here we enable the case-insensitive matching when the flag is set to false.\n\nI think it depends on what you expect the feature to be. In this PS the feature was matching email in a case sensitive way. So it was correct enableing it by default.\n\n\u003e We should be consistent with the approach we took for the case-insensitive username matching, see https://gerrit-documentation.storage.googleapis.com/Documentation/3.10.2/config-gerrit.html#auth.userNameCaseInsensitive\n\nGood point.",
+      "parentUuid": "84ba64d1_30942f94",
+      "range": {
+        "startLine": 115,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 18
+      },
+      "revId": "540594b3a695a0b74a6bbe7d13165df2c05e5bae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "468cfa64_43a1dae5",
@@ -182,6 +302,42 @@
       "writtenOn": "2024-11-07T22:13:10Z",
       "side": 1,
       "message": "nit: remove empty line",
+      "revId": "540594b3a695a0b74a6bbe7d13165df2c05e5bae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "87164ea6_5a71c5e2",
+        "filename": "java/com/google/gerrit/server/config/AccountConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-11-08T08:03:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "468cfa64_43a1dae5",
+      "revId": "540594b3a695a0b74a6bbe7d13165df2c05e5bae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a84dc0d6_3c3ad911",
+        "filename": "java/com/google/gerrit/server/config/AccountConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-11-08T08:03:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "468cfa64_43a1dae5",
       "revId": "540594b3a695a0b74a6bbe7d13165df2c05e5bae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -209,6 +365,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c510d39_0b2109b4",
+        "filename": "java/com/google/gerrit/server/config/AccountConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-11-08T08:03:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9fe2c34_8683801c",
+      "range": {
+        "startLine": 29,
+        "startChar": 59,
+        "endLine": 29,
+        "endChar": 77
+      },
+      "revId": "540594b3a695a0b74a6bbe7d13165df2c05e5bae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a42e8304_cc15fbc0",
+        "filename": "java/com/google/gerrit/server/config/AccountConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-11-08T08:03:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9fe2c34_8683801c",
+      "range": {
+        "startLine": 29,
+        "startChar": 59,
+        "endLine": 29,
+        "endChar": 77
+      },
+      "revId": "540594b3a695a0b74a6bbe7d13165df2c05e5bae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ca7ae483_8d4b0355",
@@ -222,6 +426,30 @@
       "writtenOn": "2024-11-07T22:13:10Z",
       "side": 1,
       "message": "Why using `preferredEmailExact` with a lowercase input? Why not using `preferredEmail` instead?",
+      "range": {
+        "startLine": 111,
+        "startChar": 37,
+        "endLine": 111,
+        "endChar": 56
+      },
+      "revId": "540594b3a695a0b74a6bbe7d13165df2c05e5bae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91b71f04_8a5ea644",
+        "filename": "java/com/google/gerrit/server/query/account/InternalAccountQuery.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-11-08T08:03:55Z",
+      "side": 1,
+      "message": "The input is not always lowercase, only when the flag is enabled. \nI could change the predicate depending on the flag value.\n\nIs your concern just in term of code clarity or can you see any case where the matching would not work?",
+      "parentUuid": "ca7ae483_8d4b0355",
       "range": {
         "startLine": 111,
         "startChar": 37,

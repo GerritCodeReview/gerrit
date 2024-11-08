@@ -46,6 +46,23 @@
       },
       "revId": "28cf0ac46588255d161818f7c10d099468bb67a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d6bcdc5_1b66cafc",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-11-08T09:40:18Z",
+      "side": 1,
+      "message": "```suggestion\nThis will result, for example, in having change Committer and Author\n```",
+      "revId": "28cf0ac46588255d161818f7c10d099468bb67a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

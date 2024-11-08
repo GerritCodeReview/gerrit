@@ -244,6 +244,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "72049417_219b5fd9",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-11-08T09:40:18Z",
+      "side": 1,
+      "message": "It seems the bug you are fixing here may break Gerrit\u0027s assumption that any given mailbox can be associated to at most one Gerrit account if there are multiple accounts using the same email address with different case.",
+      "parentUuid": "44563834_917ac07b",
+      "revId": "540594b3a695a0b74a6bbe7d13165df2c05e5bae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "84ba64d1_30942f94",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 6

@@ -16,6 +16,23 @@
       "message": "I have verified that with MacOS Sequoia, the Gerrit build fails because of the inability to compile protobuf. With this fix, the build succeeds.",
       "revId": "686a78b209e51e804e875150e588d023542cd423",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "67784d65_e758e5fe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-11-08T21:54:57Z",
+      "side": 1,
+      "message": "@ekempin@google.com this is a cherry-pick from master FYI.",
+      "revId": "686a78b209e51e804e875150e588d023542cd423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

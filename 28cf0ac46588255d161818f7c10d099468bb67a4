@@ -22,6 +22,30 @@
       },
       "revId": "28cf0ac46588255d161818f7c10d099468bb67a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58615f27_9cfe4a22",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-11-08T09:38:20Z",
+      "side": 1,
+      "message": "You are actually right, but then Gerrit misbehave anyway, because users are NOT allowed to have two emails with different local part cases.\n\nExample:\n1. Create an empty Gerrit with admin having email admin@mycompany.com\n2. Try to add a secondary email having ADMIN@mycompany.com\n\nGerrit *must* allow that, isn\u0027t it? Instead we get:\n```\nAn error occurred\nError 409 (Conflict): email exists\n\nEndpoint: /account/self/emails/*\n```",
+      "parentUuid": "ee8213f2_4e2b0343",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 38
+      },
+      "revId": "28cf0ac46588255d161818f7c10d099468bb67a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

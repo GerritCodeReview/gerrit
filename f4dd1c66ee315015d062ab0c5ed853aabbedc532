@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80b1fb2b_3a8b9b81",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-11-08T11:23:13Z",
+      "side": 1,
+      "message": "Thanks for the contributed fix, but a fix was just merged already in https://gerrit-review.git.corp.google.com/c/gerrit/+/441762.",
+      "revId": "f4dd1c66ee315015d062ab0c5ed853aabbedc532",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

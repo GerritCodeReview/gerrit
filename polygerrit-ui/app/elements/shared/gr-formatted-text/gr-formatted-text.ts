@@ -102,6 +102,7 @@ export class GrFormattedText extends LitElement {
         }
         .plaintext {
           font: inherit;
+          margin: 0;
           white-space: var(--linked-text-white-space, pre-wrap);
           word-wrap: var(--linked-text-word-wrap, break-word);
         }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee8213f2_4e2b0343",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-11-08T08:07:09Z",
+      "side": 1,
+      "message": "I thought that the local part is actually case sensitive:\nhttps://datatracker.ietf.org/doc/html/rfc5321#:~:text\u003dThe%0A%20%20%20local%2Dpart%20of%20a%20mailbox%20MUST%20BE%20treated%20as%20case%20sensitive.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 38
+      },
+      "revId": "28cf0ac46588255d161818f7c10d099468bb67a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

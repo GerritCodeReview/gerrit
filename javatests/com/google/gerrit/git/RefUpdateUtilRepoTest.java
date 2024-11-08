@@ -16,7 +16,6 @@ package com.google.gerrit.git;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.io.MoreFiles;
 import com.google.common.io.RecursiveDeleteOption;
 import java.nio.file.Files;
@@ -77,8 +76,8 @@ public class RefUpdateUtilRepoTest {
   }
 
   @Parameters(name = "{0}")
-  public static ImmutableList<RepoSetup[]> data() {
-    return ImmutableList.copyOf(new RepoSetup[][] {{RepoSetup.LOCAL_DISK}, {RepoSetup.IN_MEMORY}});
+  public static RepoSetup[] data() {
+    return new RepoSetup[] {RepoSetup.LOCAL_DISK, RepoSetup.IN_MEMORY};
   }
 
   @Parameter public RepoSetup repoSetup;

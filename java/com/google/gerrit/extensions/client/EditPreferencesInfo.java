@@ -14,6 +14,8 @@
 
 package com.google.gerrit.extensions.client;
 
+import static com.google.gerrit.extensions.client.NullableBooleanPreferencesFieldComparator.equalBooleanPreferencesFields;
+
 import com.google.common.base.MoreObjects;
 import com.google.gerrit.common.ConvertibleToProto;
 import java.util.Objects;
@@ -46,16 +48,16 @@ public class EditPreferencesInfo {
         && Objects.equals(this.lineLength, other.lineLength)
         && Objects.equals(this.indentUnit, other.indentUnit)
         && Objects.equals(this.cursorBlinkRate, other.cursorBlinkRate)
-        && Objects.equals(this.hideTopMenu, other.hideTopMenu)
-        && Objects.equals(this.showTabs, other.showTabs)
-        && Objects.equals(this.showWhitespaceErrors, other.showWhitespaceErrors)
-        && Objects.equals(this.syntaxHighlighting, other.syntaxHighlighting)
-        && Objects.equals(this.hideLineNumbers, other.hideLineNumbers)
-        && Objects.equals(this.matchBrackets, other.matchBrackets)
-        && Objects.equals(this.lineWrapping, other.lineWrapping)
-        && Objects.equals(this.indentWithTabs, other.indentWithTabs)
-        && Objects.equals(this.autoCloseBrackets, other.autoCloseBrackets)
-        && Objects.equals(this.showBase, other.showBase);
+        && equalBooleanPreferencesFields(this.hideTopMenu, other.hideTopMenu)
+        && equalBooleanPreferencesFields(this.showTabs, other.showTabs)
+        && equalBooleanPreferencesFields(this.showWhitespaceErrors, other.showWhitespaceErrors)
+        && equalBooleanPreferencesFields(this.syntaxHighlighting, other.syntaxHighlighting)
+        && equalBooleanPreferencesFields(this.hideLineNumbers, other.hideLineNumbers)
+        && equalBooleanPreferencesFields(this.matchBrackets, other.matchBrackets)
+        && equalBooleanPreferencesFields(this.lineWrapping, other.lineWrapping)
+        && equalBooleanPreferencesFields(this.indentWithTabs, other.indentWithTabs)
+        && equalBooleanPreferencesFields(this.autoCloseBrackets, other.autoCloseBrackets)
+        && equalBooleanPreferencesFields(this.showBase, other.showBase);
   }
 
   @Override

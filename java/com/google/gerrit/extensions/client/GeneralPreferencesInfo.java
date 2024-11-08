@@ -14,6 +14,8 @@
 
 package com.google.gerrit.extensions.client;
 
+import static com.google.gerrit.extensions.client.NullableBooleanPreferencesFieldComparator.equalBooleanPreferencesFields;
+
 import com.google.common.base.MoreObjects;
 import com.google.gerrit.common.ConvertibleToProto;
 import java.util.List;
@@ -121,6 +123,7 @@ public class GeneralPreferencesInfo {
 
   /** Number of changes to show in a screen. */
   public Integer changesPerPage;
+
   /** Type of download URL the user prefers to use. */
   public String downloadScheme;
 
@@ -201,26 +204,32 @@ public class GeneralPreferencesInfo {
         && Objects.equals(this.theme, other.theme)
         && Objects.equals(this.dateFormat, other.dateFormat)
         && Objects.equals(this.timeFormat, other.timeFormat)
-        && Objects.equals(this.expandInlineDiffs, other.expandInlineDiffs)
-        && Objects.equals(this.relativeDateInChangeTable, other.relativeDateInChangeTable)
+        && equalBooleanPreferencesFields(this.expandInlineDiffs, other.expandInlineDiffs)
+        && equalBooleanPreferencesFields(
+            this.relativeDateInChangeTable, other.relativeDateInChangeTable)
         && Objects.equals(this.diffView, other.diffView)
-        && Objects.equals(this.sizeBarInChangeTable, other.sizeBarInChangeTable)
-        && Objects.equals(this.legacycidInChangeTable, other.legacycidInChangeTable)
-        && Objects.equals(this.muteCommonPathPrefixes, other.muteCommonPathPrefixes)
-        && Objects.equals(this.signedOffBy, other.signedOffBy)
+        && equalBooleanPreferencesFields(this.sizeBarInChangeTable, other.sizeBarInChangeTable)
+        && equalBooleanPreferencesFields(this.legacycidInChangeTable, other.legacycidInChangeTable)
+        && equalBooleanPreferencesFields(this.muteCommonPathPrefixes, other.muteCommonPathPrefixes)
+        && equalBooleanPreferencesFields(this.signedOffBy, other.signedOffBy)
         && Objects.equals(this.emailStrategy, other.emailStrategy)
         && Objects.equals(this.emailFormat, other.emailFormat)
         && Objects.equals(this.defaultBaseForMerges, other.defaultBaseForMerges)
-        && Objects.equals(this.publishCommentsOnPush, other.publishCommentsOnPush)
-        && Objects.equals(this.disableKeyboardShortcuts, other.disableKeyboardShortcuts)
-        && Objects.equals(this.disableTokenHighlighting, other.disableTokenHighlighting)
-        && Objects.equals(this.workInProgressByDefault, other.workInProgressByDefault)
+        && equalBooleanPreferencesFields(this.publishCommentsOnPush, other.publishCommentsOnPush)
+        && equalBooleanPreferencesFields(
+            this.disableKeyboardShortcuts, other.disableKeyboardShortcuts)
+        && equalBooleanPreferencesFields(
+            this.disableTokenHighlighting, other.disableTokenHighlighting)
+        && equalBooleanPreferencesFields(
+            this.workInProgressByDefault, other.workInProgressByDefault)
         && Objects.equals(this.my, other.my)
         && Objects.equals(this.changeTable, other.changeTable)
-        && Objects.equals(this.allowBrowserNotifications, other.allowBrowserNotifications)
-        && Objects.equals(
+        && equalBooleanPreferencesFields(
+            this.allowBrowserNotifications, other.allowBrowserNotifications)
+        && equalBooleanPreferencesFields(
             this.allowSuggestCodeWhileCommenting, other.allowSuggestCodeWhileCommenting)
-        && Objects.equals(this.allowAutocompletingComments, other.allowAutocompletingComments)
+        && equalBooleanPreferencesFields(
+            this.allowAutocompletingComments, other.allowAutocompletingComments)
         && Objects.equals(this.diffPageSidebar, other.diffPageSidebar);
   }
 

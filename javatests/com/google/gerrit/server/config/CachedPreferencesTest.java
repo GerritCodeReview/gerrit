@@ -50,7 +50,9 @@ public class CachedPreferencesTest {
     CachedPreferences pref = CachedPreferences.fromLegacyConfig(originalCfg);
     GeneralPreferencesInfo general = CachedPreferences.general(Optional.empty(), pref);
 
-    assertThat(general.changesPerPage).isEqualTo(2);
+    GeneralPreferencesInfo expected = GeneralPreferencesInfo.defaults();
+    expected.changesPerPage = 2;
+    assertThat(cleanGeneralPreferences(general)).isEqualTo(expected);
   }
 
   @Test
@@ -61,7 +63,9 @@ public class CachedPreferencesTest {
     CachedPreferences pref = CachedPreferences.fromLegacyConfig(originalCfg);
     DiffPreferencesInfo diff = CachedPreferences.diff(Optional.empty(), pref);
 
-    assertThat(diff.context).isEqualTo(3);
+    DiffPreferencesInfo expected = DiffPreferencesInfo.defaults();
+    expected.context = 3;
+    assertThat(diff).isEqualTo(expected);
   }
 
   @Test
@@ -72,7 +76,9 @@ public class CachedPreferencesTest {
     CachedPreferences pref = CachedPreferences.fromLegacyConfig(originalCfg);
     EditPreferencesInfo edit = CachedPreferences.edit(Optional.empty(), pref);
 
-    assertThat(edit.tabSize).isEqualTo(5);
+    EditPreferencesInfo expected = EditPreferencesInfo.defaults();
+    expected.tabSize = 5;
+    assertThat(edit).isEqualTo(expected);
   }
 
   @Test
@@ -100,7 +106,9 @@ public class CachedPreferencesTest {
     CachedPreferences pref = CachedPreferences.fromUserPreferencesProto(originalProto);
     GeneralPreferencesInfo general = CachedPreferences.general(Optional.empty(), pref);
 
-    assertThat(general.changesPerPage).isEqualTo(11);
+    GeneralPreferencesInfo expected = GeneralPreferencesInfo.defaults();
+    expected.changesPerPage = 11;
+    assertThat(cleanGeneralPreferences(general)).isEqualTo(expected);
   }
 
   @Test
@@ -113,7 +121,9 @@ public class CachedPreferencesTest {
     CachedPreferences pref = CachedPreferences.fromUserPreferencesProto(originalProto);
     DiffPreferencesInfo diff = CachedPreferences.diff(Optional.empty(), pref);
 
-    assertThat(diff.context).isEqualTo(13);
+    DiffPreferencesInfo expected = DiffPreferencesInfo.defaults();
+    expected.context = 13;
+    assertThat(diff).isEqualTo(expected);
   }
 
   @Test
@@ -126,7 +136,9 @@ public class CachedPreferencesTest {
     CachedPreferences pref = CachedPreferences.fromUserPreferencesProto(originalProto);
     EditPreferencesInfo edit = CachedPreferences.edit(Optional.empty(), pref);
 
-    assertThat(edit.tabSize).isEqualTo(17);
+    EditPreferencesInfo expected = EditPreferencesInfo.defaults();
+    expected.tabSize = 17;
+    assertThat(edit).isEqualTo(expected);
   }
 
   @Test
@@ -155,10 +167,12 @@ public class CachedPreferencesTest {
     UserPreferences originalProto =
         UserPreferences.newBuilder()
             .setGeneralPreferencesInfo(
-                UserPreferences.GeneralPreferencesInfo.newBuilder().setChangesPerPage(19))
+                UserPreferences.GeneralPreferencesInfo.newBuilder()
+                    .setChangesPerPage(19)
+                    .setAllowAutocompletingComments(false))
             .build();
     Config originalCfg = new Config();
-    originalCfg.fromText("[general]\n\tchangesPerPage = 19");
+    originalCfg.fromText("[general]\n\tchangesPerPage = 19\n\tallowAutocompletingComments = false");
 
     CachedPreferences protoPref = CachedPreferences.fromUserPreferencesProto(originalProto);
     GeneralPreferencesInfo protoGeneral = CachedPreferences.general(Optional.empty(), protoPref);
@@ -172,10 +186,13 @@ public class CachedPreferencesTest {
   public void bothPreferencesTypes_getDiffPreferencesAreEqual() throws Exception {
     UserPreferences originalProto =
         UserPreferences.newBuilder()
-            .setDiffPreferencesInfo(UserPreferences.DiffPreferencesInfo.newBuilder().setContext(23))
+            .setDiffPreferencesInfo(
+                UserPreferences.DiffPreferencesInfo.newBuilder()
+                    .setContext(23)
+                    .setHideTopMenu(false))
             .build();
     Config originalCfg = new Config();
-    originalCfg.fromText("[diff]\n\tcontext = 23");
+    originalCfg.fromText("[diff]\n\tcontext = 23\n\thideTopMenu = false");
 
     CachedPreferences protoPref = CachedPreferences.fromUserPreferencesProto(originalProto);
     DiffPreferencesInfo protoDiff = CachedPreferences.diff(Optional.empty(), protoPref);
@@ -189,10 +206,13 @@ public class CachedPreferencesTest {
   public void bothPreferencesTypes_getEditPreferencesAreEqual() throws Exception {
     UserPreferences originalProto =
         UserPreferences.newBuilder()
-            .setEditPreferencesInfo(UserPreferences.EditPreferencesInfo.newBuilder().setTabSize(27))
+            .setEditPreferencesInfo(
+                UserPreferences.EditPreferencesInfo.newBuilder()
+                    .setTabSize(27)
+                    .setAutoCloseBrackets(true))
             .build();
     Config originalCfg = new Config();
-    originalCfg.fromText("[edit]\n\ttabSize = 27");
+    originalCfg.fromText("[edit]\n\ttabSize = 27\n\tautoCloseBrackets = true");
 
     CachedPreferences protoPref = CachedPreferences.fromUserPreferencesProto(originalProto);
     EditPreferencesInfo protoEdit = CachedPreferences.edit(Optional.empty(), protoPref);
@@ -230,5 +250,16 @@ public class CachedPreferencesTest {
     assertThrows(
         StorageException.class,
         () -> CachedPreferences.edit(Optional.of(defaults), userPreferences));
+  }
+
+  /**
+   * {@link PreferencesParserUtil#parseGeneralPreferences} sets explicit values to {@link
+   * GeneralPreferencesInfo#my} and {@link GeneralPreferencesInfo#changeTable} in case of null
+   * defaults. Set these back to {@code null} for comparing with the defaults.
+   */
+  private static GeneralPreferencesInfo cleanGeneralPreferences(GeneralPreferencesInfo pref) {
+    pref.my = null;
+    pref.changeTable = null;
+    return pref;
   }
 }

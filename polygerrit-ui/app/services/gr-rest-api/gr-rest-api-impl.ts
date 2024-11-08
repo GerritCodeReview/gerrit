@@ -1328,6 +1328,8 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     if (window.DEFAULT_DETAIL_HEXES && window.DEFAULT_DETAIL_HEXES.changePage) {
       return window.DEFAULT_DETAIL_HEXES.changePage;
     }
+    // Kept as a fallback in case DEFAULT_DETAIL_HEXES is not set by BE
+    // We expect DEFAULT_DETAIL_HEXES to be set for fetches.
     return listChangesOptionsToHex(...(await this.getChangeOptions()));
   }
 

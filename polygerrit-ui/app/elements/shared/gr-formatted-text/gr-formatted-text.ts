@@ -68,7 +68,8 @@ export class GrFormattedText extends LitElement {
         p:last-child,
         ul:last-child,
         blockquote:last-child,
-        pre:last-child {
+        pre:last-child,
+        pre.plaintext {
           margin: 0;
         }
         blockquote {

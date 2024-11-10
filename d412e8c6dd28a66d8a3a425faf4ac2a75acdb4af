@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b3e9095_38c46ed6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-11-10T12:14:28Z",
+      "side": 1,
+      "message": "adapted `ChangeKindCacheImplTest` to the changed signature of `ChangeKindCache#getChangeKind`",
+      "revId": "d412e8c6dd28a66d8a3a425faf4ac2a75acdb4af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

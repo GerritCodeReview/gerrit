@@ -122,6 +122,7 @@ import com.google.gerrit.server.PublishCommentsOp;
 import com.google.gerrit.server.RequestInfo;
 import com.google.gerrit.server.RequestListener;
 import com.google.gerrit.server.Sequences;
+import com.google.gerrit.server.SshMetrics;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.AccountResolver.UnresolvableAccountException;
 import com.google.gerrit.server.account.ServiceUserClassifier;
@@ -430,6 +431,7 @@ class ReceiveCommits {
   private final SetHashtagsOp.Factory hashtagsFactory;
   private final SetTopicOp.Factory setTopicFactory;
   private final ServiceUserClassifier serviceUserClassifier;
+  private final SshMetrics sshMetrics;
   private final ImmutableList<SubmissionListener> superprojectUpdateSubmissionListeners;
   private final TagCache tagCache;
   private final ProjectConfig.Factory projectConfigFactory;
@@ -524,6 +526,7 @@ class ReceiveCommits {
       SetHashtagsOp.Factory hashtagsFactory,
       SetTopicOp.Factory setTopicFactory,
       ServiceUserClassifier serviceUserClassifier,
+      SshMetrics sshMetrics,
       @SuperprojectUpdateOnSubmission
           ImmutableList<SubmissionListener> superprojectUpdateSubmissionListeners,
       TagCache tagCache,
@@ -583,6 +586,7 @@ class ReceiveCommits {
     this.retryHelper = retryHelper;
     this.requestScopePropagator = requestScopePropagator;
     this.seq = seq;
+    this.sshMetrics = sshMetrics;
     this.superprojectUpdateSubmissionListeners = superprojectUpdateSubmissionListeners;
     this.tagCache = tagCache;
     this.projectConfigFactory = projectConfigFactory;
@@ -704,8 +708,10 @@ class ReceiveCommits {
             new PerformanceLogContext(config, performanceLoggers);
         TraceTimer traceTimer =
             newTimer("processCommands", Metadata.builder().resourceCount(commandCount))) {
+      Throwable error = null;
       RequestInfo requestInfo =
-          RequestInfo.builder(RequestInfo.RequestType.GIT_RECEIVE, user, traceContext)
+          RequestInfo.builder(
+                  RequestInfo.RequestType.GIT_RECEIVE, "git-receive-pack", user, traceContext)
               .project(project.getNameKey())
               .build();
       requestListeners.runEach(l -> l.onRequest(requestInfo));
@@ -731,9 +737,11 @@ class ReceiveCommits {
             commands,
             RejectionReason.create(MetricBucket.INTERNAL_SERVER_ERROR, INTERNAL_SERVER_ERROR));
       } catch (InvalidDeadlineException e) {
+        error = e;
         rejectRemaining(
             commands, RejectionReason.create(MetricBucket.INVALID_DEADLINE, e.getMessage()));
       } catch (RuntimeException e) {
+        error = e;
         Optional<RequestCancelledException> requestCancelledException =
             RequestCancelledException.getFromCausalChain(e);
         if (!requestCancelledException.isPresent()) {
@@ -763,6 +771,8 @@ class ReceiveCommits {
         }
 
         rejectRemaining(commands, RejectionReason.create(metricBucket, msg.toString()));
+      } finally {
+        sshMetrics.countRequest(requestInfo, error);
       }
 
       // This sends error messages before the 'done' string of the progress monitor is sent.

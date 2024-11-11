@@ -76,6 +76,9 @@ public abstract class Metadata {
   /** The cause of an error. */
   public abstract Optional<String> cause();
 
+  /** The command name of an SSH request. */
+  public abstract Optional<String> commandName();
+
   /** Side where the comment is written: <= 0 for parent, 1 for revision. */
   public abstract Optional<Integer> commentSide();
 
@@ -87,6 +90,9 @@ public abstract class Metadata {
 
   /** The type of an event. */
   public abstract Optional<String> eventType();
+
+  /** The name of an exception which failed an SSH request. */
+  public abstract Optional<String> exception();
 
   /** The value of the @Export annotation which was used to register a plugin extension. */
   public abstract Optional<String> exportValue();
@@ -192,8 +198,8 @@ public abstract class Metadata {
    * authDomainName=Optional.empty, branchName=Optional.empty, cacheKey=Optional.empty,
    * cacheName=Optional.empty, caller=Optional.empty, className=Optional.empty,
    * cancellationReason=Optional.empty, changeId=Optional[9212550], changeIdType=Optional.empty,
-   * cause=Optional.empty, diffAlgorithm=Optional.empty, eventType=Optional.empty,
-   * exportValue=Optional.empty, filePath=Optional.empty, garbageCollectorName=Optional.empty,
+   * cause=Optional.empty, commandName=Optional.empty, diffAlgorithm=Optional.empty, eventType=Optional.empty,
+   * exception=Optional.empty, exportValue=Optional.empty, filePath=Optional.empty, garbageCollectorName=Optional.empty,
    * gitOperation=Optional.empty, groupId=Optional.empty, groupName=Optional.empty,
    * groupUuid=Optional.empty, httpStatus=Optional.empty, indexName=Optional.empty,
    * indexVersion=Optional[0], methodName=Optional.empty, multiple=Optional.empty,
@@ -235,10 +241,12 @@ public abstract class Metadata {
         .add("changeId", changeId().orElse(null))
         .add("changeIdType", changeIdType().orElse(null))
         .add("cause", cause().orElse(null))
+        .add("commandName", commandName().orElse(null))
         .add("commentSide", commentSide().orElse(null))
         .add("commit", commit().orElse(null))
         .add("diffAlgorithm", diffAlgorithm().orElse(null))
         .add("eventType", eventType().orElse(null))
+        .add("exception", exception().orElse(null))
         .add("exportValue", exportValue().orElse(null))
         .add("filePath", filePath().orElse(null))
         .add("garbageCollectorName", garbageCollectorName().orElse(null))
@@ -314,6 +322,8 @@ public abstract class Metadata {
 
     public abstract Builder cause(@Nullable String cause);
 
+    public abstract Builder commandName(@Nullable String commandName);
+
     public abstract Builder commentSide(int side);
 
     public abstract Builder commit(@Nullable String commit);
@@ -321,6 +331,8 @@ public abstract class Metadata {
     public abstract Builder diffAlgorithm(@Nullable String diffAlgorithm);
 
     public abstract Builder eventType(@Nullable String eventType);
+
+    public abstract Builder exception(@Nullable String exception);
 
     public abstract Builder exportValue(@Nullable String exportValue);
 

@@ -321,6 +321,17 @@ setting.
 ** `view`:
    view implementation class
 
+=== SSH
+
+* `ssh/success_count`: Rate of successful SSH requests
+** `command_name`:
+   Name of the SSH command
+* `ssh/error_count`: Rate of SSH error responses
+** `command_name`:
+   Name of the SSH command
+** `exception`:
+   Name of the exception which has caused the request to fail.
+
 === Query
 
 * `query/query_latency`: Successful query latency, accumulated over the life

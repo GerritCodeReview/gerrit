@@ -28,6 +28,7 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.sshd.AbstractGitCommand;
 import com.google.gerrit.sshd.CommandMetaData;
+import com.google.gerrit.sshd.SshMetrics;
 import com.google.inject.Inject;
 import java.io.IOException;
 import org.eclipse.jgit.errors.TooLargeObjectInPackException;
@@ -45,6 +46,7 @@ final class Receive extends AbstractGitCommand {
 
   @Inject private AsyncReceiveCommits.Factory factory;
   @Inject private PermissionBackend permissionBackend;
+  @Inject private SshMetrics sshMetrics;
 
   private final SetMultimap<ReviewerStateInternal, Account.Id> reviewers =
       MultimapBuilder.hashKeys(2).hashSetValues().build();
@@ -82,7 +84,7 @@ final class Receive extends AbstractGitCommand {
     }
 
     AsyncReceiveCommits arc =
-        factory.create(projectState, currentUser.asIdentifiedUser(), repo, null);
+        factory.create(projectState, currentUser.asIdentifiedUser(), repo, null, sshMetrics);
 
     try {
       Capable r = arc.canUpload();

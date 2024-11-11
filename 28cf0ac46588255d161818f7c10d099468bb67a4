@@ -98,6 +98,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "732b3267_5d0d9561",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-11-11T07:57:59Z",
+      "side": 1,
+      "message": "But doing this is only safe if all email providers treat the local part as case-insensitive. If there is one email provider that treats the local part as case-sensitive, then I can take over your email, by registering the same email with another casing at that email provider and then make look like I\u0027m you.\n\nThe difference with usernames is that you as company have full control over this, with email providers this is different.",
+      "parentUuid": "cf1fe38c_5f099061",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 38
+      },
+      "revId": "28cf0ac46588255d161818f7c10d099468bb67a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e87c6904_7eefcb39",
         "filename": "/COMMIT_MSG",
         "patchSetId": 7
@@ -149,6 +173,24 @@
       "writtenOn": "2024-11-11T07:45:07Z",
       "side": 1,
       "message": "Maybe add a warning, that once you enable this you cannot go easily back, because after enabling this multiple users can have the same email (but with a different case).",
+      "revId": "28cf0ac46588255d161818f7c10d099468bb67a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b48765c_1c54b021",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-11-11T07:57:59Z",
+      "side": 1,
+      "message": "Please scratch this, I think that\u0027s not the case, as this flag is only about querying.",
+      "parentUuid": "ef8aa665_56c872bb",
       "revId": "28cf0ac46588255d161818f7c10d099468bb67a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

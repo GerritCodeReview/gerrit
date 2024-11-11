@@ -67,12 +67,13 @@ public class NoteDbSchemaVersionCheck implements LifecycleListener {
       if (current > expected
           && gerritConfig.getBoolean("gerrit", "experimentalRollingUpgrade", false)) {
         logger.atWarning().log(
-            "Gerrit has detected refs/meta/version %d different than the expected %d."
-                + "Bear in mind that this is supported ONLY for rolling upgrades to immediate next "
-                + "Gerrit version (e.g. v3.1 to v3.2). If this is not expected, remove gerrit.experimentalRollingUpgrade "
-                + "from $GERRIT_SITE/etc/gerrit.config and restart Gerrit."
-                + "Please note that gerrit.experimentalRollingUpgrade is intended to be used "
-                + "for the rolling upgrade phase only and should be disabled afterwards.",
+            "Gerrit has detected refs/meta/version %d different than the expected %d.Bear in mind"
+                + " that this is supported ONLY for rolling upgrades to immediate next Gerrit"
+                + " version (e.g. v3.1 to v3.2). If this is not expected, remove"
+                + " gerrit.experimentalRollingUpgrade from $GERRIT_SITE/etc/gerrit.config and"
+                + " restart Gerrit.Please note that gerrit.experimentalRollingUpgrade is intended"
+                + " to be used for the rolling upgrade phase only and should be disabled"
+                + " afterwards.",
             current, expected);
       } else if (current != expected) {
         String advice =

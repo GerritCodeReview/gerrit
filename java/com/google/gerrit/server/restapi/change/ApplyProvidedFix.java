@@ -73,8 +73,12 @@ public class ApplyProvidedFix implements RestModifyView<RevisionResource, ApplyP
   @Override
   public Response<EditInfo> apply(
       RevisionResource revisionResource, ApplyProvidedFixInput applyProvidedFixInput)
-      throws AuthException, BadRequestException, ResourceConflictException, IOException,
-          ResourceNotFoundException, PermissionBackendException {
+      throws AuthException,
+          BadRequestException,
+          ResourceConflictException,
+          IOException,
+          ResourceNotFoundException,
+          PermissionBackendException {
     if (applyProvidedFixInput == null) {
       throw new BadRequestException("applyProvidedFixInput is required");
     }

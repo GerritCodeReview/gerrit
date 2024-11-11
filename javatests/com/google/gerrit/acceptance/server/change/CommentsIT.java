@@ -439,7 +439,7 @@ public class CommentsIT extends AbstractDaemonTest {
     String commentMessage = "to be deleted";
     CommentInput comment =
         CommentsUtil.newComment(
-            COMMIT_MSG, Side.REVISION, /*line= */ 0, commentMessage, /*unresolved= */ true);
+            COMMIT_MSG, Side.REVISION, /* line= */ 0, commentMessage, /* unresolved= */ true);
     CommentsUtil.addComments(gApi, changeId, revId, comment);
 
     Map<String, List<CommentInfo>> results = getPublishedComments(changeId, revId);
@@ -1699,8 +1699,8 @@ public class CommentsIT extends AbstractDaemonTest {
         .hasMessageThat()
         .isEqualTo(
             String.format(
-                "Draft comments for other revisions cannot be published when DraftHandling = PUBLISH."
-                    + " (draft IDs: [%s])",
+                "Draft comments for other revisions cannot be published when DraftHandling ="
+                    + " PUBLISH. (draft IDs: [%s])",
                 draftPs1.id));
   }
 

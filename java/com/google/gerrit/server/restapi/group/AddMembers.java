@@ -116,8 +116,13 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
 
   @Override
   public Response<List<AccountInfo>> apply(GroupResource resource, Input input)
-      throws AuthException, NotInternalGroupException, UnprocessableEntityException, IOException,
-          ConfigInvalidException, ResourceNotFoundException, PermissionBackendException {
+      throws AuthException,
+          NotInternalGroupException,
+          UnprocessableEntityException,
+          IOException,
+          ConfigInvalidException,
+          ResourceNotFoundException,
+          PermissionBackendException {
     GroupDescription.Internal internalGroup =
         resource.asInternalGroup().orElseThrow(NotInternalGroupException::new);
     input = Input.init(input);
@@ -226,7 +231,10 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
 
     @Override
     public Response<AccountInfo> apply(GroupResource resource, IdString id, Input input)
-        throws RestApiException, NotInternalGroupException, IOException, ConfigInvalidException,
+        throws RestApiException,
+            NotInternalGroupException,
+            IOException,
+            ConfigInvalidException,
             PermissionBackendException {
       AddMembers.Input in = new AddMembers.Input();
       in._oneMember = id.get();

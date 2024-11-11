@@ -201,7 +201,8 @@ public class ReviewersUtil {
 
     if (accountVisibility == AccountVisibility.NONE && !accountControl.canViewAll()) {
       logger.atFine().log(
-          "Not suggesting reviewers: accountVisibility = %s and the user does not have %s capability",
+          "Not suggesting reviewers: accountVisibility = %s and the user does not have %s"
+              + " capability",
           AccountVisibility.NONE, GlobalPermission.VIEW_ALL_ACCOUNTS);
       return Collections.emptyList();
     }

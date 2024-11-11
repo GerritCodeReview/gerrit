@@ -80,7 +80,9 @@ public class CheckMergeability implements RestReadView<BranchResource> {
 
   @Override
   public Response<MergeableInfo> apply(BranchResource resource)
-      throws IOException, BadRequestException, ResourceNotFoundException,
+      throws IOException,
+          BadRequestException,
+          ResourceNotFoundException,
           ResourceConflictException {
     if (!(submitType.equals(SubmitType.MERGE_ALWAYS)
         || submitType.equals(SubmitType.MERGE_IF_NECESSARY))) {

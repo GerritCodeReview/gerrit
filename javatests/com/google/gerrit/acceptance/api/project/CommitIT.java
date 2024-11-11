@@ -318,7 +318,9 @@ public class CommitIT extends AbstractDaemonTest {
     input.destination = destBranch;
     input.message =
         String.format(
-            "it goes to foo branch\n\nChange-Id: Ideadbeefdeadbeefdeadbeefdeadbeefdeadbeef\n\nChange-Id: %s\n",
+            "it goes to foo branch\n\n"
+                + "Change-Id: Ideadbeefdeadbeefdeadbeefdeadbeefdeadbeef\n\n"
+                + "Change-Id: %s\n",
             changeId);
 
     ChangeInfo cherryPickResult =
@@ -360,7 +362,9 @@ public class CommitIT extends AbstractDaemonTest {
     input.destination = destBranch;
     input.message =
         String.format(
-            "it goes to foo branch\n\nChange-Id: Ideadbeefdeadbeefdeadbeefdeadbeefdeadbeef\n\nChange-Id: %s\n",
+            "it goes to foo branch\n\n"
+                + "Change-Id: Ideadbeefdeadbeefdeadbeefdeadbeefdeadbeef\n\n"
+                + "Change-Id: %s\n",
             existingDestChange.changeId);
     input.allowConflicts = true;
     input.allowEmpty = true;

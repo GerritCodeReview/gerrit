@@ -20,6 +20,7 @@ import static com.google.common.truth.OptionalSubject.optionals;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.entities.Patch.COMMIT_MSG;
 import static com.google.gerrit.entities.Patch.MERGE_LIST;
@@ -49,6 +50,7 @@ import com.google.common.testing.FakeTicker;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
+import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.Nullable;
@@ -139,6 +141,7 @@ import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
 import com.google.gerrit.server.plugins.TestServerPlugin;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
+import com.google.gerrit.server.project.testing.TestLabels;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.restapi.change.Revisions;
@@ -296,6 +299,7 @@ public abstract class AbstractDaemonTest {
   protected RestSession userRestSession;
   protected RestSession anonymousRestSession;
   protected TestAccount admin;
+  protected TestAccount maintainer;
   protected TestAccount user;
   protected TestRepository<InMemoryRepository> testRepo;
   protected String resourcePrefix;
@@ -310,6 +314,7 @@ public abstract class AbstractDaemonTest {
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private SitePaths sitePaths;
   @Inject private ProjectOperations projectOperations;
+  @Inject private GroupOperations groupOperations;
 
   private List<Repository> toClose;
 
@@ -498,6 +503,22 @@ public abstract class AbstractDaemonTest {
   protected void setUpDatabase() throws Exception {
     admin = accountCreator.admin();
     user = accountCreator.user1();
+
+    // Create a user with that can approve and submit changes.
+    AccountGroup.UUID maintainersUuid = groupOperations.newGroup().name("Maintainers").create();
+    projectOperations
+        .project(allProjects)
+        .forUpdate()
+        .add(
+            allowLabel(TestLabels.codeReview().getName())
+                .ref(RefNames.REFS_HEADS + "*")
+                .group(maintainersUuid)
+                .range(-2, 2))
+        .add(allow(Permission.SUBMIT).ref(RefNames.REFS_HEADS + "*").group(maintainersUuid))
+        .update();
+    maintainer =
+        accountCreator.create(
+            "maintainer", "maintainer@example.com", "Maintainer", "M", "Maintainers");
 
     // Evict and reindex accounts in case tests modify them.
     reindexAccount(admin.id());

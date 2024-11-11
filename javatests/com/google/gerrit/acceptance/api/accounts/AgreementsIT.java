@@ -331,6 +331,7 @@ public class AgreementsIT extends AbstractDaemonTest {
     ChangeInfo change = gApi.changes().create(newChangeInput()).get();
 
     // Approve and submit it
+    requestScopeOperations.setApiUser(maintainer.id());
     gApi.changes().id(change.changeId).current().review(ReviewInput.approve());
     gApi.changes().id(change.changeId).current().submit(new SubmitInput());
 

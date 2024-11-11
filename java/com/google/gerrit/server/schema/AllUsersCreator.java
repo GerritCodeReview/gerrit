@@ -17,7 +17,7 @@ package com.google.gerrit.server.schema;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.schema.AclUtil.grant;
-import static com.google.gerrit.server.schema.AllProjectsInput.getDefaultCodeReviewLabel;
+import static com.google.gerrit.server.schema.AllProjectsInput.getDefaultCodeReviewLabelWithNoBlockFunction;
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.INIT_REPO;
 
 import com.google.gerrit.common.Nullable;
@@ -69,7 +69,7 @@ public class AllUsersCreator {
     this.serverUser = serverUser;
     this.registered = systemGroupBackend.getGroup(REGISTERED_USERS);
     this.projectConfigFactory = projectConfigFactory;
-    this.codeReviewLabel = getDefaultCodeReviewLabel();
+    this.codeReviewLabel = getDefaultCodeReviewLabelWithNoBlockFunction();
   }
 
   /**

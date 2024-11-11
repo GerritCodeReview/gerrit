@@ -23,6 +23,8 @@ import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.LabelValue;
+import com.google.gerrit.entities.SubmitRequirement;
+import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.server.Sequences;
@@ -63,6 +65,26 @@ public abstract class AllProjectsInput {
         .build();
   }
 
+  @UsedAt(UsedAt.Project.GOOGLE)
+  public static LabelType getDefaultCodeReviewLabelWithNoBlockFunction() {
+    return getDefaultCodeReviewLabel().toBuilder().setNoBlockFunction().build();
+  }
+
+  public static SubmitRequirement getDefaultCodeReviewSubmitRequirements() {
+    return SubmitRequirement.builder()
+        .setName("Code-Review")
+        .setDescription(
+            Optional.of(
+                "At least one maximum vote for label 'Code-Review' from a user that is not the"
+                    + " uploader is required. Veto votes (minimum vote on the 'Code-Review' label)"
+                    + " block the change submission."))
+        .setSubmittabilityExpression(
+            SubmitRequirementExpression.create(
+                "label:Code-Review=MAX,user=non_uploader AND -label:Code-Review=MIN"))
+        .setAllowOverrideInChildProjects(false)
+        .build();
+  }
+
   /** The administrator group which gets default permissions granted. */
   public abstract Optional<GroupReference> administratorsGroup();
 
@@ -83,6 +105,10 @@ public abstract class AllProjectsInput {
   @UsedAt(UsedAt.Project.GOOGLE)
   public abstract Optional<LabelType> codeReviewLabel();
 
+  /** The "Code-Review" submit requirement to be defined in All-Projects. */
+  @UsedAt(UsedAt.Project.GOOGLE)
+  public abstract Optional<SubmitRequirement> codeReviewSubmitRequirement();
+
   /** Description for the All-Projects. */
   public abstract Optional<String> projectDescription();
 
@@ -100,7 +126,8 @@ public abstract class AllProjectsInput {
   public static Builder builder() {
     Builder builder =
         new AutoValue_AllProjectsInput.Builder()
-            .codeReviewLabel(getDefaultCodeReviewLabel())
+            .codeReviewLabel(getDefaultCodeReviewLabelWithNoBlockFunction())
+            .codeReviewSubmitRequirement(getDefaultCodeReviewSubmitRequirements())
             .firstChangeIdForNoteDb(Sequences.FIRST_CHANGE_ID)
             .initDefaultAcls(true)
             .initDefaultSubmitRequirements(true);
@@ -127,6 +154,10 @@ public abstract class AllProjectsInput {
 
     @UsedAt(UsedAt.Project.GOOGLE)
     public abstract Builder codeReviewLabel(LabelType codeReviewLabel);
+
+    @UsedAt(UsedAt.Project.GOOGLE)
+    public abstract Builder codeReviewSubmitRequirement(
+        SubmitRequirement codeReviewSubmitRequirement);
 
     @UsedAt(UsedAt.Project.GOOGLE)
     public abstract Builder projectDescription(String projectDescription);

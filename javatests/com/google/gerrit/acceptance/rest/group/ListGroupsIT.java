@@ -34,8 +34,16 @@ public class ListGroupsIT extends AbstractDaemonTest {
     Map<String, GroupInfo> groupMap =
         newGson()
             .fromJson(response.getReader(), new TypeToken<Map<String, GroupInfo>>() {}.getType());
+
+    // * The groups "Administrators", "Blocked Users" and "Service Users" are created automatically
+    //   when the Gerrit site is initialized.
+    // * The "Maintainers" groups is created during the test setup (see
+    //   AbstractDaemonTest.setUpDatabase()).
     assertThat(groupMap.keySet())
         .containsExactly(
-            "Administrators", SchemaCreatorImpl.BLOCKED_USERS, ServiceUserClassifier.SERVICE_USERS);
+            "Administrators",
+            SchemaCreatorImpl.BLOCKED_USERS,
+            "Maintainers",
+            ServiceUserClassifier.SERVICE_USERS);
   }
 }

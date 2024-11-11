@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.schema;
 
-import static com.google.gerrit.server.schema.AllProjectsInput.getDefaultCodeReviewLabel;
+import static com.google.gerrit.server.schema.AllProjectsInput.getDefaultCodeReviewLabelWithNoBlockFunction;
 import static com.google.gerrit.server.schema.testing.AllProjectsCreatorTestUtil.assertSectionEquivalent;
 import static com.google.gerrit.server.schema.testing.AllProjectsCreatorTestUtil.assertTwoConfigsEquivalent;
 import static com.google.gerrit.server.schema.testing.AllProjectsCreatorTestUtil.getAllProjectsWithoutDefaultAcls;
@@ -137,7 +137,7 @@ public class AllProjectsCreatorTest {
   public void createAllProjectsWithBooleanConfigs() throws Exception {
     AllProjectsInput allProjectsInput =
         AllProjectsInput.builderWithNoDefault()
-            .codeReviewLabel(getDefaultCodeReviewLabel())
+            .codeReviewLabel(getDefaultCodeReviewLabelWithNoBlockFunction())
             .firstChangeIdForNoteDb(Sequences.FIRST_CHANGE_ID)
             .addBooleanProjectConfig(
                 BooleanProjectConfig.REJECT_EMPTY_COMMIT, InheritableBoolean.TRUE)

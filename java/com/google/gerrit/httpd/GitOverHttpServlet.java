@@ -291,8 +291,10 @@ public class GitOverHttpServlet extends GitServlet {
 
     @Override
     public Repository open(HttpServletRequest req, String projectName)
-        throws RepositoryNotFoundException, ServiceNotAuthorizedException,
-            ServiceNotEnabledException, ServiceMayNotContinueException {
+        throws RepositoryNotFoundException,
+            ServiceNotAuthorizedException,
+            ServiceNotEnabledException,
+            ServiceMayNotContinueException {
       while (projectName.endsWith("/")) {
         projectName = projectName.substring(0, projectName.length() - 1);
       }

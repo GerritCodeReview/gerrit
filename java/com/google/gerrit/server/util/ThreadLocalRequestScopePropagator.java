@@ -34,7 +34,9 @@ public abstract class ThreadLocalRequestScopePropagator<C> extends RequestScopeP
     this.threadLocal = threadLocal;
   }
 
-  /** @see RequestScopePropagator#wrap(Callable) */
+  /**
+   * @see RequestScopePropagator#wrap(Callable)
+   */
   @Override
   protected final <T> Callable<T> wrapImpl(Callable<T> callable) {
     C ctx = continuingContext(requireContext());

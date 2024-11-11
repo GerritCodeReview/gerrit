@@ -2751,7 +2751,7 @@ Only the change owner, a project owner, or an administrator may fix changes.
   }
 ----
 
-[[set-work-in-pogress]]
+[[set-work-in-progress]]
 === Set Work-In-Progress
 --
 'POST /changes/link:#change-id[\{change-id\}]/wip'

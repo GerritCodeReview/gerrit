@@ -22,14 +22,19 @@ package com.google.gerrit.extensions.api.projects;
 public class CommentLinkInput {
   /** A JavaScript regular expression to match positions to be replaced with a hyperlink. */
   public String match;
+
   /** The URL to direct the user to whenever the regular expression is matched. */
   public String link;
+
   /** Text inserted before the link if the regular expression is matched. */
   public String prefix;
+
   /** Text inserted after the link if the regular expression is matched. */
   public String suffix;
+
   /** Text of the link. */
   public String text;
+
   /** Whether the commentlink is enabled. */
   public Boolean enabled;
 }

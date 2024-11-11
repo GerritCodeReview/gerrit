@@ -64,7 +64,10 @@ public class DeleteWatchedProjects
 
   @Override
   public Response<?> apply(AccountResource rsrc, List<ProjectWatchInfo> input)
-      throws AuthException, UnprocessableEntityException, IOException, ConfigInvalidException,
+      throws AuthException,
+          UnprocessableEntityException,
+          IOException,
+          ConfigInvalidException,
           PermissionBackendException {
     if (!self.get().hasSameAccountId(rsrc.getUser())) {
       permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);

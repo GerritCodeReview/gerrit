@@ -482,7 +482,8 @@ public class ChangeNoLongerSubmittableIT extends AbstractDaemonTest {
             String.format(
                 "Attention is currently required from: %s, %s, %s.\n"
                     + "\n"
-                    + "%s has uploaded a new patch set (#3) to the change originally created by %s.",
+                    + "%s has uploaded a new patch set (#3) to the change originally created by"
+                    + " %s.",
                 admin.fullName(),
                 user.fullName(),
                 approver.fullName(),
@@ -557,7 +558,8 @@ public class ChangeNoLongerSubmittableIT extends AbstractDaemonTest {
             String.format(
                 "Attention is currently required from: %s, %s.\n"
                     + "\n"
-                    + "%s has uploaded a new patch set (#3) to the change originally created by %s.",
+                    + "%s has uploaded a new patch set (#3) to the change originally created by"
+                    + " %s.",
                 admin.fullName(), user.fullName(), approver.fullName(), admin.fullName()));
     assertThat(message.body())
         .contains("The change is no longer submittable: Code-Review is unsatisfied now.\n");
@@ -628,7 +630,8 @@ public class ChangeNoLongerSubmittableIT extends AbstractDaemonTest {
             String.format(
                 "Attention is currently required from: %s, %s.\n"
                     + "\n"
-                    + "%s has uploaded a new patch set (#3) to the change originally created by %s.",
+                    + "%s has uploaded a new patch set (#3) to the change originally created by"
+                    + " %s.",
                 admin.fullName(), user.fullName(), approver.fullName(), admin.fullName()));
     assertThat(message.body())
         .contains("The change is no longer submittable: Code-Review is unsatisfied now.\n");
@@ -701,7 +704,8 @@ public class ChangeNoLongerSubmittableIT extends AbstractDaemonTest {
             String.format(
                 "Attention is currently required from: %s, %s, %s.\n"
                     + "\n"
-                    + "%s has uploaded a new patch set (#3) to the change originally created by %s.",
+                    + "%s has uploaded a new patch set (#3) to the change originally created by"
+                    + " %s.",
                 admin.fullName(),
                 user.fullName(),
                 uploaderPs3.fullName(),
@@ -766,7 +770,8 @@ public class ChangeNoLongerSubmittableIT extends AbstractDaemonTest {
             String.format(
                 "Attention is currently required from: %s, %s.\n"
                     + "\n"
-                    + "%s has uploaded a new patch set (#3) to the change originally created by %s.",
+                    + "%s has uploaded a new patch set (#3) to the change originally created by"
+                    + " %s.",
                 admin.fullName(), user.fullName(), uploaderPs3.fullName(), admin.fullName()));
     assertThat(message.body()).doesNotContain("The change is no longer submittable");
     assertThat(message.htmlBody()).doesNotContain("The change is no longer submittable");
@@ -822,7 +827,8 @@ public class ChangeNoLongerSubmittableIT extends AbstractDaemonTest {
             String.format(
                 "Attention is currently required from: %s, %s, %s, %s.\n"
                     + "\n"
-                    + "%s has uploaded a new patch set (#3) to the change originally created by %s.",
+                    + "%s has uploaded a new patch set (#3) to the change originally created by"
+                    + " %s.",
                 admin.fullName(),
                 user.fullName(),
                 approver.fullName(),
@@ -902,7 +908,8 @@ public class ChangeNoLongerSubmittableIT extends AbstractDaemonTest {
             String.format(
                 "Attention is currently required from: %s.\n"
                     + "\n"
-                    + "%s has uploaded a new patch set (#3) to the change originally created by %s.",
+                    + "%s has uploaded a new patch set (#3) to the change originally created by"
+                    + " %s.",
                 uploaderPs3.fullName(), uploaderPs3.fullName(), admin.fullName()));
     assertThat(message.body()).doesNotContain("The change is no longer submittable");
     assertThat(message.htmlBody()).doesNotContain("The change is no longer submittable");

@@ -302,7 +302,8 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
 
     @Override
     public ImmutableList<AccountGroup.UUID> deserialize(byte[] in) {
-      return Protos.parseUnchecked(AllExternalGroupsProto.parser(), in).getExternalGroupList()
+      return Protos.parseUnchecked(AllExternalGroupsProto.parser(), in)
+          .getExternalGroupList()
           .stream()
           .map(groupProto -> AccountGroup.UUID.parse(groupProto.getGroupUuid()))
           .collect(toImmutableList());

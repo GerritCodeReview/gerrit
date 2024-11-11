@@ -120,9 +120,10 @@ public class SubmitRequirementConfigValidator implements CommitValidationListene
         .listModifiedFilesAgainstParent(
             receiveEvent.project.getNameKey(),
             receiveEvent.commit,
-            /* parentNum=*/ 0,
+            /* parentNum= */ 0,
             DiffOptions.DEFAULTS)
-        .keySet().stream()
+        .keySet()
+        .stream()
         .anyMatch(fileName::equals);
   }
 

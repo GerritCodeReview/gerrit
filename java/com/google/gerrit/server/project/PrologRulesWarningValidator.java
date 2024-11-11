@@ -75,9 +75,10 @@ public class PrologRulesWarningValidator implements CommitValidationListener {
             .listModifiedFilesAgainstParent(
                 receiveEvent.project.getNameKey(),
                 receiveEvent.commit,
-                /* parentNum=*/ 0,
+                /* parentNum= */ 0,
                 DiffOptions.DEFAULTS)
-            .entrySet().stream()
+            .entrySet()
+            .stream()
             .filter(e -> fileName.equals(e.getKey()))
             .collect(Collectors.toList());
     if (matchingEntries.size() != 1) {

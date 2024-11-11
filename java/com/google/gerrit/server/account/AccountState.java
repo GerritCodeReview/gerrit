@@ -102,8 +102,10 @@ public abstract class AccountState {
 
   /** Get the cached account metadata. */
   public abstract Account account();
+
   /** The external identities that identify the account holder. */
   public abstract ImmutableSet<ExternalId> externalIds();
+
   /**
    * Get the username, if one has been declared for this user.
    *
@@ -113,8 +115,10 @@ public abstract class AccountState {
    *     is empty
    */
   public abstract Optional<String> userName();
+
   /** The project watches of the account. */
   public abstract ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyType>> projectWatches();
+
   /** The general preferences of the account. */
 
   /** The general preferences of the account. */

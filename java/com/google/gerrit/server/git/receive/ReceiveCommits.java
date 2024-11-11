@@ -425,6 +425,7 @@ class ReceiveCommits {
 
   // Collections populated during processing.
   private final Queue<ValidationMessage> messages;
+
   /** Multimap of error text to refnames that produced that error. */
   private final ListMultimap<String, String> errors;
 
@@ -1628,6 +1629,7 @@ class ReceiveCommits {
 
     final ReceiveCommand cmd;
     final LabelTypes labelTypes;
+
     /**
      * Draft comments are published with the commit iff {@code --publish-comments} is set. All
      * drafts are withheld (overriding the option) if at least one of the following conditions are
@@ -2812,7 +2814,10 @@ class ReceiveCommits {
   }
 
   private void submit(Collection<CreateRequest> create, Collection<ReplaceRequest> replace)
-      throws RestApiException, UpdateException, IOException, ConfigInvalidException,
+      throws RestApiException,
+          UpdateException,
+          IOException,
+          ConfigInvalidException,
           PermissionBackendException {
     try (TraceTimer traceTimer = newTimer("submit")) {
       Map<ObjectId, Change> bySha = Maps.newHashMapWithExpectedSize(create.size() + replace.size());

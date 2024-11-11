@@ -751,7 +751,8 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
         .hasMessageThat()
         .isEqualTo(
             String.format(
-                "change %s: author of patch set 1 is forged and the uploader %s cannot forge author",
+                "change %s: author of patch set 1 is forged and the uploader %s cannot forge"
+                    + " author",
                 changeToBeRebased1, uploaderEmail));
   }
 
@@ -930,8 +931,8 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
         .hasMessageThat()
         .isEqualTo(
             String.format(
-                "change %s: author of patch set 1 is the server identity and the uploader %s cannot forge"
-                    + " the server identity",
+                "change %s: author of patch set 1 is the server identity and the uploader %s cannot"
+                    + " forge the server identity",
                 changeToBeRebased1, uploaderEmail));
   }
 
@@ -1416,8 +1417,11 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
   private void assertRealUserForChangeUpdate(
       Change.Id changeId, @Nullable Account.Id expectedRealUser) {
     Optional<FooterLine> realUserFooter =
-        projectOperations.project(project).getHead(RefNames.changeMetaRef(changeId))
-            .getFooterLines().stream()
+        projectOperations
+            .project(project)
+            .getHead(RefNames.changeMetaRef(changeId))
+            .getFooterLines()
+            .stream()
             .filter(footerLine -> footerLine.matches(FOOTER_REAL_USER))
             .findFirst();
 

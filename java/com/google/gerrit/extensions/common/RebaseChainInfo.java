@@ -18,6 +18,7 @@ import java.util.List;
 
 public class RebaseChainInfo {
   public List<ChangeInfo> rebasedChanges;
+
   /**
    * Whether any of the changes contain conflicts.
    *

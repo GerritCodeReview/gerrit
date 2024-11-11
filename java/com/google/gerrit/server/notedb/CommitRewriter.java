@@ -122,16 +122,19 @@ public class CommitRewriter {
 
     /** Whether to rewrite the commit history or only find refs that need to be fixed. */
     public boolean dryRun = true;
+
     /**
      * Whether to verify that resulting commits contain user data for the accounts that are linked
      * to a change, see {@link #verifyCommit}, {@link #collectAccounts}.
      */
     public boolean verifyCommits = true;
+
     /** Whether to compute and output the diff of the commit history for the backfilled refs. */
     public boolean outputDiff = true;
 
     /** Max number of refs to update in a single {@link BatchRefUpdate}. */
     public int maxRefsInBatch = 10000;
+
     /**
      * Max number of refs to fix by a single {@link RefsUpdate} run. Since the second run on the
      * same set of refs is a no-op, running with this option in a loop will eventually fix all refs.
@@ -1283,6 +1286,7 @@ public class CommitRewriter {
 
     /** {@link com.google.gerrit.entities.Account.Id} parsed from PersonIdent string. */
     Account.Id accountId;
+
     /**
      * Fixed ident string, that does not contain user data, or {@link Optional#empty} if fix was not
      * required.
@@ -1317,6 +1321,7 @@ public class CommitRewriter {
 
     /** Id of the current commit in rewriter walk. */
     ObjectId newTipId = null;
+
     /** If any commits were rewritten by the rewriter. */
     boolean anyFixesApplied = false;
 

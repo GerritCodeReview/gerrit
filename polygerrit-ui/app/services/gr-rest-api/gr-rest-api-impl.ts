@@ -1328,6 +1328,10 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     if (window.DEFAULT_DETAIL_HEXES && window.DEFAULT_DETAIL_HEXES.changePage) {
       return window.DEFAULT_DETAIL_HEXES.changePage;
     }
+    // Kept as a fallback in case DEFAULT_DETAIL_HEXES is not set in index file
+    // (e.g PolyGerritIndexHtml.soy)
+    // We expect that DEFAULT_DETAIL_HEXES is always set and we are
+    // using same hex as preloaded queries
     return listChangesOptionsToHex(...(await this.getChangeOptions()));
   }
 

@@ -167,6 +167,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7dec3f20_e5ea152d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-11-11T09:03:21Z",
+      "side": 1,
+      "message": "Just for the record, I\u0027m fine with you making this configurable. \nI\u0027m not having time to understand this fully and judge whether this makes sense. I trust you on that.",
+      "revId": "28cf0ac46588255d161818f7c10d099468bb67a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2d6bcdc5_1b66cafc",

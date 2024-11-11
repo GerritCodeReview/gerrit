@@ -637,6 +637,252 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void submitRequirement_wantCodeReviewFromHumanReviewers() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allowLabel("Code-Review").ref("refs/*").group(REGISTERED_USERS).range(-2, 2))
+        .update();
+
+    configSubmitRequirement(
+        project,
+        SubmitRequirement.builder()
+            .setName("Code-Review")
+            .setSubmittabilityExpression(
+                SubmitRequirementExpression.create("label:Code-Review=MAX"))
+            .setAllowOverrideInChildProjects(false)
+            .build());
+    configSubmitRequirement(
+        project,
+        SubmitRequirement.builder()
+            .setName("Want-Code-Review-From-All")
+            .setApplicabilityExpression(
+                Optional.of(
+                    SubmitRequirementExpression.create(
+                        "-label:Code-Review>=1,users=human_reviewers")))
+            .setSubmittabilityExpression(
+                SubmitRequirementExpression.create("label:Code-Review>=1,users=human_reviewers"))
+            .setAllowOverrideInChildProjects(false)
+            .build());
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    // Code-Review is unsatisfied because there is no Code-Review+2 approval.
+    assertSubmitRequirementStatus(
+        gApi.changes().id(changeId).get().submitRequirements,
+        "Code-Review",
+        Status.UNSATISFIED,
+        /* isLegacy= */ false);
+
+    // Want-Code-Review-From-All is unsatisfied (since a review from reviewers is required but no
+    // reviewer is present on the change).
+    assertSubmitRequirementStatus(
+        gApi.changes().id(changeId).get().submitRequirements,
+        "Want-Code-Review-From-All",
+        Status.UNSATISFIED,
+        /* isLegacy= */ false);
+
+    // Add some reviewers
+    TestAccount reviewer1 = accountCreator.create("reviewer1");
+    gApi.changes().id(changeId).addReviewer("reviewer1");
+    TestAccount reviewer2 = accountCreator.create("reviewer2");
+    gApi.changes().id(changeId).addReviewer("reviewer2");
+
+    // Code-Review is unsatisfied because there is no Code-Review+2 approval.
+    assertSubmitRequirementStatus(
+        gApi.changes().id(changeId).get().submitRequirements,
+        "Code-Review",
+        Status.UNSATISFIED,
+        /* isLegacy= */ false);
+
+    // Want-Code-Review-From-All is unsatisfied since there are reviewers on the change that
+    // didn't approve it yet.
+    assertSubmitRequirementStatus(
+        gApi.changes().id(changeId).get().submitRequirements,
+        "Want-Code-Review-From-All",
+        Status.UNSATISFIED,
+        /* isLegacy= */ false);
+
+    requestScopeOperations.setApiUser(reviewer1.id());
+    voteLabel(changeId, "Code-Review", 2);
+
+    // Code-Review is satisfied because there is Code-Review+2 approval from reviewer1.
+    assertSubmitRequirementStatus(
+        gApi.changes().id(changeId).get().submitRequirements,
+        "Code-Review",
+        Status.SATISFIED,
+        /* isLegacy= */ false);
+
+    // Want-Code-Review-From-All is unsatisfied since there is no approval from reviewer2.
+    assertSubmitRequirementStatus(
+        gApi.changes().id(changeId).get().submitRequirements,
+        "Want-Code-Review-From-All",
+        Status.UNSATISFIED,
+        /* isLegacy= */ false);
+
+    requestScopeOperations.setApiUser(reviewer2.id());
+    voteLabel(changeId, "Code-Review", 2);
+
+    // Code-Review is satisfied because there are Code-Review+2 approvals from reviewer1 and
+    // reviewer2.
+    assertSubmitRequirementStatus(
+        gApi.changes().id(changeId).get().submitRequirements,
+        "Code-Review",
+        Status.SATISFIED,
+        /* isLegacy= */ false);
+
+    // Want-Code-Review-From-All is not applicable since there are approval from all reviewers
+    // (reviewer1 and reviewer2) which makes "label:Code-Review=MAX,users=human_reviewers"
+    // satisfied.
+    assertSubmitRequirementStatus(
+        gApi.changes().id(changeId).get().submitRequirements,
+        "Want-Code-Review-From-All",
+        Status.NOT_APPLICABLE,
+        /* isLegacy= */ false);
+
+    // Add another reviewer
+    TestAccount reviewer3 = accountCreator.create("reviewer3");
+    gApi.changes().id(changeId).addReviewer("reviewer3");
+
+    // Want-Code-Review-From-All is unsatisfied because reviewer3 didn't vote yet.
+    assertSubmitRequirementStatus(
+        gApi.changes().id(changeId).get().submitRequirements,
+        "Want-Code-Review-From-All",
+        Status.UNSATISFIED,
+        /* isLegacy= */ false);
+
+    // Vote with Code-Review+1 by reviewer3.
+    requestScopeOperations.setApiUser(reviewer3.id());
+    voteLabel(changeId, "Code-Review", 1);
+
+    // Want-Code-Review-From-All is not applicable because all reviewers voted with Code-Review >=
+    // 1.
+    assertSubmitRequirementStatus(
+        gApi.changes().id(changeId).get().submitRequirements,
+        "Want-Code-Review-From-All",
+        Status.NOT_APPLICABLE,
+        /* isLegacy= */ false);
+  }
+
+  @Test
+  public void submitRequirement_wantCodeReviewFromHumanReviewers_enabledByFooter()
+      throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allowLabel("Code-Review").ref("refs/*").group(REGISTERED_USERS).range(-2, 2))
+        .update();
+
+    configSubmitRequirement(
+        project,
+        SubmitRequirement.builder()
+            .setName("Code-Review")
+            .setSubmittabilityExpression(
+                SubmitRequirementExpression.create("label:Code-Review=MAX"))
+            .setAllowOverrideInChildProjects(false)
+            .build());
+    configSubmitRequirement(
+        project,
+        SubmitRequirement.builder()
+            .setName("Want-Code-Review-From-All")
+            .setApplicabilityExpression(
+                Optional.of(
+                    SubmitRequirementExpression.create(
+                        "footer:\"Want-Code-Review: all\" -label:Code-Review>=1,users=human_reviewers")))
+            .setSubmittabilityExpression(
+                SubmitRequirementExpression.create("label:Code-Review>=1,users=human_reviewers"))
+            .setAllowOverrideInChildProjects(false)
+            .build());
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    // Add some reviewers
+    TestAccount reviewer1 = accountCreator.create("reviewer1");
+    gApi.changes().id(changeId).addReviewer("reviewer1");
+    TestAccount reviewer2 = accountCreator.create("reviewer2");
+    gApi.changes().id(changeId).addReviewer("reviewer2");
+
+    // Approve by one reviewer
+    requestScopeOperations.setApiUser(reviewer1.id());
+    voteLabel(changeId, "Code-Review", 2);
+
+    // Code-Review is satisfied because there is Code-Review+2 approval from reviewer1.
+    assertSubmitRequirementStatus(
+        gApi.changes().id(changeId).get().submitRequirements,
+        "Code-Review",
+        Status.SATISFIED,
+        /* isLegacy= */ false);
+
+    // Want-Code-Review-From-All is not applicable since the commit message doesn't contain a
+    // "Want-Code-Review: all" footer.
+    assertSubmitRequirementStatus(
+        gApi.changes().id(changeId).get().submitRequirements,
+        "Want-Code-Review-From-All",
+        Status.NOT_APPLICABLE,
+        /* isLegacy= */ false);
+
+    // Amend the change to add a "Want-Code-Review: all" footer.
+    amendChange(
+        changeId,
+        PushOneCommit.SUBJECT
+            + "\n\nSome Description\n\nChange-Id: "
+            + changeId
+            + "\nWant-Code-Review: all\n",
+        PushOneCommit.FILE_NAME,
+        "content");
+
+    // Re-Approve by reviewer1.
+    requestScopeOperations.setApiUser(reviewer1.id());
+    voteLabel(changeId, "Code-Review", 2);
+
+    // Want-Code-Review-From-All is applicable since there is a "Want-Code-Review: all" footer and
+    // it is unsatisfied since there is no approval from reviewer2.
+    assertSubmitRequirementStatus(
+        gApi.changes().id(changeId).get().submitRequirements,
+        "Want-Code-Review-From-All",
+        Status.UNSATISFIED,
+        /* isLegacy= */ false);
+
+    // Approve by reviewer2.
+    requestScopeOperations.setApiUser(reviewer2.id());
+    voteLabel(changeId, "Code-Review", 2);
+
+    // Want-Code-Review-From-All is not applicable since there are approval from all reviewers
+    // (reviewer1 and reviewer2) which makes "label:Code-Review=MAX,users=human_reviewers"
+    // satisfied.
+    assertSubmitRequirementStatus(
+        gApi.changes().id(changeId).get().submitRequirements,
+        "Want-Code-Review-From-All",
+        Status.NOT_APPLICABLE,
+        /* isLegacy= */ false);
+
+    // Add another reviewer
+    TestAccount reviewer3 = accountCreator.create("reviewer3");
+    gApi.changes().id(changeId).addReviewer("reviewer3");
+
+    // Want-Code-Review-From-All is unsatisfied because reviewer3 didn't vote yet.
+    assertSubmitRequirementStatus(
+        gApi.changes().id(changeId).get().submitRequirements,
+        "Want-Code-Review-From-All",
+        Status.UNSATISFIED,
+        /* isLegacy= */ false);
+
+    // Vote with Code-Review+1 by reviewer3.
+    requestScopeOperations.setApiUser(reviewer3.id());
+    voteLabel(changeId, "Code-Review", 1);
+
+    // Want-Code-Review-From-All is not applicable because all reviewers voted with Code-Review >=
+    // 1.
+    assertSubmitRequirementStatus(
+        gApi.changes().id(changeId).get().submitRequirements,
+        "Want-Code-Review-From-All",
+        Status.NOT_APPLICABLE,
+        /* isLegacy= */ false);
+  }
+
+  @Test
   public void submitRequirementIsSatisfied_whenSubmittabilityExpressionIsFulfilled()
       throws Exception {
     configSubmitRequirement(

@@ -98,6 +98,7 @@ import com.google.gerrit.server.rules.prolog.PrologModule;
 import com.google.gerrit.server.submitrequirement.predicate.DistinctVotersPredicate;
 import com.google.gerrit.server.submitrequirement.predicate.FileEditsPredicate;
 import com.google.gerrit.server.submitrequirement.predicate.HasSubmoduleUpdatePredicate;
+import com.google.gerrit.server.submitrequirement.predicate.SubmitRequirementLabelExtensionPredicate;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.inject.Injector;
 import com.google.inject.Key;
@@ -201,6 +202,7 @@ public class BatchProgramModule extends FactoryModule {
     factory(ChangeData.AssistedFactory.class);
     factory(ChangeIsVisibleToPredicate.Factory.class);
     factory(DistinctVotersPredicate.Factory.class);
+    factory(SubmitRequirementLabelExtensionPredicate.Factory.class);
     factory(HasSubmoduleUpdatePredicate.Factory.class);
     factory(ProjectState.Factory.class);
 

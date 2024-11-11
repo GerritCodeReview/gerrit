@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f8bf3bc_be80954e",
+        "filename": "java/com/google/gerrit/extensions/client/NullableBooleanComparator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-11-11T09:41:42Z",
+      "side": 1,
+      "message": "Can we state a few things more explicitly (roughly equivalent to what you already say, but I think it\u0027s helpful, if they are explained in a more direct way):\n\n- This class is meant for comparing fields in classes that are constructed with ConfigUtil.loadSection, such as GeneralPreferencesInfo, EditPreferencesInfo, DiffPreferencesInfo\n- ConfigUtil implementation guarantees that Boolean field with default \u0027true\u0027 can never be null (and the fields are never assigned to null directly).\n- ConfigUtil.loadSection sets boolean fields to null if their value is false (for both default or user-specified).",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 76
+      },
+      "revId": "6c1447635d5874ad1eb4225795601c41ff07f50d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32a38b40_2d7fd77f",
+        "filename": "javatests/com/google/gerrit/server/config/CachedPreferencesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-11-11T09:41:42Z",
+      "side": 1,
+      "message": "Would it make sense to add a test, that sets boolean fields?",
+      "range": {
+        "startLine": 33,
+        "startChar": 13,
+        "endLine": 33,
+        "endChar": 34
+      },
+      "revId": "6c1447635d5874ad1eb4225795601c41ff07f50d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

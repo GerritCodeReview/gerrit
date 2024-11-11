@@ -256,8 +256,8 @@ also explicitly set the `function` attribute to a non-blocking value since the
 default is `MaxWithBlock`.
 
 If your project has a
-blocking label function, we highly encourage you to change it to `NoBlock` and
-add a submit-requirement for the same label. See the
+blocking label function, you must change it to `NoBlock` and add a
+submit-requirement for the same label. See the
 link:config-submit-requirements.html#code-review-example[submit-requirements
 documentation] for more details.
 

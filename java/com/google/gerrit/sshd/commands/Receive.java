@@ -21,6 +21,7 @@ import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.SshMetrics;
 import com.google.gerrit.server.git.receive.AsyncReceiveCommits;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -45,6 +46,7 @@ final class Receive extends AbstractGitCommand {
 
   @Inject private AsyncReceiveCommits.Factory factory;
   @Inject private PermissionBackend permissionBackend;
+  @Inject private SshMetrics sshMetrics;
 
   private final SetMultimap<ReviewerStateInternal, Account.Id> reviewers =
       MultimapBuilder.hashKeys(2).hashSetValues().build();
@@ -82,7 +84,7 @@ final class Receive extends AbstractGitCommand {
     }
 
     AsyncReceiveCommits arc =
-        factory.create(projectState, currentUser.asIdentifiedUser(), repo, null);
+        factory.create(projectState, currentUser.asIdentifiedUser(), repo, null, sshMetrics);
 
     try {
       Capable r = arc.canUpload();

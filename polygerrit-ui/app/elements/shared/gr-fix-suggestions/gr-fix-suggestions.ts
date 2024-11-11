@@ -25,7 +25,6 @@ import {when} from 'lit/directives/when.js';
 import {storageServiceToken} from '../../../services/storage/gr-storage_impl';
 import {getAppContext} from '../../../services/app-context';
 import {Interaction} from '../../../constants/reporting';
-import {waitUntil} from '../../../utils/async-util';
 
 export const COLLAPSE_SUGGESTION_STORAGE_KEY = 'collapseSuggestionStorageKey';
 
@@ -215,6 +214,9 @@ export class GrFixSuggestions extends LitElement {
       </div>
       <gr-suggestion-diff-preview
         .fixSuggestionInfo=${this.comment?.fix_suggestions?.[0]}
+        .patchSet=${this.comment?.patch_set}
+        .commentId=${this.comment?.id}
+        @preview-loaded=${() => (this.previewLoaded = true)}
       ></gr-suggestion-diff-preview>`;
   }
 
@@ -300,17 +302,7 @@ export class GrFixSuggestions extends LitElement {
   override updated(changedProperties: PropertyValues) {
     super.updated(changedProperties);
     if (changedProperties.has('comment') && this.comment?.fix_suggestions) {
-      this.waitForPreviewToLoad();
-    }
-  }
-
-  private async waitForPreviewToLoad() {
-    this.previewLoaded = false;
-    try {
-      await waitUntil(() => !!this.suggestionDiffPreview?.preview);
-      this.previewLoaded = true;
-    } catch (error) {
-      console.error('Error waiting for preview to load:', error);
+      this.previewLoaded = false;
     }
   }
 }

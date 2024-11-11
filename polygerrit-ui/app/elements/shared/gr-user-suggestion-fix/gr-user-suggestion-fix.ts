@@ -18,7 +18,6 @@ import {GrSuggestionDiffPreview} from '../gr-suggestion-diff-preview/gr-suggesti
 import {changeModelToken} from '../../../models/change/change-model';
 import {Comment, PatchSetNumber} from '../../../types/common';
 import {commentModelToken} from '../gr-comment-model/gr-comment-model';
-import {waitUntil} from '../../../utils/async-util';
 import {createUserFixSuggestion} from '../../../utils/comment-util';
 
 declare global {
@@ -153,9 +152,19 @@ export class GrUserSuggestionsFix extends LitElement {
         </div>
       </div>
       <gr-suggestion-diff-preview
-        .fixSuggestions=${fixSuggestions[0]}
+        .patchSet=${this.comment?.patch_set}
+        .commentId=${this.comment?.id}
+        .fixSuggestionInfo=${fixSuggestions[0]}
         .codeText=${code}
+        @preview-loaded=${() => (this.previewLoaded = true)}
       ></gr-suggestion-diff-preview>`;
+  }
+
+  override updated(changedProperties: PropertyValues) {
+    super.updated(changedProperties);
+    if (changedProperties.has('commentedText') && this.commentedText) {
+      this.previewLoaded = false;
+    }
   }
 
   handleShowFix() {
@@ -179,23 +188,6 @@ export class GrUserSuggestionsFix extends LitElement {
     if (this.comment?.patch_set === undefined) return '';
     if (!this.previewLoaded) return 'Fix is still loading ...';
     return '';
-  }
-
-  override updated(changedProperties: PropertyValues) {
-    super.updated(changedProperties);
-    if (changedProperties.has('textContent') && this.textContent) {
-      this.waitForPreviewToLoad();
-    }
-  }
-
-  private async waitForPreviewToLoad() {
-    this.previewLoaded = false;
-    try {
-      await waitUntil(() => !!this.suggestionDiffPreview?.preview);
-      this.previewLoaded = true;
-    } catch (error) {
-      console.error('Error waiting for preview to load:', error);
-    }
   }
 }
 

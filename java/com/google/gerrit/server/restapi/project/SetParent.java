@@ -83,16 +83,26 @@ public class SetParent
 
   @Override
   public Response<String> apply(ProjectResource rsrc, ParentInput input)
-      throws AuthException, ResourceConflictException, ResourceNotFoundException,
-          UnprocessableEntityException, IOException, PermissionBackendException,
-          BadRequestException, MethodNotAllowedException {
+      throws AuthException,
+          ResourceConflictException,
+          ResourceNotFoundException,
+          UnprocessableEntityException,
+          IOException,
+          PermissionBackendException,
+          BadRequestException,
+          MethodNotAllowedException {
     return Response.ok(apply(rsrc, input, true));
   }
 
   public String apply(ProjectResource rsrc, ParentInput input, boolean checkIfAdmin)
-      throws AuthException, ResourceConflictException, ResourceNotFoundException,
-          UnprocessableEntityException, IOException, PermissionBackendException,
-          BadRequestException, MethodNotAllowedException {
+      throws AuthException,
+          ResourceConflictException,
+          ResourceNotFoundException,
+          UnprocessableEntityException,
+          IOException,
+          PermissionBackendException,
+          BadRequestException,
+          MethodNotAllowedException {
     IdentifiedUser user = rsrc.getUser().asIdentifiedUser();
     String parentName =
         MoreObjects.firstNonNull(Strings.emptyToNull(input.parent), allProjects.get());
@@ -119,8 +129,11 @@ public class SetParent
 
   public void validateParentUpdate(
       Project.NameKey project, IdentifiedUser user, String newParent, boolean checkIfAdmin)
-      throws AuthException, ResourceConflictException, UnprocessableEntityException,
-          PermissionBackendException, BadRequestException {
+      throws AuthException,
+          ResourceConflictException,
+          UnprocessableEntityException,
+          PermissionBackendException,
+          BadRequestException {
     if (checkIfAdmin) {
       if (allowProjectOwnersToChangeParent) {
         permissionBackend.user(user).project(project).check(ProjectPermission.WRITE_CONFIG);

@@ -26,6 +26,7 @@ public class FileBuilder<T> {
   public FileBuilder(Function<String, T> nextStepProvider) {
     this.nextStepProvider = nextStepProvider;
   }
+
   /** File on which the comment should be added. */
   public T ofFile(String file) {
     return nextStepProvider.apply(file);

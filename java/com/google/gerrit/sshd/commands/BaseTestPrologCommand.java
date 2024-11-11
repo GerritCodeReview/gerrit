@@ -44,7 +44,8 @@ abstract class BaseTestPrologCommand extends SshCommand {
   @Option(
       name = "-s",
       usage =
-          "Read prolog script from stdin instead of reading rules.pl from the refs/meta/config branch")
+          "Read prolog script from stdin instead of reading rules.pl from the refs/meta/config"
+              + " branch")
   protected boolean useStdin;
 
   @Option(

@@ -274,7 +274,7 @@ public class DiffOperationsImpl implements DiffOperations {
                 MERGE_LIST,
                 DEFAULT_DIFF_ALGORITHM,
                 /* useTimeout= */ true,
-                /*whitespace = */ null));
+                /* whitespace= */ null));
       }
 
       if (diffParams.skipFiles() == null) {

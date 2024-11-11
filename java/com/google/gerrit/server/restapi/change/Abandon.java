@@ -76,7 +76,10 @@ public class Abandon
 
   @Override
   public Response<ChangeInfo> apply(ChangeResource rsrc, AbandonInput input)
-      throws RestApiException, UpdateException, PermissionBackendException, IOException,
+      throws RestApiException,
+          UpdateException,
+          PermissionBackendException,
+          IOException,
           ConfigInvalidException {
     // Not allowed to abandon if the current patch set is locked.
     patchSetUtil.checkPatchSetNotLocked(rsrc.getNotes());

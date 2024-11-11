@@ -54,7 +54,8 @@ public class ChangeNotesCommitTest extends AbstractChangeNotesTest {
                 + "Patch-set: 1\n"
                 + "Attention: {\"person_ident\":\""
                 + FQ_USER_IDENT
-                + "\\u003e\",\"operation\":\"ADD\",\"reason\":\"Added by Administrator using the hovercard menu\"}");
+                + "\\u003e\",\"operation\":\"ADD\",\"reason\":\"Added by Administrator using the"
+                + " hovercard menu\"}");
 
     @SuppressWarnings("unused")
     var unused = newParser(commit).parseAll();
@@ -73,7 +74,8 @@ public class ChangeNotesCommitTest extends AbstractChangeNotesTest {
                 + "Subject: Change subject\n"
                 + "Attention: {\"person_ident\":\""
                 + FQ_USER_IDENT
-                + "\\u003e\",\"operation\":\"ADD\",\"reason\":\"Added by Administrator using the hovercard menu\"}");
+                + "\\u003e\",\"operation\":\"ADD\",\"reason\":\"Added by Administrator using the"
+                + " hovercard menu\"}");
 
     @SuppressWarnings("unused")
     var unused = newParser(commit).parseAll();
@@ -101,7 +103,8 @@ public class ChangeNotesCommitTest extends AbstractChangeNotesTest {
                 + "Patch-set: 1\n"
                 + "Attention: {\"person_ident\":\""
                 + FQ_USER_IDENT
-                + "\\u003e\",\"operation\":\"ADD\",\"reason\":\"Added by Administrator using the hovercard menu\"}");
+                + "\\u003e\",\"operation\":\"ADD\",\"reason\":\"Added by Administrator using the"
+                + " hovercard menu\"}");
 
     @SuppressWarnings("unused")
     var unused = newParser(commit).parseAll();

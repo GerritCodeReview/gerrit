@@ -651,8 +651,7 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
         oldFileName,
         /* file2= */ null,
         /* insertions2= */ 0,
-        /* deletions2 =
-         */ 0,
+        /* deletions2= */ 0,
         /* expectedFileDiff2= */ null,
         /* oldFileName2= */ null);
   }

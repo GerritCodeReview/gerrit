@@ -25,12 +25,16 @@ package com.google.gerrit.extensions.restapi;
 public class ResourceConflictException extends RestApiException {
   private static final long serialVersionUID = 1L;
 
-  /** @param msg message to return to the client describing the error. */
+  /**
+   * @param msg message to return to the client describing the error.
+   */
   public ResourceConflictException(String msg) {
     super(msg);
   }
 
-  /** @param msg message to return to the client describing the error. */
+  /**
+   * @param msg message to return to the client describing the error.
+   */
   public ResourceConflictException(String msg, Throwable cause) {
     super(msg, cause);
   }

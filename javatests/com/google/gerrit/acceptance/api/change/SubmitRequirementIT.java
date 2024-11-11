@@ -789,7 +789,8 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
             .setApplicabilityExpression(
                 Optional.of(
                     SubmitRequirementExpression.create(
-                        "footer:\"Want-Code-Review: all\" -label:Code-Review>=1,users=human_reviewers")))
+                        "footer:\"Want-Code-Review: all\""
+                            + " -label:Code-Review>=1,users=human_reviewers")))
             .setSubmittabilityExpression(
                 SubmitRequirementExpression.create("label:Code-Review>=1,users=human_reviewers"))
             .setAllowOverrideInChildProjects(false)
@@ -2122,7 +2123,8 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
         "build-cop-override",
         Status.SATISFIED,
         /* isLegacy= */ false,
-        /* submittabilityCondition= */ "label:build-cop-override=MAX -label:build-cop-override=MIN");
+        /* submittabilityCondition= */ "label:build-cop-override=MAX"
+            + " -label:build-cop-override=MIN");
     assertThat(change.submittable).isTrue();
 
     // Merge the change. Submit requirements are still the same.
@@ -2136,7 +2138,8 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
         "build-cop-override",
         Status.SATISFIED,
         /* isLegacy= */ false,
-        /* submittabilityCondition= */ "label:build-cop-override=MAX -label:build-cop-override=MIN");
+        /* submittabilityCondition= */ "label:build-cop-override=MAX"
+            + " -label:build-cop-override=MIN");
   }
 
   @Test
@@ -2183,7 +2186,8 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
         Status.SATISFIED,
         /* isLegacy= */ true,
         // MAX_WITH_BLOCK function was translated to a submittability expression.
-        /* submittabilityCondition= */ "label:build-cop-override=MAX -label:build-cop-override=MIN");
+        /* submittabilityCondition= */ "label:build-cop-override=MAX"
+            + " -label:build-cop-override=MIN");
     assertSubmitRequirementStatus(
         change.submitRequirements,
         "build-cop-override",
@@ -2893,9 +2897,10 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
   public void legacySubmitRequirementDuplicatesGlobal_statusMatches_globalReturned()
       throws Exception {
     // The behaviour does not depend on AllowOverrideInChildProject in global submit requirement.
-    testLegacySubmitRequirementDuplicatesGlobalStatusMatches(/*allowOverrideInChildProject=*/ true);
     testLegacySubmitRequirementDuplicatesGlobalStatusMatches(
-        /*allowOverrideInChildProject=*/ false);
+        /* allowOverrideInChildProject= */ true);
+    testLegacySubmitRequirementDuplicatesGlobalStatusMatches(
+        /* allowOverrideInChildProject= */ false);
   }
 
   private void testLegacySubmitRequirementDuplicatesGlobalStatusMatches(
@@ -2966,9 +2971,9 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
       throws Exception {
     // The behaviour does not depend on AllowOverrideInChildProject in global submit requirement.
     testLegacySubmitRequirementDuplicatesGlobalStatusDoesNotMatch(
-        /*allowOverrideInChildProject=*/ true);
+        /* allowOverrideInChildProject= */ true);
     testLegacySubmitRequirementDuplicatesGlobalStatusDoesNotMatch(
-        /*allowOverrideInChildProject=*/ false);
+        /* allowOverrideInChildProject= */ false);
   }
 
   private void testLegacySubmitRequirementDuplicatesGlobalStatusDoesNotMatch(
@@ -3190,9 +3195,9 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
     ChangeInfo changeInfo = gApi.changes().id(r1.getChangeId()).get();
     assertThat(changeInfo.submitRequirements).hasSize(2);
     assertSubmitRequirementStatus(
-        changeInfo.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy = */ false);
+        changeInfo.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ false);
     assertSubmitRequirementStatus(
-        changeInfo.submitRequirements, "Code-Review", Status.SATISFIED, /* isLegacy = */ true);
+        changeInfo.submitRequirements, "Code-Review", Status.SATISFIED, /* isLegacy= */ true);
 
     requestScopeOperations.setApiUser(user.id());
     try (AutoCloseable ignored = disableNoteDb()) {
@@ -3211,12 +3216,12 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
           changeInfos.get(0).submitRequirements,
           "Code-Review",
           Status.UNSATISFIED,
-          /* isLegacy = */ false);
+          /* isLegacy= */ false);
       assertSubmitRequirementStatus(
           changeInfos.get(0).submitRequirements,
           "Code-Review",
           Status.SATISFIED,
-          /* isLegacy = */ true);
+          /* isLegacy= */ true);
     }
   }
 

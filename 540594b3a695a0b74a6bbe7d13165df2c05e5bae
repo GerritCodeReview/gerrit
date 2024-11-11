@@ -298,6 +298,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b2fd42f3_965383ba",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-11-11T07:45:07Z",
+      "side": 1,
+      "message": "\u003e a) Associating e-mails to accounts is done case insensitive\n\nI don\u0027t understand this. Aren\u0027t we just using the case that is provided to store the email?",
+      "parentUuid": "1debc29e_89e30e43",
+      "revId": "540594b3a695a0b74a6bbe7d13165df2c05e5bae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "84ba64d1_30942f94",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 6

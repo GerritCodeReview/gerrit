@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "41812744_b0c61df2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-11-11T07:45:07Z",
+      "side": 1,
+      "message": "This may be a bug, but I guess it depends on whether all email providers support case sensitive local parts. If one email provider treats local parts as case-insensitive allowing this would open the door for duplicate emails.",
+      "parentUuid": "58615f27_9cfe4a22",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 38
+      },
+      "revId": "28cf0ac46588255d161818f7c10d099468bb67a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e87c6904_7eefcb39",
         "filename": "/COMMIT_MSG",
         "patchSetId": 7
@@ -84,6 +108,23 @@
       "writtenOn": "2024-11-08T09:40:18Z",
       "side": 1,
       "message": "```suggestion\nThis will result, for example, in having change Committer and Author\n```",
+      "revId": "28cf0ac46588255d161818f7c10d099468bb67a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef8aa665_56c872bb",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-11-11T07:45:07Z",
+      "side": 1,
+      "message": "Maybe add a warning, that once you enable this you cannot go easily back, because after enabling this multiple users can have the same email (but with a different case).",
       "revId": "28cf0ac46588255d161818f7c10d099468bb67a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

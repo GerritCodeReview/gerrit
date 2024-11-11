@@ -255,9 +255,10 @@ be updated to {`NoBlock`, `NoOp`, `PatchSetLock`}. New label defintions should
 also explicitly set the `function` attribute to a non-blocking value since the
 default is `MaxWithBlock`.
 
-If your project has a
-blocking label function, we highly encourage you to change it to `NoBlock` and
-add a submit-requirement for the same label. See the
+If you have a submit-requirement configured for a label, you *must* change the
+label function to `NoBlock`. We also highly encourage you to convert all
+blocking labels to use the `NoBlock` function and replace the blocking behavior
+by adding a submit-requirement for the same label. See the
 link:config-submit-requirements.html#code-review-example[submit-requirements
 documentation] for more details.
 

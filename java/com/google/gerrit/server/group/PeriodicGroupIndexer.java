@@ -15,18 +15,26 @@
 package com.google.gerrit.server.group;
 
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
+import static com.google.gerrit.server.git.QueueProvider.QueueType.BATCH;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.group.db.GroupNameNotes;
+import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.index.group.GroupIndexer;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.jgit.lib.Repository;
 
 /**
@@ -53,6 +61,7 @@ public class PeriodicGroupIndexer implements Runnable {
 
   private final AllUsersName allUsersName;
   private final GitRepositoryManager repoManager;
+  private final ListeningExecutorService executor;
   private final Provider<GroupIndexer> groupIndexerProvider;
 
   private ImmutableSet<AccountGroup.UUID> groupUuids;
@@ -61,9 +70,11 @@ public class PeriodicGroupIndexer implements Runnable {
   PeriodicGroupIndexer(
       AllUsersName allUsersName,
       GitRepositoryManager repoManager,
+      @IndexExecutor(BATCH) ListeningExecutorService executor,
       Provider<GroupIndexer> groupIndexerProvider) {
     this.allUsersName = allUsersName;
     this.repoManager = repoManager;
+    this.executor = executor;
     this.groupIndexerProvider = groupIndexerProvider;
   }
 
@@ -75,20 +86,30 @@ public class PeriodicGroupIndexer implements Runnable {
               .map(GroupReference::getUUID)
               .collect(toImmutableSet());
       GroupIndexer groupIndexer = groupIndexerProvider.get();
-      int reindexCounter = 0;
+      AtomicInteger reindexCounter = new AtomicInteger();
+      List<ListenableFuture<?>> indexingTasks = new ArrayList<>();
       for (AccountGroup.UUID groupUuid : newGroupUuids) {
-        if (groupIndexer.reindexIfStale(groupUuid)) {
-          reindexCounter++;
-        }
+        indexingTasks.add(
+            executor.submit(
+                () -> {
+                  if (groupIndexer.reindexIfStale(groupUuid)) {
+                    reindexCounter.incrementAndGet();
+                  }
+                }));
       }
       if (groupUuids != null) {
         // Check if any group was deleted since the last run and if yes remove these groups from the
         // index.
         for (AccountGroup.UUID groupUuid : Sets.difference(groupUuids, newGroupUuids)) {
-          groupIndexer.index(groupUuid);
-          reindexCounter++;
+          indexingTasks.add(
+              executor.submit(
+                  () -> {
+                    groupIndexer.index(groupUuid);
+                    reindexCounter.incrementAndGet();
+                  }));
         }
       }
+      Futures.successfulAsList(indexingTasks).get();
       groupUuids = newGroupUuids;
       logger.atInfo().log("Run group indexer, %s groups reindexed", reindexCounter);
     } catch (Exception t) {

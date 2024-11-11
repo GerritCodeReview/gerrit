@@ -49,6 +49,7 @@ import com.google.gerrit.server.Sequence;
 import com.google.gerrit.server.Sequence.LightweightGroups;
 import com.google.gerrit.server.account.AccountCacheImpl;
 import com.google.gerrit.server.account.GroupBackend;
+import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdCacheImpl;
 import com.google.gerrit.server.account.storage.notedb.AccountNoteDbReadStorageModule;
 import com.google.gerrit.server.account.storage.notedb.AccountNoteDbWriteStorageModule;
 import com.google.gerrit.server.api.GerritApiModule;
@@ -208,6 +209,8 @@ public class InMemoryModule extends FactoryModule {
     install(cfgInjector.getInstance(GerritGlobalModule.class));
     install(new AccountNoteDbWriteStorageModule());
     install(new AccountNoteDbReadStorageModule());
+    install(new ExternalIdCacheImpl.ExternalIdCacheModule());
+    install(new ExternalIdCacheImpl.ExternalIdCacheBindingModule());
     install(new RepoSequenceModule());
     install(new FromAddressGeneratorProvider.UserAddressGenModule());
     install(new NoteDbDraftCommentsModule());

@@ -52,7 +52,6 @@ import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.entities.LabelFunction;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.PatchSet;
@@ -1233,10 +1232,9 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
         .contains("Code-Review+1 by User");
   }
 
-  @SuppressWarnings("deprecation")
   @Test
   public void sticky_copiedToLatestPatchSetFromSubmitRecords() throws Exception {
-    updateVerifiedLabel(b -> b.setFunction(LabelFunction.NO_BLOCK));
+    updateVerifiedLabel(b -> b.setNoBlockFunction());
 
     // This test is covering the backfilling logic for changes which have been submitted, based on
     // copied approvals, before Gerrit persisted copied votes as Copied-Label footers in NoteDb. It

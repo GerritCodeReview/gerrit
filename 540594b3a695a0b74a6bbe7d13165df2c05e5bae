@@ -316,6 +316,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3a7d0b55_7c2efcc5",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-11-11T08:50:03Z",
+      "side": 1,
+      "message": "\u003e \u003e a) Associating e-mails to accounts is done case insensitive\n\u003e \n\u003e I don\u0027t understand this. Aren\u0027t we just using the case that is provided to store the email?\n\nBefore the association, we look for duplicates with a case insensitive search.",
+      "parentUuid": "b2fd42f3_965383ba",
+      "revId": "540594b3a695a0b74a6bbe7d13165df2c05e5bae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "84ba64d1_30942f94",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 6

@@ -122,6 +122,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "721482b3_a7e14314",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-11-11T08:50:03Z",
+      "side": 1,
+      "message": "\u003e But doing this is only safe if all email providers treat the local part as case-insensitive. \n\nWell, not if that\u0027s configurable with a `emailCaseSensitive` switch. I am sure the Gerrit admin knows if the e-mail provider is case insensitive or not on the local part of the e-mail.\n\n\u003e If there is one email provider that treats the local part as case-sensitive, then I can take over your email, by registering the same email with another casing at that email provider and then make look like I\u0027m you.\n\nSure, that\u0027s why we must keep the current behaviour by default, but making it consistent. At the moment is highly inconsistent: we treat them as case-sensitive or case-insensitive depending on the API, which isn\u0027t good IMHO.\n\n\u003e The difference with usernames is that you as company have full control over this, with email providers this is different.\n\nWell, sort of: the company knows which e-mail provider is using and therefore can configure the flag on `gerrit.config` accordingly.",
+      "parentUuid": "732b3267_5d0d9561",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 38
+      },
+      "revId": "28cf0ac46588255d161818f7c10d099468bb67a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e87c6904_7eefcb39",
         "filename": "/COMMIT_MSG",
         "patchSetId": 7

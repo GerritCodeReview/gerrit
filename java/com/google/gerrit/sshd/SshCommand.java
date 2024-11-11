@@ -23,6 +23,7 @@ import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.InvalidDeadlineException;
 import com.google.gerrit.server.RequestInfo;
 import com.google.gerrit.server.RequestListener;
+import com.google.gerrit.server.SshMetrics;
 import com.google.gerrit.server.cache.PerThreadCache;
 import com.google.gerrit.server.cancellation.RequestCancelledException;
 import com.google.gerrit.server.cancellation.RequestStateContext;
@@ -46,6 +47,7 @@ public abstract class SshCommand extends BaseCommand {
   @Inject @GerritServerConfig private Config config;
   @Inject private DeadlineChecker.Factory deadlineCheckerFactory;
   @Inject private CancellationMetrics cancellationMetrics;
+  @Inject private SshMetrics sshMetrics;
 
   @Option(name = "--trace", usage = "enable request tracing")
   private boolean trace;
@@ -72,7 +74,9 @@ public abstract class SshCommand extends BaseCommand {
                 PerformanceLogContext performanceLogContext =
                     new PerformanceLogContext(config, performanceLoggers)) {
               RequestInfo requestInfo =
-                  RequestInfo.builder(RequestInfo.RequestType.SSH, user, traceContext).build();
+                  RequestInfo.builder(RequestInfo.RequestType.SSH, getName(), user, traceContext)
+                      .build();
+              Throwable error = null;
               try (RequestStateContext requestStateContext =
                   RequestStateContext.open()
                       .addRequestStateProvider(
@@ -80,8 +84,10 @@ public abstract class SshCommand extends BaseCommand {
                 requestListeners.runEach(l -> l.onRequest(requestInfo));
                 SshCommand.this.run();
               } catch (InvalidDeadlineException e) {
+                error = e;
                 stderr.println(e.getMessage());
               } catch (RuntimeException e) {
+                error = e;
                 Optional<RequestCancelledException> requestCancelledException =
                     RequestCancelledException.getFromCausalChain(e);
                 if (!requestCancelledException.isPresent()) {
@@ -97,6 +103,8 @@ public abstract class SshCommand extends BaseCommand {
                           " (%s)", requestCancelledException.get().getCancellationMessage().get()));
                 }
                 stderr.println(msg.toString());
+              } finally {
+                sshMetrics.countRequest(requestInfo, error);
               }
             } finally {
               stdout.flush();

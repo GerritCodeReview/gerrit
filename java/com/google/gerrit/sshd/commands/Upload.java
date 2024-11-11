@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.RequestInfo;
 import com.google.gerrit.server.RequestListener;
+import com.google.gerrit.server.SshMetrics;
 import com.google.gerrit.server.git.PermissionAwareRepositoryManager;
 import com.google.gerrit.server.git.TracingHook;
 import com.google.gerrit.server.git.TransferConfig;
@@ -54,6 +55,7 @@ final class Upload extends AbstractGitCommand {
   @Inject private UploadValidators.Factory uploadValidatorsFactory;
   @Inject private PermissionBackend permissionBackend;
   @Inject private UsersSelfAdvertiseRefsHook usersSelfAdvertiseRefsHook;
+  @Inject private SshMetrics sshMetrics;
 
   private PackStatistics stats;
 
@@ -93,21 +95,30 @@ final class Upload extends AbstractGitCommand {
     try (TraceContext traceContext = TraceContext.open();
         TracingHook tracingHook = new TracingHook()) {
       RequestInfo requestInfo =
-          RequestInfo.builder(RequestInfo.RequestType.GIT_UPLOAD, user, traceContext)
+          RequestInfo.builder(RequestInfo.RequestType.GIT_UPLOAD, getName(), user, traceContext)
               .project(projectState.getNameKey())
               .build();
-      requestListeners.runEach(l -> l.onRequest(requestInfo));
-      up.setProtocolV2Hook(tracingHook);
-      up.upload(in, out, err);
-      session.setPeerAgent(up.getPeerUserAgent());
-      stats = up.getStatistics();
-    } catch (UploadValidationException e) {
-      // UploadValidationException is used by the UploadValidators to
-      // stop the uploadPack. We do not want this exception to go beyond this
-      // point otherwise it would print a stacktrace in the logs and return an
-      // internal server error to the client.
-      if (!e.isOutput()) {
-        up.sendMessage(e.getMessage());
+      Throwable error = null;
+      try {
+        requestListeners.runEach(l -> l.onRequest(requestInfo));
+        up.setProtocolV2Hook(tracingHook);
+        up.upload(in, out, err);
+        session.setPeerAgent(up.getPeerUserAgent());
+        stats = up.getStatistics();
+      } catch (UploadValidationException e) {
+        error = e;
+        // UploadValidationException is used by the UploadValidators to
+        // stop the uploadPack. We do not want this exception to go beyond this
+        // point otherwise it would print a stacktrace in the logs and return an
+        // internal server error to the client.
+        if (!e.isOutput()) {
+          up.sendMessage(e.getMessage());
+        }
+      } catch (RuntimeException e) {
+        error = e;
+        throw e;
+      } finally {
+        sshMetrics.countRequest(requestInfo, error);
       }
     }
   }

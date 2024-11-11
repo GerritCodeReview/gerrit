@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cf1fe38c_5f099061",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-11-11T07:47:40Z",
+      "side": 1,
+      "message": "\u003e This may be a bug, but I guess it depends on whether all email providers support case sensitive local parts. If one email provider treats local parts as case-insensitive allowing this would open the door for duplicate emails.\n\nExactly, that\u0027s why I was thinking about a configuration similarly to what we do with usernames. Typically in companies the username is also used in the local part of the e-mail, and if the username is case insensitive then also the local part is treated as case-insensitive.",
+      "parentUuid": "41812744_b0c61df2",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 38
+      },
+      "revId": "28cf0ac46588255d161818f7c10d099468bb67a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e87c6904_7eefcb39",
         "filename": "/COMMIT_MSG",
         "patchSetId": 7

@@ -85,6 +85,13 @@ public abstract class RequestInfo {
     return requestUri().map(RequestInfo::redactRequestUri);
   }
 
+  /**
+   * The command name of the SSH command.
+   *
+   * <p>Only set if request type is {@link RequestType#SSH}.
+   */
+  public abstract Optional<String> commandName();
+
   /** The user that has sent the request. */
   public abstract CurrentUser callingUser();
 
@@ -164,6 +171,18 @@ public abstract class RequestInfo {
     return builder().requestType(requestType).callingUser(callingUser).traceContext(traceContext);
   }
 
+  public static RequestInfo.Builder builder(
+      RequestType requestType,
+      String commandName,
+      CurrentUser callingUser,
+      TraceContext traceContext) {
+    return builder()
+        .requestType(requestType)
+        .commandName(commandName)
+        .callingUser(callingUser)
+        .traceContext(traceContext);
+  }
+
   @UsedAt(UsedAt.Project.GOOGLE)
   public static RequestInfo.Builder builder() {
     return new AutoValue_RequestInfo.Builder();
@@ -190,6 +209,8 @@ public abstract class RequestInfo {
       headersBuilder().add(headerName + "=" + headerValue);
       return this;
     }
+
+    public abstract Builder commandName(String commandName);
 
     public abstract Builder callingUser(CurrentUser callingUser);
 

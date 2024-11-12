@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c443e2db_14b1e493",
+        "filename": "java/com/google/gerrit/extensions/client/NullableBooleanComparator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2024-11-12T12:34:32Z",
+      "side": 1,
+      "message": "Renamed the class and added explicit inputs-\u003eresult table to the doc.",
+      "parentUuid": "4f8bf3bc_be80954e",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 76
+      },
+      "revId": "6c1447635d5874ad1eb4225795601c41ff07f50d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "32a38b40_2d7fd77f",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-11-11T09:41:42Z",
       "side": 1,
       "message": "Would it make sense to add a test, that sets boolean fields?",
+      "range": {
+        "startLine": 33,
+        "startChar": 13,
+        "endLine": 33,
+        "endChar": 34
+      },
+      "revId": "6c1447635d5874ad1eb4225795601c41ff07f50d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c98eeab3_46e6c7a2",
+        "filename": "javatests/com/google/gerrit/server/config/CachedPreferencesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2024-11-12T12:34:32Z",
+      "side": 1,
+      "message": "Added some booleans to the Config/Proto equality tests, because insuring that they both work the same is the end goal.",
+      "parentUuid": "32a38b40_2d7fd77f",
       "range": {
         "startLine": 33,
         "startChar": 13,

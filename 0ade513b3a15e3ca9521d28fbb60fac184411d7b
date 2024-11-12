@@ -16,6 +16,24 @@
       "message": "wrong assertion, should be zero",
       "revId": "0ade513b3a15e3ca9521d28fbb60fac184411d7b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e7771b5_c1a4d937",
+        "filename": "javatests/com/google/gerrit/acceptance/server/index/change/LuceneChangeIndexerIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-11-12T13:50:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d1e53f51_9214ac4a",
+      "revId": "0ade513b3a15e3ca9521d28fbb60fac184411d7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

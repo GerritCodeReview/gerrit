@@ -135,6 +135,24 @@
       "parentUuid": "2009cac3_afa9980b",
       "revId": "28c7ebb9961552a7414b9dc4897b54f2fdd54f98",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2d83397_a4109bc2",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 775,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-11-12T15:20:13Z",
+      "side": 1,
+      "message": "IMO, it would be a wrong design to do anything SSH/http specific in this protocol agnostic class. Trying to determine from here whether the request was SSH is probably not the way to go.\n\nIf you need to expose anything from here back to the SSH/http layer then I would suggest defining a listener interface in this package and implementing it in both SSH and http layer.",
+      "parentUuid": "fa55186d_0a39f032",
+      "revId": "28c7ebb9961552a7414b9dc4897b54f2fdd54f98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

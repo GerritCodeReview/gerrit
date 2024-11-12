@@ -81,6 +81,24 @@
       "parentUuid": "96fedf2b_1832f219",
       "revId": "28c7ebb9961552a7414b9dc4897b54f2fdd54f98",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2009cac3_afa9980b",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 775,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2024-11-12T09:27:59Z",
+      "side": 1,
+      "message": "Scope isn\u0027t exposed in RequestScopePropagator, and how do we identify the \"original Scope\"?",
+      "parentUuid": "0303c6c3_608cad79",
+      "revId": "28c7ebb9961552a7414b9dc4897b54f2fdd54f98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

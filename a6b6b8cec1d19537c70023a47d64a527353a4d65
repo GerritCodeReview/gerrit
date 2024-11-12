@@ -16,6 +16,24 @@
       "message": "Add some acceptance test for the LuceneChangeIndex to test that all entries for a project are deleted after calling that method.",
       "revId": "a6b6b8cec1d19537c70023a47d64a527353a4d65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b43cbcf1_fef00f5d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-11-12T13:40:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06a131e1_2457ccb4",
+      "revId": "a6b6b8cec1d19537c70023a47d64a527353a4d65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

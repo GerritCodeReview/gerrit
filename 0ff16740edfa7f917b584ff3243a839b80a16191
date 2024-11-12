@@ -16,6 +16,24 @@
       "message": "I\u0027m curious why this was backported, there isn\u0027t really anything branch specific to this change? Is this just so that it gets packaged and distributed earlier?\n\nAlso, I\u0027d love to hear any feedback from anyone using this.",
       "revId": "0ff16740edfa7f917b584ff3243a839b80a16191",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "85b4712f_147497db",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-11-12T21:51:17Z",
+      "side": 1,
+      "message": "+1, This script isn\u0027t distributed with Gerrit, so I\u0027m not sure it would make sense to maintain stable branches for it.",
+      "parentUuid": "8f5f331b_c1bc6882",
+      "revId": "0ff16740edfa7f917b584ff3243a839b80a16191",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

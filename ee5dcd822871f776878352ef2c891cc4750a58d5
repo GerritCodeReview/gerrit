@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "afff006c_23c9b318",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-11-12T22:42:24Z",
+      "side": 1,
+      "message": "This probably needs an update to the Account REST API docs too?",
+      "range": {
+        "startLine": 26,
+        "startChar": 72,
+        "endLine": 26,
+        "endChar": 83
+      },
+      "revId": "ee5dcd822871f776878352ef2c891cc4750a58d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f6e43ed_c17fa812",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-11-12T22:42:24Z",
+      "side": 1,
+      "message": "nit: Don\u0027t capitalize the `S` since `insensitive` is a single word.\n\n```suggestion\n[[accounts.emailCaseInsensitive]]accounts.emailCaseInsensitive::\n```",
+      "range": {
+        "startLine": 107,
+        "startChar": 11,
+        "endLine": 107,
+        "endChar": 31
+      },
+      "revId": "ee5dcd822871f776878352ef2c891cc4750a58d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16b225f7_9568bdc4",
+        "filename": "java/com/google/gerrit/server/query/account/InternalAccountQuery.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-11-12T22:42:24Z",
+      "side": 1,
+      "message": "You need to update this javadoc too",
+      "range": {
+        "startLine": 103,
+        "startChar": 54,
+        "endLine": 103,
+        "endChar": 74
+      },
+      "revId": "ee5dcd822871f776878352ef2c891cc4750a58d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "285a472f_a671dd54",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 564,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-11-12T22:42:24Z",
+      "side": 1,
+      "message": "Are there equivalents to these tests with `value \u003d false`?\n\nIs is worth doing this as a config suite instead to ensure most tests will pass with either value?",
+      "revId": "ee5dcd822871f776878352ef2c891cc4750a58d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

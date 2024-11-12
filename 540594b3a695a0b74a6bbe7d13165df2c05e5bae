@@ -334,6 +334,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7eba314a_70ca17e4",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-11-12T22:42:24Z",
+      "side": 1,
+      "message": "\u003e \u003e \u003e a) Associating e-mails to accounts is done case insensitive\n\u003e \u003e \n\u003e \u003e I don\u0027t understand this. Aren\u0027t we just using the case that is provided to store the email?\n\u003e \n\u003e Before the association, we look for duplicates with a case insensitive search.\n\nWhere is the code doing that? Is that `com.google.gerrit.server.account.AuthRequest.Factory#createForEmail`? That seems to be taking the user input and creating a `mailto:` external id from it, and then looking up that external id to see if it already exists. I would have thought that would be case sensitive, so I\u0027m not sure where the insensitive search is.",
+      "parentUuid": "3a7d0b55_7c2efcc5",
+      "revId": "540594b3a695a0b74a6bbe7d13165df2c05e5bae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "84ba64d1_30942f94",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 6

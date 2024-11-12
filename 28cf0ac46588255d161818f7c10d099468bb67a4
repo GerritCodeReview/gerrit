@@ -170,6 +170,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f084ace2_6f949440",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-11-12T22:49:35Z",
+      "side": 1,
+      "message": "\u003e \u003e Well, sort of: the company knows which e-mail provider is using and therefore can configure the flag on `gerrit.config` accordingly.\n\u003e \n\u003e I would think that kind of configuration would be per-domain then?\n\n+1\n\n\u003e i.e. be safe and assume email providers are case sensitive, but allow admins to set something like `caseInsensitiveLocalPart \u003d example.com` to indicate that a given domain has a case insensitive local part.\n\n+1\n\n\u003e I think you\u0027d still need to post-process query results if you run a case insensitive search using only the local part in order to check if the domain is in the configured list.\n\nCorrect.",
+      "parentUuid": "95d113dd_ab90a16b",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 38
+      },
+      "revId": "28cf0ac46588255d161818f7c10d099468bb67a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e87c6904_7eefcb39",
         "filename": "/COMMIT_MSG",
         "patchSetId": 7

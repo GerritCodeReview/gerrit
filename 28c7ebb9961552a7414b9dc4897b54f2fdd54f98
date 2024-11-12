@@ -99,6 +99,24 @@
       "parentUuid": "0303c6c3_608cad79",
       "revId": "28c7ebb9961552a7414b9dc4897b54f2fdd54f98",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c9b4060_dedb456c",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 775,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2024-11-12T09:49:30Z",
+      "side": 1,
+      "message": "Don\u0027t know if it\u0027s crazy-talk but:\nIf RequestInfo is used for HTTP also, extract an interface from SshMetrics and let RequestScopePropagator expose that interface like  `requestScopePropagator.scopeSpecificMetrics()` so that this line would be:\n`requestScopePropagator.scopeSpecificMetrics().ifPresent(m -\u003e m.countRequest(requestInfo, error));`",
+      "parentUuid": "2009cac3_afa9980b",
+      "revId": "28c7ebb9961552a7414b9dc4897b54f2fdd54f98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -70,6 +70,30 @@
       },
       "revId": "b91b23410973a1065f7667fc246f6dd5516c51a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5029146_71cc92f2",
+        "filename": "javatests/com/google/gerrit/acceptance/server/util/TaskParkerIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2024-11-12T08:09:26Z",
+      "side": 1,
+      "message": "The test is still valuable with BlockingQueue implementation.",
+      "parentUuid": "1772c408_1e9c6897",
+      "range": {
+        "startLine": 96,
+        "startChar": 52,
+        "endLine": 96,
+        "endChar": 71
+      },
+      "revId": "b91b23410973a1065f7667fc246f6dd5516c51a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

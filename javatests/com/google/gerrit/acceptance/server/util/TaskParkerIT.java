@@ -28,9 +28,10 @@ import com.google.gerrit.server.git.WorkQueue.TaskParker;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Module;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.junit.After;
@@ -68,14 +69,14 @@ public class TaskParkerIT extends AbstractDaemonTest {
 
   public static class LatchedParker extends TaskListenerIT.LatchedListener implements TaskParker {
     private static final String EXPENSIVE_TASK = "expensive-task";
-    private final Semaphore expensiveTaskSemaphore = new Semaphore(1, true);
+    private final BlockingQueue<Task<?>> expensiveTaskQueue = new LinkedBlockingQueue<>(1);
     public volatile LatchedMethod<Boolean> isReadyToStart = new LatchedMethod<>();
     public volatile LatchedMethod<?> onNotReadyToStart = new LatchedMethod<>();
 
     @Override
     public boolean isReadyToStart(Task<?> task) {
       Boolean rtn = isReadyToStart.call();
-      if (EXPENSIVE_TASK.equals(task.toString()) && !expensiveTaskSemaphore.tryAcquire()) {
+      if (EXPENSIVE_TASK.equals(task.toString()) && !expensiveTaskQueue.offer(task)) {
         return false;
       }
       isReadyToStart = new LatchedMethod<>();
@@ -94,7 +95,7 @@ public class TaskParkerIT extends AbstractDaemonTest {
     @Override
     public void onStop(Task<?> task) {
       if (EXPENSIVE_TASK.equals(task.toString())) {
-        expensiveTaskSemaphore.release();
+        expensiveTaskQueue.remove(task);
       }
       super.onStop(task);
     }
@@ -492,6 +493,44 @@ public class TaskParkerIT extends AbstractDaemonTest {
     assertCorePoolSizeIsEventually(1);
     assertTaskCountIsEventually(0);
     assertStateIs(State.CANCELLED);
+  }
+
+  @Test
+  public void cancelParkedTaskDoesNotAffectParkerState() throws InterruptedException {
+    LatchedForeverRunnable runnable1 = new LatchedForeverRunnable("expensive-task");
+    LatchedRunnable runnable2 = new LatchedRunnable("expensive-task");
+    LatchedParker parker = new LatchedParker();
+    executor = workQueue.createQueue(2, "TaskParkers");
+    assertCorePoolSizeIs(2);
+
+    forwarder.resetDelegate(parker);
+    executor.execute(runnable1);
+    parker.isReadyToStart.complete();
+    parker.onStart.complete();
+    runnable1.run.assertCalledEventually();
+    assertTaskCountIsEventually(1);
+    Task<?> task1 = forwarder.task; // task for runnable1
+    assertStateIs(task1, State.RUNNING);
+
+    forwarder.resetDelegate(parker);
+    executor.execute(runnable2);
+    parker.isReadyToStart.assertCalledEventually();
+    assertCorePoolSizeIsEventually(3);
+    Task<?> task2 = forwarder.task; // task for runnable2
+    assertStateIs(task2, State.PARKED);
+
+    task2.cancel(true); // cancel PARKED task
+    parker.onStart.complete();
+    parker.onStop.complete();
+    assertCorePoolSizeIsEventually(2);
+    assertTaskCountIsEventually(1);
+
+    forwarder.resetDelegate(parker);
+    runnable1.run.complete(); // unblock runnable1
+    parker.onStop.complete();
+    assertTaskCountIsEventually(0);
+
+    assertThat(parker.expensiveTaskQueue.remainingCapacity()).isEqualTo(1);
   }
 
   private void assertTaskCountIs(int size) {

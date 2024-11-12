@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "65e81803_18a80a81",
+        "filename": "java/com/google/gerrit/server/SshMetrics.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-11-12T09:08:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da4e994d_2c48a3b6",
+      "range": {
+        "startLine": 53,
+        "startChar": 52,
+        "endLine": 53,
+        "endChar": 67
+      },
+      "revId": "28c7ebb9961552a7414b9dc4897b54f2fdd54f98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "96fedf2b_1832f219",
@@ -37,6 +61,24 @@
       "writtenOn": "2024-11-12T07:28:29Z",
       "side": 1,
       "message": "Is this guaranteed to be an SSH command? Doesn\u0027t HTTP requests also end up in ReceiveCommits?",
+      "revId": "28c7ebb9961552a7414b9dc4897b54f2fdd54f98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0303c6c3_608cad79",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 775,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-11-12T09:08:05Z",
+      "side": 1,
+      "message": "good catch\n\nHow can we determine if this was called via http or ssh ?\nIn case of ssh RequestScopePropagator has a SshScope if it\u0027s http it has a ServletScopes.REQUEST",
+      "parentUuid": "96fedf2b_1832f219",
       "revId": "28c7ebb9961552a7414b9dc4897b54f2fdd54f98",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -64,6 +64,9 @@ public class DiffPreferencesIT extends AbstractDaemonTest {
 
     DiffPreferencesInfo o = gApi.accounts().id(admin.id().get()).setDiffPreferences(i);
     assertPrefs(o, i);
+    // Re-getting the preferences should yield the same fields
+    o = gApi.accounts().id(admin.id().get()).getDiffPreferences();
+    assertPrefs(o, i);
 
     // Partially fill input record
     i = new DiffPreferencesInfo();
@@ -71,6 +74,38 @@ public class DiffPreferencesIT extends AbstractDaemonTest {
     DiffPreferencesInfo a = gApi.accounts().id(admin.id().get()).setDiffPreferences(i);
     assertPrefs(a, o, "tabSize");
     assertThat(a.tabSize).isEqualTo(42);
+  }
+
+  @Test
+  public void setDiffPreferences_booleanHandling() throws Exception {
+    DiffPreferencesInfo update = new DiffPreferencesInfo();
+    update.showLineEndings = true; // Default is 'true'
+    update.lineWrapping = true; // Default is 'false'
+    update.showTabs = false; // Default is 'true'
+    update.hideTopMenu = false; // Default is 'false'
+    update.intralineDifference = null; // Default is 'true'
+    update.retainHeader = null; // Default is 'false'
+
+    DiffPreferencesInfo o = gApi.accounts().id(admin.id().get()).setDiffPreferences(update);
+
+    // Explicitly assert configured values
+    assertThat(o.showLineEndings).isTrue();
+    assertThat(o.lineWrapping).isTrue();
+    assertThat(o.showTabs).isFalse();
+    assertThat(o.hideTopMenu).isNull(); // Both new value and default are false, omitted
+    assertThat(o.intralineDifference).isTrue();
+    assertThat(o.retainHeader).isNull(); // new value is 'null' and default is false, omitted
+
+    // assert unaffected fields
+    assertPrefs(
+        o,
+        DiffPreferencesInfo.defaults(),
+        "showLineEndings",
+        "lineWrapping",
+        "showTabs",
+        "hideTopMenu",
+        "intralineDifference",
+        "retainHeader");
   }
 
   @Test

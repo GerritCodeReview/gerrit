@@ -371,8 +371,12 @@ public class ConfigUtil {
         } else if (isLong(t)) {
           f.set(s, cfg.getLong(section, sub, n, (Long) d));
         } else if (isBoolean(t)) {
+          // Sets the field if:
+          // - 'cfg' value is 'true'.
+          // - the default value is 'true'.
+          // - i is set.
           boolean b = cfg.getBoolean(section, sub, n, (Boolean) d);
-          if (b || i != null) {
+          if (b || (Boolean) d || i != null) {
             f.set(s, b);
           }
         } else if (t.isEnum()) {
@@ -427,10 +431,13 @@ public class ConfigUtil {
             requireNonNull(val, "Default cannot be null for: " + n);
           }
         }
-        if (!isBoolean(t) || (boolean) val) {
+        if (!isBoolean(t) || (boolean) val || (Boolean) f.get(defaults)) {
           // To reproduce the same behavior as in the loadSection method above, values are
           // explicitly set for all types, except the boolean type. For the boolean type, the value
-          // is set only if it is 'true' (so, the false value is omitted in the result object).
+          // is set only in the following cases:
+          // - 'cfg' value is 'true'.
+          // - the default value is 'true'.
+          // Otherwise, false values are omitted in the result object.
           f.set(s, val);
         }
       }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce046839_64b2874c",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 707,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2024-11-13T22:22:15Z",
+      "side": 1,
+      "message": "Hmm, unrelated to your change, but I am worried that this can end up in a situation where there are no tasks running left to complete, and there might still be parked tasks. This could stall tasks in a parked state for a long time (until something else runs and completes). This is not the intended design. The intended design is that one task completing should never need to unpark more than one other task, and that any time a task completes, if there are tasks that could be unparked, that they will be. \n\nHowever, since we remove tasks (say task c) from the parked queue while checking them for \"ready\" (say by completing task A), they could become ready (by another task, say task B, completing) after it was checked (by A), but before it was put back in the queue (by A). And then that other completing task (B) will miss it (c) when checking if there are any ready tasks (since it is not in the \"parked\" queue), and this can leave the parked task (c) stranded.",
+      "revId": "479690f3a5e38aa2b82ea48d64f9e7e4f4c2d5cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

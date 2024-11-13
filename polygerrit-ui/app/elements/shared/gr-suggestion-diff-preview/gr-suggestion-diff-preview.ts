@@ -130,6 +130,14 @@ export class GrSuggestionDiffPreview extends LitElement {
     );
     subscribe(
       this,
+      () => this.getChangeModel().revisions$,
+      revisions =>
+        (this.hasEdit = Object.values(revisions).some(
+          info => info._number === EDIT
+        ))
+    );
+    subscribe(
+      this,
       () => this.getChangeModel().latestPatchNum$,
       x => (this.latestPatchNum = x)
     );

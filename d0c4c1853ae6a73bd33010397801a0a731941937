@@ -16,6 +16,24 @@
       "message": "How often is this called? Should we only log a sample/when tracing is on?",
       "revId": "d0c4c1853ae6a73bd33010397801a0a731941937",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9233e9c3_22583d2b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-11-13T14:32:45Z",
+      "side": 1,
+      "message": "These are logs on fine level, they will only log if a request is traced or if fine level logging is configured (which we do have configured but only for MergeUtil).\n\nSo I would say it\u0027s fine from the log volume that this creates.",
+      "parentUuid": "aef62be3_52e2f0b4",
+      "revId": "d0c4c1853ae6a73bd33010397801a0a731941937",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

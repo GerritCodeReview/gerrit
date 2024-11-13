@@ -280,6 +280,8 @@ export class GrSuggestionDiffPreview extends LitElement {
         fixSuggestion?.replacements?.[0].path ?? ''
       ),
       commentId: this.commentId ?? '',
+      success: res.ok,
+      status: res.status,
     });
     if (res?.ok) {
       this.getNavigation().setUrl(

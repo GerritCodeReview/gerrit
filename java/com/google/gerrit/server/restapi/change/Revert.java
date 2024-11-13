@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.gerrit.extensions.conditions.BooleanCondition.and;
 import static com.google.gerrit.server.permissions.ChangePermission.REVERT;
 import static com.google.gerrit.server.permissions.RefPermission.CREATE_CHANGE;
@@ -91,10 +92,9 @@ public class Revert
 
     contributorAgreements.check(rsrc.getProject(), rsrc.getUser());
     permissionBackend.user(rsrc.getUser()).ref(change.getDest()).check(CREATE_CHANGE);
-    projectCache
-        .get(rsrc.getProject())
-        .orElseThrow(illegalState(rsrc.getProject()))
-        .checkStatePermitsWrite();
+    ProjectState projectState =
+        projectCache.get(rsrc.getProject()).orElseThrow(illegalState(rsrc.getProject()));
+    projectState.checkStatePermitsWrite();
     rsrc.permissions().check(REVERT);
     ChangeNotes notes = rsrc.getNotes();
     Change.Id changeIdToRevert = notes.getChangeId();
@@ -103,6 +103,18 @@ public class Revert
     if (patch == null) {
       throw new ResourceNotFoundException(changeIdToRevert.toString());
     }
+
+    if (input.workInProgress == null) {
+      input.workInProgress =
+          firstNonNull(
+              rsrc.getUser()
+                  .asIdentifiedUser()
+                  .state()
+                  .generalPreferences()
+                  .workInProgressByDefault,
+              false);
+    }
+
     return Response.ok(
         json.noOptions()
             .format(

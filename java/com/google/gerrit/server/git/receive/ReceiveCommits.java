@@ -705,7 +705,11 @@ class ReceiveCommits {
             TraceContext.newTrace(
                 tracePushOption.isPresent(),
                 tracePushOption.orElse(null),
-                (tagName, traceId) -> addMessage(tagName + ": " + traceId));
+                (tagName, traceId) -> {
+                  if (tracePushOption.isPresent()) {
+                    addMessage(tagName + ": " + traceId);
+                  }
+                });
         PerformanceLogContext performanceLogContext =
             new PerformanceLogContext(config, performanceLoggers);
         TraceTimer traceTimer =

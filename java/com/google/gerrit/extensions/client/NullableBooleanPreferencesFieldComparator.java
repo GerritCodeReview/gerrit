@@ -37,7 +37,7 @@ public class NullableBooleanPreferencesFieldComparator {
    *   <tr><td> true </td> <td> true </td> <td> true </td></tr>
    *   <tr><td> true </td> <td> false </td> <td> true </td></tr>
    *   <tr><td> true </td> <td> null </td> <td> true </td></tr>
-   *   <tr><td> false </td> <td> true </td> <td> true </td></tr>
+   *   <tr><td> false </td> <td> true </td> <td> false </td></tr>
    *   <tr><td> false </td> <td> false </td> <td> null </td></tr>
    *   <tr><td> false </td> <td> null </td> <td> null </td></tr>
    *   <tr><td> null </td> <td> true </td> <td> true </td></tr>
@@ -49,7 +49,7 @@ public class NullableBooleanPreferencesFieldComparator {
    * practically referring to {@code null} values as {@code false} anyway. Preferences equality
    * methods should reflect this state.
    */
-  static boolean equalBooleanPreferencesFields(@Nullable Boolean a, @Nullable Boolean b) {
+  public static boolean equalBooleanPreferencesFields(@Nullable Boolean a, @Nullable Boolean b) {
     return Objects.equals(
         Objects.requireNonNullElse(a, false), Objects.requireNonNullElse(b, false));
   }

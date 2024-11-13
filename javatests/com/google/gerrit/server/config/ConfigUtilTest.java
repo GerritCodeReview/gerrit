@@ -107,7 +107,7 @@ public class ConfigUtilTest {
     assertThat(out.ld).isEqualTo(d.ld);
     assertThat(out.b).isEqualTo(in.b);
     assertThat(out.bb).isEqualTo(in.bb);
-    assertThat(out.bd).isNull();
+    assertThat(out.bd).isFalse();
     assertThat(out.s).isEqualTo(in.s);
     assertThat(out.sd).isEqualTo(d.sd);
     assertThat(out.nd).isNull();

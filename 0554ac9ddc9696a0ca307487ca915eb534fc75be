@@ -16,6 +16,24 @@
       "message": "Sanity check: Does this work on narrower views (or at least does this work worse than it used to), since we are setting a minimum width now?",
       "revId": "0554ac9ddc9696a0ca307487ca915eb534fc75be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4597c839_0d8f40da",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-11-13T16:45:30Z",
+      "side": 1,
+      "message": "It seems on mobile it makes it so the description box is closer to \"Description\" so like it looks kinda out of line. On desktop it\u0027s fine.",
+      "parentUuid": "4c103ec7_3f7559a6",
+      "revId": "0554ac9ddc9696a0ca307487ca915eb534fc75be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

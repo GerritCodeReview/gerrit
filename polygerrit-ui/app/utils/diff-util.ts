@@ -22,7 +22,10 @@ export function countLines(diff?: DiffInfo, side?: Side) {
   }, 0);
 }
 
-function getDiffLines(diff: DiffInfo, side: Side): string[] {
+/**
+ * Get the lines of the diff for a given side.
+ */
+export function getDiffLines(diff: DiffInfo, side: Side): string[] {
   let lines: string[] = [];
   for (const chunk of diff.content) {
     if (chunk.skip) {

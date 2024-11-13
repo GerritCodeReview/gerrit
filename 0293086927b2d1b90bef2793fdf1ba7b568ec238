@@ -22,6 +22,30 @@
       },
       "revId": "0293086927b2d1b90bef2793fdf1ba7b568ec238",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce85ebea_8d7759c4",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-11-13T16:59:24Z",
+      "side": 1,
+      "message": "I\u0027ve created it seperately. I see we use it in gr-change-actions and need to use the one without edits. Otherwise cherry-pick ends up with the latest patchset but the change edits commit msg.",
+      "parentUuid": "c0064f9d_61445425",
+      "range": {
+        "startLine": 356,
+        "startChar": 18,
+        "endLine": 356,
+        "endChar": 32
+      },
+      "revId": "0293086927b2d1b90bef2793fdf1ba7b568ec238",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

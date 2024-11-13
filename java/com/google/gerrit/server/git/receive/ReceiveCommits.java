@@ -475,11 +475,11 @@ class ReceiveCommits {
   private boolean newChangeForAllNotInTarget;
   private boolean setChangeAsPrivate;
   private Optional<NoteDbPushOption> noteDbPushOption;
-  private Optional<String> tracePushOption;
+  private Optional<String> tracePushOption = Optional.empty();
 
   private MessageSender messageSender;
   private ReceiveCommitsResult.Builder result;
-  private ImmutableMap<String, String> loggingTags;
+  private ImmutableSetMultimap<String, String> loggingTags;
   private ImmutableList<String> transitionalPluginOptions;
 
   /** This object is for single use only. */
@@ -636,7 +636,7 @@ class ReceiveCommits {
     // Handles for outputting back over the wire to the end user.
     this.messageSender = messageSender != null ? messageSender : new ReceivePackMessageSender();
     this.result = ReceiveCommitsResult.builder();
-    this.loggingTags = ImmutableMap.of();
+    this.loggingTags = ImmutableSetMultimap.of();
 
     // TODO(hiesel): Make this decision implicit once vetted
     boolean useRefCache = config.getBoolean("receive", "enableInMemoryRefCache", true);
@@ -685,8 +685,8 @@ class ReceiveCommits {
   void sendMessages() {
     try (TraceContext traceContext =
         TraceContext.newTrace(
-            loggingTags.containsKey(RequestId.Type.TRACE_ID.name()),
-            loggingTags.get(RequestId.Type.TRACE_ID.name()),
+            tracePushOption.isPresent(),
+            Iterables.getFirst(loggingTags.get(RequestId.Type.TRACE_ID.name()), null),
             (tagName, traceId) -> {})) {
       loggingTags.forEach((tagName, tagValue) -> traceContext.addTag(tagName, tagValue));
 
@@ -712,7 +712,11 @@ class ReceiveCommits {
             TraceContext.newTrace(
                 tracePushOption.isPresent(),
                 tracePushOption.orElse(null),
-                (tagName, traceId) -> addMessage(tagName + ": " + traceId));
+                (tagName, traceId) -> {
+                  if (tracePushOption.isPresent()) {
+                    addMessage(tagName + ": " + traceId);
+                  }
+                });
         PerformanceLogContext performanceLogContext =
             new PerformanceLogContext(config, performanceLoggers);
         TraceTimer traceTimer =
@@ -1375,8 +1379,6 @@ class ReceiveCommits {
     List<String> traceValues = pushOptions.get("trace");
     if (!traceValues.isEmpty()) {
       tracePushOption = Optional.of(Iterables.getLast(traceValues));
-    } else {
-      tracePushOption = Optional.empty();
     }
   }
 

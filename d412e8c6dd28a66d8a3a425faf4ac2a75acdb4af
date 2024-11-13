@@ -70,6 +70,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "207625b6_445d4046",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-11-13T00:29:17Z",
+      "side": 1,
+      "message": "@matthias.sohn@gmail.com if you have a chance to review, that would be great. I do plan to add more tests to cover the other submit types and the `conflicts:` query operator.",
+      "parentUuid": "a84ef682_37cdf62f",
+      "revId": "d412e8c6dd28a66d8a3a425faf4ac2a75acdb4af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "be72cb43_cb640b92",

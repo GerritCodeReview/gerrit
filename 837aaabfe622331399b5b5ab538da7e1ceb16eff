@@ -34,6 +34,24 @@
       "parentUuid": "c9e41a54_d2957646",
       "revId": "837aaabfe622331399b5b5ab538da7e1ceb16eff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7f0242c_e9cb962c",
+        "filename": "java/com/google/gerrit/index/testing/AbstractFakeIndex.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-11-13T13:55:45Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "80ab0897_2f1bc38b",
+      "revId": "837aaabfe622331399b5b5ab538da7e1ceb16eff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

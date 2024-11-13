@@ -71,6 +71,7 @@ import com.google.gerrit.acceptance.AccountIndexedCounter;
 import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.UseClockStep;
@@ -2672,6 +2673,23 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
+  @UseClockStep
+  public void updateDrafts() throws Exception {
+    try {
+      PushOneCommit.Result r1 = createChange();
+
+      requestScopeOperations.setApiUser(user.id());
+      CommentInfo draft = createDraft(r1, PushOneCommit.FILE_NAME, "draft creation");
+      updateDraft(r1, draft, "draft update");
+      assertThat(gApi.changes().id(r1.getChangeId()).current().draftsAsList()).hasSize(1);
+      assertThat(gApi.changes().id(r1.getChangeId()).current().draftsAsList().get(0).message)
+          .isEqualTo("draft update");
+    } finally {
+      cleanUpDrafts();
+    }
+  }
+
+  @Test
   public void userCanGenerateNewHttpPassword() throws Exception {
     sender.clear();
     String newPassword = gApi.accounts().self().generateHttpPassword();
@@ -2937,12 +2955,22 @@ public class AccountIT extends AbstractDaemonTest {
         .isEqualTo(postUpdateStatus);
   }
 
-  private void createDraft(PushOneCommit.Result r, String path, String message) throws Exception {
+  @CanIgnoreReturnValue
+  private CommentInfo createDraft(Result r, String path, String message) throws Exception {
     DraftInput in = new DraftInput();
     in.path = path;
     in.line = 1;
     in.message = message;
-    gApi.changes().id(r.getChangeId()).current().createDraft(in);
+    return gApi.changes().id(r.getChangeId()).current().createDraft(in).get();
+  }
+
+  @CanIgnoreReturnValue
+  private CommentInfo updateDraft(Result r, CommentInfo orig, String newMessage) throws Exception {
+    DraftInput in = new DraftInput();
+    in.path = orig.path;
+    in.line = orig.line;
+    in.message = newMessage;
+    return gApi.changes().id(r.getChangeId()).current().draft(orig.id).update(in);
   }
 
   private void cleanUpDrafts() throws Exception {

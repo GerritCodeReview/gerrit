@@ -153,6 +153,24 @@
       "parentUuid": "fa55186d_0a39f032",
       "revId": "28c7ebb9961552a7414b9dc4897b54f2fdd54f98",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db8fa472_3f40b928",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 775,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2024-11-13T07:49:51Z",
+      "side": 1,
+      "message": "Don\u0027t know if you are commenting in my idea, but this class is already aware that there is something called Scope, getting the metrics-handler for this Scope doesn\u0027t tell RecieveCommits anything about the existence of SSH and/or HTTP.",
+      "parentUuid": "d2d83397_a4109bc2",
+      "revId": "28c7ebb9961552a7414b9dc4897b54f2fdd54f98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

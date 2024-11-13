@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aef62be3_52e2f0b4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2024-11-13T14:23:02Z",
+      "side": 1,
+      "message": "How often is this called? Should we only log a sample/when tracing is on?",
+      "revId": "d0c4c1853ae6a73bd33010397801a0a731941937",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

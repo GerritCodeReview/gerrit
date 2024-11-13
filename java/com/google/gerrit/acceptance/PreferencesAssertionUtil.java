@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance;
 
 import static com.google.common.truth.Truth.assertWithMessage;
+import static com.google.gerrit.extensions.client.NullableBooleanPreferencesFieldComparator.equalBooleanPreferencesFields;
 import static com.google.gerrit.server.config.ConfigUtil.skipField;
 
 import java.lang.reflect.Field;
@@ -22,7 +23,9 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-public class AssertUtil {
+/** Utility class for preferences assertion. */
+public class PreferencesAssertionUtil {
+  /** Asserts preferences classes equality, ignoring the specified fields. */
   public static <T> void assertPrefs(T actual, T expected, String... fieldsToExclude)
       throws IllegalArgumentException, IllegalAccessException {
     Set<String> excludedFields = new HashSet<>(Arrays.asList(fieldsToExclude));
@@ -33,12 +36,10 @@ public class AssertUtil {
       Object actualVal = field.get(actual);
       Object expectedVal = field.get(expected);
       if (field.getType().isAssignableFrom(Boolean.class)) {
-        if (actualVal == null) {
-          actualVal = false;
-        }
-        if (expectedVal == null) {
-          expectedVal = false;
-        }
+        assertWithMessage("%s [actual: %s, expected: %s]", field.getName(), actualVal, expectedVal)
+            .that(equalBooleanPreferencesFields((Boolean) expectedVal, (Boolean) actualVal))
+            .isTrue();
+        continue;
       }
       assertWithMessage(field.getName()).that(actualVal).isEqualTo(expectedVal);
     }

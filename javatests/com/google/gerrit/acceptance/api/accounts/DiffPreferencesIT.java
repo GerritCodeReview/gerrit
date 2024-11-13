@@ -15,7 +15,7 @@
 package com.google.gerrit.acceptance.api.accounts;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.acceptance.AssertUtil.assertPrefs;
+import static com.google.gerrit.acceptance.PreferencesAssertionUtil.assertPrefs;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;

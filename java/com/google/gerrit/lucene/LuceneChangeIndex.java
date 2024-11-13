@@ -259,6 +259,16 @@ public class LuceneChangeIndex implements ChangeIndex {
   }
 
   @Override
+  public void deleteAllForProject(Project.NameKey project) {
+    Term allForProject = new Term(ChangeField.PROJECT_SPEC.getName(), project.get());
+    try {
+      Futures.allAsList(openIndex.delete(allForProject), closedIndex.delete(allForProject)).get();
+    } catch (ExecutionException | InterruptedException e) {
+      throw new StorageException(e);
+    }
+  }
+
+  @Override
   public void deleteAll() {
     openIndex.deleteAll();
     closedIndex.deleteAll();

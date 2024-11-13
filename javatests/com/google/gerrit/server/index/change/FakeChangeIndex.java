@@ -18,6 +18,7 @@ import static com.google.gerrit.index.SchemaUtil.schema;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.index.IndexedField;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
@@ -101,6 +102,11 @@ public class FakeChangeIndex implements ChangeIndex {
 
   @Override
   public void delete(Change.Id id) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public void deleteAllForProject(Project.NameKey project) {
     throw new UnsupportedOperationException();
   }
 

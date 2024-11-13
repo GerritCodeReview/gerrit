@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "501d97c4_5c00a439",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-11-13T05:06:18Z",
+      "side": 1,
+      "message": "I don\u0027t think this is accurate. An existing label definition using `MaxWithBlock` will continue to work, even on Gerrit 3.9.",
+      "range": {
+        "startLine": 258,
+        "startChar": 0,
+        "endLine": 260,
+        "endChar": 38
+      },
+      "revId": "0701e10ce0e87637e1a64a1b784ae1a06424413e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

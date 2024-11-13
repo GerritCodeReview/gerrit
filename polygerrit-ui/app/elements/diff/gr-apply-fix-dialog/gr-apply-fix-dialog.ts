@@ -441,6 +441,8 @@ export class GrApplyFixDialog extends LitElement {
       fileExtension: getFileExtension(
         this.fixSuggestions?.[0].replacements?.[0].path ?? ''
       ),
+      success: res.ok,
+      status: res.status,
     });
   }
 }

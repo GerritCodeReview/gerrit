@@ -88,6 +88,41 @@
       "parentUuid": "722df966_3548b3e7",
       "revId": "707caae5d2b72d97da710dd6f36556570820f629",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "52847ee4_fbdaff33",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-11-13T23:01:46Z",
+      "side": 1,
+      "message": "Surprising, I wasn\u0027t aware that request logs don\u0027t log the traceid. This should be fixed to ensure we can correlate log records of all logs.",
+      "parentUuid": "cebe5be3_50990a0b",
+      "revId": "707caae5d2b72d97da710dd6f36556570820f629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee1e6d83_5b2f42ec",
+        "filename": "java/com/google/gerrit/server/logging/TraceContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-11-13T23:01:46Z",
+      "side": 1,
+      "message": "I\u0027d move this block down to line 150 then we can avoid repeating these 2 lines in line 151 an 152",
+      "revId": "707caae5d2b72d97da710dd6f36556570820f629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

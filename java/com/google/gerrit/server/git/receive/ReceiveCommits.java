@@ -678,7 +678,7 @@ class ReceiveCommits {
   void sendMessages() {
     try (TraceContext traceContext =
         TraceContext.newTrace(
-            loggingTags.containsKey(RequestId.Type.TRACE_ID.name()),
+            tracePushOption.isPresent(),
             loggingTags.get(RequestId.Type.TRACE_ID.name()),
             (tagName, traceId) -> {})) {
       loggingTags.forEach((tagName, tagValue) -> traceContext.addTag(tagName, tagValue));
@@ -705,7 +705,11 @@ class ReceiveCommits {
             TraceContext.newTrace(
                 tracePushOption.isPresent(),
                 tracePushOption.orElse(null),
-                (tagName, traceId) -> addMessage(tagName + ": " + traceId));
+                (tagName, traceId) -> {
+                  if (tracePushOption.isPresent()) {
+                    addMessage(tagName + ": " + traceId);
+                  }
+                });
         PerformanceLogContext performanceLogContext =
             new PerformanceLogContext(config, performanceLoggers);
         TraceTimer traceTimer =

@@ -329,9 +329,9 @@ public class RevertSubmission
                 generatedChangeId,
                 cherryPickRevertChangeId,
                 timestamp,
-                revertInput.workInProgress,
+                revertInput.getWorkInProgress(),
                 baseCommit));
-        if (!revertInput.workInProgress) {
+        if (!revertInput.getWorkInProgress()) {
           commitUtil.addChangeRevertedNotificationOps(
               bu, changeNotes.getChangeId(), cherryPickRevertChangeId, generatedChangeId.name());
         }
@@ -361,7 +361,7 @@ public class RevertSubmission
     // change is created for the cherry-picked commit. Notifications are sent only for this change,
     // but not for the intermediately created revert commit.
     cherryPickInput.notify = revertInput.notify;
-    if (revertInput.workInProgress) {
+    if (revertInput.getWorkInProgress()) {
       cherryPickInput.notify = firstNonNull(cherryPickInput.notify, NotifyHandling.NONE);
     }
     cherryPickInput.notifyDetails = revertInput.notifyDetails;

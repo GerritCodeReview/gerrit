@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.gerrit.extensions.conditions.BooleanCondition.and;
 import static com.google.gerrit.server.permissions.ChangePermission.REVERT;
 import static com.google.gerrit.server.permissions.RefPermission.CREATE_CHANGE;
@@ -77,13 +78,8 @@ public class Revert
 
   @Override
   public Response<ChangeInfo> apply(ChangeResource rsrc, RevertInput input)
-      throws IOException,
-          RestApiException,
-          UpdateException,
-          NoSuchChangeException,
-          PermissionBackendException,
-          NoSuchProjectException,
-          ConfigInvalidException {
+      throws IOException, RestApiException, UpdateException, NoSuchChangeException,
+          PermissionBackendException, NoSuchProjectException, ConfigInvalidException {
     Change change = rsrc.getChange();
     if (!change.isMerged()) {
       throw new ResourceConflictException("change is " + ChangeUtil.status(change));
@@ -91,10 +87,9 @@ public class Revert
 
     contributorAgreements.check(rsrc.getProject(), rsrc.getUser());
     permissionBackend.user(rsrc.getUser()).ref(change.getDest()).check(CREATE_CHANGE);
-    projectCache
-        .get(rsrc.getProject())
-        .orElseThrow(illegalState(rsrc.getProject()))
-        .checkStatePermitsWrite();
+    ProjectState projectState =
+        projectCache.get(rsrc.getProject()).orElseThrow(illegalState(rsrc.getProject()));
+    projectState.checkStatePermitsWrite();
     rsrc.permissions().check(REVERT);
     ChangeNotes notes = rsrc.getNotes();
     Change.Id changeIdToRevert = notes.getChangeId();
@@ -103,6 +98,18 @@ public class Revert
     if (patch == null) {
       throw new ResourceNotFoundException(changeIdToRevert.toString());
     }
+
+    if (input.workInProgress == null) {
+      input.workInProgress =
+          firstNonNull(
+              rsrc.getUser()
+                  .asIdentifiedUser()
+                  .state()
+                  .generalPreferences()
+                  .workInProgressByDefault,
+              false);
+    }
+
     return Response.ok(
         json.noOptions()
             .format(

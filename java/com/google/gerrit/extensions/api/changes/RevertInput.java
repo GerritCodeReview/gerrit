@@ -35,7 +35,11 @@ public class RevertInput {
    * Mark the change as work-in-progress. This will also override the {@link #notify} value to
    * {@link NotifyHandling#OWNER}
    */
-  public boolean workInProgress;
+  public Boolean workInProgress;
 
   public Map<String, String> validationOptions;
+
+  public boolean getWorkInProgress() {
+    return workInProgress != null ? workInProgress : false;
+  }
 }

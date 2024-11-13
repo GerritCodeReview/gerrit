@@ -16,6 +16,24 @@
       "message": "Should we guard this with try catch to continue deleting other changes if some change deletions fail ?",
       "revId": "837aaabfe622331399b5b5ab538da7e1ceb16eff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80ab0897_2f1bc38b",
+        "filename": "java/com/google/gerrit/index/testing/AbstractFakeIndex.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-11-13T13:50:07Z",
+      "side": 1,
+      "message": "This is a fake index class which stored the \"index\" in memory, in a `Map`. The deletion cannot really fail unless we provide a null for the key.",
+      "parentUuid": "c9e41a54_d2957646",
+      "revId": "837aaabfe622331399b5b5ab538da7e1ceb16eff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

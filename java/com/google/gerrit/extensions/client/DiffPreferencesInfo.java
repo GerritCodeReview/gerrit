@@ -14,6 +14,8 @@
 
 package com.google.gerrit.extensions.client;
 
+import static com.google.gerrit.extensions.client.NullableBooleanPreferencesFieldComparator.equalBooleanPreferencesFields;
+
 import com.google.common.base.MoreObjects;
 import com.google.gerrit.common.ConvertibleToProto;
 import java.util.Objects;
@@ -76,25 +78,26 @@ public class DiffPreferencesInfo {
         && Objects.equals(this.fontSize, other.fontSize)
         && Objects.equals(this.lineLength, other.lineLength)
         && Objects.equals(this.cursorBlinkRate, other.cursorBlinkRate)
-        && Objects.equals(this.expandAllComments, other.expandAllComments)
-        && Objects.equals(this.intralineDifference, other.intralineDifference)
-        && Objects.equals(this.manualReview, other.manualReview)
-        && Objects.equals(this.showLineEndings, other.showLineEndings)
-        && Objects.equals(this.showTabs, other.showTabs)
-        && Objects.equals(this.showWhitespaceErrors, other.showWhitespaceErrors)
-        && Objects.equals(this.syntaxHighlighting, other.syntaxHighlighting)
-        && Objects.equals(this.hideTopMenu, other.hideTopMenu)
-        && Objects.equals(this.autoHideDiffTableHeader, other.autoHideDiffTableHeader)
-        && Objects.equals(this.hideLineNumbers, other.hideLineNumbers)
-        && Objects.equals(this.renderEntireFile, other.renderEntireFile)
-        && Objects.equals(this.hideEmptyPane, other.hideEmptyPane)
-        && Objects.equals(this.matchBrackets, other.matchBrackets)
-        && Objects.equals(this.lineWrapping, other.lineWrapping)
+        && equalBooleanPreferencesFields(this.expandAllComments, other.expandAllComments)
+        && equalBooleanPreferencesFields(this.intralineDifference, other.intralineDifference)
+        && equalBooleanPreferencesFields(this.manualReview, other.manualReview)
+        && equalBooleanPreferencesFields(this.showLineEndings, other.showLineEndings)
+        && equalBooleanPreferencesFields(this.showTabs, other.showTabs)
+        && equalBooleanPreferencesFields(this.showWhitespaceErrors, other.showWhitespaceErrors)
+        && equalBooleanPreferencesFields(this.syntaxHighlighting, other.syntaxHighlighting)
+        && equalBooleanPreferencesFields(this.hideTopMenu, other.hideTopMenu)
+        && equalBooleanPreferencesFields(
+            this.autoHideDiffTableHeader, other.autoHideDiffTableHeader)
+        && equalBooleanPreferencesFields(this.hideLineNumbers, other.hideLineNumbers)
+        && equalBooleanPreferencesFields(this.renderEntireFile, other.renderEntireFile)
+        && equalBooleanPreferencesFields(this.hideEmptyPane, other.hideEmptyPane)
+        && equalBooleanPreferencesFields(this.matchBrackets, other.matchBrackets)
+        && equalBooleanPreferencesFields(this.lineWrapping, other.lineWrapping)
         && Objects.equals(this.ignoreWhitespace, other.ignoreWhitespace)
-        && Objects.equals(this.retainHeader, other.retainHeader)
-        && Objects.equals(this.skipDeleted, other.skipDeleted)
-        && Objects.equals(this.skipUnchanged, other.skipUnchanged)
-        && Objects.equals(this.skipUncommented, other.skipUncommented);
+        && equalBooleanPreferencesFields(this.retainHeader, other.retainHeader)
+        && equalBooleanPreferencesFields(this.skipDeleted, other.skipDeleted)
+        && equalBooleanPreferencesFields(this.skipUnchanged, other.skipUnchanged)
+        && equalBooleanPreferencesFields(this.skipUncommented, other.skipUncommented);
   }
 
   @Override

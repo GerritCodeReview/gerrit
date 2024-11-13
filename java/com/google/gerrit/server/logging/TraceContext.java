@@ -118,7 +118,7 @@ public class TraceContext implements AutoCloseable {
    *
    * <p>No-op if {@code trace} is {@code false}.
    *
-   * @param trace whether tracing should be started
+   * @param forceLogging whether logging should be forced
    * @param traceId trace ID that should be used for tracing, if {@code null} a trace ID is
    *     generated
    * @param traceIdConsumer consumer for the trace ID, should be used to return the generated trace
@@ -126,10 +126,12 @@ public class TraceContext implements AutoCloseable {
    * @return the trace context
    */
   public static TraceContext newTrace(
-      boolean trace, @Nullable String traceId, TraceIdConsumer traceIdConsumer) {
-    if (!trace) {
-      // Create an empty trace context.
-      return open();
+      boolean forceLogging, @Nullable String traceId, TraceIdConsumer traceIdConsumer) {
+    if (!forceLogging) {
+      // Create a default trace context where trace_id tag is set but without force logging
+      String effectiveId = traceId != null ? traceId : new RequestId().toString();
+      traceIdConsumer.accept(RequestId.Type.TRACE_ID.name(), effectiveId);
+      return open().addTag(RequestId.Type.TRACE_ID, effectiveId);
     }
 
     if (!Strings.isNullOrEmpty(traceId)) {
@@ -143,7 +145,7 @@ public class TraceContext implements AutoCloseable {
     if (existingTraceId.isPresent()) {
       // request tracing was already started, no need to generate a new trace ID
       traceIdConsumer.accept(RequestId.Type.TRACE_ID.name(), existingTraceId.get());
-      return open();
+      return open().forceLogging();
     }
 
     RequestId newTraceId = new RequestId();

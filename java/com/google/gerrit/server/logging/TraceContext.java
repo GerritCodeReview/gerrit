@@ -20,7 +20,8 @@ import com.google.common.base.Stopwatch;
 import com.google.common.base.Strings;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Table;
 import com.google.common.flogger.FluentLogger;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -118,7 +119,7 @@ public class TraceContext implements AutoCloseable {
    *
    * <p>No-op if {@code trace} is {@code false}.
    *
-   * @param trace whether tracing should be started
+   * @param forceLogging whether logging should be forced
    * @param traceId trace ID that should be used for tracing, if {@code null} a trace ID is
    *     generated
    * @param traceIdConsumer consumer for the trace ID, should be used to return the generated trace
@@ -126,29 +127,23 @@ public class TraceContext implements AutoCloseable {
    * @return the trace context
    */
   public static TraceContext newTrace(
-      boolean trace, @Nullable String traceId, TraceIdConsumer traceIdConsumer) {
-    if (!trace) {
-      // Create an empty trace context.
-      return open();
-    }
-
+      boolean forceLogging, @Nullable String traceId, TraceIdConsumer traceIdConsumer) {
+    String effectiveId;
     if (!Strings.isNullOrEmpty(traceId)) {
-      traceIdConsumer.accept(RequestId.Type.TRACE_ID.name(), traceId);
-      return open().addTag(RequestId.Type.TRACE_ID, traceId).forceLogging();
+      effectiveId = traceId;
+    } else {
+      Optional<String> existingTraceId =
+          LoggingContext.getInstance().getTagsAsMap().get(RequestId.Type.TRACE_ID.name()).stream()
+              .findAny();
+      effectiveId = existingTraceId.orElse(new RequestId().toString());
     }
 
-    Optional<String> existingTraceId =
-        LoggingContext.getInstance().getTagsAsMap().get(RequestId.Type.TRACE_ID.name()).stream()
-            .findAny();
-    if (existingTraceId.isPresent()) {
-      // request tracing was already started, no need to generate a new trace ID
-      traceIdConsumer.accept(RequestId.Type.TRACE_ID.name(), existingTraceId.get());
-      return open();
+    traceIdConsumer.accept(RequestId.Type.TRACE_ID.name(), effectiveId);
+    TraceContext traceContext = open().addTag(RequestId.Type.TRACE_ID, effectiveId);
+    if (forceLogging) {
+      return traceContext.forceLogging();
     }
-
-    RequestId newTraceId = new RequestId();
-    traceIdConsumer.accept(RequestId.Type.TRACE_ID.name(), newTraceId.toString());
-    return open().addTag(RequestId.Type.TRACE_ID, newTraceId).forceLogging();
+    return traceContext;
   }
 
   @FunctionalInterface
@@ -254,8 +249,8 @@ public class TraceContext implements AutoCloseable {
     return this;
   }
 
-  public ImmutableMap<String, String> getTags() {
-    ImmutableMap.Builder<String, String> tagMap = ImmutableMap.builder();
+  public ImmutableSetMultimap<String, String> getTags() {
+    ImmutableSetMultimap.Builder<String, String> tagMap = ImmutableSetMultimap.builder();
     tags.cellSet().forEach(c -> tagMap.put(c.getRowKey(), c.getColumnKey()));
     return tagMap.build();
   }
@@ -279,9 +274,8 @@ public class TraceContext implements AutoCloseable {
     return LoggingContext.getInstance().isLoggingForced();
   }
 
-  public static Optional<String> getTraceId() {
-    return LoggingContext.getInstance().getTagsAsMap().get(RequestId.Type.TRACE_ID.name()).stream()
-        .findFirst();
+  public static ImmutableSet<String> getTraceIds() {
+    return LoggingContext.getInstance().getTagsAsMap().get(RequestId.Type.TRACE_ID.name());
   }
 
   public static Optional<String> getPluginTag() {

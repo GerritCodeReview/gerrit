@@ -17,7 +17,7 @@ package com.google.gerrit.server;
 import com.google.common.base.Predicate;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
-import com.google.gerrit.common.Nullable;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.exceptions.MergeUpdateException;
 import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.server.project.ProjectConfig;
@@ -64,7 +64,7 @@ public class ExceptionHookImpl implements ExceptionHook {
   }
 
   @Override
-  public ImmutableList<String> getUserMessages(Throwable throwable, @Nullable String traceId) {
+  public ImmutableList<String> getUserMessages(Throwable throwable, ImmutableSet<String> traceIds) {
     if (isLockFailure(throwable)) {
       return ImmutableList.of(LOCK_FAILURE_USER_MESSAGE);
     }

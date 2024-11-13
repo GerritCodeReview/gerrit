@@ -351,7 +351,11 @@ export class ChangeModel extends Model<ChangeState> {
     this.basePatchNum$
   ) as Observable<RevisionInfo | undefined>;
 
-  public readonly latestRevision$ = this.selectRevision(this.latestPatchNum$);
+  // Use latestPatchNumWithEdit rather than latestPatchNum so change edits commit
+  // messages are shown to users in change-view.
+  public readonly latestRevision$ = this.selectRevision(
+    this.latestPatchNumWithEdit$
+  );
 
   public readonly isOwner$: Observable<boolean> = select(
     combineLatest([this.change$, this.userModel.account$]),

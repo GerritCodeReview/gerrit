@@ -110,6 +110,9 @@ export class GrCreateChangeDialog extends LitElement {
         .hide {
           display: none;
         }
+        #messageInput {
+          min-width: calc(72ch + 2px + 2 * var(--spacing-m) + 0.4px);
+        }
         @media only screen and (max-width: 40em) {
           .value {
             width: 29em;

@@ -128,8 +128,10 @@ public class TraceContext implements AutoCloseable {
   public static TraceContext newTrace(
       boolean trace, @Nullable String traceId, TraceIdConsumer traceIdConsumer) {
     if (!trace) {
-      // Create an empty trace context.
-      return open();
+      // Create a default trace context where trace_id tag is set but without force logging
+      RequestId newTraceId = new RequestId();
+      traceIdConsumer.accept(RequestId.Type.TRACE_ID.name(), newTraceId.toString());
+      return open().addTag(RequestId.Type.TRACE_ID, newTraceId);
     }
 
     if (!Strings.isNullOrEmpty(traceId)) {

@@ -16,6 +16,69 @@
       "message": "Come get mom d red",
       "revId": "db2211e69edb2e6d234c3cae0861623c1f352360",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7b73a9b_1f17d000",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 618,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2024-11-13T18:25:52Z",
+      "side": 1,
+      "message": "Unrelated to this change?",
+      "revId": "db2211e69edb2e6d234c3cae0861623c1f352360",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4fb67adf_370f419e",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 706,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2024-11-13T18:25:52Z",
+      "side": 1,
+      "message": "```suggestion\nList\u003cParkedTask\u003e notReady \u003d new ArrayList\u003c\u003e();\nwhile ((ready \u003d parked.poll()) !\u003d null) {\n  if (Task.State.CANCELLED.equals(ready.task.getState())) {\n    ready.cancel();\n  } else if (!isReadyToStart(ready.task) {\n    notReady.add(ready);\n  } else {\n    break;\n  }\n}\n```",
+      "range": {
+        "startLine": 690,
+        "startChar": 6,
+        "endLine": 706,
+        "endChar": 7
+      },
+      "revId": "db2211e69edb2e6d234c3cae0861623c1f352360",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94e69b42_25ee4f3c",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 723,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2024-11-13T18:25:52Z",
+      "side": 1,
+      "message": "This name doesn\u0027t help me understand the intent of this method.",
+      "range": {
+        "startLine": 723,
+        "startChar": 23,
+        "endLine": 723,
+        "endChar": 39
+      },
+      "revId": "db2211e69edb2e6d234c3cae0861623c1f352360",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

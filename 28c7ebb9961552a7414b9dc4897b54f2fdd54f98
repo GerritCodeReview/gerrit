@@ -171,6 +171,24 @@
       "parentUuid": "d2d83397_a4109bc2",
       "revId": "28c7ebb9961552a7414b9dc4897b54f2fdd54f98",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3a65b25_ea46fa02",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 775,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-11-13T09:06:28Z",
+      "side": 1,
+      "message": "\u003e Don\u0027t know if you are commenting in my idea ...\n\nNo, not directly on your idea. Sorry I didn\u0027t read it carefully, it is also a valid approach IMHO.\n\nWhat I meant is that we could pass metrics via assisted injection from both http and ssh layers. I didn\u0027t try it but here is what I observe from the source code:\n\n* In the `com.google.gerrit.sshd.commands.Receive` we explicitly create `AsyncReceiveCommits` using its `factory.create` method. At that place we could pass SSH specific metrics implementation as a parameter.\n\n* In the `GitOverHttpServlet.ReceiveFactory` we also create an `AsyncReceiveCommits` and can pass http specific metrics implementation.\n\nBoth ssh and http metric implementations implement an interface defined in the `com.google.gerrit.server.git.receive` package. Therefore, the direction of dependencies is correct.",
+      "parentUuid": "db8fa472_3f40b928",
+      "revId": "28c7ebb9961552a7414b9dc4897b54f2fdd54f98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

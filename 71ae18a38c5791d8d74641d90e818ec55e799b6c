@@ -1,0 +1,45 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b78a8e32_9b76f26b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-11-13T14:09:49Z",
+      "side": 1,
+      "message": "why not just `success: res.ok`?",
+      "range": {
+        "startLine": 444,
+        "startChar": 15,
+        "endLine": 444,
+        "endChar": 30
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "30c4e528_fa6a6252",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.ts",
+              "range": {
+                "startLine": 444,
+                "startChar": 0,
+                "endLine": 445,
+                "endChar": 0
+              },
+              "replacement": "      success: res.ok,\n"
+            }
+          ]
+        }
+      ],
+      "revId": "71ae18a38c5791d8d74641d90e818ec55e799b6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

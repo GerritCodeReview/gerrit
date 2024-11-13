@@ -16,6 +16,24 @@
       "message": "I verified that a traceId is generated for any request but it\u0027s not written to the logs. Looks like something is still missing to make this happen.",
       "revId": "707caae5d2b72d97da710dd6f36556570820f629",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "85ead581_13eb2882",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-11-13T17:28:40Z",
+      "side": 1,
+      "message": "It is only written if logs are written. Normally, nothing is logged unless there are errors or warnings. The info level is also logged by default. To test either find some code which logs with at least INFO level by default or set some logger levels to DEBUG manually",
+      "parentUuid": "e39776bd_075a605a",
+      "revId": "707caae5d2b72d97da710dd6f36556570820f629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

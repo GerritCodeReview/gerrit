@@ -221,6 +221,9 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
   @Override
   public Boolean getIfPresent(
       ObjectId commit, Ref intoRef, SubmitType submitType, String mergeStrategy) {
-    return cache.getIfPresent(new EntryKey(commit, toId(intoRef), submitType, mergeStrategy));
+    EntryKey entryKey = new EntryKey(commit, toId(intoRef), submitType, mergeStrategy);
+    Boolean mergeable = cache.getIfPresent(entryKey);
+    logger.atFine().log("got mergeable=%s (entryKey=%s)", mergeable, entryKey);
+    return mergeable;
   }
 }

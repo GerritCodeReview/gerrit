@@ -785,6 +785,7 @@ public class MergeUtil {
       CodeReviewCommit mergeTip,
       CodeReviewCommit toMerge) {
     if (hasMissingDependencies(mergeSorter, toMerge)) {
+      logger.atFine().log("%s cannot be merged due to missing dependencies", toMerge.name());
       return false;
     }
 
@@ -795,9 +796,11 @@ public class MergeUtil {
     try (ObjectInserter ins = new InMemoryInserter(repo)) {
       return newThreeWayMerger(ins, repo.getConfig()).merge(mergeTip, toMerge);
     } catch (LargeObjectException e) {
-      logger.atWarning().log("Cannot merge due to LargeObjectException: %s", toMerge.name());
+      logger.atWarning().log("%s cannot be merged due to LargeObjectException", toMerge.name());
       return false;
     } catch (NoMergeBaseException e) {
+      logger.atFine().log(
+          "%s cannot be merged because no merge base could be found", toMerge.name());
       return false;
     } catch (IOException e) {
       throw new StorageException("Cannot merge " + toMerge.name(), e);

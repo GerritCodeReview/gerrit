@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c103ec7_3f7559a6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-11-13T14:37:56Z",
+      "side": 1,
+      "message": "Sanity check: Does this work on narrower views (or at least does this work worse than it used to), since we are setting a minimum width now?",
+      "revId": "0554ac9ddc9696a0ca307487ca915eb534fc75be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

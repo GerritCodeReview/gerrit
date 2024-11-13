@@ -34,6 +34,24 @@
       "parentUuid": "e39776bd_075a605a",
       "revId": "707caae5d2b72d97da710dd6f36556570820f629",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b35df289_f0d0e607",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-11-13T17:31:07Z",
+      "side": 1,
+      "message": "I looked at HTTP request logs, request logs are written when using the UI.\nI got new request log records but they don\u0027t have a traceid.",
+      "parentUuid": "85ead581_13eb2882",
+      "revId": "707caae5d2b72d97da710dd6f36556570820f629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

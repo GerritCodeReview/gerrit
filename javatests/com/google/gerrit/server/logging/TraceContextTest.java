@@ -183,25 +183,27 @@ public class TraceContextTest {
   }
 
   @Test
-  public void newTraceDisabled() {
+  public void newTraceEnabledWithoutForceLogging() {
     TestTraceIdConsumer traceIdConsumer = new TestTraceIdConsumer();
     try (TraceContext traceContext = TraceContext.newTrace(false, null, traceIdConsumer)) {
       assertForceLogging(false);
-      assertTags(ImmutableMap.of());
+      assertThat(LoggingContext.getInstance().getTagsAsMap().keySet())
+          .containsExactly(RequestId.Type.TRACE_ID.name());
     }
-    assertThat(traceIdConsumer.tagName).isNull();
-    assertThat(traceIdConsumer.traceId).isNull();
+    assertThat(traceIdConsumer.tagName).isEqualTo(RequestId.Type.TRACE_ID.name());
+    assertThat(traceIdConsumer.traceId).isNotNull();
   }
 
   @Test
-  public void newTraceDisabledWithProvidedTraceId() {
+  public void newTraceEnabledWithoutForceLoggingWithProvidedTraceId() {
     TestTraceIdConsumer traceIdConsumer = new TestTraceIdConsumer();
     try (TraceContext traceContext = TraceContext.newTrace(false, "foo", traceIdConsumer)) {
       assertForceLogging(false);
-      assertTags(ImmutableMap.of());
+      assertThat(LoggingContext.getInstance().getTagsAsMap().keySet())
+          .containsExactly(RequestId.Type.TRACE_ID.name());
     }
-    assertThat(traceIdConsumer.tagName).isNull();
-    assertThat(traceIdConsumer.traceId).isNull();
+    assertThat(traceIdConsumer.tagName).isEqualTo("TRACE_ID");
+    assertThat(traceIdConsumer.traceId).isEqualTo("foo");
   }
 
   @Test
@@ -233,15 +235,23 @@ public class TraceContextTest {
   }
 
   @Test
-  public void onlyOneTraceId() {
+  public void onlyOneTraceId() throws InterruptedException {
+    for (boolean forceOuter : List.of(false, true)) {
+      for (boolean forceInner : List.of(false, true)) {
+        onlyOneTraceId(forceOuter, forceInner);
+      }
+    }
+  }
+
+  public void onlyOneTraceId(boolean forceOuter, boolean forceInner) throws InterruptedException {
     TestTraceIdConsumer traceIdConsumer1 = new TestTraceIdConsumer();
-    try (TraceContext traceContext1 = TraceContext.newTrace(true, null, traceIdConsumer1)) {
+    try (TraceContext traceContext1 = TraceContext.newTrace(forceOuter, null, traceIdConsumer1)) {
       String expectedTraceId = traceIdConsumer1.traceId;
       assertThat(expectedTraceId).isNotNull();
 
       TestTraceIdConsumer traceIdConsumer2 = new TestTraceIdConsumer();
-      try (TraceContext traceContext2 = TraceContext.newTrace(true, null, traceIdConsumer2)) {
-        assertForceLogging(true);
+      Thread.sleep(2);
+      try (TraceContext traceContext2 = TraceContext.newTrace(forceInner, null, traceIdConsumer2)) {
         assertTags(
             ImmutableMap.of(RequestId.Type.TRACE_ID.name(), ImmutableSet.of(expectedTraceId)));
       }
@@ -252,13 +262,21 @@ public class TraceContextTest {
 
   @Test
   public void multipleTraceIdsIfTraceIdProvided() {
+    for (boolean forceOuter : List.of(false, true)) {
+      for (boolean forceInner : List.of(false, true)) {
+        multipleTraceIdsIfTraceIdProvided(forceOuter, forceInner);
+      }
+    }
+  }
+
+  public void multipleTraceIdsIfTraceIdProvided(boolean forceOuter, boolean forceInner) {
     String traceId1 = "foo";
     try (TraceContext traceContext1 =
-        TraceContext.newTrace(true, traceId1, (tagName, traceId) -> {})) {
+        TraceContext.newTrace(forceOuter, traceId1, (tagName, traceId) -> {})) {
       TestTraceIdConsumer traceIdConsumer = new TestTraceIdConsumer();
       String traceId2 = "bar";
-      try (TraceContext traceContext2 = TraceContext.newTrace(true, traceId2, traceIdConsumer)) {
-        assertForceLogging(true);
+      try (TraceContext traceContext2 =
+          TraceContext.newTrace(forceInner, traceId2, traceIdConsumer)) {
         assertTags(
             ImmutableMap.of(RequestId.Type.TRACE_ID.name(), ImmutableSet.of(traceId1, traceId2)));
       }

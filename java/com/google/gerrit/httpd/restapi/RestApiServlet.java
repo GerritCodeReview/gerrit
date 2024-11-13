@@ -1574,7 +1574,7 @@ public class RestApiServlet extends HttpServlet {
     // 2. by setting the 'X-Gerrit-Trace:' or 'X-Gerrit-Trace:<trace-id>' header
     String traceValueFromHeader = req.getHeader(X_GERRIT_TRACE);
     String traceValueFromRequestParam = req.getParameter(ParameterParser.TRACE_PARAMETER);
-    boolean doTrace = traceValueFromHeader != null || traceValueFromRequestParam != null;
+    boolean forceLogging = traceValueFromHeader != null || traceValueFromRequestParam != null;
 
     // Check whether no trace ID, one trace ID or 2 different trace IDs have been specified.
     String traceId1;
@@ -1596,7 +1596,7 @@ public class RestApiServlet extends HttpServlet {
     // generated.
     TraceContext traceContext =
         TraceContext.newTrace(
-            doTrace, traceId1, (tagName, traceId) -> res.setHeader(X_GERRIT_TRACE, traceId));
+            forceLogging, traceId1, (tagName, traceId) -> res.setHeader(X_GERRIT_TRACE, traceId));
     // If a second trace ID was specified, add a tag for it as well.
     if (traceId2 != null) {
       traceContext.addTag(RequestId.Type.TRACE_ID, traceId2);

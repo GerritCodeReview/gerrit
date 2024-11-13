@@ -189,6 +189,24 @@
       "parentUuid": "db8fa472_3f40b928",
       "revId": "28c7ebb9961552a7414b9dc4897b54f2fdd54f98",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "196a1ca9_ee87b4df",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 775,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-11-13T16:02:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e3a65b25_ea46fa02",
+      "revId": "28c7ebb9961552a7414b9dc4897b54f2fdd54f98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -355,6 +355,10 @@ export class ChangeModel extends Model<ChangeState> {
 
   public readonly latestRevision$ = this.selectRevision(this.latestPatchNum$);
 
+  public readonly latestRevisionWithEdit$ = this.selectRevision(
+    this.latestPatchNumWithEdit$
+  );
+
   public readonly isOwner$: Observable<boolean> = select(
     combineLatest([this.change$, this.userModel.account$]),
     ([change, account]) => isOwner(change, account)

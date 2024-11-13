@@ -684,7 +684,7 @@ export class GrChangeView extends LitElement {
     );
     subscribe(
       this,
-      () => this.getChangeModel().latestRevision$,
+      () => this.getChangeModel().latestRevisionWithEdit$,
       revision => {
         this.latestCommitMessage = this.prepareCommitMsgForLinkify(
           revision?.commit?.message ?? ''

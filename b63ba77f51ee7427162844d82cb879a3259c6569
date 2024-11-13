@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "82411a35_3374146c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-11-13T10:07:09Z",
+      "side": 1,
+      "message": "This merge-up has been done in [1], I believe this change could be abandoned.\n\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/442126",
+      "revId": "b63ba77f51ee7427162844d82cb879a3259c6569",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

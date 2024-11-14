@@ -134,7 +134,7 @@ public class CorsIT extends AbstractDaemonTest {
     RestResponse r =
         adminRestSession.putWithHeaders(
             "/changes/" + change.getChangeId() + "/topic",
-            /* content = */ "A",
+            /* content= */ "A",
             new BasicHeader(ORIGIN, origin));
     r.assertOK();
     checkCors(r, false, origin);
@@ -148,7 +148,7 @@ public class CorsIT extends AbstractDaemonTest {
     RestResponse r =
         adminRestSession.putWithHeaders(
             "/changes/" + change.getChangeId() + "/topic",
-            /* content = */ "A",
+            /* content= */ "A",
             new BasicHeader(ORIGIN, origin));
     r.assertOK();
     checkCors(r, true, origin);

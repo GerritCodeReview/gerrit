@@ -237,7 +237,8 @@ public class CheckMergeabilityIT extends AbstractDaemonTest {
         "master",
         "fdsafsdf",
         "recursive",
-        "Error resolving: 'fdsafsdf'. Do not have read permission, or failed to resolve to a commit.");
+        "Error resolving: 'fdsafsdf'. Do not have read permission, or failed to resolve to a"
+            + " commit.");
   }
 
   @Test

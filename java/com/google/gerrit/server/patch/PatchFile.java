@@ -153,7 +153,9 @@ public class PatchFile {
   }
 
   private Text load(ObjectId tree, String path)
-      throws MissingObjectException, IncorrectObjectTypeException, CorruptObjectException,
+      throws MissingObjectException,
+          IncorrectObjectTypeException,
+          CorruptObjectException,
           IOException {
     if (path == null || Patch.PATCHSET_LEVEL.equals(path)) {
       return Text.EMPTY;

@@ -76,9 +76,9 @@ public class UploadArchive extends AbstractGitCommand {
     @Option(
         name = "--compression-level",
         usage =
-            "Controls compression for different formats. The value is in [0-9] with 0 for fast levels"
-                + " with medium compressions, and 9 for the highest compression. Note that higher"
-                + " compressions require more memory.")
+            "Controls compression for different formats. The value is in [0-9] with 0 for fast"
+                + " levels with medium compressions, and 9 for the highest compression. Note that"
+                + " higher compressions require more memory.")
     private int compressionLevel = -1;
 
     @Option(name = "-0", usage = "Store the files instead of deflating them.")

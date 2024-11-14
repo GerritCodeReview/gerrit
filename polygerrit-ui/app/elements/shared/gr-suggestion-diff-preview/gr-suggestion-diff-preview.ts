@@ -36,7 +36,11 @@ import {createChangeUrl} from '../../../models/views/change';
 import {getFileExtension} from '../../../utils/file-util';
 
 export interface PreviewLoadedDetail {
+<<<<<<< HEAD
   previewLoadedFor?: FixSuggestionInfo;
+=======
+  previewLoadedFor?: string | FixSuggestionInfo;
+>>>>>>> stable-3.11
 }
 /**
  * Diff preview for

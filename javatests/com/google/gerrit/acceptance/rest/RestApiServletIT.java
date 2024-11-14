@@ -280,7 +280,7 @@ public class RestApiServletIT extends AbstractDaemonTest {
       RestResponse response =
           adminRestSession.postWithHeaders(
               "/changes/" + change2.getChangeId() + "/submit",
-              /* content = */ null,
+              /* content= */ null,
               X_GERRIT_UPDATED_REF_ENABLED_HEADER);
       response.assertOK();
 
@@ -355,7 +355,7 @@ public class RestApiServletIT extends AbstractDaemonTest {
       RestResponse response =
           adminRestSession.postWithHeaders(
               "/changes/" + change2.getChangeId() + "/submit",
-              /* content = */ null,
+              /* content= */ null,
               X_GERRIT_UPDATED_REF_ENABLED_HEADER);
       response.assertOK();
       assertThat(gApi.changes().id(change1.getChangeId()).get().status)

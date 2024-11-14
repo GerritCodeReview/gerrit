@@ -1,0 +1,45 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6ac6462_c87043e3",
+        "filename": "polygerrit-ui/app/elements/checks/gr-diff-check-result.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-11-14T09:34:49Z",
+      "side": 1,
+      "message": "Can you add assumption that gr-diff-check-result are only used in gr-diff-host",
+      "range": {
+        "startLine": 152,
+        "startChar": 1,
+        "endLine": 154,
+        "endChar": 7
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "5db79ef5_4ee62653",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/checks/gr-diff-check-result.ts",
+              "range": {
+                "startLine": 152,
+                "startChar": 0,
+                "endLine": 152,
+                "endChar": 0
+              },
+              "replacement": "    // This component is only used in gr-diff-host, so we can assume that the\n    // result is always rendered in the diff.\n"
+            }
+          ]
+        }
+      ],
+      "revId": "67b8ef6eb6bd0b2a5cee14c9d2d0ed454522216a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

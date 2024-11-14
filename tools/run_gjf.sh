@@ -16,10 +16,10 @@
 
 set -eu
 
-GJF_VERSION=$(grep -o "^VERSION=.*$" tools/setup_gjf.sh | grep -o "[0-9][0-9]*\.[0-9][0-9]*")
-GJF=$(find 'tools/format' -regex '.*/google-java-format-[0-9][0-9]*\.[0-9][0-9]*')
+GJF_VERSION=$(grep -o "^VERSION=.*$" tools/setup_gjf.sh | grep -o '[0-9][0-9]*\.[0-9][0-9]*[\.0-9]*')
+GJF="tools/format/google-java-format-$GJF_VERSION"
 if [ ! -f "$GJF" ]; then
-  ./setup_gjf.sh
+  tools/setup_gjf.sh
   GJF=$(find 'tools/format' -regex '.*/google-java-format-[0-9][0-9]*\.[0-9][0-9]*')
 fi
 echo 'Running google-java-format check...'

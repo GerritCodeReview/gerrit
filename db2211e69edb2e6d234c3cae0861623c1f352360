@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "caff55d0_f5188295",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 618,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2024-11-14T03:16:53Z",
+      "side": 1,
+      "message": "Yeah, I thought this was a small enough refactor to not need a separate change.",
+      "parentUuid": "d7b73a9b_1f17d000",
+      "revId": "db2211e69edb2e6d234c3cae0861623c1f352360",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4fb67adf_370f419e",
         "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
         "patchSetId": 1
@@ -48,6 +66,30 @@
       "writtenOn": "2024-11-13T18:25:52Z",
       "side": 1,
       "message": "```suggestion\nList\u003cParkedTask\u003e notReady \u003d new ArrayList\u003c\u003e();\nwhile ((ready \u003d parked.poll()) !\u003d null) {\n  if (Task.State.CANCELLED.equals(ready.task.getState())) {\n    ready.cancel();\n  } else if (!isReadyToStart(ready.task) {\n    notReady.add(ready);\n  } else {\n    break;\n  }\n}\n```",
+      "range": {
+        "startLine": 690,
+        "startChar": 6,
+        "endLine": 706,
+        "endChar": 7
+      },
+      "revId": "db2211e69edb2e6d234c3cae0861623c1f352360",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a49045a_ce8c9b57",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 706,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2024-11-14T03:16:53Z",
+      "side": 1,
+      "message": "If a task is cancelled while `isReadyToStart` evaluation, the above code would still add it back to parked tasks. This however becomes a problem if the parker has a logic such that `isReadyToStart` always returns `false` for cancelled tasks. In which case the cancelled task will perpetually remain in the parked queue.",
+      "parentUuid": "4fb67adf_370f419e",
       "range": {
         "startLine": 690,
         "startChar": 6,

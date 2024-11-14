@@ -16,6 +16,24 @@
       "message": "There is a separate permissions for toggle work in progress:\nhttps://gerrit-review.googlesource.com/Documentation/access-control.html#category_toggle_work_in_progress_state\n\nThis change can break some workflows, e.g. when a bot creates a change and then someone else should submit it. It can\u0027t be fixed without giving permissions to toggleWorkInProgress for all changes (i.e. it is not possible to allow toogle work in progress only for reverts); or alternatively all bots should be updated (either their settings in gerrit or their code to always create non-work-in-progress change).\n\nMaybe add a config to host, which allows to turn off new behavior easily (without rollback)?\n\nI don\u0027t know if this will be a real problem for someone, so up to you to decide how to proceed.\n\nAs alternative solution: we can think of adding a checkbox in UI, which gets value from project config + user config. It will also fix described bug, but will not require any other changes.",
       "revId": "fe1bd6c34d6969b4b3c1ac08f1176b9c6349c335",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71755187_5db654de",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-11-14T11:01:54Z",
+      "side": 1,
+      "message": "Thanks, I didn\u0027t think of this possibility. I think it\u0027s rather unlikely that reverts are created by bots, but we can\u0027t be sure about this. I checked the configs that we have at Google and actually there are more projects than I was expecting that use change.workInProgressByDefault\u003dtrue (~40, including some All-Projects project). So I wouldn\u0027t take this risk without having anyone asking for supporting change.workInProgressByDefault\u003dtrue. The current user request is just about the user preference, and I think here it\u0027s unlikely that this is set for a bot. With the new patch set I changed the change to be only about respecting the user preference. Does this resolve your concern?",
+      "parentUuid": "d30ac8f9_3d34efc2",
+      "revId": "fe1bd6c34d6969b4b3c1ac08f1176b9c6349c335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

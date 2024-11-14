@@ -101,7 +101,7 @@ export const fakeRun1: CheckRun = {
   checkName: 'FAKE Super Check',
   startedTimestamp: new Date(new Date().getTime() - 5 * 60 * 1000),
   finishedTimestamp: new Date(new Date().getTime() + 5 * 60 * 1000),
-  patchset: 3,
+  patchset: 1,
   labelName: 'Verified',
   isSingleAttempt: true,
   isLatestAttempt: true,

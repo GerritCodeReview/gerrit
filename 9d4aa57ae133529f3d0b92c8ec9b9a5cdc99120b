@@ -33,6 +33,24 @@
       "message": "Why is this not in the com.google.gerrit.sshd package?",
       "revId": "9d4aa57ae133529f3d0b92c8ec9b9a5cdc99120b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "41165090_5dee6c3a",
+        "filename": "java/com/google/gerrit/server/SshMetrics.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-11-14T14:30:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c20e4743_22d44c1f",
+      "revId": "9d4aa57ae133529f3d0b92c8ec9b9a5cdc99120b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

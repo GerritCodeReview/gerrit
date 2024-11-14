@@ -22,6 +22,30 @@
       },
       "revId": "1ea59d3e80983d0a5082bec1f1fd8315fecd3c0b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f089935_a18d76c9",
+        "filename": "resources/com/google/gerrit/pgm/init/gerrit.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 666,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2024-11-14T20:43:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5fe13561_3fd7ac1d",
+      "range": {
+        "startLine": 666,
+        "startChar": 56,
+        "endLine": 666,
+        "endChar": 70
+      },
+      "revId": "1ea59d3e80983d0a5082bec1f1fd8315fecd3c0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

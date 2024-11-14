@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "805202d5_1f8fe2ed",
+        "filename": "tools/run_gjf.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-11-14T15:14:17Z",
+      "side": 1,
+      "message": "I think that could be done in a seperate change. This change is just fixing it. But i love the idea of a single file and being able to do like run/setup in it.",
+      "parentUuid": "119b1f46_960dfbea",
+      "revId": "1384250060b697c21678a5c9176e6a75f3c09e2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d874f2df_bfd5ddf7",

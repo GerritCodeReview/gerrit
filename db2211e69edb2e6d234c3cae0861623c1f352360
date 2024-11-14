@@ -142,6 +142,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "db9cb08e_57344fe3",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 706,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2024-11-14T05:17:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a355bc86_40060c3e",
+      "range": {
+        "startLine": 690,
+        "startChar": 6,
+        "endLine": 706,
+        "endChar": 7
+      },
+      "revId": "db2211e69edb2e6d234c3cae0861623c1f352360",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "94e69b42_25ee4f3c",
@@ -155,6 +179,30 @@
       "writtenOn": "2024-11-13T18:25:52Z",
       "side": 1,
       "message": "This name doesn\u0027t help me understand the intent of this method.",
+      "range": {
+        "startLine": 723,
+        "startChar": 23,
+        "endLine": 723,
+        "endChar": 39
+      },
+      "revId": "db2211e69edb2e6d234c3cae0861623c1f352360",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "379505bf_cee45578",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 723,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2024-11-14T05:17:53Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "94e69b42_25ee4f3c",
       "range": {
         "startLine": 723,
         "startChar": 23,

@@ -57,8 +57,11 @@ public class LdapAuthBackend implements AuthBackend {
 
   @Override
   public AuthUser authenticate(AuthRequest req)
-      throws MissingCredentialsException, InvalidCredentialsException, UnknownUserException,
-          UserNotAllowedException, AuthException {
+      throws MissingCredentialsException,
+          InvalidCredentialsException,
+          UnknownUserException,
+          UserNotAllowedException,
+          AuthException {
     if (!req.getUsername().isPresent() || !req.getPassword().isPresent()) {
       throw new MissingCredentialsException();
     }

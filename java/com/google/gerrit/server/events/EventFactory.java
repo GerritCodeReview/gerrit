@@ -152,6 +152,7 @@ public class EventFactory {
     addCommitMessage(a, notes);
     return a;
   }
+
   /**
    * Create a {@link RefUpdateAttribute} for the given old ObjectId, new ObjectId, and branch that
    * is suitable for serialization to JSON.

@@ -71,7 +71,9 @@ public class PostCaches implements RestCollectionModifyView<ConfigResource, Cach
 
   @Override
   public Response<String> apply(ConfigResource rsrc, Input input)
-      throws AuthException, BadRequestException, UnprocessableEntityException,
+      throws AuthException,
+          BadRequestException,
+          UnprocessableEntityException,
           PermissionBackendException {
     if (input == null || input.operation == null) {
       throw new BadRequestException("operation must be specified");

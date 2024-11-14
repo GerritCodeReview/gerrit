@@ -957,7 +957,8 @@ public class ChangeField {
       IndexedField.<ChangeData>iterableStringBuilder("AuthorParts")
           .required()
           .description(
-              "The exact email address, or any part of the author name or email address, in the current patch set.")
+              "The exact email address, or any part of the author name or email address, in the"
+                  + " current patch set.")
           .build(ChangeField::getAuthorParts);
 
   public static final IndexedField<ChangeData, Iterable<String>>.SearchSpec AUTHOR_PARTS_SPEC =
@@ -980,7 +981,8 @@ public class ChangeField {
   public static final IndexedField<ChangeData, Iterable<String>> COMMITTER_PARTS_FIELD =
       IndexedField.<ChangeData>iterableStringBuilder("CommitterParts")
           .description(
-              "The exact email address, or any part of the committer name or email address, in the current patch set.")
+              "The exact email address, or any part of the committer name or email address, in the"
+                  + " current patch set.")
           .required()
           .build(ChangeField::getCommitterParts);
 
@@ -1095,7 +1097,8 @@ public class ChangeField {
       IndexedField.<ChangeData>stringBuilder("CommitMessageExact")
           .required()
           .description(
-              "Same as CommitMessage, but truncated, since supporting such large tokens may be problematic for indexes.")
+              "Same as CommitMessage, but truncated, since supporting such large tokens may be"
+                  + " problematic for indexes.")
           .build(cd -> truncateStringValueToMaxTermLength(cd.commitMessage()));
 
   public static final IndexedField<ChangeData, String>.SearchSpec COMMIT_MESSAGE_EXACT =

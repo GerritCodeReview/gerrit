@@ -94,8 +94,12 @@ public class PatchScriptFactoryForAutoFix implements Callable<PatchScript> {
 
   @Override
   public PatchScript call()
-      throws LargeObjectException, AuthException, InvalidChangeOperationException, IOException,
-          PermissionBackendException, ResourceNotFoundException {
+      throws LargeObjectException,
+          AuthException,
+          InvalidChangeOperationException,
+          IOException,
+          PermissionBackendException,
+          ResourceNotFoundException {
 
     if (!permissionBackend.currentUser().change(notes).test(ChangePermission.READ)) {
       throw new NoSuchChangeException(changeId);

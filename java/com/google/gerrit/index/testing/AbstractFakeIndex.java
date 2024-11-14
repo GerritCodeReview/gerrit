@@ -72,6 +72,7 @@ import org.eclipse.jgit.lib.Config;
  */
 public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
   private final Schema<V> schema;
+
   /**
    * SitePaths (config files) are used to signal that an index is ready. This implementation is
    * consistent with other index backends.

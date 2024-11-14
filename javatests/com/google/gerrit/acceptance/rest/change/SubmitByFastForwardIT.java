@@ -124,9 +124,9 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
     approve(change2.getChangeId());
 
     String fastForwardIndependentChangesError =
-        "Change could not be merged because the submission"
-            + " has two independent changes with the same destination branch. Independent changes can't "
-            + "be submitted to the same destination branch with FAST_FORWARD_ONLY submit strategy";
+        "Change could not be merged because the submission has two independent changes with the"
+            + " same destination branch. Independent changes can't be submitted to the same"
+            + " destination branch with FAST_FORWARD_ONLY submit strategy";
 
     submitWithConflict(
         change2.getChangeId(),

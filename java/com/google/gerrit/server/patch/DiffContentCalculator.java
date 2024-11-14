@@ -208,6 +208,7 @@ class DiffContentCalculator {
 
     /** Lines to be displayed */
     final DiffContent diffContent;
+
     /** List of edits including "fake" edits for unchanged lines with comments. */
     final ImmutableList<Edit> edits;
 
@@ -221,6 +222,7 @@ class DiffContentCalculator {
   static class DiffContent {
     /* All lines from the original text (i.e. srcA) to be displayed. */
     final SparseFileContent a;
+
     /**
      * All lines from the new text (i.e. srcB) which are different than in original text. Lines are:
      * a) All changed lines (i.e. if the content of the line was replaced with the new line) b) All

@@ -133,7 +133,9 @@ public class DeleteCommentRewriter implements NoteDbRewriter {
       ChangeNoteJson changeNoteJson, ObjectReader reader, NoteMap noteMap)
       throws IOException, ConfigInvalidException {
     return RevisionNoteMap.parse(changeNoteJson, reader, noteMap, HumanComment.Status.PUBLISHED)
-        .revisionNotes.values().stream()
+        .revisionNotes
+        .values()
+        .stream()
         .flatMap(n -> n.getEntities().stream())
         .collect(toMap(c -> c.key.uuid, Function.identity()));
   }
@@ -143,6 +145,7 @@ public class DeleteCommentRewriter implements NoteDbRewriter {
       throws IOException, ConfigInvalidException {
     return getPublishedComments(noteUtil.getChangeNoteJson(), reader, noteMap);
   }
+
   /**
    * Gets the comments put in by the current commit. The message of the target comment will be
    * replaced by the new message.

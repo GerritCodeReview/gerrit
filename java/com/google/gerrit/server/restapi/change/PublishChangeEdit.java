@@ -57,7 +57,10 @@ public class PublishChangeEdit implements RestModifyView<ChangeResource, Publish
 
   @Override
   public Response<Object> apply(ChangeResource rsrc, PublishChangeEditInput in)
-      throws IOException, RestApiException, UpdateException, ConfigInvalidException,
+      throws IOException,
+          RestApiException,
+          UpdateException,
+          ConfigInvalidException,
           NoSuchProjectException {
     contributorAgreementsChecker.check(rsrc.getProject(), rsrc.getUser());
     Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getNotes(), rsrc.getUser());

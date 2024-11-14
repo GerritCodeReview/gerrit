@@ -18,7 +18,9 @@ package com.google.gerrit.extensions.restapi;
 public class PreconditionFailedException extends RestApiException {
   private static final long serialVersionUID = 1L;
 
-  /** @param msg message to return to the client describing the error. */
+  /**
+   * @param msg message to return to the client describing the error.
+   */
   public PreconditionFailedException(String msg) {
     super(msg);
   }

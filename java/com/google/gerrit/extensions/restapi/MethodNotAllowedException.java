@@ -18,7 +18,9 @@ package com.google.gerrit.extensions.restapi;
 public class MethodNotAllowedException extends RestApiException {
   private static final long serialVersionUID = 1L;
 
-  /** @param msg error text for client describing why the method is not allowed. */
+  /**
+   * @param msg error text for client describing why the method is not allowed.
+   */
   public MethodNotAllowedException(String msg) {
     super(msg);
   }

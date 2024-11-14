@@ -44,8 +44,7 @@ public class CachedProjectConfigSerializerTest {
           .build();
 
   static final CachedProjectConfig ALL_VALUES_SET =
-      MINIMAL_VALUES_SET
-          .toBuilder()
+      MINIMAL_VALUES_SET.toBuilder()
           .addGroup(GroupReferenceSerializerTest.ALL_VALUES_SET)
           .addAccessSection(AccessSectionSerializerTest.ALL_VALUES_SET)
           .setBranchOrderSection(Optional.of(BranchOrderSectionSerializerTest.ALL_VALUES_SET))

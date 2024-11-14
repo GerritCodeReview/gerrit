@@ -78,8 +78,13 @@ public class Revert
 
   @Override
   public Response<ChangeInfo> apply(ChangeResource rsrc, RevertInput input)
-      throws IOException, RestApiException, UpdateException, NoSuchChangeException,
-          PermissionBackendException, NoSuchProjectException, ConfigInvalidException {
+      throws IOException,
+          RestApiException,
+          UpdateException,
+          NoSuchChangeException,
+          PermissionBackendException,
+          NoSuchProjectException,
+          ConfigInvalidException {
     Change change = rsrc.getChange();
     if (!change.isMerged()) {
       throw new ResourceConflictException("change is " + ChangeUtil.status(change));

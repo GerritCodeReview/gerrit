@@ -236,7 +236,8 @@ public class CreateProject
         if (RefNames.isGerritRef(branch)) {
           throw new ValidationException(
               String.format(
-                  "Cannot create a project with branch %s. Branches in the Gerrit internal refs namespace are not allowed",
+                  "Cannot create a project with branch %s. Branches in the Gerrit internal refs"
+                      + " namespace are not allowed",
                   branch));
         }
       }

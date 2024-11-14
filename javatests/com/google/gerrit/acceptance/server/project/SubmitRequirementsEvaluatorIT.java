@@ -153,18 +153,18 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
   public void globalSubmitRequirementEvaluated() throws Exception {
     SubmitRequirement globalSubmitRequirement =
         createSubmitRequirement(
-            /*name=*/ "global-config-requirement",
+            /* name= */ "global-config-requirement",
             /* applicabilityExpr= */ "project:" + project.get(),
-            /*submittabilityExpr= */ "is:true",
+            /* submittabilityExpr= */ "is:true",
             /* overrideExpr= */ "", /*allowOverrideInChildProjects*/
             false);
     try (Registration registration =
         extensionRegistry.newRegistration().add(globalSubmitRequirement)) {
       SubmitRequirement projectSubmitRequirement =
           createSubmitRequirement(
-              /*name=*/ "project-config-requirement",
+              /* name= */ "project-config-requirement",
               /* applicabilityExpr= */ "project:" + project.get(),
-              /*submittabilityExpr= */ "is:true",
+              /* submittabilityExpr= */ "is:true",
               /* overrideExpr= */ "", /*allowOverrideInChildProjects*/
               false);
       configSubmitRequirement(project, projectSubmitRequirement);
@@ -184,18 +184,18 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
           throws Exception {
     SubmitRequirement globalSubmitRequirement =
         createSubmitRequirement(
-            /*name=*/ "config-requirement",
+            /* name= */ "config-requirement",
             /* applicabilityExpr= */ "project:" + project.get(),
-            /*submittabilityExpr= */ "is:true",
+            /* submittabilityExpr= */ "is:true",
             /* overrideExpr= */ "", /*allowOverrideInChildProjects*/
             true);
     try (Registration registration =
         extensionRegistry.newRegistration().add(globalSubmitRequirement)) {
       SubmitRequirement projectSubmitRequirement =
           createSubmitRequirement(
-              /*name=*/ "config-requirement",
+              /* name= */ "config-requirement",
               /* applicabilityExpr= */ "project:" + project.get(),
-              /*submittabilityExpr= */ "is:true",
+              /* submittabilityExpr= */ "is:true",
               /* overrideExpr= */ "", /*allowOverrideInChildProjects*/
               false);
       configSubmitRequirement(project, projectSubmitRequirement);
@@ -213,18 +213,18 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
           throws Exception {
     SubmitRequirement globalSubmitRequirement =
         createSubmitRequirement(
-            /*name=*/ "config-requirement",
+            /* name= */ "config-requirement",
             /* applicabilityExpr= */ "project:" + project.get(),
-            /*submittabilityExpr= */ "is:true",
+            /* submittabilityExpr= */ "is:true",
             /* overrideExpr= */ "", /*allowOverrideInChildProjects*/
             false);
     try (Registration registration =
         extensionRegistry.newRegistration().add(globalSubmitRequirement)) {
       SubmitRequirement projectSubmitRequirement =
           createSubmitRequirement(
-              /*name=*/ "config-requirement",
+              /* name= */ "config-requirement",
               /* applicabilityExpr= */ "project:" + project.get(),
-              /*submittabilityExpr= */ "is:true",
+              /* submittabilityExpr= */ "is:true",
               /* overrideExpr= */ "", /*allowOverrideInChildProjects*/
               false);
       configSubmitRequirement(project, projectSubmitRequirement);
@@ -463,7 +463,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
   @Test
   public void byAuthorEmail() throws Exception {
     TestAccount user2 =
-        accountCreator.create("Foo", "user@example.com", "User", /* displayName = */ null);
+        accountCreator.create("Foo", "user@example.com", "User", /* displayName= */ null);
     requestScopeOperations.setApiUser(user2.id());
     ChangeInfo info =
         gApi.changes().create(new ChangeInput(project.get(), "master", "Test Change")).get();
@@ -497,7 +497,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
   @Test
   public void byCommitterEmail() throws Exception {
     TestAccount user2 =
-        accountCreator.create("Foo", "user@example.com", "User", /* displayName = */ null);
+        accountCreator.create("Foo", "user@example.com", "User", /* displayName= */ null);
     requestScopeOperations.setApiUser(user2.id());
     ChangeInfo info =
         gApi.changes().create(new ChangeInput(project.get(), "master", "Test Change")).get();
@@ -531,7 +531,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
   @Test
   public void byUploaderEmail() throws Exception {
     TestAccount user2 =
-        accountCreator.create("Foo", "user@example.com", "User", /* displayName = */ null);
+        accountCreator.create("Foo", "user@example.com", "User", /* displayName= */ null);
     requestScopeOperations.setApiUser(user2.id());
     ChangeInfo info =
         gApi.changes().create(new ChangeInput(project.get(), "master", "Test Change")).get();
@@ -954,11 +954,11 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
       String submittabilityExpr,
       @Nullable String overrideExpr) {
     return createSubmitRequirement(
-        /*name= */ "sr-name",
+        /* name= */ "sr-name",
         applicabilityExpr,
         submittabilityExpr,
         overrideExpr,
-        /*allowOverrideInChildProjects=*/ false);
+        /* allowOverrideInChildProjects= */ false);
   }
 
   private SubmitRequirement createSubmitRequirement(

@@ -25,7 +25,9 @@ public class AuthException extends RestApiException {
 
   private Optional<String> advice = Optional.empty();
 
-  /** @param msg message to return to the client. */
+  /**
+   * @param msg message to return to the client.
+   */
   public AuthException(String msg) {
     super(msg);
   }

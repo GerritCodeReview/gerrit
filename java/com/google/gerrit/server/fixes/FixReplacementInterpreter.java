@@ -72,7 +72,9 @@ public class FixReplacementInterpreter {
       ProjectState projectState,
       ObjectId patchSetCommitId,
       List<FixReplacement> fixReplacements)
-      throws BadRequestException, ResourceNotFoundException, IOException,
+      throws BadRequestException,
+          ResourceNotFoundException,
+          IOException,
           ResourceConflictException {
     requireNonNull(fixReplacements, "Fix replacements must not be null");
 
@@ -144,7 +146,9 @@ public class FixReplacementInterpreter {
       ObjectId patchSetCommitId,
       String filePath,
       List<FixReplacement> fixReplacements)
-      throws BadRequestException, ResourceNotFoundException, IOException,
+      throws BadRequestException,
+          ResourceNotFoundException,
+          IOException,
           ResourceConflictException {
     String fileContent = getFileContent(repository, projectState, patchSetCommitId, filePath);
     String newFileContent = FixCalculator.getNewFileContent(fileContent, fixReplacements);

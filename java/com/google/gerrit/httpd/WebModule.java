@@ -102,10 +102,10 @@ public class WebModule extends LifecycleModule {
         break;
 
       case OAUTH:
-        // OAuth support is bound in WebAppInitializer and Daemon.
+      // OAuth support is bound in WebAppInitializer and Daemon.
       case OPENID:
       case OPENID_SSO:
-        // OpenID support is bound in WebAppInitializer and Daemon.
+      // OpenID support is bound in WebAppInitializer and Daemon.
       case CUSTOM_EXTENSION:
         break;
       default:

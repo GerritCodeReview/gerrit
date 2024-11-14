@@ -237,7 +237,9 @@ public class SetAccessUtil {
       Project.NameKey projectName,
       Project.NameKey newParentProjectName,
       boolean checkAdmin)
-      throws ResourceConflictException, AuthException, PermissionBackendException,
+      throws ResourceConflictException,
+          AuthException,
+          PermissionBackendException,
           BadRequestException {
     if (newParentProjectName != null
         && !config.getProject().getNameKey().equals(allProjects)

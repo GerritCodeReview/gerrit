@@ -111,7 +111,10 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
 
   @Override
   public Response<Object> apply(ChangeResource resource)
-      throws AuthException, BadRequestException, ResourceConflictException, IOException,
+      throws AuthException,
+          BadRequestException,
+          ResourceConflictException,
+          IOException,
           PermissionBackendException {
     SubmittedTogetherInfo info = applyInfo(resource);
     if (options.isEmpty()) {

@@ -72,7 +72,8 @@ public class Emails {
     }
 
     return retryHelper
-        .accountIndexQuery("queryAccountsByPreferredEmail", q -> q.byPreferredEmail(email)).call()
+        .accountIndexQuery("queryAccountsByPreferredEmail", q -> q.byPreferredEmail(email))
+        .call()
         .stream()
         .map(a -> a.account().id())
         .collect(toImmutableSet());
@@ -95,7 +96,9 @@ public class Emails {
       retryHelper
           .accountIndexQuery(
               "queryAccountsByPreferredEmails", q -> q.byPreferredEmail(emailsToBackfill))
-          .call().entries().stream()
+          .call()
+          .entries()
+          .stream()
           .forEach(e -> result.put(e.getKey(), e.getValue().account().id()));
     }
     return ImmutableSetMultimap.copyOf(result);

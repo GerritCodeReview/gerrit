@@ -26,7 +26,9 @@ public class RepositoryCaseMismatchException extends RepositoryExistsException {
 
   private static final long serialVersionUID = 1L;
 
-  /** @param projectName name of the project that cannot be created */
+  /**
+   * @param projectName name of the project that cannot be created
+   */
   public RepositoryCaseMismatchException(Project.NameKey projectName) {
     super(projectName, "Name occupied in other case.");
   }

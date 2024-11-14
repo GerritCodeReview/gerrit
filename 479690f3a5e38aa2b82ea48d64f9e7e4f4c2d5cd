@@ -52,6 +52,24 @@
       "parentUuid": "94993c3a_dd8af576",
       "revId": "479690f3a5e38aa2b82ea48d64f9e7e4f4c2d5cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a25f2977_3d7d0940",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 707,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2024-11-14T18:09:33Z",
+      "side": 1,
+      "message": "How about this:\n```\nfor(ready: parked) {\n  ...\n  if (readyCheck(ready))\n    break;\n  }\n  ...\n}\n\nboolean readyCheck(task) {\n  mylatch \u003d new CountDownLatch(1);\n  while ((currentLatch \u003d isReadyChecking.computeIfAbsent(task, mylatch)) !\u003d mylatch) {\n    currentLatch.await();\n  }\n  isReady \u003d // readycheck\n  isReadyChecking.remove(task, mylatch); \n  // Fairness doesn\u0027t matter here since executor tasks aren\u0027t waiting on any \n  // specific thread to be able to run. Thus, the approach of removing the latch \n  // before counting down, which is unfair to waiting threads since non waiting \n  // threads could be cleared to check before waiting ones, is a good alternative\n  // to counting down before removal, which would cause waiting threads to spin \n  // until the removal happens. This spinning would consume CPU, and waiting for \n  // the removal could potentially be a long time if the counting down thread \n  // gets preempted.\n  mylatch.countDown();\n  return isReady;\n}\n```",
+      "parentUuid": "a115672e_2d437ab0",
+      "revId": "479690f3a5e38aa2b82ea48d64f9e7e4f4c2d5cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

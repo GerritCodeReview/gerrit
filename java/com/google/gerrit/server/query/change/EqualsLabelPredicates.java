@@ -96,8 +96,10 @@ public class EqualsLabelPredicates {
     protected final ProjectCache projectCache;
     protected final PermissionBackend permissionBackend;
     protected final IdentifiedUser.GenericFactory userFactory;
+
     /** label name to be matched. */
     protected final String label;
+
     /** Expected vote value for the label. */
     protected final int expVal;
 

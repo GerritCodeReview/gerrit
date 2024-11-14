@@ -102,7 +102,7 @@ Moreover, the actual java 11 language features are not supported yet.
 
 To format source code, Gerrit uses the
 link:https://github.com/google/google-java-format[`google-java-format`,role=external,window=_blank]
-tool (version 1.7), which automatically formats code to follow the
+tool (version 1.24.0), which automatically formats code to follow the
 style guide. See link:dev-crafting-changes.html#style[Code Style] for the
 instruction how to set up command line tool that uses this formatter.
 The Eclipse plugin is provided that allows to format with the same

@@ -124,8 +124,11 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
   }
 
   public ConfigInfo apply(ProjectState projectState, ConfigInput input)
-      throws BadRequestException, ResourceConflictException, PermissionBackendException,
-          AuthException, MethodNotAllowedException {
+      throws BadRequestException,
+          ResourceConflictException,
+          PermissionBackendException,
+          AuthException,
+          MethodNotAllowedException {
     Project.NameKey projectName = projectState.getNameKey();
     if (input == null) {
       throw new BadRequestException("config is required");
@@ -262,7 +265,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
                               value,
                               v.getKey()));
                     }
-                    // $FALL-THROUGH$
+                  // $FALL-THROUGH$
                   case STRING:
                     String valueToSet = value;
                     projectConfig.updatePluginConfig(

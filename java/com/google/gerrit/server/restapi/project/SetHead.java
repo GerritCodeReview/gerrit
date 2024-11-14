@@ -66,8 +66,12 @@ public class SetHead implements RestModifyView<ProjectResource, HeadInput> {
 
   @Override
   public Response<String> apply(ProjectResource rsrc, HeadInput input)
-      throws AuthException, ResourceNotFoundException, BadRequestException,
-          UnprocessableEntityException, IOException, PermissionBackendException {
+      throws AuthException,
+          ResourceNotFoundException,
+          BadRequestException,
+          UnprocessableEntityException,
+          IOException,
+          PermissionBackendException {
     if (input == null || Strings.isNullOrEmpty(input.ref)) {
       throw new BadRequestException("ref required");
     }

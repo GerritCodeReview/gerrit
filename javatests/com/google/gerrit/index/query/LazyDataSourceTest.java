@@ -76,13 +76,15 @@ public class LazyDataSourceTest {
     @Override
     public Iterator<T> iterator() {
       throw new AssertionError(
-          "called iterator() on the result set, but shouldn't have because the data source must be lazy");
+          "called iterator() on the result set, but shouldn't have because the data source must be"
+              + " lazy");
     }
 
     @Override
     public ImmutableList<T> toList() {
       throw new AssertionError(
-          "called toList() on the result set, but shouldn't have because the data source must be lazy");
+          "called toList() on the result set, but shouldn't have because the data source must be"
+              + " lazy");
     }
 
     @Override

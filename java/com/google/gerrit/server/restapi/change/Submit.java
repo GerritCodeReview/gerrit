@@ -181,8 +181,12 @@ public class Submit
 
   @Override
   public Response<ChangeInfo> apply(RevisionResource rsrc, @Nullable SubmitInput input)
-      throws RestApiException, RepositoryNotFoundException, IOException, PermissionBackendException,
-          UpdateException, ConfigInvalidException {
+      throws RestApiException,
+          RepositoryNotFoundException,
+          IOException,
+          PermissionBackendException,
+          UpdateException,
+          ConfigInvalidException {
     if (input == null) {
       input = new SubmitInput();
     }
@@ -204,7 +208,10 @@ public class Submit
 
   @UsedAt(UsedAt.Project.GOOGLE)
   public Change mergeChange(RevisionResource rsrc, IdentifiedUser submitter, SubmitInput input)
-      throws RestApiException, IOException, UpdateException, ConfigInvalidException,
+      throws RestApiException,
+          IOException,
+          UpdateException,
+          ConfigInvalidException,
           PermissionBackendException {
     Change change = rsrc.getChange();
     if (!change.isNew()) {
@@ -440,7 +447,10 @@ public class Submit
   }
 
   private IdentifiedUser onBehalfOf(RevisionResource rsrc, SubmitInput in)
-      throws AuthException, UnprocessableEntityException, PermissionBackendException, IOException,
+      throws AuthException,
+          UnprocessableEntityException,
+          PermissionBackendException,
+          IOException,
           ConfigInvalidException {
     PermissionBackend.ForChange perm = rsrc.permissions();
     // It's possible that the current user or on-behalf-of user does not have permission for all

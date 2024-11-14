@@ -490,7 +490,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     assertThat(gApi.accounts().id(foo2.id().get()).getActive()).isFalse();
     assertReviewers(suggestReviewers(changeId, name), ImmutableList.of(foo1), ImmutableList.of());
     assertReviewers(
-        suggestReviewers(changeId, /*query=*/ ""), ImmutableList.of(foo1), ImmutableList.of());
+        suggestReviewers(changeId, /* query= */ ""), ImmutableList.of(foo1), ImmutableList.of());
   }
 
   @Test

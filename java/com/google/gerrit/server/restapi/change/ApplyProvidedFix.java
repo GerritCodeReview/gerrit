@@ -87,8 +87,13 @@ public class ApplyProvidedFix implements RestModifyView<RevisionResource, ApplyP
   @Override
   public Response<EditInfo> apply(
       RevisionResource revisionResource, ApplyProvidedFixInput applyProvidedFixInput)
-      throws AuthException, BadRequestException, ResourceConflictException, IOException,
-          ResourceNotFoundException, PermissionBackendException, RestApiException {
+      throws AuthException,
+          BadRequestException,
+          ResourceConflictException,
+          IOException,
+          ResourceNotFoundException,
+          PermissionBackendException,
+          RestApiException {
     if (applyProvidedFixInput == null) {
       throw new BadRequestException("applyProvidedFixInput is required");
     }
@@ -174,7 +179,8 @@ public class ApplyProvidedFix implements RestModifyView<RevisionResource, ApplyP
         String targetCommitMessage = targetCommitMessageFile.modifiableContent();
         if (!originCommitMessage.equals(targetCommitMessage)) {
           throw new ResourceConflictException(
-              "The fix attempts to modify commit message of an older patchset, but commit message has been updated in a newer patchset. The fix can't be applied.");
+              "The fix attempts to modify commit message of an older patchset, but commit message"
+                  + " has been updated in a newer patchset. The fix can't be applied.");
         }
         resultBuilder.newCommitMessage(originCommitModification.newCommitMessage().get());
       }

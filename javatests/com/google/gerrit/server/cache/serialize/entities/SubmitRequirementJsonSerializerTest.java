@@ -275,8 +275,7 @@ public class SubmitRequirementJsonSerializerTest {
   public void submitRequirementResult_emptySubmittabilityExpressionResultField_roundTrip()
       throws Exception {
     SubmitRequirementResult srResult =
-        srReqResult
-            .toBuilder()
+        srReqResult.toBuilder()
             .submittabilityExpressionResult(Optional.empty())
             .applicabilityExpressionResult(Optional.empty())
             .overrideExpressionResult(Optional.empty())

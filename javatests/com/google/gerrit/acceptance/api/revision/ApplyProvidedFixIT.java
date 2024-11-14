@@ -378,8 +378,17 @@ public class ApplyProvidedFixIT extends AbstractDaemonTest {
         .value()
         .asString()
         .isEqualTo(
-            "New line at the start\nFirst line\nSecond line\nTModified contentrd line\nFourth line\nFifth line\n"
-                + "Sixth line\nSeventh line\nEighth line\nNinth line\nTenth line\n");
+            "New line at the start\n"
+                + "First line\n"
+                + "Second line\n"
+                + "TModified contentrd line\n"
+                + "Fourth line\n"
+                + "Fifth line\n"
+                + "Sixth line\n"
+                + "Seventh line\n"
+                + "Eighth line\n"
+                + "Ninth line\n"
+                + "Tenth line\n");
 
     applyProvidedFixInput = createApplyProvidedFixInput(FILE_NAME, "(1st)", 1, 5, 1, 5);
     applyProvidedFixInput.originalPatchsetForFix = previousRevision;
@@ -390,8 +399,17 @@ public class ApplyProvidedFixIT extends AbstractDaemonTest {
         .value()
         .asString()
         .isEqualTo(
-            "New line at the start\nFirst(1st) line\nSecond line\nTModified contentrd line\nFourth line\nFifth line\n"
-                + "Sixth line\nSeventh line\nEighth line\nNinth line\nTenth line\n");
+            "New line at the start\n"
+                + "First(1st) line\n"
+                + "Second line\n"
+                + "TModified contentrd line\n"
+                + "Fourth line\n"
+                + "Fifth line\n"
+                + "Sixth line\n"
+                + "Seventh line\n"
+                + "Eighth line\n"
+                + "Ninth line\n"
+                + "Tenth line\n");
   }
 
   @Test
@@ -440,8 +458,15 @@ public class ApplyProvidedFixIT extends AbstractDaemonTest {
         .value()
         .asString()
         .isEqualTo(
-            "Third line\nFourth line\nFifth line\n"
-                + "Sixth line\nSeventh line\nEighth line\nNinth line\nFirst modification\nTenth line\n");
+            "Third line\n"
+                + "Fourth line\n"
+                + "Fifth line\n"
+                + "Sixth line\n"
+                + "Seventh line\n"
+                + "Eighth line\n"
+                + "Ninth line\n"
+                + "First modification\n"
+                + "Tenth line\n");
     Optional<BinaryResult> file2 = gApi.changes().id(changeId).edit().getFile(FILE_NAME2);
     BinaryResultSubject.assertThat(file2)
         .value()

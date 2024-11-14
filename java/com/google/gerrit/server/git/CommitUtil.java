@@ -315,7 +315,7 @@ public class CommitUtil {
       throws IOException, RestApiException, UpdateException, ConfigInvalidException {
     RevCommit revertCommit = revWalk.parseCommit(revertCommitId);
     Change.Id changeId = Change.id(seq.nextChangeId());
-    if (input.workInProgress) {
+    if (input.getWorkInProgress()) {
       input.notify = firstNonNull(input.notify, NotifyHandling.NONE);
     }
     NotifyResolver.Result notify =
@@ -340,13 +340,13 @@ public class CommitUtil {
     ccs.remove(user.getAccountId());
     ins.setReviewersAndCcsIgnoreVisibility(reviewers, ccs);
     ins.setRevertOf(notes.getChangeId());
-    ins.setWorkInProgress(input.workInProgress);
+    ins.setWorkInProgress(input.getWorkInProgress());
 
     try (BatchUpdate bu = updateFactory.create(notes.getProjectName(), user, ts)) {
       bu.setRepository(git, revWalk, oi);
       bu.setNotify(notify);
       bu.insertChange(ins);
-      if (!input.workInProgress) {
+      if (!input.getWorkInProgress()) {
         addChangeRevertedNotificationOps(
             bu, changeToRevert.getId(), changeId, generatedChangeId.name());
       }

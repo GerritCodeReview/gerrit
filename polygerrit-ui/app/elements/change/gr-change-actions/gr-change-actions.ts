@@ -2,6 +2,8 @@
  * @license
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
+ *
+ * DO NOT SUBMIT: This is just a test.
  */
 import '../../admin/gr-create-change-dialog/gr-create-change-dialog';
 import '../../shared/gr-button/gr-button';

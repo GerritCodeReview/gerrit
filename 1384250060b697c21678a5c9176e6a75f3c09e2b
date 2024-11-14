@@ -39,6 +39,30 @@
       },
       "revId": "1384250060b697c21678a5c9176e6a75f3c09e2b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c5996ec_78e85018",
+        "filename": "tools/run_gjf.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-11-14T15:11:44Z",
+      "side": 1,
+      "message": "Yeh, we don\u0027t execute `tools/setup_gjf.sh` unless the file doesn\u0027t exist (tools/format/google-java-format-*).\n\nHence why we have a if statement otherwise it fails.\n\nThis change actually fixes that. I was getting that error running run_gjf because $GJF would return empty due to it not being able to use 1.22.0/1.24.0. Only 1.7 \u003c\u003d.",
+      "parentUuid": "d874f2df_bfd5ddf7",
+      "range": {
+        "startLine": 19,
+        "startChar": 37,
+        "endLine": 19,
+        "endChar": 56
+      },
+      "revId": "1384250060b697c21678a5c9176e6a75f3c09e2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

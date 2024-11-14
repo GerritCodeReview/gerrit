@@ -53,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9e1e4a3_691bfd84",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 618,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2024-11-14T04:20:41Z",
+      "side": 1,
+      "message": "That\u0027s fine with me.",
+      "parentUuid": "caff55d0_f5188295",
+      "revId": "db2211e69edb2e6d234c3cae0861623c1f352360",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4fb67adf_370f419e",
@@ -90,6 +108,30 @@
       "side": 1,
       "message": "If a task is cancelled while `isReadyToStart` evaluation, the above code would still add it back to parked tasks. This however becomes a problem if the parker has a logic such that `isReadyToStart` always returns `false` for cancelled tasks. In which case the cancelled task will perpetually remain in the parked queue.",
       "parentUuid": "4fb67adf_370f419e",
+      "range": {
+        "startLine": 690,
+        "startChar": 6,
+        "endLine": 706,
+        "endChar": 7
+      },
+      "revId": "db2211e69edb2e6d234c3cae0861623c1f352360",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a355bc86_40060c3e",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 706,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2024-11-14T04:20:41Z",
+      "side": 1,
+      "message": "Would this work then?\n```\nList\u003cParkedTask\u003e notReady \u003d new ArrayList\u003c\u003e();\nwhile ((ready \u003d parked.poll()) !\u003d null) {\n  if (Task.State.CANCELLED.equals(ready.task.getState())) {\n    ready.cancel();\n  } else if (!isReadyToStart(ready.task)) {\n    if (Task.State.CANCELLED.equals(ready.task.getState())) {\n      ready.cancel();\n    } else {\n      notReady.add(ready);\n    }\n  } else {\n    break;\n  }\n}\n```\n\nor maybe easier to read?\n\n```\nList\u003cParkedTask\u003e notReady \u003d new ArrayList\u003c\u003e();\nwhile ((ready \u003d parked.poll()) !\u003d null) {\n  if (Task.State.CANCELLED.equals(ready.task.getState())) {\n    ready.cancel();\n  } else if (isReadyToStart(ready.task)) {\n    break;\n  } else if (Task.State.CANCELLED.equals(ready.task.getState())) {\n    ready.cancel();\n  } else {\n    notReady.add(ready);\n  }\n}\n\n```\n\nor\n\n```\nList\u003cParkedTask\u003e notReady \u003d new ArrayList\u003c\u003e();\nwhile ((ready \u003d parked.poll()) !\u003d null) {\n  if (Task.State.CANCELLED.equals(ready.task.getState())) {\n    ready.cancel();\n  } else {\n    if (isReadyToStart(ready.task)) {\n      break;\n    } \n    if (Task.State.CANCELLED.equals(ready.task.getState())) {\n      ready.cancel();\n    } else {\n      notReady.add(ready);\n    }\n  }\n}\n\n```\n\nor\n\n```\nboolean canceledIfNeeded() {\n  if (Task.State.CANCELLED.equals(ready.task.getState())) {\n    ready.cancel();\n    return true;\n  } \n  return false;\n }\n \nList\u003cParkedTask\u003e notReady \u003d new ArrayList\u003c\u003e();\nwhile ((ready \u003d parked.poll()) !\u003d null) {\n  if (!canceledIfNeeded() {\n    if (isReadyToStart(ready.task)) {\n      break;\n    } \n    if (!canceledIfNeeded() {\n      notReady.add(ready);\n    }\n  }\n}\n\n```",
+      "parentUuid": "0a49045a_ce8c9b57",
       "range": {
         "startLine": 690,
         "startChar": 6,

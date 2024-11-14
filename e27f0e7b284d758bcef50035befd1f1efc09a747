@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aded423a_778b738c",
+        "filename": "modules/jgit",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-11-14T18:51:07Z",
+      "side": 1,
+      "message": "This would push back the JGit bump done on stable-3.11: I believe we should keep `d34f8b523638fc95b2e7006d02c9f6a756cbba85`",
+      "revId": "e27f0e7b284d758bcef50035befd1f1efc09a747",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

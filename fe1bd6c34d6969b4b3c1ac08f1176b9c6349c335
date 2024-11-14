@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d30ac8f9_3d34efc2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2024-11-14T09:50:26Z",
+      "side": 1,
+      "message": "There is a separate permissions for toggle work in progress:\nhttps://gerrit-review.googlesource.com/Documentation/access-control.html#category_toggle_work_in_progress_state\n\nThis change can break some workflows, e.g. when a bot creates a change and then someone else should submit it. It can\u0027t be fixed without giving permissions to toggleWorkInProgress for all changes (i.e. it is not possible to allow toogle work in progress only for reverts); or alternatively all bots should be updated (either their settings in gerrit or their code to always create non-work-in-progress change).\n\nMaybe add a config to host, which allows to turn off new behavior easily (without rollback)?\n\nI don\u0027t know if this will be a real problem for someone, so up to you to decide how to proceed.\n\nAs alternative solution: we can think of adding a checkbox in UI, which gets value from project config + user config. It will also fix described bug, but will not require any other changes.",
+      "revId": "fe1bd6c34d6969b4b3c1ac08f1176b9c6349c335",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

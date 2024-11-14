@@ -118,6 +118,7 @@ export enum Interaction {
   CHECKS_CHIP_CLICKED = 'checks-chip-clicked',
   CHECKS_CHIP_LINK_CLICKED = 'checks-chip-link-clicked',
   CHECKS_RESULT_ROW_TOGGLE = 'checks-result-row-toggle',
+  CHECKS_RESULT_DIFF_RENDERED = 'checks-result-diff-rendered',
   CHECKS_ACTION_TRIGGERED = 'checks-action-triggered',
   CHECKS_TAG_CLICKED = 'checks-tag-clicked',
   CHECKS_RESULT_FILTER_CHANGED = 'checks-result-filter-changed',

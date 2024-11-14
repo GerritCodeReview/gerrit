@@ -24,6 +24,8 @@ import {resolve} from '../../models/dependency';
 import {commentsModelToken} from '../../models/comments/comments-model';
 import {subscribe} from '../lit/subscription-controller';
 import {changeModelToken} from '../../models/change/change-model';
+import {getAppContext} from '../../services/app-context';
+import {Interaction} from '../../constants/reporting';
 
 @customElement('gr-diff-check-result')
 export class GrDiffCheckResult extends LitElement {
@@ -49,6 +51,8 @@ export class GrDiffCheckResult extends LitElement {
   private readonly getChangeModel = resolve(this, changeModelToken);
 
   private readonly getCommentsModel = resolve(this, commentsModelToken);
+
+  private readonly reporting = getAppContext().reportingService;
 
   static override get styles() {
     return [
@@ -142,6 +146,12 @@ export class GrDiffCheckResult extends LitElement {
       () => this.getChangeModel().isOwner$,
       x => (this.isOwner = x)
     );
+  }
+
+  protected override firstUpdated(_changedProperties: PropertyValues): void {
+    this.reporting.reportInteraction(Interaction.CHECKS_RESULT_DIFF_RENDERED, {
+      checkName: this.result?.checkName,
+    });
   }
 
   override render() {

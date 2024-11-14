@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "119b1f46_960dfbea",
+        "filename": "tools/run_gjf.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2024-11-14T15:01:43Z",
+      "side": 1,
+      "message": "Wouldn\u0027t it be easier to extract the \"default\" gjf version into it\u0027s own file and read that from both setup_gjf.sh and run_gjf.sh? also let run_gjf.sh take an argument.\nThen you always know which version the user wants to run and you can check explicitly for that version.\nAnother idea is to consolidate them into one script:\n```\n$ ./tools/gjf.sh run 1.22.0 # installs 1.22.0 if necessary and runs it\n$ ./tools/gjf.sh run # installs default version of gjf and runs it\n$ ./tools/gjf setup # installs default gfj\n$ ./tools/gjf setup 1.22.0 # installs 1.22.0 of gjf\n```",
+      "revId": "1384250060b697c21678a5c9176e6a75f3c09e2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d874f2df_bfd5ddf7",
+        "filename": "tools/run_gjf.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2024-11-14T15:01:43Z",
+      "side": 1,
+      "message": "This doesn\u0027t work for me on consecutive runs:\n```\n$ ./tools/setup_gjf.sh\nerror copying to /home/svense/git-repos/gerrit/tools/format/google-java-format-1.7-all-deps.jar: \u0027/home/svense/.gerritcodereview/bazel-cache/downloaded-artifacts/google-java-format-1.7-all-deps.jar-b6d34a51e579b08db7c624505bdf9af4397f1702\u0027 and \u0027/home/svense/git-repos/gerrit/tools/format/google-java-format-1.7-all-deps.jar\u0027 are the same file\n```",
+      "range": {
+        "startLine": 19,
+        "startChar": 37,
+        "endLine": 19,
+        "endChar": 56
+      },
+      "revId": "1384250060b697c21678a5c9176e6a75f3c09e2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

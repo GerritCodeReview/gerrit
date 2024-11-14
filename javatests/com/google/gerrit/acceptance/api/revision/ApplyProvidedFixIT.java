@@ -450,6 +450,44 @@ public class ApplyProvidedFixIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void applyProvidedFixOnNewerPatchset_mergeConflictThrowsResourceConflictException()
+      throws Exception {
+    // Remember patch set and add another one.
+    int previousRevision = gApi.changes().id(changeId).get().currentRevisionNumber;
+    // Change first 2 lines;
+    String modifiedContent =
+        "abc\ndef\n"
+            + FILE_CONTENT.substring(
+                FILE_CONTENT.indexOf("\n", FILE_CONTENT.indexOf("\n") + 1) + 1);
+    amendChange(
+        changeId,
+        "refs/for/master",
+        admin,
+        testRepo,
+        PushOneCommit.SUBJECT,
+        FILE_NAME,
+        modifiedContent);
+    FixReplacementInfo fixReplacementInfo1 = new FixReplacementInfo();
+    fixReplacementInfo1.path = FILE_NAME;
+    fixReplacementInfo1.range = createRange(2, 0, 2, 0);
+    fixReplacementInfo1.replacement = "First modification\n";
+
+    ApplyProvidedFixInput applyProvidedFixInput = new ApplyProvidedFixInput();
+
+    applyProvidedFixInput.fixReplacementInfos = Arrays.asList(fixReplacementInfo1);
+    applyProvidedFixInput.originalPatchsetForFix = previousRevision;
+
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.changes().id(changeId).current().applyFix(applyProvidedFixInput));
+
+    assertThat(thrown.getMessage()).contains("Merge conflict");
+    // Change edit must not be created
+    assertThat(gApi.changes().id(changeId).edit().get()).isEmpty();
+  }
+
+  @Test
   public void applyProvidedFixOnCommitMessageCanBeAppliedToNewerPatchset() throws Exception {
     // Set a dedicated commit message.
     String footer = "\nChange-Id: " + changeId + "\n";

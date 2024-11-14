@@ -56,6 +56,7 @@ import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.patch.PatchApplier;
+import org.eclipse.jgit.patch.PatchApplier.Result.Error;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
@@ -86,8 +87,13 @@ public class ApplyProvidedFix implements RestModifyView<RevisionResource, ApplyP
   @Override
   public Response<EditInfo> apply(
       RevisionResource revisionResource, ApplyProvidedFixInput applyProvidedFixInput)
-      throws AuthException, BadRequestException, ResourceConflictException, IOException,
-          ResourceNotFoundException, PermissionBackendException, RestApiException {
+      throws AuthException,
+          BadRequestException,
+          ResourceConflictException,
+          IOException,
+          ResourceNotFoundException,
+          PermissionBackendException,
+          RestApiException {
     if (applyProvidedFixInput == null) {
       throw new BadRequestException("applyProvidedFixInput is required");
     }
@@ -173,7 +179,8 @@ public class ApplyProvidedFix implements RestModifyView<RevisionResource, ApplyP
         String targetCommitMessage = targetCommitMessageFile.modifiableContent();
         if (!originCommitMessage.equals(targetCommitMessage)) {
           throw new ResourceConflictException(
-              "The fix attempts to modify commit message of an older patchset, but commit message has been updated in a newer patchset. The fix can't be applied.");
+              "The fix attempts to modify commit message of an older patchset, but commit message"
+                  + " has been updated in a newer patchset. The fix can't be applied.");
         }
         resultBuilder.newCommitMessage(originCommitModification.newCommitMessage().get());
       }
@@ -185,9 +192,20 @@ public class ApplyProvidedFix implements RestModifyView<RevisionResource, ApplyP
       try (ObjectInserter oi = repository.newObjectInserter()) {
         ApplyPatchInput inp = new ApplyPatchInput();
         inp.patch = patch;
-        inp.allowConflicts = false;
+        // Allow conflicts for showing more precise error message.
+        inp.allowConflicts = true;
         result =
             ApplyPatchUtil.applyPatch(repository, oi, inp, repository.parseCommit(targetCommit));
+        if (!result.getErrors().isEmpty()) {
+          String errorMessage =
+              (result.getErrors().stream().anyMatch(Error::isGitConflict)
+                      ? "Merge conflict while applying a fix:\n"
+                      : "Error while applying a fix:\n")
+                  + result.getErrors().stream()
+                      .map(Error::toString)
+                      .collect(Collectors.joining("\n"));
+          throw new ResourceConflictException(errorMessage);
+        }
         oi.flush();
         for (String path : result.getPaths()) {
           try (TreeWalk tw = TreeWalk.forPath(rw.getObjectReader(), path, result.getTreeId())) {

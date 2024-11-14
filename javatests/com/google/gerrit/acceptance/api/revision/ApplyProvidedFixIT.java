@@ -378,8 +378,17 @@ public class ApplyProvidedFixIT extends AbstractDaemonTest {
         .value()
         .asString()
         .isEqualTo(
-            "New line at the start\nFirst line\nSecond line\nTModified contentrd line\nFourth line\nFifth line\n"
-                + "Sixth line\nSeventh line\nEighth line\nNinth line\nTenth line\n");
+            "New line at the start\n"
+                + "First line\n"
+                + "Second line\n"
+                + "TModified contentrd line\n"
+                + "Fourth line\n"
+                + "Fifth line\n"
+                + "Sixth line\n"
+                + "Seventh line\n"
+                + "Eighth line\n"
+                + "Ninth line\n"
+                + "Tenth line\n");
 
     applyProvidedFixInput = createApplyProvidedFixInput(FILE_NAME, "(1st)", 1, 5, 1, 5);
     applyProvidedFixInput.originalPatchsetForFix = previousRevision;
@@ -390,8 +399,17 @@ public class ApplyProvidedFixIT extends AbstractDaemonTest {
         .value()
         .asString()
         .isEqualTo(
-            "New line at the start\nFirst(1st) line\nSecond line\nTModified contentrd line\nFourth line\nFifth line\n"
-                + "Sixth line\nSeventh line\nEighth line\nNinth line\nTenth line\n");
+            "New line at the start\n"
+                + "First(1st) line\n"
+                + "Second line\n"
+                + "TModified contentrd line\n"
+                + "Fourth line\n"
+                + "Fifth line\n"
+                + "Sixth line\n"
+                + "Seventh line\n"
+                + "Eighth line\n"
+                + "Ninth line\n"
+                + "Tenth line\n");
   }
 
   @Test
@@ -440,13 +458,58 @@ public class ApplyProvidedFixIT extends AbstractDaemonTest {
         .value()
         .asString()
         .isEqualTo(
-            "Third line\nFourth line\nFifth line\n"
-                + "Sixth line\nSeventh line\nEighth line\nNinth line\nFirst modification\nTenth line\n");
+            "Third line\n"
+                + "Fourth line\n"
+                + "Fifth line\n"
+                + "Sixth line\n"
+                + "Seventh line\n"
+                + "Eighth line\n"
+                + "Ninth line\n"
+                + "First modification\n"
+                + "Tenth line\n");
     Optional<BinaryResult> file2 = gApi.changes().id(changeId).edit().getFile(FILE_NAME2);
     BinaryResultSubject.assertThat(file2)
         .value()
         .asString()
         .isEqualTo("New line at the start\nDifferent file modification\n2nd line\n3rd line\n");
+  }
+
+  @Test
+  public void applyProvidedFixOnNewerPatchset_mergeConflictThrowsResourceConflictException()
+      throws Exception {
+    // Remember patch set and add another one.
+    int previousRevision = gApi.changes().id(changeId).get().currentRevisionNumber;
+    // Change first 2 lines;
+    String modifiedContent =
+        "abc\ndef\n"
+            + FILE_CONTENT.substring(
+                FILE_CONTENT.indexOf("\n", FILE_CONTENT.indexOf("\n") + 1) + 1);
+    amendChange(
+        changeId,
+        "refs/for/master",
+        admin,
+        testRepo,
+        PushOneCommit.SUBJECT,
+        FILE_NAME,
+        modifiedContent);
+    FixReplacementInfo fixReplacementInfo1 = new FixReplacementInfo();
+    fixReplacementInfo1.path = FILE_NAME;
+    fixReplacementInfo1.range = createRange(2, 0, 2, 0);
+    fixReplacementInfo1.replacement = "First modification\n";
+
+    ApplyProvidedFixInput applyProvidedFixInput = new ApplyProvidedFixInput();
+
+    applyProvidedFixInput.fixReplacementInfos = Arrays.asList(fixReplacementInfo1);
+    applyProvidedFixInput.originalPatchsetForFix = previousRevision;
+
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.changes().id(changeId).current().applyFix(applyProvidedFixInput));
+
+    assertThat(thrown.getMessage()).contains("Merge conflict");
+    // Change edit must not be created
+    assertThat(gApi.changes().id(changeId).edit().get()).isEmpty();
   }
 
   @Test

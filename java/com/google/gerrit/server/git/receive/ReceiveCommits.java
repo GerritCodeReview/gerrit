@@ -470,7 +470,7 @@ class ReceiveCommits {
   private boolean newChangeForAllNotInTarget;
   private boolean setChangeAsPrivate;
   private Optional<NoteDbPushOption> noteDbPushOption;
-  private Optional<String> tracePushOption;
+  private Optional<String> tracePushOption = Optional.empty();
 
   private MessageSender messageSender;
   private ReceiveCommitsResult.Builder result;
@@ -1372,8 +1372,6 @@ class ReceiveCommits {
     List<String> traceValues = pushOptions.get("trace");
     if (!traceValues.isEmpty()) {
       tracePushOption = Optional.of(Iterables.getLast(traceValues));
-    } else {
-      tracePushOption = Optional.empty();
     }
   }
 

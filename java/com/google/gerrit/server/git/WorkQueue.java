@@ -631,11 +631,17 @@ public class WorkQueue {
     }
 
     public void waitUntilReadyToStart(Task<?> task) {
-      if (!listeners.isEmpty() && !isReadyToStart(task)) {
-        ParkedTask parkedTask = new ParkedTask(task);
-        parked.offer(parkedTask);
-        task.runningState.set(Task.State.PARKED);
-        incrementCorePoolSizeBy(1);
+      if (!listeners.isEmpty()) {
+        ParkedTask parkedTask;
+        synchronized (this) {
+          if (isReadyToStart(task)) {
+            return;
+          }
+          parkedTask = new ParkedTask(task);
+          parked.offer(parkedTask);
+          task.runningState.set(Task.State.PARKED);
+          incrementCorePoolSizeBy(1);
+        }
         try {
           parkedTask.latch.await();
         } catch (InterruptedException e) {
@@ -651,7 +657,7 @@ public class WorkQueue {
       listeners.runEach(extension -> extension.get().onStart(task));
     }
 
-    public void onStop(Task<?> task) {
+    public synchronized void onStop(Task<?> task) {
       listeners.runEach(extension -> extension.get().onStop(task));
       updateParked();
     }

@@ -52,6 +52,8 @@ public class SshScope {
     private volatile long finishedUserCpu;
     private volatile long startedMemory;
     private volatile long finishedMemory;
+    private volatile boolean forceTracing;
+    private volatile String traceId;
 
     private IdentifiedUser identifiedUser;
 
@@ -121,6 +123,22 @@ public class SshScope {
 
     SshSession getSession() {
       return session;
+    }
+
+    void setForceTracing(boolean v) {
+      forceTracing = v;
+    }
+
+    boolean getForceTracing() {
+      return forceTracing;
+    }
+
+    void setTraceId(String id) {
+      traceId = id;
+    }
+
+    String getTraceId() {
+      return traceId;
     }
 
     @Override

@@ -123,6 +123,24 @@
       "message": "I\u0027d move this block down to line 150 then we can avoid repeating these 2 lines in line 151 an 152",
       "revId": "707caae5d2b72d97da710dd6f36556570820f629",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8243766_6d402235",
+        "filename": "java/com/google/gerrit/server/logging/TraceContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-11-15T16:03:17Z",
+      "side": 1,
+      "message": "I tried that but the change didn\u0027t justify itself. It couldn\u0027t be done without two times checking condition on the `forceLogging` parameter. Notice that this block ends with a return statement, therefore the rest of the code assumes `forceLogging \u003d\u003d true`. We would have to first check for that condition. Further, notice that we need to apply `.forceLogging()` call depending on the `forceLogging` parameter. That would be yet another check and the end.\n\nThe existing code in this method already contains multiple similar lines where trace context is created and if we add one more occurrence here it is not making it any worse, but we keep clarity of the code structure.",
+      "parentUuid": "ee1e6d83_5b2f42ec",
+      "revId": "707caae5d2b72d97da710dd6f36556570820f629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

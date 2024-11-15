@@ -127,6 +127,8 @@ public abstract class SshCommand extends BaseCommand {
           if (trace) {
             stderr.println(String.format("%s: %s", tagName, traceId));
           }
+          setForceTracing(trace);
+          setTraceId(traceId);
         });
   }
 }

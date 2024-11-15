@@ -41,7 +41,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
@@ -616,10 +615,7 @@ public class WorkQueue {
     }
 
     void cancelIfParked(Task<?> task) {
-      Optional<ParkedTask> parkedTask = parked.stream().filter(p -> p.isEqualTo(task)).findFirst();
-      if (parkedTask.isPresent()) {
-        parkedTask.get().cancel();
-      }
+      parked.stream().filter(p -> p.isEqualTo(task)).findFirst().ifPresent(ParkedTask::cancel);
     }
 
     Task<?> getTask(int id) {
@@ -691,17 +687,19 @@ public class WorkQueue {
     }
 
     public void updateParked() {
-      ParkedTask ready = parked.poll();
-      if (ready == null) {
-        return;
-      }
       List<ParkedTask> notReady = new ArrayList<>();
-      while (ready != null && !isReadyToStart(ready.task)) {
-        // Do not add a cancelled task back into the parked queue
-        if (Task.State.PARKED.equals(ready.task.getState())) {
+      ParkedTask ready;
+
+      while ((ready = parked.poll()) != null) {
+        if (Task.State.CANCELLED.equals(ready.task.getState())) {
+          ready.cancel(); // In case a cancelled task is polled before cleanup
+        } else if (isReadyToStart(ready.task)) {
+          break;
+        } else if (Task.State.CANCELLED.equals(ready.task.getState())) {
+          ready.cancel(); // In case the task is cancelled while evaluating isReadyToStart
+        } else {
           notReady.add(ready);
         }
-        ready = parked.poll();
       }
       parked.addAll(notReady);
 

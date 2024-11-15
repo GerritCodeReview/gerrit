@@ -50,6 +50,7 @@ class SshLog implements LifecycleListener, GerritConfigListener {
 
   protected static final String LOG_NAME = "sshd_log";
   protected static final String P_SESSION = "session";
+  protected static final String P_TRACE_ID = "traceId";
   protected static final String P_USER_NAME = "userName";
   protected static final String P_ACCOUNT_ID = "accountId";
   protected static final String P_WAIT = "queueWaitTime";
@@ -291,6 +292,10 @@ class SshLog implements LifecycleListener, GerritConfigListener {
             );
 
     event.setProperty(P_SESSION, id(sd.getSessionId()));
+    String traceId = context.get().getTraceId();
+    if (traceId != null) {
+      event.setProperty(P_TRACE_ID, context.get().getTraceId());
+    }
 
     String userName = "-";
     String accountId = "-";

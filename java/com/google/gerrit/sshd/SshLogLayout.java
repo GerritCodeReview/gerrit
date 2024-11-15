@@ -22,6 +22,7 @@ import static com.google.gerrit.sshd.SshLog.P_MESSAGE;
 import static com.google.gerrit.sshd.SshLog.P_SESSION;
 import static com.google.gerrit.sshd.SshLog.P_STATUS;
 import static com.google.gerrit.sshd.SshLog.P_TOTAL_CPU;
+import static com.google.gerrit.sshd.SshLog.P_TRACE_ID;
 import static com.google.gerrit.sshd.SshLog.P_USER_CPU;
 import static com.google.gerrit.sshd.SshLog.P_USER_NAME;
 import static com.google.gerrit.sshd.SshLog.P_WAIT;
@@ -47,6 +48,7 @@ public final class SshLogLayout extends Layout {
     buf.append(']');
 
     req(P_SESSION, buf, event);
+    req(P_TRACE_ID, buf, event);
 
     buf.append(' ');
     buf.append('[');

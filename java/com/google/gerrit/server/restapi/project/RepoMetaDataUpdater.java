@@ -95,8 +95,12 @@ public class RepoMetaDataUpdater {
       CurrentUser user,
       String message,
       ProjectConfigUpdater projectConfigUpdater)
-      throws ConfigInvalidException, IOException, RestApiException, UpdateException,
-          InvalidNameException, PermissionBackendException {
+      throws ConfigInvalidException,
+          IOException,
+          RestApiException,
+          UpdateException,
+          InvalidNameException,
+          PermissionBackendException {
     checkArgument(!message.isBlank(), "The message must not be empty");
     message = validateMessage(message);
 
@@ -148,10 +152,15 @@ public class RepoMetaDataUpdater {
 
   public void updateWithoutReview(
       Project.NameKey projectName, String message, ProjectConfigUpdater projectConfigUpdater)
-      throws ConfigInvalidException, IOException, PermissionBackendException, AuthException,
-          ResourceConflictException, InvalidNameException, BadRequestException {
+      throws ConfigInvalidException,
+          IOException,
+          PermissionBackendException,
+          AuthException,
+          ResourceConflictException,
+          InvalidNameException,
+          BadRequestException {
     updateWithoutReview(
-        projectName, message, /*skipPermissionsCheck=*/ false, projectConfigUpdater);
+        projectName, message, /* skipPermissionsCheck= */ false, projectConfigUpdater);
   }
 
   public void updateWithoutReview(
@@ -159,8 +168,13 @@ public class RepoMetaDataUpdater {
       String message,
       boolean skipPermissionsCheck,
       ProjectConfigUpdater projectConfigUpdater)
-      throws ConfigInvalidException, IOException, PermissionBackendException, AuthException,
-          ResourceConflictException, InvalidNameException, BadRequestException {
+      throws ConfigInvalidException,
+          IOException,
+          PermissionBackendException,
+          AuthException,
+          ResourceConflictException,
+          InvalidNameException,
+          BadRequestException {
     message = validateMessage(message);
     if (!skipPermissionsCheck) {
       permissionBackend.currentUser().project(projectName).check(ProjectPermission.WRITE_CONFIG);
@@ -209,7 +223,10 @@ public class RepoMetaDataUpdater {
   @FunctionalInterface
   public interface ProjectConfigUpdater {
     void update(ProjectConfig config)
-        throws BadRequestException, InvalidNameException, PermissionBackendException,
-            ResourceConflictException, AuthException;
+        throws BadRequestException,
+            InvalidNameException,
+            PermissionBackendException,
+            ResourceConflictException,
+            AuthException;
   }
 }

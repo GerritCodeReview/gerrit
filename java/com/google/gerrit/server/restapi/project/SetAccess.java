@@ -80,7 +80,7 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
       this.repoMetaDataUpdater.updateWithoutReview(
           rsrc.getNameKey(),
           message,
-          /*skipPermissionsCheck=*/ true,
+          /* skipPermissionsCheck= */ true,
           config -> {
             // Check that the user has the right permissions.
             boolean checkedAdmin = false;

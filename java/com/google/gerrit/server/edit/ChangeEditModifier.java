@@ -137,8 +137,11 @@ public class ChangeEditModifier {
    * @throws InvalidChangeOperationException if a change edit already existed for the change
    */
   public void createEdit(Repository repository, ChangeNotes notes)
-      throws AuthException, IOException, InvalidChangeOperationException,
-          PermissionBackendException, ResourceConflictException {
+      throws AuthException,
+          IOException,
+          InvalidChangeOperationException,
+          PermissionBackendException,
+          ResourceConflictException {
     assertCanEdit(notes);
 
     Optional<ChangeEdit> changeEdit = lookupChangeEdit(notes);
@@ -163,8 +166,11 @@ public class ChangeEditModifier {
    *     the root commit
    */
   public void rebaseEdit(Repository repository, ChangeNotes notes)
-      throws AuthException, InvalidChangeOperationException, IOException,
-          PermissionBackendException, ResourceConflictException {
+      throws AuthException,
+          InvalidChangeOperationException,
+          IOException,
+          PermissionBackendException,
+          ResourceConflictException {
     assertCanEdit(notes);
 
     Optional<ChangeEdit> optionalChangeEdit = lookupChangeEdit(notes);
@@ -235,8 +241,12 @@ public class ChangeEditModifier {
    * @throws BadRequestException if the commit message is malformed
    */
   public void modifyMessage(Repository repository, ChangeNotes notes, String newCommitMessage)
-      throws AuthException, IOException, InvalidChangeOperationException,
-          PermissionBackendException, BadRequestException, ResourceConflictException {
+      throws AuthException,
+          IOException,
+          InvalidChangeOperationException,
+          PermissionBackendException,
+          BadRequestException,
+          ResourceConflictException {
     modifyCommit(
         repository,
         notes,
@@ -249,8 +259,12 @@ public class ChangeEditModifier {
       ChangeNotes notes,
       PersonIdent identity,
       ChangeEditIdentityType identityType)
-      throws AuthException, IOException, InvalidChangeOperationException,
-          PermissionBackendException, BadRequestException, ResourceConflictException {
+      throws AuthException,
+          IOException,
+          InvalidChangeOperationException,
+          PermissionBackendException,
+          BadRequestException,
+          ResourceConflictException {
     CommitModification.Builder cmb = CommitModification.builder();
     switch (identityType) {
       case AUTHOR:
@@ -284,8 +298,12 @@ public class ChangeEditModifier {
       String filePath,
       RawInput newContent,
       @Nullable Integer newGitFileMode)
-      throws AuthException, BadRequestException, InvalidChangeOperationException, IOException,
-          PermissionBackendException, ResourceConflictException {
+      throws AuthException,
+          BadRequestException,
+          InvalidChangeOperationException,
+          IOException,
+          PermissionBackendException,
+          ResourceConflictException {
     modifyCommit(
         repository,
         notes,
@@ -309,8 +327,12 @@ public class ChangeEditModifier {
    * @throws ResourceConflictException if the project state does not permit the operation
    */
   public void deleteFile(Repository repository, ChangeNotes notes, String file)
-      throws AuthException, BadRequestException, InvalidChangeOperationException, IOException,
-          PermissionBackendException, ResourceConflictException {
+      throws AuthException,
+          BadRequestException,
+          InvalidChangeOperationException,
+          IOException,
+          PermissionBackendException,
+          ResourceConflictException {
     modifyCommit(
         repository,
         notes,
@@ -334,8 +356,12 @@ public class ChangeEditModifier {
    */
   public void renameFile(
       Repository repository, ChangeNotes notes, String currentFilePath, String newFilePath)
-      throws AuthException, BadRequestException, InvalidChangeOperationException, IOException,
-          PermissionBackendException, ResourceConflictException {
+      throws AuthException,
+          BadRequestException,
+          InvalidChangeOperationException,
+          IOException,
+          PermissionBackendException,
+          ResourceConflictException {
     modifyCommit(
         repository,
         notes,
@@ -357,8 +383,12 @@ public class ChangeEditModifier {
    * @throws InvalidChangeOperationException if the file was already restored
    */
   public void restoreFile(Repository repository, ChangeNotes notes, String file)
-      throws AuthException, BadRequestException, InvalidChangeOperationException, IOException,
-          PermissionBackendException, ResourceConflictException {
+      throws AuthException,
+          BadRequestException,
+          InvalidChangeOperationException,
+          IOException,
+          PermissionBackendException,
+          ResourceConflictException {
     modifyCommit(
         repository,
         notes,
@@ -389,8 +419,12 @@ public class ChangeEditModifier {
       ChangeNotes notes,
       PatchSet patchSet,
       CommitModification commitModification)
-      throws AuthException, BadRequestException, IOException, InvalidChangeOperationException,
-          PermissionBackendException, ResourceConflictException {
+      throws AuthException,
+          BadRequestException,
+          IOException,
+          InvalidChangeOperationException,
+          PermissionBackendException,
+          ResourceConflictException {
     return modifyCommit(
         repository, notes, new ModificationIntention.PatchsetCommit(patchSet), commitModification);
   }
@@ -401,8 +435,12 @@ public class ChangeEditModifier {
       ChangeNotes notes,
       ModificationIntention modificationIntention,
       CommitModification commitModification)
-      throws AuthException, BadRequestException, IOException, InvalidChangeOperationException,
-          PermissionBackendException, ResourceConflictException {
+      throws AuthException,
+          BadRequestException,
+          IOException,
+          InvalidChangeOperationException,
+          PermissionBackendException,
+          ResourceConflictException {
     assertCanEdit(notes);
 
     Optional<ChangeEdit> optionalChangeEdit = lookupChangeEdit(notes);

@@ -63,7 +63,7 @@ public class GerritServerRestSession extends HttpSession implements RestSession 
 
   @Override
   public RestResponse put(String endPoint) throws IOException {
-    return put(endPoint, /* content = */ null);
+    return put(endPoint, /* content= */ null);
   }
 
   @Override
@@ -102,7 +102,7 @@ public class GerritServerRestSession extends HttpSession implements RestSession 
 
   @Override
   public RestResponse post(String endPoint) throws IOException {
-    return post(endPoint, /* content = */ null);
+    return post(endPoint, /* content= */ null);
   }
 
   @Override

@@ -842,7 +842,7 @@ public class RebaseIT {
     @Test
     public void rebaseChangeWithValidBaseCommit() throws Exception {
       RevCommit desiredBase =
-          createNewCommitWithoutChangeId(/*branch=*/ "refs/heads/master", "file", "content");
+          createNewCommitWithoutChangeId(/* branch= */ "refs/heads/master", "file", "content");
       PushOneCommit.Result child = createChange();
       RebaseInput ri = new RebaseInput();
 
@@ -866,7 +866,7 @@ public class RebaseIT {
       branchInput.revision = projectOperations.project(project).getHead("master").name();
       gApi.projects().name(project.get()).branch(branchInput.ref).create(branchInput);
       RevCommit desiredBase =
-          createNewCommitWithoutChangeId(/*branch=*/ "refs/heads/foo", "file", "content");
+          createNewCommitWithoutChangeId(/* branch= */ "refs/heads/foo", "file", "content");
       // Create the child commit on "master".
       PushOneCommit.Result child = createChange();
       RebaseInput ri = new RebaseInput();

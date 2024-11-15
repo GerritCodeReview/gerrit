@@ -312,8 +312,12 @@ public class RebaseChangeOp implements BatchUpdateOp {
 
   @Override
   public void updateRepo(RepoContext ctx)
-      throws InvalidChangeOperationException, RestApiException, IOException, NoSuchChangeException,
-          PermissionBackendException, DiffNotAvailableException {
+      throws InvalidChangeOperationException,
+          RestApiException,
+          IOException,
+          NoSuchChangeException,
+          PermissionBackendException,
+          DiffNotAvailableException {
     // Ok that originalPatchSet was not read in a transaction, since we just
     // need its revision.
     RevWalk rw = ctx.getRevWalk();

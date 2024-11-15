@@ -111,13 +111,15 @@ public class SubmitRequirementConfigValidator implements CommitValidationListene
    */
   private boolean isFileChanged(CommitReceivedEvent receiveEvent, String fileName)
       throws DiffNotAvailableException {
-    return receiveEvent.diffOperations
+    return receiveEvent
+        .diffOperations
         .loadModifiedFilesAgainstParentIfNecessary(
             receiveEvent.project.getNameKey(),
             receiveEvent.commit,
-            /* parentNum=*/ 0,
+            /* parentNum= */ 0,
             /* enableRenameDetection= */ true)
-        .keySet().stream()
+        .keySet()
+        .stream()
         .anyMatch(fileName::equals);
   }
 

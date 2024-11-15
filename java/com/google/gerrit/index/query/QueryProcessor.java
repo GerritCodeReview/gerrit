@@ -328,7 +328,8 @@ public abstract class QueryProcessor<T> {
         // TODO(brohlfs): Remove this extra logging by end of Q3 2023.
         if (limit > 500 && userProvidedLimit <= 0 && matchCount > 100 && enforceVisibility) {
           logger.atWarning().log(
-              "%s index query without provided limit. effective limit: %d, result count: %d, query: %s",
+              "%s index query without provided limit. effective limit: %d, result count: %d, query:"
+                  + " %s",
               schemaDef.getName(), getPermittedLimit(), matchCount, queryString);
         }
         out.add(QueryResult.create(queryString, predicates.get(i), limit, matchesList));

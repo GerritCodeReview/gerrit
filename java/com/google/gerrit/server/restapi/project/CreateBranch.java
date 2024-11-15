@@ -86,8 +86,12 @@ public class CreateBranch
 
   @Override
   public Response<BranchInfo> apply(ProjectResource rsrc, IdString id, BranchInput input)
-      throws BadRequestException, AuthException, ResourceConflictException,
-          UnprocessableEntityException, IOException, PermissionBackendException,
+      throws BadRequestException,
+          AuthException,
+          ResourceConflictException,
+          UnprocessableEntityException,
+          IOException,
+          PermissionBackendException,
           NoSuchProjectException {
     try (RefUpdateContext ctx = RefUpdateContext.open(BRANCH_MODIFICATION)) {
       String ref = id.get();

@@ -704,7 +704,8 @@ class RefControl {
         if (resolvedRef == null) {
           return false;
         }
-        return projectControl.asForProject()
+        return projectControl
+            .asForProject()
             .filter(
                 ImmutableList.of(resolvedRef), repo, PermissionBackend.RefFilterOptions.defaults())
             .stream()

@@ -44,6 +44,7 @@ public abstract class CachedPreferences {
   public Optional<CachedPreferencesProto> nonEmptyConfig() {
     return config().equals(EMPTY.config()) ? Optional.empty() : Optional.of(config());
   }
+
   /** Returns a cache-able representation of the preferences proto. */
   public static CachedPreferences fromUserPreferencesProto(UserPreferences proto) {
     return fromCachedPreferencesProto(
@@ -105,7 +106,7 @@ public abstract class CachedPreferences {
     try {
       switch (config().getPreferencesCase()) {
         case LEGACY_GIT_CONFIG:
-          // continue below
+        // continue below
         case PREFERENCES_NOT_SET:
           Config cfg = new Config();
           cfg.fromText(config().getLegacyGitConfig());

@@ -59,7 +59,8 @@ public class ExternalIdsConsistencyCheckerNoteDbImpl implements ExternalIdsConsi
     this.validator = validator;
     checkState(
         externalIdFactory instanceof ExternalIdFactoryNoteDbImpl,
-        "ExternalIdsConsistencyCheckerNoteDbImpl must be initiated with ExternalIdFactoryNoteDbImpl.");
+        "ExternalIdsConsistencyCheckerNoteDbImpl must be initiated with"
+            + " ExternalIdFactoryNoteDbImpl.");
     this.externalIdFactory = (ExternalIdFactoryNoteDbImpl) externalIdFactory;
   }
 

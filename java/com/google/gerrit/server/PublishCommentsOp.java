@@ -87,8 +87,11 @@ public class PublishCommentsOp implements BatchUpdateOp {
 
   @Override
   public boolean updateChange(ChangeContext ctx)
-      throws ResourceConflictException, UnprocessableEntityException, IOException,
-          PatchListNotAvailableException, CommentsRejectedException {
+      throws ResourceConflictException,
+          UnprocessableEntityException,
+          IOException,
+          PatchListNotAvailableException,
+          CommentsRejectedException {
     preUpdateMetaId = ctx.getNotes().getMetaId();
     comments =
         draftCommentsReader.getDraftsByChangeAndDraftAuthor(

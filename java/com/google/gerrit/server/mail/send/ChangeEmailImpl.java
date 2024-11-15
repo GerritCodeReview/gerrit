@@ -559,7 +559,7 @@ public class ChangeEmailImpl implements ChangeEmail {
             authors.add(patchSetInfo.getCommitter().getAccount());
           }
         }
-        // $FALL-THROUGH$
+      // $FALL-THROUGH$
       case OWNER_REVIEWERS:
       case OWNER:
         authors.add(change.getOwner());

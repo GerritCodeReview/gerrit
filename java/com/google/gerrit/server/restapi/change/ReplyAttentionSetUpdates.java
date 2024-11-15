@@ -140,8 +140,11 @@ public class ReplyAttentionSetUpdates {
       ChangeNotes changeNotes,
       ReviewInput input,
       CurrentUser currentUser)
-      throws BadRequestException, IOException, PermissionBackendException,
-          UnprocessableEntityException, ConfigInvalidException {
+      throws BadRequestException,
+          IOException,
+          PermissionBackendException,
+          UnprocessableEntityException,
+          ConfigInvalidException {
     requireNonNull(postReviewOp, "postReviewOp must not be null");
 
     processManualUpdates(bu, changeNotes, input);
@@ -414,8 +417,11 @@ public class ReplyAttentionSetUpdates {
 
   /** Process the manual updates of the attention set. */
   private void processManualUpdates(BatchUpdate bu, ChangeNotes changeNotes, ReviewInput input)
-      throws BadRequestException, IOException, PermissionBackendException,
-          UnprocessableEntityException, ConfigInvalidException {
+      throws BadRequestException,
+          IOException,
+          PermissionBackendException,
+          UnprocessableEntityException,
+          ConfigInvalidException {
     Set<Account.Id> accountsChangedInCommit = new HashSet<>();
     // If we specify a user to remove, and the user is in the attention set, we remove it.
     if (input.removeFromAttentionSet != null) {
@@ -542,8 +548,11 @@ public class ReplyAttentionSetUpdates {
       ChangeNotes changeNotes,
       AttentionSetInput add,
       Set<Account.Id> accountsChangedInCommit)
-      throws BadRequestException, IOException, PermissionBackendException,
-          UnprocessableEntityException, ConfigInvalidException {
+      throws BadRequestException,
+          IOException,
+          PermissionBackendException,
+          UnprocessableEntityException,
+          ConfigInvalidException {
     AttentionSetUtil.validateInput(add);
     try {
       Account.Id attentionUserId =
@@ -564,8 +573,11 @@ public class ReplyAttentionSetUpdates {
       ChangeNotes changeNotes,
       AttentionSetInput remove,
       Set<Account.Id> accountsChangedInCommit)
-      throws BadRequestException, IOException, PermissionBackendException,
-          UnprocessableEntityException, ConfigInvalidException {
+      throws BadRequestException,
+          IOException,
+          PermissionBackendException,
+          UnprocessableEntityException,
+          ConfigInvalidException {
     AttentionSetUtil.validateInput(remove);
     try {
       Account.Id attentionUserId =
@@ -586,8 +598,11 @@ public class ReplyAttentionSetUpdates {
 
   private Account.Id getAccountId(
       ChangeNotes changeNotes, String user, AttentionSetUpdate.Operation operation)
-      throws ConfigInvalidException, IOException, UnprocessableEntityException,
-          PermissionBackendException, AuthException {
+      throws ConfigInvalidException,
+          IOException,
+          UnprocessableEntityException,
+          PermissionBackendException,
+          AuthException {
     Account.Id attentionUserId = accountResolver.resolve(user).asUnique().account().id();
     try {
       permissionBackend
@@ -614,8 +629,12 @@ public class ReplyAttentionSetUpdates {
       String user,
       Set<Account.Id> accountsChangedInCommit,
       AttentionSetUpdate.Operation operation)
-      throws ConfigInvalidException, IOException, PermissionBackendException,
-          UnprocessableEntityException, BadRequestException, AuthException {
+      throws ConfigInvalidException,
+          IOException,
+          PermissionBackendException,
+          UnprocessableEntityException,
+          BadRequestException,
+          AuthException {
     try {
       Account.Id attentionUserId = getAccountId(changeNotes, user, operation);
       if (accountsChangedInCommit.contains(attentionUserId)) {

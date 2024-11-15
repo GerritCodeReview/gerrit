@@ -49,7 +49,8 @@ public class AuthorizationCheckServlet extends HttpServlet {
     if (user.get().isIdentifiedUser()) {
       if (req.getRequestURI().endsWith(".svg")) {
         String responseToClient =
-            "<?xml version=\"1.0\" encoding=\"UTF-8\"?><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"1\" height=\"1\"/>";
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?><svg xmlns=\"http://www.w3.org/2000/svg\""
+                + " width=\"1\" height=\"1\"/>";
         res.setContentType("image/svg+xml");
         res.setCharacterEncoding(UTF_8.name());
         res.setStatus(HttpServletResponse.SC_OK);

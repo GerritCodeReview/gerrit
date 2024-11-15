@@ -662,7 +662,9 @@ public class GerritServer implements AutoCloseable {
   }
 
   private static Injector getInjector(Object obj, String field)
-      throws SecurityException, NoSuchFieldException, IllegalArgumentException,
+      throws SecurityException,
+          NoSuchFieldException,
+          IllegalArgumentException,
           IllegalAccessException {
     Field f = obj.getClass().getDeclaredField(field);
     f.setAccessible(true);

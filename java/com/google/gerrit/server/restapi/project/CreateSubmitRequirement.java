@@ -59,7 +59,10 @@ public class CreateSubmitRequirement
   @Override
   public Response<SubmitRequirementInfo> apply(
       ProjectResource rsrc, IdString id, SubmitRequirementInput input)
-      throws AuthException, BadRequestException, IOException, PermissionBackendException,
+      throws AuthException,
+          BadRequestException,
+          IOException,
+          PermissionBackendException,
           MethodNotAllowedException {
     String defaultMessage = String.format("Create Submit Requirement %s", id.get());
     try (var configUpdater =

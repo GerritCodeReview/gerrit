@@ -88,7 +88,7 @@ public abstract class CachedPreferences {
     try {
       switch (config().getPreferencesCase()) {
         case LEGACY_GIT_CONFIG:
-          // continue below
+        // continue below
         case PREFERENCES_NOT_SET:
           Config cfg = new Config();
           cfg.fromText(config().getLegacyGitConfig());

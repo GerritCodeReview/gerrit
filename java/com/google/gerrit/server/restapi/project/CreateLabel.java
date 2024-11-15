@@ -57,8 +57,12 @@ public class CreateLabel
   @Override
   public Response<LabelDefinitionInfo> apply(
       ProjectResource rsrc, IdString id, LabelDefinitionInput input)
-      throws AuthException, BadRequestException, ResourceConflictException,
-          PermissionBackendException, IOException, ConfigInvalidException,
+      throws AuthException,
+          BadRequestException,
+          ResourceConflictException,
+          PermissionBackendException,
+          IOException,
+          ConfigInvalidException,
           MethodNotAllowedException {
     if (input == null) {
       input = new LabelDefinitionInput();

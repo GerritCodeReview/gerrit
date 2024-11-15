@@ -126,7 +126,10 @@ public class RepoMetaDataUpdater {
   @MustBeClosed
   public ConfigChangeCreator configChangeCreator(
       Project.NameKey projectName, @Nullable String message, String defaultMessage)
-      throws PermissionBackendException, AuthException, ResourceConflictException, IOException,
+      throws PermissionBackendException,
+          AuthException,
+          ResourceConflictException,
+          IOException,
           ConfigInvalidException {
     message = validateMessage(message, defaultMessage);
     PermissionBackend.ForProject forProject =
@@ -185,7 +188,10 @@ public class RepoMetaDataUpdater {
   @MustBeClosed
   public ConfigUpdater configUpdater(
       Project.NameKey projectName, @Nullable String message, String defaultMessage)
-      throws AuthException, PermissionBackendException, ConfigInvalidException, IOException,
+      throws AuthException,
+          PermissionBackendException,
+          ConfigInvalidException,
+          IOException,
           MethodNotAllowedException {
     if (!user.get().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
@@ -207,7 +213,9 @@ public class RepoMetaDataUpdater {
   @MustBeClosed
   public ConfigUpdater configUpdaterWithoutPermissionsCheck(
       Project.NameKey projectName, @Nullable String message, String defaultMessage)
-      throws IOException, ConfigInvalidException, MethodNotAllowedException,
+      throws IOException,
+          ConfigInvalidException,
+          MethodNotAllowedException,
           PermissionBackendException {
     if (!permissionBackend
         .currentUser()

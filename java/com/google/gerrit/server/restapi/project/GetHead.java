@@ -55,7 +55,10 @@ public class GetHead implements RestReadView<ProjectResource> {
 
   @Override
   public Response<String> apply(ProjectResource rsrc)
-      throws AuthException, ResourceNotFoundException, IOException, PermissionBackendException,
+      throws AuthException,
+          ResourceNotFoundException,
+          IOException,
+          PermissionBackendException,
           ResourceConflictException {
     rsrc.getProjectState().checkStatePermitsRead();
     try (Repository repo = repoManager.openRepository(rsrc.getNameKey())) {

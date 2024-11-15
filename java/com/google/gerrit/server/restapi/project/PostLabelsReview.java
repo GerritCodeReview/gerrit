@@ -43,7 +43,10 @@ public class PostLabelsReview implements RestModifyView<ProjectResource, BatchLa
 
   @Override
   public Response<ChangeInfo> apply(ProjectResource rsrc, BatchLabelInput input)
-      throws PermissionBackendException, IOException, ConfigInvalidException, UpdateException,
+      throws PermissionBackendException,
+          IOException,
+          ConfigInvalidException,
+          UpdateException,
           RestApiException {
     try (ConfigChangeCreator creator =
         repoMetaDataUpdater.configChangeCreator(

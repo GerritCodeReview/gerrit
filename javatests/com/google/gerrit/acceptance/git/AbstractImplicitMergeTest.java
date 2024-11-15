@@ -90,7 +90,7 @@ public abstract class AbstractImplicitMergeTest extends AbstractDaemonTest {
   }
 
   protected void setRejectImplicitMerges() throws Exception {
-    setRejectImplicitMerges(/*reject=*/ true);
+    setRejectImplicitMerges(/* reject= */ true);
   }
 
   protected void setRejectImplicitMerges(boolean reject) throws Exception {

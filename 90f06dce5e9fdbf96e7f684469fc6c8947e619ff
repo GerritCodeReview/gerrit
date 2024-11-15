@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eacd3d5a_d964e1bb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2024-11-15T22:41:24Z",
+      "side": 1,
+      "message": "I suspect that this is too expensive a fix, but I figured I should at least start with offering a solution that I think fixes the two problems mentioned here: https://gerrit-review.googlesource.com/c/gerrit/+/441961/1/java/com/google/gerrit/server/git/WorkQueue.java",
+      "revId": "90f06dce5e9fdbf96e7f684469fc6c8947e619ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

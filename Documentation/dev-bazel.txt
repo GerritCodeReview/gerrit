@@ -604,7 +604,7 @@ If everything looks good, install the package with the following command:
 ----
 # Add to ui_npm. Other packages.json can be updated in the same way
 cd $gerrit_repo/polygerrit-ui/app
-bazelisk run @nodejs//:yarn add $package
+bazelisk run @yarn//:yarn add $package
 ----
 
 Update the `polygerrit-ui/app/node_modules_licenses/licenses.ts` file. You should add licenses
@@ -634,7 +634,7 @@ update postinstall script, `Documentation:check_licenses` test will fail.)
 === Update NPM Binaries
 To update a NPM binary the same actions as for a new one must be done (check licenses,
 update `licenses.ts` file, etc...). The only difference is a command to install a package: instead
-of `bazelisk run @nodejs//:yarn add $package` you should run the `bazelisk run @nodejs//:yarn upgrade ...`
+of `bazelisk run @yarn//:yarn add $package` you should run the `bazelisk run @yarn//:yarn upgrade ...`
 command with correct arguments. You can find the list of arguments in the
 link:https://classic.yarnpkg.com/en/docs/cli/upgrade/[yarn upgrade doc,role=external,window=_blank].
 

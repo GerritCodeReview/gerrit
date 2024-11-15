@@ -53,7 +53,7 @@
     "eslintfix": "npm run safe_bazelisk run polygerrit-ui/app:lint_bin -- -- --fix $(pwd)/polygerrit-ui/app",
     "litlint": "npm run safe_bazelisk run polygerrit-ui/app:lit_analysis",
     "lint": "eslint -c polygerrit-ui/app/.eslintrc.js --ignore-path polygerrit-ui/app/.eslintignore polygerrit-ui/app",
-    "gjf": "./tools/run_gjf.sh"
+    "gjf": "./tools/gjf.sh run"
   },
   "repository": {
     "type": "git",

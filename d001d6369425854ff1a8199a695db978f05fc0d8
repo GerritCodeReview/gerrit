@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6de1931a_2bcc082d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-11-15T13:36:54Z",
+      "side": 1,
+      "message": "rebased onto and moved to stable-3.8 from I4adf69298f34b15c0a56a18cf269abd374597104 and addressed comments",
+      "revId": "d001d6369425854ff1a8199a695db978f05fc0d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

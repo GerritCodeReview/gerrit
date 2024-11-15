@@ -536,7 +536,7 @@ public class GitOverHttpServlet extends GitServlet {
       }
 
       AsyncReceiveCommits arc =
-          factory.create(state, userProvider.get().asIdentifiedUser(), db, null);
+          factory.create(state, userProvider.get().asIdentifiedUser(), db, null, null);
       ReceivePack rp = arc.getReceivePack();
       req.setAttribute(ATT_ARC, arc);
       return rp;

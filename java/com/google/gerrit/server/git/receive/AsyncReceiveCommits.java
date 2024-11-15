@@ -36,6 +36,7 @@ import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PublishCommentsOp;
+import com.google.gerrit.server.RequestCounter;
 import com.google.gerrit.server.cache.PerThreadCache;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.ConfigUtil;
@@ -102,7 +103,8 @@ public class AsyncReceiveCommits {
         ProjectState projectState,
         IdentifiedUser user,
         Repository repository,
-        @Nullable MessageSender messageSender);
+        @Nullable MessageSender messageSender,
+        @Nullable RequestCounter requestCounter);
   }
 
   public static class AsyncReceiveCommitsModule extends PrivateModule {
@@ -259,7 +261,8 @@ public class AsyncReceiveCommits {
       @Assisted ProjectState projectState,
       @Assisted IdentifiedUser user,
       @Assisted Repository repo,
-      @Assisted @Nullable MessageSender messageSender)
+      @Assisted @Nullable MessageSender messageSender,
+      @Assisted @Nullable RequestCounter requestCounter)
       throws PermissionBackendException {
     this.multiProgressMonitorFactory = multiProgressMonitorFactory;
     this.executor = executor;
@@ -305,7 +308,8 @@ public class AsyncReceiveCommits {
             projectName,
             user.getAccountId()));
     receiveCommits =
-        factory.create(projectState, user, receivePack, repo, allRefsWatcher, messageSender);
+        factory.create(
+            projectState, user, receivePack, repo, allRefsWatcher, messageSender, requestCounter);
     receiveCommits.init();
     QuotaResponse.Aggregated availableTokens =
         quotaBackend.user(user).project(projectName).availableTokens(REPOSITORY_SIZE_GROUP);

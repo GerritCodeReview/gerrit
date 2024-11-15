@@ -62,6 +62,8 @@ import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.eclipse.jgit.lib.Config;
 
@@ -411,6 +413,8 @@ public class WorkQueue {
     private final String queueName;
     private final AtomicLong priorityGenerator = new AtomicLong();
     private final PriorityBlockingQueue<ParkedTask> parked = new PriorityBlockingQueue<>();
+    private final ReadWriteLock parkingLock = new ReentrantReadWriteLock();
+
 
     Executor(int corePoolSize, final String queueName) {
       super(
@@ -633,7 +637,8 @@ public class WorkQueue {
     public void waitUntilReadyToStart(Task<?> task) {
       if (!listeners.isEmpty()) {
         ParkedTask parkedTask;
-        synchronized (this) {
+        parkingLock.writeLock().lock();
+        try {
           if (isReadyToStart(task)) {
             return;
           }
@@ -641,6 +646,8 @@ public class WorkQueue {
           parked.offer(parkedTask);
           task.runningState.set(Task.State.PARKED);
           incrementCorePoolSizeBy(1);
+        } finally {
+          parkingLock.writeLock().unlock();
         }
         try {
           parkedTask.latch.await();
@@ -657,9 +664,19 @@ public class WorkQueue {
       listeners.runEach(extension -> extension.get().onStart(task));
     }
 
-    public synchronized void onStop(Task<?> task) {
-      listeners.runEach(extension -> extension.get().onStop(task));
-      updateParked();
+    public void onStop(Task<?> task) {
+      parkingLock.readLock().lock();
+      try {
+        listeners.runEach(extension -> extension.get().onStop(task));
+      } finally {
+        parkingLock.readLock().unlock();
+      }
+      parkingLock.writeLock().lock();
+      try {
+        updateParked();
+      } finally {
+        parkingLock.writeLock().unlock();
+      }
     }
 
     protected boolean isReadyToStart(Task<?> task) {

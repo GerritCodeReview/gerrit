@@ -70,6 +70,24 @@
       "parentUuid": "d11c0094_799f2e55",
       "revId": "fe55c0b8fff3beb588182d67f48c24b4ec7eb0c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "868a0955_b86b69bd",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 3491318
+      },
+      "writtenOn": "2024-11-16T18:33:47Z",
+      "side": 1,
+      "message": "I greatly appreciate the feedback but I’m still a bit unclear about the  benefits of this approach. The cascading of different authentication providers can already be supported through the OAuth plugin [1].\n\n\nGerrit generally supports a generic HTTP Authentication filter, where the configuration and the associated plugin are responsible for selecting and providing a specific filter—whether OAuth, LDAP, or HTTP Passwords. When OAuth or LDAP is chosen, we may still need to support HTTP passwords for users or accounts without an LDAP or OAuth identity. This is why the LDAP filter includes an option to verify HTTP passwords before delegating to the LDAP protocol. \n\n\nThis change adds this functionality to the OAuth filter, allowing verification through HTTP passwords before credentials are handed to the OAuth plugin. Since the OAuth plugin already supports specifying multiple OAuth providers, stacked authentication could be achieved directly within the plugin.\n\nAs far as I know, LDAP, OAuth, and HTTP Passwords are the only HTTP-based authentication mechanisms currently supported, and we generally select one at a time. The idea of stacked authentication seems to make sense only if LDAP and OAuth could work together, but achieving this would likely require significant refactoring of the authentication filter mechanism. Additionally, I’m uncertain about the practical value of enabling LDAP and OAuth simultaneously. \n\n\nI hope this explanation makes sense, but I’d be happy to discuss further if needed. Please let me know if you’d like to have a quick chat about it.\n\n[1] https://github.com/davido/gerrit-oauth-provider/wiki",
+      "parentUuid": "3d5c999f_161c2c79",
+      "revId": "fe55c0b8fff3beb588182d67f48c24b4ec7eb0c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

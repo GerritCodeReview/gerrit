@@ -22,6 +22,30 @@
       },
       "revId": "0701e10ce0e87637e1a64a1b784ae1a06424413e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aeb4e90b_ed4a7d76",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2024-11-17T14:52:12Z",
+      "side": 1,
+      "message": "It will but it\u0027ll create really confusing behaviour when paired with a submit-requirement(which is what prompted me to update the docs).\nWe encountered a submit-requirement where the \"applicableIf\" condition was ignored as the label had a \"MaxWithBlock\" function.\n\nSo yeah, thought to update the docs to make it clearer that it should be changed.\n\nI do see your point and don\u0027t think it\u0027s worth spending a lot of time on this, so let me know your thoughts.",
+      "parentUuid": "501d97c4_5c00a439",
+      "range": {
+        "startLine": 258,
+        "startChar": 0,
+        "endLine": 260,
+        "endChar": 38
+      },
+      "revId": "0701e10ce0e87637e1a64a1b784ae1a06424413e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -32,6 +32,7 @@ import com.google.gerrit.server.config.ScheduleConfig.Schedule;
 import com.google.gerrit.server.logging.LoggingContext;
 import com.google.gerrit.server.logging.LoggingContextAwareRunnable;
 import com.google.gerrit.server.plugincontext.PluginMapContext;
+import com.google.gerrit.server.util.EnumLock;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -62,8 +63,8 @@ import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.eclipse.jgit.lib.Config;
 
@@ -344,6 +345,11 @@ public class WorkQueue {
 
   /** An isolated queue. */
   private class Executor extends ScheduledThreadPoolExecutor {
+    private enum ParkingOperation {
+      ACQUIRING_RESOURCES,
+      RELEASING_RESOURCES
+    };
+
     private class ParkedTask implements Comparable<ParkedTask> {
       public final CancellableCountDownLatch latch = new CancellableCountDownLatch(1);
       public final Task<?> task;
@@ -413,7 +419,8 @@ public class WorkQueue {
     private final String queueName;
     private final AtomicLong priorityGenerator = new AtomicLong();
     private final PriorityBlockingQueue<ParkedTask> parked = new PriorityBlockingQueue<>();
-    private final ReadWriteLock parkingLock = new ReentrantReadWriteLock();
+    private final EnumLock<ParkingOperation> parkingOperationsLock = new EnumLock<>();
+    private final Lock updatingParkedLock = new ReentrantLock();
 
     Executor(int corePoolSize, final String queueName) {
       super(
@@ -636,7 +643,7 @@ public class WorkQueue {
     public void waitUntilReadyToStart(Task<?> task) {
       if (!listeners.isEmpty()) {
         ParkedTask parkedTask;
-        parkingLock.writeLock().lock();
+        parkingOperationsLock.lock(ParkingOperation.ACQUIRING_RESOURCES).lock();
         try {
           if (isReadyToStart(task)) {
             return;
@@ -646,7 +653,7 @@ public class WorkQueue {
           task.runningState.set(Task.State.PARKED);
           incrementCorePoolSizeBy(1);
         } finally {
-          parkingLock.writeLock().unlock();
+          parkingOperationsLock.lock(ParkingOperation.ACQUIRING_RESOURCES).unlock();
         }
         try {
           parkedTask.latch.await();
@@ -664,17 +671,17 @@ public class WorkQueue {
     }
 
     public void onStop(Task<?> task) {
-      parkingLock.readLock().lock();
+      parkingOperationsLock.lock(ParkingOperation.RELEASING_RESOURCES).lock();
       try {
         listeners.runEach(extension -> extension.get().onStop(task));
       } finally {
-        parkingLock.readLock().unlock();
+        parkingOperationsLock.lock(ParkingOperation.RELEASING_RESOURCES).unlock();
       }
-      parkingLock.writeLock().lock();
+      parkingOperationsLock.lock(ParkingOperation.ACQUIRING_RESOURCES).lock();
       try {
         updateParked();
       } finally {
-        parkingLock.writeLock().unlock();
+        parkingOperationsLock.lock(ParkingOperation.ACQUIRING_RESOURCES).unlock();
       }
     }
 
@@ -709,24 +716,29 @@ public class WorkQueue {
     }
 
     public void updateParked() {
-      List<ParkedTask> notReady = new ArrayList<>();
-      ParkedTask ready;
+      updatingParkedLock.lock();
+      try {
+        List<ParkedTask> notReady = new ArrayList<>();
+        ParkedTask ready;
 
-      while ((ready = parked.poll()) != null) {
-        if (Task.State.CANCELLED.equals(ready.task.getState())) {
-          ready.cancel(); // In case a cancelled task is polled before cleanup
-        } else if (isReadyToStart(ready.task)) {
-          break;
-        } else if (Task.State.CANCELLED.equals(ready.task.getState())) {
-          ready.cancel(); // In case the task is cancelled while evaluating isReadyToStart
-        } else {
-          notReady.add(ready);
+        while ((ready = parked.poll()) != null) {
+          if (Task.State.CANCELLED.equals(ready.task.getState())) {
+            ready.cancel(); // In case a cancelled task is polled before cleanup
+          } else if (isReadyToStart(ready.task)) {
+            break;
+          } else if (Task.State.CANCELLED.equals(ready.task.getState())) {
+            ready.cancel(); // In case the task is cancelled while evaluating isReadyToStart
+          } else {
+            notReady.add(ready);
+          }
         }
-      }
-      parked.addAll(notReady);
+        parked.addAll(notReady);
 
-      if (ready != null) {
-        ready.latch.countDown();
+        if (ready != null) {
+          ready.latch.countDown();
+        }
+      } finally {
+        updatingParkedLock.unlock();
       }
     }
 

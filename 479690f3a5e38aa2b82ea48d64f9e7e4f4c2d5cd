@@ -106,6 +106,24 @@
       "parentUuid": "7423291e_a990705f",
       "revId": "479690f3a5e38aa2b82ea48d64f9e7e4f4c2d5cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18291caf_0be149a3",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 707,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2024-11-18T14:43:39Z",
+      "side": 1,
+      "message": "\u003e Lastly, I believe there might still be another issue: I think it is possible for an unparked task which just got determined to not be ready to start, to become ready to start by a completing task before the soon to be newly parked task has been added to the parked queue, and thus preventing the completing task from seeing it as parked in time to unpark it, once again leading to a potentially parked task with potentially no running tasks to unpark it later?\n\nI\u0027m assuming this issue is targeted to the solution you\u0027ve proposed above. If so, in the case when the parked task  is ready to start, it can be removed eagerly, before `mylatch.countDown()` and a check can be added after `currentLatch.await()` and before `isReady \u003d // readycheck` to see if the task is still in parked queue.",
+      "parentUuid": "bb650f0f_4d740793",
+      "revId": "479690f3a5e38aa2b82ea48d64f9e7e4f4c2d5cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

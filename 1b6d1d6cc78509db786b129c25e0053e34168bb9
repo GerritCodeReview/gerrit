@@ -33,6 +33,24 @@
       "message": "You can just remove run_glf and replace it in package.json (top level).",
       "revId": "1b6d1d6cc78509db786b129c25e0053e34168bb9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c5b1a9b_86b16183",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-11-18T14:08:42Z",
+      "side": 1,
+      "message": "CI uses setup_gjf to fetch what version of GLF to use.\n\nSee https://github.com/GerritCodeReview/gerrit-ci-scripts/blob/689ac86db0eff80f4fc0d5c2f9f296432dd5751e/jenkins/gerrit-codestyle-gjf.sh#L3\n\nYou\u0027d want to fix CI as well.",
+      "parentUuid": "eb6e0bb4_aaed1a6a",
+      "revId": "1b6d1d6cc78509db786b129c25e0053e34168bb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -72,6 +72,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "49dd99d5_d35c6f89",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2024-11-18T14:26:11Z",
+      "side": 1,
+      "message": "How is situation 1 different from 2 ?",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 28
+      },
+      "revId": "b9b31486874f7d487ddf03fbdda36873352ac8a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4c173303_3d842ca2",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -111,6 +134,29 @@
         "startChar": 17,
         "endLine": 26,
         "endChar": 24
+      },
+      "revId": "b9b31486874f7d487ddf03fbdda36873352ac8a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46aa87f1_0b4b9b08",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 644,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2024-11-18T14:26:11Z",
+      "side": 1,
+      "message": "Synchronization should be in `updateParked` method instead ?",
+      "range": {
+        "startLine": 634,
+        "startChar": 0,
+        "endLine": 644,
+        "endChar": 9
       },
       "revId": "b9b31486874f7d487ddf03fbdda36873352ac8a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

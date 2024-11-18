@@ -62,6 +62,9 @@ public class GlobalCapability {
   /** Can create any project on the server. */
   public static final String CREATE_PROJECT = "createProject";
 
+  /** Can delete own account on the server. */
+  public static final String DELETE_OWN_ACCOUNT = "deleteOwnAccount";
+
   /**
    * Denotes who may email change reviewers and watchers.
    *
@@ -146,6 +149,7 @@ public class GlobalCapability {
     NAMES_ALL.add(CREATE_ACCOUNT);
     NAMES_ALL.add(CREATE_GROUP);
     NAMES_ALL.add(CREATE_PROJECT);
+    NAMES_ALL.add(DELETE_OWN_ACCOUNT);
     NAMES_ALL.add(EMAIL_REVIEWERS);
     NAMES_ALL.add(FLUSH_CACHES);
     NAMES_ALL.add(KILL_TASK);

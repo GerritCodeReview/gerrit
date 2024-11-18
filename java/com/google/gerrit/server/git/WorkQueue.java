@@ -421,6 +421,7 @@ public class WorkQueue {
     private final PriorityBlockingQueue<ParkedTask> parked = new PriorityBlockingQueue<>();
     private final EnumLock<ParkingOperation> parkingOperationsLock = new EnumLock<>();
     private final Lock updatingParkedLock = new ReentrantLock();
+    private final AtomicInteger maximumNumberOfParkedToRelease = new AtomicInteger();
 
     Executor(int corePoolSize, final String queueName) {
       super(
@@ -674,6 +675,7 @@ public class WorkQueue {
       parkingOperationsLock.lock(ParkingOperation.RELEASING_RESOURCES).lock();
       try {
         listeners.runEach(extension -> extension.get().onStop(task));
+        maximumNumberOfParkedToRelease.incrementAndGet();
       } finally {
         parkingOperationsLock.lock(ParkingOperation.RELEASING_RESOURCES).unlock();
       }
@@ -718,14 +720,15 @@ public class WorkQueue {
     public void updateParked() {
       updatingParkedLock.lock();
       try {
+        int toStart = maximumNumberOfParkedToRelease.getAndSet(0);
         List<ParkedTask> notReady = new ArrayList<>();
         ParkedTask ready;
-
-        while ((ready = parked.poll()) != null) {
+        while (toStart > 0 && (ready = parked.poll()) != null) {
           if (Task.State.CANCELLED.equals(ready.task.getState())) {
             ready.cancel(); // In case a cancelled task is polled before cleanup
           } else if (isReadyToStart(ready.task)) {
-            break;
+            toStart--;
+            ready.latch.countDown();
           } else if (Task.State.CANCELLED.equals(ready.task.getState())) {
             ready.cancel(); // In case the task is cancelled while evaluating isReadyToStart
           } else {
@@ -733,10 +736,6 @@ public class WorkQueue {
           }
         }
         parked.addAll(notReady);
-
-        if (ready != null) {
-          ready.latch.countDown();
-        }
       } finally {
         updatingParkedLock.unlock();
       }

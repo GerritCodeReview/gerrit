@@ -22,8 +22,9 @@ export function safeStyleSheet(
   return styleSheet as SafeStyleSheet;
 }
 
-export const safeStyleEl = {
-  setTextContent: (elem: HTMLStyleElement, safeStyleSheet: SafeStyleSheet) => {
-    elem.textContent = safeStyleSheet;
-  },
-};
+export function setStyleTextContent(
+  elem: HTMLStyleElement,
+  safeStyleSheet: SafeStyleSheet
+) {
+  elem.textContent = safeStyleSheet;
+}

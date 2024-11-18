@@ -3,7 +3,7 @@
  * Copyright 2015 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {safeStyleSheet, safeStyleEl} from '../../utils/inner-html-util';
+import {safeStyleSheet, setStyleTextContent} from '../../utils/inner-html-util';
 
 const appThemeCss = safeStyleSheet`
   html {
@@ -513,7 +513,7 @@ const appThemeCss = safeStyleSheet`
 
 const styleEl = document.createElement('style');
 styleEl.setAttribute('id', 'light-theme');
-safeStyleEl.setTextContent(styleEl, appThemeCss);
+setStyleTextContent(styleEl, appThemeCss);
 document.head.appendChild(styleEl);
 
 // TODO: The following can be removed when Paper and Iron components have been
@@ -531,6 +531,6 @@ const appThemeCssPolymerLegacy = safeStyleSheet`
 
 const customStyleEl = document.createElement('custom-style');
 const innerStyleEl = document.createElement('style');
-safeStyleEl.setTextContent(innerStyleEl, appThemeCssPolymerLegacy);
+setStyleTextContent(innerStyleEl, appThemeCssPolymerLegacy);
 customStyleEl.appendChild(innerStyleEl);
 document.head.appendChild(customStyleEl);

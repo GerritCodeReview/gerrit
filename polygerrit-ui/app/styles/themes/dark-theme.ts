@@ -3,7 +3,7 @@
  * Copyright 2015 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {safeStyleSheet, safeStyleEl} from '../../utils/inner-html-util';
+import {safeStyleSheet, setStyleTextContent} from '../../utils/inner-html-util';
 
 // TODO: Replace `html` with `html.darkTheme`. But before we can do that we have
 // to ensure that all plugins also use `.darkTheme`, otherwise we would trump
@@ -295,7 +295,7 @@ export function applyTheme() {
   if (document.head.querySelector('#dark-theme')) return;
   const styleEl = document.createElement('style');
   styleEl.setAttribute('id', 'dark-theme');
-  safeStyleEl.setTextContent(styleEl, darkThemeCss);
+  setStyleTextContent(styleEl, darkThemeCss);
 
   // We would like to insert the dark theme styles after the light theme such
   // that the dark theme values override the defaults in the light theme. But

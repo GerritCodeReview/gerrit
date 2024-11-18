@@ -120,7 +120,8 @@ public class RetryHelper {
     final Counter3<String, String, String> failuresOnAutoRetryCount;
 
     @Inject
-    Metrics(MetricMaker metricMaker) {
+    @VisibleForTesting
+    public Metrics(MetricMaker metricMaker) {
       Field<String> actionTypeField =
           Field.ofString("action_type", Metadata.Builder::actionType)
               .description("The type of the action that was retried.")

@@ -304,6 +304,30 @@
       },
       "revId": "b9b31486874f7d487ddf03fbdda36873352ac8a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3688f4aa_f3e68b96",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 644,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2024-11-18T16:04:06Z",
+      "side": 1,
+      "message": "The synchronization has to cover the onStop() calls since they cause the state change. i.e. I am not trying to prevent the evaluation here from running at the same time as the updateParked() evaluation. Instead, I am trying to prevent this evaluation and the updateParked() evaluation from happening at the same time as the onStop() calls. I think this hints at the idea that a more fine-grained lock can be useful.",
+      "parentUuid": "46aa87f1_0b4b9b08",
+      "range": {
+        "startLine": 634,
+        "startChar": 0,
+        "endLine": 644,
+        "endChar": 9
+      },
+      "revId": "b9b31486874f7d487ddf03fbdda36873352ac8a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

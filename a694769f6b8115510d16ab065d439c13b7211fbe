@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb6bd4aa_8f05e9e1",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/HttpLogLayout.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-11-18T14:06:30Z",
+      "side": 1,
+      "message": "for plain text log we should ensure that a placeholder traceid `-` is printed if traceid is unset to ensure parsing of text logs is simple",
+      "revId": "a694769f6b8115510d16ab065d439c13b7211fbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

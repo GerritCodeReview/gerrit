@@ -179,6 +179,7 @@ public class ProjectOperationsImpl implements ProjectOperations {
         ProjectConfig projectConfig, ImmutableList<TestCapability> addedCapabilities) {
       for (TestCapability c : addedCapabilities) {
         PermissionRule.Builder rule = newRule(projectConfig, c.group());
+        rule.setAction(c.action());
         rule.setRange(c.min(), c.max());
         projectConfig.upsertAccessSection(
             AccessSection.GLOBAL_CAPABILITIES, as -> as.upsertPermission(c.name()).add(rule));

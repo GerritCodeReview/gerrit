@@ -26,6 +26,7 @@ import static com.google.gerrit.pgm.http.jetty.HttpLog.P_PROTOCOL;
 import static com.google.gerrit.pgm.http.jetty.HttpLog.P_REFERER;
 import static com.google.gerrit.pgm.http.jetty.HttpLog.P_RESOURCE;
 import static com.google.gerrit.pgm.http.jetty.HttpLog.P_STATUS;
+import static com.google.gerrit.pgm.http.jetty.HttpLog.P_TRACE_ID;
 import static com.google.gerrit.pgm.http.jetty.HttpLog.P_USER;
 import static com.google.gerrit.pgm.http.jetty.HttpLog.P_USER_AGENT;
 
@@ -58,6 +59,7 @@ public class HttpLogJsonLayout extends JsonLayout {
     public String referer;
     public String userAgent;
     public String commandStatus;
+    public String traceId;
 
     public HttpJsonLogEntry(LoggingEvent event) {
       this.host = getMdcString(event, P_HOST);
@@ -76,6 +78,7 @@ public class HttpLogJsonLayout extends JsonLayout {
       this.referer = getMdcString(event, P_REFERER);
       this.userAgent = getMdcString(event, P_USER_AGENT);
       this.commandStatus = getMdcString(event, P_COMMAND_STATUS);
+      this.traceId = getMdcString(event, P_TRACE_ID);
     }
   }
 }

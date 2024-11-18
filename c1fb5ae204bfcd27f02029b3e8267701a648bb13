@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6ee2fd3_8ad23e9c",
+        "filename": "java/com/google/gerrit/sshd/BaseCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-11-18T12:57:07Z",
+      "side": 1,
+      "message": "How is tracing handled in other subclasses of `BaseCommand` than `SshCommand` ?\n\nAt least `AbstractGitCommand` also has a `SshScope`.\nShould `#setForceTracing` and `#setTraceId` also be called there ?",
+      "revId": "c1fb5ae204bfcd27f02029b3e8267701a648bb13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "920d184d_1f989dce",
+        "filename": "java/com/google/gerrit/sshd/SshCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-11-18T12:57:07Z",
+      "side": 1,
+      "message": "extract this code into a helper method to improve readability ?",
+      "range": {
+        "startLine": 127,
+        "startChar": 0,
+        "endLine": 131,
+        "endChar": 30
+      },
+      "revId": "c1fb5ae204bfcd27f02029b3e8267701a648bb13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

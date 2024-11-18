@@ -16,6 +16,23 @@
       "message": "Don\u0027t quite understand the error message from the failed Code-Style job.",
       "revId": "1b6d1d6cc78509db786b129c25e0053e34168bb9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6404083f_6edb08ae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-11-18T14:04:28Z",
+      "side": 1,
+      "message": "You can just remove run_glf and replace it in package.json (top level).",
+      "revId": "1b6d1d6cc78509db786b129c25e0053e34168bb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -641,7 +641,6 @@ public class WorkQueue {
         } catch (InterruptedException e) {
           logger.atSevere().withCause(e).log("Parked Task(%s) Interrupted", task);
           parked.remove(parkedTask);
-        } finally {
           incrementCorePoolSizeBy(-1);
         }
       }
@@ -688,12 +687,12 @@ public class WorkQueue {
 
     public void updateParked() {
       List<ParkedTask> notReady = new ArrayList<>();
-      ParkedTask ready;
-
-      while ((ready = parked.poll()) != null) {
+      for (ParkedTask ready; (ready = parked.poll()) != null; ) {
         if (Task.State.CANCELLED.equals(ready.task.getState())) {
           ready.cancel(); // In case a cancelled task is polled before cleanup
         } else if (isReadyToStart(ready.task)) {
+          incrementCorePoolSizeBy(-1);
+          ready.latch.countDown();
           break;
         } else if (Task.State.CANCELLED.equals(ready.task.getState())) {
           ready.cancel(); // In case the task is cancelled while evaluating isReadyToStart
@@ -702,10 +701,6 @@ public class WorkQueue {
         }
       }
       parked.addAll(notReady);
-
-      if (ready != null) {
-        ready.latch.countDown();
-      }
     }
 
     public synchronized void incrementCorePoolSizeBy(int i) {

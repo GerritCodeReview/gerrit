@@ -22,6 +22,7 @@ class CapabilityInfo {
   public boolean createGroup;
   public boolean deleteGroup;
   public boolean createProject;
+  public boolean deleteOwnAccount;
   public boolean emailReviewers;
   public boolean flushCaches;
   public boolean killTask;

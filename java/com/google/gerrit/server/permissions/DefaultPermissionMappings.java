@@ -47,6 +47,7 @@ public class DefaultPermissionMappings {
           .put(GlobalPermission.CREATE_GROUP, GlobalCapability.CREATE_GROUP)
           .put(GlobalPermission.DELETE_GROUP, GlobalCapability.DELETE_GROUP)
           .put(GlobalPermission.CREATE_PROJECT, GlobalCapability.CREATE_PROJECT)
+          .put(GlobalPermission.DELETE_OWN_ACCOUNT, GlobalCapability.DELETE_OWN_ACCOUNT)
           .put(GlobalPermission.EMAIL_REVIEWERS, GlobalCapability.EMAIL_REVIEWERS)
           .put(GlobalPermission.FLUSH_CACHES, GlobalCapability.FLUSH_CACHES)
           .put(GlobalPermission.KILL_TASK, GlobalCapability.KILL_TASK)

@@ -24,6 +24,7 @@ import static com.google.gerrit.common.data.GlobalCapability.ADMINISTRATE_SERVER
 import static com.google.gerrit.common.data.GlobalCapability.BATCH_CHANGES_LIMIT;
 import static com.google.gerrit.common.data.GlobalCapability.DEFAULT_MAX_BATCH_CHANGES_LIMIT;
 import static com.google.gerrit.common.data.GlobalCapability.DEFAULT_MAX_QUERY_LIMIT;
+import static com.google.gerrit.common.data.GlobalCapability.DELETE_OWN_ACCOUNT;
 import static com.google.gerrit.common.data.GlobalCapability.PRIORITY;
 import static com.google.gerrit.common.data.GlobalCapability.QUERY_LIMIT;
 import static com.google.gerrit.common.data.GlobalCapability.RUN_AS;
@@ -64,6 +65,8 @@ public class CapabilitiesIT extends AbstractDaemonTest {
         } else if (BATCH_CHANGES_LIMIT.equals(c)) {
           assertThat(info.batchChangesLimit.min).isEqualTo((short) 0);
           assertThat(info.batchChangesLimit.max).isEqualTo((short) DEFAULT_MAX_BATCH_CHANGES_LIMIT);
+        } else if (DELETE_OWN_ACCOUNT.equals(c)) {
+          assertThat(info.deleteOwnAccount).isTrue();
         } else if (PRIORITY.equals(c)) {
           assertThat(info.priority).isFalse();
         } else if (QUERY_LIMIT.equals(c)) {
@@ -93,6 +96,8 @@ public class CapabilitiesIT extends AbstractDaemonTest {
         // It does not have default value for any user as it can override the
         // 'receive.batchChangesLimit'. It needs to be granted explicitly.
         assertThat(info.batchChangesLimit).isNull();
+      } else if (DELETE_OWN_ACCOUNT.equals(c)) {
+        assertThat(info.deleteOwnAccount).isTrue();
       } else if (PRIORITY.equals(c)) {
         assertThat(info.priority).isFalse();
       } else if (QUERY_LIMIT.equals(c)) {

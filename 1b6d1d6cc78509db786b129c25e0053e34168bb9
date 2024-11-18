@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb6e0bb4_aaed1a6a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2024-11-18T13:59:47Z",
+      "side": 1,
+      "message": "Don\u0027t quite understand the error message from the failed Code-Style job.",
+      "revId": "1b6d1d6cc78509db786b129c25e0053e34168bb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -46,6 +46,7 @@ public class CapabilityCollection {
 
   public final ImmutableList<PermissionRule> administrateServer;
   public final ImmutableList<PermissionRule> batchChangesLimit;
+  public final ImmutableList<PermissionRule> deleteOwnAccount;
   public final ImmutableList<PermissionRule> emailReviewers;
   public final ImmutableList<PermissionRule> priority;
   public final ImmutableList<PermissionRule> readAs;
@@ -96,6 +97,7 @@ public class CapabilityCollection {
 
     administrateServer = getPermission(GlobalCapability.ADMINISTRATE_SERVER);
     batchChangesLimit = getPermission(GlobalCapability.BATCH_CHANGES_LIMIT);
+    deleteOwnAccount = getPermission(GlobalCapability.DELETE_OWN_ACCOUNT);
     emailReviewers = getPermission(GlobalCapability.EMAIL_REVIEWERS);
     priority = getPermission(GlobalCapability.PRIORITY);
     readAs = getPermission(GlobalCapability.READ_AS);
@@ -133,6 +135,11 @@ public class CapabilityCollection {
         section,
         GlobalCapability.QUERY_LIMIT,
         systemGroupBackend.getGroup(SystemGroupBackend.ANONYMOUS_USERS));
+    configureDefault(
+        out,
+        section,
+        GlobalCapability.DELETE_OWN_ACCOUNT,
+        systemGroupBackend.getGroup(SystemGroupBackend.REGISTERED_USERS));
   }
 
   private static void configureDefault(
@@ -141,10 +148,16 @@ public class CapabilityCollection {
       String capName,
       GroupReference group) {
     if (doesNotDeclare(section, capName)) {
-      PermissionRange.WithDefaults range = GlobalCapability.getRange(capName);
-      if (range != null) {
-        PermissionRule.Builder rule = PermissionRule.builder(group);
-        rule.setRange(range.getDefaultMin(), range.getDefaultMax());
+      if (GlobalCapability.QUERY_LIMIT.equals(capName)) {
+        PermissionRange.WithDefaults range = GlobalCapability.getRange(capName);
+        if (range != null) {
+          PermissionRule.Builder rule = PermissionRule.builder(group);
+          rule.setRange(range.getDefaultMin(), range.getDefaultMax());
+          out.put(capName, Collections.singletonList(rule.build()));
+        }
+      } else if (GlobalCapability.DELETE_OWN_ACCOUNT.equals(capName)) {
+        PermissionRule.Builder rule =
+            PermissionRule.builder(group).setAction(PermissionRule.Action.ALLOW);
         out.put(capName, Collections.singletonList(rule.build()));
       }
     }

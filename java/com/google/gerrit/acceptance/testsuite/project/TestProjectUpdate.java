@@ -38,7 +38,11 @@ import org.eclipse.jgit.lib.Constants;
 public abstract class TestProjectUpdate {
   /** Starts a builder for allowing a capability. */
   public static TestCapability.Builder allowCapability(String name) {
-    return TestCapability.builder().name(name);
+    return TestCapability.builder().name(name).action(PermissionRule.Action.ALLOW);
+  }
+
+  public static TestCapability.Builder denyCapability(String name) {
+    return TestCapability.builder().name(name).action(PermissionRule.Action.DENY);
   }
 
   /** Records a global capability to be updated. */
@@ -51,6 +55,8 @@ public abstract class TestProjectUpdate {
     abstract String name();
 
     abstract AccountGroup.UUID group();
+
+    abstract PermissionRule.Action action();
 
     abstract int min();
 
@@ -66,6 +72,8 @@ public abstract class TestProjectUpdate {
 
       /** Sets the group to which the capability applies. */
       public abstract Builder group(AccountGroup.UUID group);
+
+      abstract Builder action(PermissionRule.Action action);
 
       abstract Builder min(int min);
 

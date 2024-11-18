@@ -44,6 +44,7 @@ public enum GlobalPermission implements GlobalOrPluginPermission {
   CREATE_ACCOUNT,
   CREATE_GROUP,
   CREATE_PROJECT,
+  DELETE_OWN_ACCOUNT,
   EMAIL_REVIEWERS,
   FLUSH_CACHES,
   KILL_TASK,

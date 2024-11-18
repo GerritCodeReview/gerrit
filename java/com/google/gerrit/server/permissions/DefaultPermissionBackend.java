@@ -208,6 +208,7 @@ public class DefaultPermissionBackend extends PermissionBackend {
 
         case ACCESS_DATABASE:
         case RUN_AS:
+        case DELETE_OWN_ACCOUNT:
           return has(globalPermissionName(perm));
       }
       throw new PermissionBackendException(perm + " unsupported");

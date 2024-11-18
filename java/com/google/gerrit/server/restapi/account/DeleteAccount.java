@@ -17,10 +17,12 @@ package com.google.gerrit.server.restapi.account;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Table;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -65,6 +67,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
  * <p>This REST endpoint handles {@code DELETE /accounts/<account-identifier>} requests. Currently,
  * only self deletions are allowed.
  */
+@RequiresCapability(GlobalCapability.DELETE_OWN_ACCOUNT)
 @Singleton
 public class DeleteAccount implements RestModifyView<AccountResource, Input> {
   private final Provider<CurrentUser> self;

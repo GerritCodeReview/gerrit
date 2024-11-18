@@ -3507,7 +3507,8 @@ public class AccountIT extends AbstractDaemonTest {
         GetCapabilities.Range queryLimitRange =
             new GetCapabilities.Range(limits.getRange("queryLimit"));
         assertThat(state.capabilities)
-            .containsExactly("emailReviewers", true, "queryLimit", queryLimitRange);
+            .containsExactly(
+                "deleteOwnAccount", true, "emailReviewers", true, "queryLimit", queryLimitRange);
       } else {
         assertThat(state.capabilities).isNull();
       }

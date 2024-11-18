@@ -1422,6 +1422,14 @@ This capability allows the granted group to create projects via the web UI, via
 link:rest-api-projects.html#create-project][REST] and via
 link:cmd-create-project.html[SSH].
 
+
+[[capability_deleteOwnAccount]]
+=== Delete Own Account
+
+Allow site administrators to restrict registered users from deleting their own
+account via the web UI or via link:rest-api-accounts.html#delete-account][REST].
+
+
 [[capability_emailReviewers]]
 === Email Reviewers
 

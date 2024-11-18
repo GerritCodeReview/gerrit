@@ -25,6 +25,7 @@ import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.a
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.deny;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.denyCapability;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.permissionKey;
 import static com.google.gerrit.gpg.PublicKeyStore.REFS_GPG_KEYS;
 import static com.google.gerrit.gpg.PublicKeyStore.keyToString;
@@ -71,6 +72,7 @@ import com.google.gerrit.acceptance.AccountIndexedCounter;
 import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.UseClockStep;
@@ -3463,6 +3465,16 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void deleteAccount_throwsForSelfIfDeleteOwnAccountPermissionIsDenied() throws Exception {
+    projectOperations
+        .allProjectsForUpdate()
+        .add(denyCapability(GlobalCapability.DELETE_OWN_ACCOUNT).group(REGISTERED_USERS))
+        .update();
+    requestScopeOperations.setApiUser(user.id());
+    userRestSession.delete("/accounts/self").assertForbidden();
+  }
+
+  @Test
   public void getOwnAccountState() throws Exception {
     String email = "preferred@example.com";
     String name = "Foo";
@@ -3507,7 +3519,8 @@ public class AccountIT extends AbstractDaemonTest {
         GetCapabilities.Range queryLimitRange =
             new GetCapabilities.Range(limits.getRange("queryLimit"));
         assertThat(state.capabilities)
-            .containsExactly("emailReviewers", true, "queryLimit", queryLimitRange);
+            .containsExactly(
+                "deleteOwnAccount", true, "emailReviewers", true, "queryLimit", queryLimitRange);
       } else {
         assertThat(state.capabilities).isNull();
       }

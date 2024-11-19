@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.net.HttpHeaders.CONTENT_TYPE;
+import static com.google.gerrit.httpd.GerritHeaders.X_GERRIT_TRACE;
 import static java.math.RoundingMode.CEILING;
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -193,7 +194,6 @@ public class RestApiServlet extends HttpServlet {
   private static final String FORM_TYPE = "application/x-www-form-urlencoded";
 
   @VisibleForTesting public static final String X_GERRIT_DEADLINE = "X-Gerrit-Deadline";
-  @VisibleForTesting public static final String X_GERRIT_TRACE = "X-Gerrit-Trace";
   @VisibleForTesting public static final String X_GERRIT_UPDATED_REF = "X-Gerrit-UpdatedRef";
 
   @VisibleForTesting

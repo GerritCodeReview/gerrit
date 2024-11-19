@@ -324,7 +324,8 @@ class InProcessProtocol extends TestProtocol<Context> {
                 .orElseThrow(
                     () -> new RuntimeException(String.format("project %s not found", req.project)));
 
-        AsyncReceiveCommits arc = factory.create(projectState, identifiedUser, db, null, null);
+        AsyncReceiveCommits arc =
+            factory.create(projectState, identifiedUser, db, null, null, null);
         if (arc.canUpload() != Capable.OK) {
           throw new ServiceNotAuthorizedException();
         }

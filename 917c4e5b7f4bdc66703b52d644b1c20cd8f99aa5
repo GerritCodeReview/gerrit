@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "68a7682d_5cd9a1d3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-11-19T09:58:37Z",
+      "side": 1,
+      "message": "That\u0027s addressed in https://gerrit-review.git.corp.google.com/c/gerrit/+/411477\n\n(And a couple of extra changes since then, that were originally missed).\n\nConsidering that it occasionally (but more than once) comes up, I concede that it could\u0027ve made sense to handle 204 in the helper as opposed to the individual calls.",
+      "parentUuid": "08768f6a_b3b3cc90",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 79
+      },
+      "revId": "917c4e5b7f4bdc66703b52d644b1c20cd8f99aa5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "865c7e4a_73754e6e",

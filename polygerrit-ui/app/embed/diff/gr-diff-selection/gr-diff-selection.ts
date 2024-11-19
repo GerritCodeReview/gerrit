@@ -11,14 +11,18 @@ import {
   querySelectorAll,
 } from '../../../utils/dom-util';
 import {DiffInfo} from '../../../types/diff';
-import {Side} from '../../../constants/constants';
+import {
+  CopyInfoEventDetail,
+  Side,
+  TextRange,
+} from '../../../constants/constants';
 import {
   getLineElByChild,
   getSide,
   getSideByLineEl,
   isThreadEl,
 } from '../gr-diff/gr-diff-utils';
-import {getContentFromDiff} from '../../../utils/diff-util';
+import {getDiffLines, getContentFromDiff} from '../../../utils/diff-util';
 
 /**
  * Possible CSS classes indicating the state of selection. Dynamically added/
@@ -119,6 +123,20 @@ export class GrDiffSelection {
     if (text && e.clipboardData) {
       e.clipboardData.setData('Text', text);
       e.preventDefault();
+      const selectionInfo = this.getSelectionInfo(side);
+      if (selectionInfo) {
+        this.diffTable.dispatchEvent(
+          new CustomEvent<CopyInfoEventDetail>('copy-info', {
+            detail: {
+              side,
+              range: selectionInfo,
+              length: text.length,
+            },
+            composed: true,
+            bubbles: true,
+          })
+        );
+      }
     }
   };
 
@@ -150,9 +168,24 @@ export class GrDiffSelection {
    */
   getSelectedText(side: Side) {
     if (!this.diff) return '';
+    const selectionInfo = this.getSelectionInfo(side);
+    if (!selectionInfo) return '';
+
+    return getContentFromDiff(
+      this.diff,
+      selectionInfo.start_line,
+      selectionInfo.start_column,
+      selectionInfo.end_line,
+      selectionInfo.end_column,
+      side
+    );
+  }
+
+  getSelectionInfo(side: Side): TextRange | undefined {
+    if (!this.diff) return undefined;
     const sel = this.getSelection();
     if (!sel || sel.rangeCount !== 1) {
-      return ''; // No multi-select support yet.
+      return undefined; // No multi-select support yet.
     }
     const range = normalize(sel.getRangeAt(0));
     const startLineEl = getLineElByChild(range.startContainer);
@@ -176,14 +209,16 @@ export class GrDiffSelection {
       const endLineDataValue = endLineEl.getAttribute('data-value');
       if (endLineDataValue) endLineNum = Number(endLineDataValue);
     }
-
-    return getContentFromDiff(
-      this.diff,
-      startLineNum,
-      range.startOffset,
-      endLineNum,
-      range.endOffset,
-      side
-    );
+    // If endLineNum is still undefined, it means that the selection ends at the
+    // end of the file.
+    if (endLineNum === undefined) {
+      endLineNum = getDiffLines(this.diff, side).length;
+    }
+    return {
+      start_line: startLineNum,
+      end_line: endLineNum,
+      start_column: range.startOffset,
+      end_column: range.endOffset,
+    };
   }
 }

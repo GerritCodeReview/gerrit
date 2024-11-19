@@ -124,6 +124,24 @@
       "parentUuid": "bb650f0f_4d740793",
       "revId": "479690f3a5e38aa2b82ea48d64f9e7e4f4c2d5cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d928a3f8_21a04906",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 707,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2024-11-19T18:29:55Z",
+      "side": 1,
+      "message": "I was talking about the existing code, and the code I proposed above. I didn\u0027t understand your proposal as it seems to require a completing thread to see the newly parked task before the completing thread dies, but the timing may prevent that from happening currently.",
+      "parentUuid": "18291caf_0be149a3",
+      "revId": "479690f3a5e38aa2b82ea48d64f9e7e4f4c2d5cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

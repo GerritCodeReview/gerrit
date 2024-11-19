@@ -19,6 +19,7 @@ import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.logging.TraceContext.TraceIdConsumer;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.sshd.SshScope.Context;
@@ -30,7 +31,7 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Repository;
 import org.kohsuke.args4j.Argument;
 
-public abstract class AbstractGitCommand extends BaseCommand {
+public abstract class AbstractGitCommand extends BaseCommand implements TraceIdConsumer {
   private static final String GIT_PROTOCOL = "GIT_PROTOCOL";
 
   @Argument(index = 0, metaVar = "PROJECT.git", required = true, usage = "project name")
@@ -113,4 +114,9 @@ public abstract class AbstractGitCommand extends BaseCommand {
   }
 
   protected abstract void runImpl() throws IOException, PermissionBackendException, Failure;
+
+  @Override
+  public void accept(String tagName, String traceId) {
+    setTraceId(traceId);
+  }
 }

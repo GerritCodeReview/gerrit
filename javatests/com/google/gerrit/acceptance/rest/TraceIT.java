@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.rest;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.httpd.GerritHeaders.X_GERRIT_TRACE;
 import static org.apache.http.HttpStatus.SC_CREATED;
 import static org.apache.http.HttpStatus.SC_INTERNAL_SERVER_ERROR;
 import static org.apache.http.HttpStatus.SC_OK;
@@ -45,7 +46,6 @@ import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.events.ChangeIndexedListener;
 import com.google.gerrit.httpd.restapi.ParameterParser;
-import com.google.gerrit.httpd.restapi.RestApiServlet;
 import com.google.gerrit.server.ExceptionHook;
 import com.google.gerrit.server.change.ReviewerSuggestion;
 import com.google.gerrit.server.change.SuggestedReviewer;
@@ -103,7 +103,7 @@ public class TraceIT extends AbstractDaemonTest {
         extensionRegistry.newRegistration().add(projectCreationListener)) {
       RestResponse response = adminRestSession.put("/projects/new1");
       assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
-      assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
+      assertThat(response.getHeader(X_GERRIT_TRACE)).isNull();
       assertThat(projectCreationListener.traceId).isNull();
       assertThat(projectCreationListener.isLoggingForced).isFalse();
 
@@ -138,7 +138,7 @@ public class TraceIT extends AbstractDaemonTest {
       RestResponse response =
           adminRestSession.put("/projects/new2?" + ParameterParser.TRACE_PARAMETER);
       assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
-      assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNotNull();
+      assertThat(response.getHeader(X_GERRIT_TRACE)).isNotNull();
       assertThat(projectCreationListener.traceId).isNotNull();
       assertThat(projectCreationListener.isLoggingForced).isTrue();
       assertThat(projectCreationListener.tags.get("project")).containsExactly("new2");
@@ -154,7 +154,7 @@ public class TraceIT extends AbstractDaemonTest {
       RestResponse response =
           adminRestSession.put("/projects/new3?" + ParameterParser.TRACE_PARAMETER + "=issue/123");
       assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
-      assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isEqualTo("issue/123");
+      assertThat(response.getHeader(X_GERRIT_TRACE)).isEqualTo("issue/123");
       assertThat(projectCreationListener.traceId).isEqualTo("issue/123");
       assertThat(projectCreationListener.isLoggingForced).isTrue();
       assertThat(projectCreationListener.tags.get("project")).containsExactly("new3");
@@ -168,10 +168,9 @@ public class TraceIT extends AbstractDaemonTest {
     try (Registration registration =
         extensionRegistry.newRegistration().add(projectCreationListener)) {
       RestResponse response =
-          adminRestSession.putWithHeaders(
-              "/projects/new4", new BasicHeader(RestApiServlet.X_GERRIT_TRACE, null));
+          adminRestSession.putWithHeaders("/projects/new4", new BasicHeader(X_GERRIT_TRACE, null));
       assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
-      assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNotNull();
+      assertThat(response.getHeader(X_GERRIT_TRACE)).isNotNull();
       assertThat(projectCreationListener.traceId).isNotNull();
       assertThat(projectCreationListener.isLoggingForced).isTrue();
       assertThat(projectCreationListener.tags.get("project")).containsExactly("new4");
@@ -186,9 +185,9 @@ public class TraceIT extends AbstractDaemonTest {
         extensionRegistry.newRegistration().add(projectCreationListener)) {
       RestResponse response =
           adminRestSession.putWithHeaders(
-              "/projects/new5", new BasicHeader(RestApiServlet.X_GERRIT_TRACE, "issue/123"));
+              "/projects/new5", new BasicHeader(X_GERRIT_TRACE, "issue/123"));
       assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
-      assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isEqualTo("issue/123");
+      assertThat(response.getHeader(X_GERRIT_TRACE)).isEqualTo("issue/123");
       assertThat(projectCreationListener.traceId).isEqualTo("issue/123");
       assertThat(projectCreationListener.isLoggingForced).isTrue();
       assertThat(projectCreationListener.tags.get("project")).containsExactly("new5");
@@ -204,9 +203,9 @@ public class TraceIT extends AbstractDaemonTest {
       // trace ID only specified by trace header
       RestResponse response =
           adminRestSession.putWithHeaders(
-              "/projects/new6?trace", new BasicHeader(RestApiServlet.X_GERRIT_TRACE, "issue/123"));
+              "/projects/new6?trace", new BasicHeader(X_GERRIT_TRACE, "issue/123"));
       assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
-      assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isEqualTo("issue/123");
+      assertThat(response.getHeader(X_GERRIT_TRACE)).isEqualTo("issue/123");
       assertThat(projectCreationListener.traceId).isEqualTo("issue/123");
       assertThat(projectCreationListener.isLoggingForced).isTrue();
       assertThat(projectCreationListener.tags.get("project")).containsExactly("new6");
@@ -214,10 +213,9 @@ public class TraceIT extends AbstractDaemonTest {
       // trace ID only specified by trace request parameter
       response =
           adminRestSession.putWithHeaders(
-              "/projects/new7?trace=issue/123",
-              new BasicHeader(RestApiServlet.X_GERRIT_TRACE, null));
+              "/projects/new7?trace=issue/123", new BasicHeader(X_GERRIT_TRACE, null));
       assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
-      assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isEqualTo("issue/123");
+      assertThat(response.getHeader(X_GERRIT_TRACE)).isEqualTo("issue/123");
       assertThat(projectCreationListener.traceId).isEqualTo("issue/123");
       assertThat(projectCreationListener.isLoggingForced).isTrue();
       assertThat(projectCreationListener.tags.get("project")).containsExactly("new7");
@@ -225,10 +223,9 @@ public class TraceIT extends AbstractDaemonTest {
       // same trace ID specified by trace header and trace request parameter
       response =
           adminRestSession.putWithHeaders(
-              "/projects/new8?trace=issue/123",
-              new BasicHeader(RestApiServlet.X_GERRIT_TRACE, "issue/123"));
+              "/projects/new8?trace=issue/123", new BasicHeader(X_GERRIT_TRACE, "issue/123"));
       assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
-      assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isEqualTo("issue/123");
+      assertThat(response.getHeader(X_GERRIT_TRACE)).isEqualTo("issue/123");
       assertThat(projectCreationListener.traceId).isEqualTo("issue/123");
       assertThat(projectCreationListener.isLoggingForced).isTrue();
       assertThat(projectCreationListener.tags.get("project")).containsExactly("new8");
@@ -236,11 +233,9 @@ public class TraceIT extends AbstractDaemonTest {
       // different trace IDs specified by trace header and trace request parameter
       response =
           adminRestSession.putWithHeaders(
-              "/projects/new9?trace=issue/123",
-              new BasicHeader(RestApiServlet.X_GERRIT_TRACE, "issue/456"));
+              "/projects/new9?trace=issue/123", new BasicHeader(X_GERRIT_TRACE, "issue/456"));
       assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
-      assertThat(response.getHeaders(RestApiServlet.X_GERRIT_TRACE))
-          .containsExactly("issue/123", "issue/456");
+      assertThat(response.getHeaders(X_GERRIT_TRACE)).containsExactly("issue/123", "issue/456");
       assertThat(projectCreationListener.traceIds).containsExactly("issue/123", "issue/456");
       assertThat(projectCreationListener.isLoggingForced).isTrue();
       assertThat(projectCreationListener.tags.get("project")).containsExactly("new9");
@@ -433,7 +428,7 @@ public class TraceIT extends AbstractDaemonTest {
         extensionRegistry.newRegistration().add(projectCreationListener)) {
       RestResponse response = adminRestSession.put("/projects/new12");
       assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
-      assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
+      assertThat(response.getHeader(X_GERRIT_TRACE)).isNull();
       assertThat(projectCreationListener.traceId).isEqualTo("issue123");
       assertThat(projectCreationListener.isLoggingForced).isTrue();
       assertThat(projectCreationListener.tags.get("project")).containsExactly("new12");
@@ -449,7 +444,7 @@ public class TraceIT extends AbstractDaemonTest {
         extensionRegistry.newRegistration().add(projectCreationListener)) {
       RestResponse response = adminRestSession.put("/projects/new13");
       assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
-      assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
+      assertThat(response.getHeader(X_GERRIT_TRACE)).isNull();
       assertThat(projectCreationListener.traceId).isEqualTo("issue123");
       assertThat(projectCreationListener.isLoggingForced).isTrue();
       assertThat(projectCreationListener.tags.get("project")).containsExactly("new13");
@@ -465,7 +460,7 @@ public class TraceIT extends AbstractDaemonTest {
         extensionRegistry.newRegistration().add(projectCreationListener)) {
       RestResponse response = adminRestSession.put("/projects/new13");
       assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
-      assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
+      assertThat(response.getHeader(X_GERRIT_TRACE)).isNull();
       assertThat(projectCreationListener.traceId).isNull();
       assertThat(projectCreationListener.isLoggingForced).isFalse();
 
@@ -483,7 +478,7 @@ public class TraceIT extends AbstractDaemonTest {
         extensionRegistry.newRegistration().add(projectCreationListener)) {
       RestResponse response = adminRestSession.put("/projects/new14");
       assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
-      assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
+      assertThat(response.getHeader(X_GERRIT_TRACE)).isNull();
       assertThat(projectCreationListener.traceId).isNull();
       assertThat(projectCreationListener.isLoggingForced).isFalse();
 
@@ -501,7 +496,7 @@ public class TraceIT extends AbstractDaemonTest {
         extensionRegistry.newRegistration().add(projectCreationListener)) {
       RestResponse response = adminRestSession.put("/projects/new15");
       assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
-      assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
+      assertThat(response.getHeader(X_GERRIT_TRACE)).isNull();
       assertThat(projectCreationListener.traceId).isEqualTo("issue123");
       assertThat(projectCreationListener.isLoggingForced).isTrue();
       assertThat(projectCreationListener.tags.get("project")).containsExactly("new15");
@@ -517,7 +512,7 @@ public class TraceIT extends AbstractDaemonTest {
         extensionRegistry.newRegistration().add(projectCreationListener)) {
       RestResponse response = adminRestSession.put("/projects/new16");
       assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
-      assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
+      assertThat(response.getHeader(X_GERRIT_TRACE)).isNull();
       assertThat(projectCreationListener.traceId).isNull();
       assertThat(projectCreationListener.isLoggingForced).isFalse();
 
@@ -535,7 +530,7 @@ public class TraceIT extends AbstractDaemonTest {
         extensionRegistry.newRegistration().add(projectCreationListener)) {
       RestResponse response = adminRestSession.put("/projects/new17");
       assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
-      assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
+      assertThat(response.getHeader(X_GERRIT_TRACE)).isNull();
       assertThat(projectCreationListener.traceId).isNull();
       assertThat(projectCreationListener.isLoggingForced).isFalse();
 
@@ -553,7 +548,7 @@ public class TraceIT extends AbstractDaemonTest {
         extensionRegistry.newRegistration().add(projectCreationListener)) {
       RestResponse response = adminRestSession.put("/projects/new18");
       assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
-      assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
+      assertThat(response.getHeader(X_GERRIT_TRACE)).isNull();
       assertThat(projectCreationListener.traceId).isNull();
       assertThat(projectCreationListener.isLoggingForced).isFalse();
 
@@ -571,7 +566,7 @@ public class TraceIT extends AbstractDaemonTest {
         extensionRegistry.newRegistration().add(projectCreationListener)) {
       RestResponse response = adminRestSession.put("/projects/new19");
       assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
-      assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
+      assertThat(response.getHeader(X_GERRIT_TRACE)).isNull();
       assertThat(projectCreationListener.traceId).isNull();
       assertThat(projectCreationListener.isLoggingForced).isFalse();
 
@@ -590,7 +585,7 @@ public class TraceIT extends AbstractDaemonTest {
         extensionRegistry.newRegistration().add(projectCreationListener)) {
       RestResponse response = adminRestSession.put("/projects/new20");
       assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
-      assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
+      assertThat(response.getHeader(X_GERRIT_TRACE)).isNull();
       assertThat(projectCreationListener.traceId).isEqualTo("issue123");
       assertThat(projectCreationListener.isLoggingForced).isTrue();
       assertThat(projectCreationListener.tags.get("project")).containsExactly("new20");
@@ -607,7 +602,7 @@ public class TraceIT extends AbstractDaemonTest {
         extensionRegistry.newRegistration().add(projectCreationListener)) {
       RestResponse response = adminRestSession.put("/projects/new21");
       assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
-      assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
+      assertThat(response.getHeader(X_GERRIT_TRACE)).isNull();
       assertThat(projectCreationListener.traceId).isNull();
       assertThat(projectCreationListener.isLoggingForced).isFalse();
 
@@ -659,7 +654,7 @@ public class TraceIT extends AbstractDaemonTest {
         extensionRegistry.newRegistration().add(projectCreationListener)) {
       RestResponse response = adminRestSession.put("/projects/new22");
       assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
-      assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
+      assertThat(response.getHeader(X_GERRIT_TRACE)).isNull();
       assertThat(projectCreationListener.traceId).isNull();
       assertThat(projectCreationListener.isLoggingForced).isFalse();
 
@@ -678,7 +673,7 @@ public class TraceIT extends AbstractDaemonTest {
         extensionRegistry.newRegistration().add(projectCreationListener)) {
       RestResponse response = adminRestSession.put("/projects/new23");
       assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
-      assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
+      assertThat(response.getHeader(X_GERRIT_TRACE)).isNull();
       assertThat(projectCreationListener.traceId).isEqualTo("issue123");
       assertThat(projectCreationListener.isLoggingForced).isTrue();
       assertThat(projectCreationListener.tags.get("project")).containsExactly("new23");
@@ -695,7 +690,7 @@ public class TraceIT extends AbstractDaemonTest {
         extensionRegistry.newRegistration().add(projectCreationListener)) {
       RestResponse response = adminRestSession.put("/projects/new24");
       assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
-      assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
+      assertThat(response.getHeader(X_GERRIT_TRACE)).isNull();
       assertThat(projectCreationListener.traceId).isNull();
       assertThat(projectCreationListener.isLoggingForced).isFalse();
 
@@ -714,7 +709,7 @@ public class TraceIT extends AbstractDaemonTest {
         extensionRegistry.newRegistration().add(projectCreationListener)) {
       RestResponse response = adminRestSession.put("/projects/new25");
       assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
-      assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
+      assertThat(response.getHeader(X_GERRIT_TRACE)).isNull();
       assertThat(projectCreationListener.traceId).isNull();
       assertThat(projectCreationListener.isLoggingForced).isFalse();
 
@@ -732,7 +727,7 @@ public class TraceIT extends AbstractDaemonTest {
         extensionRegistry.newRegistration().add(projectCreationListener)) {
       RestResponse response = adminRestSession.put("/projects/new26");
       assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
-      assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
+      assertThat(response.getHeader(X_GERRIT_TRACE)).isNull();
       assertThat(projectCreationListener.traceId).isEqualTo("issue123");
       assertThat(projectCreationListener.isLoggingForced).isTrue();
       assertThat(projectCreationListener.tags.get("project")).containsExactly("new26");
@@ -748,7 +743,7 @@ public class TraceIT extends AbstractDaemonTest {
         extensionRegistry.newRegistration().add(projectCreationListener)) {
       RestResponse response = adminRestSession.put("/projects/new27");
       assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
-      assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
+      assertThat(response.getHeader(X_GERRIT_TRACE)).isNull();
       assertThat(projectCreationListener.traceId).isNull();
       assertThat(projectCreationListener.isLoggingForced).isFalse();
 
@@ -766,7 +761,7 @@ public class TraceIT extends AbstractDaemonTest {
         extensionRegistry.newRegistration().add(projectCreationListener)) {
       RestResponse response = adminRestSession.put("/projects/new28");
       assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
-      assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
+      assertThat(response.getHeader(X_GERRIT_TRACE)).isNull();
       assertThat(projectCreationListener.traceId).isNull();
       assertThat(projectCreationListener.isLoggingForced).isFalse();
 
@@ -784,7 +779,7 @@ public class TraceIT extends AbstractDaemonTest {
         extensionRegistry.newRegistration().add(projectCreationListener)) {
       RestResponse response = adminRestSession.put("/projects/xyz1");
       assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
-      assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
+      assertThat(response.getHeader(X_GERRIT_TRACE)).isNull();
       assertThat(projectCreationListener.traceId).isNull();
       assertThat(projectCreationListener.isLoggingForced).isFalse();
 
@@ -802,7 +797,7 @@ public class TraceIT extends AbstractDaemonTest {
         extensionRegistry.newRegistration().add(projectCreationListener)) {
       RestResponse response = adminRestSession.put("/projects/xyz2");
       assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
-      assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
+      assertThat(response.getHeader(X_GERRIT_TRACE)).isNull();
       assertThat(projectCreationListener.traceId).isNull();
       assertThat(projectCreationListener.isLoggingForced).isFalse();
 
@@ -821,7 +816,7 @@ public class TraceIT extends AbstractDaemonTest {
         extensionRegistry.newRegistration().add(projectCreationListener)) {
       RestResponse response = adminRestSession.put("/projects/xyz3");
       assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
-      assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
+      assertThat(response.getHeader(X_GERRIT_TRACE)).isNull();
       assertThat(projectCreationListener.traceId).isEqualTo("issue123");
       assertThat(projectCreationListener.isLoggingForced).isTrue();
       assertThat(projectCreationListener.tags.get("project")).containsExactly("xyz3");
@@ -838,7 +833,7 @@ public class TraceIT extends AbstractDaemonTest {
         extensionRegistry.newRegistration().add(projectCreationListener)) {
       RestResponse response = adminRestSession.put("/projects/xyz4");
       assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
-      assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
+      assertThat(response.getHeader(X_GERRIT_TRACE)).isNull();
       assertThat(projectCreationListener.traceId).isNull();
       assertThat(projectCreationListener.isLoggingForced).isFalse();
 
@@ -857,7 +852,7 @@ public class TraceIT extends AbstractDaemonTest {
         extensionRegistry.newRegistration().add(projectCreationListener)) {
       RestResponse response = adminRestSession.put("/projects/xyz5");
       assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
-      assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
+      assertThat(response.getHeader(X_GERRIT_TRACE)).isNull();
       assertThat(projectCreationListener.traceId).isEqualTo("issue123");
       assertThat(projectCreationListener.isLoggingForced).isTrue();
       assertThat(projectCreationListener.tags.get("project")).containsExactly("xyz5");
@@ -873,7 +868,7 @@ public class TraceIT extends AbstractDaemonTest {
         extensionRegistry.newRegistration().add(projectCreationListener)) {
       RestResponse response = adminRestSession.put("/projects/xyz6");
       assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
-      assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
+      assertThat(response.getHeader(X_GERRIT_TRACE)).isNull();
       assertThat(projectCreationListener.traceId).isNull();
       assertThat(projectCreationListener.isLoggingForced).isFalse();
 
@@ -892,7 +887,7 @@ public class TraceIT extends AbstractDaemonTest {
       RestResponse response =
           adminRestSession.get(String.format("/changes/%s/suggest_reviewers?limit=10", changeId));
       assertThat(response.getStatusCode()).isEqualTo(SC_OK);
-      assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
+      assertThat(response.getHeader(X_GERRIT_TRACE)).isNull();
       assertThat(reviewerSuggestion.traceId).isNull();
       assertThat(reviewerSuggestion.isLoggingForced).isFalse();
     }
@@ -909,7 +904,7 @@ public class TraceIT extends AbstractDaemonTest {
       RestResponse response =
           adminRestSession.get(String.format("/changes/%s/suggest_reviewers?limit=10", changeId));
       assertThat(response.getStatusCode()).isEqualTo(SC_OK);
-      assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
+      assertThat(response.getHeader(X_GERRIT_TRACE)).isNull();
       assertThat(reviewerSuggestion.traceId).isEqualTo("issue123");
       assertThat(reviewerSuggestion.isLoggingForced).isTrue();
     }
@@ -926,7 +921,7 @@ public class TraceIT extends AbstractDaemonTest {
       RestResponse response =
           adminRestSession.get(String.format("/changes/%s/suggest_reviewers?limit=10", changeId));
       assertThat(response.getStatusCode()).isEqualTo(SC_OK);
-      assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
+      assertThat(response.getHeader(X_GERRIT_TRACE)).isNull();
       assertThat(reviewerSuggestion.traceId).isNull();
       assertThat(reviewerSuggestion.isLoggingForced).isFalse();
     }
@@ -943,7 +938,7 @@ public class TraceIT extends AbstractDaemonTest {
       RestResponse response =
           adminRestSession.get(String.format("/changes/%s/suggest_reviewers?limit=10", changeId));
       assertThat(response.getStatusCode()).isEqualTo(SC_OK);
-      assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
+      assertThat(response.getHeader(X_GERRIT_TRACE)).isNull();
       assertThat(reviewerSuggestion.traceId).isNull();
       assertThat(reviewerSuggestion.isLoggingForced).isFalse();
     }
@@ -963,7 +958,7 @@ public class TraceIT extends AbstractDaemonTest {
               new BasicHeader("User-Agent", "foo-bar"),
               new BasicHeader("Other-Header", "baz"));
       assertThat(response.getStatusCode()).isEqualTo(SC_OK);
-      assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
+      assertThat(response.getHeader(X_GERRIT_TRACE)).isNull();
       assertThat(reviewerSuggestion.traceId).isNull();
       assertThat(reviewerSuggestion.isLoggingForced).isFalse();
     }
@@ -984,7 +979,7 @@ public class TraceIT extends AbstractDaemonTest {
               new BasicHeader("User-Agent", "foo-bar"),
               new BasicHeader("Other-Header", "baz"));
       assertThat(response.getStatusCode()).isEqualTo(SC_OK);
-      assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
+      assertThat(response.getHeader(X_GERRIT_TRACE)).isNull();
       assertThat(reviewerSuggestion.traceId).isEqualTo("issue123");
       assertThat(reviewerSuggestion.isLoggingForced).isTrue();
     }
@@ -1003,7 +998,7 @@ public class TraceIT extends AbstractDaemonTest {
               new BasicHeader("User-Agent", "foo-bar"),
               new BasicHeader("Other-Header", "baz"));
       assertThat(response.getStatusCode()).isEqualTo(SC_OK);
-      assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
+      assertThat(response.getHeader(X_GERRIT_TRACE)).isNull();
       assertThat(reviewerSuggestion.traceId).isNull();
       assertThat(reviewerSuggestion.isLoggingForced).isFalse();
     }
@@ -1022,7 +1017,7 @@ public class TraceIT extends AbstractDaemonTest {
               new BasicHeader("User-Agent", "foo-bar"),
               new BasicHeader("Other-Header", "baz"));
       assertThat(response.getStatusCode()).isEqualTo(SC_OK);
-      assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
+      assertThat(response.getHeader(X_GERRIT_TRACE)).isNull();
       assertThat(reviewerSuggestion.traceId).isNull();
       assertThat(reviewerSuggestion.isLoggingForced).isFalse();
     }
@@ -1039,7 +1034,7 @@ public class TraceIT extends AbstractDaemonTest {
     try (Registration registration = extensionRegistry.newRegistration().add(traceSubmitRule)) {
       RestResponse response = adminRestSession.post("/changes/" + changeId + "/submit");
       assertThat(response.getStatusCode()).isEqualTo(SC_INTERNAL_SERVER_ERROR);
-      assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).startsWith("retry-on-failure-");
+      assertThat(response.getHeader(X_GERRIT_TRACE)).startsWith("retry-on-failure-");
       assertThat(traceSubmitRule.traceId).startsWith("retry-on-failure-");
       assertThat(traceSubmitRule.isLoggingForced).isTrue();
     }
@@ -1067,7 +1062,7 @@ public class TraceIT extends AbstractDaemonTest {
                 })) {
       RestResponse response = adminRestSession.post("/changes/" + changeId + "/submit");
       assertThat(response.getStatusCode()).isEqualTo(SC_INTERNAL_SERVER_ERROR);
-      assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
+      assertThat(response.getHeader(X_GERRIT_TRACE)).isNull();
       assertThat(traceSubmitRule.traceId).isNull();
       assertThat(traceSubmitRule.isLoggingForced).isFalse();
     }
@@ -1083,7 +1078,7 @@ public class TraceIT extends AbstractDaemonTest {
     try (Registration registration = extensionRegistry.newRegistration().add(traceSubmitRule)) {
       RestResponse response = adminRestSession.post("/changes/" + changeId + "/submit");
       assertThat(response.getStatusCode()).isEqualTo(SC_INTERNAL_SERVER_ERROR);
-      assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
+      assertThat(response.getHeader(X_GERRIT_TRACE)).isNull();
       assertThat(traceSubmitRule.traceId).isNull();
       assertThat(traceSubmitRule.isLoggingForced).isFalse();
     }

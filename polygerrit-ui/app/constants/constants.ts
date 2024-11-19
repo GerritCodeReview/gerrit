@@ -7,7 +7,7 @@
 /**
  * Tab names for primary tabs on change view page.
  */
-import {DiffViewMode} from '../api/diff';
+import {CopyInfoEventDetail, TextRange, DiffViewMode} from '../api/diff';
 import {DiffPreferencesInfo} from '../types/diff';
 import {EditPreferencesInfo, PreferencesInfo} from '../types/common';
 import {
@@ -35,6 +35,7 @@ export {
   ChangeStatus,
   CommentSide,
   ConfigParameterInfoType,
+  type CopyInfoEventDetail,
   DefaultDisplayNameConfig,
   EditableAccountField,
   FileInfoStatus,
@@ -48,6 +49,7 @@ export {
   ReviewerState,
   RevisionKind,
   SubmitType,
+  type TextRange,
 };
 
 export enum AccountTag {

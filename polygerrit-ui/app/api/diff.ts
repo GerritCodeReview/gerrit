@@ -360,6 +360,15 @@ export declare interface RenderProgressEventDetail {
   linesRendered: number;
 }
 
+/**
+ * The detail of the 'copy-info' event dispatched by gr-diff.
+ */
+export declare interface CopyInfoEventDetail {
+  side: Side;
+  range: TextRange;
+  length: number;
+}
+
 export declare interface DisplayLine {
   side: Side;
   lineNum: LineNumber;

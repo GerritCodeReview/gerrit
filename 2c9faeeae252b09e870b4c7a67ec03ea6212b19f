@@ -52,6 +52,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ef19e86_0c24ca56",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-selection/gr-diff-selection.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 3227329
+      },
+      "writtenOn": "2024-11-19T10:14:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2636a6dc_f44df7cf",
+      "range": {
+        "startLine": 128,
+        "startChar": 8,
+        "endLine": 138,
+        "endChar": 10
+      },
+      "revId": "2c9faeeae252b09e870b4c7a67ec03ea6212b19f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1d7b38d5_1b19a2ba",
@@ -93,6 +117,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ab9f3fe_b7ba87da",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-selection/gr-diff-selection.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 3227329
+      },
+      "writtenOn": "2024-11-19T10:14:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d7b38d5_1b19a2ba",
+      "range": {
+        "startLine": 184,
+        "startChar": 2,
+        "endLine": 184,
+        "endChar": 18
+      },
+      "revId": "2c9faeeae252b09e870b4c7a67ec03ea6212b19f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b1ac8a7f_4e730557",
@@ -106,6 +154,30 @@
       "writtenOn": "2024-11-13T08:51:43Z",
       "side": 1,
       "message": "Can you please add unit test that \n```\ngetContentFromDiff(\n      this.diff,\n      selectionInfo.start_line,\n      selectionInfo.start_column,\n      getDiffLines(this.diff, side).length,\n      selectionInfo.end_column,\n      side\n    );\n```\n\nbehaves same as\n```\ngetContentFromDiff(\n      this.diff,\n      selectionInfo.start_line,\n      selectionInfo.start_column,\n      undefined,\n      selectionInfo.end_column,\n      side\n    );\n```",
+      "range": {
+        "startLine": 212,
+        "startChar": 0,
+        "endLine": 216,
+        "endChar": 5
+      },
+      "revId": "2c9faeeae252b09e870b4c7a67ec03ea6212b19f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d0a8976_3bd9c15c",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-selection/gr-diff-selection.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 3227329
+      },
+      "writtenOn": "2024-11-19T10:14:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b1ac8a7f_4e730557",
       "range": {
         "startLine": 212,
         "startChar": 0,

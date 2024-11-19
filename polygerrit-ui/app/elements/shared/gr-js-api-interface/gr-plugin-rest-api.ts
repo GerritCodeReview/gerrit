@@ -153,6 +153,8 @@ export class GrPluginRestApi implements RestPluginApi {
           return getErrorMessage(response).then(msg =>
             Promise.reject(new Error(msg))
           );
+        } else if (response.status == 204){
+          return "" as unknown as Promise<T>;
         } else {
           return readJSONResponsePayload(response).then(
             obj => obj.parsed

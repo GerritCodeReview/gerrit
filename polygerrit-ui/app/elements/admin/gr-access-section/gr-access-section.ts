@@ -65,8 +65,8 @@ export class GrAccessSection extends LitElement {
   @property({type: Boolean})
   canUpload?: boolean;
 
-  @property({type: Array})
-  ownerOf?: GitRef[];
+  @property({ type: Boolean })
+  isOwner = false;
 
   // private but used in test
   @state() originalId?: GitRef;
@@ -446,10 +446,7 @@ export class GrAccessSection extends LitElement {
   }
 
   private isEditEnabled() {
-    return (
-      this.canUpload ||
-      (this.ownerOf && this.ownerOf.indexOf(this.section!.id) >= 0)
-    );
+    return this.canUpload || this.isOwner;
   }
 
   // private but used in test

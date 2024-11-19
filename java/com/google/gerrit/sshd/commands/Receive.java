@@ -83,8 +83,11 @@ final class Receive extends AbstractGitCommand {
       throw new Failure(1, "fatal: unable to check permissions " + e);
     }
 
+    // TODO: add a new parameter to the factory.create method of type TraceIdConsumer
+    // implement TraceIdConsumer in the AbstractGitCommandClass
+    // it should call setTraceId from the BaseCommand
     AsyncReceiveCommits arc =
-        factory.create(projectState, currentUser.asIdentifiedUser(), repo, null, sshMetrics);
+        factory.create(projectState, currentUser.asIdentifiedUser(), repo, this, null, sshMetrics);
 
     try {
       Capable r = arc.canUpload();

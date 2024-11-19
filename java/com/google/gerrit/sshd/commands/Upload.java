@@ -93,7 +93,7 @@ final class Upload extends AbstractGitCommand {
       initializer.init(projectState.getNameKey(), up);
     }
     try (TraceContext traceContext = TraceContext.open();
-        TracingHook tracingHook = new TracingHook()) {
+        TracingHook tracingHook = new TracingHook((name, id) -> setTraceId(id))) {
       RequestInfo requestInfo =
           RequestInfo.builder(RequestInfo.RequestType.GIT_UPLOAD, getName(), user, traceContext)
               .project(projectState.getNameKey())

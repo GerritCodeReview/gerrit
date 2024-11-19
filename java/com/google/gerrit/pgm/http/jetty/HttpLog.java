@@ -17,10 +17,10 @@ package com.google.gerrit.pgm.http.jetty;
 import static com.google.gerrit.httpd.GitOverHttpServlet.GIT_COMMAND_STATUS_HEADER;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.httpd.GerritHeaders;
 import com.google.gerrit.httpd.GetUserFilter;
 import com.google.gerrit.httpd.RequestMetricsFilter;
 import com.google.gerrit.httpd.restapi.LogRedactUtil;
-import com.google.gerrit.httpd.restapi.RestApiServlet;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.util.SystemLog;
 import com.google.gerrit.server.util.time.TimeUtil;
@@ -123,7 +123,7 @@ class HttpLog extends AbstractLifeCycle implements RequestLog {
     set(event, P_REFERER, req.getHeader("Referer"));
     set(event, P_USER_AGENT, req.getHeader("User-Agent"));
     set(event, P_COMMAND_STATUS, rsp.getHeader(GIT_COMMAND_STATUS_HEADER));
-    String traceId = rsp.getHeader(RestApiServlet.X_GERRIT_TRACE);
+    String traceId = rsp.getHeader(GerritHeaders.X_GERRIT_TRACE);
     if (traceId != null) {
       set(event, P_TRACE_ID, traceId);
     }

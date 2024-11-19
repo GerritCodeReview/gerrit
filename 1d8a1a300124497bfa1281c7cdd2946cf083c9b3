@@ -39,6 +39,30 @@
       },
       "revId": "1d8a1a300124497bfa1281c7cdd2946cf083c9b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df35987c_60b122ec",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-rest-api.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2024-11-19T21:12:47Z",
+      "side": 1,
+      "message": "I51a7fcc3 hopefully fixes this.",
+      "parentUuid": "b5b8a2f9_36747ec9",
+      "range": {
+        "startLine": 157,
+        "startChar": 10,
+        "endLine": 157,
+        "endChar": 50
+      },
+      "revId": "1d8a1a300124497bfa1281c7cdd2946cf083c9b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

@@ -194,6 +194,27 @@ suite('gr-diff-selection', () => {
     assert.equal(element.getSelectedText(Side.LEFT), 'ba\nzin\nga');
   });
 
+  test('copies content correctly when end is not a text node', () => {
+    const unknownElement = document.createElement('div');
+    unknownElement.appendChild(document.createTextNode('Should not be copied'));
+
+    diffTable.classList.add('selected-left');
+    diffTable.classList.remove('selected-right');
+    diffTable.appendChild(unknownElement);
+
+    const selection = document.getSelection();
+    if (selection === null) assert.fail('no selection');
+    selection.removeAllRanges();
+    const range = document.createRange();
+    const texts = diffTable.querySelectorAll<HTMLElement>('gr-diff-text');
+    range.setStart(firstTextNode(texts[0]), 3);
+    range.setEnd(unknownElement, 0);
+
+    selection.addRange(range);
+
+    assert.equal(element.getSelectedText(Side.LEFT), 'ba\nzin\n');
+  });
+
   test('defers to default behavior for textarea', () => {
     diffTable.classList.add('selected-left');
     diffTable.classList.remove('selected-right');

@@ -48,6 +48,7 @@ import {
   LineNumber,
   ContentLoadNeededEventDetail,
   DiffContextExpandedExternalDetail,
+  CopyInfoEventDetail,
 } from '../../../api/diff';
 import {isSafari} from '../../../utils/dom-util';
 import {assertIsDefined} from '../../../utils/common-util';
@@ -1049,5 +1050,6 @@ declare global {
     'diff-context-expanded': CustomEvent<DiffContextExpandedExternalDetail>;
     'diff-context-expanded-internal-new': CustomEvent<DiffContextExpandedEventDetail>;
     'content-load-needed': CustomEvent<ContentLoadNeededEventDetail>;
+    'copy-info': CustomEvent<CopyInfoEventDetail>;
   }
 }

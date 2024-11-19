@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "340caa5a_4e8913e0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2024-11-19T01:03:19Z",
+      "side": 1,
+      "message": "Add a test to `AccountIT`?",
+      "revId": "360b09c43dc7c32d1d60dc63d8c98a510b0de92a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19c056db_8c44b56a",
+        "filename": "java/com/google/gerrit/server/account/CapabilityCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2024-11-19T01:03:19Z",
+      "side": 1,
+      "message": "```suggestion\n      else if (GlobalCapability.DELETE_OWN_ACCOUNT.equals(capName)) {\n```",
+      "range": {
+        "startLine": 156,
+        "startChar": 0,
+        "endLine": 157,
+        "endChar": 64
+      },
+      "revId": "360b09c43dc7c32d1d60dc63d8c98a510b0de92a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

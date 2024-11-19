@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd;
 
+import static com.google.gerrit.httpd.GerritHeaders.X_GERRIT_TRACE;
 import static org.eclipse.jgit.http.server.GitSmartHttpTools.sendError;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -43,6 +44,7 @@ import com.google.gerrit.server.git.receive.AsyncReceiveCommits;
 import com.google.gerrit.server.git.validators.UploadValidators;
 import com.google.gerrit.server.group.GroupAuditService;
 import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.logging.TraceContext.TraceIdConsumer;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
@@ -56,6 +58,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
+import com.google.inject.servlet.RequestScoped;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.time.Duration;
@@ -150,6 +153,8 @@ public class GitOverHttpServlet extends GitServlet {
       bind(UploadFilter.class);
       bind(new TypeLiteral<ReceivePackFactory<HttpServletRequest>>() {})
           .to(enableReceive ? ReceiveFactory.class : DisabledReceiveFactory.class);
+      bind(TraceIdHolder.class);
+      bind(SetTraceIdFilter.class);
       bind(ReceiveFilter.class);
       install(
           new CacheModule() {
@@ -238,6 +243,7 @@ public class GitOverHttpServlet extends GitServlet {
       UploadFilter uploadFilter,
       GerritUploadPackErrorHandler uploadPackErrorHandler,
       ReceivePackFactory<HttpServletRequest> receive,
+      SetTraceIdFilter traceIdFilter,
       ReceiveFilter receiveFilter) {
     setRepositoryResolver(resolver);
     setAsIsFileService(AsIsFileService.DISABLED);
@@ -247,6 +253,7 @@ public class GitOverHttpServlet extends GitServlet {
     addUploadPackFilter(uploadFilter);
 
     setReceivePackFactory(receive);
+    addReceivePackFilter(traceIdFilter);
     addReceivePackFilter(receiveFilter);
   }
 
@@ -459,7 +466,9 @@ public class GitOverHttpServlet extends GitServlet {
           up.setAdvertiseRefsHook(usersSelfAdvertiseRefsHook);
         }
 
-        try (TracingHook tracingHook = new TracingHook()) {
+        try (TracingHook tracingHook =
+            new TracingHook(
+                (name, id) -> ((HttpServletResponse) response).setHeader(X_GERRIT_TRACE, id))) {
           up.setProtocolV2Hook(tracingHook);
           next.doFilter(httpRequest, responseWrapper);
         }
@@ -518,11 +527,16 @@ public class GitOverHttpServlet extends GitServlet {
   static class ReceiveFactory implements ReceivePackFactory<HttpServletRequest> {
     private final AsyncReceiveCommits.Factory factory;
     private final Provider<CurrentUser> userProvider;
+    private final Provider<TraceIdHolder> traceIdHolder;
 
     @Inject
-    ReceiveFactory(AsyncReceiveCommits.Factory factory, Provider<CurrentUser> userProvider) {
+    ReceiveFactory(
+        AsyncReceiveCommits.Factory factory,
+        Provider<CurrentUser> userProvider,
+        Provider<TraceIdHolder> traceIdHolder) {
       this.factory = factory;
       this.userProvider = userProvider;
+      this.traceIdHolder = traceIdHolder;
     }
 
     @Override
@@ -536,10 +550,21 @@ public class GitOverHttpServlet extends GitServlet {
       }
 
       AsyncReceiveCommits arc =
-          factory.create(state, userProvider.get().asIdentifiedUser(), db, null, null);
+          factory.create(
+              state, userProvider.get().asIdentifiedUser(), db, traceIdHolder.get(), null, null);
       ReceivePack rp = arc.getReceivePack();
       req.setAttribute(ATT_ARC, arc);
       return rp;
+    }
+  }
+
+  @RequestScoped
+  static class TraceIdHolder implements TraceIdConsumer {
+    String traceId;
+
+    @Override
+    public void accept(String tagName, String traceId) {
+      this.traceId = traceId;
     }
   }
 
@@ -549,6 +574,31 @@ public class GitOverHttpServlet extends GitServlet {
         throws ServiceNotEnabledException {
       throw new ServiceNotEnabledException();
     }
+  }
+
+  static class SetTraceIdFilter implements Filter {
+    private final Provider<TraceIdHolder> traceIdHolder;
+
+    @Inject
+    SetTraceIdFilter(Provider<TraceIdHolder> traceIdHolder) {
+      this.traceIdHolder = traceIdHolder;
+    }
+
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+        throws IOException, ServletException {
+      chain.doFilter(request, response);
+      String traceId = traceIdHolder.get().traceId;
+      if (traceId != null) {
+        ((HttpServletResponse) response).setHeader(X_GERRIT_TRACE, traceId);
+      }
+    }
+
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException {}
+
+    @Override
+    public void destroy() {}
   }
 
   static class ReceiveFilter implements Filter {

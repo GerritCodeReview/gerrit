@@ -402,7 +402,7 @@ suite('gr-access-section tests', () => {
     test('computeSectionClass', () => {
       element.editingRef = false;
       element.canUpload = false;
-      element.ownerOf = [];
+      element.isOwner = false;
       element.editing = false;
       element.deleted = false;
       assert.equal(element.computeSectionClass(), '');
@@ -410,10 +410,10 @@ suite('gr-access-section tests', () => {
       element.editing = true;
       assert.equal(element.computeSectionClass(), '');
 
-      element.ownerOf = ['refs/*' as GitRef];
+      element.isOwner = true;
       assert.equal(element.computeSectionClass(), 'editing');
 
-      element.ownerOf = [];
+      element.isOwner = false;
       element.canUpload = true;
       assert.equal(element.computeSectionClass(), 'editing');
 
@@ -497,7 +497,7 @@ suite('gr-access-section tests', () => {
         );
         element.editing = true;
         element.canUpload = true;
-        element.ownerOf = [];
+        element.isOwner = false;
         assert.equal(
           getComputedStyle(queryAndAssert<GrButton>(element, '#editBtn'))
             .display,
@@ -543,7 +543,7 @@ suite('gr-access-section tests', () => {
         );
         element.editing = true;
         element.canUpload = true;
-        element.ownerOf = [];
+        element.isOwner = false;
         await element.updateComplete;
         assert.notEqual(
           getComputedStyle(queryAndAssert<GrButton>(element, '#editBtn'))
@@ -612,7 +612,7 @@ suite('gr-access-section tests', () => {
 
       test('edit section reference', async () => {
         element.canUpload = true;
-        element.ownerOf = [];
+        element.isOwner = false;
         element.section = {
           id: 'refs/for/bar' as GitRef,
           value: {permissions: {}},
@@ -689,7 +689,7 @@ suite('gr-access-section tests', () => {
       test('remove section', async () => {
         element.editing = true;
         element.canUpload = true;
-        element.ownerOf = [];
+        element.isOwner = false;
         await element.updateComplete;
         assert.isFalse(element.deleted);
         assert.isNotOk(element.section!.value.deleted);

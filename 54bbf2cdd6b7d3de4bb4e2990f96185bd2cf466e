@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "231fad4b_0a520c23",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-11-19T14:54:15Z",
+      "side": 1,
+      "message": "AFAICS group deletion is still in review: https://gerrit-review.googlesource.com/c/gerrit/+/431917\n\nI think this could happen with LDAP groups which can be deleted in the LDAP backend.",
+      "parentUuid": "9f48cf23_02e68253",
+      "range": {
+        "startLine": 12,
+        "startChar": 8,
+        "endLine": 12,
+        "endChar": 54
+      },
+      "revId": "54bbf2cdd6b7d3de4bb4e2990f96185bd2cf466e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d49e191c_7a77507c",
         "filename": "java/com/google/gerrit/server/group/PeriodicGroupIndexer.java",
         "patchSetId": 2

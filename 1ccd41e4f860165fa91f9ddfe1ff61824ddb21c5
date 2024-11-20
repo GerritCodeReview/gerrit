@@ -46,6 +46,30 @@
       },
       "revId": "1ccd41e4f860165fa91f9ddfe1ff61824ddb21c5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a751f3d4_e329aad7",
+        "filename": "java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-11-20T15:11:24Z",
+      "side": 1,
+      "message": "\u003e If this exception happens on a cached repo, we may want to recheck in case the path has changed.\n\n@mfick@nvidia.com how can this exception happen on a cached repo? The `RepositoryCache` would not even check if the repository exist or do anything with it, it will just return the cached object.",
+      "parentUuid": "a5d7914a_7ac1834d",
+      "range": {
+        "startLine": 170,
+        "startChar": 6,
+        "endLine": 170,
+        "endChar": 22
+      },
+      "revId": "1ccd41e4f860165fa91f9ddfe1ff61824ddb21c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

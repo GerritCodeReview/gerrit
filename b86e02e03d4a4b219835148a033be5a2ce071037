@@ -70,6 +70,30 @@
       },
       "revId": "b86e02e03d4a4b219835148a033be5a2ce071037",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1954a360_b9fc9f41",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-rest-api.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2024-11-20T10:58:30Z",
+      "side": 1,
+      "message": "Thanks so much for this, I\u0027ll abandon this change and restore the other one. I\u0027ll add you there in case you want to follow along.",
+      "parentUuid": "0e808e3f_56c2d70a",
+      "range": {
+        "startLine": 156,
+        "startChar": 8,
+        "endLine": 157,
+        "endChar": 45
+      },
+      "revId": "b86e02e03d4a4b219835148a033be5a2ce071037",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

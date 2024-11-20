@@ -22,6 +22,30 @@
       },
       "revId": "b86e02e03d4a4b219835148a033be5a2ce071037",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26d38e83_1100f437",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-rest-api.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2024-11-20T10:51:23Z",
+      "side": 1,
+      "message": "Thanks for this @kamilm@google.com, you can tell I\u0027m not a typescript developer.\nDoes I779361a1f9 make more sense?",
+      "parentUuid": "2a823230_6c73f75b",
+      "range": {
+        "startLine": 156,
+        "startChar": 8,
+        "endLine": 157,
+        "endChar": 45
+      },
+      "revId": "b86e02e03d4a4b219835148a033be5a2ce071037",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

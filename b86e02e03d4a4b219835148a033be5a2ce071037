@@ -46,6 +46,30 @@
       },
       "revId": "b86e02e03d4a4b219835148a033be5a2ce071037",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e808e3f_56c2d70a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-rest-api.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-11-20T10:57:02Z",
+      "side": 1,
+      "message": "Generally, yes. But I see that you also removed the `catch()` when handling a promise.\n\nWhile fetch() unlike send() doesn\u0027t throw on non-200 response code, it can still throw an exception for network errors (for example if your network connection is down). How exactly you want to handle that is up to you, though",
+      "parentUuid": "26d38e83_1100f437",
+      "range": {
+        "startLine": 156,
+        "startChar": 8,
+        "endLine": 157,
+        "endChar": 45
+      },
+      "revId": "b86e02e03d4a4b219835148a033be5a2ce071037",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -27,7 +27,7 @@ import com.google.gerrit.entities.SubmissionId;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.TestChanges;
-import java.time.ZoneId;
+import java.time.ZoneOffset;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -69,7 +69,8 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     assertThat(author.getEmailAddress()).isEqualTo("1@gerrit");
     assertThat(author.getWhenAsInstant().toEpochMilli())
         .isEqualTo(c.getCreatedOn().toEpochMilli() + 1000);
-    assertThat(author.getZoneId()).isEqualTo(ZoneId.of("GMT-7"));
+    assertThat(author.getZoneId().getRules().getOffset(author.getWhenAsInstant()))
+        .isEqualTo(ZoneOffset.ofHours(-7));
 
     PersonIdent committer = commit.getCommitterIdent();
     assertThat(committer.getName()).isEqualTo("Gerrit Server");
@@ -186,7 +187,8 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     assertThat(author.getEmailAddress()).isEqualTo("1@gerrit");
     assertThat(author.getWhenAsInstant().toEpochMilli())
         .isEqualTo(c.getCreatedOn().toEpochMilli() + 2000);
-    assertThat(author.getZoneId()).isEqualTo(ZoneId.of("GMT-7"));
+    assertThat(author.getZoneId().getRules().getOffset(author.getWhenAsInstant()))
+        .isEqualTo(ZoneOffset.ofHours(-7));
 
     PersonIdent committer = commit.getCommitterIdent();
     assertThat(committer.getName()).isEqualTo("Gerrit Server");

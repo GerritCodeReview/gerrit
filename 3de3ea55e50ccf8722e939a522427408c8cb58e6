@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "08c4d0fd_f9ff8d64",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-11-20T15:28:28Z",
+      "side": 1,
+      "message": "nit: `s/helped reduce/helped to reduce/` or `helped reducing`?",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 13
+      },
+      "revId": "3de3ea55e50ccf8722e939a522427408c8cb58e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c90e5dd4_99536727",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -26,6 +49,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7ef0ca62_9f6b6cc0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-11-20T15:28:28Z",
+      "side": 1,
+      "message": "I would probably rephrase the sentence to:\n\nHowever, the improvement is limited for the local filesystems",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 56
+      },
+      "revId": "3de3ea55e50ccf8722e939a522427408c8cb58e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "97f2afd4_8085e9ac",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 2
@@ -37,6 +83,30 @@
       "writtenOn": "2024-11-20T15:21:48Z",
       "side": 1,
       "message": "nit: also explain the trade-off of using this default and its relationship with project deletions.",
+      "range": {
+        "startLine": 2239,
+        "startChar": 0,
+        "endLine": 2243,
+        "endChar": 1
+      },
+      "revId": "3de3ea55e50ccf8722e939a522427408c8cb58e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "923da047_ad6bd2b2",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2243,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-11-20T15:28:28Z",
+      "side": 1,
+      "message": "👍",
+      "parentUuid": "97f2afd4_8085e9ac",
       "range": {
         "startLine": 2239,
         "startChar": 0,

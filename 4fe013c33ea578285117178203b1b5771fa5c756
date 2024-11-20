@@ -16,6 +16,24 @@
       "message": "when updating submodule link\n- please mention the new version in the commit message subject\n- and provide the output of `git log --oneline --no-merges` in the body\n\nsee e.g. https://gerrit-review.googlesource.com/c/gerrit/+/354494\n\nthis helps to find the version from `git log --oneline` output and more details in the commit message body",
       "revId": "4fe013c33ea578285117178203b1b5771fa5c756",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fffd494b_53159d46",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-11-20T22:00:15Z",
+      "side": 1,
+      "message": "Not really with the core plugins, where Gerrit super-project does the job automatically, see https://gerrit.googlesource.com/gerrit/+/5a1f4f802462c53eb72f5008072e5309e04bc651.\n\nIn theory, this bump should have been automatic, but the stable-3.11 branch was created *afterwards* and @danielesassoli@gmail.com did manually what Gerrit does automatically, which is unusual I agree.",
+      "parentUuid": "a33fc0d1_e22bfbec",
+      "revId": "4fe013c33ea578285117178203b1b5771fa5c756",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

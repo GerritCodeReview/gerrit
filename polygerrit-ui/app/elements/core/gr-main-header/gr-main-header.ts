@@ -344,7 +344,7 @@ export class GrMainHeader extends LitElement {
 
         .rightItems gr-endpoint-decorator:not(:empty),
         .mobileRightItems gr-endpoint-decorator:not(:empty) {
-          margin-left: var(--spacing-l);
+          margin-left: var(--spacing-s);
         }
         gr-smart-search {
           flex-grow: 1;

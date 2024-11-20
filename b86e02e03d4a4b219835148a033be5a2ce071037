@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a823230_6c73f75b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-rest-api.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-11-20T10:38:07Z",
+      "side": 1,
+      "message": "1) \u0027\u0027 is not a promise, it makes no sense to represent it as Promise\u003cT\u003e, but bigger problem is that\n2) send is expected to return Promise\u003cT\u003e. If T is not a string, this violates the expectation.\n\nUnfortunately, TS doesn\u0027t have good tools to deal with this situation:\n- One idea would be to return {} or \u0027\u0027 based on the type of T. Except you can\u0027t inspect the T at runtime. You can workaround this by passing extra arguments to the method, but that\u0027s going to be ugly.\n- Even then, that wouldn\u0027t be a great solution, because {} doesn\u0027t necessarily satisfy the type of T either. T can have required fields, and returning {} would violate that.\n- You can pass a constructor method, that returns default instance of T as an argument to this method. But that would be cumbersome at the callsite.\n\nSince all the options are not great, I ended up fixing individual callsites, instead of this method. \n\nSee for example: https://gerrit-review.googlesource.com/c/plugins/automerger/+/435757\n\nYou can change send() method with fetch() method (and a throwing callback) and then handle 204 or parse manually.",
+      "range": {
+        "startLine": 156,
+        "startChar": 8,
+        "endLine": 157,
+        "endChar": 45
+      },
+      "revId": "b86e02e03d4a4b219835148a033be5a2ce071037",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

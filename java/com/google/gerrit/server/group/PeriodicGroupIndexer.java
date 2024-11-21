@@ -25,16 +25,28 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.GroupReference;
+import com.google.gerrit.entities.InternalGroup;
+import com.google.gerrit.index.IndexConfig;
+import com.google.gerrit.index.QueryOptions;
+import com.google.gerrit.index.query.DataSource;
+import com.google.gerrit.index.query.FieldBundle;
+import com.google.gerrit.index.query.Predicate;
+import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.group.db.GroupNameNotes;
 import com.google.gerrit.server.index.IndexExecutor;
+import com.google.gerrit.server.index.group.GroupField;
+import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gerrit.server.index.group.GroupIndexer;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 import org.eclipse.jgit.lib.Repository;
 
 /**
@@ -49,12 +61,6 @@ import org.eclipse.jgit.lib.Repository;
  * information until the next indexing happens. The interval on which group indexing is done is
  * configurable by setting {@code index.scheduledIndexer.interval} in {@code gerrit.config}. By
  * default group indexing is done every 5 minutes.
- *
- * <p>This class is not able to detect group deletions that were replicated while the slave was
- * offline. This means if group refs are deleted while the slave is offline these groups are not
- * removed from the group index when the slave is started. However since group deletion is not
- * supported this should never happen and one can always do an offline reindex before starting the
- * slave.
  */
 public class PeriodicGroupIndexer implements Runnable {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -62,33 +68,37 @@ public class PeriodicGroupIndexer implements Runnable {
   private final AllUsersName allUsersName;
   private final GitRepositoryManager repoManager;
   private final ListeningExecutorService executor;
+  private final GroupIndexCollection indexes;
   private final Provider<GroupIndexer> groupIndexerProvider;
-
-  private ImmutableSet<AccountGroup.UUID> groupUuids;
+  private final IndexConfig indexConfig;
 
   @Inject
   PeriodicGroupIndexer(
       AllUsersName allUsersName,
       GitRepositoryManager repoManager,
       @IndexExecutor(BATCH) ListeningExecutorService executor,
+      GroupIndexCollection indexes,
+      IndexConfig indexConfig,
       Provider<GroupIndexer> groupIndexerProvider) {
     this.allUsersName = allUsersName;
     this.repoManager = repoManager;
     this.executor = executor;
+    this.indexes = indexes;
+    this.indexConfig = indexConfig;
     this.groupIndexerProvider = groupIndexerProvider;
   }
 
   @Override
   public synchronized void run() {
     try (Repository allUsers = repoManager.openRepository(allUsersName)) {
-      ImmutableSet<AccountGroup.UUID> newGroupUuids =
+      ImmutableSet<AccountGroup.UUID> allGroups =
           GroupNameNotes.loadAllGroups(allUsers).stream()
               .map(GroupReference::getUUID)
               .collect(toImmutableSet());
       GroupIndexer groupIndexer = groupIndexerProvider.get();
       AtomicInteger reindexCounter = new AtomicInteger();
       List<ListenableFuture<?>> indexingTasks = new ArrayList<>();
-      for (AccountGroup.UUID groupUuid : newGroupUuids) {
+      for (AccountGroup.UUID groupUuid : allGroups) {
         indexingTasks.add(
             executor.submit(
                 () -> {
@@ -97,23 +107,41 @@ public class PeriodicGroupIndexer implements Runnable {
                   }
                 }));
       }
-      if (groupUuids != null) {
-        // Check if any group was deleted since the last run and if yes remove these groups from the
-        // index.
-        for (AccountGroup.UUID groupUuid : Sets.difference(groupUuids, newGroupUuids)) {
-          indexingTasks.add(
-              executor.submit(
-                  () -> {
-                    groupIndexer.index(groupUuid);
-                    reindexCounter.incrementAndGet();
-                  }));
-        }
+
+      Set<AccountGroup.UUID> groupsInIndex = queryAllGroupsFromIndex();
+      for (AccountGroup.UUID groupUuid : Sets.difference(groupsInIndex, allGroups)) {
+        indexingTasks.add(
+            executor.submit(
+                () -> {
+                  groupIndexer.index(groupUuid);
+                  reindexCounter.incrementAndGet();
+                }));
       }
       Futures.successfulAsList(indexingTasks).get();
-      groupUuids = newGroupUuids;
       logger.atInfo().log("Run group indexer, %s groups reindexed", reindexCounter);
     } catch (Exception t) {
       logger.atSevere().withCause(t).log("Failed to reindex groups");
     }
+  }
+
+  private Set<AccountGroup.UUID> queryAllGroupsFromIndex() {
+    try {
+      DataSource<InternalGroup> result =
+          indexes
+              .getSearchIndex()
+              .getSource(
+                  Predicate.any(),
+                  QueryOptions.create(
+                      indexConfig, 0, Integer.MAX_VALUE, Set.of(GroupField.UUID_FIELD.name())));
+      return StreamSupport.stream(result.readRaw().spliterator(), false)
+          .map(f -> fromUUIDField(f))
+          .collect(Collectors.toUnmodifiableSet());
+    } catch (QueryParseException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  private static AccountGroup.UUID fromUUIDField(FieldBundle f) {
+    return AccountGroup.uuid(f.<String>getValue(GroupField.UUID_FIELD_SPEC));
   }
 }

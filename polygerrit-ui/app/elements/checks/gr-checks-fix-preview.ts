@@ -10,6 +10,7 @@ import {customElement, query, property, state} from 'lit/decorators.js';
 import {BasePatchSetNum, RepoName} from '../../types/common';
 import {resolve} from '../../models/dependency';
 import {
+  ChangeStatus,
   FixSuggestionInfo,
   NumericChangeId,
   PatchSetNumber,
@@ -53,6 +54,8 @@ export class GrChecksFixPreview extends LitElement {
   @state()
   applyingFix = false;
 
+  @state() isChangeMerged = false;
+
   private readonly getChangeModel = resolve(this, changeModelToken);
 
   constructor() {
@@ -71,6 +74,11 @@ export class GrChecksFixPreview extends LitElement {
       this,
       () => this.getChangeModel().repo$,
       x => (this.repo = x)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().status$,
+      status => (this.isChangeMerged = status === ChangeStatus.MERGED)
     );
   }
 
@@ -175,11 +183,13 @@ export class GrChecksFixPreview extends LitElement {
 
   private isApplyEditDisabled() {
     if (this.patchSet === undefined) return true;
+    if (this.isChangeMerged) return true;
     return !this.previewLoaded;
   }
 
   private computeApplyFixTooltip() {
     if (this.patchSet === undefined) return '';
+    if (this.isChangeMerged) return 'Change is already merged';
     if (!this.previewLoaded) return 'Fix is still loading ...';
     return '';
   }

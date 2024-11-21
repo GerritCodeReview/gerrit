@@ -19,6 +19,7 @@ import {changeModelToken} from '../../../models/change/change-model';
 import {Comment, PatchSetNumber} from '../../../types/common';
 import {commentModelToken} from '../gr-comment-model/gr-comment-model';
 import {createUserFixSuggestion} from '../../../utils/comment-util';
+import {ChangeStatus} from '../../../api/rest-api';
 
 declare global {
   interface HTMLElementEventMap {
@@ -49,6 +50,8 @@ export class GrUserSuggestionsFix extends LitElement {
 
   @state() commentedText?: string;
 
+  @state() isChangeMerged = false;
+
   private readonly getConfigModel = resolve(this, configModelToken);
 
   private readonly getChangeModel = resolve(this, changeModelToken);
@@ -76,6 +79,11 @@ export class GrUserSuggestionsFix extends LitElement {
       this,
       () => this.getCommentModel().commentedText$,
       commentedText => (this.commentedText = commentedText)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().status$,
+      status => (this.isChangeMerged = status === ChangeStatus.MERGED)
     );
   }
 
@@ -181,11 +189,13 @@ export class GrUserSuggestionsFix extends LitElement {
 
   private isApplyEditDisabled() {
     if (this.comment?.patch_set === undefined) return true;
+    if (this.isChangeMerged) return true;
     return !this.previewLoaded;
   }
 
   private computeApplyEditTooltip() {
     if (this.comment?.patch_set === undefined) return '';
+    if (this.isChangeMerged) return 'Change is already merged';
     if (!this.previewLoaded) return 'Fix is still loading ...';
     return '';
   }

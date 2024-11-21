@@ -25,6 +25,7 @@ import {when} from 'lit/directives/when.js';
 import {storageServiceToken} from '../../../services/storage/gr-storage_impl';
 import {getAppContext} from '../../../services/app-context';
 import {Interaction} from '../../../constants/reporting';
+import {ChangeStatus} from '../../../api/rest-api';
 
 export const COLLAPSE_SUGGESTION_STORAGE_KEY = 'collapseSuggestionStorageKey';
 
@@ -58,6 +59,8 @@ export class GrFixSuggestions extends LitElement {
   @property({type: Boolean, reflect: true})
   collapsed = false;
 
+  @state() isChangeMerged = false;
+
   private readonly getConfigModel = resolve(this, configModelToken);
 
   private readonly getChangeModel = resolve(this, changeModelToken);
@@ -86,6 +89,11 @@ export class GrFixSuggestions extends LitElement {
       this,
       () => this.getChangeModel().isOwner$,
       x => (this.isOwner = x)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().status$,
+      status => (this.isChangeMerged = status === ChangeStatus.MERGED)
     );
   }
 
@@ -290,11 +298,13 @@ export class GrFixSuggestions extends LitElement {
 
   private isApplyEditDisabled() {
     if (this.comment?.patch_set === undefined) return true;
+    if (this.isChangeMerged) return true;
     return !this.previewLoaded;
   }
 
   private computeApplyEditTooltip() {
     if (this.comment?.patch_set === undefined) return '';
+    if (this.isChangeMerged) return 'Change is already merged';
     if (!this.previewLoaded) return 'Fix is still loading ...';
     return '';
   }

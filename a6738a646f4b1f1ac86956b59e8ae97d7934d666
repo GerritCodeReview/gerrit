@@ -34,6 +34,24 @@
       "parentUuid": "1865e4d4_e2aef6bc",
       "revId": "a6738a646f4b1f1ac86956b59e8ae97d7934d666",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "29430b0b_030cbe78",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2024-11-21T17:53:50Z",
+      "side": 1,
+      "message": "I am trying to do a release, however this is first time I am attempting a release, so please allow me some time to setup my machine to deploy artifacts.",
+      "parentUuid": "cd749c95_28eb49be",
+      "revId": "a6738a646f4b1f1ac86956b59e8ae97d7934d666",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

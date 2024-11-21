@@ -19,8 +19,20 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdNoteDbWriteStorageModule;
 import com.google.gerrit.server.account.storage.notedb.validators.AccountCommitValidator;
+<<<<<<< PATCH SET (47db64 Make AccountMergeValidator a plugin validator)
+<<<<<<< PATCH SET (e2ae5b Make AccountMergeValidator a plugin validator)
+import com.google.gerrit.server.account.storage.notedb.validators.AccountMergeValidator;
 import com.google.gerrit.server.account.storage.notedb.validators.ExternalIdUpdateValidator;
+||||||| BASE
+import com.google.gerrit.server.account.storage.notedb.validators.ExternalIdUpdateValidator;
+=======
+>>>>>>> BASE      (4c2281 Make AccountCommitValidator a plugin validator)
+||||||| BASE
+=======
+import com.google.gerrit.server.account.storage.notedb.validators.ExternalIdUpdateValidator;
+>>>>>>> BASE      (d2eecf Merge "Make ExternalIdUpdateListener a plugin validator and )
 import com.google.gerrit.server.git.validators.CommitValidationListener;
+import com.google.gerrit.server.git.validators.MergeValidationListener;
 import com.google.gerrit.server.index.account.ReindexAccountsAfterRefUpdate;
 import com.google.inject.AbstractModule;
 
@@ -40,6 +52,17 @@ public class AccountNoteDbWriteStorageModule extends AbstractModule {
 
     // Validators
     DynamicSet.bind(binder(), CommitValidationListener.class).to(AccountCommitValidator.class);
+<<<<<<< PATCH SET (47db64 Make AccountMergeValidator a plugin validator)
+<<<<<<< PATCH SET (e2ae5b Make AccountMergeValidator a plugin validator)
     DynamicSet.bind(binder(), CommitValidationListener.class).to(ExternalIdUpdateValidator.class);
+    DynamicSet.bind(binder(), MergeValidationListener.class).to(AccountMergeValidator.class);
+||||||| BASE
+    DynamicSet.bind(binder(), CommitValidationListener.class).to(ExternalIdUpdateValidator.class);
+=======
+>>>>>>> BASE      (4c2281 Make AccountCommitValidator a plugin validator)
+||||||| BASE
+=======
+    DynamicSet.bind(binder(), CommitValidationListener.class).to(ExternalIdUpdateValidator.class);
+>>>>>>> BASE      (d2eecf Merge "Make ExternalIdUpdateListener a plugin validator and )
   }
 }

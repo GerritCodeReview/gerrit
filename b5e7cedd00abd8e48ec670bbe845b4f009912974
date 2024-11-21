@@ -99,6 +99,30 @@
       },
       "revId": "b5e7cedd00abd8e48ec670bbe845b4f009912974",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e975f539_77a9aa4a",
+        "filename": "java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-11-21T22:18:34Z",
+      "side": 1,
+      "message": "\u003e If you are implying that RepositoryCache.open() can never throw an IOExcpetion, then jgit should be fixed to avoid throwing this, otherwise you have to deal with this exception,\n\nI believe it can throw an IOException *IF* the entry isn\u0027t in cache.\n\n\u003e As a consumer of a cache, you cannot assume that any entry which was once in the cache will always be in the cache since caches generally have eviction policies.\n\nI believe the class in JGit is wrongly named: I do not see eviction policies anywhere. The eviction can happen only explicitly by removing it from the internal HashMap.",
+      "parentUuid": "26594888_29f2f643",
+      "range": {
+        "startLine": 139,
+        "startChar": 0,
+        "endLine": 141,
+        "endChar": 7
+      },
+      "revId": "b5e7cedd00abd8e48ec670bbe845b4f009912974",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

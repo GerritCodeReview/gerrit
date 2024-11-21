@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1865e4d4_e2aef6bc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2024-11-21T17:29:02Z",
+      "side": 1,
+      "message": "@luca.milanesio@gmail.com We\u0027ll need to bump gitiles as well to 1.5.0. If not, the html formatting in gitiles when viewing diffs will break.",
+      "revId": "a6738a646f4b1f1ac86956b59e8ae97d7934d666",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

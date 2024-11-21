@@ -19,7 +19,6 @@ import static com.google.gerrit.entities.Change.CHANGE_ID_PATTERN;
 import static com.google.gerrit.entities.RefNames.REFS_CHANGES;
 import static com.google.gerrit.entities.RefNames.REFS_CONFIG;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
-import static java.util.stream.Collectors.toList;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
@@ -33,7 +32,6 @@ import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.RefNames;
-import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyProblemInfo;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.metrics.Counter2;
@@ -43,8 +41,6 @@ import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.externalids.ExternalIdsConsistencyChecker;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -107,8 +103,6 @@ public class CommitValidators {
     private final PluginSetContext<CommitValidationListener> pluginValidators;
     private final AllUsersName allUsers;
     private final AllProjectsName allProjects;
-    private final ExternalIdsConsistencyChecker externalIdsConsistencyChecker;
-    private final AccountCache accountCache;
     private final ProjectCache projectCache;
     private final ProjectConfig.Factory projectConfigFactory;
     private final Config config;
@@ -124,8 +118,6 @@ public class CommitValidators {
         PluginSetContext<CommitValidationListener> pluginValidators,
         AllUsersName allUsers,
         AllProjectsName allProjects,
-        ExternalIdsConsistencyChecker externalIdsConsistencyChecker,
-        AccountCache accountCache,
         ProjectCache projectCache,
         ProjectConfig.Factory projectConfigFactory,
         ChangeUtil changeUtil,
@@ -137,8 +129,6 @@ public class CommitValidators {
       this.pluginValidators = pluginValidators;
       this.allUsers = allUsers;
       this.allProjects = allProjects;
-      this.externalIdsConsistencyChecker = externalIdsConsistencyChecker;
-      this.accountCache = accountCache;
       this.projectCache = projectCache;
       this.projectConfigFactory = projectConfigFactory;
       this.changeUtil = changeUtil;
@@ -173,7 +163,6 @@ public class CommitValidators {
           .add(new ConfigValidator(projectConfigFactory, branch, user, rw, allUsers, allProjects))
           .add(new BannedCommitsValidator(rejectCommits))
           .add(new PluginCommitValidationListener(pluginValidators, skipValidation))
-          .add(new ExternalIdUpdateListener(allUsers, externalIdsConsistencyChecker, accountCache))
           .add(new GroupCommitValidator(allUsers))
           .add(new LabelConfigValidator(approvalQueryBuilder));
       return new CommitValidators(validators.build());
@@ -202,7 +191,6 @@ public class CommitValidators {
                   changeUtil, projectState, user, urlFormatter.get(), config, sshInfo, change))
           .add(new ConfigValidator(projectConfigFactory, branch, user, rw, allUsers, allProjects))
           .add(new PluginCommitValidationListener(pluginValidators))
-          .add(new ExternalIdUpdateListener(allUsers, externalIdsConsistencyChecker, accountCache))
           .add(new GroupCommitValidator(allUsers))
           .add(new LabelConfigValidator(approvalQueryBuilder));
       return new CommitValidators(validators.build());
@@ -858,51 +846,6 @@ public class CommitValidators {
       } catch (IOException e) {
         throw new CommitValidationException("error checking banned commits", e);
       }
-    }
-  }
-
-  /** Validates updates to refs/meta/external-ids. */
-  public static class ExternalIdUpdateListener implements CommitValidationListener {
-    private final AllUsersName allUsers;
-    private final AccountCache accountCache;
-    private final ExternalIdsConsistencyChecker externalIdsConsistencyChecker;
-
-    public ExternalIdUpdateListener(
-        AllUsersName allUsers,
-        ExternalIdsConsistencyChecker externalIdsConsistencyChecker,
-        AccountCache accountCache) {
-      this.externalIdsConsistencyChecker = externalIdsConsistencyChecker;
-      this.allUsers = allUsers;
-      this.accountCache = accountCache;
-    }
-
-    @Override
-    public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
-        throws CommitValidationException {
-      if (allUsers.equals(receiveEvent.project.getNameKey())
-          && RefNames.REFS_EXTERNAL_IDS.equals(receiveEvent.refName)) {
-        try {
-          List<ConsistencyProblemInfo> problems =
-              externalIdsConsistencyChecker.check(accountCache, receiveEvent.commit);
-          List<CommitValidationMessage> msgs =
-              problems.stream()
-                  .map(
-                      p ->
-                          new CommitValidationMessage(
-                              p.message,
-                              p.status == ConsistencyProblemInfo.Status.ERROR
-                                  ? ValidationMessage.Type.ERROR
-                                  : ValidationMessage.Type.OTHER))
-                  .collect(toList());
-          if (msgs.stream().anyMatch(ValidationMessage::isError)) {
-            throw new CommitValidationException("invalid external IDs", msgs);
-          }
-          return msgs;
-        } catch (IOException | ConfigInvalidException e) {
-          throw new CommitValidationException("error validating external IDs", e);
-        }
-      }
-      return Collections.emptyList();
     }
   }
 

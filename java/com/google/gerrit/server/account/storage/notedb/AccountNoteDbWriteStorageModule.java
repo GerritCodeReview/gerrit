@@ -19,6 +19,7 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdNoteDbWriteStorageModule;
 import com.google.gerrit.server.account.storage.notedb.validators.AccountCommitValidator;
+import com.google.gerrit.server.account.storage.notedb.validators.ExternalIdUpdateValidator;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.index.account.ReindexAccountsAfterRefUpdate;
 import com.google.inject.AbstractModule;
@@ -39,5 +40,6 @@ public class AccountNoteDbWriteStorageModule extends AbstractModule {
 
     // Validators
     DynamicSet.bind(binder(), CommitValidationListener.class).to(AccountCommitValidator.class);
+    DynamicSet.bind(binder(), CommitValidationListener.class).to(ExternalIdUpdateValidator.class);
   }
 }

@@ -28,7 +28,6 @@ import com.google.common.flogger.FluentLogger;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
@@ -51,7 +50,6 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.events.CommitReceivedEvent;
-import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
@@ -85,7 +83,6 @@ import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.FooterKey;
 import org.eclipse.jgit.revwalk.FooterLine;
@@ -108,11 +105,9 @@ public class CommitValidators {
     private final PersonIdent gerritIdent;
     private final DynamicItem<UrlFormatter> urlFormatter;
     private final PluginSetContext<CommitValidationListener> pluginValidators;
-    private final GitRepositoryManager repoManager;
     private final AllUsersName allUsers;
     private final AllProjectsName allProjects;
     private final ExternalIdsConsistencyChecker externalIdsConsistencyChecker;
-    private final AccountValidator accountValidator;
     private final AccountCache accountCache;
     private final ProjectCache projectCache;
     private final ProjectConfig.Factory projectConfigFactory;
@@ -127,11 +122,9 @@ public class CommitValidators {
         DynamicItem<UrlFormatter> urlFormatter,
         @GerritServerConfig Config config,
         PluginSetContext<CommitValidationListener> pluginValidators,
-        GitRepositoryManager repoManager,
         AllUsersName allUsers,
         AllProjectsName allProjects,
         ExternalIdsConsistencyChecker externalIdsConsistencyChecker,
-        AccountValidator accountValidator,
         AccountCache accountCache,
         ProjectCache projectCache,
         ProjectConfig.Factory projectConfigFactory,
@@ -142,11 +135,9 @@ public class CommitValidators {
       this.urlFormatter = urlFormatter;
       this.config = config;
       this.pluginValidators = pluginValidators;
-      this.repoManager = repoManager;
       this.allUsers = allUsers;
       this.allProjects = allProjects;
       this.externalIdsConsistencyChecker = externalIdsConsistencyChecker;
-      this.accountValidator = accountValidator;
       this.accountCache = accountCache;
       this.projectCache = projectCache;
       this.projectConfigFactory = projectConfigFactory;
@@ -183,7 +174,6 @@ public class CommitValidators {
           .add(new BannedCommitsValidator(rejectCommits))
           .add(new PluginCommitValidationListener(pluginValidators, skipValidation))
           .add(new ExternalIdUpdateListener(allUsers, externalIdsConsistencyChecker, accountCache))
-          .add(new AccountCommitValidator(repoManager, allUsers, accountValidator))
           .add(new GroupCommitValidator(allUsers))
           .add(new LabelConfigValidator(approvalQueryBuilder));
       return new CommitValidators(validators.build());
@@ -213,7 +203,6 @@ public class CommitValidators {
           .add(new ConfigValidator(projectConfigFactory, branch, user, rw, allUsers, allProjects))
           .add(new PluginCommitValidationListener(pluginValidators))
           .add(new ExternalIdUpdateListener(allUsers, externalIdsConsistencyChecker, accountCache))
-          .add(new AccountCommitValidator(repoManager, allUsers, accountValidator))
           .add(new GroupCommitValidator(allUsers))
           .add(new LabelConfigValidator(approvalQueryBuilder));
       return new CommitValidators(validators.build());
@@ -912,61 +901,6 @@ public class CommitValidators {
         } catch (IOException | ConfigInvalidException e) {
           throw new CommitValidationException("error validating external IDs", e);
         }
-      }
-      return Collections.emptyList();
-    }
-  }
-
-  public static class AccountCommitValidator implements CommitValidationListener {
-    private final GitRepositoryManager repoManager;
-    private final AllUsersName allUsers;
-    private final AccountValidator accountValidator;
-
-    public AccountCommitValidator(
-        GitRepositoryManager repoManager,
-        AllUsersName allUsers,
-        AccountValidator accountValidator) {
-      this.repoManager = repoManager;
-      this.allUsers = allUsers;
-      this.accountValidator = accountValidator;
-    }
-
-    @Override
-    public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
-        throws CommitValidationException {
-      if (!allUsers.equals(receiveEvent.project.getNameKey())) {
-        return Collections.emptyList();
-      }
-
-      if (receiveEvent.command.getRefName().startsWith(MagicBranch.NEW_CHANGE)) {
-        // no validation on push for review, will be checked on submit by
-        // MergeValidators.AccountMergeValidator
-        return Collections.emptyList();
-      }
-
-      Account.Id accountId = Account.Id.fromRef(receiveEvent.refName);
-      if (accountId == null) {
-        return Collections.emptyList();
-      }
-
-      try (Repository repo = repoManager.openRepository(allUsers)) {
-        List<String> errorMessages =
-            accountValidator.validate(
-                accountId,
-                repo,
-                receiveEvent.revWalk,
-                receiveEvent.command.getOldId(),
-                receiveEvent.commit);
-        if (!errorMessages.isEmpty()) {
-          throw new CommitValidationException(
-              "invalid account configuration",
-              errorMessages.stream()
-                  .map(m -> new CommitValidationMessage(m, ValidationMessage.Type.ERROR))
-                  .collect(toList()));
-        }
-      } catch (IOException e) {
-        throw new CommitValidationException(
-            String.format("Validating update for account %s failed", accountId.get()), e);
       }
       return Collections.emptyList();
     }

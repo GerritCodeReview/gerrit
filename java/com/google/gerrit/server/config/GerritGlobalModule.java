@@ -151,7 +151,6 @@ import com.google.gerrit.server.git.validators.CommentSizeValidator;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.git.validators.MergeValidationListener;
 import com.google.gerrit.server.git.validators.MergeValidators;
-import com.google.gerrit.server.git.validators.MergeValidators.AccountMergeValidator;
 import com.google.gerrit.server.git.validators.MergeValidators.GroupMergeValidator;
 import com.google.gerrit.server.git.validators.MergeValidators.ProjectConfigValidator;
 import com.google.gerrit.server.git.validators.OnSubmitValidationListener;
@@ -500,7 +499,6 @@ public class GerritGlobalModule extends FactoryModule {
     bind(AnonymousUser.class);
 
     factory(AbandonOp.Factory.class);
-    factory(AccountMergeValidator.Factory.class);
     factory(GroupMergeValidator.Factory.class);
     factory(RefOperationValidators.Factory.class);
     factory(OnSubmitValidators.Factory.class);

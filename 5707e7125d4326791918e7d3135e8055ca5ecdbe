@@ -16,6 +16,24 @@
       "message": "Please add a license header to this file.",
       "revId": "5707e7125d4326791918e7d3135e8055ca5ecdbe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a23045e_81c86e6f",
+        "filename": "java/com/google/gerrit/server/account/storage/notedb/validators/AccountCommitValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2024-11-21T11:41:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7bf7fa11_92fbadcf",
+      "revId": "5707e7125d4326791918e7d3135e8055ca5ecdbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

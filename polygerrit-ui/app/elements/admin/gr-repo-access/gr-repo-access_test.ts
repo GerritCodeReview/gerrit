@@ -16,12 +16,7 @@ import {
   queryAndAssert,
   stubRestApi,
 } from '../../../test/test-utils';
-import {
-  ChangeInfo,
-  GitRef,
-  RepoName,
-  UrlEncodedRepoName,
-} from '../../../types/common';
+import {ChangeInfo, RepoName, UrlEncodedRepoName} from '../../../types/common';
 import {PermissionAction} from '../../../constants/constants';
 import {AutocompleteCommitEvent, PageErrorEvent} from '../../../types/events';
 import {GrButton} from '../../shared/gr-button/gr-button';
@@ -259,13 +254,13 @@ suite('gr-repo-access tests', () => {
   });
 
   test('computeMainClass', () => {
-    element.ownerOf = ['refs/*'] as GitRef[];
+    element.isOwner = true;
     element.editing = false;
     element.canUpload = false;
     assert.equal(element.computeMainClass(), 'admin');
     element.editing = true;
     assert.equal(element.computeMainClass(), 'admin editing');
-    element.ownerOf = [];
+    element.isOwner = false;
     element.editing = false;
     assert.equal(element.computeMainClass(), '');
     element.editing = true;
@@ -516,13 +511,13 @@ suite('gr-repo-access tests', () => {
     });
 
     test('button visibility for ref owner', async () => {
-      element.ownerOf = ['refs/for/*'] as GitRef[];
+      element.isOwner = true;
       await element.updateComplete;
       testEditSaveCancelBtns(true, false);
     });
 
     test('button visibility for ref owner and upload', async () => {
-      element.ownerOf = ['refs/for/*'] as GitRef[];
+      element.isOwner = true;
       element.canUpload = true;
       await element.updateComplete;
       testEditSaveCancelBtns(true, false);

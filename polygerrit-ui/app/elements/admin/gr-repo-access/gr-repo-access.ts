@@ -83,6 +83,9 @@ export class GrRepoAccess extends LitElement {
   @state() ownerOf?: GitRef[];
 
   // private but used in test
+  @state() isOwner = false;
+
+  // private but used in test
   @state() capabilities?: CapabilityInfoMap;
 
   // private but used in test
@@ -236,9 +239,7 @@ export class GrRepoAccess extends LitElement {
             >
             <gr-button
               id="saveBtn"
-              class=${this.ownerOf && this.ownerOf.length === 0
-                ? 'invisible'
-                : ''}
+              class=${this.isOwner ? '' : 'invisible'}
               primary
               ?disabled=${!this.modified || this.disableSaveWithoutReview}
               @click=${this.handleSave}
@@ -347,6 +348,7 @@ export class GrRepoAccess extends LitElement {
         this.canUpload = res.can_upload;
         this.disableSaveWithoutReview = !!res.require_change_for_config_update;
         this.ownerOf = res.owner_of || [];
+        this.isOwner = res.is_owner ?? false;
         return toSortedPermissionsArray(this.local);
       });
 
@@ -714,7 +716,7 @@ export class GrRepoAccess extends LitElement {
   // private but used in test
   computeMainClass() {
     const classList = [];
-    if ((this.ownerOf && this.ownerOf.length > 0) || this.canUpload) {
+    if (this.isOwner || this.canUpload) {
       classList.push('admin');
     }
     if (this.editing) {

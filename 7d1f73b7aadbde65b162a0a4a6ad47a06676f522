@@ -34,6 +34,24 @@
       "parentUuid": "627f15d8_6e33530e",
       "revId": "7d1f73b7aadbde65b162a0a4a6ad47a06676f522",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "13901daa_f3ef8672",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2024-11-21T12:42:14Z",
+      "side": 1,
+      "message": "I remember folks used to upload screenshots on Imgur and add the link as a screenshot footer. It\u0027s not mandatory.",
+      "parentUuid": "a0b11f3d_5e7502d0",
+      "revId": "7d1f73b7aadbde65b162a0a4a6ad47a06676f522",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

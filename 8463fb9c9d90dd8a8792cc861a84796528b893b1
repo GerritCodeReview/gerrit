@@ -34,6 +34,24 @@
       "parentUuid": "af5ba6db_085ea3f1",
       "revId": "8463fb9c9d90dd8a8792cc861a84796528b893b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d09e69ce_5f121b0e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2024-11-21T12:14:03Z",
+      "side": 1,
+      "message": "Sorry, I meant to delete this draft, I later realized what I had missed.",
+      "parentUuid": "fc137ba9_6f4e853e",
+      "revId": "8463fb9c9d90dd8a8792cc861a84796528b893b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -14,10 +14,8 @@
 
 package com.google.gerrit.server.git.validators;
 
-import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
@@ -28,7 +26,6 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.AccountProperties;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -48,7 +45,6 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import java.io.IOException;
-import java.util.List;
 import java.util.Objects;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
@@ -69,7 +65,6 @@ public class MergeValidators {
 
   private final PluginSetContext<MergeValidationListener> mergeValidationListeners;
   private final ProjectConfigValidator.Factory projectConfigValidatorFactory;
-  private final AccountMergeValidator.Factory accountValidatorFactory;
   private final GroupMergeValidator.Factory groupValidatorFactory;
 
   public interface Factory {
@@ -80,11 +75,9 @@ public class MergeValidators {
   MergeValidators(
       PluginSetContext<MergeValidationListener> mergeValidationListeners,
       ProjectConfigValidator.Factory projectConfigValidatorFactory,
-      AccountMergeValidator.Factory accountValidatorFactory,
       GroupMergeValidator.Factory groupValidatorFactory) {
     this.mergeValidationListeners = mergeValidationListeners;
     this.projectConfigValidatorFactory = projectConfigValidatorFactory;
-    this.accountValidatorFactory = accountValidatorFactory;
     this.groupValidatorFactory = groupValidatorFactory;
   }
 
@@ -105,7 +98,6 @@ public class MergeValidators {
         ImmutableList.of(
             new PluginMergeValidationListener(mergeValidationListeners),
             projectConfigValidatorFactory.create(),
-            accountValidatorFactory.create(),
             groupValidatorFactory.create(),
             new DestBranchRefValidator());
 
@@ -277,65 +269,6 @@ public class MergeValidators {
       mergeValidationListeners.runEach(
           l -> l.onPreMerge(repo, revWalk, commit, destProject, destBranch, patchSetId, caller),
           MergeValidationException.class);
-    }
-  }
-
-  public static class AccountMergeValidator implements MergeValidationListener {
-    public interface Factory {
-      AccountMergeValidator create();
-    }
-
-    private final AllUsersName allUsersName;
-    private final ChangeData.Factory changeDataFactory;
-    private final AccountValidator accountValidator;
-
-    @Inject
-    public AccountMergeValidator(
-        AllUsersName allUsersName,
-        ChangeData.Factory changeDataFactory,
-        AccountValidator accountValidator) {
-      this.allUsersName = allUsersName;
-      this.changeDataFactory = changeDataFactory;
-      this.accountValidator = accountValidator;
-    }
-
-    @Override
-    public void onPreMerge(
-        Repository repo,
-        CodeReviewRevWalk revWalk,
-        CodeReviewCommit commit,
-        ProjectState destProject,
-        BranchNameKey destBranch,
-        PatchSet.Id patchSetId,
-        IdentifiedUser caller)
-        throws MergeValidationException {
-      Account.Id accountId = Account.Id.fromRef(destBranch.branch());
-      if (!allUsersName.equals(destProject.getNameKey()) || accountId == null) {
-        return;
-      }
-
-      ChangeData cd =
-          changeDataFactory.create(destProject.getProject().getNameKey(), patchSetId.changeId());
-      try {
-        if (!cd.currentFilePaths().contains(AccountProperties.ACCOUNT_CONFIG)) {
-          return;
-        }
-      } catch (StorageException e) {
-        logger.atSevere().withCause(e).log("Cannot validate account update");
-        throw new MergeValidationException("account validation unavailable", e);
-      }
-
-      try {
-        List<String> errorMessages =
-            accountValidator.validate(accountId, repo, revWalk, null, commit);
-        if (!errorMessages.isEmpty()) {
-          throw new MergeValidationException(
-              "invalid account configuration: " + Joiner.on("; ").join(errorMessages));
-        }
-      } catch (IOException e) {
-        logger.atSevere().withCause(e).log("Cannot validate account update");
-        throw new MergeValidationException("account validation unavailable", e);
-      }
     }
   }
 

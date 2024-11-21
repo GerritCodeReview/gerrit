@@ -106,6 +106,9 @@ export class GrSuggestionDiffPreview extends LitElement {
     hide_line_length_indicator: true,
   };
 
+  @state()
+  isChangeMerged = false;
+
   private readonly reporting = getAppContext().reportingService;
 
   private readonly getChangeModel = resolve(this, changeModelToken);

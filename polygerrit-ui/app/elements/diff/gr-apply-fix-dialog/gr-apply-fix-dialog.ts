@@ -94,6 +94,8 @@ export class GrApplyFixDialog extends LitElement {
   @state()
   loading = false;
 
+  @state() isChangeMerged = false;
+
   @state()
   onCloseFixPreviewCallbacks: ((fixapplied: boolean) => void)[] = [];
 
@@ -148,6 +150,11 @@ export class GrApplyFixDialog extends LitElement {
       this,
       () => this.getChangeModel().latestPatchNum$,
       x => (this.latestPatchNum = x)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().isMerged$,
+      x => (this.isChangeMerged = x)
     );
   }
 
@@ -390,12 +397,14 @@ export class GrApplyFixDialog extends LitElement {
 
   private computeTooltip() {
     if (!this.change || !this.patchNum) return '';
+    if (this.isChangeMerged) return 'Change is already merged';
     if (this.isApplyFixLoading) return 'Fix is still loading ...';
     return '';
   }
 
   private computeDisableApplyFixButton() {
     if (!this.change || !this.patchNum) return true;
+    if (this.isChangeMerged) return true;
     return this.isApplyFixLoading;
   }
 

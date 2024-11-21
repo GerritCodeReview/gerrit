@@ -53,6 +53,8 @@ export class GrChecksFixPreview extends LitElement {
   @state()
   applyingFix = false;
 
+  @state() isChangeMerged = false;
+
   private readonly getChangeModel = resolve(this, changeModelToken);
 
   constructor() {
@@ -71,6 +73,11 @@ export class GrChecksFixPreview extends LitElement {
       this,
       () => this.getChangeModel().repo$,
       x => (this.repo = x)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().isMerged$,
+      x => (this.isChangeMerged = x)
     );
   }
 
@@ -175,11 +182,13 @@ export class GrChecksFixPreview extends LitElement {
 
   private isApplyEditDisabled() {
     if (this.patchSet === undefined) return true;
+    if (this.isChangeMerged) return true;
     return !this.previewLoaded;
   }
 
   private computeApplyFixTooltip() {
     if (this.patchSet === undefined) return '';
+    if (this.isChangeMerged) return 'Change is already merged';
     if (!this.previewLoaded) return 'Fix is still loading ...';
     return '';
   }

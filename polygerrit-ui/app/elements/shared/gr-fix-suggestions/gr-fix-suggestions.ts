@@ -58,6 +58,8 @@ export class GrFixSuggestions extends LitElement {
   @property({type: Boolean, reflect: true})
   collapsed = false;
 
+  @state() isChangeMerged = false;
+
   private readonly getConfigModel = resolve(this, configModelToken);
 
   private readonly getChangeModel = resolve(this, changeModelToken);
@@ -86,6 +88,11 @@ export class GrFixSuggestions extends LitElement {
       this,
       () => this.getChangeModel().isOwner$,
       x => (this.isOwner = x)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().isMerged$,
+      x => (this.isChangeMerged = x)
     );
   }
 
@@ -290,11 +297,13 @@ export class GrFixSuggestions extends LitElement {
 
   private isApplyEditDisabled() {
     if (this.comment?.patch_set === undefined) return true;
+    if (this.isChangeMerged) return true;
     return !this.previewLoaded;
   }
 
   private computeApplyEditTooltip() {
     if (this.comment?.patch_set === undefined) return '';
+    if (this.isChangeMerged) return 'Change is already merged';
     if (!this.previewLoaded) return 'Fix is still loading ...';
     return '';
   }

@@ -41,7 +41,7 @@ import {assertIsDefined} from '../../utils/common-util';
 import {Model} from '../base/model';
 import {UserModel} from '../user/user-model';
 import {define} from '../dependency';
-import {isOwner} from '../../utils/change-util';
+import {changeIsMerged, isOwner} from '../../utils/change-util';
 import {
   ChangeChildView,
   ChangeViewModel,
@@ -220,6 +220,10 @@ export class ChangeModel extends Model<ChangeState> {
   public readonly mergeable$ = select(
     this.state$,
     changeState => changeState.mergeable
+  );
+
+  public readonly isMerged$ = select(this.change$, change =>
+    changeIsMerged(change)
   );
 
   public readonly branch$ = select(this.change$, change => change?.branch);

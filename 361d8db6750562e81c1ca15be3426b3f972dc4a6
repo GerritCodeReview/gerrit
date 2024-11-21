@@ -65,6 +65,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d7d4c6b_1e08bfe5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-suggestion-diff-preview/gr-suggestion-diff-preview.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2024-11-21T13:53:05Z",
+      "side": 1,
+      "message": "oops double posted. I made the other one but didn\u0027t see it in reply dialog. I can\u0027t reproduce so maybe I just missed it.",
+      "parentUuid": "83901c38_d7d20d2a",
+      "range": {
+        "startLine": 110,
+        "startChar": 2,
+        "endLine": 110,
+        "endChar": 16
+      },
+      "revId": "361d8db6750562e81c1ca15be3426b3f972dc4a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2187bba1_d7db92cf",

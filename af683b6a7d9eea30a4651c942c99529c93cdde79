@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a3f3d3b_620a7c58",
+        "filename": "java/com/google/gerrit/server/account/storage/notedb/validators/AccountMergeValidator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-11-21T22:55:14Z",
+      "side": 1,
+      "message": "missing license header",
+      "revId": "af683b6a7d9eea30a4651c942c99529c93cdde79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

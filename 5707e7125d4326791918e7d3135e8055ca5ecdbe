@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7bf7fa11_92fbadcf",
+        "filename": "java/com/google/gerrit/server/account/storage/notedb/validators/AccountCommitValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-11-21T11:00:22Z",
+      "side": 1,
+      "message": "Please add a license header to this file.",
+      "revId": "5707e7125d4326791918e7d3135e8055ca5ecdbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -70,6 +70,30 @@
       },
       "revId": "1ccd41e4f860165fa91f9ddfe1ff61824ddb21c5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3dc40ff9_b33036b5",
+        "filename": "java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2024-11-21T21:48:27Z",
+      "side": 1,
+      "message": "Caches can evict things.",
+      "parentUuid": "a751f3d4_e329aad7",
+      "range": {
+        "startLine": 170,
+        "startChar": 6,
+        "endLine": 170,
+        "endChar": 22
+      },
+      "revId": "1ccd41e4f860165fa91f9ddfe1ff61824ddb21c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -75,6 +75,30 @@
       },
       "revId": "b5e7cedd00abd8e48ec670bbe845b4f009912974",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26594888_29f2f643",
+        "filename": "java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2024-11-21T21:48:27Z",
+      "side": 1,
+      "message": "If you are implying that RepositoryCache.open() can never throw an IOExcpetion, then jgit should be fixed to avoid throwing this, otherwise you have to deal with this exception, As a consumer of a cache, you cannot assume that any entry which was once in the cache will always be in the cache since caches generally have eviction policies.",
+      "parentUuid": "37fd54bd_302c3971",
+      "range": {
+        "startLine": 139,
+        "startChar": 0,
+        "endLine": 141,
+        "endChar": 7
+      },
+      "revId": "b5e7cedd00abd8e48ec670bbe845b4f009912974",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

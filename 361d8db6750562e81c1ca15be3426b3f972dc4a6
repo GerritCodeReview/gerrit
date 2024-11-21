@@ -89,6 +89,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "860ef734_30cd5492",
+        "filename": "polygerrit-ui/app/elements/shared/gr-suggestion-diff-preview/gr-suggestion-diff-preview.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-11-21T14:50:35Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "8bb36f31_7ffb3824",
+      "range": {
+        "startLine": 110,
+        "startChar": 2,
+        "endLine": 110,
+        "endChar": 16
+      },
+      "revId": "361d8db6750562e81c1ca15be3426b3f972dc4a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2187bba1_d7db92cf",
@@ -102,6 +126,30 @@
       "writtenOn": "2024-11-21T13:50:49Z",
       "side": 1,
       "message": "optional: is status$ \u003d\u003d MERGED sufficient? Maybe new isMerged$ is not adding too much usefulness compared to checking existing status$.",
+      "range": {
+        "startLine": 239,
+        "startChar": 18,
+        "endLine": 239,
+        "endChar": 24
+      },
+      "revId": "361d8db6750562e81c1ca15be3426b3f972dc4a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "07ba1af5_77212d8d",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-11-21T14:50:35Z",
+      "side": 1,
+      "message": "Done, thanks for idea!",
+      "parentUuid": "2187bba1_d7db92cf",
       "range": {
         "startLine": 239,
         "startChar": 18,

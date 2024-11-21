@@ -42,6 +42,7 @@ import {when} from 'lit/directives/when.js';
 import {Timing} from '../../../constants/reporting';
 import {changeModelToken} from '../../../models/change/change-model';
 import {getFileExtension} from '../../../utils/file-util';
+import {ChangeStatus} from '../../../api/rest-api';
 
 export interface DiffPreview {
   filepath: string;
@@ -93,6 +94,8 @@ export class GrApplyFixDialog extends LitElement {
 
   @state()
   loading = false;
+
+  @state() isChangeMerged = false;
 
   @state()
   onCloseFixPreviewCallbacks: ((fixapplied: boolean) => void)[] = [];
@@ -148,6 +151,11 @@ export class GrApplyFixDialog extends LitElement {
       this,
       () => this.getChangeModel().latestPatchNum$,
       x => (this.latestPatchNum = x)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().status$,
+      status => (this.isChangeMerged = status === ChangeStatus.MERGED)
     );
   }
 
@@ -390,12 +398,14 @@ export class GrApplyFixDialog extends LitElement {
 
   private computeTooltip() {
     if (!this.change || !this.patchNum) return '';
+    if (this.isChangeMerged) return 'Change is already merged';
     if (this.isApplyFixLoading) return 'Fix is still loading ...';
     return '';
   }
 
   private computeDisableApplyFixButton() {
     if (!this.change || !this.patchNum) return true;
+    if (this.isChangeMerged) return true;
     return this.isApplyFixLoading;
   }
 

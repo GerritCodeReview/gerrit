@@ -18,7 +18,6 @@ export enum KnownExperimentId {
   NEW_IMAGE_DIFF_UI = 'UiFeature__new_image_diff_ui',
   CHECKS_DEVELOPER = 'UiFeature__checks_developer',
   PUSH_NOTIFICATIONS_DEVELOPER = 'UiFeature__push_notifications_developer',
-  PUSH_NOTIFICATIONS = 'UiFeature__push_notifications',
   REVISION_PARENTS_DATA = 'UiFeature__revision_parents_data',
   COMMENT_AUTOCOMPLETION = 'UiFeature__comment_autocompletion_enabled',
   SAVE_PROJECT_CONFIG_FOR_REVIEW = 'UiFeature__save_project_config_for_review',

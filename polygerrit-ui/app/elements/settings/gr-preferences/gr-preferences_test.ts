@@ -163,6 +163,27 @@ suite('gr-preferences tests', () => {
                 </gr-select>
               </span>
             </section>
+            <section id="allowBrowserNotificationsSection">
+              <div class="title">
+                <label for="allowBrowserNotifications">
+                  Allow browser notifications
+                </label>
+                <a
+                  href="/Documentation/user-attention-set.html#_browser_notifications"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  <gr-icon icon="help" title="read documentation"></gr-icon>
+                </a>
+              </div>
+              <span class="value">
+                <input
+                  checked=""
+                  id="allowBrowserNotifications"
+                  type="checkbox"
+                />
+              </span>
+            </section>
             <section>
               <label class="title" for="relativeDateInChangeTable">
                 Show Relative Dates In Changes Table

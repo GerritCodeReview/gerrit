@@ -26,7 +26,7 @@ suggest following these principles:
 On the plus side you can strictly ignore everyone else's changes, if you are not
 in the attention set. :-)
 
-=== Rules
+== Rules
 
 To help with the back and forth, Gerrit applies some basic automated rules for
 changing the attention set:
@@ -66,7 +66,7 @@ expected to individually select whose turn it is.
 Note that just uploading a new patchset is not a relevant event for the
 attention set to change.
 
-=== Interaction
+== Interaction
 
 There are three ways to interact with the attention set: The attention icon,
 the hovercard of owner and reviewer chips and the "Reply" dialog.
@@ -95,15 +95,15 @@ take action.
 
 image::images/user-attention-set-reply-select.png["reply dialog section for selecting users", align="center"]
 
-=== Bots [[bots]]
+== Bots [[bots]]
 
 The attention set is meant for human reviews only. Triggering bots and reacting
-to their results is a different workflow and not in scope of the attenion set.
-Thus members of the "Service Users" group will never be added to the
+to their results is a different workflow and not in scope of the attention set.
+Thus, members of the "Service Users" group will never be added to the
 attention set. And replies by such users will only add the change owner (and
 uploader) to the attention set, if it comes along with a negative vote.
 
-=== Dashboard
+== Dashboard
 
 The default *dashboard* contains a new section at the top called "Your turn". It
 lists all changes where the logged-in user is in the attention set. When you are
@@ -121,7 +121,14 @@ image::images/user-attention-set-dashboard-empty.png["dashboard with empty Your 
 Note that you can also navigate to other users' dashboards to check their
 "Your turn" section.
 
-=== Emails
+=== Bold Changes / Mark Reviewed
+
+Before the attention set feature, changes were bolded in the dashboard when
+*something* happened and you could explicitly "mark a change reviewed" on the
+change page. This former way of keeping track of what you should look at has
+been replaced by the attention set.
+
+== Emails
 
 Every email begins with `Attention is currently required from: ...`, so you can
 identify at a glance whether you are expected to act.
@@ -139,7 +146,7 @@ in the attention set, e.g.
 Gerrit-Attention: Marian Harbach <mharbach@google.com>
 ----
 
-=== Browser notifications
+== Browser notifications
 
 You'll automatically get notifications when you are in the attention set. You
 must enable desktop notifications on your browser to see them.
@@ -160,18 +167,11 @@ If you are not getting notifications:
  - Make sure browser notifications are turned on in your operating system
  - Your host can have browser notifications disabled for some user groups
 
-=== Bold Changes / Mark Reviewed
-
-Before the attention set feature, changes were bolded in the dashboard when
-*something* happened and you could explicitly "mark a change reviewed" on the
-change page. This former way of keeping track of what you should look at has
-been replaced by the attention set.
-
-=== For Gerrit Admins
+== For Gerrit Admins
 
 The Attention Set has been available since the 3.3 release (late 2020).
 
-=== Important note for all host owners, project owners, and bot owners
+== Important note for all host owners, project owners, and bot owners
 
 If you are a host/project owner, please make sure all bots that run against your
 host/project are part of the link:access-control.html#service_users[Service Users] group.
@@ -190,20 +190,13 @@ group that has multiple bots as a subgroup of "Service Users".
 To add members or subgroups, use the Gerrit UI; BROWSE -> Groups ->
 search for "Service Users" -> Members.
 
-GERRIT
-------
-Part of link:index.html[Gerrit Code Review]
+=== Auto re-add owner [[auto-readd-owner]]
 
-SEARCHBOX
----------
+This job automatically re-adds the change owner to the attention-set for open non-WIP/private
+changes that have been inactive for a defined time. Gerrit administrators may
+link:config-gerrit.html#auto-readd[configure] this.
 
-=== Auto readd owner [[auto-readd-owner]]
-
-This job automatically readds the change owner to the attention-set for open non-WIP/private
-changes that have been inactive for a defined time. Gerrit administrators may configure
-link:config-gerrit.html#auto-readd[this]
-
-Readding the owner to the attention-set of an inactive change has the advantages:
+Re-adding the owner to the attention-set of an inactive change has the advantages:
 
 * It signals the change owner that the review is not progressing and that the owner
 may need to adjust the attention-set or indicate a need for a priority review.
@@ -211,3 +204,9 @@ may need to adjust the attention-set or indicate a need for a priority review.
 * It makes people set changes in WIP or private for changes that should not
 be actively reviewed.
 
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

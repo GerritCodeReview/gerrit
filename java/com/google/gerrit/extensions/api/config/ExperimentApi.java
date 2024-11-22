@@ -15,16 +15,8 @@
 package com.google.gerrit.extensions.api.config;
 
 import com.google.gerrit.extensions.common.ExperimentInfo;
-import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 
 public interface ExperimentApi {
   ExperimentInfo get() throws RestApiException;
-
-  class NotImplemented implements ExperimentApi {
-    @Override
-    public ExperimentInfo get() throws RestApiException {
-      throw new NotImplementedException();
-    }
-  }
 }

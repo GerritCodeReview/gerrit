@@ -20,7 +20,6 @@ import com.google.gerrit.extensions.api.config.Config;
 import com.google.gerrit.extensions.api.groups.Groups;
 import com.google.gerrit.extensions.api.plugins.Plugins;
 import com.google.gerrit.extensions.api.projects.Projects;
-import com.google.gerrit.extensions.restapi.NotImplementedException;
 
 public interface GerritApi {
   Accounts accounts();
@@ -34,40 +33,4 @@ public interface GerritApi {
   Projects projects();
 
   Plugins plugins();
-
-  /**
-   * A default implementation which allows source compatibility when adding new methods to the
-   * interface.
-   */
-  class NotImplemented implements GerritApi {
-    @Override
-    public Accounts accounts() {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public Changes changes() {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public Config config() {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public Groups groups() {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public Projects projects() {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public Plugins plugins() {
-      throw new NotImplementedException();
-    }
-  }
 }

@@ -14,22 +14,10 @@
 
 package com.google.gerrit.extensions.api.changes;
 
-import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 
 /** API for managing the attention set of a change. */
 public interface AttentionSetApi {
 
   void remove(AttentionSetInput input) throws RestApiException;
-
-  /**
-   * A default implementation which allows source compatibility when adding new methods to the
-   * interface.
-   */
-  class NotImplemented implements AttentionSetApi {
-    @Override
-    public void remove(AttentionSetInput input) throws RestApiException {
-      throw new NotImplementedException();
-    }
-  }
 }

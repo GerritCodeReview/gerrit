@@ -15,27 +15,10 @@
 package com.google.gerrit.extensions.api.projects;
 
 import com.google.gerrit.extensions.common.ProjectInfo;
-import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 
 public interface ChildProjectApi {
   ProjectInfo get() throws RestApiException;
 
   ProjectInfo get(boolean recursive) throws RestApiException;
-
-  /**
-   * A default implementation which allows source compatibility when adding new methods to the
-   * interface.
-   */
-  class NotImplemented implements ChildProjectApi {
-    @Override
-    public ProjectInfo get() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public ProjectInfo get(boolean recursive) throws RestApiException {
-      throw new NotImplementedException();
-    }
-  }
 }

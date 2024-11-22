@@ -21,7 +21,6 @@ import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.common.ExperimentInfo;
 import com.google.gerrit.extensions.common.ServerInfo;
-import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.webui.TopMenu;
 import java.util.List;
@@ -67,75 +66,6 @@ public interface Server {
 
     public boolean getEnabledOnly() {
       return enabledOnly;
-    }
-  }
-
-  /**
-   * A default implementation which allows source compatibility when adding new methods to the
-   * interface.
-   */
-  class NotImplemented implements Server {
-    @Override
-    public String getVersion() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public ServerInfo getInfo() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public GeneralPreferencesInfo getDefaultPreferences() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public GeneralPreferencesInfo setDefaultPreferences(GeneralPreferencesInfo in)
-        throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public DiffPreferencesInfo getDefaultDiffPreferences() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public DiffPreferencesInfo setDefaultDiffPreferences(DiffPreferencesInfo in)
-        throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public EditPreferencesInfo getDefaultEditPreferences() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public EditPreferencesInfo setDefaultEditPreferences(EditPreferencesInfo in)
-        throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public ConsistencyCheckInfo checkConsistency(ConsistencyCheckInput in) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public List<TopMenu.MenuEntry> topMenus() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public ExperimentApi experiment(String name) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public ListExperimentsRequest listExperiments() throws RestApiException {
-      throw new NotImplementedException();
     }
   }
 }

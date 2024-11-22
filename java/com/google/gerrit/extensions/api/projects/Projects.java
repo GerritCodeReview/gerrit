@@ -17,7 +17,6 @@ package com.google.gerrit.extensions.api.projects;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.common.ProjectInfo;
-import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -259,42 +258,6 @@ public interface Projects {
 
     public int getStart() {
       return start;
-    }
-  }
-
-  /**
-   * A default implementation which allows source compatibility when adding new methods to the
-   * interface.
-   */
-  class NotImplemented implements Projects {
-    @Override
-    public ProjectApi name(String name) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public ProjectApi create(ProjectInput in) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public ProjectApi create(String name) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public ListRequest list() {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public QueryRequest query() {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public QueryRequest query(String query) {
-      throw new NotImplementedException();
     }
   }
 }

@@ -57,6 +57,7 @@ import com.google.gerrit.extensions.common.TestSubmitRuleInfo;
 import com.google.gerrit.extensions.common.TestSubmitRuleInput;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.account.AccountDirectory.FillOptions;
@@ -108,7 +109,7 @@ import java.util.Set;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 
-class RevisionApiImpl extends RevisionApi.NotImplemented {
+class RevisionApiImpl implements RevisionApi {
   interface Factory {
     RevisionApiImpl create(RevisionResource r);
   }
@@ -718,5 +719,10 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
     } catch (Exception e) {
       throw asRestApiException("Cannot get archive", e);
     }
+  }
+
+  @Override
+  public String etag() throws RestApiException {
+    throw new NotImplementedException();
   }
 }

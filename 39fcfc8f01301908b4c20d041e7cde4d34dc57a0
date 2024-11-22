@@ -70,6 +70,30 @@
       },
       "revId": "39fcfc8f01301908b4c20d041e7cde4d34dc57a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38aa4391_e4b571d7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-11-22T13:40:42Z",
+      "side": 1,
+      "message": "Sure, I can add a discussion and justification in the commit message.\n\n\u003e Well, I guess it would make sense if there would be many such clients.\n\nIf this would be our intention then I would suggest that we automate generation of the `NotImplemented` classes when building a \"gerrit-api\" library to be used by the clients. We should be able to do better than manually maintain that boilerplate code.",
+      "parentUuid": "ca049eae_a09204a0",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 72
+      },
+      "revId": "39fcfc8f01301908b4c20d041e7cde4d34dc57a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

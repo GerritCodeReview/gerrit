@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "76e8b2fa_18f761c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-11-22T18:26:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "afff006c_23c9b318",
+      "range": {
+        "startLine": 26,
+        "startChar": 72,
+        "endLine": 26,
+        "endChar": 83
+      },
+      "revId": "ee5dcd822871f776878352ef2c891cc4750a58d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6f6e43ed_c17fa812",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-11-12T22:42:24Z",
       "side": 1,
       "message": "nit: Don\u0027t capitalize the `S` since `insensitive` is a single word.\n\n```suggestion\n[[accounts.emailCaseInsensitive]]accounts.emailCaseInsensitive::\n```",
+      "range": {
+        "startLine": 107,
+        "startChar": 11,
+        "endLine": 107,
+        "endChar": 31
+      },
+      "revId": "ee5dcd822871f776878352ef2c891cc4750a58d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe88d769_71dce423",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-11-22T18:26:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f6e43ed_c17fa812",
       "range": {
         "startLine": 107,
         "startChar": 11,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "809ccdc6_4b4cd509",
+        "filename": "java/com/google/gerrit/server/query/account/InternalAccountQuery.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-11-22T18:26:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16b225f7_9568bdc4",
+      "range": {
+        "startLine": 103,
+        "startChar": 54,
+        "endLine": 103,
+        "endChar": 74
+      },
+      "revId": "ee5dcd822871f776878352ef2c891cc4750a58d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "285a472f_a671dd54",
@@ -83,6 +155,24 @@
       "writtenOn": "2024-11-12T22:42:24Z",
       "side": 1,
       "message": "Are there equivalents to these tests with `value \u003d false`?\n\nIs is worth doing this as a config suite instead to ensure most tests will pass with either value?",
+      "revId": "ee5dcd822871f776878352ef2c891cc4750a58d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47cacd90_d3251101",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 564,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-11-22T18:26:06Z",
+      "side": 1,
+      "message": "I have added the following couples of tests to check both cases, not sure how the `ConfigSuite` would suite:\n\n```\npublic void getByEmailIdCaseInsensitive() throws Exception\npublic void getByEmailIdCaseSensitive() throws Exception\n\npublic void lookUpByEmailCaseInsensitive() throws Exception\npublic void lookUpByEmailCaseSensitive() throws Exception\n\npublic void getByNameAndEmailIdCaseInsensitive() throws Exception\npublic void getByNameAndEmailIdCaseSensitive() throws Exception\n```\n\nDid you mean something like this?\n\n```\n@ConfigSuite.Configs\n  public static Map\u003cString, Config\u003e configs() {\n    Config cfgA \u003d new Config();\n    cfgA.setStringList(\"accounts\", null, \"caseInsensitiveLocalPart\", ImmutableList.of(\"example.com\", \"anotherEmailDomain.com\"));\n\n    // All the tests that needed to be tested with \"caseInsensitiveLocalPart\"\n    return ImmutableMap.of(\"getByNameAndEmailId\", cfgA);\n  }\n\n```",
+      "parentUuid": "285a472f_a671dd54",
       "revId": "ee5dcd822871f776878352ef2c891cc4750a58d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

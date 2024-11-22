@@ -34,6 +34,24 @@
       "parentUuid": "cb0c06b6_39e450aa",
       "revId": "6c6e269c10984ddca94beed7b3707ab6735c9faf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d11bf9aa_9b5a3ed0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-11-22T23:58:19Z",
+      "side": 1,
+      "message": "\u003e So gerrit developers in google needs to enable PUSH_NOTIFICATIONS_DEVELOPER to test system.\n\nOk, good that I left that in then!\n\n\u003e One feature request I would like to see implemented is that we request for enabling browser notification only when user is author or reviewer on some change in Gerrit.\n\nAttempted this in change 443782",
+      "parentUuid": "34792bb7_812064bb",
+      "revId": "6c6e269c10984ddca94beed7b3707ab6735c9faf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

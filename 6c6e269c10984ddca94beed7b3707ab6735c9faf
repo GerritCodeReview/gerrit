@@ -16,6 +16,24 @@
       "message": "You are right, this feature should be either removed or enabled to everyone.\nBtw. This feature is disabled for googlers because there is internal notification system. So gerrit developers in google needs to enable PUSH_NOTIFICATIONS_DEVELOPER to test system. \n\nCurrently on all gerrit host we show 550 notification per day and users click 50 times per day on notification to see change. Since this is only for non-googlers, the usage is not bad and it is very stable for last 2 years.",
       "revId": "6c6e269c10984ddca94beed7b3707ab6735c9faf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34792bb7_812064bb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-11-22T06:16:05Z",
+      "side": 1,
+      "message": "One feature request I would like to see implemented is that we request for enabling browser notification only when user is author or reviewer on some change in Gerrit. Currently we request it on first visit and that can be annoying.",
+      "parentUuid": "cb0c06b6_39e450aa",
+      "revId": "6c6e269c10984ddca94beed7b3707ab6735c9faf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

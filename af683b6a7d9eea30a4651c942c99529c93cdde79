@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b1b6b1ca_617e8508",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-11-22T08:07:14Z",
+      "side": 1,
+      "message": "IIUC it\u0027s still creating a new instance for each method invocation since AccountMergeValidator is not annotated with @Singleton, but no need to change it in this change, maybe just rephrase this here.",
+      "range": {
+        "startLine": 15,
+        "startChar": 23,
+        "endLine": 16,
+        "endChar": 35
+      },
+      "revId": "af683b6a7d9eea30a4651c942c99529c93cdde79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0a3f3d3b_620a7c58",
         "filename": "java/com/google/gerrit/server/account/storage/notedb/validators/AccountMergeValidator.java",
         "patchSetId": 4

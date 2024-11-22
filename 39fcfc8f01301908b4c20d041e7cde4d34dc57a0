@@ -46,6 +46,30 @@
       },
       "revId": "39fcfc8f01301908b4c20d041e7cde4d34dc57a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca049eae_a09204a0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-11-22T13:19:29Z",
+      "side": 1,
+      "message": "I\u0027m not against dropping these classes, but the commit message should reflect what was their purpose and what we are suggesting instead.\n\n\u003e I don\u0027t see why all Gerrit developers should care to continuously support an implementation pattern from a client.\n\nWell, I guess it would make sense if there would be many such clients.",
+      "parentUuid": "0f353aad_5b327241",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 72
+      },
+      "revId": "39fcfc8f01301908b4c20d041e7cde4d34dc57a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

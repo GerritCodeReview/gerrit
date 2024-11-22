@@ -51,7 +51,6 @@ suite('gr-app-element tests', () => {
             <gr-endpoint-decorator name="footer-right"> </gr-endpoint-decorator>
           </div>
         </footer>
-        <gr-notifications-prompt> </gr-notifications-prompt>
         <gr-endpoint-decorator name="plugin-overlay"> </gr-endpoint-decorator>
         <gr-error-manager id="errorManager"> </gr-error-manager>
         <gr-plugin-host id="plugins"> </gr-plugin-host>

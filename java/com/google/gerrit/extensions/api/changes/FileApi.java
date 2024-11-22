@@ -18,7 +18,6 @@ import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.extensions.common.BlameInfo;
 import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.restapi.BinaryResult;
-import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import java.util.List;
 import java.util.OptionalInt;
@@ -115,47 +114,6 @@ public interface FileApi {
 
     public boolean isForBase() {
       return forBase;
-    }
-  }
-
-  /**
-   * A default implementation which allows source compatibility when adding new methods to the
-   * interface.
-   */
-  class NotImplemented implements FileApi {
-    @Override
-    public BinaryResult content() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public DiffInfo diff() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public DiffInfo diff(String base) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public DiffInfo diff(int parent) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public DiffRequest diffRequest() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public void setReviewed(boolean reviewed) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public BlameRequest blameRequest() throws RestApiException {
-      throw new NotImplementedException();
     }
   }
 }

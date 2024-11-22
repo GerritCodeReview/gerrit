@@ -21,7 +21,6 @@ import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
-import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import java.util.Arrays;
 import java.util.EnumSet;
@@ -199,52 +198,6 @@ public interface Changes {
         sb.append(" --no-limit");
       }
       return sb.toString();
-    }
-  }
-
-  /**
-   * A default implementation which allows source compatibility when adding new methods to the
-   * interface.
-   */
-  class NotImplemented implements Changes {
-    @Override
-    public ChangeApi id(int id) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public ChangeApi id(String triplet) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public ChangeApi id(String project, String branch, String id) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public ChangeApi id(String project, int id) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public ChangeApi create(ChangeInput in) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public ChangeInfo createAsInfo(ChangeInput in) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public QueryRequest query() {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public QueryRequest query(String query) {
-      throw new NotImplementedException();
     }
   }
 }

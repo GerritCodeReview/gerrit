@@ -15,7 +15,6 @@
 package com.google.gerrit.extensions.api.plugins;
 
 import com.google.gerrit.extensions.common.PluginInfo;
-import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 
 public interface PluginApi {
@@ -26,30 +25,4 @@ public interface PluginApi {
   void disable() throws RestApiException;
 
   void reload() throws RestApiException;
-
-  /**
-   * A default implementation which allows source compatibility when adding new methods to the
-   * interface.
-   */
-  class NotImplemented implements PluginApi {
-    @Override
-    public PluginInfo get() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public void enable() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public void disable() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public void reload() throws RestApiException {
-      throw new NotImplementedException();
-    }
-  }
 }

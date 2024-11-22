@@ -142,6 +142,24 @@
       "parentUuid": "18291caf_0be149a3",
       "revId": "479690f3a5e38aa2b82ea48d64f9e7e4f4c2d5cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1797ee9_7d78aa8f",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 707,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2024-11-22T08:23:09Z",
+      "side": 1,
+      "message": "Yeah, looks like I did not understand the problem when I added the comment (reading the commit message for the fix change helped me understand).",
+      "parentUuid": "d928a3f8_21a04906",
+      "revId": "479690f3a5e38aa2b82ea48d64f9e7e4f4c2d5cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

@@ -38,6 +38,7 @@ import {SinonStubbedMember} from 'sinon';
 import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {DashboardType} from '../../../models/views/dashboard';
+import {GrNotificationsPrompt} from '../../core/gr-notifications-prompt/gr-notifications-prompt';
 
 suite('gr-dashboard-view tests', () => {
   let element: GrDashboardView;
@@ -91,6 +92,7 @@ suite('gr-dashboard-view tests', () => {
               <span> No changes need your attention &nbsp🎉 </span>
             </div>
           </gr-change-list>
+          <gr-notifications-prompt> </gr-notifications-prompt>
         </div>
         <dialog
           id="confirmDeleteModal"
@@ -547,6 +549,27 @@ suite('gr-dashboard-view tests', () => {
       'No changes'
     );
     assert.isOk(query<GrCreateChangeHelp>(element, 'gr-create-change-help'));
+  });
+
+  test('showNotificationsPrompt', async () => {
+    element.viewState = {
+      view: GerritView.DASHBOARD,
+      type: DashboardType.USER,
+    };
+    element.loading = false;
+    element.showNotificationsPrompt = false;
+    await element.updateComplete;
+
+    query<GrNotificationsPrompt>(element, 'gr-notifications-prompt');
+    assert.isNotOk(
+      query<GrNotificationsPrompt>(element, 'gr-notifications-prompt')
+    );
+    element.showNotificationsPrompt = true;
+    await element.updateComplete;
+
+    assert.isOk(
+      query<GrNotificationsPrompt>(element, 'gr-notifications-prompt')
+    );
   });
 
   test('gr-user-header', async () => {

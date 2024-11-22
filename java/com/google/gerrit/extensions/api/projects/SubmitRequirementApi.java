@@ -17,7 +17,6 @@ package com.google.gerrit.extensions.api.projects;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.extensions.common.SubmitRequirementInfo;
 import com.google.gerrit.extensions.common.SubmitRequirementInput;
-import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 
 public interface SubmitRequirementApi {
@@ -34,30 +33,4 @@ public interface SubmitRequirementApi {
 
   /** Delete existing submit requirement. */
   void delete() throws RestApiException;
-
-  /**
-   * A default implementation which allows source compatibility when adding new methods to the
-   * interface.
-   */
-  class NotImplemented implements SubmitRequirementApi {
-    @Override
-    public SubmitRequirementApi create(SubmitRequirementInput input) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public SubmitRequirementInfo get() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public SubmitRequirementInfo update(SubmitRequirementInput input) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public void delete() throws RestApiException {
-      throw new NotImplementedException();
-    }
-  }
 }

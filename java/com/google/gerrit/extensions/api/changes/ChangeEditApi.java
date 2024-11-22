@@ -17,7 +17,6 @@ package com.google.gerrit.extensions.api.changes;
 import com.google.gerrit.extensions.client.ChangeEditDetailOption;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.restapi.BinaryResult;
-import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RawInput;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import java.util.EnumSet;
@@ -214,91 +213,4 @@ public interface ChangeEditApi {
    */
   void modifyIdentity(String name, String email, ChangeEditIdentityType type)
       throws RestApiException;
-
-  /**
-   * A default implementation which allows source compatibility when adding new methods to the
-   * interface.
-   */
-  class NotImplemented implements ChangeEditApi {
-    @Override
-    public ChangeEditDetailRequest detail() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public Optional<EditInfo> get() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public void create() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public void delete() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public void rebase() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public EditInfo rebase(RebaseChangeEditInput input) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public void publish() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public void publish(PublishChangeEditInput publishChangeEditInput) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public Optional<BinaryResult> getFile(String filePath) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public void renameFile(String oldFilePath, String newFilePath) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public void restoreFile(String filePath) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public void modifyFile(String filePath, FileContentInput input) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public void deleteFile(String filePath) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public String getCommitMessage() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public void modifyCommitMessage(String newCommitMessage) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public void modifyIdentity(String name, String email, ChangeEditIdentityType type)
-        throws RestApiException {
-      throw new NotImplementedException();
-    }
-  }
 }

@@ -16,7 +16,6 @@ package com.google.gerrit.extensions.api.plugins;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.extensions.common.PluginInfo;
-import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import java.util.ArrayList;
 import java.util.List;
@@ -108,35 +107,6 @@ public interface Plugins {
 
     public String getRegex() {
       return regex;
-    }
-  }
-
-  /**
-   * A default implementation which allows source compatibility when adding new methods to the
-   * interface.
-   */
-  class NotImplemented implements Plugins {
-    @Override
-    public ListRequest list() {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public PluginApi name(String name) {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    @Deprecated
-    public PluginApi install(
-        String name, com.google.gerrit.extensions.common.InstallPluginInput input)
-        throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public PluginApi install(String name, InstallPluginInput input) {
-      throw new NotImplementedException();
     }
   }
 }

@@ -18,7 +18,6 @@ import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.GroupAuditEventInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.common.GroupOptionsInfo;
-import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import java.util.Arrays;
 import java.util.List;
@@ -176,110 +175,4 @@ public interface GroupApi {
    * <p>Only supported for internal groups.
    */
   void index() throws RestApiException;
-
-  /**
-   * A default implementation which allows source compatibility when adding new methods to the
-   * interface.
-   */
-  class NotImplemented implements GroupApi {
-    @Override
-    public GroupInfo get() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public GroupInfo detail() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public String name() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public void name(String name) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public void delete() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public GroupInfo owner() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public void owner(String owner) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public String description() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public void description(String description) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public GroupOptionsInfo options() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public void options(GroupOptionsInfo options) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public List<AccountInfo> members() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public List<AccountInfo> members(boolean recursive) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public void addMembers(List<String> members) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public void removeMembers(List<String> members) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public List<GroupInfo> includedGroups() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public void addGroups(List<String> groups) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public void removeGroups(List<String> groups) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public List<? extends GroupAuditEventInfo> auditLog() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public void index() throws RestApiException {
-      throw new NotImplementedException();
-    }
-  }
 }

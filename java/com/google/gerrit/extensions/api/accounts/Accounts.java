@@ -17,7 +17,6 @@ package com.google.gerrit.extensions.api.accounts;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.extensions.client.ListAccountsOption;
 import com.google.gerrit.extensions.common.AccountInfo;
-import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import java.util.Arrays;
 import java.util.EnumSet;
@@ -216,57 +215,6 @@ public interface Accounts {
 
     public Set<ListAccountsOption> getOptions() {
       return options;
-    }
-  }
-
-  /**
-   * A default implementation which allows source compatibility when adding new methods to the
-   * interface.
-   */
-  class NotImplemented implements Accounts {
-    @Override
-    public AccountApi id(String id) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public AccountApi id(int id) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public AccountApi self() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public AccountApi create(String username) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public AccountApi create(AccountInput input) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public SuggestAccountsRequest suggestAccounts() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public SuggestAccountsRequest suggestAccounts(String query) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public QueryRequest query() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public QueryRequest query(String query) throws RestApiException {
-      throw new NotImplementedException();
     }
   }
 }

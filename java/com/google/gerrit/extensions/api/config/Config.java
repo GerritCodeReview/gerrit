@@ -14,20 +14,7 @@
 
 package com.google.gerrit.extensions.api.config;
 
-import com.google.gerrit.extensions.restapi.NotImplementedException;
-
 public interface Config {
   /** Returns an API for getting server related configurations. */
   Server server();
-
-  /**
-   * A default implementation which allows source compatibility when adding new methods to the
-   * interface.
-   */
-  class NotImplemented implements Config {
-    @Override
-    public Server server() {
-      throw new NotImplementedException();
-    }
-  }
 }

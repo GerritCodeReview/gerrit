@@ -15,7 +15,6 @@
 package com.google.gerrit.extensions.api.changes;
 
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
-import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 
 /** Interface for change message APIs. */
@@ -30,20 +29,4 @@ public interface ChangeMessageApi {
    * @return the change message with its message updated.
    */
   ChangeMessageInfo delete(DeleteChangeMessageInput input) throws RestApiException;
-
-  /**
-   * A default implementation which allows source compatibility when adding new methods to the
-   * interface.
-   */
-  class NotImplemented implements ChangeMessageApi {
-    @Override
-    public ChangeMessageInfo get() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public ChangeMessageInfo delete(DeleteChangeMessageInput input) throws RestApiException {
-      throw new NotImplementedException();
-    }
-  }
 }

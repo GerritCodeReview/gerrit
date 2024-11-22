@@ -18,7 +18,6 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.common.LabelDefinitionInfo;
 import com.google.gerrit.extensions.common.LabelDefinitionInput;
-import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 
 public interface LabelApi {
@@ -35,30 +34,4 @@ public interface LabelApi {
   }
 
   void delete(@Nullable String commitMessage) throws RestApiException;
-
-  /**
-   * A default implementation which allows source compatibility when adding new methods to the
-   * interface.
-   */
-  class NotImplemented implements LabelApi {
-    @Override
-    public LabelApi create(LabelDefinitionInput input) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public LabelDefinitionInfo get() throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public LabelDefinitionInfo update(LabelDefinitionInput input) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public void delete(@Nullable String commitMessage) throws RestApiException {
-      throw new NotImplementedException();
-    }
-  }
 }

@@ -22,24 +22,6 @@ import org.eclipse.jgit.lib.Repository;
 
 /** Cache for mergeability of commits into destination branches. */
 public interface MergeabilityCache {
-  class NotImplemented implements MergeabilityCache {
-    @Override
-    public boolean get(
-        ObjectId commit,
-        Ref intoRef,
-        SubmitType submitType,
-        String mergeStrategy,
-        BranchNameKey dest,
-        Repository repo) {
-      throw new UnsupportedOperationException("Mergeability checking disabled");
-    }
-
-    @Override
-    public Boolean getIfPresent(
-        ObjectId commit, Ref intoRef, SubmitType submitType, String mergeStrategy) {
-      throw new UnsupportedOperationException("Mergeability checking disabled");
-    }
-  }
 
   boolean get(
       ObjectId commit,

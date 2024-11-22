@@ -16,6 +16,23 @@
       "message": "everything is all up to date",
       "revId": "335747ed29368690923546890a19a2b4d4850ebb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fafdcf28_4ab3d252",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-11-22T03:13:38Z",
+      "side": 1,
+      "message": "This should probably go to stable-3.11 first since the JGit bump was already done there and gitiles will be broken until this change is there: https://gerrit-review.googlesource.com/c/gerrit/+/443581/comments/1865e4d4_e2aef6bc",
+      "revId": "335747ed29368690923546890a19a2b4d4850ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

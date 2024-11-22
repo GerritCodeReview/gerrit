@@ -118,6 +118,30 @@
       },
       "revId": "1ccd41e4f860165fa91f9ddfe1ff61824ddb21c5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54996a4b_373b7785",
+        "filename": "java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2024-11-22T20:46:37Z",
+      "side": 1,
+      "message": "Sounds like something that should be improved potentially in jgit. I think this is the correct usage of the API, to assume that it could get cleared and to not have to change the code here if the behavior changes in jgit? Do you have a concern that this is causing a problem?",
+      "parentUuid": "e2480566_d4ca85eb",
+      "range": {
+        "startLine": 170,
+        "startChar": 6,
+        "endLine": 170,
+        "endChar": 22
+      },
+      "revId": "1ccd41e4f860165fa91f9ddfe1ff61824ddb21c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

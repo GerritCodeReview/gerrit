@@ -16,6 +16,24 @@
       "message": "Maybe link b/380255091?",
       "revId": "338488c29075c7aa1df9395a71788dc47311d717",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f616d97_c281597b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-11-22T09:16:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d13a90c_f2926ef8",
+      "revId": "338488c29075c7aa1df9395a71788dc47311d717",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

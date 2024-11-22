@@ -638,6 +638,12 @@ highlight.js@^11.10.0, highlight.js@^11.9.0:
   dependencies:
     highlight.js "^10.4.1"
 
+"highlightjs-yang@https://github.com/esmasth/highlightjs-yang#e68dd7aa829529fb6c40d6287585f43273605a9e":
+  version "0.0.1"
+  resolved "https://github.com/esmasth/highlightjs-yang#e68dd7aa829529fb6c40d6287585f43273605a9e"
+  dependencies:
+    highlight.js "^11.9.0"
+
 https-proxy-agent@^5.0.0:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/https-proxy-agent/-/https-proxy-agent-5.0.1.tgz#c59ef224a04fe8b754f3db0063a25ea30d0005d6"

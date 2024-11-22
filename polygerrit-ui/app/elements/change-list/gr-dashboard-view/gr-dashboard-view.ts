@@ -10,6 +10,7 @@ import '../gr-create-commands-dialog/gr-create-commands-dialog';
 import '../gr-create-change-help/gr-create-change-help';
 import '../gr-create-destination-dialog/gr-create-destination-dialog';
 import '../gr-user-header/gr-user-header';
+import '../../core/gr-notifications-prompt/gr-notifications-prompt';
 import {getAppContext} from '../../../services/app-context';
 import {changeIsOpen} from '../../../utils/change-util';
 import {parseDate} from '../../../utils/date-util';
@@ -99,6 +100,9 @@ export class GrDashboardView extends LitElement {
 
   // private but used in test
   @state() showNewUserHelp = false;
+
+  // private but used in test
+  @state() showNotificationsPrompt = false;
 
   private reporting = getAppContext().reportingService;
 
@@ -303,6 +307,7 @@ export class GrDashboardView extends LitElement {
             <span>No changes need your attention &nbsp;&#x1f389;</span>
           </div>
         </gr-change-list>
+        ${this.renderShowNotificationsPrompt()}
       </div>
     `;
   }
@@ -331,6 +336,12 @@ export class GrDashboardView extends LitElement {
         }}
       ></gr-create-change-help>
     `;
+  }
+
+  private renderShowNotificationsPrompt() {
+    if (!this.showNotificationsPrompt) return;
+
+    return html`<gr-notifications-prompt></gr-notifications-prompt>`;
   }
 
   // private but used in test
@@ -459,6 +470,9 @@ export class GrDashboardView extends LitElement {
       // the user is "New" ie. haven't created any changes yet.
       const lastResultSet = changes.pop();
       this.showNewUserHelp = lastResultSet!.length === 0;
+      // Show the notifications prompt if the user has created any changes
+      // (meaning they are not a "New" user).
+      this.showNotificationsPrompt = !this.showNewUserHelp;
     }
     this.results = changes
       .map((results, i) => {
@@ -475,6 +489,15 @@ export class GrDashboardView extends LitElement {
           i < res.sections.length &&
           (!res.sections[i].hideIfEmpty || section.results.length)
       );
+
+    // Show the notifications prompt if the user has any results in their attention set.
+    this.showNotificationsPrompt =
+      this.showNotificationsPrompt ||
+      this.results.filter(
+        changelistSection =>
+          changelistSection.name === YOUR_TURN.name &&
+          changelistSection.results.length > 0
+      ).length !== 0;
   }
 
   /**

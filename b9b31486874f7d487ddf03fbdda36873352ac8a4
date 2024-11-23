@@ -328,6 +328,30 @@
       },
       "revId": "b9b31486874f7d487ddf03fbdda36873352ac8a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6fb4ddb5_1d125109",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 644,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2024-11-23T05:04:11Z",
+      "side": 1,
+      "message": "I now understand that synchronization here will prevent case 1 race you\u0027ve mentioned in the commit message, but case 2 can still happen right ? \n\nIf task t1 completes and polls parked task p1 in the `updateParked` method, another task t2 (holding the resource p1 needs) can still complete and discard the thread without unparking p1 ?",
+      "parentUuid": "3688f4aa_f3e68b96",
+      "range": {
+        "startLine": 634,
+        "startChar": 0,
+        "endLine": 644,
+        "endChar": 9
+      },
+      "revId": "b9b31486874f7d487ddf03fbdda36873352ac8a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

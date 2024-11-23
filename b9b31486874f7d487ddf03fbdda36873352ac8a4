@@ -376,6 +376,30 @@
       },
       "revId": "b9b31486874f7d487ddf03fbdda36873352ac8a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a73255cb_7753d6de",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 644,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2024-11-23T05:17:19Z",
+      "side": 1,
+      "message": "Got it, thanks for the explanation.",
+      "parentUuid": "9b81f246_fd1a245b",
+      "range": {
+        "startLine": 634,
+        "startChar": 0,
+        "endLine": 644,
+        "endChar": 9
+      },
+      "revId": "b9b31486874f7d487ddf03fbdda36873352ac8a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -67,6 +67,7 @@ const LANGUAGE_MAP = new Map<string, string>([
   ['text/x-markdown', 'markdown'],
   ['text/x-mathematica', 'mathematica'],
   ['text/x-nginx-conf', 'nginx'],
+  ['text/x-nix', 'nix'],
   ['text/x-nsis', 'nsis'],
   ['text/x-objectivec', 'objectivec'],
   ['text/x-ocaml', 'ocaml'],

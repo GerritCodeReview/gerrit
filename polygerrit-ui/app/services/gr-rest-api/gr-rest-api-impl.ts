@@ -2374,7 +2374,8 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     changeNum: NumericChangeId,
     fixPatchNum: PatchSetNum,
     fixReplacementInfos: FixReplacementInfo[],
-    targetPatchNum?: PatchSetNum
+    targetPatchNum?: PatchSetNum,
+    errFn?: ErrorCallback
   ): Promise<Response> {
     const url = await this._changeBaseURL(
       changeNum,
@@ -2397,6 +2398,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       }),
       url: `${url}/fix:apply`,
       anonymizedUrl: `${ANONYMIZED_REVISION_BASE_URL}/fix:apply`,
+      errFn,
       reportServerError: true,
     });
   }

@@ -183,7 +183,7 @@ export class GrChecksFixPreview extends LitElement {
 
   private isApplyEditDisabled() {
     if (this.patchSet === undefined) return true;
-    if (this.isChangeMerged) return true;
+    // if (this.isChangeMerged) return true;
     return !this.previewLoaded;
   }
 

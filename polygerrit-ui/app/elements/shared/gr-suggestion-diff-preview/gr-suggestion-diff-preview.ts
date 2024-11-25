@@ -30,10 +30,11 @@ import {subscribe} from '../../lit/subscription-controller';
 import {DiffPreview} from '../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog';
 import {userModelToken} from '../../../models/user/user-model';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
-import {fire} from '../../../utils/event-util';
+import {fire, fireError} from '../../../utils/event-util';
 import {Timing} from '../../../constants/reporting';
 import {createChangeUrl} from '../../../models/views/change';
 import {getFileExtension} from '../../../utils/file-util';
+import {throwingErrorCallback} from '../gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 
 export interface PreviewLoadedDetail {
   previewLoadedFor?: FixSuggestionInfo;
@@ -275,22 +276,34 @@ export class GrSuggestionDiffPreview extends LitElement {
     if (!changeNum || !basePatchNum || !fixSuggestion) return;
 
     this.reporting.time(Timing.APPLY_FIX_LOAD);
-    const res = await this.restApiService.applyFixSuggestion(
-      changeNum,
-      basePatchNum,
-      fixSuggestion.replacements,
-      this.latestPatchNum
-    );
-    this.reporting.timeEnd(Timing.APPLY_FIX_LOAD, {
-      method: '1-click',
-      description: fixSuggestion.description,
-      fileExtension: getFileExtension(
-        fixSuggestion?.replacements?.[0].path ?? ''
-      ),
-      commentId: this.commentId ?? '',
-      success: res.ok,
-      status: res.status,
-    });
+    let res: Response | undefined = undefined;
+    let errorText = '';
+    try {
+      res = await this.restApiService.applyFixSuggestion(
+        changeNum,
+        basePatchNum,
+        fixSuggestion.replacements,
+        this.latestPatchNum,
+        throwingErrorCallback
+      );
+    } catch (error) {
+      if (error instanceof Error) {
+        errorText = error.message;
+      }
+      fireError(this, `Applying Fix failed.\n${errorText}`);
+    } finally {
+      this.reporting.timeEnd(Timing.APPLY_FIX_LOAD, {
+        method: '1-click',
+        description: fixSuggestion.description,
+        fileExtension: getFileExtension(
+          fixSuggestion?.replacements?.[0].path ?? ''
+        ),
+        commentId: this.commentId ?? '',
+        success: res?.ok,
+        status: res?.status,
+        errorText,
+      });
+    }
     if (res?.ok) {
       this.getNavigation().setUrl(
         createChangeUrl({

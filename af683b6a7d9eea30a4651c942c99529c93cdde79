@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "134b07cb_364be91e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2024-11-25T15:06:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b1b6b1ca_617e8508",
+      "range": {
+        "startLine": 15,
+        "startChar": 23,
+        "endLine": 16,
+        "endChar": 35
+      },
+      "revId": "af683b6a7d9eea30a4651c942c99529c93cdde79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0a3f3d3b_620a7c58",
@@ -37,6 +61,24 @@
       "writtenOn": "2024-11-21T22:55:14Z",
       "side": 1,
       "message": "missing license header",
+      "revId": "af683b6a7d9eea30a4651c942c99529c93cdde79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c095eb61_759abafd",
+        "filename": "java/com/google/gerrit/server/account/storage/notedb/validators/AccountMergeValidator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2024-11-25T15:06:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a3f3d3b_620a7c58",
       "revId": "af683b6a7d9eea30a4651c942c99529c93cdde79",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -52,6 +52,24 @@
       "parentUuid": "cd749c95_28eb49be",
       "revId": "a6738a646f4b1f1ac86956b59e8ae97d7934d666",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59583e57_d7ee69d4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-11-25T14:48:47Z",
+      "side": 1,
+      "message": "\u003e I am trying to do a release, however this is first time I am attempting a release, so please allow me some time to setup my machine to deploy artifacts.\n\nAny news on the Gitiles bump @kaushikl@qti.qualcomm.com ?",
+      "parentUuid": "29430b0b_030cbe78",
+      "revId": "a6738a646f4b1f1ac86956b59e8ae97d7934d666",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

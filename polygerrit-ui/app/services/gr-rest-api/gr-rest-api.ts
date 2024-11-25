@@ -740,7 +740,8 @@ export interface RestApiService extends Finalizable {
     changeNum: NumericChangeId,
     fixPatchNum: PatchSetNum,
     fixReplacementInfos: FixReplacementInfo[],
-    targetPatchNum?: PatchSetNum
+    targetPatchNum?: PatchSetNum,
+    errFn?: ErrorCallback
   ): Promise<Response>;
 
   /**

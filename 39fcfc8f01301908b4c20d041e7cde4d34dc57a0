@@ -118,6 +118,30 @@
       },
       "revId": "39fcfc8f01301908b4c20d041e7cde4d34dc57a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "282928e6_efee84e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-11-25T12:03:29Z",
+      "side": 1,
+      "message": "OK, I updated the commit message according to this disucssion.",
+      "parentUuid": "23322b9c_3eb92262",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 72
+      },
+      "revId": "39fcfc8f01301908b4c20d041e7cde4d34dc57a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

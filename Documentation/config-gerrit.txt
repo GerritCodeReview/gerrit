@@ -2242,6 +2242,19 @@ the packed-refs file is outdated.
 +
 Default is `true`.
 
+[[core.useFileKeyByProjectCache]]core.useFileKeyByProjectCache::
++
+Use an in-memory global Project's file-key cache.
+This helps reduce the overhead of checking if the Git repository associated
+with the Project's file-key exists on the underlying repository.
++
+On local filesystems with SSD storage the file-key cache has a marginal
+benefit and it can be disabled for allowing the automatic detection of
+filesystem changes like projects removals without having to restart
+Gerrit.
++
+Default is `true`.
+
 [[dashboard]]
 === Section dashboard
 

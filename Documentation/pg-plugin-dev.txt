@@ -207,11 +207,6 @@ Parameters
 
 Supported events:
 
-* `history`: Invoked when the view is changed to a new screen within
-  the Gerrit web application.  The token after "#" is passed as the
-  argument to the callback function, for example "/c/42/" while
-  showing change 42.
-
 * `showchange`: Invoked when a change is made visible. A
   link:rest-api-changes.html#change-info[ChangeInfo] and
   link:rest-api-changes.html#revision-info[RevisionInfo]
@@ -228,19 +223,6 @@ Supported events:
   event may be called to validate that the check whether dialog can be
   shown, and called again when the submit is confirmed to check whether
   the actual submission action can proceed.
-
-* `comment`: Invoked when a DOM element that represents a comment is
-  created. This DOM element is passed as argument. This DOM element
-  contains nested elements that Gerrit uses to format the comment. The
-  DOM structure may differ between comment types such as inline
-  comments, file-level comments and summary comments, and it may change
-  with new Gerrit versions.
-
-* `highlightjs-loaded`: Invoked when the highlight.js library has
-  finished loading. The global `hljs` object (also now accessible via
-  `window.hljs`) is passed as an argument to the callback function.
-  This event can be used to register a new language highlighter with
-  the highlight.js library before syntax highlighting begins.
 
 [[high-level-api]]
 == High-level API

@@ -581,6 +581,9 @@ export function getContentInCommentRange(
   fileContent: string,
   comment: Comment
 ) {
+  if (comment.path === SpecialFilePath.COMMIT_MESSAGE) {
+    fileContent = '\n'.repeat(6) + fileContent;
+  }
   const lines = fileContent.split('\n');
   if (comment.range) {
     const range = comment.range;

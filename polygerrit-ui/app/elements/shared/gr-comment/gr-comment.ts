@@ -39,7 +39,6 @@ import {GrConfirmDeleteCommentDialog} from '../gr-confirm-delete-comment-dialog/
 import {
   convertToCommentInput,
   createUserFixSuggestion,
-  getContentInCommentRange,
   getUserSuggestion,
   hasUserSuggestion,
   id,
@@ -64,11 +63,7 @@ import {CommentSide, SpecialFilePath} from '../../../constants/constants';
 import {Subject} from 'rxjs';
 import {debounceTime} from 'rxjs/operators';
 import {changeModelToken} from '../../../models/change/change-model';
-import {
-  ChangeInfo,
-  FixSuggestionInfo,
-  isBase64FileContent,
-} from '../../../api/rest-api';
+import {ChangeInfo, FixSuggestionInfo} from '../../../api/rest-api';
 import {createDiffUrl} from '../../../models/views/change';
 import {userModelToken} from '../../../models/user/user-model';
 import {modalStyles} from '../../../styles/gr-modal-styles';
@@ -1576,7 +1571,13 @@ export class GrComment extends LitElement {
       assert(!!replacement, 'malformed user suggestion');
       let commentedCode = this.commentedText;
       if (!commentedCode) {
-        commentedCode = await this.getCommentedCode();
+        commentedCode = await this.commentModel.getCommentedCode(
+          this.comment,
+          this.changeNum
+        );
+        if (!commentedCode) {
+          throw new Error('unable to create preview fix event');
+        }
       }
 
       return {
@@ -1698,29 +1699,14 @@ export class GrComment extends LitElement {
 
   async createSuggestEdit(e: MouseEvent) {
     e.stopPropagation();
-    const line = await this.getCommentedCode();
+    const line = await this.commentModel.getCommentedCode(
+      this.comment,
+      this.changeNum
+    );
     const addNewLine = this.messageText.length !== 0;
     this.messageText += `${
       addNewLine ? '\n' : ''
     }${USER_SUGGESTION_START_PATTERN}${line}${'\n```'}`;
-  }
-
-  // TODO(milutin): Remove once feature flag is rollout and use only model
-  async getCommentedCode() {
-    assertIsDefined(this.comment, 'comment');
-    assertIsDefined(this.changeNum, 'changeNum');
-    const file = await this.restApiService.getFileContent(
-      this.changeNum,
-      this.comment.path!,
-      this.comment.patch_set!
-    );
-    assert(
-      !!file && isBase64FileContent(file) && !!file.content,
-      'file content for comment not found'
-    );
-    const line = getContentInCommentRange(file.content, this.comment);
-    assert(!!line, 'file content for comment not found');
-    return line;
   }
 
   // private, but visible for testing

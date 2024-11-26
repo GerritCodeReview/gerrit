@@ -5905,7 +5905,7 @@ By default, not set and so kerberos authentication is not enabled.
 [[sshd.kerberosPrincipal]]sshd.kerberosPrincipal::
 +
 If kerberos authentication is enabled with `sshd.kerberosKeytab`,
-instead use the given principal name instead of the default.
+this principal name is used instead of the default.
 If the principal does not begin with `host/` a warning message is
 printed and may prevent successful authentication.
 +

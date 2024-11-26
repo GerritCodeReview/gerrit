@@ -27,6 +27,7 @@ public class CapabilityConstants extends TranslationBundle {
   public String batchChangesLimit;
   public String createAccount;
   public String createGroup;
+  public String deleteGroup;
   public String createProject;
   public String emailReviewers;
   public String flushCaches;

@@ -230,4 +230,19 @@ public class GroupControl {
     }
     return canAdministrateServer();
   }
+
+  public boolean canDeleteGroup() {
+    return canAdministrateServer() || hasDeleteGroupCapability();
+  }
+
+  private boolean hasDeleteGroupCapability() {
+    try {
+      return perm.test(GlobalPermission.DELETE_GROUP);
+    } catch (PermissionBackendException e) {
+      logger.atFine().log(
+          "Failed to check %s global capability for user %s",
+          GlobalPermission.DELETE_GROUP, user.getLoggableName());
+      return false;
+    }
+  }
 }

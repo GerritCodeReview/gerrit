@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb3d0e3d_a26598c1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-11-26T14:34:26Z",
+      "side": 1,
+      "message": "There are no changes in the UI side: the verification failure is due to a more recent version of Chrome on the CI",
+      "revId": "1f2f34a9477c64941bd3b8c9d032e9c895eaf0a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

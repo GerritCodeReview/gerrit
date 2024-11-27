@@ -16,6 +16,24 @@
       "message": "I do not have any objections here, since syncing sources in my client impl is a manual process nowadays, I can work around this with a manual adjustment of those files if needed.",
       "revId": "23fdbbc6dde5f09640460121a7bf8d24417209b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f29486e7_bf71dca5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-11-27T09:39:21Z",
+      "side": 1,
+      "message": "Thank you Urs for confirming here.",
+      "parentUuid": "68905468_c38fd895",
+      "revId": "23fdbbc6dde5f09640460121a7bf8d24417209b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

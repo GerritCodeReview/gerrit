@@ -52,6 +52,23 @@
       "parentUuid": "fc137ba9_6f4e853e",
       "revId": "8463fb9c9d90dd8a8792cc861a84796528b893b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3cac0e3e_6c20a775",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-11-27T13:24:38Z",
+      "side": 1,
+      "message": "thanks for implementing this feature which was missing for a long time :-)",
+      "revId": "8463fb9c9d90dd8a8792cc861a84796528b893b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

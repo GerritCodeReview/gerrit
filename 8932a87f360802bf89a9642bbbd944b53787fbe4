@@ -121,6 +121,24 @@
       "parentUuid": "8fa4bd54_a2206c3d",
       "revId": "8932a87f360802bf89a9642bbbd944b53787fbe4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8b5c866_d64ee112",
+        "filename": "java/com/google/gerrit/extensions/api/config/CachesApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-11-27T09:54:24Z",
+      "side": 1,
+      "message": "Ic3aa8602cb079b360804b71d4f2bc3653b35ca17 was submitted, hence also removed the NotImplemented inner classes in this change",
+      "parentUuid": "cb67db4a_e77f4473",
+      "revId": "8932a87f360802bf89a9642bbbd944b53787fbe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

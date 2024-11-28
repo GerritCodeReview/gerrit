@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8848f0d_840b9ce8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2024-11-28T13:00:46Z",
+      "side": 1,
+      "message": "My thought is to:\n1. Get a CR+2 for this\n2. Merge the CI adaptation: https://gerrit-review.googlesource.com/c/gerrit-ci-scripts/+/443061?usp\u003ddashboard\n3. Merge this if it passes.",
+      "revId": "660d11cc68fd1258f22fda7bda5b196b4d0e64be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

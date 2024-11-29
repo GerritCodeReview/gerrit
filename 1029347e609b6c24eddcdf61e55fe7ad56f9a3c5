@@ -88,6 +88,24 @@
       "parentUuid": "d99ad636_2dc2a970",
       "revId": "1029347e609b6c24eddcdf61e55fe7ad56f9a3c5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e5114ad_b129dbe5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-11-29T13:22:29Z",
+      "side": 1,
+      "message": "Oh, you need admin privileges.\n\nYou need to add yourself to https://github.com/GerritCodeReview/gerrit-ci-scripts/blob/93c5b559bfaaf51da9bd0e71e35480c7697c1e9b/jenkins-docker/server/config-internal.xml#L11 and https://github.com/GerritCodeReview/gerrit-ci-scripts/blob/93c5b559bfaaf51da9bd0e71e35480c7697c1e9b/jenkins-docker/server/config-external.xml#L11",
+      "parentUuid": "43786135_3c764bc4",
+      "revId": "1029347e609b6c24eddcdf61e55fe7ad56f9a3c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

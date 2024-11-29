@@ -160,6 +160,24 @@
       "parentUuid": "138acf7a_c5c71f1f",
       "revId": "1029347e609b6c24eddcdf61e55fe7ad56f9a3c5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2cd0a47f_9bc5decf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-11-29T23:21:39Z",
+      "side": 1,
+      "message": "You forgot to link so linking for you here: https://gerrit-review.googlesource.com/c/gerrit/+/444481\n\nAlso closing as resolved, change is deployed and this change is now passing.",
+      "parentUuid": "b7326c31_71cf9159",
+      "revId": "1029347e609b6c24eddcdf61e55fe7ad56f9a3c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

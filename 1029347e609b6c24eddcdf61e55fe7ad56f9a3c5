@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6d4cbc8_60f5555c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2024-11-29T08:05:56Z",
+      "side": 1,
+      "message": "Doesn\u0027t seem like the [gerrit-ci-script changes](https://gerrit-review.googlesource.com/c/gerrit-ci-scripts/+/443061) are automatically deployed.\nHow/when are they deployed?",
+      "revId": "1029347e609b6c24eddcdf61e55fe7ad56f9a3c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

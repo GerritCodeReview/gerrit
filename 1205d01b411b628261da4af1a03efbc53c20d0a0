@@ -296,6 +296,30 @@
       },
       "revId": "1205d01b411b628261da4af1a03efbc53c20d0a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "89cb117d_d8a6318a",
+        "filename": "Documentation/dev-ci.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-11-29T22:41:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c30e0fb7_9e6f1a6c",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 71
+      },
+      "revId": "1205d01b411b628261da4af1a03efbc53c20d0a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,23 @@
       "message": "This looks good to me although note i haven\u0027t tested it. I presume it works for you locally?",
       "revId": "30af20b446fc354154feb22ea8fae4c5f9b0e464",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9dfbd4c_7ae5da68",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 32
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2024-11-29T07:38:42Z",
+      "side": 1,
+      "message": "This is targeted for master:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/432097",
+      "revId": "30af20b446fc354154feb22ea8fae4c5f9b0e464",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

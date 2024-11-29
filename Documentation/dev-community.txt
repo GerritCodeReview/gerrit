@@ -58,6 +58,7 @@ link:dev-cla.html[contributor's agreement] on file with the project.
 
 [[maintainer]]
 == Maintainer
+* link:dev-ci.html[Gerrit CI]
 * link:dev-release.html[Making a Gerrit Release]
 * link:dev-release-subproject.html[Making a Release of a Gerrit Subproject]
 * link:https://www.gerritcodereview.com/publishing.html[Publish Gerrit Homepage]

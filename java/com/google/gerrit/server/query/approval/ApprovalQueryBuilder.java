@@ -21,11 +21,15 @@ import com.google.common.primitives.Ints;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.GroupDescription;
 import com.google.gerrit.extensions.client.ChangeKind;
+import com.google.gerrit.index.query.Matchable;
+import com.google.gerrit.index.query.OperatorPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryBuilder;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.group.GroupResolver;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.Arrays;
@@ -37,11 +41,32 @@ public class ApprovalQueryBuilder extends QueryBuilder<ApprovalContext, Approval
   private static final QueryBuilder.Definition<ApprovalContext, ApprovalQueryBuilder> mydef =
       new QueryBuilder.Definition<>(ApprovalQueryBuilder.class);
 
+  public static class ChangeIsPredicate extends OperatorPredicate<ApprovalContext>
+      implements Matchable<ApprovalContext> {
+    private final Predicate<ChangeData> delegate;
+
+    public ChangeIsPredicate(Predicate<ChangeData> delegate, String value) {
+      super("changeis", value);
+      this.delegate = delegate;
+    }
+
+    @Override
+    public boolean match(ApprovalContext approvalContext) {
+      return delegate.asMatchable().match(approvalContext.changeData());
+    }
+
+    @Override
+    public int getCost() {
+      return delegate.asMatchable().getCost();
+    }
+  }
+
   private final MagicValuePredicate.Factory magicValuePredicate;
   private final UserInPredicate.Factory userInPredicate;
   private final GroupResolver groupResolver;
   private final GroupControl.Factory groupControl;
   private final ListOfFilesUnchangedPredicate listOfFilesUnchangedPredicate;
+  private final ChangeQueryBuilder changeQueryBuilder;
 
   @Inject
   protected ApprovalQueryBuilder(
@@ -49,13 +74,15 @@ public class ApprovalQueryBuilder extends QueryBuilder<ApprovalContext, Approval
       UserInPredicate.Factory userInPredicate,
       GroupResolver groupResolver,
       GroupControl.Factory groupControl,
-      ListOfFilesUnchangedPredicate listOfFilesUnchangedPredicate) {
+      ListOfFilesUnchangedPredicate listOfFilesUnchangedPredicate,
+      ChangeQueryBuilder changeQueryBuilder) {
     super(mydef, null);
     this.magicValuePredicate = magicValuePredicate;
     this.userInPredicate = userInPredicate;
     this.groupResolver = groupResolver;
     this.groupControl = groupControl;
     this.listOfFilesUnchangedPredicate = listOfFilesUnchangedPredicate;
+    this.changeQueryBuilder = changeQueryBuilder;
   }
 
   @Operator
@@ -112,6 +139,12 @@ public class ApprovalQueryBuilder extends QueryBuilder<ApprovalContext, Approval
             "'%s' is not a valid value for operator 'has'."
                 + " The only valid value is 'unchanged-files'.",
             value));
+  }
+
+  @Operator
+  public Predicate<ApprovalContext> changeis(String value) throws QueryParseException {
+    Predicate<ChangeData> changePredicate = changeQueryBuilder.is(value);
+    return new ChangeIsPredicate(changePredicate, value);
   }
 
   private static <T extends Enum<T>> Optional<T> parseEnumValue(Class<T> clazz, String value) {

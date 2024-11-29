@@ -46,6 +46,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.approval.ApprovalContext;
 import com.google.gerrit.server.query.approval.ApprovalQueryBuilder;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.RepoView;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.server.util.ManualRequestContext;
@@ -181,6 +182,7 @@ public class ApprovalCopier {
   private final LabelNormalizer labelNormalizer;
   private final ApprovalQueryBuilder approvalQueryBuilder;
   private final OneOffRequestContext requestContext;
+  private final ChangeData.Factory changeDataFactory;
 
   @Inject
   ApprovalCopier(
@@ -190,7 +192,8 @@ public class ApprovalCopier {
       PatchSetUtil psUtil,
       LabelNormalizer labelNormalizer,
       ApprovalQueryBuilder approvalQueryBuilder,
-      OneOffRequestContext requestContext) {
+      OneOffRequestContext requestContext,
+      ChangeData.Factory changeDataFactory) {
     this.repoManager = repoManager;
     this.projectCache = projectCache;
     this.changeKindCache = changeKindCache;
@@ -198,6 +201,7 @@ public class ApprovalCopier {
     this.labelNormalizer = labelNormalizer;
     this.approvalQueryBuilder = approvalQueryBuilder;
     this.requestContext = requestContext;
+    this.changeDataFactory = changeDataFactory;
   }
 
   /**
@@ -340,7 +344,7 @@ public class ApprovalCopier {
     }
     ApprovalContext ctx =
         ApprovalContext.create(
-            changeNotes,
+            changeDataFactory.create(changeNotes),
             sourcePatchSetId,
             approverId,
             labelType,

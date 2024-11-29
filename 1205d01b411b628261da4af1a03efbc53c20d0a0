@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3cb536e9_c171957e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-11-29T18:01:37Z",
+      "side": 1,
+      "message": "@matthias.sohn@gmail.com @sven.selberg@axis.com Please let me know if anything isn\u0027t clear enough on how to make changes to the Gerrit-CI.\n\nI know that it is painful, but it is worth the risk reduction of future Jenkins security vulnerabilities.",
+      "revId": "1205d01b411b628261da4af1a03efbc53c20d0a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

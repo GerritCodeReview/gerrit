@@ -20,6 +20,7 @@ import {
 } from '../../../test/test-data-generators';
 import {HttpMethod} from '../../../api/rest-api';
 import {getAppContext} from '../../../services/app-context';
+import {throwingErrorCallback} from '../gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 
 suite('gr-plugin-rest-api tests', () => {
   let instance: GrPluginRestApi;
@@ -46,7 +47,16 @@ suite('gr-plugin-rest-api tests', () => {
   test('fetch', async () => {
     const payload = {foo: 'foo'};
     const r = await instance.fetch(HttpMethod.POST, '/url', payload);
-    assert.isTrue(sendStub.calledWith(HttpMethod.POST, '/url', payload));
+    assert.isTrue(
+      sendStub.calledWith(
+        HttpMethod.POST,
+        '/url',
+        payload,
+        /* errFn=*/ undefined,
+        /* contentType=*/ undefined,
+        /* requestOrigin=*/ 'plugin:testplugin'
+      )
+    );
     assert.equal(r.status, 200);
   });
 
@@ -55,7 +65,16 @@ suite('gr-plugin-rest-api tests', () => {
     const response = {bar: 'bar'};
     sendStub.resolves(new Response(makePrefixedJSON(response)));
     const r = await instance.send(HttpMethod.POST, '/url', payload);
-    assert.isTrue(sendStub.calledWith(HttpMethod.POST, '/url', payload));
+    assert.isTrue(
+      sendStub.calledWith(
+        HttpMethod.POST,
+        '/url',
+        payload,
+        throwingErrorCallback,
+        /* contentType=*/ undefined,
+        /* requestOrigin=*/ 'plugin:testplugin'
+      )
+    );
     assert.deepEqual(r, response);
   });
 
@@ -63,7 +82,16 @@ suite('gr-plugin-rest-api tests', () => {
     const response = {foo: 'foo'};
     sendStub.resolves(new Response(makePrefixedJSON(response)));
     const r = await instance.get('/url');
-    assert.isTrue(sendStub.calledWith('GET', '/url'));
+    assert.isTrue(
+      sendStub.calledWith(
+        'GET',
+        '/url',
+        /* payload=*/ undefined,
+        throwingErrorCallback,
+        /* contentType=*/ undefined,
+        /* requestOrigin=*/ 'plugin:testplugin'
+      )
+    );
     assert.deepEqual(r, response);
   });
 
@@ -72,7 +100,16 @@ suite('gr-plugin-rest-api tests', () => {
     const response = {bar: 'bar'};
     sendStub.resolves(new Response(makePrefixedJSON(response)));
     const r = await instance.post('/url', payload);
-    assert.isTrue(sendStub.calledWith('POST', '/url', payload));
+    assert.isTrue(
+      sendStub.calledWith(
+        'POST',
+        '/url',
+        payload,
+        throwingErrorCallback,
+        /* contentType=*/ undefined,
+        /* requestOrigin=*/ 'plugin:testplugin'
+      )
+    );
     assert.deepEqual(r, response);
   });
 
@@ -81,7 +118,16 @@ suite('gr-plugin-rest-api tests', () => {
     const response = {bar: 'bar'};
     sendStub.resolves(new Response(makePrefixedJSON(response)));
     const r = await instance.put('/url', payload);
-    assert.isTrue(sendStub.calledWith('PUT', '/url', payload));
+    assert.isTrue(
+      sendStub.calledWith(
+        'PUT',
+        '/url',
+        payload,
+        throwingErrorCallback,
+        /* contentType=*/ undefined,
+        /* requestOrigin=*/ 'plugin:testplugin'
+      )
+    );
     assert.deepEqual(r, response);
   });
 
@@ -89,7 +135,16 @@ suite('gr-plugin-rest-api tests', () => {
     const response = {status: 204};
     sendStub.resolves(response);
     const r = await instance.delete('/url');
-    assert.isTrue(sendStub.calledWith('DELETE', '/url'));
+    assert.isTrue(
+      sendStub.calledWith(
+        'DELETE',
+        '/url',
+        /* payload=*/ undefined,
+        /* errFn=*/ undefined,
+        /* contentType=*/ undefined,
+        /* requestOrigin=*/ 'plugin:testplugin'
+      )
+    );
     assert.strictEqual(r, response);
   });
 
@@ -102,7 +157,16 @@ suite('gr-plugin-rest-api tests', () => {
     });
     const error = await assertFails(instance.delete('/url'));
     assert.equal('text', (error as Error).message);
-    assert.isTrue(sendStub.calledWith('DELETE', '/url'));
+    assert.isTrue(
+      sendStub.calledWith(
+        'DELETE',
+        '/url',
+        /* payload=*/ undefined,
+        /* errFn=*/ undefined,
+        /* contentType=*/ undefined,
+        /* requestOrigin=*/ 'plugin:testplugin'
+      )
+    );
   });
 
   test('getLoggedIn', async () => {
@@ -115,7 +179,7 @@ suite('gr-plugin-rest-api tests', () => {
   test('getVersion', async () => {
     const stub = stubRestApi('getVersion').resolves('foo bar');
     const version = await instance.getVersion();
-    assert.isTrue(stub.calledOnce);
+    assert.isTrue(stub.calledWith(/* requestOrigin=*/ 'plugin:testplugin'));
     assert.equal(version, 'foo bar');
   });
 
@@ -123,7 +187,12 @@ suite('gr-plugin-rest-api tests', () => {
     const info = createServerInfo();
     const stub = stubRestApi('getConfig').resolves(info);
     const config = await instance.getConfig();
-    assert.isTrue(stub.calledOnce);
+    assert.isTrue(
+      stub.calledWith(
+        /* noCache=*/ false,
+        /* requestOrigin=*/ 'plugin:testplugin'
+      )
+    );
     assert.equal(config, info);
   });
 });

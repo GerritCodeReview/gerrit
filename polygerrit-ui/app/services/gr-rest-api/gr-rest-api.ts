@@ -112,7 +112,10 @@ export interface GetDiffRobotCommentsOutput {
 }
 
 export interface RestApiService extends Finalizable {
-  getConfig(noCache?: boolean): Promise<ServerInfo | undefined>;
+  getConfig(
+    noCache?: boolean,
+    requestOrigin?: string
+  ): Promise<ServerInfo | undefined>;
   getLoggedIn(): Promise<boolean>;
   getPreferences(): Promise<PreferencesInfo | undefined>;
 
@@ -122,8 +125,8 @@ export interface RestApiService extends Finalizable {
    */
   getAccountState(): Promise<AccountStateInfo | undefined>;
 
-  getVersion(): Promise<string | undefined>;
-  getAccount(): Promise<AccountDetailInfo | undefined>;
+  getVersion(requestOrigin?: string): Promise<string | undefined>;
+  getAccount(requestOrigin?: string): Promise<AccountDetailInfo | undefined>;
   getAccountCapabilities(
     params?: string[]
   ): Promise<AccountCapabilityInfo | undefined>;
@@ -134,17 +137,9 @@ export interface RestApiService extends Finalizable {
     filter: string | undefined,
     reposPerPage: number,
     offset?: number,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
+    requestOrigin?: string
   ): Promise<ProjectInfoWithName[] | undefined>;
-
-  send(
-    method: HttpMethod,
-    url: string,
-    body?: RequestPayload,
-    errFn?: null | undefined,
-    contentType?: string,
-    headers?: Record<string, string>
-  ): Promise<Response>;
 
   send(
     method: HttpMethod,
@@ -152,7 +147,7 @@ export interface RestApiService extends Finalizable {
     body?: RequestPayload,
     errFn?: ErrorCallback,
     contentType?: string,
-    headers?: Record<string, string>
+    requestOrigin?: string
   ): Promise<Response | void>;
 
   /**

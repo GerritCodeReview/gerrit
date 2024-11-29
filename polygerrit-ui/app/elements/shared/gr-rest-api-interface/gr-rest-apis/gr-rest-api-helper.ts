@@ -22,6 +22,7 @@ import {Scheduler, Task} from '../../../../services/scheduler/scheduler';
 import {RetryError} from '../../../../services/scheduler/retry-scheduler';
 
 export const JSON_PREFIX = ")]}'";
+export const REQUEST_ORIGIN_HEADER = 'X-Gerrit-Request-Origin';
 
 export interface ResponsePayload {
   parsed: ParsedJSON;
@@ -220,26 +221,32 @@ export interface FetchOptionsInit {
   body?: RequestPayload;
   contentType?: string;
   headers?: Record<string, string>;
+  // Specifies if the call originated from core Gerrit UI, plugin or somewhere
+  // else.
+  requestOrigin?: string;
 }
 
 export function getFetchOptions(init: FetchOptionsInit): AuthRequestInit {
   const options: AuthRequestInit = {
     method: init.method,
+    headers: new Headers(),
   };
   if (init.body) {
-    options.headers = new Headers();
-    options.headers.set('Content-Type', init.contentType || 'application/json');
+    options.headers!.set(
+      'Content-Type',
+      init.contentType || 'application/json'
+    );
     options.body =
       typeof init.body === 'string' ? init.body : JSON.stringify(init.body);
+  }
+  if (init.requestOrigin) {
+    options.headers!.set(REQUEST_ORIGIN_HEADER, init.requestOrigin);
   }
   // Copy headers after processing body, so that explicit headers can override
   // if necessary.
   if (init.headers) {
-    if (!options.headers) {
-      options.headers = new Headers();
-    }
     for (const [name, value] of Object.entries(init.headers)) {
-      options.headers.set(name, value);
+      options.headers!.set(name, value);
     }
   }
   return options;
@@ -345,12 +352,22 @@ export class GrRestApiHelper {
    *     If an error occurs when performing a request, promise rejects.
    */
   async fetch(req: FetchRequest): Promise<Response> {
+    if (!req.fetchOptions) {
+      req.fetchOptions = {};
+    }
+    if (!req.fetchOptions.headers) {
+      req.fetchOptions.headers = new Headers();
+    }
+    if (!req.fetchOptions.headers.get(REQUEST_ORIGIN_HEADER)) {
+      req.fetchOptions.headers.set(REQUEST_ORIGIN_HEADER, 'core-ui');
+    }
     const urlWithParams = this.urlWithParams(req.url, req.params);
     const fetchReq: FetchRequest = {
       url: urlWithParams,
       fetchOptions: req.fetchOptions,
       anonymizedUrl: req.reportUrlAsIs ? urlWithParams : req.anonymizedUrl,
     };
+
     let resp: Response;
     try {
       resp = await this.fetchImpl(fetchReq);

@@ -22,6 +22,7 @@ import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.RepoView;
 
 /** Entity representing all required information to match predicates for copying approvals. */
@@ -46,6 +47,9 @@ public abstract class ApprovalContext {
   /** {@link ChangeNotes} of the change in question. */
   public abstract ChangeNotes changeNotes();
 
+  /** {@link ChangeData } of the change in question. */
+  public abstract ChangeData changeData();
+
   /** {@link ChangeKind} of the delta between the origin and target patch set. */
   public abstract ChangeKind changeKind();
 
@@ -55,7 +59,7 @@ public abstract class ApprovalContext {
   public abstract RepoView repoView();
 
   public static ApprovalContext create(
-      ChangeNotes changeNotes,
+      ChangeData changeData,
       PatchSet.Id sourcePatchSetId,
       Account.Id approverId,
       LabelType labelType,
@@ -81,7 +85,8 @@ public abstract class ApprovalContext {
         labelType,
         approvalValue,
         targetPatchSet,
-        changeNotes,
+        changeData.notes(),
+        changeData,
         changeKind,
         isMerge,
         repoView);

@@ -161,6 +161,14 @@ public class ApprovalQueryIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void changeIsPredicates_matches() throws Exception {
+    ApprovalContext context = contextForCodeReviewLabel(2);
+
+    assertTrue(queryBuilder.parse("changeis:open").asMatchable().match(context));
+    assertFalse(queryBuilder.parse("changeis:wip").asMatchable().match(context));
+  }
+
+  @Test
   public void uploaderInPredicate() throws Exception {
     String administratorsUUID = gApi.groups().query("name:Administrators").get().get(0).id;
 
@@ -305,7 +313,7 @@ public class ApprovalQueryIT extends AbstractDaemonTest {
         ObjectReader reader = ins.newReader();
         RevWalk rw = new RevWalk(reader)) {
       return ApprovalContext.create(
-          changeNotes,
+          changeDataFactory.create(changeNotes),
           psId,
           approver,
           projectCache.get(project).get().getLabelTypes().byLabel("Code-Review").get(),

@@ -2601,7 +2601,7 @@ When the rendering from the secondary index (set to `true`),
 the **list is limited** by the global capability
 link:access-control.html#capability_queryLimit[queryLimit]
 which is defaulted to 500 entries.
-
++
 [[gerrit.projectStatePredicateEnabled]]
 +
 Indicates whether the link:rest-api-projects.html[/projects/] REST API endpoint

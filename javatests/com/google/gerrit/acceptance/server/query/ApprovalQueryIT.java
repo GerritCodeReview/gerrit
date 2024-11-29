@@ -20,6 +20,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.ExtensionRegistry;
+import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.testsuite.change.ChangeKindCreator;
 import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
@@ -27,11 +29,15 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.client.ChangeKind;
+import com.google.gerrit.index.query.Matchable;
+import com.google.gerrit.index.query.OperatorPredicate;
+import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.query.approval.ApprovalContext;
 import com.google.gerrit.server.query.approval.ApprovalQueryBuilder;
+import com.google.gerrit.server.query.approval.ApprovalQueryBuilder.UserInOperandFactory;
 import com.google.gerrit.server.update.RepoView;
 import com.google.inject.Inject;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -46,6 +52,7 @@ public class ApprovalQueryIT extends AbstractDaemonTest {
   @Inject private ChangeNotes.Factory changeNotesFactory;
   @Inject private ChangeKindCache changeKindCache;
   @Inject private ChangeOperations changeOperations;
+  @Inject private ExtensionRegistry extensionRegistry;
 
   @Test
   public void magicValuePredicate() throws Exception {
@@ -292,6 +299,48 @@ public class ApprovalQueryIT extends AbstractDaemonTest {
     QueryParseException thrown =
         assertThrows(QueryParseException.class, () -> queryBuilder.parse("INVALID"));
     assertThat(thrown).hasMessageThat().contains("Unsupported query: INVALID");
+  }
+
+  private static class CustomAlwaysTruePredicate extends OperatorPredicate<ApprovalContext>
+      implements UserInOperandFactory, Matchable<ApprovalContext> {
+
+    public static final String OPERAND = "true-predicate";
+
+    public CustomAlwaysTruePredicate() {
+      super("uploaderin", OPERAND);
+    }
+
+    @Override
+    public boolean match(ApprovalContext object) {
+      return true;
+    }
+
+    @Override
+    public int getCost() {
+      return 0;
+    }
+
+    @Override
+    public Predicate<ApprovalContext> create() throws QueryParseException {
+      return this;
+    }
+  }
+
+  @Test
+  public void pluginUploaderInQuery() throws Exception {
+    try (Registration registration =
+        extensionRegistry
+            .newRegistration()
+            .add(new CustomAlwaysTruePredicate(), CustomAlwaysTruePredicate.OPERAND)) {
+      assertTrue(
+          queryBuilder
+              .parse(
+                  String.format(
+                      "uploaderin:%s_%s",
+                      CustomAlwaysTruePredicate.OPERAND, ExtensionRegistry.PLUGIN_NAME))
+              .asMatchable()
+              .match(contextForCodeReviewLabel(2)));
+    }
   }
 
   private ApprovalContext contextForCodeReviewLabel(int value) throws Exception {

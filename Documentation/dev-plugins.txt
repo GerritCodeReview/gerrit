@@ -1020,7 +1020,7 @@ public class SampleHasOperand implements ChangeHasOperandFactory {
     @Override
     protected void configure() {
       bind(ChangeHasOperandFactory.class)
-          .annotatedWith(Exports.named("sample")
+          .annotatedWith(Exports.named("sample"))
           .to(SampleHasOperand.class);
     }
   }
@@ -1029,6 +1029,43 @@ public class SampleHasOperand implements ChangeHasOperandFactory {
   public Predicate<ChangeData> create(ChangeQueryBuilder builder)
       throws QueryParseException {
     return new HasSamplePredicate();
+  }
+}
+----
+
+[[copy_condition_operands]]
+== Label Copy-Condition Operands
+
+Plugins can define operands to extend what votes are copied as part of label's
+link:config-labels.html#label_copyCondition[copyCondition].
+Plugin defines a Predicate<ApprovalContext> implementation and a factory that is
+bound to the `DynamicSet` from a module's `configure()` method in the plugin.
+
+Following operators supported:
+* "uploaderin:" and "approverin" by implementing UserInOperandFactory.
+
+The new operand, when used in a CopyCondition would appear as:
+  `:operandName_pluginName`
+
+A sample `UserInOperandFactory` class implementing, and registering, a
+new `uploaderin:sample_pluginName` operand is shown below:
+
+[source, java]
+----
+public class SampleUserInOperand implements UserInOperandFactory {
+  public static class Module extends AbstractModule {
+    @Override
+    protected void configure() {
+      bind(UserInOperandFactory.class)
+          .annotatedWith(Exports.named("sample"))
+          .to(SampleUserInOperand.class);
+    }
+  }
+
+  @Override
+  public Predicate<ApprovalContext> create()
+      throws QueryParseException {
+    return new UserInSamplePredicate();
   }
 }
 ----

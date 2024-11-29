@@ -57,6 +57,7 @@ import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.git.validators.OnSubmitValidationListener;
 import com.google.gerrit.server.git.validators.RefOperationValidationListener;
 import com.google.gerrit.server.logging.PerformanceLogger;
+import com.google.gerrit.server.query.approval.ApprovalQueryBuilder.UserInOperandFactory;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder.ChangeHasOperandFactory;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder.ChangeIsOperandFactory;
 import com.google.gerrit.server.restapi.change.OnPostReview;
@@ -116,6 +117,7 @@ public class ExtensionRegistry {
 
   private final DynamicMap<ChangeHasOperandFactory> hasOperands;
   private final DynamicMap<ChangeIsOperandFactory> isOperands;
+  private final DynamicMap<UserInOperandFactory> userInOperands;
   private final DynamicMap<ReviewerSuggestion> reviewerSuggestions;
 
   @Inject
@@ -159,6 +161,7 @@ public class ExtensionRegistry {
       DynamicSet<ReviewerDeletedListener> reviewerDeletedListeners,
       DynamicMap<ChangeHasOperandFactory> hasOperands,
       DynamicMap<ChangeIsOperandFactory> isOperands,
+      DynamicMap<UserInOperandFactory> userInOperands,
       DynamicSet<ServerStateProvider> serverStateProviders,
       DynamicSet<AccountStateProvider> accountStateProviders,
       DynamicSet<AttentionSetListener> attentionSetListeners,
@@ -203,6 +206,7 @@ public class ExtensionRegistry {
     this.reviewerDeletedListeners = reviewerDeletedListeners;
     this.hasOperands = hasOperands;
     this.isOperands = isOperands;
+    this.userInOperands = userInOperands;
     this.serverStateProviders = serverStateProviders;
     this.accountStateProviders = accountStateProviders;
     this.attentionSetListeners = attentionSetListeners;
@@ -281,6 +285,11 @@ public class ExtensionRegistry {
     @CanIgnoreReturnValue
     public Registration add(ChangeIsOperandFactory isOperand, String exportName) {
       return add(isOperands, isOperand, exportName);
+    }
+
+    @CanIgnoreReturnValue
+    public Registration add(UserInOperandFactory userInOperand, String exportName) {
+      return add(userInOperands, userInOperand, exportName);
     }
 
     @CanIgnoreReturnValue

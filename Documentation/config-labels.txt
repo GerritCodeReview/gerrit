@@ -469,11 +469,19 @@ Negative values need to be quoted, e.g.: is:"-1"
 Matches votes granted by a user who is a member of
 link:#group-id[\{group-id\}].
 
+Plugins can install custom operands for "uploaderin" that are checked before
+group membership is checked and have format of
+"uploaderin:<operand>_<pluginName>"
+
 [[uploaderin]]
 ==== uploaderin:link:#group-id[\{group-id\}]
 
 Matches all votes if the new patch set was uploaded by a member of
 link:#group-id[\{group-id\}].
+
+Plugins can install custom operands for "uploaderin" that are checked before
+group membership is checked and have format of
+"uploaderin:<operand>_<pluginName>"
 
 [[has_unchanged_files]]
 ==== has:unchanged-files

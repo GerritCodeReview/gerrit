@@ -117,6 +117,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "699b5825_ed01c32a",
+        "filename": "Documentation/dev-ci.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-11-29T21:53:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ec47d68_b277c000",
+      "revId": "1205d01b411b628261da4af1a03efbc53c20d0a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4f24cb2c_a29d6629",
@@ -169,6 +187,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c60df88_74ac6545",
+        "filename": "Documentation/dev-ci.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-11-29T21:53:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb9b2628_3266fbff",
+      "revId": "1205d01b411b628261da4af1a03efbc53c20d0a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ee0e6194_cd2086a7",
@@ -217,6 +253,24 @@
       "writtenOn": "2024-11-29T19:11:24Z",
       "side": 1,
       "message": "```suggestion\n- No credentials should be stored anywhere on the Jenkins controller\n```",
+      "revId": "1205d01b411b628261da4af1a03efbc53c20d0a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5810ef1_597d5410",
+        "filename": "Documentation/dev-ci.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-11-29T21:53:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21e093a6_34bd58ef",
       "revId": "1205d01b411b628261da4af1a03efbc53c20d0a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

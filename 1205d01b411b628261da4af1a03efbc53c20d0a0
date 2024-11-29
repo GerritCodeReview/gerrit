@@ -16,6 +16,154 @@
       "message": "@matthias.sohn@gmail.com @sven.selberg@axis.com Please let me know if anything isn\u0027t clear enough on how to make changes to the Gerrit-CI.\n\nI know that it is painful, but it is worth the risk reduction of future Jenkins security vulnerabilities.",
       "revId": "1205d01b411b628261da4af1a03efbc53c20d0a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce0df875_960b7aec",
+        "filename": "Documentation/dev-ci.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-11-29T19:11:24Z",
+      "side": 1,
+      "message": "```suggestion\nupon new commits to the master branch of the gerrit-ci-scripts project.\n```",
+      "range": {
+        "startLine": 18,
+        "startChar": 63,
+        "endLine": 18,
+        "endChar": 70
+      },
+      "revId": "1205d01b411b628261da4af1a03efbc53c20d0a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9686c0ba_ca9c66f0",
+        "filename": "Documentation/dev-ci.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-11-29T19:11:24Z",
+      "side": 1,
+      "message": "```suggestion\nOnce the sign-up phase is complete, the maintainer needs to grant\n```",
+      "revId": "1205d01b411b628261da4af1a03efbc53c20d0a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ec47d68_b277c000",
+        "filename": "Documentation/dev-ci.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-11-29T19:11:24Z",
+      "side": 1,
+      "message": "```suggestion\nhimself permissions on Jenkins by creating a change to add their names into\n```",
+      "revId": "1205d01b411b628261da4af1a03efbc53c20d0a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f24cb2c_a29d6629",
+        "filename": "Documentation/dev-ci.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-11-29T19:11:24Z",
+      "side": 1,
+      "message": "```suggestion\n- To limit the impact of future attacks or zero-days vulnerabilities the controller\n```",
+      "revId": "1205d01b411b628261da4af1a03efbc53c20d0a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb9b2628_3266fbff",
+        "filename": "Documentation/dev-ci.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-11-29T19:11:24Z",
+      "side": 1,
+      "message": "```suggestion\nmust not have any meaningful secret or key which could be stolen.\n```",
+      "revId": "1205d01b411b628261da4af1a03efbc53c20d0a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee0e6194_cd2086a7",
+        "filename": "Documentation/dev-ci.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-11-29T19:11:24Z",
+      "side": 1,
+      "message": "```suggestion\n  infrastructure without authenticating with their credentials.\n```",
+      "revId": "1205d01b411b628261da4af1a03efbc53c20d0a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21e093a6_34bd58ef",
+        "filename": "Documentation/dev-ci.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-11-29T19:11:24Z",
+      "side": 1,
+      "message": "```suggestion\n- No credentials should be stored anywhere on the Jenkins controller\n```",
+      "revId": "1205d01b411b628261da4af1a03efbc53c20d0a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c30e0fb7_9e6f1a6c",
+        "filename": "Documentation/dev-ci.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-11-29T19:11:24Z",
+      "side": 1,
+      "message": "```suggestion\nGerrit maintainers can apply the latest changes on the Jenkins controller on Gerrit-CI by performing the following actions:\n```",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 71
+      },
+      "revId": "1205d01b411b628261da4af1a03efbc53c20d0a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -106,6 +106,24 @@
       "parentUuid": "43786135_3c764bc4",
       "revId": "1029347e609b6c24eddcdf61e55fe7ad56f9a3c5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "64a5b3aa_d09eebe1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-11-29T13:50:44Z",
+      "side": 1,
+      "message": "can we document this procedure somewhere in maintainer section of the contributor guide https://gerrit-review.googlesource.com/Documentation/dev-community.html#maintainer ?",
+      "parentUuid": "8e5114ad_b129dbe5",
+      "revId": "1029347e609b6c24eddcdf61e55fe7ad56f9a3c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

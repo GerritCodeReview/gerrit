@@ -86,6 +86,7 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SubmitRequirementsEvaluatorImpl;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.approval.ApprovalModule;
+import com.google.gerrit.server.query.approval.ApprovalQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeIsVisibleToPredicate;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
@@ -209,6 +210,7 @@ public class BatchProgramModule extends FactoryModule {
     DynamicMap.mapOf(binder(), ChangeQueryBuilder.ChangeOperatorFactory.class);
     DynamicMap.mapOf(binder(), ChangeQueryBuilder.ChangeHasOperandFactory.class);
     DynamicMap.mapOf(binder(), ChangeQueryBuilder.ChangeIsOperandFactory.class);
+    DynamicMap.mapOf(binder(), ApprovalQueryBuilder.UserInOperandFactory.class);
 
     // Submit rules
     DynamicSet.setOf(binder(), SubmitRule.class);

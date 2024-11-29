@@ -52,6 +52,24 @@
       "parentUuid": "473a04e3_0ff868b9",
       "revId": "1029347e609b6c24eddcdf61e55fe7ad56f9a3c5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d99ad636_2dc2a970",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-11-29T12:53:43Z",
+      "side": 1,
+      "message": "You do https://gerrit-ci.gerritforge.com/job/gerrit-ci-scripts-manual/\n\nClick \"Build With Paramters\" and then enter the details. Password is the token you generate in your profile. CLick your username on the topbar, then click \"Configure\".",
+      "parentUuid": "d8ca2b48_526a5108",
+      "revId": "1029347e609b6c24eddcdf61e55fe7ad56f9a3c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

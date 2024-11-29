@@ -2587,8 +2587,10 @@ Example:
 
 [[gerrit.listProjectsFromIndex]]gerrit.listProjectsFromIndex::
 +
-Enable rendering of project list from the secondary index instead
-of purely relying on the in-memory cache.
+Enable rendering of project list from the secondary index when the project
+filter is empty, instead of purely relying on the in-memory cache.
+When listing the projects with a filter, the list is always rendered
+from the project in-memory cache.
 +
 By default `false`.
 +

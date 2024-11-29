@@ -278,6 +278,7 @@ export class GrSuggestionDiffPreview extends LitElement {
     this.reporting.time(Timing.APPLY_FIX_LOAD);
     let res: Response | undefined = undefined;
     let errorText = '';
+    let status = '';
     try {
       res = await this.restApiService.applyFixSuggestion(
         changeNum,
@@ -289,6 +290,7 @@ export class GrSuggestionDiffPreview extends LitElement {
     } catch (error) {
       if (error instanceof Error) {
         errorText = error.message;
+        status = errorText.match(/\b\d{3}\b/)?.[0] || '';
       }
       fireError(this, `Applying Fix failed.\n${errorText}`);
     } finally {
@@ -299,8 +301,8 @@ export class GrSuggestionDiffPreview extends LitElement {
           fixSuggestion?.replacements?.[0].path ?? ''
         ),
         commentId: this.commentId ?? '',
-        success: res?.ok,
-        status: res?.status,
+        success: res?.ok ?? false,
+        status: res?.status ?? status,
         errorText,
       });
     }

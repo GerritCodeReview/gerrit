@@ -33,6 +33,24 @@
       "message": "The test failure output:\n\n```\nThere was 1 failure:\n1) pushForMasterWithReviewer[default](com.google.gerrit.acceptance.git.SshPushForReviewIT)\nAccount \u0027email.casing@example.com\u0027 not found\nemail.casing@example.com does not identify a registered user or group\nProcessing changes: refs: 1, done    \n\nexpected: OK\nbut was : REJECTED_OTHER_REASON\n        at com.google.gerrit.acceptance.PushOneCommit$Result.assertStatus(PushOneCommit.java:567)\n        at com.google.gerrit.acceptance.PushOneCommit$Result.assertOkStatus(PushOneCommit.java:549)\n        at com.google.gerrit.acceptance.git.AbstractPushForReview.pushForMasterWithReviewer(AbstractPushForReview.java:773)\n```",
       "revId": "e69920fedae65399a90f2ebf96fe9e987e964463",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ea32c94_8acf47a6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1094853
+      },
+      "writtenOn": "2024-11-30T05:49:08Z",
+      "side": 1,
+      "message": "Copying from the other comment:\n\nThe test failure output:\n\n```\nThere was 1 failure:\n1) pushForMasterWithReviewer[default](com.google.gerrit.acceptance.git.SshPushForReviewIT)\nAccount \u0027email.casing@example.com\u0027 not found\nemail.casing@example.com does not identify a registered user or group\nProcessing changes: refs: 1, done    \n\nexpected: OK\nbut was : REJECTED_OTHER_REASON\n        at com.google.gerrit.acceptance.PushOneCommit$Result.assertStatus(PushOneCommit.java:567)\n        at com.google.gerrit.acceptance.PushOneCommit$Result.assertOkStatus(PushOneCommit.java:549)\n        at com.google.gerrit.acceptance.git.AbstractPushForReview.pushForMasterWithReviewer(AbstractPushForReview.java:773)\n```",
+      "parentUuid": "3442950c_772a43ae",
+      "revId": "e69920fedae65399a90f2ebf96fe9e987e964463",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

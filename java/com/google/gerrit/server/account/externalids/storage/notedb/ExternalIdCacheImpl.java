@@ -142,6 +142,7 @@ public class ExternalIdCacheImpl implements ExternalIdCache {
     AllExternalIds allExternalIds = get();
     ImmutableSetMultimap.Builder<String, ExternalId> byEmails = ImmutableSetMultimap.builder();
     for (String email : emails) {
+      email = email.toLowerCase();
       byEmails.putAll(email, allExternalIds.byEmail().get(email));
     }
     return byEmails.build();

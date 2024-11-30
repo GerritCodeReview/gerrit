@@ -411,7 +411,7 @@ public class AccountResolver {
       String name = nameOrEmail.substring(0, lt - 1);
       ImmutableList<AccountState> nameMatches =
           allMatches.stream()
-              .filter(a -> name.equals(a.account().fullName()))
+              .filter(a -> name.equalsIgnoreCase(a.account().fullName()))
               .collect(toImmutableList());
       return !nameMatches.isEmpty() ? nameMatches.stream() : allMatches.stream();
     }
@@ -464,7 +464,7 @@ public class AccountResolver {
           if (accountState.externalIds().stream()
               .map(ExternalId::email)
               .filter(Objects::nonNull)
-              .anyMatch(email -> email.equals(input))) {
+              .anyMatch(email -> email.equalsIgnoreCase(input))) {
             return Stream.of(accountState);
           }
         }
@@ -482,7 +482,7 @@ public class AccountResolver {
           && asUser.asIdentifiedUser().state().externalIds().stream()
               .map(ExternalId::email)
               .filter(Objects::nonNull)
-              .anyMatch(email -> email.equals(input))) {
+              .anyMatch(email -> email.equalsIgnoreCase(input))) {
         return Stream.of(asUser.asIdentifiedUser().state());
       }
 

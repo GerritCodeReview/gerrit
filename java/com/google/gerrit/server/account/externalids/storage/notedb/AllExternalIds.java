@@ -39,7 +39,7 @@ public abstract class AllExternalIds {
           byKey.put(id.key(), id);
           byAccount.put(id.accountId(), id);
           if (!Strings.isNullOrEmpty(id.email())) {
-            byEmail.put(id.email(), id);
+            byEmail.put(id.email().toLowerCase(), id);
           }
         });
 

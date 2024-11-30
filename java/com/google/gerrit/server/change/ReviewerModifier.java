@@ -290,7 +290,7 @@ public class ReviewerModifier {
         reviewerUser = accountResolver.resolveIncludeInactive(input.reviewer).asUniqueUser();
       }
       if (input.reviewer.equalsIgnoreCase(reviewerUser.getName())
-          || input.reviewer.equals(String.valueOf(reviewerUser.getAccountId()))) {
+          || input.reviewer.equalsIgnoreCase(String.valueOf(reviewerUser.getAccountId()))) {
         exactMatchFound = true;
       }
     } catch (UnprocessableEntityException e) {

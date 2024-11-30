@@ -766,6 +766,12 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r.assertOkStatus();
     r.assertChange(Change.Status.NEW, topic, user);
 
+    // add one reviewer with email not matching the case
+    String topic = "my/topic";
+    PushOneCommit.Result r = pushTo("refs/for/master%topic=" + topic + ",r=" + user.email().toUpperCase());
+    r.assertOkStatus();
+    r.assertChange(Change.Status.NEW, topic, user);
+
     // add several reviewers
     TestAccount user2 =
         accountCreator.create("another-user", "another.user@example.com", "Another User", null);

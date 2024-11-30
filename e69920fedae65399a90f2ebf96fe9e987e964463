@@ -51,6 +51,24 @@
       "parentUuid": "3442950c_772a43ae",
       "revId": "e69920fedae65399a90f2ebf96fe9e987e964463",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be9e49f7_eb41b740",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1094853
+      },
+      "writtenOn": "2024-11-30T05:54:19Z",
+      "side": 1,
+      "message": "I pushed some of my attempts, but they did not work. I think I am out of ideas.\n\n@luca.milanesio@gmail.com, I know you from the Gerrit plugin for Jenkins. This is my first attempt on contributing to Gerrit. Would you be able to help me anyhow? Or maybe suggest someone else?",
+      "parentUuid": "7ea32c94_8acf47a6",
+      "revId": "e69920fedae65399a90f2ebf96fe9e987e964463",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

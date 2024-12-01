@@ -262,6 +262,9 @@ export class GrRelatedChangesList extends LitElement {
     if (this.relatedChanges.length === 0) {
       return undefined;
     }
+    this.relatedChanges = this._computeRelatedChangesFlatTree(
+      this.relatedChanges
+    );
     const relatedChangesMarkersPredicate = this.markersPredicateFactory(
       this.relatedChanges.length,
       this.relatedChanges.findIndex(relatedChange =>
@@ -712,6 +715,89 @@ export class GrRelatedChangesList extends LitElement {
       --pos;
     }
     return connected;
+  }
+
+  /*
+   * Enhance related-changes with tree-level. This might change the order of the related-changes.
+   */
+  _computeRelatedChangesFlatTree(
+    relatedChanges?: RelatedChangeAndCommitInfo[]
+  ): RelatedChangeAndCommitInfo[] {
+    if (!relatedChanges) {
+      return [];
+    }
+
+    const treeLeaves: {
+      [index: CommitId | string]: {[index: CommitId | string]: boolean};
+    } = {root: {}};
+    const changesByCommitId: {
+      [index: CommitId]: RelatedChangeAndCommitInfo;
+    } = {};
+
+    const numberOfChanges = relatedChanges.length;
+    for (let i = numberOfChanges - 1; i >= 0; i--) {
+      const change = relatedChanges[i];
+      const commitId = change.commit.commit;
+      const chainOfCommitIds = change.commit.parents.map(p => p.commit);
+      changesByCommitId[commitId] = change;
+
+      const chainLength = chainOfCommitIds.length;
+      for (let i = chainLength - 1; i >= 0; i--) {
+        const currentCommitId = chainOfCommitIds[i];
+        if (i === chainLength - 1) {
+          if (treeLeaves[currentCommitId] === undefined) {
+            treeLeaves['root'][currentCommitId] = true;
+          }
+        } else {
+          const parentCommitId = chainOfCommitIds[i + 1];
+          treeLeaves[parentCommitId][currentCommitId] = true;
+        }
+        treeLeaves[currentCommitId] ??= {};
+      }
+
+      treeLeaves[chainOfCommitIds[0]][commitId] = true;
+      treeLeaves[commitId] ??= {};
+    }
+
+    const flatTreeLeaves: {
+      commit: CommitId;
+      level: number;
+    }[] = this._flattenTreeRelatedCommits(treeLeaves);
+
+    const relatedChangesFlatTree: RelatedChangeAndCommitInfo[] = [];
+    for (let i = flatTreeLeaves.length - 1; i >= 0; i--) {
+      const currentLeaf = flatTreeLeaves[i];
+      const change = changesByCommitId[currentLeaf.commit];
+      if (change !== undefined) {
+        change.tree_level = currentLeaf.level;
+        relatedChangesFlatTree.push(change);
+      }
+    }
+    return relatedChangesFlatTree;
+  }
+
+  _flattenTreeRelatedCommits(
+    treeLeaves: {
+      [index: CommitId | string]: {[index: CommitId | string]: boolean};
+    },
+    currentLeafCommitId: CommitId | string = 'root',
+    level = -1
+  ) {
+    const flatTree: {commit: CommitId; level: number}[] = [];
+    const subLeaves = treeLeaves[currentLeafCommitId] ?? {};
+    for (const subLeafCommitId in subLeaves) {
+      if (Object.prototype.hasOwnProperty.call(subLeaves, subLeafCommitId)) {
+        flatTree.push({commit: subLeafCommitId as CommitId, level});
+        flatTree.push(
+          ...this._flattenTreeRelatedCommits(
+            treeLeaves,
+            subLeafCommitId,
+            level + 1
+          )
+        );
+      }
+    }
+    return flatTree;
   }
 }
 

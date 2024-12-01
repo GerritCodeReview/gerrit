@@ -89,6 +89,15 @@ export class GrRelatedChange extends LitElement {
         .submittableCheck.submittable {
           display: inline;
         }
+        .marker.arrowForRelatedChange {
+          min-width: 15px;
+          text-align: center;
+          vertical-align: bottom;
+        }
+        .marker.space {
+          height: 1px;
+          min-width: 15px;
+        }
       `,
     ];
   }
@@ -98,6 +107,7 @@ export class GrRelatedChange extends LitElement {
     if (!change) throw new Error('Missing change');
     const linkClass = this.computeLinkClass(change);
     return html`
+      ${this.computeTreeLevelMarkers(change)}
       <div class="changeContainer">
         <a
           href=${ifDefined(this.href)}
@@ -180,6 +190,30 @@ export class GrRelatedChange extends LitElement {
       this.connectedRevisions &&
       !this.connectedRevisions.includes(change.commit.commit)
     );
+  }
+
+  private computeTreeLevelMarkers(
+    change: ChangeInfo | RelatedChangeAndCommitInfo
+  ) {
+    if (
+      'tree_level' in change &&
+      change.tree_level !== undefined &&
+      change.tree_level > 0
+    ) {
+      const spacers = [];
+      const numberOfSpacers = change.tree_level - 1;
+      for (let i = 0; i < numberOfSpacers; i++) {
+        spacers.push(html`<span class="marker space"></span>`);
+      }
+      return html`${spacers}<span
+          role="img"
+          class="marker arrowForRelatedChange"
+          aria-label="Change is on level ${change.tree_level} and depends on subsequent change"
+          >↱</span
+        >`;
+    } else {
+      return '';
+    }
   }
 }
 

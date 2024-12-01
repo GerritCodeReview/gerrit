@@ -262,6 +262,9 @@ export class GrRelatedChangesList extends LitElement {
     if (this.relatedChanges.length === 0) {
       return undefined;
     }
+    this.relatedChanges = this._computeFlatTreeOfRelatedChanges(
+      this.relatedChanges
+    );
     const relatedChangesMarkersPredicate = this.markersPredicateFactory(
       this.relatedChanges.length,
       this.relatedChanges.findIndex(relatedChange =>
@@ -712,6 +715,106 @@ export class GrRelatedChangesList extends LitElement {
       --pos;
     }
     return connected;
+  }
+
+  /*
+   * Enhance related-changes with tree-level. This might change the order of the related-changes.
+   */
+  _computeFlatTreeOfRelatedChanges(
+    relatedChanges?: RelatedChangeAndCommitInfo[]
+  ): RelatedChangeAndCommitInfo[] {
+    if (!relatedChanges) {
+      return [];
+    }
+
+    const changesByCommitId: {
+      [index: CommitId]: RelatedChangeAndCommitInfo;
+    } = {};
+    const treeLeaves: {
+      [index: CommitId]: {[index: CommitId]: boolean};
+    } = {};
+    const rootCommitId = 'root' as CommitId;
+    treeLeaves[rootCommitId] = {};
+
+    const numberOfChanges = relatedChanges.length;
+    // Run backwards: results in direction from parent to child.
+    // Thereby potential parent-changes are initialized first.
+    for (let i = numberOfChanges - 1; i >= 0; i--) {
+      const change = relatedChanges[i];
+      const commitId = change.commit.commit;
+      let baseCommitId = rootCommitId;
+      changesByCommitId[commitId] = change;
+
+      if (change.commit.parents?.length) {
+        const chainOfCommitIds = change.commit.parents.map(p => p.commit);
+        baseCommitId = chainOfCommitIds[0];
+
+        const upmostParentCommitId = chainOfCommitIds.at(-1)!;
+        // If a potential parent-change exists, this upmost-parent-commit here was already initialized and properly
+        // attached to the tree.
+        if (treeLeaves[upmostParentCommitId] === undefined) {
+          // This upmost-parent-commit is not attached to the tree, so attach it to the tree-root.
+          treeLeaves[rootCommitId][upmostParentCommitId] = true;
+        }
+
+        // Exclude the already processed upmost-parent-commit.
+        const chainIndexMax = chainOfCommitIds.length - 2;
+        // Run backwards: results in direction from parent to child.
+        for (let i = chainIndexMax; i >= 0; i--) {
+          const currentCommitId = chainOfCommitIds[i];
+          const parentCommitId = chainOfCommitIds[i + 1];
+          treeLeaves[parentCommitId][currentCommitId] = true;
+          treeLeaves[currentCommitId] ??= {};
+        }
+      }
+
+      treeLeaves[baseCommitId][commitId] = true;
+      treeLeaves[commitId] ??= {};
+    }
+
+    const flatTreeLeaves: {
+      commit: CommitId;
+      level: number;
+    }[] = this._flattenTreeOfRelatedCommits(treeLeaves);
+
+    const relatedChangesFlatTree: RelatedChangeAndCommitInfo[] = [];
+    // Run backwards: results in direction from child to parent, which is the same as in the original data.
+    for (let i = flatTreeLeaves.length - 1; i >= 0; i--) {
+      const currentLeaf = flatTreeLeaves[i];
+      const change = changesByCommitId[currentLeaf.commit];
+      // Only include commits in output which also have corresponding change data.
+      // E.g. the upmost-parent-commit most often does not include any change data.
+      if (change !== undefined) {
+        change.tree_level = currentLeaf.level;
+        relatedChangesFlatTree.push(change);
+      }
+    }
+    return relatedChangesFlatTree;
+  }
+
+  _flattenTreeOfRelatedCommits(
+    treeLeaves: {
+      [index: CommitId]: {[index: CommitId]: boolean};
+    },
+    currentLeafCommitId: CommitId = 'root' as CommitId,
+    level = -1
+  ) {
+    const flatTree: {commit: CommitId; level: number}[] = [];
+    const subLeaves = treeLeaves[currentLeafCommitId] ?? {};
+    let subLeafCommitId: CommitId;
+    for (subLeafCommitId in subLeaves) {
+      if (Object.prototype.hasOwnProperty.call(subLeaves, subLeafCommitId)) {
+        flatTree.push({commit: subLeafCommitId, level});
+        flatTree.push(
+          ...this._flattenTreeOfRelatedCommits(
+            treeLeaves,
+            subLeafCommitId,
+            level + 1
+          )
+        );
+      }
+    }
+    return flatTree;
   }
 }
 

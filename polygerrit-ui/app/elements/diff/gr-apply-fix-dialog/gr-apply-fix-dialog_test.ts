@@ -233,6 +233,7 @@ suite('gr-apply-fix-dialog tests', () => {
       'applyRobotFixSuggestion'
     ).returns(Promise.resolve(new Response(null, {status: 200})));
     element.currentFix = createFixSuggestionInfo('123');
+    element.hasEdit = true;
 
     const closeFixPreviewEventSpy = sinon.spy();
     element.onCloseFixPreviewCallbacks.push(closeFixPreviewEventSpy);

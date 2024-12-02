@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1aff8b49_3abb26b9",
+        "filename": "java/com/google/gerrit/server/query/approval/ApprovalQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-12-02T07:54:18Z",
+      "side": 1,
+      "message": "Please document the new predicate at https://gerrit-review.googlesource.com/Documentation/config-labels.html#label_copyCondition",
+      "range": {
+        "startLine": 145,
+        "startChar": 36,
+        "endLine": 145,
+        "endChar": 44
+      },
+      "revId": "83e6fc4de232570c95f2b97c06351180600e1aba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

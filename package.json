@@ -1,6 +1,6 @@
 {
   "name": "gerrit",
-  "version": "3.9.0-SNAPSHOT",
+  "version": "3.11.0",
   "description": "Gerrit Code Review",
   "dependencies": {
     "@bazel/concatjs": "^5.8.1",

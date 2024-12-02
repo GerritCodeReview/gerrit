@@ -175,6 +175,24 @@
       "parentUuid": "285a472f_a671dd54",
       "revId": "ee5dcd822871f776878352ef2c891cc4750a58d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe3f03ff_a5f1540b",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 564,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-12-02T18:14:56Z",
+      "side": 1,
+      "message": "Thanks for adding the additional tests. I was thinking the `ConfigSuite` would be for all tests and apply on top of the default one defined up [at the top](https://gerrit.googlesource.com/gerrit/+/refs/changes/41/441441/13/javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java#219). I think that would be something like:\n\n```\n@ConfigSuite.Config\npublic static Config enableCaseInsensitiveLocalPartConfig() {\n  Config cfg \u003d AccountIT.enableSignedPushConfig();\n  cfg.setStringList(\"accounts\", null, \"caseInsensitiveLocalPart\", ImmutableList.of(\"example.com\", \"anotherEmailDomain.com\"));\n  return cfg;\n}\n```\n\nand then use `com.google.common.truth.TruthJUnit.assume` in your (in)sensitive tests to skip when the config doesn\u0027t match the test.\n\nBut if you think it\u0027s pretty safe that the other tests won\u0027t have different behavior when `caseInsensitiveLocalPart` is set, you could leave this as you have it in PS13.",
+      "parentUuid": "47cacd90_d3251101",
+      "revId": "ee5dcd822871f776878352ef2c891cc4750a58d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

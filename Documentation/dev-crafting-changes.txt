@@ -158,7 +158,7 @@ streamlines code review by reducing the need for time-consuming, tedious,
 and contentious discussions about trivial issues like whitespace.
 
 You may download and run `google-java-format` on your own, or you may
-run `./tools/setup_gjf.sh` to download a local copy and set up a
+run `./tools/gjf.sh setup` to download a local copy and set up a
 wrapper script. If you run your own copy, please use the same version,
 as there may be slight differences between versions.
 

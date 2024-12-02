@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce49fa3b_a104ec98",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-12-02T23:39:06Z",
+      "side": 1,
+      "message": "Code-Style is flaky because of a 502 served by https://registry.yarnpkg.com/@types/caniuse-api/-/caniuse-api-3.0.6.tgz",
+      "revId": "b2cbbc31d236bf69f056b96045a1f71d47b2a788",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

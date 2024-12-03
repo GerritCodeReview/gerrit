@@ -106,6 +106,24 @@
       "parentUuid": "37ac85b2_c9e83730",
       "revId": "dad7760bf208531a00b22420353a6480998b8cf7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0a34b66_6ce8e3a4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-12-03T21:32:20Z",
+      "side": 1,
+      "message": "It appears that i\u0027m getting `[!] Error: \u0027default\u0027 is not exported by external/ui_npm/node_modules/highlightjs-vue/dist/highlightjs-vue.esm.js, imported by lib/highlightjs/index.js` using it.\n\nSo i\u0027ve created https://github.com/highlightjs/highlightjs-vue/pull/16 which fixes it. So i\u0027m going to use my fork which has a couple of other changes to allows us to use the fork.\n\nOnce it\u0027s merged we can switch back to that repo.",
+      "parentUuid": "8b3a393f_4df1532f",
+      "revId": "dad7760bf208531a00b22420353a6480998b8cf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

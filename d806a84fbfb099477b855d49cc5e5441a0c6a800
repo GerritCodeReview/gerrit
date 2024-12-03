@@ -16,6 +16,24 @@
       "message": "Does this overwrite the assignment done on L476?",
       "revId": "d806a84fbfb099477b855d49cc5e5441a0c6a800",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7bbd57a_ce911983",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-12-03T07:58:52Z",
+      "side": 1,
+      "message": "Yes. You can decide if we have just condition on line 496 or on line 476. We need to decide when it\u0027s good time to prompt. I think both are good. Maybe on line 476 is enough.",
+      "parentUuid": "2ae84134_500a9b4d",
+      "revId": "d806a84fbfb099477b855d49cc5e5441a0c6a800",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

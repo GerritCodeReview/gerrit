@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "20e90702_9b331596",
+        "filename": "polygerrit-ui/app/utils/url-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-12-03T13:44:40Z",
+      "side": 0,
+      "message": "In this specific case, encodeURIComponent is not necessary and can be safely removed.",
+      "range": {
+        "startLine": 52,
+        "startChar": 20,
+        "endLine": 52,
+        "endChar": 38
+      },
+      "revId": "5307298d9d407b18be751a85247bfe36facf9065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

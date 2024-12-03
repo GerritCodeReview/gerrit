@@ -82,7 +82,11 @@ public class ReindexAfterRefUpdate implements GitReferenceUpdatedListener {
     this.allUsersName = allUsersName;
     this.indexer = indexer;
     this.executor = executor;
-    this.enabled = MergeabilityComputationBehavior.fromConfig(cfg).includeInIndex();
+
+    boolean reindexAfterRefUpdateProperty = Boolean.getBoolean("disable.reindexAfterRefUpdate");
+    this.enabled =
+        !reindexAfterRefUpdateProperty
+            && MergeabilityComputationBehavior.fromConfig(cfg).includeInIndex();
   }
 
   @Override

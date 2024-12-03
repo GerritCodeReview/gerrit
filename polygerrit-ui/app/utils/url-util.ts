@@ -49,11 +49,13 @@ export function loginUrl(authConfig: AuthInfo | undefined): string {
     // Strip the canonical path from the path since needing canonical in
     // the path is unneeded and breaks the url.
     const defaultUrl = `${baseUrl}/login/`;
-    const postFix = encodeURIComponent(
-      window.location.pathname.substring(baseUrl.length) +
-        window.location.search +
-        window.location.hash
-    );
+    let path = window.location.pathname.substring(baseUrl.length) +
+      window.location.search + window.location.hash;
+    // We don't want to end up with /login/%2F
+    if (path === '/') {
+      path = '';
+    }
+    const postFix = encodeURIComponent(path);
     return defaultUrl + postFix;
   }
 }

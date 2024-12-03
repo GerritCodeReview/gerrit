@@ -52,6 +52,24 @@
       "parentUuid": "e7bbd57a_ce911983",
       "revId": "d806a84fbfb099477b855d49cc5e5441a0c6a800",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "655c949e_24c69d6b",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-12-03T15:31:34Z",
+      "side": 1,
+      "message": "Sure, that sounds good",
+      "parentUuid": "40939493_1de9fdd2",
+      "revId": "d806a84fbfb099477b855d49cc5e5441a0c6a800",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

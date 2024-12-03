@@ -51,6 +51,23 @@
       "parentUuid": "85cfb06d_04a164ae",
       "revId": "df56f5eaaa514628c64877f30903835c0f58f3bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6d1f8a8_155c2f8d",
+        "filename": "resources/com/google/gerrit/server/mime/mime-types.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-12-03T14:09:17Z",
+      "side": 1,
+      "message": "I\u0027d change this to https://github.com/codemirror/codemirror5/blob/deee5c01586a7630fb0c1b32d4635fd4bb5fa545/mode/meta.js#L164\n\nWe can have text/x-vue added to https://github.com/GerritCodeReview/gerrit/blob/5307298d9d407b18be751a85247bfe36facf9065/polygerrit-ui/app/embed/diff/gr-syntax-layer/gr-syntax-layer-worker.ts#L19 and use html there. And in the codemirror plugin it can use the vue plugin.",
+      "revId": "df56f5eaaa514628c64877f30903835c0f58f3bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

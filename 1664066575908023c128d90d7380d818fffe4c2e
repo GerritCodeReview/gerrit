@@ -22,6 +22,30 @@
       },
       "revId": "1664066575908023c128d90d7380d818fffe4c2e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2d83c87_dc1be6e1",
+        "filename": "polygerrit-ui/app/embed/diff/gr-syntax-layer/gr-syntax-layer-worker.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-12-03T17:12:07Z",
+      "side": 1,
+      "message": "Oh, awesome. I\u0027ll use that instead of doing this.",
+      "parentUuid": "3e0aa9e6_eaf9c64e",
+      "range": {
+        "startLine": 101,
+        "startChar": 2,
+        "endLine": 103,
+        "endChar": 25
+      },
+      "revId": "1664066575908023c128d90d7380d818fffe4c2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

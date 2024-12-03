@@ -104,6 +104,24 @@
       "parentUuid": "c90ada7f_d0704e9b",
       "revId": "df56f5eaaa514628c64877f30903835c0f58f3bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "032f59ac_f46c8215",
+        "filename": "resources/com/google/gerrit/server/mime/mime-types.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-12-03T16:12:02Z",
+      "side": 1,
+      "message": "I\u0027ve done it here https://gerrit-review.googlesource.com/c/gerrit/+/444763.\n\nAlthough html in highlight.js may not be able to parse the vue syntax?\n\nYou should close and reopen the file.",
+      "parentUuid": "0b8b42bd_60fd055f",
+      "revId": "df56f5eaaa514628c64877f30903835c0f58f3bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

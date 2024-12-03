@@ -98,6 +98,7 @@ const LANGUAGE_MAP = new Map<string, string>([
   ['text/x-vb', 'vb'],
   ['text/x-verilog', 'v'],
   ['text/x-vhdl', 'vhdl'],
+  ['text/x-vue', 'vue'],
   ['text/x-yaml', 'yaml'],
   ['text/vbscript', 'vbscript'],
 ]);

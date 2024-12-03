@@ -16,6 +16,24 @@
       "message": "Cool!",
       "revId": "dad7760bf208531a00b22420353a6480998b8cf7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25d7cae3_b5b91113",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-12-03T17:34:17Z",
+      "side": 1,
+      "message": "Hmm, for some reason it\u0027s failing with `Error: \u0027vue\u0027 is imported by external/ui_npm/node_modules/highlightjs-vue-plugin/dist/highlightjs-vue.esm.min.js, but could not be resolved – treating it as an external dependency`.\n\nReading the install instructions make it out to only work within vue?",
+      "parentUuid": "f4163d21_2a05856e",
+      "revId": "dad7760bf208531a00b22420353a6480998b8cf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

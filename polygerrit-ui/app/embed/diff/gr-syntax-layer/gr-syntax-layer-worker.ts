@@ -98,6 +98,9 @@ const LANGUAGE_MAP = new Map<string, string>([
   ['text/x-vb', 'vb'],
   ['text/x-verilog', 'v'],
   ['text/x-vhdl', 'vhdl'],
+  // Until highlight.js supports vue
+  // use html.
+  ['text/x-vue', 'html'],
   ['text/x-yaml', 'yaml'],
   ['text/vbscript', 'vbscript'],
 ]);

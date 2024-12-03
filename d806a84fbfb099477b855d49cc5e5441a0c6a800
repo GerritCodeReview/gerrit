@@ -34,6 +34,24 @@
       "parentUuid": "2ae84134_500a9b4d",
       "revId": "d806a84fbfb099477b855d49cc5e5441a0c6a800",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40939493_1de9fdd2",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-12-03T15:25:04Z",
+      "side": 1,
+      "message": "Or can we OR them?\n\n```\nthis.showNotificationsPrompt \u003d this.showNotificationsPrompt ||\n      this.results.filter(\n        changelistSection \u003d\u003e\n          changelistSection.name \u003d\u003d\u003d YOUR_TURN.name \u0026\u0026\n          changelistSection.results.length \u003e 0\n      ).length !\u003d\u003d 0;\n```",
+      "parentUuid": "e7bbd57a_ce911983",
+      "revId": "d806a84fbfb099477b855d49cc5e5441a0c6a800",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

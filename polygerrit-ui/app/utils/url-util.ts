@@ -54,8 +54,8 @@ export function loginUrl(authConfig: AuthInfo | undefined): string {
       window.location.search +
       window.location.hash;
     // We don't want to end up with /login/%2F
-    path = path === '/' ? '' : encodeURIComponent(path);
-    return `${defaultUrl}/${path}`;
+    path = path.startsWith('/') ? path.slice(1) : path;
+    return `${defaultUrl}/${encodeURIComponent(path)}`;
   }
 }
 

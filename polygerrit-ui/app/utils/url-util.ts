@@ -55,7 +55,7 @@ export function loginUrl(authConfig: AuthInfo | undefined): string {
       window.location.hash;
     // We don't want to end up with /login/%2F
     path = path === '/' ? '' : encodeURIComponent(path);
-    return `${defaultUrl}/${path}`;
+    return defaultUrl + path;
   }
 }
 

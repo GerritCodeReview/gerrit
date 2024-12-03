@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1132c57_2d571ae6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-12-03T13:57:18Z",
+      "side": 1,
+      "message": "Benchmark results:\n\n```\nBenchmarks for read-only caches during online reindexing (n\u003d3, open source gerrit repo (50254 changes)):\n \nempty cache, read-write: 89.5 +- 3.2 s\nempty cache, read-only: 67.0 +- 1.1 s\nfull cache, read-write: 38.4 +- 2.5 s\nfull cache, read-only: 37.3 +- 0.5\n \nConclusions:\nusing read-only caches saved about 25% of the time, if caches were not being used, i.e. empty\nCaches are being used when available looking at the times, i.e. reading works as intended\n```",
+      "parentUuid": "272aa119_62359cc7",
+      "revId": "c42bf01a959326d5810d463da26a93c3e598ea61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a2ea6888_cdf88719",

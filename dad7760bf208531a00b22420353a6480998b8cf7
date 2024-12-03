@@ -88,6 +88,24 @@
       "parentUuid": "6d934189_140c2e4f",
       "revId": "dad7760bf208531a00b22420353a6480998b8cf7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b3a393f_4df1532f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3756995
+      },
+      "writtenOn": "2024-12-03T19:05:41Z",
+      "side": 1,
+      "message": "Actually highlightjs-vue (https://github.com/highlightjs/highlightjs-vue/blob/master/vue.js) is small wrapper that simply calls subLanguage with js for script tag, css for style tag, etc. So html parser should works quite well. The only difference is special subLanguages support (like typescript and scss).",
+      "parentUuid": "37ac85b2_c9e83730",
+      "revId": "dad7760bf208531a00b22420353a6480998b8cf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

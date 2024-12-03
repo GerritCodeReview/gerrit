@@ -69,6 +69,24 @@
       "parentUuid": "7ea32c94_8acf47a6",
       "revId": "e69920fedae65399a90f2ebf96fe9e987e964463",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8b41455_08bd8151",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-12-03T15:29:22Z",
+      "side": 1,
+      "message": "I think Ponch is already fixing this at 441441: Add configuration for case-insensitive email matching in Account API | https://gerrit-review.googlesource.com/c/gerrit/+/441441",
+      "parentUuid": "be9e49f7_eb41b740",
+      "revId": "e69920fedae65399a90f2ebf96fe9e987e964463",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

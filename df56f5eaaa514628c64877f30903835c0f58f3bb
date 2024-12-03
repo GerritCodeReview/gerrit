@@ -86,6 +86,24 @@
       "parentUuid": "b6d1f8a8_155c2f8d",
       "revId": "df56f5eaaa514628c64877f30903835c0f58f3bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b8b42bd_60fd055f",
+        "filename": "resources/com/google/gerrit/server/mime/mime-types.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 3756995
+      },
+      "writtenOn": "2024-12-03T14:32:36Z",
+      "side": 1,
+      "message": "also I\u0027m testing with gerrit 3.11 with this and highlight doesn\u0027t seems to work\nhttps://gerrit-review.googlesource.com/c/gerrit/+/438424\n \nhttps://monosnap.com/file/VXFlCsNOvufdgh12rxWM4iFwerAgar",
+      "parentUuid": "c90ada7f_d0704e9b",
+      "revId": "df56f5eaaa514628c64877f30903835c0f58f3bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

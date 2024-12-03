@@ -56,6 +56,8 @@ export class GrChecksFixPreview extends LitElement {
 
   @state() isChangeMerged = false;
 
+  @state() isChangeAbandoned = false;
+
   private readonly getChangeModel = resolve(this, changeModelToken);
 
   constructor() {
@@ -79,6 +81,11 @@ export class GrChecksFixPreview extends LitElement {
       this,
       () => this.getChangeModel().status$,
       status => (this.isChangeMerged = status === ChangeStatus.MERGED)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().status$,
+      status => (this.isChangeAbandoned = status === ChangeStatus.ABANDONED)
     );
   }
 
@@ -184,12 +191,14 @@ export class GrChecksFixPreview extends LitElement {
   private isApplyEditDisabled() {
     if (this.patchSet === undefined) return true;
     if (this.isChangeMerged) return true;
+    if (this.isChangeAbandoned) return true;
     return !this.previewLoaded;
   }
 
   private computeApplyFixTooltip() {
     if (this.patchSet === undefined) return '';
     if (this.isChangeMerged) return 'Change is already merged';
+    if (this.isChangeAbandoned) return 'Change is abandoned';
     if (!this.previewLoaded) return 'Fix is still loading ...';
     return '';
   }

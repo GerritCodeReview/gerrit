@@ -52,6 +52,8 @@ export class GrUserSuggestionsFix extends LitElement {
 
   @state() isChangeMerged = false;
 
+  @state() isChangeAbandoned = false;
+
   private readonly getConfigModel = resolve(this, configModelToken);
 
   private readonly getChangeModel = resolve(this, changeModelToken);
@@ -84,6 +86,11 @@ export class GrUserSuggestionsFix extends LitElement {
       this,
       () => this.getChangeModel().status$,
       status => (this.isChangeMerged = status === ChangeStatus.MERGED)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().status$,
+      status => (this.isChangeAbandoned = status === ChangeStatus.ABANDONED)
     );
   }
 
@@ -190,12 +197,14 @@ export class GrUserSuggestionsFix extends LitElement {
   private isApplyEditDisabled() {
     if (this.comment?.patch_set === undefined) return true;
     if (this.isChangeMerged) return true;
+    if (this.isChangeAbandoned) return true;
     return !this.previewLoaded;
   }
 
   private computeApplyEditTooltip() {
     if (this.comment?.patch_set === undefined) return '';
     if (this.isChangeMerged) return 'Change is already merged';
+    if (this.isChangeAbandoned) return 'Change is abandoned';
     if (!this.previewLoaded) return 'Fix is still loading ...';
     return '';
   }

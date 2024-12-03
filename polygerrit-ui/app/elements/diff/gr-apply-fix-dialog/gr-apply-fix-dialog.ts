@@ -100,6 +100,8 @@ export class GrApplyFixDialog extends LitElement {
 
   @state() isChangeMerged = false;
 
+  @state() isChangeAbandoned = false;
+
   @state()
   onCloseFixPreviewCallbacks: ((fixapplied: boolean) => void)[] = [];
 
@@ -159,6 +161,11 @@ export class GrApplyFixDialog extends LitElement {
       this,
       () => this.getChangeModel().status$,
       status => (this.isChangeMerged = status === ChangeStatus.MERGED)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().status$,
+      status => (this.isChangeAbandoned = status === ChangeStatus.ABANDONED)
     );
     subscribe(
       this,
@@ -410,6 +417,7 @@ export class GrApplyFixDialog extends LitElement {
   private computeTooltip() {
     if (!this.change || !this.patchNum) return '';
     if (this.isChangeMerged) return 'Change is already merged';
+    if (this.isChangeAbandoned) return 'Change is abandoned';
     if (this.isApplyFixLoading) return 'Fix is still loading ...';
     return '';
   }
@@ -417,6 +425,7 @@ export class GrApplyFixDialog extends LitElement {
   private computeDisableApplyFixButton() {
     if (!this.change || !this.patchNum) return true;
     if (this.isChangeMerged) return true;
+    if (this.isChangeAbandoned) return true;
     return this.isApplyFixLoading;
   }
 

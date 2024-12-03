@@ -638,6 +638,10 @@ highlight.js@^11.10.0, highlight.js@^11.9.0:
   dependencies:
     highlight.js "^10.4.1"
 
+"highlightjs-vue-plugin@https://github.com/highlightjs/vue-plugin#ecdd05208b933247084eed2ae1f09ceec3992b99":
+  version "2.1.1"
+  resolved "https://github.com/highlightjs/vue-plugin#ecdd05208b933247084eed2ae1f09ceec3992b99"
+
 https-proxy-agent@^5.0.0:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/https-proxy-agent/-/https-proxy-agent-5.0.1.tgz#c59ef224a04fe8b754f3db0063a25ea30d0005d6"

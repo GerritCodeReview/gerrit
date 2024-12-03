@@ -70,6 +70,24 @@
       "parentUuid": "e4560588_214285e8",
       "revId": "dad7760bf208531a00b22420353a6480998b8cf7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "37ac85b2_c9e83730",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-12-03T17:39:13Z",
+      "side": 1,
+      "message": "Oh, there\u0027s https://github.com/highlightjs/highlightjs-vue",
+      "parentUuid": "6d934189_140c2e4f",
+      "revId": "dad7760bf208531a00b22420353a6480998b8cf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

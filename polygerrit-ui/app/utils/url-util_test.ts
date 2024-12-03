@@ -52,21 +52,23 @@ suite('url-util tests', () => {
     const authConfig = createAuth();
 
     test('default url if auth.loginUrl is not defined', () => {
-      const current = encodeURIComponent(
-        window.location.pathname + window.location.search + window.location.hash
-      );
+      let path =
+        window.location.pathname +
+        window.location.search +
+        window.location.hash;
+      path = path.startsWith('/') ? path.slice(1) : path;
+      const current = encodeURIComponent(path);
       assert.deepEqual(loginUrl(undefined), '/login/' + current);
       assert.deepEqual(loginUrl(authConfig), '/login/' + current);
     });
 
     test('default url if auth type is not HTTP or HTTP_LDAP', () => {
-      const defaultUrl =
-        '/login/' +
-        encodeURIComponent(
-          window.location.pathname +
-            window.location.search +
-            window.location.hash
-        );
+      let path =
+        window.location.pathname +
+        window.location.search +
+        window.location.hash;
+      path = path.startsWith('/') ? path.slice(1) : path;
+      const defaultUrl = '/login/' + encodeURIComponent(path);
       const customLoginUrl = '/custom';
       authConfig.login_url = customLoginUrl;
 

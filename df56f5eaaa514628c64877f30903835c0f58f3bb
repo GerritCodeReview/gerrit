@@ -68,6 +68,24 @@
       "message": "I\u0027d change this to https://github.com/codemirror/codemirror5/blob/deee5c01586a7630fb0c1b32d4635fd4bb5fa545/mode/meta.js#L164\n\nWe can have text/x-vue added to https://github.com/GerritCodeReview/gerrit/blob/5307298d9d407b18be751a85247bfe36facf9065/polygerrit-ui/app/embed/diff/gr-syntax-layer/gr-syntax-layer-worker.ts#L19 and use html there. And in the codemirror plugin it can use the vue plugin.",
       "revId": "df56f5eaaa514628c64877f30903835c0f58f3bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c90ada7f_d0704e9b",
+        "filename": "resources/com/google/gerrit/server/mime/mime-types.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 3756995
+      },
+      "writtenOn": "2024-12-03T14:25:04Z",
+      "side": 1,
+      "message": "@codemirror/lang-vue already added to project dependencies here 2e7968898e6dceae0d27b5d243f791ccd99c1b02\n\nBut unfortunately there no examples in projects how to use @codemirror/lang-* with highlight.js, only highlightjs-*. I\u0027m not so familiar with project, will something similar to 7f6d243e5d0c91370ff0db712f10d7ced960fc82 work?",
+      "parentUuid": "b6d1f8a8_155c2f8d",
+      "revId": "df56f5eaaa514628c64877f30903835c0f58f3bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

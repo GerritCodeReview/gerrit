@@ -16,6 +16,23 @@
       "message": "Will need LC+1",
       "revId": "ccf23766ea2aac5ab4a7a7bd9a0b652faca3998d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f109291e_915799fe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-12-04T15:20:34Z",
+      "side": 1,
+      "message": "Needs LC+1",
+      "revId": "ccf23766ea2aac5ab4a7a7bd9a0b652faca3998d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

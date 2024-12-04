@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd;
 
+import static com.google.gerrit.httpd.EnableTracingFilter.REQUEST_TRACE_CONTEXT;
 import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.common.base.Strings;
@@ -33,8 +34,12 @@ import com.google.gerrit.httpd.restapi.ConfigRestApiServlet;
 import com.google.gerrit.httpd.restapi.GroupsRestApiServlet;
 import com.google.gerrit.httpd.restapi.ProjectsRestApiServlet;
 import com.google.gerrit.server.config.AuthConfig;
+import com.google.gerrit.server.logging.TraceContext;
 import com.google.inject.Key;
+import com.google.inject.Provides;
 import com.google.inject.internal.UniqueAnnotations;
+import com.google.inject.name.Named;
+import com.google.inject.servlet.RequestScoped;
 import com.google.inject.servlet.ServletModule;
 import java.io.IOException;
 import javax.servlet.http.HttpServlet;
@@ -52,8 +57,18 @@ class UrlModule extends ServletModule {
     this.authConfig = authConfig;
   }
 
+  @Provides
+  @RequestScoped
+  @Named(REQUEST_TRACE_CONTEXT)
+  public TraceContext provideTraceContext(HttpServletRequest req) {
+    return (TraceContext) req.getAttribute(REQUEST_TRACE_CONTEXT);
+  }
+
   @Override
   protected void configureServlets() {
+    filter("/*").through(EnableTracingFilter.class);
+    // bind(RequestTraceContext.class).in(RequestScoped.class);
+
     serve("/cat/*").with(CatServlet.class);
 
     if (authConfig.getAuthType() != AuthType.OAUTH && authConfig.getAuthType() != AuthType.OPENID) {

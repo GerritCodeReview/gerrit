@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a588ebd6_0f5721e2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-12-04T13:53:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7bc38ccf_fe2edad3",
+      "range": {
+        "startLine": 13,
+        "startChar": 43,
+        "endLine": 13,
+        "endChar": 45
+      },
+      "revId": "6352162805302e7d8f6de523dc685a9bb1294b7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "42fdc79a_7847cd42",
@@ -72,6 +96,24 @@
       "writtenOn": "2024-12-04T13:50:24Z",
       "side": 1,
       "message": "Are these formatting changes fallout from switching to google-java-format 1.24 ? They seem unrelated and should be moved to another change",
+      "revId": "6352162805302e7d8f6de523dc685a9bb1294b7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ddae358b_382d6741",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-12-04T13:53:46Z",
+      "side": 1,
+      "message": "This is likely caused by decreased indentation level which enabled google-java-format to put all parameters in one line.",
+      "parentUuid": "e2415eb0_55093061",
       "revId": "6352162805302e7d8f6de523dc685a9bb1294b7e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

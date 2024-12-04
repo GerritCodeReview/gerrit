@@ -54,7 +54,7 @@ public abstract class SshCommand extends BaseCommand {
   @Option(name = "--trace-id", usage = "trace ID (can only be set if --trace was set too)")
   private String traceId;
 
-  @Option(name = "--deadline", usage = "deadline after which the request should be aborted)")
+  @Option(name = "--deadline", usage = "deadline after which the request should be aborted")
   private String deadline;
 
   protected PrintWriter stdout;

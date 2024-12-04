@@ -9,6 +9,7 @@ import {
   SubmitRequirementResultInfo,
   SubmitRequirementStatus,
   LabelNameToValuesMap,
+  LabelValueToDescriptionMap,
 } from '../api/rest-api';
 import {
   AccountInfo,
@@ -42,12 +43,16 @@ export enum LabelStatus {
   NEUTRAL = 'NEUTRAL',
 }
 
-export function getVotingRange(label?: LabelInfo): VotingRangeInfo | undefined {
-  if (!label || !isDetailedLabelInfo(label) || !label.values) return undefined;
-  const values = Object.keys(label.values).map(v => Number(v));
+export function getMinMaxValue(labelValues: LabelValueToDescriptionMap) {
+  const values = Object.keys(labelValues).map(v => Number(v));
   values.sort((a, b) => a - b);
   if (!values.length) return undefined;
   return {min: values[0], max: values[values.length - 1]};
+}
+
+export function getVotingRange(label?: LabelInfo): VotingRangeInfo | undefined {
+  if (!label || !isDetailedLabelInfo(label) || !label.values) return undefined;
+  return getMinMaxValue(label.values);
 }
 
 export function getVotingRangeOrDefault(label?: LabelInfo): VotingRangeInfo {

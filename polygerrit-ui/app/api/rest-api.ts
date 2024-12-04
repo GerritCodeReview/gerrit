@@ -1344,3 +1344,31 @@ export declare interface FixSuggestionInfo extends FixSuggestionInfoInput {
   replacements: FixReplacementInfo[];
   log_probability?: number;
 }
+
+/**
+ * The LabelDefinitionInfo entity describes a review label.
+ *
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#label-definition-info
+ */
+export interface LabelDefinitionInfo {
+  name: string;
+  description?: string;
+  project_name: string;
+  function: LabelDefinitionInfoFunction;
+  values: LabelValueToDescriptionMap;
+  default_value: number;
+  branches?: string[];
+  can_override?: boolean;
+  copy_condition?: string;
+  allow_post_submit?: boolean;
+  ignore_self_approval?: boolean;
+}
+
+export enum LabelDefinitionInfoFunction {
+  MaxWithBlock = 'MaxWithBlock',
+  AnyWithBlock = 'AnyWithBlock',
+  MaxNoBlock = 'MaxNoBlock',
+  NoBlock = 'NoBlock',
+  Noop = 'Noop',
+  PatchSetLock = 'PatchSetLock',
+}

@@ -581,6 +581,11 @@ export function getContentInCommentRange(
   fileContent: string,
   comment: Comment
 ) {
+  if (comment.path === SpecialFilePath.COMMIT_MESSAGE) {
+    // We need to add 6 lines, because commit message diff is
+    // showing 6 lines of header that are not part of file content.
+    fileContent = '\n'.repeat(6) + fileContent;
+  }
   const lines = fileContent.split('\n');
   if (comment.range) {
     const range = comment.range;

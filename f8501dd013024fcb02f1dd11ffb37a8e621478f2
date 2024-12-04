@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3249be4_1587e1c0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-12-04T10:18:42Z",
+      "side": 1,
+      "message": "Since 3.8 is EOL it is probably worth moving this change to `stable-3.9` or considering it is a new feature even better to `master`.\n\nI have tried doing it myself, however I don\u0027t have permissions to move branch. @nasser.grainawi@oss.qualcomm.com @luca.milanesio@gmail.com is that something you can do? I want to avoid loosing the comments history.",
+      "revId": "f8501dd013024fcb02f1dd11ffb37a8e621478f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

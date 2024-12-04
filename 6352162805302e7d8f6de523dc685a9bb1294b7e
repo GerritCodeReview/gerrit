@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42fdc79a_7847cd42",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-12-04T12:12:25Z",
+      "side": 1,
+      "message": "Message to reviewers: the only change here was removal of the try block from the line 327 (base version), outdenting the code block for one-level and introducing a local variable `traceContext` at the line 336. However, Gerrit\u0027s side-by-side diff shows a total mess here.",
+      "revId": "6352162805302e7d8f6de523dc685a9bb1294b7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

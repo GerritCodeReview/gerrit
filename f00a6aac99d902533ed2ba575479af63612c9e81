@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1d41f4e_edbbe8fc",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view_test.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-12-04T01:39:01Z",
+      "side": 1,
+      "message": "I needed to re-add this now that the \"not new user\" result isn\u0027t being overwritten 😊",
+      "revId": "f00a6aac99d902533ed2ba575479af63612c9e81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -888,7 +888,6 @@ export class GrChangeView extends LitElement {
         }
         section {
           background-color: var(--view-background-color);
-          box-shadow: var(--elevation-level-1);
         }
         .changeMetadata {
           /* Limit meta section to half of the screen at max */

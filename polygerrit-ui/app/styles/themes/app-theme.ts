@@ -352,7 +352,7 @@ const appThemeCss = safeStyleSheet`
     --font-size-small: 0.857rem; /* 12px */
     --font-size-normal: 1rem; /* 14px */
     --font-size-h3: 1.143rem; /* 16px */
-    --font-size-h2: 1.429rem; /* 20px */
+    --font-size-h2: 1.29rem; /* 18px */
     --font-size-h1: 1.714rem; /* 24px */
     --line-height-mono: 1.286rem; /* 18px */
     --line-height-small: 1.143rem; /* 16px */
@@ -363,7 +363,7 @@ const appThemeCss = safeStyleSheet`
     --font-weight-normal: 400; /* 400 is the same as 'normal' */
     --font-weight-bold: 500;
     --font-weight-h1: 400;
-    --font-weight-h2: 400;
+    --font-weight-h2: 600;
     --font-weight-h3: 400;
     --font-weight-h4: 600;
     --context-control-button-font: var(--font-weight-normal)

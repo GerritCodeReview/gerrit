@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3f728c1_6a9defaa",
+        "filename": "java/com/google/gerrit/sshd/SshCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-12-04T13:55:03Z",
+      "side": 1,
+      "message": "please review my change https://gerrit-review.googlesource.com/c/gerrit/+/443003 which fixes the bad rendering in Gerrit diff view seen here",
+      "revId": "e4f826c4fbbcf638f30f493d2736faa002f57ffb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

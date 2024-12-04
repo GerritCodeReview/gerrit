@@ -51,7 +51,7 @@ fi
 
 usage() {
     me=`basename "$0"`
-    echo >&2 "Usage: $me {start|stop|restart|check|status|run|supervise|threads} [-d site] [--debug [--debug_port|--debug_address ...] [--suspend]]"
+    echo >&2 "Usage: $me {start|stop|restart|check|status|run|supervise|threads} [-d site] [--debug [--debug_port|--debug_address ...] [--suspend]] [--count=n]"
     exit 1
 }
 
@@ -60,6 +60,8 @@ test $# -gt 0 || usage
 ##################################################
 # Some utility functions
 ##################################################
+ztime() { date -u +"%Y-%m-%dT%H:%M:%SZ" ; }
+
 running() {
   test -f $1 || return 1
   PID=`cat $1`
@@ -130,6 +132,7 @@ max() {
 # Get the action and options
 ##################################################
 
+COUNT=''
 ACTION=$1
 shift
 
@@ -154,6 +157,10 @@ while test $# -gt 0 ; do
     ;;
   --suspend)
     JVM_DEBUG_SUSPEND=true
+    shift
+    ;;
+  --count=*)
+    COUNT=${1##--count=}
     shift
     ;;
   --debug-port=*)
@@ -247,8 +254,10 @@ test -r "$GERRIT_CONFIG" || {
    exit 1
 }
 
-GERRIT_PID="$GERRIT_SITE/logs/gerrit.pid"
-GERRIT_RUN="$GERRIT_SITE/logs/gerrit.run"
+GERRIT_LOGS="$GERRIT_SITE/logs"
+GERRIT_PID="$GERRIT_LOGS/gerrit.pid"
+GERRIT_RUN="$GERRIT_LOGS/gerrit.run"
+GERRIT_THREADS="$GERRIT_LOGS/threads"
 GERRIT_TMP="$GERRIT_SITE/tmp"
 export GERRIT_TMP
 
@@ -651,7 +660,15 @@ case "$ACTION" in
 
   threads)
     if running "$GERRIT_PID" ; then
-      thread_dump "$GERRIT_PID"
+      if test -z "$COUNT" ; then
+        thread_dump "$GERRIT_PID"
+      else
+        mkdir -p -- "$GERRIT_THREADS"
+        for N in `seq "$COUNT"` ; do
+          thread_dump "$GERRIT_PID" > "$GERRIT_THREADS/jstack-`ztime`"
+          sleep 1
+        done
+      fi
       exit 0
     else
       echo "Gerrit not running?"

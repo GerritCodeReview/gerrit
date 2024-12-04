@@ -1,0 +1,147 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc14e05c_634ddd6d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-12-04T20:38:43Z",
+      "side": 1,
+      "message": "Since Edwin did the research and found [the standard](https://datatracker.ietf.org/doc/html/rfc5321#:~:text\u003dThe%0A%20%20%20local%2Dpart%20of%20a%20mailbox%20MUST%20BE%20treated%20as%20case%20sensitive) saying the local-part is in fact case-sensitive, we probably shouldn\u0027t say this. Maybe use wording like what\u0027s on [this page](https://mailmeteor.com/glossary/email-case-sensitive#:~:text\u003dAccording%20to%20the%20standard%2C%20the,adopted%20the%20case%20insensitive%20format.)?\n\n\u003e According to the standard, the local-part (i.e. the part before the “@”) should be case-sensitive. But in practice, all widely used email services have adopted the case insensitive format.",
+      "revId": "c513a112b1fe666fd9ce17ef1c62d0c2cd47e8bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d770ca4_9c01ffe3",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-12-04T20:38:43Z",
+      "side": 1,
+      "message": "I think this is repeating what you already say on L114 and you can remove it.",
+      "range": {
+        "startLine": 118,
+        "startChar": 0,
+        "endLine": 119,
+        "endChar": 45
+      },
+      "revId": "c513a112b1fe666fd9ce17ef1c62d0c2cd47e8bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38d6090f_3520c457",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-12-04T20:38:43Z",
+      "side": 1,
+      "message": "We could probably add some defaults based on well known services like gmail.com?",
+      "revId": "c513a112b1fe666fd9ce17ef1c62d0c2cd47e8bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d51c46d_c31b0155",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-12-04T20:38:43Z",
+      "side": 1,
+      "message": "This linked documentation probably needs an update too/instead, since I think the paragraph you added below is really about the `email:` operator.",
+      "range": {
+        "startLine": 18,
+        "startChar": 5,
+        "endLine": 18,
+        "endChar": 48
+      },
+      "revId": "c513a112b1fe666fd9ce17ef1c62d0c2cd47e8bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "584bfc97_c59bdfb8",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-12-04T20:38:43Z",
+      "side": 1,
+      "message": "```suggestion\nIf querying by an email address and the domain of the queried email matches one of the configured\nlink:config-gerrit.html#accounts.caseInsensitiveLocalPart[accounts.caseInsensitiveLocalPart]\ndomains, the local part of the email is treated as case-insensitive.\n```",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 70
+      },
+      "revId": "c513a112b1fe666fd9ce17ef1c62d0c2cd47e8bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "add1d13e_43b21051",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-12-04T20:38:43Z",
+      "side": 1,
+      "message": "```suggestion\nFor domains not listed, the matching is case-sensitive.\n```",
+      "revId": "c513a112b1fe666fd9ce17ef1c62d0c2cd47e8bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d200167_8fb28195",
+        "filename": "java/com/google/gerrit/server/query/account/InternalAccountQuery.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-12-04T20:38:43Z",
+      "side": 1,
+      "message": "Don\u0027t you need the same kind of logic as L115-119 for each email in this list here?",
+      "range": {
+        "startLine": 157,
+        "startChar": 16,
+        "endLine": 157,
+        "endChar": 22
+      },
+      "revId": "c513a112b1fe666fd9ce17ef1c62d0c2cd47e8bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -20,6 +20,7 @@ import {Comment, PatchSetNumber} from '../../../types/common';
 import {commentModelToken} from '../gr-comment-model/gr-comment-model';
 import {createUserFixSuggestion} from '../../../utils/comment-util';
 import {ChangeStatus} from '../../../api/rest-api';
+import {userModelToken} from '../../../models/user/user-model';
 
 declare global {
   interface HTMLElementEventMap {
@@ -54,11 +55,15 @@ export class GrUserSuggestionsFix extends LitElement {
 
   @state() isChangeAbandoned = false;
 
+  @state() loggedIn = false;
+
   private readonly getConfigModel = resolve(this, configModelToken);
 
   private readonly getChangeModel = resolve(this, changeModelToken);
 
   private readonly getCommentModel = resolve(this, commentModelToken);
+
+  private readonly getUserModel = resolve(this, userModelToken);
 
   constructor() {
     super();
@@ -91,6 +96,11 @@ export class GrUserSuggestionsFix extends LitElement {
       this,
       () => this.getChangeModel().status$,
       status => (this.isChangeAbandoned = status === ChangeStatus.ABANDONED)
+    );
+    subscribe(
+      this,
+      () => this.getUserModel().loggedIn$,
+      loggedIn => (this.loggedIn = loggedIn)
     );
   }
 
@@ -198,6 +208,7 @@ export class GrUserSuggestionsFix extends LitElement {
     if (this.comment?.patch_set === undefined) return true;
     if (this.isChangeMerged) return true;
     if (this.isChangeAbandoned) return true;
+    if (!this.loggedIn) return true;
     return !this.previewLoaded;
   }
 
@@ -206,6 +217,7 @@ export class GrUserSuggestionsFix extends LitElement {
     if (this.isChangeMerged) return 'Change is already merged';
     if (this.isChangeAbandoned) return 'Change is abandoned';
     if (!this.previewLoaded) return 'Fix is still loading ...';
+    if (!this.loggedIn) return 'You must be logged in to apply a fix';
     return '';
   }
 }

@@ -105,6 +105,8 @@ export class GrApplyFixDialog extends LitElement {
   @state()
   onCloseFixPreviewCallbacks: ((fixapplied: boolean) => void)[] = [];
 
+  @state() loggedIn = false;
+
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly getUserModel = resolve(this, userModelToken);
@@ -131,6 +133,13 @@ export class GrApplyFixDialog extends LitElement {
           layers.push(new TokenHighlightLayer(this));
         }
         this.layers = layers;
+      }
+    );
+    subscribe(
+      this,
+      () => this.getUserModel().loggedIn$,
+      loggedIn => {
+        this.loggedIn = loggedIn;
       }
     );
     subscribe(
@@ -419,6 +428,7 @@ export class GrApplyFixDialog extends LitElement {
     if (this.isChangeMerged) return 'Change is already merged';
     if (this.isChangeAbandoned) return 'Change is abandoned';
     if (this.isApplyFixLoading) return 'Fix is still loading ...';
+    if (!this.loggedIn) return 'You must be logged in to apply a fix';
     return '';
   }
 
@@ -426,6 +436,7 @@ export class GrApplyFixDialog extends LitElement {
     if (!this.change || !this.patchNum) return true;
     if (this.isChangeMerged) return true;
     if (this.isChangeAbandoned) return true;
+    if (!this.loggedIn) return true;
     return this.isApplyFixLoading;
   }
 

@@ -16,6 +16,10 @@
 NEW_SCRIPT=$(dirname $0)/gjf.sh
 VERSION=${1:-""}
 
-echo "Calling $0 is deprecated, call \"$NEW_SCRIPT run $VERSION\" instead".
+echo
+echo "WARNING:"
+echo "  Calling $0 is deprecated and $0 will be removed in 3.13.
+echo "  Call \"$NEW_SCRIPT run $VERSION\" instead"."
+echo
 
 $NEW_SCRIPT run $VERSION

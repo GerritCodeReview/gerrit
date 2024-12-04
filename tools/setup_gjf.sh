@@ -19,7 +19,8 @@ VERSION=${1:-""}
 
 echo
 echo "WARNING:"
-echo "  Calling $0 is deprecated, call \"$NEW_SCRIPT setup $VERSION\" instead".
+echo "  Calling $0 is deprecated and $0 will be removed in 3.13.
+echo "  Call \"$NEW_SCRIPT setup $VERSION\" instead"."
 echo
 
 $NEW_SCRIPT setup $VERSION

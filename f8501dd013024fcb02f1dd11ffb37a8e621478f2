@@ -52,6 +52,24 @@
       "parentUuid": "70b2a605_702d97a8",
       "revId": "f8501dd013024fcb02f1dd11ffb37a8e621478f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65518e22_b6b081c7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-12-04T17:12:04Z",
+      "side": 1,
+      "message": "\u003e  I think master would be the right branch to add new features.\n\nYes, it started like a bug-fix but during the discussion became clear that this is new configuration and new functionality. @ponch78@gmail.com can you cherry-pick this to master?",
+      "parentUuid": "1dee112b_89e39c9f",
+      "revId": "f8501dd013024fcb02f1dd11ffb37a8e621478f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

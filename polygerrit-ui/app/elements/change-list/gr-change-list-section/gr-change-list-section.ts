@@ -113,10 +113,10 @@ export class GrChangeListSection extends LitElement {
 
   static override get styles() {
     return [
+      sharedStyles,
       changeListStyles,
       fontStyles,
       formStyles,
-      sharedStyles,
       css`
         :host {
           display: contents;
@@ -184,6 +184,9 @@ export class GrChangeListSection extends LitElement {
     const columns = this.computeColumns();
     const colSpan = this.computeColspan(columns);
     return html`
+      <tbody>
+        <tr class="groupGap"></tr>
+      </tbody>
       ${this.renderSectionHeader(colSpan)}
       <tbody class="groupContent">
         ${this.isEmpty()
@@ -228,7 +231,7 @@ export class GrChangeListSection extends LitElement {
           <td aria-hidden="true" class="leftPadding"></td>
           <td aria-hidden="true" class="star" ?hidden=${!this.isLoggedIn}></td>
           <td class="cell" colspan=${colSpan}>
-            <h2 class="heading-3">
+            <h2 class="heading-2">
               <a
                 href=${this.sectionHref(this.changeSection.query)}
                 class="section-title"

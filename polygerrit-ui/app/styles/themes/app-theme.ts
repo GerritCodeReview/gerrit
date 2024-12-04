@@ -28,6 +28,7 @@ const appThemeCss = safeStyleSheet`
     --red-600: #d93025;
     --red-300: #f28b82;
     --red-200: #f6aea9;
+    --red-100: #fad2cf;
     --red-50: #fce8e6;
     --red-tonal: #6c322f;
     --blue-900: #174ea6;
@@ -72,6 +73,7 @@ const appThemeCss = safeStyleSheet`
     --green-400: #5bb974;
     --green-300: #81c995;
     --green-200: #a8dab5;
+    --green-100: #ceead6;
     --green-50: #e6f4ea;
     --green-tonal: #2c553a;
     --gray-900: #202124;
@@ -262,6 +264,7 @@ const appThemeCss = safeStyleSheet`
     --disabled-button-background-color: var(--disabled-background);
     --selection-background-color: rgba(161, 194, 250, 0.1);
     --tooltip-background-color: var(--gray-900);
+    --section-header-background-color: var(--blue-50);
 
     /* dashboard size background colors */
     --dashboard-size-xs: var(--gray-200);
@@ -352,8 +355,8 @@ const appThemeCss = safeStyleSheet`
     --font-size-small: 0.857rem; /* 12px */
     --font-size-normal: 1rem; /* 14px */
     --font-size-h3: 1.143rem; /* 16px */
-    --font-size-h2: 1.429rem; /* 20px */
-    --font-size-h1: 1.714rem; /* 24px */
+    --font-size-h2: 1.29rem; /* 18px */
+    --font-size-h1: 1.57rem; /* 22px */
     --line-height-mono: 1.286rem; /* 18px */
     --line-height-small: 1.143rem; /* 16px */
     --line-height-normal: 1.429rem; /* 20px */
@@ -363,7 +366,7 @@ const appThemeCss = safeStyleSheet`
     --font-weight-normal: 400; /* 400 is the same as 'normal' */
     --font-weight-bold: 500;
     --font-weight-h1: 400;
-    --font-weight-h2: 400;
+    --font-weight-h2: 500;
     --font-weight-h3: 400;
     --font-weight-h4: 600;
     --context-control-button-font: var(--font-weight-normal)

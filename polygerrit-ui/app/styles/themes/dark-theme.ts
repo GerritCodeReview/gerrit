@@ -132,6 +132,7 @@ const darkThemeCss = safeStyleSheet`
     --disabled-button-background-color: #484a4d;
     --selection-background-color: rgba(161, 194, 250, 0.1);
     --tooltip-background-color: var(--gray-200);
+    --section-header-background-color: var(--blue-tonal);
 
     /* comment background colors */
     --comment-background-color: #3c3f43;

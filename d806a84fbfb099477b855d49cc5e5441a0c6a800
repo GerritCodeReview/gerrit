@@ -70,6 +70,24 @@
       "parentUuid": "40939493_1de9fdd2",
       "revId": "d806a84fbfb099477b855d49cc5e5441a0c6a800",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b353e03_6be0c5d2",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-12-04T01:23:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "655c949e_24c69d6b",
+      "revId": "d806a84fbfb099477b855d49cc5e5441a0c6a800",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

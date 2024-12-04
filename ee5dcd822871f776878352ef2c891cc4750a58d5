@@ -193,6 +193,24 @@
       "parentUuid": "47cacd90_d3251101",
       "revId": "ee5dcd822871f776878352ef2c891cc4750a58d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9af35323_f1e2f827",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 564,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-12-04T09:39:10Z",
+      "side": 1,
+      "message": "I have reviewed all the tests, and the only two that interact with the code affected by this change are:\n\n* lookUpByPreferredEmail\n* searchForSecondaryEmailRequiresModifyAccountPermission\n\nThese tests include checks related to enforcing case sensitivity for email addresses. However, this is not the primary focus of the tests; rather, it is part of a broader test logic.\n\nNotably, these two tests utilize the `Emails#getAccountFor` method and the `GerritApi.Accounts` APIs. Both are thoroughly tested in the new tests I have added, which explicitly cover both case-sensitive and case-insensitive scenarios.",
+      "parentUuid": "fe3f03ff_a5f1540b",
+      "revId": "ee5dcd822871f776878352ef2c891cc4750a58d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -199,10 +199,10 @@ export class GrChangeListItem extends LitElement {
 
   static override get styles() {
     return [
-      changeListStyles,
       formStyles,
       sharedStyles,
       submitRequirementsStyles,
+      changeListStyles,
       css`
         :host {
           display: table-row;

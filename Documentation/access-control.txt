@@ -428,6 +428,10 @@ the branch it's uploaded to.
 Further documentation on how to push can be found on the
 link:user-upload.html#push_create[Upload changes] page.
 
+**NOTE**: All change related permissions should normally set using
+"refs/heads/<ref>" branch and not using "refs/for/<ref>". Unless specifically
+stated otherwise.
+
 
 [[access_categories]]
 == Access Categories

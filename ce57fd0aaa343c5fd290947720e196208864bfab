@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "24a3fc38_49573a3c",
+        "filename": "tools/maven/gerrit-extension-api_pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1081131
+      },
+      "writtenOn": "2024-12-04T00:19:29Z",
+      "side": 0,
+      "message": "```suggestion\n  \u003cversion\u003e3.10.1-SNAPSHOT\u003c/version\u003e\n```",
+      "revId": "ce57fd0aaa343c5fd290947720e196208864bfab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c70ca329_99928733",
+        "filename": "tools/maven/gerrit-war_pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1081131
+      },
+      "writtenOn": "2024-12-04T00:19:29Z",
+      "side": 0,
+      "message": "```suggestion\n  \u003cversion\u003e3.10.1-SNAPSHOT\u003c/version\u003e\n```",
+      "revId": "ce57fd0aaa343c5fd290947720e196208864bfab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

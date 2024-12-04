@@ -116,6 +116,24 @@
       "parentUuid": "e2415eb0_55093061",
       "revId": "6352162805302e7d8f6de523dc685a9bb1294b7e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fcda27c7_c02dc0a1",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-12-04T14:55:07Z",
+      "side": 1,
+      "message": "ack",
+      "parentUuid": "ddae358b_382d6741",
+      "revId": "6352162805302e7d8f6de523dc685a9bb1294b7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

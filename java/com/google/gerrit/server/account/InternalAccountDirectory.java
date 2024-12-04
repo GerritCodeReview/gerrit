@@ -213,7 +213,7 @@ public class InternalAccountDirectory extends AccountDirectory {
       AvatarProvider ap = avatar.get();
       if (ap != null) {
         info.avatars = new ArrayList<>();
-        IdentifiedUser user = userFactory.create(account.id());
+        IdentifiedUser user = userFactory.create(accountState);
 
         // PolyGerrit UI uses the following sizes for avatars:
         // - 32px for avatars next to names e.g. on the dashboard. This is also Gerrit's default.

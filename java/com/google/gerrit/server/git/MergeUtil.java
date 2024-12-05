@@ -486,37 +486,11 @@ public class MergeUtil {
       RevCommit originalCommit,
       String mergeStrategy,
       boolean allowConflicts,
-      PersonIdent committerIdent,
-      String commitMsg,
-      CodeReviewRevWalk rw)
-      throws IOException,
-          MergeIdenticalTreeException,
-          MergeConflictException,
-          InvalidMergeStrategyException {
-    return createMergeCommit(
-        inserter,
-        repoConfig,
-        mergeTip,
-        originalCommit,
-        mergeStrategy,
-        allowConflicts,
-        committerIdent,
-        committerIdent,
-        commitMsg,
-        rw);
-  }
-
-  public static CodeReviewCommit createMergeCommit(
-      ObjectInserter inserter,
-      Config repoConfig,
-      RevCommit mergeTip,
-      RevCommit originalCommit,
-      String mergeStrategy,
-      boolean allowConflicts,
       PersonIdent authorIdent,
       PersonIdent committerIdent,
       String commitMsg,
-      CodeReviewRevWalk rw)
+      CodeReviewRevWalk rw,
+      boolean diff3Format)
       throws IOException,
           MergeIdenticalTreeException,
           MergeConflictException,
@@ -598,7 +572,8 @@ public class MergeUtil {
               mergeTip,
               "SOURCE BRANCH",
               originalCommit,
-              mergeResults);
+              mergeResults,
+              diff3Format);
     }
 
     CommitBuilder mergeCommit = new CommitBuilder();

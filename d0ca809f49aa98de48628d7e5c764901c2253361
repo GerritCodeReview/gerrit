@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe89e240_c8065595",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-12-05T15:48:31Z",
+      "side": 1,
+      "message": "Oops, this is now missing the context of `... the current Account API treats them as case-sensitive`. Can you find a way to add that in so that this makes sense to the reader?",
+      "revId": "d0ca809f49aa98de48628d7e5c764901c2253361",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e60aa141_c698d325",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-12-05T15:48:31Z",
+      "side": 1,
+      "message": "Just a few nits left, thanks Ponch!",
+      "revId": "d0ca809f49aa98de48628d7e5c764901c2253361",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f50144fb_95c16c42",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-12-05T15:48:31Z",
+      "side": 1,
+      "message": "Now that you have this same text in the other doc, it\u0027s probably better not to repeat it and just refer to it.\n\n```suggestion\n[NOTE]\nSearching for accounts by email address can have different case sensitivity\nbehavior depending on site configuration. See\nlink:user-search-accounts.html#email[email operator] for details.\n```",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 55
+      },
+      "revId": "d0ca809f49aa98de48628d7e5c764901c2253361",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b55f4ace_da271195",
+        "filename": "Documentation/user-search-accounts.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-12-05T15:48:31Z",
+      "side": 1,
+      "message": "Add a line break before this and clarify the behavior a little more.\n```suggestion\n+\nIf \u0027EMAIL\u0027 contains a domain and that domain matches one in the configured\n```",
+      "revId": "d0ca809f49aa98de48628d7e5c764901c2253361",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d89f7c5_a64ecc0c",
+        "filename": "Documentation/user-search-accounts.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-12-05T15:48:31Z",
+      "side": 1,
+      "message": "We try to always use `example.com` as the domain since it\u0027s reserved for docs/tests/etc. I also clarified that this example is for when `example.com` is in the configured list.\n\n```suggestion\nFor example, if `example.com` is configured as case-insensitive, then `User@example.com`\nand `user@example.com` will be treated as equivalent.\n```",
+      "revId": "d0ca809f49aa98de48628d7e5c764901c2253361",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea475b9d_d1d5172b",
+        "filename": "java/com/google/gerrit/server/query/account/InternalAccountQuery.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-12-05T15:48:31Z",
+      "side": 1,
+      "message": "nit: can you move both of these below the public methods? Our [code organization guide](https://gerrit-review.googlesource.com/Documentation/dev-crafting-changes.html#code-organization) suggests that layout and they\u0027re used by the public method below now too.",
+      "range": {
+        "startLine": 129,
+        "startChar": 0,
+        "endLine": 144,
+        "endChar": 3
+      },
+      "revId": "d0ca809f49aa98de48628d7e5c764901c2253361",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

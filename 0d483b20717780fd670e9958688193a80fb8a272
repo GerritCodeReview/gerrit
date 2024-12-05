@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "663c2ceb_0ce6df35",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-12-05T17:20:01Z",
+      "side": 1,
+      "message": "Done.\n\nNote that the icon is from a Google internal extension. That is not actually changing here.",
+      "parentUuid": "871f1998_2f8dd8f8",
+      "revId": "0d483b20717780fd670e9958688193a80fb8a272",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "30e4caf9_f431bac8",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
@@ -58,6 +76,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "934b67c4_8f1996d1",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-12-05T17:20:01Z",
+      "side": 1,
+      "message": "Working on it. Have reached out to the Android team about changing the color at least to some green that fits our palette.",
+      "parentUuid": "3c0badfe_ba0713be",
+      "range": {
+        "startLine": 265,
+        "startChar": 4,
+        "endLine": 265,
+        "endChar": 54
+      },
+      "revId": "0d483b20717780fd670e9958688193a80fb8a272",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c0a6ee70_6240450b",
@@ -71,6 +113,30 @@
       "writtenOn": "2024-12-05T15:04:56Z",
       "side": 1,
       "message": "It is used on other places. Is it ok that we make it 10% smaller?",
+      "range": {
+        "startLine": 356,
+        "startChar": 5,
+        "endLine": 357,
+        "endChar": 39
+      },
+      "revId": "0d483b20717780fd670e9958688193a80fb8a272",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b3e0ef6_89d0ade8",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-12-05T17:20:01Z",
+      "side": 1,
+      "message": "Yes, I have checked. And it makes sense. 20px was too dominant.",
+      "parentUuid": "c0a6ee70_6240450b",
       "range": {
         "startLine": 356,
         "startChar": 5,
@@ -118,6 +184,30 @@
           ]
         }
       ],
+      "revId": "0d483b20717780fd670e9958688193a80fb8a272",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "506e17fc_df30bf5d",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-12-05T17:20:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf036e19_a2431baa",
+      "range": {
+        "startLine": 366,
+        "startChar": 4,
+        "endLine": 368,
+        "endChar": 26
+      },
       "revId": "0d483b20717780fd670e9958688193a80fb8a272",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

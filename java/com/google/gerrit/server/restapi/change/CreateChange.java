@@ -146,6 +146,7 @@ public class CreateChange
   private final NotifyResolver notifyResolver;
   private final ContributorAgreementsChecker contributorAgreements;
   private final boolean disablePrivateChanges;
+  private final boolean useDiff3;
 
   @Inject
   CreateChange(
@@ -186,6 +187,9 @@ public class CreateChange
     this.mergeUtilFactory = mergeUtilFactory;
     this.notifyResolver = notifyResolver;
     this.contributorAgreements = contributorAgreements;
+    this.useDiff3 =
+        config.getBoolean(
+            "change", /* subsection= */ null, "diff3ConflictView", /* defaultValue= */ false);
   }
 
   @Override
@@ -780,7 +784,8 @@ public class CreateChange
               authorIdent,
               committerIdent,
               commitMessage,
-              rw);
+              rw,
+              this.useDiff3);
       logger.atFine().log("tree ID of merge commit: %s", mergeCommit.getTree().getId().name());
       return mergeCommit;
     } catch (NoMergeBaseException e) {

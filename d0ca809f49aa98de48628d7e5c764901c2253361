@@ -58,6 +58,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "735b7d21_3ff91939",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-12-05T16:24:26Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "f50144fb_95c16c42",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 55
+      },
+      "revId": "d0ca809f49aa98de48628d7e5c764901c2253361",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b55f4ace_da271195",
@@ -75,6 +99,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "45ca1d39_201a46ce",
+        "filename": "Documentation/user-search-accounts.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-12-05T16:24:26Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "b55f4ace_da271195",
+      "revId": "d0ca809f49aa98de48628d7e5c764901c2253361",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3d89f7c5_a64ecc0c",
@@ -88,6 +130,24 @@
       "writtenOn": "2024-12-05T15:48:31Z",
       "side": 1,
       "message": "We try to always use `example.com` as the domain since it\u0027s reserved for docs/tests/etc. I also clarified that this example is for when `example.com` is in the configured list.\n\n```suggestion\nFor example, if `example.com` is configured as case-insensitive, then `User@example.com`\nand `user@example.com` will be treated as equivalent.\n```",
+      "revId": "d0ca809f49aa98de48628d7e5c764901c2253361",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "39caa88b_933011b2",
+        "filename": "Documentation/user-search-accounts.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-12-05T16:24:26Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "3d89f7c5_a64ecc0c",
       "revId": "d0ca809f49aa98de48628d7e5c764901c2253361",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

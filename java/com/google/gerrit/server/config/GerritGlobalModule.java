@@ -93,6 +93,7 @@ import com.google.gerrit.server.PerformanceMetrics;
 import com.google.gerrit.server.RequestListener;
 import com.google.gerrit.server.ServerStateProvider;
 import com.google.gerrit.server.TraceRequestListener;
+import com.google.gerrit.server.ValidationOptionsListener;
 import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.account.AccountDeactivator;
 import com.google.gerrit.server.account.AccountExternalIdCreator;
@@ -468,6 +469,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), AccountStateProvider.class);
     DynamicMap.mapOf(binder(), AccountTagProvider.class);
     DynamicSet.setOf(binder(), AttentionSetListener.class);
+    DynamicSet.setOf(binder(), ValidationOptionsListener.class);
 
     DynamicMap.mapOf(binder(), MailFilter.class);
     bind(MailFilter.class).annotatedWith(Exports.named("ListMailFilter")).to(ListMailFilter.class);

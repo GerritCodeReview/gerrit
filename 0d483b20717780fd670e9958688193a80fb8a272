@@ -1,0 +1,91 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c0badfe_ba0713be",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-12-05T15:04:56Z",
+      "side": 1,
+      "message": "I think it should be color of --header-background-color - but lighter. \nBlue will look weird with green color on android for example.",
+      "range": {
+        "startLine": 265,
+        "startChar": 4,
+        "endLine": 265,
+        "endChar": 54
+      },
+      "revId": "0d483b20717780fd670e9958688193a80fb8a272",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0a6ee70_6240450b",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-12-05T15:04:56Z",
+      "side": 1,
+      "message": "It is used on other places. Is it ok that we make it 10% smaller?",
+      "range": {
+        "startLine": 356,
+        "startChar": 5,
+        "endLine": 357,
+        "endChar": 39
+      },
+      "revId": "0d483b20717780fd670e9958688193a80fb8a272",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf036e19_a2431baa",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-12-05T15:04:56Z",
+      "side": 1,
+      "message": "Should also h1 to be 500?",
+      "range": {
+        "startLine": 366,
+        "startChar": 4,
+        "endLine": 368,
+        "endChar": 26
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "3ae5a886_ba84d757",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/styles/themes/app-theme.ts",
+              "range": {
+                "startLine": 366,
+                "startChar": 0,
+                "endLine": 367,
+                "endChar": 0
+              },
+              "replacement": "    --font-weight-h1: 500;\n"
+            }
+          ]
+        }
+      ],
+      "revId": "0d483b20717780fd670e9958688193a80fb8a272",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

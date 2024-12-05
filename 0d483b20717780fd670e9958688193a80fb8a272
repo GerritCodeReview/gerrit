@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "30e4caf9_f431bac8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-12-05T15:06:05Z",
+      "side": 1,
+      "message": "Btw. I like freshing up Gerrit dashboard",
+      "revId": "0d483b20717780fd670e9958688193a80fb8a272",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3c0badfe_ba0713be",

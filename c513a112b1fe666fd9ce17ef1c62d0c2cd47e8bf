@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "90e90a71_a1c0d111",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-12-05T11:24:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc14e05c_634ddd6d",
+      "revId": "c513a112b1fe666fd9ce17ef1c62d0c2cd47e8bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3d770ca4_9c01ffe3",
@@ -31,6 +49,30 @@
       "writtenOn": "2024-12-04T20:38:43Z",
       "side": 1,
       "message": "I think this is repeating what you already say on L114 and you can remove it.",
+      "range": {
+        "startLine": 118,
+        "startChar": 0,
+        "endLine": 119,
+        "endChar": 45
+      },
+      "revId": "c513a112b1fe666fd9ce17ef1c62d0c2cd47e8bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2126eca5_2c4c68c8",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-12-05T11:24:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d770ca4_9c01ffe3",
       "range": {
         "startLine": 118,
         "startChar": 0,
@@ -58,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "172cf963_16fe681a",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-12-05T11:24:46Z",
+      "side": 1,
+      "message": "Using well known services might make sense for public facing Gerrit installation, but not for private ones. I would leave it to unset to avoid changing the behavior and let the admin decide explicitely what to do.",
+      "parentUuid": "38d6090f_3520c457",
+      "revId": "c513a112b1fe666fd9ce17ef1c62d0c2cd47e8bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3d51c46d_c31b0155",
@@ -71,6 +131,30 @@
       "writtenOn": "2024-12-04T20:38:43Z",
       "side": 1,
       "message": "This linked documentation probably needs an update too/instead, since I think the paragraph you added below is really about the `email:` operator.",
+      "range": {
+        "startLine": 18,
+        "startChar": 5,
+        "endLine": 18,
+        "endChar": 48
+      },
+      "revId": "c513a112b1fe666fd9ce17ef1c62d0c2cd47e8bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7ffa8c8_7e610ab7",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-12-05T11:24:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d51c46d_c31b0155",
       "range": {
         "startLine": 18,
         "startChar": 5,
@@ -104,6 +188,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9101fef_0c4619a3",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-12-05T11:24:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "584bfc97_c59bdfb8",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 70
+      },
+      "revId": "c513a112b1fe666fd9ce17ef1c62d0c2cd47e8bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "add1d13e_43b21051",
@@ -121,6 +229,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6fe38a18_d0443380",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-12-05T11:24:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "add1d13e_43b21051",
+      "revId": "c513a112b1fe666fd9ce17ef1c62d0c2cd47e8bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7d200167_8fb28195",
@@ -134,6 +260,30 @@
       "writtenOn": "2024-12-04T20:38:43Z",
       "side": 1,
       "message": "Don\u0027t you need the same kind of logic as L115-119 for each email in this list here?",
+      "range": {
+        "startLine": 157,
+        "startChar": 16,
+        "endLine": 157,
+        "endChar": 22
+      },
+      "revId": "c513a112b1fe666fd9ce17ef1c62d0c2cd47e8bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7bcea312_6f56841b",
+        "filename": "java/com/google/gerrit/server/query/account/InternalAccountQuery.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-12-05T11:24:46Z",
+      "side": 1,
+      "message": "Good catch! Added 2 tests to cover this case.",
+      "parentUuid": "7d200167_8fb28195",
       "range": {
         "startLine": 157,
         "startChar": 16,

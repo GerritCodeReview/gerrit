@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7bd46b8f_474039be",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-12-05T15:58:13Z",
+      "side": 1,
+      "message": "Having the subject split up like this is really misleading. Can you fix please?\n```suggestion\nDisable applying user suggestion on commit message from a previous patchset\n\nIt throws error:\n```",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 42
+      },
+      "revId": "1334b1bfa28eb921002dbb9c00795553f82deaf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -43,6 +43,7 @@ import {Timing} from '../../../constants/reporting';
 import {changeModelToken} from '../../../models/change/change-model';
 import {getFileExtension} from '../../../utils/file-util';
 import {ChangeStatus} from '../../../api/rest-api';
+import {SpecialFilePath} from '../../../constants/constants';
 
 export interface DiffPreview {
   filepath: string;
@@ -429,6 +430,11 @@ export class GrApplyFixDialog extends LitElement {
     if (this.isChangeAbandoned) return 'Change is abandoned';
     if (this.isApplyFixLoading) return 'Fix is still loading ...';
     if (!this.loggedIn) return 'You must be logged in to apply a fix';
+    if (
+      this.currentPreviews[0]?.filepath === SpecialFilePath.COMMIT_MESSAGE &&
+      this.patchNum !== this.latestPatchNum
+    )
+      return 'You cannot apply a commit message edit from a previous patch set';
     return '';
   }
 
@@ -437,6 +443,11 @@ export class GrApplyFixDialog extends LitElement {
     if (this.isChangeMerged) return true;
     if (this.isChangeAbandoned) return true;
     if (!this.loggedIn) return true;
+    if (
+      this.currentPreviews[0]?.filepath === SpecialFilePath.COMMIT_MESSAGE &&
+      this.patchNum !== this.latestPatchNum
+    )
+      return true;
     return this.isApplyFixLoading;
   }
 

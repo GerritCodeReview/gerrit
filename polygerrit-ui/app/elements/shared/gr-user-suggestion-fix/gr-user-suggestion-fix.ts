@@ -21,6 +21,7 @@ import {commentModelToken} from '../gr-comment-model/gr-comment-model';
 import {createUserFixSuggestion} from '../../../utils/comment-util';
 import {ChangeStatus} from '../../../api/rest-api';
 import {userModelToken} from '../../../models/user/user-model';
+import {SpecialFilePath} from '../../../constants/constants';
 
 declare global {
   interface HTMLElementEventMap {
@@ -209,6 +210,11 @@ export class GrUserSuggestionsFix extends LitElement {
     if (this.isChangeMerged) return true;
     if (this.isChangeAbandoned) return true;
     if (!this.loggedIn) return true;
+    if (
+      this.comment?.path === SpecialFilePath.COMMIT_MESSAGE &&
+      this.comment?.patch_set !== this.latestPatchNum
+    )
+      return true;
     return !this.previewLoaded;
   }
 
@@ -218,6 +224,11 @@ export class GrUserSuggestionsFix extends LitElement {
     if (this.isChangeAbandoned) return 'Change is abandoned';
     if (!this.previewLoaded) return 'Fix is still loading ...';
     if (!this.loggedIn) return 'You must be logged in to apply a fix';
+    if (
+      this.comment?.path === SpecialFilePath.COMMIT_MESSAGE &&
+      this.comment?.patch_set !== this.latestPatchNum
+    )
+      return 'You cannot apply a commit message edit from a previous patch set';
     return '';
   }
 }

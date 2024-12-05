@@ -364,19 +364,6 @@ public class MergeUtil {
     return commit;
   }
 
-  public static ObjectId mergeWithConflicts(
-      RevWalk rw,
-      ObjectInserter ins,
-      DirCache dc,
-      String oursName,
-      RevCommit ours,
-      String theirsName,
-      RevCommit theirs,
-      Map<String, MergeResult<? extends Sequence>> mergeResults)
-      throws IOException {
-    return mergeWithConflicts(rw, ins, dc, oursName, ours, theirsName, theirs, mergeResults, false);
-  }
-
   @SuppressWarnings("resource") // TemporaryBuffer requires calling close before reading.
   public static ObjectId mergeWithConflicts(
       RevWalk rw,
@@ -486,37 +473,11 @@ public class MergeUtil {
       RevCommit originalCommit,
       String mergeStrategy,
       boolean allowConflicts,
-      PersonIdent committerIdent,
-      String commitMsg,
-      CodeReviewRevWalk rw)
-      throws IOException,
-          MergeIdenticalTreeException,
-          MergeConflictException,
-          InvalidMergeStrategyException {
-    return createMergeCommit(
-        inserter,
-        repoConfig,
-        mergeTip,
-        originalCommit,
-        mergeStrategy,
-        allowConflicts,
-        committerIdent,
-        committerIdent,
-        commitMsg,
-        rw);
-  }
-
-  public static CodeReviewCommit createMergeCommit(
-      ObjectInserter inserter,
-      Config repoConfig,
-      RevCommit mergeTip,
-      RevCommit originalCommit,
-      String mergeStrategy,
-      boolean allowConflicts,
       PersonIdent authorIdent,
       PersonIdent committerIdent,
       String commitMsg,
-      CodeReviewRevWalk rw)
+      CodeReviewRevWalk rw,
+      boolean diff3Format)
       throws IOException,
           MergeIdenticalTreeException,
           MergeConflictException,
@@ -598,7 +559,8 @@ public class MergeUtil {
               mergeTip,
               "SOURCE BRANCH",
               originalCommit,
-              mergeResults);
+              mergeResults,
+              diff3Format);
     }
 
     CommitBuilder mergeCommit = new CommitBuilder();

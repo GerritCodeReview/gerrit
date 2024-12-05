@@ -50,6 +50,7 @@ import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.PatchSetInserter;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -76,6 +77,7 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -99,9 +101,11 @@ public class CreateMergePatchSet implements RestModifyView<ChangeResource, Merge
   private final ProjectCache projectCache;
   private final ChangeFinder changeFinder;
   private final PermissionBackend permissionBackend;
+  private final boolean useDiff3;
 
   @Inject
   CreateMergePatchSet(
+      @GerritServerConfig Config cfg,
       BatchUpdate.Factory updateFactory,
       GitRepositoryManager gitManager,
       CommitsCollection commits,
@@ -126,6 +130,9 @@ public class CreateMergePatchSet implements RestModifyView<ChangeResource, Merge
     this.projectCache = projectCache;
     this.changeFinder = changeFinder;
     this.permissionBackend = permissionBackend;
+    this.useDiff3 =
+        cfg.getBoolean(
+            "change", /* subsection= */ null, "diff3ConflictView", /* defaultValue= */ false);
   }
 
   @Override
@@ -322,7 +329,8 @@ public class CreateMergePatchSet implements RestModifyView<ChangeResource, Merge
         author,
         committer,
         commitMsg,
-        rw);
+        rw,
+        this.useDiff3);
   }
 
   private static String messageForChange(PatchSet.Id patchSetId, CodeReviewCommit commit) {

@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "40115724_2057e907",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-12-05T16:30:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe89e240_c8065595",
+      "revId": "d0ca809f49aa98de48628d7e5c764901c2253361",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "e60aa141_c698d325",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -165,6 +183,30 @@
       "writtenOn": "2024-12-05T15:48:31Z",
       "side": 1,
       "message": "nit: can you move both of these below the public methods? Our [code organization guide](https://gerrit-review.googlesource.com/Documentation/dev-crafting-changes.html#code-organization) suggests that layout and they\u0027re used by the public method below now too.",
+      "range": {
+        "startLine": 129,
+        "startChar": 0,
+        "endLine": 144,
+        "endChar": 3
+      },
+      "revId": "d0ca809f49aa98de48628d7e5c764901c2253361",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "15e1047c_370fdaa0",
+        "filename": "java/com/google/gerrit/server/query/account/InternalAccountQuery.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-12-05T16:30:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea475b9d_d1d5172b",
       "range": {
         "startLine": 129,
         "startChar": 0,

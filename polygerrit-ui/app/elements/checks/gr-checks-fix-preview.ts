@@ -19,6 +19,7 @@ import {changeModelToken} from '../../models/change/change-model';
 import {subscribe} from '../lit/subscription-controller';
 import {fire} from '../../utils/event-util';
 import {OpenFixPreviewEventDetail} from '../../types/events';
+import {userModelToken} from '../../models/user/user-model';
 
 /**
  * There is a certain overlap with `GrUserSuggestionsFix` which wraps
@@ -58,7 +59,11 @@ export class GrChecksFixPreview extends LitElement {
 
   @state() isChangeAbandoned = false;
 
+  @state() loggedIn = false;
+
   private readonly getChangeModel = resolve(this, changeModelToken);
+
+  private readonly getUserModel = resolve(this, userModelToken);
 
   constructor() {
     super();
@@ -86,6 +91,11 @@ export class GrChecksFixPreview extends LitElement {
       this,
       () => this.getChangeModel().status$,
       status => (this.isChangeAbandoned = status === ChangeStatus.ABANDONED)
+    );
+    subscribe(
+      this,
+      () => this.getUserModel().loggedIn$,
+      loggedIn => (this.loggedIn = loggedIn)
     );
   }
 
@@ -192,6 +202,7 @@ export class GrChecksFixPreview extends LitElement {
     if (this.patchSet === undefined) return true;
     if (this.isChangeMerged) return true;
     if (this.isChangeAbandoned) return true;
+    if (!this.loggedIn) return true;
     return !this.previewLoaded;
   }
 
@@ -200,6 +211,7 @@ export class GrChecksFixPreview extends LitElement {
     if (this.isChangeMerged) return 'Change is already merged';
     if (this.isChangeAbandoned) return 'Change is abandoned';
     if (!this.previewLoaded) return 'Fix is still loading ...';
+    if (!this.loggedIn) return 'You must be logged in to apply a fix';
     return '';
   }
 }

@@ -34,6 +34,7 @@ import static java.util.stream.Collectors.toList;
 import static org.eclipse.jgit.lib.Constants.HEAD;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
@@ -57,6 +58,7 @@ import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.BranchOrderSection;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelId;
+import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
@@ -100,6 +102,7 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.webui.PatchSetWebLink;
 import com.google.gerrit.extensions.webui.ResolveConflictsWebLink;
+import com.google.gerrit.server.ValidationOptionsListener;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
@@ -828,11 +831,17 @@ public class RevisionIT extends AbstractDaemonTest {
     gApi.projects().name(project.get()).branch(in.destination).create(new BranchInput());
 
     TestCommitValidationListener testCommitValidationListener = new TestCommitValidationListener();
+    TestValidationOptionsListener testValidationOptionsListener =
+        new TestValidationOptionsListener();
     try (Registration registration =
-        extensionRegistry.newRegistration().add(testCommitValidationListener)) {
+        extensionRegistry
+            .newRegistration()
+            .add(testCommitValidationListener)
+            .add(testValidationOptionsListener)) {
       gApi.changes().id(r.getChangeId()).current().cherryPick(in);
       assertThat(testCommitValidationListener.receiveEvent.pushOptions)
           .containsExactly("key", "value");
+      assertThat(testValidationOptionsListener.validationOptions).containsExactly("key", "value");
     }
   }
 
@@ -2630,6 +2639,18 @@ public class RevisionIT extends AbstractDaemonTest {
         throws CommitValidationException {
       this.receiveEvent = receiveEvent;
       return ImmutableList.of();
+    }
+  }
+
+  private static class TestValidationOptionsListener implements ValidationOptionsListener {
+    public ImmutableListMultimap<String, String> validationOptions;
+
+    @Override
+    public void onPatchSetCreation(
+        BranchNameKey projectAndBranch,
+        PatchSet.Id patchSetId,
+        ImmutableListMultimap<String, String> validationOptions) {
+      this.validationOptions = validationOptions;
     }
   }
 }

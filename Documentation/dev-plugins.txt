@@ -3330,6 +3330,14 @@ execution times into a performance log for further analysis.
 `com.google.gerrit.server.RequestListener` is an extension point that is
 invoked each time the server executes a request from a user.
 
+[[validation-options-listener]]
+== ValidationOptionsListener
+
+`com.google.gerrit.server.ValidationOptionsListener` is an extension point that
+is invoked when a patch set is created. The extension point gets the validation
+options that were specified by the user. For example, this extension point can
+be used to log validation options for auditing purposes.
+
 [[custom-keyed-values]]
 == Custom Keyed values
 

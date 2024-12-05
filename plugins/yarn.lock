@@ -464,10 +464,10 @@
   dependencies:
     "@types/chai" "^4.2.12"
 
-"@gerritcodereview/typescript-api@3.10.0":
-  version "3.10.0"
-  resolved "https://registry.yarnpkg.com/@gerritcodereview/typescript-api/-/typescript-api-3.10.0.tgz#dce07e688fc9b9dd19163df90716d0d73587dcb8"
-  integrity sha512-+ogu+62H4HkGEfEotX3yuNaP6PRkDpG7+gUQPvzAhTwo9u2NvQIeVfETU8ktjLGZd5mMx7htRvTpCaEZEe6MTA==
+"@gerritcodereview/typescript-api@3.11.0":
+  version "3.11.0"
+  resolved "https://registry.yarnpkg.com/@gerritcodereview/typescript-api/-/typescript-api-3.11.0.tgz#4c3939d76cc0941334aa1975c4744546469251d0"
+  integrity sha512-JqwywqmVi6VoyXYEjQXiCXavfkCz2qWZ+TeunjkmvkBizoB7TD5AedV1AjEHC2/a87VyhP6RcGLw9q046RuO7g==
 
 "@hapi/bourne@^3.0.0":
   version "3.0.0"

@@ -45,6 +45,7 @@ import com.google.gerrit.extensions.webui.PatchSetWebLink;
 import com.google.gerrit.extensions.webui.ResolveConflictsWebLink;
 import com.google.gerrit.server.ExceptionHook;
 import com.google.gerrit.server.ServerStateProvider;
+import com.google.gerrit.server.ValidationOptionsListener;
 import com.google.gerrit.server.account.AccountStateProvider;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.change.FilterIncludedIn;
@@ -111,6 +112,7 @@ public class ExtensionRegistry {
   private final DynamicSet<ServerStateProvider> serverStateProviders;
   private final DynamicSet<AccountStateProvider> accountStateProviders;
   private final DynamicSet<AttentionSetListener> attentionSetListeners;
+  private final DynamicSet<ValidationOptionsListener> validationOptionsListeners;
 
   private final DynamicMap<ChangeHasOperandFactory> hasOperands;
   private final DynamicMap<ChangeIsOperandFactory> isOperands;
@@ -160,6 +162,7 @@ public class ExtensionRegistry {
       DynamicSet<ServerStateProvider> serverStateProviders,
       DynamicSet<AccountStateProvider> accountStateProviders,
       DynamicSet<AttentionSetListener> attentionSetListeners,
+      DynamicSet<ValidationOptionsListener> validationOptionsListeners,
       DynamicMap<ReviewerSuggestion> reviewerSuggestions) {
     this.accountIndexedListeners = accountIndexedListeners;
     this.changeIndexedListeners = changeIndexedListeners;
@@ -203,6 +206,7 @@ public class ExtensionRegistry {
     this.serverStateProviders = serverStateProviders;
     this.accountStateProviders = accountStateProviders;
     this.attentionSetListeners = attentionSetListeners;
+    this.validationOptionsListeners = validationOptionsListeners;
     this.reviewerSuggestions = reviewerSuggestions;
   }
 
@@ -393,6 +397,11 @@ public class ExtensionRegistry {
     @CanIgnoreReturnValue
     public Registration add(AttentionSetListener attentionSetListener) {
       return add(attentionSetListeners, attentionSetListener);
+    }
+
+    @CanIgnoreReturnValue
+    public Registration add(ValidationOptionsListener validationOptionsListener) {
+      return add(validationOptionsListeners, validationOptionsListener);
     }
 
     @CanIgnoreReturnValue

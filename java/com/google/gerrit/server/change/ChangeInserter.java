@@ -53,6 +53,7 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.PatchSetUtil;
+import com.google.gerrit.server.ValidationOptionsListener;
 import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.change.ReviewerModifier.InternalReviewerInput;
 import com.google.gerrit.server.change.ReviewerModifier.ReviewerModification;
@@ -76,6 +77,7 @@ import com.google.gerrit.server.patch.DiffOperationsForCommitValidation;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.ssh.NoSshInfo;
@@ -127,6 +129,7 @@ public class ChangeInserter implements InsertChangeOp {
   private final AutoMerger autoMerger;
   private final ChangeUtil changeUtil;
   private final DiffOperationsForCommitValidation.Factory diffOperationsForCommitValidationFactory;
+  private final PluginSetContext<ValidationOptionsListener> validationOptionsListeners;
 
   private final Change.Id changeId;
   private final PatchSet.Id psId;
@@ -182,6 +185,7 @@ public class ChangeInserter implements InsertChangeOp {
       AutoMerger autoMerger,
       ChangeUtil changeUtil,
       DiffOperationsForCommitValidation.Factory diffOperationsForCommitValidationFactory,
+      PluginSetContext<ValidationOptionsListener> validationOptionsListeners,
       @Assisted Change.Id changeId,
       @Assisted ObjectId commitId,
       @Assisted String refName) {
@@ -202,6 +206,7 @@ public class ChangeInserter implements InsertChangeOp {
     this.autoMerger = autoMerger;
     this.changeUtil = changeUtil;
     this.diffOperationsForCommitValidationFactory = diffOperationsForCommitValidationFactory;
+    this.validationOptionsListeners = validationOptionsListeners;
 
     this.changeId = changeId;
     this.psId = PatchSet.id(changeId, INITIAL_PATCH_SET_ID);
@@ -644,6 +649,10 @@ public class ChangeInserter implements InsertChangeOp {
     }
 
     try {
+      validationOptionsListeners.runEach(
+          validationOptionsListener ->
+              validationOptionsListener.onPatchSetCreation(
+                  change.getDest(), psId, validationOptions));
       try (CommitReceivedEvent event =
           new CommitReceivedEvent(
               cmd,

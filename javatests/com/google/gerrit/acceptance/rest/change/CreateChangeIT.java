@@ -34,6 +34,7 @@ import static org.eclipse.jgit.lib.Constants.SIGNED_OFF_BY_TAG;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -49,6 +50,7 @@ import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.converter.ChangeInputProtoConverter;
@@ -79,6 +81,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.server.ValidationOptionsListener;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
@@ -1373,11 +1376,17 @@ public class CreateChangeIT extends AbstractDaemonTest {
     changeInput.validationOptions = ImmutableMap.of("key", "value");
 
     TestCommitValidationListener testCommitValidationListener = new TestCommitValidationListener();
+    TestValidationOptionsListener testValidationOptionsListener =
+        new TestValidationOptionsListener();
     try (Registration registration =
-        extensionRegistry.newRegistration().add(testCommitValidationListener)) {
+        extensionRegistry
+            .newRegistration()
+            .add(testCommitValidationListener)
+            .add(testValidationOptionsListener)) {
       assertCreateSucceeds(changeInput);
       assertThat(testCommitValidationListener.receiveEvent.pushOptions)
           .containsExactly("key", "value");
+      assertThat(testValidationOptionsListener.validationOptions).containsExactly("key", "value");
     }
   }
 
@@ -1621,6 +1630,18 @@ public class CreateChangeIT extends AbstractDaemonTest {
         throws CommitValidationException {
       this.receiveEvent = receiveEvent;
       return ImmutableList.of();
+    }
+  }
+
+  private static class TestValidationOptionsListener implements ValidationOptionsListener {
+    public ImmutableListMultimap<String, String> validationOptions;
+
+    @Override
+    public void onPatchSetCreation(
+        BranchNameKey projectAndBranch,
+        PatchSet.Id patchSetId,
+        ImmutableListMultimap<String, String> validationOptions) {
+      this.validationOptions = validationOptions;
     }
   }
 }

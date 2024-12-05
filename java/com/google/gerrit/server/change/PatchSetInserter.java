@@ -37,6 +37,7 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.ReviewerSet;
+import com.google.gerrit.server.ValidationOptionsListener;
 import com.google.gerrit.server.approval.ApprovalCopier;
 import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.events.CommitReceivedEvent;
@@ -53,6 +54,7 @@ import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.ssh.NoSshInfo;
 import com.google.gerrit.server.update.BatchUpdateOp;
@@ -89,6 +91,7 @@ public class PatchSetInserter implements BatchUpdateOp {
   private final AutoMerger autoMerger;
   private final TopicValidator topicValidator;
   private final DiffOperationsForCommitValidation.Factory diffOperationsForCommitValidationFactory;
+  private final PluginSetContext<ValidationOptionsListener> validationOptionsListeners;
 
   // Assisted-injected fields.
   private final PatchSet.Id psId;
@@ -139,6 +142,7 @@ public class PatchSetInserter implements BatchUpdateOp {
       AutoMerger autoMerger,
       TopicValidator topicValidator,
       DiffOperationsForCommitValidation.Factory diffOperationsForCommitValidationFactory,
+      PluginSetContext<ValidationOptionsListener> validationOptionsListeners,
       @Assisted ChangeNotes notes,
       @Assisted PatchSet.Id psId,
       @Assisted ObjectId commitId) {
@@ -156,6 +160,7 @@ public class PatchSetInserter implements BatchUpdateOp {
     this.autoMerger = autoMerger;
     this.topicValidator = topicValidator;
     this.diffOperationsForCommitValidationFactory = diffOperationsForCommitValidationFactory;
+    this.validationOptionsListeners = validationOptionsListeners;
 
     this.origNotes = notes;
     this.psId = psId;
@@ -424,6 +429,10 @@ public class PatchSetInserter implements BatchUpdateOp {
     }
 
     String refName = getPatchSetId().toRefName();
+    validationOptionsListeners.runEach(
+        validationOptionsListener ->
+            validationOptionsListener.onPatchSetCreation(
+                change.getDest(), psId, validationOptions));
     try (CommitReceivedEvent event =
         new CommitReceivedEvent(
             new ReceiveCommand(

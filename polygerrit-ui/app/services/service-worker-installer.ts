@@ -69,6 +69,10 @@ export class ServiceWorkerInstaller extends Model<ServiceWorkerInstallerState> {
     private readonly userModel: UserModel
   ) {
     super({initialized: false, shouldShowPrompt: false});
+    if (!('serviceWorker' in navigator)) {
+      console.error('Service worker API not available');
+      return;
+    }
     this.userModel.account$.subscribe(acc => (this.account = acc));
     this.userModel.preferences$.subscribe(prefs => {
       if (
@@ -100,11 +104,21 @@ export class ServiceWorkerInstaller extends Model<ServiceWorkerInstallerState> {
     if (this.initialized) return;
     if (!this.areNotificationsEnabled()) return;
 
+<<<<<<< PATCH SET (3565e2 Fix "undefined is not an object (evaluating 'navigator.servi)
+    await registerServiceWorker('/service-worker.js');
+||||||| BASE
+    if (!('serviceWorker' in navigator)) {
+      console.error('Service worker API not available');
+      return;
+    }
+    await registerServiceWorker('/service-worker.js');
+=======
     if (!('serviceWorker' in navigator)) {
       console.error('Service worker API not available');
       return;
     }
     await registerServiceWorker(`${getBaseUrl()}/service-worker.js`);
+>>>>>>> BASE      (923f8f Merge "Add base url to service-worker url")
     const permission = Notification.permission;
     this.reportingService.reportLifeCycle(LifeCycle.NOTIFICATION_PERMISSION, {
       permission,
@@ -161,7 +175,7 @@ export class ServiceWorkerInstaller extends Model<ServiceWorkerInstallerState> {
   startTriggerTimer() {
     setTimeout(() => {
       this.startTriggerTimer();
-      navigator.serviceWorker.controller?.postMessage({
+      navigator?.serviceWorker?.controller?.postMessage({
         type: ServiceWorkerMessageType.TRIGGER_NOTIFICATIONS,
         account: this.account,
       });

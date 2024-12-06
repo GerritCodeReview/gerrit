@@ -18,6 +18,7 @@ import {define} from '../models/dependency';
 import {Model} from '../models/base/model';
 import {Observable} from 'rxjs';
 import {select} from '../utils/observable-util';
+import {getBaseUrl} from '../utils/url-util';
 
 /** Type of incoming messages for ServiceWorker. */
 export enum ServiceWorkerMessageType {
@@ -103,7 +104,7 @@ export class ServiceWorkerInstaller extends Model<ServiceWorkerInstallerState> {
       console.error('Service worker API not available');
       return;
     }
-    await registerServiceWorker('/service-worker.js');
+    await registerServiceWorker(`${getBaseUrl()}/service-worker.js`);
     const permission = Notification.permission;
     this.reportingService.reportLifeCycle(LifeCycle.NOTIFICATION_PERMISSION, {
       permission,

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad107951_ec17ce0d",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-12-06T14:06:40Z",
+      "side": 1,
+      "message": "This is rendered verbatim, to make it a link it needs to be \n\n  link:user-search.html#search-operators[TEXT]",
+      "range": {
+        "startLine": 502,
+        "startChar": 0,
+        "endLine": 502,
+        "endChar": 38
+      },
+      "revId": "b73352f3b8235a595cf6385f6a51c7501a37e2fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

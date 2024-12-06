@@ -72,8 +72,9 @@ export class ServiceWorkerInstaller extends Model<ServiceWorkerInstallerState> {
     this.userModel.account$.subscribe(acc => (this.account = acc));
     this.userModel.preferences$.subscribe(prefs => {
       if (
+        this.initialized &&
         this.allowBrowserNotificationsPreference !==
-        prefs.allow_browser_notifications
+          prefs.allow_browser_notifications
       ) {
         this.allowBrowserNotificationsPreference =
           prefs.allow_browser_notifications;

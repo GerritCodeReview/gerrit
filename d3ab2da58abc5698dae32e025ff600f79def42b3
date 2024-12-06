@@ -33,6 +33,23 @@
       "message": "This seems to be because of http sites (service worker doesn\u0027t work on http, only https)",
       "revId": "d3ab2da58abc5698dae32e025ff600f79def42b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2265a2ff_287868ff",
+        "filename": "polygerrit-ui/app/services/service-worker-installer.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-12-06T15:26:29Z",
+      "side": 1,
+      "message": "I wonder if i should do this on line 71.\n\n```javascript\n    if (!(\u0027serviceWorker\u0027 in navigator)) {\n      console.error(\u0027Service worker API not available\u0027);\n      return;\n    }\n```\n\nand then remove line 104.",
+      "revId": "d3ab2da58abc5698dae32e025ff600f79def42b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

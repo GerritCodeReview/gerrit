@@ -33,6 +33,24 @@
       "message": "An enhancement would be to put timedout requests back on the queue at the end.",
       "revId": "d001d6369425854ff1a8199a695db978f05fc0d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be98b0b2_9964ceea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-12-06T18:20:06Z",
+      "side": 1,
+      "message": "Sounds like a good idea for another change. \n\nI am not really familiar with the email sending code in Gerrit, where do you think would we need to handle the timeout to put it back on the queue ?",
+      "parentUuid": "76a45b46_cd2df9e7",
+      "revId": "d001d6369425854ff1a8199a695db978f05fc0d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

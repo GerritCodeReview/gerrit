@@ -81,6 +81,30 @@
       },
       "revId": "c1fb5ae204bfcd27f02029b3e8267701a648bb13",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "481fb352_80ad40a3",
+        "filename": "java/com/google/gerrit/sshd/SshCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-12-06T12:46:36Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "38381b44_02c4e294",
+      "range": {
+        "startLine": 127,
+        "startChar": 0,
+        "endLine": 131,
+        "endChar": 30
+      },
+      "revId": "c1fb5ae204bfcd27f02029b3e8267701a648bb13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a0fd9c75_d6be6190",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-12-06T21:51:36Z",
+      "side": 1,
+      "message": "I think you\u0027ll need to update the config-labels.html#label_copyCondition doc too.",
+      "revId": "c0728442cf35118cbd58cd235757e5ccf22cff44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8db023f5_28b91e83",
         "filename": "java/com/google/gerrit/server/query/approval/ApprovalQueryBuilder.java",
         "patchSetId": 4
@@ -14,6 +31,64 @@
       "writtenOn": "2024-12-06T14:55:40Z",
       "side": 1,
       "message": "Should we document the new extension point somewhere under https://gerrit-review.googlesource.com/Documentation/dev-plugins.html#search_operands?",
+      "revId": "c0728442cf35118cbd58cd235757e5ccf22cff44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1e642d9_b727dc3c",
+        "filename": "java/com/google/gerrit/server/query/approval/ApprovalQueryBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-12-06T21:51:36Z",
+      "side": 1,
+      "message": "+1\n\nPlease add a test showing how it\u0027s used too.",
+      "parentUuid": "8db023f5_28b91e83",
+      "revId": "c0728442cf35118cbd58cd235757e5ccf22cff44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12cde37f_07de26a6",
+        "filename": "java/com/google/gerrit/server/query/approval/ApprovalQueryBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-12-06T21:51:36Z",
+      "side": 1,
+      "message": "This is going to be a bit confusing anyway, but it\u0027s a little better if you modify the naming. And probably do the same on L135/L140.\n\n```suggestion\n  private Predicate\u003cApprovalContext\u003e userin(UserInPredicate.Field field, String groupOrPluginOperand)\n```",
+      "range": {
+        "startLine": 162,
+        "startChar": 80,
+        "endLine": 162,
+        "endChar": 85
+      },
+      "revId": "c0728442cf35118cbd58cd235757e5ccf22cff44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "209dc308_fdf750fc",
+        "filename": "java/com/google/gerrit/server/query/approval/ApprovalQueryBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-12-06T21:51:36Z",
+      "side": 1,
+      "message": "IIUC, if you have a plugin `foo` providing an operand `bar` here, the syntax for using it in a copyCondition would be `uploaderin:bar_foo`?\n\nAnd just to invent a usage that feels \"real\", you might use to this to do something like `uploaderin:bugowner_issueTrackerSystem` and that would let you have approval copying behavior based on if the vote is coming from the user who is the bug owner in your issue tracker. Does that match the kind of usage you expect?",
       "revId": "c0728442cf35118cbd58cd235757e5ccf22cff44",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

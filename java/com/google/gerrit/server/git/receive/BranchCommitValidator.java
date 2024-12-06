@@ -28,6 +28,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.validators.CommitValidationException;
+import com.google.gerrit.server.git.validators.CommitValidationInfo;
 import com.google.gerrit.server.git.validators.CommitValidationMessage;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.logging.TraceContext;
@@ -185,10 +186,12 @@ public class BranchCommitValidator {
                   skipValidation);
         }
 
-        for (CommitValidationMessage m : validators.validate(receiveEvent)) {
-          messages.add(
-              new CommitValidationMessage(
-                  messageForCommit(commit, m.getMessage(), objectReader), m.getType()));
+        for (CommitValidationInfo validatioInfo : validators.validate(receiveEvent).values()) {
+          for (CommitValidationMessage m : validatioInfo.validationMessages()) {
+            messages.add(
+                new CommitValidationMessage(
+                    messageForCommit(commit, m.getMessage(), objectReader), m.getType()));
+          }
         }
       } catch (CommitValidationException e) {
         logger.atFine().log("Commit validation failed on %s", commit.name());

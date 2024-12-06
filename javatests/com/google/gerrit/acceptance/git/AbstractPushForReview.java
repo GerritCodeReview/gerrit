@@ -2727,16 +2727,23 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   private static class TestValidator implements CommitValidationListener {
     private final AtomicInteger count = new AtomicInteger();
+    private final String validatorName;
     private final boolean validateAll;
 
     @Nullable private CommitReceivedEvent receivedEvent;
 
-    TestValidator(boolean validateAll) {
+    TestValidator(String validatorName, boolean validateAll) {
+      this.validatorName = validatorName;
       this.validateAll = validateAll;
     }
 
     TestValidator() {
-      this(false);
+      this(TestValidator.class.getName(), false);
+    }
+
+    @Override
+    public String getValidatorName() {
+      return validatorName;
     }
 
     @Override
@@ -2797,7 +2804,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   @Test
   public void skipValidation() throws Exception {
     String master = "refs/heads/master";
-    TestValidator validator = new TestValidator();
+    TestValidator validator = new TestValidator("validator1", /* validateAll= */ false);
     try (Registration registration = extensionRegistry.newRegistration().add(validator)) {
       // Validation listener is called on normal push
       PushOneCommit push =
@@ -2826,7 +2833,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
       // Validation listener that needs to validate all commits gets called even
       // when the skip option is used.
-      TestValidator validator2 = new TestValidator(true);
+      TestValidator validator2 = new TestValidator("validator2", /* validateAll= */ true);
       try (Registration registration2 = extensionRegistry.newRegistration().add(validator2)) {
         PushOneCommit push4 =
             pushFactory.create(admin.newIdent(), testRepo, "change2", "b.txt", "content");

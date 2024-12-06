@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8db023f5_28b91e83",
+        "filename": "java/com/google/gerrit/server/query/approval/ApprovalQueryBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-12-06T14:55:40Z",
+      "side": 1,
+      "message": "Should we document the new extension point somewhere under https://gerrit-review.googlesource.com/Documentation/dev-plugins.html#search_operands?",
+      "revId": "c0728442cf35118cbd58cd235757e5ccf22cff44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

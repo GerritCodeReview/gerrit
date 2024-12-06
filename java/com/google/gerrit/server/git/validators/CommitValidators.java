@@ -15,14 +15,18 @@
 package com.google.gerrit.server.git.validators;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.entities.Change.CHANGE_ID_PATTERN;
 import static com.google.gerrit.entities.RefNames.REFS_CHANGES;
 import static com.google.gerrit.entities.RefNames.REFS_CONFIG;
+import static com.google.gerrit.server.git.validators.CommitValidationInfo.NO_METADATA;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.FooterConstants;
@@ -245,12 +249,17 @@ public class CommitValidators {
         CommitValidationListener pluginValidator, boolean skipValidation) {
       return new CommitValidationListener() {
         @Override
-        public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
+        public String getValidatorName() {
+          return pluginValidator.getValidatorName();
+        }
+
+        @Override
+        public CommitValidationInfo validateCommit(CommitReceivedEvent receiveEvent)
             throws CommitValidationException {
           if (skipValidation && !pluginValidator.shouldValidateAllCommits()) {
-            return ImmutableList.of();
+            return CommitValidationInfo.skippedByUser(NO_METADATA);
           }
-          return pluginValidator.onCommitReceived(receiveEvent);
+          return pluginValidator.validateCommit(receiveEvent);
         }
       };
     }
@@ -263,11 +272,11 @@ public class CommitValidators {
   }
 
   @CanIgnoreReturnValue
-  public List<CommitValidationMessage> validate(CommitReceivedEvent receiveEvent)
+  public ImmutableMap<String, CommitValidationInfo> validate(CommitReceivedEvent receiveEvent)
       throws CommitValidationException {
-    List<CommitValidationMessage> messages = new ArrayList<>();
-    try {
-      for (CommitValidationListener commitValidator : validators) {
+    ImmutableMap.Builder<String, CommitValidationInfo> validationInfos = ImmutableMap.builder();
+    for (CommitValidationListener commitValidator : validators) {
+      try {
         try (TraceTimer ignored =
             TraceContext.newTimer(
                 "Running CommitValidationListener",
@@ -277,17 +286,27 @@ public class CommitValidators {
                     .branchName(receiveEvent.getBranchNameKey().branch())
                     .commit(receiveEvent.commit.name())
                     .build())) {
-          messages.addAll(commitValidator.onCommitReceived(receiveEvent));
+          CommitValidationInfo commitValidationInfo = commitValidator.validateCommit(receiveEvent);
+          logger.atFine().log(
+              "commit %s has passed validator %s: %s",
+              receiveEvent.commit.name(), commitValidator.getValidatorName(), commitValidationInfo);
+          validationInfos.put(commitValidator.getValidatorName(), commitValidationInfo);
         }
+      } catch (CommitValidationException e) {
+        // Keep the old messages (and their order) in case of an exception
+        ImmutableList<CommitValidationMessage> messages =
+            Streams.concat(
+                    validationInfos.build().values().stream()
+                        .flatMap(validationInfo -> validationInfo.validationMessages().stream()),
+                    e.getMessages().stream())
+                .collect(toImmutableList());
+        logger.atFine().withCause(e).log(
+            "commit %s was rejected by validator %s: %s",
+            receiveEvent.commit.name(), commitValidator.getValidatorName(), messages);
+        throw new CommitValidationException(e.getMessage(), messages);
       }
-    } catch (CommitValidationException e) {
-      logger.atFine().withCause(e).log(
-          "CommitValidationException occurred: %s", e.getFullMessage());
-      // Keep the old messages (and their order) in case of an exception
-      messages.addAll(e.getMessages());
-      throw new CommitValidationException(e.getMessage(), messages);
     }
-    return messages;
+    return validationInfos.build();
   }
 
   public static class ChangeIdValidator implements CommitValidationListener {

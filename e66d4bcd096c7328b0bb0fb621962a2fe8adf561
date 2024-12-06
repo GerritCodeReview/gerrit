@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0dbf1fa8_ee66ddc0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-12-06T16:26:23Z",
+      "side": 1,
+      "message": "A question for maybe another change: how do we keep track of which lock names are already used ?\n\nYou still need to add a Release-Notes footer. And I think this change should be mentioned in release notes.",
+      "revId": "e66d4bcd096c7328b0bb0fb621962a2fe8adf561",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

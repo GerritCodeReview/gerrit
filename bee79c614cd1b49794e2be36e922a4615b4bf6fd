@@ -16,6 +16,24 @@
       "message": "I think for the plain text log format we need to ensure that a placeholder traceid `-` is written to the log if traceid isn\u0027t set, otherwise parsing the plain text log will be really hard",
       "revId": "bee79c614cd1b49794e2be36e922a4615b4bf6fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c8002f4_ade18771",
+        "filename": "java/com/google/gerrit/sshd/SshLogLayout.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-12-06T12:14:14Z",
+      "side": 1,
+      "message": "The line 91 in the `req` method appends the `-` placeholder if trace-id value is not set.",
+      "parentUuid": "358f875d_fb0729f9",
+      "revId": "bee79c614cd1b49794e2be36e922a4615b4bf6fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa005000_386b3510",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-12-06T12:14:14Z",
+      "side": 1,
+      "message": "Note for reviewers: I know that this might break many parsers. We can also move this to the end of the line.\nFor me, this is a very significant field which deserves to be at this place.",
+      "range": {
+        "startLine": 16,
+        "startChar": 41,
+        "endLine": 16,
+        "endChar": 63
+      },
+      "revId": "39beba46336ee726d37941b0b2519333a03e90b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

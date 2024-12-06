@@ -16,6 +16,24 @@
       "message": "for plain text log we should ensure that a placeholder traceid `-` is printed if traceid is unset to ensure parsing of text logs is simple",
       "revId": "a694769f6b8115510d16ab065d439c13b7211fbe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8898a3fe_36cf5850",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/HttpLogLayout.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-12-06T12:15:16Z",
+      "side": 1,
+      "message": "The `opt` method, line 96, appends placeholder `-` if the trace-id value is null.",
+      "parentUuid": "fb6bd4aa_8f05e9e1",
+      "revId": "a694769f6b8115510d16ab065d439c13b7211fbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

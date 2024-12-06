@@ -490,7 +490,10 @@ class OpenIdServiceImpl {
         nextToken = nextToken.substring(1);
       }
     }
-    rdr.append(nextToken);
+    // Only append a final "/" if we don't already end in a "/".
+    if (!(rdr.toString().endsWith("/") && nextToken.equals("/"))) {
+      rdr.append(nextToken);
+    }
     rsp.sendRedirect(rdr.toString());
   }
 

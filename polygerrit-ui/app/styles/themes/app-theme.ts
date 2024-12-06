@@ -20,59 +20,77 @@ const appThemeCss = safeStyleSheet`
     /* color palette */
     --gerrit-blue-light: #1565c0;
     --gerrit-blue-dark: #90caf9;
-    --red-900: #a50e0e;
+    --red-50: #fce8e6;
+    --red-100: #fad2cf;
+    --red-200: #f6aea9;
+    --red-300: #f28b82;
+    --red-400: #ee675c;
+    --red-500: #ea4335;
+    --red-600: #d93025;
     --red-700: #c5221f;
     --red-700-04: #c5221f0a;
     --red-700-10: #c5221f1a;
     --red-700-12: #c5221f1f;
-    --red-600: #d93025;
-    --red-300: #f28b82;
-    --red-200: #f6aea9;
-    --red-50: #fce8e6;
+    --red-800: #b31412;
+    --red-900: #a50e0e;
     --red-tonal: #6c322f;
-    --blue-900: #174ea6;
-    --blue-800: #185abc;
+    --blue-50: #e8f0fe;
+    --blue-100: #d2e3fc;
+    --blue-200: #aecbfa;
+    --blue-200-16: #aecbfa29;
+    --blue-200-24: #aecbfa3d;
+    --blue-300: #8ab4f8;
+    --blue-300-24: #8ab4f83D;
+    --blue-400: #669df6;
+    --blue-500: #4285f4;
+    --blue-600: #1a73e8;
     --blue-700: #1967d2;
     --blue-700-04: #1967d20a;
     --blue-700-10: #1967d21a;
     --blue-700-12: #1967d21f;
     --blue-700-16: #1967d229;
     --blue-700-24: #1967d23d;
-    --blue-400: #669df6;
-    --blue-300: #8ab4f8;
-    --blue-300-24: #8ab4f83D;
-    --blue-200: #aecbfa;
-    --blue-200-16: #aecbfa29;
-    --blue-200-24: #aecbfa3d;
-    --blue-100: #d2e3fc;
-    --blue-50: #e8f0fe;
+    --blue-800: #185abc;
+    --blue-900: #174ea6;
     --blue-tonal: #314972;
-    --orange-900: #b06000;
-    --orange-800: #c26401;
+    --orange-50: #feefe3;
+    --orange-100: #fedfc8;
+    --orange-200: #fdc69c;
+    --orange-300: #fcad70;
+    --orange-400: #fa903e;
+    --orange-500: #fa7b17;
+    --orange-600: #e8710a;
     --orange-700: #d56e0c;
     --orange-700-04: #d56e0c0a;
     --orange-700-10: #d56e0c1a;
     --orange-700-12: #d56e0c1f;
-    --orange-400: #fa903e;
-    --orange-300: #fcad70;
-    --orange-200: #fdc69c;
-    --orange-50: #feefe3;
+    --orange-800: #c26401;
+    --orange-900: #b06000;
     --orange-tonal: #714625;
-    --cyan-900: #007b83;
-    --cyan-700: #129eaf;
-    --cyan-200: #a1e4f2;
-    --cyan-100: #cbf0f8;
     --cyan-50: #e4f7fb;
+    --cyan-100: #cbf0f8;
+    --cyan-200: #a1e4f2;
+    --cyan-300: #78d9ec;
+    --cyan-400: #4ecde6;
+    --cyan-500: #24c1e0;
+    --cyan-600: #12b5cb;
+    --cyan-700: #129eaf;
+    --cyan-800: #098591;
+    --cyan-900: #007b83;
     --cyan-tonal: #275e6b;
-    --green-900: #0d652d;
+    --green-50: #e6f4ea;
+    --green-100: #ceead6;
+    --green-200: #a8dab5;
+    --green-300: #81c995;
+    --green-400: #5bb974;
+    --green-500: #34a853;
+    --green-600: #1e8e3e;
     --green-700: #188038;
     --green-700-04: #1880380a;
     --green-700-10: #1880381a;
     --green-700-12: #1880381f;
-    --green-400: #5bb974;
-    --green-300: #81c995;
-    --green-200: #a8dab5;
-    --green-50: #e6f4ea;
+    --green-800: #137333;
+    --green-900: #0d652d;
     --green-tonal: #2c553a;
     --gray-900: #202124;
     --gray-800: #3c4043;
@@ -91,21 +109,40 @@ const appThemeCss = safeStyleSheet`
     --gray-100: #f1f3f4;
     --gray-50: #f8f9fa;
     --gray-tonal: #505357;
-    --purple-900: #681da8;
-    --purple-700: #8430ce;
-    --purple-500: #a142f4;
-    --purple-400: #af5cf7;
-    --purple-200: #d7aefb;
-    --purple-100: #e9d2fd;
     --purple-50: #f3e8fd;
+    --purple-100: #e9d2fd;
+    --purple-200: #d7aefb;
+    --purple-300: #c58af9;
+    --purple-400: #af5cf7;
+    --purple-500: #a142f4;
+    --purple-600: #9334e6;
+    --purple-700: #8430ce;
+    --purple-800: #7627bb;
+    --purple-900: #681da8;
     --purple-tonal: #523272;
     --deep-purple-800: #4527a0;
     --deep-purple-600: #5e35b1;
-    --pink-800: #b80672;
-    --pink-500: #f538a0;
     --pink-50: #fde7f3;
+    --pink-100: #fdcfe8;
+    --pink-200: #fba9d6;
+    --pink-300: #ff8bcb;
+    --pink-400: #ff63b8;
+    --pink-500: #f439a0;
+    --pink-600: #e52592;
+    --pink-700: #c92786;
+    --pink-800: #b80672;
+    --pink-900: #9c166b;
     --pink-tonal: #702f55;
     --yellow-50: #fef7e0;
+    --yellow-100: #feefc3;
+    --yellow-200: #fde293;
+    --yellow-300: #fdd663;
+    --yellow-400: #fcc934;
+    --yellow-500: #fbbc04;
+    --yellow-600: #f9ab00;
+    --yellow-700: #f29900;
+    --yellow-800: #ea8600;
+    --yellow-900: #e37400;
     --yellow-tonal: #6a5619;
     --brown-50: #efebe9;
     --brown-tonal: #6d4c41;
@@ -262,6 +299,7 @@ const appThemeCss = safeStyleSheet`
     --disabled-button-background-color: var(--disabled-background);
     --selection-background-color: rgba(161, 194, 250, 0.1);
     --tooltip-background-color: var(--gray-900);
+    --section-header-background-color: var(--blue-50);
 
     /* dashboard size background colors */
     --dashboard-size-xs: var(--gray-200);
@@ -352,8 +390,8 @@ const appThemeCss = safeStyleSheet`
     --font-size-small: 0.857rem; /* 12px */
     --font-size-normal: 1rem; /* 14px */
     --font-size-h3: 1.143rem; /* 16px */
-    --font-size-h2: 1.429rem; /* 20px */
-    --font-size-h1: 1.714rem; /* 24px */
+    --font-size-h2: 1.29rem; /* 18px */
+    --font-size-h1: 1.57rem; /* 22px */
     --line-height-mono: 1.286rem; /* 18px */
     --line-height-small: 1.143rem; /* 16px */
     --line-height-normal: 1.429rem; /* 20px */
@@ -362,8 +400,8 @@ const appThemeCss = safeStyleSheet`
     --line-height-h1: 2.286rem; /* 32px */
     --font-weight-normal: 400; /* 400 is the same as 'normal' */
     --font-weight-bold: 500;
-    --font-weight-h1: 400;
-    --font-weight-h2: 400;
+    --font-weight-h1: 500;
+    --font-weight-h2: 500;
     --font-weight-h3: 400;
     --font-weight-h4: 600;
     --context-control-button-font: var(--font-weight-normal)

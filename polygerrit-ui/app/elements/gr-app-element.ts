@@ -275,7 +275,7 @@ export class GrAppElement extends LitElement {
       modalStyles,
       css`
         :host {
-          background-color: var(--background-color-tertiary);
+          background-color: var(--background-color-secondary);
           display: flex;
           flex-direction: column;
           min-height: 100%;

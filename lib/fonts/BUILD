@@ -5,9 +5,11 @@ filegroup(
     name = "robotofonts",
     srcs = [
         "opensans-latin-400.woff2",
+        "opensans-latin-500.woff2",
         "opensans-latin-600.woff2",
         "opensans-latin-700.woff2",
         "opensans-latin-ext-400.woff2",
+        "opensans-latin-ext-500.woff2",
         "opensans-latin-ext-600.woff2",
         "opensans-latin-ext-700.woff2",
         "roboto-latin-400.woff2",

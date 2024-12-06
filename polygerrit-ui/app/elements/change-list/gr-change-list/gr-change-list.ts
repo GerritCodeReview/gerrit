@@ -207,8 +207,13 @@ export class GrChangeList extends LitElement {
       fontStyles,
       sharedStyles,
       css`
+        :host {
+          display: block;
+          padding: 0 8px;
+          box-sizing: border-box;
+        }
         #changeList {
-          border-collapse: collapse;
+          border-collapse: separate;
           width: 100%;
         }
         .section-count-label {

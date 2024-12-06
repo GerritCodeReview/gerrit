@@ -56,6 +56,7 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
+import com.google.gerrit.server.plugincontext.PluginSetEntryContext;
 import com.google.gerrit.server.project.LabelConfigValidator;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
@@ -71,6 +72,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -162,9 +164,15 @@ public class CommitValidators {
                   changeUtil, projectState, user, urlFormatter.get(), config, sshInfo, change))
           .add(new ConfigValidator(projectConfigFactory, branch, user, rw, allUsers, allProjects))
           .add(new BannedCommitsValidator(rejectCommits))
-          .add(new PluginCommitValidationListener(pluginValidators, skipValidation))
           .add(new GroupCommitValidator(allUsers))
           .add(new LabelConfigValidator(approvalQueryBuilder));
+
+      Iterator<PluginSetEntryContext<CommitValidationListener>> pluginValidatorsIt =
+          pluginValidators.iterator();
+      while (pluginValidatorsIt.hasNext()) {
+        validators.add(skippablePluginValidator(pluginValidatorsIt.next().get(), skipValidation));
+      }
+
       return new CommitValidators(validators.build());
     }
 
@@ -190,9 +198,15 @@ public class CommitValidators {
               new ChangeIdValidator(
                   changeUtil, projectState, user, urlFormatter.get(), config, sshInfo, change))
           .add(new ConfigValidator(projectConfigFactory, branch, user, rw, allUsers, allProjects))
-          .add(new PluginCommitValidationListener(pluginValidators))
           .add(new GroupCommitValidator(allUsers))
           .add(new LabelConfigValidator(approvalQueryBuilder));
+
+      Iterator<PluginSetEntryContext<CommitValidationListener>> pluginValidatorsIt =
+          pluginValidators.iterator();
+      while (pluginValidatorsIt.hasNext()) {
+        validators.add(pluginValidatorsIt.next().get());
+      }
+
       return new CommitValidators(validators.build());
     }
 
@@ -221,6 +235,20 @@ public class CommitValidators {
           .add(new AuthorUploaderValidator(user, perm, urlFormatter.get()))
           .add(new CommitterUploaderValidator(user, perm, urlFormatter.get()));
       return new CommitValidators(validators.build());
+    }
+
+    CommitValidationListener skippablePluginValidator(
+        CommitValidationListener pluginValidator, boolean skipValidation) {
+      return new CommitValidationListener() {
+        @Override
+        public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
+            throws CommitValidationException {
+          if (skipValidation && !pluginValidator.shouldValidateAllCommits()) {
+            return ImmutableList.of();
+          }
+          return pluginValidator.onCommitReceived(receiveEvent);
+        }
+      };
     }
   }
 
@@ -615,55 +643,6 @@ public class CommitValidators {
         logger.atSevere().withCause(e).log("cannot check MERGE");
         throw new CommitValidationException("internal auth error");
       }
-    }
-  }
-
-  /** Execute commit validation plug-ins */
-  public static class PluginCommitValidationListener implements CommitValidationListener {
-    private final boolean skipValidation;
-    private final PluginSetContext<CommitValidationListener> commitValidationListeners;
-
-    public PluginCommitValidationListener(
-        final PluginSetContext<CommitValidationListener> commitValidationListeners) {
-      this(commitValidationListeners, false);
-    }
-
-    public PluginCommitValidationListener(
-        final PluginSetContext<CommitValidationListener> commitValidationListeners,
-        boolean skipValidation) {
-      this.skipValidation = skipValidation;
-      this.commitValidationListeners = commitValidationListeners;
-    }
-
-    private void runValidator(
-        CommitValidationListener validator,
-        List<CommitValidationMessage> messages,
-        CommitReceivedEvent receiveEvent)
-        throws CommitValidationException {
-      if (skipValidation && !validator.shouldValidateAllCommits()) {
-        return;
-      }
-      messages.addAll(validator.onCommitReceived(receiveEvent));
-    }
-
-    @Override
-    public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
-        throws CommitValidationException {
-      List<CommitValidationMessage> messages = new ArrayList<>();
-      try {
-        commitValidationListeners.runEach(
-            l -> runValidator(l, messages, receiveEvent), CommitValidationException.class);
-      } catch (CommitValidationException e) {
-        messages.addAll(e.getMessages());
-        throw new CommitValidationException(e.getMessage(), messages);
-      }
-      return messages;
-    }
-
-    @Override
-    public boolean shouldValidateAllCommits() {
-      return commitValidationListeners.stream()
-          .anyMatch(CommitValidationListener::shouldValidateAllCommits);
     }
   }
 

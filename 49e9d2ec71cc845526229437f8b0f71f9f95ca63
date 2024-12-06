@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3bb02a84_c39b5acd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-12-06T18:00:53Z",
+      "side": 1,
+      "message": "Please add minimal documentation to the README explaining how to use the maintenance command. At least mention which script to start.\n\nWhen running it on multiple repositories or a complete site the log shows when a gc starts and finishes including the gc progress messages but the repository name is not logged.\n\nMaybe add it to the start and finish log records:\n```\n2024-12-06 17:40:06,333 [INFO] foo/bar started gc\n2024-12-06 17:40:06,333 [INFO] Started\nEnumerating objects: 9, done.\nCounting objects: 100% (9/9), done.\nDelta compression using up to 8 threads\nCompressing objects: 100% (7/7), done.\nWriting objects: 100% (9/9), done.\nBuilding bitmaps: 100% (2/2), done.\nTotal 9 (delta 1), reused 0 (delta 0), pack-reused 0 (from 0)\n2024-12-06 17:40:06,447 [INFO] foo/bar finished\n```\n\nAdding the `-q/--quiet` option only silences the progress output of the underlying git gc command but not the start and finish lines. Maybe we should add another `-qq` option completely silencing the log ?\n\nHow can I discover the options of the gcplus command from the maintenance command ?\n\nI tried to append the `-h` option\n```\n./gerrit-maintenance.py -d $SITE projects -p All-Users gc -h\n```\nbut that fails with an exception.",
+      "revId": "49e9d2ec71cc845526229437f8b0f71f9f95ca63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -80,13 +80,15 @@ export class ServiceWorkerInstaller extends Model<ServiceWorkerInstallerState> {
       ) {
         this.allowBrowserNotificationsPreference =
           prefs.allow_browser_notifications;
-        // flag can disable notifications similar to user setting
-        navigator.serviceWorker.controller?.postMessage({
-          type: ServiceWorkerMessageType.USER_PREFERENCE_CHANGE,
-          allowBrowserNotificationsPreference:
-            this.allowBrowserNotificationsPreference &&
-            this.flagsService.isEnabled(KnownExperimentId.PUSH_NOTIFICATIONS),
-        });
+        if (this.initialized) {
+          // flag can disable notifications similar to user setting
+          navigator.serviceWorker.controller?.postMessage({
+            type: ServiceWorkerMessageType.USER_PREFERENCE_CHANGE,
+            allowBrowserNotificationsPreference:
+              this.allowBrowserNotificationsPreference &&
+              this.flagsService.isEnabled(KnownExperimentId.PUSH_NOTIFICATIONS),
+          });
+        }
       }
     });
     Promise.all([

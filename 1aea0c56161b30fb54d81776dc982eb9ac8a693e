@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "df4ffa08_fa88e871",
+        "filename": "contrib/maintenance/README.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-12-06T07:44:04Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "e85fbb81_9b304915",
+      "revId": "1aea0c56161b30fb54d81776dc982eb9ac8a693e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9140da99_0b8eb19c",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-12-05T14:52:59Z",
       "side": 1,
       "message": "black already knows how to find .py files\n```suggestion\npipenv run black . git-gcplus\n```",
+      "revId": "1aea0c56161b30fb54d81776dc982eb9ac8a693e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "46661afe_a5681cdf",
+        "filename": "contrib/maintenance/README.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-12-06T07:44:04Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "9140da99_0b8eb19c",
       "revId": "1aea0c56161b30fb54d81776dc982eb9ac8a693e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e098d08b_3123c5c0",
+        "filename": "contrib/maintenance/README.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-12-06T07:44:04Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "26ca5e58_e0a0cac6",
+      "revId": "1aea0c56161b30fb54d81776dc982eb9ac8a693e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5fb022a7_7b56fc9f",
@@ -65,6 +119,24 @@
       "writtenOn": "2024-12-05T14:52:59Z",
       "side": 1,
       "message": "Note that for non-bare repositories the `--git-dir` option only works if the specified path includes the `.git` under the working tree root e.g. `/repo/path/.git`.\n\nWhen using `-C` instead of `--git-dir` this works with both paths `/repo/path` and `/repo/path/.git`.",
+      "revId": "1aea0c56161b30fb54d81776dc982eb9ac8a693e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "111ea6f4_141f9030",
+        "filename": "contrib/maintenance/README.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-12-06T07:44:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5fb022a7_7b56fc9f",
       "revId": "1aea0c56161b30fb54d81776dc982eb9ac8a693e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -88,6 +160,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f1117f9d_c40ebc1c",
+        "filename": "contrib/maintenance/README.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-12-06T07:44:04Z",
+      "side": 1,
+      "message": "True. The --quiet option is only being forwarded to the git gc command and is not applied to the wrapping script. Might change that in the future.",
+      "parentUuid": "81c8b26a_72033e25",
+      "revId": "1aea0c56161b30fb54d81776dc982eb9ac8a693e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e7b73c78_ca1e5a03",
         "filename": "contrib/maintenance/git-gcplus",
         "patchSetId": 5
@@ -99,6 +189,24 @@
       "writtenOn": "2024-12-05T14:52:59Z",
       "side": 1,
       "message": "I think logging which is used for progress messages and traces should be sent to stderr, this allows to pipe output which might be sent to stdout to other commands\n```suggestion\n    stream\u003dsys.stderr,\n```",
+      "revId": "1aea0c56161b30fb54d81776dc982eb9ac8a693e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9dafe9ca_4bfde50e",
+        "filename": "contrib/maintenance/git-gcplus",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-12-06T07:44:04Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "e7b73c78_ca1e5a03",
       "revId": "1aea0c56161b30fb54d81776dc982eb9ac8a693e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -126,6 +234,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a200886_7aaf9f13",
+        "filename": "contrib/maintenance/git-gcplus",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-12-06T07:44:04Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "d5e24f10_d7c5a96a",
+      "range": {
+        "startLine": 41,
+        "startChar": 68,
+        "endLine": 41,
+        "endChar": 73
+      },
+      "revId": "1aea0c56161b30fb54d81776dc982eb9ac8a693e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "db1887cb_729f652b",
@@ -143,6 +275,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "159d9ab0_abb752db",
+        "filename": "contrib/maintenance/git-gcplus",
+        "patchSetId": 5
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-12-06T07:44:04Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "db1887cb_729f652b",
+      "revId": "1aea0c56161b30fb54d81776dc982eb9ac8a693e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "129ec439_29467b3e",
@@ -156,6 +306,24 @@
       "writtenOn": "2024-12-05T14:52:59Z",
       "side": 1,
       "message": "```suggestion\n                $ cd /path/to/X.git\n```",
+      "revId": "1aea0c56161b30fb54d81776dc982eb9ac8a693e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2a81b39_9db1cdf7",
+        "filename": "contrib/maintenance/git-gcplus",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-12-06T07:44:04Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "129ec439_29467b3e",
       "revId": "1aea0c56161b30fb54d81776dc982eb9ac8a693e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

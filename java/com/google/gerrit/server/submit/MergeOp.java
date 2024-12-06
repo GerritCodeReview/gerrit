@@ -474,22 +474,37 @@ public class MergeOp implements AutoCloseable {
         // MergeSuperSetComputation is an interface and on API level doesn't guarantee that this
         // have been verified for all changes. Additionally, this protects against potential
         // issues due to staleness.
-        logger.atFine().log(
-            "Change %d cannot be submitted by user %s because it depends on change %d which the"
-                + "user cannot read",
-            triggeringChangeId.get(), caller.getRealUser().getLoggableName(), cd.getId().get());
-        problems.add(
-            ChangeProblem.create(
-                cd.getId(),
-                String.format(
-                    "Change %d depends on other hidden changes", triggeringChangeId.get())));
+        if (triggeringChangeId.get() != cd.getId().get()) {
+          logger.atFine().log(
+              "Change %d cannot be submitted by user %s because it depends on change %d which the"
+                  + "user cannot read",
+              triggeringChangeId.get(), caller.getRealUser().getLoggableName(), cd.getId().get());
+          problems.add(
+              ChangeProblem.create(
+                  cd.getId(),
+                  String.format(
+                      "Change %d depends on other hidden changes", triggeringChangeId.get())));
+        } else {
+          logger.atFine().log(
+              "Change %d cannot be submitted by user %s because they don't have READ permission",
+              triggeringChangeId.get(), caller.getRealUser().getLoggableName());
+          problems.add(
+              ChangeProblem.create(
+                  cd.getId(), String.format("Change %d is not visible", triggeringChangeId.get())));
+        }
         return;
       }
       if (!can.contains(ChangePermission.SUBMIT)) {
-        logger.atFine().log(
-            "Change %d cannot be submitted by user %s because it depends on change %d which the"
-                + "user cannot submit",
-            triggeringChangeId.get(), caller.getRealUser().getLoggableName(), cd.getId().get());
+        if (triggeringChangeId.get() != cd.getId().get()) {
+          logger.atFine().log(
+              "Change %d cannot be submitted by user %s because it depends on change %d which the"
+                  + "user cannot submit",
+              triggeringChangeId.get(), caller.getRealUser().getLoggableName(), cd.getId().get());
+        } else {
+          logger.atFine().log(
+              "Change %d cannot be submitted by user %s because they don't have SUBMIT permission",
+              triggeringChangeId.get(), caller.getRealUser().getLoggableName());
+        }
         problems.add(
             ChangeProblem.create(
                 cd.getId(),
@@ -498,13 +513,22 @@ public class MergeOp implements AutoCloseable {
       }
       if (caller.isImpersonating()) {
         if (!permissionBackend.user(caller).change(cd).test(ChangePermission.READ)) {
-          logger.atFine().log(
-              "Change %d cannot be submitted by user %s on behalf of user %s because it depends on"
-                  + " change %d which the on-behalf-of user does not have READ permission for",
-              triggeringChangeId.get(),
-              caller.getRealUser().getLoggableName(),
-              caller.getLoggableName(),
-              cd.getId().get());
+          if (triggeringChangeId.get() != cd.getId().get()) {
+            logger.atFine().log(
+                "Change %d cannot be submitted by user %s on behalf of user %s because it depends"
+                    + " on change %d which the on-behalf-of user does not have READ permission for",
+                triggeringChangeId.get(),
+                caller.getRealUser().getLoggableName(),
+                caller.getLoggableName(),
+                cd.getId().get());
+          } else {
+            logger.atFine().log(
+                "Change %d cannot be submitted by user %s on behalf of user %s because the"
+                    + " on-behalf-of user does not have READ permission",
+                triggeringChangeId.get(),
+                caller.getRealUser().getLoggableName(),
+                caller.getLoggableName());
+          }
           problems.add(
               ChangeProblem.create(
                   cd.getId(),
@@ -514,13 +538,22 @@ public class MergeOp implements AutoCloseable {
           return;
         }
         if (!can.contains(ChangePermission.SUBMIT_AS)) {
-          logger.atFine().log(
-              "Change %d cannot be submitted by user %s on behalf of user %s because it depends on"
-                  + " change %d which the user does not have SUBMIT_AS permission for",
-              triggeringChangeId.get(),
-              caller.getRealUser().getLoggableName(),
-              caller.getLoggableName(),
-              cd.getId().get());
+          if (triggeringChangeId.get() != cd.getId().get()) {
+            logger.atFine().log(
+                "Change %d cannot be submitted by user %s on behalf of user %s because it depends"
+                    + " on change %d which the user does not have SUBMIT_AS permission for",
+                triggeringChangeId.get(),
+                caller.getRealUser().getLoggableName(),
+                caller.getLoggableName(),
+                cd.getId().get());
+          } else {
+            logger.atFine().log(
+                "Change %d cannot be submitted by user %s on behalf of user %s because they do not"
+                    + " have SUBMIT_AS permission",
+                triggeringChangeId.get(),
+                caller.getRealUser().getLoggableName(),
+                caller.getLoggableName());
+          }
           problems.add(
               ChangeProblem.create(
                   cd.getId(),

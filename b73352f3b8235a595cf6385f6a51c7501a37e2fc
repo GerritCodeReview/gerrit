@@ -22,6 +22,30 @@
       },
       "revId": "b73352f3b8235a595cf6385f6a51c7501a37e2fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "60c20c51_5214240f",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-12-06T14:12:11Z",
+      "side": 1,
+      "message": "Thank you. Done",
+      "parentUuid": "ad107951_ec17ce0d",
+      "range": {
+        "startLine": 502,
+        "startChar": 0,
+        "endLine": 502,
+        "endChar": 38
+      },
+      "revId": "b73352f3b8235a595cf6385f6a51c7501a37e2fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

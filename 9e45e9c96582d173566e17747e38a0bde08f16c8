@@ -16,6 +16,24 @@
       "message": "nit: line is too long",
       "revId": "9e45e9c96582d173566e17747e38a0bde08f16c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "29ccf0ec_e4a74bd2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-12-06T14:54:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d761c06_032bdcdb",
+      "revId": "9e45e9c96582d173566e17747e38a0bde08f16c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

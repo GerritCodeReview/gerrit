@@ -495,6 +495,13 @@ verification again if the list of files didn't change.
 Note, "unchanged-files" is the only value that is supported for the
 "has" operator.
 
+[[changeis]]
+==== changeis:{Change Query is: predicate}
+
+Any "is:{something}" predicate that is available as part of
+link:user-search.html#search-operators[Change Query] can be used in copy
+condition with "changeis:" prefix.
+
 [[group-id]]
 ==== Group ID
 

@@ -16,6 +16,24 @@
       "message": "@ekempin@google.com can you LC+1 since this is already on master?",
       "revId": "850a64bf51fcc6da78475933a0c8be7515e11f23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "70a0659c_62b9037b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-12-06T13:08:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eff1c13a_6caf8b08",
+      "revId": "850a64bf51fcc6da78475933a0c8be7515e11f23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

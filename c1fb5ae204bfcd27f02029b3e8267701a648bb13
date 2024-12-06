@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bda2193a_7fb09c7f",
+        "filename": "java/com/google/gerrit/sshd/BaseCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-12-06T12:05:48Z",
+      "side": 1,
+      "message": "This change fixes tracing in the ssh commands and is neutral to what happens in git-over-ssh where tracing is setup and handled via the Git protocol using the \u0027-o\u0027 option.\nI see that `AbstractGitCommand` has own `SshScope.Context` field although it inherits from the `BaseCommand` which already has such a field. This alone needs to be investigated, but I would not mix that potential fix with the TRACE_ID series.",
+      "parentUuid": "e6ee2fd3_8ad23e9c",
+      "revId": "c1fb5ae204bfcd27f02029b3e8267701a648bb13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "920d184d_1f989dce",

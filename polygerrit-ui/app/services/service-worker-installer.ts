@@ -69,6 +69,10 @@ export class ServiceWorkerInstaller extends Model<ServiceWorkerInstallerState> {
     private readonly userModel: UserModel
   ) {
     super({initialized: false, shouldShowPrompt: false});
+    if (!('serviceWorker' in navigator)) {
+      console.error('Service worker API not available');
+      return;
+    }
     this.userModel.account$.subscribe(acc => (this.account = acc));
     this.userModel.preferences$.subscribe(prefs => {
       if (
@@ -100,10 +104,6 @@ export class ServiceWorkerInstaller extends Model<ServiceWorkerInstallerState> {
     if (this.initialized) return;
     if (!this.areNotificationsEnabled()) return;
 
-    if (!('serviceWorker' in navigator)) {
-      console.error('Service worker API not available');
-      return;
-    }
     await registerServiceWorker(`${getBaseUrl()}/service-worker.js`);
     const permission = Notification.permission;
     this.reportingService.reportLifeCycle(LifeCycle.NOTIFICATION_PERMISSION, {

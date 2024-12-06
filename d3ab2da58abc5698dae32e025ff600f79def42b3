@@ -16,6 +16,23 @@
       "message": "I am some how getting \"TypeError: undefined is not an object (evaluating \u0027navigator.serviceWorker.controller\u0027) — \" for USER_PREFERENCE_CHANGE.\n\nSo i added a check. And also in another place using navigator.\n\nNot sure if there\u0027s a better fix.",
       "revId": "d3ab2da58abc5698dae32e025ff600f79def42b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f3814b1_05d3914c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-12-06T15:14:44Z",
+      "side": 1,
+      "message": "This seems to be because of http sites (service worker doesn\u0027t work on http, only https)",
+      "revId": "d3ab2da58abc5698dae32e025ff600f79def42b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,24 @@
       "message": "I think this is ok to do for 3.11.1. Luca, what do you think?",
       "revId": "856fc92cd00b8166160ad21e13f6de310952f05a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a1c8eff_9e02e9fa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-12-07T21:54:08Z",
+      "side": 1,
+      "message": "It would be best to do it on master, as the ship has sailed for v3.11.0, and people who did not have it enabled would see this coming in v3.11.1, and it\u0027s unexpected.\n\nAny reasons for rushing it on v3.11.1?",
+      "parentUuid": "08984aec_06f1b4d1",
+      "revId": "856fc92cd00b8166160ad21e13f6de310952f05a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

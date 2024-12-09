@@ -240,15 +240,13 @@ export class GrSuggestionDiffPreview extends LitElement {
       this.patchSet,
       this.fixSuggestionInfo.replacements
     );
-    this.reporting.timeEnd(Timing.PREVIEW_FIX_LOAD, {
-      uuid: this.uuid,
-      commentId: this.commentId ?? '',
-      success: res?.ok,
-      status: res?.status,
-    });
     if (!res) return;
     const currentPreviews = Object.keys(res).map(key => {
       return {filepath: key, preview: res[key]};
+    });
+    this.reporting.timeEnd(Timing.PREVIEW_FIX_LOAD, {
+      uuid: this.uuid,
+      commentId: this.commentId ?? '',
     });
     if (currentPreviews.length > 0) {
       this.preview = currentPreviews[0];

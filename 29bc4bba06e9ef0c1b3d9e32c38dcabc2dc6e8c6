@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fdaedf97_1d25f413",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-12-09T14:04:21Z",
+      "side": 1,
+      "message": "@milutin@google.com it seems to break the tests.",
+      "revId": "29bc4bba06e9ef0c1b3d9e32c38dcabc2dc6e8c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

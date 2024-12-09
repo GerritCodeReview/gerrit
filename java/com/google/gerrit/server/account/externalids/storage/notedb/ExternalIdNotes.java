@@ -41,6 +41,7 @@ import com.google.gerrit.server.account.externalids.DuplicateExternalIdKeyExcept
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdCache;
 import com.google.gerrit.server.account.externalids.ExternalIdUpsertPreprocessor;
+import com.google.gerrit.server.account.externalids.ExternalIdsSameAccountChecker;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
@@ -715,7 +716,7 @@ public class ExternalIdNotes extends VersionedMetaData {
       Function<ExternalId, ObjectId> noteIdResolver)
       throws IOException, DuplicateExternalIdKeyException {
     checkLoaded();
-    checkSameAccount(toAdd, accountId);
+    ExternalIdsSameAccountChecker.checkSameAccount(toAdd, accountId);
     checkExternalIdKeysDontExist(ExternalId.Key.from(toAdd), toDelete);
 
     Set<ExternalId> removedExtIds = new HashSet<>();
@@ -797,7 +798,8 @@ public class ExternalIdNotes extends VersionedMetaData {
    */
   public void replace(Collection<ExternalId> toDelete, Collection<ExternalId> toAdd)
       throws IOException, DuplicateExternalIdKeyException {
-    Account.Id accountId = checkSameAccount(Iterables.concat(toDelete, toAdd));
+    Account.Id accountId =
+        ExternalIdsSameAccountChecker.checkSameAccount(Iterables.concat(toDelete, toAdd));
     if (accountId == null) {
       // toDelete and toAdd are empty -> nothing to do
       return;
@@ -822,7 +824,8 @@ public class ExternalIdNotes extends VersionedMetaData {
       Collection<ExternalId> toAdd,
       Function<ExternalId, ObjectId> noteIdResolver)
       throws IOException, DuplicateExternalIdKeyException {
-    Account.Id accountId = checkSameAccount(Iterables.concat(toDelete, toAdd));
+    Account.Id accountId =
+        ExternalIdsSameAccountChecker.checkSameAccount(Iterables.concat(toDelete, toAdd));
     if (accountId == null) {
       // toDelete and toAdd are empty -> nothing to do
       return;
@@ -887,39 +890,6 @@ public class ExternalIdNotes extends VersionedMetaData {
       commit.setTreeId(newTreeId);
       return true;
     }
-  }
-
-  /**
-   * Checks that all specified external IDs belong to the same account.
-   *
-   * @return the ID of the account to which all specified external IDs belong.
-   */
-  private static Account.Id checkSameAccount(Iterable<ExternalId> extIds) {
-    return checkSameAccount(extIds, null);
-  }
-
-  /**
-   * Checks that all specified external IDs belong to specified account. If no account is specified
-   * it is checked that all specified external IDs belong to the same account.
-   *
-   * @return the ID of the account to which all specified external IDs belong.
-   */
-  @CanIgnoreReturnValue
-  public static Account.Id checkSameAccount(
-      Iterable<ExternalId> extIds, @Nullable Account.Id accountId) {
-    for (ExternalId extId : extIds) {
-      if (accountId == null) {
-        accountId = extId.accountId();
-        continue;
-      }
-      checkState(
-          accountId.equals(extId.accountId()),
-          "external id %s belongs to account %s, but expected account %s",
-          extId.key().get(),
-          extId.accountId().get(),
-          accountId.get());
-    }
-    return accountId;
   }
 
   private void incrementalDuplicateDetection(Collection<ExternalId> externalIds) {

@@ -1,0 +1,86 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65fe7dc5_b9a998a9",
+        "filename": "polygerrit-ui/app/services/service-worker-installer.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-12-09T08:41:45Z",
+      "side": 1,
+      "message": "I would not add this here, because it can throw error even when account doesn\u0027t allow browser notifications",
+      "range": {
+        "startLine": 72,
+        "startChar": 2,
+        "endLine": 75,
+        "endChar": 5
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "4f116538_d7a73655",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/services/service-worker-installer.ts",
+              "range": {
+                "startLine": 72,
+                "startChar": 0,
+                "endLine": 76,
+                "endChar": 0
+              },
+              "replacement": ""
+            }
+          ]
+        }
+      ],
+      "revId": "2e996b44fa2611bc8ab5a681a3f50ca97446488f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06bd5176_16c43599",
+        "filename": "polygerrit-ui/app/services/service-worker-installer.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-12-09T08:41:45Z",
+      "side": 1,
+      "message": "This bug can be fixed by checking if service worker is ini",
+      "range": {
+        "startLine": 78,
+        "startChar": 6,
+        "endLine": 90,
+        "endChar": 7
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "41cccd89_8c0036fb",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/services/service-worker-installer.ts",
+              "range": {
+                "startLine": 78,
+                "startChar": 0,
+                "endLine": 79,
+                "endChar": 0
+              },
+              "replacement": "      if (this.initialized \u0026\u0026\n"
+            }
+          ]
+        }
+      ],
+      "revId": "2e996b44fa2611bc8ab5a681a3f50ca97446488f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

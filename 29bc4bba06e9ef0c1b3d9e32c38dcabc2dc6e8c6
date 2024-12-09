@@ -16,6 +16,29 @@
       "message": "@milutin@google.com it seems to break the tests.",
       "revId": "29bc4bba06e9ef0c1b3d9e32c38dcabc2dc6e8c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5194e81_eeff3920",
+        "filename": "polygerrit-ui/app/services/service-worker-installer.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-12-09T15:08:13Z",
+      "side": 1,
+      "message": "Sorry, my bad for breaking test with previous suggestion. This looks better.\n\n```suggestion\n    this.userModel.preferences$.subscribe(prefs \u003d\u003e {\n      if (\n        this.allowBrowserNotificationsPreference !\u003d\u003d\n        prefs.allow_browser_notifications\n      ) {\n        this.allowBrowserNotificationsPreference \u003d\n          prefs.allow_browser_notifications;\n        if (this.initialized) {\n          // flag can disable notifications similar to user setting\n          navigator.serviceWorker.controller?.postMessage({\n            type: ServiceWorkerMessageType.USER_PREFERENCE_CHANGE,\n            allowBrowserNotificationsPreference:\n              this.allowBrowserNotificationsPreference,\n          });\n        }\n      }\n    });\n```",
+      "range": {
+        "startLine": 73,
+        "startChar": 4,
+        "endLine": 88,
+        "endChar": 7
+      },
+      "revId": "29bc4bba06e9ef0c1b3d9e32c38dcabc2dc6e8c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

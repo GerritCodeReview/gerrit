@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a075f05e_0663c4fa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-12-09T07:40:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07a4c4e0_64d7fd15",
+      "range": {
+        "startLine": 28,
+        "startChar": 14,
+        "endLine": 28,
+        "endChar": 24
+      },
+      "revId": "8baeb256e03bb2f3ed42dacfa25e23299b25b698",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "27d7b49b_3cb7b43c",
@@ -37,6 +61,24 @@
       "writtenOn": "2024-12-06T21:59:39Z",
       "side": 1,
       "message": "Is it a change in behavior when a plugin throws a `CommitValidationException`? I didn\u0027t look at the code handling all the validators to see if it continues on exceptions, but it looks like `PluginCommitValidationListener` wouldn\u0027t.",
+      "revId": "8baeb256e03bb2f3ed42dacfa25e23299b25b698",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f50b86d8_42f2d978",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-12-09T07:40:49Z",
+      "side": 1,
+      "message": "No, there shouldn\u0027t be a change in behaviour. Throwing a CommitValidationException from any validator means that the commit gets rejected and further validators are not executed, same as in PluginCommitValidationListener.",
+      "parentUuid": "27d7b49b_3cb7b43c",
       "revId": "8baeb256e03bb2f3ed42dacfa25e23299b25b698",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

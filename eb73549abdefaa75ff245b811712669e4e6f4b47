@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb3f8b8b_8789f8cd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-12-09T22:04:05Z",
+      "side": 1,
+      "message": "Can you explain the rationale of this change in the body of the commit message?\n\nIn a nutshell, why do you want to introduce a metric and what would be the benefit?",
+      "revId": "eb73549abdefaa75ff245b811712669e4e6f4b47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16315b91_efd7ce20",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-12-09T22:04:05Z",
+      "side": 1,
+      "message": "Missing `Release-Notes` footer",
+      "revId": "eb73549abdefaa75ff245b811712669e4e6f4b47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61d5df54_112a64ae",
+        "filename": "javatests/com/google/gerrit/acceptance/server/index/IndexMetricIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-12-09T22:04:05Z",
+      "side": 1,
+      "message": "Why do we need to wait for 3 projects documents to show up?",
+      "range": {
+        "startLine": 39,
+        "startChar": 4,
+        "endLine": 39,
+        "endChar": 97
+      },
+      "revId": "eb73549abdefaa75ff245b811712669e4e6f4b47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0c68007_61ed55e6",
+        "filename": "javatests/com/google/gerrit/acceptance/server/index/IndexMetricIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-12-09T22:04:05Z",
+      "side": 1,
+      "message": "Why do you need to wait? AFAIK the indexing is sync.",
+      "range": {
+        "startLine": 41,
+        "startChar": 4,
+        "endLine": 41,
+        "endChar": 13
+      },
+      "revId": "eb73549abdefaa75ff245b811712669e4e6f4b47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

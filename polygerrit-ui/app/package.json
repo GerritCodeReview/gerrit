@@ -45,15 +45,10 @@
     "polymer-resin": "^2.0.1",
     "resemblejs": "^5.0.0",
     "rxjs": "^6.6.7",
-    "safevalues": "0.3.1",
+    "safevalues": "^1.0.0-rc.1",
     "web-vitals": "^3.5.2"
   },
   "dependencies // comments": {
-    "safevalues": [
-      "There is a an issue with release 0.3.2, which exposes both an ESM and a CommonJS module:",
-      "https://github.com/google/safevalues/commit/16aa2567dc303759841b097b1901d1d6ff4e083e",
-      "That causes tests to fail claiming that 'sanitizeHtml' is not exported from safevalues."
-    ],
     "@polymer/polymer": [
       "There is a an issue with release 3.5.2. Tests are failing with:",
       "NotSupportedError: Failed to execute 'define' on 'CustomElementRegistry':",

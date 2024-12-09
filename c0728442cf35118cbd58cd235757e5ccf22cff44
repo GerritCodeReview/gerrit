@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b8120e4_909239fe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-12-09T12:48:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a0fd9c75_d6be6190",
+      "revId": "c0728442cf35118cbd58cd235757e5ccf22cff44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8db023f5_28b91e83",
@@ -53,6 +71,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6b3409b_407e5ec9",
+        "filename": "java/com/google/gerrit/server/query/approval/ApprovalQueryBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-12-09T12:48:36Z",
+      "side": 1,
+      "message": "Done. Added test and updated docs",
+      "parentUuid": "b1e642d9_b727dc3c",
+      "revId": "c0728442cf35118cbd58cd235757e5ccf22cff44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "12cde37f_07de26a6",
@@ -76,6 +112,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d7ac561_ae648ce2",
+        "filename": "java/com/google/gerrit/server/query/approval/ApprovalQueryBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-12-09T12:48:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12cde37f_07de26a6",
+      "range": {
+        "startLine": 162,
+        "startChar": 80,
+        "endLine": 162,
+        "endChar": 85
+      },
+      "revId": "c0728442cf35118cbd58cd235757e5ccf22cff44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "209dc308_fdf750fc",
@@ -89,6 +149,24 @@
       "writtenOn": "2024-12-06T21:51:36Z",
       "side": 1,
       "message": "IIUC, if you have a plugin `foo` providing an operand `bar` here, the syntax for using it in a copyCondition would be `uploaderin:bar_foo`?\n\nAnd just to invent a usage that feels \"real\", you might use to this to do something like `uploaderin:bugowner_issueTrackerSystem` and that would let you have approval copying behavior based on if the vote is coming from the user who is the bug owner in your issue tracker. Does that match the kind of usage you expect?",
+      "revId": "c0728442cf35118cbd58cd235757e5ccf22cff44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a2d5c28_5dc9ab9e",
+        "filename": "java/com/google/gerrit/server/query/approval/ApprovalQueryBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-12-09T12:48:36Z",
+      "side": 1,
+      "message": "Yes, that\u0027s correct.\n\nRe: syntax. I didn\u0027t invent the syntax, but rather copied how it was done in ChangeQueryBuilder. I assume the intentions behind adding plugin names is to avoid collisions between different plugins and make lookup in DynamicMap easier. Though it\u0027s not the most intuitive syntax for the user.\n\nRe: example. FYI the immediate reason why we are adding this, is because we want to have `uploaderin:googler_google` for our google instance, that does checks in a manner consistent with other parts (like auth). Though your example makes sense as well.",
+      "parentUuid": "209dc308_fdf750fc",
       "revId": "c0728442cf35118cbd58cd235757e5ccf22cff44",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

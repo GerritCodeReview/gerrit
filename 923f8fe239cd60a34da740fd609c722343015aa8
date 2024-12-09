@@ -22,6 +22,30 @@
       },
       "revId": "923f8fe239cd60a34da740fd609c722343015aa8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eeb342ce_2800cf72",
+        "filename": "polygerrit-ui/app/services/service-worker-installer.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-12-09T13:03:07Z",
+      "side": 0,
+      "message": "Thanks, done.",
+      "parentUuid": "bb403a7d_d28f56d7",
+      "range": {
+        "startLine": 102,
+        "startChar": 0,
+        "endLine": 106,
+        "endChar": 5
+      },
+      "revId": "923f8fe239cd60a34da740fd609c722343015aa8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

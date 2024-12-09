@@ -42,6 +42,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c809f4a_fc50fcdb",
+        "filename": "polygerrit-ui/app/services/service-worker-installer.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-12-09T13:03:07Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "65fe7dc5_b9a998a9",
+      "range": {
+        "startLine": 72,
+        "startChar": 2,
+        "endLine": 75,
+        "endChar": 5
+      },
+      "revId": "2e996b44fa2611bc8ab5a681a3f50ca97446488f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "06bd5176_16c43599",
@@ -79,6 +103,30 @@
           ]
         }
       ],
+      "revId": "2e996b44fa2611bc8ab5a681a3f50ca97446488f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "af32b34c_d06b3ce3",
+        "filename": "polygerrit-ui/app/services/service-worker-installer.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-12-09T13:03:07Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "06bd5176_16c43599",
+      "range": {
+        "startLine": 78,
+        "startChar": 6,
+        "endLine": 90,
+        "endChar": 7
+      },
       "revId": "2e996b44fa2611bc8ab5a681a3f50ca97446488f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

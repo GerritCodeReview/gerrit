@@ -39,6 +39,30 @@
       },
       "revId": "29bc4bba06e9ef0c1b3d9e32c38dcabc2dc6e8c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98473ab5_071e90b1",
+        "filename": "polygerrit-ui/app/services/service-worker-installer.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-12-09T15:44:31Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "e5194e81_eeff3920",
+      "range": {
+        "startLine": 73,
+        "startChar": 4,
+        "endLine": 88,
+        "endChar": 7
+      },
+      "revId": "29bc4bba06e9ef0c1b3d9e32c38dcabc2dc6e8c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

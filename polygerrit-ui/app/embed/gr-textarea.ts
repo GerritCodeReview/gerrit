@@ -274,6 +274,7 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
       contenteditable=${this.contentEditableAttributeValue}
       dir="ltr"
       role="textbox"
+      spellcheck="false"
       @input=${this.onInput}
       @focus=${this.onFocus}
       @blur=${this.onBlur}

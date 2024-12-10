@@ -60,6 +60,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9604213f_ef6df8c3",
+        "filename": "javatests/com/google/gerrit/acceptance/server/index/IndexMetricIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-12-10T11:49:52Z",
+      "side": 1,
+      "message": "The intention of the test is to check the value of the metric before and after of creating the project and prove that metric has been updated.\n\nThe initial value is 3 because when you execute test `checkProjectsIndexMetric` there are 3 repositories:\n- All-Projects\n- All-Users\n- Repository name created for this `checkProjectsIndexMetric`\n\nNote: depending on the order of the test, you might have more.\n\nThe logic needs to wait because for some reason the trigger is not executed when the test access to the metric. When I did the E2E manual test, the behaviour is the expected one, when I accessed the metric, the trigger was executed.\n\nI am investigating it.",
+      "parentUuid": "61d5df54_112a64ae",
+      "range": {
+        "startLine": 39,
+        "startChar": 4,
+        "endLine": 39,
+        "endChar": 97
+      },
+      "revId": "eb73549abdefaa75ff245b811712669e4e6f4b47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e0c68007_61ed55e6",
         "filename": "javatests/com/google/gerrit/acceptance/server/index/IndexMetricIT.java",
         "patchSetId": 11
@@ -71,6 +95,30 @@
       "writtenOn": "2024-12-09T22:04:05Z",
       "side": 1,
       "message": "Why do you need to wait? AFAIK the indexing is sync.",
+      "range": {
+        "startLine": 41,
+        "startChar": 4,
+        "endLine": 41,
+        "endChar": 13
+      },
+      "revId": "eb73549abdefaa75ff245b811712669e4e6f4b47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7317e37_f728e66d",
+        "filename": "javatests/com/google/gerrit/acceptance/server/index/IndexMetricIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-12-10T11:49:52Z",
+      "side": 1,
+      "message": "I dont think the problem is the index, I think the problem is the trigger.\n\nI am investigating it.",
+      "parentUuid": "e0c68007_61ed55e6",
       "range": {
         "startLine": 41,
         "startChar": 4,

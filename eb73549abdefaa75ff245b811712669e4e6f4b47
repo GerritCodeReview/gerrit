@@ -84,6 +84,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a72cd033_fdc12315",
+        "filename": "javatests/com/google/gerrit/acceptance/server/index/IndexMetricIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-12-10T14:35:43Z",
+      "side": 1,
+      "message": "I want to provide some clarification regarding how index metrics are initialized and updated.\n\nThe first point to note is that the index metrics [1] are registered before the indexes are created [2]. As a result, the initial value of the metrics is set to -1.\n\nWhen the test retrieves the value of a metric, the following logic is executed:\n\n```\nGauge\u003cInteger\u003e gauge \u003d (Gauge\u003cInteger\u003e) metricRegistry.getMetrics().get(name);\n\n```\n\nAt this point, the trigger (of type Runnable) is executed, and immediately after, the current value of the metric is returned (4).\n\nThe trigger\u0027s role is to update the metric\u0027s value [3]. However, this raises a question:\n\n*What happens if the new value is set after the old value has already been returned?*\n\nThis behaviour is particularly relevant since the trigger execution and the value retrieval are part of the same operation. It seems possible that the old value might be returned before the new value is fully set.\n\nFor that reason the logic had to wait until the expected value is set otherwise the test would fail.\n\nThere are some magic numbers like the number of projects, changes, groups and accounts that are pre-established by the machinery of `AbstractDaemonTest`. \n\nIf this test is not intuitive or self explanatory, I am happy to open to suggestions\n\nReferences:\n[1] https://gerrit.googlesource.com/gerrit/+/refs/heads/stable-3.11/java/com/google/gerrit/httpd/init/WebAppInitializer.java#304\n\n[2] https://gerrit.googlesource.com/gerrit/+/refs/heads/stable-3.11/java/com/google/gerrit/httpd/init/WebAppInitializer.java#338\n\n[3] https://gerrit.googlesource.com/gerrit/+/refs/heads/stable-3.11/java/com/google/gerrit/metrics/MetricMaker.java#119\n\n[4] https://gerrit.googlesource.com/gerrit/+/refs/heads/stable-3.11/java/com/google/gerrit/metrics/dropwizard/CallbackMetricImpl0.java#78",
+      "parentUuid": "9604213f_ef6df8c3",
+      "range": {
+        "startLine": 39,
+        "startChar": 4,
+        "endLine": 39,
+        "endChar": 97
+      },
+      "revId": "eb73549abdefaa75ff245b811712669e4e6f4b47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e0c68007_61ed55e6",
         "filename": "javatests/com/google/gerrit/acceptance/server/index/IndexMetricIT.java",
         "patchSetId": 11
@@ -119,6 +143,30 @@
       "side": 1,
       "message": "I dont think the problem is the index, I think the problem is the trigger.\n\nI am investigating it.",
       "parentUuid": "e0c68007_61ed55e6",
+      "range": {
+        "startLine": 41,
+        "startChar": 4,
+        "endLine": 41,
+        "endChar": 13
+      },
+      "revId": "eb73549abdefaa75ff245b811712669e4e6f4b47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d774e1b4_02aacf54",
+        "filename": "javatests/com/google/gerrit/acceptance/server/index/IndexMetricIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-12-10T14:35:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7317e37_f728e66d",
       "range": {
         "startLine": 41,
         "startChar": 4,

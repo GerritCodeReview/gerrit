@@ -97,6 +97,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "867d128c_76e26b46",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2024-12-10T19:41:05Z",
+      "side": 1,
+      "message": "Not done?",
+      "parentUuid": "1cfa57e0_e3c275dd",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 69
+      },
+      "revId": "36f7c9c5911a641e1501e39e4e9ad8611dfbbefa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3f3e6b63_9bb730c0",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -214,6 +238,30 @@
       "side": 1,
       "message": "\u003e Are you planning on updating the UI as well to hide the \u0027DELETE ACCOUNT\u0027 button?\n\nThat will be a good add-on, but I haven\u0027t plan for it yet",
       "parentUuid": "d658f7ef_21ddf162",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 19
+      },
+      "revId": "36f7c9c5911a641e1501e39e4e9ad8611dfbbefa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "00d3969a_a4e0e91c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2024-12-10T19:41:05Z",
+      "side": 1,
+      "message": "Ack. I think, we should update the UI as showing a button when a user is not allowed to delete their account is misleading.",
+      "parentUuid": "ff761609_c90aa810",
       "range": {
         "startLine": 13,
         "startChar": 0,

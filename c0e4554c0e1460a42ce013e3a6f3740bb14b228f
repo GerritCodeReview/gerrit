@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "05e7770c_c7552428",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2024-12-10T19:41:05Z",
+      "side": 1,
+      "message": "Add a new line before the paragraph? and rephrase as below?\n\n```suggestion\n\nThe default behavior, which allows users to delete their own accounts,\nremains unchanged.\n```",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 7
+      },
+      "revId": "c0e4554c0e1460a42ce013e3a6f3740bb14b228f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

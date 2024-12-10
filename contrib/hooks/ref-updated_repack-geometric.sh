@@ -58,7 +58,9 @@
 
 # ---- Generic ----
 
-debug() { true || echo "---- debug: $@" ; }
+ztime() { date -u +"%Y-%m-%dT%H:%M:%SZ" ; }
+
+debug() { echo "$(ztime) - $PROJECT - $@" >> "$DEBUG_LOG" 2>&1 ; }
 
 cleanup() { [ -n "$GC_LOCK" ] && rm -f -- "$GC_LOCK" ; }
 
@@ -68,29 +70,31 @@ exec_locked() { # <lock> <cmd> [<args>...]
     trap cleanup EXIT
     if ( set -o noclobber ; echo $$ > "$lock" ) > /dev/null 2>&1 ; then
         GC_LOCK=$lock
-        debug "locked $lock"
-        "$@" || rtn=$?
+        debug "locked($SLOT) $lock"
+        mkdir -p -- "$REPACK_LOGS"
+        echo "----- $(ztime) -----" >> "$REPACK_LOG"
+        "$@" >> "$REPACK_LOG" 2>&1 || rtn=$?
         rm -- "$lock" && unset GC_LOCK
-        debug "unlocked $lock"
+        debug "unlocked($SLOT) $lock"
         return $rtn
     fi
-    debug "already locked $lock"
+    debug "already locked($SLOT) $lock"
     return 20
 }
 
 exec_acquired() { # <lock> <max> <cmd> [<args>...]
-    local semaphore=$1 max=$2 rtn=0 slot lock
+    local semaphore=$1 max=$2 rtn=0 lock
     shift 2
     mkdir -p -- "$semaphore"
-    for slot in $(seq "$max") ; do
-        lock="$semaphore/$slot"
+    for SLOT in $(seq "$max") ; do
+        lock="$semaphore/$SLOT"
         touch -- "$lock"
         exec 3<> "$lock"
         if flock -n 3 ; then
-            debug "acquired semaphore $slot"
+            debug "acquired semaphore($SLOT) $lock"
             "$@" || rtn=$?
             flock -o 3
-            debug "released semaphore $slot"
+            debug "released semaphore($SLOT) $lock"
             return $rtn
         fi
     done
@@ -109,8 +113,20 @@ gc_runner() { # <cmd> [<args>...]
 }
 
 MAX_RUNNERS=3
-SEMAPHORE=$GERRIT_SITE/logs/git-geometric.semaphore
+GERRIT_CONFIG=$GERRIT_SITE/etc/gerrit.config
+
+GERRIT_LOGS=$GERRIT_SITE/logs
+DEBUG_LOG=$GERRIT_LOGS/gc_event_log
+GC_LOGS=$GERRIT_LOGS/gc
+REPACK_LOGS=$GC_LOGS/event
+SEMAPHORE=$GC_LOGS/event.semaphore
 LOCK=$GIT_DIR/gc.pid
 
-gc_runner gc_lock git repack -n -d --no-write-bitmap-index --geometric=2 &
+REPOS=$(git config --file "$GERRIT_CONFIG" gerrit.basePath)
+[[ "$REPOS" = "^/.*" ]] || REPOS=$GERRIT_SITE/$REPOS
+PROJECT=$(realpath -m --relative-to "$REPOS" "$GIT_DIR")
+[ -z "$PROJECT" ] && PROJECT=UNKNOWN_PROJECT
+REPACK_LOG=$REPACK_LOGS/$PROJECT.log
 
+debug "GIT_DIR:$GIT_DIR"
+gc_runner gc_lock git repack -n -d --no-write-bitmap-index --geometric=2 &

@@ -101,6 +101,23 @@
       "message": "t\u0027s a tabs problem. Some text editors may replace tabs with white spaces, make sure you use a proper text editor that doesn\u0027t mess it up. Open your makefile in vi or any other rudimentary editor, and rewrite that makefile",
       "revId": "1c33dfb3657924c494b3892d57f1d4f8209b9c74",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "11ccf12f_dc5d34b5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3785645
+      },
+      "writtenOn": "2024-12-10T11:14:41Z",
+      "side": 1,
+      "message": "listProjectsFromIndex se utiliza solo sin filtros",
+      "revId": "1c33dfb3657924c494b3892d57f1d4f8209b9c74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

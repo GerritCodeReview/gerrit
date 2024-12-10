@@ -60,11 +60,12 @@
 
 debug() { true || echo "---- debug: $@" ; }
 
-cleanup() { [ -n "$GC_LOCK" ] && rm -- "$GCLOCK" ; }
+cleanup() { [ -n "$GC_LOCK" ] && rm -f -- "$GC_LOCK" ; }
 
 exec_locked() { # <lock> <cmd> [<args>...]
     local lock=$1 rtn=0
     shift
+    trap cleanup EXIT
     if ( set -o noclobber ; echo $$ > "$lock" ) > /dev/null 2>&1 ; then
         GC_LOCK=$lock
         debug "locked $lock"
@@ -106,8 +107,6 @@ gc_lock() { # <cmd> [<args>...]
 gc_runner() { # <cmd> [<args>...]
     exec_acquired "$SEMAPHORE" "$MAX_RUNNERS" "$@"
 }
-
-trap cleanup EXIT
 
 MAX_RUNNERS=3
 SEMAPHORE=$GERRIT_SITE/logs/git-geometric.semaphore

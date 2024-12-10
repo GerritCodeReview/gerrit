@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7cdbbd1a_abe86ff2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1111258
+      },
+      "writtenOn": "2024-12-10T23:19:13Z",
+      "side": 1,
+      "message": "I noticed this warning when upgrading Gerrit 2.12 to 3.5, so I think it only had an RSA host key back then, but it\u0027s been a few years now. This was my original change: https://gerrit-review.googlesource.com/c/gerrit/+/321756",
+      "revId": "1697a50d1a3f86491c00af1ed18619a975ba3c35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -119,6 +119,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e64bcae_94096ec3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1096249
+      },
+      "writtenOn": "2024-12-10T21:23:31Z",
+      "side": 1,
+      "message": "Sorry I overlooked the complete suggestion. Updated it now",
+      "parentUuid": "867d128c_76e26b46",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 69
+      },
+      "revId": "36f7c9c5911a641e1501e39e4e9ad8611dfbbefa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3f3e6b63_9bb730c0",

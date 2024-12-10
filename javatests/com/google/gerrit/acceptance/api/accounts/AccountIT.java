@@ -663,6 +663,7 @@ public class AccountIT extends AbstractDaemonTest {
     }
   }
 
+  @CanIgnoreReturnValue
   private AccountInfo assertAccountFound(String id) throws RestApiException {
     AccountInfo infoByEmailLowerCase = gApi.accounts().id(id).get();
     AccountInfo infoByIntId = gApi.accounts().id(infoByEmailLowerCase._accountId).get();

@@ -118,6 +118,23 @@
       "message": "listProjectsFromIndex se utiliza solo sin filtros",
       "revId": "1c33dfb3657924c494b3892d57f1d4f8209b9c74",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "10f9f749_89b00994",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3785645
+      },
+      "writtenOn": "2024-12-10T11:15:25Z",
+      "side": 1,
+      "message": "listProjectsFromIndex se utiliza solo sin filtros",
+      "revId": "1c33dfb3657924c494b3892d57f1d4f8209b9c74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

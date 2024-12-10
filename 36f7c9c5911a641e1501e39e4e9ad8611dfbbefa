@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "68febeca_3c9388ae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1096249
+      },
+      "writtenOn": "2024-12-10T05:26:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94d57ce7_f23af179",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 51
+      },
+      "revId": "36f7c9c5911a641e1501e39e4e9ad8611dfbbefa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "02827614_4b9dee03",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-12-09T23:36:44Z",
       "side": 1,
       "message": "```suggestion\nDefine a new global capability \u0027Delete Own Account\u0027 that can be used by\n```",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 69
+      },
+      "revId": "36f7c9c5911a641e1501e39e4e9ad8611dfbbefa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1cfa57e0_e3c275dd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1096249
+      },
+      "writtenOn": "2024-12-10T05:26:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02827614_4b9dee03",
       "range": {
         "startLine": 9,
         "startChar": 0,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c05f509d_5a798bb0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1096249
+      },
+      "writtenOn": "2024-12-10T05:26:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f3e6b63_9bb730c0",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 70
+      },
+      "revId": "36f7c9c5911a641e1501e39e4e9ad8611dfbbefa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d57ae2c2_246f9ba9",
@@ -83,6 +155,24 @@
       "writtenOn": "2024-12-09T23:36:44Z",
       "side": 1,
       "message": "Highlight that the default behavior is unchanged?",
+      "revId": "36f7c9c5911a641e1501e39e4e9ad8611dfbbefa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1eee91a_6b14fc3a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1096249
+      },
+      "writtenOn": "2024-12-10T05:26:32Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "d57ae2c2_246f9ba9",
       "revId": "36f7c9c5911a641e1501e39e4e9ad8611dfbbefa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -112,6 +202,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ff761609_c90aa810",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1096249
+      },
+      "writtenOn": "2024-12-10T05:26:32Z",
+      "side": 1,
+      "message": "\u003e Are you planning on updating the UI as well to hide the \u0027DELETE ACCOUNT\u0027 button?\n\nThat will be a good add-on, but I haven\u0027t plan for it yet",
+      "parentUuid": "d658f7ef_21ddf162",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 19
+      },
+      "revId": "36f7c9c5911a641e1501e39e4e9ad8611dfbbefa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "33173387_a03497d3",
         "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
         "patchSetId": 5
@@ -123,6 +237,30 @@
       "writtenOn": "2024-12-09T23:36:44Z",
       "side": 1,
       "message": "This line be removed? as there is no need to switch scope to another user.",
+      "range": {
+        "startLine": 3520,
+        "startChar": 4,
+        "endLine": 3520,
+        "endChar": 49
+      },
+      "revId": "36f7c9c5911a641e1501e39e4e9ad8611dfbbefa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5f65302_31caf728",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 3520,
+      "author": {
+        "id": 1096249
+      },
+      "writtenOn": "2024-12-10T05:26:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33173387_a03497d3",
       "range": {
         "startLine": 3520,
         "startChar": 4,

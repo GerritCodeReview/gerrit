@@ -84,6 +84,23 @@
       "message": "Encontré al culpable: en realidad era un índice de proyectos obsoleto. Lo complicado es que gerrit.listProjectsFromIndex\u003dtrueen realidad se usa SÓLO cuando no se especifica ninguna consulta de proyecto; de lo contrario, incluso si existe una solicitud para usar el índice, Gerrit usaría el caché del proyecto de todos modos.\n\nLa documentación debe actualizarse al nuevo comportamiento.",
       "revId": "1c33dfb3657924c494b3892d57f1d4f8209b9c74",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6797664f_931b7b48",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3785645
+      },
+      "writtenOn": "2024-12-10T11:14:08Z",
+      "side": 1,
+      "message": "t\u0027s a tabs problem. Some text editors may replace tabs with white spaces, make sure you use a proper text editor that doesn\u0027t mess it up. Open your makefile in vi or any other rudimentary editor, and rewrite that makefile",
+      "revId": "1c33dfb3657924c494b3892d57f1d4f8209b9c74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

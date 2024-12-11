@@ -14,7 +14,9 @@
 
 package com.google.gerrit.server.account.externalids.storage.notedb;
 
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
+import static com.google.common.collect.MoreCollectors.toOptional;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
@@ -28,6 +30,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Optional;
+import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
 
@@ -71,15 +74,28 @@ public class ExternalIdsNoteDbImpl implements ExternalIds {
 
   @Override
   public Optional<ExternalId> get(ExternalId.Key key) throws IOException {
-    Optional<ExternalId> externalId = Optional.empty();
-    if (authConfig.isUserNameCaseInsensitiveMigrationMode()) {
-      externalId =
-          externalIdCache.byKey(externalIdKeyFactory.create(key.scheme(), key.id(), false));
+    ImmutableSet<ExternalId> res = get(ImmutableSet.of(key));
+    checkState(res.size() <= 1, "Got multiple matches for external ID [%s]", key);
+    return !res.isEmpty() ? res.stream().collect(toOptional()) : Optional.empty();
+  }
+
+  @Override
+  public ImmutableSet<ExternalId> get(Set<ExternalId.Key> keys) throws IOException {
+    ImmutableSet.Builder<ExternalId> res = ImmutableSet.builder();
+    for (ExternalId.Key key : keys) {
+      Optional<ExternalId> externalId = Optional.empty();
+      if (authConfig.isUserNameCaseInsensitiveMigrationMode()) {
+        externalId =
+            externalIdCache.byKey(externalIdKeyFactory.create(key.scheme(), key.id(), false));
+      }
+      if (externalId.isEmpty()) {
+        externalId = externalIdCache.byKey(key);
+      }
+      if (externalId.isPresent()) {
+        res.add(externalId.get());
+      }
     }
-    if (!externalId.isPresent()) {
-      externalId = externalIdCache.byKey(key);
-    }
-    return externalId;
+    return res.build();
   }
 
   @Override

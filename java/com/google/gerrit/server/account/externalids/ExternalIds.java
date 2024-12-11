@@ -19,6 +19,7 @@ import com.google.common.collect.ImmutableSetMultimap;
 import com.google.gerrit.entities.Account;
 import java.io.IOException;
 import java.util.Optional;
+import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 public interface ExternalIds {
@@ -27,6 +28,9 @@ public interface ExternalIds {
 
   /** Returns the specified external ID. */
   Optional<ExternalId> get(ExternalId.Key key) throws IOException;
+
+  /** Returns the specified external IDs. */
+  ImmutableSet<ExternalId> get(Set<ExternalId.Key> keys) throws IOException;
 
   /** Returns the external IDs of the specified account. */
   ImmutableSet<ExternalId> byAccount(Account.Id accountId) throws IOException;

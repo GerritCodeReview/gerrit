@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cecf032c_7cedbf6e",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2024-12-11T14:46:10Z",
+      "side": 1,
+      "message": "The default implementation of the getValidatorName() method returns the class name. It looks possible to add the same validator multiple times (but e.g. with different parameters). In this case only messages from the last validator will be stored in the map.\n\n(probably, this never happens actually, so it might be a reasonable limitations).",
+      "range": {
+        "startLine": 293,
+        "startChar": 30,
+        "endLine": 293,
+        "endChar": 65
+      },
+      "revId": "3cc06c6def82cb22a07017d7f4378f7ee3140270",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "596bc69e_f2f38ee7",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2024-12-11T14:46:10Z",
+      "side": 1,
+      "message": "IIUC, there is a PluginCommitValidationListener, which executes all listeners from plugins. All messages from such listeners will be collected together and put under the name \"PluginCommitValidationListener\" (instead of a separate names for each validitor from plugins). Is it ok?",
+      "range": {
+        "startLine": 293,
+        "startChar": 30,
+        "endLine": 293,
+        "endChar": 64
+      },
+      "revId": "3cc06c6def82cb22a07017d7f4378f7ee3140270",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

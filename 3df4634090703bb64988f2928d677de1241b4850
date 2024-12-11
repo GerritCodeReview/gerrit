@@ -46,6 +46,30 @@
       },
       "revId": "3df4634090703bb64988f2928d677de1241b4850",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa230642_418fb9c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-12-11T14:00:08Z",
+      "side": 1,
+      "message": "Sure, json format is key-value based and the order doesn\u0027t matter.\n\nBtw, I forgot to update the commit message.",
+      "parentUuid": "7f6b9342_3d3b5c32",
+      "range": {
+        "startLine": 16,
+        "startChar": 41,
+        "endLine": 16,
+        "endChar": 63
+      },
+      "revId": "3df4634090703bb64988f2928d677de1241b4850",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

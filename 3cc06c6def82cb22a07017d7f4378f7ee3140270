@@ -93,6 +93,54 @@
       },
       "revId": "3cc06c6def82cb22a07017d7f4378f7ee3140270",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe99a065_a6e307fb",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2024-12-11T16:39:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42807dc5_54114dc5",
+      "range": {
+        "startLine": 293,
+        "startChar": 30,
+        "endLine": 293,
+        "endChar": 64
+      },
+      "revId": "3cc06c6def82cb22a07017d7f4378f7ee3140270",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e615e68d_4221bdaa",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2024-12-11T16:39:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de31e78b_2d77385a",
+      "range": {
+        "startLine": 293,
+        "startChar": 30,
+        "endLine": 293,
+        "endChar": 65
+      },
+      "revId": "3cc06c6def82cb22a07017d7f4378f7ee3140270",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

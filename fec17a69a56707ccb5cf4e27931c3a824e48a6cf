@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba408177_d96338ce",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-12-11T16:51:20Z",
+      "side": 1,
+      "message": "Changes done in this file belong to the predecessor change",
+      "revId": "fec17a69a56707ccb5cf4e27931c3a824e48a6cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -20,6 +20,8 @@ import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static com.google.gerrit.acceptance.PushOneCommit.PATCH;
 import static com.google.gerrit.acceptance.PushOneCommit.PATCH_FILE_ONLY;
 import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
+import static com.google.gerrit.acceptance.TestExtensions.TestCommitValidationListener;
+import static com.google.gerrit.acceptance.TestExtensions.TestValidationOptionsListener;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.entities.Patch.COMMIT_MSG;
 import static com.google.gerrit.entities.Patch.MERGE_LIST;
@@ -34,7 +36,6 @@ import static java.util.stream.Collectors.toList;
 import static org.eclipse.jgit.lib.Constants.HEAD;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
@@ -58,7 +59,6 @@ import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.BranchOrderSection;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelId;
-import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
@@ -102,11 +102,6 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.webui.PatchSetWebLink;
 import com.google.gerrit.extensions.webui.ResolveConflictsWebLink;
-import com.google.gerrit.server.ValidationOptionsListener;
-import com.google.gerrit.server.events.CommitReceivedEvent;
-import com.google.gerrit.server.git.validators.CommitValidationException;
-import com.google.gerrit.server.git.validators.CommitValidationListener;
-import com.google.gerrit.server.git.validators.CommitValidationMessage;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.util.AccountTemplateUtil;
 import com.google.gerrit.testing.FakeEmailSender;
@@ -2629,28 +2624,5 @@ public class RevisionIT extends AbstractDaemonTest {
 
   private static Iterable<Account.Id> getReviewers(Collection<AccountInfo> r) {
     return Iterables.transform(r, a -> Account.id(a._accountId));
-  }
-
-  private static class TestCommitValidationListener implements CommitValidationListener {
-    public CommitReceivedEvent receiveEvent;
-
-    @Override
-    public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
-        throws CommitValidationException {
-      this.receiveEvent = receiveEvent;
-      return ImmutableList.of();
-    }
-  }
-
-  private static class TestValidationOptionsListener implements ValidationOptionsListener {
-    public ImmutableListMultimap<String, String> validationOptions;
-
-    @Override
-    public void onPatchSetCreation(
-        BranchNameKey projectAndBranch,
-        PatchSet.Id patchSetId,
-        ImmutableListMultimap<String, String> validationOptions) {
-      this.validationOptions = validationOptions;
-    }
   }
 }

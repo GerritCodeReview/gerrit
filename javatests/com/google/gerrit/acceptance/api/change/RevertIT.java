@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.api.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.TestExtensions.TestCommitValidationListener;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
@@ -53,10 +54,6 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.server.ChangeUtil;
-import com.google.gerrit.server.events.CommitReceivedEvent;
-import com.google.gerrit.server.git.validators.CommitValidationException;
-import com.google.gerrit.server.git.validators.CommitValidationListener;
-import com.google.gerrit.server.git.validators.CommitValidationMessage;
 import com.google.gerrit.server.permissions.PermissionDeniedException;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.inject.Inject;
@@ -1562,16 +1559,5 @@ public class RevertIT extends AbstractDaemonTest {
     RevertInput input = new RevertInput();
     input.workInProgress = true;
     return input;
-  }
-
-  private static class TestCommitValidationListener implements CommitValidationListener {
-    public CommitReceivedEvent receiveEvent;
-
-    @Override
-    public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
-        throws CommitValidationException {
-      this.receiveEvent = receiveEvent;
-      return ImmutableList.of();
-    }
   }
 }

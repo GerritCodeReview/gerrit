@@ -15,6 +15,8 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.TestExtensions.TestCommitValidationListener;
+import static com.google.gerrit.acceptance.TestExtensions.TestValidationOptionsListener;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.entities.Permission.CREATE;
@@ -34,7 +36,6 @@ import static org.eclipse.jgit.lib.Constants.SIGNED_OFF_BY_TAG;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -50,7 +51,6 @@ import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.converter.ChangeInputProtoConverter;
@@ -81,11 +81,6 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
-import com.google.gerrit.server.ValidationOptionsListener;
-import com.google.gerrit.server.events.CommitReceivedEvent;
-import com.google.gerrit.server.git.validators.CommitValidationException;
-import com.google.gerrit.server.git.validators.CommitValidationListener;
-import com.google.gerrit.server.git.validators.CommitValidationMessage;
 import com.google.gerrit.server.patch.ApplyPatchUtil;
 import com.google.gerrit.server.restapi.change.CreateChange;
 import com.google.gerrit.server.restapi.change.CreateChange.CommitTreeSupplier;
@@ -1620,28 +1615,5 @@ public class CreateChangeIT extends AbstractDaemonTest {
     changeB.assertOkStatus();
 
     return ImmutableMap.of("master", initialCommit, branchA, changeA, branchB, changeB);
-  }
-
-  private static class TestCommitValidationListener implements CommitValidationListener {
-    public CommitReceivedEvent receiveEvent;
-
-    @Override
-    public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
-        throws CommitValidationException {
-      this.receiveEvent = receiveEvent;
-      return ImmutableList.of();
-    }
-  }
-
-  private static class TestValidationOptionsListener implements ValidationOptionsListener {
-    public ImmutableListMultimap<String, String> validationOptions;
-
-    @Override
-    public void onPatchSetCreation(
-        BranchNameKey projectAndBranch,
-        PatchSet.Id patchSetId,
-        ImmutableListMultimap<String, String> validationOptions) {
-      this.validationOptions = validationOptions;
-    }
   }
 }

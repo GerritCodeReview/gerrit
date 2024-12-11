@@ -45,6 +45,54 @@
       },
       "revId": "3cc06c6def82cb22a07017d7f4378f7ee3140270",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de31e78b_2d77385a",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-12-11T15:00:11Z",
+      "side": 1,
+      "message": "Yes, if there is a name clash for validators (e.g. if you register the same validator multiple time) this fails. Actually it will trigger an exeption, since ImmutableMap.Builder#build throws if you have added multiple entries with the same key to it.\n\nI think this limitation is fine, since currently don\u0027t have a use case for registering the same validator twice.",
+      "parentUuid": "cecf032c_7cedbf6e",
+      "range": {
+        "startLine": 293,
+        "startChar": 30,
+        "endLine": 293,
+        "endChar": 65
+      },
+      "revId": "3cc06c6def82cb22a07017d7f4378f7ee3140270",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42807dc5_54114dc5",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-12-11T15:00:11Z",
+      "side": 1,
+      "message": "PluginCommitValidationListener no longer exists, as a preparation for this change, I have removed it in https://gerrit-review.git.corp.google.com/c/gerrit/+/445066.\n\nSince we implement getValidatorName() in skippablePluginValidator it should use the correct name for plugin validators.",
+      "parentUuid": "596bc69e_f2f38ee7",
+      "range": {
+        "startLine": 293,
+        "startChar": 30,
+        "endLine": 293,
+        "endChar": 64
+      },
+      "revId": "3cc06c6def82cb22a07017d7f4378f7ee3140270",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

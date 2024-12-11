@@ -67,7 +67,7 @@ public class ApprovalQueryBuilder extends QueryBuilder<ApprovalContext, Approval
   }
 
   public interface UserInOperandFactory {
-    Predicate<ApprovalContext> create() throws QueryParseException;
+    Predicate<ApprovalContext> create(UserInPredicate.Field field) throws QueryParseException;
   }
 
   private final MagicValuePredicate.Factory magicValuePredicate;
@@ -168,7 +168,7 @@ public class ApprovalQueryBuilder extends QueryBuilder<ApprovalContext, Approval
     if (names.size() == 2) {
       UserInOperandFactory op = userInOperands.get(names.get(1), names.get(0));
       if (op != null) {
-        return op.create();
+        return op.create(field);
       }
     }
 

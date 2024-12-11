@@ -64,6 +64,8 @@ import com.google.gerrit.server.extensions.events.CommentAdded;
 import com.google.gerrit.server.extensions.events.RevisionCreated;
 import com.google.gerrit.server.git.GroupCollector;
 import com.google.gerrit.server.git.validators.CommitValidationException;
+import com.google.gerrit.server.git.validators.CommitValidationInfo;
+import com.google.gerrit.server.git.validators.CommitValidationInfoListener;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.git.validators.TopicValidator;
 import com.google.gerrit.server.mail.EmailFactories;
@@ -130,6 +132,7 @@ public class ChangeInserter implements InsertChangeOp {
   private final ChangeUtil changeUtil;
   private final DiffOperationsForCommitValidation.Factory diffOperationsForCommitValidationFactory;
   private final PluginSetContext<ValidationOptionsListener> validationOptionsListeners;
+  private final PluginSetContext<CommitValidationInfoListener> commitValidationInfoListeners;
 
   private final Change.Id changeId;
   private final PatchSet.Id psId;
@@ -148,6 +151,7 @@ public class ChangeInserter implements InsertChangeOp {
   private ImmutableListMultimap<String, String> validationOptions = ImmutableListMultimap.of();
   private ImmutableMap<String, String> customKeyedValues = ImmutableMap.of();
   private boolean validate = true;
+  private ImmutableMap<String, CommitValidationInfo> validationInfos;
   private Map<String, Short> approvals;
   private RequestScopePropagator requestScopePropagator;
   private boolean fireRevisionCreated;
@@ -186,6 +190,7 @@ public class ChangeInserter implements InsertChangeOp {
       ChangeUtil changeUtil,
       DiffOperationsForCommitValidation.Factory diffOperationsForCommitValidationFactory,
       PluginSetContext<ValidationOptionsListener> validationOptionsListeners,
+      PluginSetContext<CommitValidationInfoListener> commitValidationInfoListeners,
       @Assisted Change.Id changeId,
       @Assisted ObjectId commitId,
       @Assisted String refName) {
@@ -207,6 +212,7 @@ public class ChangeInserter implements InsertChangeOp {
     this.changeUtil = changeUtil;
     this.diffOperationsForCommitValidationFactory = diffOperationsForCommitValidationFactory;
     this.validationOptionsListeners = validationOptionsListeners;
+    this.commitValidationInfoListeners = commitValidationInfoListeners;
 
     this.changeId = changeId;
     this.psId = PatchSet.id(changeId, INITIAL_PATCH_SET_ID);
@@ -288,9 +294,30 @@ public class ChangeInserter implements InsertChangeOp {
     return this;
   }
 
+  /**
+   * Disables the commit validation because validation is not needed.
+   *
+   * @return the {@link ChangeInserter} instance to allow chaining calls
+   */
   @CanIgnoreReturnValue
-  public ChangeInserter setValidate(boolean validate) {
-    this.validate = validate;
+  public ChangeInserter disableValidation() {
+    return disableValidation(null);
+  }
+
+  /**
+   * Disables the commit validation because the validation has already been done.
+   *
+   * <p>The result from the validation that has already been done needs to be provided to this
+   * method and is being used to invoke the {@link CommitValidationInfoListener}'s.
+   *
+   * @param validationInfos result of validating {@link #commitId}
+   * @return the {@link ChangeInserter} instance to allow chaining calls
+   */
+  @CanIgnoreReturnValue
+  public ChangeInserter disableValidation(
+      @Nullable ImmutableMap<String, CommitValidationInfo> validationInfos) {
+    this.validate = false;
+    this.validationInfos = validationInfos;
     return this;
   }
 
@@ -644,27 +671,32 @@ public class ChangeInserter implements InsertChangeOp {
   }
 
   private void validate(RepoContext ctx) throws IOException, ResourceConflictException {
-    if (!validate) {
-      return;
-    }
+    try (CommitReceivedEvent event =
+        new CommitReceivedEvent(
+            cmd,
+            projectState.getProject(),
+            change.getDest().branch(),
+            validationOptions,
+            ctx.getRepoView().getConfig(),
+            ctx.getRevWalk().getObjectReader(),
+            commitId,
+            ctx.getIdentifiedUser(),
+            diffOperationsForCommitValidationFactory.create(
+                ctx.getRepoView(), ctx.getInserter()))) {
+      if (!validate) {
+        if (validationInfos != null) {
+          commitValidationInfoListeners.runEach(
+              commitValidationInfoListener ->
+                  commitValidationInfoListener.commitValidated(validationInfos, event, psId));
+        }
+        return;
+      }
 
-    try {
-      validationOptionsListeners.runEach(
-          validationOptionsListener ->
-              validationOptionsListener.onPatchSetCreation(
-                  change.getDest(), psId, validationOptions));
-      try (CommitReceivedEvent event =
-          new CommitReceivedEvent(
-              cmd,
-              projectState.getProject(),
-              change.getDest().branch(),
-              validationOptions,
-              ctx.getRepoView().getConfig(),
-              ctx.getRevWalk().getObjectReader(),
-              commitId,
-              ctx.getIdentifiedUser(),
-              diffOperationsForCommitValidationFactory.create(
-                  ctx.getRepoView(), ctx.getInserter()))) {
+      try {
+        validationOptionsListeners.runEach(
+            validationOptionsListener ->
+                validationOptionsListener.onPatchSetCreation(
+                    change.getDest(), psId, validationOptions));
         commitValidatorsFactory
             .forGerritCommits(
                 permissionBackend.user(ctx.getUser()).project(ctx.getProject()),
@@ -673,10 +705,11 @@ public class ChangeInserter implements InsertChangeOp {
                 new NoSshInfo(),
                 ctx.getRevWalk(),
                 change)
+            .patchSet(psId)
             .validate(event);
+      } catch (CommitValidationException e) {
+        throw new ResourceConflictException(e.getFullMessage());
       }
-    } catch (CommitValidationException e) {
-      throw new ResourceConflictException(e.getFullMessage());
     }
   }
 

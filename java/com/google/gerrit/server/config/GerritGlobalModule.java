@@ -149,6 +149,7 @@ import com.google.gerrit.server.git.receive.ReceiveCommitsModule;
 import com.google.gerrit.server.git.validators.CommentCountValidator;
 import com.google.gerrit.server.git.validators.CommentCumulativeSizeValidator;
 import com.google.gerrit.server.git.validators.CommentSizeValidator;
+import com.google.gerrit.server.git.validators.CommitValidationInfoListener;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.git.validators.MergeValidationListener;
 import com.google.gerrit.server.git.validators.MergeValidators;
@@ -411,6 +412,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.bind(binder(), CommitValidationListener.class)
         .to(SubmitRequirementConfigValidator.class);
     DynamicSet.bind(binder(), CommitValidationListener.class).to(PrologRulesWarningValidator.class);
+    DynamicSet.setOf(binder(), CommitValidationInfoListener.class);
     DynamicSet.setOf(binder(), CommentValidator.class);
     DynamicSet.setOf(binder(), DiffValidator.class);
     DynamicSet.bind(binder(), DiffValidator.class).to(DiffFileSizeValidator.class);

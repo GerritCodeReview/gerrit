@@ -3375,6 +3375,16 @@ is invoked when a patch set is created. The extension point gets the validation
 options that were specified by the user. For example, this extension point can
 be used to log validation options for auditing purposes.
 
+[[commit-validation-info-listener]]
+== CommitValidationInfoListener
+
+`com.google.gerrit.server.git.validators.ValidationOptionsListener` is an
+extension point that is invoked after a commit has passed the validations that
+are done by `CommitValidationListener`'s.
+
+If any `CommitValidationListener` rejects the commit (by throwing a
+`CommitValidationException`) this extension point is not invoked.
+
 [[custom-keyed-values]]
 == Custom Keyed values
 

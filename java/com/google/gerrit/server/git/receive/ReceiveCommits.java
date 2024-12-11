@@ -153,6 +153,7 @@ import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.git.receive.RejectionReason.MetricBucket;
 import com.google.gerrit.server.git.validators.CommentCountValidator;
 import com.google.gerrit.server.git.validators.CommentSizeValidator;
+import com.google.gerrit.server.git.validators.CommitValidationInfo;
 import com.google.gerrit.server.git.validators.CommitValidationMessage;
 import com.google.gerrit.server.git.validators.RefOperationValidationException;
 import com.google.gerrit.server.git.validators.RefOperationValidators;
@@ -456,6 +457,10 @@ class ReceiveCommits {
   // Collections populated during processing.
   private final Queue<ValidationMessage> messages;
 
+  // Map that maps a commit SHA1 to its validation results (map that maps a validator name to its
+  // result).
+  private final Map<String, ImmutableMap<String, CommitValidationInfo>> validationInfosByCommit;
+
   /** Multimap of error text to refnames that produced that error. */
   private final ListMultimap<String, String> errors;
 
@@ -611,6 +616,8 @@ class ReceiveCommits {
     rejectCommits = BanCommit.loadRejectCommitsMap(repo, rp.getRevWalk());
 
     // Collections populated during processing.
+    validationInfosByCommit = new LinkedHashMap<>();
+    ;
     errors = MultimapBuilder.linkedHashKeys().arrayListValues().build();
     rejectionReasons = new LinkedHashMap<>();
     messages = new ConcurrentLinkedQueue<>();
@@ -2681,7 +2688,9 @@ class ReceiveCommits {
                   ImmutableListMultimap.copyOf(pushOptions),
                   magicBranch.merged,
                   rejectCommits,
-                  null);
+                  /* invokeCommitValidationInfoListeners= */ false,
+                  /* change= */ null);
+          validationInfosByCommit.put(c.name(), validationResult.validationInfos());
           messages.addAll(validationResult.messages());
           if (!validationResult.isValid()) {
             // Not a change the user can propose? Abort as early as possible.
@@ -3035,7 +3044,8 @@ class ReceiveCommits {
                 .setPrivate(setChangeAsPrivate)
                 .setWorkInProgress(magicBranch.shouldSetWorkInProgressOnNewChanges())
                 // Changes already validated in validateNewCommits.
-                .setValidate(false);
+                .setValidationOptions(ImmutableListMultimap.copyOf(pushOptions))
+                .disableValidation(validationInfosByCommit.get(commit.name()));
 
         if (magicBranch.merged) {
           ins.setStatus(Change.Status.MERGED);
@@ -3550,6 +3560,8 @@ class ReceiveCommits {
                 priorCommit,
                 psId,
                 newCommit,
+                ImmutableListMultimap.copyOf(pushOptions),
+                validationInfosByCommit.get(newCommit.name()),
                 info,
                 groups,
                 magicBranch,
@@ -3764,9 +3776,10 @@ class ReceiveCommits {
                   cmd,
                   c,
                   ImmutableListMultimap.copyOf(pushOptions),
-                  false,
+                  /* isMerged= */ false,
                   rejectCommits,
-                  null,
+                  /* invokeCommitValidationInfoListeners= */ true,
+                  /* change= */ null,
                   skipValidation);
           messages.addAll(validationResult.messages());
           if (!validationResult.isValid()) {

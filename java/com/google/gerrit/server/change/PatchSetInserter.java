@@ -22,6 +22,7 @@ import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableListMultimap;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
@@ -44,6 +45,8 @@ import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.RevisionCreated;
 import com.google.gerrit.server.extensions.events.WorkInProgressStateChanged;
 import com.google.gerrit.server.git.validators.CommitValidationException;
+import com.google.gerrit.server.git.validators.CommitValidationInfo;
+import com.google.gerrit.server.git.validators.CommitValidationInfoListener;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.git.validators.TopicValidator;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -92,6 +95,7 @@ public class PatchSetInserter implements BatchUpdateOp {
   private final TopicValidator topicValidator;
   private final DiffOperationsForCommitValidation.Factory diffOperationsForCommitValidationFactory;
   private final PluginSetContext<ValidationOptionsListener> validationOptionsListeners;
+  private final PluginSetContext<CommitValidationInfoListener> commitValidationInfoListeners;
 
   // Assisted-injected fields.
   private final PatchSet.Id psId;
@@ -106,6 +110,7 @@ public class PatchSetInserter implements BatchUpdateOp {
   private String description;
   private Boolean workInProgress;
   private boolean validate = true;
+  private ImmutableMap<String, CommitValidationInfo> validationInfos;
   private boolean checkAddPatchSetPermission = true;
   private List<String> groups = Collections.emptyList();
   private ImmutableListMultimap<String, String> validationOptions = ImmutableListMultimap.of();
@@ -143,6 +148,7 @@ public class PatchSetInserter implements BatchUpdateOp {
       TopicValidator topicValidator,
       DiffOperationsForCommitValidation.Factory diffOperationsForCommitValidationFactory,
       PluginSetContext<ValidationOptionsListener> validationOptionsListeners,
+      PluginSetContext<CommitValidationInfoListener> commitValidationInfoListeners,
       @Assisted ChangeNotes notes,
       @Assisted PatchSet.Id psId,
       @Assisted ObjectId commitId) {
@@ -161,6 +167,7 @@ public class PatchSetInserter implements BatchUpdateOp {
     this.topicValidator = topicValidator;
     this.diffOperationsForCommitValidationFactory = diffOperationsForCommitValidationFactory;
     this.validationOptionsListeners = validationOptionsListeners;
+    this.commitValidationInfoListeners = commitValidationInfoListeners;
 
     this.origNotes = notes;
     this.psId = psId;
@@ -189,9 +196,30 @@ public class PatchSetInserter implements BatchUpdateOp {
     return this;
   }
 
+  /**
+   * Disables the commit validation because validation is not needed.
+   *
+   * @return the {@link PatchSetInserter} instance to allow chaining calls
+   */
   @CanIgnoreReturnValue
-  public PatchSetInserter setValidate(boolean validate) {
-    this.validate = validate;
+  public PatchSetInserter disableValidation() {
+    return disableValidation(null);
+  }
+
+  /**
+   * Disables the commit validation because the validation has already been done.
+   *
+   * <p>The result from the validation that has already been done needs to be provided to this
+   * method and is being used to invoke the {@link CommitValidationInfoListener}'s.
+   *
+   * @param validationInfos result of validating {@link #commitId}
+   * @return the {@link PatchSetInserter} instance to allow chaining calls
+   */
+  @CanIgnoreReturnValue
+  public PatchSetInserter disableValidation(
+      @Nullable ImmutableMap<String, CommitValidationInfo> validationInfos) {
+    this.validate = false;
+    this.validationInfos = validationInfos;
     return this;
   }
 
@@ -424,15 +452,8 @@ public class PatchSetInserter implements BatchUpdateOp {
         .get(ctx.getProject())
         .orElseThrow(illegalState(ctx.getProject()))
         .checkStatePermitsWrite();
-    if (!validate) {
-      return;
-    }
 
     String refName = getPatchSetId().toRefName();
-    validationOptionsListeners.runEach(
-        validationOptionsListener ->
-            validationOptionsListener.onPatchSetCreation(
-                change.getDest(), psId, validationOptions));
     try (CommitReceivedEvent event =
         new CommitReceivedEvent(
             new ReceiveCommand(
@@ -451,17 +472,33 @@ public class PatchSetInserter implements BatchUpdateOp {
             ctx.getIdentifiedUser(),
             diffOperationsForCommitValidationFactory.create(
                 ctx.getRepoView(), ctx.getInserter()))) {
-      commitValidatorsFactory
-          .forGerritCommits(
-              permissionBackend.user(ctx.getUser()).project(ctx.getProject()),
-              origNotes.getChange().getDest(),
-              ctx.getIdentifiedUser(),
-              new NoSshInfo(),
-              ctx.getRevWalk(),
-              origNotes.getChange())
-          .validate(event);
-    } catch (CommitValidationException e) {
-      throw new ResourceConflictException(e.getFullMessage());
+      if (!validate) {
+        if (validationInfos != null) {
+          commitValidationInfoListeners.runEach(
+              commitValidationInfoListener ->
+                  commitValidationInfoListener.commitValidated(validationInfos, event, psId));
+        }
+        return;
+      }
+
+      validationOptionsListeners.runEach(
+          validationOptionsListener ->
+              validationOptionsListener.onPatchSetCreation(
+                  change.getDest(), psId, validationOptions));
+      try {
+        commitValidatorsFactory
+            .forGerritCommits(
+                permissionBackend.user(ctx.getUser()).project(ctx.getProject()),
+                origNotes.getChange().getDest(),
+                ctx.getIdentifiedUser(),
+                new NoSshInfo(),
+                ctx.getRevWalk(),
+                origNotes.getChange())
+            .patchSet(psId)
+            .validate(event);
+      } catch (CommitValidationException e) {
+        throw new ResourceConflictException(e.getFullMessage());
+      }
     }
   }
 }

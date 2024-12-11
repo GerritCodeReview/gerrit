@@ -16,6 +16,24 @@
       "message": "when `traceId \u003d\u003d null` we should also try to reuse an existing traceId like for the forced-logging case (lines 142-149). Add tests for traceId inheritance with nested `TraceContext`s created using `newTrace` method.",
       "revId": "f11dc0e62ca7de9dee192e08f9bce8eaf8f688da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e899164_f6c09704",
+        "filename": "java/com/google/gerrit/server/logging/TraceContext.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-12-11T13:56:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7883175e_81470cb7",
+      "revId": "f11dc0e62ca7de9dee192e08f9bce8eaf8f688da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

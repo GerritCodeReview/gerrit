@@ -152,6 +152,7 @@ export class GrApplyFixDialog extends LitElement {
         this.syntaxLayer.setEnabled(!!this.diffPrefs.syntax_highlighting);
       }
     );
+    //test
     subscribe(
       this,
       () => this.getChangeModel().change$,

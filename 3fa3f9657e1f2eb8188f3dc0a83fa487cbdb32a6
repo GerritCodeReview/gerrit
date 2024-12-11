@@ -16,6 +16,24 @@
       "message": "This looks like a very useful extension. Can you also add the `Release-Notes` footer for being added to the release notes of v3.12?",
       "revId": "3fa3f9657e1f2eb8188f3dc0a83fa487cbdb32a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "155b94be_43a96234",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-12-11T10:32:19Z",
+      "side": 1,
+      "message": "Sure, done.",
+      "parentUuid": "6d46cb44_a90d1e70",
+      "revId": "3fa3f9657e1f2eb8188f3dc0a83fa487cbdb32a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

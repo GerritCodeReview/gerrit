@@ -26,6 +26,8 @@ import static org.eclipse.jgit.lib.Constants.R_HEADS;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableListMultimap;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
@@ -60,16 +62,21 @@ import com.google.gerrit.server.change.ReviewerModifier.ReviewerModification;
 import com.google.gerrit.server.change.ReviewerModifier.ReviewerModificationList;
 import com.google.gerrit.server.change.ReviewerOp;
 import com.google.gerrit.server.config.AnonymousCowardName;
+import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.CommentAdded;
 import com.google.gerrit.server.extensions.events.RevisionCreated;
 import com.google.gerrit.server.git.MergedByPushOp;
 import com.google.gerrit.server.git.receive.ReceiveCommits.MagicBranchInput;
 import com.google.gerrit.server.git.receive.RejectionReason.MetricBucket;
+import com.google.gerrit.server.git.validators.CommitValidationInfo;
+import com.google.gerrit.server.git.validators.CommitValidationInfoListener;
 import com.google.gerrit.server.git.validators.TopicValidator;
 import com.google.gerrit.server.mail.MailUtil.MailRecipients;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.patch.DiffOperationsForCommitValidation;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -111,6 +118,8 @@ public class ReplaceOp implements BatchUpdateOp {
         @Assisted("priorCommitId") ObjectId priorCommit,
         @Assisted("patchSetId") PatchSet.Id patchSetId,
         @Assisted("commitId") ObjectId commitId,
+        ImmutableListMultimap<String, String> pushOptions,
+        ImmutableMap<String, CommitValidationInfo> validationInfos,
         PatchSetInfo info,
         List<String> groups,
         @Nullable MagicBranchInput magicBranch,
@@ -136,6 +145,8 @@ public class ReplaceOp implements BatchUpdateOp {
   private final ReviewerModifier reviewerModifier;
   private final ChangeUtil changeUtil;
   private final TopicValidator topicValidator;
+  private final DiffOperationsForCommitValidation.Factory diffOperationsForCommitValidationFactory;
+  private final PluginSetContext<CommitValidationInfoListener> commitValidationInfoListeners;
 
   private final ProjectState projectState;
   private final Change change;
@@ -145,6 +156,8 @@ public class ReplaceOp implements BatchUpdateOp {
   private final ObjectId priorCommitId;
   private final PatchSet.Id patchSetId;
   private final ObjectId commitId;
+  private final ImmutableListMultimap<String, String> pushOptions;
+  private final ImmutableMap<String, CommitValidationInfo> validationInfos;
   private final PatchSetInfo info;
   private final MagicBranchInput magicBranch;
   private final PushCertificate pushCertificate;
@@ -182,6 +195,8 @@ public class ReplaceOp implements BatchUpdateOp {
       ReviewerModifier reviewerModifier,
       ChangeUtil changeUtil,
       TopicValidator topicValidator,
+      DiffOperationsForCommitValidation.Factory diffOperationsForCommitValidationFactory,
+      PluginSetContext<CommitValidationInfoListener> commitValidationInfoListeners,
       @Assisted ProjectState projectState,
       @Assisted Change change,
       @Assisted boolean checkMergedInto,
@@ -190,6 +205,8 @@ public class ReplaceOp implements BatchUpdateOp {
       @Assisted("priorCommitId") ObjectId priorCommitId,
       @Assisted("patchSetId") PatchSet.Id patchSetId,
       @Assisted("commitId") ObjectId commitId,
+      @Assisted ImmutableListMultimap<String, String> pushOptions,
+      @Assisted @Nullable ImmutableMap<String, CommitValidationInfo> validationInfos,
       @Assisted PatchSetInfo info,
       @Assisted List<String> groups,
       @Assisted @Nullable MagicBranchInput magicBranch,
@@ -211,6 +228,8 @@ public class ReplaceOp implements BatchUpdateOp {
     this.reviewerModifier = reviewerModifier;
     this.changeUtil = changeUtil;
     this.topicValidator = topicValidator;
+    this.diffOperationsForCommitValidationFactory = diffOperationsForCommitValidationFactory;
+    this.commitValidationInfoListeners = commitValidationInfoListeners;
 
     this.projectState = projectState;
     this.change = change;
@@ -220,6 +239,8 @@ public class ReplaceOp implements BatchUpdateOp {
     this.priorCommitId = priorCommitId.copy();
     this.patchSetId = patchSetId;
     this.commitId = commitId.copy();
+    this.pushOptions = pushOptions;
+    this.validationInfos = validationInfos;
     this.info = info;
     this.groups = groups;
     this.magicBranch = magicBranch;
@@ -255,6 +276,25 @@ public class ReplaceOp implements BatchUpdateOp {
 
     cmd = new ReceiveCommand(ObjectId.zeroId(), commitId, patchSetId.toRefName());
     ctx.addRefUpdate(cmd);
+
+    if (validationInfos != null) {
+      try (CommitReceivedEvent event =
+          new CommitReceivedEvent(
+              cmd,
+              projectState.getProject(),
+              change.getDest().branch(),
+              pushOptions,
+              ctx.getRepoView().getConfig(),
+              ctx.getRevWalk().getObjectReader(),
+              commitId,
+              ctx.getIdentifiedUser(),
+              diffOperationsForCommitValidationFactory.create(
+                  ctx.getRepoView(), ctx.getInserter()))) {
+        commitValidationInfoListeners.runEach(
+            commitValidationInfoListener ->
+                commitValidationInfoListener.commitValidated(validationInfos, event, patchSetId));
+      }
+    }
   }
 
   @Override

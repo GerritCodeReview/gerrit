@@ -35,6 +35,7 @@ import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Patch;
+import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -115,6 +116,7 @@ public class CommitValidators {
     private final ChangeUtil changeUtil;
     private final MetricMaker metricMaker;
     private final ApprovalQueryBuilder approvalQueryBuilder;
+    private final PluginSetContext<CommitValidationInfoListener> commitValidationInfoListeners;
 
     @Inject
     Factory(
@@ -128,7 +130,8 @@ public class CommitValidators {
         ProjectConfig.Factory projectConfigFactory,
         ChangeUtil changeUtil,
         MetricMaker metricMaker,
-        ApprovalQueryBuilder approvalQueryBuilder) {
+        ApprovalQueryBuilder approvalQueryBuilder,
+        PluginSetContext<CommitValidationInfoListener> commitValidationInfoListeners) {
       this.gerritIdent = gerritIdent;
       this.urlFormatter = urlFormatter;
       this.config = config;
@@ -140,6 +143,7 @@ public class CommitValidators {
       this.changeUtil = changeUtil;
       this.metricMaker = metricMaker;
       this.approvalQueryBuilder = approvalQueryBuilder;
+      this.commitValidationInfoListeners = commitValidationInfoListeners;
     }
 
     public CommitValidators forReceiveCommits(
@@ -179,7 +183,7 @@ public class CommitValidators {
           .add(new GroupCommitValidator(allUsers))
           .add(new LabelConfigValidator(approvalQueryBuilder));
 
-      return new CommitValidators(validators.build());
+      return new CommitValidators(commitValidationInfoListeners, validators.build());
     }
 
     public CommitValidators forGerritCommits(
@@ -215,7 +219,7 @@ public class CommitValidators {
           .add(new GroupCommitValidator(allUsers))
           .add(new LabelConfigValidator(approvalQueryBuilder));
 
-      return new CommitValidators(validators.build());
+      return new CommitValidators(commitValidationInfoListeners, validators.build());
     }
 
     public CommitValidators forMergedCommits(
@@ -242,7 +246,7 @@ public class CommitValidators {
           .add(new ProjectStateValidationListener(projectState))
           .add(new AuthorUploaderValidator(user, perm, urlFormatter.get()))
           .add(new CommitterUploaderValidator(user, perm, urlFormatter.get()));
-      return new CommitValidators(validators.build());
+      return new CommitValidators(commitValidationInfoListeners, validators.build());
     }
 
     CommitValidationListener skippablePluginValidator(
@@ -265,16 +269,59 @@ public class CommitValidators {
     }
   }
 
+  private final PluginSetContext<CommitValidationInfoListener> commitValidationInfoListeners;
   private final List<CommitValidationListener> validators;
 
-  CommitValidators(List<CommitValidationListener> validators) {
+  @Nullable private PatchSet.Id patchSetId;
+  private boolean invokeCommitValidationInfoListeners = true;
+
+  CommitValidators(
+      PluginSetContext<CommitValidationInfoListener> commitValidationInfoListeners,
+      List<CommitValidationListener> validators) {
+    this.commitValidationInfoListeners = commitValidationInfoListeners;
     this.validators = validators;
+  }
+
+  /**
+   * Sets the patch set for which the validation is done.
+   *
+   * <p>If the validation is done for a commit that is not associated with a patch set (e.g. when
+   * commits are pushed directly, bypassing code-review) this method doesn't need to be called.
+   *
+   * @param patchSetId the patch set for which the validation is done
+   * @return the {@link CommitValidators} instance to allow chaining calls
+   */
+  @CanIgnoreReturnValue
+  public CommitValidators patchSet(PatchSet.Id patchSetId) {
+    this.patchSetId = patchSetId;
+    return this;
+  }
+
+  /**
+   * Whether the {@link CommitValidationInfoListener}s should be invoked after the validation is
+   * done.
+   *
+   * <p>If invoking the {@link CommitValidationInfoListener}s is skipped, it's the responsibility of
+   * the caller to invoke them later. For example, this makes sense when commits are validated and
+   * the information about the change/patch-set (see {@link
+   * #patchSet(com.google.gerrit.entities.PatchSet.Id)} is not available yet.
+   *
+   * @param invokeCommitValidationInfoListeners Whether the {@link CommitValidationInfoListener}s
+   *     should be invoked after the validation is done.
+   * @return the {@link CommitValidators} instance to allow chaining calls
+   */
+  @CanIgnoreReturnValue
+  public CommitValidators invokeCommitValidationInfoListeners(
+      boolean invokeCommitValidationInfoListeners) {
+    this.invokeCommitValidationInfoListeners = invokeCommitValidationInfoListeners;
+    return this;
   }
 
   @CanIgnoreReturnValue
   public ImmutableMap<String, CommitValidationInfo> validate(CommitReceivedEvent receiveEvent)
       throws CommitValidationException {
-    ImmutableMap.Builder<String, CommitValidationInfo> validationInfos = ImmutableMap.builder();
+    ImmutableMap.Builder<String, CommitValidationInfo> validationInfosBuilder =
+        ImmutableMap.builder();
     for (CommitValidationListener commitValidator : validators) {
       try {
         try (TraceTimer ignored =
@@ -290,13 +337,13 @@ public class CommitValidators {
           logger.atFine().log(
               "commit %s has passed validator %s: %s",
               receiveEvent.commit.name(), commitValidator.getValidatorName(), commitValidationInfo);
-          validationInfos.put(commitValidator.getValidatorName(), commitValidationInfo);
+          validationInfosBuilder.put(commitValidator.getValidatorName(), commitValidationInfo);
         }
       } catch (CommitValidationException e) {
         // Keep the old messages (and their order) in case of an exception
         ImmutableList<CommitValidationMessage> messages =
             Streams.concat(
-                    validationInfos.build().values().stream()
+                    validationInfosBuilder.build().values().stream()
                         .flatMap(validationInfo -> validationInfo.validationMessages().stream()),
                     e.getMessages().stream())
                 .collect(toImmutableList());
@@ -306,7 +353,17 @@ public class CommitValidators {
         throw new CommitValidationException(e.getMessage(), messages);
       }
     }
-    return validationInfos.build();
+
+    ImmutableMap<String, CommitValidationInfo> validationInfos = validationInfosBuilder.build();
+
+    if (invokeCommitValidationInfoListeners) {
+      commitValidationInfoListeners.runEach(
+          commitValidationInfoListener ->
+              commitValidationInfoListener.commitValidated(
+                  validationInfos, receiveEvent, patchSetId));
+    }
+
+    return validationInfos;
   }
 
   public static class ChangeIdValidator implements CommitValidationListener {

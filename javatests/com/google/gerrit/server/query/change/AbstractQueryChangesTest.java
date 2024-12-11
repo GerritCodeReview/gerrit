@@ -4563,7 +4563,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Change.Id id = Change.id(seq.nextChangeId());
     return changeFactory
         .create(id, commit, branch)
-        .setValidate(false)
+        .disableValidation()
         .setStatus(status)
         .setTopic(topic)
         .setWorkInProgress(workInProgress)
@@ -4617,7 +4617,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
           patchSetFactory
               .create(changeNotesFactory.createChecked(c), PatchSet.id(c.getId(), n), commit)
               .setFireRevisionCreated(false)
-              .setValidate(false);
+              .disableValidation();
       testRefAction(
           () -> {
             try (BatchUpdate bu = updateFactory.create(c.getProject(), user, TimeUtil.now());

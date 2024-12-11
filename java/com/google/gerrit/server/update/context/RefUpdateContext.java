@@ -16,10 +16,14 @@ package com.google.gerrit.server.update.context;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.ImmutableList.toImmutableList;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.common.UsedAt;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Deque;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -151,6 +155,13 @@ public class RefUpdateContext implements AutoCloseable {
   private final RefUpdateType updateType;
   private final Optional<String> justification;
 
+  /**
+   * Google-specific data.
+   *
+   * <p>This data is only stored on the top-level context.
+   */
+  private List<Object> googleData;
+
   private RefUpdateContext(RefUpdateType updateType, Optional<String> justification) {
     this.updateType = updateType;
     this.justification = justification;
@@ -167,6 +178,39 @@ public class RefUpdateContext implements AutoCloseable {
       current.set(result);
     }
     return result;
+  }
+
+  @UsedAt(UsedAt.Project.GOOGLE)
+  public void addGoogleData(Object data) {
+    // Store the data in the top-level context only.
+    RefUpdateContext currentContext = current.get().getFirst();
+    if (this != currentContext) {
+      currentContext.addGoogleData(data);
+      return;
+    }
+
+    if (googleData == null) {
+      googleData = new ArrayList<>();
+    }
+    googleData.add(data);
+  }
+
+  @SuppressWarnings("unchecked")
+  public <T> ImmutableList<T> getGoogleData(Class<T> clazz) {
+    // The data is available in the top-level context only.
+    RefUpdateContext currentContext = current.get().getFirst();
+    if (this != currentContext) {
+      return currentContext.getGoogleData(clazz);
+    }
+
+    if (googleData == null) {
+      return ImmutableList.of();
+    }
+
+    return googleData.stream()
+        .filter(data -> data.getClass().isAssignableFrom(clazz))
+        .map(data -> (T) data)
+        .collect(toImmutableList());
   }
 
   /**

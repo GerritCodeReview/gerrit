@@ -133,4 +133,18 @@ public class RefUpdateContextTest {
   public void openOtherContextByType_exceptionThrown() {
     assertThrows(Exception.class, () -> RefUpdateContext.open(OTHER));
   }
+
+  @Test
+  public void addGoogleData() {
+    String googleData = "googleData";
+
+    try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
+      assertThat(ctx.getGoogleData(String.class)).isEmpty();
+      try (RefUpdateContext nestedCtx = RefUpdateContext.open(INIT_REPO)) {
+        nestedCtx.addGoogleData(googleData);
+        assertThat(nestedCtx.getGoogleData(String.class)).containsExactly(googleData);
+      }
+      assertThat(ctx.getGoogleData(String.class)).containsExactly(googleData);
+    }
+  }
 }

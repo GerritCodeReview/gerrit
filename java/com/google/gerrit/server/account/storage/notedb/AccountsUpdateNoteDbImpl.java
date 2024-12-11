@@ -16,6 +16,8 @@ package com.google.gerrit.server.account.storage.notedb;
 
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
+import static com.google.common.collect.ImmutableMap.toImmutableMap;
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.server.account.externalids.ExternalIdsSameAccountChecker.checkSameAccount;
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.ACCOUNTS_UPDATE;
 import static java.util.Objects.requireNonNull;
@@ -26,6 +28,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.Nullable;
@@ -59,9 +62,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -292,22 +297,50 @@ public class AccountsUpdateNoteDbImpl extends AccountsUpdate {
       throws IOException, ConfigInvalidException {
     return execute(
             ImmutableList.of(
-                repo -> {
-                  AccountConfig accountConfig = read(repo, accountId);
-                  Account account = accountConfig.getNewAccount(committerIdent.getWhenAsInstant());
-                  AccountState accountState = AccountState.forAccount(account);
-                  AccountDelta.Builder deltaBuilder = AccountDelta.builder();
-                  configureDelta(init, accountState, deltaBuilder);
+                new ExecutableUpdate() {
+                  @Override
+                  public AccountConfig getAccountConfig(Repository repo)
+                      throws ConfigInvalidException, IOException {
+                    return read(repo, accountId);
+                  }
 
-                  AccountDelta accountDelta = deltaBuilder.build();
-                  accountConfig.setAccountDelta(accountDelta);
-                  updateExternalIdNotes(
-                      repo, accountConfig.getExternalIdsRev(), accountId, accountDelta);
-                  CachedPreferences defaultPreferences =
-                      CachedPreferences.fromLegacyConfig(
-                          VersionedDefaultPreferences.get(repo, allUsersName));
+                  @Override
+                  public Optional<AccountDelta> computeAccountDelta(
+                      Repository allUsersRepo, AccountConfig accountConfig) throws IOException {
+                    Account account =
+                        accountConfig.getNewAccount(committerIdent.getWhenAsInstant());
+                    AccountState accountState = AccountState.forAccount(account);
+                    AccountDelta.Builder deltaBuilder = AccountDelta.builder();
+                    configureDelta(init, accountState, deltaBuilder);
 
-                  return new UpdatedAccount(message, accountConfig, defaultPreferences, true);
+                    return Optional.of(deltaBuilder.build());
+                  }
+
+                  @Override
+                  public UpdatedAccount execute(
+                      Repository repo,
+                      Set<ExternalId.Key> externalIdsDeletedInTransaction,
+                      AccountConfig accountConfig,
+                      Optional<AccountDelta> delta)
+                      throws IOException, ConfigInvalidException {
+                    accountConfig.setAccountDelta(delta.get());
+                    updateExternalIdNotes(
+                        repo,
+                        accountConfig.getExternalIdsRev(),
+                        accountId,
+                        delta.get(),
+                        ImmutableSet.of());
+                    CachedPreferences defaultPreferences =
+                        CachedPreferences.fromLegacyConfig(
+                            VersionedDefaultPreferences.get(repo, allUsersName));
+
+                    return new UpdatedAccount(message, accountConfig, defaultPreferences, true);
+                  }
+
+                  @Override
+                  public Account.Id getAccountId() {
+                    return accountId;
+                  }
                 }))
         .get(0)
         .get();
@@ -322,37 +355,72 @@ public class AccountsUpdateNoteDbImpl extends AccountsUpdate {
   }
 
   private ExecutableUpdate createExecutableUpdate(UpdateArguments updateArguments) {
-    return repo -> {
-      AccountConfig accountConfig = read(repo, updateArguments.accountId);
-      CachedPreferences defaultPreferences =
-          CachedPreferences.fromLegacyConfig(VersionedDefaultPreferences.get(repo, allUsersName));
-      Optional<AccountState> accountState =
-          AccountsNoteDbImpl.getFromAccountConfig(externalIds, accountConfig, defaultPreferences);
-      if (!accountState.isPresent()) {
-        return null;
+    return new ExecutableUpdate() {
+      @Override
+      public AccountConfig getAccountConfig(Repository repo)
+          throws ConfigInvalidException, IOException {
+        return read(repo, updateArguments.accountId);
       }
 
-      AccountDelta.Builder deltaBuilder = AccountDelta.builder();
-      configureDelta(updateArguments.configureDelta, accountState.get(), deltaBuilder);
+      @Override
+      public Optional<AccountDelta> computeAccountDelta(
+          Repository repo, AccountConfig accountConfig) throws IOException, ConfigInvalidException {
+        CachedPreferences defaultPreferences =
+            CachedPreferences.fromLegacyConfig(VersionedDefaultPreferences.get(repo, allUsersName));
+        Optional<AccountState> accountState =
+            AccountsNoteDbImpl.getFromAccountConfig(externalIds, accountConfig, defaultPreferences);
+        if (!accountState.isPresent()) {
+          return Optional.empty();
+        }
 
-      AccountDelta delta = deltaBuilder.build();
-      updateExternalIdNotes(
-          repo, accountConfig.getExternalIdsRev(), updateArguments.accountId, delta);
+        AccountDelta.Builder deltaBuilder = AccountDelta.builder();
+        configureDelta(updateArguments.configureDelta, accountState.get(), deltaBuilder);
 
-      if (delta.getShouldDeleteAccount().orElse(false)) {
-        return new DeletedAccount(updateArguments.message, accountConfig.getRefName());
+        return Optional.of(deltaBuilder.build());
       }
 
-      accountConfig.setAccountDelta(delta);
-      CachedPreferences cachedDefaultPreferences =
-          CachedPreferences.fromLegacyConfig(VersionedDefaultPreferences.get(repo, allUsersName));
-      return new UpdatedAccount(
-          updateArguments.message, accountConfig, cachedDefaultPreferences, false);
+      @Override
+      @Nullable
+      public UpdatedAccount execute(
+          Repository repo,
+          Set<ExternalId.Key> externalIdsDeletedInTransaction,
+          AccountConfig accountConfig,
+          Optional<AccountDelta> delta)
+          throws IOException, ConfigInvalidException {
+        if (delta.isEmpty()) {
+          return null;
+        }
+        updateExternalIdNotes(
+            repo,
+            accountConfig.getExternalIdsRev(),
+            updateArguments.accountId,
+            delta.get(),
+            externalIdsDeletedInTransaction);
+
+        if (delta.get().getShouldDeleteAccount().orElse(false)) {
+          return new DeletedAccount(updateArguments.message, accountConfig.getRefName());
+        }
+
+        accountConfig.setAccountDelta(delta.get());
+        CachedPreferences cachedDefaultPreferences =
+            CachedPreferences.fromLegacyConfig(VersionedDefaultPreferences.get(repo, allUsersName));
+        return new UpdatedAccount(
+            updateArguments.message, accountConfig, cachedDefaultPreferences, false);
+      }
+
+      @Override
+      public Account.Id getAccountId() {
+        return updateArguments.accountId;
+      }
     };
   }
 
   private void updateExternalIdNotes(
-      Repository allUsersRepo, Optional<ObjectId> rev, Account.Id accountId, AccountDelta update)
+      Repository allUsersRepo,
+      Optional<ObjectId> rev,
+      Account.Id accountId,
+      AccountDelta update,
+      Set<ExternalId.Key> externalIdsDeletedInTransaction)
       throws IOException, ConfigInvalidException {
 
     if (update.hasExternalIdUpdates()) {
@@ -368,7 +436,8 @@ public class AccountsUpdateNoteDbImpl extends AccountsUpdate {
       if (externalIdNotes == null) {
         externalIdNotes = extIdNotesFactory.load(allUsersRepo, rev.orElse(ObjectId.zeroId()));
       }
-      externalIdNotes.replace(update.getDeletedExternalIds(), update.getCreatedExternalIds());
+      externalIdNotes.replace(
+          accountId, externalIdsDeletedInTransaction, update.getCreatedExternalIds());
       externalIdNotes.upsert(update.getUpdatedExternalIds());
     }
   }
@@ -400,9 +469,8 @@ public class AccountsUpdateNoteDbImpl extends AccountsUpdate {
             accountState.clear();
             updatedAccounts.clear();
             try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
-              for (ExecutableUpdate executableUpdate : executableUpdates) {
-                updatedAccounts.add(executableUpdate.execute(allUsersRepo));
-              }
+              ExecutableBatchUpdate batch = new ExecutableBatchUpdate(executableUpdates);
+              updatedAccounts.addAll(batch.executeAll(allUsersRepo));
               commit(
                   allUsersRepo,
                   updatedAccounts.stream().filter(Objects::nonNull).collect(toList()));
@@ -536,9 +604,77 @@ public class AccountsUpdateNoteDbImpl extends AccountsUpdate {
 
   private static void doNothing() {}
 
-  @FunctionalInterface
   private interface ExecutableUpdate {
-    UpdatedAccount execute(Repository allUsersRepo) throws IOException, ConfigInvalidException;
+    AccountConfig getAccountConfig(Repository allUsersRepo)
+        throws ConfigInvalidException, IOException;
+
+    Optional<AccountDelta> computeAccountDelta(Repository allUsersRepo, AccountConfig accountConfig)
+        throws IOException, ConfigInvalidException;
+
+    @Nullable
+    UpdatedAccount execute(
+        Repository allUsersRepo,
+        Set<ExternalId.Key> externalIdsDeletedInTransaction,
+        AccountConfig accountConfig,
+        Optional<AccountDelta> delta)
+        throws IOException, ConfigInvalidException;
+
+    Account.Id getAccountId();
+  }
+
+  private static class ExecutableBatchUpdate {
+
+    // Note: ImmutableMap is guaranteed to preserve insersion order.
+    private final ImmutableMap<Account.Id, ExecutableUpdate> updatesPerAccount;
+
+    ExecutableBatchUpdate(List<ExecutableUpdate> updates) {
+      updatesPerAccount =
+          updates.stream().collect(toImmutableMap(u -> u.getAccountId(), Function.identity()));
+    }
+
+    List<UpdatedAccount> executeAll(Repository allUsersRepo)
+        throws IOException, ConfigInvalidException {
+      ImmutableMap.Builder<Account.Id, AccountConfig> configPerAccountBuilder =
+          ImmutableMap.builder();
+      for (Map.Entry<Account.Id, ExecutableUpdate> e : updatesPerAccount.entrySet()) {
+        configPerAccountBuilder.put(e.getKey(), e.getValue().getAccountConfig(allUsersRepo));
+      }
+      ImmutableMap<Account.Id, AccountConfig> configPerAccount =
+          configPerAccountBuilder.buildOrThrow();
+
+      ImmutableMap.Builder<Account.Id, Optional<AccountDelta>> deltaPerAccountBuilder =
+          ImmutableMap.builder();
+      for (Map.Entry<Account.Id, ExecutableUpdate> e : updatesPerAccount.entrySet()) {
+        deltaPerAccountBuilder.put(
+            e.getKey(),
+            e.getValue().computeAccountDelta(allUsersRepo, configPerAccount.get(e.getKey())));
+      }
+      ImmutableMap<Account.Id, Optional<AccountDelta>> deltaPerAccount =
+          deltaPerAccountBuilder.buildOrThrow();
+
+      HashSet<ExternalId.Key> externalIdsDeletedInTransaction = new HashSet<>();
+      for (Optional<AccountDelta> delta : deltaPerAccount.values()) {
+        if (delta.isPresent()) {
+          externalIdsDeletedInTransaction.addAll(
+              delta.get().getDeletedExternalIds().stream()
+                  .map(ExternalId::key)
+                  .collect(toImmutableSet()));
+        }
+      }
+
+      ArrayList<UpdatedAccount> res = new ArrayList<>();
+      for (Map.Entry<Account.Id, ExecutableUpdate> e : updatesPerAccount.entrySet()) {
+        Account.Id accountId = e.getKey();
+        res.add(
+            e.getValue()
+                .execute(
+                    allUsersRepo,
+                    externalIdsDeletedInTransaction,
+                    configPerAccount.get(accountId),
+                    deltaPerAccount.get(accountId)));
+      }
+      return res;
+    }
   }
 
   private class UpdatedAccount {

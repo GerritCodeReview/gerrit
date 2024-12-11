@@ -133,4 +133,18 @@ public class RefUpdateContextTest {
   public void openOtherContextByType_exceptionThrown() {
     assertThrows(Exception.class, () -> RefUpdateContext.open(OTHER));
   }
+
+  @Test
+  public void addCustomData() {
+    String customData = "customData";
+
+    try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
+      assertThat(ctx.getCustomData(String.class)).isEmpty();
+      try (RefUpdateContext nestedCtx = RefUpdateContext.open(INIT_REPO)) {
+        nestedCtx.addCustomData(customData);
+        assertThat(nestedCtx.getCustomData(String.class)).containsExactly(customData);
+      }
+      assertThat(ctx.getCustomData(String.class)).containsExactly(customData);
+    }
+  }
 }

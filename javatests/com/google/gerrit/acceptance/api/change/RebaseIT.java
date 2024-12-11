@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.api.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
+import static com.google.gerrit.acceptance.TestExtensions.TestCommitValidationListener;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.extensions.client.ChangeKind.MERGE_FIRST_PARENT_UPDATE;
@@ -75,10 +76,6 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
-import com.google.gerrit.server.events.CommitReceivedEvent;
-import com.google.gerrit.server.git.validators.CommitValidationException;
-import com.google.gerrit.server.git.validators.CommitValidationListener;
-import com.google.gerrit.server.git.validators.CommitValidationMessage;
 import com.google.inject.Inject;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -1287,17 +1284,6 @@ public class RebaseIT {
       ResourceConflictException thrown =
           assertThrows(ResourceConflictException.class, () -> rebaseCall.call(changeId));
       assertThat(thrown).hasMessageThat().contains("Change is already up to date");
-    }
-
-    protected static class TestCommitValidationListener implements CommitValidationListener {
-      public CommitReceivedEvent receiveEvent;
-
-      @Override
-      public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
-          throws CommitValidationException {
-        this.receiveEvent = receiveEvent;
-        return ImmutableList.of();
-      }
     }
 
     protected static class TestWorkInProgressStateChangedListener

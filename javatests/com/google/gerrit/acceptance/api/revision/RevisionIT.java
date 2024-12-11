@@ -20,6 +20,9 @@ import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static com.google.gerrit.acceptance.PushOneCommit.PATCH;
 import static com.google.gerrit.acceptance.PushOneCommit.PATCH_FILE_ONLY;
 import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
+import static com.google.gerrit.acceptance.TestExtensions.TestCommitValidationInfoListener;
+import static com.google.gerrit.acceptance.TestExtensions.TestCommitValidationListener;
+import static com.google.gerrit.acceptance.TestExtensions.TestValidationOptionsListener;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.entities.Patch.COMMIT_MSG;
 import static com.google.gerrit.entities.Patch.MERGE_LIST;
@@ -34,7 +37,6 @@ import static java.util.stream.Collectors.toList;
 import static org.eclipse.jgit.lib.Constants.HEAD;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
@@ -102,11 +104,7 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.webui.PatchSetWebLink;
 import com.google.gerrit.extensions.webui.ResolveConflictsWebLink;
-import com.google.gerrit.server.ValidationOptionsListener;
-import com.google.gerrit.server.events.CommitReceivedEvent;
-import com.google.gerrit.server.git.validators.CommitValidationException;
-import com.google.gerrit.server.git.validators.CommitValidationListener;
-import com.google.gerrit.server.git.validators.CommitValidationMessage;
+import com.google.gerrit.server.git.validators.CommitValidationInfo;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.util.AccountTemplateUtil;
 import com.google.gerrit.testing.FakeEmailSender;
@@ -880,6 +878,68 @@ public class RevisionIT extends AbstractDaemonTest {
     assertThat(cherry.get()._number).isEqualTo(info(t2)._number);
     assertThat(cherry.get().cherryPickOfChange).isEqualTo(orig.get()._number);
     assertThat(cherry.get().cherryPickOfPatchSet).isEqualTo(2);
+  }
+
+  @Test
+  public void commitValidationInfoListenerIsInvokedOnPatchSetCreation() throws Exception {
+    // Do a cherry-pick to an existing change to invoke PatchSetInserter to create a new patch set.
+
+    // Create a change on the master branch that we can cherry-pick
+    PushOneCommit.Result r =
+        pushFactory
+            .create(admin.newIdent(), testRepo, SUBJECT, FILE_NAME, "a")
+            .to("refs/for/master");
+    Change.Id origChangeId = r.getChange().getId();
+
+    // Create a branch foo to which we can cherry-pick.
+    BranchInput branchInput = new BranchInput();
+    branchInput.revision = r.getCommit().getParent(0).name();
+    gApi.projects().name(project.get()).branch("foo").create(branchInput);
+
+    // Create a change on branch foo that we will update by cherry pick.
+    pushFactory
+        .create(admin.newIdent(), testRepo, SUBJECT, FILE_NAME, "b", r.getChangeId())
+        .to("refs/for/foo")
+        .assertOkStatus();
+
+    // Cherry-pick the change from the master branch to the foo branch so that it updates the
+    // existing change on the foo branch.
+    TestCommitValidationInfoListener testCommitValidationInfoListener =
+        new TestCommitValidationInfoListener();
+    TestCommitValidationListener testCommitValidationListener = new TestCommitValidationListener();
+    try (Registration registration =
+        extensionRegistry
+            .newRegistration()
+            .add(testCommitValidationInfoListener)
+            .add(testCommitValidationListener)) {
+      CherryPickInput in = new CherryPickInput();
+      in.destination = "foo";
+      in.message = r.getCommit().getFullMessage();
+      in.validationOptions = ImmutableMap.of("key", "value");
+      ChangeApi cherry =
+          gApi.changes().id(project.get(), origChangeId.get()).current().cherryPick(in);
+      ChangeInfo changeInfo = cherry.get();
+      assertThat(changeInfo.currentRevisionNumber).isEqualTo(2);
+      assertThat(changeInfo.cherryPickOfChange).isEqualTo(origChangeId.get());
+      assertThat(changeInfo.cherryPickOfPatchSet).isEqualTo(1);
+
+      assertThat(testCommitValidationInfoListener.validationInfoByValidator)
+          .containsKey(TestCommitValidationListener.class.getName());
+      assertThat(
+              testCommitValidationInfoListener
+                  .validationInfoByValidator
+                  .get(TestCommitValidationListener.class.getName())
+                  .status())
+          .isEqualTo(CommitValidationInfo.Status.PASSED);
+      assertThat(testCommitValidationInfoListener.receiveEvent.commit.name())
+          .isEqualTo(changeInfo.currentRevision);
+      assertThat(testCommitValidationInfoListener.receiveEvent.pushOptions)
+          .containsExactly("key", "value");
+      assertThat(testCommitValidationInfoListener.patchSetId)
+          .isEqualTo(PatchSet.id(Change.id(changeInfo._number), changeInfo.currentRevisionNumber));
+      assertThat(testCommitValidationInfoListener.hasChangeModificationRefContext).isTrue();
+      assertThat(testCommitValidationInfoListener.hasDirectPushRefContext).isFalse();
+    }
   }
 
   @Test
@@ -2629,28 +2689,5 @@ public class RevisionIT extends AbstractDaemonTest {
 
   private static Iterable<Account.Id> getReviewers(Collection<AccountInfo> r) {
     return Iterables.transform(r, a -> Account.id(a._accountId));
-  }
-
-  private static class TestCommitValidationListener implements CommitValidationListener {
-    public CommitReceivedEvent receiveEvent;
-
-    @Override
-    public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
-        throws CommitValidationException {
-      this.receiveEvent = receiveEvent;
-      return ImmutableList.of();
-    }
-  }
-
-  private static class TestValidationOptionsListener implements ValidationOptionsListener {
-    public ImmutableListMultimap<String, String> validationOptions;
-
-    @Override
-    public void onPatchSetCreation(
-        BranchNameKey projectAndBranch,
-        PatchSet.Id patchSetId,
-        ImmutableListMultimap<String, String> validationOptions) {
-      this.validationOptions = validationOptions;
-    }
   }
 }

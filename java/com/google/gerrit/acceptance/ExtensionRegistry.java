@@ -53,6 +53,7 @@ import com.google.gerrit.server.change.ReviewerSuggestion;
 import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.git.ChangeMessageModifier;
 import com.google.gerrit.server.git.receive.PluginPushOption;
+import com.google.gerrit.server.git.validators.CommitValidationInfoListener;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.git.validators.OnSubmitValidationListener;
 import com.google.gerrit.server.git.validators.RefOperationValidationListener;
@@ -114,6 +115,7 @@ public class ExtensionRegistry {
   private final DynamicSet<AccountStateProvider> accountStateProviders;
   private final DynamicSet<AttentionSetListener> attentionSetListeners;
   private final DynamicSet<ValidationOptionsListener> validationOptionsListeners;
+  private final DynamicSet<CommitValidationInfoListener> commitValidationInfoListeners;
 
   private final DynamicMap<ChangeHasOperandFactory> hasOperands;
   private final DynamicMap<ChangeIsOperandFactory> isOperands;
@@ -166,6 +168,7 @@ public class ExtensionRegistry {
       DynamicSet<AccountStateProvider> accountStateProviders,
       DynamicSet<AttentionSetListener> attentionSetListeners,
       DynamicSet<ValidationOptionsListener> validationOptionsListeners,
+      DynamicSet<CommitValidationInfoListener> commitValidationInfoListeners,
       DynamicMap<ReviewerSuggestion> reviewerSuggestions) {
     this.accountIndexedListeners = accountIndexedListeners;
     this.changeIndexedListeners = changeIndexedListeners;
@@ -211,6 +214,7 @@ public class ExtensionRegistry {
     this.accountStateProviders = accountStateProviders;
     this.attentionSetListeners = attentionSetListeners;
     this.validationOptionsListeners = validationOptionsListeners;
+    this.commitValidationInfoListeners = commitValidationInfoListeners;
     this.reviewerSuggestions = reviewerSuggestions;
   }
 
@@ -411,6 +415,11 @@ public class ExtensionRegistry {
     @CanIgnoreReturnValue
     public Registration add(ValidationOptionsListener validationOptionsListener) {
       return add(validationOptionsListeners, validationOptionsListener);
+    }
+
+    @CanIgnoreReturnValue
+    public Registration add(CommitValidationInfoListener commitValidationInfoListener) {
+      return add(commitValidationInfoListeners, commitValidationInfoListener);
     }
 
     @CanIgnoreReturnValue

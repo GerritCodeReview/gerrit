@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.git.validators;
 
+import static com.google.gerrit.server.git.validators.CommitValidationInfo.NO_METADATA;
+
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import java.util.List;
@@ -32,14 +35,45 @@ import java.util.List;
 @ExtensionPoint
 public interface CommitValidationListener {
   /**
-   * Commit validation.
+   * Name of the validator.
+   *
+   * <p>Must return a unique name (i.e. a name that is not used by any other validator).
+   */
+  default String getValidatorName() {
+    return getClass().getName();
+  }
+
+  /**
+   * Runs a commit validation.
+   *
+   * <p>This method only exist for backwards-compatibility and doesn't need to be implemented when
+   * {@link #validateCommit(CommitReceivedEvent)} is implemented.
    *
    * @param receiveEvent commit event details
-   * @return list of validation messages
-   * @throws CommitValidationException if validation fails
+   * @return list of validation messages if the commit passes the validation
+   * @throws CommitValidationException if validation fails and the commit is rejected
+   * @deprecated use {@link #validateCommit(CommitReceivedEvent)} instead
    */
-  List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
-      throws CommitValidationException;
+  @Deprecated
+  default List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
+      throws CommitValidationException {
+    throw new IllegalStateException("not implemented");
+  }
+
+  /**
+   * Runs a commit validation.
+   *
+   * <p>Implement this method instead of {@link #onCommitReceived(CommitReceivedEvent)}.
+   *
+   * @param receiveEvent commit event details
+   * @return result of the commit validation if the commit passes the validation
+   * @throws CommitValidationException if validation fails and the commit is rejected
+   */
+  default CommitValidationInfo validateCommit(CommitReceivedEvent receiveEvent)
+      throws CommitValidationException {
+    return CommitValidationInfo.passed(
+        NO_METADATA, ImmutableList.copyOf(onCommitReceived(receiveEvent)));
+  }
 
   /**
    * Whether this validator should validate all commits.

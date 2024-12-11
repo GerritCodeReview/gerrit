@@ -24,6 +24,8 @@ import static com.google.gerrit.acceptance.GitUtil.assertPushRejected;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.acceptance.GitUtil.pushOne;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
+import static com.google.gerrit.acceptance.TestExtensions.TestCommitValidationInfoListener;
+import static com.google.gerrit.acceptance.TestExtensions.TestCommitValidationListener;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
@@ -106,6 +108,7 @@ import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.receive.NoteDbPushOption;
 import com.google.gerrit.server.git.receive.PluginPushOption;
 import com.google.gerrit.server.git.receive.ReceiveConstants;
+import com.google.gerrit.server.git.validators.CommitValidationInfo;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.git.validators.CommitValidationMessage;
 import com.google.gerrit.server.group.SystemGroupBackend;
@@ -2727,16 +2730,23 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   private static class TestValidator implements CommitValidationListener {
     private final AtomicInteger count = new AtomicInteger();
+    private final String validatorName;
     private final boolean validateAll;
 
     @Nullable private CommitReceivedEvent receivedEvent;
 
-    TestValidator(boolean validateAll) {
+    TestValidator(String validatorName, boolean validateAll) {
+      this.validatorName = validatorName;
       this.validateAll = validateAll;
     }
 
     TestValidator() {
-      this(false);
+      this(TestValidator.class.getName(), false);
+    }
+
+    @Override
+    public String getValidatorName() {
+      return validatorName;
     }
 
     @Override
@@ -2797,7 +2807,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   @Test
   public void skipValidation() throws Exception {
     String master = "refs/heads/master";
-    TestValidator validator = new TestValidator();
+    TestValidator validator = new TestValidator("validator1", /* validateAll= */ false);
     try (Registration registration = extensionRegistry.newRegistration().add(validator)) {
       // Validation listener is called on normal push
       PushOneCommit push =
@@ -2826,7 +2836,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
       // Validation listener that needs to validate all commits gets called even
       // when the skip option is used.
-      TestValidator validator2 = new TestValidator(true);
+      TestValidator validator2 = new TestValidator("validator2", /* validateAll= */ true);
       try (Registration registration2 = extensionRegistry.newRegistration().add(validator2)) {
         PushOneCommit push4 =
             pushFactory.create(admin.newIdent(), testRepo, "change2", "b.txt", "content");
@@ -3246,6 +3256,98 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   public void pushWithInvalidBaseIsRejected() throws Exception {
     PushOneCommit.Result r = pushTo("refs/for/master%base=invalid");
     r.assertErrorStatus("expected SHA1 for option --base: invalid");
+  }
+
+  @Test
+  public void commitValidationInfoListenerIsInvokedOnChangeCreation() throws Exception {
+    TestCommitValidationInfoListener testCommitValidationInfoListener =
+        new TestCommitValidationInfoListener();
+    TestCommitValidationListener testCommitValidationListener = new TestCommitValidationListener();
+    try (Registration registration =
+        extensionRegistry
+            .newRegistration()
+            .add(testCommitValidationInfoListener)
+            .add(testCommitValidationListener)) {
+      PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
+
+      // Plugins can define push options that skip plugin-specific validators. To verify that push
+      // options are passed to the CommitValidationInfoListener's (in receiveEvent.pushOptions) we
+      // set an arbitrary push option here. Note this must be a push option that is known to Gerrit,
+      // either because Gerrit defines it are because the plugin did register it via the
+      // PluginPushOption extension point. To avoid the overhead of registering a PluginPushOption,
+      // we use the 'topic' push option for testing this.
+      push.setPushOptions(ImmutableList.of("topic=myTopic"));
+
+      PushOneCommit.Result r = push.to("refs/for/master");
+      r.assertOkStatus();
+
+      assertThat(testCommitValidationInfoListener.validationInfoByValidator)
+          .containsKey(TestCommitValidationListener.class.getName());
+      assertThat(
+              testCommitValidationInfoListener
+                  .validationInfoByValidator
+                  .get(TestCommitValidationListener.class.getName())
+                  .status())
+          .isEqualTo(CommitValidationInfo.Status.PASSED);
+      assertThat(testCommitValidationInfoListener.receiveEvent.commit.name())
+          .isEqualTo(r.getCommit().name());
+      assertThat(testCommitValidationInfoListener.receiveEvent.pushOptions)
+          .containsExactly("topic", "myTopic");
+      assertThat(testCommitValidationInfoListener.patchSetId).isEqualTo(r.getPatchSetId());
+      assertThat(testCommitValidationInfoListener.hasChangeModificationRefContext).isTrue();
+      assertThat(testCommitValidationInfoListener.hasDirectPushRefContext).isFalse();
+    }
+  }
+
+  @Test
+  public void commitValidationInfoListenerIsInvokedOnPatchSetCreation() throws Exception {
+    PushOneCommit.Result r = pushTo("refs/for/master");
+    r.assertOkStatus();
+
+    TestCommitValidationInfoListener testCommitValidationInfoListener =
+        new TestCommitValidationInfoListener();
+    TestCommitValidationListener testCommitValidationListener = new TestCommitValidationListener();
+    try (Registration registration =
+        extensionRegistry
+            .newRegistration()
+            .add(testCommitValidationInfoListener)
+            .add(testCommitValidationListener)) {
+      PushOneCommit push =
+          pushFactory.create(
+              admin.newIdent(),
+              testRepo,
+              PushOneCommit.SUBJECT,
+              "b.txt",
+              "anotherContent",
+              r.getChangeId());
+
+      // Plugins can define push options that skip plugin-specific validators. To verify that push
+      // options are passed to the CommitValidationInfoListener's (in receiveEvent.pushOptions) we
+      // set an arbitrary push option here. Note this must be a push option that is known to Gerrit,
+      // either because Gerrit defines it are because the plugin did register it via the
+      // PluginPushOption extension point. To avoid the overhead of registering a PluginPushOption,
+      // we use the 'topic' push option for testing this.
+      push.setPushOptions(ImmutableList.of("topic=myTopic"));
+
+      r = push.to("refs/for/master");
+      r.assertOkStatus();
+
+      assertThat(testCommitValidationInfoListener.validationInfoByValidator)
+          .containsKey(TestCommitValidationListener.class.getName());
+      assertThat(
+              testCommitValidationInfoListener
+                  .validationInfoByValidator
+                  .get(TestCommitValidationListener.class.getName())
+                  .status())
+          .isEqualTo(CommitValidationInfo.Status.PASSED);
+      assertThat(testCommitValidationInfoListener.receiveEvent.commit.name())
+          .isEqualTo(r.getCommit().name());
+      assertThat(testCommitValidationInfoListener.receiveEvent.pushOptions)
+          .containsExactly("topic", "myTopic");
+      assertThat(testCommitValidationInfoListener.patchSetId).isEqualTo(r.getPatchSetId());
+      assertThat(testCommitValidationInfoListener.hasChangeModificationRefContext).isTrue();
+      assertThat(testCommitValidationInfoListener.hasDirectPushRefContext).isFalse();
+    }
   }
 
   private DraftInput newDraft(String path, int line, String message) {

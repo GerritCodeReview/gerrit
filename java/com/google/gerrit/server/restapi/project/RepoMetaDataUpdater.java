@@ -343,7 +343,7 @@ public class RepoMetaDataUpdater {
           .setMessage(
               // Same message as in ReceiveCommits.CreateRequest.
               ApprovalsUtil.renderMessageWithApprovals(1, ImmutableMap.of(), ImmutableMap.of()))
-          .setValidate(false)
+          .disableValidation()
           .setUpdateRef(false);
     }
   }

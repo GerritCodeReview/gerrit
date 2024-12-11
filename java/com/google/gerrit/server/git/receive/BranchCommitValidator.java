@@ -20,6 +20,7 @@ import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_OTHER_RE
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.BranchNameKey;
@@ -28,6 +29,8 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.validators.CommitValidationException;
+import com.google.gerrit.server.git.validators.CommitValidationInfo;
+import com.google.gerrit.server.git.validators.CommitValidationInfoListener;
 import com.google.gerrit.server.git.validators.CommitValidationMessage;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.logging.TraceContext;
@@ -65,12 +68,21 @@ public class BranchCommitValidator {
   /** A boolean validation status and a list of additional messages. */
   @AutoValue
   abstract static class Result {
-    static Result create(boolean isValid, ImmutableList<CommitValidationMessage> messages) {
-      return new AutoValue_BranchCommitValidator_Result(isValid, messages);
+    static Result create(
+        boolean isValid,
+        ImmutableMap<String, CommitValidationInfo> validationInfos,
+        ImmutableList<CommitValidationMessage> messages) {
+      return new AutoValue_BranchCommitValidator_Result(isValid, validationInfos, messages);
     }
 
     /** Whether the commit is valid. */
     abstract boolean isValid();
+
+    /**
+     * Map that maps a validator name to a {@link CommitValidationInfo} (result of running the
+     * validator).
+     */
+    abstract ImmutableMap<String, CommitValidationInfo> validationInfos();
 
     /**
      * A list of messages related to the validation. Messages may be present regardless of the
@@ -103,6 +115,8 @@ public class BranchCommitValidator {
    * @param cmd the ReceiveCommand executing the push.
    * @param commit the commit being validated.
    * @param isMerged whether this is a merge commit created by magicBranch --merge option
+   * @param invokeCommitValidationInfoListeners whether the {@link CommitValidationInfoListener}'s
+   *     should be invoked when the validation is done
    * @param change the change for which this is a new patchset.
    * @return The validation {@link Result}.
    */
@@ -115,6 +129,7 @@ public class BranchCommitValidator {
       ImmutableListMultimap<String, String> pushOptions,
       boolean isMerged,
       NoteMap rejectCommits,
+      boolean invokeCommitValidationInfoListeners,
       @Nullable Change change)
       throws IOException {
     return validateCommit(
@@ -126,6 +141,7 @@ public class BranchCommitValidator {
         pushOptions,
         isMerged,
         rejectCommits,
+        invokeCommitValidationInfoListeners,
         change,
         false);
   }
@@ -138,6 +154,8 @@ public class BranchCommitValidator {
    * @param cmd the ReceiveCommand executing the push.
    * @param commit the commit being validated.
    * @param isMerged whether this is a merge commit created by magicBranch --merge option
+   * @param invokeCommitValidationInfoListeners whether the {@link CommitValidationInfoListener}'s
+   *     should be invoked when the validation is done
    * @param change the change for which this is a new patchset.
    * @param skipValidation whether 'skip-validation' was requested.
    * @return The validation {@link Result}.
@@ -151,10 +169,12 @@ public class BranchCommitValidator {
       ImmutableListMultimap<String, String> pushOptions,
       boolean isMerged,
       NoteMap rejectCommits,
+      boolean invokeCommitValidationInfoListeners,
       @Nullable Change change,
       boolean skipValidation)
       throws IOException {
     try (TraceTimer traceTimer = TraceContext.newTimer("BranchCommitValidator#validateCommit")) {
+      ImmutableMap<String, CommitValidationInfo> validationInfos = ImmutableMap.of();
       ImmutableList.Builder<CommitValidationMessage> messages = new ImmutableList.Builder<>();
       try (CommitReceivedEvent receiveEvent =
           new CommitReceivedEvent(
@@ -185,10 +205,16 @@ public class BranchCommitValidator {
                   skipValidation);
         }
 
-        for (CommitValidationMessage m : validators.validate(receiveEvent)) {
-          messages.add(
-              new CommitValidationMessage(
-                  messageForCommit(commit, m.getMessage(), objectReader), m.getType()));
+        validationInfos =
+            validators
+                .invokeCommitValidationInfoListeners(invokeCommitValidationInfoListeners)
+                .validate(receiveEvent);
+        for (CommitValidationInfo validatioInfo : validationInfos.values()) {
+          for (CommitValidationMessage m : validatioInfo.validationMessages()) {
+            messages.add(
+                new CommitValidationMessage(
+                    messageForCommit(commit, m.getMessage(), objectReader), m.getType()));
+          }
         }
       } catch (CommitValidationException e) {
         logger.atFine().log("Commit validation failed on %s", commit.name());
@@ -201,9 +227,9 @@ public class BranchCommitValidator {
         }
         cmd.setResult(
             REJECTED_OTHER_REASON, messageForCommit(commit, e.getMessage(), objectReader));
-        return Result.create(false, messages.build());
+        return Result.create(false, ImmutableMap.of(), messages.build());
       }
-      return Result.create(true, messages.build());
+      return Result.create(true, validationInfos, messages.build());
     }
   }
 

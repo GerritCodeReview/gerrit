@@ -575,7 +575,7 @@ public class ConsistencyChecker {
         bu.addOp(
             notes.getChangeId(),
             inserter
-                .setValidate(false)
+                .disableValidation()
                 .setFireRevisionCreated(false)
                 .setAllowClosed(true)
                 .setMessage("Patch set for merged commit inserted by consistency checker"));

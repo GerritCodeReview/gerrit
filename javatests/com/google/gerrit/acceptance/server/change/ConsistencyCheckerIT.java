@@ -758,7 +758,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
             ins =
                 changeInserterFactory
                     .create(id, commit, dest)
-                    .setValidate(false)
+                    .disableValidation()
                     .setFireRevisionCreated(false)
                     .setSendMail(false);
             bu.insertChange(ins).execute();
@@ -785,7 +785,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
             ins =
                 patchSetInserterFactory
                     .create(notes, nextPatchSetId(notes), commit)
-                    .setValidate(false)
+                    .disableValidation()
                     .setFireRevisionCreated(false);
             bu.addOp(notes.getChangeId(), ins).execute();
           }

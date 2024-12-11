@@ -14,15 +14,23 @@
 
 package com.google.gerrit.acceptance;
 
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.DIRECT_PUSH;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
+import com.google.common.collect.ImmutableMap;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.server.ValidationOptionsListener;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.validators.CommitValidationException;
+import com.google.gerrit.server.git.validators.CommitValidationInfo;
+import com.google.gerrit.server.git.validators.CommitValidationInfoListener;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.git.validators.CommitValidationMessage;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import java.util.List;
 
 /**
@@ -56,6 +64,26 @@ public class TestExtensions {
         PatchSet.Id patchSetId,
         ImmutableListMultimap<String, String> validationOptions) {
       this.validationOptions = validationOptions;
+    }
+  }
+
+  public static class TestCommitValidationInfoListener implements CommitValidationInfoListener {
+    public ImmutableMap<String, CommitValidationInfo> validationInfoByValidator;
+    public CommitReceivedEvent receiveEvent;
+    @Nullable public PatchSet.Id patchSetId;
+    public boolean hasChangeModificationRefContext;
+    public boolean hasDirectPushRefContext;
+
+    @Override
+    public void commitValidated(
+        ImmutableMap<String, CommitValidationInfo> validationInfoByValidator,
+        CommitReceivedEvent receiveEvent,
+        PatchSet.Id patchSetId) {
+      this.validationInfoByValidator = validationInfoByValidator;
+      this.receiveEvent = receiveEvent;
+      this.patchSetId = patchSetId;
+      this.hasChangeModificationRefContext = RefUpdateContext.hasOpen(CHANGE_MODIFICATION);
+      this.hasDirectPushRefContext = RefUpdateContext.hasOpen(DIRECT_PUSH);
     }
   }
 

@@ -163,15 +163,17 @@ public class CommitValidators {
               new ChangeIdValidator(
                   changeUtil, projectState, user, urlFormatter.get(), config, sshInfo, change))
           .add(new ConfigValidator(projectConfigFactory, branch, user, rw, allUsers, allProjects))
-          .add(new BannedCommitsValidator(rejectCommits))
-          .add(new GroupCommitValidator(allUsers))
-          .add(new LabelConfigValidator(approvalQueryBuilder));
+          .add(new BannedCommitsValidator(rejectCommits));
 
       Iterator<PluginSetEntryContext<CommitValidationListener>> pluginValidatorsIt =
           pluginValidators.iterator();
       while (pluginValidatorsIt.hasNext()) {
         validators.add(skippablePluginValidator(pluginValidatorsIt.next().get(), skipValidation));
       }
+
+      validators
+          .add(new GroupCommitValidator(allUsers))
+          .add(new LabelConfigValidator(approvalQueryBuilder));
 
       return new CommitValidators(validators.build());
     }
@@ -197,15 +199,17 @@ public class CommitValidators {
           .add(
               new ChangeIdValidator(
                   changeUtil, projectState, user, urlFormatter.get(), config, sshInfo, change))
-          .add(new ConfigValidator(projectConfigFactory, branch, user, rw, allUsers, allProjects))
-          .add(new GroupCommitValidator(allUsers))
-          .add(new LabelConfigValidator(approvalQueryBuilder));
+          .add(new ConfigValidator(projectConfigFactory, branch, user, rw, allUsers, allProjects));
 
       Iterator<PluginSetEntryContext<CommitValidationListener>> pluginValidatorsIt =
           pluginValidators.iterator();
       while (pluginValidatorsIt.hasNext()) {
         validators.add(pluginValidatorsIt.next().get());
       }
+
+      validators
+          .add(new GroupCommitValidator(allUsers))
+          .add(new LabelConfigValidator(approvalQueryBuilder));
 
       return new CommitValidators(validators.build());
     }

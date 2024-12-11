@@ -16,6 +16,7 @@ package com.google.gerrit.server.account.storage.notedb;
 
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
+import static com.google.gerrit.server.account.externalids.ExternalIdsSameAccountChecker.checkSameAccount;
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.ACCOUNTS_UPDATE;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
@@ -358,7 +359,7 @@ public class AccountsUpdateNoteDbImpl extends AccountsUpdate {
 
       // Only load the externalIds if they are going to be updated
       // This makes e.g. preferences updates faster.
-      ExternalIdNotes.checkSameAccount(
+      checkSameAccount(
           Iterables.concat(
               update.getCreatedExternalIds(),
               update.getUpdatedExternalIds(),

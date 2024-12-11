@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d9f73bb_4537ff2a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-12-11T13:33:22Z",
+      "side": 1,
+      "message": "as agreed with Matthias, this should rather to at the end of the log line:\n* it is then consistent with the httpd_log where it is also at the line end\n* it is less likely to break existing sshd_log parsers",
+      "range": {
+        "startLine": 16,
+        "startChar": 41,
+        "endLine": 16,
+        "endChar": 63
+      },
+      "revId": "3df4634090703bb64988f2928d677de1241b4850",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

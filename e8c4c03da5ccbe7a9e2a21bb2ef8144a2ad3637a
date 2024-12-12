@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ae04475_0f97399c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-12-12T15:09:43Z",
+      "side": 1,
+      "message": "LGTM, just a nit",
+      "revId": "e8c4c03da5ccbe7a9e2a21bb2ef8144a2ad3637a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5eb57ed0_7220fce9",
+        "filename": "javatests/com/google/gerrit/server/cache/serialize/entities/GroupReferenceSerializerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-12-12T15:09:43Z",
+      "side": 1,
+      "message": "nit: There\u0027s a `GroupReference` constructor for empty UUIDs already.\n\n```suggestion\n      GroupReference.create(\"name with empty UUID\");\n```",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 75
+      },
+      "revId": "e8c4c03da5ccbe7a9e2a21bb2ef8144a2ad3637a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

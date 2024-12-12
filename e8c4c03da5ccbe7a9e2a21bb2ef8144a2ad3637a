@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "986efc98_735dbfaf",
+        "filename": "java/com/google/gerrit/entities/CachedProjectConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-12-12T21:27:37Z",
+      "side": 1,
+      "message": "From what I\u0027ve seen in the previous Gerrit releases, it was _accepted_ that a Group may not have a UUID associated with it.\n\nI know it is weird, but I tried with earlier versions and it was just working fine and ignoring the group without warning. \n\nI would avoid spamming the error_log and maybe on master remove this functionality?",
+      "parentUuid": "df11d95d_45b04c8d",
+      "range": {
+        "startLine": 155,
+        "startChar": 55,
+        "endLine": 155,
+        "endChar": 93
+      },
+      "revId": "e8c4c03da5ccbe7a9e2a21bb2ef8144a2ad3637a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5eb57ed0_7220fce9",
         "filename": "javatests/com/google/gerrit/server/cache/serialize/entities/GroupReferenceSerializerTest.java",
         "patchSetId": 4
@@ -102,6 +126,30 @@
       "side": 1,
       "message": "Isn\u0027t this exactly the case we want to test, that we are handling `null` values?",
       "parentUuid": "5d6b9fbf_842313d1",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 75
+      },
+      "revId": "e8c4c03da5ccbe7a9e2a21bb2ef8144a2ad3637a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5258014_d25ef841",
+        "filename": "javatests/com/google/gerrit/server/cache/serialize/entities/GroupReferenceSerializerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-12-12T21:27:37Z",
+      "side": 1,
+      "message": "Nope, we want to test what happens if we have a Group with an empty UUID (not null).",
+      "parentUuid": "9a81fe64_22c6ceee",
       "range": {
         "startLine": 30,
         "startChar": 0,

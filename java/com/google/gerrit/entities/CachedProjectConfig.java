@@ -151,7 +151,9 @@ public abstract class CachedProjectConfig {
 
     @CanIgnoreReturnValue
     public Builder addGroup(GroupReference groupReference) {
-      groupsBuilder().put(groupReference.getUUID(), groupReference);
+      AccountGroup.UUID groupUUID =
+          Optional.ofNullable(groupReference.getUUID()).orElse(AccountGroup.UUID.EMPTY_UUID);
+      groupsBuilder().put(groupUUID, GroupReference.create(groupUUID, groupReference.getName()));
       return this;
     }
 

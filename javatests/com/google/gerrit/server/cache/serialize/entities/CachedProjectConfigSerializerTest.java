@@ -43,6 +43,11 @@ public class CachedProjectConfigSerializerTest {
           .setCheckReceivedObjects(true)
           .build();
 
+  static final CachedProjectConfig MINIMAL_VALUES_SET_WITH_EMPTY_GROUP_UUID =
+      MINIMAL_VALUES_SET.toBuilder()
+          .addGroup(GroupReferenceSerializerTest.EMPTY_GROUP_UUID)
+          .build();
+
   static final CachedProjectConfig ALL_VALUES_SET =
       MINIMAL_VALUES_SET.toBuilder()
           .addGroup(GroupReferenceSerializerTest.ALL_VALUES_SET)
@@ -67,5 +72,11 @@ public class CachedProjectConfigSerializerTest {
   @Test
   public void roundTripWithMinimalValues() {
     assertThat(deserialize(serialize(MINIMAL_VALUES_SET))).isEqualTo(MINIMAL_VALUES_SET);
+  }
+
+  @Test
+  public void roundTripWithEmptyGroupUUID() {
+    assertThat(deserialize(serialize(MINIMAL_VALUES_SET_WITH_EMPTY_GROUP_UUID)))
+        .isEqualTo(MINIMAL_VALUES_SET_WITH_EMPTY_GROUP_UUID);
   }
 }

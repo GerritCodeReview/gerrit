@@ -85,7 +85,11 @@ import {
 } from '../../../models/views/change';
 import {userModelToken} from '../../../models/user/user-model';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
-import {FileMode, fileModeToString} from '../../../utils/file-util';
+import {
+  FileMode,
+  fileModeToString,
+  formatBytes,
+} from '../../../utils/file-util';
 import {ChecksIcon, iconFor} from '../../../models/checks/checks-util';
 
 export const DEFAULT_NUM_FILES_SHOWN = 200;
@@ -1415,7 +1419,7 @@ export class GrFileList extends LitElement {
           class=${ifDefined(this.computeBinaryClass(file.size_delta))}
           ?hidden=${!file.binary}
         >
-          ${this.formatBytes(file.size_delta)}
+          ${formatBytes(file.size_delta)}
           ${this.formatPercentage(file.size, file.size_delta)}
         </span>
       </div>
@@ -1632,8 +1636,8 @@ export class GrFileList extends LitElement {
 
   private renderBinaryTotals(patchChange: PatchChange) {
     if (this.shouldHideBinaryChangeTotals(patchChange)) return nothing;
-    const deltaInserted = this.formatBytes(patchChange.size_delta_inserted);
-    const deltaDeleted = this.formatBytes(patchChange.size_delta_deleted);
+    const deltaInserted = formatBytes(patchChange.size_delta_inserted);
+    const deltaDeleted = formatBytes(patchChange.size_delta_deleted);
     return html`
       <div class="row totalChanges">
         <div class="total-stats">
@@ -2227,20 +2231,6 @@ export class GrFileList extends LitElement {
       diffView: {path},
       patchNum: this.patchNum,
     });
-  }
-
-  // Private but used in tests.
-  formatBytes(bytes?: number) {
-    if (!bytes) return '+/-0 B';
-    const bits = 1024;
-    const decimals = 1;
-    const sizes = ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
-    const exponent = Math.floor(Math.log(Math.abs(bytes)) / Math.log(bits));
-    const prepend = bytes > 0 ? '+' : '';
-    const value = parseFloat(
-      (bytes / Math.pow(bits, exponent)).toFixed(decimals)
-    );
-    return `${prepend}${value} ${sizes[exponent]}`;
   }
 
   // Private but used in tests.

@@ -51,3 +51,16 @@ export function getFileExtension(fileName: string): string {
   }
   return fileName.substring(index + 1);
 }
+
+export function formatBytes(bytes?: number, enablePrepend = true) {
+  if (!bytes) return `${enablePrepend ? '+/-' : ''}0 B`;
+  const bits = 1024;
+  const decimals = 1;
+  const sizes = ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
+  const exponent = Math.floor(Math.log(Math.abs(bytes)) / Math.log(bits));
+  const prepend = enablePrepend && bytes > 0 ? '+' : '';
+  const value = parseFloat(
+    (bytes / Math.pow(bits, exponent)).toFixed(decimals)
+  );
+  return `${prepend}${value} ${sizes[exponent]}`;
+}

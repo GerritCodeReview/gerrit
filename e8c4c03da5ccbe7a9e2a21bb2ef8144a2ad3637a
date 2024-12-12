@@ -39,6 +39,30 @@
       },
       "revId": "e8c4c03da5ccbe7a9e2a21bb2ef8144a2ad3637a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d6b9fbf_842313d1",
+        "filename": "javatests/com/google/gerrit/server/cache/serialize/entities/GroupReferenceSerializerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-12-12T15:13:31Z",
+      "side": 1,
+      "message": "According to the body of `GroupReference.create(String)`, that\u0027s not the case.\n\nI do see the creation of a `GroupReference` with a `null` UUID but not an empty one.\n\n```\n  public static GroupReference create(String name) {\n    return new AutoValue_GroupReference(null, name);\n  }\n```",
+      "parentUuid": "5eb57ed0_7220fce9",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 75
+      },
+      "revId": "e8c4c03da5ccbe7a9e2a21bb2ef8144a2ad3637a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

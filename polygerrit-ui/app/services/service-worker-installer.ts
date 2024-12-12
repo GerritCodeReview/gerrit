@@ -82,7 +82,7 @@ export class ServiceWorkerInstaller extends Model<ServiceWorkerInstallerState> {
           navigator.serviceWorker.controller?.postMessage({
             type: ServiceWorkerMessageType.USER_PREFERENCE_CHANGE,
             allowBrowserNotificationsPreference:
-              this.allowBrowserNotificationsPreference,
+              this.allowBrowserNotificationsPreference
           });
         }
       }

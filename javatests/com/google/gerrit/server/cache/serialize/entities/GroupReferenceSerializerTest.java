@@ -26,6 +26,9 @@ public class GroupReferenceSerializerTest {
   static final GroupReference ALL_VALUES_SET =
       GroupReference.create(AccountGroup.uuid("uuid"), "name");
 
+  static final GroupReference EMPTY_GROUP_UUID =
+      GroupReference.create(AccountGroup.uuid(""), "name with empty UUID");
+
   @Test
   public void roundTrip() {
     assertThat(deserialize(serialize(ALL_VALUES_SET))).isEqualTo(ALL_VALUES_SET);

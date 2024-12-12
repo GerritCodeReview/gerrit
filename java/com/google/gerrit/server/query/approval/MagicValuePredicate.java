@@ -26,7 +26,9 @@ public class MagicValuePredicate extends ApprovalPredicate {
   enum MagicValue {
     MIN,
     MAX,
-    ANY
+    ANY,
+    POSITIVE,
+    NEGATIVE
   }
 
   public interface Factory {
@@ -44,20 +46,20 @@ public class MagicValuePredicate extends ApprovalPredicate {
 
   @Override
   public boolean match(ApprovalContext ctx) {
-    short pValue;
     switch (value) {
       case ANY:
         return true;
       case MIN:
-        pValue = ctx.labelType().getMaxNegative();
-        break;
+        return ctx.approvalValue() == ctx.labelType().getMaxNegative();
       case MAX:
-        pValue = ctx.labelType().getMaxPositive();
-        break;
+        return ctx.approvalValue() == ctx.labelType().getMaxPositive();
+      case POSITIVE:
+        return ctx.approvalValue() > 0;
+      case NEGATIVE:
+        return ctx.approvalValue() < 0;
       default:
         throw new IllegalArgumentException("unrecognized label value: " + value);
     }
-    return pValue == ctx.approvalValue();
   }
 
   @Override

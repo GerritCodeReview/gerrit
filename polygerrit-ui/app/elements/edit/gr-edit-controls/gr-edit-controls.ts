@@ -36,6 +36,9 @@ import {whenVisible} from '../../../utils/dom-util';
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {changeModelToken} from '../../../models/change/change-model';
 import {formStyles} from '../../../styles/form-styles';
+import {spinnerStyles} from '../../../styles/gr-spinner-styles';
+
+const FILE_UPLOAD_FAILURE = 'File failed to upload.';
 
 @customElement('gr-edit-controls')
 export class GrEditControls extends LitElement {
@@ -56,6 +59,15 @@ export class GrEditControls extends LitElement {
   // private but used in test
   @query('#restoreDialog') restoreDialog?: GrDialog;
 
+  // private but used in test
+  @query('#dragDropArea') dragDropArea?: HTMLDivElement;
+
+  // private but used in test
+  @query('#fileUploadInput') fileUploadInput?: HTMLInputElement;
+
+  // private but used in test
+  @query('#fileName') fileName?: HTMLSpanElement;
+
   @property({type: Object})
   change?: ChangeInfo;
 
@@ -74,6 +86,8 @@ export class GrEditControls extends LitElement {
   // private but used in test
   @state() newPath = '';
 
+  @state() fileUploaded?: boolean;
+
   private readonly query: AutocompleteQuery = (input: string) =>
     this.queryFiles(input);
 
@@ -90,6 +104,7 @@ export class GrEditControls extends LitElement {
       formStyles,
       sharedStyles,
       modalStyles,
+      spinnerStyles,
       css`
         :host {
           align-items: center;
@@ -129,10 +144,23 @@ export class GrEditControls extends LitElement {
           margin-top: var(--spacing-l);
           padding: var(--spacing-xxl) var(--spacing-xxl);
           text-align: center;
+          cursor: pointer;
+        }
+        #dragDropArea:hover {
+          background-color: #f0f0f0;
         }
         #dragDropArea > p {
           font-weight: var(--font-weight-bold);
           padding: var(--spacing-s);
+        }
+        .loadingSpin {
+          width: 30px;
+          height: 30px;
+          display: inline-block;
+          vertical-align: middle;
+        }
+        .fileUploadInfo {
+          margin-top: var(--spacing-l);
         }
         @media screen and (max-width: 50em) {
           gr-dialog {
@@ -173,8 +201,8 @@ export class GrEditControls extends LitElement {
         ?disabled=${!this.isValidPath(this.path)}
         confirm-label="Confirm"
         confirm-on-enter=""
-        @confirm=${this.handleOpenConfirm}
-        @cancel=${this.handleDialogCancel}
+        @confirm=${(e: Event) => this.handleOpenConfirm(e)}
+        @cancel=${(e: Event) => this.handleDialogCancel(e)}
       >
         <div class="header" slot="header">
           Add a new file or open an existing file
@@ -184,30 +212,48 @@ export class GrEditControls extends LitElement {
             placeholder="Enter an existing or new full file path."
             .query=${this.query}
             .text=${this.path}
-            @text-changed=${this.handleTextChanged}
+            @text-changed=${(e: BindValueChangeEvent) =>
+              this.handleTextChanged(e)}
           ></gr-autocomplete>
+          <!-- We have to call preventDefault for dragenter and dragover
+                in order for the drop event to work. -->
           <div
             id="dragDropArea"
-            contenteditable="true"
-            @drop=${this.handleDragAndDropUpload}
-            @keypress=${this.handleKeyPress}
+            @drop=${(e: DragEvent) => this.handleDragAndDropUpload(e)}
+            @click=${() => {
+              if (!this.fileUploaded) {
+                this.fileUploadInput?.click();
+              }
+            }}
+            @dragenter=${(e: DragEvent) => e.preventDefault()}
+            @dragover=${(e: DragEvent) => {
+              e.preventDefault();
+              if (!this.fileUploaded && this.dragDropArea) {
+                this.dragDropArea.style.backgroundColor = '#f0f0f0';
+              }
+            }}
+            @dragleave=${() => {
+              if (!this.fileUploaded && this.dragDropArea) {
+                this.dragDropArea.style.backgroundColor = '#ffffff';
+              }
+            }}
           >
-            <p>Drag and drop a file here</p>
-            <p>or</p>
-            <p>
-              <iron-input>
-                <input
-                  id="fileUploadInput"
-                  type="file"
-                  @change=${this.handleFileUploadChanged}
-                  multiple
-                  hidden
-                />
-              </iron-input>
-              <label for="fileUploadInput">
-                <gr-button id="fileUploadBrowse">Browse</gr-button>
-              </label>
-            </p>
+            <p>Drag and drop your file here, or click to select</p>
+            <input
+              id="fileUploadInput"
+              type="file"
+              @change=${(e: InputEvent) => this.handleFileUploadChange(e)}
+              ?hidden=${true}
+            />
+          </div>
+          <div
+            id="fileUploadInfo"
+            class="fileUploadInfo"
+            ?hidden=${!this.fileUploaded}
+          >
+            <span class="loadingSpin"></span>
+            <span id="uploading-text" class="uploading-text">Uploading...</span>
+            <span id="fileName"></span>
           </div>
         </div>
       </gr-dialog>
@@ -222,8 +268,8 @@ export class GrEditControls extends LitElement {
         ?disabled=${!this.isValidPath(this.path)}
         confirm-label="Delete"
         confirm-on-enter=""
-        @confirm=${this.handleDeleteConfirm}
-        @cancel=${this.handleDialogCancel}
+        @confirm=${(e: Event) => this.handleDeleteConfirm(e)}
+        @cancel=${(e: Event) => this.handleDialogCancel(e)}
       >
         <div class="header" slot="header">Delete a file from the repo</div>
         <div class="main" slot="main">
@@ -231,7 +277,8 @@ export class GrEditControls extends LitElement {
             placeholder="Enter an existing full file path."
             .query=${this.query}
             .text=${this.path}
-            @text-changed=${this.handleTextChanged}
+            @text-changed=${(e: BindValueChangeEvent) =>
+              this.handleTextChanged(e)}
           ></gr-autocomplete>
         </div>
       </gr-dialog>
@@ -247,8 +294,8 @@ export class GrEditControls extends LitElement {
         !this.isValidPath(this.newPath)}
         confirm-label="Rename"
         confirm-on-enter=""
-        @confirm=${this.handleRenameConfirm}
-        @cancel=${this.handleDialogCancel}
+        @confirm=${(e: Event) => this.handleRenameConfirm(e)}
+        @cancel=${(e: Event) => this.handleDialogCancel(e)}
       >
         <div class="header" slot="header">Rename a file in the repo</div>
         <div class="main" slot="main">
@@ -256,12 +303,14 @@ export class GrEditControls extends LitElement {
             placeholder="Enter an existing full file path."
             .query=${this.query}
             .text=${this.path}
-            @text-changed=${this.handleTextChanged}
+            @text-changed=${(e: BindValueChangeEvent) =>
+              this.handleTextChanged(e)}
           ></gr-autocomplete>
           <iron-input
             id="newPathIronInput"
             .bindValue=${this.newPath}
-            @bind-value-changed=${this.handleBindValueChangedNewPath}
+            @bind-value-changed=${(e: BindValueChangeEvent) =>
+              this.handleBindValueChangedNewPath(e)}
           >
             <input id="newPathInput" placeholder="Enter the new path." />
           </iron-input>
@@ -277,14 +326,15 @@ export class GrEditControls extends LitElement {
         class="invisible dialog"
         confirm-label="Restore"
         confirm-on-enter=""
-        @confirm=${this.handleRestoreConfirm}
-        @cancel=${this.handleDialogCancel}
+        @confirm=${(e: Event) => this.handleRestoreConfirm(e)}
+        @cancel=${(e: Event) => this.handleDialogCancel(e)}
       >
         <div class="header" slot="header">Restore this file?</div>
         <div class="main" slot="main">
           <iron-input
             .bindValue=${this.path}
-            @bind-value-changed=${this.handleBindValueChangedPath}
+            @bind-value-changed=${(e: BindValueChangeEvent) =>
+              this.handleBindValueChangedPath(e)}
           >
             <input ?disabled=${''} />
           </iron-input>
@@ -422,11 +472,11 @@ export class GrEditControls extends LitElement {
     this.modal.close();
   }
 
-  private readonly handleDialogCancel = (e: Event) => {
+  private handleDialogCancel(e: Event) {
     this.closeDialog(this.getDialogFromEvent(e));
-  };
+  }
 
-  private readonly handleOpenConfirm = (e: Event) => {
+  private handleOpenConfirm(e: Event) {
     if (!this.change || !this.path) {
       fireAlert(this, 'You must enter a path.');
       this.closeDialog(this.openDialog);
@@ -439,9 +489,9 @@ export class GrEditControls extends LitElement {
     });
     this.getNavigation().setUrl(url);
     this.closeDialog(this.getDialogFromEvent(e));
-  };
+  }
 
-  // private but used in test
+  // Private but used in test
   handleUploadConfirm(path: string, fileData: string) {
     if (!this.change || !path || !fileData) {
       fireAlert(this, 'You must enter a path and data.');
@@ -451,15 +501,22 @@ export class GrEditControls extends LitElement {
     return this.restApiService
       .saveFileUploadChangeEdit(this.change._number, path, fileData)
       .then(res => {
-        if (!res || !res.ok) {
-          return;
-        }
         this.closeDialog(this.openDialog);
+        this.fileUploaded = false;
+        if (!res || !res.ok) {
+          fireAlert(this, FILE_UPLOAD_FAILURE);
+        }
         this.getChangeModel().navigateToChangeResetReload();
+      })
+      .catch(() => {
+        this.closeDialog(this.openDialog);
+        this.fileUploaded = false;
+        fireAlert(this, FILE_UPLOAD_FAILURE);
+        this.fileUploaded = false;
       });
   }
 
-  private readonly handleDeleteConfirm = (e: Event) => {
+  private handleDeleteConfirm(e: Event) {
     // Get the dialog before the api call as the event will change during bubbling
     // which will make Polymer.dom(e).path an empty array in polymer 2
     const dialog = this.getDialogFromEvent(e);
@@ -477,9 +534,9 @@ export class GrEditControls extends LitElement {
         this.closeDialog(dialog);
         this.getChangeModel().navigateToChangeResetReload();
       });
-  };
+  }
 
-  private readonly handleRestoreConfirm = (e: Event) => {
+  private handleRestoreConfirm(e: Event) {
     const dialog = this.getDialogFromEvent(e);
     if (!this.change || !this.path) {
       fireAlert(this, 'You must enter a path.');
@@ -495,9 +552,9 @@ export class GrEditControls extends LitElement {
         this.closeDialog(dialog);
         this.getChangeModel().navigateToChangeResetReload();
       });
-  };
+  }
 
-  private readonly handleRenameConfirm = (e: Event) => {
+  private handleRenameConfirm(e: Event) {
     const dialog = this.getDialogFromEvent(e);
     if (!this.change || !this.path || !this.newPath) {
       fireAlert(this, 'You must enter a old path and a new path.');
@@ -513,7 +570,7 @@ export class GrEditControls extends LitElement {
         this.closeDialog(dialog);
         this.getChangeModel().navigateToChangeResetReload();
       });
-  };
+  }
 
   private queryFiles(input: string): Promise<AutocompleteSuggestion[]> {
     assertIsDefined(this.change, 'this.change');
@@ -538,60 +595,74 @@ export class GrEditControls extends LitElement {
     return this.hiddenActions.includes(id) ? 'invisible' : '';
   }
 
-  private readonly handleDragAndDropUpload = (e: DragEvent) => {
+  private handleDragAndDropUpload(e: DragEvent) {
+    if (this.fileUploaded) return;
+
     e.preventDefault();
     e.stopPropagation();
 
-    if (!e.dataTransfer) return;
-    this.fileUpload(e.dataTransfer.files);
-  };
+    // Reset background on drop
+    this.dragDropArea!.style.backgroundColor = '#ffffff';
 
-  private readonly handleFileUploadChanged = (e: InputEvent) => {
-    if (!e.target) return;
-    if (!(e.target instanceof HTMLInputElement)) return;
-    const input = e.target;
-    if (!input.files) return;
-    this.fileUpload(input.files);
-  };
-
-  private fileUpload(files: FileList) {
-    for (const file of files) {
-      if (!file) continue;
-
-      let path = this.path;
-      if (!path) {
-        path = file.name;
-      }
-
-      const fr = new FileReader();
-      fr.onload = (fileLoadEvent: ProgressEvent<FileReader>) => {
-        if (!fileLoadEvent) return;
-        const fileData = fileLoadEvent.target!.result;
-        if (typeof fileData !== 'string') return;
-        this.handleUploadConfirm(path, fileData);
-      };
-      fr.readAsDataURL(file);
-    }
+    if (!e.dataTransfer || !e.dataTransfer.files) return;
+    this.fileUpload(e.dataTransfer.files[0]);
   }
 
-  private readonly handleKeyPress = (e: KeyboardEvent) => {
-    e.preventDefault();
-    e.stopImmediatePropagation();
-  };
+  private handleFileUploadChange(e: InputEvent) {
+    const input = e.target;
+    if (
+      this.fileUploaded ||
+      !input ||
+      !(input instanceof HTMLInputElement) ||
+      !input.files
+    )
+      return;
+    this.fileUpload(input.files[0]);
+  }
 
-  private readonly handleTextChanged = (e: BindValueChangeEvent) => {
+  private fileUpload(file: File) {
+    if (!file) return;
+
+    let path = this.path;
+    if (!path) {
+      path = file.name;
+    }
+
+    this.fileUploaded = true;
+    this.fileName!.textContent = `${path} (${this.formatFileSize(file.size)})`;
+    this.dragDropArea!.style.cursor = 'default';
+
+    const fileReader = new FileReader();
+    fileReader.onload = (fileLoadEvent: ProgressEvent<FileReader>) => {
+      if (!fileLoadEvent) return;
+      const fileData = fileLoadEvent.target!.result;
+      if (typeof fileData !== 'string') return;
+      this.handleUploadConfirm(path, fileData);
+    };
+    fileReader.readAsDataURL(file);
+  }
+
+  private handleTextChanged(e: BindValueChangeEvent) {
     this.path = e.detail.value ?? '';
-  };
+  }
 
-  private readonly handleBindValueChangedNewPath = (
-    e: BindValueChangeEvent
-  ) => {
+  private handleBindValueChangedNewPath(e: BindValueChangeEvent) {
     this.newPath = e.detail.value ?? '';
-  };
+  }
 
-  private readonly handleBindValueChangedPath = (e: BindValueChangeEvent) => {
+  private handleBindValueChangedPath(e: BindValueChangeEvent) {
     this.path = e.detail.value ?? '';
-  };
+  }
+
+  private formatFileSize(size: number) {
+    if (size < 1024) {
+      return `${size} bytes`;
+    } else if (size < 1048576) {
+      return `${(size / 1024).toFixed(2)} KB`;
+    }
+
+    return `${(size / 1048576).toFixed(2)} MB`;
+  }
 }
 
 declare global {

@@ -437,7 +437,10 @@ public class AccountsUpdateNoteDbImpl extends AccountsUpdate {
         externalIdNotes = extIdNotesFactory.load(allUsersRepo, rev.orElse(ObjectId.zeroId()));
       }
       externalIdNotes.replace(
-          accountId, externalIdsDeletedInTransaction, update.getCreatedExternalIds());
+          accountId,
+          update.getDeletedExternalIds(),
+          update.getCreatedExternalIds(),
+          externalIdsDeletedInTransaction);
       externalIdNotes.upsert(update.getUpdatedExternalIds());
     }
   }

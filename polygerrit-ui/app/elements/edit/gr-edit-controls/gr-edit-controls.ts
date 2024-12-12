@@ -56,6 +56,12 @@ export class GrEditControls extends LitElement {
   // private but used in test
   @query('#restoreDialog') restoreDialog?: GrDialog;
 
+  // private but used in test
+  @query('#dragDropArea') dragDropArea?: HTMLDivElement;
+
+  // private but used in test
+  @query('#fileUploadInput') fileUploadInput?: HTMLInputElement;
+
   @property({type: Object})
   change?: ChangeInfo;
 
@@ -129,6 +135,10 @@ export class GrEditControls extends LitElement {
           margin-top: var(--spacing-l);
           padding: var(--spacing-xxl) var(--spacing-xxl);
           text-align: center;
+          cursor: pointer;
+        }
+        #dragDropArea:hover {
+          background-color: #f0f0f0;
         }
         #dragDropArea > p {
           font-weight: var(--font-weight-bold);
@@ -186,32 +196,40 @@ export class GrEditControls extends LitElement {
             .text=${this.path}
             @text-changed=${this.handleTextChanged}
           ></gr-autocomplete>
+          <!-- We have to call preventDefault for dragenter and dragover
+                in order for the drop event to work. -->
           <div
             id="dragDropArea"
-            contenteditable="true"
-            @drop=${this.handleDragAndDropUpload}
-            @keypress=${this.handleKeyPress}
+            @drop=${(e: DragEvent) => this.handleDragAndDropUpload(e)}
+            @click=${this.handleClick}
+            @dragenter=${(e: DragEvent) => e.preventDefault()}
+            @dragover=${(e: DragEvent) => {
+              e.preventDefault();
+              if (this.dragDropArea) {
+                this.dragDropArea.style.backgroundColor = '#f0f0f0';
+              }
+            }}
+            @dragleave=${() => {
+              if (this.dragDropArea) {
+                this.dragDropArea.style.backgroundColor = '#ffffff';
+              }
+            }}
           >
-            <p>Drag and drop a file here</p>
-            <p>or</p>
-            <p>
-              <iron-input>
-                <input
-                  id="fileUploadInput"
-                  type="file"
-                  @change=${this.handleFileUploadChanged}
-                  multiple
-                  hidden
-                />
-              </iron-input>
-              <label for="fileUploadInput">
-                <gr-button id="fileUploadBrowse">Browse</gr-button>
-              </label>
-            </p>
+            <p>Drag and drop your file here, or click to select</p>
+            <input
+              id="fileUploadInput"
+              type="file"
+              @change=${this.handleFileUploadChanged}
+              ?hidden=${true}
+            />
           </div>
         </div>
       </gr-dialog>
     `;
+  }
+
+  private handleClick() {
+    this.fileUploadInput?.click();
   }
 
   private renderDeleteDialog() {
@@ -538,19 +556,19 @@ export class GrEditControls extends LitElement {
     return this.hiddenActions.includes(id) ? 'invisible' : '';
   }
 
-  private readonly handleDragAndDropUpload = (e: DragEvent) => {
+  private handleDragAndDropUpload(e: DragEvent) {
     e.preventDefault();
     e.stopPropagation();
+
+    this.dragDropArea!.style!.backgroundColor! = '#ffffff'; // Reset background on drop
 
     if (!e.dataTransfer) return;
     this.fileUpload(e.dataTransfer.files);
   };
 
   private readonly handleFileUploadChanged = (e: InputEvent) => {
-    if (!e.target) return;
-    if (!(e.target instanceof HTMLInputElement)) return;
     const input = e.target;
-    if (!input.files) return;
+    if (!input || !(input instanceof HTMLInputElement) || !input.files) return;
     this.fileUpload(input.files);
   };
 
@@ -573,11 +591,6 @@ export class GrEditControls extends LitElement {
       fr.readAsDataURL(file);
     }
   }
-
-  private readonly handleKeyPress = (e: KeyboardEvent) => {
-    e.preventDefault();
-    e.stopImmediatePropagation();
-  };
 
   private readonly handleTextChanged = (e: BindValueChangeEvent) => {
     this.path = e.detail.value ?? '';

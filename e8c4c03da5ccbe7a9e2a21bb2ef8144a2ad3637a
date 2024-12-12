@@ -63,6 +63,30 @@
       },
       "revId": "e8c4c03da5ccbe7a9e2a21bb2ef8144a2ad3637a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a81fe64_22c6ceee",
+        "filename": "javatests/com/google/gerrit/server/cache/serialize/entities/GroupReferenceSerializerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-12-12T15:47:42Z",
+      "side": 1,
+      "message": "Isn\u0027t this exactly the case we want to test, that we are handling `null` values?",
+      "parentUuid": "5d6b9fbf_842313d1",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 75
+      },
+      "revId": "e8c4c03da5ccbe7a9e2a21bb2ef8144a2ad3637a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

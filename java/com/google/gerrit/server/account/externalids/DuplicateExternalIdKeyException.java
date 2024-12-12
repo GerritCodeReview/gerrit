@@ -30,6 +30,11 @@ public class DuplicateExternalIdKeyException extends DuplicateKeyException {
     this.duplicateKey = duplicateKey;
   }
 
+  public DuplicateExternalIdKeyException(ExternalId.Key duplicateKey, Throwable why) {
+    super("Duplicate external ID key: " + duplicateKey.get(), why);
+    this.duplicateKey = duplicateKey;
+  }
+
   public ExternalId.Key getDuplicateKey() {
     return duplicateKey;
   }

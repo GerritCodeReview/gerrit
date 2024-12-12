@@ -60,7 +60,9 @@ public class AclInfoController {
     }
 
     StringBuilder msgBuilder = new StringBuilder("ACL info:");
-    aclLogRecords.forEach(aclLogRecord -> msgBuilder.append("\n* ").append(aclLogRecord));
+    aclLogRecords.stream()
+        .distinct()
+        .forEach(aclLogRecord -> msgBuilder.append("\n* ").append(aclLogRecord));
     return Optional.of(msgBuilder.toString());
   }
 

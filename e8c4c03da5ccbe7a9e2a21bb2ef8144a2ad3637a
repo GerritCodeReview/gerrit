@@ -65,6 +65,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea6345b8_8e4a8b0c",
+        "filename": "java/com/google/gerrit/entities/CachedProjectConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-12-12T21:36:50Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "986efc98_735dbfaf",
+      "range": {
+        "startLine": 155,
+        "startChar": 55,
+        "endLine": 155,
+        "endChar": 93
+      },
+      "revId": "e8c4c03da5ccbe7a9e2a21bb2ef8144a2ad3637a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5eb57ed0_7220fce9",
@@ -150,6 +174,30 @@
       "side": 1,
       "message": "Nope, we want to test what happens if we have a Group with an empty UUID (not null).",
       "parentUuid": "9a81fe64_22c6ceee",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 75
+      },
+      "revId": "e8c4c03da5ccbe7a9e2a21bb2ef8144a2ad3637a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "003b2747_f0014462",
+        "filename": "javatests/com/google/gerrit/server/cache/serialize/entities/GroupReferenceSerializerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-12-12T21:36:50Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "e5258014_d25ef841",
       "range": {
         "startLine": 30,
         "startChar": 0,

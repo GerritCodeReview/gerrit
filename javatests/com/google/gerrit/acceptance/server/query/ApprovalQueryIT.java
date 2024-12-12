@@ -72,6 +72,14 @@ public class ApprovalQueryIT extends AbstractDaemonTest {
     assertTrue(queryBuilder.parse("is:ANY").asMatchable().match(contextForCodeReviewLabel(-2)));
     assertTrue(queryBuilder.parse("is:ANY").asMatchable().match(contextForCodeReviewLabel(2)));
     assertTrue(queryBuilder.parse("is:aNy").asMatchable().match(contextForCodeReviewLabel(2)));
+
+    assertTrue(queryBuilder.parse("is:POSITIVE").asMatchable().match(contextForCodeReviewLabel(1)));
+    assertTrue(
+        queryBuilder.parse("is:negative").asMatchable().match(contextForCodeReviewLabel(-2)));
+    assertFalse(
+        queryBuilder.parse("is:positive").asMatchable().match(contextForCodeReviewLabel(-1)));
+    assertFalse(
+        queryBuilder.parse("is:NEGATIVE").asMatchable().match(contextForCodeReviewLabel(2)));
   }
 
   @Test
@@ -93,8 +101,8 @@ public class ApprovalQueryIT extends AbstractDaemonTest {
     assertThat(thrown)
         .hasMessageThat()
         .contains(
-            "INVALID is not a valid value for operator 'is'. Valid values: ANY, MAX, MIN"
-                + " or integer");
+            "INVALID is not a valid value for operator 'is'. Valid values: ANY, MAX, MIN, NEGATIVE,"
+                + " POSITIVE or integer");
   }
 
   @Test

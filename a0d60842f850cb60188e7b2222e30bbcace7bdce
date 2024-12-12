@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90dce84a_0adbc730",
+        "filename": "javatests/com/google/gerrit/acceptance/server/index/IndexMetricIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-12-12T10:58:39Z",
+      "side": 1,
+      "message": "Maybe having something like this will make it more readable?\n\n```\nint initialProjectsCount \u003d Arrays.asList(AllUsersNameProvider.DEFAULT, AllProjectsNameProvider.DEFAULT, getProject().get()).size();\n```",
+      "range": {
+        "startLine": 39,
+        "startChar": 70,
+        "endLine": 39,
+        "endChar": 71
+      },
+      "revId": "a0d60842f850cb60188e7b2222e30bbcace7bdce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ed0e259_2a883885",
+        "filename": "javatests/com/google/gerrit/acceptance/server/index/IndexMetricIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-12-12T10:58:39Z",
+      "side": 1,
+      "message": "Similarly to the other comment:\n\nint initialAcountsCount \u003d Arrays.asList(admin, user).size();",
+      "range": {
+        "startLine": 53,
+        "startChar": 70,
+        "endLine": 53,
+        "endChar": 71
+      },
+      "revId": "a0d60842f850cb60188e7b2222e30bbcace7bdce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

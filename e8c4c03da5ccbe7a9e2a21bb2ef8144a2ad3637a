@@ -20,6 +20,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "df11d95d_45b04c8d",
+        "filename": "java/com/google/gerrit/entities/CachedProjectConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-12-12T17:33:07Z",
+      "side": 1,
+      "message": "I think here we should be logging at warning level, so that this groups can be identified. WDYT?",
+      "range": {
+        "startLine": 155,
+        "startChar": 55,
+        "endLine": 155,
+        "endChar": 93
+      },
+      "revId": "e8c4c03da5ccbe7a9e2a21bb2ef8144a2ad3637a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5eb57ed0_7220fce9",
         "filename": "javatests/com/google/gerrit/server/cache/serialize/entities/GroupReferenceSerializerTest.java",
         "patchSetId": 4

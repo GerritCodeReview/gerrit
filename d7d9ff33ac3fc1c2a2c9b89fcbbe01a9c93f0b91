@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c93164b8_ab2f1d20",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-12-12T08:51:59Z",
+      "side": 1,
+      "message": "This is a new feature, it should be moved to master.",
+      "revId": "d7d9ff33ac3fc1c2a2c9b89fcbbe01a9c93f0b91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

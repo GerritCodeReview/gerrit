@@ -692,25 +692,6 @@ suite('gr-file-list tests', () => {
       assert.isFalse(element.shouldHideChangeTotals(patchChange));
     });
 
-    test('formatBytes function', () => {
-      const table = {
-        '64': '+64 B',
-        '1023': '+1023 B',
-        '1024': '+1 KiB',
-        '4096': '+4 KiB',
-        '1073741824': '+1 GiB',
-        '-64': '-64 B',
-        '-1023': '-1023 B',
-        '-1024': '-1 KiB',
-        '-4096': '-4 KiB',
-        '-1073741824': '-1 GiB',
-        '0': '+/-0 B',
-      };
-      for (const [bytes, expected] of Object.entries(table)) {
-        assert.equal(element.formatBytes(Number(bytes)), expected);
-      }
-    });
-
     test('formatPercentage function', () => {
       const table = [
         {size: 100, delta: 100, display: ''},

@@ -38,6 +38,7 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.query.approval.ApprovalContext;
 import com.google.gerrit.server.query.approval.ApprovalQueryBuilder;
 import com.google.gerrit.server.query.approval.ApprovalQueryBuilder.UserInOperandFactory;
+import com.google.gerrit.server.query.approval.UserInPredicate;
 import com.google.gerrit.server.update.RepoView;
 import com.google.inject.Inject;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -321,7 +322,8 @@ public class ApprovalQueryIT extends AbstractDaemonTest {
     }
 
     @Override
-    public Predicate<ApprovalContext> create() throws QueryParseException {
+    public Predicate<ApprovalContext> create(UserInPredicate.Field field)
+        throws QueryParseException {
       return this;
     }
   }

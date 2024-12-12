@@ -30,7 +30,7 @@ public class UserInPredicate extends ApprovalPredicate {
     UserInPredicate create(Field field, AccountGroup.UUID group);
   }
 
-  enum Field {
+  public enum Field {
     UPLOADER,
     APPROVER
   }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca6c1ae8_6f2c9b10",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-12-12T14:00:47Z",
+      "side": 1,
+      "message": "I tested passing a traceid via push option, this works for ssh where the traceid ends up in both error_log and sshd_log, but then trying this with http the explicitly specified traceid isn\u0027t used in the httpd_log but only in the error_log.\n\n```\ngit push -o trace\u003dxyzhttp origin HEAD:refs/for/master\n```",
+      "revId": "41142d497969d50138c7bb497fda69f5cc0bc4f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

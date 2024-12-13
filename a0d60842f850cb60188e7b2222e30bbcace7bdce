@@ -3,6 +3,63 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3f6b68ee_8f697689",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-12-13T00:41:02Z",
+      "side": 1,
+      "message": "I see that the metrics at times fails to access the search indexes and returns -1 constantly. I need to dig deeper to understand what\u0027s going on.",
+      "revId": "a0d60842f850cb60188e7b2222e30bbcace7bdce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4669094_065c67b2",
+        "filename": "java/com/google/gerrit/server/index/IndexMetrics.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-12-13T00:41:02Z",
+      "side": 1,
+      "message": "I\u0027ve added some extra println on the if() case, but I often see that *after* the project index has been created, the search index is null, which clearly doesn\u0027t make sense.",
+      "revId": "a0d60842f850cb60188e7b2222e30bbcace7bdce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55d87522_4c1b68f7",
+        "filename": "java/com/google/gerrit/server/index/IndexMetrics.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-12-13T00:41:02Z",
+      "side": 1,
+      "message": "Unneeded `else` clause.",
+      "range": {
+        "startLine": 41,
+        "startChar": 14,
+        "endLine": 41,
+        "endChar": 20
+      },
+      "revId": "a0d60842f850cb60188e7b2222e30bbcace7bdce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "90dce84a_0adbc730",
         "filename": "javatests/com/google/gerrit/acceptance/server/index/IndexMetricIT.java",
         "patchSetId": 3
@@ -14,6 +71,30 @@
       "writtenOn": "2024-12-12T10:58:39Z",
       "side": 1,
       "message": "Maybe having something like this will make it more readable?\n\n```\nint initialProjectsCount \u003d Arrays.asList(AllUsersNameProvider.DEFAULT, AllProjectsNameProvider.DEFAULT, getProject().get()).size();\n```",
+      "range": {
+        "startLine": 39,
+        "startChar": 70,
+        "endLine": 39,
+        "endChar": 71
+      },
+      "revId": "a0d60842f850cb60188e7b2222e30bbcace7bdce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c74a8795_8ff75843",
+        "filename": "javatests/com/google/gerrit/acceptance/server/index/IndexMetricIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-12-13T00:41:02Z",
+      "side": 1,
+      "message": "I believe we should:\n1. Remove the `waitUntil()` because the projects are already created, and the metric is already available.\n2. Remove all magic values and just read the current number of projects and assert at L41 that there is one more project compared to the ones seen at L39.",
+      "parentUuid": "90dce84a_0adbc730",
       "range": {
         "startLine": 39,
         "startChar": 70,

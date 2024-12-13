@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c63c5557_08404368",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-12-13T10:25:47Z",
+      "side": 1,
+      "message": "You should first make a change on `TestMetricMaker` to support the callback metrics and then rebase this change on it.\n\nThis allows to avoid the `wait()` in the code that is adding a 2s delay for every waiting cycle.",
+      "revId": "a0d60842f850cb60188e7b2222e30bbcace7bdce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c4669094_065c67b2",
@@ -60,6 +77,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1ab89b45_7784036c",
+        "filename": "javatests/com/google/gerrit/acceptance/server/index/IndexMetricIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-12-13T10:25:47Z",
+      "side": 1,
+      "message": "This should not be needed: why do we need to have a local disk when we are just testing the index metrics?\n\nAlso, by using the local disk you cannot leverage the `TestMetricMaker` and therefore you cannot read the metric values synchronously.",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 13
+      },
+      "revId": "a0d60842f850cb60188e7b2222e30bbcace7bdce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b18a6747_5fa30748",
+        "filename": "javatests/com/google/gerrit/acceptance/server/index/IndexMetricIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-12-13T10:25:47Z",
+      "side": 1,
+      "message": "This should be `TestMetricMaker` and will allow to get the metrics value synchronously, once you\u0027ve removed the `@UseLocalDisk` at L29.",
+      "range": {
+        "startLine": 34,
+        "startChar": 10,
+        "endLine": 34,
+        "endChar": 21
+      },
+      "revId": "a0d60842f850cb60188e7b2222e30bbcace7bdce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "90dce84a_0adbc730",
         "filename": "javatests/com/google/gerrit/acceptance/server/index/IndexMetricIT.java",
         "patchSetId": 3
@@ -95,6 +158,30 @@
       "side": 1,
       "message": "I believe we should:\n1. Remove the `waitUntil()` because the projects are already created, and the metric is already available.\n2. Remove all magic values and just read the current number of projects and assert at L41 that there is one more project compared to the ones seen at L39.",
       "parentUuid": "90dce84a_0adbc730",
+      "range": {
+        "startLine": 39,
+        "startChar": 70,
+        "endLine": 39,
+        "endChar": 71
+      },
+      "revId": "a0d60842f850cb60188e7b2222e30bbcace7bdce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7a43de0_0f519fb8",
+        "filename": "javatests/com/google/gerrit/acceptance/server/index/IndexMetricIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-12-13T10:25:47Z",
+      "side": 1,
+      "message": "If you are using the `@UseLocaldisk`, but if you remove it you can start using the `TestMetricMaker` and therefore you can avoid all the `wait` throughout the tests.\n\nAlso, the `com.google.gerrit.metrics.dropwizard.CallbackGroup` of the regular metric maker would update the metrics values only once every 2 seconds, which make this test a lot longer to execute.",
+      "parentUuid": "c74a8795_8ff75843",
       "range": {
         "startLine": 39,
         "startChar": 70,

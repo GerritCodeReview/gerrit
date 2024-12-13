@@ -59,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "93b514dd_0d5a29f5",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-12-13T17:04:27Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "ab6b4ee7_ced86aa2",
+      "range": {
+        "startLine": 154,
+        "startChar": 9,
+        "endLine": 155,
+        "endChar": 23
+      },
+      "revId": "d7afbb081d2e2438ca49b377ae1f0aeb801c65e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fc64f177_1112c49c",
@@ -120,6 +144,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e53fa24c_798be5c1",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-12-13T17:04:27Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "fc64f177_1112c49c",
+      "range": {
+        "startLine": 246,
+        "startChar": 10,
+        "endLine": 254,
+        "endChar": 16
+      },
+      "revId": "d7afbb081d2e2438ca49b377ae1f0aeb801c65e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "769afc4e_43c91b78",
@@ -161,6 +209,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e6c7c30_4b98ce3c",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-12-13T17:04:27Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "769afc4e_43c91b78",
+      "range": {
+        "startLine": 511,
+        "startChar": 7,
+        "endLine": 513,
+        "endChar": 34
+      },
+      "revId": "d7afbb081d2e2438ca49b377ae1f0aeb801c65e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ea39ac3f_02ce50c6",
@@ -198,6 +270,30 @@
           ]
         }
       ],
+      "revId": "d7afbb081d2e2438ca49b377ae1f0aeb801c65e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "15441947_d6299585",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 664,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-12-13T17:04:27Z",
+      "side": 1,
+      "message": "I went a way and did this. It seemed like a worthy thing to do in this change as that one was a better function.",
+      "parentUuid": "ea39ac3f_02ce50c6",
+      "range": {
+        "startLine": 655,
+        "startChar": 1,
+        "endLine": 664,
+        "endChar": 1
+      },
       "revId": "d7afbb081d2e2438ca49b377ae1f0aeb801c65e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

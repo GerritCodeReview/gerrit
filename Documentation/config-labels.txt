@@ -438,9 +438,9 @@ is just a more trivial version of a rework. This means setting
 `changekind:REWORK` is equivalent to setting `is:ANY`.
 
 [[is_magic]]
-==== is:{MIN,MAX,ANY}
+==== is:{MIN,MAX,POSITIVE,NEGATIVE,ANY}
 
-Matches approvals that have a minimal, maximal or any score:
+Matches approvals that have a minimal, maximal, positive, negative or any score:
 
 * [[is_min]]`MIN`:
 +
@@ -451,6 +451,14 @@ Matches approvals that have a minimal score, i.e. the lowest possible
 +
 Matches approvals that a maximal score, i.e. the highest possible
 (positive) value for this label.
+
+* [[is_positive]]`POSITIVE`:
++
+Matches approvals that have score larger than 0.
+
+* [[is_negative]]`NEGATIVE`:
++
+Matches approvals that have score smaller than 0.
 
 * [[is_any]]`ANY`:
 +

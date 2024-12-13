@@ -1,0 +1,205 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be64eaf5_8eb82295",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-12-13T10:30:13Z",
+      "side": 1,
+      "message": "Great improvements!",
+      "revId": "d7afbb081d2e2438ca49b377ae1f0aeb801c65e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab6b4ee7_ced86aa2",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-12-13T10:30:13Z",
+      "side": 1,
+      "message": "Usually loading spin has\nwidth: calc(var(--line-height-normal) - 2px);\nheight: calc(var(--line-height-normal) - 2px);",
+      "range": {
+        "startLine": 154,
+        "startChar": 9,
+        "endLine": 155,
+        "endChar": 23
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "d0122ca7_53ff57d6",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.ts",
+              "range": {
+                "startLine": 154,
+                "startChar": 0,
+                "endLine": 156,
+                "endChar": 0
+              },
+              "replacement": "          width: calc(var(--line-height-normal) - 2px);\n          height: calc(var(--line-height-normal) - 2px);\n"
+            }
+          ]
+        }
+      ],
+      "revId": "d7afbb081d2e2438ca49b377ae1f0aeb801c65e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc64f177_1112c49c",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-12-13T10:30:13Z",
+      "side": 1,
+      "message": "nit: I would use introduce function renderLoading() and if !this.fileUploaded return;\n\n// AI is wrongly changing import of \u0027../gr-edit-constants\u0027 - it shouldn\u0027t be changed.",
+      "range": {
+        "startLine": 246,
+        "startChar": 10,
+        "endLine": 254,
+        "endChar": 16
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "6af69d73_56682897",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.ts",
+              "range": {
+                "startLine": 11,
+                "startChar": 0,
+                "endLine": 12,
+                "endChar": 0
+              },
+              "replacement": "import {GrEditAction, GrEditConstants} from \u0027../../gr-edit-constants\u0027;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.ts",
+              "range": {
+                "startLine": 246,
+                "startChar": 0,
+                "endLine": 255,
+                "endChar": 0
+              },
+              "replacement": "          ${this.renderLoading()}\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.ts",
+              "range": {
+                "startLine": 259,
+                "startChar": 0,
+                "endLine": 259,
+                "endChar": 0
+              },
+              "replacement": "\n  private renderLoading() {\n    if (!this.fileUploaded) return;\n    return html`\n      \u003cdiv id\u003d\"fileUploadInfo\" class\u003d\"fileUploadInfo\"\u003e\n        \u003cspan class\u003d\"loadingSpin\"\u003e\u003c/span\u003e\n        \u003cspan\u003eUploading...\u003c/span\u003e\n        \u003cspan id\u003d\"fileName\"\u003e\u003c/span\u003e\n      \u003c/div\u003e\n    `;\n  }\n"
+            }
+          ]
+        }
+      ],
+      "revId": "d7afbb081d2e2438ca49b377ae1f0aeb801c65e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "769afc4e_43c91b78",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-12-13T10:30:13Z",
+      "side": 1,
+      "message": "Why twice fileUploaded",
+      "range": {
+        "startLine": 511,
+        "startChar": 7,
+        "endLine": 513,
+        "endChar": 34
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "f40e023d_b4b54096",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.ts",
+              "range": {
+                "startLine": 513,
+                "startChar": 0,
+                "endLine": 514,
+                "endChar": 0
+              },
+              "replacement": ""
+            }
+          ]
+        }
+      ],
+      "revId": "d7afbb081d2e2438ca49b377ae1f0aeb801c65e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea39ac3f_02ce50c6",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 664,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-12-13T10:30:13Z",
+      "side": 1,
+      "message": "Interesting we don\u0027t have formatBytes. There is one in file-list. Maybe add todo to unite this with file-list",
+      "range": {
+        "startLine": 655,
+        "startChar": 1,
+        "endLine": 664,
+        "endChar": 1
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "a675398c_fb5dba77",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.ts",
+              "range": {
+                "startLine": 655,
+                "startChar": 0,
+                "endLine": 655,
+                "endChar": 0
+              },
+              "replacement": "  // TODO: unite this with file-list\n"
+            }
+          ]
+        }
+      ],
+      "revId": "d7afbb081d2e2438ca49b377ae1f0aeb801c65e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

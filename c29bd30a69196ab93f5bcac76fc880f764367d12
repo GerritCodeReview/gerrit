@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1e41d6d_51def3e7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2024-12-13T04:44:15Z",
+      "side": 1,
+      "message": "Would a simple config in gerrit.config do for this instead. If not, can you add the reasoning her?\n\nWrap the line above?",
+      "revId": "c29bd30a69196ab93f5bcac76fc880f764367d12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

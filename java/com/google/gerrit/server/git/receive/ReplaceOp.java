@@ -236,7 +236,6 @@ public class ReplaceOp implements BatchUpdateOp {
             projectState.getNameKey(),
             ctx.getRevWalk(),
             ctx.getRepoView().getConfig(),
-            ctx.getRepoView().getAttributesNodeProvider(),
             priorCommitId,
             commitId);
 

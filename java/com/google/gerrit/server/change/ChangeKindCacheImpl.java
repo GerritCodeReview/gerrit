@@ -49,7 +49,6 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
-import org.eclipse.jgit.attributes.AttributesNodeProvider;
 import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Config;
@@ -100,12 +99,11 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
         Project.NameKey project,
         @Nullable RevWalk rw,
         @Nullable Config repoConfig,
-        AttributesNodeProvider attributesNodeProvider,
         ObjectId prior,
         ObjectId next) {
       try {
         Key key = Key.create(prior, next, useRecursiveMerge);
-        return new Loader(key, repoManager, project, rw, repoConfig, attributesNodeProvider).call();
+        return new Loader(key, repoManager, project, rw, repoConfig).call();
       } catch (IOException e) {
         logger.atWarning().withCause(e).log(
             "Cannot check trivial rebase of new patch set %s in %s", next.name(), project);
@@ -120,12 +118,8 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
 
     @Override
     public ChangeKind getChangeKind(
-        @Nullable RevWalk rw,
-        @Nullable Config repoConfig,
-        AttributesNodeProvider attributesNodeProvider,
-        ChangeData cd,
-        PatchSet patch) {
-      return getChangeKindInternal(this, rw, repoConfig, attributesNodeProvider, cd, patch);
+        @Nullable RevWalk rw, @Nullable Config repoConfig, ChangeData cd, PatchSet patch) {
+      return getChangeKindInternal(this, rw, repoConfig, cd, patch);
     }
   }
 
@@ -176,28 +170,23 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
     private final Project.NameKey projectName;
     private final RevWalk alreadyOpenRw;
     private final Config repoConfig;
-    private final AttributesNodeProvider repoAttributesNodeProvider;
 
     private Loader(
         Key key,
         GitRepositoryManager repoManager,
         Project.NameKey projectName,
         @Nullable RevWalk rw,
-        @Nullable Config repoConfig,
-        @Nullable AttributesNodeProvider attributesNodeProvider) {
+        @Nullable Config repoConfig) {
       checkArgument(
-          (rw == null && repoConfig == null && attributesNodeProvider == null)
-              || (rw != null && repoConfig != null && attributesNodeProvider != null),
-          "must either provide revwalk/config/attributesNodeProvider, or none; got %s/%s/%s",
+          (rw == null && repoConfig == null) || (rw != null && repoConfig != null),
+          "must either provide both revwalk/config, or neither; got %s/%s",
           rw,
-          repoConfig,
-          attributesNodeProvider);
+          repoConfig);
       this.key = key;
       this.repoManager = repoManager;
       this.projectName = projectName;
       this.alreadyOpenRw = rw;
       this.repoConfig = repoConfig;
-      this.repoAttributesNodeProvider = attributesNodeProvider;
     }
 
     @SuppressWarnings("resource") // Resources are manually managed.
@@ -209,13 +198,11 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
 
       RevWalk rw = alreadyOpenRw;
       Config config = repoConfig;
-      AttributesNodeProvider attributesNodeProvider = repoAttributesNodeProvider;
       Repository repo = null;
       if (alreadyOpenRw == null) {
         repo = repoManager.openRepository(projectName);
         rw = new RevWalk(repo);
         config = repo.getConfig();
-        attributesNodeProvider = repo.createAttributesNodeProvider();
       }
       try {
         RevCommit prior = rw.parseCommit(key.prior());
@@ -246,8 +233,7 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
         // having the same tree as would exist when the prior commit is
         // cherry-picked onto the next commit's new first parent.
         try (ObjectInserter ins = new InMemoryInserter(rw.getObjectReader())) {
-          ThreeWayMerger merger =
-              MergeUtil.newThreeWayMerger(ins, config, attributesNodeProvider, key.strategyName());
+          ThreeWayMerger merger = MergeUtil.newThreeWayMerger(ins, config, key.strategyName());
           merger.setBase(prior.getParent(0));
           if (merger.merge(next.getParent(0), prior)
               && merger.getResultTreeId().equals(next.getTree())) {
@@ -351,14 +337,11 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
       Project.NameKey project,
       @Nullable RevWalk rw,
       @Nullable Config repoConfig,
-      @Nullable AttributesNodeProvider attributesNodeProvider,
       ObjectId prior,
       ObjectId next) {
     try {
       Key key = Key.create(prior, next, useRecursiveMerge);
-      ChangeKind kind =
-          cache.get(
-              key, new Loader(key, repoManager, project, rw, repoConfig, attributesNodeProvider));
+      ChangeKind kind = cache.get(key, new Loader(key, repoManager, project, rw, repoConfig));
       logger.atFine().log("Change kind of new patch set %s in %s: %s", next.name(), project, kind);
       return kind;
     } catch (ExecutionException e) {
@@ -375,19 +358,14 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
 
   @Override
   public ChangeKind getChangeKind(
-      @Nullable RevWalk rw,
-      @Nullable Config repoConfig,
-      @Nullable AttributesNodeProvider attributesNodeProvider,
-      ChangeData cd,
-      PatchSet patch) {
-    return getChangeKindInternal(this, rw, repoConfig, attributesNodeProvider, cd, patch);
+      @Nullable RevWalk rw, @Nullable Config repoConfig, ChangeData cd, PatchSet patch) {
+    return getChangeKindInternal(this, rw, repoConfig, cd, patch);
   }
 
   private static ChangeKind getChangeKindInternal(
       ChangeKindCache cache,
       @Nullable RevWalk rw,
       @Nullable Config repoConfig,
-      AttributesNodeProvider attributesNodeProvider,
       ChangeData change,
       PatchSet patch) {
     ChangeKind kind = ChangeKind.REWORK;
@@ -412,12 +390,7 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
         if (priorPs != patch) {
           kind =
               cache.getChangeKind(
-                  change.project(),
-                  rw,
-                  repoConfig,
-                  attributesNodeProvider,
-                  priorPs.commitId(),
-                  patch.commitId());
+                  change.project(), rw, repoConfig, priorPs.commitId(), patch.commitId());
         }
       } catch (StorageException e) {
         // Do nothing; assume we have a complex change
@@ -446,12 +419,7 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
           RevWalk rw = new RevWalk(repo)) {
         kind =
             getChangeKindInternal(
-                cache,
-                rw,
-                repo.getConfig(),
-                repo.createAttributesNodeProvider(),
-                changeDataFactory.create(change),
-                patch);
+                cache, rw, repo.getConfig(), changeDataFactory.create(change), patch);
       } catch (IOException e) {
         // Do nothing; assume we have a complex change
         logger.atWarning().withCause(e).log(

@@ -75,7 +75,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-import org.eclipse.jgit.attributes.AttributesNodeProvider;
 import org.eclipse.jgit.diff.Sequence;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
@@ -223,8 +222,7 @@ public class MergeUtil {
       CodeReviewRevWalk rw,
       int parentIndex,
       boolean ignoreIdenticalTree,
-      boolean allowConflicts,
-      AttributesNodeProvider attributesNodeProvider)
+      boolean allowConflicts)
       throws IOException,
           MergeIdenticalTreeException,
           MergeConflictException,
@@ -241,8 +239,7 @@ public class MergeUtil {
         parentIndex,
         ignoreIdenticalTree,
         allowConflicts,
-        false,
-        attributesNodeProvider);
+        false);
   }
 
   public CodeReviewCommit createCherryPickFromCommit(
@@ -256,15 +253,14 @@ public class MergeUtil {
       int parentIndex,
       boolean ignoreIdenticalTree,
       boolean allowConflicts,
-      boolean diff3Format,
-      AttributesNodeProvider attributesNodeProvider)
+      boolean diff3Format)
       throws IOException,
           MergeIdenticalTreeException,
           MergeConflictException,
           MethodNotAllowedException,
           InvalidMergeStrategyException {
 
-    ThreeWayMerger m = newThreeWayMerger(inserter, repoConfig, attributesNodeProvider);
+    ThreeWayMerger m = newThreeWayMerger(inserter, repoConfig);
     m.setBase(originalCommit.getParent(parentIndex));
 
     DirCache dc = DirCache.newInCore();
@@ -808,7 +804,7 @@ public class MergeUtil {
 
   private boolean canMerge(CodeReviewCommit mergeTip, Repository repo, CodeReviewCommit toMerge) {
     try (ObjectInserter ins = new InMemoryInserter(repo)) {
-      return newThreeWayMerger(ins, repo).merge(mergeTip, toMerge);
+      return newThreeWayMerger(ins, repo.getConfig()).merge(mergeTip, toMerge);
     } catch (LargeObjectException e) {
       logger.atWarning().log("%s cannot be merged due to LargeObjectException", toMerge.name());
       return false;
@@ -882,7 +878,7 @@ public class MergeUtil {
       // that on the current merge tip.
       //
       try (ObjectInserter ins = new InMemoryInserter(repo)) {
-        ThreeWayMerger m = newThreeWayMerger(ins, repo);
+        ThreeWayMerger m = newThreeWayMerger(ins, repo.getConfig());
         m.setBase(toMerge.getParent(0));
         return m.merge(mergeTip, toMerge);
       } catch (IOException e) {
@@ -918,10 +914,9 @@ public class MergeUtil {
       Config repoConfig,
       BranchNameKey destBranch,
       CodeReviewCommit mergeTip,
-      CodeReviewCommit n,
-      AttributesNodeProvider attributesNodeProvider)
+      CodeReviewCommit n)
       throws InvalidMergeStrategyException {
-    ThreeWayMerger m = newThreeWayMerger(inserter, repoConfig, attributesNodeProvider);
+    ThreeWayMerger m = newThreeWayMerger(inserter, repoConfig);
     try {
       if (m.merge(mergeTip, n)) {
         return writeMergeCommit(
@@ -1047,15 +1042,9 @@ public class MergeUtil {
         .collect(joining(",", "Merge changes ", merged.size() > 5 ? ", ..." : ""));
   }
 
-  public ThreeWayMerger newThreeWayMerger(ObjectInserter inserter, Repository repo)
+  public ThreeWayMerger newThreeWayMerger(ObjectInserter inserter, Config repoConfig)
       throws InvalidMergeStrategyException {
-    return newThreeWayMerger(inserter, repo.getConfig(), repo.createAttributesNodeProvider());
-  }
-
-  public ThreeWayMerger newThreeWayMerger(
-      ObjectInserter inserter, Config repoConfig, AttributesNodeProvider attributesNodeProvider)
-      throws InvalidMergeStrategyException {
-    return newThreeWayMerger(inserter, repoConfig, attributesNodeProvider, mergeStrategyName());
+    return newThreeWayMerger(inserter, repoConfig, mergeStrategyName());
   }
 
   public String mergeStrategyName() {
@@ -1087,19 +1076,13 @@ public class MergeUtil {
   }
 
   public static ThreeWayMerger newThreeWayMerger(
-      ObjectInserter inserter,
-      Config repoConfig,
-      AttributesNodeProvider attributesNodeProvider,
-      String strategyName)
+      ObjectInserter inserter, Config repoConfig, String strategyName)
       throws InvalidMergeStrategyException {
     Merger m = newMerger(inserter, repoConfig, strategyName);
     checkArgument(
         m instanceof ThreeWayMerger,
         "merge strategy %s does not support three-way merging",
         strategyName);
-    if (m instanceof ResolveMerger) {
-      ((ResolveMerger) m).setAttributesNodeProvider(attributesNodeProvider);
-    }
     return (ThreeWayMerger) m;
   }
 

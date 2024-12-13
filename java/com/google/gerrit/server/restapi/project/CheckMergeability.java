@@ -95,6 +95,8 @@ public class CheckMergeability implements RestReadView<BranchResource> {
     try (Repository git = gitManager.openRepository(resource.getNameKey());
         RevWalk rw = new RevWalk(git);
         ObjectInserter inserter = new InMemoryInserter(git)) {
+      Merger m = MergeUtil.newMerger(inserter, git.getConfig(), strategy);
+
       Ref destRef = git.getRefDatabase().exactRef(resource.getRef());
       if (destRef == null) {
         throw new ResourceNotFoundException(resource.getRef());
@@ -124,12 +126,6 @@ public class CheckMergeability implements RestReadView<BranchResource> {
         return Response.ok(result);
       }
 
-      Merger m = MergeUtil.newMerger(inserter, git.getConfig(), strategy);
-      if (m instanceof ResolveMerger) {
-        // We need to set the attributes provider before attempting the merge in order to read and
-        // honor gitattributes merge settings correctly
-        ((ResolveMerger) m).setAttributesNodeProvider(git.createAttributesNodeProvider());
-      }
       if (m.merge(false, targetCommit, sourceCommit)) {
         result.mergeable = true;
         result.commitMerged = false;

@@ -1552,53 +1552,6 @@ public class RebaseIT {
     }
 
     @Test
-    public void rebaseWithAttributes_UnionContentMerge() throws Exception {
-      PushOneCommit pushAttributes =
-          pushFactory.create(
-              admin.newIdent(),
-              testRepo,
-              "add merge=union to gitattributes",
-              ".gitattributes",
-              "*.txt merge=union");
-      PushOneCommit.Result unusedResult = pushAttributes.to("refs/heads/master");
-
-      PushOneCommit.Result r1 = createChange();
-      gApi.changes()
-          .id(r1.getChangeId())
-          .revision(r1.getCommit().name())
-          .review(ReviewInput.approve());
-      gApi.changes().id(r1.getChangeId()).revision(r1.getCommit().name()).submit();
-
-      PushOneCommit push =
-          pushFactory.create(
-              admin.newIdent(),
-              testRepo,
-              PushOneCommit.SUBJECT,
-              PushOneCommit.FILE_NAME,
-              "other content",
-              "I3bf2c82554e83abc759154e85db94c7ebb079c70");
-      PushOneCommit.Result r2 = push.to("refs/for/master");
-      r2.assertOkStatus();
-      String changeId = r2.getChangeId();
-      RevCommit patchSet = r2.getCommit();
-      RebaseInput rebaseInput = new RebaseInput();
-      rebaseInput.strategy = "recursive";
-      ChangeInfo changeInfo =
-          gApi.changes().id(changeId).revision(patchSet.name()).rebaseAsInfo(rebaseInput);
-      assertThat(changeInfo.containsGitConflicts).isNull();
-      assertThat(changeInfo.workInProgress).isNull();
-
-      // Verify that the file content in the created patch set is correct.
-      // We expect that it has no conflict markers and the content of both changes.
-      BinaryResult bin =
-          gApi.changes().id(changeId).current().file(PushOneCommit.FILE_NAME).content();
-      ByteArrayOutputStream os = new ByteArrayOutputStream();
-      bin.writeTo(os);
-      String fileContent = new String(os.toByteArray(), UTF_8);
-      assertThat(fileContent).isEqualTo("other content" + "\n" + PushOneCommit.FILE_CONTENT);
-    }
-
-    @Test
     public void rebaseFromRelationChainToClosedChange() throws Exception {
       PushOneCommit.Result r1 = createChange();
       testRepo.reset("HEAD~1");

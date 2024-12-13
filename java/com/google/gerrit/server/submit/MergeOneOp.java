@@ -46,8 +46,7 @@ class MergeOneOp extends SubmitStrategyOp {
             ctx.getRepoView().getConfig(),
             args.destBranch,
             args.mergeTip.getCurrentTip(),
-            toMerge,
-            ctx.getRepoView().getAttributesNodeProvider());
+            toMerge);
     if (args.project.is(BooleanProjectConfig.REJECT_EMPTY_COMMIT)
         && merged.getTree().equals(merged.getParent(0).getTree())) {
       toMerge.setStatusCode(EMPTY_COMMIT);

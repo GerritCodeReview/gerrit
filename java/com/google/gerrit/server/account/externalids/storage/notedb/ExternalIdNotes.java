@@ -692,12 +692,6 @@ public class ExternalIdNotes extends VersionedMetaData {
     cacheUpdates.add(cu -> cu.remove(removedExtIds));
   }
 
-  public void replace(
-      Account.Id accountId, Collection<ExternalId.Key> toDelete, Collection<ExternalId> toAdd)
-      throws IOException, DuplicateExternalIdKeyException {
-    replace(accountId, toDelete, toAdd, defaultNoteIdResolver);
-  }
-
   /**
    * Replaces external IDs for an account by external ID keys.
    *
@@ -709,15 +703,23 @@ public class ExternalIdNotes extends VersionedMetaData {
    * @throws IllegalStateException is thrown if any of the specified external IDs does not belong to
    *     the specified account.
    */
-  public void replace(
+  private void replace(
       Account.Id accountId,
       Collection<ExternalId.Key> toDelete,
       Collection<ExternalId> toAdd,
-      Function<ExternalId, ObjectId> noteIdResolver)
+      Function<ExternalId, ObjectId> noteIdResolver,
+      Collection<ExternalId.Key> externalIdsDeletedInTransaction)
       throws IOException, DuplicateExternalIdKeyException {
     checkLoaded();
-    ExternalIdsSameAccountChecker.checkSameAccount(toAdd, accountId);
-    checkExternalIdKeysDontExist(ExternalId.Key.from(toAdd), toDelete);
+    Account.Id inferredAccountId = ExternalIdsSameAccountChecker.checkSameAccount(toAdd, accountId);
+    if (inferredAccountId != null && !accountId.equals(inferredAccountId)) {
+      throw new IllegalArgumentException(
+          String.format(
+              "ExternalIdNotes#replace called for account %s, but with external IDs correlated to"
+                  + " account %s",
+              accountId, inferredAccountId));
+    }
+    checkExternalIdKeysDontExist(ExternalId.Key.from(toAdd), externalIdsDeletedInTransaction);
 
     Set<ExternalId> removedExtIds = new HashSet<>();
     Set<ExternalId> updatedExtIds = new HashSet<>();
@@ -805,7 +807,48 @@ public class ExternalIdNotes extends VersionedMetaData {
       return;
     }
 
-    replace(accountId, toDelete.stream().map(ExternalId::key).collect(toSet()), toAdd);
+    Set<ExternalId.Key> toDeleteKeys = toDelete.stream().map(ExternalId::key).collect(toSet());
+    replace(accountId, toDelete, toAdd, /* externalIdsDeletedInTransaction= */ toDeleteKeys);
+  }
+
+  /**
+   * Replaces external IDs.
+   *
+   * <p>Deletion of external IDs is done before adding the new external IDs. This means if an
+   * external ID is specified for deletion and an external ID with the same key is specified to be
+   * added, the old external ID with that key is deleted first and then the new external ID is added
+   * (so the external ID for that key is replaced).
+   *
+   * <p>This method also gets a collection of all external IDs that should be deleted in this
+   * transaction - from the target account or other accounts. This collection is taken into account
+   * when calculating duplications.
+   */
+  public void replace(
+      Account.Id accountId,
+      Collection<ExternalId> toDelete,
+      Collection<ExternalId> toAdd,
+      Collection<ExternalId.Key> externalIdsDeletedInTransaction)
+      throws IOException, DuplicateExternalIdKeyException {
+    Account.Id inferredAccountId =
+        ExternalIdsSameAccountChecker.checkSameAccount(Iterables.concat(toDelete, toAdd));
+    if (inferredAccountId != null && !accountId.equals(inferredAccountId)) {
+      throw new IllegalArgumentException(
+          String.format(
+              "ExternalIdNotes#replace called for account %s, but with external IDs correlated to"
+                  + " account %s",
+              accountId, inferredAccountId));
+    }
+    if (toDelete.isEmpty() && toAdd.isEmpty()) {
+      // nothing to do
+      return;
+    }
+
+    replace(
+        accountId,
+        toDelete.stream().map(ExternalId::key).collect(toSet()),
+        toAdd,
+        defaultNoteIdResolver,
+        externalIdsDeletedInTransaction);
   }
 
   /**
@@ -831,8 +874,13 @@ public class ExternalIdNotes extends VersionedMetaData {
       return;
     }
 
+    Set<ExternalId.Key> toDeleteKeys = toDelete.stream().map(ExternalId::key).collect(toSet());
     replace(
-        accountId, toDelete.stream().map(ExternalId::key).collect(toSet()), toAdd, noteIdResolver);
+        accountId,
+        toDeleteKeys,
+        toAdd,
+        noteIdResolver,
+        /* externalIdsDeletedInTransaction= */ toDeleteKeys);
   }
 
   @Override

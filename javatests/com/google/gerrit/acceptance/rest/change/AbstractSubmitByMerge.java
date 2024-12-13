@@ -16,17 +16,14 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
-import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.client.InheritableBoolean;
-import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.server.change.MergeabilityComputationBehavior;
 import com.google.inject.Inject;
-import java.io.ByteArrayOutputStream;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
 
@@ -87,38 +84,6 @@ public abstract class AbstractSubmitByMerge extends AbstractSubmit {
             + "Please rebase the change locally "
             + "and upload the rebased commit for review.");
     assertThat(projectOperations.project(project).getHead("master")).isEqualTo(oldHead);
-  }
-
-  @Test
-  @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
-  public void submitWithUnionContentMerge() throws Throwable {
-    PushOneCommit pushAttributes =
-        pushFactory.create(
-            admin.newIdent(),
-            testRepo,
-            "add merge=union to gitattributes",
-            ".gitattributes",
-            "*.txt merge=union");
-    PushOneCommit.Result unusedResult = pushAttributes.to("refs/heads/master");
-    RevCommit initialHead = projectOperations.project(project).getHead("master");
-    PushOneCommit.Result change = createChange("Change 1", "a.txt", "content");
-    submit(change.getChangeId());
-
-    RevCommit oldHead = projectOperations.project(project).getHead("master");
-    testRepo.reset(initialHead);
-    PushOneCommit.Result change2 = createChange("Change 2", "a.txt", "other content");
-    submit(change2.getChangeId());
-    RevCommit head = projectOperations.project(project).getHead("master");
-    assertThat(head.getParentCount()).isEqualTo(2);
-    assertThat(head.getParent(0)).isEqualTo(oldHead);
-    assertThat(head.getParent(1)).isEqualTo(change2.getCommit());
-
-    // We expect that it has no conflict markers and the content of both changes.
-    BinaryResult bin = gApi.projects().name(project.get()).branch("master").file("a.txt");
-    ByteArrayOutputStream os = new ByteArrayOutputStream();
-    bin.writeTo(os);
-    String fileContent = new String(os.toByteArray(), UTF_8);
-    assertThat(fileContent).isEqualTo("content" + "\n" + "other content");
   }
 
   @Test

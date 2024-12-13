@@ -3151,40 +3151,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
-  public void conflictsUnionContentMerge() throws Exception {
-    Project.NameKey project = Project.nameKey("repo");
-    repo = createAndOpenProject(project);
-    TestRepository<Repository>.CommitBuilder builder =
-        repo.commit().add(".gitattributes", "*.txt merge=union");
-    builder.create();
-    RevCommit commit1 =
-        repo.parseBody(
-            builder
-                .child()
-                .add("file1", "contents1")
-                .add("dir/file2.txt", "contents2")
-                .add("dir/file3", "contents3")
-                .create());
-    RevCommit commit2 = repo.parseBody(builder.child().add("file1", "contents1").create());
-    RevCommit commit3 =
-        repo.parseBody(builder.child().add("dir/file2.txt", "contents2 different").create());
-    RevCommit commit4 = repo.parseBody(builder.child().add("file4", "contents4").create());
-    RevCommit commit5 =
-        repo.parseBody(builder.child().add("dir/file3", "contents3 different").create());
-    Change change1 = insert(project, newChangeForCommit(repo, commit1));
-    Change change2 = insert(project, newChangeForCommit(repo, commit2));
-    Change change3 = insert(project, newChangeForCommit(repo, commit3));
-    Change change4 = insert(project, newChangeForCommit(repo, commit4));
-    Change change5 = insert(project, newChangeForCommit(repo, commit5));
-
-    assertQuery("conflicts:" + change1.getId().get(), change5);
-    assertQuery("conflicts:" + change2.getId().get());
-    assertQuery("conflicts:" + change3.getId().get());
-    assertQuery("conflicts:" + change4.getId().get());
-    assertQuery("conflicts:" + change5.getId().get(), change1);
-  }
-
-  @Test
   @GerritConfig(
       name = "change.mergeabilityComputationBehavior",
       value = "API_REF_UPDATED_AND_CHANGE_REINDEX")

@@ -85,7 +85,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import org.eclipse.jgit.attributes.AttributesNodeProvider;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -188,16 +187,7 @@ public class RevisionJson {
     AccountLoader accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
     try (Repository repo = openRepoIfNecessary(cd.project());
         RevWalk rw = newRevWalk(repo)) {
-      RevisionInfo rev =
-          toRevisionInfo(
-              accountLoader,
-              cd,
-              in,
-              repo,
-              rw,
-              true,
-              null,
-              repo != null ? repo.createAttributesNodeProvider() : null);
+      RevisionInfo rev = toRevisionInfo(accountLoader, cd, in, repo, rw, true, null);
       accountLoader.fill();
       return rev;
     }
@@ -277,8 +267,6 @@ public class RevisionJson {
       Map<String, RevisionInfo> res = new LinkedHashMap<>();
       try (Repository repo = openRepoIfNecessary(cd.project());
           RevWalk rw = newRevWalk(repo)) {
-        AttributesNodeProvider attributesNodeProvider =
-            repo != null ? repo.createAttributesNodeProvider() : null;
         for (PatchSet in : map.values()) {
           PatchSet.Id id = in.id();
           boolean want;
@@ -292,8 +280,7 @@ public class RevisionJson {
           if (want) {
             res.put(
                 in.commitId().name(),
-                toRevisionInfo(
-                    accountLoader, cd, in, repo, rw, false, changeInfo, attributesNodeProvider));
+                toRevisionInfo(accountLoader, cd, in, repo, rw, false, changeInfo));
           }
         }
         return res;
@@ -338,8 +325,7 @@ public class RevisionJson {
       @Nullable Repository repo,
       @Nullable RevWalk rw,
       boolean fillCommit,
-      @Nullable ChangeInfo changeInfo,
-      @Nullable AttributesNodeProvider attributesNodeProvider)
+      @Nullable ChangeInfo changeInfo)
       throws PatchListNotAvailableException, GpgException, IOException, PermissionBackendException {
     Change c = cd.change();
     RevisionInfo out = new RevisionInfo();
@@ -359,9 +345,7 @@ public class RevisionJson {
       out.realUploader = accountLoader.get(in.realUploader());
     }
     out.fetch = makeFetchMap(cd, in);
-    out.kind =
-        changeKindCache.getChangeKind(
-            rw, repo != null ? repo.getConfig() : null, attributesNodeProvider, cd, in);
+    out.kind = changeKindCache.getChangeKind(rw, repo != null ? repo.getConfig() : null, cd, in);
     out.description = in.description().orElse(null);
 
     boolean setCommit = has(ALL_COMMITS) || (out.isCurrent && has(CURRENT_COMMIT));

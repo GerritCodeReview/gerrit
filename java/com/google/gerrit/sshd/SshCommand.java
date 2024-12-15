@@ -27,6 +27,7 @@ import com.google.gerrit.server.cache.PerThreadCache;
 import com.google.gerrit.server.cancellation.RequestCancelledException;
 import com.google.gerrit.server.cancellation.RequestStateContext;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.ioutil.HexFormat;
 import com.google.gerrit.server.logging.PerformanceLogContext;
 import com.google.gerrit.server.logging.PerformanceLogger;
 import com.google.gerrit.server.logging.TraceContext;
@@ -62,6 +63,7 @@ public abstract class SshCommand extends BaseCommand {
 
   @Override
   public void start(ChannelSession channel, Environment env) throws IOException {
+    String sessionId = HexFormat.fromInt(getSession().getSessionId());
     startThread(
         () -> {
           try (PerThreadCache ignored = PerThreadCache.create();
@@ -72,6 +74,7 @@ public abstract class SshCommand extends BaseCommand {
             try (TraceContext traceContext = enableTracing();
                 PerformanceLogContext performanceLogContext =
                     new PerformanceLogContext(config, performanceLoggers)) {
+              traceContext.addTag("SSH_SESSION", sessionId);
               RequestInfo requestInfo =
                   RequestInfo.builder(RequestInfo.RequestType.SSH, getName(), user, traceContext)
                       .build();
@@ -123,6 +126,12 @@ public abstract class SshCommand extends BaseCommand {
     return TraceContext.newTrace(
         trace,
         traceId,
-        (tagName, traceId) -> stderr.println(String.format("%s: %s", tagName, traceId)));
+        (tagName, traceId) -> {
+          if (trace) {
+            stderr.println(String.format("%s: %s", tagName, traceId));
+          }
+          setForceTracing(trace);
+          setTraceId(traceId);
+        });
   }
 }

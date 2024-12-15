@@ -475,7 +475,7 @@ class ReceiveCommits {
   private boolean newChangeForAllNotInTarget;
   private boolean setChangeAsPrivate;
   private Optional<NoteDbPushOption> noteDbPushOption;
-  private Optional<String> tracePushOption;
+  private Optional<String> tracePushOption = Optional.empty();
 
   private MessageSender messageSender;
   private ReceiveCommitsResult.Builder result;
@@ -685,7 +685,7 @@ class ReceiveCommits {
   void sendMessages() {
     try (TraceContext traceContext =
         TraceContext.newTrace(
-            loggingTags.containsKey(RequestId.Type.TRACE_ID.name()),
+            tracePushOption.isPresent(),
             loggingTags.get(RequestId.Type.TRACE_ID.name()),
             (tagName, traceId) -> {})) {
       loggingTags.forEach((tagName, tagValue) -> traceContext.addTag(tagName, tagValue));
@@ -712,7 +712,11 @@ class ReceiveCommits {
             TraceContext.newTrace(
                 tracePushOption.isPresent(),
                 tracePushOption.orElse(null),
-                (tagName, traceId) -> addMessage(tagName + ": " + traceId));
+                (tagName, traceId) -> {
+                  if (tracePushOption.isPresent()) {
+                    addMessage(tagName + ": " + traceId);
+                  }
+                });
         PerformanceLogContext performanceLogContext =
             new PerformanceLogContext(config, performanceLoggers);
         TraceTimer traceTimer =
@@ -1375,8 +1379,6 @@ class ReceiveCommits {
     List<String> traceValues = pushOptions.get("trace");
     if (!traceValues.isEmpty()) {
       tracePushOption = Optional.of(Iterables.getLast(traceValues));
-    } else {
-      tracePushOption = Optional.empty();
     }
   }
 

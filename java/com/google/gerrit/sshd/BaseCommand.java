@@ -31,6 +31,8 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RequestCleanup;
 import com.google.gerrit.server.git.ProjectRunnable;
 import com.google.gerrit.server.git.WorkQueue.CancelableRunnable;
+import com.google.gerrit.server.ioutil.HexFormat;
+import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -162,6 +164,18 @@ public abstract class BaseCommand implements Command {
 
   public void setArguments(String[] argv) {
     this.argv = argv;
+  }
+
+  public void setForceTracing(boolean v) {
+    context.setForceTracing(v);
+  }
+
+  public void setTraceId(String id) {
+    context.setTraceId(id);
+  }
+
+  public SshSession getSession() {
+    return context.getSession();
   }
 
   /**
@@ -505,7 +519,12 @@ public abstract class BaseCommand implements Command {
         } catch (Throwable e) {
           flushIgnoreException(out);
           flushIgnoreException(err);
-          rc = handleError(e);
+          try (TraceContext traceContext =
+              TraceContext.newTrace(
+                  context.getForceTracing(), context.getTraceId(), (trace, traceId) -> {})) {
+            traceContext.addTag("SSH_SESSION", HexFormat.fromInt(getSession().getSessionId()));
+            rc = handleError(e);
+          }
         } finally {
           try {
             onExit(rc);

@@ -33,6 +33,23 @@
       "message": "ok, if writing this timeout test is too difficult let\u0027s accept this fix to get the problem solved anyway",
       "revId": "44a97a1c543a740cdd331aa945c9c5d33f13b772",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8cd43a97_3b2e2967",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2024-12-16T12:47:28Z",
+      "side": 1,
+      "message": "Should this be backported to 3.11, 3.10 and 3.9?",
+      "revId": "44a97a1c543a740cdd331aa945c9c5d33f13b772",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

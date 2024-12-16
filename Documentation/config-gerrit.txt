@@ -1459,6 +1459,35 @@ performance improvements by reducing the number of refs in the repo.
 +
 Default is `true`.
 
+[[change.codeReviewLabelCopyEnforcement]]change.codeReviewLabelCopyEnforcement::
++
+For "Code-Review" label the votes that satisfy this condition are copied
+regardless of label's
+link:config-labels.html#label_copyCondition[copyCondition].
++
+Uses the same syntax as label's
+link:config-labels.html#label_copyCondition[copyCondition]
++
+The final copyCondition is equivalent to
+----
+(<labelCondition> AND NOT <copyRestriction>) OR <copyEnforcement>
+----
+
+[[change.codeReviewLabelCopyRestriction]]change.codeReviewLabelCopyRestriction::
++
+For "Code-Review" label the votes that satisfy this condition are not copied
+regardless of label's
+link:config-labels.html#label_copyCondition[copyCondition] unless they also
+satisfy "change.codeReviewLabelCopyEnforcement".
++
+Uses the same syntax as label's
+link:config-labels.html#label_copyCondition[copyCondition]
++
+The final copyCondition is equivalent to
+----
+(<labelCondition> AND NOT <copyRestriction>) OR <copyEnforcement>
+----
+
 [[change.commentSizeLimit]]change.commentSizeLimit::
 +
 Maximum allowed size in characters of a regular (non-robot) comment. Comments

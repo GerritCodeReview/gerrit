@@ -22,6 +22,30 @@
       },
       "revId": "359ea66896f0d015a135c979ec51f4f4748add88",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d781135_2fe26a2a",
+        "filename": "Documentation/cross-repository-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2024-12-16T21:08:06Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "8dc5f5c7_016da7cc",
+      "range": {
+        "startLine": 36,
+        "startChar": 22,
+        "endLine": 36,
+        "endChar": 105
+      },
+      "revId": "359ea66896f0d015a135c979ec51f4f4748add88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -28,6 +28,7 @@ import static java.util.stream.Collectors.joining;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Function;
+import com.google.common.base.Strings;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
@@ -58,6 +59,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.approval.ApprovalCopier.ApprovalCopyResult;
 import com.google.gerrit.server.change.LabelNormalizer;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -738,18 +740,14 @@ public class ApprovalsUtil {
       message.append(
           formatApprovalsAsLabelVotesList(approvalsWithSameLabelAndSamePassingAndFailingAtoms));
     }
-    ImmutableSet<String> passingAtoms =
+    ApprovalCopyResult copyResult =
         !approvalsWithSameLabelAndSamePassingAndFailingAtoms.isEmpty()
             ? approvalsWithSameLabelAndSamePassingAndFailingAtoms
                 .iterator()
                 .next()
                 .approvalCopyResult()
-                .passingAtoms()
-            : ImmutableSet.of();
-    message.append(
-        String.format(
-            " (copy condition: \"%s\")",
-            formatCopyConditionAsMarkdown(copyCondition, passingAtoms)));
+            : ApprovalCopyResult.createEvaluationSkipped();
+    message.append(formatApprovalCopyResult(copyResult));
     return message.toString();
   }
 
@@ -795,6 +793,37 @@ public class ApprovalsUtil {
       }
     }
     return formattedCopyCondition.toString();
+  }
+
+  /**
+   * Formats the given copy condition as a Markdown string.
+   *
+   * <p>Passing atoms are formatted as bold.
+   *
+   * @param approvalCopyResult evaluation information for the copyCondition
+   * @return the formatted copy condition as a Markdown string
+   */
+  private String formatApprovalCopyResult(ApprovalCopyResult approvalCopyResult) {
+    return String.format(
+        " (%s%s%s)",
+        !Strings.isNullOrEmpty(approvalCopyResult.labelCopyCondition())
+            ? String.format(
+                "copy condition: \"%s\" ",
+                formatCopyConditionAsMarkdown(
+                    approvalCopyResult.labelCopyCondition(), approvalCopyResult.passingAtoms()))
+            : "",
+        !Strings.isNullOrEmpty(approvalCopyResult.copyEnforcement())
+            ? String.format(
+                "forced copy condition: \"%s\" ",
+                formatCopyConditionAsMarkdown(
+                    approvalCopyResult.copyEnforcement(), approvalCopyResult.passingAtoms()))
+            : "",
+        !Strings.isNullOrEmpty(approvalCopyResult.copyRestriction())
+            ? String.format(
+                "forced copy restriction: \"%s\" ",
+                formatCopyConditionAsMarkdown(
+                    approvalCopyResult.copyRestriction(), approvalCopyResult.passingAtoms()))
+            : "");
   }
 
   private boolean containsUserInPredicate(String copyCondition) throws QueryParseException {

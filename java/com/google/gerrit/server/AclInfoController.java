@@ -14,31 +14,25 @@
 
 package com.google.gerrit.server;
 
-import com.google.common.collect.ImmutableList;
-import com.google.gerrit.server.logging.LoggingContext;
 import com.google.gerrit.server.logging.TraceContext;
-import com.google.gerrit.server.permissions.GlobalPermission;
-import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.Optional;
 
 /** Class to control when ACL infos should be collected and be returned to the user. */
+// TODO: re-enable this class if it's found safe, otherwise remove it
 @Singleton
 public class AclInfoController {
-  private final PermissionBackend permissionBackend;
-
-  @Inject
-  AclInfoController(PermissionBackend permissionBackend) {
-    this.permissionBackend = permissionBackend;
-  }
-
+  /**
+   * Enable ACL logging if the user has the "View Access" capability.
+   *
+   * @param traceContext the trace context on which ACL logging enabled if the user has the "View
+   *     Access" capability.
+   * @throws PermissionBackendException thrown if there is a failure while checking permissions
+   */
   public void enableAclLoggingIfUserCanViewAccess(TraceContext traceContext)
       throws PermissionBackendException {
-    if (canViewAclInfos()) {
-      traceContext.enableAclLogging();
-    }
+    // intentionally disabled
   }
 
   /**
@@ -46,27 +40,7 @@ public class AclInfoController {
    * Optional#empty()} if ACL logging hasn't been turned on
    */
   public Optional<String> getAclInfoMessage() {
-    // ACL logging is only enabled if the user can view ACL infos. This is checked when ACL logging
-    // is turned on in enableAclLoggingIfUserCanViewAccess. Hence we can return ACL infos if ACL
-    // logging is on and do not need to check the permission again. We want to avoid re-checking the
-    // permission so that we do not need to handle PermissionBackendException.
-    if (!LoggingContext.getInstance().isAclLogging()) {
-      return Optional.empty();
-    }
-
-    ImmutableList<String> aclLogRecords = TraceContext.getAclLogRecords();
-    if (aclLogRecords.isEmpty()) {
-      aclLogRecords = ImmutableList.of("Found no rules that apply, so defaulting to no permission");
-    }
-
-    StringBuilder msgBuilder = new StringBuilder("ACL info:");
-    aclLogRecords.stream()
-        .distinct()
-        .forEach(aclLogRecord -> msgBuilder.append("\n* ").append(aclLogRecord));
-    return Optional.of(msgBuilder.toString());
-  }
-
-  private boolean canViewAclInfos() throws PermissionBackendException {
-    return permissionBackend.currentUser().test(GlobalPermission.VIEW_ACCESS);
+    // intentionally disabled
+    return Optional.empty();
   }
 }

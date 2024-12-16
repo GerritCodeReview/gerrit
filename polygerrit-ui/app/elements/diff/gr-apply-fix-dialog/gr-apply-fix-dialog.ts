@@ -481,7 +481,7 @@ export class GrApplyFixDialog extends LitElement {
         fireError(this, `Applying Fix failed.\n${errorText}`);
       } finally {
         this.reporting.timeEnd(Timing.APPLY_FIX_LOAD, {
-          method: '1-click',
+          method: 'apply-fix-dialog',
           description: this.fixSuggestions?.[0].description,
           fileExtension: getFileExtension(
             this.fixSuggestions?.[0]?.replacements?.[0].path ?? ''

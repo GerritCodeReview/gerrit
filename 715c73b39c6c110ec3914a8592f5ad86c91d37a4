@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "19a3256e_4b6e7181",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-12-16T15:39:36Z",
+      "side": 1,
+      "message": "Hi, Edwin. \n\nFYI: I have deviated from original project proposal of doing that changes as part of config parsing logic. We would\u0027ve needed to do changes in ApprovalCopier anyway in order to be able to show better information in the UI. And if we are doing changes to ApprovalCopier than it\u0027s easier for all the logic to be there, instead.",
+      "revId": "715c73b39c6c110ec3914a8592f5ad86c91d37a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

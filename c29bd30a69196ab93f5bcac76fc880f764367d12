@@ -16,6 +16,24 @@
       "message": "Would a simple config in gerrit.config do for this instead. If not, can you add the reasoning her?\n\nWrap the line above?",
       "revId": "c29bd30a69196ab93f5bcac76fc880f764367d12",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4539b52c_cb6e727a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1096249
+      },
+      "writtenOn": "2024-12-16T17:53:09Z",
+      "side": 1,
+      "message": "\u003eWould a simple config in gerrit.config do for this instead. If not, can you add the reasoning her?\n\nTBH, I didn\u0027t consider that. It does make sense to have config in gerrit.config for the problem we are trying to address and it will be much simpler. Thanks for suggestion, I will update the change",
+      "parentUuid": "b1e41d6d_51def3e7",
+      "revId": "c29bd30a69196ab93f5bcac76fc880f764367d12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

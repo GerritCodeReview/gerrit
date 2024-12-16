@@ -32,7 +32,8 @@ your Gerrit instance.
 * A topic is a string that can be associated with a change.
 * Multiple changes can use that topic to be submitted at the same time (assuming
   approvals, etc.).
-* Submitting a change with a topic causes all of the changes in the topic *to be
+* When link:config-gerrit.html#change.submitWholeTopic[config.submitWholeTopic] is enabled,
+  submitting a change within a topic causes all of the changes in the topic *to be
   submitted together*
   ** Topics that span only a single repository are guaranteed to be submitted
   together

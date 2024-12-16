@@ -371,13 +371,13 @@ public class PatchSetInserter implements BatchUpdateOp {
               ctx.getNotes(), patchSet, ctx.getRepoView(), update);
     }
 
-    mailMessage = insertChangeMessage(update, ctx);
+    mailMessage = insertChangeMessage(update);
 
     return true;
   }
 
   @Nullable
-  private String insertChangeMessage(ChangeUpdate update, ChangeContext ctx) {
+  private String insertChangeMessage(ChangeUpdate update) {
     StringBuilder messageBuilder = new StringBuilder();
     if (message != null) {
       messageBuilder.append(message);
@@ -385,12 +385,7 @@ public class PatchSetInserter implements BatchUpdateOp {
 
     if (approvalCopierResult != null) {
       approvalsUtil
-          .formatApprovalCopierResult(
-              approvalCopierResult,
-              projectCache
-                  .get(ctx.getProject())
-                  .orElseThrow(illegalState(ctx.getProject()))
-                  .getLabelTypes())
+          .formatApprovalCopierResult(approvalCopierResult)
           .ifPresent(
               msg -> {
                 if (message != null && !message.endsWith("\n")) {

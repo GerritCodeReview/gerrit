@@ -144,8 +144,7 @@ public class ApprovalCopier {
 
       private static PatchSetApprovalData createForMissingLabelType(PatchSetApproval approval) {
         return new AutoValue_ApprovalCopier_Result_PatchSetApprovalData(
-            approval,
-            ApprovalCopyResult.create(false, false, false, ImmutableSet.of(), ImmutableSet.of()));
+            approval, ApprovalCopyResult.createEvaluationSkipped());
       }
     }
   }
@@ -156,13 +155,22 @@ public class ApprovalCopier {
     /** Whether the approval can be copied to the next patch set. */
     public abstract boolean canCopy();
 
+    /** Label's copyCondition */
+    public abstract @Nullable String labelCopyCondition();
+
     /** Whether the approval can be copied to the next patch set based on label's copyCondition. */
     public abstract boolean labelCopy();
+
+    /** Condition that forces copy based on server configuration */
+    public abstract @Nullable String copyEnforcement();
 
     /**
      * Whether the approval must be copied to the next patch set based on servers copyEnforcement.
      */
     public abstract boolean forcedCopy();
+
+    /** Condition that forces copy not to be made based on server configuration */
+    public abstract @Nullable String copyRestriction();
 
     /**
      * Whether the approval must be not be copied to the next patch set based on servers
@@ -204,18 +212,29 @@ public class ApprovalCopier {
     public abstract ImmutableSet<String> failingAtoms();
 
     public static ApprovalCopyResult create(
+        @Nullable String labelCopyCondition,
         boolean labelCopy,
+        @Nullable String copyEnforcement,
         boolean forcedCopy,
+        @Nullable String copyRestriction,
         boolean forcedNonCopy,
         Set<String> passingAtoms,
         Set<String> failingAtoms) {
       return new AutoValue_ApprovalCopier_ApprovalCopyResult(
           forcedCopy || (labelCopy && !forcedNonCopy),
+          labelCopyCondition,
           labelCopy,
+          copyEnforcement,
           forcedCopy,
+          copyRestriction,
           forcedNonCopy,
           ImmutableSet.copyOf(passingAtoms),
           ImmutableSet.copyOf(failingAtoms));
+    }
+
+    public static ApprovalCopyResult createEvaluationSkipped() {
+      return new AutoValue_ApprovalCopier_ApprovalCopyResult(
+          false, null, false, null, false, null, false, ImmutableSet.of(), ImmutableSet.of());
     }
   }
 
@@ -401,7 +420,7 @@ public class ApprovalCopier {
     if (Strings.isNullOrEmpty(forcedCopyCondition)
         && Strings.isNullOrEmpty(forcedNonCopyCondition)
         && Strings.isNullOrEmpty(labelCopyCondition)) {
-      return ApprovalCopyResult.create(false, false, false, ImmutableSet.of(), ImmutableSet.of());
+      return ApprovalCopyResult.createEvaluationSkipped();
     }
     ApprovalContext ctx =
         ApprovalContext.create(
@@ -427,7 +446,14 @@ public class ApprovalCopier {
           evaluateCondition(forcedNonCopyCondition, ctx, passingAtoms, failingAtoms);
       ApprovalCopyResult result =
           ApprovalCopyResult.create(
-              labelCopy, forcedCopy, forcedNonCopy, passingAtoms, failingAtoms);
+              labelCopyCondition,
+              labelCopy,
+              forcedCopyCondition,
+              forcedCopy,
+              forcedNonCopyCondition,
+              forcedNonCopy,
+              passingAtoms,
+              failingAtoms);
       logger.atFine().log(
           "%s copy %s of account %d on change %d from patch set %d to patch set %d"
               + " (%s%s%spassingAtoms = %s, failingAtoms = %s, changeKind = %s)",

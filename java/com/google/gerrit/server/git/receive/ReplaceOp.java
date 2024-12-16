@@ -473,7 +473,7 @@ public class ReplaceOp implements BatchUpdateOp {
       message.append("\n\n").append(reviewMessage);
     }
     approvalsUtil
-        .formatApprovalCopierResult(approvalCopierResult, projectState.getLabelTypes())
+        .formatApprovalCopierResult(approvalCopierResult)
         .ifPresent(
             msg -> {
               if (Strings.isNullOrEmpty(reviewMessage) || !reviewMessage.endsWith("\n")) {

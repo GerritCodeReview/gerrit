@@ -28,6 +28,7 @@ import static java.util.stream.Collectors.joining;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Function;
+import com.google.common.base.Strings;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
@@ -37,6 +38,7 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimaps;
 import com.google.common.collect.Sets;
+import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
@@ -58,6 +60,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.approval.ApprovalCopier.ApprovalCopyResult;
 import com.google.gerrit.server.change.LabelNormalizer;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -458,10 +461,8 @@ public class ApprovalsUtil {
     changeUpdate.addToPlannedAttentionSetUpdates(updates);
   }
 
-  public Optional<String> formatApprovalCopierResult(
-      ApprovalCopier.Result approvalCopierResult, LabelTypes labelTypes) {
+  public Optional<String> formatApprovalCopierResult(ApprovalCopier.Result approvalCopierResult) {
     requireNonNull(approvalCopierResult, "approvalCopierResult");
-    requireNonNull(labelTypes, "labelTypes");
 
     if (approvalCopierResult.copiedApprovals().isEmpty()
         && approvalCopierResult.outdatedApprovals().isEmpty()) {
@@ -472,17 +473,27 @@ public class ApprovalsUtil {
 
     if (!approvalCopierResult.copiedApprovals().isEmpty()) {
       message.append("Copied Votes:\n");
-      message.append(
-          formatApprovalListWithCopyCondition(approvalCopierResult.copiedApprovals(), labelTypes));
+      message.append(formatApprovalListWithCopyCondition(approvalCopierResult.copiedApprovals()));
     }
     if (!approvalCopierResult.outdatedApprovals().isEmpty()) {
       if (!approvalCopierResult.copiedApprovals().isEmpty()) {
         message.append("\n");
       }
       message.append("Outdated Votes:\n");
+      message.append(formatApprovalListWithCopyCondition(approvalCopierResult.outdatedApprovals()));
+    }
+
+    if (Streams.concat(
+            approvalCopierResult.copiedApprovals().stream(),
+            approvalCopierResult.outdatedApprovals().stream())
+        .anyMatch(
+            a ->
+                !Strings.isNullOrEmpty(a.approvalCopyResult().copyEnforcement())
+                    || !Strings.isNullOrEmpty(a.approvalCopyResult().copyRestriction()))) {
       message.append(
-          formatApprovalListWithCopyCondition(
-              approvalCopierResult.outdatedApprovals(), labelTypes));
+          "\n"
+              + "\\* The label has `labelCopyEnforcement` or `labelCopyRestriction` configured."
+              + " Only the most relevant condition that determined the outcome is shown.\n");
     }
 
     return Optional.of(message.toString());
@@ -511,9 +522,6 @@ public class ApprovalsUtil {
    *       (copy condition: "approverin:7d9e2d5b561e75230e4463ae757ac5d6ff715d85")}
    *   <li>{@code <comma-separated-list-of-approval-for-the-same-label>} (if no copy condition is
    *       present), e.g.: {@code Code-Review+1, Code-Review+2}
-   *   <li>{@code <comma-separated-list-of-approval-for-the-same-label> (label type is missing)} (if
-   *       the label type is missing), e.g.: {@code Code-Review+1, Code-Review+2 (label type is
-   *       missing)}
    *   <li>{@code <comma-separated-list-of-approval-for-the-same-label> (non-parseable copy
    *       condition: "<non-parseable copy-condition>")} (if a non-parseable copy condition is
    *       present), e.g.: {@code Code-Review+1, Code-Review+2 (non-parseable copy condition:
@@ -521,12 +529,10 @@ public class ApprovalsUtil {
    * </ul>
    *
    * @param approvalDatas the approvals that should be formatted, with approval meta data
-   * @param labelTypes the label types
    * @return bullet list with the formatted approvals
    */
   private String formatApprovalListWithCopyCondition(
-      ImmutableSet<ApprovalCopier.Result.PatchSetApprovalData> approvalDatas,
-      LabelTypes labelTypes) {
+      ImmutableSet<ApprovalCopier.Result.PatchSetApprovalData> approvalDatas) {
     StringBuilder message = new StringBuilder();
 
     // sort approvals by label vote so that we list them in a deterministic order
@@ -547,26 +553,8 @@ public class ApprovalsUtil {
 
     for (Map.Entry<String, Collection<ApprovalCopier.Result.PatchSetApprovalData>>
         approvalsByLabelEntry : approvalsByLabel.asMap().entrySet()) {
-      String label = approvalsByLabelEntry.getKey();
       Collection<ApprovalCopier.Result.PatchSetApprovalData> approvalsForSameLabel =
           approvalsByLabelEntry.getValue();
-
-      if (!labelTypes.byLabel(label).isPresent()) {
-        message
-            .append("* ")
-            .append(formatApprovalsAsLabelVotesList(approvalsForSameLabel))
-            .append(" (label type is missing)\n");
-        continue;
-      }
-
-      LabelType labelType = labelTypes.byLabel(label).get();
-      if (!labelType.getCopyCondition().isPresent()) {
-        message
-            .append("* ")
-            .append(formatApprovalsAsLabelVotesList(approvalsForSameLabel))
-            .append("\n");
-        continue;
-      }
 
       // Group the approvals that have the same label by the passing atoms. If approvals have the
       // same label, but have different passing atoms, we need to list them in separate lines
@@ -606,8 +594,7 @@ public class ApprovalsUtil {
             .append("* ")
             .append(
                 formatApprovalsWithCopyCondition(
-                    approvalsForSameLabelWithSamePassingAndFailingAtoms,
-                    labelType.getCopyCondition().get()))
+                    approvalsForSameLabelWithSamePassingAndFailingAtoms))
             .append("\n");
       }
     }
@@ -640,13 +627,11 @@ public class ApprovalsUtil {
    *
    * @param approvalsWithSameLabelAndSamePassingAndFailingAtoms the approvals that should be
    *     formatted, must be for the same label
-   * @param copyCondition the copy condition of the label
    * @return the formatted approvals
    */
   private String formatApprovalsWithCopyCondition(
       Collection<ApprovalCopier.Result.PatchSetApprovalData>
-          approvalsWithSameLabelAndSamePassingAndFailingAtoms,
-      String copyCondition) {
+          approvalsWithSameLabelAndSamePassingAndFailingAtoms) {
     // Check that all given approvals have the same label and the same passing and failing atoms.
     checkThatPropertyIsTheSameForAllApprovals(
         approvalsWithSameLabelAndSamePassingAndFailingAtoms,
@@ -661,6 +646,31 @@ public class ApprovalsUtil {
         "failing atoms",
         approvalData -> approvalData.approvalCopyResult().failingAtoms());
 
+    ApprovalCopyResult copyResult =
+        !approvalsWithSameLabelAndSamePassingAndFailingAtoms.isEmpty()
+            ? approvalsWithSameLabelAndSamePassingAndFailingAtoms.stream()
+                .findFirst()
+                .get()
+                .approvalCopyResult()
+            : ApprovalCopyResult.createEvaluationSkipped();
+    // In order to keep the message concise and understandable only show most relevant
+    // copy condition and add an asterisk to show if forced conditions are present.
+    String copyConditionName = "";
+    String copyCondition = "";
+    boolean showAsterisk =
+        !Strings.isNullOrEmpty(copyResult.copyEnforcement())
+            || !Strings.isNullOrEmpty(copyResult.copyRestriction());
+    if (copyResult.canCopy() == copyResult.labelCopy()) {
+      copyCondition = copyResult.labelCopyCondition();
+      copyConditionName = "copy condition";
+    } else if (!Strings.isNullOrEmpty(copyResult.copyEnforcement()) && copyResult.forcedCopy()) {
+      copyCondition = copyResult.copyEnforcement();
+      copyConditionName = "forced copy condition";
+    } else if (!Strings.isNullOrEmpty(copyResult.copyRestriction()) && copyResult.forcedNonCopy()) {
+      copyCondition = copyResult.copyRestriction();
+      copyConditionName = "forced copy restriction";
+    }
+
     StringBuilder message = new StringBuilder();
 
     boolean containsUserInPredicate;
@@ -670,7 +680,10 @@ public class ApprovalsUtil {
       logger.atWarning().withCause(e).log("Non-parsable query condition");
       message.append(
           formatApprovalsAsLabelVotesList(approvalsWithSameLabelAndSamePassingAndFailingAtoms));
-      message.append(String.format(" (non-parseable copy condition: \"%s\")", copyCondition));
+      message.append(
+          String.format(
+              " (non-parseable %s%s: \"%s\")",
+              copyConditionName, showAsterisk ? "\\*" : "", copyCondition));
       return message.toString();
     }
 
@@ -738,18 +751,8 @@ public class ApprovalsUtil {
       message.append(
           formatApprovalsAsLabelVotesList(approvalsWithSameLabelAndSamePassingAndFailingAtoms));
     }
-    ImmutableSet<String> passingAtoms =
-        !approvalsWithSameLabelAndSamePassingAndFailingAtoms.isEmpty()
-            ? approvalsWithSameLabelAndSamePassingAndFailingAtoms
-                .iterator()
-                .next()
-                .approvalCopyResult()
-                .passingAtoms()
-            : ImmutableSet.of();
     message.append(
-        String.format(
-            " (copy condition: \"%s\")",
-            formatCopyConditionAsMarkdown(copyCondition, passingAtoms)));
+        formatApprovalCopyResult(copyResult, copyConditionName, copyCondition, showAsterisk));
     return message.toString();
   }
 
@@ -784,6 +787,9 @@ public class ApprovalsUtil {
    */
   private String formatCopyConditionAsMarkdown(
       String copyCondition, ImmutableSet<String> passingAtoms) {
+    if (Strings.isNullOrEmpty(copyCondition)) {
+      return "NEVER";
+    }
     StringBuilder formattedCopyCondition = new StringBuilder();
     StringTokenizer tokenizer = new StringTokenizer(copyCondition, " ()", /* returnDelims= */ true);
     while (tokenizer.hasMoreTokens()) {
@@ -797,7 +803,33 @@ public class ApprovalsUtil {
     return formattedCopyCondition.toString();
   }
 
+  /**
+   * Formats the given copy condition as a Markdown string.
+   *
+   * <p>Passing atoms are formatted as bold.
+   *
+   * @param approvalCopyResult evaluation information for the copyCondition
+   * @param copyConditionName name by which to refer to the copy condition string
+   * @param copyCondition expression that was evaluated
+   * @param showAsterisk if asterisk referring to forced copy conditions should be shown
+   * @return the formatted copy condition as a Markdown string
+   */
+  private String formatApprovalCopyResult(
+      ApprovalCopyResult approvalCopyResult,
+      String copyConditionName,
+      String copyCondition,
+      boolean showAsterisk) {
+    return String.format(
+        " (%s%s: \"%s\")",
+        copyConditionName,
+        showAsterisk ? "\\*" : "",
+        formatCopyConditionAsMarkdown(copyCondition, approvalCopyResult.passingAtoms()));
+  }
+
   private boolean containsUserInPredicate(String copyCondition) throws QueryParseException {
+    if (Strings.isNullOrEmpty(copyCondition)) {
+      return false;
+    }
     // Use a request context to run checks as an internal user with expanded visibility. This is
     // so that the output of the copy condition does not depend on who is running the current
     // request (e.g. a group used in this query might not be visible to the person sending this

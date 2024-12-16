@@ -3721,6 +3721,36 @@ immediately available after the write request.
 +
 Defaults to `false`.
 
+[[label]]
+=== Section label
+
+[[label.name.labelCopyEnforcement]]label.<name>.labelCopyEnforcement::
++
+The votes that satisfy this condition are copied regardless of label's
+link:config-labels.html#label_copyCondition[copyCondition].
++
+Uses the same syntax as label's
+link:config-labels.html#label_copyCondition[copyCondition]
++
+The final copyCondition is equivalent to
+----
+(<labelCondition> AND NOT <copyRestriction>) OR <copyEnforcement>
+----
+
+[[label.name.labelCopyRestriction]]label.<name>.labelCopyRestriction::
++
+The votes that satisfy this condition are not copied regardless of label's
+link:config-labels.html#label_copyCondition[copyCondition] unless they also
+satisfy "change.codeReviewLabelCopyEnforcement".
++
+Uses the same syntax as label's
+link:config-labels.html#label_copyCondition[copyCondition]
++
+The final copyCondition is equivalent to
+----
+(<labelCondition> AND NOT <copyRestriction>) OR <copyEnforcement>
+----
+
 [[scheduledIndexer]]
 === Section scheduledIndexer
 

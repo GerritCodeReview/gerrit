@@ -50,6 +50,24 @@
       "message": "Should this be backported to 3.11, 3.10 and 3.9?",
       "revId": "44a97a1c543a740cdd331aa945c9c5d33f13b772",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8421f5a4_b87b410a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-12-16T13:21:15Z",
+      "side": 1,
+      "message": "I cherry-picked it to stable-3.9, from there it can be merged up",
+      "parentUuid": "8cd43a97_3b2e2967",
+      "revId": "44a97a1c543a740cdd331aa945c9c5d33f13b772",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

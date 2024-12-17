@@ -25,10 +25,7 @@ interface AbstractListener {
 type Cleanup = () => void;
 
 export class ShortcutController implements ReactiveController {
-  private readonly getShortcutsService = resolve(
-    this.host,
-    shortcutsServiceToken
-  );
+  private readonly getShortcutsService;
 
   private readonly listenersLocal: ShortcutListener[] = [];
 
@@ -39,6 +36,7 @@ export class ShortcutController implements ReactiveController {
   private cleanups: Cleanup[] = [];
 
   constructor(private readonly host: ReactiveControllerHost & HTMLElement) {
+    this.getShortcutsService = resolve(this.host, shortcutsServiceToken);
     host.addController(this);
   }
 

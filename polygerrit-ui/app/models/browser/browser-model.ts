@@ -33,17 +33,19 @@ export class BrowserModel extends Model<BrowserState> {
       state.screenWidth < MAX_UNIFIED_DEFAULT_WINDOW_WIDTH_PX
   );
 
-  readonly diffViewMode$: Observable<DiffViewMode> = select(
-    combineLatest([
-      this.isScreenTooSmall$,
-      this.userModel.preferenceDiffViewMode$,
-    ]),
-    ([isScreenTooSmall, preferenceDiffViewMode]) =>
-      isScreenTooSmall ? DiffViewMode.UNIFIED : preferenceDiffViewMode
-  );
+  readonly diffViewMode$: Observable<DiffViewMode>;
 
   constructor(readonly userModel: UserModel) {
     super(initialState);
+
+    this.diffViewMode$ = select(
+      combineLatest([
+        this.isScreenTooSmall$,
+        this.userModel.preferenceDiffViewMode$,
+      ]),
+      ([isScreenTooSmall, preferenceDiffViewMode]) =>
+        isScreenTooSmall ? DiffViewMode.UNIFIED : preferenceDiffViewMode
+    );
   }
 
   /* Observe the screen width so that the app can react to changes to it */

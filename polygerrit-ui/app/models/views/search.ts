@@ -195,21 +195,7 @@ export class SearchViewModel extends Model<SearchViewState | undefined> {
     'reload'
   ).pipe(startWith(undefined));
 
-  private readonly reloadChangesTrigger$ = combineLatest([
-    this.reload$,
-    this.query$,
-    this.offsetNumber$,
-    this.userModel.preferenceChangesPerPage$,
-  ]).pipe(
-    map(([_reload, query, offsetNumber, changesPerPage]) => {
-      const params: [string, number, number] = [
-        query,
-        offsetNumber,
-        changesPerPage,
-      ];
-      return params;
-    })
-  );
+  private readonly reloadChangesTrigger$;
 
   constructor(
     private readonly restApiService: RestApiService,
@@ -217,6 +203,23 @@ export class SearchViewModel extends Model<SearchViewState | undefined> {
     private readonly getNavigation: Provider<NavigationService>
   ) {
     super(undefined);
+
+    this.reloadChangesTrigger$ = combineLatest([
+      this.reload$,
+      this.query$,
+      this.offsetNumber$,
+      this.userModel.preferenceChangesPerPage$,
+    ]).pipe(
+      map(([_reload, query, offsetNumber, changesPerPage]) => {
+        const params: [string, number, number] = [
+          query,
+          offsetNumber,
+          changesPerPage,
+        ];
+        return params;
+      })
+    );
+
     this.subscriptions = [
       this.reloadChangesTrigger$
         .pipe(

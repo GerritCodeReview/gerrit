@@ -245,178 +245,53 @@ export class ChecksModel extends Model<ChecksState> {
 
   private readonly visibilityChangeListener: () => void;
 
-  public checksSelectedPatchsetNumber$ = select(
-    this.changeViewModel.checksPatchset$,
-    ps => ps
-  );
+  public checksSelectedPatchsetNumber$;
 
-  public checksSelectedAttemptNumber$ = select(
-    this.changeViewModel.attempt$,
-    attempt => attempt ?? LATEST_ATTEMPT
-  );
+  public checksSelectedAttemptNumber$;
 
-  public runFilterRegexp$ = select(
-    this.changeViewModel.filter$,
-    filter => filter ?? ''
-  );
+  public runFilterRegexp$;
 
-  public checksLatest$ = select(this.state$, state => state.pluginStateLatest);
+  public checksLatest$;
 
-  public checksSelected$ = select(
-    combineLatest([this.state$, this.changeViewModel.checksPatchset$]),
-    ([state, ps]) => {
-      const checksPs = ps ? ChecksPatchset.SELECTED : ChecksPatchset.LATEST;
-      return this.getPluginState(state, checksPs);
-    }
-  );
+  public checksSelected$;
 
-  public aPluginHasRegistered$ = select(
-    this.checksLatest$,
-    state => Object.keys(state).length > 0
-  );
+  public aPluginHasRegistered$;
 
-  private firstLoadCompleted$ = select(this.checksLatest$, state => {
-    const providers = Object.values(state);
-    if (providers.length === 0) return false;
-    if (providers.some(p => p.loading || p.firstTimeLoad)) return false;
-    return true;
-  });
+  private firstLoadCompleted$;
 
-  public someProvidersAreLoadingFirstTime$ = select(this.checksLatest$, state =>
-    Object.values(state).some(
-      provider => provider.loading && provider.firstTimeLoad
-    )
-  );
+  public someProvidersAreLoadingFirstTime$;
 
-  public someProvidersAreLoadingLatest$ = select(this.checksLatest$, state =>
-    Object.values(state).some(providerState => providerState.loading)
-  );
+  public someProvidersAreLoadingLatest$;
 
-  public someProvidersAreLoadingSelected$ = select(
-    this.checksSelected$,
-    state => Object.values(state).some(providerState => providerState.loading)
-  );
+  public someProvidersAreLoadingSelected$;
 
-  public errorMessageLatest$ = select(
-    this.checksLatest$,
+  public errorMessageLatest$;
 
-    state =>
-      Object.values(state).find(
-        providerState => providerState.errorMessage !== undefined
-      )?.errorMessage
-  );
+  public errorMessagesLatest$;
 
-  public errorMessagesLatest$ = select(this.checksLatest$, state => {
-    const errorMessages: ErrorMessages = {};
-    for (const providerState of Object.values(state)) {
-      if (providerState.errorMessage === undefined) continue;
-      errorMessages[providerState.pluginName] = providerState.errorMessage;
-    }
-    return errorMessages;
-  });
+  public loginCallbackLatest$;
 
-  public loginCallbackLatest$ = select(
-    this.checksLatest$,
-    state =>
-      Object.values(state).find(
-        providerState => providerState.loginCallback !== undefined
-      )?.loginCallback
-  );
+  public topLevelActionsLatest$;
 
-  public topLevelActionsLatest$ = select(this.checksLatest$, state =>
-    Object.values(state).reduce(
-      (allActions: Action[], providerState: ChecksProviderState) => [
-        ...allActions,
-        ...providerState.actions,
-      ],
-      []
-    )
-  );
+  public topLevelMessagesLatest$;
 
-  public topLevelMessagesLatest$ = select(this.checksLatest$, state => {
-    const messages = Object.values(state).map(
-      providerState => providerState.summaryMessage
-    );
-    return messages.filter(m => !!m) as string[];
-  });
+  public topLevelActionsSelected$;
 
-  public topLevelActionsSelected$ = select(this.checksSelected$, state =>
-    Object.values(state).reduce(
-      (allActions: Action[], providerState: ChecksProviderState) => [
-        ...allActions,
-        ...providerState.actions,
-      ],
-      []
-    )
-  );
+  public topLevelLinksSelected$;
 
-  public topLevelLinksSelected$ = select(this.checksSelected$, state =>
-    Object.values(state).reduce(
-      (allLinks: Link[], providerState: ChecksProviderState) => [
-        ...allLinks,
-        ...providerState.links,
-      ],
-      []
-    )
-  );
+  public allRunsLatestPatchset$;
 
-  public allRunsLatestPatchset$ = select(this.checksLatest$, state =>
-    Object.values(state).reduce(
-      (allRuns: CheckRun[], providerState: ChecksProviderState) => [
-        ...allRuns,
-        ...providerState.runs,
-      ],
-      []
-    )
-  );
+  public allRunsSelectedPatchset$;
 
-  public allRunsSelectedPatchset$ = select(this.checksSelected$, state =>
-    Object.values(state).reduce(
-      (allRuns: CheckRun[], providerState: ChecksProviderState) => [
-        ...allRuns,
-        ...providerState.runs,
-      ],
-      []
-    )
-  );
+  public allRunsLatestPatchsetLatestAttempt$;
 
-  public allRunsLatestPatchsetLatestAttempt$ = select(
-    this.allRunsLatestPatchset$,
-    runs => runs.filter(run => run.isLatestAttempt)
-  );
+  public checkToPluginMap$;
 
-  public checkToPluginMap$ = select(this.checksLatest$, state => {
-    const map = new Map<string, string>();
-    for (const [pluginName, providerState] of Object.entries(state)) {
-      for (const run of providerState.runs) {
-        map.set(run.checkName, pluginName);
-      }
-    }
-    return map;
-  });
+  public allResultsSelected$;
 
-  public allResultsSelected$ = select(this.checksSelected$, state =>
-    Object.values(state)
-      .reduce(collectRunResults, [])
-      .filter(r => r !== undefined)
-  );
+  public allResultsLatest$;
 
-  public allResultsLatest$ = select(this.checksLatest$, state =>
-    Object.values(state)
-      .reduce(collectRunResults, [])
-      .filter(r => r !== undefined)
-  );
-
-  public allResults$ = select(
-    combineLatest([
-      this.checksSelectedPatchsetNumber$,
-      this.changeModel.latestPatchNum$,
-      this.allResultsSelected$,
-      this.allResultsLatest$,
-    ]),
-    ([selectedPs, latestPs, selected, latest]) =>
-      selectedPs && selectedPs !== latestPs ? [...selected, ...latest] : latest
-  );
+  public allResults$;
 
   constructor(
     private readonly changeViewModel: ChangeViewModel,
@@ -429,6 +304,159 @@ export class ChecksModel extends Model<ChecksState> {
       pluginStateSelected: {},
     });
     this.reporting.time(Timing.CHECKS_LOAD);
+
+    this.checksSelectedPatchsetNumber$ = select(
+      this.changeViewModel.checksPatchset$,
+      ps => ps
+    );
+    this.checksSelectedAttemptNumber$ = select(
+      this.changeViewModel.attempt$,
+      attempt => attempt ?? LATEST_ATTEMPT
+    );
+    this.runFilterRegexp$ = select(
+      this.changeViewModel.filter$,
+      filter => filter ?? ''
+    );
+    this.checksLatest$ = select(this.state$, state => state.pluginStateLatest);
+    this.checksSelected$ = select(
+      combineLatest([this.state$, this.changeViewModel.checksPatchset$]),
+      ([state, ps]) => {
+        const checksPs = ps ? ChecksPatchset.SELECTED : ChecksPatchset.LATEST;
+        return this.getPluginState(state, checksPs);
+      }
+    );
+    this.aPluginHasRegistered$ = select(
+      this.checksLatest$,
+      state => Object.keys(state).length > 0
+    );
+    this.firstLoadCompleted$ = select(this.checksLatest$, state => {
+      const providers = Object.values(state);
+      if (providers.length === 0) return false;
+      if (providers.some(p => p.loading || p.firstTimeLoad)) return false;
+      return true;
+    });
+    this.someProvidersAreLoadingFirstTime$ = select(this.checksLatest$, state =>
+      Object.values(state).some(
+        provider => provider.loading && provider.firstTimeLoad
+      )
+    );
+    this.someProvidersAreLoadingLatest$ = select(this.checksLatest$, state =>
+      Object.values(state).some(providerState => providerState.loading)
+    );
+    this.someProvidersAreLoadingSelected$ = select(
+      this.checksSelected$,
+      state => Object.values(state).some(providerState => providerState.loading)
+    );
+    this.errorMessageLatest$ = select(
+      this.checksLatest$,
+
+      state =>
+        Object.values(state).find(
+          providerState => providerState.errorMessage !== undefined
+        )?.errorMessage
+    );
+    this.errorMessagesLatest$ = select(this.checksLatest$, state => {
+      const errorMessages: ErrorMessages = {};
+      for (const providerState of Object.values(state)) {
+        if (providerState.errorMessage === undefined) continue;
+        errorMessages[providerState.pluginName] = providerState.errorMessage;
+      }
+      return errorMessages;
+    });
+    this.loginCallbackLatest$ = select(
+      this.checksLatest$,
+      state =>
+        Object.values(state).find(
+          providerState => providerState.loginCallback !== undefined
+        )?.loginCallback
+    );
+    this.topLevelActionsLatest$ = select(this.checksLatest$, state =>
+      Object.values(state).reduce(
+        (allActions: Action[], providerState: ChecksProviderState) => [
+          ...allActions,
+          ...providerState.actions,
+        ],
+        []
+      )
+    );
+    this.topLevelMessagesLatest$ = select(this.checksLatest$, state => {
+      const messages = Object.values(state).map(
+        providerState => providerState.summaryMessage
+      );
+      return messages.filter(m => !!m) as string[];
+    });
+    this.topLevelActionsSelected$ = select(this.checksSelected$, state =>
+      Object.values(state).reduce(
+        (allActions: Action[], providerState: ChecksProviderState) => [
+          ...allActions,
+          ...providerState.actions,
+        ],
+        []
+      )
+    );
+    this.topLevelLinksSelected$ = select(this.checksSelected$, state =>
+      Object.values(state).reduce(
+        (allLinks: Link[], providerState: ChecksProviderState) => [
+          ...allLinks,
+          ...providerState.links,
+        ],
+        []
+      )
+    );
+    this.allRunsLatestPatchset$ = select(this.checksLatest$, state =>
+      Object.values(state).reduce(
+        (allRuns: CheckRun[], providerState: ChecksProviderState) => [
+          ...allRuns,
+          ...providerState.runs,
+        ],
+        []
+      )
+    );
+    this.allRunsSelectedPatchset$ = select(this.checksSelected$, state =>
+      Object.values(state).reduce(
+        (allRuns: CheckRun[], providerState: ChecksProviderState) => [
+          ...allRuns,
+          ...providerState.runs,
+        ],
+        []
+      )
+    );
+    this.allRunsLatestPatchsetLatestAttempt$ = select(
+      this.allRunsLatestPatchset$,
+      runs => runs.filter(run => run.isLatestAttempt)
+    );
+    this.checkToPluginMap$ = select(this.checksLatest$, state => {
+      const map = new Map<string, string>();
+      for (const [pluginName, providerState] of Object.entries(state)) {
+        for (const run of providerState.runs) {
+          map.set(run.checkName, pluginName);
+        }
+      }
+      return map;
+    });
+    this.allResultsSelected$ = select(this.checksSelected$, state =>
+      Object.values(state)
+        .reduce(collectRunResults, [])
+        .filter(r => r !== undefined)
+    );
+    this.allResultsLatest$ = select(this.checksLatest$, state =>
+      Object.values(state)
+        .reduce(collectRunResults, [])
+        .filter(r => r !== undefined)
+    );
+    this.allResults$ = select(
+      combineLatest([
+        this.checksSelectedPatchsetNumber$,
+        this.changeModel.latestPatchNum$,
+        this.allResultsSelected$,
+        this.allResultsLatest$,
+      ]),
+      ([selectedPs, latestPs, selected, latest]) =>
+        selectedPs && selectedPs !== latestPs
+          ? [...selected, ...latest]
+          : latest
+    );
+
     this.subscriptions = [
       this.changeModel.changeNum$.subscribe(x => (this.changeNum = x)),
       this.changeModel.latestPatchNum$.subscribe(

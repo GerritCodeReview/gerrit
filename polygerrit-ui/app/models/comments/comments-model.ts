@@ -435,31 +435,11 @@ export class CommentsModel extends Model<CommentState> {
     threads.filter(t => !isNewThread(t) && isDraftThread(t))
   );
 
-  public readonly threadsWithUnappliedSuggestions$ = select(
-    combineLatest([this.threads$, this.changeModel.latestPatchNum$]),
-    ([threads, latestPs]) =>
-      threads.filter(
-        t =>
-          isUnresolved(t) &&
-          hasSuggestion(t) &&
-          getFirstComment(t)?.patch_set === latestPs
-      )
-  );
+  public readonly threadsWithUnappliedSuggestions$;
 
-  public readonly commentedPaths$ = select(
-    combineLatest([
-      this.changeComments$,
-      this.changeModel.basePatchNum$,
-      this.changeModel.patchNum$,
-    ]),
-    ([changeComments, basePatchNum, patchNum]) => {
-      if (!patchNum) return [];
-      const pathsMap = changeComments.getPaths({basePatchNum, patchNum});
-      return Object.keys(pathsMap);
-    }
-  );
+  public readonly commentedPaths$;
 
-  public readonly reloadAllComments$ = new BehaviorSubject(undefined);
+  public readonly reloadAllComments$;
 
   public thread$(id: UrlEncodedCommentId) {
     return select(this.threads$, threads => threads.find(t => t.rootId === id));
@@ -484,6 +464,31 @@ export class CommentsModel extends Model<CommentState> {
     private readonly navigation: NavigationService
   ) {
     super(initialState);
+
+    this.threadsWithUnappliedSuggestions$ = select(
+      combineLatest([this.threads$, this.changeModel.latestPatchNum$]),
+      ([threads, latestPs]) =>
+        threads.filter(
+          t =>
+            isUnresolved(t) &&
+            hasSuggestion(t) &&
+            getFirstComment(t)?.patch_set === latestPs
+        )
+    );
+    this.commentedPaths$ = select(
+      combineLatest([
+        this.changeComments$,
+        this.changeModel.basePatchNum$,
+        this.changeModel.patchNum$,
+      ]),
+      ([changeComments, basePatchNum, patchNum]) => {
+        if (!patchNum) return [];
+        const pathsMap = changeComments.getPaths({basePatchNum, patchNum});
+        return Object.keys(pathsMap);
+      }
+    );
+    this.reloadAllComments$ = new BehaviorSubject(undefined);
+
     this.subscriptions.push(
       this.savingInProgress$.subscribe(savingInProgress => {
         if (savingInProgress) {

@@ -269,8 +269,57 @@ export class ChangeModel extends Model<ChangeState> {
    *
    * Note that this selector can emit without the change being available!
    */
-  public readonly patchNum$: Observable<RevisionPatchSetNum | undefined> =
-    select(
+  public readonly patchNum$: Observable<RevisionPatchSetNum | undefined>;
+
+  /** The user can enter edit mode without an `EDIT` patchset existing yet. */
+  public readonly editMode$;
+
+  /**
+   * Emits the base patchset number. This is identical to the
+   * `viewModel.basePatchNum$`, but has some special logic for merges.
+   *
+   * Note that this selector can emit without the change being available!
+   */
+  public readonly basePatchNum$: Observable<BasePatchSetNum>;
+
+  private selectRevision(
+    revisionNum$: Observable<RevisionPatchSetNum | BasePatchSetNum | undefined>
+  ) {
+    return select(
+      combineLatest([this.revisions$, revisionNum$]),
+      ([revisions, patchNum]) => {
+        if (!revisions || !patchNum || patchNum === PARENT) return undefined;
+        return Object.values(revisions).find(
+          revision => revision._number === patchNum
+        );
+      }
+    );
+  }
+
+  public readonly revision$;
+
+  public readonly baseRevision$;
+
+  public readonly latestRevision$;
+
+  public readonly latestRevisionWithEdit$;
+
+  public readonly isOwner$: Observable<boolean>;
+
+  public readonly messages$;
+
+  public readonly revertingChangeIds$;
+
+  constructor(
+    private readonly navigation: NavigationService,
+    private readonly viewModel: ChangeViewModel,
+    private readonly restApiService: RestApiService,
+    private readonly userModel: UserModel,
+    private readonly pluginLoader: PluginLoader,
+    private readonly reporting: ReportingService
+  ) {
+    super(initialState);
+    this.patchNum$ = select(
       combineLatest([
         this.viewModel.state$,
         this.state$,
@@ -290,26 +339,11 @@ export class ChangeModel extends Model<ChangeState> {
       ([viewModelState, _changeState, latestPatchN]) =>
         viewModelState?.patchNum || latestPatchN
     );
-
-  /** The user can enter edit mode without an `EDIT` patchset existing yet. */
-  public readonly editMode$ = select(
-    combineLatest([this.viewModel.edit$, this.patchNum$]),
-    ([edit, patchNum]) => !!edit || patchNum === EDIT
-  );
-
-  /**
-   * Emits the base patchset number. This is identical to the
-   * `viewModel.basePatchNum$`, but has some special logic for merges.
-   *
-   * Note that this selector can emit without the change being available!
-   */
-  public readonly basePatchNum$: Observable<BasePatchSetNum> =
-    /**
-     * If you depend on both, view model and change state, then you want to
-     * filter out inconsistent state, e.g. view model changeNum already
-     * updated, change not yet reset to undefined.
-     */
-    select(
+    this.editMode$ = select(
+      combineLatest([this.viewModel.edit$, this.patchNum$]),
+      ([edit, patchNum]) => !!edit || patchNum === EDIT
+    );
+    this.basePatchNum$ = select(
       combineLatest([
         this.viewModel.state$,
         this.state$,
@@ -330,53 +364,22 @@ export class ChangeModel extends Model<ChangeState> {
       ([_, viewModelBasePatchNum, patchNum, change, preferences]) =>
         computeBase(viewModelBasePatchNum, patchNum, change, preferences)
     );
-
-  private selectRevision(
-    revisionNum$: Observable<RevisionPatchSetNum | BasePatchSetNum | undefined>
-  ) {
-    return select(
-      combineLatest([this.revisions$, revisionNum$]),
-      ([revisions, patchNum]) => {
-        if (!revisions || !patchNum || patchNum === PARENT) return undefined;
-        return Object.values(revisions).find(
-          revision => revision._number === patchNum
-        );
-      }
+    this.revision$ = this.selectRevision(this.patchNum$);
+    this.baseRevision$ = this.selectRevision(this.basePatchNum$) as Observable<
+      RevisionInfo | undefined
+    >;
+    this.latestRevision$ = this.selectRevision(this.latestPatchNum$);
+    this.latestRevisionWithEdit$ = this.selectRevision(
+      this.latestPatchNumWithEdit$
     );
-  }
-
-  public readonly revision$ = this.selectRevision(this.patchNum$);
-
-  public readonly baseRevision$ = this.selectRevision(
-    this.basePatchNum$
-  ) as Observable<RevisionInfo | undefined>;
-
-  public readonly latestRevision$ = this.selectRevision(this.latestPatchNum$);
-
-  public readonly latestRevisionWithEdit$ = this.selectRevision(
-    this.latestPatchNumWithEdit$
-  );
-
-  public readonly isOwner$: Observable<boolean> = select(
-    combineLatest([this.change$, this.userModel.account$]),
-    ([change, account]) => isOwner(change, account)
-  );
-
-  public readonly messages$ = select(this.change$, change => change?.messages);
-
-  public readonly revertingChangeIds$ = select(this.messages$, messages =>
-    getRevertCreatedChangeIds(messages ?? [])
-  );
-
-  constructor(
-    private readonly navigation: NavigationService,
-    private readonly viewModel: ChangeViewModel,
-    private readonly restApiService: RestApiService,
-    private readonly userModel: UserModel,
-    private readonly pluginLoader: PluginLoader,
-    private readonly reporting: ReportingService
-  ) {
-    super(initialState);
+    this.isOwner$ = select(
+      combineLatest([this.change$, this.userModel.account$]),
+      ([change, account]) => isOwner(change, account)
+    );
+    this.messages$ = select(this.change$, change => change?.messages);
+    this.revertingChangeIds$ = select(this.messages$, messages =>
+      getRevertCreatedChangeIds(messages ?? [])
+    );
     this.subscriptions = [
       this.loadChange(),
       this.loadMergeable(),

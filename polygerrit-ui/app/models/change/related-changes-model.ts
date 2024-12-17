@@ -99,16 +99,7 @@ export class RelatedChangesModel extends Model<RelatedChangesState> {
    * is a relation chain, and the change id is not the last item of the
    * relation chain, then there is a parent.
    */
-  public readonly hasParent$ = select(
-    combineLatest([this.changeModel.change$, this.relatedChanges$]),
-    ([change, relatedChanges]) => {
-      if (!change) return undefined;
-      if (relatedChanges === undefined) return undefined;
-      if (relatedChanges.length === 0) return false;
-      const lastChangeId = relatedChanges[relatedChanges.length - 1].change_id;
-      return lastChangeId !== change.change_id;
-    }
-  );
+  public readonly hasParent$;
 
   constructor(
     readonly changeModel: ChangeModel,
@@ -116,6 +107,19 @@ export class RelatedChangesModel extends Model<RelatedChangesState> {
     readonly restApiService: RestApiService
   ) {
     super(initialState);
+
+    this.hasParent$ = select(
+      combineLatest([this.changeModel.change$, this.relatedChanges$]),
+      ([change, relatedChanges]) => {
+        if (!change) return undefined;
+        if (relatedChanges === undefined) return undefined;
+        if (relatedChanges.length === 0) return false;
+        const lastChangeId =
+          relatedChanges[relatedChanges.length - 1].change_id;
+        return lastChangeId !== change.change_id;
+      }
+    );
+
     this.subscriptions = [
       this.loadRelatedChanges(),
       this.loadSubmittedTogether(),

@@ -130,20 +130,11 @@ export class FilesModel extends Model<FilesState> {
    * all unmodified files that have comments with
    * `status: FileInfoStatus.UNMODIFIED`.
    */
-  public readonly filesIncludingUnmodified$ = select(
-    combineLatest([this.files$, this.commentsModel.commentedPaths$]),
-    ([files, commentedPaths]) => addUnmodified(files, commentedPaths)
-  );
+  public readonly filesIncludingUnmodified$;
 
-  public readonly filesLeftBase$ = select(
-    this.state$,
-    state => state.filesLeftBase
-  );
+  public readonly filesLeftBase$;
 
-  public readonly filesRightBase$ = select(
-    this.state$,
-    state => state.filesRightBase
-  );
+  public readonly filesRightBase$;
 
   constructor(
     readonly changeModel: ChangeModel,
@@ -152,6 +143,14 @@ export class FilesModel extends Model<FilesState> {
     private readonly reporting: ReportingService
   ) {
     super(initialState);
+
+    this.filesIncludingUnmodified$ = select(
+      combineLatest([this.files$, this.commentsModel.commentedPaths$]),
+      ([files, commentedPaths]) => addUnmodified(files, commentedPaths)
+    );
+    this.filesLeftBase$ = select(this.state$, state => state.filesLeftBase);
+    this.filesRightBase$ = select(this.state$, state => state.filesRightBase);
+
     this.subscriptions = [
       this.reportChangeDataStart(),
       this.reportChangeDataEnd(),

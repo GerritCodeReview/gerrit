@@ -16,6 +16,24 @@
       "message": "Can you share some more details on this? We didn\u0027t see any performance regressions in our testing and I\u0027d like to re-apply this change.",
       "revId": "448af05c67d0d2fbdc4c849e0987199616c8be4a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2af4ecac_2f10d245",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-12-17T08:24:00Z",
+      "side": 1,
+      "message": "I am on vacation, but I think it would be great to have it under feature flag. It might have different performance on different gitattributes.\n\nFYI: @brohlfs@google.com and @kamilm@google.com",
+      "parentUuid": "32143489_4bb7b4ce",
+      "revId": "448af05c67d0d2fbdc4c849e0987199616c8be4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

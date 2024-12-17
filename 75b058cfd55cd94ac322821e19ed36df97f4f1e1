@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea028ac6_4aaa690b",
+        "filename": "javatests/com/google/gerrit/acceptance/server/index/IndexMetricIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-12-17T23:08:59Z",
+      "side": 1,
+      "message": "You could also just call the testMetricMaker.reset() which clears all counters and avoid this call and the `numberProjects + 1` at L33.",
+      "revId": "75b058cfd55cd94ac322821e19ed36df97f4f1e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

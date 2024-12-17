@@ -70,6 +70,24 @@
       "parentUuid": "bf1e20f2_872d5cb5",
       "revId": "448af05c67d0d2fbdc4c849e0987199616c8be4a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ca3e1ab_c430d0ad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-12-17T21:48:32Z",
+      "side": 1,
+      "message": "Thanks for replying with those details, that helps quite a bit. I\u0027ll look at how this can be toggled via a config.",
+      "parentUuid": "bd16c9d8_1bacc072",
+      "revId": "448af05c67d0d2fbdc4c849e0987199616c8be4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

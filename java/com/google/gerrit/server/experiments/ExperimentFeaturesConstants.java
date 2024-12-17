@@ -60,4 +60,8 @@ public class ExperimentFeaturesConstants {
   /** Whether we allow fix suggestions in HumanComments. */
   public static final String ALLOW_FIX_SUGGESTIONS_IN_COMMENTS =
       "GerritBackendFeature__allow_fix_suggestions_in_comments";
+
+  /** Whether we allow fix suggestions in HumanComments. */
+  public static final String ENABLE_CENTRAL_OVERRIDE_FOR_CODE_REVIEW_COPY_CONDITION =
+      "GerritBackendFeature__enable_central_override_for_code_review_copy_condition";
 }

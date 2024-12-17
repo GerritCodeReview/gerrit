@@ -43,6 +43,8 @@ import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.server.approval.ApprovalCopier;
+import com.google.gerrit.server.approval.ApprovalCopier.ApprovalCopyResult;
+import com.google.gerrit.server.approval.ApprovalCopier.Result.PatchSetApprovalData;
 import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.testing.TestLabels;
@@ -115,10 +117,7 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
     ApprovalCopier.Result approvalCopierResult =
         ApprovalCopier.Result.create(
             /* copiedApprovals= */ ImmutableSet.of(
-                ApprovalCopier.Result.PatchSetApprovalData.create(
-                    patchSetApproval,
-                    /* passingAtoms= */ ImmutableSet.of(),
-                    /* failingAtoms= */ ImmutableSet.of())),
+                approvalDataForNoCopyCondition(patchSetApproval)),
             /* outdatedApprovals= */ ImmutableSet.of());
     assertThat(approvalsUtil.formatApprovalCopierResult(approvalCopierResult, labelTypes))
         .hasValue("Copied Votes:\n* Code-Review+1 (label type is missing)\n");
@@ -132,10 +131,7 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
         ApprovalCopier.Result.create(
             /* copiedApprovals= */ ImmutableSet.of(),
             /* outdatedApprovals= */ ImmutableSet.of(
-                ApprovalCopier.Result.PatchSetApprovalData.create(
-                    patchSetApproval,
-                    /* passingAtoms= */ ImmutableSet.of(),
-                    /* failingAtoms= */ ImmutableSet.of())));
+                approvalDataForNoCopyCondition(patchSetApproval)));
     assertThat(approvalsUtil.formatApprovalCopierResult(approvalCopierResult, labelTypes))
         .hasValue("Outdated Votes:\n* Code-Review+1 (label type is missing)\n");
   }
@@ -150,10 +146,7 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
     ApprovalCopier.Result approvalCopierResult =
         ApprovalCopier.Result.create(
             /* copiedApprovals= */ ImmutableSet.of(
-                ApprovalCopier.Result.PatchSetApprovalData.create(
-                    patchSetApproval,
-                    /* passingAtoms= */ ImmutableSet.of(),
-                    /* failingAtoms= */ ImmutableSet.of())),
+                approvalDataForNoCopyCondition(patchSetApproval)),
             /* outdatedApprovals= */ ImmutableSet.of());
     assertThat(approvalsUtil.formatApprovalCopierResult(approvalCopierResult, labelTypes))
         .hasValue("Copied Votes:\n* Code-Review+1\n");
@@ -170,10 +163,7 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
         ApprovalCopier.Result.create(
             /* copiedApprovals= */ ImmutableSet.of(),
             /* outdatedApprovals= */ ImmutableSet.of(
-                ApprovalCopier.Result.PatchSetApprovalData.create(
-                    patchSetApproval,
-                    /* passingAtoms= */ ImmutableSet.of(),
-                    /* failingAtoms= */ ImmutableSet.of())));
+                approvalDataForNoCopyCondition(patchSetApproval)));
     assertThat(approvalsUtil.formatApprovalCopierResult(approvalCopierResult, labelTypes))
         .hasValue("Outdated Votes:\n* Code-Review+1\n");
   }
@@ -189,10 +179,14 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
     ApprovalCopier.Result approvalCopierResult =
         ApprovalCopier.Result.create(
             /* copiedApprovals= */ ImmutableSet.of(
-                ApprovalCopier.Result.PatchSetApprovalData.create(
+                PatchSetApprovalData.create(
                     patchSetApproval,
-                    /* passingAtoms= */ ImmutableSet.of("is:MIN"),
-                    /* failingAtoms= */ ImmutableSet.of("is:MAX"))),
+                    ApprovalCopyResult.create(
+                        /* labelCopy= */ true,
+                        /* forcedCopy= */ false,
+                        /* forcedNonCopy= */ false,
+                        /* passingAtoms= */ ImmutableSet.of("is:MIN"),
+                        /* failingAtoms= */ ImmutableSet.of("is:MAX")))),
             /* outdatedApprovals= */ ImmutableSet.of());
     assertThat(approvalsUtil.formatApprovalCopierResult(approvalCopierResult, labelTypes))
         .hasValue("Copied Votes:\n* Code-Review-2 (copy condition: \"**is:MIN** OR is:MAX\")\n");
@@ -211,10 +205,14 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
         ApprovalCopier.Result.create(
             /* copiedApprovals= */ ImmutableSet.of(),
             /* outdatedApprovals= */ ImmutableSet.of(
-                ApprovalCopier.Result.PatchSetApprovalData.create(
+                PatchSetApprovalData.create(
                     patchSetApproval,
-                    /* passingAtoms= */ ImmutableSet.of("is:MAX"),
-                    /* failingAtoms= */ ImmutableSet.of("changekind:TRIVIAL_REBASE"))));
+                    ApprovalCopyResult.create(
+                        /* labelCopy= */ false,
+                        /* forcedCopy= */ false,
+                        /* forcedNonCopy= */ false,
+                        /* passingAtoms= */ ImmutableSet.of("is:MAX"),
+                        /* failingAtoms= */ ImmutableSet.of("changekind:TRIVIAL_REBASE")))));
     assertThat(approvalsUtil.formatApprovalCopierResult(approvalCopierResult, labelTypes))
         .hasValue(
             "Outdated Votes:\n* Code-Review+2 (copy condition:"
@@ -233,10 +231,7 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
     ApprovalCopier.Result approvalCopierResult =
         ApprovalCopier.Result.create(
             /* copiedApprovals= */ ImmutableSet.of(
-                ApprovalCopier.Result.PatchSetApprovalData.create(
-                    patchSetApproval,
-                    /* passingAtoms= */ ImmutableSet.of(),
-                    /* failingAtoms= */ ImmutableSet.of())),
+                approvalDataForNoCopyCondition(patchSetApproval)),
             /* outdatedApprovals= */ ImmutableSet.of());
     assertThat(approvalsUtil.formatApprovalCopierResult(approvalCopierResult, labelTypes))
         .hasValue(
@@ -256,10 +251,7 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
         ApprovalCopier.Result.create(
             /* copiedApprovals= */ ImmutableSet.of(),
             /* outdatedApprovals= */ ImmutableSet.of(
-                ApprovalCopier.Result.PatchSetApprovalData.create(
-                    patchSetApproval,
-                    /* passingAtoms= */ ImmutableSet.of(),
-                    /* failingAtoms= */ ImmutableSet.of())));
+                approvalDataForNoCopyCondition(patchSetApproval)));
     assertThat(approvalsUtil.formatApprovalCopierResult(approvalCopierResult, labelTypes))
         .hasValue(
             "Outdated Votes:\n* Code-Review+1 (non-parseable copy condition: \"foo bar baz\")\n");
@@ -280,11 +272,15 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
     ApprovalCopier.Result approvalCopierResult =
         ApprovalCopier.Result.create(
             /* copiedApprovals= */ ImmutableSet.of(
-                ApprovalCopier.Result.PatchSetApprovalData.create(
+                PatchSetApprovalData.create(
                     patchSetApproval,
-                    /* passingAtoms= */ ImmutableSet.of(
-                        "is:MAX", String.format("approverin:%s", groupUuid)),
-                    /* failingAtoms= */ ImmutableSet.of("is:MIN"))),
+                    ApprovalCopyResult.create(
+                        /* labelCopy= */ true,
+                        /* forcedCopy= */ false,
+                        /* forcedNonCopy= */ false,
+                        /* passingAtoms= */ ImmutableSet.of(
+                            "is:MAX", String.format("approverin:%s", groupUuid)),
+                        /* failingAtoms= */ ImmutableSet.of("is:MIN")))),
             /* outdatedApprovals= */ ImmutableSet.of());
     assertThat(approvalsUtil.formatApprovalCopierResult(approvalCopierResult, labelTypes))
         .hasValue(
@@ -311,10 +307,15 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
         ApprovalCopier.Result.create(
             /* copiedApprovals= */ ImmutableSet.of(),
             /* outdatedApprovals= */ ImmutableSet.of(
-                ApprovalCopier.Result.PatchSetApprovalData.create(
+                PatchSetApprovalData.create(
                     patchSetApproval,
-                    /* passingAtoms= */ ImmutableSet.of(String.format("approverin:%s", groupUuid)),
-                    /* failingAtoms= */ ImmutableSet.of("is:MIN", "is:MAX"))));
+                    ApprovalCopyResult.create(
+                        /* labelCopy= */ false,
+                        /* forcedCopy= */ false,
+                        /* forcedNonCopy= */ false,
+                        /* passingAtoms= */ ImmutableSet.of(
+                            String.format("approverin:%s", groupUuid)),
+                        /* failingAtoms= */ ImmutableSet.of("is:MIN", "is:MAX")))));
     assertThat(approvalsUtil.formatApprovalCopierResult(approvalCopierResult, labelTypes))
         .hasValue(
             String.format(
@@ -340,11 +341,15 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
     ApprovalCopier.Result approvalCopierResult =
         ApprovalCopier.Result.create(
             /* copiedApprovals= */ ImmutableSet.of(
-                ApprovalCopier.Result.PatchSetApprovalData.create(
+                PatchSetApprovalData.create(
                     patchSetApproval,
-                    /* passingAtoms= */ ImmutableSet.of(
-                        "is:MAX", String.format("approverin:%s", groupUuid)),
-                    /* failingAtoms= */ ImmutableSet.of("is:MIN"))),
+                    ApprovalCopyResult.create(
+                        /* labelCopy= */ true,
+                        /* forcedCopy= */ false,
+                        /* forcedNonCopy= */ false,
+                        /* passingAtoms= */ ImmutableSet.of(
+                            "is:MAX", String.format("approverin:%s", groupUuid)),
+                        /* failingAtoms= */ ImmutableSet.of("is:MIN")))),
             /* outdatedApprovals= */ ImmutableSet.of());
 
     // Set 'user' as the current user in the request scope.
@@ -380,10 +385,15 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
         ApprovalCopier.Result.create(
             /* copiedApprovals= */ ImmutableSet.of(),
             /* outdatedApprovals= */ ImmutableSet.of(
-                ApprovalCopier.Result.PatchSetApprovalData.create(
+                PatchSetApprovalData.create(
                     patchSetApproval,
-                    /* passingAtoms= */ ImmutableSet.of(String.format("approverin:%s", groupUuid)),
-                    /* failingAtoms= */ ImmutableSet.of("is:MIN", "is:MAX"))));
+                    ApprovalCopyResult.create(
+                        /* labelCopy= */ false,
+                        /* forcedCopy= */ false,
+                        /* forcedNonCopy= */ false,
+                        /* passingAtoms= */ ImmutableSet.of(
+                            String.format("approverin:%s", groupUuid)),
+                        /* failingAtoms= */ ImmutableSet.of("is:MIN", "is:MAX")))));
 
     // Set 'user' as the current user in the request scope.
     // 'user' cannot see the Administrators group that is used in the copy condition.
@@ -416,10 +426,7 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
     ApprovalCopier.Result approvalCopierResult =
         ApprovalCopier.Result.create(
             /* copiedApprovals= */ ImmutableSet.of(
-                ApprovalCopier.Result.PatchSetApprovalData.create(
-                    patchSetApproval,
-                    /* passingAtoms= */ ImmutableSet.of(),
-                    /* failingAtoms= */ ImmutableSet.of())),
+                approvalDataForNoCopyCondition(patchSetApproval)),
             /* outdatedApprovals= */ ImmutableSet.of());
     assertThat(approvalsUtil.formatApprovalCopierResult(approvalCopierResult, labelTypes))
         .hasValue(
@@ -447,10 +454,7 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
         ApprovalCopier.Result.create(
             /* copiedApprovals= */ ImmutableSet.of(),
             /* outdatedApprovals= */ ImmutableSet.of(
-                ApprovalCopier.Result.PatchSetApprovalData.create(
-                    patchSetApproval,
-                    /* passingAtoms= */ ImmutableSet.of(),
-                    /* failingAtoms= */ ImmutableSet.of())));
+                approvalDataForNoCopyCondition(patchSetApproval)));
     assertThat(approvalsUtil.formatApprovalCopierResult(approvalCopierResult, labelTypes))
         .hasValue(
             String.format(
@@ -468,14 +472,8 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
     ApprovalCopier.Result approvalCopierResult =
         ApprovalCopier.Result.create(
             /* copiedApprovals= */ ImmutableSet.of(
-                ApprovalCopier.Result.PatchSetApprovalData.create(
-                    patchSetApproval1,
-                    /* passingAtoms= */ ImmutableSet.of(),
-                    /* failingAtoms= */ ImmutableSet.of()),
-                ApprovalCopier.Result.PatchSetApprovalData.create(
-                    patchSetApproval2,
-                    /* passingAtoms= */ ImmutableSet.of(),
-                    /* failingAtoms= */ ImmutableSet.of())),
+                approvalDataForNoCopyCondition(patchSetApproval1),
+                approvalDataForNoCopyCondition(patchSetApproval2)),
             /* outdatedApprovals= */ ImmutableSet.of());
     assertThat(approvalsUtil.formatApprovalCopierResult(approvalCopierResult, labelTypes))
         .hasValue("Copied Votes:\n* Code-Review+1 (label type is missing)\n");
@@ -489,14 +487,8 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
     ApprovalCopier.Result approvalCopierResult =
         ApprovalCopier.Result.create(
             /* copiedApprovals= */ ImmutableSet.of(
-                ApprovalCopier.Result.PatchSetApprovalData.create(
-                    patchSetApproval1,
-                    /* passingAtoms= */ ImmutableSet.of(),
-                    /* failingAtoms= */ ImmutableSet.of()),
-                ApprovalCopier.Result.PatchSetApprovalData.create(
-                    patchSetApproval2,
-                    /* passingAtoms= */ ImmutableSet.of(),
-                    /* failingAtoms= */ ImmutableSet.of())),
+                approvalDataForNoCopyCondition(patchSetApproval1),
+                approvalDataForNoCopyCondition(patchSetApproval2)),
             /* outdatedApprovals= */ ImmutableSet.of());
     assertThat(approvalsUtil.formatApprovalCopierResult(approvalCopierResult, labelTypes))
         .hasValue(
@@ -513,14 +505,8 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
     ApprovalCopier.Result approvalCopierResult =
         ApprovalCopier.Result.create(
             /* copiedApprovals= */ ImmutableSet.of(
-                ApprovalCopier.Result.PatchSetApprovalData.create(
-                    patchSetApproval1,
-                    /* passingAtoms= */ ImmutableSet.of(),
-                    /* failingAtoms= */ ImmutableSet.of()),
-                ApprovalCopier.Result.PatchSetApprovalData.create(
-                    patchSetApproval2,
-                    /* passingAtoms= */ ImmutableSet.of(),
-                    /* failingAtoms= */ ImmutableSet.of())),
+                approvalDataForNoCopyCondition(patchSetApproval1),
+                approvalDataForNoCopyCondition(patchSetApproval2)),
             /* outdatedApprovals= */ ImmutableSet.of());
     assertThat(approvalsUtil.formatApprovalCopierResult(approvalCopierResult, labelTypes))
         .hasValue("Copied Votes:\n* Code-Review+1, Code-Review+2 (label type is missing)\n");
@@ -537,14 +523,8 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
     ApprovalCopier.Result approvalCopierResult =
         ApprovalCopier.Result.create(
             /* copiedApprovals= */ ImmutableSet.of(
-                ApprovalCopier.Result.PatchSetApprovalData.create(
-                    patchSetApproval1,
-                    /* passingAtoms= */ ImmutableSet.of(),
-                    /* failingAtoms= */ ImmutableSet.of()),
-                ApprovalCopier.Result.PatchSetApprovalData.create(
-                    patchSetApproval2,
-                    /* passingAtoms= */ ImmutableSet.of(),
-                    /* failingAtoms= */ ImmutableSet.of())),
+                approvalDataForNoCopyCondition(patchSetApproval1),
+                approvalDataForNoCopyCondition(patchSetApproval2)),
             /* outdatedApprovals= */ ImmutableSet.of());
     assertThat(approvalsUtil.formatApprovalCopierResult(approvalCopierResult, labelTypes))
         .hasValue("Copied Votes:\n* Code-Review+1\n");
@@ -562,14 +542,8 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
     ApprovalCopier.Result approvalCopierResult =
         ApprovalCopier.Result.create(
             /* copiedApprovals= */ ImmutableSet.of(
-                ApprovalCopier.Result.PatchSetApprovalData.create(
-                    patchSetApproval1,
-                    /* passingAtoms= */ ImmutableSet.of(),
-                    /* failingAtoms= */ ImmutableSet.of()),
-                ApprovalCopier.Result.PatchSetApprovalData.create(
-                    patchSetApproval2,
-                    /* passingAtoms= */ ImmutableSet.of(),
-                    /* failingAtoms= */ ImmutableSet.of())),
+                approvalDataForNoCopyCondition(patchSetApproval1),
+                approvalDataForNoCopyCondition(patchSetApproval2)),
             /* outdatedApprovals= */ ImmutableSet.of());
     assertThat(approvalsUtil.formatApprovalCopierResult(approvalCopierResult, labelTypes))
         .hasValue("Copied Votes:\n* Code-Review+1\n* Verified+1\n");
@@ -586,14 +560,8 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
     ApprovalCopier.Result approvalCopierResult =
         ApprovalCopier.Result.create(
             /* copiedApprovals= */ ImmutableSet.of(
-                ApprovalCopier.Result.PatchSetApprovalData.create(
-                    patchSetApproval1,
-                    /* passingAtoms= */ ImmutableSet.of(),
-                    /* failingAtoms= */ ImmutableSet.of()),
-                ApprovalCopier.Result.PatchSetApprovalData.create(
-                    patchSetApproval2,
-                    /* passingAtoms= */ ImmutableSet.of(),
-                    /* failingAtoms= */ ImmutableSet.of())),
+                approvalDataForNoCopyCondition(patchSetApproval1),
+                approvalDataForNoCopyCondition(patchSetApproval2)),
             /* outdatedApprovals= */ ImmutableSet.of());
     assertThat(approvalsUtil.formatApprovalCopierResult(approvalCopierResult, labelTypes))
         .hasValue("Copied Votes:\n* Code-Review+1, Code-Review+2\n");
@@ -612,14 +580,22 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
     ApprovalCopier.Result approvalCopierResult =
         ApprovalCopier.Result.create(
             /* copiedApprovals= */ ImmutableSet.of(
-                ApprovalCopier.Result.PatchSetApprovalData.create(
+                PatchSetApprovalData.create(
                     patchSetApproval1,
-                    /* passingAtoms= */ ImmutableSet.of("is:MAX"),
-                    /* failingAtoms= */ ImmutableSet.of("is:MIN")),
-                ApprovalCopier.Result.PatchSetApprovalData.create(
+                    ApprovalCopyResult.create(
+                        /* labelCopy= */ true,
+                        /* forcedCopy= */ false,
+                        /* forcedNonCopy= */ false,
+                        /* passingAtoms= */ ImmutableSet.of("is:MAX"),
+                        /* failingAtoms= */ ImmutableSet.of("is:MIN"))),
+                PatchSetApprovalData.create(
                     patchSetApproval2,
-                    /* passingAtoms= */ ImmutableSet.of("is:MAX"),
-                    /* failingAtoms= */ ImmutableSet.of("is:MIN"))),
+                    ApprovalCopyResult.create(
+                        /* labelCopy= */ true,
+                        /* forcedCopy= */ false,
+                        /* forcedNonCopy= */ false,
+                        /* passingAtoms= */ ImmutableSet.of("is:MAX"),
+                        /* failingAtoms= */ ImmutableSet.of("is:MIN")))),
             /* outdatedApprovals= */ ImmutableSet.of());
     assertThat(approvalsUtil.formatApprovalCopierResult(approvalCopierResult, labelTypes))
         .hasValue("Copied Votes:\n* Code-Review+2 (copy condition: \"is:MIN OR **is:MAX**\")\n");
@@ -646,14 +622,22 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
     ApprovalCopier.Result approvalCopierResult =
         ApprovalCopier.Result.create(
             /* copiedApprovals= */ ImmutableSet.of(
-                ApprovalCopier.Result.PatchSetApprovalData.create(
+                PatchSetApprovalData.create(
                     patchSetApproval1,
-                    /* passingAtoms= */ ImmutableSet.of("is:MAX"),
-                    /* failingAtoms= */ ImmutableSet.of("is:MIN")),
-                ApprovalCopier.Result.PatchSetApprovalData.create(
+                    ApprovalCopyResult.create(
+                        /* labelCopy= */ true,
+                        /* forcedCopy= */ false,
+                        /* forcedNonCopy= */ false,
+                        /* passingAtoms= */ ImmutableSet.of("is:MAX"),
+                        /* failingAtoms= */ ImmutableSet.of("is:MIN"))),
+                PatchSetApprovalData.create(
                     patchSetApproval2,
-                    /* passingAtoms= */ ImmutableSet.of("is:MAX"),
-                    /* failingAtoms= */ ImmutableSet.of("is:MIN"))),
+                    ApprovalCopyResult.create(
+                        /* labelCopy= */ true,
+                        /* forcedCopy= */ false,
+                        /* forcedNonCopy= */ false,
+                        /* passingAtoms= */ ImmutableSet.of("is:MAX"),
+                        /* failingAtoms= */ ImmutableSet.of("is:MIN")))),
             /* outdatedApprovals= */ ImmutableSet.of());
     assertThat(approvalsUtil.formatApprovalCopierResult(approvalCopierResult, labelTypes))
         .hasValue(
@@ -676,14 +660,22 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
     ApprovalCopier.Result approvalCopierResult =
         ApprovalCopier.Result.create(
             /* copiedApprovals= */ ImmutableSet.of(
-                ApprovalCopier.Result.PatchSetApprovalData.create(
+                PatchSetApprovalData.create(
                     patchSetApproval1,
-                    /* passingAtoms= */ ImmutableSet.of("changekind:REWORK"),
-                    /* failingAtoms= */ ImmutableSet.of()),
-                ApprovalCopier.Result.PatchSetApprovalData.create(
+                    ApprovalCopyResult.create(
+                        /* labelCopy= */ true,
+                        /* forcedCopy= */ false,
+                        /* forcedNonCopy= */ false,
+                        /* passingAtoms= */ ImmutableSet.of("changekind:REWORK"),
+                        /* failingAtoms= */ ImmutableSet.of())),
+                PatchSetApprovalData.create(
                     patchSetApproval2,
-                    /* passingAtoms= */ ImmutableSet.of("changekind:REWORK"),
-                    /* failingAtoms= */ ImmutableSet.of())),
+                    ApprovalCopyResult.create(
+                        /* labelCopy= */ true,
+                        /* forcedCopy= */ false,
+                        /* forcedNonCopy= */ false,
+                        /* passingAtoms= */ ImmutableSet.of("changekind:REWORK"),
+                        /* failingAtoms= */ ImmutableSet.of()))),
             /* outdatedApprovals= */ ImmutableSet.of());
     assertThat(approvalsUtil.formatApprovalCopierResult(approvalCopierResult, labelTypes))
         .hasValue(
@@ -705,14 +697,22 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
     ApprovalCopier.Result approvalCopierResult =
         ApprovalCopier.Result.create(
             /* copiedApprovals= */ ImmutableSet.of(
-                ApprovalCopier.Result.PatchSetApprovalData.create(
+                PatchSetApprovalData.create(
                     patchSetApproval1,
-                    /* passingAtoms= */ ImmutableSet.of("is:2"),
-                    /* failingAtoms= */ ImmutableSet.of("is:1")),
-                ApprovalCopier.Result.PatchSetApprovalData.create(
+                    ApprovalCopyResult.create(
+                        /* labelCopy= */ true,
+                        /* forcedCopy= */ false,
+                        /* forcedNonCopy= */ false,
+                        /* passingAtoms= */ ImmutableSet.of("is:2"),
+                        /* failingAtoms= */ ImmutableSet.of("is:1"))),
+                PatchSetApprovalData.create(
                     patchSetApproval2,
-                    /* passingAtoms= */ ImmutableSet.of("is:1"),
-                    /* failingAtoms= */ ImmutableSet.of("is:2"))),
+                    ApprovalCopyResult.create(
+                        /* labelCopy= */ true,
+                        /* forcedCopy= */ false,
+                        /* forcedNonCopy= */ false,
+                        /* passingAtoms= */ ImmutableSet.of("is:1"),
+                        /* failingAtoms= */ ImmutableSet.of("is:2")))),
             /* outdatedApprovals= */ ImmutableSet.of());
     assertThat(approvalsUtil.formatApprovalCopierResult(approvalCopierResult, labelTypes))
         .hasValue(
@@ -734,14 +734,8 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
     ApprovalCopier.Result approvalCopierResult =
         ApprovalCopier.Result.create(
             /* copiedApprovals= */ ImmutableSet.of(
-                ApprovalCopier.Result.PatchSetApprovalData.create(
-                    patchSetApproval1,
-                    /* passingAtoms= */ ImmutableSet.of(),
-                    /* failingAtoms= */ ImmutableSet.of()),
-                ApprovalCopier.Result.PatchSetApprovalData.create(
-                    patchSetApproval2,
-                    /* passingAtoms= */ ImmutableSet.of(),
-                    /* failingAtoms= */ ImmutableSet.of())),
+                approvalDataForNoCopyCondition(patchSetApproval1),
+                approvalDataForNoCopyCondition(patchSetApproval2)),
             /* outdatedApprovals= */ ImmutableSet.of());
     assertThat(approvalsUtil.formatApprovalCopierResult(approvalCopierResult, labelTypes))
         .hasValue(
@@ -762,14 +756,8 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
     ApprovalCopier.Result approvalCopierResult =
         ApprovalCopier.Result.create(
             /* copiedApprovals= */ ImmutableSet.of(
-                ApprovalCopier.Result.PatchSetApprovalData.create(
-                    patchSetApproval1,
-                    /* passingAtoms= */ ImmutableSet.of(),
-                    /* failingAtoms= */ ImmutableSet.of()),
-                ApprovalCopier.Result.PatchSetApprovalData.create(
-                    patchSetApproval2,
-                    /* passingAtoms= */ ImmutableSet.of(),
-                    /* failingAtoms= */ ImmutableSet.of())),
+                approvalDataForNoCopyCondition(patchSetApproval1),
+                approvalDataForNoCopyCondition(patchSetApproval2)),
             /* outdatedApprovals= */ ImmutableSet.of());
     assertThat(approvalsUtil.formatApprovalCopierResult(approvalCopierResult, labelTypes))
         .hasValue(
@@ -792,14 +780,8 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
     ApprovalCopier.Result approvalCopierResult =
         ApprovalCopier.Result.create(
             /* copiedApprovals= */ ImmutableSet.of(
-                ApprovalCopier.Result.PatchSetApprovalData.create(
-                    patchSetApproval1,
-                    /* passingAtoms= */ ImmutableSet.of(),
-                    /* failingAtoms= */ ImmutableSet.of()),
-                ApprovalCopier.Result.PatchSetApprovalData.create(
-                    patchSetApproval2,
-                    /* passingAtoms= */ ImmutableSet.of(),
-                    /* failingAtoms= */ ImmutableSet.of())),
+                approvalDataForNoCopyCondition(patchSetApproval1),
+                approvalDataForNoCopyCondition(patchSetApproval2)),
             /* outdatedApprovals= */ ImmutableSet.of());
     assertThat(approvalsUtil.formatApprovalCopierResult(approvalCopierResult, labelTypes))
         .hasValue(
@@ -826,16 +808,24 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
     ApprovalCopier.Result approvalCopierResult =
         ApprovalCopier.Result.create(
             /* copiedApprovals= */ ImmutableSet.of(
-                ApprovalCopier.Result.PatchSetApprovalData.create(
+                PatchSetApprovalData.create(
                     patchSetApproval1,
-                    /* passingAtoms= */ ImmutableSet.of(
-                        "is:MAX", String.format("approverin:%s", groupUuid)),
-                    /* failingAtoms= */ ImmutableSet.of("is:MIN")),
+                    ApprovalCopyResult.create(
+                        /* labelCopy= */ true,
+                        /* forcedCopy= */ false,
+                        /* forcedNonCopy= */ false,
+                        /* passingAtoms= */ ImmutableSet.of(
+                            "is:MAX", String.format("approverin:%s", groupUuid)),
+                        /* failingAtoms= */ ImmutableSet.of("is:MIN"))),
                 ApprovalCopier.Result.PatchSetApprovalData.create(
                     patchSetApproval2,
-                    /* passingAtoms= */ ImmutableSet.of(
-                        "is:MAX", String.format("approverin:%s", groupUuid)),
-                    /* failingAtoms= */ ImmutableSet.of("is:MIN"))),
+                    ApprovalCopyResult.create(
+                        /* labelCopy= */ true,
+                        /* forcedCopy= */ false,
+                        /* forcedNonCopy= */ false,
+                        /* passingAtoms= */ ImmutableSet.of(
+                            "is:MAX", String.format("approverin:%s", groupUuid)),
+                        /* failingAtoms= */ ImmutableSet.of("is:MIN")))),
             /* outdatedApprovals= */ ImmutableSet.of());
     assertThat(approvalsUtil.formatApprovalCopierResult(approvalCopierResult, labelTypes))
         .hasValue(
@@ -868,19 +858,27 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
     ApprovalCopier.Result approvalCopierResult =
         ApprovalCopier.Result.create(
             /* copiedApprovals= */ ImmutableSet.of(
-                ApprovalCopier.Result.PatchSetApprovalData.create(
+                PatchSetApprovalData.create(
                     patchSetApproval1,
-                    /* passingAtoms= */ ImmutableSet.of(
-                        "is:MAX", String.format("approverin:%s", registeredUsersGroupUuid)),
-                    /* failingAtoms= */ ImmutableSet.of(
-                        "is:MIN", String.format("approverin:%s", administratorsGroupUuid))),
-                ApprovalCopier.Result.PatchSetApprovalData.create(
+                    ApprovalCopyResult.create(
+                        /* labelCopy= */ true,
+                        /* forcedCopy= */ false,
+                        /* forcedNonCopy= */ false,
+                        /* passingAtoms= */ ImmutableSet.of(
+                            "is:MAX", String.format("approverin:%s", registeredUsersGroupUuid)),
+                        /* failingAtoms= */ ImmutableSet.of(
+                            "is:MIN", String.format("approverin:%s", administratorsGroupUuid)))),
+                PatchSetApprovalData.create(
                     patchSetApproval2,
-                    /* passingAtoms= */ ImmutableSet.of(
-                        "is:MAX",
-                        String.format("approverin:%s", administratorsGroupUuid),
-                        String.format("approverin:%s", registeredUsersGroupUuid)),
-                    /* failingAtoms= */ ImmutableSet.of("is:MIN"))),
+                    ApprovalCopyResult.create(
+                        /* labelCopy= */ true,
+                        /* forcedCopy= */ false,
+                        /* forcedNonCopy= */ false,
+                        /* passingAtoms= */ ImmutableSet.of(
+                            "is:MAX",
+                            String.format("approverin:%s", administratorsGroupUuid),
+                            String.format("approverin:%s", registeredUsersGroupUuid)),
+                        /* failingAtoms= */ ImmutableSet.of("is:MIN")))),
             /* outdatedApprovals= */ ImmutableSet.of());
     assertThat(approvalsUtil.formatApprovalCopierResult(approvalCopierResult, labelTypes))
         .hasValue(
@@ -921,16 +919,24 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
     ApprovalCopier.Result approvalCopierResult =
         ApprovalCopier.Result.create(
             /* copiedApprovals= */ ImmutableSet.of(
-                ApprovalCopier.Result.PatchSetApprovalData.create(
+                PatchSetApprovalData.create(
                     patchSetApproval1,
-                    /* passingAtoms= */ ImmutableSet.of("is:MIN"),
-                    /* failingAtoms= */ ImmutableSet.of(
-                        "is:MAX", String.format("approverin:%s", groupUuid))),
-                ApprovalCopier.Result.PatchSetApprovalData.create(
+                    ApprovalCopyResult.create(
+                        /* labelCopy= */ true,
+                        /* forcedCopy= */ false,
+                        /* forcedNonCopy= */ false,
+                        /* passingAtoms= */ ImmutableSet.of("is:MIN"),
+                        /* failingAtoms= */ ImmutableSet.of(
+                            "is:MAX", String.format("approverin:%s", groupUuid)))),
+                PatchSetApprovalData.create(
                     patchSetApproval2,
-                    /* passingAtoms= */ ImmutableSet.of(
-                        "is:MAX", String.format("approverin:%s", groupUuid)),
-                    /* failingAtoms= */ ImmutableSet.of("is:MIN"))),
+                    ApprovalCopyResult.create(
+                        /* labelCopy= */ true,
+                        /* forcedCopy= */ false,
+                        /* forcedNonCopy= */ false,
+                        /* passingAtoms= */ ImmutableSet.of(
+                            "is:MAX", String.format("approverin:%s", groupUuid)),
+                        /* failingAtoms= */ ImmutableSet.of("is:MIN")))),
             /* outdatedApprovals= */ ImmutableSet.of());
     assertThat(approvalsUtil.formatApprovalCopierResult(approvalCopierResult, labelTypes))
         .hasValue(
@@ -964,16 +970,24 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
     ApprovalCopier.Result approvalCopierResult =
         ApprovalCopier.Result.create(
             /* copiedApprovals= */ ImmutableSet.of(
-                ApprovalCopier.Result.PatchSetApprovalData.create(
+                PatchSetApprovalData.create(
                     patchSetApproval1,
-                    /* passingAtoms= */ ImmutableSet.of(
-                        "is:ANY", String.format("approverin:%s", groupUuid)),
-                    /* failingAtoms= */ ImmutableSet.of("is:MIN")),
+                    ApprovalCopyResult.create(
+                        /* labelCopy= */ true,
+                        /* forcedCopy= */ false,
+                        /* forcedNonCopy= */ false,
+                        /* passingAtoms= */ ImmutableSet.of(
+                            "is:ANY", String.format("approverin:%s", groupUuid)),
+                        /* failingAtoms= */ ImmutableSet.of("is:MIN"))),
                 ApprovalCopier.Result.PatchSetApprovalData.create(
                     patchSetApproval2,
-                    /* passingAtoms= */ ImmutableSet.of(
-                        "is:ANY", String.format("approverin:%s", groupUuid)),
-                    /* failingAtoms= */ ImmutableSet.of("is:MIN"))),
+                    ApprovalCopyResult.create(
+                        /* labelCopy= */ true,
+                        /* forcedCopy= */ false,
+                        /* forcedNonCopy= */ false,
+                        /* passingAtoms= */ ImmutableSet.of(
+                            "is:ANY", String.format("approverin:%s", groupUuid)),
+                        /* failingAtoms= */ ImmutableSet.of("is:MIN")))),
             /* outdatedApprovals= */ ImmutableSet.of());
     assertThat(approvalsUtil.formatApprovalCopierResult(approvalCopierResult, labelTypes))
         .hasValue(
@@ -1005,16 +1019,24 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
     ApprovalCopier.Result approvalCopierResult =
         ApprovalCopier.Result.create(
             /* copiedApprovals= */ ImmutableSet.of(
-                ApprovalCopier.Result.PatchSetApprovalData.create(
+                PatchSetApprovalData.create(
                     patchSetApproval1,
-                    /* passingAtoms= */ ImmutableSet.of(
-                        "is:2", String.format("approverin:%s", groupUuid)),
-                    /* failingAtoms= */ ImmutableSet.of("is:MIN", "is:1")),
-                ApprovalCopier.Result.PatchSetApprovalData.create(
+                    ApprovalCopyResult.create(
+                        /* labelCopy= */ true,
+                        /* forcedCopy= */ false,
+                        /* forcedNonCopy= */ false,
+                        /* passingAtoms= */ ImmutableSet.of(
+                            "is:2", String.format("approverin:%s", groupUuid)),
+                        /* failingAtoms= */ ImmutableSet.of("is:MIN", "is:1"))),
+                PatchSetApprovalData.create(
                     patchSetApproval2,
-                    /* passingAtoms= */ ImmutableSet.of(
-                        "is:1", String.format("approverin:%s", groupUuid)),
-                    /* failingAtoms= */ ImmutableSet.of("is:MIN", "is:2"))),
+                    ApprovalCopyResult.create(
+                        /* labelCopy= */ true,
+                        /* forcedCopy= */ false,
+                        /* forcedNonCopy= */ false,
+                        /* passingAtoms= */ ImmutableSet.of(
+                            "is:1", String.format("approverin:%s", groupUuid)),
+                        /* failingAtoms= */ ImmutableSet.of("is:MIN", "is:2")))),
             /* outdatedApprovals= */ ImmutableSet.of());
     assertThat(approvalsUtil.formatApprovalCopierResult(approvalCopierResult, labelTypes))
         .hasValue(
@@ -1052,21 +1074,33 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
     ApprovalCopier.Result approvalCopierResult =
         ApprovalCopier.Result.create(
             /* copiedApprovals= */ ImmutableSet.of(
-                ApprovalCopier.Result.PatchSetApprovalData.create(
+                PatchSetApprovalData.create(
                     patchSetApproval1,
-                    /* passingAtoms= */ ImmutableSet.of(
-                        "is:ANY", String.format("approverin:%s", groupUuid)),
-                    /* failingAtoms= */ ImmutableSet.of("is:MIN")),
-                ApprovalCopier.Result.PatchSetApprovalData.create(
+                    ApprovalCopyResult.create(
+                        /* labelCopy= */ true,
+                        /* forcedCopy= */ false,
+                        /* forcedNonCopy= */ false,
+                        /* passingAtoms= */ ImmutableSet.of(
+                            "is:ANY", String.format("approverin:%s", groupUuid)),
+                        /* failingAtoms= */ ImmutableSet.of("is:MIN"))),
+                PatchSetApprovalData.create(
                     patchSetApproval2,
-                    /* passingAtoms= */ ImmutableSet.of(
-                        "is:ANY", String.format("approverin:%s", groupUuid)),
-                    /* failingAtoms= */ ImmutableSet.of("is:MIN")),
-                ApprovalCopier.Result.PatchSetApprovalData.create(
+                    ApprovalCopyResult.create(
+                        /* labelCopy= */ true,
+                        /* forcedCopy= */ false,
+                        /* forcedNonCopy= */ false,
+                        /* passingAtoms= */ ImmutableSet.of(
+                            "is:ANY", String.format("approverin:%s", groupUuid)),
+                        /* failingAtoms= */ ImmutableSet.of("is:MIN"))),
+                PatchSetApprovalData.create(
                     patchSetApproval3,
-                    /* passingAtoms= */ ImmutableSet.of(
-                        "is:ANY", String.format("approverin:%s", groupUuid)),
-                    /* failingAtoms= */ ImmutableSet.of("is:MIN"))),
+                    ApprovalCopyResult.create(
+                        /* labelCopy= */ true,
+                        /* forcedCopy= */ false,
+                        /* forcedNonCopy= */ false,
+                        /* passingAtoms= */ ImmutableSet.of(
+                            "is:ANY", String.format("approverin:%s", groupUuid)),
+                        /* failingAtoms= */ ImmutableSet.of("is:MIN")))),
             /* outdatedApprovals= */ ImmutableSet.of());
     assertThat(approvalsUtil.formatApprovalCopierResult(approvalCopierResult, labelTypes))
         .hasValue(
@@ -1097,14 +1131,8 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
     ApprovalCopier.Result approvalCopierResult =
         ApprovalCopier.Result.create(
             /* copiedApprovals= */ ImmutableSet.of(
-                ApprovalCopier.Result.PatchSetApprovalData.create(
-                    patchSetApproval1,
-                    /* passingAtoms= */ ImmutableSet.of(),
-                    /* failingAtoms= */ ImmutableSet.of()),
-                ApprovalCopier.Result.PatchSetApprovalData.create(
-                    patchSetApproval2,
-                    /* passingAtoms= */ ImmutableSet.of(),
-                    /* failingAtoms= */ ImmutableSet.of())),
+                approvalDataForNoCopyCondition(patchSetApproval1),
+                approvalDataForNoCopyCondition(patchSetApproval2)),
             /* outdatedApprovals= */ ImmutableSet.of());
     assertThat(approvalsUtil.formatApprovalCopierResult(approvalCopierResult, labelTypes))
         .hasValue(
@@ -1137,14 +1165,8 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
     ApprovalCopier.Result approvalCopierResult =
         ApprovalCopier.Result.create(
             /* copiedApprovals= */ ImmutableSet.of(
-                ApprovalCopier.Result.PatchSetApprovalData.create(
-                    patchSetApproval1,
-                    /* passingAtoms= */ ImmutableSet.of(),
-                    /* failingAtoms= */ ImmutableSet.of()),
-                ApprovalCopier.Result.PatchSetApprovalData.create(
-                    patchSetApproval2,
-                    /* passingAtoms= */ ImmutableSet.of(),
-                    /* failingAtoms= */ ImmutableSet.of())),
+                approvalDataForNoCopyCondition(patchSetApproval1),
+                approvalDataForNoCopyCondition(patchSetApproval2)),
             /* outdatedApprovals= */ ImmutableSet.of());
     assertThat(approvalsUtil.formatApprovalCopierResult(approvalCopierResult, labelTypes))
         .hasValue(
@@ -1175,14 +1197,8 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
     ApprovalCopier.Result approvalCopierResult =
         ApprovalCopier.Result.create(
             /* copiedApprovals= */ ImmutableSet.of(
-                ApprovalCopier.Result.PatchSetApprovalData.create(
-                    patchSetApproval1,
-                    /* passingAtoms= */ ImmutableSet.of(),
-                    /* failingAtoms= */ ImmutableSet.of()),
-                ApprovalCopier.Result.PatchSetApprovalData.create(
-                    patchSetApproval2,
-                    /* passingAtoms= */ ImmutableSet.of(),
-                    /* failingAtoms= */ ImmutableSet.of())),
+                approvalDataForNoCopyCondition(patchSetApproval1),
+                approvalDataForNoCopyCondition(patchSetApproval2)),
             /* outdatedApprovals= */ ImmutableSet.of());
     assertThat(approvalsUtil.formatApprovalCopierResult(approvalCopierResult, labelTypes))
         .hasValue(
@@ -1360,5 +1376,10 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
       labelTypeBuilder.setCopyCondition(copyCondition);
     }
     return labelTypeBuilder.build();
+  }
+
+  private static PatchSetApprovalData approvalDataForNoCopyCondition(PatchSetApproval psa) {
+    return PatchSetApprovalData.create(
+        psa, ApprovalCopyResult.create(false, false, false, ImmutableSet.of(), ImmutableSet.of()));
   }
 }

@@ -574,8 +574,7 @@ public class ApprovalsUtil {
       // with the same label and the same passing atoms are formatted as a single line.
       ImmutableListMultimap<ImmutableSet<String>, ApprovalCopier.Result.PatchSetApprovalData>
           approvalsForSameLabelByPassingAndFailingAtoms =
-              Multimaps.index(
-                  approvalsForSameLabel, ApprovalCopier.Result.PatchSetApprovalData::passingAtoms);
+              Multimaps.index(approvalsForSameLabel, a -> a.approvalCopyResult().passingAtoms());
 
       // Approvals with the same label that have the same passing atoms should have the same failing
       // atoms (since the label is the same they have the same copy condition).
@@ -587,7 +586,7 @@ public class ApprovalsUtil {
                   checkThatPropertyIsTheSameForAllApprovals(
                       approvalsForSameLabelAndSamePassingAtoms,
                       "failing atoms",
-                      approvalData -> approvalData.failingAtoms()));
+                      approvalData -> approvalData.approvalCopyResult().failingAtoms()));
 
       // The order in which we add lines for approvals with the same label but different passing
       // atoms needs to be deterministic for tests. Just sort them by the string representation of
@@ -656,11 +655,11 @@ public class ApprovalsUtil {
     checkThatPropertyIsTheSameForAllApprovals(
         approvalsWithSameLabelAndSamePassingAndFailingAtoms,
         "passing atoms",
-        approvalData -> approvalData.passingAtoms());
+        approvalData -> approvalData.approvalCopyResult().passingAtoms());
     checkThatPropertyIsTheSameForAllApprovals(
         approvalsWithSameLabelAndSamePassingAndFailingAtoms,
         "failing atoms",
-        approvalData -> approvalData.failingAtoms());
+        approvalData -> approvalData.approvalCopyResult().failingAtoms());
 
     StringBuilder message = new StringBuilder();
 
@@ -741,7 +740,11 @@ public class ApprovalsUtil {
     }
     ImmutableSet<String> passingAtoms =
         !approvalsWithSameLabelAndSamePassingAndFailingAtoms.isEmpty()
-            ? approvalsWithSameLabelAndSamePassingAndFailingAtoms.iterator().next().passingAtoms()
+            ? approvalsWithSameLabelAndSamePassingAndFailingAtoms
+                .iterator()
+                .next()
+                .approvalCopyResult()
+                .passingAtoms()
             : ImmutableSet.of();
     message.append(
         String.format(

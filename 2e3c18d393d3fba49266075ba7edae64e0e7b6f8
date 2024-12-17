@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "af2da484_32eab1a4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-12-17T11:27:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cca2d1dc_ee5c53f2",
+      "range": {
+        "startLine": 23,
+        "startChar": 35,
+        "endLine": 23,
+        "endChar": 41
+      },
+      "revId": "2e3c18d393d3fba49266075ba7edae64e0e7b6f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f2cb0a0b_af733baa",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-12-17T11:06:41Z",
       "side": 1,
       "message": "nit: have",
+      "range": {
+        "startLine": 31,
+        "startChar": 10,
+        "endLine": 31,
+        "endChar": 13
+      },
+      "revId": "2e3c18d393d3fba49266075ba7edae64e0e7b6f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "89554a65_ee53698b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-12-17T11:27:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f2cb0a0b_af733baa",
       "range": {
         "startLine": 31,
         "startChar": 10,
@@ -81,6 +129,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ddbd054_b8fb9a82",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1462,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-12-17T11:27:10Z",
+      "side": 1,
+      "message": "I wouldn\u0027t put it in the documentation if it\u0027s not supported yet. But I can do it in a follow-up change. It\u0027s easy enough.",
+      "parentUuid": "a700f46f_57fcc58c",
+      "revId": "2e3c18d393d3fba49266075ba7edae64e0e7b6f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6076a2de_f02c615a",
@@ -94,6 +160,24 @@
       "writtenOn": "2024-12-17T11:06:41Z",
       "side": 1,
       "message": "This part from the commit message makes it very easy to understand these configs:\n\n\"The final copyCondition is equivalent to\n  (\u003clabelCondition\u003e AND NOT \u003ccopyRestriction\u003e) OR \u003ccopyEnforcement\u003e\".\n  \nI wonder if we should just add this to the description of both these configs?",
+      "revId": "2e3c18d393d3fba49266075ba7edae64e0e7b6f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fbef4a21_46a3d000",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1469,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-12-17T11:27:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6076a2de_f02c615a",
       "revId": "2e3c18d393d3fba49266075ba7edae64e0e7b6f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -115,6 +199,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "551b8b29_ec22ff6f",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalCopier.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 562,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-12-17T11:27:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a9975009_e1e1b5cc",
+      "revId": "2e3c18d393d3fba49266075ba7edae64e0e7b6f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1e1dbedf_7b594478",
@@ -128,6 +230,30 @@
       "writtenOn": "2024-12-17T11:06:41Z",
       "side": 1,
       "message": "Should this be true here?",
+      "range": {
+        "startLine": 1025,
+        "startChar": 41,
+        "endLine": 1025,
+        "endChar": 46
+      },
+      "revId": "2e3c18d393d3fba49266075ba7edae64e0e7b6f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "799f4d85_16cca88c",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/CopiedApprovalsInChangeMessageIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1025,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-12-17T11:27:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e1dbedf_7b594478",
       "range": {
         "startLine": 1025,
         "startChar": 41,
@@ -161,6 +287,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "76ad04aa_14196c9e",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/CopiedApprovalsInChangeMessageIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1034,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-12-17T11:27:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11adc41a_fa031dd6",
+      "range": {
+        "startLine": 1034,
+        "startChar": 41,
+        "endLine": 1034,
+        "endChar": 46
+      },
+      "revId": "2e3c18d393d3fba49266075ba7edae64e0e7b6f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "712778a4_1ad0c27c",
@@ -174,6 +324,24 @@
       "writtenOn": "2024-12-17T11:06:41Z",
       "side": 1,
       "message": "nit: this method could be static",
+      "revId": "2e3c18d393d3fba49266075ba7edae64e0e7b6f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b5e70ea_38b3b8fd",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/CopiedApprovalsInChangeMessageIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1381,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-12-17T11:27:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "712778a4_1ad0c27c",
       "revId": "2e3c18d393d3fba49266075ba7edae64e0e7b6f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -201,6 +369,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd58ee5e_6768f7ec",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/ApprovalCopierIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-12-17T11:27:10Z",
+      "side": 1,
+      "message": "Right, forgot to update the comment after copying",
+      "parentUuid": "e081d7a3_23cb04f3",
+      "range": {
+        "startLine": 288,
+        "startChar": 35,
+        "endLine": 288,
+        "endChar": 51
+      },
+      "revId": "2e3c18d393d3fba49266075ba7edae64e0e7b6f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "59c3ebbd_36e611a0",
@@ -214,6 +406,30 @@
       "writtenOn": "2024-12-17T11:06:41Z",
       "side": 1,
       "message": "nit: Code-Review-1 is normally not copied, is it?",
+      "range": {
+        "startLine": 330,
+        "startChar": 35,
+        "endLine": 330,
+        "endChar": 50
+      },
+      "revId": "2e3c18d393d3fba49266075ba7edae64e0e7b6f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5725e938_d73724c4",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/ApprovalCopierIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-12-17T11:27:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "59c3ebbd_36e611a0",
       "range": {
         "startLine": 330,
         "startChar": 35,

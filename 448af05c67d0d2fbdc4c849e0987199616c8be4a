@@ -34,6 +34,24 @@
       "parentUuid": "32143489_4bb7b4ce",
       "revId": "448af05c67d0d2fbdc4c849e0987199616c8be4a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf1e20f2_872d5cb5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2024-12-17T08:40:48Z",
+      "side": 1,
+      "message": "I am sorry, but Kamil is out until Jan 2, and he did the investigation.",
+      "parentUuid": "2af4ecac_2f10d245",
+      "revId": "448af05c67d0d2fbdc4c849e0987199616c8be4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

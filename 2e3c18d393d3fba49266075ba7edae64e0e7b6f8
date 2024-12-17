@@ -165,6 +165,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a074cca6_2b322b73",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1462,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-12-17T13:07:43Z",
+      "side": 1,
+      "message": "Done. Made the setting \"label.name.labelCopyEnforcement\" and \"label.name.labelCopyRestriction\" . PTAL\n\nI kept the experiment label the same, since it\u0027s temporary anyway",
+      "parentUuid": "0b007c7c_4bf8fb9f",
+      "revId": "2e3c18d393d3fba49266075ba7edae64e0e7b6f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6076a2de_f02c615a",

@@ -147,6 +147,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b007c7c_4bf8fb9f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1462,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-12-17T11:45:18Z",
+      "side": 1,
+      "message": "What I meant is, rename the config parameters now (\"change.codeReviewLabelCopyEnforcement\" -\u003e \"label.Code-Review.copyEnforcement\", \"change.codeReviewLabelCopyRestriction\"-\u003e \"label.Code-Review.copyRestriction\") so that we can easily support this for other labels later.",
+      "parentUuid": "0ddbd054_b8fb9a82",
+      "revId": "2e3c18d393d3fba49266075ba7edae64e0e7b6f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6076a2de_f02c615a",

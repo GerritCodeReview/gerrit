@@ -199,4 +199,14 @@ public class TestMetricMakerTest {
     assertThat(testMetricMaker.getCount(counterName, true, "foo")).isEqualTo(0);
     assertThat(testMetricMaker.getCount(counterName, false, "foo")).isEqualTo(0);
   }
+
+  @Test
+  public void callbackMetric() {
+    String name = "some_name";
+    Integer metricValue = 3;
+    testMetricMaker.newCallbackMetric(
+        name, Integer.class, new Description("some_description"), () -> metricValue);
+
+    assertThat(testMetricMaker.getCallbackMetricValue(name)).isEqualTo(metricValue);
+  }
 }

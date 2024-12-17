@@ -75,6 +75,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "90e91c33_6f84f8e6",
+        "filename": "java/com/google/gerrit/server/index/IndexMetrics.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-12-17T11:59:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "55d87522_4c1b68f7",
+      "range": {
+        "startLine": 41,
+        "startChar": 14,
+        "endLine": 41,
+        "endChar": 20
+      },
+      "revId": "a0d60842f850cb60188e7b2222e30bbcace7bdce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1ab89b45_7784036c",
@@ -98,6 +122,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ba906b0_ada84621",
+        "filename": "javatests/com/google/gerrit/acceptance/server/index/IndexMetricIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-12-17T11:59:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ab89b45_7784036c",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 13
+      },
+      "revId": "a0d60842f850cb60188e7b2222e30bbcace7bdce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b18a6747_5fa30748",
@@ -111,6 +159,30 @@
       "writtenOn": "2024-12-13T10:25:47Z",
       "side": 1,
       "message": "This should be `TestMetricMaker` and will allow to get the metrics value synchronously, once you\u0027ve removed the `@UseLocalDisk` at L29.",
+      "range": {
+        "startLine": 34,
+        "startChar": 10,
+        "endLine": 34,
+        "endChar": 21
+      },
+      "revId": "a0d60842f850cb60188e7b2222e30bbcace7bdce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "064021ea_57cf773f",
+        "filename": "javatests/com/google/gerrit/acceptance/server/index/IndexMetricIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-12-17T11:59:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b18a6747_5fa30748",
       "range": {
         "startLine": 34,
         "startChar": 10,
@@ -192,6 +264,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "23804cf7_ae1a989d",
+        "filename": "javatests/com/google/gerrit/acceptance/server/index/IndexMetricIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-12-17T11:59:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7a43de0_0f519fb8",
+      "range": {
+        "startLine": 39,
+        "startChar": 70,
+        "endLine": 39,
+        "endChar": 71
+      },
+      "revId": "a0d60842f850cb60188e7b2222e30bbcace7bdce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6ed0e259_2a883885",
@@ -205,6 +301,30 @@
       "writtenOn": "2024-12-12T10:58:39Z",
       "side": 1,
       "message": "Similarly to the other comment:\n\nint initialAcountsCount \u003d Arrays.asList(admin, user).size();",
+      "range": {
+        "startLine": 53,
+        "startChar": 70,
+        "endLine": 53,
+        "endChar": 71
+      },
+      "revId": "a0d60842f850cb60188e7b2222e30bbcace7bdce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "573c9563_651c0956",
+        "filename": "javatests/com/google/gerrit/acceptance/server/index/IndexMetricIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-12-17T11:59:02Z",
+      "side": 1,
+      "message": "I will avoid magic numbers",
+      "parentUuid": "6ed0e259_2a883885",
       "range": {
         "startLine": 53,
         "startChar": 70,

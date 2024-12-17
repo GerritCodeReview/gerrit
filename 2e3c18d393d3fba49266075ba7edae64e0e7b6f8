@@ -1,0 +1,227 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cca2d1dc_ee5c53f2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-12-17T11:06:41Z",
+      "side": 1,
+      "message": "nit: changes",
+      "range": {
+        "startLine": 23,
+        "startChar": 35,
+        "endLine": 23,
+        "endChar": 41
+      },
+      "revId": "2e3c18d393d3fba49266075ba7edae64e0e7b6f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2cb0a0b_af733baa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-12-17T11:06:41Z",
+      "side": 1,
+      "message": "nit: have",
+      "range": {
+        "startLine": 31,
+        "startChar": 10,
+        "endLine": 31,
+        "endChar": 13
+      },
+      "revId": "2e3c18d393d3fba49266075ba7edae64e0e7b6f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d587c1b_45b7ebb5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-12-17T11:06:41Z",
+      "side": 1,
+      "message": "Very nice idea with having a copyRestriction and a copyEnforcement part configured!",
+      "revId": "2e3c18d393d3fba49266075ba7edae64e0e7b6f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a700f46f_57fcc58c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1462,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-12-17T11:06:41Z",
+      "side": 1,
+      "message": "[optional] Would it make sense to make this parameter more generic, e.g. \"label.\u003cLABEL_NAME\u003e.copyEnforcement\", so that host admins could also configure copy enforcements for other labels if they want?\n\nEven if the implementation doesn\u0027t work for other labels yet, it would be good to be able to extend this for other labels later.",
+      "revId": "2e3c18d393d3fba49266075ba7edae64e0e7b6f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6076a2de_f02c615a",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1469,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-12-17T11:06:41Z",
+      "side": 1,
+      "message": "This part from the commit message makes it very easy to understand these configs:\n\n\"The final copyCondition is equivalent to\n  (\u003clabelCondition\u003e AND NOT \u003ccopyRestriction\u003e) OR \u003ccopyEnforcement\u003e\".\n  \nI wonder if we should just add this to the description of both these configs?",
+      "revId": "2e3c18d393d3fba49266075ba7edae64e0e7b6f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9975009_e1e1b5cc",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalCopier.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 562,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-12-17T11:06:41Z",
+      "side": 1,
+      "message": "nit: Since this class is public now, maybe move it up to the top of the file after the definition of the PatchSetApprovalData class.",
+      "revId": "2e3c18d393d3fba49266075ba7edae64e0e7b6f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e1dbedf_7b594478",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/CopiedApprovalsInChangeMessageIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1025,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-12-17T11:06:41Z",
+      "side": 1,
+      "message": "Should this be true here?",
+      "range": {
+        "startLine": 1025,
+        "startChar": 41,
+        "endLine": 1025,
+        "endChar": 46
+      },
+      "revId": "2e3c18d393d3fba49266075ba7edae64e0e7b6f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11adc41a_fa031dd6",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/CopiedApprovalsInChangeMessageIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1034,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-12-17T11:06:41Z",
+      "side": 1,
+      "message": "Should this be true here?",
+      "range": {
+        "startLine": 1034,
+        "startChar": 41,
+        "endLine": 1034,
+        "endChar": 46
+      },
+      "revId": "2e3c18d393d3fba49266075ba7edae64e0e7b6f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "712778a4_1ad0c27c",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/CopiedApprovalsInChangeMessageIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1381,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-12-17T11:06:41Z",
+      "side": 1,
+      "message": "nit: this method could be static",
+      "revId": "2e3c18d393d3fba49266075ba7edae64e0e7b6f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e081d7a3_23cb04f3",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/ApprovalCopierIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-12-17T11:06:41Z",
+      "side": 1,
+      "message": "nit: Code-Review-1 is normally not copied, is it?",
+      "range": {
+        "startLine": 288,
+        "startChar": 35,
+        "endLine": 288,
+        "endChar": 51
+      },
+      "revId": "2e3c18d393d3fba49266075ba7edae64e0e7b6f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59c3ebbd_36e611a0",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/ApprovalCopierIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-12-17T11:06:41Z",
+      "side": 1,
+      "message": "nit: Code-Review-1 is normally not copied, is it?",
+      "range": {
+        "startLine": 330,
+        "startChar": 35,
+        "endLine": 330,
+        "endChar": 50
+      },
+      "revId": "2e3c18d393d3fba49266075ba7edae64e0e7b6f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

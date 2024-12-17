@@ -19,123 +19,21 @@
 # Best run from the Gerrit ref-updated hook
 #
 
-# Make a simple "least effort" attempt to run geometric repacking after every
-# known update which may have written git objects, all while avoiding overloading
-# a server with too much repacking work.
+[ -z "$GIT_DIR" ] && echo "ERROR: GIT_DIR not set!"
+[ -z "$GERRIT_SITE" ] && echo "ERROR: GERRIT_SITE not set!"
 
-# The least effort avoids running more than one git repack on the same repo at a
-# time, or while a git gc is already running on a repo (by using .git/gc.pid as
-# a lock). To avoid overloading the server, it also avoids running more than 3
-# git repacks total across all repos. If any of these conditions would be violated,
-# this script simply does nothing and exits. The intention is to avoid doing too
-# much work during a burst, assuming that future updates will likely be good enough
-# to service the repos which were missed.
-#
-# Since this is an event based approach to repository maintenance, it is
-# recommended that another time based GC approach, perhaps a more significant and
-# costly one, repacking refs, creating bitmaps... be used in parallel with this
-# script. This simple policy of "least effort" should keep most repos from
-# degrading much even with very infrequent time based GCs.
-#
-# Since this script uses gc.pid to lock the repo against other git gcs, it means
-# that this script could potentially starve any time based gc maintenance from
-# happening on busy repos. It is therefore advisable for any such time based gc
-# jobs to spin for a while attempting to run if the job cannot acquire the gc.pid
-# lock to help ensure that time based gc also gets a chance to run.
-#
-# In order to be able to skip repacking for each update happening during repacking,
-# this script returns immediately after starting repacking in the background. If
-# this script were to instead block during repacking, it would simply delay
-# repacking for those updates instead of having a consolidating effect. That being
-# said, a smarter script might consider tracking that some updates happened after
-# repacking started and ensure that it gets repacked once again (while still
-# consolidating many updates), but that would likely no longer qualify as least
-# effort.
-#
-
-[ -z "$GERRIT_SITE" ] && { echo "ERROR: GERRIT_SITE not set" ; exit 1 ; }
-[ -z "$GIT_DIR" ] && { echo "ERROR: GIT_DIR not set" ; exit 2 ; }
-
-# ---- Generic ----
-
-ztime() { date -u +"%Y-%m-%dT%H:%M:%SZ" ; }
-
-debug() { echo "$(ztime) - $PROJECT - $@" >> "$DEBUG_LOG" 2>&1 ; }
-
-cleanup() { [ -n "$GC_LOCK" ] && rm -f -- "$GC_LOCK" ; }
-
-mkdir_or_die() { # <directory> <error_message>
-    if ! mkdir -p -- "$1" 2> /dev/null ; then
-        debug "$2: $1"
-        exit 2
-    fi
-}
-
-exec_locked() { # <lock> <cmd> [<args>...]
-    local lock=$1 rtn=0
-    shift
-    trap cleanup EXIT
-    if ( set -o noclobber ; echo $$ > "$lock" ) > /dev/null 2>&1 ; then
-        GC_LOCK=$lock
-        debug "locked($SLOT) $lock"
-        mkdir_or_die "$REPACK_LOGS" "cannot make REPACK_LOGS directory"
-        mkdir_or_die "$REPACK_LOG_DIR" "cannot make log directory $REPACK_LOG_DIR"
-        echo "----- $(ztime) -----" >> "$REPACK_LOG"
-        "$@" >> "$REPACK_LOG" 2>&1 || rtn=$?
-        rm -- "$lock" && unset GC_LOCK
-        debug "unlocked($SLOT) $lock"
-        return $rtn
-    fi
-    debug "already locked($SLOT) $lock"
-    return 20
-}
-
-exec_acquired() { # <lock> <max> <cmd> [<args>...]
-    local semaphore=$1 max=$2 rtn=0 lock
-    shift 2
-    mkdir_or_die "$semaphore" "cannot make semaphore directory"
-    for SLOT in $(seq "$max") ; do
-        lock="$semaphore/$SLOT"
-        touch -- "$lock"
-        exec 3<> "$lock"
-        if flock -n 3 ; then
-            debug "acquired semaphore($SLOT) $lock"
-            "$@" || rtn=$?
-            flock -o 3
-            debug "released semaphore($SLOT) $lock"
-            return $rtn
-        fi
-    done
-    debug "semaphore loaded $semaphore"
-    return 30
-}
-
-# ---- Policy ----
-
-gc_lock() { # <cmd> [<args>...]
-    exec_locked "$LOCK" "$@"
-}
-
-gc_runner() { # <cmd> [<args>...]
-    exec_acquired "$SEMAPHORE" "$MAX_RUNNERS" "$@"
-}
-
-MAX_RUNNERS=3
-GERRIT_CONFIG=$GERRIT_SITE/etc/gerrit.config
+MYPROG=$(readlink -f -- "$BASH_SOURCE")
+MYPATH=$(dirname -- "$MYPROG")
 
 GERRIT_LOGS=$GERRIT_SITE/logs
-DEBUG_LOG=$GERRIT_LOGS/gc_event_log
 GC_LOGS=$GERRIT_LOGS/gc
-REPACK_LOGS=$GC_LOGS/event
-SEMAPHORE=$GC_LOGS/event.semaphore
-LOCK=$GIT_DIR/gc.pid
 
+GERRIT_CONFIG=$GERRIT_SITE/etc/gerrit.config
 REPOS=$(git config --file "$GERRIT_CONFIG" gerrit.basePath)
 [[ "$REPOS" = "^/.*" ]] || REPOS=$GERRIT_SITE/$REPOS
-PROJECT=$(realpath -m --relative-to "$REPOS" "$GIT_DIR")
-[ -z "$PROJECT" ] && PROJECT=UNKNOWN_PROJECT
-REPACK_LOG=$REPACK_LOGS/$PROJECT.log
-REPACK_LOG_DIR=$(dirname -- "$REPACK_LOG")
 
-debug "GIT_DIR:$GIT_DIR"
-gc_runner gc_lock git repack -n -d --no-write-bitmap-index --geometric=2 &
+"$MYPATH/event-driven-gc.sh" \
+        --repos "$REPOS" \
+        --logs "$GC_LOGS/event" \
+        --semaphore "$GC_LOGS/event.semaphore" \
+        2>> "$GERRIT_LOGS/gc_event_log"

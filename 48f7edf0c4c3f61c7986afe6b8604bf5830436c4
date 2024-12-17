@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "159d86b5_daec3799",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-12-17T11:02:16Z",
+      "side": 1,
+      "message": "In a following change we should update the documentation of the Java class `TestMetricMaker`. Currently provides explanation about the counter but not about the timers.",
+      "revId": "48f7edf0c4c3f61c7986afe6b8604bf5830436c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

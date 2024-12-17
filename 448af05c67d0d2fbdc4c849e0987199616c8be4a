@@ -52,6 +52,24 @@
       "parentUuid": "2af4ecac_2f10d245",
       "revId": "448af05c67d0d2fbdc4c849e0987199616c8be4a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd16c9d8_1bacc072",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-12-17T09:30:17Z",
+      "side": 1,
+      "message": "As far as I was able to establish (there is still some guessing):\n\nSetting AttributeNodeProvider causes a lot of extra treeWalk.getAttributes calls, here https://gerrit.googlesource.com/jgit/+/refs/heads/master/org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java#1981 \n\nEven if AttributeNodeProvider is a no-op (like in DfsRepository: https://gerrit.googlesource.com/jgit/+/refs/heads/master/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsRepository.java#120), these getAttributes calls take up a lot of processing time. In the profiler it was talking ~half the overall merge time when averaged over multiple requests\n\nOn Chromium gerrit host (due to I think combination of a large repo and more .gitattributes rules), the performance of Mergeable REST endpoint got absolutely tanked, ie. 5x latency.\n\nUltimately what Milutin said is correct, we would like this change to be a config flag protected, so that we can easily disable it on larger hosts/repos or just generally at google",
+      "parentUuid": "bf1e20f2_872d5cb5",
+      "revId": "448af05c67d0d2fbdc4c849e0987199616c8be4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

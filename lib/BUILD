@@ -77,9 +77,36 @@ java_library(
     name = "jgit-servlet",
     data = ["//lib:LICENSE-jgit"],
     visibility = ["//visibility:public"],
-    exports = ["@jgit//org.eclipse.jgit.http.server:jgit-servlet"],
+    srcs = [":jgit-servlet-srcjar-with-javax"],
+    deps = [
+        "//lib:servlet-api",
+        ":jgit",
+    ],
     runtime_deps = [":jgit"],
 )
+
+# The only difference for the http.server between jakarta and javax
+# are the imports, so we just do a text replacement.
+#
+# As the genrule requires a concrete list of outs, use srcjars:
+#   uncompress source jar of jgit-servlet,
+#   replace,
+#   recompress as srcjar
+genrule(
+    name = "jgit-servlet-srcjar-with-javax",
+    srcs = ["@jgit//org.eclipse.jgit.http.server:libjgit-servlet-src.jar"],
+    outs = ["jgit-servlet-javax.srcjar"],
+    cmd = """
+    TOP="$$(pwd)"
+    tmpdir="$$(mktemp -d)"
+    cd "$${tmpdir}"
+    jar xf "$${TOP}/$<"
+    find . -name "*.java" | xargs sed -i s/jakarta.servlet/javax.servlet/
+    jar cf "$${TOP}/$@" .
+    rm -rf "$${tmpdir}"
+    """,
+)
+
 
 java_library(
     name = "javaewah",

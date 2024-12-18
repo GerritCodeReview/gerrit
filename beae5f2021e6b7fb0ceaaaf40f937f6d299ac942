@@ -16,6 +16,23 @@
       "message": "Bazel tests were run using\n```\nbazel test --flaky_test_attempts 3 --test_timeout 3600 --test_tag_filters\u003d-flaky //javatests/...\n```",
       "revId": "beae5f2021e6b7fb0ceaaaf40f937f6d299ac942",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "662a0abc_3f122c54",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-12-18T16:58:00Z",
+      "side": 1,
+      "message": "The problem described in this change was most likely caused by the lack of (SQL) indexes in the cache (H2) database. This issue was addressed with I6d67878b81d46cd4b342ba9480e31d3af4b5ce40 which might have made this change unnecessary.",
+      "revId": "beae5f2021e6b7fb0ceaaaf40f937f6d299ac942",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

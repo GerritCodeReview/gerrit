@@ -16,6 +16,24 @@
       "message": "You could also just call the testMetricMaker.reset() which clears all counters and avoid this call and the `numberProjects + 1` at L33.",
       "revId": "75b058cfd55cd94ac322821e19ed36df97f4f1e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "828fb435_0828d684",
+        "filename": "javatests/com/google/gerrit/acceptance/server/index/IndexMetricIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-12-18T09:49:04Z",
+      "side": 1,
+      "message": "Calling `testMetricMaker.reset()` would be remove all the callback metrics (apart for counter and timers) and as a consequence a call to `testMetricMaker.getCallbackMetricValue(\"indexes/projects\")` would throw the following exception:\n```\nCannot invoke \"com.google.common.base.Supplier.get()\" because the return value of \"java.util.concurrent.ConcurrentHashMap.get(Object)\" is null\n\n```",
+      "parentUuid": "ea028ac6_4aaa690b",
+      "revId": "75b058cfd55cd94ac322821e19ed36df97f4f1e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

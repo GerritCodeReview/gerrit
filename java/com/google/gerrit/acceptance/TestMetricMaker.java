@@ -15,8 +15,11 @@
 package com.google.gerrit.acceptance;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.base.Supplier;
 import com.google.common.collect.ImmutableList;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.UsedAt;
+import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.metrics.Counter0;
 import com.google.gerrit.metrics.Counter1;
 import com.google.gerrit.metrics.Counter2;
@@ -59,6 +62,7 @@ import org.apache.commons.lang3.mutable.MutableLong;
 public class TestMetricMaker extends DisabledMetricMaker {
   private final ConcurrentHashMap<CounterKey, MutableLong> counts = new ConcurrentHashMap<>();
   private final ConcurrentHashMap<CounterKey, MutableLong> timers = new ConcurrentHashMap<>();
+  private final ConcurrentHashMap<String, Supplier<?>> callbackMetrics = new ConcurrentHashMap<>();
 
   public long getCount(String counterName, Object... fieldValues) {
     return getCounterValue(CounterKey.create(counterName, fieldValues)).longValue();
@@ -68,9 +72,14 @@ public class TestMetricMaker extends DisabledMetricMaker {
     return getTimerValue(CounterKey.create(timerName)).longValue();
   }
 
+  public Object getCallbackMetricValue(String name) {
+    return callbackMetrics.get(name).get();
+  }
+
   public void reset() {
     counts.clear();
     timers.clear();
+    callbackMetrics.clear();
   }
 
   private MutableLong getCounterValue(CounterKey counterKey) {
@@ -144,6 +153,17 @@ public class TestMetricMaker extends DisabledMetricMaker {
         getCounterValue(CounterKey.create(name, field1, field2, field3)).add(value);
       }
 
+      @Override
+      public void remove() {}
+    };
+  }
+
+  @Override
+  @CanIgnoreReturnValue
+  public <V> RegistrationHandle newCallbackMetric(
+      String name, Class<V> valueClass, Description desc, Supplier<V> trigger) {
+    callbackMetrics.put(name, trigger);
+    return new RegistrationHandle() {
       @Override
       public void remove() {}
     };

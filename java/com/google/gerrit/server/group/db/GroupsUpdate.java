@@ -559,7 +559,6 @@ public class GroupsUpdate {
   private void evictCachesOnGroupCreation(InternalGroup createdGroup) {
     logger.atFine().log("evict caches on creation of group %s", createdGroup.getGroupUUID());
     // By UUID is used for the index and hence should be evicted before refreshing the index.
-    groupCache.evict(createdGroup.getGroupUUID());
     indexer.get().index(createdGroup.getGroupUUID());
     // These caches use the result from the index and hence must be evicted after refreshing the
     // index.
@@ -571,8 +570,6 @@ public class GroupsUpdate {
 
   private void evictCachesOnGroupUpdate(UpdateResult result) {
     logger.atFine().log("evict caches on update of group %s", result.getGroupUuid());
-    // By UUID is used for the index and hence should be evicted before refreshing the index.
-    groupCache.evict(result.getGroupUuid());
     indexer.get().index(result.getGroupUuid());
     // These caches use the result from the index and hence must be evicted after refreshing the
     // index.
@@ -588,7 +585,6 @@ public class GroupsUpdate {
 
   private void evictCacheOnGroupDeletion(DeleteResult result) {
     logger.atFine().log("evict caches on deletion of group %s", result.getDeletedGroupUuid());
-    groupCache.evict(result.getDeletedGroupUuid());
     indexer.get().index(result.getDeletedGroupUuid());
     groupCache.evict(result.getDeletedGroupId());
     groupCache.evict(AccountGroup.nameKey(result.getDeletedGroupName().get()));

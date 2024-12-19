@@ -63,6 +63,7 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import org.eclipse.jgit.attributes.AttributesNodeProvider;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -334,6 +335,7 @@ public class ApprovalCopier {
 
       // Iterate over the follow-up patch sets in order to copy the approval from their prior patch
       // set if possible (copy from PS N-1 to PS N).
+      AttributesNodeProvider attributesNodeProvider = repo.createAttributesNodeProvider();
       for (PatchSet.Id followUpPatchSetId : followUpPatchSets) {
         PatchSet followUpPatchSet = psUtil.get(changeNotes, followUpPatchSetId);
         ChangeKind changeKind =
@@ -341,6 +343,7 @@ public class ApprovalCopier {
                 changeNotes.getProjectName(),
                 revWalk,
                 repo.getConfig(),
+                attributesNodeProvider,
                 priorPatchSet.commitId(),
                 followUpPatchSet.commitId());
         boolean isMerge = isMerge(changeNotes.getProjectName(), revWalk, followUpPatchSet);
@@ -507,6 +510,7 @@ public class ApprovalCopier {
             projectName,
             repoView.getRevWalk(),
             repoView.getConfig(),
+            repoView.getAttributesNodeProvider(),
             priorPatchSet.getValue().commitId(),
             targetPatchSet.commitId());
     boolean isMerge = isMerge(projectName, repoView.getRevWalk(), targetPatchSet);

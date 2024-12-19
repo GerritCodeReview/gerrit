@@ -75,6 +75,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import org.eclipse.jgit.attributes.AttributesNodeProvider;
 import org.eclipse.jgit.diff.Sequence;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
@@ -133,6 +134,10 @@ public class MergeUtil {
     return cfg.getBoolean("core", null, "useRecursiveMerge", true);
   }
 
+  public static boolean useGitattributesForMerge(Config cfg) {
+    return cfg.getBoolean("core", null, "useGitattributesForMerge", false);
+  }
+
   public static ThreeWayMergeStrategy getMergeStrategy(Config cfg) {
     return useRecursiveMerge(cfg) ? MergeStrategy.RECURSIVE : MergeStrategy.RESOLVE;
   }
@@ -143,6 +148,7 @@ public class MergeUtil {
   private final ProjectState project;
   private final boolean useContentMerge;
   private final boolean useRecursiveMerge;
+  private final boolean useGitattributesForMerge;
   private final PluggableCommitMessageGenerator commitMessageGenerator;
   private final ChangeUtil changeUtil;
 
@@ -182,6 +188,7 @@ public class MergeUtil {
     this.project = project;
     this.useContentMerge = useContentMerge;
     this.useRecursiveMerge = useRecursiveMerge(serverConfig);
+    this.useGitattributesForMerge = useGitattributesForMerge(serverConfig);
   }
 
   public CodeReviewCommit getFirstFastForward(
@@ -222,7 +229,8 @@ public class MergeUtil {
       CodeReviewRevWalk rw,
       int parentIndex,
       boolean ignoreIdenticalTree,
-      boolean allowConflicts)
+      boolean allowConflicts,
+      AttributesNodeProvider attributesNodeProvider)
       throws IOException,
           MergeIdenticalTreeException,
           MergeConflictException,
@@ -239,7 +247,8 @@ public class MergeUtil {
         parentIndex,
         ignoreIdenticalTree,
         allowConflicts,
-        false);
+        false,
+        attributesNodeProvider);
   }
 
   public CodeReviewCommit createCherryPickFromCommit(
@@ -253,14 +262,15 @@ public class MergeUtil {
       int parentIndex,
       boolean ignoreIdenticalTree,
       boolean allowConflicts,
-      boolean diff3Format)
+      boolean diff3Format,
+      AttributesNodeProvider attributesNodeProvider)
       throws IOException,
           MergeIdenticalTreeException,
           MergeConflictException,
           MethodNotAllowedException,
           InvalidMergeStrategyException {
 
-    ThreeWayMerger m = newThreeWayMerger(inserter, repoConfig);
+    ThreeWayMerger m = newThreeWayMerger(inserter, repoConfig, attributesNodeProvider);
     m.setBase(originalCommit.getParent(parentIndex));
 
     DirCache dc = DirCache.newInCore();
@@ -766,7 +776,7 @@ public class MergeUtil {
 
   private boolean canMerge(CodeReviewCommit mergeTip, Repository repo, CodeReviewCommit toMerge) {
     try (ObjectInserter ins = new InMemoryInserter(repo)) {
-      return newThreeWayMerger(ins, repo.getConfig()).merge(mergeTip, toMerge);
+      return newThreeWayMerger(ins, repo).merge(mergeTip, toMerge);
     } catch (LargeObjectException e) {
       logger.atWarning().log("%s cannot be merged due to LargeObjectException", toMerge.name());
       return false;
@@ -840,7 +850,7 @@ public class MergeUtil {
       // that on the current merge tip.
       //
       try (ObjectInserter ins = new InMemoryInserter(repo)) {
-        ThreeWayMerger m = newThreeWayMerger(ins, repo.getConfig());
+        ThreeWayMerger m = newThreeWayMerger(ins, repo);
         m.setBase(toMerge.getParent(0));
         return m.merge(mergeTip, toMerge);
       } catch (IOException e) {
@@ -876,9 +886,10 @@ public class MergeUtil {
       Config repoConfig,
       BranchNameKey destBranch,
       CodeReviewCommit mergeTip,
-      CodeReviewCommit n)
+      CodeReviewCommit n,
+      AttributesNodeProvider attributesNodeProvider)
       throws InvalidMergeStrategyException {
-    ThreeWayMerger m = newThreeWayMerger(inserter, repoConfig);
+    ThreeWayMerger m = newThreeWayMerger(inserter, repoConfig, attributesNodeProvider);
     try {
       if (m.merge(mergeTip, n)) {
         return writeMergeCommit(
@@ -1004,9 +1015,20 @@ public class MergeUtil {
         .collect(joining(",", "Merge changes ", merged.size() > 5 ? ", ..." : ""));
   }
 
-  public ThreeWayMerger newThreeWayMerger(ObjectInserter inserter, Config repoConfig)
+  public ThreeWayMerger newThreeWayMerger(ObjectInserter inserter, Repository repo)
       throws InvalidMergeStrategyException {
-    return newThreeWayMerger(inserter, repoConfig, mergeStrategyName());
+    return newThreeWayMerger(inserter, repo.getConfig(), repo.createAttributesNodeProvider());
+  }
+
+  public ThreeWayMerger newThreeWayMerger(
+      ObjectInserter inserter, Config repoConfig, AttributesNodeProvider attributesNodeProvider)
+      throws InvalidMergeStrategyException {
+    return newThreeWayMerger(
+        inserter,
+        repoConfig,
+        attributesNodeProvider,
+        mergeStrategyName(),
+        useGitattributesForMerge);
   }
 
   public String mergeStrategyName() {
@@ -1038,13 +1060,20 @@ public class MergeUtil {
   }
 
   public static ThreeWayMerger newThreeWayMerger(
-      ObjectInserter inserter, Config repoConfig, String strategyName)
+      ObjectInserter inserter,
+      Config repoConfig,
+      AttributesNodeProvider attributesNodeProvider,
+      String strategyName,
+      boolean useGitattributesForMerge)
       throws InvalidMergeStrategyException {
     Merger m = newMerger(inserter, repoConfig, strategyName);
     checkArgument(
         m instanceof ThreeWayMerger,
         "merge strategy %s does not support three-way merging",
         strategyName);
+    if (m instanceof ResolveMerger && useGitattributesForMerge) {
+      ((ResolveMerger) m).setAttributesNodeProvider(attributesNodeProvider);
+    }
     return (ThreeWayMerger) m;
   }
 

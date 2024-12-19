@@ -394,7 +394,8 @@ public class CherryPickChange {
                 input.parent - 1,
                 input.allowEmpty,
                 input.allowConflicts,
-                useDiff3);
+                useDiff3,
+                git.createAttributesNodeProvider());
         logger.atFine().log("flushing inserter %s", oi);
         oi.flush();
       } catch (MergeIdenticalTreeException | MergeConflictException e) {

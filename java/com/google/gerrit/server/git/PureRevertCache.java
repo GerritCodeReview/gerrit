@@ -185,7 +185,7 @@ public class PureRevertCache {
           ThreeWayMerger merger =
               mergeUtilFactory
                   .create(projectCache.get(project).orElseThrow(illegalState(project)))
-                  .newThreeWayMerger(oi, repo.getConfig());
+                  .newThreeWayMerger(oi, repo);
           merger.setBase(claimedRevertCommit.getParent(0));
           boolean success = merger.merge(claimedRevertCommit, claimedOriginalCommit);
           if (!success || merger.getResultTreeId() == null) {

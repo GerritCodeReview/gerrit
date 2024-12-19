@@ -216,7 +216,11 @@ public class StreamEventsApiListener
           try (Repository repo = repoManager.openRepository(changeData.change().getProject());
               RevWalk revWalk = new RevWalk(repo)) {
             return eventFactory.asPatchSetAttribute(
-                revWalk, repo.getConfig(), changeData, patchSet);
+                revWalk,
+                repo.getConfig(),
+                repo.createAttributesNodeProvider(),
+                changeData,
+                patchSet);
           } catch (IOException e) {
             throw new RuntimeException(e);
           }

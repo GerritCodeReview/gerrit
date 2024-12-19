@@ -21,14 +21,20 @@ import org.eclipse.jgit.lib.Config;
 /** Account related settings from {@code gerrit.config}. */
 @Singleton
 public class AccountConfig {
+  private final boolean enableDelete;
   private final String[] caseInsensitiveLocalParts;
 
   @Inject
   AccountConfig(@GerritServerConfig Config cfg) {
+    enableDelete = cfg.getBoolean("accounts", "enableDelete", true);
     caseInsensitiveLocalParts = cfg.getStringList("accounts", null, "caseInsensitiveLocalPart");
   }
 
   public String[] getCaseInsensitiveLocalParts() {
     return caseInsensitiveLocalParts;
+  }
+
+  public boolean isDeleteEnabled() {
+    return enableDelete;
   }
 }

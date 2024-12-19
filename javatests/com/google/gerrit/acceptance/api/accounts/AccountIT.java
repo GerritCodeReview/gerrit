@@ -3603,6 +3603,28 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "accounts.enableDelete", value = "false")
+  public void deleteAccount_throwsForSelfIfConfigenableDeleteIsDisabled() throws Exception {
+    TestAccount deleted = accountCreator.createValid(name("deleted"));
+    requestScopeOperations.setApiUser(deleted.id());
+    ResourceNotFoundException thrown =
+        assertThrows(
+            ResourceNotFoundException.class, () -> gApi.accounts().id(deleted.id().get()).delete());
+    assertThat(thrown).hasMessageThat().isEqualTo("Delete account is not enabled");
+  }
+
+  @Test
+  @GerritConfig(name = "accounts.enableDelete", value = "false")
+  public void deleteAccount_throwsForOthersIfConfigenableDeleteIsDisabled() throws Exception {
+    TestAccount deleted = accountCreator.createValid(name("deleted"));
+    requestScopeOperations.setApiUser(user.id());
+    ResourceNotFoundException thrown =
+        assertThrows(
+            ResourceNotFoundException.class, () -> gApi.accounts().id(deleted.id().get()).delete());
+    assertThat(thrown).hasMessageThat().isEqualTo("Delete account is not enabled");
+  }
+
+  @Test
   public void getOwnAccountState() throws Exception {
     String email = "preferred@example.com";
     String name = "Foo";

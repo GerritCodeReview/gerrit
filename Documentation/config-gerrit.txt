@@ -104,6 +104,14 @@ Default is `30 seconds`.
 [[accounts]]
 === Section accounts
 
+[[accounts.enableDelete]]accounts.enableDelete::
++
+Controls whether to activate the delete accounts functionality.
+If `true`, then users with permission can delete accounts via the web UI or via the
+link:rest-api-accounts.html#delete-account][REST].
++
+By default, `true`.
+
 [[accounts.caseInsensitiveLocalPart]]accounts.caseInsensitiveLocalPart::
 +
 When querying by email, the case sensitivity of the email local part depends on the domains

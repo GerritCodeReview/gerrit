@@ -52,6 +52,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4efb2997_70b78069",
+        "filename": "java/com/google/gerrit/server/index/IndexMetrics.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-12-19T18:11:30Z",
+      "side": 1,
+      "message": "Found the culprit: the callback metrics are processed at most once every 2 seconds, therefore the -1 called was potentially outdated.",
+      "parentUuid": "c4669094_065c67b2",
+      "revId": "a0d60842f850cb60188e7b2222e30bbcace7bdce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "55d87522_4c1b68f7",

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a3765c2_9037986e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-12-19T18:11:30Z",
+      "side": 1,
+      "message": "SGTM, just one nit.",
+      "revId": "e819e49a0c58f40cb0fae193f62b34cc127493b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7baf15f_ecdb146e",
+        "filename": "javatests/com/google/gerrit/acceptance/server/index/IndexMetricIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-12-19T18:11:30Z",
+      "side": 1,
+      "message": "This can be dried out into a private method.\n\n```suggestion\n    int numberProjects \u003d intMetricValueOf(\"indexes/projects\");\n```\n\nThen define the method:\n\n```\nprivate int intMetricValueOf(String metric) {\n  return (int) testMetricMaker.getCallbackMetricValue(metric);\n}\n```",
+      "range": {
+        "startLine": 30,
+        "startChar": 25,
+        "endLine": 30,
+        "endChar": 69
+      },
+      "revId": "e819e49a0c58f40cb0fae193f62b34cc127493b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

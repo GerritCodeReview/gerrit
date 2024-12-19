@@ -39,6 +39,7 @@ import com.google.gerrit.server.account.AccountSshKey;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.change.AccountPatchReviewStore;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -52,6 +53,7 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.List;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -80,6 +82,7 @@ public class DeleteAccount implements RestModifyView<AccountResource, Input> {
   private final ChangeEditUtil changeEditUtil;
   private final PluginItemContext<AccountPatchReviewStore> accountPatchReviewStore;
   private final PublicKeyStoreUtil publicKeyStoreUtil;
+  private final boolean deleteAccountEnabled;
 
   @Inject
   public DeleteAccount(
@@ -95,7 +98,8 @@ public class DeleteAccount implements RestModifyView<AccountResource, Input> {
       Provider<InternalChangeQuery> queryProvider,
       ChangeEditUtil changeEditUtil,
       PluginItemContext<AccountPatchReviewStore> accountPatchReviewStore,
-      PublicKeyStoreUtil publicKeyStoreUtil) {
+      PublicKeyStoreUtil publicKeyStoreUtil,
+      @GerritServerConfig Config gerritConfig) {
     this.self = self;
     this.serverIdent = serverIdent;
     this.accountsUpdateProvider = accountsUpdateProvider;
@@ -109,12 +113,16 @@ public class DeleteAccount implements RestModifyView<AccountResource, Input> {
     this.changeEditUtil = changeEditUtil;
     this.accountPatchReviewStore = accountPatchReviewStore;
     this.publicKeyStoreUtil = publicKeyStoreUtil;
+    this.deleteAccountEnabled = gerritConfig.getBoolean("accounts", "deleteAccountEnabled", true);
   }
 
   @Override
   @CanIgnoreReturnValue
   public Response<?> apply(AccountResource rsrc, Input unusedInput)
       throws AuthException, AccountException {
+    if (!deleteAccountEnabled) {
+      throw new AuthException("Delete account is not permitted");
+    }
     IdentifiedUser user = rsrc.getUser();
     if (!self.get().hasSameAccountId(user)) {
       throw new AuthException("Delete account is only permitted for self");

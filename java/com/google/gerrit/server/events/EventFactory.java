@@ -76,6 +76,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import org.eclipse.jgit.attributes.AttributesNodeProvider;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -361,6 +362,7 @@ public class EventFactory {
   public void addPatchSets(
       RevWalk revWalk,
       Config repoConfig,
+      AttributesNodeProvider attributesNodeProvider,
       ChangeAttribute ca,
       Map<PatchSet.Id, Collection<PatchSetApproval>> approvals,
       boolean includeFiles,
@@ -370,7 +372,8 @@ public class EventFactory {
       ca.patchSets = new ArrayList<>(changeData.patchSets().size());
       for (PatchSet p : changeData.patchSets()) {
         PatchSetAttribute psa =
-            asPatchSetAttribute(revWalk, repoConfig, changeData, p, accountLoader);
+            asPatchSetAttribute(
+                revWalk, repoConfig, attributesNodeProvider, changeData, p, accountLoader);
         if (approvals != null) {
           addApprovals(psa, p.id(), approvals, changeData.getLabelTypes(), accountLoader);
         }
@@ -434,14 +437,20 @@ public class EventFactory {
   }
 
   public PatchSetAttribute asPatchSetAttribute(
-      RevWalk revWalk, Config repoConfig, ChangeData changeData, PatchSet patchSet) {
-    return asPatchSetAttribute(revWalk, repoConfig, changeData, patchSet, null);
+      RevWalk revWalk,
+      Config repoConfig,
+      AttributesNodeProvider attributesNodeProvider,
+      ChangeData changeData,
+      PatchSet patchSet) {
+    return asPatchSetAttribute(
+        revWalk, repoConfig, attributesNodeProvider, changeData, patchSet, null);
   }
 
   /** Create a PatchSetAttribute for the given patchset suitable for serialization to JSON. */
   public PatchSetAttribute asPatchSetAttribute(
       RevWalk revWalk,
       Config repoConfig,
+      AttributesNodeProvider attributesNodeProvider,
       ChangeData changeData,
       PatchSet patchSet,
       AccountAttributeLoader accountLoader) {
@@ -476,7 +485,9 @@ public class EventFactory {
         p.sizeDeletions += fileDiff.deletions();
         p.sizeInsertions += fileDiff.insertions();
       }
-      p.kind = changeKindCache.getChangeKind(revWalk, repoConfig, changeData, patchSet);
+      p.kind =
+          changeKindCache.getChangeKind(
+              revWalk, repoConfig, attributesNodeProvider, changeData, patchSet);
     } catch (IOException | StorageException e) {
       logger.atSevere().withCause(e).log("Cannot load patch set data for %s", patchSet.id());
     } catch (DiffNotAvailableException e) {

@@ -20,6 +20,7 @@ import com.google.common.base.Strings;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
@@ -274,6 +275,60 @@ public class CheckMergeabilityIT extends AbstractDaemonTest {
         .call();
 
     assertBadRequest("master", "test", "octopus", "invalid merge strategy: octopus");
+  }
+
+  @Test
+  @GerritConfig(name = "core.useGitattributesForMerge", value = "true")
+  public void checkContentUnionMergedCommit() throws Exception {
+    testRepo
+        .branch("HEAD")
+        .commit()
+        .insertChangeId()
+        .message("add merge=union to gitattributes")
+        .add(".gitattributes", "*.txt merge=union")
+        .create();
+    testRepo
+        .git()
+        .push()
+        .setRemote("origin")
+        .setRefSpecs(new RefSpec("HEAD:refs/heads/master"))
+        .call();
+
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
+    testRepo
+        .branch("HEAD")
+        .commit()
+        .insertChangeId()
+        .message("first commit")
+        .add("a.txt", "a contents ")
+        .create();
+    testRepo
+        .git()
+        .push()
+        .setRemote("origin")
+        .setRefSpecs(new RefSpec("HEAD:refs/heads/master"))
+        .call();
+
+    testRepo.reset(initialHead);
+    // Add a commit that would normally cause a conflict
+    testRepo
+        .branch("HEAD")
+        .commit()
+        .insertChangeId()
+        .message("some change in a too")
+        .add("a.txt", "a contents too")
+        .create();
+    testRepo
+        .git()
+        .push()
+        .setRemote("origin")
+        .setRefSpecs(new RefSpec("HEAD:refs/heads/test"))
+        .call();
+
+    // MergeableInfo.contentMerged is based on tree equality to indicate if the destination tree
+    // matches the source. It is not indicating if the merger performed a content merge and is
+    // expected to be false for this test.
+    assertMergeable("master", "test", "recursive");
   }
 
   private void assertMergeable(String targetBranch, String source, String strategy)

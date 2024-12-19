@@ -45,6 +45,7 @@ public class CheckMergeability implements RestReadView<BranchResource> {
   private String source;
   private String strategy;
   private SubmitType submitType;
+  private final boolean useGitattributesForMerge;
 
   @Option(
       name = "--source",
@@ -76,6 +77,7 @@ public class CheckMergeability implements RestReadView<BranchResource> {
     this.commits = commits;
     this.strategy = MergeUtil.getMergeStrategy(cfg).getName();
     this.submitType = cfg.getEnum("project", null, "submitType", SubmitType.MERGE_IF_NECESSARY);
+    this.useGitattributesForMerge = MergeUtil.useGitattributesForMerge(cfg);
   }
 
   @Override
@@ -95,8 +97,6 @@ public class CheckMergeability implements RestReadView<BranchResource> {
     try (Repository git = gitManager.openRepository(resource.getNameKey());
         RevWalk rw = new RevWalk(git);
         ObjectInserter inserter = new InMemoryInserter(git)) {
-      Merger m = MergeUtil.newMerger(inserter, git.getConfig(), strategy);
-
       Ref destRef = git.getRefDatabase().exactRef(resource.getRef());
       if (destRef == null) {
         throw new ResourceNotFoundException(resource.getRef());
@@ -126,6 +126,12 @@ public class CheckMergeability implements RestReadView<BranchResource> {
         return Response.ok(result);
       }
 
+      Merger m = MergeUtil.newMerger(inserter, git.getConfig(), strategy);
+      if (m instanceof ResolveMerger && useGitattributesForMerge) {
+        // We need to set the attributes provider before attempting the merge in order to read and
+        // honor gitattributes merge settings correctly
+        ((ResolveMerger) m).setAttributesNodeProvider(git.createAttributesNodeProvider());
+      }
       if (m.merge(false, targetCommit, sourceCommit)) {
         result.mergeable = true;
         result.commitMerged = false;

@@ -197,7 +197,8 @@ returned that describes the created account.
 'DELETE /accounts/link:#account-id[\{account-id\}]'
 --
 
-Deletes the given account.
+Deletes the given account if config `enableDelete` under
+link:#config-gerrit.html#accounts[accounts] section is enbaled.
 
 Currently only supporting self deletion (regardless of the way
 link:#account-id[\{account-id\}] is provided).

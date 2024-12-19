@@ -39,6 +39,7 @@ import com.google.gerrit.server.account.AccountSshKey;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.change.AccountPatchReviewStore;
+import com.google.gerrit.server.config.AccountConfig;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -80,6 +81,7 @@ public class DeleteAccount implements RestModifyView<AccountResource, Input> {
   private final ChangeEditUtil changeEditUtil;
   private final PluginItemContext<AccountPatchReviewStore> accountPatchReviewStore;
   private final PublicKeyStoreUtil publicKeyStoreUtil;
+  private final AccountConfig accountConfig;
 
   @Inject
   public DeleteAccount(
@@ -95,7 +97,8 @@ public class DeleteAccount implements RestModifyView<AccountResource, Input> {
       Provider<InternalChangeQuery> queryProvider,
       ChangeEditUtil changeEditUtil,
       PluginItemContext<AccountPatchReviewStore> accountPatchReviewStore,
-      PublicKeyStoreUtil publicKeyStoreUtil) {
+      PublicKeyStoreUtil publicKeyStoreUtil,
+      AccountConfig accountConfig) {
     this.self = self;
     this.serverIdent = serverIdent;
     this.accountsUpdateProvider = accountsUpdateProvider;
@@ -109,12 +112,16 @@ public class DeleteAccount implements RestModifyView<AccountResource, Input> {
     this.changeEditUtil = changeEditUtil;
     this.accountPatchReviewStore = accountPatchReviewStore;
     this.publicKeyStoreUtil = publicKeyStoreUtil;
+    this.accountConfig = accountConfig;
   }
 
   @Override
   @CanIgnoreReturnValue
   public Response<?> apply(AccountResource rsrc, Input unusedInput)
       throws AuthException, AccountException {
+    if (!accountConfig.isDeleteEnabled()) {
+      throw new AuthException("Delete account is not permitted");
+    }
     IdentifiedUser user = rsrc.getUser();
     if (!self.get().hasSameAccountId(user)) {
       throw new AuthException("Delete account is only permitted for self");

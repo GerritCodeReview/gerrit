@@ -160,6 +160,17 @@ set, then the (full) name will be used.
 +
 Default is `FULL_NAME`.
 
+[[accounts.deleteAccountEnabled]]accounts.deleteAccountEnabled::
++
+Controls deletion of accounts via the web UI or via
+link:rest-api-accounts.html#delete-account][REST].
++
+If `true`, accounts can be deleted.
++
+If `false`, accounts cannot be deleted.
++
+Default is `true`.
+
 [[addreviewer]]
 === Section addreviewer
 

@@ -3603,6 +3603,28 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "accounts.deleteAccountEnabled", value = "false")
+  public void deleteAccount_throwsForSelfIfConfigdeleteAccountEnabledIsSetToFalse()
+      throws Exception {
+    TestAccount deleted = accountCreator.createValid(name("deleted"));
+    requestScopeOperations.setApiUser(deleted.id());
+    AuthException thrown =
+        assertThrows(AuthException.class, () -> gApi.accounts().id(deleted.id().get()).delete());
+    assertThat(thrown).hasMessageThat().isEqualTo("Delete account is not permitted");
+  }
+
+  @Test
+  @GerritConfig(name = "accounts.deleteAccountEnabled", value = "false")
+  public void deleteAccount_throwsForOthersIfConfigdeleteAccountEnabledIsSetToFalse()
+      throws Exception {
+    TestAccount deleted = accountCreator.createValid(name("deleted"));
+    requestScopeOperations.setApiUser(user.id());
+    AuthException thrown =
+        assertThrows(AuthException.class, () -> gApi.accounts().id(deleted.id().get()).delete());
+    assertThat(thrown).hasMessageThat().isEqualTo("Delete account is not permitted");
+  }
+
+  @Test
   public void getOwnAccountState() throws Exception {
     String email = "preferred@example.com";
     String name = "Foo";

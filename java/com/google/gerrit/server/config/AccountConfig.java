@@ -22,13 +22,19 @@ import org.eclipse.jgit.lib.Config;
 @Singleton
 public class AccountConfig {
   private final String[] caseInsensitiveLocalParts;
+  private final boolean deleteAccountEnabled;
 
   @Inject
   AccountConfig(@GerritServerConfig Config cfg) {
     caseInsensitiveLocalParts = cfg.getStringList("accounts", null, "caseInsensitiveLocalPart");
+    deleteAccountEnabled = cfg.getBoolean("accounts", "deleteAccountEnabled", true);
   }
 
   public String[] getCaseInsensitiveLocalParts() {
     return caseInsensitiveLocalParts;
+  }
+
+  public boolean getDeleteAccountEnabled() {
+    return deleteAccountEnabled;
   }
 }

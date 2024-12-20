@@ -34,6 +34,24 @@
       "parentUuid": "d36cc7d7_0d219226",
       "revId": "352e833c8dfbf1e65739542d7aac1bf609e749fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "442468f7_7c48c7c2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-12-20T14:54:39Z",
+      "side": 1,
+      "message": "I cherry-picked https://gerrithub.io/c/eclipse-jgit/jgit/+/1206129\nto stable-6.10 here https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1206145",
+      "parentUuid": "353c905a_c4788d0d",
+      "revId": "352e833c8dfbf1e65739542d7aac1bf609e749fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

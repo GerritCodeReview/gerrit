@@ -2218,6 +2218,23 @@ that are merged have more than one common predecessor.
 +
 Default is `true`.
 
+[[core.useGitattributesForMerge]]core.useGitattributesForMerge::
++
+Use JGit's support for reading gitattributes files to control behavior during
+link:https://git-scm.com/docs/gitattributes.html#_performing_a_three_way_merge[
+three-way content merges,role=external,window=_blank]. This only affects
+projects that allow content merges.
++
+Enabling this support does add overhead to all content merge operations since
+the presence and content of in-tree `.gitattributes` files is always considered
+(even when the trees have no `.gitattributes` files or those files have no
+merge driver configuration). See the
+link:https://git-scm.com/docs/gitattributes.html[gitattributes man page] for
+more information on configuration and behavior. Also note that JGit only
+implements a subset of the documented configuration.
++
+Default is `false`.
+
 [[core.repositoryCacheCleanupDelay]]core.repositoryCacheCleanupDelay::
 +
 Delay between each periodic cleanup of expired repositories.

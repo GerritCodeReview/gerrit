@@ -301,6 +301,7 @@ public class PatchSetInserter implements BatchUpdateOp {
             ctx.getProject(),
             ctx.getRevWalk(),
             ctx.getRepoView().getConfig(),
+            ctx.getRepoView().getAttributesNodeProvider(),
             psUtil.current(origNotes).commitId(),
             commitId);
 

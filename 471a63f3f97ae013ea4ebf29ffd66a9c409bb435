@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea5b5578_abc9519f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-12-20T15:07:21Z",
+      "side": 1,
+      "message": "remove this blank line, commit message trailers need to be in the last paragraph (after the last blank line)",
+      "revId": "471a63f3f97ae013ea4ebf29ffd66a9c409bb435",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "80a69be8_4beac299",

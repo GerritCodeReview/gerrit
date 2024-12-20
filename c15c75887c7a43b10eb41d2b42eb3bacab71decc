@@ -16,6 +16,23 @@
       "message": "@milutin@google.com, @brohlfs@google.com, @kamilm@google.com I added config and defaulted it to disabled. I think that will solve the performance issue you saw.\n\nThis change does add some overhead even with the flag disabled because the many MergeUtil callers still create the `AttributesNodeProvider` even though it won\u0027t be used. I could modify each of those callers to do that conditionally based on the new config, but 1) that feels like poor layering, 2) doing that in 10+ locations seems messy, and 3) I don\u0027t think the overhead will be measurable.\n\nLet me know how this looks to you once you\u0027re back from vacations and get a chance to look at it. I\u0027ll be OOO Dec 21 - Jan 6.",
       "revId": "c15c75887c7a43b10eb41d2b42eb3bacab71decc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01b87fa9_b4a04fea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2024-12-20T08:50:07Z",
+      "side": 1,
+      "message": "Thank you for quick change!",
+      "revId": "c15c75887c7a43b10eb41d2b42eb3bacab71decc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

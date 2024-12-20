@@ -43,6 +43,7 @@ import com.google.gerrit.server.account.GroupIncludeCacheImpl;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.account.ServiceUserClassifierImpl;
 import com.google.gerrit.server.cache.CacheRemovalListener;
+import com.google.gerrit.server.cache.h2.CacheOptions;
 import com.google.gerrit.server.cache.h2.H2CacheModule;
 import com.google.gerrit.server.cache.mem.DefaultMemoryCacheModule;
 import com.google.gerrit.server.change.ChangeJson;
@@ -115,9 +116,11 @@ import org.eclipse.jgit.lib.Config;
 /** Module for programs that perform batch operations on a site. */
 public class BatchProgramModule extends FactoryModule {
   private final Injector parentInjector;
+  private final ImmutableSet<CacheOptions> cacheOptions;
 
-  public BatchProgramModule(Injector parentInjector) {
+  public BatchProgramModule(Injector parentInjector, ImmutableSet<CacheOptions> cacheOptions) {
     this.parentInjector = parentInjector;
+    this.cacheOptions = cacheOptions;
   }
 
   @SuppressWarnings("rawtypes")
@@ -181,7 +184,7 @@ public class BatchProgramModule extends FactoryModule {
         new ChangesByProjectCache.Module(ChangesByProjectCache.UseIndex.FALSE, getConfig()));
     modules.add(new DefaultPermissionBackendModule());
     modules.add(new DefaultMemoryCacheModule());
-    modules.add(new H2CacheModule());
+    modules.add(new H2CacheModule(cacheOptions));
     modules.add(new GroupModule());
     modules.add(new NoteDbModule());
     modules.add(AccountCacheImpl.module());

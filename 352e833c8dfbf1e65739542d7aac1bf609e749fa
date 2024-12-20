@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d36cc7d7_0d219226",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2024-12-20T00:23:42Z",
+      "side": 1,
+      "message": "I think we can either:\n1. Update JGit submodule to master in this CL (merging https://gerrit-review.git.corp.google.com/c/gerrit/+/446461/1 here)\n2. Apply https://gerrithub.io/c/eclipse-jgit/jgit/+/1206129 in JGit stable-6.10, then this change in gerrit, then update modules/jgit to master in another change.\n\nIs there any gerrit policy for Jgit versions? Can we just update to master?",
+      "revId": "352e833c8dfbf1e65739542d7aac1bf609e749fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

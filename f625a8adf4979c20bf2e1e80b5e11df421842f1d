@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43a50f6e_e2270720",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-12-20T21:38:50Z",
+      "side": 1,
+      "message": "I don\u0027t see where the new annotation classes you created (like `MaintainLastAccess`) are being used. Did I miss that or could they be removed?",
+      "revId": "f625a8adf4979c20bf2e1e80b5e11df421842f1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac046fe8_fb1b6246",
+        "filename": "java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-12-20T21:38:50Z",
+      "side": 1,
+      "message": "I think we try to avoid using any h2-specific classes in most other parts of Gerrit code. Can we move this `CacheOptions` class up a level in the package heirarchy? I think the options are generic enough that they could apply to other cache implementations, correct?",
+      "revId": "f625a8adf4979c20bf2e1e80b5e11df421842f1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16831660_50c1469c",
+        "filename": "java/com/google/gerrit/server/cache/h2/CacheStoreExecutor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-12-20T21:38:50Z",
+      "side": 1,
+      "message": "Missing copyright/license header",
+      "revId": "f625a8adf4979c20bf2e1e80b5e11df421842f1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

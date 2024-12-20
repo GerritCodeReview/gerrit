@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dfb23349_8abd41b8",
+        "filename": "javatests/com/google/gerrit/acceptance/server/index/BUILD",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-12-20T14:16:19Z",
+      "side": 1,
+      "message": "The new test seeems to be specific to using DropWizards for metrics. Due to this the test is failing for us at Google where we have a different metric backend. Can you please move it under javatests/com/google/gerrit/metrics/dropwizard/?",
+      "revId": "46e22419cc4f411f10ac64e76e69888d5d3270fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

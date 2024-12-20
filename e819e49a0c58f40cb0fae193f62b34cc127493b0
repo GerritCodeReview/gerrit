@@ -39,6 +39,30 @@
       },
       "revId": "e819e49a0c58f40cb0fae193f62b34cc127493b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "84d2a18c_e0d6ece0",
+        "filename": "javatests/com/google/gerrit/acceptance/server/index/IndexMetricIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-12-20T08:57:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7baf15f_ecdb146e",
+      "range": {
+        "startLine": 30,
+        "startChar": 25,
+        "endLine": 30,
+        "endChar": 69
+      },
+      "revId": "e819e49a0c58f40cb0fae193f62b34cc127493b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

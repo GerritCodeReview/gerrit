@@ -19,6 +19,7 @@ import static java.util.stream.Collectors.toSet;
 
 import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Die;
 import com.google.gerrit.extensions.config.FactoryModule;
@@ -38,13 +39,13 @@ import com.google.gerrit.server.account.storage.notedb.AccountNoteDbReadStorageM
 import com.google.gerrit.server.account.storage.notedb.AccountNoteDbWriteStorageModule;
 import com.google.gerrit.server.cache.CacheDisplay;
 import com.google.gerrit.server.cache.CacheInfo;
+import com.google.gerrit.server.cache.h2.CacheOptions;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.WorkQueue.WorkQueueModule;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
 import com.google.gerrit.server.index.options.AutoFlush;
-import com.google.gerrit.server.index.options.BuildBloomFilter;
 import com.google.gerrit.server.index.options.IsFirstInsertForEntry;
 import com.google.gerrit.server.notedb.NoteDbDraftCommentsModule;
 import com.google.gerrit.server.notedb.NoteDbStarredChangesModule;
@@ -229,12 +230,11 @@ public class Reindex extends SiteProgram {
                 .setBinding()
                 .toInstance(
                     reuseExistingDocuments ? IsFirstInsertForEntry.NO : IsFirstInsertForEntry.YES);
-            OptionalBinder.newOptionalBinder(binder(), BuildBloomFilter.class)
-                .setBinding()
-                .toInstance(buildBloomFilter ? BuildBloomFilter.TRUE : BuildBloomFilter.FALSE);
           }
         });
-    modules.add(new BatchProgramModule(dbInjector));
+    ImmutableSet<CacheOptions> options =
+        buildBloomFilter ? ImmutableSet.of(CacheOptions.BUILD_BLOOM_FILTER) : ImmutableSet.of();
+    modules.add(new BatchProgramModule(dbInjector, options));
     modules.add(
         new FactoryModule() {
           @Override

@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkState;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.acceptance.testsuite.ThrowingFunction;
@@ -55,6 +56,8 @@ public abstract class TestChangeCreation {
 
   public abstract ImmutableMap<String, Short> approvals();
 
+  public abstract ImmutableListMultimap<String, String> validationOptions();
+
   public abstract String commitMessage();
 
   public abstract ImmutableList<TreeModification> treeModifications();
@@ -72,7 +75,8 @@ public abstract class TestChangeCreation {
         .commitMessage("A test change")
         // Which value we choose here doesn't matter. All relevant code paths set the desired value.
         .mergeStrategy(MergeStrategy.OURS)
-        .approvals(ImmutableMap.of());
+        .approvals(ImmutableMap.of())
+        .validationOptions(ImmutableListMultimap.of());
   }
 
   @AutoValue.Builder
@@ -156,6 +160,10 @@ public abstract class TestChangeCreation {
      * granted by the uploader.
      */
     public abstract Builder approvals(ImmutableMap<String, Short> approvals);
+
+    /** The validation options that should be used for creating this change. */
+    public abstract Builder validationOptions(
+        ImmutableListMultimap<String, String> validationOptions);
 
     /**
      * The commit message. The message may contain a {@code Change-Id} footer but does not need to.

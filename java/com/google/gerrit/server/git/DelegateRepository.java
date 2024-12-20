@@ -161,12 +161,6 @@ public class DelegateRepository extends Repository {
   }
 
   @Override
-  @Deprecated
-  public boolean hasObject(AnyObjectId objectId) {
-    return delegate.hasObject(objectId);
-  }
-
-  @Override
   public ObjectLoader open(AnyObjectId objectId, int typeHint)
       throws MissingObjectException, IncorrectObjectTypeException, IOException {
     return delegate.open(objectId, typeHint);
@@ -190,18 +184,6 @@ public class DelegateRepository extends Repository {
   @Override
   public String getBranch() throws IOException {
     return delegate.getBranch();
-  }
-
-  @Override
-  @Deprecated
-  public Map<String, Ref> getAllRefs() {
-    return delegate.getAllRefs();
-  }
-
-  @Override
-  @Deprecated
-  public Map<String, Ref> getTags() {
-    return delegate.getTags();
   }
 
   @Override
@@ -291,12 +273,6 @@ public class DelegateRepository extends Repository {
   @Override
   public String simplify(String revstr) throws AmbiguousObjectException, IOException {
     return delegate.simplify(revstr);
-  }
-
-  @Override
-  @Deprecated
-  public Ref peel(Ref ref) {
-    return delegate.peel(ref);
   }
 
   @Override

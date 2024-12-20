@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c4eca761_df652050",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-12-20T22:17:33Z",
+      "side": 1,
+      "message": "nit: reformat commit message",
+      "revId": "f625a8adf4979c20bf2e1e80b5e11df421842f1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "43a50f6e_e2270720",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -37,6 +54,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4ddfad1d_5662829c",
+        "filename": "java/com/google/gerrit/server/cache/h2/CacheOptions.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-12-20T22:17:33Z",
+      "side": 1,
+      "message": "TRACK_LAST_ACCESS ?",
+      "range": {
+        "startLine": 19,
+        "startChar": 2,
+        "endLine": 19,
+        "endChar": 22
+      },
+      "revId": "f625a8adf4979c20bf2e1e80b5e11df421842f1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "16831660_50c1469c",
         "filename": "java/com/google/gerrit/server/cache/h2/CacheStoreExecutor.java",
         "patchSetId": 2
@@ -48,6 +88,29 @@
       "writtenOn": "2024-12-20T21:38:50Z",
       "side": 1,
       "message": "Missing copyright/license header",
+      "revId": "f625a8adf4979c20bf2e1e80b5e11df421842f1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d179d60d_e389c2ff",
+        "filename": "java/com/google/gerrit/server/cache/h2/MaintainLastAccess.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-12-20T22:17:33Z",
+      "side": 1,
+      "message": "TrackLastAccess ?",
+      "range": {
+        "startLine": 24,
+        "startChar": 18,
+        "endLine": 24,
+        "endChar": 36
+      },
       "revId": "f625a8adf4979c20bf2e1e80b5e11df421842f1d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -147,4 +147,26 @@ public class RefUpdateContextTest {
       assertThat(ctx.getCustomData(String.class)).containsExactly(customData);
     }
   }
+
+  @Test
+  public void addCustomData_withCallback() {
+    Callback callback =
+        new Callback() {
+          @Override
+          public void callback() {}
+        };
+
+    try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
+      assertThat(ctx.getCustomData(String.class)).isEmpty();
+      try (RefUpdateContext nestedCtx = RefUpdateContext.open(INIT_REPO)) {
+        nestedCtx.addCustomData(callback);
+        assertThat(nestedCtx.getCustomData(Callback.class)).containsExactly(callback);
+      }
+      assertThat(ctx.getCustomData(Callback.class)).containsExactly(callback);
+    }
+  }
+
+  private static interface Callback {
+    void callback();
+  }
 }

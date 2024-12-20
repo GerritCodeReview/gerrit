@@ -208,7 +208,7 @@ public class RefUpdateContext implements AutoCloseable {
     }
 
     return customData.stream()
-        .filter(data -> data.getClass().isAssignableFrom(clazz))
+        .filter(data -> clazz.isAssignableFrom(data.getClass()))
         .map(data -> (T) data)
         .collect(toImmutableList());
   }

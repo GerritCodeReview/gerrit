@@ -16,6 +16,24 @@
       "message": "I like this refactor, but it doesn\u0027t seem related to the rest of this change. Am I missing something there or would you be willing to split it out into a separate parent change?",
       "revId": "b84aef9ddcc207036ecf935a38efeb617a8bc904",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e9a113f_96505a5b",
+        "filename": "java/com/google/gerrit/server/cache/PersistentCacheBaseFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-12-21T19:46:36Z",
+      "side": 0,
+      "message": "This is intentional. This code is moved to the `H2CacheModule` becuase other `@Provides` methods depend on the existence of the cache dir. This is a part of the removal of the complex logic out of the `H2CacheFactory` constructor.",
+      "parentUuid": "6fc3ce6a_d067faa9",
+      "revId": "b84aef9ddcc207036ecf935a38efeb617a8bc904",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

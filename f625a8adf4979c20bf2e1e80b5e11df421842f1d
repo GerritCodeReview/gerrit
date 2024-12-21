@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b547091a_ee69dcf6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-12-21T19:46:36Z",
+      "side": 1,
+      "message": "Ah.. I forgot to delete them. Actually, I started with annotated booleans and then decided to go with the CacheOptions enum but forgot to delete the annotations.",
+      "parentUuid": "43a50f6e_e2270720",
+      "revId": "f625a8adf4979c20bf2e1e80b5e11df421842f1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ac046fe8_fb1b6246",
         "filename": "java/com/google/gerrit/pgm/Reindex.java",
         "patchSetId": 2
@@ -54,6 +72,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c85fbe75_361f7888",
+        "filename": "java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-12-21T19:46:36Z",
+      "side": 1,
+      "message": "Sounds reasonable, will try to do so.",
+      "parentUuid": "ac046fe8_fb1b6246",
+      "revId": "f625a8adf4979c20bf2e1e80b5e11df421842f1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4ddfad1d_5662829c",
         "filename": "java/com/google/gerrit/server/cache/h2/CacheOptions.java",
         "patchSetId": 2
@@ -65,6 +101,30 @@
       "writtenOn": "2024-12-20T22:17:33Z",
       "side": 1,
       "message": "TRACK_LAST_ACCESS ?",
+      "range": {
+        "startLine": 19,
+        "startChar": 2,
+        "endLine": 19,
+        "endChar": 22
+      },
+      "revId": "f625a8adf4979c20bf2e1e80b5e11df421842f1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40119128_f1bb47ac",
+        "filename": "java/com/google/gerrit/server/cache/h2/CacheOptions.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-12-21T19:46:36Z",
+      "side": 1,
+      "message": "OK, `TRACK` loosk better than `MAINTAIN`, I will do so.",
+      "parentUuid": "4ddfad1d_5662829c",
       "range": {
         "startLine": 19,
         "startChar": 2,
@@ -105,6 +165,30 @@
       "writtenOn": "2024-12-20T22:17:33Z",
       "side": 1,
       "message": "TrackLastAccess ?",
+      "range": {
+        "startLine": 24,
+        "startChar": 18,
+        "endLine": 24,
+        "endChar": 36
+      },
+      "revId": "f625a8adf4979c20bf2e1e80b5e11df421842f1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c36ba460_05ec3aec",
+        "filename": "java/com/google/gerrit/server/cache/h2/MaintainLastAccess.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-12-21T19:46:36Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "d179d60d_e389c2ff",
       "range": {
         "startLine": 24,
         "startChar": 18,

@@ -22,6 +22,30 @@
       },
       "revId": "b84aef9ddcc207036ecf935a38efeb617a8bc904",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "725e1566_05dee1b7",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-12-21T19:59:17Z",
+      "side": 1,
+      "message": "Yes, sounds better",
+      "parentUuid": "62216cea_7a8a6126",
+      "range": {
+        "startLine": 362,
+        "startChar": 20,
+        "endLine": 362,
+        "endChar": 38
+      },
+      "revId": "b84aef9ddcc207036ecf935a38efeb617a8bc904",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,24 @@
       "message": "This compiles in bazel build but fails in Eclipse since that looks at the unpatched JGit source code using jakarta.servlet namespace which isn\u0027t on the classpath.",
       "revId": "969944d04103615682611aac8e0c7d00e60bd69e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "911c128f_209e7f3f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-12-22T08:17:55Z",
+      "side": 1,
+      "message": "Maybe the better workaround is to revert the following changes in the jgit mirror repo on gerrit-review until gerrit can upgrade to servlet 6.x:\n\ncommit f13a655c56a63a367d74e22e3f39f08a0f787b45\nUpdate jakarta.servlet:jakarta.servlet-api to 6.1.0\n\ncommit 026d46de13eb2321c18045469f27b065ba107ff5\nBump jetty version to 12.0.9 and servlet-api to 6.0\n\ncommit a31580f459b0ae24b51c519ce71ad728ff156c8f\nBump jetty version to 11.0.20 and servlet api to 5.0",
+      "parentUuid": "5fc887a5_ae1b595c",
+      "revId": "969944d04103615682611aac8e0c7d00e60bd69e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

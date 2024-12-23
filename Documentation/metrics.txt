@@ -204,11 +204,6 @@ computed by default. They can be enabled via the
 link:config.gerrit.html#cache.enableDiskStatMetrics[`cache.enableDiskStatMetrics`]
 setting.
 
-=== Indexes
-
-* `indexes`: Number of document in the index
-** `index`: index name
-
 === Change
 
 * `change/count_rebases`: Total number of rebases

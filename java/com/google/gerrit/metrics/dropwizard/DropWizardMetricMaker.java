@@ -52,7 +52,6 @@ import com.google.gerrit.metrics.proc.JGitMetricModule;
 import com.google.gerrit.metrics.proc.ProcMetricModule;
 import com.google.gerrit.server.cache.CacheMetrics;
 import com.google.gerrit.server.config.MetricsReservoirConfigImpl;
-import com.google.gerrit.server.index.IndexMetrics;
 import com.google.inject.Inject;
 import com.google.inject.Scopes;
 import com.google.inject.Singleton;
@@ -107,7 +106,6 @@ public class DropWizardMetricMaker extends MetricMaker {
       child(CONFIG_KIND, "metrics").to(MetricsCollection.class);
       get(METRIC_KIND).to(GetMetric.class);
       bind(CacheMetrics.class);
-      bind(IndexMetrics.class);
     }
   }
 

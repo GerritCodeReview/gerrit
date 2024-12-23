@@ -104,7 +104,11 @@ genrule(
     tmpdir="$$(mktemp -d)"
     cd "$${tmpdir}"
     jar xf "$${TOP}/$<"
-    find . -name "*.java" | xargs sed -i s/jakarta.servlet/javax.servlet/
+    if [[ "$${OSTYPE}" != "linux"* ]]; then
+      find . -name "*.java" -print0 | xargs -0 sed -i '' 's/jakarta.servlet/javax.servlet/g'
+    else
+      find . -name "*.java" -print0 | xargs -0 sed -i 's/jakarta.servlet/javax.servlet/g'
+    fi
     jar cf "$${TOP}/$@" .
     rm -rf "$${tmpdir}"
     """,

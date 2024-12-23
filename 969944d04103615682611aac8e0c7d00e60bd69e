@@ -34,6 +34,24 @@
       "parentUuid": "5fc887a5_ae1b595c",
       "revId": "969944d04103615682611aac8e0c7d00e60bd69e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a79e585c_89df85ee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2024-12-23T22:15:05Z",
+      "side": 1,
+      "message": "Do you mean in a branch in gerrit/jgit? and we manually track upstream from that branch? We would need to do that also in gitiles, but it is fine for me.\n\nAnother option could be for JGit to provide a jgit-servlet-javax. In maven I guess it means to publish another jar (?). Would that work in eclipse?",
+      "parentUuid": "911c128f_209e7f3f",
+      "revId": "969944d04103615682611aac8e0c7d00e60bd69e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

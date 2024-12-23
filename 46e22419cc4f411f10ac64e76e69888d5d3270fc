@@ -52,6 +52,24 @@
       "parentUuid": "4d823aea_4b7685d5",
       "revId": "46e22419cc4f411f10ac64e76e69888d5d3270fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed4ed448_011ae7f4",
+        "filename": "javatests/com/google/gerrit/acceptance/server/index/BUILD",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-12-23T08:32:47Z",
+      "side": 1,
+      "message": "Removing this dependency here will not fix the issue with IndexMetricIT for us. I think the problem is that IndexMetrics is only bound in DropWizardMetricMaker [1]? Hence it\u0027s not available if any other metric maker is used.\n\nhttps://gerrit-review.git.corp.google.com/c/gerrit/+/445721/9/java/com/google/gerrit/metrics/dropwizard/DropWizardMetricMaker.java#45",
+      "parentUuid": "19b37ce5_666ea5f8",
+      "revId": "46e22419cc4f411f10ac64e76e69888d5d3270fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

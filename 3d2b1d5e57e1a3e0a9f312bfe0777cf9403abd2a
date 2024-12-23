@@ -33,6 +33,23 @@
       "message": "Verified manually on linux and macOs (Darwin Kernel Version 24.1.0)",
       "revId": "3d2b1d5e57e1a3e0a9f312bfe0777cf9403abd2a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "460765ec_a43211dd",
+        "filename": "lib/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2024-12-23T19:05:09Z",
+      "side": 1,
+      "message": "I don\u0027t own a Mac, can you explain why the \u0027\u0027 is needed? Is there some way to use a single command that will work everywhere in a compatible way so we don\u0027t have to maintain two separate commands?",
+      "revId": "3d2b1d5e57e1a3e0a9f312bfe0777cf9403abd2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

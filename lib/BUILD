@@ -104,7 +104,11 @@ genrule(
     tmpdir="$$(mktemp -d)"
     cd "$${tmpdir}"
     jar xf "$${TOP}/$<"
+<<<<<<< Updated upstream
     find . -name "*.java" | xargs sed -i s/jakarta.servlet/javax.servlet/
+=======
+    find . -name "*.java" -exec awk '{gsub(/jakarta.servlet/, "javax.servlet"); print > FILENAME}' {} \\;
+>>>>>>> Stashed changes
     jar cf "$${TOP}/$@" .
     rm -rf "$${tmpdir}"
     """,

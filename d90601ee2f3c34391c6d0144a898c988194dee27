@@ -16,6 +16,24 @@
       "message": "Thanks Luca for the quick review!",
       "revId": "d90601ee2f3c34391c6d0144a898c988194dee27",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "108a83a9_cf1db4cc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-12-23T08:56:47Z",
+      "side": 1,
+      "message": "No problem and apologies for the breakage. We\u0027ll find a different solution that does not have any dependency on DropWizard.",
+      "parentUuid": "c3d2f62b_1d714bc7",
+      "revId": "d90601ee2f3c34391c6d0144a898c988194dee27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

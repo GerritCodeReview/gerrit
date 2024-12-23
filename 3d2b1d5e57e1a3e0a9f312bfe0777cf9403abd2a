@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6fff1a30_40defee2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-12-23T16:07:12Z",
+      "side": 1,
+      "message": "I have tried to find a command compatible for both OS like `awk` but I have seen unexepected results. For that reason I decided to go with this version:\n\ntested in \n\nLinux: \n\n```\nLinux 54abfcee7580 6.10.0-linuxkit #1 SMP Wed Jul 17 10:51:09 UTC 2024 x86_64 GNU/Linux\n```\n\nwith OSTYPE\u003dlinux-gnu\n\nMacos:\n\n```\nDarwin Alvaros-MacBook-Pro.local 22.3.0 Darwin Kernel Version 22.3.0: Mon Jan 30 20:39:46 PST 2023; root:xnu-8792.81.3~2/RELEASE_ARM64_T6020 arm64\n```\n\nwith OSTYPE\u003ddarwin22.0\n\nI am open for suggestions.",
+      "revId": "3d2b1d5e57e1a3e0a9f312bfe0777cf9403abd2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

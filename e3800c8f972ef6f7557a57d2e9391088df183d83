@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef92e07a_30950711",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2024-12-23T18:51:46Z",
+      "side": 1,
+      "message": "Does this require wipping the H2 caches because the on disk format changed, or should it just work on older caches?\n\nShould we move this out of WIP to try and get it merged (it would be really nice to be able to run \"gerrit show-caches\" without blocking other threads for minutes)?",
+      "revId": "e3800c8f972ef6f7557a57d2e9391088df183d83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

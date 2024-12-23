@@ -4,5 +4,4 @@ acceptance_tests(
     srcs = glob(["**/*IT.java"]),
     group = "server_index",
     labels = ["server"],
-    deps = ["//lib/dropwizard:dropwizard-core"],
 )

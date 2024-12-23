@@ -104,7 +104,7 @@ genrule(
     tmpdir="$$(mktemp -d)"
     cd "$${tmpdir}"
     jar xf "$${TOP}/$<"
-    find . -name "*.java" | xargs sed -i s/jakarta.servlet/javax.servlet/
+    find . -name "*.java" | xargs sed -i '' 's/jakarta.servlet/javax.servlet/g'
     jar cf "$${TOP}/$@" .
     rm -rf "$${tmpdir}"
     """,

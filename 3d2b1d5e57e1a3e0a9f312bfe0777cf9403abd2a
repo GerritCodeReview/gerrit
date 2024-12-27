@@ -50,6 +50,24 @@
       "message": "I don\u0027t own a Mac, can you explain why the \u0027\u0027 is needed? Is there some way to use a single command that will work everywhere in a compatible way so we don\u0027t have to maintain two separate commands?",
       "revId": "3d2b1d5e57e1a3e0a9f312bfe0777cf9403abd2a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0397e7c3_9b233d5e",
+        "filename": "lib/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-12-27T09:21:24Z",
+      "side": 1,
+      "message": "+1, the MacOS syntax looks strange to me, can we find a common syntax that works for both?",
+      "parentUuid": "460765ec_a43211dd",
+      "revId": "3d2b1d5e57e1a3e0a9f312bfe0777cf9403abd2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

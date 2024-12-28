@@ -107,7 +107,9 @@ public class UiActions {
     Map<PermissionBackendCondition, PermissionBackendCondition> dedupedConds =
         new HashMap<>(conds.size());
     for (PermissionBackendCondition cond : conds) {
-      dedupedConds.put(cond, cond);
+      if (!dedupedConds.containsKey(cond)) {
+        dedupedConds.put(cond, cond);
+      }
     }
     perm.bulkEvaluateTest(dedupedConds.keySet());
     for (PermissionBackendCondition cond : conds) {

@@ -1257,19 +1257,23 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     });
   }
 
-  async getDetailedChangesWithActions(changeNums: NumericChangeId[]) {
+  async getDetailedChangesWithActions(
+    changeNums: NumericChangeId[],
+    needsSubmitRequirements = false
+  ) {
+    const options = [
+      ListChangesOption.CHANGE_ACTIONS,
+      ListChangesOption.CURRENT_REVISION,
+      ListChangesOption.DETAILED_LABELS,
+    ].concat(
+      needsSubmitRequirements ? [ListChangesOption.SUBMIT_REQUIREMENTS] : []
+    );
     const query = changeNums.map(num => `change:${num}`).join(' OR ');
     const changeDetails = await this.getChanges(
       undefined,
       query,
       undefined,
-      listChangesOptionsToHex(
-        ListChangesOption.CHANGE_ACTIONS,
-        ListChangesOption.CURRENT_REVISION,
-        ListChangesOption.DETAILED_LABELS,
-        // TODO: remove this option and merge requirements from dashboard req
-        ListChangesOption.SUBMIT_REQUIREMENTS
-      )
+      listChangesOptionsToHex(...options)
     );
     return changeDetails;
   }

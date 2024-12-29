@@ -491,7 +491,8 @@ export interface RestApiService extends Finalizable {
   ): Promise<{[pluginName: string]: PluginInfo} | undefined>;
 
   getDetailedChangesWithActions(
-    changeNums: NumericChangeId[]
+    changeNums: NumericChangeId[],
+    needsSubmitRequirements?: boolean
   ): Promise<ChangeInfo[] | undefined>;
 
   getChanges(

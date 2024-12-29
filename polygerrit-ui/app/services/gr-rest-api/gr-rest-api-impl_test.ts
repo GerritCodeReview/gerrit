@@ -65,8 +65,7 @@ const EXPECTED_QUERY_OPTIONS = listChangesOptionsToHex(
   // They are not used in bulk actions.
   // ListChangesOption.CURRENT_ACTIONS,
   ListChangesOption.CURRENT_REVISION,
-  ListChangesOption.DETAILED_LABELS,
-  ListChangesOption.SUBMIT_REQUIREMENTS
+  ListChangesOption.DETAILED_LABELS
 );
 
 suite('gr-rest-api-service-impl tests', () => {
@@ -1559,6 +1558,30 @@ suite('gr-rest-api-service-impl tests', () => {
         return Promise.resolve([]);
       });
     await element.getDetailedChangesWithActions([c1._number, c2._number]);
+    assert.isTrue(getChangesStub.calledOnce);
+  });
+
+  test('getDetailedChangesWithActions with SUBMIT_REQUIREMENTS', async () => {
+    const expectedQueryOptions = listChangesOptionsToHex(
+      ListChangesOption.CHANGE_ACTIONS,
+      ListChangesOption.CURRENT_REVISION,
+      ListChangesOption.DETAILED_LABELS,
+      ListChangesOption.SUBMIT_REQUIREMENTS
+    );
+    const c1 = createChange();
+    c1._number = 1 as NumericChangeId;
+    const c2 = createChange();
+    c2._number = 2 as NumericChangeId;
+    const getChangesStub = sinon
+      .stub(element, 'getChanges')
+      .callsFake((changesPerPage, query, offset, options) => {
+        assert.isUndefined(changesPerPage);
+        assert.strictEqual(query, 'change:1 OR change:2');
+        assert.isUndefined(offset);
+        assert.strictEqual(options, expectedQueryOptions);
+        return Promise.resolve([]);
+      });
+    await element.getDetailedChangesWithActions([c1._number, c2._number], true);
     assert.isTrue(getChangesStub.calledOnce);
   });
 

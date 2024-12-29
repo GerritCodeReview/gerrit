@@ -413,8 +413,16 @@ suite('bulk actions model test', () => {
       );
 
       assert.deepEqual(updatedChanges, [
-        {...change1, hashtags: [existingHashtag, newHashtag]},
-        {...change2, hashtags: [existingHashtag, newHashtag]},
+        {
+          ...change1,
+          hashtags: [existingHashtag, newHashtag],
+          submit_requirements: undefined,
+        },
+        {
+          ...change2,
+          hashtags: [existingHashtag, newHashtag],
+          submit_requirements: undefined,
+        },
       ]);
     });
   });

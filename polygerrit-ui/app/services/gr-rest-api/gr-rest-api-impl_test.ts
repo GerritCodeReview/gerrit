@@ -65,8 +65,7 @@ const EXPECTED_QUERY_OPTIONS = listChangesOptionsToHex(
   // They are not used in bulk actions.
   // ListChangesOption.CURRENT_ACTIONS,
   ListChangesOption.CURRENT_REVISION,
-  ListChangesOption.DETAILED_LABELS,
-  ListChangesOption.SUBMIT_REQUIREMENTS
+  ListChangesOption.DETAILED_LABELS
 );
 
 suite('gr-rest-api-service-impl tests', () => {

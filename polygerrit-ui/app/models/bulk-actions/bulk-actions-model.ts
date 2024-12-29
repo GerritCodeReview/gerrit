@@ -268,7 +268,11 @@ export class BulkActionsModel extends Model<BulkActionsState> {
     }
     const allDetailedChanges: Map<NumericChangeId, ChangeInfo> = new Map();
     for (const detailedChange of changeDetails ?? []) {
-      allDetailedChanges.set(detailedChange._number, detailedChange);
+      allDetailedChanges.set(detailedChange._number, {
+        ...detailedChange,
+        submit_requirements: basicChanges.get(detailedChange._number)
+          ?.submit_requirements,
+      });
     }
     this.setState({
       ...currentState,

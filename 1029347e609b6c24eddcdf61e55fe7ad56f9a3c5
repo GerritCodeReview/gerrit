@@ -253,6 +253,30 @@
       },
       "revId": "1029347e609b6c24eddcdf61e55fe7ad56f9a3c5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27cb125e_8ad7ebbb",
+        "filename": "tools/gjf.sh",
+        "patchSetId": 6
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-12-30T21:47:58Z",
+      "side": 1,
+      "message": "Fixed with I43f0f824713. @sven.selberg@axis.com @thomasmulhall410@yahoo.com can you check 🙏 please?",
+      "parentUuid": "d73a20cc_94ba5b80",
+      "range": {
+        "startLine": 135,
+        "startChar": 0,
+        "endLine": 135,
+        "endChar": 51
+      },
+      "revId": "1029347e609b6c24eddcdf61e55fe7ad56f9a3c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

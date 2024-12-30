@@ -16,6 +16,29 @@
       "message": "I verified in Linux and MacOs",
       "revId": "1fec1385dd7e3a19b006a725662c127455bf77a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9040008c_a25528d0",
+        "filename": "lib/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-12-30T14:42:18Z",
+      "side": 1,
+      "message": "```suggestion\n    find . -type f -name \"*.java\" -exec sed -i.java.bak \u0027s/jakarta\\\\.servlet/javax.servlet/g\u0027 {} +\n    find . -type f -name \"*.java.bak\" -delete\n```\n\n`.bak` looks too generic as suffix: using `.java.bak` is more likely to represent the backup file of the java files.",
+      "range": {
+        "startLine": 107,
+        "startChar": 0,
+        "endLine": 108,
+        "endChar": 40
+      },
+      "revId": "1fec1385dd7e3a19b006a725662c127455bf77a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

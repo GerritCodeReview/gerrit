@@ -86,6 +86,24 @@
       "parentUuid": "0397e7c3_9b233d5e",
       "revId": "3d2b1d5e57e1a3e0a9f312bfe0777cf9403abd2a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "67c49b03_75530f16",
+        "filename": "lib/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-12-30T10:53:21Z",
+      "side": 1,
+      "message": "not perfect but pragmatic.",
+      "parentUuid": "94596503_39371a41",
+      "revId": "3d2b1d5e57e1a3e0a9f312bfe0777cf9403abd2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

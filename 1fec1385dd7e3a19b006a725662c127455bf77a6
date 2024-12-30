@@ -63,6 +63,30 @@
       },
       "revId": "1fec1385dd7e3a19b006a725662c127455bf77a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17330488_90fd89b7",
+        "filename": "lib/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-12-30T15:06:50Z",
+      "side": 1,
+      "message": "\u003e I think the first line should not be modified because if you pay attention to the command, this finds files with with suffix `.java`. So implicitily the back up file will be named wi the suffix. `.java.bak`\n\nTrue.\n\n\u003e In the second command, no objections and I can apply the suggestion.\n\nYes, we should explicitly remove the `.java.bak` as those are the ones we are expecting to be created.",
+      "parentUuid": "83690cbe_cde6f310",
+      "range": {
+        "startLine": 107,
+        "startChar": 0,
+        "endLine": 108,
+        "endChar": 40
+      },
+      "revId": "1fec1385dd7e3a19b006a725662c127455bf77a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

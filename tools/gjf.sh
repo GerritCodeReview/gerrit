@@ -132,7 +132,7 @@ function abs_script_dir_path {
 set -e
 
 dir="\$(abs_script_dir_path "\$0")"
-exec java -jar "$(get_jar_location $version)" "\$@"
+exec java -jar "\$dir/$(get_jar_name $version)" "\$@"
 EOF
 
     chmod +x "$launcher"

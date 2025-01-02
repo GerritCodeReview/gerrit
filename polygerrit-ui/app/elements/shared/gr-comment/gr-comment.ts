@@ -1309,14 +1309,6 @@ export class GrComment extends LitElement {
     }
     this.generatedFixSuggestion = suggestion;
 
-    try {
-      await waitUntil(() => this.getFixSuggestions() !== undefined);
-      this.autoSaveTrigger$.next();
-    } catch (error) {
-      // Error is ok in some cases like quick save by user.
-      console.warn(error);
-    }
-  }
 
   private async autocompleteComment() {
     const enabled = this.flagsService.isEnabled(

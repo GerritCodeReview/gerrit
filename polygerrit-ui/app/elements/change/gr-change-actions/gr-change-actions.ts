@@ -1353,6 +1353,14 @@ export class GrChangeActions
   }
 
   // private but used in test
+  handlePublishEditEvent() {
+    if (!this.change) return;
+    const change = this.change as ChangeInfo;
+    const revision = this.getRevision(change, this.latestPatchNum);
+    this.getPluginLoader().jsApiService.handlePublishEdit(change, revision);
+  }
+
+  // private but used in test
   getRevision(change: ChangeInfo, patchNum?: PatchSetNumber) {
     for (const rev of Object.values(change.revisions ?? {})) {
       if (rev._number === patchNum) {
@@ -1750,6 +1758,8 @@ export class GrChangeActions
       false,
       {notify: NotifyType.NONE}
     );
+    // Send publishedit event
+    this.handlePublishEditEvent();
   }
 
   // private but used in test

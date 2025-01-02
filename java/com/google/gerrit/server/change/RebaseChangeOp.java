@@ -368,6 +368,7 @@ public class RebaseChangeOp implements BatchUpdateOp {
             // The votes are automatically copied and they don't count as copied votes. See
             // method's javadoc.
             .setStoreCopiedVotes(storeCopiedVotes);
+    rebasedCommit.getConflicts().ifPresent(patchSetInserter::setConflicts);
 
     if (!validate) {
       patchSetInserter.disableValidation();
@@ -619,7 +620,7 @@ public class RebaseChangeOp implements BatchUpdateOp {
     }
     ObjectId objectId = ctx.getInserter().insert(cb);
     CodeReviewCommit commit = ((CodeReviewRevWalk) ctx.getRevWalk()).parseCommit(objectId);
-    commit.setFilesWithGitConflicts(filesWithGitConflicts);
+    commit.setConflicts(original, base, filesWithGitConflicts);
     logger.atFine().log("rebased commit=%s", commit.name());
     return commit;
   }

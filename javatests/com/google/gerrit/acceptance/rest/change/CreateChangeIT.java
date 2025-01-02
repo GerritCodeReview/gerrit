@@ -26,6 +26,7 @@ import static com.google.gerrit.entities.RefNames.HEAD;
 import static com.google.gerrit.entities.RefNames.changeMetaRef;
 import static com.google.gerrit.extensions.client.ListChangesOption.ALL_REVISIONS;
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_COMMIT;
+import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
 import static com.google.gerrit.extensions.common.testing.GitPersonSubject.assertThat;
 import static com.google.gerrit.git.ObjectIds.abbreviateName;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
@@ -76,6 +77,7 @@ import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.GitPerson;
 import com.google.gerrit.extensions.common.MergeInput;
+import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
@@ -221,6 +223,12 @@ public class CreateChangeIT extends AbstractDaemonTest {
     List<ChangeMessageInfo> messages = gApi.changes().id(info._number).messages();
     assertThat(messages).hasSize(1);
     assertThat(Iterables.getOnlyElement(messages).message).isEqualTo("Uploaded patch set 1.");
+
+    // Verify that no conflicts information is set (conflicts information is only set for merge
+    // commits)
+    RevisionInfo currentRevision =
+        gApi.changes().id(info.id).get(CURRENT_REVISION, CURRENT_COMMIT).getCurrentRevision();
+    assertThat(currentRevision.conflicts).isNull();
   }
 
   @Test
@@ -536,7 +544,8 @@ public class CreateChangeIT extends AbstractDaemonTest {
         targetSubject,
         fileName,
         targetContent);
-    ChangeInput input = newMergeChangeInput(targetBranch, sourceBranch, "", true);
+    ChangeInput input =
+        newMergeChangeInput(targetBranch, sourceBranch, "", /* allowConflicts= */ true);
     input.workInProgress = true;
     input.author = new AccountInput();
     input.author.email = user.email();
@@ -685,14 +694,29 @@ public class CreateChangeIT extends AbstractDaemonTest {
 
   @Test
   public void createMergeChange() throws Exception {
-    changeInTwoBranches("branchA", "a.txt", "branchB", "b.txt");
-    ChangeInput in = newMergeChangeInput("branchA", "branchB", "");
+    String sourceBranch = "sourceBranch";
+    String targetBranch = "targetBranch";
+    ImmutableMap<String, Result> results =
+        changeInTwoBranches(sourceBranch, "a.txt", targetBranch, "b.txt");
+    ChangeInput in = newMergeChangeInput(targetBranch, sourceBranch, "");
     ChangeInfo change = assertCreateSucceeds(in);
 
     // Verify the message that has been posted on the change.
     List<ChangeMessageInfo> messages = gApi.changes().id(change._number).messages();
     assertThat(messages).hasSize(1);
     assertThat(Iterables.getOnlyElement(messages).message).isEqualTo("Uploaded patch set 1.");
+
+    // Verify the conflicts information
+    RevisionInfo currentRevision =
+        gApi.changes().id(change.id).get(CURRENT_REVISION, CURRENT_COMMIT).getCurrentRevision();
+    assertThat(currentRevision.commit.parents.get(0).commit)
+        .isEqualTo(results.get(targetBranch).getCommit().name());
+    assertThat(currentRevision.conflicts).isNotNull();
+    assertThat(currentRevision.conflicts.ours)
+        .isEqualTo(results.get(targetBranch).getCommit().name());
+    assertThat(currentRevision.conflicts.theirs)
+        .isEqualTo(results.get(sourceBranch).getCommit().name());
+    assertThat(currentRevision.conflicts.containsConflicts).isFalse();
   }
 
   @Test
@@ -720,9 +744,24 @@ public class CreateChangeIT extends AbstractDaemonTest {
 
   @Test
   public void createMergeChange_Conflicts_Ours() throws Exception {
-    changeInTwoBranches("branchA", "shared.txt", "branchB", "shared.txt");
-    ChangeInput in = newMergeChangeInput("branchA", "branchB", "ours");
-    assertCreateSucceeds(in);
+    String sourceBranch = "sourceBranch";
+    String targetBranch = "targetBranch";
+    ImmutableMap<String, Result> results =
+        changeInTwoBranches(sourceBranch, "shared.txt", targetBranch, "shared.txt");
+    ChangeInput in = newMergeChangeInput(targetBranch, sourceBranch, "ours");
+    ChangeInfo change = assertCreateSucceeds(in);
+
+    // Verify the conflicts information
+    RevisionInfo currentRevision =
+        gApi.changes().id(change.id).get(CURRENT_REVISION, CURRENT_COMMIT).getCurrentRevision();
+    assertThat(currentRevision.commit.parents.get(0).commit)
+        .isEqualTo(results.get(targetBranch).getCommit().name());
+    assertThat(currentRevision.conflicts).isNotNull();
+    assertThat(currentRevision.conflicts.ours)
+        .isEqualTo(results.get(targetBranch).getCommit().name());
+    assertThat(currentRevision.conflicts.theirs)
+        .isEqualTo(results.get(sourceBranch).getCommit().name());
+    assertThat(currentRevision.conflicts.containsConflicts).isFalse();
   }
 
   @Test
@@ -734,17 +773,31 @@ public class CreateChangeIT extends AbstractDaemonTest {
     String targetBranch = "targetBranch";
     String targetSubject = "target change";
     String targetContent = "target content";
-    changeInTwoBranches(
-        sourceBranch,
-        sourceSubject,
-        fileName,
-        sourceContent,
-        targetBranch,
-        targetSubject,
-        fileName,
-        targetContent);
-    ChangeInput in = newMergeChangeInput(targetBranch, sourceBranch, "", true);
+    ImmutableMap<String, Result> results =
+        changeInTwoBranches(
+            sourceBranch,
+            sourceSubject,
+            fileName,
+            sourceContent,
+            targetBranch,
+            targetSubject,
+            fileName,
+            targetContent);
+    ChangeInput in =
+        newMergeChangeInput(targetBranch, sourceBranch, "", /* allowConflicts= */ true);
     ChangeInfo change = assertCreateSucceedsWithConflicts(in);
+
+    // Verify the conflicts information
+    RevisionInfo currentRevision =
+        gApi.changes().id(change.id).get(CURRENT_REVISION, CURRENT_COMMIT).getCurrentRevision();
+    assertThat(currentRevision.commit.parents.get(0).commit)
+        .isEqualTo(results.get(targetBranch).getCommit().name());
+    assertThat(currentRevision.conflicts).isNotNull();
+    assertThat(currentRevision.conflicts.ours)
+        .isEqualTo(results.get(targetBranch).getCommit().name());
+    assertThat(currentRevision.conflicts.theirs)
+        .isEqualTo(results.get(sourceBranch).getCommit().name());
+    assertThat(currentRevision.conflicts.containsConflicts).isTrue();
 
     // Verify that the file content in the created change is correct.
     // We expect that it has conflict markers to indicate the conflict.
@@ -799,7 +852,8 @@ public class CreateChangeIT extends AbstractDaemonTest {
         fileName,
         "target content");
     String mergeStrategy = "simple-two-way-in-core";
-    ChangeInput in = newMergeChangeInput(targetBranch, sourceBranch, mergeStrategy, true);
+    ChangeInput in =
+        newMergeChangeInput(targetBranch, sourceBranch, mergeStrategy, /* allowConflicts= */ true);
     assertCreateFails(
         in,
         BadRequestException.class,
@@ -1557,7 +1611,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
   }
 
   private ChangeInput newMergeChangeInput(String targetBranch, String sourceRef, String strategy) {
-    return newMergeChangeInput(targetBranch, sourceRef, strategy, false);
+    return newMergeChangeInput(targetBranch, sourceRef, strategy, /* allowConflicts= */ false);
   }
 
   private ChangeInput newMergeChangeInput(

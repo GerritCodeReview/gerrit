@@ -1052,6 +1052,7 @@ public class ChangeNotesStateTest {
                 .put("pushCertificate", new TypeLiteral<Optional<String>>() {}.getType())
                 .put("description", new TypeLiteral<Optional<String>>() {}.getType())
                 .put("branch", new TypeLiteral<Optional<String>>() {}.getType())
+                .put("conflicts", new TypeLiteral<Optional<PatchSet.Conflicts>>() {}.getType())
                 .build());
   }
 

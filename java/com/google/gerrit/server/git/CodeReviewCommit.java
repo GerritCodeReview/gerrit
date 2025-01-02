@@ -32,6 +32,7 @@ import java.util.Set;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -134,6 +135,16 @@ public class CodeReviewCommit extends RevCommit implements Serializable {
    */
   private transient Optional<String> statusMessage = Optional.empty();
 
+  /**
+   * Information about conflicts in this commit.
+   *
+   * <p>Only set for patch sets that are created by Gerrit as a result of performing a Git merge.
+   *
+   * <p>If this field is not set it's unknown whether this patch set contains any file with
+   * conflicts.
+   */
+  @Nullable private PatchSet.Conflicts conflicts;
+
   /** List of files in this commit that contain Git conflict markers. */
   private ImmutableSet<String> filesWithGitConflicts;
 
@@ -161,15 +172,26 @@ public class CodeReviewCommit extends RevCommit implements Serializable {
     this.statusMessage = Optional.ofNullable(statusMessage);
   }
 
-  public ImmutableSet<String> getFilesWithGitConflicts() {
-    return filesWithGitConflicts != null ? filesWithGitConflicts : ImmutableSet.of();
+  public void setConflicts(
+      ObjectId ours, ObjectId theirs, @Nullable Set<String> filesWithGitConflicts) {
+    if (filesWithGitConflicts != null && !filesWithGitConflicts.isEmpty()) {
+      this.conflicts =
+          PatchSet.Conflicts.create(
+              Optional.of(ours), Optional.of(theirs), /* containsConflicts= */ true);
+      this.filesWithGitConflicts = ImmutableSet.copyOf(filesWithGitConflicts);
+    } else {
+      this.conflicts =
+          PatchSet.Conflicts.create(
+              Optional.of(ours), Optional.of(theirs), /* containsConflicts= */ false);
+    }
   }
 
-  public void setFilesWithGitConflicts(@Nullable Set<String> filesWithGitConflicts) {
-    this.filesWithGitConflicts =
-        filesWithGitConflicts != null && !filesWithGitConflicts.isEmpty()
-            ? ImmutableSet.copyOf(filesWithGitConflicts)
-            : null;
+  public Optional<PatchSet.Conflicts> getConflicts() {
+    return Optional.ofNullable(conflicts);
+  }
+
+  public ImmutableSet<String> getFilesWithGitConflicts() {
+    return filesWithGitConflicts != null ? filesWithGitConflicts : ImmutableSet.of();
   }
 
   public PatchSet.Id getPatchsetId() {

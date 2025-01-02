@@ -115,6 +115,14 @@ enum ChangeStatus {
  ABANDONED = 2;
 }
 
+// Serialized form of com.google.gerrit.entities.PatchSet.Conflicts.
+// Next ID: 4
+message Conflicts {
+  optional ObjectId ours = 1;
+  optional ObjectId theirs = 2;
+  required bool containsConflicts = 3;
+}
+
 // Serialized form of com.google.gerrit.extensions.common.MergeInput.
 // Next ID: 5
 message MergeInput {
@@ -207,7 +215,7 @@ message PatchSet_Id {
 }
 
 // Serialized form of com.google.gerrit.entities.PatchSet.
-// Next ID: 12
+// Next ID: 13
 message PatchSet {
   required PatchSet_Id id = 1;
   optional ObjectId commitId = 2;
@@ -218,6 +226,7 @@ message PatchSet {
   optional string description = 9;
   optional Account_Id real_uploader_account_id = 10;
   optional string branch = 11;
+  optional Conflicts conflicts = 12;
 
   // Deleted fields, should not be reused:
   reserved 5;  // draft

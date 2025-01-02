@@ -229,6 +229,7 @@ public class CreateMergePatchSet implements RestModifyView<ChangeResource, Merge
               .setMessage(messageForChange(nextPsId, newCommit))
               .setWorkInProgress(!newCommit.getFilesWithGitConflicts().isEmpty())
               .setCheckAddPatchSetPermission(false);
+          newCommit.getConflicts().ifPresent(psInserter::setConflicts);
 
           if (in.validationOptions != null) {
             ImmutableListMultimap.Builder<String, String> validationOptions =

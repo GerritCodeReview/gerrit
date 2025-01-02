@@ -118,6 +118,7 @@ public class PatchSetInserter implements BatchUpdateOp {
   private boolean allowClosed;
   private boolean sendEmail = true;
   private String topic;
+  private PatchSet.Conflicts conflicts;
   private boolean storeCopiedVotes = true;
 
   // Fields set during some phase of BatchUpdate.Op.
@@ -268,6 +269,12 @@ public class PatchSetInserter implements BatchUpdateOp {
     return this;
   }
 
+  @CanIgnoreReturnValue
+  public PatchSetInserter setConflicts(PatchSet.Conflicts conflicts) {
+    this.conflicts = conflicts;
+    return this;
+  }
+
   /**
    * We always want to store copied votes except when the change is getting submitted and a new
    * patch-set is created on submit (using submit strategies such as "REBASE_ALWAYS"). In such
@@ -369,6 +376,10 @@ public class PatchSetInserter implements BatchUpdateOp {
       approvalCopierResult =
           approvalsUtil.copyApprovalsToNewPatchSet(
               ctx.getNotes(), patchSet, ctx.getRepoView(), update);
+    }
+
+    if (conflicts != null) {
+      update.setConflicts(conflicts);
     }
 
     mailMessage = insertChangeMessage(update);

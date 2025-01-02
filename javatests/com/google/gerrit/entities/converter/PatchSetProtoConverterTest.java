@@ -48,6 +48,14 @@ public class PatchSetProtoConverterTest {
             .pushCertificate("my push certificate")
             .description("This is a patch set description.")
             .branch(Optional.of("refs/heads/master"))
+            .conflicts(
+                Optional.of(
+                    PatchSet.Conflicts.create(
+                        Optional.of(
+                            ObjectId.fromString("fc5fcbe1cf0b3e4c203ff4cb77c3912208174695")),
+                        Optional.of(
+                            ObjectId.fromString("f72b99f6898debf8d1ceeffb92faa66bb5cb7a9f")),
+                        true)))
             .build();
 
     Entities.PatchSet proto = patchSetProtoConverter.toProto(patchSet);
@@ -67,6 +75,16 @@ public class PatchSetProtoConverterTest {
             .setPushCertificate("my push certificate")
             .setDescription("This is a patch set description.")
             .setBranch("refs/heads/master")
+            .setConflicts(
+                Entities.Conflicts.newBuilder()
+                    .setOurs(
+                        Entities.ObjectId.newBuilder()
+                            .setName("fc5fcbe1cf0b3e4c203ff4cb77c3912208174695"))
+                    .setTheirs(
+                        Entities.ObjectId.newBuilder()
+                            .setName("f72b99f6898debf8d1ceeffb92faa66bb5cb7a9f"))
+                    .setContainsConflicts(true)
+                    .build())
             .build();
     assertThat(proto).isEqualTo(expectedProto);
   }
@@ -112,6 +130,14 @@ public class PatchSetProtoConverterTest {
             .pushCertificate("my push certificate")
             .description("This is a patch set description.")
             .branch(Optional.of("refs/heads/master"))
+            .conflicts(
+                Optional.of(
+                    PatchSet.Conflicts.create(
+                        Optional.of(
+                            ObjectId.fromString("fc5fcbe1cf0b3e4c203ff4cb77c3912208174695")),
+                        Optional.of(
+                            ObjectId.fromString("f72b99f6898debf8d1ceeffb92faa66bb5cb7a9f")),
+                        true)))
             .build();
 
     PatchSet convertedPatchSet =
@@ -195,6 +221,7 @@ public class PatchSetProtoConverterTest {
                 .put("pushCertificate", new TypeLiteral<Optional<String>>() {}.getType())
                 .put("description", new TypeLiteral<Optional<String>>() {}.getType())
                 .put("branch", new TypeLiteral<Optional<String>>() {}.getType())
+                .put("conflicts", new TypeLiteral<Optional<PatchSet.Conflicts>>() {}.getType())
                 .build());
   }
 }

@@ -471,6 +471,7 @@ public class CherryPickChange {
     inserter.setMessage(
         messageForDestinationChange(
             inserter.getPatchSetId(), sourceBranch, sourceCommit, cherryPickCommit));
+    cherryPickCommit.getConflicts().ifPresent(inserter::setConflicts);
     inserter.setTopic(topic);
     if (workInProgress != null) {
       inserter.setWorkInProgress(workInProgress);
@@ -512,6 +513,7 @@ public class CherryPickChange {
       throws IOException, InvalidChangeOperationException {
     Change.Id changeId = idForNewChange != null ? idForNewChange : Change.id(seq.nextChangeId());
     ChangeInserter ins = changeInserterFactory.create(changeId, cherryPickCommit, refName);
+    cherryPickCommit.getConflicts().ifPresent(ins::setConflicts);
     ins.setRevertOf(revertOf);
     if (workInProgress != null) {
       ins.setWorkInProgress(workInProgress);

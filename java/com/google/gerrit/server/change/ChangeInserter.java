@@ -143,6 +143,7 @@ public class ChangeInserter implements InsertChangeOp {
   private PatchSet.Id cherryPickOf;
   private Change.Status status;
   private String topic;
+  private PatchSet.Conflicts conflicts;
   private String message;
   private String patchSetDescription;
   private boolean isPrivate;
@@ -273,6 +274,12 @@ public class ChangeInserter implements InsertChangeOp {
   public ChangeInserter setTopic(String topic) {
     checkState(change == null, "setTopic(String) only valid before creating change");
     this.topic = topic;
+    return this;
+  }
+
+  @CanIgnoreReturnValue
+  public ChangeInserter setConflicts(PatchSet.Conflicts conflicts) {
+    this.conflicts = conflicts;
     return this;
   }
 
@@ -574,6 +581,11 @@ public class ChangeInserter implements InsertChangeOp {
     if (!approvals.isEmpty()) {
       update.putReviewer(ctx.getAccountId(), REVIEWER);
     }
+
+    if (conflicts != null) {
+      update.setConflicts(conflicts);
+    }
+
     if (message != null) {
       changeMessage =
           cmUtil.setChangeMessage(

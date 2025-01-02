@@ -131,6 +131,7 @@ public class RebaseIT {
       PushOneCommit.Result r = createChange();
       testRepo.reset("HEAD~1");
       PushOneCommit.Result r2 = createChange();
+      RevCommit commitThatIsBeingRebased = r2.getCommit();
 
       // Approve and submit the first change
       RevisionApi revision = gApi.changes().id(r.getChangeId()).current();
@@ -143,7 +144,8 @@ public class RebaseIT {
       // Rebase the second change
       rebaseCall.call(r2.getChangeId());
 
-      verifyRebaseForChange(r2.getChange().getId(), r.getCommit().name(), true, 2);
+      verifyRebaseForChange(
+          r2.getChange().getId(), commitThatIsBeingRebased.name(), r.getCommit().name(), true, 2);
 
       // Rebasing the second change again should fail
       verifyChangeIsUpToDate(r2);
@@ -232,6 +234,7 @@ public class RebaseIT {
               .file(file2)
               .content("content")
               .create();
+      String commitThatIsBeingRebased = getCurrentRevision(mergeChangeId);
 
       // Create a change in master onto which the merge change can be rebased. This change touches
       // an unrelated file (file3) so that there is no conflict on rebase.
@@ -253,9 +256,11 @@ public class RebaseIT {
 
       verifyRebaseForChange(
           mergeChangeId,
+          commitThatIsBeingRebased,
           ImmutableList.of(
               getCurrentRevision(newBaseChangeInMaster), getCurrentRevision(changeInOtherBranch)),
           /* shouldHaveApproval= */ true,
+          /* shouldHaveConflicts,= */ false,
           /* expectedNumRevisions= */ 2);
 
       // Verify the file contents.
@@ -437,7 +442,8 @@ public class RebaseIT {
               .file(file)
               .content(mergeContent)
               .create();
-      String mergeSha1 = abbreviateName(ObjectId.fromString(getCurrentRevision(mergeChangeId)), 6);
+      String commitThatIsBeingRebased = getCurrentRevision(mergeChangeId);
+      String mergeSha1 = abbreviateName(ObjectId.fromString(commitThatIsBeingRebased), 6);
 
       // Create a change in master onto which the merge change can be rebased. This change touches
       // the file again so that there is a conflict on rebase.
@@ -473,8 +479,10 @@ public class RebaseIT {
       String baseCommit = getCurrentRevision(newBaseChangeInMaster);
       verifyRebaseForChange(
           mergeChangeId,
+          commitThatIsBeingRebased,
           ImmutableList.of(baseCommit, getCurrentRevision(changeInOtherBranch)),
           /* shouldHaveApproval= */ false,
+          /* shouldHaveConflicts,= */ true,
           /* expectedNumRevisions= */ 2);
 
       // Verify the file contents.
@@ -583,6 +591,7 @@ public class RebaseIT {
               .file(file)
               .content(mergeContent)
               .create();
+      String commitThatIsBeingRebased = getCurrentRevision(mergeChangeId);
 
       // Create a change in master onto which the merge change can be rebased.  This change touches
       // the file again so that there is a conflict on rebase.
@@ -604,9 +613,11 @@ public class RebaseIT {
 
       verifyRebaseForChange(
           mergeChangeId,
+          commitThatIsBeingRebased,
           ImmutableList.of(
               getCurrentRevision(newBaseChangeInMaster), getCurrentRevision(changeInOtherBranch)),
           /* shouldHaveApproval= */ false,
+          /* shouldHaveConflicts,= */ false,
           /* expectedNumRevisions= */ 2);
 
       // Verify the file contents.
@@ -1191,6 +1202,7 @@ public class RebaseIT {
 
       verifyRebaseForChange(
           r2.getChange().getId(),
+          r2.getCommit().name(),
           r.getCommit().name(),
           /* shouldHaveApproval= */ false,
           /* expectedNumRevisions= */ 2);
@@ -1214,35 +1226,53 @@ public class RebaseIT {
     }
 
     protected void verifyRebaseForChange(
-        Change.Id changeId, Change.Id baseChangeId, boolean shouldHaveApproval)
+        Change.Id changeId,
+        String commitThatIsBeingRebased,
+        Change.Id baseChangeId,
+        boolean shouldHaveApproval)
         throws RestApiException {
-      verifyRebaseForChange(changeId, baseChangeId, shouldHaveApproval, 2);
+      verifyRebaseForChange(
+          changeId, commitThatIsBeingRebased, baseChangeId, shouldHaveApproval, 2);
     }
 
     protected void verifyRebaseForChange(
         Change.Id changeId,
+        String commitThatIsBeingRebased,
         Change.Id baseChangeId,
         boolean shouldHaveApproval,
         int expectedNumRevisions)
         throws RestApiException {
       verifyRebaseForChange(
           changeId,
+          commitThatIsBeingRebased,
           ImmutableList.of(getCurrentRevision(baseChangeId)),
           shouldHaveApproval,
+          /* shouldHaveConflicts,= */ false,
           expectedNumRevisions);
     }
 
     protected void verifyRebaseForChange(
-        Change.Id changeId, String baseCommit, boolean shouldHaveApproval, int expectedNumRevisions)
+        Change.Id changeId,
+        String commitThatIsBeingRebased,
+        String parentCommit,
+        boolean shouldHaveApproval,
+        int expectedNumRevisions)
         throws RestApiException {
       verifyRebaseForChange(
-          changeId, ImmutableList.of(baseCommit), shouldHaveApproval, expectedNumRevisions);
+          changeId,
+          commitThatIsBeingRebased,
+          ImmutableList.of(parentCommit),
+          shouldHaveApproval, /* shouldHaveConflicts,= */
+          false,
+          expectedNumRevisions);
     }
 
     protected void verifyRebaseForChange(
         Change.Id changeId,
-        List<String> baseCommits,
+        String commitThatIsBeingRebased,
+        List<String> parentCommits,
         boolean shouldHaveApproval,
+        boolean shouldHaveConflicts,
         int expectedNumRevisions)
         throws RestApiException {
       ChangeInfo info =
@@ -1252,12 +1282,18 @@ public class RebaseIT {
       assertThat(r._number).isEqualTo(expectedNumRevisions);
       assertThat(r.realUploader).isNull();
 
-      // ...and the base should be correct
-      assertThat(r.commit.parents).hasSize(baseCommits.size());
-      for (int baseNum = 0; baseNum < baseCommits.size(); baseNum++) {
-        assertWithMessage("base commit " + baseNum + " for change " + changeId)
-            .that(r.commit.parents.get(baseNum).commit)
-            .isEqualTo(baseCommits.get(baseNum));
+      // check conflicts info
+      assertThat(r.conflicts).isNotNull();
+      assertThat(r.conflicts.ours).isEqualTo(commitThatIsBeingRebased);
+      assertThat(r.conflicts.theirs).isEqualTo(parentCommits.get(0));
+      assertThat(r.conflicts.containsConflicts).isEqualTo(shouldHaveConflicts);
+
+      // ...and the parent should be correct
+      assertThat(r.commit.parents).hasSize(parentCommits.size());
+      for (int parentNum = 0; parentNum < parentCommits.size(); parentNum++) {
+        assertWithMessage("parent commit " + parentNum + " for change " + changeId)
+            .that(r.commit.parents.get(parentNum).commit)
+            .isEqualTo(parentCommits.get(parentNum));
       }
 
       // ...and the committer and description should be correct
@@ -1386,8 +1422,12 @@ public class RebaseIT {
       ChangeInfo changeInfo =
           gApi.changes().id(changeId).get(ALL_REVISIONS, CURRENT_COMMIT, CURRENT_REVISION);
       assertThat(changeInfo.revisions).hasSize(2);
-      assertThat(changeInfo.getCurrentRevision().commit.parents.get(0).commit)
-          .isEqualTo(base.name());
+      RevisionInfo currentRevision = changeInfo.getCurrentRevision();
+      assertThat(currentRevision.commit.parents.get(0).commit).isEqualTo(base.name());
+      assertThat(currentRevision.conflicts).isNotNull();
+      assertThat(currentRevision.conflicts.ours).isEqualTo(patchSet.name());
+      assertThat(currentRevision.conflicts.theirs).isEqualTo(base.name());
+      assertThat(currentRevision.conflicts.containsConflicts).isFalse();
 
       // Verify that the file content in the created patch set is correct.
       BinaryResult bin =
@@ -1466,8 +1506,13 @@ public class RebaseIT {
       ChangeInfo changeInfo =
           gApi.changes().id(changeId).get(ALL_REVISIONS, CURRENT_COMMIT, CURRENT_REVISION);
       assertThat(changeInfo.revisions).hasSize(2);
-      assertThat(changeInfo.getCurrentRevision().commit.parents.get(0).commit)
-          .isEqualTo(base.name());
+
+      RevisionInfo currentRevision = changeInfo.getCurrentRevision();
+      assertThat(currentRevision.commit.parents.get(0).commit).isEqualTo(base.name());
+      assertThat(currentRevision.conflicts).isNotNull();
+      assertThat(currentRevision.conflicts.ours).isEqualTo(patchSet.name());
+      assertThat(currentRevision.conflicts.theirs).isEqualTo(base.name());
+      assertThat(currentRevision.conflicts.containsConflicts).isTrue();
 
       // Verify that the file content in the created patch set is correct.
       // We expect that it has conflict markers to indicate the conflict.
@@ -1569,12 +1614,20 @@ public class RebaseIT {
       r2.assertOkStatus();
       String changeId = r2.getChangeId();
       RevCommit patchSet = r2.getCommit();
+      RevCommit base = r1.getCommit();
       RebaseInput rebaseInput = new RebaseInput();
       rebaseInput.strategy = "recursive";
       ChangeInfo changeInfo =
           gApi.changes().id(changeId).revision(patchSet.name()).rebaseAsInfo(rebaseInput);
       assertThat(changeInfo.containsGitConflicts).isNull();
       assertThat(changeInfo.workInProgress).isNull();
+
+      RevisionInfo currentRevision =
+          gApi.changes().id(changeId).get(CURRENT_REVISION).getCurrentRevision();
+      assertThat(currentRevision.conflicts).isNotNull();
+      assertThat(currentRevision.conflicts.ours).isEqualTo(patchSet.name());
+      assertThat(currentRevision.conflicts.theirs).isEqualTo(base.name());
+      assertThat(currentRevision.conflicts.containsConflicts).isFalse();
 
       // Verify that the file content in the created patch set is correct.
       // We expect that it has no conflict markers and the content of both changes.
@@ -1877,9 +1930,12 @@ public class RebaseIT {
           gApi.changes().id(r4.getChangeId()).rebaseChain(), false, r2, r3, r4);
 
       // Only r2, r3 and r4 are rebased.
-      verifyRebaseForChange(r2.getChange().getId(), r.getCommit().name(), true, 2);
-      verifyRebaseForChange(r3.getChange().getId(), r2.getChange().getId(), true);
-      verifyRebaseForChange(r4.getChange().getId(), r3.getChange().getId(), false);
+      verifyRebaseForChange(
+          r2.getChange().getId(), r2.getCommit().name(), r.getCommit().name(), true, 2);
+      verifyRebaseForChange(
+          r3.getChange().getId(), r3.getCommit().name(), r2.getChange().getId(), true);
+      verifyRebaseForChange(
+          r4.getChange().getId(), r4.getCommit().name(), r3.getChange().getId(), false);
 
       verifyChangeIsUpToDate(r2);
       verifyChangeIsUpToDate(r3);
@@ -1898,7 +1954,8 @@ public class RebaseIT {
       verifyRebaseChainResponse(
           gApi.changes().id(r5.getChangeId()).rebaseChain(), false, r2, r3, r4, r5);
 
-      verifyRebaseForChange(r5.getChange().getId(), r4.getChange().getId(), false);
+      verifyRebaseForChange(
+          r5.getChange().getId(), r5.getCommit().name(), r4.getChange().getId(), false);
     }
 
     @Test
@@ -1959,6 +2016,7 @@ public class RebaseIT {
               .file(file1)
               .content("merged content")
               .create();
+      String mergeCommitThatIsBeingRebased = getCurrentRevision(mergeChangeId);
 
       // Create a follow up change.
       Change.Id followUpChangeId =
@@ -1971,6 +2029,7 @@ public class RebaseIT {
               .file(file1)
               .content("modified content")
               .create();
+      String followUpCommitThatIsBeingRebased = getCurrentRevision(followUpChangeId);
 
       // Create another change in the other branch so that we can create another merge
       Change.Id anotherChangeInOtherBranch =
@@ -1998,6 +2057,7 @@ public class RebaseIT {
               .file(file1)
               .content("another merged content")
               .create();
+      String followUpMergeCommitThatIsBeingRebased = getCurrentRevision(followUpMergeChangeId);
 
       // Create a change in master onto which the chain can be rebased. This change touches an
       // unrelated file (file2) so that there is no conflict on rebase.
@@ -2019,20 +2079,26 @@ public class RebaseIT {
 
       verifyRebaseForChange(
           mergeChangeId,
+          mergeCommitThatIsBeingRebased,
           ImmutableList.of(
               getCurrentRevision(newBaseChangeInMaster), getCurrentRevision(changeInOtherBranch)),
           /* shouldHaveApproval= */ false,
+          /* shouldHaveConflicts,= */ false,
           /* expectedNumRevisions= */ 2);
       verifyRebaseForChange(
           followUpChangeId,
+          followUpCommitThatIsBeingRebased,
           ImmutableList.of(getCurrentRevision(mergeChangeId)),
           /* shouldHaveApproval= */ false,
+          /* shouldHaveConflicts,= */ false,
           /* expectedNumRevisions= */ 2);
       verifyRebaseForChange(
           followUpMergeChangeId,
+          followUpMergeCommitThatIsBeingRebased,
           ImmutableList.of(
               getCurrentRevision(followUpChangeId), getCurrentRevision(anotherChangeInOtherBranch)),
           /* shouldHaveApproval= */ false,
+          /* shouldHaveConflicts,= */ false,
           /* expectedNumRevisions= */ 2);
 
       // Verify the file contents.
@@ -2068,6 +2134,7 @@ public class RebaseIT {
           .edit()
           .modifyFile(file, RawInputUtil.create(newContent.getBytes(UTF_8)));
       gApi.changes().id(r3.getChangeId()).edit().publish();
+      String r3PatchSet2 = getCurrentRevision(r3.getChange().getId());
 
       // Approve and submit the first change
       RevisionApi revision = gApi.changes().id(r.getChangeId()).current();
@@ -2077,9 +2144,11 @@ public class RebaseIT {
       // Rebase the chain through r4.
       rebaseCall.call(r4.getChangeId());
 
-      verifyRebaseForChange(r2.getChange().getId(), r.getCommit().name(), false, 2);
-      verifyRebaseForChange(r3.getChange().getId(), r2.getChange().getId(), false, 3);
-      verifyRebaseForChange(r4.getChange().getId(), r3.getChange().getId(), false);
+      verifyRebaseForChange(
+          r2.getChange().getId(), r2.getCommit().name(), r.getCommit().name(), false, 2);
+      verifyRebaseForChange(r3.getChange().getId(), r3PatchSet2, r2.getChange().getId(), false, 3);
+      verifyRebaseForChange(
+          r4.getChange().getId(), r4.getCommit().name(), r3.getChange().getId(), false);
 
       assertThat(gApi.changes().id(r3.getChangeId()).current().file(file).content().asString())
           .isEqualTo(newContent);
@@ -2131,8 +2200,10 @@ public class RebaseIT {
       verifyRebaseChainResponse(gApi.changes().id(r4.getChangeId()).rebaseChain(), false, r3, r4);
 
       // Only r3 and r4 are rebased.
-      verifyRebaseForChange(r3.getChange().getId(), r2.getChange().getId(), true);
-      verifyRebaseForChange(r4.getChange().getId(), r3.getChange().getId(), false);
+      verifyRebaseForChange(
+          r3.getChange().getId(), r3.getCommit().name(), r2.getChange().getId(), true);
+      verifyRebaseForChange(
+          r4.getChange().getId(), r4.getCommit().name(), r3.getChange().getId(), false);
 
       verifyChangeIsUpToDate(r2);
       verifyChangeIsUpToDate(r3);
@@ -2151,7 +2222,8 @@ public class RebaseIT {
       verifyRebaseChainResponse(
           gApi.changes().id(r5.getChangeId()).rebaseChain(), false, r3, r4, r5);
 
-      verifyRebaseForChange(r5.getChange().getId(), r4.getChange().getId(), false);
+      verifyRebaseForChange(
+          r5.getChange().getId(), r5.getCommit().name(), r4.getChange().getId(), false);
     }
 
     @Test
@@ -2214,10 +2286,11 @@ public class RebaseIT {
       r2.assertOkStatus();
 
       String changeWithConflictId = r2.getChangeId();
-      RevCommit patchSet = r2.getCommit();
+      RevCommit parentPatchSet = r2.getCommit();
       RevCommit base = r1.getCommit();
       PushOneCommit.Result r3 = createChange("refs/for/master");
       r3.assertOkStatus();
+      RevCommit childPatchSet = r3.getCommit();
 
       TestWorkInProgressStateChangedListener wipStateChangedListener =
           new TestWorkInProgressStateChangedListener();
@@ -2229,14 +2302,32 @@ public class RebaseIT {
             gApi.changes().id(r3.getChangeId()).rebaseChain(rebaseInput);
         verifyRebaseChainResponse(res, true, r2, r3);
         RebaseChainInfo rebaseChainInfo = res.value();
-        ChangeInfo changeWithConflictInfo = rebaseChainInfo.rebasedChanges.get(0);
-        assertThat(changeWithConflictInfo.changeId).isEqualTo(r2.getChangeId());
-        assertThat(changeWithConflictInfo.containsGitConflicts).isTrue();
-        assertThat(changeWithConflictInfo.workInProgress).isTrue();
+
+        ChangeInfo parentChangeInfo = rebaseChainInfo.rebasedChanges.get(0);
+        assertThat(parentChangeInfo.changeId).isEqualTo(r2.getChangeId());
+        assertThat(parentChangeInfo.containsGitConflicts).isTrue();
+        assertThat(parentChangeInfo.workInProgress).isTrue();
+
+        RevisionInfo parentChangeCurrentRevision = parentChangeInfo.getCurrentRevision();
+        assertThat(parentChangeCurrentRevision.commit.parents.get(0).commit).isEqualTo(base.name());
+        assertThat(parentChangeCurrentRevision.conflicts).isNotNull();
+        assertThat(parentChangeCurrentRevision.conflicts.ours).isEqualTo(parentPatchSet.name());
+        assertThat(parentChangeCurrentRevision.conflicts.theirs).isEqualTo(base.name());
+        assertThat(parentChangeCurrentRevision.conflicts.containsConflicts).isTrue();
+
         ChangeInfo childChangeInfo = rebaseChainInfo.rebasedChanges.get(1);
         assertThat(childChangeInfo.changeId).isEqualTo(r3.getChangeId());
         assertThat(childChangeInfo.containsGitConflicts).isTrue();
         assertThat(childChangeInfo.workInProgress).isTrue();
+
+        RevisionInfo childChangeCurrentRevision = childChangeInfo.getCurrentRevision();
+        assertThat(childChangeCurrentRevision.commit.parents.get(0).commit)
+            .isEqualTo(parentChangeCurrentRevision.commit.commit);
+        assertThat(childChangeCurrentRevision.conflicts).isNotNull();
+        assertThat(childChangeCurrentRevision.conflicts.ours).isEqualTo(childPatchSet.name());
+        assertThat(childChangeCurrentRevision.conflicts.theirs)
+            .isEqualTo(parentChangeCurrentRevision.commit.commit);
+        assertThat(childChangeCurrentRevision.conflicts.containsConflicts).isTrue();
       }
       assertThat(wipStateChangedListener.invoked).isTrue();
       assertThat(wipStateChangedListener.wip).isTrue();
@@ -2257,7 +2348,7 @@ public class RebaseIT {
       ByteArrayOutputStream os = new ByteArrayOutputStream();
       bin.writeTo(os);
       String fileContent = new String(os.toByteArray(), UTF_8);
-      String patchSetSha1 = abbreviateName(patchSet, 6);
+      String patchSetSha1 = abbreviateName(parentPatchSet, 6);
       String baseSha1 = abbreviateName(base, 6);
       assertThat(fileContent)
           .isEqualTo(

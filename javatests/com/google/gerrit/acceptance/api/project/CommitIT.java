@@ -20,6 +20,8 @@ import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
+import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_COMMIT;
+import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
 import static com.google.gerrit.git.ObjectIds.abbreviateName;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
@@ -172,6 +174,39 @@ public class CommitIT extends AbstractDaemonTest {
         .add(block(Permission.READ).ref("refs/heads/test-branch-1").group(REGISTERED_USERS))
         .update();
     assertThat(getIncludedIn(baseChange.getCommit().getId()).tags).containsExactly(tagBase);
+  }
+
+  @Test
+  public void cherryPickWithoutConflicts() throws Exception {
+    String destBranch = "foo";
+    createBranch(BranchNameKey.create(project, destBranch));
+
+    // Create change to cherry-pick
+    PushOneCommit.Result r = createChange();
+    RevCommit commitToCherryPick = r.getCommit();
+
+    // Cherry-pick to foo branch
+    CherryPickInput input = new CherryPickInput();
+    input.destination = destBranch;
+    ChangeInfo cherryPickResult =
+        gApi.projects()
+            .name(project.get())
+            .commit(commitToCherryPick.name())
+            .cherryPick(input)
+            .get();
+
+    // Verify the conflicts information
+    RevCommit head = projectOperations.project(project).getHead(cherryPickResult.branch);
+    RevisionInfo currentRevision =
+        gApi.changes()
+            .id(cherryPickResult.id)
+            .get(CURRENT_REVISION, CURRENT_COMMIT)
+            .getCurrentRevision();
+    assertThat(currentRevision.commit.parents.get(0).commit).isEqualTo(head.name());
+    assertThat(currentRevision.conflicts).isNotNull();
+    assertThat(currentRevision.conflicts.ours).isEqualTo(head.getName());
+    assertThat(currentRevision.conflicts.theirs).isEqualTo(r.getCommit().name());
+    assertThat(currentRevision.conflicts.containsConflicts).isFalse();
   }
 
   @Test
@@ -338,6 +373,19 @@ public class CommitIT extends AbstractDaemonTest {
     assertThat(cherryPickChange.containsGitConflicts).isTrue();
     assertThat(cherryPickChange.workInProgress).isTrue();
 
+    // Verify the conflicts information
+    RevCommit head = projectOperations.project(project).getHead(cherryPickChange.branch);
+    RevisionInfo currentRevision =
+        gApi.changes()
+            .id(cherryPickChange.id)
+            .get(CURRENT_REVISION, CURRENT_COMMIT)
+            .getCurrentRevision();
+    assertThat(currentRevision.commit.parents.get(0).commit).isEqualTo(head.name());
+    assertThat(currentRevision.conflicts).isNotNull();
+    assertThat(currentRevision.conflicts.ours).isEqualTo(head.getName());
+    assertThat(currentRevision.conflicts.theirs).isEqualTo(r.getCommit().name());
+    assertThat(currentRevision.conflicts.containsConflicts).isTrue();
+
     // Verify that the file content in the cherry-pick change is correct.
     // We expect that it has conflict markers to indicate the conflict.
     BinaryResult bin =
@@ -415,6 +463,19 @@ public class CommitIT extends AbstractDaemonTest {
     ChangeInfo cherryPickChange = newGson().fromJson(response.getReader(), ChangeInfo.class);
     assertThat(cherryPickChange.containsGitConflicts).isTrue();
     assertThat(cherryPickChange.workInProgress).isTrue();
+
+    // Verify the conflicts information
+    RevisionInfo currentRevision =
+        gApi.changes()
+            .id(cherryPickChange.id)
+            .get(CURRENT_REVISION, CURRENT_COMMIT)
+            .getCurrentRevision();
+    assertThat(currentRevision.commit.parents.get(0).commit)
+        .isEqualTo(existingChange.getCommit().name());
+    assertThat(currentRevision.conflicts).isNotNull();
+    assertThat(currentRevision.conflicts.ours).isEqualTo(existingChange.getCommit().name());
+    assertThat(currentRevision.conflicts.theirs).isEqualTo(srcChange.getCommit().name());
+    assertThat(currentRevision.conflicts.containsConflicts).isTrue();
 
     // Verify that the file content in the cherry-pick change is correct.
     // We expect that it has conflict markers to indicate the conflict.

@@ -42,6 +42,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
+import com.google.gerrit.extensions.common.ConflictsInfo;
 import com.google.gerrit.extensions.common.FetchInfo;
 import com.google.gerrit.extensions.common.PushCertificateInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
@@ -363,6 +364,17 @@ public class RevisionJson {
         changeKindCache.getChangeKind(
             rw, repo != null ? repo.getConfig() : null, attributesNodeProvider, cd, in);
     out.description = in.description().orElse(null);
+    out.conflicts =
+        in.conflicts()
+            .map(
+                conflicts -> {
+                  ConflictsInfo conflictsInfo = new ConflictsInfo();
+                  conflictsInfo.containsConflicts = conflicts.containsConflicts();
+                  conflictsInfo.ours = conflicts.ours().map(ObjectId::getName).orElse(null);
+                  conflictsInfo.theirs = conflicts.theirs().map(ObjectId::getName).orElse(null);
+                  return conflictsInfo;
+                })
+            .orElse(null);
 
     boolean setCommit = has(ALL_COMMITS) || (out.isCurrent && has(CURRENT_COMMIT));
     boolean addFooters = out.isCurrent && has(COMMIT_FOOTERS);

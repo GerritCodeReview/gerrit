@@ -45,6 +45,15 @@ public class RevisionInfo {
   public PushCertificateInfo pushCertificate;
   public String description;
 
+  /**
+   * Information about conflicts in this revision.
+   *
+   * <p>Only set for revisions that were created by Gerrit as a result of performing a Git merge.
+   *
+   * <p>If this field is not set it's unknown whether the revision contains any file with conflicts.
+   */
+  public ConflictsInfo conflicts;
+
   public RevisionInfo() {}
 
   public RevisionInfo(String ref) {

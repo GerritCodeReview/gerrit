@@ -28,6 +28,8 @@ import static com.google.gerrit.entities.Patch.COMMIT_MSG;
 import static com.google.gerrit.entities.Patch.MERGE_LIST;
 import static com.google.gerrit.entities.Patch.PATCHSET_LEVEL;
 import static com.google.gerrit.extensions.client.ListChangesOption.ALL_REVISIONS;
+import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_COMMIT;
+import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.git.ObjectIds.abbreviateName;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
@@ -344,6 +346,16 @@ public class RevisionIT extends AbstractDaemonTest {
     assertThat(changeInfo.containsGitConflicts).isNull();
     assertThat(changeInfo.workInProgress).isNull();
     ChangeApi cherry = gApi.changes().id(changeInfo._number);
+
+    // Verify the conflicts information
+    RevCommit head = projectOperations.project(project).getHead(changeInfo.branch);
+    RevisionInfo currentRevision =
+        gApi.changes().id(changeInfo.id).get(CURRENT_REVISION, CURRENT_COMMIT).getCurrentRevision();
+    assertThat(currentRevision.commit.parents.get(0).commit).isEqualTo(head.name());
+    assertThat(currentRevision.conflicts).isNotNull();
+    assertThat(currentRevision.conflicts.containsConflicts).isFalse();
+    assertThat(currentRevision.conflicts.ours).isEqualTo(head.getName());
+    assertThat(currentRevision.conflicts.theirs).isEqualTo(r.getCommit().name());
 
     ChangeInfo cherryPickChangeInfoWithDetails = cherry.get();
     assertThat(cherryPickChangeInfoWithDetails.workInProgress).isNull();
@@ -746,6 +758,19 @@ public class RevisionIT extends AbstractDaemonTest {
     assertThat(cherryPickChange.containsGitConflicts).isTrue();
     assertThat(cherryPickChange.workInProgress).isTrue();
 
+    // Verify the conflicts information
+    RevCommit head = projectOperations.project(project).getHead(cherryPickChange.branch);
+    RevisionInfo currentRevision =
+        gApi.changes()
+            .id(cherryPickChange.id)
+            .get(CURRENT_REVISION, CURRENT_COMMIT)
+            .getCurrentRevision();
+    assertThat(currentRevision.commit.parents.get(0).commit).isEqualTo(head.name());
+    assertThat(currentRevision.conflicts).isNotNull();
+    assertThat(currentRevision.conflicts.containsConflicts).isTrue();
+    assertThat(currentRevision.conflicts.ours).isEqualTo(head.getName());
+    assertThat(currentRevision.conflicts.theirs).isEqualTo(r.getCommit().name());
+
     // Verify that subject and topic on the cherry-pick change have been correctly populated.
     assertThat(cherryPickChange.subject).contains(in.message);
     assertThat(cherryPickChange.topic).isEqualTo("someTopic-" + destBranch);
@@ -815,6 +840,16 @@ public class RevisionIT extends AbstractDaemonTest {
 
     assertThat(changeInfo.containsGitConflicts).isTrue();
     assertThat(changeInfo.workInProgress).isTrue();
+
+    // Verify the conflicts information
+    RevisionInfo currentRevision =
+        gApi.changes().id(changeInfo.id).get(CURRENT_REVISION, CURRENT_COMMIT).getCurrentRevision();
+    assertThat(currentRevision.commit.parents.get(0).commit)
+        .isEqualTo(existingChange.getCommit().name());
+    assertThat(currentRevision.conflicts).isNotNull();
+    assertThat(currentRevision.conflicts.containsConflicts).isTrue();
+    assertThat(currentRevision.conflicts.ours).isEqualTo(existingChange.getCommit().name());
+    assertThat(currentRevision.conflicts.theirs).isEqualTo(srcChange.getCommit().name());
   }
 
   @Test

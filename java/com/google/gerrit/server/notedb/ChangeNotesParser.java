@@ -21,12 +21,14 @@ import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_BRANCH;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_CHANGE_ID;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_CHERRY_PICK_OF;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_COMMIT;
+import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_CONTAINS_CONFLICTS;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_COPIED_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_CURRENT;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_CUSTOM_KEYED_VALUE;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_GROUPS;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_HASHTAGS;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_LABEL;
+import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_OURS;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_PATCH_SET;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_PATCH_SET_DESCRIPTION;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_PRIVATE;
@@ -37,6 +39,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_SUBJECT;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_SUBMISSION_ID;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_SUBMITTED_WITH;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_TAG;
+import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_THEIRS;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_TOPIC;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_WORK_IN_PROGRESS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.parseCommitMessageRange;
@@ -563,11 +566,11 @@ class ChangeNotesParser {
     parseDescription(psId, commit);
     parseGroups(psId, commit);
 
-    ObjectId currRev = parseRevision(commit);
-    if (currRev != null) {
-      parsePatchSet(psId, currRev, accountId, realAccountId, commitTimestamp);
+    Optional<ObjectId> currRev = parseRevision(commit);
+    if (currRev.isPresent()) {
+      parsePatchSet(commit, psId, currRev.get(), accountId, realAccountId, commitTimestamp);
     }
-    parseCurrentPatchSet(psId, commit);
+    parseCurrentPatchSet(commit, psId);
 
     if (status == null) {
       status = parseStatus(commit);
@@ -683,23 +686,77 @@ class ChangeNotesParser {
     return line;
   }
 
-  @Nullable
-  private ObjectId parseRevision(ChangeNotesCommit commit) throws ConfigInvalidException {
-    String sha = parseOneFooter(commit, FOOTER_COMMIT);
+  private Optional<ObjectId> parseRevision(ChangeNotesCommit commit) throws ConfigInvalidException {
+    return parseSha1(commit, FOOTER_COMMIT);
+  }
+
+  private Optional<ObjectId> parseOurs(ChangeNotesCommit commit) throws ConfigInvalidException {
+    return parseSha1(commit, FOOTER_OURS);
+  }
+
+  private Optional<ObjectId> parseTheirs(ChangeNotesCommit commit) throws ConfigInvalidException {
+    return parseSha1(commit, FOOTER_THEIRS);
+  }
+
+  private Optional<ObjectId> parseSha1(ChangeNotesCommit commit, FooterKey footerKey)
+      throws ConfigInvalidException {
+    String sha = parseOneFooter(commit, footerKey);
     if (sha == null) {
-      return null;
+      return Optional.empty();
     }
     try {
-      return ObjectId.fromString(sha);
+      return Optional.of(ObjectId.fromString(sha));
     } catch (InvalidObjectIdException e) {
-      ConfigInvalidException cie = invalidFooter(FOOTER_COMMIT, sha);
+      ConfigInvalidException cie = invalidFooter(footerKey, sha);
       cie.initCause(e);
       throw cie;
     }
   }
 
+  private Optional<PatchSet.Conflicts> parseConflicts(ChangeNotesCommit commit)
+      throws ConfigInvalidException {
+    Optional<Boolean> containsConflicts = parseContainsConflicts(commit);
+    if (containsConflicts.isEmpty()) {
+      return Optional.empty();
+    }
+
+    Optional<ObjectId> ours = parseOurs(commit);
+    if (containsConflicts.get() && ours.isEmpty()) {
+      throw parseException(
+          "Missing footer: %s (if footer %s is set to true, footer %s must be set)",
+          FOOTER_OURS, FOOTER_CONTAINS_CONFLICTS.getName(), FOOTER_OURS);
+    }
+
+    Optional<ObjectId> theirs = parseTheirs(commit);
+    if (containsConflicts.get() && theirs.isEmpty()) {
+      throw parseException(
+          "Missing footer: %s (if footer %s is set to true, footer %s must be set)",
+          FOOTER_THEIRS, FOOTER_CONTAINS_CONFLICTS.getName(), FOOTER_THEIRS);
+    }
+
+    return Optional.of(PatchSet.Conflicts.create(ours, theirs, containsConflicts.get()));
+  }
+
+  private Optional<Boolean> parseContainsConflicts(ChangeNotesCommit commit)
+      throws ConfigInvalidException {
+    String containsConflictsStr = parseOneFooter(commit, FOOTER_CONTAINS_CONFLICTS);
+    if (containsConflictsStr == null) {
+      return Optional.empty();
+    } else if (Boolean.TRUE.toString().equalsIgnoreCase(containsConflictsStr)) {
+      return Optional.of(Boolean.TRUE);
+    } else if (Boolean.FALSE.toString().equalsIgnoreCase(containsConflictsStr)) {
+      return Optional.of(Boolean.FALSE);
+    }
+    throw invalidFooter(FOOTER_CONTAINS_CONFLICTS, containsConflictsStr);
+  }
+
   private void parsePatchSet(
-      PatchSet.Id psId, ObjectId rev, Account.Id accountId, Account.Id realAccountId, Instant ts)
+      ChangeNotesCommit commit,
+      PatchSet.Id psId,
+      ObjectId rev,
+      Account.Id accountId,
+      Account.Id realAccountId,
+      Instant ts)
       throws ConfigInvalidException {
     if (accountId == null) {
       throw parseException("patch set %s requires an identified user as uploader", psId.get());
@@ -717,11 +774,12 @@ class ChangeNotesParser {
         .commitId(rev)
         .uploader(accountId)
         .realUploader(realAccountId)
-        .createdOn(ts);
+        .createdOn(ts)
+        .conflicts(parseConflicts(commit));
     // Fields not set here:
-    // * Groups, parsed earlier in parseGroups.
-    // * Description, parsed earlier in parseDescription.
-    // * Push certificate, parsed later in parseNotes.
+    // * Groups: parsed earlier in parseGroups.
+    // * Description: parsed earlier in parseDescription.
+    // * Push certificate: parsed later in parseNotes.
   }
 
   private void parseGroups(PatchSet.Id psId, ChangeNotesCommit commit)
@@ -737,7 +795,7 @@ class ChangeNotesParser {
     }
   }
 
-  private void parseCurrentPatchSet(PatchSet.Id psId, ChangeNotesCommit commit)
+  private void parseCurrentPatchSet(ChangeNotesCommit commit, PatchSet.Id psId)
       throws ConfigInvalidException {
     // This commit implies a new current patch set if either it creates a new
     // patch set, or sets the current field explicitly.

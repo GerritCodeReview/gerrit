@@ -24,12 +24,14 @@ import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_BRANCH;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_CHANGE_ID;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_CHERRY_PICK_OF;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_COMMIT;
+import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_CONTAINS_CONFLICTS;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_COPIED_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_CURRENT;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_CUSTOM_KEYED_VALUE;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_GROUPS;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_HASHTAGS;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_LABEL;
+import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_OURS;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_PATCH_SET;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_PATCH_SET_DESCRIPTION;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_PRIVATE;
@@ -40,6 +42,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_SUBJECT;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_SUBMISSION_ID;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_SUBMITTED_WITH;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_TAG;
+import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_THEIRS;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_TOPIC;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_WORK_IN_PROGRESS;
 import static com.google.gerrit.server.notedb.NoteDbUtil.sanitizeFooter;
@@ -191,6 +194,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private boolean currentPatchSet;
   private Boolean isPrivate;
   private Boolean workInProgress;
+  private PatchSet.Conflicts conflicts;
   private Integer revertOf;
   // If null, the update does not modify the field. Otherwise, it updates the field with the
   // new value or resets if cherryPickOf == Optional.empty().
@@ -891,6 +895,15 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       }
     }
 
+    if (conflicts != null) {
+      conflicts.ours().map(ObjectId::getName).ifPresent(ours -> addFooter(msg, FOOTER_OURS, ours));
+      conflicts
+          .theirs()
+          .map(ObjectId::getName)
+          .ifPresent(theirs -> addFooter(msg, FOOTER_THEIRS, theirs));
+      addFooter(msg, FOOTER_CONTAINS_CONFLICTS, conflicts.containsConflicts());
+    }
+
     if (revertOf != null) {
       addFooter(msg, FOOTER_REVERT_OF, revertOf);
     }
@@ -1261,6 +1274,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   public void setWorkInProgress(boolean workInProgress) {
     this.workInProgress = workInProgress;
+  }
+
+  public void setConflicts(PatchSet.Conflicts conflicts) {
+    this.conflicts = conflicts;
   }
 
   @CanIgnoreReturnValue

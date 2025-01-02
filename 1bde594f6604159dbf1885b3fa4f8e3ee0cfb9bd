@@ -16,6 +16,23 @@
       "message": "Adding the library compliance +1, as Edwin granted it few patchsets ago and noting has changed on that regard.",
       "revId": "1bde594f6604159dbf1885b3fa4f8e3ee0cfb9bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "491054d9_b2f8ebff",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3810709
+      },
+      "writtenOn": "2025-01-02T14:07:14Z",
+      "side": 1,
+      "message": "Stop",
+      "revId": "1bde594f6604159dbf1885b3fa4f8e3ee0cfb9bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

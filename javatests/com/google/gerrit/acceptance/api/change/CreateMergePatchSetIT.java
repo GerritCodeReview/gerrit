@@ -47,6 +47,7 @@ import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.MergeInput;
 import com.google.gerrit.extensions.common.MergePatchSetInput;
+import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.events.WorkInProgressStateChangedListener;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -121,6 +122,17 @@ public class CreateMergePatchSetIT extends AbstractDaemonTest {
     assertThat(changeInfo.revisions).hasSize(2);
     assertThat(changeInfo.revisions.get(changeInfo.currentRevision).commit.parents.get(0).commit)
         .isEqualTo(parent);
+
+    // Verify the conflicts information
+    RevCommit sourceBranch = projectOperations.project(project).getHead(mergeInput.source);
+    RevCommit targetBranch = projectOperations.project(project).getHead(changeInfo.branch);
+    RevisionInfo currentRevision = changeInfo.getCurrentRevision();
+    assertThat(currentRevision.commit.parents.get(0).commit)
+        .isEqualTo(currentMaster.getCommit().name());
+    assertThat(currentRevision.conflicts).isNotNull();
+    assertThat(currentRevision.conflicts.ours).isEqualTo(targetBranch.name());
+    assertThat(currentRevision.conflicts.theirs).isEqualTo(sourceBranch.name());
+    assertThat(currentRevision.conflicts.containsConflicts).isFalse();
 
     // Verify the message that has been posted on the change.
     List<ChangeMessageInfo> messages = gApi.changes().id(changeId).messages();
@@ -276,6 +288,17 @@ public class CreateMergePatchSetIT extends AbstractDaemonTest {
     assertThat(changeInfo.revisions.get(changeInfo.currentRevision).commit.parents.get(0).commit)
         .isEqualTo(parent);
 
+    // Verify the conflicts information
+    RevCommit sourceBranch = projectOperations.project(project).getHead(mergeInput.source);
+    RevCommit targetBranch = projectOperations.project(project).getHead(changeInfo.branch);
+    RevisionInfo currentRevision = changeInfo.getCurrentRevision();
+    assertThat(currentRevision.commit.parents.get(0).commit)
+        .isEqualTo(currentMaster.getCommit().name());
+    assertThat(currentRevision.conflicts).isNotNull();
+    assertThat(currentRevision.conflicts.ours).isEqualTo(targetBranch.name());
+    assertThat(currentRevision.conflicts.theirs).isEqualTo(sourceBranch.name());
+    assertThat(currentRevision.conflicts.containsConflicts).isTrue();
+
     // Verify that the file content in the created patch set is correct.
     // We expect that it has conflict markers to indicate the conflict.
     BinaryResult bin = gApi.changes().id(changeId).current().file(fileName).content();
@@ -396,6 +419,17 @@ public class CreateMergePatchSetIT extends AbstractDaemonTest {
         .isEqualTo(parent);
     assertThat(changeInfo.revisions.get(changeInfo.currentRevision).commit.parents.get(0).commit)
         .isNotEqualTo(currentMaster.getCommit().getName());
+
+    // Verify the conflicts information
+    RevCommit sourceBranch = projectOperations.project(project).getHead(mergeInput.source);
+    RevisionInfo currentRevision = changeInfo.getCurrentRevision();
+    assertThat(currentRevision.commit.parents.get(0).commit).isEqualTo(parent);
+    assertThat(currentRevision.commit.parents.get(0).commit)
+        .isNotEqualTo(currentMaster.getCommit().name());
+    assertThat(currentRevision.conflicts).isNotNull();
+    assertThat(currentRevision.conflicts.ours).isEqualTo(parent);
+    assertThat(currentRevision.conflicts.theirs).isEqualTo(sourceBranch.name());
+    assertThat(currentRevision.conflicts.containsConflicts).isFalse();
   }
 
   @Test
@@ -477,20 +511,29 @@ public class CreateMergePatchSetIT extends AbstractDaemonTest {
     testRepo.reset(initialHead);
     PushOneCommit.Result result = createChange("refs/for/bar");
     String baseChange = result.getChangeId();
-    String expectedParent = result.getCommit().getName();
+    String baseChangeCommit = result.getCommit().getName();
 
     // Create the destination change on 'master' branch.
     testRepo.reset(initialHead);
     String changeId = createChange().getChangeId();
 
-    gApi.changes().id(changeId).createMergePatchSet(createMergePatchSetInput(baseChange));
+    MergePatchSetInput mergePatchSetInput = createMergePatchSetInput(baseChange);
+    gApi.changes().id(changeId).createMergePatchSet(mergePatchSetInput);
 
     ChangeInfo changeInfo =
         gApi.changes().id(changeId).get(ALL_REVISIONS, CURRENT_COMMIT, CURRENT_REVISION);
     assertThat(changeInfo.revisions).hasSize(2);
     assertThat(changeInfo.subject).isEqualTo("create ps2");
-    assertThat(changeInfo.revisions.get(changeInfo.currentRevision).commit.parents.get(0).commit)
-        .isEqualTo(expectedParent);
+
+    // Verify the conflicts information
+    RevCommit sourceBranch =
+        projectOperations.project(project).getHead(mergePatchSetInput.merge.source);
+    RevisionInfo currentRevision = changeInfo.getCurrentRevision();
+    assertThat(currentRevision.commit.parents.get(0).commit).isEqualTo(baseChangeCommit);
+    assertThat(currentRevision.conflicts).isNotNull();
+    assertThat(currentRevision.conflicts.ours).isEqualTo(baseChangeCommit);
+    assertThat(currentRevision.conflicts.theirs).isEqualTo(sourceBranch.name());
+    assertThat(currentRevision.conflicts.containsConflicts).isFalse();
   }
 
   @Test

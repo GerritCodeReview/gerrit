@@ -22,12 +22,14 @@ public class ChangeNoteFooters {
   public static final FooterKey FOOTER_BRANCH = new FooterKey("Branch");
   public static final FooterKey FOOTER_CHANGE_ID = new FooterKey("Change-id");
   public static final FooterKey FOOTER_COMMIT = new FooterKey("Commit");
+  public static final FooterKey FOOTER_CONTAINS_CONFLICTS = new FooterKey("Contains-Conflicts");
   public static final FooterKey FOOTER_CURRENT = new FooterKey("Current");
   public static final FooterKey FOOTER_CUSTOM_KEYED_VALUE = new FooterKey("Custom-Keyed-Value");
   public static final FooterKey FOOTER_GROUPS = new FooterKey("Groups");
   public static final FooterKey FOOTER_HASHTAGS = new FooterKey("Hashtags");
   public static final FooterKey FOOTER_LABEL = new FooterKey("Label");
   public static final FooterKey FOOTER_COPIED_LABEL = new FooterKey("Copied-Label");
+  public static final FooterKey FOOTER_OURS = new FooterKey("Ours");
   public static final FooterKey FOOTER_PATCH_SET = new FooterKey("Patch-set");
   public static final FooterKey FOOTER_PATCH_SET_DESCRIPTION =
       new FooterKey("Patch-set-description");
@@ -39,6 +41,7 @@ public class ChangeNoteFooters {
   public static final FooterKey FOOTER_SUBMITTED_WITH = new FooterKey("Submitted-with");
   public static final FooterKey FOOTER_TOPIC = new FooterKey("Topic");
   public static final FooterKey FOOTER_TAG = new FooterKey("Tag");
+  public static final FooterKey FOOTER_THEIRS = new FooterKey("Theirs");
   public static final FooterKey FOOTER_WORK_IN_PROGRESS = new FooterKey("Work-in-progress");
   public static final FooterKey FOOTER_REVERT_OF = new FooterKey("Revert-of");
   public static final FooterKey FOOTER_CHERRY_PICK_OF = new FooterKey("Cherry-pick-of");

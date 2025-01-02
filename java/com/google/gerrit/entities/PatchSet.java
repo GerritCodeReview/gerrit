@@ -195,6 +195,8 @@ public abstract class PatchSet {
 
     public abstract Optional<String> description();
 
+    public abstract Builder conflicts(Optional<Conflicts> conflicts);
+
     public abstract PatchSet build();
   }
 
@@ -268,6 +270,16 @@ public abstract class PatchSet {
    */
   public abstract Optional<String> description();
 
+  /**
+   * Information about conflicts in this patch set.
+   *
+   * <p>Only set for patch sets that are created by Gerrit as a result of performing a Git merge.
+   *
+   * <p>If this field is not set it's unknown whether this patch set contains any file with
+   * conflicts.
+   */
+  public abstract Optional<Conflicts> conflicts();
+
   /** Patch set number. */
   public int number() {
     return id().get();
@@ -276,5 +288,47 @@ public abstract class PatchSet {
   /** Name of the corresponding patch set ref. */
   public String refName() {
     return id().toRefName();
+  }
+
+  @AutoValue
+  @ConvertibleToProto
+  public abstract static class Conflicts {
+    /**
+     * The SHA1 of the commit that was used as {@code ours} for the Git merge that created the
+     * revision.
+     *
+     * <p>Guaranteed to be set if {@link #containsConflicts()} is {@code true}. If {@link
+     * #containsConflicts()} is {@code false}, only set if the revision was created by Gerrit as a
+     * result of performing a Git merge.
+     */
+    public abstract Optional<ObjectId> ours();
+
+    /**
+     * The SHA1 of the commit that was used as {@code theirs} for the Git merge that created the
+     * revision.
+     *
+     * <p>Guaranteed to be set if {@link #containsConflicts()} is {@code true}. If {@link
+     * #containsConflicts()} is {@code false}, only set if the revision was created by Gerrit as a
+     * result of performing a Git merge.
+     */
+    public abstract Optional<ObjectId> theirs();
+
+    /**
+     * Whether any of the files in the revision has a conflict due to merging {@link #ours} and
+     * {@link #theirs}.
+     *
+     * <p>If {@code true} at least one of the files in the revision has a conflict and contains Git
+     * conflict markers.
+     *
+     * <p>If {@code false} merging {@link #ours} and {@link #theirs} didn't have any conflict. In
+     * this case the files in the revision may only contain Git conflict marker if they were already
+     * present in {@link #ours} or {@link #theirs}.
+     */
+    public abstract boolean containsConflicts();
+
+    public static Conflicts create(
+        Optional<ObjectId> ours, Optional<ObjectId> theirs, boolean containsConflicts) {
+      return new AutoValue_PatchSet_Conflicts(ours, theirs, containsConflicts);
+    }
   }
 }

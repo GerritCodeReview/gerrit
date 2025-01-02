@@ -21,6 +21,7 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.proto.Entities;
 import com.google.protobuf.Parser;
 import java.time.Instant;
+import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
 
 @Immutable
@@ -29,6 +30,8 @@ public enum PatchSetProtoConverter implements SafeProtoConverter<Entities.PatchS
 
   private final ProtoConverter<Entities.PatchSet_Id, PatchSet.Id> patchSetIdConverter =
       PatchSetIdProtoConverter.INSTANCE;
+  private final ProtoConverter<Entities.Conflicts, PatchSet.Conflicts> conflictsConverter =
+      ConflictsProtoConverter.INSTANCE;
   private final ProtoConverter<Entities.ObjectId, ObjectId> objectIdConverter =
       ObjectIdProtoConverter.INSTANCE;
   private final ProtoConverter<Entities.Account_Id, Account.Id> accountIdConverter =
@@ -50,6 +53,9 @@ public enum PatchSetProtoConverter implements SafeProtoConverter<Entities.PatchS
     }
     patchSet.pushCertificate().ifPresent(builder::setPushCertificate);
     patchSet.description().ifPresent(builder::setDescription);
+    patchSet
+        .conflicts()
+        .ifPresent(conflicts -> builder.setConflicts(conflictsConverter.toProto(conflicts)));
     return builder.build();
   }
 
@@ -68,6 +74,9 @@ public enum PatchSetProtoConverter implements SafeProtoConverter<Entities.PatchS
     }
     if (proto.hasBranch()) {
       builder.branch(proto.getBranch());
+    }
+    if (proto.hasConflicts()) {
+      builder.conflicts(Optional.of(conflictsConverter.fromProto(proto.getConflicts())));
     }
 
     // The following fields used to theoretically be nullable in PatchSet, but in practice no

@@ -333,7 +333,7 @@ public class MergeUtil {
     cherryPickCommit.setMessage(commitMsg);
     matchAuthorToCommitterDate(project, cherryPickCommit);
     CodeReviewCommit commit = rw.parseCommit(inserter.insert(cherryPickCommit));
-    commit.setFilesWithGitConflicts(filesWithGitConflicts);
+    commit.setConflicts(mergeTip, originalCommit, filesWithGitConflicts);
     logger.atFine().log("CherryPick commitId=%s", commit.name());
     return commit;
   }
@@ -544,7 +544,7 @@ public class MergeUtil {
     mergeCommit.setCommitter(committerIdent);
     mergeCommit.setMessage(commitMsg);
     CodeReviewCommit commit = rw.parseCommit(inserter.insert(mergeCommit));
-    commit.setFilesWithGitConflicts(filesWithGitConflicts);
+    commit.setConflicts(mergeTip, originalCommit, filesWithGitConflicts);
     return commit;
   }
 

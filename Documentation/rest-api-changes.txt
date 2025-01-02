@@ -7803,6 +7803,51 @@ of link:user-notify.html#recipient-types[recipient type] to
 link:#notify-info[NotifyInfo] entity.
 |=============================
 
+[[conflicts-info]]
+=== ConflictsInfo
+The `ConflictsInfo` entity contains information about conflicts in a revision that was created by
+Gerrit as a result of performing a Git merge.
+
+[options="header",cols="1,6"]
+|=================================
+|Field Name           |Description
+|`ours`               |
+The SHA1 of the commit that was used as "ours" for the Git merge that created the revision. +
+- For merge commits that are created by the link:#create-change[Create Change] REST endpoint
+"ours" is the SHA1 of the change's target branch (the branch that is specified as `branch` in the
+link:#change-input[ChangeInput]). +
+- For merge commits that are created by the link:#create-merge-patch-set-for-change[Create Merge
+Patch Set For Change] REST endpoint "ours" is the SHA1 of the change's target branch (if in the
+link:#merge-patch-set-input[MergePatchSetInput] `inherit_parent` is `false` and `base_change` is
+not set), the current parent of the change (if in the
+link:#merge-patch-set-input[MergePatchSetInput] `inherit_parent` is `true`) or the current
+revision of the base change (if in the link:#merge-patch-set-input[MergePatchSetInput]
+`inherit_parent` is `false` and `base_change` is set). +
+- For the link:#cherry-pick[Cherry Pick Revision] and the
+link:rest-api-projects.html#cherry-pick-commit[Cherry Pick Commit] REST endpoints "ours" is the
+SHA1 of the commit onto which the revision/commit is being cherry-picked (e.g. the head of the
+target branch or the revision of the base change). +
+- For the link:#rebase-change[Rebase Change] and the link:#rebase-chain[Rebase Chain] REST endpoints
+"ours" is the SHA1 of the patch set that is being rebased.
+|`theirs`             |
+The SHA1 of the commit that was used as "theirs" for the Git merge that created the revision. +
+- For merge commits that are created by the the link:#create-change[Create Change] and the
+link:#create-merge-patch-set-for-change[Create Merge Patch Set For Change] REST endpoints "theirs"
+is the SHA1 of the source branch (the branch that is specified as `source` in the
+link:#merge-input[MergeInput]). +
+- For the link:#cherry-pick[Cherry Pick Revision] and the
+link:rest-api-projects.html#cherry-pick-commit[Cherry Pick Commit] REST endpoints "theirs" is the
+SHA1 of the revision/commit that is being cherry-picked. +
+- For the link:#rebase-change[Rebase Change] and the link:#rebase-chain[Rebase Chain] REST endpoints
+"theirs" is the SHA1 of the new base onto which the patch set is being rebased.
+|`contains_conflicts` |
+Whether any of the files in the revision has a conflict due to merging "ours" and "theirs". +
+If "true" at least one of the files in the revision has a conflict and contains Git conflict
+markers. +
+If "false" merging "ours" and "theirs" didn't have any conflict. In this case the files in the
+revision may only contain Git conflict marker if they were already present in "ours" or "theirs".
+|=================================
+
 [[delete-change-message-input]]
 === DeleteChangeMessageInput
 The `DeleteChangeMessageInput` entity contains the options for deleting a change message.
@@ -9025,6 +9070,20 @@ certificate was provided, it is set to an empty object.
 |`description` |optional|
 The description of this patchset, as displayed in the patchset
 selector menu. May be null if no description is set.
+|`conflicts`   |optional|
+Information about conflicts in this revision as a
+link:#conflicts-info[ConflictsInfo] entity. +
+Only set for revisions that were created by Gerrit as a result of
+performing a Git merge (merge commits that were created by the
+link:#create-change[Create Change] and the
+link:#create-merge-patch-set-for-change[Create Merge Patch Set For
+Change] REST endpoints and revisions created by the
+link:#cherry-pick[Cherry Pick Revision],
+link:rest-api-projects.html#cherry-pick-commit[Cherry Pick Commit],
+link:#rebase-change[Rebase Change] or link:#rebase-chain[Rebase Chain]
+REST endpoints). +
+If this field is not set it's unknown whether the revision contains any
+file with conflicts.
 |===========================
 
 [[robot-comment-info]]

@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6db59a45_4b2f6128",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-01-02T07:06:26Z",
+      "side": 1,
+      "message": "\u003e How often this happens?\n\nEach change, at my local env, contains 10 conditions that are deduplicated to 4 unique. For instance `EDIT_TOPIC_NAME` check occures 4 times. IOW it gets checked 4 times for each change that is returned instead of one. The remaining conditions (3) are doubled. Again it means that each one of them is checked twice instead of just once.\n\n_I guess_ that intention was that `bulkEvaluateTest` function that is called for all deduplicated checks would deal with it but:\n1. it is an empty function in `DefaultPermissionBackend`\n2. it is called for map\u0027s keys and then checks are performed on map\u0027s values - IOW with the current implementation (prior this change) it would only work for not duplicated values - considering the data that I have provided above it would be like never 😜\n\n\u003e What is the E2E use-case?\n\nIt was introduced as part of I2571cbc9 (already in `2.16`) and the associated [unit test](https://gerrit-review.googlesource.com/c/gerrit/+/154971/2/javatests/com/google/gerrit/server/extensions/webui/UiActionsTest.java) doesn\u0027t actually verify how many times that actual condition is checked. It just ensures that `bulkEvaluateTest` function (that is empty) is called with deduplicated values...\n\n\u003e (...)  I\u0027d recommend to direct this change to master\n\nI don\u0027t mind fixing it on either `stable-3.9` (the oldest currently supported release) or on `master`",
+      "parentUuid": "5f4f5eb5_703e5830",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 52
+      },
+      "revId": "44ceab390f49d6e83bf0e36ec5f4d76d6a5aa462",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ced69972_89988412",
         "filename": "java/com/google/gerrit/server/extensions/webui/UiActions.java",
         "patchSetId": 2
@@ -37,6 +61,30 @@
       "writtenOn": "2024-12-31T13:42:21Z",
       "side": 1,
       "message": "This is misleading, as it would be flagged as not useful as the map already stores the same condition on the same key.\n\nYou may argue instead that this HashMap is an overkill and we could just rely on a HashSet instead, resolving the issue altogehter.",
+      "range": {
+        "startLine": 110,
+        "startChar": 0,
+        "endLine": 112,
+        "endChar": 7
+      },
+      "revId": "44ceab390f49d6e83bf0e36ec5f4d76d6a5aa462",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7df989cd_22236fd6",
+        "filename": "java/com/google/gerrit/server/extensions/webui/UiActions.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-01-02T07:06:26Z",
+      "side": 1,
+      "message": "\u003e This is misleading, as it would be flagged as not useful as the map already stores the same condition on the same key.\n\nNot sure what you mean by that - map just updates the value for the given key if it already contains it\n\n\u003e (...) just rely on a HashSet\n\n`HashSet` would work for call `bulkEvaluateTest` (which is empty in `DefaultPermissionBackend`) but line #116 suggests that values that were calculated in `bulkEvaluateTest` should be retrofitted to all conditions - which is currently not happening and wouldn\u0027t happen for `HashSet` as there is no `get` on set...",
+      "parentUuid": "ced69972_89988412",
       "range": {
         "startLine": 110,
         "startChar": 0,

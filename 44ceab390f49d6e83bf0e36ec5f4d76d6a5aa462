@@ -50,6 +50,76 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3e8d263f_25553696",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-02T10:40:33Z",
+      "side": 1,
+      "message": "\u003e \u003e How often this happens?\n\u003e \n\u003e Each change, at my local env, contains 10 conditions that are deduplicated to 4 unique. For instance `EDIT_TOPIC_NAME` check occures 4 times. IOW it gets checked 4 times for each change that is returned instead of one. The remaining conditions (3) are doubled. Again it means that each one of them is checked twice instead of just once.\n\nCan you share the ACLs? IMHO if the deduplication doesn\u0027t work and you are left with 4 duplicates, that means the `hashCode()` calculation has a bug and it should be fixed.\n\nCan you share the `project.config` and the REST-API call that produces the duplication?",
+      "parentUuid": "6db59a45_4b2f6128",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 52
+      },
+      "revId": "44ceab390f49d6e83bf0e36ec5f4d76d6a5aa462",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "259d8a8b_59622495",
+        "filename": "java/com/google/gerrit/server/extensions/webui/UiActions.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-02T10:40:33Z",
+      "side": 1,
+      "message": "We should call `toSet()`",
+      "range": {
+        "startLine": 97,
+        "startChar": 21,
+        "endLine": 97,
+        "endChar": 27
+      },
+      "revId": "44ceab390f49d6e83bf0e36ec5f4d76d6a5aa462",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "847c3571_58878b1b",
+        "filename": "java/com/google/gerrit/server/extensions/webui/UiActions.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-02T10:40:33Z",
+      "side": 1,
+      "message": "Why can\u0027t we just pass a `Set\u003cPermissionBackendCondition\u003e` instead?",
+      "range": {
+        "startLine": 106,
+        "startChar": 30,
+        "endLine": 106,
+        "endChar": 34
+      },
+      "revId": "44ceab390f49d6e83bf0e36ec5f4d76d6a5aa462",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ced69972_89988412",
         "filename": "java/com/google/gerrit/server/extensions/webui/UiActions.java",
         "patchSetId": 2
@@ -90,6 +160,53 @@
         "startChar": 0,
         "endLine": 112,
         "endChar": 7
+      },
+      "revId": "44ceab390f49d6e83bf0e36ec5f4d76d6a5aa462",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e437682b_7865916f",
+        "filename": "java/com/google/gerrit/server/extensions/webui/UiActions.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-02T10:40:33Z",
+      "side": 1,
+      "message": "\u003e `HashSet` would work for call `bulkEvaluateTest` (which is empty in `DefaultPermissionBackend`)\n\nIsn\u0027t that the purpose of the change thoough?\nAlso, the I2571cbc9d was done for avoiding making duplicate calls of evaluation to the Google\u0027s permission backend, and is basically a NOOP for the DefaultPermissionBackend.\n\n\u003e but line #116 suggests that values that were calculated in `bulkEvaluateTest` should be retrofitted to all conditions - which is currently not happening and wouldn\u0027t happen for `HashSet` as there is no `get` on set...\n\nWell, the `bulkEvaluateTest` is empty, so we can\u0027t really tell anything.",
+      "parentUuid": "7df989cd_22236fd6",
+      "range": {
+        "startLine": 110,
+        "startChar": 0,
+        "endLine": 112,
+        "endChar": 7
+      },
+      "revId": "44ceab390f49d6e83bf0e36ec5f4d76d6a5aa462",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07e6b456_5bc6d0f0",
+        "filename": "java/com/google/gerrit/server/extensions/webui/UiActions.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-02T10:40:33Z",
+      "side": 1,
+      "message": "This is IMHO the culprit, as it would call the `.value()` multiple times anyway for the values. However, in DefaultPermissionBackend the calls to the implementation is memoized therefore multiple calls won\u0027t matter.",
+      "range": {
+        "startLine": 115,
+        "startChar": 0,
+        "endLine": 117,
+        "endChar": 5
       },
       "revId": "44ceab390f49d6e83bf0e36ec5f4d76d6a5aa462",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

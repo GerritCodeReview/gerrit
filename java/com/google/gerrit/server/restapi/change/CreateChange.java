@@ -537,6 +537,7 @@ public class CreateChange
         ins.setPrivate(input.isPrivate);
         ins.setWorkInProgress(input.workInProgress || !c.getFilesWithGitConflicts().isEmpty());
         ins.setGroups(groups);
+        c.getConflicts().ifPresent(ins::setConflicts);
 
         if (input.validationOptions != null) {
           ImmutableListMultimap.Builder<String, String> validationOptions =

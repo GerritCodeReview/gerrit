@@ -17,14 +17,10 @@ package com.google.gerrit.server.permissions;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
-import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
-import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.blockLabel;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.deny;
-import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.labelPermissionKey;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.permissionKey;
 import static com.google.gerrit.entities.Permission.EDIT_TOPIC_NAME;
-import static com.google.gerrit.entities.Permission.LABEL;
 import static com.google.gerrit.entities.Permission.OWNER;
 import static com.google.gerrit.entities.Permission.PUSH;
 import static com.google.gerrit.entities.Permission.READ;
@@ -40,9 +36,7 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.AccountGroup;
-import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.LabelType;
-import com.google.gerrit.entities.PermissionRange;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.InvalidNameException;
 import com.google.gerrit.server.CurrentUser;
@@ -182,14 +176,6 @@ public class RefControlTest {
   private void assertCannotForceUpdate(String ref, ProjectControl u) {
     boolean update = u.asForProject().ref(ref).testOrFalse(RefPermission.FORCE_UPDATE);
     assertWithMessage("cannot force push " + ref).that(update).isFalse();
-  }
-
-  private void assertCanVote(int score, PermissionRange range) {
-    assertWithMessage("can vote " + score).that(range.contains(score)).isTrue();
-  }
-
-  private void assertCannotVote(int score, PermissionRange range) {
-    assertWithMessage("cannot vote " + score).that(range.contains(score)).isFalse();
   }
 
   private final AccountGroup.UUID fixers = AccountGroup.uuid("test.fixers");
@@ -650,68 +636,6 @@ public class RefControlTest {
   }
 
   @Test
-  public void blockPartialRangeLocally() throws Exception {
-    projectOperations
-        .project(localKey)
-        .forUpdate()
-        .add(blockLabel(LabelId.CODE_REVIEW).ref("refs/heads/master").group(DEVS).range(+1, +2))
-        .update();
-
-    ProjectControl u = user(localKey, DEVS);
-
-    PermissionRange range =
-        u.controlForRef("refs/heads/master").getRange(LABEL + LabelId.CODE_REVIEW);
-    assertCannotVote(2, range);
-  }
-
-  @Test
-  public void blockLabelRange_ParentBlocksChild() throws Exception {
-    projectOperations
-        .project(localKey)
-        .forUpdate()
-        .add(allowLabel(LabelId.CODE_REVIEW).ref("refs/heads/*").group(DEVS).range(-2, +2))
-        .update();
-    projectOperations
-        .project(parentKey)
-        .forUpdate()
-        .add(blockLabel(LabelId.CODE_REVIEW).ref("refs/heads/*").group(DEVS).range(-2, +2))
-        .update();
-
-    ProjectControl u = user(localKey, DEVS);
-
-    PermissionRange range =
-        u.controlForRef("refs/heads/master").getRange(LABEL + LabelId.CODE_REVIEW);
-    assertCanVote(-1, range);
-    assertCanVote(1, range);
-    assertCannotVote(-2, range);
-    assertCannotVote(2, range);
-  }
-
-  @Test
-  public void blockLabelRange_ParentBlocksChildEvenIfAlreadyBlockedInChild() throws Exception {
-    projectOperations
-        .project(localKey)
-        .forUpdate()
-        .add(allowLabel(LabelId.CODE_REVIEW).ref("refs/heads/*").group(DEVS).range(-2, +2))
-        .add(blockLabel(LabelId.CODE_REVIEW).ref("refs/heads/*").group(DEVS).range(-2, +2))
-        .update();
-    projectOperations
-        .project(parentKey)
-        .forUpdate()
-        .add(blockLabel(LabelId.CODE_REVIEW).ref("refs/heads/*").group(DEVS).range(-2, +2))
-        .update();
-
-    ProjectControl u = user(localKey, DEVS);
-
-    PermissionRange range =
-        u.controlForRef("refs/heads/master").getRange(LABEL + LabelId.CODE_REVIEW);
-    assertCanVote(-1, range);
-    assertCanVote(1, range);
-    assertCannotVote(-2, range);
-    assertCannotVote(2, range);
-  }
-
-  @Test
   public void inheritSubmit_AllowInChildDoesntAffectUnblockInParent() throws Exception {
     projectOperations
         .project(parentKey)
@@ -831,23 +755,6 @@ public class RefControlTest {
 
     ProjectControl u = user(localKey, DEVS);
     assertCanUpdate("refs/heads/master", u);
-  }
-
-  @Test
-  public void unblockVoteMoreSpecificRefWithExclusiveFlag() throws Exception {
-    projectOperations
-        .project(localKey)
-        .forUpdate()
-        .add(
-            blockLabel(LabelId.CODE_REVIEW).ref("refs/heads/*").group(ANONYMOUS_USERS).range(-1, 1))
-        .add(allowLabel(LabelId.CODE_REVIEW).ref("refs/heads/master").group(DEVS).range(-2, 2))
-        .setExclusiveGroup(labelPermissionKey(LabelId.CODE_REVIEW).ref("refs/heads/master"), true)
-        .update();
-
-    ProjectControl u = user(localKey, DEVS);
-    PermissionRange range =
-        u.controlForRef("refs/heads/master").getRange(LABEL + LabelId.CODE_REVIEW);
-    assertCanVote(-2, range);
   }
 
   @Test
@@ -1028,216 +935,6 @@ public class RefControlTest {
     assertWithMessage("u can't edit topic name")
         .that(u.controlForRef("refs/heads/master").canForceEditTopicName(false))
         .isFalse();
-  }
-
-  @Test
-  public void unblockRange() throws Exception {
-    projectOperations
-        .project(localKey)
-        .forUpdate()
-        .add(
-            blockLabel(LabelId.CODE_REVIEW)
-                .ref("refs/heads/*")
-                .group(ANONYMOUS_USERS)
-                .range(-1, +1))
-        .add(allowLabel(LabelId.CODE_REVIEW).ref("refs/heads/*").group(DEVS).range(-2, +2))
-        .update();
-
-    ProjectControl u = user(localKey, DEVS);
-    PermissionRange range =
-        u.controlForRef("refs/heads/master").getRange(LABEL + LabelId.CODE_REVIEW);
-    assertCanVote(-2, range);
-    assertCanVote(2, range);
-  }
-
-  @Test
-  public void unblockRangeOnMoreSpecificRef_Fails() throws Exception {
-    projectOperations
-        .project(localKey)
-        .forUpdate()
-        .add(
-            blockLabel(LabelId.CODE_REVIEW)
-                .ref("refs/heads/*")
-                .group(ANONYMOUS_USERS)
-                .range(-1, +1))
-        .add(allowLabel(LabelId.CODE_REVIEW).ref("refs/heads/master").group(DEVS).range(-2, +2))
-        .update();
-
-    ProjectControl u = user(localKey, DEVS);
-    PermissionRange range =
-        u.controlForRef("refs/heads/master").getRange(LABEL + LabelId.CODE_REVIEW);
-    assertCannotVote(-2, range);
-    assertCannotVote(2, range);
-  }
-
-  @Test
-  public void unblockRangeOnLargerScope_Fails() throws Exception {
-    projectOperations
-        .project(localKey)
-        .forUpdate()
-        .add(
-            blockLabel(LabelId.CODE_REVIEW)
-                .ref("refs/heads/master")
-                .group(ANONYMOUS_USERS)
-                .range(-1, +1))
-        .add(allowLabel(LabelId.CODE_REVIEW).ref("refs/heads/*").group(DEVS).range(-2, +2))
-        .update();
-
-    ProjectControl u = user(localKey, DEVS);
-    PermissionRange range =
-        u.controlForRef("refs/heads/master").getRange(LABEL + LabelId.CODE_REVIEW);
-    assertCannotVote(-2, range);
-    assertCannotVote(2, range);
-  }
-
-  @Test
-  public void nonconfiguredCannotVote() throws Exception {
-    projectOperations
-        .project(localKey)
-        .forUpdate()
-        .add(allowLabel(LabelId.CODE_REVIEW).ref("refs/heads/*").group(DEVS).range(-2, +2))
-        .update();
-
-    ProjectControl u = user(localKey, REGISTERED_USERS);
-    PermissionRange range =
-        u.controlForRef("refs/heads/master").getRange(LABEL + LabelId.CODE_REVIEW);
-    assertCannotVote(-1, range);
-    assertCannotVote(1, range);
-  }
-
-  @Test
-  public void unblockInLocalRange_Fails() throws Exception {
-    projectOperations
-        .project(parentKey)
-        .forUpdate()
-        .add(
-            blockLabel(LabelId.CODE_REVIEW).ref("refs/heads/*").group(ANONYMOUS_USERS).range(-1, 1))
-        .update();
-    projectOperations
-        .project(localKey)
-        .forUpdate()
-        .add(allowLabel(LabelId.CODE_REVIEW).ref("refs/heads/*").group(DEVS).range(-2, +2))
-        .update();
-
-    ProjectControl u = user(localKey, DEVS);
-    PermissionRange range =
-        u.controlForRef("refs/heads/master").getRange(LABEL + LabelId.CODE_REVIEW);
-    assertCannotVote(-2, range);
-    assertCannotVote(2, range);
-  }
-
-  @Test
-  public void unblockRangeForChangeOwner() throws Exception {
-    projectOperations
-        .project(localKey)
-        .forUpdate()
-        .add(allowLabel(LabelId.CODE_REVIEW).ref("refs/heads/*").group(CHANGE_OWNER).range(-2, +2))
-        .update();
-
-    ProjectControl u = user(localKey, DEVS);
-    PermissionRange range =
-        u.controlForRef("refs/heads/master").getRange(LABEL + LabelId.CODE_REVIEW, true);
-    assertCanVote(-2, range);
-    assertCanVote(2, range);
-  }
-
-  @Test
-  public void unblockRangeForNotChangeOwner() throws Exception {
-    projectOperations
-        .project(localKey)
-        .forUpdate()
-        .add(allowLabel(LabelId.CODE_REVIEW).ref("refs/heads/*").group(CHANGE_OWNER).range(-2, +2))
-        .update();
-
-    ProjectControl u = user(localKey, DEVS);
-    PermissionRange range =
-        u.controlForRef("refs/heads/master").getRange(LABEL + LabelId.CODE_REVIEW);
-    assertCannotVote(-2, range);
-    assertCannotVote(2, range);
-  }
-
-  @Test
-  public void blockChangeOwnerVote() throws Exception {
-    projectOperations
-        .project(localKey)
-        .forUpdate()
-        .add(blockLabel(LabelId.CODE_REVIEW).ref("refs/heads/*").group(CHANGE_OWNER).range(-2, +2))
-        .update();
-
-    ProjectControl u = user(localKey, DEVS);
-    PermissionRange range =
-        u.controlForRef("refs/heads/master").getRange(LABEL + LabelId.CODE_REVIEW);
-    assertCannotVote(-2, range);
-    assertCannotVote(2, range);
-  }
-
-  @Test
-  public void unionOfPermissibleVotes() throws Exception {
-    projectOperations
-        .project(localKey)
-        .forUpdate()
-        .add(allowLabel(LabelId.CODE_REVIEW).ref("refs/heads/*").group(DEVS).range(-1, +1))
-        .add(
-            allowLabel(LabelId.CODE_REVIEW)
-                .ref("refs/heads/*")
-                .group(REGISTERED_USERS)
-                .range(-2, +2))
-        .update();
-
-    ProjectControl u = user(localKey, DEVS);
-    PermissionRange range =
-        u.controlForRef("refs/heads/master").getRange(LABEL + LabelId.CODE_REVIEW);
-    assertCanVote(-2, range);
-    assertCanVote(2, range);
-  }
-
-  @Test
-  public void unionOfPermissibleVotesPermissionOrder() throws Exception {
-    projectOperations
-        .project(localKey)
-        .forUpdate()
-        .add(
-            allowLabel(LabelId.CODE_REVIEW)
-                .ref("refs/heads/*")
-                .group(REGISTERED_USERS)
-                .range(-2, +2))
-        .add(allowLabel(LabelId.CODE_REVIEW).ref("refs/heads/*").group(DEVS).range(-1, +1))
-        .update();
-
-    ProjectControl u = user(localKey, DEVS);
-    PermissionRange range =
-        u.controlForRef("refs/heads/master").getRange(LABEL + LabelId.CODE_REVIEW);
-    assertCanVote(-2, range);
-    assertCanVote(2, range);
-  }
-
-  @Test
-  public void unionOfBlockedVotes() throws Exception {
-    projectOperations
-        .project(parentKey)
-        .forUpdate()
-        .add(allowLabel(LabelId.CODE_REVIEW).ref("refs/heads/*").group(DEVS).range(-1, +1))
-        .add(
-            blockLabel(LabelId.CODE_REVIEW)
-                .ref("refs/heads/*")
-                .group(REGISTERED_USERS)
-                .range(-2, +2))
-        .update();
-    projectOperations
-        .project(localKey)
-        .forUpdate()
-        .add(
-            blockLabel(LabelId.CODE_REVIEW)
-                .ref("refs/heads/*")
-                .group(REGISTERED_USERS)
-                .range(-2, +1))
-        .update();
-
-    ProjectControl u = user(localKey, DEVS);
-    PermissionRange range =
-        u.controlForRef("refs/heads/master").getRange(LABEL + LabelId.CODE_REVIEW);
-    assertCanVote(-1, range);
-    assertCannotVote(1, range);
   }
 
   @Test

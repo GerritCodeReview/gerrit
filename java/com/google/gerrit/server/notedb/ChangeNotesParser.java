@@ -559,7 +559,7 @@ class ChangeNotesParser {
       return;
     }
 
-    // Parse mutable patch set fields first so they can be recorded in the PendingPatchSetFields.
+    // Parse mutable patch set fields.
     parseDescription(psId, commit);
     parseGroups(psId, commit);
 

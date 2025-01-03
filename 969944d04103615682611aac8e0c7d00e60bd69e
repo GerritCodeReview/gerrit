@@ -52,6 +52,24 @@
       "parentUuid": "911c128f_209e7f3f",
       "revId": "969944d04103615682611aac8e0c7d00e60bd69e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "865f6e88_7285b0ed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-01-03T11:51:54Z",
+      "side": 1,
+      "message": "I meant the former, after reverting these changes in gerrit/jgit (best on another branch e.g. gerrit-fork) the corresponding submodule link in gerrit and gitiles can be updated to that fork branch.\n\nThe only disadvantage is that this adds another step (merge mirrored jgit master branch to gerrit-fork branch) to update the jgit version used in gerrit/gitiles.\nThis could be automated by adding a CI job pushing a change for review which is merging mirrored jgit master to gerrit-fork branch e.g. once a day. We have an implementation of such auto-merges we use internally to update our internal fork of gerrit and plugins. We could contribute this CI job implementation.",
+      "parentUuid": "a79e585c_89df85ee",
+      "revId": "969944d04103615682611aac8e0c7d00e60bd69e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

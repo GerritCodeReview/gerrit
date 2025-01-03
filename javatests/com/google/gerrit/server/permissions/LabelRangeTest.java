@@ -134,6 +134,93 @@ public class LabelRangeTest {
   }
 
   @Test
+  public void cannotVoteWithoutAllow() throws Exception {
+    ProjectControl u = user(localKey, DEVS);
+    PermissionRange range =
+        u.controlForRef("refs/heads/master").getRange(LABEL + LabelId.CODE_REVIEW);
+    assertCannotVote(+2, range);
+    assertCannotVote(+1, range);
+    assertCanVote(0, range);
+    assertCannotVote(-1, range);
+    assertCannotVote(-2, range);
+  }
+
+  @Test
+  public void allowLocally() throws Exception {
+    projectOperations
+        .project(localKey)
+        .forUpdate()
+        .add(allowLabel(LabelId.CODE_REVIEW).ref("refs/heads/*").group(DEVS).range(-2, +2))
+        .update();
+
+    ProjectControl u = user(localKey, DEVS);
+
+    PermissionRange range =
+        u.controlForRef("refs/heads/master").getRange(LABEL + LabelId.CODE_REVIEW);
+    assertCanVote(+2, range);
+    assertCanVote(+1, range);
+    assertCanVote(0, range);
+    assertCanVote(-1, range);
+    assertCanVote(-2, range);
+  }
+
+  @Test
+  public void allowPartialLocally() throws Exception {
+    projectOperations
+        .project(localKey)
+        .forUpdate()
+        .add(allowLabel(LabelId.CODE_REVIEW).ref("refs/heads/*").group(DEVS).range(-1, +1))
+        .update();
+
+    ProjectControl u = user(localKey, DEVS);
+
+    PermissionRange range =
+        u.controlForRef("refs/heads/master").getRange(LABEL + LabelId.CODE_REVIEW);
+    assertCannotVote(+2, range);
+    assertCanVote(+1, range);
+    assertCanVote(0, range);
+    assertCanVote(-1, range);
+    assertCannotVote(-2, range);
+  }
+
+  @Test
+  public void allowGroupDoesNotAllowOthers() throws Exception {
+    projectOperations
+        .project(localKey)
+        .forUpdate()
+        .add(allowLabel(LabelId.CODE_REVIEW).ref("refs/heads/*").group(DEVS).range(-2, +2))
+        .update();
+
+    ProjectControl u = user(localKey, REGISTERED_USERS);
+    PermissionRange range =
+        u.controlForRef("refs/heads/master").getRange(LABEL + LabelId.CODE_REVIEW);
+    assertCannotVote(+2, range);
+    assertCannotVote(+1, range);
+    assertCanVote(0, range);
+    assertCannotVote(-1, range);
+    assertCannotVote(-2, range);
+  }
+
+  @Test
+  public void allowGroupDoesNotExtendOthers() throws Exception {
+    projectOperations
+        .project(localKey)
+        .forUpdate()
+        .add(allowLabel(LabelId.CODE_REVIEW).ref("refs/heads/*").group(REGISTERED_USERS).range(-1, +1))
+        .add(allowLabel(LabelId.CODE_REVIEW).ref("refs/heads/*").group(DEVS).range(-2, +2))
+        .update();
+
+    ProjectControl u = user(localKey, REGISTERED_USERS);
+    PermissionRange range =
+        u.controlForRef("refs/heads/master").getRange(LABEL + LabelId.CODE_REVIEW);
+    assertCannotVote(+2, range);
+    assertCanVote(+1, range);
+    assertCanVote(0, range);
+    assertCanVote(-1, range);
+    assertCannotVote(-2, range);
+  }
+
+  @Test
   public void blockPartialRangeLocally() throws Exception {
     projectOperations
         .project(localKey)
@@ -270,21 +357,6 @@ public class LabelRangeTest {
         u.controlForRef("refs/heads/master").getRange(LABEL + LabelId.CODE_REVIEW);
     assertCannotVote(-2, range);
     assertCannotVote(2, range);
-  }
-
-  @Test
-  public void nonconfiguredCannotVote() throws Exception {
-    projectOperations
-        .project(localKey)
-        .forUpdate()
-        .add(allowLabel(LabelId.CODE_REVIEW).ref("refs/heads/*").group(DEVS).range(-2, +2))
-        .update();
-
-    ProjectControl u = user(localKey, REGISTERED_USERS);
-    PermissionRange range =
-        u.controlForRef("refs/heads/master").getRange(LABEL + LabelId.CODE_REVIEW);
-    assertCannotVote(-1, range);
-    assertCannotVote(1, range);
   }
 
   @Test

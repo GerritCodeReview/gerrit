@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9610a2d5_808954fe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2025-01-03T16:51:44Z",
+      "side": 1,
+      "message": "Thanks for fixing these commands for mac. \n\nUnfortunately, these trick only helps the bazel build of gerrit and doesn\u0027t work in eclipse. We will probably revert this and try creating a branch in gerrit/jgit with the import replacement and point the gerrit/gerrit submodule to it. Comments in https://gerrit-review.git.corp.google.com/c/gerrit/+/446461",
+      "revId": "24517050a7fec935277e853ff1d3e041d4b9144d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "554ac964_173d111d",

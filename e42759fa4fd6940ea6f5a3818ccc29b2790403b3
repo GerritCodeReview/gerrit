@@ -50,6 +50,67 @@
       ],
       "revId": "e42759fa4fd6940ea6f5a3818ccc29b2790403b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41d663ef_fb1524c4",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-01-03T12:15:21Z",
+      "side": 1,
+      "message": "rename",
+      "range": {
+        "startLine": 354,
+        "startChar": 9,
+        "endLine": 354,
+        "endChar": 25
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "42681099_366e2ce7",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+              "range": {
+                "startLine": 294,
+                "startChar": 0,
+                "endLine": 295,
+                "endChar": 0
+              },
+              "replacement": "    this.viewStateUpdated();\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+              "range": {
+                "startLine": 354,
+                "startChar": 0,
+                "endLine": 355,
+                "endChar": 0
+              },
+              "replacement": "    this.viewStateUpdated();\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+              "range": {
+                "startLine": 2089,
+                "startChar": 0,
+                "endLine": 2090,
+                "endChar": 0
+              },
+              "replacement": "  viewStateUpdated() {\n"
+            }
+          ]
+        }
+      ],
+      "revId": "e42759fa4fd6940ea6f5a3818ccc29b2790403b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

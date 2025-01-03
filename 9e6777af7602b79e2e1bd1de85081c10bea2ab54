@@ -64,6 +64,30 @@
       },
       "revId": "9e6777af7602b79e2e1bd1de85081c10bea2ab54",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "43a8775f_7e7d9a7b",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/CommitIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-01-03T14:28:15Z",
+      "side": 1,
+      "message": "Ok, thanks for explaining, the comment initially was confusing.",
+      "parentUuid": "cc4029a9_7de817f6",
+      "range": {
+        "startLine": 328,
+        "startChar": 7,
+        "endLine": 328,
+        "endChar": 68
+      },
+      "revId": "9e6777af7602b79e2e1bd1de85081c10bea2ab54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

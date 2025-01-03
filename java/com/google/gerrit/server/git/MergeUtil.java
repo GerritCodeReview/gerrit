@@ -230,38 +230,6 @@ public class MergeUtil {
       int parentIndex,
       boolean ignoreIdenticalTree,
       boolean allowConflicts,
-      AttributesNodeProvider attributesNodeProvider)
-      throws IOException,
-          MergeIdenticalTreeException,
-          MergeConflictException,
-          MethodNotAllowedException,
-          InvalidMergeStrategyException {
-    return createCherryPickFromCommit(
-        inserter,
-        repoConfig,
-        mergeTip,
-        originalCommit,
-        cherryPickCommitterIdent,
-        commitMsg,
-        rw,
-        parentIndex,
-        ignoreIdenticalTree,
-        allowConflicts,
-        false,
-        attributesNodeProvider);
-  }
-
-  public CodeReviewCommit createCherryPickFromCommit(
-      ObjectInserter inserter,
-      Config repoConfig,
-      RevCommit mergeTip,
-      RevCommit originalCommit,
-      PersonIdent cherryPickCommitterIdent,
-      String commitMsg,
-      CodeReviewRevWalk rw,
-      int parentIndex,
-      boolean ignoreIdenticalTree,
-      boolean allowConflicts,
       boolean diff3Format,
       AttributesNodeProvider attributesNodeProvider)
       throws IOException,

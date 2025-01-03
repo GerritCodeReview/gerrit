@@ -366,7 +366,6 @@ public class CommitIT extends AbstractDaemonTest {
                 + "Change-Id: Ideadbeefdeadbeefdeadbeefdeadbeefdeadbeef\n\n"
                 + "Change-Id: %s\n",
             existingDestChange.changeId);
-    input.allowConflicts = true;
     input.allowEmpty = true;
 
     ChangeInfo cherryPickResult =
@@ -407,7 +406,6 @@ public class CommitIT extends AbstractDaemonTest {
     input.destination = destBranch;
     input.message =
         String.format("it goes to foo branch\n\nChange-Id: %s\n", existingDestChange.changeId);
-    input.allowConflicts = true;
     input.allowEmpty = true;
     // Use RevisionAPI to submit initial cherryPick.
     ChangeInfo cherryPickResult =
@@ -459,7 +457,6 @@ public class CommitIT extends AbstractDaemonTest {
     input.destination = destBranch;
     input.message =
         String.format("it goes to foo branch\n\nChange-Id: %s\n", existingDestChange.changeId);
-    input.allowConflicts = true;
     input.allowEmpty = true;
 
     BadRequestException thrown =

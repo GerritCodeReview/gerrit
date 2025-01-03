@@ -40,6 +40,30 @@
       ],
       "revId": "9e6777af7602b79e2e1bd1de85081c10bea2ab54",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc4029a9_7de817f6",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/CommitIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-01-03T13:25:20Z",
+      "side": 1,
+      "message": "This comment is explaining why are making a REST call (\"adminRestSession.post(\"/projects/\" + project.get() + \"/commits/\" + commitToCherryPick.name() + \"/cherrypick\", input)\") here rather than using CommitApi.cherryPick(CherryPickInput) (\"gApi.projects().name(project.get()).commit(commitToCherryPick.name()).cherryPick(input))\").\n\nWhen CommitApi.cherryPick(CherryPickInput) is used the ChangeInfo that is returned from the REST endpoint, that does have the \u0027containsGitConflicts\u0027 field set is not returned from the CommitApi.cherryPick(CherryPickInput) method, but instead it returns ChangeApi, and when we use ChangeApi to get the ChangeInfo the \u0027containsGitConflicts\u0027 field is no longer set (since it\u0027s a new ChangeInfo instance). Hence we do not use CommitApi.cherryPick(CherryPickInput) here.\n\nInstead we invoke the REST endpoint directly. Then we can inspect the returned ChangeInfo that has the \u0027containsGitConflicts\u0027 field set.\n\nI clarified the comment a bit. Hope it\u0027s clearer now?",
+      "parentUuid": "f8e9b678_0d2c23c9",
+      "range": {
+        "startLine": 328,
+        "startChar": 7,
+        "endLine": 328,
+        "endChar": 68
+      },
+      "revId": "9e6777af7602b79e2e1bd1de85081c10bea2ab54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

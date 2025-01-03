@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d60a81b_091c14fc",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-01-03T11:57:30Z",
+      "side": 1,
+      "message": "rename to \"this\"",
+      "range": {
+        "startLine": 349,
+        "startChar": 6,
+        "endLine": 349,
+        "endChar": 12
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "fa71ab93_efa40e05",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+              "range": {
+                "startLine": 349,
+                "startChar": 0,
+                "endLine": 351,
+                "endChar": 0
+              },
+              "replacement": "  set change(t: ParsedChangeInfo | undefined) {\n    if (this._change \u003d\u003d\u003d t) return;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+              "range": {
+                "startLine": 352,
+                "startChar": 0,
+                "endLine": 353,
+                "endChar": 0
+              },
+              "replacement": "    this._change \u003d t;\n"
+            }
+          ]
+        }
+      ],
+      "revId": "e42759fa4fd6940ea6f5a3818ccc29b2790403b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

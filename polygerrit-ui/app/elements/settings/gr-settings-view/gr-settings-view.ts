@@ -429,7 +429,7 @@ ${this.accountState}</textarea
               </gr-dialog>
             </dialog>
           </fieldset>
-          <gr-preferences id="preferences"></gr-preferences>
+          <gr-preferences id="Preferences"></gr-preferences>
           <h2
             id="DiffPreferences"
             class=${this.computeHeaderClass(this.diffPrefsChanged)}

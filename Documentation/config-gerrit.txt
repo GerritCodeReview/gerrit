@@ -5816,9 +5816,8 @@ By default, 0.
 
 [[sshd.waitTimeout]]sshd.waitTimeout::
 +
-Time in seconds after which the server automatically terminates
-connections waiting for a server operation to complete, like for instance
-cloning a very large repo with lots of refs.
+Maximum time the server will wait for available space in
+the output stream's buffer when writing data.
 Values should use common unit suffixes to express their setting:
 +
 * s, sec, second, seconds

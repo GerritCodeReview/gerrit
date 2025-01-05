@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "539dc346_92351bb0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-01-05T15:02:19Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "034a2066_bf9148ac",
+      "range": {
+        "startLine": 7,
+        "startChar": 8,
+        "endLine": 7,
+        "endChar": 19
+      },
+      "revId": "f65ae1b85b90a495635e095d9958a80adbdb79a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e9af75c1_62851af7",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-01-05T09:45:22Z",
       "side": 1,
       "message": "```suggestion\nCurrently, the documentation of sshd.waitTimeout suggests that the\n```",
+      "range": {
+        "startLine": 9,
+        "startChar": 14,
+        "endLine": 9,
+        "endChar": 25
+      },
+      "revId": "f65ae1b85b90a495635e095d9958a80adbdb79a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c57ccda4_fdc43838",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-01-05T15:02:19Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "e9af75c1_62851af7",
       "range": {
         "startLine": 9,
         "startChar": 14,
@@ -64,6 +112,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7bd3826d_f8c1cf67",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-01-05T15:02:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ac50c14_b450c090",
+      "revId": "f65ae1b85b90a495635e095d9958a80adbdb79a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b36a831f_d75628e7",
@@ -77,6 +143,30 @@
       "writtenOn": "2025-01-05T09:45:22Z",
       "side": 1,
       "message": "```suggestion\nMaximum time the server will wait for available space in\n```",
+      "range": {
+        "startLine": 5819,
+        "startChar": 0,
+        "endLine": 5819,
+        "endChar": 24
+      },
+      "revId": "f65ae1b85b90a495635e095d9958a80adbdb79a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "80bc23d5_6addee80",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 5819,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-01-05T15:02:19Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "b36a831f_d75628e7",
       "range": {
         "startLine": 5819,
         "startChar": 0,

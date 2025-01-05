@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "034a2066_bf9148ac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-05T09:45:22Z",
+      "side": 1,
+      "message": "```suggestion\nClarify the documentation of sshd.waitTimeout\n```",
+      "range": {
+        "startLine": 7,
+        "startChar": 8,
+        "endLine": 7,
+        "endChar": 19
+      },
+      "revId": "f65ae1b85b90a495635e095d9958a80adbdb79a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9af75c1_62851af7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-05T09:45:22Z",
+      "side": 1,
+      "message": "```suggestion\nCurrently, the documentation of sshd.waitTimeout suggests that the\n```",
+      "range": {
+        "startLine": 9,
+        "startChar": 14,
+        "endLine": 9,
+        "endChar": 25
+      },
+      "revId": "f65ae1b85b90a495635e095d9958a80adbdb79a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ac50c14_b450c090",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-05T09:45:22Z",
+      "side": 1,
+      "message": "Missing `Release-Notes` footer.\n\nE.g., `Release-Notes: Clarify the documentation of sshd.waitTimeout`",
+      "revId": "f65ae1b85b90a495635e095d9958a80adbdb79a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b36a831f_d75628e7",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 5819,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-05T09:45:22Z",
+      "side": 1,
+      "message": "```suggestion\nMaximum time the server will wait for available space in\n```",
+      "range": {
+        "startLine": 5819,
+        "startChar": 0,
+        "endLine": 5819,
+        "endChar": 24
+      },
+      "revId": "f65ae1b85b90a495635e095d9958a80adbdb79a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -16,6 +16,29 @@
       "message": "LGTM, @frankborden@google.com would you like to double-check?",
       "revId": "38a5424763576955a9258b1353745df0e22d4c4b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0ae1fba_0ca90d5e",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2025-01-06T10:33:20Z",
+      "side": 1,
+      "message": "can you use loadingState to determine this directly instead? If not, please add more explanation to the comment why loadingState is not suitable, and how isChangeInfo is used to determine this.",
+      "range": {
+        "startLine": 262,
+        "startChar": 0,
+        "endLine": 264,
+        "endChar": 0
+      },
+      "revId": "38a5424763576955a9258b1353745df0e22d4c4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

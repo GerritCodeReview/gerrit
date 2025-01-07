@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be3ea605_e7d28034",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-01-07T14:41:46Z",
+      "side": 1,
+      "message": "Thank you for very detailed commit message!",
+      "revId": "5e08ecca92f3ec675fa9a5ab090a387ced378900",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "026141b0_1011f635",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 9086,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-01-07T14:41:46Z",
+      "side": 1,
+      "message": "nit: I think it\u0027s better to rewrite this sentence to avoid confusion. My suggestion\n\n\"Absence of this field, doesn\u0027t guarantee absence of conflicts. It can also be missing for revisions with conflicts that were created before the field was introduced or where the merge was performed locally (not by Gerrit operation).\"",
+      "range": {
+        "startLine": 9085,
+        "startChar": 0,
+        "endLine": 9086,
+        "endChar": 20
+      },
+      "revId": "5e08ecca92f3ec675fa9a5ab090a387ced378900",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12136ad4_9ab7da93",
+        "filename": "java/com/google/gerrit/extensions/common/ConflictsInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-01-07T14:41:46Z",
+      "side": 1,
+      "message": "Optional: I think it\u0027s somewhat confusing that the class named ConflictsInfo does not store only the conflicts, but \"all the merges\". I initially thought that ours and theirs are only populated when there is a conflict, which is not the case.\n\nMaybe clarify in the comments, that ours and theirs are always set (or maybe it\u0027s just me, and it\u0027s pretty clear)",
+      "range": {
+        "startLine": 21,
+        "startChar": 13,
+        "endLine": 21,
+        "endChar": 26
+      },
+      "revId": "5e08ecca92f3ec675fa9a5ab090a387ced378900",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

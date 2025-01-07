@@ -39,6 +39,30 @@
       },
       "revId": "38a5424763576955a9258b1353745df0e22d4c4b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a94d4fb_37145204",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-01-07T07:56:47Z",
+      "side": 1,
+      "message": "problem is in the function\u0027s input as it can be either `ChangeInfo` or `RelatedChangeAndCommitInfo` (TBH I don\u0027t see it being called with the later and I have independent change I02f57e4e3e to remove it 😜) and later has no `submit_requirements` property IOW AFAIU `loadingState` is not related.\n\nAt this point it is clear that there are some changes (as length is checked in line #258) and what needs to be determined is if the input is of `ChangeInfo` type `ChangeInfo` (hence the call to the existing `isChangeInfo` function) because if `true` then `submit_requirements` can be re-used from it instead of being asked again. I have also added the check if `submit_requirements` are defined so that we are covered in the case when query for changes list was issued without that bit.",
+      "parentUuid": "f0ae1fba_0ca90d5e",
+      "range": {
+        "startLine": 262,
+        "startChar": 0,
+        "endLine": 264,
+        "endChar": 0
+      },
+      "revId": "38a5424763576955a9258b1353745df0e22d4c4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

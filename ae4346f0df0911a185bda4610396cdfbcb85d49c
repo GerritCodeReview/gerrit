@@ -34,6 +34,23 @@
       "parentUuid": "4239b42f_857c2a1d",
       "revId": "ae4346f0df0911a185bda4610396cdfbcb85d49c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb948dfb_ea322df6",
+        "filename": "tools/gjf.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2025-01-07T09:55:31Z",
+      "side": 1,
+      "message": "This doesn\u0027t allow to move GJF to an arbitrary location. It requires you to move this launcher script to the same dir as the GJF jar you want to call.\nThis will trigger an unnecessary download of the jar file (#100) that is never used.\nI would much prefer an argument to `gjf.sh setup` that sets an arbitrary `format_dir` where to install the jar file and the launcher.\n`./gjf.sh setup 1.24.0 /home/jenkins/gjf/` or `./$SOME_RELATIVE_PATH/gjf.sh setup 1.24.0 .`",
+      "revId": "ae4346f0df0911a185bda4610396cdfbcb85d49c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

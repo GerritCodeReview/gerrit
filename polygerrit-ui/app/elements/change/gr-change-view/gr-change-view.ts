@@ -80,16 +80,6 @@ import {
   LoadingStatus,
   ParsedChangeInfo,
 } from '../../../types/types';
-import {
-  EditableContentSaveEvent,
-  FileActionTapEvent,
-  OpenFixPreviewEvent,
-  ShowReplyDialogEvent,
-  SwitchTabEvent,
-  TabState,
-  ValueChangedEvent,
-} from '../../../types/events';
-import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrMessagesList} from '../gr-messages-list/gr-messages-list';
 import {GrThreadList} from '../gr-thread-list/gr-thread-list';
 import {fireAlert, fire, fireReload} from '../../../utils/event-util';

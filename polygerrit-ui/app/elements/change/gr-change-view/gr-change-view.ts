@@ -80,9 +80,6 @@ import {
   queryAll,
   queryAndAssert,
 } from '../../../utils/common-util';
-import {GrEditControls} from '../../edit/gr-edit-controls/gr-edit-controls';
-import {isUnresolved} from '../../../utils/comment-util';
-import {PaperTabsElement} from '@polymer/paper-tabs/paper-tabs';
 import {GrFileList} from '../gr-file-list/gr-file-list';
 import {
   EditRevisionInfo,

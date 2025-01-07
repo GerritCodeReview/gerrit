@@ -189,7 +189,7 @@ suite('gr-settings-view tests', () => {
               </gr-dialog>
             </dialog>
           </fieldset>
-          <gr-preferences id="preferences"> </gr-preferences>
+          <gr-preferences id="Preferences"> </gr-preferences>
           <h2 id="DiffPreferences">Diff Preferences</h2>
           <fieldset id="diffPreferences">
             <gr-diff-preferences id="diffPrefs"> </gr-diff-preferences>

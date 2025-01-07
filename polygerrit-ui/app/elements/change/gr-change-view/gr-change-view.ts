@@ -3,15 +3,6 @@
  * Copyright 2015 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {BehaviorSubject} from 'rxjs';
-import '../gr-copy-links/gr-copy-links';
-import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
-import '../../plugins/gr-endpoint-param/gr-endpoint-param';
-import '../../shared/gr-button/gr-button';
-import '../../shared/gr-change-star/gr-change-star';
-import '../../shared/gr-change-status/gr-change-status';
-import '../../shared/gr-editable-content/gr-editable-content';
-import '../../shared/gr-formatted-text/gr-formatted-text';
 import '../../shared/gr-tooltip-content/gr-tooltip-content';
 import '../gr-change-actions/gr-change-actions';
 import '../gr-change-summary/gr-change-summary';

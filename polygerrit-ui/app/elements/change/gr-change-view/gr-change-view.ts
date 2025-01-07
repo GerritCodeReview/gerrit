@@ -5,10 +5,6 @@
  */
 import {BehaviorSubject} from 'rxjs';
 import '../gr-copy-links/gr-copy-links';
-import '@polymer/paper-tabs/paper-tabs';
-import '../../../styles/gr-a11y-styles';
-import '../../../styles/gr-paper-styles';
-import '../../../styles/shared-styles';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../../shared/gr-button/gr-button';

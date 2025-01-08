@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d0aab6ae_b4e2fb39",
+        "filename": "java/com/google/gerrit/entities/PatchSet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-01-08T09:50:14Z",
+      "side": 1,
+      "message": "Should this be marked as @Nullable? If the field can be optional.",
+      "range": {
+        "startLine": 300,
+        "startChar": 4,
+        "endLine": 300,
+        "endChar": 36
+      },
+      "revId": "edc53054c7ddc8001f9a3abcd9774bf75a1b76da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

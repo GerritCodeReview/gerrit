@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.server.mail;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.entities.EmailHeader;
@@ -60,6 +61,17 @@ public class MailSenderIT extends AbstractMailIT {
     assertThat(headerString(headers, "List-Id")).isEqualTo(listId);
     assertThat(headerString(headers, "List-Unsubscribe")).isEqualTo(unsubscribeLink);
     assertThat(headerString(headers, "In-Reply-To")).isEqualTo(threadId);
+  }
+
+  @Test
+  public void outgoingMailWithACommentsInUnchangedFile() throws Exception {
+    String adminInlineComment = "comment from admin in Line 1";
+    String userInlineComment = String.format("reply from user %s to comment made by admin in Line 1", user.displayName());
+    createChangeWithUnchangedFileReviewed(user, adminInlineComment, userInlineComment);
+    assertThat(sender.getMessages()).hasSize(1);
+    String bodyAsString = sender.getMessages().iterator().next().body();
+    assertTrue("The inline comment made by admin user should be present", bodyAsString.contains(adminInlineComment));
+    assertTrue(String.format("The reply comment made by user: %s should be present", user.displayName()), bodyAsString.contains(userInlineComment));
   }
 
   private String headerString(Map<String, EmailHeader> headers, String name) {

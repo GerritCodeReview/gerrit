@@ -79,6 +79,56 @@ java_library(
     visibility = ["//visibility:public"],
     exports = ["@jgit//org.eclipse.jgit.http.server:jgit-servlet"],
     runtime_deps = [":jgit"],
+<<<<<<< PATCH SET (b59ba1 Fix building Gerrit on mac)
+    deps = [
+        ":jgit",
+        "//lib:servlet-api",
+    ],
+)
+
+# As the genrule requires a concrete list of outs, use srcjars:
+#   uncompress source jar of jgit-servlet,
+#   replace,
+#   recompress as srcjar
+genrule(
+    name = "jgit-servlet-srcjar-with-javax",
+    srcs = ["@jgit//org.eclipse.jgit.http.server:libjgit-servlet-src.jar"],
+    outs = ["jgit-servlet-javax.srcjar"],
+    cmd = """
+    TOP="$$(pwd)"
+    tmpdir="$$(mktemp -d)"
+    cd "$${tmpdir}"
+    jar xf "$${TOP}/$<"
+    find . -name "*.java" | xargs sed -i '' s/jakarta.servlet/javax.servlet/
+    jar cf "$${TOP}/$@" .
+    rm -rf "$${tmpdir}"
+    """,
+||||||| BASE
+    deps = [
+        ":jgit",
+        "//lib:servlet-api",
+    ],
+)
+
+# As the genrule requires a concrete list of outs, use srcjars:
+#   uncompress source jar of jgit-servlet,
+#   replace,
+#   recompress as srcjar
+genrule(
+    name = "jgit-servlet-srcjar-with-javax",
+    srcs = ["@jgit//org.eclipse.jgit.http.server:libjgit-servlet-src.jar"],
+    outs = ["jgit-servlet-javax.srcjar"],
+    cmd = """
+    TOP="$$(pwd)"
+    tmpdir="$$(mktemp -d)"
+    cd "$${tmpdir}"
+    jar xf "$${TOP}/$<"
+    find . -name "*.java" | xargs sed -i s/jakarta.servlet/javax.servlet/
+    jar cf "$${TOP}/$@" .
+    rm -rf "$${tmpdir}"
+    """,
+=======
+>>>>>>> BASE      (25e5b8 Close test repository in ConsistencyCheckerIT)
 )
 
 java_library(

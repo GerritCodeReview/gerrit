@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da99a8ca_0419cd73",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2025-01-08T12:55:04Z",
+      "side": 1,
+      "message": "This is the first iteration of the test. It is confirmed that it fails in `stable-3.5` as it is exposed in the issue 387440281",
+      "revId": "ae9172588ea435c1720d2700fcc3dfde84242518",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

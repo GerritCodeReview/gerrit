@@ -14,19 +14,27 @@
 
 package com.google.gerrit.acceptance.server.mail;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
+import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
+import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.client.Side;
+import com.google.gerrit.extensions.common.ChangeInput;
+import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.mail.MailMessage;
 import com.google.inject.Inject;
 import java.time.Instant;
 import java.util.HashMap;
+import java.util.List;
+import org.eclipse.jgit.lib.Constants;
 import org.junit.Ignore;
 
 @Ignore
@@ -67,6 +75,64 @@ public class AbstractMailIT extends AbstractDaemonTest {
     input.comments.put(c1.path, ImmutableList.of(c1, c2));
     revision(r).review(input);
     return changeId;
+  }
+
+  String createChangeWithUnchangedFileReviewed(
+      TestAccount reviewer, String adminInlineComment, String userInlineComment) throws Exception {
+
+    // Create a change with a file and merge it
+    String fileContent = "this is line 1 \nthis is line 2 \nthis is line 3 \nthis is line 4";
+    PushOneCommit.Result firstChangeResult = createChange("First Change", FILE_NAME, fileContent);
+    firstChangeResult.assertOkStatus();
+    merge(firstChangeResult);
+
+    // Create an second empty change
+    String secondChangeId =
+        gApi.changes()
+            .create(new ChangeInput(project.get(), Constants.MASTER, "Second Change"))
+            .get()
+            .id;
+    RevisionApi secondChangeRevision = gApi.changes().id(secondChangeId).current();
+
+    // Add draft
+    DraftInput draftInputFromAdmin =
+        createInlineDraftInLine1(adminInlineComment, Side.REVISION, null);
+    secondChangeRevision.createDraft(draftInputFromAdmin);
+
+    // Review change
+    ReviewInput adminInput = new ReviewInput();
+    adminInput.drafts = ReviewInput.DraftHandling.PUBLISH_ALL_REVISIONS;
+    secondChangeRevision.review(adminInput);
+
+    requestScopeOperations.setApiUser(reviewer.id());
+
+    // Add draft
+    List<CommentInfo> comments = gApi.changes().id(secondChangeId).commentsRequest().getAsList();
+    assertThat(comments).hasSize(1);
+    CommentInfo adminCommentInfo = comments.get(0);
+    DraftInput draftInputFromUser =
+        createInlineDraftInLine1(userInlineComment, Side.REVISION, adminCommentInfo.id);
+    gApi.changes().id(secondChangeId).current().createDraft(draftInputFromUser);
+
+    // Review change
+    ReviewInput reviewerInput = new ReviewInput();
+    reviewerInput.drafts = ReviewInput.DraftHandling.PUBLISH_ALL_REVISIONS;
+    gApi.changes().id(secondChangeId).current().review(reviewerInput);
+
+    return secondChangeId;
+  }
+
+  private DraftInput createInlineDraftInLine1(String comment, Side side, String inReplyTo) {
+    DraftInput draftInput = new DraftInput();
+    draftInput.line = 1;
+    draftInput.message = comment;
+    draftInput.path = FILE_NAME;
+    draftInput.side = side;
+    draftInput.unresolved = true;
+    draftInput.patchSet = 1;
+    draftInput.inReplyTo = inReplyTo;
+
+    return draftInput;
   }
 
   protected static CommentInput newComment(String path, Side side, int line, String message) {

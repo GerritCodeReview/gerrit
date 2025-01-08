@@ -53,7 +53,11 @@ public class PatchFile {
   private Text a;
   private Text b;
 
-  public PatchFile(Repository repo, Map<String, FileDiffOutput> modifiedFiles, String fileName)
+  public PatchFile(
+      Repository repo,
+      Map<String, FileDiffOutput> modifiedFiles,
+      String fileName,
+      ObjectId patchSetCommitId)
       throws IOException {
     this.repo = repo;
     this.diff =
@@ -61,7 +65,7 @@ public class PatchFile {
             .filter(f -> f.getKey().equals(fileName))
             .map(Map.Entry::getValue)
             .findFirst()
-            .orElseGet(() -> FileDiffOutput.empty(fileName, ObjectId.zeroId(), ObjectId.zeroId()));
+            .orElseGet(() -> FileDiffOutput.empty(fileName, patchSetCommitId, patchSetCommitId));
 
     if (Patch.PATCHSET_LEVEL.equals(fileName)) {
       aTree = null;

@@ -350,7 +350,9 @@ public class ReviewersUtil {
   private List<SuggestedReviewerInfo> loadAccounts(List<Account.Id> accountIds)
       throws PermissionBackendException {
     Set<FillOptions> fillOptions =
-        Sets.union(AccountLoader.DETAILED_OPTIONS, EnumSet.of(FillOptions.SECONDARY_EMAILS));
+        Sets.union(
+            AccountLoader.DETAILED_OPTIONS_WITHOUT_AVATAR,
+            EnumSet.of(FillOptions.SECONDARY_EMAILS));
     AccountLoader accountLoader = accountLoaderFactory.create(fillOptions);
 
     try (Timer0.Context ctx = metrics.loadAccountsLatency.start()) {

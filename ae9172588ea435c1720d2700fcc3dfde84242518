@@ -168,6 +168,30 @@
       },
       "revId": "ae9172588ea435c1720d2700fcc3dfde84242518",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "37bf8c0a_2d668a6c",
+        "filename": "javatests/com/google/gerrit/acceptance/server/mail/AbstractMailIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-01-08T17:20:50Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "6a1fa476_cf32fc88",
+      "range": {
+        "startLine": 110,
+        "startChar": 4,
+        "endLine": 110,
+        "endChar": 16
+      },
+      "revId": "ae9172588ea435c1720d2700fcc3dfde84242518",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

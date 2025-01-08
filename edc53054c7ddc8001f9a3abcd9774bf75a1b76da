@@ -22,6 +22,30 @@
       },
       "revId": "edc53054c7ddc8001f9a3abcd9774bf75a1b76da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c86e2784_e8af3595",
+        "filename": "java/com/google/gerrit/entities/PatchSet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-01-08T12:36:42Z",
+      "side": 1,
+      "message": "At the moment, with this change, this is always non-null. I thought that we could change this later, when it actually becomes possible that ours/theirs is not available, but I think you are right that it\u0027s probably better to make this an optional field already now so that we do not need to change this later. Since this is converted to a proto (see @ConvertibleToProto annotation) it\u0027s important to have this as an optional field in the proto already now, so that we avoid backward compatibility issues later.\n\nI also adapted the NoteDb parser to allow ours/theirs to be unset if containsConflicts is false.\n\nLooking at this I realized that this change actually missed to extend the PatchSet proto. I\u0027ve done this now too.",
+      "parentUuid": "d0aab6ae_b4e2fb39",
+      "range": {
+        "startLine": 300,
+        "startChar": 4,
+        "endLine": 300,
+        "endChar": 36
+      },
+      "revId": "edc53054c7ddc8001f9a3abcd9774bf75a1b76da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

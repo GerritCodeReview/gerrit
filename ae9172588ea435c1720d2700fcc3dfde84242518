@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4fccad8e_8cb780c6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2025-01-08T16:19:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ae11ef8b_81f63e85",
+      "revId": "ae9172588ea435c1720d2700fcc3dfde84242518",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6d68847d_ad33ba85",
@@ -31,6 +49,24 @@
       "writtenOn": "2025-01-08T14:56:14Z",
       "side": 1,
       "message": "Missing issue reference?",
+      "revId": "ae9172588ea435c1720d2700fcc3dfde84242518",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0353a30_1fe0437d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2025-01-08T16:19:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d68847d_ad33ba85",
       "revId": "ae9172588ea435c1720d2700fcc3dfde84242518",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -69,6 +105,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3274568_3ba0e44c",
+        "filename": "javatests/com/google/gerrit/acceptance/server/mail/AbstractMailIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2025-01-08T16:19:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d05c72b3_37e80876",
+      "revId": "ae9172588ea435c1720d2700fcc3dfde84242518",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b0d2c7c3_9b56dcf7",
@@ -82,6 +136,30 @@
       "writtenOn": "2025-01-08T14:56:14Z",
       "side": 1,
       "message": "Why do we need a second draft from a different user?",
+      "range": {
+        "startLine": 110,
+        "startChar": 4,
+        "endLine": 110,
+        "endChar": 16
+      },
+      "revId": "ae9172588ea435c1720d2700fcc3dfde84242518",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a1fa476_cf32fc88",
+        "filename": "javatests/com/google/gerrit/acceptance/server/mail/AbstractMailIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2025-01-08T16:19:21Z",
+      "side": 1,
+      "message": "We need a draft from another user to make the back end to send the notification to the owner of the change. Does it make sense?",
+      "parentUuid": "b0d2c7c3_9b56dcf7",
       "range": {
         "startLine": 110,
         "startChar": 4,

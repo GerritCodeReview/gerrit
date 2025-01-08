@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e978ebff_5cfbbc13",
+        "filename": "lib/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2025-01-08T21:38:35Z",
+      "side": 1,
+      "message": "IIUC this would work on mac but break on linux. There was some work about it in https://gerrit-review.git.corp.google.com/c/gerrit/+/446681\n\nAs commented there, this hack only works on bazel, not on eclipse. We should create a jgit branch in gerrit/jgit patching this imports and make gerrit depend on it.\n\nUntil we have that ready, maybe we should submit the change above not to block mac builds (?).",
+      "revId": "b59ba133413d46cef17479ee8d843d956fcb6d72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

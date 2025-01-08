@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f38b2dc_0e661cc7",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 9086,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-01-08T09:26:31Z",
+      "side": 1,
+      "message": "Thanks much for the suggestion. Indeed much better!",
+      "parentUuid": "026141b0_1011f635",
+      "range": {
+        "startLine": 9085,
+        "startChar": 0,
+        "endLine": 9086,
+        "endChar": 20
+      },
+      "revId": "5e08ecca92f3ec675fa9a5ab090a387ced378900",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "12136ad4_9ab7da93",
@@ -54,6 +78,30 @@
       "writtenOn": "2025-01-07T14:41:46Z",
       "side": 1,
       "message": "Optional: I think it\u0027s somewhat confusing that the class named ConflictsInfo does not store only the conflicts, but \"all the merges\". I initially thought that ours and theirs are only populated when there is a conflict, which is not the case.\n\nMaybe clarify in the comments, that ours and theirs are always set (or maybe it\u0027s just me, and it\u0027s pretty clear)",
+      "range": {
+        "startLine": 21,
+        "startChar": 13,
+        "endLine": 21,
+        "endChar": 26
+      },
+      "revId": "5e08ecca92f3ec675fa9a5ab090a387ced378900",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6886985f_1b3bd5f4",
+        "filename": "java/com/google/gerrit/extensions/common/ConflictsInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-01-08T09:26:31Z",
+      "side": 1,
+      "message": "\u003e I initially thought that ours and theirs are only populated when there is\n\u003e a conflict, which is not the case.\n\nYes, ours and theirs are mostly only relevant when there are conflicts, but since we have them available also when there are no conflicts, I thought it\u0027s nice to return them anyway.\n\n\u003e Maybe clarify in the comments, that ours and theirs are always set (or maybe\n\u003e it\u0027s just me, and it\u0027s pretty clear)\n\nYes, at the moment our and theirs are always set, becauce we populete the conflicts field in RevisionInfo only for revisions that were created by Gerrit while performing a Git merge (where we always know ours and theirs).\n\nHowever thinking more about this, I think in the future we may want to set the conflicts field in RevisionInfo also for revisions which were not created as a result of performing a Git merge. Those revisions are known to not have any conflicts, so we could set a ConflictsInfo with \"contains_conflicts\u003dfalse\" for them, but for those revisions ours and theirs would unset then. To be able to do this later without breaking the API, I made the \u0027ours\u0027 and \u0027theirs\u0027 fields in ConflictsInfo optional now, although currently they are always set.\n\nI\u0027ve updated the documentation accordingly and also added a paragraph to the commit message to explain this.\n\nPlease let me know if this doesn\u0027t make sense to you.",
+      "parentUuid": "12136ad4_9ab7da93",
       "range": {
         "startLine": 21,
         "startChar": 13,

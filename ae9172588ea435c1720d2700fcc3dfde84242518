@@ -1,6 +1,40 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae11ef8b_81f63e85",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-01-08T14:56:14Z",
+      "side": 1,
+      "message": "```suggestion\nProvide test to check email notification with comments in unchanged file\n```",
+      "revId": "ae9172588ea435c1720d2700fcc3dfde84242518",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d68847d_ad33ba85",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-01-08T14:56:14Z",
+      "side": 1,
+      "message": "Missing issue reference?",
+      "revId": "ae9172588ea435c1720d2700fcc3dfde84242518",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "da99a8ca_0419cd73",
@@ -14,6 +48,46 @@
       "writtenOn": "2025-01-08T12:55:04Z",
       "side": 1,
       "message": "This is the first iteration of the test. It is confirmed that it fails in `stable-3.5` as it is exposed in the issue 387440281",
+      "revId": "ae9172588ea435c1720d2700fcc3dfde84242518",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d05c72b3_37e80876",
+        "filename": "javatests/com/google/gerrit/acceptance/server/mail/AbstractMailIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-01-08T14:56:14Z",
+      "side": 1,
+      "message": "nit: extra line",
+      "revId": "ae9172588ea435c1720d2700fcc3dfde84242518",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0d2c7c3_9b56dcf7",
+        "filename": "javatests/com/google/gerrit/acceptance/server/mail/AbstractMailIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-01-08T14:56:14Z",
+      "side": 1,
+      "message": "Why do we need a second draft from a different user?",
+      "range": {
+        "startLine": 110,
+        "startChar": 4,
+        "endLine": 110,
+        "endChar": 16
+      },
       "revId": "ae9172588ea435c1720d2700fcc3dfde84242518",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

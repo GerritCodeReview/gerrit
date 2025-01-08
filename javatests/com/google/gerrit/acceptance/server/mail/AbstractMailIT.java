@@ -18,19 +18,41 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
+import com.google.gerrit.entities.Patch;
+import com.google.gerrit.entities.Project;
+import com.google.gerrit.extensions.api.changes.ChangeApi;
+import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
+import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.client.Side;
+import com.google.gerrit.extensions.common.ChangeInput;
+import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.mail.MailMessage;
+import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
+
+import java.io.File;
+import java.nio.file.Path;
 import java.time.Instant;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
+
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.junit.TestRepository;
+import org.junit.Assert;
 import org.junit.Ignore;
 
 @Ignore
 public class AbstractMailIT extends AbstractDaemonTest {
+  @Inject
+  private ProjectOperations projectOperations;
+  @Inject protected SitePaths sitePaths;
+
   @Inject private RequestScopeOperations requestScopeOperations;
 
   static final String FILE_NAME = "gerrit-server/test.txt";
@@ -67,6 +89,74 @@ public class AbstractMailIT extends AbstractDaemonTest {
     input.comments.put(c1.path, ImmutableList.of(c1, c2));
     revision(r).review(input);
     return changeId;
+  }
+
+  String createChangeWithUnchangedFileReviewed(TestAccount reviewer) throws Exception {
+
+    ////// create empty project
+    Path gitPath = sitePaths.site_path.resolve("git");
+    System.out.println(">>>>>> absolute path " + gitPath.toAbsolutePath());
+    String testProjectName = project + "_TEST_REPLICATION_SUFFIX";
+    Project.NameKey testProjectNameKey = createTestProject(testProjectName);
+    TestRepository<InMemoryRepository> repo = cloneProject(testProjectNameKey, admin);
+
+    ////// create a change with FILE_NAME and merge it
+    String contents = "contents \nlorem \nipsum \nlorem";
+    PushOneCommit push = pushFactory.create(admin.newIdent(), repo, "first subject", FILE_NAME, contents);
+    PushOneCommit.Result firstChangeResult = push.to("refs/for/master");
+    firstChangeResult.assertOkStatus();
+    merge(firstChangeResult);
+
+    ////// create a second change with nothing
+    requestScopeOperations.setApiUser(admin.id());
+    String secondChangeId  = gApi.changes().create(new ChangeInput(testProjectName, "master", "second subject")).get().id;
+    RevisionApi secondChangeRevision = gApi.changes().id(secondChangeId).current();
+    secondChangeRevision.files().keySet().forEach(file -> System.out.println(">>>>> before file: " + file));
+
+    ////// add draft
+    DraftInput draftInputFromAdmin = new DraftInput();
+    draftInputFromAdmin.line = 1;
+    draftInputFromAdmin.message = "nit: trailing whitespace";
+    draftInputFromAdmin.path = FILE_NAME;
+    draftInputFromAdmin.side = Side.REVISION;
+    draftInputFromAdmin.unresolved = true;
+    draftInputFromAdmin.patchSet = 1;
+    secondChangeRevision.createDraft(draftInputFromAdmin);
+
+    ReviewInput adminInput = new ReviewInput();
+    adminInput.message = "I review and I like my drafts comments";
+    adminInput.drafts = ReviewInput.DraftHandling.PUBLISH_ALL_REVISIONS;
+    secondChangeRevision.review(adminInput);
+    gApi.changes().id(secondChangeId).current().files().keySet().forEach(file -> System.out.println(">>>>> after file: " + file));
+
+    List<CommentInfo> comments  = gApi.changes().id(secondChangeId).commentsRequest().getAsList();
+    Assert.assertEquals(comments.size(), 1);
+
+    CommentInfo adminCommentInfo = comments.get(0);
+    System.out.println(">>>>> comment is " + adminCommentInfo.id);
+    requestScopeOperations.setApiUser(reviewer.id());
+    ////// add draft
+    DraftInput draftInputFromUser = new DraftInput();
+    draftInputFromUser.line = 1;
+    draftInputFromUser.message = "please, remove the line";
+    draftInputFromUser.path = FILE_NAME;
+//    draftInputFromUser.side = Side.REVISION;
+    draftInputFromUser.unresolved = true;
+    draftInputFromUser.patchSet = 1;
+    draftInputFromUser.inReplyTo = adminCommentInfo.id;
+
+    gApi.changes().id(secondChangeId).current().createDraft(draftInputFromUser);
+
+    // Review it
+    ReviewInput reviewerInput = new ReviewInput();
+    reviewerInput.message = "as a reviewwe I have one comment";
+//    reviewerInput.comments = new HashMap<>();
+//    CommentInput reviewerComment = newComment(FILE_NAME, Side.REVISION, 2, "inline comment from revier");
+//    reviewerInput.comments.put(reviewerComment.path, ImmutableList.of(reviewerComment));
+    gApi.changes().id(secondChangeId).current().review(reviewerInput);
+
+    Thread.sleep(60000);
+    return secondChangeId;
   }
 
   protected static CommentInput newComment(String path, Side side, int line, String message) {
@@ -143,5 +233,9 @@ public class AbstractMailIT extends AbstractDaemonTest {
         + "Gerrit-Comment-Date: "
         + timestamp
         + "\n";
+  }
+
+  protected Project.NameKey createTestProject(String name) throws Exception {
+    return projectOperations.newProject().name(name).create();
   }
 }

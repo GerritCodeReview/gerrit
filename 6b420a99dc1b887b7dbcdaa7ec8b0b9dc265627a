@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eeaad3fb_4abfda2c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2025-01-08T21:13:39Z",
+      "side": 1,
+      "message": "**This is an amazing feature to have!**\n\nI was the one tasked in writting the original guidelines for Wikimedia and they can be seen at https://www.mediawiki.org/wiki/Gerrit/Commit_message_guidelines  , under _further reading_ are links to more guidelines.\n\n\nWe have a Python based validator that is triggered on an opt-in basis, with rules at eg https://gitlab.wikimedia.org/repos/ci-tools/commit-message-validator/-/blob/main/src/commit_message_validator/validators/rules.py  which are then assembled as in https://gitlab.wikimedia.org/repos/ci-tools/commit-message-validator/-/blob/main/src/commit_message_validator/validators/wikimedia.py?ref_type\u003dheads#L69\n\nAnyway, that was merely to give some third party context.",
+      "revId": "6b420a99dc1b887b7dbcdaa7ec8b0b9dc265627a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -18,7 +18,7 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.gerrit.extensions.api.access.GerritPermission;
 
-public enum RefPermission implements GerritPermission {
+public enum RefPermission implements RefPermissionOrLabel {
   READ,
   CREATE,
 

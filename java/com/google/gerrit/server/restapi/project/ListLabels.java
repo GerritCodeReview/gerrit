@@ -17,6 +17,8 @@ package com.google.gerrit.server.restapi.project;
 import com.google.common.collect.ImmutableCollection;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.extensions.common.LabelDefinitionInfo;
+import com.google.gerrit.extensions.common.VotingRangeInfo;
+import com.google.gerrit.entities.LabelValue;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -24,10 +26,13 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
+import com.google.gerrit.server.permissions.LabelPermission;
 import com.google.gerrit.server.project.LabelDefinitionJson;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.common.primitives.Ints;
 import com.google.inject.Inject;
+import java.util.Set;
 import com.google.inject.Provider;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -52,6 +57,14 @@ public class ListLabels implements RestReadView<ProjectResource> {
     return this;
   }
 
+  @Option(name = "--votable", usage = "to include label definitions that user can vote on")
+  private boolean votable;
+
+  public ListLabels withVotable(boolean votable) {
+    this.votable = votable;
+    return this;
+  }
+
   @Override
   public Response<List<LabelDefinitionInfo>> apply(ProjectResource rsrc)
       throws AuthException, PermissionBackendException {
@@ -72,11 +85,11 @@ public class ListLabels implements RestReadView<ProjectResource> {
         }
         allLabels.addAll(listLabels(projectState));
       }
-      return Response.ok(allLabels);
+      return Response.ok(filterLabelsThatUserCanVoteOn(rsrc, allLabels));
     }
 
     permissionBackend.currentUser().project(rsrc.getNameKey()).check(ProjectPermission.READ_CONFIG);
-    return Response.ok(listLabels(rsrc.getProjectState()));
+    return Response.ok(filterLabelsThatUserCanVoteOn(rsrc, listLabels(rsrc.getProjectState())));
   }
 
   private List<LabelDefinitionInfo> listLabels(ProjectState projectState) {
@@ -89,4 +102,40 @@ public class ListLabels implements RestReadView<ProjectResource> {
     labels.sort(Comparator.comparing(l -> l.name));
     return labels;
   }
+
+  public List<LabelDefinitionInfo> filterLabelsThatUserCanVoteOn(ProjectResource rsrc, List<LabelDefinitionInfo> allLabels)
+    throws AuthException, PermissionBackendException {
+  if (!votable) {
+    return allLabels;
+  }
+  permissionBackend.currentUser().project(rsrc.getNameKey()).check(ProjectPermission.READ_CONFIG);
+  
+  List<LabelDefinitionInfo> labelsThatUserCanVoteOn = new ArrayList<>();
+  for (LabelDefinitionInfo label : allLabels) {
+    java.util.Optional<LabelType> lt = rsrc.getProjectState().getLabelTypes().byLabel(label.name);
+    if (!lt.isPresent()) {
+      continue;
+    }
+
+    LabelType labelType = lt.get();
+
+    //TODO: solve the problem of testing labeltype on project
+    //ForPoject test(CoreOrPluginProjectPermission)
+    //ForChange test(ChangePermissionOrLabel) - but we don't have a change here, this is before change is created
+
+    Set<LabelPermission.WithValue> can =
+            permissionBackend.currentUser().project(rsrc.getNameKey()).test(labelType);
+
+    for (LabelValue v : labelType.getValues()) {
+      boolean ok = can.contains(new LabelPermission.WithValue(labelType, v));
+      if (ok && v.getValue() > 0) {
+        labelsThatUserCanVoteOn.add(label);
+        break;
+      }
+    }
+  }
+  
+  return labelsThatUserCanVoteOn;
 }
+}
+

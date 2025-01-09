@@ -255,10 +255,17 @@ public interface ProjectApi {
   abstract class ListLabelsRequest {
     protected boolean inherited;
 
+    protected String voteable;
+
     public abstract List<LabelDefinitionInfo> get() throws RestApiException;
 
     public ListLabelsRequest withInherited(boolean inherited) {
       this.inherited = inherited;
+      return this;
+    }
+
+    public ListLabelsRequest withVoteable(String voteable) {
+      this.voteable = voteable;
       return this;
     }
   }

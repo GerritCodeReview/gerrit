@@ -74,6 +74,24 @@
       "parentUuid": "61d09898_01a7aa90",
       "revId": "10c59c1e924f58b83fb4075b6875a00766ae61df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5587da1d_8e01390e",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/CopiedApprovalsInChangeMessageIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-01-09T09:37:58Z",
+      "side": 1,
+      "message": "Thanks!",
+      "parentUuid": "8c37f71c_faa64f86",
+      "revId": "10c59c1e924f58b83fb4075b6875a00766ae61df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

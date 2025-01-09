@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1bd9faa_9bd19203",
+        "filename": "java/com/google/gerrit/server/cache/PersistentCacheBaseFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-01-09T17:17:16Z",
+      "side": 1,
+      "message": "Should this be annotated `@Nullable`?\n\nAlso, just FYI for @syntonyze@gmail.com, the chroniclemap-cache impl will need an update because it extends this class too: https://gerrit.googlesource.com/modules/cache-chroniclemap/+/refs/heads/master/src/main/java/com/googlesource/gerrit/modules/cache/chroniclemap/ChronicleMapCacheFactory.java",
+      "range": {
+        "startLine": 35,
+        "startChar": 77,
+        "endLine": 35,
+        "endChar": 90
+      },
+      "revId": "07e3a240eb08e2425f3532d2b14b7e2e19c7e190",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

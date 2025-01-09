@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "49166ca7_0c2fed72",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1096249
+      },
+      "writtenOn": "2025-01-09T08:12:19Z",
+      "side": 1,
+      "message": "How about `allowDeletion`? Attemped in latest PS",
+      "parentUuid": "165ecd43_bd0e7247",
+      "revId": "20a154ff6b30a75449fa8f837b8d16a1be840fec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cd1c0240_cc4497f1",
         "filename": "Documentation/rest-api-accounts.txt",
         "patchSetId": 10
@@ -48,6 +66,24 @@
       "writtenOn": "2025-01-08T16:10:30Z",
       "side": 1,
       "message": "I would state this in the positive, something like if ... is enabled, and link to the config setting (something like that is done on line 92 above).",
+      "revId": "20a154ff6b30a75449fa8f837b8d16a1be840fec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5b282f6_5c4e5663",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1096249
+      },
+      "writtenOn": "2025-01-09T08:12:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd1c0240_cc4497f1",
       "revId": "20a154ff6b30a75449fa8f837b8d16a1be840fec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -65,6 +101,24 @@
       "writtenOn": "2025-01-08T16:10:30Z",
       "side": 1,
       "message": "Use an \"is\" wording for booleans?",
+      "revId": "20a154ff6b30a75449fa8f837b8d16a1be840fec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a827bb2_9009ddfa",
+        "filename": "java/com/google/gerrit/server/config/AccountConfig.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1096249
+      },
+      "writtenOn": "2025-01-09T08:12:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1da17781_ccade600",
       "revId": "20a154ff6b30a75449fa8f837b8d16a1be840fec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

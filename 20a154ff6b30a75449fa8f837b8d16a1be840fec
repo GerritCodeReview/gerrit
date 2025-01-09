@@ -55,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c5437db0_6d0418be",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-01-09T18:27:13Z",
+      "side": 1,
+      "message": "As much as I don\u0027t like the redundancy, this whole section should probably mirror groups.enableDeleteGroup very closely, only deviating where we can improve upon it (adding links). If others feel it is OK to deviate on the naming from the existing group naming, then accounts.enableDelete might be a good compromise instead of enable.deleteAccount?",
+      "parentUuid": "49166ca7_0c2fed72",
+      "revId": "20a154ff6b30a75449fa8f837b8d16a1be840fec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cd1c0240_cc4497f1",
         "filename": "Documentation/rest-api-accounts.txt",
         "patchSetId": 10

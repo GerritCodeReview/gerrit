@@ -142,6 +142,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b26cafa_2c491ffa",
+        "filename": "java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-01-09T17:02:02Z",
+      "side": 1,
+      "message": "It\u0027s probably fine. After I posted this I noticed `BatchProgramModule` has an import from the `cache.h2` package, so it\u0027s probably ok here too.",
+      "parentUuid": "2ea158fa_2087f712",
+      "revId": "f625a8adf4979c20bf2e1e80b5e11df421842f1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4ddfad1d_5662829c",

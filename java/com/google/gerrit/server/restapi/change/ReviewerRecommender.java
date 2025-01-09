@@ -14,10 +14,12 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
@@ -48,7 +50,6 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -203,7 +204,7 @@ public class ReviewerRecommender {
     int numberOfRelevantChanges = config.getInt("suggest", "relevantChanges", 50);
     // Get the user's last numberOfRelevantChanges changes, check reviewers
     try {
-      ImmutableList<ChangeData> result =
+      ImmutableList<ChangeData> changes =
           queryProvider
               .get()
               .setLimit(numberOfRelevantChanges)
@@ -213,9 +214,13 @@ public class ReviewerRecommender {
       // Put those candidates at the bottom of the list
       candidateList.stream().forEach(id -> suggestions.put(id, new MutableDouble(0)));
 
-      for (ChangeData cd : result) {
+      ImmutableSet<Account.Id> candidateIds =
+          changes.stream().flatMap(cd -> cd.reviewers().all().stream()).collect(toImmutableSet());
+      Map<Account.Id, AccountState> candidateStates = accountCache.get(candidateIds);
+
+      for (ChangeData cd : changes) {
         for (Account.Id reviewer : cd.reviewers().all()) {
-          if (accountMatchesQuery(reviewer, query)) {
+          if (accountMatchesQuery(candidateStates.get(reviewer), query)) {
             suggestions
                 .computeIfAbsent(reviewer, (ignored) -> new MutableDouble(0))
                 .add(baseWeight);
@@ -230,13 +235,15 @@ public class ReviewerRecommender {
     }
   }
 
-  private boolean accountMatchesQuery(Account.Id id, String query) {
-    Optional<Account> account = accountCache.get(id).map(AccountState::account);
-    if (account.isPresent() && account.get().isActive()) {
+  private boolean accountMatchesQuery(AccountState accountState, String query) {
+    if (accountState == null) {
+      return false;
+    }
+    Account account = accountState.account();
+    if (account.isActive()) {
       if (Strings.isNullOrEmpty(query)
-          || (account.get().fullName() != null && account.get().fullName().startsWith(query))
-          || (account.get().preferredEmail() != null
-              && account.get().preferredEmail().startsWith(query))) {
+          || (account.fullName() != null && account.fullName().startsWith(query))
+          || (account.preferredEmail() != null && account.preferredEmail().startsWith(query))) {
         return true;
       }
     }

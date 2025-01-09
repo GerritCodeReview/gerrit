@@ -45,6 +45,11 @@ import {resolve} from '../../../models/dependency';
 import {formStyles} from '../../../styles/form-styles';
 import {changeViewModelToken} from '../../../models/views/change';
 import {SpecialFilePath} from '../../../constants/constants';
+import {
+  detectFormattingErrorsInString,
+  formatCommitMessageString,
+  FormattingError,
+} from '../../../utils/commit-message-formatter-util';
 
 const RESTORED_MESSAGE = 'Content restored from a previous edit.';
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
@@ -210,6 +215,7 @@ export class GrEditableContent extends LitElement {
         .editButtons {
           display: flex;
           justify-content: space-between;
+          align-items: center;
         }
         .show-all-container {
           background-color: var(--view-background-color);
@@ -254,6 +260,12 @@ export class GrEditableContent extends LitElement {
         }
         gr-button {
           padding: var(--spacing-xs);
+        }
+        .format-button {
+          margin-right: var(--spacing-l);
+        }
+        gr-icon.warning {
+          color: var(--warning-foreground);
         }
       `,
     ];
@@ -308,6 +320,13 @@ export class GrEditableContent extends LitElement {
     if (!this.editing && !this.commitCollapsible && this.hideEditCommitMessage)
       return nothing;
 
+    let formatDisabled = true;
+    let formattedErrors: FormattingError[] = [];
+    if (this.newContent) {
+      formatDisabled =
+        formatCommitMessageString(this.newContent) === this.newContent;
+      formattedErrors = detectFormattingErrorsInString(this.newContent);
+    }
     return html`
       <div class="show-all-container font-normal">
         ${when(
@@ -362,6 +381,22 @@ export class GrEditableContent extends LitElement {
             <span></div>`
             )}
             <div class="editButtons">
+              ${when(
+                formattedErrors.length > 0,
+                () => html`<gr-tooltip-content
+                  .title=${formattedErrors
+                    .map(e => `${e.line ? `Line ${e.line}: ` : ''}${e.message}`)
+                    .join('\n')}
+                  ><gr-icon class="warning" icon="warning" filled></gr-icon
+                ></gr-tooltip-content>`
+              )}
+              <gr-button
+                link
+                class="format-button"
+                @click=${this.handleFormat}
+                ?disabled=${formatDisabled}
+                >Format</gr-button
+              >
               <gr-button
                 link
                 class="cancel-button"
@@ -546,6 +581,11 @@ export class GrEditableContent extends LitElement {
         value: e.email,
       };
     });
+  }
+
+  handleFormat(e: Event) {
+    e.preventDefault();
+    this.newContent = formatCommitMessageString(this.newContent);
   }
 
   private setCommitterEmail(e: CustomEvent<{value: string}>) {

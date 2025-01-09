@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "203758e7_44d30757",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-01-09T08:46:41Z",
+      "side": 1,
+      "message": "Nice commit message. Thanks!",
+      "revId": "10c59c1e924f58b83fb4075b6875a00766ae61df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ba7f72c_e378e09b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-01-09T08:46:41Z",
+      "side": 1,
+      "message": "I like this, nice idea!",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 7
+      },
+      "revId": "10c59c1e924f58b83fb4075b6875a00766ae61df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61d09898_01a7aa90",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/CopiedApprovalsInChangeMessageIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-01-09T08:46:41Z",
+      "side": 1,
+      "message": "[optional] This test looks confusing (already before your change, but now even more):\nThe vote is copied, but the copy condition says votes are never copied, which looks like a contradiction.\n\nThere are more cases like this below.\n\nI guess this is because we are testing only the formatting logic here and this ApprovalCopier.Result is a case that cannot happen in practise. Maybe worth to add a comment about this?",
+      "revId": "10c59c1e924f58b83fb4075b6875a00766ae61df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

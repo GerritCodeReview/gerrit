@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.stream.Collectors.toList;
@@ -26,6 +27,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
+import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.LabelFunction;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.Permission;
@@ -33,6 +35,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.common.LabelDefinitionInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.inject.Inject;
 import java.util.List;
 import java.util.Optional;
@@ -267,6 +270,82 @@ public class ListLabelsIT extends AbstractDaemonTest {
     assertThat(labels.get(1).projectName).isEqualTo(project.get());
     assertThat(labels.get(2).name).isEqualTo("bar");
     assertThat(labels.get(2).projectName).isEqualTo(childProject.get());
+  }
+
+  @Test
+  public void voteableOnRefNotFound() throws Exception {
+    // Grant permission to read refs/meta/config
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.READ).ref(RefNames.REFS_CONFIG).group(REGISTERED_USERS))
+        .update();
+
+    requestScopeOperations.setApiUser(user.id());
+
+    // This should now throw ResourceConflictException since the branch doesn't exist
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () ->
+                gApi.projects()
+                    .name(project.get())
+                    .labels()
+                    .withVoteableOnRef("non-existing")
+                    .get());
+    assertThat(thrown).hasMessageThat().contains("ref \"refs/heads/non-existing\" not found");
+  }
+
+  @Test
+  public void voteableOnRef() throws Exception {
+    configLabel("foo", LabelFunction.NO_OP);
+    configLabel("bar", LabelFunction.NO_OP);
+
+    // Grant permissions to read config and vote on 'foo' label with full range (-2 to +2)
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.READ).ref(RefNames.REFS_CONFIG).group(REGISTERED_USERS))
+        .add(allowLabel("foo").ref("refs/heads/master").group(REGISTERED_USERS).range(-2, 2))
+        .update();
+
+    requestScopeOperations.setApiUser(user.id());
+
+    List<LabelDefinitionInfo> labels =
+        gApi.projects().name(project.get()).labels().withVoteableOnRef("refs/heads/master").get();
+
+    assertThat(labelNames(labels)).containsExactly("foo");
+  }
+
+  @Test
+  public void voteableOnRefRespectsBranchRestrictions() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.READ).ref(RefNames.REFS_CONFIG).group(REGISTERED_USERS))
+        .add(allow(Permission.CREATE).ref("refs/heads/*").group(REGISTERED_USERS))
+        .update();
+
+    // Create a label that's only valid on master
+    configLabel("foo", LabelFunction.NO_OP, ImmutableList.of("refs/heads/master"));
+
+    // Grant permission to vote on 'foo' label on all branches
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allowLabel("foo").ref("refs/heads/*").group(REGISTERED_USERS).range(-2, 2))
+        .update();
+
+    requestScopeOperations.setApiUser(user.id());
+
+    List<LabelDefinitionInfo> labels =
+        gApi.projects().name(project.get()).labels().withVoteableOnRef("refs/heads/master").get();
+    assertThat(labelNames(labels)).containsExactly("foo");
+
+    createBranch(BranchNameKey.create(project, "refs/heads/develop"));
+    labels =
+        gApi.projects().name(project.get()).labels().withVoteableOnRef("refs/heads/develop").get();
+    assertThat(labels).isEmpty();
   }
 
   private static List<String> labelNames(List<LabelDefinitionInfo> labels) {

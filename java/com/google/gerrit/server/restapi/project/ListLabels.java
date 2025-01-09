@@ -17,6 +17,8 @@ package com.google.gerrit.server.restapi.project;
 import com.google.common.collect.ImmutableCollection;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.extensions.common.LabelDefinitionInfo;
+import com.google.gerrit.extensions.common.VotingRangeInfo;
+import com.google.gerrit.entities.LabelValue;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -24,10 +26,13 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
+import com.google.gerrit.server.permissions.LabelPermission;
 import com.google.gerrit.server.project.LabelDefinitionJson;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.common.primitives.Ints;
 import com.google.inject.Inject;
+import java.util.Set;
 import com.google.inject.Provider;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -44,11 +49,11 @@ public class ListLabels implements RestReadView<ProjectResource> {
     this.permissionBackend = permissionBackend;
   }
 
-  @Option(name = "--inherited", usage = "to include inherited label definitions")
-  private boolean inherited;
+  @Option(name = "--voteable", usage = "to include only labels voteable for the given ref and current user")
+  private String voteable;
 
-  public ListLabels withInherited(boolean inherited) {
-    this.inherited = inherited;
+  public ListLabels withVoteable(String ref) {
+    this.voteable = ref;
     return this;
   }
 
@@ -72,16 +77,27 @@ public class ListLabels implements RestReadView<ProjectResource> {
         }
         allLabels.addAll(listLabels(projectState));
       }
-      return Response.ok(allLabels);
+      return Response.ok(filterLabelsThatUserCanVoteOn(rsrc, allLabels));
     }
 
     permissionBackend.currentUser().project(rsrc.getNameKey()).check(ProjectPermission.READ_CONFIG);
-    return Response.ok(listLabels(rsrc.getProjectState()));
+    return Response.ok(filterLabelsThatUserCanVoteOn(rsrc, listLabels(rsrc.getProjectState())));
+  }
+
+  private List<LabelDefinitionInfo> listVoteableLabels(ProjectState projectState, String ref) {
+    ImmutableCollection<LabelType> labelTypes = projectState.getConfig().getLabelSections().values();
+    List<LabelDefinitionInfo> labels = new ArrayList<>(labelTypes.size());
+    for (LabelType labelType : labelTypes) {
+      if (labelType.getRefPatterns() == null || labelType.getRefPatterns().contains(ref)) {
+        labels.add(LabelDefinitionJson.format(projectState.getNameKey(), labelType));
+      }
+    }
+    labels.sort(Comparator.comparing(l -> l.name));
+    return labels;
   }
 
   private List<LabelDefinitionInfo> listLabels(ProjectState projectState) {
-    ImmutableCollection<LabelType> labelTypes =
-        projectState.getConfig().getLabelSections().values();
+    ImmutableCollection<LabelType> labelTypes = projectState.getConfig().getLabelSections().values();
     List<LabelDefinitionInfo> labels = new ArrayList<>(labelTypes.size());
     for (LabelType labelType : labelTypes) {
       labels.add(LabelDefinitionJson.format(projectState.getNameKey(), labelType));
@@ -89,4 +105,46 @@ public class ListLabels implements RestReadView<ProjectResource> {
     labels.sort(Comparator.comparing(l -> l.name));
     return labels;
   }
+
+  public List<LabelDefinitionInfo> filterLabelsThatUserCanVoteOn(ProjectResource rsrc, List<LabelDefinitionInfo> allLabels)
+    throws AuthException, PermissionBackendException {
+  if (voteable != null) {
+    return allLabels;
+  }
+   
+  // Prefix refs/heads/ if the ref doesn't start with refs/
+  String ref = voteable.startsWith("refs/") ? voteable : "refs/heads/" + voteable;
+
+  permissionBackend.currentUser().project(rsrc.getNameKey()).check(ProjectPermission.READ_CONFIG);
+
+  BranchNameKey branchNameKey = BranchNameKey.createBranchKey(rsrc.getNameKey(), ref);
+  
+  List<LabelDefinitionInfo> labelsThatUserCanVoteOn = new ArrayList<>();
+  for (LabelDefinitionInfo label : allLabels) {
+    java.util.Optional<LabelType> lt = rsrc.getProjectState().getLabelTypes().byLabel(label.name);
+    if (!lt.isPresent()) {
+      continue;
+    }
+
+    LabelType labelType = lt.get();
+
+    //TODO: solve the problem of testing labeltype on project
+    //ForPoject test(CoreOrPluginProjectPermission)
+    //ForChange test(ChangePermissionOrLabel) - but we don't have a change here, this is before change is created
+
+    Set<LabelPermission.WithValue> can =
+            permissionBackend.currentUser().project(rsrc.getNameKey()).test(labelType);
+
+    for (LabelValue v : labelType.getValues()) {
+      boolean ok = can.contains(new LabelPermission.WithValue(labelType, v));
+      if (ok && v.getValue() > 0) {
+        labelsThatUserCanVoteOn.add(label);
+        break;
+      }
+    }
+  }
+  
+  return labelsThatUserCanVoteOn;
 }
+}
+

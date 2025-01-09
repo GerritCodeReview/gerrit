@@ -73,6 +73,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "55207998_25fad639",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-01-09T18:44:28Z",
+      "side": 1,
+      "message": "Yeah, I think something like this would work (very similar to the groups text, but with a little less repetition):\n```\n[[accounts.enableDelete]]accounts.enableDelete::\n+\nControls whether to activate the delete accounts functionality.\nIf `true`, then users with permission can delete accounts via the web UI or via the\nlink:rest-api-accounts.html#delete-account][REST API].\n+\nBy default, `true`.\n+\n```",
+      "parentUuid": "c5437db0_6d0418be",
+      "revId": "20a154ff6b30a75449fa8f837b8d16a1be840fec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cd1c0240_cc4497f1",
         "filename": "Documentation/rest-api-accounts.txt",
         "patchSetId": 10

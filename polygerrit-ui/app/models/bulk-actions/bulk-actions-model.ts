@@ -25,7 +25,7 @@ import {
   ReviewResult,
 } from '../../types/common';
 import {getUserId} from '../../utils/account-util';
-import {getChangeNumber} from '../../utils/change-util';
+import {getChangeNumber, isChangeInfo} from '../../utils/change-util';
 import {deepEqual} from '../../utils/deep-util';
 import {throwingErrorCallback} from '../../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {assert} from '../../utils/common-util';
@@ -258,9 +258,13 @@ export class BulkActionsModel extends Model<BulkActionsState> {
     if (changes.length === 0) {
       return;
     }
+
+    // Don't ask for SUBMIT_REQUIREMENTS if it is already available.
+    const needsSubmitRequirements = !this.hasSubmitRequirements(changes[0]);
     const changeDetails =
       await this.restApiService.getDetailedChangesWithActions(
-        changes.map(c => getChangeNumber(c))
+        changes.map(c => getChangeNumber(c)),
+        needsSubmitRequirements
       );
     currentState = this.getState();
     // Return early if sync has been called again since starting the load.
@@ -269,13 +273,25 @@ export class BulkActionsModel extends Model<BulkActionsState> {
     }
     const allDetailedChanges: Map<NumericChangeId, ChangeInfo> = new Map();
     for (const detailedChange of changeDetails ?? []) {
-      allDetailedChanges.set(detailedChange._number, detailedChange);
+      allDetailedChanges.set(detailedChange._number, {
+        ...detailedChange,
+        submit_requirements: needsSubmitRequirements
+          ? detailedChange.submit_requirements
+          : (basicChanges.get(detailedChange._number) as ChangeInfo)
+              ?.submit_requirements,
+      });
     }
     this.setState({
       ...currentState,
       loadingState: LoadingState.LOADED,
       allChanges: allDetailedChanges,
     });
+  }
+
+  private hasSubmitRequirements(
+    change: ChangeInfo | RelatedChangeAndCommitInfo
+  ): boolean {
+    return isChangeInfo(change) && change.submit_requirements !== undefined;
   }
 
   private getNewReviewersToChange(

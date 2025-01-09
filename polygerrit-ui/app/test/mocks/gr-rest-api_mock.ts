@@ -269,7 +269,7 @@ export const grRestApiMock: RestApiService = {
   getChangesSubmittedTogether(): Promise<SubmittedTogetherInfo | undefined> {
     return Promise.resolve(createSubmittedTogetherInfo());
   },
-  getDetailedChangesWithActions(changeNums: NumericChangeId[]) {
+  getDetailedChangesWithActions(changeNums: NumericChangeId[], _?: boolean) {
     return Promise.resolve(
       changeNums.map(changeNum => {
         return {

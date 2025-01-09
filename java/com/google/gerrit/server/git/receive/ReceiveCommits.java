@@ -178,6 +178,7 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.PermissionDeniedException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.permissions.RefPermission;
+import com.google.gerrit.server.permissions.RefPermissionOrLabel;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.project.CreateRefControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -1818,13 +1819,13 @@ class ReceiveCommits {
     }
   }
 
-  private Optional<AuthException> checkRefPermission(ReceiveCommand cmd, RefPermission perm)
+  private Optional<AuthException> checkRefPermission(ReceiveCommand cmd, RefPermissionOrLabel perm)
       throws PermissionBackendException {
     return checkRefPermission(permissions.ref(cmd.getRefName()), perm);
   }
 
   private Optional<AuthException> checkRefPermission(
-      PermissionBackend.ForRef forRef, RefPermission perm) throws PermissionBackendException {
+      PermissionBackend.ForRef forRef, RefPermissionOrLabel perm) throws PermissionBackendException {
     try {
       forRef.check(perm);
       return Optional.empty();

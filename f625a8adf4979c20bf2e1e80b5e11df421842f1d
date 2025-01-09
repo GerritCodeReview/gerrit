@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "720b4357_64df40fd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-01-09T15:09:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4eca761_df652050",
+      "revId": "f625a8adf4979c20bf2e1e80b5e11df421842f1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "43a50f6e_e2270720",
@@ -53,6 +71,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "884470a1_d5786215",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-01-09T15:09:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b547091a_ee69dcf6",
+      "revId": "f625a8adf4979c20bf2e1e80b5e11df421842f1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ac046fe8_fb1b6246",
@@ -84,6 +120,24 @@
       "side": 1,
       "message": "Sounds reasonable, will try to do so.",
       "parentUuid": "ac046fe8_fb1b6246",
+      "revId": "f625a8adf4979c20bf2e1e80b5e11df421842f1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ea158fa_2087f712",
+        "filename": "java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-01-09T15:09:46Z",
+      "side": 1,
+      "message": "After another look at the code I am not sure if this would be a good design choice. If we move CacheOptions to the parent package then there are several issues:\n* it is in the `server.cache` package but it is not used from that package at all\n* the `server.cache.h2` is the only user of those options\n* at least the `BUILD_BLOOM_FILTER` is very likely `H2` specific, for performance reasons. Other cache implementations likely do not need it.\n\nI think it is better to leave `CacheOptions` in the `server.cache.h2` for now. It is only used/imported in from the top-level classes where guice modules are setup.\n\nWDYT?",
+      "parentUuid": "c85fbe75_361f7888",
       "revId": "f625a8adf4979c20bf2e1e80b5e11df421842f1d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -135,6 +189,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f35541d_28e92443",
+        "filename": "java/com/google/gerrit/server/cache/h2/CacheOptions.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-01-09T15:09:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "40119128_f1bb47ac",
+      "range": {
+        "startLine": 19,
+        "startChar": 2,
+        "endLine": 19,
+        "endChar": 22
+      },
+      "revId": "f625a8adf4979c20bf2e1e80b5e11df421842f1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "16831660_50c1469c",
@@ -148,6 +226,24 @@
       "writtenOn": "2024-12-20T21:38:50Z",
       "side": 1,
       "message": "Missing copyright/license header",
+      "revId": "f625a8adf4979c20bf2e1e80b5e11df421842f1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3eca81d_014aba06",
+        "filename": "java/com/google/gerrit/server/cache/h2/CacheStoreExecutor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-01-09T15:09:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16831660_50c1469c",
       "revId": "f625a8adf4979c20bf2e1e80b5e11df421842f1d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -189,6 +285,30 @@
       "side": 1,
       "message": "Acknowledged",
       "parentUuid": "d179d60d_e389c2ff",
+      "range": {
+        "startLine": 24,
+        "startChar": 18,
+        "endLine": 24,
+        "endChar": 36
+      },
+      "revId": "f625a8adf4979c20bf2e1e80b5e11df421842f1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "46de87a8_85082091",
+        "filename": "java/com/google/gerrit/server/cache/h2/MaintainLastAccess.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-01-09T15:09:46Z",
+      "side": 1,
+      "message": "This annotation class was added to this change my mistake. Removed it.",
+      "parentUuid": "c36ba460_05ec3aec",
       "range": {
         "startLine": 24,
         "startChar": 18,

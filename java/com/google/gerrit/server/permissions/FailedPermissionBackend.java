@@ -173,18 +173,18 @@ public class FailedPermissionBackend {
     }
 
     @Override
-    public void check(RefPermission perm) throws PermissionBackendException {
+    public void check(RefPermissionOrLabel perm) throws PermissionBackendException {
       throw new PermissionBackendException(message, cause);
     }
 
     @Override
-    public Set<RefPermission> test(Collection<RefPermission> permSet)
+    public <T extends RefPermissionOrLabel> Set<T> test(Collection<T> permSet)
         throws PermissionBackendException {
       throw new PermissionBackendException(message, cause);
     }
 
     @Override
-    public BooleanCondition testCond(RefPermission perm) {
+    public BooleanCondition testCond(RefPermissionOrLabel perm) {
       throw new UnsupportedOperationException(
           "FailedPermissionBackend does not support conditions");
     }

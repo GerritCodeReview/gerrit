@@ -808,7 +808,12 @@ public class ProjectApiImpl implements ProjectApi {
       @Override
       public List<LabelDefinitionInfo> get() throws RestApiException {
         try {
-          return listLabels.get().withInherited(inherited).apply(checkExists()).value();
+          return listLabels
+              .get()
+              .withInherited(inherited)
+              .withVoteableOnRef(voteableOnRef)
+              .apply(checkExists())
+              .value();
         } catch (Exception e) {
           throw asRestApiException("Cannot list labels", e);
         }

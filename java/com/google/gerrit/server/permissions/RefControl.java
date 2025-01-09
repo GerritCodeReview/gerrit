@@ -15,8 +15,12 @@
 package com.google.gerrit.server.permissions;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.gerrit.server.permissions.AbstractLabelPermission.ForUser.ON_BEHALF_OF;
+import static com.google.gerrit.server.permissions.DefaultPermissionMappings.labelPermissionName;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
@@ -43,6 +47,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Constants;
@@ -482,6 +487,7 @@ public class RefControl {
   }
 
   private class ForRefImpl extends ForRef {
+    private Map<String, PermissionRange> labels;
     private String resourcePath;
 
     @Override
@@ -518,7 +524,17 @@ public class RefControl {
     }
 
     @Override
-    public void check(RefPermission perm) throws AuthException, PermissionBackendException {
+    public void check(RefPermissionOrLabel perm) throws AuthException, PermissionBackendException {
+      if (perm instanceof RefPermission) {
+        check((RefPermission) perm);
+      } else {
+        if (!can(perm)) {
+          throw new AuthException(perm.describeForException() + " not permitted");
+        }
+      }
+    }
+
+    private void check(RefPermission perm) throws AuthException, PermissionBackendException {
       if (!can(perm)) {
         PermissionDeniedException pde = new PermissionDeniedException(perm, refName);
         switch (perm) {
@@ -610,10 +626,10 @@ public class RefControl {
     }
 
     @Override
-    public Set<RefPermission> test(Collection<RefPermission> permSet)
+    public <T extends RefPermissionOrLabel> Set<T> test(Collection<T> permSet)
         throws PermissionBackendException {
-      EnumSet<RefPermission> ok = EnumSet.noneOf(RefPermission.class);
-      for (RefPermission perm : permSet) {
+      Set<T> ok = newSet(permSet);
+      for (T perm : permSet) {
         if (can(perm)) {
           ok.add(perm);
         }
@@ -622,70 +638,108 @@ public class RefControl {
     }
 
     @Override
-    public BooleanCondition testCond(RefPermission perm) {
+    public BooleanCondition testCond(RefPermissionOrLabel perm) {
       return new PermissionBackendCondition.ForRef(this, perm, getUser());
     }
-  }
 
-  protected boolean can(RefPermission perm) throws PermissionBackendException {
-    switch (perm) {
-      case READ:
-        /* Internal users such as plugin users should be able to read all refs. */
-        if (getUser().isInternalUser()) {
-          return true;
+
+
+    private boolean can(RefPermissionOrLabel perm) throws PermissionBackendException {
+        if (perm instanceof RefPermission) {
+          return can((RefPermission) perm);
+        } else if (perm instanceof AbstractLabelPermission) {
+          return can((AbstractLabelPermission) perm);
+        } else if (perm instanceof AbstractLabelPermission.WithValue) {
+          return can((AbstractLabelPermission.WithValue) perm);
         }
-        if (refName.startsWith(Constants.R_TAGS)) {
-          return isTagVisible();
-        }
-        return refVisibilityControl.isVisible(projectControl, refName);
-      case CREATE:
-        // TODO This isn't an accurate test.
-        return canPerform(refPermissionName(perm));
-      case DELETE:
-        return canDelete();
-      case UPDATE:
-        return canUpdate();
-      case FORCE_UPDATE:
-        return canForceUpdate();
-      case SET_HEAD:
-        return projectControl.isOwner();
+        throw new PermissionBackendException(perm + " unsupported");
+      }
 
-      case FORGE_AUTHOR:
-        return canForgeAuthor();
-      case FORGE_COMMITTER:
-        return canForgeCommitter();
-      case FORGE_SERVER:
-        return canForgeGerritServerIdentity();
-      case MERGE:
-        return canUploadMerges();
+    private boolean can(RefPermission perm) throws PermissionBackendException {
+      switch (perm) {
+        case READ:
+          /* Internal users such as plugin users should be able to read all refs. */
+          if (getUser().isInternalUser()) {
+            return true;
+          }
+          if (refName.startsWith(Constants.R_TAGS)) {
+            return isTagVisible();
+          }
+          return refVisibilityControl.isVisible(projectControl, refName);
+        case CREATE:
+          // TODO This isn't an accurate test.
+          return canPerform(refPermissionName(perm));
+        case DELETE:
+          return canDelete();
+        case UPDATE:
+          return canUpdate();
+        case FORCE_UPDATE:
+          return canForceUpdate();
+        case SET_HEAD:
+          return projectControl.isOwner();
 
-      case CREATE_CHANGE:
-        return canUpload();
+        case FORGE_AUTHOR:
+          return canForgeAuthor();
+        case FORGE_COMMITTER:
+          return canForgeCommitter();
+        case FORGE_SERVER:
+          return canForgeGerritServerIdentity();
+        case MERGE:
+          return canUploadMerges();
 
-      case CREATE_TAG:
-      case CREATE_SIGNED_TAG:
-        return canPerform(refPermissionName(perm));
+        case CREATE_CHANGE:
+          return canUpload();
 
-      case UPDATE_BY_SUBMIT:
-        return projectControl.controlForRef(MagicBranch.NEW_CHANGE + refName).canSubmit(true);
+        case CREATE_TAG:
+        case CREATE_SIGNED_TAG:
+          return canPerform(refPermissionName(perm));
 
-      case READ_PRIVATE_CHANGES:
-        return canPerform(Permission.VIEW_PRIVATE_CHANGES);
+        case UPDATE_BY_SUBMIT:
+          return projectControl.controlForRef(MagicBranch.NEW_CHANGE + refName).canSubmit(true);
 
-      case READ_CONFIG:
-        return projectControl
-            .controlForRef(RefNames.REFS_CONFIG)
-            .canPerform(RefPermission.READ.name());
-      case WRITE_CONFIG:
-        return isOwner();
+        case READ_PRIVATE_CHANGES:
+          return canPerform(Permission.VIEW_PRIVATE_CHANGES);
 
-      case SKIP_VALIDATION:
-        return canForgeAuthor()
-            && canForgeCommitter()
-            && canForgeGerritServerIdentity()
-            && canUploadMerges();
+        case READ_CONFIG:
+          return projectControl
+              .controlForRef(RefNames.REFS_CONFIG)
+              .canPerform(RefPermission.READ.name());
+        case WRITE_CONFIG:
+          return isOwner();
+
+        case SKIP_VALIDATION:
+          return canForgeAuthor()
+              && canForgeCommitter()
+              && canForgeGerritServerIdentity()
+              && canUploadMerges();
+      }
+      throw new PermissionBackendException(perm + " unsupported");
     }
-    throw new PermissionBackendException(perm + " unsupported");
+
+    private boolean can(AbstractLabelPermission perm) {
+      return !label(labelPermissionName(perm)).isEmpty();
+    }
+
+    private boolean can(AbstractLabelPermission.WithValue perm) {
+      PermissionRange r = label(labelPermissionName(perm));
+      if (perm.forUser() == ON_BEHALF_OF && r.isEmpty()) {
+        return false;
+      }
+      return r.contains(perm.value());
+    }
+
+    private PermissionRange label(String permission) {
+      if (labels == null) {
+        labels = Maps.newHashMapWithExpectedSize(4);
+      }
+      PermissionRange r = labels.get(permission);
+      if (r == null) {
+        r = getRange(permission);
+        labels.put(permission, r);
+      }
+      return r;
+    }
+
   }
 
   private boolean isTagVisible() throws PermissionBackendException {
@@ -726,5 +780,16 @@ public class RefControl {
     // RefPermission that isn't associated with a permission name.
     return DefaultPermissionMappings.refPermissionName(refPermission)
         .orElseThrow(() -> new IllegalStateException("no name for " + refPermission));
+  }
+
+  // Same as in ChangeControl
+  private static <T extends RefPermissionOrLabel> Set<T> newSet(Collection<T> permSet) {
+    if (permSet instanceof EnumSet) {
+      @SuppressWarnings({"unchecked", "rawtypes"})
+      Set<T> s = ((EnumSet) permSet).clone();
+      s.clear();
+      return s;
+    }
+    return Sets.newHashSetWithExpectedSize(permSet.size());
   }
 }

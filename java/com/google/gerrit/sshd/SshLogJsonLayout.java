@@ -22,7 +22,6 @@ import static com.google.gerrit.sshd.SshLog.P_MESSAGE;
 import static com.google.gerrit.sshd.SshLog.P_SESSION;
 import static com.google.gerrit.sshd.SshLog.P_STATUS;
 import static com.google.gerrit.sshd.SshLog.P_TOTAL_CPU;
-import static com.google.gerrit.sshd.SshLog.P_TRACE_ID;
 import static com.google.gerrit.sshd.SshLog.P_USER_CPU;
 import static com.google.gerrit.sshd.SshLog.P_USER_NAME;
 import static com.google.gerrit.sshd.SshLog.P_WAIT;
@@ -45,7 +44,6 @@ public class SshLogJsonLayout extends JsonLayout {
   private class SshJsonLogEntry extends JsonLogEntry {
     public String timestamp;
     public String session;
-    public String traceId;
     public String thread;
     public String user;
     public String accountId;
@@ -72,7 +70,6 @@ public class SshLogJsonLayout extends JsonLayout {
     public SshJsonLogEntry(LoggingEvent event) {
       this.timestamp = timestampFormatter.format(event.getTimeStamp());
       this.session = getMdcString(event, P_SESSION);
-      this.traceId = getMdcString(event, P_TRACE_ID);
       this.thread = event.getThreadName();
       this.user = getMdcString(event, P_USER_NAME);
       this.accountId = getMdcString(event, P_ACCOUNT_ID);

@@ -19,9 +19,9 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.entities.EmailHeader;
+import com.google.gerrit.entities.EmailHeader.StringEmailHeader;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
-import com.google.gerrit.entities.EmailHeader.StringEmailHeader;
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
@@ -95,7 +95,7 @@ public class MailSenderIT extends AbstractMailIT {
   private String emailBodyWithCommentsInUnchangeFile(
       String changeURL, String commentId, String adminInlineComment, String userInlineComment) {
     return "Attention is currently required from: Administrator.\n"
-        + "User has posted comments on this change. ( "
+        + "User1 has posted comments on this change. ( "
         + changeURL
         + " )\n"
         + "\n"

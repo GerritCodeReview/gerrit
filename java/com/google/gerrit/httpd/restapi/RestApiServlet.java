@@ -19,7 +19,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.net.HttpHeaders.CONTENT_TYPE;
-import static com.google.gerrit.httpd.EnableTracingFilter.REQUEST_TRACE_CONTEXT;
 import static java.math.RoundingMode.CEILING;
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -143,7 +142,6 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
-import com.google.inject.name.Named;
 import com.google.inject.util.Providers;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -247,7 +245,6 @@ public class RestApiServlet extends HttpServlet {
     final DeadlineChecker.Factory deadlineCheckerFactory;
     final CancellationMetrics cancellationMetrics;
     final AclInfoController aclInfoController;
-    final Provider<TraceContext> requestTraceContext;
 
     @Inject
     Globals(
@@ -268,8 +265,7 @@ public class RestApiServlet extends HttpServlet {
         DynamicMap<DynamicOptions.DynamicBean> dynamicBeans,
         DeadlineChecker.Factory deadlineCheckerFactory,
         CancellationMetrics cancellationMetrics,
-        AclInfoController aclInfoController,
-        @Named(REQUEST_TRACE_CONTEXT) Provider<TraceContext> requestTraceContext) {
+        AclInfoController aclInfoController) {
       this.currentUser = currentUser;
       this.webSession = webSession;
       this.paramParser = paramParser;
@@ -289,7 +285,6 @@ public class RestApiServlet extends HttpServlet {
       this.deadlineCheckerFactory = deadlineCheckerFactory;
       this.cancellationMetrics = cancellationMetrics;
       this.aclInfoController = aclInfoController;
-      this.requestTraceContext = requestTraceContext;
     }
   }
 
@@ -329,444 +324,456 @@ public class RestApiServlet extends HttpServlet {
     RestResource rsrc = TopLevelResource.INSTANCE;
     ViewData viewData = null;
 
-    String requestUri = requestUri(req);
+    try (TraceContext traceContext = enableTracing(req, res)) {
+      String requestUri = requestUri(req);
 
-    try (PerThreadCache ignored = PerThreadCache.create()) {
-      List<IdString> path = splitPath(req);
-      TraceContext traceContext = globals.requestTraceContext.get();
-      RequestInfo requestInfo = createRequestInfo(traceContext, req, requestUri, path);
-      globals.requestListeners.runEach(l -> l.onRequest(requestInfo));
+      try (PerThreadCache ignored = PerThreadCache.create()) {
+        List<IdString> path = splitPath(req);
+        RequestInfo requestInfo = createRequestInfo(traceContext, req, requestUri, path);
+        globals.requestListeners.runEach(l -> l.onRequest(requestInfo));
 
-      globals.aclInfoController.enableAclLoggingIfUserCanViewAccess(traceContext);
+        globals.aclInfoController.enableAclLoggingIfUserCanViewAccess(traceContext);
 
-      // It's important that the PerformanceLogContext is closed before the response is sent to
-      // the client. Only this way it is ensured that the invocation of the PerformanceLogger
-      // plugins happens before the client sees the response. This is needed for being able to
-      // test performance logging from an acceptance test (see
-      // TraceIT#performanceLoggingForRestCall()).
-      try (RequestStateContext requestStateContext =
-              RequestStateContext.open()
-                  .addRequestStateProvider(
-                      globals.deadlineCheckerFactory.create(
-                          requestInfo, req.getHeader(X_GERRIT_DEADLINE)));
-          PerformanceLogContext performanceLogContext =
-              new PerformanceLogContext(globals.config, globals.performanceLoggers)) {
-        traceRequestData(req);
+        // It's important that the PerformanceLogContext is closed before the response is sent to
+        // the client. Only this way it is ensured that the invocation of the PerformanceLogger
+        // plugins happens before the client sees the response. This is needed for being able to
+        // test performance logging from an acceptance test (see
+        // TraceIT#performanceLoggingForRestCall()).
+        try (RequestStateContext requestStateContext =
+                RequestStateContext.open()
+                    .addRequestStateProvider(
+                        globals.deadlineCheckerFactory.create(
+                            requestInfo, req.getHeader(X_GERRIT_DEADLINE)));
+            PerformanceLogContext performanceLogContext =
+                new PerformanceLogContext(globals.config, globals.performanceLoggers)) {
+          traceRequestData(req);
 
-        if (corsResponder.filterCorsPreflight(req, res)) {
-          return;
-        }
-
-        qp = ParameterParser.getQueryParams(req);
-        corsResponder.checkCors(req, res, qp.hasXdOverride());
-        if (qp.hasXdOverride()) {
-          req = applyXdOverrides(req, qp);
-        }
-        checkUserSession(req);
-
-        RestCollection<RestResource, RestResource> rc = members.get();
-        globals
-            .permissionBackend
-            .currentUser()
-            .checkAny(GlobalPermission.fromAnnotation(rc.getClass()));
-
-        viewData = new ViewData(null, null);
-
-        if (path.isEmpty()) {
-          globals.quotaChecker.enforce(req);
-          if (rc instanceof NeedsParams) {
-            ((NeedsParams) rc).setParams(qp.params());
+          if (corsResponder.filterCorsPreflight(req, res)) {
+            return;
           }
 
-          if (isRead(req)) {
-            viewData = new ViewData(null, rc.list());
-          } else if (isPost(req)) {
-            RestView<RestResource> restCollectionView =
-                rc.views().get(PluginName.GERRIT, "POST_ON_COLLECTION./");
-            if (restCollectionView != null) {
-              viewData = new ViewData(null, restCollectionView);
-            } else {
-              throw methodNotAllowed(req);
-            }
-          } else {
-            // DELETE on root collections is not supported
-            throw methodNotAllowed(req);
+          qp = ParameterParser.getQueryParams(req);
+          corsResponder.checkCors(req, res, qp.hasXdOverride());
+          if (qp.hasXdOverride()) {
+            req = applyXdOverrides(req, qp);
           }
-        } else {
-          IdString id = path.remove(0);
-          try {
-            rsrc = parseResourceWithRetry(req, traceContext, viewData.pluginName, rc, rsrc, id);
-            globals.quotaChecker.enforce(rsrc, req);
-            if (path.isEmpty()) {
-              checkPreconditions(req);
-            }
-          } catch (ResourceNotFoundException e) {
-            if (!path.isEmpty()) {
-              throw e;
-            }
-            globals.quotaChecker.enforce(req);
+          checkUserSession(req);
 
-            if (isPost(req) || isPut(req)) {
-              RestView<RestResource> createView = rc.views().get(PluginName.GERRIT, "CREATE./");
-              if (createView != null) {
-                viewData = new ViewData(null, createView);
-                path.add(id);
-              } else {
-                throw e;
-              }
-            } else if (isDelete(req)) {
-              RestView<RestResource> deleteView =
-                  rc.views().get(PluginName.GERRIT, "DELETE_MISSING./");
-              if (deleteView != null) {
-                viewData = new ViewData(null, deleteView);
-                path.add(id);
-              } else {
-                throw e;
-              }
-            } else {
-              throw e;
-            }
-          }
-          if (viewData.view == null) {
-            viewData = view(rc, req.getMethod(), path);
-          }
-        }
-        checkRequiresCapability(viewData);
+          RestCollection<RestResource, RestResource> rc = members.get();
+          globals
+              .permissionBackend
+              .currentUser()
+              .checkAny(GlobalPermission.fromAnnotation(rc.getClass()));
 
-        while (viewData.view instanceof RestCollection<?, ?>) {
-          @SuppressWarnings("unchecked")
-          RestCollection<RestResource, RestResource> c =
-              (RestCollection<RestResource, RestResource>) viewData.view;
+          viewData = new ViewData(null, null);
 
           if (path.isEmpty()) {
+            globals.quotaChecker.enforce(req);
+            if (rc instanceof NeedsParams) {
+              ((NeedsParams) rc).setParams(qp.params());
+            }
+
             if (isRead(req)) {
-              viewData = new ViewData(null, c.list());
+              viewData = new ViewData(null, rc.list());
             } else if (isPost(req)) {
-              // TODO: Here and on other collection methods: There is a bug that binds child views
-              // with pluginName="gerrit" instead of the real plugin name. This has never worked
-              // correctly and should be fixed where the binding gets created (DynamicMapProvider)
-              // and here.
               RestView<RestResource> restCollectionView =
-                  c.views().get(PluginName.GERRIT, "POST_ON_COLLECTION./");
-              if (restCollectionView != null) {
-                viewData = new ViewData(null, restCollectionView);
-              } else {
-                throw methodNotAllowed(req);
-              }
-            } else if (isDelete(req)) {
-              RestView<RestResource> restCollectionView =
-                  c.views().get(PluginName.GERRIT, "DELETE_ON_COLLECTION./");
+                  rc.views().get(PluginName.GERRIT, "POST_ON_COLLECTION./");
               if (restCollectionView != null) {
                 viewData = new ViewData(null, restCollectionView);
               } else {
                 throw methodNotAllowed(req);
               }
             } else {
+              // DELETE on root collections is not supported
               throw methodNotAllowed(req);
             }
-            break;
-          }
-          IdString id = path.remove(0);
-          try {
-            rsrc = parseResourceWithRetry(req, traceContext, viewData.pluginName, c, rsrc, id);
-            checkPreconditions(req);
-            viewData = new ViewData(null, null);
-          } catch (ResourceNotFoundException e) {
-            if (!path.isEmpty()) {
-              throw e;
-            }
+          } else {
+            IdString id = path.remove(0);
+            try {
+              rsrc = parseResourceWithRetry(req, traceContext, viewData.pluginName, rc, rsrc, id);
+              globals.quotaChecker.enforce(rsrc, req);
+              if (path.isEmpty()) {
+                checkPreconditions(req);
+              }
+            } catch (ResourceNotFoundException e) {
+              if (!path.isEmpty()) {
+                throw e;
+              }
+              globals.quotaChecker.enforce(req);
 
-            if (isPost(req) || isPut(req)) {
-              RestView<RestResource> createView = c.views().get(PluginName.GERRIT, "CREATE./");
-              if (createView != null) {
-                viewData = new ViewData(viewData.pluginName, createView);
-                path.add(id);
+              if (isPost(req) || isPut(req)) {
+                RestView<RestResource> createView = rc.views().get(PluginName.GERRIT, "CREATE./");
+                if (createView != null) {
+                  viewData = new ViewData(null, createView);
+                  path.add(id);
+                } else {
+                  throw e;
+                }
+              } else if (isDelete(req)) {
+                RestView<RestResource> deleteView =
+                    rc.views().get(PluginName.GERRIT, "DELETE_MISSING./");
+                if (deleteView != null) {
+                  viewData = new ViewData(null, deleteView);
+                  path.add(id);
+                } else {
+                  throw e;
+                }
               } else {
                 throw e;
               }
-            } else if (isDelete(req)) {
-              RestView<RestResource> deleteView =
-                  c.views().get(PluginName.GERRIT, "DELETE_MISSING./");
-              if (deleteView != null) {
-                viewData = new ViewData(viewData.pluginName, deleteView);
-                path.add(id);
-              } else {
-                throw e;
-              }
-            } else {
-              throw e;
             }
-          }
-          if (viewData.view == null) {
-            viewData = view(c, req.getMethod(), path);
+            if (viewData.view == null) {
+              viewData = view(rc, req.getMethod(), path);
+            }
           }
           checkRequiresCapability(viewData);
-        }
 
-        if (notModified(req, rsrc)) {
-          logger.atFinest().log("REST call succeeded: %d", SC_NOT_MODIFIED);
-          res.sendError(SC_NOT_MODIFIED);
-          return;
-        }
+          while (viewData.view instanceof RestCollection<?, ?>) {
+            @SuppressWarnings("unchecked")
+            RestCollection<RestResource, RestResource> c =
+                (RestCollection<RestResource, RestResource>) viewData.view;
 
-        try (DynamicOptions pluginOptions =
-            new DynamicOptions(globals.injector, globals.dynamicBeans)) {
-          if (!globals
-              .paramParser
-              .get()
-              .parse(viewData.view, pluginOptions, qp.params(), req, res)) {
+            if (path.isEmpty()) {
+              if (isRead(req)) {
+                viewData = new ViewData(null, c.list());
+              } else if (isPost(req)) {
+                // TODO: Here and on other collection methods: There is a bug that binds child views
+                // with pluginName="gerrit" instead of the real plugin name. This has never worked
+                // correctly and should be fixed where the binding gets created (DynamicMapProvider)
+                // and here.
+                RestView<RestResource> restCollectionView =
+                    c.views().get(PluginName.GERRIT, "POST_ON_COLLECTION./");
+                if (restCollectionView != null) {
+                  viewData = new ViewData(null, restCollectionView);
+                } else {
+                  throw methodNotAllowed(req);
+                }
+              } else if (isDelete(req)) {
+                RestView<RestResource> restCollectionView =
+                    c.views().get(PluginName.GERRIT, "DELETE_ON_COLLECTION./");
+                if (restCollectionView != null) {
+                  viewData = new ViewData(null, restCollectionView);
+                } else {
+                  throw methodNotAllowed(req);
+                }
+              } else {
+                throw methodNotAllowed(req);
+              }
+              break;
+            }
+            IdString id = path.remove(0);
+            try {
+              rsrc = parseResourceWithRetry(req, traceContext, viewData.pluginName, c, rsrc, id);
+              checkPreconditions(req);
+              viewData = new ViewData(null, null);
+            } catch (ResourceNotFoundException e) {
+              if (!path.isEmpty()) {
+                throw e;
+              }
+
+              if (isPost(req) || isPut(req)) {
+                RestView<RestResource> createView = c.views().get(PluginName.GERRIT, "CREATE./");
+                if (createView != null) {
+                  viewData = new ViewData(viewData.pluginName, createView);
+                  path.add(id);
+                } else {
+                  throw e;
+                }
+              } else if (isDelete(req)) {
+                RestView<RestResource> deleteView =
+                    c.views().get(PluginName.GERRIT, "DELETE_MISSING./");
+                if (deleteView != null) {
+                  viewData = new ViewData(viewData.pluginName, deleteView);
+                  path.add(id);
+                } else {
+                  throw e;
+                }
+              } else {
+                throw e;
+              }
+            }
+            if (viewData.view == null) {
+              viewData = view(c, req.getMethod(), path);
+            }
+            checkRequiresCapability(viewData);
+          }
+
+          if (notModified(req, rsrc)) {
+            logger.atFinest().log("REST call succeeded: %d", SC_NOT_MODIFIED);
+            res.sendError(SC_NOT_MODIFIED);
             return;
           }
 
-          if (viewData.view instanceof RestReadView<?> && isRead(req)) {
-            response =
-                invokeRestReadViewWithRetry(
-                    req, traceContext, viewData, (RestReadView<RestResource>) viewData.view, rsrc);
-          } else if (viewData.view instanceof RestModifyView<?, ?>) {
-            RestModifyView<RestResource, Object> m =
-                (RestModifyView<RestResource, Object>) viewData.view;
-
-            Type type = inputType(m);
-            inputRequestBody = parseRequest(req, type);
-            response =
-                invokeRestModifyViewWithRetry(
-                    req, traceContext, viewData, m, rsrc, inputRequestBody);
-
-            if (inputRequestBody instanceof RawInput) {
-              try (InputStream is = req.getInputStream()) {
-                ServletUtils.consumeRequestBody(is);
-              }
+          try (DynamicOptions pluginOptions =
+              new DynamicOptions(globals.injector, globals.dynamicBeans)) {
+            if (!globals
+                .paramParser
+                .get()
+                .parse(viewData.view, pluginOptions, qp.params(), req, res)) {
+              return;
             }
-          } else if (viewData.view instanceof RestCollectionCreateView<?, ?, ?>) {
-            RestCollectionCreateView<RestResource, RestResource, Object> m =
-                (RestCollectionCreateView<RestResource, RestResource, Object>) viewData.view;
 
-            Type type = inputType(m);
-            inputRequestBody = parseRequest(req, type);
-            response =
-                invokeRestCollectionCreateViewWithRetry(
-                    req, traceContext, viewData, m, rsrc, path.get(0), inputRequestBody);
-            if (inputRequestBody instanceof RawInput) {
-              try (InputStream is = req.getInputStream()) {
-                ServletUtils.consumeRequestBody(is);
-              }
-            }
-          } else if (viewData.view instanceof RestCollectionDeleteMissingView<?, ?, ?>) {
-            RestCollectionDeleteMissingView<RestResource, RestResource, Object> m =
-                (RestCollectionDeleteMissingView<RestResource, RestResource, Object>) viewData.view;
+            if (viewData.view instanceof RestReadView<?> && isRead(req)) {
+              response =
+                  invokeRestReadViewWithRetry(
+                      req,
+                      traceContext,
+                      viewData,
+                      (RestReadView<RestResource>) viewData.view,
+                      rsrc);
+            } else if (viewData.view instanceof RestModifyView<?, ?>) {
+              RestModifyView<RestResource, Object> m =
+                  (RestModifyView<RestResource, Object>) viewData.view;
 
-            Type type = inputType(m);
-            inputRequestBody = parseRequest(req, type);
-            response =
-                invokeRestCollectionDeleteMissingViewWithRetry(
-                    req, traceContext, viewData, m, rsrc, path.get(0), inputRequestBody);
-            if (inputRequestBody instanceof RawInput) {
-              try (InputStream is = req.getInputStream()) {
-                ServletUtils.consumeRequestBody(is);
-              }
-            }
-          } else if (viewData.view instanceof RestCollectionModifyView<?, ?, ?>) {
-            RestCollectionModifyView<RestResource, RestResource, Object> m =
-                (RestCollectionModifyView<RestResource, RestResource, Object>) viewData.view;
+              Type type = inputType(m);
+              inputRequestBody = parseRequest(req, type);
+              response =
+                  invokeRestModifyViewWithRetry(
+                      req, traceContext, viewData, m, rsrc, inputRequestBody);
 
-            Type type = inputType(m);
-            inputRequestBody = parseRequest(req, type);
-            response =
-                invokeRestCollectionModifyViewWithRetry(
-                    req, traceContext, viewData, m, rsrc, inputRequestBody);
-            if (inputRequestBody instanceof RawInput) {
-              try (InputStream is = req.getInputStream()) {
-                ServletUtils.consumeRequestBody(is);
+              if (inputRequestBody instanceof RawInput) {
+                try (InputStream is = req.getInputStream()) {
+                  ServletUtils.consumeRequestBody(is);
+                }
               }
+            } else if (viewData.view instanceof RestCollectionCreateView<?, ?, ?>) {
+              RestCollectionCreateView<RestResource, RestResource, Object> m =
+                  (RestCollectionCreateView<RestResource, RestResource, Object>) viewData.view;
+
+              Type type = inputType(m);
+              inputRequestBody = parseRequest(req, type);
+              response =
+                  invokeRestCollectionCreateViewWithRetry(
+                      req, traceContext, viewData, m, rsrc, path.get(0), inputRequestBody);
+              if (inputRequestBody instanceof RawInput) {
+                try (InputStream is = req.getInputStream()) {
+                  ServletUtils.consumeRequestBody(is);
+                }
+              }
+            } else if (viewData.view instanceof RestCollectionDeleteMissingView<?, ?, ?>) {
+              RestCollectionDeleteMissingView<RestResource, RestResource, Object> m =
+                  (RestCollectionDeleteMissingView<RestResource, RestResource, Object>)
+                      viewData.view;
+
+              Type type = inputType(m);
+              inputRequestBody = parseRequest(req, type);
+              response =
+                  invokeRestCollectionDeleteMissingViewWithRetry(
+                      req, traceContext, viewData, m, rsrc, path.get(0), inputRequestBody);
+              if (inputRequestBody instanceof RawInput) {
+                try (InputStream is = req.getInputStream()) {
+                  ServletUtils.consumeRequestBody(is);
+                }
+              }
+            } else if (viewData.view instanceof RestCollectionModifyView<?, ?, ?>) {
+              RestCollectionModifyView<RestResource, RestResource, Object> m =
+                  (RestCollectionModifyView<RestResource, RestResource, Object>) viewData.view;
+
+              Type type = inputType(m);
+              inputRequestBody = parseRequest(req, type);
+              response =
+                  invokeRestCollectionModifyViewWithRetry(
+                      req, traceContext, viewData, m, rsrc, inputRequestBody);
+              if (inputRequestBody instanceof RawInput) {
+                try (InputStream is = req.getInputStream()) {
+                  ServletUtils.consumeRequestBody(is);
+                }
+              }
+            } else {
+              throw new ResourceNotFoundException();
             }
-          } else {
-            throw new ResourceNotFoundException();
+            String isUpdatedRefEnabled = req.getHeader(X_GERRIT_UPDATED_REF_ENABLED);
+            if (!Strings.isNullOrEmpty(isUpdatedRefEnabled)
+                && Boolean.valueOf(isUpdatedRefEnabled)) {
+              setXGerritUpdatedRefResponseHeaders(req, res);
+            }
+
+            if (response instanceof Response.Redirect) {
+              CacheHeaders.setNotCacheable(res);
+              String location = ((Response.Redirect) response).location();
+              res.sendRedirect(location);
+              logger.atFinest().log("REST call redirected to: %s", location);
+              return;
+            } else if (response instanceof Response.Accepted) {
+              CacheHeaders.setNotCacheable(res);
+              res.setStatus(response.statusCode());
+              res.setHeader(HttpHeaders.LOCATION, ((Response.Accepted) response).location());
+              logger.atFinest().log("REST call succeeded: %d", response.statusCode());
+              return;
+            }
+
+            statusCode = response.statusCode();
+            response.headers().forEach((k, v) -> res.setHeader(k, v));
+            configureCaching(req, res, rsrc, response.caching());
+            res.setStatus(statusCode);
+            logger.atFinest().log("REST call succeeded: %d", statusCode);
           }
-          String isUpdatedRefEnabled = req.getHeader(X_GERRIT_UPDATED_REF_ENABLED);
-          if (!Strings.isNullOrEmpty(isUpdatedRefEnabled) && Boolean.valueOf(isUpdatedRefEnabled)) {
-            setXGerritUpdatedRefResponseHeaders(req, res);
-          }
 
-          if (response instanceof Response.Redirect) {
-            CacheHeaders.setNotCacheable(res);
-            String location = ((Response.Redirect) response).location();
-            res.sendRedirect(location);
-            logger.atFinest().log("REST call redirected to: %s", location);
-            return;
-          } else if (response instanceof Response.Accepted) {
-            CacheHeaders.setNotCacheable(res);
-            res.setStatus(response.statusCode());
-            res.setHeader(HttpHeaders.LOCATION, ((Response.Accepted) response).location());
-            logger.atFinest().log("REST call succeeded: %d", response.statusCode());
-            return;
+          if (response != Response.none()) {
+            Object value = Response.unwrap(response);
+            if (value instanceof BinaryResult) {
+              responseBytes = replyBinaryResult(req, res, (BinaryResult) value);
+            } else {
+              responseBytes = replyJson(req, res, false, qp.config(), value);
+            }
           }
-
-          statusCode = response.statusCode();
-          response.headers().forEach((k, v) -> res.setHeader(k, v));
-          configureCaching(req, res, rsrc, response.caching());
-          res.setStatus(statusCode);
-          logger.atFinest().log("REST call succeeded: %d", statusCode);
         }
-
-        if (response != Response.none()) {
-          Object value = Response.unwrap(response);
-          if (value instanceof BinaryResult) {
-            responseBytes = replyBinaryResult(req, res, (BinaryResult) value);
-          } else {
-            responseBytes = replyJson(req, res, false, qp.config(), value);
-          }
-        }
-      }
-    } catch (MalformedJsonException | JsonParseException e) {
-      cause = Optional.of(e);
-      logger.atFine().withCause(e).log("REST call failed on JSON parsing");
-      responseBytes =
-          replyError(
-              req, res, statusCode = SC_BAD_REQUEST, "Invalid " + JSON_TYPE + " in request", e);
-    } catch (BadRequestException e) {
-      cause = Optional.of(e);
-      responseBytes =
-          replyError(
-              req, res, statusCode = SC_BAD_REQUEST, messageOr(e, "Bad Request"), e.caching(), e);
-    } catch (AuthException e) {
-      cause = Optional.of(e);
-
-      StringBuilder messageBuilder = new StringBuilder(messageOr(e, "Forbidden"));
-      globals
-          .aclInfoController
-          .getAclInfoMessage()
-          .ifPresent(aclInfo -> messageBuilder.append("\n\n").append(aclInfo));
-
-      responseBytes =
-          replyError(
-              req, res, statusCode = SC_FORBIDDEN, messageBuilder.toString(), e.caching(), e);
-    } catch (AmbiguousViewException e) {
-      cause = Optional.of(e);
-      responseBytes = replyError(req, res, statusCode = SC_NOT_FOUND, messageOr(e, "Ambiguous"), e);
-    } catch (ResourceNotFoundException e) {
-      cause = Optional.of(e);
-      responseBytes =
-          replyError(
-              req, res, statusCode = SC_NOT_FOUND, messageOr(e, "Not Found"), e.caching(), e);
-    } catch (MethodNotAllowedException e) {
-      cause = Optional.of(e);
-      responseBytes =
-          replyError(
-              req,
-              res,
-              statusCode = SC_METHOD_NOT_ALLOWED,
-              messageOr(e, "Method Not Allowed"),
-              e.caching(),
-              e);
-    } catch (ResourceConflictException e) {
-      cause = Optional.of(e);
-      responseBytes =
-          replyError(req, res, statusCode = SC_CONFLICT, messageOr(e, "Conflict"), e.caching(), e);
-    } catch (PreconditionFailedException e) {
-      cause = Optional.of(e);
-      responseBytes =
-          replyError(
-              req,
-              res,
-              statusCode = SC_PRECONDITION_FAILED,
-              messageOr(e, "Precondition Failed"),
-              e.caching(),
-              e);
-    } catch (UnprocessableEntityException e) {
-      cause = Optional.of(e);
-      responseBytes =
-          replyError(
-              req,
-              res,
-              statusCode = SC_UNPROCESSABLE_ENTITY,
-              messageOr(e, "Unprocessable Entity"),
-              e.caching(),
-              e);
-    } catch (NotImplementedException e) {
-      cause = Optional.of(e);
-      logger.atSevere().withCause(e).log("Error in %s %s", req.getMethod(), uriForLogging(req));
-      responseBytes =
-          replyError(req, res, statusCode = SC_NOT_IMPLEMENTED, messageOr(e, "Not Implemented"), e);
-    } catch (QuotaException e) {
-      cause = Optional.of(e);
-      responseBytes =
-          replyError(
-              req,
-              res,
-              statusCode = SC_TOO_MANY_REQUESTS,
-              messageOr(e, "Quota limit reached"),
-              e.caching(),
-              e);
-    } catch (InvalidDeadlineException e) {
-      cause = Optional.of(e);
-      responseBytes =
-          replyError(req, res, statusCode = SC_BAD_REQUEST, messageOr(e, "Bad Request"), e);
-    } catch (Exception e) {
-      cause = Optional.of(e);
-
-      Optional<RequestCancelledException> requestCancelledException =
-          RequestCancelledException.getFromCausalChain(e);
-      if (requestCancelledException.isPresent()) {
-        RequestStateProvider.Reason cancellationReason =
-            requestCancelledException.get().getCancellationReason();
-        globals.cancellationMetrics.countCancelledRequest(
-            RequestInfo.RequestType.REST, requestUri, cancellationReason);
-        statusCode = getCancellationStatusCode(cancellationReason);
+      } catch (MalformedJsonException | JsonParseException e) {
+        cause = Optional.of(e);
+        logger.atFine().withCause(e).log("REST call failed on JSON parsing");
         responseBytes =
             replyError(
-                req, res, statusCode, getCancellationMessage(requestCancelledException.get()), e);
-      } else {
-        statusCode = SC_INTERNAL_SERVER_ERROR;
+                req, res, statusCode = SC_BAD_REQUEST, "Invalid " + JSON_TYPE + " in request", e);
+      } catch (BadRequestException e) {
+        cause = Optional.of(e);
+        responseBytes =
+            replyError(
+                req, res, statusCode = SC_BAD_REQUEST, messageOr(e, "Bad Request"), e.caching(), e);
+      } catch (AuthException e) {
+        cause = Optional.of(e);
 
-        Optional<ExceptionHook.Status> status = getStatus(e);
-        statusCode = status.map(ExceptionHook.Status::statusCode).orElse(SC_INTERNAL_SERVER_ERROR);
+        StringBuilder messageBuilder = new StringBuilder(messageOr(e, "Forbidden"));
+        globals
+            .aclInfoController
+            .getAclInfoMessage()
+            .ifPresent(aclInfo -> messageBuilder.append("\n\n").append(aclInfo));
 
-        if (res.isCommitted()) {
-          responseBytes = 0;
-          if (statusCode == SC_INTERNAL_SERVER_ERROR) {
-            logger.atSevere().withCause(e).log(
-                "Error in %s %s, response already committed", req.getMethod(), uriForLogging(req));
-          } else {
-            logger.atWarning().log(
-                "Response for %s %s already committed, wanted to set status %d",
-                req.getMethod(), uriForLogging(req), statusCode);
-          }
+        responseBytes =
+            replyError(
+                req, res, statusCode = SC_FORBIDDEN, messageBuilder.toString(), e.caching(), e);
+      } catch (AmbiguousViewException e) {
+        cause = Optional.of(e);
+        responseBytes =
+            replyError(req, res, statusCode = SC_NOT_FOUND, messageOr(e, "Ambiguous"), e);
+      } catch (ResourceNotFoundException e) {
+        cause = Optional.of(e);
+        responseBytes =
+            replyError(
+                req, res, statusCode = SC_NOT_FOUND, messageOr(e, "Not Found"), e.caching(), e);
+      } catch (MethodNotAllowedException e) {
+        cause = Optional.of(e);
+        responseBytes =
+            replyError(
+                req,
+                res,
+                statusCode = SC_METHOD_NOT_ALLOWED,
+                messageOr(e, "Method Not Allowed"),
+                e.caching(),
+                e);
+      } catch (ResourceConflictException e) {
+        cause = Optional.of(e);
+        responseBytes =
+            replyError(
+                req, res, statusCode = SC_CONFLICT, messageOr(e, "Conflict"), e.caching(), e);
+      } catch (PreconditionFailedException e) {
+        cause = Optional.of(e);
+        responseBytes =
+            replyError(
+                req,
+                res,
+                statusCode = SC_PRECONDITION_FAILED,
+                messageOr(e, "Precondition Failed"),
+                e.caching(),
+                e);
+      } catch (UnprocessableEntityException e) {
+        cause = Optional.of(e);
+        responseBytes =
+            replyError(
+                req,
+                res,
+                statusCode = SC_UNPROCESSABLE_ENTITY,
+                messageOr(e, "Unprocessable Entity"),
+                e.caching(),
+                e);
+      } catch (NotImplementedException e) {
+        cause = Optional.of(e);
+        logger.atSevere().withCause(e).log("Error in %s %s", req.getMethod(), uriForLogging(req));
+        responseBytes =
+            replyError(
+                req, res, statusCode = SC_NOT_IMPLEMENTED, messageOr(e, "Not Implemented"), e);
+      } catch (QuotaException e) {
+        cause = Optional.of(e);
+        responseBytes =
+            replyError(
+                req,
+                res,
+                statusCode = SC_TOO_MANY_REQUESTS,
+                messageOr(e, "Quota limit reached"),
+                e.caching(),
+                e);
+      } catch (InvalidDeadlineException e) {
+        cause = Optional.of(e);
+        responseBytes =
+            replyError(req, res, statusCode = SC_BAD_REQUEST, messageOr(e, "Bad Request"), e);
+      } catch (Exception e) {
+        cause = Optional.of(e);
+
+        Optional<RequestCancelledException> requestCancelledException =
+            RequestCancelledException.getFromCausalChain(e);
+        if (requestCancelledException.isPresent()) {
+          RequestStateProvider.Reason cancellationReason =
+              requestCancelledException.get().getCancellationReason();
+          globals.cancellationMetrics.countCancelledRequest(
+              RequestInfo.RequestType.REST, requestUri, cancellationReason);
+          statusCode = getCancellationStatusCode(cancellationReason);
+          responseBytes =
+              replyError(
+                  req, res, statusCode, getCancellationMessage(requestCancelledException.get()), e);
         } else {
-          res.reset();
-          TraceContext.getTraceId().ifPresent(traceId -> res.addHeader(X_GERRIT_TRACE, traceId));
+          statusCode = SC_INTERNAL_SERVER_ERROR;
 
-          if (status.isPresent()) {
-            responseBytes = reply(req, res, e, status.get(), getUserMessages(e));
+          Optional<ExceptionHook.Status> status = getStatus(e);
+          statusCode =
+              status.map(ExceptionHook.Status::statusCode).orElse(SC_INTERNAL_SERVER_ERROR);
+
+          if (res.isCommitted()) {
+            responseBytes = 0;
+            if (statusCode == SC_INTERNAL_SERVER_ERROR) {
+              logger.atSevere().withCause(e).log(
+                  "Error in %s %s, response already committed",
+                  req.getMethod(), uriForLogging(req));
+            } else {
+              logger.atWarning().log(
+                  "Response for %s %s already committed, wanted to set status %d",
+                  req.getMethod(), uriForLogging(req), statusCode);
+            }
           } else {
-            responseBytes =
-                replyInternalServerError(req, res, e, getViewName(viewData), getUserMessages(e));
+            res.reset();
+            TraceContext.getTraceId().ifPresent(traceId -> res.addHeader(X_GERRIT_TRACE, traceId));
+
+            if (status.isPresent()) {
+              responseBytes = reply(req, res, e, status.get(), getUserMessages(e));
+            } else {
+              responseBytes =
+                  replyInternalServerError(req, res, e, getViewName(viewData), getUserMessages(e));
+            }
           }
         }
+      } finally {
+        String metric = getViewName(viewData);
+        String formattedCause = cause.map(globals.retryHelper::formatCause).orElse("_none");
+        globals.metrics.count.increment(metric);
+        if (statusCode >= SC_BAD_REQUEST) {
+          globals.metrics.errorCount.increment(metric, statusCode, formattedCause);
+        }
+        if (responseBytes != -1) {
+          globals.metrics.responseBytes.record(metric, responseBytes);
+        }
+        globals.metrics.serverLatency.record(
+            metric, System.nanoTime() - startNanos, TimeUnit.NANOSECONDS);
+        globals.auditService.dispatch(
+            new ExtendedHttpAuditEvent(
+                globals.webSession.get().getSessionId(),
+                globals.currentUser.get(),
+                req,
+                auditStartTs,
+                qp != null ? qp.params() : ImmutableListMultimap.of(),
+                inputRequestBody,
+                statusCode,
+                response,
+                rsrc,
+                viewData == null ? null : viewData.view));
       }
-    } finally {
-      String metric = getViewName(viewData);
-      String formattedCause = cause.map(globals.retryHelper::formatCause).orElse("_none");
-      globals.metrics.count.increment(metric);
-      if (statusCode >= SC_BAD_REQUEST) {
-        globals.metrics.errorCount.increment(metric, statusCode, formattedCause);
-      }
-      if (responseBytes != -1) {
-        globals.metrics.responseBytes.record(metric, responseBytes);
-      }
-      globals.metrics.serverLatency.record(
-          metric, System.nanoTime() - startNanos, TimeUnit.NANOSECONDS);
-      globals.auditService.dispatch(
-          new ExtendedHttpAuditEvent(
-              globals.webSession.get().getSessionId(),
-              globals.currentUser.get(),
-              req,
-              auditStartTs,
-              qp != null ? qp.params() : ImmutableListMultimap.of(),
-              inputRequestBody,
-              statusCode,
-              response,
-              rsrc,
-              viewData == null ? null : viewData.view));
     }
   }
 
@@ -1559,6 +1566,43 @@ public class RestApiServlet extends HttpServlet {
     List<String> parameterNames = new ArrayList<>(req.getParameterMap().keySet());
     Collections.sort(parameterNames);
     return parameterNames;
+  }
+
+  private TraceContext enableTracing(HttpServletRequest req, HttpServletResponse res) {
+    // There are 2 ways to enable tracing for REST calls:
+    // 1. by using the 'trace' or 'trace=<trace-id>' request parameter
+    // 2. by setting the 'X-Gerrit-Trace:' or 'X-Gerrit-Trace:<trace-id>' header
+    String traceValueFromHeader = req.getHeader(X_GERRIT_TRACE);
+    String traceValueFromRequestParam = req.getParameter(ParameterParser.TRACE_PARAMETER);
+    boolean forceLogging = traceValueFromHeader != null || traceValueFromRequestParam != null;
+
+    // Check whether no trace ID, one trace ID or 2 different trace IDs have been specified.
+    String traceId1;
+    String traceId2;
+    if (!Strings.isNullOrEmpty(traceValueFromHeader)) {
+      traceId1 = traceValueFromHeader;
+      if (!Strings.isNullOrEmpty(traceValueFromRequestParam)
+          && !traceValueFromHeader.equals(traceValueFromRequestParam)) {
+        traceId2 = traceValueFromRequestParam;
+      } else {
+        traceId2 = null;
+      }
+    } else {
+      traceId1 = Strings.emptyToNull(traceValueFromRequestParam);
+      traceId2 = null;
+    }
+
+    // Use the first trace ID to start tracing. If this trace ID is null, a trace ID will be
+    // generated.
+    TraceContext traceContext =
+        TraceContext.newTrace(
+            forceLogging, traceId1, (tagName, traceId) -> res.setHeader(X_GERRIT_TRACE, traceId));
+    // If a second trace ID was specified, add a tag for it as well.
+    if (traceId2 != null) {
+      traceContext.addTag(RequestId.Type.TRACE_ID, traceId2);
+      res.addHeader(X_GERRIT_TRACE, traceId2);
+    }
+    return traceContext;
   }
 
   private RequestInfo createRequestInfo(

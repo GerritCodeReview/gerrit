@@ -49,8 +49,6 @@ public class WebModule extends LifecycleModule {
 
   @Override
   protected void configure() {
-    install(new HttpRequestTraceModule());
-
     bind(RequestScopePropagator.class).to(GuiceRequestScopePropagator.class);
     bind(HttpRequestContext.class);
 

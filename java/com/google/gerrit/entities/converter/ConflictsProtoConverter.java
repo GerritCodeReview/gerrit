@@ -46,7 +46,7 @@ public enum ConflictsProtoConverter
         proto.hasTheirs()
             ? Optional.of(objectIdConverter.fromProto(proto.getTheirs()))
             : Optional.empty(),
-        proto.getContainsConflicts());
+        proto.hasContainsConflicts() ? proto.getContainsConflicts() : false);
   }
 
   @Override

@@ -2725,4 +2725,34 @@ public class RevisionIT extends AbstractDaemonTest {
   private static Iterable<Account.Id> getReviewers(Collection<AccountInfo> r) {
     return Iterables.transform(r, a -> Account.id(a._accountId));
   }
+
+  @Test
+  public void getCommitMessageFromOlderPatchSet() throws Exception {
+    PushOneCommit.Result result =
+        createChange(
+            testRepo, "master", "Initial commit message", FILE_NAME, "other content", null);
+    Change.Id changeId = result.getChange().getId();
+    PatchSet.Id initialPatchSetId = result.getPatchSetId();
+
+    pushFactory
+        .create(
+            admin.newIdent(),
+            testRepo,
+            "another commit message",
+            FILE_NAME,
+            "new content",
+            result.getChangeId())
+        .to("refs/for/master");
+
+    // Fetch the commit message for the initial patch set using the /content endpoint
+    String commitMessage =
+        gApi.changes()
+            .id(changeId.get())
+            .revision(initialPatchSetId.get())
+            .file(COMMIT_MSG)
+            .content()
+            .asString();
+
+    assertThat(commitMessage).startsWith("Initial commit message");
+  }
 }

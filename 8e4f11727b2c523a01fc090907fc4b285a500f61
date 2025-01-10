@@ -16,6 +16,24 @@
       "message": "Missing `Release-Notes`",
       "revId": "8e4f11727b2c523a01fc090907fc4b285a500f61",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "233350b3_334adaff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-01-10T21:59:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6ab58d6_d0043d46",
+      "revId": "8e4f11727b2c523a01fc090907fc4b285a500f61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

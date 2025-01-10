@@ -46,6 +46,7 @@ import com.google.gerrit.server.change.ChangeMessages;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.ValidationOptionsUtil;
 import com.google.gerrit.server.extensions.events.ChangeReverted;
+import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.mail.EmailFactories;
 import com.google.gerrit.server.mail.send.ChangeEmail;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
@@ -173,12 +174,12 @@ public class CommitUtil {
       try (Repository git = repoManager.openRepository(notes.getProjectName());
           ObjectInserter oi = git.newObjectInserter();
           ObjectReader reader = oi.newReader();
-          RevWalk revWalk = new RevWalk(reader)) {
+          CodeReviewRevWalk revWalk = CodeReviewCommit.newRevWalk(reader)) {
         ObjectId generatedChangeId = CommitMessageUtil.generateChangeId();
-        ObjectId revCommit =
+        CodeReviewCommit revertCommit =
             createRevertCommit(message, notes, user, timestamp, oi, revWalk, generatedChangeId);
         return createRevertChangeFromCommit(
-            revCommit, input, notes, user, generatedChangeId, timestamp, oi, revWalk, git);
+            revertCommit, input, notes, user, generatedChangeId, timestamp, oi, revWalk, git);
       } catch (RepositoryNotFoundException e) {
         throw new ResourceNotFoundException(notes.getChangeId().toString(), e);
       }
@@ -192,16 +193,16 @@ public class CommitUtil {
    * @param notes ChangeNotes of the change being reverted.
    * @param user Current User performing the revert.
    * @param ts Timestamp of creation for the commit.
-   * @return ObjectId that represents the newly created commit.
+   * @return that newly created revert commit.
    */
-  public ObjectId createRevertCommit(
+  public CodeReviewCommit createRevertCommit(
       String message, ChangeNotes notes, CurrentUser user, Instant ts)
       throws RestApiException, IOException {
 
     try (Repository git = repoManager.openRepository(notes.getProjectName());
         ObjectInserter oi = git.newObjectInserter();
         ObjectReader reader = oi.newReader();
-        RevWalk revWalk = new RevWalk(reader)) {
+        CodeReviewRevWalk revWalk = CodeReviewCommit.newRevWalk(reader)) {
       return createRevertCommit(message, notes, user, ts, oi, revWalk, null);
     } catch (RepositoryNotFoundException e) {
       throw new ResourceNotFoundException(notes.getProjectName().toString(), e);
@@ -256,13 +257,13 @@ public class CommitUtil {
    * @throws ResourceConflictException Can't revert the initial commit.
    * @throws IOException Thrown in case of I/O errors.
    */
-  private ObjectId createRevertCommit(
+  private CodeReviewCommit createRevertCommit(
       String message,
       ChangeNotes notes,
       CurrentUser user,
       Instant ts,
       ObjectInserter oi,
-      RevWalk revWalk,
+      CodeReviewRevWalk revWalk,
       @Nullable ObjectId generatedChangeId)
       throws ResourceConflictException, IOException {
 
@@ -293,17 +294,26 @@ public class CommitUtil {
       message = ChangeIdUtil.insertId(message, generatedChangeId, true);
     }
 
-    return createCommitWithTree(
-        oi,
-        authorIdent,
-        committerIdent,
-        ImmutableList.of(commitToRevert),
-        message,
-        parentToCommitToRevert.getTree());
+    CodeReviewCommit revertCommit =
+        revWalk.parseCommit(
+            createCommitWithTree(
+                oi,
+                authorIdent,
+                committerIdent,
+                ImmutableList.of(commitToRevert),
+                message,
+                parentToCommitToRevert.getTree()));
+
+    // The revert commit is based on the commit that is being reverted and has the same tree as the
+    // parent of the commit that is being reverted. This means revert commit never contains any
+    // conflicts.
+    revertCommit.setNoConflicts();
+
+    return revertCommit;
   }
 
   private Change.Id createRevertChangeFromCommit(
-      ObjectId revertCommitId,
+      CodeReviewCommit revertCommit,
       RevertInput input,
       ChangeNotes notes,
       CurrentUser user,
@@ -313,7 +323,6 @@ public class CommitUtil {
       RevWalk revWalk,
       Repository git)
       throws IOException, RestApiException, UpdateException, ConfigInvalidException {
-    RevCommit revertCommit = revWalk.parseCommit(revertCommitId);
     Change.Id changeId = Change.id(seq.nextChangeId());
     if (input.getWorkInProgress()) {
       input.notify = firstNonNull(input.notify, NotifyHandling.NONE);
@@ -341,6 +350,7 @@ public class CommitUtil {
     ins.setReviewersAndCcsIgnoreVisibility(reviewers, ccs);
     ins.setRevertOf(notes.getChangeId());
     ins.setWorkInProgress(input.getWorkInProgress());
+    revertCommit.getConflicts().ifPresent(ins::setConflicts);
 
     try (BatchUpdate bu = updateFactory.create(notes.getProjectName(), user, ts)) {
       bu.setRepository(git, revWalk, oi);

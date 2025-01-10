@@ -205,6 +205,11 @@ public class RevertIT extends AbstractDaemonTest {
     assertThat(revertChange.messages).hasSize(1);
     assertThat(revertChange.messages.iterator().next().message).isEqualTo("Uploaded patch set 1.");
     assertThat(revertChange.revertOf).isEqualTo(gApi.changes().id(r.getChangeId()).get()._number);
+
+    assertThat(revertChange.getCurrentRevision().conflicts).isNotNull();
+    assertThat(revertChange.getCurrentRevision().conflicts.containsConflicts).isFalse();
+    assertThat(revertChange.getCurrentRevision().conflicts.ours).isNull();
+    assertThat(revertChange.getCurrentRevision().conflicts.theirs).isNull();
   }
 
   @Test
@@ -947,6 +952,12 @@ public class RevertIT extends AbstractDaemonTest {
         .isEqualTo(result.getChange().change().getChangeId());
     assertThat(revertChanges.get(0).get().topic)
         .startsWith("revert-" + result.getChange().change().getSubmissionId() + "-");
+
+    assertThat(revertChanges.get(0).get().getCurrentRevision().conflicts).isNotNull();
+    assertThat(revertChanges.get(0).get().getCurrentRevision().conflicts.containsConflicts)
+        .isFalse();
+    assertThat(revertChanges.get(0).get().getCurrentRevision().conflicts.ours).isNull();
+    assertThat(revertChanges.get(0).get().getCurrentRevision().conflicts.theirs).isNull();
   }
 
   @Test
@@ -1191,6 +1202,16 @@ public class RevertIT extends AbstractDaemonTest {
 
     assertThat(revertChanges).hasSize(2);
     assertThat(gApi.changes().id(revertChanges.get(0).id()).current().related().changes).hasSize(2);
+
+    // None of the revert changes has conflicts.
+    for (int i = 0; i < revertChanges.size(); i++) {
+      // Internally RevertSubmission either uses Revert or Cherry-Pick to do the reverts.
+      // Depending on which operation is used ours/theirs is set (if Cherry-Pick is used) or unset
+      // (if Revert is used). Hence we do not validate ours/theirs here.
+      assertThat(revertChanges.get(i).get().getCurrentRevision().conflicts).isNotNull();
+      assertThat(revertChanges.get(i).get().getCurrentRevision().conflicts.containsConflicts)
+          .isFalse();
+    }
   }
 
   @Test

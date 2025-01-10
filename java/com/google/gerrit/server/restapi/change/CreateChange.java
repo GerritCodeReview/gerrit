@@ -707,9 +707,12 @@ public class CreateChange
     ObjectId treeId = mergeTip == null ? emptyTreeId(oi) : mergeTip.getTree().getId();
     logger.atFine().log("Tree ID of empty commit: %s", treeId.name());
     List<RevCommit> parents = mergeTip == null ? ImmutableList.of() : ImmutableList.of(mergeTip);
-    return rw.parseCommit(
-        CommitUtil.createCommitWithTree(
-            oi, authorIdent, committerIdent, parents, commitMessage, treeId));
+    CodeReviewCommit commit =
+        rw.parseCommit(
+            CommitUtil.createCommitWithTree(
+                oi, authorIdent, committerIdent, parents, commitMessage, treeId));
+    commit.setNoConflicts();
+    return commit;
   }
 
   private static CodeReviewCommit createCommitWithSuppliedTree(

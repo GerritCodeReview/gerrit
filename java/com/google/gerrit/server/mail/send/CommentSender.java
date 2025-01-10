@@ -210,6 +210,9 @@ public class CommentSender extends ReplyToChangeSender {
         if (modifiedFiles != null && !modifiedFiles.isEmpty()) {
           try {
             currentGroup.fileData = new PatchFile(repo, modifiedFiles, c.key.filename);
+            if (currentGroup.fileData.isUnchanged()) {
+              currentGroup.fileData =  new PatchFile(repo, c.key.filename, patchSet.commitId());
+            }
           } catch (IOException e) {
             logger.atWarning().withCause(e).log(
                 "Cannot load %s from %s in %s",

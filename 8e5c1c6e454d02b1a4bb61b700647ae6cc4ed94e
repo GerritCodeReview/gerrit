@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "383c1ab2_576650dc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-01-10T20:00:46Z",
+      "side": 1,
+      "message": "Tested locally. No more Guice exception in the error_log and plugin correctly reloaded.",
+      "revId": "8e5c1c6e454d02b1a4bb61b700647ae6cc4ed94e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

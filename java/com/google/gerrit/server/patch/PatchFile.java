@@ -40,6 +40,7 @@ public class PatchFile {
   private final FileDiffOutput diff;
   private final RevTree aTree;
   private final RevTree bTree;
+  private final boolean unchanged;
 
   // Full text of both sides of the file. For standard files, these are not directly reconstructable
   // from the PatchListEntry, which comes from the PatchListCache and only contains the diff between
@@ -61,6 +62,15 @@ public class PatchFile {
             .filter(f -> f.newPath().isPresent() && f.newPath().get().equals(fileName))
             .findFirst()
             .orElse(FileDiffOutput.empty(fileName, ObjectId.zeroId(), ObjectId.zeroId()));
+
+    if (diff.oldCommitId().equals(ObjectId.zeroId()) && diff.newCommitId().equals(ObjectId.zeroId())) {
+      aTree = null;
+      bTree = null;
+      unchanged = true;
+      return;
+    }
+
+    unchanged = false;
 
     if (Patch.PATCHSET_LEVEL.equals(fileName)) {
       aTree = null;
@@ -105,6 +115,22 @@ public class PatchFile {
         bTree = bCommit.getTree();
       }
     }
+  }
+
+  public PatchFile(Repository repo, String fileName, ObjectId patchSetCommitId) throws IOException {
+    this.repo = repo;
+    this.diff = FileDiffOutput.empty(fileName, patchSetCommitId, patchSetCommitId);
+    try (ObjectReader reader = repo.newObjectReader();
+         RevWalk rw = new RevWalk(reader)) {
+      final RevCommit bCommit = rw.parseCommit(diff.newCommitId());
+      this.aTree = rw.parseTree(diff.oldCommitId());
+      this.bTree = bCommit.getTree();
+      this.unchanged = true;
+    }
+  }
+
+  public boolean isUnchanged() {
+    return unchanged;
   }
 
   private String getOldName() {

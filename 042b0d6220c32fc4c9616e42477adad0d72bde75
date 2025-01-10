@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3e48c07_0753fe2c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3823486
+      },
+      "writtenOn": "2025-01-10T10:07:21Z",
+      "side": 1,
+      "message": "git clone https://gerrit.googlesource.com/gerrit-installer",
+      "revId": "042b0d6220c32fc4c9616e42477adad0d72bde75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

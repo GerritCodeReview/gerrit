@@ -107,14 +107,6 @@ import {GrMessagesList} from '../gr-messages-list/gr-messages-list';
 import {GrThreadList} from '../gr-thread-list/gr-thread-list';
 import {fireAlert, fire, fireReload} from '../../../utils/event-util';
 import {
-  debounce,
-  DelayedTask,
-  throttleWrap,
-  until,
-  waitUntil,
-} from '../../../utils/async-util';
-import {Interaction} from '../../../constants/reporting';
-import {
   getAddedByReason,
   getRemovedByReason,
   hasAttention,

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "910b1076_19426ee8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-01-10T09:48:55Z",
+      "side": 1,
+      "message": "Nice fix!",
+      "revId": "9942dd9224e486f996be6afeb013b0d44c17ee88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "503cff8a_4c8df3c9",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2737,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-01-10T09:48:55Z",
+      "side": 1,
+      "message": "If I see this correctly, the second parameter of the updateChange method is the file content, not the commit message, and the actual commit message is hard-coded to \"test commit\" in the method.\n\nYou may change this to something like this:\npushFactory.create(admin.newIdent(), testRepo, \"another commit message\", FILE_NAME, \"new content\", result.getChangeId()).to(\"refs/for/master\");",
+      "revId": "9942dd9224e486f996be6afeb013b0d44c17ee88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

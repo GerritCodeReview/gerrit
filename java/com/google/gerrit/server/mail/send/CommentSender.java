@@ -55,7 +55,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import org.apache.james.mime4j.dom.field.FieldName;
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 
 /** Send comments, after the author of them hit used Publish Comments in the UI. */
@@ -209,8 +211,9 @@ public class CommentSender extends ReplyToChangeSender {
         groups.add(currentGroup);
         if (modifiedFiles != null && !modifiedFiles.isEmpty()) {
           try {
-            currentGroup.fileData = new PatchFile(repo, modifiedFiles, c.key.filename);
-          } catch (IOException e) {
+            currentGroup.fileData =  loadPatchFile(repo, modifiedFiles, c.key.filename, patchSet.commitId());
+          }
+          catch (IOException e) {
             logger.atWarning().withCause(e).log(
                 "Cannot load %s from %s in %s",
                 c.key.filename,
@@ -228,6 +231,18 @@ public class CommentSender extends ReplyToChangeSender {
 
     groups.sort(Comparator.comparing(g -> g.filename, FilenameComparator.INSTANCE));
     return groups;
+  }
+
+  private PatchFile loadPatchFile(Repository repo, Map<String, FileDiffOutput> modifiedFiles, String filename, ObjectId commitId) throws IOException {
+    try {
+      return new PatchFile(repo, modifiedFiles, filename);
+    } catch (MissingObjectException e) {
+      return loadFallbackPatchFile(repo, filename, commitId);
+    }
+  }
+
+  private PatchFile loadFallbackPatchFile(Repository repo, String filename, ObjectId commitId) throws IOException {
+    return new PatchFile(repo, filename, commitId);
   }
 
   /** Get the set of accounts whose comments have been replied to in this email. */

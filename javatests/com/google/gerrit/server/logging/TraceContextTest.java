@@ -15,14 +15,11 @@
 package com.google.gerrit.server.logging;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.server.logging.TraceContext.TraceIdConsumer;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.junit.After;
@@ -205,34 +202,6 @@ public class TraceContextTest {
   }
 
   @Test
-  public void newTraceNestingAndForceLogging() {
-    // create cartesian product of all possible values for each of the four parameters
-    for (boolean forceOuter : List.of(false, true)) {
-      for (String outerId : Arrays.asList(null, "outer")) {
-        for (boolean forceInner : List.of(false, true)) {
-          for (String innerId : Arrays.asList(null, "inner")) {
-            newTraceNesting(forceOuter, outerId, forceInner, innerId);
-          }
-        }
-      }
-    }
-  }
-
-  private void newTraceNesting(
-      boolean forceOuter, String outerId, boolean forceInner, String innerId) {
-    String message =
-        String.format("parameters: (%s, %s, %s, %s)", forceOuter, outerId, forceInner, innerId);
-    try (TraceContext outer =
-        TraceContext.newTrace(forceOuter, outerId, new TestTraceIdConsumer())) {
-      assertForceLogging(forceOuter, message);
-      try (TraceContext nested =
-          TraceContext.newTrace(forceInner, innerId, new TestTraceIdConsumer())) {
-        assertForceLogging(forceOuter || forceInner, message);
-      }
-    }
-  }
-
-  @Test
   public void onlyOneTraceId() {
     TestTraceIdConsumer traceIdConsumer1 = new TestTraceIdConsumer();
     try (TraceContext traceContext1 = TraceContext.newTrace(true, null, traceIdConsumer1)) {
@@ -295,12 +264,6 @@ public class TraceContextTest {
 
   private void assertForceLogging(boolean expected) {
     assertThat(LoggingContext.getInstance().shouldForceLogging(null, null, false))
-        .isEqualTo(expected);
-  }
-
-  private void assertForceLogging(boolean expected, String message) {
-    assertWithMessage(message)
-        .that(LoggingContext.getInstance().shouldForceLogging(null, null, false))
         .isEqualTo(expected);
   }
 

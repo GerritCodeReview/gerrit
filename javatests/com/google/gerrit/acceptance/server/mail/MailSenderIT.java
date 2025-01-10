@@ -119,7 +119,7 @@ public class MailSenderIT extends AbstractMailIT {
   private String emailBodyWithCommentsInUnchangeFile(
       String changeURL, String commentId, String adminInlineComment, String userInlineComment) {
     return "Attention is currently required from: Administrator.\n"
-        + "User has posted comments on this change. ( "
+        + "User1 has posted comments on this change. ( "
         + changeURL
         + " )\n"
         + "\n"

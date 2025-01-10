@@ -16,6 +16,7 @@ package com.google.gerrit.server.patch;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.collect.Iterables;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.exceptions.NoSuchEntityException;
 import com.google.gerrit.server.patch.filediff.FileDiffOutput;
@@ -53,7 +54,7 @@ public class PatchFile {
   private Text a;
   private Text b;
 
-  public PatchFile(Repository repo, Map<String, FileDiffOutput> modifiedFiles, String fileName)
+  public PatchFile(Repository repo, Map<String, FileDiffOutput> modifiedFiles, String fileName, ObjectId patchSetCommitId)
       throws IOException {
     this.repo = repo;
     this.diff =
@@ -61,7 +62,7 @@ public class PatchFile {
             .filter(f -> f.getKey().equals(fileName))
             .map(Map.Entry::getValue)
             .findFirst()
-            .orElseGet(() -> FileDiffOutput.empty(fileName, ObjectId.zeroId(), ObjectId.zeroId()));
+            .orElseGet(() -> FileDiffOutput.empty(fileName, patchSetCommitId, patchSetCommitId));
 
     if (Patch.PATCHSET_LEVEL.equals(fileName)) {
       aTree = null;
@@ -100,7 +101,7 @@ public class PatchFile {
           if (diff.oldCommitId().equals(ObjectId.zeroId())) {
             // DiffOperations returns ObjectId.zeroId if newCommit is a root commit, i.e. has no
             // parents.
-            aTree = null;
+            aTree = null; // TODO this is something to look why they did it
           } else {
             aTree = rw.parseTree(diff.oldCommitId());
           }

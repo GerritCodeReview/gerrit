@@ -209,7 +209,7 @@ public class CommentSender extends ReplyToChangeSender {
         groups.add(currentGroup);
         if (modifiedFiles != null && !modifiedFiles.isEmpty()) {
           try {
-            currentGroup.fileData = new PatchFile(repo, modifiedFiles, c.key.filename);
+            currentGroup.fileData = new PatchFile(repo, modifiedFiles, c.key.filename, patchSet.commitId());
           } catch (IOException e) {
             logger.atWarning().withCause(e).log(
                 "Cannot load %s from %s in %s",

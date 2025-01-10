@@ -46,6 +46,30 @@
       },
       "revId": "07e3a240eb08e2425f3532d2b14b7e2e19c7e190",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "acc76e6b_c84cf588",
+        "filename": "java/com/google/gerrit/server/cache/PersistentCacheBaseFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-01-10T22:25:14Z",
+      "side": 1,
+      "message": "We don\u0027t consistently. I guess better would be to annotate the field on L30 so that maybe I would get a warning in my IDE if I forget a null check. If you\u0027re unsure about it, feel free to skip. I don\u0027t know if we should be trying to make that a coding guideline or not, but I do know I have created NPEs and it would be great if \u003csomething\u003e helped me avoid that 😊",
+      "parentUuid": "f46fc8a4_68953bed",
+      "range": {
+        "startLine": 35,
+        "startChar": 77,
+        "endLine": 35,
+        "endChar": 90
+      },
+      "revId": "07e3a240eb08e2425f3532d2b14b7e2e19c7e190",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

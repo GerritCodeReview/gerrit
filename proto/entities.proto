@@ -120,7 +120,7 @@ enum ChangeStatus {
 message Conflicts {
   optional ObjectId ours = 1;
   optional ObjectId theirs = 2;
-  required bool containsConflicts = 3;
+  optional bool containsConflicts = 3;
 }
 
 // Serialized form of com.google.gerrit.extensions.common.MergeInput.

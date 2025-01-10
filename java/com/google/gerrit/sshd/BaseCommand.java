@@ -31,7 +31,6 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RequestCleanup;
 import com.google.gerrit.server.git.ProjectRunnable;
 import com.google.gerrit.server.git.WorkQueue.CancelableRunnable;
-import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -163,14 +162,6 @@ public abstract class BaseCommand implements Command {
 
   public void setArguments(String[] argv) {
     this.argv = argv;
-  }
-
-  public void setForceTracing(boolean v) {
-    context.setForceTracing(v);
-  }
-
-  public void setTraceId(String id) {
-    context.setTraceId(id);
   }
 
   /**
@@ -514,11 +505,7 @@ public abstract class BaseCommand implements Command {
         } catch (Throwable e) {
           flushIgnoreException(out);
           flushIgnoreException(err);
-          try (TraceContext traceContext =
-              TraceContext.newTrace(
-                  context.getForceTracing(), context.getTraceId(), (trace, traceId) -> {})) {
-            rc = handleError(e);
-          }
+          rc = handleError(e);
         } finally {
           try {
             onExit(rc);

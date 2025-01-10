@@ -66,8 +66,9 @@ public class GetContent implements RestReadView<FileResource> {
   public Response<BinaryResult> apply(FileResource rsrc)
       throws ResourceNotFoundException, IOException, BadRequestException {
     String path = rsrc.getPatchKey().fileName();
+    PatchSet.Id patchSetId = rsrc.getRevision().getPatchSet().id();
     if (Patch.COMMIT_MSG.equals(path)) {
-      String msg = getMessage(rsrc.getRevision().getChangeResource().getNotes());
+      String msg = getMessage(rsrc.getRevision().getChangeResource().getNotes(), patchSetId);
       return Response.ok(
           BinaryResult.create(msg)
               .setContentType(FileContentUtil.TEXT_X_GERRIT_COMMIT_MESSAGE)
@@ -89,9 +90,9 @@ public class GetContent implements RestReadView<FileResource> {
             parent));
   }
 
-  private String getMessage(ChangeNotes notes) throws IOException {
+  private String getMessage(ChangeNotes notes, PatchSet.Id patchSetId) throws IOException {
     Change.Id changeId = notes.getChangeId();
-    PatchSet ps = psUtil.current(notes);
+    PatchSet ps = psUtil.get(notes, patchSetId);
     if (ps == null) {
       throw new NoSuchChangeException(changeId);
     }

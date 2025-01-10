@@ -107,6 +107,17 @@ public class PatchFile {
     }
   }
 
+  public PatchFile(Repository repo, String fileName, ObjectId patchSetCommitId) throws IOException {
+    this.repo = repo;
+    this.diff = FileDiffOutput.empty(fileName, patchSetCommitId, patchSetCommitId);
+    try (ObjectReader reader = repo.newObjectReader();
+        RevWalk rw = new RevWalk(reader)) {
+      final RevCommit bCommit = rw.parseCommit(diff.newCommitId());
+      this.aTree = bCommit.getTree();
+      this.bTree = bCommit.getTree();
+    }
+  }
+
   private String getOldName() {
     String name = FilePathAdapter.getOldPath(diff.oldPath(), diff.changeType());
     if (name != null) {

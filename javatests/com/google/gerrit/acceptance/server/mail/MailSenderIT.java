@@ -23,9 +23,9 @@ import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.entities.EmailHeader;
+import com.google.gerrit.entities.EmailHeader.StringEmailHeader;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
-import com.google.gerrit.entities.EmailHeader.StringEmailHeader;
 import com.google.gerrit.server.config.SitePaths;
 import java.net.URI;
 import java.nio.file.Files;
@@ -118,9 +118,10 @@ public class MailSenderIT extends AbstractMailIT {
 
   private String emailBodyWithCommentsInUnchangeFile(
       String changeURL, String commentId, String adminInlineComment, String userInlineComment) {
-    return "Attention is currently required from: Administrator.\n"
-        + "User has posted comments on this change. ( "
+    return "Attention is currently required from: Administrator.\n\n"
+        + "User1 has posted comments on this change by Administrator. ( "
         + changeURL
+        + "?usp=email"
         + " )\n"
         + "\n"
         + "Change subject: Second Change\n"
@@ -136,7 +137,8 @@ public class MailSenderIT extends AbstractMailIT {
         + changeURL
         + "/comment/"
         + commentId
-        + " \n"
+        + "?usp=email :"
+        + "\n"
         + "PS1, Line 1: this is line 1 \n"
         + "> "
         + adminInlineComment

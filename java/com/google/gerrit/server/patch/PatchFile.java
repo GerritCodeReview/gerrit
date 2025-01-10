@@ -53,7 +53,11 @@ public class PatchFile {
   private Text a;
   private Text b;
 
-  public PatchFile(Repository repo, Map<String, FileDiffOutput> modifiedFiles, String fileName)
+  public PatchFile(
+      Repository repo,
+      Map<String, FileDiffOutput> modifiedFiles,
+      String fileName,
+      ObjectId patchSetCommitId)
       throws IOException {
     this.repo = repo;
     this.diff =
@@ -61,7 +65,7 @@ public class PatchFile {
             .filter(f -> f.getKey().equals(fileName))
             .map(Map.Entry::getValue)
             .findFirst()
-            .orElseGet(() -> FileDiffOutput.empty(fileName, ObjectId.zeroId(), ObjectId.zeroId()));
+            .orElseGet(() -> FileDiffOutput.empty(fileName, patchSetCommitId, patchSetCommitId));
 
     if (Patch.PATCHSET_LEVEL.equals(fileName)) {
       aTree = null;
@@ -100,7 +104,7 @@ public class PatchFile {
           if (diff.oldCommitId().equals(ObjectId.zeroId())) {
             // DiffOperations returns ObjectId.zeroId if newCommit is a root commit, i.e. has no
             // parents.
-            aTree = null;
+            aTree = null; // TODO this is something to look why they did it
           } else {
             aTree = rw.parseTree(diff.oldCommitId());
           }
@@ -153,9 +157,7 @@ public class PatchFile {
   }
 
   private Text load(ObjectId tree, String path)
-      throws MissingObjectException,
-          IncorrectObjectTypeException,
-          CorruptObjectException,
+      throws MissingObjectException, IncorrectObjectTypeException, CorruptObjectException,
           IOException {
     if (path == null || Patch.PATCHSET_LEVEL.equals(path)) {
       return Text.EMPTY;

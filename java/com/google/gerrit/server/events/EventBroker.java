@@ -52,7 +52,10 @@ public class EventBroker implements EventDispatcher {
       DynamicItem.itemOf(binder(), EventDispatcher.class);
       DynamicItem.bind(binder(), EventDispatcher.class).to(EventBroker.class);
 
-      bind(Gson.class).annotatedWith(EventGson.class).toProvider(EventGsonProvider.class);
+      bind(Gson.class)
+          .annotatedWith(EventGson.class)
+          .toProvider(EventGsonProvider.class)
+          .in(Singleton.class);
     }
   }
 

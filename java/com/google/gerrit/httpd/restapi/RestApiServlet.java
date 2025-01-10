@@ -324,6 +324,8 @@ public class RestApiServlet extends HttpServlet {
     Object inputRequestBody = null;
     RestResource rsrc = TopLevelResource.INSTANCE;
     ViewData viewData = null;
+    String sessionId = globals.webSession.get().getSessionId();
+    CurrentUser currentUser = globals.currentUser.get();
 
     try (TraceContext traceContext = enableTracing(req, res)) {
       String requestUri = requestUri(req);
@@ -759,8 +761,8 @@ public class RestApiServlet extends HttpServlet {
             metric, System.nanoTime() - startNanos, TimeUnit.NANOSECONDS);
         globals.auditService.dispatch(
             new ExtendedHttpAuditEvent(
-                globals.webSession.get().getSessionId(),
-                globals.currentUser.get(),
+                sessionId,
+                currentUser,
                 req,
                 auditStartTs,
                 qp != null ? qp.params() : ImmutableListMultimap.of(),

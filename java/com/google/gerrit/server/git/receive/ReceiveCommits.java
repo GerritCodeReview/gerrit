@@ -479,7 +479,7 @@ class ReceiveCommits {
 
   private MessageSender messageSender;
   private ReceiveCommitsResult.Builder result;
-  private ImmutableMap<String, String> loggingTags;
+  private ImmutableSetMultimap<String, String> loggingTags;
   private ImmutableList<String> transitionalPluginOptions;
 
   /** This object is for single use only. */
@@ -636,7 +636,7 @@ class ReceiveCommits {
     // Handles for outputting back over the wire to the end user.
     this.messageSender = messageSender != null ? messageSender : new ReceivePackMessageSender();
     this.result = ReceiveCommitsResult.builder();
-    this.loggingTags = ImmutableMap.of();
+    this.loggingTags = ImmutableSetMultimap.of();
 
     // TODO(hiesel): Make this decision implicit once vetted
     boolean useRefCache = config.getBoolean("receive", "enableInMemoryRefCache", true);
@@ -686,7 +686,7 @@ class ReceiveCommits {
     try (TraceContext traceContext =
         TraceContext.newTrace(
             tracePushOption.isPresent(),
-            loggingTags.get(RequestId.Type.TRACE_ID.name()),
+            Iterables.getFirst(loggingTags.get(RequestId.Type.TRACE_ID.name()), null),
             (tagName, traceId) -> {})) {
       loggingTags.forEach((tagName, tagValue) -> traceContext.addTag(tagName, tagValue));
 

@@ -20,7 +20,8 @@ import com.google.common.base.Stopwatch;
 import com.google.common.base.Strings;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Table;
 import com.google.common.flogger.FluentLogger;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -134,7 +135,7 @@ public class TraceContext implements AutoCloseable {
       Optional<String> existingTraceId =
           LoggingContext.getInstance().getTagsAsMap().get(RequestId.Type.TRACE_ID.name()).stream()
               .findAny();
-      effectiveId = existingTraceId.orElse(new RequestId().toString());
+      effectiveId = existingTraceId.orElse("reqID-" + new RequestId());
     }
 
     traceIdConsumer.accept(RequestId.Type.TRACE_ID.name(), effectiveId);
@@ -248,8 +249,8 @@ public class TraceContext implements AutoCloseable {
     return this;
   }
 
-  public ImmutableMap<String, String> getTags() {
-    ImmutableMap.Builder<String, String> tagMap = ImmutableMap.builder();
+  public ImmutableSetMultimap<String, String> getTags() {
+    ImmutableSetMultimap.Builder<String, String> tagMap = ImmutableSetMultimap.builder();
     tags.cellSet().forEach(c -> tagMap.put(c.getRowKey(), c.getColumnKey()));
     return tagMap.build();
   }
@@ -273,9 +274,8 @@ public class TraceContext implements AutoCloseable {
     return LoggingContext.getInstance().isLoggingForced();
   }
 
-  public static Optional<String> getTraceId() {
-    return LoggingContext.getInstance().getTagsAsMap().get(RequestId.Type.TRACE_ID.name()).stream()
-        .findFirst();
+  public static ImmutableSet<String> getTraceIds() {
+    return LoggingContext.getInstance().getTagsAsMap().get(RequestId.Type.TRACE_ID.name());
   }
 
   public static Optional<String> getPluginTag() {

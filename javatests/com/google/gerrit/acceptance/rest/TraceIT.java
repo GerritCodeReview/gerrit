@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.rest;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static org.apache.http.HttpStatus.SC_CREATED;
 import static org.apache.http.HttpStatus.SC_INTERNAL_SERVER_ERROR;
 import static org.apache.http.HttpStatus.SC_OK;
@@ -1039,7 +1040,10 @@ public class TraceIT extends AbstractDaemonTest {
     try (Registration registration = extensionRegistry.newRegistration().add(traceSubmitRule)) {
       RestResponse response = adminRestSession.post("/changes/" + changeId + "/submit");
       assertThat(response.getStatusCode()).isEqualTo(SC_INTERNAL_SERVER_ERROR);
-      assertThat(
+      assertWithMessage(
+              "headers: %s do not contain a 'retry-on-failure' header",
+              response.getHeaders(RestApiServlet.X_GERRIT_TRACE))
+          .that(
               response.getHeaders(RestApiServlet.X_GERRIT_TRACE).stream()
                   .anyMatch(h -> h.startsWith("retry-on-failure-")))
           .isTrue();

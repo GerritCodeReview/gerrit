@@ -123,10 +123,6 @@ public abstract class SshCommand extends BaseCommand {
     return TraceContext.newTrace(
         trace,
         traceId,
-        (tagName, traceId) -> {
-          if (trace) {
-            stderr.println(String.format("%s: %s", tagName, traceId));
-          }
-        });
+        (tagName, traceId) -> stderr.println(String.format("%s: %s", tagName, traceId)));
   }
 }

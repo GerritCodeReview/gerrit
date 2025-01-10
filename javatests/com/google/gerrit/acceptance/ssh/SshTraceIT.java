@@ -47,8 +47,8 @@ public class SshTraceIT extends AbstractDaemonTest {
         extensionRegistry.newRegistration().add(projectCreationListener)) {
       adminSshSession.exec("gerrit create-project new1");
       adminSshSession.assertSuccess();
-      assertThat(projectCreationListener.traceId).isNotNull();
-      assertThat(projectCreationListener.foundTraceId).isTrue();
+      assertThat(projectCreationListener.traceId).isNull();
+      assertThat(projectCreationListener.foundTraceId).isFalse();
       assertThat(projectCreationListener.isLoggingForced).isFalse();
     }
   }

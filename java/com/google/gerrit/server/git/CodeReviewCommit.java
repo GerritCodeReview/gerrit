@@ -172,6 +172,12 @@ public class CodeReviewCommit extends RevCommit implements Serializable {
     this.statusMessage = Optional.ofNullable(statusMessage);
   }
 
+  public void setNoConflicts() {
+    this.conflicts =
+        PatchSet.Conflicts.create(
+            Optional.empty(), Optional.empty(), /* containsConflicts= */ false);
+  }
+
   public void setConflicts(
       ObjectId ours, ObjectId theirs, @Nullable Set<String> filesWithGitConflicts) {
     if (filesWithGitConflicts != null && !filesWithGitConflicts.isEmpty()) {

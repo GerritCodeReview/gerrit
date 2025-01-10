@@ -224,11 +224,12 @@ public class CreateChangeIT extends AbstractDaemonTest {
     assertThat(messages).hasSize(1);
     assertThat(Iterables.getOnlyElement(messages).message).isEqualTo("Uploaded patch set 1.");
 
-    // Verify that no conflicts information is set (conflicts information is only set for merge
-    // commits)
     RevisionInfo currentRevision =
         gApi.changes().id(info.id).get(CURRENT_REVISION, CURRENT_COMMIT).getCurrentRevision();
-    assertThat(currentRevision.conflicts).isNull();
+    assertThat(currentRevision.conflicts).isNotNull();
+    assertThat(currentRevision.conflicts.containsConflicts).isFalse();
+    assertThat(currentRevision.conflicts.ours).isNull();
+    assertThat(currentRevision.conflicts.theirs).isNull();
   }
 
   @Test

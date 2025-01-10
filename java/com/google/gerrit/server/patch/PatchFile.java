@@ -16,6 +16,7 @@ package com.google.gerrit.server.patch;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.collect.Iterables;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.exceptions.NoSuchEntityException;
 import com.google.gerrit.server.patch.filediff.FileDiffOutput;
@@ -53,14 +54,14 @@ public class PatchFile {
   private Text a;
   private Text b;
 
-  public PatchFile(Repository repo, Map<String, FileDiffOutput> modifiedFiles, String fileName)
+  public PatchFile(Repository repo, Map<String, FileDiffOutput> modifiedFiles, String fileName, ObjectId patchSetCommitId)
       throws IOException {
     this.repo = repo;
     this.diff =
         modifiedFiles.values().stream()
             .filter(f -> f.newPath().isPresent() && f.newPath().get().equals(fileName))
             .findFirst()
-            .orElse(FileDiffOutput.empty(fileName, ObjectId.zeroId(), ObjectId.zeroId()));
+            .orElse(FileDiffOutput.empty(fileName, patchSetCommitId, patchSetCommitId));
 
     if (Patch.PATCHSET_LEVEL.equals(fileName)) {
       aTree = null;

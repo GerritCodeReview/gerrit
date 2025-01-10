@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c021e60a_55bc7a6e",
+        "filename": "java/com/google/gerrit/server/patch/PatchFile.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2025-01-10T14:45:29Z",
+      "side": 1,
+      "message": "ekempin@google.com | @ghareeb@google.com I need your help. \n\nPrecondition:\n- I don\u0027t know the code to make proper statements, so I proposed this change very cautiously.\n- Apologies if there are some terms that are not properly applied.\n\nI am assuming the following:\n\n- When `fileName` is not in `modifiedFiles` then it could be considered `unchanged file with comments` (as explained in the issue 387440281).\n- As an `unchanged file`, we can assume that `oldCommitId` and `newCommitId` is the patchset commit.\n\nDoes it make sense? Please, feedback would be very welcome.",
+      "revId": "7cb62be516dba6808ff345d11260e4f32bb74201",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

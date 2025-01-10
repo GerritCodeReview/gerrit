@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "01561953_1d772bfb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2025-01-10T15:44:28Z",
+      "side": 1,
+      "message": "There are a few places assuming a single tag.\n\nFor example, `TraceContext#getTags` assumed a unique key (otherwise the map builder throws upon build). Please see change I68e0c05a6ae81f1f3034f31bad3d9561ab33ab99.",
+      "parentUuid": "005f5a62_b907c71c",
+      "revId": "0e588b8826675f801ae78323365d70cff4e589bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "36f9816a_9f231ede",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -31,6 +49,30 @@
       "writtenOn": "2025-01-10T15:03:27Z",
       "side": 1,
       "message": "This means that you assume that the existence of TRACE_ID means forced-tracing? This series proposes to decouple these two concepts:\n* assigning of TRACE_ID to a request\n* forced logging for a request\n\nas proposed with this change: I1aa4f289a0e4dc05e637dd60361b870d5eff25f8. Specifically, a request could have TRACE_ID assigned but without forced logging.\nIs this concept possible with your infrastructure at all?",
+      "range": {
+        "startLine": 13,
+        "startChar": 3,
+        "endLine": 13,
+        "endChar": 61
+      },
+      "revId": "0e588b8826675f801ae78323365d70cff4e589bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63d61b44_da2893de",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2025-01-10T15:44:28Z",
+      "side": 1,
+      "message": "Sorry, I missed the decoupling part. This part is not a concern then.",
+      "parentUuid": "36f9816a_9f231ede",
       "range": {
         "startLine": 13,
         "startChar": 3,

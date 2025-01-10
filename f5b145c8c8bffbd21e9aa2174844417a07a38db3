@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a99c6a8c_7aadbb41",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-01-10T09:07:05Z",
+      "side": 1,
+      "message": "Why? How hard would it be to implement that? Can you create a tracking bug?",
+      "range": {
+        "startLine": 9,
+        "startChar": 38,
+        "endLine": 10,
+        "endChar": 14
+      },
+      "revId": "f5b145c8c8bffbd21e9aa2174844417a07a38db3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78683bfb_8891a6d7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-01-10T09:07:05Z",
+      "side": 1,
+      "message": "Can you create another KR tracking issue for you with a title like \"Checks and Fixes related bugs and polish\"? Then make b/384989619 a child of that.\n\nThus we can create more visibility into you handling these kinds of issues, which I appreciate very much. ❤️",
+      "range": {
+        "startLine": 17,
+        "startChar": 17,
+        "endLine": 17,
+        "endChar": 26
+      },
+      "revId": "f5b145c8c8bffbd21e9aa2174844417a07a38db3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "116ea56b_34025ad7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-01-10T09:07:05Z",
+      "side": 1,
+      "message": "Maybe add some comments to this method explaining why you deal with multiple fixes in one case and with multiple replacements in another. And why not with both.",
+      "range": {
+        "startLine": 301,
+        "startChar": 2,
+        "endLine": 306,
+        "endChar": 3
+      },
+      "revId": "f5b145c8c8bffbd21e9aa2174844417a07a38db3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

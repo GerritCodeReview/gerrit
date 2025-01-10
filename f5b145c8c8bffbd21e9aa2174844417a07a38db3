@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0934f538_888714da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-01-10T10:00:25Z",
+      "side": 1,
+      "message": "It was done for robot comments so I guess it\u0027s just 1-2 days backend work.\n\nTracking bug: b/389011542",
+      "parentUuid": "a99c6a8c_7aadbb41",
+      "range": {
+        "startLine": 9,
+        "startChar": 38,
+        "endLine": 10,
+        "endChar": 14
+      },
+      "revId": "f5b145c8c8bffbd21e9aa2174844417a07a38db3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "78683bfb_8891a6d7",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d39d382_6f140481",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-01-10T10:00:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "78683bfb_8891a6d7",
+      "range": {
+        "startLine": 17,
+        "startChar": 17,
+        "endLine": 17,
+        "endChar": 26
+      },
+      "revId": "f5b145c8c8bffbd21e9aa2174844417a07a38db3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "116ea56b_34025ad7",
@@ -60,6 +108,30 @@
       "writtenOn": "2025-01-10T09:07:05Z",
       "side": 1,
       "message": "Maybe add some comments to this method explaining why you deal with multiple fixes in one case and with multiple replacements in another. And why not with both.",
+      "range": {
+        "startLine": 301,
+        "startChar": 2,
+        "endLine": 306,
+        "endChar": 3
+      },
+      "revId": "f5b145c8c8bffbd21e9aa2174844417a07a38db3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bfe10816_803b1cf1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-01-10T10:00:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "116ea56b_34025ad7",
       "range": {
         "startLine": 301,
         "startChar": 2,

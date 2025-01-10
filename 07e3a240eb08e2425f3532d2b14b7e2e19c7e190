@@ -22,6 +22,30 @@
       },
       "revId": "07e3a240eb08e2425f3532d2b14b7e2e19c7e190",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f46fc8a4_68953bed",
+        "filename": "java/com/google/gerrit/server/cache/PersistentCacheBaseFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-01-10T10:14:42Z",
+      "side": 1,
+      "message": "\u003e Should this be annotated `@Nullable`?\n\nGood question, yes it can be `null`. However, this is not a constructor that guice uses for injection where `@Nullable` annotation would be essential. Do we annotate with `@Nullable` all parameters that are passed by the caller and can be `null` throughout the Gerrit\u0027s code base? I don\u0027t think this it the case.",
+      "parentUuid": "a1bd9faa_9bd19203",
+      "range": {
+        "startLine": 35,
+        "startChar": 77,
+        "endLine": 35,
+        "endChar": 90
+      },
+      "revId": "07e3a240eb08e2425f3532d2b14b7e2e19c7e190",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

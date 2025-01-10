@@ -20,7 +20,6 @@ import com.google.common.base.Strings;
 import com.google.gerrit.httpd.GetUserFilter;
 import com.google.gerrit.httpd.RequestMetricsFilter;
 import com.google.gerrit.httpd.restapi.LogRedactUtil;
-import com.google.gerrit.httpd.restapi.RestApiServlet;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.util.SystemLog;
 import com.google.gerrit.server.util.time.TimeUtil;
@@ -59,7 +58,6 @@ class HttpLog extends AbstractLifeCycle implements RequestLog {
   protected static final String P_CPU_USER = "Cpu-User";
   protected static final String P_MEMORY = "Memory";
   protected static final String P_COMMAND_STATUS = "Command-Status";
-  protected static final String P_TRACE_ID = "traceId";
 
   private final AsyncAppender async;
 
@@ -123,10 +121,6 @@ class HttpLog extends AbstractLifeCycle implements RequestLog {
     set(event, P_REFERER, req.getHeader("Referer"));
     set(event, P_USER_AGENT, req.getHeader("User-Agent"));
     set(event, P_COMMAND_STATUS, rsp.getHeader(GIT_COMMAND_STATUS_HEADER));
-    String traceId = rsp.getHeader(RestApiServlet.X_GERRIT_TRACE);
-    if (traceId != null) {
-      set(event, P_TRACE_ID, traceId);
-    }
 
     RequestMetricsFilter.Context ctx =
         (RequestMetricsFilter.Context) req.getAttribute(RequestMetricsFilter.METRICS_CONTEXT);

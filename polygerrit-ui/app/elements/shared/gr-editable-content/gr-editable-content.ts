@@ -586,6 +586,7 @@ export class GrEditableContent extends LitElement {
   handleFormat(e: Event) {
     e.preventDefault();
     this.newContent = formatCommitMessageString(this.newContent);
+    this.reporting.reportInteraction(Interaction.FORMAT_BUTTON_CLICKED);
   }
 
   private setCommitterEmail(e: CustomEvent<{value: string}>) {

@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1b6c606f_6a4dde9a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-12T10:38:34Z",
+      "side": 1,
+      "message": "Yes, good idea.",
+      "parentUuid": "1c71def4_aeb4f7ba",
+      "revId": "a7feeab5b9b37815f87d344be79a31c740058fe5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a8fadd0f_9491a40f",
         "filename": "java/com/google/gerrit/server/git/validators/UploadValidationException.java",
         "patchSetId": 2
@@ -79,6 +97,30 @@
       "side": 1,
       "message": "Alternative would bo to remove it, AFAICT it is not used in the code...",
       "parentUuid": "42a461b9_5c2377df",
+      "range": {
+        "startLine": 27,
+        "startChar": 4,
+        "endLine": 27,
+        "endChar": 26
+      },
+      "revId": "a7feeab5b9b37815f87d344be79a31c740058fe5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "195506d5_f863d9fe",
+        "filename": "java/com/google/gerrit/server/git/validators/UploadValidationException.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-12T10:38:34Z",
+      "side": 1,
+      "message": "\u003e Alternative would bo to remove it, AFAICT it is not used in the code...\n\nYes, exactly. However, because this is a public constructor, I\u0027d remove it on master.",
+      "parentUuid": "dd138c6c_84fe7518",
       "range": {
         "startLine": 27,
         "startChar": 4,

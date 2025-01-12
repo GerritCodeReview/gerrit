@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a8c9e662_0bd1cb22",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-12T12:53:33Z",
+      "side": 1,
+      "message": "I believe the original sin is that when the extension was introduced with Change 56191, it was left without any validation test.\n\nIt would make sense to be addressed in a separate follow-up change.",
+      "parentUuid": "1b6c606f_6a4dde9a",
+      "revId": "a7feeab5b9b37815f87d344be79a31c740058fe5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a8fadd0f_9491a40f",
         "filename": "java/com/google/gerrit/server/git/validators/UploadValidationException.java",
         "patchSetId": 2

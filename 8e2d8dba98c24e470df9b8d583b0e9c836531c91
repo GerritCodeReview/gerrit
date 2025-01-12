@@ -46,6 +46,30 @@
       },
       "revId": "8e2d8dba98c24e470df9b8d583b0e9c836531c91",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "befdfbad_43539973",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractGitOverHttpServlet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-12T22:28:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84b45e56_a93cb4d1",
+      "range": {
+        "startLine": 158,
+        "startChar": 43,
+        "endLine": 158,
+        "endChar": 72
+      },
+      "revId": "8e2d8dba98c24e470df9b8d583b0e9c836531c91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

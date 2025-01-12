@@ -39,6 +39,30 @@
       },
       "revId": "a7feeab5b9b37815f87d344be79a31c740058fe5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42a461b9_5c2377df",
+        "filename": "java/com/google/gerrit/server/git/validators/UploadValidationException.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-01-12T10:04:27Z",
+      "side": 1,
+      "message": "answering myself - we can\u0027t perhaps this constructor should be marked as `@depracated` as it will fail in the same way as described in the issue as status code is set to `403 - FORBIDDEN`?",
+      "parentUuid": "a8fadd0f_9491a40f",
+      "range": {
+        "startLine": 27,
+        "startChar": 4,
+        "endLine": 27,
+        "endChar": 26
+      },
+      "revId": "a7feeab5b9b37815f87d344be79a31c740058fe5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

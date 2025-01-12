@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53ef0c62_86d4a4bf",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractGitOverHttpServlet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-01-12T21:20:20Z",
+      "side": 1,
+      "message": "it says that response should be 200 (SC_OK) but no response is checked at the end of the test - do you miss sth like in line #150?",
+      "range": {
+        "startLine": 158,
+        "startChar": 43,
+        "endLine": 158,
+        "endChar": 72
+      },
+      "revId": "8e2d8dba98c24e470df9b8d583b0e9c836531c91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -165,6 +165,30 @@
       },
       "revId": "a7feeab5b9b37815f87d344be79a31c740058fe5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "800838ac_744b90f1",
+        "filename": "java/com/google/gerrit/server/git/validators/UploadValidationException.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-01-12T18:45:32Z",
+      "side": 1,
+      "message": "Makes sense, do you want to mark it as `@Deprecated` here for the time being?",
+      "parentUuid": "195506d5_f863d9fe",
+      "range": {
+        "startLine": 27,
+        "startChar": 4,
+        "endLine": 27,
+        "endChar": 26
+      },
+      "revId": "a7feeab5b9b37815f87d344be79a31c740058fe5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

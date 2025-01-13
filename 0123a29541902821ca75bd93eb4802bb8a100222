@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "892121d6_ae961b61",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-01-13T11:09:45Z",
+      "side": 1,
+      "message": "serializers",
+      "range": {
+        "startLine": 18,
+        "startChar": 54,
+        "endLine": 18,
+        "endChar": 66
+      },
+      "revId": "0123a29541902821ca75bd93eb4802bb8a100222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "6ade13f2_cb378347",
@@ -14,6 +37,23 @@
       "writtenOn": "2025-01-11T00:18:39Z",
       "side": 1,
       "message": "@nasser.grainawi@oss.qualcomm.com do you recall any reason why we would need to create one new Gson instance for *every* Gerrit event?",
+      "revId": "0123a29541902821ca75bd93eb4802bb8a100222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c94d1fe_311aedde",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-01-13T11:09:45Z",
+      "side": 1,
+      "message": "I have also verified this is now always using the same `Gson` instance to (de)serialize events in Gerrit.\n\nThe documentation guarantees thread-safety and I haven\u0027t found any adapter registration that would suggest otherwise.\n\nLGTM!",
       "revId": "0123a29541902821ca75bd93eb4802bb8a100222",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

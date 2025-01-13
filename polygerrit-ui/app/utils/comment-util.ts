@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2027 Google LLC
+ * Copyright 2028 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
 import {

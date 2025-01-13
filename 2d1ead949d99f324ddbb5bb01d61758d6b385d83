@@ -16,6 +16,24 @@
       "message": "Unfortunately it seems that building stable-3.4 on Mac M1 has issues, I get some build failures when trying to build current stable-3.4 branch already without this fix.",
       "revId": "2d1ead949d99f324ddbb5bb01d61758d6b385d83",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb105f9b_2a5c8a8a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-13T15:52:41Z",
+      "side": 1,
+      "message": "I still have access to an Intel NUC with Linux and can verify manually this change. Thanks for the cherry-pick !",
+      "parentUuid": "37210945_5bcafc9c",
+      "revId": "2d1ead949d99f324ddbb5bb01d61758d6b385d83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "41f30e59_48357849",
+        "filename": "java/com/google/gerrit/server/restapi/account/DeleteAccount.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1096249
+      },
+      "writtenOn": "2025-01-13T18:02:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "52775383_7ae4b576",
+      "revId": "1b155a5c987fd7360aa4b94b688ffe87de0e2984",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4bc40c4e_2f8154dd",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef7c80cc_e8ff2c4d",
+        "filename": "java/com/google/gerrit/server/restapi/account/DeleteAccount.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1096249
+      },
+      "writtenOn": "2025-01-13T18:02:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4bc40c4e_2f8154dd",
+      "revId": "1b155a5c987fd7360aa4b94b688ffe87de0e2984",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d2475e60_a55ea8c3",
@@ -48,6 +84,24 @@
       "writtenOn": "2025-01-10T22:38:17Z",
       "side": 1,
       "message": "Sorry to make you change another thing, but again to be consistent with [groups](https://gerrit.googlesource.com/gerrit/+/refs/changes/81/442981/12/java/com/google/gerrit/server/restapi/group/DeleteGroup.java#107), you should throw `ResourceNotFoundException`\n```suggestion\n      throw new ResourceNotFoundException(\"Delete account is not enabled\");\n```",
+      "revId": "1b155a5c987fd7360aa4b94b688ffe87de0e2984",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21f356d3_3a442fa2",
+        "filename": "java/com/google/gerrit/server/restapi/account/DeleteAccount.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1096249
+      },
+      "writtenOn": "2025-01-13T18:02:58Z",
+      "side": 1,
+      "message": "Thanks for the feedback. Done",
+      "parentUuid": "d2475e60_a55ea8c3",
       "revId": "1b155a5c987fd7360aa4b94b688ffe87de0e2984",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -75,6 +129,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "60faaf6b_de22f29a",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 3612,
+      "author": {
+        "id": 1096249
+      },
+      "writtenOn": "2025-01-13T18:02:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "176cd9f3_80e5644f",
+      "range": {
+        "startLine": 3610,
+        "startChar": 0,
+        "endLine": 3612,
+        "endChar": 85
+      },
+      "revId": "1b155a5c987fd7360aa4b94b688ffe87de0e2984",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eac0842a_06cd9007",
@@ -88,6 +166,30 @@
       "writtenOn": "2025-01-10T22:38:17Z",
       "side": 1,
       "message": "```suggestion\n    ResourceNotFoundException thrown \u003d\n        assertThrows(ResourceNotFoundException.class, () -\u003e gApi.accounts().id(deleted.id().get()).delete());\n    assertThat(thrown).hasMessageThat().isEqualTo(\"Delete account is not enabled\");\n```",
+      "range": {
+        "startLine": 3620,
+        "startChar": 0,
+        "endLine": 3622,
+        "endChar": 85
+      },
+      "revId": "1b155a5c987fd7360aa4b94b688ffe87de0e2984",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8093b33c_0f9e16e2",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 3622,
+      "author": {
+        "id": 1096249
+      },
+      "writtenOn": "2025-01-13T18:02:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eac0842a_06cd9007",
       "range": {
         "startLine": 3620,
         "startChar": 0,

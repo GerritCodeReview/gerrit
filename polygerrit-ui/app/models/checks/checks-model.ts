@@ -321,6 +321,15 @@ export class ChecksModel extends Model<ChecksState> {
     this.checksSelected$ = select(
       combineLatest([this.state$, this.changeViewModel.checksPatchset$]),
       ([state, ps]) => {
+        console.log(
+          `asdf checksSelected changed: basePatchNum:${
+            this.changeViewModel.getState()?.basePatchNum
+          } patchNum:${
+            this.changeViewModel.getState()?.patchNum
+          } checksPatchsetState:${
+            this.changeViewModel.getState()?.checksPatchset
+          } checksPatchsetEmitted:${ps}`
+        );
         const checksPs = ps ? ChecksPatchset.SELECTED : ChecksPatchset.LATEST;
         return this.getPluginState(state, checksPs);
       }
@@ -728,9 +737,11 @@ export class ChecksModel extends Model<ChecksState> {
     this.setState(nextState);
   }
 
-  updateStateSetPatchset(num?: PatchSetNumber) {
-    const newPatchset = num === this.latestPatchNum ? undefined : num;
-    const oldPatchset = this.changeViewModel.getState()?.checksPatchset;
+  updateStateSetPatchset(newPatchset: PatchSetNumber) {
+    const patchNum =
+      this.changeViewModel.getState()?.patchNum ?? this.latestPatchNum;
+    const oldPatchset =
+      this.changeViewModel.getState()?.checksPatchset ?? patchNum;
     // For `checksPatchset` itself we could just let updateState() do the
     // standard old===new comparison. But we have to make sure here that
     // the attempt reset only actually happens when a new patchset is chosen.

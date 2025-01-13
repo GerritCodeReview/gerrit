@@ -70,6 +70,30 @@
       },
       "revId": "8e2d8dba98c24e470df9b8d583b0e9c836531c91",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "713e409f_ee460e9d",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractGitOverHttpServlet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-01-13T19:57:47Z",
+      "side": 1,
+      "message": "but the following\n```\n    auditService.drainHttpAuditEvents();\n\n    TransportException t \u003d\n        assertThrows(TransportException.class, () -\u003e testRepo.git().fetch().call());\n        \n    assertThat(\n        auditService.drainHttpAuditEvents().stream()\n            .allMatch(e -\u003e e.httpStatus \u003d\u003d HttpServletResponse.SC_OK))\n    .isTrue();\n```\n\nwithout a fix IOW response is not the expected 200",
+      "parentUuid": "befdfbad_43539973",
+      "range": {
+        "startLine": 158,
+        "startChar": 43,
+        "endLine": 158,
+        "endChar": 72
+      },
+      "revId": "8e2d8dba98c24e470df9b8d583b0e9c836531c91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -41,7 +41,9 @@ export interface ChangeViewState extends ViewState {
 
   changeNum: NumericChangeId;
   repo: RepoName;
+  /** `undefined` means "latest". */
   patchNum?: RevisionPatchSetNum;
+  /** `undefined` is treated the same as `ParentPatchSet`. */
   basePatchNum?: BasePatchSetNum;
   /** Refers to comment on COMMENTS tab in OVERVIEW. */
   commentId?: UrlEncodedCommentId;
@@ -56,7 +58,14 @@ export interface ChangeViewState extends ViewState {
 
   /** Checks related view state */
 
-  /** selected patchset for check runs (undefined=latest) */
+  /**
+   * Selected patchset for check runs. If not set, then `checksPatchset$`
+   * emits `patchNum`. So when you initially load a URL without the
+   * "checksPatchset" parameter being set, then `checksPatchset$` will emit
+   * `patchNum`. And if you change the patchset choice in the file list, then
+   * the "checksPatchset" parameter will be reset and again `checksPatchset$`
+   * will emit `patchNum`.
+   */
   checksPatchset?: PatchSetNumber;
   /** regular expression for filtering check runs */
   filter?: string;
@@ -172,7 +181,11 @@ export function createChangeUrl(
 
   let suffix = '';
   const queries = [];
-  if (state.checksPatchset && state.checksPatchset > 0) {
+  if (
+    state.checksPatchset &&
+    state.checksPatchset > 0 &&
+    state.patchNum !== state.checksPatchset
+  ) {
     queries.push(`checksPatchset=${state.checksPatchset}`);
   }
   if (state.attempt) {
@@ -233,7 +246,11 @@ export function createDiffUrl(
 
   let queryParams = '';
   const params = [];
-  if (state.checksPatchset && state.checksPatchset > 0) {
+  if (
+    state.checksPatchset &&
+    state.checksPatchset > 0 &&
+    state.patchNum !== state.checksPatchset
+  ) {
     params.push(`checksPatchset=${state.checksPatchset}`);
   }
   if (params.length > 0) {
@@ -332,10 +349,14 @@ export class ChangeViewModel extends Model<ChangeViewState | undefined> {
     return Tab.FILES;
   });
 
-  public readonly checksPatchset$ = select(
-    this.state$,
-    state => state?.checksPatchset
-  );
+  // See documentation for `checksPatchset` property.
+  public readonly checksPatchset$ = select(this.state$, state => {
+    if (state?.checksPatchset === undefined && state?.patchNum !== EDIT) {
+      return state?.patchNum as PatchSetNumber;
+    } else {
+      return state?.checksPatchset;
+    }
+  });
 
   public readonly attempt$ = select(this.state$, state => state?.attempt);
 
@@ -359,6 +380,11 @@ export class ChangeViewModel extends Model<ChangeViewState | undefined> {
           usp: undefined,
           forceReload: undefined,
           openReplyDialog: undefined,
+        });
+      }
+      if (s?.checksPatchset && s?.checksPatchset === s?.patchNum) {
+        this.updateState({
+          checksPatchset: undefined,
         });
       }
     });

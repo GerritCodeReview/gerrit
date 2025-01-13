@@ -1188,7 +1188,9 @@ export class GrChecksResults extends LitElement {
   override render() {
     const headerClasses = {
       header: true,
-      notLatest: !!this.checksPatchsetNumber,
+      notLatest:
+        !!this.checksPatchsetNumber &&
+        this.checksPatchsetNumber !== this.latestPatchsetNumber,
     };
     const attemptItems = this.createAttemptDropdownItems();
     return html`
@@ -1345,16 +1347,14 @@ export class GrChecksResults extends LitElement {
   }
 
   private onPatchsetSelected(e: CustomEvent<{value: string}>) {
-    let patchset: number | undefined = Number(e.detail.value);
+    const patchset = Number(e.detail.value) as PatchSetNumber;
     assert(Number.isInteger(patchset), `patchset must be integer: ${patchset}`);
-    if (patchset === this.latestPatchsetNumber) patchset = undefined;
-    this.getChecksModel().updateStateSetPatchset(
-      patchset as PatchSetNumber | undefined
-    );
+    this.getChecksModel().updateStateSetPatchset(patchset);
   }
 
   private goToLatestPatchset() {
-    this.getChecksModel().updateStateSetPatchset(undefined);
+    assertIsDefined(this.latestPatchsetNumber, 'latestPatchsetNumber');
+    this.getChecksModel().updateStateSetPatchset(this.latestPatchsetNumber);
   }
 
   private createAttemptDropdownItems() {

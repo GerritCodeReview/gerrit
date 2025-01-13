@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "37210945_5bcafc9c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-01-13T15:15:40Z",
+      "side": 1,
+      "message": "Unfortunately it seems that building stable-3.4 on Mac M1 has issues, I get some build failures when trying to build current stable-3.4 branch already without this fix.",
+      "revId": "2d1ead949d99f324ddbb5bb01d61758d6b385d83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

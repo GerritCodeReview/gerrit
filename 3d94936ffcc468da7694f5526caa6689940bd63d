@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "817241db_81e6780c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-01-13T11:39:52Z",
+      "side": 1,
+      "message": "```suggestion\nWe are deliberately keeping these two independent choices, because it\n```",
+      "range": {
+        "startLine": 19,
+        "startChar": 50,
+        "endLine": 19,
+        "endChar": 58
+      },
+      "revId": "3d94936ffcc468da7694f5526caa6689940bd63d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe4013de_2b005245",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-01-13T11:39:52Z",
+      "side": 1,
+      "message": "Thank you for details commit message!",
+      "revId": "3d94936ffcc468da7694f5526caa6689940bd63d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a463744a_94955f98",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1193,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-01-13T11:39:52Z",
+      "side": 1,
+      "message": "What if latestPatchsetNumber is EDIT? can we be on latest patchsenumber when latest is EDIT?",
+      "range": {
+        "startLine": 1193,
+        "startChar": 43,
+        "endLine": 1193,
+        "endChar": 63
+      },
+      "revId": "3d94936ffcc468da7694f5526caa6689940bd63d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

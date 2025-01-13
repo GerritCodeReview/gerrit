@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "7c7d30ee_9468bb14",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-01-13T12:15:09Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "817241db_81e6780c",
+      "range": {
+        "startLine": 19,
+        "startChar": 50,
+        "endLine": 19,
+        "endChar": 58
+      },
+      "revId": "3d94936ffcc468da7694f5526caa6689940bd63d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "fe4013de_2b005245",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
@@ -54,6 +78,30 @@
       "writtenOn": "2025-01-13T11:39:52Z",
       "side": 1,
       "message": "What if latestPatchsetNumber is EDIT? can we be on latest patchsenumber when latest is EDIT?",
+      "range": {
+        "startLine": 1193,
+        "startChar": 43,
+        "endLine": 1193,
+        "endChar": 63
+      },
+      "revId": "3d94936ffcc468da7694f5526caa6689940bd63d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8f6d4ff_a9f346e1",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1193,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-01-13T12:15:09Z",
+      "side": 1,
+      "message": "`checksPatchsetNumber` cannot be EDIT. It can be `undefined` or equal to `latestPatchsetNumber`. Both means that the latest patchset is used for loading and showing check results.\n\nHere we are checking if we should be showing the \"Go to latest patchset\" button. We do this, if there is a patchset chosen for check results that is explicitly not the latest patchset. So I think the logic is fine.\n\nAlso note that `latestPatchsetNumber` is never `EDIT`. The change model has two observables: `latestPatchNum$` and `latestPatchNumWithEdit$`. The former cannot be `EDIT`, the latter can.",
+      "parentUuid": "a463744a_94955f98",
       "range": {
         "startLine": 1193,
         "startChar": 43,

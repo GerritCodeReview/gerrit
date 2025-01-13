@@ -56,6 +56,30 @@
       },
       "revId": "25d4da41428591ac22a54b668ef8f37f836d998e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce34cbeb_d3aa7563",
+        "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-13T12:41:12Z",
+      "side": 1,
+      "message": "@matthias.sohn@gmail.com @david.ostrovsky@gmail.com this has broken all the SSH timeouts from stable-3.4 onwards: I believe the fix proposed with Change 436759 should also be backported, even if the releases are EOL, because it has broken *ALL* timeouts associated with SSHD.",
+      "parentUuid": "979c0d84_3c01ffe6",
+      "range": {
+        "startLine": 184,
+        "startChar": 8,
+        "endLine": 187,
+        "endChar": 27
+      },
+      "revId": "25d4da41428591ac22a54b668ef8f37f836d998e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

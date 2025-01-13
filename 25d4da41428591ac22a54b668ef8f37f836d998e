@@ -80,6 +80,30 @@
       },
       "revId": "25d4da41428591ac22a54b668ef8f37f836d998e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5974ff2a_87e8b8f2",
+        "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-01-13T14:57:26Z",
+      "side": 1,
+      "message": "I cherry-picked the fix to stable-3.4 in https://gerrit-review.googlesource.com/c/gerrit/+/447622",
+      "parentUuid": "ce34cbeb_d3aa7563",
+      "range": {
+        "startLine": 184,
+        "startChar": 8,
+        "endLine": 187,
+        "endChar": 27
+      },
+      "revId": "25d4da41428591ac22a54b668ef8f37f836d998e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,24 @@
       "message": "You don\u0027t need extra logging. Every button click is logged by default.",
       "revId": "f677c181b2015167b401cd15dc18cce6a9ddbb37",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5796256_7bf9a2bf",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-01-13T09:17:08Z",
+      "side": 1,
+      "message": "Oh, that\u0027s true. Thanks I forgot!",
+      "parentUuid": "7a63a097_b7e219c6",
+      "revId": "f677c181b2015167b401cd15dc18cce6a9ddbb37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

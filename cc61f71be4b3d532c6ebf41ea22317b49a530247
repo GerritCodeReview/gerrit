@@ -16,6 +16,24 @@
       "message": "Wait should this be snapshot?",
       "revId": "cc61f71be4b3d532c6ebf41ea22317b49a530247",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3c9e35d_cb1611bd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-01-13T14:20:32Z",
+      "side": 1,
+      "message": "Yes, good catch let me fix this",
+      "parentUuid": "52f93b0c_d105fdb5",
+      "revId": "cc61f71be4b3d532c6ebf41ea22317b49a530247",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

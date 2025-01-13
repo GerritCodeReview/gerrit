@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28e83650_d1fffe48",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-01-13T10:09:21Z",
+      "side": 1,
+      "message": "Change to 2023",
+      "revId": "540466164e4cd9fc4663d77865f69c22d9e543cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -17,30 +17,26 @@ package com.google.gerrit.server.cache;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.config.SitePaths;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import org.eclipse.jgit.lib.Config;
 
 /**
- * Base class for persistent cache factory. If the cache.directory property is unset, or disk limit
- * is zero or negative, it will fall back to in-memory only caches.
+ * Base class for persistent cache factory. If the cacheDir is unset, or disk limit is zero or
+ * negative, it will fall back to in-memory only caches.
  */
 public abstract class PersistentCacheBaseFactory implements PersistentCacheFactory {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
   protected final MemoryCacheFactory memCacheFactory;
   protected final Path cacheDir;
   protected boolean diskEnabled;
   protected final Config config;
 
   public PersistentCacheBaseFactory(
-      MemoryCacheFactory memCacheFactory, @GerritServerConfig Config config, SitePaths site) {
-    this.cacheDir = getCacheDir(site, config.getString("cache", null, "directory"));
+      MemoryCacheFactory memCacheFactory,
+      @GerritServerConfig Config config,
+      @Nullable Path cacheDir) {
+    this.cacheDir = cacheDir;
     this.diskEnabled = cacheDir != null;
     this.memCacheFactory = memCacheFactory;
     this.config = config;
@@ -79,27 +75,5 @@ public abstract class PersistentCacheBaseFactory implements PersistentCacheFacto
 
   private <K, V> boolean isInMemoryCache(long diskLimit) {
     return !diskEnabled || diskLimit <= 0;
-  }
-
-  @Nullable
-  private static Path getCacheDir(SitePaths site, String name) {
-    if (name == null) {
-      return null;
-    }
-    Path loc = site.resolve(name);
-    if (!Files.exists(loc)) {
-      try {
-        Files.createDirectories(loc);
-      } catch (IOException e) {
-        logger.atWarning().log("Can't create disk cache: %s", loc.toAbsolutePath());
-        return null;
-      }
-    }
-    if (!Files.isWritable(loc)) {
-      logger.atWarning().log("Can't write to disk cache: %s", loc.toAbsolutePath());
-      return null;
-    }
-    logger.atInfo().log("Enabling disk cache %s", loc.toAbsolutePath());
-    return loc;
   }
 }

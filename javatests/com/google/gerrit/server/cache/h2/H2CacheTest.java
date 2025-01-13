@@ -73,7 +73,7 @@ public class H2CacheTest {
         expireAfterWrite,
         refreshAfterWrite,
         true,
-        false);
+        true);
   }
 
   @Test

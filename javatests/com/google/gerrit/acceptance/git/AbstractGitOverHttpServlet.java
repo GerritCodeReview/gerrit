@@ -23,17 +23,25 @@ import com.google.gerrit.acceptance.FakeGroupAuditService;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.Project;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.pgm.http.jetty.JettyServer;
 import com.google.gerrit.server.audit.HttpAuditEvent;
+import com.google.gerrit.server.git.validators.UploadValidationListener;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
+import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
+import java.util.Collection;
 import java.util.Optional;
 import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.RefSpec;
+import org.eclipse.jgit.transport.UploadPack;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.junit.Before;
 import org.junit.Test;
@@ -41,6 +49,8 @@ import org.junit.Test;
 public class AbstractGitOverHttpServlet extends AbstractPushForReview {
   @Inject protected FakeGroupAuditService auditService;
   private JettyServer jettyServer;
+  @Inject PluginSetContext<UploadValidationListener> uploadValidationListeners;
+  @Inject DynamicSet<UploadValidationListener> uploadValidationListenersSet;
 
   @Before
   public void beforeEach() throws Exception {
@@ -141,6 +151,39 @@ public class AbstractGitOverHttpServlet extends AbstractPushForReview {
             auditService.drainHttpAuditEvents().stream()
                 .allMatch(e -> e.httpStatus == HttpServletResponse.SC_OK))
         .isTrue();
+  }
+
+  @Test
+  @Sandboxed
+  public void uploadValidationErrorOverHTTPShouldIncludeValidationErrorInOutput() throws Exception {
+    String uploadValidationFailureMessage = "Validation failed";
+    String remote = "origin";
+    String uri = admin.getHttpUrl(server) + "/a/" + project.get();
+    cfg.setString("remote", remote, "url", uri);
+    cfg.setString("remote", remote, "fetch", "+refs/heads/*:refs/remotes/origin/*");
+
+    createCommit("foo");
+    uploadValidationListenersSet.add(
+        "uploadvalidator",
+        new UploadValidationListener() {
+
+          @Override
+          public void onPreUpload(
+              Repository repository,
+              Project project,
+              String remoteHost,
+              UploadPack up,
+              Collection<? extends ObjectId> wants,
+              Collection<? extends ObjectId> haves)
+              throws ValidationException {
+            throw new ValidationException(uploadValidationFailureMessage);
+          }
+        });
+
+    TransportException t =
+        assertThrows(TransportException.class, () -> testRepo.git().fetch().call());
+
+    assertThat(t.getMessage()).contains(uploadValidationFailureMessage);
   }
 
   /**

@@ -16,6 +16,52 @@
       "message": "git clone https://gerrit.googlesource.com/gerrit-installer",
       "revId": "042b0d6220c32fc4c9616e42477adad0d72bde75",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b845bd4f_ab93aba6",
+        "filename": "javatests/com/google/gerrit/acceptance/server/mail/AbstractMailIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-14T15:16:40Z",
+      "side": 1,
+      "message": "a second empty change",
+      "range": {
+        "startLine": 89,
+        "startChar": 13,
+        "endLine": 89,
+        "endChar": 36
+      },
+      "revId": "042b0d6220c32fc4c9616e42477adad0d72bde75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "adf06d07_fe094ea4",
+        "filename": "javatests/com/google/gerrit/acceptance/server/mail/MailSenderIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-14T15:16:40Z",
+      "side": 1,
+      "message": "This would break if we have in the future any minor change for the format of the e-mail. Can we just assert the key elements of this email body instead?",
+      "range": {
+        "startLine": 96,
+        "startChar": 0,
+        "endLine": 119,
+        "endChar": 28
+      },
+      "revId": "042b0d6220c32fc4c9616e42477adad0d72bde75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

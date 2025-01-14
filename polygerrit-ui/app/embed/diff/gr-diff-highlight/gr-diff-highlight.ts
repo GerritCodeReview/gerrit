@@ -390,6 +390,11 @@ export class GrDiffHighlight {
       actionBox = document.createElement('gr-selection-action-box');
       this.diffTable.appendChild(actionBox);
     }
+    const hoverCardText =
+      this.diffBuilder?.diffModel.getState().actionHoverCardText;
+    if (hoverCardText) {
+      actionBox.setAttribute('hoverCardText', hoverCardText);
+    }
     this.selectedRange = {
       range: {
         start_line: start.line,

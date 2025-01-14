@@ -60,6 +60,7 @@ export interface DiffState {
   errorMessage?: string;
   layers: DiffLayer[];
   blameInfo: BlameInfo[];
+  actionHoverCardText?: string;
 }
 
 export interface ColumnsToShow {
@@ -167,6 +168,11 @@ export class DiffModel extends Model<DiffState> {
   readonly showFullContext$: Observable<FullContext> = select(
     this.state$,
     diffState => diffState.showFullContext
+  );
+
+  readonly actionHoverCardText$: Observable<string | undefined> = select(
+    this.state$,
+    diffState => diffState.actionHoverCardText
   );
 
   readonly context$: Observable<number> = select(this.state$, state =>

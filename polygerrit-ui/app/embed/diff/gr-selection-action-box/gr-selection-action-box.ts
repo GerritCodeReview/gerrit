@@ -28,6 +28,9 @@ export class GrSelectionActionBox extends LitElement {
   @property({type: Boolean})
   positionBelow = false;
 
+  @property({type: String})
+  hoverCardText = 'Press c to comment';
+
   /**
    * We need to absolutely position the element before we can show it. So
    * initially the tooltip must be invisible.
@@ -62,7 +65,7 @@ export class GrSelectionActionBox extends LitElement {
       <gr-tooltip
         id="tooltip"
         ?invisible=${this.invisible}
-        text="Press c to comment"
+        text=${this.hoverCardText}
         ?position-below=${this.positionBelow}
       ></gr-tooltip>
     `;

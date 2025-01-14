@@ -168,6 +168,9 @@ export class GrDiff extends LitElement implements GrDiffApi {
   @property({type: Boolean})
   noRenderOnPrefsChange?: boolean;
 
+  @property({type: String})
+  actionHoverCardText?: string;
+
   // explicitly highlight a range if it is not associated with any comment
   @property({type: Object})
   highlightRange?: CommentRange;
@@ -381,7 +384,8 @@ export class GrDiff extends LitElement implements GrDiffApi {
       changedProperties.has('showNewlineWarningRight') ||
       changedProperties.has('prefs') ||
       changedProperties.has('lineOfInterest') ||
-      changedProperties.has('diffRangesToFocus')
+      changedProperties.has('diffRangesToFocus') ||
+      changedProperties.has('actionHoverCardText')
     ) {
       if (this.diff && this.prefs) {
         const renderPrefs = {...(this.renderPrefs ?? {})};
@@ -450,6 +454,13 @@ export class GrDiff extends LitElement implements GrDiffApi {
     }
     if (changedProperties.has('diffRangesToFocus')) {
       this.updateFocusRanges(this.diffRangesToFocus);
+    }
+    if (changedProperties.has('actionHoverCardText')) {
+      if (this.actionHoverCardText) {
+        this.diffModel.updateState({
+          actionHoverCardText: this.actionHoverCardText,
+        });
+      }
     }
   }
 

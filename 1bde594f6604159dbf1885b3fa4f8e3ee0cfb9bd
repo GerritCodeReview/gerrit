@@ -33,6 +33,23 @@
       "message": "Stop",
       "revId": "1bde594f6604159dbf1885b3fa4f8e3ee0cfb9bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f40fb97_44c88c19",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-01-14T09:39:47Z",
+      "side": 1,
+      "message": "Building Gerrit on OSX fails with this change:\n```\n$ bazelisk build gerrit\n...\nERROR: /Users/D038025/SAPDevelop/gerrit/master/lib/BUILD:98:8: Executing genrule //lib:jgit-servlet-srcjar-with-javax failed: (Exit 1): bash failed: error executing Genrule command (from target //lib:jgit-servlet-srcjar-with-javax) /bin/bash -c ... (remaining 1 argument skipped)\n```",
+      "revId": "1bde594f6604159dbf1885b3fa4f8e3ee0cfb9bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

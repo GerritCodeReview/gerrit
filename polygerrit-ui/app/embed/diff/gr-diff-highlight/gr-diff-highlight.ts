@@ -390,6 +390,13 @@ export class GrDiffHighlight {
       actionBox = document.createElement('gr-selection-action-box');
       this.diffTable.appendChild(actionBox);
     }
+    if (changedProperties.has('actionHoverCardText')) {
+      if (this.actionHoverCardText) {
+        this.diffModel.updateState({
+          actionHoverCardText: this.actionHoverCardText,
+        });
+      }
+    }
     this.selectedRange = {
       range: {
         start_line: start.line,

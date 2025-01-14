@@ -463,7 +463,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   public void defaultReviewerSuggestionOnFirstChange() throws Exception {
     TestAccount user1 = user("customuser1", "User1");
     requestScopeOperations.setApiUser(user1.id());
-    List<SuggestedReviewerInfo> reviewers = suggestReviewers(createChange().getChangeId(), "", 4);
+    List<SuggestedReviewerInfo> reviewers = suggestReviewers(createChangeFromApi(), "", 4);
     assertThat(reviewers).isEmpty();
   }
 

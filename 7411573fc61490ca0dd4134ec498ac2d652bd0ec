@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "11314ef7_414e1689",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2025-01-14T18:43:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d54292e8_14b9fba5",
+      "revId": "7411573fc61490ca0dd4134ec498ac2d652bd0ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7121596c_6455e52e",
@@ -31,6 +49,30 @@
       "writtenOn": "2025-01-14T15:20:18Z",
       "side": 1,
       "message": "This is a public method, therefore amending its signature would break existing clients using it.\n\nCan we preserve the original method and just pass `ObjectId.zeroId()` for backward compatibility?",
+      "range": {
+        "startLine": 57,
+        "startChar": 2,
+        "endLine": 57,
+        "endChar": 122
+      },
+      "revId": "7411573fc61490ca0dd4134ec498ac2d652bd0ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ac81d8a_3a3762d5",
+        "filename": "java/com/google/gerrit/server/patch/PatchFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2025-01-14T18:43:46Z",
+      "side": 1,
+      "message": "Look at line 63 in the previous version. If we set `ObjectId.zeroId()`, we would end up in the same situation. Unless we can derive the patchSetCommitId from any of the instance variables, I am afraid that we need to break the contract.",
+      "parentUuid": "7121596c_6455e52e",
       "range": {
         "startLine": 57,
         "startChar": 2,
@@ -64,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c25caa90_45e736d1",
+        "filename": "javatests/com/google/gerrit/acceptance/server/mail/MailSenderIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2025-01-14T18:43:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0cc1c04_fd966ae6",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 20
+      },
+      "revId": "7411573fc61490ca0dd4134ec498ac2d652bd0ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "621f4212_34e30841",
@@ -77,6 +143,30 @@
       "writtenOn": "2025-01-14T15:20:18Z",
       "side": 1,
       "message": "See my comments on the test: this is going to be a very fragile way to test this functionality. We should restrict the assertion to the bare minimum we need.",
+      "range": {
+        "startLine": 98,
+        "startChar": 10,
+        "endLine": 98,
+        "endChar": 56
+      },
+      "revId": "7411573fc61490ca0dd4134ec498ac2d652bd0ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9653dc4_33c4bbc9",
+        "filename": "javatests/com/google/gerrit/acceptance/server/mail/MailSenderIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2025-01-14T18:43:46Z",
+      "side": 1,
+      "message": "You are right, the checks based on Strings are always fragile and easy to break but as a I mention previoulsy [1]:\n- If we remove it it would make the test difficult to read and understand.\n- There are already 18 tests checking the email notification template.\n\nI dont know if there is a Java type that represent the email notification. Maybe we could asseert based on that instead of Strings.\n\nI close the comments but feel free to open it.\n\nReferences:\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/447342/5/javatests/com/google/gerrit/acceptance/server/mail/MailSenderIT.java#119",
+      "parentUuid": "621f4212_34e30841",
       "range": {
         "startLine": 98,
         "startChar": 10,

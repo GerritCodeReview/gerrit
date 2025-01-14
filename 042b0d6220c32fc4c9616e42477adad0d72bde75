@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7bbc20ab_b0a113df",
+        "filename": "javatests/com/google/gerrit/acceptance/server/mail/AbstractMailIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2025-01-14T16:02:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b845bd4f_ab93aba6",
+      "range": {
+        "startLine": 89,
+        "startChar": 13,
+        "endLine": 89,
+        "endChar": 36
+      },
+      "revId": "042b0d6220c32fc4c9616e42477adad0d72bde75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "adf06d07_fe094ea4",
@@ -54,6 +78,30 @@
       "writtenOn": "2025-01-14T15:16:40Z",
       "side": 1,
       "message": "This would break if we have in the future any minor change for the format of the e-mail. Can we just assert the key elements of this email body instead?",
+      "range": {
+        "startLine": 96,
+        "startChar": 0,
+        "endLine": 119,
+        "endChar": 28
+      },
+      "revId": "042b0d6220c32fc4c9616e42477adad0d72bde75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a170048a_688273ae",
+        "filename": "javatests/com/google/gerrit/acceptance/server/mail/MailSenderIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2025-01-14T16:02:21Z",
+      "side": 1,
+      "message": "If we do that, this test will become very difficult to understand. Besides, there are already\u0027 18 tests` checking the whole email notification template [1][2].\n\nReferences:\n\n[1] https://gerrit.googlesource.com/gerrit/+/refs/heads/stable-3.4/javatests/com/google/gerrit/acceptance/server/mail/AbstractMailIT.java#96\n[2] https://gerrit.googlesource.com/gerrit/+/refs/heads/stable-3.4/javatests/com/google/gerrit/acceptance/server/mail/MailProcessorIT.java#104\n\nIf you have a strong opinion about that, feel free to reopen this comment and I can address it.",
+      "parentUuid": "adf06d07_fe094ea4",
       "range": {
         "startLine": 96,
         "startChar": 0,

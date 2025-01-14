@@ -34,6 +34,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.Sandboxed;
@@ -42,6 +43,7 @@ import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.Address;
+import com.google.gerrit.entities.GroupDescription;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.Permission;
@@ -63,6 +65,8 @@ import com.google.gerrit.extensions.common.ReviewerUpdateInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.server.change.ReviewerModifier;
+import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.group.testing.TestGroupBackend;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.gson.stream.JsonReader;
 import com.google.inject.Inject;
@@ -80,9 +84,10 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
   @Inject private GroupOperations groupOperations;
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
+  @Inject private ExtensionRegistry extensionRegistry;
 
   @Test
-  public void addGroupAsReviewer() throws Exception {
+  public void addInternalGroupAsReviewer() throws Exception {
     // Set up two groups, one that is too large too add as reviewer, and one
     // that is too large to add without confirmation.
     String largeGroup = groupOperations.newGroup().name("largeGroup").create().get();
@@ -133,6 +138,37 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     // Verify that group members were added as reviewers.
     ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
     assertReviewers(c, REVIEWER, users.subList(0, mediumGroupSize));
+  }
+
+  @Test
+  public void addExternalGroupAsReviewer() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    TestGroupBackend testGroupBackend = new TestGroupBackend();
+    GroupDescription.Basic externalGroup = testGroupBackend.create("External Group");
+    try (ExtensionRegistry.Registration registration =
+        extensionRegistry.newRegistration().add(testGroupBackend)) {
+      ReviewerInput in = new ReviewerInput();
+      in.reviewer = externalGroup.getGroupUUID().get();
+      in.confirmed = true;
+      ReviewerResult result = addReviewer(changeId, in, SC_BAD_REQUEST);
+      assertThat(result.error)
+          .isEqualTo(
+              String.format("The group %s cannot be added as reviewer.", externalGroup.getName()));
+    }
+  }
+
+  @Test
+  public void addSystemGroupAsReviewer() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    ReviewerInput in = new ReviewerInput();
+    in.reviewer = SystemGroupBackend.REGISTERED_USERS.get();
+    in.confirmed = true;
+    ReviewerResult result = addReviewer(changeId, in, SC_BAD_REQUEST);
+    assertThat(result.error).isEqualTo("The group Registered Users cannot be added as reviewer.");
   }
 
   @Test

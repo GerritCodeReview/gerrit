@@ -59,7 +59,6 @@ import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.GroupMembers;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.group.GroupResolver;
-import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
@@ -334,7 +333,7 @@ public class ReviewerModifier {
     try {
       // TODO(dborowitz): This currently doesn't work in the push path because InternalGroupBackend
       // depends on the Provider<CurrentUser> which returns anonymous in that path.
-      group = groupResolver.parseInternal(input.reviewer);
+      group = groupResolver.parse(input.reviewer);
     } catch (UnprocessableEntityException e) {
       if (!allowByEmail) {
         return fail(
@@ -612,7 +611,7 @@ public class ReviewerModifier {
   }
 
   public static boolean isLegalReviewerGroup(AccountGroup.UUID groupUUID) {
-    return !SystemGroupBackend.isSystemGroup(groupUUID);
+    return groupUUID.isInternalGroup();
   }
 
   public ReviewerModificationList prepare(

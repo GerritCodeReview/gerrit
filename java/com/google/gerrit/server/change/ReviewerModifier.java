@@ -59,6 +59,7 @@ import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.GroupMembers;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.group.GroupResolver;
+import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
@@ -611,7 +612,7 @@ public class ReviewerModifier {
   }
 
   public static boolean isLegalReviewerGroup(AccountGroup.UUID groupUUID) {
-    return groupUUID.isInternalGroup();
+    return groupUUID.isInternalGroup() || SystemGroupBackend.PROJECT_OWNERS.equals(groupUUID);
   }
 
   public ReviewerModificationList prepare(

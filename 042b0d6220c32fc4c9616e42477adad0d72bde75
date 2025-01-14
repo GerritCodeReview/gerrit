@@ -110,6 +110,30 @@
       },
       "revId": "042b0d6220c32fc4c9616e42477adad0d72bde75",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "35e874be_6ffa7080",
+        "filename": "javatests/com/google/gerrit/acceptance/server/mail/MailSenderIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-14T18:17:04Z",
+      "side": 1,
+      "message": "\u003e If we do that, this test will become very difficult to understand. Besides, there are already\u0027 18 tests` checking the whole email notification template [1][2].\n\nYou have a point, or you have 18 points I\u0027d say 😊",
+      "parentUuid": "a170048a_688273ae",
+      "range": {
+        "startLine": 96,
+        "startChar": 0,
+        "endLine": 119,
+        "endChar": 28
+      },
+      "revId": "042b0d6220c32fc4c9616e42477adad0d72bde75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

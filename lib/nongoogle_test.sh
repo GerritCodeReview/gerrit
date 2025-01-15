@@ -31,6 +31,7 @@ guava-testlib
 guice-assistedinject
 guice-library
 guice-servlet
+h2
 hamcrest
 impl-log4j
 j2objc

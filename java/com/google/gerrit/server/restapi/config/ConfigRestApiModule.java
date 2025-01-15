@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
 import com.google.gerrit.server.config.CapabilityResource;
 import com.google.gerrit.server.config.TopMenuResource;
+import com.google.gerrit.server.plugins.GetPluginPushOptions;
 
 public class ConfigRestApiModule extends RestApiModule {
   @Override
@@ -55,6 +56,8 @@ public class ConfigRestApiModule extends RestApiModule {
     post(CONFIG_KIND, "reload").to(ReloadConfig.class);
     post(CONFIG_KIND, "snapshot.indexes").to(SnapshotIndexes.class);
     post(CONFIG_KIND, "cleanup.changes").to(CleanupChanges.class);
+
+    get(CONFIG_KIND, "push-options").to(GetPluginPushOptions.class);
 
     child(CONFIG_KIND, "tasks").to(TasksCollection.class);
     delete(TASK_KIND).to(DeleteTask.class);

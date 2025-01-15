@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.common.PluginInfo;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
+import com.google.gerrit.server.plugins.GetPluginPushOptions;
 import com.google.gerrit.server.plugins.InstallPlugin;
 import com.google.gerrit.server.plugins.ListPlugins;
 import com.google.gerrit.server.plugins.PluginsCollection;
@@ -42,6 +43,7 @@ public class PluginsImpl implements Plugins {
   PluginsImpl(
       PluginsCollection plugins,
       Provider<ListPlugins> listProvider,
+      Provider<GetPluginPushOptions> pluginOptionsProvider,
       Provider<InstallPlugin> installProvider,
       PluginApiImpl.Factory pluginApi) {
     this.plugins = plugins;

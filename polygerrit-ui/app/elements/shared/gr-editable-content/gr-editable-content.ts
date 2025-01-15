@@ -395,6 +395,10 @@ export class GrEditableContent extends LitElement {
                 class="format-button"
                 @click=${this.handleFormat}
                 ?disabled=${formatDisabled}
+                .title=${this.computeFormatButtonTooltip(
+                  formatDisabled,
+                  formattedErrors
+                )}
                 >Format</gr-button
               >
               <gr-button
@@ -590,5 +594,25 @@ export class GrEditableContent extends LitElement {
 
   private setCommitterEmail(e: CustomEvent<{value: string}>) {
     this.committerEmail = e.detail.value;
+  }
+
+  private computeFormatButtonTooltip(
+    formatDisabled: boolean,
+    formattedErrors: FormattingError[]
+  ): string {
+    if (!formatDisabled) {
+      return (
+        'Automatically fixes formatting by trimming trailing spaces, ' +
+        'wrapping paragraphs at 72 characters, and condensing blank lines. '
+      );
+    }
+    // If disabled but there are formatting errors, the button can't fix them all
+    if (formattedErrors.length > 0) {
+      return (
+        'Format button cannot fix all issues (like subject or footer length). ' +
+        'Some must be fixed manually.'
+      );
+    }
+    return 'No format changes needed.';
   }
 }

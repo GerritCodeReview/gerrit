@@ -16,6 +16,41 @@
       "message": "Can I kindly ask what\u0027s the status of this?\nDo I understand correctly, `stable-3.5` currently behaves incorrectly without this revert?",
       "revId": "d9349e3edbc55175c377e5aeced20b02e4f1f105",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6bfa0b7f_35d43265",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-01-15T02:29:11Z",
+      "side": 1,
+      "message": "We dont know what the correct behaviour is. So, reverting is probably the correct thing to do here.",
+      "parentUuid": "69377630_31ad873b",
+      "revId": "d9349e3edbc55175c377e5aeced20b02e4f1f105",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e285c2de_9d18e035",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-01-15T02:29:11Z",
+      "side": 1,
+      "message": "Ran tests using:\n```bazel build release \u0026\u0026 bazel test --flaky_test_attempts 3 --test_timeout 3600 --test_tag_filters\u003d-flaky //...```",
+      "revId": "d9349e3edbc55175c377e5aeced20b02e4f1f105",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -124,7 +124,7 @@ public class RulesCache {
     maxDbSize = config.getInt("rules", null, "maxPrologDatabaseSize", 256);
     compileReductionLimit = RuleUtil.compileReductionLimit(config);
     maxSrcBytes = config.getInt("rules", null, "maxSourceBytes", 128 << 10);
-    enableProjectRules = config.getBoolean("rules", null, "enable", true) && maxSrcBytes > 0;
+    enableProjectRules = config.getBoolean("rules", null, "enable", false) && maxSrcBytes > 0;
     cacheDir = site.resolve(config.getString("cache", null, "directory"));
     rulesDir = cacheDir != null ? cacheDir.resolve("rules") : null;
     gitMgr = gm;

@@ -5227,7 +5227,7 @@ If `true`, Gerrit will load and execute 'rules.pl' files in each
 project's refs/meta/config branch, if present. When set to `false`,
 only the default internal rules will be used.
 +
-Default is `true`, to execute project specific rules.
+Default is `false`, highlighting how prolog rules are now deprecated.
 
 [[rules.allowNewRules]]rules.allowNewRules::
 +

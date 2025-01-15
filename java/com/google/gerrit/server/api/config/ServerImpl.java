@@ -29,6 +29,7 @@ import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.common.CacheInfo;
 import com.google.gerrit.extensions.common.ExperimentInfo;
 import com.google.gerrit.extensions.common.ServerInfo;
+import com.google.gerrit.extensions.common.ValidationOptionInfos;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.webui.TopMenu;
@@ -40,6 +41,7 @@ import com.google.gerrit.server.restapi.config.GetDiffPreferences;
 import com.google.gerrit.server.restapi.config.GetEditPreferences;
 import com.google.gerrit.server.restapi.config.GetPreferences;
 import com.google.gerrit.server.restapi.config.GetServerInfo;
+import com.google.gerrit.server.restapi.config.GetValidationOptions;
 import com.google.gerrit.server.restapi.config.ListCaches;
 import com.google.gerrit.server.restapi.config.ListExperiments;
 import com.google.gerrit.server.restapi.config.ListTopMenus;
@@ -59,6 +61,7 @@ public class ServerImpl implements Server {
   private final GetDiffPreferences getDiffPreferences;
   private final SetDiffPreferences setDiffPreferences;
   private final GetEditPreferences getEditPreferences;
+  private final GetValidationOptions getValidationOptions;
   private final SetEditPreferences setEditPreferences;
   private final GetServerInfo getServerInfo;
   private final Provider<CheckConsistency> checkConsistency;
@@ -78,6 +81,7 @@ public class ServerImpl implements Server {
       SetDiffPreferences setDiffPreferences,
       GetEditPreferences getEditPreferences,
       SetEditPreferences setEditPreferences,
+      GetValidationOptions getValidationOptions,
       GetServerInfo getServerInfo,
       Provider<CheckConsistency> checkConsistency,
       ListTopMenus listTopMenus,
@@ -93,6 +97,7 @@ public class ServerImpl implements Server {
     this.setDiffPreferences = setDiffPreferences;
     this.getEditPreferences = getEditPreferences;
     this.setEditPreferences = setEditPreferences;
+    this.getValidationOptions = getValidationOptions;
     this.getServerInfo = getServerInfo;
     this.checkConsistency = checkConsistency;
     this.listTopMenus = listTopMenus;
@@ -172,6 +177,15 @@ public class ServerImpl implements Server {
       return setEditPreferences.apply(new ConfigResource(), in).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot set default edit preferences", e);
+    }
+  }
+
+  @Override
+  public ValidationOptionInfos getValidationOptions() throws RestApiException {
+    try {
+      return getValidationOptions.apply(new ConfigResource()).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot get validation options", e);
     }
   }
 

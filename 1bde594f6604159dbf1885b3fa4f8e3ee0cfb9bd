@@ -50,6 +50,24 @@
       "message": "Building Gerrit on OSX fails with this change:\n```\n$ bazelisk build gerrit\n...\nERROR: /Users/D038025/SAPDevelop/gerrit/master/lib/BUILD:98:8: Executing genrule //lib:jgit-servlet-srcjar-with-javax failed: (Exit 1): bash failed: error executing Genrule command (from target //lib:jgit-servlet-srcjar-with-javax) /bin/bash -c ... (remaining 1 argument skipped)\n```",
       "revId": "1bde594f6604159dbf1885b3fa4f8e3ee0cfb9bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "26d5b803_35025c2c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-01-15T21:46:02Z",
+      "side": 1,
+      "message": "Yeah, a fix was being attempted here 447382: Fix building Gerrit on mac | https://gerrit-review.googlesource.com/c/gerrit/+/447382\nand another at 446681: lib/BUILD: Provide a cross-platform compatibility for sed command | https://gerrit-review.googlesource.com/c/gerrit/+/446681",
+      "parentUuid": "4f40fb97_44c88c19",
+      "revId": "1bde594f6604159dbf1885b3fa4f8e3ee0cfb9bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import static com.google.common.collect.ImmutableSet.toImmutableSet;
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Strings;
@@ -96,15 +96,23 @@ public class ReviewerRecommender {
       String query,
       ProjectState projectState,
       ImmutableList<Account.Id> candidateList) {
-    logger.atFine().log("Candidates %s", candidateList);
+    logger.atFine().log("query: %s, candidates: %s", query, candidateList);
 
-    logger.atFine().log("query: %s", query);
+    Map<Account.Id, MutableDouble> candidateScores = new LinkedHashMap<>();
+    candidateList.stream().forEach(id -> candidateScores.put(id, new MutableDouble(0)));
 
-    double baseWeight = config.getInt("addReviewer", "baseWeight", 1);
-    logger.atFine().log("base weight: %s", baseWeight);
-
-    Map<Account.Id, MutableDouble> reviewerScores = baseRanking(baseWeight, query, candidateList);
-    logger.atFine().log("Base reviewer scores: %s", reviewerScores);
+    // Get the user's recent changes and add them as candidates
+    double recentChangeCandidatesWeight = config.getInt("addReviewer", "baseWeight", 1);
+    logger.atFine().log("recentChangeCandidatesWeight: %s", recentChangeCandidatesWeight);
+    ImmutableList<ChangeData> changes =
+        queryRecentChanges(ChangePredicates.owner(identifiedUser.get().getAccountId()));
+    getMatchingReviewers(changes, query)
+        .forEach(
+            reviewerCandidate ->
+                candidateScores
+                    .computeIfAbsent(reviewerCandidate, (ignored) -> new MutableDouble(0))
+                    .add(recentChangeCandidatesWeight));
+    logger.atFine().log("Base candidate scores: %s", candidateScores);
 
     // Send the query along with a candidate list to all plugins and merge the
     // results. Plugins don't necessarily need to use the candidates list, they
@@ -123,7 +131,7 @@ public class ReviewerRecommender {
                           projectState.getNameKey(),
                           changeNotes != null ? changeNotes.getChangeId() : null,
                           query,
-                          reviewerScores.keySet()));
+                          candidateScores.keySet()));
           String key = extension.getPluginName() + "-" + extension.getExportName();
           String pluginWeight = config.getString("addReviewer", key, "weight");
           if (Strings.isNullOrEmpty(pluginWeight)) {
@@ -145,14 +153,14 @@ public class ReviewerRecommender {
       for (Future<Set<SuggestedReviewer>> f : futures) {
         double weight = weightIterator.next();
         for (SuggestedReviewer s : f.get()) {
-          if (reviewerScores.containsKey(s.account)) {
-            reviewerScores.get(s.account).add(s.score * weight);
+          if (candidateScores.containsKey(s.account)) {
+            candidateScores.get(s.account).add(s.score * weight);
           } else {
-            reviewerScores.put(s.account, new MutableDouble(s.score * weight));
+            candidateScores.put(s.account, new MutableDouble(s.score * weight));
           }
         }
       }
-      logger.atFine().log("Reviewer scores: %s", reviewerScores);
+      logger.atFine().log("Candidate scores: %s", candidateScores);
     } catch (ExecutionException | InterruptedException e) {
       logger.atSevere().withCause(e).log("Exception while suggesting reviewers");
       return ImmutableList.of();
@@ -160,7 +168,7 @@ public class ReviewerRecommender {
 
     if (changeNotes != null) {
       // Remove change owner
-      if (reviewerScores.remove(changeNotes.getChange().getOwner()) != null) {
+      if (candidateScores.remove(changeNotes.getChange().getOwner()) != null) {
         logger.atFine().log("Remove change owner %s", changeNotes.getChange().getOwner());
       }
 
@@ -170,7 +178,7 @@ public class ReviewerRecommender {
           .byState(ReviewerStateInternal.fromReviewerState(reviewerState))
           .forEach(
               r -> {
-                if (reviewerScores.remove(r) != null) {
+                if (candidateScores.remove(r) != null) {
                   logger.atFine().log("Remove existing reviewer %s", r);
                 }
               });
@@ -178,42 +186,11 @@ public class ReviewerRecommender {
 
     // Sort results
     Stream<Map.Entry<Account.Id, MutableDouble>> sorted =
-        reviewerScores.entrySet().stream()
+        candidateScores.entrySet().stream()
             .sorted(Map.Entry.comparingByValue(Collections.reverseOrder()));
     List<Account.Id> sortedSuggestions = sorted.map(Map.Entry::getKey).collect(toList());
     logger.atFine().log("Sorted suggestions: %s", sortedSuggestions);
     return sortedSuggestions;
-  }
-
-  /**
-   * @param baseWeight The weight applied to the ordering of the reviewers.
-   * @param query Query to match. For example, it can try to match all users that start with "Ab".
-   * @param candidateList The list of candidates based on the query. If query is empty, this list is
-   *     also empty.
-   * @return Map of account ids that match the query and their appropriate ranking (the better the
-   *     ranking, the better it is to suggest them as reviewers).
-   */
-  private Map<Account.Id, MutableDouble> baseRanking(
-      double baseWeight, String query, ImmutableList<Account.Id> candidateList) {
-    // Get the user's recent changes, check reviewers
-    ImmutableList<ChangeData> changes =
-        queryRecentChanges(ChangePredicates.owner(identifiedUser.get().getAccountId()));
-    Map<Account.Id, MutableDouble> suggestions = new LinkedHashMap<>();
-    // Put those candidates at the bottom of the list
-    candidateList.stream().forEach(id -> suggestions.put(id, new MutableDouble(0)));
-
-    ImmutableSet<Account.Id> candidateIds =
-        changes.stream().flatMap(cd -> cd.reviewers().all().stream()).collect(toImmutableSet());
-    Map<Account.Id, AccountState> candidateStates = accountCache.get(candidateIds);
-
-    for (ChangeData cd : changes) {
-      for (Account.Id reviewer : cd.reviewers().all()) {
-        if (accountMatchesQuery(candidateStates.get(reviewer), query)) {
-          suggestions.computeIfAbsent(reviewer, (ignored) -> new MutableDouble(0)).add(baseWeight);
-        }
-      }
-    }
-    return suggestions;
   }
 
   private ImmutableList<ChangeData> queryRecentChanges(Predicate<ChangeData> predicate) {
@@ -223,6 +200,17 @@ public class ReviewerRecommender {
         .setLimit(numberOfRelevantChanges)
         .setRequestedFields(ChangeField.REVIEWER_SPEC)
         .query(predicate);
+  }
+
+  private ImmutableList<Account.Id> getMatchingReviewers(
+      ImmutableList<ChangeData> changes, String query) {
+    ImmutableList<Account.Id> reviewerIds =
+        changes.stream().flatMap(cd -> cd.reviewers().all().stream()).collect(toImmutableList());
+    Map<Account.Id, AccountState> reviewerStates =
+        accountCache.get(ImmutableSet.copyOf(reviewerIds));
+    return reviewerIds.stream()
+        .filter(reviewerId -> accountMatchesQuery(reviewerStates.get(reviewerId), query))
+        .collect(toImmutableList());
   }
 
   private boolean accountMatchesQuery(AccountState accountState, String query) {

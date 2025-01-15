@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6cff99cb_b7302bcd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3315272
+      },
+      "writtenOn": "2025-01-15T21:56:46Z",
+      "side": 1,
+      "message": "milda.jadavan@gmail.com",
+      "revId": "23080714673ed49c8881297e911c2ad3634b1c9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Strings;
@@ -205,7 +206,7 @@ public class ReviewersUtil {
       return Collections.emptyList();
     }
 
-    List<Account.Id> candidateList = new ArrayList<>();
+    ImmutableList<Account.Id> candidateList = ImmutableList.of();
     if (!Strings.isNullOrEmpty(query)) {
       candidateList = suggestAccounts(suggestReviewers);
       logger.atFine().log("Candidate list: %s", candidateList);
@@ -254,7 +255,7 @@ public class ReviewersUtil {
 
   // More accounts are suggested here than the requested limit because
   // visibility filtering will be applied later.
-  private List<Account.Id> suggestAccounts(SuggestReviewers suggestReviewers)
+  private ImmutableList<Account.Id> suggestAccounts(SuggestReviewers suggestReviewers)
       throws BadRequestException {
     try (Timer0.Context ctx = metrics.queryAccountsLatency.start()) {
       // For performance reasons we don't use AccountQueryProvider as it would always load the
@@ -281,10 +282,10 @@ public class ReviewersUtil {
                       suggestReviewers.getLimit() + 30,
                       ImmutableSet.of(idField.getName())))
               .readRaw();
-      List<Account.Id> matches =
+      ImmutableList<Account.Id> matches =
           result.toList().stream()
               .map(f -> fromIdField(f, useLegacyNumericFields))
-              .collect(toList());
+              .collect(toImmutableList());
       logger.atFine().log("Matches: %s", matches);
       return matches;
     } catch (TooManyTermsInQueryException e) {

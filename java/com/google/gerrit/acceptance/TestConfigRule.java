@@ -71,6 +71,9 @@ public class TestConfigRule implements TestRule {
       ConfigAnnotationParser.parse(methodDescription.systemProperty());
     }
 
+    if (test.baseConfig == null) {
+      test.baseConfig = new Config();
+    }
     test.baseConfig.unset("gerrit", null, "canonicalWebUrl");
     test.baseConfig.unset("httpd", null, "listenUrl");
 

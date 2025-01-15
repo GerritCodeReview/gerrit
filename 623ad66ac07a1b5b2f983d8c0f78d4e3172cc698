@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a06019da_d4f3c4a8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-01-15T22:24:23Z",
+      "side": 1,
+      "message": "I know we have required this before, but what if instead we altered the file names or locations on disk so that this is not required? That would make it possible to backport this to older stable releases?",
+      "parentUuid": "9c6fbfc7_76dc5a1d",
+      "revId": "623ad66ac07a1b5b2f983d8c0f78d4e3172cc698",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e426991f_5a4258d8",
         "filename": "Documentation/backend_licenses.txt",
         "patchSetId": 9

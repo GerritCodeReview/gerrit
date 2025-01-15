@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "627dbc5f_ee051a84",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-01-15T11:21:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4581198b_f4a1fb94",
+      "range": {
+        "startLine": 599,
+        "startChar": 10,
+        "endLine": 599,
+        "endChar": 34
+      },
+      "revId": "5f3be286fa3d59f5d692f7a1c221e683d0067642",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "df766970_9475484e",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-01-15T10:53:52Z",
       "side": 1,
       "message": "@stariolo@google.com can approve the message.\n\nFor me `body formatting` feels a bit off.",
+      "range": {
+        "startLine": 605,
+        "startChar": 9,
+        "endLine": 605,
+        "endChar": 72
+      },
+      "revId": "5f3be286fa3d59f5d692f7a1c221e683d0067642",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6110b53c_9b3c35d1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 605,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-01-15T11:21:48Z",
+      "side": 1,
+      "message": "I removed body.",
+      "parentUuid": "df766970_9475484e",
       "range": {
         "startLine": 605,
         "startChar": 9,

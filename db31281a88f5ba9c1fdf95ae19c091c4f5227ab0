@@ -1,0 +1,91 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "548a5120_58bf22ff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-01-15T17:20:09Z",
+      "side": 1,
+      "message": "nit: remove?",
+      "range": {
+        "startLine": 22,
+        "startChar": 28,
+        "endLine": 22,
+        "endChar": 35
+      },
+      "revId": "db31281a88f5ba9c1fdf95ae19c091c4f5227ab0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "baa9cdbc_ef15db38",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReviewerRecommender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-01-15T17:20:09Z",
+      "side": 1,
+      "message": "Can we rename this to something like recentChangeCandidatesWeight?\n\n\"Base\" really makes it sound like it\u0027s part of every candidate (and the others are calculated from it)",
+      "range": {
+        "startLine": 105,
+        "startChar": 11,
+        "endLine": 105,
+        "endChar": 21
+      },
+      "revId": "db31281a88f5ba9c1fdf95ae19c091c4f5227ab0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3fa56665_94bc90c9",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReviewerRecommender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-01-15T17:20:09Z",
+      "side": 1,
+      "message": "Variable is not used afterwards, so can simply do getMatchingReviewers(changes, query).forEach(...)",
+      "range": {
+        "startLine": 109,
+        "startChar": 30,
+        "endLine": 109,
+        "endChar": 48
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "57514b6b_551e8bb0",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "java/com/google/gerrit/server/restapi/change/ReviewerRecommender.java",
+              "range": {
+                "startLine": 109,
+                "startChar": 0,
+                "endLine": 115,
+                "endChar": 0
+              },
+              "replacement": "    getMatchingReviewers(changes, query)\n        .forEach(\n            reviewerCandidate -\u003e\n                candidateScores\n                    .computeIfAbsent(reviewerCandidate, (ignored) -\u003e new MutableDouble(0))\n                    .add(baseWeight));\n"
+            }
+          ]
+        }
+      ],
+      "revId": "db31281a88f5ba9c1fdf95ae19c091c4f5227ab0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

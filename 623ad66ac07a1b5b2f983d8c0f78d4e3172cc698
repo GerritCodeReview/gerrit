@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fcf3de8b_2034d9eb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-01-15T22:27:39Z",
+      "side": 1,
+      "message": "We could consider making it so that we include a \"schema #\" in every file name. That would make it easy in the future for schema bumps too. Init could then even detect the change eventually and delete the old files for use (if requested). Makes upgrades a lot simpler if users don\u0027t have to track this.",
+      "parentUuid": "a06019da_d4f3c4a8",
+      "revId": "623ad66ac07a1b5b2f983d8c0f78d4e3172cc698",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e426991f_5a4258d8",
         "filename": "Documentation/backend_licenses.txt",
         "patchSetId": 9

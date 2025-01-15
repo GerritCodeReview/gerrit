@@ -2719,11 +2719,11 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     }
   }
 
-  private static class TestPluginPushOption implements PluginPushOption {
+  public static class TestPluginPushOption implements PluginPushOption {
     private final String name;
     private final String description;
 
-    TestPluginPushOption(String name, String description) {
+    public TestPluginPushOption(String name, String description) {
       this.name = name;
       this.description = description;
     }

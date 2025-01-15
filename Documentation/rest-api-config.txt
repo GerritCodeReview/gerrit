@@ -186,6 +186,40 @@ Queues the link:config-gerrit.html#accountDeactivation[account deactivator] task
   "Account deactivator task added to work queue."
 ----
 
+[[validation-options]]
+=== Get Validation Options
+--
+'GET /server/config/validation-options'
+--
+
+Retrieves the validation options.
+
+.Request
+----
+  GET /server/config/validation-options HTTP/1.0
+----
+
+As response a link:#validation-options-info[ValidationOptionInfo] entity is
+returned that includes the push options specified by the plugins.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    push_options: [
+      {
+        name: "optionName",
+        description: "description of the push option"
+      }
+    ]
+  }
+----
+
+
 [[check-consistency]]
 === Check Consistency
 --
@@ -1991,6 +2025,27 @@ A list of cache names. This list defines the caches on which the
 specified operation should be executed. Whether this list must be
 specified depends on the operation being executed.
 |==================================
+
+[[validation-option]]
+=== ValidationOption
+The `ValidationOption` entity returns the push option that is specified by the user on push.
+
+[options="header",cols="1,^2,4"]
+|=======================
+|Field Name   ||Description
+|`name`         ||The name of the push option.
+|`description`         ||The description of the push option.
+|=======================
+
+[[validation-options-info]]
+=== ValidationOptionInfo
+The `ValidationOptionInfo` entity returns the list of push options specified by the plugin.
+
+[options="header",cols="1,^2,4"]
+|=======================
+|Field Name   ||Description
+|`validation_options`         ||The list of push options specified by the plugin.
+|=======================
 
 [[capability-info]]
 === CapabilityInfo

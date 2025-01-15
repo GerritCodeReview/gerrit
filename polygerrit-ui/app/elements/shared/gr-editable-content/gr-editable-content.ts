@@ -138,6 +138,12 @@ export class GrEditableContent extends LitElement {
   // Tests use this so needs to be non private
   storeTask?: DelayedTask;
 
+  private formatCheckTask?: DelayedTask;
+
+  @state() private formatDisabled = true;
+
+  @state() private formattedErrors: FormattingError[] = [];
+
   constructor() {
     super();
     subscribe(
@@ -174,7 +180,10 @@ export class GrEditableContent extends LitElement {
 
   override willUpdate(changedProperties: PropertyValues) {
     if (changedProperties.has('editing')) this.editingChanged();
-    if (changedProperties.has('newContent')) this.newContentChanged();
+    if (changedProperties.has('newContent')) {
+      this.updateFormatState();
+      this.updateStorageWithNewContent();
+    }
     if (changedProperties.has('content')) this.contentChanged();
   }
 
@@ -320,13 +329,6 @@ export class GrEditableContent extends LitElement {
     if (!this.editing && !this.commitCollapsible && this.hideEditCommitMessage)
       return nothing;
 
-    let formatDisabled = true;
-    let formattedErrors: FormattingError[] = [];
-    if (this.newContent) {
-      formatDisabled =
-        formatCommitMessageString(this.newContent) === this.newContent;
-      formattedErrors = detectFormattingErrorsInString(this.newContent);
-    }
     return html`
       <div class="show-all-container font-normal">
         ${when(
@@ -382,9 +384,9 @@ export class GrEditableContent extends LitElement {
             )}
             <div class="editButtons">
               ${when(
-                formattedErrors.length > 0,
+                this.formattedErrors.length > 0,
                 () => html`<gr-tooltip-content
-                  .title=${formattedErrors
+                  .title=${this.formattedErrors
                     .map(e => `${e.line ? `Line ${e.line}: ` : ''}${e.message}`)
                     .join('\n')}
                   ><gr-icon class="warning" icon="warning" filled></gr-icon
@@ -394,10 +396,10 @@ export class GrEditableContent extends LitElement {
                 link
                 class="format-button"
                 @click=${this.handleFormat}
-                ?disabled=${formatDisabled}
+                ?disabled=${this.formatDisabled}
                 .title=${this.computeFormatButtonTooltip(
-                  formatDisabled,
-                  formattedErrors
+                  this.formatDisabled,
+                  this.formattedErrors
                 )}
                 >Format</gr-button
               >
@@ -440,7 +442,29 @@ export class GrEditableContent extends LitElement {
     ).textarea.focus();
   }
 
-  newContentChanged() {
+  private updateFormatState() {
+    if (!this.newContent) return;
+
+    // Run immediately first time
+    if (!this.formatCheckTask) {
+      this.formatDisabled =
+        formatCommitMessageString(this.newContent) === this.newContent;
+      this.formattedErrors = detectFormattingErrorsInString(this.newContent);
+    }
+
+    // Then debounce subsequent calls
+    this.formatCheckTask = debounce(
+      this.formatCheckTask,
+      () => {
+        this.formatDisabled =
+          formatCommitMessageString(this.newContent) === this.newContent;
+        this.formattedErrors = detectFormattingErrorsInString(this.newContent);
+      },
+      3000
+    );
+  }
+
+  updateStorageWithNewContent() {
     if (!this.storageKey) return;
     const storageKey = this.storageKey;
 

@@ -25,6 +25,7 @@ import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.server.ValidationOptionsListener;
 import com.google.gerrit.server.events.CommitReceivedEvent;
+import com.google.gerrit.server.git.receive.PluginPushOption;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidationInfo;
 import com.google.gerrit.server.git.validators.CommitValidationInfoListener;
@@ -84,6 +85,26 @@ public class TestExtensions {
       this.patchSetId = patchSetId;
       this.hasChangeModificationRefContext = RefUpdateContext.hasOpen(CHANGE_MODIFICATION);
       this.hasDirectPushRefContext = RefUpdateContext.hasOpen(DIRECT_PUSH);
+    }
+  }
+
+  public static class TestPluginPushOption implements PluginPushOption {
+    private final String name;
+    private final String description;
+
+    public TestPluginPushOption(String name, String description) {
+      this.name = name;
+      this.description = description;
+    }
+
+    @Override
+    public String getName() {
+      return name;
+    }
+
+    @Override
+    public String getDescription() {
+      return description;
     }
   }
 

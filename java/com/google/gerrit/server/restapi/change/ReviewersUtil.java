@@ -176,7 +176,7 @@ public class ReviewersUtil {
       ProjectState projectState,
       VisibilityControl visibilityControl,
       boolean excludeGroups)
-      throws IOException, PermissionBackendException, BadRequestException {
+      throws IOException, PermissionBackendException, BadRequestException, NoSuchProjectException {
     CurrentUser currentUser = self.get();
     if (changeNotes != null) {
       logger.atFine().log(
@@ -339,7 +339,8 @@ public class ReviewersUtil {
       @Nullable ChangeNotes changeNotes,
       SuggestReviewers suggestReviewers,
       ProjectState projectState,
-      ImmutableList<Account.Id> candidateList) {
+      ImmutableList<Account.Id> candidateList)
+      throws IOException, NoSuchProjectException {
     try (Timer0.Context ctx = metrics.recommendAccountsLatency.start()) {
       return reviewerRecommender.suggestReviewers(
           reviewerState, changeNotes, suggestReviewers.getQuery(), projectState, candidateList);

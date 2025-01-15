@@ -29,20 +29,24 @@ import com.google.gerrit.server.FanOutExecutor;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.account.GroupMembers;
 import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.change.ReviewerSuggestion;
 import com.google.gerrit.server.change.SuggestedReviewer;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.plugincontext.PluginMapContext;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangePredicates;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -71,6 +75,7 @@ public class ReviewerRecommender {
   private final ExecutorService executor;
   private final ApprovalsUtil approvalsUtil;
   private final AccountCache accountCache;
+  private final GroupMembers groupMembers;
 
   @Inject
   ReviewerRecommender(
@@ -80,7 +85,8 @@ public class ReviewerRecommender {
       @FanOutExecutor ExecutorService executor,
       ApprovalsUtil approvalsUtil,
       @GerritServerConfig Config config,
-      AccountCache accountCache) {
+      AccountCache accountCache,
+      GroupMembers groupMembers) {
     this.config = config;
     this.queryProvider = queryProvider;
     this.identifiedUser = identifiedUser;
@@ -88,6 +94,7 @@ public class ReviewerRecommender {
     this.executor = executor;
     this.approvalsUtil = approvalsUtil;
     this.accountCache = accountCache;
+    this.groupMembers = groupMembers;
   }
 
   public List<Account.Id> suggestReviewers(
@@ -95,7 +102,8 @@ public class ReviewerRecommender {
       @Nullable ChangeNotes changeNotes,
       String query,
       ProjectState projectState,
-      ImmutableList<Account.Id> candidateList) {
+      ImmutableList<Account.Id> candidateList)
+      throws IOException, NoSuchProjectException {
     logger.atFine().log("query: %s, candidates: %s", query, candidateList);
 
     Map<Account.Id, MutableDouble> candidateScores = new LinkedHashMap<>();
@@ -122,6 +130,16 @@ public class ReviewerRecommender {
       // getMatchingReviewers here, but we can include the reviewers directly.
       getReviewers(changes)
           .forEach(reviewerId -> candidateScores.put(reviewerId, new MutableDouble(0)));
+
+      if (candidateScores.isEmpty()) {
+        // There are still no candidates for the default reviewer suggestion. Fallback to suggesting
+        // the project owners.
+        groupMembers
+            .listAccounts(SystemGroupBackend.PROJECT_OWNERS, projectState.getNameKey())
+            .stream()
+            .map(Account::id)
+            .forEach(projectOwnerId -> candidateScores.put(projectOwnerId, new MutableDouble(0)));
+      }
     }
 
     logger.atFine().log("Base candidate scores: %s", candidateScores);

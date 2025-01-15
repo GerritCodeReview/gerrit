@@ -31,6 +31,7 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.BranchResource;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.restapi.change.ReviewersUtil;
 import com.google.gerrit.server.restapi.change.ReviewersUtil.VisibilityControl;
@@ -89,7 +90,11 @@ public class SuggestBranchReviewers extends SuggestReviewers
 
   @Override
   public Response<List<SuggestedReviewerInfo>> apply(BranchResource rsrc)
-      throws AuthException, BadRequestException, IOException, PermissionBackendException {
+      throws AuthException,
+          BadRequestException,
+          IOException,
+          PermissionBackendException,
+          NoSuchProjectException {
     if (!self.get().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }

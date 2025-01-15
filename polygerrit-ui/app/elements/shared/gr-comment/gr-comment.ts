@@ -1148,6 +1148,9 @@ export class GrComment extends LitElement {
       this.comment.path &&
       this.comment.path !== SpecialFilePath.PATCHSET_LEVEL_COMMENTS &&
       this.comment.path !== SpecialFilePath.COMMIT_MESSAGE &&
+      // Disable for comments on the left side of the diff, files can be deleted
+      // or such suggestions cannot be applied.
+      this.comment?.side !== CommentSide.PARENT &&
       (!this.suggestionsProvider.supportedFileExtensions ||
         this.suggestionsProvider.supportedFileExtensions.includes(
           getFileExtension(this.comment.path)

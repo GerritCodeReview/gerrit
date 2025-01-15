@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2ea315c_b4e1ec95",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-01-15T22:10:37Z",
+      "side": 1,
+      "message": "I would explain this in terms of the user impact (re-use some of the config text)\n```suggestion\nRelease-Notes: Disabled loading and executing \u0027rules.pl\u0027 files from each\nproject\u0027s refs/meta/config branch by default\n```",
+      "revId": "983b0cc7a78e332b701ff26b14d20786b04650da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

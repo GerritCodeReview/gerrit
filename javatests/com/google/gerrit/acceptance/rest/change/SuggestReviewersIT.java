@@ -38,7 +38,9 @@ import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.api.changes.ReviewerInput;
 import com.google.gerrit.extensions.client.ReviewerState;
@@ -479,6 +481,31 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     // project are suggested.
     assertThat(reviewers.stream().map(r -> r.account._accountId).collect(toList()))
         .containsExactly(reviewer1.id().get(), reviewer2.id().get());
+  }
+
+  @Test
+  public void defaultReviewerSuggestion_suggestProjectOwners() throws Exception {
+    Account.Id projectOwner1 = accountOperations.newAccount().create();
+    Account.Id projectOwner2 = accountOperations.newAccount().create();
+    AccountGroup.UUID ownerGroup =
+        groupOperations
+            .newGroup()
+            .addMember(projectOwner1)
+            .visibleToAll(true)
+            .addMember(projectOwner2)
+            .create();
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.OWNER).ref(RefNames.REFS + "*").group(ownerGroup))
+        .update();
+
+    requestScopeOperations.setApiUser(user1.id());
+    List<SuggestedReviewerInfo> reviewers = suggestReviewers(createChangeFromApi(), "", 4);
+
+    // Since there are no previous changes in the project, the project owners are suggested.
+    assertThat(reviewers.stream().map(r -> r.account._accountId).collect(toList()))
+        .containsExactly(projectOwner1.get(), projectOwner2.get());
   }
 
   @Test

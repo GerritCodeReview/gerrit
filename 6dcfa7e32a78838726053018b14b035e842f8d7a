@@ -16,6 +16,24 @@
       "message": "We no longer have dependency on h2 in google\n\nCould you move the rule to the nongoogle.bzl file, so you don\u0027t need \"Library-Compliance\" vote next time",
       "revId": "6dcfa7e32a78838726053018b14b035e842f8d7a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b42bfbd1_b3dc013c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-01-15T17:06:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ac49677e_ea989983",
+      "revId": "6dcfa7e32a78838726053018b14b035e842f8d7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -112,6 +112,18 @@ public class ReviewerRecommender {
                 candidateScores
                     .computeIfAbsent(reviewerCandidate, (ignored) -> new MutableDouble(0))
                     .add(recentChangeCandidatesWeight));
+
+    if (Strings.isNullOrEmpty(query) && candidateScores.isEmpty()) {
+      // There are no candidates for the default reviewer suggestion (= suggestion for an empty
+      // query). Fallback to suggesting the reviewers of recent changes in the same project.
+      changes = queryRecentChanges(ChangePredicates.project(projectState.getNameKey()));
+
+      // Since we are suggesting default reviewers here (query is empty) we do not need to call
+      // getMatchingReviewers here, but we can include the reviewers directly.
+      getReviewers(changes)
+          .forEach(reviewerId -> candidateScores.put(reviewerId, new MutableDouble(0)));
+    }
+
     logger.atFine().log("Base candidate scores: %s", candidateScores);
 
     // Send the query along with a candidate list to all plugins and merge the
@@ -202,10 +214,13 @@ public class ReviewerRecommender {
         .query(predicate);
   }
 
+  private ImmutableList<Account.Id> getReviewers(ImmutableList<ChangeData> changes) {
+    return changes.stream().flatMap(cd -> cd.reviewers().all().stream()).collect(toImmutableList());
+  }
+
   private ImmutableList<Account.Id> getMatchingReviewers(
       ImmutableList<ChangeData> changes, String query) {
-    ImmutableList<Account.Id> reviewerIds =
-        changes.stream().flatMap(cd -> cd.reviewers().all().stream()).collect(toImmutableList());
+    ImmutableList<Account.Id> reviewerIds = getReviewers(changes);
     Map<Account.Id, AccountState> reviewerStates =
         accountCache.get(ImmutableSet.copyOf(reviewerIds));
     return reviewerIds.stream()

@@ -430,18 +430,17 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void defaultReviewerSuggestion() throws Exception {
+  public void defaultReviewerSuggestion_suggestReviewersOfRecentChangesOfTheCaller()
+      throws Exception {
     TestAccount user1 = user("customuser1", "User1");
     TestAccount reviewer1 = user("customuser2", "User2");
     TestAccount reviewer2 = user("customuser3", "User3");
 
     requestScopeOperations.setApiUser(user1.id());
     String changeId1 = createChangeFromApi();
-
     reviewChange(changeId1, reviewer1);
 
     String changeId2 = createChangeFromApi();
-
     reviewChange(changeId2, reviewer1);
     reviewChange(changeId2, reviewer2);
 
@@ -460,7 +459,30 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void defaultReviewerSuggestionOnFirstChange() throws Exception {
+  public void defaultReviewerSuggestion_suggestReviewersOfRecentChangesInTheSameProject()
+      throws Exception {
+    TestAccount user1 = user("customuser1", "User1");
+    TestAccount reviewer1 = user("customuser2", "User2");
+    TestAccount reviewer2 = user("customuser3", "User3");
+
+    String changeId1 = createChangeFromApi();
+    reviewChange(changeId1, reviewer1);
+
+    String changeId2 = createChangeFromApi();
+    reviewChange(changeId2, reviewer1);
+    reviewChange(changeId2, reviewer2);
+
+    requestScopeOperations.setApiUser(user1.id());
+    List<SuggestedReviewerInfo> reviewers = suggestReviewers(createChangeFromApi(), "", 4);
+
+    // Since there are no previous changes of user1, reviewers of any recent changes of the same
+    // project are suggested.
+    assertThat(reviewers.stream().map(r -> r.account._accountId).collect(toList()))
+        .containsExactly(reviewer1.id().get(), reviewer2.id().get());
+  }
+
+  @Test
+  public void defaultReviewerSuggestionOnInitialChange() throws Exception {
     TestAccount user1 = user("customuser1", "User1");
     requestScopeOperations.setApiUser(user1.id());
     List<SuggestedReviewerInfo> reviewers = suggestReviewers(createChangeFromApi(), "", 4);

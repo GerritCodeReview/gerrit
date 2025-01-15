@@ -20,9 +20,12 @@ import com.google.gerrit.extensions.api.plugins.InstallPluginInput;
 import com.google.gerrit.extensions.api.plugins.PluginApi;
 import com.google.gerrit.extensions.api.plugins.Plugins;
 import com.google.gerrit.extensions.common.PluginInfo;
+import com.google.gerrit.extensions.common.PluginPushOptionsInfo;
+
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
+import com.google.gerrit.server.plugins.GetPluginPushOptions;
 import com.google.gerrit.server.plugins.InstallPlugin;
 import com.google.gerrit.server.plugins.ListPlugins;
 import com.google.gerrit.server.plugins.PluginsCollection;
@@ -35,6 +38,7 @@ import java.util.SortedMap;
 public class PluginsImpl implements Plugins {
   private final PluginsCollection plugins;
   private final Provider<ListPlugins> listProvider;
+  private final Provider<GetPluginPushOptions> pluginOptionsProvider;
   private final Provider<InstallPlugin> installProvider;
   private final PluginApiImpl.Factory pluginApi;
 
@@ -42,10 +46,12 @@ public class PluginsImpl implements Plugins {
   PluginsImpl(
       PluginsCollection plugins,
       Provider<ListPlugins> listProvider,
+      Provider<GetPluginPushOptions> pluginOptionsProvider,
       Provider<InstallPlugin> installProvider,
       PluginApiImpl.Factory pluginApi) {
     this.plugins = plugins;
     this.listProvider = listProvider;
+    this.pluginOptionsProvider = pluginOptionsProvider;
     this.installProvider = installProvider;
     this.pluginApi = pluginApi;
   }
@@ -53,6 +59,11 @@ public class PluginsImpl implements Plugins {
   @Override
   public PluginApi name(String name) throws RestApiException {
     return pluginApi.create(plugins.parse(name));
+  }
+
+  @Override
+  public PluginPushOptionsInfo pushOptions() {
+    return this.pluginOptionsProvider.get().apply(TopLevelResource.INSTANCE).value();
   }
 
   @Override

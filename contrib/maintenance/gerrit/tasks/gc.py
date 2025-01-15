@@ -20,7 +20,7 @@ sys.path.append("../..")
 from git.repo import GIT_SUFFIX
 
 
-class BatchGitGarbageGollection:
+class BatchGitGarbageCollection:
     def __init__(self, site, projects, gc_runner):
         self.site = site
         self.projects = projects

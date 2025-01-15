@@ -36,17 +36,17 @@ import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.TestSubmitRuleInfo;
 import com.google.gerrit.extensions.common.TestSubmitRuleInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.git.meta.VersionedMetaData;
 import com.google.gerrit.testing.ConfigSuite;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.lib.CommitBuilder;
-import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.*;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.util.FS;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -78,9 +78,19 @@ public class SubmitTypeRuleIT extends AbstractDaemonTest {
   }
 
   private AtomicInteger fileCounter;
+  private SitePaths sitePaths;
 
   @Before
   public void setUp() throws Exception {
+    sitePaths = new SitePaths(temporaryFolder.newFolder().toPath());
+
+    StoredConfig gerritConfig =
+        new FileBasedConfig(
+            sitePaths.resolve("etc").resolve("gerrit.config").toFile(), FS.DETECTED);
+    gerritConfig.load();
+    gerritConfig.setString("rules", null, "enable", "true");
+    gerritConfig.save();
+
     fileCounter = new AtomicInteger();
     gApi.projects().name(project.get()).branch("test").create(new BranchInput());
   }

@@ -67,7 +67,8 @@ public class ConfigRestApiBindingsIT extends AbstractDaemonTest {
           RestCall.get("/config/server/tasks"),
           RestCall.get("/config/server/top-menus"),
           RestCall.get("/config/server/version"),
-          RestCall.post("/config/server/cleanup.changes"));
+          RestCall.post("/config/server/cleanup.changes"),
+          RestCall.get("/config/server/validation-options"));
 
   /**
    * Cache REST endpoints to be tested, the URLs contain a placeholder for the cache identifier.

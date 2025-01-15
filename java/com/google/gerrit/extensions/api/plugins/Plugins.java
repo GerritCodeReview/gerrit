@@ -16,6 +16,7 @@ package com.google.gerrit.extensions.api.plugins;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.extensions.common.PluginInfo;
+import com.google.gerrit.extensions.common.PluginPushOptionsInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,8 @@ import java.util.SortedMap;
 public interface Plugins {
 
   ListRequest list() throws RestApiException;
+
+  PluginPushOptionsInfo pushOptions() throws RestApiException;
 
   PluginApi name(String name) throws RestApiException;
 

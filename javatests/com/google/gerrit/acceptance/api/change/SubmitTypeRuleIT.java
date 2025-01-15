@@ -136,6 +136,7 @@ public class SubmitTypeRuleIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "rules.enable", value = "true")
   public void unconditionalCherryPick() throws Exception {
     PushOneCommit.Result r = createChange();
     assertSubmitType(MERGE_IF_NECESSARY, r.getChangeId());
@@ -144,6 +145,7 @@ public class SubmitTypeRuleIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "rules.enable", value = "true")
   public void submitTypeFromSubject() throws Exception {
     PushOneCommit.Result r1 = createChange("master", "Default 1");
     PushOneCommit.Result r2 = createChange("master", "FAST_FORWARD_ONLY 2");
@@ -173,7 +175,6 @@ public class SubmitTypeRuleIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(name = "rules.enable", value = "false")
   public void submitType_rulesTakeNoEffectWhenDisabled() throws Exception {
     PushOneCommit.Result r1 = createChange("master", "Default 1");
     PushOneCommit.Result r2 = createChange("master", "FAST_FORWARD_ONLY 2");
@@ -188,6 +189,7 @@ public class SubmitTypeRuleIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "rules.enable", value = "true")
   public void submitTypeIsUsedForSubmit() throws Exception {
     setRulesPl(SUBMIT_TYPE_FROM_SUBJECT);
 
@@ -204,6 +206,7 @@ public class SubmitTypeRuleIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "rules.enable", value = "true")
   public void mixingSubmitTypesAcrossBranchesSucceeds() throws Exception {
     setRulesPl(SUBMIT_TYPE_FROM_SUBJECT);
 
@@ -231,6 +234,7 @@ public class SubmitTypeRuleIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "rules.enable", value = "true")
   public void mixingSubmitTypesOnOneBranchFails() throws Exception {
     setRulesPl(SUBMIT_TYPE_FROM_SUBJECT);
 
@@ -258,6 +262,7 @@ public class SubmitTypeRuleIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "rules.enable", value = "true")
   public void invalidSubmitRuleWithNoRulesInProject() throws Exception {
     String changeId = createChange("master", "change 1").getChangeId();
 
@@ -269,6 +274,7 @@ public class SubmitTypeRuleIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "rules.enable", value = "true")
   public void invalidSubmitRuleWithRulesInProject() throws Exception {
     setRulesPl(SUBMIT_TYPE_FROM_SUBJECT);
 

@@ -339,6 +339,9 @@ export class GrComment extends LitElement {
    */
   private originalUnresolved = false;
 
+  @state()
+  aiFixSuggestions?: FixSuggestionInfo[];
+
   constructor() {
     super();
     provide(this, commentModelToken, () => this.commentModel);
@@ -734,8 +737,9 @@ export class GrComment extends LitElement {
         </div>
         <div class="headerMiddle">${this.renderCollapsedContent()}</div>
         ${this.renderSuggestEditButton()} ${this.renderRunDetails()}
-        ${this.renderDeleteButton()} ${this.renderPatchset()}
-        ${this.renderSeparator()} ${this.renderDate()} ${this.renderToggle()}
+        ${this.renderFixWithAIButton()} ${this.renderDeleteButton()}
+        ${this.renderPatchset()} ${this.renderSeparator()} ${this.renderDate()}
+        ${this.renderToggle()}
       </div>
     `;
   }
@@ -1126,13 +1130,17 @@ export class GrComment extends LitElement {
   }
 
   private renderFixSuggestionPreview() {
-    if (
-      !this.comment?.fix_suggestions ||
-      this.editing ||
-      isRobot(this.comment) ||
-      this.collapsed
-    )
-      return nothing;
+    if (this.editing || isRobot(this.comment) || this.collapsed) return nothing;
+
+    // Show AI fix suggestions if available
+    if (this.aiFixSuggestions?.length) {
+      return html`<gr-fix-suggestions
+        .comment=${{...this.comment!, fix_suggestions: this.aiFixSuggestions}}
+      ></gr-fix-suggestions>`;
+    }
+
+    // Otherwise show regular fix suggestions
+    if (!this.comment?.fix_suggestions) return nothing;
     return html`<gr-fix-suggestions
       .comment=${this.comment}
     ></gr-fix-suggestions>`;
@@ -1862,6 +1870,77 @@ export class GrComment extends LitElement {
       this.confirmDeleteDialog.message
     );
     this.closeDeleteCommentModal();
+  }
+
+  private renderFixWithAIButton() {
+    if (
+      !this.comment ||
+      hasUserSuggestion(this.comment) ||
+      (this.comment.fix_suggestions ?? []).length > 0 ||
+      this.comment.author?._account_id !== this.account?._account_id
+    ) {
+      return nothing;
+    }
+    return html`
+      <gr-button link class="action fix-with-ai" @click=${this.handleFixWithAI}>
+        Fix with AI
+      </gr-button>
+    `;
+  }
+
+  private async handleFixWithAI(e: MouseEvent) {
+    e.preventDefault();
+    e.stopPropagation();
+    const suggestionsProvider = this.suggestionsProvider;
+    const changeInfo = this.getChangeModel().getChange();
+    if (
+      !suggestionsProvider?.suggestFix ||
+      !changeInfo ||
+      !this.comment ||
+      !this.comment.patch_set ||
+      !this.comment.path ||
+      !this.comment.message
+    ) {
+      return;
+    }
+
+    this.generatedSuggestionId = uuid();
+    this.reporting.reportInteraction(Interaction.GENERATE_SUGGESTION_REQUEST, {
+      uuid: this.generatedSuggestionId,
+      type: 'fix-with-ai',
+      commentId: this.comment.id,
+      fileExtension: getFileExtension(this.comment.path ?? ''),
+    });
+
+    this.suggestionLoading = true;
+    let suggestionResponse;
+    try {
+      suggestionResponse = await suggestionsProvider.suggestFix({
+        prompt: this.comment.message,
+        changeInfo: changeInfo as ChangeInfo,
+        patchsetNumber: this.comment.patch_set,
+        filePath: this.comment.path,
+        range: this.comment.range,
+        lineNumber: this.comment.line,
+      });
+    } finally {
+      this.suggestionLoading = false;
+    }
+
+    if (!suggestionResponse?.fix_suggestions?.length) return;
+
+    this.reporting.reportInteraction(Interaction.GENERATE_SUGGESTION_RESPONSE, {
+      uuid: this.generatedSuggestionId,
+      type: 'fix-with-ai',
+      commentId: this.comment.id,
+      response: suggestionResponse.responseCode,
+      numSuggestions: suggestionResponse.fix_suggestions.length,
+      fileExtension: getFileExtension(this.comment.path ?? ''),
+      logProbability: suggestionResponse.fix_suggestions?.[0]?.log_probability,
+    });
+
+    // Store the AI-generated fix suggestions separately
+    this.aiFixSuggestions = suggestionResponse.fix_suggestions;
   }
 }
 

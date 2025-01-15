@@ -35,5 +35,6 @@ public class PluginRestApiModule extends RestApiModule {
     post(PLUGIN_KIND, "enable").to(EnablePlugin.class);
     post(PLUGIN_KIND, "reload").to(ReloadPlugin.class);
     get(PLUGIN_KIND, "status").to(GetStatus.class);
+    get(PLUGIN_KIND, "validationOptions").to(GetValidationOptions.class);
   }
 }

@@ -70,6 +70,24 @@
       "parentUuid": "a79e585c_89df85ee",
       "revId": "969944d04103615682611aac8e0c7d00e60bd69e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc8ac10f_444831dd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-01-15T22:56:18Z",
+      "side": 1,
+      "message": "I verified that this change doesn\u0027t compile in Eclipse, I counted 706 compile errors in Eclipse.\n\nI tried reverting the above mentioned 3 commits on top of jgit master, in addition to that only some minor fixes are needed in `java/com/google/gerrit/server/git/DelegateRepository.java` since we removed a deprecated method in `Repository` and made another one private.\n\nIf we want to go this route we need\nhttps://gerrit.googlesource.com/jgit\nexposed here on gerrit-review, couldn\u0027t find it listed on gerrit-review:\nhttps://gerrit-review.googlesource.com/admin/repos/q/filter:jgit\n\n@ifrade@google.com: can you discuss on your side if this forking approach is ok from Google side until you can update to servlet 6 ? If you agree, please make the gerrit/jgit repo available here on gerrit-review so that we can use code review to maintain the fork.",
+      "parentUuid": "865f6e88_7285b0ed",
+      "revId": "969944d04103615682611aac8e0c7d00e60bd69e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

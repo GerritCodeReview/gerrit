@@ -24,8 +24,9 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.client.ReviewerState;
-import com.google.gerrit.index.query.QueryParseException;
+import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.server.FanOutExecutor;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.approval.ApprovalsUtil;
@@ -38,14 +39,12 @@ import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.plugincontext.PluginMapContext;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.query.change.ChangeQueryBuilder;
+import com.google.gerrit.server.query.change.ChangePredicates;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -58,7 +57,6 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 import org.apache.commons.lang3.mutable.MutableDouble;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 
 public class ReviewerRecommender {
@@ -66,26 +64,26 @@ public class ReviewerRecommender {
 
   private static final long PLUGIN_QUERY_TIMEOUT = 500; // ms
 
-  private final ChangeQueryBuilder changeQueryBuilder;
   private final Config config;
   private final PluginMapContext<ReviewerSuggestion> reviewerSuggestionPluginMap;
   private final Provider<InternalChangeQuery> queryProvider;
+  private final Provider<IdentifiedUser> identifiedUser;
   private final ExecutorService executor;
   private final ApprovalsUtil approvalsUtil;
   private final AccountCache accountCache;
 
   @Inject
   ReviewerRecommender(
-      ChangeQueryBuilder changeQueryBuilder,
       PluginMapContext<ReviewerSuggestion> reviewerSuggestionPluginMap,
       Provider<InternalChangeQuery> queryProvider,
+      Provider<IdentifiedUser> identifiedUser,
       @FanOutExecutor ExecutorService executor,
       ApprovalsUtil approvalsUtil,
       @GerritServerConfig Config config,
       AccountCache accountCache) {
-    this.changeQueryBuilder = changeQueryBuilder;
     this.config = config;
     this.queryProvider = queryProvider;
+    this.identifiedUser = identifiedUser;
     this.reviewerSuggestionPluginMap = reviewerSuggestionPluginMap;
     this.executor = executor;
     this.approvalsUtil = approvalsUtil;
@@ -97,8 +95,7 @@ public class ReviewerRecommender {
       @Nullable ChangeNotes changeNotes,
       String query,
       ProjectState projectState,
-      List<Account.Id> candidateList)
-      throws IOException, ConfigInvalidException {
+      List<Account.Id> candidateList) {
     logger.atFine().log("Candidates %s", candidateList);
 
     logger.atFine().log("query: %s", query);
@@ -195,44 +192,37 @@ public class ReviewerRecommender {
    *     also empty.
    * @return Map of account ids that match the query and their appropriate ranking (the better the
    *     ranking, the better it is to suggest them as reviewers).
-   * @throws IOException Can't find owner="self" account.
-   * @throws ConfigInvalidException Can't find owner="self" account.
    */
   private Map<Account.Id, MutableDouble> baseRanking(
-      double baseWeight, String query, List<Account.Id> candidateList)
-      throws IOException, ConfigInvalidException {
-    int numberOfRelevantChanges = config.getInt("suggest", "relevantChanges", 50);
-    // Get the user's last numberOfRelevantChanges changes, check reviewers
-    try {
-      ImmutableList<ChangeData> changes =
-          queryProvider
-              .get()
-              .setLimit(numberOfRelevantChanges)
-              .setRequestedFields(ChangeField.REVIEWER_SPEC)
-              .query(changeQueryBuilder.owner("self"));
-      Map<Account.Id, MutableDouble> suggestions = new LinkedHashMap<>();
-      // Put those candidates at the bottom of the list
-      candidateList.stream().forEach(id -> suggestions.put(id, new MutableDouble(0)));
+      double baseWeight, String query, List<Account.Id> candidateList) {
+    // Get the user's recent changes, check reviewers
+    ImmutableList<ChangeData> changes =
+        queryRecentChanges(ChangePredicates.owner(identifiedUser.get().getAccountId()));
+    Map<Account.Id, MutableDouble> suggestions = new LinkedHashMap<>();
+    // Put those candidates at the bottom of the list
+    candidateList.stream().forEach(id -> suggestions.put(id, new MutableDouble(0)));
 
-      ImmutableSet<Account.Id> candidateIds =
-          changes.stream().flatMap(cd -> cd.reviewers().all().stream()).collect(toImmutableSet());
-      Map<Account.Id, AccountState> candidateStates = accountCache.get(candidateIds);
+    ImmutableSet<Account.Id> candidateIds =
+        changes.stream().flatMap(cd -> cd.reviewers().all().stream()).collect(toImmutableSet());
+    Map<Account.Id, AccountState> candidateStates = accountCache.get(candidateIds);
 
-      for (ChangeData cd : changes) {
-        for (Account.Id reviewer : cd.reviewers().all()) {
-          if (accountMatchesQuery(candidateStates.get(reviewer), query)) {
-            suggestions
-                .computeIfAbsent(reviewer, (ignored) -> new MutableDouble(0))
-                .add(baseWeight);
-          }
+    for (ChangeData cd : changes) {
+      for (Account.Id reviewer : cd.reviewers().all()) {
+        if (accountMatchesQuery(candidateStates.get(reviewer), query)) {
+          suggestions.computeIfAbsent(reviewer, (ignored) -> new MutableDouble(0)).add(baseWeight);
         }
       }
-      return suggestions;
-    } catch (QueryParseException e) {
-      // Unhandled, because owner:self will never provoke a QueryParseException
-      logger.atSevere().withCause(e).log("Exception while suggesting reviewers");
-      return new HashMap<>();
     }
+    return suggestions;
+  }
+
+  private ImmutableList<ChangeData> queryRecentChanges(Predicate<ChangeData> predicate) {
+    int numberOfRelevantChanges = config.getInt("suggest", "relevantChanges", 50);
+    return queryProvider
+        .get()
+        .setLimit(numberOfRelevantChanges)
+        .setRequestedFields(ChangeField.REVIEWER_SPEC)
+        .query(predicate);
   }
 
   private boolean accountMatchesQuery(AccountState accountState, String query) {

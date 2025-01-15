@@ -73,7 +73,6 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 
 public class ReviewersUtil {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -176,7 +175,7 @@ public class ReviewersUtil {
       ProjectState projectState,
       VisibilityControl visibilityControl,
       boolean excludeGroups)
-      throws IOException, ConfigInvalidException, PermissionBackendException, BadRequestException {
+      throws IOException, PermissionBackendException, BadRequestException {
     CurrentUser currentUser = self.get();
     if (changeNotes != null) {
       logger.atFine().log(
@@ -339,8 +338,7 @@ public class ReviewersUtil {
       @Nullable ChangeNotes changeNotes,
       SuggestReviewers suggestReviewers,
       ProjectState projectState,
-      List<Account.Id> candidateList)
-      throws IOException, ConfigInvalidException {
+      List<Account.Id> candidateList) {
     try (Timer0.Context ctx = metrics.recommendAccountsLatency.start()) {
       return reviewerRecommender.suggestReviewers(
           reviewerState, changeNotes, suggestReviewers.getQuery(), projectState, candidateList);

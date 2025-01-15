@@ -339,7 +339,7 @@ public class ReviewersUtil {
       @Nullable ChangeNotes changeNotes,
       SuggestReviewers suggestReviewers,
       ProjectState projectState,
-      List<Account.Id> candidateList) {
+      ImmutableList<Account.Id> candidateList) {
     try (Timer0.Context ctx = metrics.recommendAccountsLatency.start()) {
       return reviewerRecommender.suggestReviewers(
           reviewerState, changeNotes, suggestReviewers.getQuery(), projectState, candidateList);

@@ -95,7 +95,7 @@ public class ReviewerRecommender {
       @Nullable ChangeNotes changeNotes,
       String query,
       ProjectState projectState,
-      List<Account.Id> candidateList) {
+      ImmutableList<Account.Id> candidateList) {
     logger.atFine().log("Candidates %s", candidateList);
 
     logger.atFine().log("query: %s", query);
@@ -194,7 +194,7 @@ public class ReviewerRecommender {
    *     ranking, the better it is to suggest them as reviewers).
    */
   private Map<Account.Id, MutableDouble> baseRanking(
-      double baseWeight, String query, List<Account.Id> candidateList) {
+      double baseWeight, String query, ImmutableList<Account.Id> candidateList) {
     // Get the user's recent changes, check reviewers
     ImmutableList<ChangeData> changes =
         queryRecentChanges(ChangePredicates.owner(identifiedUser.get().getAccountId()));

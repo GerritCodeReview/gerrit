@@ -26,6 +26,7 @@ import static com.google.gerrit.acceptance.GitUtil.pushOne;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static com.google.gerrit.acceptance.TestExtensions.TestCommitValidationInfoListener;
 import static com.google.gerrit.acceptance.TestExtensions.TestCommitValidationListener;
+import static com.google.gerrit.acceptance.TestExtensions.TestPluginPushOption;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
@@ -2716,26 +2717,6 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     @Nullable
     public ImmutableListMultimap<String, String> pushOptions() {
       return receivedEvent != null ? receivedEvent.pushOptions : null;
-    }
-  }
-
-  private static class TestPluginPushOption implements PluginPushOption {
-    private final String name;
-    private final String description;
-
-    TestPluginPushOption(String name, String description) {
-      this.name = name;
-      this.description = description;
-    }
-
-    @Override
-    public String getName() {
-      return name;
-    }
-
-    @Override
-    public String getDescription() {
-      return description;
     }
   }
 

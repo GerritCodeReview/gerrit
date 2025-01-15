@@ -326,6 +326,39 @@ describes the plugin.
   }
 ----
 
+[[get-plugin-push-options]]
+=== Get Plugin Status
+--
+'GET /plugins/link:#plugin-id[\{plugin-id\}]/gerrit~pushOptions'
+--
+
+Retrieves the push options specified by the plugins.
+
+.Request
+----
+  GET /plugins/delete-project/gerrit~pushOptions HTTP/1.0
+----
+
+As response a link:#plugin-push-options-info[PluginPushOptionsInfo] entity is
+returned that includes the push options specified by the plugins.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    pushOptions: [
+      {
+        getName(): "optionName",
+        getDescription(): "description of the push option"
+      }
+    ]
+  }
+----
+
 [[enable-plugin]]
 === Enable Plugin
 --
@@ -449,6 +482,27 @@ The ID of the plugin.
 
 [[json-entities]]
 == JSON Entities
+
+[[plugin-push-option]]
+=== PluginPushOption
+The `PluginPushOption` entity returns the push option that can be specified by plugins on push.
+
+[options="header",cols="1,^2,4"]
+|=======================
+|Field Name   ||Description
+|`getName()`         ||The name of the push option.
+|`getDescription()`         ||The description of the push option.
+|=======================
+
+[[plugin-push-options-info]]
+=== PluginPushOptionsInfo
+The `PluginPushOptionsInfo` entity returns the list of push options specified by the plugin.
+
+[options="header",cols="1,^2,4"]
+|=======================
+|Field Name   ||Description
+|`pushOptions`         ||The list of push options specified by the plugin.
+|=======================
 
 [[plugin-info]]
 === PluginInfo

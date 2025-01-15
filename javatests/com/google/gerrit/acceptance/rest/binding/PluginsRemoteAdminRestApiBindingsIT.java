@@ -42,6 +42,7 @@ public class PluginsRemoteAdminRestApiBindingsIT extends AbstractDaemonTest {
 
           // For GET requests prefixing the view name with 'gerrit~' is required.
           RestCall.get("/plugins/%s/gerrit~status"),
+          RestCall.get("/plugins/%s/gerrit~push_options"),
 
           // POST (and PUT) requests don't require the 'gerrit~' prefix in front of the view name.
           RestCall.post("/plugins/%s/gerrit~enable"),

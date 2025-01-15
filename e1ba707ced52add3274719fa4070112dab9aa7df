@@ -46,6 +46,30 @@
       },
       "revId": "e1ba707ced52add3274719fa4070112dab9aa7df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a93a14c_1b93fa7d",
+        "filename": "java/com/google/gerrit/server/logging/TraceContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-01-15T10:50:43Z",
+      "side": 1,
+      "message": "OK, thank you for a fast response. I would then prefer to discuss addition of that prefix in own change, decoupled from other decisions.",
+      "parentUuid": "8498a966_1952ff8b",
+      "range": {
+        "startLine": 138,
+        "startChar": 43,
+        "endLine": 138,
+        "endChar": 52
+      },
+      "revId": "e1ba707ced52add3274719fa4070112dab9aa7df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

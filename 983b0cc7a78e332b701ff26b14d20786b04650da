@@ -16,6 +16,23 @@
       "message": "I would explain this in terms of the user impact (re-use some of the config text)\n```suggestion\nRelease-Notes: Disabled loading and executing \u0027rules.pl\u0027 files from each\nproject\u0027s refs/meta/config branch by default\n```",
       "revId": "983b0cc7a78e332b701ff26b14d20786b04650da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1a2cc82_9d391e24",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-15T22:54:11Z",
+      "side": 1,
+      "message": "Also requires to amend the setup of the tests of Prolog rules and submit requirements:\n\n```\n21:01:12 //javatests/com/google/gerrit/acceptance/api/change:SubmitTypeRuleIT     FAILED in 3 out of 3 in 10.3s\n21:01:12   Stats over 3 runs: max \u003d 10.3s, min \u003d 7.2s, avg \u003d 8.8s, dev \u003d 1.3s\n21:01:12   /home/jenkins/.cache/bazel/_bazel_jenkins/67bba20af71044f1eb598ecb44098f26/execroot/gerrit/bazel-out/k8-fastbuild/testlogs/javatests/com/google/gerrit/acceptance/api/change/SubmitTypeRuleIT/test.log\n21:01:12   /home/jenkins/.cache/bazel/_bazel_jenkins/67bba20af71044f1eb598ecb44098f26/execroot/gerrit/bazel-out/k8-fastbuild/testlogs/javatests/com/google/gerrit/acceptance/api/change/SubmitTypeRuleIT/test_attempts/attempt_1.log\n21:01:12   /home/jenkins/.cache/bazel/_bazel_jenkins/67bba20af71044f1eb598ecb44098f26/execroot/gerrit/bazel-out/k8-fastbuild/testlogs/javatests/com/google/gerrit/acceptance/api/change/SubmitTypeRuleIT/test_attempts/attempt_2.log\n21:01:12 //javatests/com/google/gerrit/acceptance/server/rules/prolog:prolog_rules FAILED in 3 out of 3 in 10.5s\n21:01:12   Stats over 3 runs: max \u003d 10.5s, min \u003d 8.0s, avg \u003d 9.6s, dev \u003d 1.1s\n21:01:12   /home/jenkins/.cache/bazel/_bazel_jenkins/67bba20af71044f1eb598ecb44098f26/execroot/gerrit/bazel-out/k8-fastbuild/testlogs/javatests/com/google/gerrit/acceptance/server/rules/prolog/prolog_rules/test.log\n21:01:12   /home/jenkins/.cache/bazel/_bazel_jenkins/67bba20af71044f1eb598ecb44098f26/execroot/gerrit/bazel-out/k8-fastbuild/testlogs/javatests/com/google/gerrit/acceptance/server/rules/prolog/prolog_rules/test_attempts/attempt_1.log\n21:01:12   /home/jenkins/.cache/bazel/_bazel_jenkins/67bba20af71044f1eb598ecb44098f26/execroot/gerrit/bazel-out/k8-fastbuild/testlogs/javatests/com/google/gerrit/acceptance/server/rules/prolog/prolog_rules/test_attempts/attempt_2.log\n```",
+      "revId": "983b0cc7a78e332b701ff26b14d20786b04650da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "306db68c_6d91c02b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-01-15T23:22:03Z",
+      "side": 1,
+      "message": "I added a note to the commit message that this is a breaking change",
+      "parentUuid": "fcf3de8b_2034d9eb",
+      "revId": "623ad66ac07a1b5b2f983d8c0f78d4e3172cc698",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e426991f_5a4258d8",
         "filename": "Documentation/backend_licenses.txt",
         "patchSetId": 9
@@ -67,6 +85,30 @@
       "writtenOn": "2025-01-15T22:17:07Z",
       "side": 1,
       "message": "Should we link to the specific version/tag we\u0027re consuming? I don\u0027t know if we do that anywhere else.",
+      "range": {
+        "startLine": 1161,
+        "startChar": 51,
+        "endLine": 1161,
+        "endChar": 57
+      },
+      "revId": "623ad66ac07a1b5b2f983d8c0f78d4e3172cc698",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a743f8a0_d9e2365c",
+        "filename": "Documentation/backend_licenses.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 1161,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-01-15T23:22:03Z",
+      "side": 1,
+      "message": "Didn\u0027t find any other license link referring to a tag",
+      "parentUuid": "e426991f_5a4258d8",
       "range": {
         "startLine": 1161,
         "startChar": 51,

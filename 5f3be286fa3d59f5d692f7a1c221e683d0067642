@@ -93,6 +93,30 @@
       },
       "revId": "5f3be286fa3d59f5d692f7a1c221e683d0067642",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "99688542_b6afd885",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 605,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-01-15T12:05:47Z",
+      "side": 1,
+      "message": "I will discuss this topic on UX hour. I will prepare document about it.",
+      "parentUuid": "6110b53c_9b3c35d1",
+      "range": {
+        "startLine": 605,
+        "startChar": 9,
+        "endLine": 605,
+        "endChar": 72
+      },
+      "revId": "5f3be286fa3d59f5d692f7a1c221e683d0067642",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -22,6 +22,30 @@
       },
       "revId": "e1ba707ced52add3274719fa4070112dab9aa7df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8498a966_1952ff8b",
+        "filename": "java/com/google/gerrit/server/logging/TraceContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2025-01-15T10:39:28Z",
+      "side": 1,
+      "message": "When I debugged the tests, it was really hard to find which code piece is generating this hash string. Similar situation will happen when reading logs, trying to understand which trace ID is correlative to what. Adding a short, searchable, prefix makes that easier IMHO.\n\nTotally optional though.",
+      "parentUuid": "e5dc571e_04c0e6f4",
+      "range": {
+        "startLine": 138,
+        "startChar": 43,
+        "endLine": 138,
+        "endChar": 52
+      },
+      "revId": "e1ba707ced52add3274719fa4070112dab9aa7df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

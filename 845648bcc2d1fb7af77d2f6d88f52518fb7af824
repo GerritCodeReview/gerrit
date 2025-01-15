@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38bc16fd_be57c201",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3830938
+      },
+      "writtenOn": "2025-01-15T03:49:33Z",
+      "side": 1,
+      "message": "legal-support@github.commembers-notify@apache.org, calendar@betterapptech.comlegal-support@github.com",
+      "revId": "845648bcc2d1fb7af77d2f6d88f52518fb7af824",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -152,6 +152,7 @@ run_google_java_format() {
 
 # MAIN
 
+SUPPORTED_VERSIONS=(1.7 1.22.0 1.24.0)
 HELP_TEXT="
     Usage:
 
@@ -163,7 +164,6 @@ HELP_TEXT="
 
 "
 
-SUPPORTED_VERSIONS=(1.7 1.22.0 1.24.0)
 # Keep the default version in sync with dev-contributing.txt.
 DEFAULT_VERSION="1.24.0"
 VERSION=${2:-$DEFAULT_VERSION}

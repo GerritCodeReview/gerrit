@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c33ae18_fce7c8e2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2025-01-16T09:09:14Z",
+      "side": 1,
+      "message": "Unless you are really sure about the 3s delay, consider making the delay-time controlled by a flag, so you can play with it without waiting for a full release cycle.",
+      "revId": "912fe6e30c17b7900f2fb493f34b30e0e1e2a3ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

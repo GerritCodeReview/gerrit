@@ -69,6 +69,24 @@
       "parentUuid": "8e735a45_7080e374",
       "revId": "8297d180dc80a9ce1f50cd94b4c70850487dacca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "412300b9_6b69a984",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheFactory.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-01-16T17:18:53Z",
+      "side": 1,
+      "message": "isn\u0027t that the purpose of the version set when CacheModule [creates a PersistentCacheProvider](https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/cache/CacheModule.java#165) ?",
+      "parentUuid": "f9a853ff_7e2cd23f",
+      "revId": "8297d180dc80a9ce1f50cd94b4c70850487dacca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

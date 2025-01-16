@@ -108,6 +108,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b86c665a_3fd96021",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-01-16T01:20:44Z",
+      "side": 1,
+      "message": "This change now addes a constant defining the cache schema version (set to 1) and appends it in the format `-v1` to the h2 database file names. With that the file name of the accounts cache is `accounts-v1.mv.db`.",
+      "parentUuid": "d2769897_4b484b65",
+      "revId": "623ad66ac07a1b5b2f983d8c0f78d4e3172cc698",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e426991f_5a4258d8",

@@ -16,6 +16,24 @@
       "message": "Unless you are really sure about the 3s delay, consider making the delay-time controlled by a flag, so you can play with it without waiting for a full release cycle.",
       "revId": "912fe6e30c17b7900f2fb493f34b30e0e1e2a3ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6d335af_60a405bd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-01-16T09:22:54Z",
+      "side": 1,
+      "message": "Thank you, that\u0027s good idea, but I think it\u0027s ok to wait for full release for changin value if we decide it\u0027s not good enough. I tested several values, I am happy with 3s, user was asking 2s.",
+      "parentUuid": "7c33ae18_fce7c8e2",
+      "revId": "912fe6e30c17b7900f2fb493f34b30e0e1e2a3ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

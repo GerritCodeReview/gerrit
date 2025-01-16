@@ -33,6 +33,24 @@
       "message": "I think we want to be able to define this on a per cache basis so that if the data in a specific cache changes, it can be bumped?",
       "revId": "8297d180dc80a9ce1f50cd94b4c70850487dacca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e735a45_7080e374",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheFactory.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-01-16T15:35:43Z",
+      "side": 1,
+      "message": "This is meant to cope with breaking changes in how h2 persists databases, not in changes how we serialize the data to be stored in them.\n\nHere h2 2.x cannot read/write databases which have been written using h2 1.x no matter which data is persistend in those databases.",
+      "parentUuid": "c23375b3_ebfc05e4",
+      "revId": "8297d180dc80a9ce1f50cd94b4c70850487dacca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

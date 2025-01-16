@@ -126,6 +126,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0497f24_d5abb104",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-01-16T01:22:17Z",
+      "side": 1,
+      "message": "actually I set the schema version to 2 hence the suffix is `-v2` and the accounts cache db has the file name `accounts-v2.mv.db`.",
+      "parentUuid": "b86c665a_3fd96021",
+      "revId": "623ad66ac07a1b5b2f983d8c0f78d4e3172cc698",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e426991f_5a4258d8",

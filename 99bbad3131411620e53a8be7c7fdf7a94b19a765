@@ -57,6 +57,30 @@
       ],
       "revId": "99bbad3131411620e53a8be7c7fdf7a94b19a765",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "26e5a18e_eeb48cae",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReviewerRecommender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-01-16T07:30:10Z",
+      "side": 1,
+      "message": "We are suggesting default reviewers here, which means the query is empty (checked in line 116). Hence all reviewers match it.\n\nI added a comment to avoid this confusion. Alternatively, we could just call getMatchingReviewers here too, if you think that\u0027s better.\n\nDone.",
+      "parentUuid": "9ff27376_512f673e",
+      "range": {
+        "startLine": 120,
+        "startChar": 6,
+        "endLine": 120,
+        "endChar": 18
+      },
+      "revId": "99bbad3131411620e53a8be7c7fdf7a94b19a765",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

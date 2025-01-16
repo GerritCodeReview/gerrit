@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b2e37f9_c63c7b7d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-01-16T13:22:31Z",
+      "side": 1,
+      "message": "LC approval is required since lib/LICENSE-h2 changes with this update",
+      "revId": "8297d180dc80a9ce1f50cd94b4c70850487dacca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

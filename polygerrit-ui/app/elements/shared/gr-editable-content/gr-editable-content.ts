@@ -611,9 +611,38 @@ export class GrEditableContent extends LitElement {
     });
   }
 
+  /**
+   * Called when the user clicks the "Format" button. Instead of setting
+   * `this.newContent` directly, we use `document.execCommand('insertText')`
+   * on the native <textarea> to push the change onto the native undo stack.
+   */
   handleFormat(e: Event) {
     e.preventDefault();
-    this.newContent = formatCommitMessageString(this.newContent);
+
+    const textarea = queryAndAssert<IronAutogrowTextareaElement>(
+      this,
+      'iron-autogrow-textarea'
+    ).textarea;
+
+    const oldValue = textarea.value;
+    const newValue = formatCommitMessageString(oldValue);
+    if (oldValue === newValue) return;
+
+    const {selectionStart, selectionEnd} = textarea;
+
+    // Make sure the textarea is focused so setSelectionRange() works
+    textarea.focus();
+
+    textarea.setSelectionRange(0, oldValue.length);
+
+    document.execCommand('insertText', false, newValue);
+
+    this.newContent = textarea.value;
+
+    // Restore the cursor position
+    const newSelectionStart = Math.min(selectionStart, newValue.length);
+    const newSelectionEnd = Math.min(selectionEnd, newValue.length);
+    textarea.setSelectionRange(newSelectionStart, newSelectionEnd);
   }
 
   private setCommitterEmail(e: CustomEvent<{value: string}>) {

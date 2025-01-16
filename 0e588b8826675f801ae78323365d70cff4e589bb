@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e7a6cc6_18f70f30",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-01-16T09:19:07Z",
+      "side": 1,
+      "message": "Uploaded a new series which borrows the code from I68e0c05a6ae81f1f3034f31bad3d9561ab33ab99\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/447745",
+      "parentUuid": "01561953_1d772bfb",
+      "revId": "0e588b8826675f801ae78323365d70cff4e589bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "36f9816a_9f231ede",

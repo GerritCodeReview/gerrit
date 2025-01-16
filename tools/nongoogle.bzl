@@ -393,6 +393,12 @@ def declare_nongoogle_deps():
         sha1 = "982faf2bfa55542bf57fbadef54c19ac00f57cae",
     )
 
+    maven_jar(
+        name = "h2",
+        artifact = "com.h2database:h2:1.3.176",
+        sha1 = "fd369423346b2f1525c413e33f8cf95b09c92cbd",
+    )
+
     # JGit's transitive dependencies
     maven_jar(
         name = "hamcrest",

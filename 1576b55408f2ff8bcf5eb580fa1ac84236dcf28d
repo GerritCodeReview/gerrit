@@ -16,6 +16,23 @@
       "message": "this change seems to still miss Library-Compliance approval, not sure why it is necessary on this change despite that this update happens in nongoogle.bzl",
       "revId": "1576b55408f2ff8bcf5eb580fa1ac84236dcf28d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9992ba3_e04b0dd6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-01-16T10:08:17Z",
+      "side": 1,
+      "message": "Martin posted additional comments in discord here: https://discord.com/channels/775374026587373568/1019975766756311130/1329238798776664075",
+      "revId": "1576b55408f2ff8bcf5eb580fa1ac84236dcf28d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

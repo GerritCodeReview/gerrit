@@ -52,6 +52,7 @@ function formatBody(body: string[]): string[] {
   let inCodeBlock = false;
   let paragraphLines: string[] = [];
   const formattedBody: string[] = [];
+  let previousWasBulletPoint = false;
 
   for (const line of body) {
     if (line.trim().startsWith('```')) {
@@ -62,7 +63,13 @@ function formatBody(body: string[]): string[] {
 
     if (inCodeBlock || isUntouchedLine(line)) {
       formattedBody.push(line.trimEnd());
+      previousWasBulletPoint = /^\s*[-+*#]\s/.test(line);
       paragraphLines = []; // Reset paragraph
+      continue;
+    }
+
+    if (previousWasBulletPoint && line.startsWith('  ')) {
+      formattedBody.push(line.trimEnd());
       continue;
     }
 
@@ -72,6 +79,7 @@ function formatBody(body: string[]): string[] {
         paragraphLines = [];
       }
       formattedBody.push('');
+      previousWasBulletPoint = false;
     } else {
       paragraphLines.push(line.trim());
     }

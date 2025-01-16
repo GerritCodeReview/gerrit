@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe33d19a_5514d7aa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 43
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-16T08:47:57Z",
+      "side": 1,
+      "message": "@david.ostrovsky@gmail.com can you double-check the conflict resolution 🙏 please?",
+      "revId": "6e4c444c888a5cbfe289293f542ce79819c2b27a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

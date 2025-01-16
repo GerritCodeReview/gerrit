@@ -153,6 +153,30 @@
       },
       "revId": "623ad66ac07a1b5b2f983d8c0f78d4e3172cc698",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "afa9f0a7_450fffa0",
+        "filename": "Documentation/backend_licenses.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 1161,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-01-16T00:19:54Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "a743f8a0_d9e2365c",
+      "range": {
+        "startLine": 1161,
+        "startChar": 51,
+        "endLine": 1161,
+        "endChar": 57
+      },
+      "revId": "623ad66ac07a1b5b2f983d8c0f78d4e3172cc698",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

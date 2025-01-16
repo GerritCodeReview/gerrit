@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "615292df_dac5b248",
+        "filename": "java/com/google/gerrit/server/patch/PatchFile.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2025-01-16T11:31:35Z",
+      "side": 1,
+      "message": "My assumption is that if `fileName` is not part of the `modifiedFiles` then it could be marked as an `unchanged file` in a patchset. Please feedback from somebody with deep knowledge of this API.",
+      "revId": "beadf1c7436aca52b123e58ad52f744a0cac853b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a612c1f_40961742",
+        "filename": "java/com/google/gerrit/server/patch/PatchFile.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2025-01-16T11:31:35Z",
+      "side": 1,
+      "message": "Does the logic of the constructor for unchanged files make sense? Please feedback from somebody with deep knowledge of this API.",
+      "revId": "beadf1c7436aca52b123e58ad52f744a0cac853b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

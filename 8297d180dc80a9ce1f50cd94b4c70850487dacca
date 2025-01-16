@@ -16,6 +16,23 @@
       "message": "LC approval is required since lib/LICENSE-h2 changes with this update",
       "revId": "8297d180dc80a9ce1f50cd94b4c70850487dacca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c23375b3_ebfc05e4",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheFactory.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-01-16T14:29:03Z",
+      "side": 1,
+      "message": "I think we want to be able to define this on a per cache basis so that if the data in a specific cache changes, it can be bumped?",
+      "revId": "8297d180dc80a9ce1f50cd94b4c70850487dacca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

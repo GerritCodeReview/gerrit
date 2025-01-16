@@ -157,6 +157,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "97377a60_141bf768",
+        "filename": "java/com/google/gerrit/server/patch/PatchFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-16T09:12:56Z",
+      "side": 1,
+      "message": "Ping @ghareeb@google.com @elwing@google.com any opinion here?",
+      "parentUuid": "cc84105c_6b525d40",
+      "range": {
+        "startLine": 57,
+        "startChar": 2,
+        "endLine": 57,
+        "endChar": 122
+      },
+      "revId": "7411573fc61490ca0dd4134ec498ac2d652bd0ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d0cc1c04_fd966ae6",
         "filename": "javatests/com/google/gerrit/acceptance/server/mail/MailSenderIT.java",
         "patchSetId": 1

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f31f4b7_75328d2c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-01-16T09:39:23Z",
+      "side": 1,
+      "message": "this change seems to still miss Library-Compliance approval, not sure why it is necessary on this change despite that this update happens in nongoogle.bzl",
+      "revId": "1576b55408f2ff8bcf5eb580fa1ac84236dcf28d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

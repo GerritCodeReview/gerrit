@@ -33,6 +33,29 @@
       "message": "Martin posted additional comments in discord here: https://discord.com/channels/775374026587373568/1019975766756311130/1329238798776664075",
       "revId": "1576b55408f2ff8bcf5eb580fa1ac84236dcf28d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e88c0e83_f8f66b2a",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheFactory.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-01-16T10:30:55Z",
+      "side": 1,
+      "message": "This name is misleading: it is not about database schema version but about binary compatibility of the database files and h2 library. Maybe `COMPATIBILITY_VERSION` is a better name?",
+      "range": {
+        "startLine": 58,
+        "startChar": 27,
+        "endLine": 58,
+        "endChar": 41
+      },
+      "revId": "1576b55408f2ff8bcf5eb580fa1ac84236dcf28d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

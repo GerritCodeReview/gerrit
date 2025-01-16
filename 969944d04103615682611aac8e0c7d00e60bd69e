@@ -88,6 +88,24 @@
       "parentUuid": "865f6e88_7285b0ed",
       "revId": "969944d04103615682611aac8e0c7d00e60bd69e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6324af4c_aa49d73e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2025-01-16T21:29:18Z",
+      "side": 1,
+      "message": "I think this branch would work fine for us.\n\ngerrit/jgit was marked as \"hidden\" in the gerrit conf (?!). I changed it to \"active\". It still doesn\u0027t show in the serach but I can browse its conf going directly to https://gerrit-review.git.corp.google.com/admin/repos/jgit,general.\n\nCan you verify it works for you?",
+      "parentUuid": "bc8ac10f_444831dd",
+      "revId": "969944d04103615682611aac8e0c7d00e60bd69e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

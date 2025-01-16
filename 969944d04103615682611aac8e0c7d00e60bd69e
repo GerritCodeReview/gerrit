@@ -106,6 +106,24 @@
       "parentUuid": "bc8ac10f_444831dd",
       "revId": "969944d04103615682611aac8e0c7d00e60bd69e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88b01d9f_48c6e5c1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-01-16T21:47:01Z",
+      "side": 1,
+      "message": "I seem to miss permissions to see it at\nhttps://gerrit-review.googlesource.com/admin/repos/jgit,general:\n\n```\nAn error occurred\nYou might have not enough privileges.\n\nError 404: jgit\n\nEndpoint: /access/?project\u003d*\n```\n\nMaybe it also needs to be added to the project index.",
+      "parentUuid": "6324af4c_aa49d73e",
+      "revId": "969944d04103615682611aac8e0c7d00e60bd69e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

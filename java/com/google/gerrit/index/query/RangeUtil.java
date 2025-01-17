@@ -107,8 +107,8 @@ public final class RangeUtil {
     }
 
     // Ensure that minValue <= min/max <= maxValue.
-    min = Ints.constrainToRange(min, minValue, maxValue);
-    max = Ints.constrainToRange(max, minValue, maxValue);
+    min = Math.clamp(min, minValue, maxValue);
+    max = Math.clamp(max, minValue, maxValue);
 
     return new Range(prefix, min, max);
   }

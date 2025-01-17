@@ -406,7 +406,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
 
     synchronized void open() {
       if (buildBloomFilter && bloomFilter == null) {
-        bloomFilter = buildBloomFilter();
+        buildBloomFilter();
       }
     }
 
@@ -423,16 +423,15 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         synchronized (this) {
           b = bloomFilter;
           if (b == null) {
-            b = buildBloomFilter();
-            bloomFilter = b;
+            buildBloomFilter();
+            b = bloomFilter;
           }
         }
       }
       return b == null || b.mightContain(key);
     }
 
-    @Nullable
-    private BloomFilter<K> buildBloomFilter() {
+    private void buildBloomFilter() {
       SqlHandle c = null;
       try {
         c = acquire();
@@ -446,14 +445,15 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
           }
         }
 
-        BloomFilter<K> b = newBloomFilter();
         try (PreparedStatement ps = c.conn.prepareStatement("SELECT k FROM data WHERE version=?")) {
           ps.setInt(1, version);
+          BloomFilter<K> b = newBloomFilter();
           try (ResultSet r = ps.executeQuery()) {
             while (r.next()) {
               b.put(keyType.get(r, 1));
             }
           }
+          bloomFilter = b;
         } catch (Exception e) {
           if (Throwables.getCausalChain(e).stream()
               .anyMatch(InvalidClassException.class::isInstance)) {
@@ -471,11 +471,9 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
             throw e;
           }
         }
-        return b;
       } catch (IOException | SQLException e) {
         logger.atWarning().log("Cannot build BloomFilter for %s: %s", url, e.getMessage());
         c = close(c);
-        return null;
       } finally {
         release(c);
       }

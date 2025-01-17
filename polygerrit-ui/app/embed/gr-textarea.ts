@@ -766,7 +766,9 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
   /** Gets the current selection, preferring the shadow DOM selection. */
   private getSelection(): Selection | undefined | null {
     // TODO: Use something similar to gr-diff's getShadowOrDocumentSelection()
-    return this.shadowRoot?.getSelection?.();
+    return this.shadowRoot?.getSelection
+      ? this.shadowRoot.getSelection()
+      : document.getSelection();
   }
 
   private scrollToCursorPosition(range: Range) {

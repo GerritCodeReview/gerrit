@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b733318_31dd5725",
+        "filename": "java/com/google/gerrit/server/patch/PatchFile.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2025-01-17T16:36:35Z",
+      "side": 1,
+      "message": "does not apply anymore",
+      "parentUuid": "615292df_dac5b248",
+      "revId": "beadf1c7436aca52b123e58ad52f744a0cac853b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7a612c1f_40961742",

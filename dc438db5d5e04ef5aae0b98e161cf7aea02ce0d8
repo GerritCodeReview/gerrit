@@ -16,6 +16,24 @@
       "message": "@ekempin@google.com Do you think we can revert the millisecond truncation ?",
       "revId": "dc438db5d5e04ef5aae0b98e161cf7aea02ce0d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "30a4435f_be12b605",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-01-17T13:21:25Z",
+      "side": 1,
+      "message": "I was not able to confirm this 100%, but I think we can give this a try.",
+      "parentUuid": "8df57b79_2cfe8bc7",
+      "revId": "dc438db5d5e04ef5aae0b98e161cf7aea02ce0d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

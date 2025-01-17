@@ -140,6 +140,21 @@ suite('commit-message-formatter-util tests', () => {
         'Fix the thing\n\n   - This is a body line that starts with spaces and should be untouched\n\nChange-Id: abcdefg\n'
       );
     });
+
+    test('bullet points are not split', () => {
+      const message =
+        'Fix the thing\n\n- Uses a test buffer to store the result to avoid issue.\n' +
+        '  This new buffer\n' +
+        '- Test a new buffer\n' +
+        '  call it.\n\nChange-Id: abcdefg\n';
+      assert.equal(
+        formatCommitMessageString(message),
+        'Fix the thing\n\n- Uses a test buffer to store the result to avoid issue.\n' +
+          '  This new buffer\n' +
+          '- Test a new buffer\n' +
+          '  call it.\n\nChange-Id: abcdefg\n'
+      );
+    });
   });
 
   suite('detectFormattingErrorsInString', () => {

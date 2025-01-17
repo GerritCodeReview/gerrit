@@ -30,6 +30,7 @@ export enum ErrorType {
 const MAX_SUBJECT_LENGTH = 72;
 const MAX_LINE_LENGTH = 72;
 const INDENTATION_THRESHOLD = 4;
+const BULLET_POINT_REGEX = /^\s*[-+*#]\s/;
 
 function formatCommitMessage(message: CommitMessage): CommitMessage {
   const formattedSubject = formatSubject(message.subject);
@@ -52,17 +53,29 @@ function formatBody(body: string[]): string[] {
   let inCodeBlock = false;
   let paragraphLines: string[] = [];
   const formattedBody: string[] = [];
+  let previousWasBulletPoint = false;
 
   for (const line of body) {
     if (line.trim().startsWith('```')) {
       inCodeBlock = !inCodeBlock;
-      formattedBody.push(line);
+      formattedBody.push(line.trimEnd());
       continue;
     }
 
     if (inCodeBlock || isUntouchedLine(line)) {
       formattedBody.push(line.trimEnd());
+      if (!inCodeBlock) {
+        previousWasBulletPoint = BULLET_POINT_REGEX.test(line);
+      }
+      if (paragraphLines.length > 0) {
+        formattedBody.push(...splitParagraph(paragraphLines.join(' ')));
+      }
       paragraphLines = []; // Reset paragraph
+      continue;
+    }
+
+    if (previousWasBulletPoint && line.startsWith('  ')) {
+      formattedBody.push(line.trimEnd());
       continue;
     }
 
@@ -72,6 +85,7 @@ function formatBody(body: string[]): string[] {
         paragraphLines = [];
       }
       formattedBody.push('');
+      previousWasBulletPoint = false;
     } else {
       paragraphLines.push(line.trim());
     }
@@ -88,13 +102,16 @@ function formatFooter(footer: string[]): string[] {
   const formattedFooter = footer.map(line => line.trim());
   return removeConsecutiveBlankLines(formattedFooter);
 }
-
+/**
+ * Returns true if the line will not be modified by the formatter.
+ * For example, quotes, bullet points, and indented lines are untouched.
+ */
 function isUntouchedLine(line: string): boolean {
   return (
     line.trimStart().startsWith('> ') ||
     (line.length >= INDENTATION_THRESHOLD &&
       line.substring(0, INDENTATION_THRESHOLD).trim() === '') ||
-    /^\s*[-+*#]\s/.test(line)
+    BULLET_POINT_REGEX.test(line)
   );
 }
 

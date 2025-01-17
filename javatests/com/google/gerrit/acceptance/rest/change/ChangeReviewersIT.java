@@ -14,6 +14,8 @@
 
 package com.google.gerrit.acceptance.rest.change;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
@@ -33,7 +35,9 @@ import static javax.servlet.http.HttpServletResponse.SC_OK;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
+import com.google.common.truth.Correspondence;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.Sandboxed;
@@ -41,7 +45,10 @@ import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Address;
+import com.google.gerrit.entities.GroupDescription;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.Permission;
@@ -62,8 +69,12 @@ import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.ReviewerUpdateInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.server.account.ListGroupMembership;
 import com.google.gerrit.server.change.ReviewerModifier;
+import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.group.testing.TestGroupBackend;
 import com.google.gerrit.testing.FakeEmailSender.Message;
+import com.google.gerrit.truth.NullAwareCorrespondence;
 import com.google.gson.stream.JsonReader;
 import com.google.inject.Inject;
 import java.util.ArrayList;
@@ -80,9 +91,10 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
   @Inject private GroupOperations groupOperations;
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
+  @Inject private ExtensionRegistry extensionRegistry;
 
   @Test
-  public void addGroupAsReviewer() throws Exception {
+  public void addInternalGroupAsReviewer() throws Exception {
     // Set up two groups, one that is too large too add as reviewer, and one
     // that is too large to add without confirmation.
     String largeGroup = groupOperations.newGroup().name("largeGroup").create().get();
@@ -114,6 +126,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
 
     // Attempt to add medium group without confirmation.
     result = addReviewer(changeId, mediumGroup, SC_BAD_REQUEST);
+    List<TestAccount> mediumGroupMembers = users.subList(0, mediumGroupSize);
     assertThat(result.input).isEqualTo(mediumGroup);
     assertThat(result.confirm).isTrue();
     assertThat(result.error)
@@ -128,11 +141,101 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     assertThat(result.input).isEqualTo(mediumGroup);
     assertThat(result.confirm).isNull();
     assertThat(result.error).isNull();
-    assertThat(result.reviewers).hasSize(mediumGroupSize);
+    assertThat(result.reviewers)
+        .comparingElementsUsing(hasAccountId())
+        .containsExactlyElementsIn(toAccountIds(mediumGroupMembers));
 
     // Verify that group members were added as reviewers.
     ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
-    assertReviewers(c, REVIEWER, users.subList(0, mediumGroupSize));
+    assertReviewers(c, REVIEWER, mediumGroupMembers);
+  }
+
+  @Test
+  public void addExternalGroupAsReviewer() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    TestGroupBackend testGroupBackend = new TestGroupBackend();
+    GroupDescription.Basic externalGroup = testGroupBackend.create("External Group");
+    try (ExtensionRegistry.Registration registration =
+        extensionRegistry.newRegistration().add(testGroupBackend)) {
+      ReviewerInput in = new ReviewerInput();
+      in.reviewer = externalGroup.getGroupUUID().get();
+      in.confirmed = true;
+      ReviewerResult result = addReviewer(changeId, in, SC_BAD_REQUEST);
+      assertThat(result.error)
+          .isEqualTo(
+              String.format("The group %s cannot be added as reviewer.", externalGroup.getName()));
+    }
+  }
+
+  @Test
+  public void addSystemGroupAsReviewer() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    ReviewerInput in = new ReviewerInput();
+    in.reviewer = SystemGroupBackend.REGISTERED_USERS.get();
+    in.confirmed = true;
+    ReviewerResult result = addReviewer(changeId, in, SC_BAD_REQUEST);
+    assertThat(result.error).isEqualTo("The group Registered Users cannot be added as reviewer.");
+  }
+
+  @Test
+  public void addProjectOwnersAsReviewer() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    List<TestAccount> internalProjectOwners = createAccounts(3, "project-owner");
+    AccountGroup.UUID ownerGroup1 =
+        groupOperations
+            .newGroup()
+            .addMember(internalProjectOwners.get(0).id())
+            .addMember(internalProjectOwners.get(1).id())
+            .create();
+    AccountGroup.UUID ownerGroup2 =
+        groupOperations.newGroup().addMember(internalProjectOwners.get(2).id()).create();
+
+    TestGroupBackend testGroupBackend = new TestGroupBackend();
+    GroupDescription.Basic externalOwnersGroup = testGroupBackend.create("External Group");
+    TestAccount externalProjectOwner = createAccount("external-project-owner");
+    testGroupBackend.setMembershipsOf(
+        externalProjectOwner.id(),
+        new ListGroupMembership(ImmutableList.of(externalOwnersGroup.getGroupUUID())));
+    try (ExtensionRegistry.Registration registration =
+        extensionRegistry.newRegistration().add(testGroupBackend)) {
+      projectOperations
+          .project(project)
+          .forUpdate()
+          .add(allow(Permission.OWNER).ref(RefNames.REFS + "*").group(ownerGroup1))
+          .add(allow(Permission.OWNER).ref(RefNames.REFS + "*").group(ownerGroup2))
+          .add(
+              allow(Permission.OWNER)
+                  .ref(RefNames.REFS + "*")
+                  .group(externalOwnersGroup.getGroupUUID()))
+          .update();
+
+      ReviewerInput in = new ReviewerInput();
+      in.reviewer = "global:Project-Owners";
+      in.confirmed = true;
+      ReviewerResult result = addReviewer(changeId, in);
+
+      // only users that are members of internal groups to which the OWNER permission is assigned
+      // are added as reviewers, members of external owner groups and admins (which are implicitly
+      // owning all projects) are omitted.
+
+      assertThat(result.input).isEqualTo(in.reviewer);
+      assertThat(result.confirm).isNull();
+      assertThat(result.error).isNull();
+      assertThat(result.reviewers)
+          .comparingElementsUsing(hasAccountId())
+          .containsExactlyElementsIn(
+              internalProjectOwners.stream().map(TestAccount::id).collect(toImmutableSet()));
+
+      // Verify that internal group members were added as reviewers.
+      ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
+      assertReviewers(c, REVIEWER, internalProjectOwners);
+    }
   }
 
   @Test
@@ -1306,6 +1409,10 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     assertThat(actualAccountIds).containsExactlyElementsIn(expectedAccountIds);
   }
 
+  private TestAccount createAccount(String emailPrefix) throws Exception {
+    return Iterables.getOnlyElement(createAccounts(1, emailPrefix));
+  }
+
   private List<TestAccount> createAccounts(int n, String emailPrefix) throws Exception {
     List<TestAccount> result = new ArrayList<>(n);
     for (int i = 0; i < n; i++) {
@@ -1318,5 +1425,14 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
 
   private Map<String, LabelInfo> getChangeLabels(String changeId) throws Exception {
     return gApi.changes().id(changeId).get(DETAILED_LABELS).labels;
+  }
+
+  private static ImmutableList<Account.Id> toAccountIds(List<TestAccount> testAccounts) {
+    return testAccounts.stream().map(TestAccount::id).collect(toImmutableList());
+  }
+
+  private static Correspondence<ReviewerInfo, Account.Id> hasAccountId() {
+    return NullAwareCorrespondence.transforming(
+        reviewerInfo -> Account.id(reviewerInfo._accountId), "hasAccountId");
   }
 }

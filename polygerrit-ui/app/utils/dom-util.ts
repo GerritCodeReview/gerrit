@@ -484,3 +484,49 @@ export function whenRendered(
   });
   obs.observe(el);
 }
+
+/**
+ * Gets the current selection, preferring the shadow DOM selection.
+ *
+ * contentEditableRange param is required due to a circular dependency error
+ * when getContentEditableRange() is used directly.
+ * */
+export function getShadowOrDocumentSelection(
+  shadowRoot: Document | ShadowRoot | null,
+  contentEditableRange: Range | null
+) {
+  // When using native shadow DOM, the selection returned by
+  // document.getSelection() cannot reference the actual DOM elements making
+  // up the diff in Safari because they are in the shadow DOM of the gr-diff
+  // element. This takes the shadow DOM selection if one exists.
+  if (shadowRoot?.getSelection) {
+    return shadowRoot.getSelection();
+  }
+
+  if (isSafari()) {
+    const selection = window.getSelection();
+    // For safari 17+.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    if ((selection as any).getComposedRanges) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const composedRanges = (selection as any).getComposedRanges(
+        shadowRoot
+      )[0];
+      const ranges = new Range();
+      if (composedRanges) {
+        ranges.setStart(
+          composedRanges.startContainer,
+          composedRanges.startOffset
+        );
+        ranges.setEnd(composedRanges.endContainer, composedRanges.endOffset);
+      }
+      return ranges;
+    }
+
+    // Fallback for older safari versions.
+    return contentEditableRange;
+  }
+
+  // Firefox and non chrome/safari browsers will use this.
+  return document.getSelection();
+}

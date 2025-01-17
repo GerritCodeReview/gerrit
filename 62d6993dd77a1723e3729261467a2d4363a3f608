@@ -16,6 +16,52 @@
       "message": "Tested and confirmed working in both safari and firefox. But as explained in the note, it won\u0027t focus after clicking from the autocomplete. So e.g. if it puts @test in the text box, the text thing won\u0027t go next to it. In stead you have to re-click.",
       "revId": "62d6993dd77a1723e3729261467a2d4363a3f608",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5eb9e04a_26061b02",
+        "filename": "polygerrit-ui/app/embed/gr-textarea.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 769,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-01-17T16:18:39Z",
+      "side": 1,
+      "message": "Why not use same as getShadowOrDocumentSelection?",
+      "range": {
+        "startLine": 769,
+        "startChar": 48,
+        "endLine": 769,
+        "endChar": 76
+      },
+      "revId": "62d6993dd77a1723e3729261467a2d4363a3f608",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1d0b80e_a60a69c0",
+        "filename": "polygerrit-ui/app/embed/gr-textarea.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 770,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-01-17T16:18:39Z",
+      "side": 1,
+      "message": "Is this? needed?",
+      "range": {
+        "startLine": 770,
+        "startChar": 15,
+        "endLine": 770,
+        "endChar": 16
+      },
+      "revId": "62d6993dd77a1723e3729261467a2d4363a3f608",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

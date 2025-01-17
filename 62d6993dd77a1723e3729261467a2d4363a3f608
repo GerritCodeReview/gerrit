@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2e94f65_6deeca50",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-01-17T15:10:53Z",
+      "side": 1,
+      "message": "Tested and confirmed working in both safari and firefox. But as explained in the note, it won\u0027t focus after clicking from the autocomplete. So e.g. if it puts @test in the text box, the text thing won\u0027t go next to it. In stead you have to re-click.",
+      "revId": "62d6993dd77a1723e3729261467a2d4363a3f608",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3a8f7c2_b30c50d5",
+        "filename": "polygerrit-ui/app/utils/commit-message-formatter-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-01-17T09:32:57Z",
+      "side": 1,
+      "message": "Sure, that\u0027s good idea. Thanks.",
+      "parentUuid": "20b313e6_78097ef9",
+      "range": {
+        "startLine": 60,
+        "startChar": 25,
+        "endLine": 60,
+        "endChar": 29
+      },
+      "revId": "2d199fd5040fe2d4ca0ae73260aca7e4eab79e3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e2025496_ff1caaaa",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-01-17T09:20:38Z",
       "side": 1,
       "message": "I think this is going to cause issues, when lines within codeblock match the regex",
+      "range": {
+        "startLine": 66,
+        "startChar": 6,
+        "endLine": 66,
+        "endChar": 28
+      },
+      "revId": "2d199fd5040fe2d4ca0ae73260aca7e4eab79e3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "020785e7_e8e01358",
+        "filename": "polygerrit-ui/app/utils/commit-message-formatter-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-01-17T09:32:57Z",
+      "side": 1,
+      "message": "Oh, sure we should be careful in codeblock",
+      "parentUuid": "e2025496_ff1caaaa",
       "range": {
         "startLine": 66,
         "startChar": 6,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d05bf9b_c6ab25d4",
+        "filename": "polygerrit-ui/app/utils/commit-message-formatter-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-01-17T09:32:57Z",
+      "side": 1,
+      "message": "THanks, I think I forget to push them to formattedBody here. I just wanted to end paragraph.",
+      "parentUuid": "4f31441a_8f5d70e8",
+      "range": {
+        "startLine": 67,
+        "startChar": 6,
+        "endLine": 67,
+        "endChar": 27
+      },
+      "revId": "2d199fd5040fe2d4ca0ae73260aca7e4eab79e3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "17df164e_bd6b96cb",
@@ -83,6 +155,30 @@
       "writtenOn": "2025-01-17T09:20:38Z",
       "side": 1,
       "message": "I don\u0027t understand what this function\u0027s intention. Can you add a docstring.\n\nWhat does it mean for a string to be \"untouched\", why are these type of strings are untouched\n\nIt can be done in a separate CL, but this file generally can use more documentation.",
+      "range": {
+        "startLine": 100,
+        "startChar": 9,
+        "endLine": 100,
+        "endChar": 24
+      },
+      "revId": "2d199fd5040fe2d4ca0ae73260aca7e4eab79e3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48b8eb75_2d0b590a",
+        "filename": "polygerrit-ui/app/utils/commit-message-formatter-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-01-17T09:32:57Z",
+      "side": 1,
+      "message": "I mean it\u0027s line that formatter will not be formatting.",
+      "parentUuid": "17df164e_bd6b96cb",
       "range": {
         "startLine": 100,
         "startChar": 9,

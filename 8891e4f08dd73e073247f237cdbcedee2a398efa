@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d63f529_796943d8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-01-17T22:41:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3182f366_148e0d08",
+      "range": {
+        "startLine": 7,
+        "startChar": 19,
+        "endLine": 7,
+        "endChar": 30
+      },
+      "revId": "8891e4f08dd73e073247f237cdbcedee2a398efa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6ae4df30_9e667651",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-01-17T22:35:58Z",
       "side": 1,
       "message": "Are you fixing an actually issue that happened for you in production? If yes, should we mention something in the release notes?",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 19
+      },
+      "revId": "8891e4f08dd73e073247f237cdbcedee2a398efa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "457a23c1_e88d5a86",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-01-17T22:41:42Z",
+      "side": 1,
+      "message": "I have not, I believe this likely would only come into play if someone clears a cache via the Gerrit APISs concurrently with an entry being added to the cache, and the window for this to happen is extremely small, so I suspect it is very unlikely to happen even if you tried to make it happen. I am simply trying to improve the bloom filter code (more to come), and this one has been bugging me since I believe it is a real bug.",
+      "parentUuid": "6ae4df30_9e667651",
       "range": {
         "startLine": 19,
         "startChar": 0,

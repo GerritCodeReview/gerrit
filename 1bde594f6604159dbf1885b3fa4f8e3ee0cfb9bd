@@ -68,6 +68,23 @@
       "parentUuid": "4f40fb97_44c88c19",
       "revId": "1bde594f6604159dbf1885b3fa4f8e3ee0cfb9bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e22837d_a6bfd67c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-01-17T14:16:26Z",
+      "side": 1,
+      "message": "This seems to have broken building on a mac:\n\nsed: 1: \"./org/eclipse/jgit/http ...\": invalid command code .",
+      "revId": "1bde594f6604159dbf1885b3fa4f8e3ee0cfb9bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5636df52_1775c810",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-01-17T12:16:49Z",
+      "side": 1,
+      "message": "I think due to this change avatars are no longer shown for newly added reviewers (after selecting them from the reviewer suggestion and before clicking SEND):\nhttps://i.imgur.com/w4rWwaD.png",
+      "revId": "ea8e225e0eaf74f1336bb3611a97818a9c06ec16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

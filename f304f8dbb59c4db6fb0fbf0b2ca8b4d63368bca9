@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49210258_94eafcbf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2025-01-17T14:00:17Z",
+      "side": 1,
+      "message": "I will rebase with the predecessor change once the approach is decided.",
+      "revId": "f304f8dbb59c4db6fb0fbf0b2ca8b4d63368bca9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

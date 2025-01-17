@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20b313e6_78097ef9",
+        "filename": "polygerrit-ui/app/utils/commit-message-formatter-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-01-17T09:20:38Z",
+      "side": 1,
+      "message": "Not from this CL, but shouldn\u0027t this have \"trimEnd\" as well?\n\nSince this is using a markdown style code block, then the first line after ``` is reserved for metadata and not yet code.",
+      "range": {
+        "startLine": 60,
+        "startChar": 25,
+        "endLine": 60,
+        "endChar": 29
+      },
+      "revId": "2d199fd5040fe2d4ca0ae73260aca7e4eab79e3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2025496_ff1caaaa",
+        "filename": "polygerrit-ui/app/utils/commit-message-formatter-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-01-17T09:20:38Z",
+      "side": 1,
+      "message": "I think this is going to cause issues, when lines within codeblock match the regex",
+      "range": {
+        "startLine": 66,
+        "startChar": 6,
+        "endLine": 66,
+        "endChar": 28
+      },
+      "revId": "2d199fd5040fe2d4ca0ae73260aca7e4eab79e3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f31441a_8f5d70e8",
+        "filename": "polygerrit-ui/app/utils/commit-message-formatter-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-01-17T09:20:38Z",
+      "side": 1,
+      "message": "Why do we reset paragraphLines here? What happens to the lines that were stored in it?",
+      "range": {
+        "startLine": 67,
+        "startChar": 6,
+        "endLine": 67,
+        "endChar": 27
+      },
+      "revId": "2d199fd5040fe2d4ca0ae73260aca7e4eab79e3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17df164e_bd6b96cb",
+        "filename": "polygerrit-ui/app/utils/commit-message-formatter-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-01-17T09:20:38Z",
+      "side": 1,
+      "message": "I don\u0027t understand what this function\u0027s intention. Can you add a docstring.\n\nWhat does it mean for a string to be \"untouched\", why are these type of strings are untouched\n\nIt can be done in a separate CL, but this file generally can use more documentation.",
+      "range": {
+        "startLine": 100,
+        "startChar": 9,
+        "endLine": 100,
+        "endChar": 24
+      },
+      "revId": "2d199fd5040fe2d4ca0ae73260aca7e4eab79e3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

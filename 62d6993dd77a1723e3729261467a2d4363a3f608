@@ -65,6 +65,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "caf45536_be2ee409",
+        "filename": "polygerrit-ui/app/embed/gr-textarea.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 769,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-01-17T17:52:21Z",
+      "side": 1,
+      "message": "This https://github.com/GerritCodeReview/gerrit/blob/b56ce92fc42c8ef58a43d433aced18f93ea13aec/polygerrit-ui/app/utils/safari-selection-util.ts#L14 is only designed for the diff stuff as well.",
+      "parentUuid": "213b63db_f40088e0",
+      "range": {
+        "startLine": 769,
+        "startChar": 48,
+        "endLine": 769,
+        "endChar": 76
+      },
+      "revId": "62d6993dd77a1723e3729261467a2d4363a3f608",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e1d0b80e_a60a69c0",

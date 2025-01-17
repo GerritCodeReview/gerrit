@@ -113,6 +113,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b550f311_10e2db76",
+        "filename": "polygerrit-ui/app/embed/gr-textarea.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 769,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-01-17T21:28:47Z",
+      "side": 1,
+      "message": "Based on testing, we can\u0027t use getComposedRanges for this. removeAllRanges/addRange doesn\u0027t exist on it and seems to use other functions that are only on getSelection either provided via shadow root or document.\n\nFor now i\u0027m just going to merge as is.",
+      "parentUuid": "00dc965c_4080255d",
+      "range": {
+        "startLine": 769,
+        "startChar": 48,
+        "endLine": 769,
+        "endChar": 76
+      },
+      "revId": "62d6993dd77a1723e3729261467a2d4363a3f608",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e1d0b80e_a60a69c0",

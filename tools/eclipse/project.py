@@ -24,7 +24,7 @@ import sys
 MAIN = '//tools/eclipse:classpath'
 AUTO = '//lib/auto:auto-value'
 
-def JRE(java_vers = '17'):
+def JRE(java_vers = '21'):
     return '/'.join([
         'org.eclipse.jdt.launching.JRE_CONTAINER',
         'org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType',
@@ -49,7 +49,7 @@ opts.add_argument('--name', help='name of the generated project',
 opts.add_argument('-b', '--batch', action='store_true',
                   dest='batch', help='Bazel batch option')
 opts.add_argument('-j', '--java', action='store',
-                  dest='java', help='Post Java 17')
+                  dest='java', help='Post Java 21')
 opts.add_argument('--bazel',
                   help=('name of the bazel executable. Defaults to using'
                         ' bazelisk if found, or bazel if bazelisk is not'

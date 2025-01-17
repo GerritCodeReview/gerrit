@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "29037a3a_bc66739d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2025-01-17T13:35:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f99efd5e_c2b85f8b",
+      "revId": "7cb62be516dba6808ff345d11260e4f32bb74201",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bcd9e407_a261b25a",
@@ -31,6 +49,24 @@
       "writtenOn": "2025-01-17T12:53:20Z",
       "side": 1,
       "message": "Please squash this with the predecessor change, so that the test and fix are in the same change.",
+      "revId": "7cb62be516dba6808ff345d11260e4f32bb74201",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "507fd52f_118b5f18",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2025-01-17T13:35:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bcd9e407_a261b25a",
       "revId": "7cb62be516dba6808ff345d11260e4f32bb74201",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -83,6 +119,30 @@
       "writtenOn": "2025-01-17T12:53:20Z",
       "side": 1,
       "message": "I think the comment explains this, doesn\u0027t it?",
+      "range": {
+        "startLine": 107,
+        "startChar": 26,
+        "endLine": 107,
+        "endChar": 75
+      },
+      "revId": "7cb62be516dba6808ff345d11260e4f32bb74201",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bad620f4_fa7c26a8",
+        "filename": "java/com/google/gerrit/server/patch/PatchFile.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2025-01-17T13:35:44Z",
+      "side": 1,
+      "message": "You are totally right. For some reason I did not read the comment.",
+      "parentUuid": "2d0d8747_fdfacb4c",
       "range": {
         "startLine": 107,
         "startChar": 26,

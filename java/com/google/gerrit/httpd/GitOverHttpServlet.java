@@ -112,7 +112,8 @@ public class GitOverHttpServlet extends GitServlet {
 
   private enum GIT_COMMAND_STATUS {
     OK(0),
-    FAIL(-1);
+    FAIL(-1),
+    MAY_NOT_CONTINUE(-2);
 
     private final int exitStatus;
 
@@ -491,13 +492,13 @@ public class GitOverHttpServlet extends GitServlet {
     @Override
     public void upload(HttpServletRequest req, HttpServletResponse rsp, UploadPackRunnable r)
         throws IOException {
-      rsp.setHeader(GIT_COMMAND_STATUS_HEADER, GIT_COMMAND_STATUS.FAIL.toString());
       try {
         r.upload();
         rsp.setHeader(GIT_COMMAND_STATUS_HEADER, GIT_COMMAND_STATUS.OK.toString());
       } catch (ServiceMayNotContinueException e) {
         if (!e.isOutput() && !rsp.isCommitted()) {
           rsp.reset();
+          rsp.setHeader(GIT_COMMAND_STATUS_HEADER, GIT_COMMAND_STATUS.MAY_NOT_CONTINUE.toString());
           sendError(req, rsp, e.getStatusCode(), e.getMessage());
         }
       } catch (Throwable e) {
@@ -508,6 +509,7 @@ public class GitOverHttpServlet extends GitServlet {
                 ServletUtils.getRepository(req)));
         if (!rsp.isCommitted()) {
           rsp.reset();
+          rsp.setHeader(GIT_COMMAND_STATUS_HEADER, GIT_COMMAND_STATUS.FAIL.toString());
           String msg = e instanceof PackProtocolException ? e.getMessage() : null;
           sendError(req, rsp, UploadPackErrorHandler.statusCodeForThrowable(e), msg);
         }

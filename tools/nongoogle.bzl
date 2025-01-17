@@ -152,12 +152,6 @@ def declare_nongoogle_deps():
     )
 
     maven_jar(
-        name = "eddsa",
-        artifact = "net.i2p.crypto:eddsa:0.3.0",
-        sha1 = "1901c8d4d8bffb7d79027686cfb91e704217c3e1",
-    )
-
-    maven_jar(
         name = "mina-core",
         artifact = "org.apache.mina:mina-core:2.0.27",
         sha1 = "d5d353d971b0fb17ae0271f6f2921585f64e1535",

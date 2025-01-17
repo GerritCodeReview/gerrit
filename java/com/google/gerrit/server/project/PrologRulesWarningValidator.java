@@ -20,6 +20,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Patch.ChangeType;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
@@ -27,10 +28,12 @@ import com.google.gerrit.server.git.validators.CommitValidationMessage;
 import com.google.gerrit.server.git.validators.ValidationMessage;
 import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.gerrit.server.patch.gitdiff.ModifiedFile;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import org.eclipse.jgit.lib.Config;
 
 /**
  * A validator than emits a warning for newly added prolog rules file via git push. Modification and
@@ -40,17 +43,29 @@ import java.util.stream.Collectors;
 public class PrologRulesWarningValidator implements CommitValidationListener {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  private final boolean allowNewRules;
+
+  @Inject
+  public PrologRulesWarningValidator(@GerritServerConfig Config cfg) {
+    this.allowNewRules = cfg.getBoolean("rules", "allowNewRules", true);
+  }
+
   @Override
   public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
       throws CommitValidationException {
     try {
       if (receiveEvent.refName.equals(RefNames.REFS_CONFIG)
           && isFileAdded(receiveEvent, RULES_PL_FILE)) {
-        return ImmutableList.of(
-            new CommitValidationMessage(
-                "Uploading a new 'rules.pl' file is discouraged."
-                    + " Please consider adding submit-requirements instead.",
-                ValidationMessage.Type.WARNING));
+        if (allowNewRules) {
+          return ImmutableList.of(
+              new CommitValidationMessage(
+                  "Uploading a new 'rules.pl' file is discouraged."
+                      + " Please consider adding submit-requirements instead.",
+                  ValidationMessage.Type.WARNING));
+        }
+        throw new CommitValidationException(
+            "Uploading a new 'rules.pl' file is not allowed."
+                + " Please add submit-requirements instead.");
       }
     } catch (DiffNotAvailableException e) {
       logger.atWarning().withCause(e).log("Failed to retrieve the file diff.");

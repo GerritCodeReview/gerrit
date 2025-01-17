@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "213b63db_f40088e0",
+        "filename": "polygerrit-ui/app/embed/gr-textarea.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 769,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-01-17T16:34:32Z",
+      "side": 1,
+      "message": "This caused types to fail and then when I converted this.getSelection calls to fix the type it broke the mention on safari again. Not sure if I did something wrong or something. Maybe we can\u0027t use it idk.",
+      "parentUuid": "5eb9e04a_26061b02",
+      "range": {
+        "startLine": 769,
+        "startChar": 48,
+        "endLine": 769,
+        "endChar": 76
+      },
+      "revId": "62d6993dd77a1723e3729261467a2d4363a3f608",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e1d0b80e_a60a69c0",
@@ -54,6 +78,54 @@
       "writtenOn": "2025-01-17T16:18:39Z",
       "side": 1,
       "message": "Is this? needed?",
+      "range": {
+        "startLine": 770,
+        "startChar": 15,
+        "endLine": 770,
+        "endChar": 16
+      },
+      "revId": "62d6993dd77a1723e3729261467a2d4363a3f608",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "711d58c2_a9ab14b7",
+        "filename": "polygerrit-ui/app/embed/gr-textarea.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 770,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-01-17T16:34:32Z",
+      "side": 1,
+      "message": "Oh, nope. Fixed, thanks.",
+      "parentUuid": "e1d0b80e_a60a69c0",
+      "range": {
+        "startLine": 770,
+        "startChar": 15,
+        "endLine": 770,
+        "endChar": 16
+      },
+      "revId": "62d6993dd77a1723e3729261467a2d4363a3f608",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18e4c33a_cdd93262",
+        "filename": "polygerrit-ui/app/embed/gr-textarea.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 770,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-01-17T16:34:32Z",
+      "side": 1,
+      "message": "Oh",
+      "parentUuid": "e1d0b80e_a60a69c0",
       "range": {
         "startLine": 770,
         "startChar": 15,

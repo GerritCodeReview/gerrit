@@ -16,6 +16,24 @@
       "message": "It is the right format?",
       "revId": "e70c71a79912acca65ee52ce76a6a9effb933124",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "afe85019_2c34d7e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-01-17T23:23:28Z",
+      "side": 1,
+      "message": "Yes.",
+      "parentUuid": "8af7c719_b590adb9",
+      "revId": "e70c71a79912acca65ee52ce76a6a9effb933124",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

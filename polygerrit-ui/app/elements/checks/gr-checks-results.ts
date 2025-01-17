@@ -1635,7 +1635,7 @@ export class GrChecksResults extends LitElement {
     if (all.length === filtered.length) {
       return html`(${all.length})`;
     }
-    return html`(${filtered.length} of ${all.length})`;
+    return html`(${filtered.length} shown out of ${all.length})`;
   }
 
   toggleExpanded(category: Category) {

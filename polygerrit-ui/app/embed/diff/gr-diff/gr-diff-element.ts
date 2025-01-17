@@ -40,6 +40,7 @@ import {GrDiffGroup} from './gr-diff-group';
 import {subscribe} from '../../../elements/lit/subscription-controller';
 import {GrDiffSection} from '../gr-diff-builder/gr-diff-section';
 import {repeat} from 'lit/directives/repeat.js';
+import {isSafari} from '../../../utils/dom-util';
 
 const LARGE_DIFF_THRESHOLD_LINES = 10000;
 
@@ -212,12 +213,18 @@ export class GrDiffElement extends LitElement {
     };
     const isBinary = !!this.diff?.binary;
     const isImage = isImageDiff(this.diff);
+    // Safari 17+ support getComposedRanges, thus we don't need
+    // to enable contenteditable anymore.
+    const isContentEditable =
+      isSafari() &&
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      !(window.getSelection() as any).getComposedRanges;
     return html`
       <div class=${classMap(cssClasses)}>
         <table
           id="diffTable"
           class=${classMap(tableClasses)}
-          ?contenteditable=${this.isContentEditable}
+          ?contenteditable=${isContentEditable}
         >
           ${this.renderColumns()}
           ${when(!this.showWarning(), () =>

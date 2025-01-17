@@ -225,14 +225,6 @@ export class GrDiff extends LitElement implements GrDiffApi {
   @property({type: Object})
   revisionImage?: ImageInfo;
 
-  /**
-   * In order to allow multi-select in Safari browsers, a workaround is required
-   * to trigger 'beforeinput' events to get a list of static ranges. This is
-   * obtained by making the content of the diff table "contentEditable".
-   */
-  @property({type: Boolean})
-  override isContentEditable = isSafari();
-
   @property({type: String})
   errorMessage: string | null = null;
 

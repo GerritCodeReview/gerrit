@@ -40,6 +40,7 @@ import {GrDiffGroup} from './gr-diff-group';
 import {subscribe} from '../../../elements/lit/subscription-controller';
 import {GrDiffSection} from '../gr-diff-builder/gr-diff-section';
 import {repeat} from 'lit/directives/repeat.js';
+import {isSafari} from '../../../utils/dom-util';
 
 const LARGE_DIFF_THRESHOLD_LINES = 10000;
 
@@ -79,6 +80,14 @@ export class GrDiffElement extends LitElement {
   // Extra message shown if files are binary to help users investigate contents.
   @property({type: String})
   binaryDiffHint = '';
+
+  /**
+   * In order to allow multi-select in Safari browsers, a workaround is required
+   * to trigger 'beforeinput' events to get a list of static ranges. This is
+   * obtained by making the content of the diff table "contentEditable".
+   */
+  @property({type: Boolean})
+  override isContentEditable = isSafari();
 
   private getDiffModel = resolve(this, diffModelToken);
 

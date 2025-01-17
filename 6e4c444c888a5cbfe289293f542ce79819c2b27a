@@ -16,6 +16,23 @@
       "message": "@david.ostrovsky@gmail.com can you double-check the conflict resolution 🙏 please?",
       "revId": "6e4c444c888a5cbfe289293f542ce79819c2b27a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5fe4de8_394b274a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 43
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-01-17T11:14:33Z",
+      "side": 1,
+      "message": "Thanks, this LGTM! Is there still anything that is blocking submitting this?",
+      "revId": "6e4c444c888a5cbfe289293f542ce79819c2b27a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

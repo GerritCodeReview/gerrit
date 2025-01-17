@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "897563c3_c563672a",
+        "filename": "java/com/google/gerrit/server/mail/send/CommentSender.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2025-01-17T17:39:03Z",
+      "side": 1,
+      "message": "I think this guard is necessary to avoid other edge cases that we dont know.",
+      "revId": "87557dd5b89a607fde2c78d4b715cf2fa2e21778",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

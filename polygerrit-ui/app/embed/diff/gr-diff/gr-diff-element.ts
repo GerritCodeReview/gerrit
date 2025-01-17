@@ -212,12 +212,17 @@ export class GrDiffElement extends LitElement {
     };
     const isBinary = !!this.diff?.binary;
     const isImage = isImageDiff(this.diff);
+    // Safari 17+ support getComposedRanges, thus we don't need
+    // to enable contenteditable anymore.
+    const isContentEditable = isSafari() &&
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      !(window.getSelection() as any).getComposedRanges;
     return html`
       <div class=${classMap(cssClasses)}>
         <table
           id="diffTable"
           class=${classMap(tableClasses)}
-          ?contenteditable=${this.isContentEditable}
+          ?contenteditable=${isContentEditable}
         >
           ${this.renderColumns()}
           ${when(!this.showWarning(), () =>

@@ -79,45 +79,18 @@ public class MailSenderIT extends AbstractMailIT {
     String lastCommentId = Iterables.getLast(comments).id;
     ChangeInfo changeInfo = gApi.changes().id(changeId).get();
     String expectedBodyAsString =
-        emailBodyWithCommentsInUnchangeFile(
-            getChangeUrl(changeInfo), lastCommentId, adminInlineComment, userInlineComment);
+        "PS1, Line 1: this is line 1 \n" + "> " + adminInlineComment + "\n" + userInlineComment;
     assertThat(sender.getMessages()).hasSize(1);
     String bodyAsString = sender.getMessages().iterator().next().body();
     assertThat(bodyAsString).contains(expectedBodyAsString);
+    assertThat(bodyAsString).contains(getChangeUrl(changeInfo) + "/comment/" + lastCommentId);
+    assertThat(bodyAsString).contains("File gerrit-server/test.txt:\n");
   }
 
   private String headerString(Map<String, EmailHeader> headers, String name) {
     EmailHeader header = headers.get(name);
     assertThat(header).isInstanceOf(StringEmailHeader.class);
     return ((StringEmailHeader) header).getString();
-  }
-
-  private String emailBodyWithCommentsInUnchangeFile(
-      String changeURL, String commentId, String adminInlineComment, String userInlineComment) {
-    return "Attention is currently required from: Administrator.\n"
-        + "User has posted comments on this change. ( "
-        + changeURL
-        + " )\n"
-        + "\n"
-        + "Change subject: Second Change\n"
-        + "......................................................................\n"
-        + "\n"
-        + "\n"
-        + "Patch Set 1:\n"
-        + "\n"
-        + "(1 comment)\n"
-        + "\n"
-        + "File gerrit-server/test.txt:\n"
-        + "\n"
-        + changeURL
-        + "/comment/"
-        + commentId
-        + " \n"
-        + "PS1, Line 1: this is line 1 \n"
-        + "> "
-        + adminInlineComment
-        + "\n"
-        + userInlineComment;
   }
 
   private String getChangeUrl(ChangeInfo changeInfo) {

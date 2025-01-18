@@ -12,6 +12,7 @@ java_library(
         "//java/com/google/gerrit/server/cache/serialize",
         "//java/com/google/gerrit/server/logging",
         "//java/com/google/gerrit/server/util/time",
+        "//java/com/google/gerrit/util/concurrent",
         "//lib:guava",
         "//lib:h2",
         "//lib:jgit",

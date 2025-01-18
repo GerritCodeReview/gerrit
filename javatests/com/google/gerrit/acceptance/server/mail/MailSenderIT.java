@@ -18,14 +18,18 @@ import static com.google.common.truth.Truth.assertThat;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.entities.EmailHeader;
 import com.google.gerrit.entities.EmailHeader.StringEmailHeader;
+import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.server.config.SitePaths;
 import java.net.URI;
 import java.nio.file.Files;
+import java.util.List;
 import java.util.Map;
 import javax.inject.Inject;
 import org.junit.Test;
@@ -87,9 +91,33 @@ public class MailSenderIT extends AbstractMailIT {
     assertThat(subject).isEqualTo("CUSTOM-TEMPLATE");
   }
 
+  @Test
+  public void outgoingMailWithACommentsInUnchangedFile() throws Exception {
+    String adminInlineComment = "comment from admin in Line 1";
+    String userInlineComment =
+        String.format("reply from user %s to comment made by admin in Line 1", user.fullName());
+    String changeId =
+        createChangeWithUnchangedFileReviewed(user, adminInlineComment, userInlineComment);
+    List<CommentInfo> comments = gApi.changes().id(changeId).commentsRequest().getAsList();
+    assertThat(comments).hasSize(2);
+    String lastCommentId = Iterables.getLast(comments).id;
+    ChangeInfo changeInfo = gApi.changes().id(changeId).get();
+    String expectedBodyAsString =
+        "PS1, Line 1: this is line 1 \n" + "> " + adminInlineComment + "\n" + userInlineComment;
+    assertThat(sender.getMessages()).hasSize(1);
+    String bodyAsString = sender.getMessages().iterator().next().body();
+    assertThat(bodyAsString).contains(expectedBodyAsString);
+    assertThat(bodyAsString).contains(getChangeUrl(changeInfo) + "/comment/" + lastCommentId);
+    assertThat(bodyAsString).contains("File gerrit-server/test.txt:\n");
+  }
+
   private String headerString(Map<String, EmailHeader> headers, String name) {
     EmailHeader header = headers.get(name);
     assertThat(header).isInstanceOf(StringEmailHeader.class);
     return ((StringEmailHeader) header).getString();
+  }
+
+  private String getChangeUrl(ChangeInfo changeInfo) {
+    return canonicalWebUrl.get() + "c/" + changeInfo.project + "/+/" + changeInfo._number;
   }
 }

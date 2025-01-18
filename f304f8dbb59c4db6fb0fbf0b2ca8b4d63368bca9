@@ -16,6 +16,24 @@
       "message": "I will rebase with the predecessor change once the approach is decided.",
       "revId": "f304f8dbb59c4db6fb0fbf0b2ca8b4d63368bca9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f5c8049_6549df2d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-18T00:04:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "49210258_94eafcbf",
+      "revId": "f304f8dbb59c4db6fb0fbf0b2ca8b4d63368bca9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

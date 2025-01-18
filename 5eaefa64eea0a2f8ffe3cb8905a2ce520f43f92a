@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d27ebc3_930f0706",
+        "filename": "java/com/google/gerrit/server/mail/send/CommentSender.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-18T00:04:00Z",
+      "side": 1,
+      "message": "Check formatting.\n\n\n\n```suggestion\n            currentGroup.fileData \u003d\n                loadPatchFile(repo, modifiedFiles, c.key.filename, patchSet.commitId());\n```",
+      "range": {
+        "startLine": 214,
+        "startChar": 0,
+        "endLine": 214,
+        "endChar": 109
+      },
+      "revId": "5eaefa64eea0a2f8ffe3cb8905a2ce520f43f92a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec9fd6e4_62b8cb5c",
+        "filename": "java/com/google/gerrit/server/mail/send/CommentSender.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-18T00:04:00Z",
+      "side": 1,
+      "message": "Wrap long line with GJF:\n\n\n\n```suggestion\n  private PatchFile loadPatchFile(\n      Repository repo,\n      Map\u003cString, FileDiffOutput\u003e modifiedFiles,\n      String fileName,\n      ObjectId commitId)\n      throws IOException {\n```",
+      "range": {
+        "startLine": 235,
+        "startChar": 0,
+        "endLine": 235,
+        "endChar": 150
+      },
+      "revId": "5eaefa64eea0a2f8ffe3cb8905a2ce520f43f92a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1fe86495_17663e8e",
+        "filename": "java/com/google/gerrit/server/mail/send/CommentSender.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-18T00:04:00Z",
+      "side": 1,
+      "message": "This look a bit convoluted.\n\n\n\n```suggestion\n        .anyMatch(f -\u003e f.newPath().map(v -\u003e v.equals(fileName)).orElse(false));\n```",
+      "range": {
+        "startLine": 249,
+        "startChar": 23,
+        "endLine": 249,
+        "endChar": 84
+      },
+      "revId": "5eaefa64eea0a2f8ffe3cb8905a2ce520f43f92a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

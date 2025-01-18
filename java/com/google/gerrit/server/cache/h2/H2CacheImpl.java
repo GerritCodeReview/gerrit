@@ -190,7 +190,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
   @Override
   public void invalidate(Object key) {
     if (keyType.getRawType().isInstance(key) && store.mightContain((K) key)) {
-      executor.execute(() -> store.invalidate((K) key));
+      store.invalidate((K) key);
     }
     mem.invalidate(key);
   }

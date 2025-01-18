@@ -16,6 +16,24 @@
       "message": "MailSenderIT.outgoingMailWithACommentsInUnchangedFile fails as the expected e-mail message is different in stable-3.6",
       "revId": "5e3ced4fed985f509b4b65756fc3fd00a9e23b79",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da4df4c2_0256bc68",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-18T21:36:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "81884d2c_6e4b30a4",
+      "revId": "5e3ced4fed985f509b4b65756fc3fd00a9e23b79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

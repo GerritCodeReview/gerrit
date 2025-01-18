@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "272da37b_2f0687ed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-18T21:14:57Z",
+      "side": 1,
+      "message": "Built and verified that all tests are passing on stable-3.5",
+      "revId": "689e240425f06b233c9641212af2a9a5fa0154ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

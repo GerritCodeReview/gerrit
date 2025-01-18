@@ -54,7 +54,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import org.apache.james.mime4j.dom.field.FieldName;
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 
 /** Send comments, after the author of them hit used Publish Comments in the UI. */
@@ -206,7 +208,8 @@ public class CommentSender extends ReplyToChangeSender {
         groups.add(currentGroup);
         if (modifiedFiles != null && !modifiedFiles.isEmpty()) {
           try {
-            currentGroup.fileData = new PatchFile(repo, modifiedFiles, c.key.filename);
+            currentGroup.fileData =
+                loadPatchFile(repo, modifiedFiles, c.key.filename, patchSet.commitId());
           } catch (IOException e) {
             logger.atWarning().withCause(e).log(
                 "Cannot load %s from %s in %s",
@@ -225,6 +228,28 @@ public class CommentSender extends ReplyToChangeSender {
 
     groups.sort(Comparator.comparing(g -> g.filename, FilenameComparator.INSTANCE));
     return groups;
+  }
+
+  private PatchFile loadPatchFile(
+      Repository repo,
+      Map<String, FileDiffOutput> modifiedFiles,
+      String fileName,
+      ObjectId commitId)
+      throws IOException {
+    try {
+      return new PatchFile(repo, modifiedFiles, fileName);
+    } catch (MissingObjectException e) {
+      // check if the file has not been modified then is an unchanged file
+      if (!isModifiedFile(modifiedFiles, fileName)) {
+        return new PatchFile(repo, fileName, commitId);
+      }
+      throw e;
+    }
+  }
+
+  private boolean isModifiedFile(Map<String, FileDiffOutput> modifiedFiles, String fileName) {
+    return modifiedFiles.values().stream()
+        .anyMatch(f -> f.newPath().map(v -> v.equals(fileName)).orElse(false));
   }
 
   /** Get the set of accounts whose comments have been replied to in this email. */

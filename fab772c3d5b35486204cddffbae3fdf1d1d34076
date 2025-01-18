@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "40f45db5_f090942e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-18T01:13:05Z",
+      "side": 1,
+      "message": "The approach is not compatible with the upstream development, where the email notification system isn\u0027t anymore a class hierarchy (see https://gerrit-review.googlesource.com/c/gerrit/+/369794).\n\nThe merge upstream to master breaks at the stable-3.9 level with I9bb677852",
+      "revId": "fab772c3d5b35486204cddffbae3fdf1d1d34076",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

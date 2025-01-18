@@ -63,6 +63,9 @@ public class SmtpEmailSender implements EmailSender {
   /** The socket's connect timeout (0 = infinite timeout) */
   private static final int DEFAULT_CONNECT_TIMEOUT = 0;
 
+  /** The socket's socket read timeout (0 = infinite timeout) */
+  private static final int DEFAULT_SOCKET_TIMEOUT = 0;
+
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static class SmtpEmailSenderModule extends AbstractModule {
@@ -74,6 +77,7 @@ public class SmtpEmailSender implements EmailSender {
 
   private final boolean enabled;
   private final int connectTimeout;
+  private final int socketTimeout;
 
   private String smtpHost;
   private int smtpPort;
@@ -97,6 +101,15 @@ public class SmtpEmailSender implements EmailSender {
                 null,
                 "connectTimeout",
                 DEFAULT_CONNECT_TIMEOUT,
+                TimeUnit.MILLISECONDS));
+    socketTimeout =
+        Ints.checkedCast(
+            ConfigUtil.getTimeUnit(
+                cfg,
+                "sendemail",
+                null,
+                "socketTimeout",
+                DEFAULT_SOCKET_TIMEOUT,
                 TimeUnit.MILLISECONDS));
 
     smtpHost = cfg.getString("sendemail", null, "smtpserver");
@@ -404,6 +417,7 @@ public class SmtpEmailSender implements EmailSender {
     client.setConnectTimeout(connectTimeout);
     try {
       client.connect(smtpHost, smtpPort);
+      client.setSoTimeout(socketTimeout);
       int replyCode = client.getReplyCode();
       String replyString = client.getReplyString();
       if (!SMTPReply.isPositiveCompletion(replyCode)) {

@@ -23,7 +23,6 @@ import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
-import com.google.common.hash.BloomFilter;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -35,6 +34,7 @@ import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.util.time.TimeUtil;
+import com.google.gerrit.util.concurrent.ConcurrentBloomFilter;
 import com.google.inject.TypeLiteral;
 import java.io.IOException;
 import java.io.InvalidClassException;
@@ -340,9 +340,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     private final BlockingQueue<SqlHandle> handles;
     private final AtomicLong hitCount = new AtomicLong();
     private final AtomicLong missCount = new AtomicLong();
-    private volatile BloomFilter<K> bloomFilter;
-    private int estimatedSize;
-    private boolean buildBloomFilter;
+    private final ConcurrentBloomFilter<K> bloomFilter;
     private boolean trackLastAccess;
 
     SqlStore(
@@ -363,12 +361,14 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       this.maxSize = maxSize;
       this.expireAfterWrite = expireAfterWrite;
       this.refreshAfterWrite = refreshAfterWrite;
-      this.buildBloomFilter = buildBloomFilter;
       this.trackLastAccess = trackLastAccess;
 
       int cores = Runtime.getRuntime().availableProcessors();
       int keep = Math.min(cores, 16);
       this.handles = new ArrayBlockingQueue<>(keep);
+      bloomFilter =
+          new ConcurrentBloomFilter<>(
+              this.keyType.funnel(), buildBloomFilter ? this::buildBloomFilter : () -> {});
     }
 
     @SuppressWarnings("unchecked")
@@ -380,10 +380,8 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       return new ObjectKeyTypeImpl<>(serializer);
     }
 
-    synchronized void open() {
-      if (buildBloomFilter && bloomFilter == null) {
-        bloomFilter = buildBloomFilter();
-      }
+    void open() {
+      bloomFilter.initIfNeeded();
     }
 
     void close() {
@@ -393,41 +391,29 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       }
     }
 
-    boolean mightContain(K key) {
-      BloomFilter<K> b = bloomFilter;
-      if (buildBloomFilter && b == null) {
-        synchronized (this) {
-          b = bloomFilter;
-          if (b == null) {
-            b = buildBloomFilter();
-            bloomFilter = b;
-          }
-        }
-      }
-      return b == null || b.mightContain(key);
+    private boolean mightContain(K key) {
+      return bloomFilter.mightContain(key);
     }
 
-    @Nullable
-    private BloomFilter<K> buildBloomFilter() {
+    private void buildBloomFilter() {
       SqlHandle c = null;
       try (TraceTimer ignored = TraceContext.newTimer("Build bloom filter", Metadata.empty())) {
         c = acquire();
-        if (estimatedSize <= 0) {
+        if (bloomFilter.getEstimatedSize() <= 0) {
           try (PreparedStatement ps =
               c.conn.prepareStatement("SELECT COUNT(*) FROM data WHERE version=?")) {
             ps.setInt(1, version);
             try (ResultSet r = ps.executeQuery()) {
-              estimatedSize = r.next() ? r.getInt(1) : 0;
+              bloomFilter.setEstimatedSize(r.next() ? r.getInt(1) : 0);
             }
           }
         }
 
-        BloomFilter<K> b = newBloomFilter();
         try (PreparedStatement ps = c.conn.prepareStatement("SELECT k FROM data WHERE version=?")) {
           ps.setInt(1, version);
           try (ResultSet r = ps.executeQuery()) {
             while (r.next()) {
-              b.put(keyType.get(r, 1));
+              bloomFilter.buildPut(keyType.get(r, 1));
             }
           }
         } catch (Exception e) {
@@ -447,11 +433,11 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
             throw e;
           }
         }
-        return b;
+        bloomFilter.build();
       } catch (IOException | SQLException e) {
         logger.atWarning().log("Cannot build BloomFilter for %s: %s", url, e.getMessage());
         c = close(c);
-        return null;
+        bloomFilter.build();
       } finally {
         release(c);
       }
@@ -554,13 +540,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         return;
       }
 
-      BloomFilter<K> b = null;
-      do {
-        b = bloomFilter;
-        if (b != null) {
-          b.put(key);
-        }
-      } while (!referenceEqualsSuppressed(b, bloomFilter));
+      bloomFilter.put(key);
 
       SqlHandle c = null;
       try {
@@ -594,6 +574,13 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       try {
         c = acquire();
         invalidate(c, key);
+        // Although there is no way to remove an entry from a bloomfilter, the impact
+        // to this key will be likely only be one lookup that fails since the entry will
+        // likely then get repopulated on disk and then the bloomfilter will be up-to-date
+        // again for that key. However, the impact to the bloomFilter will grow over time
+        // as no-longer-looked-up entries get invalidated and removed from the cache, these
+        // entries will still leave set bits in the bloomfilter which will result in more
+        // mightContains() false positives for other newer unpopulated keys over time.
       } catch (IOException | SQLException e) {
         logger.atWarning().withCause(e).log("Cannot invalidate cache %s", url);
         c = close(c);
@@ -622,7 +609,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         try (Statement s = c.conn.createStatement()) {
           s.executeUpdate("DELETE FROM data");
         }
-        bloomFilter = newBloomFilter();
+        bloomFilter.clear();
       } catch (SQLException e) {
         logger.atWarning().withCause(e).log("Cannot invalidate cache %s", url);
         c = close(c);
@@ -674,6 +661,10 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
                 used -= r.getLong(2);
               }
             }
+            // We should be building a new bloomfilter here as we are iterating over
+            // many entries anyway. The "sum' query above does not return all the rows,
+            // but it likely has to read them from disk to get their size and that is
+            // likely to be the slow part anyway?
             logger.atInfo().log(
                 "Done pruning cache %s, size (%s) is now less than maxSize (%s)",
                 url, CacheInfo.EntriesInfo.bytes(used), formattedMaxSize);
@@ -727,11 +718,6 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         h.close();
       }
       return null;
-    }
-
-    private BloomFilter<K> newBloomFilter() {
-      int cnt = Math.max(64 * 1024, 2 * estimatedSize);
-      return BloomFilter.create(keyType.funnel(), cnt);
     }
   }
 
@@ -794,10 +780,5 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       }
       return null;
     }
-  }
-
-  @SuppressWarnings("ReferenceEquality")
-  private static <T> boolean referenceEqualsSuppressed(T a, T b) {
-    return a == b;
   }
 }

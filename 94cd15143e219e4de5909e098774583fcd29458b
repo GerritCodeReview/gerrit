@@ -33,6 +33,23 @@
       "message": "solicitu de acceso al equipo de trabajo",
       "revId": "94cd15143e219e4de5909e098774583fcd29458b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0b19880_237a37eb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3835945
+      },
+      "writtenOn": "2025-01-18T08:54:11Z",
+      "side": 1,
+      "message": "447861: Fix triggering mentions on safari and firefox | https://gerrit-review.googlesource.com/c/gerrit/+/447861",
+      "revId": "94cd15143e219e4de5909e098774583fcd29458b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

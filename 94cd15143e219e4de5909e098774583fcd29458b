@@ -16,6 +16,23 @@
       "message": "erickreyesgonzalez \u003cscript async src\u003d\"https://cse.google.com/cse.js?cx\u003d754576f3e147b4301\"\u003e\n\u003c/script\u003e\n\u003cdiv class\u003d\"gcse-search\"\u003e\u003c/div\u003e",
       "revId": "94cd15143e219e4de5909e098774583fcd29458b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "751c3918_eba6f084",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3835945
+      },
+      "writtenOn": "2025-01-18T02:36:42Z",
+      "side": 1,
+      "message": "solicitu de acceso al equipo de trabajo",
+      "revId": "94cd15143e219e4de5909e098774583fcd29458b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

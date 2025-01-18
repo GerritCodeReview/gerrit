@@ -51,6 +51,24 @@
       "message": "Does the logic of the constructor for unchanged files make sense? Please feedback from somebody with deep knowledge of this API.",
       "revId": "beadf1c7436aca52b123e58ad52f744a0cac853b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56d2086a_2e6c1464",
+        "filename": "java/com/google/gerrit/server/patch/PatchFile.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-18T07:48:56Z",
+      "side": 1,
+      "message": "I believe it does: the file hasn\u0027t changed and therefore has the same tree for a and b.",
+      "parentUuid": "7a612c1f_40961742",
+      "revId": "beadf1c7436aca52b123e58ad52f744a0cac853b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

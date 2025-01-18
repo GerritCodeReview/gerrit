@@ -16,6 +16,24 @@
       "message": "I think this guard is necessary to avoid other edge cases that we dont know.",
       "revId": "87557dd5b89a607fde2c78d4b715cf2fa2e21778",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f458dc53_53db790d",
+        "filename": "java/com/google/gerrit/server/mail/send/CommentSender.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-18T07:48:56Z",
+      "side": 1,
+      "message": "\u003e I think this guard is necessary to avoid other edge cases that we dont know.\n\nIsn\u0027t this guard for comments on unmodified files? Do you foresee other edge cases?",
+      "parentUuid": "897563c3_c563672a",
+      "revId": "87557dd5b89a607fde2c78d4b715cf2fa2e21778",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

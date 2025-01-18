@@ -5351,6 +5351,22 @@ Default is 0. A timeout of zero is interpreted as an infinite
 timeout. The connection will then block until established or
 an error occurs.
 
+[[sendemail.socketTimeout]]sendemail.socketTimeout::
++
+The socket timeout of opening a socket connected to a
+remote SMTP server.
++
+Values can be specified using standard time unit abbreviations
+('ms', 'sec', 'min', etc.).
+If no unit is specified, milliseconds is assumed.
++
+Default is 0. A timeout of zero is interpreted as an infinite
+timeout. With this config value set to a non-zero timeout,
+a read() call on the InputStream associated with this Socket
+will block for only this amount of time. Hence administrators
+may decide to set a value (greater than 0, for example set to
+'60s') according to the actual situation.
+
 [[sendemail.threadPoolSize]]sendemail.threadPoolSize::
 +
 Maximum size of thread pool in which the review comments

@@ -67,6 +67,23 @@
       "message": "Comment removed by: Kamil Musin; Reason: spam",
       "revId": "778638e06fd65d5e1a9f8d3703189e45214db602",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7969153_47e5b244",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3806496
+      },
+      "writtenOn": "2025-01-19T09:45:38Z",
+      "side": 1,
+      "message": "Stop build on keychain.",
+      "revId": "778638e06fd65d5e1a9f8d3703189e45214db602",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

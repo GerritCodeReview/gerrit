@@ -42,6 +42,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
@@ -167,7 +168,7 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
   @Override
   public <K, V> Cache<K, V> buildImpl(PersistentCacheDef<K, V> in, long limit) {
     H2CacheDefProxy<K, V> def = new H2CacheDefProxy<>(in);
-    SqlStore<K, V> store = newSqlStore(def, limit);
+    SqlStore<K, V> store = newSqlStore(def, limit, executor);
     H2CacheImpl<K, V> cache =
         new H2CacheImpl<>(
             executor, store, def.keyType(), (Cache<K, ValueHolder<V>>) memCacheFactory.build(def));
@@ -182,7 +183,7 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
   public <K, V> LoadingCache<K, V> buildImpl(
       PersistentCacheDef<K, V> in, CacheLoader<K, V> loader, long limit) {
     H2CacheDefProxy<K, V> def = new H2CacheDefProxy<>(in);
-    SqlStore<K, V> store = newSqlStore(def, limit);
+    SqlStore<K, V> store = newSqlStore(def, limit, executor);
     Cache<K, ValueHolder<V>> mem =
         (Cache<K, ValueHolder<V>>)
             memCacheFactory.build(
@@ -206,7 +207,8 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
     }
   }
 
-  private <V, K> SqlStore<K, V> newSqlStore(PersistentCacheDef<K, V> def, long maxSize) {
+  private <V, K> SqlStore<K, V> newSqlStore(
+      PersistentCacheDef<K, V> def, long maxSize, Executor executor) {
     StringBuilder url = new StringBuilder();
     url.append("jdbc:h2:")
         .append(cacheDir.resolve(def.name() + "-v" + COMPATIBILITY_VERSION).toUri());
@@ -235,6 +237,7 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
       }
     }
     return new SqlStore<>(
+        executor,
         url.toString(),
         def.keyType(),
         def.keySerializer(),

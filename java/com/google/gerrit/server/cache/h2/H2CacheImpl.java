@@ -330,6 +330,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
   }
 
   static class SqlStore<K, V> {
+    private final Executor executor;
     private final String url;
     private final KeyType<K> keyType;
     private final CacheSerializer<V> valueSerializer;
@@ -344,6 +345,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     private boolean trackLastAccess;
 
     SqlStore(
+        Executor executor,
         String jdbcUrl,
         TypeLiteral<K> keyType,
         CacheSerializer<K> keySerializer,
@@ -354,6 +356,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         @Nullable Duration refreshAfterWrite,
         boolean buildBloomFilter,
         boolean trackLastAccess) {
+      this.executor = executor;
       this.url = jdbcUrl;
       this.keyType = createKeyType(keyType, keySerializer);
       this.valueSerializer = valueSerializer;
@@ -393,6 +396,10 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
 
     private boolean mightContain(K key) {
       return bloomFilter.mightContain(key);
+    }
+
+    private void invalidateOnExecutor(K key) {
+      executor.execute(() -> bloomFilter.invalidate(key));
     }
 
     private void buildBloomFilter() {
@@ -593,7 +600,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       } finally {
         c.invalidate.clearParameters();
       }
-      bloomFilter.invalidate(key);
+      invalidateOnExecutor(key);
     }
 
     void invalidateAll() {
@@ -613,6 +620,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     }
 
     synchronized void prune(Cache<K, ?> mem) {
+      bloomFilter.setQueueBuilds(true);
       SqlHandle c = null;
       try {
         c = acquire();
@@ -669,7 +677,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         c = close(c);
       } finally {
         release(c);
-        bloomFilter.startBuldIfNeeded();
+        bloomFilter.setQueueBuilds(false);
       }
     }
 

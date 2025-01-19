@@ -23,6 +23,8 @@ public class ConcurrentBloomFilter<K> {
   private final Funnel<K> funnel;
   private final Runnable builder;
 
+  private boolean isQueueBuilds;
+  private boolean isBuildQueued;
   private int estimatedSize;
   private volatile BloomFilter<K> buildingBloomFilter;
 
@@ -65,7 +67,19 @@ public class ConcurrentBloomFilter<K> {
     return b == null || b.mightContain(key);
   }
 
+  /** setting isQueueBuilds to false will start a build on the current thread if one is queued. */
+  public void setQueueBuilds(boolean isQueueBuilds) {
+    this.isQueueBuilds = isQueueBuilds;
+    if (isBuildQueued) {
+      startBuild();
+    }
+  }
+
   private synchronized void startBuild() {
+    isBuildQueued = isQueueBuilds;
+    if (isQueueBuilds) {
+      return;
+    }
     buildingBloomFilter = newBloomFilter();
     builder.run();
   }
@@ -93,8 +107,12 @@ public class ConcurrentBloomFilter<K> {
     } while (isRebuilt);
   }
 
+  /** May start a build on the current thread */
   public void invalidate(K key) {
     invalidatedCount.incrementAndGet();
+    if (invalidatedCount.incrementAndGet() >= estimatedSize / 4) {
+      startBuild();
+    }
   }
 
   public void clear() {

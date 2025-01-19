@@ -71,9 +71,17 @@ public class CacheMetrics {
             Double.class,
             new Description("Disk hit ratio for persistent cache").setGauge().setUnit("percent"),
             F_NAME);
+    CallbackMetric1<String, Long> perDiskInvalid =
+        metrics.newCallbackMetric(
+            "caches/disk_invalidated_count",
+            Long.class,
+            new Description("Disk entries invalidated by persistent cache")
+                .setGauge()
+                .setUnit("invalidated entries"),
+            F_NAME);
 
     ImmutableSet<CallbackMetric<?>> cacheMetrics =
-        ImmutableSet.of(memEnt, memHit, memEvict, perDiskEnt, perDiskHit);
+        ImmutableSet.of(memEnt, memHit, memEvict, perDiskEnt, perDiskHit, perDiskInvalid);
 
     metrics.newTrigger(
         cacheMetrics,
@@ -90,6 +98,7 @@ public class CacheMetrics {
               PersistentCache.DiskStats d = ((PersistentCache) c).diskStats();
               perDiskEnt.set(name, d.size());
               perDiskHit.set(name, hitRatio(d));
+              perDiskInvalid.set(name, d.invalidatedCount());
             }
           }
           cacheMetrics.forEach(CallbackMetric::prune);

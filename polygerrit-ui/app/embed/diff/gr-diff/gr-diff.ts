@@ -38,7 +38,6 @@ import {
 import {DiffViewMode, Side} from '../../../constants/constants';
 import {fire, fireAlert} from '../../../utils/event-util';
 import {MovedLinkClickedEvent, ValueChangedEvent} from '../../../types/events';
-import {getContentEditableRange} from '../../../utils/safari-selection-util';
 import {AbortStop} from '../../../api/core';
 import {
   RenderPreferences,
@@ -48,7 +47,7 @@ import {
   ContentLoadNeededEventDetail,
   DiffContextExpandedExternalDetail,
 } from '../../../api/diff';
-import {isSafari} from '../../../utils/dom-util';
+import {getShadowOrDocumentSelection} from '../../../utils/dom-util';
 import {assertIsDefined} from '../../../utils/common-util';
 import {GrDiffSelection} from '../gr-diff-selection/gr-diff-selection';
 import {property, query, state} from 'lit/decorators.js';
@@ -88,6 +87,7 @@ import {subscribe} from '../../../elements/lit/subscription-controller';
 import {GrDiffSection} from '../gr-diff-builder/gr-diff-section';
 import {GrDiffRow} from '../gr-diff-builder/gr-diff-row';
 import {GrDiffElement} from './gr-diff-element';
+import {getContentEditableRange} from '../../../utils/safari-selection-util';
 
 const TRAILING_WHITESPACE_PATTERN = /\s+$/;
 
@@ -211,14 +211,6 @@ export class GrDiff extends LitElement implements GrDiffApi {
 
   @property({type: Object})
   revisionImage?: ImageInfo;
-
-  /**
-   * In order to allow multi-select in Safari browsers, a workaround is required
-   * to trigger 'beforeinput' events to get a list of static ranges. This is
-   * obtained by making the content of the diff table "contentEditable".
-   */
-  @property({type: Boolean})
-  override isContentEditable = isSafari();
 
   @property({type: String})
   errorMessage: string | null = null;
@@ -472,7 +464,10 @@ export class GrDiff extends LitElement implements GrDiffApi {
     // Because of shadow DOM selections, we handle the selectionchange here,
     // and pass the shadow DOM selection into gr-diff-highlight, where the
     // corresponding range is determined and normalized.
-    const selection = this.getShadowOrDocumentSelection();
+    const selection = getShadowOrDocumentSelection(
+      this.shadowRoot,
+      getContentEditableRange()
+    );
     this.highlights.handleSelectionChange(selection, false);
   };
 
@@ -480,22 +475,12 @@ export class GrDiff extends LitElement implements GrDiffApi {
     // To handle double-click outside of text creating comments, we check on
     // mouse-up if there's a selection that just covers a line change. We
     // can't do that on selection change since the user may still be dragging.
-    const selection = this.getShadowOrDocumentSelection();
+    const selection = getShadowOrDocumentSelection(
+      this.shadowRoot,
+      getContentEditableRange()
+    );
     this.highlights.handleSelectionChange(selection, true);
   };
-
-  /** Gets the current selection, preferring the shadow DOM selection. */
-  private getShadowOrDocumentSelection() {
-    // When using native shadow DOM, the selection returned by
-    // document.getSelection() cannot reference the actual DOM elements making
-    // up the diff in Safari because they are in the shadow DOM of the gr-diff
-    // element. This takes the shadow DOM selection if one exists.
-    return this.shadowRoot?.getSelection
-      ? this.shadowRoot.getSelection()
-      : isSafari()
-      ? getContentEditableRange()
-      : document.getSelection();
-  }
 
   private commentThreadRedispatcher = (
     target: EventTarget | null,

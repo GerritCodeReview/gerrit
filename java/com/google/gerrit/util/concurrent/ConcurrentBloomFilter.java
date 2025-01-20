@@ -16,13 +16,14 @@ package com.google.gerrit.util.concurrent;
 
 import com.google.common.hash.BloomFilter;
 import com.google.common.hash.Funnel;
+import java.util.function.Consumer;
 
 public class ConcurrentBloomFilter<K> {
   private final Funnel<K> funnel;
   private final Runnable builder;
 
   private int estimatedSize;
-  private BloomFilter<K> buildingBloomFilter;
+  private volatile BloomFilter<K> buildingBloomFilter;
 
   private volatile BloomFilter<K> bloomFilter;
 
@@ -49,9 +50,6 @@ public class ConcurrentBloomFilter<K> {
 
   public boolean mightContain(K key) {
     BloomFilter<K> b = bloomFilter;
-    if (bloomFilter == null) { // Avoid synchronized most of the time
-      initIfNeeded();
-    }
     return b == null || b.mightContain(key);
   }
 
@@ -72,13 +70,14 @@ public class ConcurrentBloomFilter<K> {
   }
 
   public void put(K key) {
-    BloomFilter<K> b = null;
+    boolean isRebuilt;
     do {
-      b = bloomFilter;
-      if (b != null) {
-        b.put(key);
-      }
-    } while (!referenceEqualsSuppressed(b, bloomFilter));
+      BloomFilter<K> b = putIfFilterNotNull(bloomFilter, key);
+      BloomFilter<K> bb = putIfFilterNotNull(buildingBloomFilter, key);
+      isRebuilt =
+          !referenceEqualsSuppressed(b, bloomFilter)
+              || !referenceEqualsSuppressed(bb, buildingBloomFilter);
+    } while (isRebuilt);
   }
 
   public void clear() {
@@ -88,6 +87,17 @@ public class ConcurrentBloomFilter<K> {
   private BloomFilter<K> newBloomFilter() {
     int cnt = Math.max(64 * 1024, 2 * estimatedSize);
     return BloomFilter.create(funnel, cnt);
+  }
+
+  private static <K> BloomFilter<K> putIfFilterNotNull(BloomFilter<K> b, K key) {
+    acceptIfNotNull(b, bl -> bl.put(key));
+    return b;
+  }
+
+  private static <T> void acceptIfNotNull(T t, Consumer<T> c) {
+    if (t != null) {
+      c.accept(t);
+    }
   }
 
   @SuppressWarnings("ReferenceEquality")

@@ -16,6 +16,24 @@
       "message": "Thanks @luca.milanesio@gmail.com, LGTM!\n\nShould we target 3.9 for this?",
       "revId": "9c434527b5c5dfc21363d49cdfbedde7ab7e12de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e00fa99e_d2e53068",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-20T21:10:35Z",
+      "side": 1,
+      "message": "Done https://gerrit-review.googlesource.com/c/gerrit/+/448141. Abandoning this change.",
+      "parentUuid": "6108406c_27642330",
+      "revId": "9c434527b5c5dfc21363d49cdfbedde7ab7e12de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

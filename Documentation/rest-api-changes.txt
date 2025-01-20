@@ -7811,7 +7811,7 @@ link:#notify-info[NotifyInfo] entity.
 The `ConflictsInfo` entity contains information about conflicts in a revision.
 
 [options="header",cols="1,^1,5"]
-|==================================
+|=============================
 |Field Name           ||Description
 |`ours`               |optional|
 The SHA1 of the commit that was used as "ours" for the Git merge that created the revision. +
@@ -7855,7 +7855,7 @@ conflict. In this case the files in the revision may only contain Git conflict m
 were already present in "ours" or "theirs". +
 If "false", and "ours" and "theirs" are not present, the revision was not created as a result of
 performing a Git merge and hence doesn't contain conflicts.
-|=================================
+|=============================
 
 [[delete-change-message-input]]
 === DeleteChangeMessageInput

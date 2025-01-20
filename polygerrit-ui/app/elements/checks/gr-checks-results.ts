@@ -890,7 +890,7 @@ export class GrChecksResults extends LitElement {
   /**
    * Keeps track of whether the user intentionally changed the expansion state.
    * Once this is true the default rule for showing a section expanded or not
-   * is not applied anymore.
+   * is not applied anymore. test
    */
   private isSectionExpandedByUser = new Map<Category, boolean>();
 

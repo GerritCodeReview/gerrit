@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4939b5ce_08181a32",
+        "filename": "Documentation/rest-api-plugins.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-01-20T17:47:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a79853b_16926a58",
+      "range": {
+        "startLine": 330,
+        "startChar": 4,
+        "endLine": 330,
+        "endChar": 21
+      },
+      "revId": "b3dae341425d330463b9c1844124328839f090d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f42314c9_b7371514",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae102616_7e2bb381",
+        "filename": "Documentation/rest-api-plugins.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-01-20T17:47:15Z",
+      "side": 1,
+      "message": "Updated.",
+      "parentUuid": "f42314c9_b7371514",
+      "range": {
+        "startLine": 488,
+        "startChar": 66,
+        "endLine": 488,
+        "endChar": 86
+      },
+      "revId": "b3dae341425d330463b9c1844124328839f090d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f3570c64_7bd53378",
@@ -60,6 +108,30 @@
       "writtenOn": "2025-01-20T15:32:01Z",
       "side": 1,
       "message": "We should probably keep the naming consistent with the other REST API endpoints.\n\nie. push_options, name and description instead of pushOptions, getName and getDescription.",
+      "range": {
+        "startLine": 504,
+        "startChar": 1,
+        "endLine": 504,
+        "endChar": 16
+      },
+      "revId": "b3dae341425d330463b9c1844124328839f090d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0cc20b3_ca67aef9",
+        "filename": "Documentation/rest-api-plugins.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 504,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-01-20T17:47:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f3570c64_7bd53378",
       "range": {
         "startLine": 504,
         "startChar": 1,
@@ -107,6 +179,30 @@
           ]
         }
       ],
+      "revId": "b3dae341425d330463b9c1844124328839f090d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fdc76a78_af6ed39a",
+        "filename": "java/com/google/gerrit/server/plugins/PluginRestApiModule.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-01-20T17:47:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba48d2a7_ac632dd2",
+      "range": {
+        "startLine": 38,
+        "startChar": 4,
+        "endLine": 38,
+        "endChar": 67
+      },
       "revId": "b3dae341425d330463b9c1844124328839f090d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

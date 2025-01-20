@@ -566,11 +566,13 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         return;
       }
 
-      BloomFilter<K> b = bloomFilter;
-      if (b != null) {
-        b.put(key);
-        bloomFilter = b;
-      }
+      BloomFilter<K> b = null;
+      do {
+        b = bloomFilter;
+        if (b != null) {
+          b.put(key);
+        }
+      } while (!referenceEqualsSuppressed(b, bloomFilter));
 
       SqlHandle c = null;
       try {
@@ -804,5 +806,10 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       }
       return null;
     }
+  }
+
+  @SuppressWarnings("ReferenceEquality")
+  private static <T> boolean referenceEqualsSuppressed(T a, T b) {
+    return a == b;
   }
 }

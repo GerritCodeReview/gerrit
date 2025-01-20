@@ -16,6 +16,24 @@
       "message": "I think this is causing:\n\n```\nJan 20, 2025 11:24:36 AM \u003cscript\u003e convertFile\nWARNING: rest-api-changes.txt.html_htmlonly_expn: line 8451: unterminated table block\nJan 20, 2025 11:24:36 AM \u003cscript\u003e convertFile\nSEVERE: rest-api-changes.txt.html_htmlonly_expn: line 8453: table missing leading separator; recovering automatically\nJan 20, 2025 11:24:36 AM \u003cscript\u003e convertFile\nWARNING: invalid reference: edit-info\nJan 20, 2025 11:24:36 AM \u003cscript\u003e convertFile\nWARNING: invalid reference: fix-replacement-info\nJan 20, 2025 11:24:36 AM \u003cscript\u003e convertFile\nWARNING: invalid reference: apply-provided-fix-input\nJan 20, 2025 11:24:36 AM \u003cscript\u003e convertFile\nWARNING: invalid reference: fix-replacement-info\nJan 20, 2025 11:24:36 AM \u003cscript\u003e convertFile\nWARNING: invalid reference: apply-provided-fix-input\nJan 20, 2025 11:24:36 AM \u003cscript\u003e convertFile\nWARNING: invalid reference: fix-suggestion-info\nJan 20, 2025 11:24:36 AM \u003cscript\u003e convertFile\nWARNING: invalid reference: fix-suggestion-info\nJan 20, 2025 11:24:36 AM \u003cscript\u003e convertFile\nWARNING: invalid reference: fix-replacement-info\nJan 20, 2025 11:24:36 AM \u003cscript\u003e convertFile\nWARNING: invalid reference: diff-info\nJan 20, 2025 11:24:36 AM \u003cscript\u003e convertFile\nWARNING: invalid reference: diff-info\nJan 20, 2025 11:24:36 AM \u003cscript\u003e convertFile\nWARNING: invalid reference: fix-replacement-info\nJan 20, 2025 11:24:36 AM \u003cscript\u003e convertFile\n```",
       "revId": "4798f5f2483fc2db251fc125745da178111940ba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4287d857_359dd09c",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 7809,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-01-20T11:30:31Z",
+      "side": 1,
+      "message": "Fixed with https://gerrit-review.googlesource.com/c/gerrit/+/447870",
+      "parentUuid": "a4028ae5_1d868743",
+      "revId": "4798f5f2483fc2db251fc125745da178111940ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

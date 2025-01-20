@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d011876c_14510165",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1731,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-01-20T11:54:19Z",
+      "side": 1,
+      "message": "This code was actually copied from your proposal [1] and I thought you had good reason to show only the first trace id. Sure we can show all, let me fix it.\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/447501/1/java/com/google/gerrit/httpd/restapi/RestApiServlet.java#1685",
+      "parentUuid": "f3d97355_7dbced45",
+      "revId": "06e37892a0fd53d99bd4746a72dbbd91406bb784",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c33fe14b_65b80e5f",
         "filename": "javatests/com/google/gerrit/acceptance/rest/TraceIT.java",
         "patchSetId": 1

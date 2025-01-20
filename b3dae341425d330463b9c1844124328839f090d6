@@ -1,0 +1,114 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a79853b_16926a58",
+        "filename": "Documentation/rest-api-plugins.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-01-20T15:32:01Z",
+      "side": 1,
+      "message": "Get Plugin Push Options",
+      "range": {
+        "startLine": 330,
+        "startChar": 4,
+        "endLine": 330,
+        "endChar": 21
+      },
+      "revId": "b3dae341425d330463b9c1844124328839f090d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f42314c9_b7371514",
+        "filename": "Documentation/rest-api-plugins.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-01-20T15:32:01Z",
+      "side": 1,
+      "message": "I think they are defined by plugins, but the specified by users.\n\n```\nThe `PluginPushOption` entity returns the push option defined by plugins that can be specified on push.\n```",
+      "range": {
+        "startLine": 488,
+        "startChar": 66,
+        "endLine": 488,
+        "endChar": 86
+      },
+      "revId": "b3dae341425d330463b9c1844124328839f090d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3570c64_7bd53378",
+        "filename": "Documentation/rest-api-plugins.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 504,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-01-20T15:32:01Z",
+      "side": 1,
+      "message": "We should probably keep the naming consistent with the other REST API endpoints.\n\nie. push_options, name and description instead of pushOptions, getName and getDescription.",
+      "range": {
+        "startLine": 504,
+        "startChar": 1,
+        "endLine": 504,
+        "endChar": 16
+      },
+      "revId": "b3dae341425d330463b9c1844124328839f090d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba48d2a7_ac632dd2",
+        "filename": "java/com/google/gerrit/server/plugins/PluginRestApiModule.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-01-20T15:32:01Z",
+      "side": 1,
+      "message": "It doesn\u0027t make sense to me that this is defined on PLUGIN_KIND.\n\nIIUC the PLUGIN_KIND expects url that looks like /plugins/\u003cplugin_name\u003e/\u003cendpoint_name\u003e , whereas what you want is /plugins/\u003cendpoint_name\u003e (though I don\u0027t know how to define that within our code of the top of my head)",
+      "range": {
+        "startLine": 38,
+        "startChar": 4,
+        "endLine": 38,
+        "endChar": 67
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "9a922aa6_393114f0",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "java/com/google/gerrit/server/plugins/PluginRestApiModule.java",
+              "range": {
+                "startLine": 38,
+                "startChar": 0,
+                "endLine": 39,
+                "endChar": 0
+              },
+              "replacement": "    get(\"pushOptions\").to(GetPluginPushOptions.class);\n"
+            }
+          ]
+        }
+      ],
+      "revId": "b3dae341425d330463b9c1844124328839f090d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

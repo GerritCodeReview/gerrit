@@ -130,6 +130,20 @@ public class SubmitRequirementPredicateIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void messagePredicate_ignoresPunctuationPreservesOrder() throws Exception {
+    Change.Id c1 =
+        changeOperations
+            .newChange()
+            .commitMessage("Hello Earth, from planet Mars")
+            .project(project)
+            .create();
+    // The punctuation and capitalisation is ignored.
+    assertMatching("message:\"earth from planet\"", c1);
+    // The punctuation and capitalisation is ignored.
+    assertNotMatching("message:\"planet from earth\"", c1);
+  }
+
+  @Test
   public void distinctVoters_sameUserVotesOnDifferentLabels_fails() throws Exception {
     Change.Id c1 = changeOperations.newChange().project(project).create();
     requestScopeOperations.setApiUser(admin.id());

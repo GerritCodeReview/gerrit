@@ -73,41 +73,12 @@ java_library(
     runtime_deps = [":jgit"],
 )
 
-# JGit moved to jakarta servlet API in 7.0 but gerrit hasn't.
-#
-# The only difference for the http.server between jakarta and javax
-# are the imports. Repack the jgit-servlet code replacing them.
 java_library(
     name = "jgit-servlet",
-    srcs = [":jgit-servlet-srcjar-with-javax"],
     data = ["//lib:LICENSE-jgit"],
-    resource_strip_prefix = "external/jgit/org.eclipse.jgit.http.server/resources",
-    resources = ["@jgit//org.eclipse.jgit.http.server:jgit-servlet-resources"],
     visibility = ["//visibility:public"],
+    exports = ["@jgit//org.eclipse.jgit.http.server:jgit-servlet"],
     runtime_deps = [":jgit"],
-    deps = [
-        ":jgit",
-        "//lib:servlet-api",
-    ],
-)
-
-# As the genrule requires a concrete list of outs, use srcjars:
-#   uncompress source jar of jgit-servlet,
-#   replace,
-#   recompress as srcjar
-genrule(
-    name = "jgit-servlet-srcjar-with-javax",
-    srcs = ["@jgit//org.eclipse.jgit.http.server:libjgit-servlet-src.jar"],
-    outs = ["jgit-servlet-javax.srcjar"],
-    cmd = """
-    TOP="$$(pwd)"
-    tmpdir="$$(mktemp -d)"
-    cd "$${tmpdir}"
-    jar xf "$${TOP}/$<"
-    find . -name "*.java" | xargs sed -i s/jakarta.servlet/javax.servlet/
-    jar cf "$${TOP}/$@" .
-    rm -rf "$${tmpdir}"
-    """,
 )
 
 java_library(

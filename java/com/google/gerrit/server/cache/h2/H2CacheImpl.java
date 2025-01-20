@@ -381,9 +381,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     }
 
     void open() {
-      if (buildBloomFilter) {
-        bloomFilter.initIfNeeded();
-      }
+      bloomFilter.initIfNeeded();
     }
 
     void close() {
@@ -394,10 +392,13 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     }
 
     private boolean mightContain(K key) {
-      return !buildBloomFilter || bloomFilter.mightContain(key);
+      return bloomFilter.mightContain(key);
     }
 
     private void buildBloomFilter() {
+      if (!buildBloomFilter) {
+        return;
+      }
       SqlHandle c = null;
       try (TraceTimer ignored = TraceContext.newTimer("Build bloom filter", Metadata.empty())) {
         c = acquire();

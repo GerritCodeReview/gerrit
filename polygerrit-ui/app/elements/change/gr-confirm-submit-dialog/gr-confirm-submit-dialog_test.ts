@@ -46,9 +46,9 @@ suite('gr-confirm-submit-dialog tests', () => {
           <div class="main" slot="main">
             <gr-endpoint-decorator name="confirm-submit-change">
               <p>
-                Ready to submit “
+                Ready to submit "
                 <strong> my-subject </strong>
-                ”?
+                "?
               </p>
               <gr-endpoint-param name="change"> </gr-endpoint-param>
               <gr-endpoint-param name="action"> </gr-endpoint-param>

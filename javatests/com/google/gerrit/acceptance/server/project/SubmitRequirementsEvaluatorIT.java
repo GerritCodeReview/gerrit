@@ -296,7 +296,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
     SubmitRequirement sr =
         createSubmitRequirement(
             /* applicabilityExpr= */ null,
-            /* submittabilityExpr= */ "message:\"Fix bug\"",
+            /* submittabilityExpr= */ "message:\"Fix a bug\"",
             /* overrideExpr= */ "label:\"build-cop-override=-1\"");
 
     SubmitRequirementResult result = evaluator.evaluateRequirement(sr, changeData);
@@ -311,7 +311,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
     SubmitRequirement sr =
         createSubmitRequirement(
             /* applicabilityExpr= */ "project:" + project.get(),
-            /* submittabilityExpr= */ "message:\"Fix bug\"",
+            /* submittabilityExpr= */ "message:\"Fix a bug\"",
             /* overrideExpr= */ "label:\"build-cop-override=-1\"");
 
     SubmitRequirementResult result = evaluator.evaluateRequirement(sr, changeData);
@@ -327,7 +327,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
     SubmitRequirement sr =
         createSubmitRequirement(
             /* applicabilityExpr= */ null,
-            /* submittabilityExpr= */ "message:\"Fix bug\"",
+            /* submittabilityExpr= */ "message:\"Fix a bug\"",
             /* overrideExpr= */ "project:" + project.get());
 
     SubmitRequirementResult result = evaluator.evaluateRequirement(sr, changeData);

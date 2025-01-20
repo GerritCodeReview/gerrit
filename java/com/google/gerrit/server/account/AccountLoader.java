@@ -17,7 +17,6 @@ package com.google.gerrit.server.account;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.common.AccountInfo;
@@ -38,7 +37,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class AccountLoader {
-  public static final Set<FillOptions> DETAILED_OPTIONS_WITHOUT_AVATAR =
+  public static final Set<FillOptions> DETAILED_OPTIONS =
       Collections.unmodifiableSet(
           EnumSet.of(
               FillOptions.ID,
@@ -48,16 +47,8 @@ public class AccountLoader {
               FillOptions.DISPLAY_NAME,
               FillOptions.STATUS,
               FillOptions.STATE,
+              FillOptions.AVATARS,
               FillOptions.TAGS));
-
-  /**
-   * NOTE: loading avatars might be a time consuming operation. Callers which don't display the
-   * avatar should use {@link #DETAILED_OPTIONS_WITHOUT_AVATAR}.
-   */
-  public static final Set<FillOptions> DETAILED_OPTIONS =
-      Collections.unmodifiableSet(
-          Sets.union(
-              AccountLoader.DETAILED_OPTIONS_WITHOUT_AVATAR, EnumSet.of(FillOptions.AVATARS)));
 
   public interface Factory {
     AccountLoader create(boolean detailed);

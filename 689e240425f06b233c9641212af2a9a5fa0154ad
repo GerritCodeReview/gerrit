@@ -16,6 +16,23 @@
       "message": "Built and verified that all tests are passing on stable-3.5",
       "revId": "689e240425f06b233c9641212af2a9a5fa0154ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c21456a5_d9170a25",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2025-01-20T09:19:14Z",
+      "side": 1,
+      "message": "I tested E2E:\n\n```\nAttention is currently required from: Administrator.\n\nalvaro has posted comments on this change. ( http://localhost:8084/c/GERICS-2073/+/81 )\n\nChange subject: this is a e2e\n\n......................................................................\n\nPatch Set 1:\n\n(1 comment)\n\nFile a.txt:\n\nhttp://localhost:8084/c/GERICS-2073/+/81/comment/f1b49070_267ca62b\n\nPS1, Line 1: asas\n\n\u003e this is a test\n\nthis is a reply in the message from admin\n\n--\n\nTo view, visit http://localhost:8084/c/GERICS-2073/+/81\n\nTo unsubscribe, or for help writing mail filters, visit http://localhost:8084/settings\n\nGerrit-Project: GERICS-2073\n\nGerrit-Branch: master\n\nGerrit-Change-Id: Ia5f00b3fd80d43720449356fdf1a8a87a44ce0ac\n\nGerrit-Change-Number: 81\n\nGerrit-PatchSet: 1\n\nGerrit-Owner: Administrator \u003cadmin@example.com\u003e\n\nGerrit-CC: alvaro\n\nGerrit-Attention: Administrator \u003cadmin@example.com\u003e\n\nGerrit-Comment-Date: Mon, 20 Jan 2025 09:18:30 +0000\n\nGerrit-HasComments: Yes\n\nGerrit-Has-Labels: No\n\nComment-In-Reply-To: Administrator \u003cadmin@example.com\u003e\n\nGerrit-MessageType: comment\n```",
+      "revId": "689e240425f06b233c9641212af2a9a5fa0154ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

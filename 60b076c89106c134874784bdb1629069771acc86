@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "32f4ee1a_4fda0111",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-01-20T23:44:47Z",
+      "side": 1,
+      "message": "This WIP series needs to be rebased once https://gerrit-review.googlesource.com/c/gerrit/+/436417 is merged, then it will be ready for review.",
+      "revId": "60b076c89106c134874784bdb1629069771acc86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -87,6 +87,24 @@
       "parentUuid": "f9a853ff_7e2cd23f",
       "revId": "8297d180dc80a9ce1f50cd94b4c70850487dacca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b9d48c5_b5141511",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheFactory.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-01-21T00:54:05Z",
+      "side": 1,
+      "message": "It does seem like it. We used to delete caches in init, now that is optional. I don\u0027t find any mention in the release notes of the need to force delete some caches, but I thought we used to have to. If we find that we have to in the future, I would advise that we consider bumping this number again.",
+      "parentUuid": "412300b9_6b69a984",
+      "revId": "8297d180dc80a9ce1f50cd94b4c70850487dacca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

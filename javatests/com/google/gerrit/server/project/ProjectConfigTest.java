@@ -496,7 +496,7 @@ public class ProjectConfigTest {
     assertThat(text(rev, "project.config"))
         .isEqualTo(
             "[label \"My-Label\"]\n"
-                + "\tfunction = MaxWithBlock\n"
+                + "\tfunction = NoBlock\n"
                 + "\tdefaultValue = 0\n"
                 + "\tvalue = -1 Negative\n"
                 + "\tvalue = 0 No score\n"

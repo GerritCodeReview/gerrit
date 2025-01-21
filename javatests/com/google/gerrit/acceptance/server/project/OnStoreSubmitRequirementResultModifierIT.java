@@ -26,8 +26,6 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestOnStoreSubmitRequirementResultModifier;
 import com.google.gerrit.acceptance.TestOnStoreSubmitRequirementResultModifier.ModificationStrategy;
-import com.google.gerrit.entities.SubmitRequirement;
-import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.SubmitRequirementResultInfo;
@@ -67,13 +65,6 @@ public class OnStoreSubmitRequirementResultModifierIT extends AbstractDaemonTest
   public void setUp() throws Exception {
     removeDefaultSubmitRequirements();
     TEST_ON_STORE_SUBMIT_REQUIREMENT_RESULT_MODIFIER.hide(false);
-    configSubmitRequirement(
-        project,
-        SubmitRequirement.builder()
-            .setName("Code-Review")
-            .setSubmittabilityExpression(SubmitRequirementExpression.maxCodeReview())
-            .setAllowOverrideInChildProjects(false)
-            .build());
   }
 
   @Test
@@ -150,7 +141,7 @@ public class OnStoreSubmitRequirementResultModifierIT extends AbstractDaemonTest
     assertThat(result.submitRequirement().name()).isEqualTo("Code-Review");
     assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.OVERRIDDEN);
     assertThat(result.submittabilityExpressionResult().get().expression().expressionString())
-        .isEqualTo("label:Code-Review=MAX");
+        .isEqualTo("label:Code-Review=MAX AND -label:Code-Review=MIN");
   }
 
   @Test
@@ -171,9 +162,7 @@ public class OnStoreSubmitRequirementResultModifierIT extends AbstractDaemonTest
     gApi.changes().id(changeId).current().submit();
 
     change = gApi.changes().id(changeId).get();
-    assertThat(change.submitRequirements).hasSize(2);
-    assertSubmitRequirementStatus(
-        change.submitRequirements, "Code-Review", Status.SATISFIED, /* isLegacy= */ true);
+    assertThat(change.submitRequirements).hasSize(1);
     assertSubmitRequirementStatus(
         change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ false);
   }
@@ -198,9 +187,7 @@ public class OnStoreSubmitRequirementResultModifierIT extends AbstractDaemonTest
     gApi.changes().id(changeId).current().submit(input);
 
     change = gApi.changes().id(changeId).get();
-    assertThat(change.submitRequirements).hasSize(2);
-    assertSubmitRequirementStatus(
-        change.submitRequirements, "Code-Review", Status.SATISFIED, /* isLegacy= */ true);
+    assertThat(change.submitRequirements).hasSize(1);
     assertSubmitRequirementStatus(
         change.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ false);
   }

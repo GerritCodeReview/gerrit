@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.entities.LabelFunction;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.LegacySubmitRequirement;
@@ -89,7 +90,10 @@ public class IgnoreSelfApprovalRuleIT extends AbstractDaemonTest {
       if (localLabelSections.isEmpty()) {
         localLabelSections.putAll(projectCache.getAllProjects().getConfig().getLabelSections());
       }
-      u.getConfig().updateLabelType(labelName, lt -> lt.setIgnoreSelfApproval(newState));
+      u.getConfig()
+          .updateLabelType(
+              labelName,
+              lt -> lt.setFunction(LabelFunction.MAX_WITH_BLOCK).setIgnoreSelfApproval(newState));
       u.save();
     }
   }

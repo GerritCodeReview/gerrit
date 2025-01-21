@@ -76,7 +76,7 @@ public class SchemaCreatorImplTest {
     assertThat(codeReview).isNotNull();
     assertThat(codeReview.getName()).isEqualTo("Code-Review");
     assertThat(codeReview.getDefaultValue()).isEqualTo(0);
-    assertThat(codeReview.getFunction()).isEqualTo(LabelFunction.MAX_WITH_BLOCK);
+    assertThat(codeReview.getFunction()).isEqualTo(LabelFunction.NO_BLOCK);
     assertThat(codeReview.getCopyCondition())
         .hasValue(
             String.format(

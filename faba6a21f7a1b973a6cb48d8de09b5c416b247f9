@@ -93,6 +93,30 @@
       },
       "revId": "faba6a21f7a1b973a6cb48d8de09b5c416b247f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f88adb6_6194d728",
+        "filename": "java/com/google/gerrit/index/IndexCollection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2025-01-21T09:37:49Z",
+      "side": 1,
+      "message": "`int numDocs();` is part of the `Index interface`[1], AFAIK this is not related with Lucene. All the concrete implementations need to implement it.  \n\nReferences:\n[1] https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/index/Index.java#79",
+      "parentUuid": "812e297f_83fb6e8f",
+      "range": {
+        "startLine": 138,
+        "startChar": 34,
+        "endLine": 138,
+        "endChar": 41
+      },
+      "revId": "faba6a21f7a1b973a6cb48d8de09b5c416b247f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

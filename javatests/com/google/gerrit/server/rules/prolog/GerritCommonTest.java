@@ -60,7 +60,7 @@ public class GerritCommonTest extends PrologTestCase {
   protected void setUpEnvironment(PrologEnvironment env) throws Exception {
     LabelTypes labelTypes =
         new LabelTypes(
-            Arrays.asList(TestLabels.codeReviewWithBlock(), TestLabels.verified()));
+            Arrays.asList(TestLabels.codeReviewWithBlock(), TestLabels.verifiedWithBlock()));
     ChangeData cd = mock(ChangeData.class);
     when(cd.getLabelTypes()).thenReturn(labelTypes);
     env.set(StoredValues.CHANGE_DATA, cd);

@@ -57,6 +57,16 @@ public class TestLabels {
         value(-1, "Fails"));
   }
 
+  public static LabelType verifiedWithBlock() {
+    return label(
+        LabelId.VERIFIED,
+        VERIFIED_LABEL_DESCRIPTION,
+        LabelFunction.MAX_WITH_BLOCK,
+        value(1, LabelId.VERIFIED),
+        value(0, "No score"),
+        value(-1, "Fails"));
+  }
+
   public static LabelType patchSetLock() {
     LabelType.Builder label =
         labelBuilder(

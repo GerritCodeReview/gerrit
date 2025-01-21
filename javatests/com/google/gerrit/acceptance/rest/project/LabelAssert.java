@@ -26,7 +26,7 @@ public class LabelAssert {
   public static void assertCodeReviewLabel(LabelDefinitionInfo codeReviewLabel) {
     assertThat(codeReviewLabel.name).isEqualTo(LabelId.CODE_REVIEW);
     assertThat(codeReviewLabel.projectName).isEqualTo(AllProjectsNameProvider.DEFAULT);
-    assertThat(codeReviewLabel.function).isEqualTo(LabelFunction.MAX_WITH_BLOCK.getFunctionName());
+    assertThat(codeReviewLabel.function).isEqualTo(LabelFunction.NO_BLOCK.getFunctionName());
     assertThat(codeReviewLabel.values)
         .containsExactly(
             "+2",

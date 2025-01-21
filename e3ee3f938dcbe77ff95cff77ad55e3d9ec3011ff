@@ -93,6 +93,30 @@
       },
       "revId": "e3ee3f938dcbe77ff95cff77ad55e3d9ec3011ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "91c3d293_191498f0",
+        "filename": "java/com/google/gerrit/server/restapi/account/DeleteAccount.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-01-21T21:01:09Z",
+      "side": 1,
+      "message": "\u003e This matches the text from \"Delete group\". I think the text is intended to refer to the feature/API vs the user\u0027s action and that seems to be consistent with a few other REST API errors that I spot checked (but I didn\u0027t check most, so maybe that\u0027s not the real pattern we follow).\n\n+1",
+      "parentUuid": "7aac1cad_f2cc5baf",
+      "range": {
+        "startLine": 124,
+        "startChar": 43,
+        "endLine": 124,
+        "endChar": 57
+      },
+      "revId": "e3ee3f938dcbe77ff95cff77ad55e3d9ec3011ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

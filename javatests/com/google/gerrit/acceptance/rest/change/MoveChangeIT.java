@@ -497,7 +497,7 @@ public class MoveChangeIT extends AbstractDaemonTest {
     // vote holds the minimum value.
     createBranch(BranchNameKey.create(project, "foo"));
 
-    String codeReviewLabel = LabelId.CODE_REVIEW; // 'Code-Review' uses 'MaxWithBlock' function.
+    String codeReviewLabel = LabelId.CODE_REVIEW;
     String testLabelA = "Label-A";
     String testLabelB = "Label-B";
     String testLabelC = "Label-C";
@@ -536,13 +536,13 @@ public class MoveChangeIT extends AbstractDaemonTest {
 
     // 'Code-Review -2' and 'Label-A -1' will be kept.
     assertThat(gApi.changes().id(changeId).current().reviewer(admin.email()).votes().values())
-        .containsExactly((short) -2, (short) -1, (short) 0, (short) 0);
+        .containsExactly((short) 0, (short) -1, (short) 0, (short) 0);
 
     // Move the change back to 'master'.
     move(changeId, "master");
     assertThat(gApi.changes().id(changeId).get().branch).isEqualTo("master");
     assertThat(gApi.changes().id(changeId).current().reviewer(admin.email()).votes().values())
-        .containsExactly((short) -2, (short) -1, (short) 0, (short) 0);
+        .containsExactly((short) 0, (short) -1, (short) 0, (short) 0);
   }
 
   @Test

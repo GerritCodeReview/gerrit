@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "949df499_696d9ac0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-01-21T23:04:49Z",
+      "side": 1,
+      "message": "Unfortunately this is mostly also true during online indexing, having the ability to disable this during online reindexing would also be useful (which lends itself better to an isWriteEnabled switch insteas of a separate class, see my other comment?)",
+      "revId": "d87cee17fb9d4c70d0665bbc1b5aebded121a741",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd3a947b_5eb993d1",
+        "filename": "java/com/google/gerrit/server/cache/h2/ReadWriteSqlStore.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-01-21T23:04:49Z",
+      "side": 1,
+      "message": "The naming here breaks inheritance models, i.e. when you inherit something, it should still be a form of that thing. Inheriting a RO object should not turn it into a writting object. You could rename the RO class to be ReadingSqlStore (or ReadSqlStore) to avoid this problem.\n\nTo be honest, this adds a lot of extra code and an interface to achieve something that could easily be done mostly by adding the following to 5 methods instead:\n\n if (!isWriteEnabled) {\n   return;\n }\n\nI am not sure that is worth it? \n\nWhile I am a fan of reducing class sizes, I am concerned that this affects readability a bit. With this approach I have to understand two classes that are very much linked together in order to get the full picture of how the RW class works. I feel this might actually make working on this much more difficult in the future.",
+      "range": {
+        "startLine": 35,
+        "startChar": 30,
+        "endLine": 35,
+        "endChar": 57
+      },
+      "revId": "d87cee17fb9d4c70d0665bbc1b5aebded121a741",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

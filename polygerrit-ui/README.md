@@ -1,5 +1,7 @@
 # Gerrit Polymer Frontend
 
+test
+
 Follow the
 [setup instructions for Gerrit backend developers](https://gerrit-review.googlesource.com/Documentation/dev-readme.html)
 where applicable, the most important command is:
@@ -84,7 +86,6 @@ manually. For example, if IntelliJ IDEA shows
 `Cannot find parent 'tsconfig.json'` error, you can try to setup typescript
 options `--project polygerrit-ui/app/tsconfig.json` in the IDE settings.
 
-
 ## Developing locally
 
 The preferred method for development is to serve the web files locally using the
@@ -105,7 +106,6 @@ yarn start
 To inject plugins or other files, we use the [Gerrit FE Dev Helper](https://chrome.google.com/webstore/detail/gerrit-fe-dev-helper/jimgomcnodkialnpmienbomamgomglkd) Chrome extension.
 
 If any issues occured, please refer to the Troubleshooting section at the bottom or contact the team!
-
 
 ### Chrome extension: Gerrit FE Dev Helper
 
@@ -130,6 +130,7 @@ For running a locally built Gerrit war against your test instance use
 [this command](https://gerrit-review.googlesource.com/Documentation/dev-readme.html#run_daemon).
 
 If you want to serve the Polymer frontend directly from the sources in `polygerrit_ui/app/` instead of from the war:
+
 1. Start [Web Dev Server](#web-dev-server)
 2. Add the `--dev-cdn` option:
 
@@ -146,7 +147,7 @@ The Web Dev Server is currently not serving fonts or other static assets. Follow
 [Issue 40015119](https://issues.gerritcodereview.com/issues/40015119) for
 fixing this issue.
 
-*NOTE* You can use any other cdn here, for example: https://cdn.googlesource.com/polygerrit_ui/678.0
+_NOTE_ You can use any other cdn here, for example: https://cdn.googlesource.com/polygerrit_ui/678.0
 
 ## Running Tests
 
@@ -155,28 +156,33 @@ Our tests run using the
 [Web Test Runner](https://modern-web.dev/docs/test-runner/overview/). There are
 several ways to trigger tests:
 
-* Run all tests once:
+- Run all tests once:
+
 ```sh
 yarn test
 ```
 
-* Run all tests and then watches for changes. Change a file will trigger all
-tests affected by the changes.
+- Run all tests and then watches for changes. Change a file will trigger all
+  tests affected by the changes.
+
 ```sh
 yarn test:watch
 ```
 
-* Run all tests once under bazel:
+- Run all tests once under bazel:
+
 ```sh
 ./polygerrit-ui/app/run_test.sh
 ```
 
-* Run a single test file and rerun on any changes affecting it:
+- Run a single test file and rerun on any changes affecting it:
+
 ```
 yarn test:single "**/gr-comment_test.ts"
 ```
 
 Compiling code:
+
 ```sh
 # Compile frontend once to check for type errors:
 yarn compile
@@ -207,19 +213,19 @@ to supply the `--ext .html` flag.
 
 Some useful commands:
 
-* To run ESLint on the whole app, less some dependency code:
+- To run ESLint on the whole app, less some dependency code:
 
 ```sh
 yarn eslint
 ```
 
-* To run ESLint on just the subdirectory you modified:
+- To run ESLint on just the subdirectory you modified:
 
 ```sh
 node_modules/eslint/bin/eslint.js --ext .html,.js polygerrit-ui/app/$YOUR_DIR_HERE
 ```
 
-* To run the linter on all of your local changes:
+- To run the linter on all of your local changes:
 
 ```sh
 git diff --name-only HEAD | xargs node_modules/eslint/bin/eslint.js --ext .html,.js
@@ -231,6 +237,7 @@ You can use the following steps for migrating tests to Typescript:
 
 1. Rename the `_test.js` file to `_test.ts`
 2. Remove `.js` extensions from all imports:
+
    ```
    // Before:
    import ... from 'x/y/z.js`
@@ -238,12 +245,14 @@ You can use the following steps for migrating tests to Typescript:
    // After
    import .. from 'x/y/z'
    ```
+
 3. Fix typescript and eslint errors.
 
 Common errors and fixes are:
 
-* An object in the test doesn't have all required properties. You can use
-existing helpers to create an object with all required properties:
+- An object in the test doesn't have all required properties. You can use
+  existing helpers to create an object with all required properties:
+
 ```
 // Before:
 sinon.stub(element.restApiService, 'getPreferences').returns(
@@ -257,6 +266,7 @@ Promise.resolve({
 ```
 
 Some helpers receive parameters:
+
 ```
 // Before
 element._change = {
@@ -286,15 +296,18 @@ element._change = {
   actions: {},
 };
 ```
-* Typescript reports some weird messages about `window` property - sometimes an
-IDE adds wrong import. Just remove it.
+
+- Typescript reports some weird messages about `window` property - sometimes an
+  IDE adds wrong import. Just remove it.
+
 ```
 // The wrong import added by IDE, must be removed
 import window = Mocha.reporters.Base.window;
 ```
 
-* `TS2531: Object is possibly 'null'`. To fix use either non-null assertion
-operator `!` or nullish coalescing operator `?.`:
+- `TS2531: Object is possibly 'null'`. To fix use either non-null assertion
+  operator `!` or nullish coalescing operator `?.`:
+
 ```
 // Before:
 const rows = element
@@ -314,17 +327,19 @@ assert.equal(element._robotCommentThreads!.length, 2);
 // Fix with nullish coalescing operator:
  assert.equal(element._robotCommentThreads?.length, 2);
 ```
+
 Usually the fix with `!` is preferable, because it gives more clear error
-when an intermediate property is `null/undefined`. If the _robotComments is
+when an intermediate property is `null/undefined`. If the \_robotComments is
 `undefined` in the example above, the `element._robotCommentThreads!.length`
 crashes with the error `Cannot read property 'length' of undefined`. At the
 same time the fix with
-`?.` doesn't distinct between 2 cases: _robotCommentThreads is `undefined`
+`?.` doesn't distinct between 2 cases: \_robotCommentThreads is `undefined`
 and `length` is `undefined`.
 
-* `TS2339: Property '...' does not exist on type 'Element'.` for elements
-returned by `querySelector/querySelectorAll`. To fix it, use generic versions
-of those methods:
+- `TS2339: Property '...' does not exist on type 'Element'.` for elements
+  returned by `querySelector/querySelectorAll`. To fix it, use generic versions
+  of those methods:
+
 ```
 // Before:
 const radios = parentTable
@@ -339,9 +354,10 @@ const radio = parentRow
   .querySelector<HTMLInputElement>('input[type=radio]');
 ```
 
-* Sinon: `TS2339: Property 'lastCall' does not exist on type '...` (the same
-for other sinon properties). Store stub/spy in a variable and then use the
-variable:
+- Sinon: `TS2339: Property 'lastCall' does not exist on type '...` (the same
+  for other sinon properties). Store stub/spy in a variable and then use the
+  variable:
+
 ```
 // Before:
 sinon.stub(GerritNav, 'getUrlForChange')
@@ -356,6 +372,7 @@ assert.equal(getUrlStub.lastCall.args[4], '#message-a12345');
 
 If you need to define a type for such variable, you can use one of the following
 options:
+
 ```
 suite('my suite', () => {
     // Non static members, option 1
@@ -369,7 +386,8 @@ suite('my suite', () => {
 });
 ```
 
-* Typescript reports errors when stubbing/faking methods:
+- Typescript reports errors when stubbing/faking methods:
+
 ```
 // The JS code:
 const reloadStub = sinon
@@ -385,6 +403,7 @@ stubRestApi('_fetchSharedCacheURL').returns(Promise.resolve({}));
 In such cases, validate the input and output of a stub/fake method. Quite often
 tests return null instead of undefined or `[]` instead of `{}`, etc...
 Fix types if they are not correct:
+
 ```
 const reloadStub = sinon
   .stub(element, '_reload')
@@ -397,9 +416,9 @@ const reloadStub = sinon
 });
 ```
 
-* If a test requires a `@types/...` library, install the required library
-in the `polygerrit_ui/node_modules` and update the `typeRoots` in the
-`polygerrit-ui/app/tsconfig_bazel_test.json` file.
+- If a test requires a `@types/...` library, install the required library
+  in the `polygerrit_ui/node_modules` and update the `typeRoots` in the
+  `polygerrit-ui/app/tsconfig_bazel_test.json` file.
 
 The same update should be done if a test requires a .d.ts file from a library
 that already exists in `polygerrit_ui/node_modules`.
@@ -407,8 +426,8 @@ that already exists in `polygerrit_ui/node_modules`.
 **Note:** Types from a library located in `polygerrit_ui/app/node_modules` are
 handle automatically.
 
-* If a test imports a library from `polygerrit_ui/node_modules` - update
-`paths` in `polygerrit-ui/app/tsconfig_bazel_test.json`.
+- If a test imports a library from `polygerrit_ui/node_modules` - update
+  `paths` in `polygerrit-ui/app/tsconfig_bazel_test.json`.
 
 ## Contributing
 
@@ -435,6 +454,7 @@ We will review your request and start from there.
 Its likely you missed the `polymer-bridges` submodule when you clone the `gerrit` repo.
 
 To fix that, run:
+
 ```
 // fetch the submodule
 git submodule update --init --recursive

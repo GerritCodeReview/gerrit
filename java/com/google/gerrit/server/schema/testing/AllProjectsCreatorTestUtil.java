@@ -23,9 +23,11 @@ import com.google.common.collect.Streams;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.GitRepositoryManager;
+
 import java.io.IOException;
 import java.util.Set;
 import java.util.stream.Collectors;
+
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.BlobBasedConfig;
 import org.eclipse.jgit.lib.Config;
@@ -97,7 +99,7 @@ public class AllProjectsCreatorTestUtil {
   private static final ImmutableList<String> DEFAULT_ALL_PROJECTS_LABEL_SECTION =
       ImmutableList.of(
           "[label \"Code-Review\"]",
-          "  function = MaxWithBlock",
+          "  function = NoBlock",
           "  defaultValue = 0",
           "  copyCondition = changekind:NO_CHANGE OR changekind:TRIVIAL_REBASE OR is:MIN",
           "  value = -2 This shall not be submitted",
@@ -111,6 +113,10 @@ public class AllProjectsCreatorTestUtil {
           "  description = Changes that have unresolved comments are not submittable.",
           "  applicableIf = has:unresolved",
           "  submittableIf = -has:unresolved",
+          "  canOverrideInChildProjects = false",
+          "[submit-requirement \"Code-Review\"]",
+          "  description = Changes must have at least one MAX Code-Review vote and no MIN to be submittable.",
+          "  submittableIf = label:Code-Review=MAX AND -label:Code-Review=MIN",
           "  canOverrideInChildProjects = false");
 
   public static String getDefaultAllProjectsWithAllDefaultSections() {
@@ -194,5 +200,6 @@ public class AllProjectsCreatorTestUtil {
                 .containsExactlyElementsIn(config2.getStringList(section, subsection, n)));
   }
 
-  private AllProjectsCreatorTestUtil() {}
+  private AllProjectsCreatorTestUtil() {
+  }
 }

@@ -58,7 +58,7 @@ public class AllProjectsCreatorTest {
           "\n",
           ImmutableList.of(
               "[label \"Test-Label\"]",
-              "\tfunction = MaxWithBlock",
+              "\tfunction = NoBlock",
               "\tdefaultValue = 0",
               "\tvalue = 0 Zero",
               "\tvalue = +1 One",

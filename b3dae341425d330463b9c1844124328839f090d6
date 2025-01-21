@@ -205,6 +205,30 @@
       },
       "revId": "b3dae341425d330463b9c1844124328839f090d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d29d1e45_f7d05987",
+        "filename": "java/com/google/gerrit/server/plugins/PluginRestApiModule.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-01-21T13:40:47Z",
+      "side": 1,
+      "message": "@ekempin@google.com recommended moving this to config/server/validation-options as well so I moved it there.\nPTAL.",
+      "parentUuid": "fdc76a78_af6ed39a",
+      "range": {
+        "startLine": 38,
+        "startChar": 4,
+        "endLine": 38,
+        "endChar": 67
+      },
+      "revId": "b3dae341425d330463b9c1844124328839f090d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

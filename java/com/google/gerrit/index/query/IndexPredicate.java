@@ -14,11 +14,11 @@
 
 package com.google.gerrit.index.query;
 
-import static com.google.common.collect.ImmutableSet.toImmutableSet;
+import static com.google.common.collect.ImmutableList.toImmutableList;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
-import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableList;
 import com.google.common.primitives.Ints;
 import com.google.common.primitives.Longs;
 import com.google.gerrit.index.FieldType;
@@ -102,9 +102,9 @@ public abstract class IndexPredicate<I> extends OperatorPredicate<I> implements 
     } else if (fieldTypeName.equals(FieldType.PREFIX.getName())) {
       return String.valueOf(fieldValueFromObject).startsWith(value);
     } else if (fieldTypeName.equals(FieldType.FULL_TEXT.getName())) {
-      ImmutableSet<String> tokenizedField = tokenizeString(String.valueOf(fieldValueFromObject));
-      ImmutableSet<String> tokenizedValue = tokenizeString(value);
-      return !tokenizedValue.isEmpty() && tokenizedField.containsAll(tokenizedValue);
+      ImmutableList<String> tokenizedField = tokenizeString(String.valueOf(fieldValueFromObject));
+      ImmutableList<String> tokenizedValue = tokenizeString(value);
+      return !tokenizedValue.isEmpty() && containsSublist(tokenizedField, tokenizedValue);
     } else if (fieldTypeName.equals(FieldType.STORED_ONLY.getName())) {
       throw new IllegalStateException("can't filter for storedOnly field " + getField().getName());
     } else if (fieldTypeName.equals(FieldType.TIMESTAMP.getName())) {
@@ -116,10 +116,45 @@ public abstract class IndexPredicate<I> extends OperatorPredicate<I> implements 
     }
   }
 
-  private static ImmutableSet<String> tokenizeString(String value) {
+  private static ImmutableList<String> tokenizeString(String value) {
     return StreamSupport.stream(
             FULL_TEXT_SPLITTER.split(value.toLowerCase(Locale.US)).spliterator(), false)
         .filter(s -> !s.trim().isEmpty())
-        .collect(toImmutableSet());
+        .collect(toImmutableList());
+  }
+
+  /**
+   * Implementation of Knuth-Morris-Pratt algorithm for lists.
+   *
+   * <p>https://en.wikipedia.org/wiki/Knuth%E2%80%93Morris%E2%80%93Pratt_algorithm
+   */
+  private static boolean containsSublist(
+      ImmutableList<String> superlist, ImmutableList<String> sublist) {
+    int[] prefix = new int[sublist.size()];
+    for (int i = 1; i < sublist.size(); ++i) {
+      int currentPrefix = prefix[i - 1];
+      while (currentPrefix != 0 && !sublist.get(i).equals(sublist.get(currentPrefix))) {
+        currentPrefix = prefix[currentPrefix - 1];
+      }
+      if (sublist.get(i).equals(sublist.get(currentPrefix))) {
+        currentPrefix += 1;
+      }
+      prefix[i] = currentPrefix;
+    }
+
+    int currentPrefix = 0;
+    for (int i = 0; i < superlist.size(); ++i) {
+      while (currentPrefix != 0 && !superlist.get(i).equals(sublist.get(currentPrefix))) {
+        currentPrefix = prefix[currentPrefix - 1];
+      }
+      if (superlist.get(i).equals(sublist.get(currentPrefix))) {
+        ++currentPrefix;
+        if (currentPrefix == sublist.size()) {
+          return true;
+        }
+      }
+    }
+
+    return false;
   }
 }

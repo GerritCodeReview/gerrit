@@ -192,6 +192,16 @@ public class ChangeNoLongerSubmittableIT extends AbstractDaemonTest {
               LabelId.VERIFIED, value(1, "Passes"), value(0, "No score"), value(-1, "Failed"));
       u.getConfig().upsertLabelType(verified.build());
 
+      u.getConfig()
+          .upsertSubmitRequirement(
+              SubmitRequirement.builder()
+                  .setName("Verified-SR")
+                  .setAllowOverrideInChildProjects(false)
+                  .setSubmittabilityExpression(
+                      SubmitRequirementExpression.create(
+                          "label:Verified=MAX AND -label:Verified=MIN"))
+                  .build());
+
       LabelType.Builder fooBar =
           labelBuilder("Foo-Bar", value(1, "Passes"), value(0, "No score"), value(-1, "Failed"));
       u.getConfig().upsertLabelType(fooBar.build());

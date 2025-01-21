@@ -97,7 +97,7 @@ public class AllProjectsCreatorTestUtil {
   private static final ImmutableList<String> DEFAULT_ALL_PROJECTS_LABEL_SECTION =
       ImmutableList.of(
           "[label \"Code-Review\"]",
-          "  function = MaxWithBlock",
+          "  function = NoBlock",
           "  defaultValue = 0",
           "  copyCondition = changekind:NO_CHANGE OR changekind:TRIVIAL_REBASE OR is:MIN",
           "  value = -2 This shall not be submitted",
@@ -111,6 +111,10 @@ public class AllProjectsCreatorTestUtil {
           "  description = Changes that have unresolved comments are not submittable.",
           "  applicableIf = has:unresolved",
           "  submittableIf = -has:unresolved",
+          "  canOverrideInChildProjects = false",
+          "[submit-requirement \"Code-Review\"]",
+          "  description = Changes must have at least one MAX Code-Review vote and no MIN to be submittable.",
+          "  submittableIf = label:Code-Review=MAX AND -label:Code-Review=MIN",
           "  canOverrideInChildProjects = false");
 
   public static String getDefaultAllProjectsWithAllDefaultSections() {

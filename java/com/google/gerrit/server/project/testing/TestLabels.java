@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project.testing;
 
+import com.google.gerrit.entities.LabelFunction;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.LabelValue;
@@ -35,10 +36,32 @@ public class TestLabels {
         value(-2, "This shall not be submitted"));
   }
 
+  public static LabelType codeReviewWithBlock() {
+    return label(
+        LabelId.CODE_REVIEW,
+        CODE_REVIEW_LABEL_DESCRIPTION,
+        LabelFunction.MAX_WITH_BLOCK,
+        value(2, "Looks good to me, approved"),
+        value(1, "Looks good to me, but someone else must approve"),
+        value(0, "No score"),
+        value(-1, "I would prefer this is not submitted as is"),
+        value(-2, "This shall not be submitted"));
+  }
+
   public static LabelType verified() {
     return label(
         LabelId.VERIFIED,
         VERIFIED_LABEL_DESCRIPTION,
+        value(1, LabelId.VERIFIED),
+        value(0, "No score"),
+        value(-1, "Fails"));
+  }
+
+  public static LabelType verifiedWithBlock() {
+    return label(
+        LabelId.VERIFIED,
+        VERIFIED_LABEL_DESCRIPTION,
+        LabelFunction.MAX_WITH_BLOCK,
         value(1, LabelId.VERIFIED),
         value(0, "No score"),
         value(-1, "Fails"));
@@ -58,6 +81,14 @@ public class TestLabels {
 
   public static LabelType label(String name, String description, LabelValue... values) {
     return labelBuilder(name, values).setDescription(Optional.of(description)).build();
+  }
+
+  public static LabelType label(
+      String name, String description, LabelFunction labelFunction, LabelValue... values) {
+    return labelBuilder(name, values)
+        .setFunction(labelFunction)
+        .setDescription(Optional.of(description))
+        .build();
   }
 
   public static LabelType label(String name, LabelValue... values) {

@@ -3480,10 +3480,10 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("-is:submittable", change2);
 
     assertQuery("label:CodE-RevieW=ok", change1);
-    assertQuery("label:CodE-RevieW=ok,user=" + userAccount.preferredEmail(), change1);
-    assertQuery("label:CodE-RevieW=ok,Administrators", change1);
-    assertQuery("label:CodE-RevieW=ok,group=Administrators", change1);
-    assertQuery("label:CodE-RevieW=ok,owner", change1);
+    assertQuery("label:CodE-RevieW=may,user=" + userAccount.preferredEmail(), change1);
+    assertQuery("label:CodE-RevieW=may,Administrators", change1);
+    assertQuery("label:CodE-RevieW=may,group=Administrators", change1);
+    assertQuery("label:CodE-RevieW=may,owner", change1);
     assertQuery("label:CodE-RevieW=ok,user1");
     assertQuery("label:CodE-RevieW=need", change2);
     // NEED records don't have associated users.

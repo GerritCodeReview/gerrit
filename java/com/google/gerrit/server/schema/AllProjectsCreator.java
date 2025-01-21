@@ -197,6 +197,18 @@ public class AllProjectsCreator {
             .setSubmittabilityExpression(SubmitRequirementExpression.create("-has:unresolved"))
             .setAllowOverrideInChildProjects(false)
             .build());
+    config.upsertSubmitRequirement(
+        SubmitRequirement.builder()
+            .setName("Code-Review")
+            .setDescription(
+                Optional.of(
+                    "Changes must have at least one MAX Code-Review vote and no MIN to be"
+                        + " submittable."))
+            .setSubmittabilityExpression(
+                SubmitRequirementExpression.create(
+                    "label:Code-Review=MAX AND -label:Code-Review=MIN"))
+            .setAllowOverrideInChildProjects(false)
+            .build());
   }
 
   private void initDefaultAclsForAnonymousUsers(AccessSection.Builder heads, ProjectConfig config) {

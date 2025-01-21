@@ -5221,6 +5221,17 @@ only the default internal rules will be used.
 +
 Default is `true`, to execute project specific rules.
 
+[[rules.allowNewRules]]rules.allowNewRules::
++
+If `false`, Gerrit will not allow new rules to be uploaded to the
+server. This is useful to deprecate prolog rules and enforce that
+submit requirements are being used instead.
++
+Modification and deletion of existing rules are still allowed.
++
+Default is `true`, to allow creation of prolog rules in projects
+not having any already.
+
 [[rules.reductionLimit]]rules.reductionLimit::
 +
 Maximum number of Prolog reductions that can be performed when

@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.gerrit.entities.SubmitRequirement;
+import com.google.gerrit.entities.SubmitRequirementExpression;
+import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.IndexConfig;
 import org.eclipse.jgit.lib.Config;

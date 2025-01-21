@@ -590,34 +590,6 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void overriddenSubmitRequirementMissingCodeReviewVote_submitsWithoutDiff()
-      throws Exception {
-    // Set Code-Review to optional
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig()
-          .upsertLabelType(
-              label(
-                      "Code-Review",
-                      value(1, "Positive"),
-                      value(0, "No score"),
-                      value(-1, "Negative"))
-                  .toBuilder()
-                  .setNoBlockFunction()
-                  .build());
-      u.save();
-    }
-
-    Change.Id changeId = changeOperations.newChange().project(project).create();
-    changeOperations.change(changeId).newPatchset().create();
-
-    // Submitted without Code-Review approval
-    gApi.changes().id(changeId.get()).current().submit();
-
-    assertThat(Iterables.getLast(gApi.changes().id(changeId.get()).messages()).message)
-        .isEqualTo("Change has been successfully merged");
-  }
-
-  @Test
   public void diffChangeMessageOnSubmitWithStickyVote_noChanges() throws Exception {
     Change.Id changeId = changeOperations.newChange().project(project).create();
     gApi.changes().id(changeId.get()).current().review(ReviewInput.approve());

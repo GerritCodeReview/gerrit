@@ -117,6 +117,30 @@
       },
       "revId": "faba6a21f7a1b973a6cb48d8de09b5c416b247f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e42a4d24_96597777",
+        "filename": "java/com/google/gerrit/index/IndexCollection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-21T09:49:26Z",
+      "side": 1,
+      "message": "\u003e `int numDocs();` is part of the `Index interface`[1], AFAIK this is not related with Lucene. All the concrete implementations need to implement it. \n\nI believe that\u0027s the issue: if `numDocs()` isn\u0027t implemented in all indexing backends, as @milutin@google.com says, then it should be removed from the interface.",
+      "parentUuid": "0f88adb6_6194d728",
+      "range": {
+        "startLine": 138,
+        "startChar": 34,
+        "endLine": 138,
+        "endChar": 41
+      },
+      "revId": "faba6a21f7a1b973a6cb48d8de09b5c416b247f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

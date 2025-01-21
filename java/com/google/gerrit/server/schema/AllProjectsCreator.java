@@ -15,6 +15,7 @@
 package com.google.gerrit.server.schema;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.gerrit.entities.LabelId.CODE_REVIEW;
 import static com.google.gerrit.entities.RefNames.REFS_SEQUENCES;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.PROJECT_OWNERS;
@@ -195,6 +196,20 @@ public class AllProjectsCreator {
                 Optional.of("Changes that have unresolved comments are not submittable."))
             .setApplicabilityExpression(SubmitRequirementExpression.of("has:unresolved"))
             .setSubmittabilityExpression(SubmitRequirementExpression.create("-has:unresolved"))
+            .setAllowOverrideInChildProjects(false)
+            .build());
+    config.upsertSubmitRequirement(
+        SubmitRequirement.builder()
+            .setName(CODE_REVIEW)
+            .setDescription(
+                Optional.of(
+                    String.format(
+                        "Changes must have at least one MAX %s vote and no MIN to be"
+                            + " submittable.",
+                        CODE_REVIEW)))
+            .setSubmittabilityExpression(
+                SubmitRequirementExpression.create(
+                    String.format("label:%s=MAX AND -label:%s=MIN", CODE_REVIEW, CODE_REVIEW)))
             .setAllowOverrideInChildProjects(false)
             .build());
   }

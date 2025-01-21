@@ -16,6 +16,41 @@
       "message": "I believe this functionality needs to be implemented in a separate plugin outside Gerrit core. Would it be better to remove the `numDocs()` method from the indexing interface then? So that we know it is something specific to Lucene?",
       "revId": "08f953967af3d135d164f8e374bf4fc196a36cda",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "688336f8_322be982",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-01-21T09:52:30Z",
+      "side": 1,
+      "message": "Forgot to link b/389434468",
+      "revId": "08f953967af3d135d164f8e374bf4fc196a36cda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08bf637a_abfcb9e1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-01-21T09:52:30Z",
+      "side": 1,
+      "message": "That\u0027s good idea. I can look at that. We have many operations (like write operation) that are not supported.",
+      "parentUuid": "a47f5c73_d83a5442",
+      "revId": "08f953967af3d135d164f8e374bf4fc196a36cda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

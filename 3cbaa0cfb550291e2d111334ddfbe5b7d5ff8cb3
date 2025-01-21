@@ -16,6 +16,29 @@
       "message": "The CI failure seems to be related.",
       "revId": "3cbaa0cfb550291e2d111334ddfbe5b7d5ff8cb3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "903af39c_ce3de432",
+        "filename": "javatests/com/google/gerrit/server/notedb/CommentTimestampAdapterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2025-01-21T15:01:18Z",
+      "side": 1,
+      "message": "This does not match `ChangeNoteUtil#gson` anymore",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 64
+      },
+      "revId": "3cbaa0cfb550291e2d111334ddfbe5b7d5ff8cb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

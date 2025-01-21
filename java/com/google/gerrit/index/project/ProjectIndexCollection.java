@@ -17,22 +17,13 @@ package com.google.gerrit.index.project;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.index.IndexCollection;
-import com.google.gerrit.metrics.MetricMaker;
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 /** Collection of active project indices. See {@link IndexCollection} for details on collections. */
 @Singleton
 public class ProjectIndexCollection
     extends IndexCollection<Project.NameKey, ProjectData, ProjectIndex> {
-  @Inject
-  @VisibleForTesting
-  public ProjectIndexCollection(MetricMaker metrics) {
-    super(metrics);
-  }
 
-  @Override
-  protected IndexType getIndexName() {
-    return IndexType.PROJECTS;
-  }
+  @VisibleForTesting
+  public ProjectIndexCollection() {}
 }

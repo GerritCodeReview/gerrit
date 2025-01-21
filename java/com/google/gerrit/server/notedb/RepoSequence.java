@@ -391,7 +391,7 @@ public class RepoSequence implements Sequence {
         oldId = blob.get().id();
       }
       RefUpdate refUpdate =
-          IntBlob.tryStore(repo, rw, projectName, refName, oldId, value, gitRefUpdated);
+          IntBlob.tryStore(repo, rw, projectName, refName, oldId, value + batchSize, gitRefUpdated);
       RefUpdateUtil.checkResult(refUpdate);
       counter = value;
       limit = counter + batchSize;

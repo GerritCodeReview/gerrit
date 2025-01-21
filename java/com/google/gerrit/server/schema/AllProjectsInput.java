@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.schema;
 
+import static com.google.gerrit.entities.LabelId.CODE_REVIEW;
+
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -23,6 +25,8 @@ import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.LabelValue;
+import com.google.gerrit.entities.SubmitRequirement;
+import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.server.Sequences;
@@ -63,6 +67,25 @@ public abstract class AllProjectsInput {
         .build();
   }
 
+  @UsedAt(UsedAt.Project.GOOGLE)
+  public static LabelType getDefaultCodeReviewLabelWithNoBlockFunction() {
+    return getDefaultCodeReviewLabel().toBuilder().setNoBlockFunction().build();
+  }
+
+  public static SubmitRequirement getDefaultCodeReviewSubmitRequirements() {
+    return SubmitRequirement.builder()
+        .setName("Code-Review")
+        .setDescription(
+            Optional.of(
+                String.format(
+                    "Changes must have at least one MAX %s vote and no MIN to be submittable.",
+                    CODE_REVIEW)))
+        .setSubmittabilityExpression(
+            SubmitRequirementExpression.create("label:Code-Review=MAX AND -label:Code-Review=MIN"))
+        .setAllowOverrideInChildProjects(true)
+        .build();
+  }
+
   /** The administrator group which gets default permissions granted. */
   public abstract Optional<GroupReference> administratorsGroup();
 
@@ -83,6 +106,10 @@ public abstract class AllProjectsInput {
   @UsedAt(UsedAt.Project.GOOGLE)
   public abstract Optional<LabelType> codeReviewLabel();
 
+  /** The "Code-Review" submit requirement to be defined in All-Projects. */
+  @UsedAt(UsedAt.Project.GOOGLE)
+  public abstract Optional<SubmitRequirement> codeReviewSubmitRequirement();
+
   /** Description for the All-Projects. */
   public abstract Optional<String> projectDescription();
 
@@ -100,7 +127,8 @@ public abstract class AllProjectsInput {
   public static Builder builder() {
     Builder builder =
         new AutoValue_AllProjectsInput.Builder()
-            .codeReviewLabel(getDefaultCodeReviewLabel())
+            .codeReviewLabel(getDefaultCodeReviewLabelWithNoBlockFunction())
+            .codeReviewSubmitRequirement(getDefaultCodeReviewSubmitRequirements())
             .firstChangeIdForNoteDb(Sequences.FIRST_CHANGE_ID)
             .initDefaultAcls(true)
             .initDefaultSubmitRequirements(true);
@@ -127,6 +155,10 @@ public abstract class AllProjectsInput {
 
     @UsedAt(UsedAt.Project.GOOGLE)
     public abstract Builder codeReviewLabel(LabelType codeReviewLabel);
+
+    @UsedAt(UsedAt.Project.GOOGLE)
+    public abstract Builder codeReviewSubmitRequirement(
+        SubmitRequirement codeReviewSubmitRequirement);
 
     @UsedAt(UsedAt.Project.GOOGLE)
     public abstract Builder projectDescription(String projectDescription);

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b14d1f01_f0553fe5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-01-21T21:33:47Z",
+      "side": 1,
+      "message": "I think you probably want to squash this into I428205b, otherwise things are a bit broken in between and it makes it harder to bisect/revert/etc.",
+      "revId": "686a2e3aeb04242d1981880b73dc96650a6ffbcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

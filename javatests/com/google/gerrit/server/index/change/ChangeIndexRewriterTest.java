@@ -34,7 +34,6 @@ import com.google.gerrit.index.query.OrCardinalPredicate;
 import com.google.gerrit.index.query.OrPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
-import com.google.gerrit.metrics.DisabledMetricMaker;
 import com.google.gerrit.server.query.change.AndChangeSource;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
@@ -58,7 +57,7 @@ public class ChangeIndexRewriterTest {
   @Before
   public void setUp() throws Exception {
     index = new FakeChangeIndex(FakeChangeIndex.V2);
-    indexes = new ChangeIndexCollection(new DisabledMetricMaker());
+    indexes = new ChangeIndexCollection();
     indexes.setSearchIndex(index);
     queryBuilder = new FakeQueryBuilder(indexes);
     rewrite =

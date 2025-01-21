@@ -18,8 +18,6 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Lists;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.extensions.events.LifecycleListener;
-import com.google.gerrit.metrics.Description;
-import com.google.gerrit.metrics.MetricMaker;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -27,21 +25,12 @@ import java.util.concurrent.atomic.AtomicReference;
 
 /** Dynamic pointers to the index versions used for searching and writing. */
 public abstract class IndexCollection<K, V, I extends Index<K, V>> implements LifecycleListener {
-  protected enum IndexType {
-    ACCOUNTS,
-    CHANGES,
-    GROUPS,
-    PROJECTS
-  }
-
   private final CopyOnWriteArrayList<I> writeIndexes;
   private final AtomicReference<I> searchIndex;
-  private final MetricMaker metrics;
 
-  protected IndexCollection(MetricMaker metrics) {
+  protected IndexCollection() {
     this.writeIndexes = Lists.newCopyOnWriteArrayList();
     this.searchIndex = new AtomicReference<>();
-    this.metrics = metrics;
   }
 
   /** Returns the current search index version. */
@@ -104,9 +93,7 @@ public abstract class IndexCollection<K, V, I extends Index<K, V>> implements Li
   }
 
   @Override
-  public void start() {
-    registerMetric();
-  }
+  public void start() {}
 
   @Override
   public void stop() {
@@ -119,23 +106,5 @@ public abstract class IndexCollection<K, V, I extends Index<K, V>> implements Li
         write.close();
       }
     }
-  }
-
-  protected abstract IndexType getIndexName();
-
-  private void registerMetric() {
-    String indexName = getIndexName().name().toLowerCase();
-    metrics.newCallbackMetric(
-        String.format("indexes/%s", indexName),
-        Integer.class,
-        new Description(String.format("%s Index documents", indexName))
-            .setGauge()
-            .setUnit("documents"),
-        () -> {
-          if (getSearchIndex() == null) {
-            return -1;
-          }
-          return getSearchIndex().numDocs();
-        });
   }
 }

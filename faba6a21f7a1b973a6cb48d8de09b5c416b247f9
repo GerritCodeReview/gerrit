@@ -70,6 +70,29 @@
       "parentUuid": "5ca270a9_019106a5",
       "revId": "faba6a21f7a1b973a6cb48d8de09b5c416b247f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "812e297f_83fb6e8f",
+        "filename": "java/com/google/gerrit/index/IndexCollection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-01-21T09:13:46Z",
+      "side": 1,
+      "message": "Google doesn\u0027t support numDocs on it\u0027s own search index. Is it possible to check if it\u0027s lucene search index or put this under config/flag?",
+      "range": {
+        "startLine": 138,
+        "startChar": 34,
+        "endLine": 138,
+        "endChar": 41
+      },
+      "revId": "faba6a21f7a1b973a6cb48d8de09b5c416b247f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

@@ -55,6 +55,7 @@ import org.eclipse.jgit.lib.Config;
 @Singleton
 class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleListener {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+  private static final int COMPATIBILITY_VERSION = 2;
 
   static class PeriodicCachePruner implements Runnable {
     private final H2CacheImpl<?, ?> cache;
@@ -207,7 +208,8 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
 
   private <V, K> SqlStore<K, V> newSqlStore(PersistentCacheDef<K, V> def, long maxSize) {
     StringBuilder url = new StringBuilder();
-    url.append("jdbc:h2:").append(cacheDir.resolve(def.name()).toUri());
+    url.append("jdbc:h2:")
+        .append(cacheDir.resolve(def.name() + "-v" + COMPATIBILITY_VERSION).toUri());
     if (h2CacheSize >= 0) {
       url.append(";CACHE_SIZE=");
       // H2 CACHE_SIZE is always given in KB

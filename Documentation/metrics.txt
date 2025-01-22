@@ -550,6 +550,13 @@ Each queue provides the following metrics:
 
 * `license/cla_check_count`: Total number of CLA check requests.
 
+=== Lucene
+
+* `index/lucene/accounts`: Total number documents in account search index.
+* `index/lucene/changes`: Total number documents in change search index.
+* `index/lucene/groups`: Total number documents in group search index.
+* `index/lucene/projects`: Total number documents in project search index.
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

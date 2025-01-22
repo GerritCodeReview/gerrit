@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4de9de15_5922f824",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2025-01-22T13:57:17Z",
+      "side": 1,
+      "message": "My understanding is that highlighting a range in the diff does not fire an event. The similar thing I found was \u0027pressing c\u0027 after highlighting a range, which fires an event to create a comment. This creates the comment card, highlights the selected range with a yellow color, etc...\n\nfor context, see cl/717842610: since gr-diff is used by Critique, we want to have some means to extract the highlighted range from gr-diff.\n\nLMK if I missed anything, or if the sentence should be better rephrased.",
+      "parentUuid": "556c498f_483401f4",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 53
+      },
+      "revId": "98db5fc50424b12edb665d4b0a5b8d21166cd0e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0cc92671_370465aa",
         "filename": "polygerrit-ui/app/embed/diff/gr-diff-cursor/gr-diff-cursor.ts",
         "patchSetId": 4
@@ -37,6 +61,30 @@
       "writtenOn": "2025-01-22T12:44:03Z",
       "side": 1,
       "message": "why is this required?",
+      "range": {
+        "startLine": 54,
+        "startChar": 2,
+        "endLine": 54,
+        "endChar": 48
+      },
+      "revId": "98db5fc50424b12edb665d4b0a5b8d21166cd0e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce90bd5d_d16deae2",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-cursor/gr-diff-cursor.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2025-01-22T13:57:17Z",
+      "side": 1,
+      "message": "I added details to the other comment. PTAL.",
+      "parentUuid": "0cc92671_370465aa",
       "range": {
         "startLine": 54,
         "startChar": 2,

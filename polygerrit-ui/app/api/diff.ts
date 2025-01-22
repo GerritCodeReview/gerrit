@@ -332,6 +332,14 @@ export declare interface CreateCommentEventDetail {
   range: CommentRange | undefined;
 }
 
+/** The detail of the 'range-selected' event dispatched by gr-diff. */
+export declare interface RangeSelectedEventDetail {
+  side: Side;
+  lineNum: LineNumber;
+  range: CommentRange | undefined;
+  payload?: string;
+}
+
 export declare interface ContentLoadNeededEventDetail {
   lineRange: {
     left: LineRange;
@@ -543,6 +551,7 @@ export declare interface GrDiffCursor {
   moveToPreviousCommentThread(): CursorMoveResult;
 
   createCommentInPlace(): void;
+  fireRangeSelectedEvent(payload: string): void;
   resetScrollMode(): void;
 
   /**

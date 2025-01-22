@@ -209,6 +209,24 @@
       "message": "Please add an intergration test for this REST endpoint.",
       "revId": "ae78b17dbf0ebd082a60ce88e88e68e2725a2590",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "13667fb1_b51d6ba5",
+        "filename": "java/com/google/gerrit/server/restapi/config/GetValidationOptions.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-01-22T14:06:29Z",
+      "side": 1,
+      "message": "That was a nice adventure.\n\nDone.",
+      "parentUuid": "6d6200a5_57198591",
+      "revId": "ae78b17dbf0ebd082a60ce88e88e68e2725a2590",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

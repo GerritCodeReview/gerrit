@@ -529,7 +529,12 @@ public class RevertIT extends AbstractDaemonTest {
       u.save();
     }
 
-    String expected = "project state " + ProjectState.READ_ONLY + " does not permit write";
+    String expected =
+        "project "
+            + project.get()
+            + " has state "
+            + ProjectState.READ_ONLY
+            + " does not permit write";
     ResourceConflictException thrown =
         assertThrows(
             ResourceConflictException.class,
@@ -630,7 +635,12 @@ public class RevertIT extends AbstractDaemonTest {
       u.save();
     }
 
-    String expected = "project state " + ProjectState.READ_ONLY + " does not permit write";
+    String expected =
+        "project "
+            + project.get()
+            + " has state "
+            + ProjectState.READ_ONLY
+            + " does not permit write";
 
     // assert that if first repository has no write permissions, it will fail.
     ResourceConflictException thrown =

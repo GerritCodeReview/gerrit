@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8567175c_70504330",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommitsAdvertiseRefsHook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-22T09:03:37Z",
+      "side": 1,
+      "message": "This expression throws an exception:\n\n```\njava.lang.NullPointerException: Cannot invoke \"Object.getClass()\" because \"list\" is null\n\tat java.base/java.util.Collections.unmodifiableList(Collections.java:1319)\n\tat org.eclipse.jgit.transport.ReceivePack.getAllCommands(ReceivePack.java:1029)\n```",
+      "range": {
+        "startLine": 97,
+        "startChar": 0,
+        "endLine": 99,
+        "endChar": 55
+      },
+      "revId": "41a09471f21bf3ae5d0a485fa95b0aa2765a11b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

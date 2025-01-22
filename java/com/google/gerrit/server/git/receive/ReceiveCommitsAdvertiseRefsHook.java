@@ -40,6 +40,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.AdvertiseRefsHook;
+import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.transport.ReceivePack;
 import org.eclipse.jgit.transport.ServiceMayNotContinueException;
 import org.eclipse.jgit.transport.UploadPack;
@@ -92,7 +93,13 @@ public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
         .collect(toImmutableList())
         .forEach(r -> advertisedRefs.remove(r));
     try {
-      rp.setAdvertisedRefs(advertisedRefs, advertiseOpenChanges(rp.getRepository()));
+      Set<ObjectId> advertisedOpenChanges =
+          rp.getAllCommands().stream()
+                  .map(ReceiveCommand::getRefName)
+                  .anyMatch(MagicBranch::isMagicBranch)
+              ? advertiseOpenChanges(rp.getRepository())
+              : Collections.emptySet();
+      rp.setAdvertisedRefs(advertisedRefs, advertisedOpenChanges);
     } catch (IOException e) {
       throw new ServiceMayNotContinueException(e);
     }

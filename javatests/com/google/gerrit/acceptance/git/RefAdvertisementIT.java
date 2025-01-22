@@ -63,6 +63,7 @@ import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
 import org.eclipse.jgit.api.Git;
@@ -75,6 +76,7 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.AdvertiseRefsHook;
+import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.transport.ReceivePack;
 import org.junit.Before;
 import org.junit.Test;
@@ -1134,6 +1136,23 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void receivePackHaveNoOpenChangesAsAdditionalHavesWhenNoChangeRefIsTargeted()
+      throws Exception {
+    boolean targetChangeRef = false;
+    TestRefAdvertiser.Result r = getReceivePackRefs(targetChangeRef);
+    assertThat(r.allRefs().keySet())
+        .containsExactly(
+            // meta refs are excluded
+            "refs/heads/branch",
+            "refs/heads/master",
+            "refs/meta/config",
+            "refs/tags/branch-tag",
+            "refs/tags/master-tag",
+            "refs/tags/tree-tag");
+    assertThat(r.additionalHaves()).isEmpty();
+  }
+
+  @Test
   public void receivePackRespectsVisibilityOfOpenChanges() throws Exception {
     projectOperations
         .project(project)
@@ -1514,12 +1533,40 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     }
   }
 
+  /**
+   * The logic for refs changes advertisement as additional haves was modified so that they are
+   * advertised only `refs/for/*` ref is targeted therefore:
+   * <li/>{@link ReceivePack#getAllCommands()} cannot return <code>null</code> as it is being
+   *     examined
+   * <li/>at least one {@link ReceiveCommand} has to target ref with the `refs/for/` prefix
+   */
+  private class TestReceivePack extends ReceivePack {
+    private final List<ReceiveCommand> commands;
+
+    private TestReceivePack(Repository into, boolean targetChangeRef) {
+      super(into);
+      this.commands =
+          Collections.singletonList(
+              new ReceiveCommand(
+                  rcMaster, rcBranch, targetChangeRef ? "refs/for/branch" : "refs/heads/master"));
+    }
+
+    @Override
+    public List<ReceiveCommand> getAllCommands() {
+      return commands;
+    }
+  }
+
   private TestRefAdvertiser.Result getReceivePackRefs() throws Exception {
+    return getReceivePackRefs(true);
+  }
+
+  private TestRefAdvertiser.Result getReceivePackRefs(boolean targetChangeRef) throws Exception {
     try (Repository repo = repoManager.openRepository(project)) {
       AdvertiseRefsHook adv =
           ReceiveCommitsAdvertiseRefsHookChain.createForTest(
               queryProvider, project, identifiedUserFactory.create(admin.id()));
-      ReceivePack rp = new ReceivePack(repo);
+      ReceivePack rp = this.new TestReceivePack(repo, targetChangeRef);
       rp.setAdvertiseRefsHook(adv);
       TestRefAdvertiser advertiser = new TestRefAdvertiser(repo);
       rp.sendAdvertisedRefs(advertiser);

@@ -70,6 +70,7 @@ import {
   LineSelectedEventDetail,
   LOST,
   RenderPreferences,
+  RangeSelectedEventDetail,
 } from '../../../api/diff';
 import {resolve} from '../../../models/dependency';
 import {browserModelToken} from '../../../models/browser/browser-model';
@@ -118,6 +119,7 @@ declare global {
     // prettier-ignore
     'render': CustomEvent<{}>;
     'create-comment': CustomEvent<CreateCommentEventDetail>;
+    'range-selected': CustomEvent<RangeSelectedEventDetail>;
     'is-blame-loaded-changed': ValueChangedEvent<boolean>;
     'diff-changed': ValueChangedEvent<DiffInfo | undefined>;
     'edit-weblinks-changed': ValueChangedEvent<WebLinkInfo[] | undefined>;
@@ -837,6 +839,11 @@ export class GrDiffHost extends LitElement {
   createRangeComment() {
     assertIsDefined(this.diffElement);
     this.diffElement.createRangeComment();
+  }
+
+  fireRangeSelectedEvent(payload: string) {
+    assertIsDefined(this.diffElement);
+    this.diffElement.fireRangeSelectedEvent(payload);
   }
 
   toggleLeftDiff() {

@@ -141,6 +141,30 @@
       },
       "revId": "98db5fc50424b12edb665d4b0a5b8d21166cd0e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44256eb4_07261032",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-cursor/gr-diff-cursor.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-01-22T14:04:27Z",
+      "side": 1,
+      "message": "Ok nvm I see that the caller has access to `diffCursor` which is why this is required.\n\nResolving.",
+      "parentUuid": "78e01ca7_40af3b31",
+      "range": {
+        "startLine": 54,
+        "startChar": 2,
+        "endLine": 54,
+        "endChar": 48
+      },
+      "revId": "98db5fc50424b12edb665d4b0a5b8d21166cd0e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

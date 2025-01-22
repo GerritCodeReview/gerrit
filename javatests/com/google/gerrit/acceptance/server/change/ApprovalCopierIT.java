@@ -51,7 +51,6 @@ import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.server.approval.ApprovalCopier;
-import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.RepoView;
 import com.google.gerrit.truth.ListSubject;
@@ -234,9 +233,6 @@ public class ApprovalCopierIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      values = {ExperimentFeaturesConstants.ENABLE_CENTRAL_OVERRIDE_FOR_CODE_REVIEW_COPY_CONDITION})
   @GerritConfig(name = "label.Code-Review.labelCopyRestriction", value = "changekind:REWORK")
   public void forPatchSet_copyRestricted() throws Exception {
     PushOneCommit.Result r = createChange();
@@ -278,9 +274,6 @@ public class ApprovalCopierIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      values = {ExperimentFeaturesConstants.ENABLE_CENTRAL_OVERRIDE_FOR_CODE_REVIEW_COPY_CONDITION})
   @GerritConfig(name = "label.Code-Review.labelCopyEnforcement", value = "is:NEGATIVE")
   public void forPatchSet_copyEnforced() throws Exception {
     PushOneCommit.Result r = createChange();
@@ -319,9 +312,6 @@ public class ApprovalCopierIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      values = {ExperimentFeaturesConstants.ENABLE_CENTRAL_OVERRIDE_FOR_CODE_REVIEW_COPY_CONDITION})
   @GerritConfig(name = "label.Code-Review.labelCopyRestriction", value = "changekind:REWORK")
   @GerritConfig(name = "label.Code-Review.labelCopyEnforcement", value = "is:NEGATIVE")
   public void forPatchSet_enforceWinsOverRestriction() throws Exception {

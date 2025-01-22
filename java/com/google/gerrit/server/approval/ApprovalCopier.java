@@ -40,8 +40,6 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.change.LabelNormalizer;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.experiments.ExperimentFeatures;
-import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
@@ -247,7 +245,6 @@ public class ApprovalCopier {
   private final OneOffRequestContext requestContext;
   private final ChangeData.Factory changeDataFactory;
   private final Config cfg;
-  private final ExperimentFeatures experimentFeatures;
 
   @Inject
   ApprovalCopier(
@@ -259,8 +256,7 @@ public class ApprovalCopier {
       ApprovalQueryBuilder approvalQueryBuilder,
       OneOffRequestContext requestContext,
       ChangeData.Factory changeDataFactory,
-      @GerritServerConfig Config cfg,
-      ExperimentFeatures experimentFeatures) {
+      @GerritServerConfig Config cfg) {
     this.repoManager = repoManager;
     this.projectCache = projectCache;
     this.changeKindCache = changeKindCache;
@@ -270,7 +266,6 @@ public class ApprovalCopier {
     this.requestContext = requestContext;
     this.changeDataFactory = changeDataFactory;
     this.cfg = cfg;
-    this.experimentFeatures = experimentFeatures;
   }
 
   /**
@@ -408,14 +403,10 @@ public class ApprovalCopier {
       ChangeKind changeKind,
       boolean isMerge,
       RepoView repoView) {
-    String forcedCopyCondition = null;
-    String forcedNonCopyCondition = null;
-    if (experimentFeatures.isFeatureEnabled(
-        ExperimentFeaturesConstants.ENABLE_CENTRAL_OVERRIDE_FOR_CODE_REVIEW_COPY_CONDITION,
-        changeNotes.getProjectName())) {
-      forcedCopyCondition = cfg.getString("label", labelType.getName(), "labelCopyEnforcement");
-      forcedNonCopyCondition = cfg.getString("label", labelType.getName(), "labelCopyRestriction");
-    }
+    String forcedCopyCondition =
+        cfg.getString("label", labelType.getName(), "labelCopyEnforcement");
+    String forcedNonCopyCondition =
+        cfg.getString("label", labelType.getName(), "labelCopyRestriction");
     String labelCopyCondition = labelType.getCopyCondition().orElse(null);
     if (Strings.isNullOrEmpty(forcedCopyCondition)
         && Strings.isNullOrEmpty(forcedNonCopyCondition)

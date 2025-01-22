@@ -59,6 +59,7 @@ if a log field is not present, a "-" is substituted:
 * `command status`: the overall result of the git command over HTTP. Currently
    populated only for the transfer phase of `git-upload-pack` commands.
    Possible values:
+** `-2`: The `git-upload-pack` transfer was interrupted or blocked
 ** `-1`: The `git-upload-pack` transfer was ultimately not successful
 ** `0`: The `git-upload-pack` transfer was ultimately successful
 

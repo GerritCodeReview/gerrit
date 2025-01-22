@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e2e16ea8_9139ec9a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-01-22T14:02:01Z",
+      "side": 1,
+      "message": "\u003e My understanding is that highlighting a range in the diff does not fire an event\n\nYes. You can add an event when something happens.\n\nThe callers can then listen to this event.\n\nThis makes sense to me. The event should be fired regardless of the caller requesting it.\n\nThe flow where the caller is requesting events to be fired is unclear to me.\n\nWhy can\u0027t we always fire an event when something is selected and then not require the `fireRangeSelectedEvent`?",
+      "parentUuid": "4de9de15_5922f824",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 53
+      },
+      "revId": "98db5fc50424b12edb665d4b0a5b8d21166cd0e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0cc92671_370465aa",
         "filename": "polygerrit-ui/app/embed/diff/gr-diff-cursor/gr-diff-cursor.ts",
         "patchSetId": 4
@@ -85,6 +109,30 @@
       "side": 1,
       "message": "I added details to the other comment. PTAL.",
       "parentUuid": "0cc92671_370465aa",
+      "range": {
+        "startLine": 54,
+        "startChar": 2,
+        "endLine": 54,
+        "endChar": 48
+      },
+      "revId": "98db5fc50424b12edb665d4b0a5b8d21166cd0e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78e01ca7_40af3b31",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-cursor/gr-diff-cursor.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-01-22T14:02:01Z",
+      "side": 1,
+      "message": "Not sure I follow.\n\nI understand why `fireRangeSelectedEvent` is required in `gr-diff-host`.\n\nThat calls `this.diffElement.fireRangeSelectedEvent`.\n\nWhy is this required in the `GrDiffCursorable` interface?\n\nWhich caller is using this?\n\nI removed this line and built the code and it was building for me so I am not sure who will call it.",
+      "parentUuid": "ce90bd5d_d16deae2",
       "range": {
         "startLine": 54,
         "startChar": 2,

@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e81b70d_7c8fd11c",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 35
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-01-22T09:35:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b13b4e9e_95352d6b",
+      "range": {
+        "startLine": 216,
+        "startChar": 41,
+        "endLine": 216,
+        "endChar": 45
+      },
+      "revId": "ae78b17dbf0ebd082a60ce88e88e68e2725a2590",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ce7fbc79_fbf40d6c",
@@ -54,6 +78,24 @@
       "writtenOn": "2025-01-21T14:33:50Z",
       "side": 1,
       "message": "Please keep the sections sorted alphabetically..",
+      "revId": "ae78b17dbf0ebd082a60ce88e88e68e2725a2590",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e8b5a2b_48f846df",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 35
+      },
+      "lineNbr": 2030,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-01-22T09:35:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce7fbc79_fbf40d6c",
       "revId": "ae78b17dbf0ebd082a60ce88e88e68e2725a2590",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -81,6 +123,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "87567bea_26326b9e",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 35
+      },
+      "lineNbr": 2037,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-01-22T09:35:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c2f9af39_c18cd69a",
+      "range": {
+        "startLine": 2035,
+        "startChar": 14,
+        "endLine": 2037,
+        "endChar": 26
+      },
+      "revId": "ae78b17dbf0ebd082a60ce88e88e68e2725a2590",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9e949860_68b97325",
@@ -94,6 +160,30 @@
       "writtenOn": "2025-01-21T14:33:50Z",
       "side": 1,
       "message": "Maybe better name this ValidationOptionInfo?\nIt\u0027s a bit confusing that the parameter name (\"validation_options\") doesn\u0027t match with the type (\"PluginPushOption\"). Also not all validation_options may come from a plugin (e.g. Gerrit core may implement some too), so it\u0027s better if the type doesn\u0027t include \"plugin\" in its name.\n\nIf you rename PluginPushOption to ValidationOptionInfo, then this class could be renamed to ValidationOptionsInfo.",
+      "range": {
+        "startLine": 20,
+        "startChar": 29,
+        "endLine": 20,
+        "endChar": 45
+      },
+      "revId": "ae78b17dbf0ebd082a60ce88e88e68e2725a2590",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a35b372a_fb444dd0",
+        "filename": "java/com/google/gerrit/extensions/common/ValidationOptionInfo.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-01-22T09:35:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e949860_68b97325",
       "range": {
         "startLine": 20,
         "startChar": 29,

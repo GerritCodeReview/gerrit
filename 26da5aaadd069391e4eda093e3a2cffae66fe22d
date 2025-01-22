@@ -1,0 +1,45 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c55cc4a_f5422ec6",
+        "filename": "javatests/com/google/gerrit/acceptance/api/config/ValidationOptionsIT.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-01-22T14:07:26Z",
+      "side": 1,
+      "message": "nit: this doesn\u0027t need to protected (you\u0027re not going to inherit from this class)",
+      "range": {
+        "startLine": 35,
+        "startChar": 10,
+        "endLine": 35,
+        "endChar": 19
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "a6d0b7b2_4fa09efe",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "javatests/com/google/gerrit/acceptance/api/config/ValidationOptionsIT.java",
+              "range": {
+                "startLine": 35,
+                "startChar": 0,
+                "endLine": 36,
+                "endChar": 0
+              },
+              "replacement": "  @Inject private ExtensionRegistry extensionRegistry;\n"
+            }
+          ]
+        }
+      ],
+      "revId": "26da5aaadd069391e4eda093e3a2cffae66fe22d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

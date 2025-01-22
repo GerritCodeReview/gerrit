@@ -51,6 +51,7 @@ export function fromRowToChunk(
 export interface GrDiffCursorable extends HTMLElement {
   isRangeSelected(): boolean;
   createRangeComment(): void;
+  fireRangeSelectedEvent(payload: string): void;
   getCursorStops(): Stop[];
   path?: string;
 }
@@ -365,6 +366,21 @@ export class GrDiffCursor implements GrDiffCursorApi {
       const diff = this.getTargetDiffElement();
       if (diff && lineNumber) {
         diff.addDraftAtLine(lineNumber, this.side);
+      }
+    }
+  }
+
+  fireRangeSelectedEvent(payload: string) {
+    const diffWithRangeSelected = this.diffs.find(diff =>
+      diff.isRangeSelected());
+    if (diffWithRangeSelected) {
+      diffWithRangeSelected.fireRangeSelectedEvent(payload);
+    } else {
+      const diffRow = this.getTargetDiffRow();
+      const lineNumber = diffRow?.lineNumber(this.side);
+      const diff = this.getTargetDiffElement();
+      if (diff && lineNumber) {
+        diff.fireRangeSelectedEventAtLine(lineNumber, this.side, payload);
       }
     }
   }

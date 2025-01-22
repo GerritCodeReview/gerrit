@@ -565,6 +565,20 @@ export class GrDiff extends LitElement implements GrDiffApi {
     this.diffModel.createCommentOnRange(range, side);
   }
 
+  fireRangeSelectedEventAtLine(
+      lineNum: LineNumber,
+      side: Side,
+      payload: string) {
+    this.diffModel.fireRangeSelectedEventAtLine(lineNum, side, payload);
+  }
+
+  fireRangeSelectedEvent(payload: string) {
+    const selectedRange = this.highlights.selectedRange;
+    assertIsDefined(selectedRange, 'no range selected');
+    const {side, range} = selectedRange;
+    this.diffModel.fireRangeSelectedEvent(side, range, payload);
+  }
+
   private lineOfInterestChanged() {
     if (this.loading) return;
     if (!this.lineOfInterest) return;

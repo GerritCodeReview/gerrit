@@ -16,6 +16,7 @@ import {
   DisplayLine,
   LineNumber,
   LineSelectedEventDetail,
+  RangeSelectedEventDetail,
   RenderPreferences,
   Side,
   SyntaxBlock,
@@ -314,5 +315,23 @@ export class DiffModel extends Model<DiffState> {
       range,
     };
     fire(this.eventTarget, 'create-comment', detail);
+  }
+
+  fireRangeSelectedEventAtLine(lineNum: LineNumber,
+                               side: Side,
+                               payload: string) {
+    const detail:
+      RangeSelectedEventDetail = {side, lineNum, range: undefined, payload};
+    fire(this.eventTarget, 'range-selected', detail);
+  }
+
+  fireRangeSelectedEvent(side: Side, range: CommentRange, payload: string) {
+    const detail: RangeSelectedEventDetail =
+      { side,
+        lineNum: range.end_line,
+        range,
+        payload
+      };
+    fire(this.eventTarget, 'range-selected', detail);
   }
 }

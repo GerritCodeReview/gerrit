@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "06ff5e5a_93ba5f5f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2025-01-22T14:30:48Z",
+      "side": 1,
+      "message": "You\u0027re right. I totally agree. Design-wise, events should be fired by the system, not when the caller requests it. This is a bit hacky.\n\nI will attempt to work-around that by substituting this with getSelectedRange() in GrDiffCursorable (similar to the current isRangeSelected()). That would make more sense.",
+      "parentUuid": "e2e16ea8_9139ec9a",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 53
+      },
+      "revId": "98db5fc50424b12edb665d4b0a5b8d21166cd0e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0cc92671_370465aa",
         "filename": "polygerrit-ui/app/embed/diff/gr-diff-cursor/gr-diff-cursor.ts",
         "patchSetId": 4

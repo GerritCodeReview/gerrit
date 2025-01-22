@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "879059fc_2b6b6d7f",
+        "filename": "Documentation/cmd-sequence-set.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3848930
+      },
+      "writtenOn": "2025-01-22T05:24:09Z",
+      "side": 0,
+      "message": "Remoy",
+      "revId": "4f8df3399bb1b7c78a8c4c1261a056528ed95588",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0f0c02f_9d19398e",
+        "filename": "java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3848930
+      },
+      "writtenOn": "2025-01-22T05:24:09Z",
+      "side": 0,
+      "message": "Remove @zombiesmasivos@gmail.com",
+      "revId": "4f8df3399bb1b7c78a8c4c1261a056528ed95588",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f40fc06d_ba01bb21",
+        "filename": "java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 3848930
+      },
+      "writtenOn": "2025-01-22T05:24:09Z",
+      "side": 0,
+      "message": "Remove @ycyzzz@google.com @mkm95591@gmail.com",
+      "revId": "4f8df3399bb1b7c78a8c4c1261a056528ed95588",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

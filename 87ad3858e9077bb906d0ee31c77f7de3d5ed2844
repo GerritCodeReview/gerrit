@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5f3ac2f_58be6cf5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-01-22T22:47:50Z",
+      "side": 1,
+      "message": "Fixed by change I244a9b1820.",
+      "parentUuid": "310649ce_bb7346d3",
+      "revId": "87ad3858e9077bb906d0ee31c77f7de3d5ed2844",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "91d7537e_61367d34",
@@ -162,6 +180,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2a6c219_f45596bb",
+        "filename": "java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-01-22T22:47:50Z",
+      "side": 1,
+      "message": "Fixed by change I244a9b1820.",
+      "parentUuid": "43190e8c_ed90e077",
+      "range": {
+        "startLine": 295,
+        "startChar": 14,
+        "endLine": 295,
+        "endChar": 22
+      },
+      "revId": "87ad3858e9077bb906d0ee31c77f7de3d5ed2844",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "247ba792_89b101bd",
@@ -175,6 +217,30 @@
       "writtenOn": "2025-01-21T22:29:02Z",
       "side": 1,
       "message": "This is wrong: the logic of using the `refs/sequences/*` ref is:\n- Set the current value in `counter`\n- Allocate a batch of `batchSize` and set the new `limit`\n- Update the `refs/sequences/*` ref with the `counter` + `batchSize`\n\nHowever, here we set on `refs/sequences/*` the *same* value that we have in `counter` and still we consider the `batchSize` allocated.\n\nIt then leaves the in-memory counter and ref on `refs/sequences/*` in an inconsistent state: the batch allocated isn\u0027t reflected on the repository, causing potential duplication of change numbers.",
+      "range": {
+        "startLine": 308,
+        "startChar": 66,
+        "endLine": 308,
+        "endChar": 71
+      },
+      "revId": "87ad3858e9077bb906d0ee31c77f7de3d5ed2844",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "73903c20_a45f6b38",
+        "filename": "java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-01-22T22:47:50Z",
+      "side": 1,
+      "message": "Fixed by change I244a9b1820.",
+      "parentUuid": "247ba792_89b101bd",
       "range": {
         "startLine": 308,
         "startChar": 66,

@@ -529,7 +529,12 @@ public class RevertIT extends AbstractDaemonTest {
       u.save();
     }
 
-    String expected = "project state " + ProjectState.READ_ONLY + " does not permit write";
+    String expected =
+        "project "
+            + project.getNameKey().get()
+            + " has state "
+            + ProjectState.READ_ONLY
+            + " does not permit write";
     ResourceConflictException thrown =
         assertThrows(
             ResourceConflictException.class,

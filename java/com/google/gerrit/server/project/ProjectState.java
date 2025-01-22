@@ -194,7 +194,7 @@ public class ProjectState {
   public void checkStatePermitsRead() throws ResourceConflictException {
     if (!statePermitsRead()) {
       throw new ResourceConflictException(
-          "project state " + getProject().getState().name() + " does not permit read");
+          "project " + getName() + " has state " + getProject().getState().name() + " does not permit read");
     }
   }
 
@@ -205,7 +205,7 @@ public class ProjectState {
   public void checkStatePermitsWrite() throws ResourceConflictException {
     if (!statePermitsWrite()) {
       throw new ResourceConflictException(
-          "project state " + getProject().getState().name() + " does not permit write");
+          "project " + getName() + " has state " + getProject().getState().name() + " does not permit write");
     }
   }
 

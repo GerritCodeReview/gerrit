@@ -113,18 +113,14 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     K key = (K) objKey;
 
     ValueHolder<V> h = mem.getIfPresent(key);
-    if (h != null) {
-      return h.value;
-    }
-
-    if (store.mightContain(key)) {
+    if (h == null) {
       h = store.getIfPresent(key);
-      if (h != null) {
-        mem.put(key, h);
-        return h.value;
+      if (h == null) {
+        return null;
       }
+      mem.put(key, h);
     }
-    return null;
+    return h.value;
   }
 
   @Override
@@ -162,16 +158,12 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     return mem.get(
             key,
             () -> {
-              if (store.mightContain(key)) {
-                ValueHolder<V> h = store.getIfPresent(key);
-                if (h != null) {
-                  return h;
-                }
+              ValueHolder<V> h = store.getIfPresent(key);
+              if (h == null) {
+                h = new ValueHolder<>(valueLoader.call(), Instant.ofEpochMilli(TimeUtil.nowMs()));
+                ValueHolder<V> fh = h;
+                executor.execute(() -> store.put(key, fh));
               }
-
-              ValueHolder<V> h =
-                  new ValueHolder<>(valueLoader.call(), Instant.ofEpochMilli(TimeUtil.nowMs()));
-              executor.execute(() -> store.put(key, h));
               return h;
             })
         .value;
@@ -265,16 +257,12 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       try (TraceTimer timer =
           TraceContext.newTimer(
               "Loading value from cache", Metadata.builder().cacheKey(key.toString()).build())) {
-        if (store.mightContain(key)) {
-          ValueHolder<V> h = store.getIfPresent(key);
-          if (h != null) {
-            return h;
-          }
+        ValueHolder<V> h = store.getIfPresent(key);
+        if (h == null) {
+          h = new ValueHolder<>(loader.load(key), Instant.ofEpochMilli(TimeUtil.nowMs()));
+          ValueHolder<V> fh = h;
+          executor.execute(() -> store.put(key, fh));
         }
-
-        final ValueHolder<V> h =
-            new ValueHolder<>(loader.load(key), Instant.ofEpochMilli(TimeUtil.nowMs()));
-        executor.execute(() -> store.put(key, h));
         return h;
       }
     }
@@ -285,16 +273,12 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         List<K> notInMemory = new ArrayList<>();
         Map<K, ValueHolder<V>> result = new HashMap<>();
         for (K key : keys) {
-          if (!store.mightContain(key)) {
+          ValueHolder<V> h = store.getIfPresent(key);
+          if (h == null) {
             notInMemory.add(key);
             continue;
           }
-          ValueHolder<V> h = store.getIfPresent(key);
-          if (h != null) {
-            result.put(key, h);
-          } else {
-            notInMemory.add(key);
-          }
+          result.put(key, h);
         }
         try {
           Map<K, V> remaining = loader.loadAll(notInMemory);
@@ -475,6 +459,10 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
 
     @Nullable
     ValueHolder<V> getIfPresent(K key) {
+      if (!mightContain(key)) {
+        return null;
+      }
+
       SqlHandle c = null;
       try {
         c = acquire();

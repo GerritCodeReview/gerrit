@@ -25,12 +25,12 @@ import {GrSuggestionDiffPreview} from '../shared/gr-suggestion-diff-preview/gr-s
 suite('gr-checks-fix-preview test', () => {
   let element: GrChecksFixPreview;
   let promise: MockPromise<FilePathToDiffInfoMap | undefined>;
+  const fix = rectifyFix(createCheckFix(), 'test-checker');
 
   setup(async () => {
     promise = mockPromise<FilePathToDiffInfoMap | undefined>();
     stubRestApi('getFixPreview').returns(promise);
 
-    const fix = rectifyFix(createCheckFix(), 'test-checker');
     element = await fixture<GrChecksFixPreview>(
       html`<gr-checks-fix-preview></gr-checks-fix-preview>`
     );
@@ -40,7 +40,7 @@ suite('gr-checks-fix-preview test', () => {
     element.patchSet = 5 as PatchSetNumber;
     element.latestPatchNum = 5 as PatchSetNumber;
     element.repo = 'test-repo' as RepoName;
-    element.fixSuggestionInfo = fix;
+    element.fixSuggestionInfos = [fix!];
     await element.updateComplete;
   });
 
@@ -96,7 +96,7 @@ suite('gr-checks-fix-preview test', () => {
     assert.isTrue(stub.called);
     assert.deepEqual(stub.lastCall.args[0].detail, {
       patchNum: element.patchSet,
-      fixSuggestions: [element.fixSuggestionInfo],
+      fixSuggestions: [element.fixSuggestionInfos?.[0]],
       onCloseFixPreviewCallbacks: [],
     });
   });
@@ -118,5 +118,85 @@ suite('gr-checks-fix-preview test', () => {
     button.click();
 
     assert.isTrue(applyFixSpy.called);
+  });
+
+  test('multiple-fixes', async () => {
+    element.fixSuggestionInfos = [fix!, fix!];
+    element.previewLoaded = true;
+    await element.updateComplete;
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <div class="header">
+          <div class="title">
+            <span> Attached Fix </span>
+            <div class="fix-picker">
+              <span> 1 of 2 </span>
+              <gr-button
+                aria-disabled="true"
+                disabled=""
+                id="prevFix"
+                link=""
+                role="button"
+                tabindex="-1"
+              >
+                <gr-icon icon="chevron_left"> </gr-icon>
+              </gr-button>
+              <gr-button
+                aria-disabled="false"
+                id="nextFix"
+                link=""
+                role="button"
+                tabindex="0"
+              >
+                <gr-icon icon="chevron_right"> </gr-icon>
+              </gr-button>
+            </div>
+          </div>
+          <div>
+            <gr-button
+              aria-disabled="false"
+              class="showFix"
+              flatten=""
+              role="button"
+              secondary=""
+              tabindex="0"
+            >
+              Show fix side-by-side
+            </gr-button>
+            <gr-button
+              aria-disabled="false"
+              class="applyFix"
+              flatten=""
+              primary=""
+              role="button"
+              tabindex="0"
+              title=""
+            >
+              Apply fix
+            </gr-button>
+          </div>
+        </div>
+        <gr-suggestion-diff-preview> </gr-suggestion-diff-preview>
+      `
+    );
+  });
+
+  test('next-fix & prev-fix', async () => {
+    element.fixSuggestionInfos = [fix!, fix!];
+    element.previewLoaded = true;
+    await element.updateComplete;
+    const button = queryAndAssert<HTMLElement>(element, 'gr-button#nextFix');
+    assert.isFalse(button.hasAttribute('disabled'));
+    button.click();
+    assert.equal(element.selectedFixIdx, 1);
+    await element.updateComplete;
+    const prevButton = queryAndAssert<HTMLElement>(
+      element,
+      'gr-button#prevFix'
+    );
+    assert.isFalse(prevButton.hasAttribute('disabled'));
+    prevButton.click();
+    assert.equal(element.selectedFixIdx, 0);
   });
 });

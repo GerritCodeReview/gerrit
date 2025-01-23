@@ -65,6 +65,20 @@ export declare interface TextRange {
 }
 
 /**
+ * Represents a user selected code range in the diff.
+ */
+export declare interface FileRangeSelection {
+  /** The text range of the selection. */
+  text_range: TextRange;
+
+  /** The path of the file. */
+  file_path: string;
+
+  /** The side of the file. */
+  side: Side;
+}
+
+/**
  * Represents a syntax block in a code (e.g. method, function, class, if-else).
  */
 export declare interface SyntaxBlock {
@@ -543,6 +557,7 @@ export declare interface GrDiffCursor {
   moveToPreviousCommentThread(): CursorMoveResult;
 
   createCommentInPlace(): void;
+  getSelectedRange(): FileRangeSelection | undefined;
   resetScrollMode(): void;
 
   /**

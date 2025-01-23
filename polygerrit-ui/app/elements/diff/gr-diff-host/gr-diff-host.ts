@@ -834,6 +834,11 @@ export class GrDiffHost extends LitElement {
     return this.diffElement.isRangeSelected();
   }
 
+  getSelectedRange() {
+    assertIsDefined(this.diffElement);
+    return this.diffElement.getSelectedRange();
+  }
+
   createRangeComment() {
     assertIsDefined(this.diffElement);
     this.diffElement.createRangeComment();

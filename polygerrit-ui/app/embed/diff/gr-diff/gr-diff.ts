@@ -44,6 +44,7 @@ import {
   GrDiff as GrDiffApi,
   DisplayLine,
   DiffRangesToFocus,
+  FileRangeSelection,
   LineNumber,
   ContentLoadNeededEventDetail,
   DiffContextExpandedExternalDetail,
@@ -545,6 +546,22 @@ export class GrDiff extends LitElement implements GrDiffApi {
 
   isRangeSelected() {
     return !!this.highlights.selectedRange;
+  }
+
+  getSelectedRange(): FileRangeSelection | undefined {
+    if (!this.highlights.selectedRange || !this.path) {
+      return undefined;
+    }
+    return {
+      text_range: {
+        start_line: this.highlights.selectedRange.range.start_line,
+        start_column: this.highlights.selectedRange.range.start_character,
+        end_line: this.highlights.selectedRange.range.end_line,
+        end_column: this.highlights.selectedRange.range.end_character,
+      },
+      file_path: this.path,
+      side: this.highlights.selectedRange.side,
+    };
   }
 
   // Private but used in tests.

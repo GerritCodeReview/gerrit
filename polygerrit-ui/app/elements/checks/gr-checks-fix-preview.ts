@@ -61,9 +61,6 @@ export class GrChecksFixPreview extends LitElement {
 
   @state() loggedIn = false;
 
-  @state()
-  selectedReplacementIdx = 0;
-
   private readonly getChangeModel = resolve(this, changeModelToken);
 
   private readonly getUserModel = resolve(this, userModelToken);
@@ -123,18 +120,6 @@ export class GrChecksFixPreview extends LitElement {
           border: 1px solid var(--border-color);
           padding: var(--spacing-xl);
         }
-        .fix-picker {
-          display: flex;
-          align-items: center;
-          margin-left: var(--spacing-m);
-        }
-        .fix-picker gr-button {
-          margin: 0 var(--spacing-s);
-        }
-        .title {
-          display: flex;
-          align-items: center;
-        }
       `,
     ];
   }
@@ -145,38 +130,10 @@ export class GrChecksFixPreview extends LitElement {
   }
 
   private renderHeader() {
-    const replacementCount = this.fixSuggestionInfo?.replacements?.length ?? 0;
     return html`
       <div class="header">
         <div class="title">
           <span>Attached Fix</span>
-          ${replacementCount > 1
-            ? html`
-                <div class="fix-picker">
-                  <span
-                    >${this.selectedReplacementIdx + 1} of
-                    ${replacementCount}</span
-                  >
-                  <gr-button
-                    id="prevFix"
-                    link
-                    @click=${this.onPrevFixClick}
-                    ?disabled=${this.selectedReplacementIdx === 0}
-                  >
-                    <gr-icon icon="chevron_left"></gr-icon>
-                  </gr-button>
-                  <gr-button
-                    id="nextFix"
-                    link
-                    @click=${this.onNextFixClick}
-                    ?disabled=${this.selectedReplacementIdx ===
-                    replacementCount - 1}
-                  >
-                    <gr-icon icon="chevron_right"></gr-icon>
-                  </gr-button>
-                </div>
-              `
-            : nothing}
         </div>
         <div>
           <gr-button
@@ -205,16 +162,9 @@ export class GrChecksFixPreview extends LitElement {
   }
 
   private renderDiff() {
-    // Create a new fixSuggestionInfo with just the current replacement
-    const newFixSuggestionInfo = this.fixSuggestionInfo && {
-      ...this.fixSuggestionInfo,
-      replacements: [
-        this.fixSuggestionInfo.replacements[this.selectedReplacementIdx],
-      ],
-    };
     return html`
       <gr-suggestion-diff-preview
-        .fixSuggestionInfo=${newFixSuggestionInfo}
+        .fixSuggestionInfo=${this.fixSuggestionInfo}
         .patchSet=${this.patchSet}
         .codeText=${'Loading fix preview ...'}
         @preview-loaded=${() => (this.previewLoaded = true)}
@@ -263,26 +213,6 @@ export class GrChecksFixPreview extends LitElement {
     if (!this.previewLoaded) return 'Fix is still loading ...';
     if (!this.loggedIn) return 'You must be logged in to apply a fix';
     return '';
-  }
-
-  private onPrevFixClick(e: Event) {
-    if (e) e.stopPropagation();
-    if (this.selectedReplacementIdx >= 1) {
-      this.selectedReplacementIdx -= 1;
-      this.previewLoaded = false;
-    }
-  }
-
-  private onNextFixClick(e: Event) {
-    if (e) e.stopPropagation();
-    if (
-      this.fixSuggestionInfo &&
-      this.selectedReplacementIdx <
-        this.fixSuggestionInfo.replacements.length - 1
-    ) {
-      this.selectedReplacementIdx += 1;
-      this.previewLoaded = false;
-    }
   }
 }
 

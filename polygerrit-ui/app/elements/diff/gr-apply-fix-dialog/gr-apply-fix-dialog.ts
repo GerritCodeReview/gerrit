@@ -108,9 +108,6 @@ export class GrApplyFixDialog extends LitElement {
 
   @state() loggedIn = false;
 
-  @state()
-  selectedReplacementIdx = 0;
-
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly getUserModel = resolve(this, userModelToken);
@@ -277,11 +274,8 @@ export class GrApplyFixDialog extends LitElement {
 
   private renderFooter() {
     const fixCount = this.fixSuggestions?.length ?? 0;
-    const replacementCount = this.currentFix?.replacements?.length ?? 0;
     const reasonForDisabledApplyButton = this.computeTooltip();
-    const shouldRenderNav =
-      fixCount >= 2 ||
-      (this.currentFix?.fix_id === PROVIDED_FIX_ID && replacementCount >= 2);
+    const shouldRenderNav = fixCount >= 2;
     const shouldRenderWarning = !!reasonForDisabledApplyButton;
 
     if (!shouldRenderNav && !shouldRenderWarning) return nothing;
@@ -289,43 +283,12 @@ export class GrApplyFixDialog extends LitElement {
     return html`
       <div slot="footer" class="fix-picker">
         ${when(shouldRenderNav, () =>
-          this.renderNavigation(fixCount, replacementCount)
+          this.renderNavForMultipleSuggestedFixes(fixCount)
         )}
         ${when(shouldRenderWarning, () =>
           this.renderWarning(reasonForDisabledApplyButton)
         )}
       </div>
-    `;
-  }
-
-  private renderNavigation(fixCount: number, replacementCount: number) {
-    // TODO(b/389011542) Fix apply:fix endpoint to support multiple replacements
-    // apply:fix endpoint currently supports only one replacement
-    if (this.currentFix?.fix_id === PROVIDED_FIX_ID && replacementCount > 1) {
-      return this.renderReplacementNavigation(replacementCount);
-    }
-    // TODO(b/227463363) Remove once Robot Comments are deprecated.
-    return this.renderNavForMultipleSuggestedFixes(fixCount);
-  }
-
-  private renderReplacementNavigation(replacementCount: number) {
-    const id = this.selectedReplacementIdx;
-    return html`
-      <span>Replacement ${id + 1} of ${replacementCount}</span>
-      <gr-button
-        id="prevFix"
-        @click=${this.onPrevReplacementClick}
-        ?disabled=${id === 0}
-      >
-        <gr-icon icon="chevron_left"></gr-icon>
-      </gr-button>
-      <gr-button
-        id="nextFix"
-        @click=${this.onNextReplacementClick}
-        ?disabled=${id === replacementCount - 1}
-      >
-        <gr-icon icon="chevron_right"></gr-icon>
-      </gr-button>
     `;
   }
 
@@ -389,12 +352,10 @@ export class GrApplyFixDialog extends LitElement {
     let res: FilePathToDiffInfoMap | undefined;
     try {
       if (fixSuggestion.fix_id === PROVIDED_FIX_ID) {
-        const currentReplacement =
-          fixSuggestion.replacements[this.selectedReplacementIdx];
         res = await this.restApiService.getFixPreview(
           this.changeNum,
           this.patchNum,
-          [currentReplacement]
+          fixSuggestion.replacements
         );
       } else {
         // TODO(b/227463363) Remove once Robot Comments are deprecated.
@@ -453,25 +414,6 @@ export class GrApplyFixDialog extends LitElement {
     }
   }
 
-  private onPrevReplacementClick(e: Event) {
-    if (e) e.stopPropagation();
-    if (this.selectedReplacementIdx >= 1) {
-      this.selectedReplacementIdx -= 1;
-      this.fetchFixPreview(this.currentFix!);
-    }
-  }
-
-  private onNextReplacementClick(e: Event) {
-    if (e) e.stopPropagation();
-    if (
-      this.currentFix?.replacements &&
-      this.selectedReplacementIdx < this.currentFix.replacements.length - 1
-    ) {
-      this.selectedReplacementIdx += 1;
-      this.fetchFixPreview(this.currentFix);
-    }
-  }
-
   private close(fixApplied: boolean) {
     this.currentFix = undefined;
     this.currentPreviews = [];
@@ -525,12 +467,10 @@ export class GrApplyFixDialog extends LitElement {
       let errorText = '';
       let status = '';
       try {
-        const currentReplacement =
-          this.fixSuggestions[0].replacements[this.selectedReplacementIdx];
         res = await this.restApiService.applyFixSuggestion(
           changeNum,
           patchNum,
-          [currentReplacement],
+          this.fixSuggestions[0].replacements,
           this.latestPatchNum
         );
       } catch (error) {

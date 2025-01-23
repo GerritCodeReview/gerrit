@@ -35,8 +35,8 @@ export class GrChecksFixPreview extends LitElement {
   @query('gr-suggestion-diff-preview')
   suggestionDiffPreview?: GrSuggestionDiffPreview;
 
-  @property({type: Object})
-  fixSuggestionInfo?: FixSuggestionInfo;
+  @property({type: Array})
+  fixSuggestionInfos?: FixSuggestionInfo[];
 
   @property({type: Number})
   patchSet?: PatchSetNumber;
@@ -62,7 +62,7 @@ export class GrChecksFixPreview extends LitElement {
   @state() loggedIn = false;
 
   @state()
-  selectedReplacementIdx = 0;
+  selectedFixSuggestionIdx = 0;
 
   private readonly getChangeModel = resolve(this, changeModelToken);
 
@@ -140,12 +140,12 @@ export class GrChecksFixPreview extends LitElement {
   }
 
   override render() {
-    if (!this.fixSuggestionInfo) return nothing;
+    if ((this.fixSuggestionInfos ?? []).length === 0) return nothing;
     return html`${this.renderHeader()}${this.renderDiff()}`;
   }
 
   private renderHeader() {
-    const replacementCount = this.fixSuggestionInfo?.replacements?.length ?? 0;
+    const replacementCount = this.fixSuggestionInfos?.length ?? 0;
     return html`
       <div class="header">
         <div class="title">
@@ -154,14 +154,14 @@ export class GrChecksFixPreview extends LitElement {
             ? html`
                 <div class="fix-picker">
                   <span
-                    >${this.selectedReplacementIdx + 1} of
+                    >${this.selectedFixSuggestionIdx + 1} of
                     ${replacementCount}</span
                   >
                   <gr-button
                     id="prevFix"
                     link
                     @click=${this.onPrevFixClick}
-                    ?disabled=${this.selectedReplacementIdx === 0}
+                    ?disabled=${this.selectedFixSuggestionIdx === 0}
                   >
                     <gr-icon icon="chevron_left"></gr-icon>
                   </gr-button>
@@ -169,7 +169,7 @@ export class GrChecksFixPreview extends LitElement {
                     id="nextFix"
                     link
                     @click=${this.onNextFixClick}
-                    ?disabled=${this.selectedReplacementIdx ===
+                    ?disabled=${this.selectedFixSuggestionIdx ===
                     replacementCount - 1}
                   >
                     <gr-icon icon="chevron_right"></gr-icon>
@@ -205,16 +205,13 @@ export class GrChecksFixPreview extends LitElement {
   }
 
   private renderDiff() {
+    const fixSuggestionInfo =
+      this.fixSuggestionInfos?.[this.selectedFixSuggestionIdx];
+    if (!fixSuggestionInfo) return;
     // Create a new fixSuggestionInfo with just the current replacement
-    const newFixSuggestionInfo = this.fixSuggestionInfo && {
-      ...this.fixSuggestionInfo,
-      replacements: [
-        this.fixSuggestionInfo.replacements[this.selectedReplacementIdx],
-      ],
-    };
     return html`
       <gr-suggestion-diff-preview
-        .fixSuggestionInfo=${newFixSuggestionInfo}
+        .fixSuggestionInfo=${fixSuggestionInfo}
         .patchSet=${this.patchSet}
         .codeText=${'Loading fix preview ...'}
         @preview-loaded=${() => (this.previewLoaded = true)}
@@ -223,10 +220,10 @@ export class GrChecksFixPreview extends LitElement {
   }
 
   private showFix() {
-    if (!this.patchSet || !this.fixSuggestionInfo) return;
+    if (!this.patchSet || (this.fixSuggestionInfos ?? []).length === 0) return;
     const eventDetail: OpenFixPreviewEventDetail = {
       patchNum: this.patchSet,
-      fixSuggestions: [this.fixSuggestionInfo],
+      fixSuggestions: this.fixSuggestionInfos ?? [],
       onCloseFixPreviewCallbacks: [],
     };
     fire(this, 'open-fix-preview', eventDetail);
@@ -238,8 +235,12 @@ export class GrChecksFixPreview extends LitElement {
   private async applyFix() {
     const changeNum = this.changeNum;
     const basePatchNum = this.patchSet as BasePatchSetNum;
-    if (!changeNum || !basePatchNum || !this.fixSuggestionInfo) return;
-
+    if (
+      !changeNum ||
+      !basePatchNum ||
+      (this.fixSuggestionInfos ?? []).length === 0
+    )
+      return;
     this.applyingFix = true;
     try {
       await this.suggestionDiffPreview?.applyFix();
@@ -267,8 +268,8 @@ export class GrChecksFixPreview extends LitElement {
 
   private onPrevFixClick(e: Event) {
     if (e) e.stopPropagation();
-    if (this.selectedReplacementIdx >= 1) {
-      this.selectedReplacementIdx -= 1;
+    if (this.selectedFixSuggestionIdx >= 1) {
+      this.selectedFixSuggestionIdx -= 1;
       this.previewLoaded = false;
     }
   }
@@ -276,11 +277,13 @@ export class GrChecksFixPreview extends LitElement {
   private onNextFixClick(e: Event) {
     if (e) e.stopPropagation();
     if (
-      this.fixSuggestionInfo &&
-      this.selectedReplacementIdx <
-        this.fixSuggestionInfo.replacements.length - 1
+      this.fixSuggestionInfos &&
+      this.selectedFixSuggestionIdx <
+        this.fixSuggestionInfos[this.selectedFixSuggestionIdx].replacements
+          .length -
+          1
     ) {
-      this.selectedReplacementIdx += 1;
+      this.selectedFixSuggestionIdx += 1;
       this.previewLoaded = false;
     }
   }

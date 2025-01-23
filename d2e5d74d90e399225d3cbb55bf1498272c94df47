@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a4f8cb8_8af025c6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2025-01-23T14:35:40Z",
+      "side": 1,
+      "message": "Unfortunately, this change does not fix the issue. It turns out that ChangeMessages also lack millisecond precision because the writtenOn field is derived from committerIdent, and Git commits support precision only up to seconds.",
+      "revId": "d2e5d74d90e399225d3cbb55bf1498272c94df47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -68,6 +68,23 @@
       },
       "revId": "7fa5fdf18d83227cfb984193cc46ec4db1691a19",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a7d2351_30575e29",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 21
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-01-23T21:20:57Z",
+      "side": 1,
+      "message": "this change overlaps with Sasa\u0027s change https://gerrit-review.googlesource.com/c/gerrit/+/448384",
+      "revId": "7fa5fdf18d83227cfb984193cc46ec4db1691a19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

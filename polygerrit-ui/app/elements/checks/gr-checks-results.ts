@@ -85,6 +85,7 @@ import './gr-checks-attempt';
 import './gr-checks-fix-preview';
 import {changeViewModelToken} from '../../models/views/change';
 import {formStyles} from '../../styles/form-styles';
+import {isDefined} from '../../types/types';
 
 /**
  * Firing this event sets the regular expression of the results filter.
@@ -768,14 +769,14 @@ export class GrResultExpanded extends LitElement {
   }
 
   private renderFix() {
-    const fixSuggestionInfo = rectifyFix(
-      this.result?.fixes?.[0],
-      this.result?.checkName
-    );
-    if (!fixSuggestionInfo) return;
+    const fixSuggestionInfos =
+      this.result?.fixes
+        ?.map(fix => rectifyFix(fix, this.result?.checkName))
+        .filter(isDefined) ?? [];
+    if (fixSuggestionInfos.length === 0) return;
     return html`
       <gr-checks-fix-preview
-        .fixSuggestionInfo=${fixSuggestionInfo}
+        .fixSuggestionInfos=${fixSuggestionInfos}
         .patchSet=${this.result?.patchset}
       ></gr-checks-fix-preview>
     `;

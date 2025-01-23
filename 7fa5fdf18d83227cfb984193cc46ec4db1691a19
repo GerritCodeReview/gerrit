@@ -157,6 +157,24 @@
       "message": "this change overlaps with Sasa\u0027s change https://gerrit-review.googlesource.com/c/gerrit/+/448384",
       "revId": "7fa5fdf18d83227cfb984193cc46ec4db1691a19",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51180765_fdf87792",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 21
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-01-23T22:19:08Z",
+      "side": 1,
+      "message": "Hadn\u0027t seen that! @matthias.sohn@gmail.com let me know if you think it\u0027s best to abandon this and go with Sasa\u0027s approach. Also happy for him to add parchsets here.",
+      "parentUuid": "7a7d2351_30575e29",
+      "revId": "7fa5fdf18d83227cfb984193cc46ec4db1691a19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

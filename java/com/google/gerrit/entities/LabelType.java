@@ -123,7 +123,7 @@ public abstract class LabelType {
         .setDescription(Optional.empty())
         .setValues(valueList)
         .setDefaultValue((short) 0)
-        .setFunction(LabelFunction.MAX_WITH_BLOCK)
+        .setFunction(LabelFunction.NO_OP)
         .setMaxNegative(Short.MIN_VALUE)
         .setMaxPositive(Short.MAX_VALUE)
         .setCanOverride(DEF_CAN_OVERRIDE)

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.schema;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.gerrit.entities.LabelId.CODE_REVIEW;
 import static com.google.gerrit.entities.RefNames.REFS_SEQUENCES;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.PROJECT_OWNERS;
@@ -188,6 +189,19 @@ public class AllProjectsCreator {
   }
 
   private void initDefaultSubmitRequirements(ProjectConfig config) {
+    config.upsertSubmitRequirement(
+        SubmitRequirement.builder()
+            .setName(CODE_REVIEW)
+            .setDescription(
+                Optional.of(
+                    String.format(
+                        "At least one maximum vote for label '%s' is required", CODE_REVIEW)))
+            .setSubmittabilityExpression(
+                SubmitRequirementExpression.create(
+                    String.format("label:%s=MAX AND -label:%s=MIN", CODE_REVIEW, CODE_REVIEW)))
+            .setAllowOverrideInChildProjects(true)
+            .build());
+
     config.upsertSubmitRequirement(
         SubmitRequirement.builder()
             .setName("No-Unresolved-Comments")

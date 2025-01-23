@@ -35,8 +35,8 @@ export class GrChecksFixPreview extends LitElement {
   @query('gr-suggestion-diff-preview')
   suggestionDiffPreview?: GrSuggestionDiffPreview;
 
-  @property({type: Object})
-  fixSuggestionInfo?: FixSuggestionInfo;
+  @property({type: Array})
+  fixSuggestionInfos?: FixSuggestionInfo[];
 
   @property({type: Number})
   patchSet?: PatchSetNumber;
@@ -60,6 +60,8 @@ export class GrChecksFixPreview extends LitElement {
   @state() isChangeAbandoned = false;
 
   @state() loggedIn = false;
+
+  @state() selectedFixSuggestionIdx = 0;
 
   private readonly getChangeModel = resolve(this, changeModelToken);
 
@@ -125,15 +127,43 @@ export class GrChecksFixPreview extends LitElement {
   }
 
   override render() {
-    if (!this.fixSuggestionInfo) return nothing;
+    if ((this.fixSuggestionInfos ?? []).length === 0) return nothing;
     return html`${this.renderHeader()}${this.renderDiff()}`;
   }
 
   private renderHeader() {
+    const fixSuggestionCount = this.fixSuggestionInfos?.length ?? 0;
     return html`
       <div class="header">
         <div class="title">
           <span>Attached Fix</span>
+          ${fixSuggestionCount > 1
+            ? html`
+                <div class="fix-picker">
+                  <span
+                    >${this.selectedFixSuggestionIdx + 1} of
+                    ${fixSuggestionCount}</span
+                  >
+                  <gr-button
+                    id="prevFix"
+                    link
+                    @click=${this.onPrevFixClick}
+                    ?disabled=${this.selectedFixSuggestionIdx === 0}
+                  >
+                    <gr-icon icon="chevron_left"></gr-icon>
+                  </gr-button>
+                  <gr-button
+                    id="nextFix"
+                    link
+                    @click=${this.onNextFixClick}
+                    ?disabled=${this.selectedFixSuggestionIdx ===
+                    fixSuggestionCount - 1}
+                  >
+                    <gr-icon icon="chevron_right"></gr-icon>
+                  </gr-button>
+                </div>
+              `
+            : nothing}
         </div>
         <div>
           <gr-button
@@ -162,9 +192,12 @@ export class GrChecksFixPreview extends LitElement {
   }
 
   private renderDiff() {
+    const fixSuggestionInfo =
+      this.fixSuggestionInfos?.[this.selectedFixSuggestionIdx];
+    if (!fixSuggestionInfo) return;
     return html`
       <gr-suggestion-diff-preview
-        .fixSuggestionInfo=${this.fixSuggestionInfo}
+        .fixSuggestionInfo=${fixSuggestionInfo}
         .patchSet=${this.patchSet}
         .codeText=${'Loading fix preview ...'}
         @preview-loaded=${() => (this.previewLoaded = true)}
@@ -173,10 +206,10 @@ export class GrChecksFixPreview extends LitElement {
   }
 
   private showFix() {
-    if (!this.patchSet || !this.fixSuggestionInfo) return;
+    if (!this.patchSet || (this.fixSuggestionInfos ?? []).length === 0) return;
     const eventDetail: OpenFixPreviewEventDetail = {
       patchNum: this.patchSet,
-      fixSuggestions: [this.fixSuggestionInfo],
+      fixSuggestions: this.fixSuggestionInfos ?? [],
       onCloseFixPreviewCallbacks: [],
     };
     fire(this, 'open-fix-preview', eventDetail);
@@ -188,8 +221,12 @@ export class GrChecksFixPreview extends LitElement {
   private async applyFix() {
     const changeNum = this.changeNum;
     const basePatchNum = this.patchSet as BasePatchSetNum;
-    if (!changeNum || !basePatchNum || !this.fixSuggestionInfo) return;
-
+    if (
+      !changeNum ||
+      !basePatchNum ||
+      (this.fixSuggestionInfos ?? []).length === 0
+    )
+      return;
     this.applyingFix = true;
     try {
       await this.suggestionDiffPreview?.applyFix();
@@ -213,6 +250,25 @@ export class GrChecksFixPreview extends LitElement {
     if (!this.previewLoaded) return 'Fix is still loading ...';
     if (!this.loggedIn) return 'You must be logged in to apply a fix';
     return '';
+  }
+
+  private onPrevFixClick(e: Event) {
+    if (e) e.stopPropagation();
+    if (this.selectedFixSuggestionIdx >= 1) {
+      this.selectedFixSuggestionIdx -= 1;
+      this.previewLoaded = false;
+    }
+  }
+
+  private onNextFixClick(e: Event) {
+    if (e) e.stopPropagation();
+    if (
+      this.fixSuggestionInfos &&
+      this.selectedFixSuggestionIdx < this.fixSuggestionInfos.length - 1
+    ) {
+      this.selectedFixSuggestionIdx += 1;
+      this.previewLoaded = false;
+    }
   }
 }
 

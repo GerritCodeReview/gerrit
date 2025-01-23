@@ -16,6 +16,24 @@
       "message": "Should this be considered a breaking change (I suspect it will break log injestion into systems like splunk)?",
       "revId": "29996e35b33608738497c3aad1b24ca9b31bcc16",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "752728f5_d78c31a6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-01-23T12:54:24Z",
+      "side": 1,
+      "message": "Yes, for the plain text log may be breaking log injestion. If we consider it a breaking change is there anything else to do except mention that in the release notes?\n\nBtw, we use logs in json format for injestion which is more robust for cases like this (introduction of a new field).",
+      "parentUuid": "3f1a762e_b67614b9",
+      "revId": "29996e35b33608738497c3aad1b24ca9b31bcc16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

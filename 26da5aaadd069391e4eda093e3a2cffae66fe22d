@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8ac3190_7f872230",
+        "filename": "java/com/google/gerrit/extensions/common/ValidationOptionInfos.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-01-23T10:07:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e39aab15_c4238ebe",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "26da5aaadd069391e4eda093e3a2cffae66fe22d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2b61868f_8a29ebaa",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ad0b797_76774771",
+        "filename": "java/com/google/gerrit/server/api/config/ServerImpl.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-01-23T10:07:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b61868f_8a29ebaa",
+      "range": {
+        "startLine": 188,
+        "startChar": 39,
+        "endLine": 188,
+        "endChar": 67
+      },
+      "revId": "26da5aaadd069391e4eda093e3a2cffae66fe22d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b5bf4f72_8fbb5c30",
@@ -60,6 +108,24 @@
       "writtenOn": "2025-01-23T09:01:40Z",
       "side": 1,
       "message": "I think you can add the @Singleton annotation back, now that the logic was moved out of the constructor.",
+      "revId": "26da5aaadd069391e4eda093e3a2cffae66fe22d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "13c7cbbe_1092f71e",
+        "filename": "java/com/google/gerrit/server/restapi/config/GetValidationOptions.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-01-23T10:07:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b5bf4f72_8fbb5c30",
       "revId": "26da5aaadd069391e4eda093e3a2cffae66fe22d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -101,6 +167,30 @@
           ]
         }
       ],
+      "revId": "26da5aaadd069391e4eda093e3a2cffae66fe22d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b31e9168_aad7c85b",
+        "filename": "javatests/com/google/gerrit/acceptance/api/config/ValidationOptionsIT.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-01-23T10:07:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c55cc4a_f5422ec6",
+      "range": {
+        "startLine": 35,
+        "startChar": 10,
+        "endLine": 35,
+        "endChar": 19
+      },
       "revId": "26da5aaadd069391e4eda093e3a2cffae66fe22d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

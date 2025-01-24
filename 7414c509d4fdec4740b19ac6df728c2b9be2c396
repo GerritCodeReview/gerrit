@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2d49947_c4ad1056",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2025-01-24T16:46:19Z",
+      "side": 1,
+      "message": "Without this the creation of a project is too fast and the therefore not dispatching the events to the expected listener, hence the test is not able to find them in the stream events.",
+      "revId": "7414c509d4fdec4740b19ac6df728c2b9be2c396",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

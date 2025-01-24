@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "423468f0_95601af0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-01-24T13:06:37Z",
+      "side": 1,
+      "message": "the h2 update to 2.3.232 already landed earlier this week, see 2.3.232",
+      "parentUuid": "c08b1e9f_99e8138f",
+      "revId": "d87cee17fb9d4c70d0665bbc1b5aebded121a741",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bd3a947b_5eb993d1",
         "filename": "java/com/google/gerrit/server/cache/h2/ReadWriteSqlStore.java",
         "patchSetId": 7

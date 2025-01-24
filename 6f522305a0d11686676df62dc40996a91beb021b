@@ -34,6 +34,24 @@
       "parentUuid": "45bd8906_d1ecf94b",
       "revId": "6f522305a0d11686676df62dc40996a91beb021b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a117537_cf25f452",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-01-24T11:14:29Z",
+      "side": 1,
+      "message": "Is it worth you rebasing your change on top of mine? You\u0027ll get the benefit of all the tests already modified?",
+      "parentUuid": "b9424f25_410dafd4",
+      "revId": "6f522305a0d11686676df62dc40996a91beb021b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

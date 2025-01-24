@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45bd8906_d1ecf94b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-01-24T06:45:07Z",
+      "side": 1,
+      "message": "Hey Sasa, there is a similar change (I428205bc4) already in review and it already passes the CI. Perhaps you could contribute differences from your, if any, there? Otherwise feedback is welcomed 😄",
+      "revId": "6f522305a0d11686676df62dc40996a91beb021b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

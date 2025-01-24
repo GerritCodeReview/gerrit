@@ -29,7 +29,10 @@ import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
+import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.server.events.UserScopedEventListener;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.inject.Inject;
 import java.io.IOException;
 import java.io.Reader;
 import java.time.Duration;
@@ -55,6 +58,8 @@ public class StreamEventsIT extends AbstractDaemonTest {
   private static final String TEST_REVIEW_DRAFT_COMMENT = "any draft comment";
   private Reader streamEventsReader;
   private ChangeData change;
+
+  @Inject private DynamicSet<UserScopedEventListener> eventListeners;
 
   @Before
   public void setup() throws Exception {
@@ -199,6 +204,45 @@ public class StreamEventsIT extends AbstractDaemonTest {
     return events;
   }
 
+  @Test
+  public void projectCreatedShowInStreamEvents() throws Exception {
+    ensureStreamEventsIsRegistered();
+    String projectNameCreated = createProjectOverAPI("test-repo-1", project, true, null).get();
+    waitForEvent(() -> pollEventsContaining("project-created", projectNameCreated).size() == 1);
+  }
+
+  @Test
+  @GerritConfig(name = "event.stream-events.enableRefUpdatedEvents", value = "true")
+  public void projectCreatedShowInStreamEventsBeforeRefUpdates() throws Exception {
+    projectCreatedShowBefore("ref-updated");
+  }
+
+  @Test
+  @GerritConfig(name = "event.stream-events.enableBatchRefUpdatedEvents", value = "true")
+  public void projectCreatedShowInStreamEventsBeforeBatchRefUpdates() throws Exception {
+    projectCreatedShowBefore("batch-ref-updated");
+  }
+
+  private void projectCreatedShowBefore(String expectedEvent) throws Exception {
+    ensureStreamEventsIsRegistered();
+    String projectNameCreated = createProjectOverAPI("test-repo-1", project, true, null).get();
+
+    List<String> collectedEvents = new ArrayList<>();
+    waitForEvent(
+        () -> {
+          pollEvents().forEach(event -> collectedEvents.add(event));
+          return collectedEvents.size() >= 2;
+        });
+
+    String firstEvent = collectedEvents.get(0);
+    assertThat(firstEvent).contains(toEventTypeField("project-created"));
+    assertThat(firstEvent).contains(projectNameCreated);
+
+    String secondEvent = collectedEvents.get(1);
+    assertThat(secondEvent).contains(toEventTypeField(expectedEvent));
+    assertThat(secondEvent).contains(projectNameCreated);
+  }
+
   private void waitForEvent(Supplier<Boolean> waitCondition) throws InterruptedException {
     waitUntil(() -> waitCondition.get(), MAX_DURATION_FOR_RECEIVING_EVENTS);
   }
@@ -235,7 +279,7 @@ public class StreamEventsIT extends AbstractDaemonTest {
               Splitter.on('\n').trimResults().split(eventsOutput.toString()).spliterator(), false)
           .filter(
               event ->
-                  event.contains(String.format("\"type\":\"%s\"", eventType))
+                  event.contains(toEventTypeField(eventType))
                       && (expectedContent.length == 0
                           || Stream.of(expectedContent).allMatch(event::contains)))
           .collect(Collectors.toList());
@@ -258,5 +302,21 @@ public class StreamEventsIT extends AbstractDaemonTest {
     } catch (IOException e) {
       throw new IllegalStateException(e);
     }
+  }
+
+  private String toEventTypeField(String eventType) {
+    return String.format("\"type\":\"%s\"", eventType);
+  }
+
+  private void ensureStreamEventsIsRegistered() throws InterruptedException {
+    waitUntil(
+        () ->
+            eventListeners.stream()
+                .anyMatch(
+                    l ->
+                        l.getClass()
+                            .getName()
+                            .contains("com.google.gerrit.sshd.commands.StreamEvents")),
+        MAX_DURATION_FOR_RECEIVING_EVENTS);
   }
 }

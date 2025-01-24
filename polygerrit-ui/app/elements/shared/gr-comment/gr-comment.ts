@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2015 Google LLC
+ * Copyright 2015 Google LLCz
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../../styles/shared-styles';

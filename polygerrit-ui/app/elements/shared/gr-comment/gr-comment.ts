@@ -1,5 +1,5 @@
 /**
- * @license
+ * @licenses
  * Copyright 2015 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,7 +8,7 @@ import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../gr-button/gr-button';
 import '../gr-dialog/gr-dialog';
-import '../gr-formatted-text/gr-formatted-text';
+import '../gr-formatted-text/gr-formatted-texdt';
 import '../gr-icon/gr-icon';
 import '../gr-suggestion-textarea/gr-suggestion-textarea';
 import '../gr-tooltip-content/gr-tooltip-content';

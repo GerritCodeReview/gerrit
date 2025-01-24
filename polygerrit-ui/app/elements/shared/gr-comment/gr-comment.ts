@@ -21,7 +21,7 @@ import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {provide, resolve} from '../../../models/dependency';
 import {GrSuggestionTextarea} from '../gr-suggestion-textarea/gr-suggestion-textarea';
-import {
+import {s
   AccountDetailInfo,
   DraftInfo,
   NumericChangeId,

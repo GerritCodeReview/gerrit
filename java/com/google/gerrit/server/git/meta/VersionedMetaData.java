@@ -198,7 +198,7 @@ public abstract class VersionedMetaData {
 
   /**
    * Update this metadata branch, recording a new commit on its reference. This method mutates its
-   * receiver.
+   * receiver. This method fires an event when committing the reference.
    *
    * @param update helper information to define the update that will occur.
    * @return the commit that was created
@@ -207,9 +207,25 @@ public abstract class VersionedMetaData {
    */
   @CanIgnoreReturnValue
   public RevCommit commit(MetaDataUpdate update) throws IOException {
+    return commit(update, true);
+  }
+
+  /**
+   * Update this metadata branch, recording a new commit on its reference. This method mutates its
+   * receiver.
+   *
+   * @param update helper information to define the update that will occur.
+   * @param fireEvent to fire (when <code>true</code>) or not fire (when <code>false</code>) an
+   *     event upon the update commit
+   * @return the commit that was created
+   * @throws IOException if there is a storage problem and the update cannot be executed as
+   *     requested or if it failed because of a concurrent update to the same reference
+   */
+  @CanIgnoreReturnValue
+  public RevCommit commit(MetaDataUpdate update, boolean fireEvent) throws IOException {
     try (BatchMetaDataUpdate batch = openUpdate(update)) {
       batch.write(update.getCommitBuilder());
-      return batch.commit();
+      return batch.commit(fireEvent);
     }
   }
 
@@ -260,10 +276,20 @@ public abstract class VersionedMetaData {
     RevCommit createRef(String refName) throws IOException;
 
     @CanIgnoreReturnValue
-    RevCommit commit() throws IOException;
+    default RevCommit commit() throws IOException {
+      return commit(true);
+    }
 
     @CanIgnoreReturnValue
-    RevCommit commitAt(ObjectId revision) throws IOException;
+    RevCommit commit(boolean fireEvent) throws IOException;
+
+    @CanIgnoreReturnValue
+    default RevCommit commitAt(ObjectId revision) throws IOException {
+      return commitAt(revision, true);
+    }
+
+    @CanIgnoreReturnValue
+    RevCommit commitAt(ObjectId revision, boolean fireEvent) throws IOException;
 
     @Override
     void close();
@@ -409,20 +435,21 @@ public abstract class VersionedMetaData {
         if (Objects.equals(src, revision)) {
           return revision;
         }
-        return updateRef(ObjectId.zeroId(), src, refName);
+        return updateRef(ObjectId.zeroId(), src, refName, true);
       }
 
       @Override
-      public RevCommit commit() throws IOException {
-        return commitAt(revision);
+      public RevCommit commit(boolean fireEvent) throws IOException {
+        return commitAt(revision, fireEvent);
       }
 
       @Override
-      public RevCommit commitAt(ObjectId expected) throws IOException {
+      public RevCommit commitAt(ObjectId expected, boolean fireEvent) throws IOException {
         if (Objects.equals(src, expected)) {
           return revision;
         }
-        return updateRef(MoreObjects.firstNonNull(expected, ObjectId.zeroId()), src, getRefName());
+        return updateRef(
+            MoreObjects.firstNonNull(expected, ObjectId.zeroId()), src, getRefName(), fireEvent);
       }
 
       @Override
@@ -444,7 +471,8 @@ public abstract class VersionedMetaData {
         }
       }
 
-      private RevCommit updateRef(AnyObjectId oldId, AnyObjectId newId, String refName)
+      private RevCommit updateRef(
+          AnyObjectId oldId, AnyObjectId newId, String refName, boolean fireEvent)
           throws IOException {
         try (RefUpdateContext ctx = RefUpdateContext.open(VERSIONED_META_DATA_CHANGE)) {
           BatchRefUpdate bru = update.getBatch();
@@ -476,7 +504,9 @@ public abstract class VersionedMetaData {
             case NEW:
             case FAST_FORWARD:
               revision = rw.parseCommit(ru.getNewObjectId());
-              update.fireGitRefUpdatedEvent(ru);
+              if (fireEvent) {
+                update.fireGitRefUpdatedEvent(ru);
+              }
               logger.atFine().log(
                   "Saved commit '%s' as revision '%s' on project '%s'",
                   message.trim(), revision.name(), projectName);

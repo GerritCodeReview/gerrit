@@ -92,6 +92,24 @@
       "parentUuid": "9b3a8c58_209d9b1c",
       "revId": "71589cb7fa805e2e79e3b979bfea426103755eb0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "920ac621_1522a9c6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-01-24T11:36:07Z",
+      "side": 1,
+      "message": "I abandoned my change. Please just take over the fix for the Verified label creation (see the InitLabels.java)",
+      "parentUuid": "54e5036a_a249c462",
+      "revId": "71589cb7fa805e2e79e3b979bfea426103755eb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

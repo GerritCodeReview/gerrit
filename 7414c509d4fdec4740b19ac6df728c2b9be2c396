@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "01b07b49_8d3323b4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-24T21:47:40Z",
+      "side": 1,
+      "message": "What is the point of introducing a test that is going to be *exactly* inverted in the subsequent change? Can you just squash the two?",
+      "revId": "7414c509d4fdec4740b19ac6df728c2b9be2c396",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "e2d49947_c4ad1056",

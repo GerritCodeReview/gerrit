@@ -153,6 +153,6 @@ public class ProjectCacheIT extends AbstractDaemonTest {
         createProjectOverAPI("foo", allProjects, true, /* submitType= */ null);
     assertThat(inMemoryProjectCache.get(newProjectName)).isPresent(); // Another invocation
     assertThat(inMemoryProjectCache.stats().missCount())
-        .isEqualTo(initialNumMisses + 3); // Two eviction happened during the project creation
+        .isEqualTo(initialNumMisses + 2); // Two eviction happened during the project creation
   }
 }

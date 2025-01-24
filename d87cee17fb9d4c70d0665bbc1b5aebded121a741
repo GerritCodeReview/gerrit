@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c08b1e9f_99e8138f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-01-24T07:33:54Z",
+      "side": 1,
+      "message": "I agree that this would be useful for online reindexing. However, I don\u0027t believe that this is possible due to the way how caches are being used in Gerrit. I havve also discussed that with Sasa and he agrees with me in that. The reason is that caches are bound as singletons in Gerrit and with them the CacheLoaders that are responsible for putting data into the cache. H2 also doesn\u0027t allow multiple threads to write to the cache (AFAIK this will change with the update to a newer version which is already in praparation). Thus, using the implementation used in this change for the Reindex pgm tool wouldn\u0027t work, since caches can only be either read-write or read-only and we would like to write cache entries caused by client usage, but not by reindexing.\nUsing a parameter handed down by the caller of the cache would also not work, because only the API that is supposed to compute some value knows about the cache. The cache and such an API don\u0027t know about their caller. And it also doesn\u0027t seem right that each caller needs to know about caches. It thus doesn\u0027t seem to be a good idea that calls everywhere need to hand down parameters to caches.\nWe also discussed alternatives:\n- We could add an option to each cache to make them read only. This option could be used to prohibit writes to troublesome caches (*diff*) while online reindexing. This would come at a cost, since user actions would also not fill the cache. Depending on how long online reindexing is running, this might still be more beneficial.\n- We could add an option to *diff* caches to only store data from changes younger than a certain age. That would prevent that caches will be filled with old and unlikely to still be viewed data due to reindexing, while new data (mostly data created due to user requests) will still be cached.\n- In general, we think that using client serving Gerrit instances for reindexing is not a good idea (at least in large sites). At SAP we follow a different approach for years, where we use a separate Gerrit instance working on a data snapshot to create a index using offline reindexing. This index is than applied to the main site and online reindexing with `index.reuseExistingDocuments \u003d true` is used to bring the index up-to-date with the updates that happened in the meantime. For k8s-gerrit we created a separate job to handle that and are able to do this with zero downtime.\n- We also have the plan to look at the fields in the change index and to check which fields are expensive to compute and cause caches to grow most. Sasa\u0027s suspicion is the change size, which requires the computation of the diff to just compute a tshirt size. He suggests to compute that size during change/PS creation and store it in notedb instead, since this number is immutable.",
+      "parentUuid": "949df499_696d9ac0",
+      "revId": "d87cee17fb9d4c70d0665bbc1b5aebded121a741",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bd3a947b_5eb993d1",
         "filename": "java/com/google/gerrit/server/cache/h2/ReadWriteSqlStore.java",
         "patchSetId": 7
@@ -31,6 +49,30 @@
       "writtenOn": "2025-01-21T23:04:49Z",
       "side": 1,
       "message": "The naming here breaks inheritance models, i.e. when you inherit something, it should still be a form of that thing. Inheriting a RO object should not turn it into a writting object. You could rename the RO class to be ReadingSqlStore (or ReadSqlStore) to avoid this problem.\n\nTo be honest, this adds a lot of extra code and an interface to achieve something that could easily be done mostly by adding the following to 5 methods instead:\n\n if (!isWriteEnabled) {\n   return;\n }\n\nI am not sure that is worth it? \n\nWhile I am a fan of reducing class sizes, I am concerned that this affects readability a bit. With this approach I have to understand two classes that are very much linked together in order to get the full picture of how the RW class works. I feel this might actually make working on this much more difficult in the future.",
+      "range": {
+        "startLine": 35,
+        "startChar": 30,
+        "endLine": 35,
+        "endChar": 57
+      },
+      "revId": "d87cee17fb9d4c70d0665bbc1b5aebded121a741",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5034550e_02d42fa4",
+        "filename": "java/com/google/gerrit/server/cache/h2/ReadWriteSqlStore.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-01-24T07:33:54Z",
+      "side": 1,
+      "message": "Agreed that this solution is not ideal. Using n if-statements and deciding on each call what to do also doesn\u0027t seem elegant. I would suggest to create a `SqlStore.Writer` interface and `SqlStore.NoopWriter` and `SqlStore.PersistentWriter` implementations that are instantiated on construction of the SqlStore. That would still get rid of inheritance in SqlStore.",
+      "parentUuid": "bd3a947b_5eb993d1",
       "range": {
         "startLine": 35,
         "startChar": 30,

@@ -52,6 +52,41 @@
       "parentUuid": "b9424f25_410dafd4",
       "revId": "6f522305a0d11686676df62dc40996a91beb021b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da20dfa7_e2f170ce",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-01-24T11:33:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9424f25_410dafd4",
+      "revId": "6f522305a0d11686676df62dc40996a91beb021b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9de603c0_31529e93",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-01-24T11:33:41Z",
+      "side": 1,
+      "message": "OK, I see that many tests are failing here and if I fix them I would probably reach the size of the I428205bc4 change. I will abandon this change.",
+      "revId": "6f522305a0d11686676df62dc40996a91beb021b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

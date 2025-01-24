@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e9a8292_fa34888e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-24T21:46:31Z",
+      "side": 1,
+      "message": "We use the imperative form in the commit message.\n\n\n\n```suggestion\nEnsure in `ProjectCreator` that the\n```",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 8
+      },
+      "revId": "5ddeb7be5bb26dd3e2d184bd58c4331b2dfaf5b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6fac1cf2_63c4768f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-24T21:46:31Z",
+      "side": 1,
+      "message": "We use the imperative form in the commit message.\n\n\n\n```suggestion\nGuarantee that consumers receive events in the correct\n```",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 22
+      },
+      "revId": "5ddeb7be5bb26dd3e2d184bd58c4331b2dfaf5b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "066b2219_5a63f48e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-24T21:46:31Z",
+      "side": 1,
+      "message": "We use the past tense to describe the situation *before* the change.\n\n\n\n```suggestion\nThere were temporal inconsistencies seen by the listeners of stream events\n```",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 52
+      },
+      "revId": "5ddeb7be5bb26dd3e2d184bd58c4331b2dfaf5b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65a1195b_93dbc482",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-24T21:46:31Z",
+      "side": 1,
+      "message": "This is just an example of listener, there could be many more examples such the CI jobs trying to fetch a ref from an non-existent project.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 43
+      },
+      "revId": "5ddeb7be5bb26dd3e2d184bd58c4331b2dfaf5b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c244e98_eb2acf06",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-24T21:46:31Z",
+      "side": 1,
+      "message": "I believe needs more investigation on why the ref-updated was triggered *before* the project-created *on purpose*.",
+      "revId": "5ddeb7be5bb26dd3e2d184bd58c4331b2dfaf5b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

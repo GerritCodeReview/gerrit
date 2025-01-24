@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25ee6692_e53ecadf",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-24T21:46:31Z",
+      "side": 0,
+      "message": "It looks like this test was exactly expectign that the project created was happening *after* the update: have you investigated when this test was introduced and what was the purpose of this behaviour?",
+      "range": {
+        "startLine": 201,
+        "startChar": 14,
+        "endLine": 201,
+        "endChar": 61
+      },
+      "revId": "7414c509d4fdec4740b19ac6df728c2b9be2c396",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

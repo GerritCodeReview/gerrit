@@ -93,6 +93,30 @@
       },
       "revId": "6d8cae11ecf7a838b15f505c8b5f8a2f5bdc8bdb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "14a44ccb_ed51e5d1",
+        "filename": "java/com/google/gerrit/server/schema/AllProjectsCreator.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-01-24T16:01:03Z",
+      "side": 1,
+      "message": "Fine with me.\n\nJust for completeness, it is not always that Gerrit admins are responsible for the configuration of every project. For example, Gerrit admins may setup reasonable defaults (at the top of the project hierarchy) and then leave it to project owners to override what they want differently.",
+      "parentUuid": "913d26f6_eac8ee33",
+      "range": {
+        "startLine": 213,
+        "startChar": 45,
+        "endLine": 213,
+        "endChar": 50
+      },
+      "revId": "6d8cae11ecf7a838b15f505c8b5f8a2f5bdc8bdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

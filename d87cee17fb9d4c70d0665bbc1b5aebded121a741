@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "61c1bd73_2cd44ffe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-01-24T16:23:45Z",
+      "side": 1,
+      "message": "I don\u0027t believe that we need to be able to turn this on or off for each caller individually. I believe that what we need is the ability to turn this off during an online index triggered for an upgrade (not normal change update indexes). I think there is a simple solution with if statements if we pass in a shared system level \"isWriteEnabled\" AtomicBoolean (or other boolean container) reference to each H2Cache on construction. This boolean reference container would only be set to false during the online \"upgrade\" reindex. By setting the boolean in this container to false, all the H2Caches would see it and avoid writting during that period.",
+      "parentUuid": "423468f0_95601af0",
+      "revId": "d87cee17fb9d4c70d0665bbc1b5aebded121a741",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bd3a947b_5eb993d1",
         "filename": "java/com/google/gerrit/server/cache/h2/ReadWriteSqlStore.java",
         "patchSetId": 7

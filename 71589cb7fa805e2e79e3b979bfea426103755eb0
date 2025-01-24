@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7c8b25b_5f1f1f4b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-01-24T06:35:28Z",
+      "side": 1,
+      "message": "AFAIU this functionality will be used in all sites that were upgraded. Note that `AllProjectsCreator` is called only for green-field setups. I believe that we should still verify if the functionality works. If we agree that this is the way to go all modified ITs have to be reviewed from this perspective though...\n\nPerhaps it could be done in the follow-up together with migration (where all Labels in all projects that have `MaxWithBlock` were rewritten to submit requirement)...",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 33
+      },
+      "revId": "71589cb7fa805e2e79e3b979bfea426103755eb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

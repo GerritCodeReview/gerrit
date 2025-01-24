@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aaf631a6_b12aab66",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 24
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-01-24T13:46:45Z",
+      "side": 1,
+      "message": "please also take over the change from `BaseInit.java` it is necessary for the guice environment of the `init` program.",
+      "revId": "ec74ee65ad480ad34e12bb5cf3312395c76a4e3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

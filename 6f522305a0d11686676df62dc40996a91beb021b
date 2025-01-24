@@ -16,6 +16,24 @@
       "message": "Hey Sasa, there is a similar change (I428205bc4) already in review and it already passes the CI. Perhaps you could contribute differences from your, if any, there? Otherwise feedback is welcomed 😄",
       "revId": "6f522305a0d11686676df62dc40996a91beb021b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9424f25_410dafd4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-01-24T11:09:54Z",
+      "side": 1,
+      "message": "I see. However, my change is signifcantly smaller and probably has a smaller scope. I will post link to it in the other change.",
+      "parentUuid": "45bd8906_d1ecf94b",
+      "revId": "6f522305a0d11686676df62dc40996a91beb021b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

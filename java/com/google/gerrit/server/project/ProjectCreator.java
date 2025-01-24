@@ -125,6 +125,8 @@ public class ProjectCreator {
         try (Repository repo = repoManager.createRepository(nameKey)) {
           projectCache.evict(nameKey);
 
+          fire(nameKey, head);
+
           RefUpdate u = repo.updateRef(Constants.HEAD);
           u.disableRefLog();
           u.link(head);
@@ -134,8 +136,6 @@ public class ProjectCreator {
           if (!args.permissionsOnly && args.createEmptyCommit) {
             createEmptyCommits(repo, nameKey, args.branch);
           }
-
-          fire(nameKey, head);
 
           return projectCache.get(nameKey).orElseThrow(illegalState(nameKey));
         }

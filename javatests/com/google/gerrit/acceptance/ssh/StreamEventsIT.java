@@ -198,11 +198,11 @@ public class StreamEventsIT extends AbstractDaemonTest {
 
   @Test
   @GerritConfig(name = "event.stream-events.enableRefUpdatedEvents", value = "true")
-  public void projectCreatedShowInStreamEventsAfterRefUpdates() throws Exception {
+  public void projectCreatedShowInStreamEventsBeforeRefUpdates() throws Exception {
     String projectNameCreated = createProjectOverAPI("test-repo-1", project, true, null).get();
     String[] eventTypesWanted = {"project-created", "ref-updated"};
     List<String> expectedTypeSequence =
-        Arrays.asList("ref-updated", "ref-updated", "project-created");
+        Arrays.asList("project-created", "ref-updated", "ref-updated");
 
     AtomicReference<List<String>> collectedEvents = new AtomicReference<>(new ArrayList<>());
 

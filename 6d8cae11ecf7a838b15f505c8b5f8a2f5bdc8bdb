@@ -22,6 +22,30 @@
       },
       "revId": "6d8cae11ecf7a838b15f505c8b5f8a2f5bdc8bdb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7e31dab_b2a086c2",
+        "filename": "java/com/google/gerrit/pgm/init/InitLabels.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-01-24T14:35:15Z",
+      "side": 1,
+      "message": "Good catch. I set it for easier debugging and forgot to remove it.",
+      "parentUuid": "ede4166e_c1730708",
+      "range": {
+        "startLine": 105,
+        "startChar": 4,
+        "endLine": 105,
+        "endChar": 26
+      },
+      "revId": "6d8cae11ecf7a838b15f505c8b5f8a2f5bdc8bdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e786b14_6972afe0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-01-24T07:02:17Z",
+      "side": 1,
+      "message": "Had to rebase whole chain over the current master to verify with M1 but otherwise works as expected 😄",
+      "revId": "5d11eb5a18f68540e1f41d66b17944cfb1ad283d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

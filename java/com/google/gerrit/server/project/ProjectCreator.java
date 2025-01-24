@@ -62,6 +62,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
 /**
@@ -129,13 +130,13 @@ public class ProjectCreator {
           u.disableRefLog();
           u.link(head);
 
-          createProjectConfig(args);
+          RevCommit configRevCommit = createProjectConfig(args);
+
+          fireProjectCreatedAndConfigRefUpdated(nameKey, head, configRevCommit);
 
           if (!args.permissionsOnly && args.createEmptyCommit) {
             createEmptyCommits(repo, nameKey, args.branch);
           }
-
-          fire(nameKey, head);
 
           return projectCache.get(nameKey).orElseThrow(illegalState(nameKey));
         }
@@ -151,8 +152,9 @@ public class ProjectCreator {
     }
   }
 
-  private void createProjectConfig(CreateProjectArgs args)
+  private RevCommit createProjectConfig(CreateProjectArgs args)
       throws IOException, ConfigInvalidException {
+    RevCommit configRevCommit;
     try (MetaDataUpdate md = metaDataUpdateFactory.create(args.getProject())) {
       ProjectConfig config = projectConfigFactory.read(md);
 
@@ -197,11 +199,11 @@ public class ProjectCreator {
             });
       }
 
-      md.setMessage("Created project\n");
-      config.commit(md);
+      configRevCommit = config.commitWithoutFiringEvent(md);
       md.getRepository().setGitwebDescription(args.projectDescription);
     }
     projectCache.onCreateProject(args.getProject());
+    return configRevCommit;
   }
 
   private void createEmptyCommits(Repository repo, Project.NameKey project, List<String> refs)
@@ -257,6 +259,17 @@ public class ProjectCreator {
 
     ProjectCreator.Event event = new ProjectCreator.Event(name, head, gerritInstanceId);
     createdListeners.runEach(l -> l.onNewProjectCreated(event));
+  }
+
+  private void fireProjectCreatedAndConfigRefUpdated(
+      Project.NameKey name, String head, ObjectId configNewObjectId) {
+    fire(name, head);
+    referenceUpdated.fire(
+        name,
+        RefNames.REFS_CONFIG,
+        ObjectId.zeroId(),
+        configNewObjectId,
+        identifiedUser.get().state());
   }
 
   static class Event extends AbstractNoNotifyEvent implements NewProjectCreatedListener.Event {

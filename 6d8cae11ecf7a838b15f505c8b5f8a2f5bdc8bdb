@@ -69,6 +69,30 @@
       },
       "revId": "6d8cae11ecf7a838b15f505c8b5f8a2f5bdc8bdb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "913d26f6_eac8ee33",
+        "filename": "java/com/google/gerrit/server/schema/AllProjectsCreator.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-01-24T15:37:28Z",
+      "side": 1,
+      "message": "`false` maintains the same behavior as we have currently, from what I understand. At the moment, Gerrit, doesn\u0027t prevent uploaders from approving their own PRs by default, admins need to define a different submit requirement to achieve this.\nThey would need to do the same now.\n\nI don\u0027t have a strong opinion, if you still think we should change this to `true` I\u0027m happy to do it, but it might be best as a follow up change where we only amend the default behavior.",
+      "parentUuid": "a9c6cb8d_a4421c92",
+      "range": {
+        "startLine": 213,
+        "startChar": 45,
+        "endLine": 213,
+        "endChar": 50
+      },
+      "revId": "6d8cae11ecf7a838b15f505c8b5f8a2f5bdc8bdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

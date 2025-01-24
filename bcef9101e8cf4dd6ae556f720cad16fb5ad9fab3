@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "85199ce0_b1b978f5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-01-24T22:13:04Z",
+      "side": 1,
+      "message": "This approach feels like it can lead to missleading results. It might be better to encode the slahes instead to avoid duplication in the first place.",
+      "revId": "bcef9101e8cf4dd6ae556f720cad16fb5ad9fab3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

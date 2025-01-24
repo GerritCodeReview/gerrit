@@ -16,6 +16,24 @@
       "message": "please also take over the change from `BaseInit.java` it is necessary for the guice environment of the `init` program.",
       "revId": "ec74ee65ad480ad34e12bb5cf3312395c76a4e3b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7f3835f_b6699b8a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 24
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-01-24T14:25:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aaf631a6_b12aab66",
+      "revId": "ec74ee65ad480ad34e12bb5cf3312395c76a4e3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

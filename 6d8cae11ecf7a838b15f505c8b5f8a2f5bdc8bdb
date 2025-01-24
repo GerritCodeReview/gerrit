@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ede4166e_c1730708",
+        "filename": "java/com/google/gerrit/pgm/init/InitLabels.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-01-24T14:25:19Z",
+      "side": 1,
+      "message": "@sasa.zivkov@sap.com in your implementation you had set `installVerified` always to true just before this `if` statement, I\u0027ve removed it as it didn\u0027t seem right and it was breaking tests.\n\nLet me know if it was an intended change.",
+      "range": {
+        "startLine": 105,
+        "startChar": 4,
+        "endLine": 105,
+        "endChar": 26
+      },
+      "revId": "6d8cae11ecf7a838b15f505c8b5f8a2f5bdc8bdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

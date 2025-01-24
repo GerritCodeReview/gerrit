@@ -22,6 +22,30 @@
       },
       "revId": "7414c509d4fdec4740b19ac6df728c2b9be2c396",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0acef820_ca49885f",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-24T21:48:48Z",
+      "side": 0,
+      "message": "Forget about this comment: actually you\u0027ve created it in the parent change.",
+      "parentUuid": "25ee6692_e53ecadf",
+      "range": {
+        "startLine": 201,
+        "startChar": 14,
+        "endLine": 201,
+        "endChar": 61
+      },
+      "revId": "7414c509d4fdec4740b19ac6df728c2b9be2c396",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

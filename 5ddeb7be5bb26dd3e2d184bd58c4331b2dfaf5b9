@@ -108,6 +108,24 @@
       "message": "I believe needs more investigation on why the ref-updated was triggered *before* the project-created *on purpose*.",
       "revId": "5ddeb7be5bb26dd3e2d184bd58c4331b2dfaf5b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0bb9e1c7_68249e67",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-24T21:48:48Z",
+      "side": 1,
+      "message": "Please forget my previous comment: I\u0027ve seen that you\u0027ve introduced it in the previous change. It would make sense to have them both in this change instead.",
+      "parentUuid": "6c244e98_eb2acf06",
+      "revId": "5ddeb7be5bb26dd3e2d184bd58c4331b2dfaf5b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

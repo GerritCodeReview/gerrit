@@ -155,6 +155,27 @@ suite('commit-message-formatter-util tests', () => {
           '  call it.\n\nChange-Id: abcdefg\n'
       );
     });
+
+    test('bullet points with preceding text are not reordered', () => {
+      const message =
+        'Add a content scrim view\n\n' +
+        'Some description.\n\n' +
+        'screenshots,\n' +
+        '- https://example.com/1\n' +
+        '- https://example.com/2\n' +
+        '- https://example.com/3\n\n' +
+        'Change-Id: abcdefg\n';
+      assert.equal(
+        formatCommitMessageString(message),
+        'Add a content scrim view\n\n' +
+          'Some description.\n\n' +
+          'screenshots,\n' +
+          '- https://example.com/1\n' +
+          '- https://example.com/2\n' +
+          '- https://example.com/3\n\n' +
+          'Change-Id: abcdefg\n'
+      );
+    });
   });
 
   suite('detectFormattingErrorsInString', () => {

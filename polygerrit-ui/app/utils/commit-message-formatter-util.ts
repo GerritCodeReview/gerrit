@@ -63,7 +63,6 @@ function formatBody(body: string[]): string[] {
     }
 
     if (inCodeBlock || isUntouchedLine(line)) {
-      formattedBody.push(line.trimEnd());
       if (!inCodeBlock) {
         previousWasBulletPoint = BULLET_POINT_REGEX.test(line);
       }
@@ -71,6 +70,7 @@ function formatBody(body: string[]): string[] {
         formattedBody.push(...splitParagraph(paragraphLines.join(' ')));
       }
       paragraphLines = []; // Reset paragraph
+      formattedBody.push(line.trimEnd());
       continue;
     }
 

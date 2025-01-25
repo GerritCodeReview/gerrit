@@ -144,6 +144,9 @@ export class GrEditableContent extends LitElement {
 
   @state() private formattedErrors: FormattingError[] = [];
 
+  // Used to undo formatting
+  @state() private lastFormattedContent?: string;
+
   constructor() {
     super();
     subscribe(
@@ -183,6 +186,12 @@ export class GrEditableContent extends LitElement {
     if (changedProperties.has('newContent')) {
       this.updateFormatState();
       this.updateStorageWithNewContent();
+      if (
+        this.lastFormattedContent &&
+        this.newContent !== formatCommitMessageString(this.lastFormattedContent)
+      ) {
+        this.lastFormattedContent = undefined;
+      }
     }
     if (changedProperties.has('content')) this.contentChanged();
   }
@@ -399,9 +408,10 @@ export class GrEditableContent extends LitElement {
                 ?disabled=${this.formatDisabled}
                 .title=${this.computeFormatButtonTooltip(
                   this.formatDisabled,
-                  this.formattedErrors
+                  this.formattedErrors,
+                  !!this.lastFormattedContent
                 )}
-                >Format</gr-button
+                >${this.lastFormattedContent ? 'Undo' : 'Format'}</gr-button
               >
               <gr-button
                 link
@@ -624,19 +634,28 @@ export class GrEditableContent extends LitElement {
       'iron-autogrow-textarea'
     ).textarea;
 
+    // If we have lastFormattedContent, we're undoing
+    if (this.lastFormattedContent) {
+      textarea.focus();
+      textarea.setSelectionRange(0, textarea.value.length);
+      document.execCommand('insertText', false, this.lastFormattedContent);
+      this.newContent = this.lastFormattedContent;
+      this.lastFormattedContent = undefined;
+      return;
+    }
+
+    // Otherwise we're formatting
     const oldValue = textarea.value;
     const newValue = formatCommitMessageString(oldValue);
     if (oldValue === newValue) return;
 
     const {selectionStart, selectionEnd} = textarea;
 
-    // Make sure the textarea is focused so setSelectionRange() works
     textarea.focus();
-
     textarea.setSelectionRange(0, oldValue.length);
 
+    this.lastFormattedContent = oldValue;
     document.execCommand('insertText', false, newValue);
-
     this.newContent = textarea.value;
 
     // Restore the cursor position
@@ -651,8 +670,12 @@ export class GrEditableContent extends LitElement {
 
   private computeFormatButtonTooltip(
     formatDisabled: boolean,
-    formattedErrors: FormattingError[]
+    formattedErrors: FormattingError[],
+    isUndo: boolean
   ): string {
+    if (isUndo) {
+      return 'Undo formatting changes';
+    }
     if (!formatDisabled) {
       return (
         'Automatically fixes formatting by trimming trailing spaces, ' +

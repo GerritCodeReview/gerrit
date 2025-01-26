@@ -40,6 +40,7 @@ import java.util.NavigableSet;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
@@ -55,6 +56,7 @@ import org.eclipse.jgit.util.FS;
 @Singleton
 public class LocalDiskRepositoryManager implements GitRepositoryManager {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+  private final boolean useRepositoryCache;
 
   public static class LocalDiskRepositoryManagerModule extends LifecycleModule {
     @Override
@@ -105,6 +107,10 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
         cfg.setStreamFileThreshold(limit);
       }
       cfg.install();
+
+      if (!serverConfig.getBoolean("core", null, "useRepositoryCache", true)) {
+        logger.atInfo().log("NOT using JGit RepositoryCache");
+      }
     }
 
     @Override
@@ -124,6 +130,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     }
     usePerRequestRefCache = cfg.getBoolean("core", null, "usePerRequestRefCache", true);
     useFileKeyByProjectCache = cfg.getBoolean("core", null, "useFileKeyByProjectCache", true);
+    useRepositoryCache = cfg.getBoolean("core", null, "useRepositoryCache", true);
   }
 
   /**
@@ -146,17 +153,16 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     if (dir == null) {
       return Status.NON_EXISTENT;
     }
-    Repository repo;
-    try {
-      // Try to open with mustExist, so that it does not attempt to create a repository.
-      repo = RepositoryCache.open(FileKey.lenient(dir, FS.DETECTED), /* mustExist= */ true);
+    ;
+    // Try to open with mustExist, so that it does not attempt to create a repository.
+    try (Repository repo = openRepository(dir, true)) {
+      // If object database does not exist, the repository is unusable
+      return repo.getObjectDatabase().exists() ? Status.ACTIVE : Status.UNAVAILABLE;
     } catch (RepositoryNotFoundException e) {
       return Status.NON_EXISTENT;
     } catch (IOException e) {
       return Status.UNAVAILABLE;
     }
-    // If object database does not exist, the repository is unusable
-    return repo.getObjectDatabase().exists() ? Status.ACTIVE : Status.UNAVAILABLE;
   }
 
   @Override
@@ -164,7 +170,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     FileKey cachedLocation = useFileKeyByProjectCache ? fileKeyByProject.get(name) : null;
     if (cachedLocation != null) {
       try {
-        return RepositoryCache.open(cachedLocation);
+        return openRepository(cachedLocation, true);
       } catch (IOException e) {
         fileKeyByProject.remove(name, cachedLocation);
       }
@@ -181,7 +187,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
                 (path, refDb) -> PerThreadRefDbCache.getRefDatabase(path, refDb))
             : FileKey.lenient(getBasePath(name).resolve(name.get()).toFile(), FS.DETECTED);
     try {
-      Repository repo = RepositoryCache.open(location);
+      Repository repo = openRepository(location, true);
       if (useFileKeyByProjectCache) {
         fileKeyByProject.put(name, location);
       }
@@ -189,6 +195,26 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     } catch (IOException e) {
       throw new RepositoryNotFoundException("Cannot open repository " + name, e);
     }
+  }
+
+  private Repository openRepository(FileKey dirKey, boolean mustExist) throws IOException {
+    if (useRepositoryCache) {
+      return RepositoryCache.open(dirKey, mustExist);
+    }
+
+    return openRepository(dirKey.getFile(), mustExist);
+  }
+
+  private Repository openRepository(File dir, boolean mustExist) throws IOException {
+    Repository repo;
+    if (useRepositoryCache) {
+      repo = RepositoryCache.open(FileKey.lenient(dir, FS.DETECTED), mustExist);
+    } else {
+      if (mustExist && !RepositoryCache.FileKey.isGitRepository(dir, FS.DETECTED))
+        throw new RepositoryNotFoundException(dir);
+      repo = new FileRepository(dir);
+    }
+    return repo;
   }
 
   @Override
@@ -218,7 +244,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     FileKey loc = FileKey.exact(path.resolve(n).toFile(), FS.DETECTED);
 
     try {
-      Repository db = RepositoryCache.open(loc, false);
+      Repository db = openRepository(loc, false);
       db.create(true /* bare */);
 
       StoredConfig config = db.getConfig();

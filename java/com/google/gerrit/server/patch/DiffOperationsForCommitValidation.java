@@ -41,6 +41,7 @@ import org.eclipse.jgit.lib.ObjectInserter;
  * can result issues during object quorum.
  */
 public class DiffOperationsForCommitValidation {
+
   public interface Factory {
     DiffOperationsForCommitValidation create(RepoView repoView, ObjectInserter inserter);
   }

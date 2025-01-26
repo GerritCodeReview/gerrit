@@ -182,7 +182,8 @@ public class RepoView {
 
   // Not AutoCloseable so callers can't improperly close it. Plus it's never managed with a try
   // block anyway.
-  void close() {
+  public void close() {
+    commands.close();
     if (closeRepo) {
       inserter.close();
       rw.close();

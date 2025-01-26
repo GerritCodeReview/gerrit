@@ -2255,6 +2255,20 @@ Gerrit.
 +
 Default is `true`.
 
+[[core.useRepositoryCache]]core.useRepositoryCache::
++
+Use an in-memory global JGit RepositoryCache.
+This helps reduce the overhead of opening and closing a repository
+by JGit and creating an in-memory Repository object.
++
+When using a packed-ref storage for refs, caching the JGit Repository
+can improve performance whilst keeping a consistent view of the
+underlying refs on disk. When using Git repositories adopting
+a ref-table storage, the RepositoryCache must be disabled for
+allowing a consistent and fresh view of the refs snapshots.
++
+Default is `true`.
+
 [[dashboard]]
 === Section dashboard
 

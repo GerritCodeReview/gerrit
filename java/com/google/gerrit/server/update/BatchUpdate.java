@@ -597,6 +597,10 @@ public class BatchUpdate implements AutoCloseable {
     @Override
     public void close() {
       manager.close();
+      if (repoView != null) {
+        repoView.close();
+        repoView = null;
+      }
     }
 
     void setResult(Change.Id id, ChangeResult result) {

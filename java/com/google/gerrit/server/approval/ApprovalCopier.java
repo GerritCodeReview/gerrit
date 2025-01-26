@@ -291,23 +291,29 @@ public class ApprovalCopier {
                 followUpPatchSet.commitId());
         boolean isMerge = isMerge(changeNotes.getProjectName(), revWalk, followUpPatchSet);
 
-        if (computeCopyResult(
-                changeNotes,
-                priorPatchSet.id(),
-                followUpPatchSet,
-                approverId,
-                labelType.get(),
-                approvalValue,
-                changeKind,
-                isMerge,
-                new RepoView(repo, revWalk, ins))
-            .canCopy()) {
-          targetPatchSetsBuilder.add(followUpPatchSetId);
-        } else {
-          // The approval is not copyable to this follow-up patch set.
-          // This means it's also not copyable to any further follow-up patch set and we should stop
-          // the loop here.
-          break;
+        RepoView repoView = new RepoView(repo, revWalk, ins);
+        try {
+          if (computeCopyResult(
+                  changeNotes,
+                  priorPatchSet.id(),
+                  followUpPatchSet,
+                  approverId,
+                  labelType.get(),
+                  approvalValue,
+                  changeKind,
+                  isMerge,
+                  repoView)
+              .canCopy()) {
+            targetPatchSetsBuilder.add(followUpPatchSetId);
+          } else {
+            // The approval is not copyable to this follow-up patch set.
+            // This means it's also not copyable to any further follow-up patch set and we should
+            // stop
+            // the loop here.
+            break;
+          }
+        } finally {
+          repoView.close();
         }
         priorPatchSet = followUpPatchSet;
       }

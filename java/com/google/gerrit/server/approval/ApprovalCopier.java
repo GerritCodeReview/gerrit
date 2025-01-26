@@ -340,7 +340,8 @@ public class ApprovalCopier {
     try (Repository repo = repoManager.openRepository(changeNotes.getProjectName());
         ObjectInserter ins = repo.newObjectInserter();
         ObjectReader reader = ins.newReader();
-        RevWalk revWalk = new RevWalk(reader)) {
+        RevWalk revWalk = new RevWalk(reader);
+        RepoView repoView = new RepoView(repo, revWalk, ins)) {
       ImmutableList<PatchSet.Id> followUpPatchSets =
           changeNotes.getPatchSets().keySet().stream()
               .filter(psId -> psId.get() > sourcePatchSet.id().get())
@@ -371,12 +372,13 @@ public class ApprovalCopier {
                 approvalValue,
                 changeKind,
                 isMerge,
-                new RepoView(repo, revWalk, ins))
+                repoView)
             .canCopy()) {
           targetPatchSetsBuilder.add(followUpPatchSetId);
         } else {
           // The approval is not copyable to this follow-up patch set.
-          // This means it's also not copyable to any further follow-up patch set and we should stop
+          // This means it's also not copyable to any further follow-up patch set and we should
+          // stop
           // the loop here.
           break;
         }

@@ -370,7 +370,8 @@ public class ApprovalQueryIT extends AbstractDaemonTest {
     try (Repository repo = repoManager.openRepository(project);
         ObjectInserter ins = repo.newObjectInserter();
         ObjectReader reader = ins.newReader();
-        RevWalk rw = new RevWalk(reader)) {
+        RevWalk rw = new RevWalk(reader);
+        RepoView repoView = new RepoView(repo, rw, ins)) {
       return ApprovalContext.create(
           changeDataFactory.create(changeNotes),
           psId,
@@ -380,7 +381,7 @@ public class ApprovalQueryIT extends AbstractDaemonTest {
           changeNotes.getPatchSets().get(newPsId),
           changeKind,
           /* isMerge= */ false,
-          new RepoView(repo, rw, ins));
+          repoView);
     }
   }
 }

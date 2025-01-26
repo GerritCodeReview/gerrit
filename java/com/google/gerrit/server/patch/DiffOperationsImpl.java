@@ -120,12 +120,13 @@ public class DiffOperationsImpl implements DiffOperations {
     try (Repository repo = repoManager.openRepository(project);
         ObjectInserter ins = repo.newObjectInserter();
         ObjectReader reader = ins.newReader();
-        RevWalk revWalk = new RevWalk(reader)) {
+        RevWalk revWalk = new RevWalk(reader);
+        RepoView repoView = new RepoView(repo, revWalk, ins)) {
       logger.atFine().log(
           "Opened repo %s to list modified files against parent for %s (inserter: %s)",
           project, newCommit.name(), ins);
-      DiffParameters diffParams =
-          computeDiffParameters(project, newCommit, parent, new RepoView(repo, revWalk, ins), ins);
+
+      DiffParameters diffParams = computeDiffParameters(project, newCommit, parent, repoView, ins);
       return getModifiedFiles(diffParams, diffOptions);
     } catch (IOException e) {
       throw new DiffNotAvailableException(
@@ -201,12 +202,12 @@ public class DiffOperationsImpl implements DiffOperations {
     try (Repository repo = repoManager.openRepository(project);
         ObjectInserter ins = repo.newObjectInserter();
         ObjectReader reader = ins.newReader();
-        RevWalk revWalk = new RevWalk(reader)) {
+        RevWalk revWalk = new RevWalk(reader);
+        RepoView repoView = new RepoView(repo, revWalk, ins)) {
       logger.atFine().log(
           "Opened repo %s to get modified file against parent for %s (inserter: %s)",
           project, newCommit.name(), ins);
-      DiffParameters diffParams =
-          computeDiffParameters(project, newCommit, parent, new RepoView(repo, revWalk, ins), ins);
+      DiffParameters diffParams = computeDiffParameters(project, newCommit, parent, repoView, ins);
       FileDiffCacheKey key =
           createFileDiffCacheKey(
               project,

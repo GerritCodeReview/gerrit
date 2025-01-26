@@ -312,7 +312,8 @@ public class DiffOperationsTest {
     try (Repository repository = repoManager.openRepository(testProjectName);
         ObjectInserter ins = repository.newObjectInserter();
         ObjectReader reader = ins.newReader();
-        RevWalk rw = new RevWalk(reader)) {
+        RevWalk rw = new RevWalk(reader);
+        RepoView repoView = new RepoView(repository, rw, ins)) {
       ModifiedFilesCacheKey cacheKey =
           ModifiedFilesCacheKey.builder()
               .project(testProjectName)
@@ -328,7 +329,7 @@ public class DiffOperationsTest {
               testProjectName,
               newCommitId,
               /* parentNum= */ 0,
-              new RepoView(repository, rw, ins),
+              repoView,
               ins,
               /* enableRenameDetection= */ false);
 
@@ -355,7 +356,8 @@ public class DiffOperationsTest {
     try (Repository repository = repoManager.openRepository(testProjectName);
         ObjectInserter ins = repository.newObjectInserter();
         ObjectReader reader = ins.newReader();
-        RevWalk rw = new RevWalk(reader)) {
+        RevWalk rw = new RevWalk(reader);
+        RepoView repoView = new RepoView(repository, rw, ins)) {
       // load modified files without rename detection
       ModifiedFilesCacheKey cacheKey =
           ModifiedFilesCacheKey.builder()
@@ -371,7 +373,7 @@ public class DiffOperationsTest {
               testProjectName,
               newCommitId,
               /* parentNum= */ 0,
-              new RepoView(repository, rw, ins),
+              repoView,
               ins,
               /* enableRenameDetection= */ false);
 
@@ -405,7 +407,7 @@ public class DiffOperationsTest {
               testProjectName,
               newCommitId,
               /* parentNum= */ 0,
-              new RepoView(repository, rw, ins),
+              repoView,
               ins,
               /* enableRenameDetection= */ true);
 

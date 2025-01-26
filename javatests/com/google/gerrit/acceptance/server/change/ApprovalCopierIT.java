@@ -127,10 +127,10 @@ public class ApprovalCopierIT extends AbstractDaemonTest {
     try (Repository repo = repoManager.openRepository(project);
         ObjectInserter ins = repo.newObjectInserter();
         ObjectReader reader = ins.newReader();
-        RevWalk revWalk = new RevWalk(reader)) {
+        RevWalk revWalk = new RevWalk(reader);
+        RepoView repoView = new RepoView(repo, revWalk, ins)) {
       ApprovalCopier.Result approvalCopierResult =
-          approvalCopier.forPatchSet(
-              changeData.notes(), changeData.currentPatchSet(), new RepoView(repo, revWalk, ins));
+          approvalCopier.forPatchSet(changeData.notes(), changeData.currentPatchSet(), repoView);
       assertThat(approvalCopierResult.copiedApprovals()).isEmpty();
       assertThat(approvalCopierResult.outdatedApprovals()).isEmpty();
     }
@@ -574,9 +574,9 @@ public class ApprovalCopierIT extends AbstractDaemonTest {
     try (Repository repo = repoManager.openRepository(project);
         ObjectInserter ins = repo.newObjectInserter();
         ObjectReader reader = ins.newReader();
-        RevWalk revWalk = new RevWalk(reader)) {
-      return approvalCopier.forPatchSet(
-          changeData.notes(), changeData.currentPatchSet(), new RepoView(repo, revWalk, ins));
+        RevWalk revWalk = new RevWalk(reader);
+        RepoView repoView = new RepoView(repo, revWalk, ins)) {
+      return approvalCopier.forPatchSet(changeData.notes(), changeData.currentPatchSet(), repoView);
     }
   }
 

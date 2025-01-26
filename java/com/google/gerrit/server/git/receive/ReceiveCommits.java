@@ -2591,7 +2591,7 @@ class ReceiveCommits {
       BranchCommitValidator validator =
           commitValidatorFactory.create(projectState, magicBranch.dest, user);
 
-      try {
+      try (RepoView repoView = new RepoView(repo, globalRevWalk, ins)) {
         RevCommit start = setUpWalkForSelectingChanges(globalRevWalk);
         if (start == null) {
           return ImmutableList.of();
@@ -2686,8 +2686,7 @@ class ReceiveCommits {
               validator.validateCommit(
                   repo,
                   globalRevWalk.getObjectReader(),
-                  diffOperationsForCommitValidationFactory.create(
-                      new RepoView(repo, globalRevWalk, ins), ins),
+                  diffOperationsForCommitValidationFactory.create(repoView, ins),
                   magicBranch.cmd,
                   c,
                   ImmutableListMultimap.copyOf(pushOptions),
@@ -3747,7 +3746,7 @@ class ReceiveCommits {
       BranchCommitValidator validator = commitValidatorFactory.create(projectState, branch, user);
       globalRevWalk.reset();
       globalRevWalk.sort(RevSort.NONE);
-      try {
+      try (RepoView repoView = new RepoView(repo, globalRevWalk, ins)) {
         RevObject parsedObject = globalRevWalk.parseAny(cmd.getNewId());
         if (!(parsedObject instanceof RevCommit)) {
           return;
@@ -3779,8 +3778,7 @@ class ReceiveCommits {
               validator.validateCommit(
                   repo,
                   globalRevWalk.getObjectReader(),
-                  diffOperationsForCommitValidationFactory.create(
-                      new RepoView(repo, globalRevWalk, ins), ins),
+                  diffOperationsForCommitValidationFactory.create(repoView, ins),
                   cmd,
                   c,
                   ImmutableListMultimap.copyOf(pushOptions),

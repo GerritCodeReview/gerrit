@@ -2657,23 +2657,27 @@ class ReceiveCommits {
                 "Creating new change for %s even though it is already tracked", name);
           }
 
-          BranchCommitValidator.Result validationResult =
-              validator.validateCommit(
-                  repo,
-                  globalRevWalk.getObjectReader(),
-                  diffOperationsForCommitValidationFactory.create(
-                      new RepoView(repo, globalRevWalk, ins), ins),
-                  magicBranch.cmd,
-                  c,
-                  ImmutableListMultimap.copyOf(pushOptions),
-                  magicBranch.merged,
-                  rejectCommits,
-                  null);
-          messages.addAll(validationResult.messages());
-          if (!validationResult.isValid()) {
-            // Not a change the user can propose? Abort as early as possible.
-            logger.atFine().log("Aborting early due to invalid commit");
-            return ImmutableList.of();
+          RepoView repoView = new RepoView(repo, globalRevWalk, ins);
+          try {
+            BranchCommitValidator.Result validationResult =
+                validator.validateCommit(
+                    repo,
+                    globalRevWalk.getObjectReader(),
+                    diffOperationsForCommitValidationFactory.create(repoView, ins),
+                    magicBranch.cmd,
+                    c,
+                    ImmutableListMultimap.copyOf(pushOptions),
+                    magicBranch.merged,
+                    rejectCommits,
+                    null);
+            messages.addAll(validationResult.messages());
+            if (!validationResult.isValid()) {
+              // Not a change the user can propose? Abort as early as possible.
+              logger.atFine().log("Aborting early due to invalid commit");
+              return ImmutableList.of();
+            }
+          } finally {
+            repoView.close();
           }
 
           // Don't allow merges to be uploaded in commit chain via all-not-in-target
@@ -3742,22 +3746,26 @@ class ReceiveCommits {
             continue;
           }
 
-          BranchCommitValidator.Result validationResult =
-              validator.validateCommit(
-                  repo,
-                  globalRevWalk.getObjectReader(),
-                  diffOperationsForCommitValidationFactory.create(
-                      new RepoView(repo, globalRevWalk, ins), ins),
-                  cmd,
-                  c,
-                  ImmutableListMultimap.copyOf(pushOptions),
-                  false,
-                  rejectCommits,
-                  null,
-                  skipValidation);
-          messages.addAll(validationResult.messages());
-          if (!validationResult.isValid()) {
-            break;
+          RepoView repoView = new RepoView(repo, globalRevWalk, ins);
+          try {
+            BranchCommitValidator.Result validationResult =
+                validator.validateCommit(
+                    repo,
+                    globalRevWalk.getObjectReader(),
+                    diffOperationsForCommitValidationFactory.create(repoView, ins),
+                    cmd,
+                    c,
+                    ImmutableListMultimap.copyOf(pushOptions),
+                    false,
+                    rejectCommits,
+                    null,
+                    skipValidation);
+            messages.addAll(validationResult.messages());
+            if (!validationResult.isValid()) {
+              break;
+            }
+          } finally {
+            repoView.close();
           }
         }
         logger.atFine().log("Validated %d new commits", n);

@@ -138,17 +138,20 @@ public class AutoMerger {
   public RevCommit lookupFromGitOrMergeInMemory(
       Repository repo, RevWalk rw, InMemoryInserter ins, RevCommit merge) throws IOException {
     checkArgument(rw.getObjectReader().getCreatedFromInserter() == ins);
-    Optional<RevCommit> existingCommit =
-        lookupCommit(new RepoView(repo, rw, ins), RefNames.refsCacheAutomerge(merge.name()));
-    if (existingCommit.isPresent()) {
-      counter.increment(OperationType.CACHE_LOAD);
-      return existingCommit.get();
-    }
-    counter.increment(OperationType.IN_MEMORY_WRITE);
-    logger.atInfo().log("Computing in-memory AutoMerge for %s", merge.name());
-    try (Timer1.Context<OperationType> ignored = latency.start(OperationType.IN_MEMORY_WRITE)) {
-      return rw.parseCommit(
-          createAutoMergeCommit(repo.getConfig(), rw, ins, merge, configuredMergeStrategy));
+
+    try (RepoView repoView = new RepoView(repo, rw, ins)) {
+      Optional<RevCommit> existingCommit =
+          lookupCommit(repoView, RefNames.refsCacheAutomerge(merge.name()));
+      if (existingCommit.isPresent()) {
+        counter.increment(OperationType.CACHE_LOAD);
+        return existingCommit.get();
+      }
+      counter.increment(OperationType.IN_MEMORY_WRITE);
+      logger.atInfo().log("Computing in-memory AutoMerge for %s", merge.name());
+      try (Timer1.Context<OperationType> ignored = latency.start(OperationType.IN_MEMORY_WRITE)) {
+        return rw.parseCommit(
+            createAutoMergeCommit(repo.getConfig(), rw, ins, merge, configuredMergeStrategy));
+      }
     }
   }
 

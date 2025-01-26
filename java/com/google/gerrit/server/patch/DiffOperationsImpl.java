@@ -124,9 +124,14 @@ public class DiffOperationsImpl implements DiffOperations {
       logger.atFine().log(
           "Opened repo %s to list modified files against parent for %s (inserter: %s)",
           project, newCommit.name(), ins);
-      DiffParameters diffParams =
-          computeDiffParameters(project, newCommit, parent, new RepoView(repo, revWalk, ins), ins);
-      return getModifiedFiles(diffParams, diffOptions);
+      RepoView repoView = new RepoView(repo, revWalk, ins);
+      try {
+        DiffParameters diffParams =
+            computeDiffParameters(project, newCommit, parent, repoView, ins);
+        return getModifiedFiles(diffParams, diffOptions);
+      } finally {
+        repoView.close();
+      }
     } catch (IOException e) {
       throw new DiffNotAvailableException(
           "Failed to evaluate the parent/base commit for commit " + newCommit, e);
@@ -205,18 +210,23 @@ public class DiffOperationsImpl implements DiffOperations {
       logger.atFine().log(
           "Opened repo %s to get modified file against parent for %s (inserter: %s)",
           project, newCommit.name(), ins);
-      DiffParameters diffParams =
-          computeDiffParameters(project, newCommit, parent, new RepoView(repo, revWalk, ins), ins);
-      FileDiffCacheKey key =
-          createFileDiffCacheKey(
-              project,
-              diffParams.baseCommit(),
-              newCommit,
-              fileName,
-              DEFAULT_DIFF_ALGORITHM,
-              /* useTimeout= */ true,
-              whitespace);
-      return getModifiedFileForKey(key);
+      RepoView repoView = new RepoView(repo, revWalk, ins);
+      try {
+        DiffParameters diffParams =
+            computeDiffParameters(project, newCommit, parent, repoView, ins);
+        FileDiffCacheKey key =
+            createFileDiffCacheKey(
+                project,
+                diffParams.baseCommit(),
+                newCommit,
+                fileName,
+                DEFAULT_DIFF_ALGORITHM,
+                /* useTimeout= */ true,
+                whitespace);
+        return getModifiedFileForKey(key);
+      } finally {
+        repoView.close();
+      }
     } catch (IOException e) {
       throw new DiffNotAvailableException(
           "Failed to evaluate the parent/base commit for commit " + newCommit, e);

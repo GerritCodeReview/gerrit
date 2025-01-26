@@ -50,6 +50,23 @@
       "message": "Tests:\n\n- BuildBuddy JDK17:\n\n```\nbazelisk  test --config\u003dremote_bb \\\n--remote_header\u003dXXXXXX \\\n--flaky_test_attempts 3 \\\n--test_timeout 3600 \\\n--test_tag_filters\u003d-flaky,-elastic,-no_rbe \\\n//...\n```\n\n- BuildBuddy JDK11:\n\n```\nbazelisk  test --config\u003dremote11_bb \\\n--remote_header\u003dXXXXXX \\\n--flaky_test_attempts 3 \\\n--test_timeout 3600 \\\n--test_tag_filters\u003d-flaky,-elastic,-no_rbe \\\n//...\n```\n\n- BuildBuddy JDK21:\n\n```\nbazelisk  test --config\u003dremote21_bb \\\n--remote_header\u003dXXXXXX \\\n--flaky_test_attempts 3 \\\n--test_timeout 3600 \\\n--test_tag_filters\u003d-flaky,-elastic,-no_rbe \\\n//...\n```\n\nOnly 1 test failing:\n\n```\nThere was 1 failure:\n1) invalidTargetArchiveFolder(com.googlesource.gerrit.plugins.deleteproject.ConfigurationTest)\nexpected: /buildbuddy/remotebuilds/b11dc660-668b-4b78-a864-2ba3d4d20871/_tmp/1a603f63979fdbf7741d14f4152518a3/junit2943786451539701377/data\nbut was : /\\\\\\\n\tat com.googlesource.gerrit.plugins.deleteproject.ConfigurationTest.invalidTargetArchiveFolder(ConfigurationTest.java:127)\n```\n\nThis testwill be removed with the change 397838",
       "revId": "d0908c95d88ad37453128e5b6ce9cf1f5cdc8e41",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6a9e38d_3b1a8f50",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 34
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3854033
+      },
+      "writtenOn": "2025-01-26T04:36:45Z",
+      "side": 1,
+      "message": "393255: Bazel: Add support for BuildBuddy RBE provider | https://gerrit-review.googlesource.com/c/gerrit/+/393255",
+      "revId": "d0908c95d88ad37453128e5b6ce9cf1f5cdc8e41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

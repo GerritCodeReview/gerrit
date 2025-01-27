@@ -989,6 +989,18 @@ the Work In Progress bit of the change (even without having the
 Must be assigned on the target branch ref (i.e. on 'refs/heads/\*', not on
 'refs/for/*').
 
+[[category_post_review_comment]]
+=== Post Review Comment
+
+This category controls who is able to post review comments.
+
+Without this permission users will not be able to publish/post any review
+comments on changes. Having permission to vote on any label implies having this
+permission to post comments.
+
+This is intended for public installations that are looking for a way to control
+unknown users using the platform inappropriately (i.e. spammers).
+
 [[category_delete_own_changes]]
 === Delete Own Changes
 

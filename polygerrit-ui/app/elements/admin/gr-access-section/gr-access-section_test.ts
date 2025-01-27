@@ -180,6 +180,9 @@ suite('gr-access-section tests', () => {
                     <md-select-option md-menu-item="" value="owner">
                       <div slot="headline">Owner</div>
                     </md-select-option>
+                    <md-select-option md-menu-item="" value="postReviewComment">
+                      <div slot="headline">Post Review Comment</div>
+                    </md-select-option>
                     <md-select-option md-menu-item="" value="push">
                       <div slot="headline">Push</div>
                     </md-select-option>

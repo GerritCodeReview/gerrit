@@ -21,6 +21,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.PermissionRange;
 import com.google.gerrit.exceptions.StorageException;
@@ -30,6 +31,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.PermissionBackend.ForChange;
 import java.util.Collection;
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -91,6 +93,7 @@ abstract class AbstractChangeControl {
         case EDIT_HASHTAGS -> canEditHashtags();
         case EDIT_CUSTOM_KEYED_VALUES -> canEditCustomKeyedValues();
         case EDIT_TOPIC_NAME -> canEditTopicName();
+        case POST_REVIEW_COMMENT -> canPostReviewComment();
         case REBASE -> canRebase();
         case REBASE_ON_BEHALF_OF_UPLOADER -> canRebaseOnBehalfOfUploader();
         case RESTORE -> canRestore();
@@ -218,6 +221,18 @@ abstract class AbstractChangeControl {
         || projectControl.isOwner()
         || refControl.canPerform(Permission.TOGGLE_WORK_IN_PROGRESS_STATE)
         || projectControl.isAdmin();
+  }
+
+  /** Can this user post review comments? */
+  private boolean canPostReviewComment() {
+    return refControl.canPerform(Permission.POST_REVIEW_COMMENT) || canApplyAnyLabel();
+  }
+
+  /** Can this user apply any of the available labels? */
+  private boolean canApplyAnyLabel() {
+    List<LabelType> allLabels = projectControl.getProjectState().getLabelTypes().getLabelTypes();
+    return allLabels.stream()
+        .anyMatch(label -> asForChange().testOrFalse(new LabelPermission(label)));
   }
 
   private boolean can(AbstractLabelPermission perm) {

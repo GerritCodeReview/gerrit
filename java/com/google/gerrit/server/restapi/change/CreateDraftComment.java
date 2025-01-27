@@ -44,6 +44,7 @@ import com.google.gerrit.server.PublishCommentUtil;
 import com.google.gerrit.server.change.CommentsValidator;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.update.BatchUpdate;
@@ -88,6 +89,8 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
   @Override
   public Response<CommentInfo> apply(RevisionResource rsrc, DraftInput in)
       throws RestApiException, UpdateException, PermissionBackendException {
+    rsrc.getChangeResource().permissions().check(ChangePermission.POST_REVIEW_COMMENT);
+
     if (Strings.isNullOrEmpty(in.path)) {
       throw new BadRequestException("path must be non-empty");
     } else if (in.message == null || in.message.trim().isEmpty()) {

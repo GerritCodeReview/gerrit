@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "60d0bbda_ef180ab9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-27T20:16:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e922103e_c6826558",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 5
+      },
+      "revId": "6185fc765c2c1ef37c1ae4890eb8a177ab8b1aa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bf6f9e0d_581da6ff",
@@ -37,6 +61,24 @@
       "writtenOn": "2025-01-27T19:35:14Z",
       "side": 1,
       "message": "What does closing the RepoView improperly mean?\nDoes that contradict your fix ?\n\nShouldn\u0027t RepoView implement AutoClosable to ensure that it\u0027s always closed?",
+      "revId": "6185fc765c2c1ef37c1ae4890eb8a177ab8b1aa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "375bd9b9_0f37be0b",
+        "filename": "java/com/google/gerrit/server/update/RepoView.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-27T20:16:23Z",
+      "side": 1,
+      "message": "\u003e What does closing the RepoView improperly mean?\n\nWell, we should ask Dave 😊\n\n\u003e Does that contradict your fix?\n\nI do see the reference counting going up because of `repo \u003d repoManager.openRepository(project)` at L54. If the repo is opened, it *must* be closed; otherwise, the cache will increment its counter indefinitely.\n\n\u003e Shouldn\u0027t RepoView implement AutoClosable to ensure that it\u0027s always closed?\n\nYep, that\u0027s exactly what I thought, but if you see the constructor, it throws an exception, and that\u0027s what was blocking Dave from doing it:\n\n`RepoView(GitRepositoryManager repoManager, Project.NameKey project) throws IOException`",
+      "parentUuid": "bf6f9e0d_581da6ff",
       "revId": "6185fc765c2c1ef37c1ae4890eb8a177ab8b1aa4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

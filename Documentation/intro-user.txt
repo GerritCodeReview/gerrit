@@ -665,6 +665,11 @@ If private changes are used, be aware of the following pitfalls:
   private status and knowledge of its commit ID (e.g. through CI logs
   or build artifacts containing build numbers) can fetch the code
   using the commit ID.
+* Refs that store private changes are visible to users that have the
+  link:access-control.html#category_read[Read] access right on
+  'refs/*', unless
+  link:config-gerrit.html#auth.skipFullRefEvaluationIfAllRefsAreVisible[auth.skipFullRefEvaluationIfAllRefsAreVisible]
+  is disabled.
 
 [[inline-edit]]
 == Inline Edit

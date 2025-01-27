@@ -140,6 +140,7 @@ suite('gr-access-section tests', () => {
                     <option value="toggleWipState">
                       Toggle Work In Progress State
                     </option>
+                    <option value="review">Review</option>
                     <option value="viewPrivateChanges">
                       View Private Changes
                     </option>

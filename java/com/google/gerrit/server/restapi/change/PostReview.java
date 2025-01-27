@@ -227,6 +227,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           PermissionBackendException,
           ConfigInvalidException,
           PatchListNotAvailableException {
+    revision.getChangeResource().permissions().check(ChangePermission.REVIEW);
+
     // Respect timestamp, but truncate at change created-on time.
     ts = Ordering.natural().max(ts, revision.getChange().getCreatedOn());
     if (revision.getEdit().isPresent()) {

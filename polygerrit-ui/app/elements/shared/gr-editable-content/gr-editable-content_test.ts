@@ -311,4 +311,100 @@ suite('gr-editable-content tests', () => {
       );
     });
   });
+
+  suite('format button', () => {
+    let element: GrEditableContent;
+
+    setup(async () => {
+      element = await fixture(
+        html`<gr-editable-content></gr-editable-content>`
+      );
+      element.editing = true;
+      await element.updateComplete;
+    });
+
+    test('toggles between Format and Undo', async () => {
+      const formatButton = queryAndAssert<GrButton>(
+        element,
+        'gr-button.format-button'
+      );
+
+      // Initially shows "Format"
+      assert.equal(formatButton.textContent?.trim(), 'Format');
+
+      // Set some content that needs formatting
+      element.newContent = 'line1    \nline2     \nline3';
+      await element.updateComplete;
+
+      // Click format
+      formatButton.click();
+      await element.updateComplete;
+
+      // Button should now show "Undo"
+      assert.equal(formatButton.textContent?.trim(), 'Undo');
+
+      // Content should be formatted
+      assert.equal(element.newContent, 'line1\n\nline2\n\nline3');
+
+      // Click undo
+      formatButton.click();
+      await element.updateComplete;
+
+      // Button should show "Format" again
+      assert.equal(formatButton.textContent?.trim(), 'Format');
+
+      // Content should be back to original
+      assert.equal(element.newContent, 'line1    \nline2     \nline3');
+    });
+
+    test('reverts to Format when content is modified after formatting', async () => {
+      const formatButton = queryAndAssert<GrButton>(
+        element,
+        'gr-button.format-button'
+      );
+
+      // Set content and format it
+      element.newContent = 'line1    \nline2     \nline3';
+      await element.updateComplete;
+      formatButton.click();
+      await element.updateComplete;
+
+      assert.equal(formatButton.textContent?.trim(), 'Undo');
+
+      // Modify the content
+      element.newContent = 'line1\nline2\nline3\nline4';
+      await element.updateComplete;
+
+      // Button should show "Format" again
+      assert.equal(formatButton.textContent?.trim(), 'Format');
+    });
+
+    test('format button tooltip changes for Format/Undo states', async () => {
+      const formatButton = queryAndAssert<GrButton>(
+        element,
+        'gr-button.format-button'
+      );
+
+      // Set content that needs formatting
+      element.newContent = 'line1    \nline2     \nline3';
+      await element.updateComplete;
+
+      // Initial Format tooltip
+      assert.include(formatButton.title, 'Automatically fixes formatting');
+
+      // Click format
+      formatButton.click();
+      await element.updateComplete;
+
+      // Undo tooltip
+      assert.equal(formatButton.title, 'Undo formatting changes');
+
+      // Click undo
+      formatButton.click();
+      await element.updateComplete;
+
+      // Back to Format tooltip
+      assert.include(formatButton.title, 'Automatically fixes formatting');
+    });
+  });
 });

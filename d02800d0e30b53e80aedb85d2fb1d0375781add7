@@ -16,6 +16,24 @@
       "message": "Should we target 3.9 for this issue?",
       "revId": "d02800d0e30b53e80aedb85d2fb1d0375781add7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67387fe1_30741ea6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-27T20:20:05Z",
+      "side": 1,
+      "message": "Yes, good idea, possibly even before that, as it was causing memory issues :-(\n\nI\u0027ve seen repositories with reference counts to hundreds and you\u0027ve also seen threads pointing to obsolete ref-table files that were possibly coming from earlier executions.",
+      "parentUuid": "2b11c5b0_3c39d02c",
+      "revId": "d02800d0e30b53e80aedb85d2fb1d0375781add7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

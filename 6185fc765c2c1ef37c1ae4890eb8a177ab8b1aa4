@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e922103e_c6826558",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-01-27T19:35:14Z",
+      "side": 1,
+      "message": "Having",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 5
+      },
+      "revId": "6185fc765c2c1ef37c1ae4890eb8a177ab8b1aa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf6f9e0d_581da6ff",
+        "filename": "java/com/google/gerrit/server/update/RepoView.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-01-27T19:35:14Z",
+      "side": 1,
+      "message": "What does closing the RepoView improperly mean?\nDoes that contradict your fix ?\n\nShouldn\u0027t RepoView implement AutoClosable to ensure that it\u0027s always closed?",
+      "revId": "6185fc765c2c1ef37c1ae4890eb8a177ab8b1aa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

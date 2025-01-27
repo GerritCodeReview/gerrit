@@ -210,6 +210,7 @@ public class AllProjectsCreator {
       AccessSection.Builder heads, LabelType codeReviewLabel, ProjectConfig config) {
     grant(config, heads, codeReviewLabel, -1, 1, registered);
     grant(config, heads, Permission.FORGE_AUTHOR, registered);
+    grant(config, heads, Permission.REVIEW, registered);
 
     config.upsertAccessSection(
         "refs/for/*",

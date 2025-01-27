@@ -91,6 +91,7 @@ abstract class AbstractChangeControl {
         case EDIT_HASHTAGS -> canEditHashtags();
         case EDIT_CUSTOM_KEYED_VALUES -> canEditCustomKeyedValues();
         case EDIT_TOPIC_NAME -> canEditTopicName();
+        case POST_REVIEW_COMMENT -> canPostReviewComment();
         case REBASE -> canRebase();
         case REBASE_ON_BEHALF_OF_UPLOADER -> canRebaseOnBehalfOfUploader();
         case RESTORE -> canRestore();
@@ -209,6 +210,11 @@ abstract class AbstractChangeControl {
         || projectControl.isOwner()
         || refControl.canPerform(Permission.TOGGLE_WORK_IN_PROGRESS_STATE)
         || projectControl.isAdmin();
+  }
+
+  /** Can this user post review comments? */
+  private boolean canPostReviewComment() {
+    return refControl.canPerform(Permission.POST_REVIEW_COMMENT);
   }
 
   private boolean can(AbstractLabelPermission perm) {

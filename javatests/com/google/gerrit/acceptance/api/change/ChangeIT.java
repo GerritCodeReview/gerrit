@@ -692,6 +692,24 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void blockReviewerToPostReviewWithoutPermission() throws Exception {
+    PushOneCommit.Result r = createChange();
+    ReviewInput in = ReviewInput.approve().reviewer(user.email());
+    gApi.changes().id(r.getChangeId()).current().review(in);
+
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.POST_REVIEW_COMMENT).ref("refs/*").group(REGISTERED_USERS))
+        .update();
+
+    AuthException thrown =
+        assertThrows(
+            AuthException.class, () -> gApi.changes().id(r.getChangeId()).current().review(in));
+    assertThat(thrown).hasMessageThat().contains("post review comment not permitted");
+  }
+
+  @Test
   public void reviewAndStartReview() throws Exception {
     ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
     gApi.changes().id(changeIdentifier).setWorkInProgress();

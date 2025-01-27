@@ -29,6 +29,7 @@ export enum AccessPermissionId {
   SUBMIT = 'submit',
   SUBMIT_AS = 'submitAs',
   TOGGLE_WIP_STATE = 'toggleWipState',
+  REVIEW = 'review',
   VIEW_PRIVATE_CHANGES = 'viewPrivateChanges',
 
   PRIORITY = 'priority',
@@ -126,6 +127,10 @@ export const AccessPermissions: {[id: string]: AccessPermission} = {
   [AccessPermissionId.TOGGLE_WIP_STATE]: {
     id: AccessPermissionId.TOGGLE_WIP_STATE,
     name: 'Toggle Work In Progress State',
+  },
+  [AccessPermissionId.REVIEW]: {
+    id: AccessPermissionId.REVIEW,
+    name: 'Review',
   },
   [AccessPermissionId.VIEW_PRIVATE_CHANGES]: {
     id: AccessPermissionId.VIEW_PRIVATE_CHANGES,

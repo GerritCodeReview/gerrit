@@ -70,6 +70,30 @@
       },
       "revId": "0701e10ce0e87637e1a64a1b784ae1a06424413e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc5dbcc9_3b1dfef1",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-01-27T15:52:15Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "a0fd73ac_286ab22f",
+      "range": {
+        "startLine": 258,
+        "startChar": 0,
+        "endLine": 260,
+        "endChar": 38
+      },
+      "revId": "0701e10ce0e87637e1a64a1b784ae1a06424413e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

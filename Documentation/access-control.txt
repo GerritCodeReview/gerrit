@@ -954,6 +954,16 @@ the Work In Progress bit of the change (even without having the
 Must be assigned on the target branch ref (i.e. on 'refs/heads/\*', not on
 'refs/for/*').
 
+[[category_review]]
+=== Review
+
+This category controls who is able to post reviews.
+
+This is intended for public installations that are looking for a way to control
+unknown users using the platform inappropriately (i.e. spammers).
+
+By default this permission is granted on 'refs/*' to all registered users.
+
 [[category_delete_own_changes]]
 === Delete Own Changes
 

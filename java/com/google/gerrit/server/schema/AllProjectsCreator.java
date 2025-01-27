@@ -219,6 +219,9 @@ public class AllProjectsCreator {
           grant(config, refsFor, Permission.PUSH, registered);
           grant(config, refsFor, Permission.PUSH_MERGE, registered);
         });
+
+    config.upsertAccessSection(
+        AccessSection.ALL, refsFor -> grant(config, refsFor, Permission.REVIEW, registered));
   }
 
   private void initDefaultAclsForServiceUsers(

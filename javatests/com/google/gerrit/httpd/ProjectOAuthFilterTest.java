@@ -37,7 +37,9 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdFactory;
 import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
+import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdFactoryNoteDbImpl;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.util.http.testutil.FakeHttpServletRequest;
 import com.google.gerrit.util.http.testutil.FakeHttpServletResponse;
@@ -72,11 +74,7 @@ public class ProjectOAuthFilterTest {
           String.format("%s:%s", AUTH_USER, OAUTH_TOKEN).getBytes(StandardCharsets.UTF_8));
   private static final OAuthUserInfo OAUTH_USER_INFO =
       new OAuthUserInfo(
-          String.format("oauth-test:%s", AUTH_USER),
-          AUTH_USER,
-          "johndoe@example.com",
-          "John Doe",
-          null);
+          String.format("test:%s", AUTH_USER), AUTH_USER, "johndoe@example.com", "John Doe", null);
 
   @Mock private DynamicItem<WebSession> webSessionItem;
 
@@ -100,6 +98,7 @@ public class ProjectOAuthFilterTest {
   private FakeHttpServletRequest req;
   private HttpServletResponse res;
   private AuthResult authSuccessful;
+  private ExternalIdFactory extIdFactory;
   private ExternalIdKeyFactory extIdKeyFactory;
   private AuthRequest.Factory authRequestFactory;
   private Config gerritConfig = new Config();
@@ -110,6 +109,7 @@ public class ProjectOAuthFilterTest {
     res = new FakeHttpServletResponse();
 
     extIdKeyFactory = new ExternalIdKeyFactory(new ExternalIdKeyFactory.ConfigImpl(authConfig));
+    extIdFactory = new ExternalIdFactoryNoteDbImpl(extIdKeyFactory, authConfig);
     authRequestFactory = new AuthRequest.Factory(extIdKeyFactory);
 
     authSuccessful =
@@ -288,14 +288,22 @@ public class ProjectOAuthFilterTest {
     oAuthFilter.init(null);
     oAuthFilter.doFilter(req, res, chain);
 
-    verify(accountManager).authenticate(any());
+    AuthRequest expected =
+        authRequestFactory.create(
+            ExternalIdKeyFactory.parse(OAUTH_USER_INFO.getExternalId(), false));
+    expected.setUserName(OAUTH_USER_INFO.getUserName());
+    expected.setPassword(OAUTH_TOKEN);
+    expected.setAuthPlugin("oauth");
+    expected.setAuthProvider("test");
+
+    verify(accountManager).authenticate(eq(expected));
 
     verify(chain, never()).doFilter(any(), any());
     assertThat(res.getStatus()).isEqualTo(HttpServletResponse.SC_UNAUTHORIZED);
   }
 
   private void initAccount() throws Exception {
-    initAccount(ImmutableSet.of());
+    initAccount(ImmutableSet.of(extIdFactory.create("test", AUTH_USER, AUTH_ACCOUNT_ID)));
   }
 
   private void initAccount(Collection<ExternalId> extIds) throws Exception {

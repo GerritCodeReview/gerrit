@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5a268d6_94de7b9d",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/HttpLog.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-01-27T16:59:25Z",
+      "side": 1,
+      "message": "I realize I am being really nit-picky here (this will be an interface, so getting this right helps users), but perhaps this should be \"Trace-Id\"?",
+      "range": {
+        "startLine": 62,
+        "startChar": 46,
+        "endLine": 62,
+        "endChar": 53
+      },
+      "revId": "aa8165b6df634b9a7ffc6f09815832f93ccfcd5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

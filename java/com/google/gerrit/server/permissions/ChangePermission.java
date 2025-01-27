@@ -41,6 +41,7 @@ public enum ChangePermission implements ChangePermissionOrLabel {
   EDIT_CUSTOM_KEYED_VALUES,
   EDIT_HASHTAGS,
   EDIT_TOPIC_NAME,
+  POST_REVIEW_COMMENT,
   REMOVE_REVIEWER,
   /**
    * A new patch set can't be added if the patch set is locked for the change.

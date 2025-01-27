@@ -116,6 +116,7 @@ public class DefaultPermissionMappings {
           .put(ChangePermission.EDIT_CUSTOM_KEYED_VALUES, Permission.EDIT_CUSTOM_KEYED_VALUES)
           .put(ChangePermission.EDIT_HASHTAGS, Permission.EDIT_HASHTAGS)
           .put(ChangePermission.EDIT_TOPIC_NAME, Permission.EDIT_TOPIC_NAME)
+          .put(ChangePermission.POST_REVIEW_COMMENT, Permission.POST_REVIEW_COMMENT)
           .put(ChangePermission.REMOVE_REVIEWER, Permission.REMOVE_REVIEWER)
           .put(ChangePermission.ADD_PATCH_SET, Permission.ADD_PATCH_SET)
           .put(ChangePermission.REBASE, Permission.REBASE)

@@ -49,24 +49,28 @@ public class RulesIT extends AbstractDaemonTest {
   @Inject private IndexOperations.Account accountIndexOperations;
 
   @Test
+  @GerritConfig(name = "rules.enable", value = "true")
   public void testUnresolvedCommentsCountPredicate() throws Exception {
     modifySubmitRules("gerrit:unresolved_comments_count(0)");
     assertThat(statusForRule()).isEqualTo(SubmitRecord.Status.OK);
   }
 
   @Test
+  @GerritConfig(name = "rules.enable", value = "true")
   public void testUploaderPredicate() throws Exception {
     modifySubmitRules("gerrit:uploader(U)");
     assertThat(statusForRule()).isEqualTo(SubmitRecord.Status.OK);
   }
 
   @Test
+  @GerritConfig(name = "rules.enable", value = "true")
   public void testUnresolvedCommentsCount() throws Exception {
     modifySubmitRules("gerrit:commit_message_matches('.*')");
     assertThat(statusForRule()).isEqualTo(SubmitRecord.Status.OK);
   }
 
   @Test
+  @GerritConfig(name = "rules.enable", value = "true")
   public void testUserPredicate() throws Exception {
     modifySubmitRules(
         String.format(
@@ -76,103 +80,118 @@ public class RulesIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "rules.enable", value = "true")
   public void testCommitAuthorPredicate() throws Exception {
     modifySubmitRules("gerrit:commit_author(Id)");
     assertThat(statusForRule()).isEqualTo(SubmitRecord.Status.OK);
   }
 
   @Test
+  @GerritConfig(name = "rules.enable", value = "true")
   public void testFileNamesPredicateWithANewFile() throws Exception {
     modifySubmitRules("gerrit:files([file('a.txt', 'A', 'REGULAR')])");
     assertThat(statusForRule()).isEqualTo(SubmitRecord.Status.OK);
   }
 
   @Test
+  @GerritConfig(name = "rules.enable", value = "true")
   public void testFileNamesPredicateWithADeletedFile() throws Exception {
     modifySubmitRules("gerrit:files([file('a.txt', 'D', 'REGULAR')])");
     assertThat(statusForRuleRemoveFile()).isEqualTo(SubmitRecord.Status.OK);
   }
 
   @Test
+  @GerritConfig(name = "rules.enable", value = "true")
   public void testCommitDelta_pass() throws Exception {
     modifySubmitRules("gerrit:commit_delta('file1\\.txt')");
     assertThat(statusForRuleAddFile("file1.txt")).isEqualTo(SubmitRecord.Status.OK);
   }
 
   @Test
+  @GerritConfig(name = "rules.enable", value = "true")
   public void testCommitDelta_fail() throws Exception {
     modifySubmitRules("gerrit:commit_delta('no such file')");
     assertThat(statusForRuleAddFile("file1.txt")).isEqualTo(SubmitRecord.Status.RULE_ERROR);
   }
 
   @Test
+  @GerritConfig(name = "rules.enable", value = "true")
   public void testCommitDelta_addOwners_pass() throws Exception {
     modifySubmitRules("gerrit:commit_delta('OWNERS', add, _, _)");
     assertThat(statusForRuleAddFile("foo/OWNERS")).isEqualTo(SubmitRecord.Status.OK);
   }
 
   @Test
+  @GerritConfig(name = "rules.enable", value = "true")
   public void testCommitDelta_addOwners_fail() throws Exception {
     modifySubmitRules("gerrit:commit_delta('OWNERS', add, _, _)");
     assertThat(statusForRuleAddFile("foobar")).isEqualTo(SubmitRecord.Status.RULE_ERROR);
   }
 
   @Test
+  @GerritConfig(name = "rules.enable", value = "true")
   public void testCommitDelta_regexp() throws Exception {
     modifySubmitRules("gerrit:commit_delta('.*')");
     assertThat(statusForRuleAddFile("foo/bar")).isEqualTo(SubmitRecord.Status.OK);
   }
 
   @Test
+  @GerritConfig(name = "rules.enable", value = "true")
   public void testCommitDelta_add_provideNewName() throws Exception {
     modifySubmitRules("gerrit:commit_delta('.*', _, 'foo')");
     assertThat(statusForRuleAddFile("foo")).isEqualTo(SubmitRecord.Status.OK);
   }
 
   @Test
+  @GerritConfig(name = "rules.enable", value = "true")
   public void testCommitDelta_modify_provideNewName() throws Exception {
     modifySubmitRules("gerrit:commit_delta('.*', _, 'a.txt')");
     assertThat(statusForRuleModifyFile()).isEqualTo(SubmitRecord.Status.OK);
   }
 
   @Test
+  @GerritConfig(name = "rules.enable", value = "true")
   public void testCommitDelta_delete_provideNewName() throws Exception {
     modifySubmitRules("gerrit:commit_delta('.*', _, 'a.txt')");
     assertThat(statusForRuleRemoveFile()).isEqualTo(SubmitRecord.Status.OK);
   }
 
   @Test
+  @GerritConfig(name = "rules.enable", value = "true")
   public void testCommitDelta_rename_provideOldName() throws Exception {
     modifySubmitRules("gerrit:commit_delta('.*', _, 'a.txt')");
     assertThat(statusForRuleRenamedFile()).isEqualTo(SubmitRecord.Status.OK);
   }
 
   @Test
+  @GerritConfig(name = "rules.enable", value = "true")
   public void testCommitDelta_rename_provideNewName() throws Exception {
     modifySubmitRules("gerrit:commit_delta('.*', _, 'b.txt')");
     assertThat(statusForRuleRenamedFile()).isEqualTo(SubmitRecord.Status.OK);
   }
 
   @Test
+  @GerritConfig(name = "rules.enable", value = "true")
   public void testCommitDelta_rename_matchOldName() throws Exception {
     modifySubmitRules("gerrit:commit_delta('a\\.txt')");
     assertThat(statusForRuleRenamedFile()).isEqualTo(SubmitRecord.Status.OK);
   }
 
   @Test
+  @GerritConfig(name = "rules.enable", value = "true")
   public void testCommitDelta_rename_matchNewName() throws Exception {
     modifySubmitRules("gerrit:commit_delta('b\\.txt')");
     assertThat(statusForRuleRenamedFile()).isEqualTo(SubmitRecord.Status.OK);
   }
 
   @Test
+  @GerritConfig(name = "rules.enable", value = "true")
   public void typeError() throws Exception {
     modifySubmitRules("user(1000000)."); // the trailing '.' triggers a type error
     assertThat(statusForRuleAddFile("foo")).isEqualTo(SubmitRecord.Status.RULE_ERROR);
   }
 
   @Test
-  @GerritConfig(name = "rules.enable", value = "false")
   public void prologRule_noEffectWhenRulesDisabled() throws Exception {
     modifySubmitRules("gerrit:commit_message_matches('foo.*')");
     String changeId = createChange().getChangeId();

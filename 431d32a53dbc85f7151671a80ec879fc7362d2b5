@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "656f5ebd_ddef2290",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 30
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-01-28T13:23:49Z",
+      "side": 1,
+      "message": "FYI, I was attempting to do this some time ago. I pushed the change now [1] so that you can have a look.\n\nComparing this with your change, I think it’s easier to create the submit requirements in AllProjectsCreator where we already create other submit requirements such as the \"No-Unresolved-Comments\" submit requirement.\n\nFWIW ideally the default Code-Review submit requirement should disallow self-approvals, e.g. be \"label:Code-Review\u003dMAX,user\u003dnon_uploader AND -label:Code-Review\u003dMIN\" rather than \"label:Code-Review\u003dMAX AND -label:Code-Review\u003dMIN\", but this is much more work as most of our integration tests assume that self-approval is possible (that\u0027s why I gave up on my change). So it\u0027s better if this is only done in a follow-up change.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/449283",
+      "revId": "431d32a53dbc85f7151671a80ec879fc7362d2b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

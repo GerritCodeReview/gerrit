@@ -39,6 +39,30 @@
       },
       "revId": "3cd46e8a5b5ffc5221075acdac624191c776b09b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dba451cb_09f14ad6",
+        "filename": "java/com/google/gerrit/server/project/ProjectCreator.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-28T19:06:56Z",
+      "side": 1,
+      "message": "I believe we need to keep sure that we send the `project-created` the project *has actually been created* successfully. We need then to _memoize_ the `ref-updated` of the `refs/meta/config` and send them *in the right order* when the creation is successful.",
+      "parentUuid": "0621f594_419e51a7",
+      "range": {
+        "startLine": 128,
+        "startChar": 10,
+        "endLine": 134,
+        "endChar": 36
+      },
+      "revId": "3cd46e8a5b5ffc5221075acdac624191c776b09b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

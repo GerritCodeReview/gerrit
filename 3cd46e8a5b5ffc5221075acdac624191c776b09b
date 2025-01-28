@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "18c281f1_2d291ff0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2025-01-28T10:48:10Z",
+      "side": 1,
+      "message": "Verifying that the project-created event is triggered only upon successful creation of all refs for the project.",
+      "revId": "3cd46e8a5b5ffc5221075acdac624191c776b09b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

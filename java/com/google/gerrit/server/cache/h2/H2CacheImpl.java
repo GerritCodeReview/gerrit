@@ -334,12 +334,12 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     private final KeyType<K> keyType;
     private final CacheSerializer<V> valueSerializer;
     private final int version;
-    private final long maxSize;
     @Nullable private final Duration expireAfterWrite;
     @Nullable private final Duration refreshAfterWrite;
     private final BlockingQueue<SqlHandle> handles;
     private final AtomicLong hitCount = new AtomicLong();
     private final AtomicLong missCount = new AtomicLong();
+    private final Writer<K, V> writer;
     private volatile BloomFilter<K> bloomFilter;
     private int estimatedSize;
     private boolean buildBloomFilter;
@@ -355,16 +355,33 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         @Nullable Duration expireAfterWrite,
         @Nullable Duration refreshAfterWrite,
         boolean buildBloomFilter,
-        boolean trackLastAccess) {
+        boolean trackLastAccess,
+        CacheAccessMode cacheAccessMode) {
       this.url = jdbcUrl;
       this.keyType = createKeyType(keyType, keySerializer);
       this.valueSerializer = valueSerializer;
       this.version = version;
-      this.maxSize = maxSize;
       this.expireAfterWrite = expireAfterWrite;
       this.refreshAfterWrite = refreshAfterWrite;
       this.buildBloomFilter = buildBloomFilter;
       this.trackLastAccess = trackLastAccess;
+      switch (cacheAccessMode) {
+        case READWRITE:
+          this.writer =
+              new WriterImpl<>(
+                  this.url,
+                  this.keyType,
+                  this.valueSerializer,
+                  this.version,
+                  maxSize,
+                  this.expireAfterWrite);
+          break;
+        case READONLY:
+          this.writer = new NoopWriterImpl<>();
+          break;
+        default:
+          throw new IllegalArgumentException("Unsupported cache access mode: " + cacheAccessMode);
+      }
 
       int cores = Runtime.getRuntime().availableProcessors();
       int keep = Math.min(cores, 16);
@@ -520,6 +537,10 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     }
 
     private boolean expired(Instant created) {
+      return expired(created, expireAfterWrite);
+    }
+
+    static boolean expired(Instant created, Duration expireAfterWrite) {
       if (expireAfterWrite == null) {
         return false;
       }
@@ -536,51 +557,14 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     }
 
     private void touch(SqlHandle c, K key) throws IOException, SQLException {
-      if (c.touch == null) {
-        c.touch = c.conn.prepareStatement("UPDATE data SET accessed=? WHERE k=? AND version=?");
-      }
-      try {
-        c.touch.setTimestamp(1, new Timestamp(TimeUtil.nowMs()));
-        keyType.set(c.touch, 2, key);
-        c.touch.setInt(3, version);
-        c.touch.executeUpdate();
-      } finally {
-        c.touch.clearParameters();
-      }
+      writer.touch(c, key);
     }
 
     void put(K key, ValueHolder<V> holder) {
-      if (holder.clean) {
-        return;
-      }
-
-      BloomFilter<K> b = null;
-      do {
-        b = bloomFilter;
-        if (b != null) {
-          b.put(key);
-        }
-      } while (!referenceEqualsSuppressed(b, bloomFilter));
-
       SqlHandle c = null;
       try {
         c = acquire();
-        if (c.put == null) {
-          c.put =
-              c.conn.prepareStatement(
-                  "MERGE INTO data (k, v, version, created, accessed) VALUES(?,?,?,?,?)");
-        }
-        try {
-          keyType.set(c.put, 1, key);
-          c.put.setBytes(2, valueSerializer.serialize(holder.value));
-          c.put.setInt(3, version);
-          c.put.setTimestamp(4, Timestamp.from(holder.created));
-          c.put.setTimestamp(5, new Timestamp(TimeUtil.nowMs()));
-          c.put.executeUpdate();
-          holder.clean = true;
-        } finally {
-          c.put.clearParameters();
-        }
+        writer.put(key, holder, c, bloomFilter);
       } catch (IOException | SQLException e) {
         logger.atWarning().withCause(e).log("Cannot put into cache %s", url);
         c = close(c);
@@ -593,7 +577,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       SqlHandle c = null;
       try {
         c = acquire();
-        invalidate(c, key);
+        writer.invalidate(key, c);
       } catch (IOException | SQLException e) {
         logger.atWarning().withCause(e).log("Cannot invalidate cache %s", url);
         c = close(c);
@@ -602,26 +586,11 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       }
     }
 
-    private void invalidate(SqlHandle c, K key) throws IOException, SQLException {
-      if (c.invalidate == null) {
-        c.invalidate = c.conn.prepareStatement("DELETE FROM data WHERE k=? and version=?");
-      }
-      try {
-        keyType.set(c.invalidate, 1, key);
-        c.invalidate.setInt(2, version);
-        c.invalidate.executeUpdate();
-      } finally {
-        c.invalidate.clearParameters();
-      }
-    }
-
     void invalidateAll() {
       SqlHandle c = null;
       try {
         c = acquire();
-        try (Statement s = c.conn.createStatement()) {
-          s.executeUpdate("DELETE FROM data");
-        }
+        writer.invalidateAll(c);
         bloomFilter = newBloomFilter();
       } catch (SQLException e) {
         logger.atWarning().withCause(e).log("Cannot invalidate cache %s", url);
@@ -635,50 +604,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       SqlHandle c = null;
       try {
         c = acquire();
-        try (PreparedStatement ps = c.conn.prepareStatement("DELETE FROM data WHERE version!=?")) {
-          ps.setInt(1, version);
-          int oldEntries = ps.executeUpdate();
-          if (oldEntries > 0) {
-            logger.atInfo().log(
-                "Pruned %d entries not matching version %d from cache %s",
-                oldEntries, version, url);
-          }
-        }
-        try (Statement s = c.conn.createStatement()) {
-          // Compute size without restricting to version (although obsolete data was just pruned
-          // anyway).
-          long used;
-          try (ResultSet r = s.executeQuery("SELECT SUM(space) FROM data")) {
-            used = r.next() ? r.getLong(1) : 0;
-          }
-          String formattedMaxSize = CacheInfo.EntriesInfo.bytes(maxSize);
-          if (used <= maxSize) {
-            logger.atFine().log(
-                "Cache %s size (%s) is less than maxSize (%s), not pruning",
-                url, CacheInfo.EntriesInfo.bytes(used), formattedMaxSize);
-            return;
-          }
-
-          try (ResultSet r =
-              s.executeQuery("SELECT k, space, created FROM data ORDER BY accessed")) {
-            logger.atInfo().log(
-                "Cache %s size (%s) is greater than maxSize (%s), pruning",
-                url, CacheInfo.EntriesInfo.bytes(used), formattedMaxSize);
-            while (maxSize < used && r.next()) {
-              K key = keyType.get(r, 1);
-              Timestamp created = r.getTimestamp(3);
-              if (mem.getIfPresent(key) != null && !expired(created.toInstant())) {
-                touch(c, key);
-              } else {
-                invalidate(c, key);
-                used -= r.getLong(2);
-              }
-            }
-            logger.atInfo().log(
-                "Done pruning cache %s, size (%s) is now less than maxSize (%s)",
-                url, CacheInfo.EntriesInfo.bytes(used), formattedMaxSize);
-          }
-        }
+        writer.prune(mem, c);
       } catch (IOException | SQLException e) {
         logger.atWarning().withCause(e).log("Cannot prune cache %s", url);
         c = close(c);
@@ -732,6 +658,176 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     private BloomFilter<K> newBloomFilter() {
       int cnt = Math.max(64 * 1024, 2 * estimatedSize);
       return BloomFilter.create(keyType.funnel(), cnt);
+    }
+
+    interface Writer<K, V> {
+      public void touch(SqlHandle c, K key) throws IOException, SQLException;
+
+      public void put(K key, ValueHolder<V> holder, SqlHandle c, BloomFilter<K> bloomFilter)
+          throws IOException, SQLException;
+
+      public void invalidate(K key, SqlHandle c) throws IOException, SQLException;
+
+      public void invalidateAll(SqlHandle c) throws SQLException;
+
+      public void prune(Cache<K, ?> mem, SqlHandle c) throws IOException, SQLException;
+    }
+
+    static class NoopWriterImpl<K, V> implements Writer<K, V> {
+      @Override
+      public void touch(SqlHandle c, K key) throws IOException, SQLException {}
+
+      @Override
+      public void put(K key, ValueHolder<V> holder, SqlHandle c, BloomFilter<K> bloomFilter) {}
+
+      @Override
+      public void invalidate(K key, SqlHandle c) {}
+
+      @Override
+      public void invalidateAll(SqlHandle c) {}
+
+      @Override
+      public void prune(Cache<K, ?> mem, SqlHandle c) {}
+    }
+
+    static class WriterImpl<K, V> implements Writer<K, V> {
+      final String url;
+      final KeyType<K> keyType;
+      final CacheSerializer<V> valueSerializer;
+      final int version;
+      @Nullable private final Duration expireAfterWrite;
+      private final long maxSize;
+
+      WriterImpl(
+          String jdbcUrl,
+          KeyType<K> keyType,
+          CacheSerializer<V> valueSerializer,
+          int version,
+          long maxSize,
+          @Nullable Duration expireAfterWrite) {
+        this.url = jdbcUrl;
+        this.keyType = keyType;
+        this.valueSerializer = valueSerializer;
+        this.version = version;
+        this.expireAfterWrite = expireAfterWrite;
+        this.maxSize = maxSize;
+      }
+
+      @Override
+      public void touch(SqlHandle c, K key) throws IOException, SQLException {
+        if (c.touch == null) {
+          c.touch = c.conn.prepareStatement("UPDATE data SET accessed=? WHERE k=? AND version=?");
+        }
+        try {
+          c.touch.setTimestamp(1, new Timestamp(TimeUtil.nowMs()));
+          keyType.set(c.touch, 2, key);
+          c.touch.setInt(3, version);
+          c.touch.executeUpdate();
+        } finally {
+          c.touch.clearParameters();
+        }
+      }
+
+      @Override
+      public void put(K key, ValueHolder<V> holder, SqlHandle c, BloomFilter<K> bloomFilter)
+          throws SQLException, IOException {
+        if (holder.clean) {
+          return;
+        }
+        BloomFilter<K> b = null;
+        do {
+          b = bloomFilter;
+          if (b != null) {
+            b.put(key);
+          }
+        } while (!referenceEqualsSuppressed(b, bloomFilter));
+        if (c.put == null) {
+          c.put =
+              c.conn.prepareStatement(
+                  "MERGE INTO data (k, v, version, created, accessed) VALUES(?,?,?,?,?)");
+        }
+        try {
+          keyType.set(c.put, 1, key);
+          c.put.setBytes(2, valueSerializer.serialize(holder.value));
+          c.put.setInt(3, version);
+          c.put.setTimestamp(4, Timestamp.from(holder.created));
+          c.put.setTimestamp(5, new Timestamp(TimeUtil.nowMs()));
+          c.put.executeUpdate();
+          holder.clean = true;
+        } finally {
+          c.put.clearParameters();
+        }
+      }
+
+      @Override
+      public void invalidate(K key, SqlHandle c) throws SQLException, IOException {
+        if (c.invalidate == null) {
+          c.invalidate = c.conn.prepareStatement("DELETE FROM data WHERE k=? and version=?");
+        }
+        try {
+          keyType.set(c.invalidate, 1, key);
+          c.invalidate.setInt(2, version);
+          c.invalidate.executeUpdate();
+        } finally {
+          c.invalidate.clearParameters();
+        }
+      }
+
+      @Override
+      public void invalidateAll(SqlHandle c) throws SQLException {
+        try (Statement s = c.conn.createStatement()) {
+          s.executeUpdate("DELETE FROM data");
+        }
+      }
+
+      @Override
+      public void prune(Cache<K, ?> mem, SqlHandle c) throws IOException, SQLException {
+        try (PreparedStatement ps = c.conn.prepareStatement("DELETE FROM data WHERE version!=?")) {
+          ps.setInt(1, version);
+          int oldEntries = ps.executeUpdate();
+          if (oldEntries > 0) {
+            logger.atInfo().log(
+                "Pruned %d entries not matching version %d from cache %s",
+                oldEntries, version, url);
+          }
+        }
+        try (Statement s = c.conn.createStatement()) {
+          // Compute size without restricting to version (although obsolete data was just pruned
+          // anyway).
+          long used;
+          try (ResultSet r = s.executeQuery("SELECT SUM(space) FROM data")) {
+            used = r.next() ? r.getLong(1) : 0;
+          }
+          String formattedMaxSize = CacheInfo.EntriesInfo.bytes(maxSize);
+          if (used <= maxSize) {
+            logger.atFine().log(
+                "Cache %s size (%s) is less than maxSize (%s), not pruning",
+                url, CacheInfo.EntriesInfo.bytes(used), formattedMaxSize);
+            return;
+          }
+
+          try (ResultSet r =
+              s.executeQuery("SELECT k, space, created FROM data ORDER BY accessed")) {
+            logger.atInfo().log(
+                "Cache %s size (%s) is greater than maxSize (%s), pruning",
+                url, CacheInfo.EntriesInfo.bytes(used), formattedMaxSize);
+            while (maxSize < used && r.next()) {
+              K key = keyType.get(r, 1);
+              Timestamp created = r.getTimestamp(3);
+              if (mem.getIfPresent(key) != null
+                  && !expired(created.toInstant(), expireAfterWrite)) {
+                touch(c, key);
+              } else {
+                invalidate(key, c);
+                used -= r.getLong(2);
+              }
+            }
+            logger.atInfo().log(
+                "Done pruning cache %s, size (%s) is now less than maxSize (%s)",
+                url, CacheInfo.EntriesInfo.bytes(used), formattedMaxSize);
+          }
+        }
+      }
     }
   }
 

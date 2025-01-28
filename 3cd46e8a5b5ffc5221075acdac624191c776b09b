@@ -16,6 +16,29 @@
       "message": "Verifying that the project-created event is triggered only upon successful creation of all refs for the project.",
       "revId": "3cd46e8a5b5ffc5221075acdac624191c776b09b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0621f594_419e51a7",
+        "filename": "java/com/google/gerrit/server/project/ProjectCreator.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2025-01-28T17:18:47Z",
+      "side": 1,
+      "message": "@luca.milanesio@gmail.com After reviewing project creation history, it seems the `project-created` event was fired after `ref-update` for `refs/meta/config` to ensure the event isn’t triggered if Gerrit fails to create the project config. \n\nBasically the intention of the code as is was to notify the creation of the project ONLY upon project creation success. \n\nReordering the events would change this behaviour: if the ref/meta/config now fails, we would still notify the project creation.\n\nIf this is acceptable than this fix already adress the out of order issue with a minimal code change.\n\nOtherwise, this change is going to be more invasive since the hardcoded firing of the config ref-update in the `BatchMetaDataUpdate` [1] needs to be postponed.\n\n[1]: https://gerrit.googlesource.com/gerrit/+/master/java/com/google/gerrit/server/git/meta/VersionedMetaData.java#479",
+      "range": {
+        "startLine": 128,
+        "startChar": 10,
+        "endLine": 134,
+        "endChar": 36
+      },
+      "revId": "3cd46e8a5b5ffc5221075acdac624191c776b09b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

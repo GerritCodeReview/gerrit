@@ -66,6 +66,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3eea6be1_810bf8cb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-01-28T20:28:12Z",
+      "side": 1,
+      "message": "There are also a bunch of tests that could be updated to open `repoView` with a try-with-resources, should we update those too?",
+      "parentUuid": "a5fe504f_ac722a2f",
+      "revId": "1a572b95771bcc18f049325a36461a954c1a95f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1ddb697c_eda05dd3",
         "filename": "java/com/google/gerrit/server/approval/ApprovalCopier.java",
         "patchSetId": 5

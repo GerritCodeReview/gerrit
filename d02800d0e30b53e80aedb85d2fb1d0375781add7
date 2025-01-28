@@ -3,6 +3,63 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0e5b6413_5c373cd3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-01-28T08:39:59Z",
+      "side": 1,
+      "message": "Removing the repository from the RepositoryCache has the side effect that objects cached in the jgit buffer cache (WindowCache) will be pruned from the cache and need to be re-read on next access. This will degrade performance.",
+      "revId": "d02800d0e30b53e80aedb85d2fb1d0375781add7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b98a7c8_56e2bb1e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-01-28T08:39:59Z",
+      "side": 1,
+      "message": "If reftable requires to frequently close the repository this will degrade performance, see comment regarding WindowCache above.",
+      "revId": "d02800d0e30b53e80aedb85d2fb1d0375781add7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6214b312_b4457c93",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-01-28T08:39:59Z",
+      "side": 1,
+      "message": "but this will degrade performance since objects need to be re-read from disk on next use",
+      "range": {
+        "startLine": 31,
+        "startChar": 18,
+        "endLine": 33,
+        "endChar": 52
+      },
+      "revId": "d02800d0e30b53e80aedb85d2fb1d0375781add7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2b11c5b0_3c39d02c",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 5

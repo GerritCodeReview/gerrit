@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b374ba0_61c316b6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-01-28T20:23:37Z",
+      "side": 1,
+      "message": "increased by one",
+      "range": {
+        "startLine": 15,
+        "startChar": 54,
+        "endLine": 15,
+        "endChar": 70
+      },
+      "revId": "1a572b95771bcc18f049325a36461a954c1a95f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6a85c9f_91c902d7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-01-28T20:23:37Z",
+      "side": 1,
+      "message": "nit: remove comma",
+      "range": {
+        "startLine": 22,
+        "startChar": 66,
+        "endLine": 22,
+        "endChar": 67
+      },
+      "revId": "1a572b95771bcc18f049325a36461a954c1a95f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5fe504f_ac722a2f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-01-28T20:23:37Z",
+      "side": 1,
+      "message": "What about BatchUpdate [1]?\n\n[1] https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/update/BatchUpdate.java#382",
+      "revId": "1a572b95771bcc18f049325a36461a954c1a95f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ddb697c_eda05dd3",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalCopier.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-01-28T20:23:37Z",
+      "side": 1,
+      "message": "nit: unrelated change?",
+      "range": {
+        "startLine": 381,
+        "startChar": 0,
+        "endLine": 381,
+        "endChar": 17
+      },
+      "revId": "1a572b95771bcc18f049325a36461a954c1a95f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

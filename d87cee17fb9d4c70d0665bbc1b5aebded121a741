@@ -92,6 +92,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f864ba2a_1bd589a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-01-28T11:41:11Z",
+      "side": 1,
+      "message": "Such a central switch would cause also user-caused actions not to write to caches. This might cause performance degradations depending on the traffic and the duration of the online reindexing. Thus, one of our suggestions was to do that switch on an individual cache level to only make cache read-only that are typically causing issues during reindexing, which at least in our experience are the *diff* caches.",
+      "parentUuid": "0a76fa17_b80fc970",
+      "revId": "d87cee17fb9d4c70d0665bbc1b5aebded121a741",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bd3a947b_5eb993d1",
         "filename": "java/com/google/gerrit/server/cache/h2/ReadWriteSqlStore.java",
         "patchSetId": 7

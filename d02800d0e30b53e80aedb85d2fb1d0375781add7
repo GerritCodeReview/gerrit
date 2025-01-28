@@ -34,6 +34,24 @@
       "parentUuid": "2b11c5b0_3c39d02c",
       "revId": "d02800d0e30b53e80aedb85d2fb1d0375781add7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2842896e_4b945a88",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-28T08:22:47Z",
+      "side": 1,
+      "message": "Thinking again, it makes sense to have this first moved to master and reviewed properly, including the addition of AutoCloseable as suggested by @matthias.sohn@gmail.com. Once this is merged, I\u0027ll cherry-pick to the stable branch and adapt accordingly.",
+      "parentUuid": "67387fe1_30741ea6",
+      "revId": "d02800d0e30b53e80aedb85d2fb1d0375781add7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

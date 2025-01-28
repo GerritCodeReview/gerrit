@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "187d7ec9_a64feb35",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RebaseChainOnBehalfOfUploaderIT.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 1155,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-01-28T09:56:34Z",
+      "side": 1,
+      "message": "Was this name change necessary?",
+      "revId": "17477f804d83dc15d01c401997c251584f67d73d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc5ee8a5_e06a7e7e",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RebaseOnBehalfOfUploaderIT.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 1107,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-01-28T09:56:34Z",
+      "side": 1,
+      "message": "Was this name change necessary?",
+      "revId": "17477f804d83dc15d01c401997c251584f67d73d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

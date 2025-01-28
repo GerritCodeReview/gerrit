@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f2b52ac3_580bee07",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-28T09:00:59Z",
+      "side": 1,
+      "message": "Yes, but that will happen *only* if a repository has a reference counting of zero and it remains unreferenced until its expiry time.",
+      "parentUuid": "0e5b6413_5c373cd3",
+      "revId": "d02800d0e30b53e80aedb85d2fb1d0375781add7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4b98a7c8_56e2bb1e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -31,6 +49,24 @@
       "writtenOn": "2025-01-28T08:39:59Z",
       "side": 1,
       "message": "If reftable requires to frequently close the repository this will degrade performance, see comment regarding WindowCache above.",
+      "revId": "d02800d0e30b53e80aedb85d2fb1d0375781add7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75afc3c4_7d89742b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-28T09:00:59Z",
+      "side": 1,
+      "message": "I agree, and at the moment, it\u0027s the only way that the ref-table can refresh its snapshot and close its ref-table files is the `close()` of the `Repository`.\n\nThat should be addressed in a separate change, I\u0027ll remove this statement from the commit message.",
+      "parentUuid": "4b98a7c8_56e2bb1e",
       "revId": "d02800d0e30b53e80aedb85d2fb1d0375781add7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -72,6 +108,30 @@
       "side": 1,
       "message": "Objects should be pruned from the WindowCache  in LRU order when `core.packedGitLimit` is exceeded, not by reftable requiring to close the repo frequently.",
       "parentUuid": "6214b312_b4457c93",
+      "range": {
+        "startLine": 31,
+        "startChar": 18,
+        "endLine": 33,
+        "endChar": 52
+      },
+      "revId": "d02800d0e30b53e80aedb85d2fb1d0375781add7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0c9ab9b_14f84039",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-28T09:00:59Z",
+      "side": 1,
+      "message": "The discussion here is about having a correct reference counting and making sure that the repositories that aren\u0027t used anymore are kept with a reference counting of zero.\n\nIf a repository is used frequently, its reference counting will go up and down on a regular basis, and it will be less likely to be evicted when it reaches a reference counting of zero.\n\nDid I address your concern?",
+      "parentUuid": "97afb33f_5b8e6f0a",
       "range": {
         "startLine": 31,
         "startChar": 18,

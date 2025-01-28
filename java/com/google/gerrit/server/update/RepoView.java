@@ -198,6 +198,7 @@ public class RepoView implements AutoCloseable {
 
   @Override
   public void close() {
+    commands.close();
     if (closeRepo) {
       inserter.close();
       rw.close();

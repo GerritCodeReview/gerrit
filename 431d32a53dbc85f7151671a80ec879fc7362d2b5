@@ -52,6 +52,24 @@
       "parentUuid": "7463a3d5_10ebf70f",
       "revId": "431d32a53dbc85f7151671a80ec879fc7362d2b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "05bd705b_8e25383e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 30
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-01-28T14:12:44Z",
+      "side": 1,
+      "message": "\u003e I guess the fact that I\u0027ve set setAllowOverrideInChildProjects(true) doesn\u0027t \n\u003e help you?\n\nNo, we need to be able to pass this in via AllProjectsInput.\n\n\u003e Happy to split the Verified label in a second patchset if you think it\u0027s needed.\n\nUp to you, I\u0027d prefer a separate change, but I don\u0027t want to cause you extra work.",
+      "parentUuid": "c697e866_d3b28a6b",
+      "revId": "431d32a53dbc85f7151671a80ec879fc7362d2b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

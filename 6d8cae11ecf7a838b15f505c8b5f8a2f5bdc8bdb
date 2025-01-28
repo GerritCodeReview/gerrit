@@ -117,6 +117,30 @@
       },
       "revId": "6d8cae11ecf7a838b15f505c8b5f8a2f5bdc8bdb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8958bf58_7f00e27e",
+        "filename": "java/com/google/gerrit/server/schema/AllProjectsCreator.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-01-28T06:14:48Z",
+      "side": 1,
+      "message": "I will second Sasa here. AFAIU `setAllowOverrideInChildProjects \u003d false` means that nobody will be able to override it in their project unless modified here by the Gerrit admin.\nAFAIR (so take it with a pinch of salt 😊), previously, when `MAX_WITH_BLOCK` label function was used anybody could copy the label definition to their project and define what they wanted without changing it on the `All-Projects` level. IOW it was giving the useful default without blocking the possibility to change it as needed in downstream projects. Setting to `false` blocks this possibility.",
+      "parentUuid": "14a44ccb_ed51e5d1",
+      "range": {
+        "startLine": 213,
+        "startChar": 45,
+        "endLine": 213,
+        "endChar": 50
+      },
+      "revId": "6d8cae11ecf7a838b15f505c8b5f8a2f5bdc8bdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

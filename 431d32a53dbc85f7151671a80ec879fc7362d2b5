@@ -34,6 +34,24 @@
       "parentUuid": "656f5ebd_ddef2290",
       "revId": "431d32a53dbc85f7151671a80ec879fc7362d2b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c697e866_d3b28a6b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 30
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-01-28T14:08:20Z",
+      "side": 1,
+      "message": "Thanks for the input. I guess the fact that I\u0027ve set `setAllowOverrideInChildProjects(true)` doesn\u0027t help you?\n\nHappy to split the Verified label in a second patchset if you think it\u0027s needed.",
+      "parentUuid": "7463a3d5_10ebf70f",
+      "revId": "431d32a53dbc85f7151671a80ec879fc7362d2b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

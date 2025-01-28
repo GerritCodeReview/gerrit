@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2773bec9_82bfc77c",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalCopier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-28T11:35:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "66d2e0ef_d7a121ce",
+      "range": {
+        "startLine": 365,
+        "startChar": 8,
+        "endLine": 365,
+        "endChar": 61
+      },
+      "revId": "57972151a195d6e692a405ce4a30665b10f0987b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c91026e7_c2746de4",

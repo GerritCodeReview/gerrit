@@ -16,6 +16,24 @@
       "message": "I installed a new Gerrit test site with this version using all default settings and ran a couple of requests against that test site to check if trace-ids are handled as expected.\n \nIt seems that git push (git-receive-pack) requests get traced forcefully automatically so that the access log of git-receive-pack requests also end up in the error_log. I think that\u0027s not intended.\n \nThis doesn\u0027t happen for fetch requests (git-upload-pack).",
       "revId": "6943fbaf94e396f11323bfda3c24ec679db9962c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3786849_f00e1485",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-01-29T15:43:10Z",
+      "side": 1,
+      "message": "As we checked together, your finding was unrelated to these series. Instead it is related to the INFO level logging from the MultiProgressMonitor class.",
+      "parentUuid": "181b05a1_c44f14fc",
+      "revId": "6943fbaf94e396f11323bfda3c24ec679db9962c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

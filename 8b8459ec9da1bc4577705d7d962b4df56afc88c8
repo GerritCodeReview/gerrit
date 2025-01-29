@@ -16,6 +16,24 @@
       "message": "this change is ready, Google asked to wait a few more days before submmitting this series",
       "revId": "8b8459ec9da1bc4577705d7d962b4df56afc88c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3debe045_8a54bece",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-01-29T16:30:42Z",
+      "side": 1,
+      "message": "I got confirmation from Edwin that it is OK to submit the series up to this change",
+      "parentUuid": "41c5942a_4221440a",
+      "revId": "8b8459ec9da1bc4577705d7d962b4df56afc88c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

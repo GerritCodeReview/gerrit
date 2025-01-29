@@ -84,6 +84,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "eb11d204_447c62d5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-29T10:05:24Z",
+      "side": 1,
+      "message": "BatchUpdate already closes the `repoView`, see a code fragment below:\n\n```\n  @Override\n  public void close() {\n    if (repoView !\u003d null) {\n      repoView.close();\n    }\n  }\n```",
+      "parentUuid": "3eea6be1_810bf8cb",
+      "revId": "1a572b95771bcc18f049325a36461a954c1a95f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1ddb697c_eda05dd3",
         "filename": "java/com/google/gerrit/server/approval/ApprovalCopier.java",
         "patchSetId": 5

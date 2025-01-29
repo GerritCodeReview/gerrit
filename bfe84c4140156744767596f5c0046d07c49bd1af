@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c5d10491_e2a165f0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2025-01-29T18:21:17Z",
+      "side": 1,
+      "message": "\u003e Documentation update is missing.\n\nDone\n\n\u003e Also running all tests but NOT the Lucene ones should call this code at all. \n\nDone. The tests affected for this change are the following (All of them are using lucene):\n\n```\njavatests/com/google/gerrit/acceptance/pgm/LuceneReindexIT.java\njavatests/com/google/gerrit/acceptance/rest/config/IndexSnapshotsIT.java\njavatests/com/google/gerrit/acceptance/server/index/change/LuceneChangeIndexerIT.java\njavatests/com/google/gerrit/acceptance/testsuite/index/LuceneIndexBindingIT.java\njavatests/com/google/gerrit/acceptance/testsuite/index/LuceneIndexMetricsIT.java\n```\n\n\u003e Also make sure that by excluding Lucene everything works as expected.\n\nPlease, can you develop this point more?",
+      "parentUuid": "386a4cfb_88c6a648",
+      "revId": "bfe84c4140156744767596f5c0046d07c49bd1af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c539346d_a91db886",
         "filename": "java/com/google/gerrit/lucene/LuceneIndexMetrics.java",
         "patchSetId": 7

@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ae1240e_a630ee30",
+        "filename": "java/com/google/gerrit/lucene/LuceneIndexMetrics.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2025-01-29T16:50:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c539346d_a91db886",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 6
+      },
+      "revId": "bfe84c4140156744767596f5c0046d07c49bd1af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ea3a9eb3_8cdc5172",
@@ -64,6 +88,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "102befbc_ef6605ac",
+        "filename": "java/com/google/gerrit/lucene/LuceneIndexMetrics.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2025-01-29T16:50:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea3a9eb3_8cdc5172",
+      "range": {
+        "startLine": 26,
+        "startChar": 2,
+        "endLine": 26,
+        "endChar": 8
+      },
+      "revId": "bfe84c4140156744767596f5c0046d07c49bd1af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "24ed491a_30deb099",
@@ -77,6 +125,30 @@
       "writtenOn": "2025-01-29T09:10:12Z",
       "side": 1,
       "message": "This should now belong to the Lucene test suite, otherwise Google may risk to run it and fail it.",
+      "range": {
+        "startLine": 15,
+        "startChar": 8,
+        "endLine": 15,
+        "endChar": 52
+      },
+      "revId": "bfe84c4140156744767596f5c0046d07c49bd1af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1937519_81c4eab5",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/index/LuceneIndexMetricsIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2025-01-29T16:50:51Z",
+      "side": 1,
+      "message": "Under the same path `com.google.gerrit.acceptance.testsuite.index` there is another test `LuceneIndexBindingIT` that has a Lucene dependency `import com.google.gerrit.lucene.LuceneChangeIndex;` therefore I think we are fine.",
+      "parentUuid": "24ed491a_30deb099",
       "range": {
         "startLine": 15,
         "startChar": 8,

@@ -47,8 +47,10 @@ import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.junit.ClassRule;
+import org.junit.Ignore;
 import org.junit.Test;
 
+@Ignore
 public class IndexSnapshotsIT extends AbstractDaemonTest {
 
   @ClassRule

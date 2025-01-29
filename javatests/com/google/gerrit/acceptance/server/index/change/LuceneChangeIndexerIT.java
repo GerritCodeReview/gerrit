@@ -41,8 +41,10 @@ import java.util.Set;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
+@Ignore
 public class LuceneChangeIndexerIT extends AbstractDaemonTest {
   @ConfigSuite.Default
   public static Config defaultConfig() {

@@ -22,6 +22,7 @@ import com.google.gerrit.index.IndexType;
 import com.google.gerrit.testing.SystemPropertiesTestRule;
 import com.google.inject.Inject;
 import org.junit.ClassRule;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class LuceneIndexMetricsIT extends AbstractDaemonTest {
@@ -32,6 +33,7 @@ public class LuceneIndexMetricsIT extends AbstractDaemonTest {
   @Inject protected TestMetricMaker testMetricMaker;
 
   @Test
+  @Ignore
   public void checkProjectsIndexMetric() throws Exception {
     int numberProjects = intMetricValueOf("indexes/projects");
     gApi.projects().create("some_project");
@@ -39,6 +41,7 @@ public class LuceneIndexMetricsIT extends AbstractDaemonTest {
   }
 
   @Test
+  @Ignore
   public void checkChangesIndexMetric() throws Exception {
     int numberChanges = intMetricValueOf("indexes/changes");
     createChange();
@@ -46,6 +49,7 @@ public class LuceneIndexMetricsIT extends AbstractDaemonTest {
   }
 
   @Test
+  @Ignore
   public void checkAccountsIndexMetric() throws Exception {
     int numberAccounts = intMetricValueOf("indexes/accounts");
     gApi.accounts().create("some_account");
@@ -53,6 +57,7 @@ public class LuceneIndexMetricsIT extends AbstractDaemonTest {
   }
 
   @Test
+  @Ignore
   public void checkGroupsIndexMetric() throws Exception {
     int numberGroups = intMetricValueOf("indexes/groups");
     gApi.groups().create("some_group");

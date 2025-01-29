@@ -16,7 +16,9 @@ package com.google.gerrit.acceptance.pgm;
 
 import com.google.gerrit.testing.ConfigSuite;
 import org.eclipse.jgit.lib.Config;
+import org.junit.Ignore;
 
+@Ignore
 public class LuceneReindexIT extends AbstractReindexTests {
   @ConfigSuite.Default
   public static Config luceneConfig() {

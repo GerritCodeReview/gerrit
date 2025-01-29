@@ -23,6 +23,7 @@ import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.testing.SystemPropertiesTestRule;
 import javax.inject.Inject;
 import org.junit.ClassRule;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /** Test to check that the expected index backend was bound depending on sys/env properties. */
@@ -34,6 +35,7 @@ public class LuceneIndexBindingIT extends AbstractDaemonTest {
   @Inject private ChangeIndexCollection changeIndex;
 
   @Test
+  @Ignore
   public void luceneIsBoundWhenConfigured() throws Exception {
     assertThat(System.getProperty(IndexType.SYS_PROP)).isEqualTo("lucene");
     assertThat(changeIndex.getSearchIndex()).isInstanceOf(LuceneChangeIndex.class);

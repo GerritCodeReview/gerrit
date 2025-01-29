@@ -1293,7 +1293,7 @@ suite('gr-change-view tests', () => {
     assertIsDefined(element.actions);
     sinon
       .stub(element.actions, 'showRevertDialog')
-      .callsFake(() => promise.resolve());
+      .callsFake(async () => promise.resolve());
 
     element.maybeShowRevertDialog();
     assert.isTrue(awaitPluginsLoadedStub.called);

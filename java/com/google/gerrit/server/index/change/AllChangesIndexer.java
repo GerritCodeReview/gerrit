@@ -199,7 +199,9 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
 
     Stopwatch sw = Stopwatch.createStarted();
     AtomicBoolean ok = new AtomicBoolean(true);
-    mpm = multiProgressMonitorFactory.create(progressOut, TaskKind.INDEXING, "Reindexing changes");
+    mpm =
+        multiProgressMonitorFactory.create(
+            progressOut, TaskKind.INDEXING, "Reindexing changes", true);
     doneTask = mpm.beginVolatileSubTask("changes");
     failedTask = mpm.beginSubTask("failed", MultiProgressMonitor.UNKNOWN);
     List<ListenableFuture<?>> futures;

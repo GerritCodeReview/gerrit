@@ -167,7 +167,8 @@ public class AsyncReceiveCommits {
           }
         },
         TaskKind.RECEIVE_COMMITS,
-        "Processing changes");
+        "Processing changes",
+        false);
   }
 
   private enum PushType {

@@ -31,6 +31,7 @@ import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.time.Duration;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CancellationException;
@@ -63,10 +64,10 @@ import org.eclipse.jgit.lib.ProgressMonitor;
  * <p>Whether the client is disconnected or the deadline is exceeded can be checked by {@link
  * #checkIfCancelled(RequestStateProvider.OnCancelled)}. This allows the worker thread to react to
  * cancellations and abort its execution and finish gracefully. After a cancellation has been
- * signaled the worker thread has 10 * {@link #maxIntervalNanos} to react to the cancellation and
- * finish gracefully. If the worker thread doesn't finish gracefully in time after the cancellation
- * has been signaled, the future executing the task is forcefully cancelled which means that the
- * worker thread gets interrupted and an internal error is returned to the client. To react to
+ * signaled the worker thread has 10 * {@link #maxInterval} to react to the cancellation and finish
+ * gracefully. If the worker thread doesn't finish gracefully in time after the cancellation has
+ * been signaled, the future executing the task is forcefully cancelled which means that the worker
+ * thread gets interrupted and an internal error is returned to the client. To react to
  * cancellations it is recommended that the task opens a {@link
  * com.google.gerrit.server.cancellation.RequestStateContext} in a try-with-resources block to
  * register the {@link MultiProgressMonitor} as a {@link RequestStateProvider}. This way the worker
@@ -225,14 +226,15 @@ public class MultiProgressMonitor implements RequestStateProvider {
   }
 
   public interface Factory {
-    MultiProgressMonitor create(OutputStream out, TaskKind taskKind, String taskName);
+    MultiProgressMonitor create(
+        OutputStream out, TaskKind taskKind, String taskName, boolean logProgress);
 
     MultiProgressMonitor create(
         OutputStream out,
         TaskKind taskKind,
         String taskName,
-        long maxIntervalTime,
-        TimeUnit maxIntervalUnit);
+        Duration maxInterval,
+        boolean logProgress);
   }
 
   private final CancellationMetrics cancellationMetrics;
@@ -246,9 +248,10 @@ public class MultiProgressMonitor implements RequestStateProvider {
   private boolean clientDisconnected;
   private boolean deadlineExceeded;
   private boolean forcefulTermination;
+  private boolean logProgress;
   private Optional<Long> timeout = Optional.empty();
 
-  private final long maxIntervalNanos;
+  private final Duration maxInterval;
   private final Ticker ticker;
 
   /**
@@ -264,8 +267,9 @@ public class MultiProgressMonitor implements RequestStateProvider {
       Ticker ticker,
       @Assisted OutputStream out,
       @Assisted TaskKind taskKind,
-      @Assisted String taskName) {
-    this(cancellationMetrics, ticker, out, taskKind, taskName, 500, MILLISECONDS);
+      @Assisted String taskName,
+      @Assisted boolean logProgress) {
+    this(cancellationMetrics, ticker, out, taskKind, taskName, Duration.ofMillis(500), logProgress);
   }
 
   /**
@@ -273,8 +277,7 @@ public class MultiProgressMonitor implements RequestStateProvider {
    *
    * @param out stream for writing progress messages.
    * @param taskName name of the overall task.
-   * @param maxIntervalTime maximum interval between progress messages.
-   * @param maxIntervalUnit time unit for progress interval.
+   * @param maxInterval maximum interval between progress messages.
    */
   @AssistedInject
   private MultiProgressMonitor(
@@ -283,14 +286,15 @@ public class MultiProgressMonitor implements RequestStateProvider {
       @Assisted OutputStream out,
       @Assisted TaskKind taskKind,
       @Assisted String taskName,
-      @Assisted long maxIntervalTime,
-      @Assisted TimeUnit maxIntervalUnit) {
+      @Assisted Duration maxInterval,
+      @Assisted boolean logProgress) {
     this.cancellationMetrics = cancellationMetrics;
     this.ticker = ticker;
     this.out = out;
     this.taskKind = taskKind;
     this.taskName = taskName;
-    maxIntervalNanos = NANOSECONDS.convert(maxIntervalTime, maxIntervalUnit);
+    this.maxInterval = maxInterval;
+    this.logProgress = logProgress;
   }
 
   /**
@@ -407,6 +411,7 @@ public class MultiProgressMonitor implements RequestStateProvider {
       deadline = 0;
     }
 
+    long maxIntervalNanos = maxInterval.toNanos();
     synchronized (this) {
       long left = maxIntervalNanos;
       while (!workerFuture.isDone() && !done) {
@@ -605,8 +610,10 @@ public class MultiProgressMonitor implements RequestStateProvider {
 
   private void send(StringBuilder s) {
     String progress = s.toString();
-    logger.atInfo().atMostEvery(1, MINUTES).log(
-        "%s", CharMatcher.javaIsoControl().removeFrom(progress));
+    if (logProgress) {
+      logger.atInfo().atMostEvery(1, MINUTES).log(
+          "%s", CharMatcher.javaIsoControl().removeFrom(progress));
+    }
     if (!clientDisconnected) {
       try {
         out.write(Constants.encode(progress));

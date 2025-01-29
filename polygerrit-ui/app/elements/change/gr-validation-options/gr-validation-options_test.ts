@@ -1,0 +1,48 @@
+/**
+ * @license
+ * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+import '../../../test/common-test-setup';
+import {fixture, assert} from '@open-wc/testing';
+import {html} from 'lit';
+import './gr-validation-options';
+import {GrValidationOptions} from './gr-validation-options';
+import {ValidationOptionsInfo} from '../../../api/rest-api';
+
+suite('gr-trigger-vote tests', () => {
+  let element: GrValidationOptions;
+  setup(async () => {
+    const validationOptions: ValidationOptionsInfo = {
+      validation_options: [
+        {name: 'o1', description: 'option 1'},
+        {name: 'o2', description: 'option 2'},
+      ],
+    };
+    element = await fixture<GrValidationOptions>(
+      html`<gr-validation-options
+        .validationOptions=${validationOptions}
+      ></gr-validation-options>`
+    );
+  });
+
+  test('renders', () => {
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ ` <div class="validationOptionContainer">
+          <label class="selectionLabel">
+            <input type="checkbox" />
+            option 1
+          </label>
+          <div></div>
+        </div>
+        <div class="validationOptionContainer">
+          <label class="selectionLabel">
+            <input type="checkbox" />
+            option 2
+          </label>
+          <div></div>
+        </div>`
+    );
+  });
+});

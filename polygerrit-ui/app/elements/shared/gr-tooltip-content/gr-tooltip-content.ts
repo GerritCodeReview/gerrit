@@ -138,9 +138,16 @@ export class GrTooltipContent extends LitElement {
     tooltip.positionBelow = this.hasAttribute('position-below');
     this.tooltip = tooltip;
 
-    // Set visibility to hidden before appending to the DOM so that
-    // calculations can be made based on the element’s size.
+    // We need to be able to use the size of the tooltip to calculate it's
+    // position. For that before attaching to the DOM
+    //  - We set "visibility" to hidden, but don't touch "display" as we need
+    //    browser to calculate the size for us.
+    //  - Set location to the top left corner, so that we don't increase the
+    //    size of the page and cause scrollbars appear if they were not
+    //    previously.
     tooltip.style.visibility = 'hidden';
+    tooltip.style.top = '0';
+    tooltip.style.left = '0';
     const parent = this.getTooltipParent(this);
     parent.appendChild(tooltip);
     await tooltip.updateComplete;

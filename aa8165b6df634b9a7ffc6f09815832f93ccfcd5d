@@ -22,6 +22,30 @@
       },
       "revId": "aa8165b6df634b9a7ffc6f09815832f93ccfcd5d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8099f16b_fa6713bf",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/HttpLog.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-01-29T15:46:09Z",
+      "side": 1,
+      "message": "No problem at all, I would do the same as a reviwer.\nDone",
+      "parentUuid": "d5a268d6_94de7b9d",
+      "range": {
+        "startLine": 62,
+        "startChar": 46,
+        "endLine": 62,
+        "endChar": 53
+      },
+      "revId": "aa8165b6df634b9a7ffc6f09815832f93ccfcd5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

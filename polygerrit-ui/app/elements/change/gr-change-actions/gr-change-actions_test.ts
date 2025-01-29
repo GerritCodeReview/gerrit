@@ -25,6 +25,7 @@ import {
   queryAndAssert,
   stubReporting,
   stubRestApi,
+  waitUntil,
 } from '../../../test/test-utils';
 import {assertUIActionInfo, GrChangeActions} from './gr-change-actions';
 import {
@@ -40,6 +41,7 @@ import {
   RepoName,
   ReviewInput,
   TopicName,
+  ValidationOptionsInfo,
 } from '../../../types/common';
 import {ActionType, RevisionActions} from '../../../api/change-actions';
 import {SinonFakeTimers, SinonStubbedMember} from 'sinon';
@@ -62,6 +64,7 @@ import {
   ChangeModel,
   changeModelToken,
 } from '../../../models/change/change-model';
+import {assertIsDefined} from '../../../utils/common-util';
 
 // TODO(dhruvsri): remove use of _populateRevertMessage as it's private
 suite('gr-change-actions tests', () => {
@@ -99,6 +102,12 @@ suite('gr-change-actions tests', () => {
             enabled: true,
           },
         })
+      );
+
+      stubRestApi('getValidationOptions').returns(
+        Promise.resolve({
+          validation_options: [{name: 'o1', description: 'option 1'}],
+        } as ValidationOptionsInfo)
       );
 
       sinon
@@ -1489,14 +1498,12 @@ suite('gr-change-actions tests', () => {
 
       test('revert change with plugin hook', async () => {
         const newRevertMsg = 'Modified revert msg';
+        const revertDialog = queryAndAssert<GrConfirmRevertDialog>(
+          element,
+          '#confirmRevertDialog'
+        );
         sinon
-          .stub(
-            queryAndAssert<GrConfirmRevertDialog>(
-              element,
-              '#confirmRevertDialog'
-            ),
-            'modifyRevertMsg'
-          )
+          .stub(revertDialog, 'modifyRevertMsg')
           .callsFake(() => newRevertMsg);
         element.change = {
           ...createChangeViewChange(),
@@ -1527,13 +1534,7 @@ suite('gr-change-actions tests', () => {
           ])
         );
         sinon
-          .stub(
-            queryAndAssert<GrConfirmRevertDialog>(
-              element,
-              '#confirmRevertDialog'
-            ),
-            'populateRevertSubmissionMessage'
-          )
+          .stub(revertDialog, 'populateRevertSubmissionMessage')
           .callsFake(() => 'original msg');
         await element.updateComplete;
         queryAndAssert<GrButton>(
@@ -1541,11 +1542,8 @@ suite('gr-change-actions tests', () => {
           'gr-button[data-action-key="revert"]'
         ).click();
         await element.updateComplete;
-        assert.equal(
-          queryAndAssert<GrConfirmRevertDialog>(element, '#confirmRevertDialog')
-            .message,
-          newRevertMsg
-        );
+        await waitUntil(() => !!revertDialog.message);
+        assert.equal(revertDialog.message, newRevertMsg);
       });
 
       suite('revert change submitted together', () => {
@@ -1584,16 +1582,17 @@ suite('gr-change-actions tests', () => {
         });
 
         test('confirm revert dialog shows both options', async () => {
-          queryAndAssert<GrButton>(
-            element,
-            'gr-button[data-action-key="revert"]'
-          ).click();
-          await element.updateComplete;
-          assert.equal(getChangesStub.args[0][1], 'submissionid: "199 0"');
           const confirmRevertDialog = queryAndAssert<GrConfirmRevertDialog>(
             element,
             '#confirmRevertDialog'
           );
+          queryAndAssert<GrButton>(
+            element,
+            'gr-button[data-action-key="revert"]'
+          ).click();
+          await waitUntil(() => !!confirmRevertDialog.message);
+          await element.updateComplete;
+          assert.equal(getChangesStub.args[0][1], 'submissionid: "199 0"');
           await element.updateComplete;
           const revertSingleChangeLabel = queryAndAssert<HTMLLabelElement>(
             confirmRevertDialog,
@@ -1640,6 +1639,7 @@ suite('gr-change-actions tests', () => {
             '#confirmRevertDialog'
           );
           const fireStub = sinon.stub(confirmRevertDialog, 'dispatchEvent');
+          await waitUntil(() => !!confirmRevertDialog.message);
           await element.updateComplete;
           queryAndAssert<GrButton>(
             queryAndAssert(
@@ -1666,6 +1666,7 @@ suite('gr-change-actions tests', () => {
             element,
             '#confirmRevertDialog'
           );
+          await waitUntil(() => !!confirmRevertDialog.message);
           await element.updateComplete;
           const radioInputs = queryAll<HTMLInputElement>(
             confirmRevertDialog,
@@ -1738,6 +1739,7 @@ suite('gr-change-actions tests', () => {
             '#confirmRevertDialog'
           );
           const fireStub = sinon.stub(confirmRevertDialog, 'dispatchEvent');
+          await waitUntil(() => !!confirmRevertDialog.message);
           await element.updateComplete;
           queryAndAssert<GrButton>(
             queryAndAssert(
@@ -1755,15 +1757,16 @@ suite('gr-change-actions tests', () => {
         });
 
         test('confirm revert dialog shows no radio button', async () => {
-          queryAndAssert<GrButton>(
-            element,
-            'gr-button[data-action-key="revert"]'
-          ).click();
-          await element.updateComplete;
           const confirmRevertDialog = queryAndAssert<GrConfirmRevertDialog>(
             element,
             '#confirmRevertDialog'
           );
+          queryAndAssert<GrButton>(
+            element,
+            'gr-button[data-action-key="revert"]'
+          ).click();
+          await waitUntil(() => !!confirmRevertDialog.message);
+          await element.updateComplete;
           const radioInputs = queryAll(
             confirmRevertDialog,
             'input[name="revertOptions"]'
@@ -2555,6 +2558,23 @@ suite('gr-change-actions tests', () => {
             );
             assert.isTrue(setUrlStub.called);
             assert.equal(setUrlStub.lastCall.args[0], '/c/projectId/+/12345');
+          });
+        });
+
+        test('populates validation options when opening revert dialog', async () => {
+          const confirmRevertDialog = query<GrConfirmRevertDialog>(
+            element,
+            '#confirmRevertDialog'
+          );
+          assertIsDefined(confirmRevertDialog, 'confirmDialog');
+          const populateRevertDialogStub = sinon.stub(
+            confirmRevertDialog,
+            'populate'
+          );
+          element.showRevertDialog();
+          await waitUntil(() => !!populateRevertDialogStub.called);
+          assert.deepEqual(populateRevertDialogStub.lastCall.args[1], {
+            validation_options: [{name: 'o1', description: 'option 1'}],
           });
         });
 

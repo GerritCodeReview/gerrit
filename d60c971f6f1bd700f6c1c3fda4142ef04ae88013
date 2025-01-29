@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fefb311d_45728d11",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-01-29T14:27:00Z",
+      "side": 1,
+      "message": "nit: \"\u003cplugin-name\u003e\"",
+      "range": {
+        "startLine": 15,
+        "startChar": 34,
+        "endLine": 15,
+        "endChar": 46
+      },
+      "revId": "d60c971f6f1bd700f6c1c3fda4142ef04ae88013",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "41900098_b9f83a9f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-01-29T14:27:00Z",
+      "side": 1,
+      "message": "Thanks for getting this done!\n\nLGTM, but maybe someone with more frontend knowledge should also have a look.",
+      "revId": "d60c971f6f1bd700f6c1c3fda4142ef04ae88013",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35acb70e_d004ab70",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-01-29T14:27:00Z",
+      "side": 1,
+      "message": "nit: \"Specifies\"",
+      "range": {
+        "startLine": 224,
+        "startChar": 5,
+        "endLine": 224,
+        "endChar": 15
+      },
+      "revId": "d60c971f6f1bd700f6c1c3fda4142ef04ae88013",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

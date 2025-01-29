@@ -1098,6 +1098,23 @@ export declare interface ServerInfo {
 }
 
 /**
+ * Contains the list of Validation options applicable to a change.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#validation-options
+ */
+export declare interface ValidationOptionsInfo {
+  validation_options: ValidationOptionInfo[];
+}
+
+/**
+ * The push options that can be specified by the user on push
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#validation-option-info
+ */
+export declare interface ValidationOptionInfo {
+  name: string;
+  description: string;
+}
+
+/**
  * The SshdInfo entity contains information about Gerrit configuration from the sshd section.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#sshd-info
  * This entity doesn’t contain any data, but the presence of this (empty) entity

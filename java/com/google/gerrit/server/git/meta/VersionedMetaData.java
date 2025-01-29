@@ -213,6 +213,14 @@ public abstract class VersionedMetaData {
     }
   }
 
+  @CanIgnoreReturnValue
+  public RevCommit commitWithoutFiringEvent(MetaDataUpdate update) throws IOException {
+    try (BatchMetaDataUpdate batch = openUpdate(update)) {
+      batch.write(update.getCommitBuilder());
+      return batch.commitWithoutFiring();
+    }
+  }
+
   /**
    * Update this metadata branch, recording a new commit on its reference. This method mutates its
    * receiver.
@@ -261,6 +269,9 @@ public abstract class VersionedMetaData {
 
     @CanIgnoreReturnValue
     RevCommit commit() throws IOException;
+
+    @CanIgnoreReturnValue
+    RevCommit commitWithoutFiring() throws IOException;
 
     @CanIgnoreReturnValue
     RevCommit commitAt(ObjectId revision) throws IOException;
@@ -409,7 +420,7 @@ public abstract class VersionedMetaData {
         if (Objects.equals(src, revision)) {
           return revision;
         }
-        return updateRef(ObjectId.zeroId(), src, refName);
+        return updateRef(ObjectId.zeroId(), src, refName, true);
       }
 
       @Override
@@ -418,11 +429,21 @@ public abstract class VersionedMetaData {
       }
 
       @Override
+      public RevCommit commitWithoutFiring() throws IOException {
+        if (Objects.equals(src, revision)) {
+          return revision;
+        }
+        return updateRef(
+            MoreObjects.firstNonNull(revision, ObjectId.zeroId()), src, getRefName(), false);
+      }
+
+      @Override
       public RevCommit commitAt(ObjectId expected) throws IOException {
         if (Objects.equals(src, expected)) {
           return revision;
         }
-        return updateRef(MoreObjects.firstNonNull(expected, ObjectId.zeroId()), src, getRefName());
+        return updateRef(
+            MoreObjects.firstNonNull(expected, ObjectId.zeroId()), src, getRefName(), true);
       }
 
       @Override
@@ -444,7 +465,8 @@ public abstract class VersionedMetaData {
         }
       }
 
-      private RevCommit updateRef(AnyObjectId oldId, AnyObjectId newId, String refName)
+      private RevCommit updateRef(
+          AnyObjectId oldId, AnyObjectId newId, String refName, boolean fireEvent)
           throws IOException {
         try (RefUpdateContext ctx = RefUpdateContext.open(VERSIONED_META_DATA_CHANGE)) {
           BatchRefUpdate bru = update.getBatch();
@@ -476,7 +498,9 @@ public abstract class VersionedMetaData {
             case NEW:
             case FAST_FORWARD:
               revision = rw.parseCommit(ru.getNewObjectId());
-              update.fireGitRefUpdatedEvent(ru);
+              if (fireEvent) {
+                update.fireGitRefUpdatedEvent(ru);
+              }
               logger.atFine().log(
                   "Saved commit '%s' as revision '%s' on project '%s'",
                   message.trim(), revision.name(), projectName);

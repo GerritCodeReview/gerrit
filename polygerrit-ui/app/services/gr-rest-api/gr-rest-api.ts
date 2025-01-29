@@ -80,6 +80,7 @@ import {
   RevisionId,
   RobotCommentInfo,
   ServerInfo,
+  ValidationOptionsInfo,
   SshKeyInfo,
   SubmittedTogetherInfo,
   SuggestedReviewerInfo,
@@ -874,4 +875,6 @@ export interface RestApiService extends Finalizable {
     changeNum: NumericChangeId,
     patchNum: PatchSetNum
   ): Promise<CommitInfo | undefined>;
+
+  getValidationOptions(): Promise<ValidationOptionsInfo | undefined>;
 }

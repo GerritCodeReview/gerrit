@@ -8,7 +8,13 @@ import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import {LitElement, html, css, nothing} from 'lit';
 import {customElement, state} from 'lit/decorators.js';
-import {ChangeActionDialog, ChangeInfo, CommitId} from '../../../types/common';
+import {repeat} from 'lit/directives/repeat.js';
+import {
+  ChangeActionDialog,
+  ChangeInfo,
+  CommitId,
+  ValidationOptionsInfo,
+} from '../../../types/common';
 import {fire, fireAlert} from '../../../utils/event-util';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {BindValueChangeEvent} from '../../../types/events';
@@ -17,6 +23,7 @@ import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-load
 import {createSearchUrl} from '../../../models/views/search';
 import {ParsedChangeInfo} from '../../../types/types';
 import {formStyles} from '../../../styles/form-styles';
+import {ValidationOptionInfo} from '../../../api/rest-api';
 
 const ERR_COMMIT_NOT_FOUND = 'Unable to find the commit hash of this change.';
 const INSERT_REASON_STRING = '<INSERT REASONING HERE>';
@@ -52,6 +59,10 @@ export class GrConfirmRevertDialog
   @state()
   changesCount?: number;
 
+  // Value supplied by populate(). Non-private for access in tests.
+  @state()
+  validationOptions?: ValidationOptionsInfo;
+
   @state()
   showErrorMessage = false;
 
@@ -64,6 +75,8 @@ export class GrConfirmRevertDialog
   // Store the actual messages that the user has edited
   @state()
   private revertMessages: string[] = [];
+
+  private isOptionSelected: Map<string, boolean> = new Map();
 
   private readonly getPluginLoader = resolve(this, pluginLoaderToken);
 
@@ -90,6 +103,11 @@ export class GrConfirmRevertDialog
         }
         .label {
           margin-left: var(--spacing-m);
+        }
+        .selectionLabel {
+          padding: 10px;
+          margin: -10px;
+          display: block;
         }
         iron-autogrow-textarea {
           font-family: var(--monospace-font-family);
@@ -162,9 +180,40 @@ export class GrConfirmRevertDialog
               @bind-value-changed=${this.handleBindValueChanged}
             ></iron-autogrow-textarea>
           </gr-endpoint-decorator>
+          ${this.renderValidationOptions()}
         </div>
       </gr-dialog>
     `;
+  }
+
+  private renderValidationOptions() {
+    if (!this.validationOptions) return;
+    return html`${repeat(
+      this.validationOptions.validation_options,
+      option => option.name,
+      option => this.renderValidationOption(option)
+    )}`;
+  }
+
+  private renderValidationOption(option: ValidationOptionInfo) {
+    return html` <div class="validationOptionContainer">
+      <label class="selectionLabel">
+        <input
+          type="checkbox"
+          .checked=${false}
+          @click=${() => this.toggleCheckbox(option)}
+        />
+        ${option.description}
+      </label>
+      <div></div>
+    </div>`;
+  }
+
+  private toggleCheckbox(option: ValidationOptionInfo) {
+    this.isOptionSelected.set(
+      option.name,
+      !this.isOptionSelected.get(option.name)
+    );
   }
 
   private computeIfSingleRevert() {
@@ -189,10 +238,13 @@ export class GrConfirmRevertDialog
 
   populate(
     change: ParsedChangeInfo,
+    validationOptions: ValidationOptionsInfo | undefined,
     commitMessage: string,
     changesCount: number
   ) {
     this.changesCount = changesCount;
+    this.validationOptions = validationOptions;
+    this.isOptionSelected = new Map(); // reset selected options
     // The option to revert a single change is always available
     this.populateRevertSingleChangeMessage(
       change,

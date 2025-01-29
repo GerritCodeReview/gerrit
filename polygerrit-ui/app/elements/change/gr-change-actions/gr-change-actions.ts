@@ -1369,29 +1369,28 @@ export class GrChangeActions
     return null;
   }
 
-  showRevertDialog() {
+  async showRevertDialog() {
     const change = this.change;
     if (!change) return;
     const query = `submissionid: "${change.submission_id}"`;
     /* A chromium plugin expects that the modifyRevertMsg hook will only
     be called after the revert button is pressed, hence we populate the
     revert dialog after revert button is pressed. */
-    this.restApiService.getChanges(0, query).then(changes => {
-      if (!changes) {
-        this.reporting.error(
-          'Change Actions',
-          new Error('getChanges returns undefined')
-        );
-        return;
-      }
-      assertIsDefined(this.confirmRevertDialog, 'confirmRevertDialog');
-      this.confirmRevertDialog.populate(
-        change,
-        this.commitMessage,
-        changes.length
+    const changes = await this.restApiService.getChanges(0, query);
+    if (!changes) {
+      this.reporting.error(
+        'Change Actions',
+        new Error('getChanges returns undefined')
       );
-      this.showActionDialog(this.confirmRevertDialog);
-    });
+      return;
+    }
+    assertIsDefined(this.confirmRevertDialog, 'confirmRevertDialog');
+    this.confirmRevertDialog.populate(
+      change,
+      this.commitMessage,
+      changes.length
+    );
+    this.showActionDialog(this.confirmRevertDialog);
   }
 
   showSubmitDialog() {

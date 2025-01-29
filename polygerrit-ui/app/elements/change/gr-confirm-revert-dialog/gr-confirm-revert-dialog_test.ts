@@ -38,6 +38,7 @@ suite('gr-confirm-revert-dialog tests', () => {
                 aria-disabled="false"
               ></iron-autogrow-textarea>
             </gr-endpoint-decorator>
+            <gr-validation-options></gr-validation-options>
           </div>
         </gr-dialog>
       `

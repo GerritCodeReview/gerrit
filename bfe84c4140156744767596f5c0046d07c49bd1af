@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "386a4cfb_88c6a648",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-29T09:10:12Z",
+      "side": 1,
+      "message": "Documentation update is missing. Also make sure that by excluding Lucene everything works as expected. Also running all tests but NOT the Lucene ones should call this code at all.\n\n@ekempin@google.com anything else to look for?",
+      "revId": "bfe84c4140156744767596f5c0046d07c49bd1af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c539346d_a91db886",
+        "filename": "java/com/google/gerrit/lucene/LuceneIndexMetrics.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-29T09:10:12Z",
+      "side": 1,
+      "message": "Does this need to be public? It is going to be used only within the Lucene package.",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 6
+      },
+      "revId": "bfe84c4140156744767596f5c0046d07c49bd1af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea3a9eb3_8cdc5172",
+        "filename": "java/com/google/gerrit/lucene/LuceneIndexMetrics.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-29T09:10:12Z",
+      "side": 1,
+      "message": "Same as above: package-protected should suffice.",
+      "range": {
+        "startLine": 26,
+        "startChar": 2,
+        "endLine": 26,
+        "endChar": 8
+      },
+      "revId": "bfe84c4140156744767596f5c0046d07c49bd1af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24ed491a_30deb099",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/index/LuceneIndexMetricsIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-29T09:10:12Z",
+      "side": 1,
+      "message": "This should now belong to the Lucene test suite, otherwise Google may risk to run it and fail it.",
+      "range": {
+        "startLine": 15,
+        "startChar": 8,
+        "endLine": 15,
+        "endChar": 52
+      },
+      "revId": "bfe84c4140156744767596f5c0046d07c49bd1af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
